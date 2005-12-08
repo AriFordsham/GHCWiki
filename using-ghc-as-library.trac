@@ -1,5 +1,12 @@
-In GHC 6.4 and subsequently you can import GHC as a Haskell library.  This lets you write a Haskell program that has access to all of GHC.  
+In GHC 6.4 and subsequently you can import GHC as a Haskell library, which lets you write a Haskell program that has access to all of GHC. 
 
+This page is a place for everyone to add
+  * Notes about how to get it working
+  * Comments about the API
+  * Suggestions for improvement
+and so on.
+
+= Getting started =
 To do this you say simply 
 {{{
   import GHC
