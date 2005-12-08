@@ -1,7 +1,7 @@
 # The GHC FAQ
 
 
-Please feel free to add stuff here.
+Please feel free to add stuff here (login **guest**, password **guest**).
 
 ## How do I port GHC to platform X?
 
