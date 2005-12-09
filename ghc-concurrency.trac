@@ -22,3 +22,25 @@ Please feel free to add stuff here (login '''guest''', password '''guest''').
 
  * The GHC manual gives a few useful flags that control scheduling (not usually necessary) [http://www.haskell.org/ghc/docs/latest/html/users_guide/sec-using-parallel.html#parallel-rts-opts RTS options].
 
+
+== Multiprocessor GHC ==
+
+As of version 6.5, GHC supports running programs in parallel on an SMP or multi-core machine.  How to do it:
+
+ * You'll need to get a version of GHC that supports SMP.  Either download ghc from [http://www.haskell.org/ghc/docs/latest/html/building/sec-cvs.html CVS] or use darcs: {{{darcs get --partial http://darcs.haskell.org/ghc}}}.  There are also [http://www.haskell.org/ghc/dist/current/dist nightly snapshot distributions] available.
+ 
+ * All code currently has to be built using the {{{-smp}}} switch, including the libraries.  If you downloaded a binary snapshot, then you already have the required libraries.  If you build GHC from source, you need to add
+{{{
+GhcLibWays += s
+}}}
+  to the file {{{mk/build.mk}}} in the build tree before building.
+
+ * Compile your program with {{{-smp}}}
+ 
+ * Run the program with {{{+RTS -N2}}} to use 2 threads, for example.  You should use a {{{-N}}} value equal to the number of CPU cores on your machine (not including Hyper-threading cores).
+
+ * Concurrent threads ({{{forkIO}}} and {{{forkOS}}}) will run in parallel, and you can also use the {{{par}}} combinator and Strategies from the [http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Parallel-Strategies.html Control.Parallel.Strategies] module to create parallelism.
+
+ * Use {{{+RTS -sstderr}}} for timing stats.
+
+
