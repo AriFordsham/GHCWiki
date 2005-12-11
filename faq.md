@@ -38,7 +38,8 @@ Unfortunately GHC-compiled libraries are very tightly coupled, which means it's 
 
 
 If you're also using CPP, beware of the known pitfall with string gaps mentioned in [Section 4.10.3.1, “CPP and string gaps”](http://www.haskell.org/ghc/docs/latest/html/users_guide/options-phases.html#cpp-string-gaps).
-GHCi complains about missing symbols like CC_LIST when loading a previously compiled .o file.
+
+## GHCi complains about missing symbols like CC_LIST when loading a previously compiled .o file.
 
 
 This probably means the .o files in question were compiled for profiling (with -prof). Workaround: recompile them without profiling. We really ought to detect this situation and give a proper error message.

@@ -30,13 +30,14 @@ Unfortunately GHC-compiled libraries are very tightly coupled, which means it's 
 == I can't get string gaps to work ==
 
 If you're also using CPP, beware of the known pitfall with string gaps mentioned in [http://www.haskell.org/ghc/docs/latest/html/users_guide/options-phases.html#cpp-string-gaps Section 4.10.3.1, “CPP and string gaps”].
-GHCi complains about missing symbols like CC_LIST when loading a previously compiled .o file.
+
+== GHCi complains about missing symbols like CC_LIST when loading a previously compiled .o file. ==
 
 This probably means the .o files in question were compiled for profiling (with -prof). Workaround: recompile them without profiling. We really ought to detect this situation and give a proper error message.
 
 == Linking a program causes the following error on Linux: {{{/usr/bin/ld: cannot open -lgmp: No such file or directory}}} ==
 
-The problem is that your system doesn't have the GMP library installed. If this is a !RedHat distribution, install the !RedHat-supplied gmp-devel package, and the gmp package if you don't already have it. There have been reports that installing the RedHat packages also works for SuSE (SuSE don't supply a shared gmp library).
+The problem is that your system doesn't have the GMP library installed. If this is a !RedHat distribution, install the RedHat-supplied gmp-devel package, and the gmp package if you don't already have it. There have been reports that installing the !RedHat packages also works for SuSE (SuSE don't supply a shared gmp library).
 
 == I Can't run GHCi on Linux, because it complains about a missing {{{libreadline.so.3}}}. ==
 
