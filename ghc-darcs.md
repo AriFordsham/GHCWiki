@@ -1,3 +1,5 @@
+## Using the GHC darcs repository
+
 
 There are several darcs repositories related to GHC:
 
@@ -42,3 +44,6 @@ Optionally, you might want to grab the testsuite and benchmark suite too, which 
   $ darcs get --partial http://darcs.haskell.org/nofib
   $ darcs get --partial http://darcs.haskell.org/testsuite
 ```
+
+
+To submit patches to the developers, please use `darcs send`.
