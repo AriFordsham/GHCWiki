@@ -45,5 +45,7 @@ Optionally, you might want to grab the testsuite and benchmark suite too, which 
   $ darcs get --partial http://darcs.haskell.org/testsuite
 ```
 
+### Submitting patches
+
 
 To submit patches to the developers, please use `darcs send`.
