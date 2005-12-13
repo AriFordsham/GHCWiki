@@ -1,0 +1,29 @@
+There are several darcs repositories related to GHC:
+
+||[http://darcs.haskell.org/ghc]||The main GHC repository||
+||[http://darcs.haskell.org/libraries]||The libraries||
+||[http://darcs.haskell.org/testsuite]||The test suite||
+||[http://darcs.haskell.org/nofib]||The benchmark suite||
+
+Additionally, we have the following branches:
+
+||[http://darcs.haskell.org/ghc.ghc-6.4]||6.4 branch of GHC||
+||[http://darcs.haskell.org/libraries.ghc-6.4]||6.4 branch of the libraries||
+
+A source tree consists of the GHC repository, with libraries as a sub-directory:
+
+{{{
+  $ darcs get --partial http://darcs.haskell.org/ghc
+  $ cd ghc
+  $ darcs get --partial http://darcs.haskell.org/libraries
+}}}
+
+'''NOTE''': you really want {{{--partial}}}, at least when grabbing GHC.  There are some 13000 patches in the repository, which take a long time to download without {{{--partial}}}.
+
+Optionally, you might want to grab the testsuite and benchmark suite too, which should also be sub-directories of ghc:
+
+{{{
+  $ darcs get --partial http://darcs.haskell.org/nofib
+  $ darcs get --partial http://darcs.haskell.org/testsuite
+}}}
+
