@@ -45,3 +45,10 @@ As of version 6.5, GHC supports running programs in parallel on an SMP or multi-
 - Concurrent threads (`forkIO` and `forkOS`) will run in parallel, and you can also use the `par` combinator and Strategies from the [Control.Parallel.Strategies](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Parallel-Strategies.html) module to create parallelism.
 
 - Use `+RTS -sstderr` for timing stats.
+
+## Links to related work on parallel and distributed Haskell (many based on GHC)
+
+- [ Glasgow Parallel Haskell](http://www.macs.hw.ac.uk/~dsg/gph/)
+- [ Glasgow Distributed Haskell](http://www.macs.hw.ac.uk/~dsg/gdh/)
+- [ http://www-i2.informatik.rwth-aachen.de/\~stolz/dhs/](http://www-i2.informatik.rwth-aachen.de/~stolz/dhs/)
+- [ http://www.informatik.uni-kiel.de/\~fhu/PUBLICATIONS/1999/ifl.html](http://www.informatik.uni-kiel.de/~fhu/PUBLICATIONS/1999/ifl.html)

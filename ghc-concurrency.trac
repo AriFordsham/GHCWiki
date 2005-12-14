@@ -44,3 +44,9 @@ GhcLibWays += s
  * Use {{{+RTS -sstderr}}} for timing stats.
 
 
+== Links to related work on parallel and distributed Haskell (many based on GHC) ==
+
+  * [http://www.macs.hw.ac.uk/~dsg/gph/ Glasgow Parallel Haskell]
+  * [http://www.macs.hw.ac.uk/~dsg/gdh/ Glasgow Distributed Haskell]
+  * http://www-i2.informatik.rwth-aachen.de/~stolz/dhs/
+  * http://www.informatik.uni-kiel.de/~fhu/PUBLICATIONS/1999/ifl.html
