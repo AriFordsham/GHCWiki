@@ -3,6 +3,13 @@
 
 Please feel free to add stuff here (login **guest**, password **guest**).
 
+
+This page is rather long.  We've started to add some sub-headings, but would welcome your help in making it better organsised.
+
+---
+
+# GHC on particular platforms
+
 ## How do I port GHC to platform X?
 
 
@@ -17,6 +24,133 @@ Both ways require you to bootstrap from intermediate HC files: these are the sty
 
 
 The [Building Guide](http://www.haskell.org/ghc/docs/latest/html/building) has all the details on how to bootstrap GHC on a new platform.
+
+## GHC on Linux
+
+### I Can't run GHCi on Linux, because it complains about a missing `libreadline.so.3`.
+
+
+The "correct" fix for this problem is to install the correct RPM for the particular flavour of Linux on your machine. If this isn't an option, however, there is a hack that might work: make a symbolic link from `libreadline.so.4` to `libreadline.so.3` in `/usr/lib`. We tried this on a SuSE 7.1 box and it seemed to work, but YMMV.
+
+## GHC on Solaris
+
+### Solaris users may sometimes get link errors due to libraries needed by GNU Readline.
+
+
+We suggest you try linking in some combination of the termcap, curses and ncurses libraries, by giving `-ltermcap`, `-lcurses` and `-lncurses` respectively. If you encounter this problem, we would appreciate feedback on it, since we don't fully understand what's going on here.
+The build fails in readline.
+
+
+It has been reported that if you have multiple versions of the readline library installed on Linux, then this may cause the build to fail. If you have multiple versions of readline, try uninstalling all except the most recent version.
+
+## GHC on Windows
+
+### My program that uses a really large heap crashes on Windows.
+
+
+For utterly horrible reasons, programs that use more than 128Mb of heap won't work when compiled dynamically on Windows (they should be fine statically compiled).
+
+### I can't use readline under GHCi on Windows
+
+
+In order to load the readline package under GHCi on Windows, you need to make a version of the readline library that GHCi can load. Instructions for GHC 6.2.2. are here.
+
+### Ctrl-C doesn't work on Windows
+
+
+When running GHC under a Cygwin shell on Windows, Ctrl-C sometimes doesn't work. The workaround is to use Ctrl-Break instead.
+
+## Why isn't GHC available for .NET?
+
+
+It wouldd make a lot of sense to give GHC a .NET back end, and it's a
+question that comes up regularly.  The reason that we haven't done it
+here, at GHC HQ, is because it's a more substantial undertaking than
+might at first appear (see below).  Furthermore, it'd permanently add a
+complete new back-end platform for us to maintain.  Given our rather
+limited development effort, we have so far not bitten
+the bullet, and we have no immediate plans to do so.
+
+
+It would be a good, well-defined project for someone else to tackle, and
+we would love to see it done. There is some good groundwork already done:
+
+- Sigbjorn Finne did a simple interop implementation that allows a
+  Haskell program to be compiled to native code (as now) but to call
+  .NET programs via a variant of the FFI.  I don't think this work is
+  in active use, and I'd be surprised if it worked out of the box, but
+  it could probably be revived with modest effort
+
+- Andre Santos and his colleagues at UFPE in Brazil are working on a
+  .NET back end, that generates CLR IL, though I don't know where they
+  are up to.
+
+- Nigel Perry and Oliver Hunt have a Haskell.NET prototype that works
+  using GHC to compile to Core, and then compiling Core to NET.  I'm
+  not sure what stage it is at.
+
+- GHC.Net would be extra attractive if there was a Visual Studio
+  integration for GHC. Substantial progress on this has been made in
+  2004 by Simon Marlow, Krasimir Angelov, and Andre Santos and
+  colleagues.
+
+
+There may be others that I don't know of.  If anyone wants to join in
+this effort, do contact the above folk.  And please keep us informed!
+
+
+Here's a summary of why it's a non-trivial thing to do:
+
+- The first thing is to generate native CLR Intermediate Language
+  (IL). That's not really hard.  Requires thinking about
+  representations for thunks and functions, and it may not be
+  particularly efficient, but it can surely be done.  An open question
+  is about whether to generate verifiable IL or not.  The trouble here
+  is that Haskell's type system is more expressive than the CLR's in
+  some ways, notably the use of higher-kinded type variables.  So, to
+  generate verifiable IL one is bound to need some run-time casts, and
+  it's not clear how to minimise these.
+
+
+At first blush this is \*all\* you need do.  But it isn't!
+
+- Next, you need to think about how to inter-operate with .NET
+  libraries.  You don't really want to write "foreign import..." for
+  each and every import.  You'd like GHC to read the CLR meta-data
+  directly.  But there are lots of tricky issues here; see the paper
+  that Mark Shields and I wrote about "Object-oriented style
+  overloading for Haskell".
+
+- Now you need to figure out how to implement GHC's primitive operations:
+
+  - the I/O monad
+  - arbitrary precision arithmetic
+  - concurrency
+  - exceptions
+  - finalisers
+  - stable pointers
+  - software transactional memory
+
+  Not all of these are necessary, of course, but many are used in the
+  libraries.  The CLR supports many of them (e.g. concurrency) but
+  with a very different cost model.
+
+- Last, you have to figure out what to do for the libraries.  GHC has
+  a pretty large library, and you either have to implement the primops
+  on which the library is based (see previous point), or re-implement
+  it.  For example, GHC's implementation of I/O uses mutable state,
+  concurrency, and more besides. For each module, you need to decide
+  either to re-implement it using .NET primitives, or to implement the
+  stuff the module is based on.
+
+
+These challenges are mostly broad rather than deep.  But to get a
+production quality implementation that runs a substantial majority of
+Haskell programs "out of the box" requires a decent stab at all of them.
+
+---
+
+# Other frequently asked questions
 
 ## Do I have to recompile all my code if I upgrade GHC?
 
@@ -49,20 +183,6 @@ This probably means the .o files in question were compiled for profiling (with -
 
 The problem is that your system doesn't have the GMP library installed. If this is a RedHat distribution, install the RedHat-supplied gmp-devel package, and the gmp package if you don't already have it. There have been reports that installing the RedHat packages also works for SuSE (SuSE don't supply a shared gmp library).
 
-## I Can't run GHCi on Linux, because it complains about a missing `libreadline.so.3`.
-
-
-The "correct" fix for this problem is to install the correct RPM for the particular flavour of Linux on your machine. If this isn't an option, however, there is a hack that might work: make a symbolic link from `libreadline.so.4` to `libreadline.so.3` in `/usr/lib`. We tried this on a SuSE 7.1 box and it seemed to work, but YMMV.
-
-## Solaris users may sometimes get link errors due to libraries needed by GNU Readline.
-
-
-We suggest you try linking in some combination of the termcap, curses and ncurses libraries, by giving `-ltermcap`, `-lcurses` and `-lncurses` respectively. If you encounter this problem, we would appreciate feedback on it, since we don't fully understand what's going on here.
-The build fails in readline.
-
-
-It has been reported that if you have multiple versions of the readline library installed on Linux, then this may cause the build to fail. If you have multiple versions of readline, try uninstalling all except the most recent version.
-
 ## When I try to start ghci (probably one I compiled myself) it says `ghc-5.02: not built for interactive use`
 
 
@@ -72,11 +192,6 @@ To build a working ghci, you need to build GHC 5.02 with itself; the above messa
 
 
 You should use the `-#include` option to bring the correct prototype into scope (see [Section 4.10.5, “Options affecting the C compiler (if applicable)”](http://www.haskell.org/ghc/docs/latest/html/users_guide/options-phases.html#options-C-compiler)).
-
-## My program that uses a really large heap crashes on Windows.
-
-
-For utterly horrible reasons, programs that use more than 128Mb of heap won't work when compiled dynamically on Windows (they should be fine statically compiled).
 
 ## GHC doesn't like filenames containing +.
 
@@ -174,16 +289,6 @@ You can select alternative suffixes for object files and interface files, so you
 
 
 See [Section 4.6.4, “Redirecting the compilation output(s)”](http://www.haskell.org/ghc/docs/latest/html/users_guide/separate-compilation.html#options-output) for more details on the `-osuf` and `-hisuf` options.
-
-## I can't use readline under GHCi on Windows
-
-
-In order to load the readline package under GHCi on Windows, you need to make a version of the readline library that GHCi can load. Instructions for GHC 6.2.2. are here.
-
-## Ctrl-C doesn't work on Windows
-
-
-When running GHC under a Cygwin shell on Windows, Ctrl-C sometimes doesn't work. The workaround is to use Ctrl-Break instead.
 
 ## I get an error message from GHCi about a "`duplicate definition for symbol __module_registered`"
 
