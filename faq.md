@@ -170,14 +170,12 @@ Haskell programs "out of the box" requires a decent stab at all of them.
 
 The `-threaded` flag (given when linking; see the 
 [manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/flag-reference.html))
-allows other Haskell threads to run concurrently with an FFI call, 
-including an FFI call that blocks (waiting on a socket, for example).
+allows other Haskell threads to run concurrently with a thread making an FFI call.
 This nice behaviour does not happen for foreign calls marked as `unsafe` (see
 the [ FFI Addendum](http://www.cse.unsw.edu.au/~chak/haskell/ffi/)).
 
 
-In GHC the `threadsafe` modifier on a foreign call means the same as `safe`. 
-(The former is deprecated.)
+There used to be another modifier, `threadsafe`, which is now deprecated.  Use `safe` instead.
 
 ## Do I have to recompile all my code if I upgrade GHC?
 
