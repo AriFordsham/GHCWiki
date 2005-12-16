@@ -152,6 +152,32 @@ Haskell programs "out of the box" requires a decent stab at all of them.
 
 # Other frequently asked questions
 
+## When do other Haskell threads get blocked by an FFI call?
+
+<table><tr><th></th>
+<th> safe </th>
+<th> unsafe 
+</th></tr>
+<tr><th> -threaded     </th>
+<th> NO   </th>
+<th>YES     
+</th></tr>
+<tr><th> no -threaded  </th>
+<th> YES  </th>
+<th>YES     
+</th></tr></table>
+
+
+The `-threaded` flag (given when linking; see the 
+[manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/flag-reference.html))
+allows other Haskell threads to run concurrently with an FFI call, 
+including an FFI call that blocks (waiting on a socket, for example).
+This nice behaviour does not happen for foreign calls marked as `unsafe` (see
+the [ FFI Addendum](http://www.cse.unsw.edu.au/~chak/haskell/ffi/)).
+
+
+In GHC the `threadsafe` modifier on a foreign call means the sae as `safe`. (The former is deprecated.)
+
 ## Do I have to recompile all my code if I upgrade GHC?
 
 
