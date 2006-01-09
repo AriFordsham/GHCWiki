@@ -270,3 +270,16 @@ An error message like this:
 }}}
 
 probably indicates that when building a library for GHCi ({{{HSfgl.o}}} in the above example), you should use the {{{-x}}} option to {{{ld}}}.
+
+
+= Optimization issues =
+
+== My program spent too much time doing garbage collection ==
+
+Add the "+RTS -A10m" option to the command line when you run your program. This should sufficiently decrease GC times. You can also add to your program C module containing statement 
+
+{{{
+char *ghc_rts_opts = "-A10m";
+}}}
+
+to force your program use this setting on each run
