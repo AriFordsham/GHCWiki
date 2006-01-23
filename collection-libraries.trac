@@ -2,6 +2,6 @@
  * [/trac/ghc/newticket?version=6.4.1&keywords=collections&component=libraries/base&type=task Create a new task]
  * [/trac/ghc/newticket?version=6.4.1&keywords=collections&component=libraries/base&type=feature+request Create a new feature request]
 
- * [query:?keywords=collections&component=libraries/base&status=new&status=assigned&status=reopened&type=bug&order=priority View open bug reports]
- * [query:?keywords=collections&component=libraries/base&status=new&status=assigned&status=reopened&type=task&order=priority&group=difficulty View tasks]
- * [query:?keywords=collections&component=libraries/base&status=new&status=assigned&status=reopened&type=feature+request&order=priority View feature requests]
+ * [query:?keywords~=collections&component=libraries/base&status=new&status=assigned&status=reopened&type=bug&order=priority View open bug reports]
+ * [query:?keywords~=collections&component=libraries/base&status=new&status=assigned&status=reopened&type=task&order=priority&group=difficulty View tasks]
+ * [query:?keywords~=collections&component=libraries/base&status=new&status=assigned&status=reopened&type=feature+request&order=priority View feature requests]
