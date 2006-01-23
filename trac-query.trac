@@ -75,6 +75,8 @@ The available operators are:
 || '''!^=''' || the field content starts with one of the values ||
 || '''$=''' || the field content ends with one of the values ||
 
+''It looks very much like the operator prefix ~, $, ... should be placed after the = sign rather than before.''
+
 All of these operators can also be negated:
 || '''!=''' || the field content matches none of the values ||
 || '''!~=''' || the field content does not contain any of the values ||
