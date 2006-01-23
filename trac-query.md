@@ -114,6 +114,8 @@ The available operators are:
 <th> the field content ends with one of the values 
 </th></tr></table>
 
+*It looks very much like the operator prefix \~, $, ... should be placed after the = sign rather than before.*
+
 
 All of these operators can also be negated:
 
