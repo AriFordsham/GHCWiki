@@ -1,4 +1,4 @@
-# Class Framework for Collections : Draf
+# Class Framework for Collections : Draft
 
 
 This page describes a proposal for a class framework for collection types. Related ticket: [\#666](https://gitlab.haskell.org//ghc/ghc/issues/666)
@@ -33,3 +33,7 @@ This page describes a proposal for a class framework for collection types. Relat
   Most of the time they should be trival to add though (eg. partition)
 - write instances for the new Seq type, following List.\[\]
 - See how Foldable/Travesable/Applicable fit this scheme. 
+
+## Code
+
+attachment:Coll.hs
