@@ -2,6 +2,9 @@
 
 This page describes a proposal for a class framework for collection types. Related ticket: #666
 
+Please give me feedback by either mailing me (jeanphilippe.bernardy at gmail.com) 
+or edit this page; or issue tickets (see CollectionLibraries); or any other means.
+
 == Goals and Non-Goals ==
 
   * Focus on practical usage. No design in the abstract; what's proposed here shall be usable, and used.
@@ -23,7 +26,6 @@ This page describes a proposal for a class framework for collection types. Relat
  * This uses functional dependencies. This is motivated by the fact that it gives a lot more expressive power without much inconvenience for the users. (note: We should consider porting this to Associated Types, since it's an alternative for FD in next version of Haskell.)
  * A single module is currently proposed, for ease of testing. The final version should of course be properly spilt into modules.
  * Most names of classes are only tentative and should be all reconsidered. Good ideas welcome.
-
 
 == TODO ==
 
