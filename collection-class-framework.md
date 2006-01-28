@@ -3,7 +3,11 @@
 
 This page describes a proposal for a class framework for collection types. Related ticket: [\#666](https://gitlab.haskell.org//ghc/ghc/issues/666)
 
-## Goals and Non-Goals
+
+Please give feedback on libraries at haskell.org.
+I'm especially interested in cases where this framework does not fit your application.
+
+## Goals, Non-Goals and Working Hypotheses
 
 - Focus on practical usage. No design in the abstract; what's proposed here shall be usable, and used.
 - Reduce the amount of explicit module-qualification that is currently required for collection types usage.
@@ -14,26 +18,24 @@ This page describes a proposal for a class framework for collection types. Relat
 - No attempt to fit 100% of the existing functions into classes. 
   Some of them are just best left in the modules to be accessed qualified.
 
-## Working hypotheses
-
 - The classes are "implementation-based" (in opposition to the Edison idea).
 
   1. It seemed like a bad idea to do the same thing as something that already existed.
-  1. Collections are about performance anyway (otherwise everyone would use standard linked-lists).
+  1. Collections are (mostly) about performance anyway (otherwise everyone would use standard linked-lists).
   1. The type give information about the programmer's expected behaviour of the collection. 
 - This deliberaty uses many symbols already in the prelude. The intent is that the user hides whatever clashes from Prelude, however it's also possible to import this module qualified.
 - This uses functional dependencies. This is motivated by the fact that it gives a lot more expressive power without much inconvenience for the users. (note: We should consider porting this to Associated Types, since it's an alternative for FD in next version of Haskell.)
 - A single module is currently proposed, for ease of testing. The final version should of course be properly spilt into modules.
 - Most names of classes are only tentative and should be all reconsidered. Good ideas welcome.
 
+## Haddock
+
+
+Please find an haddocked API here: [ http://users.skynet.be/jyp/Data.Collections.html](http://users.skynet.be/jyp/Data.Collections.html)
+
 ## TODO
 
-- Quite some functions are missing, they are ommited for the sake of brievety,
+- Quite some functions are missing, they are omitted for the sake of brievety,
   until a consensus is reached on the main issues.
-  Most of the time they should be trival to add though (eg. partition)
+  They should be trival to add though. (eg. partition)
 - write instances for the new Seq type, following List.\[\]
-- See how Foldable/Travesable/Applicable fit this scheme. 
-
-## Code
-
-attachment:Coll.hs
