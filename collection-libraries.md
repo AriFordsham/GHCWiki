@@ -24,6 +24,8 @@ Provide the Haskell language a reliable, stable, coherent, efficient, function-r
 - View tasks (Ticket query: keywords: \~collections, component: libraries/base, status: new, status: assigned, status: reopened, type: task, order: priority, group: difficulty)
 - View feature requests (Ticket query: keywords: \~collections, component: libraries/base, status: new, status: assigned, status: reopened, type: feature+request, order: priority)
 
+- View all tickets (Ticket query: keywords: \~collections, component: libraries/base, status: new, status: assigned, status: reopened, order: priority)
+
 ## API and policies
 
 ### Module-level API
