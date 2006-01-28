@@ -22,7 +22,7 @@ Provide the Haskell language a reliable, stable, coherent, efficient, function-r
 
 - View open bug reports (Ticket query: keywords: \~collections, component: libraries/base, status: new, status: assigned, status: reopened, type: bug, order: priority)
 - View tasks (Ticket query: keywords: \~collections, component: libraries/base, status: new, status: assigned, status: reopened, type: task, order: priority, group: difficulty)
-- \[query:?keywords=\~collections&component=libraries/base&status=new&status=assigned&status=reopened&type=feature+request&order=priority (Ticket query: keywords: \~collections, component: libraries/base, status: new, status: assigned, status: reopened, type: feature+request, order: priority) View feature 
+- View feature requests (Ticket query: keywords: \~collections, component: libraries/base, status: new, status: assigned, status: reopened, type: feature+request, order: priority)
 
 - View all tickets (Ticket query: keywords: \~collections, component: libraries/base, status: new, status: assigned, status: reopened, order: priority)
 
