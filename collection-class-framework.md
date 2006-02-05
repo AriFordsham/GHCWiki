@@ -4,7 +4,8 @@
 This page describes a proposal for a class framework for collection types. Related ticket: [\#666](https://gitlab.haskell.org//ghc/ghc/issues/666)
 
 
-Please give me feedback by either mailing me (jeanphilippe.bernardy at gmail.com) or edit this page; or issue tickets (see [CollectionLibraries](collection-libraries)); or any other means. I'm mainly interested in concrete examples where the framework would fall short to meet your needs. 
+Please give feedback on libraries at haskell.org.
+I'm especially interested in cases where this framework does not fit your application.
 
 ## Goals, Non-Goals and Working Hypotheses
 
@@ -34,3 +35,4 @@ Please give me feedback by either mailing me (jeanphilippe.bernardy at gmail.com
   Most of the time they should be trival to add though (eg. partition)
 - write instances for the new Seq type, following List.\[\]
 - See how Foldable/Travesable/Applicable fit this scheme. 
+- size should be moved to its own class.
