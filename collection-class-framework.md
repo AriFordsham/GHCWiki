@@ -28,6 +28,12 @@ I'm especially interested in cases where this framework does not fit your applic
 - A single module is currently proposed, for ease of testing. The final version should of course be properly spilt into modules.
 - Most names of classes are only tentative and should be all reconsidered. Good ideas welcome.
 
+## Haddock
+
+
+Please find an haddocked API here: [ http://users.skynet.be/jyp/Data.Collections.html](http://users.skynet.be/jyp/Data.Collections.html)
+(With a screwed up stylesheet for some reason)
+
 ## TODO
 
 - Quite some functions are missing, they are omitted for the sake of brievety,
