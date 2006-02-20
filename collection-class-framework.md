@@ -32,7 +32,6 @@ I'm especially interested in cases where this framework does not fit your applic
 
 
 Please find an haddocked API here: [ http://users.skynet.be/jyp/Data.Collections.html](http://users.skynet.be/jyp/Data.Collections.html)
-(With a screwed up stylesheet for some reason)
 
 ## TODO
 
