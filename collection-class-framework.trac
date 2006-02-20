@@ -30,7 +30,5 @@ I'm especially interested in cases where this framework does not fit your applic
 
  * Quite some functions are missing, they are omitted for the sake of brievety,
    until a consensus is reached on the main issues.
-   Most of the time they should be trival to add though (eg. partition)
+   They should be trival to add though. (eg. partition)
  * write instances for the new Seq type, following List.[]
- * See how Foldable/Travesable/Applicable fit this scheme. 
- * size should be moved to its own class.
