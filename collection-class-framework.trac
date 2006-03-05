@@ -28,7 +28,7 @@ I'm especially interested in cases where this framework does not fit your applic
  * Most names of classes are only tentative and should be all reconsidered. Good ideas welcome.
 
 == References ==
- * SPJ's Bulk Types with Sass : http://research.microsoft.com/%7Esimonpj/Papers/collections.ps.gz
+ * SPJ's Bulk Types with Class : http://research.microsoft.com/%7Esimonpj/Papers/collections.ps.gz
  * The Edison implementation of Okasaki's Functional Data Structures : http://www.eecs.tufts.edu/~rdocki01/edison.html;
  * Java's implementation : http://java.sun.com/j2se/1.5.0/docs/api/java/util/package-summary.html
  * C++ STL: http://www.cppreference.com/cppstl.html
