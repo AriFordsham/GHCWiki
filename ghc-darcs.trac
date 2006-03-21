@@ -11,6 +11,13 @@ A source tree consists of the GHC repository, with a set of packages in the libr
   $ ./darcs-all get
 }}}
 
+If {{{darcs-all}}} fails with
+{{{
+  $ ./darcs-all
+  ./darcs-all: 12: Syntax error: "(" unexpected
+}}}
+you need to invoke the script with {{{bash}}} explicitly, eg. {{{bash darcs-all get}}}.
+
 '''NOTE''': you really want {{{--partial}}} when grabbing GHC.  There are some 13000 patches in the repository, which take a long time to download without {{{--partial}}}.  The {{{darcs-all}}} script automatically adds {{{--partial}}} for the packages.
 
 Optionally, you might want to grab the testsuite and benchmark suite too, which should also be sub-directories of ghc:
