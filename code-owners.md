@@ -58,26 +58,50 @@ maintain.
 This is a list of the people that currently have commit access to GHC,
 and a short description of what they're doing or have done.
 
-- Krasimir Angelov: ObjectIO library
-- Manuel Chakravarty: Array flattening, GHC Commentary
-- Koen Claessen: New Read framework
-- Robert Ennals: Eager evaluation
-- Sigbjorn Finne: Win32 porting, threaded RTS, lots of other stuff
-- Gabrielle Keller: Array flattening
-- Marcin Kowalczyk: 31-bit Chars, hsc2hs, various other stuff
-- Jeff Lewis: Implicit parameters, functional dependencies
-- Ryan Lortie: PowerPC/PowerPC-64 Linux porting
-- Ian Lynagh: Template Haskell
-- Simon Marlow: Release engineering, general hacking
-- Sven Panne: OpenGL/GLUT/OpenAL bindings, configuration/build system, various other stuff
-- Ross Paterson: Control.Arrow, haskell-src improvements
-- Simon Peyton Jones: general hacking
-- Don Stewart: OpenBSD (x86 &amp; m68k) porting
-- Volker Stolz: forkProcess\#, thread labels
-- Wolfgang Thaller: MacOS X porting
-- Andrew Tolmach: External Core
-- Keith Wansbrough: Usage analysis
-- Michael Weber: Debian packaging
+- Krasimir Angelov
+- Lennart Augustsson
+- Jean-Philippe Bernardy
+- Jost Berthold
+- Bjorn Bringert
+- Manuel Chakravarty
+- Andrew Cheadle
+- Duncan Coutts
+- Iavor S Diatchki
+- Sigbjorn Finne
+- John Goerzen
+- Tim Harris
+- David Himmelstrup
+- Isaac Jones
+- Isaac Jones
+- Hans W. Loidl
+- Ralf Laemmel
+- Roman Leshchinskiy
+- Andres Loeh
+- Ryan Lortie
+- Ian Lynagh
+- Simon Marlow (GHC developer, x86_64 port)
+- John Meacham
+- Ross Paterson
+- Sven Panne
+- Simon Peyton Jones
+- Norman Ramsay
+- Ben Rudiak-Gould
+- Sean Seefried
+- Axel Simon
+- Dominic Steinitz
+- Don Stewart
+- Volker Stolz
+- Josef Svenningsson
+- Wolfgang Thaller
+- Henning Thielemann
+- Mike Thomas
+- Christopher D. Thompson-Walsh
+- Dylan Thurston
+- Dinko Tenev
+- Mark Tullsen
+- Malcolm Wallace
+- N. Xu
+- Ashley Yakeley
 
 ## Past contributors
 

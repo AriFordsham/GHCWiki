@@ -49,26 +49,50 @@ maintain.
 This is a list of the people that currently have commit access to GHC,
 and a short description of what they're doing or have done.
 
-  * [mailto:ka2_mail@yahoo.com Krasimir Angelov]: ObjectIO library
-  * [mailto:chak@cse.unsw.edu.au Manuel Chakravarty]: Array flattening, GHC Commentary
-  * [mailto:koen@cs.chalmers.se Koen Claessen]: New Read framework
-  * [mailto:Robert.Ennals@cl.cam.ac.uk Robert Ennals]: Eager evaluation
-  * [mailto:sof@galconn.com Sigbjorn Finne]: Win32 porting, threaded RTS, lots of other stuff
-  * [mailto:keller@cvs.haskell.org Gabrielle Keller]: Array flattening
-  * [mailto:qrczak@knm.org.pl Marcin Kowalczyk]: 31-bit Chars, hsc2hs, various other stuff
-  * [mailto:jeff@galconn.com Jeff Lewis]: Implicit parameters, functional dependencies
-  * [mailto:desrt@desrt.ca Ryan Lortie]: PowerPC/PowerPC-64 Linux porting
-  * [mailto:igloo@earth.li Ian Lynagh]: Template Haskell
-  * [mailto:simonmar@microsoft.com Simon Marlow]: Release engineering, general hacking
-  * [mailto:sven.panne@aedion.de Sven Panne]: OpenGL/GLUT/OpenAL bindings, configuration/build system, various other stuff
-  * [mailto:ross@soi.city.ac.uk Ross Paterson]: Control.Arrow, haskell-src improvements
-  * [mailto:simonpj@microsoft.com Simon Peyton Jones]: general hacking
-  * [mailto:dons@cse.unsw.edu.au Don Stewart]: OpenBSD (x86 &amp; m68k) porting
-  * [mailto:stolz@i2.informatik.rwth-aachen.de Volker Stolz]: forkProcess#, thread labels
-  * [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]: MacOS X porting
-  * [mailto:apt@cs.pdx.edu Andrew Tolmach]: External Core
-  * [mailto:Keith.Wansbrough@cl.cam.ac.uk Keith Wansbrough]: Usage analysis
-  * [mailto:michael.weber@post.rwth-aachen.de Michael Weber]: Debian packaging
+ * [mailto:ka2_mail@yahoo.com Krasimir Angelov]
+ * [mailto:lennart@augustsson.net Lennart Augustsson]
+ * [mailto:jeanphilippe.bernardy@gmail.com Jean-Philippe Bernardy]
+ * [mailto:berthold@Mathematik.Uni-Marburg.de Jost Berthold]
+ * [mailto:d00bring@dtek.chalmers.se Bjorn Bringert]
+ * [mailto:chak@cse.unsw.edu.au Manuel Chakravarty]
+ * [mailto:amc4@doc.ic.ac.uk Andrew Cheadle]
+ * [mailto:duncan.coutts@worc.ox.ac.uk Duncan Coutts]
+ * [mailto:diatchki@cse.ogi.edu Iavor S Diatchki]
+ * [mailto:sof@galois.com Sigbjorn Finne]
+ * [mailto:jgoerzen@complete.org John Goerzen]
+ * [mailto:tharris@microsoft.com Tim Harris]
+ * [mailto:lemmih@gmail.com David Himmelstrup]
+ * [mailto:ijones@syntaxpolice.org Isaac Jones]
+ * [mailto:ijones@syntaxpolice.org Isaac Jones]
+ * [mailto:hwloidl@tcs.ifi.lmu.de Hans W. Loidl]
+ * [mailto:Ralf.Laemmel@cwi.nl Ralf Laemmel]
+ * [mailto:rl@cse.unsw.edu.au Roman Leshchinskiy]
+ * [mailto:andres@cs.uu.nl Andres Loeh]
+ * [mailto:desrt@desrt.ca Ryan Lortie]
+ * [mailto:igloo@earth.li Ian Lynagh]
+ * [mailto:simonmar@microsoft.com Simon Marlow] (GHC developer, x86_64 port)
+ * [mailto:john@repetae.net John Meacham]
+ * [mailto:ross@soi.city.ac.uk Ross Paterson]
+ * [mailto:Sven.Panne@aedion.de Sven Panne]
+ * [mailto:simonpj@microsoft.com Simon Peyton Jones]
+ * [mailto:nr@eecs.harvard.edu Norman Ramsay]
+ * [mailto:br276@cl.cam.ac.uk Ben Rudiak-Gould]
+ * [mailto:sseefried@cse.unsw.edu.au Sean Seefried]
+ * [mailto:A.Simon@kent.ac.uk Axel Simon]
+ * [mailto:dominic.steinitz@blueyonder.co.uk Dominic Steinitz]
+ * [mailto:dons@cse.unsw.edu.au Don Stewart]
+ * [mailto:stolz@i2.informatik.rwth-aachen.de Volker Stolz]
+ * [mailto:josefs@cs.chalmers.se Josef Svenningsson]
+ * [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]
+ * [mailto:zetem@henning-thielemann.de Henning Thielemann]
+ * [mailto:mthomas@gil.com.au Mike Thomas]
+ * [mailto:cdt25@cam.ac.uk Christopher D. Thompson-Walsh]
+ * [mailto:dpt@exoskeleton.math.harvard.edu Dylan Thurston]
+ * [mailto:dinko.tenev@gmail.com Dinko Tenev]
+ * [mailto:tullsen@galois.com Mark Tullsen]
+ * [mailto:Malcolm.Wallace@cs.york.ac.uk Malcolm Wallace]
+ * [mailto:nx200@cam.ac.uk N. Xu]
+ * [mailto:ashley@semantic.org Ashley Yakeley]
 
 == Past contributors ==
 
