@@ -92,7 +92,6 @@ and a short description of what they're doing or have done.
 - Volker Stolz
 - Josef Svenningsson
 - Wolfgang Thaller
-- Henning Thielemann
 - Mike Thomas
 - Christopher D. Thompson-Walsh
 - Dylan Thurston
