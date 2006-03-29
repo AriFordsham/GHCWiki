@@ -19,30 +19,38 @@ maintain.
    * FreeBSD: [mailto:simonmar@microsoft.com Simon Marlow],[mailto:obraun@FreeBSD.org Oliver Braun]
    * OpenBSD: [mailto:dons@cse.unsw.edu.au Don Stewart]
    * SuSE Linux/x86 packages: [mailto:sven.panne@aedion.de Sven Panne],[mailto:ralf@informatik.uni-bonn.de Ralf Hinze]
-   * Gentoo Linux/x86 packages: [mailto:kosmikus@gentoo.org Andres Loeh]
+   * Gentoo Linux/x86 packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/x86 packages: [mailto:igloo@earth.li Ian Lynagh]
 
  * '''PowerPC'''
    * AIX: [mailto:autrijus@autrijus.org Autrijus Tang]
    * Linux: [mailto:desrt@desrt.ca Ryan Lortie]
+   * Gentoo Linux packages (32 and 64bit): [mailto:haskell@gentoo.org Gentoo Haskell team]
    * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]
 
  * '''Sparc'''
    * Solaris: Position open
    * Linux:   Position open
+   * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
 
  * '''x86_64'''
    * Linux: [mailto:simonmar@microsoft.com Simon Marlow]
+   * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
 
  * '''Mips64'''
    * Irix: [mailto:dons@cse.unsw.edu.au Don Stewart]
 
  * '''IA-64'''
    * Linux: [mailto:matthewc@cse.unsw.edu.au Matt Chapman]
+   * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
 
  * '''Alpha'''
    * Dec OSF: [mailto:ken@digitas.harvard.edu Ken Shan]
    * Linux: Position open.
+   * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
+
+ * '''HPPA'''
+   * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
 
 == Current committers (alphabetical order) ==
 
