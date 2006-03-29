@@ -79,7 +79,7 @@ and a short description of what they're doing or have done.
 - Andres Loeh
 - Ryan Lortie
 - Ian Lynagh
-- Simon Marlow (GHC developer, x86_64 port)
+- Simon Marlow (GHC developer, x86_64 port, SMP support)
 - John Meacham
 - Ross Paterson
 - Sven Panne

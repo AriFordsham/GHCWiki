@@ -70,7 +70,7 @@ and a short description of what they're doing or have done.
  * [mailto:andres@cs.uu.nl Andres Loeh]
  * [mailto:desrt@desrt.ca Ryan Lortie]
  * [mailto:igloo@earth.li Ian Lynagh]
- * [mailto:simonmar@microsoft.com Simon Marlow] (GHC developer, x86_64 port)
+ * [mailto:simonmar@microsoft.com Simon Marlow] (GHC developer, x86_64 port, SMP support)
  * [mailto:john@repetae.net John Meacham]
  * [mailto:ross@soi.city.ac.uk Ross Paterson]
  * [mailto:Sven.Panne@aedion.de Sven Panne]
