@@ -86,7 +86,7 @@ and a short description of what they're doing or have done.
 - Ralf Laemmel
 - Roman Leshchinskiy
 - Andres Loeh
-- Ryan Lortie
+- Ryan Lortie (PowerPC Linux port, packages)
 - Ian Lynagh
 - Simon Marlow (GHC developer, x86_64 port, SMP support)
 - John Meacham
@@ -100,7 +100,7 @@ and a short description of what they're doing or have done.
 - Don Stewart
 - Volker Stolz
 - Josef Svenningsson
-- Wolfgang Thaller
+- Wolfgang Thaller (PowerPC Darwin port, packages)
 - Mike Thomas
 - Christopher D. Thompson-Walsh
 - Dylan Thurston
