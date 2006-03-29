@@ -21,23 +21,26 @@ maintain.
   - FreeBSD: Simon Marlow,Oliver Braun
   - OpenBSD: Don Stewart
   - SuSE Linux/x86 packages: Sven Panne,Ralf Hinze
-  - Gentoo Linux/x86 packages: Andres Loeh
+  - Gentoo Linux/x86 packages: Gentoo Haskell team
   - Debian GNU/Linux/x86 packages: Ian Lynagh
 
 - **PowerPC**
 
   - AIX: Autrijus Tang
   - Linux: Ryan Lortie
+  - Gentoo Linux packages (32 and 64bit): Gentoo Haskell team
   - MacOS X: Wolfgang Thaller
 
 - **Sparc**
 
   - Solaris: Position open
   - Linux:   Position open
+  - Gentoo Linux packages: Gentoo Haskell team
 
 - **x86_64**
 
   - Linux: Simon Marlow
+  - Gentoo Linux packages: Gentoo Haskell team
 
 - **Mips64**
 
@@ -46,11 +49,17 @@ maintain.
 - **IA-64**
 
   - Linux: Matt Chapman
+  - Gentoo Linux packages: Gentoo Haskell team
 
 - **Alpha**
 
   - Dec OSF: Ken Shan
   - Linux: Position open.
+  - Gentoo Linux packages: Gentoo Haskell team
+
+- **HPPA**
+
+  - Gentoo Linux packages: Gentoo Haskell team
 
 ## Current committers (alphabetical order)
 
