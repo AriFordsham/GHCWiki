@@ -70,7 +70,7 @@ and a short description of what they're doing or have done.
 - Sigbjorn Finne
 - John Goerzen
 - Tim Harris
-- David Himmelstrup
+- David Himmelstrup (GHC developer)
 - Isaac Jones
 - Isaac Jones
 - Hans W. Loidl
@@ -87,7 +87,6 @@ and a short description of what they're doing or have done.
 - Norman Ramsay
 - Ben Rudiak-Gould
 - Sean Seefried
-- Axel Simon
 - Dominic Steinitz
 - Don Stewart
 - Volker Stolz
