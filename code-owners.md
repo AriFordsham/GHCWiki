@@ -69,7 +69,7 @@ and a short description of what they're doing or have done.
 - Iavor S Diatchki
 - Sigbjorn Finne
 - John Goerzen
-- Tim Harris
+- Tim Harris (Transactional memory, concurrency)
 - David Himmelstrup (GHC developer)
 - Isaac Jones
 - Isaac Jones
