@@ -87,7 +87,6 @@ and a short description of what they're doing or have done.
 - Norman Ramsay
 - Ben Rudiak-Gould
 - Sean Seefried
-- Axel Simon
 - Dominic Steinitz
 - Don Stewart
 - Volker Stolz
