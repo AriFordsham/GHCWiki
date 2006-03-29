@@ -23,6 +23,7 @@ maintain.
   - SuSE Linux/x86 packages: Sven Panne,Ralf Hinze
   - Gentoo Linux/x86 packages: Gentoo Haskell team
   - Debian GNU/Linux/x86 packages: Ian Lynagh
+  - MacOS X (port in progress): Wolfgang Thaller
 
 - **PowerPC**
 
