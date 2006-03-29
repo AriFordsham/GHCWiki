@@ -76,7 +76,7 @@ and a short description of what they're doing or have done.
 - Manuel Chakravarty
 - Andrew Cheadle
 - Duncan Coutts
-- Iavor S Diatchki
+- [ Iavor S Diatchki](http://www.csee.ogi.edu/~diatchki) ('monadLib' library)
 - Sigbjorn Finne
 - John Goerzen
 - Tim Harris (Transactional memory, concurrency)
