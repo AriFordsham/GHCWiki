@@ -1,0 +1,101 @@
+= The GHC Team =
+
+The success of GHC has a lot to do with the large band of highly
+talented people who contribute to it; this page is mainly to
+acknowledge those contributions but also to give users of GHC an idea
+of "who is responsible for what".  In particular there are several
+people who have generously agreed to look after the port of GHC to a
+particular platform, or produce packages for a certain platform - the
+section below lists these people and the port or packages that they
+maintain.
+
+== Porters/Packagers (no particular order) ==
+
+ * '''x86'''
+   * Windows (targetting [http://www.mingw.org mingw]): [mailto:sof@galconn.com Sigbjorn Finne]
+   * Windows (targetting [http://www.cygwin.com Cygwin]): Position open; port bitrotted
+   * Linux (generic): [mailto:simonmar@microsoft.com Simon Marlow],
+     [mailto:simonpj@microsoft.com Simon Peyton Jones]
+   * FreeBSD: [mailto:simonmar@microsoft.com Simon Marlow],[mailto:obraun@FreeBSD.org Oliver Braun]
+   * OpenBSD: [mailto:dons@cse.unsw.edu.au Don Stewart]
+   * SuSE Linux/x86 packages: [mailto:sven.panne@aedion.de Sven Panne],[mailto:ralf@informatik.uni-bonn.de Ralf Hinze]
+   * Gentoo Linux/x86 packages: [mailto:kosmikus@gentoo.org Andres Loeh]
+   * Debian GNU/Linux/x86 packages: [mailto:igloo@earth.li Ian Lynagh]
+
+ * '''PowerPC'''
+   * AIX: [mailto:autrijus@autrijus.org Autrijus Tang]
+   * Linux: [mailto:desrt@desrt.ca Ryan Lortie]
+   * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]
+
+ * '''Sparc'''
+   * Solaris: Position open
+   * Linux:   Position open
+
+ * '''x86_64'''
+   * Linux: [mailto:simonmar@microsoft.com Simon Marlow]
+
+ * '''Mips64'''
+   * Irix: [mailto:dons@cse.unsw.edu.au Don Stewart]
+
+ * '''IA-64'''
+   * Linux: [mailto:matthewc@cse.unsw.edu.au Matt Chapman]
+
+ * '''Alpha'''
+   * Dec OSF: [mailto:ken@digitas.harvard.edu Ken Shan]
+   * Linux: Position open.
+
+== Current committers (alphabetical order) ==
+
+This is a list of the people that currently have commit access to GHC,
+and a short description of what they're doing or have done.
+
+  * [mailto:ka2_mail@yahoo.com Krasimir Angelov]: ObjectIO library
+  * [mailto:chak@cse.unsw.edu.au Manuel Chakravarty]: Array flattening, GHC Commentary
+  * [mailto:koen@cs.chalmers.se Koen Claessen]: New Read framework
+  * [mailto:Robert.Ennals@cl.cam.ac.uk Robert Ennals]: Eager evaluation
+  * [mailto:sof@galconn.com Sigbjorn Finne]: Win32 porting, threaded RTS, lots of other stuff
+  * [mailto:keller@cvs.haskell.org Gabrielle Keller]: Array flattening
+  * [mailto:qrczak@knm.org.pl Marcin Kowalczyk]: 31-bit Chars, hsc2hs, various other stuff
+  * [mailto:jeff@galconn.com Jeff Lewis]: Implicit parameters, functional dependencies
+  * [mailto:desrt@desrt.ca Ryan Lortie]: PowerPC/PowerPC-64 Linux porting
+  * [mailto:igloo@earth.li Ian Lynagh]: Template Haskell
+  * [mailto:simonmar@microsoft.com Simon Marlow]: Release engineering, general hacking
+  * [mailto:sven.panne@aedion.de Sven Panne]: OpenGL/GLUT/OpenAL bindings, configuration/build system, various other stuff
+  * [mailto:ross@soi.city.ac.uk Ross Paterson]: Control.Arrow, haskell-src improvements
+  * [mailto:simonpj@microsoft.com Simon Peyton Jones]: general hacking
+  * [mailto:dons@cse.unsw.edu.au Don Stewart]: OpenBSD (x86 &amp; m68k) porting
+  * [mailto:stolz@i2.informatik.rwth-aachen.de Volker Stolz]: forkProcess#, thread labels
+  * [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]: MacOS X porting
+  * [mailto:apt@cs.pdx.edu Andrew Tolmach]: External Core
+  * [mailto:Keith.Wansbrough@cl.cam.ac.uk Keith Wansbrough]: Usage analysis
+  * [mailto:michael.weber@post.rwth-aachen.de Michael Weber]: Debian packaging
+
+== Past contributors ==
+
+These people have contributed to GHC in the past, in various
+wonderful ways:
+
+  * Sebastien Carlier
+  * Kevin Glynn
+  * Cordy Hall
+  * Kevin Hammond
+  * Andy Gill
+  * Hans Wolfgang Lloidl
+  * John Launchbury
+  * Jim Mattson
+  * Darren Moffat
+  * [mailto:njn25@cam.ac.uk Nick Nethercote]
+  * Thomas Nordin
+  * Bryan O'Sullivan
+  * Sungwoo Park
+  * Will Partain
+  * Juan Quintela
+  * Alastair Reid
+  * Patrick Sansom
+  * Andr&eacute; Santos
+  * [mailto:jseward@acm.org Julian Seward]
+  * Reuben Thomas
+  * Phil Trinder
+  * David N Turner
+  * Philip Wadler
+  * Michael Weber
