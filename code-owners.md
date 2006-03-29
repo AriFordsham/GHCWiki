@@ -96,7 +96,7 @@ and a short description of what they're doing or have done.
 - Norman Ramsay
 - Ben Rudiak-Gould
 - Sean Seefried
-- Dominic Steinitz
+- Dominic Steinitz (Cryptographic library)
 - Don Stewart
 - Volker Stolz
 - Josef Svenningsson
