@@ -60,7 +60,7 @@ and a short description of what they're doing or have done.
 
 - Krasimir Angelov
 - Lennart Augustsson
-- Jean-Philippe Bernardy
+- Jean-Philippe Bernardy (Maintenance of Data.\*Map/\*Set libraries)
 - Jost Berthold
 - Bjorn Bringert
 - Manuel Chakravarty
