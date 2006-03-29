@@ -76,7 +76,7 @@ and a short description of what they're doing or have done.
  * [mailto:Ralf.Laemmel@cwi.nl Ralf Laemmel]
  * [mailto:rl@cse.unsw.edu.au Roman Leshchinskiy]
  * [mailto:andres@cs.uu.nl Andres Loeh]
- * [mailto:desrt@desrt.ca Ryan Lortie]
+ * [mailto:desrt@desrt.ca Ryan Lortie] (PowerPC Linux port, packages)
  * [mailto:igloo@earth.li Ian Lynagh]
  * [mailto:simonmar@microsoft.com Simon Marlow] (GHC developer, x86_64 port, SMP support)
  * [mailto:john@repetae.net John Meacham]
@@ -90,7 +90,7 @@ and a short description of what they're doing or have done.
  * [mailto:dons@cse.unsw.edu.au Don Stewart]
  * [mailto:stolz@i2.informatik.rwth-aachen.de Volker Stolz]
  * [mailto:josefs@cs.chalmers.se Josef Svenningsson]
- * [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]
+ * [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller] (PowerPC Darwin port, packages)
  * [mailto:mthomas@gil.com.au Mike Thomas]
  * [mailto:cdt25@cam.ac.uk Christopher D. Thompson-Walsh]
  * [mailto:dpt@exoskeleton.math.harvard.edu Dylan Thurston]
