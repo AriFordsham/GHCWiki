@@ -70,7 +70,7 @@ and a short description of what they're doing or have done.
 - Sigbjorn Finne
 - John Goerzen
 - Tim Harris
-- David Himmelstrup
+- David Himmelstrup (GHC developer)
 - Isaac Jones
 - Isaac Jones
 - Hans W. Loidl
