@@ -74,7 +74,7 @@ and a short description of what they're doing or have done.
 - Jean-Philippe Bernardy (Maintenance of Data.\*Map/\*Set libraries)
 - Jost Berthold
 - Bjorn Bringert
-- Manuel Chakravarty
+- Manuel Chakravarty (FFI, Data Parallel Haskell, associated types)
 - Andrew Cheadle
 - Duncan Coutts
 - [ Iavor S Diatchki](http://www.csee.ogi.edu/~diatchki) ('monadLib' library)

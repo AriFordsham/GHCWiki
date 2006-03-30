@@ -64,7 +64,7 @@ and a short description of what they're doing or have done.
  * [mailto:jeanphilippe.bernardy@gmail.com Jean-Philippe Bernardy] (Maintenance of Data.*Map/*Set libraries)
  * [mailto:berthold@Mathematik.Uni-Marburg.de Jost Berthold]
  * [mailto:d00bring@dtek.chalmers.se Bjorn Bringert]
- * [mailto:chak@cse.unsw.edu.au Manuel Chakravarty]
+ * [mailto:chak@cse.unsw.edu.au Manuel Chakravarty] (FFI, Data Parallel Haskell, associated types)
  * [mailto:amc4@doc.ic.ac.uk Andrew Cheadle]
  * [mailto:duncan.coutts@worc.ox.ac.uk Duncan Coutts]
  * [http://www.csee.ogi.edu/~diatchki Iavor S Diatchki] ('monadLib' library)
