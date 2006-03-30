@@ -20,23 +20,26 @@ maintain.
    * OpenBSD: [mailto:dons@cse.unsw.edu.au Don Stewart]
    * SuSE Linux/x86 packages: [mailto:sven.panne@aedion.de Sven Panne],[mailto:ralf@informatik.uni-bonn.de Ralf Hinze]
    * Gentoo Linux/x86 packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/x86 packages: [mailto:igloo@earth.li Ian Lynagh]
+   * Debian GNU/Linux/x86 packages: [mailto:igloo@debian.org Ian Lynagh]
    * MacOS X (port in progress): [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]
 
  * '''PowerPC'''
    * AIX: [mailto:autrijus@autrijus.org Autrijus Tang]
    * Linux: [mailto:desrt@desrt.ca Ryan Lortie]
    * Gentoo Linux packages (32 and 64bit): [mailto:haskell@gentoo.org Gentoo Haskell team]
+   * Debian GNU/Linux/powerpc packages: [mailto:igloo@debian.org Ian Lynagh]
    * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]
 
  * '''Sparc'''
    * Solaris: Position open
    * Linux:   Position open
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
+   * Debian GNU/Linux/sparc packages: [mailto:igloo@debian.org Ian Lynagh]
 
  * '''x86_64'''
    * Linux: [mailto:simonmar@microsoft.com Simon Marlow]
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
+   * Debian GNU/Linux/amd64 packages: [mailto:igloo@debian.org Ian Lynagh]
    * OpenBSD: [mailto:dons@cse.unsw.edu.au Don Stewart]
 
  * '''Mips64'''
@@ -45,14 +48,23 @@ maintain.
  * '''IA-64'''
    * Linux: [mailto:matthewc@cse.unsw.edu.au Matt Chapman]
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
+   * Debian GNU/Linux/ia64 packages: [mailto:igloo@debian.org Ian Lynagh]
 
  * '''Alpha'''
    * Dec OSF: [mailto:ken@digitas.harvard.edu Ken Shan]
    * Linux: Position open.
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
+   * Debian GNU/Linux/alpha packages: [mailto:igloo@debian.org Ian Lynagh]
 
  * '''HPPA'''
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
+   * Debian GNU/Linux/hppa packages: [mailto:igloo@debian.org Ian Lynagh]
+
+ * '''S/390'''
+   * Debian GNU/Linux/s390 packages: [mailto:igloo@debian.org Ian Lynagh]
+
+ * '''m68k'''
+   * Debian GNU/Linux/m68k packages: [mailto:igloo@debian.org Ian Lynagh]
 
 == Current committers (alphabetical order) ==
 
