@@ -37,6 +37,7 @@ maintain.
  * '''x86_64'''
    * Linux: [mailto:simonmar@microsoft.com Simon Marlow]
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
+   * OpenBSD: [mailto:dons@cse.unsw.edu.au Don Stewart]
 
  * '''Mips64'''
    * Irix: [mailto:dons@cse.unsw.edu.au Don Stewart]
@@ -87,7 +88,7 @@ and a short description of what they're doing or have done.
  * [mailto:br276@cl.cam.ac.uk Ben Rudiak-Gould]
  * [mailto:sseefried@cse.unsw.edu.au Sean Seefried]
  * [mailto:dominic.steinitz@blueyonder.co.uk Dominic Steinitz] (Cryptographic library)
- * [mailto:dons@cse.unsw.edu.au Don Stewart]
+ * [mailto:dons@cse.unsw.edu.au Don Stewart] (OpenBSD support)
  * [mailto:stolz@i2.informatik.rwth-aachen.de Volker Stolz]
  * [mailto:josefs@cs.chalmers.se Josef Svenningsson]
  * [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller] (PowerPC Darwin port, packages)
