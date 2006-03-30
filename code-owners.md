@@ -42,6 +42,7 @@ maintain.
 
   - Linux: Simon Marlow
   - Gentoo Linux packages: Gentoo Haskell team
+  - OpenBSD: Don Stewart
 
 - **Mips64**
 
@@ -97,7 +98,7 @@ and a short description of what they're doing or have done.
 - Ben Rudiak-Gould
 - Sean Seefried
 - Dominic Steinitz (Cryptographic library)
-- Don Stewart
+- Don Stewart (OpenBSD support)
 - Volker Stolz
 - Josef Svenningsson
 - Wolfgang Thaller (PowerPC Darwin port, packages)
