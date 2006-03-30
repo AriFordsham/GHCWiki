@@ -30,6 +30,7 @@ maintain.
   - AIX: Autrijus Tang
   - Linux: Ryan Lortie
   - Gentoo Linux packages (32 and 64bit): Gentoo Haskell team
+  - Debian GNU/Linux/powerpc packages: Ian Lynagh
   - MacOS X: Wolfgang Thaller
 
 - **Sparc**
@@ -37,11 +38,13 @@ maintain.
   - Solaris: Position open
   - Linux:   Position open
   - Gentoo Linux packages: Gentoo Haskell team
+  - Debian GNU/Linux/sparc packages: Ian Lynagh
 
 - **x86_64**
 
   - Linux: Simon Marlow
   - Gentoo Linux packages: Gentoo Haskell team
+  - Debian GNU/Linux/amd64 packages: Ian Lynagh
   - OpenBSD: Don Stewart
 
 - **Mips64**
@@ -52,16 +55,27 @@ maintain.
 
   - Linux: Matt Chapman
   - Gentoo Linux packages: Gentoo Haskell team
+  - Debian GNU/Linux/ia64 packages: Ian Lynagh
 
 - **Alpha**
 
   - Dec OSF: Ken Shan
   - Linux: Position open.
   - Gentoo Linux packages: Gentoo Haskell team
+  - Debian GNU/Linux/alpha packages: Ian Lynagh
 
 - **HPPA**
 
   - Gentoo Linux packages: Gentoo Haskell team
+  - Debian GNU/Linux/hppa packages: Ian Lynagh
+
+- **S/390**
+
+  - Debian GNU/Linux/s390 packages: Ian Lynagh
+
+- **m68k**
+
+  - Debian GNU/Linux/m68k packages: Ian Lynagh
 
 ## Current committers (alphabetical order)
 
