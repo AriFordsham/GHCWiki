@@ -25,7 +25,7 @@ I'm especially interested in cases where this framework does not fit your applic
   1. It seemed like a bad idea to do the same thing as something that already existed.
   1. Collections are (mostly) about performance anyway (otherwise everyone would use standard linked-lists).
   1. The type give information about the programmer's expected behaviour of the collection. 
-- This deliberaty uses many symbols already in the prelude. The intent is that the user hides whatever clashes from Prelude, however it's also possible to import this module qualified.
+- This deliberately uses many symbols already in the prelude. The intent is that the user hides whatever clashes from Prelude, however it's also possible to import this module qualified.
 - This uses functional dependencies. This is motivated by the fact that it gives a lot more expressive power without much inconvenience for the users. (note: We should consider porting this to Associated Types, since it's an alternative for FD in next version of Haskell.)
 - A single module is currently proposed, for ease of testing. The final version should of course be properly spilt into modules.
 - Most names of classes are only tentative and should be all reconsidered. Good ideas welcome.
