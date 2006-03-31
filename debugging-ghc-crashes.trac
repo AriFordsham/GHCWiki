@@ -36,7 +36,7 @@ Usually you want to do something along these lines:
    version of the runtime, that includes extra assertionsm, debugging
    code, and debugging info for gdb.
 
- * Grab our gdb macros.
+ * Grab our [attachment:".gdbinit" gdb macros].
 
  * Run the program in gdb until it crashes, type {{{where}}} to find
    out whether the crash is in the RTS or in Haskell code.  If you see
@@ -167,7 +167,7 @@ scope of this tuturial, but what follows is a basic introduction to
 looking at heap & stack objects in a running program.
 
 You can display memory in gdb with something like {{{x/8a}}} to
-display 4 words of memory, or using our gdb macros you get slighty
+display 4 words of memory, or using our [attachment:".gdbinit" gdb macros] you get slighty
 nicer output:
 
 {{{
@@ -258,8 +258,8 @@ $5 = {srt_offset = 4241688, __pad_srt_offset = 6684481, i = {layout = {
 
 The {{{type}}} field tells us what kind of object this is, in this
 case {{{36}}}}, which means a {{{RET_SMALL}}} stack frame (see
-[http://darcs.haskell.org/ghc/ghc/includes/ClosureTypes.h
-ClosureTypes.h] for a list of closure types, but make sure you are
+[http://darcs.haskell.org/ghc/ghc/includes/ClosureTypes.h ClosureTypes.h]
+for a list of closure types, but make sure you are
 looking at the right version of this file for the build you're using,
 because the types do change).
 

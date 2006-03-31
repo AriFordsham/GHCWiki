@@ -40,7 +40,7 @@ Usually you want to do something along these lines:
   version of the runtime, that includes extra assertionsm, debugging
   code, and debugging info for gdb.
 
-- Grab our gdb macros.
+- Grab our [gdb macros](/trac/ghc/attachment/wiki/DebuggingGhcCrashes/.gdbinit)[](/trac/ghc/raw-attachment/wiki/DebuggingGhcCrashes/.gdbinit).
 
 - Run the program in gdb until it crashes, type `where` to find
   out whether the crash is in the RTS or in Haskell code.  If you see
@@ -189,7 +189,7 @@ looking at heap & stack objects in a running program.
 
 
 You can display memory in gdb with something like `x/8a` to
-display 4 words of memory, or using our gdb macros you get slighty
+display 4 words of memory, or using our [gdb macros](/trac/ghc/attachment/wiki/DebuggingGhcCrashes/.gdbinit)[](/trac/ghc/raw-attachment/wiki/DebuggingGhcCrashes/.gdbinit) you get slighty
 nicer output:
 
 ```wiki
@@ -289,8 +289,8 @@ $5 = {srt_offset = 4241688, __pad_srt_offset = 6684481, i = {layout = {
 
 The `type` field tells us what kind of object this is, in this
 case `36`}, which means a `RET_SMALL` stack frame (see
-\[[ http://darcs.haskell.org/ghc/ghc/includes/ClosureTypes.h](http://darcs.haskell.org/ghc/ghc/includes/ClosureTypes.h)
-ClosureTypes.h\] for a list of closure types, but make sure you are
+[ ClosureTypes.h](http://darcs.haskell.org/ghc/ghc/includes/ClosureTypes.h)
+for a list of closure types, but make sure you are
 looking at the right version of this file for the build you're using,
 because the types do change).
 
