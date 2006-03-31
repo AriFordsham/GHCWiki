@@ -12,7 +12,7 @@ maintain.
 == Porters/Packagers (no particular order) ==
 
  * '''x86'''
-   * Windows (targetting [http://www.mingw.org mingw]): [mailto:sof@galconn.com Sigbjorn Finne]
+   * Windows (targetting [http://www.mingw.org mingw]): [mailto:sof@galois.com Sigbjorn Finne]
    * Windows (targetting [http://www.cygwin.com Cygwin]): Position open; port bitrotted
    * Linux (generic): [mailto:simonmar@microsoft.com Simon Marlow],
      [mailto:simonpj@microsoft.com Simon Peyton Jones]
