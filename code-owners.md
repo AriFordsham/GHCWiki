@@ -90,7 +90,7 @@ and a short description of what they're doing or have done.
 - Bjorn Bringert
 - Manuel Chakravarty (FFI, Data Parallel Haskell, associated types)
 - Andrew Cheadle
-- Duncan Coutts
+- Duncan Coutts (Gentoo packages)
 - [ Iavor S Diatchki](http://www.csee.ogi.edu/~diatchki) ('monadLib' library)
 - Sigbjorn Finne
 - John Goerzen
