@@ -37,7 +37,7 @@ This is quite scary, for a few reasons:
 Usually you want to do something along these lines:
 
 - Compile with `-debug`!  This links the program with a debugging
-  version of the runtime, that includes extra assertionsm, debugging
+  version of the runtime, that includes extra assertions, debugging
   code, and debugging info for gdb.
 
 - Grab our [gdb macros](/trac/ghc/attachment/wiki/DebuggingGhcCrashes/.gdbinit)[](/trac/ghc/raw-attachment/wiki/DebuggingGhcCrashes/.gdbinit).
