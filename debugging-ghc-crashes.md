@@ -60,8 +60,8 @@ Usually you want to do something along these lines:
 
 - Look at the fragment of code that crashed: `disassemble`.  It
   should be pretty small (code blocks in GHC-generated code usually
-  are).  Look at the instruction that caused the crash (the address
-  is given in the `where` output earlier).  If you can tell what
+  are).  Look at the instruction that caused the crash - the address
+  is given in the `where` output earlier.  If you can tell what
   the problem is right there, then great.
 
 - Poke around in the heap and stack and see if you can figure out
@@ -69,11 +69,8 @@ Usually you want to do something along these lines:
 
 - Make the crash happen repeatably, if possible.  That means after
   the exact same number of garbage collections and context switches
-  each time.
-
-> >
-> > Use `+RTS -C0` to turn off timer-based context switches.  If
-> > you're debugging heap profiling, add `-i0` too.
+  each time. Use `+RTS -C0` to turn off timer-based context switches.  If
+  you're debugging heap profiling, add `-i0` too.
 
 - If you still haven't figured it out, you probably need to go back in
   time a bit to find out what was happening just before the crash.
@@ -188,7 +185,7 @@ scope of this tuturial, but what follows is a basic introduction to
 looking at heap & stack objects in a running program.
 
 
-You can display memory in gdb with something like `x/8a` to
+You can display memory in gdb with something like `x/4a` to
 display 4 words of memory, or using our [gdb macros](/trac/ghc/attachment/wiki/DebuggingGhcCrashes/.gdbinit)[](/trac/ghc/raw-attachment/wiki/DebuggingGhcCrashes/.gdbinit) you get slighty
 nicer output:
 
