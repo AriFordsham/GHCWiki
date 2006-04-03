@@ -18,7 +18,7 @@ maintain.
   - Windows (targetting [ Cygwin](http://www.cygwin.com)): Position open; port bitrotted
   - Linux (generic): Simon Marlow,
     Simon Peyton Jones
-  - FreeBSD: Simon Marlow,Oliver Braun
+  - FreeBSD: Simon Marlow,Oliver Braun,Volker Stolz
   - OpenBSD: Don Stewart
   - SuSE Linux/x86 packages: Sven Panne,Ralf Hinze
   - Gentoo Linux/x86 packages: Gentoo Haskell team
