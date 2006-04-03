@@ -11,6 +11,7 @@ maintain.
 
 == Porters/Packagers (no particular order) ==
 
+
  * '''x86'''
    * Windows (targetting [http://www.mingw.org mingw]): [mailto:sof@galois.com Sigbjorn Finne]
    * Windows (targetting [http://www.cygwin.com Cygwin]): Position open; port bitrotted
@@ -74,7 +75,7 @@ and a short description of what they're doing or have done.
  * [mailto:ka2_mail@yahoo.com Krasimir Angelov]
  * [mailto:lennart@augustsson.net Lennart Augustsson]
  * [mailto:jeanphilippe.bernardy@gmail.com Jean-Philippe Bernardy] (Maintenance of Data.*Map/*Set libraries)
- * [mailto:berthold@Mathematik.Uni-Marburg.de Jost Berthold]
+ * [http://www.mathematik.uni-marburg.de/~berthold Jost Berthold] (Parallel Haskell: Eden)
  * [mailto:d00bring@dtek.chalmers.se Bjorn Bringert]
  * [mailto:chak@cse.unsw.edu.au Manuel Chakravarty] (FFI, Data Parallel Haskell, associated types)
  * [mailto:amc4@doc.ic.ac.uk Andrew Cheadle]
