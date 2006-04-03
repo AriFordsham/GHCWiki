@@ -86,7 +86,7 @@ and a short description of what they're doing or have done.
 - Krasimir Angelov
 - Lennart Augustsson
 - Jean-Philippe Bernardy (Maintenance of Data.\*Map/\*Set libraries)
-- Jost Berthold
+- [ Jost Berthold](http://www.mathematik.uni-marburg.de/~berthold) (Parallel Haskell: Eden)
 - Bjorn Bringert
 - Manuel Chakravarty (FFI, Data Parallel Haskell, associated types)
 - Andrew Cheadle
