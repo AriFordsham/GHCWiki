@@ -99,7 +99,7 @@ and a short description of what they're doing or have done.
  * [mailto:simonpj@microsoft.com Simon Peyton Jones]
  * [http://www.eecs.harvard.edu/nr Norman Ramsey] (a little refactoring in the back end)
  * [mailto:br276@cl.cam.ac.uk Ben Rudiak-Gould]
- * [mailto:sseefried@cse.unsw.edu.au Sean Seefried]
+ * [mailto:sseefried@cse.unsw.edu.au Sean Seefried] (Plug-in optimisations (in pluggable-branch))
  * [mailto:dominic.steinitz@blueyonder.co.uk Dominic Steinitz] (Cryptographic library)
  * [mailto:dons@cse.unsw.edu.au Don Stewart] (OpenBSD support)
  * [mailto:vs@foldr.org Volker Stolz]
