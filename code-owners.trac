@@ -23,6 +23,7 @@ maintain.
    * Gentoo Linux/x86 packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/x86 packages: [mailto:igloo@debian.org Ian Lynagh]
    * MacOS X (port in progress): [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]
+   * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
 
  * '''PowerPC'''
    * AIX: [mailto:autrijus@autrijus.org Autrijus Tang]
@@ -30,6 +31,7 @@ maintain.
    * Gentoo Linux packages (32 and 64bit): [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/powerpc packages: [mailto:igloo@debian.org Ian Lynagh]
    * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]
+   * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
 
  * '''Sparc'''
    * Solaris: Position open
@@ -42,6 +44,7 @@ maintain.
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/amd64 packages: [mailto:igloo@debian.org Ian Lynagh]
    * OpenBSD: [mailto:dons@cse.unsw.edu.au Don Stewart]
+   * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
 
  * '''Mips64'''
    * Irix: [mailto:dons@cse.unsw.edu.au Don Stewart]
