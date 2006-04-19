@@ -1,0 +1,54 @@
+= Platforms =
+
+The following table describes to what extent GHC currently supports
+various platforms.  Definitions:
+
+'''Registerised'''
+  A catch-all term for a number of optimisations, which collectively
+  require the ''mangler'' (a Perl script that post-processes the
+  assembly output from gcc).  Unregisterised builds require only a
+  working C compiler and are hence far more portable.  The
+  registerised optimisations include:
+  direct tail calls (as opposed to using the "mini-interpreter"),
+  info-tables adjacent to entry code, and virtual machine registers mapped
+  to real machine registers.
+
+'''GHCi'''
+  The interactive environment, including dynamic linking of object
+  code and dynamic generation of FFI calls.
+
+'''NCG'''[[BR]]
+  Native code generator: GHC can generate assemply code directly for this platform, bypassing gcc.
+
+'''f.i. wrapper'''[[BR]]
+  Support for {{{foreign import "wrapper"}}} ({{{ghc/rts/Adjustor.c}}}).
+
+'''Dynamic libraries'''
+  Support for generating dynamically-linked sharable libraries from
+  Haskell code.
+
+|| '''Architecture''' || '''OS''' || '''Registerised''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' ||
+|| x86          || Windows  || Yes          || Yes  || Yes                   || Yes          || No(*2)            ||
+|| x86          || Linux    || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| x86          || FreeBSD  || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| x86          || OpenBSD  || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| x86          || NetBSD   || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| x86          || MacOS X  || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| PowerPC      || AIX      || Yes          ||      || Yes                   || Yes          || No                ||
+|| PowerPC      || Linux    || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| PowerPC      || MacOS X  || Yes          || Yes  || Yes                   || Yes          || Yes               ||
+|| PowerPC64    || Linux    || Yes          ||      || No                    || Yes          || No                ||
+|| Sparc        || Solaris  || Yes          || Yes  || No(*1)                || Yes          || No                ||
+|| Sparc        || Linux    || Yes          || Yes  || No(*1)                || Yes          || No                ||
+|| x86_64       || Linux    || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| x86_64       || OpenBSD  || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| Mips64       || Irix     || No           || No   || No                    || No           || No                ||
+|| IA-64        || Linux    || Yes          || Yes  || No                    || Yes          || No                ||
+|| Alpha        || Dec OSF  || No           || No   || No                    || Yes          || No                ||
+|| Alpha        || Linux    || No           || No   || No                    || Yes          || No                ||
+|| HPPA         || Linux    || No           || No   || No                    || No           || No                ||
+|| S/390        || Linux    || No           || No   || No                    || No           || No                ||
+|| m68k         || Linux    || No           || No   || No                    || No           || No                ||
+
+'''*1''' Sparc NCG bitrotted, but still in the tree[[BR]]
+'''*2''' Win32 DLL support bitrotted[[BR]]
