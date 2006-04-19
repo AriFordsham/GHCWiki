@@ -52,7 +52,7 @@ Usually you want to do something along these lines:
    at regular points.  One thing this enables is a full sweep of the
    heap after each garbage collection to make sure there are no
    dangling references.  Also, it fills all free memory with the value
-   {{{0xaaaaaaaa}}}} (the sound of GHC disappearing down a hole).
+   {{{0xaaaaaaaa}}} (the sound of GHC disappearing down a hole).
 
  * Look at the fragment of code that crashed: {{{disassemble}}}.  It
    should be pretty small (code blocks in GHC-generated code usually
