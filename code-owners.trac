@@ -3,14 +3,13 @@
 The success of GHC has a lot to do with the large band of highly
 talented people who contribute to it; this page is mainly to
 acknowledge those contributions but also to give users of GHC an idea
-of "who is responsible for what".  In particular there are several
-people who have generously agreed to look after the port of GHC to a
-particular platform, or produce packages for a certain platform - the
-section below lists these people and the port or packages that they
-maintain.
+of "who is responsible for what".  
 
 == Porters/Packagers (no particular order) ==
 
+The following table lists the people who have generously agreed to be responsible for the GHC port to a particular platform, or to produce binary packages for a certain platform.
+
+For a full description of GHC support for various platforms, see [wiki:Platforms].
 
  * '''x86'''
    * Windows (targetting [http://www.mingw.org mingw]): [mailto:sof@galois.com Sigbjorn Finne]
