@@ -27,28 +27,36 @@ various platforms.  Definitions:
   Support for generating dynamically-linked sharable libraries from
   Haskell code.
 
-|| '''Architecture''' || '''OS''' || '''Registerised''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' ||
-|| x86          || Windows  || Yes          || Yes  || Yes                   || Yes          || No(*2)            ||
-|| x86          || Linux    || Yes          || Yes  || Yes                   || Yes          || No                ||
-|| x86          || FreeBSD  || Yes          || Yes  || Yes                   || Yes          || No                ||
-|| x86          || OpenBSD  || Yes          || Yes  || Yes                   || Yes          || No                ||
-|| x86          || NetBSD   || Yes          || Yes  || Yes                   || Yes          || No                ||
-|| x86          || MacOS X  || Yes          || Yes  || Yes                   || Yes          || No                ||
-|| PowerPC      || AIX      || Yes          ||      || Yes                   || Yes          || No                ||
-|| PowerPC      || Linux    || Yes          || Yes  || Yes                   || Yes          || No                ||
-|| PowerPC      || MacOS X  || Yes          || Yes  || Yes                   || Yes          || Yes               ||
-|| PowerPC64    || Linux    || Yes          ||      || No                    || Yes          || No                ||
-|| Sparc        || Solaris  || Yes          || Yes  || No(*1)                || Yes          || No                ||
-|| Sparc        || Linux    || Yes          || Yes  || No(*1)                || Yes          || No                ||
-|| x86_64       || Linux    || Yes          || Yes  || Yes                   || Yes          || No                ||
-|| x86_64       || OpenBSD  || Yes          || Yes  || Yes                   || Yes          || No                ||
-|| Mips64       || Irix     || No           || No   || No                    || No           || No                ||
-|| IA-64        || Linux    || Yes          || Yes  || No                    || Yes          || No                ||
-|| Alpha        || Dec OSF  || No           || No   || No                    || Yes          || No                ||
-|| Alpha        || Linux    || No           || No   || No                    || Yes          || No                ||
-|| HPPA         || Linux    || No           || No   || No                    || No           || No                ||
-|| S/390        || Linux    || No           || No   || No                    || No           || No                ||
-|| m68k         || Linux    || No           || No   || No                    || No           || No                ||
+== Platforms that work in the current release ==
+
+|| '''Architecture''' || '''OS''' || '''Build name''' || '''Registerised''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' ||
+|| x86          || Windows (MinGW) || i386-unknown-mingw32    || Yes          || Yes  || Yes                   || Yes          || No(*2)            ||
+|| x86          || Linux           || i386-unknown-{linux,gnu} || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| x86          || FreeBSD         || i386-unknown-freebsd    || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| x86          || OpenBSD         || i386-unknown-openbsd    || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| x86          || NetBSD          || i386-unknown-netbsd     || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| x86          || MacOS X         || i386-apple-darwin       || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| PowerPC      || AIX             || powerpc-ibm-aix         || Yes          ||      || Yes                   || Yes          || No                ||
+|| PowerPC      || Linux           || powerpc-unknown-linux   || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| PowerPC      || MacOS X         || powerpc-apple-darwin    || Yes          || Yes  || Yes                   || Yes          || Yes               ||
+|| PowerPC64    || Linux           || powerpc64-unknown-linux || Yes          ||      || No                    || Yes          || No                ||
+|| Sparc        || Solaris         || sparc-sun-solaris2      || Yes          || Yes  || No(*1)                || Yes          || No                ||
+|| Sparc        || Linux           || sparc-unknown-linux     || Yes          || Yes  || No(*1)                || Yes          || No                ||
+|| x86-64       || Linux           || x86_64-unknown-linux    || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| x86-64       || OpenBSD         || x86_64-unknown-openbsd  || Yes          || Yes  || Yes                   || Yes          || No                ||
+|| Mips64       || Irix            || mips-unknown-linux      || No           || No   || No                    || No           || No                ||
+|| IA-64        || Linux           || ia64-unknown-linux      || Yes          || Yes  || No                    || Yes          || No                ||
+|| Alpha        || Linux           || alpha-unknown-linux     || No           || No   || No                    || Yes          || No                ||
+|| HPPA         || Linux           || hppa-unknown-linux      || No           || No   || No                    || No           || No                ||
+|| S/390        || Linux           || s390-ibm-linux          || No           || No   || No                    || No           || No                ||
+|| m68k         || Linux           || m68k-unknown-linux      || No           || No   || No                    || No           || No                ||
 
 '''*1''' Sparc NCG bitrotted, but still in the tree[[BR]]
 '''*2''' Win32 DLL support bitrotted[[BR]]
+
+== Platforms that worked in the past ==
+
+|| '''Architecture''' || '''OS''' || '''Build name''' || '''Registerised''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' ||
+|| x86          || Windows (Cygwin) || i386-unknown-cygwin32 || Yes          || No  || Yes                   || Yes          || No(*2)            ||
+|| x86          || Solaris          || i386-unknown-solaris2 || Yes          || No  || Yes                   || Yes          || No            ||
+|| Alpha        || Dec OSF          || alpha-dec-osf3        || No           || No  || No                    || Yes          || No               ||
