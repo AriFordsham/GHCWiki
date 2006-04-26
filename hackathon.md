@@ -49,3 +49,5 @@ Poll(How long would you prefer?; One day; Two days; Three days)?
 
 
 Add your suggestions for the hackathon below...
+
+- Hack to allow RTS to integrate with an external event loop (eg to give us ideal threading when using Gtk+)
