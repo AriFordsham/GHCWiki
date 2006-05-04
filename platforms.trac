@@ -61,3 +61,8 @@ various platforms.  Definitions:
 || x86          || Windows (Cygwin) || i386-unknown-cygwin32 || Yes          || No  || Yes                   || Yes          || No(*2)            ||
 || x86          || Solaris          || i386-unknown-solaris2 || Yes          || No  || Yes                   || Yes          || No            ||
 || Alpha        || Dec OSF          || alpha-dec-osf3        || No           || No  || No                    || Yes          || No               ||
+
+== Platforms currently being ported ==
+
+|| '''Architecture''' || '''OS'''      || '''Build name'''      || '''Registerised''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' || '''WikiPage''' ||
+|| ARM                || Maemo (Linux) || arm-unknown-linux-gnu || No                 || No         || No        || No                 || No                      || ArmLinuxGhc    ||
