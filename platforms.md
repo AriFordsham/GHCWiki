@@ -278,3 +278,24 @@ various platforms.  Definitions:
 <th> Yes          </th>
 <th> No               
 </th></tr></table>
+
+## Platforms currently being ported
+
+<table><tr><th>**Architecture**</th>
+<th>**OS**</th>
+<th>**Build name**</th>
+<th>**Registerised**</th>
+<th>**GHCi**</th>
+<th>**NCG**</th>
+<th>**f.i. wrapper**</th>
+<th>**Dynamic libraries**</th>
+<th>**WikiPage**</th></tr>
+<tr><th> ARM                </th>
+<th> Maemo (Linux) </th>
+<th> arm-unknown-linux-gnu </th>
+<th> No                 </th>
+<th> No         </th>
+<th> No        </th>
+<th> No                 </th>
+<th> No                      </th>
+<th>[ArmLinuxGhc](arm-linux-ghc)</th></tr></table>
