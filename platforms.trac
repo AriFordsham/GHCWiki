@@ -39,7 +39,7 @@ various platforms.  Definitions:
 || PowerPC      || AIX             || powerpc-ibm-aix         || Yes          ||      || Yes                   || Yes          || No                ||
 || PowerPC      || Linux           || powerpc-unknown-linux   || Yes          || Yes  || Yes                   || Yes          || No                ||
 || PowerPC      || MacOS X         || powerpc-apple-darwin    || Yes          || Yes  || Yes                   || Yes          || Yes               ||
-|| PowerPC64    || Linux           || powerpc64-unknown-linux || Yes          ||      || No                    || Yes          || No                ||
+|| PowerPC64    || Linux           || powerpc64-unknown-linux || Yes          || No   || No                    || Yes          || No                ||
 || Sparc        || Solaris         || sparc-sun-solaris2      || Yes          || Yes  || No(*1)                || Yes          || No                ||
 || Sparc        || Linux           || sparc-unknown-linux     || Yes          || Yes  || No(*1)                || Yes          || No                ||
 || Sparc        || OpenBSD         || sparc-unknown-openbsd   || Yes          || Yes  || No(*1)                || Yes          || No                ||
