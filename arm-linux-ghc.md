@@ -71,7 +71,11 @@ hard coded to the current location.
 
 
 (1) unroll the ghc source tarball into a new directory.
+
+
 (2) ./configure --srcdir=. --with-ghc=/abs/path/to/ghc-inplace
+
+
 (3) create a mk/build.mk with these two lines:
 
 ```wiki
@@ -81,6 +85,8 @@ GhcWithNativeCodeGen = NO
 
 
 (4) make
+
+
 (5) make install
 
 
@@ -99,6 +105,8 @@ code will be broken.
 
 
 (2) untar it in the ghc-6.4.2/ghc directory.
+
+
 (3) edit mk/test.mk and change the -e config.time_prog line to:
 
 ```wiki
@@ -107,8 +115,14 @@ code will be broken.
 
 
 (4) cd to test/ghc-regress
+
+
 (5) make TEST_HC=ghc fast 
+
+
 or
+
+
 (5) make TEST_HC=ghc \# for a longer test
 
 
