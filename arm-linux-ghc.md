@@ -104,7 +104,7 @@ code will be broken.
 [ http://haskell.org/ghc/dist/ghc-testsuite-6.4.2.tar.gz](http://haskell.org/ghc/dist/ghc-testsuite-6.4.2.tar.gz)
 
 
-(2) untar it in the ghc-6.4.2/ghc directory.
+(2) untar it in the ghc-6.4.2 directory.
 
 
 (3) edit mk/test.mk and change the -e config.time_prog line to:
@@ -112,6 +112,10 @@ code will be broken.
 ```wiki
         -e config.timeout_prog=\"\" \
 ```
+
+
+I had to do this because the timeout program interacted badly with
+the scratchbox shell causing all the tests to timeout and fail.
 
 
 (4) cd to test/ghc-regress
@@ -124,7 +128,3 @@ or
 
 
 (5) make TEST_HC=ghc \# for a longer test
-
-
-I had to do this because the timeout program interacted badly with
-the scratchbox shell causing all the tests to timeout and fail.
