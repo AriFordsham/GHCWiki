@@ -19,7 +19,7 @@ The tradeoff is in the fact that every Haskell binary has the RTS compiled into 
 ## The Scheduler
 
 
-Most of the interesting things related to scheduling and multithreading in Haskell centers around the function “schedule” that is define in Schedule.c
+Most of the interesting things related to scheduling and multithreading in Haskell center around the function schedule() that is define in Schedule.c. This is the part of schedule that take a thread from the run and decides what to do with it. 
 
 ```wiki
 static Capability * schedule (Capability *initialCapability, Task *task)
@@ -57,10 +57,16 @@ In schedule is a pretty classical schedule loop. I have stripped several parts o
 ```
 
 
-The scheduler picks up a thread off the run queand decides what to do with it. If it is runnable, then it called StgRun to run it. It then later examines the “ret” value that is set to see why the the thread stopped. 
+The scheduler picks up a thread off the run queand decides what to do with it. If it is runnable, then it calles the function StgRun() to run it. At the end of the code block, the variable “ret” is set to indicate why the the thread stopped. 
 
 
-Haskell threads are not time sliced via timer in the way that OS threads are. \[cross check is there is some time sliced mechanism\] Instead they are interreupted by certain commonly occuring events. Due to the lazy nature of Haskell thunks need to be created and values need to be computed very often. Hence the execution of a thread entails lots of of memory allocation. Whenever a thread has run out of space in its current block, it returns control back to the scheduler. 
+Haskell threads are not time-sliced via a timer (potentially a time rinterrupt) the way OS threads are \[cross check if there is some time sliced mechanism\]. Instead they are interreupted by certain commonly occuring events. Due to the lazy nature of Haskell thunks need to be created and values need to be computed very often. Hence the execution of a thread entails lots of of memory allocation. One of the ways the execution of a thread is interrupted is when a thread has run out of space in its current block - it then returns control back to the scheduler. 
+
+
+A GHC block is a 4k page that is page aligned for the OS VM system.  
+
+
+Here is what the scheduler does with the "ret" - 
 
 ```wiki
     switch (ret) {
@@ -94,7 +100,7 @@ Haskell threads are not time sliced via timer in the way that OS threads are. \[
 ```
 
 
-The scheduleHandleHeapOverflow(cap,t) call decides to give the thread another block, (or a set of blocks if the thread was asking for allocation of a large object – an object that is larger than a block). If however the scheduleHandleHeapOverflow() function feels that there is not enough free block left, then it decides to Garbage Collect.
+The scheduleHandleHeapOverflow(cap,t) call decides to give the thread another block, (or a set of blocks if the thread was asking for allocation of a large object (a large object is one that is larger than a block). If the scheduleHandleHeapOverflow() function feels that there aren't enough free blocks left, it decides to Garbage Collect. This is the point at which everything else stops and the GC kicks in. 
 
 ## Stepping into the GC
 
@@ -105,6 +111,41 @@ The part that we are interested in is the Garbage Collector. The main entry poin
 The existing GC in GHC is a single threaded one. When the RTS detects memory pressure the GC stops all the Haskell threads and then one thread that does the garbage collection and then resumes all the other suspended threads. On a multiprocessor machine such a design is obviously a bottle neck and it is desirable to garbage collect using multiple parallel threads. 
 
 ## GC Data Structures
+
+### Blocks and MegaBlocks
+
+
+The GC allocates memory from the OS in 1 Mb sized chunks, called mega blocks, which it then divides into pages and manages itself. Each 4k page is called a block and is associated with a block descripter (the abbrevaition BD is used a lot). The BDs for all the blocks on the are stroed at the start of the mega block. 
+
+
+The BD keeps information about a block. This the BD defintion from blocks.h in the RTS.
+
+```wiki
+typedef struct bdescr_ {
+  StgPtr start;			/* start addr of memory */
+  StgPtr free;			/* first free byte of memory */
+  struct bdescr_ *link;		/* used for chaining blocks together */
+  union { 
+      struct bdescr_ *back;	/* used (occasionally) for doubly-linked lists*/
+      StgWord *bitmap;
+  } u;
+  unsigned int gen_no;		/* generation */
+  struct step_ *step;		/* step */
+  StgWord32 blocks;		/* no. of blocks (if grp head, 0 otherwise) */
+  StgWord32 flags;              /* block is in to-space */
+#if SIZEOF_VOID_P == 8
+  StgWord32 _padding[2];
+#else
+  StgWord32 _padding[0];
+#endif
+} bdescr;
+```
+
+
+Most of the fields ina BD are self explanatory. Let me add a few quick decriptions however. Each bdescr or BD maintains its start address and a "free" pointer used to indicate the next free location in the block. Each block also knows about what generation it belongs to and has a pointer to the step it belongs to (more about generations and steps later). 
+
+
+If a large object is allocated and a block is a part of a large object, then the first block is has a count of the number of blocks that are part of the object. The link list of blocks making up the object is maintained by the link pointer. \[This may not be entirely correct - I will come back to this later\].
 
 ## Scavenging
 
