@@ -32,3 +32,7 @@ Watch out for what files you edit. There are some files in the build process are
 This is a classical magic problem. I got GHC to build on my desktop but it would not my laptop. As a matter of fact when I type in “autoreconf” the machine freezes up after about 30 seconds. Very puzzling. 
 
 This behavior would often end with power cycling the laptop and was rather frustrating for a while. After studying the process with procexp, filemon and some standard monitoring tools it seemed like the “Logitech LVPrcSrv module” related to my Logitech webcam seems to hog the CPU. Since I wasn’t using the webcam, I killed the process and the build went through fine. At this point I can’t guess at what the relationship is or why there should be one. 
+
+
+Roshan James (rpjames [at] cs [dot] indiana [dot] edu)
+
