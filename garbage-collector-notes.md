@@ -76,7 +76,7 @@ The existing GC in GHC is a single threaded one. When the RTS detects memory pre
 
 ## GC Data Structures
 
-### Blocks and MegaBlocks
+### Blocks and Mega Blocks
 
 
 The GC allocates memory from the OS in 1 Mb sized chunks, called mega blocks, which it then divides into pages and manages itself. Each 4k page is called a block and is associated with a block descripter (the abbrevaition BD is used a lot). The BDs for all the blocks on the are stroed at the start of the mega block. 
