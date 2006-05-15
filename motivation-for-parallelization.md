@@ -121,9 +121,5 @@ Plots of real/fem (with fem.stdin)
 
 fem did not do any G1 collections.
 
----
-
 
 Roshan James (rpjames \[at\] cs \[dot\] indiana \[dot\] edu)
-
----
