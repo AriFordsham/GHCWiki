@@ -230,7 +230,7 @@ Plots of real/fem (with fem.stdin)
 [ http://www.cs.indiana.edu/\~rpjames/HaskellGC/plot-fem-g0-time-live_objs.png](http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fem-g0-time-live_objs.png)
 
 
-fem did not do an G1 collections.
+fem did not do any G1 collections.
 
 ## Compiling GHC
 
