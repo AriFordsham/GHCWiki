@@ -114,9 +114,11 @@ If a large object is allocated and a block is a part of a large object, then the
 
 # [MotivationForParallelization](motivation-for-parallelization)
 
-## ProblemsCompilingGHC
+# [ProblemsCompilingGhc](problems-compiling-ghc)
 
 ---
 
 
 Roshan James (rpjames \[at\] cs \[dot\] indiana \[dot\] edu)
+
+---
