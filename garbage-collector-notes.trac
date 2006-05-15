@@ -193,17 +193,17 @@ recVal (x:xs) = treeVal x xs
 
 Here are some plots:
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-memtest-g0-#-block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-memtest-g0-time-block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-memtest-g0-#-avg_block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-memtest-g0-time-avg_block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-memtest-g0-#-live_objs.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-memtest-g0-time-live_objs.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-memtest-g1-#-block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-memtest-g1-time-block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-memtest-g1-#-avg_block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-memtest-g1-time-avg_block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-memtest-g1-#-live_objs.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-memtest-g1-time-live_objs.png
 
 
 Here is how to interpret the graphs. The label ‘#’ on an axis indicates that it is time where each tick is a garbage collection. The label ‘live_objs’ indicates the total number of live objects encountered during this collection. This is not the total number of live objects in the system but only those in the generations currently collected. The value ‘block_dist’ indicates the maximum block distance encountered during a collection. 
@@ -214,39 +214,39 @@ Here are similar plots of some programs in the nofib test suite that is availabl
 
 Plots of real/fulsom (with input 8)
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fulsom-g0-#-block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fulsom-g0-time-block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fulsom-g0-#-avg_block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fulsom-g0-time-avg_block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fulsom-g0-#-live_objs.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fulsom-g0-time-live_objs.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fulsom-g1-#-block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fulsom-g1-time-block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fulsom-g1-#-avg_block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fulsom-g1-time-avg_block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fulsom-g1-#-live_objs.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fulsom-g1-time-live_objs.png
 
 Plots of real/pic (with input 20000)
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-pic-g0-#-block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-pic-g0-time-block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-pic-g0-#-avg_block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-pic-g0-time-avg_block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-pic-g0-#-live_objs.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-pic-g0-time-live_objs.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-pic-g1-#-block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-pic-g1-time-block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-pic-g1-#-avg_block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-pic-g1-time-avg_block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-pic-g1-#-live_objs.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-pic-g1-time-live_objs.png
 
 Plots of real/fem (with fem.stdin)
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fem-g0-#-block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fem-g0-time-block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fem-g0-#-avg_block_dist.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fem-g0-time-avg_block_dist.png
 
-http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fem-g0-#-live_objs.png
+http://www.cs.indiana.edu/~rpjames/HaskellGC/plot-fem-g0-time-live_objs.png
 
 fem did not do an G1 collections.
 
