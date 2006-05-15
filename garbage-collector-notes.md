@@ -23,37 +23,22 @@ Most of the interesting things related to scheduling and multithreading in Haske
 
 ```wiki
 static Capability * schedule (Capability *initialCapability, Task *task)
+```
 
-In schedule is a pretty classical schedule loop. I have stripped several parts of the code here to get down to the essentials.
 
+In schedule() is a pretty classical scheduler loop. I have stripped away several parts of the code here to get down to the essentials.
+
+```
     t = popRunQueue(cap);
-    prev_what_next = t->what_next;
-
-    switch (prev_what_next) {
-	
-    case ThreadKilled:
-    case ThreadComplete:
-	/* Thread already finished, return to scheduler. */
-	ret = ThreadFinished;
-	break;
-	
-    case ThreadRunGHC:
-    {
-	StgRegTable *r;
-	r = StgRun((StgFunPtr) stg_returnToStackTop, &cap->r);
-	cap = regTableToCapability(r);
-	ret = r->rRet;
-	break;
-    }
-    
-    case ThreadInterpret:
-	cap = interpretBCO(cap);
-	ret = cap->r.rRet;
-	break;
-	
-    default:
-	barf("schedule: invalid what_next field");
-    }
+    prev_what_next = t->what_next;switch(prev_what_next){caseThreadKilled:caseThreadComplete:/* Thread already finished, return to scheduler. */
+        ret = ThreadFinished;break;caseThreadRunGHC:{
+        StgRegTable *r;
+        r = StgRun((StgFunPtr) stg_returnToStackTop,&cap->r);
+        cap = regTableToCapability(r);
+        ret = r->rRet;break;}caseThreadInterpret:
+        cap = interpretBCO(cap);
+        ret = cap->r.rRet;break;default:
+        barf("schedule: invalid what_next field");}
 ```
 
 
@@ -68,35 +53,14 @@ A GHC block is a 4k page that is page aligned for the OS VM system.
 
 Here is what the scheduler does with the "ret" - 
 
-```wiki
-    switch (ret) {
-    case HeapOverflow:
-	ready_to_gc = scheduleHandleHeapOverflow(cap,t);
-	break;
-
-    case StackOverflow:
-	scheduleHandleStackOverflow(cap,task,t);
-	break;
-
-    case ThreadYielding:
-	if (scheduleHandleYield(cap, t, prev_what_next)) {
-            // shortcut for switching between compiler/interpreter:
-	    goto run_thread; 
-	}
-	break;
-
-    case ThreadBlocked:
-	scheduleHandleThreadBlocked(t);
-	break;
-
-    case ThreadFinished:
-	if (scheduleHandleThreadFinished(cap, task, t)) return cap;
-	ASSERT_FULL_CAPABILITY_INVARIANTS(cap,task);
-	break;
-
-    default:
-      barf("schedule: invalid thread return code %d", (int)ret);
-    }
+```
+switch(ret){caseHeapOverflow:
+        ready_to_gc = scheduleHandleHeapOverflow(cap,t);break;caseStackOverflow:
+        scheduleHandleStackOverflow(cap,task,t);break;caseThreadYielding:if(scheduleHandleYield(cap, t, prev_what_next)){// shortcut for switching between compiler/interpreter:
+goto run_thread;}break;caseThreadBlocked:
+        scheduleHandleThreadBlocked(t);break;caseThreadFinished:if(scheduleHandleThreadFinished(cap, task, t))return cap;
+        ASSERT_FULL_CAPABILITY_INVARIANTS(cap,task);break;default:
+      barf("schedule: invalid thread return code %d",(int)ret);}
 ```
 
 
@@ -120,24 +84,15 @@ The GC allocates memory from the OS in 1 Mb sized chunks, called mega blocks, wh
 
 The BD keeps information about a block. This the BD defintion from blocks.h in the RTS.
 
-```wiki
-typedef struct bdescr_ {
-  StgPtr start;			/* start addr of memory */
-  StgPtr free;			/* first free byte of memory */
-  struct bdescr_ *link;		/* used for chaining blocks together */
-  union { 
-      struct bdescr_ *back;	/* used (occasionally) for doubly-linked lists*/
-      StgWord *bitmap;
-  } u;
-  unsigned int gen_no;		/* generation */
-  struct step_ *step;		/* step */
-  StgWord32 blocks;		/* no. of blocks (if grp head, 0 otherwise) */
-  StgWord32 flags;              /* block is in to-space */
-#if SIZEOF_VOID_P == 8
-  StgWord32 _padding[2];
-#else
-  StgWord32 _padding[0];
-#endif
+```
+typedefstruct bdescr_ {
+  StgPtr start;/* start addr of memory */
+  StgPtr free;/* first free byte of memory */struct bdescr_ *link;/* used for chaining blocks together */union{struct bdescr_ *back;/* used (occasionally) for doubly-linked lists*/
+      StgWord *bitmap;} u;unsignedint gen_no;/* generation */struct step_ *step;/* step */
+  StgWord32 blocks;/* no. of blocks (if grp head, 0 otherwise) */
+  StgWord32 flags;/* block is in to-space */#if SIZEOF_VOID_P == 8
+  StgWord32 _padding[2];#else
+  StgWord32 _padding[0];#endif
 } bdescr;
 ```
 
@@ -146,6 +101,12 @@ Most of the fields ina BD are self explanatory. Let me add a few quick decriptio
 
 
 If a large object is allocated and a block is a part of a large object, then the first block is has a count of the number of blocks that are part of the object. The link list of blocks making up the object is maintained by the link pointer. \[This may not be entirely correct - I will come back to this later\].
+
+### Generations
+
+### Steps
+
+## Allocation
 
 ## Scavenging
 

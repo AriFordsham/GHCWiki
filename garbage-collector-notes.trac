@@ -16,9 +16,12 @@ Most of the interesting things related to scheduling and multithreading in Haske
 
 {{{
 static Capability * schedule (Capability *initialCapability, Task *task)
+}}}
 
-In schedule is a pretty classical schedule loop. I have stripped several parts of the code here to get down to the essentials.
+In schedule() is a pretty classical scheduler loop. I have stripped away several parts of the code here to get down to the essentials.
 
+{{{
+#!c
     t = popRunQueue(cap);
     prev_what_next = t->what_next;
 
@@ -58,6 +61,7 @@ A GHC block is a 4k page that is page aligned for the OS VM system.
 Here is what the scheduler does with the "ret" - 
 
 {{{
+#!c
     switch (ret) {
     case HeapOverflow:
 	ready_to_gc = scheduleHandleHeapOverflow(cap,t);
@@ -105,6 +109,7 @@ The GC allocates memory from the OS in 1 Mb sized chunks, called mega blocks, wh
 The BD keeps information about a block. This the BD defintion from blocks.h in the RTS.
 
 {{{
+#!c
 typedef struct bdescr_ {
   StgPtr start;			/* start addr of memory */
   StgPtr free;			/* first free byte of memory */
@@ -129,11 +134,11 @@ Most of the fields ina BD are self explanatory. Let me add a few quick decriptio
 
 If a large object is allocated and a block is a part of a large object, then the first block is has a count of the number of blocks that are part of the object. The link list of blocks making up the object is maintained by the link pointer. [This may not be entirely correct - I will come back to this later].
 
+=== Generations ===
 
+=== Steps ===
 
-
-
-
+== Allocation ==
 
 == Scavenging ==
 == Copy ==
