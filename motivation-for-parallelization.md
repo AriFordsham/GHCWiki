@@ -1,3 +1,6 @@
+
+Back to the [GarbageCollectorNotes](garbage-collector-notes)
+
 # Motivation For Parallelization
 
 

@@ -1,5 +1,6 @@
-= Motivation For Parallelization = 
+Back to the GarbageCollectorNotes
 
+= Motivation For Parallelization = 
 
 The essential idea is best described here:
 [refer to the flood paper]
