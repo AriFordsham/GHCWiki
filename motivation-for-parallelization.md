@@ -5,7 +5,7 @@ Back to the [GarbageCollectorNotes](garbage-collector-notes)
 
 
 The essential idea is best described here:
-\[refer to the flood paper\]
+[ Parallel Garbage Collection for Shared Memory Multiprocessors (2001)](http://citeseer.ist.psu.edu/flood01parallel.html)
 
 
 It is helpful to be aware of copy collection and mark-compact collection before you read the above paper. The Richard Jones and Raphael Lins text on Garbage Collection is a recommended resource. 
