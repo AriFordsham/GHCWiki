@@ -11,15 +11,15 @@ This section of the commentary documents the subtlest part of the module depende
 
 Compilation order is as follows:
 
-    * First comes a layer of modules that have few interdependencies, and which implement very basic data types:
-          ** Util
-          ** OccName
-          ** Pretty
-          ** Outputable
-          ** StringBuffer
-          ** ListSetOps
-          ** Maybes
-          ** etc 
+ * First comes a layer of modules that have few interdependencies, and which implement very basic data types:
+           * Util
+           * OccName
+           * Pretty
+           * Outputable
+           * StringBuffer
+           * ListSetOps
+           * Maybes
+           * etc 
 
     * Now comes the main subtle layer, involving types, classes, type constructors identifiers, expressions, rules, and their operations.
           ** Name

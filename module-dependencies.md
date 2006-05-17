@@ -17,116 +17,116 @@ Compilation order is as follows:
 
 - First comes a layer of modules that have few interdependencies, and which implement very basic data types:
 
-> > ** Util
-> > ** OccName
-> > ** Pretty
-> > ** Outputable
-> > ** StringBuffer
-> > ** ListSetOps
-> > ** Maybes
-> > ** etc 
+  - Util
+  - OccName
+  - Pretty
+  - Outputable
+  - StringBuffer
+  - ListSetOps
+  - Maybes
+  - etc 
 
 - Now comes the main subtle layer, involving types, classes, type constructors identifiers, expressions, rules, and their operations.
 
-> > ** Name
-> > **
-> >
+> > > ** Name
+> > > **
 > > >
-> > > PrimRep
+> > > >
+> > > > PrimRep
 
-> > ** PrelNames
-> > **
+> > > ** PrelNames
+> > > **
 
-> >
-> > o Var (Name, loop IdInfo.IdInfo, loop Type.Type, loop Type.Kind)
-
-> >
-> > o VarEnv, VarSet, ThinAir
-
-> >
-> > o Class (loop TyCon.TyCon, loop Type.Type)
-
-> >
-> > o TyCon (loop Type.Type, loop Type.Kind, loop DataCon.DataCon, loop Generics.GenInfo)
-
-> >
-> > o TypeRep (loop DataCon.DataCon, loop Subst.substTyWith)
-
-> >
-> > o Type (loop PprType.pprType, loop Subst.substTyWith)
-
-> >
-> > o FieldLabel(Type)
-> >
 > > >
-> > > TysPrim(Type)
+> > > o Var (Name, loop IdInfo.IdInfo, loop Type.Type, loop Type.Kind)
 
-> >
-> > o Literal (TysPrim, PprType)
-> >
 > > >
-> > > DataCon (loop PprType, loop Subst.substTyWith, FieldLabel.FieldLabel)
+> > > o VarEnv, VarSet, ThinAir
 
-> >
-> > o TysWiredIn (loop MkId.mkDataConIds)
-
-> >
-> > o TcType( lots of TysWiredIn stuff)
-
-> >
-> > o PprType( lots of TcType stuff )
-
-> >
-> > o PrimOp (PprType, TysWiredIn)
-
-> >
-> > o CoreSyn \[does not import Id\]
-
-> >
-> > o IdInfo (CoreSyn.Unfolding, CoreSyn.CoreRules)
-
-> >
-> > o Id (lots from IdInfo)
-
-> >
-> > o CoreFVs
-> >
 > > >
-> > > PprCore
+> > > o Class (loop TyCon.TyCon, loop Type.Type)
 
-> >
-> > o CoreUtils (PprCore.pprCoreExpr, CoreFVs.exprFreeVars, CoreSyn.isEvaldUnfolding CoreSyn.maybeUnfoldingTemplate)
-
-> >
-> > o CoreLint( CoreUtils )
-> >
 > > >
-> > > OccurAnal (CoreUtils.exprIsTrivial)
-> > > CoreTidy (CoreUtils.exprArity )
+> > > o TyCon (loop Type.Type, loop Type.Kind, loop DataCon.DataCon, loop Generics.GenInfo)
 
-> >
-> > o CoreUnfold (OccurAnal.occurAnalyseGlobalExpr)
-
-> >
-> > o Subst (CoreUnfold.Unfolding, CoreFVs)
-> >
 > > >
-> > > Generics (CoreUnfold.mkTopUnfolding)
-> > > Rules (CoreUnfold.Unfolding, PprCore.pprTidyIdRules)
+> > > o TypeRep (loop DataCon.DataCon, loop Subst.substTyWith)
 
-> >
-> > o MkId (CoreUnfold.mkUnfolding, Subst, Rules.addRule)
-
-> >
-> > o PrelInfo (MkId)
-> >
 > > >
-> > > HscTypes( Rules.RuleBase ) 
+> > > o Type (loop PprType.pprType, loop Subst.substTyWith)
+
+> > >
+> > > o FieldLabel(Type)
+> > >
+> > > >
+> > > > TysPrim(Type)
+
+> > >
+> > > o Literal (TysPrim, PprType)
+> > >
+> > > >
+> > > > DataCon (loop PprType, loop Subst.substTyWith, FieldLabel.FieldLabel)
+
+> > >
+> > > o TysWiredIn (loop MkId.mkDataConIds)
+
+> > >
+> > > o TcType( lots of TysWiredIn stuff)
+
+> > >
+> > > o PprType( lots of TcType stuff )
+
+> > >
+> > > o PrimOp (PprType, TysWiredIn)
+
+> > >
+> > > o CoreSyn \[does not import Id\]
+
+> > >
+> > > o IdInfo (CoreSyn.Unfolding, CoreSyn.CoreRules)
+
+> > >
+> > > o Id (lots from IdInfo)
+
+> > >
+> > > o CoreFVs
+> > >
+> > > >
+> > > > PprCore
+
+> > >
+> > > o CoreUtils (PprCore.pprCoreExpr, CoreFVs.exprFreeVars, CoreSyn.isEvaldUnfolding CoreSyn.maybeUnfoldingTemplate)
+
+> > >
+> > > o CoreLint( CoreUtils )
+> > >
+> > > >
+> > > > OccurAnal (CoreUtils.exprIsTrivial)
+> > > > CoreTidy (CoreUtils.exprArity )
+
+> > >
+> > > o CoreUnfold (OccurAnal.occurAnalyseGlobalExpr)
+
+> > >
+> > > o Subst (CoreUnfold.Unfolding, CoreFVs)
+> > >
+> > > >
+> > > > Generics (CoreUnfold.mkTopUnfolding)
+> > > > Rules (CoreUnfold.Unfolding, PprCore.pprTidyIdRules)
+
+> > >
+> > > o MkId (CoreUnfold.mkUnfolding, Subst, Rules.addRule)
+
+> > >
+> > > o PrelInfo (MkId)
+> > >
+> > > >
+> > > > HscTypes( Rules.RuleBase ) 
 
 - That is the end of the infrastructure. Now we get the main layer of mdoules that perform useful work.
 
-> >
-> > o CoreTidy (HscTypes.PersistentCompilerState) 
+> > >
+> > > o CoreTidy (HscTypes.PersistentCompilerState) 
 
 
 HsSyn stuff
