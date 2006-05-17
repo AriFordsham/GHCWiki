@@ -1,5 +1,7 @@
+# The Marvellous Module Structure of GHC
 
-=The Marvellous Module Structure of GHC= (possibly outdated, please fix anything that is wrong)
+
+(possibly outdated, please fix anything that is wrong)
 
 
 GHC is built out of about 245 Haskell modules. It can be quite tricky to figure out what the module dependency graph looks like. It can be important, too, because loops in the module dependency graph need to be broken carefully using .hi-boot interface files.
@@ -12,8 +14,7 @@ This section of the commentary documents the subtlest part of the module depende
 - Modules in the same bullet don't depend on each other.
 - Loops are documented by a dependency such as "loop Type.Type". This means tha the module imports Type.Type, but module Type has not yet been compiled, so the import comes from Type.hi-boot. 
 
-
-==Compilation order is as follows:==
+## Compilation order is as follows:
 
 - First comes a layer of modules that have few interdependencies, and which implement very basic data types:
 
@@ -57,8 +58,7 @@ This section of the commentary documents the subtlest part of the module depende
 
   - CoreTidy (HscTypes.PersistentCompilerState) 
 
-
-==HsSyn stuff==
+## HsSyn stuff
 
 - HsPat.hs-boot
 - HsExpr.hs-boot (loop HsPat.LPat)
@@ -67,8 +67,7 @@ This section of the commentary documents the subtlest part of the module depende
 - HsPat (HsBinds, HsLit) HsDecls (HsBinds)
 - HsExpr (HsDecls, HsPat) 
 
-
-==Library stuff: base package==
+## Library stuff: base package
 
 - GHC.Base
 - Data.Tuple (GHC.Base), GHC.Ptr (GHC.Base)
