@@ -1,25 +1,25 @@
-The Marvellous Module Structure of GHC
+The Marvellous Module Structure of GHC (possibly outdated, please fix anything that is wrong)
 
 GHC is built out of about 245 Haskell modules. It can be quite tricky to figure out what the module dependency graph looks like. It can be important, too, because loops in the module dependency graph need to be broken carefully using .hi-boot interface files.
 
 This section of the commentary documents the subtlest part of the module dependency graph, namely the part near the bottom.
 
-    * The list is given in compilation order: that is, module near the top are more primitive, and are compiled earlier.
-    * Each module is listed together with its most critical dependencies in parentheses; that is, the dependencies that prevent it being compiled earlier.
-    * Modules in the same bullet don't depend on each other.
-    * Loops are documented by a dependency such as "loop Type.Type". This means tha the module imports Type.Type, but module Type has not yet been compiled, so the import comes from Type.hi-boot. 
+ * The list is given in compilation order: that is, module near the top are more primitive, and are compiled earlier.
+ * Each module is listed together with its most critical dependencies in parentheses; that is, the dependencies that prevent it being compiled earlier.
+ * Modules in the same bullet don't depend on each other.
+ * Loops are documented by a dependency such as "loop Type.Type". This means tha the module imports Type.Type, but module Type has not yet been compiled, so the import comes from Type.hi-boot. 
 
 Compilation order is as follows:
 
  * First comes a layer of modules that have few interdependencies, and which implement very basic data types:
-           * Util
-           * OccName
-           * Pretty
-           * Outputable
-           * StringBuffer
-           * ListSetOps
-           * Maybes
-           * etc 
+   * Util
+   * OccName
+   * Pretty
+   * Outputable
+   * StringBuffer
+   * ListSetOps
+   * Maybes
+   * etc 
 
     * Now comes the main subtle layer, involving types, classes, type constructors identifiers, expressions, rules, and their operations.
           ** Name
