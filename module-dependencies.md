@@ -28,100 +28,94 @@ Compilation order is as follows:
 
 - Now comes the main subtle layer, involving types, classes, type constructors identifiers, expressions, rules, and their operations.
 
-> > > > ** Name
-> > > > **
-> > > >
-> > > > >
-> > > > > PrimRep
+  - Name
+    PrimRep
 
-> > > > ** PrelNames
-> > > > **
+- PrelNames
+  Var (Name, loop IdInfo.IdInfo, loop Type.Type, loop Type.Kind)
 
-> > > >
-> > > > o Var (Name, loop IdInfo.IdInfo, loop Type.Type, loop Type.Kind)
+> > >
+> > > o VarEnv, VarSet, ThinAir
 
-> > > >
-> > > > o VarEnv, VarSet, ThinAir
+> > >
+> > > o Class (loop TyCon.TyCon, loop Type.Type)
 
-> > > >
-> > > > o Class (loop TyCon.TyCon, loop Type.Type)
+> > >
+> > > o TyCon (loop Type.Type, loop Type.Kind, loop DataCon.DataCon, loop Generics.GenInfo)
 
-> > > >
-> > > > o TyCon (loop Type.Type, loop Type.Kind, loop DataCon.DataCon, loop Generics.GenInfo)
+> > >
+> > > o TypeRep (loop DataCon.DataCon, loop Subst.substTyWith)
 
-> > > >
-> > > > o TypeRep (loop DataCon.DataCon, loop Subst.substTyWith)
+> > >
+> > > o Type (loop PprType.pprType, loop Subst.substTyWith)
 
+> > >
+> > > o FieldLabel(Type)
+> > >
 > > > >
-> > > > o Type (loop PprType.pprType, loop Subst.substTyWith)
+> > > > TysPrim(Type)
 
+> > >
+> > > o Literal (TysPrim, PprType)
+> > >
 > > > >
-> > > > o FieldLabel(Type)
-> > > >
-> > > > >
-> > > > > TysPrim(Type)
+> > > > DataCon (loop PprType, loop Subst.substTyWith, FieldLabel.FieldLabel)
 
-> > > >
-> > > > o Literal (TysPrim, PprType)
-> > > >
-> > > > >
-> > > > > DataCon (loop PprType, loop Subst.substTyWith, FieldLabel.FieldLabel)
+> > >
+> > > o TysWiredIn (loop MkId.mkDataConIds)
 
-> > > >
-> > > > o TysWiredIn (loop MkId.mkDataConIds)
+> > >
+> > > o TcType( lots of TysWiredIn stuff)
 
-> > > >
-> > > > o TcType( lots of TysWiredIn stuff)
+> > >
+> > > o PprType( lots of TcType stuff )
 
-> > > >
-> > > > o PprType( lots of TcType stuff )
+> > >
+> > > o PrimOp (PprType, TysWiredIn)
 
-> > > >
-> > > > o PrimOp (PprType, TysWiredIn)
+> > >
+> > > o CoreSyn \[does not import Id\]
 
-> > > >
-> > > > o CoreSyn \[does not import Id\]
+> > >
+> > > o IdInfo (CoreSyn.Unfolding, CoreSyn.CoreRules)
 
-> > > >
-> > > > o IdInfo (CoreSyn.Unfolding, CoreSyn.CoreRules)
+> > >
+> > > o Id (lots from IdInfo)
 
+> > >
+> > > o CoreFVs
+> > >
 > > > >
-> > > > o Id (lots from IdInfo)
+> > > > PprCore
 
-> > > >
-> > > > o CoreFVs
-> > > >
-> > > > >
-> > > > > PprCore
+> > >
+> > > o CoreUtils (PprCore.pprCoreExpr, CoreFVs.exprFreeVars, CoreSyn.isEvaldUnfolding CoreSyn.maybeUnfoldingTemplate)
 
+> > >
+> > > o CoreLint( CoreUtils )
+> > >
 > > > >
-> > > > o CoreUtils (PprCore.pprCoreExpr, CoreFVs.exprFreeVars, CoreSyn.isEvaldUnfolding CoreSyn.maybeUnfoldingTemplate)
+> > > > OccurAnal (CoreUtils.exprIsTrivial)
+> > > > CoreTidy (CoreUtils.exprArity )
 
-> > > >
-> > > > o CoreLint( CoreUtils )
-> > > >
-> > > > >
-> > > > > OccurAnal (CoreUtils.exprIsTrivial)
-> > > > > CoreTidy (CoreUtils.exprArity )
+> > >
+> > > o CoreUnfold (OccurAnal.occurAnalyseGlobalExpr)
 
+> > >
+> > > o Subst (CoreUnfold.Unfolding, CoreFVs)
+> > >
 > > > >
-> > > > o CoreUnfold (OccurAnal.occurAnalyseGlobalExpr)
+> > > > Generics (CoreUnfold.mkTopUnfolding)
+> > > > Rules (CoreUnfold.Unfolding, PprCore.pprTidyIdRules)
 
-> > > >
-> > > > o Subst (CoreUnfold.Unfolding, CoreFVs)
-> > > >
-> > > > >
-> > > > > Generics (CoreUnfold.mkTopUnfolding)
-> > > > > Rules (CoreUnfold.Unfolding, PprCore.pprTidyIdRules)
+> > >
+> > > o MkId (CoreUnfold.mkUnfolding, Subst, Rules.addRule)
 
+> > >
+> > > o PrelInfo (MkId)
+> > >
 > > > >
-> > > > o MkId (CoreUnfold.mkUnfolding, Subst, Rules.addRule)
-
-> > > >
-> > > > o PrelInfo (MkId)
-> > > >
-> > > > >
-> > > > > HscTypes( Rules.RuleBase ) 
+> > > > HscTypes( Rules.RuleBase ) 
 
 - That is the end of the infrastructure. Now we get the main layer of mdoules that perform useful work.
 

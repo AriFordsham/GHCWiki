@@ -21,13 +21,12 @@ Compilation order is as follows:
    * Maybes
    * etc 
 
-    * Now comes the main subtle layer, involving types, classes, type constructors identifiers, expressions, rules, and their operations.
-          ** Name
-            PrimRep
+ * Now comes the main subtle layer, involving types, classes, type constructors identifiers, expressions, rules, and their operations.
+   * Name
+     PrimRep
 
-          ** PrelNames
-
-          o Var (Name, loop IdInfo.IdInfo, loop Type.Type, loop Type.Kind)
+   * PrelNames
+     Var (Name, loop IdInfo.IdInfo, loop Type.Type, loop Type.Kind)
 
           o VarEnv, VarSet, ThinAir
 
