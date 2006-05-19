@@ -53,3 +53,82 @@ goto run_thread;}break;caseThreadBlocked:
 
 
 The scheduleHandleHeapOverflow(cap,t) call decides to give the thread another block, (or a set of blocks if the thread was asking for allocation of a large object (a large object is one that is larger than a block). If the scheduleHandleHeapOverflow() function feels that there aren't enough free blocks left, it decides to Garbage Collect. This is the point at which everything else stops and the GC kicks in. 
+
+## More about Capabilities
+
+
+It is useful to understand capabilities well because it is closely tied to the maintenance of the program roots and multithreading in Haskell - all of which the GC has to be aware of. If however you are readin this the first time, you may want to skip this section and come back to it later. 
+
+
+Capabilities are defined in capability.h. The file OSThreads.h provide an platform neutral absraction for OS level threads used by Haskell. 
+
+```wiki
+struct Capability_ {
+    // State required by the STG virtual machine when running Haskell
+    // code.  During STG execution, the BaseReg register always points
+    // to the StgRegTable of the current Capability (&cap->r).
+    StgFunTable f;
+    StgRegTable r;
+
+    nat no;  // capability number.
+
+    // The Task currently holding this Capability.  This task has
+    // exclusive access to the contents of this Capability (apart from
+    // returning_tasks_hd/returning_tasks_tl).
+    // Locks required: cap->lock.
+    Task *running_task;
+
+    // true if this Capability is running Haskell code, used for
+    // catching unsafe call-ins.
+    rtsBool in_haskell;
+
+    // The run queue.  The Task owning this Capability has exclusive
+    // access to its run queue, so can wake up threads without
+    // taking a lock, and the common path through the scheduler is
+    // also lock-free.
+    StgTSO *run_queue_hd;
+    StgTSO *run_queue_tl;
+
+    // Tasks currently making safe foreign calls.  Doubly-linked.
+    // When returning, a task first acquires the Capability before
+    // removing itself from this list, so that the GC can find all
+    // the suspended TSOs easily.  Hence, when migrating a Task from
+    // the returning_tasks list, we must also migrate its entry from
+    // this list.
+    Task *suspended_ccalling_tasks;
+
+    // One mutable list per generation, so we don't need to take any
+    // locks when updating an old-generation thunk.  These
+    // mini-mut-lists are moved onto the respective gen->mut_list at
+    // each GC.
+    bdescr **mut_lists;
+
+#if defined(THREADED_RTS)
+    // Worker Tasks waiting in the wings.  Singly-linked.
+    Task *spare_workers;
+
+    // This lock protects running_task, returning_tasks_{hd,tl}, wakeup_queue.
+    Mutex lock;
+
+    // Tasks waiting to return from a foreign call, or waiting to make
+    // a new call-in using this Capability (NULL if empty).
+    // NB. this field needs to be modified by tasks other than the
+    // running_task, so it requires cap->lock to modify.  A task can
+    // check whether it is NULL without taking the lock, however.
+    Task *returning_tasks_hd; // Singly-linked, with head/tail
+    Task *returning_tasks_tl;
+
+    // A list of threads to append to this Capability's run queue at
+    // the earliest opportunity.  These are threads that have been
+    // woken up by another Capability.
+    StgTSO *wakeup_queue_hd;
+    StgTSO *wakeup_queue_tl;
+#endif
+
+    // Per-capability STM-related data
+    StgTVarWaitQueue *free_tvar_wait_queues;
+    StgTRecChunk *free_trec_chunks;
+    StgTRecHeader *free_trec_headers;
+    nat transaction_tokens;
+}; // typedef Capability, defined in RtsAPI.h
+```
