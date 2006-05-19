@@ -37,22 +37,22 @@ This section of the commentary documents the subtlest part of the module depende
   - TyCon (loop Type.Type, loop DataCon.DataCon, loop Generics.GenInfo)
   - TypeRep (loop DataCon.DataCon, loop Subst.substTyWith)
   - Type (loop PprType.pprType, loop Subst.substTyWith)
-  - FieldLabel(Type), TysPrim(Type)
+  - FieldLabel (Type), TysPrim (Type)
   - Literal (TysPrim, PprType), DataCon (loop PprType, loop Subst.substTyWith, FieldLabel.FieldLabel)
   - TysWiredIn (loop MkId.mkDataConIds)
-  - TcType( lots of TysWiredIn stuff)
-  - PprType( lots of TcType stuff )
+  - TcType ( lots of TysWiredIn stuff)
+  - PprType ( lots of TcType stuff )
   - PrimOp (PprType, TysWiredIn)
   - CoreSyn \[does not import Id\]
   - IdInfo (CoreSyn.Unfolding, CoreSyn.CoreRules)
   - Id (lots from IdInfo)
   - !CoreFVs, PprCore
   - CoreUtils (PprCore.pprCoreExpr, !CoreFVs.exprFreeVars, CoreSyn.isEvaldUnfolding CoreSyn.maybeUnfoldingTemplate)
-  - CoreLint( CoreUtils ), OccurAnal (CoreUtils.exprIsTrivial), CoreTidy (CoreUtils.exprArity )
+  - CoreLint ( CoreUtils ), OccurAnal (CoreUtils.exprIsTrivial), CoreTidy (CoreUtils.exprArity )
   - CoreUnfold (OccurAnal.occurAnalyseGlobalExpr)
   - Subst (CoreUnfold.Unfolding, !CoreFVs), Generics (CoreUnfold.mkTopUnfolding), Rules (CoreUnfold.Unfolding, PprCore.pprTidyIdRules)
   - MkId (CoreUnfold.mkUnfolding, Subst, Rules.addRule)
-  - PrelInfo (MkId), HscTypes( Rules.RuleBase ) 
+  - PrelInfo (MkId), HscTypes ( Rules.RuleBase ) 
 
 - That is the end of the infrastructure. Now we get the main layer of mdoules that perform useful work.
 
