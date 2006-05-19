@@ -197,6 +197,11 @@ typedef struct step_ {
 
 These definitions maybe found in rts\\storage.h. 
 
+
+Here is a little digram of the data structure formed by the generations and steps. The global variable 'generations' is a an array of pointers to generations. Each generation has 'steps' as a pointer array to its steps. 
+
+[ http://www.cs.indiana.edu/\~rpjames/HaskellGC/ds/blocks-steps.jpg](http://www.cs.indiana.edu/~rpjames/HaskellGC/ds/blocks-steps.jpg)
+
 ## Allocation
 
 ## Scavenging
