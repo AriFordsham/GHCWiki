@@ -163,3 +163,54 @@ struct Capability_ {
 }; // typedef Capability, defined in RtsAPI.h
 }}}
 
+
+  Question - if a capability can consist of multiple OS threads then in THREADED_RTS, where is the list of current threads in execution? 
+
+Here are some important observations about a capability: it consists of essentially a collection of OS threads, a register set and a set of TSOs. The resister set is the member of type 'r'. Real hardware may or may not provide mappings of these to actual registers. [Anything else to add here?].
+
+TSO stands for Thread State Object and is the abstract for a haskell thread from the perspective of the RTS. TSO's are defined in TSO.h. 
+
+{{{
+typedef struct StgTSO_ {
+    StgHeader               header;
+
+    struct StgTSO_*         link;       /* Links threads onto blocking queues */
+    struct StgTSO_*         global_link;    /* Links all threads together */
+    
+    StgWord16               what_next;      /* Values defined in Constants.h */
+    StgWord16               why_blocked;    /* Values defined in Constants.h */
+    StgWord32               flags;
+    StgTSOBlockInfo         block_info;
+    struct StgTSO_*         blocked_exceptions;
+    StgThreadID             id;
+    int                     saved_errno;
+    struct Task_*           bound;
+    struct Capability_*     cap;
+    struct StgTRecHeader_ * trec;       /* STM transaction record */
+
+#ifdef TICKY_TICKY
+    /* TICKY-specific stuff would go here. */
+#endif
+#ifdef PROFILING
+    StgTSOProfInfo prof;
+#endif
+#ifdef PAR
+    StgTSOParInfo par;
+#endif
+#ifdef GRAN
+    StgTSOGranInfo gran;
+#endif
+#ifdef DIST
+    StgTSODistInfo dist;
+#endif
+
+    /* The thread stack... */
+    StgWord32	       stack_size;     /* stack size in *words* */
+    StgWord32          max_stack_size; /* maximum stack size in *words* */
+    StgPtr             sp;
+    
+    StgWord            stack[FLEXIBLE_ARRAY];
+} StgTSO;
+}}}
+
+
