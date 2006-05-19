@@ -30,9 +30,7 @@ The existing GC in GHC is a single threaded one. When the RTS detects memory pre
 
 ## Allocation
 
-## Scavenging
-
-## Copy
+## [SingleThreadedCollection](single-threaded-collection)
 
 # [MotivationForParallelization](motivation-for-parallelization)
 
