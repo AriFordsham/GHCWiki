@@ -48,6 +48,11 @@ The scheduler picks up a thread off the run queand decides what to do with it. I
 Haskell threads are not time-sliced via a timer (potentially a time rinterrupt) the way OS threads are \[cross check if there is some time sliced mechanism\]. Instead they are interreupted by certain commonly occuring events. Due to the lazy nature of Haskell thunks need to be created and values need to be computed very often. Hence the execution of a thread entails lots of of memory allocation. One of the ways the execution of a thread is interrupted is when a thread has run out of space in its current block - it then returns control back to the scheduler. 
 
 
+I stand corrected about the above - *We do have a time-slice mechanism: the timer interrupt (see Timer.c) sets the context_switch flag, which causes the running thread to return to the scheduler the next time a heap check fails (at the end of the current nursery block).
+ 
+When a heap check fails, the thread doesn't necessarily always return to the scheduler: as long as the context_switch flag isn't set, and there is another block in the nursery, it resets Hp and HpLim to point to the new block, and continues.*
+
+
 A GHC block is a 4k page that is page aligned for the OS VM system.  
 
 
@@ -104,7 +109,95 @@ If a large object is allocated and a block is a part of a large object, then the
 
 ### Generations
 
+
+The GHC GC is a generational collector. The number of generations is set to 2 by default and they are referred to as gen 0 and gen 1. gen 0 has never objects, objects that survive collections in gen 0 are promoted to gen 1. Older objects reside in gen 1. 
+
+#### Command Line Switches
+
+
+The number of generations in an exceution of a compiled haskell program can be changed by by using the command line switch -G\<n\>, where n is the number of generations. This is an RTS switch and so has to be used as follows - 
+
+```wiki
+main.exe +RTS -G5 -RTS 
+```
+
+
+Where main.exe is the compiled program and we want it to have 5 generations. More about the RTS switches can be found here 
+[Runtime Control](http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime-control.html).
+
+
+On the topic of command line switches, for a compiler hacker this is also interesting - 
+[Debugging the compiler](http://www.haskell.org/ghc/docs/latest/html/users_guide/options-debugging.html)
+
 ### Steps
+
+
+GHC generations are divided into steps. The number of steps per generations is a configurable value as well. The last generation, the oldest one has only one step. By default GHC compiled programs have 2 steps per generation. Since GHC usually has only 2 generations, it has 2 steps in gen 0 and 1 step in gen 1. Steps of a generation are referred to by their index number starting from 0. 
+
+
+Garbage collection happens at the level of generations. So when you say that you are collecting gen 0, you are essentially collecting all the steps in gen 0. If you are collecting gen 4, then you are collecting all the steps in gen 0 to gen 4. Objects that survive a collection are promoted into the next higher step, or into the next higher generation if the onject is already in the highest step of its generation. 
+
+
+The reasoning behing having steps is approximately this - if there were no steps and a surviving a gen0 collection meant automativ promotion to gen1, then it means that at the time when gen0 happened several very new objects (which are potentially shortlived as well) get promoted to gen1. gen1 collections are expensive since higher generations are larger and hence these objects will reside in memory a long time before they get collected. On the other had if gen0 were divided into two steps then a gen0step0 object hops to gen0setp1 on its first survival and needs to survive yet another GC before it is promoted to gen1. \[This I think is a very neat idea. My current understanding is that the .Net GC does have steps. Is this correct?\]
+
+
+That said, lets look at the data structures. This is what a generation looks like - 
+
+```wiki
+typedef struct generation_ {
+  unsigned int   no;			/* generation number */
+  step *         steps;			/* steps */
+  unsigned int   n_steps;		/* number of steps */
+  unsigned int   max_blocks;		/* max blocks in step 0 */
+  bdescr        *mut_list;      	/* mut objects in this gen (not G0)*/
+
+  /* temporary use during GC: */
+  bdescr        *saved_mut_list;
+
+  /* stats information */
+  unsigned int collections;
+  unsigned int failed_promotions;
+} generation;
+```
+
+
+This is what a step looks like - 
+
+```wiki
+typedef struct step_ {
+  unsigned int         no;		/* step number */
+  bdescr *             blocks;		/* blocks in this step */
+  unsigned int         n_blocks;	/* number of blocks */
+  struct step_ *       to;		/* destination step for live objects */
+  struct generation_ * gen;		/* generation this step belongs to */
+  unsigned int         gen_no;          /* generation number (cached) */
+  bdescr *             large_objects;	/* large objects (doubly linked) */
+  unsigned int         n_large_blocks;  /* no. of blocks used by large objs */
+  int                  is_compacted;	/* compact this step? (old gen only) */
+
+  /* During GC, if we are collecting this step, blocks and n_blocks
+   * are copied into the following two fields.  After GC, these blocks
+   * are freed. */
+  bdescr *     old_blocks;	        /* bdescr of first from-space block */
+  unsigned int n_old_blocks;		/* number of blocks in from-space */
+
+  /* temporary use during GC: */
+  StgPtr       hp;			/* next free locn in to-space */
+  StgPtr       hpLim;			/* end of current to-space block */
+  bdescr *     hp_bd;			/* bdescr of current to-space block */
+  StgPtr       scavd_hp;		/* ... same as above, but already */
+  StgPtr       scavd_hpLim;		/*     scavenged.  */
+  bdescr *     scan_bd;			/* block currently being scanned */
+  StgPtr       scan;			/* scan pointer in current block */
+  bdescr *     new_large_objects;    	/* large objects collected so far */
+  bdescr *     scavenged_large_objects; /* live large objs after GC (d-link) */
+  unsigned int n_scavenged_large_blocks;/* size of above */
+  bdescr *     bitmap;  		/* bitmap for compacting collection */
+} step;
+```
+
+
+These definitions maybe found in rts\\storage.h. 
 
 ## Allocation
 
