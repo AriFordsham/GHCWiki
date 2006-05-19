@@ -139,6 +139,8 @@ struct Capability_ {
 
 Here are some important observations about a capability: it consists of essentially a collection of OS threads, a register set and a set of TSOs. The resister set is the member of type 'r'. Real hardware may or may not provide mappings of these to actual registers. \[Anything else to add here?\].
 
+## TSO
+
 
 TSO stands for Thread State Object and is the abstract for a haskell thread from the perspective of the RTS. TSO's are defined in TSO.h. 
 
@@ -184,3 +186,15 @@ typedef struct StgTSO_ {
     StgWord            stack[FLEXIBLE_ARRAY];
 } StgTSO;
 ```
+
+
+Probabky the single most important part of a TSo from the perspectice of the GC is the stack that it contains. This stack is essentially the 'roots of the program'.
+
+## Terminology
+
+
+This is a good point to introduce some terminology related to the above - 
+
+- task - is essentially an OS thread executing a forgein function call. The haskell thread that needed to execute the FFI call is attached to this thread for the entire duration of the forgein call. \[is there something more that I can say here?\]
+
+- 
