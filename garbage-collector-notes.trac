@@ -13,6 +13,8 @@ The tradeoff is in the fact that every Haskell binary has the RTS compiled into 
 
 == CapabilitiesAndScheduling == 
 
+== StgObjectTypes ==
+
 == Stepping into the GC ==
 The part that we are interested in is the Garbage Collector. The main entry point into the GC is the GarbageCollect() function  defined in GC.c.
 
@@ -21,6 +23,7 @@ The existing GC in GHC is a single threaded one. When the RTS detects memory pre
 == GcDataStructures == 
 
 == Allocation ==
+
 
 == SingleThreadedCollection ==
 
