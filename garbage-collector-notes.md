@@ -47,10 +47,8 @@ The scheduler picks up a thread off the run queand decides what to do with it. I
 
 Haskell threads are not time-sliced via a timer (potentially a time rinterrupt) the way OS threads are \[cross check if there is some time sliced mechanism\]. Instead they are interreupted by certain commonly occuring events. Due to the lazy nature of Haskell thunks need to be created and values need to be computed very often. Hence the execution of a thread entails lots of of memory allocation. One of the ways the execution of a thread is interrupted is when a thread has run out of space in its current block - it then returns control back to the scheduler. 
 
-
-I stand corrected about the above - *We do have a time-slice mechanism: the timer interrupt (see Timer.c) sets the context_switch flag, which causes the running thread to return to the scheduler the next time a heap check fails (at the end of the current nursery block).
- 
-When a heap check fails, the thread doesn't necessarily always return to the scheduler: as long as the context_switch flag isn't set, and there is another block in the nursery, it resets Hp and HpLim to point to the new block, and continues.*
+>
+> I stand corrected about the above - *We do have a time-slice mechanism: the timer interrupt (see Timer.c) sets the context_switch flag, which causes the running thread to return to the scheduler the next time a heap check fails (at the end of the current nursery block). When a heap check fails, the thread doesn't necessarily always return to the scheduler: as long as the context_switch flag isn't set, and there is another block in the nursery, it resets Hp and HpLim to point to the new block, and continues.*
 
 
 A GHC block is a 4k page that is page aligned for the OS VM system.  
@@ -112,7 +110,7 @@ If a large object is allocated and a block is a part of a large object, then the
 
 The GHC GC is a generational collector. The number of generations is set to 2 by default and they are referred to as gen 0 and gen 1. gen 0 has never objects, objects that survive collections in gen 0 are promoted to gen 1. Older objects reside in gen 1. 
 
-#### Command Line Switches
+### Command Line Switches
 
 
 The number of generations in an exceution of a compiled haskell program can be changed by by using the command line switch -G\<n\>, where n is the number of generations. This is an RTS switch and so has to be used as follows - 
