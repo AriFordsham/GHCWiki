@@ -35,11 +35,11 @@ This section of the commentary documents the subtlest part of the module depende
   - VarEnv, VarSet, ThinAir
   - Class (loop TyCon.TyCon, loop Type.Type)
   - TyCon (loop Type.Type, loop DataCon.DataCon, loop Generics.GenInfo)
-  - TypeRep (loop DataCon.DataCon, loop Subst.!substTyWith)
-  - Type (loop PprType.!pprType, loop Subst.!substTyWith)
+  - TypeRep (loop DataCon.DataCon, loop Subst.substTyWith)
+  - Type (loop PprType.pprType, loop Subst.substTyWith)
   - FieldLabel(Type), TysPrim(Type)
-  - Literal (TysPrim, PprType), DataCon (loop PprType, loop Subst.!substTyWith, FieldLabel.FieldLabel)
-  - TysWiredIn (loop MkId.!mkDataConIds)
+  - Literal (TysPrim, PprType), DataCon (loop PprType, loop Subst.substTyWith, FieldLabel.FieldLabel)
+  - TysWiredIn (loop MkId.mkDataConIds)
   - TcType( lots of TysWiredIn stuff)
   - PprType( lots of TcType stuff )
   - PrimOp (PprType, TysWiredIn)
@@ -47,11 +47,11 @@ This section of the commentary documents the subtlest part of the module depende
   - IdInfo (CoreSyn.Unfolding, CoreSyn.CoreRules)
   - Id (lots from IdInfo)
   - !CoreFVs, PprCore
-  - CoreUtils (PprCore.!pprCoreExpr, !CoreFVs.!exprFreeVars, CoreSyn.!isEvaldUnfolding CoreSyn.!maybeUnfoldingTemplate)
-  - CoreLint( CoreUtils ), OccurAnal (CoreUtils.!exprIsTrivial), CoreTidy (CoreUtils.!exprArity )
-  - CoreUnfold (OccurAnal.!occurAnalyseGlobalExpr)
-  - Subst (CoreUnfold.Unfolding, !CoreFVs), Generics (CoreUnfold.!mkTopUnfolding), Rules (CoreUnfold.Unfolding, PprCore.!pprTidyIdRules)
-  - MkId (CoreUnfold.!mkUnfolding, Subst, Rules.!addRule)
+  - CoreUtils (PprCore.pprCoreExpr, !CoreFVs.exprFreeVars, CoreSyn.isEvaldUnfolding CoreSyn.maybeUnfoldingTemplate)
+  - CoreLint( CoreUtils ), OccurAnal (CoreUtils.exprIsTrivial), CoreTidy (CoreUtils.exprArity )
+  - CoreUnfold (OccurAnal.occurAnalyseGlobalExpr)
+  - Subst (CoreUnfold.Unfolding, !CoreFVs), Generics (CoreUnfold.mkTopUnfolding), Rules (CoreUnfold.Unfolding, PprCore.pprTidyIdRules)
+  - MkId (CoreUnfold.mkUnfolding, Subst, Rules.addRule)
   - PrelInfo (MkId), HscTypes( Rules.RuleBase ) 
 
 - That is the end of the infrastructure. Now we get the main layer of mdoules that perform useful work.
@@ -63,7 +63,7 @@ This section of the commentary documents the subtlest part of the module depende
 - HsPat.hs-boot
 - HsExpr.hs-boot (loop HsPat.!LPat)
 - HsTypes (loop HsExpr.HsSplice)
-- HsBinds (HsTypes.!LHsType, loop HsPat.!LPat, HsExpr.!pprFunBind and others) HsLit (HsTypes.SyntaxName)
+- HsBinds (HsTypes.!LHsType, loop HsPat.!LPat, HsExpr.pprFunBind and others) HsLit (HsTypes.SyntaxName)
 - HsPat (HsBinds, HsLit) HsDecls (HsBinds)
 - HsExpr (HsDecls, HsPat) 
 
