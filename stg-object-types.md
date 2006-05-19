@@ -1,6 +1,13 @@
 
 Back to [GarbageCollectorNotes](garbage-collector-notes)
 
+
+\[This page needs lots of work\]
+
+# Object Structure
+
+# Evaluation 101
+
 # Interesting Object Types
 
 - CONSTR - constructors
@@ -20,3 +27,29 @@ Backwards pointers are the cause of much heartache in writing generational GCs. 
 
   - GHC.Prim
   - usafePerformIO : Haskell.IO.Unsafe
+
+
+Types
+
+- MUT_VAR
+- MUT_ARRAY
+- MVAR, TVAR
+- TSO
+- IND_OLDGEN
+
+# Spark Pool and par
+
+# Weak References
+
+# Stable Pointers
+
+# CAF
+
+>
+> CAF stands for Constant Applicative Form. 
+
+# Black Holes
+
+- Free closures environment variables early
+- Loop detection at runtime
+- Avoid re-evaluation of the same think by mutliple threads
