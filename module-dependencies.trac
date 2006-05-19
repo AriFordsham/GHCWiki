@@ -14,21 +14,21 @@ This section of the commentary documents the subtlest part of the module depende
 
  * First comes a layer of modules that have few interdependencies, and which implement very basic data types:
    * Util
-   * OccName
+   * !OccName
    * Pretty
    * Outputable
-   * StringBuffer
-   * ListSetOps
+   * !StringBuffer
+   * !ListSetOps
    * Maybes
    * etc 
 
  * Now comes the main subtle layer, involving types, classes, type constructors identifiers, expressions, rules, and their operations.
-   * Name, PrimRep
-   * PrelNames
-   * Var (Name, loop IdInfo.IdInfo, loop Type.Type, loop Type.Kind)
-   * VarEnv, VarSet, ThinAir
-   * Class (loop TyCon.TyCon, loop Type.Type)
-   * TyCon (loop Type.Type, loop Type.Kind, loop DataCon.DataCon, loop Generics.GenInfo)
+   * Name, !PrimRep
+   * !PrelNames
+   * Var (Name, loop !IdInfo.!IdInfo, loop Type.Type, loop Type.Kind)
+   * !VarEnv, !VarSet, !ThinAir
+   * Class (loop !TyCon.!TyCon, loop Type.Type)
+   * !TyCon (loop Type.Type, loop Type.Kind, loop !DataCon.!DataCon, loop Generics.!GenInfo)
    * TypeRep (loop DataCon.DataCon, loop Subst.substTyWith)
    * Type (loop PprType.pprType, loop Subst.substTyWith)
    * FieldLabel(Type), TysPrim(Type)
