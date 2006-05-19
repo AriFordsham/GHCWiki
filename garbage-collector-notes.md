@@ -47,6 +47,9 @@ The scheduler picks up a thread off the run queand decides what to do with it. I
 
 Haskell threads are not time-sliced via a timer (potentially a time rinterrupt) the way OS threads are \[cross check if there is some time sliced mechanism\]. Instead they are interreupted by certain commonly occuring events. Due to the lazy nature of Haskell thunks need to be created and values need to be computed very often. Hence the execution of a thread entails lots of of memory allocation. One of the ways the execution of a thread is interrupted is when a thread has run out of space in its current block - it then returns control back to the scheduler. 
 
+>
+> I stand corrected about the above - *We do have a time-slice mechanism: the timer interrupt (see Timer.c) sets the context_switch flag, which causes the running thread to return to the scheduler the next time a heap check fails (at the end of the current nursery block). When a heap check fails, the thread doesn't necessarily always return to the scheduler: as long as the context_switch flag isn't set, and there is another block in the nursery, it resets Hp and HpLim to point to the new block, and continues.*
+
 
 A GHC block is a 4k page that is page aligned for the OS VM system.  
 
@@ -74,37 +77,7 @@ The part that we are interested in is the Garbage Collector. The main entry poin
 
 The existing GC in GHC is a single threaded one. When the RTS detects memory pressure the GC stops all the Haskell threads and then one thread that does the garbage collection and then resumes all the other suspended threads. On a multiprocessor machine such a design is obviously a bottle neck and it is desirable to garbage collect using multiple parallel threads. 
 
-## GC Data Structures
-
-### Blocks and Mega Blocks
-
-
-The GC allocates memory from the OS in 1 Mb sized chunks, called mega blocks, which it then divides into pages and manages itself. Each 4k page is called a block and is associated with a block descripter (the abbrevaition BD is used a lot). The BDs for all the blocks on the are stroed at the start of the mega block. 
-
-
-The BD keeps information about a block. This the BD defintion from blocks.h in the RTS.
-
-```
-typedefstruct bdescr_ {
-  StgPtr start;/* start addr of memory */
-  StgPtr free;/* first free byte of memory */struct bdescr_ *link;/* used for chaining blocks together */union{struct bdescr_ *back;/* used (occasionally) for doubly-linked lists*/
-      StgWord *bitmap;} u;unsignedint gen_no;/* generation */struct step_ *step;/* step */
-  StgWord32 blocks;/* no. of blocks (if grp head, 0 otherwise) */
-  StgWord32 flags;/* block is in to-space */#if SIZEOF_VOID_P == 8
-  StgWord32 _padding[2];#else
-  StgWord32 _padding[0];#endif
-} bdescr;
-```
-
-
-Most of the fields ina BD are self explanatory. Let me add a few quick decriptions however. Each bdescr or BD maintains its start address and a "free" pointer used to indicate the next free location in the block. Each block also knows about what generation it belongs to and has a pointer to the step it belongs to (more about generations and steps later). 
-
-
-If a large object is allocated and a block is a part of a large object, then the first block is has a count of the number of blocks that are part of the object. The link list of blocks making up the object is maintained by the link pointer. \[This may not be entirely correct - I will come back to this later\].
-
-### Generations
-
-### Steps
+## [GcDataStructures](gc-data-structures)
 
 ## Allocation
 
