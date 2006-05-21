@@ -32,7 +32,7 @@ If a large object is allocated and a block is a part of a large object, then the
 ### Generations
 
 
-The GHC GC is a generational collector. The number of generations is set to 2 by default and they are referred to as gen 0 and gen 1. gen 0 has never objects, objects that survive collections in gen 0 are promoted to gen 1. Older objects reside in gen 1. 
+The GHC GC is a generational collector. The number of generations is set to 2 by default and they are referred to as gen 0 and gen 1. gen 0 has newer objects; objects that survive collections in gen 0 are promoted to gen 1. Older objects reside in gen 1. 
 
 ### Command Line Switches
 
