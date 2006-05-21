@@ -35,7 +35,7 @@ Most of the fields ina BD are self explanatory. Let me add a few quick decriptio
 If a large object is allocated and a block is a part of a large object, then the first block is has a count of the number of blocks that are part of the object. The link list of blocks making up the object is maintained by the link pointer. [This may not be entirely correct - I will come back to this later].
 
 === Generations ===
-The GHC GC is a generational collector. The number of generations is set to 2 by default and they are referred to as gen 0 and gen 1. gen 0 has never objects, objects that survive collections in gen 0 are promoted to gen 1. Older objects reside in gen 1. 
+The GHC GC is a generational collector. The number of generations is set to 2 by default and they are referred to as gen 0 and gen 1. gen 0 has newer objects; objects that survive collections in gen 0 are promoted to gen 1. Older objects reside in gen 1. 
 
 === Command Line Switches ===
 The number of generations in an exceution of a compiled haskell program can be changed by by using the command line switch -G<n>, where n is the number of generations. This is an RTS switch and so has to be used as follows - 
