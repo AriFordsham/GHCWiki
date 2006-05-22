@@ -217,7 +217,7 @@ typedef struct StgTSO_ {
 
 Probabky the single most important part of a TSo from the perspectice of the GC is the stack that it contains. This stack is essentially the 'roots of the program'.
 
-A TSO is treated like any othe object by the GC and it resides in the heap. A TSO is always part of its mu list. A TSO is considered clean if it does not contain pointers to previous generations. This happens in the case where a TSO went through a GC and the objects it refers to got promoted. It then didnt allocate any memory since (maybe it didnt get scheduled) till the next GC. In that case it is considered "clean" and its dirty bit (tso->flags & TSO_DIRTY) is not set. 
+A TSO is treated like any other object by the GC and it resides in the program heap. A TSO is always part of its mut list. A TSO is considered "clean" if it does not contain pointers to previous generations. This happens in the case where a TSO went through a GC and the objects it refers to got promoted. It then didn't allocate any memory since (maybe it didn't get scheduled) till the next GC. In that case it is considered "clean" - being clean is indicated by its dirty bit (tso->flags & TSO_DIRTY) not being set. 
 
 == Terminology == 
 
