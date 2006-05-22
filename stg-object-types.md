@@ -53,3 +53,44 @@ Types
 - Free closures environment variables early
 - Loop detection at runtime
 - Avoid re-evaluation of the same think by mutliple threads
+
+# Mutable List
+
+
+The mutable list, sometimes referred to as the Remember Set is a list of pointer to objects in a generation that point to older generations. When a GC occurs till generation N, generations older than N are not traversed instead only the mutable lists of those generations are traversed to see what objects in the new generation are live because older generation objects point to them. 
+
+
+A mutable list per generation is maintained by each capability. When GC starts, these are swept into each generation’s mut_list member and are traversed later. When garbage collecting only till generation N, mut lists of generations \<=N are ignored (freed up) since we know that we are going to walk all the objects in those generations anyway. 
+
+
+Certain object like MUT_ARR_PTRS_CLEAN and TSO are always on the mut list. In the case of some objects, walking the mut list does not let us take the objects off the mut list. Such objects are added back to the mut list (done by recordMutableGen). 
+
+
+Objects that can be “cleaned” are cleaned by the function scavenge_one(). By cleaning we mean that the object in question no longer points to a newer generation object. This can be done only by moving the newer generation objects up to the generation where the original object resides. Code that does this for an object like a THUNK would look like this - 
+
+```wiki
+end = (StgPtr)((StgClosure *)p)->payload + info->layout.payload.ptrs;
+for (q = (StgPtr)((StgClosure *)p)->payload; q < end; q++) {
+    *q = (StgWord)(StgPtr)evacuate((StgClosure *)*q);
+}
+```
+
+---
+
+
+Questions
+
+- Why is MUT_ARR_PTRS_CLEAN exist in the mut list always ?
+- Why is failed_to_evac a global?
+- Why do the steps get scavenged immediately after mut_list is scavenged?
+
+  ```wiki
+      for (g = RtsFlags.GcFlags.generations-1; g > N; g--) {
+        IF_PAR_DEBUG(verbose, printMutableList(&generations[g]));
+        scavenge_mutable_list(&generations[g]);
+        evac_gen = g;
+        for (st = generations[g].n_steps-1; st >= 0; st--) {
+  	scavenge(&generations[g].steps[st]);
+        }
+      }
+  ```
