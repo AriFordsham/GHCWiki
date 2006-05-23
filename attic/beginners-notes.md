@@ -1,6 +1,6 @@
 # Notes From a Beginning GHC Hacker
 
-## General notes (in Windows)
+## General notes (some just for Windows)
 
 1. [The Building Guide](http://www.haskell.org/ghc/docs/latest/html/building/index.html) is very good, read the appropriate parts.
 1. Optimize your set up for build speed.  Having to wait 10 minutes to compile because you added an export to a critical module is no fun.
