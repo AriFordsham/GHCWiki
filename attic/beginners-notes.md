@@ -9,3 +9,32 @@
   1. Do not use -O to compile GHC while you are making heavy changes.  Once things compile smoothly and you want to test it, compile with optimization (on my machine, adding -O triples the compile time for a fresh 'make').
 1. If you do a 'make tags' then you can go right to the definition of a function (from any module) using alt-. in emacs.
 1. If you need to add or delete modules, use 'make boot' to fix up the dependencies.
+
+## Notes on the type system (and its interactions)
+
+
+The compiler is, of course, found in the fptools/compiler directory.  Important subdirectories for hacking on the type system include: 
+
+- basicTypes (Name, Var, OccName)
+- prelude (PrelNames, TysWiredIn)
+- types
+- typecheck
+- iface (IfaceType, BinIface)
+- parser (ParserCore)
+
+
+The critical parts dealing with types are in the 'types' and 'typecheck' directories:
+
+### types
+
+- TypeRep.lhs
+
+  - The representation of types, the Type datatype, is defined here and exported concretely
+  - A few crucial type constructors (like -\>) are defined here in order to avoid excessive module loops
+- TyCon.lhs
+
+  - The representation of type constructors, TyCon, is defined here and exported abstractly
+  - Construction and manipulation functions for type constructors are here
+- Type.lhs
+
+  - Contains the bulk of the type system, imports the concrete representation from TypeRep, and re-exports Type abstractly
