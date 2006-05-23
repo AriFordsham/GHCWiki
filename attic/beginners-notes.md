@@ -25,7 +25,7 @@ The compiler is, of course, found in the fptools/compiler directory.  Important 
 
 The critical parts dealing with types are in the 'types' and 'typecheck' directories:
 
-### types
+**types**
 
 - TypeRep.lhs
 
