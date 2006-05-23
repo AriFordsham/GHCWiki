@@ -38,3 +38,15 @@ The critical parts dealing with types are in the 'types' and 'typecheck' directo
 - Type.lhs
 
   - Contains the bulk of the type system, imports the concrete representation from TypeRep, and re-exports Type abstractly
+
+
+(more to come)
+
+## Running the testsuite
+
+
+To run the testsuite:
+
+1. darcs get --partial [ http://darcs.haskell.org/testsuite](http://darcs.haskell.org/testsuite)
+1. make the compiler **and** libraries
+1. cd testsuite/tests/ghc-regress; make
