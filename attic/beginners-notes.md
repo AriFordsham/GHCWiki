@@ -2,8 +2,9 @@
 
 ## General notes on hacking (in Windows)
 
-1. Optimize your set up for build speed.  Having to wait 10 minutes because you added an export to a critical module is no fun.
+1. [The Building Guide](http://www.haskell.org/ghc/docs/latest/html/building/index.html) is very good, read the appropriate parts.
+1. Optimize your set up for build speed.  Having to wait 10 minutes to compile because you added an export to a critical module is no fun.
 
   1. Use MSYS, not cygwin.  MSYS is **much** faster.
   1. Do not use -O to compile GHC while you are making heavy changes.  Once things compile smoothly and you want to test it, compile with optimization. (on my machine, adding -O triples the compile time for the whole compiler)
-1. If you do a 'make tags' then you can go right to the definition of a function (from any module) using alt-. in emacs
+1. If you do a 'make tags' then you can go right to the definition of a function (from any module) using alt-. in emacs.
