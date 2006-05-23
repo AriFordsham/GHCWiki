@@ -47,6 +47,6 @@ The critical parts dealing with types are in the 'types' and 'typecheck' directo
 
 To run the testsuite:
 
-1. darcs get --partial [ http://darcs.haskell.org/testsuite](http://darcs.haskell.org/testsuite)
+1. darcs get --partial http://darcs.haskell.org/testsuite
 1. make the compiler **and** libraries
 1. cd testsuite/tests/ghc-regress; make
