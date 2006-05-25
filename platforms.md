@@ -2,7 +2,10 @@
 
 
 The following table describes to what extent GHC currently supports
-various platforms.  Definitions:
+various platforms.  To find out who is responsible for each platform, see [Contributors](contributors).
+
+
+Definitions:
 
 **Registerised**
 
