@@ -20,7 +20,7 @@ Definitions:
   code and dynamic generation of FFI calls.
 
 '''NCG'''[[BR]]
-  Native code generator: GHC can generate assemply code directly for this platform, bypassing gcc.
+  Native code generator: GHC can generate assembly code directly for this platform, bypassing gcc.
 
 '''f.i. wrapper'''[[BR]]
   Support for {{{foreign import "wrapper"}}} ({{{ghc/rts/Adjustor.c}}}).
