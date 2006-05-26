@@ -8,3 +8,8 @@ Some issues:
  * You need to manually install GMP.framework in /Library/Frameworks, and libreadline.dylib (and the libreadline*.dylib symlinks, I guess) in /usr/local/lib (assuming prefix=/usr/local).
  * When using runghc to build some cabal packages (e.g. [http://www.cs.chalmers.se/~bringert/darcs/haskell-xhtml/doc/ xhtml]), the setup program dies silently after building the archive, but before writing the .installed-pkg-config file. If the setup program is compiled with ghc, this does not happen.
  * When using "./configure --prefix=/usr/local; make install", GHC gets installed in /usr/local/lib/-6.5/.
+
+The Makefile.in for the release above is broken in a few ways, which causes the /-6.5/ weirdness   The problems are:
+* package is not set.  Be sure that the package name does not end in a space
+* the invocation of mkdirhier (INSTALL_DIR) is broken for libraries & share (lines 205 & 206) , the first $$0 is in error
+* the library files are installed using cp, but should be installed using 'install -p' to preserve the timestamps
