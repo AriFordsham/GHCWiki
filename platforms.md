@@ -50,7 +50,8 @@ Definitions:
 <th>**GHCi**</th>
 <th>**NCG**</th>
 <th>**f.i. wrapper**</th>
-<th>**Dynamic libraries**</th></tr>
+<th>**Dynamic libraries**</th>
+<th>**WikiPage**</th></tr>
 <tr><th> x86          </th>
 <th> Windows (MinGW) </th>
 <th> i386-unknown-mingw32    </th>
@@ -58,8 +59,8 @@ Definitions:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No(\*2)            
-</th></tr>
+<th> No(\*2)            </th>
+<th></th></tr>
 <tr><th> x86          </th>
 <th> Linux           </th>
 <th> i386-unknown-{linux,gnu} </th>
@@ -67,8 +68,8 @@ Definitions:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> x86          </th>
 <th> FreeBSD         </th>
 <th> i386-unknown-freebsd    </th>
@@ -76,8 +77,8 @@ Definitions:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> x86          </th>
 <th> OpenBSD         </th>
 <th> i386-unknown-openbsd    </th>
@@ -85,8 +86,8 @@ Definitions:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> x86          </th>
 <th> NetBSD          </th>
 <th> i386-unknown-netbsd     </th>
@@ -94,8 +95,8 @@ Definitions:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> x86          </th>
 <th> MacOS X         </th>
 <th> i386-apple-darwin       </th>
@@ -103,8 +104,8 @@ Definitions:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th>X86OSXGhc?</th></tr>
 <tr><th> PowerPC      </th>
 <th> AIX             </th>
 <th> powerpc-ibm-aix         </th>
@@ -112,8 +113,8 @@ Definitions:
 <th></th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> PowerPC      </th>
 <th> Linux           </th>
 <th> powerpc-unknown-linux   </th>
@@ -121,8 +122,8 @@ Definitions:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> PowerPC      </th>
 <th> MacOS X         </th>
 <th> powerpc-apple-darwin    </th>
@@ -130,8 +131,8 @@ Definitions:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> Yes               
-</th></tr>
+<th> Yes               </th>
+<th></th></tr>
 <tr><th> PowerPC64    </th>
 <th> Linux           </th>
 <th> powerpc64-unknown-linux </th>
@@ -139,8 +140,8 @@ Definitions:
 <th> No   </th>
 <th> No                    </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> Sparc        </th>
 <th> Solaris         </th>
 <th> sparc-sun-solaris2      </th>
@@ -148,8 +149,8 @@ Definitions:
 <th> Yes  </th>
 <th> No(\*1)                </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> Sparc        </th>
 <th> Linux           </th>
 <th> sparc-unknown-linux     </th>
@@ -157,8 +158,8 @@ Definitions:
 <th> Yes  </th>
 <th> No(\*1)                </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> Sparc        </th>
 <th> OpenBSD         </th>
 <th> sparc-unknown-openbsd   </th>
@@ -166,8 +167,8 @@ Definitions:
 <th> Yes  </th>
 <th> No(\*1)                </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> x86-64       </th>
 <th> Linux           </th>
 <th> x86_64-unknown-linux    </th>
@@ -175,8 +176,8 @@ Definitions:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> x86-64       </th>
 <th> OpenBSD         </th>
 <th> amd64-unknown-openbsd   </th>
@@ -184,8 +185,8 @@ Definitions:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> Mips64       </th>
 <th> Irix            </th>
 <th> mips-unknown-linux      </th>
@@ -193,8 +194,8 @@ Definitions:
 <th> No   </th>
 <th> No                    </th>
 <th> No           </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> IA-64        </th>
 <th> Linux           </th>
 <th> ia64-unknown-linux      </th>
@@ -202,8 +203,8 @@ Definitions:
 <th> Yes  </th>
 <th> No                    </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> Alpha        </th>
 <th> Linux           </th>
 <th> alpha-unknown-linux     </th>
@@ -211,8 +212,8 @@ Definitions:
 <th> No   </th>
 <th> No                    </th>
 <th> Yes          </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> HPPA         </th>
 <th> Linux           </th>
 <th> hppa-unknown-linux      </th>
@@ -220,8 +221,8 @@ Definitions:
 <th> No   </th>
 <th> No                    </th>
 <th> No           </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> S/390        </th>
 <th> Linux           </th>
 <th> s390-ibm-linux          </th>
@@ -229,8 +230,8 @@ Definitions:
 <th> No   </th>
 <th> No                    </th>
 <th> No           </th>
-<th> No                
-</th></tr>
+<th> No                </th>
+<th></th></tr>
 <tr><th> m68k         </th>
 <th> Linux           </th>
 <th> m68k-unknown-linux      </th>
@@ -238,8 +239,8 @@ Definitions:
 <th> No   </th>
 <th> No                    </th>
 <th> No           </th>
-<th> No                
-</th></tr></table>
+<th> No                </th>
+<th></th></tr></table>
 
 **\*1** Sparc NCG bitrotted, but still in the tree
 **\*2** Win32 DLL support bitrotted
