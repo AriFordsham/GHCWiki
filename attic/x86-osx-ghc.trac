@@ -2,6 +2,16 @@ This page is meant to document the current state of GHC on Apple Mac OS X on Int
 
 [http://darwinports.opendarwin.org/ DarwinPorts] still has GHC as not supported on x86.
 
+
+----
+
+AudreyTang has contributed another GHC CVS build:
+http://perlcabal.org/~audreyt/tmp/ghc-6.5.20060526-i686-apple-darwin8.tar.bz2
+
+ * You still need to manually install GMP.framework in /Library/Frameworks, and libreadline* in /usr/local/lib, but the Makefile glitches below should be resolved in this build.
+
+----
+
 This GHC CVS build seems to work quite well:
 http://www.uni-graz.at/imawww/haskell/ghc-6.5.20060409-i386-apple-darwin.tar.bz2
 Some issues:
