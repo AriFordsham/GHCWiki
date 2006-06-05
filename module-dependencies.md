@@ -47,10 +47,10 @@ This section of the commentary documents the subtlest part of the module depende
   - IdInfo (CoreSyn.Unfolding, CoreSyn.CoreRules)
   - Id (lots from IdInfo)
   - !CoreFVs, PprCore
-  - CoreUtils (PprCore.pprCoreExpr, !CoreFVs.exprFreeVars, CoreSyn.isEvaldUnfolding CoreSyn.maybeUnfoldingTemplate)
+  - CoreUtils (PprCore.pprCoreExpr, CoreFVs.exprFreeVars, CoreSyn.isEvaldUnfolding CoreSyn.maybeUnfoldingTemplate)
   - CoreLint ( CoreUtils ), OccurAnal (CoreUtils.exprIsTrivial), CoreTidy (CoreUtils.exprArity )
   - CoreUnfold (OccurAnal.occurAnalyseGlobalExpr)
-  - Subst (CoreUnfold.Unfolding, !CoreFVs), Generics (CoreUnfold.mkTopUnfolding), Rules (CoreUnfold.Unfolding, PprCore.pprTidyIdRules)
+  - Subst (CoreUnfold.Unfolding, CoreFVs), Generics (CoreUnfold.mkTopUnfolding), Rules (CoreUnfold.Unfolding, PprCore.pprTidyIdRules)
   - MkId (CoreUnfold.mkUnfolding, Subst, Rules.addRule)
   - PrelInfo (MkId), HscTypes ( Rules.RuleBase ) 
 
@@ -61,9 +61,9 @@ This section of the commentary documents the subtlest part of the module depende
 ## HsSyn stuff
 
 - HsPat.hs-boot
-- HsExpr.hs-boot (loop HsPat.!LPat)
+- HsExpr.hs-boot (loop HsPat.LPat)
 - HsTypes (loop HsExpr.HsSplice)
-- HsBinds (HsTypes.!LHsType, loop HsPat.!LPat, HsExpr.pprFunBind and others) HsLit (HsTypes.SyntaxName)
+- HsBinds (HsTypes.LHsType, loop HsPat.LPat, HsExpr.pprFunBind and others) HsLit (HsTypes.SyntaxName)
 - HsPat (HsBinds, HsLit) HsDecls (HsBinds)
 - HsExpr (HsDecls, HsPat) 
 
@@ -75,7 +75,7 @@ This section of the commentary documents the subtlest part of the module depende
 - GHC.Show (GHC.Enum)
 - GHC.Num (GHC.Show)
 - GHC.ST (GHC.Num), GHC.Real (GHC.Num)
-- GHC.Arr (GHC.ST) GHC.!STRef (GHC.ST)
+- GHC.Arr (GHC.ST) GHC.STRef (GHC.ST)
 - GHC.!IOBase (GHC.Arr)
 - Data.Bits (GHC.Real)
 - Data.HashTable (Data.Bits, Control.Monad)
