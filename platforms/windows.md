@@ -16,9 +16,7 @@ If you get a message like this:
 
 ```wiki
 Can't locate object method "path" via package "Autom4te::Request" (perhaps you forgot to load "Autom4te::Request"?) at /usr/bin/autom4te line 81.
-
 Can't locate object method "path" via package "Autom4te::Request" (perhaps you forgot to load "Autom4te::Request"?) at /usr/bin/autom4te line 81.
-
 autoreconf: /usr/bin/autoconf failed with exit status: 1
 ```
 
