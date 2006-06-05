@@ -79,5 +79,5 @@ This section of the commentary documents the subtlest part of the module depende
 - GHC.!IOBase (GHC.Arr)
 - Data.Bits (GHC.Real)
 - Data.HashTable (Data.Bits, Control.Monad)
-- Data.Typeable (GHC.!IOBase, Data.HashTable)
-- GHC.Weak (Data.Typeable, GHC.!IOBase) 
+- Data.Typeable (GHC.IOBase, Data.HashTable)
+- GHC.Weak (Data.Typeable, GHC.IOBase) 
