@@ -32,7 +32,7 @@ Definitions:
 == Platforms that work in the current release ==
 
 || '''Architecture''' || '''OS''' || '''Build name''' || '''Registerised''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' || '''WikiPage''' ||
-|| x86          || Windows (MinGW) || i386-unknown-mingw32    || Yes          || Yes  || Yes                   || Yes          || No(*2)            || ||
+|| x86          || Windows (MinGW) || i386-unknown-mingw32    || Yes          || Yes  || Yes                   || Yes          || No(*2)            ||[wiki:WindowsGhc] ||
 || x86          || Linux           || i386-unknown-{linux,gnu} || Yes          || Yes  || Yes                   || Yes          || No                || ||
 || x86          || FreeBSD         || i386-unknown-freebsd    || Yes          || Yes  || Yes                   || Yes          || No                || ||
 || x86          || OpenBSD         || i386-unknown-openbsd    || Yes          || Yes  || Yes                   || Yes          || No                || ||

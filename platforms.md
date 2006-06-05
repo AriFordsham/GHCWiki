@@ -60,7 +60,7 @@ Definitions:
 <th> Yes                   </th>
 <th> Yes          </th>
 <th> No(\*2)            </th>
-<th></th></tr>
+<th>[WindowsGhc](windows-ghc)</th></tr>
 <tr><th> x86          </th>
 <th> Linux           </th>
 <th> i386-unknown-{linux,gnu} </th>
