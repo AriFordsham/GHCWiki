@@ -5,10 +5,10 @@ This page is meant to document the current state of GHC on Apple Mac OS X on Int
 
 ----
 
-AudreyTang has contributed another GHC CVS build:
-http://perlcabal.org/~audreyt/tmp/ghc-6.5.20060526-i686-apple-darwin8.tar.bz2
+AudreyTang has contributed an updated GHC CVS build:
+http://pugs.blogs.com/dist/ghc-6.5.20060608-i686-apple-darwin8.tar.bz2
 
- * This build has a post-install script that fixes readline and installs GMP.framework for you, so there's no manual tweaking involved anymore.
+ * This build has a post-install script that fixes readline, installs GMP.framework, and runs "ranlib" for you, so there's no manual tweaking involved anymore.
 
 ----
 
