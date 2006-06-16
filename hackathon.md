@@ -18,21 +18,50 @@ Also there's a good chance it'll be fun :-)
 ### Venue
 
 
-Galois has very kindly agreed to host the meeting.
+Galois will be hosting the meeting.
+
+- Galois will provide a large room, with desks, a projector, and wireless access.
+- We will also have other rooms that can be used for side-projects.
+- Bring you own laptop (capable of building GHC).
+
+<table><tr><th>  Address: </th>
+<th> 12725 SW Millikan Way
+</th></tr>
+<tr><th></th>
+<th> Suite 290
+</th></tr>
+<tr><th></th>
+<th> Beaverton, OR 97005
+</th></tr></table>
+
+
+More detailed directions will be provided before the hackathon.
+
+### Registration
+
+
+Email jodee@…, stating you wish to attend the GHC Hackathon. Registration is not required,
+but strongly encoraged. Any Pizza, manuals and workspace will be allocated on a first come, first served basis,
+so please register!
 
 ### Cost
 
 
-zero.  But you’ll have to feed yourself.  And you may have to bring a laptop (capable of building GHC).
+zero.  But you’ll may have to feed yourself if you don't register.
+
+## Date
+
+
+September 14th and 15th. Perhaps the 16th.
 
 ### Programme
 
 
 We had in mind the following.  
 
-- One full day of tutorial from Simon & Simon about GHC’s glorious innards. 
+- One full day of tutorial from Simon & Simon about GHC’s glorious innards (14th)
 
-- Then one or two days of hacking on projects.  
+- Then one or two days of hacking on projects (15th, 16th)  
 
 
 Timing: The Haskell workshop is on Sunday 17 Sept; ICFP starts the next day.  On Saturday is the ML and Erlang workshops.  We propose to run the GHC hackathon something like Thurs-Sat 14-16 Sept, so that people who want to go to the ML workshop still can; but those who don’t won’t have a blank day.
