@@ -49,7 +49,8 @@ Zero.  But you’ll may have to feed yourself if you don't register.
 
 If you want to come, please add your name to the list below.  Add a sentence or two about yourself and why you want to come. If you are working on a project to do with GHC, tell us about that too.
 
- * [http://http://www.haskell.org/~simonmar Simon Marlow] One of the main authors of GHC, particularly the back end, run-time system, and libraries.
+ * [http://www.haskell.org/~simonmar Simon Marlow] One of the main authors of GHC, particularly the back end, run-time system, and libraries.
  * [http://research.microsoft.com/~simonpj Simon Peyton Jones] One of the main authors of GHC, particularly the type system and Core intermediate language.
 
+ * [http://www.gill-warbington.com/home/andy Andy Gill], Galois, Previous contributor to GHC, wanting tools for high assurance Haskell.
 
