@@ -13,12 +13,12 @@ Also there's a good chance it'll be fun :-)
 ## Date and programme
 
 
-The hackathon will be held in Portland, Oregon, on Thursday September 14th and Friday 15th, immediately before the [ International Conference on Functional Programming (ICFP'06)](http://icfp06.cs.uchicago.edu/) in Portland. There are various interesting ICFP workshops on Sat 16th (Generic programming, Erlang, ML), but if people are enthusiastic to continue on Saturday, the space will be available.
+The hackathon will be held in Portland, Oregon, on Thursday September 14th and Friday 15th, immediately before the [ International Conference on Functional Programming (ICFP'06)](http://icfp06.cs.uchicago.edu/) in Portland. There are various interesting ICFP workshops on Sat 16th ([ Generic programming](http://www.informatik.uni-bonn.de/~ralf/wgp2006.html), [ ML](http://www.cl.cam.ac.uk/ml2006/), [ Erlang](http://www.erlang.se/workshop/2006/)), but if people are enthusiastic to continue on Saturday, the space will be available.
 
 
 We have in mind the following.  
 
-- One full day of tutorial from Simon & Simon about GHC’s glorious innards (14th)
+- One full day of tutorial from Simon PJ & Simon M about GHC’s glorious innards (14th)
 
 - Then one or two days of hacking on projects (15th, 16th)  
 
