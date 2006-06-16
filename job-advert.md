@@ -54,4 +54,7 @@ course: please contact Simon Marlow or Simon Peyton Jones for further informatio
 The rate of pay is dependent on qualifications and experience.  It'll be
 fun!
 
+
+The deadline for applicaitons is **Friday 23 June**
+
 *Simon Peyton Jones and Simon Marlow*
