@@ -154,7 +154,7 @@ Definitions:
 <tr><th> Sparc        </th>
 <th> Linux           </th>
 <th> sparc-unknown-linux     </th>
-<th> Yes          </th>
+<th> Yes(\*3)      </th>
 <th> Yes  </th>
 <th> No(\*1)                </th>
 <th> Yes          </th>
@@ -244,6 +244,7 @@ Definitions:
 
 **\*1** Sparc NCG bitrotted, but still in the tree
 **\*2** Win32 DLL support bitrotted
+**\*3** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)
 
 ## Platforms that worked in the past
 
