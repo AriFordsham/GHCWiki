@@ -43,7 +43,7 @@ Definitions:
 || PowerPC      || MacOS X         || powerpc-apple-darwin    || Yes          || Yes  || Yes                   || Yes          || Yes               || ||
 || PowerPC64    || Linux           || powerpc64-unknown-linux || Yes          || No   || No                    || Yes          || No                || ||
 || Sparc        || Solaris         || sparc-sun-solaris2      || Yes          || Yes  || No(*1)                || Yes          || No                || ||
-|| Sparc        || Linux           || sparc-unknown-linux     || Yes          || Yes  || No(*1)                || Yes          || No                || ||
+|| Sparc        || Linux           || sparc-unknown-linux     || Yes(*3)      || Yes  || No(*1)                || Yes          || No                || ||
 || Sparc        || OpenBSD         || sparc-unknown-openbsd   || Yes          || Yes  || No(*1)                || Yes          || No                || ||
 || x86-64       || Linux           || x86_64-unknown-linux    || Yes          || Yes  || Yes                   || Yes          || No                || ||
 || x86-64       || OpenBSD         || amd64-unknown-openbsd   || Yes          || Yes  || Yes                   || Yes          || No                || ||
@@ -56,6 +56,7 @@ Definitions:
 
 '''*1''' Sparc NCG bitrotted, but still in the tree[[BR]]
 '''*2''' Win32 DLL support bitrotted[[BR]]
+'''*3''' but see #591
 
 == Platforms that worked in the past ==
 
