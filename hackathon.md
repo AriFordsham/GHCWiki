@@ -86,4 +86,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Malcolm Wallace](http://www.cs.york.ac.uk/~malcolm), nhc98-hacker, wanting to steal ideas :-), particularly from the type-system.
 - [ Clifford Beshers](http://wiki.freespire.org/index.php/Freespire_Technology_Board_Home), Linspire, particularly interested in GHC as a library.
 - [ Paul Graunke](http://www.galois.com/), Galois, interested in formal methods (Isabelle) and GHC intermediate representations
-- [ http://www.research.att.com/info/kfisher](http://www.research.att.com/info/kfisher), ATT, interested in adding support for data description to Haskell
+- [ Kathleen Fisher](http://www.research.att.com/info/kfisher), ATT, interested in adding support for data description to Haskell
