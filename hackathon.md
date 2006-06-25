@@ -87,3 +87,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Clifford Beshers](http://wiki.freespire.org/index.php/Freespire_Technology_Board_Home), Linspire, particularly interested in GHC as a library.
 - [ Paul Graunke](http://www.galois.com/), Galois, interested in formal methods (Isabelle) and GHC intermediate representations
 - [ Kathleen Fisher](http://www.research.att.com/info/kfisher), ATT, interested in adding support for data description to Haskell
+- Jake Luck, interested in interactive debugging and accessing GHC internals from embedded systems.
