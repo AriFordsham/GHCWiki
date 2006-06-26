@@ -1,0 +1,87 @@
+
+This page summarises our current proposal for packages in GHC.
+
+## The problem
+
+
+A vexed question in the current design of Haskell is the issue of whether a single program can contain two modules with the same name.  Currently that is absolutely ruled out, and as a result packages are fundamentally non-modular: every package must use a distinct space in the global namespace. 
+
+## Our proposed design
+
+
+Simon Marlow and I have gradually become convinced that we have to fix this, and the only sensible way to fix it is to relax the language design so that
+
+- a module name must be unique within its package (only)
+
+
+That means that module A.B.C could exist \*both\* in package P1 and in P2. And both packages could be linked into the same program. You would say
+
+```wiki
+  ghc -c -package P1 M1.hs
+  ghc -c -package P2 M2.hs
+  ...compile other modules...
+  ghc -o app M1.o M2.o ... -package P1 -package P2
+```
+
+
+Note the late binding here.  The authors of packages P1 and P2 didn't need to know about each other, and don't need to choose globally unique names.
+
+
+To support `--make` we'd need to allow `-package` flags in the per-module `OPTIONS` pragmas; and we'd need to gather those options together for the link step.
+
+
+The fundamental thing GHC needs to do is to include the package name into the names of entities the package defines.  That means that when compiling a module M you must say what package it is part of:
+
+```wiki
+  ghc -c -package-name P1 C.hs
+```
+
+
+Then C.o will contain symbols like "`P1.A.B.C.f`" etc.  In effect, the "original name" of a function `f` in module `M` of package `P` is `<P,M,f>`.
+
+## Optional extra: the Packages space
+
+
+Perhaps every (exposed) module from every (installed) package should always be available via an import like
+
+```wiki
+   import Packages.Gtk-1_3_4.Widget.Button
+```
+
+
+That is, the module is name by a fully-qualified name involving its package name (already globally unique).  
+
+
+(Tiresome side note: to make the package id look like a module name we may have to capitalise it, and change dots to underscores.  And that could conceivably make two package names collide.)
+
+## Optional extra: grafting
+
+
+Some kind of 'grafting' or 'mounting' scheme could be added, to allow late binding of where in the module tree the is brought into scope.  One might say
+
+```wiki
+	ghc -c Foo.hs -package gtk-2.3=Graphics.GTK
+```
+
+
+to mount the `gtk-2.3` package at `Graphics.GTK` in the module name space.  Outside
+the package one would need to import `Graphics.GTK.M`, but within the package one just imports `M`.  That way the entire package can be mounted elsewhere in the namespace, if desired, without needing to change or recompile the package at all.
+
+
+This would allow a single module to import modules from two different packages that happened to use the same name.  It's not strictly a necessary feaure.  If you want to
+
+- import module A from package P, and 
+- import module A from package Q into a single module M of a program, 
+
+
+you can always do this:
+
+- make a new module AP, that imports A and re-exports it all; 
+- compile AP with package P visible and Q hidden
+- ditto for AQ
+- make M say "import AP; import AQ".
+
+
+The exact details of the mounting scheme, and whether it is done at
+build time, at install time, or at compilation time, or all of the
+above, are open to debate.  We don't have a very fixed view.
