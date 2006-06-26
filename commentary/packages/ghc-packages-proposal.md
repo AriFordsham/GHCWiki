@@ -14,7 +14,17 @@ Simon Marlow and I have gradually become convinced that we have to fix this, and
 - a module name must be unique within its package (only)
 
 
-That means that module A.B.C could exist \*both\* in package P1 and in P2. And both packages could be linked into the same program. You would say
+That means that module A.B.C could exist \*both\* in package P1 and in P2. And both packages could be linked into the same program. Suppose for the moment that A.B.C is not exposed by both P1 and P2.  Then you would say simply:
+
+```wiki
+  ghc --make Main -o app
+```
+
+
+Note the late binding here.  The authors of packages P1 and P2 didn't need to know about each other, and don't need to choose globally unique names.
+
+
+Things are a bit more complicated if both P1 and P2 expose A.B.C, because then "`import A.B.C`" is ambiguous. Then it's unlikely that both P1 and P2 are exposed packages, and you'll need to bring them into scope explicitly:
 
 ```wiki
   ghc -c -package P1 M1.hs
@@ -24,10 +34,7 @@ That means that module A.B.C could exist \*both\* in package P1 and in P2. And b
 ```
 
 
-Note the late binding here.  The authors of packages P1 and P2 didn't need to know about each other, and don't need to choose globally unique names.
-
-
-To support `--make` we'd need to allow `-package` flags in the per-module `OPTIONS` pragmas; and we'd need to gather those options together for the link step.
+To support `--make` in this situation we'd need to allow `-package` flags in the per-module `OPTIONS` pragmas.  (`ghc --make` already gathers those options together for the link step.)
 
 
 The fundamental thing GHC needs to do is to include the package name into the names of entities the package defines.  That means that when compiling a module M you must say what package it is part of:
