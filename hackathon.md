@@ -72,6 +72,11 @@ Registration is not absolutely required, but any Pizza, manuals, and workspace w
 
 Zero.  But you may have to feed yourself if you don't register.
 
+## History of Hackathons
+
+
+Wikipedia has an [ article about Hackathons](http://en.wikipedia.org/wiki/Hackathon)
+
 ---
 
 ## Participants
