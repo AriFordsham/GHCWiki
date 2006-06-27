@@ -41,7 +41,7 @@ Galois will be hosting the meeting.  Their offices are in Beaverton, a suburb of
 
 - Galois will provide a large room, with desks, a projector, and wireless access.
 - We will also have other rooms that can be used for side-projects.
-- Bring you own laptop (capable of building GHC).
+- Bring your own laptop (capable of building GHC).
 
 <table><tr><th>  Address: </th>
 <th> 12725 SW Millikan Way
@@ -89,3 +89,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Kathleen Fisher](http://www.research.att.com/info/kfisher), ATT, interested in adding support for data description to Haskell
 - Jake Luck, interested in interactive debugging and accessing GHC internals from embedded systems.
 - [ Geoffrey Washburn](http://www.cis.upenn.edu/~geoffw/), UPenn. Previous GHC contributor. I have several ideas; I'm trying decide which are not overly ambitious. 
+- [ Mark Tullsen](http://www.galois.com/), Galois, interested in tools for Haskell and high assurance run-time systems.
