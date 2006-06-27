@@ -67,5 +67,5 @@ If you want to come, please add your name to the list below.  Add a sentence or 
  * [http://www.galois.com/ Paul Graunke], Galois, interested in formal methods (Isabelle) and GHC intermediate representations
  * [http://www.research.att.com/info/kfisher Kathleen Fisher], ATT, interested in adding support for data description to Haskell
  * [mailto://lambda@10k.org Jake Luck], interested in interactive debugging and accessing GHC internals from embedded systems.
- * [http://www.cis.upenn.edu/~geoffw/ Geoffrey Washburn], UPenn. Previous GHC contributor. I have several ideas; I'm trying decide which are not overly ambitious. 
+ * [http://www.cis.upenn.edu/~geoffw/ Geoffrey Washburn], UPenn. Previous GHC contributor (original implementation of GADTs in Core). Wide variety of language interests involving expressiveness, security, and practical programming.
  * [http://www.galois.com/ Mark Tullsen], Galois, interested in tools for Haskell and high assurance run-time systems.
