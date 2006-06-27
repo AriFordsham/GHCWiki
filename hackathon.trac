@@ -28,7 +28,7 @@ We expect that some of you will come with GHC-related projects that you want to 
 Galois will be hosting the meeting.  Their offices are in Beaverton, a suburb of Portland.
   * Galois will provide a large room, with desks, a projector, and wireless access.
   * We will also have other rooms that can be used for side-projects.
-  * Bring you own laptop (capable of building GHC).
+  * Bring your own laptop (capable of building GHC).
 
 ||  Address: || 12725 SW Millikan Way||
 || || Suite 290||
@@ -39,7 +39,7 @@ More detailed directions will be provided before the hackathon.
 === Registration ===
 
 If you want to come, we strongly encourage you to tell us, in two ways:
- * Email jodee@galois.com, stating you wish to attend the GHC Hackathon. 
+ * Email [mailto:jodee@galois.com], stating you wish to attend the GHC Hackathon. 
  * Add your name to the list of participants below (this page is a Wiki, so you can do that yourself).
 
 Registration is not absolutely required, but any Pizza, manuals, and workspace will be allocated on a first come, first served basis, so registration is a good plan! 
@@ -64,3 +64,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
  * [http://www.research.att.com/info/kfisher Kathleen Fisher], ATT, interested in adding support for data description to Haskell
  * [mailto://lambda@10k.org Jake Luck], interested in interactive debugging and accessing GHC internals from embedded systems.
  * [http://www.cis.upenn.edu/~geoffw/ Geoffrey Washburn], UPenn. Previous GHC contributor. I have several ideas; I'm trying decide which are not overly ambitious. 
+ * [http://www.galois.com/ Mark Tullsen], Galois, interested in tools for Haskell and high assurance run-time systems.
