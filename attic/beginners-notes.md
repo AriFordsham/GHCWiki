@@ -45,12 +45,14 @@ The critical parts dealing with types are in the 'types' and 'typecheck' directo
 ## Debugging the compiler
 
 1. Make good use of `ASSERT ( booleanCondition )`, or better yet, `ASSERT2 ( booleanCondition, msg )`
-1. You can add typecheking status messages with `!traceTc sDoc`
+1. You can add trace messages to the forcing of `expr` with `pprTrace str sDoc $ expr`
 1. Read about the [GHC Debugging Options](http://www.haskell.org/ghc/docs/latest/html/users_guide/options-debugging.html); the following debugging options are particularly useful:
 
+  - -dshow-passes : shows the compilations phases
   - -ddump-tc-trace : shows the typechecking status messages inserted by `traceTc`
   - -ddump-simpl : shows the Core code after simplification
   - -dppr-debug : makes the debugging dumps more noisy (and useful); among other things, shows kinds for type variables
+1. such debugging options can be added to `make` by passing the argument `EXTRA_HC_OPTS='flags'`
 
 ## Running the testsuite
 
