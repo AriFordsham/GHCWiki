@@ -10,7 +10,7 @@ This assumption is deeply built into Cabal, and lots of things would need to cha
 
 == Question 1: Can two different packages contain a module with the same module name? ==
 
-I now think that's unreasonable to answer 'no', because that means that EVERY module in EVERY package written by ANYONE must have different module names. That's like saying that every function must have different local variables, and is a serious loss of modularity.  I suspect that this is something about which we can all agree.
+We now think that's unreasonable to answer 'no', because that means that EVERY module in EVERY package written by ANYONE must have different module names. That's like saying that every function must have different local variables, and is a serious loss of modularity.  We suspect that this is something about which we can all agree.
 
 The only sensible way to fix it is to relax the language design so that
 
