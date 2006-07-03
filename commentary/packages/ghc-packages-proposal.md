@@ -6,6 +6,38 @@ This page summarises our current proposal for packages in GHC.
 
 A vexed question in the current design of Haskell is the issue of whether a single program can contain two modules with the same name.  Currently that is absolutely ruled out, and as a result packages are fundamentally non-modular: every package must use a distinct space in the global namespace. 
 
+
+There are two quite separate issues.
+
+### Question 1: Can two different packages contain a module with the same module name?
+
+
+I now think that's unreasonable to answer 'no', because that means that EVERY module in EVERY package written by ANYONE must have different module names. That's like saying that every function must have different local variables, and is a serious loss of modularity.  I suspect that this is something about which we can all agree.
+
+
+To allow different packages to contain a module with the same name, the implementation must keep module names from different packages distinct.  If this was done, you could build a single program that used two packages that each used a *hidden* module M.
+
+
+But what if two pacakges expose the same module M?  That takes us to Question 2.
+
+### Question 2.  How are the (exposed) modules from an (installed) package brought into scope?
+
+
+That is, when you say "import M", from what package does M come?
+
+
+Here GHC already has a fairly elaborate scheme (perhaps too elaborate).
+
+- For a start, you may or may not have a package installed.  
+- Even if you do, the package may or may not be exposed by default (reasoning: you may want old versions of package X to be installed, but not in scope by default).  
+- Then, you can use the `-hide-package` flag to hide an otherwise-exposed package, and the `-package` flag to expose an otherwise-hidden package.
+
+
+By manipulating these flags, you can expose package P1 when compiling module A (say), and expose P2 when compiling module B.  Then A and B could both import module M, which would come from P1 and P2 respectively. But:
+
+- What if you wanted to import M from P1 and M from P2 into the *same* module?
+- Compiling different modules with different flags in a way that affects the *semantics* (rather than, say, the optimisation level) seems undesirable.
+
 ## Our proposed design
 
 
