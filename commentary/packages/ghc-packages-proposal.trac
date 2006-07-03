@@ -28,7 +28,7 @@ Then C.o will contain symbols like "{{{P1.A.B.C.f}}}" etc.  In effect, the "orig
 
 But what if two packages '''expose''' the same module A.B.C?  That takes us to Question 2.
 
-== Question 2.  When you say "import A.B.C", from what package does M come? ==
+== Question 2.  When you say "import A.B.C", from what package does A.B.C come? ==
 
 Here GHC already has a fairly elaborate scheme (perhaps too elaborate).
  * For a start, you may or may not have a package installed.  
