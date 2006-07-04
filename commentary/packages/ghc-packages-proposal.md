@@ -7,12 +7,16 @@ This page summarises our current proposal for packages in GHC.
 A vexed question in the current design of Haskell is the issue of whether a single program can contain two modules with the same name.  Currently that is absolutely ruled out, and as a result packages are fundamentally non-modular: every package must use a distinct space in the global namespace. 
 
 
-There are two quite separate issues, addressed in the following two sections.  But before we start, note that we take for granted the following
+There are two quite separate issues, addressed in "Question 1", "Question 2" below.  First we give assumptions.
 
-- Each package has a globally-unique name, organised by some social process
+## Assumptions
 
 
-This assumption is deeply built into Cabal, and lots of things would need to change if it wasn't met.
+Before we start, note that we take for granted the following
+
+- Each package has a globally-unique name, organised by some social process.  This assumption is deeply built into Cabal, and lots of things would need to change if it wasn't met.
+
+- Module names describe *purpose* (what it's for, e.g. `Data.Bits`), whereas package names describe *provenance* (where it comes from, e.g. `"gtkhs"`).  We should not mix these two up, and that is a good reason for not combining package and module names into a single grand name.  One quite frequently wants to globally change provenance but not purpose (e.g. compile my program with a new version of package "foo"), without running through all the source files to change the import statements.
 
 ## Question 1: Can two different packages contain a module with the same module name?
 
@@ -81,49 +85,5 @@ That would presumably get the most recent installed incarnation of the `base` pa
 
 The exact syntax is unimportant. The important thing is that the programmer can specify the package in the source text.
 
-## Alternative: the Packages space
 
-
-Perhaps every (exposed) module from every (installed) package should always be available via an import like
-
-```wiki
-   import Packages.Gtk-1_3_4.Widget.Button
-```
-
-
-That is, the module is name by a fully-qualified name involving its package name (already globally unique).  
-
-
-(Tiresome side note: to make the package id look like a module name we may have to capitalise it, and change dots to underscores.  And that could conceivably make two package names collide.)
-
-## Alterative: grafting
-
-
-Some kind of 'grafting' or 'mounting' scheme could be added, to allow late binding of where in the module tree the is brought into scope.  One might say
-
-```wiki
-	ghc -c Foo.hs -package gtk-2.3=Graphics.GTK
-```
-
-
-to mount the `gtk-2.3` package at `Graphics.GTK` in the module name space.  Outside
-the package one would need to import `Graphics.GTK.M`, but within the package one just imports `M`.  That way the entire package can be mounted elsewhere in the namespace, if desired, without needing to change or recompile the package at all.
-
-
-This would allow a single module to import modules from two different packages that happened to use the same name.  It's not strictly a necessary feaure.  If you want to
-
-- import module A from package P, and 
-- import module A from package Q into a single module M of a program, 
-
-
-you can always do this:
-
-- make a new module AP, that imports A and re-exports it all; 
-- compile AP with package P visible and Q hidden
-- ditto for AQ
-- make M say "import AP; import AQ".
-
-
-The exact details of the mounting scheme, and whether it is done at
-build time, at install time, or at compilation time, or all of the
-above, are open to debate.  We don't have a very fixed view.
+An open question: if A.B.C is in the package being compiled, and in an exposed package, and you say `import A.B.C`, do you get an error ("ambiguous import"), or does the current package override.  And if the former, how can you say "import A.B.C from the current package"?
