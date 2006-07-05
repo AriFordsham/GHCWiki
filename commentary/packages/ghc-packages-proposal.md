@@ -86,4 +86,103 @@ That would presumably get the most recent installed incarnation of the `base` pa
 The exact syntax is unimportant. The important thing is that the programmer can specify the package in the source text.
 
 
-An open question: if A.B.C is in the package being compiled, and in an exposed package, and you say `import A.B.C`, do you get an error ("ambiguous import"), or does the current package override.  And if the former, how can you say "import A.B.C from the current package"?
+If we adopt the idea that an import statement can specify the source package, several design choices arise:
+
+### Is the 'from \<package\>' compulsory?
+
+
+If you want to import A.B.C, a module exported by package "foo", can you say just `import A.B.C`, or must you say `import A.B.C from "foo"`?
+
+
+We think of this as rather like the question "If you import f from module M, can you refer to it as plain "f", or must you refer to it as "M.f"?  The answer in Haskell 98 is that you can refer to it as plain "f" so long as plain "f" is umambiguous; otherwise you can use a qualified reference "M.f" to disambiguate.
+
+
+We propose to adopt the same principle for imports. That is, you can say "`import A.B.C`" so long as that is umambiguous (meaning that there is only one module A.B.C exported by any installed package).  If the reference to A.B.C is ambiguous, you can qualify the import by adding "`from "foo"`".
+
+### Package versions
+
+
+We probably want some special treatment for multiple versions of the same package.  What if you have both "foo-3.9" and "foo-4.0" installed, both exporting A.B.C?  This is jolly useful when you want to keep install new packages, but keep old ones around so you can try your program with the older one.  So we propose that this is not regarded as ambiguous: importing A.B.C gets the latest version, unless some compiler flag (-hide-package) takes it of the running.
+
+### Importing from the home package
+
+
+If A.B.C is in the package being compiled (which we call "the home package"), and in an exposed package, and you say `import A.B.C`, do you get an "ambiguous import" error , or does the current package override.  And if the former, how can you say "import A.B.C from the current package"?
+
+### The 'as P' alias
+
+
+We propose to maintain the local, within-module "as P" alias mechanism unchanged.  Thus:
+
+```wiki
+   import A.B.C( T ) from "foo" as M
+   type S = M.T -> M.T
+```
+
+
+Here, the qualified name "M.T" refers to the T imported from A.B.C in package "foo".
+
+### Qualified names
+
+
+We propose that the default qualified name of an entity within a module is just the module name plus the entity name.  Thus
+
+```wiki
+  import A.B.C( T ) from "foo" 
+  type S = A.B.C.T -> A.B.C.T
+```
+
+
+If you want to import multiple A.B.C's (from different packages) then perhaps they define different entities, in which case there is no problem:
+
+```wiki
+  import A.B.C( T1 ) from "foo" 
+  import A.B.C( T2 ) from "bar" 
+  type S = A.B.C.T1 -> A.B.C.T2
+```
+
+
+But if they both export entities with the same name, there is no alternative to using the 'as M' mechanism:
+
+```wiki
+  import A.B.C( T ) from "foo" as M1
+  import A.B.C( T ) from "bar" as M2
+  type S = M1.T -> M2.T
+```
+
+### Exporting modules from other packages
+
+
+It is perfectly OK to export entities, or whole modules, imported from other packages:
+
+```wiki
+  module M( f, g, module Q ) where
+  import A.B( f, g ) from "foo"
+  import X.Y.Z from "bar" as Q
+```
+
+### Syntax
+
+
+Should package names be in quotes?  Probably not.  They have a well-defined syntax.
+
+
+It's been suggested that one might want to import several modules from one package in one go:
+
+```wiki
+    from "base" import
+        Prelude hiding (length)
+        Control.Exception
+        qualified Data.List as List
+```
+
+
+What we don't like about that is that it needs a new keyword "`from`".  Perhaps all imports can start with the keyword `import`, and then we are free to use extra (context-specific) keywords.  (Haskell already has several of these, such as `hiding`.  Something like this:
+
+```wiki
+    import from "base"
+        Prelude hiding (length)
+        Control.Exception
+        qualified Data.List as List
+    import from "foo" M( x, y )
+```
