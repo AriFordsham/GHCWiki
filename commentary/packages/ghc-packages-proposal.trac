@@ -142,3 +142,7 @@ Indeed, we could allow this multiple form even for ordinary imports:
 {{{
    import { A(f); B(g); C(S,T) }
 }}}
+
+== Alternative proposal ==
+
+An alternative proposal is [wiki:GhcPackagesAlternativeProposal]
