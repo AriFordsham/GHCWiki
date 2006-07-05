@@ -129,9 +129,15 @@ It's been suggested that one might want to import several modules from one packa
 What we don't like about that is that it needs a new keyword "{{{from}}}".  Perhaps all imports can start with the keyword {{{import}}}, and then we are free to use extra (context-specific) keywords.  (Haskell already has several of these, such as {{{hiding}}}.  Something like this:
 
 {{{ 
-    import from "base"
-        Prelude hiding (length)
-        Control.Exception
-        qualified Data.List as List
+    import from "base" {
+        Prelude hiding (length) ;
+        Control.Exception ;
+        qualified Data.List as List }
     import from "foo" M( x, y )
+}}}
+Here the layout is explicit, but perhaps the layout rule could apply.
+
+Indeed, we could allow this multiple form even for ordinary imports:
+{{{
+   import { A(f); B(g); C(S,T) }
 }}}
