@@ -57,7 +57,7 @@ That would presumably get the most recent installed incarnation of the {{{base}}
 {{{
   import A.B.C from "base-3.4" ( map, filter )
 }}}
-The exact syntax is unimportant. The important thing is that the programmer can specify the package in the source text.
+The exact syntax is unimportant. The important thing is that the programmer can specify the package in the source text.  Note that this fundamentally conflicts with the second assumption we started with.  We were trying to avoid specifying "provenance" at the same time as "purpose", on the grounds that we wanted to avoid editing lots of source text when the provenance changed.  (And so it begs the question, if we need to edit the source anyway, why separate the syntax of packages from modules at all?)
 
 If we adopt the idea that an import statement can specify the source package, several design choices arise:
 
