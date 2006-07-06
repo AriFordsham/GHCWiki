@@ -1,5 +1,5 @@
 
-This page summarises our current proposal for packages in GHC.
+This page summarises our current proposal for packages in GHC. See also Brian Hulley's alternative proposal?
 
 ## The problem
 
@@ -164,7 +164,7 @@ It is perfectly OK to export entities, or whole modules, imported from other pac
 ### Syntax
 
 
-Should package names be in quotes?  Probably not.  They have a well-defined syntax.
+Should package names be in quotes?  Probably yes, because they have a different lexcal syntax to the rest of Haskell.  ("foo-2.3" would parse as three tokens, "foo", "-",  and "2.3".  
 
 
 It's been suggested that one might want to import several modules from one package in one go:
@@ -196,8 +196,3 @@ Indeed, we could allow this multiple form even for ordinary imports:
 ```wiki
    import { A(f); B(g); C(S,T) }
 ```
-
-## Alternative proposal
-
-
-An alternative proposal is GhcPackagesAlternativeProposal?
