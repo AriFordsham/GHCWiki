@@ -133,7 +133,8 @@ So when you say "import A.B.C", from what package does A.B.C come?
 
 
 There must be a single namespace in scope containing a module called
-`A.B.C`.
+`A.B.C`.  (Sidenote: or in fact a namespace called `A`, containing a module
+named `B.C`)
 
 ### Syntax
 
