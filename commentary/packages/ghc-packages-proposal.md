@@ -196,8 +196,3 @@ Indeed, we could allow this multiple form even for ordinary imports:
 ```wiki
    import { A(f); B(g); C(S,T) }
 ```
-
-## Alternative proposal
-
-
-An alternative proposal is GhcPackagesAlternativeProposal?
