@@ -1,6 +1,6 @@
 [[PageOutline]]
 
-This page summarises our current proposal for packages in GHC. See also [wiki:GhcPackagesAlternativeProposal Brian Hulley's alternative proposal]
+This page summarises our current proposal for packages in GHC. See also [wiki:GhcPackagesAlternativeProposal Brian Hulley's alternative proposal], and [wiki:GhcPackagesWithGrafting Malcolm Wallace's alternative proposal].
 
 == The problem ==
 
