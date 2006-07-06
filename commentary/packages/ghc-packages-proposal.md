@@ -107,7 +107,18 @@ We probably want some special treatment for multiple versions of the same packag
 ### Importing from the home package
 
 
-If A.B.C is in the package being compiled (which we call "the home package"), and in an exposed package, and you say `import A.B.C`, do you get an "ambiguous import" error , or does the current package override.  And if the former, how can you say "import A.B.C from the current package"?
+If A.B.C is in the package being compiled (which we call "the home package"), and in an exposed package, and you say `import A.B.C`, do you get an "ambiguous import" error , or does the current package override.  And if the former, how can you say "import A.B.C from the current package"?  
+
+
+One possibility is to reuqire the code to know its own package name, and mention that in the import. For exmaple, in a module that is being compiled as part package "foo", you'd say `import A.B.C from "foo"`.  What about modules that are part of the main program (not a package at all).  Perhaps you could then say `import A.B.C from "main"`.
+
+
+Another way is to have a special package name meaning "the home package".  The special name could be
+
+- ""
+- "home"
+- "this"
+- this (with no quotes)
 
 ### The 'as P' alias
 
