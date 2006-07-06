@@ -209,7 +209,7 @@ Indeed, we could allow this multiple form even for ordinary imports:
 ```
 
 
-It is clear from the above examples that they keyword `from` is redundant - the presence of a string literal after the keyword `import` is sufficient to distinguish per-package imports from the ordinary shared-namespace imports, so the above could instead be written as
+It is clear from the above examples that the keyword `from` is redundant - the presence of a string literal (or special keyword to denote the home package) after the keyword `import` is sufficient to distinguish per-package imports from the ordinary shared-namespace imports, so the above could instead be written as
 
 ```wiki
     import "base"
@@ -222,4 +222,26 @@ It is clear from the above examples that they keyword `from` is redundant - the 
            A(f)
            B(g)
            C(S,T)
+```
+
+### Syntax formalised and summarised
+
+
+A possible syntax which covers everything in this proposal is therefore:
+
+> **import** \[*package-name*\] **{***import-specifier* \[**;***import-specifier*\] **}**
+
+
+where *package-name* is a string literal or the keyword `home`, the *import-specifier* corresponds to everything that is currently allowed after the keyword `import`, and the braces and semicolons would be added by the layout rule.
+
+```wiki
+    import "base" -- searches in "base" package only
+        Prelude hiding (length)
+        Control.Exception
+        qualified Data.List as List
+
+    import ""   -- searches in home package only
+        A.B.C
+
+    import P.Q.R -- searches in home + exposed packages
 ```
