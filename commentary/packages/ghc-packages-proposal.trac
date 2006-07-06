@@ -145,10 +145,25 @@ What we don't like about that is that it needs a new keyword "{{{from}}}".  Perh
         qualified Data.List as List }
     import from "foo" M( x, y )
 }}}
-Here the layout is explicit, but perhaps the layout rule could apply.
+Here the layout is explicit, but the braces and semicolons could be avoided by making use of the layout rule as usual.
 
 Indeed, we could allow this multiple form even for ordinary imports:
 {{{
    import { A(f); B(g); C(S,T) }
 }}}
+
+It is clear from the above examples that they keyword {{{from}}} is redundant - the presence of a string literal after the keyword {{{import}}} is sufficient to distinguish per-package imports from the ordinary shared-namespace imports, so the above could instead be written as
+{{{
+    import "base"
+        Prelude hiding (length)
+        Control.Exception
+        qualified Data.List as List
+    import "foo" M( x, y )
+
+    import
+           A(f)
+           B(g)
+           C(S,T)
+}}}
+
 
