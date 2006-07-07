@@ -1,5 +1,5 @@
 
-This page summarises our current proposal for packages in GHC. See also [Malcolm Wallace's alternative proposal](ghc-packages-with-grafting).
+This page summarises our current proposal for packages in GHC. See also [an extended proposal](ghc-package-namespaces) to make namespaces first-class.
 
 ## The problem
 
