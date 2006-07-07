@@ -95,3 +95,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - Jake Luck, interested in interactive debugging and accessing GHC internals from embedded systems.
 - [ Geoffrey Washburn](http://www.cis.upenn.edu/~geoffw/), UPenn. Previous GHC contributor (original implementation of GADTs in Core). Wide variety of language interests involving expressiveness, security, and practical programming.
 - [ Mark Tullsen](http://www.galois.com/), Galois, interested in tools for Haskell and high assurance run-time systems.
+- [ Jeremy Gibbons](http://www.comlab.ox.ac.uk/jeremy.gibbons/), University of Oxford, generally curious about GHC internals - especially advanced aspects of typing
