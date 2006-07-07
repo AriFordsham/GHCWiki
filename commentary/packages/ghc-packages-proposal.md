@@ -117,7 +117,10 @@ In short, an installed package can be of two kinds:
 - **Available**, but not exposed: the package can be used only by an explicit "from" import.  This is rather like "`import qualified M`, except at the package level.  
 
 
-Typically, if multiple versions of the same pacakge are installed, then all will be available, but only one will be exposed.
+Typically, if multiple versions of the same package are installed, then all will be available, but only one will be exposed.
+
+
+GHC's command-line flags (`-hide-package`, `-package`) can be used to manipulate which packages are exposed, but typically an entire package or program will be compiled with a single set of such flags.  GHC does not curretly support in-module control, thus ` {-# OPTIONS_GHC -hide-package foo #-} `, and we do not propose to change that.
 
 
 Simon suggested that an installed package might be hidden (so that it cannot be used at all) but I'm not sure why we need that.
