@@ -97,12 +97,30 @@ If you want to import A.B.C, a module exported by package "foo", can you say jus
 We think of this as rather like the question "If you import f from module M, can you refer to it as plain "f", or must you refer to it as "M.f"?  The answer in Haskell 98 is that you can refer to it as plain "f" so long as plain "f" is umambiguous; otherwise you can use a qualified reference "M.f" to disambiguate.
 
 
-We propose to adopt the same principle for imports. That is, you can say "`import A.B.C`" so long as that is umambiguous (meaning that there is only one module A.B.C exported by any installed package).  If the reference to A.B.C is ambiguous, you can qualify the import by adding "`from "foo"`".
+We propose to adopt the same principle for imports. That is, an import with no package specified, such as "`import A.B.C`", means: 
+
+>
+> Find all modules A.B.C exported by all exposed packages, or the package or program being compiled. If there is exactly one such module, that's the one to import. Otherwise report "ambiguous import".
+
+
+If the reference to A.B.C is ambiguous, you can qualify the import by adding "`from "foo"`".
 
 ### Package versions
 
 
 We probably want some special treatment for multiple versions of the same package.  What if you have both "foo-3.9" and "foo-4.0" installed, both exporting A.B.C?  This is jolly useful when you want to keep install new packages, but keep old ones around so you can try your program with the older one.  So we propose that this is not regarded as ambiguous: importing A.B.C gets the latest version, unless some compiler flag (-hide-package) takes it of the running.
+
+
+In short, an installed package can be of two kinds:
+
+- **Exposed**: the package's modules populate the global module namespace, and can be imported without mentioning the pacckage name explicitly (`import A.B.C`).  Explicit "from" imports may be used to resolve ambiguity.
+- **Available**, but not exposed: the package can be used only by an explicit "from" import.  This is rather like "`import qualified M`, except at the package level.  
+
+
+Typically, if multiple versions of the same pacakge are installed, then all will be available, but only one will be exposed.
+
+
+Simon suggested that an installed package might be hidden (so that it cannot be used at all) but I'm not sure why we need that.
 
 ### Importing from the home package
 
