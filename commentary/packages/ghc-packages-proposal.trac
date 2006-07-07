@@ -1,6 +1,6 @@
 [[PageOutline]]
 
-This page summarises our current proposal for packages in GHC. See also [wiki:GhcPackagesWithGrafting Malcolm Wallace's alternative proposal].
+This page summarises our current proposal for packages in GHC. See also [wiki:GhcPackageNamespaces an extended proposal] to make namespaces first-class.
 
 == The problem ==
 
