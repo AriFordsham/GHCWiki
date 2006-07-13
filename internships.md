@@ -49,7 +49,10 @@ MSRC has lots of other interesting work on programming languages too: F\#, secur
 ## When can I apply?
 
 
-You can apply ANY TIME.   Internships are not just the summer months.  Contact one of us (simonpj@…, simonmar@…) in the first instance (or another sponsor if they are more suitable) 
+You can apply ANY TIME.  Internships are not just the summer months. Contact one of us (simonpj@…, simonmar@…) in the first instance (or another sponsor if they are more suitable).
+
+
+To apply, follow the instructions at [ http://research.microsoft.com/aboutmsr/jobs/internships/](http://research.microsoft.com/aboutmsr/jobs/internships/), **and** email one of us to say that you have done so.
 
 
 Simon Peyton Jones and Simon Marlow
