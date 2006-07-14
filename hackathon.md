@@ -97,3 +97,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Mark Tullsen](http://www.galois.com/), Galois, interested in tools for Haskell and high assurance run-time systems.
 - [ Jeremy Gibbons](http://www.comlab.ox.ac.uk/jeremy.gibbons/), University of Oxford, generally curious about GHC internals - especially advanced aspects of typing
 - [ Brett Letner](http://www.galois.com/), Galois, interested in code coverage tool for Haskell.
+- [ Chad Scherrer](http://www.pnl.gov), Pacific Northwest National Laboratory, interested in computational math and statistics
