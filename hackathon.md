@@ -100,3 +100,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Chad Scherrer](http://www.pnl.gov), Pacific Northwest National Laboratory, interested in computational math and statistics
 - [ Karl Crary](http://www.cs.cmu.edu/~crary), CMU, working on a Haskell-driven typesetting system
 - Luke Maurer, recent graduate of Carleton College, just looking to get my hands dirty
+- [ Atze Dijkstra](http://www.cs.uu.nl/wiki/Atze/WebHome), working on [ EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome), interested to see what can be reused/learned/shared/etc.
