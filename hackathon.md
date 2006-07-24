@@ -99,3 +99,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Brett Letner](http://www.galois.com/), Galois, interested in code coverage tool for Haskell.
 - [ Chad Scherrer](http://www.pnl.gov), Pacific Northwest National Laboratory, interested in computational math and statistics
 - [ Karl Crary](http://www.cs.cmu.edu/~crary), CMU, working on a Haskell-driven typesetting system
+- Luke Maurer, recent graduate of Carleton College, just looking to get my hands dirty
