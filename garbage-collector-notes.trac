@@ -1,6 +1,14 @@
 = The GHC Garbage Collector Notes = 
 
-These are my notes of the Glasgow Haskell Compiler’s Garbage Calloector made over my period of internship at Microsoft Research in Summer 2006. These notes are in process of constantly being updated as I study the system further. The objective of my work at MSRC is to implement a parallel GC for Haskell – one that will allow multiple threads to simultaneously garbage collect.  
+These are my notes of the Glasgow Haskell Compiler’s Garbage Calloector made over my period of internship at Microsoft Research in Summer 2006. These notes are in process of constantly being updated as I study the system further. The objective of my work at MSRC is to implement a parallel GC for Haskell – one that will allow multiple threads to simultaneously garbage collect. The GC that is described below is not one that will run in parallel with user code, but one that will stop all the user threads and run multiple GC threads during the garbage collection process. 
+
+GHC programs have two Garbage Collection strategies. 
+ * Copy Collection
+ * Mark (Sweep) Compact Collection.
+
+Most programs run under the context of the copy collector. When the memory usage has reached a certain percenatge of the allowed heap size for the program (typically 30%), the program from copy collection to mark compact collection. 
+
+This wiki pages describes work done on the copy collector of GHC. The mark compact collector is not addressed. It is however the case that the vast majority of Haskell programs spend all of their execution only under the context of the copy collector and hence improving the copy collector is useful in itself. 
 
 
 == Capabilities ==
