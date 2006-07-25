@@ -1,5 +1,7 @@
 Back to GarbageCollectorNotes
 
+= An Overview of Single Threaded Collection =
+
 The layout of the Haskell heap, as described before, consists of multiple generations, where each generation consists of multiple steps:
 
 http://www.cs.indiana.edu/~rpjames//HaskellGC/ds/layout.jpg
