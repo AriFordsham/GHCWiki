@@ -2,7 +2,7 @@
 Back to [GarbageCollectorNotes](garbage-collector-notes)
 
 
-The layout of the Haskell heap, as described before, consists of multiple generations, where each egenration consists of multiple steps.
+The layout of the Haskell heap, as described before, consists of multiple generations, where each generation consists of multiple steps:
 
 [ http://www.cs.indiana.edu/\~rpjames//HaskellGC/ds/layout.jpg](http://www.cs.indiana.edu/~rpjames//HaskellGC/ds/layout.jpg)
 
@@ -46,3 +46,6 @@ Hence a parallel GC should try to share this load of scanning objects. The dista
 To make this idea more concrete we go on to measure the block distance between the scan pointer and free pointer to see if there is enough work to be shared. 
 
 [ http://www.cs.indiana.edu/\~rpjames//HaskellGC/ds/st-scanning-3.jpg](http://www.cs.indiana.edu/~rpjames//HaskellGC/ds/st-scanning-3.jpg)
+
+
+The above copying process is what happens for the normal objects. The large objects are not copied to a "new" large object list but instead are merely unlinked from, the old list and relinked into the new list thus saving the overhead of copying.
