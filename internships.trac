@@ -16,6 +16,8 @@ Internships are aimed primarily at students currently studying for a PhD.  That'
 
 Simon and I always have a zillion projects that we'd like to see done, but do not have time to do.  An internship is a chance for you to work closely with us --- we usually meet with interns daily, and we never have more than one at a time --- on one of these projects.  (Or you can suggest a project of your own.)
 
+Internship projects should have some research content, and ideally lead to a paper.  It's not just hacking.
+
 To give you some idea, here are some past projects
   * Kevin Donnelly is changing GHC's intermediate language to support equality constraints.
   * Roshan James is writing a parallel garbage collection
@@ -30,6 +32,7 @@ Here is a list of some possible future projects we have in mind:
   * Refactor GHC's code generator into two phases: (a) generate {{{C--}}} with native procedure calls,
     (b) perform CPS conversion, as a {{{C--}}} to {{{C--}}} conversion, to generate code ready 
     for the existing native code generators.
+  * Add views to Haskell.  [http://hackage.haskell.org/trac/haskell-prime/wiki/Views]
   * Improve code generation; see suggestions in [wiki:BackEndNotes]
   * Implement [http://repetae.net/john/recent/out/classalias.html John Meacham's class alias proposal]
   * Implement semi-tagging or other optimisation improvements in GHC
