@@ -1,7 +1,19 @@
 # The GHC Garbage Collector Notes
 
 
-These are my notes of the Glasgow Haskell Compiler’s Garbage Calloector made over my period of internship at Microsoft Research in Summer 2006. These notes are in process of constantly being updated as I study the system further. The objective of my work at MSRC is to implement a parallel GC for Haskell – one that will allow multiple threads to simultaneously garbage collect.  
+These are my notes of the Glasgow Haskell Compiler’s Garbage Calloector made over my period of internship at Microsoft Research in Summer 2006. These notes are in process of constantly being updated as I study the system further. The objective of my work at MSRC is to implement a parallel GC for Haskell – one that will allow multiple threads to simultaneously garbage collect. The GC that is described below is not one that will run in parallel with user code, but one that will stop all the user threads and run multiple GC threads during the garbage collection process. 
+
+
+GHC programs have two Garbage Collection strategies. 
+
+- Copy Collection
+- Mark (Sweep) Compact Collection.
+
+
+Most programs run under the context of the copy collector. When the memory usage has reached a certain percenatge of the allowed heap size for the program (typically 30%), the program from copy collection to mark compact collection. 
+
+
+This wiki pages describes work done on the copy collector of GHC. The mark compact collector is not addressed. It is however the case that the vast majority of Haskell programs spend all of their execution only under the context of the copy collector and hence improving the copy collector is useful in itself. 
 
 ## Capabilities
 
@@ -18,7 +30,13 @@ The tradeoff is in the fact that every Haskell binary has the RTS compiled into 
 
 ## [CapabilitiesAndScheduling](capabilities-and-scheduling)
 
+
+Here is a brief description of the details of Haskell's threading model. 
+
 ## [StgObjectTypes](stg-object-types)
+
+
+This is a brief description of object layout and common object types in the GHC runtime. 
 
 ## Stepping into the GC
 
@@ -30,11 +48,25 @@ The existing GC in GHC is a single threaded one. When the RTS detects memory pre
 
 ## [GcDataStructures](gc-data-structures)
 
+
+The data structures decribed in this section give a brief introduction to teh layout of the GHC runtime's heap management and the concepts of generations and steps. 
+
 ## Allocation
+
+
+\[Todo\]
 
 ## [SingleThreadedCollection](single-threaded-collection)
 
-# [MotivationForParallelization](motivation-for-parallelization)
+
+This a brief description of the single threaded GC, that is currently in use. 
+
+## [MotivationForParallelization](motivation-for-parallelization)
+
+
+I dicuss how the above GC is parallelised and why we think it is feasible to do so. 
+
+# Other Stuff
 
 # [ProblemsCompilingGhc](problems-compiling-ghc)
 
