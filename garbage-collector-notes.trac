@@ -12,8 +12,10 @@ The RTS is located in the folder “rts” of the ghc tree. It consists mostly o
 The tradeoff is in the fact that every Haskell binary has the RTS compiled into it, making Haskell binaries rather large. The RTS consists of facilities like the support of user threads (or Haskell threads), garbage collection etc. We are interested in focusing on Garbage Collection. However before we get into the GC, let us look at how that is connected to the rest of the system.
 
 == CapabilitiesAndScheduling == 
+Here is a brief description of the details of Haskell's threading model. 
 
 == StgObjectTypes ==
+This is a brief description of object layout and common object types in the GHC runtime. 
 
 == Stepping into the GC ==
 The part that we are interested in is the Garbage Collector. The main entry point into the GC is the GarbageCollect() function  defined in GC.c.
@@ -21,13 +23,18 @@ The part that we are interested in is the Garbage Collector. The main entry poin
 The existing GC in GHC is a single threaded one. When the RTS detects memory pressure the GC stops all the Haskell threads and then one thread that does the garbage collection and then resumes all the other suspended threads. On a multiprocessor machine such a design is obviously a bottle neck and it is desirable to garbage collect using multiple parallel threads. 
 
 == GcDataStructures == 
+The data structures decribed in this section give a brief introduction to teh layout of the GHC runtime's heap management and the concepts of generations and steps. 
 
 == Allocation ==
-
+[Todo]
 
 == SingleThreadedCollection ==
+This a brief description of the single threaded GC, that is currently in use. 
 
-= MotivationForParallelization = 
+== MotivationForParallelization ==
+I dicuss how the above GC is parallelised and why we think it is feasible to do so. 
+
+= Other Stuff = 
 
 = ProblemsCompilingGhc =
 

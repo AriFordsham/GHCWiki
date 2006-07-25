@@ -18,7 +18,13 @@ The tradeoff is in the fact that every Haskell binary has the RTS compiled into 
 
 ## [CapabilitiesAndScheduling](capabilities-and-scheduling)
 
+
+Here is a brief description of the details of Haskell's threading model. 
+
 ## [StgObjectTypes](stg-object-types)
+
+
+This is a brief description of object layout and common object types in the GHC runtime. 
 
 ## Stepping into the GC
 
@@ -30,11 +36,25 @@ The existing GC in GHC is a single threaded one. When the RTS detects memory pre
 
 ## [GcDataStructures](gc-data-structures)
 
+
+The data structures decribed in this section give a brief introduction to teh layout of the GHC runtime's heap management and the concepts of generations and steps. 
+
 ## Allocation
+
+
+\[Todo\]
 
 ## [SingleThreadedCollection](single-threaded-collection)
 
-# [MotivationForParallelization](motivation-for-parallelization)
+
+This a brief description of the single threaded GC, that is currently in use. 
+
+## [MotivationForParallelization](motivation-for-parallelization)
+
+
+I dicuss how the above GC is parallelised and why we think it is feasible to do so. 
+
+# Other Stuff
 
 # [ProblemsCompilingGhc](problems-compiling-ghc)
 
