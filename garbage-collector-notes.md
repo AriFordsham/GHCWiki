@@ -68,7 +68,7 @@ I dicuss how the above GC is parallelised and why we think it is feasible to do 
 
 # Other Stuff
 
-# [ProblemsCompilingGhc](problems-compiling-ghc)
+### [ProblemsCompilingGhc](problems-compiling-ghc)
 
 ---
 
