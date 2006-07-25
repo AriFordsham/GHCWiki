@@ -13,7 +13,7 @@ GHC programs have two Garbage Collection strategies.
 Most programs run under the context of the copy collector. When the memory usage has reached a certain percenatge of the allowed heap size for the program (typically 30%), the program from copy collection to mark compact collection. 
 
 
-This wiki pages describes work done on the copy collector of GHC. The mark compact collector is not addressed. It is however the case that the vast majority of Haskell programs spend all of their execution only under the context of the copy collector and hence improving the copy collector is useful in itself. 
+This wiki page describes work done on the Copy Collector of GHC. The mark compact collector is not addressed. It is however the case that the vast majority of Haskell programs spend all of their execution only under the context of the copy collector and hence improving the copy collector is useful in itself. 
 
 ## Capabilities
 
