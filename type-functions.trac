@@ -11,6 +11,7 @@ New features:
 Revised features
  * We may want to re-implement functional dependencies using associated type synonyms.
 
+We keep track of the current [wiki:TypeFunctionsStatus implementation status].
 
 == Specification and Restrictions ==
 
