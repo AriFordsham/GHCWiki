@@ -3,7 +3,7 @@
 ## Parsing and Renaming
 
 
-Todo:
+Todo (high-level):
 
 1. Complete parsing of associated type synonyms.  (Syntactically type declarations can already occur in classes, but I am not sure whether the AST building routines can already deal with this.) & parse type functions.
 1. Rename associated type synonyms & rename type functions.
@@ -17,7 +17,15 @@ Done:
 ## Type Checking
 
 
-Todo:
+Todo (low-level):
+
+- We need to require -fglasgow-exts for ATs. (The type checker seems to be the place to check whether the flag was supplied.) To check this for classes, we need to have `Class.Class` suitably extended; the infrastructure for the check is already builtin in (see `binding no_ats` in `checkValidClass`).
+- Check that each AT definition mirrors the class arguments of the instance in its type indexes. This might be a bit more tricky if we want to allow that they can vary syntactically before expansion of type synonyms. (Do this in the type checker unless we find it is very hard to do there; then, revert to trying it during renaming.)
+- Check that each instance has a definition for every AT and also that all defined associated types are, in fact, declared by the class. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.) Also check that kind signatures that correspond to type variables in the AT declaration or class declaration match the kinds inferred for the AT declaration. (This certainly needs to be done in the type checker.)
+- We need to somehow change the signatures of data constructors of ATs around so that they mention the Name of the type constructor declared in the class (and not the one of the instance the data constructor was declared in). Might be able to do that via a GADT style signature.  **Rethink this under the new scheme.**
+
+
+Todo (high-level):
 
 1. Type checking of associated data types.
 1. Type checking of type functions (and hence, associated type synonyms).
@@ -31,11 +39,30 @@ Done:
 ## Desugaring
 
 
-Todo
+Todo (low-level):
+
+- Derivings on an associated data type *declaration* need to be inherited by all definitions of that data type in instances.
+
+
+Todo (high-level):
 
 1. Desugar associated data types.
 1. Desugar type functions and equality constraints.
 1. Extend interface files.
 
+  - How do we exactly want to represent ATs in interface files?
+
+    - SPJ pointed out that instances are maintained in `InstEnv.InstEnv` with different values for the home packages and others. The definitions of ATs may have to be maintained in a similar way, as they are also incrementally collected during compiling a program.
+    - `IfaceInst` contains the instance declaration information for interfaces.
+  - Export and import lists: The name lists that may appear at class imports and exports can now also contain type names, which is tricky as data type names can carry a list of data constructors.
+  - At the moment, we add as the parent name of the data constructors of associated data types defined in instances, the new name for the data type constructor, which is *different* from that of the data type constructor in the class (also their source representation is the same). We may need to fix that during renaming. (We can't easily fix it in `getLocalDeclBinders`, where the names of the data constructors are made, as we don't have the means to get at the right class at that point.)
+
 
 Done: Nothing.
+
+## Testsuite
+
+
+Todo:
+
+- Convert AT.hs to tests in the testsuite.
