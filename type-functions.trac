@@ -1,0 +1,12 @@
+= Type Functions and Associated Types in GHC - The Master Plan =
+
+This page serves as a collection of notes concerning the implementation of type functions and associated types, especially about the implications for type checking, interface files, and F,,C,, intermediate code generation.
+
+== Aims ==
+
+New features:
+ * Toplevel type function definitions.
+ * Associated data types and type synonyms in classes, where the latter are eseentially type function definitions spread across the instances of the associated class.  Associated types are essentially syntactic sugar for general type functions.
+
+Revised features
+ * We may want to re-implement functional dependencies using associated type synonyms.
