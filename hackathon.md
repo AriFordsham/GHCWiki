@@ -54,7 +54,10 @@ Galois will be hosting the meeting.  Their offices are in Beaverton, a suburb of
 </th></tr></table>
 
 
-More detailed directions will be provided before the hackathon.
+Galois is located right next to a light-rail line, allowing easy commuting from
+down town and the ICFP venue hotel. 
+
+[ Directions to Galois](http://www.galois.com/files/Directions.pdf)
 
 ### Registration
 
