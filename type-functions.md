@@ -47,3 +47,8 @@ More tricky is the addition of type indexes (i.e., non-type variable arguments) 
 
 
 In the parser, we put the original type terms specified as parameters in the field `tcdTyPats`. For top-level declarations, after checking that the parameters are all plain type variables (possibly with a kind signature), we reset `tcdTyPats` to `Nothing` (this already happens during AST construction). `DataDecls` created during parsing Core are already born with `tcdTyPats` being Nothing. (Although, the latter may change.)
+
+### Phasing
+
+
+GHC is organised such that class and type declarations are processed (during renaming and type checking) before any instance declarations are considered. The problem now is that instance declarations may contain type declarations; hence, anything that may depend on a type declaration can now also depend on an instance declaration. We solve that by lifting associated data types out of instances before renaming (and hence also before type checking of type and class declarations).
