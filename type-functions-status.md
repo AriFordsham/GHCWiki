@@ -10,7 +10,8 @@ Back to [TypeFunctions](type-functions).
 
 Todo (low-level):
 
-- Extend `HsDecls.countTyClDecls` and its use in `HscStats.ppSourceStats` to properly account for type functions (kind signatures and equations).
+- Generate tcdTyPats
+- Toplevel ty sigs & equations
 
 
 Todo (high-level):

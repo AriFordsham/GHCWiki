@@ -7,7 +7,8 @@ Back to TypeFunctions.
 == Parsing and Renaming ==
 
 Todo (low-level):
- * Extend `HsDecls.countTyClDecls` and its use in `HscStats.ppSourceStats` to properly account for type functions (kind signatures and equations).
+ * Generate tcdTyPats
+ * Toplevel ty sigs & equations
 
 Todo (high-level):
  1. Complete parsing of associated type synonyms.  (Syntactically type declarations can already occur in classes, but I am not sure whether the AST building routines can already deal with this.) & parse type functions.  Type functions signatures:
