@@ -17,6 +17,7 @@ We keep track of the current [wiki:TypeFunctionsStatus implementation status].
 == Specification and Restrictions ==
 
 Refinement of the specification in the ''Beyond Associated Types'' paper.  (I'll actually link this paper here once it is a bit more coherent.)
+ * The degenerate case of a type equation where all type arguments are variables is valid without a kind signature and coincides with the type synonyms of vanilla Haskell.  In fact, for the moment, we do not allow the degenerate case to have a kind signature.  The latter constraint could be dropped if it proves to be inconvenient.  (Rationale: Multiple type equations are useless when one is degenerate - as the whole system needs to be confluent and we don't have sequential matching on type equations.  So, we get backwards compatibility for free.)
  * Kind signatures can only occur on the type variables that are in excess of the class parameters in an associated type declaration (in a type class declaration). Rationale: The binding position for the class parameters is the class head. That's where the signatures should be.
  * Associated data type definitions (in instances) can have kind signatures at type variables occuring in the head. These signatures must coincide with those of the instance head (for the class parameters) and those of the associated data type declarations (for the excess parameters). Rationale: In contrast to class declarations, we don't regard the instance head as binding variables in the body.
  * The declaration of an associated data type in a class cannot have a context. Rationale: We don't want a context constraining class parameters for the same reason that we don't want that on function signatures. A context on additional arguments to the data declaration would be feasible, but doesn't seem worth the trouble.  '''This is a pre-F,,C,, restriction that needs to be removed from the current code base, before being taken off the wiki.'''
@@ -28,6 +29,10 @@ Restrictions:
 
 
 == How It Works ==
+
+=== Syntax of type function ===
+
+Kind signatures are represented by the new declaration form `TyKindSig`.  Syntactically, we recognise kind signatures by either not having an RHS at all (in which the result kind implicitly is *) or having a result kind separated from the head by {{{::}}}.  We require that every type equation has a kind signature in scope.  However, the degenerate case of a type equation where all type arguments are variables is valid without a kind signature and coincides with the type synonyms of vanilla Haskell.
 
 === Type declarations in classes and indexed types ===
 
