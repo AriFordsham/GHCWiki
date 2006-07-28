@@ -6,6 +6,9 @@ Back to TypeFunctions.
 
 == Parsing and Renaming ==
 
+Todo (low-level):
+ * Extend `HsDecls.countTyClDecls` and its use in `HscStats.ppSourceStats` to properly account for type functions (kind signatures and equations).
+
 Todo (high-level):
  1. Complete parsing of associated type synonyms.  (Syntactically type declarations can already occur in classes, but I am not sure whether the AST building routines can already deal with this.) & parse type functions.  Type functions signatures:
  {{{
@@ -31,6 +34,7 @@ Todo (low-level):
  * Check that each instance has a definition for every AT and also that all defined associated types are, in fact, declared by the class. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.) Also check that kind signatures that correspond to type variables in the AT declaration or class declaration match the kinds inferred for the AT declaration. (This certainly needs to be done in the type checker.)
  * We need to somehow change the signatures of data constructors of ATs around so that they mention the Name of the type constructor declared in the class (and not the one of the instance the data constructor was declared in). Might be able to do that via a GADT style signature.  '''Rethink this under the new scheme.'''
  * Search for {{{!!!TODO}}}.
+ * Extend `TcTyClDecls.tcTyAndClassDecls` to properly do kind checking for type function signatures and equations.
 
 Todo (high-level):
  1. Type checking of associated data types.
