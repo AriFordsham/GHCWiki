@@ -38,7 +38,7 @@ Restrictions:
 
 ## How It Works
 
-### Syntax of type function
+### Syntax of type functions
 
 
 Kind signatures are represented by the new declaration form `TyKindSig`.  Syntactically, we recognise kind signatures by either not having an RHS at all (in which the result kind implicitly is \*) or having a result kind separated from the head by `::`.  We require that every type equation has a kind signature in scope.  However, the degenerate case of a type equation where all type arguments are variables is valid without a kind signature (in fact, it may not have any) and coincides with the type synonyms of vanilla Haskell.
