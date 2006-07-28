@@ -110,3 +110,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Atze Dijkstra](http://www.cs.uu.nl/wiki/Atze/WebHome), Universiteit Utrecht, working on [ EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome), interested to see what can be reused/learned/shared/etc.
 - [ Norman Ramsey](http://www.eecs.harvard.edu/~nr), interested in either code generation or refactoring some part of the run-time system (and would really like to learn more about how the run-time system is put together, even if it's too big for a weekend hack).
 - [ Iavor S. Diatchki](http://www.csee.ogi.edu/~diatchki), interested in Haskell for systems programming/type checking (general improvement rules)
+- Edsko de Vries, interested in type systems (I work on uniqueness typing, a substructural type system), and generic programming
