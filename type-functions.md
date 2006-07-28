@@ -69,3 +69,12 @@ Now, we can extract the associated data type declarations out of instances in `R
 
 
 During renaming, AT declarations in classes are checked for being empty (i.e., no constructors and no context) and for conformance of the type parameters with those of the class. We also check all parameters are type variables, and we inherit kind signatures from the corresponding class parameters (if any of these already have kind signatures, we raise an error) - in fact, we inherit the `Name`s of the class parameters. Afterwards, `tcdTyPats` is reset to `Nothing`.
+
+### Type checking associated data types
+
+
+Class declarations:
+
+- As part of the knot typing exercises in `TcTyClsDecls.tcTyAndClassDecls`, we extract all AT declarations from classes and add them to the list of class and data type declarations to be processed. This ensures that AT declarations participate in kind checking and that they are entered into the global type-checker environment.
+- We do *not* update the data declarations within class declarations (field `tcdATs` within `ClassDecl`), as the `Class.Class` structure produced by the type checker only contains the `Id`s of a classes associated types.
+- We check that we have -fglasgow-exts.
