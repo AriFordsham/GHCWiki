@@ -26,7 +26,7 @@ Refinement of the specification in the *Beyond Associated Types* paper.  (I'll a
 
 - Kind signatures can only occur on the type variables that are in excess of the class parameters in an associated type declaration (in a type class declaration). Rationale: The binding position for the class parameters is the class head. That's where the signatures should be.
 - Associated data type definitions (in instances) can have kind signatures at type variables occuring in the head. These signatures must coincide with those of the instance head (for the class parameters) and those of the associated data type declarations (for the excess parameters). Rationale: In contrast to class declarations, we don't regard the instance head as binding variables in the body.
-- The declaration of an associated data type in a class cannot have a context. Rationale: We don't want a context constraining class parameters for the same reason that we don't want that on function signatures. A context on additional arguments to the data declaration would be feasible, but doesn't seem worth the trouble.  **This is a pre-F<sub>C</sub> restriction that needs to be removed from the currect code base, before being taken off the wiki.**
+- The declaration of an associated data type in a class cannot have a context. Rationale: We don't want a context constraining class parameters for the same reason that we don't want that on function signatures. A context on additional arguments to the data declaration would be feasible, but doesn't seem worth the trouble.  **This is a pre-F<sub>C</sub> restriction that needs to be removed from the current code base, before being taken off the wiki.**
 - The declaration of an associated data type in a class can have a deriving clause. The meaning is that all instances of that type inherit all these derivings (or do we merely want to force them to state - at least - these derivings). Rationale: If I want equality on an associated type, we need to guarantee that all its variants come with an equality.
 
 
@@ -81,3 +81,7 @@ Class declarations:
 - As part of the knot typing exercises in `TcTyClsDecls.tcTyAndClassDecls`, we extract all AT declarations from classes and add them to the list of class and data type declarations to be processed. This ensures that AT declarations participate in kind checking and that they are entered into the global type-checker environment.
 - We do *not* update the data declarations within class declarations (field `tcdATs` within `ClassDecl`), as the `Class.Class` structure produced by the type checker only contains the `Id`s of a classes associated types.
 - We check that we have -fglasgow-exts.
+
+## Possible Extensions
+
+- Toplevel *data* types with type patterns can probably be type checked just like GADTs.  However, they would also be a form of open data types, unless we restrict their values to be scrutinised in class instances with matching type restrictions.
