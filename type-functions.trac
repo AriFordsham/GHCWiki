@@ -55,6 +55,8 @@ During renaming, AT declarations in classes are checked for being empty (i.e., n
 
 === Type checking associated data types ===
 
+Type checking in the presence of only associated data types is much simpler than in the presence of associated type synonyms (or general type functions) as type equality remains purely syntactic (i.e., we do not need to change the unification procedure).  However, we need to check that the alternatives of a case expression inspecting an associated data type contains only constructors defined within the same instances.  (To relax this restriction, we would need a story for compiling open data types.)
+
 Class declarations:
  * As part of the knot typing exercises in `TcTyClsDecls.tcTyAndClassDecls`, we extract all AT declarations from classes and add them to the list of class and data type declarations to be processed. This ensures that AT declarations participate in kind checking and that they are entered into the global type-checker environment.
  * We do ''not'' update the data declarations within class declarations (field `tcdATs` within `ClassDecl`), as the `Class.Class` structure produced by the type checker only contains the `Id`s of a classes associated types.
