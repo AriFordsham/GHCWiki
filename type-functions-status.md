@@ -3,6 +3,8 @@
 
 Back to [TypeFunctions](type-functions).
 
+**Current:** Parsing of associated type synonyms.  Then, generalise to handle type functions (and add the `iso` option).
+
 ## Parsing and Renaming
 
 
