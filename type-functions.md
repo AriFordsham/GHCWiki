@@ -81,3 +81,7 @@ Class declarations:
 - As part of the knot typing exercises in `TcTyClsDecls.tcTyAndClassDecls`, we extract all AT declarations from classes and add them to the list of class and data type declarations to be processed. This ensures that AT declarations participate in kind checking and that they are entered into the global type-checker environment.
 - We do *not* update the data declarations within class declarations (field `tcdATs` within `ClassDecl`), as the `Class.Class` structure produced by the type checker only contains the `Id`s of a classes associated types.
 - We check that we have -fglasgow-exts.
+
+## Possible Extensions
+
+- Toplevel *data* types with type patterns can probably be type checked just like GADTs.  However, they would also be a form of open data types, unless we restrict their values to be scrutinised in class instances with matching type restrictions.
