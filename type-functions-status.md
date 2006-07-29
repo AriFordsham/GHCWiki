@@ -10,7 +10,6 @@ Back to [TypeFunctions](type-functions).
 
 Todo (low-level):
 
-- Generate tcdTyPats
 - Toplevel ty sigs & equations
 
 

@@ -7,7 +7,6 @@ Back to TypeFunctions.
 == Parsing and Renaming ==
 
 Todo (low-level):
- * Generate tcdTyPats
  * Toplevel ty sigs & equations
 
 Todo (high-level):
