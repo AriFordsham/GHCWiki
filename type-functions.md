@@ -84,16 +84,16 @@ GHC is organised such that class and type declarations are processed (during ren
 
 ---
 
+### Renaming and extraction of associated data types
+
+
+During renaming, we enter the names of all data constructors that an associated data type defines into the global `RdrName` environment by extending the function `RnNames.getLocalDeclBinders` such that it traverses instance declarations, too.  We are careful not to add the data type constructor multiple times by ignoring them in instance declarations.  The global `RdrName` environment only ever contains the type constructor introduced in the class declaration (i.e, the `RdrName` of an associated data type maps to the `Name` of the AT declaration in the class).
+
 ---
 
 `Revise from here!`
 
 ---
-
-### Renaming and extraction of associated data types
-
-
-Before the associated data type declarations are lifted out of the defining instances, we enter the names of all data constructors that an associated data type defines into the global `RdrName` environment by extending the function `RnNames.getLocalDeclBinders` such that it traverses instance declarations, too. We are careful not to add the data type constructor multiple times. In fact, it is ignored in instance declarations. The global `RdrName` environment only ever contains the type constructor introduced in the class declaration (i.e, the `RdrName` of an associated data type maps to the `Name` of the AT declaration in the class).
 
 ---
 
