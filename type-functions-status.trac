@@ -3,13 +3,10 @@
 Back to TypeFunctions.
 
 '''Current:''' 
- * Renaming of associated types synonyms.
+ * Renaming of type functions (both associated and not associated).
  * Fix stage-2 build failures.
 
 == Parsing and Renaming ==
-
-Todo (low-level):
- * Toplevel ty sigs & equations
 
 Todo (high-level):
  1. Complete parsing of associated type synonyms.  (Syntactically type declarations can already occur in classes, but I am not sure whether the AST building routines can already deal with this.) & parse type functions.  Type functions signatures:
