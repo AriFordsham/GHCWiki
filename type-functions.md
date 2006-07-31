@@ -84,9 +84,6 @@ GHC is organised such that class and type declarations are processed (during ren
 
 ---
 
-
-; hence, anything that may depend on a type declaration can now also depend on an instance declaration. We solve that by lifting associated data types out of instances before renaming (and hence also before type checking of type and class declarations).
-
 ---
 
 `Revise from here!`
