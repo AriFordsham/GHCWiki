@@ -49,7 +49,7 @@ Type function (kind) signatures are represented by the new declaration form `TyF
 
 `HsDecls.TyClDecl` has a new variant `TyFunction` to represent signatures of type functions.  These consist of the name, type parameters, an iso flag, and optionally an explicit result kind.  The type parameters can have kind signatures as usual.
 
-#### Type function equations and definitions of associated data types
+#### Type function equations and associated data types
 
 
 To represent type functions and associated data types, we need to generalise data type declarations `TyData` and type synonym declarations `TySynonym` to allow type patterns instead of just type variables as parameters.  We do so by way of the field `tcdPats` of type `Maybe [LHsType name]`, used as follows:
