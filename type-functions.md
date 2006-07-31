@@ -52,10 +52,21 @@ Type function (kind) signatures are represented by the new declaration form `TyF
 #### Type function equations and definitions of associated data types
 
 
-More tricky is the addition of type indexes (i.e., non-type variable arguments) to data type declarations. The grammar is already very general and allows arbitrary arguments, but the parser uses `RdHsSyn.checkTyClHdr` to construct the AST and that function ensures that only type variables are supplied. The new story is that `checkTyClHdr` can operate in two different modes: (1) checking mode and (2) extraction mode. Checking mode corresponds to the original behaviour. In extraction mode, all free type variables of the arguments will be collected, but we don't enforce that the arguments are themselves merely type variables. When processing class headers (and for the moment also type synonyms), we use `checkTyClHdr` in checking mode as before. However, when processing a data type (or newtype) declaration, we use extraction mode and keep both the list of type variables (as `tcdTyVars`) and the original arguments (as `tcdTyPats`) in the representation of data type declarations (i.e., in the variant `TyData` of `TyClDecl`). The check enforcing that all arguments to top-level data type declarations and the non-class parameter arguments of associated data types are variables is delayed until the renamer (as we need context information). In the renamer, we check that non-variable type parameters can only occur in the first few arguments of ATs and we remove these parameters by floating the associated data type declarations to the top-level.
+To represent type functions and associated data types, we need to generalise data type declarations `TyData` and type synonym declarations `TySynonym` to allow type patterns instead of just type variables as parameters.  We do so by way of the field `tcdPats` of type `Maybe [LHsType name]`, used as follows:
+
+- If it is `Nothing`, we have a *vanilla* data type declaration or type synonym declaration and `tcdVars` contains the type parameters of the type constructor.
+- If it is `Just pats`, we have the definition of an associated data type or a type function equations (toplevel or nested in an instance declarations).  Then, 'pats' are type patterns for the type-indexes of the type constructor and `tcdVars` are the variables in those patterns.  Hence, the arity of the type constructor is `length tcdPats` and \*not\* `length tcdVars`.
 
 
-In the parser, we put the original type terms specified as parameters in the field `tcdTyPats`. For top-level declarations, after checking that the parameters are all plain type variables (possibly with a kind signature), we reset `tcdTyPats` to `Nothing` (this already happens during AST construction). `DataDecls` created during parsing Core are already born with `tcdTyPats` being Nothing. (Although, the latter may change.)
+In both cases (and as before type functions), `tcdVars` collects all variables we need to quantify over.
+
+#### Parsing and AST construction
+
+
+The LALR parser allows arbitrary types as left-hand sides in **data** and **type** declarations.  The parsed type is, then, passed to `RdHsSyn.checkTyClHdr` for closer analysis (possibly via `RdHsSyn.checkSynHdr`).  It decomposes the type and, among other things, yields the type arguments in their original form plus all type variables they contain.  Subsequently, `RdrHsSyn.checkTyVars` is used to either enforce that all type arguments are variables (second argument is `False`) or to simply check whether the type arguments are variables (second argument `True`).  If in enforcing mode, `checkTyVars` will raise an error if it encounters a non-variable (e.g., required for class declarations).  If in checking mode, it yields the value placed in the `tcdPats` field described above; i.e., returns `Nothing` instead of the type arguments if these arguments are all only variables.
+
+
+NB: Some well-formedness checks are left for the renamer to do.  For example, we don't enforce at this point that toplevel data declarations use variable-only heads (as this requires context information not available during parsing).
 
 ### Representation of associated types
 
