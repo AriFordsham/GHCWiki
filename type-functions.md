@@ -47,7 +47,7 @@ Type function (kind) signatures are represented by the new declaration form `TyF
 
 #### Type function signatures
 
-`HsDecls.TyClDecl` has a new variant `HsFunction` to represent signatures of type functions.  These consist of the name, type parameters, an iso flag, and optionally an explicit result kind.  The type parameters can have kind signatures as usual.
+`HsDecls.TyClDecl` has a new variant `TyFunction` to represent signatures of type functions.  These consist of the name, type parameters, an iso flag, and optionally an explicit result kind.  The type parameters can have kind signatures as usual.
 
 #### Type function equations and definitions of associated data types
 
@@ -76,7 +76,22 @@ We add type declarations to class declarations and instance declarations by a ne
 ### Phasing
 
 
-GHC is organised such that class and type declarations are processed (during renaming and type checking) before any instance declarations are considered. The problem now is that instance declarations may contain type declarations; hence, anything that may depend on a type declaration can now also depend on an instance declaration. We solve that by lifting associated data types out of instances before renaming (and hence also before type checking of type and class declarations).
+GHC is organised such that class and type declarations are processed (during renaming and type checking) before any instance declarations are considered.  In the presence of associated types, instance declarations may contain type definitions.  In particular, the *data constructors* introduced by associated data declarations need to be brought into scope before we can rename any expressions.
+
+---
+
+**Open Point:** When exactly do we want to lift associated data declarations out of instances?  On one hand, general GHC design priciples discourages moving any code around before type checking has been completed.  On the other hand, by lifting data declarations out before type checking, we have to worry less about phasing.  (NB: Associated type signatures in class declarations are less of an issue as classes are very much treated like type declarations anyway - being in `TyClDecl` and all - and so are usually around when we need to get at their embedded types.)
+
+---
+
+
+; hence, anything that may depend on a type declaration can now also depend on an instance declaration. We solve that by lifting associated data types out of instances before renaming (and hence also before type checking of type and class declarations).
+
+---
+
+`Revise from here!`
+
+---
 
 ### Renaming and extraction of associated data types
 
