@@ -44,7 +44,7 @@ Type function (kind) signatures are represented by the new declaration form `TyF
 
 To represent type functions and associated data types, we need to generalise data type declarations `TyData` and type synonym declarations `TySynonym` to allow type patterns instead of just type variables as parameters.  We do so by way of the field `tcdPats` of type `Maybe [LHsType name]`, used as follows:
  * If it is `Nothing`, we have a ''vanilla'' data type declaration or type synonym declaration and `tcdVars` contains the type parameters of the type constructor.
- * If it is `Just pats`, we have the definition of an associated data type or a type function equations (toplevel or nested in an instance declarations).  Then, 'pats' are type patterns for the type-indexes of the type constructor and `tcdVars` are the variables in those patterns.  Hence, the arity of the type constructor is `length tcdPats` and *not* `length tcdVars`.
+ * If it is `Just pats`, we have the definition of an associated data type or a type function equations (toplevel or nested in an instance declarations).  Then, 'pats' are type patterns for the type-indexes of the type constructor and `tcdVars` are the variables in those patterns.  Hence, the arity of the type constructor is `length tcdPats` and ''not'' `length tcdVars`.
 In both cases (and as before type functions), `tcdVars` collects all variables we need to quantify over.
 
 ==== Parsing and AST construction ====
