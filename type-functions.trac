@@ -55,7 +55,7 @@ NB: Some well-formedness checks are left for the renamer to do.  For example, we
 
 === Representation of associated types ===
 
-Adding types declarations to classes is fairly straight forward. The {{{ClassDecl}}} variant of {{{TyClDecl}}} gets a new field {{{tcdATs}}}, which contains a list of type declarations - currently, the parser will only allow data type declarations. Similarly, {{{InstDecl}}} gets a fourth argument, which is a list of type declarations.
+We add type declarations to class declarations and instance declarations by a new field (of type `[LTyClDecl]`) to both `TyClDecl.ClassDecl` (known by the field name `tcdATs`) and `TyClDecl.InstDecl`.  For classes, this new field contains values constructed from `TyData`, `TyFunction`, and `TySynonym`, whereas for instances, we only have `TyData` and `TySynonym`.  This is due to (a) `TyData` representing both signatures and definitions of associated data types (whereas the two are split into `TyFunction` and `TySynonym` for associated synonyms) and (b) associated synonyms having default definitions, which associated data types do not possess.
 
 === Phasing ===
 
