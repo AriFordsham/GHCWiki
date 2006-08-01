@@ -8,8 +8,8 @@ This page serves as a collection of notes concerning the implementation of type 
 
 New features:
 
-- Toplevel type function definitions.
-- Associated data types and type synonyms in classes, where the latter are eseentially type function definitions spread across the instances of the associated class.  Associated types are essentially syntactic sugar for general type functions.
+- Open type-indexed data types and type functions
+- Associated data types and type synonyms in classes, which are type-indexed data types and type functions associated with a class - i.e., associated types are syntactic sugar for type-indexed types and type functions.
 
 
 Revised features
@@ -25,16 +25,13 @@ We keep track of the current [implementation status](type-functions-status).
 Refinement of the specification in the *Beyond Associated Types* paper.  (I'll actually link this paper here once it is a bit more coherent.)
 
 - The degenerate case of a type equation where all type arguments are variables is valid without a kind signature and coincides with the type synonyms of vanilla Haskell.  In fact, for the moment, we do not allow the degenerate case to have a kind signature.  The latter constraint could be dropped if it proves to be inconvenient.  (Rationale: Multiple type equations are useless when one is degenerate - as the whole system needs to be confluent and we don't have sequential matching on type equations.  So, we get backwards compatibility for free.)
-- Kind signatures can only occur on the type variables that are in excess of the class parameters in an associated type declaration (in a type class declaration). Rationale: The binding position for the class parameters is the class head. That's where the signatures should be.
+- The first *n* type parameters of an associated type declaration must coincide with those of its *n*-ary class.  In fact, we regard the class parameters as the binding positions for the first *n* parameters of its associated types.
 - Associated data type definitions (in instances) can have kind signatures at type variables occuring in the head. These signatures must coincide with those of the instance head (for the class parameters) and those of the associated data type declarations (for the excess parameters). Rationale: In contrast to class declarations, we don't regard the instance head as binding variables in the body.
-- The declaration of an associated data type in a class cannot have a context. Rationale: We don't want a context constraining class parameters for the same reason that we don't want that on function signatures. A context on additional arguments to the data declaration would be feasible, but doesn't seem worth the trouble.  **This is a pre-F<sub>C</sub> restriction that needs to be removed from the current code base, before being taken off the wiki.**
-- The declaration of an associated data type in a class can have a deriving clause. The meaning is that all instances of that type inherit all these derivings (or do we merely want to force them to state - at least - these derivings). Rationale: If I want equality on an associated type, we need to guarantee that all its variants come with an equality.
 
 
 Restrictions:
 
 - We currently don't allow associated GADTs. I cannot see any fundamental problem in supporting them, but I want to keep it simple for the moment. (When allowing this, a constructor signature in an associated GADT can of course only refine the instantiation of the type arguments specific to the instance in which the constructor is defined.)
-- We currently don't have toplevel data definitions with type patterns.  They would essentially be open GADTs, which we probably can type check with the existing GADT machinery and translate much as we translate associated data types in classes.  Again, I want to avoid doing too much in the first sweep.
 
 ## How It Works
 
@@ -121,4 +118,4 @@ Class declarations:
 
 ## Possible Extensions
 
-- Toplevel *data* types with type patterns can probably be type checked just like GADTs.  However, they would also be a form of open data types, unless we restrict their values to be scrutinised in class instances with matching type restrictions.
+- Our type-indexed data types are open.  However, we currently don't allow case expressions mixing constructors from different indexes.  We could do that if we had a story for open function definitions outside of classes.
