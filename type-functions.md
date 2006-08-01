@@ -43,7 +43,7 @@ Refinement of the specification in the *Beyond Associated Types* paper.  (I'll a
 - Instances of indexed data types and new types as well as type equations are only valid if a matching kind signature is in scope.
 - The degenerate case of a data type/newtype declaration or type equation where all type parameters are variables is valid without a kind signature and coincides with the data types and type synonyms of vanilla Haskell.  In fact, for the moment, we do not allow the degenerate case to have a kind signature.  The latter constraint could be dropped if it proves to be inconvenient.  (Rationale: Multiple type equations are useless when one is degenerate - as the whole system needs to be confluent and we don't have sequential matching on type equations.  So, we get backwards compatibility for free.)
 - All type indexes of an associated indexed type or type function need to be class parameters.
-- Instances of indexed types may not overlap.  Instances of type equations may only overlap if the equations coincide at critical pairs.
+- Instances of indexed types may not overlap.  Instances of type equations may only overlap if the equations coincide at critical pairs.  (Rational: We cannot be more lazy about checking overlap, as we otherwise cannot guarantee that we generate an F<sub>C</sub> program that fulfils the formal consistency criterion.)
 
 
 Restrictions:
