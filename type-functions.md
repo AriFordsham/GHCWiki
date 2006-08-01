@@ -39,11 +39,11 @@ Refinement of the specification in the *Beyond Associated Types* paper.  (I'll a
 
   and introduce an `n`-ary type functions, which may be of higher-kind.  Again, the type variables can have kind signatures.  The modifier `iso` is optional.
 - Applications of indexed types need to supply all indexes; i.e., partial application to indexes is not admitted.  (Arguments beyond the indexes can be partially supplied as usual.)
-- Instances of indexed data types and newtypes have the same form as vanilla data types and newtypes, but can have non-variable type indexes in index positions.  Type indexes can include applications of indexed data types and newtypes, but no type functions.
-- Type equations of type functions have the same form as vanilla type synonyms, but can have non-variable type indexes in index positions.  Type indexes can include applications of indexed data types and newtypes, but no type functions.
+- Instances of indexed data types/newtypes and equations of type functions have the same form as vanilla data types/newtypes and type synonyms, respectively, but can have non-variable type indexes in index positions.  Type indexes can include applications of indexed data types and newtypes, but no type functions.
 - Instances of indexed data types and new types as well as type equations are only valid if a matching kind signature is in scope.
-- The degenerate case of a data type/newtype declaration or type equation where all type arguments are variables is valid without a kind signature and coincides with the data types and type synonyms of vanilla Haskell.  In fact, for the moment, we do not allow the degenerate case to have a kind signature.  The latter constraint could be dropped if it proves to be inconvenient.  (Rationale: Multiple type equations are useless when one is degenerate - as the whole system needs to be confluent and we don't have sequential matching on type equations.  So, we get backwards compatibility for free.)
+- The degenerate case of a data type/newtype declaration or type equation where all type parameters are variables is valid without a kind signature and coincides with the data types and type synonyms of vanilla Haskell.  In fact, for the moment, we do not allow the degenerate case to have a kind signature.  The latter constraint could be dropped if it proves to be inconvenient.  (Rationale: Multiple type equations are useless when one is degenerate - as the whole system needs to be confluent and we don't have sequential matching on type equations.  So, we get backwards compatibility for free.)
 - All type indexes of an associated indexed type or type function need to be class parameters.
+- Instances of indexed types may not overlap.  Instances of type equations may only overlap if the equations coincide at critical pairs.
 
 
 Restrictions:
