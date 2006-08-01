@@ -37,7 +37,7 @@ Refinement of the specification in the *Beyond Associated Types* paper.  (I'll a
   type [iso] T a1 .. an :: <kind>
   ```
 
-  and introduce an `n`-ary type functions, which may be of higher-kind.  Again, the type variables can have kind signatures.  The modifier `iso` is optional.
+  and introduce an `n`-ary type functions, which may be of higher-kind.  Again, the type variables can have kind signatures.  The modifier `iso` is optional and requires the type function to be injective.
 - Applications of indexed types need to supply all indexes; i.e., partial application to indexes is not admitted.  (Arguments beyond the indexes can be partially supplied as usual.)
 - Instances of indexed data types/newtypes and equations of type functions have the same form as vanilla data types/newtypes and type synonyms, respectively, but can have non-variable type indexes in index positions.  Type indexes can include applications of indexed data types and newtypes, but no type functions.
 - Instances of indexed data types and new types as well as type equations are only valid if a matching kind signature is in scope.
