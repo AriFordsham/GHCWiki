@@ -21,12 +21,12 @@ Refinement of the specification in the ''Beyond Associated Types'' paper.  (I'll
  {{{
 data T a1 .. an :: <kind>
 }}}
- and introduce a data type whose first {{{n}}} argument are indexes.  The {{{<kind>}}} can specify additional parametric parameters.   Index variables can have a kind annotation.  Indexed newtypes have the same form, except for the keyword.
+ and introduce a data type whose first `n` argument are indexes.  The `<kind>` can specify additional parametric parameters.   Index variables can have a kind annotation.  Indexed newtypes have the same form, except for the keyword.
  * Kind signatures of type functions have the form
  {{{
 type [iso] T a1 .. an :: <kind>
 }}}
- and introduce an {{{n}}}-ary type functions, which may be of higher-kind.  Again, the type variables can have kind signatures.  The modifier {{{iso}}} is optional and requires the type function to be injective.
+ and introduce an `n`-ary type functions, which may be of higher-kind.  Again, the type variables can have kind signatures.  The modifier `iso` is optional and requires the type function to be injective.  (In principle, we could make the `<kind>` optional, with `*` being the default, but we don't do that for uniformity with signatures of indexed types - the form `data T a1 .. an` is already used for empty data types.)
  * Applications of indexed types need to supply all indexes; i.e., partial application to indexes is not admitted.  (Arguments beyond the indexes can be partially supplied as usual.)
  * Instances of indexed data types/newtypes and equations of type functions have the same form as vanilla data types/newtypes and type synonyms, respectively, but can have non-variable type indexes in index positions.  Type indexes can include applications of indexed data types and newtypes, but no type functions.
  * Instances of indexed data types and new types as well as type equations are only valid if a matching kind signature is in scope.
