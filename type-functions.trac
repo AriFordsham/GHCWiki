@@ -16,7 +16,7 @@ We keep track of the current [wiki:TypeFunctionsStatus implementation status].
 
 == Specification and Restrictions ==
 
-Refinement of the specification in the ''Beyond Associated Types'' paper.  (I'll actually link this paper here once it is a bit more coherent.)
+Refinement of the specification in the ''Beyond Associated Types'' paper.  (I'll actually link this paper here once it is a bit more coherent.)  Some [wiki:TypeFunctionsExamples examples are on an extra page].
  * Kind signatures of indexed data types have the form
  {{{
 data T a1 .. an :: <kind>

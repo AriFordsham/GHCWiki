@@ -22,7 +22,7 @@ We keep track of the current [implementation status](type-functions-status).
 ## Specification and Restrictions
 
 
-Refinement of the specification in the *Beyond Associated Types* paper.  (I'll actually link this paper here once it is a bit more coherent.)
+Refinement of the specification in the *Beyond Associated Types* paper.  (I'll actually link this paper here once it is a bit more coherent.)  Some [examples are on an extra page](type-functions-examples).
 
 - Kind signatures of indexed data types have the form
 
