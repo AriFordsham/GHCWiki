@@ -74,23 +74,29 @@ GHC is organised such that class and type declarations are processed (during ren
 '''Open Point:''' When exactly do we want to lift associated data declarations out of instances?  On one hand, general GHC design priciples discourages moving any code around before type checking has been completed.  On the other hand, by lifting data declarations out before type checking, we have to worry less about phasing.  (NB: Associated type signatures in class declarations are less of an issue as classes are very much treated like type declarations anyway - being in `TyClDecl` and all - and so are usually around when we need to get at their embedded types.)
 ----
 
-=== Renaming and extraction of associated data types ===
+=== Renaming of indexed types ===
 
-During renaming, we enter the names of all data constructors that an associated data type defines into the global `RdrName` environment by extending the function `RnNames.getLocalDeclBinders` such that it traverses instance declarations, too.  We are careful not to add the data type constructor multiple times by ignoring them in instance declarations.  The global `RdrName` environment only ever contains the type constructor introduced in the class declaration (i.e, the `RdrName` of an associated data type maps to the `Name` of the AT declaration in the class).
+==== Kind signatures ====
 
-----
-`Revise from here!`
-----
+Kind signatures are renamed by `RnSource.rnTySig`, which is parametrised by a function that handles the binders (i.e., index variables) of the declaration.  This is so that we can use the same code for toplevel signatures and those in classes.  In the former case, the variables are in a defining position, whereas in classes they are in a usage position (as all index variables must be class parameters).
+
+==== Renaming of associated data types ===
+
+Associated data definitions are particularly interesting, as they not only introduces, but also value level entities, namely the data constructors.  During renaming, we enter the names of all data constructors that an associated data type defines into the global `RdrName` environment by extending the function `RnNames.getLocalDeclBinders` such that it traverses instance declarations, too.  We are careful not to add the data type constructor multiple times by ignoring them in instance declarations.  The global `RdrName` environment only ever contains the type constructor introduced in the class declaration (i.e, the `RdrName` of an associated data type maps to the `Name` of the AT declaration in the class).
 
 ----
 '''Remaining problem:''' The function `getLocalDeclBinders` must still supply the parent `Name` to the name generation for the data constructors. That parent name should be the one produced for the associated data declaration in the corresponding class declaration, which is hard to get hold of at this moment. So, we supply the Name of the data type constructor instead. That should probably be replaced by the class name in a later phase.
 ----
 
-Now, we can extract the associated data type declarations out of instances in `RnSource.rnSrcDecl`, which is only called by `RnSource.rnSrcDecls`. As part of the extraction process, we also call `RnSource.rnTyClDecl` on each AT declaration to obtain the renamed form of these declarations. We add these renamed forms to the type and class declarations (i.e., `hs_tyclds`) of the currently processed binding group, but also keep a copy in the instance declarations, were they are needed during type checking to perform some well-formedness checks (e.g., that each AT of a class receives a definition). NB: Lifted associated type declarations inherit the context of the instance head. However, the variables of the data declaration are renamed independently of those of the instance head (which implies that the inherited copy of the instance context is renamed again as part of the data declaration).
+==== Lifting of associated type definitions out of instances ====
 
-During renaming, AT declarations are checked for conformance of the type parameters with those of the class.  AT declarations inherit kind signatures from the corresponding class parameters (if any of these already have kind signatures, we raise an error) - in fact, we inherit the `Name`s of the class parameters.  Moreover, associated data declarations in classes are checked for being empty (i.e., no constructors and no context).  
+We extract the associated type definitions out of instances in `RnSource.rnSrcDecl`, which is only called by `RnSource.rnSrcDecls`. As part of the extraction process, we also call `RnSource.rnTyClDecl` on each AT declaration to obtain the renamed form of these declarations. We add these renamed forms to the type and class declarations (i.e., `hs_tyclds`) of the currently processed binding group, but also keep a copy in the instance declarations, were they are needed during type checking to perform some well-formedness checks (e.g., that each AT of a class receives a definition). NB: Lifted associated type declarations inherit the context of the instance head. However, the variables of the data declaration are renamed independently of those of the instance head (which implies that the inherited copy of the instance context is renamed again as part of the data declaration).
 
-=== Type checking associated data types ===
+----
+`Revise from here!`
+----
+
+=== Type checking associated data types ====
 
 Type checking in the presence of only associated data types is much simpler than in the presence of associated type synonyms (or general type functions) as type equality remains purely syntactic (i.e., we do not need to change the unification procedure).  However, we need to check that the alternatives of a case expression inspecting an associated data type contains only constructors defined within the same instances.  (To relax this restriction, we would need a story for compiling open data types.)
 
