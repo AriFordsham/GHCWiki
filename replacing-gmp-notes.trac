@@ -1,2 +1,28 @@
+= Replacing GMP: Bignum libraries, Licensing and Implementation =
 
-== Replacing GMP: Bignum libraries, Licensing and Implementation ==
+=== Introduction ===
+
+This task was started following [http://hackage.haskell.org/trac/ghc/ticket/601 Task #601], while these Notes were requested by [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010676.html Simon Peyton-Jones].
+
+GHC currently implements the Integer and Fractional types by using the [http://swox.com/gmp/ The GNU MP Bignum Library] (GMP) which supports arbitrary precision mathematical calculations.  GMP is fast, memory efficient, and offers many high level signed integer functions (140 of them), as well as many rational and floating point arithmetic functions.  The current GHC implementation only uses those functions necessary for the Prelude.  
+
+GMP memory is integrated with the !RunTime System's (RTS's) Garbage Collector (GC).  GMP memory is allocated from the GC heap, so values produced by GMP are under the control of the RTS and its GC.  The current implementation is memory efficient wile allowing the RTS and its GC to maintain control of GMP evaluations.
+
+=== Reasons for Replacing GMP as the Bignum library ===
+
+There are several problems with the current GMP implementation:
+
+1. Licensing
+
+	GMP is licensed under the [http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License] (LGPL), a kind of "copyleft" license.  According to the terms of the LGPL, paragraph 5, you may distribute a program that is designed to be compiled and dynamically linked with the library under the terms of your choice (i.e., commercially) but if your program incorporates portions of the library, if it is linked statically, then according to paragraph 2 your program is a "derivative"--a "work based on the library"--and you "must cause the whole of the work to be licensed" under the terms of the LGPL (including for free).  
+
+	The LGPL licensing for GMP is a problem for the overall licensing of binary programs compiled with GHC because most distributions (and builds) of GHC use static libraries.  (Dynamic libraries are currently distributed only for OS X.)  The LGPL licensing situation may be worse: even though [http://cvs.haskell.org/cgi-bin/cvsweb.cgi/fptools/ghc/LICENSE?rev=1.1.26.1;content-type=text%2Fplain The Glasgow Haskell Compiler License] is essentially a "free software" license (BSD3), according to paragraph 2 of the LGPL, GHC must be distributed under the terms of the LGPL!
+
+2. Memory Structure: Simultaneous Access to GMP by Foreign (C) code in the Same Binary
+
+	In the current GMP implementation, GMP is configured to use GHC's GC memory, so C code in the same binary as GHC-compiled Haskell code cannot access GMP separately.  This problem was noted in [http://hackage.haskell.org/trac/ghc/ticket/311 bug Ticket #311].  Simon Peyton-Jones suggested that a simple renaming of GHC-GMP functions would solve this problem and Bulat Ziganshin suggested simply using an automated tool to do this.  See [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010679.html Replacement for GMP].
+
+=== Overview of the Current GMP Implementation ===
+
+Esa Ilari Vuokko, who at one time attempted to replace GMP with [http://math.libtomcrypt.com/ LibTomMath], posted several messages with good notes on the current implementation.  Much of what is on this page is derived from those notes.  See, [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010669.html Replacement for GMP(3)] and [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010674.html Replacement for GMP(4)].
+
