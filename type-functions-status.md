@@ -5,7 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Fix stage-2 build failures.
+- Testing, before having a go at type checking.
 
 ## Parsing and Renaming
 
