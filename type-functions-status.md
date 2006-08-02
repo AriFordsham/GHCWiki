@@ -5,7 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Renaming of type functions (both associated and not associated).
+- Renaming of default AT synonym definitions in classes.
 - Fix stage-2 build failures.
 
 ## Parsing and Renaming
@@ -19,7 +19,7 @@ Todo (high-level):
 Done:
 
 - Parsing and renaming of kind signatures (toplevel and in classes).
-- Parsing and renaming of indexed types declarations (partly done).
+- Parsing and renaming of indexed types declarations.
 
 ## Type Checking
 
