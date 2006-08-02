@@ -13,24 +13,13 @@ Back to [TypeFunctions](type-functions).
 
 Todo (high-level):
 
-1. Complete parsing of associated type synonyms.  (Syntactically type declarations can already occur in classes, but I am not sure whether the AST building routines can already deal with this.) & parse type functions.  Type functions signatures:
-
-  ```wiki
-  type [iso] T a1 .. an [:: <kind>]
-  ```
-
-  Type function equations:
-
-  ```wiki
-  type T t1 .. tn = t
-  ```
-1. Rename associated type synonyms & rename type functions.
 1. Parse and rename equality constraints in signatures.
 
 
 Done:
 
-- Parsing and renaming associated data types.
+- Parsing and renaming of kind signatures (toplevel and in classes).
+- Parsing and renaming of indexed types declarations (partly done).
 
 ## Type Checking
 
