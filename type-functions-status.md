@@ -19,7 +19,7 @@ Todo (high-level):
 Done:
 
 - Parsing and renaming of kind signatures (toplevel and in classes).
-- Parsing and renaming of indexed types declarations.
+- Parsing and renaming of indexed types declarations (toplevel and in classes).
 
 ## Type Checking
 
