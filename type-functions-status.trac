@@ -24,7 +24,7 @@ Todo (low-level):
  * Check that each AT definition mirrors the class arguments of the instance in its type indexes. This might be a bit more tricky if we want to allow that they can vary syntactically before expansion of type synonyms. (Do this in the type checker unless we find it is very hard to do there; then, revert to trying it during renaming.)
  * Check that each instance has a definition for every AT and also that all defined associated types are, in fact, declared by the class. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.) Also check that kind signatures that correspond to type variables in the AT declaration or class declaration match the kinds inferred for the AT declaration. (This certainly needs to be done in the type checker.)
  * We need to somehow change the signatures of data constructors of ATs around so that they mention the Name of the type constructor declared in the class (and not the one of the instance the data constructor was declared in). Might be able to do that via a GADT style signature.  '''Rethink this under the new scheme.'''
- * Search for {{{!!!TODO}}}.
+ * Search for {{{!!!TODO}}} (eg, TcTyClsDecls.lhs)
  * Extend `TcTyClDecls.tcTyAndClassDecls` to properly do kind checking for type function signatures and equations.
 
 Todo (high-level):
