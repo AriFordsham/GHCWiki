@@ -29,6 +29,33 @@ There are several problems with the current GMP implementation:
 >
 > In the current GMP implementation, GMP is configured to use GHC's GC memory, so C code in the same binary as GHC-compiled Haskell code cannot access GMP separately.  This problem was noted in [ bug Ticket \#311](http://hackage.haskell.org/trac/ghc/ticket/311).  Simon Peyton-Jones suggested that a simple renaming of GHC-GMP functions would solve this problem and Bulat Ziganshin suggested simply using an automated tool to do this.  See [ Replacement for GMP](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010679.html).
 
+>
+> The custom-memory configuration of GMP uses GMP's [ Custom Allocation](http://swox.com/gmp/manual/Custom-Allocation.html#Custom-Allocation) routines.  Alternative libraries may not have this facility builtin.
+
+1. Other Improvements to Integer
+
+>
+> Most of the suggestions in this section come from discussions in the glasgow-haskell-users list thread [ returning to Cost of Integer](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010654.html).  In particular, [ John Meacham's suggestion](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010660.html) to use a ForeignPtr to data held by the normal GMP system library and store the value in an unboxed Int if the number of significant digits in Integer could fit into the size of an Int.  For those who are curious, a guide to GHC primitives is available (in an unformatted version) in ghc/compiler/prelude/primops.txt.pp; here is a link to [ CVS version of primops.txt.pp](http://cvs.haskell.org/cgi-bin/cvsweb.cgi/fptools/ghc/compiler/prelude/primops.txt.pp?rev=1.37;content-type=text%2Fplain).  You might want to search for the text "section "The word size story."", and especially the text "section "Integer\#"". 
+
+>
+> The current GMP implementation of Integer is:
+>
+> ```wiki
+> data Integer = Int# ByteArr#
+> ```
+>
+>
+> where the Int\# counts the number of [ limbs](http://swox.com/gmp/manual/Nomenclature-and-Types.html#Nomenclature-and-Types) (a GMP term referring to parts of a multi-precision number that fit into a 32 or 64 bit word, depending on the machine) and the ByteArr\# is the actual array in RTS-GC memory holding the limbs.  The sign of the Int\# is used to indicate the sign of the number represented by the ByteArr\#.  
+
+>
+> This current implementation of Integer means that all Integers hold a ByteArr, even if there is only one limb (which would fit into an Int, as Int is also the representation of a machine word in current implementations).  The suggestion discussed by John Meacham, [ Lennart Augustsson](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010664.html), [ Simon Marlow](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010677.html) and [ Bulat Ziganshin](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010687.html) was to change the representation of Integer so the Int\# could be either a pointer to the Bignum library array of limbs or, if the number of significant digits could fit into say, 31 bits, to use the extra bit as an indicator of that fact and hold the entire value in the Int\#, thereby saving the memory from the ByteArr\# and increasing the speed with an unboxed Int\#.  
+
+>
+> Note that the downside to this approach would mean that: 
+
+- pointers would have to be constrained (the size of an actual pointer may be greater than 32 bits on some machines (it is not defined by the C99 standard)); and, 
+- either Ints in general would all be 30 or 31 bits, depending on how many bits you need to indicate the ByteArr\#, or you would have to come up with a new primitive type.
+
 ### Overview of the Current GMP Implementation
 
 
