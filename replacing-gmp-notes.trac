@@ -31,7 +31,7 @@ There are several problems with the current GMP implementation:
 
 	In the current GMP implementation, GMP is configured to use GHC's GC memory and GMP can only have one allocator for memory.  Since any single binary containing Haskell code compiled with GHC contains the RTS and GMP, C code in the same binary cannot use GMP.  This problem was noted in [http://hackage.haskell.org/trac/ghc/ticket/311 bug Ticket #311].  Simon Peyton-Jones suggested that a simple renaming of GHC-GMP functions would solve this problem and Bulat Ziganshin suggested simply using an automated tool to do this.  See [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010679.html Replacement for GMP].  Using different function names would make GMP into a separate, custom GHC library leaving the C part of the program free to use GMP.
 
-	GHC does not have a custom-modified version of GMP (in fact, GHC uses the system build of GMP if that is available).  The custom-memory configuration of GMP uses GMP's [http://swox.com/gmp/manual/Custom-Allocation.html#Custom-Allocation Custom Allocation] routines.  Alternative libraries may not have this facility built in.
+	GHC does not have a custom-modified version of GMP (in fact, GHC uses the system build of GMP if that is available).  The memory configuration of GMP uses GMP's [http://swox.com/gmp/manual/Custom-Allocation.html#Custom-Allocation Custom Allocation] routines.  Alternative libraries may not have this facility built in.
 
 3. Other Improvements to Integer
 
