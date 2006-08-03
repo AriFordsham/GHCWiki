@@ -50,37 +50,56 @@ Restrictions:
 
 - We currently don't allow associated GADTs. I cannot see any fundamental problem in supporting them, but I want to keep it simple for the moment. (When allowing this, a constructor signature in an associated GADT can of course only refine the instantiation of the type arguments specific to the instance in which the constructor is defined.)
 
+## Terminology
+
+**Parametric type constructors**: Type constructors in vanilla Haskell.
+
+**Indexed type constructors**: Type constructors that are defined via one or more type declarations that have non-variable parameters.  We often call them sloppily just *indexed types*.
+
+**Kind signature**: Declaration of the name, kind, and arity of an indexed type constructor.  The *arity* is the number of type indexes - *not* the overall number of parameters - of an indexed type constructor.
+
+**Type function**: An indexed type synonym.
+
+**Indexed data type**: An indexed type constructor declared with `data` or `newtype`.
+
+**Associated type**: An indexed type that is declared in a type class.
+
+**Definitions vs. declarations**: We sometimes call the kind signature of an indexed constructor its *declaration* and the subsequent population of the type family by type equations or indexed data/newtype declarations the constructor's *definition*.
+
 ## How It Works
 
-### Syntax of type functions
+### Syntax of kind signatures and definitions of indexed types
 
 
-Type function (kind) signatures are represented by the new declaration form `TyFunction` (of `HsDecls.TyClDecl`).  Syntactically, we recognise kind signatures by either not having an RHS at all (in which the result kind implicitly is \*) or having a result kind separated from the head by `::`.  We require that every type equation has a kind signature in scope.  However, the degenerate case of a type equation where all type arguments are variables is valid without a kind signature (in fact, it may not have any) and coincides with the type synonyms of vanilla Haskell.
+All kind signature consists of a type declaration head followed by a `::` and a kind.  In the case of  a data declaration, we addititonally require that there is no `where` clause.   We require for every definition of an indexed type (i.e., type equations or indexed data/newtype declaration) that a matching kind signature is in scope.  Vanilla type synonym definitions and data/newtype declarations fall out as special cases of type function equations and indexed type declarations that have variable-only patterns, for which we require no kind signatures.  The vanilla forms are also closed (further definitions would be useless, as they are bound to overlap).
 
 ### Representation of indexed types
 
-#### Type function signatures
+#### Kind signatures
 
-`HsDecls.TyClDecl` has a new variant `TyFunction` to represent signatures of type functions.  These consist of the name, type parameters, an iso flag, and optionally an explicit result kind.  The type parameters can have kind signatures as usual.
-
-#### Type function equations and associated data types
+`HsDecls.TyClDecl` has a new variant `TyFunction` to represent signatures of type functions.  These consist of the name, type parameters, an iso flag, and optionally an explicit result kind.  The type parameters can have kind signatures as usual.  
 
 
-To represent type functions and associated data types, we need to generalise data type declarations `TyData` and type synonym declarations `TySynonym` to allow type patterns instead of just type variables as parameters.  We do so by way of the field `tcdPats` of type `Maybe [LHsType name]`, used as follows:
+Signatures for indexed data and newtypes are represented as a special case of `TyData`, namely when `TyData` has a kind signature, but no constructors. 
+
+
+We recognise both forms of kind signatures by the predicate `HsDecls.isKindSigDecl`.
+
+#### Definitions of indexed types
+
+
+We represent type functions and indexed data and newtypes by generalising type synonym declarations `TySynonym` and data type declarations `TyData` to allow patterns ofr type indexes instead of just type variables as parameters.  In both variants, we do so by way of the field `tcdPats` of type `Maybe [LHsType name]`, used as follows:
 
 - If it is `Nothing`, we have a *vanilla* data type declaration or type synonym declaration and `tcdVars` contains the type parameters of the type constructor.
-- If it is `Just pats`, we have the definition of an associated data type or a type function equations (toplevel or nested in an instance declarations).  Then, 'pats' are type patterns for the type-indexes of the type constructor and `tcdVars` are the variables in those patterns.  Hence, the arity of the type constructor is `length tcdPats` and *not*`length tcdVars`.
+- If it is `Just pats`, we have the definition of an a indexed type (toplevel or nested in an instance declarations).  Then, 'pats' are type patterns for the type-indexes of the type constructor and `tcdVars` are the variables in those patterns.  Hence, the arity of the type constructor is `length tcdPats` and *not*`length tcdVars`.
 
 
-In both cases (and as before type functions), `tcdVars` collects all variables we need to quantify over.
+In both cases (and as before we had type functions), `tcdVars` collects all variables we need to quantify over.
 
 #### Parsing and AST construction
 
 
-The LALR parser allows arbitrary types as left-hand sides in **data** and **type** declarations.  The parsed type is, then, passed to `RdHsSyn.checkTyClHdr` for closer analysis (possibly via `RdHsSyn.checkSynHdr`).  It decomposes the type and, among other things, yields the type arguments in their original form plus all type variables they contain.  Subsequently, `RdrHsSyn.checkTyVars` is used to either enforce that all type arguments are variables (second argument is `False`) or to simply check whether the type arguments are variables (second argument `True`).  If in enforcing mode, `checkTyVars` will raise an error if it encounters a non-variable (e.g., required for class declarations).  If in checking mode, it yields the value placed in the `tcdPats` field described above; i.e., returns `Nothing` instead of the type arguments if these arguments are all only variables.
-
-
-NB: Some well-formedness checks are left for the renamer to do.  For example, we don't enforce at this point that toplevel data declarations use variable-only heads (as this requires context information not available during parsing).
+The LALR parser allows arbitrary types as left-hand sides in **data**, **newtype**, and **type** declarations.  The parsed type is, then, passed to `RdHsSyn.checkTyClHdr` for closer analysis (possibly via `RdHsSyn.checkSynHdr`).  It decomposes the type and, among other things, yields the type arguments in their original form plus all type variables they contain.  Subsequently, `RdrHsSyn.checkTyVars` is used to either enforce that all type arguments are variables (second argument is `False`) or to simply check whether the type arguments are variables (second argument `True`).  If in enforcing mode, `checkTyVars` will raise an error if it encounters a non-variable (e.g., required for class declarations).  If in checking mode, it yields the value placed in the `tcdPats` field described above; i.e., returns `Nothing` instead of the type arguments if these arguments are all only variables.
 
 ### Representation of associated types
 
