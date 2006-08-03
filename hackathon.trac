@@ -88,3 +88,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
  * [mailto://devriese@cs.tcd.ie Edsko de Vries], interested in type systems (I work on uniqueness typing, a substructural type system), and generic programming
  * [http://www.cs.rutgers.edu/~ccshan/ Chung-chieh Shan], interested in type systems
  * [mailto://mboes@galois.com Mathieu Boespflug] Interested in implementing John Meacham's [http://repetae.net/john/recent/out/classalias.html class alias proposal].
+ * [mailto:adams-moran@galois.com Andy Adams-Moran], interested in making cross-compiling with GHC easier, and in learning more about the innards of the compiler (versus the RTS)
