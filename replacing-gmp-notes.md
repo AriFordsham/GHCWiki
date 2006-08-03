@@ -11,6 +11,13 @@ GHC currently implements the Integer and Fractional types by using the [ The GNU
 
 GMP memory is integrated with the RunTime System's (RTS's) Garbage Collector (GC).  GMP memory is allocated from the GC heap, so values produced by GMP are under the control of the RTS and its GC.  The current implementation is memory efficient wile allowing the RTS and its GC to maintain control of GMP evaluations.
 
+
+If you want to help with replacing GMP or do it yourself, you will have to work with the GC and RTS system.  The parts you will have to modify are written in C and C--, with configuration and assembly done through the Makefiles.  You should have an understanding of:
+
+- how the GC works and how memory from GMP is integrated with it;
+- some C-- (this is fairly basic if you know C well, the only real documentation on C-- itself is in the [ C-- manual (PDF)](http://cminusminus.org/extern/man2.pdf), from cminusminus.org; the implementation of C-- for GHC is performed by several Haskell modules in the directory [ compiler/cmm](http://darcs.haskell.org/ghc/compiler/cmm/) of the HEAD branch); and,
+- makefiles and configuration scripts.
+
 ### Reasons for Replacing GMP as the Bignum library
 
 
@@ -24,13 +31,13 @@ There are several problems with the current GMP implementation:
 >
 > The LGPL licensing for GMP is a problem for the overall licensing of binary programs compiled with GHC because most distributions (and builds) of GHC use static libraries.  (Dynamic libraries are currently distributed only for OS X.)  The LGPL licensing situation may be worse: even though [ The Glasgow Haskell Compiler License](http://cvs.haskell.org/cgi-bin/cvsweb.cgi/fptools/ghc/LICENSE?rev=1.1.26.1;content-type=text%2Fplain) is essentially a "free software" license (BSD3), according to paragraph 2 of the LGPL, GHC must be distributed under the terms of the LGPL!
 
-1. Memory Structure: Simultaneous Access to GMP by Foreign (C) code in the Same Binary
+1. Memory Structure; Simultaneous Access to GMP by Foreign (C) code in the Same Binary
 
 >
-> In the current GMP implementation, GMP is configured to use GHC's GC memory, so C code in the same binary as GHC-compiled Haskell code cannot access GMP separately.  This problem was noted in [ bug Ticket \#311](http://hackage.haskell.org/trac/ghc/ticket/311).  Simon Peyton-Jones suggested that a simple renaming of GHC-GMP functions would solve this problem and Bulat Ziganshin suggested simply using an automated tool to do this.  See [ Replacement for GMP](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010679.html).
+> In the current GMP implementation, GMP is configured to use GHC's GC memory, so C code in the same binary as GHC-compiled Haskell code cannot access GMP separately due to duplicate-symbols for GMP function names in both programs.  This problem was noted in [ bug Ticket \#311](http://hackage.haskell.org/trac/ghc/ticket/311).  Simon Peyton-Jones suggested that a simple renaming of GHC-GMP functions would solve this problem and Bulat Ziganshin suggested simply using an automated tool to do this.  See [ Replacement for GMP](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010679.html).
 
 >
-> The custom-memory configuration of GMP uses GMP's [ Custom Allocation](http://swox.com/gmp/manual/Custom-Allocation.html#Custom-Allocation) routines.  Alternative libraries may not have this facility built in.
+> GHC does not have a custom-modified version of GMP (in fact, GHC uses the system build of GMP if that is available).  The custom-memory configuration of GMP uses GMP's [ Custom Allocation](http://swox.com/gmp/manual/Custom-Allocation.html#Custom-Allocation) routines.  Alternative libraries may not have this facility built in.
 
 1. Other Improvements to Integer
 
