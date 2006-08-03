@@ -26,15 +26,26 @@ There are several problems with the current GMP implementation:
 
 3. Other Improvements to Integer
 
-	Most of the suggestions in this section come from discussions in the glasgow-haskell-users list thread [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010654.html returning to Cost of Integer].  In particular, [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010660.html John Meacham's suggestion] to use a !ForeignPtr to data held by the normal GMP system library and store the value in an unboxed Int if the number of significant digits in Integer could fit into the size of an Int.  For those who are curious, a guide to GHC primitives is available (in an unformatted version) in ghc/compiler/prelude/primops.txt.pp; here is a link to [http://cvs.haskell.org/cgi-bin/cvsweb.cgi/fptools/ghc/compiler/prelude/primops.txt.pp?rev=1.37;content-type=text%2Fplain CVS version of primops.txt.pp].  You might want to search for the text "section "The word size story."", and especially the text "section "Integer#"". 
+	Most of the suggestions in this section come from discussions in the glasgow-haskell-users list thread [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010654.html returning to Cost of Integer].  In particular, [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010660.html John Meacham's suggestion] to use a !ForeignPtr to data held by the normal GMP system library and store the value in an unboxed Int if the number of significant digits in Integer could fit into the size of an Int.  For those who are curious, a guide to GHC primitives is available (in an unformatted version) in ghc/compiler/prelude/primops.txt.pp; here is a link to [http://darcs.haskell.org/ghc/compiler/prelude/primops.txt.pp CVS version of primops.txt.pp].  You might want to search for the text "section "The word size story."", and especially the text "section "Integer#"".   The Haskell definition of Integer is in [http://darcs.haskell.org/packages/base/GHC/Num.lhs /packages/base/GHC/Num.lhs].
 
 	The current GMP implementation of Integer is:
 {{{
-data Integer = Int# ByteArr#
+data Integer	
+   = S# Int#              -- small integers
+#ifndef ILX
+   | J# Int# ByteArray#   -- large integers
+#else
+   | J# Void BigInteger   -- .NET big ints
 }}}
 	where the Int# counts the number of [http://swox.com/gmp/manual/Nomenclature-and-Types.html#Nomenclature-and-Types limbs] (a GMP term referring to parts of a multi-precision number that fit into a 32 or 64 bit word, depending on the machine) and the ByteArr# is the actual array in RTS-GC memory holding the limbs.  The sign of the Int# is used to indicate the sign of the number represented by the ByteArr#.  
 
-	This current implementation of Integer means that all Integers are at least the size of an Int# plus a !ByteArr, even if there is only one limb (which would fit into an Int, as Int is also the representation of a machine word in current implementations).  The suggestion discussed by John Meacham, [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010664.html Lennart Augustsson], [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010677.html Simon Marlow] and [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010687.html Bulat Ziganshin] was to change the representation of Integer so the Int# could be either a pointer to the Bignum library array of limbs or, if the number of significant digits could fit into say, 31 bits, to use the extra bit as an indicator of that fact and hold the entire value in the Int#, thereby saving the memory from the ByteArr# and increasing the speed with an unboxed Int#.  
+	This current implementation of Integer means that all large Integers (the J# Int# ByteArr#) are at least the size of an Int# plus a !ByteArr, even if there is only one limb (which would fit into an Int, as Int is also the representation of a machine word in current implementations).  The suggestion discussed by John Meacham, [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010664.html Lennart Augustsson], [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010677.html Simon Marlow] and [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010687.html Bulat Ziganshin] was to change the representation of Integer so the Int# could be either a pointer to the Bignum library array of limbs or, if the number of significant digits could fit into say, 31 bits, to use the extra bit as an indicator of that fact and hold the entire value in the Int#, thereby saving the memory from the ByteArr# and increasing the speed with an unboxed Int#.  
+
+	[http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010688.html Bulat Ziganshin and John Meacham] noted a few problems with a 30bit Int: 
+	* interoperability between Haskell and other languages, especially C, would be more difficult so you would have to define a new primitive, say #Int30 for the representation; and,
+	* representing a Haskell constructor (the Int#) inside a pointer--a bit-size constructor--would limit the number of constructors you would be able to have (depending on the size of a pointer object, say the C99 uintptr_t, on a particular machine).
+
+	Beware!  The main interest here is replacing GMP--those who have labored many years construction GHC so far retain the purview to accept or reject a proposed solution.
 
 === Overview of the Current GMP Implementation ===
 
