@@ -9,7 +9,7 @@ A source tree consists of the GHC repository, with a set of packages in the libr
 ```wiki
   $ darcs get --partial http://darcs.haskell.org/ghc
   $ cd ghc
-  $ chmod +x ./darcs-all
+  $ chmod +x darcs-all
   $ ./darcs-all get
 ```
 
