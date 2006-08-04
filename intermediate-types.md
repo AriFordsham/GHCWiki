@@ -147,7 +147,7 @@ erasure mechanism and keep non-termination out of coercion proofs
 coercions and types also overlaps a lot.  A normal type is evidence
 for the reflexive coercion, i.e.,
 
-> ` Int :: Int :=: Int `
+> `Int :: Int :=: Int`
 
 
 Coercion variables are
