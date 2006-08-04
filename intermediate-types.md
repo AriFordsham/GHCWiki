@@ -132,8 +132,8 @@ In particular:
 
 
 Coercions are type-level terms which act as evidence for type
-equalities and are classified by a new sort of kind (with the form {{{T1
-:=: T2}}}).  Most of the coercion construction and manipulation functions
+equalities and are classified by a new sort of kind (with the form 
+`T1 :=: T2`).  Most of the coercion construction and manipulation functions
 are found in the Coercion module.
 
 
@@ -145,7 +145,9 @@ erasure mechanism and keep non-termination out of coercion proofs
 coercions and types also overlaps a lot.  A normal type is evidence
 for the reflexive coercion, i.e.,
 
-> `Int :: Int :=: Int`
+```wiki
+Int :: Int :=: Int
+```
 
 
 Coercion variables are
