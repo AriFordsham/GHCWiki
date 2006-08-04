@@ -3,7 +3,7 @@
 
 These notes describe the new intermediate language for GHC.  The
 intermediate language is based on System F with algebraic datatypes
-and explicit type coercions (hereafter FC).  This note mostly focuses
+and explicit type coercions (hereafter FC) (see the [ paper](http://)).  This note mostly focuses
 on the type system and also discuss how some source-level features are
 represented in the intermediate language.
 
@@ -242,7 +242,8 @@ convenient to treat such coercion qualifiers in the same way other
 class membership or implicit parameter qualifiers are treated.  So
 functions like `tcSplitForAllTy` and `tcSplitPhiTy` and `tcSplitSigmaTy`,
 treat `ForAllTy cv ty` as if it were `FunTy (PredTy (EqPred T1 T2)) ty`
-(where `PredTy (EqPred T1 T2)` is the kind of `cv`).  Also, several of the dataConXXX functions treat equality
+(where `PredTy (EqPred T1 T2)` is the kind of `cv`).  Also, several of the `dataCon`XXX functions treat coercion members of the data constructor
+as if they were dictionary predicates (i.e. they return the `PredTy (EqPred T1 T2)` with the theta).
 
 ### Newtypes are coerced types
 
