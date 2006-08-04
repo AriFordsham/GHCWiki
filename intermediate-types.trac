@@ -31,7 +31,7 @@ For anyone not familiar with the system as it existed previously, the rest of th
 
 The representation of types is defined (as the datatype `Type`) in
 !TypeRep, and most of the useful functions on types are defined in
-Type.  TypeRep exports the representation concretely, and should
+Type.  !TypeRep exports the representation concretely, and should
 probably not be used outside the few places it is already used.  Type
 re-exports everything useful from !TypeRep, but exports the
 representation abstractly.  The datatype `Type` really represents a
@@ -131,7 +131,7 @@ erasure mechanism and keep non-termination out of coercion proofs
 coercions and types also overlaps a lot.  A normal type is evidence
 for the reflexive coercion, i.e.,
 
-    {{{Int :: Int :=: Int}}}
+    {{{ Int :: Int :=: Int }}}
 
 Coercion variables are
 used to abstract over evidence of type equality, as in
