@@ -3,7 +3,7 @@
 
 These notes describe the new intermediate language for GHC.  The
 intermediate language is based on System F with algebraic datatypes
-and explicit type coercions (hereafter FC).  This note mostly focuses
+and explicit type coercions (hereafter FC) (see the [ paper](http://research.microsoft.com/%7Esimonpj/papers/ext%2Df/fc-popl.pdf)).  This note mostly focuses
 on the type system and also discuss how some source-level features are
 represented in the intermediate language.
 
@@ -198,9 +198,39 @@ coercion kind which need not be reflexive.
 
 ### GADTs
 
-- representation
 
-- wrappers
+The internal representation of GADTs is as regular algebraic datatypes that carry coercion evidence as arguments.  A declaration like
+
+```wiki
+data T a b where
+  T1 :: a -> b -> T [a] (a,b)
+```
+
+
+would result in a data constructor with type
+
+```wiki
+T1 :: forall a b. forall a1 b1. (a :=: [a1], b :=: (a1, b1)) => a1 -> b1 -> T a b
+```
+
+
+This means that (unlike in the previous intermediate language) all data constructor return types have the form `T a1 ... an` where
+`a1` through `an` are the parameters of the datatype.  
+
+
+However, we also generate wrappers for GADT data constructors which have the expected user-defined type, in this case
+
+```wiki
+$wT1 = /\a b. \x y. T1 [a] (a,b) a b [a] (a,b) x y
+```
+
+
+Where the 4th and 5th arguments given to `T1` are the reflexive coercions
+
+```wiki
+[a]   :: [a] :=: [a]
+(a,b) :: (a,b) :=: (a,b)
+```
 
 ### Representation of coercion assumptions
 
@@ -212,28 +242,76 @@ convenient to treat such coercion qualifiers in the same way other
 class membership or implicit parameter qualifiers are treated.  So
 functions like `tcSplitForAllTy` and `tcSplitPhiTy` and `tcSplitSigmaTy`,
 treat `ForAllTy cv ty` as if it were `FunTy (PredTy (EqPred T1 T2)) ty`
-(where `PredTy (EqPred T1 T2)` is the kind of `cv`).  Also, several of the dataConXXX functions treat equality
+(where `PredTy (EqPred T1 T2)` is the kind of `cv`).  Also, several of the `dataCon`XXX functions treat coercion members of the data constructor
+as if they were dictionary predicates (i.e. they return the `PredTy (EqPred T1 T2)` with the theta).
 
 ### Newtypes are coerced types
 
 
-The implementation of newtypes has changed to include explicit type coercions in the place of the previously used ad-hoc mechanism.  When a newtype
+The implementation of newtypes has changed to include explicit type coercions in the place of the previously used ad-hoc mechanism.  
+For a newtype declared by
 
-`newtype T a = MkT (T a -> T a)`
-
-
-is declared, a new TyCon called CoT is created, and is stored in the
-type constructor.  The new TyCon has the ame arity as the newtype type
-constructor, in this case one.  The TyCon does not have a kind on its
-own, only when fully applied to its arguments.  In this case we have
-
-`CoT Int ::  T Int :=: (T Int -> T Int)`
+```wiki
+newtype T a = MkT (a -> a)
+```
 
 
-This coercion is used to wrap and unwrap newtypes whenever the constructor or case is used in the Haskell source code.
+the `NewTyCon` for `T` will contain n`t_co = CoT` where \`CoT t : T t :=: t -\>
+t`.  This `TyCon` is a `CoercionTyCon\`, so it does not have a kind on its
+own; it basically has its own typing rule for the fully-applied
+version.  If the newtype `T` has k type variables hen `CoT` has arity at
+most k.  In the case that the right hand side is a type application
+ending with the same type variables as the left hand side, we
+"eta-contract" the coercion.  So if we had
+
+```wiki
+newtype S a = MkT [a]
+```
 
 
-Such coercions are always used when the newtype is recursive and are optional for non-recursive newtypes.  This can be easily changed by altering the function mkNewTyConRhs in iface/BuildTyCl.lhs.
+then we would generate the arity 0 coercion `CoS : S :=: []`.  The
+primary reason we do this is to make newtype deriving cleaner.  If the coercion
+cannot be reduced in this fashion, then it has the same arity as the tycon.
+
+
+In the paper we'd write
+
+```wiki
+axiom CoT : (forall t. T t) :=: (forall t. [t])
+```
+
+
+and then when we used `CoT` at a particular type, `s`, we'd say
+
+```wiki
+CoT @ s
+```
+
+
+which encodes as `(TyConApp instCoercionTyCon [TyConApp CoT [], s])`
+
+
+But in GHC we instead make `CoT` into a new piece of type syntax
+(like `instCoercionTyCon`, `symCoercionTyCon` etc), which must always
+be saturated, but which encodes as
+
+```wiki
+TyConApp CoT [s]
+```
+
+
+In the vocabulary of the paper it's as if we had axiom declarations
+like
+
+```wiki
+axiom CoT t :  T t :=: [t]
+```
+
+
+The newtype coercion is used to wrap and unwrap newtypes whenever the constructor or case is used in the Haskell source code.
+
+
+Such coercions are always used when the newtype is recursive and are optional for non-recursive newtypes.  Whether or not they are used can be easily changed by altering the function mkNewTyConRhs in iface/BuildTyCl.lhs.
 
 ## Core (the intermediate language)
 
@@ -250,3 +328,12 @@ Such coercions are always used when the newtype is recursive and are optional fo
 - exprIsConApp_maybe
 
 - simplExpr
+
+### Loose Ends
+
+
+Some loose ends that came up during implementation of FC:
+
+- there is a strange unsafeCoerce that we could not figure out the purpose of in the FFI, a warning is currently emitted when it is used
+
+- removed the -DBREAKPOINT definition in the Makefile because it induced a module loop, we should probably fix this
