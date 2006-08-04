@@ -1,4 +1,4 @@
-### Notes on the FC-based intermediate language
+# Notes on the FC-based intermediate language
 
 
 These notes describe the new intermediate language for GHC.  The
@@ -26,7 +26,7 @@ representation abstractly.  The datatype Type really represents a
 single syntactic category that includes types, coercions, kinds, and
 super-kinds.
 
-# Type Variables
+### Type Variables
 
 
 Type variables, of type Var, and associated construction and
@@ -39,7 +39,7 @@ variable is a coercion variable and False otherwise.  The function
 TyVar.isCoVar should be used to test if a type variable is a coercion
 variable.
 
-# Type Constructors
+### Type Constructors
 
 
 Type constructors, of datatype TyCon, are defined in the TyCon module
@@ -48,26 +48,10 @@ constructors; the most important for understanding the overall
 intermediate language type system are: 
   
 
-- AlgTyCon, which are for tycons for datatypes and newtypes and have a
-  field of type AlgTyConRhs which specified whether it is a datatype
-  or newtype and contains further information for each;
-- PrimTyCon, which are for built-in primitive tycons, and are also
-
-
-used to represent base kinds;  
-
-- CoercionTyCon, which are for special tycons which are meant to
-
-
-represent syntactic forms (and not really type constructors), so they
-must be saturated to have a kind;
-
-- SuperKindTyCon, which are tycons that are used to represent
-
-
-super-kinds, also called sorts (which classify kinds as either
-coercion kinds, CO, or type kinds, TY), SuperKindTyCons are unique in
-never having a kind.  
+- AlgTyCon, which are for tycons for datatypes and newtypes and have a field of type AlgTyConRhs which specified whether it is a datatype or newtype and contains further information for each;
+- PrimTyCon, which are for built-in primitive tycons, and are also used to represent base kinds;  
+- CoercionTyCon, which are for special tycons which are meant to represent syntactic forms (and not really type constructors), so they must be saturated to have a kind;
+- SuperKindTyCon, which are tycons that are used to represent super-kinds, also called sorts (which classify kinds as either coercion kinds, CO, or type kinds, TY), SuperKindTyCons are unique in never having a kind.  
 
 
 All TyCon's but SuperKindTyCon and CoercionKindTyCon carry their kind
@@ -75,7 +59,7 @@ in a field called tyConKind, and CoercionKindTyCons carry their
 kinding rule (a function with type \[Type\] -\> Kind) in a field called
 coKindFun.
 
-# Kinds are Types
+### Kinds are Types
 
 
 We have (as of August 2006) unified types and kinds as members of the
@@ -114,29 +98,21 @@ type-kinds (kinds of sort TY).
 	      ??   (#)
 	     /  \
             *   #
-```
 
-
-where        \*    \[LiftedTypeKind\]   means boxed type
-
->
-> \#    \[UnliftedTypeKind\] means unboxed type
-> (\#)  \[UbxTupleKind\]     means unboxed tuple
-> ??   \[ArgTypeKind\]      is the lub of \*,\#
-> ?    \[OpenTypeKind\]        means any type at all
-
+where	*    [LiftedTypeKind]   means boxed type
+	#    [UnliftedTypeKind] means unboxed type
+	(#)  [UbxTupleKind]     means unboxed tuple
+	??   [ArgTypeKind]      is the lub of *,#
+	?    [OpenTypeKind]	means any type at all
 
 In particular:
 
-<table><tr><th>error</th>
-<td>forall a:?. String -\> a
-</td></tr>
-<tr><th>(-\>)</th>
-<td>?? -\> ? -\> \*
-(\\(x::t) -\> ...)        Here t::?? (i.e. not unboxed tuple)
-</td></tr></table>
+	error :: forall a:?. String -> a
+	(->)  :: ?? -> ? -> *
+	(\(x::t) -> ...)	Here t::?? (i.e. not unboxed tuple)
+```
 
-# Coercions and Coercion Kinds
+### Coercions and Coercion Kinds
 
 
 Coercions are type-level terms which act as evidence for type
@@ -199,7 +175,7 @@ non-coercion type variables (just like any normal type) can be used as
 the reflexive coercion, while coercion variables have a particular
 coercion kind which need not be reflexive.  
 
-# GADTs
+### GADTs
 
 >
 > representation
@@ -207,7 +183,7 @@ coercion kind which need not be reflexive.
 >
 > wrappers
 
-# Representation of coercion assumptions
+### Representation of coercion assumptions
 
 
 In most of the compiler, as in the FC paper, coercions are abstracted
@@ -219,7 +195,7 @@ functions like tcSplitForAllTy and tcSplitPhiTy and tcSplitSigmaTy,
 treat ForAllTy cv ty as if it were FunTy (PredTy (EqPred T1 T2)) ty
 (where PredTy (EqPred T1 T2) is the kind of cv).  Also, several of the dataConXXX functions treat equality
 
-# Newtypes are coerced types
+### Newtypes are coerced types
 
 
 The implementation of newtypes has changed to include explicit type coercions in the place of the previously used ad-hoc mechanism.  When a newtype
