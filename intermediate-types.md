@@ -82,16 +82,19 @@ kinding rule (a function with type `[Type] -> Kind`) in a field called
 We have (as of August 2006) unified types and kinds as members of the
 datatype `Type`.  `Kind` is just a synonym for `Type`.  Basic kinds are now
 represented using type constructors, e.g. the kind `*` is represented as
-      
 
-> `star = TyConApp liftedTypeKindTyCon []`
+```wiki
+star = TyConApp liftedTypeKindTyCon []
+```
 
 
 where `liftedTypeKindTyCon` is a built-in `PrimTyCon`.  The arrow type
 constructor is used as the arrow kind constructor, e.g. the kind \`\* -\>
 \*\` is represented internally as
 
-> `FunTy star star`
+```wiki
+FunTy star star
+```
 
 
 Kinds and types may be distinguished by looking at their "Kind" using
@@ -168,14 +171,17 @@ constants are represented as `TyCon`s made with the constructor
 Coercions are type level terms and can have normal type constructors applied
 to them.  The action of type constructors on coercions is much like in
 a logical relation.  So if `c1 :: T1 :=: T2` then
- 
 
-> `[c1] :: [T1] :=: [T2]`
+```wiki
+[c1] :: [T1] :=: [T2]
+```
 
 
 and if `c2 :: S1 :=: S2` then
 
-> `c1 -> c2 :: (T1 -> S1 :=: T2 -> S2)`
+```wiki
+c1 -> c2 :: (T1 -> S1 :=: T2 -> S2)
+```
 
 
 The sharing of syntax means that a normal type can be looked at as
