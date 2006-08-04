@@ -24,6 +24,11 @@ Other basic recommended reading is:
 - The GHC Commentary: [ The Native Code Generator](http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/the-beast/ncg.html); and,
 - The GHC Commentary: [ Style Guidelines for RTS C code](http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/rts-libs/coding-style.html).
 
+#### *Caveat*
+
+>
+> Beware!  The main interest here is replacing GMP--GHC is still belongs to the University of Glasgow and those in charge still retain the purview to accept or reject a proposed solution.
+
 ### Reasons for Replacing GMP as the Bignum library
 
 
@@ -72,9 +77,6 @@ There are several problems with the current GMP implementation:
 
 - interoperability between Haskell and other languages, especially C, would be more difficult so you would have to define a new primitive, say \#Int30 for the representation; and,
 - representing a Haskell constructor (the Int\#) inside a pointer--a bit-size constructor--would limit the number of constructors you would be able to have (depending on the size of a pointer object, say the C99 uintptr_t, on a particular machine).
-
->
-> Beware!  The main interest here is replacing GMP--GHC is still belongs to the University of Glasgow and those in charge still retain the purview to accept or reject a proposed solution.
 
 ### Overview of the Current GMP Implementation
 
