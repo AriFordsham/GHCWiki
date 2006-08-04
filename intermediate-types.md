@@ -198,9 +198,39 @@ coercion kind which need not be reflexive.
 
 ### GADTs
 
-- representation
 
-- wrappers
+The internal representation of GADTs is as regular algebraic datatypes that carry coercion evidence as arguments.  A declaration like
+
+```wiki
+data T a b where
+  T1 :: a -> b -> T [a] (a,b)
+```
+
+
+would result in a data constructor with type
+
+```wiki
+  T1 :: forall a b. forall a1 b1. (a :=: [a1], b :=: (a1, b1)) => a1 -> b1 -> T a b
+```
+
+
+This means that (unlike in the previous intermediate language) all data constructor return types have the form `T a1 ... an` where
+`a1` through `an` are the parameters of the datatype.  
+
+
+However, we also generate wrappers for GADT data constructors which have the expected user-defined type, in this case
+
+```wiki
+$wT1 = /\a b. \x y. T1 [a] (a,b) a b [a] (a,b) x y
+```
+
+
+Where the 4th and 5th arguments given to `T1` are the reflexive coercions
+
+```wiki
+[a]   :: [a] :=: [a]
+(a,b) :: (a,b) :=: (a,b)
+```
 
 ### Representation of coercion assumptions
 
@@ -250,3 +280,12 @@ Such coercions are always used when the newtype is recursive and are optional fo
 - exprIsConApp_maybe
 
 - simplExpr
+
+### Loose Ends
+
+
+Some loose ends that came up during implementation of FC:
+
+- there is a strange unsafeCoerce that we could not figure out the purpose of in the FFI, a warning is currently emitted when it is used
+
+- removed the -DBREAKPOINT definition in the Makefile because it induced a module loop, we should probably fix this
