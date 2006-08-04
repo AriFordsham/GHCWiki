@@ -12,7 +12,7 @@ Most of the system is fairly standard, with the exception of
 coercions.  A coercion c, is a type-level term, with a kind of the
 form T1 :=: T2. (c :: T1 :=: T2) is a proof that a term of type T1
 can be coerced to type T2.  It is used as argument of a cast
-expression; if t :: T1} then (t `cast` c) :: T2.
+expression; if t :: T1 then (t `cast` c) :: T2.
 
 ## Types
 
