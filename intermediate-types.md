@@ -248,23 +248,70 @@ as if they were dictionary predicates (i.e. they return the `PredTy (EqPred T1 T
 ### Newtypes are coerced types
 
 
-The implementation of newtypes has changed to include explicit type coercions in the place of the previously used ad-hoc mechanism.  When a newtype
+The implementation of newtypes has changed to include explicit type coercions in the place of the previously used ad-hoc mechanism.  
+For a newtype declared by
 
-`newtype T a = MkT (T a -> T a)`
-
-
-is declared, a new TyCon called CoT is created, and is stored in the
-type constructor.  The new TyCon has the ame arity as the newtype type
-constructor, in this case one.  The TyCon does not have a kind on its
-own, only when fully applied to its arguments.  In this case we have
-
-`CoT Int ::  T Int :=: (T Int -> T Int)`
+```wiki
+newtype T a = MkT (a -> a)
+```
 
 
-This coercion is used to wrap and unwrap newtypes whenever the constructor or case is used in the Haskell source code.
+the `NewTyCon` for `T` will contain n`t_co = CoT` where \`CoT t : T t :=: t -\>
+t`.  This `TyCon` is a `CoercionTyCon\`, so it does not have a kind on its
+own; it basically has its own typing rule for the fully-applied
+version.  If the newtype `T` has k type variables hen `CoT` has arity at
+most k.  In the case that the right hand side is a type application
+ending with the same type variables as the left hand side, we
+"eta-contract" the coercion.  So if we had
+
+```wiki
+newtype S a = MkT [a]
+```
 
 
-Such coercions are always used when the newtype is recursive and are optional for non-recursive newtypes.  This can be easily changed by altering the function mkNewTyConRhs in iface/BuildTyCl.lhs.
+then we would generate the arity 0 coercion `CoS : S :=: []`.  The
+primary reason we do this is to make newtype deriving cleaner.  If the coercion
+cannot be reduced in this fashion, then it has the same arity as the tycon.
+
+
+In the paper we'd write
+
+```wiki
+	axiom CoT : (forall t. T t) :=: (forall t. [t])
+```
+
+
+and then when we used `CoT` at a particular type, `s`, we'd say
+
+```wiki
+	CoT @ s
+```
+
+
+which encodes as `(TyConApp instCoercionTyCon [TyConApp CoT [], s])`
+
+
+But in GHC we instead make `CoT` into a new piece of type syntax
+(like `instCoercionTyCon`, `symCoercionTyCon` etc), which must always
+be saturated, but which encodes as
+
+```wiki
+TyConApp CoT [s]
+```
+
+
+In the vocabulary of the paper it's as if we had axiom declarations
+like
+
+```wiki
+axiom CoT t :  T t :=: [t]
+```
+
+
+The newtype coercion is used to wrap and unwrap newtypes whenever the constructor or case is used in the Haskell source code.
+
+
+Such coercions are always used when the newtype is recursive and are optional for non-recursive newtypes.  Whether or not they are used can be easily changed by altering the function mkNewTyConRhs in iface/BuildTyCl.lhs.
 
 ## Core (the intermediate language)
 
