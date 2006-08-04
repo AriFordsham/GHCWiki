@@ -233,7 +233,8 @@ Such coercions are always used when the newtype is recursive and are optional fo
 
 - Typechecking
 
-- Environments and substitution
+> ** Environments and substitution
+> **
 
 ## Simplification
 
