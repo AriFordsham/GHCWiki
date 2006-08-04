@@ -210,7 +210,7 @@ data T a b where
 would result in a data constructor with type
 
 ```wiki
-  T1 :: forall a b. forall a1 b1. (a :=: [a1], b :=: (a1, b1)) => a1 -> b1 -> T a b
+T1 :: forall a b. forall a1 b1. (a :=: [a1], b :=: (a1, b1)) => a1 -> b1 -> T a b
 ```
 
 
@@ -277,14 +277,14 @@ cannot be reduced in this fashion, then it has the same arity as the tycon.
 In the paper we'd write
 
 ```wiki
-	axiom CoT : (forall t. T t) :=: (forall t. [t])
+axiom CoT : (forall t. T t) :=: (forall t. [t])
 ```
 
 
 and then when we used `CoT` at a particular type, `s`, we'd say
 
 ```wiki
-	CoT @ s
+CoT @ s
 ```
 
 

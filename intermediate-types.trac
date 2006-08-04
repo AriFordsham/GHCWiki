@@ -172,7 +172,7 @@ data T a b where
 }}}
 would result in a data constructor with type
 {{{
-  T1 :: forall a b. forall a1 b1. (a :=: [a1], b :=: (a1, b1)) => a1 -> b1 -> T a b
+T1 :: forall a b. forall a1 b1. (a :=: [a1], b :=: (a1, b1)) => a1 -> b1 -> T a b
 }}}
 This means that (unlike in the previous intermediate language) all data constructor return types have the form `T a1 ... an` where
 `a1` through `an` are the parameters of the datatype.  
@@ -222,11 +222,11 @@ cannot be reduced in this fashion, then it has the same arity as the tycon.
 
 In the paper we'd write
 {{{
-	axiom CoT : (forall t. T t) :=: (forall t. [t])
+axiom CoT : (forall t. T t) :=: (forall t. [t])
 }}}
 and then when we used `CoT` at a particular type, `s`, we'd say
 {{{
-	CoT @ s
+CoT @ s
 }}}
 which encodes as `(TyConApp instCoercionTyCon [TyConApp CoT [], s])`
 
