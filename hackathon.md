@@ -117,3 +117,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - Andy Adams-Moran, interested in making cross-compiling with GHC easier, and in learning more about the innards of the compiler (versus the RTS)
 - Aaron Tomb, University of California, Santa Cruz, interested in formal verification of Haskell programs, advanced type systems, and learning about the internals of GHC
 - [ Björn Bringert](http://www.cs.chalmers.se/~bringert/), Chalmers University of Technology and Göteborg University, want to learn about the internals of GHC for future projects, possibly implement instance deriving for GADTs
+- [ Andres Löh](http://www.iai.uni-bonn.de~/loeh/), University of Bonn, interested in type systems and generic programming
