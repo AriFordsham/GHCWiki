@@ -116,3 +116,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - Mathieu Boespflug Interested in implementing John Meacham's [ class alias proposal](http://repetae.net/john/recent/out/classalias.html).
 - Andy Adams-Moran, interested in making cross-compiling with GHC easier, and in learning more about the innards of the compiler (versus the RTS)
 - Aaron Tomb, University of California, Santa Cruz, interested in formal verification of Haskell programs, advanced type systems, and learning about the internals of GHC
+- Björn Bringert, Chalmers University of Technology and Göteborg University, want to learn about the internals of GHC for future projects, possibly implement instance deriving for GADTs
