@@ -90,4 +90,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
  * [mailto://mboes@galois.com Mathieu Boespflug] Interested in implementing John Meacham's [http://repetae.net/john/recent/out/classalias.html class alias proposal].
  * [mailto:adams-moran@galois.com Andy Adams-Moran], interested in making cross-compiling with GHC easier, and in learning more about the innards of the compiler (versus the RTS)
  * [mailto:atomb@soe.ucsc.edu Aaron Tomb], University of California, Santa Cruz, interested in formal verification of Haskell programs, advanced type systems, and learning about the internals of GHC
- * [mailto:bringert@cs.chalmers.se Björn Bringert], Chalmers University of Technology and Göteborg University, want to learn about the internals of GHC for future projects, possibly implement instance deriving for GADTs
+ * [http://www.cs.chalmers.se/~bringert/ Björn Bringert], Chalmers University of Technology and Göteborg University, want to learn about the internals of GHC for future projects, possibly implement instance deriving for GADTs
