@@ -112,9 +112,9 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Norman Ramsey](http://www.eecs.harvard.edu/~nr), interested in either code generation or refactoring some part of the run-time system (and would really like to learn more about how the run-time system is put together, even if it's too big for a weekend hack).
 - [ Iavor S. Diatchki](http://www.csee.ogi.edu/~diatchki), interested in Haskell for systems programming/type checking (general improvement rules)
 - Edsko de Vries, interested in type systems (I work on uniqueness typing, a substructural type system), and generic programming
-- [ Chung-chieh Shan](http://www.cs.rutgers.edu/~ccshan/), interested in type systems
 - Mathieu Boespflug Interested in implementing John Meacham's [ class alias proposal](http://repetae.net/john/recent/out/classalias.html).
 - Andy Adams-Moran, interested in making cross-compiling with GHC easier, and in learning more about the innards of the compiler (versus the RTS)
 - Aaron Tomb, University of California, Santa Cruz, interested in formal verification of Haskell programs, advanced type systems, and learning about the internals of GHC
 - [ Björn Bringert](http://www.cs.chalmers.se/~bringert/), Chalmers University of Technology and Göteborg University, want to learn about the internals of GHC for future projects, possibly implement instance deriving for GADTs
 - [ Andres Löh](http://www.iai.uni-bonn.de~/loeh/), University of Bonn, interested in type systems and generic programming
+- [ Bryn Keller](http://www.xoltar.org), interested bystander. Interested in generating code for unusual targets (e.g. JavaScript, Flash, .Net, etc.).
