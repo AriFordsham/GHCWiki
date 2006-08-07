@@ -47,6 +47,7 @@ Here is a list of some possible future projects we have in mind:
 - Experiment with multiprocessor Haskell and/or STM by building and measuring applications, investigate improvements
 - Build a Windows-native version of GHC (using MS tools instead of gcc).
 - Make GHC work with [ GCSpy](http://research.sun.com/projects/gcspy/), a generic heap visualiser tool.
+- Continue work on parallel GC: particularly independent minor-generation collections.
 
 
 MSRC has lots of other interesting work on programming languages too: F\#, security, etc.  Check it out [ here](http://research.microsoft.com/aboutmsr/labs/cambridge/).
