@@ -5,7 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Testing, before having a go at type checking.
+- Kind checking
 
 ## Parsing and Renaming
 

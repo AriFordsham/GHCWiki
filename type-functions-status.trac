@@ -3,7 +3,7 @@
 Back to TypeFunctions.
 
 '''Current:''' 
- * Testing, before having a go at type checking.
+ * Kind checking
 
 == Parsing and Renaming ==
 
