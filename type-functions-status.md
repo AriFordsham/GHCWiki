@@ -13,6 +13,7 @@ Back to [TypeFunctions](type-functions).
 Todo (high-level):
 
 1. Parse and rename equality constraints in signatures.
+1. Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.)
 
 
 Done:
