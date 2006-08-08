@@ -107,6 +107,23 @@ We should only do the heap check once in this case.  Either:
 - Let some general-purpose heavy-duty loop optimisation transform
   into the above code (apparently gcc can do this).
 
+## Framework for branch prediction
+
+
+On modern CPUs correctly predicted branches are nearly free while mis-predicted branches incurr quite a high penalty due to pipeline stalls etc.
+
+
+There are a number of low level things that can be done if we have some idea of the probability of a branch being taken. For example the block corresponding to the branch that is unlikely to be taken can be made the target of the jump so that the fall through branch is the likely one. On some CPUs its possible to add explicit hints to conditional jump instructions. If a branch is comparatively very unlikely then its block can be moved completely out of line. See a CPU architecture/optimisation guide for more suggestions.
+
+
+GCC has a framework for gathering and using branch prediction information to improve code generation. It can get information from a static analysis and heuristics, from profile feedback and ffrom explicit user annotations via builtin_expect().
+
+
+So the suggestion is that GHC could have a similar framework including explicit user annotations. It is believed that this could make a significant difference to the speed of some low level code like ByteString.
+
+
+See ticket [\#849](https://gitlab.haskell.org//ghc/ghc/issues/849) for more details.
+
 ## Improving and refactoring the native code generator
 
 ### Allow SSA to be expressed in Cmm
