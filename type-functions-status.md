@@ -5,7 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Kind checking
+- Kind checking; next is `kcTyClDecl`
 
 ## Parsing and Renaming
 

@@ -3,7 +3,7 @@
 Back to TypeFunctions.
 
 '''Current:''' 
- * Kind checking
+ * Kind checking; next is `kcTyClDecl`
 
 == Parsing and Renaming ==
 
