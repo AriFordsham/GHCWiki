@@ -6,7 +6,7 @@
 During the Summer of 2006 I have been working on this project sponsorized by the[ Google SoC](http://code.google.com/soc) initiative. My mentors were Simon Marlow and David Himmelstrup (lemmih).
 
 
-It has been a lot of fun, and I've learnt a huge amount of things, but the reader must be warned that I am still a beginner in many aspects, and that my knowledge of ghc is very shallow. 
+It has been a lot of fun, and I've learnt a huge amount of things, but the reader must be warned that I am still a beginner in many aspects, and that my knowledge of ghc is very shallow. So please, take my words with a bit of perspective.
 
 
 The goals of the project were mainly three:
@@ -59,12 +59,12 @@ Quoting from Simon Marlow in the ghc-cvs list:
 
 
 What the closure viewer does is to obtain the address in the heap of a Haskell value, find out the address of its info table, and trace back to the DataCon corresponding to this info table. This is possible because the ghc runtime allocates a static info table for each and every datacon, so all we have to do is extend the linker with a dictionary relating the static info table addresses to a DataCon name.
-Moreover, the ghci linker can load interpreted code containing new `data` or `newtype` declarations. So the dynamic linker code is extended in the same way. To sum up:
+Moreover, the ghci linker can dynamically link bytecodes containing additional `data` or `newtype` declarations. So the ghci linking code is extended in the same way. To sum up:
 
-- The RTS `linker.c` has been extended with a straightforward hashtable 
-- The dynamic linker entry point at `ghci/Linker.hs` has been extended in a similar way. The PLS has been extended with a datacons environment used to store this info. At `linkExpr` and `dynLinkBCOs` the environment is extended with any new datacons witnessed.
+- `linker.c` has a new hashtable for datacons.
+- `ghci/Linker.hs` has been extended in a similar way. The Persistent Link State datatype now includes a datacons environment. At `linkExpr` and `dynLinkBCOs` the environment is extended with _any_ new datacons witnessed.
 
-  - Since this scheme makes no distinction between statically and dynamically loaded info tables a lot of redundancy goes into this environment, so it might be interesting to improve this.
+  - Since this scheme makes no distinction between statically and dynamically loaded info tables a lot of redundancy goes into this environment, maybe it's worth to fix this.
 
 
 Two new primitive ops have been created which allow to obtain the address of a closure info table and to obtain the closure payload (i.e. if it is a value, the arguments of the datacon). 
