@@ -124,6 +124,12 @@ NB: Lifted associated type declarations inherit the context of the instance head
  * In case, we leave the duplication of ATs after renaming as it is, do we still want to add the context to lifted AT definitions?  Strictly speaking, this is not necessary under the new translation scheme.  However, morally it might still be the right thing, as the constructors are declared under that context.
 ----
 
+=== Kind checking indexed data types ===
+
+The workhorse of kind checking type and class declarations is `TcTyClDecls.kcTyClDecls`, which is invoked by `TcTyClDecls.tcTyClDecls` once per binding group.  It handles type synonyms different from algebraic data type declarations and classes, as synonyms have a richer kind structure (making kind checking harder), but cannot be recursive (which makes kind checking easier).  Indexed types present yet a different set of trade offs as they are guaranteed to come with kind signatures, but have type patterns and not necessarily all definitions visible at once.
+
+Indexed types (including type functions!) are generally included in the processing of algebraic data types and classes.  However, we handle kind signatures slightly different from definitions of members of the indexed family.  More precisely, kind signatures participate in the construction of the initial kind environment (as performed by `getInitialKind`), whereas the definition of the members of an indexed type does not.  Otherwise, the two are treated the same.
+
 === Type checking indexed data types ===
 
 Type checking in the presence of only indexed data and newtypes is much simpler than in the presence of type functions as type equality remains purely syntactic (i.e., we do not need to change the unification procedure).  However, we need to check that the alternatives of a case expression inspecting an indexed data type contains only constructors of one member of the family.  (To relax this restriction, we would need a story for compiling open data types.)

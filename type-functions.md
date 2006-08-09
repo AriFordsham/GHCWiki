@@ -155,6 +155,14 @@ NB: Lifted associated type declarations inherit the context of the instance head
 
 ---
 
+### Kind checking indexed data types
+
+
+The workhorse of kind checking type and class declarations is `TcTyClDecls.kcTyClDecls`, which is invoked by `TcTyClDecls.tcTyClDecls` once per binding group.  It handles type synonyms different from algebraic data type declarations and classes, as synonyms have a richer kind structure (making kind checking harder), but cannot be recursive (which makes kind checking easier).  Indexed types present yet a different set of trade offs as they are guaranteed to come with kind signatures, but have type patterns and not necessarily all definitions visible at once.
+
+
+Indexed types (including type functions!) are generally included in the processing of algebraic data types and classes.  However, we handle kind signatures slightly different from definitions of members of the indexed family.  More precisely, kind signatures participate in the construction of the initial kind environment (as performed by `getInitialKind`), whereas the definition of the members of an indexed type does not.  Otherwise, the two are treated the same.
+
 ### Type checking indexed data types
 
 
