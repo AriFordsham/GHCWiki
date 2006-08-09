@@ -216,3 +216,7 @@ We could try and use some tricks. For instance, in every 'throw' we spot, we ins
 For now I am stuck.
 
 # Pending work
+
+
+The most important is call stack traces
+*Put together all the small and big todos here*
