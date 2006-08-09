@@ -1,12 +1,12 @@
 # Type Functions: Type Checking
 
-## Kind checking indexed data types
+## Kind checking indexed types
 
 
-The workhorse of kind checking type and class declarations is `TcTyClDecls.kcTyClDecls`, which is invoked by `TcTyClDecls.tcTyClDecls` once per binding group.  It handles type synonyms different from algebraic data type declarations and classes, as synonyms have a richer kind structure (making kind checking harder), but cannot be recursive (which makes kind checking easier).  Indexed types present yet a different set of trade offs as they are guaranteed to come with kind signatures, but have type patterns and not necessarily all definitions visible at once.
+The workhorse of kind checking type and class declarations is `TcTyClDecls.kcTyClDecls`, which is invoked by `TcTyClDecls.tcTyClDecls` once per binding group.  It handles type synonyms different from algebraic data type declarations and classes, as synonyms have a richer kind structure (making kind checking harder), but cannot be recursive (which makes kind checking easier).  We handle kind signatures (of both type functions and indexed data types) in the same way as algebraic data type declarations.  More precisely, kind signatures participate in the construction of the initial kind environment (as performed by `getInitialKind`).
 
 
-Indexed types (including type functions!) are generally included in the processing of algebraic data types and classes.  However, we handle kind signatures slightly different from definitions of members of the indexed family.  More precisely, kind signatures participate in the construction of the initial kind environment (as performed by `getInitialKind`), whereas the definition of the members of an indexed type does not.  Otherwise, the two are treated the same.
+In contrast, instances of indexed types are not processed by `TcTyClDecls.tcTyClDecls`, but by `TcInstDcls.tcInstDecls1`, which handles the heads of class instance declarations.  However, the later invokes `TcTyClDecls.tcIdxTyInstDecl` (both directly and indirectly via `IcInstDcls.tcLocalInstDecl1`, the later for associated types).  The function `tcIdxTyInstDecl` shares a lot of code with the `TcTyClDecls.kcTyClDecls` and `TcTyClDecls.tcTyClDecl`.
 
 ## Type checking indexed data types
 
