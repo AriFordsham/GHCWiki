@@ -5,7 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Kind checking; next: treatment of instances of indexed types
+- Kind checking; next: treatment of instances of indexed types in the form of `TcTyClDecl.tcIdxTyInstDecl`.
 
 ## Parsing and Renaming
 
