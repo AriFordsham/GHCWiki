@@ -59,6 +59,12 @@ Restrictions:
 
 == How It Works ==
 
+The details of the implementations are split over a couple of subpages, due to the amount of the material:
+ * [wiki:TyepFunctionsSyntax syntax and representation,]
+ * [wiki:TypeFunctionsRenaming renaming,]
+ * [wiki:TypeFunctionsTypeChecking type checking,] and
+ * [wiki:TypeFunctionsCore representation in Core and interfaces.]
+
 === Syntax of kind signatures and definitions of indexed types ===
 
 All kind signature consists of a type declaration head followed by a `::` and a kind.  In the case of  a data declaration, we addititonally require that there is no `where` clause.   We require for every definition of an indexed type (i.e., type equations or indexed data/newtype declaration) that a matching kind signature is in scope.  Vanilla type synonym definitions and data/newtype declarations fall out as special cases of type function equations and indexed type declarations that have variable-only patterns, for which we require no kind signatures.  The vanilla forms are also closed (further definitions would be useless, as they are bound to overlap).
