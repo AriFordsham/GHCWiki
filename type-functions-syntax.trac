@@ -14,7 +14,7 @@ Signatures for indexed data and newtypes are represented as a special case of `T
 
 We recognise both forms of kind signatures by the predicate `HsDecls.isKindSigDecl`.
 
-=== Definitions of indexed types ===
+=== Instances of indexed types ===
 
 We represent type functions and indexed data and newtypes by generalising type synonym declarations `TySynonym` and data type declarations `TyData` to allow patterns ofr type indexes instead of just type variables as parameters.  In both variants, we do so by way of the field `tcdPats` of type `Maybe [LHsType name]`, used as follows:
  * If it is `Nothing`, we have a ''vanilla'' data type declaration or type synonym declaration and `tcdVars` contains the type parameters of the type constructor.
