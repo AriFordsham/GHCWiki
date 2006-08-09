@@ -1,0 +1,48 @@
+# Type Functions: Renaming
+
+## Phasing
+
+
+GHC is organised such that class and type declarations are processed (during renaming and type checking) before any instance declarations are considered.  In the presence of associated types, instance declarations may contain type definitions.  In particular, the *data constructors* introduced by associated data declarations need to be brought into scope before we can rename any expressions.
+
+## Renaming of indexed types
+
+### Kind signatures
+
+
+Kind signatures are renamed by `RnSource.rnTySig`, which is parametrised by a function that handles the binders (i.e., index variables) of the declaration.  This is so that we can use the same code for toplevel signatures and those in classes.  In the former case, the variables are in a defining position, whereas in classes they are in a usage position (as all index variables must be class parameters).
+
+### Definitions of indexed types
+
+
+There is little extra that needs to be done for indexed types.  The main difference between vanilla synonyms and data/newtype declarations and the indexed variants is that the `tcdTyPats` field is not `Nothing`.  We simply call `rnTyPats` on these fields, which traverses them in the usual way.
+
+### Renaming of associated types
+
+
+Associated **data** definitions are particularly interesting, as they not only introduces, but also value level entities, namely the data constructors.  During renaming, we enter the names of all data constructors that an associated data type defines into the global `RdrName` environment by extending the function `RnNames.getLocalDeclBinders` such that it traverses instance declarations, too.  We are careful not to add the data type constructor multiple times by ignoring them in instance declarations.  The global `RdrName` environment only ever contains the type constructor introduced in the class declaration (i.e, the `RdrName` of an associated data type maps to the `Name` of the AT declaration in the class).
+
+---
+
+**Remaining problem:** The function `getLocalDeclBinders` must still supply the parent `Name` to the name generation for the data constructors. That parent name should be the one produced for the associated data declaration in the corresponding class declaration, which is hard to get hold of at this moment. So, we supply the Name of the data type constructor instead. That should probably be replaced by the class name in a later phase.
+
+---
+
+
+Otherwise, `RnSource.rnSrcInstDecl` invokes `RnSource.rnTyClDecl` on all associated types of an instance to rename them.
+
+### Lifting of associated type definitions out of instances
+
+
+In the current implementation, `RnSource.rnSrcDecl` (which is only called by `RnSource.rnSrcDecls`) duplicates all definitions of associated types **after** renaming them.  It does so by adding them to the type and class declarations (i.e., `hs_tyclds`) of the currently processed binding group, but also keeps a copy in the instance declarations, were they are needed during type checking to perform some well-formedness checks (e.g., that each AT of a class receives a definition).
+ 
+NB: Lifted associated type declarations inherit the context of the instance head. However, the variables of the data declaration are renamed independently of those of the instance head (which implies that the inherited copy of the instance context is renamed again as part of the data declaration).
+
+---
+
+**Open Points:**
+
+- Do we really want to copy associated types in `rnSrcDecl` into the toplevel of the binding group?  On one hand, general GHC design priciples discourages moving any code around before type checking has been completed.  On the other hand, by lifting data declarations out before type checking, we have to worry less about phasing.  (NB: Associated type signatures in class declarations are less of an issue as classes are very much treated like type declarations anyway - being in `TyClDecl` and all - and so are usually around when we need to get at their embedded types.)
+- In case, we leave the duplication of ATs after renaming as it is, do we still want to add the context to lifted AT definitions?  Strictly speaking, this is not necessary under the new translation scheme.  However, morally it might still be the right thing, as the constructors are declared under that context.
+
+---
