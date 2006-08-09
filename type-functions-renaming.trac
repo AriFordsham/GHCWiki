@@ -2,7 +2,7 @@
 
 == Phasing ==
 
-GHC is organised such that class and type declarations are processed (during renaming and type checking) before any instance declarations are considered.  In the presence of associated types, instance declarations may contain type definitions.  In particular, the ''data constructors'' introduced by associated data declarations need to be brought into scope before we can rename any expressions.
+GHC is organised such that class and type declarations are processed (during renaming and type checking) before any instance declarations are considered.  In the presence of associated types, instance declarations may contain type definitions.  In particular, the ''data constructors'' introduced by associated data declarations need to be brought into scope before we can rename any expressions.  Otherwise, the intution wrt. to phasing is that kind signatures are handled in conjunction with vanilla algebraic data type declarations and instances of indexed types are handled together with instance ''heads''.  (NB: GHC splits the treatment of instances into two phases, where instances heads are processed in the first and member function declarations in the second phase.)
 
 == Renaming of indexed types ==
 
