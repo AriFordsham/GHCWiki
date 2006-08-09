@@ -60,7 +60,7 @@ Restrictions:
 == How It Works ==
 
 The details of the implementations are split over a couple of subpages, due to the amount of the material:
- * [wiki:TyepFunctionsSyntax syntax and representation,]
+ * [wiki:TypeFunctionsSyntax syntax and representation,]
  * [wiki:TypeFunctionsRenaming renaming,]
  * [wiki:TypeFunctionsTypeChecking type checking,] and
  * [wiki:TypeFunctionsCore representation in Core and interfaces.]

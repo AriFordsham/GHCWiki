@@ -73,7 +73,7 @@ Restrictions:
 
 The details of the implementations are split over a couple of subpages, due to the amount of the material:
 
-- syntax and representation,?
+- [syntax and representation,](type-functions-syntax)
 - [renaming,](type-functions-renaming)
 - [type checking,](type-functions-type-checking) and
 - [representation in Core and interfaces.](type-functions-core)
