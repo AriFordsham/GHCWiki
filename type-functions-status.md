@@ -41,7 +41,7 @@ Todo (low-level):
 Todo (high-level):
 
 1. Type checking of associated data types.
-1. Type checking of type functions (and hence, associated type synonyms).
+1. Type checking of type functions (and hence, associated type synonyms); forget about `iso` for the moment.
 1. Type check functional dependencies as type functions.
 
 
