@@ -30,19 +30,3 @@ Associated **data** definitions are particularly interesting, as they not only i
 
 
 Otherwise, `RnSource.rnSrcInstDecl` invokes `RnSource.rnTyClDecl` on all associated types of an instance to rename them.
-
-### Lifting of associated type definitions out of instances
-
-
-In the current implementation, `RnSource.rnSrcDecl` (which is only called by `RnSource.rnSrcDecls`) duplicates all definitions of associated types **after** renaming them.  It does so by adding them to the type and class declarations (i.e., `hs_tyclds`) of the currently processed binding group, but also keeps a copy in the instance declarations, were they are needed during type checking to perform some well-formedness checks (e.g., that each AT of a class receives a definition).
- 
-NB: Lifted associated type declarations inherit the context of the instance head. However, the variables of the data declaration are renamed independently of those of the instance head (which implies that the inherited copy of the instance context is renamed again as part of the data declaration).
-
----
-
-**Open Points:**
-
-- Do we really want to copy associated types in `rnSrcDecl` into the toplevel of the binding group?  On one hand, general GHC design priciples discourages moving any code around before type checking has been completed.  On the other hand, by lifting data declarations out before type checking, we have to worry less about phasing.  (NB: Associated type signatures in class declarations are less of an issue as classes are very much treated like type declarations anyway - being in `TyClDecl` and all - and so are usually around when we need to get at their embedded types.)
-- In case, we leave the duplication of ATs after renaming as it is, do we still want to add the context to lifted AT definitions?  Strictly speaking, this is not necessary under the new translation scheme.  However, morally it might still be the right thing, as the constructors are declared under that context.
-
----
