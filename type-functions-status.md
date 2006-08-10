@@ -28,7 +28,7 @@ Todo (low-level):
 
 - Applications of indexed types need to be applied to all type indexes.
 - Default AT synonyms are only allowed for ATs defined in the same class.
-- We need to require -fglasgow-exts for ATs. (The type checker seems to be the place to check whether the flag was supplied.) To check this for classes, we need to have `Class.Class` suitably extended; the infrastructure for the check is already builtin in (see `binding no_ats` in `checkValidClass`).  **We already do this to some extend.**
+- We need to require -fglasgow-exts for kind signatures.  (We already check this for instances of indexed types.)
 - For each case scrutinising an associated data type, check that all constructors have been defined in a single instance.  (Maybe we can just extend the existing check that ensures that case expressions don't mix constructors of different data types.)
 - Check that each AT definition mirrors the class arguments of the instance in its type indexes. This might be a bit more tricky if we want to allow that they can vary syntactically before expansion of type synonyms. (Do this in the type checker unless we find it is very hard to do there; then, revert to trying it during renaming.)
 - Check that each instance has a definition for every AT and also that all defined associated types are, in fact, declared by the class. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.) Also check that kind signatures that correspond to type variables in the AT declaration or class declaration match the kinds inferred for the AT declaration. (This certainly needs to be done in the type checker.)
