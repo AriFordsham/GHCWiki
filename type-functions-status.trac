@@ -20,7 +20,7 @@ Done:
 
 Todo (low-level):
  * Applications of indexed types need to be applied to all type indexes.
- * Match definitions of indexed types against their signatures.
+ * Ensure that the number of parameters in an indexed type instance is at least the number of type indexes given in the definition.  (We already check the kinds.)
  * Default AT synonyms are only allowed for ATs defined in the same class.
  * We need to require -fglasgow-exts for ATs. (The type checker seems to be the place to check whether the flag was supplied.) To check this for classes, we need to have `Class.Class` suitably extended; the infrastructure for the check is already builtin in (see `binding no_ats` in `checkValidClass`).  '''We already do this to some extend.'''
  * For each case scrutinising an associated data type, check that all constructors have been defined in a single instance.  (Maybe we can just extend the existing check that ensures that case expressions don't mix constructors of different data types.)
