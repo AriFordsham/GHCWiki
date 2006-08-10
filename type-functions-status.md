@@ -27,7 +27,6 @@ Done:
 Todo (low-level):
 
 - Applications of indexed types need to be applied to all type indexes.
-- Ensure that the number of parameters in an indexed type instance is at least the number of type indexes given in the definition.  (We already check the kinds.)
 - Default AT synonyms are only allowed for ATs defined in the same class.
 - We need to require -fglasgow-exts for ATs. (The type checker seems to be the place to check whether the flag was supplied.) To check this for classes, we need to have `Class.Class` suitably extended; the infrastructure for the check is already builtin in (see `binding no_ats` in `checkValidClass`).  **We already do this to some extend.**
 - For each case scrutinising an associated data type, check that all constructors have been defined in a single instance.  (Maybe we can just extend the existing check that ensures that case expressions don't mix constructors of different data types.)
@@ -35,8 +34,8 @@ Todo (low-level):
 - Check that each instance has a definition for every AT and also that all defined associated types are, in fact, declared by the class. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.) Also check that kind signatures that correspond to type variables in the AT declaration or class declaration match the kinds inferred for the AT declaration. (This certainly needs to be done in the type checker.)
 - We need to somehow change the signatures of data constructors of ATs around so that they mention the Name of the type constructor declared in the class (and not the one of the instance the data constructor was declared in). Might be able to do that via a GADT style signature.  **Rethink this under the new scheme.**
 - Search for `!!!TODO` (eg, `TcTyClsDecls.lhs`)
-- Extend `TcTyClDecls.tcTyAndClassDecls` to properly do kind checking for instances of indexed types.
 - Check that patterns of type indexes don't contain type functions.
+- Constructs `InstInfo` for type equation in `tcIdxTyInstDecl1`.
 
 
 Todo (high-level):
