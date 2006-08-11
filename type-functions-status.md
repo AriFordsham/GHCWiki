@@ -26,20 +26,20 @@ Done:
 
 Todo (low-level):
 
-- In `TcTyClsDecls.tcKindSigDecl`: compute resulting `TyCon`
+- In `TcTyClsDecls.tcKindSigDecl`: compute resulting `TyCon` (i.e. representation of kind signatures)
 - Applications of indexed types need to be applied to all type indexes.
-- Default AT synonyms are only allowed for ATs defined in the same class.
-- For each case scrutinising an associated data type, check that all constructors have been defined in a single instance.  (Maybe we can just extend the existing check that ensures that case expressions don't mix constructors of different data types.)
-- Check that each AT definition mirrors the class arguments of the instance in its type indexes. This might be a bit more tricky if we want to allow that they can vary syntactically before expansion of type synonyms. (Do this in the type checker unless we find it is very hard to do there; then, revert to trying it during renaming.)
-- Check that each instance has a definition for every AT and also that all defined associated types are, in fact, declared by the class. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.) Also check that kind signatures that correspond to type variables in the AT declaration or class declaration match the kinds inferred for the AT declaration. (This certainly needs to be done in the type checker.)
+- Check that the arguments of AT instances coincide with the respective instance arguments of their class. This might be a bit more tricky if we want to allow that they can vary syntactically before expansion of type synonyms.
+- Check that each class instance has a definition for every AT and conversely that that all defined associated types are, in fact, part of the class - with the exception of associated synonyms with a default definition. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.)
 - Check that patterns of type indexes don't contain type functions.
+- For each case scrutinising an associated data type, check that all constructors have been defined in a single instance.  (Maybe we can just extend the existing check that ensures that case expressions don't mix constructors of different data types.)
 - Constructs `InstInfo` for type equation in `tcIdxTyInstDecl1`.
-- Construct representations for kind signatures in `tcTyClDecl1`.
 
 
+ 
 Todo (high-level):
 
 1. Type checking of associated data types.
+1. Type checking of associated synonym defaults.  (Default AT synonyms are only allowed for ATs defined in the same class.)
 1. Type checking of type functions (and hence, associated type synonyms); forget about `iso` for the moment.
 1. Type check functional dependencies as type functions.
 
