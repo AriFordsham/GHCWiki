@@ -8,8 +8,9 @@ Back to TypeFunctions.
 == Parsing and Renaming ==
 
 Todo (high-level):
- 1. Parse and rename equality constraints in signatures.
- 2. Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)
+ 1. New syntax for indexed types: `type/data/newtype family` and `type/data/newtype instance`.  Then, the kind can be optional again (with `*` being the default).
+ 2. Parse and rename equality constraints in signatures.
+ 3. Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)
 
 Done:
  * Parsing and renaming of kind signatures (toplevel and in classes).
