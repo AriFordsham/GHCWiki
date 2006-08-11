@@ -5,7 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Kind checking; next: treatment of instances of indexed types in the form of `TcTyClDecl.tcIdxTyInstDecl`.
+- Type checking of kind signatures & testing.
 
 ## Parsing and Renaming
 
@@ -32,9 +32,9 @@ Todo (low-level):
 - For each case scrutinising an associated data type, check that all constructors have been defined in a single instance.  (Maybe we can just extend the existing check that ensures that case expressions don't mix constructors of different data types.)
 - Check that each AT definition mirrors the class arguments of the instance in its type indexes. This might be a bit more tricky if we want to allow that they can vary syntactically before expansion of type synonyms. (Do this in the type checker unless we find it is very hard to do there; then, revert to trying it during renaming.)
 - Check that each instance has a definition for every AT and also that all defined associated types are, in fact, declared by the class. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.) Also check that kind signatures that correspond to type variables in the AT declaration or class declaration match the kinds inferred for the AT declaration. (This certainly needs to be done in the type checker.)
-- Search for `!!!TODO` (eg, `TcTyClsDecls.lhs`)
 - Check that patterns of type indexes don't contain type functions.
 - Constructs `InstInfo` for type equation in `tcIdxTyInstDecl1`.
+- Construct representations for kind signatures in `tcTyClDecl1`.
 
 
 Todo (high-level):
@@ -46,7 +46,8 @@ Todo (high-level):
 
 Done: 
 
-- Kind checking for kind signatures.
+- Kind checking of kind signatures.
+- Kind and type checking of instance declarations of indexed types.
 
 ## Desugaring
 
