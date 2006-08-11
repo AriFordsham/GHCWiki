@@ -10,6 +10,12 @@ In contrast, instances of indexed types are not processed by `TcTyClDecls.tcTyCl
 
 Type checking in the presence of only indexed data and newtypes is much simpler than in the presence of type functions as type equality remains purely syntactic (i.e., we do not need to change the unification procedure).  However, we need to check that the alternatives of a case expression inspecting an indexed data type contains only constructors of one member of the family.  (To relax this restriction, we would need a story for compiling open data types.)
 
+However, this difference in complexity applies only to the type checking of expression whose types involve indexed data types and type functions, respectively.  The type checking of the declaration forms is not that different; in fact, indexed data type declarations require more effort as they introduce data type constructors, which need to behandled as well.  However, a lot of machinery can be re-used from vanilla algebraic data types.
+
+=== Type checking signatures and instances of indexed types ===
+
+Instances of indexed types are type checked by `TcTyClDecls.tcIdxTyInstDecl`; i.e., the same functions that performs their kind checking.  Kind checking and type checking of instances of indexed types can be combined, as we don't need to worry as much about recursive dependencies as we have to for standard type declarations.  In particular, the kinds of indexed types are declared by their signature and we don't have to compute any recursiveness information, as we never know whether we reached a fixed point for open types.  (Hence, we conservatively assume indexed types to be always `Recursive`.  This is safe as they are implicit loop breakers due to to implying coercions.)
+
 === Desugaring indexed data types ===
 
 The kind signature of an indexed data type
