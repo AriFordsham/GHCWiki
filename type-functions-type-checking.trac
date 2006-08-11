@@ -10,6 +10,14 @@ In contrast, instances of indexed types are not processed by `TcTyClDecls.tcTyCl
 
 Type checking in the presence of only indexed data and newtypes is much simpler than in the presence of type functions as type equality remains purely syntactic (i.e., we do not need to change the unification procedure).  However, we need to check that the alternatives of a case expression inspecting an indexed data type contains only constructors of one member of the family.  (To relax this restriction, we would need a story for compiling open data types.)
 
+However, this difference in complexity applies only to the type checking of expression whose types involve indexed data types and type functions, respectively.  The type checking of the declaration forms is not that different; in fact, indexed data type declarations require more effort as they introduce data type constructors, which need to behandled as well.  However, a lot of machinery can be re-used from vanilla algebraic data types.
+
+=== Type checking signatures and instances of indexed types ===
+
+Kind signatures are handled by `TcTyClsDecls.tcTyClsDecl` together with all other type and class declarations.  Within class declarations, we invoke the functions recursively to process associated types.
+
+Instances of indexed types are type checked by `TcTyClDecls.tcIdxTyInstDecl`; i.e., the same functions that performs their kind checking.  Kind checking and type checking of instances of indexed types can be combined, as we don't need to worry as much about recursive dependencies as we have to for standard type declarations.  In particular, the kinds of indexed types are declared by their signature and we don't have to compute any recursiveness information, as we never know whether we reached a fixed point for open types.  (Hence, we conservatively assume indexed types to be always `Recursive`.  This is safe as they are implicit loop breakers due to to implying coercions.)
+
 === Desugaring indexed data types ===
 
 The kind signature of an indexed data type
@@ -63,14 +71,3 @@ If the data constructor is from an indexed type, we need to propagate a coercion
 
 `ExprCoFun` represents, besides coercions due to type instantiation, also type equality coercions of type `Coercion.Coercion`.  We use them for coercions that are exactly the converse of the coercion used in the wrapper of the data constructor of the current case alternative.  (There is also an equivalent of `CoPat` for expressions, namely `HsCoerce` of `HsExpr.HsExpr`.)
 
-== Type checking associated types ==
-
-=== Class declarations ===
-
- * As part of the knot tying exercises in `TcTyClsDecls.tcTyAndClassDecls`, we extract all AT declarations from classes and add them to the list of class and data type declarations to be processed. This ensures that AT declarations participate in kind checking and that they are entered into the global type-checker environment.
- * We do ''not'' update the data declarations within class declarations (field `tcdATs` within `ClassDecl`), as the `Class.Class` structure produced by the type checker only contains the `Id`s of a classes associated types.
- * We check that we have -fglasgow-exts.
-
-=== Instance declarations ===
-
-We need to handle ATs in `TcInstDcls.tcInstDecls1`, which is where the type information in instances - i.e., in vanilla Haskell just the instance heads - are processed.
