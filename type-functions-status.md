@@ -12,6 +12,7 @@ Back to [TypeFunctions](type-functions).
 
 Todo (high-level):
 
+1. New syntax for indexed types: `type/data/newtype family` and `type/data/newtype instance`.  Then, the kind can be optional again (with `*` being the default).
 1. Parse and rename equality constraints in signatures.
 1. Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)
 
