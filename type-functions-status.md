@@ -26,6 +26,7 @@ Done:
 
 Todo (low-level):
 
+- In `TcTyClsDecls.tcKindSigDecl`: compute resulting `TyCon`
 - Applications of indexed types need to be applied to all type indexes.
 - Default AT synonyms are only allowed for ATs defined in the same class.
 - For each case scrutinising an associated data type, check that all constructors have been defined in a single instance.  (Maybe we can just extend the existing check that ensures that case expressions don't mix constructors of different data types.)
