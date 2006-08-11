@@ -102,16 +102,3 @@ So, whether we need to cast the scrutinee of a case expression depends on the co
 If the data constructor is from an indexed type, we need to propagate a coercion (to be applied to the scrutinee) outwards.  For this, GHC also already has a mechanism, namely the variant `CoPat` of `HsPat.Pat`.  It enables us to attach a coercion function, of type `HsBinds.ExprCoFun`, to a pattern, which the desugarer will pick up in `Match.matchCoercion` and apply to the match variable of the case expression.
 
 `ExprCoFun` represents, besides coercions due to type instantiation, also type equality coercions of type `Coercion.Coercion`.  We use them for coercions that are exactly the converse of the coercion used in the wrapper of the data constructor of the current case alternative.  (There is also an equivalent of `CoPat` for expressions, namely `HsCoerce` of `HsExpr.HsExpr`.)
-
-## Type checking associated types
-
-### Class declarations
-
-- As part of the knot tying exercises in `TcTyClsDecls.tcTyAndClassDecls`, we extract all AT declarations from classes and add them to the list of class and data type declarations to be processed. This ensures that AT declarations participate in kind checking and that they are entered into the global type-checker environment.
-- We do *not* update the data declarations within class declarations (field `tcdATs` within `ClassDecl`), as the `Class.Class` structure produced by the type checker only contains the `Id`s of a classes associated types.
-- We check that we have -fglasgow-exts.
-
-### Instance declarations
-
-
-We need to handle ATs in `TcInstDcls.tcInstDecls1`, which is where the type information in instances - i.e., in vanilla Haskell just the instance heads - are processed.
