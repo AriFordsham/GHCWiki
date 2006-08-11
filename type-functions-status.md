@@ -5,7 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Type checking of kind signatures & testing.
+- Test type checking of declarations of indexed types.
 
 ## Parsing and Renaming
 
@@ -38,15 +38,15 @@ Todo (low-level):
  
 Todo (high-level):
 
-1. Type checking of associated data types.
-1. Type checking of associated synonym defaults.  (Default AT synonyms are only allowed for ATs defined in the same class.)
+1. Type checking in the presence of associated data types.
+1. Type checking in the presence of associated synonym defaults.  (Default AT synonyms are only allowed for ATs defined in the same class.)
 1. Type checking of type functions (and hence, associated type synonyms); forget about `iso` for the moment.
 1. Type check functional dependencies as type functions.
 
 
 Done: 
 
-- Kind checking of kind signatures.
+- Kind and type checking of kind signatures.
 - Kind and type checking of instance declarations of indexed types.
 
 ## Desugaring
@@ -59,8 +59,7 @@ Todo (low-level):
 
 Todo (high-level):
 
-1. Desugar associated data types.
-1. Desugar type functions and equality constraints.
+1. Desugar indexed data types.
 1. Extend interface files.
 
   - How do we exactly want to represent ATs in interface files?
@@ -69,6 +68,7 @@ Todo (high-level):
     - `IfaceInst` contains the instance declaration information for interfaces.
   - Export and import lists: The name lists that may appear at class imports and exports can now also contain type names, which is tricky as data type names can carry a list of data constructors.
   - At the moment, we add as the parent name of the data constructors of associated data types defined in instances, the new name for the data type constructor, which is *different* from that of the data type constructor in the class (also their source representation is the same). We may need to fix that during renaming. (We can't easily fix it in `getLocalDeclBinders`, where the names of the data constructors are made, as we don't have the means to get at the right class at that point.)
+1. Desugar type functions and equality constraints.
 
 
 Done: Nothing.
