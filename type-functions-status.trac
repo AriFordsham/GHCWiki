@@ -3,7 +3,7 @@
 Back to TypeFunctions.
 
 '''Current:''' 
- * Test type checking of declarations of indexed types.
+ * Compute `TyCon`s resulting from type instance declarations; then, test type checking of declarations of indexed types.
 
 == Parsing and Renaming ==
 
@@ -20,8 +20,6 @@ Done:
 == Type Checking ==
 
 Todo (low-level):
- * In `TcTyClsDecls.tcKindSigDecl`: compute resulting `TyCon` (i.e. representation of kind signatures)
- * Applications of indexed types need to be applied to all type indexes.
  * Check that the arguments of AT instances coincide with the respective instance arguments of their class. This might be a bit more tricky if we want to allow that they can vary syntactically before expansion of type synonyms.
  * Check that each class instance has a definition for every AT and conversely that that all defined associated types are, in fact, part of the class - with the exception of associated synonyms with a default definition. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.)
  * Check that patterns of type indexes don't contain type functions.
