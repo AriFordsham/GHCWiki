@@ -21,8 +21,10 @@ Instances of indexed types are type checked by `TcTyClDecls.tcIdxTyInstDecl`; i.
 === Representation of indexed families after type checking ===
 
 The function `TcTyClsDecls.tcTyClsDecls` produces `TypeRep.TyThing`s from type and class declarations.  The `TyThing`s produced from the new declaration forms are the following:
- `type family`
+ `type family`::
    Type synonym families are represented by the standard `TyCon` variant for synonyms, namely `SynTyCon`.  However, they are distinguished from ordinary type synonyms by a value `Nothing` in the field `synTcRhs`.
+ `type data` and `type newtype`::
+   Data and newtype families are represented by the `TyCon` variant `AlgTyCon`, as are their non-indexed counter parts.  The field `algTcRhs` is currently `AbstractTyCon`.  '''However, when we handle type families in ifaces, we probably want to distinguish their declarations by introducing a new `OpenTyCon`.'''
 
 ==== Synonym type constructors: `SynTyCon` ====
 
