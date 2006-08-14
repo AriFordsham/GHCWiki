@@ -1,12 +1,12 @@
 = Type Functions: Type Checking =
 
-== Kind checking indexed types ==
+== Kind checking indexed type families ==
 
 The workhorse of kind checking type and class declarations is `TcTyClDecls.kcTyClDecls`, which is invoked by `TcTyClDecls.tcTyClDecls` once per binding group.  It handles type synonyms different from algebraic data type declarations and classes, as synonyms have a richer kind structure (making kind checking harder), but cannot be recursive (which makes kind checking easier).  We handle kind signatures (of both type functions and indexed data types) in the same way as algebraic data type declarations.  More precisely, kind signatures participate in the construction of the initial kind environment (as performed by `getInitialKind`).
 
 In contrast, instances of indexed types are not processed by `TcTyClDecls.tcTyClDecls`, but by `TcInstDcls.tcInstDecls1`, which handles the heads of class instance declarations.  However, the later invokes `TcTyClDecls.tcIdxTyInstDecl` (both directly and indirectly via `IcInstDcls.tcLocalInstDecl1`, the later for associated types).  The function `tcIdxTyInstDecl` shares a lot of code with the `TcTyClDecls.kcTyClDecls` and `TcTyClDecls.tcTyClDecl`.
 
-== Type checking indexed types ==
+== Type checking indexed type families ==
 
 Type checking in the presence of only indexed data and newtypes is much simpler than in the presence of type functions as type equality remains purely syntactic (i.e., we do not need to change the unification procedure).  However, we need to check that the alternatives of a case expression inspecting an indexed data type contains only constructors of one member of the family.  (To relax this restriction, we would need a story for compiling open data types.)
 
@@ -17,6 +17,16 @@ However, this difference in complexity applies only to the type checking of expr
 Kind signatures are handled by `TcTyClsDecls.tcTyClsDecl` together with all other type and class declarations.  Within class declarations, we invoke the functions recursively to process associated types.
 
 Instances of indexed types are type checked by `TcTyClDecls.tcIdxTyInstDecl`; i.e., the same functions that performs their kind checking.  Kind checking and type checking of instances of indexed types can be combined, as we don't need to worry as much about recursive dependencies as we have to for standard type declarations.  In particular, the kinds of indexed types are declared by their signature and we don't have to compute any recursiveness information, as we never know whether we reached a fixed point for open types.  (Hence, we conservatively assume indexed types to be always `Recursive`.  This is safe as they are implicit loop breakers due to to implying coercions.)
+
+=== Representation of indexed families after type checking ===
+
+The function `TcTyClsDecls.tcTyClsDecls` produces `TypeRep.TyThing`s from type and class declarations.  The `TyThing`s produced from the new declaration forms are the following:
+ `type family`
+   Type synonym families are represented by the standard `TyCon` variant for synonyms, namely `SynTyCon`.  However, they are distinguished from ordinary type synonyms by a value `Nothing` in the field `synTcRhs`.
+
+==== Synonym type constructors: `SynTyCon` ====
+
+To represent type families (which do not have a fixed right hand side), the type of `synTcRhs` changed from `Type` to `Maybe Type`.  Consequently, all functions that dependent on this field need to be extended.  In particular, `TcType.isTauTyCon` regards applications of type family constructors as ''tau types''.  (SPJ, is that ok?)
 
 === Desugaring indexed data types ===
 
