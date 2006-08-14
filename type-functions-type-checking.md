@@ -39,6 +39,9 @@ The function `TcTyClsDecls.tcTyClsDecls` produces `TypeRep.TyThing`s from type a
 
 To represent type families (which do not have a fixed right hand side), the type of `synTcRhs` changed from `Type` to `Maybe Type`.  Consequently, all functions that dependent on this field need to be extended.  In particular, `TcType.isTauTyCon` regards applications of type family constructors as *tau types*.  (SPJ, is that ok?)
 
+
+Moreover, `BuildTyCls.buildSynTyCon`'s last argument is generalised from `Type` to `Either Kind Type`.  If this argument is `Just kind`, we have a type family; otherwise, we have an ordinary type synonym.
+
 ### Desugaring indexed data types
 
 
