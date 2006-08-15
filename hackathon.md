@@ -119,3 +119,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Andres Löh](http://www.iai.uni-bonn.de~/loeh/), University of Bonn, interested in type systems and generic programming
 - [ Bryn Keller](http://www.xoltar.org), interested bystander. Interested in generating code for unusual targets (e.g. JavaScript, Flash, .Net, etc.).
 - Ian Lynagh, interested in all parts.
+- Brandon Moore, Yahoo. Interested in types, syntax extension.
