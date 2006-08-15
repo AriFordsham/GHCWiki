@@ -22,15 +22,22 @@ Instances of indexed types are type checked by `TcTyClDecls.tcIdxTyInstDecl`; i.
 
 The function `TcTyClsDecls.tcTyClsDecls` produces `TypeRep.TyThing`s from type and class declarations.  The `TyThing`s produced from the new declaration forms are the following:
  `type family`::
-   Type synonym families are represented by the standard `TyCon` variant for synonyms, namely `SynTyCon`.  However, they are distinguished from ordinary type synonyms by a value `Nothing` in the field `synTcRhs`.
- `type data` and `type newtype`::
-   Data and newtype families are represented by the `TyCon` variant `AlgTyCon`, as are their non-indexed counter parts.  The field `algTcRhs` is currently `AbstractTyCon`.  '''However, when we handle type families in ifaces, we probably want to distinguish their declarations by introducing a new `OpenTyCon`.'''
+   Type synonym families are represented by the standard `TyCon` variant for synonyms, namely `SynTyCon`.  They are distinguished from ordinary type synonyms by the value of the field `synTcRhs`, which is now of a new data type `SynTyConRhs`, which has a variant `OpenSynTyCon resKind` to represent families.
+ `data family` and `newtype family`::
+   Data and newtype families are represented by the `TyCon` variant `AlgTyCon`, as are their non-indexed counter parts, with the difference that the field `algTcRhs` has the one of the newly introduced values `OpenDataTyCon` or `OpenNewTyCon`.
 
 ==== Synonym type constructors: `SynTyCon` ====
 
-To represent type families (which do not have a fixed right hand side), the type of `synTcRhs` changed from `Type` to `Maybe Type`.  Consequently, all functions that dependent on this field need to be extended.  In particular, `TcType.isTauTyCon` regards applications of type family constructors as ''tau types''.  (SPJ, is that ok?)
+To represent type families (which do not have a fixed right hand side), the type of `synTcRhs` changed from `Type` to `SynTyConRhs` with
+{{{
+data SynTyConRhs = OpenSynTyCon Kind    -- *result* kind
+                 | SynonymTyCon Type    -- rhs of ordinary synonym
+}}}
+Consequently, all functions that dependent on this field need to be extended.  In particular, `TcType.isTauTyCon` regards applications of type family constructors as ''tau types''.  (SPJ, is that ok?  Probably not...)  As a result, `BuildTyCls.buildSynTyCon`'s last argument now also takes a value of type `SynTyConRhs`.
 
-Moreover, `BuildTyCls.buildSynTyCon`'s last argument is generalised from `Type` to `Either Kind Type`.  If this argument is `Just kind`, we have a type family; otherwise, we have an ordinary type synonym.
+==== GHC API ====
+
+The GHC API has a new predicate `isOpenTyCon` with the understanding that it is illegal to invoke `synTyConDefn`, `synTyConRhs`, and `tyConDataCons` on type constructors that fulfil `isOpenTyCon`.
 
 === Desugaring indexed data types ===
 
