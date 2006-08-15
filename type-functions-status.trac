@@ -8,7 +8,8 @@ Back to TypeFunctions.
 == Parsing and Renaming ==
 
 Todo (high-level):
- 1. New syntax for indexed types: `type/data/newtype family` and `type/data/newtype instance`.  Then, the kind can be optional again (with `*` being the default).
+ 1. We probably don't want to write `family` and `instance` in ATs, as its implied by the context.  However, then, the syntax becomes different between toplevel and in classes, which is also a bit annoying.
+ 1. Make the kind specification optional in family declarations.  (How to do the representation in the data/newtype case is not entirely clear, as we use the presence of the kind signature at the moment to identify family declarations.)
  2. Parse and rename equality constraints in signatures.
  3. Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)
 
@@ -20,6 +21,8 @@ Done:
 == Type Checking ==
 
 Todo (low-level):
+ * RHS of a `type instance` must be a tau type.
+ * In an AT definition, no argument variable may be repeated.
  * Check that the arguments of AT instances coincide with the respective instance arguments of their class. This might be a bit more tricky if we want to allow that they can vary syntactically before expansion of type synonyms.
  * Check that each class instance has a definition for every AT and conversely that that all defined associated types are, in fact, part of the class - with the exception of associated synonyms with a default definition. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.)
  * Check that patterns of type indexes don't contain type functions.
