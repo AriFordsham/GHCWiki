@@ -31,11 +31,12 @@ The function `TcTyClsDecls.tcTyClsDecls` produces `TypeRep.TyThing`s from type a
 
 <table><tr><th>`type family`</th>
 <td>
-Type synonym families are represented by the standard `TyCon` variant for synonyms, namely `SynTyCon`.  However, they are distinguished from ordinary type synonyms by a value `Nothing` in the field `synTcRhs`.
+Type synonym families are represented by the standard `TyCon` variant for synonyms, namely `SynTyCon`.  They are distinguished from ordinary type synonyms by the value of the field `synTcRhs`, which is now of a new data type `SynTyConRhs`, which has a variant `OpenSynTyCon` to represent families.
 </td></tr>
 <tr><th>`type data` and `type newtype`</th>
 <td>
-Data and newtype families are represented by the `TyCon` variant `AlgTyCon`, as are their non-indexed counter parts.  The field `algTcRhs` is currently `AbstractTyCon`.  **However, when we handle type families in ifaces, we probably want to distinguish their declarations by introducing a new `OpenTyCon`.**</td></tr></table>
+Data and newtype families are represented by the `TyCon` variant `AlgTyCon`, as are their non-indexed counter parts, with the difference that the field `algTcRhs` has the newly introduced value `OpenAlgTyCon`. 
+</td></tr></table>
 
 #### Synonym type constructors: `SynTyCon`
 
