@@ -1,138 +1,119 @@
-# Type Functions: Type Checking
+CONVERSION ERROR
 
-## Kind checking indexed type families
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/TypeFunctionsTypeChecking"
+  queryString          = "?version=13"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:53:47 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","260"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsTypeChecking\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
+Original source:
+
+```trac
+= Type Functions: Type Checking =
+
+== Kind checking indexed type families ==
 
 The workhorse of kind checking type and class declarations is `TcTyClDecls.kcTyClDecls`, which is invoked by `TcTyClDecls.tcTyClDecls` once per binding group.  It handles type synonyms different from algebraic data type declarations and classes, as synonyms have a richer kind structure (making kind checking harder), but cannot be recursive (which makes kind checking easier).  We handle kind signatures (of both type functions and indexed data types) in the same way as algebraic data type declarations.  More precisely, kind signatures participate in the construction of the initial kind environment (as performed by `getInitialKind`).
 
-
 In contrast, instances of indexed types are not processed by `TcTyClDecls.tcTyClDecls`, but by `TcInstDcls.tcInstDecls1`, which handles the heads of class instance declarations.  However, the later invokes `TcTyClDecls.tcIdxTyInstDecl` (both directly and indirectly via `IcInstDcls.tcLocalInstDecl1`, the later for associated types).  The function `tcIdxTyInstDecl` shares a lot of code with the `TcTyClDecls.kcTyClDecls` and `TcTyClDecls.tcTyClDecl`.
 
-## Type checking indexed type families
-
+== Type checking indexed type families ==
 
 Type checking in the presence of only indexed data and newtypes is much simpler than in the presence of type functions as type equality remains purely syntactic (i.e., we do not need to change the unification procedure).  However, we need to check that the alternatives of a case expression inspecting an indexed data type contains only constructors of one member of the family.  (To relax this restriction, we would need a story for compiling open data types.)
 
-
 However, this difference in complexity applies only to the type checking of expression whose types involve indexed data types and type functions, respectively.  The type checking of the declaration forms is not that different; in fact, indexed data type declarations require more effort as they introduce data type constructors, which need to behandled as well.  However, a lot of machinery can be re-used from vanilla algebraic data types.
 
-### Type checking signatures and instances of indexed types
-
+=== Type checking signatures and instances of indexed types ===
 
 Kind signatures are handled by `TcTyClsDecls.tcTyClsDecl` together with all other type and class declarations.  Within class declarations, we invoke the functions recursively to process associated types.
 
-
 Instances of indexed types are type checked by `TcTyClDecls.tcIdxTyInstDecl`; i.e., the same functions that performs their kind checking.  Kind checking and type checking of instances of indexed types can be combined, as we don't need to worry as much about recursive dependencies as we have to for standard type declarations.  In particular, the kinds of indexed types are declared by their signature and we don't have to compute any recursiveness information, as we never know whether we reached a fixed point for open types.  (Hence, we conservatively assume indexed types to be always `Recursive`.  This is safe as they are implicit loop breakers due to to implying coercions.)
 
-### Representation of indexed families after type checking
-
+=== Representation of indexed families after type checking ===
 
 The function `TcTyClsDecls.tcTyClsDecls` produces `TypeRep.TyThing`s from type and class declarations.  The `TyThing`s produced from the new declaration forms are the following:
+ `type family`::
+   Type synonym families are represented by the standard `TyCon` variant for synonyms, namely `SynTyCon`.  They are distinguished from ordinary type synonyms by the value of the field `synTcRhs`, which is now of a new data type `SynTyConRhs`, which has a variant `OpenSynTyCon resKind` to represent families.
+ `data family` and `newtype family`::
+   Data and newtype families are represented by the `TyCon` variant `AlgTyCon`, as are their non-indexed counter parts, with the difference that the field `algTcRhs` has the newly introduced value `OpenAlgTyCon`. 
 
-<table><tr><th>`type family`</th>
-<td>
-Type synonym families are represented by the standard `TyCon` variant for synonyms, namely `SynTyCon`.  They are distinguished from ordinary type synonyms by the value of the field `synTcRhs`, which is now of a new data type `SynTyConRhs`, which has a variant `OpenSynTyCon` to represent families.
-</td></tr>
-<tr><th>`data family` and `newtype family`</th>
-<td>
-Data and newtype families are represented by the `TyCon` variant `AlgTyCon`, as are their non-indexed counter parts, with the difference that the field `algTcRhs` has the newly introduced value `OpenAlgTyCon`. 
-</td></tr></table>
-
-#### Synonym type constructors: `SynTyCon`
-
+==== Synonym type constructors: `SynTyCon` ====
 
 To represent type families (which do not have a fixed right hand side), the type of `synTcRhs` changed from `Type` to `SynTyConRhs` with
-
-```wiki
-data SynTyConRhs = OpenSynTyCon | SynonymTyCon Type
-```
-
-
-Consequently, all functions that dependent on this field need to be extended.  In particular, `TcType.isTauTyCon` regards applications of type family constructors as *tau types*.  (SPJ, is that ok?  Probably not...)
-
+{{{
+data SynTyConRhs = OpenSynTyCon Kind    -- *result* kind
+                 | SynonymTyCon Type    -- rhs of ordinary synonym
+}}}
+Consequently, all functions that dependent on this field need to be extended.  In particular, `TcType.isTauTyCon` regards applications of type family constructors as ''tau types''.  (SPJ, is that ok?  Probably not...)
 
 Moreover, `BuildTyCls.buildSynTyCon`'s last argument is generalised from `Type` to `Either Kind Type`.  If this argument is `Left kind`, we have a type family; otherwise, we have an ordinary type synonym.
 
-#### GHC API
-
+==== GHC API ====
 
 The GHC API has a new predicate `isOpenTyCon` with the understanding that it is illegal to invoke `synTyConDefn`, `synTyConRhs`, and `tyConDataCons` on type constructors that fulfil `isOpenTyCon`.
 
-### Desugaring indexed data types
-
+=== Desugaring indexed data types ===
 
 The kind signature of an indexed data type
-
-```wiki
+{{{
 data T (a1::<kind1>) .. (an::<kindn>) :: <kind>
-```
-
-
-turns into an F<sub>C</sub> type function declaration
-
-```wiki
+}}}
+turns into an F,,C,, type function declaration
+{{{
 type T_n : <kind1> -> .. -> <kindn> -> <kind>
-```
-
-
+}}}
 A member of an indexed data type
-
-```wiki
+{{{
 data T t1 .. tn b1 .. bm = <constructors>
-```
-
-
+}}}
 turns into an equality axiom and a vanilla data declaration
-
-```wiki
+{{{
 axiom cTinst : (forall c1..cr. T_n t1 .. tn) :=: (forall c1..cr. Tinst c1 .. cr)
 data Tinst c1 .. cr b1 .. bm = <constructors>
-```
+}}}
+where the `ci` are the free variables of the `tj`.  Moreover, we morally replace all occurences of `T` in the rest of the program by `T_n`.  No such replacement is required in the actual implementation as the arity index at F,,C,, type functions is just a formal device used in the formal development.  In the implementation, it is perfectly fine to retain the original name and maintain the arity information separately.
 
+Neverthless, we need to generate a new name for the vanilla data types representing family members (i.e., `Tinst` above).  We use a similar mechanism as for the generation of the dictionary type constructors of type classes.  In particular, we generalise the field `algTcClass` of the internal representation for datatypes, `TyCon.AlgTyCon`, to be three valued: none, `Class` for data types representing dictionaries, and <which structure?> for data types representing members of a family.
 
-where the `ci` are the free variables of the `tj`.  Moreover, we morally replace all occurences of `T` in the rest of the program by `T_n`.  No such replacement is required in the actual implementation as the arity index at F<sub>C</sub> type functions is just a formal device used in the formal development.  In the implementation, it is perfectly fine to retain the original name and maintain the arity information separately.
+=== Inserting coercions ===
 
+To ensure that the F,,C,, code generated by the above desugaring still type checks, we need to introduce cast expressions using `cTinst` to move between the indexed type `T_n` and the representation types, such as `Tinst`, of its members.  The simplicity of type checking and desugaring indexed data types - as opposed to general type functions - is due to the locations where these casts need to be added being well defined.  More precisely, there are two different kinds of locations corresponding to the introduction and elimination of indexed data types:
+ 1. Wrappers for data constructors introduce indexed types.
+ 2. Case expressions scrutinising indexed types eliminate them.
 
-Neverthless, we need to generate a new name for the vanilla data types representing family members (i.e., `Tinst` above).  We use a similar mechanism as for the generation of the dictionary type constructors of type classes.  In particular, we generalise the field `algTcClass` of the internal representation for datatypes, `TyCon.AlgTyCon`, to be three valued: none, `Class` for data types representing dictionaries, and \<which structure?\> for data types representing members of a family.
-
-### Inserting coercions
-
-
-To ensure that the F<sub>C</sub> code generated by the above desugaring still type checks, we need to introduce cast expressions using `cTinst` to move between the indexed type `T_n` and the representation types, such as `Tinst`, of its members.  The simplicity of type checking and desugaring indexed data types - as opposed to general type functions - is due to the locations where these casts need to be added being well defined.  More precisely, there are two different kinds of locations corresponding to the introduction and elimination of indexed data types:
-
-1. Wrappers for data constructors introduce indexed types.
-1. Case expressions scrutinising indexed types eliminate them.
-
-### Wrappers for indexed data types
-
+=== Wrappers for indexed data types ===
 
 The wrapper of a data constructor acts as an impedance matcher between the source-level signatures of the constructor and its actual representation; in particular, it evaluates strict arguments and unboxes flattened arguments.  In the case of a constructor for an indexed data type, it additionally has to apply the coercion between the type function representing the source type and its representation as a vanilla data type.  So, for example, if we have (continuing the example from above)
-
-```wiki
+{{{
 data T t1 .. tn b1 .. bm = C s1 .. sk
-```
-
-
+}}}
 then we generate a wrapper
-
-```wiki
+{{{
 C = /\c1..cr b1..bm ->
     \x1..xk ->
       Con C [c1,..,cr,b1,..,bm] [x1,..,xk] |> sym (cTinst@c1..@cr b1 .. bm)
-```
-
-
+}}}
 The generation of constructor wrappers is performed by `MkId.mkDataConIds`.
 
-### Case expressions for indexed data types
-
+=== Case expressions for indexed data types ===
 
 When we scrutinise an indexed type in a case expression, we need to first cast it to the vanilla data type representing the family member from which the constructors guarding the alternatives are drawn.  (This implies that we cannot have any case expression mixing constructors from two or more family members.  In fact, if we had that capability, we would have open GADT definitions in the Löh/Hinze sense.)
 
-
 So, whether we need to cast the scrutinee of a case expression depends on the constructors appearing in the alternatives, which are type checked by `TcPat.tcConPat`.  This function uses `TcUnify.boxySplitTyConApp` to match the type of the scrutinee against the result type of the data constructor.  In the case of GADTs and indexed types, this is not just a matter of extracting the arguments from the type constructor application, but we need to match against type patterns.  This matching is already conveniently performed by the code for GADTs.
-
 
 If the data constructor is from an indexed type, we need to propagate a coercion (to be applied to the scrutinee) outwards.  For this, GHC also already has a mechanism, namely the variant `CoPat` of `HsPat.Pat`.  It enables us to attach a coercion function, of type `HsBinds.ExprCoFun`, to a pattern, which the desugarer will pick up in `Match.matchCoercion` and apply to the match variable of the case expression.
 
 `ExprCoFun` represents, besides coercions due to type instantiation, also type equality coercions of type `Coercion.Coercion`.  We use them for coercions that are exactly the converse of the coercion used in the wrapper of the data constructor of the current case alternative.  (There is also an equivalent of `CoPat` for expressions, namely `HsCoerce` of `HsExpr.HsExpr`.)
+
+
+```
