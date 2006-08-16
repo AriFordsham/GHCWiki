@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsStatus"
-  queryString          = "?version=48"
+  queryString          = "?version=50"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:53:50 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsStatus\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:53:52 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsStatus\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -24,7 +24,8 @@ Original source:
 Back to TypeFunctions.
 
 '''Current:''' 
- * Compute `TyCon`s resulting from type instance declarations; then, test type checking of declarations of indexed types.
+ * Result types of data constructors from data instances are not computed correctly.  (They are more like GADT types than vanilla H98, but are handled by the H98 code right now.)
+ * Complete `TcTyClsDecls.tcIdxTyInstDecl1` for `TyData`: (1) probably need to generate a new name; (2) produce a `TyCon`, which requires to extend the result type, ('''This is mostly done.''') and (3) produce an equality axiom.  The produced `TyCon` need to be entered into the global environment, including all its `implicitTyThings`, by the caller, namely `TcInstDecls.tcInstDecls1`.
 
 == Parsing and Renaming ==
 
@@ -75,7 +76,9 @@ Todo (high-level):
   * At the moment, we add as the parent name of the data constructors of associated data types defined in instances, the new name for the data type constructor, which is ''different'' from that of the data type constructor in the class (also their source representation is the same). We may need to fix that during renaming. (We can't easily fix it in `getLocalDeclBinders`, where the names of the data constructors are made, as we don't have the means to get at the right class at that point.)
  3. Desugar type functions and equality constraints.
 
-Done: Nothing.
+Done:
+ * Representation of kind signatures as `TyCon.TyCon`s.
+ * Extension of `Class.Class` by associated `TyCon`s.
 
 
 == Testsuite ==
