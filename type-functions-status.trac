@@ -24,6 +24,7 @@ Todo (low-level):
  * In an AT definition, no argument variable may be repeated.
  * Check that the arguments of AT instances coincide with the respective instance arguments of their class. This might be a bit more tricky if we want to allow that they can vary syntactically before expansion of type synonyms.
  * Check that each class instance has a definition for every AT and conversely that that all defined associated types are, in fact, part of the class - with the exception of associated synonyms with a default definition. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.)
+ * Families declared as an AT, may not receive toplevel type instances.
  * Check that patterns of type indexes don't contain type functions.
  * For each case scrutinising an associated data type, check that all constructors have been defined in a single instance.  (Maybe we can just extend the existing check that ensures that case expressions don't mix constructors of different data types.)
  * Construct `InstInfo` for type equation in `tcIdxTyInstDecl1`.
