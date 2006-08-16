@@ -62,7 +62,7 @@ The details of the implementation are split over a couple of subpages, due to th
  * [wiki:TypeFunctionsSyntax syntax and representation,]
  * [wiki:TypeFunctionsRenaming renaming,]
  * [wiki:TypeFunctionsTypeChecking type checking,] and
- * [wiki:TypeFunctionsCore representation in Core and in interfaces.]
+ * [wiki:TypeFunctionsCore desugaring.]
  
 
 == Possible Extensions ==
