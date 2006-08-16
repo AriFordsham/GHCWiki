@@ -37,7 +37,9 @@ Consequently, all functions that dependent on this field need to be extended.  I
 
 === Associated types ===
 
-Classes are represented by `Class.Class`, which we extend by a new field `classATs` of type `[TyCon]`.  The `Class` structures including embedded `TyCon`s for associated types are constructed at the end of declaration type checking by `TcTyClsDecls.tcTyClDecl1` by way of `BuildTyCl.buildClass`.  The associated types of a class are entered into the global environment by `TcTyClsDecls.tcTyAndClassDecls` when entering all `HscTypes.implicitTyThings` of the toplevel type and class declarations.
+Classes are represented by `Class.Class`, which we extend by a new field `classATs` of type `[TyCon]`.  The `Class` structures including embedded `TyCon`s for associated types are constructed at the end of declaration type checking by `TcTyClsDecls.tcTyClDecl1` by way of `BuildTyCl.buildClass`.
+
+An additional complication is that the associated types of a class need already be available when type checking the super class context and the method signatures of the same class, or other things in the same type checking knot.  Hence, we need to make them available in the temporary environment constructed in the knot tied by `TcTyClsDecls.tcTyAndClassDecls`.  Special care is required as this knot tying relies on the property that the list of declarations, `alg_at_decls`, and the list of `TyThing`s produced by type checking the declarations, `rec_alg_tyclss`, match up (for zipping them together within `mkGlobalThings`).  We guarantee this by always entering the associated types of a class right after that class in the declaration list.
 
 === GHC API ===
 
