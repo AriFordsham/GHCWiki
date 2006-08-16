@@ -24,7 +24,7 @@ Kind signatures are handled by `TcTyClsDecls.tcTyClsDecl` together with all othe
 
 Instances of indexed types are type checked by `TcTyClDecls.tcIdxTyInstDecl`; i.e., the same functions that performs their kind checking.  Kind checking and type checking of instances of indexed types can be combined, as we don't need to worry as much about recursive dependencies as we have to for standard type declarations.  In particular, the kinds of indexed types are declared by their signature and we don't have to compute any recursiveness information, as we never know whether we reached a fixed point for open types.  (Hence, we conservatively assume indexed types to be always `Recursive`.  This is safe as they are implicit loop breakers due to to implying coercions.)
 
-## Representation of indexed families after type checking
+## Core representation of signatures of indexed families
 
 
 The function `TcTyClsDecls.tcTyClsDecls` produces `TypeRep.TyThing`s from type and class declarations.  The `TyThing`s produced from the new declaration forms are the following:
@@ -51,12 +51,22 @@ data SynTyConRhs = OpenSynTyCon Kind    -- *result* kind
 
 Consequently, all functions that dependent on this field need to be extended.  In particular, `TcType.isTauTyCon` regards applications of type family constructors as *tau types*, which is why we need to require that the right hand side of each `type instance` declaration is also a tau type.  As a result, `BuildTyCls.buildSynTyCon`'s last argument now also takes a value of type `SynTyConRhs`.
 
+### Associated types
+
+
+Classes are represented by `Class.Class`, which we extend by a new field `classATs` of type `[TyCon]`.  The `Class` structures including embedded `TyCon`s for associated types are constructed at the end of declaration type checking by `TcTyClsDecls.tcTyClDecl1` by way of `BuildTyCl.buildClass`.
+
+
+An additional complication is that the associated types of a class need already be available when type checking the super class context and the method signatures of the same class, or other things in the same type checking knot.  Hence, we need to make them available in the temporary environment constructed in the knot tied by `TcTyClsDecls.tcTyAndClassDecls`.  Special care is required as this knot tying relies on the property that the list of declarations, `alg_at_decls`, and the list of `TyThing`s produced by type checking the declarations, `rec_alg_tyclss`, match up (for zipping them together within `mkGlobalThings`).  We guarantee this by always entering the associated types of a class right after that class in the declaration list.
+
 ### GHC API
 
 
 The GHC API has a new predicate `isOpenTyCon` with the understanding that it is illegal to invoke `synTyConDefn`, `synTyConRhs`, and `tyConDataCons` on type constructors that fulfil `isOpenTyCon`.
 
-## Representation of type equation axioms
+## Core representation of instances of indexed types
+
+### Representation of type equation axioms
 
 
 Type functions have a number of properties in common with class instances; in particular, they require a machinery for matching type patterns against types, as instance heads do during context simplification.  Hence, we probably want some structure similar to `InstEnv.Instance` for type functions - for instances this is maintained in the field `iSpec` of `TcEnv.InstInfo` (for type functions we don't need anything like `iBinds` as they are pure type-level entities).  If possible, it would be ideal if we can reuse (or generalise) some of the matching machinery for instance heads.
