@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsStatus"
-  queryString          = "?version=45"
+  queryString          = "?version=46"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -42,6 +42,7 @@ Done:
 == Type Checking ==
 
 Todo (low-level):
+ * RHS of a `type instance` must be a tau type.
  * In an AT definition, no argument variable may be repeated.
  * Check that the arguments of AT instances coincide with the respective instance arguments of their class. This might be a bit more tricky if we want to allow that they can vary syntactically before expansion of type synonyms.
  * Check that each class instance has a definition for every AT and conversely that that all defined associated types are, in fact, part of the class - with the exception of associated synonyms with a default definition. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.)
