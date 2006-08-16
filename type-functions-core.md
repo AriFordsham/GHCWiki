@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsCore"
-  queryString          = "?version=3"
+  queryString          = "?version=4"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -74,13 +74,4 @@ If the data constructor is from an indexed type, we need to propagate a coercion
 
 `ExprCoFun` represents, besides coercions due to type instantiation, also type equality coercions of type `Coercion.Coercion`.  We use them for coercions that are exactly the converse of the coercion used in the wrapper of the data constructor of the current case alternative.  (There is also an equivalent of `CoPat` for expressions, namely `HsCoerce` of `HsExpr.HsExpr`.)
 
-
-
-== Representation of type functions after type checking ==
-
-Type functions have a number of properties in common with class instances; in particular, they require a machinery for matching type patterns against types, as instance heads do during context simplification.  Hence, we probably want some structure similar to `InstEnv.Instance` for type functions - for instances this is maintained in the field `iSpec` of `TcEnv.InstInfo` (for type functions we don't need anything like `iBinds` as they are pure type-level entities).  If possible, it would be ideal if we can reuse (or generalise) some of the matching machinery for instance heads.
-
-The essentials of a module after type checking are in `HscTypes.ModGuts`; in particular, we have two fields `mg_insts :: [Instance]` and `mg_binds :: [CoreRule]` containing all instance heads and all rewrite rules respectively.  Similarly, we now want something like `mg_tyequa :: [TyEqua]` to represent all type equations.
-
-Refined idea: Instead of duplicating the `InstInfo`/`Instance` infrastructure for instances of indexed types, we could just add a second variant to `InstInfo`.  This has the advantage that functions, such as `tcInstDecls1`, still only have to return a list of `InstInfo` and not two different lists.
 ```
