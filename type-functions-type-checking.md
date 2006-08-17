@@ -66,6 +66,11 @@ The GHC API has a new predicate `isOpenTyCon` with the understanding that it is 
 
 ## Core representation of instances of indexed types
 
+### Representation of data instances
+
+
+When building the `TyCon` representing a `data instance`, we need to derive a new name from the family name.  To this end, we add a new Boolean argument to `BuildTyCl.buildAlgTyCon` that indicates that a new name has to be generated and registered.  We currently use `newImplicitBinder`.
+
 ### Representation of type equation axioms
 
 

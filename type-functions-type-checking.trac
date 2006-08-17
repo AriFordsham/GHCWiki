@@ -47,6 +47,10 @@ The GHC API has a new predicate `isOpenTyCon` with the understanding that it is 
 
 == Core representation of instances of indexed types ==
 
+=== Representation of data instances ===
+
+When building the `TyCon` representing a `data instance`, we need to derive a new name from the family name.  To this end, we add a new Boolean argument to `BuildTyCl.buildAlgTyCon` that indicates that a new name has to be generated and registered.  We currently use `newImplicitBinder`.
+
 === Representation of type equation axioms ===
 
 Type functions have a number of properties in common with class instances; in particular, they require a machinery for matching type patterns against types, as instance heads do during context simplification.  Hence, we probably want some structure similar to `InstEnv.Instance` for type functions - for instances this is maintained in the field `iSpec` of `TcEnv.InstInfo` (for type functions we don't need anything like `iBinds` as they are pure type-level entities).  If possible, it would be ideal if we can reuse (or generalise) some of the matching machinery for instance heads.
