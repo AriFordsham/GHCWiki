@@ -3,7 +3,8 @@
 Back to TypeFunctions.
 
 '''Current:''' 
- * Complete `TcTyClsDecls.tcIdxTyInstDecl1` for `TyData`: (1) probably need to generate a new name; (2) produce a `TyCon`, which requires to extend the result type, and (3) produce an equality axiom.  The produced `TyCon` need to be entered into the global environment, including all its `implicitTyThings`, by the caller, namely `TcInstDecls.tcInstDecls1`.
+ * Result types of data constructors from data instances are not computed correctly.  (They are more like GADT types than vanilla H98, but are handled by the H98 code right now.)
+ * Complete `TcTyClsDecls.tcIdxTyInstDecl1` for `TyData`: (1) probably need to generate a new name; (2) produce a `TyCon`, which requires to extend the result type, ('''This is mostly done.''') and (3) produce an equality axiom.  The produced `TyCon` need to be entered into the global environment, including all its `implicitTyThings`, by the caller, namely `TcInstDecls.tcInstDecls1`.
 
 == Parsing and Renaming ==
 
