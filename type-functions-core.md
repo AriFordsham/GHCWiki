@@ -38,9 +38,9 @@ where the `ci` are the free variables of the `tj`.  Moreover, we morally replace
 Neverthless, we need to generate a new name for the vanilla data types representing family members (i.e., `Tinst` above).  We use a similar mechanism as for the generation of the dictionary type constructors of type classes.  In particular, we generalise the field `algTcClass` of the internal representation for datatypes, `TyCon.AlgTyCon` and rename it to `algTcParent` with type
 
 ```wiki
-data AlgTyConParent = OrdinaryTyCon
+data AlgTyConParent = NoParentTyCon
                     | ClassTyCon    Class
-                    | FamInstTyCon  TyCon
+                    | FamilyTyCon   TyCon
 ```
 
 ## Inserting coercions
