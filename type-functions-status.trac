@@ -5,6 +5,7 @@ Back to TypeFunctions.
 '''Current:''' 
  * Complete `TcTyClsDecls.tcIdxTyInstDecl1` for `TyData`: (1) probably need to generate a new name ('''DONE'''); (2) produce a `TyCon` with non-standard worker and wrapper and (3) produce an equality axiom.
  * In the exiting test for datacon validity, `checlValidDataCon`, we need to add a new test that checks for a data instance datacon that its tycon has the `FamilyTyCon` flag set and that it refers to the correct family tycon.
+ * Handle `newtype instance`.
 
 == Parsing and Renaming ==
 
