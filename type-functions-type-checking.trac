@@ -49,7 +49,21 @@ The GHC API has a new predicate `isOpenTyCon` with the understanding that it is 
 
 === Representation of data instances ===
 
-When building the `TyCon` representing a `data instance`, we need to derive a new name from the family name.  To this end, we add a new Boolean argument to `BuildTyCl.buildAlgTyCon` that indicates that a new name has to be generated and registered.  We currently use `newImplicitBinder`.
+There are three (inter-linked) aspects to the representation of data/newtype instances: (1) the representation of the `TyCon` generated from an instance, (2) the representation of the `DataCon`s for the variants of the instance, and the (3) equality axiom connecting the indexed family type with the representation of Item (1).
+
+==== The `TyCon` of an instance ====
+
+When building the `TyCon` for the representation type of a `data instance`, we need to derive a new (internal) name for that representation `TyCon` from the family name.  This is done by `BuildTyCl.buildAlgTyCon`, which gets an additional argument `mb_family :: Maybe TyCon` that gives the family type constructor if we are building a `TyCon` for an instance.  In that case, `buildAlgTyCon` generates a new name with the help of `newImplicitBinder` and fills the new field `algTcParent` with type
+{{{
+data AlgTyConParent = NoParentTyCon
+                    | ClassTyCon    Class
+                    | FamilyTyCon   TyCon
+}}}
+which is a generalisation of the old field `algTcClass` of the internal representation for datatypes, `TyCon.AlgTyCon`.  In contrast to the old `algTcClass` field, the new field also appears in `IfaceSyn.IfaceDecl`.  However, it does so as `Maybe IfaceTyCon` as we still do not want to represent class parent information in interfaces.
+
+==== The `DataCon`s of the variants of an instance ====
+
+==== The equality axiom identifying family instance and representation type ====
 
 === Representation of type equation axioms ===
 
