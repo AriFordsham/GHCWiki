@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsCore"
-  queryString          = "?version=7"
+  queryString          = "?version=8"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:53:54 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsCore\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:53:58 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsCore\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -42,13 +42,6 @@ data Tinst c1 .. cr b1 .. bm = <constructors>
 }}}
 where the `ci` are the free variables of the `tj`.  Moreover, we morally replace all occurences of `T` in the rest of the program by `T_n`.  No such replacement is required in the actual implementation as the arity index at F,,C,, type functions is just a formal device used in the formal development.  In the implementation, it is perfectly fine to retain the original name and maintain the arity information separately.
 
-Neverthless, we need to generate a new name for the vanilla data types representing family members (i.e., `Tinst` above).  We use a similar mechanism as for the generation of the dictionary type constructors of type classes.  In particular, we generalise the field `algTcClass` of the internal representation for datatypes, `TyCon.AlgTyCon` and rename it to `algTcParent` with type
-{{{
-data AlgTyConParent = NoParentTyCon
-                    | ClassTyCon    Class
-                    | FamilyTyCon   TyCon
-}}}
-In contrast to the old `algTcClass` field, the new field also appears in `IfaceSyn.IfaceDecl`.  However, it does so as `Maybe IfaceTyCon` as we still do not want to represent class parent information in interfaces.
 
 == Inserting coercions ==
 
