@@ -120,3 +120,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Bryn Keller](http://www.xoltar.org), interested bystander. Interested in generating code for unusual targets (e.g. JavaScript, Flash, .Net, etc.).
 - Ian Lynagh, interested in all parts.
 - Brandon Moore, Yahoo. Interested in types, syntax extension.
+- Ravi Nanavati, interested in being able to fix GHC bugs before they cause problems for me or my employer.
