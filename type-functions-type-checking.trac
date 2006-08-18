@@ -67,7 +67,7 @@ which is a generalisation of the old field `algTcClass` of the internal represen
 {{{
 data instance Map (a, b) v = MapPair (Map a (Map b v))
 }}}
-the instance types are `[(a, b), v]`.  Whenever the field `dcInstPats` of a `DataCon` is not `Nothing`, the field `algTcParent` of its `TyCon` must be of the form `FamilyTyCon famTyCon`, where `famTyCon` is the `TyCon` of the data family to which the instance belongs.  The exact same information goes into the interface representation `IfaceSyn.IfaceConDecl` with the new field `ifConInstTys`.
+the instance types are `[(a, b), v]`.  Whenever the field `dcInstTys` of a `DataCon` is not `Nothing`, the field `algTcParent` of its `TyCon` must be of the form `FamilyTyCon famTyCon`, where `famTyCon` is the `TyCon` of the data family to which the instance belongs.  The exact same information goes into the interface representation `IfaceSyn.IfaceConDecl` with the new field `ifConInstTys`.
 
 ==== The equality axiom identifying family instance and representation type ====
 
