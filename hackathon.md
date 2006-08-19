@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Hackathon"
-  queryString          = "?version=47"
+  queryString          = "?version=48"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:53:55 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","250"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Hackathon\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:00 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","250"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Hackathon\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -46,23 +46,39 @@ We expect that some of you will come with GHC-related projects that you want to 
 
 === Venue ===
 
-Galois will be hosting the meeting.  Their offices are in Beaverton, a suburb of Portland.
-  * Galois will provide a large room, with desks, a projector, and wireless access.
-  * We will also have other rooms that can be used for side-projects.
-  * Bring your own laptop (capable of building GHC).
+The Hackathon will be held at the [http://www.kingstad.com Kingstad Center], near the Galois offices
+on the 14th and 15th. Any additional hacking on the 16th will be held at the Galois offices.
 
-||  Address: || 12725 SW Millikan Way||
-|| || Suite 290||
-|| || Beaverton, OR 97005||
 
-Galois is located right next to a light-rail line, allowing easy commuting from
+The Kingstand venue has a large room, with desks, a projector, and wireless access. Bring your own laptop
+(capable of building GHC). Galois may also provide some wired access, perhaps to a server with
+a recent version version of Galois.
+
+On Saturday, we will use the Galois offices, which has several conference rooms and wireless access for
+registered GHC Hackathon attendees.
+
+Both the Kingstad and the Galois offices is located right next to a light-rail line, allowing easy commuting from
 down town and the ICFP venue hotel. 
+
+[http://www.kingstad.com/locations/beaverton_fac.html Directions to the Kingstad Center]
+
+|| Thur 14th, Fri 15th ||  Address: ||  15450 SW Millikan Way
+|| || || Beaverton, OR 97007||
 
 [http://www.galois.com/files/Directions.pdf Directions to Galois]
 
-[http://www.beavertonround.biz/meetingrooms.htm Web page about the training center we will be using]
+||   Sat 16th ||  Address: || 12725 SW Millikan Way||
+|| || || Suite 290||
+|| || || Beaverton, OR 97005||
 
-[[Image(TrainingCenter033.jpg)]]
+Note that the Kingstad center and the Galois offices are actually at different Max stops!
+
+== Time ==
+
+The Hackathon will be open
+ * 9 till 5 - Thur 14th - Kingstad center
+ * 9 till 5 - Fri 15th - Kingstad center
+ * 9 till (TBD) - Sat 16th - Galois offices
 
 === Registration ===
 
