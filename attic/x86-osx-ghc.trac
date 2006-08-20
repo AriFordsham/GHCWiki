@@ -2,6 +2,31 @@ This page is meant to document the current state of GHC on Apple Mac OS X on Int
 
 [http://darwinports.opendarwin.org/ DarwinPorts] still has GHC as not supported on x86.
 
+---
+
+At the time of writing (2006-08-20), darcs ghc won't build out of the box using the build 20060608.  Here's steps to do it:
+
+{{{
+darcs get --partial http://darcs.haskell.org/ghc
+cd ghc
+chmod +x ./darcs-all
+./darcs-all get --partial
+autoreconf
+./configure
+darcs unpull --patch "Fix Array imports"  # answer yes
+# edit file mk/config.mk
+# on line 790, change variable's value to
+# GhcMinVersion = 4
+# that causes normal bootstrap
+make -j3   # Add GhcBootLibs=YES if you don't want all the libs, -j3 is cool if you got core duo
+# compiles stage1 and libs
+# it should stop on stage2, compiler/Digraph.lhs
+darcs pull -a  # patch "Fix Array imports"
+make -j3 stage=2 # Add GhcBootLibs=YES if you don't want all the libs
+# be happy
+}}}
+
+If you use build after 20060814 or so, you shouldn't need to unpull and pull the patch.
 
 ----
 
@@ -25,3 +50,4 @@ The Makefile.in for the release above is broken in a few ways, which causes the 
  * package is not set.  Be sure that the package name does not end in a space
  * the invocation of mkdirhier (INSTALL_DIR) is broken for libraries & share (lines 205 & 206) , the first $$0 is in error
  * the library files are installed using cp, but should be installed using 'install -p' to preserve the timestamps
+
