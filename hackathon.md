@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Hackathon"
-  queryString          = "?version=48"
+  queryString          = "?version=49"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -52,7 +52,7 @@ on the 14th and 15th. Any additional hacking on the 16th will be held at the Gal
 
 The Kingstand venue has a large room, with desks, a projector, and wireless access. Bring your own laptop
 (capable of building GHC). Galois may also provide some wired access, perhaps to a server with
-a recent version version of Galois.
+a recent version version of GHC.
 
 On Saturday, we will use the Galois offices, which has several conference rooms and wireless access for
 registered GHC Hackathon attendees.
