@@ -1,130 +1,132 @@
-# GHC port for arm-unknown-linux-gnu
+CONVERSION ERROR
 
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/ArmLinuxGhc"
+  queryString          = "?version=5"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:02 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","253"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/ArmLinuxGhc\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+
+Original source:
+
+```trac
+= GHC port for arm-unknown-linux-gnu =
 
 My goal is to create a registerised port of GHC to the nokia 770.
 
-## Setting up the build environment
+== Status ==
 
+There is currently an unregisterised build available for Maemo 1.x. This project is temporarily on hold while two big transitions take place:
+
+* Maemo 2.0 supports the new EABI standard which affects a bunch of things (done)
+* GHC 6.6 release (soon)
+
+== Setting up the build environment ==
 
 I have been using the standard maemo cross-development environment. Instructions for setting
 up this environment can be found here:
 
-[ http://www.maemo.org/platform/docs/tutorials/Maemo_tutorial.html\#settingup](http://www.maemo.org/platform/docs/tutorials/Maemo_tutorial.html#settingup)
+http://www.maemo.org/platform/docs/tutorials/Maemo_tutorial.html#settingup
 
-## Changes to standard procedure
-
+== Changes to standard procedure ==
 
 The updated instructions on this page should now work:
 
-[http://www.haskell.org/ghc/docs/latest/html/building/sec-porting-ghc.html\#unregisterised-porting](http://www.haskell.org/ghc/docs/latest/html/building/sec-porting-ghc.html#unregisterised-porting)
-
+http://www.haskell.org/ghc/docs/latest/html/building/sec-porting-ghc.html#unregisterised-porting
 
 With two small changes:
 
-
 (1) I had to add --srcdir=. 
-
 
 Anyplace configure is called I get this error:
 
-```wiki
+{{{
 This configuration does not support the `--srcdir' option..
-```
-
+}}}
 
 Adding --srcdir=. makes the error go away.
 
-
 (2) ghc/Makefile SUBDIRS ordering
-
 
 This has been fixed in head, but if you download the 6.4.2 release you will need to
 edit ghc/Makefile and change the ordering of the SUBDIRS so that lib comes before compiler.
 
-
 This is the default ordering:
 
-```wiki
+{{{
 ifeq "$(BootingFromHc)" "YES"
 SUBDIRS = includes rts docs compiler lib utils driver
 else
-```
-
+}}}
 
 and you want
 
-```wiki
+{{{
 ifeq "$(BootingFromHc)" "YES"
 SUBDIRS = includes rts docs lib compiler utils driver
 else
-```
-
+}}}
 
 That should get to the point of having a ghc-inplace built.
-
 
 NOTE: if you try to move the directory to a new location or name,
 the inplace compiler will stop working because it has absolute paths
 hard coded to the current location.
 
-## Build ghc using ghc-inplace
-
+== Build ghc using ghc-inplace ==
 
 (1) unroll the ghc source tarball into a new directory.
 
-
 (2) ./configure --srcdir=. --with-ghc=/abs/path/to/ghc-inplace
 
-
 (3) create a mk/build.mk with these two lines:
-
-```wiki
+{{{
 GhcUnregisterised = YES
 GhcWithNativeCodeGen = NO
-```
-
+}}}
 
 (4) make
 
-
 (5) make install
 
-
 I think there may have been one other step in there somewhere...
-
 
 This should build and install ghc. Unfortunately, the floating point
 code will be broken.
 
-## Run the test suite
-
+== Run the test suite ==
 
 (1) get the testsuite that corresponds to your release, for example:
 
-[ http://haskell.org/ghc/dist/ghc-testsuite-6.4.2.tar.gz](http://haskell.org/ghc/dist/ghc-testsuite-6.4.2.tar.gz)
-
+http://haskell.org/ghc/dist/ghc-testsuite-6.4.2.tar.gz
 
 (2) untar it in the ghc-6.4.2 directory.
 
-
 (3) edit mk/test.mk and change the -e config.time_prog line to:
-
-```wiki
+{{{
         -e config.timeout_prog=\"\" \
-```
-
+}}}
 
 I had to do this because the timeout program interacted badly with
 the scratchbox shell causing all the tests to timeout and fail.
 
-
 (4) cd to test/ghc-regress
-
 
 (5) make TEST_HC=ghc fast 
 
-
 or
 
+(5) make TEST_HC=ghc # for a longer test
 
-(5) make TEST_HC=ghc \# for a longer test
+
+
+```
