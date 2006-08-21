@@ -28,6 +28,8 @@ make -j3 stage=2 # Add GhcBootLibs=YES if you don't want all the libs
 
 If you use build after 20060814 or so, you shouldn't need to unpull and pull the patch.
 
+Make certain you have the GMP.framework for Darwin Intel installed. It can be downloaded as part of the Darcs Intel .dmg file at http://glozer.net/darcs/ .
+
 ----
 
 AudreyTang has contributed an updated GHC CVS build:

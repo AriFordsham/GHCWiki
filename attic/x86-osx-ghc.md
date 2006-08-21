@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Attic/X86OSXGhc"
-  queryString          = "?version=12"
+  queryString          = "?version=13"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:00 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","258"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Attic/X86OSXGhc\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:01 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","258"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Attic/X86OSXGhc\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -48,6 +48,8 @@ make -j3 stage=2 # Add GhcBootLibs=YES if you don't want all the libs
 }}}
 
 If you use build after 20060814 or so, you shouldn't need to unpull and pull the patch.
+
+Make certain you have the GMP.framework for Darwin Intel installed. It can be downloaded as part of the Darcs Intel .dmg file at http://glozer.net/darcs/ .
 
 ----
 
