@@ -107,7 +107,7 @@ and a short description of what they're doing or have done.
 - Roman Leshchinskiy
 - Andres Loeh
 - Ryan Lortie (PowerPC Linux port, packages)
-- Ian Lynagh
+- Ian Lynagh (GHC support engineer, Debian packages)
 - Simon Marlow (GHC developer, x86_64 port, SMP support)
 - John Meacham
 - Ross Paterson
