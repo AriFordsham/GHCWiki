@@ -44,6 +44,7 @@ Done:
 == Desugaring ==
 
 Todo (low-level):
+ * When a family type is exported/imported, all its instances need to be implicitly imported/exported, just as with classes.
  * Derivings on an associated data type ''declaration'' need to be inherited by all definitions of that data type in instances.
 
 Todo (high-level):
