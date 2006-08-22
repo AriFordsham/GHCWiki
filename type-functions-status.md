@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsStatus"
-  queryString          = "?version=59"
+  queryString          = "?version=61"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:03 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsStatus\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:04 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsStatus\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -24,6 +24,7 @@ Original source:
 Back to TypeFunctions.
 
 '''Current:''' 
+ * Generate `CoExprFn` in case expressions scrutinising a data instance.
  * In the exiting test for datacon validity, `checlValidDataCon`, we need to add a new test that checks for a data instance datacon that its tycon has the `FamilyTyCon` flag set and that it refers to the correct family tycon.
  * Handle `newtype instance`.
 
@@ -52,10 +53,9 @@ Todo (low-level):
  * Construct `InstInfo` for type equation in `tcIdxTyInstDecl1`.
  
 Todo (high-level):
- 1. Type checking in the presence of associated data types.
+ 1. Type checking of type functions (and hence, associated type synonyms); forget about `iso` for the moment.
  2. Type checking in the presence of associated synonym defaults.  (Default AT synonyms are only allowed for ATs defined in the same class.)
- 3. Type checking of type functions (and hence, associated type synonyms); forget about `iso` for the moment.
- 4. Type check functional dependencies as type functions.
+ 3. Type check functional dependencies as type functions.
 
 Done: 
  * Kind and type checking of kind signatures.
@@ -70,11 +70,10 @@ Todo (low-level):
 Todo (high-level):
  1. Desugar indexed data types.
  2. Extend interface files.
-  * How do we exactly want to represent ATs in interface files?
-   * SPJ pointed out that instances are maintained in `InstEnv.InstEnv` with different values for the home packages and others. The definitions of ATs may have to be maintained in a similar way, as they are also incrementally collected during compiling a program.
-   * `IfaceInst` contains the instance declaration information for interfaces.
-  * Export and import lists: The name lists that may appear at class imports and exports can now also contain type names, which is tricky as data type names can carry a list of data constructors.
-  * At the moment, we add as the parent name of the data constructors of associated data types defined in instances, the new name for the data type constructor, which is ''different'' from that of the data type constructor in the class (also their source representation is the same). We may need to fix that during renaming. (We can't easily fix it in `getLocalDeclBinders`, where the names of the data constructors are made, as we don't have the means to get at the right class at that point.)
+   * How do we exactly want to represent type equations in interface files?
+    * SPJ pointed out that instances are maintained in `InstEnv.InstEnv` with different values for the home packages and others. The definitions of ATs may have to be maintained in a similar way, as they are also incrementally collected during compiling a program.
+    * `IfaceInst` contains the instance declaration information for interfaces.
+   * Export and import lists: The name lists that may appear at class imports and exports can now also contain type names, which is tricky as data type names can carry a list of data constructors.
  3. Desugar type functions and equality constraints.
 
 Done:
@@ -83,6 +82,7 @@ Done:
  * Extension of `TyCon.TyCon` with a reference to the parent `TyCon` for data instances.
  * Extension of `DataCon.DataCon` with instance types for constructors belonging to data instances.
  * Extension of `TyCon.TyCon` such that the parent of a data instance is paired with a coercion identifying family instance and representation type.
+ * Datacon wrapper uses data instance coercion if applicable.
 
 
 == Testsuite ==
