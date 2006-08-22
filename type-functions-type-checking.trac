@@ -74,7 +74,7 @@ the instance types are `[(a, b), v]`.  Whenever the field `dcInstTys` of a `Data
 
 ==== The coercion identifying family instance and representation type ====
 
-As each `data instance` is ''represented'' by its own `TyCon`, we need to be able to move between the type of the family instance and that of the representation.  We do so by an adaptation of the same method used to implement newtypes with coercions (c.f., IntermediateTypes).  Newtypes store the coercion moving between representation and abstract type in the field `nt_co` of the `NewTyCon` variant of `TyCon.AlgTyConRhs`, whereas representation types for indexed data types use `algTcParent` (see above).  Newtype coercions are constructed by `Coercion.mkNewTypeCoercion`, whereas representation types for indexed data types use a similar function `Coercion.mkDataInstCoercion`, which is invoked by `BuildTyCl.buildAlgTyCon` iff it is passed family and type instance information.
+As each `data instance` is ''represented'' by its own `TyCon`, we need to be able to move between the type of the family instance and that of the representation.  We do so by an adaptation of the same method used to implement newtypes with coercions (c.f., IntermediateTypes).  Newtypes store the coercion moving between representation and abstract type in the field `nt_co` of the `NewTyCon` variant of `TyCon.AlgTyConRhs`, whereas representation types for indexed data types use `algTcParent` (see above).  Newtype coercions are constructed by `Coercion.mkNewTypeCoercion`, whereas representation types for indexed data types use a similar function `Coercion.mkDataInstCoercion`, which is invoked by `BuildTyCl.buildAlgTyCon` iff it is passed family and instance type information.
 
 === Representation of equality axioms ===
 
