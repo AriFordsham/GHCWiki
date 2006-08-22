@@ -61,7 +61,7 @@ Done:
  * Extension of `Class.Class` by associated `TyCon`s.
  * Extension of `TyCon.TyCon` with a reference to the parent `TyCon` for data instances.
  * Extension of `DataCon.DataCon` with instance types for constructors belonging to data instances.
- * Extension of `TyCon.TyCon' such that the parent of a data instance is paired with a coercion identifying family instance and representation type.
+ * Extension of `TyCon.TyCon` such that the parent of a data instance is paired with a coercion identifying family instance and representation type.
 
 
 == Testsuite ==
