@@ -58,9 +58,10 @@ When building the `TyCon` for the representation type of a `data instance`, we n
 data AlgTyConParent = NoParentTyCon
                     | ClassTyCon    Class
                     | FamilyTyCon   TyCon     -- family tycon
+                                    [Type]    -- instance types
                                     TyCon     -- representation coercion
 }}}
-which is a generalisation of the old field `algTcClass` of the internal representation for datatypes, `TyCon.AlgTyCon`.  In contrast to the old `algTcClass` field, the new field also appears in `IfaceSyn.IfaceDecl`.  However, it does so as `Maybe IfaceTyCon` as we still do not want to represent class parent information in interfaces and we only record the family tycon in interfaces, not the coercion.  (The latter is implicitly reconstructed upon loading an interface.)
+which is a generalisation of the old field `algTcClass` of the internal representation for datatypes, `TyCon.AlgTyCon`.  In contrast to the old `algTcClass` field, the new field also appears in `IfaceSyn.IfaceDecl`.  However, it does so as `Maybe (IfaceTyCon, [IfaceType])` as we still do not want to represent class parent information in interfaces and we only record the family tycon and instance types in interfaces, not the coercion.  (The latter is implicitly reconstructed upon loading an interface.)
 
 NB: The type argument variables of the representation tycon are the free variables of the instance types; i.e., the representation data type is an ordinary data type, it is neither indexed nor open.  The only give away of its special purpose is the value in `algTcParent`.
 

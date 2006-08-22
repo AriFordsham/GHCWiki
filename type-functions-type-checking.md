@@ -1,117 +1,108 @@
-# Type Functions: Type Checking
+CONVERSION ERROR
 
-## Kind checking indexed type families
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/TypeFunctionsTypeChecking"
+  queryString          = "?version=28"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:04 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","260"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsTypeChecking\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
+Original source:
+
+```trac
+= Type Functions: Type Checking =
+
+== Kind checking indexed type families ==
 
 The workhorse of kind checking type and class declarations is `TcTyClDecls.kcTyClDecls`, which is invoked by `TcTyClDecls.tcTyClDecls` once per binding group.  It handles type synonyms different from algebraic data type declarations and classes, as synonyms have a richer kind structure (making kind checking harder), but cannot be recursive (which makes kind checking easier).  We handle kind signatures (of both type functions and indexed data types) in the same way as algebraic data type declarations.  More precisely, kind signatures participate in the construction of the initial kind environment (as performed by `getInitialKind`).
 
-
 In contrast, instances of indexed types are not processed by `TcTyClDecls.tcTyClDecls`, but by `TcInstDcls.tcInstDecls1`, which handles the heads of class instance declarations.  However, the later invokes `TcTyClDecls.tcIdxTyInstDecl` (both directly and indirectly via `IcInstDcls.tcLocalInstDecl1`, the later for associated types).  The function `tcIdxTyInstDecl` shares a lot of code with the `TcTyClDecls.kcTyClDecls` and `TcTyClDecls.tcTyClDecl`.
 
-## Type checking indexed type families
-
+== Type checking indexed type families ==
 
 Type checking in the presence of only indexed data and newtypes is much simpler than in the presence of type functions as type equality remains purely syntactic (i.e., we do not need to change the unification procedure).  However, we need to check that the alternatives of a case expression inspecting an indexed data type contains only constructors of one member of the family.  (To relax this restriction, we would need a story for compiling open data types.)
 
-
 However, this difference in complexity applies only to the type checking of expression whose types involve indexed data types and type functions, respectively.  The type checking of the declaration forms is not that different; in fact, indexed data type declarations require more effort as they introduce data type constructors, which need to behandled as well.  However, a lot of machinery can be re-used from vanilla algebraic data types.
 
-### Type checking signatures and instances of indexed types
-
+=== Type checking signatures and instances of indexed types ===
 
 Kind signatures are handled by `TcTyClsDecls.tcTyClsDecl` together with all other type and class declarations.  Within class declarations, we invoke the functions recursively to process associated types.
 
-
 Instances of indexed types are type checked by `TcTyClDecls.tcIdxTyInstDecl`; i.e., the same functions that performs their kind checking.  Kind checking and type checking of instances of indexed types can be combined, as we don't need to worry as much about recursive dependencies as we have to for standard type declarations.  In particular, the kinds of indexed types are declared by their signature and we don't have to compute any recursiveness information, as we never know whether we reached a fixed point for open types.  (Hence, we conservatively assume indexed types to be always `Recursive`.  This is safe as they are implicit loop breakers due to to implying coercions.)
 
-## Core representation of signatures of indexed families
-
+== Core representation of signatures of indexed families ==
 
 The function `TcTyClsDecls.tcTyClsDecls` produces `TypeRep.TyThing`s from type and class declarations.  The `TyThing`s produced from the new declaration forms are the following:
+ `type family`::
+   Type synonym families are represented by the standard `TyCon` variant for synonyms, namely `SynTyCon`.  They are distinguished from ordinary type synonyms by the value of the field `synTcRhs`, which is now of a new data type `SynTyConRhs`, which has a variant `OpenSynTyCon resKind` to represent families.
+ `data family` and `newtype family`::
+   Data and newtype families are represented by the `TyCon` variant `AlgTyCon`, as are their non-indexed counter parts, with the difference that the field `algTcRhs` has the one of the newly introduced values `OpenDataTyCon` or `OpenNewTyCon`.
 
-<table><tr><th>`type family`</th>
-<td>
-Type synonym families are represented by the standard `TyCon` variant for synonyms, namely `SynTyCon`.  They are distinguished from ordinary type synonyms by the value of the field `synTcRhs`, which is now of a new data type `SynTyConRhs`, which has a variant `OpenSynTyCon resKind` to represent families.
-</td></tr>
-<tr><th>`data family` and `newtype family`</th>
-<td>
-Data and newtype families are represented by the `TyCon` variant `AlgTyCon`, as are their non-indexed counter parts, with the difference that the field `algTcRhs` has the one of the newly introduced values `OpenDataTyCon` or `OpenNewTyCon`.
-</td></tr></table>
-
-### Synonym type constructors: `SynTyCon`
-
+=== Synonym type constructors: `SynTyCon` ===
 
 To represent type families (which do not have a fixed right hand side), the type of `synTcRhs` changed from `Type` to `SynTyConRhs` with
-
-```wiki
+{{{
 data SynTyConRhs = OpenSynTyCon Kind    -- *result* kind
                  | SynonymTyCon Type    -- rhs of ordinary synonym
-```
+}}}
+Consequently, all functions that dependent on this field need to be extended.  In particular, `TcType.isTauTyCon` regards applications of type family constructors as ''tau types'', which is why we need to require that the right hand side of each `type instance` declaration is also a tau type.  As a result, `BuildTyCls.buildSynTyCon`'s last argument now also takes a value of type `SynTyConRhs`.
 
-
-Consequently, all functions that dependent on this field need to be extended.  In particular, `TcType.isTauTyCon` regards applications of type family constructors as *tau types*, which is why we need to require that the right hand side of each `type instance` declaration is also a tau type.  As a result, `BuildTyCls.buildSynTyCon`'s last argument now also takes a value of type `SynTyConRhs`.
-
-### Associated types
-
+=== Associated types ===
 
 Classes are represented by `Class.Class`, which we extend by a new field `classATs` of type `[TyCon]`.  The `Class` structures including embedded `TyCon`s for associated types are constructed at the end of declaration type checking by `TcTyClsDecls.tcTyClDecl1` by way of `BuildTyCl.buildClass`.
 
-
 An additional complication is that the associated types of a class need already be available when type checking the super class context and the method signatures of the same class, or other things in the same type checking knot.  Hence, we need to make them available in the temporary environment constructed in the knot tied by `TcTyClsDecls.tcTyAndClassDecls`.  Special care is required as this knot tying relies on the property that the list of declarations, `alg_at_decls`, and the list of `TyThing`s produced by type checking the declarations, `rec_alg_tyclss`, match up (for zipping them together within `mkGlobalThings`).  We guarantee this by always entering the associated types of a class right after that class in the declaration list.
 
-### GHC API
-
+=== GHC API ===
 
 The GHC API has a new predicate `isOpenTyCon` with the understanding that it is illegal to invoke `synTyConDefn`, `synTyConRhs`, and `tyConDataCons` on type constructors that fulfil `isOpenTyCon`.
 
-## Core representation of instances of indexed types
+== Core representation of instances of indexed types ==
 
-### Representation of data instances
-
+=== Representation of data instances ===
 
 There are three (inter-linked) aspects to the representation of data/newtype instances: (1) the representation of the `TyCon` generated from an instance, (2) the representation of the `DataCon`s for the variants of the instance, and the (3) equality axiom connecting the indexed family type with the representation of Item (1).
 
-#### The `TyCon` of an instance
-
+==== The `TyCon` of an instance ====
 
 When building the `TyCon` for the representation type of a `data instance`, we need to derive a new (internal) name for that representation `TyCon` from the family name.  This is done by `BuildTyCl.buildAlgTyCon`, which gets an additional argument `mb_family :: Maybe TyCon` that gives the family type constructor if we are building a `TyCon` for an instance.  In that case, `buildAlgTyCon` generates a new name with the help of `newImplicitBinder` and fills the new field `algTcParent` with type
-
-```wiki
+{{{
 data AlgTyConParent = NoParentTyCon
                     | ClassTyCon    Class
                     | FamilyTyCon   TyCon     -- family tycon
+                                    [Type]    -- instance types
                                     TyCon     -- representation coercion
-```
-
-
-which is a generalisation of the old field `algTcClass` of the internal representation for datatypes, `TyCon.AlgTyCon`.  In contrast to the old `algTcClass` field, the new field also appears in `IfaceSyn.IfaceDecl`.  However, it does so as `Maybe IfaceTyCon` as we still do not want to represent class parent information in interfaces and we only record the family tycon in interfaces, not the coercion.  (The latter is implicitly reconstructed upon loading an interface.)
-
+}}}
+which is a generalisation of the old field `algTcClass` of the internal representation for datatypes, `TyCon.AlgTyCon`.  In contrast to the old `algTcClass` field, the new field also appears in `IfaceSyn.IfaceDecl`.  However, it does so as `Maybe (IfaceTyCon, [IfaceType])` as we still do not want to represent class parent information in interfaces and we only record the family tycon and instance types in interfaces, not the coercion.  (The latter is implicitly reconstructed upon loading an interface.)
 
 NB: The type argument variables of the representation tycon are the free variables of the instance types; i.e., the representation data type is an ordinary data type, it is neither indexed nor open.  The only give away of its special purpose is the value in `algTcParent`.
 
-#### The `DataCon`s of the variants of an instance
+==== The `DataCon`s of the variants of an instance ====
 
 `DataCon`s of data instances differ from ordinary `DataCon`s by a value of the form `Just typats :: Maybe [Type]` in the new field `dcInstTys`.  It gives the instance patterns at which the data constructor has been declared; e.g., given the declaration
-
-```wiki
+{{{
 data instance Map (a, b) v = MapPair (Map a (Map b v))
-```
-
-
+}}}
 the instance types are `[(a, b), v]`.  Whenever the field `dcInstTys` of a `DataCon` is not `Nothing`, the field `algTcParent` of its `TyCon` must be of the form `FamilyTyCon famTyCon`, where `famTyCon` is the `TyCon` of the data family to which the instance belongs.  The exact same information goes into the interface representation `IfaceSyn.IfaceConDecl` with the new field `ifConInstTys`.
 
-#### The coercion identifying family instance and representation type
+==== The coercion identifying family instance and representation type ====
 
+As each `data instance` is ''represented'' by its own `TyCon`, we need to be able to move between the type of the family instance and that of the representation.  We do so by an adaptation of the same method used to implement newtypes with coercions (c.f., IntermediateTypes).  Newtypes store the coercion moving between representation and abstract type in the field `nt_co` of the `NewTyCon` variant of `TyCon.AlgTyConRhs`, whereas representation types for indexed data types use `algTcParent` (see above).  Newtype coercions are constructed by `Coercion.mkNewTypeCoercion`, whereas representation types for indexed data types use a similar function `Coercion.mkDataInstCoercion`, which is invoked by `BuildTyCl.buildAlgTyCon` iff it is passed family and instance type information.
 
-As each `data instance` is *represented* by its own `TyCon`, we need to be able to move between the type of the family instance and that of the representation.  We do so by an adaptation of the same method used to implement newtypes with coercions (c.f., [IntermediateTypes](intermediate-types)).  Newtypes store the coercion moving between representation and abstract type in the field `nt_co` of the `NewTyCon` variant of `TyCon.AlgTyConRhs`, whereas representation types for indexed data types use `algTcParent` (see above).  Newtype coercions are constructed by `Coercion.mkNewTypeCoercion`, whereas representation types for indexed data types use a similar function `Coercion.mkDataInstCoercion`, which is invoked by `BuildTyCl.buildAlgTyCon` iff it is passed family and instance type information.
-
-### Representation of equality axioms
-
+=== Representation of equality axioms ===
 
 Type functions have a number of properties in common with class instances; in particular, they require a machinery for matching type patterns against types, as instance heads do during context simplification.  Hence, we probably want some structure similar to `InstEnv.Instance` for type functions - for instances this is maintained in the field `iSpec` of `TcEnv.InstInfo` (for type functions we don't need anything like `iBinds` as they are pure type-level entities).  If possible, it would be ideal if we can reuse (or generalise) some of the matching machinery for instance heads.
 
-
 The essentials of a module after type checking are in `HscTypes.ModGuts`; in particular, we have two fields `mg_insts :: [Instance]` and `mg_binds :: [CoreRule]` containing all instance heads and all rewrite rules respectively.  Similarly, we now want something like `mg_tyequa :: [TyEqua]` to represent all type equations.
 
-
 Refined idea: Instead of duplicating the `InstInfo`/`Instance` infrastructure for instances of indexed types, we could just add a second variant to `InstInfo`.  This has the advantage that functions, such as `tcInstDecls1`, still only have to return a list of `InstInfo` and not two different lists.
+```
