@@ -49,10 +49,10 @@ Todo (low-level):
 Todo (high-level):
  1. Desugar indexed data types.
  2. Extend interface files.
-  * How do we exactly want to represent type equations in interface files?
-   * SPJ pointed out that instances are maintained in `InstEnv.InstEnv` with different values for the home packages and others. The definitions of ATs may have to be maintained in a similar way, as they are also incrementally collected during compiling a program.
-   * `IfaceInst` contains the instance declaration information for interfaces.
-  * Export and import lists: The name lists that may appear at class imports and exports can now also contain type names, which is tricky as data type names can carry a list of data constructors.
+   * How do we exactly want to represent type equations in interface files?
+    * SPJ pointed out that instances are maintained in `InstEnv.InstEnv` with different values for the home packages and others. The definitions of ATs may have to be maintained in a similar way, as they are also incrementally collected during compiling a program.
+    * `IfaceInst` contains the instance declaration information for interfaces.
+   * Export and import lists: The name lists that may appear at class imports and exports can now also contain type names, which is tricky as data type names can carry a list of data constructors.
  3. Desugar type functions and equality constraints.
 
 Done:
