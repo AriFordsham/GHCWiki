@@ -16,6 +16,16 @@ A source tree consists of the GHC repository, with a set of packages in the libr
 **NOTE**: you really want `--partial` when grabbing GHC.  There are some 13000 patches in the repository, which take a long time to download without `--partial`.  The `darcs-all` script automatically adds `--partial` for the packages.
 
 
+The above will grab the "core" set of packages.  This is the minimal set of packages required to bootstrap GHC.  If you want to get a more comprehensive set of packages and include them in your GHC build, then you can say:
+
+```wiki
+  $ ./darcs-all --extra get
+```
+
+
+This isn't usually necessary: extra packages can be compiled and installed separately using Cabal, after you have built and installed GHC itself with its core packages.  The list of "core" and "extra" packages is below.
+
+
 Optionally, you might want to grab the testsuite and benchmark suite too, which should also be sub-directories of ghc:
 
 ```wiki
@@ -39,10 +49,24 @@ These darcs repositories are related to GHC:
 </th></tr></table>
 
 
-And the following repositories contain packages that are used to populate the libraries directory of a darcs checkout:
+The following repositories are the "core" packages, that populate the libraries directory of a GHC tree:
 
-<table><tr><th>[ http://darcs.haskell.org/packages/Cabal](http://darcs.haskell.org/packages/Cabal)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/ALUT](http://darcs.haskell.org/packages/ALUT)</th></tr>
+<table><tr><th>[ http://darcs.haskell.org/packages/base](http://darcs.haskell.org/packages/base)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/Cabal](http://darcs.haskell.org/packages/Cabal)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/haskell98](http://darcs.haskell.org/packages/haskell98)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/readline](http://darcs.haskell.org/packages/readline)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/regex-base](http://darcs.haskell.org/packages/regex-base)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/regex-posix](http://darcs.haskell.org/packages/regex-posix)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/regex-compat](http://darcs.haskell.org/packages/regex-compat)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/stm](http://darcs.haskell.org/packages/stm)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/template-haskell](http://darcs.haskell.org/packages/template-haskell)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/unix](http://darcs.haskell.org/packages/unix)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/Win32](http://darcs.haskell.org/packages/Win32)</th></tr></table>
+
+
+And the following repositories are the "extra" packages:
+
+<table><tr><th>[ http://darcs.haskell.org/packages/ALUT](http://darcs.haskell.org/packages/ALUT)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/GLUT](http://darcs.haskell.org/packages/GLUT)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/HGL](http://darcs.haskell.org/packages/HGL)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/HUnit](http://darcs.haskell.org/packages/HUnit)</th></tr>
@@ -52,21 +76,17 @@ And the following repositories contain packages that are used to populate the li
 <tr><th>[ http://darcs.haskell.org/packages/OpenAL](http://darcs.haskell.org/packages/OpenAL)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/OpenGL](http://darcs.haskell.org/packages/OpenGL)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/QuickCheck](http://darcs.haskell.org/packages/QuickCheck)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/Win32](http://darcs.haskell.org/packages/Win32)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/X11](http://darcs.haskell.org/packages/X11)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/arrows](http://darcs.haskell.org/packages/arrows)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/base](http://darcs.haskell.org/packages/base)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/fgl](http://darcs.haskell.org/packages/fgl)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/haskell-src](http://darcs.haskell.org/packages/haskell-src)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/haskell98](http://darcs.haskell.org/packages/haskell98)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/html](http://darcs.haskell.org/packages/html)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/monads](http://darcs.haskell.org/packages/monads)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/mtl](http://darcs.haskell.org/packages/mtl)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/network](http://darcs.haskell.org/packages/network)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/parsec](http://darcs.haskell.org/packages/parsec)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/readline](http://darcs.haskell.org/packages/readline)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/stm](http://darcs.haskell.org/packages/stm)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/template-haskell](http://darcs.haskell.org/packages/template-haskell)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/unix](http://darcs.haskell.org/packages/unix)</th></tr></table>
+<tr><th>[ http://darcs.haskell.org/packages/time](http://darcs.haskell.org/packages/time)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/xhtml](http://darcs.haskell.org/packages/xhtml)</th></tr></table>
 
 
 There are no branches currently; we will use CVS for the 6.4 branch until its end of life, and use darcs for future branches.
