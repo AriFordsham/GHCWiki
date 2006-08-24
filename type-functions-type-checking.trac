@@ -84,3 +84,20 @@ Type functions have a number of properties in common with class instances; in pa
 The essentials of a module after type checking are in `HscTypes.ModGuts`; in particular, we have two fields `mg_insts :: [Instance]` and `mg_binds :: [CoreRule]` containing all instance heads and all rewrite rules respectively.  Similarly, we now want something like `mg_tyequa :: [TyEqua]` to represent all type equations.
 
 Refined idea: Instead of duplicating the `InstInfo`/`Instance` infrastructure for instances of indexed types, we could just add a second variant to `InstInfo`.  This has the advantage that functions, such as `tcInstDecls1`, still only have to return a list of `InstInfo` and not two different lists.
+
+
+== Type checking expressions ==
+
+=== Pattern matching indexed data types ===
+
+Pattern matching against data constructors in `TcPat.tcConPat` implements type refinement in case alternatives for GADTs; i.e., data constructors that have a non-empty `dcEqSpec`.  It might appear that we can reuse that infrastructure for type indexes, but that is unfortunately not possible.  The whole point of local type refinement is that the variable instantiations are not propagated outwards, but that is exactly what is required for type indexes.  We handle matching against data constructors of data instances by two extensions to `tcConPat`:
+ * we generalise `TcUnify.boxySplitTyConApp` to take type families into account and
+ * insert an `ExprCoFn` that is to be applied to the scrutinee in the case of a data constructor of a type family.
+
+==== Splitting of type constructor applications ====
+
+The result type of a wrapper of a data constructor of a family mentions the family type constructor, whereas the worker uses an (internal) representation type constructor.  So, when pattern matching against such a constructor, the type of the scrutinee will be the family type and we need to use `TcUnify.boxySplitTyConApp` with that family type, instead of the representation type constructor mentioned in the `dcTyCon` of the data constructor.  We achieve this by the local function `boxySplitTyConAppWithFamily` that checks for the presence of a type family before invoking `boxySplitTyConApp`.  In addition, we need to adjust the split type constructor arguments to fit the representation type constructor.  This is also taken care of by `boxySplitTyConAppWithFamily`, which matches the family arguments against the instance types using `TcUnify.boxyUnifyList`.
+
+==== Coercing the scrutinee ====
+
+The matching against the family type constructor and unification with the instance types corresponds to applying the coercion moving between the family and representation type of a data instance, which is returned by `tyConFamilyCoercion_maybe`.  To generate type correct core, this coercion needs to be applied to the scrutinee of the case expression matching on the constructor pattern.  This is done by the local function `unwrapFamInstScrutinee` whenever we match against the data constructor of a family by wrapping the result pattern into a `CoPat` containing an `ExprCoFn` with the coercion.
