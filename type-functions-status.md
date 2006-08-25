@@ -5,7 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- In the exiting test for datacon validity, `checlValidDataCon`, we need to add a new test that checks for a data instance datacon that its tycon has the `FamilyTyCon` flag set and that it refers to the correct family tycon.
+- Missing static checks and also: In the exiting test for datacon validity, `checlValidDataCon`, we need to add a new test that checks for a data instance datacon that its tycon has the `FamilyTyCon` flag set and that it refers to the correct family tycon.
 - Handle `newtype instance`.
 
 ## Parsing and Renaming
@@ -13,6 +13,7 @@ Back to [TypeFunctions](type-functions).
 
 Todo (low-level):
 
+- *Imported* data family tycon cannot be extended (GHC claims its not in scope in the data instance declaration) - cf. `MapPS.hs`.
 - Probably remove the `iso` flag.
 
 
@@ -21,12 +22,16 @@ Todo (high-level):
 1. Make the kind specification optional in family declarations.  (How to do the representation in the data/newtype case is not entirely clear, as we use the presence of the kind signature at the moment to identify family declarations.)
 1. Parse and rename equality constraints in signatures.
 1. Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)
+1. Import/export lists:
+
+  - We need to be able to write something like `GMapKey(GMap,empty)`.
+  - Export and import of data constructors declarated in `data instance`s.  We should be able to use the same syntax for the entity specs as for closed data types, but the meaning is somewhat different.
 
 
 Done:
 
 - Parsing and renaming of kind signatures (toplevel and in classes).
-- Parsing and renaming of indexed types declarations (toplevel and in classes).
+- Parsing and renaming of indexed type declarations (toplevel and in classes).
 - Using new syntax with `family` and `instance` on top level.
 
 ## Type Checking
@@ -70,7 +75,7 @@ Todo (low-level):
 
 Todo (high-level):
 
-1. Extend interface files to include euqality axioms:
+1. Extend interface files to include equality axioms:
 
   - How do we exactly want to represent type equations in interface files?
 
@@ -95,4 +100,5 @@ Done:
 
 Todo:
 
-- Convert AT.hs to tests in the testsuite.
+- Compile libraries with CoreLint.
+- Convert `TyFuns.hs` to tests in the testsuite.
