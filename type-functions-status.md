@@ -95,4 +95,5 @@ Done:
 
 Todo:
 
+- Compile libraries with CoreLint.
 - Convert AT.hs to tests in the testsuite.
