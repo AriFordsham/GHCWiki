@@ -96,4 +96,4 @@ Done:
 Todo:
 
 - Compile libraries with CoreLint.
-- Convert AT.hs to tests in the testsuite.
+- Convert TyFuns.hs to tests in the testsuite.

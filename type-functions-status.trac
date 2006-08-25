@@ -71,5 +71,5 @@ Done:
 == Testsuite ==
 
 Todo:
- * Compile libraries with CoreLint.
- * Convert AT.hs to tests in the testsuite.
+ * Compile libraries with !CoreLint.
+ * Convert TyFuns.hs to tests in the testsuite.
