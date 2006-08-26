@@ -42,7 +42,7 @@ Refinement of the specification in the *Beyond Associated Types* paper.  (I'll a
 - Instances of indexed data types/newtypes and equations of type functions have the keyword `instance` after the first keyword.  They otherwise have the same form as ordinary data types/newtypes and type synonyms, respectively, but can have non-variable type indexes in index positions.  Type indexes can include applications of indexed data types and newtypes, but no type functions.
 - Instances of indexed types are only valid if a kind signature for the type constructor is in scope.  The kind of an indexed type is solely determined from the kind signature.  Instances must conform to this kind; in particular, they must have the same number of type indexes.
 - All type indexes of an associated indexed type or type function need to be class parameters.
-- Instances of indexed types may not overlap.  Instances of type equations may only overlap if the equations coincide at critical pairs.  (Rational: We cannot be more lazy about checking overlap, as we otherwise cannot guarantee that we generate an F<sub>C</sub> program that fulfils the formal consistency criterion.)
+- Instances of indexed data and new types may not overlap (as such instances correspond to indeterminate type functions).  Type equations may only overlap if the equations coincide at critical pairs.  (Rational: We cannot be more lazy about checking overlap, as we otherwise cannot guarantee that we generate an F<sub>C</sub> program that fulfils the formal consistency criterion.)
 
 
 Restrictions:
