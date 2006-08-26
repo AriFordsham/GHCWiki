@@ -32,7 +32,7 @@ type family T a1 .. an [:: <kind>]
  * Instances of indexed types are only valid if a kind signature for the type constructor is in scope.  The kind of an indexed type is solely determined from the kind signature.  Instances must conform to this kind.  In particular, the argument count of data and newtype instances must match the arity indicated by the kind.  The number of arguments of a type equation must be equal to the number of type indexes (i.e., type variables in the head) of the family declaration.
  * Associated types are type families declared as part of a type class.  The syntax of family declarations in class declarations and of type instance declarations in instance declarations is as for toplevel declarations, but without the `family` and `instance` keywords and with the kind signature being compulsory.
  * All argument variables of an associated type family declaration need to be class parameters.  There may not be any repetitions, but the order of the variables can differ from that in the class head and the type family can be defined over a subset of the class parameters.
- * ??
+ * In instances, the type indexes of a type declaration must be identical to the corresponding class parameters (i.e., those that share the same variable name in the class declaration).
  * Instances of indexed data and new types may not overlap (as such instances correspond to indeterminate type functions).  Type equations may only overlap if the equations coincide at critical pairs.  (Rational: We cannot be more lazy about checking overlap, as we otherwise cannot guarantee that we generate an F,,C,, program that fulfils the formal consistency criterion.)
 
 Restrictions:
