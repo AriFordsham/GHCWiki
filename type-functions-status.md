@@ -5,7 +5,6 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Missing static checks and also: In the exiting test for datacon validity, `checlValidDataCon`, we need to add a new test that checks for a data instance datacon that its tycon has the `FamilyTyCon` flag set and that it refers to the correct family tycon.
 - Handle `newtype instance`.
 
 ## Parsing and Renaming
@@ -14,12 +13,11 @@ Back to [TypeFunctions](type-functions).
 Todo (low-level):
 
 - *Imported* data family tycon cannot be extended (GHC claims its not in scope in the data instance declaration) - cf. `MapPS.hs`.
-- Probably remove the `iso` flag.
+- Should family declarations be optional with ATs, too?  (See comment at patch making kinds optional at toplevel declarations.)
 
 
 Todo (high-level):
 
-1. Make the kind specification optional in family declarations.  (How to do the representation in the data/newtype case is not entirely clear, as we use the presence of the kind signature at the moment to identify family declarations.)
 1. Parse and rename equality constraints in signatures.
 1. Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)
 1. Import/export lists:
@@ -39,12 +37,9 @@ Done:
 
 Todo (low-level):
 
-- data/newtype instances may not overlap.  (Such definitions would always be non-confluent.)
-- In an AT definition, no argument variable may be repeated.
 - Check that the arguments of AT instances coincide with the respective instance arguments of their class.
 - Check that each class instance has a definition for every AT and conversely that that all defined associated types are, in fact, part of the class. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.)
-- Families declared as an AT, may not receive toplevel type instances.
-- For each case scrutinising an associated data type, check that all constructors have been defined in a single instance.  (Maybe we can just extend the existing check that ensures that case expressions don't mix constructors of different data types.)
+- data/newtype instances may not overlap.  (Such definitions would always be non-confluent.)
 - RHS of a `type instance` must be a tau type.
 - Check that patterns of type indexes don't contain type functions.
 - Construct `InstInfo` for type equation in `tcIdxTyInstDecl1`.
