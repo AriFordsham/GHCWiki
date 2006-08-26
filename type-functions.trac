@@ -21,7 +21,7 @@ Refinement of the specification in the ''Beyond Associated Types'' paper.  (I'll
  {{{
 data family T a1 .. an :: <kind>
 }}}
- and introduce a data type whose first `n` argument are indexes, with `n` >= 1.  The `<kind>` can specify additional parametric parameters.   Index variables can have a kind annotation.  Indexed newtypes have the same form, except for the initial keyword.  '''Is it still necessary to know the number of type indexes (now that we don't require saturated applications for indexed data types)?  We can now also admit the omission of the kind with * being the default.'''
+ and introduce a type family whose kind is determined by the kinds of the `ai` (which can have kind annotations) and the explicit signature `<kind>`.  Newtypes families have the same form, except for the initial keyword.  '''We can now also admit the omission of the kind with * being the default.'''
  * Kind signatures of type functions have the form
  {{{
 type family [iso] T a1 .. an :: <kind>
