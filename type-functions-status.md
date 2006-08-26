@@ -39,6 +39,7 @@ Done:
 
 Todo (low-level):
 
+- data/newtype instances may not overlap.  (Such definitions would always be non-confluent.)
 - In an AT definition, no argument variable may be repeated.
 - Check that the arguments of AT instances coincide with the respective instance arguments of their class.
 - Check that each class instance has a definition for every AT and conversely that that all defined associated types are, in fact, part of the class. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.)
