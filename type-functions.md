@@ -27,22 +27,24 @@ Refinement of the specification in the *Beyond Associated Types* paper.  (I'll a
 - Kind signatures of indexed data type families have the form
 
   ```wiki
-  data family T a1 .. an :: <kind>
+  data family T a1 .. an [:: <kind>]
   ```
 
-  and introduce a data type whose first `n` argument are indexes, with `n` \>= 1.  The `<kind>` can specify additional parametric parameters.   Index variables can have a kind annotation.  Indexed newtypes have the same form, except for the initial keyword.  **Is it still necessary to know the number of type indexes (now that we don't require saturated applications for indexed data types)?  We can now also admit the omission of the kind with \* being the default.**
-- Kind signatures of type functions have the form
+  and introduce a type family whose kind is determined by the kinds of the `ai` (which can have kind annotations) and the optional signature `<kind>` (which defaulys to `*`).  Newtypes families have the same form, except for the initial keyword.  **We can now also admit the omission of the kind with \* being the default.**
+- Kind signatures of type function have the form
 
   ```wiki
-  type family [iso] T a1 .. an :: <kind>
+  type family T a1 .. an [:: <kind>]
   ```
 
-  and introduce `n`-ary type functions, which may be of higher-kind, with `n` \>= 1.  Again, the type variables can have kind signatures.  The modifier `iso` is optional and requires the type function to be injective.  (In principle, we could make the `<kind>` optional, with `*` being the default, but we don't do that for uniformity with signatures of indexed types - the form `data T a1 .. an` is already used for empty data types.  **Not true anymore.**)
-- Applications of type functions need to supply all indexes after unfolding of all ordinary type synonyms.  (This is the same saturation requirement that we walready have on ordinary type synonyms.)
-- Instances of indexed data types/newtypes and equations of type functions have the keyword `instance` after the first keyword.  They otherwise have the same form as ordinary data types/newtypes and type synonyms, respectively, but can have non-variable type indexes in index positions.  Type indexes can include applications of indexed data types and newtypes, but no type functions.
-- Instances of indexed types are only valid if a kind signature for the type constructor is in scope.  The kind of an indexed type is solely determined from the kind signature.  Instances must conform to this kind; in particular, they must have the same number of type indexes.
-- All type indexes of an associated indexed type or type function need to be class parameters.
-- Instances of indexed types may not overlap.  Instances of type equations may only overlap if the equations coincide at critical pairs.  (Rational: We cannot be more lazy about checking overlap, as we otherwise cannot guarantee that we generate an F<sub>C</sub> program that fulfils the formal consistency criterion.)
+  and introduce `n`-ary type functions (with `n` \>= 1), which may be of higher-kind.  Again, the type variables can have kind signatures and the result kind signature is optional, with `*` being the default.  Equations for an `n`-ary type function must specify exactly `n` arguments, which serve as indexes. 
+- Applications of type functions need to supply all indexes after unfolding of all ordinary type synonyms.  (This is the same saturation requirement that we already have on ordinary type synonyms.)
+- Instances of indexed data types/newtypes and equations of type functions have the keyword `instance` after the first keyword.  They otherwise have the same form as ordinary data type/newtype and type synonym declarations, respectively, but can have non-variable type indexes as arguments.  Type indexes can include applications of indexed data types and newtypes, but no type functions.
+- Instances of indexed types are only valid if a kind signature for the type constructor is in scope.  The kind of an indexed type is solely determined from the kind signature.  Instances must conform to this kind.  In particular, the argument count of data and newtype instances must match the arity indicated by the kind.  The number of arguments of a type equation must be equal to the number of type indexes (i.e., type variables in the head) of the family declaration.
+- Associated types are type families declared as part of a type class.  The syntax of family declarations in class declarations and of type instance declarations in instance declarations is as for toplevel declarations, but without the `family` and `instance` keywords and with the kind signature being compulsory.
+- All argument variables of an associated type family declaration need to be class parameters.  There may not be any repetitions, but the order of the variables can differ from that in the class head and the type family can be defined over a subset of the class parameters.
+- In instances, the type indexes of a type declaration must be identical to the corresponding class parameters (i.e., those that share the same variable name in the class declaration).
+- Instances of indexed data and new types may not overlap (as such instances correspond to indeterminate type functions).  Type equations may only overlap if the equations coincide at critical pairs.  (Rational: We cannot be more lazy about checking overlap, as we otherwise cannot guarantee that we generate an F<sub>C</sub> program that fulfils the formal consistency criterion.)
 
 
 Restrictions:
