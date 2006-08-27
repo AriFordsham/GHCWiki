@@ -29,7 +29,6 @@ Todo (low-level):
  * data/newtype instances may not overlap.  (Such definitions would always be non-confluent.)
  * Check that the arguments of AT instances coincide with the respective instance arguments of their class.
  * Check that each class instance has a definition for every AT and conversely that that all defined associated types are, in fact, part of the class. (Do this in the type checker - GHC does the corresponding checks for methods in the type checker, too.)
- * For each case scrutinising an associated data type, check that all constructors have been defined in a single instance.  (Maybe we can just extend the existing check that ensures that case expressions don't mix constructors of different data types.)
  * RHS of a `type instance` must be a tau type.
  * Check that patterns of type indexes don't contain type functions.
  * Construct `InstInfo` for type equation in `tcIdxTyInstDecl1`.
