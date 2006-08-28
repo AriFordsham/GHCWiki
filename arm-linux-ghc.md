@@ -8,7 +8,7 @@ My goal is to create a registerised port of GHC to the nokia 770.
 
 There is currently an unregisterised build available for Maemo 1.x. This project is temporarily on hold while two big transitions take place:
 
-1. Maemo 2.0 supports the new EABI standard which affects a bunch of things (done)
+1. Maemo 2.0 supports the new EABI standard which affects a bunch of things (done) (for more info see [ http://wiki.debian.org/ArmEabiPort](http://wiki.debian.org/ArmEabiPort) )
 1. GHC 6.6 release (soon)
 
 ## Setting up the build environment
