@@ -222,7 +222,7 @@ So it is not doable via this route.
 
 We could try and use some tricks. For instance, in every 'throw' we spot, we insert a breakpoint based on the condition on this throw. In every 'assert' we do the same. But this would see only user exceptions, missing system exceptions (pattern match failures for instance), asynchronous exceptions and others. Which is not acceptable imho. 
 
-I don't know if a satisfactory solution is possible with the current scheme for dynamic breakpoints.
+I don't know if a satisfactory solution is possible with the current scheme for breakpoints.
 
 == The breakpoints api at ghc-api ==
 Once an 'auto' breakpoint, that is a breakpoint inserted by the renamer, is hit, an action is taken. There are hooks to customize this behaviour in the ghc-api. The GHC module provides:
