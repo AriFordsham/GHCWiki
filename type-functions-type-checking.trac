@@ -41,6 +41,13 @@ Classes are represented by `Class.Class`, which we extend by a new field `classA
 
 An additional complication is that the associated types of a class need already be available when type checking the super class context and the method signatures of the same class, or other things in the same type checking knot.  Hence, we need to make them available in the temporary environment constructed in the knot tied by `TcTyClsDecls.tcTyAndClassDecls`.  Special care is required as this knot tying relies on the property that the list of declarations, `alg_at_decls`, and the list of `TyThing`s produced by type checking the declarations, `rec_alg_tyclss`, match up (for zipping them together within `mkGlobalThings`).  We guarantee this by always entering the associated types of a class right after that class in the declaration list.
 
+An important property of associated types is that their index types always coincide with the class instance arguments at those argument positions that used the same type variables in the associated family declaration.   To check that property, each `AlgTyCon` and each `SynTyCon` contains a field `tyConArgPoss :: Maybe [Int]` that has a value of the form `Just poss` for associated family `TyCon`s, where `poss` gives the argument position in the class head for each family argument.  For example,
+{{{
+class C a b c where
+  data T c b :: * -> *
+}}}
+induces a `poss` value of `[2, 1]`.  Note how `T` is 3-ary, but only the first two arguments are type indexes and correspond to the third and second class parameter, respectively.
+
 === GHC API ===
 
 The GHC API has a new predicate `isOpenTyCon` with the understanding that it is illegal to invoke `synTyConDefn`, `synTyConRhs`, and `tyConDataCons` on type constructors that fulfil `isOpenTyCon`.
