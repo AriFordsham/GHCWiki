@@ -25,7 +25,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
 
  * '''PowerPC'''
-   * AIX: [mailto:autrijus@autrijus.org Autrijus Tang]
+   * AIX: [mailto:audreyt@audreyt.org Audrey Tang]
    * Linux: [mailto:desrt@desrt.ca Ryan Lortie]
    * Gentoo Linux packages (32 and 64bit): [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/powerpc packages: [mailto:igloo@debian.org Ian Lynagh]
