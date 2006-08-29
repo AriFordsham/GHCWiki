@@ -30,7 +30,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
 
 - **PowerPC**
 
-  - AIX: Autrijus Tang
+  - AIX: Audrey Tang
   - Linux: Ryan Lortie
   - Gentoo Linux packages (32 and 64bit): Gentoo Haskell team
   - Debian GNU/Linux/powerpc packages: Ian Lynagh
