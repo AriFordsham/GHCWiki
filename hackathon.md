@@ -50,9 +50,9 @@ a recent version version of GHC.
 
 The Hackathon will be open
 
-- 9 till 5 - Thur 14th - Kingstad center
-- 9 till 5 - Fri 15th - Kingstad center
-- 9 till (TBD) - Sat 16th - Galois offices
+- 9 till 5 - Thur 14th
+- 9 till 5 - Fri 15th 
+- 9 till (TBD) - Sat 16th 
 
 ### Registration
 
