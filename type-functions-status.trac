@@ -3,7 +3,7 @@
 Back to TypeFunctions.
 
 '''Current:''' 
- * Handle `newtype instance`.
+ * Handle `newtype instance`: In `MkId.mkDataConIds` extend the newtype worker, which is really a wrapper, such that it composes the two coercions, if its a family instance, in the worker unfolding.  It also need to get a different result type in the wrapper signature.
 
 == Parsing and Renaming ==
 
