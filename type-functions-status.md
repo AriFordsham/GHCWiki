@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsStatus"
-  queryString          = "?version=76"
+  queryString          = "?version=77"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:22 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsStatus\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:23 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsStatus\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -24,7 +24,7 @@ Original source:
 Back to TypeFunctions.
 
 '''Current:''' 
- * Handle `newtype instance`: In `MkId.mkDataConIds` extend the newtype worker, which is really a wrapper, such that it composes the two coercions, if its a family instance, in the worker unfolding.  It also need to get a different result type in the wrapper signature.
+ * Next: Check for overlapping instances and fix importing/exporting of families and their instances.
 
 == Parsing and Renaming ==
 
@@ -61,12 +61,11 @@ Todo (high-level):
 Done: 
  * Kind and type checking of kind signatures.
  * Kind and type checking of instance declarations of indexed types.
- * Wrapper generation and type checking of pattern matching for indexed data types (no newtypes yet.)
+ * Wrapper generation and type checking of pattern matching for indexed data and newtypes.
 
 == Desugaring ==
 
 Todo (low-level):
- * Handle new type instances.
  * When a family type is exported/imported, all its instances need to be implicitly imported/exported, just as with classes.
  * Derivings on an associated data type ''declaration'' need to be inherited by all definitions of that data type in instances.
 
