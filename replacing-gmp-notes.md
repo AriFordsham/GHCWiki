@@ -83,6 +83,19 @@ There are several problems with the current GMP implementation:
 
 Esa Ilari Vuokko, who at one time attempted to replace GMP with [ LibTomMath](http://math.libtomcrypt.com/), posted several messages with good notes on the current implementation.  Much of what is on this page is derived from those notes.  See, [ Replacement for GMP(3)](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010669.html) and [ Replacement for GMP(4)](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010674.html).
 
+### Benchmarks for Multi-Precision Libraries
+
+
+The benchmarks below were made with unmodified multi-precision libraries for Integral Arithmetic compiled using Apple gcc 4.0.1 with optimisation settings: -O3 -ftree-vectorize -falign-loops=16.  The tests performed Multiplication, Squaring, Powers (up to 7) and Division each 1,000,000 times at various levels of precision based on the number of bits in the operands.  Multi-precision libraries may use unsigned chars, unsigned ints, unsigned long ints, unsigned long long ints or doubles, so the actual number of "words" in each multi-precision array may differ; for multi-precision real numbers using doubles, integer precision was calculated at 48.3 bits of real precision per double, rounded up to 49.  (49 bits conservatively equates to about 9 decimal digits.)  Libraries tested were:
+[ ARPREC](http://crd.lbl.gov/~dhbailey/mpdist/)[ OpenSSL's BN](http://www.openssl.org/) (part of libcrypto)
+[ GMP](http://swox.com/gmp/)[ LibTomMath](http://math.libtomcrypt.com/)[ Crypto++](http://www.eskimo.com/~weidai/cryptlib.html) a cryptographic library in C++, the Integer class
+[ Botan](http://botan.randombit.net/) a cryptographic library in C++, 
+[ MPI](http://www.cs.dartmouth.edu/~sting/mpi/) (MPI)
+[ MAPM](http://www.tc.umn.edu/~ringx004/mapm-main.html) (MPI)
+
+
+Crypto++, Botan, MPI and MAPM showed performance far below ARPREC, OpenSSL's BN, GMP and LibTomMath, so results are only shown for the last four.  Note that there are other libraries available for arbitrary precision arithmetic other than those mention here.  
+
 not handled: Image
 
 not handled: Image
