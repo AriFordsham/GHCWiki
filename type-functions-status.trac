@@ -26,7 +26,7 @@ Done:
 == Type Checking ==
 
 Todo (low-level):
- * data/newtype instances may not overlap.  (Such definitions would always be non-confluent.)
+ * data/newtype instances may not overlap.  (Such definitions would always be non-confluent.)  We might be able to get away with a lazy check at every place where a value of family type is constructed (i.e., occurences of the datacon wrapper).  Such a value may never be an inhabitant of more than one instance declaration.
  * RHS of a `type instance` must be a tau type.
  * Check that patterns of type indexes don't contain type functions.
  * Construct `InstInfo` for type equation in `tcIdxTyInstDecl1`.
