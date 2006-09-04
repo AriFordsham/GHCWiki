@@ -35,6 +35,8 @@ Add your suggestions for the hackathon below...
 
 - GHC API clients: hstags, code metrics (eg. feature use)
 
+- Implemene the static argument transformation ([\#888](https://gitlab.haskell.org//ghc/ghc/issues/888))
+
 - Whole-program dead-code detection (with `--make`).
 
 - Whole-program overloading elimination (with `--make`).
