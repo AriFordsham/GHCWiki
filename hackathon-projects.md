@@ -27,11 +27,21 @@ Add your suggestions for the hackathon below...
 
 - Option to allow compiling from within GHCi ([\#276](https://gitlab.haskell.org//ghc/ghc/issues/276))
 
-- GHC plugins
+- GHC plugins: allow passes to be loaded at runtime from plugins
 
 - Get shared libraries or DLLs working
 
 - Build a Windows-native version of GHC (using MS tools instead of gcc).
+
+- GHC API clients: hstags, code metrics (eg. feature use)
+
+- Whole-program dead-code detection (with `--make`).
+
+- Whole-program overloading elimination (with `--make`).
+
+- Work on Haddock on top of the GHC API (see [ this message](http://www.haskell.org/pipermail/haskell/2006-August/018415.html)).
+
+- `-Ofile`: take the list of optimisation passes to run from a file instead of current hard-wired sequence.
 
 ## Library Projects
 
