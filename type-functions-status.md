@@ -6,6 +6,7 @@ Back to [TypeFunctions](type-functions).
 **Current:**
 
 - Next: (0) Clean up `implicitTyThings`; (1) last bist of import/export functionality; (2) check for overlapping instances.
+- Also add a `-ffamilies` switch or similar.
 
 ## Parsing and Renaming
 
