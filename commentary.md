@@ -1,7 +1,7 @@
 ## 0. Overview (SPJ)
 
 - the pieces, how they fit together
-- source tree roadmap
+- [Source Tree Roadmap](commentary/source-tree)
 - the compilation pipeline
 
 ## 1. Building (SM)
