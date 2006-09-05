@@ -1,0 +1,11 @@
+= Overall organisation of GHC =
+
+Start at the [http://haskell.org/ghc GHC home page].  The most important links are
+in the left-hand column:
+
+* [http://haskell.org/haskellwiki/GHC Documentation].  This is the ''user'' documentation, aimed at people who use GHC, but don't care how it works.  It's on the Haskell Wiki (powered by MediaWiki), and we strongly encourage people to edit and improve it.
+
+* [http://hackage.haskell.org/trac/ghc Developers].  This link takes you to the home page for ''developers''; that is, people interested in hacking on GHC itself (i.e. you).  It's a Wiki too, but powered by Trac, and includes bug-tracking etc.
+
+* [http://www.haskell.org/ghc/download.html Download].  At any moment, GHC has a '''STABLE branch''' and the '''HEAD'''.
+  * The HEAD is simply the latest, greatest version that we are working on; it may be broken on any given day, although youa ar
