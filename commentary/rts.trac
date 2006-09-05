@@ -22,7 +22,7 @@ Next, we try to make sense of how it all fits together.
 
 == Block Diagram ==
 
-
+[[Image(rts-overview.png)]]
 
 == What the hell is a {{{.cmm}}} file? ==
 
