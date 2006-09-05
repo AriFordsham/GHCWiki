@@ -5,7 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Next: (1) Last bist of import/export functionality; (2) check for overlapping instances.
+- Next: (0) Clean up `implicitTyThings`; (1) last bist of import/export functionality; (2) check for overlapping instances.
 
 ## Parsing and Renaming
 
