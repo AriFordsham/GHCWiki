@@ -91,5 +91,5 @@ These two are optional, available as separate darcs repositories:
  {{{ghc.spec.in}}}::
   RPM spec file
 
- {{{InstallShield}}},{{{WindowsInstaller}}}::
+ {{{InstallShield}}}, {{{WindowsInstaller}}}::
   Windows installer bits
