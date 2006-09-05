@@ -1,3 +1,6 @@
+[ [wiki:Commentary/SourceTree Up one level] ]
+[[PageOutline]]
+
 = GHC Source Tree Roadmap: includes/ =
 
 This directory contains C header files that are included in a GHC distribution.  We classify header files into 4 categories.
