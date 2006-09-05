@@ -1,6 +1,6 @@
 == 0. Overview (SPJ) ==
 
- * the pieces, how they fit together
+ * [wiki:Commentary/Organisation The overall organisation of GHC]
  * [wiki:Commentary/SourceTree Source Tree Roadmap]
  * the compilation pipeline
 
