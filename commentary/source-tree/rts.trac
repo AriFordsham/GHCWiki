@@ -1,4 +1,5 @@
 [ [wiki:Commentary/SourceTree Up one level] ]
+[[PageOutline]]
 
 = GHC Source Tree Roadmap: rts/ =
 
@@ -153,7 +154,7 @@ All this code runs on the Haskell side of the Haskell/C divide;
  [http://darcs.haskell.org/ghc/rts/Timer.c Timer.c], [http://darcs.haskell.org/ghc/rts/Timer.h Timer.h],  [http://darcs.haskell.org/ghc/rts/Ticker.h Ticker.h]::
   The runtime's interval timer, used for context switching and profiling.
 
-=== C files: the [wiki:Commentary/Rts/FFI] ===
+=== C files: the [wiki:Commentary/Rts/FFI FFI] ===
 
  [http://darcs.haskell.org/ghc/rts/Adjustor.c Adjustor.c]::
   Very hairy support for {{{foreign import "wrapper"}}}.
