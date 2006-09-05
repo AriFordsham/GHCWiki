@@ -56,7 +56,7 @@ See [wiki:Commentary/BuildSystem].
  [wiki:Commentary/SourceTree/Libraries libraries/]::
    The libraries that are built and distributed with GHC.
 
- [wiki:Commentary/SourceTree/Rts includes/]::
+ [wiki:Commentary/SourceTree/Includes includes/]::
    Header files for the Runtime System and for compiling Haskell via C.
 
  [wiki:Commentary/SourceTree/Docs docs/]::
