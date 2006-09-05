@@ -33,17 +33,4 @@
  *  SM Cmm->BCO  (simple compilation scheme, no primops: GHC.PrimopWrappers)
  *  SM Cmm->C
 
-== 4. The Runtime (SM) ==
-
- * .c vs. .cmm files
- * diff between .cmm and C--
- * roadmap
- * heap objects, info tables
- * architecture: storage manager, MBlock, Blocks, Storage, GC
- * architecture: scheduler, capabilities, tasks
- * FFI (adjustors)
- * Linker
- * BCO interpreter
- * asyncrhonous & synchronous exceptions
- * STM
-
+== 4. [wiki:Commentary/Rts The Runtime System] ==
