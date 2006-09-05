@@ -3,7 +3,7 @@
 - [The overall organisation of GHC](commentary/organisation)
 - [Source Tree Roadmap](commentary/source-tree)
 - [The compilation pipeline](commentary/pipeline)
-- Coding guidelines?
+- [Coding guidelines](commentary/coding-style)
 
 ## 1. Building (SM)
 
