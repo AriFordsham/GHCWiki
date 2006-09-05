@@ -2,7 +2,8 @@
 
  * [wiki:Commentary/Organisation The overall organisation of GHC]
  * [wiki:Commentary/SourceTree Source Tree Roadmap]
- * the compilation pipeline
+ * [wiki:Commentary/Pipeline The compilation pipeline]
+ * [wiki:Commenatry/CodingStyle Coding guidelines]
 
 == 1. Building (SM) ==
  * Getting the code (do a live build...)
