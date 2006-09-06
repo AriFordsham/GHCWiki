@@ -106,6 +106,8 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Andy Gill](http://www.gill-warbington.com/home/andy), Galois, Previous contributor to GHC, wanting tools for high assurance Haskell.
 - [ Paul Graunke](http://www.galois.com/), Galois, interested in formal methods (Isabelle) and GHC intermediate representations
 
+- [ Thomas Hallgren](http://www.cse.ogi.edu/~hallgren/), dedicated Haskell programmer, interesting redoing hOp with GHC 6.6 and have the changes included in the main source repository.
+
 - [ Bryn Keller](http://www.xoltar.org), interested bystander. Interested in generating code for unusual targets (e.g. JavaScript, Flash, .Net, etc.).
 
 - Markus Lauer, want to understand better how GHC works
