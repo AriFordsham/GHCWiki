@@ -1,30 +1,27 @@
-CONVERSION ERROR
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Commentary/Rts/Word"
-  queryString          = "?version=1"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:39 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","258"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Rts/Word\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+\[ Up: [Commentary/Rts](commentary/rts) \]
 
-Original source:
-
-```trac
-[ Up: [wiki:Commentary/Rts] ]
-
-= GHC Commentary: The Word =
-
-The most important type in the runtime is {{{StgWord}}}, defined in [[GhcFile(includes/StgTypes.h)]]
-[[HelloWorld(foo,bar)]]
+# GHC Commentary: The Word
 
 
-```
+The most important type in the runtime is `StgWord`, defined in [includes/StgTypes.h](/trac/ghc/browser/ghc/includes/StgTypes.h).  A word is defined to be the same size as a pointer on the current platform.  All these types are interconvertible without losing information, and have the same size (as reported by `sizeof`):
+
+<table><tr><th>`StgWord`</th>
+<td>
+An unsiged integral type of word size
+</td></tr></table>
+
+<table><tr><th>`StgInt`</th>
+<td>
+A signed integral type of word size
+</td></tr></table>
+
+<table><tr><th>`StgPtr`</th>
+<td>
+Pointer to `StgWord`</td></tr></table>
+
+
+The word is the basic unit of allocation in GHC: the heap and stack are both allocated in units of a word.  Throughout the runtime we often use sizes that are in units of words, so as to abstract away from the real word size of the underlying architecture.
+
+
+C-- only understands units of bytes, so we have various macros in [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h) to make manipulating things in units of words easier in `.cmm` files.
