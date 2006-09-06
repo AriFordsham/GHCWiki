@@ -5,7 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Next: (0) Clean up `implicitTyThings`; (1) last bist of import/export functionality; (2) check for overlapping instances.
+- Next: (1) implicit import and export of data/newtype instances; (2) check for overlapping instances.
 - Also add a `-ffamilies` switch or similar.
 
 ## Parsing and Renaming
@@ -62,7 +62,6 @@ Done:
 
 Todo (low-level):
 
-- In export and import lists, it must be possible to mention AT names as sub-components of a class.
 - `data instances` and `newtype instances` need to be implicitly exported as are class instances.
 - Derivings on an associated data type *declaration* need to be inherited by all definitions of that data type in instances.
 
