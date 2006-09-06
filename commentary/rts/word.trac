@@ -1,0 +1,7 @@
+[ Up: [wiki:Commentary/Rts] ]
+
+= GHC Commentary: The Word =
+
+The most important type in the runtime is {{{StgWord}}}, defined in [[GhcFile(includes/StgTypes.h)]]
+[[HelloWorld(foo,bar)]]
+
