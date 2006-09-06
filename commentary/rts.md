@@ -31,6 +31,7 @@ Next, we try to make sense of how it all fits together.
 
 ## RTS: Contents
 
+- [RTS Configurations](commentary/rts/config)
 - [What the hell is a {{{.cmm}}} file?](commentary/rts/cmm)
 - [Layout of heap objects](commentary/rts/heap-objects)
 - [Haskell Execution](commentary/rts/haskell-execution)
