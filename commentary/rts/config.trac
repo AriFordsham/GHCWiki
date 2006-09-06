@@ -1,0 +1,52 @@
+[ Up: [wiki:Commentary/Rts] ]
+
+= RTS Configurations =
+
+The RTS can be built in several different ways, corresponding to global CPP defines.  The flavour of the RTS is chosen by GHC when compiling a Haskell program, in response to certain command-line options: {{{-prof}}}, {{{-threaded}}}, etc.
+
+The CPP symbols and their corresponding command-line flags are:
+
+ {{{PROFILING}}}::
+  Enables profiling.[[br]]
+  GHC option: {{{-prof}}}[[br]]
+  RTS suffix: {{{p}}}
+
+ {{{THREADED_RTS}}}::
+  Enables multithreading in the RTS, bound threads, and SMP execution.[[br]]
+  GHC option: {{{-threaded}}}[[br]]
+  RTS suffix: {{{thr}}}
+
+ {{{DEBUG}}}::
+  Enables extra debugging code, assertions, traces, and the {{{+RTS -D}}} options.[[br]]
+  GHC option: {{{-debug}}}[[br]]
+  RTS suffix: {{{debug}}}
+
+ {{{NO_REGS}}}, {{{USE_MINIINTERPRETER}}}::
+  Enables "unregisterised" compilation, i.e. via C with no mangler.[[br]]
+  GHC option: {{{-unreg}}}[[br]]
+  RTS suffix: {{{u}}}
+
+So for example, {{{libHSRts_thr_debug.a}}} is the version of the runtime compiled with {{{THREADED_RTS}}} and {{{DEBUG}}}, and will be linked in if you use the {{{-threaded}}} and {{{-debug}}} options to GHC.
+
+The ways that the RTS is built in are controlled by the {{{GhcRTSWays}}} Makefile variable.  
+
+== Combinations ==
+
+The following combinations are allowed:
+
+ * {{{DEBUG}}} with anything
+ * {{{PROFILING}}} only with {{{NO_REGS}}}, {{{USE_MINIINTERPRETER}}}
+
+== OLD ways ==
+
+The following ways are bitrotted and currently don't work (GHC 6.6):
+
+ {{{TICKY}}}::
+  Ticky-ticky profiling[[br]]
+  GHC option: {{{-ticky}}}[[br]]
+  RTS suffix: {{{t}}}
+  
+ {{{PAR}}}, {{{GRANSIM}}}::
+  Parallel Haskell[[br]]
+  GHC option: {{{-par}}}[[br]]
+  RTS suffix: {{{mp, mg}}}
