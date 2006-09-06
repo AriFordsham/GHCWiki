@@ -20,8 +20,30 @@ Unboxed tuples {{{(#...#)}}} are both unlifted and unboxed.  They are represente
 
 All heap objects have the same basic layout, embodied by the type {{{StgClosure}}} in [http://darcs.haskell.org/ghc/includes/Closures.h Closures.h].  The diagram below shows the layout of a heap object:
 
+[[Image(heap-object.png)]]
+
+A heap object always begins with a ''header'', defined by {{{StgHeader}}} in [http://darcs.haskell.org/ghc/includes/Closures.h Closures.h]:
+
+{{{
+typedef struct {
+    const struct _StgInfoTable* info;
+#ifdef PROFILING
+    StgProfHeader         prof;
+#endif
+#ifdef GRAN
+    StgGranHeader         gran;
+#endif
+} StgHeader;
+}}}
+
+The most important part of the header is the ''info pointer'', which points to the info table for the closure.  In the default build, this is all the header contains, so a header is normally just one word.  In other builds, the header may contain extra information: eg. in a profilnig build it also contains information about who built the closure.
+
+Most of the runtime is insensitive to the size of {{{StgHeader}}}; that is, we are careful not to hardcode the offset to the payload anywhere, instead we use C struct indexing or {{{sizeof(StgHeader)}}}.  This makes it easy to extend {{{StgHeader}}} with new fields if we need to.
 
 == Info Tables ==
 
+The info table contains all the information that the runtime needs to know about the closure.
 
 == Types of Heap Object ==
+
+== The stack, and stack objects ==
