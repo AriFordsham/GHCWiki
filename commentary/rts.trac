@@ -28,6 +28,7 @@ Next, we try to make sense of how it all fits together.
 
 == RTS: Contents ==
 
+ * [wiki:Commentary/Rts/Config RTS Configurations]
  * [wiki:Commentary/Rts/Cmm What the hell is a {{{.cmm}}} file?]
  * [wiki:Commentary/Rts/HeapObjects Layout of heap objects]
  * [wiki:Commentary/Rts/HaskellExecution Haskell Execution]
@@ -37,4 +38,6 @@ Next, we try to make sense of how it all fits together.
  * [wiki:Commentary/Rts/Interpreter GHCi support: the byte-code interpreter and dynamic linker]
  * [wiki:Commentary/Rts/AsyncExceptions Asynchronous exceptions]
  * [wiki:Commentary/Rts/STM Software Transactional Memory (STM)]
+ * [wiki:Commentary/Rts/CAFs Garbage Collecting CAFs]
+ * [wiki:Commentary/Rts/Weak Weak Pointers and Finalizers]
  * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
