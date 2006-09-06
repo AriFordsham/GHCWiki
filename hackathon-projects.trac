@@ -44,6 +44,8 @@ Add your suggestions for the hackathon below...
 
  * {{{-Ofile}}}: take the list of optimisation passes to run from a file instead of current hard-wired sequence.
 
+ * {{{-fmonad-comprehension}}: Reuse existing list comprehension code to restore it for arbitrary monads.
+
 == Library Projects ==
 
  * Work on the Streams library
