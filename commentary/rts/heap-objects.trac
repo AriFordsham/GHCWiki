@@ -42,7 +42,9 @@ Most of the runtime is insensitive to the size of {{{StgHeader}}}; that is, we a
 
 == Info Tables ==
 
-The info table contains all the information that the runtime needs to know about the closure.
+The info table contains all the information that the runtime needs to know about the closure.  The layout of info tables is defined in [[GhcFile(includes/InfoTables.h)]].  The basic info table layout looks like this:
+
+[[Image(basic-itbl.png)]]
 
 == Types of Heap Object ==
 
