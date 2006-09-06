@@ -327,7 +327,7 @@ There are several variants of indirection:
    cost center in an indirection, so we can't eliminate the indirection.
  * {{{IND_OLDGEN_PERM}}}: same as above, but for the old generation.
  * {{{IND_STATIC}}}: a static indirection, arises when we update a {{{THUNK_STATIC}}}.  A new {{{IND_STATIC}}}
-   is placed on the mutable list when it is created (see {{{newCaf()}}} in [[GhcFile(rts/Storage.c)]].
+   is placed on the mutable list when it is created (see {{{newCaf()}}} in [[GhcFile(rts/Storage.c)]]).
 
 === Byte-code objects ===
 
@@ -354,17 +354,40 @@ There are several variants of indirection:
 
 {{{STABLE_NAME}}}
 
-=== Thread objects ===
+=== Thread State Objects ===
 
-{{{TSO}}}
+Closure type {{{TSO}}} is a Thread State Object.  It represents the complete state of a thread, including its stack.
+
+TSOs are ordinary objects that live in the heap, so we can use the existing allocation and garbage collection machinery to manage them.  This gives us one important benefit: the garbage collector can detect when a blocked thread is unreachable, and hence can never become runnable again.  When this happens, we can notify the thread by sending it the {{{BlockedIndefinitely}}} exception.
+
+GHC keeps stacks contiguous, there are no "stack chunk" objects.  This is simpler, but means that when growing a stack we have to copy the old contents to a larger area (see {{{threadStackOverflow()}}} in [[GhcFile(rts/Schedule.c)]]).
+
+The TSO structure contains several fields.  For full details see [[GhcFile(includes/TSO.h)]].  Some of the more important fields are:
+
+ * ''link'': field for linking TSOs together in a list.  For example, the threads blocked on an {{{MVar}}} are kept in
+   a queue threaded through the link field of each TSO.
+ * ''global_link'': links all TSOs together; the head of this list is {{{all_threads}}} in [[GhcFile(rts/Schedule.c)]].
+ * ''what_next'': how to resume execution of this thread.  The valid values are:
+   * {{{ThreadRunGhc}}}: continue by returning to the top stack frame.
+   * {{{ThreadInterpret}}}: continue by interpreting the BCO on top of the stack.
+   * {{{ThreadKilled}}}: this thread has received an exception which was not caught.
+   * {{{ThreadRelocated}}}: this thread ran out of stack and has been relocated to a larger TSO; the link field points
+     to its new location.
+   * {{{ThreadComplete}}}: this thread has finished and can be garbage collected when it is unreachable.
+ * ''why_blocked'': for a blocked thread, indicates why the thread is blocked.  See [[GhcFile(includes/Constants.h)]] for
+   the list of possible values.
+ * ''block_info'': for a blocked thread, gives more information about the reason for blockage, eg. when blocked on an
+    MVar, block_info will point to the MVar.
+ * ''bound'': pointer to a [wiki:Commentary/Rts/Scheduler#Task Task] if this thread is bound
+ * ''cap'': the [wiki:Commentary/Rts/Scheduler#Capabilities Capability] on which this thread resides.
 
 === STM objects ===
 
 These object types are used by [wiki:Commentary/Rts/STM STM]: {{{TVAR_WAIT_QUEUE}}}, {{{TVAR}}}, {{{TREC_CHUNK}}}, {{{TREC_HEADER}}}.
 
-=== Forwarding pointers ===
+=== Forwarding Pointers ===
 
-The {{{EVACUATED}}} object only appears temporarily during GC.  An object which has been copied into to-space (''evacuated'') is replaced by an {{{EVACUATED}} object:
+The {{{EVACUATED}}} object only appears temporarily during GC.  An object which has been copied into to-space (''evacuated'') is replaced by an {{{EVACUATED}}} object:
 
 || Header || Forwarding pointer ||
 
