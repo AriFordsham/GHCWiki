@@ -85,36 +85,53 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Simon Marlow](http://www.haskell.org/~simonmar) One of the main authors of GHC, particularly the back end, run-time system, and libraries.
 - [ Simon Peyton Jones](http://research.microsoft.com/~simonpj) One of the main authors of GHC, particularly the type system and Core intermediate language.
 
-- [ Andy Gill](http://www.gill-warbington.com/home/andy), Galois, Previous contributor to GHC, wanting tools for high assurance Haskell.
-- [ Malcolm Wallace](http://www.cs.york.ac.uk/~malcolm), nhc98-hacker, wanting to steal ideas :-), particularly from the type-system.
-- [ Clifford Beshers](http://wiki.freespire.org/index.php/Freespire_Technology_Board_Home), Linspire, particularly interested in GHC as a library.
-- [ Paul Graunke](http://www.galois.com/), Galois, interested in formal methods (Isabelle) and GHC intermediate representations
-- [ Kathleen Fisher](http://www.research.att.com/info/kfisher), ATT, interested in adding support for data description to Haskell
-- Jake Luck, interested in interactive debugging and accessing GHC internals from embedded systems.
-- [ Geoffrey Washburn](http://www.cis.upenn.edu/~geoffw/), UPenn. Previous GHC contributor (original implementation of GADTs in Core). Wide variety of language interests involving expressiveness, security, and practical programming.
-- [ Mark Tullsen](http://www.galois.com/), Galois, interested in tools for Haskell and high assurance run-time systems.
-- [ Jeremy Gibbons](http://www.comlab.ox.ac.uk/jeremy.gibbons/), University of Oxford, generally curious about GHC internals - especially advanced aspects of typing
-- [ Brett Letner](http://www.galois.com/), Galois, interested in code coverage tool for Haskell.
-- [ Chad Scherrer](http://www.pnl.gov), Pacific Northwest National Laboratory, interested in computational math and statistics
-- [ Karl Crary](http://www.cs.cmu.edu/~crary), CMU, working on a Haskell-driven typesetting system
-- Luke Maurer, recent graduate of Carleton College, just looking to get my hands dirty
-- [ Atze Dijkstra](http://www.cs.uu.nl/wiki/Atze/WebHome), Universiteit Utrecht, working on [ EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome), interested to see what can be reused/learned/shared/etc.
-- [ Doaitse Swierstra](http://www.cs.uu.nl/wiki/Swierstra/WebHome), Universiteit Utrecht, working on [ EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome), interested to see what can be reused/learned/shared/etc.
-- [ Norman Ramsey](http://www.eecs.harvard.edu/~nr), interested in either code generation or refactoring some part of the run-time system (and would really like to learn more about how the run-time system is put together, even if it's too big for a weekend hack).
-- [ Iavor S. Diatchki](http://www.csee.ogi.edu/~diatchki), interested in Haskell for systems programming/type checking (general improvement rules)
-- Edsko de Vries, interested in type systems (I work on uniqueness typing, a substructural type system), and generic programming
-- Mathieu Boespflug Interested in implementing John Meacham's [ class alias proposal](http://repetae.net/john/recent/out/classalias.html).
+### Participant List
+
 - Andy Adams-Moran, interested in making cross-compiling with GHC easier, and in learning more about the innards of the compiler (versus the RTS)
-- Aaron Tomb, University of California, Santa Cruz, interested in formal verification of Haskell programs, advanced type systems, and learning about the internals of GHC
+
+- [ Clifford Beshers](http://wiki.freespire.org/index.php/Freespire_Technology_Board_Home), Linspire, particularly interested in GHC as a library.
+- Mathieu Boespflug Interested in implementing John Meacham's [ class alias proposal](http://repetae.net/john/recent/out/classalias.html).
 - [ Björn Bringert](http://www.cs.chalmers.se/~bringert/), Chalmers University of Technology and Göteborg University, want to learn about the internals of GHC for future projects, possibly implement instance deriving for GADTs
-- [ Andres Löh](http://www.iai.uni-bonn.de~/loeh/), University of Bonn, interested in type systems and generic programming
-- [ Bryn Keller](http://www.xoltar.org), interested bystander. Interested in generating code for unusual targets (e.g. JavaScript, Flash, .Net, etc.).
-- Ian Lynagh, interested in all parts.
-- Brandon Moore, Yahoo. Interested in types, syntax extension.
-- Ravi Nanavati, Bluespec. Interested in being able to fix GHC bugs before they burn me.
-- Jeffery Zhang, interested in type systems and metaprogramming.
-- John Matthews, Galois, interested in connecting GHC to the Isabelle theorem prover.
-- Andrew Pimlott, Planning Systems Inc., interested in the dark corners we stumble into during application development, and space profiling.
-- Mathew Mills, language enthusiast relatively new to Haskell.
+
+- [ Karl Crary](http://www.cs.cmu.edu/~crary), CMU, working on a Haskell-driven typesetting system
+- [ Iavor S. Diatchki](http://www.csee.ogi.edu/~diatchki), interested in Haskell for systems programming/type checking (general improvement rules)
+
+- [ Atze Dijkstra](http://www.cs.uu.nl/wiki/Atze/WebHome), Universiteit Utrecht, working on [ EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome), interested to see what can be reused/learned/shared/etc.
 - Thomas DuBuisson, generally interested in GHC RTS
+- Edsko de Vries, interested in type systems (I work on uniqueness typing, a substructural type system), and generic programming
+
+- [ Kathleen Fisher](http://www.research.att.com/info/kfisher), ATT, interested in adding support for data description to Haskell
+
+- [ Jeremy Gibbons](http://www.comlab.ox.ac.uk/jeremy.gibbons/), University of Oxford, generally curious about GHC internals - especially advanced aspects of typing
+- [ Andy Gill](http://www.gill-warbington.com/home/andy), Galois, Previous contributor to GHC, wanting tools for high assurance Haskell.
+- [ Paul Graunke](http://www.galois.com/), Galois, interested in formal methods (Isabelle) and GHC intermediate representations
+
+- [ Bryn Keller](http://www.xoltar.org), interested bystander. Interested in generating code for unusual targets (e.g. JavaScript, Flash, .Net, etc.).
+
 - Markus Lauer, want to understand better how GHC works
+- [ Brett Letner](http://www.galois.com/), Galois, interested in code coverage tool for Haskell.
+- [ Andres Löh](http://www.iai.uni-bonn.de~/loeh/), University of Bonn, interested in type systems and generic programming
+- Jake Luck, interested in interactive debugging and accessing GHC internals from embedded systems.
+- Ian Lynagh, interested in all parts.
+
+- John Matthews, Galois, interested in connecting GHC to the Isabelle theorem prover.
+- Luke Maurer, recent graduate of Carleton College, just looking to get my hands dirty
+- Mathew Mills, language enthusiast relatively new to Haskell.
+- Brandon Moore, Yahoo. Interested in types, syntax extension.
+
+- Ravi Nanavati, Bluespec. Interested in being able to fix GHC bugs before they burn me.
+
+- Andrew Pimlott, Planning Systems Inc., interested in the dark corners we stumble into during application development, and space profiling.
+
+- [ Norman Ramsey](http://www.eecs.harvard.edu/~nr), interested in either code generation or refactoring some part of the run-time system (and would really like to learn more about how the run-time system is put together, even if it's too big for a weekend hack).
+
+- [ Chad Scherrer](http://www.pnl.gov), Pacific Northwest National Laboratory, interested in computational math and statistics
+- [ Doaitse Swierstra](http://www.cs.uu.nl/wiki/Swierstra/WebHome), Universiteit Utrecht, working on [ EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome), interested to see what can be reused/learned/shared/etc.
+
+- Aaron Tomb, University of California, Santa Cruz, interested in formal verification of Haskell programs, advanced type systems, and learning about the internals of GHC
+- [ Mark Tullsen](http://www.galois.com/), Galois, interested in tools for Haskell and high assurance run-time systems.
+
+- [ Malcolm Wallace](http://www.cs.york.ac.uk/~malcolm), nhc98-hacker, wanting to steal ideas :-), particularly from the type-system.
+- [ Geoffrey Washburn](http://www.cis.upenn.edu/~geoffw/), UPenn. Previous GHC contributor (original implementation of GADTs in Core). Wide variety of language interests involving expressiveness, security, and practical programming.
+
+- Jeffery Zhang, interested in type systems and metaprogramming.
