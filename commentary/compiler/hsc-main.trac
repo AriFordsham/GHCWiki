@@ -10,9 +10,9 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
  * The program is initially parsed into the {{{HsSyn}}} types (in the [[GhcFile(compiler/hsSyn)]] directory), a collection of data types that describe the full abstract syntax of Haskell.  {{{HsSyn}}} is a pretty big colleciton of types: there are 52 data types when I last counted.  Many are pretty trivial, but a few have a lot of constructors ({{{HsExpr}}} has 40).  HsSyn represents Haskell its full glory, complete with all syntactic sugar.
 
  * {{{HsSyn}}} is parameterised over the types of the variables it contains.  The first three passes of the compiler work like this:
-   * The '''parser''' produces {{{HsSyn}}} parameterised by [wiki:Commentary/Compiler/RdrNameType {{{RdrName}}}].  To a first approximation, a {{{RdrName}}} is just a string.
-   * The '''renamer''' transforms this to {{{HsSyn}}} parameterised by {{{[wiki:Commentary/Compiler/NameType Name]}}}.  To a first appoximation, a {{{Name}}} is a string plus a {{{Unique}}} (number) that uniquely identifies it.
-   * The '''typechecker''' transforms this further, to {{{HsSyn}}} parameterised by [wiki:Commentary/Compiler/IdType {{{Id}}}].  To a first approximation, an {{{Id}}} is a {{{Name}}} plus a type.
+   * The '''parser''' produces {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/RdrNameType !RdrName]'''.  To a first approximation, a {{{RdrName}}} is just a string.
+   * The '''renamer''' transforms this to {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/NameType Name]'''.  To a first appoximation, a {{{Name}}} is a string plus a {{{Unique}}} (number) that uniquely identifies it.
+   * The '''typechecker''' transforms this further, to {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/IdType Id]'''.  To a first approximation, an {{{Id}}} is a {{{Name}}} plus a type.
  These three data types are very important, and have their own pages.
 
  * The '''desugarer''' converts from the massive {{{HsSyn}}} type to GHC's intermediate language, {{{CoreSyn}}} (in the [[GhcFile(compiler/coreSyn)]] direcdtory).  This data type is relatively tiny: just eight constructors; again it has its own page.
