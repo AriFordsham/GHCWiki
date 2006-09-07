@@ -51,7 +51,7 @@ need to.
 
 == Info Tables ==
 
-The info table contains all the information that the runtime needs to know about the closure.  The layout of info tables is defined in [[GhcFile(includes/InfoTables.h)]].  The basic info table layout looks like this:
+The info table contains all the information that the runtime needs to know about the closure.  The layout of info tables is defined by {{{StgInfoTable}}} in [[GhcFile(includes/InfoTables.h)]].  The basic info table layout looks like this:
 
 [[Image(basic-itbl.png)]]
 
