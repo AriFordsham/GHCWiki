@@ -16,7 +16,33 @@ The code for evaluating a {{{case}}} pushes a new stack frame representing the a
 
 == Info tables for stack frames ==
 
-The info table for a stack frame has a couple of extra fields in addition to the [wiki:Commentary/Rts/HeapObjects#InfoTables basic info table layout].
+The info table for a stack frame has a couple of extra fields in addition to the [wiki:Commentary/Rts/HeapObjects#InfoTables basic info table layout]:
+
+[[Image(ret-itbl.png)]]
+
+The ''SRT'' field points to the SRT table for this stack frame (see [wiki:Commentary/Rts/CAFs] for details of SRTs).  The return vector gives a vector of return addresses in the case of the {{{RET_VEC_SMALL}}} and {{{RET_VEC_BIG}}} types of return addresses; see [wiki:Commentary/Rts/HaskellExecution#VectoredReturns vectored returns] for more details.
+
+== Layout of the payload ==
+
+Unlike heap objects which mainly have "pointers first" layout, in a stack frame the pointers and non-pointers are intermingled.  This is so that we can support "stack stubbing" whereby a live variable stored on the stack can be later marked as dead simply by pushing a new stack frame that identifies that slot as containing a non-pointer, so the GC will not follow it.
+
+The stack frame describes the pointerhood of each word in the payload by means of a bitmap.  There are two kinds of bitmap: ''small'' and ''large'':
+
+=== Small bitmaps ===
+
+A small bitmap fits into a single word (the layout word of the info table), and looks like this:
+
+|| Size (bits 0-4) || Bitmap (bits 5-31) ||
+
+(for a 64-bit word size, the size is given 6 bits instead of 5).  
+
+The size field gives the size of the payload, and each bit of the bitmap is 1 if the corresponding word of payload contains a pointer to a live object.
+
+The macros {{{MK_BITMAP}}}, {{{BITMAP_SIZE}}}, and {{{BITMAP_BITS}}} in [[GhcFile(includes/InfoTables.h)]] provide ways to conveniently operate on small bitmaps.
+
+=== Large bitmaps ===
+
+If the size of the stack frame is larger than the 27 words that a small bitmap can describe, then the fallback mechanism is the large bitmap.  A large bitmap is a separate structure, containing a single word size and a multi-word bitmap: see {{{StgLargeBitmap}}} in [[GhcFile(includes/InfoTables.h)]].
 
 == Stack Frames ==
 
