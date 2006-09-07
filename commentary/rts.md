@@ -35,6 +35,7 @@ Next, we try to make sense of how it all fits together.
 - [The Word](commentary/rts/word)
 - [What the hell is a {{{.cmm}}} file?](commentary/rts/cmm)
 - [Layout of heap objects](commentary/rts/heap-objects)
+- [Layout of the stack](commentary/rts/stack)
 - [Haskell Execution](commentary/rts/haskell-execution)
 - [The Scheduler](commentary/rts/scheduler)
 - [The Storage Manager](commentary/rts/storage)
