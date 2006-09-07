@@ -1,3 +1,6 @@
+
+\[ Up: [Compiler/HscMain](commentary/compiler/hsc-main) \]
+
 # The `Name` and `OccName` types
 
 
