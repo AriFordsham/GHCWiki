@@ -18,7 +18,7 @@
 
 ## 2. The Compiler
 
-- SPJ inside-out view: start with a single module (HscMain downwards)
+- Start in the middle compiling a single module?
 - SPJ the main datatypes (RdrName, Name, Id, Var, TyVar, Type, Core,  HsSyn, Cmm).
 - SPJ renamer, typechecker, desugarer, core-\>core
 - SPJ ModIface, ModDetails, ModGuts
