@@ -1,0 +1,100 @@
+# The `!Name` and `!OccName` types
+
+
+Every entity (type constructor, class, identifier, type variable) has a `Name`. The Name type is pervasive in GHC, and is defined in [compiler/basicTypes/Name.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Name.lhs). Here is what a `Name` looks like, though it is private to the Name module:
+
+```wiki
+data Name = Name {
+	      n_sort :: NameSort,	-- What sort of name it is
+	      n_occ  :: !OccName,	-- Its occurrence name
+	      n_uniq :: Int#,		-- Its identity
+	      n_loc  :: !SrcLoc		-- Definition site
+	  }
+```
+
+- The `n_sort` field says what sort of name this is: see [\#NameSort](wiki-start#) below. 
+- The `n_occ` field gives the "occurrence name" of the Name; see OccName below. 
+- The `n_uniq` field allows fast tests for equality of Names. 
+- The `n_loc` field gives some indication of where the name was bound. 
+
+## The NameSort of a Name
+
+
+There are four flavours of Name: 
+
+```wiki
+data NameSort
+  = External Module (Maybe Name)
+	-- (Just parent) => this Name is a subordinate name of 'parent'
+	-- e.g. data constructor of a data type, method of a class
+	-- Nothing => not a subordinate
+ 
+  | WiredIn Module (Maybe Name) TyThing BuiltInSyntax
+	-- A variant of External, for wired-in things
+
+  | Internal		-- A user-defined Id or TyVar
+			-- defined in the module being compiled
+
+  | System		-- A system-defined Id or TyVar.  Typically the
+			-- OccName is very uninformative (like 's')
+```
+
+
+Here are the sorts of Name an entity can have: 
+
+<table><tr><th>Class, TyCon</th>
+<td>External. 
+</td></tr>
+<tr><th>Id</th>
+<td>External, Internal, or System. 
+</td></tr>
+<tr><th>TyVar</th>
+<td>Internal, or System. 
+</td></tr></table>
+
+
+An External name has a globally-unique (module name, occurrence name) pair, namely the original name of the entity, describing where the thing was originally defined. So for example, if we have 
+
+```wiki
+module M where
+  f = e1
+  g = e2
+
+module A where
+  import qualified M as Q
+  import M
+  a = Q.f + g
+```
+
+
+then the RdrNames for "a", "Q.f" and "g" get replaced (by the Renamer) by the Names "A.a", "M.f", and "M.g" respectively. 
+
+
+An InternalName has only an occurrence name. Distinct InternalNames may have the same occurrence name; use the Unique to distinguish them. 
+
+
+An ExternalName has a unique that never changes. It is never cloned. This is important, because the simplifier invents new names pretty freely, but we don't want to lose the connnection with the type environment (constructed earlier). An InternalName name can be cloned freely. 
+Before CoreTidy: the Ids that were defined at top level in the original source program get ExternalNames, whereas extra top-level bindings generated (say) by the type checker get InternalNames. q This distinction is occasionally useful for filtering diagnostic output; e.g. for -ddump-types. 
+After CoreTidy: An Id with an ExternalName will generate symbols that appear as external symbols in the object file. An Id with an InternalName cannot be referenced from outside the module, and so generates a local symbol in the object file. The CoreTidy pass makes the decision about which names should be External and which Internal. 
+A System name is for the most part the same as an Internal. Indeed, the differences are purely cosmetic: 
+Internal names usually come from some name the user wrote, whereas a System name has an OccName like "a", or "t". Usually there are masses of System names with the same OccName but different uniques, whereas typically there are only a handful of distince Internal names with the same OccName. 
+Another difference is that when unifying the type checker tries to unify away type variables with System names, leaving ones with Internal names (to improve error messages). 
+Occurrence names: OccName
+An OccName is more-or-less just a string, like "foo" or "Tree", giving the (unqualified) name of an entity. 
+
+
+Well, not quite just a string, because in Haskell a name like "C" could mean a type constructor or data constructor, depending on context. So GHC defines a type OccName (defined in basicTypes/OccName.lhs) that is a pair of a FastString and a NameSpace indicating which name space the name is drawn from: 
+
+
+data OccName = OccName NameSpace EncodedFS
+The EncodedFS is a synonym for FastString indicating that the string is Z-encoded. (Details in OccName.lhs.) Z-encoding encodes funny characters like '%' and '$' into alphabetic characters, like "zp" and "zd", so that they can be used in object-file symbol tables without confusing linkers and suchlike. 
+
+
+The name spaces are: 
+
+
+VarName: ordinary variables 
+TvName: type variables 
+DataName: data constructors 
+TcClsName: type constructors and classes (in Haskell they share a name space) 
+Last modified: Wed May 4 14:57:55 EST 2005 
