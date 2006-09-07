@@ -96,6 +96,8 @@ GHC can generate code that uses the indirect pointer instead; the `TABLES_NEXT_T
 
 When `TABLES_NEXT_TO_CODE` is off, info tables get another field, `entry`, which points to the entry code.  In a generated object file, each symbol `X_info` representing an info table will have an associated symbol `X_entry` pointing to the entry code (in `TABLES_NEXT_TO_CODE`, the entry symbol is omitted to keep the size of symbol tables down).
 
+---
+
 ## Types of Payload Layout
 
 
@@ -116,8 +118,22 @@ two half-word-sized fields:
 
 The payload consists of a mixture of pointers and non-pointers, described by a bitmap.  There are two kinds of bitmap:
 
-- *small*
-- *large*
+**Small bitmaps.** A small bitmap fits into a single word (the layout word of the info table), and looks like this:
+
+<table><tr><th> Size (bits 0-4) </th>
+<th> Bitmap (bits 5-31) 
+</th></tr></table>
+
+
+(for a 64-bit word size, the size is given 6 bits instead of 5).  
+
+
+The size field gives the size of the payload, and each bit of the bitmap is 1 if the corresponding word of payload contains a pointer to a live object.
+
+
+The macros `MK_BITMAP`, `BITMAP_SIZE`, and `BITMAP_BITS` in [includes/InfoTables.h](/trac/ghc/browser/ghc/includes/InfoTables.h) provide ways to conveniently operate on small bitmaps.
+
+**Large bitmaps.** If the size of the stack frame is larger than the 27 words that a small bitmap can describe, then the fallback mechanism is the large bitmap.  A large bitmap is a separate structure, containing a single word size and a multi-word bitmap: see `StgLargeBitmap` in [includes/InfoTables.h](/trac/ghc/browser/ghc/includes/InfoTables.h).
 
 ---
 
