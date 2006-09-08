@@ -7,13 +7,13 @@ There is a picture that goes with this description, which appears at the bottom 
 
 Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called !HscMain (in GhcFile(compiler/main/HscMain)).  Here are the steps it goes through:
 
- * The program is initially parsed into the {{{HsSyn}}} types (in the [[GhcFile(compiler/hsSyn)]] directory), a collection of data types that describe the full abstract syntax of Haskell.  {{{HsSyn}}} is a pretty big colleciton of types: there are 52 data types when I last counted.  Many are pretty trivial, but a few have a lot of constructors ({{{HsExpr}}} has 40).  HsSyn represents Haskell its full glory, complete with all syntactic sugar.
+ * The program is initially parsed into the {{{HsSyn}}} types (in the [[GhcFile(compiler/hsSyn)]] directory), a collection of data types that describe the full abstract syntax of Haskell.  {{{HsSyn}}} is a pretty big colleciton of types: there are 52 data types when I last counted.  Many are pretty trivial, but a few have a lot of constructors ({{{HsExpr}}} has 40).  {{{HsSyn}}} represents Haskell its full glory, complete with all syntactic sugar.
 
  * {{{HsSyn}}} is parameterised over the types of the variables it contains.  The first three passes of the compiler work like this:
    * The '''parser''' produces {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/RdrNameType RdrName]'''.  To a first approximation, a {{{RdrName}}} is just a string.
    * The '''renamer''' transforms this to {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/NameType Name]'''.  To a first appoximation, a {{{Name}}} is a string plus a {{{Unique}}} (number) that uniquely identifies it.
-   * The '''typechecker''' transforms this further, to {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/IdType Id]'''.  To a first approximation, an {{{Id}}} is a {{{Name}}} plus a type.
- These three data types are very important, and have their own pages.
+   * The '''typechecker''' transforms this further, to {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/EntityTypes Id]'''.  To a first approximation, an {{{Id}}} is a {{{Name}}} plus a type.
+ In addition, the type-checker converts class declarations to {{{Class}}}es, and type declarations to {{{TyCon}}}s and {{{DataCon}}}s.  And of course, the type-checker deals in {{{Type}}}s and {{{TyVar}}}s. The [wiki:Commentary/Compiler/EntityTypes data types for these entities] ({{{Type}}}, {{{TyCon}}}, {{{Class}}}, {{{Id}}}, {{{TyVar}}}) are pervasive throughout the rest of the compiler.
 
  * The '''desugarer''' converts from the massive {{{HsSyn}}} type to GHC's intermediate language, {{{CoreSyn}}} (in the [[GhcFile(compiler/coreSyn)]] direcdtory).  This data type is relatively tiny: just eight constructors; again it has its own page.
 
@@ -25,7 +25,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
     * The '''constructor-specialialisation''' transformation.
     * The '''common sub-expression eliminiation''' (CSE) transformation.
 
- * Then the '''CoreTidy pass''' gets the code into a form in which it can be imported into subsequent modules (when using {{{--make}}}) and/or put into an interface file.  There are good notes at the top of the file [[GhcFile(compiler/main/TidyPgm.lhs)]]; the main function is {{{tidyProgram}}}, for some reason documented as "Plan B".
+ * Then the '''!CoreTidy pass''' gets the code into a form in which it can be imported into subsequent modules (when using {{{--make}}}) and/or put into an interface file.  There are good notes at the top of the file [[GhcFile(compiler/main/TidyPgm.lhs)]]; the main function is {{{tidyProgram}}}, for some reason documented as "Plan B".
 
   * At this point, the data flow forks.  First, the tidied program is dumped into an interface file.  This part happens in two stages:
     * It is '''converted to {{{IfaceSyn}}}''' (defined in [[GhcFile(compiler/iface/IfaceSyn.lhs]] and [[GhcFile(compiler/iface/IfaceType.lhs]]).
@@ -33,8 +33,8 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
   The serialisation does (pretty much) nothing except serialise.  All the intelligence is in the Core-to-IfaceSyn conversion; or, rather, in the reverse of that step.
 
   * The same, tidied Core program is now fed to the Back End.  First there is a two-stage conversion from {{{CoreSyn}}} to {{{StgSyn}}}.
-    * The first step is called '''CorePrep''', a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually {{{CorePrep}}} does quite a bit more: there is a detailed list at the top of the file [[GhcFile(compiler/coreSyn/CorePrep.lhs)]].
-    * The second step, '''CoreToStg''', moves to the {{{StgSyn}}} data type (the code is in [[[GhcFile(stgSyn/CoreToStg.lhs)]]].  The output of CorePrep is carefully arranged to exactly match what {{{StgSyn}}} allows (notably ANF), so there is very little work to do. However, {{{StgSyn}}} is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by {{{CoreToStg}}}.
+    * The first step is called '''CorePrep''', a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually CorePrep does quite a bit more: there is a detailed list at the top of the file [[GhcFile(compiler/coreSyn/CorePrep.lhs)]].
+    * The second step, '''CoreToStg''', moves to the {{{StgSyn}}} data type (the code is in [[[GhcFile(stgSyn/CoreToStg.lhs)]]].  The output of !CorePrep is carefully arranged to exactly match what {{{StgSyn}}} allows (notably ANF), so there is very little work to do. However, {{{StgSyn}}} is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by {{{CoreToStg}}}.
 
   * Next, the '''code generator''' converts the STG program to a {{{C--}}} program.  The code generator is a Big Mother, and lives in directory [[GhcFile(compiler/codeGen)]]  
 
