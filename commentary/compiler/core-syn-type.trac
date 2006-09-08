@@ -46,7 +46,7 @@ Here are some notes about the individual constructors of {{{Expr}}}.
 
  * {{{Let}}} handles both recursive and non-recursive let-bindings; see the the two constructors for {{{Bind}}}.
 
- * {{{Case}}} need [wiki:Commentary/Compiler/CoreSynType#Caseexpressions more explanation].
+ * {{{Case}}} expressions need [wiki:Commentary/Compiler/CoreSynType#Caseexpressions more explanation].
 
  * {{{Cast}}} is used for an FC cast expression.  {{{Corecion}}} is a synonym for {{{Type}}}.
 
@@ -54,21 +54,56 @@ Here are some notes about the individual constructors of {{{Expr}}}.
 
 == Case expressions ==
 
-Case expressions are the most complicated bit of {{{Core}}}.
+Case expressions are the most complicated bit of {{{Core}}}.  In the term {{{Case scrut case_bndr res_ty alts}}}:
+ * {{{scrut}}} is the scrutinee
+ * {{{case_bndr}}} is the '''case binder''' (see notes below)
+ * {{{res_ty}}} is the type of the entire case expression (redundant)
+ * {{{alts}}} is a list of the case alternatives
 
- * The case expression can scrutinise 
-   * a data type (the alternatives are {{{DataAlt}}}s), or 
-   * a primitive literal type (the alternatives are {{{LitAlt}}}s), or 
-   * a value of any type at all (if there is one {{{DEFAULT}}} alternative).
+A case expression can scrutinise 
+ * '''a data type''' (the alternatives are {{{DataAlt}}}s), or 
+ * '''a primitive literal type''' (the alternatives are {{{LitAlt}}}s), or 
+ * '''a value of any type at all''' (if there is one {{{DEFAULT}}} alternative).
+
+A case expression is '''always strict''', even if there is only one alternative, and it is {{{DEFAULT}}}.  (This differs from Haskell!)  So
+{{{
+case loop of { DEFAULT -> True
+}}}
+will loop, rather then returning {{{True}}}.
+
+The {{{case_bndr}}} field, called the '''case binder''', is an unusual feature of GHC's case expressions.
+The idea is that ''in any right-hand side, the case binder is bound to the value of the scrutinee''. If the
+scrutinee was always atomic nothing would be gained, but real expressiveness is added when the scrutinee is not atomic.
+Here is a slightly contrived example:
+{{{
+case (reverse xs) of y 
+  Nil       -> Nil
+  Cons x xs -> append y y
+}}}
+(Here, "{{{y}}}" is the case binder; at least that is the syntax used by the Core pretty printer.)
+This expression evaluates {{{reverse xs}}}; if the result is {{{Nil}}}, it returns
+{{{Nil}}}, otherwise it returns the reversed list appended to itself.  Since
+the returned value of {{{reverse xs}}} is present in the implementation, it makes
+sense to have a name for it!
+
+The most common application is to model call-by-value, 
+byf using {{{case}}} instead of {{{let}}}. For example, here is how we might compile
+the call {{{f (reverse xs)}}} if we knew that {{{f}}} was strict:
+{{{
+case (reverse xs) of y { DEFAULT -> f y }
+}}}
+
+Case expressions have several invariants
+ * The {{{res_ty}}} type is the same as the type of any of the right-hand sides.
  
  * If there is a {{{DEFAULT}}} alternative, it must appear first.
 
  * The remaining non-DEFAULT alternatives must appear in order of
-    * tag, for DataAlts
-    * lit, for LitAlts
+    * tag, for {{{DataAlt}}}s
+    * lit, for {{{LitAlt}}}s
  This makes finding the relevant constructor easy, and makes comparison easier too.
 
- * The list of alternatives is '''always exhaustive''', meaning that it covers all cases that can occur.  An "exhausive" case does not necessarily mention all constructors:
+ * The list of alternatives is '''always exhaustive''', meaning that it covers '''all reachable cases'''.  Note, however, that an "exhausive" case does not necessarily mention all constructors:
 {{{
 data Foo = Red | Green | Blue
 
@@ -78,4 +113,5 @@ data Foo = Red | Green | Blue
 			Green -> ...
 			Blue  -> ... )
 }}}
- The inner case does not need a {{{Red}}} alternative, because x can't be {{{Red}}} at that program point.
+ The inner case does not need a {{{Red}}} alternative, because x can't be {{{Red}}} at that program point. Furthermore, GADT type-refinement might mean that some alternatives are not reachable, and hence can be discarded.  
+
