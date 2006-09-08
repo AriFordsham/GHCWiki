@@ -2,7 +2,7 @@
 
 = The {{{Core}}} type =
 
-The Core language is GHC's central data types.  Core is a very small, explicitly-typed, variant of System.  The exact variant is called System FC, and described by our paper [http://research.microsoft.com/~simonpj/papers/ext-f System F with equality coercions].  (Note: the move to FC was done in Autumn 2006, but earlier versions of GHC had a very similar language.)
+The Core language is GHC's central data types.  Core is a very small, explicitly-typed, variant of System F.  The exact variant is called System FC, and described by our paper [http://research.microsoft.com/~simonpj/papers/ext-f System F with equality coercions].  (Note: the move to FC was done in Autumn 2006, but earlier versions of GHC had a very similar language.)
 
 The {{{CoreSyn}}} type, and the functions that operate over it, gets an entire directory [[GhcFile(compiler/coreSyn)]]:
   * [[GhcFile(compiler/coreSyn/CoreSyn.lhs)]]: the data type itself.
