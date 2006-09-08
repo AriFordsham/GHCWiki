@@ -2,7 +2,7 @@
 
 = The {{{Core}}} type =
 
-The Core language is GHC's central data types.  Core is a very small, explicitly-typed, variant of System F.  The exact variant is called System FC, and described by our paper [http://research.microsoft.com/~simonpj/papers/ext-f System F with equality coercions].  (Note: the move to FC was done in Autumn 2006, but earlier versions of GHC had a very similar language.)
+The Core language is GHC's central data types.  Core is a very small, explicitly-typed, variant of System.  The exact variant is called System FC, and described by our paper [http://research.microsoft.com/~simonpj/papers/ext-f System F with equality coercions].  (Note: the move to FC was done in Autumn 2006, but earlier versions of GHC had a very similar language.)
 
 The {{{CoreSyn}}} type, and the functions that operate over it, gets an entire directory [[GhcFile(compiler/coreSyn)]]:
   * [[GhcFile(compiler/coreSyn/CoreSyn.lhs)]]: the data type itself.
@@ -69,9 +69,9 @@ A case expression can scrutinise
 
 A case expression is '''always strict''', even if there is only one alternative, and it is {{{DEFAULT}}}.  (This differs from Haskell!)  So
 {{{
-case loop of { DEFAULT -> True
+case error "urk" of { DEFAULT -> True
 }}}
-will loop, rather then returning {{{True}}}.
+will call {{{error}}}, rather then returning {{{True}}}.
 
 The {{{case_bndr}}} field, called the '''case binder''', is an unusual feature of GHC's case expressions.
 The idea is that ''in any right-hand side, the case binder is bound to the value of the scrutinee''. If the
@@ -89,7 +89,7 @@ the returned value of {{{reverse xs}}} is present in the implementation, it make
 sense to have a name for it!
 
 The most common application is to model call-by-value, 
-byf using {{{case}}} instead of {{{let}}}. For example, here is how we might compile
+by using {{{case}}} instead of {{{let}}}. For example, here is how we might compile
 the call {{{f (reverse xs)}}} if we knew that {{{f}}} was strict:
 {{{
 case (reverse xs) of y { DEFAULT -> f y }
