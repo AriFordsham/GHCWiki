@@ -15,16 +15,15 @@ module M where
   import N( f ) as Q
   f = (f, M.f, Q.f, \f -> f)
 }}}
- (where all the variables are {{{RdrName}}}s).  The result of renaming module M is:
+(where all the variables are {{{RdrName}}}s).  The result of renaming module M is:
 {{{
 M.f = (M.f, M.f, K.f, \f_22 -> f_22)
 }}}
-(where all these names are now {{{Name}}}s).
-   * The top-level unqualifed {{{RdrName}}} "{{{f}}}" has become the {{{External}}} {{{Name}}} {{{M.f}}}.  
-   * The occurrences "{{{f}}}" and "{{{M.f}}}" are both bound to this {{{Name}}}.  
-   * The qualified {{{RdrName}}} "{{{Q.f}}}" becomes the {{{Name}}} {{{K.f}}}, because the function is defined in module K.  
-   * The lambda-bound "{{{f}}}" becomes an {{{Internal}}} name, here written {{{f_22}}}.  
-(All the {{{External}}} names have uniques too, but we often do not print them.)
+where all these names are now {{{Name}}}s.
+  * The top-level unqualifed {{{RdrName}}} "{{{f}}}" has become the {{{External}}} {{{Name}}} {{{M.f}}}.  
+  * The occurrences "{{{f}}}" and "{{{M.f}}}" are both bound to this {{{Name}}}.  
+  * The qualified {{{RdrName}}} "{{{Q.f}}}" becomes the {{{Name}}} {{{K.f}}}, because the function is defined in module K.  
+  * The lambda-bound "{{{f}}}" becomes an {{{Internal}}} name, here written {{{f_22}}}.  (All the {{{External}}} names have uniques too, but we often do not print them.)
 
 In addition, the renamer does the following things:
 
