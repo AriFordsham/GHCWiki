@@ -100,6 +100,7 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - Edsko de Vries, interested in type systems (I work on uniqueness typing, a substructural type system), and generic programming
 
 - [ Kathleen Fisher](http://www.research.att.com/info/kfisher), ATT, interested in adding support for data description to Haskell
+- Greg Fitzgerald, language enthusiast relatively new to Haskell (comment stolen from Mathew Mills :)
 
 - [ Jeremy Gibbons](http://www.comlab.ox.ac.uk/jeremy.gibbons/), University of Oxford, generally curious about GHC internals - especially advanced aspects of typing
 - [ Andy Gill](http://www.gill-warbington.com/home/andy), Galois, Previous contributor to GHC, wanting tools for high assurance Haskell.
@@ -136,5 +137,5 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - [ Geoffrey Washburn](http://www.cis.upenn.edu/~geoffw/), UPenn. Previous GHC contributor (original implementation of GADTs in Core). Wide variety of language interests involving expressiveness, security, and practical programming.
 - [ Peng Li](http://www.cis.upenn.edu/~lipeng/), UPenn.  Interested in multiprocessor GHC, STM, RTS and I/O libraries.
 
+- Kim-Ee Yeoh, interested in documenting, housekeeping, and general opening up of compiler sources to a wider audience
 - Jeffery Zhang, interested in type systems and metaprogramming.
-- Greg Fitzgerald, language enthusiast relatively new to Haskell (comment stolen from Mathew Mills :)
