@@ -11,7 +11,7 @@ data Name = Name {
 	      n_loc  :: !SrcLoc		-- Definition site
 	  }
 }}}
- * The {{{n_sort}}} field says what sort of name this is: see [wiki:#NameSort] below. 
+ * The {{{n_sort}}} field says what sort of name this is: see '''[wiki:Commentary/Compiler/NameType#TheNameSortofaName NameSort]''' below. 
  * The {{{n_occ}}} field gives the "occurrence name", or '''[wiki:Commentary/Compiler/RdrNameType#TheOccNametype OccName]''', of the Name.
  * The {{{n_uniq}}} field allows fast tests for equality of Names. 
  * The {{{n_loc}}} field gives some indication of where the name was bound. 
