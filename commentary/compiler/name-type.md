@@ -15,7 +15,7 @@ data Name = Name {
 	  }
 ```
 
-- The `n_sort` field says what sort of name this is: see [\#NameSort](wiki-start#) below. 
+- The `n_sort` field says what sort of name this is: see **[NameSort](commentary/compiler/name-type#the-namesort-of-a-name)** below. 
 - The `n_occ` field gives the "occurrence name", or **[OccName](commentary/compiler/rdr-name-type#the-occname-type)**, of the Name.
 - The `n_uniq` field allows fast tests for equality of Names. 
 - The `n_loc` field gives some indication of where the name was bound. 
