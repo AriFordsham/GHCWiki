@@ -1,3 +1,5 @@
+[ Up: [wiki:Commentary] ]
+
  = The GHC Commentary - Coding Style Guidelines = 
 
 This is a rough description of some of the coding practices and style that we use for Haskell code inside {{{compiler}}}. 
