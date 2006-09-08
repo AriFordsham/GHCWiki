@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsTypeChecking"
-  queryString          = "?version=35"
+  queryString          = "?version=36"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:34 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","260"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsTypeChecking\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:00 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","260"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsTypeChecking\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -88,15 +88,12 @@ data AlgTyConParent = NoParentTyCon
                     | FamilyTyCon   TyCon     -- family tycon
                                     [Type]    -- instance types
                                     TyCon     -- representation coercion
-                                    Int       -- unique (module-wide) index
 }}}
 which is a generalisation of the old field `algTcClass` of the internal representation for datatypes, `TyCon.AlgTyCon`.  In contrast to the old `algTcClass` field, the new field also appears in `IfaceSyn.IfaceDecl`.  However, it does so as `Maybe (IfaceTyCon, [IfaceType])` as we still do not want to represent class parent information in interfaces and we only record the family tycon and instance types in interfaces, not the coercion.  (The latter is implicitly reconstructed upon loading an interface.)  The ''instance types'' are the type indexes at which the data constructor has been declared; e.g., given the declaration
 {{{
 data instance Map (a, b) v = MapPair (Map a (Map b v))
 }}}
 the instance types are `[(a, b), v]`.
-
-The unique index is necessary to generate unqiue names for the derived tycon and coercion of the instance in a way that can be deterministically replicated when slurping in an interface file containing the corresponding interface declarations (which leave the derived tycon and coercion implicit).
 
 NB: The type argument variables of the representation tycon are the free variables of the instance types; i.e., the representation data type is an ordinary data type, it is neither indexed nor open.  The only give away of its special purpose is the value in `algTcParent`.
 
