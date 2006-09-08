@@ -77,7 +77,7 @@ These two are optional, available as separate darcs repositories:
  [wiki:Commentary/SourceTree/Testsuite testsuite/]::
   The test suite.
  [wiki:Commentary/SourceTree/Nofib nofib/]::
-  The NoFib benchmark suite (optional separate darcs repo).
+  The NoFib benchmark suite.
 
 === Distribution ===
 
