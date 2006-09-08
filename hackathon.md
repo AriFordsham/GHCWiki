@@ -97,7 +97,7 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 
 - [ Atze Dijkstra](http://www.cs.uu.nl/wiki/Atze/WebHome), Universiteit Utrecht, working on [ EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome), interested to see what can be reused/learned/shared/etc.
 - Thomas DuBuisson, generally interested in GHC RTS
-- Edsko de Vries, interested in type systems (I work on uniqueness typing, a substructural type system), and generic programming
+- Edsko de Vries, Trinity College Dublin. Interested in using GHC as a backend (code generator) for an experimental functional language with a substructural (uniqueness) type system.
 
 - [ Kathleen Fisher](http://www.research.att.com/info/kfisher), ATT, interested in adding support for data description to Haskell
 - Greg Fitzgerald, language enthusiast relatively new to Haskell (comment stolen from Mathew Mills :)
