@@ -6,7 +6,6 @@ Back to [TypeFunctions](type-functions).
 **Current:**
 
 - Next: (1) implicit import and export of data/newtype instances; (2) check for overlapping instances.
-- Also add a `-findexed-types`.
 
 ## Parsing and Renaming
 
@@ -31,6 +30,7 @@ Done:
 - Parsing and renaming of kind signatures (toplevel and in classes).
 - Parsing and renaming of indexed type declarations (toplevel and in classes).
 - Using new syntax with `family` and `instance` on top level.
+- Added `-findexed-types` switch.
 
 ## Type Checking
 
