@@ -17,8 +17,8 @@
 
 == 2. The Compiler ==
 
- * Start in the middle [wiki:Commentary/Compiler/HscMain compiling a single module]
- * SPJ the main datatypes (RdrName, Name, Id, Var, TyVar, Type, Core,  HsSyn, Cmm).
+ * Start in the middle: [wiki:Commentary/Compiler/HscMain compiling a single module]
+ * The main datatypes: [wiki:Commentary/Compiler/RdrNameType RdrName and OccName], [wiki:Commentary/Compiler/NameType Name], [wiki:Commentary/Compiler/EntityTypes Var, TyVar, Id, Var, TyCon, DataCon], Type, Core,  HsSyn, Cmm.
  * SPJ renamer, typechecker, desugarer, core->core
  * SPJ ModIface, ModDetails, ModGuts
  * SPJ Core->CorePrep->Stg->Cmm
