@@ -15,7 +15,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 - `HsSyn` is parameterised over the types of the variables it contains.  The first three passes (the front end) of the compiler work like this:
 
   - The **parser** produces `HsSyn` parameterised by **[RdrName](commentary/compiler/rdr-name-type)**.  To a first approximation, a `RdrName` is just a string.
-  - The **renamer** transforms this to `HsSyn` parameterised by **[Name](commentary/compiler/name-type)**.  To a first appoximation, a `Name` is a string plus a `Unique` (number) that uniquely identifies it.
+  - The **[renamer](commentary/compiler/renamer)** transforms this to `HsSyn` parameterised by **[Name](commentary/compiler/name-type)**.  To a first appoximation, a `Name` is a string plus a `Unique` (number) that uniquely identifies it.
   - The **typechecker** transforms this further, to `HsSyn` parameterised by **[Id](commentary/compiler/entity-types)**.  To a first approximation, an `Id` is a `Name` plus a type.
 
 >
