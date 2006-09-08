@@ -1,7 +1,7 @@
 == 0. Overview (SPJ) ==
 
  * [wiki:Commentary/Organisation The overall organisation of GHC]
- * [wiki:Commentary/SourceTree Source Tree Roadmap]
+ * [wiki:Commentary/SourceTree Source Tree Roadmap], and [wiki:ModuleDependencies module dependencies]
  * [wiki:Commentary/Pipeline The compilation pipeline]
  * [wiki:Commentary/CodingStyle Coding guidelines]
 
