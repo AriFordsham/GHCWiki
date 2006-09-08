@@ -49,5 +49,5 @@ data HsPat id
   * There are a few constructors added by type checker (rather than replacing an input constructor), particularly:
     * {{{HsCoerce}}}, in the {{{HsExpr}}} type.
     * {{{AbsBinds}}}, in the {{{HsBinds}}} type.
-    ToDo: say more
+    !ToDo: say more
 
