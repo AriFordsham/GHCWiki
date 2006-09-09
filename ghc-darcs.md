@@ -126,6 +126,7 @@ Please test changes before committing: you can run a cut-down version of the ful
 ```wiki
   $ cd testsuite
   $ make boot
+  $ cd tests/ghc-regress
   $ make fast
 ```
 
