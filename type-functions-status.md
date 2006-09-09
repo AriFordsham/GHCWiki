@@ -5,7 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Next: (1) implicit import and export of data/newtype instances; (2) check for overlapping instances.
+- Next: Overlap check for data/newtype instances.
 
 ## Parsing and Renaming
 
