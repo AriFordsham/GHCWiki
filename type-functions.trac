@@ -66,8 +66,9 @@ Restrictions:
 The details of the implementation are split over a couple of subpages, due to the amount of the material:
  * [wiki:TypeFunctionsSyntax syntax and representation,]
  * [wiki:TypeFunctionsRenaming renaming,]
- * [wiki:TypeFunctionsTypeChecking type checking,] and
- * [wiki:TypeFunctionsCore desugaring.]
+ * [wiki:TypeFunctionsTypeChecking type checking,]
+ * [wiki:TypeFunctionsCore desugaring,] and
+ * [wiki:TypeFunctionsIface interfaces.]
  
 
 == Possible Extensions ==
