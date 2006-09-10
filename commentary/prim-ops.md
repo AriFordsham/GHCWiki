@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Commentary/PrimOps"
-  queryString          = "?version=2"
+  queryString          = "?version=3"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:01 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/PrimOps\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:02 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/PrimOps\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -27,9 +27,47 @@ A !PrimOp is a function that cannot be implemented in Haskell, and are provided 
 
 PrimOps are made available to Haskell code through the virtual module {{{GHC.Prim}}}.  This module has no implementation, and its interface never resides on disk: if {{{GHC.Prim}}} is imported, we use a built-in {{{ModIface}}} value - see {{{ghcPrimIface}}} in [[GhcFile(compiler/iface/LoadIface.lhs)]].
 
-== Implementation of !PrimOps: !MachOps ==
-
 == The primops.txt.pp file ==
+
+The file [[GhcFile(compiler/prelude/primops.txt.pp)]] includes all the information the compiler needs to know about a !PrimOp, bar its actual implementation.  For each !PrimOp, {{{primops.txt.pp}}} lists:
+
+ * Its name, as it appears in Haskell code (eg. int2Integer#)
+ * Its type
+ * The name of its constructor in GHC's {{{PrimOp}}} data type.
+ * Various properties, such as whether the operation is commutable, or has side effects.
+
+For example, here's the integer multiplication !PrimOp:
+
+{{{
+primop   IntegerMulOp   "timesInteger#" GenPrimOp   
+   Int# -> ByteArr# -> Int# -> ByteArr# -> (# Int#, ByteArr# #)
+   with commutable = True
+        out_of_line = True
+}}}
+
+The {{{primops.txt.pp}}} file is processed first by CPP, and then by the {{{genprimopcode}}} program (see [[GhcFile(utils/genprimopcode)]]).  {{{genprimopcode}}} generates the following bits from {{{primops.txt.pp}}}:
+
+ * Various files that are {{{#include}}}d into [[GhcFile(compiler/prelude/PrimOp.lhs)]],
+   containing declarations of data types and functions describing the !PrimOps.  See
+   [[GhcFile(compiler/Makefile)]].
+
+ * {{{libraries/base/GHC/PrimopWrappers.hs}}}, a file that contains (curried) wrapper
+   functions for each of the !PrimOps, so that they are accessible from byte-code, and
+   so that the [wiki:Commentary/Rts/Interpreter byte-code interpreter] doesn't need to implement any !PrimOps at all: it
+   just invokes the compiled ones from {{{GHC.PrimopWrappers}}}.
+
+ * {{{libraries/base/GHC/Prim.hs}}}, a source file containing dummy declarations for
+   all the !PrimOps, solely so that Haddock can include documentation for {{{GHC.Prim}}}
+   in its documentation for the {{{base}}} package.  The file {{{GHC/Prim.hs}}} is never
+   actually compiled, only processed by Haddock.
+
+== Implementation of !PrimOps ==
+
+!PrimOps are divided into two categories for the purposes of implementation: inline and out-of-line.
+
+=== Inline !PrimOps ===
+
+=== Out-of-line !PrimOps ===
 
 == Adding a new !PrimOp ==
 
