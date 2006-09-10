@@ -32,7 +32,7 @@
    * Core->core
  * SPJ ModIface, ModDetails, ModGuts
  * SPJ Core->CorePrep->Stg->Cmm
- * SM PrimOPs: primops.txt.pp - what is generated from it?
+ * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
  * SM GHC API
  * SM HscMain upwards: ModSummary, Finder, upsweep, downsweep,
 
