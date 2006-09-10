@@ -1,1 +1,5 @@
 = Type Functions: Interface =
+
+== Representation of family instances ==
+
+The `IfaceSyn.IfaceData` variant of `IfaceDecl` contains a new `ifFamInst :: Maybe IfaceFamInst` field that is distinguishes ordinary data/newtype declarations from family instances.  In the latter case, a `IfaceFamInst` value gives the instances head of the family instance.  Moreover, all family instance heads of a module are collected in the new `mi_fam_insts` field of `HscTypes.ModIface`.
