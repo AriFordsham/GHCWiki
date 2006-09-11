@@ -14,13 +14,20 @@ But that is inadequate to describe GADTs and associated types.  So in 2006 we ex
 
 You can find a full description of FC in the paper [ System F with Type Equality Coercions](http://research.microsoft.com/%7Esimonpj/paper/ext-f).  The notes that follow sketch the implementation of FC in GHC, but without duplicating the contents of the paper.
 
-## Coercions and Coercion Kinds
 
-
-Coercions are type-level terms which act as evidence for type
-equalities and are classified by a new sort of kind (with the form 
+A coercion `c`, is a type-level term, with a kind of the
+form `T1 :=: T2`. (`c :: T1 :=: T2`) is a proof that a term of type `T1`
+can be coerced to type `T2`. 
+Coercions are classified by a new sort of kind (with the form 
 `T1 :=: T2`).  Most of the coercion construction and manipulation functions
-are found in the Coercion module.
+are found in the `Coercion` module, [compiler/types/Coercion.lhs](/trac/ghc/browser/ghc/compiler/types/Coercion.lhs).
+
+
+Coercions appear in Core in the form of `Cast` expressions:
+if `t :: T1` and `c :: T1:=:T2`, then `(t `cast` c) :: T2`. 
+See [Commentary/Compiler/CoreSynType](commentary/compiler/core-syn-type).
+
+## Coercions and Coercion Kinds
 
 
 The syntax of coercions extends the syntax of types (and the type
