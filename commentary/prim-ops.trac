@@ -1,5 +1,6 @@
 [ Up: [wiki:Commentary] ]
 
+
 = Primitive Operations (!PrimOps) =
 
 A !PrimOp is a function that cannot be implemented in Haskell, and are provided natively by GHC.  For example, adding two {{{Int#}}} values is provided as the !PrimOp {{{+#}}}, and allocating a new mutable array is the !PrimOp {{{newArray#}}}.
