@@ -7,9 +7,7 @@ There is a picture that goes with this description, which appears at the bottom 
 
 Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called HscMain (in GhcFile(compiler/main/HscMain)).  Here are the steps it goes through:
 
-- The program is initially parsed into the [big HsSyn type](commentary/compiler/hs-syn-type).
-
-- `HsSyn` is parameterised over the types of the term variables it contains.  The first three passes (the front end) of the compiler work like this:
+- The program is initially parsed into the [big HsSyn type](commentary/compiler/hs-syn-type).  `HsSyn` is parameterised over the types of the term variables it contains.  The first three passes (the front end) of the compiler work like this:
 
   - The **parser** produces `HsSyn` parameterised by **[RdrName](commentary/compiler/rdr-name-type)**.  To a first approximation, a `RdrName` is just a string.
   - The **[renamer](commentary/compiler/renamer)** transforms this to `HsSyn` parameterised by **[Name](commentary/compiler/name-type)**.  To a first appoximation, a `Name` is a string plus a `Unique` (number) that uniquely identifies it.
