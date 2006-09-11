@@ -64,7 +64,7 @@ Esa Ilari Vuokko, who at one time attempted to replace GMP with [http://math.lib
 
 === Benchmarks for Multi-Precision Libraries ===
 
-The benchmarks below were made with unmodified multi-precision libraries for Integral Arithmetic compiled using Apple gcc 4.0.1 with optimisation settings: -O3 -ftree-vectorize -falign-loops=16.  The tests performed Multiplication, Squaring, Powers (up to 7) and Division each 1,000,000 times at various levels of precision based on the number of bits in the operands.  Multi-precision libraries may use unsigned chars, unsigned ints, unsigned long ints, unsigned long long ints or doubles, so the actual number of "words" in each multi-precision array may differ; for multi-precision real numbers using doubles, integer precision was calculated at 48.3 bits of real precision per double, rounded up to 49.  (49 bits conservatively equates to about 9 decimal digits.)  Libraries tested were:
+The benchmarks below were made with unmodified multi-precision libraries for Integral Arithmetic compiled using Apple gcc 4.0.1 with optimisation settings: -O3 -ftree-vectorize -falign-loops=16.  The tests performed Multiplication, Squaring, Powers (up to 7) and Division each 1,000,000 times at various levels of precision based on the number of bits in the operands.  Multi-precision libraries may use unsigned chars, unsigned ints, unsigned long ints, unsigned long long ints or doubles, so the actual number of "words" in each multi-precision array may differ; for multi-precision real numbers using doubles, integer precision was calculated at 48.3 bits of real precision per double, rounded up to 49.  (49 bits conservatively equates to about 9 decimal digits of precision, see, e.g., [http://docs.sun.com/source/806-3568/ncg_goldberg.html What Every Computer Scientist Should Know about Floating-Point Arithmetic].)  Libraries tested were:
 
  * [http://crd.lbl.gov/~dhbailey/mpdist/ ARPREC] 
  * [http://www.openssl.org/ OpenSSL's BN] (part of libcrypto)
@@ -72,8 +72,8 @@ The benchmarks below were made with unmodified multi-precision libraries for Int
  * [http://math.libtomcrypt.com/ LibTomMath]
  * [http://www.eskimo.com/~weidai/cryptlib.html Crypto++] a cryptographic library in C++, the Integer class
  * [http://botan.randombit.net/ Botan] a cryptographic library in C++, 
- * [http://www.cs.dartmouth.edu/~sting/mpi/ MPI] (MPI)
- * [http://www.tc.umn.edu/~ringx004/mapm-main.html MAPM] (MPI)
+ * [http://www.cs.dartmouth.edu/~sting/mpi/ MPI]
+ * [http://www.tc.umn.edu/~ringx004/mapm-main.html MAPM]
 
 Crypto++, Botan, MPI and MAPM showed performance far below ARPREC, OpenSSL's BN, GMP and !LibTomMath, so results are only shown for the last four.  Note that there are other libraries available for arbitrary precision arithmetic other than those mentioned or tested here.  Most of those other libraries are licensed under the GPL, while the remainder, such as the [http://www2.hursley.ibm.com/decimal/decnumber.html decNumber] library (free, under the [http://www-306.ibm.com/software/globalization/icu/license.jsp ICU license]) are designed and tuned for operations that would be difficult to translate into Haskell's Integer primitive.
 
