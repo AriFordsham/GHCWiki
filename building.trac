@@ -18,7 +18,7 @@ from that manual is gradually being incorporated here.
  * [wiki:Platforms Platforms that GHC currently supports]
  * [wiki:Building/Prerequisites What tools you need]
  * [wiki:Building/QuickStart Quick start: just building and installing GHC]
- * [wiki:Building/Hacking Quick start: setting up a build tree for developers]
+ * [wiki:Building/Hacking Quick start for developers]
  * [wiki:Building/Using Using the build system]
  * [wiki:Building/BuildSystem Architecture of the build system]
  * [wiki:Building/Docs Building the documentation]
