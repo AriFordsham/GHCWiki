@@ -23,6 +23,7 @@ Please feel free to add maaterial to this commentary: don't worry too much about
     - [Entities](commentary/compiler/entity-types): variables, type constructors, data constructors, and classes.
     - Types: [Type and Kind](commentary/compiler/type-type), [equality types and coercions](commentary/compiler/fc).
     - [The core language](commentary/compiler/core-syn-type).
+    - [The STG language](commentary/compiler/stg-syn-type).
     - Cmm.
   - Passes:
 
