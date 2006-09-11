@@ -28,7 +28,7 @@ Please feel free to add maaterial to this commentary: don't worry too much about
    * SPJ ModIface, ModDetails, ModGuts
    * SPJ Core->CorePrep->Stg->Cmm
    * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
-   * SM GHC API
+   * [wiki:Commentary/Compiler/API The GHC API]
    * SM HscMain upwards: ModSummary, Finder, upsweep, downsweep,
    * [wiki:Commentary/CodingStyle Coding guidelines]
 
