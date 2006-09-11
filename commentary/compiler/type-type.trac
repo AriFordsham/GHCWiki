@@ -29,7 +29,7 @@ The single data type {{{Type}}} is used to represent
 
 GHC's use of [wiki:Commentary/Compiler/FC coercions and equality constraints] is important enough to deserve its own page.
 
-== The representation of {{Type}} ==
+== The representation of {{{Type}}} ==
 
 Here, then is the representation of types (see [[GhcFile(compiler/types/TypeRep.lhs)]] for more details):
 {{{
@@ -88,15 +88,15 @@ Type variables range over both ''types'' (possibly of higher kind) or ''coercion
 
 GHC uses the following nomenclature for types:
 
- '''Unboxed''':: a type is unboxed iff its representation is other than a pointer. Unboxed types are also unlifted.
+ '''Unboxed''':: A type is unboxed iff its representation is other than a pointer. Unboxed types are also unlifted.
 
- '''Lifted'''::	a type is lifted iff it has bottom as an element. Closures always have lifted types:  i.e. any let-bound identifier in Core must have a lifted type.  Operationally, a lifted object is one that can be entered. Only lifted types may be unified with a type variable.
+ '''Lifted'''::	A type is lifted iff it has bottom as an element. Closures always have lifted types:  i.e. any let-bound identifier in Core must have a lifted type.  Operationally, a lifted object is one that can be entered. Only lifted types may be unified with a type variable.
 
  '''Data''':: A type declared with '''{{{data}}}'''.  Also boxed tuples.
 
- '''Algebraic''':: an algebraic data type is a data type with one or more constructors, whether declared with {{{data}}} or {{{newtype}}}.   An algebraic type is one that can be deconstructed	with a case expression.  "Algebraic" is '''NOT''' the same as "lifted",  because unboxed tuples count as "algebraic".
+ '''Algebraic''':: An algebraic data type is a data type with one or more constructors, whether declared with {{{data}}} or {{{newtype}}}.   An algebraic type is one that can be deconstructed	with a case expression.  "Algebraic" is '''NOT''' the same as "lifted",  because unboxed tuples count as "algebraic".
 
- '''Primitive''': a type is primitive iff it is a built-in type that can't be expressed	in Haskell.
+ '''Primitive''':: a type is primitive iff it is a built-in type that can't be expressed	in Haskell.
   
   Currently, all primitive types are unlifted, but that's not necessarily the case.  (E.g. Int could be primitive.)
 
