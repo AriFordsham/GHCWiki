@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Commentary"
-  queryString          = "?version=24"
+  queryString          = "?version=26"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:19 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","251"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:22 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","251"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -70,4 +70,30 @@ Please feel free to add maaterial to this commentary: don't worry too much about
    * [wiki:Commentary/Rts/CAFs Garbage Collecting CAFs]
    * [wiki:Commentary/Rts/Weak Weak Pointers and Finalizers]
    * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
+
+
+== Contributed Documentation ==
+
+Please feel free to add new pages here.  In due course information will migrate from here to the main commentary above.
+
+ * The Compiler
+   * BeginnersNotes: Some notes about getting started hacking GHC and the structure of the compiler (especially types and typecheck)
+   * [wiki:TypeFunctions]: Notes concerning the implementation of type functions and associated types in the [http://darcs.haskell.org/ghc-fc2/ FC branch] of GHC.
+   * [wiki:IntermediateTypes]: Notes about the type system of GHC's new intermediate language, in the [http://darcs.haskell.org/ghc-fc2/ FC branch]
+   * [wiki:RewriteRules]: Notes about the implementation of RULEs in GHC
+   * [wiki:BackEndNotes]: Some ideas and notes about the back end.
+   * [wiki:GhciDebugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
+   * DebuggingGhcCrashes: how to use gdb to debug a crash in GHC-compiled code.
+   * AddingNewPrimitiveOperations: How to add new primitive operations to GHC Haskell.
+   * [wiki:ReplacingGMPNotes Replacing GMP]: Notes from an effort to replace GMP with another Bignum library.
+ * The Runtime System
+   * [wiki:GarbageCollectorNotes] Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
+ 
+== Old but useful ==
+
+Finally, here are some generally-useful, but now somewhat-out-of-date resources:
+ * [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/ The GHC Commentary]: Information on the internals of GHC, in various states of up-to-dateness.  We are keen to move this stuff out of its current location and onto this Wiki.  If anyone is willing to help do that, even for just a part in which you are interested, we would be delighted.
+ * GhcPapers: papers and pointers to other documents that relate to the inner workings of GHC.
+
+
 ```
