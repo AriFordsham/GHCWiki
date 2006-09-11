@@ -1,0 +1,1 @@
+# GHC Commentary: Weak Pointers and Finalizers
