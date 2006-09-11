@@ -49,3 +49,22 @@ Please feel free to add maaterial to this commentary: don't worry too much about
    * [wiki:Commentary/Rts/CAFs Garbage Collecting CAFs]
    * [wiki:Commentary/Rts/Weak Weak Pointers and Finalizers]
    * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
+
+
+== Contributed Documentation ==
+
+Please feel free to add new pages here.  In due course information will migrate from here to the main commentary above.
+
+ * The Compiler
+   * BeginnersNotes: Some notes about getting started hacking GHC and the structure of the compiler (especially types and typecheck)
+   * [wiki:TypeFunctions]: Notes concerning the implementation of type functions and associated types in the [http://darcs.haskell.org/ghc-fc2/ FC branch] of GHC.
+   * [wiki:IntermediateTypes]: Notes about the type system of GHC's new intermediate language, in the [http://darcs.haskell.org/ghc-fc2/ FC branch]
+   * [wiki:RewriteRules]: Notes about the implementation of RULEs in GHC
+   * [wiki:BackEndNotes]: Some ideas and notes about the back end.
+   * [wiki:GhciDebugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
+   * DebuggingGhcCrashes: how to use gdb to debug a crash in GHC-compiled code.
+   * AddingNewPrimitiveOperations: How to add new primitive operations to GHC Haskell.
+   * [wiki:ReplacingGMPNotes Replacing GMP]: Notes from an effort to replace GMP with another Bignum library.
+ * The Runtime System
+   * [wiki:GarbageCollectorNotes] Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
+ 
