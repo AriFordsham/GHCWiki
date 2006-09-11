@@ -6,6 +6,9 @@ This tree of wiki pages is a "commentary" on the GHC source code.  It contains a
 
 Please feel free to add maaterial to this commentary: don't worry too much about accuracy, in due course someone will edit your contribution.  Try to link to source files as much as possible by using this macro: `[[GhcFile(compiler/Makefile)]]` (the usual Trac `source:` macro doesn't work here because the GHC darcs repository isn't integrated into this Trac).  Also try to add appropriate links to other parts of the commentary.
 
+**Temporary note: don't edit in the main section yet; instead send us comments.  We are editing heavily, from sources held in emacs, and might overwrite your changes'''
+**
+
 ## Contents
 
 - [The overall organisation of GHC](commentary/organisation)
@@ -21,10 +24,10 @@ Please feel free to add maaterial to this commentary: don't worry too much about
     - [The source language: HsSyn](commentary/compiler/hs-syn-type)
     - [RdrNames, Modules, and OccNames](commentary/compiler/rdr-name-type), and [Names](commentary/compiler/name-type)
     - [Entities](commentary/compiler/entity-types): variables, type constructors, data constructors, and classes.
-    - Types: [Type and Kind](commentary/compiler/type-type), [equality types and coercions](commentary/compiler/fc).
-    - [The core language](commentary/compiler/core-syn-type).
-    - [The STG language](commentary/compiler/stg-syn-type).
-    - Cmm.
+    - Types: [Type and Kind](commentary/compiler/type-type), [equality types and coercions](commentary/compiler/fc)
+    - [The core language](commentary/compiler/core-syn-type)
+    - [The STG language](commentary/compiler/stg-syn-type)
+    - [The Cmm language](commentary/compiler/cmm-type)
   - Passes:
 
     - [Renamer](commentary/compiler/renamer)
