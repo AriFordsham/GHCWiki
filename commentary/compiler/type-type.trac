@@ -1,0 +1,86 @@
+
+
+= The data type {{{Type}}} and its friends =
+
+GHC's compiles a typed programming lanuage, and GHC's intermediate language is explicitly typed.  So the data type that GHC uses to represent types is of central importance.
+
+The first thing to realise is that GHC uses a ''single'' data type for types, even though there are two different "views".  
+ * The "typechecker view" (or "source view") regards the type as a Haskell type, complete with implicit parameters, class constraints, and the like.  For example:
+{{{
+  forall a. (Eq a, %x::Int) => a -> Int
+}}}
+ * The "core view" regards the type as a Core-language type, where class and implicit parameter constraints are treated as function arguments:
+{{{
+  forall a. Eq a -> Int -> a -> Int
+}}}
+These two "views" are supported by a family of functions operating over that view:
+
+ * [[GhcFile(compiler/types/TypeRep.lhs)]]: here is where {{{Type}}} is defined.
+ * [[GhcFile(compiler/types/Type.lhs)]]: core-view utility functions over {{{Type}}}.
+ * [[GhcFile(compiler/typecheck/TcType.lhs)]]: source-view utility functions over {{{Type}}}.
+
+The module {{{TypeRep}}} exposes the representation becauese a few other modules ({{{Type}}}, {{{TcType}}}, {{{Unify}}}, etc) work directly on its representation.  However, you should not lightly pattern-match on {{{Type}}}; it is meant to be an abstract type.  Instead, try to use functions defined by {{{Type}}}, {{{TcType}}} etc.
+
+The single data type {{{Type}}} is used to represent
+ * Types (possibly of higher kind); e.g. `[Int]`, `Maybe`
+ * Coercions; e.g. `trans (sym g) h`
+ * Kinds (which classify types and coercions); e.g. `(* -> *)`, `T :=: [Int]`
+ * Sorts (which classify types); e.g. `TY`, `CO`
+
+GHC's use of [wiki:Commentary/Compiler/FC coercions and equality constraints] is important enough to deserve its own page.
+
+== The representation of {{Type}} ==
+
+Here, then is the representation of types (see [[GhcFile(compiler/types/TypeRep.lhs)]] for more details):
+{{{
+data Type = TyVarTy TyVar			-- Type variable
+  	  | AppTy Type Type			-- Application
+  	  | TyConApp TyCon [Type]		-- Type constructor application
+  	  | FunTy Type Type			-- Arrow type
+  	  | ForAllTy TyVar Type			-- Polymorphic type
+  	  | PredTy PredType			-- Type constraint
+  	  | NoteTy TyNote Type			-- Annotation
+
+data PredType = ClassP Class [Type]		-- Class predicate
+              | IParam (IPName Name) Type	-- Implicit parameter
+              | EqPred Type Type		-- Equality predicate (ty1 :=: ty2)
+
+data TyNote = FTVNote TyVarSet	-- The free type variables of the noted expression
+}}}
+
+== Kinds ==
+
+Kinds are represented as types:
+{{{
+type Kind = Type
+}}}
+Basic kinds are now
+represented using type constructors, e.g. the kind `*` is represented as
+{{{
+liftedTypeKind :: Kind
+liftedTypeKind = TyConApp liftedTypeKindTyCon []
+}}}
+where `liftedTypeKindTyCon` is a built-in `PrimTyCon`.  The arrow type
+constructor is used as the arrow kind constructor, e.g. the kind `* ->*` 
+is represented internally as
+{{{
+FunTy liftedTypeKind liftedTypeKind
+}}}
+It's easy to extract the kind of a type, or the sort of a kind:
+{{{
+typeKind :: Type -> Kind
+}}}
+The "sort" of a kind is always one of the
+sorts: `TY` (for kinds that classify normal types) or `CO` (for kinds that
+classify coercion evidence).  The coercion kind, `T1 :=: T2`, is
+represented by `PredTy (EqPred T1 T2)`.
+
+== Type variables ==
+
+Type variables are represented by the `TyVar` constructor of the [wiki:Commentary/Compiler/EntityTypes data type Var].  
+
+Type variables range over both ''types'' (possibly of higher kind) or ''coercions''.  You could tell the differnece between these two by taking the `typeKind` of the kind of the type variable, adn seeing if you have sort `TY` or `CO`, but for efficiency the `TyVar` keeps a boolean flag, and offes a function:
+{{{
+  isCoercionVar :: TyVar -> Bool
+}}}
+ 
