@@ -1,6 +1,3 @@
-
-\[ Up: [Commentary/Compiler/HscMain](commentary/compiler/hsc-main) \]
-
 # Data types for Haskell entities: `Id`, `TyVar`, `TyCon`, `DataCon`, and `Class`
 
 
@@ -57,7 +54,8 @@ data Var
 	realUnique :: FastInt,		-- Key for fast comparison
 					-- Identical to the Unique in the name,
 					-- cached here for speed
-	tyVarKind :: Kind }
+	tyVarKind :: Kind,
+        isCoercionVar :: Bool }
 
   | TcTyVar { 				-- Used only during type inference
 	varName        :: !Name,
@@ -105,7 +103,8 @@ data Var
 <table><tr><th>`GlobalId`</th>
 <td>is used for fixed, immutable, top-level term variables, notably ones that are imported from other modules.
 
-- A `GlobalId` always has an `External` or `WiredIn`[Name](commentary/compiler/name-type), and hence has a `Unique` that is globally unique across the whole of a GHC invocation.
+- Always has an `External` or `WiredIn`[Name](commentary/compiler/name-type), and hence has a `Unique` that is globally unique across the whole of a GHC invocation.
+- Always bound at top level. 
 - The `IdInfo` of a `GlobalId` is completely fixed.
 - All implicit Ids (data constructors, class method selectors, record selectors and the like) are are `GlobalId`s from birth, even the ones defined in the module being compiled.
 - When finding the free variables of an expression (`exprFreeVars`), we only collect `LocalIds` and ignore `GlobalIds`.
