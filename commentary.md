@@ -1,57 +1,73 @@
-# The GHC Commentary
+CONVERSION ERROR
 
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/Commentary"
+  queryString          = "?version=24"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:19 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","251"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+
+Original source:
+
+```trac
+= The GHC Commentary =
 
 This tree of wiki pages is a "commentary" on the GHC source code.  It contains all the explanatory material that doesn't belong in comments in the source code itself, because the material is wide-ranging, usually covers multiple source files, and is more architectural in nature.  The commentary can also be considered a design document for GHC.
 
+Please feel free to add maaterial to this commentary: don't worry too much about accuracy, in due course someone will edit your contribution.  Try to link to source files as much as possible by using this macro: {{{[[GhcFile(compiler/Makefile)]]}}} (the usual Trac {{{source:}}} macro doesn't work here because the GHC darcs repository isn't integrated into this Trac).  Also try to add appropriate links to other parts of the commentary.
 
-Please feel free to add maaterial to this commentary: don't worry too much about accuracy, in due course someone will edit your contribution.  Try to link to source files as much as possible by using this macro: `[[GhcFile(compiler/Makefile)]]` (the usual Trac `source:` macro doesn't work here because the GHC darcs repository isn't integrated into this Trac).  Also try to add appropriate links to other parts of the commentary.
+== Contents ==
 
-## Contents
+ * [wiki:Commentary/Organisation The overall organisation of GHC]
+ * [wiki:Commentary/SourceTree Source Tree Roadmap]
+ * [wiki:Commentary/Pipeline The compilation pipeline]
 
-- [The overall organisation of GHC](commentary/organisation)
-- [Source Tree Roadmap](commentary/source-tree)
-- [The compilation pipeline](commentary/pipeline)
+ * [wiki:Commentary/Compiler The Compiler]
+   * [wiki:Commentary/Compiler Organisation]: high-level structure
+   * [wiki:ModuleDependencies Compiler Module Dependencies]
+   * [wiki:Commentary/Compiler/HscMain Compiling one module: HscMain]
+   * Key data types:
+     * Source-language syntax: [wiki:Commentary/Compiler/HsSynType HsSyn]
+     * Names: [wiki:Commentary/Compiler/RdrNameType RdrName and OccName], [wiki:Commentary/Compiler/NameType Name]
+     * [wiki:Commentary/Compiler/EntityTypes Entities]: variables, type constructors, data constructors, and classes.
+     * Types: [wiki:Commentary/Compiler/TypeType Type and Kind], [wiki:Commentary/Compiler/FC equality types and coercions].
+     * [wiki:Commentary/Compiler/CoreSynType The core language].
+     * Cmm.
+   * Passes:
+     * [wiki:Commentary/Compiler/Renamer Renamer]
+     * Typechecker
+     * Desugarer
+     * Core->core
+   * SPJ ModIface, ModDetails, ModGuts
+   * SPJ Core->CorePrep->Stg->Cmm
+   * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
+   * [wiki:Commentary/Compiler/API The GHC API]
+   * SM HscMain upwards: ModSummary, Finder, upsweep, downsweep,
+   * [wiki:Commentary/CodingStyle Coding guidelines]
 
-- The Compiler
-
-  - Organisation?: high-level structure
-  - [Compiler Module Dependencies](module-dependencies)
-  - [Compiling one module: HscMain](commentary/compiler/hsc-main)
-  - Key data types:
-
-    - Source-language syntax: [HsSyn](commentary/compiler/hs-syn-type)
-    - Names: [RdrName and OccName](commentary/compiler/rdr-name-type), [Name](commentary/compiler/name-type)
-    - [Entities](commentary/compiler/entity-types): variables, type constructors, data constructors, and classes.
-    - Types: [Type and Kind](commentary/compiler/type-type), [equality types and coercions](commentary/compiler/fc).
-    - [The core language](commentary/compiler/core-syn-type).
-    - Cmm.
-  - Passes:
-
-    - [Renamer](commentary/compiler/renamer)
-    - Typechecker
-    - Desugarer
-    - Core-\>core
-  - SPJ ModIface, ModDetails, ModGuts
-  - SPJ Core-\>CorePrep-\>Stg-\>Cmm
-  - [Primitive Operations (PrimOps)](commentary/prim-ops)
-  - [The GHC API](commentary/compiler/api)
-  - SM HscMain upwards: ModSummary, Finder, upsweep, downsweep,
-  - [Coding guidelines](commentary/coding-style)
-
-- [The Runtime System](commentary/rts)
-
-  - [RTS Configurations](commentary/rts/config)
-  - [The Word](commentary/rts/word)
-  - [What the hell is a {{{.cmm}}} file?](commentary/rts/cmm)
-  - [Layout of heap objects](commentary/rts/heap-objects)
-  - [Layout of the stack](commentary/rts/stack)
-  - [Haskell Execution](commentary/rts/haskell-execution)
-  - [The Scheduler](commentary/rts/scheduler)
-  - [The Storage Manager](commentary/rts/storage)
-  - [So how does {{{foreign import "wrapper"}}} work?](commentary/rts/ffi)
-  - [GHCi support: the byte-code interpreter and dynamic linker](commentary/rts/interpreter)
-  - [Asynchronous exceptions](commentary/rts/async-exceptions)
-  - [Software Transactional Memory (STM)](commentary/rts/stm)
-  - [Garbage Collecting CAFs](commentary/rts/ca-fs)
-  - [Weak Pointers and Finalizers](commentary/rts/weak)
-  - [Coding conventions in the RTS](commentary/rts/conventions)
+ * [wiki:Commentary/Rts The Runtime System]
+   * [wiki:Commentary/Rts/Config RTS Configurations]
+   * [wiki:Commentary/Rts/Word The Word]
+   * [wiki:Commentary/Rts/Cmm What the hell is a {{{.cmm}}} file?]
+   * [wiki:Commentary/Rts/HeapObjects Layout of heap objects]
+   * [wiki:Commentary/Rts/Stack Layout of the stack]
+   * [wiki:Commentary/Rts/HaskellExecution Haskell Execution]
+   * [wiki:Commentary/Rts/Scheduler The Scheduler]
+   * [wiki:Commentary/Rts/Storage The Storage Manager]
+   * [wiki:Commentary/Rts/FFI So how does {{{foreign import "wrapper"}}} work?]
+   * [wiki:Commentary/Rts/Interpreter GHCi support: the byte-code interpreter and dynamic linker]
+   * [wiki:Commentary/Rts/AsyncExceptions Asynchronous exceptions]
+   * [wiki:Commentary/Rts/STM Software Transactional Memory (STM)]
+   * [wiki:Commentary/Rts/CAFs Garbage Collecting CAFs]
+   * [wiki:Commentary/Rts/Weak Weak Pointers and Finalizers]
+   * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
+```
