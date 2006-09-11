@@ -14,17 +14,23 @@ from that manual is gradually being incorporated here.
 
 == Contents ==
 
-  * [wiki:Building/GettingTheSources Getting the sources]
-  * [wiki:Platforms Platforms that GHC currently supports]
-  * [wiki:Building/Prerequisites What tools you need]
-  * [wiki:Building/QuickStart Quick start: just building and installing GHC]
-  * [wiki:Building/Hacking Quick start: setting up a build tree for developers]
-  * [wiki:Building/Using Using the build system]
-  * [wiki:Building/BuildSystem Architecture of the build system]
-  * [wiki:Building/Docs Building the documentation]
-  * [wiki:Building/Porting Porting GHC]
-  * [wiki:Building/KnownProblems Known pitfalls in building GHC]
-  * [wiki:Building/Windows Building under Windows]
+ * [wiki:Building/GettingTheSources Getting the sources]
+ * [wiki:Platforms Platforms that GHC currently supports]
+ * [wiki:Building/Prerequisites What tools you need]
+ * [wiki:Building/QuickStart Quick start: just building and installing GHC]
+ * [wiki:Building/Hacking Quick start: setting up a build tree for developers]
+ * [wiki:Building/Using Using the build system]
+ * [wiki:Building/BuildSystem Architecture of the build system]
+ * [wiki:Building/Docs Building the documentation]
+ * [wiki:Building/Porting Porting GHC]
+ * [wiki:Building/KnownProblems Known pitfalls in building GHC]
+ * [wiki:Building/Windows Building under Windows]
+
+== Contributed documentation ==
+
+Please feel free to add pages here.  In due course, information can be incorporated into the main documentation above.
+
+ * [wiki:ProblemsCompilingGhc]: Hints about building GHC on Windows platforms  
 
 == OLD documentation ==
 
