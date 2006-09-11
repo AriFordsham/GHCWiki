@@ -11,7 +11,6 @@ Please feel free to add maaterial to this commentary: don't worry too much about
  * [wiki:Commentary/Pipeline The compilation pipeline]
 
  * [wiki:Commentary/Compiler The Compiler]
-   * [wiki:Commentary/Compiler Organisation]: high-level structure
    * [wiki:ModuleDependencies Compiler Module Dependencies]
    * [wiki:Commentary/Compiler/HscMain Compiling one module: HscMain]
    * Key data types:
