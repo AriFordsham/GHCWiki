@@ -15,7 +15,7 @@ Please feel free to add maaterial to this commentary: don't worry too much about
 - The Compiler
 
   - [Compiler Module Dependencies](module-dependencies)
-  - Roadmap: [compiling a single module](commentary/compiler/hsc-main)
+  - Roadmap: [Compiling one module: HscMain](commentary/compiler/hsc-main)
   - Key data types:
 
     - Source-language syntax: [HsSyn](commentary/compiler/hs-syn-type)
