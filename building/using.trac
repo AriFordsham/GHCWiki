@@ -404,7 +404,7 @@ before {{{make stage2}}} in {{{compiler}}}.
 
 In any directory you should be able to make the following:
 
-{{{boot}}}::
+ {{{boot}}}::
   does the one-off preparation required to get ready for the real
   work.  Notably, it does {{{make depend}}} in all directories that
   contain programs.  It also builds the necessary tools for
