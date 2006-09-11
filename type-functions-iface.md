@@ -6,4 +6,4 @@
 The `IfaceSyn.IfaceData` variant of `IfaceDecl` contains a new `ifFamInst :: Maybe IfaceFamInst` field that is distinguishes ordinary data/newtype declarations from family instances.  In the latter case, a `IfaceFamInst` value gives the instances head of the family instance.  Moreover, all family instance heads of a module are collected in the new `mi_fam_insts :: [(IfaceFamInst, IfaceDecl)]` field of `HscTypes.ModIface`.  We don't include the `IfaceDecl` component into `IfaceFamInst`, as we otherwise would get a cyclic dependency - the `IfaceDecl` must include `IfaceFamInst`, so that we can generate the correct wrapper signature for family data constructors during type checking the interface declarations.
 
 
-The serialised interface description does not explicitly contain the value of `mi_fa,_insts`.  Instead, the `get` method of `Binary ModIface` (in `BinIface`) constructs the value on the fly.
+The serialised interface description does not explicitly contain the value of `mi_fam_insts`.  Instead, the `get` method of `Binary ModIface` (in `BinIface`) constructs the value on the fly.
