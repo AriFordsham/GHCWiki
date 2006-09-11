@@ -1,6 +1,3 @@
-
-\[ Up: [Commentary](commentary) \]
-
 # GHC Commentary: The Runtime System
 
 
