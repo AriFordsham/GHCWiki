@@ -1,4 +1,4 @@
-# Building GHC
+# Building and Porting GHC
 
 
 This Guide is primarily aimed at those who want to build and/or
