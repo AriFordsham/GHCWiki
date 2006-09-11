@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Commentary/Compiler/HscMain"
-  queryString          = "?version=10"
+  queryString          = "?version=13"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,35 +14,35 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:56 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","262"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/HscMain\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:13 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","262"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/HscMain\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
 ```trac
-[ Up: [wiki:Commentary] ]
+
 
 = Compiling one module: !HscMain =
 
 Here we are going to look at the compilation of a single module.
 There is a picture that goes with this description, which appears at the bottom of this page, but you'll probably find it easier to open [wiki:Commentary/Compiler/HscPipe this link] in another window, so you can see it at the same time as reading the text.
 
-Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called !HscMain (in GhcFile(compiler/main/HscMain)).  Here are the steps it goes through:
+Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called !HscMain (in [[GhcFile(compiler/main/HscMain)]]).  Here are the steps it goes through:
 
- * The program is initially parsed into the [wiki:Commentary/Compiler/HsSynType big HsSyn type].
-
- * {{{HsSyn}}} is parameterised over the types of the variables it contains.  The first three passes (the front end) of the compiler work like this:[[BR]][[BR]]
+ * The program is initially parsed into the [wiki:Commentary/Compiler/HsSynType big HsSyn type]. {{{HsSyn}}} is parameterised over the types of the term variables it contains.  The first three passes (the front end) of the compiler work like this:[[BR]][[BR]]
    * The '''parser''' produces {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/RdrNameType RdrName]'''.  To a first approximation, a {{{RdrName}}} is just a string.[[BR]][[BR]]
    * The '''[wiki:Commentary/Compiler/Renamer renamer]''' transforms this to {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/NameType Name]'''.  To a first appoximation, a {{{Name}}} is a string plus a {{{Unique}}} (number) that uniquely identifies it.[[BR]][[BR]]
    * The '''typechecker''' transforms this further, to {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/EntityTypes Id]'''.  To a first approximation, an {{{Id}}} is a {{{Name}}} plus a type. In addition, the type-checker converts class declarations to {{{Class}}}es, and type declarations to {{{TyCon}}}s and {{{DataCon}}}s.  And of course, the type-checker deals in {{{Type}}}s and {{{TyVar}}}s. The [wiki:Commentary/Compiler/EntityTypes data types for these entities] ({{{Type}}}, {{{TyCon}}}, {{{Class}}}, {{{Id}}}, {{{TyVar}}}) are pervasive throughout the rest of the compiler.
 
- * The '''desugarer''' converts from the massive {{{HsSyn}}} type to [wiki:Commentary/Compiler/CoreSynType GHC's intermediate language, CoreSyn].  This data type is relatively tiny: just eight constructors.
+ * The '''desugarer''' converts from the massive {{{HsSyn}}} type to [wiki:Commentary/Compiler/CoreSynType GHC's intermediate language, CoreSyn].  This Core-language data type is unusually tiny: just eight constructors.
 
- * The '''SimplCore''' pass ([[GhcFile(simplCore/SimplCore.lhs)]]) is a bunch of Core-to-Core passes that optimise the program.  The main passes are:
-    * The '''Simplifier''', which applies lots of small, local optimisations to the program.  The simplifier is big and complicated, because it implements a ''lot'' of transformations; and tries to make them cascade nicely.
-    * The '''float-out''' and '''float-in''' transformations, which move let-bindings outwards and inwards respectively.
-    * The '''strictness analyser'''.  This actually comprises two passes: the '''analayser''' itself and the '''worker/wrapper''' transformation that uses the results of the analysis to transform the program.
-    * The '''liberate-case''' transformation.
-    * The '''constructor-specialialisation''' transformation.
+ This late desugaring is somewhat unusual.  It is much more common to desugar the program before typechecking, or renaming, becuase that presents the renamer and typechecker with a much smaller language to deal with.  However, GHC's organisation means that (a) error messages can display precisely the syntax that the user wrote; and (b) desugaring is not required to preserve type-inference properties.
+
+ * The '''SimplCore''' pass ([[GhcFile(simplCore/SimplCore.lhs)]]) is a bunch of Core-to-Core passes that optimise the program.  The main passes are:[[BR]][[BR]]
+    * The '''Simplifier''', which applies lots of small, local optimisations to the program.  The simplifier is big and complicated, because it implements a ''lot'' of transformations; and tries to make them cascade nicely.  Two papers describe some of the implementation details: [http://research.microsoft.com/%7Esimonpj/Papers/comp-by-trans-scp.ps.gz A transformation-based optimiser for Haskell (SCP'98)], and [http://research.microsoft.com/%7Esimonpj/Papers/inlining/index.htm Secrets of the Glasgow Haskell Compiler inliner (JFP'02)].[[BR]][[BR]]
+    * The '''float-out''' and '''float-in''' transformations, which move let-bindings outwards and inwards respectively.  See [http://research.microsoft.com/%7Esimonpj/papers/float.ps.gz Let-floating: moving bindings to give faster programs (ICFP '96)].[[BR]][[BR]]
+    * The '''strictness analyser'''.  This actually comprises two passes: the '''analayser''' itself and the '''worker/wrapper''' transformation that uses the results of the analysis to transform the program.  The same analyser also does [http://research.microsoft.com/%7Esimonpj/Papers/cpr/index.htm Constructed Product Result analysis].[[BR]][[BR]]
+    * The '''liberate-case''' transformation.[[BR]][[BR]]
+    * The '''constructor-specialialisation''' transformation.[[BR]][[BR]]
     * The '''common sub-expression eliminiation''' (CSE) transformation.
 
  * Then the '''!CoreTidy pass''' gets the code into a form in which it can be imported into subsequent modules (when using {{{--make}}}) and/or put into an interface file.  There are good notes at the top of the file [[GhcFile(compiler/main/TidyPgm.lhs)]]; the main function is {{{tidyProgram}}}, for some reason documented as "Plan B".
