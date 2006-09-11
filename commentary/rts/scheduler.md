@@ -195,3 +195,5 @@ again (this may incur a double context switch if there are no free
 CPUs on which to run the worker, however).
 
 ## The Scheduler's main loop
+
+## Affinity and migration
