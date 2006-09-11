@@ -77,7 +77,7 @@ data Var
 ```
 
 
-Every `Var` has a `Name` and a `realUnique`. The latter is identical to the `Unique` in the `Name`, but is cached in the `Var` for fast comparison.
+Every `Var` has fields `varName::Name` and a `realUnique::FastInt`. The latter is identical to the `Unique` in the former, but is cached in the `Var` for fast comparison.
 
 
 Here are some per-flavour notes:
