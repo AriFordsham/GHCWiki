@@ -22,7 +22,7 @@ Please feel free to add maaterial to this commentary: don't worry too much about
     - Source-language syntax: [HsSyn](commentary/compiler/hs-syn-type)
     - Names: [RdrName and OccName](commentary/compiler/rdr-name-type), [Name](commentary/compiler/name-type)
     - [Entities](commentary/compiler/entity-types): variables, type constructors, data constructors, and classes.
-    - Types: Type
+    - Types: [Type and Kind](commentary/compiler/type-type)
     - [The core language](commentary/compiler/core-syn-type).
     - Cmm.
   - Passes:
