@@ -1,0 +1,1 @@
+# GHC Commentary: Software Transactional Memory (STM)
