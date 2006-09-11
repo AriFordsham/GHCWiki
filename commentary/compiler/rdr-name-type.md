@@ -1,7 +1,7 @@
 
 \[ Up: [Commentary/Compiler/HscMain](commentary/compiler/hsc-main) \]
 
-# `RdrNames` and `OccNames`
+# `RdrNames`, `Modules`, and `OccNames`
 
 
 When the parser parses an identifier, it generates a `RdrName`.  A `RdrName` is pretty much just a string, or a pair of strings, for a qualified name, such as `M.x`.  Here's the data type declaration, from [compiler/basicTypes/RdrName.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/RdrName.lhs):
@@ -33,9 +33,23 @@ data RdrName
 	--  (c) by Template Haskell, when TH has generated a unique name
 ```
 
+## The `Module` and `ModuleName` types
 
-A `ModuleName` is just a `FastString` (see [compiler/basicTypes/Module.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Module.lhs)).  
-But `OccName` is more interesting; next section.
+
+In GHC, a *module* is uniquely defined by a pair of the module name and the package where the module is defined.  The details are in [compiler/basicTypes/Module.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Module.lhs) and  [compiler/main/PackageConfig.hs](/trac/ghc/browser/ghc/compiler/main/PackageConfig.hs), but here are the key definitions:
+
+```wiki
+newtype PackageId = PId FastString
+
+newtype ModuleName = ModuleName FastString
+
+data Module = Module {
+   modulePackageId :: !PackageId,  -- pkg-1.0
+   moduleName      :: !ModuleName  -- A.B.C  }
+```
+
+
+You'll notice that a `Qual``RdrName` contains a `ModuleName`; which module is referred to depends on the import declarations in that module.  In contrast, a `Orig``RdrName` refers to a unique `Module`.
 
 ## The `OccName` type
 
