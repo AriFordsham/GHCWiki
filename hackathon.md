@@ -42,6 +42,11 @@ near the other ICFP activities. (Note this is changed from the original planned 
 
 [](/trac/ghc/attachment/wiki/Hackathon/Hackathon%20Map.gif)
 
+[](/trac/ghc/attachment/wiki/Hackathon/Campus%20Map.gif)
+
+
+Entry to the Forth Avenue Building with be via the main entrance, on the south west corner of the building.
+
 
 The room has desks, a projector, whiteboards, and wireless access. Bring your own laptop
 (capable of building GHC). 
