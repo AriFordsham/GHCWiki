@@ -1,9 +1,8 @@
 == 0. Overview (SPJ) ==
 
  * [wiki:Commentary/Organisation The overall organisation of GHC]
- * [wiki:Commentary/SourceTree Source Tree Roadmap], and [wiki:ModuleDependencies module dependencies]
+ * [wiki:Commentary/SourceTree Source Tree Roadmap]
  * [wiki:Commentary/Pipeline The compilation pipeline]
- * [wiki:Commentary/CodingStyle Coding guidelines]
 
 == 1. Building (SM) ==
  * Getting the code (do a live build...)
@@ -17,6 +16,7 @@
 
 == 2. The Compiler ==
 
+ * [wiki:ModuleDependencies Compiler Module Dependencies]
  * Roadmap: [wiki:Commentary/Compiler/HscMain compiling a single module]
  * Key data types:
    * Source-language syntax: [wiki:Commentary/Compiler/HsSynType HsSyn]
@@ -35,6 +35,7 @@
  * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
  * SM GHC API
  * SM HscMain upwards: ModSummary, Finder, upsweep, downsweep,
+ * [wiki:Commentary/CodingStyle Coding guidelines]
 
 == 3. Back end (SM) ==
 
