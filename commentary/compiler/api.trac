@@ -1,3 +1,6 @@
 
 
 = GHC Commentary: The GHC API =
+
+This section of the commentary describes everything between [wiki:Commentary/Compiler/HscMain HscMain] and the front-end; that is, the parts of GHC that coordinate the compilation of multiple modules.
+
