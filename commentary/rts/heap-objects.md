@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Commentary/Rts/HeapObjects"
-  queryString          = "?version=11"
+  queryString          = "?version=12"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:05 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","262"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Rts/HeapObjects\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:10 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","262"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Rts/HeapObjects\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -85,7 +85,7 @@ Where:
  * The ''SRT bitmap'' field is used to support [wiki:Commentary/Rts/CAFs garbage collection of CAFs].
 
  * The ''layout'' field describes the layout of the payload for the garbage collector, and is described in more
-   detail in [wiki:Commentary/Rts/HeapObjects#TypesofPayloadLayout Types of Payload Layout] below.
+   detail in [[ref(Types of Payload Layout)]] below.
 
  * The ''entry code'' for the closure is usually the code that will ''evaluate'' the closure.  There is one exception:
    for functions, the entry code will apply the function to the arguments given in registers or on the stack, according
@@ -152,7 +152,7 @@ To find out whether a particular object is dynamic or static, use the {{{HEAP_AL
 
 Dynamic objects have a minimum size, because every object must be big
 enough to be overwritten by a
-[wiki:Commentary/Rts/HeapObjects#ForwardingPointers forwarding pointer] during GC.
+forwarding pointer ([[ref(Forwarding Pointers)]]) during GC.
 The minimum size of the payload is given by {{{MIN_PAYLOAD_SIZE}}} in [[GhcFile(includes/Constants.h)]].
 
 === Static objects ===
