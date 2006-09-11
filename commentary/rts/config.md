@@ -1,6 +1,3 @@
-
-\[ Up: [Commentary/Rts](commentary/rts) \]
-
 # RTS Configurations
 
 
