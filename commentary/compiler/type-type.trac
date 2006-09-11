@@ -104,7 +104,7 @@ GHC uses the following nomenclature for types:
 
 Examples of type classifications:
 
-|| '''Type''' 	|| '''Primitive''' ||	'''Boxed'''	|| '''Lifted''' || '''Algebraic'''  ||
+||  	|| '''Primitive''' ||	'''Boxed'''	|| '''Lifted''' || '''Algebraic'''  ||
 || `Int#`	|| Yes	     || No	|| No	  || No		||
 || `ByteArray#`	|| Yes	     || Yes	|| No	  || No		||
 || `(# a, b #)`	|| Yes	     || No	|| No	  || Yes	||
