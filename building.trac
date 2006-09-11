@@ -1,6 +1,6 @@
 
 
-= Building GHC =
+= Building and Porting GHC =
 
 This Guide is primarily aimed at those who want to build and/or
 hack on GHC.  It describes how to get started with building GHC on your
