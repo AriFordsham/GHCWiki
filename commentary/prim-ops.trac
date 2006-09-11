@@ -1,4 +1,5 @@
 
+[[PageOutline]]
 
 = Primitive Operations (!PrimOps) =
 
@@ -61,3 +62,20 @@ All other !PrimOps are classified as out-of-line, and are implemented by hand-wr
    C-- code for these !PrimOps: we don't have to write code for multiple calling conventions.
 
 == Adding a new !PrimOp ==
+
+To add a new primop, you currently need to update the following files:
+
+ * [[GhcFile(compiler/prelude/primops.txt.pp)]], which includes the
+   type of the primop, and various other properties.  Syntax and
+   examples are in the file.
+
+ * if the primop is inline, then:
+   [[GhcFile(compiler/codeGen/CgPrimOp.hs)]] defines the translation of
+   the primop into {{{Cmm}}}.
+		
+ * for an out-of-line primop:
+   * [[GhcFile(includes/StgMiscClosures.h)]] (just add the declaration),
+   * [[GhcFile(rts/PrimOps.cmm)]] (implement it here)
+   * [[GhcFile(rts/Linker.c)]] (declare the symbol for GHCi)
+
+See also AddingNewPrimitiveOperations, a blow-by-blow description of the process for adding a new out-of-line primop from someone who went through the process.
