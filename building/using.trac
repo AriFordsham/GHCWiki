@@ -13,7 +13,7 @@ hands on them gently when they don't work.
 
 First, a historical note.  The GHC build system used to be
 called "fptools": a generic build system used to build multiple
-projects (GHC, Happy, GreenCard, H/Direct, etc.).  It had a
+projects (GHC, Happy, !GreenCard, H/Direct, etc.).  It had a
 concept of the generic project-independent parts, and
 project-specific parts that resided in a project
 subdirectory.
