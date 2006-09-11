@@ -12,7 +12,7 @@ Please feel free to add maaterial to this commentary: don't worry too much about
 
  * The Compiler
    * [wiki:ModuleDependencies Compiler Module Dependencies]
-   * Roadmap: [wiki:Commentary/Compiler/HscMain Compiling one module: HscMain]
+   * [wiki:Commentary/Compiler/HscMain Compiling one module: HscMain]
    * Key data types:
      * Source-language syntax: [wiki:Commentary/Compiler/HsSynType HsSyn]
      * Names: [wiki:Commentary/Compiler/RdrNameType RdrName and OccName], [wiki:Commentary/Compiler/NameType Name]
