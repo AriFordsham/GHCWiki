@@ -132,6 +132,7 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - Brandon Moore, Yahoo. Interested in types, syntax extension.
 
 - Ravi Nanavati, Bluespec. Interested in being able to fix GHC bugs before they burn me.
+- Echo Nolan, interested in optimization, absorbing intelligence by osmosis.
 
 - Andrew Pimlott, Planning Systems Inc., interested in the dark corners we stumble into during application development, and space profiling.
 
@@ -149,4 +150,3 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 
 - Kim-Ee Yeoh, interested in documenting, housekeeping, and general opening up of compiler sources to a wider audience
 - Jeffery Zhang, interested in type systems and metaprogramming.
-- Echo Nolan, interested in optimization, absorbing intelligence by osmosis.
