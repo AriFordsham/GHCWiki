@@ -22,5 +22,5 @@ The GHC API is the interface exported by [[GhcFile(compiler/main/GHC.hs)]].  To 
  * {{{-M}}}, the Makefile dependency generator, is also a client of the GHC API and is implemented in 
    [[GhcFile(compiler/main/DriverMkDepend.hs)]].
 
-Note that since GHC is packaged as a single binary, all of these front-ends are present, and there is a single command-line API.  Everything goes via the {{{main}}} function in [[GhcFile(compiler/main/Main.hs)]].
+Note that since GHC is packaged as a single binary, all of these front-ends are present, and there is a single command-line interface implemented in [[GhcFile(compiler/main/Main.hs)]].
 
