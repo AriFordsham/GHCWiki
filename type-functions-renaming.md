@@ -1,55 +1,41 @@
-CONVERSION ERROR
+# Type Functions: Renaming
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/TypeFunctionsRenaming"
-  queryString          = "?version=5"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:50 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","258"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsRenaming\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+## Phasing
 
-Original source:
 
-```trac
-= Type Functions: Renaming =
+GHC is organised such that class and type declarations are processed (during renaming and type checking) before any instance declarations are considered.  In the presence of associated types, instance declarations may contain type definitions.  In particular, the *data constructors* introduced by associated data declarations need to be brought into scope before we can rename any expressions.  Otherwise, the intution wrt. to phasing is that kind signatures are handled in conjunction with vanilla algebraic data type declarations and instances of indexed types are handled together with instance *heads*.  (NB: GHC splits the treatment of instances into two phases, where instances heads are processed in the first and member function declarations in the second phase.)
 
-== Phasing ==
+## Renaming of indexed types
 
-GHC is organised such that class and type declarations are processed (during renaming and type checking) before any instance declarations are considered.  In the presence of associated types, instance declarations may contain type definitions.  In particular, the ''data constructors'' introduced by associated data declarations need to be brought into scope before we can rename any expressions.  Otherwise, the intution wrt. to phasing is that kind signatures are handled in conjunction with vanilla algebraic data type declarations and instances of indexed types are handled together with instance ''heads''.  (NB: GHC splits the treatment of instances into two phases, where instances heads are processed in the first and member function declarations in the second phase.)
+### Kind signatures
 
-== Renaming of indexed types ==
-
-=== Kind signatures ===
 
 Kind signatures are renamed by `RnSource.rnTySig`, which is parametrised by a function that handles the binders (i.e., index variables) of the declaration.  This is so that we can use the same code for toplevel signatures and those in classes.  In the former case, the variables are in a defining position, whereas in classes they are in a usage position (as all index variables must be class parameters).
 
-=== Determining binders ===
+### Determining binders
+
 
 Before the actual renaming starts, GHC builds an environment of all names bound by a declaration group.  These names go into the global `RdrName` environment and are determined by the function `RnNames.getLocalDeclBinders`.  We need to be careful in handling data and new type instances in this context, as all the data constructors they define need to go into this environment.
 
-==== Type instances of associated types ====
+#### Type instances of associated types
+
 
 To get hold of the data constructors of associated types, `RnNames.getLocalDeclBinders` now also traverses all instance declarations and descends into the associated type instances.
 
-==== Family names in type instances ====
+#### Family names in type instances
+
 
 Family names in the heads of type instances are usage occurences, not binders.  However, we cannot just use `RnNames.lookupGlobalOccRn` as we are only now determining the binders to construct the global `RdrName` environment.  On the other hand, we cannot use `RnNames.newTopSrcBinder` either, although it produces the same name when called multiple times.  It does not handle the case, where we define an instance for an imported family.  Hence, we introduced a new function `RnEnv.lookupFamInstDeclBndr` that first attempts a lookup, similar to `RnEnv.lookupGlobalOccRn`, but if that fails, instead of raising an error, calls `newTopSrcBinder`.  If after all, there is no family declaration in scope, this will be picked up and properly reported during renaming by `RnSource.rnTyClDecl`.
 
-Despite the effort we go to, to get the right `Name` for the family `RdrName`, `getLocalDeclBinders` does not return that name as part of the binders declared by the current binding group - otherwise, we would get a duplicate declaration error.  However, we use the `Name` to specify the correct name parent for the data constructors of the instance.
 
-=== Renaming of type instances ===
+Despite the effort we go to, to get the right `Name` for the family `RdrName`, `getLocalDeclBinders` does not return that name as part of the binders declared by the current binding group - otherwise, we would get a duplicate declaration error.  However, we use the `Name` to specify the correct name parent for the data constructors of the instance (see bwlow).
+
+### Renaming of type instances
+
 
 There is little extra that needs to be done for type instances.  The main difference between vanilla synonyms and data/newtype declarations and the indexed variants is that the `tcdTyPats` field is not `Nothing`.  We simply call `rnTyPats` on these fields, which traverses them in the usual way.  Moreover, we need to be careful with the family type constructor in the instance head: it is in an occurence position and needs to be looked up suitably, such that we get a nice "out of scope" error if no appropriate family is in scope.  By the same token, the family names needs to go into the set of free variables.  Finally, `RnSource.rnSrcInstDecl` invokes `RnSource.rnTyClDecl` on all associated types of an instance to rename them.
 
+### Name parents & importing and exporting
 
-=== Name parents & importing and exporting ===
 
-```
+GHC, in `RnNames`, derives its knowledge of which names may appear in parenthesis after a type or class name in an import or export list by querying the name parent relation (i.e., invoking `Name.nameParent_maybe`.  Hence, it is crucial that all the data constructors defined in instances of a family get the family name, not the name of the representation tycon, as their name parent.  We go to some effort in `RnNames.newTopSrcBinder` to achieve this when renaming source.  We also need an extra measure, even if of much smaller scale, when sucking declarations from interface files in `LoadIface.loadDecl`.  Here we make the family the name parent for all implicit things of the declaration.
