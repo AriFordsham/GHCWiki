@@ -1,4 +1,4 @@
-[ Up: [wiki:Commentary/Compiler/HscMain] ]
+
 
 = The {{{Name}}} type =
 
@@ -58,7 +58,7 @@ module A where
   During any invocation of GHC, each (module, occurrence-name) gets one, and only one, {{{Unique}}}, stored in the {{{n_uniq}}}} field of the {{{Name}}}.  This assoication remains fixed even when GHC finishes one module and starts to compile another.  This association between (module, occurrence-name) pairs and the corresponding {{{Name}}} (with its {{{n_uniq}}} field) is maintained by the !Name !Cache.
 
   {{{WiredIn}}}::
-    A {{{WiredIn}}} {{{Name}}} is a special sort of {{{External}}} {{{Name}}}, one that is completely known to the compiler (e.g. the {{{Bool}}} type constructor).  In this case the {{{Name}}} contains the {{{TyThing}}} that it is bound to; no need for lookups here!  
+    A {{{WiredIn}}} {{{Name}}} is a special sort of {{{External}}} {{{Name}}}, one that is completely known to the compiler (e.g. the {{{Bool}}} type constructor).  See [wiki:Commentary/Compiler/WiredIn#Wiredinthing].
 
   The {{{BuiltInSyntax}}} field is just a boolean yes/no flag that identifies entities that are denoted by built-in syntax, such as {{{[]}}} for the empty list.  These {{{Names}}} aren't "in scope" as such, and we occasionally need to know that.
 
