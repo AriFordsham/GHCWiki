@@ -68,7 +68,7 @@ Here are the sorts of Name an entity can have:
 
  * Class: always has an {{{External}}} Names. 
 
- * TyCon: always has an {{{External}}} or {{{WiredIn}}} Name. 
+ * !TyCon: always has an {{{External}}} or {{{WiredIn}}} Name. 
 
  * !TyVar: can have {{{Internal}}}, or {{{System}}} Names; the former are ones arise from instantiating programmer-written type signatures.
 
