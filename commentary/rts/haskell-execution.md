@@ -1,7 +1,7 @@
 # The Haskell Execution Model
 
 
-The [STG language](commentary/compiler/stg-syn-type) has a clear *operational* model, as well as having a declarative lambda-calculus reading.  The business of the code generator is to translate the STG program into `C--`, and thence to machine code, but that is mere detail. From the STG program you should be able to understand:
+The [STG language](commentary/compiler/stg-syn-type) has a clear *operational* model, as well as having a declarative lambda-calculus reading.  The business of the [code generator](commentary/compiler/code-gen) is to translate the STG program into `C--`, and thence to machine code, but that is mere detail. From the STG program you should be able to understand:
 
 - What functions are in the compiled program, and what their entry and return conventions are
 - What heap objects are allocated, when, and what their layout is
