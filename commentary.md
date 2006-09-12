@@ -1,112 +1,100 @@
-CONVERSION ERROR
+# The GHC Commentary
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Commentary"
-  queryString          = "?version=46"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:39 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","251"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
-
-Original source:
-
-```trac
-= The GHC Commentary =
 
 This tree of wiki pages is a "commentary" on the GHC source code.  It contains all the explanatory material that doesn't belong in comments in the source code itself, because the material is wide-ranging, usually covers multiple source files, and is more architectural in nature.  The commentary can also be considered a design document for GHC.
 
-Please feel free to add maaterial to this commentary: don't worry too much about accuracy, in due course someone will edit your contribution.  Try to link to source files as much as possible by using this macro: {{{[[GhcFile(compiler/Makefile)]]}}} (the usual Trac {{{source:}}} macro doesn't work here because the GHC darcs repository isn't integrated into this Trac).  Also try to add appropriate links to other parts of the commentary.
 
-'''Temporary note: don't edit in the main section yet; instead send us comments.  We are editing heavily, from sources held in emacs, and might overwrite your changes!'''
+Please feel free to add maaterial to this commentary: don't worry too much about accuracy, in due course someone will edit your contribution.  Try to link to source files as much as possible by using this macro: `[[GhcFile(compiler/Makefile)]]` (the usual Trac `source:` macro doesn't work here because the GHC darcs repository isn't integrated into this Trac).  Also try to add appropriate links to other parts of the commentary.
 
-== Contents ==
+**Temporary note: don't edit in the main section yet; instead send us comments.  We are editing heavily, from sources held in emacs, and might overwrite your changes'''
+**
 
- * [wiki:Commentary/Organisation The overall organisation of GHC]
- * [wiki:Commentary/SourceTree Source Tree Roadmap]
- * [wiki:Commentary/Pipeline The compilation pipeline]
+## Contents
 
- * [wiki:Commentary/Compiler The Compiler]
-   * [wiki:ModuleDependencies Compiler Module Dependencies]
-   * [wiki:Commentary/CodingStyle Coding guidelines]
-     [[BR]][[BR]]
-   * [wiki:Commentary/Compiler/HscMain Compiling one module: HscMain]
-   * Key data types:
-     * [wiki:Commentary/Compiler/HsSynType The source language: HsSyn] 
-     * [wiki:Commentary/Compiler/RdrNameType RdrNames, Modules, and OccNames]
-     * [wiki:Commentary/Compiler/NameType Names]
-     * [wiki:Commentary/Compiler/EntityTypes Entities]: variables, type constructors, data constructors, and classes.
-     * Types: [wiki:Commentary/Compiler/TypeType Type and Kind], [wiki:Commentary/Compiler/FC equality types and coercions]
-     * [wiki:Commentary/Compiler/CoreSynType The core language]
-     * [wiki:Commentary/Compiler/StgSynType The STG language]
-     * [wiki:Commentary/Compiler/CmmType The Cmm language]
-   * Passes:
-     * [wiki:Commentary/Compiler/Renamer Renamer]
-     * Typechecker
-     * Desugarer
-     * Core->core
-       [[BR]][[BR]]
-   * SPJ ModIface, ModDetails, ModGuts
-   * SPJ Core->CorePrep->Stg->Cmm
-   * [wiki:Commentary/Compiler/API The GHC API]
-   * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
-   * [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
-   * [wiki:Commentary/Compiler/Packages Packages]
-   * [wiki:Commentary/Compiler/Finder The Finder]
-   * [wiki:Commentary/Compiler/Backends Backends]:
-     * [wiki:Commentary/Compiler/Backends/PprC C code generator]
-     * [wiki:Commentary/Compiler/Backends/NCG Native code generator]
-  
- * [wiki:Commentary/Rts The Runtime System]
-   * [wiki:Commentary/Rts/Config RTS Configurations]
-   * [wiki:Commentary/Rts/Word The Word]
-   * [wiki:Commentary/Rts/Cmm What the hell is a `.cmm` file?]
-   * [wiki:Commentary/Rts/HeapObjects Layout of heap objects]
-   * [wiki:Commentary/Rts/Stack Layout of the stack]
-   * [wiki:Commentary/Rts/HaskellExecution Haskell Execution]
-   * [wiki:Commentary/Rts/Scheduler The Scheduler]
-   * [wiki:Commentary/Rts/Storage The Storage Manager]
-   * [wiki:Commentary/Rts/FFI So how does `foreign import "wrapper"` work?]
-   * [wiki:Commentary/Rts/Interpreter GHCi support: the byte-code interpreter and dynamic linker]
-   * [wiki:Commentary/Rts/AsyncExceptions Asynchronous exceptions]
-   * [wiki:Commentary/Rts/STM Software Transactional Memory (STM)]
-   * [wiki:Commentary/Rts/CAFs Garbage Collecting CAFs]
-   * [wiki:Commentary/Rts/Weak Weak Pointers and Finalizers]
-   * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
+- [The overall organisation of GHC](commentary/organisation)
+- [Source Tree Roadmap](commentary/source-tree)
+- [The compilation pipeline](commentary/pipeline)
 
- * Cross-cutting concerns: topics which span both the compiler and the RTS
-    * [wiki:Commentary/Profiling Profiling]
-    * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
+- [The Compiler](commentary/compiler)
 
-== Contributed Documentation ==
+  - [Compiler Module Dependencies](module-dependencies)
+  - [Coding guidelines](commentary/coding-style)
+  - [Compiling one module: HscMain](commentary/compiler/hsc-main)
+  - Key data types:
+
+    - [The source language: HsSyn](commentary/compiler/hs-syn-type)
+    - [RdrNames, Modules, and OccNames](commentary/compiler/rdr-name-type)
+    - [Names](commentary/compiler/name-type)
+    - [Entities](commentary/compiler/entity-types): variables, type constructors, data constructors, and classes.
+    - Types: [Type and Kind](commentary/compiler/type-type), [equality types and coercions](commentary/compiler/fc)
+    - [The core language](commentary/compiler/core-syn-type)
+    - [The STG language](commentary/compiler/stg-syn-type)
+    - [The Cmm language](commentary/compiler/cmm-type)
+  - Passes:
+
+    - [Renamer](commentary/compiler/renamer)
+    - Typechecker
+    - Desugarer
+    - Core-\>core
+  - SPJ ModIface, ModDetails, ModGuts
+  - SPJ Core-\>CorePrep-\>Stg-\>Cmm
+  - [The GHC API](commentary/compiler/api)
+  - [Symbol names and the Z-encoding](commentary/compiler/symbol-names)
+  - [Wired-in and known-key things](commentary/compiler/wired-in)
+  - [Packages](commentary/compiler/packages)
+  - The Finder?
+  - [Backends](commentary/compiler/backends):
+
+    - [C code generator](commentary/compiler/backends/ppr-c)
+    - [Native code generator](commentary/compiler/backends/ncg)
+
+- [The Runtime System](commentary/rts)
+
+  - [RTS Configurations](commentary/rts/config)
+  - [The Word](commentary/rts/word)
+  - [What the hell is a .cmm file?](commentary/rts/cmm)
+  - [Layout of heap objects](commentary/rts/heap-objects)
+  - [Layout of the stack](commentary/rts/stack)
+  - [Haskell Execution](commentary/rts/haskell-execution)
+  - [The Scheduler](commentary/rts/scheduler)
+  - [The Storage Manager](commentary/rts/storage)
+  - [So how does foreign import "wrapper" work?](commentary/rts/ffi)
+  - [GHCi support: the byte-code interpreter and dynamic linker](commentary/rts/interpreter)
+  - [Asynchronous exceptions](commentary/rts/async-exceptions)
+  - [Software Transactional Memory (STM)](commentary/rts/stm)
+  - [Garbage Collecting CAFs](commentary/rts/ca-fs)
+  - [Weak Pointers and Finalizers](commentary/rts/weak)
+  - [Coding conventions in the RTS](commentary/rts/conventions)
+
+- Cross-cutting concerns: topics which span both the compiler and the RTS
+
+  - [Profiling](commentary/profiling)
+  - [Primitive Operations (PrimOps)](commentary/prim-ops)
+
+## Contributed Documentation
+
 
 Please feel free to add new pages here.  In due course information will migrate from here to the main commentary above.
 
- * The Compiler
-   * BeginnersNotes: Some notes about getting started hacking GHC and the structure of the compiler (especially types and typecheck)
-   * [wiki:TypeFunctions]: Notes concerning the implementation of type functions and associated types in the [http://darcs.haskell.org/ghc-fc2/ FC branch] of GHC.
-   * [wiki:IntermediateTypes]: Notes about the type system of GHC's new intermediate language, in the [http://darcs.haskell.org/ghc-fc2/ FC branch]
-   * [wiki:RewriteRules]: Notes about the implementation of RULEs in GHC
-   * [wiki:BackEndNotes]: Some ideas and notes about the back end.
-   * [wiki:GhciDebugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
-   * DebuggingGhcCrashes: how to use gdb to debug a crash in GHC-compiled code.
-   * AddingNewPrimitiveOperations: How to add new primitive operations to GHC Haskell.
-   * [wiki:ReplacingGMPNotes Replacing GMP]: Notes from an effort to replace GMP with another Bignum library.
- * The Runtime System
-   * [wiki:GarbageCollectorNotes] Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
- 
-== Old but useful ==
+- The Compiler
+
+  - BeginnersNotes: Some notes about getting started hacking GHC and the structure of the compiler (especially types and typecheck)
+  - [TypeFunctions](type-functions): Notes concerning the implementation of type functions and associated types in the [ FC branch](http://darcs.haskell.org/ghc-fc2/) of GHC.
+  - [IntermediateTypes](intermediate-types): Notes about the type system of GHC's new intermediate language, in the [ FC branch](http://darcs.haskell.org/ghc-fc2/)
+  - [RewriteRules](rewrite-rules): Notes about the implementation of RULEs in GHC
+  - [BackEndNotes](back-end-notes): Some ideas and notes about the back end.
+  - [GhciDebugger](ghci-debugger): Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
+  - [DebuggingGhcCrashes](debugging-ghc-crashes): how to use gdb to debug a crash in GHC-compiled code.
+  - [AddingNewPrimitiveOperations](adding-new-primitive-operations): How to add new primitive operations to GHC Haskell.
+  - [Replacing GMP](replacing-gmp-notes): Notes from an effort to replace GMP with another Bignum library.
+- The Runtime System
+
+  - [GarbageCollectorNotes](garbage-collector-notes) Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
+
+## Old but useful
+
 
 Finally, here are some generally-useful, but now somewhat-out-of-date resources:
- * [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/ The GHC Commentary]: Information on the internals of GHC, in various states of up-to-dateness.  We are keen to move this stuff out of its current location and onto this Wiki.  If anyone is willing to help do that, even for just a part in which you are interested, we would be delighted.
- * GhcPapers: papers and pointers to other documents that relate to the inner workings of GHC.
 
-
-```
+- [ The GHC Commentary](http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/): Information on the internals of GHC, in various states of up-to-dateness.  We are keen to move this stuff out of its current location and onto this Wiki.  If anyone is willing to help do that, even for just a part in which you are interested, we would be delighted.
+- [GhcPapers](ghc-papers): papers and pointers to other documents that relate to the inner workings of GHC.
