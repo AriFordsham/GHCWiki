@@ -15,7 +15,7 @@ Please feel free to add maaterial to this commentary: don't worry too much about
  * [wiki:Commentary/Compiler The Compiler]
    * [wiki:ModuleDependencies Compiler Module Dependencies]
    * [wiki:Commentary/CodingStyle Coding guidelines]
-
+   [[BR]][[BR]]
    * [wiki:Commentary/Compiler/HscMain Compiling one module: HscMain]
    * Key data types:
      * [wiki:Commentary/Compiler/HsSynType The source language: HsSyn] 
@@ -61,7 +61,6 @@ Please feel free to add maaterial to this commentary: don't worry too much about
    * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
 
  * [wiki:Commentary/Profiling Profiling]
- * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
 
 == Contributed Documentation ==
 

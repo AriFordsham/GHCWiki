@@ -19,24 +19,23 @@ Please feel free to add maaterial to this commentary: don't worry too much about
 
   - [Compiler Module Dependencies](module-dependencies)
   - [Coding guidelines](commentary/coding-style)
+  - [Compiling one module: HscMain](commentary/compiler/hsc-main)
+  - Key data types:
 
-- [Compiling one module: HscMain](commentary/compiler/hsc-main)
-- Key data types:
+    - [The source language: HsSyn](commentary/compiler/hs-syn-type)
+    - [RdrNames, Modules, and OccNames](commentary/compiler/rdr-name-type)
+    - [Names](commentary/compiler/name-type)
+    - [Entities](commentary/compiler/entity-types): variables, type constructors, data constructors, and classes.
+    - Types: [Type and Kind](commentary/compiler/type-type), [equality types and coercions](commentary/compiler/fc)
+    - [The core language](commentary/compiler/core-syn-type)
+    - [The STG language](commentary/compiler/stg-syn-type)
+    - [The Cmm language](commentary/compiler/cmm-type)
+  - Passes:
 
-  - [The source language: HsSyn](commentary/compiler/hs-syn-type)
-  - [RdrNames, Modules, and OccNames](commentary/compiler/rdr-name-type)
-  - [Names](commentary/compiler/name-type)
-  - [Entities](commentary/compiler/entity-types): variables, type constructors, data constructors, and classes.
-  - Types: [Type and Kind](commentary/compiler/type-type), [equality types and coercions](commentary/compiler/fc)
-  - [The core language](commentary/compiler/core-syn-type)
-  - [The STG language](commentary/compiler/stg-syn-type)
-  - [The Cmm language](commentary/compiler/cmm-type)
-- Passes:
-
-  - [Renamer](commentary/compiler/renamer)
-  - Typechecker
-  - Desugarer
-  - Core-\>core
+    - [Renamer](commentary/compiler/renamer)
+    - Typechecker
+    - Desugarer
+    - Core-\>core
 
 - SPJ ModIface, ModDetails, ModGuts
 - SPJ Core-\>CorePrep-\>Stg-\>Cmm
@@ -69,7 +68,6 @@ Please feel free to add maaterial to this commentary: don't worry too much about
   - [Coding conventions in the RTS](commentary/rts/conventions)
 
 - [Profiling](commentary/profiling)
-- [Primitive Operations (PrimOps)](commentary/prim-ops)
 
 ## Contributed Documentation
 
