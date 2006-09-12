@@ -8,7 +8,7 @@ GHC's storage manager is designed to be quite flexible: there are a large number
 
 == The Block Allocator ==
 
-Source: [[GhcFile(includes/Block.h)]], [[GhcFile(rts/BlockAlloc.h)]], [[GhcFile(rts/BlockAlloc.c)]].
+Source: [[GhcFile(includes/Block.h)]], [[GhcFile(rts/BlockAlloc.h)]], [[GhcFile(rts/BlockAlloc.c)]], [[GhcFile(rts/MBlock.h)]], [[GhcFile(rts/MBlock.c)]].
 
 The block allocator is where the storage manager derives much of its flexibilty.  Rather than keep our heap in a single contiguous region of memory, or one contiguous region per generation, we manage linked lists of memory blocks.  Managing contiguous regions is difficult, especially when you want to change the size of some of the areas.  A block-structured storage arrangement has several advantages:
 
@@ -41,9 +41,27 @@ We adopt the second approach.  The following diagram shows a megablock:
 
 [[Image(sm-block.png)]]
 
-We currently have megablocks of 1Mb in size with blocks of 4k in size, but these sizes are easy to change ([[GhcFile(includes/Constants.h)]]).
+We currently have megablocks of 1Mb in size (m = 20) with blocks of 4k in size (k = 12), and these sizes are easy to change  ([[GhcFile(includes/Constants.h)]]).  Block descriptors are currently 32 or 64 bytes depending on the word size (d = 5 or 6).
 
+So the block allocator has a little more structure:
 
+ * At the bottom, talking to the OS, is the megablock allocator ([[GhcFile(rts/MBlock.c)]], [[GhcFile(rts/MBlock.h)]]).
+   It is responsible for delivering megablocks, correctly aligned, to the upper layers.  It is also responsible for
+   implementing `HEAP_ALLOCED()`: the predicate that tests whether a pointer points to dynamically allocated memory
+   or not.  This is implemented as a simple bitmap lookup on a 32-bit machine, and something more complex on
+   64-bit addressed machines.  See [[GhcFile(rts/MBlock.h)]] for details.
+   [[br]][[br]]
+   Currently, megablocks are never freed back to the OS, except at the end of the program.  This is a potential
+   improvement that could be made.
+
+ * Sitting on top of the megablock allocator is the block layer ([[GhcFile(includes/Block.h)]], [[GhcFile(rts/BlockAlloc.c)]]).
+   This layer is responsible for providing:
+   * `void *allocGroup(int)`
+   * `void freeGroup(void *)`
+   These functions allocate and deallocate a block ''group'': a contiguous sequence of blocks (the degenerate, and common, case
+   is a single block).  The block allocator is responsible for keeping track of free blocks.  Currently it does this by
+   maintaining an ordered (by address) list of free blocks, with contiguous blocks coallesced.  However this is certanly
+   not optimal, and has been shown to be a bottleneck in certain cases - improving this allocation scheme would be good.
 
 == The Garbage Collector ==
 
