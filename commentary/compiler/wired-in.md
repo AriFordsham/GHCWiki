@@ -1,20 +1,85 @@
 # Wired-in and known-key things
 
 
-There are two categories of entities (`Class`es, `TyCon`s, `Id`s) that GHC "knows about"; that is, information about them is baked into GHC's source code.
+There are three categories of entities (`Class`es, `TyCon`s, `Id`s) that GHC "knows about"; that is, information about them is baked into GHC's source code.
 
-- A **Wired-in thing** is fully known to GHC.  
+- [Wired-in things](commentary/compiler/wired-in#wired-in-things)
+- [Known-key things](commentary/compiler/wired-in#known-key-things)
+- [Orig RdrName things](commentary/compiler/wired-in#orig-rdrname-things)
 
-- A **known-key thing** has a fixed, pre-allocated `Unique` or **key**.  They should really be called "known-Name" things, because the baked-in knowledge is:
+## Wired-in things
 
-  - Its defining `Module`
-  - Its `OccName`
-  - Its `Unique`
-    Almost all known-key names are defined in [compiler/prelude/PrelNames](/trac/ghc/browser/ghc/compiler/prelude/PrelNames); for example: `PrelNames.eqClassName :: Name`.
 
-- An **Orig RdrName thing** has a top-level definition of a `RdrName`, using the `Orig` constructor.  Here, the baked-in information is:
+A **Wired-in thing** is fully known to GHC.  Most of these are `TyCon`s such as `Bool`. It is very convenient to simply be able to refer to `boolTyCon :: TyCon` without having to look it up in an environment.  
 
-  - Its defining `Module`
-  - Its `OccName`
-    Again, almost all of these are in [compiler/prelude/PrelNames](/trac/ghc/browser/ghc/compiler/prelude/PrelNames).
-    Example: `PrelNames.not_RDR :: RdrName`.
+
+All [primitive types](commentary/compiler/type-type#classifying-types) are wired-in things, and have wired-in `Name`s.  The primitive types (and their `Names`) are all defined in [compiler/prelude/TysPrim.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysPrim.lhs).
+
+
+The non-primitive wired-in type constructors are defined in [compiler/prelude/TysWiredIn.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.lhs).  There are a handful of wired-in `Id`s in [compiler/basicTypes/MkId.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/MkId.lhs). There are no wired-in classes (they are too complicated). 
+
+
+All the non-primitive wired-in things are *also* defined in GHC's libraries, because even though GHC knows about them we still need to generate code for them. For example, `Bool` is a wired-in type constructor, but it is still defined in `GHC.Base` because we need the info table etc for the data constructors.  Arbitrarily bad things will happen if the wired-in definition in [compiler/prelude/TysWiredIn.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.lhs) differs from that in the library module.
+
+
+All wired-in things have a `WiredIn``Name` (see [Names](commentary/compiler/name-type)), which in turn contains the thing.  For example ([compiler/prelude/TysWiredIn.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.lhs)):
+
+```wiki
+boolTyCon :: TyCon
+boolTyCon = mkAlgTyCon boolTyConName ...more details...
+
+boolTyConName :: Name
+boolTyConName = mkWiredInName gHC_BASE (mkOccNameFS tcName FSLIT("Bool"))
+                              boolTyConKey Nothing
+ 	 	              (ATyCon boolTyCon) UserSyntax
+```
+
+
+Notice that the `TyCon` has a `Name` that contains the `TyCon`.  They each point to the other.
+
+## Known-key things
+
+
+A **known-key thing** has a fixed, pre-allocated `Unique` or **key**.  They should really be called "known-Name" things, because the baked-in knowledge is:
+
+- Its defining `Module`
+- Its `OccName`
+- Its `Unique`
+
+
+Almost all known-key names are defined in [compiler/prelude/PrelNames](/trac/ghc/browser/ghc/compiler/prelude/PrelNames); for example: `PrelNames.eqClassName :: Name`.
+
+
+The point about known-key things is that GHC knows its *name*, but not its *definition*.  The definition must still be read from an interface file as usual. The known key just allows an efficient lookup in the environment.
+
+## Initialisation
+
+
+When reading an interface file, GHC might come across "GHC.Base.Eq", which is the name of the `Eq` class.  How does it match up this occurrence in the interface file with `eqClassName` defined in `PrelNames`?  Because the global name cache maintained by the renamer is initialise with all the known-key names.  This is done by the (hard-to-find) function `HscMain.newHscEnv`:
+
+```wiki
+newHscEnv :: DynFlags -> IO HscEnv
+newHscEnv dflags
+  = do { ...
+         nc_var <- newIORef (initNameCache us knownKeyNames)
+	 ...
+	 return (HscEnv { ... hsc_NC = nc_var, ... }) }
+
+knownKeyNames :: [Name]
+knownKeyNames = map getName wiredInThings ++ basicKnownKeyNames ++ templateHaskellNames
+```
+
+
+Notice that the initialisation embraces both the wired-in and ("basic") known-key names.
+
+## `Orig``RdrName` things
+
+
+An **Orig RdrName thing** has a top-level definition of a `RdrName`, using the `Orig` constructor.  Here, the baked-in information is:
+
+- Its defining `Module`
+- Its `OccName`
+
+
+Again, almost all of these are in [compiler/prelude/PrelNames](/trac/ghc/browser/ghc/compiler/prelude/PrelNames).
+Example: `PrelNames.not_RDR :: RdrName`.
