@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Commentary/Compiler/NameType"
-  queryString          = "?version=8"
+  queryString          = "?version=10"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:39 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","262"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/NameType\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:40 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","262"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/NameType\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -79,7 +79,7 @@ module A where
   During any invocation of GHC, each (module, occurrence-name) gets one, and only one, {{{Unique}}}, stored in the {{{n_uniq}}}} field of the {{{Name}}}.  This assoication remains fixed even when GHC finishes one module and starts to compile another.  This association between (module, occurrence-name) pairs and the corresponding {{{Name}}} (with its {{{n_uniq}}} field) is maintained by the !Name !Cache.
 
   {{{WiredIn}}}::
-    A {{{WiredIn}}} {{{Name}}} is a special sort of {{{External}}} {{{Name}}}, one that is completely known to the compiler (e.g. the {{{Bool}}} type constructor).  See [wiki:Commentary/Compiler/WiredIn#Wiredinthing].
+    A {{{WiredIn}}} {{{Name}}} is a special sort of {{{External}}} {{{Name}}}, one that is completely known to the compiler (e.g. the {{{Bool}}} type constructor).  See [wiki:Commentary/Compiler/WiredIn].
 
   The {{{BuiltInSyntax}}} field is just a boolean yes/no flag that identifies entities that are denoted by built-in syntax, such as {{{[]}}} for the empty list.  These {{{Names}}} aren't "in scope" as such, and we occasionally need to know that.
 
@@ -87,7 +87,9 @@ module A where
 
 Here are the sorts of Name an entity can have: 
 
- * Class, !TyCon: Always have {{{External}}} or {{{WiredIn}}} Names. 
+ * Class: always has an {{{External}}} Names. 
+
+ * !TyCon: always has an {{{External}}} or {{{WiredIn}}} Name. 
 
  * !TyVar: can have {{{Internal}}}, or {{{System}}} Names; the former are ones arise from instantiating programmer-written type signatures.
 
