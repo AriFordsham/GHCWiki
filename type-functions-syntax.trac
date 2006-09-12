@@ -2,7 +2,7 @@
 
 == Syntax of kind signatures and definitions of indexed types ==
 
-All kind signature consists of a type declaration head followed by a `::` and a kind.  In the case of  a data declaration, we addititonally require that there is no `where` clause.   We require for every definition of an indexed type (i.e., type equations or indexed data/newtype declaration) that a matching kind signature is in scope.  Vanilla type synonym definitions and data/newtype declarations fall out as special cases of type function equations and indexed type declarations that have variable-only patterns, for which we require no kind signatures.  The vanilla forms are also closed (further definitions would be useless, as they are bound to overlap).
+A tolevel kind signature consists of a type declaration head using `family` as a special following the declaration keyword.  It is optionally followed by a `::` and a kind (which is by default `*` if not specified).  In the case of  a data declaration, we addititonally require that there is no `where` clause.   In associated kind signature, the `family` special is droped, but the kind is currently compulsory.  Toplevel indexed type defintions, use the `instance` keyword after the main declarations keyword; associated declarations don't use `instance`.  We require for every definition of an indexed type (i.e., type equations or indexed data/newtype declaration) that a matching kind signature is in scope.  Vanilla type synonym definitions and data/newtype declarations fall out as special cases of type function equations and indexed type declarations that have variable-only patterns, for which we require no kind signatures.  The vanilla forms are also closed (further definitions would be useless, as they are bound to overlap).
 
 == Representation of indexed types ==
 
@@ -28,3 +28,9 @@ The LALR parser allows arbitrary types as left-hand sides in '''data''', '''newt
 == Representation of associated types ==
 
 We add type declarations to class declarations and instance declarations by a new field, of type `[LTyClDecl]`, to both `TyClDecl.ClassDecl` (known by the field name `tcdATs`) and `TyClDecl.InstDecl`.  For classes, this new field contains values constructed from `TyData`, `TyFunction`, and `TySynonym`, whereas for instances, we only have `TyData` and `TySynonym`.  This is due to (a) `TyData` representing both signatures and definitions of associated data types (whereas the two are split into `TyFunction` and `TySynonym` for associated synonyms) and (b) associated synonyms having default definitions, which associated data types do not possess.
+
+== Type tags ==
+
+To enable the listing of associated types in the sub-binder list of import/export items for classes, we extend the parser with a production that allows a constructor name (upper case or approppriate infix operator in parenthesis) to be prefixed by the keyword `type`.  
+
+NB: There is a cavet at the moment, in error messages the type prefix is not printed, as the `ppr` instance on `HsImpExp.IE` is polymorphic in the name (and hence, we cannot get at the name space in which a name is).
