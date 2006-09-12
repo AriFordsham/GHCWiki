@@ -2,7 +2,7 @@
 
 = GHC Commentary: Backends =
 
-After [wiki:Commentary/Compiler/Cmm Cmm] has been generated, we have a choice of targets to compile to:
+After [wiki:Commentary/Compiler/CmmType Cmm] has been generated, we have a choice of targets to compile to:
 
  * [wiki:Commentary/Compiler/Backends/PprC The C code generator]
  * [wiki:Commentary/Compiler/Backends/NCG  The native code generator]
