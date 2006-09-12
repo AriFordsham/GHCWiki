@@ -57,6 +57,7 @@ Please feel free to add maaterial to this commentary: don't worry too much about
   - [Software Transactional Memory (STM)](commentary/rts/stm)
   - [Garbage Collecting CAFs](commentary/rts/ca-fs)
   - [Weak Pointers and Finalizers](commentary/rts/weak)
+  - Profiling?
   - [Coding conventions in the RTS](commentary/rts/conventions)
 
 ## Contributed Documentation

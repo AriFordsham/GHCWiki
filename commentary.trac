@@ -50,6 +50,7 @@ Please feel free to add maaterial to this commentary: don't worry too much about
    * [wiki:Commentary/Rts/STM Software Transactional Memory (STM)]
    * [wiki:Commentary/Rts/CAFs Garbage Collecting CAFs]
    * [wiki:Commentary/Rts/Weak Weak Pointers and Finalizers]
+   * [wiki:Commentary/Rts/Profiling Profiling]
    * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
 
 
