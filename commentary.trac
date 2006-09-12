@@ -39,6 +39,9 @@ Please feel free to add maaterial to this commentary: don't worry too much about
    * [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
    * [wiki:Commentary/Compiler/Packages Packages]
    * [wiki:Commentary/Compiler/Finder The Finder]
+   * Backends:
+     * [wiki:Commentary/Compiler/PprC C code generator]
+     * [wiki:Commentary/Compiler/NCG Native code generator]
   
  * [wiki:Commentary/Rts The Runtime System]
    * [wiki:Commentary/Rts/Config RTS Configurations]
