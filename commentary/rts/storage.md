@@ -47,10 +47,14 @@ We adopt the second approach.  The following diagram shows a megablock:
 not handled: Image
 
 
-We currently have megablocks of 1Mb in size (m = 20) with blocks of 4k in size (k = 12), and these sizes are easy to change  ([includes/Constants.h](/trac/ghc/browser/ghc/includes/Constants.h)).  Block descriptors are currently 32 or 64 bytes depending on the word size (d = 5 or 6).
+We currently have megablocks of 1Mb in size (m = 20) with blocks of 4k in size (k = 12), and these sizes are easy to change  ([includes/Constants.h](/trac/ghc/browser/ghc/includes/Constants.h)).  
 
 
-So the block allocator has a little more structure:
+Block descriptors are currently 32 or 64 bytes depending on the word size (d = 5 or 6).  The block descriptor itself is 
+the structure `bdescr` defined in [includes/Block.h](/trac/ghc/browser/ghc/includes/Block.h), and that file also defines the `Bdescr()` macro.
+
+
+The block allocator has a the following structure:
 
 - At the bottom, talking to the OS, is the megablock allocator ([rts/MBlock.c](/trac/ghc/browser/ghc/rts/MBlock.c), [rts/MBlock.h](/trac/ghc/browser/ghc/rts/MBlock.h)).
   It is responsible for delivering megablocks, correctly aligned, to the upper layers.  It is also responsible for
@@ -64,12 +68,15 @@ So the block allocator has a little more structure:
 - Sitting on top of the megablock allocator is the block layer ([includes/Block.h](/trac/ghc/browser/ghc/includes/Block.h), [rts/BlockAlloc.c](/trac/ghc/browser/ghc/rts/BlockAlloc.c)).
   This layer is responsible for providing:
 
-  - `void *allocGroup(int)`
-  - `void freeGroup(void *)`
-    These functions allocate and deallocate a block *group*: a contiguous sequence of blocks (the degenerate, and common, case
-    is a single block).  The block allocator is responsible for keeping track of free blocks.  Currently it does this by
-    maintaining an ordered (by address) list of free blocks, with contiguous blocks coallesced.  However this is certanly
-    not optimal, and has been shown to be a bottleneck in certain cases - improving this allocation scheme would be good.
+  ```wiki
+     void *allocGroup(int)
+     void freeGroup(void *)
+  ```
+
+  These functions allocate and deallocate a block *group*: a contiguous sequence of blocks (the degenerate, and common, case
+  is a single block).  The block allocator is responsible for keeping track of free blocks.  Currently it does this by
+  maintaining an ordered (by address) list of free blocks, with contiguous blocks coallesced.  However this is certanly
+  not optimal, and has been shown to be a bottleneck in certain cases - improving this allocation scheme would be good.
 
 ## The Garbage Collector
 
