@@ -37,6 +37,11 @@ There are two options:
    method, but it is easier to allocate contiguous regions (unless the contiguous region is larger than
    a megablock...).
 
+We adopt the second approach.  The following diagram shows a megablock:
+
+[[Image(sm-block.png)]]
+
+We currently have megablocks of 1Mb in size with blocks of 4k in size, but these sizes are easy to change ([[GhcFile(includes/Constants.h)]]).
 
 
 
