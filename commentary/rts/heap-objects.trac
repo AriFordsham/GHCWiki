@@ -76,7 +76,7 @@ Some types of object add more fields to the end of the info table, notably funct
 
 === {{{TABLES_NEXT_TO_CODE}}} ===
 
-Note that the info table is followed immediately by the entry code, rather than the code being at the end of an indirect pointer.  This both reduces the size of the info table and eliminates one indirection when jumping to the entry code; however, arranging to generate code like this presents some difficulties when compiling via C, see [wiki:Commentary/Mangler].  
+Note that the info table is followed immediately by the entry code, rather than the code being at the end of an indirect pointer.  This both reduces the size of the info table and eliminates one indirection when jumping to the entry code; however, arranging to generate code like this presents some difficulties when compiling via C, see [wiki:Commentary/EvilMangler].  
 
 GHC can generate code that uses the indirect pointer instead; the {{{TABLES_NEXT_TO_CODE}}} turns on the optimised layout.  Generally {{{TABLES_NEXT_TO_CODE}}} is turned off when compiling unregisterised.
 
