@@ -45,7 +45,6 @@ Done:
 == Desugaring ==
 
 Todo (low-level):
- * `data instances` and `newtype instances` need to be implicitly exported as are class instances.
  * Derivings on an associated data type ''declaration'' need to be inherited by all definitions of that data type in instances.
 
 Todo (high-level):
@@ -53,7 +52,7 @@ Todo (high-level):
    * How do we exactly want to represent type equations in interface files?
      * SPJ pointed out that instances are maintained in `InstEnv.InstEnv` with different values for the home packages and others. Type instances may have to be maintained in a similar way, as they are also incrementally collected during compiling a program.  (We probably include them in the same structure, as they will also be of type `InstInfo`.)
      * `IfaceInst` contains the instance declaration information for interfaces.
-   * Export and import lists: The name lists that may appear at class imports and exports can now also contain type names, which is tricky as data type names can carry a list of data constructors.
+    '''Answer:''' We don't put anything extra into interface files.  Instead, we derive the information corresponding to`IfaceInst` list in `ModIface` and the `Instance` list in `ModDetails` from the interface declarations and type environment, respectively.  I.e., it is the type instances that carry the whole payload.
  3. Desugar type functions and equality constraints.
 
 Done:
@@ -63,10 +62,11 @@ Done:
  * Extension of `DataCon.DataCon` with instance types for constructors belonging to data instances.
  * Extension of `TyCon.TyCon` such that the parent of a data instance is paired with a coercion identifying family instance and representation type.
  * For indexed data types, the datacon wrapper uses data instance coercion and pattern matching casts the scrutinee via an `ExprCoFn` in a `CoPat`.
+ * Imporet and exporting.
 
 
 == Testsuite ==
 
 Todo:
  * Compile libraries with !CoreLint.
- * Convert `TyFuns.hs` to tests in the testsuite.
+ * Convert `TyFuns.hs` and the various `GMap`s to tests in the testsuite.
