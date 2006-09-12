@@ -1,0 +1,17 @@
+= Wired-in and known-key things =
+
+There are two categories of entities (`Class`es, `TyCon`s, `Id`s) that GHC "knows about"; that is, information about them is baked into GHC's source code.
+
+  * A '''Wired-in thing''' is fully known to GHC.  
+
+  * A '''known-key thing''' has a fixed, pre-allocated `Unique` or '''key'''.  They should really be called "known-Name" things, because the baked-in knowledge is:
+    * Its defining `Module`
+    * Its `OccName`
+    * Its `Unique`
+    Almost all known-key names are defined in [[GhcFile(compiler/prelude/PrelNames)]]; for example: {{{PrelNames.eqClassName :: Name}}}.
+
+  * An '''Orig RdrName thing''' has a top-level definition of a `RdrName`, using the `Orig` constructor.  Here, the baked-in information is:
+    * Its defining `Module`
+    * Its `OccName`
+    Again, almost all of these are in [[GhcFile(compiler/prelude/PrelNames)]].
+    Example: {{{PrelNames.not_RDR :: RdrName}}}.
