@@ -31,6 +31,7 @@ Done:
 - Parsing and renaming of indexed type declarations (toplevel and in classes).
 - Using new syntax with `family` and `instance` on top level.
 - Added `-findexed-types` switch.
+- Allowing `type` tag in export lists to list associated types in the sub-binder list of an import/export item for a class.
 
 ## Type Checking
 
