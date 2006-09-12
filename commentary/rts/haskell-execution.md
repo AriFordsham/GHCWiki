@@ -1,7 +1,7 @@
 # The Haskell Execution Model
 
 
-The STG language? has a clear *operational* model, as well as having a declarative lambda-calculus reading.  The business of the code generator is to translate the STG program into `C--`, and thence to machine code, but that is mere detail. From the STG program you should be able to understand:
+The [STG language](commentary/compiler/stg-syn-type) has a clear *operational* model, as well as having a declarative lambda-calculus reading.  The business of the code generator is to translate the STG program into `C--`, and thence to machine code, but that is mere detail. From the STG program you should be able to understand:
 
 - What functions are in the compiled program, and what their entry and return conventions are
 - What heap objects are allocated, when, and what their layout is
@@ -42,7 +42,7 @@ Source files: [rts/Apply.h](/trac/ghc/browser/ghc/rts/Apply.h), [rts/Apply.cmm](
 
 Dealing with calls is by far the most complicated bit of the execution model, and hence of the code generator.  Before we can talk about that, we need some terminology:
 
-- The **arity** of a function is the number of lambdas statically used in the lambda-form of its definition?.  Note that arity is not deducible from the type.  Example:
+- The **arity** of a function is the number of lambdas statically used in [the lambda-form of its definition](commentary/compiler/stg-syn-type).  Note that arity is not deducible from the type.  Example:
 
   ```wiki
   f :: Bool -> Bool -> Bool
