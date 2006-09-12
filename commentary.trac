@@ -49,7 +49,7 @@ Please feel free to add maaterial to this commentary: don't worry too much about
    * [wiki:Commentary/Rts/Cmm What the hell is a .cmm file?]
    * [wiki:Commentary/Rts/HeapObjects Layout of heap objects]
    * [wiki:Commentary/Rts/Stack Layout of the stack]
-   * [wiki:Commentary/Rts/HaskellExecution Haskell Execution]
+   * [wiki:Commentary/Rts/HaskellExecution The Haskell Execution model]
    * [wiki:Commentary/Rts/Scheduler The Scheduler]
    * [wiki:Commentary/Rts/Storage The Storage Manager]
    * [wiki:Commentary/Rts/FFI So how does foreign import "wrapper" work?]
