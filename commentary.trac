@@ -14,6 +14,8 @@ Please feel free to add maaterial to this commentary: don't worry too much about
 
  * [wiki:Commentary/Compiler The Compiler]
    * [wiki:ModuleDependencies Compiler Module Dependencies]
+   * [wiki:Commentary/CodingStyle Coding guidelines]
+
    * [wiki:Commentary/Compiler/HscMain Compiling one module: HscMain]
    * Key data types:
      * [wiki:Commentary/Compiler/HsSynType The source language: HsSyn] 
@@ -29,13 +31,17 @@ Please feel free to add maaterial to this commentary: don't worry too much about
      * Typechecker
      * Desugarer
      * Core->core
+
    * SPJ ModIface, ModDetails, ModGuts
    * SPJ Core->CorePrep->Stg->Cmm
    * [wiki:Commentary/Compiler/API The GHC API]
-   * SM HscMain upwards: ModSummary, Finder, upsweep, downsweep,
-   * [wiki:Commentary/Packages Packages]
-   * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
-   * [wiki:Commentary/CodingStyle Coding guidelines]
+   * SM HscMain upwards: ModSummary, Finder, upsweep, downsweep
+
+   * Cross-cutting concerns
+       * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
+       * [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
+       * [wiki:Commentary/Packages Packages]
+       * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
   
  * [wiki:Commentary/Rts The Runtime System]
    * [wiki:Commentary/Rts/Config RTS Configurations]
