@@ -36,9 +36,9 @@ Please feel free to add maaterial to this commentary: don't worry too much about
     - Core-\>core
   - SPJ ModIface, ModDetails, ModGuts
   - SPJ Core-\>CorePrep-\>Stg-\>Cmm
-  - [Primitive Operations (PrimOps)](commentary/prim-ops)
   - [The GHC API](commentary/compiler/api)
   - SM HscMain upwards: ModSummary, Finder, upsweep, downsweep,
+  - [Packages](commentary/packages)
   - [Coding guidelines](commentary/coding-style)
 
 - [The Runtime System](commentary/rts)
@@ -57,8 +57,10 @@ Please feel free to add maaterial to this commentary: don't worry too much about
   - [Software Transactional Memory (STM)](commentary/rts/stm)
   - [Garbage Collecting CAFs](commentary/rts/ca-fs)
   - [Weak Pointers and Finalizers](commentary/rts/weak)
-  - Profiling?
   - [Coding conventions in the RTS](commentary/rts/conventions)
+
+- [Profiling](commentary/profiling)
+- [Primitive Operations (PrimOps)](commentary/prim-ops)
 
 ## Contributed Documentation
 
