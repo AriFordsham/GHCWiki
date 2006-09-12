@@ -35,13 +35,10 @@ Please feel free to add maaterial to this commentary: don't worry too much about
    * SPJ ModIface, ModDetails, ModGuts
    * SPJ Core->CorePrep->Stg->Cmm
    * [wiki:Commentary/Compiler/API The GHC API]
-   * SM HscMain upwards: ModSummary, Finder, upsweep, downsweep
-     [[BR]][[BR]]
-   * Cross-cutting concerns
-     * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
-     * [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
-     * [wiki:Commentary/Packages Packages]
-     * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
+   * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
+   * [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
+   * [wiki:Commentary/Packages Packages]
+   * [wiki:Commentary/Compiler/Finder The Finder]
   
  * [wiki:Commentary/Rts The Runtime System]
    * [wiki:Commentary/Rts/Config RTS Configurations]
@@ -60,7 +57,9 @@ Please feel free to add maaterial to this commentary: don't worry too much about
    * [wiki:Commentary/Rts/Weak Weak Pointers and Finalizers]
    * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
 
- * [wiki:Commentary/Profiling Profiling]
+ * Cross-cutting concerns: topics which span both the compiler and the RTS
+    * [wiki:Commentary/Profiling Profiling]
+    * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
 
 == Contributed Documentation ==
 
