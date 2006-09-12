@@ -32,7 +32,9 @@ Please feel free to add maaterial to this commentary: don't worry too much about
      * Typechecker
      * Desugarer
      * Core->core
-     * Core->CorePrep->Stg->Cmm
+     * Core->CorePrep
+     * [wiki:Commentary/Compiler/Core2Stg CorePrep->Stg]
+     * [wiki:Commentary/Compiler/CodeGen The code generator]: Stg->Cmm
        [[BR]][[BR]]
     * [wiki:Commentary/Compiler/API The GHC API]
    * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
