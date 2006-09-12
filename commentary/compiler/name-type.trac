@@ -58,7 +58,7 @@ module A where
   During any invocation of GHC, each (module, occurrence-name) gets one, and only one, {{{Unique}}}, stored in the {{{n_uniq}}}} field of the {{{Name}}}.  This assoication remains fixed even when GHC finishes one module and starts to compile another.  This association between (module, occurrence-name) pairs and the corresponding {{{Name}}} (with its {{{n_uniq}}} field) is maintained by the !Name !Cache.
 
   {{{WiredIn}}}::
-    A {{{WiredIn}}} {{{Name}}} is a special sort of {{{External}}} {{{Name}}}, one that is completely known to the compiler (e.g. the {{{Bool}}} type constructor).  See [wiki:Commentary/Compiler/WiredIn#Wiredinthing].
+    A {{{WiredIn}}} {{{Name}}} is a special sort of {{{External}}} {{{Name}}}, one that is completely known to the compiler (e.g. the {{{Bool}}} type constructor).  See [wiki:Commentary/Compiler/WiredIn].
 
   The {{{BuiltInSyntax}}} field is just a boolean yes/no flag that identifies entities that are denoted by built-in syntax, such as {{{[]}}} for the empty list.  These {{{Names}}} aren't "in scope" as such, and we occasionally need to know that.
 
@@ -66,7 +66,9 @@ module A where
 
 Here are the sorts of Name an entity can have: 
 
- * Class, !TyCon: Always have {{{External}}} or {{{WiredIn}}} Names. 
+ * Class: always has an {{{External}}} Names. 
+
+ * TyCon: always has an {{{External}}} or {{{WiredIn}}} Name. 
 
  * !TyVar: can have {{{Internal}}}, or {{{System}}} Names; the former are ones arise from instantiating programmer-written type signatures.
 
