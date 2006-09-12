@@ -30,23 +30,23 @@ Please feel free to add maaterial to this commentary: don't worry too much about
     - [The core language](commentary/compiler/core-syn-type)
     - [The STG language](commentary/compiler/stg-syn-type)
     - [The Cmm language](commentary/compiler/cmm-type)
+    - ModIface, ModDetails, ModGuts
   - Passes:
 
     - [Renamer](commentary/compiler/renamer)
     - Typechecker
     - Desugarer
     - Core-\>core
-  - SPJ ModIface, ModDetails, ModGuts
-  - SPJ Core-\>CorePrep-\>Stg-\>Cmm
+    - Core-\>CorePrep-\>Stg-\>Cmm
   - [The GHC API](commentary/compiler/api)
-  - [Symbol names and the Z-encoding](commentary/compiler/symbol-names)
-  - [Wired-in and known-key things](commentary/compiler/wired-in)
-  - [Packages](commentary/compiler/packages)
-  - The Finder?
-  - [Backends](commentary/compiler/backends):
+- [Symbol names and the Z-encoding](commentary/compiler/symbol-names)
+- [Wired-in and known-key things](commentary/compiler/wired-in)
+- [Packages](commentary/compiler/packages)
+- The Finder?
+- [Backends](commentary/compiler/backends):
 
-    - [C code generator](commentary/compiler/backends/ppr-c)
-    - [Native code generator](commentary/compiler/backends/ncg)
+  - [C code generator](commentary/compiler/backends/ppr-c)
+  - [Native code generator](commentary/compiler/backends/ncg)
 
 - [The Runtime System](commentary/rts)
 

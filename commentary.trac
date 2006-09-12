@@ -26,15 +26,15 @@ Please feel free to add maaterial to this commentary: don't worry too much about
      * [wiki:Commentary/Compiler/CoreSynType The core language]
      * [wiki:Commentary/Compiler/StgSynType The STG language]
      * [wiki:Commentary/Compiler/CmmType The Cmm language]
+     * ModIface, ModDetails, ModGuts
    * Passes:
      * [wiki:Commentary/Compiler/Renamer Renamer]
      * Typechecker
      * Desugarer
      * Core->core
+     * Core->CorePrep->Stg->Cmm
        [[BR]][[BR]]
-   * SPJ ModIface, ModDetails, ModGuts
-   * SPJ Core->CorePrep->Stg->Cmm
-   * [wiki:Commentary/Compiler/API The GHC API]
+    * [wiki:Commentary/Compiler/API The GHC API]
    * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
    * [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
    * [wiki:Commentary/Compiler/Packages Packages]
