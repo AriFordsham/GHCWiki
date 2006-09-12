@@ -17,7 +17,8 @@ Please feel free to add maaterial to this commentary: don't worry too much about
    * [wiki:Commentary/Compiler/HscMain Compiling one module: HscMain]
    * Key data types:
      * [wiki:Commentary/Compiler/HsSynType The source language: HsSyn] 
-     * [wiki:Commentary/Compiler/RdrNameType RdrNames, Modules, and OccNames], and [wiki:Commentary/Compiler/NameType Names]
+     * [wiki:Commentary/Compiler/RdrNameType RdrNames, Modules, and OccNames]
+     * [wiki:Commentary/Compiler/NameType Names]
      * [wiki:Commentary/Compiler/EntityTypes Entities]: variables, type constructors, data constructors, and classes.
      * Types: [wiki:Commentary/Compiler/TypeType Type and Kind], [wiki:Commentary/Compiler/FC equality types and coercions]
      * [wiki:Commentary/Compiler/CoreSynType The core language]
