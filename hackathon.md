@@ -82,10 +82,10 @@ Zero.  But you may have to feed yourself if you don't register.
 ## Areas of Interest
 
 - \[Ext\] - Extending Haskell; things like Template Haskell, and new syntax.
-- \[TC\]  - Typechecking 
-- \[Opt\] - Optimizing Haskell, GHC Core representation, and tools to help
-- \[CG\]  - Turning GHC Core Haskell into C, or Java, or C\#, or C--, or ...
-- \[i\]   - Debugging and GHCi, and other interactive tools
+- \[TC\]  - Typechecking.
+- \[Opt\] - Optimizing Haskell, GHC Core representation, and tools to help optimization.
+- \[CG\]  - Turning GHC Core Haskell into C, or Java, or C\#, or C--, cross-compiling.
+- \[i\]   - Debugging and GHCi, and other interactive tools.
 - \[Lib\] - Libraries, packaging, and namespace issues.
 
 ## History of Hackathons
