@@ -30,6 +30,7 @@ Todo (low-level):
  * data/newtype instances may not overlap.  (Such definitions would always be non-confluent.)  We might be able to get away with a lazy check at every place where a value of family type is constructed (i.e., occurences of the datacon wrapper).  Such a value may never be an inhabitant of more than one instance declaration.  No, we won't get away with this...
  * RHS of a `type instance` must be a tau type.
  * Check that patterns of type indexes don't contain type functions.
+ * We probably need to replicate quite a bit of the infrastructure used to maintain class instances for type instances.  In particular, we need to suck all home package instances into a field in the `TcGblEnv` similar to `tcg_inst_env` and all external instances in a field in `Hsc.ExternalPackageState` similar to `eps_inst_env`.
  * Construct `InstInfo` for type equation in `tcIdxTyInstDecl1`.
  * If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
@@ -54,6 +55,7 @@ Todo (high-level):
      * SPJ pointed out that instances are maintained in `InstEnv.InstEnv` with different values for the home packages and others. Type instances may have to be maintained in a similar way, as they are also incrementally collected during compiling a program.  (We probably include them in the same structure, as they will also be of type `InstInfo`.)
      * `IfaceInst` contains the instance declaration information for interfaces.
     '''Answer:''' We don't put anything extra into interface files.  Instead, we derive the information corresponding to`IfaceInst` list in `ModIface` and the `Instance` list in `ModDetails` from the interface declarations and type environment, respectively.  I.e., it is the type instances that carry the whole payload.
+    '''Update:''' We may actually want to put a rough match signature in the iface seperate from the full instance declaration, so we can delay type checking the full instance declaration until we get a rough match.  (This makes only sense for `type instance`s, not for `data instance`s, as the latter are loaded when their constructors are mentioned.  Well actually, it does make sense for `data instance`s as far as loading them for overlap checking is concerned.)
  3. Desugar type functions and equality constraints.
 
 Done:
