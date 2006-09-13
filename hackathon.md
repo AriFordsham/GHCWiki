@@ -149,3 +149,5 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 
 - Kim-Ee Yeoh, interested in documenting, housekeeping, and general opening up of compiler sources to a wider audience
 - Jeffery Zhang, interested in type systems and metaprogramming.
+
+- Ahn, Ki Yung, PSU. GHC user. intersted in better data-sturcture libraries with more generic and powerful interface, eliminating dictionary passing cost of class functions anywhere possible, GADTs.
