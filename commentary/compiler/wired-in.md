@@ -47,7 +47,7 @@ A **known-key thing** has a fixed, pre-allocated `Unique` or **key**.  They shou
 - Its `Unique`
 
 
-Almost all known-key names are defined in [compiler/prelude/PrelNames](/trac/ghc/browser/ghc/compiler/prelude/PrelNames); for example: `PrelNames.eqClassName :: Name`.
+Almost all known-key names are defined in [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs); for example: `PrelNames.eqClassName :: Name`.
 
 
 The point about known-key things is that GHC knows its *name*, but not its *definition*.  The definition must still be read from an interface file as usual. The known key just allows an efficient lookup in the environment.
