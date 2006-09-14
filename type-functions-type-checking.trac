@@ -114,3 +114,9 @@ The result type of a wrapper of a data constructor of a family mentions the fami
 ==== Coercing the scrutinee ====
 
 The matching against the family type constructor and unification with the instance types corresponds to applying the coercion moving between the family and representation type of a data instance, which is returned by `tyConFamilyCoercion_maybe`.  To generate type correct core, this coercion needs to be applied to the scrutinee of the case expression matching on the constructor pattern.  This is done by the local function `unwrapFamInstScrutinee` whenever we match against the data constructor of a family by wrapping the result pattern into a `CoPat` containing an `ExprCoFn` with the coercion.
+
+== Checking for overlapping data/newtype instances ==
+
+=== Overlap check of the instances within one module ===
+
+We maintain a family instance environment in the `TcRnTypes.TcGblEnv` much like that for class instances.  We add instances to this environment as we type check them and perform an overlap check with each addition.
