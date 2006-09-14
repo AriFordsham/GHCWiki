@@ -77,7 +77,7 @@ data LocalIdDetails
   | Exported	-- Exported; keep alive
 }}}
 
- {{{GlobalId}}}:: is used for fixed, immutable, top-level term variables, notably ones that are imported from other modules.
+ {{{GlobalId}}}:: is used for fixed, immutable, top-level term variables, notably ones that are imported from other modules.  This means that, for example, the optimizer won't change its properties.
  * Always has an {{{External}}} or {{{WiredIn}}} [wiki:Commentary/Compiler/NameType Name], and hence has a {{{Unique}}} that is globally unique across the whole of a GHC invocation.
  * Always bound at top level. 
  * The {{{IdInfo}}} of a {{{GlobalId}}} is completely fixed.
