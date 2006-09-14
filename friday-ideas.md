@@ -14,6 +14,7 @@ The above are specific projects or subgroups that might form.  What about more g
 
   - Project ideas here?
   - Resuscitate [ExternalCore](external-core)
+  - Low hanging optimizations?
   - STGLint
 - have more explanatory talk sessions led from the front
 - form subgroups for explanatory sessions on different topics (but not to work on a shared project)
