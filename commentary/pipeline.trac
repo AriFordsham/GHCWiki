@@ -8,7 +8,7 @@ We start with {{{Foo.hs}}} or {{{Foo.lhs}}}, the "l" specifing whether literate 
 
  * Run the unlit pre-processor, {{{unlit}}}, to remove the literate markup, generating {{{Foo.lpp}}}.  The {{{unlit}}} processor is a C program kept in {{{utils/unlit}}}.
 
- * Run CPP (if {{{-fcpp}}} is specified), generating {{{Foo.cpp}}} or {{{Foo.lpp}}} respectively.
+ * Run CPP (if {{{-cpp}}} is specified), generating {{{Foo.cpp}}} or {{{Foo.lpp}}} respectively.
 
  * Run the compiler itself. This does not start a separate process; it's just a call to a Haskell function.  This step always generates an '''interface file''' {{{Foo.hi}}}, and depending on what flags you give, it also generates a compiled file:
    * Assembly code: flag {{{-S}}}, file {{{Foo.s}}}
