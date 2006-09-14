@@ -273,6 +273,8 @@ The info tables are labelled {{{__sel_n_upd_info}}} where {{{n}}} is the
 offset.  Non-updating versions are also built in, with info tables
 labelled {{{_sel_n_noupd_info}}}.
 
+These thunks exist in order to prevent a space leak.  For example, if y is a thunk that has been evaluated, and y is unreachable, but x is reachable, the risk is that x keeps both the a and b components of y live.  By making the selector thunk a special case, we make it possible to reclaim the memory associated with b.  (The situation is further complicated when selector thunks point to other selector thunks; the garbage collector sees all, knows all.)
+
 === Partial applications ===
 
 Partial applications are tricky beasts.
