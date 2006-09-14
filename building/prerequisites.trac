@@ -86,6 +86,10 @@ are missing something.
   Alex distributions are available from 
   [http://www.haskell.org/alex/ Alex's Web Page].
 
+ {{{automake}}}::
+  GNU automake is needed if you intend to build using
+  "./autoreconf". Version 1.9 works.
+
  {{{autoconf}}}::
   GNU autoconf is needed if you intend to build from the
   darcs sources, it is ''not'' needed if you
