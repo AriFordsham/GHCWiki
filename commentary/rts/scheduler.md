@@ -1,49 +1,31 @@
-CONVERSION ERROR
+# The Scheduler
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Commentary/Rts/Scheduler"
-  queryString          = "?version=5"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:56:28 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","260"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Rts/Scheduler\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
-
-Original source:
-
-```trac
-
-[[PageOutline]]
-
-= The Scheduler =
 
 The scheduler is the heart of the runtime: it is the single part of
 the system through which all entry to the Haskell world goes, and it
 handles requests from outside to invoke Haskell functions (foreign
 export).
 
-In this part of the commentary we'll discuss the ''threaded'' version
-of the runtime (see [wiki:Commentary/Rts/Config]), that is, the
+
+In this part of the commentary we'll discuss the *threaded* version
+of the runtime (see [Commentary/Rts/Config](commentary/rts/config)), that is, the
 version of the runtime that uses multiple OS threads, because it is by
 far the most complex beast.
 
+
 We begin by discussing the basic abstractions used in the scheduler.
 
-== OS Threads ==
+## OS Threads
 
-Source files: [[GhcFile(include/OSThreads.h)]],
-[[GhcFile(rts/win32/OSThreads.c)]], [[GhcFile(rts/posix/OSThreads.c)]]
+
+Source files: [includes/OSThreads.h](/trac/ghc/browser/ghc/includes/OSThreads.h),
+[rts/win32/OSThreads.c](/trac/ghc/browser/ghc/rts/win32/OSThreads.c), [rts/posix/OSThreads.c](/trac/ghc/browser/ghc/rts/posix/OSThreads.c)
+
 
 We assume that the OS provides some kind of native threads, and for
 SMP parallelism we assume that the OS will schedule multiple OS
 threads across the available CPUs.  
+
 
 When running on an SMP, we use a fixed number of OS threads for
 running Haskell code, typically chosen to be the the same as the
@@ -51,125 +33,144 @@ number of CPU cores in the machine.  There may be more than this
 number of OS threads in the runtime, but only this number will be
 executing Haskell code at any one time.
 
-The RTS provides a platform-independent abstraction layer for OS
-threads in [[GhcFile(rts/OSThreads.h)]].
 
-== Haskell threads ==
+The RTS provides a platform-independent abstraction layer for OS
+threads in [rts/OSThreads.h](/trac/ghc/browser/ghc/rts/OSThreads.h).
+
+## Haskell threads
+
 
 A Haskell thread is represented by a
-[wiki:Commentary/Rts/HeapObjects#ThreadStateObjects TSO].  There are
+[TSO](commentary/rts/heap-objects#thread-state-objects).  There are
 two kinds of Haskell thread:
 
- * A ''bound'' thread is created as the result of a ''call-in'' from
-   outside Haskell; that is, a call to {{{foreign export}}} or
-   {{{foreign import "wrapper"}}}.  A bound thread is tied to the
-   OS thread that made the call; all further foreign calls made by
-   this Haskell thread are made in the same OS thread.  (this is part
-   of the design of the FFI, described in the paper 
-   [http://www.haskell.org/~simonmar/papers/conc-ffi.pdf Extending the Haskell Foreign Function Inteface with Concurrency]).
+- A *bound* thread is created as the result of a *call-in* from
+  outside Haskell; that is, a call to `foreign export` or
+  `foreign import "wrapper"`.  A bound thread is tied to the
+  OS thread that made the call; all further foreign calls made by
+  this Haskell thread are made in the same OS thread.  (this is part
+  of the design of the FFI, described in the paper 
+  [ Extending the Haskell Foreign Function Inteface with Concurrency](http://www.haskell.org/~simonmar/papers/conc-ffi.pdf)).
 
- * An ''unbound'' thread is created by
-   {{{Control.Concurrent.forkIO}}}.  Foreign calls made by an unbound
-   thread are made by an arbitrary OS thread.
+- An *unbound* thread is created by
+  `Control.Concurrent.forkIO`.  Foreign calls made by an unbound
+  thread are made by an arbitrary OS thread.
 
-== Tasks ==
+## Tasks
 
-Source files: [[GhcFile(rts/Task.h)]], [[GhcFile(rts/Task.c)]]
+
+Source files: [rts/Task.h](/trac/ghc/browser/ghc/rts/Task.h), [rts/Task.c](/trac/ghc/browser/ghc/rts/Task.c)
+
 
 A Task is a further layer of abstraction over an OS thread.  
 
-One Task is created for each ''call-in'' to the runtime.  When a
+
+One Task is created for each *call-in* to the runtime.  When a
 call-in is made, a Task is allocated, a new Haskell thread is created,
 and the two are bound together for the duration of the call:
-{{{task->tso}}} points to the TSO, and {{{tso->bound}}} points to the
+`task->tso` points to the TSO, and `tso->bound` points to the
 Task.
+
 
 Additionally, there is one Task for each worker OS thread in the
 system.  A worker OS thread is used for executing the unbound Haskell
-threads.  {{{tso->bound}}} is {{{NULL}}} for a worker Task.
+threads.  `tso->bound` is `NULL` for a worker Task.
+
 
 The function 
-{{{
+
+```wiki
   Task *myTask (void);
-}}}
+```
+
+
 returns the Task associated with the current OS thread.  However,
 there may be multiple Tasks associated with a particular OS thread,
 for example if a call-in executes some code that makes a foreign call,
 and that foreign call makes a further call-in, and so on.  If an OS
-thread has multiple Tasks associated with it, then {{{myTask}}}
-returns the topmost, or most recently created, one.  The {{{myTask}}}
+thread has multiple Tasks associated with it, then `myTask`
+returns the topmost, or most recently created, one.  The `myTask`
 function is implemented using OS thread-local state.
+
 
 The important components of a Task are:
 
- * The OS thread that owns this Task
- * The ''Capability'' that this Task holds (see below)
- * The TSO that this Task is bound to, if any
- * A condition variable on which this Task can put itself to sleep
- * Some link fields for placing the Task on various queues
+- The OS thread that owns this Task
+- The *Capability* that this Task holds (see below)
+- The TSO that this Task is bound to, if any
+- A condition variable on which this Task can put itself to sleep
+- Some link fields for placing the Task on various queues
 
-== Capabilities ==
+## Capabilities
 
-Source files: [[GhcFile(rts/Capability.h)]], [[GhcFile(rts/Capability.c)]]
 
-A Capability is a ''virtual CPU'' for executing Haskell code.  The
-number of capabilities in the system is chosen by the {{{+RTS -N}}}
+Source files: [rts/Capability.h](/trac/ghc/browser/ghc/rts/Capability.h), [rts/Capability.c](/trac/ghc/browser/ghc/rts/Capability.c)
+
+
+A Capability is a *virtual CPU* for executing Haskell code.  The
+number of capabilities in the system is chosen by the `+RTS -N`
 option.  This value should be chosen to be the same as the number of
 real CPU cores, so that we never try to run more Haskell threads
 simultaneously than we have real CPUs available.
+
 
 This makes some parts of the system simpler - for example, we can use
 spin locks that spin indefinitely, because we can ensure that the spin
 lock is only held by a currently executing CPU, and will therefore be
 released in a finite (and short) amount of time.
 
+
 Also we can maximise the advantage of our lightweight threading by not
 using OS-level context switching.  We still use OS-level blocking I/O,
 however - only the OS knows how to do that in general.
 
+
 A Capability is in one of two states:
 
- * It is free if {{{cap->running_task == NULL}}}.  The Capability
-   is dormant, not currently executing any code.
+- It is free if `cap->running_task == NULL`.  The Capability
+  is dormant, not currently executing any code.
 
- * Otherwise, it is held by a Task, and {{{cap->running_task}}} points
-   to the Task that is currently holding it.
+- Otherwise, it is held by a Task, and `cap->running_task` points
+  to the Task that is currently holding it.
+
 
 The important components of a Capability are:
 
- * The [wiki:Commentary/Rts/HaskellExecution#Registers registers] of
-   the virtual machine, for executing Haskell code (although while
-   actually executing, some of these registers may be held in real
-   machine registers, they are only saved to the Capability when
-   returning to the scheduler).
+- The [registers](commentary/rts/haskell-execution#registers) of
+  the virtual machine, for executing Haskell code (although while
+  actually executing, some of these registers may be held in real
+  machine registers, they are only saved to the Capability when
+  returning to the scheduler).
 
- * The Task that is currently animating this Capability.
+- The Task that is currently animating this Capability.
 
- * A queue of runnable Haskell threads (the ''run queue'').
+- A queue of runnable Haskell threads (the *run queue*).
 
- * A list of Haskell thrads currently making safe foreign calls.
+- A list of Haskell thrads currently making safe foreign calls.
 
- * A list of worker OS threads.
+- A list of worker OS threads.
 
- * A list of Tasks waiting to return to Haskell from foreign calls.
+- A list of Tasks waiting to return to Haskell from foreign calls.
 
- * A list of Haskell threads waiting to wake up on this Capability.
+- A list of Haskell threads waiting to wake up on this Capability.
 
-=== Handing over a Capability ===
+### Handing over a Capability
+
 
 The Task currently holding a Capability might need to relinquish it
 for one of the following reasons:
 
- * The Haskell thread at the head of the run queue is not appropriate
-   for this Task: it is bound to another Task, or it is unbound and
-   the current Task is bound.
+- The Haskell thread at the head of the run queue is not appropriate
+  for this Task: it is bound to another Task, or it is unbound and
+  the current Task is bound.
 
- * There is a Task waiting to return to Haskell from a foreign call
-   (these are given priority over Haskell threads in the run queue,
-   because in general they haven't had a full time slice yet).
+- There is a Task waiting to return to Haskell from a foreign call
+  (these are given priority over Haskell threads in the run queue,
+  because in general they haven't had a full time slice yet).
 
- * Another Task is trying to garbage collect (in the current
-   single-threaded GC, all activity has to stop in order to GC).
+- Another Task is trying to garbage collect (in the current
+  single-threaded GC, all activity has to stop in order to GC).
+
 
 The details of handing over a Capability are rather subtle, so look at
 the code for the definitive picture.  Broadly speaking, when handing
@@ -180,6 +181,7 @@ it fails because another Task is holding the Capability (this is
 entirely possibly, since the Capability was marked free momentarily),
 then it goes back to sleep: the other Task will release and hand it
 over at some point.
+
 
 One reason behind marking a Capability as free when it is handed over
 is to support fast callouts.  When making a safe foreign call we have
@@ -192,9 +194,6 @@ woke up will find that the Capability is owned, and go back to sleep
 again (this may incur a double context switch if there are no free
 CPUs on which to run the worker, however).
 
-== The Scheduler's main loop ==
+## The Scheduler's main loop
 
-== Affinity and migration ==
-
-
-```
+## Affinity and migration
