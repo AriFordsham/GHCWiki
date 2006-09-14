@@ -82,7 +82,7 @@ A case expression can scrutinise
 A case expression is **always strict**, even if there is only one alternative, and it is `DEFAULT`.  (This differs from Haskell!)  So
 
 ```wiki
-case error "urk" of { DEFAULT -> True
+case error "urk" of { DEFAULT -> True }
 ```
 
 
