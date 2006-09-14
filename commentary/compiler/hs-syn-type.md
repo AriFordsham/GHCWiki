@@ -20,7 +20,7 @@ The `HsSyn` modules live in the [compiler/hsSyn](/trac/ghc/browser/ghc/compiler/
 - [compiler/hsSyn/HsUtils.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsUtils.lhs): utility functions (no data types).
 
 
-There is significant mutual recursion between modules, and hence a couple of `lhs-boot` files. Look at `wiki:ModuleDependencies` to see the dependencies.
+There is significant mutual recursion between modules, and hence a couple of `lhs-boot` files. Look at [ModuleDependencies](module-dependencies) to see the dependencies.
 
 
 The type checker adds type information to the syntax tree, otherwise leaving it as undisturbed as possible.  This is done in two ways:
