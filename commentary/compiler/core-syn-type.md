@@ -121,7 +121,7 @@ Case expressions have several invariants
 
 - The `res_ty` type is the same as the type of any of the right-hand sides.
 
-- If there is a `DEFAULT` alternative, it must appear first.
+- If there is a `DEFAULT` alternative, it must appear first.  This makes finding a `DEFAULT` alternative easy, when it exists.
 
 - The remaining non-DEFAULT alternatives must appear in order of
 
