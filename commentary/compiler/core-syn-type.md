@@ -119,7 +119,7 @@ case (reverse xs) of y { DEFAULT -> f y }
 
 Case expressions have several invariants
 
-- The `res_ty` type is the same as the type of any of the right-hand sides.
+- The `res_ty` type is the same as the type of any of the right-hand sides (up to refining unification [compiler/types/Unify.lhs](/trac/ghc/browser/ghc/compiler/types/Unify.lhs) in pre-[FC](commentary/compiler/fc)).
 
 - If there is a `DEFAULT` alternative, it must appear first.  This makes finding a `DEFAULT` alternative easy, when it exists.
 
