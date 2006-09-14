@@ -4,9 +4,9 @@
 
 There are three categories of entities that GHC "knows about"; that is, information about them is baked into GHC's source code.
 
-  * [wiki:Commentary/Compiler/WiredIn#Wiredinthings Wired-in things]
+  * [wiki:Commentary/Compiler/WiredIn#Wiredinthings Wired-in things] --- GHC knows everything about these
   * [wiki:Commentary/Compiler/WiredIn#Knownkeythings Known-key things]
-  * [wiki:Commentary/Compiler/WiredIn#OrigRdrNamethings Orig RdrName things]
+  * [wiki:Commentary/Compiler/WiredIn#OrigRdrNamethings Orig RdrName  things] --- GHC knows which module it's defined in
 
 == Wired-in things ==
 
