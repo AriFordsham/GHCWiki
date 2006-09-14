@@ -48,6 +48,9 @@ data PredType = ClassP Class [Type]		-- Class predicate
 data TyNote = FTVNote TyVarSet	-- The free type variables of the noted expression
 }}}
 
+Invariant: if the head of a type application is a {{{TyCon}}}, GHC ''always'' uses the {{{TyConApp}}} constructor, not {{{AppTy}}}.
+This invariant is maintained internally by 'smart constructors'.
+
 == Kinds ==
 
 Kinds are represented as types:
