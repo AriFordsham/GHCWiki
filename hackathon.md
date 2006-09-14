@@ -88,6 +88,10 @@ Zero.  But you may have to feed yourself if you don't register.
 - \[i\]   - Debugging and GHCi, and other interactive tools.
 - \[Lib\] - Libraries, packaging, and namespace issues.
 
+[Areas We'd Like To See Covered in More Depth](more-depth)
+
+[How We Might Spend Friday](friday-ideas)
+
 ## History of Hackathons
 
 
