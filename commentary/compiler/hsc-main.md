@@ -33,7 +33,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
 - At this point, the data flow forks.  First, the tidied program is dumped into an interface file.  This part happens in two stages:
 
-  - It is **converted to `IfaceSyn`** (defined in \[GhcFile(compiler/iface/IfaceSyn.lhs\] and \[GhcFile(compiler/iface/IfaceType.lhs\]).
+  - It is **converted to `IfaceSyn`** (defined in \[GhcFile(iface/IfaceSyn.lhs\] and \[GhcFile(compiler/iface/IfaceType.lhs\]).
   - The `IfaceSyn` is **serialised into a binary output file** ([iface/BinIface.lhs](/trac/ghc/browser/ghc/iface/BinIface.lhs)).
 
 > >
