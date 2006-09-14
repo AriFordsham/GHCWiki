@@ -1,7 +1,7 @@
 # Hack
 
 
-The Hackathon has started!
+The [Hackathon](hackathon) has started!
 
 - To get GHC:
 
