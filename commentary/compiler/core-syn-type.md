@@ -68,7 +68,7 @@ Case expressions are the most complicated bit of `Core`.  In the term `Case scru
 
 - `scrut` is the scrutinee
 - `case_bndr` is the **case binder** (see notes below)
-- `res_ty` is the type of the entire case expression (redundant once FC is in HEAD)
+- `res_ty` is the type of the entire case expression (redundant once [FC](commentary/compiler/fc) is in HEAD)
 - `alts` is a list of the case alternatives
 
 
