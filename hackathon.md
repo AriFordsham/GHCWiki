@@ -88,6 +88,10 @@ Zero.  But you may have to feed yourself if you don't register.
 - \[i\]   - Debugging and GHCi, and other interactive tools.
 - \[Lib\] - Libraries, packaging, and namespace issues.
 
+[Areas We'd Like To See Covered in More Depth](more-depth)
+
+[How We Might Spend Friday](friday-ideas)
+
 ## History of Hackathons
 
 
@@ -151,6 +155,7 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 
 - [ Kathleen Fisher](http://www.research.att.com/info/kfisher), ATT, interested in adding support for data description to Haskell
 - Greg Fitzgerald, language enthusiast relatively new to Haskell (comment stolen from Mathew Mills :)
+- [ David Frech](http://nimblemachines.com/), interested in the "backend": STG code generation and its relationship with the RTS.
 
 - [ Jeremy Gibbons](http://www.comlab.ox.ac.uk/jeremy.gibbons/), University of Oxford, generally curious about GHC internals - especially advanced aspects of typing
 - [ Andy Gill](http://www.gill-warbington.com/home/andy), Galois, Previous contributor to GHC, wanting tools for high assurance Haskell.
@@ -193,3 +198,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - Ahn, Ki Yung, PSU. GHC user. intersted in better data-sturcture libraries with more generic and powerful interface, eliminating dictionary passing cost of class functions anywhere possible, GADTs.
 
 - Lyle Kopnicky (lyle AT rentrak DOT com), interested in learning more about compiling Haskell.
+- [ Lee Pike](http://www.cs.indiana.edu/~lepike/), Galois.  Interested in "Haskell on bare metal" and a lightweight/high-assurance RTS. 
