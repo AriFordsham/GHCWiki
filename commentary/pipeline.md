@@ -19,7 +19,7 @@ We start with `Foo.hs` or `Foo.lhs`, the "l" specifing whether literate style is
   - C code: flag `-fviaC`, file `Foo.hc`
   - C-- mode: flag `-fcmm`, file `Foo.cmm`, believed not to work
 
-- Run the C compiler or assembler, as appropriate, generating `Foo.o`
+- Run the C compiler \[followed by the evil mangler\] or assembler, as appropriate, generating `Foo.o`
 
 ## Interface files
 
