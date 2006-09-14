@@ -1,11 +1,23 @@
 # How Should We Spend Friday?
 
+## Projects
+
+
+Add projects ideas you have, and add your name if you're interested in working on them.
+
 - Hacking the build system (for example)
 - Setting up GHC to build the base library using Cabal (since you have the GHC team, the Cabal team and the hmake team in one place!)
+
+  - Isaac Jones - I can be available for general Cabal questions as well.
+- Hacking on Cabal-Get (not really a GHC thing!)
+
+  - Isaac Jones
 - Fix C-- (cmm) output?
 - Discussing proposed changes to backend and code generation
 - Discussing dynamic linking
 - Strategies in debugging GHC and RTS.
+
+## General Organization
 
 
 The above are specific projects or subgroups that might form.  What about more generally?  How should we organise the day?
