@@ -17,8 +17,8 @@ We begin by discussing the basic abstractions used in the scheduler.
 
 == OS Threads ==
 
-Source files: [[GhcFile(rts/OSThreads.h)]],
-[[GhcFile(win32/OSThreads.c)]], [[GhcFile(posix/OSThreads.c)]]
+Source files: [[GhcFile(include/OSThreads.h)]],
+[[GhcFile(rts/win32/OSThreads.c)]], [[GhcFile(rts/posix/OSThreads.c)]]
 
 We assume that the OS provides some kind of native threads, and for
 SMP parallelism we assume that the OS will schedule multiple OS
