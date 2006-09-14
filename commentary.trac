@@ -4,7 +4,6 @@ This tree of wiki pages is a "commentary" on the GHC source code.  It contains a
 
 Please feel free to add maaterial to this commentary: don't worry too much about accuracy, in due course someone will edit your contribution.  Try to link to source files as much as possible by using this macro: {{{[[GhcFile(compiler/Makefile)]]}}} (the usual Trac {{{source:}}} macro doesn't work here because the GHC darcs repository isn't integrated into this Trac).  Also try to add appropriate links to other parts of the commentary.
 
-'''Temporary note: don't edit in the main section yet; instead send us comments.  We are editing heavily, from sources held in emacs, and might overwrite your changes!'''
 
 == Contents ==
 
