@@ -5,6 +5,6 @@
  * How to read a dailysnapshot build log.
  * Does ghc compile with VisualHaskell yet?
  * In the compiler pipeline, please explain a little more about the invariants as a program flows through the pipeline.  For example, toward the back end, it would be useful to know at what point the following become known:
- ** layout of heap objects
- ** explicit heap pointer (allocation pointer)
- ** explicit stack pointer
+   * layout of heap objects
+   * explicit heap pointer (allocation pointer)
+   * explicit stack pointer
