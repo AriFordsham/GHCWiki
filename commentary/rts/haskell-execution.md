@@ -23,7 +23,7 @@ During execution of Haskell code the following (virtual) registers are always va
 
 - `Sp` points to the youngest allocated byte of stack.  The stack grows downwards.  Why?  Because that means that a return address is at a lower address than the stack frame it "knows about", and that in turn means that we can treat a stack frame very like a heap object, with an info pointer (return address) as its first word.
 
-- `SpLim` points to the last available byte in the current stack.
+- `SpLim` points to the last (youngest) available byte in the current stack.
 
 
 There are bunch of other virtual registers, used for temporary argument passing, for words, floats and doubles: `R1` .. `R10`, `F1` .. `F4`, `D1` .. `D4`, `L1` .. `L2`.
