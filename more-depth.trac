@@ -13,3 +13,4 @@
    * explicit stack pointer
  * What optimizations happen in the simplifier? How do they work?
  * The GHC API and implementation of GHCi
+ * A breakdown of the size of the various parts of the run-time system
