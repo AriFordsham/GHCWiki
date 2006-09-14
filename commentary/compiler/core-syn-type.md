@@ -14,7 +14,7 @@ The `CoreSyn` type, and the functions that operate over it, gets an entire direc
 - [compiler/coreSyn/CoreUnfold.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreUnfold.lhs): dealing with "unfoldings".
 - [compiler/coreSyn/CoreLint.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreLint.lhs): type-check the Core program. This is an incredibly-valuable consistency check, enabled by the flag `-dcore-lint`.
 - [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs): [the CorePrep pass](commentary/compiler/hsc-main)
-- [compiler/coreSyn/CoreTidy.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreTidy.lhs): part of the [the CoreTidy pass](commentary/compiler/hsc-main) (the rest is in [compiler/Main/TidyPgm.lhs](/trac/ghc/browser/ghc/compiler/Main/TidyPgm.lhs)).
+- [compiler/coreSyn/CoreTidy.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreTidy.lhs): part of the [the CoreTidy pass](commentary/compiler/hsc-main) (the rest is in [compiler/main/TidyPgm.lhs](/trac/ghc/browser/ghc/compiler/main/TidyPgm.lhs)).
 
 
 Here is the entire Core type [compiler/coreSyn/CoreSyn.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreSyn.lhs):
