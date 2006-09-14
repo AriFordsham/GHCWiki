@@ -26,13 +26,13 @@ During execution of Haskell code the following (virtual) registers are always va
 - `SpLim` points to the last available byte in the current stack.
 
 
-There are bunch of other virtual registers, used for temporarily for argument passing, for words, floats and doubles: `R1` .. `R10`, `F1` .. `F4`, `D1` .. `D4`, `L1` .. `L2`.
+There are bunch of other virtual registers, used for temporary argument passing, for words, floats and doubles: `R1` .. `R10`, `F1` .. `F4`, `D1` .. `D4`, `L1` .. `L2`.
 
 
 In a register-rich machine, many of these virtual registers will be mapped to real registers.  In a register-poor machine, they are instead allocated in a static memory record, pointed to by a real register, `BaseReg`.
 
 
-The code generator knows how many real registers there are, and tries to avoid using virtual registers that aren not mapped to real registers.  So, for example, it does not use `R5` if the latter is memory-mapped; instead, it passes arguments on the stack.
+The code generator knows how many real registers there are, and tries to avoid using virtual registers that are not mapped to real registers.  So, for example, it does not use `R5` if the latter is memory-mapped; instead, it passes arguments on the stack.
 
 ## Function Calls
 
