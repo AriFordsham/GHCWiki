@@ -13,6 +13,7 @@ We start with {{{Foo.hs}}} or {{{Foo.lhs}}}, the "l" specifing whether literate 
  * Run the compiler itself. This does not start a separate process; it's just a call to a Haskell function.  This step always generates an '''interface file''' {{{Foo.hi}}}, and depending on what flags you give, it also generates a compiled file:
    * Assembly code: flag {{{-S}}}, file {{{Foo.s}}}
    * C code: flag {{{-fviaC}}}, file {{{Foo.hc}}}
+   * C-- mode: flag {{{-fcmm}}}, file {{{Foo.cmm}}}, believed not to work
 
   * Run the C compiler or assembler, as appropriate, generating {{{Foo.o}}}
 
