@@ -25,6 +25,9 @@ These two "views" are supported by a family of functions operating over that vie
 - [compiler/typecheck/TcType.lhs](/trac/ghc/browser/ghc/compiler/typecheck/TcType.lhs): source-view utility functions over `Type`.
 
 
+The "view" functions are *shallow*, not deep---a view function just looks at the root of the tree representing the type.  This leads to a nice programming idiom in which a case can be guarded by {{Just t' \<- coreView t}}, which unfortunately the margin of this Wiki is too small to contain.
+
+
 The module `TypeRep` exposes the representation becauese a few other modules (`Type`, `TcType`, `Unify`, etc) work directly on its representation.  However, you should not lightly pattern-match on `Type`; it is meant to be an abstract type.  Instead, try to use functions defined by `Type`, `TcType` etc.
 
 
