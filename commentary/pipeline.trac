@@ -6,7 +6,7 @@ When GHC compiles a module, it calls other programs, and generates a series of i
 
 We start with {{{Foo.hs}}} or {{{Foo.lhs}}}, the "l" specifing whether literate style is being used.
 
- * Run the unlit pre-processor, {{{unlit}}}, to remove the literate markup, generating ???.  The {{{unlit}}} processor is a C program kept in {{{utils/unlit}}}.
+ * Run the unlit pre-processor, {{{unlit}}}, to remove the literate markup, generating {{{Foo.lpp}}}.  The {{{unlit}}} processor is a C program kept in {{{utils/unlit}}}.
 
  * Run CPP (if {{{-fcpp}}} is specified), generating {{{Foo.cpp}}} or {{{Foo.lpp}}} respectively.
 
