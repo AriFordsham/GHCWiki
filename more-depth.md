@@ -1,6 +1,30 @@
 # Areas We'd Like To See Covered In More Depth
 
-- The build system (for example)
+
+Possible presentation topics for Friday.  **If you'd like to see more on one of these, add your name to the line.**
+
+- How the renamer works
+
+- How the type checker works
+
+- How the simplifier works, and what transformations it does.
+
+- How Template Haskell is implemented
+
+- Packages, Cabal, and GHC
+
+- Details of the GHC-as-a-library API, and how to use it.
+
+  Related: compiling multiple modules: `--make` and all that
+
+- More details about vectored returns
+
+- Details about System FC, GHC's new intermediate language
+
+- Reading a nightly snapshot build log
+
+## Suggestions from the floor
+
 - It would be quite interesting to hear what parts of GHC are changing rapidly and what parts seem quite stable.  Also, into which corners of the compiler do the righteous fear to tread?  (The evil mangler?)
 - It is unclear how binding group analysis influences the use of 1 abstract syntax (HsSyn): how is the required ordering and grouping implemented, how does it affect error messages? 
 - How does this Cabal thing work?
