@@ -1,0 +1,14 @@
+= Hack =
+
+The Hackathon has started!
+
+To get GHC:
+{{{
+darcs get --partial http://kpacha.cs.pdx.edu/ghc
+}}}
+
+== Menu ==
+
+ * [wiki:MoreDepth Areas We'd Like To See Covered in More Depth]
+ * [wiki:FridayIdeas How We Might Spend Friday]
+ * Add Page here!
