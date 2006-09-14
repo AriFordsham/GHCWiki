@@ -98,6 +98,8 @@ option.  This value should be chosen to be the same as the number of
 real CPU cores, so that we never try to run more Haskell threads
 simultaneously than we have real CPUs available.
 
+Invariant: a task that holds a capability is not blocked in the operating system.
+
 This makes some parts of the system simpler - for example, we can use
 spin locks that spin indefinitely, because we can ensure that the spin
 lock is only held by a currently executing CPU, and will therefore be
