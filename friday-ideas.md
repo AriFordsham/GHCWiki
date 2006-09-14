@@ -10,7 +10,7 @@
 
 The above are specific projects or subgroups that might form.  What about more generally?  How should we organise the day?
 
-- just let everyone hack on individual projects, with floating Simons to help
+- just let everyone hack on individual projects, with floating Simons to help. --- I'd like that.
 - form subgroups to work together on shared projects
 
   - Project ideas here?
