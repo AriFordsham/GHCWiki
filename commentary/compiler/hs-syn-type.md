@@ -61,4 +61,6 @@ The type checker adds type information to the syntax tree, otherwise leaving it 
 
   - `HsCoerce`, in the `HsExpr` type.
   - `AbsBinds`, in the `HsBinds` type.
-    ToDo: say more
+
+
+SLPJ: These are invariably to do with type abstraction and application, since Haskell source is implicitly generalized and instantiated, whereas GHC's intermediate form is explicitly generalized and instantiated.
