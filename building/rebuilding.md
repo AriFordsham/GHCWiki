@@ -1,0 +1,1 @@
+# How do I rebuild GHC after updating or changing it?
