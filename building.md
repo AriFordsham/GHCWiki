@@ -19,6 +19,7 @@ from that manual is gradually being incorporated here.
 - [What tools you need](building/prerequisites)
 - [Quick start: just building and installing GHC](building/quick-start)
 - [Quick start for developers](building/hacking)
+- [How do re-build after updating or changing GHC?](building/rebuilding)
 - [Using the build system](building/using)
 - Architecture of the build system?
 - [Building the documentation](building/docs)
