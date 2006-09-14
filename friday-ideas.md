@@ -3,3 +3,12 @@
 - Hacking the build system (for example)
 - Setting up GHC to build the base library using Cabal (since you have the GHC team, the Cabal team and the hmake team in one place!)
 - Fix C-- (cmm) output?
+
+
+The above are specific projects or subgroups that might form.  What about more generally?  How should we organise the day?
+
+- just let everyone hack on individual projects, with floating Simons to help
+- form subgroups to work together on shared projects
+- have more explanatory talk sessions led from the front
+- form subgroups for explanatory sessions on different topics (but not to work on a shared project)
+- ???
