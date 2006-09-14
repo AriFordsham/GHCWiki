@@ -50,6 +50,7 @@ data TyNote = FTVNote TyVarSet	-- The free type variables of the noted expressio
 
 Invariant: if the head of a type application is a {{{TyCon}}}, GHC ''always'' uses the {{{TyConApp}}} constructor, not {{{AppTy}}}.
 This invariant is maintained internally by 'smart constructors'.
+A similar invariant applies to {{{FunTy}}}; {{{TyConApp}}} is never used with an arrow type.
 
 == Kinds ==
 
