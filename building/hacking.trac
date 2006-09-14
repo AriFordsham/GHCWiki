@@ -87,6 +87,7 @@ To just build everything, from the top level:
   $ make install
 }}}
 
+(See here for [wiki:Building/Problems what can go wrong].)
 
 If you see the following ...
 {{{
