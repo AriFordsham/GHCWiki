@@ -127,6 +127,7 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 
  * [http://www.research.att.com/info/kfisher Kathleen Fisher], ATT, interested in adding support for data description to Haskell
  * Greg Fitzgerald, language enthusiast relatively new to Haskell (comment stolen from Mathew Mills :)
+ * [http://nimblemachines.com/ David Frech], interested in the "backend": STG code generation and its relationship with the RTS.
 
  * [http://www.comlab.ox.ac.uk/jeremy.gibbons/ Jeremy Gibbons], University of Oxford, generally curious about GHC internals - especially advanced aspects of typing
  * [http://www.gill-warbington.com/home/andy Andy Gill], Galois, Previous contributor to GHC, wanting tools for high assurance Haskell.
