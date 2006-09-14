@@ -11,3 +11,4 @@
    * layout of heap objects
    * explicit heap pointer (allocation pointer)
    * explicit stack pointer
+ * What optimizations happen in the simplifier? How do they work?
