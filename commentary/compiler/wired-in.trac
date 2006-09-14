@@ -61,5 +61,5 @@ Notice that the initialisation embraces both the wired-in and ("basic") known-ke
 An '''Orig !RdrName thing''' has a top-level definition of a `RdrName`, using the `Orig` constructor.  Here, the baked-in information is:
   * Its defining `Module`
   * Its `OccName`
-Again, almost all of these are in [[GhcFile(compiler/prelude/PrelNames)]].
+Again, almost all of these are in [[GhcFile(compiler/prelude/PrelNames.lhs)]].
 Example: {{{PrelNames.not_RDR :: RdrName}}}.
