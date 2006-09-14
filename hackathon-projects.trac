@@ -68,3 +68,5 @@ Add your suggestions for the hackathon below...
    other OS-specific package format, eg. RPM)
 
  * Any of the [query:?status=new&status=assigned&status=reopened&type=bug&order=priority bugs], [query:?status=new&status=assigned&status=reopened&type=task&order=priority&group=difficulty tasks], or [query:?status=new&status=assigned&status=reopened&type=feature+request&order=priority feature requests].
+
+  * Guarantee that .hi files and .o files are consistent, possibly by means of some sort of digital signature that would cause a link-time failure
