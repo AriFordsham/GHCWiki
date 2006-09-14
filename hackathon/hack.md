@@ -1,40 +1,20 @@
-CONVERSION ERROR
+# Hack
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Hackathon/Hack"
-  queryString          = "?version=6"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:56:23 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","251"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Hackathon/Hack\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-Original source:
+The [Hackathon](hackathon) has started!
 
-```trac
-= Hack =
+- To get GHC:
 
-The [wiki:Hackathon] has started!
+  ```wiki
+  darcs get --partial http://kpacha.cs.pdx.edu/ghc
+  ```
 
- * To get GHC:
-{{{
-darcs get --partial http://kpacha.cs.pdx.edu/ghc
-}}}
+- Then see the [Building](building) page.
+- simonm: Make sure to adjust build system to warn user if they are using a unsupported version of ghc to build ghc.
 
- * Then see the [wiki:Building] page.
- * simonm: Make sure to adjust build system to warn user if they are using a unsupported version of ghc to build ghc.
+## Menu
 
-== Menu ==
-
- * [wiki:MoreDepth Areas We'd Like To See Covered in More Depth] or questions
- * [wiki:FridayIdeas How We Might Spend Friday]
- * [wiki:Hackathon/Notes]
- * Add Page here!
-```
+- [Areas We'd Like To See Covered in More Depth](more-depth) or questions
+- [How We Might Spend Friday](friday-ideas) - Add your name to projects you might be interested in!
+- Hackathon/Notes?
+- Add Page here!
