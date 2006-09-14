@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/HackathonProjects"
-  queryString          = "?version=12"
+  queryString          = "?version=13"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -71,8 +71,6 @@ Add your suggestions for the hackathon below...
  
  * Add type parameter to [wiki:Commentary/Compiler/HsSynType HsSyn] for the post-typechecking type to ensure it does not exist until after typechecking 
  
- * core lint should check the case invariants if it doesn't already
-
 == Library Projects ==
 
  * Work on the Streams library
