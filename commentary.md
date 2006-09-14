@@ -101,4 +101,4 @@ Finally, here are some generally-useful, but now somewhat-out-of-date resources:
 - [GhcPapers](ghc-papers): papers and pointers to other documents that relate to the inner workings of GHC.
 
 
-Convert type diagram to SVG? 
+Convert type diagram to SVG? Upload graphviz source?
