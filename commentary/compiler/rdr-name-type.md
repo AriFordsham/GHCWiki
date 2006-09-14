@@ -55,7 +55,7 @@ An `OccName` is more-or-less just a string, like "foo" or "Tree", giving the (un
 Well, not quite just a string, because in Haskell a name like "C" could mean a type constructor or data constructor, depending on context. So GHC defines a type OccName (defined in basicTypes/OccName.lhs) that is a pair of a `FastString` and a `NameSpace` indicating which name space the name is drawn from. The data type is defined (abstractly) in [compiler/basicTypes/OccName.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/OccName.lhs):
 
 ```wiki
-data OccName = OccName NameSpace EncodedFS
+data OccName = OccName NameSpace FastString
 ```
 
 
