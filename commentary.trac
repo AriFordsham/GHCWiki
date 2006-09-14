@@ -90,3 +90,5 @@ Finally, here are some generally-useful, but now somewhat-out-of-date resources:
  * [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/ The GHC Commentary]: Information on the internals of GHC, in various states of up-to-dateness.  We are keen to move this stuff out of its current location and onto this Wiki.  If anyone is willing to help do that, even for just a part in which you are interested, we would be delighted.
  * GhcPapers: papers and pointers to other documents that relate to the inner workings of GHC.
 
+
+Convert type diagram to SVG? 
