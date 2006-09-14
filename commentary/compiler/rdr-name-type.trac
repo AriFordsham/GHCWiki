@@ -54,10 +54,7 @@ data OccName = OccName
     , occNameFS     :: !FastString
     }
 }}}
-{{{FastString}}} is a packed string implementation of strings. 
-
 The name spaces are: 
-
 {{{
 data NameSpace = VarName	-- Variables, including "source" data constructors
 	       | DataName	-- "Real" data constructors 
