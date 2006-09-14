@@ -5,7 +5,7 @@
  * Fix C-- (cmm) output?
  * Discussing proposed changes to backend and code generation
  * Discussing dynamic linking
- * Strategies in debugging GHC.
+ * Strategies in debugging GHC and RTS.
 
 The above are specific projects or subgroups that might form.  What about more generally?  How should we organise the day?
 
