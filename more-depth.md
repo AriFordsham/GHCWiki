@@ -11,11 +11,11 @@ Possible presentation topics for Friday.  **If you'd like to see more on one of 
 
 - How Template Haskell is implemented
 
-- Packages, Cabal, and GHC
+- Packages, Cabal, and GHC --- would like to see: Norman Ramsey
 
 - Details of the GHC-as-a-library API, and how to use it.
 
-  Related: compiling multiple modules: `--make` and all that
+  Related: compiling multiple modules: `--make` and all that --- would like to see: Norman Ramsey
 
 - More details about vectored returns
 
