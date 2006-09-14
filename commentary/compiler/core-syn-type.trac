@@ -96,7 +96,7 @@ case (reverse xs) of y { DEFAULT -> f y }
 }}}
 
 Case expressions have several invariants
- * The {{{res_ty}}} type is the same as the type of any of the right-hand sides (up to refining unification [[GhcFile(compiler/types/Unify.lhs)]] in pre-[wiki:Commentary/Compiler/FC FC]).
+ * The {{{res_ty}}} type is the same as the type of any of the right-hand sides (up to refining unification -- coreRefineTys in [[GhcFile(compiler/types/Unify.lhs)]] -- in pre-[wiki:Commentary/Compiler/FC FC]).
  
  * If there is a {{{DEFAULT}}} alternative, it must appear first.  This makes finding a {{{DEFAULT}}} alternative easy, when it exists.
 
