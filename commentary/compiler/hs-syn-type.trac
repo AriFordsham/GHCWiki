@@ -15,7 +15,7 @@ The {{{HsSyn}}} modules live in the [[GhcFile(compiler/hsSyn)]] directory.  Each
  * [[GhcFile(compiler/hsSyn/HsTypes.lhs)]]: types.
  * [[GhcFile(compiler/hsSyn/HsUtils.lhs)]]: utility functions (no data types).
 
-There is significant mutual recursion between modules, and hence a couple of {{{lhs-boot}}} files. Look at {{{wiki:ModuleDependencies}}} to see the dependencies.
+There is significant mutual recursion between modules, and hence a couple of {{{lhs-boot}}} files. Look at [wiki:ModuleDependencies] to see the dependencies.
 
 The type checker adds type information to the syntax tree, otherwise leaving it as undisturbed as possible.  This is done in two ways:
   * Some constructors have a field of type {{{PostTcType}}}, which is just a synonym for {{{Type}}}. For example:
