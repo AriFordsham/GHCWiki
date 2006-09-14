@@ -193,4 +193,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - Ahn, Ki Yung, PSU. GHC user. intersted in better data-sturcture libraries with more generic and powerful interface, eliminating dictionary passing cost of class functions anywhere possible, GADTs.
 
 - Lyle Kopnicky (lyle AT rentrak DOT com), interested in learning more about compiling Haskell.
-- [ Lee Pike](http://www.cs.indiana.edu/~lepike/), interested in "Haskell on bare metal" and a lightweight/high-assurance RTS. 
+- [ Lee Pike](http://www.cs.indiana.edu/~lepike/), Galois.  Interested in "Haskell on bare metal" and a lightweight/high-assurance RTS. 
