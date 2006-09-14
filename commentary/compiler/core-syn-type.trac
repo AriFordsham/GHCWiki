@@ -44,7 +44,7 @@ That's it.  All of Haskell gets compiled through this tiny core.
 Here are some notes about the individual constructors of {{{Expr}}}.
  * {{{Lam}}} is used for both term and type abstraction (small and big lambdas).
 
- * {{{Type}}} appears only in type-argument positions (e.g. {{{App (Var f) (Type ty)}}}).  To emphasise this, the type synonym {{{Arg}}} is used as documentation when we expect that a {{{Type}}} constructor may show up.
+ * {{{Type}}} appears only in type-argument positions (e.g. {{{App (Var f) (Type ty)}}}).  To emphasise this, the type synonym {{{Arg}}} is used as documentation when we expect that a {{{Type}}} constructor may show up.  Anything not called {{{Arg}}} should not use a {{{Type}}} constructor.
 
  * {{{Let}}} handles both recursive and non-recursive let-bindings; see the the two constructors for {{{Bind}}}.
 
