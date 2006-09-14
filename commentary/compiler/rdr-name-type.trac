@@ -48,7 +48,7 @@ You'll notice that a `Qual` `RdrName` contains a `ModuleName`; which module is r
 
 An {{{OccName}}} is more-or-less just a string, like "foo" or "Tree", giving the (unqualified) name of an entity. 
 Well, not quite just a string, because in Haskell a name like "C" could mean a type constructor or data constructor, depending on context. So GHC defines a type OccName (defined in basicTypes/OccName.lhs) that is a pair of a {{{FastString}}} and a {{{NameSpace}}} indicating which name space the name is drawn from. The data type is defined (abstractly) in [[GhcFile(compiler/basicTypes/OccName.lhs)]]:
-{{
+{{{
 data OccName = OccName 
     { occNameSpace  :: !NameSpace
     , occNameFS     :: !FastString
