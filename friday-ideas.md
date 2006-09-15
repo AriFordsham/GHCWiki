@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/FridayIdeas"
-  queryString          = "?version=21"
+  queryString          = "?version=23"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -34,6 +34,7 @@ Add projects ideas you have, and add your name if you're interested in working o
  * Discussing dynamic linking
  * Strategies in debugging GHC and RTS.
  * Improve instance deriving: allow deriving Enum for more types, allow deriving Eq, Ord, Show for GADTs. -- Bjorn Bringert
+ * A walkthrough of GHC's intermediate outputs and how they are related to the various stages charted in http://cvs.haskell.org/trac/ghc/wiki/Commentary/Compiler/HscMain
 
 == General Organization ==
 The above are specific projects or subgroups that might form.  What about more generally?  How should we organise the day?
