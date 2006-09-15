@@ -104,3 +104,5 @@ Add your suggestions for the hackathon below...
   * Guarantee that .hi files and .o files are consistent, possibly by means of some sort of digital signature that would cause a link-time failure
 
   * A visualizer that would allow one to step forward and backward through the transformations that the compiler is doing (instead of crawling through endless outputs of {{{-ddump-*}}}).
+
+  * Get accurate identifier cross-reference information (out of the renamer?) and use it to generate an external file that can replace Emacs TAGS files with something more accurate (and that does not depend on hand-written type annotations).  (Norman Ramsey)
