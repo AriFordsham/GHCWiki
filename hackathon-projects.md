@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/HackathonProjects"
-  queryString          = "?version=17"
+  queryString          = "?version=21"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:56:47 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/HackathonProjects\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:56:48 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/HackathonProjects\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -74,15 +74,26 @@ Add your suggestions for the hackathon below...
  * Add type parameter to [wiki:Commentary/Compiler/HsSynType HsSyn] for the post-typechecking type to ensure it does not exist until after typechecking
 
  * Improve pretty-printer for Core to have better layout -- Geoff Washburn may look at this. 
+ * Resuscitate ExternalCore -- Do at the same time?
 
  * Improve instance deriving: allow deriving Enum for more types, allow deriving Eq, Ord, Show for GADTs. -- Bjorn Bringert
 
  * Hacking the build system (for example)
- * Setting up GHC to build the base library using Cabal (since you have the GHC team, the Cabal team and the hmake team in one place!)
-   * Isaac Jones - I can be available for general Cabal questions as well. 
- * Hacking on Cabal-Get (not really a GHC thing!)
-   * Isaac Jones 
+
  * Fix C-- (cmm) output?
+
+ * Low hanging optimizations?
+
+ * STGLint
+
+ * Rewrite the Evil Mangler in Haskell?
+
+ * GHC RTS in Cyclone?
+
+ * Work on GHC API, I would like to use it to provide feedback and interactivity to programmers
+
+ * Hook a multithreaded memory manager into the RTS
+
 
 == Library Projects ==
 
@@ -97,6 +108,12 @@ Add your suggestions for the hackathon below...
  * Cabalisation of the GHC library (#654)
 
  * Put two solid days of work into getting cabal-get finished and stable.  Additionally, put as many packages into the DB as possible.
+
+ * Setting up GHC to build the base library using Cabal (since you have the GHC team, the Cabal team and the hmake team in one place!)
+   * Isaac Jones - I can be available for general Cabal questions as well. 
+
+ * Hacking on Cabal-Get (not really a GHC thing!)
+   * Isaac Jones 
 
 == More Project Suggestions ==
 
