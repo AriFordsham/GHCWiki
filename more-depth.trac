@@ -25,7 +25,9 @@ Possible presentation topics for Friday.  '''If you'd like to see more on one of
 
  * Understanding the ddump flags, and walkthrough of a Haskell example
 
- * Profiling for closing space leaks -- [http://www.nabble.com/Why-does-this-program-eat-RAM--t2218557.html Example program]  Clifford Beshers
+ * Profiling for closing space leaks
+   * [http://www.nabble.com/Why-does-this-program-eat-RAM--t2218557.html Example program]  Clifford Beshers
+   * short example posted to cafe by Rodrigues ([http://haskell.org/pipermail/haskell-cafe/2006-June/016171.html], [http://haskell.org/pipermail/haskell-cafe/2006-July/016709.html])
 
 == Suggestions from the floor ==
 
