@@ -6,13 +6,15 @@ Possible presentation topics for Friday.  **If you'd like to see more on one of 
 
 - How the renamer works
 
-- How the type checker works --- Norman Ramsey
+- How the type checker works --- Norman Ramsey (but prefer two below), Andres Löh, Jeremy Gibbons
 
 - How the simplifier works, and what transformations it does.
 
 - How Template Haskell is implemented
 
 - Packages, Cabal, and GHC --- would like to see: Norman Ramsey, Geoff Washburn
+
+- Past or present efforts in formal verification of GHC components
 
 - Details of the GHC-as-a-library API, and how to use it. -- Norman Ramsey, Andy Gill, Geoff Washburn, Jeffery Zhang
 
@@ -21,9 +23,11 @@ Possible presentation topics for Friday.  **If you'd like to see more on one of 
 
 - More details about vectored returns
 
-- Details about System FC, GHC's new intermediate language
+- Details about System FC, GHC's new intermediate language -- Jeremy Gibbons
 
 - Reading a nightly snapshot build log
+
+- Understanding the ddump flags, and walkthrough of a Haskell example
 
 ## Suggestions from the floor
 
