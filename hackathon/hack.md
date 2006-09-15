@@ -16,5 +16,4 @@ The [Hackathon](hackathon) has started!
 
 - [Areas We'd Like To See Covered in More Depth](more-depth) or questions
 - [How We Might Spend Friday](friday-ideas) - Add your name to projects you might be interested in!
-- Hackathon/Notes?
 - Add Page here!
