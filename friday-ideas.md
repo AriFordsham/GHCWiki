@@ -3,24 +3,12 @@
 ## Projects
 
 
-See also [HackathonProjects](hackathon-projects) - Move these projects there? 
+Moved most of the "focused" projects to [HackathonProjects](hackathon-projects). 
+Add projects ideas there, and add your name if you're interested in working on them.
 
-
-Add projects ideas you have, and add your name if you're interested in working on them.
-
-- Hacking the build system (for example)
-- Setting up GHC to build the base library using Cabal (since you have the GHC team, the Cabal team and the hmake team in one place!)
-
-  - Isaac Jones - I can be available for general Cabal questions as well.
-- Hacking on Cabal-Get (not really a GHC thing!)
-
-  - Isaac Jones
-- Fix C-- (cmm) output?
 - Discussing proposed changes to backend and code generation
 - Discussing dynamic linking
 - Strategies in debugging GHC and RTS.
-- Improve instance deriving: allow deriving Enum for more types, allow deriving Eq, Ord, Show for GADTs. -- Bjorn Bringert
-- Improve core pretty-printing -- Geoff Washburn may look at this.
 
 ## General Organization
 
