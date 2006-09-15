@@ -40,3 +40,4 @@ Possible presentation topics for Friday.  '''If you'd like to see more on one of
  * What optimizations happen in the simplifier? How do they work?
  * The GHC API and implementation of GHCi
  * A breakdown of the size of the various parts of the run-time system
+ * Maybe something about the mathematical underpinnings of Haskell and GHC (though I get the feeling I'm the only one lacking a graduate math degree :-) )
