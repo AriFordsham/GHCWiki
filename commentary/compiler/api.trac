@@ -19,7 +19,7 @@ A typical interaction with the GHC API goes something like the following:
  * Perform [[ref(Dependency Analysis)]]: {{{depanal}}}
  * Load (compile) the source files: {{{load}}}
 
-Here is some boilerplate that seems to initialize GHC and a session.  Basically taken from ghc's Main.
+Warning:  Initializing GHC is tricky!  Here is some boilerplate that seems to initialize GHC and a session.  Basically taken from ghc's Main.
 
 {{{
 import DynFlags
