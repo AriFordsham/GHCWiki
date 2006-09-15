@@ -4,11 +4,11 @@ Possible presentation topics for Friday.  '''If you'd like to see more on one of
 
  * How the renamer works
 
- * How the type checker works --- Norman Ramsey (but prefer two below), Andres Löh, Jeremy Gibbons, Luke Maurer
+ * How the type checker works --- Norman Ramsey (but prefer two below), Andres Löh, Jeremy Gibbons, Luke Maurer, Brandon Moore
 
  * How the simplifier works, and what transformations it does.
 
- * How Template Haskell is implemented
+ * How Template Haskell is implemented -- Brandon Moore
 
  * Packages, Cabal, and GHC --- would like to see: Norman Ramsey, Geoff Washburn
 
