@@ -26,7 +26,7 @@ Possible presentation topics for Friday.  **If you'd like to see more on one of 
 
 - Reading a nightly snapshot build log
 
-- Understanding the ddump flags, and walkthrough of a Haskell example
+- Understanding the ddump flags, and walkthrough of a Haskell example -- Kim-Ee
 
 - Profiling for closing space leaks
 
@@ -41,7 +41,6 @@ Possible presentation topics for Friday.  **If you'd like to see more on one of 
 - It is unclear how binding group analysis influences the use of 1 abstract syntax (HsSyn): how is the required ordering and grouping implemented, how does it affect error messages? 
 - How does this Cabal thing work?
 - How to read a dailysnapshot build log.
-- A walkthrough of GHC's intermediate outputs and how they relate to the various stages charted in [ http://cvs.haskell.org/trac/ghc/wiki/Commentary/Compiler/HscMain](http://cvs.haskell.org/trac/ghc/wiki/Commentary/Compiler/HscMain)
 - Does ghc compile with VisualHaskell yet?
 - In the compiler pipeline, please explain a little more about the invariants as a program flows through the pipeline.  For example, toward the back end, it would be useful to know at what point the following become known:
 
