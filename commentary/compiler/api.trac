@@ -19,6 +19,24 @@ A typical interaction with the GHC API goes something like the following:
  * Perform [[ref(Dependency Analysis)]]: {{{depanal}}}
  * Load (compile) the source files: {{{load}}}
 
+Here is some boilerplate that seems to initialize GHC and a session.  Basically taken from ghc's Main.
+
+{{{
+import DynFlags
+import GHC
+
+mode = Interactive
+
+main = defaultErrorHandler defaultDynFlags $ do
+  GHC.init (Just "/usr/local/lib/ghc-6.5")  -- or your build tree!
+  s <- newSession mode
+  flags <- getSessionDynFlags s
+  (flags, _) <- parseDynamicFlags flags []
+  GHC.defaultCleanupHandler flags $ do
+    flags <- initPackages flags
+    setSessionDynFlags s flags
+}}}
+
 == Targets ==
 
 The targets specify the source files or modules at the top of the dependency tree.  For a Haskell program there is often just a single target {{{Main.hs}}}, but for a library the targets would consist of every visible module in the library.

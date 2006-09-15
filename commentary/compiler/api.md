@@ -22,6 +22,25 @@ A typical interaction with the GHC API goes something like the following:
 - Perform [Dependency Analysis](#DependencyAnalysis): `depanal`
 - Load (compile) the source files: `load`
 
+
+Here is some boilerplate that seems to initialize GHC and a session.  Basically taken from ghc's Main.
+
+```wiki
+import DynFlags
+import GHC
+
+mode = Interactive
+
+main = defaultErrorHandler defaultDynFlags $ do
+  GHC.init (Just "/usr/local/lib/ghc-6.5")  -- or your build tree!
+  s <- newSession mode
+  flags <- getSessionDynFlags s
+  (flags, _) <- parseDynamicFlags flags []
+  GHC.defaultCleanupHandler flags $ do
+    flags <- initPackages flags
+    setSessionDynFlags s flags
+```
+
 ## Targets
 
 
