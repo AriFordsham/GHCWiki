@@ -1,83 +1,91 @@
-# GHC Commentary: The GHC API
+CONVERSION ERROR
+
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/Commentary/Compiler/API"
+  queryString          = "?version=9"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:56:50 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","259"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/API\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+
+Original source:
+
+```trac
 
 
-This section of the commentary describes everything between [HscMain](commentary/compiler/hsc-main) and the front-end; that is, the parts of GHC that coordinate the compilation of multiple modules.
+= GHC Commentary: The GHC API =
 
+This section of the commentary describes everything between [wiki:Commentary/Compiler/HscMain HscMain] and the front-end; that is, the parts of GHC that coordinate the compilation of multiple modules.
 
-The GHC API is rather stateful; the state of an interaction with GHC is stored in an abstract value of type `GHC.Session`.  The only fundamental reason for this choice is that the `Session` models the state of the RTS's linker, which must be single-threaded.
+The GHC API is rather stateful; the state of an interaction with GHC is stored in an abstract value of type {{{GHC.Session}}}.  The only fundamental reason for this choice is that the {{{Session}}} models the state of the RTS's linker, which must be single-threaded.
 
+Although the GHC API apparently supports multiple clients, because each can be interacting with a different {{{Session}}}, in fact it only supports one client that is actually executing code, because the [wiki:Commentary/Rts/Interpreter#Linker RTS linker] has a single global symbol table.
 
-Although the GHC API apparently supports multiple clients, because each can be interacting with a different `Session`, in fact it only supports one client that is actually executing code, because the [RTS linker](commentary/rts/interpreter#) has a single global symbol table.
-
-
-This part of the commentary is not a tutorial on *using* the GHC API: for that, see [ Using GHC as a Library](http://haskell.org/haskellwiki/GHC/As_a_library).  Here we are going to talk about the implementation.
-
+This part of the commentary is not a tutorial on ''using'' the GHC API: for that, see [http://haskell.org/haskellwiki/GHC/As_a_library Using GHC as a Library].  Here we are going to talk about the implementation.
 
 A typical interaction with the GHC API goes something like the following:
 
-- Initialize the GHC TopDir: `init`
-- Create a new session: `newSession`
-- Add some *targets*: `setTargets`, `addTarget`, `guessTarget`
-- Perform [Dependency Analysis](#DependencyAnalysis): `depanal`
-- Load (compile) the source files: `load`
+ * Initialize the GHC top dir: {{{init}}}
+ * Create a new session: {{{newSession}}}
+ * Add some ''targets'': {{{setTargets}}}, {{{addTarget}}}, {{{guessTarget}}}
+ * Perform [[ref(Dependency Analysis)]]: {{{depanal}}}
+ * Load (compile) the source files: {{{load}}}
 
-## Targets
+== Targets ==
 
+The targets specify the source files or modules at the top of the dependency tree.  For a Haskell program there is often just a single target {{{Main.hs}}}, but for a library the targets would consist of every visible module in the library.
 
-The targets specify the source files or modules at the top of the dependency tree.  For a Haskell program there is often just a single target `Main.hs`, but for a library the targets would consist of every visible module in the library.
+The {{{Target}}} type is defined in [[GhcFile(compiler/main/HscTypes.lhs)]].  Note that a {{{Target}}} includes not just the file or module name, but also optionally the complete source text of the module as a {{{StringBuffer}}}: this is to support an interactive development environment where the source file is being edited, and the in-memory copy of the source file is to be used in preference to the version on disk.
 
+== Dependency Analysis ==
 
-The `Target` type is defined in [compiler/main/HscTypes.lhs](/trac/ghc/browser/ghc/compiler/main/HscTypes.lhs).  Note that a `Target` includes not just the file or module name, but also optionally the complete source text of the module as a `StringBuffer`: this is to support an interactive development environment where the source file is being edited, and the in-memory copy of the source file is to be used in preference to the version on disk.
+The dependency analysis phase determines all the Haskell source files that are to be compiled or loaded in the current session, by traversing the transitive dependencies of the targets.  This process is called the ''downsweep'' because we are traversing the dependency tree downwards from the targets.  (The ''upsweep'', where we compile all these files happens in the opposite direction of course).
 
-## Dependency Analysis
+The {{{downsweep}}} function takes the targets and returns a list of {{{ModSummary}}} consisting of all the modules to be compiled/loaded.
 
+== The !ModSummary type ==
 
-The dependency analysis phase determines all the Haskell source files that are to be compiled or loaded in the current session, by traversing the transitive dependencies of the targets.  This process is called the *downsweep* because we are traversing the dependency tree downwards from the targets.  (The *upsweep*, where we compile all these files happens in the opposite direction of course).
+A {{{ModSummary}}} (defined in [[GhcFile(compiler/main/HscTypes.h)]]) contains various information about a module:
 
+ * Its {{{Module}}}, which includes the package that it belongs to
+ * Its {{{ModLocation}}}, which lists the pathnames of all the files associated with the module
+ * The modules that it imports
+ * The time it was last modified
+ * ... some other things
 
-The `downsweep` function takes the targets and returns a list of `ModSummary` consisting of all the modules to be compiled/loaded.
+We collect {{{ModSumary}}} information for all the modules we are interested in during the ''downsweep'', below.  Extracting the information about the module name and the imports from a source file is the job of [[GhcFile(compiler/main/HeaderInfo.hs)]] which partially parses the source file.
 
-## The ModSummary type
+Converting a given module name into a {{{ModSummary}}} is done by {{{summariseModule}}} in [[GhcFile(compiler/main/GHC.hs)]].  Similarly, if we have a filename rather than a module name, we generate a {{{ModSummary}}} using {{{summariseFile}}}.
 
+== Loading (compiling) the Modules ==
 
-A `ModSummary` (defined in [compiler/main/HscTypes.h](/trac/ghc/browser/ghc/compiler/main/HscTypes.h)) contains various information about a module:
-
-- Its `Module`, which includes the package that it belongs to
-- Its `ModLocation`, which lists the pathnames of all the files associated with the module
-- The modules that it imports
-- The time it was last modified
-- ... some other things
-
-
-We collect `ModSumary` information for all the modules we are interested in during the *downsweep*, below.  Extracting the information about the module name and the imports from a source file is the job of [compiler/main/HeaderInfo.hs](/trac/ghc/browser/ghc/compiler/main/HeaderInfo.hs) which partially parses the source file.
-
-
-Converting a given module name into a `ModSummary` is done by `summariseModule` in [compiler/main/GHC.hs](/trac/ghc/browser/ghc/compiler/main/GHC.hs).  Similarly, if we have a filename rather than a module name, we generate a `ModSummary` using `summariseFile`.
-
-## Loading (compiling) the Modules
-
-
-When the dependency analysis is complete, we can load these modules by calling `GHC.load`.  The same interface is used regardless of whether we are loading modules into GHCi with the `:load` command, or compiling a program with `ghc --make`: we always end up calling `GHC.load`.
-
+When the dependency analysis is complete, we can load these modules by calling {{{GHC.load}}}.  The same interface is used regardless of whether we are loading modules into GHCi with the {{{:load}}} command, or compiling a program with {{{ghc --make}}}: we always end up calling {{{GHC.load}}}.
 
 The process in principle is fairly simple:
 
-- Visit each module in the dependency tree from the bottom up, invoking [HscMain](commentary/compiler/hsc-main)
-  to compile it (the *upsweep*).
-- Finally, link all the code together.  In GHCi this involves loading all the object code into memory and linking it
-  with the [RTS linker](commentary/rts/interpreter#), and then linking all the byte-code together.  In
-  `--make` mode this involves invoking the external linker to link the object code into a binary.
-
+ * Visit each module in the dependency tree from the bottom up, invoking [wiki:Commentary/Compiler/HscMain HscMain]
+   to compile it (the ''upsweep'').
+ * Finally, link all the code together.  In GHCi this involves loading all the object code into memory and linking it
+   with the [wiki:Commentary/Rts/Interpreter#Linker RTS linker], and then linking all the byte-code together.  In
+   {{{--make}}} mode this involves invoking the external linker to link the object code into a binary.
 
 The process is made more tricky in practice for two reasons:
 
-- We might not need to compile certain modules, if none of their dependencies have changed.  GHC's 
-  recompilation checker? determines whether a module really needs
-  to be compiled or not.
-- In GHCi, we might just be reloading the program after making some changes, so we don't even want to re-link
-  modules for which no dependencies have changed.
+ * We might not need to compile certain modules, if none of their dependencies have changed.  GHC's 
+   [wiki:Commentary/Compiler/RecompilationChecker recompilation checker] determines whether a module really needs
+   to be compiled or not.
+ * In GHCi, we might just be reloading the program after making some changes, so we don't even want to re-link
+   modules for which no dependencies have changed.
 
-## Stable Modules
-
+== Stable Modules ==
 
 ToDo.
+```

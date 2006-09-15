@@ -12,7 +12,7 @@ This part of the commentary is not a tutorial on ''using'' the GHC API: for that
 
 A typical interaction with the GHC API goes something like the following:
 
- * Initialize the GHC TopDir: {{{init}}}
+ * Initialize the GHC top dir: {{{init}}}
  * Create a new session: {{{newSession}}}
  * Add some ''targets'': {{{setTargets}}}, {{{addTarget}}}, {{{guessTarget}}}
  * Perform [[ref(Dependency Analysis)]]: {{{depanal}}}
