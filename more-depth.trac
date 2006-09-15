@@ -25,6 +25,8 @@ Possible presentation topics for Friday.  '''If you'd like to see more on one of
 
  * Understanding the ddump flags, and walkthrough of a Haskell example
 
+ * Profiling for closing space leaks -- [http://www.nabble.com/Why-does-this-program-eat-RAM--t2218557.html Example program]
+
 == Suggestions from the floor ==
 
  * It would be quite interesting to hear what parts of GHC are changing rapidly and what parts seem quite stable.  Also, into which corners of the compiler do the righteous fear to tread?  (The evil mangler?)
