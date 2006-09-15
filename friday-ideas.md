@@ -16,16 +16,7 @@ Add projects ideas there, and add your name if you're interested in working on t
 The above are specific projects or subgroups that might form.  What about more generally?  How should we organise the day?
 
 - just let everyone hack on individual projects, with floating Simons to help. --- I'd like that.
-- form subgroups to work together on shared projects
-
-  - Project ideas here?
-  - Resuscitate [ExternalCore](external-core)
-  - Low hanging optimizations?
-  - STGLint
-  - Rewrite the Evil Mangler in Haskell?
-  - GHC RTS in Cyclone?
-  - Work on GHC API, I would like to use it to provide feedback and interactivity to programmers
-  - Hook a multithreaded memory manager into the RTS
+- form subgroups to work together on shared projects (list moved to [HackathonProjects](hackathon-projects))
 - have more explanatory talk sessions led from the front
 - form subgroups for explanatory sessions on different topics (but not to work on a shared project)
 - work on fleshing out the wiki/commentary?
