@@ -14,10 +14,10 @@ Possible presentation topics for Friday.  **If you'd like to see more on one of 
 
 - Packages, Cabal, and GHC --- would like to see: Norman Ramsey, Geoff Washburn
 
-- Details of the GHC-as-a-library API, and how to use it. -- Andy Gill, Geoff Washburn, Jeffery Zhang
+- Details of the GHC-as-a-library API, and how to use it. -- Norman Ramsey, Andy Gill, Geoff Washburn, Jeffery Zhang
 
 >
-> Related: compiling multiple modules: `--make` and all that --- would like to see: Norman Ramsey
+> Related: compiling multiple modules: `--make` and all that
 
 - More details about vectored returns
 
