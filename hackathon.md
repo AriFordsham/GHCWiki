@@ -209,4 +209,4 @@ If you want to come, please add your name to the list below.  Add a sentence or 
 - Lyle Kopnicky (lyle AT rentrak DOT com), interested in learning more about compiling Haskell.
 - [ Lee Pike](http://www.cs.indiana.edu/~lepike/), Galois.  Interested in "Haskell on bare metal" and a lightweight/high-assurance RTS. 
 - Troy Howard, Portland, discover-e Legal Inc., generally interested in compilers and oddball languages. 
-- Max Strini, Portland, discover-e Legal Inc., too ~~lazy~~ busy to add his own name here, so Troy did it for him. Hopefully this comment will embarass him enough to edit it.
+- Max Strini, Portland, discover-e Legal Inc., too ~~lazy~~ busy to add his own name here, so Troy did it for him. Hopefully this comment will ~~embarass him enough~~ remind him to edit it.
