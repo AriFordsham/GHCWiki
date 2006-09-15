@@ -1,46 +1,64 @@
-# Areas We'd Like To See Covered In More Depth
+CONVERSION ERROR
 
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/MoreDepth"
+  queryString          = "?version=28"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:56:35 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","249"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/MoreDepth\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-Possible presentation topics for Friday.  **If you'd like to see more on one of these, add your name to the line.  Or add a new item'''
-**
+Original source:
 
-- How the renamer works
+```trac
+= Areas We'd Like To See Covered In More Depth =
 
-- How the type checker works --- Norman Ramsey (but prefer two below), Andres Löh, Jeremy Gibbons
+Possible presentation topics for Friday.  '''If you'd like to see more on one of these, add your name to the line.  Or add a new item!'''
 
-- How the simplifier works, and what transformations it does.
+ * How the renamer works
 
-- How Template Haskell is implemented
+ * How the type checker works --- Norman Ramsey (but prefer two below), Andres Löh, Jeremy Gibbons, Luke Maurer
 
-- Packages, Cabal, and GHC --- would like to see: Norman Ramsey, Geoff Washburn
+ * How the simplifier works, and what transformations it does.
 
-- Past or present efforts in formal verification of GHC components
+ * How Template Haskell is implemented
 
-- Details of the GHC-as-a-library API, and how to use it. -- Norman Ramsey, Andy Gill, Geoff Washburn, Jeffery Zhang
+ * Packages, Cabal, and GHC --- would like to see: Norman Ramsey, Geoff Washburn
 
->
-> Related: compiling multiple modules: `--make` and all that
+ * Past or present efforts in formal verification of GHC components
 
-- More details about vectored returns
+ * Details of the GHC-as-a-library API, and how to use it. -- Norman Ramsey, Andy Gill, Geoff Washburn, Jeffery Zhang
+[[BR]]
+   Related: compiling multiple modules: `--make` and all that
 
-- Details about System FC, GHC's new intermediate language -- Jeremy Gibbons
+ * More details about vectored returns
 
-- Reading a nightly snapshot build log
+ * Details about System FC, GHC's new intermediate language -- Jeremy Gibbons
 
-- Understanding the ddump flags, and walkthrough of a Haskell example
+ * Reading a nightly snapshot build log
 
-## Suggestions from the floor
+ * Understanding the ddump flags, and walkthrough of a Haskell example
 
-- It would be quite interesting to hear what parts of GHC are changing rapidly and what parts seem quite stable.  Also, into which corners of the compiler do the righteous fear to tread?  (The evil mangler?)
-- It is unclear how binding group analysis influences the use of 1 abstract syntax (HsSyn): how is the required ordering and grouping implemented, how does it affect error messages? 
-- How does this Cabal thing work?
-- How to read a dailysnapshot build log.
-- Does ghc compile with VisualHaskell yet?
-- In the compiler pipeline, please explain a little more about the invariants as a program flows through the pipeline.  For example, toward the back end, it would be useful to know at what point the following become known:
+== Suggestions from the floor ==
 
-  - layout of heap objects
-  - explicit heap pointer (allocation pointer)
-  - explicit stack pointer
-- What optimizations happen in the simplifier? How do they work?
-- The GHC API and implementation of GHCi
-- A breakdown of the size of the various parts of the run-time system
+ * It would be quite interesting to hear what parts of GHC are changing rapidly and what parts seem quite stable.  Also, into which corners of the compiler do the righteous fear to tread?  (The evil mangler?)
+ * It is unclear how binding group analysis influences the use of 1 abstract syntax (HsSyn): how is the required ordering and grouping implemented, how does it affect error messages? 
+ * How does this Cabal thing work?
+ * How to read a dailysnapshot build log.
+ * Does ghc compile with VisualHaskell yet?
+ * In the compiler pipeline, please explain a little more about the invariants as a program flows through the pipeline.  For example, toward the back end, it would be useful to know at what point the following become known:
+   * layout of heap objects
+   * explicit heap pointer (allocation pointer)
+   * explicit stack pointer
+ * What optimizations happen in the simplifier? How do they work?
+ * The GHC API and implementation of GHCi
+ * A breakdown of the size of the various parts of the run-time system
+```
