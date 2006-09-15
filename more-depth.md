@@ -6,7 +6,7 @@ Possible presentation topics for Friday.  **If you'd like to see more on one of 
 
 - How the renamer works
 
-- How the type checker works --- Norman Ramsey
+- How the type checker works --- Norman Ramsey, Andres Löh
 
 - How the simplifier works, and what transformations it does.
 
