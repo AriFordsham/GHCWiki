@@ -4,7 +4,7 @@ Possible presentation topics for Friday.  '''If you'd like to see more on one of
 
  * How the renamer works
 
- * How the type checker works --- Norman Ramsey (but prefer two below), Andres Löh, Jeremy Gibbons, Luke Maurer, Brandon Moore
+ * How the type checker works --- Norman Ramsey (but prefer two below), Andres Löh, Jeremy Gibbons, Luke Maurer, Brandon Moore, Kim-Ee Yeoh
 
  * How the simplifier works, and what transformations it does.
 
@@ -20,7 +20,7 @@ Possible presentation topics for Friday.  '''If you'd like to see more on one of
 
  * More details about vectored returns
 
- * Details about System FC, GHC's new intermediate language -- Jeremy Gibbons
+ * Details about System FC, GHC's new intermediate language -- Jeremy Gibbons, Kim-Ee Yeoh
 
  * Reading a nightly snapshot build log
 
