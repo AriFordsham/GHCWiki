@@ -1,45 +1,29 @@
-CONVERSION ERROR
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Attic/X86OSXGhc"
-  queryString          = "?version=17"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:56:52 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","258"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Attic/X86OSXGhc\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
-
-Original source:
-
-```trac
 This page is meant to document the current state of GHC on Apple Mac OS X on Intel x86 hardware.
 
-[http://darwinports.opendarwin.org/ DarwinPorts] still has GHC as not supported on x86.
+[ DarwinPorts](http://darwinports.opendarwin.org/) still has GHC as not supported on x86.
 
-----
+---
+
 
 Another build, from 2006-09-15 (during the Hackathon):
-http://k9.dv8.org/~atomb/ghc-6.5-20060915.tar.bz2
+[ http://k9.dv8.org/\~atomb/ghc-6.5-20060915.tar.bz2](http://k9.dv8.org/~atomb/ghc-6.5-20060915.tar.bz2)
+
 
 It only contains the core libraries (both normal and profiled), though it should be fairly easy to use it to compile any of the extra modules you like. As in previous builds, it requires that GMP.Framework mentioned below. It doesn't have Audrey's nice post-install script, so you'll need to run ranlib on all of the .a files installed in lib/ghc-6.5.
 
-Unfortunately, this only seems to work if you have DarwinPorts set up in /opt/local, with the readline package installed. There's a tarball of the readline libraries (which unpacks into /usr/local/lib) that might alleviate the problem: http://k9.dv8.org/~atomb/readline.tar.bz2
+
+Unfortunately, this package only seems to work if you have DarwinPorts set up in /opt/local, with the readline package installed. There's a tarball of the readline libraries (which unpacks into /usr/local/lib) that might alleviate the problem: [ http://k9.dv8.org/\~atomb/readline.tar.bz2](http://k9.dv8.org/~atomb/readline.tar.bz2)
+
 
 -- Aaron Tomb
 
+---
 
-----
 
 At the time of writing (2006-08-20), darcs ghc won't build out of the box using the build 20060608.  Here's steps to do it:
 
-{{{
+```wiki
 darcs get --partial http://darcs.haskell.org/ghc
 cd ghc
 chmod +x ./darcs-all
@@ -57,34 +41,38 @@ make -j3   # Add GhcBootLibs=YES if you don't want all the libs, -j3 is cool if 
 darcs pull -a  # patch "Fix Array imports"
 make -j3 stage=2 # Add GhcBootLibs=YES if you don't want all the libs
 # be happy
-}}}
+```
+
 
 If you use build after 20060814 or so, you shouldn't need to unpull and pull the patch.
 
-Make certain you have the GMP.framework for Darwin Intel installed. It can be downloaded as part of the Darcs Intel .dmg file at http://glozer.net/darcs/ .
 
-----
+Make certain you have the GMP.framework for Darwin Intel installed. It can be downloaded as part of the Darcs Intel .dmg file at [ http://glozer.net/darcs/](http://glozer.net/darcs/) .
+
+---
+
 
 AudreyTang has contributed an updated GHC CVS build:
-http://pugs.blogs.com/dist/ghc-6.5.20060608.tar.bz2
+[ http://pugs.blogs.com/dist/ghc-6.5.20060608.tar.bz2](http://pugs.blogs.com/dist/ghc-6.5.20060608.tar.bz2)
 
- * This build has a post-install script that fixes readline, installs GMP.framework, and runs "ranlib" for you, so there's no manual tweaking involved anymore.
- * Also note that this build does not have Data.ByteString and Data.ByteString.Char8 as part of the "base" package, because they are not compatible with the same-named modules from the latest fps package, which is going to be merged to GHC real soon now.
- * An earlier build is available at http://perlcabal.org/~audreyt/tmp/ghc-6.5.20060526-i686-apple-darwin8.tar.bz2
+- This build has a post-install script that fixes readline, installs GMP.framework, and runs "ranlib" for you, so there's no manual tweaking involved anymore.
+- Also note that this build does not have Data.ByteString and Data.ByteString.Char8 as part of the "base" package, because they are not compatible with the same-named modules from the latest fps package, which is going to be merged to GHC real soon now.
+- An earlier build is available at [ http://perlcabal.org/\~audreyt/tmp/ghc-6.5.20060526-i686-apple-darwin8.tar.bz2](http://perlcabal.org/~audreyt/tmp/ghc-6.5.20060526-i686-apple-darwin8.tar.bz2)
 
-----
+---
+
 
 This GHC CVS build seems to work quite well:
-http://www.uni-graz.at/imawww/haskell/ghc-6.5.20060409-i386-apple-darwin.tar.bz2
+[ http://www.uni-graz.at/imawww/haskell/ghc-6.5.20060409-i386-apple-darwin.tar.bz2](http://www.uni-graz.at/imawww/haskell/ghc-6.5.20060409-i386-apple-darwin.tar.bz2)
 Some issues:
- * You need to manually install GMP.framework in /Library/Frameworks, and libreadline.dylib (and the libreadline*.dylib symlinks, I guess) in /usr/local/lib (assuming prefix=/usr/local).
- * When using runghc to build some cabal packages (e.g. [http://www.cs.chalmers.se/~bringert/darcs/haskell-xhtml/doc/ xhtml]), the setup program dies silently after building the archive, but before writing the .installed-pkg-config file. If the setup program is compiled with ghc, this does not happen.
- * When using "./configure --prefix=/usr/local; make install", GHC gets installed in /usr/local/lib/-6.5/.
+
+- You need to manually install GMP.framework in /Library/Frameworks, and libreadline.dylib (and the libreadline\*.dylib symlinks, I guess) in /usr/local/lib (assuming prefix=/usr/local).
+- When using runghc to build some cabal packages (e.g. [ xhtml](http://www.cs.chalmers.se/~bringert/darcs/haskell-xhtml/doc/)), the setup program dies silently after building the archive, but before writing the .installed-pkg-config file. If the setup program is compiled with ghc, this does not happen.
+- When using "./configure --prefix=/usr/local; make install", GHC gets installed in /usr/local/lib/-6.5/.
+
 
 The Makefile.in for the release above is broken in a few ways, which causes the /-6.5/ weirdness   The problems are:
- * package is not set.  Be sure that the package name does not end in a space
- * the invocation of mkdirhier (INSTALL_DIR) is broken for libraries & share (lines 205 & 206) , the first $$0 is in error
- * the library files are installed using cp, but should be installed using 'install -p' to preserve the timestamps
 
-
-```
+- package is not set.  Be sure that the package name does not end in a space
+- the invocation of mkdirhier (INSTALL_DIR) is broken for libraries & share (lines 205 & 206) , the first $$0 is in error
+- the library files are installed using cp, but should be installed using 'install -p' to preserve the timestamps
