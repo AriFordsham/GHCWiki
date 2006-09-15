@@ -176,5 +176,25 @@ CPUs on which to run the worker, however).
 
 == The Scheduler's main loop ==
 
+{{{
+scheduler(cap)
+{
+  for (;;) {
+    yieldCapability(cap);  /* give cap to anybody wanting in from outside */
+    tso = popRunQueue(cap);
+    result = StgRun(tso);
+    case result of
+      out of heap -> re-enqueue tso; call GC;
+      out of stack -> enlarge tso; re-enqueue tso;
+      time expired -> put tso on end of queue; /* round robin */
+      finished -> 
+        if (tso is a bound thread)
+          return;
+        else
+          continue;
+    }
+}
+}}}
+
 == Affinity and migration ==
 
