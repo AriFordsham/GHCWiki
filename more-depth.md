@@ -16,7 +16,7 @@ Possible presentation topics for Friday.  **If you'd like to see more on one of 
 
 - Past or present efforts in formal verification of GHC components
 
-- Details of the GHC-as-a-library API, and how to use it. -- Norman Ramsey, Andy Gill, Geoff Washburn, Jeffery Zhang, Kathleen Fisher
+- Details of the GHC-as-a-library API, and how to use it. -- Norman Ramsey, Andy Gill, Geoff Washburn, Jeffery Zhang, Kathleen Fisher, Ravi Nanavati
 
 >
 > Related: compiling multiple modules: `--make` and all that
