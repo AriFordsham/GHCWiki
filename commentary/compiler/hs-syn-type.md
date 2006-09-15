@@ -4,7 +4,7 @@
 # The `HsSyn` types
 
 
-The program is initially parsed into "**`HsSyn`**", a collection of data types that describe the full abstract syntax of Haskell.  `HsSyn` is a pretty big collection of types: there are 52 data types when I last counted.  Many are pretty trivial, but a few have a lot of constructors (`HsExpr` has 40).  `HsSyn` represents Haskell its full glory, complete with all syntactic sugar.
+The program is initially parsed into "**`HsSyn`**", a collection of data types that describe the full abstract syntax of Haskell.  `HsSyn` is a pretty big collection of types: there are 52 data types at last count.  Many are pretty trivial, but a few have a lot of constructors (`HsExpr` has 40).  `HsSyn` represents Haskell its full glory, complete with all syntactic sugar.
 
 
 The `HsSyn` modules live in the [compiler/hsSyn](/trac/ghc/browser/ghc/compiler/hsSyn) directory.  Each module declares a related group of declarations, *and* gives their pretty-printer.
@@ -62,3 +62,6 @@ The type checker adds type information to the syntax tree, otherwise leaving it 
   - `HsCoerce`, in the `HsExpr` type.
   - `AbsBinds`, in the `HsBinds` type.
     SLPJ: These are invariably to do with type abstraction and application, since Haskell source is implicitly generalized and instantiated, whereas GHC's intermediate form is explicitly generalized and instantiated.
+
+
+Naming convention within the code: LHs means located Haskell, i.e., data wrapped with the Located constructor.
