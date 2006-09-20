@@ -88,42 +88,7 @@ Note: references are relative to the main directory of the source distribution; 
 
 ==== Optimisation Opportunities ====
 
- (1) Initialisation of GMP on every call.  
-GMP is currently initialised every time it is called from the RTS.  For example, consider the macro in [http://darcs.haskell.org/ghc/rts/PrimOps.cmm rts/PrimOps.cmm]:
-{{{
-#define GMP_TAKE1_RET1(name,mp_fun)                                     \
-name                                                                    \
-{                                                                       \
-  CInt s1;                                                              \
-  W_ d1;                                                                \
-  FETCH_MP_TEMP(mp_tmp1);                                               \
-  FETCH_MP_TEMP(mp_result1)                                             \
-                                                                        \
-  /* call doYouWantToGC() */                                            \
-  MAYBE_GC(R2_PTR, name);                                               \
-                                                                        \
-  d1 = R2;                                                              \
-  s1 = W_TO_INT(R1);                                                    \
-                                                                        \
-  MP_INT__mp_alloc(mp_tmp1)	= W_TO_INT(StgArrWords_words(d1));      \
-  MP_INT__mp_size(mp_tmp1)	= (s1);                                 \
-  MP_INT__mp_d(mp_tmp1)		= BYTE_ARR_CTS(d1);                     \
-                                                                        \
-  foreign "C" __gmpz_init(mp_result1 "ptr") [];                         \ /* INITIALISATION HERE */
-                                                                        \
-  /* Perform the operation */                                           \
-  foreign "C" mp_fun(mp_result1 "ptr",mp_tmp1 "ptr") [];                \
-                                                                        \
-  RET_NP(TO_W_(MP_INT__mp_size(mp_result1)),                            \
-         MP_INT__mp_d(mp_result1) - SIZEOF_StgArrWords);                \
-}
-}}}
-Possible solutions:
-   (a) wrap the MP library functions (in C, not C--) and test for initialisation there; wrapper should be multi-threaded or reentrant
-
-   (b) maintain initialisation in GHC's RTS
-
-(2) The "shockingly inefficient" operation of this code:
+(1) The "shockingly inefficient" operation of this code:
 {{{
 /* ToDo: this is shockingly inefficient */
 
