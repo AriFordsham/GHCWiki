@@ -62,9 +62,36 @@ data Integer
 
 Esa Ilari Vuokko, who at one time attempted to replace GMP with [http://math.libtomcrypt.com/ LibTomMath], posted several messages with good notes on the current implementation.  Much of what is on this page is derived from those notes.  See, [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010669.html Replacement for GMP(3)] and [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010674.html Replacement for GMP(4)].
 
+==== Files related to GMP in the GHC Compiler Source Code ====
+
+Note: references are relative to the main directory of the source distribution; links below are to the darcs repository at [http://darcs.haskell.org/ghc http://darcs.haskell.org/ghc].
+
+ * [http://darcs.haskell.org/ghc/configure.ac configure.ac] (Modify: remove GMP related material; replace with MP library requirements)
+
+ * [http://darcs.haskell.org/ghc/compiler/prelude/primops.txt.pp compiler/prelude/primops.txt.pp]   (Modify: Integer material)
+ * [http://darcs.haskell.org/ghc/compiler/prelude/PrelNames.lhs compiler/prelude/PrelNames.lhs] (Reference: integerTyConName and similar)
+ * [http://darcs.haskell.org/ghc/compiler/prelude/TysPrim.lhs compiler/prelude/TysPrim.lhs]   (Reference)
+
+ * [http://darcs.haskell.org/ghc/includes/Cmm.h includes/Cmm.h] (Modify: cpp test for {{{#if SIZEOF_mp_limb_t != SIZEOF_VOID_P }}})
+ * [http://darcs.haskell.org/ghc/includes/MachRegs.h includes/MachRegs.h] (Reference: general; unrelated to GMP: may be starting point for vectorized Cmm (currently only -fvia-c allows auto-vectorization))
+ * [http://darcs.haskell.org/ghc/includes/Regs.h includes/Regs.h] (Modify: references to MP_INT; Reference: Stg registers, etc.)
+ * [http://darcs.haskell.org/ghc/includes/Rts.h includes/Rts.h] (Modify: reference to {{{#include "gmp.h"}}}, {{{extern}}} declarations to {{{__decodeDouble}}} and {{{__decodeFloat}}}; References to various Stg types and macros)
+ * [http://darcs.haskell.org/ghc/includes/StgMiscClosures.h includes/StgMiscClosures.h] (Modify: references to {{{RTS_FUN(...Integer)}}} !PrimOps; Reference: Weak Pointers, other Stg closures)
+
+ * [http://darcs.haskell.org/ghc/rts/Linker.c rts/Linker.c] (Modify: {{{SymX(__gmpn...)}}} and related GMP functions)
+ * [http://darcs.haskell.org/ghc/rts/Makefile rts/Makefile] (Modify: building GMP library)
+ * [http://darcs.haskell.org/ghc/rts/PrimOps.cmm PrimOps.cmm] (Modify: remove GMP references; NOTE: optimisation of {{{/* ToDo: this is shockingly inefficient */}}}, see discussion below)
+ * [http://darcs.haskell.org/ghc/rts/StgPrimFloat.c StgPrimFloat.c] (Modify: {{{__encodeDouble}}}, {{{__encodeFloat}}} and {{{decode}}} versions defined here refer to GMP; might optimise with bitwise conversion instead of union; conversion depends on whether replacement MP library uses floating point, etc.)
+ * [http://darcs.haskell.org/ghc/rts/Storage.c rts/Storage.c] (Modify: {{{stgAllocForGMP}}}, {{{stgReallocForGMP}}} and {{{stgDeallocForGMP}}}; may use as reference for implementation if replacement MP library uses GHC-garbage collected memory)
+ * [http://darcs.haskell.org/ghc/rts/gmp/ rts/gmp (directory)] (Modify: recommended to remove entirely, i.e., do not add conditional compilation for users who want to keep on using GMP)
+
+==== Optimisation Opportunities ====
+
+The current GMP integeration...
+
 === Benchmarks for Multi-Precision Libraries ===
 
-The benchmarks below were made with unmodified multi-precision libraries for Integral Arithmetic compiled using Apple gcc 4.0.1 with optimisation settings: -O3 -ftree-vectorize -falign-loops=16.  The tests performed Multiplication, Squaring, Powers (up to 7) and Division each 1,000,000 times at various levels of precision based on the number of bits in the operands.  Multi-precision libraries may use unsigned chars, unsigned ints, unsigned long ints, unsigned long long ints or doubles, so the actual number of "words" in each multi-precision array may differ; for multi-precision real numbers using doubles, integer precision was calculated at 48.3 bits of real precision per double, rounded up to 49.  (49 bits conservatively equates to about 9 decimal digits of precision, see, e.g., [http://docs.sun.com/source/806-3568/ncg_goldberg.html What Every Computer Scientist Should Know about Floating-Point Arithmetic].)  Libraries tested were:
+The benchmarks below were made with unmodified multi-precision libraries for Integral Arithmetic compiled using Apple gcc 4.0.1 with optimisation settings: -O3 -ftree-vectorize -falign-loops=16.  The tests performed Multiplication, Squaring, Powers (up to 7) and Division each 1,000,000 times at the base level of bit-precision (the number of bits in the operands).  Higher levels of precision performed incrementally fewer rounds: the base level (1,000,000 / (i * 3)) where i is the number for the round, incremented from 0.  For example, at a bit-precision of 512 (second bit-precision test), the number of rounds was (1,000,000 / (1 * 3)) = (1,000,000 / 3) = 333,333 rounds.  Multi-precision libraries may use unsigned chars, unsigned ints, unsigned long ints, unsigned long long ints or doubles, so the actual number of "words" in each multi-precision array may differ; for multi-precision real numbers using doubles, integer precision was calculated at 48.3 bits of real precision per double, rounded up to 49.  (49 bits conservatively equates to about 9 decimal digits of precision, see, e.g., [http://docs.sun.com/source/806-3568/ncg_goldberg.html What Every Computer Scientist Should Know about Floating-Point Arithmetic].)  Libraries tested were:
 
  * [http://crd.lbl.gov/~dhbailey/mpdist/ ARPREC] 
  * [http://www.openssl.org/ OpenSSL's BN] (part of libcrypto)
