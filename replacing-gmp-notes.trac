@@ -113,8 +113,53 @@ section "bss" {
     bits8 [SIZEOF_MP_INT];
 }
 #endif
+
+/* skip some code */
+
+
+#ifdef THREADED_RTS
+#define FETCH_MP_TEMP(X) \
+W_ X; \
+X = BaseReg + (OFFSET_StgRegTable_r ## X);
+#else
+#define FETCH_MP_TEMP(X) /* Nothing */
+#endif
+
+#define GMP_TAKE2_RET1(name,mp_fun)                                     \
+name                                                                    \
+{                                                                       \
+  CInt s1, s2;                                                          \
+  W_ d1, d2;                                                            \
+  FETCH_MP_TEMP(mp_tmp1);                                               \
+  FETCH_MP_TEMP(mp_tmp2);                                               \
+  FETCH_MP_TEMP(mp_result1)                                             \
+  FETCH_MP_TEMP(mp_result2);                                            \
+                                                                        \
+  /* call doYouWantToGC() */                                            \
+  MAYBE_GC(R2_PTR & R4_PTR, name);                                      \
+                                                                        \
+  s1 = W_TO_INT(R1);                                                    \
+  d1 = R2;                                                              \
+  s2 = W_TO_INT(R3);                                                    \
+  d2 = R4;                                                              \
+                                                                        \
+  MP_INT__mp_alloc(mp_tmp1) = W_TO_INT(StgArrWords_words(d1));          \
+  MP_INT__mp_size(mp_tmp1)  = (s1);                                     \
+  MP_INT__mp_d(mp_tmp1)	    = BYTE_ARR_CTS(d1);                         \
+  MP_INT__mp_alloc(mp_tmp2) = W_TO_INT(StgArrWords_words(d2));          \
+  MP_INT__mp_size(mp_tmp2)  = (s2);                                     \
+  MP_INT__mp_d(mp_tmp2)	    = BYTE_ARR_CTS(d2);                         \
+                                                                        \
+  foreign "C" __gmpz_init(mp_result1 "ptr") [];                            \
+                                                                        \
+  /* Perform the operation */                                           \
+  foreign "C" mp_fun(mp_result1 "ptr",mp_tmp1  "ptr",mp_tmp2  "ptr") []; \
+                                                                        \
+  RET_NP(TO_W_(MP_INT__mp_size(mp_result1)),                            \
+         MP_INT__mp_d(mp_result1) - SIZEOF_StgArrWords);                \
+}
 }}}
-should be obvious.  There are at least two possible alternatives to this:
+results from initialising each struct ({{{mp_tmp2}}}, etc.) on each call, in order to convert the data from the {{{J# Int# ByteArray#}}} in the RTS to the GMP structure before passing it to GMP.  There are at least two possible alternatives to this:
    (a) wrap the replacement MP-library array/structure for arbitrary precision integers in a closure so you do not have to rebuild the struct from on each MP-library call; or
 
    (b) use !ForeignPtr (in Cmm, Weak Pointers--difficult to implement) to foreign threads holding the the struct/array
