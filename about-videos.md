@@ -18,3 +18,7 @@ Basically, if you have a Mac or Windows (2000 or later) PC with a recent version
 
 
 The quality of the audio or (particularly) video may not be great.  They are intended mostly as a guide to the wiki commentary, so try to make sure you can see the wiki pages side by side with the video, because it may be difficult to make out the visual details otherwise.
+
+1. [ Intro](http://video.google.com/videoplay?docid=-5234070039625162234) to the Hackathon, purpose of the event (6'47")
+1. [ Documentation](http://video.google.com/videoplay?docid=-948887441048207316) - general orientation around the wiki (9'01")
+1. [ Getting and Building](http://video.google.com/), layout of the source tree, how to set up build.mk (23'43")
