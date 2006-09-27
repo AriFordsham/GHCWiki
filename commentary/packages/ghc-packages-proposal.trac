@@ -32,7 +32,7 @@ The authors of packages P1 and P2 didn't need to know about each other, and don'
 
 For this to work, GHC must incorporate the package name (and version) into the names of entities the package defines.  That means that when compiling a module M you must say what package it is part of:
 {{{
-  ghc -c -package package-name P1 C.hs
+  ghc -c -package-name P1 C.hs
 }}}
 Then C.o will contain symbols like "{{{P1.A.B.C.f}}}" etc.  In effect, the "original name" of a function {{{f}}} in module {{{M}}} of package {{{P}}} is {{{<P,M,f>}}}.
 
