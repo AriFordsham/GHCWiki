@@ -1,3 +1,7 @@
+# Post-Hackathon activity
+
+[Videos of the informal presentations](about-videos) by Simon and Simon at the Hackathon are currently being uploaded to video.google.com, and are linked to from this wiki.  They will eventually be distributed around the [GHC Commentary](commentary), attached to relevant pages.
+
 # Let's Hack
 
 
