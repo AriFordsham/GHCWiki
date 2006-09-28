@@ -1,6 +1,6 @@
 [[PageOutline]]
 
-This page summarises our current proposal for packages in GHC. See also [wiki:GhcPackageNamespaces an extended proposal] to make namespaces first-class.
+This page summarises our current proposal for packages in GHC. (See also [wiki:GhcPackageNamespaces an extended proposal] to make namespaces first-class, and [wiki:PackageMounting a proposal] for package mounting. The three proposals are mutually exclusive.)
 
 == The problem ==
 

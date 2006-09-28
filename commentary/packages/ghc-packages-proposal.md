@@ -1,5 +1,5 @@
 
-This page summarises our current proposal for packages in GHC. See also [an extended proposal](ghc-package-namespaces) to make namespaces first-class.
+This page summarises our current proposal for packages in GHC. (See also [an extended proposal](ghc-package-namespaces) to make namespaces first-class, and [a proposal](package-mounting) for package mounting. The three proposals are mutually exclusive.)
 
 ## The problem
 
