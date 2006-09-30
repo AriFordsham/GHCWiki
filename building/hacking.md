@@ -1,3 +1,5 @@
+[ Video: Getting and Building](http://video.google.com/videoplay?docid=7166458546326012899), layout of the source tree, how to set up build.mk (23'43")
+
 # Quick start for developers
 
 
