@@ -73,8 +73,8 @@ Please feel free to add new pages here.  In due course information will migrate 
 
  * The Compiler
    * BeginnersNotes: Some notes about getting started hacking GHC and the structure of the compiler (especially types and typecheck)
-   * [wiki:TypeFunctions]: Notes concerning the implementation of type functions and associated types in the [http://darcs.haskell.org/ghc-fc2/ FC branch] of GHC.
-   * [wiki:IntermediateTypes]: Notes about the type system of GHC's new intermediate language, in the [http://darcs.haskell.org/ghc-fc2/ FC branch]
+   * [wiki:TypeFunctions]: Notes concerning the implementation of type functions and associated types, which was merged in the HEAD during ICFP'06.
+   * [wiki:IntermediateTypes]: Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)
    * [wiki:RewriteRules]: Notes about the implementation of RULEs in GHC
    * [wiki:BackEndNotes]: Some ideas and notes about the back end.
    * [wiki:GhciDebugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
