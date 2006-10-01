@@ -19,6 +19,7 @@ from that manual is gradually being incorporated here.
  * [wiki:Building/Prerequisites What tools you need]
  * [wiki:Building/QuickStart Quick start: just building and installing GHC]
  * [wiki:Building/Hacking Quick start for developers]
+ * [wiki:Building/Unregisterised builds]
  * [wiki:Building/Rebuilding How do re-build after updating or changing GHC?]
  * [wiki:Building/Using Using the build system]
  * [wiki:Building/BuildSystem Architecture of the build system]
