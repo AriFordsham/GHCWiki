@@ -16,7 +16,7 @@ We start with {{{Foo.hs}}} or {{{Foo.lhs}}}, the "l" specifing whether literate 
    * C code: flag {{{-fviaC}}}, file {{{Foo.hc}}}
    * C-- mode: flag {{{-fcmm}}}, file {{{Foo.cmm}}}, believed not to work
 
-  * In the {{{-fviaC}}} case, run the '''C compiler''', followed by the [wiki:EvilMangler Evil Mangler], generating {{{Foo.s}}}
+  * In the {{{-fviaC}}} case, run the '''C compiler''', followed by the [wiki:Commentary/EvilMangler Evil Mangler], generating {{{Foo.s}}}
 
   * If `-fsplit-objs` is in force, run the '''splitter''' on `Foo.s`.  This splits `Foo.s` into lots of small files, `Foo/Foo1.s`, `Foo/Foo2.s`, etc.  The idea is that the static linker will thereby avoid linking dead code.
 
