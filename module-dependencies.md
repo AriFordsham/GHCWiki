@@ -1,5 +1,5 @@
 
-\[ Up: [Commentary](commentary) \]
+\[ShowPath\]
 
 # The Marvellous Module Structure of GHC
 
