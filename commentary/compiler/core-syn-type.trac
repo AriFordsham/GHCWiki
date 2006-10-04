@@ -6,14 +6,18 @@ The Core language is GHC's central data types.  Core is a very small, explicitly
 
 The {{{CoreSyn}}} type, and the functions that operate over it, gets an entire directory [[GhcFile(compiler/coreSyn)]]:
   * [[GhcFile(compiler/coreSyn/CoreSyn.lhs)]]: the data type itself.
+
   * [[GhcFile(compiler/coreSyn/PprCore.lhs)]]: pretty-printing.
   * [[GhcFile(compiler/coreSyn/CoreFVs.lhs)]]: finding free variables.
   * [[GhcFile(compiler/coreSyn/CoreSubst.lhs)]]: substitution.
   * [[GhcFile(compiler/coreSyn/CoreUtils.lhs)]]: a variety of other useful functions over Core.
+
   * [[GhcFile(compiler/coreSyn/CoreUnfold.lhs)]]: dealing with "unfoldings".
+
   * [[GhcFile(compiler/coreSyn/CoreLint.lhs)]]: type-check the Core program. This is an incredibly-valuable consistency check, enabled by the flag {{{-dcore-lint}}}.
-  * [[GhcFile(compiler/coreSyn/CorePrep.lhs)]]: [wiki:Commentary/Compiler/HscMain the CorePrep pass]
+
   * [[GhcFile(compiler/coreSyn/CoreTidy.lhs)]]: part of the [wiki:Commentary/Compiler/HscMain the CoreTidy pass] (the rest is in [[GhcFile(compiler/main/TidyPgm.lhs)]]).
+  * [[GhcFile(compiler/coreSyn/CorePrep.lhs)]]: [wiki:Commentary/Compiler/HscMain the CorePrep pass]
 
 Here is the entire Core type [[GhcFile(compiler/coreSyn/CoreSyn.lhs)]]:
 {{{
