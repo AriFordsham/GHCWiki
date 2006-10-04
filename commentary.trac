@@ -37,6 +37,7 @@ Please feel free to add material to this commentary: don't worry too much about 
        [[BR]][[BR]]
     * [wiki:Commentary/Compiler/API The GHC API]
    * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
+   * [wiki:Commentary/Compiler/TemplateHaskell Template Haskell]
    * [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
    * [wiki:Commentary/Compiler/Packages Packages]
    * [wiki:Commentary/Compiler/Finder The Finder]
