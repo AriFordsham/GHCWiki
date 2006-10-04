@@ -49,6 +49,7 @@ Todo (low-level):
 - We probably need to replicate quite a bit of the infrastructure used to maintain class instances for type instances.  In particular, we need to suck all home package instances into a field in the `TcGblEnv` similar to `tcg_inst_env` and all external instances in a field in `Hsc.ExternalPackageState` similar to `eps_inst_env`.
 - Construct `InstInfo` for type equation in `tcIdxTyInstDecl1`.
 - If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
+- It should be ok to allow newtype instances for data families.  (NB: the rhs of a newtype is guaranteed to be a lifted type.)  Is this desirable?
 
 
 Todo (high-level):
