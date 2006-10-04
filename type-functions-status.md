@@ -104,4 +104,4 @@ Done:
 Todo:
 
 - Compile libraries with CoreLint.
-- Convert `TyFuns.hs` and the various `GMap`s to tests in the testsuite.
+- Convert `TyFuns.hs` and the various `GMap`s to tests in the testsuite.  SPJ already created `testsuite/tests/ghc-regress/indexed-types`.
