@@ -20,7 +20,11 @@ We start with `Foo.hs` or `Foo.lhs`, the "l" specifing whether literate style is
   - C code: flag `-fviaC`, file `Foo.hc`
   - C-- mode: flag `-fcmm`, file `Foo.cmm`, believed not to work
 
-- Run the C compiler \[followed by the evil mangler\] or assembler, as appropriate, generating `Foo.o`
+- In the `-fviaC` case, run the C compiler, followed by the [Evil Mangler](commentary/evil-mangler), generating `Foo.s`
+
+- If `-fsplit-objs` is in force, run the **splitter** on `Foo.s`.  This splits `Foo.s` into lots of small files, `Foo/Foo1.s`, `Foo/Foo2.s`, etc.  The idea is that the static linker will thereby avoid linking dead code.
+
+- Run the assembler on `Foo.s` or, if `-fsplit-objs` in in force, on each individual assembly file.
 
 ## Interface files
 
@@ -41,12 +45,3 @@ Here are some of the things stored in an interface file `M.hi`
 - The types of exported functions, definition of exported types, and so on.
 - Version information, used to drive the smart recompilation checker.
 - The strictness, arity, and unfolding of exported functions.  This is crucial for cross-module optimisation; but it is only included when you compile with `-O`.
-
-## HC files
-
-
-GHC uses `gcc` as a code generator, in a very stylised way:
-
-- Generate `Foo.hc`
-- Compile it with `gcc`, using `register` declarations to nail a bunch of things into registers (e.g. the allocation pointer)
-- Post-process the generated assembler code with the Evil Mangler
