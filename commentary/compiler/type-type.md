@@ -4,7 +4,23 @@
 GHC's compiles a typed programming lanuage, and GHC's intermediate language is explicitly typed.  So the data type that GHC uses to represent types is of central importance.
 
 
-The first thing to realise is that GHC uses a *single* data type for types, even though there are two different "views".  
+The single data type `Type` is used to represent
+
+- Types (possibly of higher kind); e.g. `[Int]`, `Maybe`
+- Coercions; e.g. `trans (sym g) h`
+- Kinds (which classify types and coercions); e.g. `(* -> *)`, `T :=: [Int]`
+- Sorts (which classify types); e.g. `TY`, `CO`
+
+
+GHC's use of [coercions and equality constraints](commentary/compiler/fc) is important enough to deserve its own page.
+
+
+The module `TypeRep` exposes the representation becauese a few other modules (`Type`, `TcType`, `Unify`, etc) work directly on its representation.  However, you should not lightly pattern-match on `Type`; it is meant to be an abstract type.  Instead, try to use functions defined by `Type`, `TcType` etc.
+
+## Views of types
+
+
+Even when considering only types (not kinds, sorts, coercions) you need to know that GHC uses a *single* data type for types, even though there are two different "views".  
 
 - The "typechecker view" (or "source view") regards the type as a Haskell type, complete with implicit parameters, class constraints, and the like.  For example:
 
@@ -25,21 +41,38 @@ These two "views" are supported by a family of functions operating over that vie
 - [compiler/typecheck/TcType.lhs](/trac/ghc/browser/ghc/compiler/typecheck/TcType.lhs): source-view utility functions over `Type`.
 
 
-The "view" functions are *shallow*, not deep---a view function just looks at the root of the tree representing the type.  This leads to a nice programming idiom in which a case can be guarded by {{Just t' \<- coreView t}}, which unfortunately the margin of this Wiki is too small to contain.
+The "view" functions are *shallow*, not deep---a view function just looks at the *root* of the tree representing the type.  For example, part of the `coreView` function (GhcFile(compiler/types/Type?) looks like this:
+
+```wiki
+  coreView :: Type -> Maybe Type
+  coreView (PredTy p)    = Just (predTypeRep p)
+  coreView (NoteTy _ ty) = Just ty
+  coreView other         = Nothing
+```
 
 
-The module `TypeRep` exposes the representation becauese a few other modules (`Type`, `TcType`, `Unify`, etc) work directly on its representation.  However, you should not lightly pattern-match on `Type`; it is meant to be an abstract type.  Instead, try to use functions defined by `Type`, `TcType` etc.
+Notice that in the `NoteTy` case, `coreView` does not call itself.  Now, clients of the view look like this:
+
+```wiki
+  splitFunTy_maybe :: Type -> Maybe (Type,Type)
+  splitFunTy_maybe ty | Just ty' <- coreView ty = splitFunTy_maybe ty'
+  splitFunTy_maybe (FunTy t1 t2) = Just (t1,t2)
+  splitFunTy_maybe other         = Nothing
+```
 
 
-The single data type `Type` is used to represent
+Notice the first line, which uses the view, and recurses when the view 'fires'.  Since `coreView` is non-recursive, GHC will inline it, and the optimiser will ultimately produce somethign like:
 
-- Types (possibly of higher kind); e.g. `[Int]`, `Maybe`
-- Coercions; e.g. `trans (sym g) h`
-- Kinds (which classify types and coercions); e.g. `(* -> *)`, `T :=: [Int]`
-- Sorts (which classify types); e.g. `TY`, `CO`
+```wiki
+  splitFunTy_maybe :: Type -> Maybe (Type,Type)
+  splitFunTy_maybe (PredTy p) = splitFunTy_maybe (predTypeRep p)
+  splitFunTy_maybe (NoteTy _ ty) = splitFunTy_maybe ty
+  splitFunTy_maybe (FunTy t1 t2) = Just (t1,t2)
+  splitFunTy_maybe other         = Nothing
+```
 
 
-GHC's use of [coercions and equality constraints](commentary/compiler/fc) is important enough to deserve its own page.
+Neat, huh?
 
 ## The representation of `Type`
 
