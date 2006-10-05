@@ -43,6 +43,8 @@ So, you can expose package P1 when compiling module M (say), and expose P2 when 
  * Compiling different modules with different flags in a way that affects the ''semantics'' (rather than, say, the optimisation level) seems undesirable.
  * To support {{{--make}}} in this situation we'd need to allow {{{-package}}} flags in the per-module {{{OPTIONS}}} pragmas, which isn't currently supported.  ({{{ghc --make}}} already gathers those options together for the link step.)  ''This is not yet implemented, but it is close to being implemented.''
 
+If we did implement the "`-package` in `OPTIONS` pragma" fix, then is is not clear how pressing the need is for anything more.  It's still impossible to import M from P1, and M from P2, into the same module.  But how often will that happen?
+
 ----------------------------
 == Plan C: mention the package in the import ==
 
