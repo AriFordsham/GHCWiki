@@ -49,7 +49,7 @@ GHC already has a fairly elaborate scheme (perhaps too elaborate; [documentation
 - Then, you can use the `-hide-package` flag to hide an otherwise-exposed package, and the `-package` flag to expose an otherwise-hidden package.
 
 
-When GHC incorporates package names in exported symbols, you will be able to expose package P1 when compiling module M (say), and expose P2 when compiling module N by manipulating these flags.  Then M and N could both import module A.B.C, which would come from P1 and P2 respectively. But:
+So, you can expose package P1 when compiling module M (say), and expose P2 when compiling module N by manipulating these flags.  Then M and N could both import module A.B.C, which would come from P1 and P2 respectively. But:
 
 - What if you wanted to import A.B.C from P1 and A.B.C from P2 into the *same* module?
 - What if you want to only replace *parts* of P1 (e.g., you want to use an updated version of a module in `base`)?
