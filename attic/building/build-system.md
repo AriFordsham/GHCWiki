@@ -80,7 +80,9 @@ sections:
 > > directory in which the `boilerplate.mk`
 > > file is.  It is *not* OK to simply say
 
-> > `include ../mk/boilerplate.mk  # NO NO NO`
+```wiki
+include ../mk/boilerplate.mk  # NO NO NO
+```
 
 > >
 > > Why?  Because the `boilerplate.mk`
@@ -210,7 +212,9 @@ files, and why there have to be two of them.  In general:
 > > *augment* them. For example, a
 > > `Makefile` might say:
 
-> > `SRC_HC_OPTS += -O`
+```wiki
+SRC_HC_OPTS += -O
+```
 
 > >
 > > thereby adding "`-O`" to
@@ -237,7 +241,7 @@ files, and why there have to be two of them.  In general:
 
 ```wiki
 $(HS_PROG) : $(OBJS)
-	 $(HC) $(LD_OPTS) $&#60; -o $@
+	 $(HC) $(LD_OPTS) $< -o $@
 ```
 
 > >
@@ -745,7 +749,9 @@ in which this happens:
   to build files related to a particular
   `way` in the current directory.  eg.
 
-> > `$ make way=p`
+```wiki
+$ make way=p
+```
 
 > >
 > > will build files for the profiling way only in the current
