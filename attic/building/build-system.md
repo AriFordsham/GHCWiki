@@ -69,16 +69,15 @@ sections:
   As its name suggests, `boilerplate.mk`
   consists of a large quantity of standard
   `Makefile` code.  We discuss this
-  boilerplate in more detail in \<xref linkend="sec-boiler"/\>.
+  boilerplate in more detail in [The {{{mk/boilerplate.mk}}} file](#The{{{mk/boilerplate.mk}}}file).
 
-> >
-> > Before the `include` statement, you
-> > must define the `make` variable
-> > `TOP`
-> > to be the top-level directory of the source tree, containing
-> > the `mk`
-> > directory in which the `boilerplate.mk`
-> > file is.  It is *not* OK to simply say
+  Before the `include` statement, you
+  must define the `make` variable
+  `TOP`
+  to be the top-level directory of the source tree, containing
+  the `mk`
+  directory in which the `boilerplate.mk`
+  file is.  It is *not* OK to simply say
 
 ```wiki
 include ../mk/boilerplate.mk  # NO NO NO
@@ -239,35 +238,33 @@ SRC_HC_OPTS += -O
     `target.mk` has a rule that looks
     like this:
 
-```wiki
-$(HS_PROG) : $(OBJS)
-	 $(HC) $(LD_OPTS) $< -o $@
-```
+    ```wiki
+    $(HS_PROG) : $(OBJS)
+    	 $(HC) $(LD_OPTS) $< -o $@
+    ```
 
-> >
-> > If this rule was in
-> > `boilerplate.mk` then
-> > `$(HS_PROG)`
-> > and
-> > `$(OBJS)`
-> > would not have their final values at the moment
-> > `make` encountered the rule.  Alas,
-> > `make` takes a snapshot of their
-> > current values, and wires that snapshot into the rule.
-> > (In contrast, the commands executed when the rule
-> > "fires" are only substituted at the moment
-> > of firing.)  So, the rule must follow the definitions
-> > given in the `Makefile` itself.
-
-- Unlike pattern rules, ordinary rules cannot be
-  overriden or replaced by subsequent rules for the same
-  target (at least, not without an error message).
-  Including ordinary rules in
-  `boilerplate.mk` would prevent the
-  user from writing rules for specific targets in specific
-  cases.
-- There are a couple of other reasons I've
-  forgotten, but it doesn't matter too much.
+    If this rule was in
+    `boilerplate.mk` then
+    `$(HS_PROG)`
+    and
+    `$(OBJS)`
+    would not have their final values at the moment
+    `make` encountered the rule.  Alas,
+    `make` takes a snapshot of their
+    current values, and wires that snapshot into the rule.
+    (In contrast, the commands executed when the rule
+    "fires" are only substituted at the moment
+    of firing.)  So, the rule must follow the definitions
+    given in the `Makefile` itself.
+  - Unlike pattern rules, ordinary rules cannot be
+    overriden or replaced by subsequent rules for the same
+    target (at least, not without an error message).
+    Including ordinary rules in
+    `boilerplate.mk` would prevent the
+    user from writing rules for specific targets in specific
+    cases.
+  - There are a couple of other reasons I've
+    forgotten, but it doesn't matter too much.
 
 ## The `mk/boilerplate.mk` file
 
@@ -490,7 +487,7 @@ Here's how to understand the rule.  It says that
 name held in `$(CC)`), passing to it
 the options `$(CC_OPTS)` and
 the rule's dependent file of the rule
-`$&lt;` (`Foo.c` in
+`$<` (`Foo.c` in
 this case), and putting the result in the rule's target
 `$@` (`Foo.o` in this
 case).
@@ -523,9 +520,9 @@ meaning:
 - `SRC_CC_OPTS`:
   options passed to all C compilations.
 
-- `WAY_&lt;way&gt;_CC_OPTS`:
+- `WAY_<way>_CC_OPTS`:
   options passed to C compilations for way
-  `&lt;way&gt;`. For example,
+  `<way>`. For example,
   `WAY_mp_CC_OPTS`
   gives options to pass to the C compiler when compiling way
   `mp`.  The variable
@@ -534,9 +531,9 @@ meaning:
   standard way.  (\<xref linkend="sec-ways"/\> dicusses
   multi-way compilation.)
 
-- `&lt;module&gt;_CC_OPTS`:
+- `<module>_CC_OPTS`:
   options to pass to the C compiler that are specific
-  to module `&lt;module&gt;`.  For example,
+  to module `<module>`.  For example,
   `SMap_CC_OPTS` gives the
   specific options to pass to the C compiler when compiling
   `SMap.c`.
@@ -635,8 +632,7 @@ the sub-directories.
 *These recursive invocations are guaranteed to
 occur in the order in which the list of directories is specified
 in `SUBDIRS`. *This guarantee can
-be important.  For example, when you say {{{make
-boot}}} it can be important that the recursive invocation
+be important.  For example, when you say `make boot` it can be important that the recursive invocation
 of `make boot` is done in one sub-directory
 (the include files, say) before another (the source files).
 Generally, put the most independent sub-directory first, and the
