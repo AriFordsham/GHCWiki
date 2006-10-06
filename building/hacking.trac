@@ -17,9 +17,10 @@ on the build system, read on to the later sections.
 {{{mk/build.mk}}} is a GNU makefile that contains all your build settings.
 By default, this file doesn't exist, and all the parameters are set to
 their defaults in {{{mk/config.mk}}} ({{{mk/config.mk}}} is the place to look for
-''all'' the things you might want to tune).
+''all'' the things you might want to tune). 
 
-There's an example in [[GhcFile(mk/build.mk.sample)]], which you can copy to `mk/build.mk` and edit as required.
+There's an example in 
+[[GhcFile(mk/build.mk.sample)]], which you can copy to `mk/build.mk` and edit as required.
 Alternatively if you want to understand a bit more about what's going on (recommended), read on.
 
 == How to make GHC build quickly ==
@@ -28,11 +29,12 @@ The GHC build tree is set up so that, by default, it builds a compiler
 ready for installing and using.  That means full optimisation, and the
 build can take a ''long'' time.  If you unpack your source tree and
 right away say {{{./configure; make}}}, expect to have to wait a while.
-
 For hacking, you want the build to be quick - quick to build in the
 first place, and quick to rebuild after making changes.  Tuning your
 build setup can make the difference between several hours to build
-GHC, and less than an hour.  Here are the `build.mk` settings that
+GHC, and less than an hour.  
+
+Here are the `build.mk` settings that
 we use to build fast:
 
 {{{
