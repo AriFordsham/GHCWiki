@@ -241,7 +241,7 @@ SRC_HC_OPTS += -O
 
    {{{
 $(HS_PROG) : $(OBJS)
-	 $(HC) $(LD_OPTS) $&#60; -o $@
+	 $(HC) $(LD_OPTS) $< -o $@
 }}}
 
     If this rule was in
