@@ -97,7 +97,16 @@ What do these options do?
   the libraries in your tree, you can stop them being built by setting
   `GhcBootLibs` in your `build.mk`.
 
- 
+The other thing to remember is that for quick re-builds, you don't necessarily
+want to go through the entire "make boot, make stage1, make libraries, make stage2"
+sequence, which is the default if you type `make` in the root directory.  Instead,
+we often say:
+ * {{{cd compiler; make stage=1}}}: re-makes the stage-1 compiler only
+ * {{{cd libraries; make}}}: re-make the libraries only
+ * {{{cd compiler; make stage=2}}}: re-make the stage-2 compiler only
+If you do things this way, it's your responsibility to say `make boot` when necessary
+to rebuild dependencies.
+
 
 == Actually building the bits ==
 
