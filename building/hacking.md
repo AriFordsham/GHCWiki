@@ -23,6 +23,13 @@ first place, and quick to rebuild after making changes.  Tuning your
 build setup can make the difference between several hours to build
 GHC, and less than an hour.  Here's how to do it.
 
+
+If you're just interested in working on GHC, then you probably don't want
+the "extralibs" libraries that we normally ship with GHC, having these in your
+source tree will just make the build take longer.  So when 
+[getting the sources](building/getting-the-sources), run `darcs-all` without
+the `--extra` option.
+
 `mk/build.mk` is a GNU makefile that contains all your build settings.
 By default, this file doesn't exist, and all the parameters are set to
 their defaults in `mk/config.mk` (`mk/config.mk` is the place to look for
@@ -99,11 +106,32 @@ To just build everything, from the top level:
   $ autoreconf
   $ ./configure
   $ make
-  $ make install
 ```
 
 
 (See here for [what can go wrong](building/problems).)
+
+
+If you just want to build stage 1, then instead you can say
+
+```wiki
+  $ make stage1
+```
+
+
+but note that the stage 1 compiler doesn't support GHCi or Template Haskell, those are compiled into stage 2 only (see 
+[BootstrappingGHC](building/using#bootstrapping-ghc)).
+
+
+To install the compiler you built, you can say
+
+```wiki
+  $ make install
+```
+
+
+However, you don't need to install it to use it.  Running `./compiler/stage1/ghc-inplace` from the build tree
+will invoke the stage1 compiler, and `./compiler/stage2/ghc-inplace` will invoke the stage2 compiler.
 
 ## Building individual parts of the tree
 
