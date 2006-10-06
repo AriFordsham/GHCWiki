@@ -1,138 +1,125 @@
-CONVERSION ERROR
+## Prerequisites for Buiding GHC
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Building/Prerequisites"
-  queryString          = "?version=3"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:56:01 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","260"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Building/Prerequisites\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
-
-Original source:
-
-```trac
-
-
-== Prerequisites for Buiding GHC ==
 
 Here are the gory details about some utility programs you may need;
-{{{GHC}}}, {{{perl}}}, {{{gcc}}}, {{{happy}}} and {{{alex}}} are the
-only important ones. The {{{configure}}} script will tell you if you
+`GHC`, `perl`, `gcc`, `happy` and `alex` are the
+only important ones. The `configure` script will tell you if you
 are missing something.
 
- GHC::
-  GHC is required to build GHC, because GHC itself is
-  written in Haskell, and uses GHC extensions.  It is possible
-  to build GHC using just a C compiler, and indeed some
-  distributions of GHC do just that, but it isn't the best
-  supported method, and you may encounter difficulties.  Full
-  instructions are in [wiki:Building/Porting Porting GHC].
-  [[br]][[br]]  
-  GHC can be built using either an earlier released
-  version of GHC (currently 5.04 and later are supported), or
-  bootstrapped using a GHC built from exactly the same
-  sources.  Note that this means you cannot in general build
-  GHC using an arbitrary development snapshot, or a build from
-  say last week.  It might work, it might not - we don't
-  guarantee anything.  To be on the safe side, start your
-  build using the most recently released stable version of
-  GHC.
-
- Perl::
-  ''You must have Perl to proceed!''
-  Perl version 5 at least is required.  GHC has been known to
-  tickle bugs in Perl, so if you find that Perl crashes when
-  running GHC try updating (or downgrading) your Perl
-  installation.  Versions of Perl before 5.6 have been known to have
-  various bugs tickled by GHC, so the configure script
-  will look for version 5.6 or later.
+<table><tr><th>GHC</th>
+<td>
+GHC is required to build GHC, because GHC itself is
+written in Haskell, and uses GHC extensions.  It is possible
+to build GHC using just a C compiler, and indeed some
+distributions of GHC do just that, but it isn't the best
+supported method, and you may encounter difficulties.  Full
+instructions are in [Porting GHC](building/porting).
   
-  Perl should be put somewhere so that it can be invoked
-  by the {{{#!}}} script-invoking mechanism.
+GHC can be built using either an earlier released
+version of GHC (currently 5.04 and later are supported), or
+bootstrapped using a GHC built from exactly the same
+sources.  Note that this means you cannot in general build
+GHC using an arbitrary development snapshot, or a build from
+say last week.  It might work, it might not - we don't
+guarantee anything.  To be on the safe side, start your
+build using the most recently released stable version of
+GHC.
+</td></tr></table>
 
- GNU C ({{{gcc}}})::
-  Most GCC versions should work with the most recent GHC
-  sources.  Expect trouble if you use a recent GCC with
-  an older GHC, though (trouble in the form of mis-compiled code,
-  link errors, and errors from the {{{ghc-asm}}}
-  script).
-  [[br]][[br]]
-  If your GCC dies with "internal error"" on
-  some GHC source file, please let us know, so we can report
-  it and get things improved.  (Exception: on x86
-  boxes, you may need to fiddle with GHC's
-  {{{-monly-N-regs}}} option; see the User's
-  Guide).
+<table><tr><th>Perl</th>
+<td>*You must have Perl to proceed''
+Perl version 5 at least is required.  GHC has been known to
+tickle bugs in Perl, so if you find that Perl crashes when
+running GHC try updating (or downgrading) your Perl
+installation.  Versions of Perl before 5.6 have been known to have
+various bugs tickled by GHC, so the configure script
+will look for version 5.6 or later.
+  
+Perl should be put somewhere so that it can be invoked
+by the `#!` script-invoking mechanism.
+*</td></tr></table>
 
- GNU Make::
-  The GHC build system makes heavy use of features
-  specific to GNU {{{make}}}, so you must have
-  this installed in order to build GHC.
-  [[br]][[br]]
-  NB. it has been reported that version 3.79 no longer
-  works to build GHC, and 3.80 is required.
+<table><tr><th>GNU C (`gcc`)</th>
+<td>
+Most GCC versions should work with the most recent GHC
+sources.  Expect trouble if you use a recent GCC with
+an older GHC, though (trouble in the form of mis-compiled code,
+link errors, and errors from the `ghc-asm`
+script).
 
- [http://www.haskell.org/happy Happy]::
-  Happy is a parser generator tool for Haskell, and is
-  used to generate GHC's parsers.
-  [[br]][[br]]
-  If you start from a source tarball of GHC (i.e. not a darcs
-  checkout), then you don't need Happy, because we supply the
-  pre-processed versions of the Happy parsers.  If you intend to
-  modify the compiler and/or you're using a darcs checkout, then you
-  need Happy.
-  [[br]][[br]]
-  Happy version 1.15 is currently required to build GHC.
-  Grab a copy from
-  [http://www.haskell.org/happy/ Happy's Web Page].
+If your GCC dies with "internal error"" on
+some GHC source file, please let us know, so we can report
+it and get things improved.  (Exception: on x86
+boxes, you may need to fiddle with GHC's
+`-monly-N-regs` option; see the User's
+Guide).
+</td></tr></table>
 
- [http://www.haskell.org/alex/ Alex]::
-  Alex is a lexical-analyser generator for Haskell,
-  which GHC uses to generate its lexer.
-  [[br]][[br]]
-  Like Happy, you don't need Alex if you're building GHC from a
-  source tarball, but you do need it if you're modifying GHC and/or
-  building a darcs checkout.
-  [[br]][[br]]
-  Alex is
-  written in Haskell and is a project in the darcs repository.
-  Alex distributions are available from 
-  [http://www.haskell.org/alex/ Alex's Web Page].
+<table><tr><th>GNU Make</th>
+<td>
+The GHC build system makes heavy use of features
+specific to GNU `make`, so you must have
+this installed in order to build GHC.
 
- {{{automake}}}::
-  GNU automake is needed if you intend to build using
-  "./autoreconf". Version 1.9 works.
+NB. it has been reported that version 3.79 no longer
+works to build GHC, and 3.80 is required.
+</td></tr></table>
 
- {{{autoconf}}}::
-  GNU autoconf is needed if you intend to build from the
-  darcs sources, it is ''not'' needed if you
-  just intend to build a standard source distribution.
-  [[br]][[br]]
-  Version 2.52 or later of the autoconf package is required.
-  NB. version 2.13 will no longer work, as of GHC version
-  6.1.
-  [[br]][[br]]
-  {{{autoreconf}}} (from the autoconf package)
-  recursively builds {{{configure}}} scripts from
-  the corresponding {{{configure.ac}}} and
-  {{{aclocal.m4}}} files.  If you modify one of
-  the latter files, you'll need {{{autoreconf}}} to
-  rebuild the corresponding {{{configure}}}.
+<table><tr><th>[ Happy](http://www.haskell.org/happy)</th>
+<td>
+Happy is a parser generator tool for Haskell, and is
+used to generate GHC's parsers.
 
- {{{sed}}}::
-  You need a working {{{sed}}} if you are
-  going to build from sources.  The build-configuration stuff
-  needs it.  GNU sed version 2.0.4 is no good!  It has a bug
-  in it that is tickled by the build-configuration.  2.0.5 is
-  OK. Others are probably OK too (assuming we don't create too
-  elaborate configure scripts.)
+If you start from a source tarball of GHC (i.e. not a darcs
+checkout), then you don't need Happy, because we supply the
+pre-processed versions of the Happy parsers.  If you intend to
+modify the compiler and/or you're using a darcs checkout, then you
+need Happy.
 
-```
+Happy version 1.15 is currently required to build GHC.
+Grab a copy from
+[ Happy's Web Page](http://www.haskell.org/happy/).
+</td></tr></table>
+
+<table><tr><th>[ Alex](http://www.haskell.org/alex/)</th>
+<td>
+Alex is a lexical-analyser generator for Haskell,
+which GHC uses to generate its lexer.
+
+Like Happy, you don't need Alex if you're building GHC from a
+source tarball, but you do need it if you're modifying GHC and/or
+building a darcs checkout.
+
+Alex is
+written in Haskell and is a project in the darcs repository.
+Alex distributions are available from 
+[ Alex's Web Page](http://www.haskell.org/alex/).
+</td></tr></table>
+
+<table><tr><th>`autoconf` and `automake`</th>
+<td>
+These are needed if you intend to build from the
+darcs sources, they are *not* needed if you
+just intend to build a standard source distribution.
+
+Version 2.52 or later of the autoconf package is required.
+NB. version 2.13 will no longer work, as of GHC version
+6.1.  Version 1.9 of automake is known to work, use others at
+your own risk.
+`autoreconf` (from the autoconf package)
+recursively builds `configure` scripts from
+the corresponding `configure.ac` and
+`aclocal.m4` files.  If you modify one of
+the latter files, you'll need `autoreconf` to
+rebuild the corresponding `configure`.
+</td></tr></table>
+
+<table><tr><th>`sed`</th>
+<td>
+Most Unix installations and Cygwin/MSYS on
+Windows already come with `sed`, so you're probably OK.
+GNU sed version 2.0.4 is no good!  It has a bug
+in it that is tickled by the build-configuration.  2.0.5 is
+OK. Others are probably OK too (assuming we don't create too
+elaborate configure scripts.)
+</td></tr></table>
