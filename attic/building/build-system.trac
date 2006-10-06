@@ -499,7 +499,7 @@ Here's how to understand the rule.  It says that
 name held in {{{$(CC)}}}), passing to it
 the options {{{$(CC_OPTS)}}} and
 the rule's dependent file of the rule
-{{{$&lt;}}} ({{{Foo.c}}} in
+{{{$<}}} ({{{Foo.c}}} in
 this case), and putting the result in the rule's target
 {{{$@}}} ({{{Foo.o}}} in this
 case).
@@ -530,9 +530,9 @@ meaning:
  * {{{SRC_CC_OPTS}}}:
    options passed to all C compilations.
 
- * {{{WAY_&lt;way&gt;_CC_OPTS}}}:
+ * {{{WAY_<way>_CC_OPTS}}}:
    options passed to C compilations for way
-   {{{&lt;way&gt;}}}. For example,
+   {{{<way>}}}. For example,
    {{{WAY_mp_CC_OPTS}}}
    gives options to pass to the C compiler when compiling way
    {{{mp}}}.  The variable
@@ -541,9 +541,9 @@ meaning:
    standard way.  (<xref linkend="sec-ways"/> dicusses
    multi-way compilation.)
 
- * {{{&lt;module&gt;_CC_OPTS}}}:
+ * {{{<module>_CC_OPTS}}}:
    options to pass to the C compiler that are specific
-   to module {{{&lt;module&gt;}}}.  For example,
+   to module {{{<module>}}}.  For example,
    {{{SMap_CC_OPTS}}} gives the
    specific options to pass to the C compiler when compiling
    {{{SMap.c}}}.
@@ -644,8 +644,7 @@ the sub-directories.
 ''These recursive invocations are guaranteed to
 occur in the order in which the list of directories is specified
 in {{{SUBDIRS}}}. ''This guarantee can
-be important.  For example, when you say {{{make
-boot}}} it can be important that the recursive invocation
+be important.  For example, when you say {{{make boot}}} it can be important that the recursive invocation
 of {{{make boot}}} is done in one sub-directory
 (the include files, say) before another (the source files).
 Generally, put the most independent sub-directory first, and the
