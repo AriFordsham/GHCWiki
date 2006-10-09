@@ -140,8 +140,7 @@ happen:
    {{{Baz.o}}}).  Because source files are found
    and used automatically, omitting them from a program or
    library has to be done manually (see
-   {{{EXCLUDED_SRCS}}} in <xref
-   linkend="sec-boiler" />).
+   {{{EXCLUDED_SRCS}}} in [[ref(the mk/boilerplate.mk file)]]).
 
 
  * It uses a boilerplate pattern rule to compile
