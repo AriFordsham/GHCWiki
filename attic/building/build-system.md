@@ -69,7 +69,7 @@ sections:
   As its name suggests, `boilerplate.mk`
   consists of a large quantity of standard
   `Makefile` code.  We discuss this
-  boilerplate in more detail in [The {{{mk/boilerplate.mk}}} file](#The{{{mk/boilerplate.mk}}}file).
+  boilerplate in more detail in [the mk/boilerplate.mk file](#themk/boilerplate.mkfile).
 
   Before the `include` statement, you
   must define the `make` variable
@@ -79,33 +79,32 @@ sections:
   directory in which the `boilerplate.mk`
   file is.  It is *not* OK to simply say
 
-```wiki
-include ../mk/boilerplate.mk  # NO NO NO
-```
+  ```wiki
+  include ../mk/boilerplate.mk  # NO NO NO
+  ```
 
-> >
-> > Why?  Because the `boilerplate.mk`
-> > file needs to know where it is, so that it can, in turn,
-> > `include` other files.  (Unfortunately,
-> > when an `include`d file does an
-> > `include`, the filename is treated relative
-> > to the directory in which `make` is being
-> > run, not the directory in which the
-> > `include`d sits.)  In general,
-> > *every file `foo.mk` assumes
-> > that
-> > `$(TOP)/mk/foo.mk`
-> > refers to itself.* It is up to the
-> > `Makefile` doing the
-> > `include` to ensure this is the case.
+  Why?  Because the `boilerplate.mk`
+  file needs to know where it is, so that it can, in turn,
+  `include` other files.  (Unfortunately,
+  when an `include`d file does an
+  `include`, the filename is treated relative
+  to the directory in which `make` is being
+  run, not the directory in which the
+  `include`d sits.)  In general,
+  *every file `foo.mk` assumes
+  that
+  `$(TOP)/mk/foo.mk`
+  refers to itself.* It is up to the
+  `Makefile` doing the
+  `include` to ensure this is the case.
 
 - The second section defines the standard
   `make` variable
   `HS_PROG`
   (the executable binary to be built).  We will discuss in
   more detail what the "standard variables" are,
-  and how they affect what happens, in \<xref
-  linkend="sec-targets"/\>.
+  and how they affect what happens, in 
+  [the main mk/target.mk file](#themainmk/target.mkfile).
 
 - The last section includes a second file of standard
   code, called
@@ -118,16 +117,15 @@ include ../mk/boilerplate.mk  # NO NO NO
   discuss the reason later, in \<xref
   linkend="sec-boiler-arch"/\>.
 
-> >
-> > You do not *have* to
-> > `include` the
-> > `target.mk` file.  Instead, you can write
-> > rules of your own for all the standard targets.  Usually,
-> > though, you will find quite a big payoff from using the
-> > canned rules in `target.mk`; the price
-> > tag is that you have to understand what canned rules get
-> > enabled, and what they do (\<xref
-> > linkend="sec-targets"/\>).
+  You do not *have* to
+  `include` the
+  `target.mk` file.  Instead, you can write
+  rules of your own for all the standard targets.  Usually,
+  though, you will find quite a big payoff from using the
+  canned rules in `target.mk`; the price
+  tag is that you have to understand what canned rules get
+  enabled, and what they do (\<xref
+  linkend="sec-targets"/\>).
 
 
 In our example `Makefile`, most of the
@@ -197,28 +195,26 @@ files, and why there have to be two of them.  In general:
     tell `make` how to construct one file
     from another.
 
-> > `boilerplate.mk` needs to be
-> > `include`d at the *top*
-> > of each `Makefile`, so that the user can
-> > replace the boilerplate definitions or pattern rules by
-> > simply giving a new definition or pattern rule in the
-> > `Makefile`.  `make`
-> > simply takes the last definition as the definitive one.
+  `boilerplate.mk` needs to be
+  `include`d at the *top*
+  of each `Makefile`, so that the user can
+  replace the boilerplate definitions or pattern rules by
+  simply giving a new definition or pattern rule in the
+  `Makefile`.  `make`
+  simply takes the last definition as the definitive one.
 
-> >
-> > Instead of *replacing* boilerplate
-> > definitions, it is also quite common to
-> > *augment* them. For example, a
-> > `Makefile` might say:
+  Instead of *replacing* boilerplate
+  definitions, it is also quite common to
+  *augment* them. For example, a
+  `Makefile` might say:
 
-```wiki
-SRC_HC_OPTS += -O
-```
+  ```wiki
+  SRC_HC_OPTS += -O
+  ```
 
-> >
-> > thereby adding "`-O`" to
-> > the end of
-> > `SRC_HC_OPTS`.
+  thereby adding "`-O`" to
+  the end of
+  `SRC_HC_OPTS`.
 
 - `target.mk` contains
   `make` rules for the standard targets
@@ -732,26 +728,24 @@ in which this happens:
   file will match*.  The key pattern rules (in
   `suffix.mk`) look like this:
 
-```wiki
-%.$(way_)o : %.lhs
-      $(HC) $(HC_OPTS) $< -o $@
-```
+  ```wiki
+  %.$(way_)o : %.lhs
+        $(HC) $(HC_OPTS) $< -o $@
+  ```
 
-> >
-> > Neat, eh?
+  Neat, eh?
 
 - You can invoke `make` with a
   particular `way` setting yourself, in order
   to build files related to a particular
   `way` in the current directory.  eg.
 
-```wiki
-$ make way=p
-```
+  ```wiki
+  $ make way=p
+  ```
 
-> >
-> > will build files for the profiling way only in the current
-> > directory. 
+  will build files for the profiling way only in the current
+  directory. 
 
 ## When the canned rule isn't right
 
