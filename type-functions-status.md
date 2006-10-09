@@ -14,6 +14,7 @@ Back to [TypeFunctions](type-functions).
   1. In `M.hi` store the names of all modules below (and including `M`) that contain family instances.  Invariant: if `M` compiles, then none of those modlues have overlaps.
   1. When compiling a new module `K`, union the sets from direct imports, plus `K` itself if it has family instances.  If that union is a subset of any of the incoming ones, nothing to do!  Otherwise, further checking needed.
   1. Further checking can be brute-force or intelligently to minimise the number of checks.  *Brute-force:* Take the `FamInst`s of all family-instance modules that are in the complement of the intersection of the sets of family-instance modules contained in each imported module and add `K` if it has imports.  Check this whole set using the check from Point (1).  *Intelligently:* Compute the set of all module pairs that have already been checked for overlap (as they both occur in the family-instance module list of any import) and subtract that from the set of all pairs of visible family-instance modules.  These are the critical module pairs.  Check any pair of instances coming from two different modules in a critical module pair.
+- There really is no reason anymore to disallow family instances where all arguments are type variables.  Such instances are rarely useful, but may be when creating stub files or so; so why disallow them.  Check that they are working.
 
 ## Parsing and Renaming
 
