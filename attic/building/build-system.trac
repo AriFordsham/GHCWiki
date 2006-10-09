@@ -735,23 +735,19 @@ in which this happens:
    for compiling a Haskell file into a {{{.o}}}
    file will match''.  The key pattern rules (in
    {{{suffix.mk}}}) look like this:
-
 {{{
 %.$(way_)o : %.lhs
       $(HC) $(HC_OPTS) $< -o $@
 }}}
-
    Neat, eh?
 
  * You can invoke {{{make}}} with a
    particular {{{way}}} setting yourself, in order
    to build files related to a particular
    {{{way}}} in the current directory.  eg.
-
    {{{
 $ make way=p
 }}}
-
    will build files for the profiling way only in the current
    directory. 
 
