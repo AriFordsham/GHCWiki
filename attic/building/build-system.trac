@@ -67,7 +67,7 @@ sections:
    As its name suggests, {{{boilerplate.mk}}}
    consists of a large quantity of standard
    {{{Makefile}}} code.  We discuss this
-   boilerplate in more detail in [[ref(The mk/boilerplate.mk file)]].
+   boilerplate in more detail in [[ref(the mk/boilerplate.mk file)]].
    [[br]][[br]]
    Before the {{{include}}} statement, you
    must define the {{{make}}} variable
@@ -100,8 +100,8 @@ include ../mk/boilerplate.mk  # NO NO NO
    {{{HS_PROG}}}
    (the executable binary to be built).  We will discuss in
    more detail what the "standard variables" are,
-   and how they affect what happens, in <xref
-   linkend="sec-targets"/>.
+   and how they affect what happens, in 
+   [[ref(the main mk/target.mk file)]].
 
 
  * The last section includes a second file of standard
