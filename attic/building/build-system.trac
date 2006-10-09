@@ -111,8 +111,7 @@ include ../mk/boilerplate.mk  # NO NO NO
    to make the standard targets ([wiki:Building/Using#StandardTargets standard targets]).  Why, you ask, can't this
    standard code be part of
    {{{boilerplate.mk}}}?  Good question.  We
-   discuss the reason later, in <xref
-   linkend="sec-boiler-arch"/>.
+   discuss the reason later, in [[ref(Boilerplate architecture)]].
    [[br]][[br]]
    You do not ''have'' to
    {{{include}}} the
