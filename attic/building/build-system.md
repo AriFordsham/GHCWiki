@@ -140,8 +140,7 @@ happen:
   `Baz.o`).  Because source files are found
   and used automatically, omitting them from a program or
   library has to be done manually (see
-  `EXCLUDED_SRCS` in \<xref
-  linkend="sec-boiler" /\>).
+  `EXCLUDED_SRCS` in [the mk/boilerplate.mk file](#themk/boilerplate.mkfile)).
 
 - It uses a boilerplate pattern rule to compile
   `Foo.hs` to `Foo.o`
