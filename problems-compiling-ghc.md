@@ -58,5 +58,21 @@ GHC's configure script seems to be not very happy with path names that contain s
 
 After actually reading the documentation, I realized this only applies when compiling under Cygwin. The building guide says, "Cygwin doesn't deal well with filenames that include spaces", which I disagree with. Scripts should be able to handle such filenames by using the "cygpath" command appropriate. However, I see that Cygwin isn't supported, so probably this isn't very important.
 
+### Problem 6
+
+
+The configure script wants something like:
+--with-gcc=c:/mingw/bin/gcc
+and not:
+--with-gcc=c:
+mingw
+bin
+gcc
+and certainly not:
+--with-gcc=/cygdrive/c/mingw/bin/gcc
+
+
+This should probably be stated more prominently.
+
 
 --Kirsten Chevalier
