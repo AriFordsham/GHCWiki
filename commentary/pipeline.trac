@@ -1,5 +1,7 @@
 
 
+Video: [http://video.google.com/videoplay?docid=-4326420154219711812 Compilation Pipeline] and interface files (17'30")
+
 = The compilation pipeline =
 
 When GHC compiles a module, it calls other programs, and generates a series of intermediate files.  Here's a summary of the process.
