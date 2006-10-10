@@ -76,10 +76,9 @@ This should probably be stated more prominently.
 
 ### Problem 7
 
-
-I also needed to add:
+~~I also needed to add:
 --include=c:/cygwin/usr/include
-to the configure options, otherwise I got a bunch of errors involving missing include files when compiling Linker.c.
+to the configure options, otherwise I got a bunch of errors involving missing include files when compiling Linker.c.~~ actually, that didn't help.
 
 
 --Kirsten Chevalier
