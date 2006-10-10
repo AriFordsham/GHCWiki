@@ -59,6 +59,34 @@ to the configure options, otherwise I got a bunch of errors involving missing in
 (Maybe problems 5-7 don't matter since I was trying to use cygwin, which I gave up on.)
 
 === Problem 8 ===
-Doing a make maintainer-clean in ghc doesn't delete configure-generated Makefiles in the rts subdirectory? I'll investigate further.
+Doing a make maintainer-clean in ghc doesn't delete configure-generated Makefiles in the rts subdirectory (or possibly just rts/gmp)? I'll investigate further. It also seemed like configure didn't recurse into rts/gmp at all for me. I got this error while running make:
+
+{{{
+== make all - --unix -r;
+ in /c/ghc-builds/ghc/rts
+------------------------------------------------------------------------
+make -C gmp MAKEFLAGS=
+make  all-recursive
+make[3]: Entering directory `/c/ghc-builds/ghc/rts/gmp'
+Making all in mpn
+make[4]: Entering directory `/c/ghc-builds/ghc/rts/gmp/mpn'
+make[5]: Entering directory `/c/ghc-builds/ghc/rts/gmp/mpn'
+/bin/sh ../libtool --mode=compile /mingw/bin/gcc.exe -DHAVE_CONFIG_H -I. -I. -I.. -I.. -DOPERATION_mp_bases    -g -O2 -c -o mp_bases.lo mp_bases.c
+/mingw/bin/gcc.exe -DHAVE_CONFIG_H -I. -I. -I.. -I.. -DOPERATION_mp_bases -g -O2 -c mp_bases.c -o mp_bases.o
+echo timestamp > mp_bases.lo
+m4 -DPIC -DOPERATION_udiv udiv.asm >tmp-udiv.s
+../config.m4:24: m4: Cannot open CONFIG_TOP_SRCDIR/mpn/asm-defs.m4: No such file or directory
+NONE:0: m4: ERROR: EOF in argument list
+make[5]: *** [udiv.lo] Error 1
+make[5]: Leaving directory `/c/ghc-builds/ghc/rts/gmp/mpn'
+make[4]: *** [all-recursive] Error 1
+make[4]: Leaving directory `/c/ghc-builds/ghc/rts/gmp/mpn'
+make[3]: *** [all-recursive] Error 1
+make[3]: Leaving directory `/c/ghc-builds/ghc/rts/gmp'
+make[2]: *** [all-recursive-am] Error 2
+make[1]: *** [gmp/libgmp.a] Error 2
+}}}
+
+but after going into rts/gmp and running configure by hand, it was fine.
 
 --Kirsten Chevalier
