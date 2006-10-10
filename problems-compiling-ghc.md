@@ -49,3 +49,11 @@ This behavior would often end with power cycling the laptop and was rather frust
 
 
 Roshan James (rpjames \[at\] cs \[dot\] indiana \[dot\] edu)
+
+### Problem 5
+
+
+GHC's configure script seems to be not very happy with path names that contain spaces. (Like every other configure script in the world, probably...)
+
+
+--Kirsten Chevalier
