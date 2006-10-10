@@ -53,7 +53,10 @@ Roshan James (rpjames \[at\] cs \[dot\] indiana \[dot\] edu)
 ### Problem 5
 
 
-GHC's configure script seems to be not very happy with path names that contain spaces. (Like every other configure script in the world, probably...)
+GHC's configure script seems to be not very happy with path names that contain spaces. (Like every other configure script in the world, probably...) 
+
+
+After actually reading the documentation, I realized this only applies when compiling under Cygwin. The building guide says, "Cygwin doesn't deal well with filenames that include spaces", which I disagree with. Scripts should be able to handle such filenames by using the "cygpath" command appropriate. However, I see that Cygwin isn't supported, so probably this isn't very important.
 
 
 --Kirsten Chevalier
