@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/AboutVideos"
-  queryString          = "?version=6"
+  queryString          = "?version=7"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:57:27 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","252"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/AboutVideos\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:57:28 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","252"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/AboutVideos\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -39,7 +39,7 @@ The quality of the audio or (particularly) video may not be great.  They are int
  1. [http://video.google.com/videoplay?docid=-5234070039625162234 Intro] to the Hackathon, purpose of the event (6'47")
  1. [http://video.google.com/videoplay?docid=-948887441048207316 Documentation] - general orientation around the wiki (9'01")
  1. [http://video.google.com/videoplay?docid=7166458546326012899  Getting and Building], layout of the source tree, how to set up build.mk (23'43")
- 1. [http://video.google.co.uk/videoplay?docid= Compilation Pipeline], and interface files (17'30")
- 1. [http://video.google.co.uk/videoplay?docid=-8782356823569862556 Abstract Syntax] representation, and how it interacts with parser/renamer/typechecker (1hr03')
+ 1. [http://video.google.com/videoplay?docid=-4326420154219711812 Compilation Pipeline], and interface files (17'30")
+ 1. [http://video.google.com/videoplay?docid=-8782356823569862556 Abstract Syntax] representation, and how it interacts with parser/renamer/typechecker (1hr03')
  1. still lots more to come...
 ```
