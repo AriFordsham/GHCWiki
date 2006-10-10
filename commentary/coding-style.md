@@ -128,25 +128,41 @@ List imports in the following order:
 
   -- GHC
   import CoreSyn
-  import Id           ( idName, idType )
+  import Id
   import BasicTypes
 
   -- libraries
-  import DATA_IOREF   ( newIORef, readIORef )
+  import Data.IORef
 
   -- std
-  import List         ( partition )
-  import Maybe        ( fromJust )
+  import Data.List
+  import Data.Maybe
   ```
 
 
-Import library modules from the base and haskell98 packages only. Use \#defines in HsVersions.h when the modules names differ between versions of GHC (eg. DATA_IOREF in the example above). For code inside \#ifdef GHCI, don't need to worry about GHC versioning (because we are bootstrapped). 
+Import library modules from the core packages only (core packages are listed in [libraries/core-packages](/trac/ghc/browser/ghc/libraries/core-packages). Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
+
+**Do not use explicit import lists**, except to resolve name clashes.  There are several reasons for this:
+
+- They slow down development: almost every change is accompanied by an import list change.
+
+- They cause spurious conflicts between developers.
+
+- They lead to useless warnings about unused imports, and time wasted trying to
+  keep the import declarations "minimal".
+
+- GHC's warnings are useful for detecting unnecessary imports: see `-fwarn-unused-imports`.
+
+- TAGS is a good way to find out where an identifier is defined (use `make tags` in `ghc/compiler`,
+  and hit `M-.` in emacs).
 
 
-We usually use import specs to give an explicit list of the entities imported from a module. The main reason for doing this is so that you can search the file for an entity and find which module it comes from. However, huge import lists can be a pain to maintain, so we often omit the import specs when they start to get long (actually I start omitting them when they don't fit on one line --Simon M.). Tip: use GHC's -fwarn-unused-imports flag so that you get notified when an import isn't being used any more. 
+If the module can be compiled multiple ways (eg. GHCI vs. non-GHCI), make sure the imports are properly `#ifdefed` too, so as to avoid spurious unused import warnings. 
+
+### General Style
 
 
-If the module can be compiled multiple ways (eg. GHCI vs. non-GHCI), make sure the imports are properly \#ifdefed too, so as to avoid spurious unused import warnings. 
+It's much better to write code that is transparent, than to write code that is short.
 
 
-ToDo: finish this 
+Often it's better to write out the code longhand than to reuse a generic abstraction (not always, of course).  Sometimes it's better to duplicate some similar code than to try to construct an elaborate generalisation with only two instances.  Remember: other people have to be able to quickly understand what you've done, and overuse of abstractions just serves to obscure the *really* tricky stuff, and there's no shortage of that in GHC.
