@@ -81,4 +81,7 @@ This should probably be stated more prominently.
 to the configure options, otherwise I got a bunch of errors involving missing include files when compiling Linker.c.~~ actually, that didn't help.
 
 
+(Maybe problems 5-7 don't matter since I was trying to use cygwin, which I gave up on.)
+
+
 --Kirsten Chevalier
