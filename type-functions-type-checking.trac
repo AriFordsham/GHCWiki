@@ -121,6 +121,6 @@ The matching against the family type constructor and unification with the instan
 
 == Checking for overlapping data/newtype instances ==
 
-=== Overlap check of the instances within one module ===
+=== Overlap check of the instances in the currently compiled module ===
 
-We maintain a family instance environment in the `TcRnTypes.TcGblEnv` much like that for class instances.  We add instances to this environment as we type check them and perform an overlap check with each addition.
+We maintain a family instance environment in the `TcRnTypes.TcGblEnv` much like that for class instances.  We add instances to this environment, with `FamInst.addLocalFamInst`, as we type check them and perform an overlap check with each addition.  This overlap check includes all the instances in the EPS, too - again just like with class instance.  Hence, We simultaneously check the instances of the current module against all imported ones, too.  (This, of course, requires that we have them all in the EPS at that point.)
