@@ -1,34 +1,60 @@
-# The semi-tagging optimisation
+CONVERSION ERROR
 
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/SemiTagging"
+  queryString          = "?version=3"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:57:32 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","251"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/SemiTagging\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-Here I describe the design of the semi-tagging optimisation. Currently most of the text comes from [ http://hackage.haskell.org/trac/summer-of-code/ticket/48](http://hackage.haskell.org/trac/summer-of-code/ticket/48)
+Original source:
 
+```trac
+= The semi-tagging optimisation =
+
+Here I describe the design of the semi-tagging optimisation. Currently most of the text comes from http://hackage.haskell.org/trac/summer-of-code/ticket/48
 
 This page reflects my current understanding on the compiler and the RTS, so if there is something wrong, just yell!
 
-## Tagging the LSB of an evaluated closure
-
+== Tagging the LSB of an evaluated closure ==
 
 Currently when evaluating an expression that is the scrutinee of a case:
-
-```wiki
+{{{
 case x of { ... }
-```
-
-
+}}}
 GHC jumps to the code for the x closure, which returns when x is evaluated. Commonly, x is already evaluated, and the code for an evaluated constructor just (vector) returns immediately. The idea is to encode the fact that a pointer points to an evaluated object by setting the LSB of the pointer. If the case expression detects that the closure is evaluated, it can avoid the jump and return, which are expensive on modern processors (indirect jumps).
 
-
 This would require modifying
+ * the GC to set the LSB bit of constructor closure pointers,
+ * the GC and the RTS code to mask out the LSB pointer when dereferencing it,
+ * the code generation to test the LSB bit and case expressions and avoid the indirect jump.
 
-- the GC to set the LSB bit of constructor closure pointers,
-- the GC and the RTS code to mask out the LSB pointer when dereferencing it,
-- the code generation to test the LSB bit and case expressions and avoid the indirect jump.
+== Using more than one bit ==
 
-## Using more than one bit
+We can go a bit further than this, too. Since there are 2 spare bits (4 on a 64-bit machine), we can encode 4 (16) states. Taking 0 to mean "unevaluted", that leaves 3 (15) states to encode the values for the "tag" of the constructor. eg. an evaluated Bool would use 1 to indicate False and 2 to indicate True. An evaluated list cell would use 1 to indicate [] and 2 to indicate (:).
+
+The nice thing about the current approach is that code size is small; implementing the test and jump will certainly add extra code to compiled case expressions. But the gains might be worth it. Complexity-wise this means masking out these bits when following any pointer to a heap object, which means carefully checking most of the runtime.
+
+This would require modifying all of the above plus modifying
+ * the code generator so that it checks whether the number of constructors is smaller or equal than 3/15.
+
+== Using a tag directly in the pointer ==
+
+Constructors without children (such as {{{False}}} and {{{True}}}) only need their tag to be represented. Hence we can drop the pointer altogether as follows:
+
+||  || bits 31..2 || bits 1 0 ||
+|| cons. w/no children || tag || 01 ||
+|| cons. w/children no. 1    || ptr || 10 ||
+|| cons. w/children no. 2    || ptr || 11 ||
 
 
-We can go a bit further than this, too. Since there are 2 spare bits (4 on a 64-bit machine), we can encode 4 (16) states. Taking 0 to mean "unevaluted", that leaves 3 (15) states to encode the values for the "tag" of the constructor. eg. an evaluated Bool would use 1 to indicate False and 2 to indicate True. An evaluated list cell would use 1 to indicate \[\] and 2 to indicate (:).
-
-
-The nice thing about the current approach is that code size is small; implementing the test and jump will certainly add extra code to compiled case expressions. But the gains might be worth it. Complexity-wise this means masking out these bits when following any pointer to a heap object, which means carefully checking most of the runtime. 
+```
