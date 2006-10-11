@@ -2,13 +2,20 @@
 
 Here I describe the design of the semi-tagging optimisation. Currently most of the text comes from http://hackage.haskell.org/trac/summer-of-code/ticket/48
 
+This page reflects my current understanding on the compiler and the RTS, so if there is something wrong, just yell!
+
 == Tagging the LSB of an evaluated closure ==
 
 Currently when evaluating an expression that is the scrutinee of a case:
 {{{
 case x of { ... }
 }}}
-GHC jumps to the code for the x closure, which returns when x is evaluated. Commonly, x is already evaluated, and the code for an evaluated constructor just returns immediately. The idea is to encode the fact that a pointer points to an evaluated object by setting the LSB of the pointer. If the case expression detects that the closure is evaluated, it can avoid the jump and return, which are expensive on modern processors (indirect jumps).
+GHC jumps to the code for the x closure, which returns when x is evaluated. Commonly, x is already evaluated, and the code for an evaluated constructor just (vector) returns immediately. The idea is to encode the fact that a pointer points to an evaluated object by setting the LSB of the pointer. If the case expression detects that the closure is evaluated, it can avoid the jump and return, which are expensive on modern processors (indirect jumps).
+
+This would require modifying
+- the GC to set the LSB bit of constructor closure pointers,
+- the GC and the RTS code to mask out the LSB pointer when dereferencing it,
+- the code generation to test the LSB bit and case expressions and avoid the indirect jump.
 
 == Using more than one bit ==
 
