@@ -5,9 +5,6 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Re-organise the representation of type instances a bit:
-
-  - Currently, `FamInst` and `IfaceFamInst` just copy some info from the type instance declarations.  Let's change that and let them have rough match signatures.  In the case of `IfaceFamInst`, only the actual type instances continues to hold the full information.  `IfaceFamInst` is just the rough match signature referring to the type instance.  Thereby, move the old `IfaceFamInst` into `IFaceFamInstTy`.  Then, `mi_fam_inst` gets the type `[IfaceFamInst]`, as the `IfaceDecl` no longer has a reference to `IfaceFamInst`, but only to `IFaceFamInstTy`.
 - Overlap check for data/newtype instances.
 
   1. Routine that checks two `FamInst`s for overlap.  See comment in `FamInst.addLocalFamInst` for what is missing.
@@ -100,7 +97,8 @@ Done:
 - Extension of `DataCon.DataCon` with instance types for constructors belonging to data instances.
 - Extension of `TyCon.TyCon` such that the parent of a data instance is paired with a coercion identifying family instance and representation type.
 - For indexed data types, the datacon wrapper uses data instance coercion and pattern matching casts the scrutinee via an `ExprCoFn` in a `CoPat`.
-- Imporet and exporting.
+- Import and exporting.
+- Generation and plumbing through of rough matches.
 
 ## Testsuite
 
