@@ -1,0 +1,24 @@
+# The semi-tagging optimisation
+
+
+Here I describe the design of the semi-tagging optimisation. Currently most of the text comes from [ http://hackage.haskell.org/trac/summer-of-code/ticket/48](http://hackage.haskell.org/trac/summer-of-code/ticket/48)
+
+## Tagging the LSB of an evaluated closure
+
+
+Currently when evaluating an expression that is the scrutinee of a case:
+
+```wiki
+case x of { ... }
+```
+
+
+GHC jumps to the code for the x closure, which returns when x is evaluated. Commonly, x is already evaluated, and the code for an evaluated constructor just returns immediately. The idea is to encode the fact that a pointer points to an evaluated object by setting the LSB of the pointer. If the case expression detects that the closure is evaluated, it can avoid the jump and return, which are expensive on modern processors (indirect jumps).
+
+## Using more than one bit
+
+
+We can go a bit further than this, too. Since there are 2 spare bits (4 on a 64-bit machine), we can encode 4 (16) states. Taking 0 to mean "unevaluted", that leaves 3 (15) states to encode the values for the "tag" of the constructor. eg. an evaluated Bool would use 1 to indicate False and 2 to indicate True. An evaluated list cell would use 1 to indicate \[\] and 2 to indicate (:).
+
+
+The nice thing about the current approach is that code size is small; implementing the test and jump will certainly add extra code to compiled case expressions. But the gains might be worth it. Complexity-wise this means masking out these bits when following any pointer to a heap object, which means carefully checking most of the runtime. 
