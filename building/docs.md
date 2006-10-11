@@ -1,0 +1,4 @@
+# Building the documentation
+
+
+Material on building the documentation is currently here [http://www.haskell.org/ghc/docs/latest/html/building/building-docs.html](http://www.haskell.org/ghc/docs/latest/html/building/building-docs.html), but need to be moved onto this page.  Please!
