@@ -1,54 +1,38 @@
-CONVERSION ERROR
+# GHC Commentary: The Layout of Heap Objects
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Commentary/Rts/HeapObjects"
-  queryString          = "?version=14"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:56:27 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","262"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Rts/HeapObjects\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+## Terminology
 
-Original source:
+- A *lifted* type is one that contains bottom (_\|_), conversely an *unlifted* type does not contain _\|_.
+  For example, `Array` is lifted, but `ByteArray#` is unlifted.
 
-```trac
+- A *boxed* type is represented by a pointer to an object in the heap, an *unboxed* object is represented by a value.
+  For example, `Int` is boxed, but `Int#` is unboxed.
 
-[[PageOutline]]
 
-= GHC Commentary: The Layout of Heap Objects =
+The representation of _\|_ must be a pointer: it is an object that when evaluated throws an exception or enters an infinite loop.  Therefore, only boxed types may be lifted.
 
-== Terminology ==
 
- * A ''lifted'' type is one that contains bottom (_|_), conversely an ''unlifted'' type does not contain _|_.
-   For example, {{{Array}}} is lifted, but {{{ByteArray#}}} is unlifted.
+There are boxed unlifted types: eg. `ByteArray#`.  If you have a value of type `ByteArray#`, it definitely points to a heap object with type `ARR_WORDS` (see below), rather than an unevaluated thunk.
 
- * A ''boxed'' type is represented by a pointer to an object in the heap, an ''unboxed'' object is represented by a value.
-   For example, {{{Int}}} is boxed, but {{{Int#}}} is unboxed.
 
-The representation of _|_ must be a pointer: it is an object that when evaluated throws an exception or enters an infinite loop.  Therefore, only boxed types may be lifted.
+Unboxed tuples `(#...#)` are both unlifted and unboxed.  They are represented by multiple values passed in registers or on the stack, according to the [return convention](commentary/rts/haskell-execution).
 
-There are boxed unlifted types: eg. {{{ByteArray#}}}.  If you have a value of type {{{ByteArray#}}}, it definitely points to a heap object with type {{{ARR_WORDS}}} (see below), rather than an unevaluated thunk.
 
-Unboxed tuples {{{(#...#)}}} are both unlifted and unboxed.  They are represented by multiple values passed in registers or on the stack, according to the [wiki:Commentary/Rts/HaskellExecution return convention].
+Unlifted types cannot currently be used to represent terminating functions: an unlifted type on the right of an arrow is implicitly lifted to include `_|_`.
 
------------
+---
 
-== Heap Objects ==
+## Heap Objects
 
-All heap objects have the same basic layout, embodied by the type {{{StgClosure}}} in [http://darcs.haskell.org/ghc/includes/Closures.h Closures.h].  The diagram below shows the layout of a heap object:
 
-[[Image(heap-object.png)]]
+All heap objects have the same basic layout, embodied by the type `StgClosure` in [ Closures.h](http://darcs.haskell.org/ghc/includes/Closures.h).  The diagram below shows the layout of a heap object:
 
-A heap object always begins with a ''header'', defined by {{{StgHeader}}} in [http://darcs.haskell.org/ghc/includes/Closures.h Closures.h]:
+not handled: Image
 
-{{{
+
+A heap object always begins with a *header*, defined by `StgHeader` in [ Closures.h](http://darcs.haskell.org/ghc/includes/Closures.h):
+
+```wiki
 typedef struct {
     const struct _StgInfoTable* info;
 #ifdef PROFILING
@@ -58,228 +42,285 @@ typedef struct {
     StgGranHeader         gran;
 #endif
 } StgHeader;
-}}}
+```
 
-The most important part of the header is the ''info pointer'', which points to the info table for the closure.  In the default build, this is all the header contains, so a header is normally just one word.  In other builds, the header may contain extra information: eg. in a profilnig build it also contains information about who built the closure.
 
-Most of the runtime is insensitive to the size of {{{StgHeader}}};
+The most important part of the header is the *info pointer*, which points to the info table for the closure.  In the default build, this is all the header contains, so a header is normally just one word.  In other builds, the header may contain extra information: eg. in a profilnig build it also contains information about who built the closure.
+
+
+Most of the runtime is insensitive to the size of `StgHeader`;
 that is, we are careful not to hardcode the offset to the payload
-anywhere, instead we use C struct indexing or {{{sizeof(StgHeader)}}}.
-This makes it easy to extend {{{StgHeader}}} with new fields if we
+anywhere, instead we use C struct indexing or `sizeof(StgHeader)`.
+This makes it easy to extend `StgHeader` with new fields if we
 need to.
 
------------
+---
 
-== Info Tables ==
+## Info Tables
 
-The info table contains all the information that the runtime needs to know about the closure.  The layout of info tables is defined by {{{StgInfoTable}}} in [[GhcFile(includes/InfoTables.h)]].  The basic info table layout looks like this:
 
-[[Image(basic-itbl.png)]]
+The info table contains all the information that the runtime needs to know about the closure.  The layout of info tables is defined by `StgInfoTable` in [includes/InfoTables.h](/trac/ghc/browser/ghc/includes/InfoTables.h).  The basic info table layout looks like this:
+
+not handled: Image
+
 
 Where:
   
- * The ''closure type'' is a constant describing the kind of closure this is (function, thunk, constructor etc.).  All
-   the closure types are defined in [[GhcFile(includes/ClosureTypes.h)]], and many of them have corresponding C struct
-   definitions in [[GhcFile(includes/Closures.h)]].
 
- * The ''SRT bitmap'' field is used to support [wiki:Commentary/Rts/CAFs garbage collection of CAFs].
+- The *closure type* is a constant describing the kind of closure this is (function, thunk, constructor etc.).  All
+  the closure types are defined in [includes/ClosureTypes.h](/trac/ghc/browser/ghc/includes/ClosureTypes.h), and many of them have corresponding C struct
+  definitions in [includes/Closures.h](/trac/ghc/browser/ghc/includes/Closures.h).
 
- * The ''layout'' field describes the layout of the payload for the garbage collector, and is described in more
-   detail in [[ref(Types of Payload Layout)]] below.
+- The *SRT bitmap* field is used to support [garbage collection of CAFs](commentary/rts/ca-fs).
 
- * The ''entry code'' for the closure is usually the code that will ''evaluate'' the closure.  There is one exception:
-   for functions, the entry code will apply the function to the arguments given in registers or on the stack, according
-   to the calling convention.  The entry code assumes all the arguments are present - to apply a function to fewer arguments
-   or to apply an unknown function, the [wiki:Commentary/Rts/HaskellExecution/EvalApply generic apply functions] must
-   be used.
+- The *layout* field describes the layout of the payload for the garbage collector, and is described in more
+  detail in [Types of Payload Layout](#TypesofPayloadLayout) below.
+
+- The *entry code* for the closure is usually the code that will *evaluate* the closure.  There is one exception:
+  for functions, the entry code will apply the function to the arguments given in registers or on the stack, according
+  to the calling convention.  The entry code assumes all the arguments are present - to apply a function to fewer arguments
+  or to apply an unknown function, the generic apply functions? must
+  be used.
+
 
 Some types of object add more fields to the end of the info table, notably functions, return addresses, and thunks.
 
-=== {{{TABLES_NEXT_TO_CODE}}} ===
+### `TABLES_NEXT_TO_CODE`
 
-Note that the info table is followed immediately by the entry code, rather than the code being at the end of an indirect pointer.  This both reduces the size of the info table and eliminates one indirection when jumping to the entry code; however, arranging to generate code like this presents some difficulties when compiling via C, see [wiki:Commentary/EvilMangler].  
 
-GHC can generate code that uses the indirect pointer instead; the {{{TABLES_NEXT_TO_CODE}}} turns on the optimised layout.  Generally {{{TABLES_NEXT_TO_CODE}}} is turned off when compiling unregisterised.
+Note that the info table is followed immediately by the entry code, rather than the code being at the end of an indirect pointer.  This both reduces the size of the info table and eliminates one indirection when jumping to the entry code; however, arranging to generate code like this presents some difficulties when compiling via C, see [Commentary/EvilMangler](commentary/evil-mangler).  
 
-When {{{TABLES_NEXT_TO_CODE}}} is off, info tables get another field, {{{entry}}}, which points to the entry code.  In a generated object file, each symbol {{{X_info}}} representing an info table will have an associated symbol {{{X_entry}}} pointing to the entry code (in {{{TABLES_NEXT_TO_CODE}}}, the entry symbol is omitted to keep the size of symbol tables down).
 
------------
+GHC can generate code that uses the indirect pointer instead; the `TABLES_NEXT_TO_CODE` turns on the optimised layout.  Generally `TABLES_NEXT_TO_CODE` is turned off when compiling unregisterised.
 
-== Types of Payload Layout ==
 
-The GC needs to know two things about the payload of a heap object: how many words it contains, and which of those words are pointers.  There are two basic kinds of layout for the payload: ''pointers-first'' and ''bitmap''.  Which of these kinds of layout is being used is a property of the ''closure type'', so the GC first checks the closure type to determine how to interpret the layout field of the info table.
+When `TABLES_NEXT_TO_CODE` is off, info tables get another field, `entry`, which points to the entry code.  In a generated object file, each symbol `X_info` representing an info table will have an associated symbol `X_entry` pointing to the entry code (in `TABLES_NEXT_TO_CODE`, the entry symbol is omitted to keep the size of symbol tables down).
 
-=== Pointers-first layout ===
+---
+
+## Types of Payload Layout
+
+
+The GC needs to know two things about the payload of a heap object: how many words it contains, and which of those words are pointers.  There are two basic kinds of layout for the payload: *pointers-first* and *bitmap*.  Which of these kinds of layout is being used is a property of the *closure type*, so the GC first checks the closure type to determine how to interpret the layout field of the info table.
+
+### Pointers-first layout
+
 
 The payload consists of zero or more pointers followed by zero or more non-pointers.
 This is the most common layout: constructors, functions and thunks use this layout.  The  layout field contains
 two half-word-sized fields:
 
-  * Number of pointers
-  * Number of non-pointers
+- Number of pointers
+- Number of non-pointers
 
-=== Bitmap layout ===
+### Bitmap layout
+
 
 The payload consists of a mixture of pointers and non-pointers, described by a bitmap.  There are two kinds of bitmap:
 
-'''Small bitmaps.''' A small bitmap fits into a single word (the layout word of the info table), and looks like this:
+**Small bitmaps.** A small bitmap fits into a single word (the layout word of the info table), and looks like this:
 
-|| Size (bits 0-4) || Bitmap (bits 5-31) ||
+<table><tr><th> Size (bits 0-4) </th>
+<th> Bitmap (bits 5-31) 
+</th></tr></table>
+
 
 (for a 64-bit word size, the size is given 6 bits instead of 5).  
 
+
 The size field gives the size of the payload, and each bit of the bitmap is 1 if the corresponding word of payload contains a pointer to a live object.
 
-The macros {{{MK_BITMAP}}}, {{{BITMAP_SIZE}}}, and {{{BITMAP_BITS}}} in [[GhcFile(includes/InfoTables.h)]] provide ways to conveniently operate on small bitmaps.
 
-'''Large bitmaps.''' If the size of the stack frame is larger than the 27 words that a small bitmap can describe, then the fallback mechanism is the large bitmap.  A large bitmap is a separate structure, containing a single word size and a multi-word bitmap: see {{{StgLargeBitmap}}} in [[GhcFile(includes/InfoTables.h)]].
+The macros `MK_BITMAP`, `BITMAP_SIZE`, and `BITMAP_BITS` in [includes/InfoTables.h](/trac/ghc/browser/ghc/includes/InfoTables.h) provide ways to conveniently operate on small bitmaps.
 
+**Large bitmaps.** If the size of the stack frame is larger than the 27 words that a small bitmap can describe, then the fallback mechanism is the large bitmap.  A large bitmap is a separate structure, containing a single word size and a multi-word bitmap: see `StgLargeBitmap` in [includes/InfoTables.h](/trac/ghc/browser/ghc/includes/InfoTables.h).
 
------------
+---
 
-== Dynamic vs. Static objects ==
+## Dynamic vs. Static objects
+
 
 Objects fall into two categories:
 
- * ''dynamic'' objects reside in the heap, and may be moved by the garbage collector.
+- *dynamic* objects reside in the heap, and may be moved by the garbage collector.
 
- * ''static'' objects reside in the compiled object code.  They are never moved, because pointers to such objects are
-   scattered through the object code, and only the linker knows where.
+- *static* objects reside in the compiled object code.  They are never moved, because pointers to such objects are
+  scattered through the object code, and only the linker knows where.
 
-To find out whether a particular object is dynamic or static, use the {{{HEAP_ALLOCED()}}} macro, from [[GhcFile(rts/MBlock.h)]].
 
-=== Dynamic objects ===
+To find out whether a particular object is dynamic or static, use the `HEAP_ALLOCED()` macro, from [rts/MBlock.h](/trac/ghc/browser/ghc/rts/MBlock.h).
+
+### Dynamic objects
+
 
 Dynamic objects have a minimum size, because every object must be big
 enough to be overwritten by a
-forwarding pointer ([[ref(Forwarding Pointers)]]) during GC.
-The minimum size of the payload is given by {{{MIN_PAYLOAD_SIZE}}} in [[GhcFile(includes/Constants.h)]].
+forwarding pointer ([Forwarding Pointers](#ForwardingPointers)) during GC.
+The minimum size of the payload is given by `MIN_PAYLOAD_SIZE` in [includes/Constants.h](/trac/ghc/browser/ghc/includes/Constants.h).
 
-=== Static objects ===
+### Static objects
 
-All static objects have closure types ending in {{{_STATIC}}}, eg. {{{CONSTR_STATIC}}} for static data constructors.
 
-Static objects have an additional field, called the ''static link
-field''.  The static link field is used by the GC to link all the
+All static objects have closure types ending in `_STATIC`, eg. `CONSTR_STATIC` for static data constructors.
+
+
+Static objects have an additional field, called the *static link
+field*.  The static link field is used by the GC to link all the
 static objects in a list, and so that it can tell whether it has
 visited a particular static object or not - the GC needs to traverse
-all the static objects in order to [wiki:Commentary/Rts/CAFs garbage collect CAFs].
+all the static objects in order to [garbage collect CAFs](commentary/rts/ca-fs).
+
 
 The static link field resides after the normal payload, so that the
 static variant of an object has compatible layout with the dynamic
 variant.  To access the static link field of a closure, use the
-{{{STATIC_LINK()}}} macro from [[GhcFile(includes/ClosureMacros.h)]].
+`STATIC_LINK()` macro from [includes/ClosureMacros.h](/trac/ghc/browser/ghc/includes/ClosureMacros.h).
 
------------
+---
 
-== Types of object ==
+## Types of object
 
-=== Data Constructors ===
+### Data Constructors
+
 
 All data constructors have pointers-first layout:
 
-|| Header || Pointers... || Non-pointers... ||
+<table><tr><th> Header </th>
+<th> Pointers... </th>
+<th> Non-pointers... 
+</th></tr></table>
+
 
 Data constructor closure types: 
 
- * ({{{CONSTR}}}: a vanilla, dynamically allocated constructor
- * {{{CONSTR_p_n}}}: a constructor whose layout is encoded in the closure type (eg. {{{CONSTR_1_0}}} has one pointer
-   and zero non-pointers.  Having these closure types speeds up GC a little for common layouts.
- * {{{CONSTR_INTLIKE}}}, {{{CONSTR_CHARLIKE}}}: special closure types corresponding to types like {{{Int}}} and
-   {{{Char}}}.  The RTS includes some static instances of these types so that instead of allocating a new {{{Char}}}
-   on the heap, we can use the static RTS instance instead and save some heap space.  See    
-   [[GhcFile(rts/StgMiscClosures.cmm)]].
- * {{{CONSTR_STATIC}}}: a statically allocated constructor.
+- (`CONSTR`: a vanilla, dynamically allocated constructor
+- `CONSTR_p_n`: a constructor whose layout is encoded in the closure type (eg. `CONSTR_1_0` has one pointer
+  and zero non-pointers.  Having these closure types speeds up GC a little for common layouts.
+- `CONSTR_INTLIKE`, `CONSTR_CHARLIKE`: special closure types corresponding to types like `Int` and
+  `Char`.  The RTS includes some static instances of these types so that instead of allocating a new `Char`
+  on the heap, we can use the static RTS instance instead and save some heap space.  See    
+  [rts/StgMiscClosures.cmm](/trac/ghc/browser/ghc/rts/StgMiscClosures.cmm).
+- `CONSTR_STATIC`: a statically allocated constructor.
 
-The entry code for a constructor returns immediately to the topmost stack frame, because the data constructor is already in WHNF.  The return convention may be vectored or non-vectored, depending on the type (see [wiki:Commentary/Rts/HaskellExecution#ReturnConvention]).
+
+The entry code for a constructor returns immediately to the topmost stack frame, because the data constructor is already in WHNF.  The return convention may be vectored or non-vectored, depending on the type (see [Commentary/Rts/HaskellExecution](commentary/rts/haskell-execution#return-convention)).
+
 
 Symbols related to a data constructor X:
 
- * X_{{{con_info}}}: info table for a dynamic instance of X
- * X_{{{static_info}}}: info table for a static instance of X
- * X_{{{info}}}: the ''wrapper'' for X (a function, equivalent to the
-   curried function {{{X}}} in Haskell, see
-   [wiki:Commentary/Compiler/DataCon]).  
- * X_{{{closure}}}: static closure for X's wrapper
+- X_`con_info`: info table for a dynamic instance of X
+- X_`static_info`: info table for a static instance of X
+- X_`info`: the *wrapper* for X (a function, equivalent to the
+  curried function `X` in Haskell, see
+  Commentary/Compiler/DataCon?).  
+- X_`closure`: static closure for X's wrapper
 
-=== Function Closures ===
+### Function Closures
+
 
 A function closure represents a Haskell function.  For example:
-{{{
+
+```wiki
   f = \x -> let g = \y -> x + y
             in g x
-}}}
-Here, {{{f}}} would be represented by a static function closure (see below), and {{{g}}} a dynamic function closure.  Every function in the Haskell program generates a new info table and entry code, and top-level functions additionally generate a static closure.
+```
+
+
+Here, `f` would be represented by a static function closure (see below), and `g` a dynamic function closure.  Every function in the Haskell program generates a new info table and entry code, and top-level functions additionally generate a static closure.
  
 All function closures have pointers-first layout:
 
-|| Header || Pointers... || Non-pointers... ||
+<table><tr><th> Header </th>
+<th> Pointers... </th>
+<th> Non-pointers... 
+</th></tr></table>
 
-The payload of the function closure contains the free variables of the function: in the example above, a closure for {{{g}}} would have a payload containing a pointer to {{{x}}}.
+
+The payload of the function closure contains the free variables of the function: in the example above, a closure for `g` would have a payload containing a pointer to `x`.
+
 
 Function closure types:
 
- * {{{FUN}}}: a vanilla, dynamically allocated function
- * {{{FUN_p_n}}}: same, specialised for layout (see constructors above)
- * {{{FUN_STATIC}}}: a static (top-level) function closure
+- `FUN`: a vanilla, dynamically allocated function
+- `FUN_p_n`: same, specialised for layout (see constructors above)
+- `FUN_STATIC`: a static (top-level) function closure
 
-Symbols related to a function {{{f}}}:
 
- * {{{f_info}}}: f's info table and code
- * {{{f_closure}}}: f's static closure, if f is a top-level function.
-   The static closure has no payload, because there are no free
-   variables of a top-level function.  It does have a static link
-   field, though.
+Symbols related to a function `f`:
 
-=== Thunks ===
+- `f_info`: f's info table and code
+- `f_closure`: f's static closure, if f is a top-level function.
+  The static closure has no payload, because there are no free
+  variables of a top-level function.  It does have a static link
+  field, though.
+
+### Thunks
+
 
 A thunk represents an expression that is not obviously in head normal 
 form.  For example, consider the following top-level definitions:
-{{{
+
+```wiki
   range = between 1 10
   f = \x -> let ys = take x range
 	    in sum ys
-}}}
-Here the right-hand sides of {{{range}}} and {{{ys}}} are both thunks;
+```
+
+
+Here the right-hand sides of `range` and `ys` are both thunks;
 the former is static while the latter is dynamic.
+
 
 Thunks have pointers-first layout:
 
-|| Header || Pointers... || Non-pointers... ||
+<table><tr><th> Header </th>
+<th> Pointers... </th>
+<th> Non-pointers... 
+</th></tr></table>
+
 
 As for function closures, the payload contains the free variables of
 the expression.  A thunk differs from a function closure in that it
-can be [wiki:Commentary/Rts/HaskellExecution#Updates updated].
+can be [updated](commentary/rts/haskell-execution#updates).
+
 
 There are several forms of thunk:
 
- * {{{THUNK}}}, {{{THUNK_p_n}}}: vanilla, dynamically allocated
-   thunks.  Dynamic thunks are overwritten with normal indirections
-   {{{IND}}}, or old generation indirections {{{IND_OLDGEN}}} when
-   evaluated.
+- `THUNK`, `THUNK_p_n`: vanilla, dynamically allocated
+  thunks.  Dynamic thunks are overwritten with normal indirections
+  `IND`, or old generation indirections `IND_OLDGEN` when
+  evaluated.
 
- * {{{THUNK_STATIC}}}: a static thunk is also known as a ''constant
-   applicative form'', or ''CAF''.  Static thunks are overwritten with
-   static indirections ({{{IND_STATIC}}}).
+- `THUNK_STATIC`: a static thunk is also known as a *constant
+  applicative form*, or *CAF*.  Static thunks are overwritten with
+  static indirections (`IND_STATIC`).
+
 
 The only label associated with a thunk is its info table:
 
- * {{{f_info}}} is f's info table.
+- `f_info` is f's info table.
 
-=== Selector thunks ===
+### Selector thunks
 
-{{{THUNK_SELECTOR}}} is a (dynamically allocated) thunk whose entry
+`THUNK_SELECTOR` is a (dynamically allocated) thunk whose entry
 code performs a simple selection operation from a data constructor
 drawn from a single-constructor type.  For example, the thunk
-{{{
+
+```wiki
 x = case y of (a,b) -> a
-}}}
+```
+
+
 is a selector thunk.  A selector thunk is laid out like this:
 
-|| Header || Selectee pointer ||
+<table><tr><th> Header </th>
+<th> Selectee pointer 
+</th></tr></table>
+
 
 The layout word contains the byte offset of the desired word in the
 selectee.  Note that this is different from all other thunks.
+
 
 The garbage collector "peeks" at the selectee's tag (in its info
 table).  If it is evaluated, then it goes ahead and does the
@@ -287,168 +328,210 @@ selection, and then behaves just as if the selector thunk was an
 indirection to the selected field.  If it is not evaluated, it
 treats the selector thunk like any other thunk of that shape.
 
+
 There is a fixed set of pre-compiled selector thunks built into the
-RTS, representing offsets from 0 to {{{MAX_SPEC_SELECTOR_THUNK}}},
-see [[GhcFile(rts/StgMiscThunks.cmm)]].
-The info tables are labelled {{{__sel_n_upd_info}}} where {{{n}}} is the
+RTS, representing offsets from 0 to `MAX_SPEC_SELECTOR_THUNK`,
+see [rts/StgMiscThunks.cmm](/trac/ghc/browser/ghc/rts/StgMiscThunks.cmm).
+The info tables are labelled `__sel_n_upd_info` where `n` is the
 offset.  Non-updating versions are also built in, with info tables
-labelled {{{_sel_n_noupd_info}}}.
+labelled `_sel_n_noupd_info`.
+
 
 These thunks exist in order to prevent a space leak.  For example, if y is a thunk that has been evaluated, and y is unreachable, but x is reachable, the risk is that x keeps both the a and b components of y live.  By making the selector thunk a special case, we make it possible to reclaim the memory associated with b.  (The situation is further complicated when selector thunks point to other selector thunks; the garbage collector sees all, knows all.)
 
-=== Partial applications ===
+### Partial applications
+
 
 Partial applications are tricky beasts.
 
-A partial application, closure type {{{PAP}}}, represents a function
+
+A partial application, closure type `PAP`, represents a function
 applied to too few arguments.  Partial applications are only built by
-the [wiki:Commentary/Rts/HaskellExecution/EvalApply generic apply]
+the generic apply?
 functions in AutoApply.cmm.
 
-|| Header || Arity || No. of words || Function closure || Payload... ||
+<table><tr><th> Header </th>
+<th> Arity </th>
+<th> No. of words </th>
+<th> Function closure </th>
+<th> Payload... 
+</th></tr></table>
+
 
 Where:
 
- * ''Arity'' is the arity of the PAP.  For example, a function with
-   arity 3 applied to 1 argument would leave a PAP with arity 2.
+- *Arity* is the arity of the PAP.  For example, a function with
+  arity 3 applied to 1 argument would leave a PAP with arity 2.
 
- * ''No. of words'' refers to the size of the payload in words.
+- *No. of words* refers to the size of the payload in words.
 
- * ''Function closure'' is the function to which the arguments are
-   applied.  Note that this is always a pointer to one of the
-   {{{FUN}}} family, never a {{{PAP}}}.  If a {{{PAP}}} is applied
-   to more arguments to give a new {{{PAP}}}, the arguments from
-   the original {{{PAP}}} are copied to the new one.
+- *Function closure* is the function to which the arguments are
+  applied.  Note that this is always a pointer to one of the
+  `FUN` family, never a `PAP`.  If a `PAP` is applied
+  to more arguments to give a new `PAP`, the arguments from
+  the original `PAP` are copied to the new one.
 
- * The payload is the sequence of arguments already applied to
-   this function.  The pointerhood of these words are described
-   by the function's bitmap (see {{{scavenge_PAP_payload()}}} in 
-   [[GhcFile(rts/GC.c)]] for an example of traversing a PAP).
+- The payload is the sequence of arguments already applied to
+  this function.  The pointerhood of these words are described
+  by the function's bitmap (see `scavenge_PAP_payload()` in 
+  [rts/GC.c](/trac/ghc/browser/ghc/rts/GC.c) for an example of traversing a PAP).
+
 
 There is just one standard form of PAP. There is just one info table
-too, called {{{stg_PAP_info}}}.  A PAP should never be entered, so its
+too, called `stg_PAP_info`.  A PAP should never be entered, so its
 entry code causes a failure.  PAPs are applied by the generic apply
-functions in {{{AutoApply.cmm}}}.
+functions in `AutoApply.cmm`.
 
-=== Generic application ===
+### Generic application
 
-An {{{AP}}} object is very similar to a {{{PAP}}}, and has identical layout:
 
-|| Header || Arity || No. of words || Function closure || Payload... ||
+An `AP` object is very similar to a `PAP`, and has identical layout:
 
-The difference is that an {{{AP}}} is not necessarily in WHNF.  It is
+<table><tr><th> Header </th>
+<th> Arity </th>
+<th> No. of words </th>
+<th> Function closure </th>
+<th> Payload... 
+</th></tr></table>
+
+
+The difference is that an `AP` is not necessarily in WHNF.  It is
 a thunk that represents the application of the specified function to
 the given arguments.
+
 
 The arity field is always zero (it wouldn't help to omit this field,
 because it is only half a word anyway).
 
-{{{AP}}} closures are used mostly by the byte-code interpreter, so that it only needs a single form of thunk object.  Interpreted thunks are always represented by the application of a {{{BCO}}} to its free variables.
+`AP` closures are used mostly by the byte-code interpreter, so that it only needs a single form of thunk object.  Interpreted thunks are always represented by the application of a `BCO` to its free variables.
 
-=== Stack application ===
+### Stack application
 
-An {{{AP_STACK}}} is a special kind of object:
 
-|| Header || Size || Closure || Payload... ||
+An `AP_STACK` is a special kind of object:
+
+<table><tr><th> Header </th>
+<th> Size </th>
+<th> Closure </th>
+<th> Payload... 
+</th></tr></table>
+
 
 It represents computation of a thunk that was suspended midway through evaluation.  In order to continue the computation, copy the payload onto the stack (the payload was originally the stack of the suspended computation), and enter the closure.
 
+
 Since the payload is a chunk of stack, the GC can use its normal stack-walking code to traverse it.
 
-{{{AP_STACK}}} closures are built by {{{raiseAsync()}}} in [[GhcFile(rts/RaiseAsync.c)]] when an [wiki:Commentary/Rts/AsyncExceptions asynchronous exception] is raised.
+`AP_STACK` closures are built by `raiseAsync()` in [rts/RaiseAsync.c](/trac/ghc/browser/ghc/rts/RaiseAsync.c) when an [asynchronous exception](commentary/rts/async-exceptions) is raised.
 
-=== Indirections ===
+### Indirections
+
 
 Indirection closures just point to other closures. They are introduced
 when a thunk is updated to point to its value.  The entry code for all
 indirections simply enters the closure it points to.
 
+
 The basic layout of an indirection is simply 
 
-|| Header || Target closure ||
+<table><tr><th> Header </th>
+<th> Target closure 
+</th></tr></table>
+
 
 There are several variants of indirection:
 
- * {{{IND}}}: is the vanilla, dynamically-allocated indirection.
-   It is removed by the garbage collector.  An {{{IND}}} only exists in the youngest generation.  
-   The update code ({{{stg_upd_frame_info}}} and friends) checks whether the updatee is in the youngest
-   generation before deciding which kind of indirection to use.
- * {{{IND_OLDGEN}}}: an old generation indirection.  Same layout as {{{IND}}}.  This used to have
-   different layout when the old-generation mutable list was threaded through the objects, but now
-   {{{IND_OLDGEN}}} is exactly the same as {{{IND}}} (and there's no good reason to have it at all, I think).
- * {{{IND_PERM}}}: sometimes we don't want an indirection to be removed by the GC, so we use {{{IND_PERM}}} instead.
-   The profiler is one user of this closure type; cost-center semantics requires that we keep track of the
-   cost center in an indirection, so we can't eliminate the indirection.
- * {{{IND_OLDGEN_PERM}}}: same as above, but for the old generation.
- * {{{IND_STATIC}}}: a static indirection, arises when we update a {{{THUNK_STATIC}}}.  A new {{{IND_STATIC}}}
-   is placed on the mutable list when it is created (see {{{newCaf()}}} in [[GhcFile(rts/Storage.c)]]).
+- `IND`: is the vanilla, dynamically-allocated indirection.
+  It is removed by the garbage collector.  An `IND` only exists in the youngest generation.  
+  The update code (`stg_upd_frame_info` and friends) checks whether the updatee is in the youngest
+  generation before deciding which kind of indirection to use.
+- `IND_OLDGEN`: an old generation indirection.  Same layout as `IND`.  This used to have
+  different layout when the old-generation mutable list was threaded through the objects, but now
+  `IND_OLDGEN` is exactly the same as `IND` (and there's no good reason to have it at all, I think).
+- `IND_PERM`: sometimes we don't want an indirection to be removed by the GC, so we use `IND_PERM` instead.
+  The profiler is one user of this closure type; cost-center semantics requires that we keep track of the
+  cost center in an indirection, so we can't eliminate the indirection.
+- `IND_OLDGEN_PERM`: same as above, but for the old generation.
+- `IND_STATIC`: a static indirection, arises when we update a `THUNK_STATIC`.  A new `IND_STATIC`
+  is placed on the mutable list when it is created (see `newCaf()` in [rts/Storage.c](/trac/ghc/browser/ghc/rts/Storage.c)).
 
-=== Byte-code objects ===
+### Byte-code objects
 
-{{{BCO}}}
+`BCO`
 
-=== Black holes ===
+### Black holes
 
-{{{BLACKHOLE}}}, {{{CAF_BLACKHOLE}}}
+`BLACKHOLE`, `CAF_BLACKHOLE`
 
-=== Arrays ===
+### Arrays
 
-{{{ARR_WORDS}}}, {{{MUT_ARR_PTRS_CLEAN}}}, {{{MUT_ARR_PTRS_DIRTY}}}, {{{MUT_ARR_PTRS_FROZEN0}}},
-{{{MUT_ARR_PTRS_FROZEN}}}
+`ARR_WORDS`, `MUT_ARR_PTRS_CLEAN`, `MUT_ARR_PTRS_DIRTY`, `MUT_ARR_PTRS_FROZEN0`,
+`MUT_ARR_PTRS_FROZEN`
 
-=== MVars ===
+### MVars
 
-{{{MVar}}}
+`MVar`
 
-=== Weak pointers ===
+### Weak pointers
 
-{{{Weak}}}
+`Weak`
 
-=== Stable Names ===
+### Stable Names
 
-{{{STABLE_NAME}}}
+`STABLE_NAME`
 
-=== Thread State Objects ===
+### Thread State Objects
 
-Closure type {{{TSO}}} is a Thread State Object.  It represents the complete state of a thread, including its stack.
 
-TSOs are ordinary objects that live in the heap, so we can use the existing allocation and garbage collection machinery to manage them.  This gives us one important benefit: the garbage collector can detect when a blocked thread is unreachable, and hence can never become runnable again.  When this happens, we can notify the thread by sending it the {{{BlockedIndefinitely}}} exception.
+Closure type `TSO` is a Thread State Object.  It represents the complete state of a thread, including its stack.
 
-GHC keeps stacks contiguous, there are no "stack chunk" objects.  This is simpler, but means that when growing a stack we have to copy the old contents to a larger area (see {{{threadStackOverflow()}}} in [[GhcFile(rts/Schedule.c)]]).
 
-The TSO structure contains several fields.  For full details see [[GhcFile(includes/TSO.h)]].  Some of the more important fields are:
+TSOs are ordinary objects that live in the heap, so we can use the existing allocation and garbage collection machinery to manage them.  This gives us one important benefit: the garbage collector can detect when a blocked thread is unreachable, and hence can never become runnable again.  When this happens, we can notify the thread by sending it the `BlockedIndefinitely` exception.
 
- * ''link'': field for linking TSOs together in a list.  For example, the threads blocked on an {{{MVar}}} are kept in
-   a queue threaded through the link field of each TSO.
- * ''global_link'': links all TSOs together; the head of this list is {{{all_threads}}} in [[GhcFile(rts/Schedule.c)]].
- * ''what_next'': how to resume execution of this thread.  The valid values are:
-   * {{{ThreadRunGhc}}}: continue by returning to the top stack frame.
-   * {{{ThreadInterpret}}}: continue by interpreting the BCO on top of the stack.
-   * {{{ThreadKilled}}}: this thread has received an exception which was not caught.
-   * {{{ThreadRelocated}}}: this thread ran out of stack and has been relocated to a larger TSO; the link field points
-     to its new location.
-   * {{{ThreadComplete}}}: this thread has finished and can be garbage collected when it is unreachable.
- * ''why_blocked'': for a blocked thread, indicates why the thread is blocked.  See [[GhcFile(includes/Constants.h)]] for
-   the list of possible values.
- * ''block_info'': for a blocked thread, gives more information about the reason for blockage, eg. when blocked on an
-    MVar, block_info will point to the MVar.
- * ''bound'': pointer to a [wiki:Commentary/Rts/Scheduler#Task Task] if this thread is bound
- * ''cap'': the [wiki:Commentary/Rts/Scheduler#Capabilities Capability] on which this thread resides.
 
-=== STM objects ===
+GHC keeps stacks contiguous, there are no "stack chunk" objects.  This is simpler, but means that when growing a stack we have to copy the old contents to a larger area (see `threadStackOverflow()` in [rts/Schedule.c](/trac/ghc/browser/ghc/rts/Schedule.c)).
 
-These object types are used by [wiki:Commentary/Rts/STM STM]: {{{TVAR_WAIT_QUEUE}}}, {{{TVAR}}}, {{{TREC_CHUNK}}}, {{{TREC_HEADER}}}.
 
-=== Forwarding Pointers ===
+The TSO structure contains several fields.  For full details see [includes/TSO.h](/trac/ghc/browser/ghc/includes/TSO.h).  Some of the more important fields are:
 
-The {{{EVACUATED}}} object only appears temporarily during GC.  An object which has been copied into to-space (''evacuated'') is replaced by an {{{EVACUATED}}} object:
+- *link*: field for linking TSOs together in a list.  For example, the threads blocked on an `MVar` are kept in
+  a queue threaded through the link field of each TSO.
+- *global_link*: links all TSOs together; the head of this list is `all_threads` in [rts/Schedule.c](/trac/ghc/browser/ghc/rts/Schedule.c).
+- *what_next*: how to resume execution of this thread.  The valid values are:
 
-|| Header || Forwarding pointer ||
+  - `ThreadRunGhc`: continue by returning to the top stack frame.
+  - `ThreadInterpret`: continue by interpreting the BCO on top of the stack.
+  - `ThreadKilled`: this thread has received an exception which was not caught.
+  - `ThreadRelocated`: this thread ran out of stack and has been relocated to a larger TSO; the link field points
+    to its new location.
+  - `ThreadComplete`: this thread has finished and can be garbage collected when it is unreachable.
+- *why_blocked*: for a blocked thread, indicates why the thread is blocked.  See [includes/Constants.h](/trac/ghc/browser/ghc/includes/Constants.h) for
+  the list of possible values.
+- *block_info*: for a blocked thread, gives more information about the reason for blockage, eg. when blocked on an
+
+> > >
+> > > MVar, block_info will point to the MVar.
+
+- *bound*: pointer to a [Task](commentary/rts/scheduler#) if this thread is bound
+- *cap*: the [Capability](commentary/rts/scheduler#capabilities) on which this thread resides.
+
+### STM objects
+
+
+These object types are used by [STM](commentary/rts/stm): `TVAR_WAIT_QUEUE`, `TVAR`, `TREC_CHUNK`, `TREC_HEADER`.
+
+### Forwarding Pointers
+
+
+The `EVACUATED` object only appears temporarily during GC.  An object which has been copied into to-space (*evacuated*) is replaced by an `EVACUATED` object:
+
+<table><tr><th> Header </th>
+<th> Forwarding pointer 
+</th></tr></table>
+
 
 which points to the new location of the object.
 
-== Objects for PAR, GRAN ==
+## Objects for PAR, GRAN
 
-{{{BLOCKED_FETCH}}}, {{{FETCH_ME}}}, {{{FETCH_ME_BQ}}}, {{{RBH}}}, {{{REMOTE_REF}}}
-
-```
+`BLOCKED_FETCH`, `FETCH_ME`, `FETCH_ME_BQ`, `RBH`, `REMOTE_REF`
