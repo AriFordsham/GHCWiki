@@ -8,4 +8,4 @@ Moreover, much like class instances, family instance heads of a module are colle
 
 == Module dependencies due to family instances ==
 
-To avoid superfluous (i.e., already previously performed overlap checks), each `ModIface` keeps a list of the modules it depends on that contain family instances.  This information is in the field `mi_finsts` of `HscTypes.Dependencies`.  When importing a module (in `RnNames.rnImport`), this information makes its way into `ImportAvails`.
+To avoid superfluous (i.e., already previously performed overlap checks), each `ModIface` keeps a list of the modules it depends on that contain family instances.  This information is in the field `dep_finsts` of `HscTypes.Dependencies`.  Moreover, the field `mi_finsts` indicates whether there are an family instances in the current module.  When importing a module (in `RnNames.rnImport`), this information (`mi_finsts` and `dep_finsts` combined) makes its way into `ImportAvails`.
