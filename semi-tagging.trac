@@ -41,6 +41,7 @@ This would require modifying all of the above plus modifying
 Constructors without children (such as {{{False}}} and {{{True}}}) only need their tag to be represented. Hence we can drop the pointer altogether as follows:
 
 ||  || bits 31..2 || bits 1 0 ||
+|| unevaluated closure || ptr || 00 ||
 || cons. w/no children || tag || 01 ||
 || cons. w/children no. 1    || ptr || 10 ||
 || cons. w/children no. 2    || ptr || 11 ||
@@ -48,8 +49,17 @@ Constructors without children (such as {{{False}}} and {{{True}}}) only need the
 This still limits us to data types that have no more than two constructors with children. We can improve on this by noting that pointers will not point to low addresses. So we can make a simple test to distinguish between tags and pointers:
 
 ||  || bits 31..2 || bits 1 0 || ||
+|| unevaluated closure || ptr || 00 || ||
 || cons. w/no children || tag || 01 || tag < no. of  constructors||
 || cons. w/ children || ptr || 01 || ptr >= no. of constructors ||
 || cons. w/children no. 1    || ptr || 10 || ||
 || cons. w/children no. 2    || ptr || 11 || ||
 
+Of course this assumes that we don't have data types with too many thousands of constructors.
+
+It might be possible that the case code for the alternatives above is becoming too complex. We might settle for the following "simple" option:
+
+||  || bits 31..2 || bits 1 0 || ||
+|| unevaluated closure || ptr || 00 || ||
+|| cons. w/no children || tag || 01 || tag < no. of  constructors||
+|| cons. w/ children || ptr || 01 || ptr >= no. of constructors ||
