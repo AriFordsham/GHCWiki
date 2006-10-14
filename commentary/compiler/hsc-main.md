@@ -14,7 +14,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
   - The **typechecker** transforms this further, to `HsSyn` parameterised by **[Id](commentary/compiler/entity-types)**.  To a first approximation, an `Id` is a `Name` plus a type. In addition, the type-checker converts class declarations to `Class`es, and type declarations to `TyCon`s and `DataCon`s.  And of course, the type-checker deals in `Type`s and `TyVar`s. The [data types for these entities](commentary/compiler/entity-types) (`Type`, `TyCon`, `Class`, `Id`, `TyVar`) are pervasive throughout the rest of the compiler.
 
 >
-> These three passes can all produce discover programmer errors, which are sorted and reported to the user.
+> These three passes can all discover programmer errors, which are sorted and reported to the user.
 
 - The **desugarer** ([compiler/deSugar/Desugar](/trac/ghc/browser/ghc/compiler/deSugar/Desugar)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.
    
