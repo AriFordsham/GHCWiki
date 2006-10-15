@@ -1,7 +1,7 @@
 # The GHC Garbage Collector Notes
 
 
-These are my notes of the Glasgow Haskell Compiler’s Garbage Calloector made over my period of internship at Microsoft Research in Summer 2006. These notes are in process of constantly being updated as I study the system further. The objective of my work at MSRC is to implement a parallel GC for Haskell – one that will allow multiple threads to simultaneously garbage collect. The GC that is described below is not one that will run in parallel with user code, but one that will stop all the user threads and run multiple GC threads during the garbage collection process. 
+These are my notes of the Glasgow Haskell Compiler’s Garbage Callector made over my period of internship at Microsoft Research in Summer 2006. These notes are in process of constantly being updated as I study the system further. The objective of my work at MSRC is to implement a parallel GC for Haskell – one that will allow multiple threads to simultaneously garbage collect. The GC that is described below is not one that will run in parallel with user code, but one that will stop all the user threads and run multiple GC threads during the garbage collection process. 
 
 
 GHC programs have two Garbage Collection strategies. 
