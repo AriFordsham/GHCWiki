@@ -31,6 +31,7 @@ Please feel free to add material to this commentary: don't worry too much about 
      * Typechecker
      * Desugarer
      * Core->core
+         * [wiki:Commentary/Compiler/StrictnessAnalysis Strictness analysis]
      * Core->CorePrep
      * [wiki:Commentary/Compiler/Core2Stg CorePrep->Stg]
      * [wiki:Commentary/Compiler/CodeGen The code generator]: Stg->Cmm
