@@ -31,6 +31,7 @@ The benefit is that processors are typically faster at "test-and-jump to known l
 || evaluated constructor closure || ptr || 01 ||
 
 This would require modifying
+ * the code generation so that when allocating a constructor, the pointer to it has the appropriate bits set (just a matter of adjusting the offset from Hp)
  * the GC to set the LSB bit of constructor closure pointers,
  * the GC and the RTS code to mask out the LSB pointer when dereferencing it,
  * the code generation to test the LSB bit and case expressions and avoid the indirect jump.
