@@ -1,25 +1,25 @@
 
 
-= The {{ExternalCore}} type =
+= The {{{ExternalCore}}} type =
 
 The {{{ExternalCore}}} data type is used by GHC to communicate code represented in the [wiki:Commentary/Compiler/CoreSynType Core] data type with the outside world. It comes with an external syntax, a parser, a pretty printer, and code to convert between Core and External Core. Unfortunately, External Core has not been widely used, and the code has bit-rotted. The recent changes in Core to use [wiki:Commentary/Compiler/FC System FC] have exacerbated the problem. This page documents the process of getting ExternalCore and Core back in sync.
 
 
 == Relevant files ==
 The main source files related to External Core:
-  * [[GhcFile(compiler/coreSyn/ExternalCore.hs)]]: The definition of the External Core data type.
-  * [[GhcFile(compiler/coreSyn/MkExternalCore.hs)]]: Some code to convert Core to External Core.
-  * [[GhcFile(compiler/coreSyn/PprExternalCore.hs)]]: Some code to pretty-print ExternalCore.
+  * [[GhcFile(compiler/coreSyn/ExternalCore.lhs)]]: The definition of the External Core data type.
+  * [[GhcFile(compiler/coreSyn/MkExternalCore.lhs)]]: Some code to convert Core to External Core.
+  * [[GhcFile(compiler/coreSyn/PprExternalCore.lhs)]]: Some code to pretty-print ExternalCore.
   * [[GhcFile(compiler/parser/LexCore.hs)]]: The lexer for External Core.
-  * [[GhcFile(compiler/parser/ParserCore.hs)]]: The parser for External Core.
+  * [[GhcFile(compiler/parser/ParserCore.y)]]: The parser for External Core.
   * [[GhcFile(compiler/parser/ParserCoreUtils.hs)]]: Some additional utility functions used by ParserCore.hs.
   * [[GhcFile(utils/ext-core/)]]:
 
 Other files that contain some reference to External Core or are otherwise relevant:
-  * [[GhcFile(compiler/coreSyn/PprCore.hs)]]: Some code to pretty-print the Core data type.
-  * [[GhcFile(compiler/hsSyn/HsSyn.hs)]]: Top-level syntax tree representations for various things GHC can read, including External Core.
+  * [[GhcFile(compiler/coreSyn/PprCore.lhs)]]: Some code to pretty-print the Core data type.
+  * [[GhcFile(compiler/hsSyn/HsSyn.lhs)]]: Top-level syntax tree representations for various things GHC can read, including External Core.
   * [[GhcFile(compiler/main/DriverPhases.hs)]]: Includes code to decide how to parse things based on file extension.
-  * [[GhcFile(compiler/main/HscMain.hs)]]: The main compiler pipeline.
+  * [[GhcFile(compiler/main/HscMain.lhs)]]: The main compiler pipeline.
 
 == Documentation ==
   * [http://research.microsoft.com/~simonpj/papers/ext-f]: Description of the System FC language which GHC now uses internally.
@@ -34,7 +34,7 @@ TODO
 
   * Update the ExternalCore data type to be compatible with the current Core data type.
   * Define an external text representation for ExternalCore (which will probably be simply a minor modification of the old format)
-  * Update LexCore.hs, ParserCore.y, and ParserCoreUtils.hs to support the new data type and external syntax.
-  * Update MkExternalCore.hs to support both the current Core and the new ExternalCore.
-  * Update PprExternalCore.hs to print stuff that LexCore and ParserCore can understand.
+  * Update {{{LexCore.hs}}}, {{{ParserCore.y}}}, and {{{ParserCoreUtils.hs}}} to support the new data type and external syntax.
+  * Update {{{MkExternalCore.lhs}}} to support both the current Core and the new ExternalCore.
+  * Update {{{PprExternalCore.lhs}}} to print stuff that {{{LexCore}}} and {{{ParserCore}}} can understand.
   * Convert the current External Core documentation (in LaTeX) into a chapter (in XML) in the User's Guide.
