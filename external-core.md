@@ -32,7 +32,8 @@ Other files that contain some reference to External Core or are otherwise releva
 
 ## Design decisions
 
-TODO
+- Probably want to represent all data types as GADTs, even if they can be represented in Haskell 98 form, so that we only have one representation.
+- TODO more!
 
 ## Tasks
 
@@ -42,3 +43,8 @@ TODO
 - Update `MkExternalCore.lhs` to support both the current Core and the new External Core.
 - Update `PprExternalCore.lhs` to print stuff that `LexCore` and `ParserCore` can understand.
 - Convert the current External Core documentation (in LaTeX) into a chapter (in XML) in the User's Guide.
+
+## Miscellaneous notes
+
+- The LaTeX documentation describes PrimOps in some detail. This information is now in the library documentation, so it is probably not needed in the External Core chapter.
+- Core now uses `Name` ([compiler/basicTypes/Name.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Name.lhs)) rather than `IfaceExtName`.
