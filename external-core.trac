@@ -1,19 +1,17 @@
-
-
 = The {{{ExternalCore}}} type =
 
-The {{{ExternalCore}}} data type is used by GHC to communicate code represented in the [wiki:Commentary/Compiler/CoreSynType Core] data type with the outside world. It comes with an external syntax, a parser, a pretty printer, and code to convert between Core and External Core. Unfortunately, External Core has not been widely used, and the code has bit-rotted. The recent changes in Core to use [wiki:Commentary/Compiler/FC System FC] have exacerbated the problem. This page documents the process of getting ExternalCore and Core back in sync.
+The {{{ExternalCore}}} data type is used by GHC to communicate code represented in the [wiki:Commentary/Compiler/CoreSynType Core] data type with the outside world. It comes with an external syntax, a parser, a pretty printer, and code to convert between Core and External Core. Unfortunately, External Core has not been widely used, and the code has bit-rotted. The recent changes in Core to use [wiki:Commentary/Compiler/FC System FC] have exacerbated the problem. This page documents the process of getting External Core and Core back in sync.
 
 
 == Relevant files ==
 The main source files related to External Core:
   * [[GhcFile(compiler/coreSyn/ExternalCore.lhs)]]: The definition of the External Core data type.
   * [[GhcFile(compiler/coreSyn/MkExternalCore.lhs)]]: Some code to convert Core to External Core.
-  * [[GhcFile(compiler/coreSyn/PprExternalCore.lhs)]]: Some code to pretty-print ExternalCore.
+  * [[GhcFile(compiler/coreSyn/PprExternalCore.lhs)]]: Some code to pretty-print External Core.
   * [[GhcFile(compiler/parser/LexCore.hs)]]: The lexer for External Core.
   * [[GhcFile(compiler/parser/ParserCore.y)]]: The parser for External Core.
-  * [[GhcFile(compiler/parser/ParserCoreUtils.hs)]]: Some additional utility functions used by ParserCore.hs.
-  * [[GhcFile(utils/ext-core/)]]:
+  * [[GhcFile(compiler/parser/ParserCoreUtils.hs)]]: Some additional utility functions used by {{{ParserCore.hs}}}.
+  * [[GhcFile(utils/ext-core/)]]: Old code intended as an executable specification of External Core.
 
 Other files that contain some reference to External Core or are otherwise relevant:
   * [[GhcFile(compiler/coreSyn/PprCore.lhs)]]: Some code to pretty-print the Core data type.
@@ -23,7 +21,7 @@ Other files that contain some reference to External Core or are otherwise releva
 
 == Documentation ==
   * [http://research.microsoft.com/~simonpj/papers/ext-f]: Description of the System FC language which GHC now uses internally.
-  * [[GhcFile(docs/ext-core/)]]: The current documentation for ExternalCore, which should eventually become a chapter in the [http://www.haskell.org/ghc/docs/latest/html/users_guide/index.html GHC User's Guide].
+  * [[GhcFile(docs/ext-core/)]]: The current documentation for External Core, which should eventually become a chapter in the [http://www.haskell.org/ghc/docs/latest/html/users_guide/index.html GHC User's Guide].
   * [http://www.haskell.org/ghc/docs/latest/html/users_guide/ext-core.html]: What the User's Guide currently has to say about External Core.
 
 == Design decisions ==
@@ -32,9 +30,9 @@ TODO
 
 == Tasks ==
 
-  * Update the ExternalCore data type to be compatible with the current Core data type.
-  * Define an external text representation for ExternalCore (which will probably be simply a minor modification of the old format)
+  * Update the External Core data type to be compatible with the current Core data type.
+  * Define an external text representation for External Core (which will probably be simply a minor modification of the old format)
   * Update {{{LexCore.hs}}}, {{{ParserCore.y}}}, and {{{ParserCoreUtils.hs}}} to support the new data type and external syntax.
-  * Update {{{MkExternalCore.lhs}}} to support both the current Core and the new ExternalCore.
+  * Update {{{MkExternalCore.lhs}}} to support both the current Core and the new External Core.
   * Update {{{PprExternalCore.lhs}}} to print stuff that {{{LexCore}}} and {{{ParserCore}}} can understand.
   * Convert the current External Core documentation (in LaTeX) into a chapter (in XML) in the User's Guide.
