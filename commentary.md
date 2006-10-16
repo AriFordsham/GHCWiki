@@ -94,7 +94,8 @@ Please feel free to add new pages here.  In due course information will migrate 
 - The Runtime System
 
   - [GarbageCollectorNotes](garbage-collector-notes) Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
-  - [SemiTagging](semi-tagging): Describes how the semi-tagging optimisation will be implemented. 
+  - [SemiTagging](semi-tagging): Describes how the semi-tagging optimisation will be implemented.
+  - [ExternalCore](external-core): Describes the process of bringing External Core up to speed. Once finished, this will simply describe what External Core is, and how it works. 
 - [Hackathon presentations](about-videos) (video)
 
 ## Old but useful
