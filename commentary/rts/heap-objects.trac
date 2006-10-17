@@ -184,7 +184,7 @@ Symbols related to a data constructor X:
  * X_{{{static_info}}}: info table for a static instance of X
  * X_{{{info}}}: the ''wrapper'' for X (a function, equivalent to the
    curried function {{{X}}} in Haskell, see
-   [wiki:Commentary/Compiler/DataCon]).  
+   [wiki:Commentary/Compiler/EntityTypes]).  
  * X_{{{closure}}}: static closure for X's wrapper
 
 === Function Closures ===
@@ -271,6 +271,8 @@ table).  If it is evaluated, then it goes ahead and does the
 selection, and then behaves just as if the selector thunk was an
 indirection to the selected field.  If it is not evaluated, it
 treats the selector thunk like any other thunk of that shape.
+
+This technique comes from the Phil Wadler paper [http://homepages.inf.ed.ac.uk/wadler/topics/garbage-collection.html Fixing some space leaks with a garbage collector], and later Christina von Dorrien who called it "Stingy Evaluation".
 
 There is a fixed set of pre-compiled selector thunks built into the
 RTS, representing offsets from 0 to {{{MAX_SPEC_SELECTOR_THUNK}}},
