@@ -88,6 +88,9 @@ Where:
 
 Some types of object add more fields to the end of the info table, notably functions, return addresses, and thunks.
 
+
+Space in info tables is a premium: adding a word to the standard info table structure increases binary sizes by 5-10%.
+
 ### `TABLES_NEXT_TO_CODE`
 
 
