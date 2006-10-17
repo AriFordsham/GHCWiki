@@ -33,7 +33,7 @@ The GNU autoconf machinery:
 ### The Build System
 
 
-See Commentary/BuildSystem?.
+See Building/BuildSystem?.
 
 <table><tr><th>`Makefile`</th>
 <td>
@@ -68,7 +68,7 @@ version of Cabal.
 Historically this contained the Perl script known as the GHC
 "driver"; in GHC 5.00 the driver was rewritten in Haskell and
 incorporated into GHC itself when we added GHCi and `--make`.
-This directory still contains the mangler?
+This directory still contains the [mangler](commentary/evil-mangler)
 and the splitter? Perl scripts, and a couple
 of wrappers used to invoke GHC on Windows.  Also the package
 database constructed during a GHC build is stored in here.
@@ -122,7 +122,7 @@ The NoFib benchmark suite.
 <table><tr><th>`darcs-all`</th>
 <td>
 a script for operating on the collection of darcs
-repositories that makes up the GHC source tree (see GettingTheSources).
+repositories that makes up the GHC source tree (see [Building/GettingTheSources](building/getting-the-sources)).
 </td></tr></table>
 
 <table><tr><th>`distrib/`</th>

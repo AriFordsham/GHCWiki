@@ -1,3 +1,5 @@
+
+
 = GHC Source Tree Roadmap =
 
 The top level of a GHC source tree looks like this:
@@ -21,7 +23,7 @@ The GNU autoconf machinery:
 
 === The Build System ===
 
-See [wiki:Commentary/BuildSystem].
+See [wiki:Building/BuildSystem].
 
  {{{Makefile}}}::
   Top-level {{{Makefile}}}; {{{make}}} by itself does a full 2-stage
@@ -48,8 +50,8 @@ See [wiki:Commentary/BuildSystem].
   Historically this contained the Perl script known as the GHC
   "driver"; in GHC 5.00 the driver was rewritten in Haskell and
   incorporated into GHC itself when we added GHCi and {{{--make}}}.
-  This directory still contains the [wiki:Commentary/Mangler mangler]
-  and the [wiki:Commentary/split splitter] Perl scripts, and a couple
+  This directory still contains the [wiki:Commentary/EvilMangler mangler]
+  and the [wiki:Commentary/EvilSplitter splitter] Perl scripts, and a couple
   of wrappers used to invoke GHC on Windows.  Also the package
   database constructed during a GHC build is stored in here.
 
@@ -83,7 +85,7 @@ These two are optional, available as separate darcs repositories:
 
  {{{darcs-all}}}::
   a script for operating on the collection of darcs
-  repositories that makes up the GHC source tree (see GettingTheSources).
+  repositories that makes up the GHC source tree (see Building/GettingTheSources).
 
  {{{distrib/}}}::
   miscellany for building distributions.
