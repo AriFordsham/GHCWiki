@@ -21,7 +21,7 @@ The GNU autoconf machinery:
 
 === The Build System ===
 
-See [wiki:Commentary/BuildSystem].
+See [wiki:Building/BuildSystem].
 
  {{{Makefile}}}::
   Top-level {{{Makefile}}}; {{{make}}} by itself does a full 2-stage
@@ -83,7 +83,7 @@ These two are optional, available as separate darcs repositories:
 
  {{{darcs-all}}}::
   a script for operating on the collection of darcs
-  repositories that makes up the GHC source tree (see GettingTheSources).
+  repositories that makes up the GHC source tree (see Building/GettingTheSources).
 
  {{{distrib/}}}::
   miscellany for building distributions.

@@ -33,7 +33,7 @@ The GNU autoconf machinery:
 ### The Build System
 
 
-See Commentary/BuildSystem?.
+See Building/BuildSystem?.
 
 <table><tr><th>`Makefile`</th>
 <td>
@@ -122,7 +122,7 @@ The NoFib benchmark suite.
 <table><tr><th>`darcs-all`</th>
 <td>
 a script for operating on the collection of darcs
-repositories that makes up the GHC source tree (see GettingTheSources).
+repositories that makes up the GHC source tree (see [Building/GettingTheSources](building/getting-the-sources)).
 </td></tr></table>
 
 <table><tr><th>`distrib/`</th>
