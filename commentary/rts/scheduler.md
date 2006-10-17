@@ -235,4 +235,21 @@ scheduler(cap)
 }
 ```
 
+## Sparks and the par operator
+
+
+Source files: [rts/Sparks.c](/trac/ghc/browser/ghc/rts/Sparks.c), [rts/Sparks.h](/trac/ghc/browser/ghc/rts/Sparks.h).
+
+
+The [par](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Parallel.html#v%3Apar) operator is used for annotating computations that could be evaluated in parallel.  See also [Parallel Haskell](http://www.haskell.org/ghc/docs/latest/html/users_guide/lang-parallel.html) in the GHC User's Guide.
+
+
+Par itself is implemented in terms of the `par#` primop, which the code generator compiles into a call to `newSpark` in [rts/Sparks.c](/trac/ghc/browser/ghc/rts/Sparks.c).
+
+
+Par doesn't actually create a new thread immediately; instead it places a pointer to its first argument in the *spark pool*.  The spark pool is a circular buffer, when it is full we have the choice of either overwriting the oldest entry or dropping the new entry - currently we drop the new entry (see code for `newSpark`).  Each capability has its own spark pool, so this operation can be performed without taking a lock.
+
+
+So how does the spark turn into a thread?  When the scheduler spots that the current capability has no runnable threads, it checks the spark pool, and if there is a valid spark (a spark that points to a THUNK), then the spark is turned into a real thread and placed on the run queue: see `createSparkThread` in [rts/Sparks.c](/trac/ghc/browser/ghc/rts/Sparks.c).  Also, the scheduler attempts to share its available sparks with any other idle capabilities: see `schedulePushWork` in [rts/Scheduler.c](/trac/ghc/browser/ghc/rts/Scheduler.c).
+
 ## Affinity and migration
