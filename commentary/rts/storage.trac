@@ -23,7 +23,9 @@ The concept relies on the property that most data objects are significantly smal
 
 === Structure of blocks ===
 
-We want to allocate memory in units of a small block (around 4k, say).  Furthermore, we want each block to have an associated small structure called a ''block descriptor'', which contains information about the block: its link field, which generation it belongs to, and so on.  We want a function `Bdescr(p)`, that, given an arbitrary pointer into a block, returns the address of the block descriptor that corresponds to the block containing that pointer.
+We want to allocate memory in units of a small block (around 4k, say).  Furthermore, we want each block to have an associated small structure called a ''block descriptor'', which contains information about the block: its link field, which generation it belongs to, and so on.  This is similar to the well-known "BiBOP" (Big Bag of Pages) technique, where objects with similar tags are collected together on a page so as to avoid needing to store an individual tag with each object.
+
+We want a function `Bdescr(p)`, that, given an arbitrary pointer into a block, returns the address of the block descriptor that corresponds to the block containing that pointer.
 
 There are two options:
 
