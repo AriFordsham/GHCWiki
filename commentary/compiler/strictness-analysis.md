@@ -1,86 +1,132 @@
-CONVERSION ERROR
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Commentary/Compiler/StrictnessAnalysis"
-  queryString          = "?version=1"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:57:46 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","269"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/StrictnessAnalysis\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+\[ Up: [Commentary/Compiler](commentary/compiler) \]
 
-Original source:
+# IMPORTANT NOTE
 
-```trac
-[ Up: [wiki:Commentary/Compiler] ]
-
-= IMPORTANT NOTE =
 
 This commentary describes code that is not checked in to the HEAD yet.
 
-= The strictness analyzer =
+# The strictness analyzer
+
 
 Most of the strictness analyzer lives in two files:
 
- * [[GhcFile(compiler/basicTypes/NewDemand.lhs)]] (defines the datatypes used by the strictness analyzer, and some functions on them)
- * [[GhcFile(compiler/stranal/DmdAnal.lhs)]] (the strictness analyzer itself)
+- [compiler/basicTypes/NewDemand.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/NewDemand.lhs) (defines the datatypes used by the strictness analyzer, and some functions on them)
+- [compiler/stranal/DmdAnal.lhs](/trac/ghc/browser/ghc/compiler/stranal/DmdAnal.lhs) (the strictness analyzer itself)
 
-The strictness analyzer does demand analysis, absence analysis, and box-demand analysis in a single pass. (!ToDo: explain what these are.)
 
-In [[GhcFile(compiler/stranal/DmdAnal.lhs)]], {{{dmdAnal}}} is the function that performs strictness analysis on an expression. It has the following type:
-{{{
+The strictness analyzer does demand analysis, absence analysis, and box-demand analysis in a single pass. (ToDo: explain what these are.)
+
+
+In [compiler/stranal/DmdAnal.lhs](/trac/ghc/browser/ghc/compiler/stranal/DmdAnal.lhs), `dmdAnal` is the function that performs strictness analysis on an expression. It has the following type:
+
+```wiki
 dmdAnal :: SigEnv -> Demands -> CoreExpr -> (DmdType, CoreExpr)
-}}}
-The first argument is an environment mapping variables onto demand signatures. (!ToDo: explain more.) The third argument is the expression being analyzed. {{{dmdAnal}}} returns a pair of a new expression (possibly with strictness information added to any [wiki:Commentary/Compiler/NameType Ids] in it), and a {{{DmdType}}}.
+```
 
-== Important datatypes ==
-{{{
+
+The first argument is an environment mapping variables onto demand signatures. (ToDo: explain more.) The third argument is the expression being analyzed. `dmdAnal` returns a pair of a new expression (possibly with strictness information added to any [Ids](commentary/compiler/name-type) in it), and a `DmdType`.
+
+## Important datatypes
+
+```wiki
 data Demand
   = D Usage Demands    
-}}}
+```
+
+
 A demand consists of usage information, along with information about usage of the subcomponents of the expression it's associated with.
 
-{{{
+```wiki
 data Usage
   = U Str Abs Box        
-}}}
+```
+
+
 Usage information consists of a triple of three properties: strictness (or evaluation demand), usage demand, and box demand.
 
-{{{
+```wiki
 data Str 
   = Bot                 
   | Strict       
   | Lazy           
-}}}
-Something that is {{{Lazy}}} may or may not be evaluated. Something that is {{{Strict}}} will definitely be evaluated at least to its outermost constructor. Something that is {{{Bot}}} will be fully evaluated (e.g., in {{{x `seq` (error "urk")}}}, {{{x}}} can be said to have strictness {{{Bot}}}, because it doesn't matter how much we evaluate {{{x}}} -- this expression will diverge anyway.)
+```
 
-{{{
+
+Something that is `Lazy` may or may not be evaluated. Something that is `Strict` will definitely be evaluated at least to its outermost constructor. Something that is `Bot` will be fully evaluated (e.g., in `x `seq` (error "urk")`, `x` can be said to have strictness `Bot`, because it doesn't matter how much we evaluate `x` -- this expression will diverge anyway.)
+
+```wiki
 data Abs
   = Zero     
   | OneOrZero     
   | Many       
-}}}
-In the context of function arguments, an argument that is {{{Zero}}} is never used by its caller (e.g., syntactically, it doesn't appear in the body of the function at all). An argument that is {{{OneOrZero}}} will be used zero or one times, but not more. Something that is {{{Many}}} may be used zero, one, or many times -- we don't know.
+```
 
-{{{
+
+In the context of function arguments, an argument that is `Zero` is never used by its caller (e.g., syntactically, it doesn't appear in the body of the function at all). An argument that is `OneOrZero` will be used zero or one times, but not more. Something that is `Many` may be used zero, one, or many times -- we don't know.
+
+```wiki
 data Box
   = Box  
   | Unpack  
-}}}
-Again in the context of function arguments, an argument that is {{{Box}}} is a value constructed by a data constructor of a product type whose "box" is going to be needed. For example, we say that {{{f x = case x of { (a, b) -> x}}}} "uses the box", so in {{{f}}}, {{{x}}} has box-demand information {{{Box}}}. In {{{g x = case x of { (a, b) -> a}}}}, {{{g}}} doesn't "use the box" for its argument, so in {{{g}}}, {{{x}}} has box-demand information {{{Unpack}}}. When in doubt, we assume {{{Box}}}.
+```
 
-{{{
+
+Again in the context of function arguments, an argument that is `Box` is a value constructed by a data constructor of a product type whose "box" is going to be needed. For example, we say that `f x = case x of { (a, b) -> x`} "uses the box", so in `f`, `x` has box-demand information `Box`. In `g x = case x of { (a, b) -> a`}, `g` doesn't "use the box" for its argument, so in `g`, `x` has box-demand information `Unpack`. When in doubt, we assume `Box`.
+
+```wiki
 data Demands = Poly          
             |  Prod [Demand] (Maybe Coercion)
-}}}
-For a compound data value, the {{{Demands}}} type describes demands on its components. {{{Poly}}} means that we don't know anything about the expression's type. {{{Prod}}} says "this expression has a product type, and the demands on its components consist of the demands in the following list". If the {{{Coercion}}} is supplied, that means that this expression must be cast using the given coercion before it is evaluated. (!ToDo: explain this more.)
-
-(!ToDo: explain why all the above information is important, and what {{{DmdTypes}}} are.)
 ```
+
+
+For a compound data value, the `Demands` type describes demands on its components. `Poly` means that we don't know anything about the expression's type. `Prod` says "this expression has a product type, and the demands on its components consist of the demands in the following list". If the `Coercion` is supplied, that means that this expression must be cast using the given coercion before it is evaluated. (ToDo: explain this more.)
+
+
+(ToDo: explain why all the above information is important)
+
+
+Though any expression can have a `Demand` associated with it, another datatype, `DmdType`, is associated with a function body.
+
+```wiki
+data DmdType = DmdType 
+		    DmdEnv	
+		    [Demand]	
+		    DmdResult
+```
+
+
+A `DmdType` consists of a `DmdEnv` (which provides demands for all explicitly mentioned free variables in a functions body), a list of `Demand`s on the function's arguments, and a `DmdResult`, which indicates whether this function returns an explicitly constructed product:
+
+```wiki
+data DmdResult = TopRes	-- Nothing known	
+	       | RetCPR	-- Returns a constructed product
+	       | BotRes	-- Diverges or errors
+```
+
+
+The `dmdTransform` function takes a strictness environment, an [Id](commentary/compiler/name-type) corresponding to a function, and a `Demand` representing demand on the function -- in a particular context -- and returns a `DmdType`, representing the function's demand type in this context.
+
+```wiki
+dmdTransform :: SigEnv		
+	     -> Id		
+	     -> Demand		
+	     -> DmdType		
+```
+
+
+Strictness analysis is implemented as a backwards analysis, so `dmdTransform` takes the demand on a function's result (which was inferred based on how the function's result is used) and uses that to compute the demand type of this particular occurrence of the function itself.
+
+`dmdTransform` has four cases, depending on whether the function being analyzed is a [data constructor](commentary/compiler/entity-types) worker, an imported (global) function, a local `let`-bound function, or "anything else" (e.g., a local lambda-bound function).
+
+
+The data constructor case checks whether this particular constructor call is saturated. If not, it returns `topDmdType`, indicating that we know nothing about the demand type. If so, it returns a `DmdType` with an empty environment (since there are no free variables), a list of arg-demands based on the `Demand` that was passed in to `dmdTransform` (that is, the demand on the result of the data constructor call), and a `DmdResult` taken from the constructor Id's strictness signature.
+
+
+There are a couple of tricky things about the list of arg-demands:
+
+- If the result demand (i.e., the passed-in demand) has its box demanded, then we want to make sure the box is demanded in each of the demands for the args. (ToDo: this may not be true)
+- If the result demand is not strict, we want to use *n* copies of `topDmd` as the list of arg-demands, where *n* is this data constructor's arity.
+
+
+(ToDo: explain the other cases of `dmdTransform`)

@@ -61,4 +61,39 @@ data Demands = Poly
 }}}
 For a compound data value, the {{{Demands}}} type describes demands on its components. {{{Poly}}} means that we don't know anything about the expression's type. {{{Prod}}} says "this expression has a product type, and the demands on its components consist of the demands in the following list". If the {{{Coercion}}} is supplied, that means that this expression must be cast using the given coercion before it is evaluated. (!ToDo: explain this more.)
 
-(!ToDo: explain why all the above information is important, and what {{{DmdTypes}}} are.)
+(!ToDo: explain why all the above information is important)
+
+Though any expression can have a {{{Demand}}} associated with it, another datatype, {{{DmdType}}}, is associated with a function body.
+
+{{{
+data DmdType = DmdType 
+		    DmdEnv	
+		    [Demand]	
+		    DmdResult
+}}}
+A {{{DmdType}}} consists of a {{{DmdEnv}}} (which provides demands for all explicitly mentioned free variables in a functions body), a list of {{{Demand}}}s on the function's arguments, and a {{{DmdResult}}}, which indicates whether this function returns an explicitly constructed product:
+
+{{{
+data DmdResult = TopRes	-- Nothing known	
+	       | RetCPR	-- Returns a constructed product
+	       | BotRes	-- Diverges or errors
+}}}
+
+The {{{dmdTransform}}} function takes a strictness environment, an [wiki:Commentary/Compiler/NameType Id] corresponding to a function, and a {{{Demand}}} representing demand on the function -- in a particular context -- and returns a {{{DmdType}}}, representing the function's demand type in this context.
+{{{
+dmdTransform :: SigEnv		
+	     -> Id		
+	     -> Demand		
+	     -> DmdType		
+}}}
+Strictness analysis is implemented as a backwards analysis, so {{{dmdTransform}}} takes the demand on a function's result (which was inferred based on how the function's result is used) and uses that to compute the demand type of this particular occurrence of the function itself.
+
+{{{dmdTransform}}} has four cases, depending on whether the function being analyzed is a [wiki:Commentary/Compiler/EntityTypes data constructor] worker, an imported (global) function, a local {{{let}}}-bound function, or "anything else" (e.g., a local lambda-bound function).
+
+The data constructor case checks whether this particular constructor call is saturated. If not, it returns {{{topDmdType}}}, indicating that we know nothing about the demand type. If so, it returns a {{{DmdType}}} with an empty environment (since there are no free variables), a list of arg-demands based on the {{{Demand}}} that was passed in to {{{dmdTransform}}} (that is, the demand on the result of the data constructor call), and a {{{DmdResult}}} taken from the constructor Id's strictness signature.
+
+There are a couple of tricky things about the list of arg-demands:
+ * If the result demand (i.e., the passed-in demand) has its box demanded, then we want to make sure the box is demanded in each of the demands for the args. (!ToDo: this may not be true)
+ * If the result demand is not strict, we want to use ''n'' copies of {{{topDmd}}} as the list of arg-demands, where ''n'' is this data constructor's arity.
+
+(!ToDo: explain the other cases of {{{dmdTransform}}})
