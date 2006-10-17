@@ -367,26 +367,15 @@ your OS.
 
 The mangler is an evil Perl-script
 ([driver/mangler/ghc-asm.lprl](/trac/ghc/browser/ghc/driver/mangler/ghc-asm.lprl)) that rearranges the assembly
-code output from gcc to do two main things:
-
-- Remove function prologues and epilogues, and all movement of the C
-  stack pointer.  This is to support tail-calls: every code block in
-  Haskell code ends in an explicit jump, so we don't want the C-stack
-  overflowing while we're jumping around between code blocks.
-
-- Move the *info table* for a closure next to the entry code for
-  that closure.  In unregisterised code, info tables contain a
-  pointer to the entry code, but in registerised compilation we
-  arrange that the info table is shoved right up against the entry
-  code, and addressed backwards from the entry code pointer (this
-  saves a word in the info table and an extra indirection when
-  jumping to the closure entry code).
+code output from gcc.  To understand what the manger does and how it works, see
+[Commentary/EvilMangler](commentary/evil-mangler).
 
 
 The mangler is abstracted to a certain extent over some
 architecture-specific things such as the particular assembler
 directives used to herald symbols.  Take a look at the definitions for
-other architectures and use these as a starting point.
+other architectures and use these as a starting point for porting it to
+your platform.
 
 ### The splitter
 
@@ -409,7 +398,7 @@ it for your system.
 The native code generator isn't essential to getting a
 registerised build going, but it's a desirable thing to have
 because it can cut compilation times in half.  The native code
-generator is described in some detail in the [Commentary](commentary).
+generator is described in detail in Commentary/BackEnds/NCG?.
 
 ### GHCi
 
