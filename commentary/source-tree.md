@@ -1,141 +1,118 @@
-# GHC Source Tree Roadmap
+CONVERSION ERROR
 
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/Commentary/SourceTree"
+  queryString          = "?version=7"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:57:50 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","259"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/SourceTree\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+
+Original source:
+
+```trac
+= GHC Source Tree Roadmap =
 
 The top level of a GHC source tree looks like this:
 
-### Documentation
+=== Documentation ===
 
-<table><tr><th>`ANNOUNCE`</th>
-<td></td></tr>
-<tr><th>`HACKING`</th>
-<td></td></tr>
-<tr><th>`LICENSE`</th>
-<td></td></tr>
-<tr><th>`README`</th>
-<td></td></tr></table>
+ {{{ANNOUNCE}}}::
+ {{{HACKING}}}::
+ {{{LICENSE}}}::
+ {{{README}}}::
 
-### Configuration
-
+=== Configuration ===
 
 The GNU autoconf machinery:
 
-<table><tr><th>`aclocal.m4`</th>
-<td></td></tr>
-<tr><th>`config.guess`</th>
-<td></td></tr>
-<tr><th>`config.sub`</th>
-<td></td></tr>
-<tr><th>`configure.ac`</th>
-<td></td></tr>
-<tr><th>`install-sh`</th>
-<td></td></tr></table>
+ {{{aclocal.m4}}}::
+ {{{config.guess}}}::
+ {{{config.sub}}}::
+ {{{configure.ac}}}::
+ {{{install-sh}}}::
 
-### The Build System
+=== The Build System ===
 
+See [wiki:Building/BuildSystem].
 
-See Building/BuildSystem?.
+ {{{Makefile}}}::
+  Top-level {{{Makefile}}}; {{{make}}} by itself does a full 2-stage
+  bootstrap of GHC, there are also targets for building source and
+  binary distributions.  GHC requires
+  [http://www.gnu.org/software/make/ GNU make].
 
-<table><tr><th>`Makefile`</th>
-<td>
-Top-level `Makefile`; `make` by itself does a full 2-stage
-bootstrap of GHC, there are also targets for building source and
-binary distributions.  GHC requires
-[ GNU make](http://www.gnu.org/software/make/).
-</td></tr></table>
+ {{{mk/}}}::
+  The guts of the build system itself.
 
-<table><tr><th>`mk/`</th>
-<td>
-The guts of the build system itself.
-</td></tr></table>
+=== The Code ===
 
-### The Code
+ {{{compat/}}}::
+  A library of compatibility code used when bootstrapping GHC using an
+  older version of GHC.  For example, we compile up the version of
+  Cabal from {{{libraries/Cabal}}} and include it in {{{libcompat}}},
+  this means that the GHC source code can assume the most recent
+  version of Cabal.
 
-<table><tr><th>`compat/`</th>
-<td>
-A library of compatibility code used when bootstrapping GHC using an
-older version of GHC.  For example, we compile up the version of
-Cabal from `libraries/Cabal` and include it in `libcompat`,
-this means that the GHC source code can assume the most recent
-version of Cabal.
-</td></tr></table>
+ [wiki:Commentary/SourceTree/Compiler compiler/]::
+  [wiki:Commentary/Compiler The Compiler] itself: all Haskell code.
 
-<table><tr><th>compiler/?</th>
-<td>[The Compiler](commentary/compiler) itself: all Haskell code.
-</td></tr></table>
+ {{{driver/}}}::
+  Historically this contained the Perl script known as the GHC
+  "driver"; in GHC 5.00 the driver was rewritten in Haskell and
+  incorporated into GHC itself when we added GHCi and {{{--make}}}.
+  This directory still contains the [wiki:Commentary/EvilMangler mangler]
+  and the [wiki:Commentary/EvilSplitter splitter] Perl scripts, and a couple
+  of wrappers used to invoke GHC on Windows.  Also the package
+  database constructed during a GHC build is stored in here.
 
-<table><tr><th>`driver/`</th>
-<td>
-Historically this contained the Perl script known as the GHC
-"driver"; in GHC 5.00 the driver was rewritten in Haskell and
-incorporated into GHC itself when we added GHCi and `--make`.
-This directory still contains the mangler?
-and the splitter? Perl scripts, and a couple
-of wrappers used to invoke GHC on Windows.  Also the package
-database constructed during a GHC build is stored in here.
-</td></tr></table>
+ [wiki:Commentary/SourceTree/Libraries libraries/]::
+   The libraries that are built and distributed with GHC.
 
-<table><tr><th>libraries/?</th>
-<td>
-The libraries that are built and distributed with GHC.
-</td></tr></table>
+ [wiki:Commentary/SourceTree/Includes includes/]::
+   Header files for the Runtime System and for compiling Haskell via C.
 
-<table><tr><th>[includes/](commentary/source-tree/includes)</th>
-<td>
-Header files for the Runtime System and for compiling Haskell via C.
-</td></tr></table>
+ [wiki:Commentary/SourceTree/Docs docs/]::
+   GHC documentation.
 
-<table><tr><th>docs/?</th>
-<td>
-GHC documentation.
-</td></tr></table>
+ {{{quickcheck/}}}::
+  Some quickcheck tests for the compiler (may go away).
 
-<table><tr><th>`quickcheck/`</th>
-<td>
-Some quickcheck tests for the compiler (may go away).
-</td></tr></table>
+ [wiki:Commentary/SourceTree/Rts rts/]::
+  The [wiki:Commentary/Rts Runtime System].
 
-<table><tr><th>[rts/](commentary/source-tree/rts)</th>
-<td>
-The [Runtime System](commentary/rts).
-</td></tr></table>
-
-<table><tr><th>utils/?</th>
-<td>
-Various utility programs, either used during the build itself or
-distributed with GHC.
-</td></tr></table>
-
+ [wiki:Commentary/SourceTreeUtils utils/]::
+  Various utility programs, either used during the build itself or
+  distributed with GHC.
 
 These two are optional, available as separate darcs repositories:
 
-<table><tr><th>testsuite/?</th>
-<td>
-The test suite.
-</td></tr>
-<tr><th>nofib/?</th>
-<td>
-The NoFib benchmark suite.
-</td></tr></table>
+ [wiki:Commentary/SourceTree/Testsuite testsuite/]::
+  The test suite.
+ [wiki:Commentary/SourceTree/Nofib nofib/]::
+  The NoFib benchmark suite.
 
-### Distribution
+=== Distribution ===
 
-<table><tr><th>`darcs-all`</th>
-<td>
-a script for operating on the collection of darcs
-repositories that makes up the GHC source tree (see [Building/GettingTheSources](building/getting-the-sources)).
-</td></tr></table>
+ {{{darcs-all}}}::
+  a script for operating on the collection of darcs
+  repositories that makes up the GHC source tree (see Building/GettingTheSources).
 
-<table><tr><th>`distrib/`</th>
-<td>
-miscellany for building distributions.
-</td></tr></table>
+ {{{distrib/}}}::
+  miscellany for building distributions.
 
-<table><tr><th>`ghc.spec.in`</th>
-<td>
-RPM spec file
-</td></tr></table>
+ {{{ghc.spec.in}}}::
+  RPM spec file
 
-<table><tr><th>`InstallShield`, `WindowsInstaller`</th>
-<td>
-Windows installer bits
-</td></tr></table>
+ {{{InstallShield}}}, {{{WindowsInstaller}}}::
+  Windows installer bits
+
+```
