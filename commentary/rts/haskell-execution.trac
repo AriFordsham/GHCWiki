@@ -32,7 +32,10 @@ The code generator knows how many real registers there are, and tries to avoid u
 
 Source files: [[GhcFile(rts/Apply.h)]], [[GhcFile(rts/Apply.cmm)]]
 
-Dealing with calls is by far the most complicated bit of the execution model, and hence of the code generator.  Before we can talk about that, we need some terminology:
+Dealing with calls is by far the most complicated bit of the execution model, and hence of the code generator.  GHC uses an ''eval/apply'' strategy for compiling function calls; all the details of the design are in the paper [http://www.haskell.org/~simonmar/papers/eval-apply.pdf Making a fast curry: push/enter vs. eval/apply for higher-order languages].
+
+First, we need some terminology:
+
   * The '''arity''' of a function is the number of lambdas statically used in [wiki:Commentary/Compiler/StgSynType the lambda-form of its definition].  Note that arity is not deducible from the type.  Example:
 {{{
 f :: Bool -> Bool -> Bool
