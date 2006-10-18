@@ -1,3 +1,10 @@
+== Coding conventions ==
+
+There are some documents on coding style:
+
+ * [wiki:Commentary/CodingStyle Coding style in the compiler]
+ * [wiki:Commentary/Rts/Conventions Coding style in the runtime system]
+
 == Submitting patches ==
 
 To submit patches to the developers, please use {{{darcs send}}}.  You don't need any special permission to do this.
