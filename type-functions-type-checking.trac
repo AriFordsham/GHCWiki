@@ -119,8 +119,12 @@ The result type of a wrapper of a data constructor of a family mentions the fami
 
 The matching against the family type constructor and unification with the instance types corresponds to applying the coercion moving between the family and representation type of a data instance, which is returned by `tyConFamilyCoercion_maybe`.  To generate type correct core, this coercion needs to be applied to the scrutinee of the case expression matching on the constructor pattern.  This is done by the local function `unwrapFamInstScrutinee` whenever we match against the data constructor of a family by wrapping the result pattern into a `CoPat` containing an `ExprCoFn` with the coercion.
 
-== Checking for overlapping data/newtype instances ==
+== Checking for overlapping and inconsistent data/newtype instances ==
 
 === Overlap check of the instances in the currently compiled module ===
 
-We maintain a family instance environment in the `TcRnTypes.TcGblEnv` much like that for class instances.  We add instances to this environment, with `FamInst.addLocalFamInst`, as we type check them and perform an overlap check with each addition.  This overlap check includes all the instances in the EPS, too - again just like with class instance.  Hence, We simultaneously check the instances of the current module against all imported ones, too.  (This, of course, requires that we have them all in the EPS at that point.)
+We maintain a family instance environment in the `TcRnTypes.TcGblEnv` much like that for class instances.  We add instances to this environment, with `FamInst.addLocalFamInst`, as we type check them and perform a consistency check with each addition.  This consistency check includes all the instances in the EPS and HPT, too - again just like with class instance.  Hence, We simultaneously check the instances of the current module against all imported ones, too.  (This, of course, requires that we have them all in the EPS, resp. HPT, at that point, which we guarantee by the calls to `LoadIface.loadOrphanModules` in `TcRnDriver`, reading all `imp_finsts` of the current `ImportAvails`.)
+
+=== Overlap check for instances of imported modules ===
+
+The function `FamInst.checkFamInstConsistency` checks that all family instances of the given modules (which are all the family-instance modules of the current module) are consistent.  
