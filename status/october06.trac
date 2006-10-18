@@ -37,3 +37,5 @@ Forthcoming excitements:
  * We hope to release a first iteration of our '''data-parallel extensions''' before Christmas.
 
  * Once ''indexed data types'' are done, Manuel will be tackling '''indexed type synonyms''' (aka type functions), which are considerably tricker, at least so far as type inference is concerned.
+
+Simon Peyton Jones & Simon Marlow, October 2006
