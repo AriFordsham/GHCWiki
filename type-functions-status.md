@@ -5,7 +5,6 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Debug importing/exporting of families; something broke recently.
 - Where should the family instance consistency check go for GHCi?  `tcGetModuleExports`?  (Where is that function called?)
 - There really is no reason anymore to disallow family instances where all arguments are type variables.  Such instances are rarely useful, but may be when creating stub files or so; so why disallow them.  Check that they are working.
 
