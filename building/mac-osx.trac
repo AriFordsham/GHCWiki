@@ -38,3 +38,18 @@ make -j && sudo make install
 }}}
 
 (`-j` tells make to spawn lots of processes building in parallel, it will probably save some time especially if you have a multi-core machine).
+
+== Building the distrbution ==
+The following instructions are from Audrey Tang
+
+Install the 6.4.1 bindist, download both source
+tarballs from http://haskell.org/ghc/download_ghc_66.html
+and extract both; 
+
+cd into ghc-6.6; sh configure; make; make install.
+
+Then create mk/build.mk with one line:
+
+BIN_DIST=1
+
+then "make binary-dist", and tar the ghc-6.6/ directory produced.
