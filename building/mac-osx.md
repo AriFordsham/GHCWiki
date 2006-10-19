@@ -1,37 +1,17 @@
-CONVERSION ERROR
+# Building on MacOS X
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Building/MacOSX"
-  queryString          = "?version=2"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:57:56 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","255"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Building/MacOSX\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
-
-Original source:
-
-```trac
+## Getting Readline to work
 
 
-= Building on MacOS X =
+Thanks to Paul R Brown for the following [ instructions](http://mult.ifario.us/articles/2006/10/17/ghc-6-6-and-mac-os-x-readline-quick-fix).
 
-== Getting Readline to work ==
-
-Thanks to Paul R Brown for the following [http://mult.ifario.us/articles/2006/10/17/ghc-6-6-and-mac-os-x-readline-quick-fix instructions].
 
 Building GHC 6.6 out of the box on MacOS X will leave you with a GHCi binary that has no readline support.  This is because MacOS X comes with a cut-down readline library that doesn't support all the things that GHC requires, so the GHC configure script decides not to use it.
 
+
 To get readline working, you first need to install GNU readline:
 
-{{{
+```wiki
 cd ~/work
 mkdir gnu-readline
 cd !$
@@ -40,11 +20,12 @@ tar xzvf readline-5.2.tat.gz
 cd readline-5.2
 ./configure
 make && sudo make install
-}}}
+```
+
 
 Now you have to tell the GHC build about readline:
 
-{{{
+```wiki
 cd ~/work
 mkdir ghc
 cd !$
@@ -56,7 +37,29 @@ cd ghc-6.6
 ./configure --with-readline-includes=/usr/local \
             --with-readline-libraries=/usr/local
 make -j && sudo make install
-}}}
+```
+
 
 (`-j` tells make to spawn lots of processes building in parallel, it will probably save some time especially if you have a multi-core machine).
-```
+
+## Building the distrbution
+
+
+The following instructions are from Audrey Tang
+
+
+Install the 6.4.1 bindist, download both source
+tarballs from [ http://haskell.org/ghc/download_ghc_66.html](http://haskell.org/ghc/download_ghc_66.html)
+and extract both; 
+
+
+cd into ghc-6.6; sh configure; make; make install.
+
+
+Then create mk/build.mk with one line:
+
+
+BIN_DIST=1
+
+
+then "make binary-dist", and tar the ghc-6.6/ directory produced.
