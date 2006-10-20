@@ -14,50 +14,14 @@ Please feel free to add material to this commentary: don't worry too much about 
 
 - [The Compiler](commentary/compiler)
 
-  - [Compiler Module Dependencies](module-dependencies) (deals with the arcane mutual recursions among GHC's many data types)
-  - [Coding guidelines](commentary/coding-style)
-  - [Compiling one module: HscMain](commentary/compiler/hsc-main)
-  - Key data types (Simon PJ's diagram is attached at the bottom of this document):
-
-    - [The source language: HsSyn](commentary/compiler/hs-syn-type)
-    - [RdrNames, Modules, and OccNames](commentary/compiler/rdr-name-type)
-    - [Names](commentary/compiler/name-type)
-    - [Entities](commentary/compiler/entity-types): variables, type constructors, data constructors, and classes.
-    - Types: [Type and Kind](commentary/compiler/type-type), [equality types and coercions](commentary/compiler/fc)
-    - [The core language](commentary/compiler/core-syn-type)
-    - [The STG language](commentary/compiler/stg-syn-type)
-    - [The Cmm language](commentary/compiler/cmm-type)
-    - ModIface, ModDetails, ModGuts
-  - Passes:
-
-    - [Renamer](commentary/compiler/renamer)
-    - Typechecker
-    - Desugarer
-    - Core-\>core
-
-      - [Strictness analysis](commentary/compiler/strictness-analysis)
-    - Core-\>CorePrep
-    - CorePrep-\>Stg?
-    - [The code generator](commentary/compiler/code-gen): Stg-\>Cmm
-  - [The GHC API](commentary/compiler/api)
-- [Symbol names and the Z-encoding](commentary/compiler/symbol-names)
-- Template Haskell?
-- [Wired-in and known-key things](commentary/compiler/wired-in)
-- [Packages](commentary/compiler/packages)
-- The Finder?
-- [Backends](commentary/compiler/backends):
-
-  - [C code generator](commentary/compiler/backends/ppr-c)
-  - [Native code generator](commentary/compiler/backends/ncg)
-
 - [The Runtime System](commentary/rts)
 
-- Cross-cutting concerns: topics which span both the compiler and the RTS
+- Cross-cutting concerns: topics which span both the compiler and the runtime system
 
   - [Profiling](commentary/profiling)
   - [Primitive Operations (PrimOps)](commentary/prim-ops)
 
-- [The User Manual](commentary/user-manual)
+- [The User Manual](commentary/user-manual) (formatting guidelines etc)
 
 - [The Evil Mangler](commentary/evil-mangler)
 
