@@ -17,4 +17,4 @@ SplitObjs=NO
 GHC will automatically do an unregisterised build on platforms that it knows don't currently have registerised support.
 
 
-Currently the native code generator requires a registerised build. GHCi seems close to working, but anything non-trivial will cause it to go wrong (\#631 (Ticket query: id: )). Object splitting only works when building registerised.
+Currently the native code generator requires a registerised build. GHCi seems close to working, but anything non-trivial will cause it to go wrong (see [\#631](https://gitlab.haskell.org//ghc/ghc/issues/631)). Object splitting only works when building registerised.
