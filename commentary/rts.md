@@ -30,13 +30,15 @@ Next, we try to make sense of how it all fits together.
 
 - [RTS Configurations](commentary/rts/config)
 - [The Word](commentary/rts/word)
-- [What the hell is a {{{.cmm}}} file?](commentary/rts/cmm)
+- [What the hell is a .cmm file?](commentary/rts/cmm)
 - [Layout of heap objects](commentary/rts/heap-objects)
 - [Layout of the stack](commentary/rts/stack)
-- [Haskell Execution](commentary/rts/haskell-execution)
+- Slop?
+- [Sanity Checking](commentary/rts/sanity)
+- [The Haskell Execution model](commentary/rts/haskell-execution)
 - [The Scheduler](commentary/rts/scheduler)
 - [The Storage Manager](commentary/rts/storage)
-- [So how does {{{foreign import "wrapper"}}} work?](commentary/rts/ffi)
+- [So how does foreign import "wrapper" work?](commentary/rts/ffi)
 - [GHCi support: the byte-code interpreter and dynamic linker](commentary/rts/interpreter)
 - [Asynchronous exceptions](commentary/rts/async-exceptions)
 - [Software Transactional Memory (STM)](commentary/rts/stm)
