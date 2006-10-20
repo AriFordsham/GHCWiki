@@ -1,0 +1,1 @@
+# GHC Commentary: Garbage Collecting CAFs
