@@ -30,4 +30,17 @@ There is little extra that needs to be done for type instances.  The main differ
 
 === Name parents & importing and exporting ===
 
-GHC, in `RnNames`, derives its knowledge of which names may appear in parenthesis after a type or class name in an import or export list by querying the name parent relation (i.e., invoking `Name.nameParent_maybe`.  Hence, it is crucial that all the data constructors defined in instances of a family get the family name, not the name of the representation tycon, as their name parent.  We go to some effort in `RnNames.newTopSrcBinder` to achieve this when renaming source.  We also need an extra measure, even if of much smaller scale, when sucking declarations from interface files in `LoadIface.loadDecl`.  Here we make the family the name parent for all implicit things of the declaration.
+GHC, in `RnNames`, derives its knowledge of which names may appear in parenthesis after a type or class name in an import or export list by querying the name parent relation, as encoded in `RdrName.gre_par` of `RdrName.GlobalRdrElt`.  Hence, it is crucial that all the data constructors defined in instances of a family get the family name, not the name of the representation tycon, as their name parent.  We go to some effort in `RnNames.getLocalDeclBinders` to achieve this when renaming source.  We also , when sucking declarations from interface files in `LoadIface.loadDecl`, make the family the name parent for all implicit things of the declaration.
+
+An extra complication with the name parent relation that arises due to associated types is that the name parent relation can have a depth of two (not just one as in H98).  Here is an example:
+{{{
+class GMapKey a where
+  data GMap a :: * -> *
+instance GMapKey Int where
+  data GMap Int v = GMapInt ...
+}}}
+The data constructor GMapInt's parent is GMap whose parent in turn is the class GMapKey; ie, GMapKey is GMapInt's grand parent.  In H98, data types have no parents (which is in some places in the code represented by making them their own parent).
+
+We address this in `RnNames.filterImports` by extending the occurences environment `occ_env` by an extra, but optional parent component.  In the case of associated types, this new component gives the class in which the associated types has been declared.
+
+Finally, to ensure that family instances put into interface files and associated type declarations are not duplicated on the top-level of an interface file, we need to take care in `TyCon.isImplicitTyCon` to guarantee that (a) associated family declarations are implicit and (b) family instance representation tycons are not.
