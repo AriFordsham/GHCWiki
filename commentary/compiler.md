@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Commentary/Compiler"
-  queryString          = "?version=3"
+  queryString          = "?version=4"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:26 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:58:05 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -23,7 +23,45 @@ Original source:
 
 = GHC Commentary: The Compiler =
 
+The compiler itself is written entirely in Haskell, and lives in the many sub-directories of the [[GhcFile(compiler)]] directory.  Here is a block diagram of its top-level structure:
+
 [[Image(ghc-top.png)]]
+
+== Contents ==
+
+ * [wiki:ModuleDependencies Compiler Module Dependencies] (deals with the arcane mutual recursions among GHC's many data types)
+ * [wiki:Commentary/CodingStyle Coding guidelines]
+     [[BR]][[BR]]
+ * [wiki:Commentary/Compiler/HscMain Compiling one module: HscMain]
+ * Key data types (Simon PJ's diagram is attached at the bottom of this document):
+   * [wiki:Commentary/Compiler/HsSynType The source language: HsSyn] 
+   * [wiki:Commentary/Compiler/RdrNameType RdrNames, Modules, and OccNames]
+   * [wiki:Commentary/Compiler/NameType Names]
+   * [wiki:Commentary/Compiler/EntityTypes Entities]: variables, type constructors, data constructors, and classes.
+   * Types: [wiki:Commentary/Compiler/TypeType Type and Kind], [wiki:Commentary/Compiler/FC equality types and coercions]
+   * [wiki:Commentary/Compiler/CoreSynType The core language]
+   * [wiki:Commentary/Compiler/StgSynType The STG language]
+   * [wiki:Commentary/Compiler/CmmType The Cmm language]
+   * ModIface, ModDetails, ModGuts
+ * Passes:
+   * [wiki:Commentary/Compiler/Renamer Renamer]
+   * Typechecker
+   * Desugarer
+   * Core->core
+     * [wiki:Commentary/Compiler/StrictnessAnalysis Strictness analysis]
+   * Core->CorePrep
+   * [wiki:Commentary/Compiler/Core2Stg CorePrep->Stg]
+   * [wiki:Commentary/Compiler/CodeGen The code generator]: Stg->Cmm
+       [[BR]][[BR]]
+ * [wiki:Commentary/Compiler/API The GHC API]
+ * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
+ * [wiki:Commentary/Compiler/TemplateHaskell Template Haskell]
+ * [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
+ * [wiki:Commentary/Compiler/Packages Packages]
+ * [wiki:Commentary/Compiler/Finder The Finder]
+ * [wiki:Commentary/Compiler/Backends Backends]:
+   * [wiki:Commentary/Compiler/Backends/PprC C code generator]
+   * [wiki:Commentary/Compiler/Backends/NCG Native code generator]
 
 The GHC API is the interface exported by compiler/main/GHC.hs. To compile a Haskell module that uses the GHC API, use the flag {{{-package ghc}}} (in GHC 6.6 and later). GHC itself contains a few front-ends: 
 
