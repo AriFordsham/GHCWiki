@@ -1,5 +1,7 @@
 
 
+Video: [http://video.google.com/videoplay?docid=-8778691434558190641 GHC Core language] (14'04")
+
 = The {{{Core}}} type =
 
 The Core language is GHC's central data types.  Core is a very small, explicitly-typed, variant of System F.  The exact variant is called [wiki:Commentary/Compiler/FC System FC], which embodies equality constraints and coercions.
