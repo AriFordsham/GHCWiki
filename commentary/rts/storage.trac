@@ -6,6 +6,13 @@ GHC's storage manager is designed to be quite flexible: there are a large number
 
 [[Image(sm-top.png)]]
 
+ * [wiki:Commentary/Rts/Storage/HeapObjects Layout of Heap Objects]
+ * [wiki:Commentary/Rts/Storage/Stack Layout of the Stack]
+ * [wiki:Commentary/Rts/Storage/Slop Slop]
+ * [wiki:Commentary/Rts/Storage/BlockAlloc The Block Allocator]
+ * [wiki:Commentary/Rts/Storage/GC The Garbage Collector]
+ * [wiki:Commentary/Rts/Storage/CAFs Garbage Collecting CAFs]
+
 == The Block Allocator ==
 
 Source: [[GhcFile(includes/Block.h)]], [[GhcFile(rts/BlockAlloc.h)]], [[GhcFile(rts/BlockAlloc.c)]], [[GhcFile(rts/MBlock.h)]], [[GhcFile(rts/MBlock.c)]].
