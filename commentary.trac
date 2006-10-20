@@ -12,47 +12,14 @@ Please feel free to add material to this commentary: don't worry too much about 
  * [wiki:Commentary/Pipeline The compilation pipeline]
 
  * [wiki:Commentary/Compiler The Compiler]
-   * [wiki:ModuleDependencies Compiler Module Dependencies] (deals with the arcane mutual recursions among GHC's many data types)
-   * [wiki:Commentary/CodingStyle Coding guidelines]
-     [[BR]][[BR]]
-   * [wiki:Commentary/Compiler/HscMain Compiling one module: HscMain]
-   * Key data types (Simon PJ's diagram is attached at the bottom of this document):
-     * [wiki:Commentary/Compiler/HsSynType The source language: HsSyn] 
-     * [wiki:Commentary/Compiler/RdrNameType RdrNames, Modules, and OccNames]
-     * [wiki:Commentary/Compiler/NameType Names]
-     * [wiki:Commentary/Compiler/EntityTypes Entities]: variables, type constructors, data constructors, and classes.
-     * Types: [wiki:Commentary/Compiler/TypeType Type and Kind], [wiki:Commentary/Compiler/FC equality types and coercions]
-     * [wiki:Commentary/Compiler/CoreSynType The core language]
-     * [wiki:Commentary/Compiler/StgSynType The STG language]
-     * [wiki:Commentary/Compiler/CmmType The Cmm language]
-     * ModIface, ModDetails, ModGuts
-   * Passes:
-     * [wiki:Commentary/Compiler/Renamer Renamer]
-     * Typechecker
-     * Desugarer
-     * Core->core
-       * [wiki:Commentary/Compiler/StrictnessAnalysis Strictness analysis]
-     * Core->CorePrep
-     * [wiki:Commentary/Compiler/Core2Stg CorePrep->Stg]
-     * [wiki:Commentary/Compiler/CodeGen The code generator]: Stg->Cmm
-       [[BR]][[BR]]
-    * [wiki:Commentary/Compiler/API The GHC API]
-   * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
-   * [wiki:Commentary/Compiler/TemplateHaskell Template Haskell]
-   * [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
-   * [wiki:Commentary/Compiler/Packages Packages]
-   * [wiki:Commentary/Compiler/Finder The Finder]
-   * [wiki:Commentary/Compiler/Backends Backends]:
-     * [wiki:Commentary/Compiler/Backends/PprC C code generator]
-     * [wiki:Commentary/Compiler/Backends/NCG Native code generator]
   
  * [wiki:Commentary/Rts The Runtime System]
  
- * Cross-cutting concerns: topics which span both the compiler and the RTS
+ * Cross-cutting concerns: topics which span both the compiler and the runtime system
     * [wiki:Commentary/Profiling Profiling]
     * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
 
- * [wiki:Commentary/UserManual The User Manual]
+ * [wiki:Commentary/UserManual The User Manual] (formatting guidelines etc)
 
  * [wiki:Commentary/EvilMangler The Evil Mangler]
 
