@@ -32,7 +32,6 @@ Next, we try to make sense of how it all fits together.
 - [The Word](commentary/rts/word)
 - [What the hell is a .cmm file?](commentary/rts/cmm)
 - [The Storage Manager](commentary/rts/storage)
-- Slop?
 - [Sanity Checking](commentary/rts/sanity)
 - [The Haskell Execution model](commentary/rts/haskell-execution)
 - [The Scheduler](commentary/rts/scheduler)
