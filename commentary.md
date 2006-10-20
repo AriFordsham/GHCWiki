@@ -52,22 +52,6 @@ Please feel free to add material to this commentary: don't worry too much about 
 
 - [The Runtime System](commentary/rts)
 
-  - [RTS Configurations](commentary/rts/config)
-  - [The Word](commentary/rts/word)
-  - [What the hell is a .cmm file?](commentary/rts/cmm)
-  - [Layout of heap objects](commentary/rts/heap-objects)
-  - [Layout of the stack](commentary/rts/stack)
-  - [The Haskell Execution model](commentary/rts/haskell-execution)
-  - [The Scheduler](commentary/rts/scheduler)
-  - [The Storage Manager](commentary/rts/storage)
-  - [So how does foreign import "wrapper" work?](commentary/rts/ffi)
-  - [GHCi support: the byte-code interpreter and dynamic linker](commentary/rts/interpreter)
-  - [Asynchronous exceptions](commentary/rts/async-exceptions)
-  - [Software Transactional Memory (STM)](commentary/rts/stm)
-  - [Garbage Collecting CAFs](commentary/rts/ca-fs)
-  - [Weak Pointers and Finalizers](commentary/rts/weak)
-  - [Coding conventions in the RTS](commentary/rts/conventions)
-
 - Cross-cutting concerns: topics which span both the compiler and the RTS
 
   - [Profiling](commentary/profiling)

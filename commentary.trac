@@ -47,22 +47,7 @@ Please feel free to add material to this commentary: don't worry too much about 
      * [wiki:Commentary/Compiler/Backends/NCG Native code generator]
   
  * [wiki:Commentary/Rts The Runtime System]
-   * [wiki:Commentary/Rts/Config RTS Configurations]
-   * [wiki:Commentary/Rts/Word The Word]
-   * [wiki:Commentary/Rts/Cmm What the hell is a .cmm file?]
-   * [wiki:Commentary/Rts/HeapObjects Layout of heap objects]
-   * [wiki:Commentary/Rts/Stack Layout of the stack]
-   * [wiki:Commentary/Rts/HaskellExecution The Haskell Execution model]
-   * [wiki:Commentary/Rts/Scheduler The Scheduler]
-   * [wiki:Commentary/Rts/Storage The Storage Manager]
-   * [wiki:Commentary/Rts/FFI So how does foreign import "wrapper" work?]
-   * [wiki:Commentary/Rts/Interpreter GHCi support: the byte-code interpreter and dynamic linker]
-   * [wiki:Commentary/Rts/AsyncExceptions Asynchronous exceptions]
-   * [wiki:Commentary/Rts/STM Software Transactional Memory (STM)]
-   * [wiki:Commentary/Rts/CAFs Garbage Collecting CAFs]
-   * [wiki:Commentary/Rts/Weak Weak Pointers and Finalizers]
-   * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
-
+ 
  * Cross-cutting concerns: topics which span both the compiler and the RTS
     * [wiki:Commentary/Profiling Profiling]
     * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
