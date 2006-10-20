@@ -1,76 +1,67 @@
-CONVERSION ERROR
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Commentary/Compiler/HscMain"
-  queryString          = "?version=24"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:57:39 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","262"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/HscMain\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+Video: [ Compiler Pipeline II](http://video.google.com/videoplay?docid=5254545394467397086) (10'16")
 
-Original source:
+# Compiling one module: HscMain
 
-```trac
-
-
-= Compiling one module: !HscMain =
 
 Here we are going to look at the compilation of a single module.
-There is a picture that goes with this description, which appears at the bottom of this page, but you'll probably find it easier to open [wiki:Commentary/Compiler/HscPipe this link] in another window, so you can see it at the same time as reading the text.
+There is a picture that goes with this description, which appears at the bottom of this page, but you'll probably find it easier to open [this link](commentary/compiler/hsc-pipe) in another window, so you can see it at the same time as reading the text.
 
-Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called !HscMain (in [[GhcFile(compiler/main/HscMain)]]).  Here are the steps it goes through:
 
- * The program is initially parsed into the [wiki:Commentary/Compiler/HsSynType big HsSyn type]. {{{HsSyn}}} is parameterised over the types of the term variables it contains.  The first three passes (the front end) of the compiler work like this:[[BR]][[BR]]
-   * The '''parser''' produces {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/RdrNameType RdrName]'''.  To a first approximation, a {{{RdrName}}} is just a string.[[BR]][[BR]]
-   * The '''[wiki:Commentary/Compiler/Renamer renamer]''' transforms this to {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/NameType Name]'''.  To a first appoximation, a {{{Name}}} is a string plus a {{{Unique}}} (number) that uniquely identifies it.  In particular, the renamer associates each identifier with its binding instance and ensures that all occurrences which associate to the same binding instance share a single {{{Unique}}}.[[BR]][[BR]]
-   * The '''typechecker''' transforms this further, to {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/EntityTypes Id]'''.  To a first approximation, an {{{Id}}} is a {{{Name}}} plus a type. In addition, the type-checker converts class declarations to {{{Class}}}es, and type declarations to {{{TyCon}}}s and {{{DataCon}}}s.  And of course, the type-checker deals in {{{Type}}}s and {{{TyVar}}}s. The [wiki:Commentary/Compiler/EntityTypes data types for these entities] ({{{Type}}}, {{{TyCon}}}, {{{Class}}}, {{{Id}}}, {{{TyVar}}}) are pervasive throughout the rest of the compiler.
+Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called HscMain (in [compiler/main/HscMain](/trac/ghc/browser/ghc/compiler/main/HscMain)).  Here are the steps it goes through:
 
- These three passes can all discover programmer errors, which are sorted and reported to the user.
- 
- * The '''desugarer''' ([[GhcFile(compiler/deSugar/Desugar)]]) converts from the massive {{{HsSyn}}} type to [wiki:Commentary/Compiler/CoreSynType GHC's intermediate language, CoreSyn].  This Core-language data type is unusually tiny: just eight constructors.
-   [[BR]][[BR]] 
-   This late desugaring is somewhat unusual.  It is much more common to desugar the program before typechecking, or renaming, becuase that presents the renamer and typechecker with a much smaller language to deal with.  However, GHC's organisation means that
-   * error messages can display precisely the syntax that the user wrote; and 
-   * desugaring is not required to preserve type-inference properties.[[BR]]
-  Generally speaking, the desugarer produces user errors or warnings. But it does produce ''some''.  In particular, (a) pattern-match overlap warnings are produced here; and (b) when desugaring Template Haskell code quotations, the desugarer may find that `THSyntax` is not expressive enough.  In that case, we must produce an error ([[GhcFile(compiler/deSugar/DsMeta)]]).
+- The program is initially parsed into the [big HsSyn type](commentary/compiler/hs-syn-type). `HsSyn` is parameterised over the types of the term variables it contains.  The first three passes (the front end) of the compiler work like this:
 
- * The '''SimplCore''' pass ([[GhcFile(simplCore/SimplCore.lhs)]]) is a bunch of Core-to-Core passes that optimise the program; see [http://research.microsoft.com/%7Esimonpj/Papers/comp-by-trans-scp.ps.gz A transformation-based optimiser for Haskell (SCP'98)] for a more-or-less accurate overview.  The main passes are:[[BR]][[BR]]
-    * The '''Simplifier''', which applies lots of small, local optimisations to the program.  The simplifier is big and complicated, because it implements a ''lot'' of transformations; and tries to make them cascade nicely.  The transformation-based optimiser paper gives lots of details, but two other papers are particularly relevant: [http://research.microsoft.com/%7Esimonpj/Papers/inlining/index.htm Secrets of the Glasgow Haskell Compiler inliner (JFP'02)] and [http://research.microsoft.com/%7Esimonpj/Papers/rules.htm Playing by the rules: rewriting as a practical optimisation technique in GHC (Haskell workshop 2001)].[[BR]][[BR]]
-    * The '''float-out''' and '''float-in''' transformations, which move let-bindings outwards and inwards respectively.  See [http://research.microsoft.com/%7Esimonpj/papers/float.ps.gz Let-floating: moving bindings to give faster programs (ICFP '96)].[[BR]][[BR]]
-    * The '''strictness analyser'''.  This actually comprises two passes: the '''analayser''' itself and the '''worker/wrapper''' transformation that uses the results of the analysis to transform the program.  The same analyser also does [http://research.microsoft.com/%7Esimonpj/Papers/cpr/index.htm Constructed Product Result analysis].[[BR]][[BR]]
-    * The '''liberate-case''' transformation.[[BR]][[BR]]
-    * The '''constructor-specialialisation''' transformation.[[BR]][[BR]]
-    * The '''common sub-expression eliminiation''' (CSE) transformation.
+  - The **parser** produces `HsSyn` parameterised by **[RdrName](commentary/compiler/rdr-name-type)**.  To a first approximation, a `RdrName` is just a string.
+  - The **[renamer](commentary/compiler/renamer)** transforms this to `HsSyn` parameterised by **[Name](commentary/compiler/name-type)**.  To a first appoximation, a `Name` is a string plus a `Unique` (number) that uniquely identifies it.  In particular, the renamer associates each identifier with its binding instance and ensures that all occurrences which associate to the same binding instance share a single `Unique`.
+  - The **typechecker** transforms this further, to `HsSyn` parameterised by **[Id](commentary/compiler/entity-types)**.  To a first approximation, an `Id` is a `Name` plus a type. In addition, the type-checker converts class declarations to `Class`es, and type declarations to `TyCon`s and `DataCon`s.  And of course, the type-checker deals in `Type`s and `TyVar`s. The [data types for these entities](commentary/compiler/entity-types) (`Type`, `TyCon`, `Class`, `Id`, `TyVar`) are pervasive throughout the rest of the compiler.
 
- * Then the '''!CoreTidy pass''' gets the code into a form in which it can be imported into subsequent modules (when using {{{--make}}}) and/or put into an interface file.  There are good notes at the top of the file [[GhcFile(compiler/main/TidyPgm.lhs)]]; the main function is {{{tidyProgram}}}, for some reason documented as "Plan B".
+>
+> These three passes can all discover programmer errors, which are sorted and reported to the user.
 
-  * At this point, the data flow forks.  First, the tidied program is dumped into an interface file.  This part happens in two stages:
-    * It is '''converted to {{{IfaceSyn}}}''' (defined in [[GhcFile(compiler/iface/IfaceSyn.lhs)]] and [[GhcFile(compiler/iface/IfaceType.lhs)]]).
-    * The {{{IfaceSyn}}} is '''serialised into a binary output file''' ([[GhcFile(compiler/iface/BinIface.lhs)]]).
-  The serialisation does (pretty much) nothing except serialise.  All the intelligence is in the Core-to-IfaceSyn conversion; or, rather, in the reverse of that step.
+- The **desugarer** ([compiler/deSugar/Desugar](/trac/ghc/browser/ghc/compiler/deSugar/Desugar)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.
+   
+  This late desugaring is somewhat unusual.  It is much more common to desugar the program before typechecking, or renaming, becuase that presents the renamer and typechecker with a much smaller language to deal with.  However, GHC's organisation means that
 
-  * The same, tidied Core program is now fed to the Back End.  First there is a two-stage conversion from {{{CoreSyn}}} to {{{StgSyn}}}.
-    * The first step is called '''CorePrep''', a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually CorePrep does quite a bit more: there is a detailed list at the top of the file [[GhcFile(compiler/coreSyn/CorePrep.lhs)]].
-    * The second step, '''CoreToStg''', moves to the {{{StgSyn}}} data type (the code is in [[[GhcFile(stgSyn/CoreToStg.lhs)]]].  The output of !CorePrep is carefully arranged to exactly match what {{{StgSyn}}} allows (notably ANF), so there is very little work to do. However, {{{StgSyn}}} is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by {{{CoreToStg}}}.
+  - error messages can display precisely the syntax that the user wrote; and 
+  - desugaring is not required to preserve type-inference properties.
 
-  * Next, the '''code generator''' converts the STG program to a {{{C--}}} program.  The code generator is a Big Mother, and lives in directory [[GhcFile(compiler/codeGen)]]  
+  Generally speaking, the desugarer produces user errors or warnings. But it does produce *some*.  In particular, (a) pattern-match overlap warnings are produced here; and (b) when desugaring Template Haskell code quotations, the desugarer may find that `THSyntax` is not expressive enough.  In that case, we must produce an error ([compiler/deSugar/DsMeta](/trac/ghc/browser/ghc/compiler/deSugar/DsMeta)).
 
-  * Now the path forks again:
-    * If we are generating GHC's stylised C code, we can just pretty-print the {{{C--}}} code as stylised C ([[GhcFile(compiler/cmm/PprC.hs))]]
-    * If we are generating native code, we invoke the native code generator.  This is another Big Mother, and lives in [[GhcFile(compiler/nativeGen)]].
+- The **SimplCore** pass ([simplCore/SimplCore.lhs](/trac/ghc/browser/ghc/simplCore/SimplCore.lhs)) is a bunch of Core-to-Core passes that optimise the program; see [ A transformation-based optimiser for Haskell (SCP'98)](http://research.microsoft.com/%7Esimonpj/Papers/comp-by-trans-scp.ps.gz) for a more-or-less accurate overview.  The main passes are:
 
-= The Diagram =
+  - The **Simplifier**, which applies lots of small, local optimisations to the program.  The simplifier is big and complicated, because it implements a *lot* of transformations; and tries to make them cascade nicely.  The transformation-based optimiser paper gives lots of details, but two other papers are particularly relevant: [ Secrets of the Glasgow Haskell Compiler inliner (JFP'02)](http://research.microsoft.com/%7Esimonpj/Papers/inlining/index.htm) and [ Playing by the rules: rewriting as a practical optimisation technique in GHC (Haskell workshop 2001)](http://research.microsoft.com/%7Esimonpj/Papers/rules.htm).
+  - The **float-out** and **float-in** transformations, which move let-bindings outwards and inwards respectively.  See [ Let-floating: moving bindings to give faster programs (ICFP '96)](http://research.microsoft.com/%7Esimonpj/papers/float.ps.gz).
+  - The **strictness analyser**.  This actually comprises two passes: the **analayser** itself and the **worker/wrapper** transformation that uses the results of the analysis to transform the program.  The same analyser also does [ Constructed Product Result analysis](http://research.microsoft.com/%7Esimonpj/Papers/cpr/index.htm).
+  - The **liberate-case** transformation.
+  - The **constructor-specialialisation** transformation.
+  - The **common sub-expression eliminiation** (CSE) transformation.
 
-This diagram is also located [wiki:Commentary/Compiler/HscPipe here], so that you can open it in a separate window.
+- Then the **CoreTidy pass** gets the code into a form in which it can be imported into subsequent modules (when using `--make`) and/or put into an interface file.  There are good notes at the top of the file [compiler/main/TidyPgm.lhs](/trac/ghc/browser/ghc/compiler/main/TidyPgm.lhs); the main function is `tidyProgram`, for some reason documented as "Plan B".
 
-[[Image(Commentary/Compiler/HscPipe:HscPipe.png)]]
+- At this point, the data flow forks.  First, the tidied program is dumped into an interface file.  This part happens in two stages:
 
-```
+  - It is **converted to `IfaceSyn`** (defined in [compiler/iface/IfaceSyn.lhs](/trac/ghc/browser/ghc/compiler/iface/IfaceSyn.lhs) and [compiler/iface/IfaceType.lhs](/trac/ghc/browser/ghc/compiler/iface/IfaceType.lhs)).
+  - The `IfaceSyn` is **serialised into a binary output file** ([compiler/iface/BinIface.lhs](/trac/ghc/browser/ghc/compiler/iface/BinIface.lhs)).
+
+> >
+> > The serialisation does (pretty much) nothing except serialise.  All the intelligence is in the Core-to-IfaceSyn conversion; or, rather, in the reverse of that step.
+
+- The same, tidied Core program is now fed to the Back End.  First there is a two-stage conversion from `CoreSyn` to `StgSyn`.
+
+  - The first step is called **CorePrep**, a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually CorePrep does quite a bit more: there is a detailed list at the top of the file [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs).
+  - The second step, **CoreToStg**, moves to the `StgSyn` data type (the code is in \[GhcFile(stgSyn/CoreToStg.lhs)?\].  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
+
+- Next, the **code generator** converts the STG program to a `C--` program.  The code generator is a Big Mother, and lives in directory [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen)
+
+- Now the path forks again:
+
+  - If we are generating GHC's stylised C code, we can just pretty-print the `C--` code as stylised C ([compiler/cmm/PprC.hs)](/trac/ghc/browser/ghc/compiler/cmm/PprC.hs))
+  - If we are generating native code, we invoke the native code generator.  This is another Big Mother, and lives in [compiler/nativeGen](/trac/ghc/browser/ghc/compiler/nativeGen).
+
+# The Diagram
+
+
+This diagram is also located [here](commentary/compiler/hsc-pipe), so that you can open it in a separate window.
+
+[](/trac/ghc/attachment/wiki/Commentary/Compiler/HscPipe/HscPipe.png)
