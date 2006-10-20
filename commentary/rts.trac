@@ -32,7 +32,6 @@ Next, we try to make sense of how it all fits together.
  * [wiki:Commentary/Rts/Word The Word]
  * [wiki:Commentary/Rts/Cmm What the hell is a .cmm file?]
  * [wiki:Commentary/Rts/Storage The Storage Manager]
- * [wiki:Commentary/Rts/Stack Layout of the stack]
  * [wiki:Commentary/Rts/Slop Slop]
  * [wiki:Commentary/Rts/Sanity Sanity Checking]
  * [wiki:Commentary/Rts/HaskellExecution The Haskell Execution model]
