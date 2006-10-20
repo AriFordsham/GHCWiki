@@ -39,6 +39,5 @@ Next, we try to make sense of how it all fits together.
 - [GHCi support: the byte-code interpreter and dynamic linker](commentary/rts/interpreter)
 - [Asynchronous exceptions](commentary/rts/async-exceptions)
 - [Software Transactional Memory (STM)](commentary/rts/stm)
-- [Garbage Collecting CAFs](commentary/rts/ca-fs)
 - [Weak Pointers and Finalizers](commentary/rts/weak)
 - [Coding conventions in the RTS](commentary/rts/conventions)
