@@ -1,5 +1,7 @@
 
 
+Video: [http://video.google.com/videoplay?docid=5254545394467397086 Compiler Pipeline II] (10'16")
+
 = Compiling one module: !HscMain =
 
 Here we are going to look at the compilation of a single module.
