@@ -10,10 +10,9 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
 
  * [wiki:ModuleDependencies Compiler Module Dependencies] (deals with the arcane mutual recursions among GHC's many data types)
  * [wiki:Commentary/CodingStyle Coding guidelines]
-     [[BR]][[BR]]
- * [wiki:Commentary/Compiler/HscMain Compiling one module: HscMain]
+
  * [wiki:Commentary/Compiler/KeyDataTypes Key data types]
- * Passes:
+ * [wiki:Commentary/Compiler/HscMain Compiling one module: HscMain]
    * [wiki:Commentary/Compiler/Renamer Renamer]
    * Typechecker
    * Desugarer
@@ -22,7 +21,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
    * Core->CorePrep
    * [wiki:Commentary/Compiler/Core2Stg CorePrep->Stg]
    * [wiki:Commentary/Compiler/CodeGen The code generator]: Stg->Cmm
-       [[BR]][[BR]]
+
  * [wiki:Commentary/Compiler/API The GHC API]
  * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
  * [wiki:Commentary/Compiler/TemplateHaskell Template Haskell]
