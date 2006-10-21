@@ -67,6 +67,19 @@ An external program can now figure out which doc comment belongs to what "entity
 
 The doc comments go through the renamer, and the reason is that an `HsDoc` can contain a reference to an identifier. It can be important for users of the GHC API to get hold of comments that contain the original name of references (`HsDoc Name`).
 
+# The GHC API
+
+
+The doc comments are present in the `ParsedSource` as well as in the `RenamedSource`.
+
+
+There are three pieces of information besides the ordinary comments themselves that could also be of interest. Those are the doc options, the module-specific doc comment and the Haddock module header information. All of them are available in the `HsModule` data type in the `ParsedSource`. The last two pieces of information may contain names of identifiers, so they are also part of the renamed syntax. They can be obtained from the last two elements in the `RenamedSource` 5-tuple, as seen below.
+
+```wiki
+type RenamedSource     = (HsGroup Name, [LImportDecl Name], Maybe [LIE Name],
+                          Maybe (HsDoc Name), HaddockModInfo Name)
+```
+
 # Misc
 
 
