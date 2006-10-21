@@ -55,5 +55,11 @@ type RenamedSource     = (HsGroup Name, [LImportDecl Name], Maybe [LIE Name],
                           Maybe (HsDoc Name), HaddockModInfo Name)
 }}}
 
+There is also 
+
+{{{parseHaddockComment :: String -> Either String (HsDoc RdrName)}}}
+
+that will lex and parse a single Haddock comment.
+
 = Misc = 
 .hi-files are left untouched by this extension.
