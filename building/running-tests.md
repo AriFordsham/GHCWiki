@@ -1,0 +1,62 @@
+# GHC Test framework
+
+
+NOTE: you need Python (any version \>= 1.5 will probably do) in order
+to use the testsuite.
+
+
+To run the test suite against stage 1 of a GHC build in the same
+source tree:
+
+```wiki
+        cd tests/ghc-regress
+        make
+```
+
+
+(from now on, we'll assume that you're in the tests/ghc-regress
+directory).
+
+
+To run a fast version of the testsuite, which should complete in under
+5 minutes on a fast machine with an optimised GHC build:
+
+```wiki
+        make fast
+```
+
+
+To run the testsuite with the stage2 compiler (this is often what you
+want, because GHCi tests will fail with stage1):
+
+```wiki
+        make stage=2
+```
+
+
+To run the test suite against a different GHC, say ghc-5.04:
+
+```wiki
+        make TEST_HC=ghc-5.04
+```
+
+
+To run an individual test or tests (eg. tc054):
+
+```wiki
+        make TEST=tc054
+```
+
+
+(you can also go straight to the directory containing the test and say
+'make TEST=tc054' from there, which will save some time).
+
+
+To run the tests one particular way only (eg. GHCi):
+
+```wiki
+        make WAY=ghci
+```
+
+
+For more details, see below.
