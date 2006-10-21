@@ -1,32 +1,16 @@
-CONVERSION ERROR
+# Work in Progress
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/HaddockComments"
-  queryString          = "?version=4"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:58:09 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","254"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/HaddockComments\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+# A description of the Haddock comment support in GHC
 
-Original source:
 
-```trac
-= Work in Progress =
-= A description of the Haddock comment support in GHC =
-Haddock comment support was added to GHC as part of a [http://code.google.com/soc Google Summer Of Code] project. The aim of the project was to  port the existing Haddock program to use the GHC API. Since the project is now over, GHC can understand Haddock comments (here called doc comments) and they are available through the GHC API. This is a very rough overview of the implementation.
+Haddock comment support was added to GHC as part of a [ Google Summer Of Code](http://code.google.com/soc) project. The aim of the project was to  port the existing Haddock program to use the GHC API. Since the project is now over, GHC can understand Haddock comments (here called doc comments) and they are available through the GHC API. This is a very rough overview of the implementation.
+
 
 To turn this extension on, you supply the -haddock flag on the command line. Then doc comments are lexed, parsed and renamed and end up both in the parsed and renamed abstract syntax. Without the -haddock flag, GHC behaves just like normal, i.e doc comments are treated just like normal comments. 
 
-= Lexer details =
-{{{
+# Lexer details
+
+```wiki
 data Token =
   ..
   ..
@@ -35,29 +19,44 @@ data Token =
   | ITdocCommentNamed String     -- something beginning '-- $'
   | ITdocSection      Int String -- a section heading
   | ITdocOptions      String     -- doc options (prune, ignore-exports, etc)
-}}} 
+```
+
+
 In the lexer, doc comments are recognized as tokens. There are four types of doc comments at this level, each having its own token. Each token contains the entire comment string. 
 
-Just like the old Haddock, we support "next" and "previous"-type comments, "named" comments and section headings. The options token is used for   specifiying Haddock options. Options are specified using a pragma, like this: {-# DOCOPTIONS prune, ignore-exports }. You can no longer specify them using dash comments (e.g -- # prune).
 
-= Parser details = 
-The doc tokens can appear in a lot of places in the grammar and having a look at [[GhcFile(compiler/parser/Parser.y.pp)]] is probably the best way to get an overview of this.   
+Just like the old Haddock, we support "next" and "previous"-type comments, "named" comments and section headings. The options token is used for   specifiying Haddock options. Options are specified using a pragma, like this: {-\# DOCOPTIONS prune, ignore-exports }. You can no longer specify them using dash comments (e.g -- \# prune).
 
-When a doc token is encountered by the parser, it tries to parse the content of the token. This is done by invoking a special Alex lexer ([[GhcFile(compiler/parser/HaddockLex.x)]]) and Happy parser ([[GhcFile(compiler/parser/HaddockParse.y)]]), taken directly from the old Haddock sources. This process turns the token into a value of type {{{HsDoc RdrName}}}, representing the (internal structure of the) comment. It can then be stored in the Haskell AST by the parser at the appropriate place. A lot of places (constructors) in the AST definition ([[GhcFile(compiler/hsSyn)]]) allow {{{HsDoc}}}s, and more can be added.  
+# Parser details
 
-= Binding groups = 
-Before the renaming phase, GHC restructures function definitions into binding groups. This is done by going through the list of {{{HsDecl}}}s representing the top declarations of the source file, grouping different type of declarations together.
 
-We do this with the top level doc comments as well. There's a problem though: An external program must be able to use the GHC API to associate multiple "next" and "prev" style comments to the right Haskell binding. This can be done by looking at the parsed syntax tree, where the file structure is preserved. But, by going through this restructuring, the renamed syntax loose this structure. We want to be able to use the renamed syntax, so instead of just grouping the comments together, we let the grouping process return a list of {{{DocEntity}}}:
-{{{
+The doc tokens can appear in a lot of places in the grammar and having a look at [compiler/parser/Parser.y.pp](/trac/ghc/browser/ghc/compiler/parser/Parser.y.pp) is probably the best way to get an overview of this.   
+
+
+When a doc token is encountered by the parser, it tries to parse the content of the token. This is done by invoking a special Alex lexer ([compiler/parser/HaddockLex.x](/trac/ghc/browser/ghc/compiler/parser/HaddockLex.x)) and Happy parser ([compiler/parser/HaddockParse.y](/trac/ghc/browser/ghc/compiler/parser/HaddockParse.y)), taken directly from the old Haddock sources. This process turns the token into a value of type `HsDoc RdrName`, representing the (internal structure of the) comment. It can then be stored in the Haskell AST by the parser at the appropriate place. A lot of places (constructors) in the AST definition ([compiler/hsSyn](/trac/ghc/browser/ghc/compiler/hsSyn)) allow `HsDoc`s, and more can be added.
+
+
+Putting a doc comment at a place where the parser doesn't expect it will result in a parse error.  
+
+# Binding groups
+
+
+Before the renaming phase, GHC restructures function definitions into binding groups. This is done by going through the list of `HsDecl`s representing the top declarations of the source file, grouping different type of declarations together.
+
+
+We do this with the top level doc comments as well. There's a problem though: An external program must be able to use the GHC API to associate multiple "next" and "prev" style comments to the right Haskell binding. This can be done by looking at the parsed syntax tree, where the file structure is preserved. But, by going through this restructuring, the renamed syntax loose this structure. We want to be able to use the renamed syntax, so instead of just grouping the comments together, we let the grouping process return a list of `DocEntity`:
+
+```wiki
 -- source code entities, for representing the module structure
 data DocEntity name
   = DeclEntity name
   | DocEntity (DocDecl name)
-}}}
+```
+
 
 An external program can now figure out which doc comment belongs to what "entity", i.e what Haskell binding. This solution is also used for method declarations in classes. 
 
-== The renamer == 
-The doc comments go through the renamer, and the reason is that an {{{HsDoc}}} can contain a reference to an identifier. It can be important for users of the GHC API to get hold of comments that contain the original name of references ({{{HsDoc Name}}}).
-```
+## The renamer
+
+
+The doc comments go through the renamer, and the reason is that an `HsDoc` can contain a reference to an identifier. It can be important for users of the GHC API to get hold of comments that contain the original name of references (`HsDoc Name`).
