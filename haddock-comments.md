@@ -36,7 +36,7 @@ The doc tokens can appear in a lot of places in the grammar and having a look at
 When a doc token is encountered by the parser, it tries to parse the content of the token. This is done by invoking a special Alex lexer ([compiler/parser/HaddockLex.x](/trac/ghc/browser/ghc/compiler/parser/HaddockLex.x)) and Happy parser ([compiler/parser/HaddockParse.y](/trac/ghc/browser/ghc/compiler/parser/HaddockParse.y)), taken directly from the old Haddock sources. This process turns the token into a value of type `HsDoc RdrName`, representing the (internal structure of the) comment. It can then be stored in the Haskell AST by the parser at the appropriate place. A lot of places (constructors) in the AST definition ([compiler/hsSyn](/trac/ghc/browser/ghc/compiler/hsSyn)) allow `HsDoc`s, and more can be added.
 
 
-Putting a doc comment at a place where the parser doesn't expect it will result in a parse error.  
+A doc token at a place where the parser doesn't expect it will result in a parse error.
 
 # Binding groups
 
