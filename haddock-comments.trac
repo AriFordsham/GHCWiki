@@ -45,3 +45,6 @@ An external program can now figure out which doc comment belongs to what "entity
 
 = The renamer =
 The doc comments go through the renamer, and the reason is that an {{{HsDoc}}} can contain a reference to an identifier. It can be important for users of the GHC API to get hold of comments that contain the original name of references ({{{HsDoc Name}}}).
+
+= Misc = 
+.hi-files are left untouched by this extension.
