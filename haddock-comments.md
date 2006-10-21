@@ -1,0 +1,6 @@
+# Work in Progress
+
+# A description of the Haddock comment support in GHC
+
+
+Haddock comment support was added to GHC as part of a [ Google Summer Of Code](http://code.google.com/soc) project. The aim of the project was to  port the existing Haddock program to use the GHC API. The project is now over -- GHC can understand Haddock comments and they are available through the GHC API.
