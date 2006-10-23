@@ -15,8 +15,8 @@ To get readline working, you first need to install GNU readline:
 cd ~/work
 mkdir gnu-readline
 cd !$
-wget ftp://ftp.cwru.edu/pub/bash/readline-5.2.tar.gz
-tar xzvf readline-5.2.tat.gz
+curl -O ftp://ftp.cwru.edu/pub/bash/readline-5.2.tar.gz
+tar xzvf readline-5.2.tar.gz
 cd readline-5.2
 ./configure
 make && sudo make install
@@ -29,8 +29,8 @@ Now you have to tell the GHC build about readline:
 cd ~/work
 mkdir ghc
 cd !$
-wget http://www.haskell.org/ghc/dist/6.6/ghc-6.6-src.tar.bz2
-wget http://www.haskell.org/ghc/dist/6.6/ghc-6.6-src-extralibs.tar.bz2
+curl -O http://www.haskell.org/ghc/dist/6.6/ghc-6.6-src.tar.bz2
+curl -O http://www.haskell.org/ghc/dist/6.6/ghc-6.6-src-extralibs.tar.bz2
 tar xjvf ghc-6.6-src.tar.bz2
 tar xjvf ghc-6.6-src-extralibs.tar.bz2
 cd ghc-6.6
