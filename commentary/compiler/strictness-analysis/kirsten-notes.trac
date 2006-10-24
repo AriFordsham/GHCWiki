@@ -16,3 +16,15 @@ After calling dmd_anal on the body of a let, which results in demand type {{{dmd
  1. For each ''i'' from 1 through ''n'' (where ''n'' is {{{f}}}'s arity), if each of the applications of {{{f}}} to ''i'' arguments has usage demand {{{OneOrZero}}}, then it's safe to mark the corresponding lambda-expression as a one-shot lambda. 
 
 This might work, but is kind of kludgy.
+
+This may be ''way'' too unnecessarily complicated. Can't we just get the same information from the demand on f in the free-var environment of the let body as it is, without changing the environment?
+
+suppose the demand on f is
+{{{
+S1K(S1K(LMX))
+}}}
+if f = 
+{{{
+(\ x. (\ y. ...))
+}}}
+then we can mark the outer two lambdas as being one-shot. Right?
