@@ -189,7 +189,7 @@ these steps:
 
         '''only_compiler_types(compilers)'''       do this test for certain compilers only
 
-        '''expect_fail'''           this test is an expected failure
+        '''expect_fail'''           this test is an expected failure, i.e. there is a known bug in the compiler, but we don't want to fix it.
 
         '''expect_fail_for(ways)''' expect failure for certain ways 
 
@@ -226,7 +226,8 @@ these steps:
             Just compile the program, the
             compilation should fail (error
             messages will be in T.stderr).
-                                
+            This kind of failure is mandated by the language definition - it does '''not''' indicate any bug in the compiler.
+
       compile_and_run 
             Compile the program and run it,
             comparing the output against the 
@@ -240,7 +241,7 @@ these steps:
       multimod_compile_fail
             Compile a multi-module program,
             and expect the compilation to fail
-            with error messages in T.stderr
+            with error messages in T.stderr.  This kind of failure does '''not''' indicate a bug in the compiler.
 
       multimod_compile_and_run
             Compile and run a multi-module
