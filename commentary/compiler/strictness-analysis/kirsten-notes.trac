@@ -28,3 +28,23 @@ if f =
 (\ x. (\ y. ...))
 }}}
 then we can mark the outer two lambdas as being one-shot. Right?
+
+Not exactly. Suppose:
+{{{
+let f = \ x. \ y. ... in
+  ...(f 1 2)...(f 3 4)...
+}}}
+f will have demand on it:
+{{{
+SMK(SMK(LMX))
+}}}
+because it's called more than once. (But maybe that's okay? If it instead were:
+{{{
+let f = \ x. \ y. ... in
+  ...(f 1)...(f 3 4)...
+}}}
+then the demand would be:
+{{{
+SMK(LMX)
+}}}
+and we would know that there was a partial application? Getting confused here.)
