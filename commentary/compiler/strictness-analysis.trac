@@ -97,3 +97,5 @@ There are a couple of tricky things about the list of arg-demands:
  * If the result demand is not strict, we want to use ''n'' copies of {{{topDmd}}} as the list of arg-demands, where ''n'' is this data constructor's arity.
 
 (!ToDo: explain the other cases of {{{dmdTransform}}})
+
+[wiki:Commentary/Compiler/StrictnessAnalysis/KirstenNotes even more sketchy notes]
