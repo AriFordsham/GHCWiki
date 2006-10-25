@@ -25,6 +25,8 @@ Do not forget to {{{darcs record}}} your changes first!
 
 Guidelines for pushing patches to GHC:
 
+ * We have separate guidelines for proposing changes to standard libraries; see [http://haskell.org/haskellwiki/Library_submissions Library Submissions].
+
  * Try to make small patches (i.e. work in consistent increments).
 
  * If possible, push often.  This helps to avoid conflicts.
