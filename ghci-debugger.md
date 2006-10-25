@@ -1,5 +1,3 @@
-# Work in Progress
-
 # Report of the implementation of the GHCi debugger
 
 
@@ -235,15 +233,28 @@ While I was trying to get the generated core for a breakpoint to lint, I made th
 
 The approach followed here has been the well known 'do the simplest thing that could possibly work'. We instrument the code with 'auto' breakpoints at event *sites*. Currently event sites are code locations where names are bound, and statements:
 
-- let declarations
-- where declarations 
-- top level declarations 
-- case alternatives 
-- lambda abstractions
+- Binding sites (top level, let/where local bindings, case alternatives, lambda abstractions, etc.)
 - do statements (any variant of them)
 
 
 The instrumentation is done at the desugarer too, which has been extended accordingly. We distinguish between 'auto' breakpoints, those introduced by the desugarer, and 'normal' breakpoints user created by using the `breakpoint` function directly.
+
+## The D in Dynamic Breakpoints
+
+
+When we instrument the code we insert a flavor of regular breakpoints which know about their site number. So when one of these is hit, ghci finds out whether that site is enabled and acts accordingly.
+GHCi thus stores a boolean matrix of enabled breakpoint sites. This scheme is realized in [ Breakpoints.hs](http://darcs.haskell.org/SoC/ghc.debugger/compiler/main/Breakpoints.hs):
+
+```wiki
+data BkptTable a  = BkptTable { 
+     breakpoints :: Map.Map a (UArray Int Bool)  -- *An array of breaks, indexed by site number
+   , sites       :: Map.Map a [[(SiteNumber, Int)]] -- *A list of lines, each line can have zero or more sites, which are annotated with a column number
+   }
+```
+
+
+Since this structure needs to be accessed every time a breakpoint is hit and is modified extremely few times in comparison, the goal is to have as fast access time as possible. Most of the overhead is due to this structure.
+It's too bad that I haven't explored alternative designs. (Using bits instead of Bools in the matrix? discard the matrix thing and use an IORef in every breakpoint? some clever trick using the FFI?). 
 
 ## Overhead
 
