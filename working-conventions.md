@@ -14,7 +14,7 @@ To submit patches to the developers, please use `darcs send`.  You don't need an
 ## Committing changes
 
 
-If you have commit permission (pretty easy to get, just demonstrate your competence by sending us a patch or two first), then you can use `darcs push` to commit changes directly to the main repository.
+If you have permission to push patches directly to the repository (pretty easy to get, just demonstrate your competence by sending us a patch or two first), then you can use `darcs push`:
 
 ```wiki
   $ darcs push <account>@darcs.haskell.org:/home/darcs/ghc
@@ -26,13 +26,26 @@ If you have commit permission (pretty easy to get, just demonstrate your compete
 
 Do not forget to `darcs record` your changes first!
 
-
-Please test changes before committing: you can run a cut-down version of the full test suite like this:
-
-```wiki
-  $ cd testsuite/tests/ghc-regress
-  $ make fast
-```
+### When to record/push
 
 
-You need to have `testsuite` checked out, of course.  Running `make fast` should only take a few minutes.
+Guidelines for pushing patches to GHC:
+
+- Try to make small patches (i.e. work in consistent increments).
+
+- If possible, push often.  This helps to avoid conflicts.
+
+- Rather than push conflicting patches followed by conflict resolutions, use
+  amend-record to make a single patch.  Darcs currently doesn't handle conflicts
+  well, so we are trying to keep the HEAD clean of conflicts for now.  It doesn't
+  matter so much on the stable branches though.
+
+- Try not to break anything.  At the minimum, the tree should build on your system with
+  the patch, better still [test your changes](building/running-tests) before
+  pushing.  The nightly builds will show up any breakage on other platforms.
+
+  If you do end up breaking the build then it's not the end of the world,
+  so don't sweat about it too much. History shows that even people
+  called Simon are not immune from doing so!
+
+- Discuss anything you think might be controversial before pushing it.
