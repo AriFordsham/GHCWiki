@@ -32,7 +32,7 @@ In addition, the renamer does the following things:
 
  * Lots of lexical error checking: variables out of scope, unused bindings, unused imports, patterns that use the same binder many times, etc.
 
-The renamer sits between the parser and the typechecker. However, its operation is quite tightly interwoven with the typechecker. This is mainly due to support for Template Haskell, where spliced code has to be renamed and type checked. In particular, top-level splices lead to multiple rounds of renaming and type checking.  It uses the [wike:Commentary/Compiler/TcRnMonad same monad as the typechecker].
+The renamer sits between the parser and the typechecker. However, its operation is quite tightly interwoven with the typechecker. This is mainly due to support for Template Haskell, where spliced code has to be renamed and type checked. In particular, top-level splices lead to multiple rounds of renaming and type checking.  It uses the [wiki:Commentary/Compiler/TcRnMonad same monad as the typechecker].
 
 == The global renamer environment, {{{GlobalRdrEnv}}} == 
 
