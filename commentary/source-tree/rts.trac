@@ -23,7 +23,7 @@ There are three types of files:
    example, the implementation of primitives, exceptions, and so on.  A {{{.cmm}}} file is
    pseudo C--: more or less C-- syntax with some omissions and some additional macro-like
    extensions implemented by GHC.  The {{{.cmm}}} files are compiled using GHC itself: see
-   [wiki:Commentary/Compiler/CmmFiles].
+   [wiki:Commentary/Rts/Cmm].
 
 === Subdirectories of rts/ ===
 
@@ -35,6 +35,9 @@ There are three types of files:
  {{{hooks/}}}::
    Hooks for changing the RTS behaviour from client code, eg. changing the default heap size. (see User's Guide
    for more about hooks).
+
+ {{{sm/}}}::
+   The [wiki:Commentary/Rts/Storage Storage Manager].
 
 === Haskell Execution ===
 
@@ -86,29 +89,26 @@ All this code runs on the Haskell side of the Haskell/C divide;
  [http://darcs.haskell.org/ghc/rts/STM.c STM.c]::
   Implementation of Software Transactional Memory.
 
-=== The [wiki:Commentary/Rts/StorageManager Storage Manager] ===
+=== The [wiki:Commentary/Rts/Storage Storage Manager] ===
 
- [http://darcs.haskell.org/ghc/rts/Arena.c Arena.c], [http://darcs.haskell.org/ghc/rts/Arena.h Arena.h]::
-  An arena allocator
+ [http://darcs.haskell.org/ghc/rts/sm/Storage.c sm/Storage.c]::
+  Top-level of the storage manager.
 
- [http://darcs.haskell.org/ghc/rts/BlockAlloc.c BlockAlloc.c], [http://darcs.haskell.org/ghc/rts/BlockAlloc.h BlockAlloc.h]::
+ [http://darcs.haskell.org/ghc/rts/sm/MBlock.c sm/MBlock.c], [http://darcs.haskell.org/ghc/rts/sm/MBlock.h sm/MBlock.h], [http://darcs.haskell.org/ghc/rts/sm/OSMem.h sm/OSMem.h]::
+  The "megablock" allocator; this is the thin layer between the RTS and
+  the operating system for allocating memory.
+
+ [http://darcs.haskell.org/ghc/rts/sm/BlockAlloc.c sm/BlockAlloc.c], [http://darcs.haskell.org/ghc/rts/sm/BlockAlloc.h sm/BlockAlloc.h]::
   The low-level block allocator, requires only {{{MBlock}}}.
+
+ [http://darcs.haskell.org/ghc/rts/sm/GC.c sm/GC.c], [http://darcs.haskell.org/ghc/rts/sm/Scav.c sm/Scav.c], [http://darcs.haskell.org/ghc/rts/sm/Evac.c sm/Evac.c], [http://darcs.haskell.org/ghc/rts/sm/GCUtils.c sm/GCUtils.c], [http://darcs.haskell.org/ghc/rts/sm/MarkWeak.c sm/MarkWeak.c]::
+  The generational copying garbage collector.
+
+ [http://darcs.haskell.org/ghc/rts/sm/Compact.c sm/Compact.c], [http://darcs.haskell.org/ghc/rts/sm/Compact.h sm/Compact.h]::
+  The compacting garbage collector.
 
  [http://darcs.haskell.org/ghc/rts/ClosureFlags.c ClosureFlags.c]::
   Determining properties of various types of closures.
-
- [http://darcs.haskell.org/ghc/rts/GC.c GC.c]::
-  The generational copying garbage collector.
-
- [http://darcs.haskell.org/ghc/rts/GCCompact.c GCCompact.c], [http://darcs.haskell.org/ghc/rts/GCCompact.h GCCompact.h]::
-  The compacting garbage collector.
-
- [http://darcs.haskell.org/ghc/rts/Hash.c Hash.c], [http://darcs.haskell.org/ghc/rts/Hash.h Hash.h]::
-  A generic hash table implementation.
-
- [http://darcs.haskell.org/ghc/rts/MBlock.c MBlock.c], [http://darcs.haskell.org/ghc/rts/MBlock.h MBlock.h], [http://darcs.haskell.org/ghc/rts/OSMem.h OSMem.h]::
-  The "megablock" allocator; this is the thin layer between the RTS and
-  the operating system for allocating memory.
 
  [http://darcs.haskell.org/ghc/rts/Sanity.c Sanity.c], [http://darcs.haskell.org/ghc/rts/Sanity.h Sanity.h]::
   A sanity-checker for the heap and related data structures.
@@ -119,11 +119,18 @@ All this code runs on the Haskell side of the Haskell/C divide;
  [http://darcs.haskell.org/ghc/rts/Stable.c Stable.c]::
   Stable names and stable pointers.
 
- [http://darcs.haskell.org/ghc/rts/Storage.c Storage.c]::
-  Top-level of the storage manager.
-
  [http://darcs.haskell.org/ghc/rts/Weak.c Weak.c], [http://darcs.haskell.org/ghc/rts/Weak.h Weak.h]::
   Weak pointers.
+
+=== Data Structures ===
+
+Data structure abstractions for use in the RTS:
+
+ [http://darcs.haskell.org/ghc/rts/Arena.c Arena.c], [http://darcs.haskell.org/ghc/rts/Arena.h Arena.h]::
+  An arena allocator
+
+ [http://darcs.haskell.org/ghc/rts/Hash.c Hash.c], [http://darcs.haskell.org/ghc/rts/Hash.h Hash.h]::
+  A generic hash table implementation.
 
 === The [wiki:Commentary/Rts/Scheduler Scheduler] ===
 
@@ -144,6 +151,9 @@ All this code runs on the Haskell side of the Haskell/C divide;
 
  [http://darcs.haskell.org/ghc/rts/Threads.c Threads.c], [http://darcs.haskell.org/ghc/rts/Threads.h Threads.h]::
   Various thread-related functionality.
+
+ [http://darcs.haskell.org/ghc/rts/ThreadPaused.c ThreadPaused.c]::
+  Suspending a thread before it returns to the RTS.
 
  [http://darcs.haskell.org/ghc/rts/Task.c Task.c], [http://darcs.haskell.org/ghc/rts/Task.h Task.h]::
   Task: an OS-thread abstraction.
