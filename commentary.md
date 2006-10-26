@@ -8,7 +8,6 @@ Please feel free to add material to this commentary: don't worry too much about 
 
 ## Contents
 
-- [The overall organisation of GHC](commentary/organisation)
 - [Source Tree Roadmap](commentary/source-tree)
 - [The compilation pipeline](commentary/pipeline)
 
