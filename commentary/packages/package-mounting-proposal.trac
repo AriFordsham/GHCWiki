@@ -19,7 +19,7 @@ For example, the {{{X11}}} library currently has module namespace:
   ...
 }}}
 
-In this proposal, it might instead have default mount point {{{Graphics.X11}}} and module namespace:
+In this proposal, it might instead have default mount point {{{Graphics.X11}}} and (internal) module namespace:
 
 {{{
   Types
@@ -30,7 +30,7 @@ In this proposal, it might instead have default mount point {{{Graphics.X11}}} a
   ...
 }}}
 
-To most users of the X11 package, there would be no change - because of the mounting, modules in that package would still appear with the same names in places where the X11 package is used: {{{Graphics.X11.Types}}}, etc. However, if someone wanted to specify a different the mount point, he could use a special compiler option, for instance {{{-package-base}}}:
+To most users of the X11 package, there would be no change - because of the mounting, modules in that package would still appear with the same names in places where the X11 package is imported: {{{Graphics.X11.Types}}}, etc. However, if someone wanted to specify a different the mount point, he could use a special compiler option, for instance {{{-package-base}}}:
 
 {{{
   ghc -package X11 -package-base Graphics.Unix.X11 ...
@@ -46,10 +46,10 @@ or
 
 (yielding {{{NewX11.Types}}}, {{{NewX11.Xlib}}}, ...; {{{OldX11.Types}}}, {{{OldX11.Xlib}}}, ...)
 
-However, usually the default mount point would be used. Additionally, Cabal syntax should be extended to support mounting. I would suggest that a mount point appear after a package in the Build-Depends clause of a cabal file:
+However, usually the default mount point would be used. Additionally, Cabal syntax should be extended to support mounting. I would suggest that the optional mount point should appear after a package in the Build-Depends clause of a Cabal file:
 
 {{{
-  Build-Depends: X11(NewX11)
+  Build-Depends: X11(Graphics.Unix.X11.Xlib)
 }}}
 
 And in the package Cabal file, a new clause to specify the default mount point:
