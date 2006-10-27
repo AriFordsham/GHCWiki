@@ -79,6 +79,5 @@ SLIT("Hello, world")
 :731: macro `SLIT' used with too many (2) args
 }}}
     Alas, {{{cpp}}} doesn't tell you the offending file!
-    [[br]]
     Workaround: don't put weird things in string args to {{{cpp}}} macros.
 
