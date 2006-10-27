@@ -61,7 +61,7 @@ This installs the FreeBSD documentation project tools, which
 includes everything needed to format the GHC
 documentation.
 
-=== Installing from binaries on Windows
+=== Installing from binaries on Windows ===
 	
 Probably the fastest route to a working !DocBook environment on
 Windows is to install [http://www.cygwin.com/ Cygwin]
