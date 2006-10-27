@@ -1,5 +1,138 @@
-
+[[PageOutline]]
 
 = Building the documentation =
 
-Material on building the documentation is currently here http://www.haskell.org/ghc/docs/latest/html/building/building-docs.html, but need to be moved onto this page.  Please!
+    
+== Tools for building the Documentation ==
+
+The following additional tools are required if you want to
+format the documentation that comes with GHC:
+      
+ * {{{DocBook}}}
+   Much of our documentation is written in !DocBook XML, instructions
+   on installing and configuring the !DocBook tools are below.
+
+ * {{{TeX}}}
+   A decent TeX distribution is required if you want to
+   produce printable documentation.  We recomment teTeX,
+   which includes just about everything you need.
+
+ * {{{Haddock}}}
+   Haddock is a Haskell documentation tool that we use
+   for automatically generating documentation from the
+   library source code.  To build documentation for the
+   libraries ({{{$(GHC_TOP)/libraries}}}) you
+   should build and install Haddock.  Haddock requires GHC
+   to build.
+
+== Installing the !DocBook tools ==
+
+=== Installing the !DocBook tools on Linux ===
+
+If you're on a recent !RedHat (7.0+) or SuSE (8.1+) system,
+you probably have working !DocBook tools already installed. The
+configure script should detect your setup and you're away.
+
+If you don't have !DocBook tools installed, and you are
+using a system that can handle RPM packages, you can use
+[http://rpmfind.net/ Rpmfind.net] to find suitable
+packages for your system. Search for the packages
+{{{docbook-dtd}}},
+{{{docbook-xsl-stylesheets}}},
+{{{libxslt}}},
+{{{libxml2}}},
+{{{fop}}},
+{{{xmltex}}}, and
+{{{dvips}}}.
+
+=== Installing !DocBook on FreeBSD ===
+
+On FreeBSD systems, the easiest way to get !DocBook up
+and running is to install it from the ports tree or a
+pre-compiled package (packages are available from your local
+FreeBSD mirror site).
+
+To use the ports tree, do this:
+{{{
+$ cd /usr/ports/textproc/docproj
+$ make install
+}}}
+This installs the FreeBSD documentation project tools, which
+includes everything needed to format the GHC
+documentation.
+
+=== Installing from binaries on Windows
+	
+Probably the fastest route to a working !DocBook environment on
+Windows is to install [http://www.cygwin.com/ Cygwin]
+with the complete {{{Doc}}} category. If you are using
+["http://www.mingw.org/ MinGW] for compilation, you
+have to help {{{configure}}} a little bit: Set the
+environment variables {{{XmllintCmd}}} and
+{{{XsltprocCmd}}} to the paths of the Cygwin executables
+{{{xmllint}}} and {{{xsltproc}}},
+respectively, and set {{{fp_cv_dir_docbook_xsl}}} to the path
+of the directory where the XSL stylesheets are installed,
+e.g. {{{c:/cygwin/usr/share/docbook-xsl}}}.
+        
+
+If you want to build HTML Help, you have to install the
+[http://msdn.microsoft.com/library/default.asp?url=/library/en-us/htmlhelp/html/hworiHTMLHelpStartPage.asp HTML Help SDK],
+too, and make sure that {{{hhc}}} is in your {{{PATH}}}.
+
+== Configuring the !DocBook tools ==
+
+Once the !DocBook tools are installed, the configure script
+will detect them and set up the build system accordingly. If you
+have a system that isn't supported, let us know, and we'll try
+to help.
+
+== Building the documentation ==
+
+To build documentation in a certain format, you can
+say, for example,
+
+{{{
+$ make html
+}}}
+
+to build HTML documentation below the current directory.
+The available formats are: {{{dvi}}},
+{{{ps}}}, {{{pdf}}},
+{{{html}}}, and {{{rtf}}}.  Note that
+not all documentation can be built in all of these formats: HTML
+documentation is generally supported everywhere, and !DocBook
+documentation might support the other formats (depending on what
+other tools you have installed).
+
+All of these targets are recursive; that is, saying
+{{{make html}}} will make HTML docs for all the
+documents recursively below the current directory.
+
+Because there are many different formats that the !DocBook
+documentation can be generated in, you have to select which ones
+you want by setting the {{{XMLDocWays}}} variable
+to a list of them.  For example, in
+{{{build.mk}}} you might have a line:
+{{{
+XMLDocWays = html ps
+}}}
+This will cause the documentation to be built in the requested
+formats as part of the main build (the default is not to build
+any documentation at all).
+
+== Installing the documentation ==
+
+To install the documentation, use:
+{{{
+$ make install-docs
+}}}
+This will install the documentation into
+{{{$(datadir)}}} (which defaults to
+{{{$(prefix)/share}}}).  The exception is HTML
+documentation, which goes into
+{{{$(datadir)/html}}}, to keep things tidy.
+
+Note that unless you set {{{$(XMLDocWays)}}}
+to a list of formats, the {{{install-docs}}} target
+won't do anything for !DocBook XML documentation.
