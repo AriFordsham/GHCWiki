@@ -38,6 +38,10 @@ To run the tests one particular way only (eg. GHCi):
 {{{
         make WAY=ghci
 }}}
+To add specific options to the compiler:
+{{{
+        make EXTRA_HC_OPTS='+RTS -K32M -RTS' 
+}}}
 For more details, see below.
 
 = Running the testsuite with a compiler other than GHC =
@@ -86,6 +90,7 @@ The following ways are defined (for GHC, also see the file config/ghc):
         extcore                 -- -fext-core
         optextcore              -- -O -fext-core
         threaded                -- -threaded
+        hpc                     -- -fhpc
 }}}
 certain ways are enabled automatically if the GHC build in the local
 tree supports them.  Ways that are enabled this way are optasm, prof,
