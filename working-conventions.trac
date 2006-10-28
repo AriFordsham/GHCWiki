@@ -24,7 +24,7 @@ If you have permission to push patches directly to the repository (pretty easy t
 
 Do not forget to {{{darcs record}}} your changes first!
 
-=== Guidelines for pushing patches ===
+== Guidelines for pushing patches ==
 
  * We have separate guidelines for proposing changes to standard libraries; see [http://haskell.org/haskellwiki/Library_submissions Library Submissions].
 
