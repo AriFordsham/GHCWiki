@@ -1,25 +1,5 @@
-CONVERSION ERROR
+# GHC Status October 2006
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Status/October06"
-  queryString          = "?version=4"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:58:32 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Status/October06\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
-
-Original source:
-
-```trac
-= GHC Status October 2006 =
 
 GHC is in good shape. We have no good way to measure how many GHC
 users there are, but if the traffic on the GHC mailing lists is
@@ -29,37 +9,40 @@ Simon) were becoming swamped in GHC-related mail.  Happily,
 Microsoft Research has agreed to fund a full-time support engineer,
 in the form of Ian Lynagh, who has already made a huge difference.
 
+
 Other highlights of the last six months are these:
 
- * With wonderful support from Galois and Portland State University, we ran a '''GHC Hackathon''' immediately before ICFP in Portland.  Forty-plus people showed up to have GHC's innards inflicted on them, and appeared unharmed by the experience.
+- With wonderful support from Galois and Portland State University, we ran a **GHC Hackathon** immediately before ICFP in Portland.  Forty-plus people showed up to have GHC's innards inflicted on them, and appeared unharmed by the experience.
 
-  A significant outcome is that we have written a great deal of Wiki material about GHC's implementation (the "commentary"), and about how to build and modify GHC (the "building guide").  Documents with these titles were available before, but had become rather out of date.  These new, up-to-date documents live on the GHC developer's Wiki.  We urge you to read and improve them:   [http://hackage.haskell.org/trac/ghc/wiki] (near the bottom).
-  
-  * We (finally) released '''GHC 6.6''' in October 2006. There was an extended period of release-candidate testing, so we fondly hope that this will be a relatively stable release.
+> >
+> > A significant outcome is that we have written a great deal of Wiki material about GHC's implementation (the "commentary"), and about how to build and modify GHC (the "building guide").  Documents with these titles were available before, but had become rather out of date.  These new, up-to-date documents live on the GHC developer's Wiki.  We urge you to read and improve them:   [ http://hackage.haskell.org/trac/ghc/wiki](http://hackage.haskell.org/trac/ghc/wiki) (near the bottom).
 
-  * We completely replaced GHC's intermediate language with '''System FC(X)''', an extension of System F with explicit equality witnesses.  This enables GHC to support GADTs and associated types, with two new simple but powerful mechanisms. The paper is at [http://research.microsoft.com/%7Esimonpj/papers/ext-f/]. Much of the conversion work was done by Kevin Donnelly, while he was on an internship at Microsoft.
+- We (finally) released **GHC 6.6** in October 2006. There was an extended period of release-candidate testing, so we fondly hope that this will be a relatively stable release.
 
- * Manuel Chakravarty has implemented '''type-indexed data types''', a modest generalisation of the ''associated data types'' of our POPL'05 paper  [http://research.microsoft.com/%7Esimonpj/papers/assoc%2Dtypes/]. The implementation is in the HEAD and is pretty complete; still to come is the user documentation, and some bits around the edges on `deriving`.
+- We completely replaced GHC's intermediate language with **System FC(X)**, an extension of System F with explicit equality witnesses.  This enables GHC to support GADTs and associated types, with two new simple but powerful mechanisms. The paper is at [ http://research.microsoft.com/%7Esimonpj/papers/ext-f/](http://research.microsoft.com/%7Esimonpj/papers/ext-f/). Much of the conversion work was done by Kevin Donnelly, while he was on an internship at Microsoft.
 
- * Roman Leshchinskiy has been hard at work developing libraries that support '''data-parallel computation''' in GHC.  It's not quite ready for public consumption, but you can peek at what is going on by looking at the Haskell Wiki: [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell]  Background material here: [http://www.cse.unsw.edu.au/~chak/papers/CKLP01.html]
+- Manuel Chakravarty has implemented **type-indexed data types**, a modest generalisation of the *associated data types* of our POPL'05 paper  [ http://research.microsoft.com/%7Esimonpj/papers/assoc%2Dtypes/](http://research.microsoft.com/%7Esimonpj/papers/assoc%2Dtypes/). The implementation is in the HEAD and is pretty complete; still to come is the user documentation, and some bits around the edges on `deriving`.
 
- * At the moment GHC's '''garbage collector''' is single-threaded, even when GHC is running on a multiprocessor.  Roshan James spent the summer at Microsoft on an internship, implementing a multi-threaded GC.  We need to do a bit more work, but with a bit of luck we'll push a parallel garbage collector into the HEAD before Christmas.
+- Roman Leshchinskiy has been hard at work developing libraries that support **data-parallel computation** in GHC.  It's not quite ready for public consumption, but you can peek at what is going on by looking at the Haskell Wiki: [ http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)  Background material here: [ http://www.cse.unsw.edu.au/\~chak/papers/CKLP01.html](http://www.cse.unsw.edu.au/~chak/papers/CKLP01.html)
 
- * We finally bit the bullet and '''lifted the restriction that every module in a Haskell program must have a distinct name'''.  Why?  Because it's non-modular: two packages from different authors could accidentally collide.  This change is in GHC 6.6; there are some remaining open choices dicussed here [http://hackage.haskell.org/trac/ghc/wiki/GhcPackages].
+- At the moment GHC's **garbage collector** is single-threaded, even when GHC is running on a multiprocessor.  Roshan James spent the summer at Microsoft on an internship, implementing a multi-threaded GC.  We need to do a bit more work, but with a bit of luck we'll push a parallel garbage collector into the HEAD before Christmas.
 
- * Tim Harris added support for '''invariants''' to GHC's Software Transactional Memory (STM) implementation. Paper here: [http://research.microsoft.com/%7Esimonpj/papers/stm/].
+- We finally bit the bullet and **lifted the restriction that every module in a Haskell program must have a distinct name**.  Why?  Because it's non-modular: two packages from different authors could accidentally collide.  This change is in GHC 6.6; there are some remaining open choices dicussed here [ http://hackage.haskell.org/trac/ghc/wiki/GhcPackages](http://hackage.haskell.org/trac/ghc/wiki/GhcPackages).
 
- * Bjorn Bringert (a GHC Hackathon graduate) implemented '''standalone deriving''', which allows you to write a `deriving` declaration anywhere, rather than only where the data type is declared.  Details of the syntax have not yet quite settled.  See also [http://www.haskell.org/pipermail/haskell-prime/2006-October/001725.html].
+- Tim Harris added support for **invariants** to GHC's Software Transactional Memory (STM) implementation. Paper here: [ http://research.microsoft.com/%7Esimonpj/papers/stm/](http://research.microsoft.com/%7Esimonpj/papers/stm/).
 
- * Andy Gill implemented the Haskell Program Coverage Option('''-fhpc''') for GHC, which succesfully bootstrapped GHC. It turns out that the GHC testsuite gives remarkably good coverage over GHC already.
+- Bjorn Bringert (a GHC Hackathon graduate) implemented **standalone deriving**, which allows you to write a `deriving` declaration anywhere, rather than only where the data type is declared.  Details of the syntax have not yet quite settled.  See also [ http://www.haskell.org/pipermail/haskell-prime/2006-October/001725.html](http://www.haskell.org/pipermail/haskell-prime/2006-October/001725.html).
+
+- Andy Gill implemented the ""Haskell Program Coverage"" option (**-fhpc**) for GHC, which succesfully bootstrapped GHC. It turns out that the GHC testsuite gives remarkably good coverage over GHC already.
+
 
 Forthcoming excitements:
 
- *  Simon PJ is determined to finally implement '''implication constraints''', which are the key to fixing the interaction between GADTs and type classes.   GHC's users have been very polite about this collection of bugs, but they should really be fixed.  Implication constraints are described by Martin Sulzmann: [http://www.comp.nus.edu.sg/~sulzmann/publications/tr-eadt.ps.gz].
+-  Simon PJ is determined to finally implement **implication constraints**, which are the key to fixing the interaction between GADTs and type classes.   GHC's users have been very polite about this collection of bugs, but they should really be fixed.  Implication constraints are described by Martin Sulzmann: [ http://www.comp.nus.edu.sg/\~sulzmann/publications/tr-eadt.ps.gz](http://www.comp.nus.edu.sg/~sulzmann/publications/tr-eadt.ps.gz).
 
- * We hope to release a first iteration of our '''data-parallel extensions''' before Christmas.
+- We hope to release a first iteration of our **data-parallel extensions** before Christmas.
 
- * Once ''indexed data types'' are done, Manuel will be tackling '''indexed type synonyms''' (aka type functions), which are considerably tricker, at least so far as type inference is concerned.
+- Once *indexed data types* are done, Manuel will be tackling **indexed type synonyms** (aka type functions), which are considerably tricker, at least so far as type inference is concerned.
+
 
 Simon Peyton Jones & Simon Marlow, October 2006
-```
