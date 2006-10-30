@@ -1,7 +1,7 @@
 # The semi-tagging optimisation
 
 
-Here I describe the design of the semi-tagging optimisation. Currently most of the text comes from [ http://hackage.haskell.org/trac/summer-of-code/ticket/48](http://hackage.haskell.org/trac/summer-of-code/ticket/48)
+Here I describe the design of the semi-tagging optimisation. Originally the text comes from [ http://hackage.haskell.org/trac/summer-of-code/ticket/48](http://hackage.haskell.org/trac/summer-of-code/ticket/48)
 
 
 This page reflects my current understanding on the compiler and the RTS, so if there is something wrong, just yell!
@@ -18,7 +18,61 @@ case x of { ... }
 
 GHC jumps to the code for (i.e. "enters") the x closure, which returns when x is evaluated. Commonly, x is already evaluated, and the code for an evaluated constructor just (vector) returns immediately.
 
-*Alexey: add some example HC code here*
+
+The code for the `not` function:
+
+```wiki
+not x = case x of
+        False -> True
+        True  -> False
+```
+
+
+jumps to the boolean argument, passed in `R2`, after pushing a case frame (the continuation of the function):
+
+```wiki
+        <stack check omitted>
+        R1 = R2;
+        I64[Sp + (-8)] = sej_info;
+        Sp = Sp + (-8);
+        jump I64[R1];
+```
+
+
+Before looking at the rest of the `not` function, let's look at the code for the `True` and `False` closures
+
+```wiki
+True_info:
+        jump <address to True alternative>;
+
+False_info:
+        jump <address to False alternative>;
+```
+
+
+they just jump to the appropriate case alternative that is evaluating the closure. These addresses are calculated from the case frame that is on the top of the stack. In this case they select the alternatives from the jump table that is referred to by the `not` case frame. Below you see the `True` alternative
+
+```wiki
+sej_0_alt() {
+        R1 = False_closure;
+        Sp = Sp + 8;
+        jump <address to False alternative>;
+}
+```
+
+
+and the `False` alternative of the `not` function.
+
+```wiki
+sej_1_alt() {
+        R1 = True_closure;
+        Sp = Sp + 8;
+        jump <address to True alternative>;
+}
+```
+
+
+Just like the constructor closures, they jump to the appropriate branch of the case expression that is evaluating the `not` function.
 
 ## Testing before jumping
 
@@ -28,7 +82,22 @@ The simplest optimisation is this.  Instead of entering the closure, grab its in
 
 The benefit is that processors are typically faster at "test-and-jump to known location" than they are at "jump to this pointer".
 
-*Alexey: add some example HC code here*
+
+Under this scheme, the entry code for the `not` function would look as follows:
+
+```wiki
+        if(R2 & 1 == 1) goto tagged
+        <stack check omitted>
+        R1 = R2;
+        I64[Sp + (-8)] = sej_info;
+        Sp = Sp + (-8);
+        jump I64[R1];
+tagged:
+        R1 = R2 & ~1;  // mask pointer tag out
+        <extract constructor tag from pointer>
+        if(tag==0) goto sej_0_alt
+        goto sej_1_alt
+```
 
 ## Tagging the LSB of an evaluated closure
 
@@ -56,6 +125,9 @@ This would require modifying
 - the GC to set the LSB bit of constructor closure pointers,
 - the GC and the RTS code to mask out the LSB pointer when dereferencing it,
 - the code generation to test the LSB bit and case expressions and avoid the indirect jump.
+
+
+(Simon, thanks for the example. I was hoping to not have to enter constructor closures but the second bullet example shows why entering constructors can still happen. However, can't the example just be `f xs = head xs`? --Alexey)
 
 ## Using more than one bit
 
