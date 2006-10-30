@@ -1,7 +1,7 @@
 # The semi-tagging optimisation
 
 
-Here I describe the design of the semi-tagging optimisation. Currently most of the text comes from [ http://hackage.haskell.org/trac/summer-of-code/ticket/48](http://hackage.haskell.org/trac/summer-of-code/ticket/48)
+Here I describe the design of the semi-tagging optimisation. Originally the text comes from [ http://hackage.haskell.org/trac/summer-of-code/ticket/48](http://hackage.haskell.org/trac/summer-of-code/ticket/48)
 
 
 This page reflects my current understanding on the compiler and the RTS, so if there is something wrong, just yell!
@@ -31,7 +31,7 @@ not x = case x of
 jumps to the boolean argument, passed in `R2`, after pushing a case frame (the continuation of the function):
 
 ```wiki
-        ... stack check omitted ...
+        <stack check omitted>
         R1 = R2;
         I64[Sp + (-8)] = sej_info;
         Sp = Sp + (-8);
@@ -87,7 +87,7 @@ Under this scheme, the entry code for the `not` function would look as follows:
 
 ```wiki
         if(R2 & 1 == 1) goto tagged
-        ... stack check omitted ...
+        <stack check omitted>
         R1 = R2;
         I64[Sp + (-8)] = sej_info;
         Sp = Sp + (-8);
