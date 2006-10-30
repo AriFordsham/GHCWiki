@@ -39,26 +39,40 @@ jumps to the boolean argument, passed in `R2`, after pushing a case frame (the c
 ```
 
 
-The case frame points to a table that has pointers to the alternatives of the case. Below you see the `False`
+Before looking at the rest of the `not` function, let's look at the code for the `True` and `False` closures
+
+```wiki
+True_info:
+        jump <address to True alternative>;
+
+False_info:
+        jump <address to False alternative>;
+```
+
+
+they just jump to the appropriate case alternative that is evaluating the closure. These addresses are calculated from the case frame that is on the top of the stack. In this case they select the alternatives from the jump table that is referred to by the `not` case frame. Below you see the `True` alternative
 
 ```wiki
 sej_0_alt() {
         R1 = False_closure;
         Sp = Sp + 8;
-        jump <vectored return to False alternative>;
+        jump <address to False alternative>;
 }
 ```
 
 
-and `True` alternatives of the not function.
+and the `False` alternative of the `not` function.
 
 ```wiki
 sej_1_alt() {
         R1 = True_closure;
         Sp = Sp + 8;
-        jump <vectored return to True alternative>;
+        jump <address to True alternative>;
 }
 ```
+
+
+Just like the constructor closures, they jump to the appropriate branch of the case expression that is evaluating the `not` function.
 
 ## Testing before jumping
 
