@@ -12,7 +12,20 @@ case x of { ... }
 }}}
 GHC jumps to the code for (i.e. "enters") the x closure, which returns when x is evaluated. Commonly, x is already evaluated, and the code for an evaluated constructor just (vector) returns immediately.
 
-''Alexey: add some example HC code here''
+The code for the {{{not}}} function:
+{{{
+not x = case x of
+        False -> True
+        True  -> False
+}}}
+jumps to the boolean argument, passed in {{{R2}}}, after pushing a case-frame (the continuation of the function):
+{{{
+        ... stack check omitted ...
+        R1 = R2;
+        I64[Sp + (-8)] = sej_info;
+        Sp = Sp + (-8);
+        jump I64[R1];
+}}}
 
 == Testing before jumping ==
 
