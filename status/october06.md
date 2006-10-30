@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Status/October06"
-  queryString          = "?version=3"
+  queryString          = "?version=4"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:57:52 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Status/October06\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:58:32 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Status/October06\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -31,7 +31,7 @@ in the form of Ian Lynagh, who has already made a huge difference.
 
 Other highlights of the last six months are these:
 
- * With wonderful support from Galois, we ran a '''GHC Hackathon''' immediately before ICFP in Portland.  Forty-plus people showed up to have GHC's innards inflicted on them, and appeared unharmed by the experience.
+ * With wonderful support from Galois and Portland State University, we ran a '''GHC Hackathon''' immediately before ICFP in Portland.  Forty-plus people showed up to have GHC's innards inflicted on them, and appeared unharmed by the experience.
 
   A significant outcome is that we have written a great deal of Wiki material about GHC's implementation (the "commentary"), and about how to build and modify GHC (the "building guide").  Documents with these titles were available before, but had become rather out of date.  These new, up-to-date documents live on the GHC developer's Wiki.  We urge you to read and improve them:   [http://hackage.haskell.org/trac/ghc/wiki] (near the bottom).
   
@@ -50,6 +50,8 @@ Other highlights of the last six months are these:
  * Tim Harris added support for '''invariants''' to GHC's Software Transactional Memory (STM) implementation. Paper here: [http://research.microsoft.com/%7Esimonpj/papers/stm/].
 
  * Bjorn Bringert (a GHC Hackathon graduate) implemented '''standalone deriving''', which allows you to write a `deriving` declaration anywhere, rather than only where the data type is declared.  Details of the syntax have not yet quite settled.  See also [http://www.haskell.org/pipermail/haskell-prime/2006-October/001725.html].
+
+ * Andy Gill implemented the Haskell Program Coverage Option('''-fhpc''') for GHC, which succesfully bootstrapped GHC. It turns out that the GHC testsuite gives remarkably good coverage over GHC already.
 
 Forthcoming excitements:
 
