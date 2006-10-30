@@ -31,14 +31,14 @@ Other files that contain some reference to External Core or are otherwise releva
 
 == Tasks ==
 
-  * Update the External Core data type to be compatible with the current Core data type.
   * Define an external text representation for External Core (which will probably be simply a minor modification of the old format)
+  * Update the External Core data type to be compatible with the current Core data type. (mostly done)
+  * Update {{{PprExternalCore.lhs}}} to print stuff that {{{LexCore}}} and {{{ParserCore}}} can understand. (mostly done)
+  * Update {{{MkExternalCore.lhs}}} to support both the current Core and the new External Core. (mostly done)
   * Update {{{LexCore.hs}}}, {{{ParserCore.y}}}, and {{{ParserCoreUtils.hs}}} to support the new data type and external syntax.
-  * Update {{{MkExternalCore.lhs}}} to support both the current Core and the new External Core.
-  * Update {{{PprExternalCore.lhs}}} to print stuff that {{{LexCore}}} and {{{ParserCore}}} can understand.
   * Convert the current External Core documentation (in LaTeX) into a chapter (in XML) in the User's Guide.
 
 == Miscellaneous notes ==
 
   * The LaTeX documentation describes PrimOps in some detail. This information is now in the library documentation, so it is probably not needed in the External Core chapter.
-  * Core now uses {{{Name}}} ([[GhcFile(compiler/basicTypes/Name.lhs)]]) rather than {{{IfaceExtName}}}.
+  * {{{IfaceSyn}}} now uses {{{Name}}} ([[GhcFile(compiler/basicTypes/Name.lhs)]]) rather than {{{IfaceExtName}}}.
