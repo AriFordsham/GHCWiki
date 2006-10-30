@@ -76,7 +76,7 @@ This proposal has several advantages over the PackageImports proposal.
 
  * ''Development decoupled from naming''. (there is a bit of overlap with previous points here) In the present proposal, programmers would be able to start writing a library before deciding on a name for the library. For instance, every module in the {{{Parsec}}} library contains the prefix {{{Text.ParserCombinators.Parsec}}}. This means that either the author of the library had to choose the name {{{Parsec}}} at the very beginning, or he had to make several changes to the text of each module after deciding on the name. Under the present proposal, he would simply call his modules {{{Char}}}, {{{Combinator}}}, {{{Error}}}, etc.; the {{{Text.ParserCombinators}}} prefix would be specified in the build system, for instance in the Cabal file.
 
-Frederik's mailing list message discusses some other minor advantages, but the above points are the important ones. In summary, it is argued that the above proposal should be preferred to GhcPackages because it is both easier to implement (using command line options rather than syntax), and more advantageous for the programmer.
+Frederik's mailing list message discusses some other minor advantages, but the above points are the important ones. In summary, it is argued that the above proposal should be preferred to PackageImports because it is both easier to implement (using command line options rather than syntax), and more advantageous for the programmer.
 
 === Note on Package Grafting ===
 
