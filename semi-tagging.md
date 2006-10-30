@@ -28,7 +28,7 @@ not x = case x of
 ```
 
 
-jumps to the boolean argument, passed in `R2`, after pushing a case-frame (the continuation of the function):
+jumps to the boolean argument, passed in `R2`, after pushing a case frame (the continuation of the function):
 
 ```wiki
         ... stack check omitted ...
@@ -36,6 +36,28 @@ jumps to the boolean argument, passed in `R2`, after pushing a case-frame (the c
         I64[Sp + (-8)] = sej_info;
         Sp = Sp + (-8);
         jump I64[R1];
+```
+
+
+The case frame points to a table that has pointers to the alternatives of the case. Below you see the `False`
+
+```wiki
+sej_0_alt() {
+        R1 = False_closure;
+        Sp = Sp + 8;
+        jump <vectored return to False alternative>;
+}
+```
+
+
+and `True` alternatives of the not function.
+
+```wiki
+sej_1_alt() {
+        R1 = True_closure;
+        Sp = Sp + 8;
+        jump <vectored return to True alternative>;
+}
 ```
 
 ## Testing before jumping
