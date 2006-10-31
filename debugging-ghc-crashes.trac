@@ -140,7 +140,7 @@ symbol relates to, and ''kind'' is the kind of symbol:
 ||{{{con_info}}}||an info table for a constructor||
 ||{{{fast}}}||a primitive||
 
-(see [http://darcs.haskell.org/ghc/ghc/compiler/cmm/CLabel.hs CLabel.hs]
+(see [http://darcs.haskell.org/ghc/compiler/cmm/CLabel.hs CLabel.hs]
 for a table of these).
 
 For example:
