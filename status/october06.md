@@ -50,7 +50,7 @@ We are now working on lots of new stuff that isn't yet in GHC HEAD, but will end
 
 - Simon PJ is determined to finally implement **implication constraints**, which are the key to fixing the interaction between GADTs and type classes.   GHC's users have been very polite about this collection of bugs, but they should really be fixed.  Implication constraints are described by Martin Sulzmann: [ http://www.comp.nus.edu.sg/\~sulzmann/publications/tr-eadt.ps.gz](http://www.comp.nus.edu.sg/~sulzmann/publications/tr-eadt.ps.gz).
 
-- Once the last bits of *indexed data types* are done, Manuel will be tackling **indexed type synonyms** (aka type functions), which are considerably tricker, at least so far as type inference is concerned.
+- Once the last bits of indexed data types are done, Manuel will be tackling **indexed type synonyms** (aka type functions), which are considerably tricker, at least so far as type inference is concerned.
 
 
-Simon, Simon & sons, October 2006 :)
+Simon, Simon, with help from Manuel, Bulat and others, October 2006 :)
