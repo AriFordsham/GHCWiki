@@ -23,7 +23,7 @@ We (finally) released **GHC 6.6** in October 2006. There was an extended period 
 - We finally bit the bullet and **lifted the restriction that every module in a Haskell program must have a distinct name**.  Why?  Because it's non-modular: two packages from different authors could accidentally collide.  This change is in GHC 6.6; there are some remaining open choices dicussed here [ http://hackage.haskell.org/trac/ghc/wiki/GhcPackages](http://hackage.haskell.org/trac/ghc/wiki/GhcPackages).
 
 
-Life still go on, and current HEAD version (download url?) that will ultimately become GHC 6.8 adds new features:
+Life still goes on, and current HEAD version [ http://darcs.haskell.org/ghc/](http://darcs.haskell.org/ghc/) that will ultimately become GHC 6.8 adds new features:
 
 - We completely replaced GHC's intermediate language with **System FC(X)**, an extension of System F with explicit equality witnesses.  This enables GHC to support GADTs and associated types, with two new simple but powerful mechanisms. The paper is at [ http://research.microsoft.com/%7Esimonpj/papers/ext-f/](http://research.microsoft.com/%7Esimonpj/papers/ext-f/). Much of the conversion work was done by Kevin Donnelly, while he was on an internship at Microsoft.
 
