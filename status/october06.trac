@@ -30,7 +30,7 @@ Other highlights of the last six months are these:
 
  * Bjorn Bringert (a GHC Hackathon graduate) implemented '''standalone deriving''', which allows you to write a `deriving` declaration anywhere, rather than only where the data type is declared.  Details of the syntax have not yet quite settled.  See also [http://www.haskell.org/pipermail/haskell-prime/2006-October/001725.html].
 
- * Andy Gill implemented the ""Haskell Program Coverage"" option ('''-fhpc''') for GHC, which succesfully bootstrapped GHC. It turns out that the GHC testsuite gives remarkably good coverage over GHC already.
+ * Andy Gill implemented the '''Haskell Program Coverage''' option ('''-fhpc''') for GHC, which succesfully bootstrapped GHC. It turns out that the GHC testsuite gives remarkably good coverage over GHC already.
 
 Forthcoming excitements:
 
