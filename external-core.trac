@@ -38,7 +38,10 @@ Other files that contain some reference to External Core or are otherwise releva
   * Update {{{LexCore.hs}}}, {{{ParserCore.y}}}, and {{{ParserCoreUtils.hs}}} to support the new data type and external syntax.
   * Convert the current External Core documentation (in LaTeX) into a chapter (in XML) in the User's Guide.
 
+== Naming issues ==
+
+Since External Core was introduced, the {{{IfaceSyn}}} data type has changed. Originally (including in 6.6), it represented external name references using {{{IfaceExtName}}}. Now (in Darcs HEAD), it uses {{{Name}}} instead. This change leaves the External Core parser with the responsibility of generating a {{{Unique}}} for each name it encounters.
+
 == Miscellaneous notes ==
 
   * The LaTeX documentation describes PrimOps in some detail. This information is now in the library documentation, so it is probably not needed in the External Core chapter.
-  * {{{IfaceSyn}}} now uses {{{Name}}} ([[GhcFile(compiler/basicTypes/Name.lhs)]]) rather than {{{IfaceExtName}}}.
