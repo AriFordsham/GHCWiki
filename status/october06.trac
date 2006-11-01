@@ -23,7 +23,7 @@ We (finally) released '''GHC 6.6''' in October 2006. There was an extended perio
  * Monomorphic pattern bindings
  * Lastly, we finally bit the bullet and lifted the restriction that every module in a Haskell program must have a distinct name.  Why?  Because it's non-modular: two packages from different authors could accidentally collide.  This change is in GHC 6.6; there are some remaining open choices dicussed here [http://hackage.haskell.org/trac/ghc/wiki/GhcPackages].
 
-Life still goes on and current development version (HEAD), that will ultimately become GHC 6.8, already includes significant new features:
+Life still goes on and there is current development version (HEAD), that will ultimately become GHC 6.8. You can find binary snapshots at [http://www.haskell.org/ghc/dist/current/dist/ download page] or build from sources available via [http://darcs.haskell.org/ghc/ darcs repository]. This version already includes significant new features:
 
  * We have completely replaced GHC's intermediate language with '''System FC(X)''', an extension of System F with explicit equality witnesses.  This enables GHC to support GADTs and associated types, with two new simple but powerful mechanisms. The paper is at [http://research.microsoft.com/%7Esimonpj/papers/ext-f/]. Much of the conversion work was done by Kevin Donnelly, while he was on an internship at Microsoft.
 
@@ -34,8 +34,6 @@ Life still goes on and current development version (HEAD), that will ultimately 
  * Bjorn Bringert (a GHC Hackathon graduate) implemented '''standalone deriving''', which allows you to write a `deriving` declaration anywhere, rather than only where the data type is declared.  Details of the syntax have not yet quite settled.  See also [http://www.haskell.org/pipermail/haskell-prime/2006-October/001725.html].
 
  * Andy Gill implemented the '''Haskell Program Coverage''' option ('''-fhpc''') for GHC, which is solid enough to be used to test coverage in GHC itself.  (It turns out that the GHC testsuite gives remarkably good coverage over GHC already.)
-
- * You can find binary snapshots at [http://www.haskell.org/ghc/dist/current/dist/ download page] or build from sources available via [http://darcs.haskell.org/ghc/ darcs repository]
 
 We are now working on lots of new stuff that isn't yet in GHC HEAD but will end up there if all goes well and then become a part of GHC 6.8:
 
