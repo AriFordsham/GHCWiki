@@ -1,34 +1,52 @@
-# Hackathon presentations
+CONVERSION ERROR
 
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/AboutVideos"
+  queryString          = "?version=12"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:58:41 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","252"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/AboutVideos\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+
+Original source:
+
+```trac
+= Hackathon presentations =
 
 At the first GHC Hackathon (Portland 2006), the two Simons gave a number of informal presentations about the internals of GHC.  Since they mostly talked around the wiki material in the Commentary, I have tried to attach the videos to the relevant pages.  A full list also appears below. Here are some technical details about the video:
 
-- Format: QuickTime movie
-- Size: 320x240
-- Video Codec: H.264
-- Audio Codec: AAC (MPEG-4)
-- Frame rate: 15 fps
-- Key frames: 75
-- Hinted for streaming: yes
+ * Format: !QuickTime movie
+ * Size: 320x240
+ * Video Codec: H.264
+ * Audio Codec: AAC (MPEG-4)
+ * Frame rate: 15 fps
+ * Key frames: 75
+ * Hinted for streaming: yes
 
-
-Basically, if you have a Mac or Windows (2000 or later) PC with a recent version of iTunes (incorporates QuickTime), then they should stream for you.  You may need to wait for 30 seconds or more before they start to play.  If you don't have iTunes, then you can download just QuickTime for free from Apple:
-
-> [ http://www.apple.com/quicktime/](http://www.apple.com/quicktime/)
-
+Basically, if you have a Mac or Windows (2000 or later) PC with a recent version of iTunes (incorporates !QuickTime), then they should stream for you.  You may need to wait for 30 seconds or more before they start to play.  If you don't have iTunes, then you can download just !QuickTime for free from Apple:
+    http://www.apple.com/quicktime/
 
 The quality of the audio or (particularly) video may not be great.  They are intended mostly as a guide to the wiki commentary, so try to make sure you can see the wiki pages side by side with the video, because it may be difficult to make out the visual details otherwise.
 
-1. [ Intro](http://video.google.com/videoplay?docid=-5234070039625162234) to the Hackathon, purpose of the event (6'47")
-1. [ Documentation](http://video.google.com/videoplay?docid=-948887441048207316) - general orientation around the wiki (9'01")
-1. [ Getting and Building](http://video.google.com/videoplay?docid=7166458546326012899), layout of the source tree, how to set up build.mk (23'43")
-1. [ Compilation Pipeline I](http://video.google.com/videoplay?docid=-4326420154219711812), and interface files (17'30")
-1. [ Abstract Syntax](http://video.google.com/videoplay?docid=-8782356823569862556) representation, and how it interacts with parser/renamer/typechecker (1hr03')
-1. [ Compilation Pipeline II](http://video.google.com/videoplay?docid=5254545394467397086), the backend (10'16")
-1. [ Types and Classes](http://video.google.com/videoplay?docid=-3588273456984755597) internal representation (23'53")
-1. [ Specialisation](http://video.google.com/videoplay?docid=4856710845953456851), getting rid of class dictionaries (7'09")
-1. [ GHC Core Language](http://video.google.com/videoplay?docid=-8778691434558190641) internal representation (14'04")
-1. \[ STG language\] intermediate code (17'21")
-1. \[ CMM language\] C minus minus representation (6'32")
-1. \[ Big picture\] overview of the compiler pipeline (again) (20'23")
-1. still lots more to come...
+ 1. [http://video.google.com/videoplay?docid=-5234070039625162234 Intro] to the Hackathon, purpose of the event (6'47")
+ 1. [http://video.google.com/videoplay?docid=-948887441048207316 Documentation] - general orientation around the wiki (9'01")
+ 1. [http://video.google.com/videoplay?docid=7166458546326012899  Getting and Building], layout of the source tree, how to set up build.mk (23'43")
+ 1. [http://video.google.com/videoplay?docid=-4326420154219711812 Compilation Pipeline I], and interface files (17'30")
+ 1. [http://video.google.com/videoplay?docid=-8782356823569862556 Abstract Syntax] representation, and how it interacts with parser/renamer/typechecker (1hr03')
+ 1. [http://video.google.com/videoplay?docid=5254545394467397086 Compilation Pipeline II], the backend (10'16")
+ 1. [http://video.google.com/videoplay?docid=-3588273456984755597 Types and Classes] internal representation (23'53")
+ 1. [http://video.google.com/videoplay?docid=4856710845953456851 Specialisation], getting rid of class dictionaries (7'09")
+ 1. [http://video.google.com/videoplay?docid=-8778691434558190641 GHC Core Language] internal representation (14'04")
+ 1. [http://video.google.com/videoplay?docid=-2701204964659708761 STG language] intermediate code (17'21")
+ 1. [http://video.google.com/videoplay?docid=-3113809494987135588 CMM language] C minus minus representation (6'32")
+ 1. [http://video.google.com/videoplay?docid=-7209446285751038574 Big picture] overview of the compiler pipeline (again) (20'23")
+ 1. still lots more to come...
+```
