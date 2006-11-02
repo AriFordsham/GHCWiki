@@ -28,4 +28,7 @@ The quality of the audio or (particularly) video may not be great.  They are int
 1. [ Types and Classes](http://video.google.com/videoplay?docid=-3588273456984755597) internal representation (23'53")
 1. [ Specialisation](http://video.google.com/videoplay?docid=4856710845953456851), getting rid of class dictionaries (7'09")
 1. [ GHC Core Language](http://video.google.com/videoplay?docid=-8778691434558190641) internal representation (14'04")
+1. \[ STG language\] intermediate code (17'21")
+1. \[ CMM language\] C minus minus representation (6'32")
+1. \[ Big picture\] overview of the compiler pipeline (again) (20'23")
 1. still lots more to come...
