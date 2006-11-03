@@ -8,11 +8,9 @@ Simon) were becoming swamped in GHC-related mail.  Happily,
 Microsoft Research has agreed to fund a full-time support engineer,
 in the form of Ian Lynagh, who has already made a huge difference.
 
-Other highlights of the last six months are these:
+A highlight of the last six months was the '''GHC Hackathon''', which we ran a immediately before ICFP in Portland, with wonderful support from Galois and Portland State University.  Forty-plus people showed up to have GHC's innards inflicted on them, and appeared unharmed by the experience.
 
- * With wonderful support from Galois and Portland State University, we ran a '''GHC Hackathon''' immediately before ICFP in Portland.  Forty-plus people showed up to have GHC's innards inflicted on them, and appeared unharmed by the experience.
-
-  A significant outcome is that we have written a great deal of Wiki material about GHC's implementation (the "commentary") and about how to build and modify GHC (the "building guide").  Documents with these titles were available before but had become rather out of date.  These new, up-to-date documents live on the GHC developer's Wiki.  We urge you to read and improve them:   [http://hackage.haskell.org/trac/ghc/wiki] (near the bottom).
+A significant outcome is that we have written a great deal of Wiki material about GHC's implementation (the "commentary") and about how to build and modify GHC (the "building guide").  Documents with these titles were available before but had become rather out of date.  These new, up-to-date documents live on the GHC developer's Wiki.  We urge you to read and improve them:   [http://hackage.haskell.org/trac/ghc/wiki] (near the bottom).
 
 We (finally) released '''GHC 6.6''' in October 2006. There was an extended period of release-candidate testing, so we fondly hope that this will be a relatively stable release. The main improvement over GHC 6.4 is support for SMP systems - now GHC can execute several Haskell threads on different cpus/cores. There also many other improvements, listed in the [http://haskell.org/ghc/docs/6.6/html/users_guide/release-6-6.html Release notes].  To get GHC 6.6, go to [http://www.haskell.org/ghc/download_ghc_66.html Download].  Significant new features, all described in more detail in the [http://haskell.org/ghc/docs/6.6/html/users_guide/release-6-6.html release notes], include:
  * Support for multi-processors
