@@ -92,7 +92,9 @@ Under this scheme, the entry code for the `not` function would look as follows:
 
 ```wiki
         <stack check omitted>
-        if([[R2]+type_offset] == CONST) goto evaluated  -- Check if closure is a constructor
+        if([[R2]+type_offset] == CONST) goto evaluated
+          -- Check if closure is a constructor
+          -- it is not enough, must compare against other kinds of constructor
         R1 = R2;
         I64[Sp + (-8)] = sej_info;
         Sp = Sp + (-8);
@@ -144,8 +146,8 @@ This would require modifying
 tagged:
         R1 = R2 & ~1;  // mask pointer tag out
         <extract constructor tag from pointer>
-        if(tag==0) goto sej_0_alt
-        goto sej_1_alt
+        if(tag==0) goto notcont_0_alt
+        goto notcont_1_alt
 ```
 
 ## Using more than one bit
