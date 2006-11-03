@@ -68,11 +68,13 @@ Under this scheme, the entry code for the {{{not}}} function would look as follo
 
 {{{
         <stack check omitted>
-        if([[R2]+type_offset] == CONST) goto evaluated
+        if([[R2]+type_offset] == 0) goto unevaluated
+        if([[R2]+type_offset] > CONSTR_NOCAF_STATIC) goto unevaluated
           -- Check if closure is a constructor
           -- it is not enough, must compare against other kinds of constructor
+unevaluated:
         R1 = R2;
-        I64[Sp + (-8)] = sej_info;
+        I64[Sp + (-8)] = notcont_info;
         Sp = Sp + (-8);
         jump I64[R1];
 evaluated:
