@@ -108,7 +108,7 @@ This would require modifying
         jump I64[R1];
 tagged:
         R1 = R2 & ~1;  // mask pointer tag out
-        <extract constructor tag from pointer>
+          -- extract constructor tag from pointer
         if(tag==0) goto notcont_0_alt
         goto notcont_1_alt
 }}}
