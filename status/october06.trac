@@ -35,9 +35,9 @@ Life still goes on and there is current development version (HEAD), that will ul
 
  * Andy Gill implemented the '''Haskell Program Coverage''' option ('''-fhpc''') for GHC, which is solid enough to be used to test coverage in GHC itself.  (It turns out that the GHC testsuite gives remarkably good coverage over GHC already.)
 
-We are now working on lots of new stuff that isn't yet in GHC HEAD but will end up there if all goes well and then become a part of GHC 6.8:
+We are now working on lots of new stuff that isn't yet in GHC HEAD but will end up there if all goes well, and then become a part of GHC 6.8:
 
- * Roman Leshchinskiy has been hard at work developing libraries that support '''data-parallel computation''' in GHC.  It's not quite ready for public consumption but you can peek at what is going on by looking at the Haskell Wiki: [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell]  Background material here: [http://www.cse.unsw.edu.au/~chak/papers/CKLP01.html].  We hope to release a first iteration of our '''data-parallel extensions''' before Christmas.
+ * Roman Leshchinskiy has been hard at work developing libraries that support '''data-parallel computation''' in GHC.  It's not quite ready for public consumption but you can peek at what is going on by looking at the Haskell Wiki: [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell]  Background material here: [http://www.cse.unsw.edu.au/~chak/papers/CKLP01.html].  We hope to release a first iteration of our data-parallel extensions before Christmas.
 
  * At the moment GHC's '''garbage collector''' is single-threaded, even when GHC is running on a multiprocessor.  Roshan James spent the summer at Microsoft on an internship, implementing a multi-threaded GC.  We need to do a bit more work, but with a bit of luck we'll push a parallel garbage collector into the HEAD before Christmas.
 
