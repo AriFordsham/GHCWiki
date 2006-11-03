@@ -45,4 +45,4 @@ We are now working on lots of new stuff that isn't yet in GHC HEAD but will end 
 
  * Once the last bits of indexed data types are done, Manuel will be tackling '''indexed type synonyms''' (aka type functions), which are considerably trickier, at least so far as type inference is concerned.
 
-Simon, Simon, with help from Manuel, Bulat and others, October 2006 :)
+Simon, Simon, with help from Manuel, Bulat and others, October 2006
