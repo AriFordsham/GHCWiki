@@ -77,7 +77,7 @@ Under this scheme, the entry code for the {{{not}}} function would look as follo
         jump I64[R1];
 evaluated:
         R2=[[R2]+type_offset];
-        <extract constructor tag from pointer>
+          -- extract constructor tag from pointer
         if(R2==0) goto notcont_0_alt
         goto notcont_1_alt
 }}}
