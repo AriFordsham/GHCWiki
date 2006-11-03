@@ -92,12 +92,10 @@ evaluated:
 
 This would require modifying
  * the code generation so that when allocating a constructor, the pointer to it has the appropriate bits set (just a matter of adjusting the offset from Hp)
- * perhaps, make the entry code for a constructor return a pointer with the appropriate bits set. That way, a function like `f xs = head (tail xs)` would enter the second element of the list, and return to the caller with appropriate tag bits set.
+ * perhaps, make the entry code for a constructor return a pointer with the appropriate bits set. That way, a function like `f xs = head xs` would enter the first element of the list, and return to the caller with appropriate tag bits set.
  * the GC to set the LSB bit of constructor closure pointers,
  * the GC and the RTS code to mask out the LSB pointer when dereferencing it,
  * the code generation to test the LSB bit and case expressions and avoid the indirect jump.
-
-(Simon, thanks for the example. I was hoping to not have to enter constructor closures but the second bullet example shows why entering constructors can still happen. However, can't the example just be {{{f xs = head xs}}}? --Alexey)
 
 {{{
         <stack check omitted>
