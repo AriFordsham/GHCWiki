@@ -22,33 +22,41 @@ jumps to the boolean argument, passed in {{{R2}}}, after pushing a case frame (t
 {{{
         <stack check omitted>
         R1 = R2;
-        I64[Sp + (-8)] = sej_info;
+        I64[Sp + (-8)] = notcont_info;
+          -- push not continuation on the stack
         Sp = Sp + (-8);
         jump I64[R1];
+          -- enter x
 }}}
+(Note that the examples in this page assume a 64-bit architecture, therefore a word consists of 8 bytes.)
 
 Before looking at the rest of the {{{not}}} function, let's look at the code for the {{{True}}} and {{{False}}} closures
 {{{
 True_info:
-        jump <address to True alternative>;
+        jump [[Sp]] --address to True alternative;
 
 False_info:
-        jump <address to False alternative>;
+        jump [[Sp]+8] --address to False alternative;
 }}}
 they just jump to the appropriate case alternative that is evaluating the closure. These addresses are calculated from the case frame that is on the top of the stack. In this case they select the alternatives from the jump table that is referred to by the {{{not}}} case frame. Below you see the {{{True}}} alternative
 {{{
-sej_0_alt() {
+notcont_info {
+  notcont_0_alt,
+  notcont_1_alt
+};
+
+notcont_0_alt() {
         R1 = False_closure;
         Sp = Sp + 8;
-        jump <address to False alternative>;
+        jump [[Sp]+8] --address to False alternative;
 }
 }}}
 and the {{{False}}} alternative of the {{{not}}} function.
 {{{
-sej_1_alt() {
+notcont_1_alt() {
         R1 = True_closure;
         Sp = Sp + 8;
-        jump <address to True alternative>;
+        jump [[Sp]] --address to True alternative;
 }
 }}}
 Just like the constructor closures, they jump to the appropriate branch of the case expression that is evaluating the {{{not}}} function.
@@ -60,18 +68,25 @@ The simplest optimisation is this.  Instead of entering the closure, grab its in
 The benefit is that processors are typically faster at "test-and-jump to known location" than they are at "jump to this pointer".
 
 Under this scheme, the entry code for the {{{not}}} function would look as follows:
+
 {{{
-        if(R2 & 1 == 1) goto tagged
         <stack check omitted>
+        if([[R2]+type_offset] == 0) goto unevaluated
+        if([[R2]+type_offset] > CONSTR_NOCAF_STATIC) goto unevaluated
+        goto evaluated
+          -- If the closure type is a constructor we can extract
+          -- the tag directly in label evaluated.
+          -- Otherwise we enter it as usual:
+unevaluated:
         R1 = R2;
-        I64[Sp + (-8)] = sej_info;
+        I64[Sp + (-8)] = notcont_info;
         Sp = Sp + (-8);
         jump I64[R1];
-tagged:
-        R1 = R2 & ~1;  // mask pointer tag out
-        <extract constructor tag from pointer>
-        if(tag==0) goto sej_0_alt
-        goto sej_1_alt
+evaluated:
+        R2=[[R2]+type_offset];
+          -- extract constructor tag from pointer
+        if(R2==0) goto notcont_0_alt
+        goto notcont_1_alt
 }}}
 
 == Tagging the LSB of an evaluated closure ==
@@ -84,12 +99,26 @@ tagged:
 
 This would require modifying
  * the code generation so that when allocating a constructor, the pointer to it has the appropriate bits set (just a matter of adjusting the offset from Hp)
- * perhaps, make the entry code for a constructor return a pointer with the appropriate bits set. That way, a function like `f xs = head (tail xs)` would enter the second element of the list, and return to the caller with appropriate tag bits set.
+ * perhaps, make the entry code for a constructor return a pointer with the appropriate bits set. That way, a function like `f xs = head xs` would enter the first element of the list, and return to the caller with appropriate tag bits set.
  * the GC to set the LSB bit of constructor closure pointers,
  * the GC and the RTS code to mask out the LSB pointer when dereferencing it,
  * the code generation to test the LSB bit and case expressions and avoid the indirect jump.
 
-(Simon, thanks for the example. I was hoping to not have to enter constructor closures but the second bullet example shows why entering constructors can still happen. However, can't the example just be {{{f xs = head xs}}}? --Alexey)
+{{{
+        <stack check omitted>
+        if(R2 & 1 == 1) goto tagged
+        R1 = R2;
+        I64[Sp + (-8)] = sej_info;
+        Sp = Sp + (-8);
+        jump I64[R1];
+tagged:
+        R1 = R2 & ~1;  // mask pointer tag out
+        R2 = [[R1]+type_offset];
+          -- extract constructor tag from pointer
+        if(R2==0) goto notcont_0_alt
+        goto notcont_1_alt
+}}}
+
 
 == Using more than one bit ==
 
