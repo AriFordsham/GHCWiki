@@ -34,8 +34,10 @@ jumps to the boolean argument, passed in `R2`, after pushing a case frame (the c
         <stack check omitted>
         R1 = R2;
         I64[Sp + (-8)] = notcont_info;
+          -- push not continuation on the stack
         Sp = Sp + (-8);
         jump I64[R1];
+          -- enter x
 ```
 
 
@@ -46,7 +48,7 @@ True_info:
         jump [[Sp]] --address to True alternative;
 
 False_info:
-        jump [[Sp]+4] --address to False alternative;
+        jump [[Sp]+8] --address to False alternative;
 ```
 
 
@@ -61,7 +63,7 @@ notcont_info {
 notcont_0_alt() {
         R1 = False_closure;
         Sp = Sp + 8;
-        jump <address to False alternative>;
+        jump [[Sp]+8] --address to False alternative;
 }
 ```
 
@@ -72,7 +74,7 @@ and the `False` alternative of the `not` function.
 notcont_1_alt() {
         R1 = True_closure;
         Sp = Sp + 8;
-        jump <address to True alternative>;
+        jump [[Sp]] --address to True alternative;
 }
 ```
 
@@ -94,9 +96,10 @@ Under this scheme, the entry code for the `not` function would look as follows:
         <stack check omitted>
         if([[R2]+type_offset] == 0) goto unevaluated
         if([[R2]+type_offset] > CONSTR_NOCAF_STATIC) goto unevaluated
-          -- If the closure is not a constructor, we enter it
         goto evaluated
-          -- otherwise we can access its tag
+          -- If the closure type is a constructor we can extract
+          -- the tag directly in label evaluated.
+          -- Otherwise we enter it as usual:
 unevaluated:
         R1 = R2;
         I64[Sp + (-8)] = notcont_info;
@@ -145,8 +148,9 @@ This would require modifying
         jump I64[R1];
 tagged:
         R1 = R2 & ~1;  // mask pointer tag out
+        R2 = [[R1]+type_offset];
           -- extract constructor tag from pointer
-        if(tag==0) goto notcont_0_alt
+        if(R2==0) goto notcont_0_alt
         goto notcont_1_alt
 ```
 
