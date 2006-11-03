@@ -22,7 +22,7 @@ jumps to the boolean argument, passed in {{{R2}}}, after pushing a case frame (t
 {{{
         <stack check omitted>
         R1 = R2;
-        I64[Sp + (-8)] = sej_info;
+        I64[Sp + (-8)] = notcont_info;
         Sp = Sp + (-8);
         jump I64[R1];
 }}}
@@ -30,14 +30,19 @@ jumps to the boolean argument, passed in {{{R2}}}, after pushing a case frame (t
 Before looking at the rest of the {{{not}}} function, let's look at the code for the {{{True}}} and {{{False}}} closures
 {{{
 True_info:
-        jump <address to True alternative>;
+        jump [[Sp]] --address to True alternative;
 
 False_info:
-        jump <address to False alternative>;
+        jump [[Sp]+4] --address to False alternative>;
 }}}
 they just jump to the appropriate case alternative that is evaluating the closure. These addresses are calculated from the case frame that is on the top of the stack. In this case they select the alternatives from the jump table that is referred to by the {{{not}}} case frame. Below you see the {{{True}}} alternative
 {{{
-sej_0_alt() {
+notcont_info {
+  notcont_0_alt,
+  notcont_1_alt
+};
+
+notcont_0_alt() {
         R1 = False_closure;
         Sp = Sp + 8;
         jump <address to False alternative>;
@@ -45,7 +50,7 @@ sej_0_alt() {
 }}}
 and the {{{False}}} alternative of the {{{not}}} function.
 {{{
-sej_1_alt() {
+notcont_1_alt() {
         R1 = True_closure;
         Sp = Sp + 8;
         jump <address to True alternative>;
