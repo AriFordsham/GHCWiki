@@ -57,3 +57,20 @@ Other relevant functions: `emitTickyCounter` in [compiler/codeGen/CgTicky.hs](/t
 
 
 Argh! I spent days tracking down this bug: `idInfoLabelType` in [compiler/cmm/CLabel.hs](/trac/ghc/browser/ghc/compiler/cmm/CLabel.hs) needs to return `DataLabel` for labels of type `RednCount` (i.e., labels for ticky counters.) By default, it was returning `CodeLabel`, which caused the ticky counter labels to get declared with the wrong type in the generated C, which caused C compiler errors.
+
+## Declarations for ticky counters
+
+`emitTickyCounter` spits out C declarations that look like this:
+
+```wiki
+static char c16O_str[] = "main:Main.$wrepeated{v r4}";
+
+static char c16Q_str[] = "i";
+
+StgWord Main_zdwrepeated_ct[] = {
+0x0, 0x1U, 0x1U, 0x0, (W_)&c16O_str, (W_)&c16Q_str, 0x0, 0x0, 0x0
+};
+```
+
+
+Here, `Main_zdwrepeated_ct` is actually an `StgEntCounter` (this type is declared in [includes/StgTicky.h](/trac/ghc/browser/ghc/includes/StgTicky.h)). The counters get used by `printRegisteredCounterInfo` in [rts/Ticky.c](/trac/ghc/browser/ghc/rts/Ticky.c), which prints out the ticky reports.
