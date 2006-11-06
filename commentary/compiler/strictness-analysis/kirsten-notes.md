@@ -34,3 +34,23 @@ let baz = lazyF p in
 
 
 (where `lazyF` is lazy in `p`, and `strictF` is strict in `a` and `b`). `p` is used both with demand `L` (in the call to `lazyF` and with demand `S(SS)` (in the call to `strictF`). This means it's perfectly same to strictly evaluate `p`, so when we both together the two demands, we should get `S(SS)`. On the other hand, if a function is *called* once with one argument and once with two, we don't want to treat it as a function that's always called with two arguments; we're only interested in functions that are *always* called with *n* arguments for a given *n*. Hence, both should behave the same way as lub for call demands.
+
+# Ticky
+
+
+The following code inserts extra fields into closures when ticky is enabled (and so had to be commented out):
+
+```wiki
+staticTickyHdr :: [CmmLit]
+-- The ticky header words in a static closure
+-- Was SET_STATIC_TICKY_HDR
+staticTickyHdr = 
+  | not opt_DoTickyProfiling = []
+  | otherwise		     = [zeroCLit]
+```
+
+
+in [compiler/codeGen/CgTicky.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgTicky.hs).
+
+
+Other relevant functions: `emitTickyCounter` in [compiler/codeGen/CgTicky.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgTicky.hs) (called by `closureCodeBody` in [compiler/codeGen/CgClosure.lhs](/trac/ghc/browser/ghc/compiler/codeGen/CgClosure.lhs)).
