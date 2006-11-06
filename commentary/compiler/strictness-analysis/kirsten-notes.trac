@@ -36,3 +36,5 @@ staticTickyHdr =
 in [[GhcFile(compiler/codeGen/CgTicky.hs)]].
 
 Other relevant functions: {{{emitTickyCounter}}} in [[GhcFile(compiler/codeGen/CgTicky.hs)]] (called by {{{closureCodeBody}}} in [[GhcFile(compiler/codeGen/CgClosure.lhs)]]).
+
+Argh! I spent days tracking down this bug: {{{idInfoLabelType}}} in [[GhcFile(compiler/cmm/CLabel.hs)]] needs to return {{{DataLabel}}} for labels of type {{{RednCount}}} (i.e., labels for ticky counters.) By default, it was returning {{{CodeLabel}}}, which caused the ticky counter labels to get declared with the wrong type in the generated C, which caused C compiler errors.

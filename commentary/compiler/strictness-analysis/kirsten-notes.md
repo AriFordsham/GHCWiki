@@ -54,3 +54,6 @@ in [compiler/codeGen/CgTicky.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgTicky.
 
 
 Other relevant functions: `emitTickyCounter` in [compiler/codeGen/CgTicky.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgTicky.hs) (called by `closureCodeBody` in [compiler/codeGen/CgClosure.lhs](/trac/ghc/browser/ghc/compiler/codeGen/CgClosure.lhs)).
+
+
+Argh! I spent days tracking down this bug: `idInfoLabelType` in [compiler/cmm/CLabel.hs](/trac/ghc/browser/ghc/compiler/cmm/CLabel.hs) needs to return `DataLabel` for labels of type `RednCount` (i.e., labels for ticky counters.) By default, it was returning `CodeLabel`, which caused the ticky counter labels to get declared with the wrong type in the generated C, which caused C compiler errors.
