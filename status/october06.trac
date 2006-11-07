@@ -14,7 +14,7 @@ A significant outcome is that we have written a great deal of Wiki material abou
 
 We (finally) released '''GHC 6.6''' in October 2006. To get GHC 6.6, go to [http://www.haskell.org/ghc/download_ghc_66.html Download page]. There was an extended period of release-candidate testing, so we fondly hope that this will be a relatively stable release. There are many improvements, all listed in the [http://haskell.org/ghc/docs/6.6/html/users_guide/release-6-6.html Release notes]. The most important new features include:
  * Now GHC can execute several Haskell threads simultaneously on different cpus/cores
- * ByteString type for fast and memory-efficent string manipulations
+ * `ByteString` type for fast and memory-efficent string manipulations
  * Unicode source files
  * Further generalisation of newtype deriving
  * Bang patterns to declare function arguments as strict
