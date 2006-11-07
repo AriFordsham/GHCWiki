@@ -1,16 +1,13 @@
 
 [[PageOutline]]
 
-(The xref tags remaining in the page are awaiting the import of ''Platforms, scripts, and file names''.
-I should get around to do this this week or the next.)
-
 = Instructions for building under Windows =
 This section gives detailed instructions for how to build 
 GHC from source on your Windows machine. Similar instructions for
 installing and running GHC may be found in the user guide. In general,
 Win95/Win98 behave the same, and WinNT/Win2k behave the same.
 
-Make sure you read the preceding section on platforms (<xref linkend="platforms"/>)
+Make sure you read the preceding section on [wiki:Building/PlatformsScriptsFileNames platforms]
 before reading section.
 You don't need Cygwin or MSYS to ''use'' GHC, 
 but you do need one or the other to ''build'' GHC.
@@ -234,7 +231,7 @@ $ make install
    available from
    [http://www.haskell.org/alex].
  * GHC uses the ''mingw'' C compiler to
-   generate code, so you have to install that (see <xref linkend="cygwin-and-mingw"/>). 
+   generate code, so you have to install that (see [wiki:Building/PlatformsScriptsFileNames#Windowsplatforms:CygwinMSYSandMinGW Windows platforms: Cygwin, MSYS, and MinGW]). 
    Just pick up a mingw bundle at
    [http://www.mingw.org/].
    We install it in {{{c:/mingw}}}.
@@ -295,7 +292,7 @@ configure: error: ./configure failed for ghc
 $ ./configure --host=i386-unknown-mingw32 --with-gcc=c:/mingw/bin/gcc
 }}}
    This is the point at which you specify that you are building GHC-mingw
-   (see <xref linkend="ghc-mingw"/>). 
+   (see [wiki:Building/PlatformsScriptsFileNames#MinGW MinGW]). 
    [[br]]
    Both these options are important! It's possible to get into
    trouble using the wrong C compiler!
@@ -325,7 +322,7 @@ make: *** [all] Error 1
 }}}
    Be warned!
    [[br]]
-   If you want to build GHC-cygwin (<xref linkend="ghc-cygwin"/>)
+   If you want to build GHC-cygwin ([wiki:Building/PlatformsScriptsFileNames#MinGW MinGW])
    you'll have to do something more like:
    {{{
 $ ./configure --with-gcc=...the Cygwin gcc...
