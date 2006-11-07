@@ -28,6 +28,7 @@ from that manual is gradually being incorporated here.
  * [wiki:Building/KnownProblems Known pitfalls in building GHC]
  * [wiki:Building/RunningTests Running the GHC test framework]
  * Platform-specific build issues
+   * [wiki:Building/PlatformsScriptsFileNames Platforms, scripts, and file names]
    * [wiki:Building/Windows Building under Windows]
    * [wiki:Building/MacOSX Building under MacOS X]
 
