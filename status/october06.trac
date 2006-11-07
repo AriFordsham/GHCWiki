@@ -6,7 +6,7 @@ anything to go by, the numbers are increasing quite rapidly. Indeed,
 GHC was rapidly becoming a success-disaster, so that we (Simon &
 Simon) were becoming swamped in GHC-related mail.  Happily,
 Microsoft Research has agreed to fund a full-time support engineer,
-in the form of Ian Lynagh, who has already made a huge difference.
+in the form of Ian Lynagh (Igloo), who has already made a huge difference.
 
 A highlight of the last six months was the '''GHC Hackathon''', which we ran a immediately before ICFP in Portland, with wonderful support from Galois and Portland State University.  Forty-plus people showed up to have GHC's innards inflicted on them, and appeared unharmed by the experience.
 
