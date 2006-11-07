@@ -129,7 +129,7 @@ of files on it.  Then you may see something like this:
 
 ```wiki
 
-(cd Graphics/Rendering/OpenGL/GL/QueryUtils_split &amp;&amp; /mingw/bin/ld -r -x -o ../QueryUtils.o *.o)
+(cd Graphics/Rendering/OpenGL/GL/QueryUtils_split && /mingw/bin/ld -r -x -o ../QueryUtils.o *.o)
 /bin/sh: /mingw/bin/ld: Invalid argument
 
 ```
