@@ -73,4 +73,4 @@ StgWord Main_zdwrepeated_ct[] = {
 ```
 
 
-Here, `Main_zdwrepeated_ct` is actually an `StgEntCounter` (this type is declared in [includes/StgTicky.h](/trac/ghc/browser/ghc/includes/StgTicky.h)). The counters get used by `printRegisteredCounterInfo` in [rts/Ticky.c](/trac/ghc/browser/ghc/rts/Ticky.c), which prints out the ticky reports.
+Here, `Main_zdwrepeated_ct` is actually an `StgEntCounter` (this type is declared in [includes/StgTicky.h](/trac/ghc/browser/ghc/includes/StgTicky.h)). The counters get used by `printRegisteredCounterInfo` in [rts/Ticky.c](/trac/ghc/browser/ghc/rts/Ticky.c), which prints out the ticky reports. The counter fields are accessed using offsets defined in [includes/GHCConstants.h](/trac/ghc/browser/ghc/includes/GHCConstants.h) (`oFFSET_StgEntCounter_*`, which I think were wrong before.)

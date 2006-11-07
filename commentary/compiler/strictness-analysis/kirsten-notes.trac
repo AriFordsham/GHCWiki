@@ -51,4 +51,4 @@ StgWord Main_zdwrepeated_ct[] = {
 0x0, 0x1U, 0x1U, 0x0, (W_)&c16O_str, (W_)&c16Q_str, 0x0, 0x0, 0x0
 };
 }}}
-Here, {{{Main_zdwrepeated_ct}}} is actually an {{{StgEntCounter}}} (this type is declared in [[GhcFile(includes/StgTicky.h)]]). The counters get used by {{{printRegisteredCounterInfo}}} in [[GhcFile(rts/Ticky.c)]], which prints out the ticky reports.
+Here, {{{Main_zdwrepeated_ct}}} is actually an {{{StgEntCounter}}} (this type is declared in [[GhcFile(includes/StgTicky.h)]]). The counters get used by {{{printRegisteredCounterInfo}}} in [[GhcFile(rts/Ticky.c)]], which prints out the ticky reports. The counter fields are accessed using offsets defined in [[GhcFile(includes/GHCConstants.h)]] ({{{oFFSET_StgEntCounter_*}}}, which I think were wrong before.)
