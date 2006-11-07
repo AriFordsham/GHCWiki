@@ -5,7 +5,7 @@
 ### GCC 4 issues
 
 
-It has been observed on Gentoo systems that GCC 4 may fail, complaining about there being no `-nopie` option. Try using GCC 3.
+It has been observed on Gentoo systems that GCC 4 may fail, complaining about there being no `-nopie` option. You can either use GCC 3, re-emerge ghc or just edit your `/usr/bin/ghc` script to remove the `-nopie` flag (the latter is by far the quickest and is perfectly safe).
 
 ## Building from the Darcs tree
 
