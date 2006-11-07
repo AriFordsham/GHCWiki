@@ -1,7 +1,3 @@
-
-(The xref tags remaining in the page are awaiting the import of *Platforms, scripts, and file names*.
-I should get around to do this this week or the next.)
-
 # Instructions for building under Windows
 
 
@@ -11,7 +7,7 @@ installing and running GHC may be found in the user guide. In general,
 Win95/Win98 behave the same, and WinNT/Win2k behave the same.
 
 
-Make sure you read the preceding section on platforms (\<xref linkend="platforms"/\>)
+Make sure you read the preceding section on [platforms](building/platforms-scripts-file-names)
 before reading section.
 You don't need Cygwin or MSYS to *use* GHC, 
 but you do need one or the other to *build* GHC.
@@ -259,7 +255,7 @@ provided they are in your path.
   available from
   [ http://www.haskell.org/alex](http://www.haskell.org/alex).
 - GHC uses the *mingw* C compiler to
-  generate code, so you have to install that (see \<xref linkend="cygwin-and-mingw"/\>). 
+  generate code, so you have to install that (see [Windows platforms: Cygwin, MSYS, and MinGW](building/platforms-scripts-file-names#)). 
   Just pick up a mingw bundle at
   [ http://www.mingw.org/](http://www.mingw.org/).
   We install it in `c:/mingw`.
@@ -328,7 +324,7 @@ you about Windows-specific wrinkles.
   ```
 
   This is the point at which you specify that you are building GHC-mingw
-  (see \<xref linkend="ghc-mingw"/\>). 
+  (see [MinGW](building/platforms-scripts-file-names#mingw)). 
 
   Both these options are important! It's possible to get into
   trouble using the wrong C compiler!
@@ -360,7 +356,7 @@ you about Windows-specific wrinkles.
 
   Be warned!
 
-  If you want to build GHC-cygwin (\<xref linkend="ghc-cygwin"/\>)
+  If you want to build GHC-cygwin ([MinGW](building/platforms-scripts-file-names#mingw))
   you'll have to do something more like:
 
   ```wiki
