@@ -1,0 +1,201 @@
+# Platforms, scripts, and file names
+
+
+GHC is designed both to be built, and to run, on both Unix and Windows.  This flexibility
+gives rise to a good deal of brain-bending detail, which we have tried to collect in this chapter.
+
+## Windows platforms: Cygwin, MSYS, and MinGW
+
+
+The build system is built around Unix-y makefiles.  Because it's not native,
+the Windows situation for building GHC is particularly confusing.  This section
+tries to clarify, and to establish terminology.
+
+### MinGW
+
+[ MinGW (Minimalist GNU for Windows)](http://www.mingw.org) 
+is a collection of header
+files and import libraries that allow one to use `gcc` and produce
+native Win32 programs that do not rely on any third-party DLLs. The
+current set of tools include GNU Compiler Collection (`gcc`), GNU Binary
+Utilities (Binutils), GNU debugger (Gdb), GNU make, and a assorted
+other utilities. 
+
+
+The down-side of MinGW is that the MinGW libraries do not support anything like the full
+Posix interface.  
+
+### Cygwin and MSYS
+
+
+You can't use the MinGW to *build* GHC, because MinGW doesn't have a shell,
+or the standard Unix commands such as `mv`, `rm`,
+`ls`, nor build-system stuff such as `make` and `darcs`.
+For that, there are two choices: [ Cygwin](http://www.cygwin.com) 
+and [ MSYS](http://www.mingw.org/msys.shtml):
+
+- Cygwin comes with compilation tools (`gcc`, `ld` and so on), which
+  compile code that has access to all of Posix.  The price is that the executables must be 
+  dynamically linked with the Cygwin DLL, so that *you cannot run a Cywin-compiled program on a machine
+  that doesn't have Cygwin*.  Worse, Cygwin is a moving target.  The name of the main DLL, `cygwin1.dll`
+  does not change, but the implementation certainly does.  Even the interfaces to functions
+  it exports seem to change occasionally. 
+- MSYS is a fork of the Cygwin tree, so they
+  are fundamentally similar.  However, MSYS is by design much smaller and simpler. 
+  Access to the file system goes
+  through fewer layers, so MSYS is quite a bit faster too.
+
+  Furthermore, MSYS provides no compilation tools; it relies instead on the MinGW tools. These
+  compile binaries that run with no DLL support, on any Win32 system.
+  However, MSYS does come with all the make-system tools, such as `make`, `autoconf`, 
+  `darcs`, `ssh` etc.  To get these, you have to download the 
+  MsysDTK (Developer Tool Kit) package, as well as the base MSYS package.
+
+  MSYS does have a DLL, but it's only used by MSYS commands (`sh`, `rm`, 
+  `ssh` and so on),
+  not by programs compiled under MSYS.
+
+### Targeting MinGW
+
+
+We want GHC to compile programs that work on any Win32 system.  Hence:
+
+- GHC does invoke a C compiler, assembler, linker and so on, but we ensure that it only
+  invokes the MinGW tools, not the Cygwin ones.  That means that the programs GHC compiles
+  will work on any system, but it also means that the programs GHC compiles do not have access
+  to all of Posix.  In particular, they cannot import the (Haskell) Posix 
+  library; they have to do
+  their input output using standard Haskell I/O libraries, or native Win32 bindings.
+  We will call a GHC that targets MinGW in this way *GHC-mingw*.
+- To make the GHC distribution self-contained, the GHC distribution includes the MinGW `gcc`,
+  `as`, `ld`, and a bunch of input/output libraries.  
+
+
+So *GHC targets MinGW*, not Cygwin.
+It is in principle possible to build a version of GHC, *GHC-cygwin*, 
+that targets Cygwin instead.  The up-side of GHC-cygwin is
+that Haskell programs compiled by GHC-cygwin can import the (Haskell) Posix library.
+*We do not support GHC-cygwin, however; it is beyond our resources.*
+
+
+While GHC *targets* MinGW, that says nothing about 
+how GHC is *built*.  We use both MSYS and Cygwin as build environments for
+GHC; both work fine, though MSYS is rather lighter weight.
+
+
+In your build tree, you build a compiler called `ghc-inplace`.  It
+uses the `gcc` that you specify using the
+`--with-gcc` flag when you run
+`configure` (see below).
+The makefiles are careful to use `ghc-inplace` (not `gcc`)
+to compile any C files, so that it will in turn invoke the correct `gcc` rather that
+whatever one happens to be in your path.  However, the makefiles do use whatever `ld` 
+and `ar` happen to be in your path. This is a bit naughty, but (a) they are only
+used to glom together .o files into a bigger .o file, or a .a file, 
+so they don't ever get libraries (which would be bogus; they might be the wrong libraries), and (b)
+Cygwin and MinGW use the same .o file format.  So its ok.
+
+### File names
+
+
+Cygwin, MSYS, and the underlying Windows file system all understand file paths of form `c:/tmp/foo`.
+However:
+
+- MSYS programs understand `/bin`, `/usr/bin`, and map Windows's lettered drives as
+  `/c/tmp/foo` etc.  The exact mount table is given in the doc subdirectory of the MSYS distribution.
+
+  When it invokes a command, the MSYS shell sees whether the invoked binary lives in the MSYS `/bin`
+  directory.  If so, it just invokes it.  If not, it assumes the program is no an MSYS program, and walks over the command-line
+  arguments changing MSYS paths into native-compatible paths.
+  It does this inside sub-arguments and inside quotes. For example,
+  if you invoke
+
+  ```wiki
+  foogle -B/c/tmp/baz
+  ```
+
+  the MSYS shell will actually call `foogle` with argument `-Bc:/tmp/baz`.
+- Cygwin programs have a more complicated mount table, and map the lettered drives as `/cygdrive/c/tmp/foo`.
+
+  The Cygwin shell does no argument processing when invoking non-Cygwin programs.
+
+### Crippled `ld`
+
+
+It turns out that on both Cygwin and MSYS, the `ld` has a
+limit of 32kbytes on its command line.  Especially when using split object
+files, the make system can emit calls to `ld` with thousands
+of files on it.  Then you may see something like this:
+
+```wiki
+
+(cd Graphics/Rendering/OpenGL/GL/QueryUtils_split &amp;&amp; /mingw/bin/ld -r -x -o ../QueryUtils.o *.o)
+/bin/sh: /mingw/bin/ld: Invalid argument
+
+```
+
+
+The solution is either to switch off object file splitting (set
+`SplitObjs` to `NO` in your
+`build.mk`),
+or to make the module smaller.
+
+### Host System vs Target System
+
+
+In the source code you'll find various ifdefs looking like:
+
+```wiki
+#ifdef mingw32_HOST_OS
+  ...blah blah...
+#endif
+```
+
+
+and 
+
+```wiki
+#ifdef mingw32_TARGET_OS
+  ...blah blah...
+#endif
+```
+
+
+These macros are set by the configure script (via the file config.h).
+Which is which?  The criterion is this.  In the ifdefs in GHC's source code:
+
+- The "host" system is the one on which GHC itself will be run.
+- The "target" system is the one for which the program compiled by GHC will be run.
+
+
+For a stage-2 compiler, in which GHCi is available, the "host" and "target" systems must be the same.
+So then it doesn't really matter whether you use the HOST_OS or TARGET_OS cpp macros.
+
+## Wrapper scripts
+
+
+Many programs, including GHC itself and hsc2hs, need to find associated binaries and libraries.
+For *installed* programs, the strategy depends on the platform.  We'll use
+GHC itself as an example:
+
+- On Unix, the command `ghc` is a shell script, generated by adding installation
+  paths to the front of the source file `ghc.sh`, 
+  that invokes the real binary, passing "-B*path*" as an argument to tell `ghc`
+  where to find its supporting files. 
+- On vanilla Windows, it turns out to be much harder to make reliable script to be run by the
+  native Windows shell `cmd` (e.g. limits on the length
+  of the command line).  So instead we invoke the GHC binary directly, with no -B flag.
+  GHC uses the Windows `getExecDir` function to find where the executable is,
+  and from that figures out where the supporting files are.
+
+
+(You can find the layout of GHC's supporting files in the
+section "Layout of installed files" of Section 2 of the GHC user guide.)
+
+
+Things work differently for *in-place* execution, where you want to
+execute a program that has just been built in a build tree. The difference is that the
+layout of the supporting files is different.
+In this case, whether on Windows or Unix, we always use a shell script. This works OK
+on Windows because the script is executed by MSYS or Cygwin, which don't have the
+shortcomings of the native Windows `cmd` shell.
