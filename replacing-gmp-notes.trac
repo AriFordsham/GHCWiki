@@ -14,8 +14,8 @@ If you want to help with replacing GMP or do it yourself, you will have to work 
 	* makefiles and configuration scripts.
 
 Other basic recommended reading is:
-	* The GHC Commentary: [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/the-beast/ncg.html The Native Code Generator]; and,
-	* The GHC Commentary: [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/rts-libs/coding-style.html Style Guidelines for RTS C code].
+	* [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/ The (old) GHC Commentary]: [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/the-beast/ncg.html The Native Code Generator]; and,
+	* [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/ The (old) GHC Commentary]: [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/rts-libs/coding-style.html Style Guidelines for RTS C code].
 
 ==== ''Caveat'' ====
 
@@ -39,7 +39,7 @@ There are several problems with the current GMP implementation:
 
 3. Other Improvements to Integer
 
-	Most of the suggestions in this section come from discussions in the glasgow-haskell-users list thread [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010654.html returning to Cost of Integer].  In particular, [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010660.html John Meacham's suggestion] to use a !ForeignPtr to data held by the normal GMP system library and store the value in an unboxed Int if the number of significant digits in Integer could fit into the size of an Int.  For those who are curious, a guide to GHC primitives is available (in an unformatted version) in ghc/compiler/prelude/primops.txt.pp; here is a link to [http://darcs.haskell.org/ghc/compiler/prelude/primops.txt.pp CVS version of primops.txt.pp].  (See The GHC Commentary [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/rts-libs/primitives.html Primitives] for a description of primops.txt.pp; and a highly recommended introduction directly related to GMP is [wiki:AddingNewPrimitiveOperations].) In primops.txt.pp, you might want to search for the text "section "The word size story."", and especially the text "section "Integer#"".   The Haskell definition of Integer is in [http://darcs.haskell.org/packages/base/GHC/Num.lhs /packages/base/GHC/Num.lhs].
+	Most of the suggestions in this section come from discussions in the glasgow-haskell-users list thread [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010654.html returning to Cost of Integer].  In particular, [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010660.html John Meacham's suggestion] to use a !ForeignPtr to data held by the normal GMP system library and store the value in an unboxed Int if the number of significant digits in Integer could fit into the size of an Int.  For those who are curious, a guide to GHC primitives is available (in an unformatted version) in [[GhcFile(/compiler/prelude/primops.txt.pp)]]; here is a link to [http://darcs.haskell.org/ghc/compiler/prelude/primops.txt.pp CVS version of primops.txt.pp].  (See [wiki:Commentary The (new) GHC Commentary] [wiki:Commentary/PrimOps PrimOps] for a description of primops.txt.pp; and a highly recommended introduction directly related to GMP is [wiki:AddingNewPrimitiveOperations].) In primops.txt.pp, you might want to search for the text "section "The word size story."", and especially the text "section "Integer#"".   The Haskell definition of Integer is in [http://darcs.haskell.org/packages/base/GHC/Num.lhs /packages/base/GHC/Num.lhs].
 
 	The current GMP implementation of Integer is:
 {{{
