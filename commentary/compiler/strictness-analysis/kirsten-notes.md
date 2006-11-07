@@ -1,68 +1,69 @@
-# Linearity
+CONVERSION ERROR
 
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/Commentary/Compiler/StrictnessAnalysis/KirstenNotes"
+  queryString          = "?version=14"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:58:53 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","277"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/StrictnessAnalysis/KirstenNotes\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
+Original source:
+
+```trac
+= Linearity =
 The solution is to distinguish call demands from product demands. Consider again:
-
-```wiki
+{{{
 let f = \ x. \ y. ... in
   ...(f 1 2)...(f 3 4)...
-```
-
-
-The demands placed on `f` by the first and second call get bothed together to yield `SM(SM(T))`. But this is incorrect. Consider:
-
-```wiki
+}}}
+The demands placed on {{{f}}} by the first and second call get bothed together to yield {{{SM(SM(T))}}}. But this is incorrect. Consider:
+{{{
 let f = \ x. \ y. ... 
     frob = f 1 in
   ...(f 1 2)...(frob 2)...(frob 3)...
-```
+}}}
+Here, the demands placed on {{{f}}} by the body of {{{frob}}} and by the call to {{{f}}} in the {{{let}}}-body get bothed together: {{{S1(T) & S1(S1(T)) = SM(SM(T))}}}. Note that this is the same as the demand placed on {{{f}}} above, yet we want to distinguish between the two situations, because in the first example, the inner lambda in {{{f}}}'s rhs is only called once. 
 
-
-Here, the demands placed on `f` by the body of `frob` and by the call to `f` in the `let`-body get bothed together: `S1(T) & S1(S1(T)) = SM(SM(T))`. Note that this is the same as the demand placed on `f` above, yet we want to distinguish between the two situations, because in the first example, the inner lambda in `f`'s rhs is only called once. 
-
-
-The solution is to treat call demands and product demands differently, and to define the `both` function for call demands to have the same behavior as `lub`. Then in the first example, `f` has demand `SM(S1(T))` placed on it, and in the second, `SM(T)`. This is what we want; now, if `f` has demand `D(D(T)` placed on it, that implies `f` is always called with two arguments.
-
+The solution is to treat call demands and product demands differently, and to define the {{{both}}} function for call demands to have the same behavior as {{{lub}}}. Then in the first example, {{{f}}} has demand {{{SM(S1(T))}}} placed on it, and in the second, {{{SM(T)}}}. This is what we want; now, if {{{f}}} has demand {{{D(D(T)}}} placed on it, that implies {{{f}}} is always called with two arguments.
 
 Why does this make sense? Consider what it means if we see an example like:
-
-```wiki
+{{{
 let baz = lazyF p in
   case p of
     (a,b) -> strictF a b
-```
+}}}
+(where {{{lazyF}}} is lazy in {{{p}}}, and {{{strictF}}} is strict in {{{a}}} and {{{b}}}). {{{p}}} is used both with demand {{{L}}} (in the call to {{{lazyF}}} and with demand {{{S(SS)}}} (in the call to {{{strictF}}}). This means it's perfectly same to strictly evaluate {{{p}}}, so when we both together the two demands, we should get {{{S(SS)}}}. On the other hand, if a function is ''called'' once with one argument and once with two, we don't want to treat it as a function that's always called with two arguments; we're only interested in functions that are ''always'' called with ''n'' arguments for a given ''n''. Hence, both should behave the same way as lub for call demands.
 
-
-(where `lazyF` is lazy in `p`, and `strictF` is strict in `a` and `b`). `p` is used both with demand `L` (in the call to `lazyF` and with demand `S(SS)` (in the call to `strictF`). This means it's perfectly same to strictly evaluate `p`, so when we both together the two demands, we should get `S(SS)`. On the other hand, if a function is *called* once with one argument and once with two, we don't want to treat it as a function that's always called with two arguments; we're only interested in functions that are *always* called with *n* arguments for a given *n*. Hence, both should behave the same way as lub for call demands.
-
-# Ticky
-
+= Ticky =
 
 The following code inserts extra fields into closures when ticky is enabled (and so had to be commented out):
-
-```wiki
+{{{
 staticTickyHdr :: [CmmLit]
 -- The ticky header words in a static closure
 -- Was SET_STATIC_TICKY_HDR
 staticTickyHdr = 
   | not opt_DoTickyProfiling = []
   | otherwise		     = [zeroCLit]
-```
+}}}
+in [[GhcFile(compiler/codeGen/CgTicky.hs)]].
 
+Other relevant functions: {{{emitTickyCounter}}} in [[GhcFile(compiler/codeGen/CgTicky.hs)]] (called by {{{closureCodeBody}}} in [[GhcFile(compiler/codeGen/CgClosure.lhs)]]).
 
-in [compiler/codeGen/CgTicky.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgTicky.hs).
+Argh! I spent days tracking down this bug: {{{idInfoLabelType}}} in [[GhcFile(compiler/cmm/CLabel.hs)]] needs to return {{{DataLabel}}} for labels of type {{{RednCount}}} (i.e., labels for ticky counters.) By default, it was returning {{{CodeLabel}}}, which caused the ticky counter labels to get declared with the wrong type in the generated C, which caused C compiler errors.
 
+== Declarations for ticky counters ==
 
-Other relevant functions: `emitTickyCounter` in [compiler/codeGen/CgTicky.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgTicky.hs) (called by `closureCodeBody` in [compiler/codeGen/CgClosure.lhs](/trac/ghc/browser/ghc/compiler/codeGen/CgClosure.lhs)).
-
-
-Argh! I spent days tracking down this bug: `idInfoLabelType` in [compiler/cmm/CLabel.hs](/trac/ghc/browser/ghc/compiler/cmm/CLabel.hs) needs to return `DataLabel` for labels of type `RednCount` (i.e., labels for ticky counters.) By default, it was returning `CodeLabel`, which caused the ticky counter labels to get declared with the wrong type in the generated C, which caused C compiler errors.
-
-## Declarations for ticky counters
-
-`emitTickyCounter` spits out C declarations that look like this:
-
-```wiki
+{{{emitTickyCounter}}} spits out C declarations that look like this:
+{{{
 static char c16O_str[] = "main:Main.$wrepeated{v r4}";
 
 static char c16Q_str[] = "i";
@@ -70,7 +71,6 @@ static char c16Q_str[] = "i";
 StgWord Main_zdwrepeated_ct[] = {
 0x0, 0x1U, 0x1U, 0x0, (W_)&c16O_str, (W_)&c16Q_str, 0x0, 0x0, 0x0
 };
+}}}
+Here, {{{Main_zdwrepeated_ct}}} is actually an {{{StgEntCounter}}} (this type is declared in [[GhcFile(includes/StgTicky.h)]]). The counters get used by {{{printRegisteredCounterInfo}}} in [[GhcFile(rts/Ticky.c)]], which prints out the ticky reports. The counter fields are accessed using offsets defined in [[GhcFile(includes/GHCConstants.h)]] ({{{oFFSET_StgEntCounter_*}}}), which in turn get generated from [[GhcFile(includes/mkDerivedConstants.c)]] (change it and then run {{{make}}} in {{{includes/}}}. Note that the first 3 fields of the counters are 16-bit ints and so the generated ticky-counter registration code has to reflect that (I fixed a bug where the first field was getting treated as a 32-bit int.)
 ```
-
-
-Here, `Main_zdwrepeated_ct` is actually an `StgEntCounter` (this type is declared in [includes/StgTicky.h](/trac/ghc/browser/ghc/includes/StgTicky.h)). The counters get used by `printRegisteredCounterInfo` in [rts/Ticky.c](/trac/ghc/browser/ghc/rts/Ticky.c), which prints out the ticky reports. The counter fields are accessed using offsets defined in [includes/GHCConstants.h](/trac/ghc/browser/ghc/includes/GHCConstants.h) (`oFFSET_StgEntCounter_*`, which I think were wrong before.)
