@@ -267,7 +267,7 @@ OK!
 Now go read the documentation above on building from source ([wiki:Building/QuickStart Quick start: just building and installing GHC]); 
 the bullets below only tell
 you about Windows-specific wrinkles.
-*  If you used {{{autoconf}}} instead of {{{autoreconf}}},
+ * If you used {{{autoconf}}} instead of {{{autoreconf}}},
    you'll get an error when you run {{{./configure}}}:
    {{{
 

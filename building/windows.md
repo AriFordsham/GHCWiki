@@ -291,22 +291,19 @@ Now go read the documentation above on building from source ([Quick start: just 
 the bullets below only tell
 you about Windows-specific wrinkles.
 
--  If you used `autoconf` instead of `autoreconf`,
+- If you used `autoconf` instead of `autoreconf`,
+  you'll get an error when you run `./configure`:
 
->
-> you'll get an error when you run `./configure`:
->
-> ```wiki
->
-> ...lots of stuff...
-> creating mk/config.h
-> mk/config.h is unchanged
-> configuring in ghc
-> running /bin/sh ./configure  --cache-file=.././config.cache --srcdir=.
-> ./configure: ./configure: No such file or directory
-> configure: error: ./configure failed for ghc
-> ```
+  ```wiki
 
+  ...lots of stuff...
+  creating mk/config.h
+  mk/config.h is unchanged
+  configuring in ghc
+  running /bin/sh ./configure  --cache-file=.././config.cache --srcdir=.
+  ./configure: ./configure: No such file or directory
+  configure: error: ./configure failed for ghc
+  ```
 - `autoreconf` seems to create the file `configure`
   read-only.  So if you need to run autoreconf again (which I sometimes do for safety's sake),
   you get
