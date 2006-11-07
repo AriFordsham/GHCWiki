@@ -3,6 +3,9 @@
 
 The `ExternalCore` data type is used by GHC to communicate code represented in the [Core](commentary/compiler/core-syn-type) data type with the outside world. It comes with an external syntax, a parser, a pretty printer, and code to convert between Core and External Core. Unfortunately, External Core has not been widely used, and the code has bit-rotted. The recent changes in Core to use [System FC](commentary/compiler/fc) have exacerbated the problem. This page documents the process of getting External Core and Core back in sync.
 
+
+Once the process is finished, this page will just describe the design.
+
 ## Relevant files
 
 
@@ -30,24 +33,25 @@ Other files that contain some reference to External Core or are otherwise releva
 - [docs/ext-core/](/trac/ghc/browser/ghc/docs/ext-core/): The current documentation for External Core, which should eventually become a chapter in the [GHC User's Guide](http://www.haskell.org/ghc/docs/latest/html/users_guide/index.html).
 - [http://www.haskell.org/ghc/docs/latest/html/users_guide/ext-core.html](http://www.haskell.org/ghc/docs/latest/html/users_guide/ext-core.html): What the User's Guide currently has to say about External Core.
 
-## Design decisions
+## Design changes
 
-- Probably want to represent all data types as GADTs, even if they can be represented in Haskell 98 form, so that we only have one representation.
-- TODO more!
+- External Core originally parsed into a list of `TyClDecl` and a list of `IfaceBinding`. It now seems as though it might be better to replace the `IfaceBinding` with `LHsDecl`. This would require us to:
+
+  - Add a new data constructor for `HsBind`: `data HsBind id = ... | CoreBind id (ExtCore id)`
+  - Extend the renamer to rename `ExtCore RdrName` to `ExtCore Name`
+  - Extend the type checker to typecheck `ExtCore Name` to generate `ExtCore Id`
+  - Extend the desugarer to desugar `ExtCore Id` to `Core`
+- We probably want to represent all data types as GADTs, even if they can be represented in Haskell 98 form, so that we only have one representation.
 
 ## Tasks
 
-- Define an external text representation for External Core (which will probably be simply a minor modification of the old format)
+- Define an external text representation for External Core (which will probably be simply a minor modification of the old format) (mostly  done?)
 - Update the External Core data type to be compatible with the current Core data type. (mostly done)
 - Update `PprExternalCore.lhs` to print stuff that `LexCore` and `ParserCore` can understand. (mostly done)
 - Update `MkExternalCore.lhs` to support both the current Core and the new External Core. (mostly done)
-- Update `LexCore.hs`, `ParserCore.y`, and `ParserCoreUtils.hs` to support the new data type and external syntax.
+- Update the parser to recognize the new external syntax, generating an empty module at first. (partly done)
+- Update the parser to generate LHsBind rather than IfaceBinding
 - Convert the current External Core documentation (in LaTeX) into a chapter (in XML) in the User's Guide.
-
-## Naming issues
-
-
-Since External Core was introduced, the `IfaceSyn` data type has changed. Originally (including in 6.6), it represented external name references using `IfaceExtName`. Now (in Darcs HEAD), it uses `Name` instead. This change leaves the External Core parser with the responsibility of generating a `Unique` for each name it encounters.
 
 ## Miscellaneous notes
 
