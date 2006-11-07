@@ -411,7 +411,7 @@ choices, but it gives a single path that works.
     uncomment line: BuildFlavour = perf
 	(or BuildFlavour = devel, if you are doing development)
     add line:       BIN_DIST=1
-  - make 2>&amp;1 | tee make.log
+  - make 2>&1 | tee make.log
     ; always useful to have a log around
 
 - Package up binary distribution
