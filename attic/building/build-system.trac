@@ -61,7 +61,7 @@ sections:
  * The first section includes
    (One of the most important
    features of GNU {{{make}}} that we use is the ability for a {{{Makefile}}} to
-   include another named file, very like {{{cpp}}}'s {{{&num;include}}}
+   include another named file, very like {{{cpp}}}'s {{{#include}}}
    directive.)
    a file of "boilerplate" code from the top level.
    As its name suggests, {{{boilerplate.mk}}}
