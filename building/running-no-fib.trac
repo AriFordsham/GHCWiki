@@ -1,4 +1,4 @@
-= Running the NoFib benchmark suite =
+= Running the `NoFib` benchmark suite =
 
 This is the root directory of the "NoFib Haskell benchmark suite";
 version 2.05 (to match our other Glasgow functional-programming
