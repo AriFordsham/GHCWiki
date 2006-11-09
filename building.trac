@@ -27,6 +27,7 @@ from that manual is gradually being incorporated here.
  * [wiki:Building/Porting Porting GHC]
  * [wiki:Building/KnownProblems Known pitfalls in building GHC]
  * [wiki:Building/RunningTests Running the GHC test framework]
+ * [wiki:Building/RunningNoFib Running the nofib benchmarks]
  * Platform-specific build issues
    * [wiki:Building/PlatformsScriptsFileNames Platforms, scripts, and file names]
    * [wiki:Building/Windows Building under Windows]
