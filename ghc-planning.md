@@ -6,9 +6,9 @@ This page is an internal planning document, for Ian L, Simon M, and Simon PJ. It
 ## Current active mini-projects
 
 
-Currently active
+Ian's projects
 
-- **BuildBot**: nearly ready.  Need to install on darcs.haskell.org.
+- **[BuildBot](build-bot)**: nearly ready.  Need to install on darcs.haskell.org.
 
 - **Building libraries using Cabal**
 
@@ -27,6 +27,19 @@ Currently active
     - GHCi’s linker (.o files) vs system linker (.so and .dll only)
     - GHCi’s linker only works on 5-ish platforms.  
     - Do we need indirections between modules in one package, or only for cross-package links?  And is this decided when compiling the module, or when linking the module?
+
+
+Simon PJ's projects
+
+- **Implication constraints**
+- **Demand analysis** with Kirsten Chevalier
+- **Associated data types and type synonyms**, with Manuel: [TypeFunctions](type-functions)
+- **Data parallel Haksell**, with Manuel, Gabi, Roman; see [ http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)
+
+
+Simon M's projects
+
+- **Parallel garbage collection**
 
 ## Awaiting attention
 
