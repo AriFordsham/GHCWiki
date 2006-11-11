@@ -48,6 +48,12 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
  * '''Mips64'''
    * Irix: [mailto:dons@cse.unsw.edu.au Don Stewart]
 
+ * '''Mips'''
+   * Debian GNU/Linux/mips packages: [mailto:igloo@debian.org Ian Lynagh]
+
+ * '''Mipsel'''
+   * Debian GNU/Linux/mipsel packages: [mailto:igloo@debian.org Ian Lynagh]
+
  * '''IA-64'''
    * Linux: [mailto:matthewc@cse.unsw.edu.au Matt Chapman]
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
@@ -65,6 +71,9 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
 
  * '''S/390'''
    * Debian GNU/Linux/s390 packages: [mailto:igloo@debian.org Ian Lynagh]
+
+ * '''Arm'''
+   * Debian GNU/Linux/arm packages: [mailto:igloo@debian.org Ian Lynagh]
 
  * '''m68k'''
    * Debian GNU/Linux/m68k packages: [mailto:igloo@debian.org Ian Lynagh]

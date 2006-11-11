@@ -56,6 +56,14 @@ For a full description of GHC support for various platforms, see [Platforms](pla
 
   - Irix: Don Stewart
 
+- **Mips**
+
+  - Debian GNU/Linux/mips packages: Ian Lynagh
+
+- **Mipsel**
+
+  - Debian GNU/Linux/mipsel packages: Ian Lynagh
+
 - **IA-64**
 
   - Linux: Matt Chapman
@@ -77,6 +85,10 @@ For a full description of GHC support for various platforms, see [Platforms](pla
 - **S/390**
 
   - Debian GNU/Linux/s390 packages: Ian Lynagh
+
+- **Arm**
+
+  - Debian GNU/Linux/arm packages: Ian Lynagh
 
 - **m68k**
 
