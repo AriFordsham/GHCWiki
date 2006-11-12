@@ -34,7 +34,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - Linux: Ryan Lortie
   - Gentoo Linux packages (32 and 64bit): Gentoo Haskell team
   - Debian GNU/Linux/powerpc packages: Ian Lynagh
-  - MacOS X: Wolfgang Thaller
+  - MacOS X: Wolfgang Thaller,Thorkil Naur
   - Fedora Extras packages: Jens Petersen
 
 - **Sparc**

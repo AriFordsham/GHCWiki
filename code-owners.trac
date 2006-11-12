@@ -29,7 +29,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Linux: [mailto:desrt@desrt.ca Ryan Lortie]
    * Gentoo Linux packages (32 and 64bit): [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/powerpc packages: [mailto:igloo@debian.org Ian Lynagh]
-   * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]
+   * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller],[mailto:naur@post11.tele.dk Thorkil Naur]
    * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
 
  * '''Sparc'''
