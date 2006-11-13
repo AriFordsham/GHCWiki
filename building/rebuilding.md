@@ -1,1 +1,14 @@
 # How do I rebuild GHC after updating or changing it?
+
+
+Note that after pulling new changes, the safest way to continue working is to clean the build tree and start from scratch:
+
+```wiki
+  $ make distclean
+  $ autoreconf
+  $ ./configure
+  $ make
+```
+
+
+You may be able to shortcut this procedure if you know what you're doing, or you could just take a risk and if anything goes wrong fall back to the above procedure.
