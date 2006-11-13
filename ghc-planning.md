@@ -14,7 +14,7 @@ Ian's projects
   Don't worry about unreg way: we'll probably drop it anyway, and for nightly testing we
   can just do a full unreg build. Can't build the GHC package with --make due to
   a bug where GHC gets confused when as it learns more about a type as it compiles
-  recursive modules.
+  recursive modules: [930](https://gitlab.haskell.org//ghc/ghc/issues/930).
 
 - **Dynamic linking and shared libraries**
 
