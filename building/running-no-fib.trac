@@ -1,3 +1,5 @@
+
+
 = The !NoFib Benchmark Suite =
 
 The !NoFib benchmark suite is a collection of (mostly old) Haskell programs that we use for benchmarking GHC.  The !NoFib suite is kept in a separate darcs repository (see DarcsRepositories), and it should be checked out at the top level of a GHC source tree, i.e. at the same level as `compiler` and `libraries`.
@@ -28,7 +30,7 @@ GHC version, GCC version, C libraries, static vs. dynamic GMP library,
 build options, run options, and probably lots more.  To be on the safe
 side, make both runs on the same unloaded machine.
 
-To get instruction counts, memory reads/writes, and "cache misses",
+To get measurements for simulated instruction counts, memory reads/writes, and "cache misses",
 you'll need to get hold of Cachegrind, which is part of 
 [http://valgrind.org Valgrind].
 
