@@ -12,7 +12,9 @@ There are some documents on coding style:
 
 To submit patches to the developers, please use {{{darcs send}}}.  You don't need any special permission to do this.  
 
-Broadly speaking there are two sorts of patches: bug fixes, and new features.  We treat them differently.
+Broadly speaking there are two sorts of patches: '''bug fixes''', and '''new features'''.  We treat them differently.
+
+We have separate guidelines for proposing changes to standard libraries; see [http://haskell.org/haskellwiki/Library_submissions Library Submissions].
 
 === Bug fixes ===
 
@@ -24,21 +26,29 @@ Bug fixes always extremely welcome.  GHC is so large, and is used in such divers
 
  * Please ensure that there is a test case in the regression-test suite that shows up the bug, and which is fixed by your patch.  This test case should be identified in the "Test Case" field of the Trac report.
 
-=== Features ===
+=== New features ===
 
-We are more careful before committing new features. Here are some things to bear in mind:
+We welcome your involvement in making GHC able to do more.  That said, we think twice before committing new features. Here are some things to bear in mind:
  
  * Your patch does not need to be incorporated in the main GHC repository to be useful.  The joy of Darcs is that you can send it to anyone, and they can use it quite independently.
 
- * Committing a patch that implements a new feature is not free for us. It effectively commits us to maintaining it indefinitely, and to worrying about its interactions with existing features, and (later) other new features.
-
- * Another consideration that we take seriously is trying to keep GHC's language design somewhat coherent.  GHC deliberately tries to host a variety of ideas, not all of which may be good, but we try to keep it under control.
+ * It may seem that running 'darcs apply' is practically free for us; you have done all the hard work.  But it isn't:
+   * It effectively commits us to maintaining it indefinitely, and worrying about its interactions with existing features
+   * We try hard to keep GHC's language design somewhat coherent.  GHC deliberately tries to host a variety of ideas, not all of which may be good, but we try to keep it under control.
+   * We have to do quality-control on your patch; we don't want to commit un-maintainable code... or even well-written code that we can't understand.
+   * If your patch breaks something else, we'll get blamed regardless.  
+   * Subsequent new features have to take account of interactions with your feature.
 
  * New features should be switchable with their own flag, by default off.  We used to have just one flag `-fglasgow-exts` but nowadays we try to be much more selective.
 
- * A new feature should come with
+ * A new feature should come with 
+   * A commit message that (a) explains what the patch does, and (b) sketches how it works.
    * A patch to the user manual that documents it (part of the main source-code patch)
    * A (separate) patch to the testsuite repository that gives a reasonable collection of tests for the new feature.  This has to be a separate patch, because the testsuite is a separate repository.
+
+ * Remember that GHC HQ is not heavily staffed!  It may take us a while to give your patch the attention it deserves.
+
+If you are working on a feature that you think you think is a candidate for including in GHC's main repository, you may want to talk to us while you are developing it.  We may well, for example, have advice about how to structure the change in a way that we're happy to incorporate in our code base.
 
 == Committing changes ==
 
@@ -52,9 +62,7 @@ If you have permission to push patches directly to the repository (pretty easy t
 
 Do not forget to {{{darcs record}}} your changes first!
 
-== Guidelines for pushing patches ==
-
- * We have separate guidelines for proposing changes to standard libraries; see [http://haskell.org/haskellwiki/Library_submissions Library Submissions].
+== Guidelines for people with commit permissions ==
 
  * Try to make small patches (i.e. work in consistent increments).
 
