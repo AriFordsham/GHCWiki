@@ -20,7 +20,7 @@ We have separate guidelines for proposing changes to standard libraries; see [ht
 
 Bug fixes always extremely welcome.  GHC is so large, and is used in such diverse ways by so many people, that we really need your help in fixing bugs, especially those that show up in specialised situations.
 
- * In the darcs commit message, please say which Trac bug is being fixed
+ * In the darcs commit message, please say which Trac bug is being fixed, if any
 
  * Comment your fix in the source code.  It is often helpful to give a small example code fragment that demonstrates the need for your fix.  This isn't always relevant; sometimes you are fixing a plain error, but often it's more subtle than that.
 
@@ -45,6 +45,11 @@ We welcome your involvement in making GHC able to do more.  That said, we think 
    * A commit message that (a) explains what the patch does, and (b) sketches how it works.
    * A patch to the user manual that documents it (part of the main source-code patch)
    * A (separate) patch to the testsuite repository that gives a reasonable collection of tests for the new feature.  This has to be a separate patch, because the testsuite is a separate repository.
+
+ * New features should work in a way that is consistent, as far as possible, with the way that other
+   existing GHC features work.  Adopting a variety of different styles leads to a
+   system that is hard to learn, and complaints of the form "why doesn't it work like X?
+   I'm familiar with X!".
 
  * Remember that GHC HQ is not heavily staffed!  It may take us a while to give your patch the attention it deserves.
 
