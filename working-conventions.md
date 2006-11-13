@@ -1,79 +1,91 @@
-CONVERSION ERROR
+# Working conventions for working on GHC
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/WorkingConventions"
-  queryString          = "?version=7"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:58:27 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/WorkingConventions\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+## Coding conventions
 
-Original source:
-
-```trac
-[[PageOutline]]
-= Working conventions for working on GHC =
-
-== Coding conventions ==
 
 There are some documents on coding style:
 
- * [wiki:Commentary/CodingStyle Coding style in the compiler]
- * [wiki:Commentary/Rts/Conventions Coding style in the runtime system]
+- [Coding style in the compiler](commentary/coding-style)
+- [Coding style in the runtime system](commentary/rts/conventions)
 
-== Submitting patches ==
+## Submitting patches
 
-To submit patches to the developers, please use {{{darcs send}}}.  You don't need any special permission to do this.
 
-== Committing changes ==
+To submit patches to the developers, please use `darcs send`.  You don't need any special permission to do this.  
 
-If you have permission to push patches directly to the repository (pretty easy to get, just demonstrate your competence by sending us a patch or two first), then you can use {{{darcs push}}}:
 
-{{{
+Broadly speaking there are two sorts of patches: bug fixes, and new features.  We treat them differently.
+
+### Bug fixes
+
+
+Bug fixes always extremely welcome.  GHC is so large, and is used in such diverse ways by so many people, that we really need your help in fixing bugs, especially those that show up in specialised situations.
+
+- In the darcs commit message, please say which Trac bug is being fixed
+
+- Comment your fix in the source code.  It is often helpful to give a small example code fragment that demonstrates the need for your fix.  This isn't always relevant; sometimes you are fixing a plain error, but often it's more subtle than that.
+
+- Please ensure that there is a test case in the regression-test suite that shows up the bug, and which is fixed by your patch.  This test case should be identified in the "Test Case" field of the Trac report.
+
+### Features
+
+
+We are more careful before committing new features. Here are some things to bear in mind:
+ 
+
+- Your patch does not need to be incorporated in the main GHC repository to be useful.  The joy of Darcs is that you can send it to anyone, and they can use it quite independently.
+
+- Committing a patch that implements a new feature is not free for us. It effectively commits us to maintaining it indefinitely, and to worrying about its interactions with existing features, and (later) other new features.
+
+- Another consideration that we take seriously is trying to keep GHC's language design somewhat coherent.  GHC deliberately tries to host a variety of ideas, not all of which may be good, but we try to keep it under control.
+
+- New features should be switchable with their own flag, by default off.  We used to have just one flag `-fglasgow-exts` but nowadays we try to be much more selective.
+
+- A new feature should come with
+
+  - A patch to the user manual that documents it (part of the main source-code patch)
+  - A (separate) patch to the testsuite repository that gives a reasonable collection of tests for the new feature.  This has to be a separate patch, because the testsuite is a separate repository.
+
+## Committing changes
+
+
+If you have permission to push patches directly to the repository (pretty easy to get, just demonstrate your competence by sending us a patch or two first), then you can use `darcs push`:
+
+```wiki
   $ darcs push <account>@darcs.haskell.org:/home/darcs/ghc
-}}}
-
-(change {{{ghc}}} to the name of the repository if you're pushing changes from one of the sub-repositories, like {{{testsuite}}}, or a package such as {{{base}}}.  Note: {{{darcs push}}} requires that SSH is working and can log in to your account on {{{darcs.haskell.org}}}.
-
-Do not forget to {{{darcs record}}} your changes first!
-
-== Guidelines for pushing patches ==
-
- * We have separate guidelines for proposing changes to standard libraries; see [http://haskell.org/haskellwiki/Library_submissions Library Submissions].
-
- * Try to make small patches (i.e. work in consistent increments).
-
- * Separate changes that affect functionality from those that just affect
-   code layout, indendation, whitespace, filenames etc.  This means that
-   when looking at patches later, we don't have to wade through loads of
-   non-functional changes to get to the important parts of the patch.   
-
- * If possible, push often.  This helps to avoid conflicts.
-
- * Rather than push conflicting patches followed by conflict resolutions, use
-   amend-record (or unrecord/edit/record) to make a single patch.  Darcs currently
-   doesn't handle conflicts
-   well, so we are trying to keep the HEAD clean of conflicts for now.  It doesn't
-   matter so much on the stable branches though.
-
- * Try not to break anything.  At the minimum, the tree should build on your system with
-   the patch, better still [wiki:Building/RunningTests test your changes] before
-   pushing.  The nightly builds will show up any breakage on other platforms.
-   [[br]][[br]]
-   If you do end up breaking the build then it's not the end of the world,
-   so don't sweat about it too much. History shows that even people
-   called Simon are not immune from doing so!
-
- * Discuss anything you think might be controversial before pushing it.
-
-
-
 ```
+
+
+(change `ghc` to the name of the repository if you're pushing changes from one of the sub-repositories, like `testsuite`, or a package such as `base`.  Note: `darcs push` requires that SSH is working and can log in to your account on `darcs.haskell.org`.
+
+
+Do not forget to `darcs record` your changes first!
+
+## Guidelines for pushing patches
+
+- We have separate guidelines for proposing changes to standard libraries; see [ Library Submissions](http://haskell.org/haskellwiki/Library_submissions).
+
+- Try to make small patches (i.e. work in consistent increments).
+
+- Separate changes that affect functionality from those that just affect
+  code layout, indendation, whitespace, filenames etc.  This means that
+  when looking at patches later, we don't have to wade through loads of
+  non-functional changes to get to the important parts of the patch.   
+
+- If possible, push often.  This helps to avoid conflicts.
+
+- Rather than push conflicting patches followed by conflict resolutions, use
+  amend-record (or unrecord/edit/record) to make a single patch.  Darcs currently
+  doesn't handle conflicts
+  well, so we are trying to keep the HEAD clean of conflicts for now.  It doesn't
+  matter so much on the stable branches though.
+
+- Try not to break anything.  At the minimum, the tree should build on your system with
+  the patch, better still [test your changes](building/running-tests) before
+  pushing.  The nightly builds will show up any breakage on other platforms.
+
+  If you do end up breaking the build then it's not the end of the world,
+  so don't sweat about it too much. History shows that even people
+  called Simon are not immune from doing so!
+
+- Discuss anything you think might be controversial before pushing it.
