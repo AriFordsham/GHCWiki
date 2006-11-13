@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Building/RunningNoFib"
-  queryString          = "?version=2"
+  queryString          = "?version=3"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,87 +14,46 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:58:57 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","259"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Building/RunningNoFib\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:02 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","259"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Building/RunningNoFib\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
 ```trac
-= Running the `NoFib` benchmark suite =
+= The !NoFib Benchmark Suite =
 
-This is the root directory of the "NoFib Haskell benchmark suite";
-version 2.05 (to match our other Glasgow functional-programming
-tools).
+The !NoFib benchmark suite is a collection of (mostly old) Haskell programs that we use for benchmarking GHC.  The !NoFib suite is kept in a separate darcs repository (see DarcsRepositories), and it should be checked out at the top level of a GHC source tree, i.e. at the same level as `compiler` and `libraries`.
 
-The main change between version 2.01 and 2.05 is that the programs
-have been converted to Haskell 1.4.
+To run the tests:
 
-We have yet to release the NoFib stuff as we intended -- everything
-tidied up -- because it's a lot of work for very few brownie points.
-Probably we never will.  As it is, however, it is quite useful as a
-Haskell-compiler test suite, so we are not keeping it to ourselves.
+{{{
+  $ cd nofib
+  $ make clean
+  $ make boot
+  $ make 2>&1 | tee nofib-log
+}}}
 
-This version has *MANY* shortcomings, some of which I hope you will
-report, so we can get something "real" out the door.
+will put the results in the file `nofib-log`.
 
-There are some restrictions on the use of this software.  First of
-all, the copyright for the individual programs remains with their
-authors (unless they have explicitly said otherwise).  Second, we (the
-Glasgow Haskell project at University of Glasgow) retain the copyright
-to any changes made to the programs *and* to the collection of
-programs itself.  Third, for 2.05, it would be dishonest to suggest
-that any results are related to the still-in-the-future "NoFib
-benchmark suite".  So please do not make any such claims.
+To compare the results of multiple runs, use the program in
+[[GhcFile(utils/nofib-analyse)]].  Something like this:
 
-A position paper about the suite is in docs/paper/paper.dvi, and it
-includes more than enough indication as to how we intend this suite to
-be used.  Of course, we positively *welcome* honest and creative uses
-of this suite.
+{{{
+  $ nofib-analyse nofib-log-6.4.2 nofib-log-6.6
+}}}
 
-The file BUILDING provides some direction about setting up the suite,
-in order to run it. [NOTE: doesn't exist yet; see sketchy notes below]
+to generate a comparison of the runs in captured in `nofib-log-6.4.2`
+and `nofib-log-6.6`.  When making comparisons, be careful to ensure
+that the things that changed between the builds are only the things
+that you ''wanted'' to change.  There are lots of variables: machine,
+GHC version, GCC version, C libraries, static vs. dynamic GMP library,
+build options, run options, and probably lots more.  To be on the safe
+side, make both runs on the same unloaded machine.
 
-You may sent comments or bug reports about this suite either to the
-Glasgow Haskell bugs list <glasgow-haskell-bugs@dcs.gla.ac.uk>.
-They will be most welcome.
+To get instruction counts, memory reads/writes, and "cache misses",
+you'll need to get hold of Cachegrind, which is part of 
+[http://valgrind.org Valgrind].
 
-== SKETCHY NOTES ==================================================
-
-Quick and dirty
-~~~~~~~~~~~~~~~
-
-Find a program you are interested in, make up a "makefile" by hand,
-and try it :-)
-
-
-Doing things properly
-~~~~~~~~~~~~~~~~~~~~~
-
-* This version of nofib only supports ghc-2.05, so if you try to use
-  other versions of GHC or different Haskell systems, you're going to
-  run into some obstacles.
-
-* Plop the nofib distribution inside the Glasgow fptools suite, i.e.,
-  unpack nofib at the toplevel at the same level as directories such as
-  ghc/ and glafp-utils/.
-
-* Have a look in mk/config.mk.in to see what variables control the nofib setup.
-  If you want to change these, put the new settings for them in the build-specific
-  setup file, mk/build.mk
-
-* Run ./configure
-
-* Assuming you haven't built the compiler, you will need to do that first.
-  Type "make boot" (or whatever make is called on your system)
-  followed by "make all". 
-
-* cd nofib/
-
-* Ready the nofib suite for some use, by running `make boot', which
-  takes care of creating Makefile dependendencies.
-
-* If all that worked -- and you'll know if it did -- then do:
-
-    % make -k >& make.log # to compile everything; save log for study
-    % make -k runtests >& runtests.log	# also for study
+There are some options you might want to tweak; search for nofib in
+[[GhcFile(mk/config.mk)]], and override settings in `mk/build.mk` as usual.
 
 ```
