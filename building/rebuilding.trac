@@ -1,3 +1,5 @@
+
+
 = How do I rebuild GHC after updating or changing it? =
 
 Note that after pulling new changes, the safest way to continue working is to clean the build tree and start from scratch:
