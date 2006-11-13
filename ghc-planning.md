@@ -58,7 +58,7 @@ Simon PJ's projects
 
 Simon M's projects
 
-- **darcs** Get darcs.h.o:\~ian/darcs/ installed
+- **darcs** Get darcs.h.o:\~igloo/darcs/ installed
 - **Parallel garbage collection**
 
 ## Awaiting attention
