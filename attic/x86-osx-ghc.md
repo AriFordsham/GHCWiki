@@ -1,7 +1,25 @@
 
 This page is meant to document the current state of GHC on Apple Mac OS X on Intel x86 hardware.
 
-[ DarwinPorts](http://darwinports.opendarwin.org/) still has GHC as not supported on x86.
+
+As of 2006-11-3, MacPorts (formerly Darwinports, [ MacPorts](http://www.macports.org/)) supports GHC 6.6 on x86.  The build is from source,
+using a binary bootstrap compiler and is "unix-style" in that it does not use frameworks.
+The maintainer is Gregory Wright.
+
+
+The most common problems building ghc 6.6 using MacPorts are not having an up-to-date Xcode and
+not cleaning up after a failed build.  You should verify that you have the latest Xcode from [ http://developer.apple.com/tools/xcode](http://developer.apple.com/tools/xcode).
+Downloading Xcode requires a free Apple Developer Connection membership.  Please note that
+Xcode updates are no longer distributed by Software Update -- you must manually download
+the latest version.
+
+
+If you have tried to build ghc under MacPorts and had the build fail, you must do
+
+` > sudo port clean ghc `
+
+
+before you start the build again.  Restarting a failed build is a common source of spurious build problems.
 
 ---
 
