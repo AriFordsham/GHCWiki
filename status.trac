@@ -1,3 +1,6 @@
-= Biannual GHC Status Reports =
+= GHC Status =
 
- * [wiki:Status/October06 GHC status October 2006]
+ * [wiki:GhcPlanning Current planning notes]
+
+ * Biannual GHC status reports, published in the [http://haskell.org/communities/ Haskell Communities and Activities Report]
+   * [wiki:Status/October06 GHC status October 2006]
