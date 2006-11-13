@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Building"
-  queryString          = "?version=13"
+  queryString          = "?version=14"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -41,7 +41,7 @@ from that manual is gradually being incorporated here.
  * [wiki:Building/QuickStart Quick start: just building and installing GHC]
  * [wiki:Building/Hacking Quick start for developers]
  * [wiki:Building/Unregisterised Unregisterised builds]
- * [wiki:Building/Rebuilding How do re-build after updating or changing GHC?]
+ * [wiki:Building/Rebuilding How do I re-build after updating or changing GHC?]
  * [wiki:Building/Using Using the build system]
  * [wiki:Building/BuildSystem Architecture of the build system]
  * [wiki:Building/Docs Building the documentation]
