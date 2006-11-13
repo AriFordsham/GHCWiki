@@ -1,5 +1,9 @@
 = Native Code Generator =
 
+For other information related to this page, see:
+ * [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/the-beast/ncg.html the Old GHC Commentary: Native Code Generator] page (comments regarding Maximal Munch and register allocation optimisations are mostly still valid)
+ * [wiki:BackEndNotes] for optimisation ideas regarding the current NCG
+
 === Overview: Files, Phases ===
 
 After GHC has produced Cmm (use -ddump-cmm or -ddump-opt-cmm to view), the Native Code Generator (NCG) transforms [wiki:Commentary/Compiler/CmmType Cmm] into architecture-specific assembly code.  The NCG is located in [[GhcFile(compiler/nativeGen)]] and is separated into eight modules:
