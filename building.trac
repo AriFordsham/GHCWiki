@@ -38,7 +38,3 @@ from that manual is gradually being incorporated here.
 Please feel free to add pages here.  In due course, information can be incorporated into the main documentation above.
 
  * [wiki:ProblemsCompilingGhc]: Hints about building GHC on Windows platforms  
-
-== OLD documentation ==
-
-  * [http://www.haskell.org/ghc/docs/latest/html/building/index.html Building Guide]
