@@ -7,15 +7,21 @@ This page is an internal planning document, for Ian L, Simon M, and Simon PJ. It
 
 Ian's projects
 
- * '''BuildBot''': nearly ready.  Need to install on darcs.haskell.org.
+ * '''BuildBot''': Make stable backport and give to Paul to install when he is ready
 
- * '''Building libraries using Cabal'''
+ * '''Building libraries using Cabal''': Tidy up patches, do haddocking, test, then push.
+   Don't worry about unreg way: we'll probably drop it anyway, and for nightly testing we
+   can just do a full unreg build. Can't build the GHC package with --make due to
+   a bug where GHC gets confused when as it learns more about a type as it compiles
+   recursive modules.
 
  * '''Dynamic linking and shared libraries'''
-   * Seems to be working unregisterised
+   * GHCi seems to be working unregisterised
+   * nofib -fPIC vs normal code on the common arches
    * Try it with native code gen 
    * Try it with registerised
    * DLL/SO for RTS+Base libs.  Then lots of DLLs/SOs can share one RTS.
+   * nofib DLL vs static on the common arches
    * Instructions for how to build DLL and SOs
    * Freeing resources on unload.  Why is it hard to guarantee that Haskell finalisers run?
    * Make sure that DLL/SO works ok when all you are doing is exporting a Haskell function or functions.  Issues: initialising the Haskell RTS
@@ -25,13 +31,27 @@ Ian's projects
      * GHCi’s linker only works on 5-ish platforms.  
      * Do we need indirections between modules in one package, or only for cross-package links?  And is this decided when compiling the module, or when linking the module?
 
+ * '''trac''' Add a "not_ghc" milestone or somesuch, for extralibs, proposals, etc.
+
+ * '''List filtering'''
+   Put procmail in front of mailman so we can allow big darcs patches through.
+   In the longer term we can look at running some sort of spam discarder or marker with procmail too.
+
+ * '''Broken tests'''
+   Change `fail` to `broken(123)` and try to get the HEAD to a state where all
+   test failures are broken and have a bug annotated. Update building guide
+   to know about this change.
+
 Simon PJ's projects
+ * '''Lambda match''' Look at Claus' patch
+ * '''Patch submission''' Write some blurb on patch submission guidelines
  * '''Implication constraints'''
  * '''Demand analysis''' with Kirsten Chevalier
  * '''Associated data types and type synonyms''', with Manuel: [wiki:TypeFunctions]
  * '''Data parallel Haksell''', with Manuel, Gabi, Roman; see [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell]
 
 Simon M's projects
+ * '''darcs''' Get darcs.h.o:~ian/darcs/ installed
  * '''Parallel garbage collection'''
 
 == Awaiting attention ==
