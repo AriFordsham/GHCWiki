@@ -10,7 +10,35 @@ There are some documents on coding style:
 
 == Submitting patches ==
 
-To submit patches to the developers, please use {{{darcs send}}}.  You don't need any special permission to do this.
+To submit patches to the developers, please use {{{darcs send}}}.  You don't need any special permission to do this.  
+
+Broadly speaking there are two sorts of patches: bug fixes, and new features.  We treat them differently.
+
+=== Bug fixes ===
+
+Bug fixes always extremely welcome.  GHC is so large, and is used in such diverse ways by so many people, that we really need your help in fixing bugs, especially those that show up in specialised situations.
+
+ * In the darcs commit message, please say which Trac bug is being fixed
+
+ * Comment your fix in the source code.  It is often helpful to give a small example code fragment that demonstrates the need for your fix.  This isn't always relevant; sometimes you are fixing a plain error, but often it's more subtle than that.
+
+ * Please ensure that there is a test case in the regression-test suite that shows up the bug, and which is fixed by your patch.  This test case should be identified in the "Test Case" field of the Trac report.
+
+=== Features ===
+
+We are more careful before committing new features. Here are some things to bear in mind:
+ 
+ * Your patch does not need to be incorporated in the main GHC repository to be useful.  The joy of Darcs is that you can send it to anyone, and they can use it quite independently.
+
+ * Committing a patch that implements a new feature is not free for us. It effectively commits us to maintaining it indefinitely, and to worrying about its interactions with existing features, and (later) other new features.
+
+ * Another consideration that we take seriously is trying to keep GHC's language design somewhat coherent.  GHC deliberately tries to host a variety of ideas, not all of which may be good, but we try to keep it under control.
+
+ * New features should be switchable with their own flag, by default off.  We used to have just one flag `-fglasgow-exts` but nowadays we try to be much more selective.
+
+ * A new feature should come with
+   * A patch to the user manual that documents it (part of the main source-code patch)
+   * A (separate) patch to the testsuite repository that gives a reasonable collection of tests for the new feature.  This has to be a separate patch, because the testsuite is a separate repository.
 
 == Committing changes ==
 
