@@ -59,7 +59,7 @@ We welcome your involvement in making GHC able to do more.  That said, we think 
   system that is hard to learn, and complaints of the form "why doesn't it work like X?
   I'm familiar with X!".
 
-- Remember that GHC HQ is not heavily staffed!  It may take us a while to give your patch the attention it deserves.
+- Remember that GHC HQ is not heavily staffed!  It may take us a while to give your patch the attention it deserves. However, if you hear nothing for a couple of weeks then please feel free to ping us, in case your patch has slipped through the cracks.
 
 
 If you are working on a feature that you think you think is a candidate for including in GHC's main repository, you may want to talk to us while you are developing it.  We may well, for example, have advice about how to structure the change in a way that we're happy to incorporate in our code base.
