@@ -145,8 +145,9 @@ In addition, the types of the arguments may change too, but that is not a proble
 
 
 So to recap, all what is being done to compensate is drop the first (n - m) arguments where:
-n - \# arguments of the original constructor
-m - \# arguments of the wrapper constructor, if any, or worker constructor
+
+- n - \# arguments of the original constructor
+- m - \# arguments of the wrapper constructor, if any, or worker constructor
 
 ### About handling suspensions in the interactive environment
 
