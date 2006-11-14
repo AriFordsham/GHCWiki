@@ -4,7 +4,7 @@ For other information related to this page, see:
  * [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/the-beast/ncg.html the Old GHC Commentary: Native Code Generator] page (comments regarding Maximal Munch and register allocation optimisations are mostly still valid)
  * [wiki:BackEndNotes] for optimisation ideas regarding the current NCG
 
-=== Overview: Files, Phases ===
+=== Overview: Files, Parts ===
 
 After GHC has produced Cmm (use -ddump-cmm or -ddump-opt-cmm to view), the Native Code Generator (NCG) transforms [wiki:Commentary/Compiler/CmmType Cmm] into architecture-specific assembly code.  The NCG is located in [[GhcFile(compiler/nativeGen)]] and is separated into eight modules:
 
@@ -23,7 +23,7 @@ After GHC has produced Cmm (use -ddump-cmm or -ddump-opt-cmm to view), the Nativ
  * [[GhcFile(compiler/nativeGen/RegAllocInfo.hs)]][[BR]]
    defines the main register information function, {{{regUsage}}}, which takes a set of real and virtual registers and returns the actual registers used by a particular {{{Instr}}}; register allocation is in AT&T syntax order (source, destination), in an internal function, {{{usage}}}; defines the {{{RegUsage}}} data type[[BR]][[BR]]
  * [[GhcFile(compiler/nativeGen/RegisterAlloc.hs)]][[BR]]
-   one of the most complicated modules in the NCG, {{{RegisterAlloc}}} manages the allocation of registers for each ''basic block'' of Haskell-abstracted assembler code: management involves ''liveness'' analysis, allocation or deletion of temporary registers, ''spilling'' temporary values to the ''spill stack'' (memory) and many other optimisations.  ''Note: much of this detail will be described later; '''basic block''' is defined below.''
+   one of the most complicated modules in the NCG, {{{RegisterAlloc}}} manages the allocation of registers for each ''basic block'' of Haskell-abstracted assembler code: management involves ''liveness'' analysis, allocation or deletion of temporary registers, ''spilling'' temporary values to the ''spill stack'' (memory) and many optimisations.  ''Note: much of this detail will be described later; '''basic block''' is defined below.''
 
 and one header file:
 
@@ -32,8 +32,11 @@ and one header file:
 
 The NCG has '''machine-independent'''  and '''machine-dependent''' parts.  
 
-The '''machine-independent''' parts begin with ''Cmm blocks.''  A ''Cmm block'' is roughly parallel to a Cmm function or procedure in the same way as a compiler may generate a C function into a block of assembler instructions.  ''Cmm block''s are held as lists of {{{Cmm}}} statements ({{{[CmmStmt]}}}, defined in [[GhcFile(compiler/cmm/Cmm.hs)]], or {{{type CmmStmts}}}, defined in [[GhcFile(compiler/cmm/CmmUtils.hs)]]).  A machine-specific (assembler) instruction is represented as a {{{Instr}}}. During this phase:
- 1. each Cmm block is ''lazily'' converted to abstract machine instructions ({{{Instr}}}) operating on an infinite number of registers--since the NCG Haskell files only contain instructions for the host computer on which GHC was compiled, these {{{Instr}}} are machine-specific;[[BR]][[BR]]
- 1. for each ''basic block'' (a, contiguous block of instructions with no branches (jumps) in each ''{{{Cmm}}} block''), real registers are ''lazily'' allocated based on the number of available registers on the target machine (say, 32 integer and 32 floating-point registers on the PowerPC architecture).[[BR]]''Note'': if a basic block simultaneously requires more registers than are available on the target machine and the temporary variable needs to be used (would sill be ''live'') after the current instruction, it will be moved (''spilled'') into memory; and,[[BR]][[BR]]
+The '''machine-independent''' parts relate to generic programming, especially for optimisations, and Cmm.  The main machine-independent parts begin with ''Cmm blocks.''  A ''Cmm block'' is roughly parallel to a Cmm function or procedure in the same way as a compiler may generate a C function into an assembler function composed of smaller ''basic blocks'' separated by branches (jumps).  ''Cmm block''s are held as lists of {{{Cmm}}} statements ({{{[CmmStmt]}}}, defined in [[GhcFile(compiler/cmm/Cmm.hs)]], or the {{{type}}} synonym {{{CmmStmts}}}, defined in [[GhcFile(compiler/cmm/CmmUtils.hs)]]).  A machine-specific (assembler) instruction is represented as a {{{Instr}}}.
+ 1. each Cmm block is lazily converted to abstract machine instructions ({{{Instr}}}) operating on an infinite number of registers--since the NCG Haskell files only contain instructions for the host computer on which GHC was compiled, these {{{Instr}}} are machine-specific;[[BR]][[BR]]
+ 1. for each ''basic block'' (a, contiguous block of instructions with no branches (jumps) in each ''{{{Cmm}}} block''), real registers are lazily allocated based on the number of available registers on the target machine (say, 32 integer and 32 floating-point registers on the PowerPC architecture).[[BR]]''Note'': if a basic block simultaneously requires more registers than are available on the target machine and the temporary variable needs to be used (would sill be ''live'') after the current instruction, it will be moved (''spilled'') into memory; and,[[BR]][[BR]]
  1. each Cmm block is optimised by reordering its basic blocks from the original order (the {{{Instr}}} order from the {{{Cmm}}}) to minimise the number of branches between basic blocks, in other words, by maximising fallthrough of execution from one basic block to the next.
 
+The '''machine-dependent''' parts generally cover :
+ 1. the number and kinds of registers available
+ 1. 
