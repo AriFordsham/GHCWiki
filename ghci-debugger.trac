@@ -102,9 +102,9 @@ The process followed to reconstruct the types of a value as much as possible is:
 
 === Compensating Wrapper Constructors ===
 Worker and Wrapper constructors are a potential headache. The arguments list gets extended with:
-* Existential Dictionaries
-* Type equality coercions (?)
-* Type Class dictionaries
+ * Existential Dictionaries
+ * Type equality coercions (?)
+ * Type Class dictionaries
 
 In addition, the types of the arguments may change too, but that is not a problem in our case. We always consider the processed types, not the original ones, since what we are going to find in the heap corresponds to the former. 
 
