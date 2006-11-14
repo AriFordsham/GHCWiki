@@ -2,11 +2,23 @@
 
 = Building on MacOS X =
 
+== Get the latest development tools ==
+
+Certain versions of Apple's Xcode tools are known to cause problems when building ghc 6.6.
+You should download the latest Xcode from the [http://developer.apple.com/tools/xcode Apple Developer Connection] website.
+Downloading requires that you sign up for a free membership in the Apple Developer Connection.
+
+Once upon a time Apple distributed updates to Xcode by using their Software Update service but not anymore.
+You must download the development tools manually.
+
+Successful builds have been reported using Xcode 2.4 and 2.4.1 on Intel and PowerPC Macs. Xcode 2.2.1 is known ''not'' to
+work out of the box on Intel Macs.
+
 == Getting Readline to work ==
 
 Thanks to Paul R Brown for the following [http://mult.ifario.us/articles/2006/10/17/ghc-6-6-and-mac-os-x-readline-quick-fix instructions].
 
-Building GHC 6.6 out of the box on MacOS X will leave you with a GHCi binary that has no readline support.  This is because MacOS X comes with a cut-down readline library that doesn't support all the things that GHC requires, so the GHC configure script decides not to use it.
+Building GHC 6.6 out of the box on MacOS X will leave you with a GHCi binary that has no readline support.  This is because MacOS X comes NetBSD's libedit and Apple has made /usr/lib/libreadline.dylib a symlink to libedit. libedit does not support all of the libreadline API that GHC requires, so the GHC configure script decides not to use it.
 
 To get readline working, you first need to install GNU readline:
 
@@ -53,3 +65,21 @@ Then create mk/build.mk with one line:
 BIN_DIST=1
 
 then "make binary-dist", and tar the ghc-6.6/ directory produced.
+
+== Building using !MacPorts ==
+
+ghc 6.6 can be built from source using [http://macports.org MacPorts] on Intel and PowerPC Macs.
+Follow the instructions on the !MacPorts website for installing the infrastructure and port files,
+then type
+
+{{{ > sudo port install ghc }}}
+
+to build and install ghc.  Dependencies will be built and installed automatically. There is
+no need to follow the instructions above for installing readline; this is handled by
+!MacPorts dependency mechanism.
+
+If the build is interrupted or fails for some reason you must clean up before trying again. Do
+
+{{{ > sudo port clean ghc }}}
+
+before restarting.
