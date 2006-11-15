@@ -106,7 +106,7 @@ When we run into an expression like `(Cast e co)` that we're placing demand `d` 
 # WARN: arity /= dmdTypeDepth rhs_dmd_ty && not (exprIsTrivial rhs)
 
 
-This warning can happen for (at least) two reasons:
+This warning was happening for (at least) two reasons:
 
-- lambdas with a strict non-call demand placed on them were being handled wrong (see the first two examples in \[[Commentary/Compiler/StrictnessAnalysis/Examples](commentary/compiler/strictness-analysis/examples)\])
+- lambdas with a strict non-call demand placed on them were being handled wrong (see the first two examples in [Commentary/Compiler/StrictnessAnalysis/Examples](commentary/compiler/strictness-analysis/examples))
 - coercions were being handled wrong, resulting in a demand type with depth 0 being assigned to an rhs consisting of a cast from/to a function type
