@@ -99,4 +99,5 @@ There are a couple of tricky things about the list of arg-demands:
 (!ToDo: explain the other cases of {{{dmdTransform}}})
 
 [wiki:Commentary/Compiler/StrictnessAnalysis/KirstenNotes even more sketchy notes]
-[wiki:Commentary/Compiler/StrictnessAnalysis/Examples even more sketchy notes]
+
+[wiki:Commentary/Compiler/StrictnessAnalysis/Examples]
