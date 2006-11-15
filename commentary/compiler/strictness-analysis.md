@@ -131,4 +131,4 @@ There are a couple of tricky things about the list of arg-demands:
 
 (ToDo: explain the other cases of `dmdTransform`)
 
-[even more sketchy notes](commentary/compiler/strictness-analysis/kirsten-notes)
+[even more sketchy notes](commentary/compiler/strictness-analysis/kirsten-notes)[even more sketchy notes](commentary/compiler/strictness-analysis/examples)
