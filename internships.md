@@ -1,93 +1,89 @@
-CONVERSION ERROR
+# Internships on Haskell and GHC, at Microsoft Research, Cambridge
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Internships"
-  queryString          = "?version=8"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:11 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","251"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Internships\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+[ Microsoft Research Cambridge](http://research.microsoft.com/aboutmsr/labs/cambridge/) now runs a year-round [ internship programme](http://research.microsoft.com/aboutmsr/jobs/internships/).  You can apply for an internship slot in any area covered by the lab, but Simon and I are of course keen to attract strong applications from people interested in functional programming, Haskell, and GHC.
 
-Original source:
+## What is an internship?
 
-```trac
-= Internships on Haskell and GHC, at Microsoft Research, Cambridge =
-
-[http://research.microsoft.com/aboutmsr/labs/cambridge/ Microsoft Research Cambridge] now runs a year-round [http://research.microsoft.com/aboutmsr/jobs/internships/ internship programme].  You can apply for an internship slot in any area covered by the lab, but Simon and I are of course keen to attract strong applications from people interested in functional programming, Haskell, and GHC.
-
-== What is an internship? ==
 
 An internship is a paid post, for three months (occasionally up to 6), at Microsoft Research in Cambridge (MSRC).  You get to work on a project agreed, usually in advance, with your MSRC sponsor.  Both parties benefit.  You get to work in a leading-edge research lab, with fantastic people floating around all the time.  We get the benefit of your hard work, and perhaps the start of a collaborative relationship.
 
+
 In principle, Microsoft owns any intellectual property you generate, but this isn't relevant for an open-source project like GHC.  You're also strongly encouraged to publish your work as a paper, often written jointly with your sponsor.
 
-== Who is eligible? ==
+## Who is eligible?
+
 
 Internships are aimed primarily at students currently studying for a PhD.  That's the norm, but it's not a cast-iron requirement.
 
-== Internships to work on Haskell and GHC ==
+## Internships to work on Haskell and GHC
+
 
 Simon and I always have a zillion projects that we'd like to see done, but do not have time to do.  An internship is a chance for you to work closely with us --- we usually meet with interns daily, and we never have more than one at a time --- on one of these projects.  (Or you can suggest a project of your own.)
 
+
 Internship projects should have some research content, and ideally lead to a paper.  It's not just hacking.
 
+
 To give you some idea, here are some past projects
-  * Kevin Donnelly is changing GHC's intermediate language to support equality constraints.
-  * Roshan James is writing a parallel garbage collection
-  * Geoff Washburn made the first implementation of GADTs in GHC
-  * Dimitrios Vitytonis worked on type inference for impredicative polymorphism
-  * Krasimir Angelov completed and released Visual Haskell. 
+
+- Kevin Donnelly is changing GHC's intermediate language to support equality constraints.
+- Roshan James is writing a parallel garbage collection
+- Geoff Washburn made the first implementation of GADTs in GHC
+- Dimitrios Vitytonis worked on type inference for impredicative polymorphism
+- Krasimir Angelov completed and released Visual Haskell. 
+
 
 Here is a list of some possible future projects we have in mind:
 
-  * Update/improve [http://www.haskell.org/visualhaskell Visual Haskell]
-  * Work on the [http://www.haskell.org/haskellwiki/Ghci/Debugger GHCi debugger]
-  * Refactor GHC's code generator into two phases: (a) generate {{{C--}}} with native procedure calls,
-    (b) perform CPS conversion, as a {{{C--}}} to {{{C--}}} conversion, to generate code ready 
-    for the existing native code generators.
-  * Add views to Haskell.  [http://hackage.haskell.org/trac/haskell-prime/wiki/Views]
-  * Improve code generation; see suggestions in [wiki:BackEndNotes]
-  * Implement [http://repetae.net/john/recent/out/classalias.html John Meacham's class alias proposal]
-  * Implement semi-tagging or other optimisation improvements in GHC
-  * Experiment with multiprocessor Haskell and/or STM by building and measuring applications, investigate improvements
-  * Build a Windows-native version of GHC (using MS tools instead of gcc).
-  * Make GHC work with [http://research.sun.com/projects/gcspy/ GCSpy], a generic heap visualiser tool.
-  * Continue work on parallel GC: particularly independent minor-generation collections.
+- Update/improve [ Visual Haskell](http://www.haskell.org/visualhaskell)
+- Work on the [ GHCi debugger](http://www.haskell.org/haskellwiki/Ghci/Debugger)
+- Refactor GHC's code generator into two phases: (a) generate `C--` with native procedure calls,
+  (b) perform CPS conversion, as a `C--` to `C--` conversion, to generate code ready 
+  for the existing native code generators.
+- Add views to Haskell.  [ http://hackage.haskell.org/trac/haskell-prime/wiki/Views](http://hackage.haskell.org/trac/haskell-prime/wiki/Views)
+- Improve code generation; see suggestions in [BackEndNotes](back-end-notes)
+- Implement [ John Meacham's class alias proposal](http://repetae.net/john/recent/out/classalias.html)
+- Implement semi-tagging or other optimisation improvements in GHC
+- Experiment with multiprocessor Haskell and/or STM by building and measuring applications, investigate improvements
+- Build a Windows-native version of GHC (using MS tools instead of gcc).
+- Make GHC work with [ GCSpy](http://research.sun.com/projects/gcspy/), a generic heap visualiser tool.
+- Continue work on parallel GC: particularly independent minor-generation collections.
 
-MSRC has lots of other interesting work on programming languages too: F#, security, etc.  Check it out [http://research.microsoft.com/aboutmsr/labs/cambridge/ here].
 
-== How to apply ==
+MSRC has lots of other interesting work on programming languages too: F\#, security, etc.  Check it out [ here](http://research.microsoft.com/aboutmsr/labs/cambridge/).
 
-You can apply ANY TIME.  Internships are not just the summer months. Contact one of us (simonpj@microsoft.com, simonmar@microsoft.com) in the first instance (or another sponsor if they are more suitable).
+## How to apply
 
-To apply, follow the instructions at [http://research.microsoft.com/aboutmsr/jobs/internships/], '''and''' email one of us to say that you have done so. 
 
-A CV is typically a boring, dry kind of thing, consisting entirely of data (education, employment, publications, talks etc etc).  Yes, we need that, but '''please also include a final section entitled "Personal research statement"'''.  This should address the following questions:
-  * What really excites you and fills you with wild enthusiasm?
-  * What you are proud of in your existing track record?
-  * What you are working on now?
-  * What sort of thing you would like to do if you came here?
-  * (Brutal, but frank.)  Why should we pick you?
+You can apply ANY TIME.  Internships are not just the summer months. Contact one of us (simonpj@…, simonmar@…) in the first instance (or another sponsor if they are more suitable).
+
+
+To apply, follow the instructions at [ http://research.microsoft.com/aboutmsr/jobs/internships/](http://research.microsoft.com/aboutmsr/jobs/internships/), **and** email one of us to say that you have done so. Do not omit the latter step; across the whole of MSR there are hundreds of applicants.
+
+
+A CV is typically a boring, dry kind of thing, consisting entirely of data (education, employment, publications, talks etc etc).  Yes, we need that, but **please also include a final section entitled "Personal research statement"**.  This should address the following questions:
+
+- What really excites you and fills you with wild enthusiasm?
+- What you are proud of in your existing track record?
+- What you are working on now?
+- What sort of thing you would like to do if you came here?
+- (Brutal, but frank.)  Why should we pick you?
+
+
 Typically your personal research statement will be a couple of pages long, but it's really up to you.  You don't need to address the above questions in the order given, and you can range more widely if you want.  (You should find the same writeup useful for other purposes.)  Write in the first person, and try to convey something of yourself rather than just data. 
 
-== Timescale ==
+## Timescale
+
 
 So long as we have enough budget, we run the following four internship "slots":
-  * Jan-Mar
-  * Mar-Jun
-  * July-Sept
-  * Oct-Dec
+
+- Jan-Mar
+- Mar-Jun
+- July-Sept
+- Oct-Dec
+
+
 We usually take decisions about a particular slot three months before it begins (e.g. December, for the Apr-Jun slot).
 
 
 Simon Peyton Jones and Simon Marlow
-
-```
