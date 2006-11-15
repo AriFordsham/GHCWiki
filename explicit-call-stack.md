@@ -1,10 +1,10 @@
 # Maintaining an explicit call stack
 
 
-There has been a vigorous thread on error attribution ("I get a `head []` error; but who called `head`?") 
+There has been a vigorous thread on error attribution ("I get a `head []` error; but who called `head`?").  This page summarises some half baked ideas that Simon and I have been discussing. Do by all means edit this page to add comments and further ideas or pointers.
 
 
-This page summarises some half baked ideas that Simon and I have been discussing. See also
+See also
 
 - [ The Haskell cafe thread](http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html)
 - [ http://www.cse.unsw.edu.au/\~dons/loch.html](http://www.cse.unsw.edu.au/~dons/loch.html)
