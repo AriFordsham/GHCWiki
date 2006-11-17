@@ -78,4 +78,4 @@ Simon M's projects
 
 This list intended to be in priority order (but of course the prorities might not be right!
 
-- **Windows installers**. Want to help Neil get going
+- **Windows installers**. Want to help Neil get going (see also [\#604](https://gitlab.haskell.org//ghc/ghc/issues/604)).
