@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Commentary/Compiler/Backends/NCG"
-  queryString          = "?version=7"
+  queryString          = "?version=8"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,20 +14,21 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:07 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","265"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/Backends/NCG\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:20 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","265"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/Backends/NCG\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
 ```trac
-= Native Code Generator =
+= Native Code Generator (NCG) =
 
 For other information related to this page, see:
  * [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/the-beast/ncg.html the Old GHC Commentary: Native Code Generator] page (comments regarding Maximal Munch and register allocation optimisations are mostly still valid)
  * [wiki:BackEndNotes] for optimisation ideas regarding the current NCG
+ * The New GHC Commentary Cmm page: [wiki:Commentary/Compiler/CmmType The Cmm language] (the NCG code works from Haskell's implementation of C-- and many optimisations in the NCG relate to Cmm)
 
 === Overview: Files, Parts ===
 
-After GHC has produced Cmm (use -ddump-cmm or -ddump-opt-cmm to view), the Native Code Generator (NCG) transforms [wiki:Commentary/Compiler/CmmType Cmm] into architecture-specific assembly code.  The NCG is located in [[GhcFile(compiler/nativeGen)]] and is separated into eight modules:
+After GHC has produced [wiki:Commentary/Compiler/CmmType Cmm] (use -ddump-cmm or -ddump-opt-cmm to view), the Native Code Generator (NCG) transforms Cmm into architecture-specific assembly code.  The NCG is located in [[GhcFile(compiler/nativeGen)]] and is separated into eight modules:
 
  * [[GhcFile(compiler/nativeGen/AsmCodeGen.lhs)]][[BR]]
    top-level module for the NCG, imported by [[GhcFile(compiler/main/CodeOutput.lhs)]]; also defines the Monad for optimising generic Cmm code, {{{CmmOptM}}}[[BR]][[BR]]
@@ -44,7 +45,7 @@ After GHC has produced Cmm (use -ddump-cmm or -ddump-opt-cmm to view), the Nativ
  * [[GhcFile(compiler/nativeGen/RegAllocInfo.hs)]][[BR]]
    defines the main register information function, {{{regUsage}}}, which takes a set of real and virtual registers and returns the actual registers used by a particular {{{Instr}}}; register allocation is in AT&T syntax order (source, destination), in an internal function, {{{usage}}}; defines the {{{RegUsage}}} data type[[BR]][[BR]]
  * [[GhcFile(compiler/nativeGen/RegisterAlloc.hs)]][[BR]]
-   one of the most complicated modules in the NCG, {{{RegisterAlloc}}} manages the allocation of registers for each ''basic block'' of Haskell-abstracted assembler code: management involves ''liveness'' analysis, allocation or deletion of temporary registers, ''spilling'' temporary values to the ''spill stack'' (memory) and many optimisations.  ''Note: much of this detail will be described later; '''basic block''' is defined below.''
+   one of the most complicated modules in the NCG, {{{RegisterAlloc}}} manages the allocation of registers for each ''basic block'' of Haskell-abstracted assembler code: management involves ''liveness'' analysis, allocation or deletion of temporary registers, ''spilling'' temporary values to the ''spill stack'' (memory) and many optimisations.  ''See [wiki:Commentary/Compiler/CmmType The Cmm language] for the definition of a ''basic block'' (in Haskell, ''{{{type CmmBasicBlock =  GenBasicBlock CmmStmt}}}'').''
 
 and one header file:
 
@@ -53,7 +54,7 @@ and one header file:
 
 The NCG has '''machine-independent'''  and '''machine-dependent''' parts.  
 
-The '''machine-independent''' parts relate to generic operations, especially optimisations, on Cmm code.  The main machine-independent parts begin with ''Cmm blocks.''  A ''Cmm block'' is roughly parallel to a Cmm function or procedure in the same way as a compiler may generate a C function into an assembler symbol used as a label, composed of smaller ''basic blocks'' ({{{BasicBlock}}}) separated by branches (jumps)--every basic block ends in a branch instruction.  ''Cmm block''s are held as lists of {{{Cmm}}} statements ({{{[CmmStmt]}}}, defined in [[GhcFile(compiler/cmm/Cmm.hs)]], or the {{{type}}} synonym {{{CmmStmts}}}, defined in [[GhcFile(compiler/cmm/CmmUtils.hs)]]).  A machine-specific (assembler) instruction is represented as a {{{Instr}}}.  The machine-independent NCG parts:
+The '''machine-independent''' parts relate to generic operations, especially optimisations, on Cmm code.  The main machine-independent parts begin with ''Cmm blocks.''  (A ''Cmm block'' is a compilation unit of Cmm code, a file.  See [wiki:Commentary/Compiler/CmmType The Cmm language] for a discussion of what a ''Cmm block'' is but note that ''Cmm'' is a type synonym for {{{GenCmmTop CmmStatic CmmStmt}}}.)  A machine-specific (assembler) instruction is represented as a {{{Instr}}}.  The machine-independent NCG parts:
  1. optimise each Cmm block by reordering its basic blocks from the original order (the {{{Instr}}} order from the {{{Cmm}}}) to minimise the number of branches between basic blocks, in other words, by maximising fallthrough of execution from one basic block to the next.[[BR]][[BR]]
  1. lazily convert each Cmm block to abstract machine instructions ({{{Instr}}}) operating on an infinite number of registers--since the NCG Haskell files only contain instructions for the host computer on which GHC was compiled, these {{{Instr}}} are machine-specific; and,[[BR]][[BR]]
  1. lazily allocate real registers for each basic block, based on the number of available registers on the target (currently, only the host) machine; for example, 32 integer and 32 floating-point registers on the PowerPC architecture.  The NCG does not currently have support for SIMD registers such as the vector registers for Altivec or any variation of SSE.[[BR]]''Note'': if a basic block simultaneously requires more registers than are available on the target machine and the temporary variable needs to be used (would sill be ''live'') after the current instruction, it will be moved (''spilled'') into memory.
