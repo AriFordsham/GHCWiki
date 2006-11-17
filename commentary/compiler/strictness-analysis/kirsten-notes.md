@@ -103,10 +103,45 @@ There are two possible easy solutions: don't float out bindings for strict thing
 
 When we run into an expression like `(Cast e co)` that we're placing demand `d` on, we analyze `e` to get `dmd_ty`, then check whether the depth of `e` is equal to the depth of `dmd_ty` or not. This is necessary because we might be casting a function to a non-function type. So, if `d` and `dmd_ty` have equal depth, we return `dmd_ty` as is; if `d`'s arity is less, we drop the appropriate number of args from `dmd_ty`; if `dmd_ty`'s arity is less, we add the appropriate number of dummy argument demands to it.
 
-# WARN: arity /= dmdTypeDepth rhs_dmd_ty && not (exprIsTrivial rhs)
+# \<nowiki\>WARN: arity /= dmdTypeDepth rhs_dmd_ty && not (exprIsTrivial rhs)\</nowiki\>
 
 
 This warning was happening for (at least) two reasons:
 
 - lambdas with a strict non-call demand placed on them were being handled wrong (see the first two examples in [Commentary/Compiler/StrictnessAnalysis/Examples](commentary/compiler/strictness-analysis/examples))
 - coercions were being handled wrong, resulting in a demand type with depth 0 being assigned to an rhs consisting of a cast from/to a function type
+
+# Explaining demand transformers
+
+
+For those who, like me, are a little slow, this example might go in section 5.1 of the paper:
+
+
+(a):
+
+```wiki
+f = \ x -> 
+      case x of
+        ... -> \ y -> ...
+        ... -> \ y -> ...
+```
+
+
+(b):
+
+```wiki
+f = \ x ->
+     \ y ->
+        case x of
+           ...
+```
+
+
+In both (a) and (b), `f`'s rhs places a strict demand on `x`. So if we see:
+
+```wiki
+(f x)
+```
+
+
+with a strict demand placed on it, it wouldn't be sound to look at `f`'s demand signature and say that `(f x)` places a strict demand on `x` under `f` -- because we don't know whether `f` is like (a) or like (b). This is why when we see a partial application of `f`, we discard all of the argument information in `f`'s demand type.
