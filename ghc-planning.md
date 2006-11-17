@@ -8,7 +8,10 @@ This page is an internal planning document, for Ian L, Simon M, and Simon PJ. It
 
 Ian's projects
 
-- **[BuildBot](build-bot)**: Make stable backport and give to Paul to install when he is ready
+- **[BuildBot](build-bot)**: Install on darcs.haskell.org and set up slaves
+
+  - Set up Windows nightly build
+  - Set up unregisterised nightly build?
 
 - **Building libraries using Cabal**: Tidy up patches, do haddocking, test, then push.
   Don't worry about unreg way: we'll probably drop it anyway, and for nightly testing we
@@ -16,29 +19,34 @@ Ian's projects
   a bug where GHC gets confused when as it learns more about a type as it compiles
   recursive modules: [930](https://gitlab.haskell.org//ghc/ghc/issues/930).
 
+  - Look into whether we can do `SplitLibraries` with Cabal or not.
+
+- Freeing resources on unload.  Why is it hard to guarantee that Haskell finalisers run?
+
 - **Dynamic linking and shared libraries**
 
   - GHCi seems to be working unregisterised
-  - nofib -fPIC vs normal code on the common arches
-  - Try it with native code gen 
-  - Try it with registerised
+  - Make -fPIC work with the NCG on various arches
   - DLL/SO for RTS+Base libs.  Then lots of DLLs/SOs can share one RTS.
+  - nofib -fPIC vs normal code on the common arches
   - nofib DLL vs static on the common arches
-  - Instructions for how to build DLL and SOs
-  - Freeing resources on unload.  Why is it hard to guarantee that Haskell finalisers run?
-  - Make sure that DLL/SO works ok when all you are doing is exporting a Haskell function or functions.  Issues: initialising the Haskell RTS
-  - Linking to C++ (may be a separate issue from \*dynamic\* linking)
-  - Write Wiki page describing linking
+  - Doc updates
+  - Write Wiki page describing GHCi linker
 
     - GHCi’s linker (.o files) vs system linker (.so and .dll only)
     - GHCi’s linker only works on 5-ish platforms.  
-    - Do we need indirections between modules in one package, or only for cross-package links?  And is this decided when compiling the module, or when linking the module?
+
+- What does this mean: Make sure that DLL/SO works ok when all you are doing is exporting a Haskell function or functions.  Issues: initialising the Haskell RTS
 
 - **trac** Add a "not_ghc" milestone or somesuch, for extralibs, proposals, etc.
 
-- **List filtering**
-  Put procmail in front of mailman so we can allow big darcs patches through.
-  In the longer term we can look at running some sort of spam discarder or marker with procmail too.
+- **Mailing lists**:
+
+  - Put procmail in front of mailman so we can allow big darcs patches through.
+  - get sudo access on haskell.org
+  - install spam-filtering technology
+  - reoganise mailing lists: remove cvs-all, resubscribe everyone to the other lists
+    (announce beforehand).
 
 - **Broken tests**
   Change `fail` to `broken(123)` and try to get the HEAD to a state where all
