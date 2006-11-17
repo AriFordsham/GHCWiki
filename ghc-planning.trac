@@ -48,9 +48,7 @@ Ian's projects
      * GHCi’s linker only works on 5-ish platforms.  
 
 Simon PJ's projects
- * '''Lambda match''' Look at Claus' patch
- * '''Patch submission''' Write some blurb on patch submission guidelines
- * '''Implication constraints'''
+ * '''Implication constraints''' doc/tidying up
  * '''Demand analysis''' with Kirsten Chevalier
  * '''Associated data types and type synonyms''', with Manuel: [wiki:TypeFunctions]
  * '''Data parallel Haksell''', with Manuel, Gabi, Roman; see [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell]
