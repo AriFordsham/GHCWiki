@@ -1,182 +1,183 @@
-# Debugging GHC-compiled code with gdb
+CONVERSION ERROR
 
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/DebuggingGhcCrashes"
+  queryString          = "?version=11"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:21 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/DebuggingGhcCrashes\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+
+Original source:
+
+```trac
+= Debugging GHC-compiled code with gdb =
 
 If you're working on a GHC port, tweaking the runtime, or modifying
 the code generator, at some point you will have to become familiar
-with how to use [ gdb](http://www.gnu.org/software/gdb/) for debugging
+with how to use [http://www.gnu.org/software/gdb/ gdb] for debugging
 crashes in GHC-compiled programs.
-
 
 This is quite scary, for a few reasons:
 
-- We can't do source-level debugging of Haskell code.  gdb doesn't
-  know anything about Haskell.  We're stuck with assembly-level
-  debugging of Haskell code.
+ * We can't do source-level debugging of Haskell code.  gdb doesn't
+   know anything about Haskell.  We're stuck with assembly-level
+   debugging of Haskell code.
 
-- Most of the time you can't even get a backtrace inside GHC-compiled
-  code.  The GHC calling conventions are entirely different from C's,
-  and GHC-compiled code doesn't use the C stack.    There are a
-  couple of exceptions:
+ * Most of the time you can't even get a backtrace inside GHC-compiled
+   code.  The GHC calling conventions are entirely different from C's,
+   and GHC-compiled code doesn't use the C stack.    There are a
+   couple of exceptions:
+   * when the crash happens inside the runtime, you can use the usual
+     C debugging facilities of gdb with full backtrace and
+     source-level debugging.  (make sure you use a {{{-debug}}}
+     version of the runtime to get the debug info, though).
+   * when the crash happens inside a foreign call invoked by Haskell
+     code.  In this case you'll be able to see which Haskell fragment
+     invoked the foreign call (it'll be something like
+     {{{MyModule_zdwccall13_info}}}, more about symbol names later).
 
-  - when the crash happens inside the runtime, you can use the usual
-    C debugging facilities of gdb with full backtrace and
-    source-level debugging.  (make sure you use a `-debug`
-    version of the runtime to get the debug info, though).
-  - when the crash happens inside a foreign call invoked by Haskell
-    code.  In this case you'll be able to see which Haskell fragment
-    invoked the foreign call (it'll be something like
-    `MyModule_zdwccall13_info`, more about symbol names later).
+ * In fact, there ''are'' no useful backtraces in Haskell code,
+   because of lazy evaluation and tail-calls.  Finding out "how we got
+   here" is often a challenge.
 
-- In fact, there *are* no useful backtraces in Haskell code,
-  because of lazy evaluation and tail-calls.  Finding out "how we got
-  here" is often a challenge.
-
-## The recipe
-
+== The recipe ==
 
 Usually you want to do something along these lines:
 
-- Compile with `-debug`!  This links the program with a debugging
-  version of the runtime, that includes extra assertions, debugging
-  code, and debugging info for gdb.
+ * Compile with {{{-debug}}}!  This links the program with a debugging
+   version of the runtime, that includes extra assertions, debugging
+   code, and debugging info for gdb.
 
-- Grab our [gdb macros](/trac/ghc/attachment/wiki/DebuggingGhcCrashes/.gdbinit)[](/trac/ghc/raw-attachment/wiki/DebuggingGhcCrashes/.gdbinit).
+ * Grab our [attachment:".gdbinit" gdb macros].
 
-- Run the program in gdb until it crashes, type `where` to find
-  out whether the crash is in the RTS or in Haskell code.  If you see
-  an uninformative backtrace with a symbol like `s32y_info` at
-  the top, then you're in Haskell.  If you're in the runtime, then
-  we don't have anything more to tell you here, you can use gdb's
-  full C debugging facilities to track down the problem.
+ * Run the program in gdb until it crashes, type {{{where}}} to find
+   out whether the crash is in the RTS or in Haskell code.  If you see
+   an uninformative backtrace with a symbol like {{{s32y_info}}} at
+   the top, then you're in Haskell.  If you're in the runtime, then
+   we don't have anything more to tell you here, you can use gdb's
+   full C debugging facilities to track down the problem.
 
-- Make the crash happen as early as possible.  `-debug` already
-  turned on lots of assertions, one of which might trigger.  Also,
-  try `+RTS -DS` which turns on a bunch of extra "sanity
-  checking", i.e. expensive assertions about the state of the runtime
-  at regular points.  One thing this enables is a full sweep of the
-  heap after each garbage collection to make sure there are no
-  dangling references.  Also, it fills all free memory with the value
-  `0xaaaaaaaa` (the sound of GHC disappearing down a hole).
+ * Make the crash happen as early as possible.  {{{-debug}}} already
+   turned on lots of assertions, one of which might trigger.  Also,
+   try {{{+RTS -DS}}} which turns on a bunch of extra "sanity
+   checking", i.e. expensive assertions about the state of the runtime
+   at regular points.  One thing this enables is a full sweep of the
+   heap after each garbage collection to make sure there are no
+   dangling references.  Also, it fills all free memory with the value
+   {{{0xaaaaaaaa}}} (the sound of GHC disappearing down a hole).
 
-- Look at the fragment of code that crashed: `disassemble`.  It
-  should be pretty small (code blocks in GHC-generated code usually
-  are).  Look at the instruction that caused the crash - the address
-  is given in the `where` output earlier.  If you can tell what
-  the problem is right there, then great.
+ * Look at the fragment of code that crashed: {{{disassemble}}}.  It
+   should be pretty small (code blocks in GHC-generated code usually
+   are).  Look at the instruction that caused the crash - the address
+   is given in the {{{where}}} output earlier.  If you can tell what
+   the problem is right there, then great.
 
-- Poke around in the heap and stack and see if you can figure out
-  what has gone wrong.  See "poking around", below.
+ * Poke around in the heap and stack and see if you can figure out
+   what has gone wrong.  See "poking around", below.
 
-- Make the crash happen repeatably, if possible.  That means after
-  the exact same number of garbage collections and context switches
-  each time. Use `+RTS -C0` to turn off timer-based context switches.  If
-  you're debugging heap profiling, add `-i0` too.
+ * Make the crash happen repeatably, if possible.  That means after
+   the exact same number of garbage collections and context switches
+   each time. Use {{{+RTS -C0}}} to turn off timer-based context switches.  If
+   you're debugging heap profiling, add {{{-i0}}} too.
 
-- If you still haven't figured it out, you probably need to go back in
-  time a bit to find out what was happening just before the crash.
-  This is the tricky bit, because going back in time isn't directly
-  supported by gdb, we need to find a way to hit a breakpoint a short
-  time before the crash happened.  See "going back in time", below.
+ * If you still haven't figured it out, you probably need to go back in
+   time a bit to find out what was happening just before the crash.
+   This is the tricky bit, because going back in time isn't directly
+   supported by gdb, we need to find a way to hit a breakpoint a short
+   time before the crash happened.  See "going back in time", below.
 
-## Going back in time
+== Going back in time ==
 
-- Set a breakpoint on a code fragment that is regularly executed.
-  Some good examples are `stg_upd_frame_info` (the standard
-  update code), `stg_upd_frame_1_info` (the update code for a
-  1-tagged object, eg. a cons cell), `stg_ap_p_info` (the apply
-  code for a single pointer argument).
+ * Set a breakpoint on a code fragment that is regularly executed.
+   Some good examples are {{{stg_upd_frame_info}}} (the standard
+   update code), {{{stg_upd_frame_1_info}}} (the update code for a
+   1-tagged object, eg. a cons cell), {{{stg_ap_p_info}}} (the apply
+   code for a single pointer argument).
 
-> > `break stg_upd_frame_info`
+   {{{break stg_upd_frame_info}}}
 
-- Ignore that breakpoint for ever
+ * Ignore that breakpoint for ever
 
-> > `ignore 1 9999999`
+   {{{ignore 1 9999999}}}
 
-- Run the program
+ * Run the program
 
-> > `run`
+   {{{run}}}
 
-- Find out how many times the breakpoint was hit
+ * Find out how many times the breakpoint was hit
 
-> > `info break`
+   {{{info break}}}
 
-- Suppose it was hit 4325 times, then next time we'll ignore it
-  for 4324 times (i.e. subtract one), which will stop on the 4325th
-  time, just before the crash.
+ * Suppose it was hit 4325 times, then next time we'll ignore it
+   for 4324 times (i.e. subtract one), which will stop on the 4325th
+   time, just before the crash.
 
-> > `ignore 1 4324`
+   {{{ignore 1 4324}}}
 
-- Run the program
+ * Run the program
 
-> > `run`
+   {{{run}}}
 
-- Single step until the crash happens
+ * Single step until the crash happens
 
-> > `si`...
+   {{{si}}}...
 
-- If the crash doesn't happen for a long time, try picking another
-  break point (e.g. something you stepped through this time). You
-  might have to repeat this a few times to get to a useful point.
+ * If the crash doesn't happen for a long time, try picking another
+   break point (e.g. something you stepped through this time). You
+   might have to repeat this a few times to get to a useful point.
 
-- Sometimes the crash is a long way into the program, and setting a
-  frequently accessed breakopint like `stg_upd_frame_info` means
-  the program just runs too slowly; in this case you might have to
-  use a 2-stage strategy instead.  Set a breakpoint on a less
-  frequently accessed point (a good one I use for this is
-  `GarbageCollect`, which stops at each GC), do the ignore thing
-  on this, and then switch to a more frequently accessed breakpoint
-  when you are closer to the crash.
+ * Sometimes the crash is a long way into the program, and setting a
+   frequently accessed breakopint like {{{stg_upd_frame_info}}} means
+   the program just runs too slowly; in this case you might have to
+   use a 2-stage strategy instead.  Set a breakpoint on a less
+   frequently accessed point (a good one I use for this is
+   {{{GarbageCollect}}}, which stops at each GC), do the ignore thing
+   on this, and then switch to a more frequently accessed breakpoint
+   when you are closer to the crash.
 
-## Decoding symbol names
-
+== Decoding symbol names ==
 
 Symbols in GHC are encoded using something called the Z-encoding (see
-[ Encoding.hs](http://darcs.haskell.org/ghc/compiler/utils/Encoding.hs)).  Basically special symbols are replaced by sequences
-beginning with `z` or `Z`.  eg. `state#` becomes
-`statezh`.  The letter `z` itself is replaced by `zz`.
-
+[http://darcs.haskell.org/ghc/compiler/utils/Encoding.hs Encoding.hs]).  Basically special symbols are replaced by sequences
+beginning with {{{z}}} or {{{Z}}}.  eg. {{{state#}}} becomes
+{{{statezh}}}.  The letter {{{z}}} itself is replaced by {{{zz}}}.
 
 External symbols follow the pattern
-*module*_*identifier*_*kind*.  Where *module* is the module
-name, *identifier* is the identifier in the STG code that this
-symbol relates to, and *kind* is the kind of symbol:
+''module''_''identifier''_''kind''.  Where ''module'' is the module
+name, ''identifier'' is the identifier in the STG code that this
+symbol relates to, and ''kind'' is the kind of symbol:
 
-<table><tr><th>`closure`</th>
-<th>a static closure
-</th></tr>
-<tr><th>`info`</th>
-<th>an info table, also entry code or return address
-</th></tr>
-<tr><th>`con_info`</th>
-<th>an info table for a constructor
-</th></tr>
-<tr><th>`fast`</th>
-<th>a primitive
-</th></tr></table>
+||{{{closure}}}||a static closure||
+||{{{info}}}||an info table, also entry code or return address||
+||{{{con_info}}}||an info table for a constructor||
+||{{{fast}}}||a primitive||
 
-
-(see [ CLabel.hs](http://darcs.haskell.org/ghc/compiler/cmm/CLabel.hs)
+(see [http://darcs.haskell.org/ghc/compiler/cmm/CLabel.hs CLabel.hs]
 for a table of these).
-
 
 For example:
 
-> `GHCziBase_ZMZN_closure`
+  {{{GHCziBase_ZMZN_closure}}}
 
+Means the static closure for {{{[]}}} in module {{{GHC.Base}}}.
 
-Means the static closure for `[]` in module `GHC.Base`.
+  {{{DataziList_foldlzq_info}}}
 
-> `DataziList_foldlzq_info`
+Means the entry code (or info table) for {{{Data.List.foldl'}}}.
 
-
-Means the entry code (or info table) for `Data.List.foldl'`.
-
-
-Internal symbols are of the form *identifier*_*kind*, i.e. the
+Internal symbols are of the form ''identifier''_''kind'', i.e. the
 same as external symbols but without the module name.
 
-## Poking around
-
+== Poking around ==
 
 There are two things you usually want to inspect inside a code
 fragment: the contents of heap objects, and the contents of the
@@ -184,65 +185,59 @@ stack.  A full description of the layout of these things is beyond the
 scope of this tuturial, but what follows is a basic introduction to
 looking at heap & stack objects in a running program.
 
-
-You can display memory in gdb with something like `x/4a` to
-display 4 words of memory, or using our [gdb macros](/trac/ghc/attachment/wiki/DebuggingGhcCrashes/.gdbinit)[](/trac/ghc/raw-attachment/wiki/DebuggingGhcCrashes/.gdbinit) you get slighty
+You can display memory in gdb with something like {{{x/4a}}} to
+display 4 words of memory, or using our [attachment:".gdbinit" gdb macros] you get slighty
 nicer output:
 
-```wiki
+{{{
 (gdb) p4 $rbx
 0x2b35cc6c99a0: 0x4482d8 <stg_IND_1_info>
 0x2b35cc6c9998: 0x2b35cc6c9978
 0x2b35cc6c9990: 0x5
 0x2b35cc6c9988: 0x404e30 <GHCziBase_Izh_con_info>
-```
+}}}
 
-`p4` displays 4 words of memory backwards, i.e. lower addresses at
+{{{p4}}} displays 4 words of memory backwards, i.e. lower addresses at
 the bottom.  In this case I'm displaying memory pointed to by the
-register `rbx`, which corresponds to the STG register `R1` on
+register {{{rbx}}}, which corresponds to the STG register {{{R1}}} on
 a recent x86_64 build.  Check
-[ MachRegs.h](http://darcs.haskell.org/ghc/ghc/includes/MachRegs.h) to
+[http://darcs.haskell.org/ghc/ghc/includes/MachRegs.h MachRegs.h] to
 see which machine registers correspond to which STG registers on your
 platform.
 
-
-In the example above, I can see that `$rbx` points to a heap
-closure for the `Int` value 5.  Closures always consist of an info
-pointer (`GHCziBase_Izh_con_info` in this case, the `I#`
+In the example above, I can see that {{{$rbx}}} points to a heap
+closure for the {{{Int}}} value 5.  Closures always consist of an info
+pointer ({{{GHCziBase_Izh_con_info}}} in this case, the {{{I#}}}
 constructor), followed by any number of payload words (just one word
 containing the value 5, here).  Full details on closure layouts are in
-[ Closures.h](http://darcs.haskell.org/ghc/includes/Closures.h).
-
+[http://darcs.haskell.org/ghc/includes/Closures.h Closures.h].
 
 It looks like the next word contains garbage, probably because it is
 the next free location in the heap.
 
+We can see the info tables using the {{{pinfo}}} macro:
 
-We can see the info tables using the `pinfo` macro:
-
-```wiki
+{{{
 (gdb) pinfo &GHCziBase_Izh_con_info
 $2 = {layout = {payload = {ptrs = 0, nptrs = 1}, bitmap = 4294967296, 
     large_bitmap_offset = 0, __pad_large_bitmap_offset = 0, 
     selector_offset = 4294967296}, type = 3, srt_bitmap = 0, 
   code = 0x404e30 "ÿe"}
-```
-
+}}}
 
 Info tables tell the garbage collector and other parts of the system
 about the layout of closures, they are rarely used during actual
-execution.  The *info pointer* of a closure actually points to the
-*entry code* for the closure; the info table lives just before the
+execution.  The ''info pointer'' of a closure actually points to the
+''entry code'' for the closure; the info table lives just before the
 entry code (this is a trick used by GHC so that the common operation
 of jumping to the entry code for a closure can be done with a single
 indirection).  The layout of info tables is defined in
-[ InfoTables.h](http://darcs.haskell.org/ghc/includes/InfoTables.h).
+[http://darcs.haskell.org/ghc/includes/InfoTables.h InfoTables.h].
 
+To display the stack, you need to know what the {{{Sp}}} register is
+mapped to on this platform.  On x86_64 you'll find it in {{{$rbp}}}:
 
-To display the stack, you need to know what the `Sp` register is
-mapped to on this platform.  On x86_64 you'll find it in `$rbp`:
-
-```wiki
+{{{
 (gdb) p8 $rbp
 0x2ae9697ccc00: 0x1
 0x2ae9697ccbf8: 0x40b8c8 <GHCziBase_plusInt_info+32>
@@ -252,95 +247,94 @@ mapped to on this platform.  On x86_64 you'll find it in `$rbp`:
 0x2ae9697ccbd8: 0x40b8c8 <GHCziBase_plusInt_info+32>
 0x2ae9697ccbd0: 0x2ae9696c98a8
 0x2ae9697ccbc8: 0x44a2d8 <stg_upd_frame_info>
-```
-
+}}}
 
 It looks like the stack has an update frame on the top, followed by
-some stack frame from `GHC.Base`, followed by another update
+some stack frame from {{{GHC.Base}}}, followed by another update
 frame.
 
-
 Return addresses on the stack have info tables just like heap
-closures, and you can display them with `pinfo` in the same way:
+closures, and you can display them with {{{pinfo}}} in the same way:
 
-```wiki
+{{{
 (gdb) pinfo 0x40b8c8
 $4 = {layout = {payload = {ptrs = 65, nptrs = 0}, bitmap = 65, 
     large_bitmap_offset = 65, __pad_large_bitmap_offset = 65, 
     selector_offset = 65}, type = 36, srt_bitmap = 0, 
   code = 0x40b8c8 "I\203Ä\020M9üw$H\213E\bI\003E\bIÇD$ø0N@"}
-```
-
+}}}
 
 However, return addresses have special info tables with more
-information; to display the whole thing, use `prinfo`
+information; to display the whole thing, use {{{prinfo}}}
 
-```wiki
+{{{
 (gdb) prinfo 0x40b8c8
 $5 = {srt_offset = 4241688, __pad_srt_offset = 6684481, i = {layout = {
       payload = {ptrs = 65, nptrs = 0}, bitmap = 65, large_bitmap_offset = 65, 
       __pad_large_bitmap_offset = 65, selector_offset = 65}, type = 36, 
     srt_bitmap = 0, code = 0x40b8c8 "I\203Ä\020M9üw$H\213E\bI\003E\bIÇD$ø0N@"}}
-```
+}}}
 
-
-The `type` field tells us what kind of object this is, in this
-case `36`}, which means a `RET_SMALL` stack frame (see
-[ ClosureTypes.h](http://darcs.haskell.org/ghc/includes/ClosureTypes.h)
+The {{{type}}} field tells us what kind of object this is, in this
+case {{{36}}}}, which means a {{{RET_SMALL}}} stack frame (see
+[http://darcs.haskell.org/ghc/includes/ClosureTypes.h ClosureTypes.h]
 for a list of closure types, but make sure you are
 looking at the right version of this file for the build you're using,
 because the types do change).
 
-## Useful flags
+== Useful flags ==
 
+See {{{-ddump-stg, -ddump-simpl, -ddump-cmm, -dppr-debug}}}.
 
-See `-ddump-stg, -ddump-simpl, -ddump-cmm, -dppr-debug`.
+== Useful hints ==
 
-## Useful hints
+ * Use the {{{dpc}}} macro if you want to avoid the pain of matching the {{{pc}}} address with instructions at every program step:
+{{{
+(gdb) dpc
+(gdb) si
+0x0000000000408a37 in base_GHCziTopHandler_lvl9_info ()
+1: x/i $pc  0x408a37 <base_GHCziTopHandler_lvl9_info+7>:        jb     0x408a55 <base_GHCziTopHandler_lvl9_info+37>
+(gdb)
+0x0000000000408a39 in base_GHCziTopHandler_lvl9_info ()
+1: x/i $pc  0x408a39 <base_GHCziTopHandler_lvl9_info+9>:        mov    $0x5cf248,%ebx
+(gdb)
+0x0000000000408a3e in base_GHCziTopHandler_lvl9_info ()
+1: x/i $pc  0x408a3e <base_GHCziTopHandler_lvl9_info+14>:       movq   $0x408a80,0xfffffffffffffff8(%rbp)
+(gdb) 
+}}}
+   Also note that an empty gdb request repeats the previous command, in this case {{{si}}}.
+ * Sometimes you need to look and step through the compiled code of Haskell libraries. I find it useful to change the lines 43 and 48 of file {{{mk/suffix.mk}}} as follows:
+{{{
+43:  $(HC) $(HC_OPTS) -c $< -o $@  -ohi $(basename $@).$(way_)hi -ddump-simpl -ddump-cmm -ddump-stg > $@.output
+48:  $(HC) $(HC_OPTS) -c $< -o $@  -ohi $(basename $@).$(way_)hi -ddump-simpl -ddump-cmm -ddump-stg > $@.output
+}}}
+   Now, I can use file {{{libraries/base/GHC/TopHandler.o.output}}} to make sense of what is going on in {{{TopHandler.o}}}.
 
-- Use the `dpc` macro if you want to avoid the pain of matching the `pc` address with instructions at every program step:
-
-  ```wiki
-  (gdb) dpc
-  (gdb) si
-  0x0000000000408a37 in base_GHCziTopHandler_lvl9_info ()
-  1: x/i $pc  0x408a37 <base_GHCziTopHandler_lvl9_info+7>:        jb     0x408a55 <base_GHCziTopHandler_lvl9_info+37>
-  (gdb)
-  0x0000000000408a39 in base_GHCziTopHandler_lvl9_info ()
-  1: x/i $pc  0x408a39 <base_GHCziTopHandler_lvl9_info+9>:        mov    $0x5cf248,%ebx
-  (gdb)
-  0x0000000000408a3e in base_GHCziTopHandler_lvl9_info ()
-  1: x/i $pc  0x408a3e <base_GHCziTopHandler_lvl9_info+14>:       movq   $0x408a80,0xfffffffffffffff8(%rbp)
-  (gdb) 
-  ```
-
-  Also note that an empty gdb request repeats the previous command, in this case `si`.
-
-## Mapping back to the STG code
-
+== Mapping back to the STG code ==
 
 To figure out which bit of Haskell code corresponds to the assembly
 fragment you're looking at, you need to look at the STG intermediate
-code generated by GHC.  Use the `-ddump-stg` flag.  The reason we
+code generated by GHC.  Use the {{{-ddump-stg}}} flag.  The reason we
 have to look at the STG is becase this is the last phase before code
 generation, after all the transformations have happened, and the
 symbol names in STG correspond pretty directly to the symbols you see
 in the object code.
 
-
-For example, if you're stopped in a code fragment `s28a_info`,
-then you should be able to search for `s28a` in the STG output and
+For example, if you're stopped in a code fragment {{{s28a_info}}},
+then you should be able to search for {{{s28a}}} in the STG output and
 find it - but you first have to find which module it comes from, and
-the best way to do that is to grep for `s28a` in all the modules
+the best way to do that is to grep for {{{s28a}}} in all the modules
 of your program.
 
-## When you've found & fixed it
+== When you've found & fixed it ==
 
-- Tell someone, they'll probably be impressed :-)
+ * Tell someone, they'll probably be impressed :-)
 
-- Try to think about whether adding an assertion somewhere might have
-  helped you find the bug quicker, and if so, add one.  Test it.  Add
-  some commentary next to the assertion to help someone else
-  understand the problem later.
+ * Try to think about whether adding an assertion somewhere might have
+   helped you find the bug quicker, and if so, add one.  Test it.  Add
+   some commentary next to the assertion to help someone else
+   understand the problem later.
+  
+ * Add a test to the testsuite for your bug.
 
-- Add a test to the testsuite for your bug.
+```
