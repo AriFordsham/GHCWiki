@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/DebuggingGhcCrashes"
-  queryString          = "?version=9"
+  queryString          = "?version=11"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:58:35 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/DebuggingGhcCrashes\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:21 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/DebuggingGhcCrashes\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -285,6 +285,30 @@ because the types do change).
 == Useful flags ==
 
 See {{{-ddump-stg, -ddump-simpl, -ddump-cmm, -dppr-debug}}}.
+
+== Useful hints ==
+
+ * Use the {{{dpc}}} macro if you want to avoid the pain of matching the {{{pc}}} address with instructions at every program step:
+{{{
+(gdb) dpc
+(gdb) si
+0x0000000000408a37 in base_GHCziTopHandler_lvl9_info ()
+1: x/i $pc  0x408a37 <base_GHCziTopHandler_lvl9_info+7>:        jb     0x408a55 <base_GHCziTopHandler_lvl9_info+37>
+(gdb)
+0x0000000000408a39 in base_GHCziTopHandler_lvl9_info ()
+1: x/i $pc  0x408a39 <base_GHCziTopHandler_lvl9_info+9>:        mov    $0x5cf248,%ebx
+(gdb)
+0x0000000000408a3e in base_GHCziTopHandler_lvl9_info ()
+1: x/i $pc  0x408a3e <base_GHCziTopHandler_lvl9_info+14>:       movq   $0x408a80,0xfffffffffffffff8(%rbp)
+(gdb) 
+}}}
+   Also note that an empty gdb request repeats the previous command, in this case {{{si}}}.
+ * Sometimes you need to look and step through the compiled code of Haskell libraries. I find it useful to change the lines 43 and 48 of file {{{mk/suffix.mk}}} as follows:
+{{{
+43:  $(HC) $(HC_OPTS) -c $< -o $@  -ohi $(basename $@).$(way_)hi -ddump-simpl -ddump-cmm -ddump-stg > $@.output
+48:  $(HC) $(HC_OPTS) -c $< -o $@  -ohi $(basename $@).$(way_)hi -ddump-simpl -ddump-cmm -ddump-stg > $@.output
+}}}
+   Now, I can use file {{{libraries/base/GHC/TopHandler.o.output}}} to make sense of what is going on in {{{TopHandler.o}}}.
 
 == Mapping back to the STG code ==
 

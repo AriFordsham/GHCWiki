@@ -265,6 +265,30 @@ because the types do change).
 
 See {{{-ddump-stg, -ddump-simpl, -ddump-cmm, -dppr-debug}}}.
 
+== Useful hints ==
+
+ * Use the {{{dpc}}} macro if you want to avoid the pain of matching the {{{pc}}} address with instructions at every program step:
+{{{
+(gdb) dpc
+(gdb) si
+0x0000000000408a37 in base_GHCziTopHandler_lvl9_info ()
+1: x/i $pc  0x408a37 <base_GHCziTopHandler_lvl9_info+7>:        jb     0x408a55 <base_GHCziTopHandler_lvl9_info+37>
+(gdb)
+0x0000000000408a39 in base_GHCziTopHandler_lvl9_info ()
+1: x/i $pc  0x408a39 <base_GHCziTopHandler_lvl9_info+9>:        mov    $0x5cf248,%ebx
+(gdb)
+0x0000000000408a3e in base_GHCziTopHandler_lvl9_info ()
+1: x/i $pc  0x408a3e <base_GHCziTopHandler_lvl9_info+14>:       movq   $0x408a80,0xfffffffffffffff8(%rbp)
+(gdb) 
+}}}
+   Also note that an empty gdb request repeats the previous command, in this case {{{si}}}.
+ * Sometimes you need to look and step through the compiled code of Haskell libraries. I find it useful to change the lines 43 and 48 of file {{{mk/suffix.mk}}} as follows:
+{{{
+43:  $(HC) $(HC_OPTS) -c $< -o $@  -ohi $(basename $@).$(way_)hi -ddump-simpl -ddump-cmm -ddump-stg > $@.output
+48:  $(HC) $(HC_OPTS) -c $< -o $@  -ohi $(basename $@).$(way_)hi -ddump-simpl -ddump-cmm -ddump-stg > $@.output
+}}}
+   Now, I can use file {{{libraries/base/GHC/TopHandler.o.output}}} to make sense of what is going on in {{{TopHandler.o}}}.
+
 == Mapping back to the STG code ==
 
 To figure out which bit of Haskell code corresponds to the assembly
