@@ -84,8 +84,15 @@ would not change.
 
 
 To make `base` smaller, we could remove stuff, and put it into 
-separate packages.  But be careful: pacakges cannot be cyclic, so
+separate packages.  But be careful: packages cannot be cyclic, so
 anything that is moved out can't be used in `base`.
+Some chunks that would currently be easy to split off are:
+
+- Data.ByteString.\* (plus future packed Char strings)
+- Control.Applicative (?), Data.Foldable, Data.Monoid (?), Data.Traversable, Data.Graph, Data.IntMap, Data.IntSet, Data.Map, Data.Sequence, Data.Set, Data.Tree
+- System.Console.GetOpt
+- Text.PrettyPrint.\*
+- Text.Printf
 
 ## Other packages
 
