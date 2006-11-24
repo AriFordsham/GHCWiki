@@ -18,16 +18,17 @@ points specific to other compilers.
  * It would be good to have set of packages that is installed with
    every Haskell implementation.  This seems to be Bulat's main point
    in the thread above.  Let's call these the '''Core Packages''' to
-   avoid confusion (Bulat called these the "base packages").
+   avoid confusion (Bulat called these the "base packages", but that's an 
+   over-used term given that there is a package called `base`).
    The good thing about the Core Packages is that
    users know that they will be there, and they are consistent with
    each other.
 
- * Any particular implementation may install more packages by default;
-   for example GHC will install the `template-haskell` and `stm`
-   packages.  Let's call these the '''GHC Install Packages''', '''Hugs
-   Install Packages''' etc; the Install Packages are a superset of the
-   Core Packages.
+ Any particular implementation may install more packages by default;
+ for example GHC will install the `template-haskell` and `stm`
+ packages.  Let's call these the '''GHC Install Packages''', '''Hugs
+ Install Packages''' etc; the Install Packages are a superset of the
+ Core Packages.
 
  * It should be possible to upgrade any package, even if that package
    came with the compiler.
