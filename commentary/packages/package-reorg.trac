@@ -81,6 +81,8 @@ Some chunks that would currently be easy to split off are:
  * System.Console.!GetOpt
  * Text.!PrettyPrint.*
  * Text.Printf
+Some other things, such as arrays and concurrency, have nothing else depending on them, but are so closely coupled with GHC's internals that extracting them would require exposing these internals in the interface of `base`.
+
 == Other packages ==
 
 Other non-core packages would probably have their own existence.  That
