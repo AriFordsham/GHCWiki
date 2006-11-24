@@ -1,3 +1,4 @@
+[[PageOutline]]
 = Package Reorg =
 
 In this page we collect proposals and design discussion for
@@ -39,7 +40,7 @@ Here's a straw-man proposal
    Install Packages''' etc; the Install Packages are a superset of the
    Core Packages.
 
-== What is in the Core Packages? ==
+=== What is in the Core Packages? ===
 
 The Core Packages are installed with every conforming Haskell implementation.
 
@@ -61,7 +62,7 @@ Questionable:
 
 Bulat: i think that all regex packages should be included and of course libs that helps testing. overall, it should be any general-purpose lib that porters accept (emlarging these sets makes users live easier, and porters live harder)
 
-== The base package ==
+=== The base package ===
 
 The base package is a bit special
 
@@ -94,7 +95,7 @@ Some other things, such as arrays and concurrency, have nothing else depending o
 
 Bulat: my ArrayRef library contains portable implementation of arrays. there is only thin ghc/hugs-specific layer which should be provided by ghcbase/hugsbase libs. except for MPTC problem (IArray/MArray classes has multiple parameters), this library should be easily portable to any other haskell compiler
 
-== Other packages ==
+=== Other packages ===
 
 Other non-core packages would probably have their own existence.  That
 is, they don't come with an implementation; instead you use
@@ -126,7 +127,9 @@ We should separate out package-specifc tests, which should be part of
 the repository for each package.  Currently they are all squashed
 together into the testsuite repository.
 
-== Notes about GHC ==
+
+== Implementation-specific notes ==
+=== Notes about GHC ===
 
 Currently GHC installs a set of packages by default: base, stm,
 template-haskell, cabal, haskel98, readline, 3 of the 5 regex
@@ -169,7 +172,7 @@ currently: `mtl`, `QuickCheck`.  We should probably eliminate the mtl
 dependency; but `QuickCheck` is used as part of the test infrastructure
 itself, so we'll make it a GHC Boot Package.)
 
-== Notes about Hugs ==
+=== Notes about Hugs ===
 
 Recent distributions of Hugs come in two sizes, jumbo and minimal.
 Minimal distributions include only the packages `base`, `haskell98` and `Cabal`.
