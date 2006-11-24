@@ -1,6 +1,17 @@
 = GHC Status =
 
- * [wiki:GhcPlanning Current planning notes]
+== Biannual status reports ==
 
- * Biannual GHC status reports, published in the [http://haskell.org/communities/ Haskell Communities and Activities Report]
-   * [wiki:Status/October06 GHC status October 2006]
+Here are biannual GHC status reports, published in the [http://haskell.org/communities/ Haskell Communities and Activities Report]
+  * [wiki:Status/October06 GHC status October 2006]
+
+== Planning notes ==
+
+Here is our [wiki:GhcPlanning current planning document], intended mainly to help Simon, Simon, and Ian coordinate with each other.
+
+== Design notes ==
+
+Here are notes about aspects of GHC's design that are up for discussion.  (They often relate to Haskell generally, rather than just GHC, but it's a convenient place to keep them.)
+  * [wiki:PackageReorg Haskell library organisation]
+  * [wiki:GhcPackages The design for the package system itself]
+ 
