@@ -20,8 +20,20 @@ points specific to other compilers.
 
 - It would be good to have set of packages that is installed with
   every Haskell implementation.  This seems to be Bulat's main point
-  in the thread above.  Let's call these the **Core Packages** to
-  avoid confusion (Bulat called these the "base packages").
+  in the thread above.
+- It should be possible to upgrade any package, even if that package
+  came with the compiler.
+
+## Proposal
+
+
+Here's a straw-man proposal
+  
+
+- There is a set of packages that come with every conforming Haskell
+  implementation.  Let's call these the **Core Packages** to
+  avoid confusion (Bulat called these the "base packages", but that's an 
+  over-used term given that there is a package called `base`).
   The good thing about the Core Packages is that
   users know that they will be there, and they are consistent with
   each other.
@@ -32,16 +44,27 @@ points specific to other compilers.
   Install Packages** etc; the Install Packages are a superset of the
   Core Packages.
 
-- It should be possible to upgrade any package, even if that package
-  came with the compiler.
-
-## What is in the Core Packages?
+### What is in the Core Packages?
 
 
-The Core Packages are installed with every conforming Haskell implementation.
+The Core Packages are installed with every conforming Haskell implementation.  What should be in the Core?  There is a tension:
+
+1. **As much as possible**; which means in practice widely-used and reasonably stable packages.  It is convenient for programmers to have as much as possible in a consistent, bundle that is (a) known to work together bundle, and (b) known to work on all implementations.  
+1. **As little as possible**; which in practice means enough to run Cabal so that you can run the Setup files that come when downloading new packages.  As Ian puts it: the less we force the implementations to come with, the quicker compilation will be when developing, the smaller Debian packages (for example) can be, the lower the disk space requirements to build GHC, the lower the time wasted when a Debian package (for example) build fails and the fewer packages we are tangling up with compiler release schedules.
 
 
-Here's an initial stab
+There's a real choice here: Bulat wants (1) and Ian wants (2).
+
+
+Initial stab at (1):
+
+- `base`
+- `haskell98`
+- `Cabal`
+- `filepath`
+
+
+Initial stab at (2):
 
 - `base`
 - `Cabal`
@@ -62,7 +85,7 @@ Questionable:
 
 Bulat: i think that all regex packages should be included and of course libs that helps testing. overall, it should be any general-purpose lib that porters accept (emlarging these sets makes users live easier, and porters live harder)
 
-## The base package
+### The base package
 
 
 The base package is a bit special
@@ -103,7 +126,7 @@ Some other things, such as arrays and concurrency, have nothing else depending o
 
 Bulat: my ArrayRef library contains portable implementation of arrays. there is only thin ghc/hugs-specific layer which should be provided by ghcbase/hugsbase libs. except for MPTC problem (IArray/MArray classes has multiple parameters), this library should be easily portable to any other haskell compiler
 
-## Other packages
+### Other packages
 
 
 Other non-core packages would probably have their own existence.  That
@@ -139,7 +162,9 @@ We should separate out package-specifc tests, which should be part of
 the repository for each package.  Currently they are all squashed
 together into the testsuite repository.
 
-## Notes about GHC
+## Implementation-specific notes
+
+### Notes about GHC
 
 
 Currently GHC installs a set of packages by default: base, stm,
@@ -196,7 +221,7 @@ currently: `mtl`, `QuickCheck`.  We should probably eliminate the mtl
 dependency; but `QuickCheck` is used as part of the test infrastructure
 itself, so we'll make it a GHC Boot Package.)
 
-## Notes about Hugs
+### Notes about Hugs
 
 
 Recent distributions of Hugs come in two sizes, jumbo and minimal.
