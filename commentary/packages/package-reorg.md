@@ -90,10 +90,23 @@ Initial stab at (2):
 - `base`
 - `haskell98`
 - `Cabal`
-- `filepath`
+- `filepath` (?)
 
 
-Bulat: i think that all regex packages should be included and of course libs that helps testing. overall, it should be any general-purpose lib that porters accept (emlarging these sets makes users live easier, and porters live harder)
+Bulat: i think that all regex packages should be included and of course libs that helps testing. overall, it should be any general-purpose lib that porters accept (enlarging this set makes users live easier, and porters live harder)
+
+
+about unix/win32 - these libs provide access to OS internals, not some everywhere-portable API. moreover, other world-interfacing libs (i/o, networking) should use APIs provided by these libs with a conditional compilation (CPPery) tricks in order to provide portable APIs! current situation where such libs use FFI isn't ideal. WinHugs size problem is rather technical - it includes a lot of DLLs which contains almost the same code
+
+
+i agree to start with minimal stub, and then proceed with discussing inclusion of each library. what we need now is requirements to include library in this set and lifetime support procedure. so:
+
+### Requirements to libraries to be included in core set
+
+- BSD-licensed, and even belongs to Haskell community?
+- portable (is sense of compiler and OS), may be just Haskell' compatible?
+- already widely used
+- shouldn't duplicate existing core libs functionality (?)
 
 ### The base package
 
@@ -160,10 +173,7 @@ so
 - `xhtml`
 
 
-Bulat: i propose to unbundle only graphics/sound libs because these solves particular problems and tends to be large, non-portable (?) and just legacy ones - like ObjectIO. we should keep everything small & general purpose, including HUnit, arraows, fgl, html and xhtml, and include even more:
-
-
-ByteString, regex-\*, Edison, Filepath, MissingH, NewBinary, QuickCheck, monads
+Bulat: i propose to unbundle only graphics/sound libs because these solves particular problems and tends to be large, non-portable (?) and some are just legacy ones - like ObjectIO. we should keep everything small & general purpose, including HUnit, arrows, fgl, html and xhtml, and include even more: ByteString, regex-\*, Edison, Filepath, MissingH, NewBinary, QuickCheck, monads
 
 ## Testing
 
