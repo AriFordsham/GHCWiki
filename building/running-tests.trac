@@ -412,3 +412,7 @@ The following <test-fn>s are provided at the moment:
 and obviously others can be defined.  The function should return
 either 'pass' or 'fail' indicating that the test passed or failed
 respectively.
+
+= Problems running the testsuite =
+
+ 1. If the test suite fails mysteriously, make sure that the {{{timeout}}} utility is working properly. This Haskell utility is compiled with the stage 1 compiler and invoked by the python driver, which does not print a nice error report if the utility fails. This can happen if, for example, the compiler produces bogus binaries. A workaround is to compile {{{timeout}}} with a stable {{{ghc}}}.
