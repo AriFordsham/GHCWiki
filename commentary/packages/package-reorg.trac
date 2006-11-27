@@ -42,9 +42,14 @@ Here's a straw-man proposal
 
 === What is in the Core Packages? ===
 
-The Core Packages are installed with every conforming Haskell implementation.
+The Core Packages are installed with every conforming Haskell implementation.  What should be in the Core?  There is a tension:
 
-Here's an initial stab
+  1. '''As much as possible'''; which means in practice widely-used and reasonably stable packages.  It is convenient for programmers to have as much as possible in a consistent, bundle that is (a) known to work together bundle, and (b) known to work on all implementations.  [[BR]][[BR]]
+  2. '''As little as possible'''; which in practice means enough to run Cabal so that you can run the Setup files that come when downloading new packages.  As Ian puts it: the less we force the implementations to come with, the quicker compilation will be when developing, the smaller Debian packages (for example) can be, the lower the disk space requirements to build GHC, the lower the time wasted when a Debian package (for example) build fails and the fewer packages we are tangling up with compiler release schedules.
+
+There's a real choice here: Bulat wants (1) and Ian wants (2).
+
+Here's an initial stab at the "as much as possible" list.
 
   * `base`
   * `Cabal`
