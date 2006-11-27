@@ -22,6 +22,17 @@ points specific to other compilers.
  * It should be possible to upgrade any package, even if that package
    came with the compiler.
 
+Possibly the following are just more detailed expansions of the above two goals:
+ * Forwards compatibility.  Users would like their programs written against the 'core' packages to continue to work, without
+   modification to source text or build system, after upgrading the
+   compiler, or its packages, or switching to a different compiler.
+ * Backwards compatibility.  Users would like to be able to take a
+   program written against some version of the 'core' packages, and
+   build it with an older compiler, accepting that they may have to
+   install newer versions of the 'core' packages in order to do so.
+
+It may not be possible to fully achieve these goals (in particular, backwards compatibility), but that does not mean we should not aim for them.
+
 == Proposal ==
 
 Here's a straw-man proposal
