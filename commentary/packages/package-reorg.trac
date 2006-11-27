@@ -88,10 +88,10 @@ i agree to start with minimal stub, and then proceed with discussing inclusion o
 
 === Requirements to libraries to be included in core set ===
 
-* BSD-licensed, and even belongs to Haskell community?
-* portable (is sense of compiler and OS), may be just Haskell' compatible?
-* already widely used
-* shouldn't duplicate existing core libs functionality (?)
+ * BSD-licensed, and even belongs to Haskell community?
+ * portable (is sense of compiler and OS), may be just Haskell' compatible?
+ * already widely used
+ * shouldn't duplicate existing core libs functionality (?)
 
 
 === The base package ===
