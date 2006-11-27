@@ -55,7 +55,7 @@ Initial stab at (1):
   * `Cabal`
   * `haskell98`
   * Some `regex` packages (precisely which?)
-  * `unix` or `Win32`
+  * `unix` or `Win32`. Questionable, partly because it means the Core interface becomes platform-dependent; and partly because `Win32` would double the size of the Hugs distribution.
   * `parsec`
   * `mtl`
   * `time`
