@@ -133,7 +133,7 @@ and a short description of what they're doing or have done.
 - Don Stewart (OpenBSD support)
 - Volker Stolz
 - Josef Svenningsson
-- Wolfgang Thaller (PowerPC Darwin port, packages)
+- Wolfgang Thaller (Darwin/Mac OS X ports, position-independent code generation)
 - Mike Thomas
 - Christopher D. Thompson-Walsh
 - Dylan Thurston
