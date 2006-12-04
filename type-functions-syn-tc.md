@@ -1,0 +1,1 @@
+# Type Checking with Indexed Type Synonyms
