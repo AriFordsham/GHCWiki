@@ -70,7 +70,7 @@ The details of the implementation are split over a couple of subpages, due to th
  * [wiki:TypeFunctionsTypeChecking type checking,]
  * [wiki:TypeFunctionsCore desugaring,] and
  * [wiki:TypeFunctionsIface interfaces.]
- 
+We also have notes on [wiki:TypeFunctionsSynTC type checking with indexed synonyms.]
 
 == Possible Extensions ==
 
