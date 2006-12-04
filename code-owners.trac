@@ -116,7 +116,7 @@ and a short description of what they're doing or have done.
  * [mailto:dons@cse.unsw.edu.au Don Stewart] (OpenBSD support)
  * [mailto:vs@foldr.org Volker Stolz]
  * [mailto:josefs@cs.chalmers.se Josef Svenningsson]
- * [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller] (PowerPC Darwin port, packages)
+ * [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller] (Darwin/Mac OS X ports, position-independent code generation)
  * [mailto:mthomas@gil.com.au Mike Thomas]
  * [mailto:cdt25@cam.ac.uk Christopher D. Thompson-Walsh]
  * [mailto:dpt@exoskeleton.math.harvard.edu Dylan Thurston]
