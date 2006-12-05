@@ -58,7 +58,7 @@ T Int = S Int            (R4)
 and under these assumptions we need to verify
 
 {{{
-T Int] = [Int]
+T [Int] = [Int]
 }}}
 
 
