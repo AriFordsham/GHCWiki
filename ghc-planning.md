@@ -8,8 +8,6 @@ This page is an internal planning document, for Ian L, Simon M, and Simon PJ. It
 
 Ian's projects
 
-- Add merging policy to [WorkingConventions](working-conventions).
-
 - **[BuildBot](build-bot)**: Install on darcs.haskell.org and set up slaves
 
   - Set up Windows nightly build
