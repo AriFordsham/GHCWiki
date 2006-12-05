@@ -53,6 +53,9 @@ Definitions:
 || HPPA         || Linux           || hppa-unknown-linux      || No           || No   || No                    || No           || No                || ||
 || S/390        || Linux           || s390-ibm-linux          || No           || No   || No                    || No           || No                || ||
 || m68k         || Linux           || m68k-unknown-linux      || No           || No   || No                    || No           || No                || ||
+|| mips         || Linux           || mips-unknown-linux      || No           || No   || No                    || No           || No                || ||
+|| mipsel       || Linux           || mipsel-unknown-linux    || No           || No   || No                    || No           || No                || ||
+|| arm          || Linux           || arm-unknown-linux       || No           || No   || No                    || No           || No                || ||
 
 '''*1''' Sparc NCG bitrotted, but still in the tree[[BR]]
 '''*2''' Win32 DLL support bitrotted[[BR]]
@@ -68,4 +71,4 @@ Definitions:
 == Platforms currently being ported ==
 
 || '''Architecture''' || '''OS'''      || '''Build name'''      || '''Registerised''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' || '''WikiPage''' ||
-|| ARM                || Maemo (Linux) || arm-unknown-linux-gnu || No                 || No         || No        || No                 || No                      || ArmLinuxGhc    ||
+|| ARM                || Maemo (Linux) || arm-unknown-linux-gnu || Yes                || No         || No        || No                 || No                      || ArmLinuxGhc    ||
