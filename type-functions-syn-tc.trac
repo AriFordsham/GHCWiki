@@ -58,7 +58,7 @@ T Int = S Int            (R4)
 and under these assumptions we need to verify
 
 {{{
-T Int] = [Int]
+T [Int] = [Int]
 }}}
 
 
@@ -152,9 +152,8 @@ holds.
 
 The trouble here is that
 
-* the axiom system Ax is confluent but if we included the local assumptions C
-
-* the combined system Ax /\ C is non-confluent (interpreted as a rewrite system)
+ * the axiom system Ax is confluent, but
+ * if we include the local assumptions C, the combined system Ax /\ C is non-confluent (interpreted as a rewrite system)
 
 
 Possible solutions:
@@ -234,8 +233,8 @@ The completion method in more detail.
 
 === There are two kinds of critical pairs ===
 
-* Axiom vs local assumption, see (R2,R4) above
-* Local assumption vs local assumption. For example,
+ * Axiom vs local assumption, see (R2,R4) above
+ * Local assumption vs local assumption. For example,
 {{{
   T Int = S Int  /\ 
   T Int = R Int
@@ -426,17 +425,23 @@ GENERATEIMP
 
 The literate implication constraints generated out of the
 program text may look as follows
-{{{ a=T Int implies ( a= S Int implies ...)
+{{{ 
+a=T Int implies ( a= S Int implies ...)
 }}}
 
 The above can be simplified to
-{{{ (a=T Int /\ a = S Int) implies ...}}}
+{{{ 
+(a=T Int /\ a = S Int) implies ...
+}}}
 Before we proceed with the completion method, we first
 need to apply some closure rules (eg. transitivity, left, right etc)
 Hence, from the above we generatet
-{{{a=T Int /\ a = S Int /\ 
+{{{
+   a=T Int /\ a = S Int /\ 
    T Int = a /\ S Int = a /\       -- symmetry
    T Int = S Int /\ S Int = T Int  -- transitivity
 }}}
 We omit the trival (reflexive) equations
-{{{ T Int = T Int /\ S Int = S Int }}}
+{{{ 
+T Int = T Int /\ S Int = S Int 
+}}}
