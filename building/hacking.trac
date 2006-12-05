@@ -197,6 +197,12 @@ The settings that give you the fastest complete GHC build are these:
 
 However, note that the libraries are built without optimisation, so this build isn't very useful.  The stage 2 compiler will be very slow.
 
+On a 4-core x86 machine using `make -j10`, this build was timed at less than 8 minutes.
+
+== Parallel builds ==
+
+The GHC build system works with make's `-j` flag, which spawns multiple compile processes in parallel.  Even on a single processor machine it's usually worthwhile using at least `make -j2`, because the I/O will be overlapped with compute-intensive compilation.  On a multicore machine, higher `-j` values will speed up the build even more.
+
 == Full optimisation ==
 
 To turn up everything to the max, for running performance tests for
