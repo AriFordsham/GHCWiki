@@ -233,8 +233,8 @@ The completion method in more detail.
 
 === There are two kinds of critical pairs ===
 
-* Axiom vs local assumption, see (R2,R4) above
-* Local assumption vs local assumption. For example,
+ * Axiom vs local assumption, see (R2,R4) above
+ * Local assumption vs local assumption. For example,
 {{{
   T Int = S Int  /\ 
   T Int = R Int
