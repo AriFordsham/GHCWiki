@@ -152,9 +152,8 @@ holds.
 
 The trouble here is that
 
-* the axiom system Ax is confluent but if we included the local assumptions C
-
-* the combined system Ax /\ C is non-confluent (interpreted as a rewrite system)
+ * the axiom system Ax is confluent, but
+ * if we include the local assumptions C, the combined system Ax /\ C is non-confluent (interpreted as a rewrite system)
 
 
 Possible solutions:
