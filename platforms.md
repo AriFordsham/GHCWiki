@@ -240,6 +240,33 @@ Definitions:
 <th> No                    </th>
 <th> No           </th>
 <th> No                </th>
+<th></th></tr>
+<tr><th> mips         </th>
+<th> Linux           </th>
+<th> mips-unknown-linux      </th>
+<th> No           </th>
+<th> No   </th>
+<th> No                    </th>
+<th> No           </th>
+<th> No                </th>
+<th></th></tr>
+<tr><th> mipsel       </th>
+<th> Linux           </th>
+<th> mipsel-unknown-linux    </th>
+<th> No           </th>
+<th> No   </th>
+<th> No                    </th>
+<th> No           </th>
+<th> No                </th>
+<th></th></tr>
+<tr><th> arm          </th>
+<th> Linux           </th>
+<th> arm-unknown-linux       </th>
+<th> No           </th>
+<th> No   </th>
+<th> No                    </th>
+<th> No           </th>
+<th> No                </th>
 <th></th></tr></table>
 
 **\*1** Sparc NCG bitrotted, but still in the tree
@@ -298,7 +325,7 @@ Definitions:
 <tr><th> ARM                </th>
 <th> Maemo (Linux) </th>
 <th> arm-unknown-linux-gnu </th>
-<th> No                 </th>
+<th> Yes                </th>
 <th> No         </th>
 <th> No        </th>
 <th> No                 </th>
