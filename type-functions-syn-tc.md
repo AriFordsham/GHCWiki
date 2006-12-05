@@ -524,22 +524,32 @@ GENERATEIMP
 
 The literate implication constraints generated out of the
 program text may look as follows
-{{{ a=T Int implies ( a= S Int implies ...)
-}}}
+
+```wiki
+a=T Int implies ( a= S Int implies ...)
+```
 
 
 The above can be simplified to
-` (a=T Int /\ a = S Int) implies ...`
+
+```wiki
+(a=T Int /\ a = S Int) implies ...
+```
+
+
 Before we proceed with the completion method, we first
 need to apply some closure rules (eg. transitivity, left, right etc)
 Hence, from the above we generatet
-{{{a=T Int /\\ a = S Int /\\ 
 
->
-> T Int = a /\\ S Int = a /\\       -- symmetry
-> T Int = S Int /\\ S Int = T Int  -- transitivity
+```wiki
+   a=T Int /\ a = S Int /\ 
+   T Int = a /\ S Int = a /\       -- symmetry
+   T Int = S Int /\ S Int = T Int  -- transitivity
+```
 
 
-}}}
 We omit the trival (reflexive) equations
-` T Int = T Int /\ S Int = S Int `
+
+```wiki
+T Int = T Int /\ S Int = S Int 
+```
