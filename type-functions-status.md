@@ -12,9 +12,7 @@ Back to [TypeFunctions](type-functions).
 ## Parsing and Renaming
 
 
-Todo (low-level):
-
-- Should family declarations be optional with ATs, too?  (See comment at patch making kinds optional at toplevel declarations.)
+Todo (low-level): None.
 
 
 Todo (high-level):
