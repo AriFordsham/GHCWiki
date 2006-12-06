@@ -17,7 +17,7 @@ A portion of the [RTS](commentary/rts) is written in Cmm: [rts/Apply.cmm](/trac/
     - [Basic Blocks and Procedures](commentary/compiler/cmm-type#basic-blocks-and-procedures)
   1. [Variables, Registers and Types](commentary/compiler/cmm-type#variables,-registers-and-types)
 
-    1. [Local Registers](commentary/compiler/cmm-type#)
+    1. [Local Registers](commentary/compiler/cmm-type#local-registers)
     1. [Global Registers and Hints](commentary/compiler/cmm-type#)
     1. [Declaration and Initialisation](commentary/compiler/cmm-type#)
     1. [Memory Access](commentary/compiler/cmm-type#)
@@ -265,4 +265,32 @@ C-- and Cmm hide the actual number of registers available on a particular machin
 data CmmReg 
   = CmmLocal  LocalReg
   | CmmGlobal GlobalReg
+```
+
+#### Local Registers
+
+
+Local Registers exist within the scope of a Procedure:
+
+```wiki
+data LocalReg
+  = LocalReg !Unique MachRep
+```
+
+
+For a list of references with information on `Unique`, see the [Basic Blocks and Procedures](commentary/compiler/cmm-type#basic-blocks-and-procedures) section, above.
+
+
+A `MachRep`, the type of a machine register, is defined in [compiler/cmm/MachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/MachOp.hs):
+
+```wiki
+data MachRep
+  = I8		-- integral type, 8 bits wide (a byte)
+  | I16		-- integral type, 16 bits wide
+  | I32		-- integral type, 32 bits wide
+  | I64		-- integral type, 64 bits wide
+  | I128	-- integral type, 128 bits wide (an integral vector register)
+  | F32		-- floating point type, 32 bits wide (float)
+  | F64		-- floating point type, 64 bits wide (double)
+  | F80		-- extended double-precision, used in x86 native codegen only.
 ```

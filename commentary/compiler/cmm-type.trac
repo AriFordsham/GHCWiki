@@ -209,3 +209,23 @@ data CmmReg
   | CmmGlobal GlobalReg
 }}}
 
+==== Local Registers ==== 
+Local Registers exist within the scope of a Procedure:
+{{{
+data LocalReg
+  = LocalReg !Unique MachRep
+}}}
+For a list of references with information on `Unique`, see the [wiki:Commentary/Compiler/CmmType#BasicBlocksandProcedures Basic Blocks and Procedures] section, above.
+
+A `MachRep`, the type of a machine register, is defined in [[GhcFile(compiler/cmm/MachOp.hs)]]:
+{{{
+data MachRep
+  = I8		-- integral type, 8 bits wide (a byte)
+  | I16		-- integral type, 16 bits wide
+  | I32		-- integral type, 32 bits wide
+  | I64		-- integral type, 64 bits wide
+  | I128	-- integral type, 128 bits wide (an integral vector register)
+  | F32		-- floating point type, 32 bits wide (float)
+  | F64		-- floating point type, 64 bits wide (double)
+  | F80		-- extended double-precision, used in x86 native codegen only.
+}}}
