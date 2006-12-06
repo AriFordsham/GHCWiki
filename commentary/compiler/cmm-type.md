@@ -12,9 +12,9 @@ A portion of the [RTS](commentary/rts) is written in Cmm: [rts/Apply.cmm](/trac/
 1. [Compiling Cmm with GHC](commentary/compiler/cmm-type#compiling-cmm-with-ghc)
 1. [Basic Cmm](commentary/compiler/cmm-type#basic-cmm)
 
-  1. [Code Blocks in Cmm](commentary/compiler/cmm-type#)
+  1. [Code Blocks in Cmm](commentary/compiler/cmm-type#code-blocks-in-cmm)
 
-    - [Basic Blocks and Procedures](commentary/compiler/cmm-type#)
+    - [Basic Blocks and Procedures](commentary/compiler/cmm-type#basic-blocks-and-procedures)
   1. [Variables, Registers and Types](commentary/compiler/cmm-type#)
 
     1. [Local Registers](commentary/compiler/cmm-type#)
@@ -173,3 +173,82 @@ Cmm is a high level assembler with a syntax style similar to C.  This section de
 - [ C--: A Portable Assembly Language (1997)](http://cminusminus.org/abstracts/pal-ifl.html) (Paper page with Abstract)
 - [ A Single Intermediate Language That Supports Multiple Implementations of Exceptions (2000)](http://cminusminus.org/abstracts/c--pldi-00.html) (Paper page with Abstract)
 - [ The C-- Language Specification Version 2.0 (CVS Revision 1.128, 23 February 2005)](http://cminusminus.org/extern/man2.pdf) (PDF)
+
+
+Cmm is not a stand alone C-- compiler; it is an implementation of C-- embedded in the GHC compiler.  One difference between Cmm and a C-- compiler like [ Quick C--](http://cminusminus.org/code.html) is this: Cmm uses the C preprocessor (cpp).  Cpp lets Cmm *integrate* with C code, especially the C header defines in [includes](/trac/ghc/browser/ghc/includes), and among many other consequences it makes the C-- `import` and `export` statements irrelevant; in fact, according to [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y) they are ignored.  The most significant action taken by the Cmm modules in the Compiler is to optimise Cmm, through [compiler/cmm/CmmOpt.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmOpt.hs).  The Cmm Optimiser generally runs a few simplification passes over primitive Cmm operations, inlines simple Cmm expressions that do not contain global registers (these would be left to one of the [Backends](commentary/compiler/backends), which currently cannot handle inlines with global registers) and performs a simple loop optimisation. 
+
+### Code Blocks in Cmm
+
+
+The Haskell representation of Cmm separates contiguous code into:
+
+- *modules* (compilation units; a `.cmm` file); and
+- *basic blocks*
+
+
+Cmm modules contain static data elements (see [Literals and Labels](commentary/compiler/cmm-type#)) and [Basic Blocks](commentary/compiler/cmm-type#), collected together in `Cmm`, a type synonym for `GenCmm`, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
+
+```wiki
+newtype GenCmm d i = Cmm [GenCmmTop d i]
+ 
+type Cmm = GenCmm CmmStatic CmmStmt
+
+data GenCmmTop d i
+  = CmmProc
+     [d]	       -- Info table, may be empty
+     CLabel            -- Used to generate both info & entry labels
+     [LocalReg]        -- Argument locals live on entry (C-- procedure params)
+     [GenBasicBlock i] -- Code, may be empty.  The first block is
+                       -- the entry point.  The order is otherwise initially 
+                       -- unimportant, but at some point the code gen will
+                       -- fix the order.
+
+		       -- the BlockId of the first block does not give rise
+		       -- to a label.  To jump to the first block in a Proc,
+		       -- use the appropriate CLabel.
+
+  -- some static data.
+  | CmmData Section [d]	-- constant values only
+
+type CmmTop = GenCmmTop CmmStatic CmmStmt
+```
+
+`CmmStmt` is described in [Statements and Calls](commentary/compiler/cmm-type#);
+`Section` is described in [Sections and Directives](commentary/compiler/cmm-type#);
+
+the static data in `[d]` is \[`CmmStatic`\] from the type synonym `Cmm`;
+`CmmStatic` is described in [Literals and Labels](commentary/compiler/cmm-type#).
+
+#### Basic Blocks and Procedures
+
+
+Cmm procedures are represented by the first constructor in `GenCmmTop d i`:
+
+```wiki
+    CmmProc [d] CLabel [LocalReg] [GenBasicBlock i]
+```
+
+
+For a description of Cmm labels and the `CLabel` data type, see the subsection [Literals and Labels](commentary/compiler/cmm-type#), below.
+
+
+Cmm Basic Blocks are labeled blocks of Cmm code ending in an explicit jump.  Sections (see [Sections and Directives](commentary/compiler/cmm-type#)) have no jumps--in Cmm, Sections cannot contain nested Procedures (see, e.g., [Compiling Cmm with GHC](commentary/compiler/cmm-type#compiling-cmm-with-ghc)).  In Basic Blocks represent parts of Procedures.  The data type `GenBasicBlock` and the type synonym `CmmBasicBlock` encapsulate Basic Blocks; they are defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
+
+```wiki
+data GenBasicBlock i = BasicBlock BlockId [i]
+
+type CmmBasicBlock = GenBasicBlock CmmStmt
+
+newtype BlockId = BlockId Unique
+  deriving (Eq,Ord)
+
+instance Uniquable BlockId where
+  getUnique (BlockId u) = u
+```
+
+
+The `BlockId` data type simply carries a `Unique` with each Basic Block.  For descriptions of `Unique`, see 
+
+- the [Renamer](commentary/compiler/renamer) page;
+- the [Known Key Things](commentary/compiler/wired-in#known-key-things) section of the [Wired-in and Known Key Things](commentary/compiler/wired-in) page; and, 
+- the [Type variables and term variables](commentary/compiler/entity-types#type-variables-and-term-variables) section of the [Entity Types](commentary/compiler/entity-types) page.
