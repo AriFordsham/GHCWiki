@@ -15,7 +15,7 @@ A portion of the [RTS](commentary/rts) is written in Cmm: [rts/Apply.cmm](/trac/
   1. [Code Blocks in Cmm](commentary/compiler/cmm-type#code-blocks-in-cmm)
 
     - [Basic Blocks and Procedures](commentary/compiler/cmm-type#basic-blocks-and-procedures)
-  1. [Variables, Registers and Types](commentary/compiler/cmm-type#)
+  1. [Variables, Registers and Types](commentary/compiler/cmm-type#variables,-registers-and-types)
 
     1. [Local Registers](commentary/compiler/cmm-type#)
     1. [Global Registers and Hints](commentary/compiler/cmm-type#)
@@ -114,7 +114,7 @@ __stginit_Main_() {	// parse error `('
 ```
 
 
-The Cmm procedure names in [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm) are not followed by a (possibly empty) parenthetical list of arguments; all their arguments are Global (STG) Registers, anyway, see [Variables, Registers and Types](commentary/compiler/cmm-type#), below.  Don't be confused by the procedure definitions in other handwritten `.cmm` files in the RTS, such as [rts/Apply.cmm](/trac/ghc/browser/ghc/rts/Apply.cmm): all-uppercase procedure invocations are special reserved tokens in [compiler/cmm/CmmLex.x](/trac/ghc/browser/ghc/compiler/cmm/CmmLex.x) and [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y).  For example, `INFO_TABLE` is parsed as one of the tokens in the Alex `info` predicate:
+The Cmm procedure names in [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm) are not followed by a (possibly empty) parenthetical list of arguments; all their arguments are Global (STG) Registers, anyway, see [Variables, Registers and Types](commentary/compiler/cmm-type#variables,-registers-and-types), below.  Don't be confused by the procedure definitions in other handwritten `.cmm` files in the RTS, such as [rts/Apply.cmm](/trac/ghc/browser/ghc/rts/Apply.cmm): all-uppercase procedure invocations are special reserved tokens in [compiler/cmm/CmmLex.x](/trac/ghc/browser/ghc/compiler/cmm/CmmLex.x) and [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y).  For example, `INFO_TABLE` is parsed as one of the tokens in the Alex `info` predicate:
 
 ```wiki
 info	:: { ExtFCode (CLabel, [CmmLit],[CmmLit]) }
@@ -252,3 +252,17 @@ The `BlockId` data type simply carries a `Unique` with each Basic Block.  For de
 - the [Renamer](commentary/compiler/renamer) page;
 - the [Known Key Things](commentary/compiler/wired-in#known-key-things) section of the [Wired-in and Known Key Things](commentary/compiler/wired-in) page; and, 
 - the [Type variables and term variables](commentary/compiler/entity-types#type-variables-and-term-variables) section of the [Entity Types](commentary/compiler/entity-types) page.
+
+### Variables, Registers and Types
+
+
+Like other high level assembly languages, all variables in C-- are machine registers, separated into different types according to bit length (8, 16, 32, 64, 80, 128) and register type (integral or floating point). The C-- standard specifies little more type information about a register than its bit length: there are no distinguishing types for signed or unsigned integrals, or for "pointers" (registers holding a memory address).  A C-- standard compiler supports additional information on the type of a register value through compiler *hints*.  In a foreign call, a `"signed" bits8` would be sign-extended and may be passed as a 32-bit value.  Cmm diverges from the C-- specification on this point somewhat (see below).  C-- and Cmm do not represent special registers, such as a Condition Register (`CR`) or floating point unit (FPU) status and control register (`FPSCR` on the PowerPC, `MXCSR` on Intel x86 processors), as these are a matter for the [Backends](commentary/compiler/backends).
+
+
+C-- and Cmm hide the actual number of registers available on a particular machine by assuming an "infinite" supply of registers.  A backend, such as the NCG or C compiler on GHC, will later optimise the number of registers used and assign the Cmm variables to actual machine registers; the NCG temporarily stores any overflow in a small memory stack called the *spill stack*, while the C compiler relies on C's own runtime system.  Haskell handles Cmm registers with three data types: `LocalReg`, `GlobalReg` and `CmmReg`.  `LocalReg`s and `GlobalRegs` are collected together in a single `Cmm` data type:
+
+```wiki
+data CmmReg 
+  = CmmLocal  LocalReg
+  | CmmGlobal GlobalReg
+```

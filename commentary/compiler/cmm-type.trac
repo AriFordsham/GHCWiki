@@ -199,3 +199,13 @@ The `BlockId` data type simply carries a `Unique` with each Basic Block.  For de
  * the [wiki:Commentary/Compiler/WiredIn#Knownkeythings Known Key Things] section of the [wiki:Commentary/Compiler/WiredIn Wired-in and Known Key Things] page; and, 
  * the [wiki:Commentary/Compiler/EntityTypes#Typevariablesandtermvariables Type variables and term variables] section of the [wiki:Commentary/Compiler/EntityTypes Entity Types] page.
 
+=== Variables, Registers and Types ===
+Like other high level assembly languages, all variables in C-- are machine registers, separated into different types according to bit length (8, 16, 32, 64, 80, 128) and register type (integral or floating point). The C-- standard specifies little more type information about a register than its bit length: there are no distinguishing types for signed or unsigned integrals, or for "pointers" (registers holding a memory address).  A C-- standard compiler supports additional information on the type of a register value through compiler ''hints''.  In a foreign call, a `"signed" bits8` would be sign-extended and may be passed as a 32-bit value.  Cmm diverges from the C-- specification on this point somewhat (see below).  C-- and Cmm do not represent special registers, such as a Condition Register (`CR`) or floating point unit (FPU) status and control register (`FPSCR` on the PowerPC, `MXCSR` on Intel x86 processors), as these are a matter for the [wiki:Commentary/Compiler/Backends Backends].
+
+C-- and Cmm hide the actual number of registers available on a particular machine by assuming an "infinite" supply of registers.  A backend, such as the NCG or C compiler on GHC, will later optimise the number of registers used and assign the Cmm variables to actual machine registers; the NCG temporarily stores any overflow in a small memory stack called the ''spill stack'', while the C compiler relies on C's own runtime system.  Haskell handles Cmm registers with three data types: `LocalReg`, `GlobalReg` and `CmmReg`.  `LocalReg`s and `GlobalRegs` are collected together in a single `Cmm` data type:
+{{{
+data CmmReg 
+  = CmmLocal  LocalReg
+  | CmmGlobal GlobalReg
+}}}
+
