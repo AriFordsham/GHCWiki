@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsSyntax"
-  queryString          = "?version=3"
+  queryString          = "?version=4"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:55:51 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","258"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsSyntax\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:35 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","258"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsSyntax\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -23,7 +23,7 @@ Original source:
 
 == Syntax of kind signatures and definitions of indexed types ==
 
-A tolevel kind signature consists of a type declaration head using `family` as a special following the declaration keyword.  It is optionally followed by a `::` and a kind (which is by default `*` if not specified).  In the case of  a data declaration, we addititonally require that there is no `where` clause.   In associated kind signature, the `family` special is droped, but the kind is currently compulsory.  Toplevel indexed type defintions, use the `instance` keyword after the main declarations keyword; associated declarations don't use `instance`.  We require for every definition of an indexed type (i.e., type equations or indexed data/newtype declaration) that a matching kind signature is in scope.  Vanilla type synonym definitions and data/newtype declarations fall out as special cases of type function equations and indexed type declarations that have variable-only patterns, for which we require no kind signatures.  The vanilla forms are also closed (further definitions would be useless, as they are bound to overlap).
+A tolevel kind signature consists of a type declaration head using `family` as a special following the declaration keyword.  It is optionally followed by a `::` and a kind (which is by default `*` if not specified).  In the case of  a data declaration, we addititonally require that there is no `where` clause.   In associated kind signature, the `family` special is dropped, but the kind is currently compulsory.  Toplevel indexed type defintions, use the `instance` keyword after the main declarations keyword; associated declarations don't use `instance`.  We require for every definition of an indexed type (i.e., type equations or indexed data/newtype declaration) that a matching kind signature is in scope.  Vanilla type synonym definitions and data/newtype declarations fall out as special cases of type function equations and indexed type declarations that have variable-only patterns, for which we require no kind signatures.  The vanilla forms are also closed (further definitions would be useless, as they are bound to overlap).
 
 == Representation of indexed types ==
 
