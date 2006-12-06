@@ -296,4 +296,28 @@ data MachRep
 ```
 
 
-There is currently no register for floating point vectors, such as `F128`.  The types of Cmm variables are defined in the Happy parser file [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y) and the Alex lexer file [compiler/cmm/CmmLex.x](/trac/ghc/browser/ghc/compiler/cmm/CmmLex.x).  (Happy and Alex will compile these into `CmmParse.hs` and `CmmLex.hs`, respectively.)  
+There is currently no register for floating point vectors, such as `F128`.  The types of Cmm variables are defined in the Happy parser file [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y) and the Alex lexer file [compiler/cmm/CmmLex.x](/trac/ghc/browser/ghc/compiler/cmm/CmmLex.x).  (Happy and Alex will compile these into `CmmParse.hs` and `CmmLex.hs`, respectively.)  Cmm recognises the following `C--` types as parseable tokens, listed next to their corresponding `define`s in [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h) and their STG types:
+
+<table><tr><th>**Cmm Token**</th>
+<th>**Cmm.h \#define**</th>
+<th>**STG type**</th></tr>
+<tr><th>`bits8`</th>
+<th>`I8`</th>
+<th>`StgChar` or `StgWord8`</th></tr>
+<tr><th>`bits16`</th>
+<th>`I16`</th>
+<th>`StgWord16`</th></tr>
+<tr><th>`bits32`</th>
+<th>`I32`, `CInt`, `CLong`</th>
+<th>`StgWord32`; `StgWord` (depending on architecture) 
+</th></tr>
+<tr><th>`bits64`</th>
+<th>`I64`, `CInt`, `CLong`, `L_`</th>
+<th>`StgWord64`; `StgWord` (depending on architecture) 
+</th></tr>
+<tr><th>`float32`</th>
+<th>`F_`</th>
+<th>`StgFloat`</th></tr>
+<tr><th>`float64`</th>
+<th>`D_`</th>
+<th>`StgDouble`</th></tr></table>
