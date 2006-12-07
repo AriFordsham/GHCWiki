@@ -305,15 +305,15 @@ In the CHR world, we find that
 <--> T Int a /\ S Int a /\ R Int a /\
      a=b, c=a, d=a
 }}}
-  directly corresponds to
+directly corresponds to
 {{{
-    S Int = R Int
-    R Int = S Int
+S Int = R Int
+R Int = S Int
 }}}
 
 The general cases are as follows.
 
-==== axiom vs local assumption case ====
+==== Axiom vs local assumption case ====
 
 {{{
 forall as. (T t1 ... tn = s)  -- axiom
@@ -357,7 +357,7 @@ resulting from completion 'appear' in the CHR derivation
 --> b=b', phi(C) /\ C'
 }}}
 
-==== local assumption vs local assumption ====
+==== Local assumption vs local assumption ====
 
 {{{
 T t1 ... tn = s1
