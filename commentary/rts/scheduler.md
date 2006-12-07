@@ -253,3 +253,5 @@ Par doesn't actually create a new thread immediately; instead it places a pointe
 So how does the spark turn into a thread?  When the scheduler spots that the current capability has no runnable threads, it checks the spark pool, and if there is a valid spark (a spark that points to a THUNK), then the spark is turned into a real thread and placed on the run queue: see `createSparkThread` in [rts/Sparks.c](/trac/ghc/browser/ghc/rts/Sparks.c).  Also, the scheduler attempts to share its available sparks with any other idle capabilities: see `schedulePushWork` in [rts/Scheduler.c](/trac/ghc/browser/ghc/rts/Scheduler.c).
 
 ## Affinity and migration
+
+## Shutting Down
