@@ -118,9 +118,8 @@ End of NOTE
 
 To solve  {{{(C implies t1=t2)}}} with respect to Ax
 
-1. We interpret Ax /\ C as a rewrite system (from left to right).
-
-2. We exhaustively apply rewrite rules on t1 and t2, written t1 -->* t1' and t2 -->* t2' and check that t1' and t2' are syntactically equivalent.
+ 1. We interpret Ax /\ C as a rewrite system (from left to right).
+ 2. We exhaustively apply rewrite rules on t1 and t2, written t1 -->* t1' and t2 -->* t2' and check that t1' and t2' are syntactically equivalent.
 
 
 Immediately, we find a problem with this solving strategy.
@@ -187,11 +186,10 @@ So, we clearly need a better type checking method.
 
 To solve  {{{(C implies t1=t2)}}} with respect to Ax
 
-1. a. We interpret Ax /\ C as a rewrite system (from left to right)       and 
-
-   b. perform completion until the rewrite system is confluent.
-
-2. We exhaustively apply rewrite rules on t1 and t2, written t1 -->* t1' and t2 -->* t2' and check that t1' and t2' are syntactically equivalent.
+ 1. First:
+   1. We interpret Ax /\ C as a rewrite system (from left to right)   and 
+   2. perform completion until the rewrite system is confluent.
+ 2. We exhaustively apply rewrite rules on t1 and t2, written t1 -->* t1' and t2 -->* t2' and check that t1' and t2' are syntactically equivalent.
 
 
 Step 1b) is new and crucial. For confluent rewrite systems the
