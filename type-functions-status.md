@@ -61,7 +61,7 @@ Done:
 
 Todo (low-level):
 
-- Derivings on an associated data type *declaration* need to be inherited by all definitions of that data type in instances.
+- Allow deriving clauses at associated data/newtype *declarations*.  They are inherited by all family instances, and the whole family becomes an instance of the derived class.
 
 
 Todo (high-level):
