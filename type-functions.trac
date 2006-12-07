@@ -74,4 +74,5 @@ We also have notes on [wiki:TypeFunctionsSynTC type checking with indexed synony
 
 == Possible Extensions ==
 
+ * Class instances of entire data/newtype families (apart from a deriving clause at the family declaration).  They would need to have to guarantee that every instance of the family is an instance of the class.  However, does that really make sense; i.e., what dictionary should be passed?  We would need open case expression, as in the next item.
  * Our type-indexed data types are open.  However, we currently don't allow case expressions mixing constructors from different indexes.  We could do that if we had a story for open function definitions outside of classes.
