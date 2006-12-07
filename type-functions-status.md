@@ -5,8 +5,8 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
+- Handle deriving clauses for data family instances.
 - Where should the family instance consistency check go for GHCi?  `tcGetModuleExports`?  (Where is that function called?)
-- There really is no reason anymore to disallow family instances where all arguments are type variables.  Such instances are rarely useful, but may be when creating stub files or so; so why disallow them.  Check that they are working.
 
 ## Parsing and Renaming
 
@@ -61,7 +61,7 @@ Done:
 
 Todo (low-level):
 
-- Derivings on an associated data type *declaration* need to be inherited by all definitions of that data type in instances.
+- Allow deriving clauses at associated data/newtype *declarations*.  They are inherited by all family instances, and the whole family becomes an instance of the derived class.
 
 
 Todo (high-level):
