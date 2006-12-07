@@ -189,8 +189,8 @@ To solve  {{{(C implies t1=t2)}}} with respect to Ax
  2. We exhaustively apply rewrite rules on t1 and t2, written t1 -->* t1' and t2 -->* t2' and check that t1' and t2' are syntactically equivalent.
 
 
-Step 1b) is new and crucial. For confluent rewrite systems the
-checking step 2) will work fine (we also need termination of course).
+Step (1.1) is new and crucial. For confluent rewrite systems the
+checking step (2) will work fine (we also need termination of course).
 But how do we now that completion will succeed?
 The important condition is to guarantee that Ax is confluent (and
 terminating) then completion will be successful (i.e. terminated
