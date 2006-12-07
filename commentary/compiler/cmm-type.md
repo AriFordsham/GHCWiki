@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Commentary/Compiler/CmmType"
-  queryString          = "?version=7"
+  queryString          = "?version=8"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:37 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","262"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/CmmType\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:39 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","262"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/CmmType\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -258,7 +258,6 @@ There is currently no register for floating point vectors, such as `F128`.  The 
 || `bits64` || `I64`, `CInt`, `CLong`, `L_` || `StgWord64`; `StgWord` (depending on architecture) ||
 || `float32` || `F_` || `StgFloat` ||
 || `float64` || `D_` || `StgDouble` ||
-
 
 [[GhcFile(includes/Cmm.h)]] also defines `L_` for `bits64`, so `F_`, `D_` and `L_` correspond to the `GlobalReg` data type constructors `FloatReg`, `DoubleReg` and `LongReg`.  Note that although GHC may generate other register types supported by the `MachRep` data type, such as `I128`, they are not parseable tokens.  That is, they are internal to GHC.  The special defines `CInt` and `CLong` are used for compatibility with C on the target architecture, typically for making `foreign "C"` calls.
 
@@ -840,6 +839,8 @@ Cmm generally conforms to the C-- specification for operators and "primitive ope
  * ''primitive operations'' are special, usually inlined, procedures, represented in Haskell using the `CallishMachOp` data type; primitive operations may have side effects.
 The `MachOp` and `CallishMachOp` data types are defined in [[GhcFile(compiler/cmm/MachOp.hs)]].
 
+Both Cmm Operators and Primitive Operations are handled in Haskell as [wiki:Commentary/PrimOps#InlinePrimOps Inline PrimOps], though what I am calling Cmm ''primitive operations'' may be implemented as out-of-line foreign calls.
+
 ==== Operators ====
 {{{
 data MachOp
@@ -888,6 +889,8 @@ data MachOp
 Each `MachOp` generally corresponds to a machine instruction but may have its value precomputed in the Cmm, NCG or HC optimisers.  
 
 ==== Primitive Operations ====
+Primitive Operations generally involve more than one machine instruction and may not always be inlined.  
+
 {{{
 -- These MachOps tend to be implemented by foreign calls in some backends,
 -- so we separate them out.  In Cmm, these can only occur in a
@@ -922,6 +925,8 @@ data CallishMachOp
   | MO_F32_Sqrt
   | MO_WriteBarrier
 }}}
+For an example, the floating point sine function, `sinFloat#` in [[GhcFile(compiler/prelude/primops.txt.pp)]] is piped through the `callishOp` function in [[GhcFile(compiler/codegen/CgPrimOp.hs)]] to become `Just MO_F32_Sin`.  The `CallishMachOp` constructor `MO_F32_Sin` is piped through [[GhcFile(compiler/nativeGen/MachCodeGen.hs)]], where the function `genCCall` will (for most architectures) call `outOfLineFloatOp` to issue a call to a C function such as `sin`.
+
 
 == Cmm Design: Observations and Areas for Potential Improvement  ==
 
