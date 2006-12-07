@@ -23,14 +23,14 @@ some interesting programs.
 data Zero
 data Succ n
 data List a n where
-  Nil :: List a Zero
+  Nil  :: List a Zero
   Cons :: a -> List a m -> List a (Succ m)
 
-type add :: * -> * -> *
-     add Zero x = x
-     add (Succ x) y = Succ (add x y)
+type family Add :: * -> * -> *
+type instance Add Zero     y = y
+type instance Add (Succ x) y = Succ (Add x y)
 
-append :: List a l -> List a m -> List a (add l m)
+append :: List a l -> List a m -> List a (Add l m)
 append Nil xs = xs
 append (Cons x xs) ys = Cons x (append xs ys)
 }}}
