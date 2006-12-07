@@ -13,9 +13,6 @@ Todo (low-level): None.
 Todo (high-level):
  1. Parse and rename equality constraints in signatures.
  2. Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)
- 3. Import/export lists:
-   * We need to be able to write something like `GMapKey(GMap,empty)`.
-   * Export and import of data constructors declarated in `data instance`s.  We should be able to use the same syntax for the entity specs as for closed data types, but the meaning is somewhat different.
 
 Done:
  * Parsing and renaming of kind signatures (toplevel and in classes).
@@ -23,6 +20,7 @@ Done:
  * Using new syntax with `family` and `instance` on top level.
  * Added `-findexed-types` switch.
  * Allowing `type` tag in export lists to list associated types in the sub-binder list of an import/export item for a class.
+ * Import/export lists: ATs can be listed as subnames of classes and the data constructors of instances of a data family are subnames of that family.
 
 == Type Checking ==
 
