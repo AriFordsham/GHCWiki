@@ -89,5 +89,5 @@ We also have notes on [type checking with indexed synonyms.](type-functions-syn-
 
 ## Possible Extensions
 
-- Class instances of entire data/newtype families (apart from a deriving clause at the family declaration).  They would need to have to guarantee that every instance of the family is an instance of the class.  However, does that really make sense; i.e., what dictionary should be passed?  We would need open case expression, as in the next item.
 - Our type-indexed data types are open.  However, we currently don't allow case expressions mixing constructors from different indexes.  We could do that if we had a story for open function definitions outside of classes.
+- Class instances of entire data/newtype families (including `deriving` clauses at family declarations to derive for all instances) requires the same sort of capabilities as case expressions mixing data constructors from different indexes.  This is, as they require to build a dictionary that applies to all family instances (as opposed to a distinct dictionary per instance, which is what we have now).
