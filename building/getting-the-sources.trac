@@ -34,7 +34,7 @@ A source tree consists of the GHC repository, with a set of packages in the libr
   $ ./darcs-all get
 }}}
 
-'''NOTE''': you really want {{{--partial}}} when grabbing GHC.  There are some 13000 patches in the repository, which take a long time to download without {{{--partial}}}.  The {{{darcs-all}}} script automatically adds {{{--partial}}} for the packages.
+'''NOTE''': You really want {{{--partial}}} when grabbing GHC.  There are some 15000 patches in the repository, which take a long time to download without {{{--partial}}}.  The {{{darcs-all}}} script automatically adds {{{--partial}}} for the packages. If you are a developer and you know what you are doing, you can omit {{{--partial}}} and use {{{./darcs-all get --complete}}} to get a decade of pacthes.
 
 The above will grab the "core" set of packages.  This is the minimal set of packages required to bootstrap GHC.  If you want to get a more comprehensive set of packages and include them in your GHC build, then you can say:
 
