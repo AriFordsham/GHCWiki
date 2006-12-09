@@ -1251,6 +1251,9 @@ Some higher level languages provide facilities to handle these exceptions, inclu
 - FPU exceptions may be unavoidable, especially if several FPU operations are serially performed at the machine level so the higher level software has no opportunity to check the results in between operations. 
 
 
+A potential solution to the problem of implementing Cmm exceptions, especially for floating point operations, is at [Cmm: Implementing Exception Handling](commentary/cmm-exceptions).  
+
+
 The C-- Language Specification mentions over 75 primitive operators.  The Specification lists separate operators for integral and floating point (signed) arithmetic (including carry, borrow and overflow checking), logical comparisons and conversions (from one size float to another, from float to integral and vice versa, etc.).  C-- also includes special operators for floating point number values, such as `NaN`, `mzero`*k* and `pzero`*k*, and rounding modes; integral kinds also include bitwise operators, unsigned variants, and bit extraction for width changing and sign or zero-extension.  A C-- implementation may conveniently map each of these operators to a machine instruction, or to a simulated operation on architectures that do not support a single instruction.  There seem to be two main problems with the current GHC-implementation of Cmm:
 
 1. not enough operators
