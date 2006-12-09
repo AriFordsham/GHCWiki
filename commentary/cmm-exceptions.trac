@@ -2,3 +2,15 @@
 
 = Cmm: Implementing Exception Handling =
 
+The IEEE 754 specification for floating point numbers defines exceptions for certain floating point operations, including: 
+ * range violation (overflow, underflow); 
+ * rounding errors (inexact); 
+ * invalid operation (invalid operand, such as comparison with a `NaN` value, the square root of a negative number or division of zero by zero); and,
+ * zero divide (a special case of an invalid operation).  
+Many architectures support floating point exceptions by including a special register as an addition to other exception handling registers.  The IBM PPC includes the `FPSCR` ("Floating Point Status Control Register"); the Intel x86 processors use the `MXCSR` register.  When the PPC performs a floating point operation it checks for possible errors and sets the `FPSCR`.  Some processors allow a flag in the Foating-Point Unit (FPU) status and control register to be set that will disable some exceptions or the entire FPU exception handling facility.  Some processors disable the FPU after an exception has occurred while others, notably Intel's x86 and x87 processors, continue to perform FPU operations.  Depending on whether quiet !NaNs (QNaNs) or signaling !NaNs (SNaNs) are used by the software, an FPU exception may signal an interrupt for the software to pass to its own exception handler.  
+
+Some higher level languages provide facilities to handle these exceptions, including Ada, Fortran (F90 and later), C++ and C (C99, fenv.h, float.h on certain compilers); others may handle such exceptions without exposing a low-level interface.  There are three reasons to handle FPU exceptions, and these reasons apply similarly to other exceptions: 
+ * the facilities provide greater control; 
+ * the facilities are efficient--more efficient than a higher-level software solution; and, 
+ * FPU exceptions may be unavoidable, especially if several FPU operations are serially performed at the machine level so the higher level software has no opportunity to check the results in between operations. 
+
