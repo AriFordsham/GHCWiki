@@ -32,6 +32,7 @@ Please feel free to add new pages here.  In due course information will migrate 
    * [wiki:DataParallel]: Notes about the implementation of Data Parallel Haskell
    * [wiki:RewriteRules]: Notes about the implementation of RULEs in GHC
    * [wiki:BackEndNotes]: Some ideas and notes about the back end.
+   * [wiki:Commentary/CmmExceptions Cmm: Implementing Exception Handling]: Implementing exception handling for primitive operations in Cmm
    * [wiki:GhciDebugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
     * AddingNewPrimitiveOperations: How to add new primitive operations to GHC Haskell.
    * [wiki:ReplacingGMPNotes Replacing GMP]: Notes from an effort to replace GMP with another Bignum library.

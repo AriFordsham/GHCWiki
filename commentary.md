@@ -36,6 +36,7 @@ Please feel free to add new pages here.  In due course information will migrate 
   - [DataParallel](data-parallel): Notes about the implementation of Data Parallel Haskell
   - [RewriteRules](rewrite-rules): Notes about the implementation of RULEs in GHC
   - [BackEndNotes](back-end-notes): Some ideas and notes about the back end.
+  - [Cmm: Implementing Exception Handling](commentary/cmm-exceptions): Implementing exception handling for primitive operations in Cmm
   - [GhciDebugger](ghci-debugger): Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
 
     - [AddingNewPrimitiveOperations](adding-new-primitive-operations): How to add new primitive operations to GHC Haskell.
