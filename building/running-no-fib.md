@@ -40,4 +40,4 @@ you'll need to get hold of Cachegrind, which is part of
 
 
 There are some options you might want to tweak; search for nofib in
-[mk/config.mk](/trac/ghc/browser/ghc/mk/config.mk), and override settings in `mk/build.mk` as usual.
+`mk/config.mk` ([mk/config.mk.in](/trac/ghc/browser/ghc/mk/config.mk.in)), and override settings in `mk/build.mk` as usual.
