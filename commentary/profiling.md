@@ -1,0 +1,5 @@
+
+GHC includes at least two types of profiling: cost-centre profiling and ticky-ticky profiling. Ticky-ticky profiling is currently *not working* in the HEAD, but hopefully should be working again soon.
+
+
+Cost-centre profiling operates at something close to the source level, and ticky-ticky profiling operates at something much closer to the machine level. This means that the two types of profiling are useful for different tasks. Ticky-ticky profiling is mainly meant for compiler implementors, and cost-centre profiling for mortals. However, because cost-centre profiling operates at a high level, it can be difficult (if not impossible) to use it to profile optimized code. Personally, I have had a lot of success using cost-centre profiling to find problems that were due to my own bad algorithms, but less success once I was fairly sure that I wasn't doing anything obviously stupid and was trying to figure out why my code didn't get optimized as well as it could have been.
