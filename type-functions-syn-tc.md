@@ -1,16 +1,5 @@
 # Type Checking with Indexed Type Synonyms
 
-## Outline
-
-- Background 
-- The challenge
-- A first (naive) attempt
-- A second attempt
-
-  - type checking with type functions using local completion
-  - method can be proven correct by establishing a connection
-    between type function and CHR derivations
-
 ## Background
 
 
@@ -548,3 +537,81 @@ We omit the trival (reflexive) equations
 ```wiki
 T Int = T Int /\ S Int = S Int 
 ```
+
+---
+
+## Restrictions on type equations
+
+
+We impose some syntactic restrictions on programs to ensure that type checking remains (a) deterministic, (b) a simple rewrite model is sufficient to reduce type function applications, and (c) it hopefully remains decidable.
+
+### Type variables
+
+
+We have three kinds of type variables:
+
+- *Schema variables*: These are type variables in the left-hand side of type equations that maybe instantiated during applying a type equation during type rewriting.  For example, in `type instance F [a] = a`, `a` is a schema variable.
+- *Rigid variables*: These are variables that may not be instantiated (they represent variables in signatures and existentials during matching).
+- *Wobbly variables*: Variables that may be instantiated during unification.
+
+### Normal type equations
+
+*Normal type equations*`s = t` obey the following constraints:
+
+- *Constructor based*: The left-hand side `s` must have for form `F s1 .. sn` where `F` is a type family and the `si` are formed from data type constructors, schema variables, and rigid variables only (i.e., they may not contain type family constructors or wobbly variables).
+- *Non-overlapping*: For any other axiom or local assumption `s' = t'`, there may not be any substitution *theta*, such that (*theta*`s`) equals (*theta*`s'`).
+- *Left linear*: No schema variable appears more than once in `s`.
+- *Decreasing*: The number of data type constructor and variables symbols occurring in the arguments of a type family occuring in `t` must be strictly less than the number of data type constructor and variable symbols in `s`.
+
+
+Examples of normal type equations:
+
+```wiki
+data C
+type instance Id a = a
+type instance F [a] = a
+type instance F (C (C a)) = F (C a)
+type instance F (C (C a)) = F (C (Id a))
+type instance F (C (C a)) = C (F (C a))
+type instance F (C (C a)) = (F (C a), F (C a))
+```
+
+
+Examples of type equations that are *not* normal:
+
+```wiki
+type instance F [a] = F (Maybe a)            -- Not decreasing
+type instance G a a = a                      -- Not left linear
+type instance F (G a) = a                    -- Not constructor-based
+type instance F (C (C a)) = F (C (Id (C a))) -- Not decreasing
+```
+
+
+Note that `forall a. (G a a = a) => a -> a` is fine, as `a` is a rigid variables, not a schema variable.
+
+
+We require that all type family instances are normal.  Moreover, all equalities arising as local assumptions need to be such that they can be normalised (see below).  NB: With `-fundecidable-indexed-types`, we can drop left linearity and decreasingness.
+
+### Normalisation of equalities
+
+
+Normalisation of an equality `s = t` of arbitrary type terms `s` and `t` leads to a (possibly empty) set of normal equations, or to a type error.  We proceed as follows:
+
+1. Reduce `s` and `t` to HNF, giving us `s'` and `t'`.
+1. If `s'` and `t'` are the same variable, we succeed (with no new rule).
+1. If `s'` or `t'` is a rigid variable, we fail.  (Reason: cannot instantiate rigid variables.)
+1. If `s'` or `t'` is a wobbly type variables, instantiate it with the other type (after occurs check).
+1. If `s'` = `C s1 .. sn` and `t'` = `C t1 .. tn`, then yield the union of the equations obtained by normalising all `ti = si`.
+1. If `s'` = `C1 ...` and `t' = C2 ...`, where `C1` and `C2` are different data type constructors, we fail.  (Reason: unfication failure.)
+1. Now, at least one of `s'` and `t'` has the form `F r1 .. rn`, where F is a type family:
+
+  - If `s'` = `F s1 .. sn` and is constructor-based and left-linear, and if `s' = t'` is decreasing, yield `s' = t'`.
+  - If `t'` = `F t1 .. tn` and is constructor-based and left-linear, and if `t' = s'` is decreasing, yield `t' = s'`.
+  - If `s'` = `F s1 .. sn` and some `si` contains a type family application of the form `G r1 .. rn`, yield the union of the equations obtained by normalising both `G r1 .. rn = a` and `F s1 .. sn = t'` with `G r1 .. rn` replaced by `a`, which is a new rigid type variable.
+  - If `t'` = `F t1 .. tn` and some `ti` contains a type family application of the form `G r1 .. rn`, yield the union of the equations obtained by normalising both `G r1 .. rn = a` and `F t1 .. tn = s'` with `G r1 .. rn` replaced by `a`, which is a new rigid type variable.
+  - Otherwise, fail.  (Reason: a wobbly type variable, lack of left linearity, or non-decreasingness prevents us from obtaining a normal equation.  If it is a wobbly type variable, the user can help by adding a type annotation; otherwise, we cannot handle the program without (maybe) losing decidability.)
+
+
+Rejection of local assumptions that after normalisation are either not left linear or not decreasing may lead to incompleteness.  However, this should only happen for programs that combine GADTs and type functions in ellaborate ways.  (We still lack an example that produces such a situation, though.)
+
+**TODO** I am wondering whether we can do that pulling out type family applications from left-hand sides and turning them into extra type equations lazily.
