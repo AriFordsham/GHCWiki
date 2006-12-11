@@ -1,15 +1,5 @@
 = Type Checking with Indexed Type Synonyms =
-
-
-== Outline ==
-
- * Background 
- * The challenge
- * A first (naive) attempt
- * A second attempt
-    * type checking with type functions using local completion
-    * method can be proven correct by establishing a connection
-      between type function and CHR derivations
+[[PageOutline]]
 
 == Background ==
 
@@ -440,3 +430,26 @@ We omit the trival (reflexive) equations
 {{{ 
 T Int = T Int /\ S Int = S Int 
 }}}
+
+----
+
+== Restrictions on valid programs ==
+
+We impose some syntactic restrictions on programs to ensure that type checking remains (a) deterministic, (b) a simple rewrite model is sufficient to reduce type function applications, and (c) it hopefully remains decidable.
+
+=== Type variables ===
+
+We have three kinds of type variables:
+
+ * ''Schema variables''
+
+=== Normal type equations ===
+
+''Normal type equations'' `s = t` obey the following constraints:
+
+ * ''Constructor based'': The left-hand side `s` must have for form `F s1 .. sn` where `F` is a type family and no type family occur in the `si`.
+ * ''Non-overlapping'': For any other axiom or local assumption `s' = t'`, there may not be any substitution ''theta'', such that (''theta'' `s`) equals (''theta'' `s'`).
+ * ''Left linear'': No schema variable appears more than once in `s`.
+ * ''Decreasing'': The number of data type constructor and variables symbols occurring in the arguments of a type family in `t` must be strictly less than the number of data type constructor and variable symbols in `s`.
+
+We require that all axioms and local assumptions are normal.  In particular, all type family instances and all equalities in signatures need to be normal.  NB: With `-fundecidable-indexed-types`, we can drop left linearity and decreasingness.
