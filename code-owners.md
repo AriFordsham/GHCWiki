@@ -1,180 +1,176 @@
-CONVERSION ERROR
+# The GHC Team
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/CodeOwners"
-  queryString          = "?version=35"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:34 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","250"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/CodeOwners\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
-
-Original source:
-
-```trac
-= The GHC Team =
 
 The success of GHC has a lot to do with the large band of highly
 talented people who contribute to it; this page is mainly to
 acknowledge those contributions but also to give users of GHC an idea
 of "who is responsible for what".  
 
-== Porters/Packagers (no particular order) ==
+## Porters/Packagers (no particular order)
+
 
 The following table lists the people who have generously agreed to be responsible for the GHC port to a particular platform, or to produce binary packages for a certain platform.
 
-For a full description of GHC support for various platforms, see [wiki:Platforms].
 
- * '''x86'''
-   * Windows (targetting [http://www.mingw.org mingw]): [mailto:sof@galois.com Sigbjorn Finne]
-   * Windows (targetting [http://www.cygwin.com Cygwin]): Position open; port bitrotted
-   * Linux (generic): [mailto:simonmar@microsoft.com Simon Marlow],
-     [mailto:simonpj@microsoft.com Simon Peyton Jones]
-   * FreeBSD: [mailto:simonmar@microsoft.com Simon Marlow],[mailto:obraun@FreeBSD.org Oliver Braun],[mailto:vs@FreeBSD.org Volker Stolz]
-   * OpenBSD: [mailto:dons@cse.unsw.edu.au Don Stewart]
-   * SuSE Linux/x86 packages: [mailto:sven.panne@aedion.de Sven Panne],[mailto:ralf@informatik.uni-bonn.de Ralf Hinze]
-   * Gentoo Linux/x86 packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/x86 packages: [mailto:igloo@debian.org Ian Lynagh]
-   * MacOS X (port in progress): [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]
-   * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
+For a full description of GHC support for various platforms, see [Platforms](platforms).
 
- * '''PowerPC'''
-   * AIX: [mailto:audreyt@audreyt.org Audrey Tang]
-   * Linux: [mailto:desrt@desrt.ca Ryan Lortie]
-   * Gentoo Linux packages (32 and 64bit): [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/powerpc packages: [mailto:igloo@debian.org Ian Lynagh]
-   * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller],[mailto:naur@post11.tele.dk Thorkil Naur]
-   * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
+- **x86**
 
- * '''Sparc'''
-   * Solaris: Position open
-   * Linux:   Position open
-   * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/sparc packages: [mailto:igloo@debian.org Ian Lynagh]
+  - Windows (targetting [ mingw](http://www.mingw.org)): Sigbjorn Finne
+  - Windows (targetting [ Cygwin](http://www.cygwin.com)): Position open; port bitrotted
+  - Linux (generic): Simon Marlow,
+    Simon Peyton Jones
+  - FreeBSD: Simon Marlow,Oliver Braun,Volker Stolz
+  - OpenBSD: Don Stewart
+  - SuSE Linux/x86 packages: Sven Panne,Ralf Hinze
+  - Gentoo Linux/x86 packages: Gentoo Haskell team
+  - Debian GNU/Linux/x86 packages: Ian Lynagh
+  - MacOS X (port in progress): Wolfgang Thaller
+  - Fedora Extras packages: Jens Petersen
 
- * '''x86_64'''
-   * Linux: [mailto:simonmar@microsoft.com Simon Marlow]
-   * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/amd64 packages: [mailto:igloo@debian.org Ian Lynagh]
-   * OpenBSD: [mailto:dons@cse.unsw.edu.au Don Stewart]
-   * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
+- **PowerPC**
 
- * '''Mips64'''
-   * Irix: [mailto:dons@cse.unsw.edu.au Don Stewart]
+  - AIX: Audrey Tang
+  - Linux: Ryan Lortie
+  - Gentoo Linux packages (32 and 64bit): Gentoo Haskell team
+  - Debian GNU/Linux/powerpc packages: Ian Lynagh
+  - MacOS X: Wolfgang Thaller,Thorkil Naur
+  - Fedora Extras packages: Jens Petersen
 
- * '''Mips'''
-   * Debian GNU/Linux/mips packages: [mailto:igloo@debian.org Ian Lynagh]
+- **Sparc**
 
- * '''Mipsel'''
-   * Debian GNU/Linux/mipsel packages: [mailto:igloo@debian.org Ian Lynagh]
+  - Solaris: Position open
+  - Linux:   Position open
+  - Gentoo Linux packages: Gentoo Haskell team
+  - Debian GNU/Linux/sparc packages: Ian Lynagh
 
- * '''IA-64'''
-   * Linux: [mailto:matthewc@cse.unsw.edu.au Matt Chapman]
-   * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/ia64 packages: [mailto:igloo@debian.org Ian Lynagh]
+- **x86_64**
 
- * '''Alpha'''
-   * Dec OSF: [mailto:ken@digitas.harvard.edu Ken Shan]
-   * Linux: Position open.
-   * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/alpha packages: [mailto:igloo@debian.org Ian Lynagh]
+  - Linux: Simon Marlow
+  - Gentoo Linux packages: Gentoo Haskell team
+  - Debian GNU/Linux/amd64 packages: Ian Lynagh
+  - OpenBSD: Don Stewart
+  - Fedora Extras packages: Jens Petersen
 
- * '''HPPA'''
-   * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/hppa packages: [mailto:igloo@debian.org Ian Lynagh]
+- **Mips64**
 
- * '''S/390'''
-   * Debian GNU/Linux/s390 packages: [mailto:igloo@debian.org Ian Lynagh]
+  - Irix: Don Stewart
 
- * '''Arm'''
-   * Debian GNU/Linux/arm packages: [mailto:igloo@debian.org Ian Lynagh]
+- **Mips**
 
- * '''m68k'''
-   * Debian GNU/Linux/m68k packages: [mailto:igloo@debian.org Ian Lynagh]
+  - Debian GNU/Linux/mips packages: Ian Lynagh
 
-== Current committers (alphabetical order) ==
+- **Mipsel**
+
+  - Debian GNU/Linux/mipsel packages: Ian Lynagh
+
+- **IA-64**
+
+  - Linux: Matt Chapman
+  - Gentoo Linux packages: Gentoo Haskell team
+  - Debian GNU/Linux/ia64 packages: Ian Lynagh
+
+- **Alpha**
+
+  - Dec OSF: Ken Shan
+  - Linux: Position open.
+  - Gentoo Linux packages: Gentoo Haskell team
+  - Debian GNU/Linux/alpha packages: Ian Lynagh
+
+- **HPPA**
+
+  - Gentoo Linux packages: Gentoo Haskell team
+  - Debian GNU/Linux/hppa packages: Ian Lynagh
+
+- **S/390**
+
+  - Debian GNU/Linux/s390 packages: Ian Lynagh
+
+- **Arm**
+
+  - Debian GNU/Linux/arm packages: Ian Lynagh
+
+- **m68k**
+
+  - Debian GNU/Linux/m68k packages: Ian Lynagh
+
+## Current committers (alphabetical order)
+
 
 This is a list of the people that currently have commit access to GHC,
 and a short description of what they're doing or have done.
 
- * [mailto:ka2_mail@yahoo.com Krasimir Angelov]
- * [mailto:lennart@augustsson.net Lennart Augustsson]
- * [mailto:jeanphilippe.bernardy@gmail.com Jean-Philippe Bernardy] (Maintenance of Data.*Map/*Set libraries)
- * [http://www.mathematik.uni-marburg.de/~berthold Jost Berthold] (Parallel Haskell: Eden)
- * [mailto:d00bring@dtek.chalmers.se Bjorn Bringert]
- * [mailto:chak@cse.unsw.edu.au Manuel Chakravarty] (FFI, Data Parallel Haskell, associated types)
- * [mailto:amc4@doc.ic.ac.uk Andrew Cheadle]
- * [mailto:duncan.coutts@worc.ox.ac.uk Duncan Coutts] (Gentoo packages)
- * [http://www.csee.ogi.edu/~diatchki Iavor S Diatchki] ('monadLib' library)
- * [mailto:sof@galois.com Sigbjorn Finne]
- * [mailto:andy@galois.com Andy Gill] (Haskell Program Coverage)
- * [mailto:jgoerzen@complete.org John Goerzen]
- * [mailto:tharris@microsoft.com Tim Harris] (Transactional memory, concurrency)
- * [mailto:lemmih@gmail.com David Himmelstrup] (GHC developer)
- * [mailto:ijones@syntaxpolice.org Isaac Jones] (Cabal, libraries)
- * [mailto:hwloidl@tcs.ifi.lmu.de Hans W. Loidl]
- * [mailto:Ralf.Laemmel@cwi.nl Ralf Laemmel]
- * [mailto:rl@cse.unsw.edu.au Roman Leshchinskiy]
- * [mailto:andres@cs.uu.nl Andres Loeh]
- * [mailto:desrt@desrt.ca Ryan Lortie] (PowerPC Linux port, packages)
- * [mailto:igloo@earth.li Ian Lynagh] (GHC support engineer, Debian packages)
- * [mailto:simonmar@microsoft.com Simon Marlow] (GHC developer, x86_64 port, SMP support)
- * [mailto:john@repetae.net John Meacham]
- * [mailto:ross@soi.city.ac.uk Ross Paterson]
- * [mailto:Sven.Panne@aedion.de Sven Panne]
- * [mailto:simonpj@microsoft.com Simon Peyton Jones]
- * [http://www.eecs.harvard.edu/nr Norman Ramsey] (a little refactoring in the back end)
- * [mailto:br276@cl.cam.ac.uk Ben Rudiak-Gould]
- * [mailto:sseefried@cse.unsw.edu.au Sean Seefried] (Plug-in optimisations (in pluggable-branch))
- * [mailto:dominic.steinitz@blueyonder.co.uk Dominic Steinitz] (Cryptographic library)
- * [mailto:dons@cse.unsw.edu.au Don Stewart] (OpenBSD support)
- * [mailto:vs@foldr.org Volker Stolz]
- * [mailto:josefs@cs.chalmers.se Josef Svenningsson]
- * [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller] (Darwin/Mac OS X ports, position-independent code generation)
- * [mailto:mthomas@gil.com.au Mike Thomas]
- * [mailto:cdt25@cam.ac.uk Christopher D. Thompson-Walsh]
- * [mailto:dpt@exoskeleton.math.harvard.edu Dylan Thurston]
- * [mailto:dinko.tenev@gmail.com Dinko Tenev]
- * [mailto:tullsen@galois.com Mark Tullsen]
- * [mailto:davve@dtek.chalmers.se David Waern] (Haddock comment support)
- * [mailto:Malcolm.Wallace@cs.york.ac.uk Malcolm Wallace]
- * [mailto:nx200@cam.ac.uk N. Xu]
- * [mailto:ashley@semantic.org Ashley Yakeley] (Time library)
+- Krasimir Angelov
+- Lennart Augustsson
+- Jean-Philippe Bernardy (Maintenance of Data.\*Map/\*Set libraries)
+- [ Jost Berthold](http://www.mathematik.uni-marburg.de/~berthold) (Parallel Haskell: Eden)
+- Bjorn Bringert
+- Manuel Chakravarty (FFI, Data Parallel Haskell, associated types)
+- Andrew Cheadle
+- [ Kirsten Chevalier](http://catamorphism.org/) (past: External Core; future: strictness analysis, ticky-ticky profiling)
+- Duncan Coutts (Gentoo packages)
+- [ Iavor S Diatchki](http://www.csee.ogi.edu/~diatchki) ('monadLib' library)
+- Sigbjorn Finne
+- Andy Gill (Haskell Program Coverage)
+- John Goerzen
+- Tim Harris (Transactional memory, concurrency)
+- David Himmelstrup (GHC developer)
+- Isaac Jones (Cabal, libraries)
+- Hans W. Loidl
+- Ralf Laemmel
+- Roman Leshchinskiy
+- Andres Loeh
+- Ryan Lortie (PowerPC Linux port, packages)
+- Ian Lynagh (GHC support engineer, Debian packages)
+- Simon Marlow (GHC developer, x86_64 port, SMP support)
+- John Meacham
+- Ross Paterson
+- Sven Panne
+- Simon Peyton Jones
+- [ Norman Ramsey](http://www.eecs.harvard.edu/nr) (a little refactoring in the back end)
+- Ben Rudiak-Gould
+- Sean Seefried (Plug-in optimisations (in pluggable-branch))
+- Dominic Steinitz (Cryptographic library)
+- Don Stewart (OpenBSD support)
+- Volker Stolz
+- Josef Svenningsson
+- Wolfgang Thaller (Darwin/Mac OS X ports, position-independent code generation)
+- Mike Thomas
+- Christopher D. Thompson-Walsh
+- Dylan Thurston
+- Dinko Tenev
+- Mark Tullsen
+- David Waern (Haddock comment support)
+- Malcolm Wallace
+- N. Xu
+- Ashley Yakeley (Time library)
 
-== Past contributors ==
+## Past contributors
+
 
 These people have contributed to GHC in the past, in various
 wonderful ways:
 
-  * Sebastien Carlier
-  * Kevin Glynn
-  * Cordy Hall
-  * Kevin Hammond
-  * Hans Wolfgang Lloidl
-  * John Launchbury
-  * Jim Mattson
-  * Darren Moffat
-  * [mailto:njn25@cam.ac.uk Nick Nethercote]
-  * Thomas Nordin
-  * Bryan O'Sullivan
-  * Sungwoo Park
-  * Will Partain
-  * Juan Quintela
-  * Alastair Reid
-  * Patrick Sansom
-  * André Santos
-  * [mailto:jseward@acm.org Julian Seward]
-  * Reuben Thomas
-  * Phil Trinder
-  * David N Turner
-  * Philip Wadler
-  * Michael Weber
-
-```
+- Sebastien Carlier
+- Kevin Glynn
+- Cordy Hall
+- Kevin Hammond
+- Hans Wolfgang Lloidl
+- John Launchbury
+- Jim Mattson
+- Darren Moffat
+- Nick Nethercote
+- Thomas Nordin
+- Bryan O'Sullivan
+- Sungwoo Park
+- Will Partain
+- Juan Quintela
+- Alastair Reid
+- Patrick Sansom
+- André Santos
+- Julian Seward
+- Reuben Thomas
+- Phil Trinder
+- David N Turner
+- Philip Wadler
+- Michael Weber
