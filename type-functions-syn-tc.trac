@@ -433,9 +433,9 @@ T Int = T Int /\ S Int = S Int
 
 ----
 
-== Restrictions on type equations ==
+== Special forms of type equations ==
 
-We impose some syntactic restrictions on programs to ensure that type checking remains (a) deterministic, (b) a simple rewrite model is sufficient to reduce type function applications, and (c) it hopefully remains decidable.
+We impose some syntactic restrictions on type instances and normalise equations arising during type checking to ensure that type checking remains (a) deterministic, (b) a simple rewrite model is sufficient to reduce type function applications, and (c) it hopefully remains decidable.
 
 === Type variables ===
 
@@ -476,23 +476,25 @@ Note that `forall a. (G a a = a) => a -> a` is fine, as `a` is a rigid variables
 
 We require that all type family instances are normal.  Moreover, all equalities arising as local assumptions need to be such that they can be normalised (see below).  NB: With `-fundecidable-indexed-types`, we can drop left linearity and decreasingness.
 
+=== Semi-normal type equations ===
+
+If an equation `s = t` does not contain any schema variables and is normal, except that it's left-hand side `F s1 .. sn` contains one or more type family constructors in the `si`, we call it ''semi-normal''.
+
 === Normalisation of equalities ===
 
 Normalisation of an equality `s = t` of arbitrary type terms `s` and `t` (not containing schema variables) leads to a (possibly empty) set of normal equations, or to a type error.  We proceed as follows:
 
  1. Reduce `s` and `t` to NF, giving us `s'` and `t'`.
- 2. If `s'` and `t'` are the same variable, we succeed (with no new rule).
+ 2. If `s'` and `t'` are identical, we succeed (with no new rule).
  3. If `s'` or `t'` is a rigid variable, we fail.  (Reason: cannot instantiate rigid variables.)
  4. If `s'` or `t'` is a wobbly type variables, instantiate it with the other type (after occurs check).
  5. If `s'` = `C s1 .. sn` and `t'` = `C t1 .. tn`, then yield the union of the equations obtained by normalising all `ti = si`.
  6. If `s'` = `C1 ...` and `t' = C2 ...`, where `C1` and `C2` are different data type constructors, we fail.  (Reason: unfication failure.)
  7. Now, at least one of `s'` and `t'` has the form `F r1 .. rn`, where F is a type family:
-   * If `s'` = `F s1 .. sn` and is constructor-based and left-linear, and if `s' = t'` is decreasing, yield `s' = t'`.
-   * If `t'` = `F t1 .. tn` and is constructor-based and left-linear, and if `t' = s'` is decreasing, yield `t' = s'`.
-   * If `s'` = `F s1 .. sn` and some `si` contains a type family application of the form `G r1 .. rn`, yield the union of the equations obtained by normalising both `G r1 .. rn = a` and `F s1 .. sn = t'` with `G r1 .. rn` replaced by `a`, which is a new rigid type variable.
-   * If `t'` = `F t1 .. tn` and some `ti` contains a type family application of the form `G r1 .. rn`, yield the union of the equations obtained by normalising both `G r1 .. rn = a` and `F t1 .. tn = s'` with `G r1 .. rn` replaced by `a`, which is a new rigid type variable.
+   * If `s' = t'` is normal, yield it.
+   * If `t' = s'` is normal, yield it.
+   * If `s' = t'` is semi-normal, yield it.
+   * If `t' = s'` is semi-normal, yield it.
    * Otherwise, fail.  (Reason: a wobbly type variable, lack of left linearity, or non-decreasingness prevents us from obtaining a normal equation.  If it is a wobbly type variable, the user can help by adding a type annotation; otherwise, we cannot handle the program without (maybe) losing decidability.)
 
 Rejection of local assumptions that after normalisation are either not left linear or not decreasing may lead to incompleteness.  However, this should only happen for programs that are invalid or combine GADTs and type functions in ellaborate ways.
-
-'''TODO:''' I am wondering whether we can do that pulling out type family applications from left-hand sides and turning them into extra type equations lazily.
