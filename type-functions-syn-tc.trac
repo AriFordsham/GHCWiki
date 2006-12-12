@@ -498,3 +498,17 @@ Normalisation of an equality `s = t` of arbitrary type terms `s` and `t` (not co
    * Otherwise, fail.  (Reason: a wobbly type variable, lack of left linearity, or non-decreasingness prevents us from obtaining a normal equation.  If it is a wobbly type variable, the user can help by adding a type annotation; otherwise, we cannot handle the program without (maybe) losing decidability.)
 
 Rejection of local assumptions that after normalisation are either not left linear or not decreasing may lead to incompleteness.  However, this should only happen for programs that are invalid or combine GADTs and type functions in ellaborate ways.
+
+----
+
+== Maintaining type equations ==
+
+The set of ''given'' equalities (i.e., those that we use as rewrite rules to normalise type terms) comprises two subsets:
+
+ * ''Axioms'': The equations derived from type family instances.  They are the only equations that may contain schema variables, and they are normal for well-formed programs.
+ * ''Local assumptions:'' The equations arising from equalities in signatures and from GADT pattern matching after normalisation.
+
+The set of axioms stays the same throughout type checking a module, whereas the set of local assumptions grows while descending into expressions and shrinks when ascending out of these expressions again.  We have two different sorts of local assumptions:
+
+ * ''Normal assumptions'': These are not altered anymore once they have been added to the set of local assumptions, until the moment when they are removed again.
+ * ''Semi-normal assumptions:'' These are only added tentatively.  They are reconsidered whenever a new rule is added to the local assumptions, because a new rule may lead to further normalisation of semi-normal assumptions.  If a semi-normal assumption is further normalised, the original assumption is removed and the further normalised one added (which can again trigger subsequent normalisation).  NB: Strictly speaking, we can leave the original (semi-normal) equation in the set together with its further normalised version.
