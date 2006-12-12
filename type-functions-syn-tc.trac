@@ -482,9 +482,17 @@ Normalisation of an equality `s = t` of arbitrary type terms `s` and `t` leads t
 
  1. Reduce `s` and `t` to HNF, giving us `s'` and `t'`.
  2. If `s'` and `t'` are the same variable, we succeed (with no new rule).
- 3. If `s'` and `t'` are distinct rigid variables, we fail.
+ 3. If `s'` or `t'` is a rigid variable, we fail.  (Reason: cannot instantiate rigid variables.)
  4. If `s'` or `t'` is a wobbly type variables, instantiate it with the other type (after occurs check).
- 5. If `s'` = `C1 ...` and `t' = C2 ...`, where `C1` and `C2` are different data type constructors, we reject the program.
- 6. If `s'` = `C s1 .. sn` and `t'` = `C t1 .. tn`, then yield the union of the equations obtained by normalising all `ti = si`.
+ 5. If `s'` = `C s1 .. sn` and `t'` = `C t1 .. tn`, then yield the union of the equations obtained by normalising all `ti = si`.
+ 6. If `s'` = `C1 ...` and `t' = C2 ...`, where `C1` and `C2` are different data type constructors, we fail.  (Reason: unfication failure.)
+ 7. Now, at least one of `s'` and `t'` has the form `F r1 .. rn`, where F is a type family:
+   * If `s'` = `F s1 .. sn` and is constructor-based and left-linear, and if `s' = t'` is decreasing, yield `s' = t'`.
+   * If `t'` = `F t1 .. tn` and is constructor-based and left-linear, and if `t' = s'` is decreasing, yield `t' = s'`.
+   * If `s'` = `F s1 .. sn` and some `si` contains a type family application of the form `G r1 .. rn`, yield the union of the equations obtained by normalising both `G r1 .. rn = a` and `F s1 .. sn = t'` with `G r1 .. rn` replaced by `a`, which is a new rigid type variable.
+   * If `t'` = `F t1 .. tn` and some `ti` contains a type family application of the form `G r1 .. rn`, yield the union of the equations obtained by normalising both `G r1 .. rn = a` and `F t1 .. tn = s'` with `G r1 .. rn` replaced by `a`, which is a new rigid type variable.
+   * Otherwise, fail.  (Reason: a wobbly type variable, lack of left linearity, or non-decreasingness prevents us from obtaining a normal equation.  If it is a wobbly type variable, the user can help by adding a type annotation; otherwise, we cannot handle the program without (maybe) losing decidability.)
 
-Rejection of local assumptions that after normalisation are either not left linear or not decreasing may lead to incompleteness.  However, this should only happen for programs that combine GADTs and type functions in ellaborate ways.
+Rejection of local assumptions that after normalisation are either not left linear or not decreasing may lead to incompleteness.  However, this should only happen for programs that combine GADTs and type functions in ellaborate ways.  (We still lack an example that produces such a situation, though.)
+
+'''TODO:''' I am wondering whether we can do that pulling out type family applications from left-hand sides and turning them into extra type equations lazily.
