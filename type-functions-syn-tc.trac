@@ -478,7 +478,7 @@ We require that all type family instances are normal.  Moreover, all equalities 
 
 === Normalisation of equalities ===
 
-Normalisation of an equality `s = t` of arbitrary type terms `s` and `t` leads to a (possibly empty) set of normal equations, or to a type error.  We proceed as follows:
+Normalisation of an equality `s = t` of arbitrary type terms `s` and `t` (not containing schema variables) leads to a (possibly empty) set of normal equations, or to a type error.  We proceed as follows:
 
  1. Reduce `s` and `t` to HNF, giving us `s'` and `t'`.
  2. If `s'` and `t'` are the same variable, we succeed (with no new rule).
@@ -493,6 +493,6 @@ Normalisation of an equality `s = t` of arbitrary type terms `s` and `t` leads t
    * If `t'` = `F t1 .. tn` and some `ti` contains a type family application of the form `G r1 .. rn`, yield the union of the equations obtained by normalising both `G r1 .. rn = a` and `F t1 .. tn = s'` with `G r1 .. rn` replaced by `a`, which is a new rigid type variable.
    * Otherwise, fail.  (Reason: a wobbly type variable, lack of left linearity, or non-decreasingness prevents us from obtaining a normal equation.  If it is a wobbly type variable, the user can help by adding a type annotation; otherwise, we cannot handle the program without (maybe) losing decidability.)
 
-Rejection of local assumptions that after normalisation are either not left linear or not decreasing may lead to incompleteness.  However, this should only happen for programs that combine GADTs and type functions in ellaborate ways.  (We still lack an example that produces such a situation, though.)
+Rejection of local assumptions that after normalisation are either not left linear or not decreasing may lead to incompleteness.  However, this should only happen for programs that are invalid or combine GADTs and type functions in ellaborate ways.
 
 '''TODO:''' I am wondering whether we can do that pulling out type family applications from left-hand sides and turning them into extra type equations lazily.
