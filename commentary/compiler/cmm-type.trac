@@ -289,7 +289,7 @@ For a description of the `Hp` and `Sp` ''virtual registers'', see [wiki:Commenta
 || `FloatReg Int` || `F ++ Int` || `F1`, `F10` ||
 || `DoubleReg Int` || `D ++ Int` || `D1`, `D10` ||
 || `LongReg Int` || `L ++ Int` || `L1`, `L10` ||
-General `GlobalRegs` numbers are decimal integers, see the `parseInteger` function in [[GhcFile(compiler/utils/StringBuffer.lhs)]].  The remainder of the `GlobalReg` constructors, from `Sp` to `BaseReg` are lexical tokens exactly like their name in the data type; `PicBaseReg` does not have a lexical token since it is used only inside the NCG.  
+General `GlobalRegs` numbers are decimal integers, see the `parseInteger` function in [[GhcFile(compiler/utils/StringBuffer.lhs)]].  The remainder of the `GlobalReg` constructors, from `Sp` to `BaseReg` are lexical tokens exactly like their name in the data type; `PicBaseReg` does not have a lexical token since it is used only inside the NCG.  See [wiki:Commentary/PositionIndependentCode Position Independent Code and Dynamic Linking] for an in-depth description of PIC implementations in the NCG.
 
 `GlobalRegs` are a very special case in Cmm, partly because they must conform to the STG register convention and the target C calling convention.  That the Cmm parser recognises `R1` and `F3` as `GlobalRegs` is only the first step.  The main files to look at for more information on this delicate topic are:
  * [[GhcFile(compiler/codeGen/CgCallConv.hs)]] (the section on "Register assignment")
