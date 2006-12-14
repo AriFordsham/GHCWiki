@@ -99,6 +99,11 @@ We can operationally deal with universally quantified variables by skolemizing t
 
 End of NOTE
 
+== Various refinements of an approach to solve the challenge ==
+
+ * [wiki:TypeFunctionsSynTC/Naive A first (naive) attempt]
+ * [wiki:TypeFunctionsSynTC/Second A second attempt]
+ * [wiki:TypeFunctionsSynTC/GHC Type equations in GHC]
 
 == A first (naive) attempt ==
 
