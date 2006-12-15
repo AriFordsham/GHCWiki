@@ -7,7 +7,7 @@ Back to TypeFunctions.
    1. Extend `DerivEqn` to include the types indexes.
    2. Extend `mk_eqn_help` to return the type indexed in `DerivEqn`.
    3. Extend `deriveOrdinaryStuff` to handle the extend info.
-   4. Look at newtype deriving for indexed newtypes.
+   4. Look at newtype deriving for indexed newtypes.  (First look at `mk_eqn_help`.)
  * Where should the family instance consistency check go for GHCi?  `tcGetModuleExports`?  (Where is that function called?)
 
 == Parsing and Renaming ==
