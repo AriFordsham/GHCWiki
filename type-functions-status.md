@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsStatus"
-  queryString          = "?version=111"
+  queryString          = "?version=116"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:44 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsStatus\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:57 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsStatus\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -24,7 +24,9 @@ Original source:
 Back to TypeFunctions.
 
 '''Current:''' 
- * Handle deriving clauses for data family instances (cf. `Deriving.hs` in testsuite).
+ * Handle deriving clauses for data family instances (cf. `Deriving.hs` in testsuite):
+   1. Extend `genInst` to handle `Instance`s for family instances: debugging.
+   2. Look at newtype deriving for indexed newtypes.  (First look at `mk_eqn_help`.)
  * Where should the family instance consistency check go for GHCi?  `tcGetModuleExports`?  (Where is that function called?)
 
 == Parsing and Renaming ==
