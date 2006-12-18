@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsStatus"
-  queryString          = "?version=116"
+  queryString          = "?version=117"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -24,9 +24,7 @@ Original source:
 Back to TypeFunctions.
 
 '''Current:''' 
- * Handle deriving clauses for data family instances (cf. `Deriving.hs` in testsuite):
-   1. Extend `genInst` to handle `Instance`s for family instances: debugging.
-   2. Look at newtype deriving for indexed newtypes.  (First look at `mk_eqn_help`.)
+ * Handle deriving clauses for newtype family instances. (First look at `mk_eqn_help`.)
  * Where should the family instance consistency check go for GHCi?  `tcGetModuleExports`?  (Where is that function called?)
 
 == Parsing and Renaming ==
