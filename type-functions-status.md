@@ -5,7 +5,6 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
-- Debug deriving clauses for newtype family instances: Out of scope error for type variables in case of using the eta trick.
 - Where should the family instance consistency check go for GHCi?  `tcGetModuleExports`?  (Where is that function called?)
 
 ## Parsing and Renaming
