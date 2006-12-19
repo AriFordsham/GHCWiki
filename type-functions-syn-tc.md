@@ -1,7 +1,28 @@
-# Type Checking with Indexed Type Synonyms
+CONVERSION ERROR
 
-## Background
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/TypeFunctionsSynTC"
+  queryString          = "?version=21"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:59 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsSynTC\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
+Original source:
+
+```trac
+= Type Checking with Indexed Type Synonyms =
+[[PageOutline]]
+
+== Background ==
 
 GHC has now FC as its typed intermediate language.
 In a next step, we wish to add type functions to
@@ -9,7 +30,7 @@ GHC's source language.  Type functions in combination
 with type annotations and GADTs allow us to type check
 some interesting programs.
 
-```wiki
+{{{
 data Zero
 data Succ n
 data List a n where
@@ -23,45 +44,38 @@ type instance Add (Succ x) y = Succ (Add x y)
 append :: List a l -> List a m -> List a (Add l m)
 append Nil xs = xs
 append (Cons x xs) ys = Cons x (append xs ys)
-```
-
+}}}
 
 However, type checking with type functions is challenging.
 
-## The challenge
-
+== The challenge ==
 
 Consider the axioms
 
-```wiki
+{{{
 forall a. S [a] = [S a]   (R1)
 T Int = Int               (R2)
-```
-
-
-S and T are type functions of kind \*-\>\*
-For convenience, I drop the \`redundant' forall a. on R1's lhs.
-
+}}}
+S and T are type functions of kind *->*
+For convenience, I drop the `redundant' forall a. on R1's lhs.
 
 Suppose some type annotations/pattern matchings give rise
 to the local assumptions
 
-```wiki
+{{{
 T [Int] = S [Int]        (R3)
 T Int = S Int            (R4)
-```
-
-
+}}}
 and under these assumptions we need to verify
 
-```wiki
+{{{
 T [Int] = [Int]
-```
+}}}
 
 
 Logically, we can express the above as follows:
 
-```wiki
+{{{
 (forall a. S [a] = [S a]) /\       -- axioms
 (T Int = Int)
 
@@ -73,50 +87,45 @@ Logically, we can express the above as follows:
  implies
 
 (T [Int] = [Int])                  -- (local) property
-```
-
-
+}}}
 That is, any model (in the first-order sense) which is
 a model of the axioms and local assumptions is also
 a model of the property.
 
-
 NOTE: There are further axioms such as reflexitivity of = etc.
 We'll leave them our for simplicitiy.
-
 
 The all important question:
 How can we algorithmically check the above statement?
 Roughly, we perform the following two steps.
 
-1. Generate the appropriate implication constraint out of the program text.  That's easy cause GHC supports now implication constraints. (There are some potential subtleties, see GENERATEIMP below).
-1. Solve the implication constraint by applying axioms and local assumptions until the (local) property is verified. That's the hard part.
-
+ 1. Generate the appropriate implication constraint out of the program text.  That's easy cause GHC supports now implication constraints. (There are some potential subtleties, see GENERATEIMP below).
+ 2. Solve the implication constraint by applying axioms and local assumptions until the (local) property is verified. That's the hard part.
 
 NOTE: 
 
-
 We assume that (implication) constraints consist of  equality constraints only. In general, we'll also find type class constraints. We ignore such constraints  for the moment.
-
 
 In the following, we assume that symbols t refer to types and symbols C refer to conjunctions of equality constraints and Ax refers to an axiom set.
 
-
-We'll restrict ourselves to simple implication constraints of the form `   C implies t1=t2 `
+We'll restrict ourselves to simple implication constraints of the form {{{   C implies t1=t2 }}}
 In general, implication constraints may be nested, e.g
-` C1 implies (C2 implies C3) ` and may contain conjunctions
-of implications, e.g. `C1 implies (F1 /\ F2)` where F1 and F2 are arbitrary implication constraints. Implication constraints may be universally quantified, e.g. 
-` forall a (S a = T a implies ...) `
-These universal quantifiers arise from universal type annotations, e.g.  ` f :: S a = T a => ....`, and
+{{{ C1 implies (C2 implies C3) }}} and may contain conjunctions
+of implications, e.g. {{{C1 implies (F1 /\ F2)}}} where F1 and F2 are arbitrary implication constraints. Implication constraints may be universally quantified, e.g. 
+{{{ forall a (S a = T a implies ...) }}}
+These universal quantifiers arise from universal type annotations, e.g.  {{{ f :: S a = T a => ....}}}, and
 pattern matchings over data types with abstract components, e.g. data Foo where
-` K :: S a = T a => a -> Foo`
+{{{ K :: S a = T a => a -> Foo}}}
 We can operationally deal with universally quantified variables by skolemizing them (and we must ensure that skolemized/universal variables do not escape).
-
 
 End of NOTE
 
-## Various refinements of an approach to solve the challenge
+== Various refinements of an approach to solve the challenge ==
 
-- [A first (naive) attempt](type-functions-syn-tc/naive)
-- [A second attempt](type-functions-syn-tc/second)
-- [Type equations in GHC](type-functions-syn-tc/ghc)
+ * [wiki:TypeFunctionsSynTC/Naive A first (naive) attempt]
+ * [wiki:TypeFunctionsSynTC/Second A second attempt]
+ * [wiki:TypeFunctionsSynTC/GHC Type equations in GHC]
+ * [wiki:TypeFunctionsSynTC/Plan MS]
+
+
+```
