@@ -8,7 +8,9 @@ No problem.  This recipe should build and install a working GHC with
 all the default settings.  (unless you're on Windows, in which case go
 to [wiki:Building/Windows]).
 
-If you are starting from a {{{darcs}}} checkout, then first of all:
+The following instructions assume that you have [wiki:Building/GettingTheSources got the sources] (note: not just a `darcs get`) and [wiki:Building/Prerequisites installed the necessary tools].
+
+If you are starting from a {{{darcs}}} checkout, then:
 
 {{{
 $ autoreconf

@@ -9,7 +9,10 @@ all the default settings.  (unless you're on Windows, in which case go
 to [Building/Windows](building/windows)).
 
 
-If you are starting from a `darcs` checkout, then first of all:
+The following instructions assume that you have [got the sources](building/getting-the-sources) (note: not just a `darcs get`) and [installed the necessary tools](building/prerequisites).
+
+
+If you are starting from a `darcs` checkout, then:
 
 ```wiki
 $ autoreconf
