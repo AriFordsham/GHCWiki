@@ -76,3 +76,7 @@ The set of axioms stays the same throughout type checking a module, whereas the 
 
  * ''Normal assumptions'': These are not altered anymore once they have been added to the set of local assumptions, until the moment when they are removed again.
  * ''Semi-normal assumptions:'' These are only added tentatively.  They are reconsidered whenever a new rule is added to the local assumptions, because a new rule may lead to further normalisation of semi-normal assumptions.  If a semi-normal assumption is further normalised, the original assumption is removed and the further normalised one added (which can again trigger subsequent normalisation).  NB: Strictly speaking, we can leave the original (semi-normal) equation in the set together with its further normalised version.
+
+== Termination ==
+
+To guarantee termination of type inference, we need to require that all local assumptions are decreasing.  The good thing about decreasingness is that it is a cheap syntactic check.  The bad thing is that it is overly conservative (so we reject some good programs that could never lead to non-termination).  An alternative and more precise check for whether a new equation can lead to non-termination is to (1) convert that equation and all local assumptions and axioms it depends on (directly or indirectly) to CHR form, (2) apply CHR rules until the final store is reached, and (3) check that store for consistency.  This is more precise, but also less efficient.
