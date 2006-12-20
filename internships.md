@@ -78,7 +78,7 @@ Typically your personal research statement will be a couple of pages long, but i
 So long as we have enough budget, we run the following four internship "slots":
 
 - Jan-Mar
-- Mar-Jun
+- Apr-Jun
 - July-Sept
 - Oct-Dec
 
