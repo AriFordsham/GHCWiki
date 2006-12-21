@@ -177,4 +177,7 @@ We maintain a family instance environment in the `TcRnTypes.TcGblEnv` much like 
 ### Overlap check for instances of imported modules
 
 
-The function `FamInst.checkFamInstConsistency` checks that all family instances of the given modules (which are all the family-instance modules of the current module) are consistent.  
+The function `FamInst.checkFamInstConsistency` checks that all family instances of the given modules (which are all the family-instance modules of the current module) are consistent.  For one-shot mode, this check is invoked in `TcRnDriver.tcRnModule`, after all imported modules (including orphans and family-instance modules) have been loaded.
+
+
+For GHCi, --make, and friends it is more difficult to find an appropriate place for the check.  After all, the user may have loaded modules interactively and they must be checked for compatibility.  A simple solution is to perform this check whenever the export `AvailInfo` of a loaded module is computed by `TcRnDriver.tcGetModuleExports`.  At this point, we know that all relevant modules are loaded, we are in the type checker monad (that the check requires) and we can obtain the relevant imported modules from the interactive context.  The main disadvantage of this solution is that redundant checks are performed when multiple modules are loaded (as the consistency check is done once per loaded module).
