@@ -145,3 +145,12 @@ In both (a) and (b), `f`'s rhs places a strict demand on `x`. So if we see:
 
 
 with a strict demand placed on it, it wouldn't be sound to look at `f`'s demand signature and say that `(f x)` places a strict demand on `x` under `f` -- because we don't know whether `f` is like (a) or like (b). This is why when we see a partial application of `f`, we discard all of the argument information in `f`'s demand type.
+
+# Nofib stuff
+
+
+I've had weird problems with the `time` and `sed` commands under MSYS but I think it's just when running nofib. At some point I wrote down:
+TIME needs to be `time` not `/bin/time`
+and
+MSYS `sed` does not work, use cygwin `sed`
+but of \*course\* I no longer remember what I meant.
