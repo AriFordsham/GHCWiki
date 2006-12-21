@@ -3,7 +3,9 @@
 Back to TypeFunctions.
 
 '''Current:''' 
- * Where should the family instance consistency check go for GHCi?  `tcGetModuleExports`?  (Where is that function called?)
+ 1. Parsing/renaming for equational constraints
+ 2. Well-formedness checks for equational constraints
+ 3. Add type synonym instances to ifaces
 
 == Parsing and Renaming ==
 
