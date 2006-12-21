@@ -150,7 +150,15 @@ with a strict demand placed on it, it wouldn't be sound to look at `f`'s demand 
 
 
 I've had weird problems with the `time` and `sed` commands under MSYS but I think it's just when running nofib. At some point I wrote down:
+
+
 TIME needs to be `time` not `/bin/time`
+
+
 and
+
+
 MSYS `sed` does not work, use cygwin `sed`
+
+
 but of \*course\* I no longer remember what I meant.
