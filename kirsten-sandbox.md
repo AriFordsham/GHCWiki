@@ -92,3 +92,4 @@
    2% [>                                    ] 895,686       14.36K/s    ETA 34:52
   ```
 1.  Wish that parents-in-law would get the faster internets at their house.
+1.  Eat breakfast.
