@@ -189,3 +189,70 @@ gnumake[1]: *** [regex.o] Error 127
  1. {{{make}}}. Doesn't work.
  1. {{{make clean}}}
  1. {{{make}}}. Really go back to bed.
+ 1. Decide for some reason to get back out of bed and leave the other warm body in it behind in order to start building {{{gcc}}} again. Consider whether I need psychological help.
+ 1. The problem is that it can't find {{{cc}}} in the {{{PATH}}} and although {{{/usr}}}, where {{{cc}}} is, SHOULD be in the {{{PATH}}}, it's not getting exported properly fsr. 
+ 1. Create a symbolic link to {{{/usr/cc}}} in {{{/usr/bin}}}.
+ 1. Chainsaw, meet butter.
+ 1. {{{make}}}. {{{libiberty}}} makes it all the way through this time.
+ 1. NOW WHAT
+{{{
+cc -arch ppc -no-cpp-precomp -g -c -no-cpp-precomp  -g -no-cpp-precomp -DHAVE_DESIGNATED_INITIALIZERS=0 -DIN_GCC   -W -Wall -Wwri\
+te-strings -Wstrict-prototypes -Wmissing-prototypes -Wtraditional -pedantic -Wno-long-long  -mdynamic-no-pic -DHAVE_CONFIG_H -DGE\
+NERATOR_FILE    -I. -I. -I/tmp/gcc3/gcc-1495/gcc -I/tmp/gcc3/gcc-1495/gcc/. -I/tmp/gcc3/gcc-1495/gcc/config -I/tmp/gcc3/gcc-1495/\
+gcc/../include -I/tmp/gcc3/gcc-1495/gcc/../more-hdrs \
+  ./gengtype-lex.c -o gengtype-lex.o
+gengtype-lex.c:1: warning: ISO C forbids an empty source file
+cc -arch ppc -no-cpp-precomp -g -c -no-cpp-precomp  -g -no-cpp-precomp -DHAVE_DESIGNATED_INITIALIZERS=0 -DIN_GCC   -W -Wall -Wwri\
+te-strings -Wstrict-prototypes -Wmissing-prototypes -Wtraditional -pedantic -Wno-long-long  -mdynamic-no-pic -DHAVE_CONFIG_H -DGE\
+NERATOR_FILE    -I. -I. -I/tmp/gcc3/gcc-1495/gcc -I/tmp/gcc3/gcc-1495/gcc/. -I/tmp/gcc3/gcc-1495/gcc/config -I/tmp/gcc3/gcc-1495/\
+gcc/../include -I/tmp/gcc3/gcc-1495/gcc/../more-hdrs \
+  ./gengtype-yacc.c -o gengtype-yacc.o
+cc: ./gengtype-yacc.c: No such file or directory
+cc: no input files
+gnumake[2]: *** [gengtype-yacc.o] Error 1
+gnumake[1]: *** [stage1_build] Error 2
++ status=2
++ command set +x
++ set +x
+
+********************************************
+* *** gnumake failed building compiler *** *
+********************************************
+}}}
+ 1. Figure this is probably because I don't have bison and yacc installed. Consider the comical aptness of the term "yak-shaving" here.
+ 1. Wait a sec, I do have bison and yacc! They're under {{{/usr}}}! Why the hell are they under {{{/usr}}}, anyway, and why isn't {{{/usr}}} in my {{{PATH}}}? Actually, that was probably just because I unzipped a tarball in the wrong place at some point. I guess I'll just put them all in {{{/usr/bin}}}.
+ 1. {{{make clean}}} so configure can notice that bison and yacc and flex are there now. {{{make}}}
+ 1. 
+{{{
+(cd . && \
+ bison  -d -o gengtype-yacc.c /tmp/gcc3/gcc-1495/gcc/gengtype-yacc.y || \
+ ( rm -f gengtype-yacc.c && false ) )
+bison: /usr/share/bison.simple: No such file or directory
+gnumake[2]: *** [gengtype-yacc.c] Error 1
+gnumake[1]: *** [stage1_build] Error 2
++ status=2
++ command set +x
++ set +x
+
+********************************************
+* *** gnumake failed building compiler *** *
+********************************************
+}}}
+ 1. WTH is {{{bison.simple}}}?
+ 1. Download {{{bison.simple}}} off the intorblags and put it in {{{/usr/bin}}}.
+ 1. Oh, it wants it to be in {{{/usr/share}}}. Well, sure, put it there too.
+ 1. It's missing another include file:
+{{{
+In file included from /tmp/gcc3/gcc-1495/gcc/config/rs6000/host-darwin.c:25:
+/usr/include/sys/mman.h:62:39: mach/shared_memory_server.h: No such file or directory
+In file included from /tmp/gcc3/gcc-1495/gcc/config/rs6000/host-darwin.c:25:
+/usr/include/sys/mman.h:170: parse error before "sf_mapping_t"
+/usr/include/sys/mman.h:171: parse error before "sf_mapping_t"
+/tmp/gcc3/gcc-1495/gcc/config/rs6000/host-darwin.c: In function `segv_handler':
+/tmp/gcc3/gcc-1495/gcc/config/rs6000/host-darwin.c:66: dereferencing pointer to incomplete type
+/tmp/gcc3/gcc-1495/gcc/config/rs6000/host-darwin.c:115: dereferencing pointer to incomplete type
+/tmp/gcc3/gcc-1495/gcc/config/rs6000/host-darwin.c:115: dereferencing pointer to incomplete type
+gnumake[2]: *** [host-darwin.o] Error 1
+gnumake[1]: *** [stage1_build] Error 2
+}}}
+ 1. What is {{{shared_memory_server.h}}} and why isn't there an easy way to answer the question "what is it, and to get it can I just download the file somewhere or do I have to finally give in and buy the upgrade to Mac OS 10.4?"
