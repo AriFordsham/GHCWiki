@@ -1,172 +1,192 @@
-CONVERSION ERROR
+# Building GHC on Mac OS X 10.2, by Kirsten aged 26 1/52
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/KirstenSandbox"
-  queryString          = "?version=8"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:04 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","254"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/KirstenSandbox\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+1. grab the HEAD off darcs, per [Building/GettingTheSources](building/getting-the-sources) (no problems here)
+1.  run autoreconf (this went ok, because I had just upgraded my autoconf in order to build darcs)
+1.  run ./configure
+1.  oops, I only have happy 1.13, it wants happy 1.15
+1.  go to the happy download page. what, no Mac OS X binary?
+1.  grab the happy sources
+1.  ./configure, make, make install. so far so good
+1.  ./configure GHC again
+1.  LOL, I need alex 2.0
+1.  why isn't this integrated into the GHC build process? also, googling for just "alex" is un-useful. so is googling for "alex lexer" and "alex lexer haskell"
+1.  LOL, \*still\* no Mac OS X binary.
+1.  ./configure; make in alex
+1.  have disgusting IM conversation with friend while waiting
+1.  alex: "you lose at life":
 
-Original source:
+  ```wiki
+  Creating a symbolic link from alex-2.0.1 to alex in /usr/local/bin failed: `/usr/local/bin/alex' already exists
+  Perhaps remove `/usr/local/bin/alex' manually?
+  make[2]: *** [install] Error 1
+  make[1]: *** [install] Error 1
+  make: *** [install] Error 1
+  ```
+1.  consider a career change
+1.  rm /usr/local/bin/alex
+1.  sudo rm /usr/local/bin/alex
+1.  sudo make me a sandwich
+1.  sudo make install
+1.  okay, I have alex. yippee.
+1.  ./configure in GHC again
+1.  seems to have worked. With trembling fingers (or maybe that's just the freezing Southern California weather), type "make".
+1. OH NOEZ:
 
-```trac
-= Building GHC on Mac OS X 10.2, by Kirsten aged 26 1/52 =
+  ```wiki
+  gcc -O -DTABLES_NEXT_TO_CODE -I. -I../rts    -c mkDerivedConstants.c -o mkDerivedConstants.o
+  InfoTables.h:314: illegal member declaration, missing name, found `}'
+  OSThreads.h:135: #error "Threads not supported"
+  OSThreads.h:141: undefined type, found `OSThreadId'
+  OSThreads.h:145: illegal external declaration, missing `;' after `OSThreadProcAttr'
+  OSThreads.h:145: illegal external declaration, missing `;' after `*'
+  OSThreads.h:147: undefined type, found `OSThreadId'
+  OSThreads.h:148: undefined type, found `OSThreadProc'
+  OSThreads.h:153: undefined type, found `Condition'
+  OSThreads.h:154: undefined type, found `Condition'
+  OSThreads.h:155: undefined type, found `Condition'
+  OSThreads.h:156: undefined type, found `Condition'
+  OSThreads.h:157: undefined type, found `Condition'
+  OSThreads.h:158: undefined type, found `Mutex'
+  OSThreads.h:163: undefined type, found `Mutex'
+  OSThreads.h:164: undefined type, found `Mutex'
+  OSThreads.h:169: undefined type, found `ThreadLocalKey'
+  OSThreads.h:170: undefined type, found `ThreadLocalKey'
+  OSThreads.h:171: undefined type, found `ThreadLocalKey'
+  Storage.h:211: undefined type, found `Mutex'
+  Storage.h:212: undefined type, found `Mutex'
+  ../rts/Task.h:88: undefined type, found `OSThreadId'
+  ../rts/Task.h:115: undefined type, found `Condition'
+  ../rts/Task.h:116: undefined type, found `Mutex'
+  ../rts/Task.h:225: illegal function prototype, found `*'
+  ../rts/Task.h:225: illegal function definition, found `)'
+  ../rts/Task.h:235: undefined type, found `ThreadLocalKey'
+  ../rts/Capability.h:74: undefined type, found `Mutex'
+  ../rts/Capability.h:197: undefined type, found `Mutex'
+  cpp-precomp: warning: errors during smart preprocessing, retrying in basic mode
+  make[1]: *** [mkDerivedConstants.o] Error 1
+  make: *** [stage1] Error 1
+  ```
+1.  Cry.
+1.  Hmm, how old is my gcc, anyway?
 
- 1. grab the HEAD off darcs, per Building/GettingTheSources (no problems here)
- 1.  run autoreconf (this went ok, because I had just upgraded my autoconf in order to build darcs)
- 1.  run ./configure
- 1.  oops, I only have happy 1.13, it wants happy 1.15
- 1.  go to the happy download page. what, no Mac OS X binary?
- 1.  grab the happy sources
- 1.  ./configure, make, make install. so far so good
- 1.  ./configure GHC again
- 1.  LOL, I need alex 2.0
- 1.  why isn't this integrated into the GHC build process? also, googling for just "alex" is un-useful. so is googling for "alex lexer" and "alex lexer haskell"
- 1.  LOL, *still* no Mac OS X binary.
- 1.  ./configure; make in alex
- 1.  have disgusting IM conversation with friend while waiting
- 1.  alex: "you lose at life":
-{{{
-Creating a symbolic link from alex-2.0.1 to alex in /usr/local/bin failed: `/usr/local/bin/alex' already exists
-Perhaps remove `/usr/local/bin/alex' manually?
-make[2]: *** [install] Error 1
-make[1]: *** [install] Error 1
-make: *** [install] Error 1
-}}}
- 1.  consider a career change
- 1.  rm /usr/local/bin/alex
- 1.  sudo rm /usr/local/bin/alex
- 1.  sudo make me a sandwich
- 1.  sudo make install
- 1.  okay, I have alex. yippee.
- 1.  ./configure in GHC again
- 1.  seems to have worked. With trembling fingers (or maybe that's just the freezing Southern California weather), type "make".
- 1. OH NOEZ:
-{{{
-gcc -O -DTABLES_NEXT_TO_CODE -I. -I../rts    -c mkDerivedConstants.c -o mkDerivedConstants.o
-InfoTables.h:314: illegal member declaration, missing name, found `}'
-OSThreads.h:135: #error "Threads not supported"
-OSThreads.h:141: undefined type, found `OSThreadId'
-OSThreads.h:145: illegal external declaration, missing `;' after `OSThreadProcAttr'
-OSThreads.h:145: illegal external declaration, missing `;' after `*'
-OSThreads.h:147: undefined type, found `OSThreadId'
-OSThreads.h:148: undefined type, found `OSThreadProc'
-OSThreads.h:153: undefined type, found `Condition'
-OSThreads.h:154: undefined type, found `Condition'
-OSThreads.h:155: undefined type, found `Condition'
-OSThreads.h:156: undefined type, found `Condition'
-OSThreads.h:157: undefined type, found `Condition'
-OSThreads.h:158: undefined type, found `Mutex'
-OSThreads.h:163: undefined type, found `Mutex'
-OSThreads.h:164: undefined type, found `Mutex'
-OSThreads.h:169: undefined type, found `ThreadLocalKey'
-OSThreads.h:170: undefined type, found `ThreadLocalKey'
-OSThreads.h:171: undefined type, found `ThreadLocalKey'
-Storage.h:211: undefined type, found `Mutex'
-Storage.h:212: undefined type, found `Mutex'
-../rts/Task.h:88: undefined type, found `OSThreadId'
-../rts/Task.h:115: undefined type, found `Condition'
-../rts/Task.h:116: undefined type, found `Mutex'
-../rts/Task.h:225: illegal function prototype, found `*'
-../rts/Task.h:225: illegal function definition, found `)'
-../rts/Task.h:235: undefined type, found `ThreadLocalKey'
-../rts/Capability.h:74: undefined type, found `Mutex'
-../rts/Capability.h:197: undefined type, found `Mutex'
-cpp-precomp: warning: errors during smart preprocessing, retrying in basic mode
-make[1]: *** [mkDerivedConstants.o] Error 1
-make: *** [stage1] Error 1
-}}}
- 1.  Cry.
- 1.  Hmm, how old is my gcc, anyway?
-{{{
-% gcc --version
-gcc (GCC) 3.1 20020420 (prerelease)
-Copyright (C) 2002 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. [ yeah, no shit, Sherlock ]
-}}}
- 1. Will upgrading my gcc break everything? Probably. Should I do it anyway? Probably.
- 1. Actually, upgrading gcc sounds about as appealing as a quadruple root canal. Maybe I can use gcc2 (2.95.2) instead.
- 1. Aaaaargh, of course I'm not that lucky:
-{{{
-checking for gcc... gcc2
-checking for C compiler default output file name... 
-configure: error: C compiler cannot create executables
-}}}
- 1.  Start downloading tarball for newer gcc from: [http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/]. Also consider becoming religious so I can pray for it to be actually useful.
- 1.  
-{{{
-Length: 31,674,171 [application/x-tar]
+  ```wiki
+  % gcc --version
+  gcc (GCC) 3.1 20020420 (prerelease)
+  Copyright (C) 2002 Free Software Foundation, Inc.
+  This is free software; see the source for copying conditions.  There is NO
+  warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. [ yeah, no shit, Sherlock ]
+  ```
+1. Will upgrading my gcc break everything? Probably. Should I do it anyway? Probably.
+1. Actually, upgrading gcc sounds about as appealing as a quadruple root canal. Maybe I can use gcc2 (2.95.2) instead.
+1. Aaaaargh, of course I'm not that lucky:
 
- 2% [>                                    ] 895,686       14.36K/s    ETA 34:52
-}}}
- 1.  Wish that parents-in-law would get the faster internets at their house.
- 1.  Eat breakfast.
- 1.  Installing gcc on a full stomach is probably better anyway (though quite possibly not). Unzip the tarball. Notice that {{{INSTALL}}} is a directory. That's already a bad sign.
- 1.  Hope that {{{autoconf; ./configure; make; make install}}} will just work, since I don't have the attention span for anything else.
- 1.  Run make.
- 1.  For some reason, the configure script thinks that my PPC laptop is an i386. {{{./configure}}} doesn't do anything. Nor does {{{./configure --help}}}.
- 1.  No, actually it thinks I want to build a cross-compiler. Why would I want that?
- 1.  Apparently the hosts to build for are controlled by the {{{HOSTS}}} environment variable, or maybe it's set somewhere in one of the config files. I'm not sure. Nor am I sure why I have the attention span to grovel through the sources but not to read the documentation.
- 1.  Try {{{setenv HOSTS ppc}}}
- 1.  {{{make}}}
- 1.  Still complains with the same message:
-{{{
-********************************************************************************
-* Building Apple GCC 3.3 Compiler(s) (languages = c++,c,objc,objc++) for thins *
-* ---------------------------------------------------------------------------- *
-* BUILDHOST       = Kirsten-Chevaliers-Computer.local. -- a ppc                *
-* HOSTS           = ppc  i386                                                  *
-* TARGETS         = ppc  i386                                                  *
-* SRCROOT         = /tmp/gcc3/gcc-1495                                         *
-* OBJROOT         = /tmp/gcc3/gcc-1495/obj                                     *
-* SYMROOT         = /tmp/gcc3/gcc-1495/obj/../sym                              *
-* DSTROOT         = /tmp/gcc3/gcc-1495/obj/../dst                              *
-* RC_RELEASE      =                                                            *
-* CFLAGS          = -g                                                         *
-* OPT_OVERRIDE    =                                                            *
-* NEXT_ROOT       =                                                            *
-* BUILD           = ppc                                                        *
-* BOOTSTRAP       = yes                                                        *
-* PREFIX          = /usr                                                       *
-* DO_SYMLINKS     = no                                                         *
-* ENABLE_CHECKING = --disable-checking                                         *
-* Default cc      =                                                            *
-* Curr. Hdrs.     = 3.1                                                        *
-* ---------------------------------------------------------------------------- *
-* 12/27/06 10:08:49 PST                                                        *
-********************************************************************************
+  ```wiki
+  checking for gcc... gcc2
+  checking for C compiler default output file name... 
+  configure: error: C compiler cannot create executables
+  ```
+1.  Start downloading tarball for newer gcc from: [ http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/](http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/). Also consider becoming religious so I can pray for it to be actually useful.
+1. ```wiki
+  Length: 31,674,171 [application/x-tar]
+
+   2% [>                                    ] 895,686       14.36K/s    ETA 34:52
+  ```
+1.  Wish that parents-in-law would get the faster internets at their house.
+1.  Eat breakfast.
+1.  Installing gcc on a full stomach is probably better anyway (though quite possibly not). Unzip the tarball. Notice that `INSTALL` is a directory. That's already a bad sign.
+1.  Hope that `autoconf; ./configure; make; make install` will just work, since I don't have the attention span for anything else.
+1.  Run make.
+1.  For some reason, the configure script thinks that my PPC laptop is an i386. `./configure` doesn't do anything. Nor does `./configure --help`.
+1.  No, actually it thinks I want to build a cross-compiler. Why would I want that?
+1.  Apparently the hosts to build for are controlled by the `HOSTS` environment variable, or maybe it's set somewhere in one of the config files. I'm not sure. Nor am I sure why I have the attention span to grovel through the sources but not to read the documentation.
+1.  Try `setenv HOSTS ppc`
+1. `make`
+1.  Still complains with the same message:
+
+  ```wiki
+  ********************************************************************************
+  * Building Apple GCC 3.3 Compiler(s) (languages = c++,c,objc,objc++) for thins *
+  * ---------------------------------------------------------------------------- *
+  * BUILDHOST       = Kirsten-Chevaliers-Computer.local. -- a ppc                *
+  * HOSTS           = ppc  i386                                                  *
+  * TARGETS         = ppc  i386                                                  *
+  * SRCROOT         = /tmp/gcc3/gcc-1495                                         *
+  * OBJROOT         = /tmp/gcc3/gcc-1495/obj                                     *
+  * SYMROOT         = /tmp/gcc3/gcc-1495/obj/../sym                              *
+  * DSTROOT         = /tmp/gcc3/gcc-1495/obj/../dst                              *
+  * RC_RELEASE      =                                                            *
+  * CFLAGS          = -g                                                         *
+  * OPT_OVERRIDE    =                                                            *
+  * NEXT_ROOT       =                                                            *
+  * BUILD           = ppc                                                        *
+  * BOOTSTRAP       = yes                                                        *
+  * PREFIX          = /usr                                                       *
+  * DO_SYMLINKS     = no                                                         *
+  * ENABLE_CHECKING = --disable-checking                                         *
+  * Default cc      =                                                            *
+  * Curr. Hdrs.     = 3.1                                                        *
+  * ---------------------------------------------------------------------------- *
+  * 12/27/06 10:08:49 PST                                                        *
+  ********************************************************************************
 
 
-????????????????????????????????????????????????????????????
-? The directory /usr/libexec/gcc/darwin/i386 is missing!!! ?
-? Please install a compiler that generates code for i386.  ?
-????????????????????????????????????????????????????????????
+  ????????????????????????????????????????????????????????????
+  ? The directory /usr/libexec/gcc/darwin/i386 is missing!!! ?
+  ? Please install a compiler that generates code for i386.  ?
+  ????????????????????????????????????????????????????????????
 
-make: *** [build] Error 1
-}}}
- 1.  Try {{{export HOSTS}}}
- 1.  {{{make}}}
- 1.  Still complains.
- 1.  For the 65536th time in my life, consider destroying everything Turing-complete and then going out to enjoy the big room with the blue ceilings.
- 1.  Apparently you can also set the {{{TARGETS}}} environment variable. Try setting it to {{{ppc}}} also.
- 1.
-{{{
-??????????????????????????????????????????
-? Host type i386 should also be a target ?
-??????????????????????????????????????????
-}}}
- 1.  Well, maybe if I could also set the {{{HOSTS}}} to just {{{ppc}}}, that wouldn't be a problem.
- 1.  Use grep again (the only IDE I'll ever need) and figure out to edit the {{{GNUmakefile}}} to change the {{{HOSTS = }}} and {{{targets = }}} lines to obliterate any and all traces of {{{i386}}}. There's probably a better way. At this point I don't care.
- 1.  Start {{{make}}} again. It is, at least, convinced that it only wants to be building a {{{ppc}}} compiler, without any of that crazy {{{i386}}} nonsense.
- 1.  Go back to bed.
-```
+  make: *** [build] Error 1
+  ```
+1.  Try `export HOSTS`
+1. `make`
+1.  Still complains.
+1.  For the 65536th time in my life, consider destroying everything Turing-complete and then going out to enjoy the big room with the blue ceilings.
+1.  Apparently you can also set the `TARGETS` environment variable. Try setting it to `ppc` also.
+1. ```wiki
+  ??????????????????????????????????????????
+  ? Host type i386 should also be a target ?
+  ??????????????????????????????????????????
+  ```
+1.  Well, maybe if I could also set the `HOSTS` to just `ppc`, that wouldn't be a problem.
+1.  Use grep again (the only IDE I'll ever need) and figure out to edit the `GNUmakefile` to change the `HOSTS = ` and `targets = ` lines to obliterate any and all traces of `i386`. There's probably a better way. At this point I don't care.
+1.  Start `make` again. It is, at least, convinced that it only wants to be building a `ppc` compiler, without any of that crazy `i386` nonsense.
+1.  Go back to bed.
+1.  ...but not \*yet\*. The hell? 
+
+  ```wiki
+  ++++++++++++++++++++++++++++++++++++++++++
+  + Building libiberty                     +
+  + -------------------------------------- +
+  + cwd = /tmp/gcc3/gcc-1495/obj/libiberty +
+  ++++++++++++++++++++++++++++++++++++++++++
+
+  + gnumake srcdir=/tmp/gcc3/gcc-1495/libiberty BUILD_PREFIX=ppc- BUILD_PREFIX_1=ppc- 'HOST_CC= cc -arch ppc -no-cpp-precomp' 'CFLA\
+  GS= -g' 'GCC_CFLAGS=-no-cpp-precomp -g' 'BOOT_CFLAGS=-O2 -g -no-cpp-precomp -mdynamic-no-pic' 'CC=cc -arch ppc -arch ppc -no-cpp-\
+  precomp -g'
+  if [ x"" != x ] && [ ! -d pic ]; then \
+    mkdir pic; \
+  else true; fi
+  touch stamp-picdir
+  if [ x"" != x ]; then \
+    cc -arch ppc -arch ppc -no-cpp-precomp -g -c -DHAVE_CONFIG_H -g -I. -I/tmp/gcc3/gcc-1495/libiberty/../include  -W -Wall -Wtradi\
+  tional -pedantic  /tmp/gcc3/gcc-1495/libiberty/regex.c -o pic/regex.o; \
+  else true; fi
+  cc -arch ppc -arch ppc -no-cpp-precomp -g -c -DHAVE_CONFIG_H -g -I. -I/tmp/gcc3/gcc-1495/libiberty/../include  -W -Wall -Wtraditi\
+  onal -pedantic /tmp/gcc3/gcc-1495/libiberty/regex.c -o regex.o
+  gnumake[1]: cc: Command not found
+  gnumake[1]: *** [regex.o] Error 127
+  + status=2
+  + command set +x
+  + set +x
+
+  *********************************************
+  * *** gnumake failed building libiberty *** *
+  *********************************************
+  ```
+1. WTF is "libiberty"?
+1. Apparently, not only does it think it should be using `cc` instead of `gcc` (which are supposed to be the same anyway, no?), the `PATH` isn't getting exported correctly, because `cc` is certainly in `/usr`, which is in my `PATH`.
+1. Try setting the `CC` environment variable to {{{/usr/gcc}}.
+1. `make`. Doesn't work.
+1. `make clean`
+1. `make`. Doesn't work.
+1. Edit the makefile in the `libiberty` subdir: `CC = gcc`. Again, there's probably a better way...

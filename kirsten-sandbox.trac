@@ -138,7 +138,7 @@ make: *** [build] Error 1
  1.  Still complains.
  1.  For the 65536th time in my life, consider destroying everything Turing-complete and then going out to enjoy the big room with the blue ceilings.
  1.  Apparently you can also set the {{{TARGETS}}} environment variable. Try setting it to {{{ppc}}} also.
- 1.
+ 1. 
 {{{
 ??????????????????????????????????????????
 ? Host type i386 should also be a target ?
@@ -148,3 +148,41 @@ make: *** [build] Error 1
  1.  Use grep again (the only IDE I'll ever need) and figure out to edit the {{{GNUmakefile}}} to change the {{{HOSTS = }}} and {{{targets = }}} lines to obliterate any and all traces of {{{i386}}}. There's probably a better way. At this point I don't care.
  1.  Start {{{make}}} again. It is, at least, convinced that it only wants to be building a {{{ppc}}} compiler, without any of that crazy {{{i386}}} nonsense.
  1.  Go back to bed.
+ 1.  ...but not *yet*. The hell? 
+{{{
+++++++++++++++++++++++++++++++++++++++++++
++ Building libiberty                     +
++ -------------------------------------- +
++ cwd = /tmp/gcc3/gcc-1495/obj/libiberty +
+++++++++++++++++++++++++++++++++++++++++++
+
++ gnumake srcdir=/tmp/gcc3/gcc-1495/libiberty BUILD_PREFIX=ppc- BUILD_PREFIX_1=ppc- 'HOST_CC= cc -arch ppc -no-cpp-precomp' 'CFLA\
+GS= -g' 'GCC_CFLAGS=-no-cpp-precomp -g' 'BOOT_CFLAGS=-O2 -g -no-cpp-precomp -mdynamic-no-pic' 'CC=cc -arch ppc -arch ppc -no-cpp-\
+precomp -g'
+if [ x"" != x ] && [ ! -d pic ]; then \
+  mkdir pic; \
+else true; fi
+touch stamp-picdir
+if [ x"" != x ]; then \
+  cc -arch ppc -arch ppc -no-cpp-precomp -g -c -DHAVE_CONFIG_H -g -I. -I/tmp/gcc3/gcc-1495/libiberty/../include  -W -Wall -Wtradi\
+tional -pedantic  /tmp/gcc3/gcc-1495/libiberty/regex.c -o pic/regex.o; \
+else true; fi
+cc -arch ppc -arch ppc -no-cpp-precomp -g -c -DHAVE_CONFIG_H -g -I. -I/tmp/gcc3/gcc-1495/libiberty/../include  -W -Wall -Wtraditi\
+onal -pedantic /tmp/gcc3/gcc-1495/libiberty/regex.c -o regex.o
+gnumake[1]: cc: Command not found
+gnumake[1]: *** [regex.o] Error 127
++ status=2
++ command set +x
++ set +x
+
+*********************************************
+* *** gnumake failed building libiberty *** *
+*********************************************
+}}}
+ 1. WTF is "libiberty"?
+ 1. Apparently, not only does it think it should be using {{{cc}}} instead of {{{gcc}}} (which are supposed to be the same anyway, no?), the {{{PATH}}} isn't getting exported correctly, because {{{cc}}} is certainly in {{{/usr}}}, which is in my {{{PATH}}}.
+ 1. Try setting the {{{CC}}} environment variable to {{{/usr/gcc}}.
+ 1. {{{make}}}. Doesn't work.
+ 1. {{{make clean}}}
+ 1. {{{make}}}. Doesn't work.
+ 1. Edit the makefile in the {{{libiberty}}} subdir: {{{CC = gcc}}}. Again, there's probably a better way...
