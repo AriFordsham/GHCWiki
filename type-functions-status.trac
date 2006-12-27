@@ -4,6 +4,7 @@ Back to TypeFunctions.
 
 '''Current:''' 
  1. Parsing/renaming for equational constraints
+   * Equational constraints require `-findexed-types`.
  2. Well-formedness checks for equational constraints
  3. Add type synonym instances to ifaces
 
