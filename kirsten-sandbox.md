@@ -86,15 +86,9 @@
   configure: error: C compiler cannot create executables
   ```
 1.  Start downloading tarball for newer gcc from: [ http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/](http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/). Also consider becoming religious so I can pray for it to be actually useful.
-1.  {{{
+1. ```wiki
+  Length: 31,674,171 [application/x-tar]
 
-
-Length: 31,674,171 \[application/x-tar\]
-
->
-> 2% \[\>                                    \] 895,686       14.36K/s    ETA 34:52
-
-
-}}}
-
+   2% [>                                    ] 895,686       14.36K/s    ETA 34:52
+  ```
 1.  Wish that parents-in-law would get the faster internets at their house.
