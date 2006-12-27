@@ -90,3 +90,61 @@ Length: 31,674,171 [application/x-tar]
 }}}
  1.  Wish that parents-in-law would get the faster internets at their house.
  1.  Eat breakfast.
+ 1.  Installing gcc on a full stomach is probably better anyway (though quite possibly not). Unzip the tarball. Notice that {{{INSTALL}}} is a directory. That's already a bad sign.
+ 1.  Hope that {{{autoconf; ./configure; make; make install}}} will just work, since I don't have the attention span for anything else.
+ 1.  Run make.
+ 1.  For some reason, the configure script thinks that my PPC laptop is an i386. {{{./configure}}} doesn't do anything. Nor does {{{./configure --help}}}.
+ 1.  No, actually it thinks I want to build a cross-compiler. Why would I want that?
+ 1.  Apparently the hosts to build for are controlled by the {{{HOSTS}}} environment variable, or maybe it's set somewhere in one of the config files. I'm not sure. Nor am I sure why I have the attention span to grovel through the sources but not to read the documentation.
+ 1.  Try {{{setenv HOSTS ppc}}}
+ 1.  {{{make}}}
+ 1.  Still complains with the same message:
+{{{
+********************************************************************************
+* Building Apple GCC 3.3 Compiler(s) (languages = c++,c,objc,objc++) for thins *
+* ---------------------------------------------------------------------------- *
+* BUILDHOST       = Kirsten-Chevaliers-Computer.local. -- a ppc                *
+* HOSTS           = ppc  i386                                                  *
+* TARGETS         = ppc  i386                                                  *
+* SRCROOT         = /tmp/gcc3/gcc-1495                                         *
+* OBJROOT         = /tmp/gcc3/gcc-1495/obj                                     *
+* SYMROOT         = /tmp/gcc3/gcc-1495/obj/../sym                              *
+* DSTROOT         = /tmp/gcc3/gcc-1495/obj/../dst                              *
+* RC_RELEASE      =                                                            *
+* CFLAGS          = -g                                                         *
+* OPT_OVERRIDE    =                                                            *
+* NEXT_ROOT       =                                                            *
+* BUILD           = ppc                                                        *
+* BOOTSTRAP       = yes                                                        *
+* PREFIX          = /usr                                                       *
+* DO_SYMLINKS     = no                                                         *
+* ENABLE_CHECKING = --disable-checking                                         *
+* Default cc      =                                                            *
+* Curr. Hdrs.     = 3.1                                                        *
+* ---------------------------------------------------------------------------- *
+* 12/27/06 10:08:49 PST                                                        *
+********************************************************************************
+
+
+????????????????????????????????????????????????????????????
+? The directory /usr/libexec/gcc/darwin/i386 is missing!!! ?
+? Please install a compiler that generates code for i386.  ?
+????????????????????????????????????????????????????????????
+
+make: *** [build] Error 1
+}}}
+ 1.  Try {{{export HOSTS}}}
+ 1.  {{{make}}}
+ 1.  Still complains.
+ 1.  For the 65536th time in my life, consider destroying everything Turing-complete and then going out to enjoy the big room with the blue ceilings.
+ 1.  Apparently you can also set the {{{TARGETS}}} environment variable. Try setting it to {{{ppc}}} also.
+ 1.
+{{{
+??????????????????????????????????????????
+? Host type i386 should also be a target ?
+??????????????????????????????????????????
+}}}
+ 1.  Well, maybe if I could also set the {{{HOSTS}}} to just {{{ppc}}}, that wouldn't be a problem.
+ 1.  Use grep again (the only IDE I'll ever need) and figure out to edit the {{{GNUmakefile}}} to change the {{{HOSTS = }}} and {{{targets = }}} lines to obliterate any and all traces of {{{i386}}}. There's probably a better way. At this point I don't care.
+ 1.  Start {{{make}}} again. It is, at least, convinced that it only wants to be building a {{{ppc}}} compiler, without any of that crazy {{{i386}}} nonsense.
+ 1.  Go back to bed.
