@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/KirstenSandbox"
-  queryString          = "?version=8"
+  queryString          = "?version=10"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:04 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","254"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/KirstenSandbox\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:05 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","254"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/KirstenSandbox\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -159,7 +159,7 @@ make: *** [build] Error 1
  1.  Still complains.
  1.  For the 65536th time in my life, consider destroying everything Turing-complete and then going out to enjoy the big room with the blue ceilings.
  1.  Apparently you can also set the {{{TARGETS}}} environment variable. Try setting it to {{{ppc}}} also.
- 1.
+ 1. 
 {{{
 ??????????????????????????????????????????
 ? Host type i386 should also be a target ?
@@ -169,4 +169,46 @@ make: *** [build] Error 1
  1.  Use grep again (the only IDE I'll ever need) and figure out to edit the {{{GNUmakefile}}} to change the {{{HOSTS = }}} and {{{targets = }}} lines to obliterate any and all traces of {{{i386}}}. There's probably a better way. At this point I don't care.
  1.  Start {{{make}}} again. It is, at least, convinced that it only wants to be building a {{{ppc}}} compiler, without any of that crazy {{{i386}}} nonsense.
  1.  Go back to bed.
+ 1.  ...but not *yet*. The hell? 
+{{{
+++++++++++++++++++++++++++++++++++++++++++
++ Building libiberty                     +
++ -------------------------------------- +
++ cwd = /tmp/gcc3/gcc-1495/obj/libiberty +
+++++++++++++++++++++++++++++++++++++++++++
+
++ gnumake srcdir=/tmp/gcc3/gcc-1495/libiberty BUILD_PREFIX=ppc- BUILD_PREFIX_1=ppc- 'HOST_CC= cc -arch ppc -no-cpp-precomp' 'CFLA\
+GS= -g' 'GCC_CFLAGS=-no-cpp-precomp -g' 'BOOT_CFLAGS=-O2 -g -no-cpp-precomp -mdynamic-no-pic' 'CC=cc -arch ppc -arch ppc -no-cpp-\
+precomp -g'
+if [ x"" != x ] && [ ! -d pic ]; then \
+  mkdir pic; \
+else true; fi
+touch stamp-picdir
+if [ x"" != x ]; then \
+  cc -arch ppc -arch ppc -no-cpp-precomp -g -c -DHAVE_CONFIG_H -g -I. -I/tmp/gcc3/gcc-1495/libiberty/../include  -W -Wall -Wtradi\
+tional -pedantic  /tmp/gcc3/gcc-1495/libiberty/regex.c -o pic/regex.o; \
+else true; fi
+cc -arch ppc -arch ppc -no-cpp-precomp -g -c -DHAVE_CONFIG_H -g -I. -I/tmp/gcc3/gcc-1495/libiberty/../include  -W -Wall -Wtraditi\
+onal -pedantic /tmp/gcc3/gcc-1495/libiberty/regex.c -o regex.o
+gnumake[1]: cc: Command not found
+gnumake[1]: *** [regex.o] Error 127
++ status=2
++ command set +x
++ set +x
+
+*********************************************
+* *** gnumake failed building libiberty *** *
+*********************************************
+}}}
+ 1. WTF is "libiberty"?
+ 1. Apparently, not only does it think it should be using {{{cc}}} instead of {{{gcc}}} (which are supposed to be the same anyway, no?), the {{{PATH}}} isn't getting exported correctly, because {{{cc}}} is certainly in {{{/usr}}}, which is in my {{{PATH}}}.
+ 1. Try setting the {{{CC}}} environment variable to {{{/usr/gcc}}.
+ 1. {{{make}}}. Doesn't work.
+ 1. {{{make clean}}}
+ 1. {{{make}}}. Doesn't work.
+ 1. Edit the makefile in the {{{libiberty}}} subdir: {{{CC = gcc}}}. Again, there's probably a better way...
+ 1. {{{make}}}. Doesn't work.
+ 1. {{{make clean}}}
+ 1. {{{make}}}. Really go back to bed.
+
 ```
