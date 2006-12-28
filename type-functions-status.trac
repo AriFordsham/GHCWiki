@@ -4,6 +4,7 @@ Back to TypeFunctions.
 
 '''Current:'''
  1. Dictionary handling for equational constraints:
+   * Where do we check the details of the formation of equational constraints?  (In `check_pred_ty`?)
    * In the case for ordinary instances in `TcInstDcls.tcInstDecl2`, filter the ids of the super class equalities out of `map instToId sc_dicts`.  (They don't appear explicitly in the `Hs' representation of the methods binding.)
    * Similarly with `map instToId meth_dicts` in `TcClassDcl.tcMethodBind`  Maybe we just need a special function to replace all occurences of `map instToId`?  Occurs also in `TcPat.tcConPat`.
    * We also have `map instToId` in `TcUnify.tcGen`, but here I am not sure yet whether we cans imply drop the coercion variables or have to do something else.
