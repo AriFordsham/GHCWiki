@@ -2,9 +2,10 @@
 
 Back to TypeFunctions.
 
-'''Current:''' 
- 1. Add type synonym instances to ifaces
- 2. Well-formedness checks for equational constraints (i.e., anything beyond the type arguments being boxed, rank 0 types)
+'''Current:'''
+ 1. Managing of equational constraints during type inference.
+ 2. Add type synonym instances to ifaces
+ 3. Well-formedness checks for equational constraints (i.e., anything beyond the type arguments being boxed, rank 0 types)
 
 == Parsing and Renaming ==
 
