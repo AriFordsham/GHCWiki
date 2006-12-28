@@ -157,12 +157,12 @@ Constraints are turned into dictionaries by `Inst.newDictBndrs`.   For equationa
 ## Unification in the presence of type functions
 
 
-We do *not* rewrite type function applications implicitly during unification.  Instead, unifcation returns all *required* equalities that are non-syntactic.  That has two advantages: (1) the computation of coercions is completely decoupled from unification and (2) unification does not have to know anything about equality axioms and given equalities.
+We do *not* rewrite type function applications implicitly during unification.  Instead, unifcation returns all *needed* equalities that are non-syntactic.  That has two advantages: (1) the computation of coercions is completely decoupled from unification and (2) unification does not have to know anything about equality axioms and given equalities.
 
-**TODO** The whole extension would be a lot less invasive if we could arrange for unification to enter the required constraints into a pool in the monad instead of returning them (as the type of the unification routines would stay the same).  Is this possible?
+**TODO** The whole extension would be a lot less invasive if we could arrange for unification to enter the needed equalities into a pool in the monad instead of returning them (as the type of the unification routines would stay the same).  Is this possible?
 
 
-Required equalities are then checked against the axioms and given equalities during context simplification, much like class predicates.
+Needed equalities are then checked against the axioms and given equalities during context simplification, much like class predicates.
 
 ## Type checking expressions
 
