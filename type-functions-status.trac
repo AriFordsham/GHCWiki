@@ -3,18 +3,15 @@
 Back to TypeFunctions.
 
 '''Current:''' 
- 1. Parsing/renaming for equational constraints
-   * Equational constraints require `-findexed-types`.
- 2. Well-formedness checks for equational constraints
- 3. Add type synonym instances to ifaces
+ 1. Add type synonym instances to ifaces
+ 2. Well-formedness checks for equational constraints (i.e., anything beyond the type arguments being boxed, rank 0 types)
 
 == Parsing and Renaming ==
 
 Todo (low-level): None.
 
 Todo (high-level):
- 1. Parse and rename equality constraints in signatures.
- 2. Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)
+ 1. Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)
 
 Done:
  * Parsing and renaming of kind signatures (toplevel and in classes).
@@ -23,6 +20,7 @@ Done:
  * Added `-findexed-types` switch.
  * Allowing `type` tag in export lists to list associated types in the sub-binder list of an import/export item for a class.
  * Import/export lists: ATs can be listed as subnames of classes and the data constructors of instances of a data family are subnames of that family.
+ * Parsing and renaming of equational constraints in contexts.
 
 == Type Checking ==
 
@@ -56,7 +54,7 @@ Todo (high-level):
      * `IfaceInst` contains the instance declaration information for interfaces.
     '''Answer:''' We don't put anything extra into interface files.  Instead, we derive the information corresponding to`IfaceInst` list in `ModIface` and the `Instance` list in `ModDetails` from the interface declarations and type environment, respectively.  I.e., it is the type instances that carry the whole payload.
     '''Update:''' We may actually want to put a rough match signature in the iface seperate from the full instance declaration, so we can delay type checking the full instance declaration until we get a rough match.  (This makes only sense for `type instance`s, not for `data instance`s, as the latter are loaded when their constructors are mentioned.  Well actually, it does make sense for `data instance`s as far as loading them for overlap checking is concerned.)
- 3. Desugar type functions and equality constraints.
+ 2. Emit type function instances to ifaces.
 
 Done:
  * Representation of family kind signatures as `TyCon.TyCon`s.
@@ -67,6 +65,7 @@ Done:
  * For indexed data types, the datacon wrapper uses data instance coercion and pattern matching casts the scrutinee via an `ExprCoFn` in a `CoPat`.
  * Import and exporting.
  * Generation and plumbing through of rough matches.
+ * Equational constraints in contexts.
 
 == Testsuite ==
 
