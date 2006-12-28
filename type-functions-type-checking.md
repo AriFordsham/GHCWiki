@@ -147,6 +147,13 @@ The essentials of a module after type checking are in `HscTypes.ModGuts`; in par
 
 Refined idea: Instead of duplicating the `InstInfo`/`Instance` infrastructure for instances of indexed types, we could just add a second variant to `InstInfo`.  This has the advantage that functions, such as `tcInstDecls1`, still only have to return a list of `InstInfo` and not two different lists.
 
+## Type checking equational constraints
+
+
+Constraints are turned into dictionaries by `Inst.newDictBndrs`.   For equational constraints, that is the place where *given* equalities are introduced.
+
+**TODO** Where do we perform the detailed check of well-formedness of equalities?  In `check_pred_ty` or when adding given equalities?
+
 ## Type checking expressions
 
 ### Pattern matching indexed data types
