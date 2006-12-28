@@ -5,6 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
+1. Managing of equational constraints during type inference.
 1. Add type synonym instances to ifaces
 1. Well-formedness checks for equational constraints (i.e., anything beyond the type arguments being boxed, rank 0 types)
 
