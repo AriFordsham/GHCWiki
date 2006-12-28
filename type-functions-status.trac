@@ -4,7 +4,7 @@ Back to TypeFunctions.
 
 '''Current:'''
  1. Dictionary handling for equational constraints:
-   * In the case for ordinary instances in `TcInstDcls.tcInstDecl2`, filter the ids of the super class equalities out of ``map instToId sc_dicts.  (They don't appear explicitly in the `Hs' representation of the methods binding.)
+   * In the case for ordinary instances in `TcInstDcls.tcInstDecl2`, filter the ids of the super class equalities out of `map instToId sc_dicts`.  (They don't appear explicitly in the `Hs' representation of the methods binding.)
  2. Add type synonym instances to ifaces
  3. Well-formedness checks for equational constraints (i.e., anything beyond the type arguments being boxed, rank 0 types)
 
