@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsSyntax"
-  queryString          = "?version=5"
+  queryString          = "?version=6"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -23,7 +23,7 @@ Original source:
 
 == Syntax of kind signatures and definitions of indexed types ==
 
-A tolevel kind signature consists of a type declaration head using `family` as a special following the declaration keyword.  It is optionally followed by a `::` and a kind (which is by default `*` if not specified).  In the case of  a data declaration, we addititonally require that there is no `where` clause.   In associated kind signature, the `family` special is dropped, but the kind is currently compulsory.  Toplevel indexed type defintions, use the `instance` keyword after the main declarations keyword; associated declarations don't use `instance`.  We require for every definition of an indexed type (i.e., type equations or indexed data/newtype declaration) that a matching kind signature is in scope.  Vanilla type synonym definitions and data/newtype declarations fall out as special cases of type function equations and indexed type declarations that have variable-only patterns, for which we require no kind signatures.  The vanilla forms are also closed (further definitions would be useless, as they are bound to overlap).
+A tolevel kind signature consists of a type declaration head using `family` as a special following the declaration keyword.  It is optionally followed by a `::` and a kind (which is by default `*` if not specified).  In the case of  a data declaration, we addititonally require that there is no `where` clause.   In associated kind signature, the `family` special is dropped.  Toplevel indexed type defintions, use the `instance` keyword after the main declarations keyword; associated declarations don't use `instance`.  We require for every definition of an indexed type (i.e., type equations or indexed data/newtype declaration) that a matching kind signature is in scope.  Vanilla type synonym definitions and data/newtype declarations fall out as special cases of type function equations and indexed type declarations that have variable-only patterns, for which we require no kind signatures.  (However, we also allow variable-only instances of indexed types.)  The vanilla forms are also closed (further definitions would be useless, as they are bound to overlap).
 
 == Representation of indexed types ==
 
@@ -52,7 +52,7 @@ We add type declarations to class declarations and instance declarations by a ne
 
 == Representation of equational constraints ==
 
-Equational constraints are parsed into a new variant of `HsPred`, called `HsEqualP`.  Renaming (by `RnTypes.rnPred`) and kind checking (by `TcHsType.kc_pred`) is straight forward.  Afterwards, `HsPred` is desugared into `TypeRep.PredType`, where the wellformedness of equational constraints in type contexts is further tested by `TcMType.check_pred_ty`; in particular, we require the type arguments to be rank 0.
+Equational constraints are parsed into a new variant of `HsPred`, called `HsEqualP`.
 
 == Type tags ==
 
