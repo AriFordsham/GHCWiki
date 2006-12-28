@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsSyntax"
-  queryString          = "?version=4"
+  queryString          = "?version=5"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:35 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","258"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsSyntax\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:09 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","258"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsSyntax\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -49,6 +49,10 @@ The LALR parser allows arbitrary types as left-hand sides in '''data''', '''newt
 == Representation of associated types ==
 
 We add type declarations to class declarations and instance declarations by a new field, of type `[LTyClDecl]`, to both `TyClDecl.ClassDecl` (known by the field name `tcdATs`) and `TyClDecl.InstDecl`.  For classes, this new field contains values constructed from `TyData`, `TyFunction`, and `TySynonym`, whereas for instances, we only have `TyData` and `TySynonym`.  This is due to (a) `TyData` representing both signatures and definitions of associated data types (whereas the two are split into `TyFunction` and `TySynonym` for associated synonyms) and (b) associated synonyms having default definitions, which associated data types do not possess.
+
+== Representation of equational constraints ==
+
+Equational constraints are parsed into a new variant of `HsPred`, called `HsEqualP`.  Renaming (by `RnTypes.rnPred`) and kind checking (by `TcHsType.kc_pred`) is straight forward.  Afterwards, `HsPred` is desugared into `TypeRep.PredType`, where the wellformedness of equational constraints in type contexts is further tested by `TcMType.check_pred_ty`; in particular, we require the type arguments to be rank 0.
 
 == Type tags ==
 
