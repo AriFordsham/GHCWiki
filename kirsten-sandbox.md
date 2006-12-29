@@ -269,3 +269,5 @@
 1. Be thankful that at least this one is only going to take 23 minutes to download instead of 34. Get dressed.
 1. Try to install the gcc .pkg. It says I need the December 2002 Developer Tools update too (which is of course exactly what the person on the mailing list said as well.)
 1. Start the Dec. 2002 update downloading. *6-hour download.* Crie.
+1. Be grateful that at least you're not on dialup.
+1. Be grateful that at least you have First World problems rather than the other kind.
