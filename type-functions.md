@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctions"
-  queryString          = "?version=66"
+  queryString          = "?version=67"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:08 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","252"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctions\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:15 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","252"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctions\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -56,7 +56,7 @@ type family T a1 .. an [:: <kind>]
  * Instances of an associated type can only be defined in instances of its class.  However, it is admissible to omit the type definition in instances of the class (similar to how methods may be omitted).  Then, the only inhabitant of the corresponding type is `undefined`.
  * All argument variables of an associated type family declaration need to be class parameters.  There may not be any repetitions, but the order of the variables can differ from that in the class head and the type family can be defined over a subset of the class parameters.
  * In instances, the type indexes of a type declaration must be identical to the corresponding class parameters (i.e., those that share the same variable name in the class declaration).  And all arguments that where not connected to a class parameter in the family declaration must be variables; i.e., cannot be used as type indexes.
- * Type contexts (including super class and instance contexts) can have equational constraints of the form `t1 ?? t2`, where the two types `t1` and `t2` need to be rank 0 types.  (FIXME: Infix operator to be determined!)
+ * Type contexts (including super class and instance contexts) can have equational constraints of the form `t1 ~ t2`, where the two types `t1` and `t2` need to be rank 0 types.  
  * In an export and import list, associated types are treated as subcomponents of their type class, just like the class methods.  In particular, `C(..)` denotes class `C` with all its methods and all its associated types.  If the associated types of a class are explicitly listed in the parenthesis, each type name needs to be prefixed with the keyword `type`; i.e., to denote class `C` with associated type `T` and method `foo`, we write `C(type T, foo)`.
  * In export and import lists, all data constructors of newtype and data families defined in any newtype or data instance is regarded to be a subcomponent of the family type constructor, and hence specified by `F(..)` if `F` is the family type constructor.  Instead of specifying them all with "`..`", they can also be explicitly listed, just as with vanilla data types.
  * Instances of indexed data and new types may not overlap (as such instances correspond to indeterminate type functions).  Type equations may only overlap if the equations coincide at critical pairs.  (Rational: We cannot be more lazy about checking overlap, as we otherwise cannot guarantee that we generate an F,,C,, program that fulfils the formal consistency criterion.)
