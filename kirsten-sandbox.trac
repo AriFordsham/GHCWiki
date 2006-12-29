@@ -262,3 +262,5 @@ gnumake[1]: *** [stage1_build] Error 2
  1. Post on the GHC mailing list to seek pity (or at least laughs).
  1. Per a resulting suggestion, start downloading the .dmg for gcc 3.3 off [http://connect.apple.com/] (which of course isn't google-able because of course you have to create an account and mumble mumble deep web mumble.)
  1. Be thankful that at least this one is only going to take 23 minutes to download instead of 34. Get dressed.
+ 1. Try to install the gcc .pkg. It says I need the December 2002 Developer Tools update too (which is of course exactly what the person on the mailing list said as well.)
+ 1. Start the Dec. 2002 update downloading. ''6-hour download.'' Crie.
