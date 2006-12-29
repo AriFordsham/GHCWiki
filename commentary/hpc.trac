@@ -62,3 +62,15 @@ of everywhere the program goes.
 
 There is a Hpc tracer which sets up both the named pipe, and the HPCRIX variable exactly for dynamically
 interacting with the tracer output.
+
+== Machine Generated Haskell ==
+
+Sometimes, Haskell is the target language - for example, Happy and Alex. In this case, you want to be able to check for coverage
+of your '''original''' program. So we have a new pragma.
+
+{{{
+    {-# GENERATED "Parser" 100-2:101-4 #-} <expr>
+ }}} 
+
+This means that the expression was obtained from the given file and locations. This might be code included verbatim
+(for example the actions in Happy), or be generated from a specification from this location.
