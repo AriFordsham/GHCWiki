@@ -1,4 +1,4 @@
-# Building GHC on Mac OS X 10.2, by Kirsten aged 26 1/52
+# Building GHC on Mac OS X 10.2 in 80 Easy Steps, by Kirsten aged 26 1/52
 
 1. grab the HEAD off darcs, per [Building/GettingTheSources](building/getting-the-sources) (no problems here)
 1.  run autoreconf (this went ok, because I had just upgraded my autoconf in order to build darcs)
@@ -261,3 +261,13 @@
   gnumake[1]: *** [stage1_build] Error 2
   ```
 1. What is `shared_memory_server.h` and why isn't there an easy way to answer the question "what is it, and to get it can I just download the file somewhere or do I have to finally give in and buy the upgrade to Mac OS 10.4?"
+1. Wait a day. Drive to the Apple store.
+1. Get told that of course I can't exchange money for the goods and services I want, because my four-year-old laptop is *too old*. 
+1. Consider buying a PC.
+1. Post on the GHC mailing list to seek pity (or at least laughs).
+1. Per a resulting suggestion, start downloading the .dmg for gcc 3.3 off [ http://connect.apple.com/](http://connect.apple.com/) (which of course isn't google-able because of course you have to create an account and mumble mumble deep web mumble.)
+1. Be thankful that at least this one is only going to take 23 minutes to download instead of 34. Get dressed.
+1. Try to install the gcc .pkg. It says I need the December 2002 Developer Tools update too (which is of course exactly what the person on the mailing list said as well.)
+1. Start the Dec. 2002 update downloading. *6-hour download.* Crie.
+1. Be grateful that at least you're not on dialup.
+1. Be grateful that at least you have First World problems rather than the other kind.
