@@ -448,7 +448,7 @@ make: *** [stage1] Error 1
  1. So, I suspect {{{Internals.hs}}} may be bitrotted, but that still doesn't solve the mystery of how to get cpp to do the right thing with it.
  1. And thanks to a minimal test case, it's not even those line pragmas that's making ghc throw up.
  1. Go on IRC.
- 1. A very nice person points out: [http://www.haskell.org/ghc/dist/6.4/MacOSX/]
+ 1. A very nice person, {{{pejo}}}, points out: [http://www.haskell.org/ghc/dist/6.4/MacOSX/]
  1. Download the mysterious tarball from there and unzip it.
  1. Reconfigure:
 {{{
@@ -457,7 +457,7 @@ make: *** [stage1] Error 1
  1. That went okay. {{{make}}}
  1. Edit the paths in {{{/tmp/ghc_d/ghc-bootstrap/bin/ghc}}} (which is a shell script) to change {{{/opt/local}}} to {{{/tmp/ghc_d/ghc-bootstrap}}}. Four times.
  1. {{{make}}} again
- 1.
+ 1. Oh noez:
 {{{
 make -C utils/mkdependC boot
 ------------------------------------------------------------------------
