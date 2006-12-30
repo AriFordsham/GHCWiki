@@ -437,7 +437,20 @@ make: *** [stage1] Error 1
 {{{
 ./configure --with-ghc=/usr/local/bin/ghc --disable-threaded-rts
 }}}
-  and wondering how I ever got this installed in the first place.
+and wondering how I ever got this installed in the first place.
  1. Sleep.
  1. In the morning, look at that Internals.hs file more carefully. Something weird seems to be happening with cpp. For one thing, the file paths in the includes in {{{Internals.hs}}} seem to be wrong, but upon fixing them, {{{cpp}}} dumps in a bunch of lines that begin with things like {{{# 1}}}, which ghc doesn't seem to like.
  1. Start building ghc on a Linux system to compare what that file ends up looking like. (Which should be interesting since that's a webhosting account where autoconf doesn't even seem to be installed. Hope it doesn't matter!)
+ 1. Okay, well, {{{compat/}}} builds perfectly on the Linux box. No big shock, I guess. But what does cpp do?
+ 1. Huh, on the Linux box, that Internals.hs file doesn't seem to even get touched. A configure problem? Or maybe it really is needed on Mac OS but not Linux?
+ 1. Aw, crap, looking at the Makefile under {{{compat/}}} tells me that Internals.hs is getting built because I'm bootstrapping with a ghc less than 6.3, whereas on that Linux box, I have ghc 6.4 already, so that's that mystery solved.
+ 1. ''Why'' can't I get a binary ghc for OS 10.2? (Because, I guess, everyone else upgraded already, and I'm the last of the Mohicans.)
+ 1. So, I suspect {{{Internals.hs}}} may be bitrotted, but that still doesn't solve the mystery of how to get cpp to do the right thing with it.
+ 1. And thanks to a minimal test case, it's not even those line pragmas that's making ghc throw up.
+ 1. Go on IRC.
+ 1. A very nice person points out: [http://www.haskell.org/ghc/dist/6.4/MacOSX/]
+ 1. Download the mysterious tarball from there and unzip it.
+ 1. Reconfigure:
+{{{
+./configure --with-ghc=/private/tmp/ghc_d/ghc-bootstrap/bin/ghc --disable-threaded-rts
+}}}
