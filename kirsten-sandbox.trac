@@ -454,3 +454,28 @@ make: *** [stage1] Error 1
 {{{
 ./configure --with-ghc=/private/tmp/ghc_d/ghc-bootstrap/bin/ghc --disable-threaded-rts
 }}}
+ 1. That went okay. {{{make}}}
+ 1. Edit the paths in {{{/tmp/ghc_d/ghc-bootstrap/bin/ghc}}} (which is a shell script) to change {{{/opt/local}}} to {{{/tmp/ghc_d/ghc-bootstrap}}}. Four times.
+ 1. {{{make}}} again
+ 1.
+{{{
+make -C utils/mkdependC boot
+------------------------------------------------------------------------
+== make boot -r;
+ in /Users/krc/ghc-head/ghc/includes
+------------------------------------------------------------------------
+../utils/mkdependC/mkdependC -f .depend     -- -O -DTABLES_NEXT_TO_CODE -I. -I../rts    -- mkDerivedConstants.c
+------------------------------------------------------------------------
+== make boot -r;
+ in /Users/krc/ghc-head/ghc/compat
+------------------------------------------------------------------------
+/bin/sh: test: unknownunknown: integer expression expected
+/private/tmp/ghc_d/ghc-bootstrap/bin/ghc -M -optdep-f -optdep.depend  -osuf o -optdep--exclude-module=System.Directory.Internals   -H16m -O -I. -Iinclude -Rghc-timing -I../li\
+braries -fglasgow-exts -no-recomp Compat/Directory.hs Compat/RawSystem.hs Compat/Unicode.hs Distribution/Compat/FilePath.hs Distribution/Compat/ReadP.hs Distribution/Compiler\
+.hs Distribution/GetOpt.hs Distribution/InstalledPackageInfo.hs Distribution/License.hs Distribution/Package.hs Distribution/ParseUtils.hs Distribution/Version.hs Language/Ha\
+skell/Extension.hs tmp.hs
+dyld: /private/tmp/ghc_d/ghc-bootstrap/lib/ghc-6.4/ghc-6.4 can't open library: /opt/local/lib/libreadline.5.0.dylib  (No such file or directory, errno = 2)
+make[1]: *** [depend] Trace/BPT trap
+make: *** [stage1] Error 1
+}}}
+ 1. Wonder whether 11:49 AM is too early in the day to start drinking.
