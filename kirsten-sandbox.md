@@ -271,3 +271,124 @@
 1. Start the Dec. 2002 update downloading. *6-hour download.* Crie.
 1. Be grateful that at least you're not on dialup.
 1. Be grateful that at least you have First World problems rather than the other kind.
+1. About 10 hours later, double-click the installer. Wait 15 minutes.
+1. "The software was successfully installed." Now there's an experience I haven't had in a while.
+1. Double-click the August 2003 GCC updater. Wait 2 minutes.
+1. "The software was successfully installed." I'm on a roll!!
+1. So, where was I two days ago, anyway? Oh yeah, trying to build GHC! That was the original point, wasn't it? I'm not sure anymore.
+1. Of course, GHC is still looking for gcc under /usr (since it's first in your PATH for some reason) and not under /usr/bin where it really lives.
+1. Edit PATH to put /usr at the end. This doesn't work.
+1. Play some symlink games.
+1. Now `gcc` points to gcc 3.3, but the same error message comes up as before when I run `make` in ghc:
+
+  ```wiki
+  % make
+  make -C utils/mkdependC boot
+  ------------------------------------------------------------------------
+  == make boot -r;
+   in /Users/krc/ghc-head/ghc/includes
+  ------------------------------------------------------------------------
+  gcc -O -DTABLES_NEXT_TO_CODE -I. -I../rts    -c mkDerivedConstants.c -o mkDerivedConstants.o
+  In file included from Rts.h:144,
+                   from mkDerivedConstants.c:23:
+  OSThreads.h:135:4: #error "Threads not supported"
+  In file included from Rts.h:144,
+                   from mkDerivedConstants.c:23:
+  OSThreads.h:141: error: parse error before "osThreadId"
+  OSThreads.h:141: warning: data definition has no type or storage class
+  OSThreads.h:145: error: parse error before "OSThreadProc"
+  OSThreads.h:145: warning: data definition has no type or storage class
+  OSThreads.h:147: error: parse error before '*' token
+  OSThreads.h:153: error: parse error before '*' token
+  OSThreads.h:154: error: parse error before '*' token
+  OSThreads.h:155: error: parse error before '*' token
+  OSThreads.h:156: error: parse error before '*' token
+  OSThreads.h:157: error: parse error before '*' token
+  OSThreads.h:163: error: parse error before '*' token
+  OSThreads.h:164: error: parse error before '*' token
+  OSThreads.h:169: error: parse error before '*' token
+  OSThreads.h:170: error: parse error before '*' token
+  OSThreads.h:171: error: parse error before '*' token
+  In file included from Rts.h:160,
+                   from mkDerivedConstants.c:23:
+  Storage.h:211: error: parse error before "sm_mutex"
+  Storage.h:211: warning: data definition has no type or storage class
+  Storage.h:212: error: parse error before "atomic_modify_mutvar_mutex"
+  Storage.h:212: warning: data definition has no type or storage class
+  In file included from ../rts/Capability.h:27,
+                   from mkDerivedConstants.c:28:
+  ../rts/Task.h:88: error: parse error before "OSThreadId"
+  ../rts/Task.h:88: warning: no semicolon at end of struct or union
+  ../rts/Task.h:115: error: parse error before "cond"
+  ../rts/Task.h:115: warning: data definition has no type or storage class
+  ../rts/Task.h:116: error: parse error before "lock"
+  ../rts/Task.h:116: warning: data definition has no type or storage class
+  ../rts/Task.h:155: error: parse error before '}' token
+  ../rts/Task.h:155: warning: data definition has no type or storage class
+  ../rts/Task.h:158: error: parse error before '*' token
+  ../rts/Task.h: In function `isBoundTask':
+  ../rts/Task.h:160: error: `task' undeclared (first use in this function)
+  ../rts/Task.h:160: error: (Each undeclared identifier is reported only once
+  ../rts/Task.h:160: error: for each function it appears in.)
+  ../rts/Task.h: At top level:
+  ../rts/Task.h:166: error: parse error before '*' token
+  ../rts/Task.h:166: warning: data definition has no type or storage class
+  ../rts/Task.h:178: error: parse error before '*' token
+  ../rts/Task.h:178: warning: data definition has no type or storage class
+  ../rts/Task.h:183: error: parse error before '*' token
+  ../rts/Task.h:188: error: parse error before '*' token
+  ../rts/Task.h:194: error: parse error before '*' token
+  ../rts/Task.h:200: error: parse error before '*' token
+  ../rts/Task.h:205: error: parse error before '*' token
+  ../rts/Task.h:209: error: parse error before '*' token
+  ../rts/Task.h:209: warning: data definition has no type or storage class
+  ../rts/Task.h:225: error: parse error before '*' token
+  ../rts/Task.h:225: error: parse error before '*' token
+  ../rts/Task.h:225: error: `OSThreadProcAttr' declared as function returning a function
+  ../rts/Task.h:235: error: parse error before "currentTaskKey"
+  ../rts/Task.h:235: warning: data definition has no type or storage class
+  ../rts/Task.h:246: error: parse error before '*' token
+  ../rts/Task.h:257: error: parse error before '*' token
+  ../rts/Task.h: In function `setMyTask':
+  ../rts/Task.h:260: error: `task' undeclared (first use in this function)
+  ../rts/Task.h: At top level:
+  ../rts/Task.h:270: error: parse error before '*' token
+  ../rts/Task.h: In function `taskEnter':
+  ../rts/Task.h:274: error: `task' undeclared (first use in this function)
+  In file included from mkDerivedConstants.c:28:
+  ../rts/Capability.h: At top level:
+  ../rts/Capability.h:42: error: parse error before "Task"
+  ../rts/Capability.h:42: warning: no semicolon at end of struct or union
+  ../rts/Capability.h:61: error: parse error before '*' token
+  ../rts/Capability.h:61: warning: data definition has no type or storage class
+  ../rts/Capability.h:71: error: parse error before '*' token
+  ../rts/Capability.h:71: warning: data definition has no type or storage class
+  ../rts/Capability.h:74: error: parse error before "lock"
+  ../rts/Capability.h:74: warning: data definition has no type or storage class
+  ../rts/Capability.h:81: error: parse error before '*' token
+  ../rts/Capability.h:81: warning: data definition has no type or storage class
+  ../rts/Capability.h:82: error: parse error before '*' token
+  ../rts/Capability.h:82: warning: data definition has no type or storage class
+  ../rts/Capability.h:97: error: parse error before '}' token
+  ../rts/Capability.h:174: error: parse error before "Task"
+  ../rts/Capability.h:191: error: parse error before "Task"
+  ../rts/Capability.h:197: error: parse error before '*' token
+  ../rts/Capability.h:220: error: parse error before "Task"
+  ../rts/Capability.h:224: error: parse error before "Task"
+  ../rts/Capability.h: In function `recordMutableCap':
+  ../rts/Capability.h:247: error: dereferencing pointer to incomplete type
+  ../rts/Capability.h:253: error: dereferencing pointer to incomplete type
+  mkDerivedConstants.c: In function `main':
+  mkDerivedConstants.c:228: error: dereferencing pointer to incomplete type
+  mkDerivedConstants.c:228: error: dereferencing pointer to incomplete type
+  mkDerivedConstants.c:229: error: dereferencing pointer to incomplete type
+  mkDerivedConstants.c:229: error: dereferencing pointer to incomplete type
+  mkDerivedConstants.c:231: error: dereferencing pointer to incomplete type
+  mkDerivedConstants.c:232: error: dereferencing pointer to incomplete type
+  mkDerivedConstants.c:233: error: dereferencing pointer to incomplete type
+  mkDerivedConstants.c:233: error: dereferencing pointer to incomplete type
+  make[1]: *** [mkDerivedConstants.o] Error 1
+  make: *** [stage1] Error 1
+  [Kirsten-Chevaliers-Computer:~/ghc-head/ghc] krc%
+   1. Go to bed.
+  ```
