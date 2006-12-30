@@ -438,4 +438,6 @@ make: *** [stage1] Error 1
 ./configure --with-ghc=/usr/local/bin/ghc --disable-threaded-rts
 }}}
   and wondering how I ever got this installed in the first place.
-
+ 1. Sleep.
+ 1. In the morning, look at that Internals.hs file more carefully. Something weird seems to be happening with cpp. For one thing, the file paths in the includes in {{{Internals.hs}}} seem to be wrong, but upon fixing them, {{{cpp}}} dumps in a bunch of lines that begin with things like {{{# 1}}}, which ghc doesn't seem to like.
+ 1. Start building ghc on a Linux system to compare what that file ends up looking like. (Which should be interesting since that's a webhosting account where autoconf doesn't even seem to be installed. Hope it doesn't matter!)
