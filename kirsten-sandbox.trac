@@ -386,3 +386,56 @@ make: *** [stage1] Error 1
 [Kirsten-Chevaliers-Computer:~/ghc-head/ghc] krc%
 }}}
  1. Go to bed.
+ 1. No, no, can't rest as long as this problem isn't solved. Maybe this is a terrible idea, but what if I try {{{./configure --disable-threaded-rts}}}?
+ 1. {{{make clean}}}
+ 1. {{{make}}}
+ 1. OMFG!!!111 it at least makes it past {{{mkDerivedConstants.c}}} this time
+ 1. :-((((
+{{{
+------------------------------------------------------------------------
+== make boot -r;
+ in /Users/krc/ghc-head/ghc/compat
+------------------------------------------------------------------------
+../utils/mkdependC/mkdependC -f .depend    -I. -Iinclude -I../includes  -- -O -I. -Iinclude -D__\
+GHC_PATCHLEVEL__=1 -I../libraries/base/cbits -I../libraries/base/include    -- cbits/directory.c\
+ cbits/rawSystem.c cbits/unicode.c
+/usr/local/bin/ghc -M -optdep-f -optdep.depend  -osuf o    -H16m -O -I. -Iinclude -Rghc-timing -\
+I../libraries -fglasgow-exts -no-recomp Compat/Directory.hs Compat/RawSystem.hs Compat/Unicode.h\
+s Distribution/Compat/FilePath.hs Distribution/Compat/ReadP.hs Distribution/Compiler.hs Distribu\
+tion/GetOpt.hs Distribution/InstalledPackageInfo.hs Distribution/License.hs Distribution/Package\
+.hs Distribution/ParseUtils.hs Distribution/Version.hs Language/Haskell/Extension.hs System/Dire\
+ctory/Internals.hs
+<<ghc: 8979932 bytes, 3 GCs, 9280/9280 avg/max bytes residency (1 samples), 15M in use, 0.04 INI\
+T (0.02 elapsed), 0.17 MUT (1.53 elapsed), 0.03 GC (0.04 elapsed) :ghc>>
+make all
+/usr/local/bin/ghc -H16m -O -I. -Iinclude -Rghc-timing  -I../libraries -fglasgow-exts -no-recomp\
+    -c System/Directory/Internals.hs -o System/Directory/Internals.o  -ohi System/Directory/Inte\
+rnals.hi
+System/Directory/Internals.hs:1: parse error on input `#'
+<<ghc: 5251084 bytes, 3 GCs, 5688/5688 avg/max bytes residency (1 samples), 16M in use, 0.03 INI\
+T (0.01 elapsed), 0.06 MUT (0.31 elapsed), 0.02 GC (0.02 elapsed) :ghc>>
+make[2]: *** [System/Directory/Internals.o] Error 1
+make[1]: *** [boot] Error 2
+make: *** [stage1] Error 1
+}}}
+ 1. Well, my {{{/usr/local/bin/ghc}}} is really old. 6.0.1, in fact. Maybe I need something newer for bootstrapping. What does the documentation say? Have I ever read it before? If not, why break my streak? 
+ 1. Hmm, says "version 5.04 at least." 6.0.1 > 5.04 (or so I would naively think).
+ 1. {{{System/Directory/Internals.hs}}} has an {{{OPTIONS}}} pragma. Why am I suspecting that GHC 6.0.1 doesn't know about this pragma? Would the documentation lie to me? (Probably.)
+ 1. Then again, I no longer have any idea where my version of GHC 6.0.1 came from.
+ 1. Maybe I'll download a binary of GHC instead.
+ 1. Oh wait, I CAN'T do that, because I have Mac OS 10.2.
+ 1. Hey, I might have a functioning other version of GHC sitting around. These ideas just keep getting worse and worse...
+{{{
+./configure --with-ghc=~/GHC/ghc-6.4.2/ghc/compiler/ghc-inplace --disable-threaded-rts
+}}}
+ 1. Huh, it got all the way through ./configure even though apparently the path name wasn't getting canonicalized. Nice!
+{{{
+./configure --with-ghc=/Users/krc/GHC/ghc-6.4.2/ghc/compiler/ghc-inplace --disable-threaded-rts
+}}}
+ 1. Oh, CRIE, that's not going to work, I never finished building the libraries with the other GHC, and indeed COULDN'T.
+ 1. Back to square one:
+{{{
+./configure --with-ghc=/usr/local/bin/ghc --disable-threaded-rts
+}}}
+  and wondering how I ever got this installed in the first place.
+
