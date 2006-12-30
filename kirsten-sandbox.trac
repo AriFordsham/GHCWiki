@@ -479,3 +479,11 @@ make[1]: *** [depend] Trace/BPT trap
 make: *** [stage1] Error 1
 }}}
  1. Wonder whether 11:49 AM is too early in the day to start drinking.
+ 1. Do I have libreadline? Yes, but only version 4. Is that good enough? Maybe. Try some horrible symlink games.
+ 1. Damn:
+{{{
+dyld: /private/tmp/ghc_d/ghc-bootstrap/lib/ghc-6.4/ghc-6.4 version mismatch for library: /opt/local/lib/libreadline.5.0.dylib (compatibility version of user: 5.0.0 greater th\
+an library's version: 4.0.0)
+make[1]: *** [depend] Trace/BPT trap
+}}}
+  1. Okay, I'll just go download readline 5.0 instead. Google says that's "trivial".
