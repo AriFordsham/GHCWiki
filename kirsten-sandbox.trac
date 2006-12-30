@@ -384,4 +384,5 @@ mkDerivedConstants.c:233: error: dereferencing pointer to incomplete type
 make[1]: *** [mkDerivedConstants.o] Error 1
 make: *** [stage1] Error 1
 [Kirsten-Chevaliers-Computer:~/ghc-head/ghc] krc%
+}}}
  1. Go to bed.

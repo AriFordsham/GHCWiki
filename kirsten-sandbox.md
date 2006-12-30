@@ -390,5 +390,5 @@
   make[1]: *** [mkDerivedConstants.o] Error 1
   make: *** [stage1] Error 1
   [Kirsten-Chevaliers-Computer:~/ghc-head/ghc] krc%
-   1. Go to bed.
   ```
+1. Go to bed.
