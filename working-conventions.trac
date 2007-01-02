@@ -42,9 +42,9 @@ We welcome your involvement in making GHC able to do more.  That said, we think 
  * New features should be switchable with their own flag, by default off.  We used to have just one flag `-fglasgow-exts` but nowadays we try to be much more selective.
 
  * A new feature should come with 
-   * A commit message that (a) explains what the patch does, and (b) sketches how it works.
-   * A patch to the user manual that documents it (part of the main source-code patch)
-   * A (separate) patch to the testsuite repository that gives a reasonable collection of tests for the new feature.  This has to be a separate patch, because the testsuite is a separate repository.
+   * A '''commit message''' that (a) explains what the patch does, and (b) sketches how it works.
+   * A '''patch to the user manual''' that documents it (part of the main source-code patch)
+   * A '''(separate) patch to the testsuite repository''' that gives a reasonable collection of tests for the new feature.  This has to be a separate patch, because the testsuite is a separate repository.
 
  * New features should work in a way that is consistent, as far as possible, with the way that other
    existing GHC features work.  Adopting a variety of different styles leads to a
