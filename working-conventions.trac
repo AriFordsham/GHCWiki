@@ -16,7 +16,7 @@ Broadly speaking there are two sorts of patches: '''bug fixes''', and '''new fea
 
 We have separate guidelines for proposing changes to standard libraries; see [http://haskell.org/haskellwiki/Library_submissions Library Submissions].
 
-=== Bug fixes ===
+=== How to submit a bug fix ===
 
 Bug fixes always extremely welcome.  GHC is so large, and is used in such diverse ways by so many people, that we really need your help in fixing bugs, especially those that show up in specialised situations.
 
@@ -26,7 +26,7 @@ Bug fixes always extremely welcome.  GHC is so large, and is used in such divers
 
  * Please ensure that there is a test case in the regression-test suite that shows up the bug, and which is fixed by your patch.  This test case should be identified in the "Test Case" field of the Trac report.
 
-=== New features ===
+=== How to submit a patch for a new feature ===
 
 We welcome your involvement in making GHC able to do more.  That said, we think twice before committing new features. Here are some things to bear in mind:
  
