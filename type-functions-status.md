@@ -5,6 +5,7 @@ Back to [TypeFunctions](type-functions).
 
 **Current:**
 
+1. Rename `HsDecls.TyFunction` into `TyFamily` and use for both `type family` and `data family` declarations.
 1. Dictionary handling for equational constraints:
 
   - Where do we check the details of the formation of equational constraints?  (In `check_pred_ty`?)
