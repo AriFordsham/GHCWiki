@@ -4,6 +4,7 @@ Back to TypeFunctions.
 
 '''Current:'''
  0. Rename `HsDecls.TyFunction` into `TyFamily` and use for both `type family` and `data family` declarations.
+ 0. Check lookup with `FamInstEnv.lookupFamInstEnv` during deriving.  Is the match too general, as it does one-way matching and not just alpha-renaming?
  1. Dictionary handling for equational constraints:
    * Where do we check the details of the formation of equational constraints?  (In `check_pred_ty`?)
    * In the case for ordinary instances in `TcInstDcls.tcInstDecl2`, filter the ids of the super class equalities out of `map instToId sc_dicts`.  (They don't appear explicitly in the `Hs' representation of the methods binding.)
