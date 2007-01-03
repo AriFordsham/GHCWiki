@@ -229,6 +229,4 @@ Crypto++, Botan, MPI and MAPM showed performance far below ARPREC, OpenSSL's BN,
 
 [[Image(Squaring.gif)]]
 
-[[Image(Powers.gif)]]
-
 [[Image(Division.gif)]]
