@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsSyntax"
-  queryString          = "?version=6"
+  queryString          = "?version=7"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,33 +14,29 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:09 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","258"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsSyntax\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:26 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","258"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsSyntax\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
 ```trac
 = Type Functions: Syntax and Representation =
 
-== Syntax of kind signatures and definitions of indexed types ==
+== Syntax of family and family instance declarations ==
 
-A tolevel kind signature consists of a type declaration head using `family` as a special following the declaration keyword.  It is optionally followed by a `::` and a kind (which is by default `*` if not specified).  In the case of  a data declaration, we addititonally require that there is no `where` clause.   In associated kind signature, the `family` special is dropped.  Toplevel indexed type defintions, use the `instance` keyword after the main declarations keyword; associated declarations don't use `instance`.  We require for every definition of an indexed type (i.e., type equations or indexed data/newtype declaration) that a matching kind signature is in scope.  Vanilla type synonym definitions and data/newtype declarations fall out as special cases of type function equations and indexed type declarations that have variable-only patterns, for which we require no kind signatures.  (However, we also allow variable-only instances of indexed types.)  The vanilla forms are also closed (further definitions would be useless, as they are bound to overlap).
+A toplevel family declaration consists of a type declaration head using `family` as a special following the declaration keyword.  It is optionally followed by a `::` and a kind (which is by default `*` if not specified).   In an associated family declaration, the `family` special is dropped.  Toplevel family instance declarations, use the `instance` keyword after the main declaration keyword; associated instances don't use `instance`.  We require for every instance declaration of a type family that a matching family declaration is in scope.
 
 == Representation of indexed types ==
 
-=== Kind signatures ===
+=== Family declarations ===
 
-`HsDecls.TyClDecl` has a new variant `TyFunction` to represent signatures of type functions.  These consist of the name, type parameters, an iso flag, and optionally an explicit result kind.  The type parameters can have kind signatures as usual.  
+`HsDecls.TyClDecl` has a new variant `TyFamily` to represent family declarations of all three flavours (i.e., `type family`, `newtype family`, and `data family`).  The new variant comprises the declaration's flavour, name, type parameters, and optionally a result kind signature.  The type parameters can have kind signatures as usual.  The predicate `HsDecls.isFamilyDecl` recognises family declarations.
 
-Signatures for indexed data and newtypes are represented as a special case of `TyData`, namely when `TyData` has a kind signature, but no constructors. 
+=== Family instances ===
 
-We recognise both forms of kind signatures by the predicate `HsDecls.isKindSigDecl`.
-
-=== Instances of indexed types ===
-
-We represent type functions and indexed data and newtypes by generalising type synonym declarations `TySynonym` and data type declarations `TyData` to allow patterns ofr type indexes instead of just type variables as parameters.  In both variants, we do so by way of the field `tcdPats` of type `Maybe [LHsType name]`, used as follows:
+We represent insatances of type families and data/newtype families by generalising the AST for type synonym declarations (`TySynonym`) and data/newtype declarations (`TyData`), respectively.  In both cases, the novelty is to admit type index patterns instead of just type variables as parameters.  These index pattern go into the field `tcdTyPats` of type `Maybe [LHsType name]`, used as follows:
  * If it is `Nothing`, we have a ''vanilla'' data type declaration or type synonym declaration and `tcdVars` contains the type parameters of the type constructor.
- * If it is `Just pats`, we have the definition of an a indexed type (toplevel or nested in an instance declarations).  Then, 'pats' are type patterns for the type-indexes of the type constructor and `tcdVars` are the variables in those patterns.  Hence, the arity of the type constructor is `length tcdPats` and ''not'' `length tcdVars`.
-In both cases (and as before we had type functions), `tcdVars` collects all variables we need to quantify over.
+ * If it is `Just pats`, we have the definition of an a indexed type (toplevel or nested in an instance declarations).  Then, `pats` are type patterns for the type-indexes of the type constructor and `tcdVars` are the variables in those patterns.  Hence, the arity of the type constructor is `length tcdPats` and ''not'' `length tcdVars`.
+In both cases (and as before we had indexed types), `tcdVars` collects all variables we need to quantify over.
 
 === Parsing and AST construction ===
 
@@ -48,7 +44,7 @@ The LALR parser allows arbitrary types as left-hand sides in '''data''', '''newt
 
 == Representation of associated types ==
 
-We add type declarations to class declarations and instance declarations by a new field, of type `[LTyClDecl]`, to both `TyClDecl.ClassDecl` (known by the field name `tcdATs`) and `TyClDecl.InstDecl`.  For classes, this new field contains values constructed from `TyData`, `TyFunction`, and `TySynonym`, whereas for instances, we only have `TyData` and `TySynonym`.  This is due to (a) `TyData` representing both signatures and definitions of associated data types (whereas the two are split into `TyFunction` and `TySynonym` for associated synonyms) and (b) associated synonyms having default definitions, which associated data types do not possess.
+We add type declarations to class declarations and instance declarations by a new field, of type `[LTyClDecl]`, to both `TyClDecl.ClassDecl` (known by the field name `tcdATs`) and `TyClDecl.InstDecl`.  For classes, this new field contains values constructed from `TyFamily` and `TySynonym` (for synonym defaults), whereas for instances, we have `TyData` and `TySynonym`.  
 
 == Representation of equational constraints ==
 
