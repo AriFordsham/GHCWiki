@@ -2,13 +2,13 @@
 
 == Phasing ==
 
-GHC is organised such that class and type declarations are processed (during renaming and type checking) before any instance declarations are considered.  In the presence of associated types, instance declarations may contain type definitions.  In particular, the ''data constructors'' introduced by associated data declarations need to be brought into scope before we can rename any expressions.  Otherwise, the intution wrt. to phasing is that kind signatures are handled in conjunction with vanilla algebraic data type declarations and instances of indexed types are handled together with instance ''heads''.  (NB: GHC splits the treatment of instances into two phases, where instances heads are processed in the first and member function declarations in the second phase.)
+GHC is organised such that class and type declarations are processed (during renaming and type checking) before any instance declarations are considered.  In the presence of associated types, instance declarations may contain type definitions.  In particular, the ''data constructors'' introduced by associated data declarations need to be brought into scope before we can rename any expressions.  Otherwise, the intution wrt. to phasing is that family declarations are handled in conjunction with vanilla algebraic data type declarations and family instances are handled together with class instance ''heads''.  (NB: GHC splits the treatment of class instances into two phases, where instances heads are processed in the first and member function declarations in the second phase.)
 
 == Renaming of indexed types ==
 
-=== Kind signatures ===
+=== Family declarations ===
 
-Kind signatures are renamed by `RnSource.rnTySig`, which is parametrised by a function that handles the binders (i.e., index variables) of the declaration.  This is so that we can use the same code for toplevel signatures and those in classes.  In the former case, the variables are in a defining position, whereas in classes they are in a usage position (as all index variables must be class parameters).
+Family declarations are renamed by `RnSource.rnFamily`, which is parametrised by a function that handles the binders (i.e., index variables) of the declaration.  This is so that we can use the same code for toplevel signatures and those in classes.  In the former case, the variables are in a defining position, whereas in classes they are in a usage position (as all index variables must be class parameters).
 
 === Determining binders ===
 
@@ -22,11 +22,11 @@ To get hold of the data constructors of associated types, `RnNames.getLocalDeclB
 
 Family names in the heads of type instances are usage occurences, not binders.  However, we cannot just use `RnNames.lookupGlobalOccRn` as we are only now determining the binders to construct the global `RdrName` environment.  On the other hand, we cannot use `RnNames.newTopSrcBinder` either, although it produces the same name when called multiple times.  It does not handle the case, where we define an instance for an imported family.  Hence, we introduced a new function `RnEnv.lookupFamInstDeclBndr` that first attempts a lookup, similar to `RnEnv.lookupGlobalOccRn`, but if that fails, instead of raising an error, calls `newTopSrcBinder`.  If after all, there is no family declaration in scope, this will be picked up and properly reported during renaming by `RnSource.rnTyClDecl`.
 
-Despite the effort we go to, to get the right `Name` for the family `RdrName`, `getLocalDeclBinders` does not return that name as part of the binders declared by the current binding group - otherwise, we would get a duplicate declaration error.  However, we use the `Name` to specify the correct name parent for the data constructors of the instance (see bwlow).
+Despite the effort we go to, to get the right `Name` for the family `RdrName`, `getLocalDeclBinders` does not return that name as part of the binders declared by the current binding group - otherwise, we would get a duplicate declaration error.  However, we use the `Name` to specify the correct name parent for the data constructors of the instance (see below).
 
 === Renaming of type instances ===
 
-There is little extra that needs to be done for type instances.  The main difference between vanilla synonyms and data/newtype declarations and the indexed variants is that the `tcdTyPats` field is not `Nothing`.  We simply call `rnTyPats` on these fields, which traverses them in the usual way.  Moreover, we need to be careful with the family type constructor in the instance head: it is in an occurence position and needs to be looked up suitably, such that we get a nice "out of scope" error if no appropriate family is in scope.  By the same token, the family names needs to go into the set of free variables.  Finally, `RnSource.rnSrcInstDecl` invokes `RnSource.rnTyClDecl` on all associated types of an instance to rename them.
+There is little extra to be done for type instances.  The main difference between vanilla type declarations and family instance declarations is that, in the latter case, the `tcdTyPats` field is not `Nothing`.  We simply call `rnTyPats` on these fields, which traverses them in the usual way.  Moreover, we need to be careful with the family type constructor in the instance head: it is in an occurence position and needs to be looked up suitably, such that we get a nice "out of scope" error if no appropriate family is in scope.  By the same token, the family names needs to go into the set of free variables.  Finally, `RnSource.rnSrcInstDecl` invokes `RnSource.rnTyClDecl` on all associated types of an instance to rename them.
 
 == Renaming of equational constraints ==
 
