@@ -5,3 +5,6 @@ A `.cmm` file is rather like C--.  The syntax is almost C-- (a few constructs ar
 
 
 We use the C preprocessor on `.cmm` files, making extensive use of macros to make writing this low-level code a bit less tedious and error-prone.  Most of our C-- macros are in [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h).
+
+
+For more information on Cmm (GHC's implementation of C--), see [the Cmm language](commentary/compiler/cmm-type) page.
