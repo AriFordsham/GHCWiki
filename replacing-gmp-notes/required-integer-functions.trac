@@ -7,18 +7,18 @@
 == GHC Functions ==
 
 || '''Module/Class''' || '''Haskell Function''' || '''Notes''' ||
-|| GHC.Num || (+) ||  || 
-|| GHC.Num || (-) ||  || 
-|| GHC.Num || (*) ||  || 
-|| GHC.Num || div ||  || 
-|| GHC.Num || negate ||  || 
+|| GHC.Num || (+) || rts/PrimOps.cmm --> Haskell || 
+|| GHC.Num || (-) || rts/PrimOps.cmm --> Haskell || 
+|| GHC.Num || (*) || rts/PrimOps.cmm --> Haskell || 
+|| GHC.Num || div || rts/PrimOps.cmm --> Haskell || 
+|| GHC.Num || negate || rts/PrimOps.cmm --> Haskell || 
 || GHC.Num || abs ||  || 
 || GHC.Num || signum ||  || 
-|| GHC.Num || subtract ||  || 
-|| GHC.Num || even ||  || 
+|| GHC.Num || subtract || rts/PrimOps.cmm --> Haskell || 
+|| GHC.Num || even || rts/PrimOps.cmm --> Haskell || 
 || GHC.Num || odd ||  || 
-|| GHC.Num || gcd ||  || 
-|| GHC.Num || lcm ||  || 
+|| GHC.Num || gcd || rts/PrimOps.cmm --> Haskell || 
+|| GHC.Num || lcm || rts/PrimOps.cmm --> Haskell || 
 || GHC.Num || {{{(^)}}} || need exceptions for overflow || 
 || GHC.Num || {{{(^^)}}} || need exceptions for overflow || 
 || GHC.Num || zeroInteger || (see other primitives below)  ||
@@ -31,6 +31,7 @@
 || GHC.Float || floatRadix || rts/StgPrimFloat.c ||
 || GHC.Float || encodeFloat || rts/StgPrimFloat.c --> linked in directly? ||
 || GHC.Float || decodeFloat || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm || 
+|| GHC.Float || encodeDouble || rts/StgPrimFloat.c --> linked in directly? ||
 || GHC.Float || decodeDouble || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm ||
 || Data.Bits || (.&.) ||  ||
 || Data.Bits || (.|.) ||  ||
@@ -54,14 +55,14 @@
 == Primitive Functions (in Cmm or C) ==
 
 || '''Module/Class''' || '''Haskell Function''' || '''Notes''' ||
-|| GHC.Prim || integer2Int || from rts/PrimOps.cmm ||
-|| GHC.Prim || integer2Word || from rts/PrimOps.cmm ||
-|| GHC.Prim || int2Integer || from rts/PrimOps.cmm ||
-|| GHC.Prim || word2Integer || from rts/PrimOps.cmm ||
-|| GHC.Prim || int64ToInteger || from rts/PrimOps.cmm ||
-|| GHC.Prim || word64ToInteger || from rts/PrimOps.cmm ||
-|| GHC.Prim || decodeDouble || from rts/PrimOps.cmm ||
-|| GHC.Prim || decodeFloat || from rts/PrimOps.cmm ||
+|| GHC.Prim || integer2Int# || from rts/PrimOps.cmm ||
+|| GHC.Prim || integer2Word# || from rts/PrimOps.cmm ||
+|| GHC.Prim || int2Integer# || from rts/PrimOps.cmm ||
+|| GHC.Prim || word2Integer# || from rts/PrimOps.cmm ||
+|| GHC.Prim || int64ToInteger# || from rts/PrimOps.cmm ||
+|| GHC.Prim || word64ToInteger# || from rts/PrimOps.cmm ||
+|| GHC.Prim || decodeDouble# || from rts/PrimOps.cmm ||
+|| GHC.Prim || decodeFloat# || from rts/PrimOps.cmm ||
 || GHC.Prim || plusInteger# || from rts/PrimOps.cmm ||
 || GHC.Prim || minusInteger# || from rts/PrimOps.cmm ||
 || GHC.Prim || timesInteger# || from rts/PrimOps.cmm ||
@@ -81,6 +82,7 @@
 || GHC.Float || floatRadix || rts/StgPrimFloat.c ||
 || GHC.Float || encodeFloat || rts/StgPrimFloat.c --> linked in directly? ||
 || GHC.Float || decodeFloat || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm || 
+|| GHC.Float || encodeDouble || rts/StgPrimFloat.c --> rts/Rts.h --> linked in directly? ||
 || GHC.Float || decodeDouble || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm ||
 
 
