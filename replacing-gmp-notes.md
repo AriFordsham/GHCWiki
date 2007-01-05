@@ -7,14 +7,14 @@ On this page:
 
 1. [Introduction](replacing-gmp-notes#introduction)
 1. [Reasons for Replacing GMP as the Bignum library](replacing-gmp-notes#reasons-for-replacing-gmp-as-the-bignum-library)
-1. [Overview of the Current GMP Implementation](replacing-gmp-notes#overview-of-the-current-gmp-implementation)
-
-  - [Files related to GMP in the GHC Compiler Source Code](replacing-gmp-notes#files-related-to-gmp-in-the-ghc-compiler-source-code)
-  - [Optimisation Opportunities](replacing-gmp-notes#optimisation-opportunities)
+1. [Files related to GMP in the GHC Compiler Source Code](replacing-gmp-notes#files-related-to-gmp-in-the-ghc-compiler-source-code)
+1. [Optimisation Opportunities](replacing-gmp-notes#optimisation-opportunities)
 
 
 Other pages:
 
+- [The Current GMP Implementation](replacing-gmp-notes/the-current-gmp-implementation)
+  A detailed description of the current interface and interaction between GHC's [Runtime System (RTS)](commentary/rts) and GMP.
 - [Performance Measurements of other Multi-Precision Libraries](replacing-gmp-notes/performance-measurements)
 - Miscellaneous GMP Discussion?
 - Design Discussion?
@@ -103,12 +103,7 @@ There are several problems with the current GMP implementation:
 - interoperability between Haskell and other languages, especially C, would be more difficult so you would have to define a new primitive, say \#Int30 for the representation; and,
 - representing a Haskell constructor (the Int\#) inside a pointer--a bit-size constructor--would limit the number of constructors you would be able to have (depending on the size of a pointer object, say the C99 uintptr_t, on a particular machine).
 
-### Overview of the Current GMP Implementation
-
-
-Esa Ilari Vuokko, who at one time attempted to replace GMP with [ LibTomMath](http://math.libtomcrypt.com/), posted several messages with good notes on the current implementation.  Much of what is on this page is derived from those notes.  See, [ Replacement for GMP(3)](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010669.html) and [ Replacement for GMP(4)](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010674.html).
-
-#### Files related to GMP in the GHC Compiler Source Code
+### Files related to GMP in the GHC Compiler Source Code
 
 
 Note: references are relative to the main directory of the source distribution; links below are to the darcs repository at [ http://darcs.haskell.org/ghc](http://darcs.haskell.org/ghc), created with the `[[GhcFile(path/to/file)]]` script (see [Commentary](commentary)).
@@ -133,7 +128,7 @@ Note: references are relative to the main directory of the source distribution; 
 - [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c) (*Modify*: `stgAllocForGMP`, `stgReallocForGMP` and `stgDeallocForGMP`; `mp_set_memory_functions(...)`; functions on lines 811, 833, 835, 848; may use as reference for implementation if replacement MP library uses GHC-garbage collected memory)
 - [rts/gmp/](/trac/ghc/browser/ghc/rts/gmp/) (directory) (*Modify*: recommended to remove entirely, i.e., do not add conditional compilation for users who want to keep on using GMP)
 
-#### Optimisation Opportunities
+### Optimisation Opportunities
 
 
 (1) The "shockingly inefficient" operation of this code:
