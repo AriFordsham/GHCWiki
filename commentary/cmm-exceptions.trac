@@ -14,3 +14,11 @@ Some higher level languages provide facilities to handle these exceptions, inclu
  * the facilities are efficient--more efficient than a higher-level software solution; and, 
  * FPU exceptions may be unavoidable, especially if several FPU operations are serially performed at the machine level so the higher level software has no opportunity to check the results in between operations. 
 
+There is at least one problem in GHC that requires FPU exception handling.  See bug ticket #1042.  The bug occurs in 'show'ing the number (conversion from base_2 to base_10).  Note that the FPU exception does not occur on PowerPC machines.
+
+[Note: placeholder until I can track down the original message --PT]
+
+The following code will ''fail'' to produce a floating point exception or NaN on x86 machines (recall that 0.0/0.0 is NaN ''and'' a definite FPU exception):
+
+[in GHCi]:
+Prelude> realToFrac (0/0 :: Float) :: Double
