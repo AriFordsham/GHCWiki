@@ -1,0 +1,6 @@
+
+
+= The Current GMP Implementation =
+
+Esa Ilari Vuokko, who at one time attempted to replace GMP with [http://math.libtomcrypt.com/ LibTomMath], posted several messages with good notes on the current implementation.  Much of what is on this page is derived from those notes.  See, [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010669.html Replacement for GMP(3)] and [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010674.html Replacement for GMP(4)].
+
