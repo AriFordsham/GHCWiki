@@ -2,6 +2,10 @@
 
 = Functions that operate on Integer values =
 
+''Note'': this is a very rough overview of the Integer functions in GHC.  It is not yet even a sketch of functions that a replacement library should implement, although the [wiki:ReplacingGMPNotes/RequiredIntegerFunctions#PrimitiveFunctions(inCmmorC) Primitive Functions (in Cmm or C)] provide an overview of what GMP currently provides.
+
+== GHC Functions ==
+
 || '''Module/Class''' || '''Haskell Function''' || '''Notes''' ||
 || GHC.Num || (+) ||  || 
 || GHC.Num || (-) ||  || 
@@ -24,6 +28,10 @@
 || GHC.Num(Eq) || >= ||  ||
 || GHC.Num(Eq) || == ||  ||
 || GHC.Num(Eq) || != ||  ||
+|| GHC.Float || floatRadix || rts/StgPrimFloat.c ||
+|| GHC.Float || encodeFloat || rts/StgPrimFloat.c --> linked in directly? ||
+|| GHC.Float || decodeFloat || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm || 
+|| GHC.Float || decodeDouble || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm ||
 || Data.Bits || (.&.) ||  ||
 || Data.Bits || (.|.) ||  ||
 || Data.Bits || xor ||  ||
@@ -41,6 +49,11 @@
 || Data.Bits || shiftR || Haskell function ||
 || Data.Bits || rotateL || rotates operate as shifts for Integer ||
 || Data.Bits || rotateR || rotates operate as shifts for Integer ||
+|| !StringBuffer || parseInteger || Haskell function || 
+
+== Primitive Functions (in Cmm or C) ==
+
+|| '''Module/Class''' || '''Haskell Function''' || '''Notes''' ||
 || GHC.Prim || integer2Int || from rts/PrimOps.cmm ||
 || GHC.Prim || integer2Word || from rts/PrimOps.cmm ||
 || GHC.Prim || int2Integer || from rts/PrimOps.cmm ||
@@ -64,10 +77,10 @@
 || GHC.Prim || andInteger# || from rts/PrimOps.cmm || 
 || GHC.Prim || orInteger# || from rts/PrimOps.cmm || 
 || GHC.Prim || xorInteger# || from rts/PrimOps.cmm || 
-|| GHC.Prim || complementInteger# || from rts/PrimOps.cmm || 
-|| !StringBuffer || parseInteger || Haskell function || 
+|| GHC.Prim || complementInteger# || from rts/PrimOps.cmm ||
 || GHC.Float || floatRadix || rts/StgPrimFloat.c ||
 || GHC.Float || encodeFloat || rts/StgPrimFloat.c --> linked in directly? ||
-|| GHC.Float || {{{__decodeFloat}}} || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm || 
-|| GHC.Float || {{{__decodeDouble}}} || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm ||
+|| GHC.Float || decodeFloat || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm || 
+|| GHC.Float || decodeDouble || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm ||
+
 
