@@ -81,7 +81,7 @@ There are several problems with the current GMP implementation:
 > Most of the suggestions in this section come from discussions in the glasgow-haskell-users list thread [ returning to Cost of Integer](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010654.html).  In particular, [ John Meacham's suggestion](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010660.html) to use a ForeignPtr to data held by the normal GMP system library and store the value in an unboxed Int if the number of significant digits in Integer could fit into the size of an Int.
 
 >
-> The current GMP implementation of Integer is:
+> The current GMP implementation of Integer, defined in [libraries/base/GHC/Num.lhs](/trac/ghc/browser/ghc/libraries/base/GHC/Num.lhs), is:
 >
 > ```
 > dataInteger=S#Int#-- small integers#ifndef ILX|J#Int#ByteArray#-- large integers#else|J#Void BigInteger-- .NET big ints
