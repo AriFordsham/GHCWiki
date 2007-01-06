@@ -27,7 +27,16 @@
 || GHC.Num(Eq) || > ||  ||
 || GHC.Num(Eq) || >= ||  ||
 || GHC.Num(Eq) || == ||  ||
-|| GHC.Num(Eq) || != ||  ||
+|| GHC.Num(Enum) || succ || simple addition (+) ||
+|| GHC.Num(Enum) || pred || simple subtraction (-) ||
+|| GHC.Num(Enum) || toEnum || int2Integer (primitive) ||
+|| GHC.Num(Enum) || fromEnum || integer2Int (primitive) ||
+|| GHC.Num(Enum) || enumFrom ||  ||
+|| GHC.Num(Enum) || enumFromThen ||  ||
+|| GHC.Num(Enum) || enumFromTo ||  ||
+|| GHC.Num(Enum) || enumFromThenTo ||  ||
+|| GHC.Num(Show) || showsPrec || jtos (internal Haskell function) ||
+|| GHC.Num(Show) || showList || jtos (internal Haskell function) ||
 || GHC.Float || floatRadix || rts/StgPrimFloat.c ||
 || GHC.Float || encodeFloat || rts/StgPrimFloat.c --> foreign import GHC.Float ||
 || GHC.Float || decodeFloat || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm || 

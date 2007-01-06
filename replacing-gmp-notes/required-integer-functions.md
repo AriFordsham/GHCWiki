@@ -79,9 +79,42 @@
 <tr><th> GHC.Num(Eq) </th>
 <th> == </th>
 <th></th></tr>
-<tr><th> GHC.Num(Eq) </th>
-<th> != </th>
+<tr><th> GHC.Num(Enum) </th>
+<th> succ </th>
+<th> simple addition (+) 
+</th></tr>
+<tr><th> GHC.Num(Enum) </th>
+<th> pred </th>
+<th> simple subtraction (-) 
+</th></tr>
+<tr><th> GHC.Num(Enum) </th>
+<th> toEnum </th>
+<th> int2Integer (primitive) 
+</th></tr>
+<tr><th> GHC.Num(Enum) </th>
+<th> fromEnum </th>
+<th> integer2Int (primitive) 
+</th></tr>
+<tr><th> GHC.Num(Enum) </th>
+<th> enumFrom </th>
 <th></th></tr>
+<tr><th> GHC.Num(Enum) </th>
+<th> enumFromThen </th>
+<th></th></tr>
+<tr><th> GHC.Num(Enum) </th>
+<th> enumFromTo </th>
+<th></th></tr>
+<tr><th> GHC.Num(Enum) </th>
+<th> enumFromThenTo </th>
+<th></th></tr>
+<tr><th> GHC.Num(Show) </th>
+<th> showsPrec </th>
+<th> jtos (internal Haskell function) 
+</th></tr>
+<tr><th> GHC.Num(Show) </th>
+<th> showList </th>
+<th> jtos (internal Haskell function) 
+</th></tr>
 <tr><th> GHC.Float </th>
 <th> floatRadix </th>
 <th> rts/StgPrimFloat.c 
