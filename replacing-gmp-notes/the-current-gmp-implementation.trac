@@ -64,7 +64,9 @@ Note the problems:
  * GMP numbers may be very large, much greater than the maximum value for a float (addition and multiplication operations may overflow); 
  * there is no specification of rounding mode--this operation relies on whatever hardware rounding may take effect; and,
  * certain floating point hardware exceptions (traps) for overflow or underflow may be triggered (though this is not generally the case; note: on x86 machines floating point exceptions may not be triggered but the resulting float may denormalized).
-Nowhere in this function is there a check for whether the GMP number (the `const mp_limb_t *arr`) may be greater than the size of a double and either warn the user (possibly with an `ArithException` or round the resulting double toward zero.  Compare the problem section in `__encodeDouble` to the exponent check in the internal GMP function, `mpn_get_d`, that avoids overflow by comparing the relative magnitude of the GMP number with the maximum magnitude of the double:
+Nowhere in this function is there a check for whether the GMP number (the `const mp_limb_t *arr`) may be greater than the size of a double and either warn the user (possibly with an `ArithException` or round the resulting double toward zero.  
+
+Compare the problem section in `__encodeDouble` to the exponent check in the internal GMP function, `mpn_get_d`, that avoids overflow by comparing the relative magnitude of the GMP number with the maximum magnitude of the double:
 {{{
    /* note: exp is a long int, given as an argument to min_get_d as 0L --PDT */
   /* Adjust exp to a radix point just above {ptr,size}, guarding against
@@ -84,6 +86,15 @@ Nowhere in this function is there a check for whether the GMP number (the `const
       exp += GMP_NUMB_BITS * size;
     }
 }}}
-(If you want to see the full `mpn_get_d` function, it is in the file `[toplevel gmp source]/mpn/generic/get_d.c` .)  A replacement library for GMP might use the GMP strategies of including a special bitwise conversion (with appropriate masks) and a hardware-based version.  An unconventional solution might perform the rounding manually (but with relatively portable predictability) using interval arithmetic.
+(If you want to see the full `mpn_get_d` function, it is in the file `[toplevel gmp source]/mpn/generic/get_d.c` .)  
+
+There is no check in the Haskell code ''using'' `__encodeFloat` or `__encodeDouble`, in [[GhcFile(libraries/base/GHC/Float.lhs)]].  For example, the `encodeFloat` Haskell function under class `RealFloat` uses `__encodeDouble` directly:
+{{{
+#!html
+<pre><font color=Orange>encodeFloat</font> <font color=Blue>(</font><font color=Green>J</font><font color=Blue>#</font> <font color=Black>s</font><font color=Blue>#</font> <font color=Black>d</font><font color=Blue>#</font><font color=Blue>)</font> <font color=Black>e</font> <font color=Blue>=</font> <font color=Orange>encodeDouble</font><font color=Blue>#</font> <font color=Black>s</font><font color=Blue>#</font> <font color=Black>d</font><font color=Blue>#</font> <font color=Black>e</font></pre>
+}}}
+This is not the case with the safer `fromRat` function which ensures the Integer falls in the range of the mantissa (see the source code).
+
+A replacement library for GMP might use the GMP strategies of including a special bitwise conversion (with appropriate masks) and a hardware-based version.  An unconventional solution might perform the rounding manually (but with relatively portable predictability) using interval arithmetic.  
 
 As for printing GMP numbers, [[GhcFile(libraries/base/GHC/Num.lhs)]] defines a special internal function `jtos` to handle `showsPrec` and `showList` for `Integer` as an instance of the class `Show`.  The `jtos` function uses the primitive GMP-based function `quotRemInteger` and performs many conversions from Integer to Int.  This is not as efficient as the internal GMP functions, especially for large numbers, because each conversion allocates extra storage for GMP as noted in [wiki:ReplacingGMPNotes#OptimisationOpportunities Replacing GMP -- Optimisation Opportunities].
