@@ -29,9 +29,9 @@
 || GHC.Num(Eq) || == ||  ||
 || GHC.Num(Eq) || != ||  ||
 || GHC.Float || floatRadix || rts/StgPrimFloat.c ||
-|| GHC.Float || encodeFloat || rts/StgPrimFloat.c --> linked in directly? ||
+|| GHC.Float || encodeFloat || rts/StgPrimFloat.c --> foreign import GHC.Float ||
 || GHC.Float || decodeFloat || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm || 
-|| GHC.Float || encodeDouble || rts/StgPrimFloat.c --> linked in directly? ||
+|| GHC.Float || encodeDouble || rts/StgPrimFloat.c --> foreign import GHC.Float ||
 || GHC.Float || decodeDouble || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm ||
 || Data.Bits || (.&.) ||  ||
 || Data.Bits || (.|.) ||  ||
@@ -80,9 +80,9 @@
 || GHC.Prim || xorInteger# || from rts/PrimOps.cmm || 
 || GHC.Prim || complementInteger# || from rts/PrimOps.cmm ||
 || GHC.Float || floatRadix || rts/StgPrimFloat.c ||
-|| GHC.Float || encodeFloat || rts/StgPrimFloat.c --> linked in directly? ||
+|| GHC.Float || encodeFloat || rts/StgPrimFloat.c --> foreign import GHC.Float ||
 || GHC.Float || decodeFloat || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm || 
-|| GHC.Float || encodeDouble || rts/StgPrimFloat.c --> rts/Rts.h --> linked in directly? ||
+|| GHC.Float || encodeDouble || rts/StgPrimFloat.c --> foreign import GHC.Float ||
 || GHC.Float || decodeDouble || rts/StgPrimFloat.c --> rts/Rts.h --> !PrimOps.cmm ||
 
 
