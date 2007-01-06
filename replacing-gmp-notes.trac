@@ -64,12 +64,13 @@ There are several problems with the current GMP implementation:
 
 	The current GMP implementation of Integer is:
 {{{
-data Integer	
-   = S# Int#              -- small integers
-#ifndef ILX
-   | J# Int# ByteArray#   -- large integers
-#else
-   | J# Void BigInteger   -- .NET big ints
+#!html
+<pre><font color=Purple><u>data</u></font> <font color=Green>Integer</font>
+   <font color=Blue>=</font> <font color=Green>S</font><font color=Blue>#</font> <font color=Green>Int</font><font color=Blue>#</font>              <font color=Red>-- small integers</font>
+<font color=Red>#ifndef ILX</font>
+   <font color=Blue>|</font> <font color=Green>J</font><font color=Blue>#</font> <font color=Green>Int</font><font color=Blue>#</font> <font color=Green>ByteArray</font><font color=Blue>#</font>   <font color=Red>-- large integers</font>
+<font color=Red>#else</font>
+   <font color=Blue>|</font> <font color=Green>J</font><font color=Blue>#</font> <font color=Green>Void BigInteger</font>   <font color=Red>-- .NET big ints</font></pre>
 }}}
 	where the Int# counts the number of [http://swox.com/gmp/manual/Nomenclature-and-Types.html#Nomenclature-and-Types limbs] (a GMP term referring to parts of a multi-precision number that fit into a 32 or 64 bit word, depending on the machine) and the ByteArr# is the actual array in RTS-GC memory holding the limbs.  The sign of the Int# is used to indicate the sign of the number represented by the ByteArr#.  
 
