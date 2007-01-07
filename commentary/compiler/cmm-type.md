@@ -146,7 +146,7 @@ The C-- specification example in section 4.6.2, "Procedures as section contents"
 
 ```wiki
 section "data" { 
-	const PROC = 3; 	// parse error `PROC'
+	const PROC = 3; 	// parse error `PROC' (no parse after 'const')
 	bits32[] {p_end, PROC}; // parse error `[' (only bits8[] is allowed)
 				// parse error `{' (no {...} variable initialisation)
 
@@ -232,7 +232,7 @@ Cmm procedures are represented by the first constructor in `GenCmmTop d i`:
 For a description of Cmm labels and the `CLabel` data type, see the subsection [Literals and Labels](commentary/compiler/cmm-type#literals-and-labels), below.
 
 
-Cmm Basic Blocks are labeled blocks of Cmm code ending in an explicit jump.  Sections (see [Sections and Directives](commentary/compiler/cmm-type#sections-and-directives)) have no jumps--in Cmm, Sections cannot contain nested Procedures (see, e.g., [Compiling Cmm with GHC](commentary/compiler/cmm-type#compiling-cmm-with-ghc)).  In Basic Blocks represent parts of Procedures.  The data type `GenBasicBlock` and the type synonym `CmmBasicBlock` encapsulate Basic Blocks; they are defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
+Cmm Basic Blocks are labeled blocks of Cmm code ending in an explicit jump.  Sections (see [Sections and Directives](commentary/compiler/cmm-type#sections-and-directives)) have no jumps--in Cmm, Sections cannot contain nested Procedures (see, e.g., [Compiling Cmm with GHC](commentary/compiler/cmm-type#compiling-cmm-with-ghc)).  Basic Blocks encapsulate parts of Procedures.  The data type `GenBasicBlock` and the type synonym `CmmBasicBlock` encapsulate Basic Blocks; they are defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
 
 ```wiki
 data GenBasicBlock i = BasicBlock BlockId [i]
@@ -1090,7 +1090,7 @@ Remember that the computed procedure address, `(f + 1)`, is the memory location 
 #### Cmm Calls
 
 
-Cmm calls include both calls to foreign functions and calls to Cmm quasi-operators using expression syntax (see [Quasi-operator Syntax](commentary/compiler/cmm-type#quasi-operator-syntax)). Although Cmm does not implement any of the control flow statements of C-- specification (section 6.8.1), foreign calls are one of the most complex components of Cmm due to complexity of the various calling conventions.
+Cmm calls include both calls to foreign functions and calls to Cmm quasi-operators using expression syntax (see [Quasi-operator Syntax](commentary/compiler/cmm-type#quasi-operator-syntax)). Although Cmm does not implement any of the control flow statements of C-- specification (section 6.8.1), foreign calls from Cmm are one of the most complex components of the system due to various differences between the Cmm and C calling conventions.
 
 
 The data type, `CmmCallTarget` is defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs) as:

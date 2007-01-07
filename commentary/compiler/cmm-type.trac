@@ -112,7 +112,7 @@ s22Q_ret() {
 The C-- specification example in section 4.6.2, "Procedures as section contents" also will not parse in Cmm:
 {{{
 section "data" { 
-	const PROC = 3; 	// parse error `PROC'
+	const PROC = 3; 	// parse error `PROC' (no parse after 'const')
 	bits32[] {p_end, PROC}; // parse error `[' (only bits8[] is allowed)
 				// parse error `{' (no {...} variable initialisation)
 
@@ -182,7 +182,7 @@ Cmm procedures are represented by the first constructor in `GenCmmTop d i`:
 }}}
 For a description of Cmm labels and the `CLabel` data type, see the subsection [wiki:Commentary/Compiler/CmmType#LiteralsandLabels Literals and Labels], below.
 
-Cmm Basic Blocks are labeled blocks of Cmm code ending in an explicit jump.  Sections (see [wiki:Commentary/Compiler/CmmType#SectionsandDirectives Sections and Directives]) have no jumps--in Cmm, Sections cannot contain nested Procedures (see, e.g., [wiki:Commentary/Compiler/CmmType#CompilingCmmwithGHC Compiling Cmm with GHC]).  In Basic Blocks represent parts of Procedures.  The data type `GenBasicBlock` and the type synonym `CmmBasicBlock` encapsulate Basic Blocks; they are defined in [[GhcFile(compiler/cmm/Cmm.hs)]]:
+Cmm Basic Blocks are labeled blocks of Cmm code ending in an explicit jump.  Sections (see [wiki:Commentary/Compiler/CmmType#SectionsandDirectives Sections and Directives]) have no jumps--in Cmm, Sections cannot contain nested Procedures (see, e.g., [wiki:Commentary/Compiler/CmmType#CompilingCmmwithGHC Compiling Cmm with GHC]).  Basic Blocks encapsulate parts of Procedures.  The data type `GenBasicBlock` and the type synonym `CmmBasicBlock` encapsulate Basic Blocks; they are defined in [[GhcFile(compiler/cmm/Cmm.hs)]]:
 {{{
 data GenBasicBlock i = BasicBlock BlockId [i]
 
@@ -786,7 +786,7 @@ Remember that the computed procedure address, `(f + 1)`, is the memory location 
 `CmmSwitch` represents the `switch` statement.  It is parsed and created as with the `doSwitch` function in [[GhcFile(compiler/cmm/CmmParse.y)]] or created from `case` expressions with the `emitSwitch` and `mk_switch` functions in [[GhcFile(compiler/codeGen/CgUtils.hs)]].  In the NCG, a `CmmSwitch` is generated as a jump table using the `genSwitch` function in [[GhcFile(compiler/nativeGen/MachCodeGen.hs)]].  There is currently no implementation of any optimisations, such as a cascade of comparisons for switches with a wide deviation in values or binary search for very wide value ranges--for output to HC, earlier versions of GCC could not handle large if-trees, anyway.
 
 ==== Cmm Calls ====
-Cmm calls include both calls to foreign functions and calls to Cmm quasi-operators using expression syntax (see [wiki:Commentary/Compiler/CmmType#QuasioperatorSyntax Quasi-operator Syntax]). Although Cmm does not implement any of the control flow statements of C-- specification (section 6.8.1), foreign calls are one of the most complex components of Cmm due to complexity of the various calling conventions.
+Cmm calls include both calls to foreign functions and calls to Cmm quasi-operators using expression syntax (see [wiki:Commentary/Compiler/CmmType#QuasioperatorSyntax Quasi-operator Syntax]). Although Cmm does not implement any of the control flow statements of C-- specification (section 6.8.1), foreign calls from Cmm are one of the most complex components of the system due to various differences between the Cmm and C calling conventions.
 
 The data type, `CmmCallTarget` is defined in [[GhcFile(compiler/cmm/Cmm.hs)]] as:
 {{{
