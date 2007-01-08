@@ -7,4 +7,5 @@ How to get started with hacking on GHC:
  * Pick an easy [query:?status=new&status=assigned&status=reopened&type=bug&order=priority&group=difficulty  bug report] or [query:?status=new&status=assigned&status=reopened&type=task&order=priority&group=difficulty  task] to work on
  * Useful information about GHC's architecture is in the [wiki:Commentary]
  * Hack away... ask questions on [http://haskell.org/mailman/listinfo/cvs-ghc the cvs-ghc mailing list]
+ * Familiarise yourself with the GHC WorkingConventions.
  * [wiki:WorkingConventions#Submittingpatches Submit patches back], using {{{darcs send}}} is the recommended way.
