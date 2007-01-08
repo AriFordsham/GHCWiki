@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsTypeChecking"
-  queryString          = "?version=46"
+  queryString          = "?version=48"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:27 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","260"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsTypeChecking\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:38 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","260"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsTypeChecking\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -76,6 +76,12 @@ induces a `poss` value of `[2, 1]`.  Note how `T` is 3-ary, but only the first t
 === GHC API ===
 
 The GHC API has a new predicate `isOpenTyCon` with the understanding that it is illegal to invoke `synTyConDefn`, `synTyConRhs`, and `tyConDataCons` on type constructors that fulfil `isOpenTyCon`.
+
+== Core representation of family applications ==
+
+GHC has a notion of ''representation types'', implemented by `Type.repType`, that is used in the backend to look through foralls, vanilla synonyms, predicates, usage annotations, and vanilla newtypes to determine the types to be used in generated code.  It's a fundamental property of our implementation of indexed types that `repType` never looks through newtype and synonym families.  Instead, whenever the code generator needs to know the representation of an indexed type, the type checker and desugarer have to add an explicit cast from the indexed type to the representation.  The type of the cast expression will then have the desired representation.
+
+NB: This implies that the ultimate representation type of a vanilla newtype, `TyCon.newTyConRep`, may be an indexed newtype or indexed synonym.  We make no attempt to look through them, even if we have equality axioms for the supplied type indexes in the environment.
 
 == Core representation of family instances ==
 
