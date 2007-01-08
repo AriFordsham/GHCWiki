@@ -1,58 +1,65 @@
-CONVERSION ERROR
-
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/ReplacingGMPNotes/TheCurrentGMPImplementation"
-  queryString          = "?version=11"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:32 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","275"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/ReplacingGMPNotes/TheCurrentGMPImplementation\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
-
-Original source:
-
-```trac
+# The Current GMP Implementation
 
 
-= The Current GMP Implementation =
+Esa Ilari Vuokko, who at one time attempted to replace GMP with [ LibTomMath](http://math.libtomcrypt.com/), posted several messages with good notes on the current implementation.  Much of what is on this page is derived from those notes.  See, [ Replacement for GMP(3)](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010669.html) and [ Replacement for GMP(4)](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010674.html).
 
-Esa Ilari Vuokko, who at one time attempted to replace GMP with [http://math.libtomcrypt.com/ LibTomMath], posted several messages with good notes on the current implementation.  Much of what is on this page is derived from those notes.  See, [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010669.html Replacement for GMP(3)] and [http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010674.html Replacement for GMP(4)].
+[](/trac/ghc/attachment/wiki/ReplacingGMPNotes/TheCurrentGMPImplementation/GMP_interface.jpg)
 
-[[Image(GMP_interface.jpg)]]
+### GMP and the Storage Manager
 
-=== GMP and the Storage Manager ===
 
-The most insidious and unique feature of the GHC implementation with GMP is memory management.  GHC uses the special memory functions in GMP ( `mp_set_memory_functions( (*alloc)(), (*realloc)(), (*dealloc)()` ) to let GMP use GHC's own garbage collector.  The memory functions are implemented in [[GhcFile(rts/sm/Storage.c)]] as:
-{{{
+The most insidious and unique feature of the GHC implementation with GMP is memory management.  GHC uses the special memory functions in GMP ( `mp_set_memory_functions( (*alloc)(), (*realloc)(), (*dealloc)()` ) to let GMP use GHC's own garbage collector.  The memory functions are implemented in [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c) as:
+
+```wiki
 	  static void* stgAllocForGMP (size_t size_in_bytes);
 	  static void  stgDeallocForGMP (void *ptr STG_UNUSED, 
 		  			 size_t size STG_UNUSED);
 	  static void* stgReallocForGMP (void *ptr, 
 					 size_t old_size, 
 					 size_t new_size);
-}}}
+```
+
+
 These special allocation functions bring most GMP memory usage into the GHC heap but do not seem that efficient otherwise.  (I could be wrong --PDT.)  Allocation uses the internal `allocate()` interface, so no garbage collection is performed during a GMP operation.  Note that GMP operations may use these functions to allocate more memory themselves, after being called from Haskell code.  The memory allocated is a simple array of words (`W_`), rounded up to a whole number.
 
-=== Special Functions ===
+### Special Functions
+
 
 GHC adds its own functions for string conversion, least common multiple (lcm) and conversion to and from floating point (floats and doubles).  In particular, the GHC designers decided to perform their own operations for encoding a GMP number (really, the array of mp_limb_t) to floating point numbers (floats or doubles).  GMP provides functions for some of these operations:
 
-|| '''Operation''' || '''GMP function''' || '''Notes''' ||
-|| convert to double || mpz_get_d() || rounds toward zero, avoids overflow ||
-|| convert to double[[BR]]return exponent separately || mpz_get_d_2exp() || rounds toward zero, avoids overflow ||
-|| convert to float || mpz_get_f()
-|| convert to string[[BR]]supports bases from 2 to 36 || mpz_get_str() || more efficient than Haskell version,[[BR]]with !PackedString, no conversion to Haskell string necessary ||
-|| conversion from string || mpz_inp_str() || more efficient than Haskell version,[[BR]]with !PackedString, input string efficiently convertable to a c_str[[BR]](it is already an array of chars) ||
+<table><tr><th>**Operation**</th>
+<th>**GMP function**</th>
+<th>**Notes**</th></tr>
+<tr><th> convert to double </th>
+<th> mpz_get_d() </th>
+<th> rounds toward zero, avoids overflow 
+</th></tr>
+<tr><th> convert to double
+return exponent separately </th>
+<th> mpz_get_d_2exp() </th>
+<th> rounds toward zero, avoids overflow 
+</th></tr>
+<tr><th> convert to float </th>
+<th> mpz_get_f()
+</th>
+<th></th></tr>
+<tr><th> convert to string
+supports bases from 2 to 36 </th>
+<th> mpz_get_str() </th>
+<th> more efficient than Haskell version,
+with PackedString, no conversion to Haskell string necessary 
+</th></tr>
+<tr><th> conversion from string </th>
+<th> mpz_inp_str() </th>
+<th> more efficient than Haskell version,
+with PackedString, input string efficiently convertable to a c_str
+(it is already an array of chars) 
+</th></tr></table>
 
-The real problem (no pun intended) is conversion to doubles and floats.  The `__encodeDouble` function, in [[GhcFile(rts/StgPrimFloat.c)]], may overflow:
-{{{
+
+The real problem (no pun intended) is conversion to doubles and floats.  The `__encodeDouble` function, in [rts/StgPrimFloat.c](/trac/ghc/browser/ghc/rts/StgPrimFloat.c), may overflow:
+
+```wiki
 StgDouble
 __encodeDouble (I_ size, StgByteArray ba, I_ e) /* result = s * 2^e */
 {
@@ -74,21 +81,31 @@ __encodeDouble (I_ size, StgByteArray ba, I_ e) /* result = s * 2^e */
 
     return r;
 }
-}}}
+```
+
+
 If the problem section hurt your eyes, here is some more pain to drive the point home:
-{{{
+
+```wiki
     /* __abs(size) is the size of the array --PDT */
     for(r = 0.0, i = __abs(size)-1; i >= 0; i--)
 	r = (r * GMP_BASE) + arr[i];
-}}} 
+```
+
+
 Note the problems:
- * GMP numbers may be very large, much greater than the maximum value for a float (addition and multiplication operations may overflow); 
- * there is no specification of rounding mode--this operation relies on whatever hardware rounding may take effect; and,
- * certain floating point hardware exceptions (traps) for overflow or underflow may be triggered (though this is not generally the case; note: on x86 machines floating point exceptions may not be triggered but the resulting float may denormalized).
+
+- GMP numbers may be very large, much greater than the maximum value for a float (addition and multiplication operations may overflow); 
+- there is no specification of rounding mode--this operation relies on whatever hardware rounding may take effect; and,
+- certain floating point hardware exceptions (traps) for overflow or underflow may be triggered (though this is not generally the case; note: on x86 machines floating point exceptions may not be triggered but the resulting float may denormalized).
+
+
 Nowhere in this function is there a check for whether the GMP number (the `const mp_limb_t *arr`) may be greater than the size of a double and either warn the user, possibly with an `ArithException`, or round the resulting double toward zero.  
 
+
 Compare the problem section in `__encodeDouble` to the exponent check in the internal GMP function, `mpn_get_d`, that avoids overflow by comparing the relative magnitude of the GMP number with the maximum magnitude of the double:
-{{{
+
+```wiki
    /* note: exp is a long int, given as an argument to min_get_d as 0L --PDT */
   /* Adjust exp to a radix point just above {ptr,size}, guarding against
      overflow.	After this exp can of course be reduced to anywhere within
@@ -106,25 +123,33 @@ Compare the problem section in `__encodeDouble` to the exponent check in the int
     {
       exp += GMP_NUMB_BITS * size;
     }
-}}}
+```
+
+
 (If you want to see the full `mpn_get_d` function, it is in the file `[toplevel gmp source]/mpn/generic/get_d.c` .)  
 
-There is no check in the Haskell code ''using'' `__encodeFloat` or `__encodeDouble`, in [[GhcFile(libraries/base/GHC/Float.lhs)]].  For example, the `encodeFloat` Haskell function under class `RealFloat` uses `__encodeDouble` directly:
-{{{
-#!html
-<pre><font color=Orange>encodeFloat</font> <font color=Blue>(</font><font color=Green>J</font><font color=Blue>#</font> <font color=Black>s</font><font color=Blue>#</font> <font color=Black>d</font><font color=Blue>#</font><font color=Blue>)</font> <font color=Black>e</font> <font color=Blue>=</font> <font color=Orange>encodeDouble</font><font color=Blue>#</font> <font color=Black>s</font><font color=Blue>#</font> <font color=Black>d</font><font color=Blue>#</font> <font color=Black>e</font></pre>
-}}}
+
+There is no check in the Haskell code *using*`__encodeFloat` or `__encodeDouble`, in [libraries/base/GHC/Float.lhs](/trac/ghc/browser/ghc/libraries/base/GHC/Float.lhs).  For example, the `encodeFloat` Haskell function under class `RealFloat` uses `__encodeDouble` directly:
+
+```
+encodeFloat(J#s#d#)e=encodeDouble#s#d#e
+```
+
+
 This is not the case with the safer `fromRat` function which ensures the Integer falls in the range of the mantissa (see the source code).
 
+
 The problem with `__encodeFloat` and `__encodeDouble` is normative--a matter of design.  The current implementation places the responsibility for ensuring that large integers converted to floating point numbers do not overflow or underflow and it is practically impossible (with rounding) to join encoding and decoding and come out with a reasonably equivalent result, as in:
-{{{
-#!html
-<pre><font color=Orange>encodeFloat</font> <font color=Blue>.</font> <font color=Orange>decodeFloat</font></pre>
-}}}
+
+```
+(uncurry encodeFloat).decodeFloat
+```
+
+
 (Note: this is a standard problem with floating point.  A replacement library could probably do little better.)
+
 
 A replacement library for GMP might use the GMP strategies of including a special bitwise conversion (with appropriate masks) and a hardware-based version.  An unconventional solution might perform the rounding manually (but with relatively portable predictability) using interval arithmetic.  
 
-As for printing GMP numbers, [[GhcFile(libraries/base/GHC/Num.lhs)]] defines a special internal function `jtos` to handle `showsPrec` and `showList` for `Integer` as an instance of the class `Show`.  The `jtos` function uses the primitive GMP-based function `quotRemInteger` and performs many conversions from Integer to Int.  This is not as efficient as the internal GMP functions, especially for large numbers, because each conversion allocates extra storage for GMP as noted in [wiki:ReplacingGMPNotes#OptimisationOpportunities Replacing GMP -- Optimisation Opportunities].
 
-```
+As for printing GMP numbers, [libraries/base/GHC/Num.lhs](/trac/ghc/browser/ghc/libraries/base/GHC/Num.lhs) defines a special internal function `jtos` to handle `showsPrec` and `showList` for `Integer` as an instance of the class `Show`.  The `jtos` function uses the primitive GMP-based function `quotRemInteger` and performs many conversions from Integer to Int.  This is not as efficient as the internal GMP functions, especially for large numbers, because each conversion allocates extra storage for GMP as noted in [Replacing GMP -- Optimisation Opportunities](replacing-gmp-notes#optimisation-opportunities).
