@@ -106,4 +106,69 @@ or
 
 (5) make TEST_HC=ghc # for a longer test
 
+= Step By Step Porting to Maemo 2.0 =
 
+{{{
+T & H
+
+wget http://www.haskell.org/ghc/dist/6.6/ghc-6.6-src.tar.bz2
+tar -xvjf ghc-6.6-src.tar.bz2
+cd ghc-6.6
+}}}
+
+{{{
+T
+
+./configure --enable-hc-boot --enable-hc-boot-unregisterised --srcdir=.
+}}}
+
+
+{{{
+H
+
+./configure --srcdir=.
+}}}
+
+Create H/mk/build.mk, with the following contents:
+
+{{{
+H
+
+GhcUnregisterised = YES
+GhcLibHcOpts = -O -fvia-C -keep-hc-files
+GhcRtsHcOpts = -keep-hc-files
+GhcLibWays =
+SplitObjs = NO
+GhcWithNativeCodeGen = NO
+GhcWithInterpreter = NO
+GhcStage1HcOpts = -O
+GhcStage2HcOpts = -O -fvia-C -keep-hc-files
+SRC_HC_OPTS += -H32m
+GhcBootLibs = YES
+}}}
+
+Change Target* and TARGET* variables in H/mk/config.mk
+
+{{{
+H
+
+TARGETPLATFORM			= arm-unknown-linux
+
+TargetPlatform_CPP		= arm_unknown_linux
+TargetArch_CPP			= arm
+
+arm_unknown_linux_TARGET       = 1
+arm_TARGET_ARCH      = 1
+}}}
+
+Copy T/ghc/includes/ghcautoconf.h, T/ghc/includes/DerivedConstants.h, and T/ghc/includes/GHCConstants.h to H/ghc/includes. Note that we are building on the host machine, using the target machine's configuration files. This is so that the intermediate C files generated here will be suitable for compiling on the target system.
+
+Touch the generated configuration files, just to make sure they don't get replaced during the build:
+
+{{{
+H
+
+$ cd H/ghc/includes
+$ touch ghcautoconf.h DerivedConstants.h GHCConstants.h mkDerivedConstants.c
+$ touch mkDerivedConstantsHdr mkDerivedConstants.o mkGHCConstants mkGHCConstants.o
+}}}
