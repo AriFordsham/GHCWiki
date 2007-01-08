@@ -110,4 +110,21 @@ rather than leaving it lying around for when you have time to make the HEAD patc
 
  * Discuss anything you think might be controversial before pushing it.
 
+== The Bug Tracker ==
+
+The following are GHC-specific policies for using the Trac bug tracking system.
+
+ * When a bug is fixed, but the patch or patches still need to be merged to other branches, then
+   don't close the bug, just change its type from "bug" or "task" to "merge".  Also add a list of
+   patches to be merged, and which branch to merge to, as a comment.
+
+ * Milestones: we have milestones for each release, and three special milestones:
+   * An empty milestone field means the bug has not been triaged yet.  We don't yet know if the
+     ticket is a real, unique, issue.  Once this has been established, the ticket will be given
+     a milestone.
+   * '''Not GHC''' is for tickets that are not tied to a GHC release, because they are in libraries
+     or other software that is not released with GHC.  Bugs in the "extra libraries" typically fall
+     into this category.
+   * '''_|_''' is for tickets that have been triaged, but we don't plan to fix them for a particular
+     release.  This might be because the bug is low priority, or is simply too hard to fix right now.
 
