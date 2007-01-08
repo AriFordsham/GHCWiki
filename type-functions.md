@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctions"
-  queryString          = "?version=67"
+  queryString          = "?version=68"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:15 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","252"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctions\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:38 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","252"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctions\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -60,6 +60,7 @@ type family T a1 .. an [:: <kind>]
  * In an export and import list, associated types are treated as subcomponents of their type class, just like the class methods.  In particular, `C(..)` denotes class `C` with all its methods and all its associated types.  If the associated types of a class are explicitly listed in the parenthesis, each type name needs to be prefixed with the keyword `type`; i.e., to denote class `C` with associated type `T` and method `foo`, we write `C(type T, foo)`.
  * In export and import lists, all data constructors of newtype and data families defined in any newtype or data instance is regarded to be a subcomponent of the family type constructor, and hence specified by `F(..)` if `F` is the family type constructor.  Instead of specifying them all with "`..`", they can also be explicitly listed, just as with vanilla data types.
  * Instances of indexed data and new types may not overlap (as such instances correspond to indeterminate type functions).  Type equations may only overlap if the equations coincide at critical pairs.  (Rational: We cannot be more lazy about checking overlap, as we otherwise cannot guarantee that we generate an F,,C,, program that fulfils the formal consistency criterion.)
+ * FFI signatures do not look through indexed newtypes nor through indexed synonyms.  (The main reason for not looking through indexed synonyms is as they may occur in the rhs of a vanilla newtype.)
  * To enable indexed type families, the switch `-findexed-types` needs to be used (which is implied by `-fglasgow-exts`).
 
 Restrictions:
