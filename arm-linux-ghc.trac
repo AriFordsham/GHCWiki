@@ -119,14 +119,16 @@ cd ghc-6.6
 {{{
 T
 
-./configure --enable-hc-boot --enable-hc-boot-unregisterised --srcdir=.
+$ ./configure --enable-hc-boot --enable-hc-boot-unregisterised --srcdir=.
+$ cd includes
+$ make
 }}}
 
 
 {{{
 H
 
-./configure --srcdir=.
+$ ./configure --srcdir=.
 }}}
 
 Create H/mk/build.mk, with the following contents:
