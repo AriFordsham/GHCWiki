@@ -60,6 +60,8 @@ The GHC API has a new predicate `isOpenTyCon` with the understanding that it is 
 
 GHC has a notion of ''representation types'', implemented by `Type.repType`, that is used in the backend to look through foralls, vanilla synonyms, predicates, usage annotations, and vanilla newtypes to determine the types to be used in generated code.  It's a fundamental property of our implementation of indexed types that `repType` never looks through newtype and synonym families.  Instead, whenever the code generator needs to know the representation of an indexed type, the type checker and desugarer have to add an explicit cast from the indexed type to the representation.  The type of the cast expression will then have the desired representation.
 
+NB: This implies that the ultimate representation type of a vanilla newtype, `TyCon.newTyConRep`, may be an indexed newtype or indexed synonym.  We make no attempt to look through them, even if we have equality axioms for the supplied type indexes in the environment.
+
 == Core representation of family instances ==
 
 === Representation of data instances ===
