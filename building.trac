@@ -24,11 +24,12 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/RunningTests Running the GHC test framework]
  * [wiki:Building/RunningNoFib The NoFib benchmark suite]
 
- * Help when your build doesn't work
-   * [wiki:Building/FAQ General FAQ for building GHC]
+ * Platform-specific guidance
    * [wiki:Building/PlatformsScriptsFileNames Platforms, scripts, and file names]
    * [wiki:Building/Windows Building under Windows]
    * [wiki:Building/MacOSX Building under MacOS X]
+
+ * [wiki:Building/FAQ General FAQ for building GHC]
 
 == Contributed documentation ==
 
