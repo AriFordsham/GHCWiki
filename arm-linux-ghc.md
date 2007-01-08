@@ -208,3 +208,49 @@ $ cd H/ghc/includes
 $ touch ghcautoconf.h DerivedConstants.h GHCConstants.h mkDerivedConstants.c
 $ touch mkDerivedConstantsHdr mkDerivedConstants.o mkGHCConstants mkGHCConstants.o
 ```
+
+
+Build the compiler on the host. There seems to be a circular depends between utils and compat so I had to hack it a bit. First edit H/utils/Makefile and remove ghc-pkg from the SUBDIRS list in the else clause.
+
+```wiki
+H
+
+else
+SUBDIRS = mkdependC mkdirhier runstdtest hasktags hp2ps hsc2hs \
+	  parallel prof unlit genprimopcode genapply runghc
+endif
+```
+
+
+Then run 'make boot' in the utils directory
+
+```wiki
+H
+
+$ cd H/ghc-6.6/utils
+$ make boot
+```
+
+
+Now restore ghc-pkg to the SUBDIRS line:
+
+```wiki
+H
+
+else
+SUBDIRS = mkdependC mkdirhier runstdtest ghc-pkg hasktags hp2ps hsc2hs \
+	  parallel prof unlit genprimopcode genapply runghc
+endif
+```
+
+
+And build H/ghc-6.6/compat and then utils:
+
+```wiki
+H
+
+$ cd H/ghc-6.6/compat
+$ make boot && make
+$ cd H/ghc-6.6/utils
+$ make boot && make
+```
