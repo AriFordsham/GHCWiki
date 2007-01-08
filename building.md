@@ -23,12 +23,13 @@ can extend it, modify it, and use it to build your code.
 - [Running the GHC test framework](building/running-tests)
 - [The NoFib benchmark suite](building/running-no-fib)
 
-- Help when your build doesn't work
+- Platform-specific guidance
 
-  - [General FAQ for building GHC](building/faq)
   - [Platforms, scripts, and file names](building/platforms-scripts-file-names)
   - [Building under Windows](building/windows)
   - [Building under MacOS X](building/mac-osx)
+
+- [General FAQ for building GHC](building/faq)
 
 ## Contributed documentation
 
