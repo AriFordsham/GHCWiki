@@ -66,9 +66,7 @@ Done:
 ## Desugaring
 
 
-Todo (low-level):
-
-- In `DsCCall.unboxArg` and `DsCCall.boxResult`, what if we use an application of an indexed synonym in a foreign signature?  It seems, as if we want to proceed similar as in the case of newtypes.  However, this requires the `FamInstEnv`s to be available at this point (i.e., in `DsM`).
+Todo (low-level): None.
 
 
 Todo (high-level):
