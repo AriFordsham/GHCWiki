@@ -21,10 +21,11 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/BuildSystem Architecture of the build system]
  * [wiki:Building/Docs Building the documentation]
  * [wiki:Building/Porting Porting GHC]
- * [wiki:Building/KnownProblems Known pitfalls in building GHC]
  * [wiki:Building/RunningTests Running the GHC test framework]
  * [wiki:Building/RunningNoFib The NoFib benchmark suite]
- * Platform-specific build issues
+
+ * Help when your build doesn't work
+   * [wiki:Building/FAQ General FAQ for building GHC]
    * [wiki:Building/PlatformsScriptsFileNames Platforms, scripts, and file names]
    * [wiki:Building/Windows Building under Windows]
    * [wiki:Building/MacOSX Building under MacOS X]
