@@ -165,6 +165,7 @@ arm_TARGET_ARCH      = 1
 
 Copy T/ghc/includes/ghcautoconf.h, T/ghc/includes/DerivedConstants.h, and T/ghc/includes/GHCConstants.h to H/ghc/includes. Note that we are building on the host machine, using the target machine's configuration files. This is so that the intermediate C files generated here will be suitable for compiling on the target system.
 
+
 Touch the generated configuration files, just to make sure they don't get replaced during the build:
 
 {{{
@@ -174,6 +175,10 @@ $ cd H/ghc/includes
 $ touch ghcautoconf.h DerivedConstants.h GHCConstants.h mkDerivedConstants.c
 $ touch mkDerivedConstantsHdr mkDerivedConstants.o mkGHCConstants mkGHCConstants.o
 }}}
+
+== Wrong Stuff ==
+
+Oops, I mis-read the directions, so this next section is junk.
 
 Build the compiler on the host. There seems to be a circular depends between utils and compat so I had to hack it a bit. First edit H/utils/Makefile and remove ghc-pkg from the SUBDIRS list in the else clause.
 
