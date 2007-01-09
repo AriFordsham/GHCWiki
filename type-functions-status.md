@@ -51,7 +51,11 @@ Todo (low-level):
 
 Todo (high-level):
 
-1. Type checking of type functions (and hence, associated type synonyms); forget about `iso` for the moment.
+1. Type checking of type functions (and hence, associated type synonyms); routines in `TcUnify` that need to be extended:
+
+  - `boxySplitTyConApp`: The second argument (`BoxyRhoType`) can be a synonym family application.  Then, we must produce a wanted coercion and return a `HsWrapper` value that applies that coercion.
+
+  To make things easy, we might want to always return a `HsWrapper` value (unless the unification fails), which is `WpHole` whenever the coercion is empty.  The disadvantage is that this blows the tree between type checking and desugaring up.  An alternative is to return the coercion only when needed, but write some auxilliary functions that take the result of `boxySplitTyConApp` and friends and turn the optional coercion result in an always present (real Haskell) function that we always apply to the type-checked pattern (in `TcPat`) or expression.  It is simply `id` when we don't need a coercion.
 1. Type checking in the presence of associated synonym defaults.  (Default AT synonyms are only allowed for ATs defined in the same class.)
 1. Type check functional dependencies as type functions.
 
