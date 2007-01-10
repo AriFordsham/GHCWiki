@@ -58,10 +58,16 @@ Todo (high-level):
   - `boxySubMatchType`: Not sure yet.  Do we need to handle the case where in `go` one type is `FunTy` and the other a synonym family application?  But the function doesn't handle the case where a `FunTy` meets a tyvar either, so its probably ok to ignore.
   - `boxy_match`: Not sure yet.  Do we have to handle the case where `t_ty` is a synonym family application?  On the other hand, this prematching seems to be an approximation.  How much does it hurt if we just  ignore this?
   - `boxy_lub`: Unclear.  Also seems to approximate.
-  - `tcSubExp`: Probably need a case similar to the case marked *(rule F2)*.  This function already returns a coercion, so hopefully it is easy to extend that without changing the interface.
+  - `tcSubExp`: Defer to boxy matching if we have a synonym family application.
   - `uTysOuter`, `u_tys`, `uPred`, `uVar`, and their intefaces `boxyUnify`, `boxyUnifyList`, `unifyType`, `unifyPred`, `unifyTheta`, and `unifyTypeList`: Generate wanted equalities and produce coercion(s).  !!!Still need to check usage patterns!!!
 
   To make things easy, we might want to always return a `HsWrapper` value (unless the unification fails), which is `WpHole` whenever the coercion is empty.  The disadvantage is that this blows the tree between type checking and desugaring up.  An alternative is to return the coercion only when needed, but write some auxilliary functions that take the result of `boxySplitTyConApp` and friends and turn the optional coercion result in an always present (real Haskell) function that we always apply to the type-checked pattern (in `TcPat`) or expression.  It is simply `id` when we don't need a coercion.
+
+> >
+> > Invariants:
+
+- Arguments and results of synonym families are always tau types.  Then, boxy subsumption becomes easy to handle.  When we have a synonym family application, we defer to boxy matching (i.e., unification) and if that comes up with a coercion, we return it as the subsumption coercion.
+
 1. Type checking in the presence of associated synonym defaults.  (Default AT synonyms are only allowed for ATs defined in the same class.)
 1. Type check functional dependencies as type functions.
 
