@@ -66,6 +66,7 @@ There is a mode '-fhpc-tracer', which compiles code that talks to the hpc-tracer
 || b<id> || sets a breakpoint an entry to the global tick number <id> || b23 ||
 || u<id> || remove the breakpoint at entry to the global tick number <id> || u23 ||
 ||  || continue till the next breakpoint || (newline) ||
+|| h || show history of the previous 1024 ticks || h ||
 
 == Machine Generated Haskell ==
 
