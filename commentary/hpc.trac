@@ -52,16 +52,20 @@ We use tick boxes to record the result of the boolean, to check for coverage ove
 
 == Tracer Mode ==
 
-There is a mode '-fhpc-tracer', which compiles code which outputs .rix files; a record
-of everywhere the program goes.
+There is a mode '-fhpc-tracer', which compiles code that talks to the hpc-tracer.
 
- * by default, the -fhpc-tracer program does exactly the same as a -fhpc compiled program.
- * setting the env var HPCRIX causes an additional action, at each tick (and a few other important events),
-   the global tick number is written into the file named in HPCRIX.
- * Typically, HPCRIX would point to a named pipe.
+ * By default, the -fhpc-tracer program does exactly the same as a -fhpc compiled program.
+ * When running inside the hpc-tracer context, each tick and a few other important events calls into
+   the Hpc runtime system function hs_hpc_tick(..).
+ * This checks to see if any breakpoint has been met, and if so, starts a dialog with the parent hpc-tracer.
 
-There is a Hpc tracer which sets up both the named pipe, and the HPCRIX variable exactly for dynamically
-interacting with the tracer output.
+=== Tracer Debugging Low Level command language ===
+
+|| command || purpose || example ||
+|| c<number> || sets the global tick counter breakpoint || c1234567 ||
+|| b<id> || sets a breakpoint an entry to the global tick number <id> || b23 ||
+|| u<id> || remove the breakpoint at entry to the global tick number <id> || u23 ||
+||  || continue till the next breakpoint || (newline) ||
 
 == Machine Generated Haskell ==
 
