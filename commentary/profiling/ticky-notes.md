@@ -11,3 +11,6 @@ No -- put actual declarations for counter variables in another file, `TickyCount
 
 
 No, there don't need to be two files; I was confused. Just `TickyCounters.h`.
+
+
+Huh - we define ticky macros now in `Cmm.h` but we can only include that in CMM files and some C files, like `Schedule.c`, use ticky macros. This makes my brain hurt a little.
