@@ -1,12 +1,32 @@
 = Measuring program performance using CPU events =
 
-The GHC runtime has been extended to support the use of the PAPI library to count occurrences of CPU events such as cache misses and branch mispredictions. The PAPI extension separates the events occurring in the garbage collector and mutator code for more accurate pinpointing of performance problems.
+The GHC runtime has been extended to support the use of the [http://icl.cs.utk.edu/papi/ PAPI] library to count occurrences of CPU events such as cache misses and branch mispredictions. The PAPI extension separates the events occurring in the garbage collector and mutator code for more accurate pinpointing of performance problems.
 
 This page describes how to compile the RTS with PAPI enabled and explains the RTS options for CPU event selection. This page also contains patches to collect CPU event information in nofib runs and to allow their comparison using nofib-analyse. This is especially useful to measure the effects of optimisations accross a whole range of programs systematically.
 
+= Status of the implementation =
+
+GHC with PAPI support should compile on any platform where PAPI is installed. It should also be possible to monitor the cache miss events of a ghc compiled program.
+
+At present, the monitoring of branch mispredictions and stalled cycles is AMD Opteron specific. In the case of branch mispredictions, the portable PAPI API only monitors conditional jumps. We would like to monitor all jumps, especially indirect jumps, that is why we used a native AMD PAPI counter. For strange reasons, the PAPI conditional jump counter maps to the native counter we are using, but we cannot rely on this behaviour on other platforms, so we use the native counter anyway.
+
 = Compiling and running programs with PAPI =
 
-to do
+First of all, make sure that you have installed the [http://icl.cs.utk.edu/papi/ PAPI library].
+
+Follow the instructions in [wiki:Building/Hacking] and add the following line to {{{build.mk}}} before compiling the RTS:
+{{{
+GhcRtsWithPapi = YES
+}}}
+
+Now, to monitor and report level 1 cache misses, invoke a program compiled by ghc as follows:
+{{{
+./program +RTS -sstderr -a1 -RTS
+}}}
+The help screen provides options to monitor more events:
+{{{
+./program +RTS -h -RTS
+}}}
 
 = Using PAPI with the nofib benchmarking suite =
 

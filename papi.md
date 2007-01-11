@@ -1,42 +1,52 @@
-CONVERSION ERROR
+# Measuring program performance using CPU events
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/PAPI"
-  queryString          = "?version=4"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:44 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","247"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/PAPI\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-Original source:
+The GHC runtime has been extended to support the use of the [ PAPI](http://icl.cs.utk.edu/papi/) library to count occurrences of CPU events such as cache misses and branch mispredictions. The PAPI extension separates the events occurring in the garbage collector and mutator code for more accurate pinpointing of performance problems.
 
-```trac
-= Measuring program performance using CPU events =
-
-The GHC runtime has been extended to support the use of the PAPI library to count occurrences of CPU events such as cache misses and branch mispredictions. The PAPI extension separates the events occurring in the garbage collector and mutator code for more accurate pinpointing of performance problems.
 
 This page describes how to compile the RTS with PAPI enabled and explains the RTS options for CPU event selection. This page also contains patches to collect CPU event information in nofib runs and to allow their comparison using nofib-analyse. This is especially useful to measure the effects of optimisations accross a whole range of programs systematically.
 
-= Compiling and running programs with PAPI =
+# Status of the implementation
 
-to do
 
-= Using PAPI with the nofib benchmarking suite =
+GHC with PAPI support should compile on any platform where PAPI is installed. It should also be possible to monitor the cache miss events of a ghc compiled program.
 
-to do
 
-= Resources =
+At present, the monitoring of branch mispredictions and stalled cycles is AMD Opteron specific. In the case of branch mispredictions, the portable PAPI API only monitors conditional jumps. We would like to monitor all jumps, especially indirect jumps, that is why we used a native AMD PAPI counter. For strange reasons, the PAPI conditional jump counter maps to the native counter we are using, but we cannot rely on this behaviour on other platforms, so we use the native counter anyway.
 
- * [http://icl.cs.utk.edu/papi/] PAPI home page.
- * [http://developer.amd.com/article_print.jsp?id=90] An article introducing the business of using CPU counters for performance measurement.
- * [http://developer.amd.com/articles.jsp?id=2&num=1] An article introducing AMD's code analyst. It even has pipeline simulation, though I haven't tried it out yet.
+# Compiling and running programs with PAPI
 
+
+First of all, make sure that you have installed the [ PAPI library](http://icl.cs.utk.edu/papi/).
+
+
+Follow the instructions in [Building/Hacking](building/hacking) and add the following line to `build.mk` before compiling the RTS:
+
+```wiki
+GhcRtsWithPapi = YES
 ```
+
+
+Now, to monitor and report level 1 cache misses, invoke a program compiled by ghc as follows:
+
+```wiki
+./program +RTS -sstderr -a1 -RTS
+```
+
+
+The help screen provides options to monitor more events:
+
+```wiki
+./program +RTS -h -RTS
+```
+
+# Using PAPI with the nofib benchmarking suite
+
+
+to do
+
+# Resources
+
+- [ http://icl.cs.utk.edu/papi/](http://icl.cs.utk.edu/papi/) PAPI home page.
+- [ http://developer.amd.com/article_print.jsp?id=90](http://developer.amd.com/article_print.jsp?id=90) An article introducing the business of using CPU counters for performance measurement.
+- [ http://developer.amd.com/articles.jsp?id=2&num=1](http://developer.amd.com/articles.jsp?id=2&num=1) An article introducing AMD's code analyst. It even has pipeline simulation, though I haven't tried it out yet.
