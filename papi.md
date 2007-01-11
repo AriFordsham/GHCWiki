@@ -6,6 +6,17 @@ The GHC runtime has been extended to support the use of the PAPI library to coun
 
 This page describes how to compile the RTS with PAPI enabled and explains the RTS options for CPU event selection. This page also contains patches to collect CPU event information in nofib runs and to allow their comparison using nofib-analyse. This is especially useful to measure the effects of optimisations accross a whole range of programs systematically.
 
+# Compiling and running programs with PAPI
+
+
+to do
+
+# Using PAPI with the nofib benchmarking suite
+
+
+to do
+
 # Resources
 
 - [ http://icl.cs.utk.edu/papi/](http://icl.cs.utk.edu/papi/)
+- [ http://developer.amd.com/article_print.jsp?id=90](http://developer.amd.com/article_print.jsp?id=90) An article introducing the business of using CPU counters for performance measurement.
