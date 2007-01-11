@@ -18,3 +18,6 @@ Cost-centre profiling operates at something close to the source level, and ticky
 
 
 Macros for bumping ticky counters are now defined in [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h). Currently, code compiled with the `-fticky-ticky` flag fails to link because the macros rely on counter variables (things with names like `ENT_DYN_IND_ctr` being declared, but there are actually no declarations for them. I'll add those declarations to [includes/RtsExternal.h](/trac/ghc/browser/ghc/includes/RtsExternal.h) so I can get something working. Really, there should be something that automatically generates both the macros that are in [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h) and the declarations for the corresponding variables, so that they stay in sync.
+
+
+Actually, maybe it would make more sense to add a new file, RtsTicky.h or something, which contains only ticky counter declarations (the same declarations that still exist in [includes/StgTicky.h](/trac/ghc/browser/ghc/includes/StgTicky.h), which isn't used anymore), and that include that from [includes/RtsExternal.h](/trac/ghc/browser/ghc/includes/RtsExternal.h).
