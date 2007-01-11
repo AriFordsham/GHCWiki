@@ -44,6 +44,7 @@ Please feel free to add new pages here.  In due course information will migrate 
  * The Runtime System
    * [wiki:GarbageCollectorNotes] Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
    * [wiki:SemiTagging]: Describes how the semi-tagging optimisation will be implemented.
+   * [wiki:PAPI]: Measurement of program performance usign CPU events (cache misses, branch mispredictions).
 
  * Getting to grips with the code base
    * BeginnersNotes: Some notes about getting started hacking GHC and the structure of the compiler (especially types and typecheck)
