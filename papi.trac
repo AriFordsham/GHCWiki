@@ -1,0 +1,9 @@
+= Measuring program performance using CPU events =
+
+The GHC runtime has been extended to support the use of the PAPI library to count occurrences of CPU events such as cache misses and branch mispredictions. The PAPI extension separates the events occurring in the garbage collector and mutator code for more accurate pinpointing of performance problems.
+
+This page describes how to compile the RTS with PAPI enabled and explains the RTS options for CPU event selection. This page also contains patches to collect CPU event information in nofib runs and to allow their comparison using nofib-analyse. This is especially useful to measure the effects of optimisations accross a whole range of programs systematically.
+
+= Resources =
+
+ * [http://icl.cs.utk.edu/papi/]
