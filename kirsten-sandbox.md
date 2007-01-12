@@ -4,6 +4,9 @@
 
 ## Demand analysis
 
+
+current status: going through each file and sanity-checking.
+
 1. Get code ready to check in:
 
   1. cleanup
