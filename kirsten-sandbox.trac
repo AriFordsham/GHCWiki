@@ -10,7 +10,10 @@
           * basicTypes/Id.lhs
           * basicTypes/IdInfo.lhs
           * basicTypes/NewDemand.lhs
-          * compiler/iface/BinIface.lhs
+          * compiler/coreSyn/CoreLint.lhs
+          * compiler/coreSyn/PprCore.lhs
+          * compiler/iface/BinIface.lhs  
+          * compiler/iface/IfaceSyn.lhs
           * compiler/iface/LoadIface.lhs
           * compiler/simplCore/SimplEnv.lhs
           * compiler/simplCore/SimplUtils.lhs
@@ -18,8 +21,8 @@
           * compiler/stranal/DmdAnal.lhs
           * compiler/stranal/WorkWrap.lhs
           * compiler/stranal/WwLib.lhs
+          * compiler/types/Coercion.lhs
           * compiler/types/Type.lhs
-          * (possibly more)
    1. better comments (i.e., examples for things that may not work right)
    1. testing
 
@@ -34,6 +37,10 @@
 
  1. Modify worker/wrapper split
    1. so as to exploit the new analysis information
+
+ 1. Think about the right way to handle this coercion stuff
+
+ 1. Formal semantics?
 
 = Old =
 
