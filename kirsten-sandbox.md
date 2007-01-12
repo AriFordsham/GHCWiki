@@ -1,4 +1,4 @@
 # Old
 
 
-\[[KirstenSandbox](kirsten-sandbox)/MacOS10.2 Building GHC on Mac OS 10.2.1\] (the summary: don't do it.)
+\[[KirstenSandbox](kirsten-sandbox)/MacOS10.2 Building GHC on Mac OS 10.2.1 (the summary: don't do it.)\]
