@@ -10,19 +10,19 @@
           * basicTypes/Id.lhs
           * basicTypes/IdInfo.lhs
           * basicTypes/NewDemand.lhs
-          * compiler/coreSyn/CoreLint.lhs
-          * compiler/coreSyn/PprCore.lhs
-          * compiler/iface/BinIface.lhs  
-          * compiler/iface/IfaceSyn.lhs
-          * compiler/iface/LoadIface.lhs
-          * compiler/simplCore/SimplEnv.lhs
-          * compiler/simplCore/SimplUtils.lhs
-          * compiler/simplCore/Simplify.lhs
-          * compiler/stranal/DmdAnal.lhs
-          * compiler/stranal/WorkWrap.lhs
-          * compiler/stranal/WwLib.lhs
-          * compiler/types/Coercion.lhs
-          * compiler/types/Type.lhs
+          * coreSyn/CoreLint.lhs
+          * coreSyn/PprCore.lhs
+          * iface/BinIface.lhs  
+          * iface/IfaceSyn.lhs
+          * iface/LoadIface.lhs
+          * simplCore/SimplEnv.lhs
+          * simplCore/SimplUtils.lhs
+          * simplCore/Simplify.lhs
+          * stranal/DmdAnal.lhs
+          * stranal/WorkWrap.lhs
+          * stranal/WwLib.lhs
+          * types/Coercion.lhs
+          * types/Type.lhs
    1. better comments (i.e., examples for things that may not work right)
    1. testing
 
