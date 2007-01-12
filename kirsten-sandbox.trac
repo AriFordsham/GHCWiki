@@ -4,6 +4,20 @@
 
  1. Get code ready to check in:
    1. cleanup
+      * files to go through:
+          * basicTypes/Id.lhs
+          * basicTypes/IdInfo.lhs
+          * basicTypes/NewDemand.lhs
+          * compiler/iface/BinIface.lhs
+          * compiler/iface/LoadIface.lhs
+          * compiler/simplCore/SimplEnv.lhs
+          * compiler/simplCore/SimplUtils.lhs
+          * compiler/simplCore/Simplify.lhs
+          * compiler/stranal/DmdAnal.lhs
+          * compiler/stranal/WorkWrap.lhs
+          * compiler/stranal/WwLib.lhs
+          * compiler/types/Type.lhs
+          * (possibly more)
    1. better comments (i.e., examples for things that may not work right)
    1. testing
 
