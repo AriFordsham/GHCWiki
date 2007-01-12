@@ -19,7 +19,7 @@ Starting with GHC 6.6, we have split the source distribution in two:
 
 In addition to fixed releases of GHC, source distributions are also made each night from the current source repository, for both the HEAD and STABLE branches.  To download these snapshots, head over to the [http://www.haskell.org/ghc/download.html download page].
 
-Source distributions are easier to build, because we also include the output from running certain external tools like [http://haskell.oirg/happy Happy], so you don't need to install these tools.  See [wiki:Building/Prerequisites] for details.
+Source distributions are easier to build, because we also include the output from running certain external tools like [http://haskell.org/happy Happy], so you don't need to install these tools.  See [wiki:Building/Prerequisites] for details.
 
 == Getting a GHC source tree using darcs ==
 
@@ -34,7 +34,7 @@ A source tree consists of the GHC repository, with a set of packages in the libr
   $ ./darcs-all get
 }}}
 
-'''NOTE''': You really want {{{--partial}}} when grabbing GHC.  There are some 15000 patches in the repository, which take a long time to download without {{{--partial}}}.  The {{{darcs-all}}} script automatically adds {{{--partial}}} for the packages. If you are a developer and you know what you are doing, you can omit {{{--partial}}} and use {{{./darcs-all get --complete}}} to get a decade of pacthes.
+'''NOTE''': You really want {{{--partial}}} when grabbing GHC.  There are some 15000 patches in the repository, which take a long time to download without {{{--partial}}}.  The {{{darcs-all}}} script automatically adds {{{--partial}}} for the packages. If you are a developer and you know what you are doing, you can omit {{{--partial}}} and use {{{./darcs-all get --complete}}} to get a decade of patches.
 
 The above will grab the "core" set of packages.  This is the minimal set of packages required to bootstrap GHC.  If you want to get a more comprehensive set of packages and include them in your GHC build, then you can say:
 
@@ -57,7 +57,7 @@ The full list of darcs repositories relating to GHC is at DarcsRepositories.
 
 The above instructions will get the HEAD - the main trunk of GHC development.  There are also branches, from which stable releases are made.  The active branches are listed on DarcsRepositories.
 
-To get a branch, add the branch name after http://darcs.haskell.org/.  For example, to get the `ghc-6.6` branch, you would fist say 
+To get a branch, add the branch name after http://darcs.haskell.org/.  For example, to get the `ghc-6.6` branch, you would first say 
 
 {{{
   $ darcs get --partial http://darcs.haskell.org/ghc-6.6/ghc
