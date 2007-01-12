@@ -210,15 +210,15 @@ Related to replacing GMP, some operations in CgPrimOP.hs such as IntAddCOp may b
    c = ( (~(a^b)) &amp; (a^r) ) &gt;&gt;unsigned (BITS_IN(I_)-1)                          
                                                                                 
 -}</font>
-   <font color=Blue>=</font> <font color=Black>stmtsC</font> <font color=Blue>[</font>
-        <font color=Green>CmmAssign</font> <font color=Black>res_r</font> <font color=Blue>(</font><font color=Green>CmmMachOp</font> <font color=Black>mo_wordAdd</font> <font color=Blue>[</font><font color=Black>aa</font><font color=Blue>,</font><font color=Black>bb</font><font color=Blue>]</font><font color=Blue>)</font><font color=Blue>,</font>
+   <font color=Blue>=</font> <font color=Orange>stmtsC</font> <font color=Blue>[</font>
+        <font color=Green>CmmAssign</font> <font color=Black>res_r</font> <font color=Blue>(</font><font color=Green>CmmMachOp</font> <font color=Orange>mo_wordAdd</font> <font color=Blue>[</font><font color=Black>aa</font><font color=Blue>,</font><font color=Black>bb</font><font color=Blue>]</font><font color=Blue>)</font><font color=Blue>,</font>
         <font color=Green>CmmAssign</font> <font color=Black>res_c</font> <font color=Green>$</font>
-          <font color=Green>CmmMachOp</font> <font color=Black>mo_wordUShr</font> <font color=Blue>[</font>
-                        <font color=Green>CmmMachOp</font> <font color=Black>mo_wordAnd</font> <font color=Blue>[</font>
-                          <font color=Green>CmmMachOp</font> <font color=Black>mo_wordNot</font> <font color=Blue>[</font><font color=Green>CmmMachOp</font> <font color=Black>mo_wordXor</font> <font color=Blue>[</font><font color=Black>aa</font><font color=Blue>,</font><font color=Black>bb</font><font color=Blue>]</font><font color=Blue>]</font><font color=Blue>,</font>
-                          <font color=Green>CmmMachOp</font> <font color=Black>mo_wordXor</font> <font color=Blue>[</font><font color=Black>aa</font><font color=Blue>,</font> <font color=Green>CmmReg</font> <font color=Black>res_r</font><font color=Blue>]</font>
+          <font color=Green>CmmMachOp</font> <font color=Orange>mo_wordUShr</font> <font color=Blue>[</font>
+                        <font color=Green>CmmMachOp</font> <font color=Orange>mo_wordAnd</font> <font color=Blue>[</font>
+                          <font color=Green>CmmMachOp</font> <font color=Orange>mo_wordNot</font> <font color=Blue>[</font><font color=Green>CmmMachOp</font> <font color=Orange>mo_wordXor</font> <font color=Blue>[</font><font color=Black>aa</font><font color=Blue>,</font><font color=Black>bb</font><font color=Blue>]</font><font color=Blue>]</font><font color=Blue>,</font>
+                          <font color=Green>CmmMachOp</font> <font color=Orange>mo_wordXor</font> <font color=Blue>[</font><font color=Black>aa</font><font color=Blue>,</font> <font color=Green>CmmReg</font> <font color=Black>res_r</font><font color=Blue>]</font>
                                              <font color=Blue>]</font><font color=Blue>,</font> 
-                        <font color=Green>CmmLit</font> <font color=Blue>(</font><font color=Black>mkIntCLit</font> <font color=Blue>(</font><font color=Black>wORD_SIZE_IN_BITS</font> <font color=Red>-</font> <font color=Cyan>1</font><font color=Blue>)</font><font color=Blue>)</font>
+                        <font color=Green>CmmLit</font> <font color=Blue>(</font><font color=Orange>mkIntCLit</font> <font color=Blue>(</font><font color=Black>wORD_SIZE_IN_BITS</font> <font color=Blue>-</font> <font color=Cyan>1</font><font color=Blue>)</font><font color=Blue>)</font>
                                 <font color=Blue>]</font>
            <font color=Blue>]</font></pre>
 }}}
