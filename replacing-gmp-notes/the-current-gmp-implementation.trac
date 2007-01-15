@@ -118,7 +118,7 @@ For the case where one of the operands and the result is the same you would have
 #!html
 <pre>
   (in GHCi)
-  <font color=DarkOrchid>> <font color=Blue>let</font> <font color=Black>m_integer</font> <font color=Blue>=</font> <font color=DodgerBlue>123456789</font> <font color=Blue>::</font> <font color=Green>Integer</font>
+  <font color=DarkOrchid>></font> <font color=Blue>let</font> <font color=Black>m_integer</font> <font color=Blue>=</font> <font color=DodgerBlue>123456789</font> <font color=Blue>::</font> <font color=Green>Integer</font>
   <font color=DarkOrchid>></font> <font color=Blue>let</font> <font color=Black>n_integer</font> <font color=Blue>=</font> <font color=Black>m_integer</font> <font color=Blue>+</font> <font color=Black>m_integer</font>
   <font color=Red>-- this will show o.k., but the implementation involves *always* making extra temporaries</font>
   <font color=DarkOrchid>></font> <font color=Black>n_integer</font>
