@@ -148,29 +148,29 @@ Cmm modules contain static data elements (see [wiki:Commentary/Compiler/CmmType#
 {{{
 #!html
 <pre>
-<u><font color=Magenta>newtype</font></u> <font color=Green>GenCmm</font> <font color=Black>d</font> <font color=Black>i</font> <font color=Blue>=</font> <font color=Green>Cmm</font> <font color=Blue>[</font><font color=Green>GenCmmTop</font> <font color=Black>d</font> <font color=Black>i</font><font color=Blue>]</font>
+<font color=DarkOrchid>newtype</font> <font color=Green>GenCmm</font> <font color=Black>d</font> <font color=Black>i</font> <font color=Blue>=</font> <font color=Green>Cmm</font> <font color=Blue>[</font><font color=Green>GenCmmTop</font> <font color=Black>d</font> <font color=Black>i</font><font color=Blue>]</font>
 
-<u><font color=Magenta>type</font></u> <font color=Green>Cmm</font> <font color=Blue>=</font> <font color=Green>GenCmm</font> <font color=Green>CmmStatic</font> <font color=Green>CmmStmt</font>
+<font color=DarkOrchid>type</font> <font color=Green>Cmm</font> <font color=Blue>=</font> <font color=Green>GenCmm</font> <font color=Green>CmmStatic</font> <font color=Green>CmmStmt</font>
 
 
-<u><font color=Magenta>data</font></u> <font color=Green>GenCmmTop</font> <font color=Black>d</font> <font color=Black>i</font>
+<font color=DarkOrchid>data</font> <font color=Green>GenCmmTop</font> <font color=Black>d</font> <font color=Black>i</font>
   <font color=Blue>=</font> <font color=Green>CmmProc</font>
-     <font color=Blue>[</font><font color=Black>d</font><font color=Blue>]</font>	       <font color=Red>-- Info table, may be empty</font>
-     <font color=Green>CLabel</font>            <font color=Red>-- Used to generate both info &amp; entry labels</font>
-     <font color=Blue>[</font><font color=Green>LocalReg</font><font color=Blue>]</font>        <font color=Red>-- Argument locals live on entry (C-- procedure params)</font>
-     <font color=Blue>[</font><font color=Green>GenBasicBlock</font> <font color=Black>i</font><font color=Blue>]</font> <font color=Red>-- Code, may be empty.  The first block is</font>
-                       <font color=Red>-- the entry point.  The order is otherwise initially </font>
-                       <font color=Red>-- unimportant, but at some point the code gen will</font>
-                       <font color=Red>-- fix the order.</font>
+     <font color=Blue>[</font><font color=Black>d</font><font color=Blue>]</font>	       <font color=Crimson>-- Info table, may be empty</font>
+     <font color=Green>CLabel</font>            <font color=Crimson>-- Used to generate both info &amp; entry labels</font>
+     <font color=Blue>[</font><font color=Green>LocalReg</font><font color=Blue>]</font>        <font color=Crimson>-- Argument locals live on entry (C-- procedure params)</font>
+     <font color=Blue>[</font><font color=Green>GenBasicBlock</font> <font color=Black>i</font><font color=Blue>]</font> <font color=Crimson>-- Code, may be empty.  The first block is</font>
+                       <font color=Crimson>-- the entry point.  The order is otherwise initially </font>
+                       <font color=Crimson>-- unimportant, but at some point the code gen will</font>
+                       <font color=Crimson>-- fix the order.</font>
 
-		       <font color=Red>-- the BlockId of the first block does not give rise</font>
-		       <font color=Red>-- to a label.  To jump to the first block in a Proc,</font>
-		       <font color=Red>-- use the appropriate CLabel.</font>
+		       <font color=Crimson>-- the BlockId of the first block does not give rise</font>
+		       <font color=Crimson>-- to a label.  To jump to the first block in a Proc,</font>
+		       <font color=Crimson>-- use the appropriate CLabel.</font>
 
-  <font color=Red>-- some static data.</font>
-  <font color=Blue>|</font> <font color=Green>CmmData</font> <font color=Green>Section</font> <font color=Blue>[</font><font color=Black>d</font><font color=Blue>]</font>	<font color=Red>-- constant values only</font>
+  <font color=Crimson>-- some static data.</font>
+  <font color=Blue>|</font> <font color=Green>CmmData</font> <font color=Green>Section</font> <font color=Blue>[</font><font color=Black>d</font><font color=Blue>]</font>	<font color=Crimson>-- constant values only</font>
 
-<u><font color=Magenta>type</font></u> <font color=Green>CmmTop</font> <font color=Blue>=</font> <font color=Green>GenCmmTop</font> <font color=Green>CmmStatic</font> <font color=Green>CmmStmt</font>
+<font color=DarkOrchid>type</font> <font color=Green>CmmTop</font> <font color=Blue>=</font> <font color=Green>GenCmmTop</font> <font color=Green>CmmStatic</font> <font color=Green>CmmStmt</font>
 </pre>
 }}}
 `CmmStmt` is described in [wiki:Commentary/Compiler/CmmType#StatementsandCalls Statements and Calls];[[BR]]
@@ -193,14 +193,14 @@ Cmm Basic Blocks are labeled blocks of Cmm code ending in an explicit jump.  Sec
 {{{
 #!html
 <pre>
-<u><font color=Magenta>data</font></u> <font color=Green>GenBasicBlock</font> <font color=Black>i</font> <font color=Blue>=</font> <font color=Green>BasicBlock</font> <font color=Green>BlockId</font> <font color=Blue>[</font><font color=Black>i</font><font color=Blue>]</font>
+<font color=DarkOrchid>data</font> <font color=Green>GenBasicBlock</font> <font color=Black>i</font> <font color=Blue>=</font> <font color=Green>BasicBlock</font> <font color=Green>BlockId</font> <font color=Blue>[</font><font color=Black>i</font><font color=Blue>]</font>
 
-<u><font color=Magenta>type</font></u> <font color=Green>CmmBasicBlock</font> <font color=Blue>=</font> <font color=Green>GenBasicBlock</font> <font color=Green>CmmStmt</font>
+<font color=DarkOrchid>type</font> <font color=Green>CmmBasicBlock</font> <font color=Blue>=</font> <font color=Green>GenBasicBlock</font> <font color=Green>CmmStmt</font>
 
-<u><font color=Magenta>newtype</font></u> <font color=Green>BlockId</font> <font color=Blue>=</font> <font color=Green>BlockId</font> <font color=Green>Unique</font>
-  <u><font color=Magenta>deriving</font></u> <font color=Blue>(</font><font color=Green>Eq</font><font color=Blue>,</font><font color=Green>Ord</font><font color=Blue>)</font>
+<font color=DarkOrchid>newtype</font> <font color=Green>BlockId</font> <font color=Blue>=</font> <font color=Green>BlockId</font> <font color=Green>Unique</font>
+  <font color=DarkOrchid>deriving</font> <font color=Blue>(</font><font color=Green>Eq</font><font color=Blue>,</font><font color=Green>Ord</font><font color=Blue>)</font>
 
-<u><font color=Magenta>instance</font></u> <font color=Green>Uniquable</font> <font color=Green>BlockId</font> <u><font color=Magenta>where</font></u>
+<font color=DarkOrchid>instance</font> <font color=Green>Uniquable</font> <font color=Green>BlockId</font> <font color=DarkOrchid>where</font>
   <font color=Orange>getUnique</font> <font color=Blue>(</font><font color=Green>BlockId</font> <font color=Black>u</font><font color=Blue>)</font> <font color=Blue>=</font> <font color=Black>u</font>
 </pre>
 }}}
@@ -216,10 +216,10 @@ C-- and Cmm hide the actual number of registers available on a particular machin
 {{{
 #!html
 <pre>
-<u><font color=Magenta>data</font></u> <font color=Green>CmmReg</font> 
+<font color=DarkOrchid>data</font> <font color=Green>CmmReg</font> 
   <font color=Blue>=</font> <font color=Green>CmmLocal</font>  <font color=Green>LocalReg</font>
   <font color=Blue>|</font> <font color=Green>CmmGlobal</font> <font color=Green>GlobalReg</font>
-  <u><font color=Magenta>deriving</font></u><font color=Blue>(</font> <font color=Green>Eq</font> <font color=Blue>)</font>
+  <font color=DarkOrchid>deriving</font><font color=Blue>(</font> <font color=Green>Eq</font> <font color=Blue>)</font>
 </pre>
 }}}
 
@@ -228,7 +228,7 @@ Local Registers exist within the scope of a Procedure:
 {{{
 #!html
 <pre>
-<u><font color=Magenta>data</font></u> <font color=Green>LocalReg</font>
+<font color=DarkOrchid>data</font> <font color=Green>LocalReg</font>
   <font color=Blue>=</font> <font color=Green>LocalReg</font> <font color=Blue>!</font><font color=Green>Unique</font> <font color=Green>MachRep</font>
 </pre>
 }}}
@@ -238,16 +238,16 @@ A `MachRep`, the type of a machine register, is defined in [[GhcFile(compiler/cm
 {{{
 #!html
 <pre>
-<u><font color=Magenta>data</font></u> <font color=Green>MachRep</font>
-  <font color=Blue>=</font> <font color=Green>I8</font>		<font color=Red>-- integral type, 8 bits wide (a byte)</font>
-  <font color=Blue>|</font> <font color=Green>I16</font>		<font color=Red>-- integral type, 16 bits wide</font>
-  <font color=Blue>|</font> <font color=Green>I32</font>		<font color=Red>-- integral type, 32 bits wide</font>
-  <font color=Blue>|</font> <font color=Green>I64</font>		<font color=Red>-- integral type, 64 bits wide</font>
-  <font color=Blue>|</font> <font color=Green>I128</font>	<font color=Red>-- integral type, 128 bits wide (an integral vector register)</font>
-  <font color=Blue>|</font> <font color=Green>F32</font>		<font color=Red>-- floating point type, 32 bits wide (float)</font>
-  <font color=Blue>|</font> <font color=Green>F64</font>		<font color=Red>-- floating point type, 64 bits wide (double)</font>
-  <font color=Blue>|</font> <font color=Green>F80</font>		<font color=Red>-- extended double-precision, used in x86 native codegen only.</font>
-  <u><font color=Magenta>deriving</font></u> <font color=Blue>(</font><font color=Green>Eq</font><font color=Blue>,</font> <font color=Green>Ord</font><font color=Blue>,</font> <font color=Green>Show</font><font color=Blue>)</font>
+<font color=DarkOrchid>data</font> <font color=Green>MachRep</font>
+  <font color=Blue>=</font> <font color=Green>I8</font>		<font color=Crimson>-- integral type, 8 bits wide (a byte)</font>
+  <font color=Blue>|</font> <font color=Green>I16</font>		<font color=Crimson>-- integral type, 16 bits wide</font>
+  <font color=Blue>|</font> <font color=Green>I32</font>		<font color=Crimson>-- integral type, 32 bits wide</font>
+  <font color=Blue>|</font> <font color=Green>I64</font>		<font color=Crimson>-- integral type, 64 bits wide</font>
+  <font color=Blue>|</font> <font color=Green>I128</font>	<font color=Crimson>-- integral type, 128 bits wide (an integral vector register)</font>
+  <font color=Blue>|</font> <font color=Green>F32</font>		<font color=Crimson>-- floating point type, 32 bits wide (float)</font>
+  <font color=Blue>|</font> <font color=Green>F64</font>		<font color=Crimson>-- floating point type, 64 bits wide (double)</font>
+  <font color=Blue>|</font> <font color=Green>F80</font>		<font color=Crimson>-- extended double-precision, used in x86 native codegen only.</font>
+  <font color=DarkOrchid>deriving</font> <font color=Blue>(</font><font color=Green>Eq</font><font color=Blue>,</font> <font color=Green>Ord</font><font color=Blue>,</font> <font color=Green>Show</font><font color=Blue>)</font>
 </pre>
 }}}
 There is currently no register for floating point vectors, such as `F128`.  The types of Cmm variables are defined in the Happy parser file [[GhcFile(compiler/cmm/CmmParse.y)]] and the Alex lexer file [[GhcFile(compiler/cmm/CmmLex.x)]].  (Happy and Alex will compile these into `CmmParse.hs` and `CmmLex.hs`, respectively.)  Cmm recognises the following `C--` types as parseable tokens, listed next to their corresponding {{{define}}}s in [[GhcFile(includes/Cmm.h)]] and their STG types:
@@ -270,44 +270,44 @@ These are universal both to a Cmm module and to the whole compiled program.  Var
 {{{
 #!html
 <pre>
-<u><font color=Magenta>data</font></u> <font color=Green>GlobalReg</font>
-  <font color=Red>-- Argument and return registers</font>
-  <font color=Blue>=</font> <font color=Green>VanillaReg</font>			<font color=Red>-- pointers, unboxed ints and chars</font>
-	<font color=Red>{-# UNPACK #-}</font> <font color=Green>!</font><font color=Green>Int</font>	<font color=Red>-- register number, such as R3, R11</font>
+<font color=DarkOrchid>data</font> <font color=Green>GlobalReg</font>
+  <font color=Crimson>-- Argument and return registers</font>
+  <font color=Blue>=</font> <font color=Green>VanillaReg</font>			<font color=Crimson>-- pointers, unboxed ints and chars</font>
+	<font color=Crimson>{-# UNPACK #-}</font> <font color=Blue>!</font><font color=Green>Int</font>	<font color=Crimson>-- register number, such as R3, R11</font>
 
-  <font color=Blue>|</font> <font color=Green>FloatReg</font>		<font color=Red>-- single-precision floating-point registers</font>
-	<font color=Red>{-# UNPACK #-}</font> <font color=Green>!</font><font color=Green>Int</font>	<font color=Red>-- register number</font>
+  <font color=Blue>|</font> <font color=Green>FloatReg</font>		        <font color=Crimson>-- single-precision floating-point registers</font>
+	<font color=Crimson>{-# UNPACK #-}</font> <font color=Blue>!</font><font color=Green>Int</font>	<font color=Crimson>-- register number</font>
 
-  <font color=Blue>|</font> <font color=Green>DoubleReg</font>		<font color=Red>-- double-precision floating-point registers</font>
-	<font color=Red>{-# UNPACK #-}</font> <font color=Green>!</font><font color=Green>Int</font>	<font color=Red>-- register number</font>
+  <font color=Blue>|</font> <font color=Green>DoubleReg</font>		        <font color=Crimson>-- double-precision floating-point registers</font>
+	<font color=Crimson>{-# UNPACK #-}</font> <font color=Blue>!</font><font color=Green>Int</font>	<font color=Crimson>-- register number</font>
 
-  <font color=Blue>|</font> <font color=Green>LongReg</font>	        <font color=Red>-- long int registers (64-bit, really)</font>
-	<font color=Red>{-# UNPACK #-}</font> <font color=Green>!</font><font color=Green>Int</font>	<font color=Red>-- register number</font>
+  <font color=Blue>|</font> <font color=Green>LongReg</font>	                <font color=Crimson>-- long int registers (64-bit, really)</font>
+	<font color=Crimson>{-# UNPACK #-}</font> <font color=Blue>!</font><font color=Green>Int</font>	<font color=Crimson>-- register number</font>
 
-  <font color=Red>-- STG registers</font>
-  <font color=Blue>|</font> <font color=Green>Sp</font>			<font color=Red>-- Stack ptr; points to last occupied stack location.</font>
-  <font color=Blue>|</font> <font color=Green>SpLim</font>		<font color=Red>-- Stack limit</font>
-  <font color=Blue>|</font> <font color=Green>Hp</font>			<font color=Red>-- Heap ptr; points to last occupied heap location.</font>
-  <font color=Blue>|</font> <font color=Green>HpLim</font>		<font color=Red>-- Heap limit register</font>
-  <font color=Blue>|</font> <font color=Green>CurrentTSO</font>		<font color=Red>-- pointer to current thread's TSO</font>
-  <font color=Blue>|</font> <font color=Green>CurrentNursery</font>	<font color=Red>-- pointer to allocation area</font>
-  <font color=Blue>|</font> <font color=Green>HpAlloc</font>		<font color=Red>-- allocation count for heap check failure</font>
+  <font color=Crimson>-- STG registers</font>
+  <font color=Blue>|</font> <font color=Green>Sp</font>			<font color=Crimson>-- Stack ptr; points to last occupied stack location.</font>
+  <font color=Blue>|</font> <font color=Green>SpLim</font>		<font color=Crimson>-- Stack limit</font>
+  <font color=Blue>|</font> <font color=Green>Hp</font>			<font color=Crimson>-- Heap ptr; points to last occupied heap location.</font>
+  <font color=Blue>|</font> <font color=Green>HpLim</font>		<font color=Crimson>-- Heap limit register</font>
+  <font color=Blue>|</font> <font color=Green>CurrentTSO</font>		<font color=Crimson>-- pointer to current thread's TSO</font>
+  <font color=Blue>|</font> <font color=Green>CurrentNursery</font>	<font color=Crimson>-- pointer to allocation area</font>
+  <font color=Blue>|</font> <font color=Green>HpAlloc</font>		<font color=Crimson>-- allocation count for heap check failure</font>
 
-		<font color=Red>-- We keep the address of some commonly-called </font>
-		<font color=Red>-- functions in the register table, to keep code</font>
-		<font color=Red>-- size down:</font>
-  <font color=Blue>|</font> <font color=Green>GCEnter1</font>		<font color=Red>-- stg_gc_enter_1</font>
-  <font color=Blue>|</font> <font color=Green>GCFun</font>		<font color=Red>-- stg_gc_fun</font>
+  <font color=Crimson>-- We keep the address of some commonly-called </font>
+  <font color=Crimson>-- functions in the register table, to keep code</font>
+  <font color=Crimson>-- size down:</font>
+  <font color=Blue>|</font> <font color=Green>GCEnter1</font>		<font color=Crimson>-- stg_gc_enter_1</font>
+  <font color=Blue>|</font> <font color=Green>GCFun</font>		<font color=Crimson>-- stg_gc_fun</font>
 
-  <font color=Red>-- Base offset for the register table, used for accessing registers</font>
-  <font color=Red>-- which do not have real registers assigned to them.  This register</font>
-  <font color=Red>-- will only appear after we have expanded GlobalReg into memory accesses</font>
-  <font color=Red>-- (where necessary) in the native code generator.</font>
+  <font color=Crimson>-- Base offset for the register table, used for accessing registers</font>
+  <font color=Crimson>-- which do not have real registers assigned to them.  This register</font>
+  <font color=Crimson>-- will only appear after we have expanded GlobalReg into memory accesses</font>
+  <font color=Crimson>-- (where necessary) in the native code generator.</font>
   <font color=Blue>|</font> <font color=Green>BaseReg</font>
 
-  <font color=Red>-- Base Register for PIC (position-independent code) calculations</font>
-  <font color=Red>-- Only used inside the native code generator. It's exact meaning differs</font>
-  <font color=Red>-- from platform to platform  (see compiler/nativeGen/PositionIndependentCode.hs).</font>
+  <font color=Crimson>-- Base Register for PIC (position-independent code) calculations</font>
+  <font color=Crimson>-- Only used inside the native code generator. It's exact meaning differs</font>
+  <font color=Crimson>-- from platform to platform  (see compiler/nativeGen/PositionIndependentCode.hs).</font>
   <font color=Blue>|</font> <font color=Green>PicBaseReg</font>
 </pre>
 }}}
@@ -339,11 +339,11 @@ Hints are represented in Haskell as `MachHint`s, defined near `MachRep` in [[Ghc
 {{{
 #!html
 <pre>
-<u><font color=Magenta>data</font></u> <font color=Green>MachHint</font>
-  <font color=Blue>=</font> <font color=Green>NoHint</font>	<font color=Red>-- string: "NoHint"	Cmm syntax: [empty]</font>
-  <font color=Blue>|</font> <font color=Green>PtrHint</font>	<font color=Red>-- string: "PtrHint"    Cmm syntax: "ptr"    (C-- uses "address")</font>
-  <font color=Blue>|</font> <font color=Green>SignedHint</font>	<font color=Red>-- string: "SignedHint"	Cmm syntax: "signed"</font>
-  <font color=Blue>|</font> <font color=Green>FloatHint</font>	<font color=Red>-- string: "FloatHint"	Cmm syntax: "float" </font>
+<font color=DarkOrchid>data</font> <font color=Green>MachHint</font>
+  <font color=Blue>=</font> <font color=Green>NoHint</font>	<font color=Crimson>-- string: "NoHint"	Cmm syntax: [empty]</font>
+  <font color=Blue>|</font> <font color=Green>PtrHint</font>	<font color=Crimson>-- string: "PtrHint"    Cmm syntax: "ptr"    (C-- uses "address")</font>
+  <font color=Blue>|</font> <font color=Green>SignedHint</font>	<font color=Crimson>-- string: "SignedHint"	Cmm syntax: "signed"</font>
+  <font color=Blue>|</font> <font color=Green>FloatHint</font>	<font color=Crimson>-- string: "FloatHint"	Cmm syntax: "float" </font>
 </pre>
 }}}
 
@@ -439,44 +439,47 @@ Cmm literals are exactly like C-- literals, including the Haskell-style type syn
 {{{
 #!html
 <pre>
-<u><font color=Magenta>data</font></u> <font color=Green>CmmLit</font>
+<font color=DarkOrchid>data</font> <font color=Green>CmmLit</font>
   <font color=Blue>=</font> <font color=Green>CmmInt</font> <font color=Green>Integer</font>  <font color=Green>MachRep</font>
-	<font color=Red>-- Interpretation: the 2's complement representation of the value</font>
-	<font color=Red>-- is truncated to the specified size.  This is easier than trying</font>
-	<font color=Red>-- to keep the value within range, because we don't know whether</font>
-	<font color=Red>-- it will be used as a signed or unsigned value (the MachRep doesn't</font>
-	<font color=Red>-- distinguish between signed &amp; unsigned).</font>
+	<font color=Crimson>-- Interpretation: the 2's complement representation of the value</font>
+	<font color=Crimson>-- is truncated to the specified size.  This is easier than trying</font>
+	<font color=Crimson>-- to keep the value within range, because we don't know whether</font>
+	<font color=Crimson>-- it will be used as a signed or unsigned value (the MachRep doesn't</font>
+	<font color=Crimson>-- distinguish between signed &amp; unsigned).</font>
   <font color=Blue>|</font> <font color=Green>CmmFloat</font>  <font color=Green>Rational</font> <font color=Green>MachRep</font>
-  <font color=Blue>|</font> <font color=Green>CmmLabel</font>    <font color=Green>CLabel</font>			<font color=Red>-- Address of label</font>
-  <font color=Blue>|</font> <font color=Green>CmmLabelOff</font> <font color=Green>CLabel</font> <font color=Green>Int</font>		<font color=Red>-- Address of label + byte offset</font>
+  <font color=Blue>|</font> <font color=Green>CmmLabel</font>    <font color=Green>CLabel</font>			<font color=Crimson>-- Address of label</font>
+  <font color=Blue>|</font> <font color=Green>CmmLabelOff</font> <font color=Green>CLabel</font> <font color=Green>Int</font>		<font color=Crimson>-- Address of label + byte offset</font>
   
-        <font color=Red>-- Due to limitations in the C backend, the following</font>
-        <font color=Red>-- MUST ONLY be used inside the info table indicated by label2</font>
-        <font color=Red>-- (label2 must be the info label), and label1 must be an</font>
-        <font color=Red>-- SRT, a slow entrypoint or a large bitmap (see the Mangler)</font>
-        <font color=Red>-- Don't use it at all unless tablesNextToCode.</font>
-        <font color=Red>-- It is also used inside the NCG during when generating</font>
-        <font color=Red>-- position-independent code. </font>
-  <font color=Blue>|</font> <font color=Green>CmmLabelDiffOff</font> <font color=Green>CLabel</font> <font color=Green>CLabel</font> <font color=Green>Int</font>   <font color=Red>-- label1 - label2 + offset</font>
+        <font color=Crimson>-- Due to limitations in the C backend, the following</font>
+        <font color=Crimson>-- MUST ONLY be used inside the info table indicated by label2</font>
+        <font color=Crimson>-- (label2 must be the info label), and label1 must be an</font>
+        <font color=Crimson>-- SRT, a slow entrypoint or a large bitmap (see the Mangler)</font>
+        <font color=Crimson>-- Don't use it at all unless tablesNextToCode.</font>
+        <font color=Crimson>-- It is also used inside the NCG during when generating</font>
+        <font color=Crimson>-- position-independent code. </font>
+  <font color=Blue>|</font> <font color=Green>CmmLabelDiffOff</font> <font color=Green>CLabel</font> <font color=Green>CLabel</font> <font color=Green>Int</font>   <font color=Crimson>-- label1 - label2 + offset</font>
 </pre>
 }}}
 Note how the `CmmLit` constructor `CmmInt Integer MachRep` contains sign information in the `Integer`, the representation of the literal itself: this conforms to the C-- specification, where integral literals contain sign information. For an example of a function using `CmmInt` sign information, see `cmmMachOpFold` in [[GhcFile(compiler/cmm/CmmOpt.hs)]], where sign-operations are performed on the `Integer`.
 
-The `MachRep` of a literal, such as `CmmInt Integer MachRep` or `CmmFloat Rational MachRep` may not always require the size defined by `MachRep`.  The NCG optimiser, [[GhcFile(compiler/nativeGen/MachCodeGen.hs)]], will test a literal such as `1::bits32` (in Haskell, `CmmInt (1::Integer) I32`) for whether it would fit into the bit-size of Assembler instruction literals on that particular architecture with a function defined in [[GhcFile(compiler/nativeGen/MachRegs.lhs)]], such as `fits16Bits` on the PPC.  If the Integer literal fits, the function `makeImmediate` will truncate it to the specified size if possible and store it in a NCG data type, `Imm`, specifically `Maybe Imm`.  (These are also defined in [[GhcFile(compiler/nativeGen/MachRegs.lhs)]]).
+The `MachRep` of a literal, such as `CmmInt Integer MachRep` or `CmmFloat Rational MachRep` may not always require the size defined by `MachRep`.  The NCG optimiser, [[GhcFile(compiler/nativeGen/MachCodeGen.hs)]], will test a literal such as `1::bits32` (in Haskell, `CmmInt (1::Integer) I32`) for whether it would fit into the bit-size of Assembler instruction literals on that particular architecture with a function defined in [[GhcFile(compiler/nativeGen/MachRegs.lhs)]], such as `fits16Bits` on the PPC.  If the Integer literal fits, the function `makeImmediate` will truncate it to the specified size if possible and store it in a NCG data type, `Imm`, specifically `Maybe Imm`.  (These are also defined in [[GhcFile(compiler/nativeGen/MachRegs.lhs)]].)
 
 The Haskell representation of Cmm separates unchangeable Cmm values into a separate data type, `CmmStatic`, defined in [[GhcFile(compiler/cmm/Cmm.hs)]]:
 {{{
-data CmmStatic
-  = CmmStaticLit CmmLit	
-	-- a literal value, size given by cmmLitRep of the literal.
-  | CmmUninitialised Int
-	-- uninitialised data, N bytes long
-  | CmmAlign Int
-	-- align to next N-byte boundary (N must be a power of 2).
-  | CmmDataLabel CLabel
-	-- label the current position in this section.
-  | CmmString [Word8]
-	-- string of 8-bit values only, not zero terminated.
+#!html
+<pre>
+<font color=DarkOrchid>data</font> <font color=Green>CmmStatic</font>
+  <font color=Blue>=</font> <font color=Green>CmmStaticLit</font> <font color=Green>CmmLit</font>	
+	<font color=Crimson>-- a literal value, size given by cmmLitRep of the literal.</font>
+  <font color=Blue>|</font> <font color=Green>CmmUninitialised</font> <font color=Green>Int</font>
+	<font color=Crimson>-- uninitialised data, N bytes long</font>
+  <font color=Blue>|</font> <font color=Green>CmmAlign</font> <font color=Green>Int</font>
+	<font color=Crimson>-- align to next N-byte boundary (N must be a power of 2).</font>
+  <font color=Blue>|</font> <font color=Green>CmmDataLabel</font> <font color=Green>CLabel</font>
+	<font color=Crimson>-- label the current position in this section.</font>
+  <font color=Blue>|</font> <font color=Green>CmmString</font> <font color=Blue>[</font><font color=Green>Word8</font><font color=Blue>]</font>
+	<font color=Crimson>-- string of 8-bit values only, not zero terminated.</font>
+</pre>
 }}}
 Note the `CmmAlign` constructor: this maps to the assembler directive `.align N` to set alignment for a data item (hopefully one you remembered to label).  This is the same as the `align` directive noted in Section 4.5 of the [http://cminusminus.org/extern/man2.pdf C-- specification (PDF)].  In the current implementation of Cmm the `align` directive seems superfluous because [[GhcFile(compiler/nativeGen/PprMach.hs)]] translates `Section`s to assembler with alignment directives corresponding to the target architecture (see [wiki:Commentary/Compiler/CmmType#SectionsandDirectives Sections and Directives], below).
 
@@ -490,87 +493,94 @@ Remember that C--/Cmm names consist of a string where the first character is:
 
 Cmm labels conform to the C-- specification.  C--/Cmm uses labels to refer to memory locations in code--if you use a data directive but do not give it a label, you will have no means of referring to the memory!  For `GlobalReg`s (transformed to assembler `.globl`), labels serve as both symbols and labels (in the assembler meaning of the terms).  The Haskell representation of Cmm Labels is contained in the `CmmLit` data type, see [wiki:Commentary/Compiler/CmmType#Literals Literals] section, above.  Note how Cmm Labels are `CLabel`s with address information.  The `Clabel` data type, defined in [[GhcFile(compiler/cmm/CLabel.hs)]], is used throughout the Compiler for symbol information in binary files.  Here it is:
 {{{
-data CLabel
-  = IdLabel	    		-- A family of labels related to the
-	Name			-- definition of a particular Id or Con
-	IdLabelInfo
+#!html
+<pre>
+<font color=DarkOrchid>data</font> <font color=Green>CLabel</font>
+  <font color=Blue>=</font> <font color=Green>IdLabel</font>	    		<font color=Crimson>-- A family of labels related to the</font>
+	<font color=Green>Name</font>			<font color=Crimson>-- definition of a particular Id or Con</font>
+	<font color=Green>IdLabelInfo</font>
 
-  | DynIdLabel			-- like IdLabel, but in a separate package,
-	Name			-- and might therefore need a dynamic
-	IdLabelInfo		-- reference.
+  <font color=Blue>|</font> <font color=Green>DynIdLabel</font>			<font color=Crimson>-- like IdLabel, but in a separate package,</font>
+	<font color=Green>Name</font>			<font color=Crimson>-- and might therefore need a dynamic</font>
+	<font color=Green>IdLabelInfo</font>		<font color=Crimson>-- reference.</font>
 
-  | CaseLabel			-- A family of labels related to a particular
-				-- case expression.
-	{-# UNPACK #-} !Unique	-- Unique says which case expression
-	CaseLabelInfo
+  <font color=Blue>|</font> <font color=Green>CaseLabel</font>			<font color=Crimson>-- A family of labels related to a particular</font>
+				<font color=Crimson>-- case expression.</font>
+	<font color=Crimson>{-# UNPACK #-}</font> <font color=Blue>!</font><font color=Green>Unique</font>	<font color=Crimson>-- Unique says which case expression</font>
+	<font color=Green>CaseLabelInfo</font>
 
-  | AsmTempLabel 
-	{-# UNPACK #-} !Unique
+  <font color=Blue>|</font> <font color=Green>AsmTempLabel</font> 
+	<font color=Crimson>{-# UNPACK #-}</font> <font color=Blue>!</font><font color=Green>Unique</font>
 
-  | StringLitLabel
-	{-# UNPACK #-} !Unique
+  <font color=Blue>|</font> <font color=Green>StringLitLabel</font>
+	<font color=Crimson>{-# UNPACK #-}</font> <font color=Blue>!</font><font color=Green>Unique</font>
 
-  | ModuleInitLabel 
-	Module			-- the module name
-	String			-- its "way"
-	Bool			-- True <=> is in a different package
-	-- at some point we might want some kind of version number in
-	-- the module init label, to guard against compiling modules in
-	-- the wrong order.  We can't use the interface file version however,
-	-- because we don't always recompile modules which depend on a module
-	-- whose version has changed.
+  <font color=Blue>|</font> <font color=Green>ModuleInitLabel</font> 
+	<font color=Green>Module</font>			<font color=Crimson>-- the module name</font>
+	<font color=Green>String</font>			<font color=Crimson>-- its "way"</font>
+	<font color=Green>Bool</font>			<font color=Crimson>-- True &lt;=&gt; is in a different package</font>
+	<font color=Crimson>-- at some point we might want some kind of version number in</font>
+	<font color=Crimson>-- the module init label, to guard against compiling modules in</font>
+	<font color=Crimson>-- the wrong order.  We can't use the interface file version however,</font>
+	<font color=Crimson>-- because we don't always recompile modules which depend on a module</font>
+	<font color=Crimson>-- whose version has changed.</font>
 
-  | PlainModuleInitLabel	-- without the vesrion & way info
-	Module
-	Bool			-- True <=> is in a different package
+  <font color=Blue>|</font> <font color=Green>PlainModuleInitLabel</font>	<font color=Crimson>-- without the vesrion &amp; way info</font>
+	<font color=Green>Module</font>
+	<font color=Green>Bool</font>			<font color=Crimson>-- True &lt;=&gt; is in a different package</font>
 
-  | ModuleRegdLabel
+  <font color=Blue>|</font> <font color=Green>ModuleRegdLabel</font>
 
-  | RtsLabel RtsLabelInfo
+  <font color=Blue>|</font> <font color=Green>RtsLabel</font> <font color=Green>RtsLabelInfo</font>
 
-  | ForeignLabel FastString	-- a 'C' (or otherwise foreign) label
-	(Maybe Int) 		-- possible '@n' suffix for stdcall functions
-		-- When generating C, the '@n' suffix is omitted, but when
-		-- generating assembler we must add it to the label.
-	Bool			-- True <=> is dynamic
+  <font color=Blue>|</font> <font color=Green>ForeignLabel</font> <font color=Green>FastString</font>	<font color=Crimson>-- a 'C' (or otherwise foreign) label</font>
+	<font color=Blue>(</font><font color=Green>Maybe</font> <font color=Green>Int</font><font color=Blue>)</font> 		<font color=Crimson>-- possible '@n' suffix for stdcall functions</font>
+		<font color=Crimson>-- When generating C, the '@n' suffix is omitted, but when</font>
+		<font color=Crimson>-- generating assembler we must add it to the label.</font>
+	<font color=Green>Bool</font>			<font color=Crimson>-- True &lt;=&gt; is dynamic</font>
 
-  | CC_Label  CostCentre
-  | CCS_Label CostCentreStack
+  <font color=Blue>|</font> <font color=Green>CC_Label</font>  <font color=Green>CostCentre</font>
+  <font color=Blue>|</font> <font color=Green>CCS_Label</font> <font color=Green>CostCentreStack</font>
 
-      -- Dynamic Linking in the NCG:
-      -- generated and used inside the NCG only,
-      -- see compiler/nativeGen/PositionIndependentCode.hs for details.
+      <font color=Crimson>-- Dynamic Linking in the NCG:</font>
+      <font color=Crimson>-- generated and used inside the NCG only,</font>
+      <font color=Crimson>-- see module PositionIndependentCode for details.</font>
       
-  | DynamicLinkerLabel DynamicLinkerLabelInfo CLabel
-        -- special variants of a label used for dynamic linking
+  <font color=Blue>|</font> <font color=Green>DynamicLinkerLabel</font> <font color=Green>DynamicLinkerLabelInfo</font> <font color=Green>CLabel</font>
+        <font color=Crimson>-- special variants of a label used for dynamic linking</font>
 
-  | PicBaseLabel                -- a label used as a base for PIC calculations
-                                -- on some platforms.
-                                -- It takes the form of a local numeric
-                                -- assembler label '1'; it is pretty-printed
-                                -- as 1b, referring to the previous definition
-                                -- of 1: in the assembler source file.
+  <font color=Blue>|</font> <font color=Green>PicBaseLabel</font>                <font color=Crimson>-- a label used as a base for PIC calculations</font>
+                                <font color=Crimson>-- on some platforms.</font>
+                                <font color=Crimson>-- It takes the form of a local numeric</font>
+                                <font color=Crimson>-- assembler label '1'; it is pretty-printed</font>
+                                <font color=Crimson>-- as 1b, referring to the previous definition</font>
+                                <font color=Crimson>-- of 1: in the assembler source file.</font>
 
-  | DeadStripPreventer CLabel
-    -- label before an info table to prevent excessive dead-stripping on darwin
+  <font color=Blue>|</font> <font color=Green>DeadStripPreventer</font> <font color=Green>CLabel</font>
+    <font color=Crimson>-- label before an info table to prevent excessive dead-stripping on darwin</font>
 
-  | HpcTicksLabel Module       -- Per-module table of tick locations
-  | HpcModuleNameLabel         -- Per-module name of the module for Hpc
+  <font color=Blue>|</font> <font color=Green>HpcTicksLabel</font> <font color=Green>Module</font>       <font color=Crimson>-- Per-module table of tick locations</font>
+  <font color=Blue>|</font> <font color=Green>HpcModuleNameLabel</font>         <font color=Crimson>-- Per-module name of the module for Hpc</font>
+  <font color=Blue>|</font> <font color=Green>HpcModuleOffsetLabel</font> <font color=Green>Module</font><font color=Crimson>-- Per-module offset of the module for Hpc (dynamically generated)</font>
 
-  deriving (Eq, Ord)
+  <font color=DarkOrchid>deriving</font> <font color=Blue>(</font><font color=Green>Eq</font><font color=Blue>,</font> <font color=Green>Ord</font><font color=Blue>)</font>
+</pre>
 }}}
 
 === Sections and Directives ===
 The Haskell representation of Cmm Section directives, in [[GhcFile(compiler/cmm/Cmm.hs)]] as the first part of the "Static Data" section, is:
 {{{
-data Section
-  = Text		
-  | Data		
-  | ReadOnlyData	
-  | RelocatableReadOnlyData 
-  | UninitialisedData
-  | ReadOnlyData16	-- .rodata.cst16 on x86_64, 16-byte aligned
-  | OtherSection String
+#!html
+<pre>
+<font color=DarkOrchid>data</font> <font color=Green>Section</font>
+  <font color=Blue>=</font> <font color=Green>Text</font>
+  <font color=Blue>|</font> <font color=Green>Data</font>
+  <font color=Blue>|</font> <font color=Green>ReadOnlyData</font>
+  <font color=Blue>|</font> <font color=Green>RelocatableReadOnlyData</font>
+  <font color=Blue>|</font> <font color=Green>UninitialisedData</font>
+  <font color=Blue>|</font> <font color=Green>ReadOnlyData16</font>	<font color=Crimson>-- .rodata.cst16 on x86_64, 16-byte aligned</font>
+  <font color=Blue>|</font> <font color=Green>OtherSection</font> <font color=Green>String</font>
+</pre>
 }}}
 Cmm supports the following directives, corresponding to the assembler directives pretty-printed by the `pprSectionHeader` function in [[GhcFile(compiler/nativeGen/PprMach.hs)]]:
 || '''`Section` Constructor''' || '''Cmm section directive''' || '''Assembler Directive''' ||
@@ -633,17 +643,23 @@ Cmm expressions may include
  * another expression (a `[CmmExpr]`, in `CmmMachOp`, below).
 These are all included as constructors in the `CmmExpr` data type, defined in [[GhcFile(compiler/cmm/Cmm.hs)]]:
 {{{
-data CmmExpr
-  = CmmLit CmmLit               -- Literal or Label (name)
-  | CmmLoad CmmExpr MachRep     -- Read memory location (memory reference)
-  | CmmReg CmmReg		-- Contents of register
-  | CmmMachOp MachOp [CmmExpr]  -- operation (+, -, *, `lt`, etc.)
-  | CmmRegOff CmmReg Int	
+#!html
+<pre>
+<font color=DarkOrchid>data</font> <font color=Green>CmmExpr</font>
+  <font color=Blue>=</font> <font color=Green>CmmLit</font> <font color=Green>CmmLit</font>               <font color=Crimson>-- Literal or Label (name)</font>
+  <font color=Blue>|</font> <font color=Green>CmmLoad</font> <font color=Green>CmmExpr</font> <font color=Green>MachRep</font>     <font color=Crimson>-- Read memory location (memory reference)</font>
+  <font color=Blue>|</font> <font color=Green>CmmReg</font> <font color=Green>CmmReg</font>		<font color=Crimson>-- Contents of register</font>
+  <font color=Blue>|</font> <font color=Green>CmmMachOp</font> <font color=Green>MachOp</font> <font color=Blue>[</font><font color=Green>CmmExpr</font><font color=Blue>]</font>  <font color=Crimson>-- operation (+, -, *, etc.)</font>
+  <font color=Blue>|</font> <font color=Green>CmmRegOff</font> <font color=Green>CmmReg</font> <font color=Green>Int</font>
+</pre>
 }}}
 Note that `CmmRegOff reg i` is only shorthand for a specific `CmmMachOp` application:
 {{{
-CmmMachOp (MO_Add rep) [(CmmReg reg),(CmmLit (CmmInt i rep))]
-	where rep = cmmRegRep reg
+#!html
+<pre>
+<font color=Green>CmmMachOp</font> <font color=Blue>(</font><font color=Green>MO_Add</font> rep<font color=Blue>) [(</font><font color=Green>CmmReg</font> reg<font color=Blue>)</font>,<font color=Blue>(</font><font color=Green>CmmLit</font> <font color=Blue>(</font><font color=Green>CmmInt</font> i rep<font color=Blue>))]</font>
+	<font color=DarkOrchid>where</font> rep <font color=Blue>=</font> <font color=Orange>cmmRegRep</font> reg
+</pre>
 }}}
 The function `cmmRegRep` is described below.  Note: the original comment following `CmmExpr` in [[GhcFile(compiler/cmm/Cmm.hs)]] is erroneous (cf., `mangleIndexTree` in [[GhcFile(compiler/nativeGen/MachCodeGen.hs)]]) but makes the same point described here.  The offset, `(CmmLit (CmmInt i rep))`, is a literal (`CmmLit`), not a name (`CLabel`).  A `CmmExpr` for an offset must be reducible to a `CmmInt` ''in Haskell''; in other words, offsets in Cmm expressions may not be external symbols whose addresses are not resolvable in the current context.
 
@@ -656,22 +672,27 @@ This condition mapping does have an unfortunate consequence: conditional express
 
 Boolean conditions include: `&&`, `||`, `!` and parenthetical combinations of boolean conditions.  The `if expr { }` and `if expr { } else { }` statements contain boolean conditions.  The C-- type produced by conditional expressions is `bool`, in Cmm, type `BoolExpr` in [[GhcFile(compiler/cmm/CmmParse.y)]]:
 {{{
-data BoolExpr
-  = BoolExpr `BoolAnd` BoolExpr
-  | BoolExpr `BoolOr`  BoolExpr
-  | BoolNot BoolExpr
-  | BoolTest CmmExpr
+#!html
+<pre>
+<font color=DarkOrchid>data</font> <font color=Green>BoolExpr</font>
+  <font color=Blue>=</font> <font color=Green>BoolExpr</font> <font color=Blue>`</font><font color=Green>BoolAnd</font><font color=Blue>`</font> <font color=Green>BoolExpr</font>
+  <font color=Blue>|</font> <font color=Green>BoolExpr</font> <font color=Blue>`</font><font color=Green>BoolOr</font><font color=Blue>`</font>  <font color=Green>BoolExpr</font>
+  <font color=Blue>|</font> <font color=Green>BoolNot</font> <font color=Green>BoolExpr</font>
+  <font color=Blue>|</font> <font color=Green>BoolTest</font> <font color=Green>CmmExpr</font></pre>
 }}}
 The type `BoolExpr` maps to the `CmmCondBranch` or `CmmBranch` constructors of type `CmmStmt`, defined in [[GhcFile(compiler/cmm/Cmm.hs)]], see [wiki:Commentary/Compiler/CmmType#StatementsandCalls Statements and Calls].
 
 The `CmmExpr` constructor `CmmMachOp MachOp [CmmExpr]` is the core of every operator-based expression; the key here is `MachOp`, which in turn depends on the type of `MachRep` for each operand.  See [wiki:Commentary/Compiler/CmmType#FundamentalandPrimitiveOperators Fundamental and PrimitiveOperators].  In order to process `CmmExpr`s, the data type comes with a deconstructor function to obtain the relevant `MachRep`s, defined in [[GhcFile(compiler/cmm/Cmm.hs)]]:
 {{{
-cmmExprRep :: CmmExpr -> MachRep
-cmmExprRep (CmmLit lit)      = cmmLitRep lit
-cmmExprRep (CmmLoad _ rep)   = rep
-cmmExprRep (CmmReg reg)      = cmmRegRep reg
-cmmExprRep (CmmMachOp op _)  = resultRepOfMachOp op
-cmmExprRep (CmmRegOff reg _) = cmmRegRep reg
+#!html
+<pre>
+<font color=Orange>cmmExprRep</font> <font color=Blue>::</font> <font color=Green>CmmExpr</font> <font color=Blue>-&gt;</font> <font color=Green>MachRep</font>
+<font color=Orange>cmmExprRep</font> <font color=Blue>(</font><font color=Green>CmmLit</font> <font color=Black>lit</font><font color=Blue>)</font>      <font color=Blue>=</font> <font color=Orange>cmmLitRep</font> <font color=Black>lit</font>
+<font color=Orange>cmmExprRep</font> <font color=Blue>(</font><font color=Green>CmmLoad</font> <font color=Magenta>_</font> <font color=Black>rep</font><font color=Blue>)</font>   <font color=Blue>=</font> <font color=Black>rep</font>
+<font color=Orange>cmmExprRep</font> <font color=Blue>(</font><font color=Green>CmmReg</font> <font color=Black>reg</font><font color=Blue>)</font>      <font color=Blue>=</font> <font color=Orange>cmmRegRep</font> <font color=Black>reg</font>
+<font color=Orange>cmmExprRep</font> <font color=Blue>(</font><font color=Green>CmmMachOp</font> <font color=Black>op</font> <font color=Magenta>_</font><font color=Blue>)</font>  <font color=Blue>=</font> <font color=Black>resultRepOfMachOp</font> <font color=Black>op</font>
+<font color=Orange>cmmExprRep</font> <font color=Blue>(</font><font color=Green>CmmRegOff</font> <font color=Black>reg</font> <font color=Magenta>_</font><font color=Blue>)</font> <font color=Blue>=</font> <font color=Orange>cmmRegRep</font> <font color=Black>reg</font>
+</pre>
 }}}
 The deconstructors `cmmLitRep` and `cmmRegRep` (with its supporting deconstructor `localRegRep`) are also defined in [[GhcFile(compiler/cmm/Cmm.hs)]].
 
@@ -685,7 +706,10 @@ res = first + second;
 }}}
 Remember that the assignment operator, `=`, is a statement since it has the "side effect" of modifying the value in `res`.  The `+` expression in the above statement, for a 32-bit architecture, would be represented in Haskell as:
 {{{
-CmmMachOp (MO_Add I32) [CmmReg (CmmLocal uniq I32), CmmReg (CmmLocal uniq I32)]
+#!html
+<pre>
+<font color=Green>CmmMachOp</font> <font color=Blue>(</font><font color=Green>MO_Add</font> <font color=Green>I32</font><font color=Blue>)</font> <font color=Blue>[</font><font color=Green>CmmReg</font> <font color=Blue>(</font><font color=Green>CmmLocal</font> <font color=Black>uniq</font> <font color=Green>I32</font><font color=Blue>)</font><font color=Blue>,</font> <font color=Green>CmmReg</font> <font color=Blue>(</font><font color=Green>CmmLocal</font> <font color=Black>uniq</font> <font color=Green>I32</font><font color=Blue>)</font><font color=Blue>]</font>
+</pre>
 }}}
 The `expr` production rule in the Cmm Parser [[GhcFile(compiler/cmm/CmmParse.y)]] maps tokens to "values", such as `+` to an addition operation, `MO_Add`.  The `mkMachOp` function in the Parser determines the `MachOp` type in `CmmMachOp MachOp [CmmExpr]` from the token value and the `MachRep` type of the `head` variable.  Notice that the simple `+` operator did not contain sign information, only the `MachRep`.  For `expr`, signed and other `MachOps`, see the `machOps` function in [[GhcFile(compiler/cmm/CmmParse.y)]].  Here is a table of operators and the corresponding `MachOp`s recognised by Cmm (listed in order of precedence):
 || '''Operator''' || '''`MachOp`''' ||
@@ -770,36 +794,39 @@ In the above macros, `P` stands for `PtrArg` and `N` stands for `NonPtrArg`; bot
 
 The Haskell representation of Cmm Statements is the data type `CmmStmt`, defined in [[GhcFile(compiler/cmm/Cmm.hs)]]:
 {{{
-data CmmStmt
-  = CmmNop
-  | CmmComment FastString
+#!html
+<pre>
+<font color=DarkOrchid>data</font> <font color=Green>CmmStmt</font>
+  <font color=Blue>=</font> <font color=Green>CmmNop</font>
+  <font color=Blue>|</font> <font color=Green>CmmComment</font> <font color=Green>FastString</font>
 
-  | CmmAssign CmmReg CmmExpr	 -- Assign to register
+  <font color=Blue>|</font> <font color=Green>CmmAssign</font> <font color=Green>CmmReg</font> <font color=Green>CmmExpr</font>	 <font color=Crimson>-- Assign to register</font>
 
-  | CmmStore CmmExpr CmmExpr     -- Assign to memory location.  Size is
-                                 -- given by cmmExprRep of the rhs.
+  <font color=Blue>|</font> <font color=Green>CmmStore</font> <font color=Green>CmmExpr</font> <font color=Green>CmmExpr</font>     <font color=Crimson>-- Assign to memory location.  Size is</font>
+                                 <font color=Crimson>-- given by cmmExprRep of the rhs.</font>
 
-  | CmmCall	 		 -- A foreign call, with 
-     CmmCallTarget
-     [(CmmReg,MachHint)]	 -- zero or more results
-     [(CmmExpr,MachHint)]	 -- zero or more arguments
-     (Maybe [GlobalReg])	 -- Global regs that may need to be saved
-				 -- if they will be clobbered by the call.
-				 -- Nothing <=> save *all* globals that
-				 -- might be clobbered.
+  <font color=Blue>|</font> <font color=Green>CmmCall</font>	 		 <font color=Crimson>-- A foreign call, with </font>
+     <font color=Green>CmmCallTarget</font>
+     <font color=Blue>[</font><font color=Blue>(</font><font color=Green>CmmReg</font><font color=Blue>,</font><font color=Green>MachHint</font><font color=Blue>)</font><font color=Blue>]</font>	 <font color=Crimson>-- zero or more results</font>
+     <font color=Blue>[</font><font color=Blue>(</font><font color=Green>CmmExpr</font><font color=Blue>,</font><font color=Green>MachHint</font><font color=Blue>)</font><font color=Blue>]</font>	 <font color=Crimson>-- zero or more arguments</font>
+     <font color=Blue>(</font><font color=Green>Maybe</font> <font color=Blue>[</font><font color=Green>GlobalReg</font><font color=Blue>]</font><font color=Blue>)</font>	 <font color=Crimson>-- Global regs that may need to be saved</font>
+				 <font color=Crimson>-- if they will be clobbered by the call.</font>
+				 <font color=Crimson>-- Nothing &lt;=&gt; save *all* globals that</font>
+				 <font color=Crimson>-- might be clobbered.</font>
 
-  | CmmBranch BlockId             -- branch to another BB in this fn
+  <font color=Blue>|</font> <font color=Green>CmmBranch</font> <font color=Green>BlockId</font>             <font color=Crimson>-- branch to another BB in this fn</font>
 
-  | CmmCondBranch CmmExpr BlockId -- conditional branch
+  <font color=Blue>|</font> <font color=Green>CmmCondBranch</font> <font color=Green>CmmExpr</font> <font color=Green>BlockId</font> <font color=Crimson>-- conditional branch</font>
 
-  | CmmSwitch CmmExpr [Maybe BlockId]   -- Table branch
-	-- The scrutinee is zero-based; 
-	--	zero -> first block
-	--	one  -> second block etc
-	-- Undefined outside range, and when there's a Nothing
+  <font color=Blue>|</font> <font color=Green>CmmSwitch</font> <font color=Green>CmmExpr</font> <font color=Blue>[</font><font color=Green>Maybe</font> <font color=Green>BlockId</font><font color=Blue>]</font>   <font color=Crimson>-- Table branch</font>
+	<font color=Crimson>-- The scrutinee is zero-based; </font>
+	<font color=Crimson>--	zero -&gt; first block</font>
+	<font color=Crimson>--	one  -&gt; second block etc</font>
+	<font color=Crimson>-- Undefined outside range, and when there's a Nothing</font>
 
-  | CmmJump CmmExpr [LocalReg]    -- Jump to another function, with these 
-				  -- parameters.
+  <font color=Blue>|</font> <font color=Green>CmmJump</font> <font color=Green>CmmExpr</font> <font color=Blue>[</font><font color=Green>LocalReg</font><font color=Blue>]</font>    <font color=Crimson>-- Jump to another function, with these </font>
+				  <font color=Crimson>-- parameters.</font>
+</pre>
 }}}
 Note how the constructor `CmmJump` contains `[LocalReg]`: this is the Cmm implementation of the C-- `jump` statement for calling another procedure where the parameters are the arguments passed to the other procedure. None of the parameters contain the address--in assembler, a label--of the caller, to return control to the caller.  The `CmmCall` constructor also lacks a parameter to store the caller's address.  Cmm implements C-- jump nesting and matching returns by ''tail calls'', as described in section 6.8 of the C-- specification.  Tail calls are managed through the [wiki:Commentary/Compiler/CodeGen CodeGen], see [[GhcFile(compiler/codeGen/CgTailCall.lhs)]].  You may have already noticed that the call target of the `CmmJump` is a `CmmExpr`: this is the Cmm implementation of computed procedure addresses, for example:
 {{{
@@ -825,15 +852,18 @@ Cmm calls include both calls to foreign functions and calls to Cmm quasi-operato
 
 The data type, `CmmCallTarget` is defined in [[GhcFile(compiler/cmm/Cmm.hs)]] as:
 {{{
-data CmmCallTarget
-  = CmmForeignCall		-- Call to a foreign function
-	CmmExpr 		-- literal label <=> static call
-				-- other expression <=> dynamic call
-	CCallConv		-- The calling convention
+#!html
+<pre>
+<font color=DarkOrchid>data</font> <font color=Green>CmmCallTarget</font>
+  <font color=Blue>=</font> <font color=Green>CmmForeignCall</font>		<font color=Crimson>-- Call to a foreign function</font>
+	<font color=Green>CmmExpr</font> 		<font color=Crimson>-- literal label &lt;=&gt; static call</font>
+				<font color=Crimson>-- other expression &lt;=&gt; dynamic call</font>
+	<font color=Green>CCallConv</font>		<font color=Crimson>-- The calling convention</font>
 
-  | CmmPrim			-- Call to a "primitive" (eg. sin, cos)
-	CallishMachOp		-- These might be implemented as inline
-				-- code by the backend.
+  <font color=Blue>|</font> <font color=Green>CmmPrim</font>			<font color=Crimson>-- Call to a "primitive" (eg. sin, cos)</font>
+	<font color=Green>CallishMachOp</font>		<font color=Crimson>-- These might be implemented as inline</font>
+				<font color=Crimson>-- code by the backend.</font>
+</pre>
 }}}
 `CCallConv` is defined in [[GhcFile(compiler/prelude/ForeignCall.lhs)]]; for information on register assignments, see comments in [[GhcFile(compiler/codeGen/CgCallConv.hs)]].
 
@@ -850,55 +880,58 @@ Cmm generally conforms to the C-- specification for operators and "primitive ope
    * generally map to a single machine instruction or part of a machine instruction;
    * have no side effects; and, 
    * are represented in Haskell using the `MachOp` data type; 
- * ''primitive operations'' are special, usually inlined, procedures, represented in Haskell using the `CallishMachOp` data type; primitive operations may have side effects.
+ * ''primitive operations'' (Cmm ''quasi-operators'') are special, usually inlined, procedures, represented in Haskell using the `CallishMachOp` data type; primitive operations may have side effects.
 The `MachOp` and `CallishMachOp` data types are defined in [[GhcFile(compiler/cmm/MachOp.hs)]].
 
 Both Cmm Operators and Primitive Operations are handled in Haskell as [wiki:Commentary/PrimOps#InlinePrimOps Inline PrimOps], though what I am calling Cmm ''primitive operations'' may be implemented as out-of-line foreign calls.
 
 ==== Operators ====
 {{{
-data MachOp
+#!html
+<pre>
+<font color=DarkOrchid>data</font> <font color=Green>MachOp</font>
 
-  -- Integer operations
-  = MO_Add    MachRep
-  | MO_Sub    MachRep
-  | MO_Eq     MachRep
-  | MO_Ne     MachRep
-  | MO_Mul    MachRep		-- low word of multiply
-  | MO_S_MulMayOflo MachRep 	-- nonzero if signed multiply overflows
-  | MO_S_Quot MachRep		-- signed / (same semantics as IntQuotOp)
-  | MO_S_Rem  MachRep		-- signed % (same semantics as IntRemOp)
-  | MO_S_Neg  MachRep		-- unary -
-  | MO_U_MulMayOflo MachRep	-- nonzero if unsigned multiply overflows
-  | MO_U_Quot MachRep		-- unsigned / (same semantics as WordQuotOp)
-  | MO_U_Rem  MachRep		-- unsigned % (same semantics as WordRemOp)
+  <font color=Crimson>-- Integer operations</font>
+  <font color=Blue>=</font> <font color=Green>MO_Add</font>    <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_Sub</font>    <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_Eq</font>     <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_Ne</font>     <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_Mul</font>    <font color=Green>MachRep</font>		<font color=Crimson>-- low word of multiply</font>
+  <font color=Blue>|</font> <font color=Green>MO_S_MulMayOflo</font> <font color=Green>MachRep</font> 	<font color=Crimson>-- nonzero if signed multiply overflows</font>
+  <font color=Blue>|</font> <font color=Green>MO_S_Quot</font> <font color=Green>MachRep</font>		<font color=Crimson>-- signed / (same semantics as IntQuotOp)</font>
+  <font color=Blue>|</font> <font color=Green>MO_S_Rem</font>  <font color=Green>MachRep</font>		<font color=Crimson>-- signed % (same semantics as IntRemOp)</font>
+  <font color=Blue>|</font> <font color=Green>MO_S_Neg</font>  <font color=Green>MachRep</font>		<font color=Crimson>-- unary -</font>
+  <font color=Blue>|</font> <font color=Green>MO_U_MulMayOflo</font> <font color=Green>MachRep</font>	<font color=Crimson>-- nonzero if unsigned multiply overflows</font>
+  <font color=Blue>|</font> <font color=Green>MO_U_Quot</font> <font color=Green>MachRep</font>		<font color=Crimson>-- unsigned / (same semantics as WordQuotOp)</font>
+  <font color=Blue>|</font> <font color=Green>MO_U_Rem</font>  <font color=Green>MachRep</font>		<font color=Crimson>-- unsigned % (same semantics as WordRemOp)</font>
 
-  -- Signed comparisons (floating-point comparisons also use these)
-  | MO_S_Ge MachRep
-  | MO_S_Le MachRep
-  | MO_S_Gt MachRep
-  | MO_S_Lt MachRep
+  <font color=Crimson>-- Signed comparisons (floating-point comparisons also use these)</font>
+  <font color=Blue>|</font> <font color=Green>MO_S_Ge</font> <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_S_Le</font> <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_S_Gt</font> <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_S_Lt</font> <font color=Green>MachRep</font>
 
-  -- Unsigned comparisons
-  | MO_U_Ge MachRep
-  | MO_U_Le MachRep
-  | MO_U_Gt MachRep
-  | MO_U_Lt MachRep
+  <font color=Crimson>-- Unsigned comparisons</font>
+  <font color=Blue>|</font> <font color=Green>MO_U_Ge</font> <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_U_Le</font> <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_U_Gt</font> <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_U_Lt</font> <font color=Green>MachRep</font>
 
-  -- Bitwise operations.  Not all of these may be supported at all sizes,
-  -- and only integral MachReps are valid.
-  | MO_And   MachRep
-  | MO_Or    MachRep
-  | MO_Xor   MachRep
-  | MO_Not   MachRep
-  | MO_Shl   MachRep
-  | MO_U_Shr MachRep	-- unsigned shift right
-  | MO_S_Shr MachRep	-- signed shift right
+  <font color=Crimson>-- Bitwise operations.  Not all of these may be supported at all sizes,</font>
+  <font color=Crimson>-- and only integral MachReps are valid.</font>
+  <font color=Blue>|</font> <font color=Green>MO_And</font>   <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_Or</font>    <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_Xor</font>   <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_Not</font>   <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_Shl</font>   <font color=Green>MachRep</font>
+  <font color=Blue>|</font> <font color=Green>MO_U_Shr</font> <font color=Green>MachRep</font>	<font color=Crimson>-- unsigned shift right</font>
+  <font color=Blue>|</font> <font color=Green>MO_S_Shr</font> <font color=Green>MachRep</font>	<font color=Crimson>-- signed shift right</font>
 
-  -- Conversions.  Some of these will be NOPs.
-  -- Floating-point conversions use the signed variant.
-  | MO_S_Conv MachRep{-from-} MachRep{-to-}	-- signed conversion
-  | MO_U_Conv MachRep{-from-} MachRep{-to-}	-- unsigned conversion
+  <font color=Crimson>-- Conversions.  Some of these will be NOPs.</font>
+  <font color=Crimson>-- Floating-point conversions use the signed variant.</font>
+  <font color=Blue>|</font> <font color=Green>MO_S_Conv</font> <font color=Green>MachRep</font><font color=Crimson>{-from-}</font> <font color=Green>MachRep</font><font color=Crimson>{-to-}</font>	<font color=Crimson>-- signed conversion</font>
+  <font color=Blue>|</font> <font color=Green>MO_U_Conv</font> <font color=Green>MachRep</font><font color=Crimson>{-from-}</font> <font color=Green>MachRep</font><font color=Crimson>{-to-}</font>	<font color=Crimson>-- unsigned conversion</font>
+</pre>
 }}}
 Each `MachOp` generally corresponds to a machine instruction but may have its value precomputed in the Cmm, NCG or HC optimisers.  
 
@@ -906,38 +939,41 @@ Each `MachOp` generally corresponds to a machine instruction but may have its va
 Primitive Operations generally involve more than one machine instruction and may not always be inlined.  
 
 {{{
--- These MachOps tend to be implemented by foreign calls in some backends,
--- so we separate them out.  In Cmm, these can only occur in a
--- statement position, in contrast to an ordinary MachOp which can occur
--- anywhere in an expression.
-data CallishMachOp
-  = MO_F64_Pwr
-  | MO_F64_Sin
-  | MO_F64_Cos
-  | MO_F64_Tan
-  | MO_F64_Sinh
-  | MO_F64_Cosh
-  | MO_F64_Tanh
-  | MO_F64_Asin
-  | MO_F64_Acos
-  | MO_F64_Atan
-  | MO_F64_Log
-  | MO_F64_Exp
-  | MO_F64_Sqrt
-  | MO_F32_Pwr
-  | MO_F32_Sin
-  | MO_F32_Cos
-  | MO_F32_Tan
-  | MO_F32_Sinh
-  | MO_F32_Cosh
-  | MO_F32_Tanh
-  | MO_F32_Asin
-  | MO_F32_Acos
-  | MO_F32_Atan
-  | MO_F32_Log
-  | MO_F32_Exp
-  | MO_F32_Sqrt
-  | MO_WriteBarrier
+#!html
+<pre>
+<font color=Crimson>-- These MachOps tend to be implemented by foreign calls in some backends,</font>
+<font color=Crimson>-- so we separate them out.  In Cmm, these can only occur in a</font>
+<font color=Crimson>-- statement position, in contrast to an ordinary MachOp which can occur</font>
+<font color=Crimson>-- anywhere in an expression.</font>
+<font color=DarkOrchid>data</font> <font color=Green>CallishMachOp</font>
+  <font color=Blue>=</font> <font color=Green>MO_F64_Pwr</font>
+  <font color=Blue>|</font> <font color=Green>MO_F64_Sin</font>
+  <font color=Blue>|</font> <font color=Green>MO_F64_Cos</font>
+  <font color=Blue>|</font> <font color=Green>MO_F64_Tan</font>
+  <font color=Blue>|</font> <font color=Green>MO_F64_Sinh</font>
+  <font color=Blue>|</font> <font color=Green>MO_F64_Cosh</font>
+  <font color=Blue>|</font> <font color=Green>MO_F64_Tanh</font>
+  <font color=Blue>|</font> <font color=Green>MO_F64_Asin</font>
+  <font color=Blue>|</font> <font color=Green>MO_F64_Acos</font>
+  <font color=Blue>|</font> <font color=Green>MO_F64_Atan</font>
+  <font color=Blue>|</font> <font color=Green>MO_F64_Log</font>
+  <font color=Blue>|</font> <font color=Green>MO_F64_Exp</font>
+  <font color=Blue>|</font> <font color=Green>MO_F64_Sqrt</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Pwr</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Sin</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Cos</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Tan</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Sinh</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Cosh</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Tanh</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Asin</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Acos</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Atan</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Log</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Exp</font>
+  <font color=Blue>|</font> <font color=Green>MO_F32_Sqrt</font>
+  <font color=Blue>|</font> <font color=Green>MO_WriteBarrier</font>
+</pre>
 }}}
 For an example, the floating point sine function, `sinFloat#` in [[GhcFile(compiler/prelude/primops.txt.pp)]] is piped through the `callishOp` function in [[GhcFile(compiler/codegen/CgPrimOp.hs)]] to become `Just MO_F32_Sin`.  The `CallishMachOp` constructor `MO_F32_Sin` is piped through [[GhcFile(compiler/nativeGen/MachCodeGen.hs)]], where the function `genCCall` will (for most architectures) call `outOfLineFloatOp` to issue a call to a C function such as `sin`.
 
