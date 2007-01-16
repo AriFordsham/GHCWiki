@@ -35,8 +35,7 @@ _reset_OF_flag:
 	push	%ax 		; push %ax value (with bit 11 set to 0) onto stack
 	popf			; pop top of stack into lower 16 bits of %eflags
 				; OF bit now reset
-	jmp	_continue_operation_on_int:
-	
+
 _continue_operation_on_int:	; this is a 32-bit address (also works in 64-bit mode)
 	;...
 }}}
