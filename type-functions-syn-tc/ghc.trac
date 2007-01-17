@@ -19,6 +19,7 @@ We have three kinds of type variables:
  * ''Non-overlapping'': For any other axiom or local assumption `s' = t'`, there may not be any substitution ''theta'', such that (''theta'' `s`) equals (''theta'' `s'`).
  * ''Left linear'': No schema variable appears more than once in `s`.
  * ''Decreasing'': The number of data type constructor and variables symbols occurring in the arguments of a type family occuring in `t` must be strictly less than the number of data type constructor and variable symbols in `s`.
+ * ''Rank 0'': No foralls in `s` or `t`.
 
 Examples of normal type equations:
 {{{
@@ -48,7 +49,7 @@ If an equation `s = t` does not contain any schema variables and is normal, exce
 
 === Normalisation of equalities ===
 
-Normalisation of an equality `s = t` of arbitrary type terms `s` and `t` (not containing schema variables) leads to a (possibly empty) set of normal equations, or to a type error.  We proceed as follows:
+Normalisation of an equality `s = t` of arbitrary rank-0 type terms `s` and `t` (not containing schema variables) leads to a (possibly empty) set of normal equations, or to a type error.  We proceed as follows:
 
  1. Reduce `s` and `t` to NF, giving us `s'` and `t'`.
  2. If `s'` and `t'` are identical, we succeed (with no new rule).
