@@ -157,17 +157,17 @@ As for printing GMP numbers, [libraries/base/GHC/Num.lhs](/trac/ghc/browser/ghc/
 ### GMP Library Implementation
 
 
-\[general notes, not finished\] The GMP library, like most multi-precision libraries has a fundamental limitation that might seem odd if you are only familiar with Haskell--not likely, but it bears mention anyway!  GMP functions require that their operands be separate entities.  (Remember: an operation such as `a + b` has three entities: the two operands and the result.)  That is, if you want to add `mpz_t a` to `mpz_t b`, and place the result in `mpz_t c`, you are fine but if you try to add `a` to `a` you will run into trouble.  (The problem is, the multi-precision integer library functions are designed so the operands cannot alias; this is more of a problem for complex operations such as multiplication than simple operations like addition.)  This limitation might be overcome by designing the API differently, for example:
+The GMP library, like most multi-precision libraries has a fundamental limitation that might seem odd if you are only familiar with Haskell--not likely, but it bears mention anyway!  GMP functions require that their operands be separate entities.  (Remember: an operation such as `a + b` has three entities: the two operands and the result.)  That is, if you want to add `mpz_t a` to `mpz_t b`, and place the result in `mpz_t c`, you are fine but if you try to add `a` to `a` you will run into trouble.  (The problem is, the multi-precision integer library functions are designed so the operands cannot alias; this is more of a problem for complex operations such as multiplication than simple operations like addition.)  This limitation might be overcome by designing the API differently, for example:
 
 1. compare the operands in Haskell, Cmm or whatever before you pass them to the _add function; 
 1. if the operands are the same, create a separate copy of the operand
 1. -- you are o.k. for the case where two operands cannot be the same.  
 
 
-For the case where one of the operands and the result is the same you would have to check outside the general Haskell, Cmm or whatever function wrapping the _add function--you would seem to need a higher level construct.  This is also a problem with Ints in GHCi.  Here is an example:
+For the case where one of the operands and the result is the same you would have to check outside the general Haskell, Cmm or whatever function wrapping the _add function--you would seem to need a higher level construct.  This is already handled by the Haskell language, since `Integer`s are subject to the same functional properties as other non-mutable variables.  There does seem to be a problem with `Int`s and `Integer`s in GHCi--I (PDT) am not sure whether this is a naming problem (the name after `let` is a binding-name) or an evaluation problem.  Here is an example:
 
 ```
 
   (in GHCi)
-  >letm_integer=123456789::Integer>letn_integer=m_integer+m_integer-- this will show o.k., but the implementation involves *always* making extra temporaries>n_integer246913578-- a = a + a>letm_integer=m_integer+m_integer>letn_integer=m_integer+m_integer-- this will be fine until you try to evaluate it:>n_integer*** Exception: stack overflow-- now, try the same thing with plain Ints:-- this will default to an Int>leta=5>leta=a+a>letb=a+a>b*** Exception: stack overflow
+  >letm_integer=123456789::Integer>letn_integer=m_integer+m_integer-- this will show o.k., but the implementation involves *always* making extra temporaries>n_integer246913578-- a = a + a>letm_integer=m_integer+m_integer--"m_integer" after "let" here is a new binding>letn_integer=m_integer+m_integer-- this will be fine until you try to evaluate it:>n_integer*** Exception: stack overflow-- now, try the same thing with plain Ints:-- this will default to an Int>leta=5>leta=a+a>letb=a+a>b*** Exception: stack overflow
 ```
