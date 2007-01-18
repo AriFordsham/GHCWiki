@@ -37,7 +37,7 @@ placeHolderType = panic "Evaluated the place holder for a PostTcType"
   The error thunks mean that we can't conveniently pretty-print the `PostTcType` fields, because the pretty-printer would poke the error thunks when run on pre-typchecked code.  We could have defined `PostTcType` to be `Maybe Type`, but that would have meant unwrapping lots of `Just` constructors, which is messy.  It would be nicer to parameterise `HsSyn` over the `PostTcType` fields.  Thus:
 {{{
   type RnHsBinds = HsBinds Name ()   -- After renaming
-  type TcHsBines = HsBinds Id Type   -- After type checking
+  type TcHsBinds = HsBinds Id Type   -- After type checking
 }}}
   This would be a Good Thing to do.
 
