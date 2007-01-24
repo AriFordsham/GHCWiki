@@ -394,7 +394,7 @@ So matters are not much worse than before.
 -------------------------
 == Related work ==
 
-=== Wadler's original paper (POPL 1987)] ===
+=== Wadler's original paper (POPL 1987) ===
 
 Wadler's paper was the first concrete proposal.  It proposed a top-level view
 declaration, together with functions ''in both directions'' between the view type
