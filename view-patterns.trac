@@ -78,13 +78,13 @@ The expression ''expr'' must have type
 ''t1 `-> Maybe` t2''. Then the pattern ''pat'' must have type ''t2'', and the
 whole pattern (''expr'' `->` ''pat'') has type ''t1''.
 
-=== Nesting ====
+=== Nesting ===
 
 View patterns are just an extra syntactic form of pattern, and they nest inside other patterns, and other patterns nest inside them.  So one can write
 {{{
   f (sing -> x, True) = ...
-  g (Just [sing -> x]) = ...
-  h (Just [sing -> Just x]) = ...
+  g (Just (sing -> x)) = ...
+  h (Just (sing -> Just x)) = ...
 }}}
 And by the same token, view patterns nest inside each other:
 {{{
