@@ -5,6 +5,8 @@ This page describes a rather lightweight proposal for adding views to
 Haskell Prime.  I'm thinking of prototyping the idea in GHC, so I'm looking
 for feedback.
 
+This page is open to editing by anyone.  (Chase the "Wiki notes" link in the sidebar to find out how.)
+
 == The problem == 
 
 We are keen on abstraction, but pattern matching is so convenient that
@@ -59,7 +61,7 @@ form
 	(''expr'' `->` ''pat'')
 
 where ''expr'' is an arbitrary Haskell expression.   I'll call a pattern
-of this form a '''view pattern'''.
+of this form a '''view pattern'''. 
 
 From a '''scoping''' point of view, the variables bound by the pattern (''expr'' `->` ''pat'')
 are simply the variables bound by ``pat``.
@@ -75,6 +77,23 @@ The '''typing rule''' is similarly simple.
 The expression ''expr'' must have type
 ''t1 `-> Maybe` t2''. Then the pattern ''pat'' must have type ''t2'', and the
 whole pattern (''expr'' `->` ''pat'') has type ''t1''.
+
+=== Nesting ===
+
+View patterns are just an extra syntactic form of pattern, and they nest inside other patterns, and other patterns nest inside them.  So one can write
+{{{
+  f (sing -> x, True) = ...
+  g (Just (sing -> x)) = ...
+  h (Just (sing -> Just x)) = ...
+}}}
+And by the same token, view patterns nest inside each other:
+{{{
+  k :: [[a]] -> a
+  k (sing -> sing -> x) = x
+}}}
+This convenient nesting is perhaps the biggest practical 
+difference between view patterns and pattern guards.
+
 
 === The value input feature ===
 
@@ -305,6 +324,13 @@ But with view pattern you can:
 }}}
 
 == Concrete syntax ==
+A disadvantage of the arrow syntax is that it looks a bit confusing
+when it appears in a case expression:
+{{{
+  last xs = case xs of
+                (snoc -> x xs) -> x
+}}}
+(Also that "x xs" looks a bit like `x` applied to `xs`.)
 
 Here are some other possible syntax choices I've considered:
 {{{
@@ -317,8 +343,17 @@ Here are some other possible syntax choices I've considered:
 
   f (snoc | x xs) = ..		-- Use "|" instead of "->"
   g (bits 3 | b bs) = ...
-
+}}}
+Another possibility is to use a backward arrow, more like pattern guards:
+{{{
   f ((x,xs) <- snoc) = ...  -- More like pattern guards
+}}}
+But that messes up the left-to-right flow that is useful in some cases.
+For example, compare these:
+{{{
+  parsePacket1 (bits 3 -> n (bits n -> val bs)) = ...
+
+  parsePacket2 (n (val bs <- bits n) <- bits 3) = ...
 }}}
 
 I also thought about infix view patterns, where the view function
@@ -359,7 +394,7 @@ So matters are not much worse than before.
 -------------------------
 == Related work ==
 
-=== Wadler's original paper (POPL 1987)] ===
+=== Wadler's original paper (POPL 1987) ===
 
 Wadler's paper was the first concrete proposal.  It proposed a top-level view
 declaration, together with functions ''in both directions'' between the view type
