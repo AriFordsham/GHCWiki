@@ -401,6 +401,15 @@ With the value input feature, in a sense, patterns become first class. For examp
 Here the first argument `p` can be thought of as a pattern passed to `g`, which
 is used to match the second argument of `g`.
 
+
+Here is another rather cute example:
+
+```wiki
+unfoldr :: (b -> Maybe (a, b)) -> b -> [a] 
+unfoldr f (f -> (a, b)) = a : unfoldr f b
+unfoldr f other         = []
+```
+
 ### Implicit `Maybe` feature
 
 
@@ -447,6 +456,9 @@ Projection to multiple alternatives requires a new data type for every group of 
 ```
 
 
+Using a fixed set of multiple alternatives makes it more obvious whether the match is exhaustive or not.
+
+
 While the implicit `Maybe a` is more compositional and nicely integrates with already existing uses of the `Maybe`-type, it cannot share expensive computations across multiple alternatives. This is a strong argument against the implicit `Maybe a`. To illustrate the problem, suppose that
 
 ```wiki
@@ -490,6 +502,9 @@ matching (not in semantics but in use).
 
 
 The problem that needs to be solved is to introduce abstraction "after the fact".
+
+
+On the other hand, view patterns can do arbitrary computation, perhaps expensive. So it's good to have a syntactically-distinct notation that reminds the programmer that some computation beyond ordinary pattern matching may be going on.
 
 ### Nesting
 
