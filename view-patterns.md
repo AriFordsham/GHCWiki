@@ -21,7 +21,11 @@ these days) is a method.
 Views have, in one form or another, repeatedly been proposed as a
 solution for this problem.   (See the end for a comparison with related work.)
 
-## The proposal informally
+---
+
+## The lightweight view proposal
+
+### Informally
 
 
 The proposal introduces a new form of pattern, called a **view pattern**
@@ -62,9 +66,7 @@ It is very important that **there is nothing special about `sing`**.  It is
 not declared to be a view; it can be called as a normal Haskell function; the author
 of `sing` might not have intended it to be used in pattern matching.  
 
----
-
-## The proposal more formally
+### More formally
 
 
 The only special stuff is in the pattern.  
@@ -97,77 +99,16 @@ The expression *expr* must have type
 *t1 `-> Maybe` t2*. Then the pattern *pat* must have type *t2*, and the
 whole pattern (*expr*`->`*pat*) has type *t1*.
 
-### Nesting
+### Features
 
 
-View patterns are just an extra syntactic form of pattern, and they nest inside other patterns, and other patterns nest inside them.  So one can write
+For the different features this proposal (and others) have, see [Features views can have](#Featuresviewscanhave).
+The proposal
 
-```wiki
-  f (sing -> x, True) = ...
-  g (Just (sing -> x)) = ...
-  h (Just (sing -> Just x)) = ...
-```
-
-
-And by the same token, view patterns nest inside each other:
-
-```wiki
-  k :: [[a]] -> a
-  k (sing -> sing -> x) = x
-```
-
-
-This convenient nesting is perhaps the biggest practical 
-difference between view patterns and pattern guards.
-
-### The value input feature
-
-
-Note that the *expr* is an arbitrary Haskell expression. For example, suppose you wrote
-a regular expression matching function:
-
-```wiki
-  regexp :: String -> String -> Maybe (String, String)
-  -- (regexp r s) parses a string matching regular expression r 
-  --	the front of s, returning the matched string and remainder of s
-```
-
-
-then you could use it in patterns thus:
-
-```wiki
-  f :: String -> String
-  f (regexp "[a-z]*" -> (name, rest)) = ...
-```
-
-
-Of course, the argument does not need to be a constant as it is here.
-
-**This ability to pass arguments to the view function, to guide its matching
-behaviour, is a key feature of this proposal,** shared by some, but by no means
-all view proposals.  I'll call it the **value input feature**.  
-
-
-Indeed, in a sense, patterns become first class.  For example, one could pass a pattern
-as an argument to a function thus:
-
-```wiki
-  g :: (Int -> Maybe Int) -> Int -> ...
-  g p (p -> x) = ...
-```
-
-
-Here the first argument `p` can be thought of as a pattern passed to `g`, which
-is used to match the second argument of `g`. 
-
-
-Here is another rather cute example:
-
-```wiki
-unfoldr :: (b -> Maybe (a, b)) -> b -> [a] 
-unfoldr f (f -> (a, b)) = a : unfoldr f b
-unfoldr f other         = []
-```
+- has the value input feature
+- has the implicit `Maybe` feature
+- doesn't have the transparent ordinary patterns feature
+- has the nesting feature
 
 ### Possible extension 1: multi-argument view patterns
 
@@ -256,41 +197,9 @@ f (snoc -> Just2 xs x) = ...
 
 
 (Note the tiresome `Just2`.)
-The benefit of not having the implicit matching is that you can write functions that are, perhaps,
-more view-like.  Example:
-
-```wiki
-data Product = ....some big data type...
-
-data Size = Small | Medium | Big	-- View type
-prodSize :: Product -> Size
-prodSize = ....
-
-f :: Product -> ...
-f (prodSize -> Small)  = ...
-f (prodSize -> Medium) = ...
-f (prodSize -> Big)    = ...
-```
 
 
-With the built-in `Maybe` proposal, you'd instead write something like this:
-
-```wiki
-smallProd, medProd, bigProd :: Product -> Bool
-smallProd p = ...
-medProd   p = ...
-bigProd   p = ...
-
-f :: Product -> ...
-f (smallProd ->) = ...
-f (medProd   ->) = ...
-f (bigProd   ->) = ...
-```
-
-
-This is not obviously worse, except that the first version is more
-obviously exhaustive.  Incidentally, both should generate the same
-code.
+For more one the consequences of removing the implicit `Maybe`, see the [Implicit \`Maybe\` feature](#Implicit`Maybe`feature)
 
 
 I can think of three alternatives:
@@ -302,28 +211,97 @@ I can think of three alternatives:
   - *(expr `->` pat)* for the built-in `Maybe` story
   - *(expr `=>` pat)* with no bulit-in `Maybe`
 
-## Efficiency
+### Concrete syntax
 
 
-View patterns can do arbitrary computation, perhaps expensive.  So
-it's good to have a syntactically-distinct notation that reminds the
-programmer that some computation beyond ordinary pattern matching may
-be going on.
-
-
-It's reasonable to expect the compiler to avoid repeated computation when
-pattern line up in a column:
+A disadvantage of the arrow syntax is that it looks a bit confusing
+when it appears in a case expression:
 
 ```wiki
-  f (snoc -> x xs) True  = ...
-  f (snoc -> x xs) False = ...
+  last xs = case xs of
+                (snoc -> x xs) -> x
 ```
 
 
-In pattern-guard form, common sub-expression should achieve the same
-effect, but it's quite a bit less obvious.  We should be able to give
-clear rules for when the avoidance of repeat computation is
-guaranteed.
+(Also that "x xs" looks a bit like `x` applied to `xs`.)
+
+
+Here are some other possible syntax choices I've considered:
+
+```wiki
+  f ($snoc x xs) = ...		-- Use prefix "$"
+  g ($(bits 3) x bs) = ...	-- Extra parens for the value input feature
+
+  f (%snoc x xs) = ...		-- Or use prefix "%" instead
+  f (.snoc x xs) = ...		-- Or use prefix "." instead
+  f (?snoc x xs) = ...		-- Or use prefix "?" instead
+
+  f (snoc? x xs) = ...		-- Postfix "?"
+  g ((bits 3)? x bs) = ...	-- With parens
+
+  f (snoc | x xs) = ..		-- Use "|" instead of "->"
+  g (bits 3 | b bs) = ...
+```
+
+
+Another possibility is to use a backward arrow, more like pattern guards:
+
+```wiki
+  f ((x,xs) <- snoc) = ...  -- More like pattern guards
+```
+
+
+But that messes up the left-to-right flow that is useful in some cases.
+For example, compare these:
+
+```wiki
+  parsePacket1 (bits 3 -> n (bits n -> val bs)) = ...
+
+  parsePacket2 (n (val bs <- bits n) <- bits 3) = ...
+```
+
+
+I also thought about infix view patterns, where the view function
+appears between its (pattern) arguments, but I could not think of a
+nice syntax for it, so it is not provided by this proposal.
+
+### Remarks
+
+
+The key feature of this proposal is its modesty, rather than its ambition:
+
+- There is no new form of declaration (e.g. 'view' or 'pattern synonym').  
+- The functions used in view patterns are ordinary Haskell functions, and can be called from ordinary Haskell code.  They are not special view functions.
+- Since the view functions are ordinary Haskell functions, no changes are needed to import or export mechanisms.
+- Both static and dynamic semantics are extremely simple.
+
+
+It is essentially some simple syntactic sugar for patterns.
+However, sometimes modest syntactic sugar can have profound consequences.
+In this case, it's possible that people would start routinely hiding
+the data representation and exporting view functions instead, which might
+be an excellent thing.
+
+
+All this could be done with pattern guards.  For example `parsePacket` could be written
+
+```wiki
+  parsePacket bs | Just (n, bs')    <- bits 3 bs
+                 | Just (val, bs'') <- bits n bs'
+		 = ...
+```
+
+
+Indeed, one might ask whether the extra syntax for view patterns is worth
+it when they are so close to pattern guards.  
+That's a good question.  I'm hoping that support for view patterns
+might encourage people to export view functions (ones with `Maybe`
+return types, and encouage their use in patten matching).  That is,
+just lower the barrier for abstraction a bit.
+
+**Completeness**.  It is hard to check for completeness of pattern matching; and likewise for
+overlap.  But guards already make both of these hard; and GADTs make completness hard too.
+So matters are not much worse than before.
 
 ---
 
@@ -534,6 +512,28 @@ The majority of the proposals allow nesting.
 
 ---
 
+## Efficiency of Views
+
+
+View patterns can do arbitrary computation, perhaps expensive.
+
+
+It's reasonable to expect the compiler to avoid repeated computation when
+pattern line up in a column:
+
+```wiki
+  f (snoc -> x xs) True  = ...
+  f (snoc -> x xs) False = ...
+```
+
+
+In pattern-guard form, common sub-expression should achieve the same
+effect, but it's quite a bit less obvious.  We should be able to give
+clear rules for when the avoidance of repeat computation is
+guaranteed.
+
+---
+
 ## More examples
 
 ### Erlang-style parsing
@@ -630,95 +630,6 @@ But with view pattern you can:
 
   f (errVal ->) = ...
 ```
-
-## Concrete syntax
-
-
-A disadvantage of the arrow syntax is that it looks a bit confusing
-when it appears in a case expression:
-
-```wiki
-  last xs = case xs of
-                (snoc -> x xs) -> x
-```
-
-
-(Also that "x xs" looks a bit like `x` applied to `xs`.)
-
-
-Here are some other possible syntax choices I've considered:
-
-```wiki
-  f ($snoc x xs) = ...		-- Use prefix "$"
-  g ($(bits 3) x bs) = ...	-- Extra parens for the value input feature
-
-  f (%snoc x xs) = ...		-- Or use prefix "%" instead
-
-  f (.snoc x xs) = ...		-- Or use prefix "." instead
-
-  f (snoc | x xs) = ..		-- Use "|" instead of "->"
-  g (bits 3 | b bs) = ...
-```
-
-
-Another possibility is to use a backward arrow, more like pattern guards:
-
-```wiki
-  f ((x,xs) <- snoc) = ...  -- More like pattern guards
-```
-
-
-But that messes up the left-to-right flow that is useful in some cases.
-For example, compare these:
-
-```wiki
-  parsePacket1 (bits 3 -> n (bits n -> val bs)) = ...
-
-  parsePacket2 (n (val bs <- bits n) <- bits 3) = ...
-```
-
-
-I also thought about infix view patterns, where the view function
-appears between its (pattern) arguments, but I could not think of a
-nice syntax for it, so it is not provided by this proposal.
-
-## Remarks
-
-
-The key feature of this proposal is its modesty, rather than its ambition:
-
-- There is no new form of declaration (e.g. 'view' or 'pattern synonym').  
-- The functions used in view patterns are ordinary Haskell functions, and can be called from ordinary Haskell code.  They are not special view functions.
-- Since the view functions are ordinary Haskell functions, no changes are needed to import or export mechanisms.
-- Both static and dynamic semantics are extremely simple.
-
-
-It is essentially some simple syntactic sugar for patterns.
-However, sometimes modest syntactic sugar can have profound consequences.
-In this case, it's possible that people would start routinely hiding
-the data representation and exporting view functions instead, which might
-be an excellent thing.
-
-
-All this could be done with pattern guards.  For example `parsePacket` could be written
-
-```wiki
-  parsePacket bs | Just (n, bs')    <- bits 3 bs
-                 | Just (val, bs'') <- bits n bs'
-		 = ...
-```
-
-
-Indeed, one might ask whether the extra syntax for view patterns is worth
-it when they are so close to pattern guards.  
-That's a good question.  I'm hoping that support for view patterns
-might encourage people to export view functions (ones with `Maybe`
-return types, and encouage their use in patten matching).  That is,
-just lower the barrier for abstraction a bit.
-
-**Completeness**.  It is hard to check for completeness of pattern matching; and likewise for
-overlap.  But guards already make both of these hard; and GADTs make completness hard too.
-So matters are not much worse than before.
 
 ---
 
