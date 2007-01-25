@@ -715,9 +715,21 @@ combinators (as Haskell functions).
 
 
 The disadvantages are as follows: 1) An extra syntactic construct that binds variables, the pattern binder, is required.
-2) Even with pattern binders, simple patterns look a clunkier than Haskell's patterns.
+2) Even with pattern binders, simple patterns look clunkier than Haskell's patterns.
 3) No attempt is made to check for exhaustiveness of patterns.
 4) No attempt is made to integrate with Haskell's patterns, the idea is a proposal for an alternative when one needs more than simple patterns.
+
+
+The examples at the top of this page would look like this with first class patterns:
+
+```wiki
+  f = {%sing n} .-> n+1
+                |>> 0
+
+  g =  {%sing True}  .-> 0
+    .| {%sing False} .-> 1
+                     |>> 2  
+```
 
 ### First class abstractions
 
