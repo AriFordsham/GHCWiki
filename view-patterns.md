@@ -534,7 +534,72 @@ guaranteed.
 
 ---
 
-## More examples
+## Use cases and examples
+
+
+Whether views are really worth it can only be decide on the base of examples. Some are situations where you programmed and thought "I wish I had a view for that". Some are those snippets of code that unexpectedly use views to good effect.
+
+### Sequences
+
+
+Lists, queues, ByteStrings and 2-3-finger trees are all implementations of sequences, but only ordinary lists can be deconstructed using pattern matching. The need for list patterns on arbitrary sequence data structures is desperate. As if to ease the pain, Data.Sequence even defines the views from the left and from the right
+
+```wiki
+   data ViewL a
+   = EmptyL
+   | (:<) a (Seq a)
+
+   viewl :: Seq a -> ViewL a
+
+   data ViewR a
+   = EmptyR
+   | (:>) (Seq a) a
+
+   viewr :: Seq a -> ViewR a
+```
+
+
+Thus, the presence of views has a direct impact on existing Haskell libraries. Arguably, a view proposal that wants to be effective for abstract data types likely has to have the transparent ordinary patterns feature.
+
+
+The observations from [ Okasaki: Breadth-First Numbering - Lessons ... ](http://citeseer.ist.psu.edu/356396.html) suggest that not having abstract pattern matching (for sequences) can indeed have great impact on the abstractions functional programmers can think of.
+
+### Designing data structures
+
+
+The abstractional power views offer can also be put to good use when designing data structures, as the following papers show
+
+- [ R.Hinze: A fresh look on binary search trees](http://www.informatik.uni-bonn.de/~ralf/publications/SearchTree.ps.gz).
+- [ R.Hinze:  A Simple Implementation Technique for Priority Search Queues](http://www.informatik.uni-bonn.de/~ralf/publications/ICFP01.pdf)
+
+### Sets and Inductive Graphs
+
+
+Having the value input feature, even set like data structures come in reach for pattern matching. In fact, the key idea of [ M.Erwig: Inductive Graphs and Functional Graph Algorithms](http://web.engr.oregonstate.edu/~erwig/papers/InductiveGraphs_JFP01.ps.gz) is to introduce a suitable view of graphs. This way, graphs can be liberated from their notoriously imperative touch.
+
+
+Here is a small module that allows to decompose sets with repsect to a given element, deleting it hereby.
+
+```wiki
+module Set( Set, empty, insert, delete, has) where
+
+  newtype Set a = S [a]
+  
+  has :: Eq a => a -> Set a -> Maybe (Set a)
+  has x (S xs) | x `elem` xs = Just (xs \\ x)
+               | otherwise   = Nothing
+  
+  delete :: a -> Set a -> Set a
+  delete x (has x -> s) = s
+  delete x s            = s
+  
+  insert :: a -> Set a -> Set a
+  insert x s@(has x -> _) = s
+  insert x (S xs)         = S (x:xs)
+```
+
+
+Notice that in the left-hand side `delete x (has x -> s)`, the first `x` is a binding occurrence, but the second is merely an argument to `has` and is a bound occurrence.
 
 ### Erlang-style parsing
 
@@ -559,33 +624,6 @@ Then we could write patterns like this:
 
 This parses 3 bits to get the value of `n`, and then parses `n` bits to get
 the value of `val`.  
-
-### Sets as lists
-
-
-Here is a module implementing sets as lists:
-
-```wiki
-module Set( Set, empty, insert, delete, has) where
-
-  newtype Set a = S [a]
-  
-  has :: Eq a => a -> Set a -> Maybe (Set a)
-  has x (S xs) | x `elem` xs = Just (xs \\ x)
-               | otherwise   = Nothing
-  
-  delete :: a -> Set a -> Set a
-  delete x (has x -> s) = s
-  delete x s            = s
-  
-  insert :: a -> Set a -> Set a
-  insert x s@(has x -> _) = s
-  insert x (S xs)         = S (x:xs)
-```
-
-
-Notice that in the left-hand side `delete x (has x -> s)`, the first `x` is a binding occurrence,
-but the second is merely an argument to `has` and is a bound occurrence.
 
 ### N+k patterns
 
