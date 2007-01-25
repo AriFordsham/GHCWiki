@@ -583,8 +583,7 @@ The examples at the top of this page would look like this with first class patte
 Several proposals suggest first class ''abstractions'' rather that first-class ''patterns''.  By a "first class abstraction" I mean a value of type
 (''something'' `->` ''something'')
 with a syntax something like
-(`\` ''pattern'' `->` ''body'').
-
+(`\` ''pattern'' `->` ''result'').
 The abstraction includes both the pattern and the result.  In contrast, view patterns tackle only the syntax of patterns; the pattern of a first-class abstraction.  
 
 Here are the ones I know of
@@ -604,3 +603,7 @@ combines two abstractions, with failure from the first falling through to the se
 None of these proposals say
 anything about the patterns themselves, which in turn is all this
 proposal deals with.  Hence orthgonal.
+
+=== Barry Jay: First class patterns ===
+
+A yet more ambitious scheme is to treat patterns themselves as first class, even though they have free (binding) variables.  This is the approach that Barry Jay has taken in his very interesting project on the ''pattern calculus''.  His [http://www-staff.it.uts.edu.au/~cbj home page] has more info.
