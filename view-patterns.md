@@ -1,34 +1,15 @@
-CONVERSION ERROR
+# View patterns: lightweight views for Haskell
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/ViewPatterns"
-  queryString          = "?version=12"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:01:01 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","252"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/ViewPatterns\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
-
-Original source:
-
-```trac
-[[PageOutline]]
-= View patterns: lightweight views for Haskell =
 
 This page describes a rather lightweight proposal for adding views to 
 Haskell Prime.  I'm thinking of prototyping the idea in GHC, so I'm looking
 for feedback.
 
+
 This page is open to editing by anyone.  (Chase the "Wiki notes" link in the sidebar to find out how.)
 
-== The problem == 
+## The problem
+
 
 We are keen on abstraction, but pattern matching is so convenient that
 we break abstractions all the time.  It's our dirty little secret.
@@ -36,16 +17,19 @@ Looked at this way, object-oriented folk are much more obsessive
 about abstraction than we are: everything (including field access 
 these days) is a method.
 
+
 Views have, in one form or another, repeatedly been proposed as a
 solution for this problem.   (See the end for a comparison with related work.)
 
-== The proposal informally ==
+## The proposal informally
 
-The proposal introduces a new form of pattern, called a '''view pattern'''
+
+The proposal introduces a new form of pattern, called a **view pattern**
 Here are some function definitions using view patterns.
 To read these definitions, imagine that `sing` is
 a sort of constructor that matches singleton lists.
-{{{
+
+```wiki
   f :: [Int] -> Int
   f (sing -> n) = n+1	-- Equiv to: f [n] = ...
   f other     = 0
@@ -59,105 +43,141 @@ a sort of constructor that matches singleton lists.
   h (sing -> x : sing -> y : _) = x+y
 			-- Equiv to: h ([x]:[y]:_) = ...
   h other = 0
-}}}
+```
+
+
 So what is `sing`?  It is just an ordinary Haskell function that
 returns a `Maybe` type:
-{{{
+
+```wiki
   sing :: [a] -> Maybe a
   sing [x]   = Just x
   sing other = Nothing
-}}}
+```
+
+
 So `sing` simply identifies singleton lists, and returns the payload (that is,
 the singleton element; otherwise it returns `Nothing`.
-It is very important that '''there is nothing special about `sing`'''.  It is
+It is very important that **there is nothing special about `sing`**.  It is
 not declared to be a view; it can be called as a normal Haskell function; the author
 of `sing` might not have intended it to be used in pattern matching.  
 
----------------------------
-== The proposal more formally ==
+---
+
+## The proposal more formally
+
 
 The only special stuff is in the pattern.  
 The sole change is this: add a single new sort of pattern, of the 
 form
-	(''expr'' `->` ''pat'')
 
-where ''expr'' is an arbitrary Haskell expression.   I'll call a pattern
-of this form a '''view pattern'''. 
+>
+> (*expr*`->`*pat*)
 
-From a '''scoping''' point of view, the variables bound by the pattern (''expr'' `->` ''pat'')
+
+where *expr* is an arbitrary Haskell expression.   I'll call a pattern
+of this form a **view pattern**. 
+
+
+From a **scoping** point of view, the variables bound by the pattern (*expr*`->`*pat*)
 are simply the variables bound by ``pat``.
 Any variables in ``expr`` are bound occurrences.
 
-The rule for '''pattern-matching''' is this:
-To match a value ''v'' against a pattern ''(expr -> p)'', 
-  * Evaluate ''(expr v)''
-  * If the result is ''(`Just` w)'', match ''w'' against ''p''
-  * If the result is `Nothing`, the match fails.
 
-The '''typing rule''' is similarly simple.  
-The expression ''expr'' must have type
-''t1 `-> Maybe` t2''. Then the pattern ''pat'' must have type ''t2'', and the
-whole pattern (''expr'' `->` ''pat'') has type ''t1''.
+The rule for **pattern-matching** is this:
+To match a value *v* against a pattern *(expr -\> p)*, 
 
-=== Nesting ===
+- Evaluate *(expr v)*
+- If the result is *(`Just` w)*, match *w* against *p*
+- If the result is `Nothing`, the match fails.
+
+
+The **typing rule** is similarly simple.  
+The expression *expr* must have type
+*t1 `-> Maybe` t2*. Then the pattern *pat* must have type *t2*, and the
+whole pattern (*expr*`->`*pat*) has type *t1*.
+
+### Nesting
+
 
 View patterns are just an extra syntactic form of pattern, and they nest inside other patterns, and other patterns nest inside them.  So one can write
-{{{
+
+```wiki
   f (sing -> x, True) = ...
   g (Just (sing -> x)) = ...
   h (Just (sing -> Just x)) = ...
-}}}
+```
+
+
 And by the same token, view patterns nest inside each other:
-{{{
+
+```wiki
   k :: [[a]] -> a
   k (sing -> sing -> x) = x
-}}}
+```
+
+
 This convenient nesting is perhaps the biggest practical 
 difference between view patterns and pattern guards.
 
+### The value input feature
 
-=== The value input feature ===
 
-Note that the ''expr'' is an arbitrary Haskell expression. For example, suppose you wrote
+Note that the *expr* is an arbitrary Haskell expression. For example, suppose you wrote
 a regular expression matching function:
-{{{
+
+```wiki
   regexp :: String -> String -> Maybe (String, String)
   -- (regexp r s) parses a string matching regular expression r 
   --	the front of s, returning the matched string and remainder of s
-}}}
+```
+
+
 then you could use it in patterns thus:
-{{{
+
+```wiki
   f :: String -> String
   f (regexp "[a-z]*" -> (name, rest)) = ...
-}}}
+```
+
+
 Of course, the argument does not need to be a constant as it is here.
 
-'''This ability to pass arguments to the view function, to guide its matching
-behaviour, is a key feature of this proposal,''' shared by some, but by no means
-all view proposals.  I'll call it the '''value input feature'''.  
+**This ability to pass arguments to the view function, to guide its matching
+behaviour, is a key feature of this proposal,** shared by some, but by no means
+all view proposals.  I'll call it the **value input feature**.  
+
 
 Indeed, in a sense, patterns become first class.  For example, one could pass a pattern
 as an argument to a function thus:
-{{{
+
+```wiki
   g :: (Int -> Maybe Int) -> Int -> ...
   g p (p -> x) = ...
-}}}
+```
+
+
 Here the first argument `p` can be thought of as a pattern passed to `g`, which
 is used to match the second argument of `g`.
 
-=== Possible extension 1: multi-argument view patterns ===
+### Possible extension 1: multi-argument view patterns
+
 
 It would be quite useful to allow more than one sub-pattern in a view
 pattern.  To do this we'd need a `Maybe` data type that returns more than
 one result, thus:
-{{{
+
+```wiki
   data Maybe2 a b   = Nothing2 | Just2 a b
   data Maybe3 a b c = Nothing3 | Just3 a b c
   	-- ..etc..., up to 8 perhaps (sigh)
-}}}
+```
+
+
 With this in hand we can extend the views story to have multiple sub-patterns.
 Example:
-{{{
+
+```wiki
   snoc :: [a] -> Maybe2 [a] a
   snoc [] = Nothing2
   snoc (x:xs) = case snoc xs of
@@ -167,12 +187,15 @@ Example:
   last :: [Int] -> Int
   last (snoc -> xs x) = x
   last other = error "empty list"
-}}}
+```
+
+
 It is tiresome that we need types `Maybe2`, `Maybe3` etc, but we already have 
 that in Haskell; consider `zip3`, `zip4` and so on.
 We could always get away without it, by sticking to unary view patterns and
 using tuples, thus:
-{{{
+
+```wiki
   snoc :: [a] -> Maybe ([a], a)
   snoc [] = Nothing
   snoc (x:xs) = case snoc xs of
@@ -182,37 +205,49 @@ using tuples, thus:
   last :: [Int] -> Int
   last (snoc -> (xs, x)) = x
   last other = error "empty list"
-}}}
+```
+
+
 But the tuple looks a bit clumsy.
 
+
 Under this proposal, the number of sub-patterns in the view pattern determines
-which return type the view function should have.  E.g. in the pattern '(e -> p1 p2 p3)',
+which return type the view function should have.  E.g. in the pattern '(e -\> p1 p2 p3)',
 'e' should return a `Maybe3`.
 
+
 If n=0, then we want `Maybe0`, which is called `Bool`.  Thus
-{{{
+
+```wiki
   even :: Int -> Bool
   even n = n `div` 2 == 0
 
   f (even ->) = ...	-- Matches even numbers
   f other     = ...
-}}}
+```
+
+
 Here `even` is used as a nullary view pattern, with no sub-patterns
 following the `->`.
 
-=== Possible extension 2: the implicit `Maybe`  ===
+### Possible extension 2: the implicit `Maybe`
+
 
 Thus far, the view function is required to return a `Maybe` type, with `Nothing` to indicate match
 failure.  An alternative, presented in the Erwig paper on transformational patterns (see Related work below), 
 this implicit matching is not performed; instead, the sub-pattern is matched against
 whatever the view function returns.  So you'd have to write:
-{{{
+
+```wiki
 f (snoc -> Just2 xs x) = ...
-}}}
+```
+
+
 (Note the tiresome `Just2`.)
 The benefit of not having the implicit matching is that you can write functions that are, perhaps,
 more view-like.  Example:
-{{{
+
+```wiki
 data Product = ....some big data type...
 
 data Size = Small | Medium | Big	-- View type
@@ -223,9 +258,12 @@ f :: Product -> ...
 f (prodSize -> Small)  = ...
 f (prodSize -> Medium) = ...
 f (prodSize -> Big)    = ...
-}}}
+```
+
+
 With the built-in `Maybe` proposal, you'd instead write something like this:
-{{{
+
+```wiki
 smallProd, medProd, bigProd :: Product -> Bool
 smallProd p = ...
 medProd   p = ...
@@ -235,61 +273,80 @@ f :: Product -> ...
 f (smallProd ->) = ...
 f (medProd   ->) = ...
 f (bigProd   ->) = ...
-}}}
+```
+
+
 This is not obviously worse, except that the first version is more
 obviously exhaustive.  Incidentally, both should generate the same
 code.
 
+
 I can think of three alternatives:
- * The `Maybe` stuff is built-in. This is the main proposal, because I think it is often exactly what you want.
- * No built-in `Maybe` stuff.  Arguably this is more consistent with pattern-guards.
- * Both are available, with different syntax.  For example 
-    * ''(expr `->` pat)'' for the built-in `Maybe` story
-    * ''(expr `=>` pat)'' with no bulit-in `Maybe`
- 
-== Efficiency ==
+
+- The `Maybe` stuff is built-in. This is the main proposal, because I think it is often exactly what you want.
+- No built-in `Maybe` stuff.  Arguably this is more consistent with pattern-guards.
+- Both are available, with different syntax.  For example 
+
+  - *(expr `->` pat)* for the built-in `Maybe` story
+  - *(expr `=>` pat)* with no bulit-in `Maybe`
+
+## Efficiency
+
 
 View patterns can do arbitrary computation, perhaps expensive.  So
 it's good to have a syntactically-distinct notation that reminds the
 programmer that some computation beyond ordinary pattern matching may
 be going on.
 
+
 It's reasonable to expect the compiler to avoid repeated computation when
 pattern line up in a column:
-{{{
+
+```wiki
   f (snoc -> x xs) True  = ...
   f (snoc -> x xs) False = ...
-}}}
+```
+
+
 In pattern-guard form, common sub-expression should achieve the same
 effect, but it's quite a bit less obvious.  We should be able to give
 clear rules for when the avoidance of repeat computation is
 guaranteed.
 
+---
 
----------------------------
-== More examples ==
+## More examples
 
-=== Erlang-style parsing ===
+### Erlang-style parsing
+
 
 The expression to the left of the `->` can mention variables bound in earlier patterns.
-For example, Sagonas et al describe an extension to Erlang that supports pattern-matching on bit-strings ([http://user.it.uu.se/~kostis/Papers/index.html#Conference "Application, implementation and performance evaluation of bit-stream programming in Erlang", PADL'07]).  Suppose we had a parsing function thus:
-{{{
+For example, Sagonas et al describe an extension to Erlang that supports pattern-matching on bit-strings ([ "Application, implementation and performance evaluation of bit-stream programming in Erlang", PADL'07](http://user.it.uu.se/~kostis/Papers/index.html#Conference)).  Suppose we had a parsing function thus:
+
+```wiki
   bits :: Int -> ByteString -> Maybe2 Word ByteString
   -- (bits n bs) parses n bits from the front of bs, returning
   -- the n-bit Word, and the remainder of bs
-}}}
+```
+
+
 Then we could write patterns like this:
-{{{
+
+```wiki
   parsePacket :: ByteString -> ...
   parsePacket (bits 3 -> n (bits n -> val bs)) = ...
-}}}
+```
+
+
 This parses 3 bits to get the value of `n`, and then parses `n` bits to get
 the value of `val`.  
 
-=== Sets as lists ===
+### Sets as lists
+
 
 Here is a module implementing sets as lists:
-{{{
+
+```wiki
 module Set( Set, empty, insert, delete, has) where
 
   newtype Set a = S [a]
@@ -305,15 +362,19 @@ module Set( Set, empty, insert, delete, has) where
   insert :: a -> Set a -> Set a
   insert x s@(has x -> _) = s
   insert x (S xs)         = S (x:xs)
-}}}
+```
+
+
 Notice that in the left-hand side `delete x (has x -> s)`, the first `x` is a binding occurrence,
 but the second is merely an argument to `has` and is a bound occurrence.
 
-=== N+k patterns ===
+### N+k patterns
+
 
 You can test for values.  For example here's a view function that tests for values 
 greater than or equal to n:
-{{{
+
+```wiki
    np :: Num a => a -> a -> Maybe a
    np k n | k <= n    = Just (n-k)
 	  | otherwise = Nothing
@@ -322,39 +383,53 @@ greater than or equal to n:
    f (np 10 -> n) = 0		-- Matches values >= 10
    f (np 4  -> n) = 1		-- Matches values >= 4
    f other        = 2
-}}}
+```
+
+
 You will recognise these as (n+k) patterns, albeit with slightly different syntax.
 (Incidentally, this example shows that the view function can be overloaded, and
 that its use in a view pattern gives rise to a type-class constraint (in this case,
 that in turn makes `f` overloaded).
 
-=== Naming constants in one place ===
+### Naming constants in one place
+
 
 We are always taught to write magic numbers, or constants, in one place only.
 In C you can write
-{{{
+
+```wiki
   #define ERRVAL 4
-}}}
+```
+
+
 and then use `ERRVAL` in `switch` labels.  You can't do that in Haskell, which is tiresome.
 But with view pattern you can:
-{{{
+
+```wiki
   errVal :: Int -> Bool
   errVal = (== 4)
 
   f (errVal ->) = ...
-}}}
+```
 
-== Concrete syntax ==
+## Concrete syntax
+
+
 A disadvantage of the arrow syntax is that it looks a bit confusing
 when it appears in a case expression:
-{{{
+
+```wiki
   last xs = case xs of
                 (snoc -> x xs) -> x
-}}}
+```
+
+
 (Also that "x xs" looks a bit like `x` applied to `xs`.)
 
+
 Here are some other possible syntax choices I've considered:
-{{{
+
+```wiki
   f ($snoc x xs) = ...		-- Use prefix "$"
   g ($(bits 3) x bs) = ...	-- Extra parens for the value input feature
 
@@ -364,42 +439,57 @@ Here are some other possible syntax choices I've considered:
 
   f (snoc | x xs) = ..		-- Use "|" instead of "->"
   g (bits 3 | b bs) = ...
-}}}
+```
+
+
 Another possibility is to use a backward arrow, more like pattern guards:
-{{{
+
+```wiki
   f ((x,xs) <- snoc) = ...  -- More like pattern guards
-}}}
+```
+
+
 But that messes up the left-to-right flow that is useful in some cases.
 For example, compare these:
-{{{
+
+```wiki
   parsePacket1 (bits 3 -> n (bits n -> val bs)) = ...
 
   parsePacket2 (n (val bs <- bits n) <- bits 3) = ...
-}}}
+```
+
 
 I also thought about infix view patterns, where the view function
 appears between its (pattern) arguments, but I could not think of a
 nice syntax for it, so it is not provided by this proposal.
 
-== Remarks ==
+## Remarks
+
 
 The key feature of this proposal is its modesty, rather than its ambition:
-  * There is no new form of declaration (e.g. 'view' or 'pattern synonym').  
-  * The functions used in view patterns are ordinary Haskell functions, and can be called from ordinary Haskell code.  They are not special view functions.
-  * Since the view functions are ordinary Haskell functions, no changes are needed to import or export mechanisms.
-  * Both static and dynamic semantics are extremely simple.
+
+- There is no new form of declaration (e.g. 'view' or 'pattern synonym').  
+- The functions used in view patterns are ordinary Haskell functions, and can be called from ordinary Haskell code.  They are not special view functions.
+- Since the view functions are ordinary Haskell functions, no changes are needed to import or export mechanisms.
+- Both static and dynamic semantics are extremely simple.
+
+
 It is essentially some simple syntactic sugar for patterns.
 However, sometimes modest syntactic sugar can have profound consequences.
 In this case, it's possible that people would start routinely hiding
 the data representation and exporting view functions instead, which might
 be an excellent thing.
 
+
 All this could be done with pattern guards.  For example `parsePacket` could be written
-{{{
+
+```wiki
   parsePacket bs | Just (n, bs')    <- bits 3 bs
                  | Just (val, bs'') <- bits n bs'
 		 = ...
-}}}
+```
+
+
 Indeed, one might ask whether the extra syntax for view patterns is worth
 it when they are so close to pattern guards.  
 That's a good question.  I'm hoping that support for view patterns
@@ -407,51 +497,60 @@ might encourage people to export view functions (ones with `Maybe`
 return types, and encouage their use in patten matching).  That is,
 just lower the barrier for abstraction a bit.
 
-'''Completeness'''.  It is hard to check for completeness of pattern matching; and likewise for
+**Completeness**.  It is hard to check for completeness of pattern matching; and likewise for
 overlap.  But guards already make both of these hard; and GADTs make completness hard too.
 So matters are not much worse than before.
 
+---
 
--------------------------
-== Related work ==
+## Related work
 
-=== Wadler's original paper (POPL 1987) ===
+### Wadler's original paper (POPL 1987)
+
 
 Wadler's paper was the first concrete proposal.  It proposed a top-level view
-declaration, together with functions ''in both directions'' between the view type
+declaration, together with functions *in both directions* between the view type
 and the original type, which are required to be mutually inverse.  
 This allows view constructors to be used in expressions
 as well as patterns, which seems cool. Unfortunately this dual role proved
 problematic for equational reasoning, and every subsequent proposal restricted
 view constructors to appear in patterns only.
 
-=== [http://haskell.org/development/views.html Burton et al views (1996)] ===
+### [ Burton et al views (1996)](http://haskell.org/development/views.html)
+
 
 This proposal is substantially more complicated than the one above; in particular it
 rquires new form of top-level declaration for a view type. For example:
-{{{
+
+```wiki
   view Backwards a of [a] = [a] `Snoc` a | Nil
      where
      backwards [] = Nil
      backwards (x:[]) = [] `Snoc` x
      backwards (x1:(xs `Snoc` xn)) = (x1:xs) `Snoc` xn
-}}}
+```
+
+
 Furthermore, it is in some ways less expressive than the proposal here;
 the (n+k) pattern, Erlang `bits` pattern, and `regexp` examples are not
 definable, because all rely on the value input feature.
 
+
 I think this proposal is substantially the same as "Pattern matching and
 abstract data types", Burton and Cameron, JFP 3(2), Apr 1993.
 
-=== [http://citeseer.ist.psu.edu/okasaki98view.html Okasaki: views in Standard ML] ===
+### [ Okasaki: views in Standard ML](http://citeseer.ist.psu.edu/okasaki98view.html)
+
 
 Okasaki's design is very similar to Burton et al's, apart from differences due
 to the different host language.  Again, the value input feature is not supported.
 
-=== [http://citeseer.ist.psu.edu/erwig96active.html Erwig: active patterns] ===
+### [ Erwig: active patterns](http://citeseer.ist.psu.edu/erwig96active.html)
+
 
 Erwig's proposal for active patterns renders the Set example like this:
-{{{
+
+```wiki
 data Set a = Empty | Add a (Set a)
 
 pat Add' x _ =
@@ -461,42 +560,55 @@ pat Add' x _ =
 
 delete x (Add' x s) = s
 delete x s          = s
-}}}
+```
+
+
 This requires a new top-leven declaration form `pat`; and I don't think it's nearly 
 as easy to understand as the current proposal.  Notably, in the first equation for
 `delete` it's ahrd to see that the second `x` is a bound occurrence; this somehow
 follows from the `pat` declaration.
 
+
 Still the proposal does support the value input feature.
 
-=== [http://portal.acm.org/citation.cfm?id=232641&coll=portal&dl=ACM Palao et al: active destructors (ICFP'96)] ===
+### [ Palao et al: active destructors (ICFP'96)](http://portal.acm.org/citation.cfm?id=232641&coll=portal&dl=ACM)
+
 
 Active Desctructors (ADs) are defined by a new form of top-level declaration.  Our
 singleton example would look like this:
-{{{
+
+```wiki
   Sing x match [x]
-}}}
-Here '''match''' is the keyword, and `Sing` is the AD.  ADs are quite like view patterns:
+```
+
+
+Here **match** is the keyword, and `Sing` is the AD.  ADs are quite like view patterns:
 the can do computation, and can fail to match.  But they are definitely not normal 
 Haskell functions, and need their own form of top-level declaration.  They even have
 a special form of type to describe them.
 
+
 The value-input feature is supported, but only via a sort of mode declaration (indicated by a down-arrow) on the
 new form of type.
 
+
 They also introduce a combining form for ADs, to make a kind of and-pattern.  For
 example, suppose we had
-{{{
+
+```wiki
   Head x match (x:_)
   Tail x match (_:xs)
 
   f :: [a] -> [a]
   f ((Head x)@(Tail ys)) = x:x:ys
-}}}
-Here `(Head x)@(Tail ys)` is a pattern that matches ''both'' `(Head x)` and `(Tail ys)`
+```
+
+
+Here `(Head x)@(Tail ys)` is a pattern that matches *both*`(Head x)` and `(Tail ys)`
 against the argument, binding `x` and `ys` respectively.  We can model that with view patterns,
 only a bit more clumsily:
-{{{
+
+```wiki
   headV (x:xs) = Just x
   headV []     = Nothing
 
@@ -508,47 +620,56 @@ only a bit more clumsily:
 
   f :: [a] -> [a]
   f (headV @ tailV -> (x,ys)) = x:x:ys
-}}}
+```
+
+
 The clumsiness is that the "`@`" combines functions, with a kind of positional
 binding; the pattern `(x,ys)` is separated from the combiner so that it's less clear
 that `headV` binds `x` and `tailV` binds `y`.
 
+
 In exchange, although view patterns are a bit less convenient here, they 
 are a much, much smaller language change than ADs.
 
-=== [http://citeseer.ist.psu.edu/erwig00pattern.html Erwig/Peyton Jones: transformational patterns] ===
+### [ Erwig/Peyton Jones: transformational patterns](http://citeseer.ist.psu.edu/erwig00pattern.html)
 
-This paper describes pattern guards, but it also introduces '''transformational patterns'''.  (Although
+
+This paper describes pattern guards, but it also introduces **transformational patterns**.  (Although
 it is joint-authored, the transformational-pattern idea is Martin's.)  Transformational patterns
 are very close to what we propose here.  In particular, view functions are ordinary Haskell functions,
 so that the only changes are to patterns themselves.
+
 
 There are two main differences (apart from syntax).
 First, transformational patterns didn't have the value input feature, althought it'd be easy 
 to add (indeed that's what we've done). Second, transformational patterns as described by
 Erwig do no stripping of the `Maybe` (see "Possible extension 2" above).
 
-=== [http://lambda-the-ultimate.org/node/1960 Emir, Odersky, Williams: Matching objects with patterns] ===
+### [ Emir, Odersky, Williams: Matching objects with patterns](http://lambda-the-ultimate.org/node/1960)
+
 
 Scala is an OO language with lots of functional features.  It has algebraic data types and
-pattern matching.  It also has a form of view called '''extractors''', which are
+pattern matching.  It also has a form of view called **extractors**, which are
 pretty similar to view patterns, albeit in OO clothing.  Notably, by packaging a constructor
 and an extractor in a class, they can use the same class name in both expressions and terms, 
 implicitly meaning "use the constructor in expressions, and use the extractor in patterns".
 
+
 The paper does a comparative evaluation of various OO paradigms for matching, and 
 concludes that case expressions and extractors work pretty well.
 
-=== Pattern synonyms  ===
+### Pattern synonyms
 
-[http://hackage.haskell.org/trac/haskell-prime/wiki/PatternSynonyms Pattern synonyms] 
+[ Pattern synonyms](http://hackage.haskell.org/trac/haskell-prime/wiki/PatternSynonyms) 
 are a requested Haskell Prime feature. John Reppy had the same idea years ago for Standard ML; see 
-[http://people.cs.uchicago.edu/~jhr/papers/1992/tr-sml-const.pdf Abstract value constructors], 
+[ Abstract value constructors](http://people.cs.uchicago.edu/~jhr/papers/1992/tr-sml-const.pdf), 
 Reppy & Aiken, TR 92-1290, Cornell, June 1992.
+
 
 The one way in which pattern synonyms are better than view patterns is that
 they define by-construction bi-directional maps.  Example
-{{{
+
+```wiki
   data Term = Var String | Term String [Term]
   
   -- 'const' introduces a pattern synonym
@@ -557,9 +678,12 @@ they define by-construction bi-directional maps.  Example
   f :: Term -> Term
   f (Plus a b) = Plus (f a) (f b)
   f ... = ...
-}}}
+```
+
+
 With pattern views, we'd have to write two functions for the "plus" view:
-{{{
+
+```wiki
   plus :: Term -> Term -> Term
   plus a b = Term "+" [a,b]
 
@@ -569,61 +693,78 @@ With pattern views, we'd have to write two functions for the "plus" view:
 
   f :: Term -> Term
   f (isPlus -> a b) = plus (f a) (f b)
-}}}
+```
+
+
 But perhaps that is not so bad.  Pattern synonyms also require a new form of top level declaration;
 and are much more limited than view patterns (by design they cannot do computation).
 
-=== [http://citeseer.ist.psu.edu/tullsen00first.html Tullsen: First Class Patterns] ===
+### [ Tullsen: First Class Patterns](http://citeseer.ist.psu.edu/tullsen00first.html)
+
 
 First Class Patterns is an approach that attempts to
 add the minimum of syntax to the language which---in combination with
 pattern combinators written within the language---can achieve everything
 and more that Haskell patterns can do.  They have the value-input feature.
 
+
 The advantages are  1) They are simpler than Haskell's patterns;  2) Patterns are first class.
 3) The binding mechanism (the pattern binder) is orthogonal to the the pattern combinators:
 the hope is that one can stop changing the syntax/semantics of patterns and concentrate on writing the
 combinators (as Haskell functions).
+
 
 The disadvantages are as follows: 1) An extra syntactic construct that binds variables, the pattern binder, is required.
 2) Even with pattern binders, simple patterns look clunkier than Haskell's patterns.
 3) No attempt is made to check for exhaustiveness of patterns.
 4) No attempt is made to integrate with Haskell's patterns, the idea is a proposal for an alternative when one needs more than simple patterns.
 
+
 The examples at the top of this page would look like this with first class patterns:
-{{{
+
+```wiki
   f = {%sing n} .-> n+1
                 |>> 0
 
   g =  {%sing True}  .-> 0
     .| {%sing False} .-> 1
                      |>> 2  
-}}}
-=== First class abstractions ===
+```
 
-Several proposals suggest first class ''abstractions'' rather that first-class ''patterns''.  By a "first class abstraction" I mean a value of type
-(''something'' `->` ''something'')
+### First class abstractions
+
+
+Several proposals suggest first class *abstractions* rather that first-class *patterns*.  By a "first class abstraction" I mean a value of type
+(*something*`->`*something*)
 with a syntax something like
-(`\` ''pattern'' `->` ''body'').
-
+(`\`*pattern*`->`*result*).
 The abstraction includes both the pattern and the result.  In contrast, view patterns tackle only the syntax of patterns; the pattern of a first-class abstraction.  
+
 
 Here are the ones I know of
 
- * [http://hackage.haskell.org/trac/haskell-prime/ticket/114 Claus Reinke's lambda-match proposal]
- * [http://ttic.uchicago.edu/~blume/pub-cat.html Matthias Blume: Extensible programming with first-class cases] (ICFP06)
+- [ Claus Reinke's lambda-match proposal](http://hackage.haskell.org/trac/haskell-prime/ticket/114)
+- [ Matthias Blume: Extensible programming with first-class cases](http://ttic.uchicago.edu/~blume/pub-cat.html) (ICFP06)
+
 
 All these proposals are more or less orthogonal to this one. For example, Reinke
 proposes a compositional syntax for lambda abstractions 
 `(\p -> e)` where pattern matching failure on `p` can be caught and composed
 with a second abstraction. Thus
-{{{
+
+```wiki
    (| Just x -> x+1 ) +++ (| Nothing -> 0 )
-}}}
+```
+
+
 combines two abstractions, with failure from the first falling through to the seoond.  
+
 
 None of these proposals say
 anything about the patterns themselves, which in turn is all this
 proposal deals with.  Hence orthgonal.
 
-```
+### Barry Jay: First class patterns
+
+
+A yet more ambitious scheme is to treat patterns themselves as first class, even though they have free (binding) variables.  This is the approach that Barry Jay has taken in his very interesting project on the *pattern calculus*.  His [ home page](http://www-staff.it.uts.edu.au/~cbj) has more info.
