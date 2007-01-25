@@ -365,6 +365,7 @@ repeated every time. More importantly, there is *no way* for the compiler to opt
 functions.
 
 === Transparent ordinary Patterns ===
+
 The lightweight view proposal has different syntax for view functions and ordinary pattern matches, they are not interchangeable. To use the abstraction view functions offer, you have to anticipate whether you can stick to ordinary constructors or whether you will switch to abstract constructors at some time. For example, a stack abstraction would have to use view patterns if we want to be able to change the concrete representation of stacks later on.
 {{{
     type Stack a = [a]
@@ -378,6 +379,24 @@ implementing the proposal has considerable impact on ordinary pattern
 matching (not in semantics but in use).
 
 The problem that needs to be solved is to introduce abstraction "after the fact".
+
+=== Nesting ===
+
+In the lightweight proposal, view patterns are just an extra syntactic form of pattern, and they nest inside other patterns, and other patterns nest inside them.  So one can write
+{{{
+  f (sing -> x, True) = ...
+  g (Just (sing -> x)) = ...
+  h (Just (sing -> Just x)) = ...
+}}}
+And by the same token, view patterns nest inside each other:
+{{{
+  k :: [[a]] -> a
+  k (sing -> sing -> x) = x
+}}}
+This convenient nesting is perhaps the biggest practical 
+difference between view patterns and pattern guards.
+
+The majority of the proposals allow nesting.
 
 ---------------------------
 == More examples ==
