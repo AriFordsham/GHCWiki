@@ -552,13 +552,29 @@ With pattern views, we'd have to write two functions for the "plus" view:
 But perhaps that is not so bad.  Pattern synonyms also require a new form of top level declaration;
 and are much more limited than view patterns (by design they cannot do computation).
 
+=== [http://citeseer.ist.psu.edu/tullsen00first.html Tullsen: First Class Patterns] ===
+
+First Class Patterns is an approach that attempts to
+add the minimum of syntax to the language which---in combination with
+pattern combinators written within the language---can achieve everything
+and more that Haskell patterns can do.  They have the value-input feature.
+
+The advantages are  1) They are simpler than Haskell's patterns;  2) Patterns are first class.
+3) The binding mechanism (the pattern binder) is orthogonal to the the pattern combinators:
+the hope is that one can stop changing the syntax/semantics of patterns and concentrate on writing the
+combinators (as Haskell functions).
+
+The disadvantages are as follows: 1) An extra syntactic construct that binds variables, the pattern binder, is required.
+2) Even with pattern binders, simple patterns look a clunkier than Haskell's patterns.
+3) No attempt is made to check for exhaustiveness of patterns.
+4) No attempt is made to integrate with Haskell's patterns, the idea is a proposal for an alternative when one needs more than simple patterns.
+
 === First class abstractions ===
 
 Several proposals suggest first class ''abstractions'' rather that first-class ''patterns''.
 Here are the ones I know of
 
  * [http://hackage.haskell.org/trac/haskell-prime/ticket/114 Claus Reinke's lambda-match proposal]
- * [http://citeseer.ist.psu.edu/tullsen00first.html Tullsen: first class patterns]
  * [http://ttic.uchicago.edu/~blume/pub-cat.html Matthias Blume: Extensible programming with first-class cases] (ICFP06)
 
 All these proposals are more or less orthogonal to this one. For example, Reinke
@@ -570,6 +586,6 @@ with a second abstraction. Thus
 }}}
 combines two abstractions, with failure from the first falling through to the seoond.  
 
-Blume and Tullsen have a similar flavour.  None of these proposals say
+None of these proposals say
 anything about the patterns themselves, which in turn is all this
 proposal deals with.  Hence orthgonal.
