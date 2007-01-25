@@ -253,6 +253,131 @@ effect, but it's quite a bit less obvious.  We should be able to give
 clear rules for when the avoidance of repeat computation is
 guaranteed.
 
+---------------------------
+== Features views can have ==
+
+The main goal of views is to introduce computations into pattern matches thus introducing abstraction from hard wired constructors. To distinguish between the different proposals, we pick out the key features
+
+=== Value input feature ===
+
+This features allows to introduce additional parameters into the computation. Perhaps the most basic example are (n+k) patterns
+{{{
+  fib :: Int -> Int
+  fib 0 = 1
+  fib 1 = 1
+  fib (n + 2) = fib (n + 1) + fib n
+}}}
+Here, the number 2 can be arbitrary, we are not fixed to a "finite" set of "constructors" (+1), (+2) etc.
+
+Of course, the real power unfolds when the extra parameter can be given at runtime
+{{{
+   f :: Int -> Int -> ...
+   f n (n + m) = m           -- f a b = (b - a)
+}}}
+
+In the proposed view pattern (''expr'' `->` ''pat''), ''expr'' is an arbitrary Haskell expression. Thus, the lightweight proposal has the '''value input feature'''. For another example, suppose you wrote a regular expression matching function:
+{{{
+  regexp :: String -> String -> Maybe (String, String)
+  -- (regexp r s) parses a string matching regular expression r 
+  --	the front of s, returning the matched string and remainder of s
+}}}
+then you could use it in patterns thus:
+{{{
+  f :: String -> String
+  f (regexp "[a-z]*" -> (name, rest)) = ...
+}}}
+Of course, the argument does not need to be a constant as it is here.
+
+The (n+k) patterns can be implemented (with different syntax, of course) with a view function that tests for values greater than or equal to n:
+{{{
+   np :: Num a => a -> a -> Maybe a
+   np k n | k <= n    = Just (n-k)
+	      | otherwise = Nothing
+
+   f :: Num a => a -> Int
+   f (np 10 -> n) = n		-- Matches values >= 10, f a = (a - 10)
+   f (np 4  -> n) = 1		-- Matches values >= 4
+   f other        = 2
+}}}
+
+With the value input feature, in a sense, patterns become first class. For example, one could pass a pattern as an argument to a function thus:
+{{{
+  g :: (Int -> Maybe Int) -> Int -> ...
+  g p (p -> x) = ...
+}}}
+Here the first argument `p` can be thought of as a pattern passed to `g`, which
+is used to match the second argument of `g`.
+
+=== Implicit `Maybe` feature ===
+
+In functional languages, pattern matching is used to inspect a sum types like `Either Int String` and to proceed with the matching alternative. We can always project a choice between multiple alternatives to choice between one alternative (`Just`) and failure (`Nothing`):
+{{{
+   maybeLeft  :: Either a b -> Maybe a
+   maybeRight :: Either a b -> Maybe b
+}}}
+
+Some proposals build their patterns entirely from from such single alternative de-constructors functions of type `a -> Maybe b`, while some allow projection to multiple alternatives.
+
+By restricting de-constructors to be of type `a -> Maybe b`, the Maybe can be made implicit, it doesn't show up in the pattern. Example:
+{{{
+    data Product = ....some big data type...
+    type Size = Int
+    
+    smallProd, medProd, bigProd :: Product -> Maybe Size
+    smallProd p = ...
+    medProd   p = ...
+    bigProd   p = ...
+    
+    f :: Product -> ...
+    f (smallProd -> s) = ...
+    f (medProd   -> s) = ...
+    f (bigProd   -> s) = ...
+}}}
+
+Projection to multiple alternatives requires a new data type for every group of alternatives introduced.
+{{{
+    data Dimensions = Small | Medium | Big	-- View type
+    prodSize :: Product -> Dimensions
+    prodSize = ...
+    
+    f :: Product -> ...
+    f (prodSize -> Small)  = ...
+    f (prodSize -> Medium) = ...
+    f (prodSize -> Big)    = ...
+}}}
+
+While the implicit `Maybe a` is more compositional and nicely integrates with already existing uses of the `Maybe`-type, it cannot share expensive computations across multiple alternatives. This is a strong argument against the implicit `Maybe a`. To illustrate the problem, suppose that
+
+{{{
+   data Graph
+}}}
+represents a graph and that we want a function
+{{{
+   g :: Graph -> [...]
+   g (forest -> xs) = concatMap g xs
+   g (tree ->)      = ...
+   g (dag  ->)      = ...
+}}}
+These three properties are expensive to calculate but all three only
+depend on the result of a single depth first search. By projecting the
+disjoint sum to several `Maybe`s, the depth first search has to be
+repeated every time. More importantly, there is *no way* for the compiler to optimize this because that would mean common subexpression elimination across
+functions.
+
+=== Transparent ordinary Patterns ===
+The lightweight view proposal has different syntax for view functions and ordinary pattern matches, they are not interchangeable. To use the abstraction view functions offer, you have to anticipate whether you can stick to ordinary constructors or whether you will switch to abstract constructors at some time. For example, a stack abstraction would have to use view patterns if we want to be able to change the concrete representation of stacks later on.
+{{{
+    type Stack a = [a]
+    
+    f :: Stack a
+    f (null?)     = ...
+    f (pop? x xs) = ...
+}}}
+This certainly discourages ordinary pattern matching. In other words,
+implementing the proposal has considerable impact on ordinary pattern
+matching (not in semantics but in use).
+
+The problem that needs to be solved is to introduce abstraction "after the fact".
 
 ---------------------------
 == More examples ==
