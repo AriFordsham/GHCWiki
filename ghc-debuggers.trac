@@ -43,3 +43,6 @@ where n is some kind of unique identifer for the annotation which refers (via a 
 
 This is cheaper than breakpointJump because it doesn't involve any let allocations. Therefore ticks can be added to a larger class of sub expressions. Obviously the downside is that tick does not have access to local variable information.
 
+The question is, how can we get the performance of tick combined with the variable infos of breakpointJump?
+
+One idea would be to extend Byte Code Objects (BCOs) with additional fields which record the neccessary source information. 
