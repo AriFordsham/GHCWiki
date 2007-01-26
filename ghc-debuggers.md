@@ -55,7 +55,10 @@ where \<id\> is a pointer into a data structure in Ghci which contains indentife
 HpcT transforms E like so:
 
 >
-> case tick\<n\> E of () -\> E
+> case tick_n E of () -\> E
+
+
+where n is some kind of unique identifer for the annotation which refers (via a table) to the source location of the breakpoint. 
 
 
 This is cheaper than breakpointJump because it doesn't involve any let allocations. Therefore ticks can be added to a larger class of sub expressions. Obviously the downside is that tick does not have access to local variable information.
