@@ -33,3 +33,40 @@ The primary weakness is the inability to see live data structures; this debugger
 </th></tr>
 <tr><th> Video: </th>
 <th>[ http://movies.unsafeperformio.com/hpctpreview2.mov](http://movies.unsafeperformio.com/hpctpreview2.mov)</th></tr></table>
+
+## Merging the two designs
+
+
+The plan is to take the best ideas from both debuggers and combine them into an even better debugger. Currently GhciD has support for displaying local variables, but HpcT does not. However, HpcT has more efficient breakpoints.
+
+
+Let E be the expression we want to break at.
+
+
+GhciD transforms E like so:
+
+```wiki
+breakpointJump <id> <vals> <srcloc> E 
+```
+
+
+where \<id\> is a pointer into a data structure in Ghci which contains indentifer infos, \<vals\> is a list of values of local variables, and \<srcloc\> is a source location of the breakpoint. The problem with this is that the data structures associated with \<id\> \<vals\> \<srcloc\> are turned into let allocations by the compiler. This is costly. To keep the costs down GhciD only annotates a limited class of expressions, such as function bodies and case alternatives. 
+
+
+HpcT transforms E like so:
+
+```wiki
+case tick_n E of () -> E
+```
+
+
+where n is some kind of unique identifer for the annotation which refers (via a table) to the source location of the breakpoint. 
+
+
+This is cheaper than breakpointJump because it doesn't involve any let allocations. Therefore ticks can be added to a larger class of sub expressions. Obviously the downside is that tick does not have access to local variable information.
+
+
+The question is, how can we get the performance of tick combined with the variable infos of breakpointJump?
+
+
+One idea would be to extend Byte Code Objects (BCOs) with additional fields which record the neccessary source information. A possible additional benefit is that we might be able to use the same information to do a backtrace of the dynamic call stack. Whilst the dynamic call stack may not always be ideal, it may still be useful, and probably better than nothing.
