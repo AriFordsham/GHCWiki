@@ -33,3 +33,11 @@ The primary weakness is the inability to see live data structures; this debugger
 </th></tr>
 <tr><th> Video: </th>
 <th>[ http://movies.unsafeperformio.com/hpctpreview2.mov](http://movies.unsafeperformio.com/hpctpreview2.mov)</th></tr></table>
+
+## Merging the two designs
+
+
+The plan is to take the best ideas from both debuggers and combine them into an even better debugger.
+
+
+Currently GhciD has support for displaying local variables, but HpcT does not. However, HpcT has more efficient breakpoints.
