@@ -39,7 +39,9 @@ where <id> is a pointer into a data structure in Ghci which contains indentifer 
 
 HpcT transforms E like so:
 
-   case tick_n E of () -> E
+{{{
+case tick_n E of () -> E
+}}}
 
 where n is some kind of unique identifer for the annotation which refers (via a table) to the source location of the breakpoint. 
 
