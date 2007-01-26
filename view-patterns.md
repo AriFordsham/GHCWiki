@@ -420,7 +420,7 @@ By restricting de-constructors to be of type `a -> Maybe b`, the Maybe can be ma
 ```
 
 
-Projection to multiple alternatives requires a new data type for every group of alternatives introduced.
+Projection to multiple alternatives requires a new (or existing) data type for every group of alternatives introduced.
 
 ```wiki
     data Dimensions = Small | Medium | Big	-- View type
@@ -459,6 +459,17 @@ depend on the result of a single depth first search. By projecting the
 disjoint sum to several `Maybe`s, the depth first search has to be
 repeated every time. More importantly, there is \*no way\* for the compiler to optimize this because that would mean common subexpression elimination across
 functions.
+
+
+Some would argue that implicit the 'Maybe a' is *less* compositional than the explicit version.  If no 'Maybe' is required, then the result of the view function can be any type at all, which can be pattern-matched in the ordinary way.  Some examples of cute programming of well-known combinators:
+
+```wiki
+map f [] = []
+map f (x: map f -> xs) = x:xs
+
+foldr f z [] = z
+foldr f z (x: foldr f z -> xs) =  x `f` xs
+```
 
 ### Transparent ordinary Patterns
 
