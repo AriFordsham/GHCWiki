@@ -31,7 +31,7 @@ Let E be the expression we want to break at.
 
 GhciD transforms E like so:
 
-   breakpointJump <id> <vals> <srcloc> E
+   {{{ breakpointJump <id> <vals> <srcloc> E }}}
 
 where <id> is a pointer into a data structure in Ghci which contains indentifer infos, <vals> is a list of values of local variables, and <srcloc> is a source location of the breakpoint. The problem with this is that the data structures associated with <id> <vals> <srcloc> are turned into let allocations by the compiler. This is costly. To keep the costs down GhciD only annotates a limited class of expressions, such as function bodies and case alternatives. 
 
