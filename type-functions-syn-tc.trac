@@ -30,6 +30,7 @@ However, type checking with type functions is challenging.
  * [wiki:TypeFunctionsSynTC/GHC Type equations in GHC]
  * [wiki:TypeFunctionsSynTC/PlanMS Plan MS]
  * [wiki:TypeFunctionsSynTC/PlanMSRevised Plan MS revised]
+ * [wiki:TypeFunctionsSynTC/PlanMSRevised2 Plan MS revised again]
  * [wiki:TypeFunctionsSynTC/Comparison Brief comparison]
  * [wiki:TypeFunctionsSynTC/GhcChr CHR-style simplification for GHC]
  * [wiki:TypeFunctionsSynTC/GhcChrExamples Examples]
