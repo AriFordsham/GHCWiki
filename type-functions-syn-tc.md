@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsSynTC"
-  queryString          = "?version=27"
+  queryString          = "?version=28"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,15 +14,12 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:00:56 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsSynTC\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:01:09 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsSynTC\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
 ```trac
 = Type Checking with Indexed Type Synonyms =
-[[PageOutline]]
-
-== Background ==
 
 GHC has now FC as its typed intermediate language.
 In a next step, we wish to add type functions to
@@ -48,82 +45,7 @@ append (Cons x xs) ys = Cons x (append xs ys)
 
 However, type checking with type functions is challenging.
 
-== The challenge ==
-
-Consider the axioms
-
-{{{
-forall a. S [a] = [S a]   (R1)
-T Int = Int               (R2)
-}}}
-S and T are type functions of kind *->*
-For convenience, I drop the `redundant' forall a. on R1's lhs.
-
-Suppose some type annotations/pattern matchings give rise
-to the local assumptions
-
-{{{
-T [Int] = S [Int]        (R3)
-T Int = S Int            (R4)
-}}}
-and under these assumptions we need to verify
-
-{{{
-T [Int] = [Int]
-}}}
-
-
-Logically, we can express the above as follows:
-
-{{{
-(forall a. S [a] = [S a]) /\       -- axioms
-(T Int = Int)
-
- |=
-
-
-
-(T [Int] = S [Int]) /\             -- local assumptions
-(T Int = S Int)
-
- implies
-
-(T [Int] = [Int])                  -- (local) property
-}}}
-That is, any model (in the first-order sense) which is
-a model of the axioms and local assumptions is also
-a model of the property.
-
-NOTE: There are further axioms such as reflexitivity of = etc.
-We'll leave them our for simplicitiy.
-
-The all important question:
-How can we algorithmically check the above statement?
-Roughly, we perform the following two steps.
-
- 1. Generate the appropriate implication constraint out of the program text.  That's easy cause GHC supports now implication constraints. (There are some potential subtleties, see GENERATEIMP below).
- 2. Solve the implication constraint by applying axioms and local assumptions until the (local) property is verified. That's the hard part.
-
-NOTE: 
-
-We assume that (implication) constraints consist of  equality constraints only. In general, we'll also find type class constraints. We ignore such constraints  for the moment.
-
-In the following, we assume that symbols t refer to types and symbols C refer to conjunctions of equality constraints and Ax refers to an axiom set.
-
-We'll restrict ourselves to simple implication constraints of the form {{{   C implies t1=t2 }}}
-In general, implication constraints may be nested, e.g
-{{{ C1 implies (C2 implies C3) }}} and may contain conjunctions
-of implications, e.g. {{{C1 implies (F1 /\ F2)}}} where F1 and F2 are arbitrary implication constraints. Implication constraints may be universally quantified, e.g. 
-{{{ forall a (S a = T a implies ...) }}}
-These universal quantifiers arise from universal type annotations, e.g.  {{{ f :: S a = T a => ....}}}, and
-pattern matchings over data types with abstract components, e.g. data Foo where
-{{{ K :: S a = T a => a -> Foo}}}
-We can operationally deal with universally quantified variables by skolemizing them (and we must ensure that skolemized/universal variables do not escape).
-
-End of NOTE
-
-== Various refinements of an approach to solve the challenge ==
-
+ * [wiki:TypeFunctionsSynTC/Challenge The challenge]
  * [wiki:TypeFunctionsSynTC/Naive A first (naive) attempt]
  * [wiki:TypeFunctionsSynTC/Second A second attempt]
  * [wiki:TypeFunctionsSynTC/GHC Type equations in GHC]
