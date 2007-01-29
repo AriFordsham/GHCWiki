@@ -188,4 +188,11 @@ Alternatives:
 ```
 
 
-Attached in a pdf are the beginnings of some transformation rules to consider.
+An advantage of this transformation style is that it handles combinations of transformed and untransformed functions easily. When variable expressions are transformed we simply check to see if the variable corresponds to a transformed function. If it does, we pass it the current stack value as an argument, otherwise we don't.
+
+
+A problem with this transformation style is that it is sensitive to program transformations that might happen in the compiler. For example consider this code:
+
+```wiki
+   f = let x = EXP in (\y -> head (foo x))
+```
