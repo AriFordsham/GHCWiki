@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/ExplicitCallStack"
-  queryString          = "?version=11"
+  queryString          = "?version=12"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:01:05 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/ExplicitCallStack\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:01:12 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/ExplicitCallStack\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -87,6 +87,20 @@ Lots of open questions
  How would you like to transform this?
 
 == Transformation rules ==
+
+The key issues are:
+
+ * Higher-order calls. Where does a partially applied function receive its stack trace from? Possible options include:
+   1. The lexical call site (corresponding to where the function is mentioned in the source code.
+   2. The context in which the function receives a particular argument, for instance the one where it is saturated.  
+
+ * CAFs. The problem with CAFs is that, at least for expensive ones, we want to preserve the sharing of their evaluation. Therefore we cannot simply extend them into functions which take a stack trace as an argument - this would cause the CAF to be recomputed at each place where it is called. The simplest solution is to make CAFs the roots of call stacks, but it seems like there will be situations where it would be useful to know more about the context in which a CAF was evaluated.
+
+ * Recursion. Obviously the call stack will grow in size proportional to the depth of recursion. This could lead to prohibitive space usage, thus it is desirable that the size of the stack be kept within reasonable bounds. We will probably need some way to dynamically prune the stack.
+
+ * Extent. It is desirable to have a scheme where only some functions in the program are transformed for stack tracing, whilst others remain in their original form. We want to avoid the ``all-or-nothing'' situation, where the whole program has to be recompiled before tracing can be done. For example, with the current state of profiling in GHC, the whole program has to be recompiled, and special profiling libraries must be linked against. This is a nuisance which reduces the usability of the system. Similar problems occur with other debugging tools, such as Hat and buddha, and this really hampers their acceptance by programmers.
+
+
 
 Attached in a pdf are the beginnings of some transformation rules to consider.
 ```
