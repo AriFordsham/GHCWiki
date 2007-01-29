@@ -141,9 +141,9 @@ Declarations:
 
 Expressions:
 
-   [[ x ]]_t                          ==>   x      , if x is either lambda bound, or a CAF.
-  
-   [[ x ]]_t                          ==>   x t    , if f is function bound
+   [[ x ]]_t                          ==>   x t    , if f is function bound, and transformed for tracing
+
+   [[ x ]]_t                          ==>   x      , if x does not match the above rule
 
    [[ k ]]_t                          ==>   k
 
