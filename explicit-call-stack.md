@@ -203,7 +203,13 @@ A problem with this transformation style is that it is sensitive to program tran
 Here is the output of the two different transformations:
 
 ```wiki
-   f1 = let x = EXP in (\y -> head ["f1"] (foo ["f1" x))
+   f1 = let x = EXP in (\y -> head ["f1"] (foo ["f1"] x))
 
    f2 = \t y -> head ("f2":t) (foo ("f2":t) (let x = EXP in x))
 ```
+
+
+Notice that in the first case the stack passed to `head` and `foo` is simply `["f1"]`, but in the second case it is \`"f2":t".
+
+
+The reason for the difference is that lambda abstractions are transformed differently, depending on whether they are bound directly to a variable, or whether they are just some nested sub-expression.
