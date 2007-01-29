@@ -102,6 +102,14 @@ For the purpose of exploring the rules we need an abstract syntax. Below is one 
 This is probably the simplest transformation style possible. Stack traces are passed to functions at their lexical call sites, which correspond to the places where the function is mentioned in the source code. CAF bindings are treated as roots of stacks, so only function bindings receive stack arguments. In this transformation we can get away with simply passing one stack argument for each function, regardless of how many regular arguments it has. In contrast, other transformation styles
 might pass one stack argument for every regular argument of the function.
 
+The notation:
+
+{{{
+   [[ E ]]_k
+}}}
+
+for some k, means transform the expression E, with stack value k. 
+
 {{{
    [[ x :: T ]]   ==>   x :: Trace -> T     , if x is a function binding
    
