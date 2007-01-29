@@ -129,31 +129,35 @@ might pass one stack argument for every regular argument of the function.
 {{{
 Declarations:
 
-   [[ x :: T ]]                 ==>   x :: Trace -> T     , if x is a function binding
+   [[ x :: T ]]                       ==>   x :: Trace -> T     , if x is a function binding
    
-   [[ x :: T ]]                 ==>   x :: T              , is x is a CAF binding
+   [[ x :: T ]]                       ==>   x :: T              , is x is a CAF binding
 
-   [[ x = \y1 .. yn -> E ]]     ==>   x = \t y1 .. yn -> [[ E ]]_("x":t)
+   [[ x = \y1 .. yn -> E ]]           ==>   x = \t y1 .. yn -> [[ E ]]_("x":t)
+
+   [[ x = E ]]                        ==>   x = [[ E ]]_["x"]
+
+   [[ data f a1 .. an = K1 .. Km ]]   ==>   data f a1 .. an = K1 .. Km
 
 Expressions:
 
-   [[ x ]]_t                    ==>   x      , if x is either lambda bound, or a CAF.
+   [[ x ]]_t                          ==>   x      , if x is either lambda bound, or a CAF.
   
-   [[ x ]]_t                    ==>   x t    , if f is function bound
+   [[ x ]]_t                          ==>   x t    , if f is function bound
 
-   [[ k ]]_t                    ==>   k
+   [[ k ]]_t                          ==>   k
 
-   [[ E1 E2 ]]_t                ==>   [[ E1 ]]_t [[ E2 ]]_t
+   [[ E1 E2 ]]_t                      ==>   [[ E1 ]]_t [[ E2 ]]_t
 
-   [[ let D1 .. Dn in E ]]_t    ==>   let [[ D1 ]] .. [[ Dn ]] in  [[ E ]]_t
+   [[ let D1 .. Dn in E ]]_t          ==>   let [[ D1 ]] .. [[ Dn ]] in  [[ E ]]_t
 
-   [[ case E of A1 .. An ]]_t   ==>   case [[ E ]]_t of [[ A1 ]]_t .. [[ An ]]_t
+   [[ case E of A1 .. An ]]_t         ==>   case [[ E ]]_t of [[ A1 ]]_t .. [[ An ]]_t
 
-   [[ \y1 .. yn -> E ]]_t       ==>   \y1 .. yn -> [[ E ]]_t
+   [[ \y1 .. yn -> E ]]_t             ==>   \y1 .. yn -> [[ E ]]_t
 
 Alternatives:
 
-   [[ p -> E ]]_t               ==>   p -> [[ E ]]_t 
+   [[ p -> E ]]_t                     ==>   p -> [[ E ]]_t 
 }}}
 
 Attached in a pdf are the beginnings of some transformation rules to consider.
