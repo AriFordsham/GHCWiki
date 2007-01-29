@@ -162,16 +162,18 @@ Alternatives:
 
 An advantage of this transformation style is that it handles combinations of transformed and untransformed functions easily. When variable expressions are transformed we simply check to see if the variable corresponds to a transformed function. If it does, we pass it the current stack value as an argument, otherwise we don't.
 
-A problem with this transformation style is that it is sensitive to program transformations that might happen in the compiler. For example consider this code:
+A problem with this transformation style is that it is sensitive to program transformations that might happen in the compiler. For example, it transforms these two functions differently, even though they are semantically equivalent:
 
 {{{
-   f = let x = EXP in (\y -> head (foo x))
+   f1 = let x = EXP in (\y -> head (foo x))
+
+   f2 = \y -> head (foo (let x = EXP in x))
 }}}
 
-where EXP is some arbitrary expression. Suppose that head is transformed to accept a stack argument, and foo is not. After transformation the code will become:
+Here is the output of the two different transformations:
 
 {{{
-   f = let x = EXP in (\y -> head ["f"] (foo x))
-}}}
+   f1 = let x = EXP in (\y -> head ["f1"] (foo ["f1" x))
 
-If we get an excpetion in head, the stack trace will tell us that head was called inside f, and f will be the root of the call stack.
+   f2 = \t y -> head ("f2":t) (foo ("f2":t) (let x = EXP in x))
+}}}
