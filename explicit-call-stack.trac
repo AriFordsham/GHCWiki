@@ -106,6 +106,8 @@ might pass one stack argument for every regular argument of the function.
    [[ x :: T ]]   ==>   x :: Trace -> T     , if x is a function binding
    
    [[ x :: T ]]   ==>   x :: T              , is x is a CAF binding
+
+   [[ x = \y1 .. yn -> E ]]   ==>   x = \t y1 .. yn -> [[ E ]]_("x":t)
 }}}
 
 Attached in a pdf are the beginnings of some transformation rules to consider.
