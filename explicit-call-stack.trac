@@ -77,7 +77,7 @@ The key issues are:
 
  * '''Recursion'''. Obviously the call stack will grow in size proportional to the depth of recursion. This could lead to prohibitive space usage, thus it is desirable that the size of the stack be kept within reasonable bounds. We will probably need some way to dynamically prune the stack.
 
- * '''Extent'''. It is desirable to have a scheme where only some functions in the program are transformed for stack tracing, whilst others remain in their original form. We want to avoid the ``all-or-nothing'' situation, where the whole program has to be recompiled before tracing can be done. For example, with the current state of profiling in GHC, the whole program has to be recompiled, and special profiling libraries must be linked against. This is a nuisance which reduces the usability of the system. Similar problems occur with other debugging tools, such as Hat and buddha, and this really hampers their acceptance by programmers.
+ * '''Extent'''. It is desirable to have a scheme where only some functions in the program are transformed for stack tracing, whilst others remain in their original form. We want to avoid the all-or-nothing situation, where the whole program has to be recompiled before tracing can be done. For example, with the current state of profiling in GHC, the whole program has to be recompiled, and special profiling libraries must be linked against. This is a nuisance which reduces the usability of the system. Similar problems occur with other debugging tools, such as Hat and buddha, and this really hampers their acceptance by programmers.
 
 === An abstract syntax ===
 
