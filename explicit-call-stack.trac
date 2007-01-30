@@ -100,7 +100,7 @@ Here is a basic term-reduction for the program:
         => print (e [])
         => print ((f 10) [])
         => print ((case fac 10 < 10 of { True -> \_ -> 3; False -> hd }) [])
-        => .. some reductions of fac, and then select the Fasle branch of the case ...
+        => .. some reductions of fac, and then select the False branch of the case ...
         => print (hd [])
         => print (error "hd: empty list")
         => <crash>
