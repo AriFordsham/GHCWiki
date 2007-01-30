@@ -126,7 +126,7 @@ Another option is this:
 
 The difference between these two stacks is how we determine ''when'' `hd` is called. Is it in the context where `hd` is first mentioned by name (in the body of `f`), or is it when `hd` becomes fully saturated (in the body of `d`)? Both contexts seem reasonable. Does it really matter which one is chosen? At the moment I can't say for sure.
 
-There are more possibilities, for instance, we treat CAFs as roots of the stack, thus dropping `main` and `d` from the first of the options above:
+There are more possibilities, for instance, we could treat CAFs as roots of the stack, thus dropping `main` and `d` from the first of the options above:
 {{{
    e -> f -> hd
 }}}
