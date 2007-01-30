@@ -93,6 +93,19 @@ Suppose we are to transform the following code:
                   False -> n * fac (n - 1)
 }}}
 
+Here is a basic term-reduction for the program:
+
+{{{
+   main => print d
+        => print (e [])
+        => print ((f 10) [])
+        => print ((case fac 10 < 10 of { True -> \_ -> 3; False -> hd }) [])
+        => .. some reductions of fac, and then select the Fasle branch of the case ...
+        => print (hd [])
+        => print (error "hd: empty list")
+        => <crash>
+}}}
+
 == Transformation rules ==
 
 The key issues are:
