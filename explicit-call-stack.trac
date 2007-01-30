@@ -73,7 +73,7 @@ Suppose we are to transform the following code. The line numbers in comments are
    main = print d
 
    d :: Int
-   d = e []                                               {- line 6 -}
+   d = e []                                      {- line 4 -}
 
    e :: [Int] -> Int
    e = f 10
@@ -83,14 +83,16 @@ Suppose we are to transform the following code. The line numbers in comments are
                 True  -> \_ -> 3
                 False -> hd
 
-   hd = \x -> case x of                                   {- line 16 -}
-                 [] -> error "hd: empty list"             {- line 17 -}
+   hd :: [a] -> a
+   hd = \x -> case x of                          {- line 15 -}
+                 [] -> error "hd: empty list"    {- line 16 -}
                  (x:_) -> x
 
    fac :: Int -> Int
    fac = \n -> case n == 0 of
                   True -> 1
                   False -> n * fac (n - 1)
+
 }}}
 
 People probably don't write code like this very much, but nonetheless, it does expose some of the issues we must deal with.
@@ -140,10 +142,10 @@ Here is the stack trace generated for the example program. You can see the relev
    Program terminated with error:
            hd: empty list
    Virtual stack trace:
-   (unknown)       {?}                                
-   (H.hs:17)       error "hd: empty..."               
-   (H.hs:16)       (\..) [] | case []                 {- the case analysis of the list in hd -}
-   (H.hs:6)        (\..) []                           {- the application of hd in the body of d -}
+   (unknown)       {?}
+   (H.hs:16)       error "hd: empty..."
+   (H.hs:15)       (\..) [] | case []        {- case analysis of [] in hd -}
+   (H.hs:4)        (\..) []                  {- hd applied to [] in the body of d -}
    (unknown)       d
 }}}
 
@@ -158,9 +160,9 @@ Curiously, if we change the definition of `hd` to a function binding instead of 
            hd: empty list
    Virtual stack trace:
    (unknown)       {?}
-   (I.hs:17)       error "hd: empty..."
-   (I.hs:16)       hd [] | case []
-   (I.hs:6)        hd []
+   (I.hs:16)       error "hd: empty..."
+   (I.hs:15)       hd [] | case []
+   (I.hs:4)        hd []
    (unknown)       d
 }}}
 
@@ -180,10 +182,10 @@ Now we get this stack trace:
            hd: empty list
    Virtual stack trace:
    (unknown)       {?}
-   (J.hs:17)       error "hd: empty..."
-   (J.hs:16)       hd [] | case []
-   (J.hs:9)        hd []
-   (J.hs:6)        e []
+   (J.hs:16)       error "hd: empty..."
+   (J.hs:15)       hd [] | case []
+   (J.hs:7)        hd []
+   (J.hs:4)        e []
    (unknown)       d
 }}}
 Which is:
@@ -290,6 +292,33 @@ Alternatives:
 }}}
 
 An advantage of this transformation style is that it handles combinations of transformed and untransformed functions easily. When variable expressions are transformed we simply check to see if the variable corresponds to a transformed function. If it does, we pass it the current stack value as an argument, otherwise we don't.
+
+If you apply this transformation to the example above you get:
+{{{
+   main = print d
+
+   d :: Int
+   d = e []
+
+   e :: [Int] -> Int
+   e = f 10
+
+   f :: Int -> [Int] -> Int
+   f = \x -> case fac x < 10 of
+                True  -> \_ -> 3
+                False -> hd
+
+   hd :: [a] -> a
+   hd = \x -> case x of
+                 [] -> error "hd: empty list"
+                 (x:_) -> x
+
+   fac :: Int -> Int
+   fac = \n -> case n == 0 of
+                  True -> 1
+                  False -> n * fac (n - 1)
+}}}
+
 
 A problem with this transformation style is that it is sensitive to the position of lambdas in the body of a declaration. For example, it transforms these two functions differently, even though they are semantically equivalent:
 
