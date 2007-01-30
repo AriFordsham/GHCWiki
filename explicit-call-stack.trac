@@ -148,7 +148,7 @@ Here is the stack trace generated for the example program. You can see the relev
    (unknown)       {?}
    (H.hs:16)       error "hd: empty..."
    (H.hs:15)       (\..) [] | case []        {- case analysis of [] in hd -}
-   (H.hs:4)        (\..) []                  {- hd applied to [] in the body of d -}
+   (H.hs:4)        (\..) []                  {- (body of) hd applied to [] in the body of d -}
    (unknown)       d
 }}}
 
