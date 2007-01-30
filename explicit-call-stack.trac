@@ -133,7 +133,7 @@ And so on.
 
 == What does Hat do? ==
 
-As a starting point it is useful to see what Hat does, in particular hat-stack, which is the tool for generating stack traces. The example of `hd []` is exactly the kind of problem that hat-stack is designed to tackle.
+As a starting point it is useful to see what Hat does, in particular hat-stack, which is the tool for generating stack traces. The example of "`hd []`" is exactly the kind of problem that hat-stack is designed to tackle.
 
 Here is the stack trace generated for the example program. You can see the relevant line numbers in comments in the source code above. I've added comments to the hat output on the RHS to emphasise what the entries mean, when it is not immediately clear.
 {{{
@@ -147,6 +147,27 @@ Here is the stack trace generated for the example program. You can see the relev
    (unknown)       d
 }}}
 
+More-or-less this stack resembles:
+{{{
+   d -> hd 
+}}}
+
+Curiously, if we change the definition of `hd` to a function binding instead of a pattern binding we get this stack trace instead:
+{{{
+   Program terminated with error:
+           hd: empty list
+   Virtual stack trace:
+   (unknown)       {?}
+   (I.hs:17)       error "hd: empty..."
+   (I.hs:16)       hd [] | case []
+   (I.hs:6)        hd []
+   (unknown)       d
+}}}
+
+Which is a little clearer, but still represents:
+{{{
+   d -> hd
+}}}
 
 == Transformation rules ==
 
