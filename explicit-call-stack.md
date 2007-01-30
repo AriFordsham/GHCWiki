@@ -211,7 +211,7 @@ Which is a little clearer, but still represents:
 ```
 
 
-So hat-stack's considers the context in which a function is saturated to be the place where it is called. To make this even more apparent we can eta-expand `e`:
+So hat-stack considers the context in which a function is saturated to be the place where it is called. To make this even more apparent we can eta-expand `e`:
 
 ```wiki
    e :: [Int] -> Int
