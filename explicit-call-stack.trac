@@ -65,6 +65,34 @@ Lots of open questions
 }}}
  How would you like to transform this?
 
+== An example to consider ==
+
+Suppose we are to transform the following code:
+
+{{{
+   main = print d
+
+   d :: Int
+   d = e []
+
+   e :: [Int] -> Int
+   e = f 10
+
+   f :: Int -> [Int] -> Int
+   f = \x -> case fac x < 10 of
+                True  -> \_ -> 3
+                False -> hd
+
+   hd = \x -> case x of
+                 [] -> error "hd: empty list"
+                 (x:_) -> x
+
+   fac :: Int -> Int
+   fac = \n -> case n == 0 of
+                  True -> 1
+                  False -> n * fac (n - 1)
+}}}
+
 == Transformation rules ==
 
 The key issues are:
