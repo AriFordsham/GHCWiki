@@ -103,8 +103,12 @@ Here is a basic term-reduction for the program:
         => .. some reductions of fac, and then select the False branch of the case ...
         => print (hd [])
         => print (error "hd: empty list")
-        => <crash>
+        => <uncaught exception>
 }}}
+
+By the time that `hd` is called on the empty list, the only thing remaining on the dynamic evaluation stack is `print`.
+
+The question is what stack would you "like" to see in this case?
 
 == Transformation rules ==
 
