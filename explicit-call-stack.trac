@@ -131,6 +131,21 @@ There are more possibilities, for instance, we treat CAFs as roots of the stack,
 
 And so on.
 
+== What does Hat do? ==
+
+As a starting point it is useful to see what Hat does, in particular hat-stack, which is the tool for generating stack traces. The example of `hd []` is exactly the kind of problem that hat-stack is designed to tackle.
+
+Here is the stack trace generated for the example program. I've added comments on the RHS to indicate what some of the entries mean (because they refer to source code locations).
+{{{
+   Program terminated with error:
+           hd: empty list
+   Virtual stack trace:
+   (unknown)       {?}
+   (H.hs:17)       error "hd: empty..."
+   (H.hs:16)       (\..) [] | case []
+   (H.hs:6)        (\..) []
+   (unknown)       d
+}}}
 
 
 == Transformation rules ==
