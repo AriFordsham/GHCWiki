@@ -169,7 +169,28 @@ Which is a little clearer, but still represents:
    d -> hd
 }}}
 
-So hat-stack's considers the context in which a function is saturated to be the place where it is called.
+So hat-stack's considers the context in which a function is saturated to be the place where it is called. To make this even more apparent we can eta-expand `e`:
+{{{
+   e :: [Int] -> Int
+   e x = f 10 x
+}}}
+Now we get this stack trace:
+{{{
+   Program terminated with error:
+           hd: empty list
+   Virtual stack trace:
+   (unknown)       {?}
+   (J.hs:17)       error "hd: empty..."
+   (J.hs:16)       hd [] | case []
+   (J.hs:9)        hd []
+   (J.hs:6)        e []
+   (unknown)       d
+}}}
+Which is:
+{{{
+   d -> e -> hd
+}}}
+This is because `hd` now becomes saturated in the body of `e`.
 
 == Transformation rules ==
 
