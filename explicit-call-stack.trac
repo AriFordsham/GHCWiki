@@ -129,11 +129,13 @@ might pass one stack argument for every regular argument of the function.
 {{{
 Declarations:
 
-   [[ x :: T ]]                       ==>   x :: Trace -> T     , if x is a function binding
+   [[ x :: T ]]                       ==>   x :: Trace -> T     , x is function bound, and transformed for tracing
    
-   [[ x :: T ]]                       ==>   x :: T              , is x is a CAF binding
+   [[ x :: T ]]                       ==>   x :: T              , x does not match the above rule
 
-   [[ x = \y1 .. yn -> E ]]           ==>   x = \t y1 .. yn -> [[ E ]]_("x":t)
+   [[ x = \y1 .. yn -> E ]]           ==>   x = \t y1 .. yn -> [[ E ]]_("x":t)       , x is transformed for tracing
+
+   [[ x = \y1 .. yn -> E ]]           ==>   x = \y1 .. yn -> [[ E ]]_["x"]           , x is not transformed for tracing
 
    [[ x = E ]]                        ==>   x = [[ E ]]_["x"]
 
@@ -141,9 +143,9 @@ Declarations:
 
 Expressions:
 
-   [[ x ]]_t                          ==>   x t    , if f is function bound, and transformed for tracing
+   [[ x ]]_t                          ==>   x t    , x is function bound, and transformed for tracing
 
-   [[ x ]]_t                          ==>   x      , if x does not match the above rule
+   [[ x ]]_t                          ==>   x      , x does not match the above rule
 
    [[ k ]]_t                          ==>   k
 
