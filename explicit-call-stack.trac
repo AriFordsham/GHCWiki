@@ -49,6 +49,29 @@ This selectiveness makes it much less heavyweight than GHC's currrent "recompile
 
 5. The dynamic hpc tracer will allow reverse time-travel, from an exception to the call site, by keeping a small queue of recently ticked locations. This will make it easier to find out what called the error calling function (head, !, !!, etc.), but will require a hpc-trace compiled prelude if we want to find places in the prelude that called the error. (A standard prelude would find the prelude function that was called that called the error inducing function).
 
+6. The stack could thread entire ghci debugger 'frames' instead of just Strings. Such frames would have this aspect:
+{{{
+     type Stack = [DebuggerFrame]
+     data DebuggerFrame = DF {   ids     :: (Ptr [Id]) 
+                              , locals :: [Locals] 
+                              , srcloc :: SrcLoc }
+     data Locals = forall a. Locals a
+}}}
+The debugger can be extended to recognize bindings carrying this explicit stack and provide call stack traces in vanilla breakpoints. It would be possible then to fire the debugger in head_check by simply:
+ {{{
+     head_check :: Stack -> [a] -> a
+     head_check stack [] = breakpoint (error "prelude: head")
+}}}
+or make this the default behaviour for error, and ensure that this transformation always applies to it, so there will be a stack around for breakpoint:
+{{{
+     error0 :: String -> a    -- behaves as the current error
+               
+     error msg = breakpoint (error0 msg)
+
+     head_check stack [] = error "prelude:head" 
+}}}
+How realistic this is, I have no idea... but sounds good.
+
 == Open questions ==
 
 Lots of open questions
