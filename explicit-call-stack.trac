@@ -345,7 +345,7 @@ If you apply this transformation to the example above you get:
                     False -> n * fac ("fac":t) (n - 1)            {- no stack pruning, though there ought to be -}
 }}}
 
-When you fun this program you get:
+When you run this program you get:
 {{{
    Program error: hd: empty list ["f","e"]
 }}}
