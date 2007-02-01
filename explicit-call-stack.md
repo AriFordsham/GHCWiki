@@ -464,7 +464,7 @@ Notice that in the first case the stack passed to `head` and `foo` is simply `["
 ```wiki
    g1 = foo . bar . goo
 
-   g2 = \x -> foo (bar (goo x)
+   g2 = \x -> foo (bar (goo x))
 ```
 
 
