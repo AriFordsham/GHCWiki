@@ -1,119 +1,127 @@
-CONVERSION ERROR
+# Maintaining an explicit call stack
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/ExplicitCallStack"
-  queryString          = "?version=59"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:01:28 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","256"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/ExplicitCallStack\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-Original source:
+There has been a vigorous thread on error attribution ("I get a `head []` error; but who called `head`?").  This page summarises some half baked ideas that Simon and I have been discussing. Do by all means edit this page to add comments and further ideas or pointers.  (As usual, *discussion* is best done by email; but this page could be a place to record ideas, design alternatives, list pros and cons, pointers to related work etc.)
 
-```trac
-= Maintaining an explicit call stack =
-
-There has been a vigorous thread on error attribution ("I get a `head []` error; but who called `head`?").  This page summarises some half baked ideas that Simon and I have been discussing. Do by all means edit this page to add comments and further ideas or pointers.  (As usual, ''discussion'' is best done by email; but this page could be a place to record ideas, design alternatives, list pros and cons, pointers to related work etc.)
 
 See also
-  * [http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html The Haskell cafe thread]
-  * [http://www.cse.unsw.edu.au/~dons/loch.html]
-  * [http://haskell.org/hat HAT]
 
+- [ The Haskell cafe thread](http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html)
+- [ http://www.cse.unsw.edu.au/\~dons/loch.html](http://www.cse.unsw.edu.au/~dons/loch.html)
+- [ HAT](http://haskell.org/hat)
 
-== The basic idea == 
+## The basic idea
 
 1.  GHC's 'assert' magically injects the current file location.  One could imagine generalising this a bit so that you could say
-{{{
-	...(f $currentLocation)...
-}}}
+
+  ```wiki
+  	...(f $currentLocation)...
+  ```
+
+
 to pass a string describing the current location to f.
 
-2.  But that doesn't help with 'head'.  We want to pass head's ''call site'' to head. That's what jhc does when you give 'head' the a magic [http://repetae.net/john/computer/jhc/jhc.html SRCLOC_ANNOTATE pragma]:
-	* every call to `head` gets replaced with `head_check $currentLocation`
-	* in jhc, you get to write `head_check` yourself, with type
-{{{
-		head_check :: String -> [a] -> a
-}}}
+1.  But that doesn't help with 'head'.  We want to pass head's *call site* to head. That's what jhc does when you give 'head' the a magic [ SRCLOC_ANNOTATE pragma](http://repetae.net/john/computer/jhc/jhc.html):
+
+  - every call to `head` gets replaced with `head_check $currentLocation`
+  - in jhc, you get to write `head_check` yourself, with type
+
+    ```wiki
+    		head_check :: String -> [a] -> a
+    ```
+
+
 It'd be nicer if you didn't have to write `head_check` yourself, but instead the compiler wrote it.
 
-3.  But what about the caller of the function that calls head?  Obviously we'd like to pass that on too!
-{{{
-	foo :: [Int] -> Int
-	{-# SRCLOC_ANNOTATE foo #-}
-	foo xs = head (filter odd xs)
-===>
-	foo_check :: String -> [Int] -> Int
-	foo_check s xs = head_check ("line 5 in Bar.hs" ++ s) xs
-}}}
-Now in effect, we build up a call stack.  Now we ''really'' want the compiler to write `foo_check`.
+1.  But what about the caller of the function that calls head?  Obviously we'd like to pass that on too!
 
-4.  In fact, it's very similar to the "cost-centre stack" that GHC builds for profiling, except that it's explicit rather than implicit.  (Which is good.   Of course the stack should be a proper data type, not a String.)
+  ```wiki
+  	foo :: [Int] -> Int
+  	{-# SRCLOC_ANNOTATE foo #-}
+  	foo xs = head (filter odd xs)
+  ===>
+  	foo_check :: String -> [Int] -> Int
+  	foo_check s xs = head_check ("line 5 in Bar.hs" ++ s) xs
+  ```
 
-However, unlike GHC's profiling stuff, it is ''selective''.  You can choose to annotate just one function, or 10, or all.  If call an annotated function from an unannotated one, you get only the information that it was called from the unannotated one:
-{{{
+
+Now in effect, we build up a call stack.  Now we *really* want the compiler to write `foo_check`.
+
+1.  In fact, it's very similar to the "cost-centre stack" that GHC builds for profiling, except that it's explicit rather than implicit.  (Which is good.   Of course the stack should be a proper data type, not a String.)
+
+
+However, unlike GHC's profiling stuff, it is *selective*.  You can choose to annotate just one function, or 10, or all.  If call an annotated function from an unannotated one, you get only the information that it was called from the unannotated one:
+
+```wiki
 	foo :: [Int] -> Int   -- No SRCLOC_ANNOTATE
 	foo xs = head (filter odd xs)
 ===>
 	foo:: [Int] -> Int
 	foo xs = head_check ("line 5 in Bar.hs") xs
-}}}
+```
+
+
 This selectiveness makes it much less heavyweight than GHC's currrent "recompile everything" story.
 
-5. The dynamic hpc tracer will allow reverse time-travel, from an exception to the call site, by keeping a small queue of recently ticked locations. This will make it easier to find out what called the error calling function (head, !, !!, etc.), but will require a hpc-trace compiled prelude if we want to find places in the prelude that called the error. (A standard prelude would find the prelude function that was called that called the error inducing function).
+1. The dynamic hpc tracer will allow reverse time-travel, from an exception to the call site, by keeping a small queue of recently ticked locations. This will make it easier to find out what called the error calling function (head, !, !!, etc.), but will require a hpc-trace compiled prelude if we want to find places in the prelude that called the error. (A standard prelude would find the prelude function that was called that called the error inducing function).
 
-6. The stack could thread entire ghci debugger 'frames' instead of just Strings. Such frames would have this aspect:
-{{{
-     type Stack = [DebuggerFrame]
-     data DebuggerFrame = DF {   ids     :: (Ptr [Id]) 
-                              , locals :: [Locals] 
-                              , srcloc :: SrcLoc }
-     data Locals = forall a. Locals a
-}}}
+1. The stack could thread entire ghci debugger 'frames' instead of just Strings. Such frames would have this aspect:
+
+  ```wiki
+       type Stack = [DebuggerFrame]
+       data DebuggerFrame = DF {   ids     :: (Ptr [Id]) 
+                                , locals :: [Locals] 
+                                , srcloc :: SrcLoc }
+       data Locals = forall a. Locals a
+  ```
+
+
 The debugger can be extended to recognize bindings carrying this explicit stack and provide call stack traces in vanilla breakpoints. It would be possible then to fire the debugger in head_check by simply:
- {{{
-     head_check :: Stack -> [a] -> a
-     head_check stack [] = breakpoint (error "prelude: head")
-}}}
+
+```wiki
+    head_check :: Stack -> [a] -> a
+    head_check stack [] = breakpoint (error "prelude: head")
+```
+
+
 or make this the default behaviour for error, and ensure that this transformation always applies to it, so there will be a stack around for breakpoint:
-{{{
+
+```wiki
      error0 :: String -> a    -- behaves as the current error
                
      error msg = breakpoint (error0 msg)
 
      head_check stack [] = error "prelude:head" 
-}}}
+```
+
+
 How realistic this is, I have no idea... but sounds good.
 
-== Open questions ==
+## Open questions
+
 
 Lots of open questions
 
- * It would be great to use the exact same stack value for profiling.  Not so easy...for example, time profiling uses sampling based on timer interrupts that expect to find the current cost centre stack in a particular register.  But a big pay-off; instead of having magic rules in GHC to handle SCC annotations, we could throw the full might of the Simplifier at it.
-  
- * CAFs are a nightmare.  Here's a nasty case:
-{{{
-  foo :: Int -> Int -> Int
-  foo = \x. if fac x > 111 then \y. stuff else \y. other-stuff
+- It would be great to use the exact same stack value for profiling.  Not so easy...for example, time profiling uses sampling based on timer interrupts that expect to find the current cost centre stack in a particular register.  But a big pay-off; instead of having magic rules in GHC to handle SCC annotations, we could throw the full might of the Simplifier at it.
 
-  bad :: Int -> Int
-  bad = foo 77
-}}}
- How would you like to transform this?
+- CAFs are a nightmare.  Here's a nasty case:
 
-== An example to consider ==
+  ```wiki
+    foo :: Int -> Int -> Int
+    foo = \x. if fac x > 111 then \y. stuff else \y. other-stuff
+
+    bad :: Int -> Int
+    bad = foo 77
+  ```
+
+  How would you like to transform this?
+
+## An example to consider
+
 
 Suppose we are to transform the following code. The line numbers in comments are useful later when we consider what hat-stack does.
 
-{{{
+```wiki
    main = print d
 
    d :: Int
@@ -137,13 +145,15 @@ Suppose we are to transform the following code. The line numbers in comments are
                   True -> 1
                   False -> n * fac (n - 1)
 
-}}}
+```
+
 
 People probably don't write code like this very much, but nonetheless, it does expose some of the issues we must deal with.
 
+
 Here is a basic term-reduction for the program:
 
-{{{
+```wiki
    main => print d
         => print (e [])
         => print ((f 10) [])
@@ -152,40 +162,57 @@ Here is a basic term-reduction for the program:
         => print (hd [])
         => print (error "hd: empty list")
         => <uncaught exception>
-}}}
+```
+
 
 By the time that `hd` is called on the empty list, the only thing remaining on the dynamic evaluation stack is `print`.
 
-The question is what stack would you ''like'' to see in this case?
+
+The question is what stack would you *like* to see in this case?
+
 
 One option is this:
-{{{
+
+```wiki
    main -> d -> e -> f -> hd
-}}}
+```
+
 
 Another option is this:
-{{{
-   main -> d -> hd
-}}}
 
-The difference between these two stacks is how we determine ''when'' `hd` is called. Is it in the context where `hd` is first mentioned by name (in the body of `f`), or is it when `hd` becomes fully saturated (in the body of `d`)? Both contexts seem reasonable. Does it really matter which one is chosen? At the moment I can't say for sure.
+```wiki
+   main -> d -> hd
+```
+
+
+The difference between these two stacks is how we determine *when*`hd` is called. Is it in the context where `hd` is first mentioned by name (in the body of `f`), or is it when `hd` becomes fully saturated (in the body of `d`)? Both contexts seem reasonable. Does it really matter which one is chosen? At the moment I can't say for sure.
+
 
 There are more possibilities, for instance, we could treat CAFs as roots of the stack, thus dropping `main` and `d` from the first of the options above:
-{{{
+
+```wiki
    e -> f -> hd
-}}}
+```
+
+
 or by dropping main from the second of the options above:
-{{{
+
+```wiki
    d -> hd
-}}}
+```
+
+
 (which is, as we shall see, incidentally what hat-stack does (so it is not unreasonable)).
 
-== What does Hat do? ==
+## What does Hat do?
+
 
 As a starting point it is useful to see what Hat does, in particular hat-stack, which is the tool for generating stack traces. The example of "`hd []`" is exactly the kind of problem that hat-stack is designed to tackle.
 
+
 Here is the stack trace generated for the example program. You can see the relevant line numbers in comments in the source code above. I've added comments to the hat output on the RHS to emphasise what the entries mean, when it is not immediately clear.
-{{{
+
+```wiki
    Program terminated with error:
            hd: empty list
    Virtual stack trace:
@@ -194,15 +221,19 @@ Here is the stack trace generated for the example program. You can see the relev
    (H.hs:15)       (\..) [] | case []        {- case analysis of [] in hd -}
    (H.hs:4)        (\..) []                  {- (body of) hd applied to [] in the body of d -}
    (unknown)       d
-}}}
+```
+
 
 More-or-less this stack resembles:
-{{{
+
+```wiki
    d -> hd 
-}}}
+```
+
 
 Curiously, if we change the definition of `hd` to a function binding instead of a pattern binding we get this stack trace instead:
-{{{
+
+```wiki
    Program terminated with error:
            hd: empty list
    Virtual stack trace:
@@ -211,20 +242,27 @@ Curiously, if we change the definition of `hd` to a function binding instead of 
    (I.hs:15)       hd [] | case []
    (I.hs:4)        hd []
    (unknown)       d
-}}}
+```
+
 
 Which is a little clearer, but still represents:
-{{{
+
+```wiki
    d -> hd
-}}}
+```
+
 
 So hat-stack considers the context in which a function is saturated to be the place where it is called. To make this even more apparent we can eta-expand `e`:
-{{{
+
+```wiki
    e :: [Int] -> Int
    e x = f 10 x
-}}}
+```
+
+
 Now we get this stack trace:
-{{{
+
+```wiki
    Program terminated with error:
            hd: empty list
    Virtual stack trace:
@@ -234,32 +272,40 @@ Now we get this stack trace:
    (J.hs:7)        hd []
    (J.hs:4)        e []
    (unknown)       d
-}}}
+```
+
+
 Which is:
-{{{
+
+```wiki
    d -> e -> hd
-}}}
+```
+
+
 This is because `hd` now becomes saturated in the body of `e`.
 
-== Transformation rules ==
+## Transformation rules
+
 
 The key issues are:
 
- * '''Higher-order calls'''. Where does a partially applied function receive its stack trace from? Possible options include:
-   1. The lexical call site (corresponding to where the function is mentioned in the source code).
-   2. The context in which the function receives a particular argument, for instance the one where it is saturated.  
+- **Higher-order calls**. Where does a partially applied function receive its stack trace from? Possible options include:
 
- * '''CAFs'''. The problem with CAFs is that, at least for expensive ones, we want to preserve the sharing of their evaluation. Therefore we cannot simply extend them into functions which take a stack trace as an argument - this would cause the CAF to be recomputed at each place where it is called. The simplest solution is to make CAFs the roots of call stacks, but it seems like there will be situations where it would be useful to know more about the context in which a CAF was evaluated.
+  1. The lexical call site (corresponding to where the function is mentioned in the source code).
+  1. The context in which the function receives a particular argument, for instance the one where it is saturated.  
 
- * '''Recursion'''. Obviously the call stack will grow in size proportional to the depth of recursion. This could lead to prohibitive space usage, thus it is desirable that the size of the stack be kept within reasonable bounds. We will probably need some way to dynamically prune the stack.
+- **CAFs**. The problem with CAFs is that, at least for expensive ones, we want to preserve the sharing of their evaluation. Therefore we cannot simply extend them into functions which take a stack trace as an argument - this would cause the CAF to be recomputed at each place where it is called. The simplest solution is to make CAFs the roots of call stacks, but it seems like there will be situations where it would be useful to know more about the context in which a CAF was evaluated.
 
- * '''Extent'''. It is desirable to have a scheme where only some functions in the program are transformed for stack tracing, whilst others remain in their original form. We want to avoid the all-or-nothing situation, where the whole program has to be recompiled before tracing can be done. For example, with the current state of profiling in GHC, the whole program has to be recompiled, and special profiling libraries must be linked against. This is a nuisance which reduces the usability of the system. Similar problems occur with other debugging tools, such as Hat and buddha, and this really hampers their acceptance by programmers.
+- **Recursion**. Obviously the call stack will grow in size proportional to the depth of recursion. This could lead to prohibitive space usage, thus it is desirable that the size of the stack be kept within reasonable bounds. We will probably need some way to dynamically prune the stack.
 
-=== An abstract syntax ===
+- **Extent**. It is desirable to have a scheme where only some functions in the program are transformed for stack tracing, whilst others remain in their original form. We want to avoid the all-or-nothing situation, where the whole program has to be recompiled before tracing can be done. For example, with the current state of profiling in GHC, the whole program has to be recompiled, and special profiling libraries must be linked against. This is a nuisance which reduces the usability of the system. Similar problems occur with other debugging tools, such as Hat and buddha, and this really hampers their acceptance by programmers.
+
+### An abstract syntax
+
 
 For the purpose of exploring the rules we need an abstract syntax. Below is one for a simple core functional language:
 
-{{{
+```wiki
    Decls(D)        -->   x :: T   |   x = E   |   data f a1 .. an = K1 .. Km
 
    Constructors(K) -->   k T1 .. Tn
@@ -271,38 +317,43 @@ For the purpose of exploring the rules we need an abstract syntax. Below is one 
    Alts(A)         -->   p -> E
 
    Pats(P)         -->   x   |   k P1 .. Pn
-}}}
+```
 
-=== Stack representation ===
+### Stack representation
+
 
 For simplicity we assume:
 
-{{{
+```wiki
    type Stack = [String]
-}}}
+```
+
 
 which is just a list of function names.
 
+### Notation
 
-=== Notation ===
 
 Double square brackets denote the transformation function, which has either one or two arguments, depending on what type of entity it is applied to. In most cases it has one argument, which is just a syntactic construct, but for expressions it
 has an additional argument which represents the current stack value.
 
+
 For instance:
 
-{{{
+```wiki
    [[ E ]]_k
-}}}
+```
+
 
 means transform expression E with k as the current stack value.
 
-=== Transformation option 1 ===
+### Transformation option 1
+
 
 This is probably the simplest transformation style possible. Stack traces are passed to (let bound) functions at their lexical call sites, which correspond to the places where the function is mentioned in the source code. Pattern bindings are treated as roots of stacks, so only function bindings receive stack arguments. In this transformation we can get away with simply passing one stack argument for each function, regardless of how many regular arguments it has. In contrast, other transformation styles
 might pass one stack argument for every regular argument of the function.
 
-{{{
+```wiki
 Declarations:
 
    [[ x :: T ]]                       ==>   x :: Trace -> T     , x is function bound, and transformed for tracing
@@ -336,15 +387,19 @@ Expressions:
 Alternatives:
 
    [[ p -> E ]]_t                     ==>   p -> [[ E ]]_t 
-}}}
+```
 
-In the above rules a variable is function bound, if it is defined in the form "`x = \y1 .. y n -> E`". In other words it
-is a syntactic property of the way the variable is defined, rather than a type property. In contrast, a variable is pattern bound if it is defined in the form "`x = E`", where `E` is ''not'' a lambda abstraction.
+
+In the above rules a variable is function bound if it is defined in the form "`x = \y1 .. y n -> E`". In other words it
+is a syntactic property of the way the variable is defined, rather than a type property. In contrast, a variable is pattern bound if it is defined in the form "`x = E`", where `E` is *not* a lambda abstraction. Using a syntactic rule can lead to some potentially confusing results, as we shall see below. Note, however, that tools like Hat and Buddha do use a syntactic rule like this (you can see from the hat example above that eta expanding a definition can change the stack trace). So there is at least some precedent for using a syntactic rule. However, it must be said that the choices made by Hat and buddha are driven by the desire to avoid having to type-check the program first. Inside GHC this is not a concern, and it may be prudent to take advantage of type information.
+
 
 An advantage of this transformation style is that it handles combinations of transformed and untransformed functions easily. When variable expressions are transformed we simply check to see if the variable corresponds to a transformed function. If it does, we pass it the current stack value as an argument, otherwise we don't.
 
+
 If you apply this transformation to the example above you get:
-{{{
+
+```wiki
    main = print d
 
    d :: Int
@@ -367,39 +422,50 @@ If you apply this transformation to the example above you get:
    fac = \t n -> case n == 0 of
                     True -> 1
                     False -> n * fac ("fac":t) (n - 1)            {- no stack pruning, though there ought to be -}
-}}}
+```
+
 
 When you run this program you get:
-{{{
+
+```wiki
    Program error: hd: empty list ["f","e"]
-}}}
+```
+
+
 Which is essentially:
-{{{
+
+```wiki
    e -> f -> hd
-}}}
-''Note'': this is different to the stack trace given by hat-stack above.
+```
+
+*Note*: this is different to the stack trace given by hat-stack above.
+
 
 A problem with this transformation style is that it is sensitive to the position of lambdas in the body of a declaration. For example, it transforms these two functions differently, even though they are semantically equivalent:
 
-{{{
+```wiki
    f1 = let x = EXP in (\y -> head (foo x))
 
    f2 = \y -> head (foo (let x = EXP in x))
-}}}
+```
+
 
 Here is the output of the two different transformations:
 
-{{{
+```wiki
    f1 = let x = EXP in (\y -> head ["f1"] (foo ["f1"] x))
 
    f2 = \t y -> head ("f2":t) (foo ("f2":t) (let x = EXP in x))
-}}}
+```
 
-Notice that in the first case the stack passed to `head` and `foo` is simply `["f1"]`, but in the second case it is `"f2":t`. One ''might'' expect the same stack trace to be generated for each declaration. This might be particularly annoying/confusing in cases where people use a point free style of programming. Consider these two definitions:
 
-{{{
+Notice that in the first case the stack passed to `head` and `foo` is simply `["f1"]`, but in the second case it is `"f2":t`. One *might* expect the same stack trace to be generated for each declaration. This might be particularly annoying/confusing in cases where people use a point free style of programming. Consider these two definitions:
+
+```wiki
    g1 = foo . bar . goo
 
    g2 = \x -> foo (bar (goo x)
-}}}
 ```
+
+
+These are largely the same definition, just written in different style. One might expect them to result in the same stack trace. But the above transformation rule treats them differently, because the `g1` is a pattern binding, whereas `g2` is a function binding.
