@@ -317,6 +317,9 @@ Alternatives:
    [[ p -> E ]]_t                     ==>   p -> [[ E ]]_t 
 }}}
 
+In the above rules a variable is function bound, if it is defined in the form `x = \y1 .. y n -> E`. In other words it
+is a syntactic property of the way the variable is defined, rather than a type property.
+
 An advantage of this transformation style is that it handles combinations of transformed and untransformed functions easily. When variable expressions are transformed we simply check to see if the variable corresponds to a transformed function. If it does, we pass it the current stack value as an argument, otherwise we don't.
 
 If you apply this transformation to the example above you get:
