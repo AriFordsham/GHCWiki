@@ -379,7 +379,7 @@ Notice that in the first case the stack passed to `head` and `foo` is simply `["
 {{{
    g1 = foo . bar . goo
 
-   g2 = \x -> foo (bar (goo x)
+   g2 = \x -> foo (bar (goo x))
 }}}
 
 These are largely the same definition, just written in different style. One might expect them to result in the same stack trace. But the above transformation rule treats them differently, because the `g1` is a pattern binding, whereas `g2` is a function binding.
