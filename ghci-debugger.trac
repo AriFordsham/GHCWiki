@@ -342,12 +342,10 @@ Alternative designs should be explored. (Using bits instead of Bools in the matr
 
 = Pending work =
 Call stack traces.
+
 Interruption at unexpected conditions (expections).
 
-
 Rewrite of the Term pretty printer at  [[GhcFile(compiler/ghci/RtClosureInspect.hs)]]
-Rewrite of the type recovery code
-''Put together all the small todos here''
 
 = General Comments = 
 == Maintaining the debugger ==

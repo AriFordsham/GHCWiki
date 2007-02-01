@@ -458,12 +458,12 @@ Alternative designs should be explored. (Using bits instead of Bools in the matr
 
 
 Call stack traces.
+
+
 Interruption at unexpected conditions (expections).
 
 
 Rewrite of the Term pretty printer at  [compiler/ghci/RtClosureInspect.hs](/trac/ghc/browser/ghc/compiler/ghci/RtClosureInspect.hs)
-Rewrite of the type recovery code
-*Put together all the small todos here*
 
 # General Comments
 
