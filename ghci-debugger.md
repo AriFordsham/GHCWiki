@@ -277,23 +277,25 @@ breakpointAuto => breakpointAutoJump
 The types would be:
 
 ```wiki
+data Locals = forall a. Locals a
+
 breakpointAutoJump, breakpointJump :: 
 		    Int				-- Address of a StablePtr containing the Ids
-		 -> [()]			-- Local bindings list
+		 -> [Locals]			-- Local bindings list
 		 -> (String, String, Int)	-- Package, Module and site number
 		 -> String   	     		-- Location message (filename + srcSpan)
 		 -> b -> b   		   
-breakpointCond :: Int -> [()] -> (String,String,Int) -> String -> Bool -> b -> b
+breakpointCondJump :: Int -> [Locals] -> (String,String,Int) -> String -> Bool -> b -> b
 ```
 
 
-They get filled with the pointer to the ids in scope, their values, the site, a message, and the wrapped value in the desugarer. Everything served with the right amounts of unsafeCoerce sauce and TyApp dressing to make the generated Core lint.
+They get filled with the pointer to the ids in scope, their values, the site, a message, and the wrapped value in the desugarer. Everything served with the right amounts of unsafeCoerce sauce and TyApp dressing to make sure it core-lints.
 
 
 The site number is relevant only for 'auto' breakpoints, explained later. For the other two types of breakpoints its value should be 0.
 
 
-The desugarer monad has been extended with an OccEnv of Ids to track the bindings in scope. Of course this environment thing is probably too ad-hoc to use it for anything else. The monad also carries a mutable table of breakpoint sites for the current module. This is explained below.
+The desugarer monad has been extended with an OccEnv of Ids to track the bindings in scope. Of course this environment thing is probably too ad-hoc to use it for anything else. The monad also carries a mutable table of breakpoint sites for the current module. This table is propagated to the ModGuts.
 
 ### Default HValues for the Jump functions
 
