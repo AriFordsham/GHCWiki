@@ -37,7 +37,35 @@ hunk ./real/anna/TypeCheck5.hs 500
 +tcNSdlimit = 2^(30::Int)
 }
 }}}
-   
+I had to add the type annotation on the literal 30 because defaulting doesn't work in hat.
 
-  
+Commands to prepare for tracing:
+{{{
+    hmake -hat Main
+}}}
 
+Commands to see stack trace:
+{{{
+   hat-stack Main | less
+}}}
+
+Output:
+{{{
+Program terminated with error:
+        divide by zero
+Virtual stack trace:
+(unknown)       {?}
+(Utils.hs:108)  div 2 0
+(unknown)       k'
+(Utils.hs:119)  rands 1 2
+(Utils.hs:118)  utRandomInts 1 2 ESC[1;34m|ESC[0mESC[0m ESC[1;34mifESC[0mESC[0m True
+(FrontierDATAFN2.hs:243)        utRandomInts 1 2
+
+<... deleted piles of stuff ...>
+}}}
+}}}
+
+Here we see the top of the stack just before the error. The stack it produces is very deep, so I have deleted a lot of stuff from below. Nonetheless it is very easy to find the bug from this trace. The important part is:
+{{{
+   utRandomInts -> rands 1 2 -> k' -> div 2 0 -> error
+}}}
