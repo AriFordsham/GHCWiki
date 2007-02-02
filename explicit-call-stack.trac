@@ -6,6 +6,7 @@ See also
   * [http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html The Haskell cafe thread]
   * [http://www.cse.unsw.edu.au/~dons/loch.html]
   * [http://haskell.org/hat HAT]
+  * [wiki:ExplicitCallStack/StackTraceExperience]: Some tests done on real programs with various tools for displaying stack traces. 
 
 
 == The basic idea == 
