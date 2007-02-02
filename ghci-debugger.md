@@ -292,6 +292,9 @@ breakpointCondJump :: Int -> [Locals] -> (String,String,Int) -> String -> Bool -
 They get filled with the pointer to the ids in scope, their values, the site, a message, and the wrapped value in the desugarer. Everything served with the right amounts of unsafeCoerce sauce and TyApp dressing to make sure it core-lints.
 
 
+This transformation is loosely formalized in [GhciDebugger/BreakpointJump](ghci-debugger/breakpoint-jump)
+
+
 The site number is relevant only for 'auto' breakpoints, explained later. For the other two types of breakpoints its value should be 0.
 
 
