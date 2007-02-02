@@ -43,6 +43,23 @@ Double brackets denote the auxiliary binding capture function, which takes an ex
 
 ### breakpointJump desugaring
 
+
+The main role of the desugaring, as shown by the rules, is injecting the explicit list of local bindings. 
+
+
+In the rules below \<breakpoint\> and \<breakpointJump\> are placeholders for the several breakpoint flavors. Each flavor of breakpoint has a corresponding jump function:
+
+```wiki
+ breakpoint      -  breakpointJump
+ breakpointCond  -  breakpointJumpCond
+ breakpointAuto  -  breakpointJumpAuto
+```
+
+
+The \<ptr b\> placeholder denotes a pointer to the compiler datastructures for b, which in GHC are values of type [compiler/basictypes/Id.hs](/trac/ghc/browser/ghc/compiler/basictypes/Id.hs).
+ 
+The \<srcloc x\> placeholder denotes the source code location information for the expression x.
+
 ```wiki
 Declarations:
 
@@ -57,7 +74,7 @@ Declarations:
 
 Expressions:
 
-   [[ breakpoint x ]]_b       ==>   breakpointJump b [[x]]_b
+   [[ <breakpoint> x ]]_b     ==>   <breakpointJump> <ptr b> b <srcloc x> [[x]]_b
 
    [[ x ]]_b                  ==>   x
    
