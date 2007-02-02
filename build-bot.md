@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/BuildBot"
-  queryString          = "?version=1"
+  queryString          = "?version=2"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:01:29 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","250"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/BuildBot\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:01:31 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","250"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/BuildBot\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -44,7 +44,14 @@ It also created `Makefile.sample`; we recommend renaming this to `Makefile`. You
 
 === Admin steps ===
 
-SSH to `buildbot@darcs.haskell.org` and change to the `master/` directory. Edit `master.cfg`. Search for `slaves` and you should find a list containing an entry for each slave. Add an entry to the list like
+Pull the buildbot master configuration:
+
+{{{
+$ darcs get buildbot@darcs.haskell.org:/home/buildbot/master
+$ cd master
+}}}
+
+Edit `master.cfg`. Search for `slaves` and you should find a list containing an entry for each slave. Add an entry to the list like
 {{{
 { 'user': 'myUser',
   'pass': 'myPass',
@@ -54,7 +61,11 @@ If it is a Windows machine then use `ghcDefaultWindowsFactory` instead (this jus
 
 Now search for `schedulers` and either add `myUser` to the `builderNames` of an existing scheduler or, if there isn't one that runs at the time that you want, add a new scheduler.
 
-Save the changes and run `make reconfig`.
+Record and push the changes.  Then restart the build master:
+
+{{{
+$ ssh buildbot@darcs.haskell.org "cd master; make reconfig"
+}}}
 
 If there is anything unusual about the machine the build is being run on, e.g. the path to `gcc` is different, then you will need to add a field for the unusual thing to GhcDefaultConfig and alter the build steps to make use of it. Then make a special factory for the build client you are adding with this field changed as appropriate.
 
