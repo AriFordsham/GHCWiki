@@ -2,3 +2,121 @@
 
 
 Before we decide what kind of stack trace we want, it is very useful to see what the other existing tools already provide. This will give us some ideas about what is workable in practice.
+
+
+The tools we will be testing are:
+
+- Hat 2.05, particularly hat-stack and hat-trail (hat stack is just a specialisation of hat-trail).
+- Cost Centre Stacks (CCS) with +RTS -xc -RTS, using ghc version 6.6
+- Andy Gill's HpcT tracer
+- The ghci debugger extended with a simple stack passing transformation. We will try both a full transformation and some kind of partial transformation (where only part of the code is transformed).
+
+## Test cases
+
+
+The test suite is a selection of programs from the nofig-buggy suite provided by the group at Technical University of Valencia. It is a modified version of the usual nofib benchmark suite. The suite can be obtained like so:
+
+```wiki
+   darcs get --partial http://einstein.dsic.upv.es/darcs/nofib-buggy/
+```
+
+
+Since we are interested in stack traces we will limit ourselves to programs with crash with an uncaught exception, such as divide by zero, head of empty list, calls to error, pattern match failure and so forth.
+
+
+The actual test programs are all from the real category:
+
+- anna: Julien's strictness analyzer. It has been modified to divide by zero.
+- whatever
+
+### Anna
+
+
+We test the program on the `big.cor` input file, which causes a divide by zero error.
+
+
+This is a rather simple bug:
+
+```wiki
+utRandomInts s1 s2
+   = let seed1_ok = 1 <= s1 && s1 <= 2147483562
+         seed2_ok = 1 <= s2 && s2 <= 2147483398
+
+         rands :: Int -> Int -> [Int]
+         rands s1 s2
+            = let k    = s1 `div` 53668
+                  s1'  = 40014 * (s1 - k * 53668) - k * 12211
+                  s1'' = if s1' < 0 then s1' + 2147483563 else s1'
+                -- BUG: The following line contains a bug
+                  k'   = s2 `div` (s1' - s1')
+                -- CORRECT -- k'   = s2 `div` 52774
+```
+
+
+The actual bug is in k', and it is local to that definition (it does not depen on values which flow into k').
+
+
+Nonetheless, utRandomInts seems to be called in a deep context.
+
+## Test results
+
+### Test 1, anna, divide by zero error
+
+#### hat
+
+
+Changes made to code to get it to work:
+
+```wiki
+ darcs whatsnew
+{
+hunk ./real/anna/TypeCheck5.hs 14
++default ()
++
+hunk ./real/anna/TypeCheck5.hs 500
+-tcNSdlimit = 2^30
++tcNSdlimit = 2^(30::Int)
+}
+```
+
+
+I had to add the type annotation on the literal 30 because defaulting doesn't work in hat.
+
+
+Commands to prepare for tracing:
+
+```wiki
+    hmake -hat Main
+```
+
+
+Commands to see stack trace:
+
+```wiki
+   ./Main < big.cor
+   hat-stack Main | less
+```
+
+
+Output:
+
+```wiki
+Program terminated with error:
+        divide by zero
+Virtual stack trace:
+(unknown)       {?}
+(Utils.hs:108)  div 2 0
+(unknown)       k'
+(Utils.hs:119)  rands 1 2
+(Utils.hs:118)  utRandomInts 1 2 ESC[1;34m|ESC[0mESC[0m ESC[1;34mifESC[0mESC[0m True
+(FrontierDATAFN2.hs:243)        utRandomInts 1 2
+
+<... deleted piles of stuff ...>
+```
+
+
+Here we see the top of the stack just before the error. The stack it produces is very deep, so I have deleted a lot of stuff from below. Nonetheless it is very easy to find the bug from this trace. The important part is:
+
+```wiki
+   utRandomInts -> rands 1 2 -> k' -> div 2 0 -> error
+```
