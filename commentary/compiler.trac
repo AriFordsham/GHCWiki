@@ -21,7 +21,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
    * Typechecker
    * Desugarer
    * Core->core
-     * [wiki:Commentary/Compiler/StrictnessAnalysis Strictness analysis]
+     * [wiki:Commentary/Compiler/StrictnessAnalysis Demand analysis] (i.e., strictness analysis)
    * Core->CorePrep
    * [wiki:Commentary/Compiler/Core2Stg CorePrep->Stg]
    * [wiki:Commentary/Compiler/CodeGen The code generator]: Stg->Cmm
