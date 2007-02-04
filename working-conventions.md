@@ -117,7 +117,7 @@ rather than leaving it lying around for when you have time to make the HEAD patc
 
 - Try not to break anything.  At the minimum, the tree should build on your system with
   the patch, better still [test your changes](building/running-tests) before
-  pushing.  The nightly builds will show up any breakage on other platforms.
+  pushing.  The [nightly builds](build-bot) will show up any breakage on other platforms.
 
   If you do end up breaking the build then it's not the end of the world,
   so don't sweat about it too much. History shows that even people
