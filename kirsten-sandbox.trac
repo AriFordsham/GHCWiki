@@ -9,6 +9,9 @@
  1. Thus I don't have a working build tree and so I can't test my ticky patch with Simon's suggested fix. Not sure how I got into this state.
  1. Life, void, pain, misery, etc.
 
+the answer:
+I did a bad merge at some point on iface/BinIface.hs and that ruined everything. I can at least build ghc-hacking now. Thank goodness for small blessings.
+
 == Demand analysis ==
 
 current status: going through each file and sanity-checking.
