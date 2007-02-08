@@ -157,6 +157,12 @@ Not very helpful!
 
 ### Stack passing transformation
 
+
+I generated this trace by transforming the program using a heavily modified version of buddha. It implements the transformation as described on [ http://hackage.haskell.org/trac/ghc/wiki/ExplicitCallStack](http://hackage.haskell.org/trac/ghc/wiki/ExplicitCallStack), under the heading **Transformation option 1**.
+
+
+Then I ran the transformed program inside the ghci debugger, and set a breakpoint manually around the call to div. This works because the stack transformation adds new arguments to functions to pass stacks around, and the ghci debugger can view all the arguments to a function when it hits a breakpoint. We can ask the debugger to print out the value of the variable which holds the stack when the breakpoint around div is reached. Obviously this is not exactly how it would work in practice (it would be automated), but it is good enough for the purpose of this experiment.
+
 ```wiki
                          (div would be here)
 (Utils.hs:108)           k'
