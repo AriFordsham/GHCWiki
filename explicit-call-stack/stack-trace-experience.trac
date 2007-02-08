@@ -104,6 +104,8 @@ Output:
 
 === Cost centre stacks ===
 
+Following the instructions from [http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime-control.html#rts-options-debugging]
+
 Program compiled with ghc 6.6 like so:
 {{{
     ghc --make -prof -auto-all Main.hs
