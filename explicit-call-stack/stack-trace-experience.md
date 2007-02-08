@@ -127,7 +127,7 @@ Here we see the top of the stack just before the error. The stack it produces is
 <Utils.hs 108 : k'>
 <Utils.hs 103 : rands>
 <Utils.hs 98 : utRandomInts>
-<FrontierDATAFN2.hs 241 : (final_yy, final_xx, finalMemo)>,
+<FrontierDATAFN2.hs 241 : (final_yy, final_xx, finalMemo)>
 <FrontierDATAFN2.hs 236 : fdFs2>
 <FrontierDATAFN2.hs 74 : (fr, new_memo_additions)>
 <FrontierDATAFN2.hs 68 : fdFind>
