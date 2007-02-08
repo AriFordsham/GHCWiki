@@ -75,7 +75,7 @@ Commands to see stack trace:
    hat-stack Main | less
 }}}
 
-Output:
+Output (edited to make it easier to read and compare with other approaches):
 {{{
 (Utils.hs:108)           div
 (unknown)                k'
