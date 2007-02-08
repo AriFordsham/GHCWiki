@@ -95,3 +95,25 @@ Here we see the top of the stack just before the error. The stack it produces is
 {{{
    utRandomInts -> rands 1 2 -> k' -> div 2 0 -> error
 }}}
+
+=== Stack passing transformation ===
+
+{{{
+<FrontierDATAFN2.hs 241 : (final_yy, final_xx, finalMemo)>,
+<FrontierDATAFN2.hs 236 : fdFs2>
+<FrontierDATAFN2.hs 74 : (fr, new_memo_additions)>
+<FrontierDATAFN2.hs 68 : fdFind>
+<FrontierGENERIC2.hs 56 : (data_fn_result, final_memo)>
+<FrontierGENERIC2.hs 33 : fsMakeFrontierRep>
+<StrictAn6.hs 382 : (next_safe, next_safe_evals)>
+<StrictAn6.hs 344 : saNonRecSearch>
+<StrictAn6.hs 315 : result>
+<StrictAn6.hs 287 : saNonRecStartup>
+<StrictAn6.hs 166 : callSearchResult>
+<StrictAn6.hs 133 : saGroups>
+<StrictAn6.hs 58 : saResult>
+<StrictAn6.hs 40 : saMain>
+<Main.hs 119 : strictAnResults>
+<Main.hs 101 : maStrictAn>
+<Main.hs 158 : main>
+}}}
