@@ -154,4 +154,4 @@ Here is the generated stack (edited to make it easier to read and compare with o
 (Main.hs:158)            main
 }}}
 
-Notice that it is largely the same thing as the one produced by Hat. The main differences are that the stack passing transformation records entries for local pattern bindings, but it seems that Hat does not.
+Notice that it is largely the same thing as the one produced by Hat. The main differences are that the stack passing transformation records entries for local pattern bindings, but it seems that Hat does not. Also there are a couple of spurious looking duplicates in the Hat stack that I don't understand (which may be bugs in Hat?). And Hat seems to make some record of the calls to bind in the do notation. I didn't pass stacks to any standard library functions.
