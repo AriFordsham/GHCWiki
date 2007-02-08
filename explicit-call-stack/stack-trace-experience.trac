@@ -77,17 +77,29 @@ Commands to see stack trace:
 
 Output:
 {{{
-Program terminated with error:
-        divide by zero
-Virtual stack trace:
-(unknown)       {?}
-(Utils.hs:108)  div 2 0
-(unknown)       k'
-(Utils.hs:119)  rands 1 2
-(Utils.hs:118)  utRandomInts 1 2 ESC[1;34m|ESC[0mESC[0m ESC[1;34mifESC[0mESC[0m True
-(FrontierDATAFN2.hs:243)        utRandomInts 1 2
+(Utils.hs:108)           div
+(unknown)                k'
+(Utils.hs:119)           rands
+(Utils.hs:118)           utRandomInts
+(FrontierDATAFN2.hs:243) utRandomInts
+(FrontierDATAFN2.hs:75)  fdFs2
+(FrontierGENERIC2.hs:57) fdFind
+(StrictAn6.hs:383)       fsMakeFrontierRep
+(StrictAn6.hs:316)       saNonRecSearch
+(unknown)                result
+(StrictAn6.hs:167)       saNonRecStartup
+(unknown)                callSearchResult
+(StrictAn6.hs:59)        saGroups
+(unknown)                saResult
+(Main.hs:122)            saMain
+(Main.hs:120)            strictAnResults
+(unknown)                strictAnResults
+(Main.hs:166)            maStrictAn
+(Main.hs:164)            primIOBind {IO} do
+(Main.hs:162)            primIOBind {IO} do
+(Main.hs:159)            primIOBind {IO} do
+(unknown)                main
 
-<... deleted piles of stuff ...>
 }}}
 
 
