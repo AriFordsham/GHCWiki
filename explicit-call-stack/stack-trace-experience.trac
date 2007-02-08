@@ -102,13 +102,7 @@ Output:
 
 }}}
 
-
-Here we see the top of the stack just before the error. The stack it produces is very deep, so I have deleted a lot of stuff from below. Nonetheless it is very easy to find the bug from this trace. The important part is:
-{{{
-   utRandomInts -> rands 1 2 -> k' -> div 2 0 -> error
-}}}
-
-=== Cost center stacks ===
+=== Cost centre stacks ===
 
 Program compiled with ghc 6.6 like so:
 {{{
