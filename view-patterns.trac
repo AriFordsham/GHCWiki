@@ -1,3 +1,7 @@
+;; This buffer is for notes you don't want to save, and for Lisp evaluation.
+;; If you want to create a file, visit that file with C-x C-f,
+;; then enter the text in that file's own buffer.
+
 [[PageOutline]]
 = View patterns: lightweight views for Haskell =
 
@@ -272,18 +276,6 @@ then you could use it in patterns thus:
 }}}
 Of course, the argument does not need to be a constant as it is here.
 
-The (n+k) patterns can be implemented (with different syntax, of course) with a view function that tests for values greater than or equal to n:
-{{{
-   np :: Num a => a -> a -> Maybe a
-   np k n | k <= n    = Just (n-k)
-	      | otherwise = Nothing
-
-   f :: Num a => a -> Int
-   f (np 10 -> n) = n		-- Matches values >= 10, f a = (a - 10)
-   f (np 4  -> n) = 1		-- Matches values >= 4
-   f other        = 2
-}}}
-
 With the value input feature, in a sense, patterns become first class. For example, one could pass a pattern as an argument to a function thus:
 {{{
   g :: (Int -> Maybe Int) -> Int -> ...
@@ -401,6 +393,39 @@ difference between view patterns and pattern guards.
 
 The majority of the proposals allow nesting.
 
+
+=== Integration with type classes ===
+
+A view mechanism that integrates nicely with type classes would allow
+a single "view" to decompose multiple different data types.  For
+example, a view might work on any type in class Num, or in class Sequence.
+
+A good example is Haskell's existing (n+k) patterns.  Here is how they
+can be expressed using the view pattern proposed in this page (with different 
+syntax, of course):
+{{{
+   np :: Num a => a -> a -> Maybe a
+   np k n | k <= n    = Just (n-k)
+          | otherwise = Nothing
+
+   g :: Int -> Int
+   g (np 3 -> n) = n*2
+
+   h :: Integer -> Integer
+   h (np 9 -> n) = n*2
+
+   f :: Num a => a -> Int
+   f (np 10 -> n) = n		-- Matches values >= 10, f a = (a - 10)
+   f (np 4  -> n) = 1		-- Matches values >= 4
+   f other        = 2
+}}}
+Here a single, overloaded view, `np`, can be used 
+in `g`, and `h` to match against values of different types and,
+in `f`'s case, any type in class Num. (Notice too the use of the value 
+input feature.)
+
+This feature falls out very nicely from view patterns, but 
+not from all other proposals.
 
 ---------------------------
 == Efficiency of Views ==
