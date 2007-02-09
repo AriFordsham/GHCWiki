@@ -6,7 +6,7 @@ The tools we will be testing are:
   * Hat 2.05, particularly hat-stack and hat-trail (hat stack is just a specialisation of hat-trail).
   * Cost Centre Stacks (CCS) with +RTS -xc -RTS, using ghc version 6.6
   * Andy Gill's HpcT tracer
-  * The ghci debugger extended with a simple stack passing transformation. We will try both a full transformation and some kind of partial transformation (where only part of the code is transformed).
+  * The ghci debugger extended with a simple stack passing transformation. We will try both a full transformation and some kind of partial transformation (where only part of the code is transformed). This is done using a modified version of buddha, which transforms the original program to one which passes stack arguments explicitly. You can find it here: [http://www.csse.unimelb.edu.au/~bjpop/buddha-stack.tar.gz]
 
 == Test cases ==
 
@@ -121,6 +121,43 @@ Stack trace generated like so:
 }}}
 
 Not very helpful!
+
+Simon M correctly points out that the problem is that the exception is raised inside a CAF. Here is the way div is defined (for Int32, but the other types are similar):
+{{{
+    div     x@(I32# x#) y@(I32# y#)
+        | y == 0                  = divZeroError
+        | x == minBound && y == (-1) = overflowError
+        | otherwise               = I32# (x# `divInt32#` y#)
+}}}
+Note the reference to `divZeroError` in the first guarded equation. This is defined as:
+{{{
+divZeroError :: a
+divZeroError = throw (ArithException DivideByZero)
+}}}
+Hence it is a CAF. This is exactly the CAF that `GHC.Err.CAF` is refering to in the output from the cost centre stacks above. 
+
+Now, we get muich better results if we raise the exception inside the user's code. For instance, if we change the definition of the local variable `k'` like so:
+{{{
+k'   = error "bjpop crash"
+}}}
+We get the following output from running the program with `-xc` (edited to make it easier to compare with other traces):
+{{{
+Utils.utRandomInts
+FrontierDATAFN2.fdFs2
+FrontierDATAFN2.fdFind
+FrontierGENERIC2.fsMakeFrontierRep
+StrictAn6.saNonRecSearch
+StrictAn6.saNonRecStartup
+StrictAn6.saGroups
+StrictAn6.saMain
+Main.maStrictAn
+Main.main
+Main.CAF
+}}}
+
+This is much better, and it is the same stack as produced by hat and the explicit stack passing transformation described below (minus the references to locally defined entities). 
+
+It is worth noting that, had we transformed the libraries with the explicit stack passing transformation (below), we would get the same bad behaviour as the original output from cost centre stacks. 
 
 === Stack passing transformation ===
 
