@@ -335,10 +335,7 @@ which is just a list of function names.
 ### Notation
 
 
-Double square brackets denote the transformation function, which has either one or two arguments, depending on what type of entity it is applied to. In most cases it has one argument, which is just a syntactic construct, but for expressions it
-has an additional argument which represents the current stack value.
-
-
+Double square brackets denote the transformation function, which has two arguments. The first argument is denoted inside the brackets and it is the syntactic object that we are transforming. The second argument is a stack value.
 For instance:
 
 ```wiki
@@ -346,7 +343,11 @@ For instance:
 ```
 
 
-means transform expression E with k as the current stack value.
+means transform expression E with k as the current stack value. When we wish to ignore the current stack value (because it is not meaningful in a certain context, such as the top-level declarations) we write:
+
+```wiki
+   [[ E ]]_?
+```
 
 ### Transformation option 1
 
@@ -357,17 +358,17 @@ might pass one stack argument for every regular argument of the function.
 ```wiki
 Declarations (top level):
 
-   [[ x :: T ]]                       ==>   x :: Trace -> T     , x is function bound, and transformed for tracing
+   [[ x :: T ]]_?                     ==>   x :: Trace -> T     , x is function bound, and transformed for tracing
    
-   [[ x :: T ]]                       ==>   x :: T              , x does not match the above rule
+   [[ x :: T ]]_?                     ==>   x :: T              , x does not match the above rule
 
-   [[ x = \y1 .. yn -> E ]]           ==>   x = \t y1 .. yn -> [[ E ]]_("x":t)       , x is transformed for tracing
+   [[ x = \y1 .. yn -> E ]]_?         ==>   x = \t y1 .. yn -> [[ E ]]_("x":t)       , x is transformed for tracing
 
-   [[ x = \y1 .. yn -> E ]]           ==>   x = \y1 .. yn -> [[ E ]]_["x"]           , x is not transformed for tracing
+   [[ x = \y1 .. yn -> E ]]_?         ==>   x = \y1 .. yn -> [[ E ]]_["x"]           , x is not transformed for tracing
 
-   [[ x = E ]]                        ==>   x = [[ E ]]_["x"]
+   [[ x = E ]]_?                      ==>   x = [[ E ]]_["x"]
 
-   [[ data f a1 .. an = K1 .. Km ]]   ==>   data f a1 .. an = K1 .. Km
+   [[ data f a1 .. an = K1 .. Km ]]_? ==>   data f a1 .. an = K1 .. Km
 
 Declarations (local):
 
@@ -476,3 +477,30 @@ Notice that in the first case the stack passed to `head` and `foo` is simply `["
 
 
 These are largely the same definition, just written in different style. One might expect them to result in the same stack trace. But the above transformation rule treats them differently, because the `g1` is a pattern binding, whereas `g2` is a function binding.
+
+## Issue with type classes and instances
+
+
+One problem with a selective transformation scheme is how to transform overloaded functions. Suppose we have the following type class:
+
+```wiki
+   class Wibble t where
+      wibbit :: t -> t -> (t, t)
+      wabbit :: t -> Bool
+```
+
+
+And we have these instances:
+
+```wiki
+   instance Wibble Int where
+      wibbit x y = ...
+      wabbit x = ...
+
+   instance Wibble MyType where
+      wibbit x y = ...
+      wabbit x = ...
+```
+
+
+We might like to trace the wibbit function, but only for the `MyType` instance, and not the existing instances. The problem is that we only want the `MyType` version to receive a stack argument, whereas we don't want to give a stack argument to the other versions of wibbit. Because wibbit is overloaded we run into trouble, since all instances of wibbit must have the same type scheme (if one instance needs a stack argument, then they all need a stack argument).
