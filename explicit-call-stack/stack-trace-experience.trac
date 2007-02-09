@@ -17,9 +17,8 @@ The test suite is a selection of programs from the nofig-buggy suite provided by
 
 Since we are interested in stack traces we will limit ourselves to programs with crash with an uncaught exception, such as divide by zero, head of empty list, calls to error, pattern match failure and so forth.
 
-The actual test programs are all from the real category:
+The actual test programs are:
   * anna: Julien's strictness analyzer. It has been modified to divide by zero.
-  * whatever
 
 === Anna ===
 
