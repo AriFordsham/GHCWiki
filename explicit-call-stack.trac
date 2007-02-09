@@ -391,3 +391,22 @@ Notice that in the first case the stack passed to `head` and `foo` is simply `["
 }}}
 
 These are largely the same definition, just written in different style. One might expect them to result in the same stack trace. But the above transformation rule treats them differently, because the `g1` is a pattern binding, whereas `g2` is a function binding.
+
+== Issue with type classes and instances ==
+
+One problem with a selective transformation scheme is how to transform overloaded functions. Suppose we have the following type class:
+{{{
+   class Wibble t where
+      wibbit :: t -> t -> (t, t)
+      wabbit :: t -> Bool
+}}}
+And we have these instances:
+{{{
+   instance Wibble Int where
+      wibbit x y = ...
+      wabbit x = ...
+
+   instance Wibble MyType where
+      wibbit x y = ...
+      wabbit x = ...
+}}}
