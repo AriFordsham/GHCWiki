@@ -1,52 +1,42 @@
-CONVERSION ERROR
+# Experience with existing stack tracing tools
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/ExplicitCallStack/StackTraceExperience"
-  queryString          = "?version=22"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:01:46 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","267"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/ExplicitCallStack/StackTraceExperience\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
-
-Original source:
-
-```trac
-= Experience with existing stack tracing tools =
 
 Before we decide what kind of stack trace we want, it is very useful to see what the other existing tools already provide. This will give us some ideas about what is workable in practice.
 
-The tools we will be testing are:
-  * Hat 2.05, particularly hat-stack and hat-trail (hat stack is just a specialisation of hat-trail).
-  * Cost Centre Stacks (CCS) with +RTS -xc -RTS, using ghc version 6.6
-  * Andy Gill's HpcT tracer
-  * The ghci debugger extended with a simple stack passing transformation. We will try both a full transformation and some kind of partial transformation (where only part of the code is transformed). This is done using a modified version of buddha, which transforms the original program to one which passes stack arguments explicitly. You can find it here: [http://www.csse.unimelb.edu.au/~bjpop/buddha-stack.tar.gz]
 
-== Test cases ==
+The tools we will be testing are:
+
+- Hat 2.05, particularly hat-stack and hat-trail (hat stack is just a specialisation of hat-trail).
+- Cost Centre Stacks (CCS) with +RTS -xc -RTS, using ghc version 6.6
+- Andy Gill's HpcT tracer
+- The ghci debugger extended with a simple stack passing transformation. We will try both a full transformation and some kind of partial transformation (where only part of the code is transformed). This is done using a modified version of buddha, which transforms the original program to one which passes stack arguments explicitly. You can find it here: [ http://www.csse.unimelb.edu.au/\~bjpop/buddha-stack.tar.gz](http://www.csse.unimelb.edu.au/~bjpop/buddha-stack.tar.gz)
+
+## Test cases
+
 
 The test suite is a selection of programs from the nofig-buggy suite provided by the group at Technical University of Valencia. It is a modified version of the usual nofib benchmark suite. The suite can be obtained like so:
-{{{
+
+```wiki
    darcs get --partial http://einstein.dsic.upv.es/darcs/nofib-buggy/
-}}}
+```
+
 
 Since we are interested in stack traces we will limit ourselves to programs with crash with an uncaught exception, such as divide by zero, head of empty list, calls to error, pattern match failure and so forth.
 
-The actual test programs are:
-  * anna: Julien's strictness analyzer. It has been modified to divide by zero.
 
-=== Anna ===
+The actual test programs are:
+
+- anna: Julien's strictness analyzer. It has been modified to divide by zero.
+
+### Anna
+
 
 We test the program on the `big.cor` input file, which causes a divide by zero error.
 
+
 This is a rather simple bug:
-{{{
+
+```wiki
 utRandomInts s1 s2
    = let seed1_ok = 1 <= s1 && s1 <= 2147483562
          seed2_ok = 1 <= s2 && s2 <= 2147483398
@@ -59,19 +49,24 @@ utRandomInts s1 s2
                 -- BUG: The following line contains a bug
                   k'   = s2 `div` (s1' - s1')
                 -- CORRECT -- k'   = s2 `div` 52774
-}}}
+```
+
+
 The actual bug is in k', and it is local to that definition (it does not depen on values which flow into k').
+
 
 Nonetheless, utRandomInts seems to be called in a deep context.
 
-== Test results ==
+## Test results
 
-=== Test 1, anna, divide by zero error ===
+### Test 1, anna, divide by zero error
 
-==== hat ====
+#### hat
+
 
 Changes made to code to get it to work:
-{{{
+
+```wiki
  darcs whatsnew
 {
 hunk ./real/anna/TypeCheck5.hs 14
@@ -81,22 +76,30 @@ hunk ./real/anna/TypeCheck5.hs 500
 -tcNSdlimit = 2^30
 +tcNSdlimit = 2^(30::Int)
 }
-}}}
+```
+
+
 I had to add the type annotation on the literal 30 because defaulting doesn't work in hat.
 
+
 Commands to prepare for tracing:
-{{{
+
+```wiki
     hmake -hat Main
-}}}
+```
+
 
 Commands to see stack trace:
-{{{
+
+```wiki
    ./Main < big.cor
    hat-stack Main | less
-}}}
+```
+
 
 Output (edited to make it easier to read and compare with other approaches):
-{{{
+
+```wiki
 (Utils.hs:108)           div
 (unknown)                k'
 (Utils.hs:119)           rands
@@ -120,28 +123,72 @@ Output (edited to make it easier to read and compare with other approaches):
 (Main.hs:159)            primIOBind {IO} do
 (unknown)                main
 
-}}}
+```
 
-=== Cost centre stacks ===
+### Cost centre stacks
 
-Following the instructions from [http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime-control.html#rts-options-debugging]
+
+Following the instructions from [http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime-control.html\#rts-options-debugging](http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime-control.html#rts-options-debugging)
+
 
 Program compiled with ghc 6.6 like so:
-{{{
+
+```wiki
     ghc --make -prof -auto-all Main.hs
-}}}
+```
+
 
 Program run like so:
-{{{
+
+```wiki
    ./Main +RTS -xc -RTS
-}}}
+```
+
 
 Stack trace generated like so:
-{{{
+
+```wiki
    <GHC.Err.CAF>Main: divide by zero
-}}}
+```
+
 
 Not very helpful!
+
+
+Simon M correctly points out that the problem is that the exception is raised inside a CAF. Here is the way div is defined (for Int32, but the other types are similar):
+
+```wiki
+    div     x@(I32# x#) y@(I32# y#)
+        | y == 0                  = divZeroError
+        | x == minBound && y == (-1) = overflowError
+        | otherwise               = I32# (x# `divInt32#` y#)
+```
+
+
+Note the reference to *divZeroError* in the first guarded equation. This is defined as:
+
+```wiki
+divZeroError :: a
+divZeroError = throw (ArithException DivideByZero)
+```
+
+
+Hence it is a CAF. This is exactly the CAF that *GHC.Err.CAF* is refering to in the output from the cost centre stacks above. 
+
+
+Now, we get muich better results if we raise the exception inside the user's code. For instance, if we change the definition of the local variable *k\\** like so:
+***
+
+```wiki
+k'   = error "bjpop crash"
+```
+
+
+We get the following output from running the program with *-xc*:
+
+```wiki
+<Utils.utRandomInts,FrontierDATAFN2.fdFs2,FrontierDATAFN2.fdFind,FrontierGENERIC2.fsMakeFrontierRep,StrictAn6.saNonRecSearch,StrictAn6.saNonRecStartup,StrictAn6.saGroups,StrictAn6.saMain,Main.maStrictAn,Main.main,Main.CAF>Main: bjpop crash
+}}
 
 === Stack passing transformation ===
 
