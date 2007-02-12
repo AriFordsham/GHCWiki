@@ -143,7 +143,7 @@ k'   = error "bjpop crash"
 We get the following output from running the program with ''-xc'':
 {{{
 <Utils.utRandomInts,FrontierDATAFN2.fdFs2,FrontierDATAFN2.fdFind,FrontierGENERIC2.fsMakeFrontierRep,StrictAn6.saNonRecSearch,StrictAn6.saNonRecStartup,StrictAn6.saGroups,StrictAn6.saMain,Main.maStrictAn,Main.main,Main.CAF>Main: bjpop crash
-}}
+}}}
 
 === Stack passing transformation ===
 
