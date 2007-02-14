@@ -20,6 +20,8 @@ before you start the build again.  Restarting a failed build is a common source 
 
 As of 2006-10-11, there is an official binary distribution of GHC 6.6 for Mac OS X (Version 10.4) on the x86 architecture, thanks to AudreyTang. It's available from the main download page: http://haskell.org/ghc/download_ghc_66.html#macosxintel
 
+Recently released, which may be of use and excitement for various Haskell and Mac users, is an Xcode plugin available at http://www.hoovy.org/HaskellXcodePlugin/ - works excellent with this build
+
 ----
 
 Another build, from 2006-09-15 (during the Hackathon):
@@ -30,7 +32,6 @@ It only contains the core libraries (both normal and profiled), though it should
 Unfortunately, this package only seems to work if you have DarwinPorts set up in /opt/local, with the readline package installed. There's a tarball of the readline libraries (which unpacks into /usr/local/lib) that might alleviate the problem: http://k9.dv8.org/~atomb/readline.tar.bz2
 
 -- Aaron Tomb
-
 
 ----
 
