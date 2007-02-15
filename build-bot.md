@@ -2,8 +2,7 @@
 
 
 The GHC buildbot builds GHC on various platforms in various different ways each night, runs the test suite and performance benchmarks, and mails the results to the `cvs-ghc@haskell.org` mailing list.  We're always keen to add more build slaves to the setup, especially if you have a platform that doesn't already have a build slave, so if you'd like to join the fun, please let us know at cvs-ghc@….  If a platform is represented in the nightly builds, it's more likely we'll be able to identify and fix problems specific to that platform quickly.
-
-
+        
 To see the current status of the builds:
 
 > [ http://darcs.haskell.org:8010/](http://darcs.haskell.org:8010/)
@@ -21,7 +20,7 @@ First you, as a buildbot client, need to agree a buildbot username (`myUser`) an
 Finally, if there is anything special that needs to be done for the client (e.g. if gcc is in an unusual place) then you'll need to let the admins know.
 
 
-Then you'll need to install buildbot and its dependencies on the machine that will be doing the nightly build; see the [ BuildBot website](http://buildbot.sourceforge.net/) for details.  NB. if you're on Windows, you'll need to install [BuildBot](build-bot) under Cygwin using the Cygwin Python; there are various problems getting the GHC build to work via [BuildBot](build-bot) using the native Win32 Python, so we've given up on that route for now.
+Then you'll need to install buildbot and its dependencies on the machine that will be doing the nightly         build; see the [ BuildBot website](http://buildbot.sourceforge.net/) for details.  NB. if you're on Windows, you'll need to install [BuildBot](build-bot) under Cygwin using the Cygwin Python; there are various problems getting the GHC build to work via [BuildBot](build-bot) using the native Win32 Python, so we've given up on that route for now.
 
 
 Now create and enter the directory you want the buildbot client to work in
@@ -46,6 +45,66 @@ It also created `Makefile.sample`; we recommend renaming this to `Makefile`. You
 
 
 You can watch what your slave is doing by looking at the `twistd.log` file in the directory in which you're running your slave.
+
+## Automating startup: Unix
+
+
+The easiest way to make the client start up automatically is to use `cron`.  Type `crontab -e`, and add this line to your crontab file:
+
+```wiki
+@reboot cd <buildbotdir> && make start
+```
+
+
+Remember to change `<buildbotdir>` to your buildbot directory.
+
+
+Cron will run the command in a minimal environment: it won't execute your normal shell startup files, so you won't have your usual `PATH` settings, for example.  To get the right `PATH` and other environment variables, we suggest adding them to the `make start` rule in `<buildbotdir>/Makefile`.  FOr example, my start rule looks something like this:
+
+```wiki
+start:
+	PATH=/usr/bin:/bin:/home/simonmar/bin \
+	http_proxy=http://157.58.63.38:80 \
+	twistd --no_save -y buildbot.tac
+```
+
+
+It might be a good idea to have the buildbot restarted once a day before your build is due to start, just in case it has died for any reason.  I have another line in my crontab that looks like this:
+
+```wiki
+0 17 * * * cd <buildbotdir> && (make stop; make start)
+```
+
+
+To restart the client at 17.00, before the builds start at 18.00.
+
+
+It's a good idea to test that running the client via a cron job actually works, so test it: setup a temporary cron job to start the client in a couple of minutes time, check that the client is up and running, and maybe force a build via the status page to check that the build environment is working.
+
+## Automating startup: Windows
+
+
+I did it the following way.  Create a script in `<buildbotdir>/restart.sh`:
+
+```wiki
+PATH=/bin:/usr/bin
+cd <buildbotdir>
+make stop
+make start
+```
+
+
+(don't forget to create the script as a Unix text file, not a DOS text file, otherwise strange things will probably happen, they did to me anyway).
+
+
+Create a new "Scheduled Task" via Control Panel-\>Scheduled Tasks.  The command you want to run is
+
+```wiki
+c:\cygwin\bin\sh <buildbotdir>/restart.sh
+```
+
+
+Schedule the task to run (a) at startup and possibly also (b) once a day, before your build is due to start.  You can add multiple schedulers for a task by checking the box at the bottom of the "Schedule" page of the scheduled task settings.
 
 ## Admin steps
 
