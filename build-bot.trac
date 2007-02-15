@@ -38,12 +38,12 @@ You can watch what your slave is doing by looking at the `twistd.log` file in th
 The easiest way to make the client start up automatically is to use `cron`.  Type `crontab -e`, and add this line to your crontab file:
 
 {{{
-@reboot cd /buildbot/ghc && make start
+@reboot cd <buildbotdir> && make start
 }}}
 
-Remember to change `/buildbot/ghc` to your buildbot directory.
+Remember to change `<buildbotdir>` to your buildbot directory.
 
-Cron will run the command in a minimal environment: it won't execute your normal shell startup files, so you won't have your usual `PATH` settings, for example.  To get the right `PATH` and other environment variables, we suggest adding them to the `make start` rule in the `Makefile`.  FOr example, my setup looks something like this:
+Cron will run the command in a minimal environment: it won't execute your normal shell startup files, so you won't have your usual `PATH` settings, for example.  To get the right `PATH` and other environment variables, we suggest adding them to the `make start` rule in `<buildbotdir>/Makefile`.  FOr example, my start rule looks something like this:
 
 {{{
 start:
@@ -55,7 +55,7 @@ start:
 It might be a good idea to have the buildbot restarted once a day before your build is due to start, just in case it has died for any reason.  I have another line in my crontab that looks like this:
 
 {{{
-0 17 * * * cd /64playpen/buildbot && (make stop; make start)
+0 17 * * * cd <buildbotdir> && (make stop; make start)
 }}}
 
 To restart the client at 17.00, before the builds start at 18.00.
