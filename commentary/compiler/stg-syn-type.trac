@@ -12,7 +12,7 @@ The best way to think of STG is as special form of [wiki:Commentary/Compiler/Cor
  * Constructor applications are saturated.
  * Applications of primitive operators are saturated.
  * Lambdas can only appear the right-hand side of a let-binding.  (There is an expression form {{{StgLam}}}, but it is only used during the Core-to-STG transformation, not in a valid STG program.)
- * Types have largely been discarded, retaining only enough type information is retained to guide code generation. There is an {{{StgLint}}} checker, which makes some consistency checks, but the !CoreLint guarantee that "if the program passes Lint it cannot crash" has been lost.
+ * Types have largely been discarded, retaining only enough type information as is needed to guide code generation. There is an {{{StgLint}}} checker, which makes some consistency checks, but the !CoreLint guarantee that "if the program passes Lint it cannot crash" has been lost.
 
 In addition, the STG program is decorated with the results of some analyses:
 
