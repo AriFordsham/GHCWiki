@@ -1,44 +1,30 @@
-CONVERSION ERROR
+# Report of the implementation of the GHCi debugger
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/GhciDebugger"
-  queryString          = "?version=20"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:01:49 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","252"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/GhciDebugger\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-Original source:
+During the Summer of 2006 I have been working on this project sponsorized by the[ Google SoC](http://code.google.com/soc) initiative. My mentors were Simon Marlow and David Himmelstrup (lemmih).
 
-```trac
-
-[[PageOutline]]
-
-= Report of the implementation of the GHCi debugger =
-During the Summer of 2006 [mailto:mnislaih@gmail.com I] have been working on this project sponsorized by the[http://code.google.com/soc Google SoC] initiative. My mentors were Simon Marlow and David Himmelstrup (lemmih).
 
 It has been a lot of fun, and I've learnt a huge amount of things, but the reader must be warned that I am still a beginner in many aspects, and that my knowledge of ghc is very shallow. So please take my words with a bit of perspective.
 
+
 The contributions of the project have been mainly two:
- * A closure viewer, capable of showing intermediate computations without forcing them, and without depending on types (and of course that excludes dependency on Show instances)
- * To put the basic `breakpoint` primitive to use in a system of dynamic breakpoints for ghci.
 
-= The closure viewer =
+- A closure viewer, capable of showing intermediate computations without forcing them, and without depending on types (and of course that excludes dependency on Show instances)
+- To put the basic `breakpoint` primitive to use in a system of dynamic breakpoints for ghci.
+
+# The closure viewer
+
+
 The closure viewer functionality is provided by the following function at the GHC module:
-{{{
-obtainTerm :: Session -> Bool -> Id -> IO (Maybe Term)
-}}}
 
-The term datatype is defined at  [[GhcFile(compiler/ghci/RtClosureInspect.hs)]]. This datatype represents a partially evaluated Haskell value as an annotated tree:
-{{{
+```wiki
+obtainTerm :: Session -> Bool -> Id -> IO (Maybe Term)
+```
+
+
+The term datatype is defined at  [compiler/ghci/RtClosureInspect.hs](/trac/ghc/browser/ghc/compiler/ghci/RtClosureInspect.hs). This datatype represents a partially evaluated Haskell value as an annotated tree:
+
+```wiki
 data Term = Term { ty        :: Type 
                  , dc        :: DataCon 
                  , val       :: HValue 
@@ -52,30 +38,45 @@ data Term = Term { ty        :: Type
                        , val      :: HValue
                        , bound_to :: Maybe Name   -- Does not belong here, but useful for printing
                        }
-}}}
+```
+
 
 A few other comments on this module:
- * It is not meant to be included in the stage1 compiler 
- * It is imported by GHC, so in order to avoid introducing more cyclical dependencies I've tried to keep all `Session` related stuff in the GHC module.
 
-== Implementation details ==
+- It is not meant to be included in the stage1 compiler 
+- It is imported by GHC, so in order to avoid introducing more cyclical dependencies I've tried to keep all `Session` related stuff in the GHC module.
+
+## Implementation details
+
+
 Quoting from Simon Marlow in the ghc-cvs list:
-  (..)being in GHCi, we have all the compiler's information about the code to hand - including full definitions of data types.  So for a given constructor application in the heap, we can print a source-code representation of it
 
-=== DataCon recovery ===
+>
+> (..)being in GHCi, we have all the compiler's information about the code to hand - including full definitions of data types.  So for a given constructor application in the heap, we can print a source-code representation of it
+
+### DataCon recovery
+
+
 The closure viewer obtains the heap address of a Haskell value, find out the address of its associated info table, and trace back to the DataCon corresponding to this info table. This is possible because the ghc runtime allocates a static info table for each and every datacon, so all we have to do is extend the linker with a dictionary relating the static info table addresses to a DataCon name.
 Moreover, the ghci linker can load interpreted code containing new `data` or `newtype` declarations. So the dynamic linker code is extended in the same way. To sum up:
- * `linker.c` has a new hashtable for datacons.
- * `ghci/Linker.hs` has been extended in a similar way. The Persistent Link State datatype now includes a datacons environment. At `linkExpr` and `dynLinkBCOs` the environment is extended with _any_ new datacons witnessed.
-   * Since this scheme makes no distinction between statically and dynamically loaded info tables a lot of redundancy goes into this environment, maybe it's worth to fix this.
+
+- `linker.c` has a new hashtable for datacons.
+- `ghci/Linker.hs` has been extended in a similar way. The Persistent Link State datatype now includes a datacons environment. At `linkExpr` and `dynLinkBCOs` the environment is extended with _any_ new datacons witnessed.
+
+  - Since this scheme makes no distinction between statically and dynamically loaded info tables a lot of redundancy goes into this environment, maybe it's worth to fix this.
+
 
 Two new primitive ops have been created which allow to obtain the address of a closure info table and to obtain the closure payload (i.e. if it is a value, the arguments of the datacon). 
-{{{
+
+```wiki
 infoPtr# :: a -> Addr#
 closurePayload# :: a -> (# Array# b, ByteArr# #)
-}}}
+```
+
+
 The use of these primitives is encapsulated in the `RtClosureInspect` module, which provides: 
-{{{
+
+```wiki
 getClosureType  :: a -> IO ClosureType
 getInfoTablePtr :: a -> Ptr StgInfoTable
 getClosureData  :: a -> IO Closure
@@ -96,74 +97,103 @@ data ClosureType = Constr
                  | Indirection Int 
                  | Other Int
  deriving (Show, Eq)
-}}}
+```
+
 
 The implementation of the datacon recovery stuff is scattered around:
-{{{
+
+```wiki
 Linker.recoverDataCon :: a -> TcM Name
  |- recoverDCInDynEnv :: a -> IO (Maybe Name)
  |- recoverDCInRTS    :: a -> TcM Name
     |- ObjLink.lookupDataCon :: Ptr StgInfoTable -> IO (Maybe String)
-}}}
+```
+
+
 First we must make sure that we are dealing with a whnf value (i.e. a Constr), as opposed to a thunk, fun, indirection, etc. This information is retrieved from the very own info table (StgInfoTable comes with a Storable instance, defined at ByteCodeItbls). From here on I will use simply constr to refer to a Constr closure.
+
 
 Once we have the ability to recover the datacon of a constr and thus its (possibly polymorphic) type, we can construct its tree representation. The payload of a closure is an ordered set of pointers and non pointers (words). For a Constr closure, the non pointers correspond to leafs of the tree, primitive unboxed values, the pointers being the so-called subTerms, references to other closures.
 
-=== Recovering non-pointers ===
+### Recovering non-pointers
+
+
 This happens at `RtClosureInspect.extractUnboxed` and is a bit weak, it might potentially break in some architectures.
 
-=== Compensating Wrapper Constructors ===
+### Compensating Wrapper Constructors
+
+
 Worker and Wrapper constructors are a potential headache for two reasons, extra arguments and variations on the final type. 
 
+
 The arguments list gets extended with:
- * Existential Dictionaries (?)
- * Type Class dictionaries
- * any other ?
+
+- Existential Dictionaries (?)
+- Type Class dictionaries
+- any other ?
+
 
 To compensate it suffices to drop the first (m - n) (pointed) pointers of a closure, where:
- * n - # arguments of the original constructor
- * m - # arguments of the wrapper constructor, if any, or worker constructor
+
+- n - \# arguments of the original constructor
+- m - \# arguments of the wrapper constructor, if any, or worker constructor
+
 
 In addition, the types of the arguments may change, so the closure viewer always consider the final types, not the original ones, since the closure viewer deals with the heap representation of values.
 
+### Type reconstruction
 
-=== Type reconstruction ===
+
 Type reconstruction is the process of recovering the full type of a closure which has a polymorphic dataCon. 
+
 
 The problem is approached as a simplified case of type inference. The set of constraints come from the typechecker and from the concrete types of the children of the closure, if they are evaluated. Constraints are are generated and unified with the previous set, ultimately generating the desired substitution.
 
+
 The only tricky issue is that newtypes are gone in the heap representation, so one needs to consider additional equations when doing unification, very similar to the coercions (:=:) of System Fc. For instance, the newtype:
-{{{ 
+
+```wiki
 newtype MkT a = MkT [a]
-}}}
+```
+
 
 induces an equivalence class:
-{{{ 
+
+```wiki
 MkT a :=: [a] 
-}}}
-
-This can be quite tricky to solve if done in full generality, as it amounts to unification modulo a set of equations which is known to be undecidible. The closure viewer uses the simpler trick of scanning every constraint lhs for newtypes and adjusting the rhs correspondingly. This simple trick seems to do it (see `congruenceNewtypes` at  [[GhcFile(compiler/ghci/RtClosureInspect.hs)]]).
+```
 
 
-=== About handling suspensions in the interactive environment ===
+This can be quite tricky to solve if done in full generality, as it amounts to unification modulo a set of equations which is known to be undecidible. The closure viewer uses the simpler trick of scanning every constraint lhs for newtypes and adjusting the rhs correspondingly. This simple trick seems to do it (see `congruenceNewtypes` at  [compiler/ghci/RtClosureInspect.hs](/trac/ghc/browser/ghc/compiler/ghci/RtClosureInspect.hs)).
+
+### About handling suspensions in the interactive environment
+
+
 Often it is not possible to reconstruct the most concrete type, because children of a value are suspended. When this happens we have a value with polymorphic type, and this is a problem for two reasons. First, for the user, who cannot interact with the value in the usual way. Second, for ghci, because it does not deal well with tyvars in the type of values.
+
 
 Ideally, we want to lift this restriction on ghci some day. For now, the tyvars are instantiated to a family of dummy types, indexed by kind arity, which live in GHC.Base: `Unknown`, `Unknown1`,`Unknown2`, etc.
 
-The interactive ui uses `obtainTerm` from the ghc-api, which lives at  [[GhcFile(compiler/ghci/RtClosureInspect.hs)]], to implement the :print and :sprint command. The difference is that :print, additionally, binds suspended values.
-Thus, suspensions inside semievaluated terms are bound by `:print` to _t,,xx,, names in the interactive environment, available for the user. 
 
-This is done at `pprintClosure`in  [[GhcFile(compiler/ghci/Debugger.hs)]], which takes responsibility of instantiating tyvars with  members the `GHC.Base.Unknown` family. A  an associated Show instance is provided that instructs the user to `seq` them to recover the type. 
+The interactive ui uses `obtainTerm` from the ghc-api, which lives at  [compiler/ghci/RtClosureInspect.hs](/trac/ghc/browser/ghc/compiler/ghci/RtClosureInspect.hs), to implement the :print and :sprint command. The difference is that :print, additionally, binds suspended values.
+Thus, suspensions inside semievaluated terms are bound by `:print` to _t<sub>xx</sub> names in the interactive environment, available for the user. 
+
+
+This is done at `pprintClosure`in  [compiler/ghci/Debugger.hs](/trac/ghc/browser/ghc/compiler/ghci/Debugger.hs), which takes responsibility of instantiating tyvars with  members the `GHC.Base.Unknown` family. A  an associated Show instance is provided that instructs the user to `seq` them to recover the type. 
+
 
 There are two quirks with the current solution:
- * It does not remember previous bindings. Two consecutive uses of `:print` will generate two separate bindings for the same thing, generating redundancy and potential confusion. But...
- * since type reconstruction (for polymorphic/untyped things) can eventually happen whenever the suspensions are forced, it is necessary to use `:print` again to obtain a binding with the refined type
-   * It is a future work to make ghci do this type reconstruction implicitly on the existing, polymorphic bindings. This would be ''nice'' for the _t,,xx,, things, but even nicer for the local bindings in the context of a breakpoint.
 
-=== Type Refinement ===
+- It does not remember previous bindings. Two consecutive uses of `:print` will generate two separate bindings for the same thing, generating redundancy and potential confusion. But...
+- since type reconstruction (for polymorphic/untyped things) can eventually happen whenever the suspensions are forced, it is necessary to use `:print` again to obtain a binding with the refined type
+
+  - It is a future work to make ghci do this type reconstruction implicitly on the existing, polymorphic bindings. This would be *nice* for the _t<sub>xx</sub> things, but even nicer for the local bindings in the context of a breakpoint.
+
+### Type Refinement
+
 `InteractiveUI.pprintClosure` has some smartness in to update the type of a value as it is refined by forcing evaluation. As an example, look at the following (allegedly extreme) debugging session snippet:
 
-{{{
+```wiki
 Local bindings in scope:
   r :: a
 
@@ -201,38 +231,52 @@ r = :-> (S T "+" [(_t6::GT_ a TermST b), GenVar 1]) (_t7::GT_ a TermST b)
 
 Core.hs:335:35-49> :t r
 r :: RuleG (GT_ GHC.Base.Unknown TermST GHC.Base.Unknown)
-}}}
+```
+
 
 Note how the type of the binding `r` gets updated during the debugging session.
 
-This piece of smartness is actually quite dumb and in need of improvement. The criteria to decide whether a new type is more specific than the previous is to unify both and check that the substitution:
- * Binds at least one vars from the old type to some concrete type (i.e. no vars to vars bindings)
- * Binds no vars from the new type
 
-I just noticed that this won't detect refinements as: `Either a b` goes to `Either a a` 
+This piece of smartness is actually quite dumb and in need of improvement. The criteria to decide whether a new type is more specific than the previous is to unify both and check that the substitution:
+
+- Binds at least one vars from the old type to some concrete type (i.e. no vars to vars bindings)
+- Binds no vars from the new type
+
+
+I just noticed that this won't detect refinements as: `Either a b` goes to `Either a a`
+
 
 There is probably an easy to formulate optimum criteria, but I can't figure it out for now :(
 
+
 One more thing, newtypes need to be flattened before doing the unification; type reconstruction may not be able to recover the newtype representation. 
 
-=== Pretty printing of terms ===
+### Pretty printing of terms
+
+
 We want to customize the printing of some stuff, such as Integers, Floats, Doubles, Lists, Tuples, Arrays, and so on.
-At the  [[GhcFile(compiler/ghci/RtClosureInspect.hs)]] module there is some infrastructure to build a custom printer, with a basic custom printer that covers the enumerated types.
-
-In  [[GhcFile(compiler/ghci/Debugger.hs)]] the function `pprintClosure` takes advantage of this and makes use of a custom printer that uses Show instances if available.
+At the  [compiler/ghci/RtClosureInspect.hs](/trac/ghc/browser/ghc/compiler/ghci/RtClosureInspect.hs) module there is some infrastructure to build a custom printer, with a basic custom printer that covers the enumerated types.
 
 
-= Breakpoints =
+In  [compiler/ghci/Debugger.hs](/trac/ghc/browser/ghc/compiler/ghci/Debugger.hs) the function `pprintClosure` takes advantage of this and makes use of a custom printer that uses Show instances if available.
 
-== `breakpoint`  Implementation ==
+# Breakpoints
+
+## `breakpoint`  Implementation
+
+
 When compiling to bytecodes, breakpoints are desugared to 'fake' jump functions, i.e. they are not defined anywhere, later in the interactive environment we link them to something: 
-{{{
+
+```wiki
 breakpoint => breakpointJump
 breakpointCond => breakpointCondJump
 breakpointAuto => breakpointAutoJump
-}}}
+```
+
+
 The types would be:
-{{{
+
+```wiki
 data Locals = forall a. Locals a
 
 breakpointAutoJump, breakpointJump :: 
@@ -242,102 +286,141 @@ breakpointAutoJump, breakpointJump ::
 		 -> String   	     		-- Location message (filename + srcSpan)
 		 -> b -> b   		   
 breakpointCondJump :: Int -> [Locals] -> (String,String,Int) -> String -> Bool -> b -> b
-}}}
+```
+
+
 They get filled with the pointer to the ids in scope, their values, the site, a message, and the wrapped value in the desugarer. Everything served with the right amounts of unsafeCoerce sauce and TyApp dressing to make sure it core-lints.
 
-This transformation is loosely formalized in GhciDebugger/BreakpointJump
+
+This transformation is loosely formalized in [GhciDebugger/BreakpointJump](ghci-debugger/breakpoint-jump)
+
 
 The site number is relevant only for 'auto' breakpoints, explained later. For the other two types of breakpoints its value should be 0.
 
+
 The desugarer monad has been extended with an OccEnv of Ids to track the bindings in scope. Of course this environment thing is probably too ad-hoc to use it for anything else. The monad also carries a mutable table of breakpoint sites for the current module. This table is propagated to the ModGuts.
 
-=== Default HValues for the Jump functions ===
+### Default HValues for the Jump functions
+
+
 The dynamic linker has been modified so that it won't panic if one of the jump functions fails to resolve.
 Now if the dynamic linker fails to find a HValue for a Name, before looking for a static symbol it will ask 
-{{{
+
+```wiki
 DsBreakpoint.lookupBogusBreakpointVal :: Name -> Maybe HValue
-}}}
+```
+
+
 which returns a "just return the wrapped thing" if it is one of the Jump names and Nothing otherwise.
+
 
 This is necessary because a TH function might contain a call to a breakpoint function So if the module it lives in is compiled to bytecodes, the breakpoints will be desugared to 'jumps'. Whenever this code is spliced, the linker will fail to find the jumpfunctions unless there is a default.
 
+
 Why didn't I address the problem by forbidding breakpoints inside TH code? I couldn't find an easy solution for this, considering the user is free to put a manual breakpoint wherever.
+
 
 Why did I introduce the default as a special case in the linker?
 
-I considered other options:
- * Running TH splices in an extended link env. This would probably scatter breakpoint related code deep in the typechecker, and is ugly.
- * Making the 'jump' functions real, by giving them equations and types, maybe in the GHC.Exts module. This solution seemed fine but I wasn't sure of how this would interact with dynamic linking of 'jumps'. 
 
-				   
-=== A note about bindings in scope in a breakpoint ===
+I considered other options:
+
+- Running TH splices in an extended link env. This would probably scatter breakpoint related code deep in the typechecker, and is ugly.
+- Making the 'jump' functions real, by giving them equations and types, maybe in the GHC.Exts module. This solution seemed fine but I wasn't sure of how this would interact with dynamic linking of 'jumps'. 
+
+### A note about bindings in scope in a breakpoint
+
+
 While I was trying to get the generated core for a breakpoint to lint, I made the design decision of not making available the things bound in a recursive group in the breakpoint context. This includes lets, wheres, and mdo notation. The latter case however is not enforced: I haven't found the time to work it out yet.
 
+# Dynamic Breakpoints
 
-= Dynamic Breakpoints =
-The approach followed here has been the well known 'do the simplest thing that could possibly work'. We instrument the code with 'auto' breakpoints at event ''sites''. Currently event sites are code locations where names are bound, and statements:
- * Binding sites (top level, let/where local bindings, case alternatives, lambda abstractions, etc.)
- * do statements (any variant of them)
+
+The approach followed here has been the well known 'do the simplest thing that could possibly work'. We instrument the code with 'auto' breakpoints at event *sites*. Currently event sites are code locations where names are bound, and statements:
+
+- Binding sites (top level, let/where local bindings, case alternatives, lambda abstractions, etc.)
+- do statements (any variant of them)
+
 
 The instrumentation is done at the desugarer too, which has been extended accordingly. We distinguish between 'auto' breakpoints, those introduced by the desugarer, and 'normal' breakpoints user created by using the `breakpoint` function directly.
 
-= Breakpoints and threads =
+## Overhead
 
-In a multi-threaded program breakpoints and threads must be handled carefully. Consider the case that one running thread hits a breakpoint and then another running thread also hits a breakpoint. What should happen?
 
-One important note is that when a breakpoint is hit control returns to a GHCi prompt, which has a command line on a terminal. Obviously this prompt is not designed to be run concurrently. So, in the very least, there should only be on thread allowed to enter the debugging prompt at any one time. One mechansim to support this would be to lock entry into the debugger prompt with an MVar. Any other thread which hits a breakpoint will then have to wait on the MVar before proceeding to the prompt. Another more substantial option is to have the schedular stop all running threads whenever a breakpoint is entered. This would allow more features in the debugger, such as the ability to inspect the stacks of running threads and so forth. It also seems to be consistent with the way that gdb works and the java debugger, see [http://sourceware.org/gdb/current/onlinedocs/gdb_6.html#SEC45]. 
-
-== Overhead ==
 The instrumentation scheme potentially introduces overhead at two stages: compile-time and run-time. Compile-time overhead is unnoticeable for general programs, although there are no benchmarks available to sustain this claim. Run-time overhead is much more noticeable.
 Run-time overhead has been measured informally to range in between 9x and 25x, depending on the code of the program under consideration. 
 
+
 With an always-on breakpoints scenario in mind, we do a number of things to mitigate this overhead in absence of enabled breakpoints. One of these is to allow a ghc-api client to disable auto breakpoints via the ghc-api functions:
-{{{ 
+
+```wiki
 enableAutoBreakpoints  :: Session -> IO ()
 disableAutoBreakpoints :: Session -> IO ()
-}}}
+```
+
 
 GHCi would keep breakpoints disabled until the user defines the first breakpoint, and thus for normal use we could keep the -fdebugging flag enabled always.
 
-The problem is that to make the implementation of `disableAutoBreakpoints` (`enableAutoBreakpoints resp.)  effective at all we need to implement it by relinking the `breakpointJumpAuto` function to a new "do nothing" lambda (to the user-set bkptHandler resp.). 
+
+The problem is that to make the implementation of `disableAutoBreakpoints` (`enableAutoBreakpoints resp.)  effective at all we need to implement it by relinking the `breakpointJumpAuto\` function to a new "do nothing" lambda (to the user-set bkptHandler resp.). 
+
 
 This would imply a relink, which is quite annoying to a user of GHCi since any top level bindings are lost. This is why this functionality is only a proof of concept and is disabled for now. I wish I had a better understanding of how the dynamic linker and the top level environment in ghci work.
 
+
 We also try to do some simple breakpoint coalescing. 
 
-=== Breakpoint coalescing ===
-''.. implemented, to be documented..''
+### Breakpoint coalescing
 
-== Modifications in the renamer ==
+*.. implemented, to be documented..*
+
+## Modifications in the renamer
+
+
 This section is easy. There are NO modifications in the renamer, other than removing Lemmih's original code for the `breakpoint` function. All the stuff that we had originally placed here was moved to the desugarer in the final stage of the project.
 
-== Modifications to the desugarer ==
-Extended to carry the local scope around. Also extended to desugar breakpoint* to breakpoint*Jump, and to produce the dyn breakpoints instrumentation under -fdebugging.
+## Modifications to the desugarer
 
-== Passing the sitelist of a module around ==
+
+Extended to carry the local scope around. Also extended to desugar breakpoint\* to breakpoint\*Jump, and to produce the dyn breakpoints instrumentation under -fdebugging.
+
+## Passing the sitelist of a module around
+
+
 After  a module has been instrumented with dynamic breakpoints, the list of sites where breakpoints have been injected must be surfaced to the ghc-api. ModGuts has a new field mg_dbg_sites, and from there it is stored in ModDetails.md_dbg_sites
 
-== The `Opt_Debugging` flag ==
+## The `Opt_Debugging` flag
+
+
 This is activated in command-line via `-fdebugging` and can be disabled with `-fno-debugging`.
 This flag simply enables breakpoint instrumentation in the desugarer.
 
 `-fno-debugging` is different from `-fignore-breakpoints` in that user inserted breakpoints will still work.
 
-== Interrupting at exceptions ==
-Ideally, a breakpoint that would witness an exception would stop the execution, no more questions. Sadly, it seems impossible to 'witness' an exception. Throw and catch are essentially primitives (throw#, throwio# and catch#), we could install an exception handler at every breakpoint site but that:
- * Would add more overhead
- * Would require serious instrumentation to embed everything in IO, and thus
- * Would alter the evaluation order
+## Interrupting at exceptions
+
+
+Ideally, a breakpoint that would witness an exception would stop the execution, no more questions. Sadly, it seems impossible to 'witness' an exception. Throw and catch are essentially primitives (throw\#, throwio\# and catch\#), we could install an exception handler at every breakpoint site but that:
+
+- Would add more overhead
+- Would require serious instrumentation to embed everything in IO, and thus
+- Would alter the evaluation order
+
 
 So it is not doable via this route.
 
+
 We could try and use some tricks. For instance, in every 'throw' we spot, we insert a breakpoint based on the condition on this throw. In every 'assert' we do the same. But this would see only user exceptions, missing system exceptions (pattern match failures for instance), asynchronous exceptions and others. Which is not acceptable imho. 
+
 
 I don't know if a satisfactory solution is possible with the current scheme for breakpoints.
 
-== The breakpoints api at ghc-api ==
+## The breakpoints api at ghc-api
+
+
 Once an 'auto' breakpoint, that is a breakpoint inserted by the renamer, is hit, an action is taken. There are hooks to customize this behaviour in the ghc-api. The GHC module provides:
-{{{
+
+```wiki
 data BkptHandler a = BkptHandler {
      -- | What to do once an enabled breakpoint is found
      handleBreakpoint  :: forall b. Session 
@@ -351,42 +434,66 @@ data BkptHandler a = BkptHandler {
                                 -> BkptLocation a      -- * Module and Site #
                                 -> IO Bool
    }
-}}}
+```
+
 
 The Ghci debugger is a client of this API as described below.
 
-== The D in Dynamic Breakpoints ==
+## The D in Dynamic Breakpoints
 
-In order to implement the 'isAutoBkptEnabled' record, when a breakpoint is hit GHCi must find out whether that site is enabled or not. GHCi thus stores a boolean matrix of enabled breakpoint sites. This scheme is realized in [ [[GhcFile(compiler/main/Breakpoints.hs)]]]:
-{{{
+
+In order to implement the 'isAutoBkptEnabled' record, when a breakpoint is hit GHCi must find out whether that site is enabled or not. GHCi thus stores a boolean matrix of enabled breakpoint sites. This scheme is realized in \[ [compiler/main/Breakpoints.hs](/trac/ghc/browser/ghc/compiler/main/Breakpoints.hs)\]:
+
+```wiki
 data BkptTable a  = BkptTable { 
      breakpoints :: Map.Map a (UArray Int Bool)  -- *An array of breaks, indexed by site number
    , sites       :: Map.Map a [[(SiteNumber, Int)]] -- *A list of lines, each line can have zero or more sites, which are annotated with a column number
    }
-}}}
+```
+
 
 Since this structure needs to be accessed every time a breakpoint is hit and is modified extremely few times in comparison, the goal is to have as fast access time as possible. All of the overhead in our debugger is going to be caused by this operation.
 
+
 Alternative designs should be explored. (Using bits instead of Bools in the matrix? discard the matrix thing and use an IORef in every breakpoint? some clever trick using the FFI?). Suggestions are welcome.
 
-= Pending work =
+# Pending work
+
+
 Call stack traces.
+
 
 Interruption at unexpected conditions (expections).
 
-Rewrite of the Term pretty printer at  [[GhcFile(compiler/ghci/RtClosureInspect.hs)]]
 
-= General Comments = 
-== Maintaining the debugger ==
-The '''closure viewer''' is a delicate piece of code, as it depends on:
- * The Type System of GHC Haskell. Changes to the typechecker interface or data structures will most likely kill it.
- * The runtime representation, which may vary between versions but also architectures
+Rewrite of the Term pretty printer at  [compiler/ghci/RtClosureInspect.hs](/trac/ghc/browser/ghc/compiler/ghci/RtClosureInspect.hs)
+
+# General Comments
+
+## Maintaining the debugger
+
+
+The **closure viewer** is a delicate piece of code, as it depends on:
+
+- The Type System of GHC Haskell. Changes to the typechecker interface or data structures will most likely kill it.
+- The runtime representation, which may vary between versions but also architectures
+
+
 An extensive suite of tests should be needed to easily detect when it lags back changes in GHC. Fortunately the code itself isn't too long nor spread.
 
-The '''breakpoint instrumentation''' on the contrary is spread everywhere the desugarer, but is less likely to break and in less spectacular ways if it does. For instance, one might lose access to implicit parameters in a breakpoint, or things like that. Tricky stuff are Template Haskell, 'deriving' generated code, breakpoint coalescing..
 
-The '''breakpoint desugaring''' depends only on the Core representation, which I think is stabilizing soon with System Fc. This is the less likely piece to break in my opinion, and the easiest to restore.
+The **breakpoint instrumentation** on the contrary is spread everywhere the desugarer, but is less likely to break and in less spectacular ways if it does. For instance, one might lose access to implicit parameters in a breakpoint, or things like that. Tricky stuff are Template Haskell, 'deriving' generated code, breakpoint coalescing..
 
-The '''debugger''' itself, i.e. the user interface offered by InteractiveUI, should virtually maintain itself once it is bug-free (which I don't claim it is), as long as future changes to ghci itself respect the few things it assumes.
 
-```
+The **breakpoint desugaring** depends only on the Core representation, which I think is stabilizing soon with System Fc. This is the less likely piece to break in my opinion, and the easiest to restore.
+
+
+The **debugger** itself, i.e. the user interface offered by InteractiveUI, should virtually maintain itself once it is bug-free (which I don't claim it is), as long as future changes to ghci itself respect the few things it assumes.
+
+### Breakpoints and threads
+
+
+In a multi-threaded program breakpoints and threads must be handled carefully. Consider the case that one running thread hits a breakpoint and then another running thread also hits a breakpoint. What should happen?
+
+
+One important note is that when a breakpoint is hit control returns to a GHCi prompt, which has a command line on a terminal. Obviously this prompt is not designed to be run concurrently. So, in the very least, there should only be on thread allowed to enter the debugging prompt at any one time. One mechansim to support this would be to lock entry into the debugger prompt with an MVar. Any other thread which hits a breakpoint will then have to wait on the MVar before proceeding to the prompt. Another more substantial option is to have the schedular stop all running threads whenever a breakpoint is entered. This would allow more features in the debugger, such as the ability to inspect the stacks of running threads and so forth. It also seems to be consistent with the way that gdb works and the java debugger, see [ http://sourceware.org/gdb/current/onlinedocs/gdb_6.html\#SEC45](http://sourceware.org/gdb/current/onlinedocs/gdb_6.html#SEC45). 
