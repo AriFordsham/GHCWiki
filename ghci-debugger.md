@@ -489,3 +489,11 @@ The **breakpoint desugaring** depends only on the Core representation, which I t
 
 
 The **debugger** itself, i.e. the user interface offered by InteractiveUI, should virtually maintain itself once it is bug-free (which I don't claim it is), as long as future changes to ghci itself respect the few things it assumes.
+
+### Breakpoints and threads
+
+
+In a multi-threaded program breakpoints and threads must be handled carefully. Consider the case that one running thread hits a breakpoint and then another running thread also hits a breakpoint. What should happen?
+
+
+One important note is that when a breakpoint is hit control returns to a GHCi prompt, which has a command line on a terminal. Obviously this prompt is not designed to be run concurrently. So, in the very least, there should only be on thread allowed to enter the debugging prompt at any one time. One mechansim to support this would be to lock entry into the debugger prompt with an MVar. Any other thread which hits a breakpoint will then have to wait on the MVar before proceeding to the prompt. Another more substantial option is to have the schedular stop all running threads whenever a breakpoint is entered. This would allow more features in the debugger, such as the ability to inspect the stacks of running threads and so forth. It also seems to be consistent with the way that gdb works and the java debugger, see [ http://sourceware.org/gdb/current/onlinedocs/gdb_6.html\#SEC45](http://sourceware.org/gdb/current/onlinedocs/gdb_6.html#SEC45). 
