@@ -140,7 +140,3 @@ machine with more memory or turn off the split-objs feature when you
 configure ghc. Just add `SplitObjs=NO` to your `mk/build.mk` file (which
 may not exist to start with). (The Gentoo ebuild does this
 automatically)
-
-
-Note: The above didn't work for me when I created mk/build.mk with the SplitObjs directive. 
-But when I made the change to mk/config.mk, by uncommenting a line near the end of the file, it worked.
