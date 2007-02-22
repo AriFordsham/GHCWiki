@@ -58,7 +58,7 @@ All other !PrimOps are classified as out-of-line, and are implemented by hand-wr
 
  * Out-of-line !PrimOps have a special, fixed, [wiki:Commentary/Rts/HaskellExecution#CallingConvention calling convention]:
    all arguments
-   are in the [wiki:Commentary/Rts/HaskellExecution#Registers] registers] R1-R8.  This is to make it easy to write the
+   are in the [wiki:Commentary/Rts/HaskellExecution#Registers registers] R1-R8.  This is to make it easy to write the
    C-- code for these !PrimOps: we don't have to write code for multiple calling conventions.
 
 == Adding a new !PrimOp ==
