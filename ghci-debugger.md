@@ -421,6 +421,9 @@ I don't know if a satisfactory solution is possible with the current scheme for 
 Once an 'auto' breakpoint, that is a breakpoint inserted by the renamer, is hit, an action is taken. There are hooks to customize this behaviour in the ghc-api. The GHC module provides:
 
 ```wiki
+
+setBreakpointHandler :: Session -> BkptHandler Module -> IO ()
+
 data BkptHandler a = BkptHandler {
      -- | What to do once an enabled breakpoint is found
      handleBreakpoint  :: forall b. Session 
