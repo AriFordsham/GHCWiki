@@ -1,26 +1,43 @@
-## A second attempt
+CONVERSION ERROR
+
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/TypeFunctionsSynTC/Second"
+  queryString          = "?version=2"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:01:53 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","261"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsSynTC/Second\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+
+Original source:
+
+```trac
+== A second attempt ==
+
+To solve  {{{(C implies t1=t2)}}} with respect to Ax
+
+ 1. First:
+   1. We interpret Ax /\ C as a rewrite system (from left to right)   and 
+   2. perform completion until the rewrite system is confluent.
+ 2. We exhaustively apply rewrite rules on t1 and t2, written t1 -->* t1' and t2 -->* t2' and check that t1' and t2' are syntactically equivalent.
 
 
-To solve  `(C implies t1=t2)` with respect to Ax
-
-1. First:
-
-  1. We interpret Ax /\\ C as a rewrite system (from left to right)   and 
-  1. perform completion until the rewrite system is confluent.
-1. We exhaustively apply rewrite rules on t1 and t2, written t1 --\>\* t1' and t2 --\>\* t2' and check that t1' and t2' are syntactically equivalent.
-
-
-Step (1.1) is new and crucial. For confluent rewrite systems the
+Step (1.2) is new and crucial. For confluent rewrite systems the
 checking step (2) will work fine (we also need termination of course).
 But how do we now that completion will succeed?
 The important condition is to guarantee that Ax is confluent (and
 terminating) then completion will be successful (i.e. terminated
 and produce a confluent rewrite system).
 
-
 Let's take a look at our running example.
-
-```wiki
+{{{
 (forall a. S [a] = [S a]) /\      (R1) -- axioms
 (T Int = Int)                     (R2)
 
@@ -28,51 +45,40 @@ Let's take a look at our running example.
 
 (T [Int] = S [Int]) /\            (R3) -- local assumptions
 (T Int = S Int)                   (R4)
-```
-
-
+}}}
 The axioms are clearly confluent
 but there's a critical pair between (R2,R4).
 
-
 Completion yields
 
-```wiki
+{{{
 (S Int = Int)                     (R5)
-```
-
-
-Now, we can verify that (T \[Int\] = \[Int\])
-
+}}}
+Now, we can verify that (T [Int] = [Int])
 
 by executing
 
-```wiki
+{{{
 T [Int] -->* [Int]       (R3,R1,R5)
 
 [Int] -->* [Int]
-```
-
+}}}
 
 The completion method in more detail.
 
-### There are two kinds of critical pairs
+=== There are two kinds of critical pairs ===
 
-- Axiom vs local assumption, see (R2,R4) above
-- Local assumption vs local assumption. For example,
-
-  ```wiki
-    T Int = S Int  /\ 
-    T Int = R Int
-  ```
-
+ * Axiom vs local assumption, see (R2,R4) above
+ * Local assumption vs local assumption. For example,
+{{{
+  T Int = S Int  /\ 
+  T Int = R Int
+}}}
   Completion yields
-
-  ```wiki
-    S Int = R Int
-    R Int = S Int
-  ```
-
+{{{
+  S Int = R Int
+  R Int = S Int
+}}}
 
 NOTE: Axiom vs axiom impossible cause axiom set is confluent
 
@@ -82,74 +88,52 @@ Towards establishing a connection between completion and CHR derivation steps
 
 NOTE: 
 
-
 There's a straightforward translation from type functions to constraints. For each n-ary function symbol T, we introduce a n+1-ary constraint symbol T. Thus, we can represent 
-`T Int = Int`  as
-` T Int a /\ a=Int`
-For example, `T Int = S Int` is represented by 
-`T Int a /\ S Int b /\ a=b`
+{{{T Int = Int}}}  as
+{{{ T Int a /\ a=Int}}}
+For example, {{{T Int = S Int}}} is represented by 
+{{{T Int a /\ S Int b /\ a=b}}}
 
 
-We can verify that the completion method success by showing that each critical pair arises in the \`corresponding' CHR derivation (this derivation terminates if the axiom system is confluent and terminating, hence, we'll only encounter a finite number of critical pairs, hence, completion terminates).
-
+We can verify that the completion method success by showing that each critical pair arises in the `corresponding' CHR derivation (this derivation terminates if the axiom system is confluent and terminating, hence, we'll only encounter a finite number of critical pairs, hence, completion terminates).
 
 Recall the critical pair (axioms vs local assumption) from above
-
-```wiki
+{{{
 T Int = Int     -- axiom
 T Int = S Int  -- local assumption
-```
-
-
+}}}
 In the CHR world, we'll represent both as
-
-```wiki
+{{{
 T Int a <==> a=Int         -- axiom turned into CHR
 
 T Int b /\ S Int c /\ b=c  -- local assumption turned into CHR
                            -- constraints
-```
-
-
+}}}
 In the CHR world, we find that
-
-```wiki
+{{{
     T Int b /\ S Int c /\ b=c
 --> b=Int /\ S Int c /\ b=c      -- apply CHR
 <--> b=Int /\ c=Int /\ S Int Int -- equivalence transformation
                                  -- apply mgu
-```
-
-
+}}}
 directly corresponds to 
-
-```wiki
+{{{
 S Int = Int
-```
-
-
+}}}
 generated by our completion method
 
-
 Recall the critical pair (local assumption vs local assumption)
-
-```wiki
+{{{
   T Int = S Int  /\ 
   T Int = R Int
-```
-
-
+}}}
 represented in the CHR world as
-
-```wiki
+{{{
  T Int a /\ S Int b /\ a=b /\
  T Int c /\ R Int d /\ c=d
-```
-
-
+}}}
 In the CHR world, we find that
-
-```wiki
+{{{
     T Int a /\ S Int b /\ a=b /\
     T Int c /\ R Int d /\ c=d
 -->T Int a /\ S Int b /\ a=b /\  
@@ -160,38 +144,30 @@ In the CHR world, we find that
 
 <--> T Int a /\ S Int a /\ R Int a /\
      a=b, c=a, d=a
-```
-
-
+}}}
 directly corresponds to
-
-```wiki
+{{{
 S Int = R Int
 R Int = S Int
-```
-
+}}}
 
 The general cases are as follows.
 
-#### Axiom vs local assumption case
+==== Axiom vs local assumption case ====
 
-```wiki
+{{{
 forall as. (T t1 ... tn = s)  -- axiom
 
 T t1' ... tn' = s'            -- local assumption
-```
-
-
+}}}
 where exist phi, dom(phi)=as such that phi(ti) = ti' for i=1,...,n
 
 
 completion yields
-
-```wiki
+{{{
     s' = phi(s)
     phi(s) = s'       
-```
-
+}}}
 
 NOTE: We may need both orientation see above example.
 We assume that symbol t refers to types NOT containing type functions and s refers to types which may contain type functions (can be lifted, more below)
@@ -199,70 +175,51 @@ We assume that symbol t refers to types NOT containing type functions and s refe
 
 Explaining completion in terms of CHRs.
 Above translates to
-
-```wiki
+{{{
 T t1 ... tn b <==> C
 
 T t1' ... tn' b' /\ C'
-```
-
-
-where  s is translated to (C \| b) and s' is translated to (C \| b')
-
+}}}
+where  s is translated to (C | b) and s' is translated to (C | b')
 
 (see above where each type function type is represented by
 a variable under some CHR constraints)
 
-
 The type functions
-
-```wiki
+{{{
     s' = phi(s)
     phi(s) = s'       
-```
-
-
+}}}
 resulting from completion 'appear' in the CHR derivation
 (i.e. the operational effect is the same)
-
-```wiki
+{{{
      T t1' ... tn' b' /\ C'    -- apply CHR
 --> b=b', phi(C) /\ C'
-```
+}}}
 
-#### Local assumption vs local assumption
+==== Local assumption vs local assumption ====
 
-```wiki
+{{{
 T t1 ... tn = s1
 T t1 ....tn = sn
-```
-
+}}}
 
 completion yields
-
-```wiki
+{{{
   s1 = s2
   s2 = s1
-```
-
-
+}}}
 In the CHR world, above represented by
 
-```wiki
+{{{
 T t1 ... tn a /\ C1
 T t1 ....tn b /\ C2
-```
-
-
-where s1 translated to (C1 \| a)
-
->
-> s2 translated to (C1 \| n)
-
+}}}
+where s1 translated to (C1 | a)
+      s2 translated to (C1 | n)
 
 Then, 
-
-```wiki
+{{{
     T t1 ... tn a /\ C1 /\
     T t1 ....tn b /\ C2
 
@@ -270,8 +227,7 @@ Then,
 
     T t1 ... tn a /\ C1 /\
     a=b /\ [a/b] C2
-```
-
+}}}
 
 Again, the operational effect of the type function generated
 is also present in the CHR derivation
@@ -281,66 +237,48 @@ Lifting the restriction that t refers to types NOT containing
 type functions (we only lift this restriction for
 local assumptions).
 
-
 Consider
-
-```wiki
+{{{
 forall a. T [a] = [T a]      -- axiom
 
 T [S Int] = s                -- local assumption
-```
-
+}}}
 
 We can normalize
-
-```wiki
+{{{
 T [S Int] = s
-```
-
-
+}}}
 to
-
-```wiki
+{{{
 T [b] = s
 S Int = b
-```
-
-
+}}}
 Method from above applies then.
-
 
 NOTE: Regarding generation of implication constraints.
 GENERATEIMP
 
-
 The literate implication constraints generated out of the
 program text may look as follows
-
-```wiki
+{{{ 
 a=T Int implies ( a= S Int implies ...)
-```
-
+}}}
 
 The above can be simplified to
-
-```wiki
+{{{ 
 (a=T Int /\ a = S Int) implies ...
-```
-
-
+}}}
 Before we proceed with the completion method, we first
 need to apply some closure rules (eg. transitivity, left, right etc)
 Hence, from the above we generatet
-
-```wiki
+{{{
    a=T Int /\ a = S Int /\ 
    T Int = a /\ S Int = a /\       -- symmetry
    T Int = S Int /\ S Int = T Int  -- transitivity
-```
-
-
+}}}
 We omit the trival (reflexive) equations
-
-```wiki
+{{{ 
 T Int = T Int /\ S Int = S Int 
+}}}
+
 ```
