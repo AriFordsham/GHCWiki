@@ -5,6 +5,10 @@
 Here are biannual GHC status reports, published in the [http://haskell.org/communities/ Haskell Communities and Activities Report]
   * [wiki:Status/October06 GHC status October 2006]
 
+== Performance ==
+
+Here are the [http://www.cse.unsw.edu.au/~dons/nobench/i686/results.html results of the nobench suite], showing how GHC performs relative to various versions of itself, and other Haskell compilers.
+
 == Planning notes ==
 
 Here is our [wiki:GhcPlanning current planning document], intended mainly to help Simon, Simon, and Ian coordinate with each other.
