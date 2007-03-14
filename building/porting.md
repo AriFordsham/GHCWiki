@@ -238,13 +238,6 @@ $ cd <H>/compat && make boot && make
 $ cd <H>/utils && make boot && make
 $ cd <H>/compiler && make boot && make
 $ cd <H>/rts && make boot && make
-```
-
-
-Don't worry if the build falls over in the RTS, we don't need the RTS
-yet.
-
-```wiki
 $ cd <H>/libraries
 $ make boot && make
 ```
