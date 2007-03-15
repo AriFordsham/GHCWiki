@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Building/Windows"
-  queryString          = "?version=5"
+  queryString          = "?version=6"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:58:52 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","255"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Building/Windows\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:01:55 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","255"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Building/Windows\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -445,5 +445,24 @@ choices, but it gives a single path that works.
     ; then tar up, unpack where wanted, and enjoy
 }}}
 
+== What to look for if your build fails ==
+
+This section collects typical failure cases, and what to do abouut them.
+
+=== Configure can't find darcs version ===
+
+When you run your configure script, it falls over with 
+{{{
+sh-2.04$ ./configure --with-gcc=c:/mingw/bin/gcc --host=i386-unknown-mingw32
+configure: WARNING: If you wanted to set the --build type, don't use --host.
+    If a cross compiler is detected then cross compile mode will be used.
+checking for GHC version date... -nThe system cannot find the file specified.
+configure: error: failed to detect version date: check that darcs is in your path
+}}}
+This error is nothing to do with `darcs`!  The darcs-version test in `configure` uses `sort`, and it is picking up the Windows sort (in `c:\windows\system32`) instead of the MSYS or Cygwin sort.  
+
+Solution: either hack the configure script by hand, or (better) make sure that MSYS/Cygwin are in your PATH before Windows. Since `c:\windows\system32` is, by default, in the System Environment Variable called PATH, and System Variables come first when searching for paths, you'll have to put MSYS/Cygwin bin directory in the System PATH, before `c:\windows\system32`.
+
+(Incidentally, `find` is another program that Windows has too, with different functionality to Unix.)
 
 ```
