@@ -45,20 +45,7 @@ When a doc token is encountered by the parser, it tries to parse the content of 
 # Binding groups
 
 
-Before the renaming phase, GHC restructures function definitions into binding groups. This is done by going through the list of `HsDecl`s representing the top declarations of the source file, grouping different type of declarations together.
-
-
-We do this with the top level doc comments as well. There's a problem though: An external program must be able to use the GHC API to associate multiple "next" and "prev" style comments with the right Haskell binding. This can be done by looking at the parsed syntax tree, where the file structure is preserved. But, by going through this restructuring, the renamed syntax loose this structure. We want to be able to use the renamed syntax, so instead of just grouping the comments together, we let the grouping process return a list of `DocEntity`:
-
-```wiki
--- source code entities, for representing the module structure
-data DocEntity name
-  = DeclEntity name
-  | DocEntity (DocDecl name)
-```
-
-
-An external program can now figure out which doc comment belongs to what "entity", i.e what Haskell binding. This solution is also used for method declarations in classes. 
+Before the renaming phase, GHC restructures function definitions, data declarations, classes and other declarations into binding groups. This is done by going through the list of `HsDecl`s representing the top declarations of the source file, grouping different type of declarations together. The top level Haddock declarations are grouped together here as well. GHC API clients can look at the SrcLoc of the Haddock declarations to determine which top level declaration it documents.
 
 # The renamer
 
