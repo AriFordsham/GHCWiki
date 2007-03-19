@@ -1,0 +1,13 @@
+== Source repositories for Data Parallel Haskell ==
+
+The main repository for the library, ''package ndp'', is at
+
+  http://darcs.haskell.org/packages/ndp/
+
+This library package slots into GHC's build tree as usual.
+
+Development on the vectorisation transformation currently happens on a branch of the HEAD, available from
+
+  http://darcs.haskell.org/ghc-ndp/
+
+The tag "`NDP vectorisation branch`" indicates the beginning of that branch.
