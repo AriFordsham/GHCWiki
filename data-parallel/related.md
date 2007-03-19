@@ -1,13 +1,39 @@
-# Other work on nested data parallelism
+CONVERSION ERROR
 
-- There is obviously all the work of Blelloch's group on [ NESL](http://en.wikipedia.org/wiki/NESL) including an implementation based on flattening.
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/DataParallel/Related"
+  queryString          = "?version=3"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:01:56 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","257"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/DataParallel/Related\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-- Later Blelloch worked on multi-threaded implementations of nested parallelism (without vectorisation, but by having a thread per loop iteration).  This was mostly theoretical work [ http://www.cs.cmu.edu/\~guyb/research.html\#scheduling](http://www.cs.cmu.edu/~guyb/research.html#scheduling). Blelloch's PhD student Girija Narlikar did some experiments with a scheduler using Pthreads [ http://www.cs.cmu.edu/\~scandal/papers/spaa99.html](http://www.cs.cmu.edu/~scandal/papers/spaa99.html), but there was no real implementation.
+Original source:
 
-- The Manticore project of Reppy's group at Chicago includes nested data parallelism and is based on SML: [ http://manticore.cs.uchicago.edu/](http://manticore.cs.uchicago.edu/).
+```trac
+= Other work on nested data parallelism =
 
-- Then there is the work of Jan Prins' group on Proteus [ http://www.cs.unc.edu/Research/proteus/](http://www.cs.unc.edu/Research/proteus/).  I think they had some kind of vector library hooked up to an interpreter for experiments, but again nothing usable.  Jan also implemented a couple of algorithms, which he vectorised manually, in imperative languages (eg, Fortran); in particular, the study about manual vectorisation in Fortran [ http://www.cs.unc.edu/\~prins/Publications/SciProg99.pdf](http://www.cs.unc.edu/~prins/Publications/SciProg99.pdf).
+ * There is obviously all the work of Blelloch's group on [http://en.wikipedia.org/wiki/NESL NESL] including an implementation based on flattening.
 
-- Modula-2\* of Tichy's group also recognised the value of nested data parallelism.  They added it in the form of a FORALL construct to Modula-2: [ http://www2.cs.fau.de/download/Papers/CstarCritique.pdf?language=en](http://www2.cs.fau.de/download/Papers/CstarCritique.pdf?language=en), [ http://citeseer.ist.psu.edu/philippsen91modula.html](http://citeseer.ist.psu.edu/philippsen91modula.html) and [ http://citeseer.ist.psu.edu/397019.html](http://citeseer.ist.psu.edu/397019.html).  They started on a compiler that targeted the [ MasPar](http://en.wikipedia.org/wiki/Maspar) (one of these SIMD machines), but I think didn't get any further.
+ * Later Blelloch worked on multi-threaded implementations of nested parallelism (without vectorisation, but by having a thread per loop iteration).  This was mostly theoretical work http://www.cs.cmu.edu/~guyb/research.html#scheduling. Blelloch's PhD student Girija Narlikar did some experiments with a scheduler using Pthreads http://www.cs.cmu.edu/~scandal/papers/spaa99.html, but there was no real implementation.
 
-- Using nested DO or FORALL constructs, nested data parallelism can be expressed in Fortran 95 and beyond.  However, parallelising Fortran compilers cannot exploit such parallelism properly.  For example, they may only parallelise the inner or outer loop.  Loop parallelisation of Fortran programs is however a broad topic and there are all kinds of approaches aiming to broaden the classes of loop nests that can be parallelised.  It's been a while since I looked at that stuff last.
+ * The Manticore project of Reppy's group at Chicago includes nested data parallelism and is based on SML: http://manticore.cs.uchicago.edu/.
+
+ * Intel's Microsystems Programming Lab is working on an extension to their C/C++ compiler, called Ct, which adds nested data parallelism as a library (and special compiler support for NDP intrinsics).
+
+ * Then there is the work of Jan Prins' group on Proteus http://www.cs.unc.edu/Research/proteus/.  I think they had some kind of vector library hooked up to an interpreter for experiments, but again nothing usable.  Jan also implemented a couple of algorithms, which he vectorised manually, in imperative languages (eg, Fortran); in particular, the study about manual vectorisation in Fortran http://www.cs.unc.edu/~prins/Publications/SciProg99.pdf.
+ 
+ * Modula-2* of Tichy's group also recognised the value of nested data parallelism.  They added it in the form of a FORALL construct to Modula-2: http://www2.cs.fau.de/download/Papers/CstarCritique.pdf?language=en, http://citeseer.ist.psu.edu/philippsen91modula.html and http://citeseer.ist.psu.edu/397019.html.  They started on a compiler that targeted the [http://en.wikipedia.org/wiki/Maspar MasPar] (one of these SIMD machines), but I think didn't get any further.
+
+ * Using nested DO or FORALL constructs, nested data parallelism can be expressed in Fortran 95 and beyond.  However, parallelising Fortran compilers cannot exploit such parallelism properly.  For example, they may only parallelise the inner or outer loop.  Loop parallelisation of Fortran programs is however a broad topic and there are all kinds of approaches aiming to broaden the classes of loop nests that can be parallelised.  It's been a while since I looked at that stuff last.
+
+Further interesting information about recent work on data parallelism is at [http://groups.google.com/group/dataparallel].
+```
