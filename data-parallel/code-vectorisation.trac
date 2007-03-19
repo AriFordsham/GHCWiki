@@ -1,6 +1,6 @@
 == Vectorisation for nested data parallelism ==
 
-'''TODO:''' This material needs to be revised and we need to come up with a plan for getting some programs to quickly gtet some programs to compile.
+'''TODO:''' This material needs to be revised and we need to come up with a plan for getting some programs to quickly get some programs to compile.
 
 We will try to implement full blown vectorisation using an explicit closure representation on Core code after lambda lifting.  The transformation performs closure conversion and vectorisation in one sweep.  We represent scalar and array closures as follows:
 {{{
