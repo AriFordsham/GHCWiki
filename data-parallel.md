@@ -4,11 +4,20 @@
 This page documents the integration of nested data parallelism into GHC at the developer level, including notes about where we are and what needs doing.  See also the [ user-level wiki page](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell), which includes examples and tutorial-style instructions.
 
 
-Most of the material is partitioned into a set of subpages:
+Most of the material describing our approach is partitioned into a set of subpages:
 
 - [Nested data parallelism by example](data-parallel/example)
 - [Data parallelism on shared-memory machines](data-parallel/smp)
+- [High-level design of adding NDP to GHC](data-parallel/design)
 - [Other nested data parallel work](data-parallel/related)
+
+## Status and work plan
+
+
+Detailed information on how to use the current implementation is at the [ user-level wiki page](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell).  Here is information on the implementation status and outstanding work items:
+
+- Our [work plan](data-parallel/work-plan)
+- Some [benchmarks](data-parallel/benchmarks)
 
 ## Old material
 
