@@ -1,6 +1,13 @@
 = Data Parallel Haskell =
 
-This page describes the data-parallel Haskell implementation, including notes about where we are and what needs doing.  See also the [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell user-level wiki page].
+This page documents the integration of nested data parallelism into GHC at the developer level, including notes about where we are and what needs doing.  See also the [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell user-level wiki page], which includes examples and tutorial-style instructions.
+
+Most of the material is partitioned into a set of subpages:
+
+ * [wiki:DataParallel/Related Other nested data parallel work]
+
+== Old material ==
+
+Pages that have fallen out of use (and contain out dated information):
 
  * [wiki:DataParallel/Optimisation Optimisation, and problems therewith]
- * [wiki:DataParallel/Related Other nested data parallel work]
