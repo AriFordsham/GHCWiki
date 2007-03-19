@@ -5,6 +5,7 @@ This page documents the integration of nested data parallelism into GHC at the d
 Most of the material is partitioned into a set of subpages:
 
  * [wiki:DataParallel/Example Nested data parallelism by example]
+ * [wiki:DataParallel/SMP Data parallelism on shared-memory machines]
  * [wiki:DataParallel/Related Other nested data parallel work]
 
 == Old material ==
