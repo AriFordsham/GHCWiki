@@ -6,6 +6,7 @@ This page documents the integration of nested data parallelism into GHC at the d
 
 Most of the material is partitioned into a set of subpages:
 
+- [Nested data parallelism by example](data-parallel/example)
 - [Other nested data parallel work](data-parallel/related)
 
 ## Old material
