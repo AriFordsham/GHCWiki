@@ -1,88 +1,85 @@
-CONVERSION ERROR
+# The data type `Type` and its friends
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Commentary/Compiler/TypeType"
-  queryString          = "?version=9"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:57:16 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","261"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/TypeType\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-Original source:
+GHC compiles a typed programming language, and GHC's intermediate language is explicitly typed.  So the data type that GHC uses to represent types is of central importance.
 
-```trac
 
-[[PageOutline]]
+The single data type `Type` is used to represent
 
-= The data type {{{Type}}} and its friends =
+- Types (possibly of higher kind); e.g. `[Int]`, `Maybe`
+- Coercions; e.g. `trans (sym g) h`
+- Kinds (which classify types and coercions); e.g. `(* -> *)`, `T :=: [Int]`
+- Sorts (which classify types); e.g. `TY`, `CO`
 
-GHC's compiles a typed programming lanuage, and GHC's intermediate language is explicitly typed.  So the data type that GHC uses to represent types is of central importance.
 
-The single data type {{{Type}}} is used to represent
- * Types (possibly of higher kind); e.g. `[Int]`, `Maybe`
- * Coercions; e.g. `trans (sym g) h`
- * Kinds (which classify types and coercions); e.g. `(* -> *)`, `T :=: [Int]`
- * Sorts (which classify types); e.g. `TY`, `CO`
+GHC's use of [coercions and equality constraints](commentary/compiler/fc) is important enough to deserve its own page.
 
-GHC's use of [wiki:Commentary/Compiler/FC coercions and equality constraints] is important enough to deserve its own page.
 
-The module {{{TypeRep}}} exposes the representation becauese a few other modules ({{{Type}}}, {{{TcType}}}, {{{Unify}}}, etc) work directly on its representation.  However, you should not lightly pattern-match on {{{Type}}}; it is meant to be an abstract type.  Instead, try to use functions defined by {{{Type}}}, {{{TcType}}} etc.
+The module `TypeRep` exposes the representation becauese a few other modules (`Type`, `TcType`, `Unify`, etc) work directly on its representation.  However, you should not lightly pattern-match on `Type`; it is meant to be an abstract type.  Instead, try to use functions defined by `Type`, `TcType` etc.
 
-== Views of types ==
+## Views of types
 
-Even when considering only types (not kinds, sorts, coercions) you need to know that GHC uses a ''single'' data type for types, even though there are two different "views".  
- * The "typechecker view" (or "source view") regards the type as a Haskell type, complete with implicit parameters, class constraints, and the like.  For example:
-{{{
-  forall a. (Eq a, %x::Int) => a -> Int
-}}}
- * The "core view" regards the type as a Core-language type, where class and implicit parameter constraints are treated as function arguments:
-{{{
-  forall a. Eq a -> Int -> a -> Int
-}}}
+
+Even when considering only types (not kinds, sorts, coercions) you need to know that GHC uses a *single* data type for types, even though there are two different "views".  
+
+- The "typechecker view" (or "source view") regards the type as a Haskell type, complete with implicit parameters, class constraints, and the like.  For example:
+
+  ```wiki
+    forall a. (Eq a, %x::Int) => a -> Int
+  ```
+- The "core view" regards the type as a Core-language type, where class and implicit parameter constraints are treated as function arguments:
+
+  ```wiki
+    forall a. Eq a -> Int -> a -> Int
+  ```
+
+
 These two "views" are supported by a family of functions operating over that view:
 
- * [[GhcFile(compiler/types/TypeRep.lhs)]]: here is where {{{Type}}} is defined.
- * [[GhcFile(compiler/types/Type.lhs)]]: core-view utility functions over {{{Type}}}.
- * [[GhcFile(compiler/typecheck/TcType.lhs)]]: source-view utility functions over {{{Type}}}.
+- [compiler/types/TypeRep.lhs](/trac/ghc/browser/ghc/compiler/types/TypeRep.lhs): here is where `Type` is defined.
+- [compiler/types/Type.lhs](/trac/ghc/browser/ghc/compiler/types/Type.lhs): core-view utility functions over `Type`.
+- [compiler/typecheck/TcType.lhs](/trac/ghc/browser/ghc/compiler/typecheck/TcType.lhs): source-view utility functions over `Type`.
 
-The "view" functions are ''shallow'', not deep---a view function just looks at the ''root'' of the tree representing the type.  For example, part of the `coreView` function ([[GhcFile(compiler/types/Type]]) looks like this:
-{{{
+
+The "view" functions are *shallow*, not deep---a view function just looks at the *root* of the tree representing the type.  For example, part of the `coreView` function (GhcFile(compiler/types/Type?) looks like this:
+
+```wiki
   coreView :: Type -> Maybe Type
   coreView (PredTy p)    = Just (predTypeRep p)
   coreView (NoteTy _ ty) = Just ty
   coreView other         = Nothing
-}}}
+```
+
+
 Notice that in the `NoteTy` case, `coreView` does not call itself.  Now, clients of the view look like this:
-{{{
+
+```wiki
   splitFunTy_maybe :: Type -> Maybe (Type,Type)
   splitFunTy_maybe ty | Just ty' <- coreView ty = splitFunTy_maybe ty'
   splitFunTy_maybe (FunTy t1 t2) = Just (t1,t2)
   splitFunTy_maybe other         = Nothing
-}}}
+```
+
+
 Notice the first line, which uses the view, and recurses when the view 'fires'.  Since `coreView` is non-recursive, GHC will inline it, and the optimiser will ultimately produce somethign like:
-{{{
+
+```wiki
   splitFunTy_maybe :: Type -> Maybe (Type,Type)
   splitFunTy_maybe (PredTy p) = splitFunTy_maybe (predTypeRep p)
   splitFunTy_maybe (NoteTy _ ty) = splitFunTy_maybe ty
   splitFunTy_maybe (FunTy t1 t2) = Just (t1,t2)
   splitFunTy_maybe other         = Nothing
-}}}
+```
+
+
 Neat, huh?
 
+## The representation of `Type`
 
 
-== The representation of {{{Type}}} ==
+Here, then is the representation of types (see [compiler/types/TypeRep.lhs](/trac/ghc/browser/ghc/compiler/types/TypeRep.lhs) for more details):
 
-Here, then is the representation of types (see [[GhcFile(compiler/types/TypeRep.lhs)]] for more details):
-{{{
+```wiki
 data Type = TyVarTy TyVar			-- Type variable
   	  | AppTy Type Type			-- Application
   	  | TyConApp TyCon [Type]		-- Type constructor application
@@ -96,74 +93,130 @@ data PredType = ClassP Class [Type]		-- Class predicate
               | EqPred Type Type		-- Equality predicate (ty1 :=: ty2)
 
 data TyNote = FTVNote TyVarSet	-- The free type variables of the noted expression
-}}}
+```
 
-Invariant: if the head of a type application is a {{{TyCon}}}, GHC ''always'' uses the {{{TyConApp}}} constructor, not {{{AppTy}}}.
+
+Invariant: if the head of a type application is a `TyCon`, GHC *always* uses the `TyConApp` constructor, not `AppTy`.
 This invariant is maintained internally by 'smart constructors'.
-A similar invariant applies to {{{FunTy}}}; {{{TyConApp}}} is never used with an arrow type.
+A similar invariant applies to `FunTy`; `TyConApp` is never used with an arrow type.
 
-== Kinds ==
+## Kinds
+
 
 Kinds are represented as types:
-{{{
+
+```wiki
 type Kind = Type
-}}}
+```
+
+
 Basic kinds are now
 represented using type constructors, e.g. the kind `*` is represented as
-{{{
+
+```wiki
 liftedTypeKind :: Kind
 liftedTypeKind = TyConApp liftedTypeKindTyCon []
-}}}
+```
+
+
 where `liftedTypeKindTyCon` is a built-in `PrimTyCon`.  The arrow type
 constructor is used as the arrow kind constructor, e.g. the kind `* ->*` 
 is represented internally as
-{{{
+
+```wiki
 FunTy liftedTypeKind liftedTypeKind
-}}}
+```
+
+
 It's easy to extract the kind of a type, or the sort of a kind:
-{{{
+
+```wiki
 typeKind :: Type -> Kind
-}}}
+```
+
+
 The "sort" of a kind is always one of the
 sorts: `TY` (for kinds that classify normal types) or `CO` (for kinds that
 classify coercion evidence).  The coercion kind, `T1 :=: T2`, is
 represented by `PredTy (EqPred T1 T2)`.
 
-== Type variables ==
+## Type variables
 
-Type variables are represented by the `TyVar` constructor of the [wiki:Commentary/Compiler/EntityTypes data type Var].  
 
-Type variables range over both ''types'' (possibly of higher kind) or ''coercions''.  You could tell the differnece between these two by taking the `typeKind` of the kind of the type variable, adn seeing if you have sort `TY` or `CO`, but for efficiency the `TyVar` keeps a boolean flag, and offes a function:
-{{{
+Type variables are represented by the `TyVar` constructor of the [data type Var](commentary/compiler/entity-types).  
+
+
+Type variables range over both *types* (possibly of higher kind) or *coercions*.  You could tell the differnece between these two by taking the `typeKind` of the kind of the type variable, adn seeing if you have sort `TY` or `CO`, but for efficiency the `TyVar` keeps a boolean flag, and offes a function:
+
+```wiki
   isCoercionVar :: TyVar -> Bool
-}}}
- 
-== Classifying types ==
+```
+
+## Classifying types
+
 
 GHC uses the following nomenclature for types:
 
- '''Unboxed''':: A type is unboxed iff its representation is other than a pointer. Unboxed types are also unlifted.
+<table><tr><th>**Unboxed**</th>
+<td>A type is unboxed iff its representation is other than a pointer. Unboxed types are also unlifted.
+</td></tr></table>
 
- '''Lifted'''::	A type is lifted iff it has bottom as an element. Closures always have lifted types:  i.e. any let-bound identifier in Core must have a lifted type.  Operationally, a lifted object is one that can be entered. Only lifted types may be unified with a type variable.
+<table><tr><th>**Lifted**</th>
+<td>A type is lifted iff it has bottom as an element. Closures always have lifted types:  i.e. any let-bound identifier in Core must have a lifted type.  Operationally, a lifted object is one that can be entered. Only lifted types may be unified with a type variable.
+</td></tr></table>
 
- '''Data''':: A type declared with '''{{{data}}}'''.  Also boxed tuples.
+<table><tr><th>**Data**</th>
+<td>A type declared with **`data`**.  Also boxed tuples.
+</td></tr></table>
 
- '''Algebraic''':: An algebraic data type is a data type with one or more constructors, whether declared with {{{data}}} or {{{newtype}}}.   An algebraic type is one that can be deconstructed	with a case expression.  "Algebraic" is '''NOT''' the same as "lifted",  because unboxed tuples count as "algebraic".
+<table><tr><th>**Algebraic**</th>
+<td>An algebraic data type is a data type with one or more constructors, whether declared with `data` or `newtype`.   An algebraic type is one that can be deconstructed        with a case expression.  "Algebraic" is **NOT** the same as "lifted",  because unboxed tuples count as "algebraic".
+</td></tr></table>
 
- '''Primitive''':: a type is primitive iff it is a built-in type that can't be expressed	in Haskell.
+<table><tr><th>**Primitive**</th>
+<td>a type is primitive iff it is a built-in type that can't be expressed        in Haskell.
   
-  Currently, all primitive types are unlifted, but that's not necessarily the case.  (E.g. Int could be primitive.)
+Currently, all primitive types are unlifted, but that's not necessarily the case.  (E.g. Int could be primitive.)
+</td></tr></table>
 
-  Some primitive types are unboxed, such as Int#, whereas some are boxed but unlifted (such as ByteArray#).  The only primitive types that we classify as algebraic are the unboxed tuples.
+>
+> Some primitive types are unboxed, such as Int\#, whereas some are boxed but unlifted (such as ByteArray\#).  The only primitive types that we classify as algebraic are the unboxed tuples.
+
 
 Examples of type classifications:
 
-||  	|| '''Primitive''' ||	'''Boxed'''	|| '''Lifted''' || '''Algebraic'''  ||
-|| `Int#`	|| Yes	     || No	|| No	  || No		||
-|| `ByteArray#`	|| Yes	     || Yes	|| No	  || No		||
-|| `(# a, b #)`	|| Yes	     || No	|| No	  || Yes	||
-|| `(  a, b  )`	|| No	     || Yes	|| Yes	  || Yes	||
-|| `[a]`	|| No	     || Yes	|| Yes	  || Yes	||
-
-
-```
+<table><tr><th></th>
+<th>**Primitive**</th>
+<th>**Boxed**</th>
+<th>**Lifted**</th>
+<th>**Algebraic**</th></tr>
+<tr><th>`Int#`</th>
+<th> Yes             </th>
+<th> No        </th>
+<th> No          </th>
+<th> No                
+</th></tr>
+<tr><th>`ByteArray#`</th>
+<th> Yes             </th>
+<th> Yes        </th>
+<th> No          </th>
+<th> No                
+</th></tr>
+<tr><th>`(# a, b #)`</th>
+<th> Yes             </th>
+<th> No        </th>
+<th> No          </th>
+<th> Yes        
+</th></tr>
+<tr><th>`(  a, b  )`</th>
+<th> No             </th>
+<th> Yes        </th>
+<th> Yes          </th>
+<th> Yes        
+</th></tr>
+<tr><th>`[a]`</th>
+<th> No             </th>
+<th> Yes        </th>
+<th> Yes          </th>
+<th> Yes        
+</th></tr></table>
