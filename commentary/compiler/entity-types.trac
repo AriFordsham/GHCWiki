@@ -6,7 +6,7 @@ Video: [http://video.google.com/videoplay?docid=-3588273456984755597 Types and C
 
 For each kind of Haskell entity (identifier, type variable, type constructor, data constructor, class) GHC has a data type to represent it.  Here they are:
  * '''Type constructors''' are represtented by the {{{TyCon}}} type ([[GhcFile(compiler/types/TyCon.lhs)]]).
- * '''Clases''' are represtented by the {{{Class}}} type ([[GhcFile(compiler/types/Class.lhs)]]).
+ * '''Classes''' are represtented by the {{{Class}}} type ([[GhcFile(compiler/types/Class.lhs)]]).
  * '''Data constructors''' are represtented by the {{{DataCon}}} type ([[GhcFile(compiler/basicTypes/DataCon.lhs)]]).
  * '''Term variables''' {{{Id}}} and '''type variables''' {{{TyVar}}} are both represented by the {{{Var}}} type ([[GhcFile(compiler/basicTypes/Var.lhs)]]).
 All of these entities have a {{{Name}}}, but that's about all they have in common.  However they are sometimes treated uniformly:
