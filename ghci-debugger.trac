@@ -2,6 +2,9 @@
 [[PageOutline]]
 
 = Report of the implementation of the GHCi debugger =
+
+UPDATE: We have prepared a higher level technical report about this work. A [http://darcs.haskell.org/SoC/ghc.debugger.paper/draft.pdf draft] is available.
+
 During the Summer of 2006 [mailto:mnislaih@gmail.com I] have been working on this project sponsorized by the[http://code.google.com/soc Google SoC] initiative. My mentors were Simon Marlow and David Himmelstrup (lemmih).
 
 It has been a lot of fun, and I've learnt a huge amount of things, but the reader must be warned that I am still a beginner in many aspects, and that my knowledge of ghc is very shallow. So please take my words with a bit of perspective.
