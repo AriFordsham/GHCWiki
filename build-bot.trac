@@ -4,7 +4,7 @@ The GHC buildbot builds GHC on various platforms in various different ways each 
 	
 To see the current status of the builds:
 
-  [http://darcs.haskell.org:8010/]
+  [http://darcs.haskell.org/buildbot]
 
 == To create a new build slave ==
 
