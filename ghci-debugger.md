@@ -1,6 +1,9 @@
 # Report of the implementation of the GHCi debugger
 
 
+UPDATE: We have prepared a higher level technical report about this work. A [ draft](http://darcs.haskell.org/SoC/ghc.debugger.paper/draft.pdf) is available.
+
+
 During the Summer of 2006 I have been working on this project sponsorized by the[ Google SoC](http://code.google.com/soc) initiative. My mentors were Simon Marlow and David Himmelstrup (lemmih).
 
 
