@@ -45,7 +45,7 @@ typedef struct {
 ```
 
 
-The most important part of the header is the *info pointer*, which points to the info table for the closure.  In the default build, this is all the header contains, so a header is normally just one word.  In other builds, the header may contain extra information: eg. in a profilnig build it also contains information about who built the closure.
+The most important part of the header is the *info pointer*, which points to the info table for the closure.  In the default build, this is all the header contains, so a header is normally just one word.  In other builds, the header may contain extra information: eg. in a profiling build it also contains information about who built the closure.
 
 
 Most of the runtime is insensitive to the size of `StgHeader`;
