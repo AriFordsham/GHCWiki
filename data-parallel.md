@@ -10,6 +10,7 @@ Most of the material describing our approach is partitioned into a set of subpag
 - [Data parallelism on shared-memory machines](data-parallel/smp)
 - [High-level design of adding NDP to GHC](data-parallel/design)
 - [Notes on closure conversion](data-parallel/closure-conversion)
+- [Desugaring of array comprehensions](data-parallel/desugaring)
 - [Other nested data parallel work](data-parallel/related)
 
 ## Status and work plan

@@ -8,6 +8,7 @@ Most of the material describing our approach is partitioned into a set of subpag
  * [wiki:DataParallel/SMP Data parallelism on shared-memory machines]
  * [wiki:DataParallel/Design High-level design of adding NDP to GHC]
  * [wiki:DataParallel/ClosureConversion Notes on closure conversion]
+ * [wiki:DataParallel/Desugaring Desugaring of array comprehensions]
  * [wiki:DataParallel/Related Other nested data parallel work]
 
 == Status and work plan ==
