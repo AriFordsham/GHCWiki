@@ -2,13 +2,29 @@
 
 Wadler's desugaring for list comprehensions is not suitable for arrays, as we need to use collective operations to get good parallel code.  The build/foldr desugaring, although using collective operations, isn't a good match for how the array operations are implemented.  In fact, the ''naive'' desugaring from the H98 report is a much better fit:
 {{{
-[: e | :] 	     = [:e:]
-[: e | b, qs :]      = if b then [: e | qs :] else [::]
-[: e | p <- a, qs :] = let ok p = [: e | qs :]
-		           ok _ = [::]
-		     in concatMap ok a
-[: e | let ds, qs :] = let ds in [: e | qs :]
-[: e | qs | qss   :] = 
-  [: e | (XS, XSS) <- zip [: XS | qs :] [: XSS | qss :] :]
-  where XS & XSS are the bound variables in qs & qss
+(1) [: e | :] 	         = [:e:]
+(2) [: e | b, qs :]      = if b then [: e | qs :] else [::]
+(3) [: e | p <- a, qs :] = let ok p = [: e | qs :]
+		               ok _ = [::]
+		           in concatMapP ok a
+(4) [: e | let ds, qs :] = let ds in [: e | qs :]
+(5) [: e | qs | qss   :] = 
+(6) [: e | (XS, XSS) <- zip [: XS | qs :] [: XSS | qss :] :]
+    where XS & XSS are the bound variables in qs & qss
 }}}
+In particular, `concatMapP f a` essentially implies to apply the lifted version of `f` directly to `a` and then the concat strips of one level of segment descriptors; i.e., both the `concatP` and the `mapP` vanish due to vectorisation.
+
+== Problem with the naive rules ==
+
+Nevertheless, these rules are not entirely satisfactory.  For example, `[:e | x <- a, b:]` turns into
+{{{
+concatMap (\x -> if b then [:e:] else [::]) a
+}}}
+which is a fairly complicated way to perform 
+{{{
+mapP (\x -> e) . filterP (\x -> b) $ a
+}}}
+even when taking vectorisation into account.  Under vectorisation, the conditional implies `filterP (\x -> b)`, but adds an expensive, and here useless, merge operation.  Maybe these overheads can be optimised away.  However, for the moment, we use a desugaring that is based on the above rules, but generates code that should be better suited to array processing.
+
+== Modified rules ==
+
