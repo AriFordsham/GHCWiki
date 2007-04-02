@@ -43,6 +43,7 @@ Please feel free to add new pages here.  In due course information will migrate 
 
  * The Runtime System
    * [wiki:GarbageCollectorNotes] Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
+   * [wiki:GMPMemoryManagement] Describes how the garbage collector cooperates with GMP for Integer.
    * [wiki:SemiTagging]: Describes how the semi-tagging optimisation will be implemented.
    * [wiki:PAPI]: Measurement of program performance usign CPU events (cache misses, branch mispredictions).
 
@@ -51,6 +52,7 @@ Please feel free to add new pages here.  In due course information will migrate 
    * DebuggingGhcCrashes: how to use gdb to debug a crash in GHC-compiled code.
 
  * [wiki:AboutVideos Hackathon presentations] (video)
+
  
 == Old but useful ==
 
