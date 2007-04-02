@@ -849,12 +849,13 @@ First, transformational patterns didn't have the value input feature, althought 
 to add (indeed that's what we've done). Second, transformational patterns as described by
 Erwig do no stripping of the `Maybe` (see "Possible extension 2" above).
 
-### [ F\# Active Patterns](http://blogs.msdn.com/dsyme/archive/2006/08/16/ActivePatterns.aspx:)
+### [ : F\# Active Patterns](http://blogs.msdn.com/dsyme/archive/2006/08/16/ActivePatterns.aspx)
 
 
-It was after a talk by Don Syme on active patterns in F\# at the WG2.8 workshop in 
-July 2006 that Simon decided to look again at views and extensible pattern
-matching and began this webpage. F\# 1.1.12 included a preliminary version 
+Simon started this design discussion after the F\# project of 2006 conducted by
+Don Syme and Greg Neverov on active patterns in F\#. Don presented a preliminary
+version of this work at the WG2.8 workshop in 
+July 2006. F\# 1.1.12 included a preliminary version 
 of extensible pattern matching where values effectively of type 
 
 ```wiki
@@ -863,12 +864,12 @@ of extensible pattern matching where values effectively of type
 
 
 could be used as query functions. Some examples are documented 
-nicely at [ http://tomasp.net/blog/quotvis-reloaded.aspx: Tomas Petricek's website](http://tomasp.net/blog/quotvis-reloaded.aspx: Tomas Petricek's website).
+nicely at [ http://tomasp.net/blog/quotvis-reloaded.aspx : Tomas Petricek's website](http://tomasp.net/blog/quotvis-reloaded.aspx : Tomas Petricek's website).
 
 
 As of March 2007 the F\# design has been redesigned and more details will
-be available soon. Don has been involved in lengthy discussions on the subject
-with Simon Peyton Jones at MSR Cambridge.
+be available soon. Don and Simon have been involved in lengthy discussions on the subject
+at MSR Cambridge.
 
 ### [ Emir, Odersky, Williams: Matching objects with patterns](http://lambda-the-ultimate.org/node/1960)
 
