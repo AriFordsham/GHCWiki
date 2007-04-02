@@ -565,7 +565,7 @@ view constructors to appear in patterns only.
 === [http://haskell.org/development/views.html Burton et al views (1996)] ===
 
 This proposal is substantially more complicated than the one above; in particular it
-rquires new form of top-level declaration for a view type. For example:
+requires new form of top-level declaration for a view type. For example:
 {{{
   view Backwards a of [a] = [a] `Snoc` a | Nil
      where
@@ -664,6 +664,22 @@ There are two main differences (apart from syntax).
 First, transformational patterns didn't have the value input feature, althought it'd be easy 
 to add (indeed that's what we've done). Second, transformational patterns as described by
 Erwig do no stripping of the `Maybe` (see "Possible extension 2" above).
+
+=== [http://blogs.msdn.com/dsyme/archive/2006/08/16/ActivePatterns.aspx: F# Active Patterns] ===
+
+It was after a talk by Don Syme on active patterns in F# at the WG2.8 workshop in 
+July 2006 that Simon decided to look again at views and extensible pattern
+matching and began this webpage. F# 1.1.12 included a preliminary version 
+of extensible pattern matching where values effectively of type 
+{{{
+  val Pattern: int -> int option
+}}}
+could be used as query functions. Some examples are documented 
+nicely at [[http://tomasp.net/blog/quotvis-reloaded.aspx: Tomas Petricek's website]].
+
+As of March 2007 the F# design has been redesigned and more details will
+be available soon. Don has been involved in lengthy discussions on the subject
+with Simon Peyton Jones at MSR Cambridge.
 
 === [http://lambda-the-ultimate.org/node/1960 Emir, Odersky, Williams: Matching objects with patterns] ===
 
