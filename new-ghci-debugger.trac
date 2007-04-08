@@ -147,7 +147,7 @@ also the persistent linker state. Both of these are held under IORefs, so we hav
  * fix the calculation of free variables at tick sites (currently done too late in the pipeline, gives some wrong results). Note a possible problem with letrecs, which means some locals vars are missing in where clause.
 
 
-=== Done ===
+=== Partially done ===
 
 === Tentative ===
 
