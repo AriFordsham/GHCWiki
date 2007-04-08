@@ -23,6 +23,8 @@ You '''can''' set breakpoints on the following syntactical things: (XXX) check t
 Conversely, you '''cannot''' set breakpoints on the following syntactical things, except if they occur as the outermost expression in the body of a declaration:
  1. Literals.
  2. Variables.
+ 3. Do blocks. XXX check this one
+ 4. List comprehensions. XXX check this one
 
 You can set a breakpoint in three ways:
  1. By line number.
