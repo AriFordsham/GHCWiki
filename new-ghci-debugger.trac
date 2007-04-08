@@ -140,6 +140,14 @@ If we print `xs` again we can see that it has been evaluated a little bit more:
 }}}
 Here we discover that the value of `xs` is a list with `True` as its head and a thunk as its tail. The thunk is bound to the fresh variable `_t2`, which can be manipulated at the command line as usual.
 
+Another way to force further evaluation of a thunk is to use it inside another expression. For instance, we could examine the spine of the list `xs` by computing its length:
+{{{
+   *Main> length xs
+   3
+   *Main> :print xs
+   xs = [True,(_t3::Bool),(_t4::Bool)]
+}}}
+
 === Single stepping ===
 
 === Continuing execution after a breakpoint ===
