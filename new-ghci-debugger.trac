@@ -49,7 +49,7 @@ The syntax for setting breakpoints by line and column is:
    :break OptionalModuleName 12 7
 }}}
 
-This will activate the breakpoint which corresponds to the smallest breakable (sub)expression which encloses the source location: line 12, column 7, if such an expression exists. If no such expression exists the debugger will report an error message and no breakpoints will be set.
+This will activate the breakpoint which corresponds to the ''smallest'' breakable expression which encloses the source location: line 12, column 7, if such an expression exists. If no such expression exists the debugger will report an error message and no breakpoints will be set.
 
 The syntax for setting breakpoints by function name is: (XXX not yet implemented)
 
