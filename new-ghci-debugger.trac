@@ -9,10 +9,10 @@ These notes detail the breakpoint debugger which is being incorportated into GHC
 
 === Setting break points ===
 
-The general rule of thumb for breakpoints is that you can set a breakpoint on any thing which is not already a value (though there are some exceptions).
+The general rule of thumb for breakpoints is that you can set a breakpoint on any thing which is not a value (though there are some exceptions). For example, a literal character is a value, but a case expression is not. 
 
 You '''can''' set breakpoints on the following syntactical things: (XXX) check this list carefully)
- 1. (nested) Function applications.
+ 1. Function applications. We allow breakpoints on partial applications, even though they are technically values. Also, if there is an application with more than one argument, we only allow breaks on the whole expression, not on the sub-applications within: e.g. for the expression `map f list`, we allow a break on the whole expression, but not on the sub-application of `map f`.
  2. Case expressions.
  3. Function declarations (all the equations of a function).
  4. Case alternatives.
