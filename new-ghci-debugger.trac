@@ -9,6 +9,32 @@ These notes detail the breakpoint debugger which is being incorportated into GHC
 
 === Pending ===
 
+* Replace Loc with a proper source span type
+
+* Look at slow behaviour of :print command on long list of chars (I've asked Pepe about this).
+
+* Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs".
+
+* Implement show command (to list currently set breakpoints)
+
+* Fix the ghci help command
+
+* Implement the delete command (to delete one or more breakpoints)
+
+* Save/restore the link environment at break points. At a breakpoint we modify both the hsc_env of the current Session, and
+also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a break point and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc.
+
+* Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off
+
+* Allow break points to be set by function name. Some questions: what about local functions? What about functions inside
+  type class instances, and default methods of classes?
+
+* Support Unicode in data constructor names inside info tables
+
+* Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time.
+
+* use a primop for inspecting the STACK_AP, rather than a foreign C call
+
 === Done ===
 
 === Tentative ===
