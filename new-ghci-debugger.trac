@@ -124,7 +124,7 @@ For example, suppose the local variable `xs` is bound to a list of booleans, but
    *Main> :print xs
    xs = (_t1::[Bool])
 }}} 
-The debugger uses fresh variable names (starting with underscores) to display unevaluated expressions (often called ''thunks''). Here `_t1` is a thunk, denoting a list of booleans. A side effect of the `:print` command is that these fresh variables are made available to the command line. In our example, we can now use `_t1` in future commands. 
+The debugger uses fresh variable names (starting with underscores) to display unevaluated expressions (often called ''thunks''). Here `_t1` is a thunk. A side effect of the `:print` command is that these fresh variables are made available to the command line. In our example, we can now use `_t1` in future commands. 
 
 Sometimes we want to evaluate thunks a little bit further. This is easy to do because they are bound to variable names. For example, we can evaluate the outermost data constructor of `_t1` using `seq` like so:
 {{{
