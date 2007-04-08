@@ -26,6 +26,8 @@ Conversely, you '''cannot''' set breakpoints on the following syntactical things
  3. Do blocks. XXX check this one
  4. List comprehensions. XXX check this one
 
+We call the places where you can set breakpoints as '''breakable expressions''' (even if some of them aren't strictly expressions).
+
 You can set a breakpoint in three ways:
  1. By line number.
  2. By line and column number.
@@ -36,19 +38,26 @@ In each case you can specify which module to set the breakpoint in, however, if 
 The syntax for setting breakpoints by line number is:
 
 {{{
-   :break MyModuleName 12
+   :break OptionalModuleName 12
 }}}
 
-This will activate the breakpoint which corresponds to the leftmost outermost complete (sub)expression which begins and ends on line 12 in the module called `MyModuleName`, if such an expression exists. XXX If no such expression exists then what happens? Currently the debugger will not set a breakpoint and report an error message, but perhaps it is nicer for it to probe a few lines ahead until it finds a breakable expression, or give up after some threshold number of lines?
+This will activate the breakpoint which corresponds to the leftmost outermost breakable expression which begins and ends on line 12 in the module called `OptionalModuleName`, if such an expression exists. XXX If no such expression exists then what happens? Currently the debugger will not set a breakpoint and report an error message, but perhaps it is nicer for it to probe a few lines ahead until it finds a breakable expression, or give up after some threshold number of lines?
 
 The syntax for setting breakpoints by line and column is:
 
 {{{
-   :break MyModuleName 12 7
+   :break OptionalModuleName 12 7
 }}}
 
-This will activate the breakpoint which corresponds to the smallest (sub)expression which encloses the 
+This will activate the breakpoint which corresponds to the smallest breakable (sub)expression which encloses the source location: line 12, column 7, if such an expression exists. If no such expression exists the debugger will report an error message and no breakpoints will be set.
 
+The syntax for setting breakpoints by function name is: (XXX not yet implemented)
+
+{{{
+   :break OptionalModuleName functionName
+}}}
+
+This will activate the outermost breakpoint associated with the definition of the function called `functionName`. The breakpoint will cover all the equations of a multi-equation function. XXX What about local functions? XXX What about functions defined in type classes (default methods) and instance declarations?
 
 === Inspecting values ===
 
