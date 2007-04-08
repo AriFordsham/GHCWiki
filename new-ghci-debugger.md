@@ -50,7 +50,7 @@ The syntax for setting breakpoints by line number is:
 ```
 
 
-This will activate the breakpoint which corresponds to the leftmost outermost breakable expression which *begins* and *ends* on line 12 in the module called `OptionalModuleName`, if such an expression exists. XXX If no such expression exists then what happens? Currently the debugger will not set a breakpoint and report an error message, but perhaps it is nicer for it to probe a few lines ahead until it finds a breakable expression, or give up after some threshold number of lines?
+This will activate the breakpoint which corresponds to the leftmost outermost breakable expression which *begins* and *ends* on line 12 in the module called `OptionalModuleName`, if such an expression exists. XXX If no such expression exists then what happens? Currently the debugger will report an error message, but perhaps it is nicer for it to probe a few lines ahead until it finds a breakable expression, or give up after some threshold number of lines?
 
 
 The syntax for setting breakpoints by line and column is:
