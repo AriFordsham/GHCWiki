@@ -136,10 +136,28 @@ also the persistent linker state. Both of these are held under IORefs, so we hav
 
  * Use a primop for inspecting the STACK_AP, rather than a foreign C call
 
+ * timing and correctness tests
+
+ * Wolfgang's patch for PIC seems to break the strings in Info tables, so we need to fix that.
+
+ * stabilise the API
+
+ * user documentation
+
+ * fix the calculation of free variables at tick sites (currently done too late in the pipeline, gives some wrong results). Note a possible problem with letrecs, which means some locals vars are missing in where clause.
+
+
 === Done ===
 
 === Tentative ===
 
+ * perhaps there are some redundant ticks we can delete, such as ones which begin at the same start position?
+
+ * allow breakpoints to be enabled and disabled without deleting them, as in gdb
+
+ * extend breaks and step with counters, so that we stop after N hits, rather than immediately
+
+ * revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks
 
 ----
 
