@@ -1,69 +1,44 @@
-CONVERSION ERROR
+# Documentation for the new GHCi debugger
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/NewGhciDebugger"
-  queryString          = "?version=4"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:02:11 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","254"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/NewGhciDebugger\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-Original source:
+These notes detail the breakpoint debugger which is being incorportated into GHCi. Note that there was/is a previous prototype debugger, and we share some of its code (specifically the term printer) (see: [GhciDebugger](ghci-debugger)).
 
-```trac
+## Todo
 
-[[PageOutline]]
+### Pending
 
-= Documentation for the new GHCi debugger =
+- Replace Loc with a proper source span type
 
-These notes detail the breakpoint debugger which is being incorportated into GHCi. Note that there was/is a previous prototype debugger, and we share some of its code (specifically the term printer) (see: [wiki:GhciDebugger]).
+- Look at slow behaviour of :print command on long list of chars (I've asked Pepe about this).
 
-== Todo ==
+- Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs".
 
-=== Pending ===
+- Implement show command (to list currently set breakpoints)
 
-* Replace Loc with a proper source span type
+- Fix the ghci help command
 
-* Look at slow behaviour of :print command on long list of chars (I've asked Pepe about this).
+- Implement the delete command (to delete one or more breakpoints)
 
-* Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs".
+- Save/restore the link environment at break points. At a breakpoint we modify both the hsc_env of the current Session, and
 
-* Implement show command (to list currently set breakpoints)
 
-* Fix the ghci help command
-
-* Implement the delete command (to delete one or more breakpoints)
-
-* Save/restore the link environment at break points. At a breakpoint we modify both the hsc_env of the current Session, and
 also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a break point and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc.
 
-* Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off
+- Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off
 
-* Allow break points to be set by function name. Some questions: what about local functions? What about functions inside
+- Allow break points to be set by function name. Some questions: what about local functions? What about functions inside
   type class instances, and default methods of classes?
 
-* Support Unicode in data constructor names inside info tables
+- Support Unicode in data constructor names inside info tables
 
-* Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time.
+- Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time.
 
-* use a primop for inspecting the STACK_AP, rather than a foreign C call
+- Use a primop for inspecting the STACK_AP, rather than a foreign C call
 
-=== Done ===
+### Done
 
-=== Tentative ===
+### Tentative
 
-== User's Manual ==
+## User's Manual
 
-== Implementation notes ==
-
-
-
-```
+## Implementation notes
