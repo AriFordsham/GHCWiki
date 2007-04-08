@@ -59,6 +59,22 @@ The syntax for setting breakpoints by function name is: (XXX not yet implemented
 
 This will activate the outermost breakpoint associated with the definition of the function called `functionName`. The breakpoint will cover all the equations of a multi-equation function. XXX What about local functions? XXX What about functions defined in type classes (default methods) and instance declarations?
 
+=== Listing the active breakpoints ===
+
+You can list the set of active breakpoints with the following command:
+
+{{{
+   :show breaks
+}}}
+
+Each breakpoint is given a unique number, which can be used to identify the breakpoint should you wish to delete it (see the `:delete` command). Here is an example list of breakpoints:
+
+{{{
+   0) Main (12,4)-(12,8)
+   1) Foo (13,9)-(13,13)
+   2) Bar (14,4)-(14,47)
+}}}
+
 === Inspecting values ===
 
 === Single stepping ===
