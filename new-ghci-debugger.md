@@ -1,207 +1,213 @@
-# Documentation for the new GHCi debugger
+CONVERSION ERROR
 
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/NewGhciDebugger"
+  queryString          = "?version=27"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:02:18 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","254"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/NewGhciDebugger\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-These notes detail the breakpoint debugger which is being incorportated into GHCi. Note that there was/is a previous prototype debugger, and we share some of its code (specifically the term printer) (see: [GhciDebugger](ghci-debugger)).
+Original source:
 
----
+```trac
 
-## User's Manual
+[[PageOutline]]
 
-### Setting break points
+= Documentation for the new GHCi debugger =
 
+These notes detail the breakpoint debugger which is being incorportated into GHCi. Note that there was/is a previous prototype debugger, and we share some of its code (specifically the term printer) (see: [wiki:GhciDebugger]).
+
+----
+
+== User's Manual ==
+
+=== Setting break points ===
 
 The general rule of thumb for breakpoints is that you can set a breakpoint on any thing which is not a value (though there are some exceptions). For example, a literal character is a value, but a case expression is not. 
 
+We call the places where you can set breakpoints as '''breakable expressions''' (even if some of them aren't strictly expressions).
 
-We call the places where you can set breakpoints as **breakable expressions** (even if some of them aren't strictly expressions).
+You '''can''' set breakpoints on the following things: (XXX) Check this list carefully!
+ 1. Function applications. We allow breakpoints on partial applications, even though they are technically values. Also, if there is an application with more than one argument, we only allow breaks on the whole expression, not on the sub-applications within: e.g. for the expression `map f list`, we allow a break on the whole expression, but not on the sub-application of `map f`.
+ 2. Case expressions.
+ 3. Function declarations (all the equations of a function).
+ 4. Case alternatives.
+ 5. Do statements.
+ 6. Guards.
+ 7. Bodies of functions, pattern bindings, lambdas, guarded equations.
 
-
-You **can** set breakpoints on the following things: (XXX) Check this list carefully!
-
-1. Function applications. We allow breakpoints on partial applications, even though they are technically values. Also, if there is an application with more than one argument, we only allow breaks on the whole expression, not on the sub-applications within: e.g. for the expression `map f list`, we allow a break on the whole expression, but not on the sub-application of `map f`.
-1. Case expressions.
-1. Function declarations (all the equations of a function).
-1. Case alternatives.
-1. Do statements.
-1. Guards.
-1. Bodies of functions, pattern bindings, lambdas, guarded equations.
-
-
-Conversely, you **cannot** set breakpoints on the following things, except if they occur as the outermost expression in the body of a declaration:
-
-1. Literals.
-1. Variables.
-1. Do blocks. XXX check this one
-1. List comprehensions. XXX check this one
-
+Conversely, you '''cannot''' set breakpoints on the following things, except if they occur as the outermost expression in the body of a declaration:
+ 1. Literals.
+ 2. Variables.
+ 3. Do blocks. XXX check this one
+ 4. List comprehensions. XXX check this one
 
 You can set a breakpoint in three ways:
-
-1. By line number.
-1. By line and column number.
-1. By function name (not implemented yet).
-
+ 1. By line number.
+ 2. By line and column number.
+ 3. By function name (not implemented yet).
 
 In each case you can specify in which module you want to set the breakpoint, however, if that is omitted, the debugger will choose a suitable default module for you (XXX give a better explanation of what module is chosen by default).
 
-
 The syntax for setting breakpoints by line number is:
 
-```wiki
+{{{
    :break OptionalModuleName 12
-```
+}}}
 
-
-This will activate the breakpoint which corresponds to the leftmost outermost breakable expression which *begins* and *ends* on line 12 in the module called `OptionalModuleName`, if such an expression exists. XXX If no such expression exists then what happens? Currently the debugger will report an error message, but perhaps it is nicer for it to probe a few lines ahead until it finds a breakable expression, or give up after some threshold number of lines?
-
+This will activate the breakpoint which corresponds to the leftmost outermost breakable expression which ''begins'' and ''ends'' on line 12 in the module called `OptionalModuleName`, if such an expression exists. XXX If no such expression exists then what happens? Currently the debugger will report an error message, but perhaps it is nicer for it to probe a few lines ahead until it finds a breakable expression, or give up after some threshold number of lines?
 
 The syntax for setting breakpoints by line and column is:
 
-```wiki
+{{{
    :break OptionalModuleName 12 7
-```
+}}}
 
-
-This will activate the breakpoint which corresponds to the *smallest* breakable expression which encloses the source location: line 12, column 7, if such an expression exists. If no such expression exists the debugger will report an error message and no breakpoints will be set.
-
+This will activate the breakpoint which corresponds to the ''smallest'' breakable expression which encloses the source location: line 12, column 7, if such an expression exists. If no such expression exists the debugger will report an error message and no breakpoints will be set.
 
 The syntax for setting breakpoints by function name is: (XXX not yet implemented)
 
-```wiki
+{{{
    :break OptionalModuleName functionName
-```
-
+}}}
 
 This will activate the outermost breakpoint associated with the definition of the function called `functionName`. The breakpoint will cover all the equations of a multi-equation function. XXX What about local functions? XXX What about functions defined in type classes (default methods) and instance declarations?
 
-### Listing the active breakpoints
-
+=== Listing the active breakpoints ===
 
 You can list the set of active breakpoints with the following command:
 
-```wiki
+{{{
    :show breaks
-```
-
+}}}
 
 Each breakpoint is given a unique number, which can be used to identify the breakpoint should you wish to delete it (see the `:delete` command). Here is an example list of breakpoints:
 
-```wiki
+{{{
    0) Main (12,4)-(12,8)
    1) Foo (13,9)-(13,13)
    2) Bar (14,4)-(14,47)
-```
-
+}}}
 
 Breakpoint 0 is set in the module `Main` on the breakable expression which spans between the source locations (12,4) to (12,8). Similarly for breakpoints 1 and 2.
 
-### Deleting breakpoints
-
+=== Deleting breakpoints ===
 
 You can delete any active breakpoint with the `:delete` command. Breakpoints are refered to by their unique number which is displayed by the `:show breaks` command (see above). You can refer to more than one breakpoint at a time, for example:
-
-```wiki
+{{{
    :delete 2 12
-```
-
-
+}}}
 This will delete the breakpoints numbered 2 and 12. If you specify a breakpoint which does not exist, the debugger will simply ignore it.
 
-
 You can also delete all the active breakpoints by giving the asterisk as an argument to `delete`, like so:
-
-```wiki
+{{{
    :delete *
-```
+}}}
 
-### What happens when the debugger hits a breakpoint?
-
+=== What happens when the debugger hits a breakpoint? ===
 
 When an executing computation hits an active breakpoint, control is returned to the GHCi prompt. The debugger will print out a message indicating where the breakpoint occurred, and the names and types of the local variables which are in scope at that point. Here is an example:
 
-```wiki
+{{{
    Stopped at breakpoint in Main. Location: (6,6)-(6,20).
    Locals: x :: Bool, f :: Bool -> Bool, xs :: [Bool], fx :: Bool, j :: Bool
    *Main>
-```
-
+}}}
 
 The string `*Main>` is GHCi's prompt marker. Note that it can change depending on what modules you have loaded. 
 
-
 All the normal GHCi commands work at the prompt, including the evaluation of arbitrary expressions. In addition to the normal prompt behaviour, the local variables of the breakpoint are also made available. For instance, in the above example the variable `xs` is a list of booleans, and we can calculate its length in the usual way:
 
-```wiki
+{{{
    *Main> length xs
    3
-```
+}}}
 
-### Inspecting values
+The debugger also provides commands for inspecting the values of local variables without forcing their evaluation any further (see Inspecting values below). 
 
-### Single stepping
+You can continue execution of the current computation with the `:continue` and `:step` commands, explained below.
 
-### Continuing execution after a breakpoint
+=== Inspecting values ===
 
-### Known problems in the debugger
+=== Single stepping ===
 
-### Wishlist of features (please add your's here)
+=== Continuing execution after a breakpoint ===
 
----
+=== Known problems in the debugger ===
 
-## Todo
-
-### Pending
-
-- Replace Loc with a proper source span type
-
-- Look at slow behaviour of :print command on long list of chars (I've asked Pepe about this).
-
-- Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs".
-
-- Implement show command (to list currently set breakpoints)
-
-- Fix the ghci help command
-
-- Implement the delete command (to delete one or more breakpoints)
-
-- Save/restore the link environment at break points. At a breakpoint we modify both the hsc_env of the current Session, and
+=== Wishlist of features (please add your's here) ===
 
 
+----
+
+
+== Todo ==
+
+=== Pending ===
+
+ * Replace Loc with a proper source span type
+
+ * Look at slow behaviour of :print command on long list of chars (I've asked Pepe about this).
+
+ * Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs".
+
+ * Implement show command (to list currently set breakpoints)
+
+ * Fix the ghci help command
+
+ * Implement the delete command (to delete one or more breakpoints)
+
+ * Save/restore the link environment at break points. At a breakpoint we modify both the hsc_env of the current Session, and
 also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a break point and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc.
 
-- Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off
+ * Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off
 
-- Allow break points to be set by function name. Some questions: what about local functions? What about functions inside
+ * Allow break points to be set by function name. Some questions: what about local functions? What about functions inside
   type class instances, and default methods of classes?
 
-- Support Unicode in data constructor names inside info tables
+ * Support Unicode in data constructor names inside info tables
 
-- Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time.
+ * Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time.
 
-- Use a primop for inspecting the STACK_AP, rather than a foreign C call
+ * Use a primop for inspecting the STACK_AP, rather than a foreign C call
 
-- timing and correctness tests
+ * timing and correctness tests
 
-- Wolfgang's patch for PIC seems to break the strings in Info tables, so we need to fix that.
+ * Wolfgang's patch for PIC seems to break the strings in Info tables, so we need to fix that.
 
-- stabilise the API
+ * stabilise the API
 
-- user documentation
+ * user documentation
 
-- fix the calculation of free variables at tick sites (currently done too late in the pipeline, gives some wrong results). Note a possible problem with letrecs, which means some locals vars are missing in where clause.
+ * fix the calculation of free variables at tick sites (currently done too late in the pipeline, gives some wrong results). Note a possible problem with letrecs, which means some locals vars are missing in where clause.
 
-### Partially done
 
-### Tentative
+=== Partially done ===
 
-- perhaps there are some redundant ticks we can delete, such as ones which begin at the same start position?
+=== Tentative ===
 
-- allow breakpoints to be enabled and disabled without deleting them, as in gdb
+ * perhaps there are some redundant ticks we can delete, such as ones which begin at the same start position?
 
-- extend breaks and step with counters, so that we stop after N hits, rather than immediately
+ * allow breakpoints to be enabled and disabled without deleting them, as in gdb
 
-- revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks
+ * extend breaks and step with counters, so that we stop after N hits, rather than immediately
 
----
+ * revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks
 
-## Implementation notes
+----
+
+
+== Implementation notes ==
+
+
+
+```
