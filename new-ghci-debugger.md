@@ -3,6 +3,40 @@
 
 These notes detail the breakpoint debugger which is being incorportated into GHCi. Note that there was/is a previous prototype debugger, and we share some of its code (specifically the term printer) (see: [GhciDebugger](ghci-debugger)).
 
+## User's Manual
+
+### Setting break points
+
+
+You can set a breakpoint in three ways:
+
+1. By line number.
+1. By line and column number.
+1. By function name (not implemented yet).
+
+
+In each case you can specify which module to set the breakpoint in, however, if the module name is omitted then the debugger will choose a default module (XXX give a better explanation of what module is chosen by default).
+
+
+The syntax for setting breakpoints by line number is:
+
+```wiki
+   :break MyModuleName 12
+```
+
+
+This will activate the breakpoint which corresponds to the leftmost outermost expression which begins and ends on line 12 in the module called 'MyModuleName'.
+
+### Inspecting values
+
+### Single stepping
+
+### Continuing execution after a breakpoint
+
+### Known problems in the debugger
+
+### Wishlist of features (please add your's here)
+
 ## Todo
 
 ### Pending
@@ -38,7 +72,5 @@ also the persistent linker state. Both of these are held under IORefs, so we hav
 ### Done
 
 ### Tentative
-
-## User's Manual
 
 ## Implementation notes
