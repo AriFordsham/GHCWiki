@@ -40,7 +40,7 @@ You can set a breakpoint in three ways:
 1. By function name (not implemented yet).
 
 
-In each case you can specify which module to set the breakpoint in, however, if the module name is omitted, the debugger will choose a suitable default module (XXX give a better explanation of what module is chosen by default).
+In each case you can specify in which module you want to set the breakpoint, however, if that is omitted, the debugger will choose a suitable default module for you (XXX give a better explanation of what module is chosen by default).
 
 
 The syntax for setting breakpoints by line number is:
