@@ -99,6 +99,16 @@ When an executing computation hits an active breakpoint, control is returned to 
 {{{
    Stopped at breakpoint in Main. Location: (6,6)-(6,20).
    Locals: x :: Bool, f :: Bool -> Bool, xs :: [Bool], fx :: Bool, j :: Bool
+   *Main>
+}}}
+
+The string `*Main>` is GHCi's prompt marker. Note that it can change depending on what modules you have loaded. 
+
+All the normal GHCi commands work at the prompt, including the evaluation of arbitrary expressions. In addition to the normal prompt behaviour, the local variables of the breakpoint are also made available. For instance, in the above example the variable `xs` is a list of booleans, and we can calculate its length in the usual way:
+
+{{{
+   *Main> length xs
+   3
 }}}
 
 === Inspecting values ===
