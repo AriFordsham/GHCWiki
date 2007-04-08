@@ -22,7 +22,7 @@ You '''can''' set breakpoints on the following things: (XXX) Check this list car
  6. Guards.
  7. Bodies of functions, pattern bindings, lambdas, guarded equations.
 
-Conversely, you '''cannot''' set breakpoints on the following syntactical things, except if they occur as the outermost expression in the body of a declaration:
+Conversely, you '''cannot''' set breakpoints on the following things, except if they occur as the outermost expression in the body of a declaration:
  1. Literals.
  2. Variables.
  3. Do blocks. XXX check this one
