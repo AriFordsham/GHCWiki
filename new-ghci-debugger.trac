@@ -255,8 +255,9 @@ The problem is the way that the compiler turns pattern matches into case express
 
 === Backtracing ===
 
-Perhaps the most useful missing feature is the ability to see where the program has been executing just prior to a breakpoint. A lexical call stack is probably out of the question (see: [wiki:ExplicitCallStack], and [wiki:ExplicitCallStack/StackTraceExperience]), but we could keep track of the most recently visited breakable expressions.
+Perhaps the most useful missing feature is the ability to see where the program has been executing just prior to a breakpoint. A lexical call stack is probably out of the question (see: [wiki:ExplicitCallStack], and [wiki:ExplicitCallStack/StackTraceExperience]), but we could keep track of the most recently visited breakable expressions. A key question is what kind of information should we keep about the evaluation history. The simplest thing is to record just source locations. A more adventurous idea is to keep the local variables too. One probem with keeping local variables is that we would have to make sure the GC keeps them alive, so the data structure for storing the evaluation history would have to be traversable by the GC. Note that by keeping things alive, there is the danger of introducing space leaks. Obviously we would not want to keep the whole evaluation history, but only the last N events, where N is a configurable parameter. Keeping track of the history is also likely to incur a performance penalty, so it might be advantageous to be able to turn it off, or perhaps have it off by default, and be able to turn it on.
 
+It would be especially useful to be able to get backtraces when exceptions are raised.
 
 ----
 
