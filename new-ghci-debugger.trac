@@ -277,8 +277,7 @@ Andy's interactive trace viewer is another way of watching the program exeuction
 
  * Fix the ghci help command. (EASY)
 
- * Save/restore the link environment at break points. At a breakpoint we modify both the hsc_env of the current Session, and
-also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a break point and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc. (MODERATE)
+ * Save/restore the link environment at break points. At a breakpoint we modify both the hsc_env of the current Session, and also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a break point and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc. (MODERATE)
 
  * Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off. (EASY)
 
