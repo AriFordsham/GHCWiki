@@ -401,3 +401,10 @@ This raises a few questions:
  * How do we wake up the GHCi thread and return to the prompt?
  * How do we continue execution of the expression thread after we have hit a break point?
  * What happens if we are running in the GHCi thread after a breakpoint, and we evaluate some other expression which also hits a breakpoint (i.e. what about nested breakpoints?)
+ * What happens if the expression thread forks more threads?
+
+Stay tuned for the answer in the next episode (crowd goes boo!).
+
+=== Inspecting values ===
+
+This is done exactly as it was before in the prototype debugger. See: [wiki:GhciDebugger].
