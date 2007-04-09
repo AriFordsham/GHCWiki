@@ -158,7 +158,7 @@ When a computation has hit a breakpoint it is sometimes useful to continue execu
 
 The `:step` command accepts an optional argument expression. The expression is evaluated as usual, but the computation will stop at the first breakable expression which is encountered, for example:
 {{{
-   *Main> :step foo True [1,2,3]
+   :step foo True [1,2,3]
 }}}
 where `foo True [1,2,3]` is the expression that we want to evaluate.
 
@@ -181,12 +181,10 @@ The following list describes issues where the debugger does not behave in the id
    bar = do something else
    }}}
    Suppose we have a breakpoint set somewhere inside the computation done by `foo`, but there are no breakpoints in the computation done by `bar`.
-
    When we run this program in GHCi the following things happen:
       1. `foo` gets forked and `foo` and `bar` begin their work
       2. `bar` completes its job and we return to the GHCi prompt (uh oh!)
       3. `foo` eventually hits a breakpoint and attempts to return to the command line, but it can't because we are already there (in the previous step).
-
    Now the foo thread is blocked, so we can't witness the breakpoint.
 
 
