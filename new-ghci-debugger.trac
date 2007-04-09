@@ -229,6 +229,25 @@ Suppose we have a breakpoint set somewhere inside the computation done by `foo`,
 
 Now the foo thread is blocked, so we can't witness the breakpoint.
 
+=== Wrong variable names in patterns ===
+
+Consider this program:
+{{{
+   foo (Just _  : xs) = [xs] 
+   foo (Nothing : ys) = [ys]  {- set a breakpoint on this line -}
+
+   main = print (foo [Nothing, Just ()])
+}}}
+
+If we hit a breakpoint in the second equation for `foo` we expect to see `ys` displayed as the local variables. Unfortunately, the debugger says that the locals are called `xs`:
+{{{
+   *Main> :break 2
+   Breakpoint activated in Main. Location: (2,22)-(2,25).
+   *Main> main
+   Stopped at breakpoint in Main. Location: (2,22)-(2,25).
+   Locals: xs :: [Maybe ()]
+}}}
+The problem is the way that the compiler turns pattern matches into case expressions. XXX This issue deserves some extra thought.
 
 ----
 
