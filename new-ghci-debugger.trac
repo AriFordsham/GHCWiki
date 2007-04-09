@@ -9,6 +9,35 @@ These notes detail the breakpoint debugger which is being incorportated into GHC
 
 == User's Manual ==
 
+=== Command summary ===
+
+Parameters to commands are indicated in angular brackets `<...>`, optional parameters are followed by a question mark. Everything else is literal text, as you would type it at the prompt.
+
+Setting breakpoints:
+{{{
+   :break <module>? <line_number>
+   :break <module>? <line_number> <column_number>
+   :break <module>? <function_name>
+}}}
+Listing breakpoints:
+{{{
+   :show breaks   
+}}}
+Deleting breakpoints:
+{{{
+   :delete <break_id> ... <break_id>
+   :delete *
+}}}
+Single stepping:
+{{{
+   :step
+   :step <expression>
+}}}
+Continuting execution from a breakpoint:
+{{{
+   :continue
+}}}
+
 === Starting the debugger ===
 
 The debugger is integrated with GHCi, and it is on by default. The debugger slows program execution down by a factor of approximately XXX times. You can turn it off (to avoid the slowdown) using the `-fno-debug` command line argument, when you start GHCi.
