@@ -259,6 +259,12 @@ Perhaps the most useful missing feature is the ability to see where the program 
 
 It would be especially useful to be able to get backtraces when exceptions are raised.
 
+=== Listing source code at breakpoints ===
+
+When a breakpoint is hit, we almost always want to look at the source code around the location of the breakpoint. It is a pain to have to do this manually in another window. It would be nice if the debugger provided a `:list` command, like gdb. 
+
+Andy's interactive trace viewer is another way of watching the program exeuction, and it would be good to be able to connect the debugger to it. Nonetheless, I think a `:list` command would be useful on its own.
+
 ----
 
 
