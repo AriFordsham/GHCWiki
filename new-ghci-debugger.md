@@ -278,86 +278,86 @@ A computation which has stopped at a breakpoint can be resumed with the `:contin
 
 The following list describes issues where the debugger does not behave in the ideal way:
 
-- Computations which fork concurrent threads can use breakpoints, but sometimes a thread gets blocked indefinitely.
-  Consider this program:
+- Computations which fork concurrent threads can use breakpoints, but sometimes a thread gets blocked indefinitely. Consider this program:
 
   ```wiki
-  main = do
-     forkIO foo
-     bar
+     main = do
+        forkIO foo
+        bar
 
-  foo = do something
+     foo = do something
 
-  bar = do something else
+     bar = do something else
+  }}} Suppose we have a breakpoint set somewhere inside the computation done by `foo`, but there are no breakpoints in the computation done by `bar`. When we run this program in GHCi the following things happen:
+        * `foo` gets forked and `foo` and `bar` begin their work
+        * `bar` completes its job and we return to the GHCi prompt (uh oh!)
+        * `foo` eventually hits a breakpoint and attempts to return to the command line, but it can't because we are already there (in the previous step).
+  Now the foo thread is blocked, so we can't witness the breakpoint.
+
+
+  === Wishlist of features (please add your's here) ===
+
+
+  ----
+
+
+  == Todo ==
+
+  === Pending ===
+
+   * Replace Loc with a proper source span type
+
+   * Look at slow behaviour of :print command on long list of chars (I've asked Pepe about this).
+
+   * Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs".
+
+   * Implement show command (to list currently set breakpoints)
+
+   * Fix the ghci help command
+
+   * Implement the delete command (to delete one or more breakpoints)
+
+   * Save/restore the link environment at break points. At a breakpoint we modify both the hsc_env of the current Session, and
+  also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a break point and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc.
+
+   * Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off
+
+   * Allow break points to be set by function name. Some questions: what about local functions? What about functions inside
+    type class instances, and default methods of classes?
+
+   * Support Unicode in data constructor names inside info tables
+
+   * Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time.
+
+   * Use a primop for inspecting the STACK_AP, rather than a foreign C call
+
+   * timing and correctness tests
+
+   * Wolfgang's patch for PIC seems to break the strings in Info tables, so we need to fix that.
+
+   * stabilise the API
+
+   * user documentation
+
+   * fix the calculation of free variables at tick sites (currently done too late in the pipeline, gives some wrong results). Note a possible problem with letrecs, which means some locals vars are missing in where clause.
+
+
+  === Partially done ===
+
+  === Tentative ===
+
+   * perhaps there are some redundant ticks we can delete, such as ones which begin at the same start position?
+
+   * allow breakpoints to be enabled and disabled without deleting them, as in gdb
+
+   * extend breaks and step with counters, so that we stop after N hits, rather than immediately
+
+   * revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks
+
+  ----
+
+
+  == Implementation notes ==
+
+
   ```
-
-  Suppose we have a breakpoint set somewhere inside the computation done by `foo`, but there are no breakpoints in the computation done by `bar`. When we run this program in GHCi the following things happen:
-
-  - `foo` gets forked and `foo` and `bar` begin their work
-  - `bar` completes its job and we return to the GHCi prompt (uh oh!)
-  - `foo` eventually hits a breakpoint and attempts to return to the command line, but it can't because we are already there (in the previous step).
-
-> >
-> > Now the foo thread is blocked, so we can't witness the breakpoint.
-
-### Wishlist of features (please add your's here)
-
----
-
-## Todo
-
-### Pending
-
-- Replace Loc with a proper source span type
-
-- Look at slow behaviour of :print command on long list of chars (I've asked Pepe about this).
-
-- Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs".
-
-- Implement show command (to list currently set breakpoints)
-
-- Fix the ghci help command
-
-- Implement the delete command (to delete one or more breakpoints)
-
-- Save/restore the link environment at break points. At a breakpoint we modify both the hsc_env of the current Session, and
-
-
-also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a break point and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc.
-
-- Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off
-
-- Allow break points to be set by function name. Some questions: what about local functions? What about functions inside
-  type class instances, and default methods of classes?
-
-- Support Unicode in data constructor names inside info tables
-
-- Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time.
-
-- Use a primop for inspecting the STACK_AP, rather than a foreign C call
-
-- timing and correctness tests
-
-- Wolfgang's patch for PIC seems to break the strings in Info tables, so we need to fix that.
-
-- stabilise the API
-
-- user documentation
-
-- fix the calculation of free variables at tick sites (currently done too late in the pipeline, gives some wrong results). Note a possible problem with letrecs, which means some locals vars are missing in where clause.
-
-### Partially done
-
-### Tentative
-
-- perhaps there are some redundant ticks we can delete, such as ones which begin at the same start position?
-
-- allow breakpoints to be enabled and disabled without deleting them, as in gdb
-
-- extend breaks and step with counters, so that we stop after N hits, rather than immediately
-
-- revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks
-
----
-
-## Implementation notes
