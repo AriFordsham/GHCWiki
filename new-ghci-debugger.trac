@@ -347,6 +347,10 @@ To make the core lint happy, we must conjure up a type for `tick<N>`. If `a::T1,
    tick<N> :: T1 -> T2 -> T3 -> State# RealWorld
 }}}
 
+We are somewhat selective about where ticks go in the code, and it would be nice if this was documented properly. I will defer this until the code has stablised.
+
+We assume, and indeed require, that each source span has at most one tick associated with it. This was not always upheld in the coverage tool (in the case of if-then-else expressions), so we had to modify the instrumentation a little bit. 
+
 === Byte code generation ===
 
 === Stopping at a breakpoint at runtime in the byte code interpreter ===
