@@ -51,7 +51,7 @@ The syntax for setting breakpoints by line and column is:
    :break OptionalModuleName 12 7
 }}}
 
-This will activate the breakpoint which corresponds to the ''smallest'' breakable expression which encloses the source location: line 12, column 7, if such an expression exists. If no such expression exists the debugger will report an error message and no breakpoints will be set.
+This will activate the breakpoint which corresponds to the ''smallest'' breakable expression which encloses the source location on line 12, column 7, if such an expression exists. If no such expression exists the debugger will report an error message and no breakpoints will be set.
 
 The syntax for setting breakpoints by function name is: (XXX not yet implemented)
 
@@ -117,7 +117,7 @@ You can continue execution of the current computation with the `:continue` and `
 
 === Inspecting values ===
 
-It is important to note that, due to the non-strict semantics of Haskell (particularly lazy evaluation), the values of local variables at a breakpoint may only be partially evaluated. Therefore printing values may cause them to be further evaluated. This raises some interesting issues for the debugger because evaluating something could raise an exception, or it could cause another breakpoint to be fired, or it could cause non-termination (if the full expansion of the value is unbounded in size, such as an infinite list). For these reasons we want to be able to print values in a way which preserves their current state of evaluation. The debugger provides the `:print` command for this purpose.
+It is important to note that, due to the non-strict semantics of Haskell (particularly lazy evaluation), the values of local variables at a breakpoint may only be partially evaluated. Therefore printing values may cause them to be further evaluated. This raises some interesting issues for the debugger because evaluating something could raise an exception, or it could cause another breakpoint to be fired, or it could cause non-termination. For these reasons we want to be able to print values in a way which preserves their current state of evaluation. The debugger provides the `:print` command for this purpose.
 
 For example, suppose the local variable `xs` is bound to a list of booleans, but the list is completely unevaluated at a breakpoint. We can inspect its value without forcing any more evaluation like so:
 {{{
