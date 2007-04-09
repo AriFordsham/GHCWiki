@@ -16,9 +16,9 @@ Parameters to commands are indicated in angular brackets `<...>`, optional param
 Setting breakpoints:
 
 ```wiki
-   :break <module>? <line_number>
-   :break <module>? <line_number> <column_number>
-   :break <module>? <function_name>
+   :break <module>? <line>
+   :break <module>? <line> <column>
+   :break <module>? <identifier>
 ```
 
 
@@ -32,7 +32,7 @@ Listing breakpoints:
 Deleting breakpoints:
 
 ```wiki
-   :delete <break_id> ... <break_id>
+   :delete <break_number> ... <break_number>
    :delete *
 ```
 
@@ -104,11 +104,11 @@ In each case you can specify in which module you want to set the breakpoint, how
 The syntax for setting breakpoints by line number is:
 
 ```wiki
-   :break <module>? <line_number>
+   :break <module>? <line>
 ```
 
 
-This will activate the breakpoint which corresponds to the leftmost outermost breakable expression which *begins* and *ends* on line `<line_number>`, if such an expression exists. XXX If no such expression exists then what happens? Currently the debugger will report an error message, but perhaps it is nicer for it to probe a few lines ahead until it finds a breakable expression, or give up after some threshold number of lines?
+This will activate the breakpoint which corresponds to the leftmost outermost breakable expression which *begins* and *ends* on the line indicated by the `<line>` parameter, if such an expression exists. XXX If no such expression exists then what happens? Currently the debugger will report an error message, but perhaps it is nicer for it to probe a few lines ahead until it finds a breakable expression, or give up after some threshold number of lines?
 
 
 The syntax for setting breakpoints by line and column is:
@@ -157,11 +157,11 @@ Breakpoint 0 is set in the module `Main` on the breakable expression which spans
 You can delete any active breakpoint with the `:delete` command. Breakpoints are refered to by their unique number which is displayed by the `:show breaks` command (see above). You can refer to more than one breakpoint at a time, for example:
 
 ```wiki
-   :delete 2 12
+   :delete <break_number> ... <break_number>
 ```
 
 
-This will delete the breakpoints numbered 2 and 12. If you specify a breakpoint which does not exist, the debugger will simply ignore it.
+This will delete all the breakpoints which are identified by the numbers `<break_number> ... <break_number>`. If you specify a breakpoint which does not exist, the debugger will simply ignore it.
 
 
 You can also delete all the active breakpoints by giving the asterisk as an argument to `delete`, like so:
@@ -182,7 +182,7 @@ When an executing computation hits an active breakpoint, control is returned to 
 ```
 
 
-The string `*Main>` is GHCi's prompt marker. Note that it can change depending on what modules you have loaded. 
+The string "`*Main>`" is GHCi's prompt marker. Note that it can change depending on what modules you have loaded. 
 
 
 All the normal GHCi commands work at the prompt, including the evaluation of arbitrary expressions. In addition to the normal prompt behaviour, the local variables of the breakpoint are also made available. For instance, in the above example the variable `f` is a function from booleans to booleans, and we can apply it to an argument in the usual way:
