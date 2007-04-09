@@ -104,31 +104,31 @@ In each case you can specify in which module you want to set the breakpoint, how
 The syntax for setting breakpoints by line number is:
 
 ```wiki
-   :break OptionalModuleName 12
+   :break <module>? <line_number>
 ```
 
 
-This will activate the breakpoint which corresponds to the leftmost outermost breakable expression which *begins* and *ends* on line 12 in the module called `OptionalModuleName`, if such an expression exists. XXX If no such expression exists then what happens? Currently the debugger will report an error message, but perhaps it is nicer for it to probe a few lines ahead until it finds a breakable expression, or give up after some threshold number of lines?
+This will activate the breakpoint which corresponds to the leftmost outermost breakable expression which *begins* and *ends* on line `<line_number>`, if such an expression exists. XXX If no such expression exists then what happens? Currently the debugger will report an error message, but perhaps it is nicer for it to probe a few lines ahead until it finds a breakable expression, or give up after some threshold number of lines?
 
 
 The syntax for setting breakpoints by line and column is:
 
 ```wiki
-   :break OptionalModuleName 12 7
+   :break <module>? <line> <column>
 ```
 
 
-This will activate the breakpoint which corresponds to the *smallest* breakable expression which encloses the source location on line 12, column 7, if such an expression exists. If no such expression exists the debugger will report an error message and no breakpoints will be set.
+This will activate the breakpoint which corresponds to the *smallest* breakable expression which encloses the source location `(<line>, <column>)`, if such an expression exists. If no such expression exists the debugger will report an error message.
 
 
 The syntax for setting breakpoints by function name is: (XXX not yet implemented)
 
 ```wiki
-   :break OptionalModuleName functionName
+   :break <module>? <identifier>
 ```
 
 
-This will activate the outermost breakpoint associated with the definition of the function called `functionName`. The breakpoint will cover all the equations of a multi-equation function. XXX What about local functions? XXX What about functions defined in type classes (default methods) and instance declarations?
+This will activate the outermost breakpoint associated with the definition of `<identifier>`. If `<identifier>` is defined by multiple equations, the breakpoint will cover them all. This means the computation will stop whenever any of those equations is evaluated. XXX What about local functions? XXX What about functions defined in type classes (default methods) and instance declarations?
 
 ### Listing the active breakpoints
 
