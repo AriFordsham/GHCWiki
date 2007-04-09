@@ -333,7 +333,7 @@ The problem is the way that the compiler turns pattern matches into case express
 ### Backtracing
 
 
-Perhaps the most useful missing feature is the ability to see where the program has been execution just prior to a breakpoint. A lexical call stack is probably out of the question (see: [ExplicitCallStack](explicit-call-stack), and [ExplicitCallStack/StackTraceExperience](explicit-call-stack/stack-trace-experience)), but we could keep track of the most recently visited breakable expressions.
+Perhaps the most useful missing feature is the ability to see where the program has been executing just prior to a breakpoint. A lexical call stack is probably out of the question (see: [ExplicitCallStack](explicit-call-stack), and [ExplicitCallStack/StackTraceExperience](explicit-call-stack/stack-trace-experience)), but we could keep track of the most recently visited breakable expressions.
 
 ---
 
