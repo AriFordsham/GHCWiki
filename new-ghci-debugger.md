@@ -448,7 +448,7 @@ We are somewhat selective about where ticks go in the code, and it would be nice
 We assume, and indeed require, that each source span has at most one tick associated with it. This was not always upheld in the coverage tool (in the case of if-then-else expressions), so we had to modify the instrumentation a little bit. 
 
 
-For each module we also allocate an array of breakpoint flags, with one entry for each tick in that module. This array is managed by the GHC storage manager, so it can be garbage collected if the module is re-loaded and re-ticked.
+For each module we also allocate an array of breakpoint flags, with one entry for each tick in that module. This array is managed by the GHC storage manager, so it can be garbage collected if the module is re-loaded and re-ticked. We retain this array inside the `ModDetails` data structure, which is defined in `main/HscTypes.lhs`. In the current implementation the array is stored inside something called `ModBreaks`, which also stores an associtation list of source spans and ticks. However, the exact implementation of this depends on what we want in the API for the debugger, and it is likely that it will change soon. Also, `ModBreaks` is in desperate need of a new home. At the moment it is floating around somewhere in the `deSugar` directory, but that is almost certainly the wrong place for it.
 
 ### Byte code generation
 
