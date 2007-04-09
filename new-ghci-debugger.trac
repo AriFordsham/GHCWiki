@@ -394,3 +394,10 @@ To make the discussion comprehensible let us distinguish two threads:
 We'll call the first one the ''GHCi thread'', and the second the ''expression thread''. 
 
 In the debugger the process of evaluating an expression is made more intricate. The reason is that if the expression thread hits a breakpoint it will want to return ''early'' to the GHCi thread, so that the user can access the GHCi prompt, issue commands ''etcetera''. 
+
+This raises a few questions:
+ * How do we arrange for the expression thread to stop and return early?
+ * What information needs to be passed from the expression thread to the GHCi thread, and how do we arrange that flow of information?
+ * How do we wake up the GHCi thread and return to the prompt?
+ * How do we continue execution of the expression thread after we have hit a break point?
+ * What happens if we are running in the GHCi thread after a breakpoint, and we evaluate some other expression which also hits a breakpoint (i.e. what about nested breakpoints?)
