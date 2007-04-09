@@ -212,11 +212,42 @@ The `:step` command accepts an optional argument expression. The expression is e
 ```
 
 
-Here `foo True [1,2,3]` is the expression that we want to evaluate.
+where `foo True [1,2,3]` is the expression that we want to evaluate.
 
 ### Continuing execution after a breakpoint
 
+
+A computation which has stopped at a breakpoint can be resumed with the `:continue` command. 
+
 ### Known problems in the debugger
+
+
+The following list describes issues where the debugger does not behave in the ideal way:
+
+- Computations which fork concurrent threads can use breakpoints, but sometimes a thread gets blocked indefinitely.
+  Consider this program:
+
+  ```wiki
+  main = do
+     forkIO foo
+     bar
+
+  foo = do something
+
+  bar = do something else
+  ```
+
+  Suppose we have a breakpoint set somewhere inside the computation done by `foo`, but there are no breakpoints in the computation done by `bar`.
+
+> >
+> > When we run this program in GHCi the following things happen:
+
+1. `foo` gets forked and `foo` and `bar` begin their work
+1. `bar` completes its job and we return to the GHCi prompt (uh oh!)
+1. `foo` eventually hits a breakpoint and attempts to return to the command line, but it can't because we are already there (in the previous step).
+
+> >
+> > Now the foo thread is blocked, so we can't witness the breakpoint.
 
 ### Wishlist of features (please add your's here)
 
