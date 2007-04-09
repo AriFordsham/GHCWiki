@@ -271,6 +271,8 @@ A computation which has stopped at a breakpoint can be resumed with the `:contin
    :continue
 ```
 
+---
+
 ### Known problems in the debugger
 
 
@@ -292,9 +294,9 @@ The following list describes issues where the debugger does not behave in the id
   Suppose we have a breakpoint set somewhere inside the computation done by `foo`, but there are no breakpoints in the computation done by `bar`.
   When we run this program in GHCi the following things happen:
 
-  1. `foo` gets forked and `foo` and `bar` begin their work
-  1. `bar` completes its job and we return to the GHCi prompt (uh oh!)
-  1. `foo` eventually hits a breakpoint and attempts to return to the command line, but it can't because we are already there (in the previous step).
+  - `foo` gets forked and `foo` and `bar` begin their work
+  - `bar` completes its job and we return to the GHCi prompt (uh oh!)
+  - `foo` eventually hits a breakpoint and attempts to return to the command line, but it can't because we are already there (in the previous step).
 
   Now the foo thread is blocked, so we can't witness the breakpoint.
 
