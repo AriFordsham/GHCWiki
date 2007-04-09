@@ -154,11 +154,7 @@ Another way to force further evaluation of a thunk is to use it inside another e
 
 === Single stepping ===
 
-When a computation has hit a breakpoint it is sometimes useful to continue execution up until the next breakable expression is evaluated, regardless of whether there is a breakpoint set at that location. This functionality is provided by the `:step` command:
-
-{{{
-   *Main> :step
-}}}
+When a computation has hit a breakpoint it is sometimes useful to continue execution up until the next breakable expression is evaluated, regardless of whether there is a breakpoint set at that location. This functionality is provided by the `:step` command.
 
 The `:step` command accepts an optional argument expression. The expression is evaluated as usual, but the computation will stop at the first breakable expression which is encountered, for example:
 {{{
