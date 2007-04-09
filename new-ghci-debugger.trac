@@ -267,64 +267,86 @@ Andy's interactive trace viewer is another way of watching the program exeuction
 
 ----
 
-
-
 == Todo ==
 
 === Pending ===
 
- * Replace Loc with a proper source span type
+ * Replace Loc with a proper source span type. (EASY)
 
- * Look at slow behaviour of :print command on long list of chars (I've asked Pepe about this).
+ * Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs". (MODERATE)
 
- * Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs".
-
- * Implement show command (to list currently set breakpoints)
-
- * Fix the ghci help command
-
- * Implement the delete command (to delete one or more breakpoints)
+ * Fix the ghci help command. (EASY)
 
  * Save/restore the link environment at break points. At a breakpoint we modify both the hsc_env of the current Session, and
-also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a break point and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc.
+also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a break point and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc. (MODERATE)
 
- * Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off
+ * Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off. (EASY)
 
  * Allow break points to be set by function name. Some questions: what about local functions? What about functions inside
-  type class instances, and default methods of classes?
+  type class instances, and default methods of classes? (MODERATE)
 
- * Support Unicode in data constructor names inside info tables
+ * Support Unicode in data constructor names inside info tables. (MODERATE)
 
- * Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time.
+ * Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time. (MODERATE)
 
- * Use a primop for inspecting the STACK_AP, rather than a foreign C call
+ * Use a primop for inspecting the STACK_AP, rather than a foreign C call. (MODERATE)
 
- * timing and correctness tests
+ * Timing and correctness tests. (MODERATE)
 
- * Wolfgang's patch for PIC seems to break the strings in Info tables, so we need to fix that.
+ * Wolfgang's patch for PIC seems to break the strings in Info tables, so we need to fix that. (MODERATE)
 
- * stabilise the API
+ * Stabilise the API. (MODERATE)
 
- * user documentation
+ * Fix the calculation of free variables at tick sites (currently done too late in the pipeline, gives some wrong results). Note a possible problem with letrecs, which means some locals vars are missing in where clause. (MODERATE/DIFFICULT)
 
- * fix the calculation of free variables at tick sites (currently done too late in the pipeline, gives some wrong results). Note a possible problem with letrecs, which means some locals vars are missing in where clause.
+ * Extend the stack inspection primitive to allow unboxed things to be grabbed. (MODERATE)
 
 
 === Partially done ===
 
+ * The delete command. It is fairly primitive, and probably not done in the best way. This will be fixed when the API is finalised.
+
+ * Look at slow behaviour of :print command on long list of chars. I've asked Pepe about this, he has an idea of what the problem is and will be working on a solution soon.
+
+ * User documentation. You're looking at it. The user manual will have to move into the main GHC docs at some point.
+
 === Tentative ===
 
- * perhaps there are some redundant ticks we can delete, such as ones which begin at the same start position?
+ * Perhaps there are some redundant ticks we can delete, such as ones which begin at the same start position?
 
- * allow breakpoints to be enabled and disabled without deleting them, as in gdb
+ * Allow breakpoints to be enabled and disabled without deleting them, as in gdb.
 
- * extend breaks and step with counters, so that we stop after N hits, rather than immediately
+ * Extend breaks and step with counters, so that we stop after N hits, rather than immediately.
 
- * revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks
+ * Revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks. I'm not sure that this is worth it. In some ways the implementation based on a byte code instruction is a little cleaner than adding breaks on BCOs directly. Though the bc instruction method may be a little slower than the other way.
 
 ----
 
-
 == Implementation notes ==
 
+How does the debugger work?
 
+=== Source code instrumentation ===
+
+At the front end of the compiler we annotate the source code with '''ticks''', based on the program coverage tool of Andy Gill and Colin Runciman. Ticks are uniquely numbered with respect to a particular module. Ticks are annotations on expressions, so each tick is associated with a source span, which identifies the start and end locations of the ticked expression.
+
+Roughly, if `E` is an expression to be ticked, its annotated form becomes:
+{{{
+   case tick<N> of _ -> E
+}}}
+where `<N>` is the module-unique number of the tick. 
+
+The ticks are added in the de-sugaring phase of the front end, and the instrumentation is implemented in `deSugar/Coverage.lhs`. Note, we may eventually want to merge the source coverage tool and the debugger. If we do this, it would be useful to have a single piece of code for adding tick annotations. At the moment the debugger does not use all the ticks that the coverage tool uses. 
+
+Slightly later in the de-sugarer we add arguments ticks which correspond to the free variables in scope at the ticked expression. This is done in `deSugar/DsUtils.lhs`, by the function `mkTickBox`. If `a,b,c` are the free variables of a ticked expression `E`, then the annotation from above is elaborated to:
+{{{
+   case tick<N> a b c of _ -> E
+}}}
+To make the core lint happy, we must conjure up a type for `tick<N>`. If `a::T1, b::T2, c::T3` then the type is:
+{{{
+   tick<N> :: T1 -> T2 -> T3 -> State# RealWorld
+}}}
+
+=== Byte code generation ===
+
+=== Stopping at a breakpoint at runtime in the byte code interpreter ===
