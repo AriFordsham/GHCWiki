@@ -444,6 +444,12 @@ It represents the execution status of the expression thread, which is either `Co
    statusMVar :: MVar (Status a)
 }}}
 
+The two MVars, `statusMVar` and `breakMVar` are used like so:
+ * When runStmt begins to execute an expression for the first time it forks the expression thread, and then waits on the `statusMVar`. 
+ * If the expression thread completes execution with an exception or with a final value, it fills in `statusMVar` with the appropriate `Status` value, which wakes up the GHCi thread. The `Status` is turned into a `RunResult` which gets propogated back to the command line as usual.
+ * If the expression thread does not complete, but hits a breakpoint, it fills in the `statusMVar` with an appropriate `Break` value, and then waits on the `breakMVar`. The GHCi thread is woken up because of the write to `statusMVar`, and the `RunResult` is propogated back to the command line (this time it is a `RunBreak`).
+ * When the user decides to continue execution after a breakpoint the GHCi thread fills in the `breakMVar`, thus waking up the expression thread, and then the GHCi thread waits on the `statusMVar` again. The whole process continues until eventually the expression thread completes its evaluation.
+
 === Inspecting values ===
 
 This is done exactly as it was before in the prototype debugger. See: [wiki:GhciDebugger].
