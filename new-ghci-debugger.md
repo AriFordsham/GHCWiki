@@ -493,7 +493,7 @@ To understand what happens it is necessary to know how GHCi evaluates an express
 ```
 
 
-The `Session` argument contains the gobs of environmental information which is important to the compiler. The `String` is what the user typed in, and `RunResult` is the answer that you get back if the execution terminates. `RunResult` is defined like so:
+The `Session` argument contains the gobs of environmental information which is important to the compiler. The `String` is what the user typed in, and `RunResult`, is the answer that you get back if the execution terminates. `RunResult` is defined like so:
 
 ```wiki
    data RunResult
