@@ -437,7 +437,9 @@ Now we must return to `statusMVar` and look at it in more detail. We introduce a
       = Break RunResult               
       | Complete (Either Exception a)
 }}}
-It represents the execution status of the expression thread, which is either `Complete` (with an exception or a value of some type), or `Break`, to indicate that the thread has hit a breakpoint. `statusMVar` simply contains a `Status` value:
+It represents the execution status of the expression thread, which is either `Complete` (with an exception or a value of some type), or `Break`, to indicate that the thread has hit a breakpoint. It must be noted that the `RunResult` argument of `Break` is always a `RunBreak`. Most likely a bit of refactoring in the code could remove this bit of ugliness. 
+
+`statusMVar` simply contains a `Status` value:
 {{{
    statusMVar :: MVar (Status a)
 }}}
