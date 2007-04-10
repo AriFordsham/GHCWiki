@@ -365,7 +365,7 @@ we translate it into:
 {{{
    let freshVar = E in E
 }}}
-(Note: if the ticked expression was already let-bound we do not do this step, since it would be pointless.) The idea is that the let expression will be turned into a BCO. We annotate the BCO with information about the tick, such as its free variables, their offsets in the stack, and the tick number. We also store a pointer in the BCO to a breakpoint array for this particular module, and an offset into that array. The offset corresponds to the tick number. The entries of the array are (currently) boolean flags which, at runtime, determine whether we should stop at the breakpoint or not.
+(Note: if the ticked expression was already let-bound we do not do this step, since it would be pointless.) The idea is that the let expression will be turned into a BCO. We annotate the BCO with information about the tick, such as its free variables, their offsets in the stack, and the tick number. We also store a pointer in the BCO to a breakpoint array for this particular module (which was introduced by the coverage transformation, see above), and an offset into that array. The offset corresponds to the tick number. The entries of the array are (currently) boolean flags which, at runtime, determine whether we should stop at the breakpoint or not. 
 
 The BCIs for this BCO are generated as usual, and we prefix a new special breakpoint instruction on the front. Thus, when the BCO is evaluated, the first thing it will do is interpret the breakpoint instruction, and hence decide whether to break or not.
 
