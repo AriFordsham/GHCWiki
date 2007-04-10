@@ -193,7 +193,7 @@ All the normal GHCi commands work at the prompt, including the evaluation of arb
 ```
 
 
-If there are no local variables in scope at a breakpoint the debugger will print this message:
+If there are no local variables in scope at a breakpoint, the debugger will print this message:
 
 ```wiki
    No locals in scope.
