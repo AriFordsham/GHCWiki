@@ -450,6 +450,17 @@ The two MVars, `statusMVar` and `breakMVar`, are used like so:
  * If the expression thread does not complete, but hits a breakpoint, it fills in the `statusMVar` with an appropriate `Break` value, and then waits on the `breakMVar`. The GHCi thread is woken up because of the write to `statusMVar`, and the `RunResult` is propagated back to the command line (this time it is a `RunBreak`).
  * When the user decides to continue execution after a breakpoint the GHCi thread fills in the `breakMVar`, thus waking up the expression thread, and then the GHCi thread waits on the `statusMVar` again. The whole process continues until eventually the expression thread completes its evaluation.
 
+Now we turn our attention to the `RunBreak` constructor:
+{{{
+   RunBreak :: forall a . a -> ThreadId -> BreakInfo -> IO RunResult -> RunResult
+}}}
+The arguments of `RunBreak` are as follows, in order from left to right:
+ 1. a heap closure, specifically something which represents a chunk of the Stg stack (an `StgAP_STACK`, to be precise). It is inside this object that we find the values of the local variables of the breakpoint. We use a type variable here for convenience. 
+ 2. a thread ID of the expression thread. XXX Actually, we no longer use this value for anything, and it can probably be removed. 
+ 3. a `BreakInfo`, which stores information about the breakpoint, such as the module name, the tick number, and the stack offsets and identifiers of the local variables. 
+ 4. an IO action to execute when we resume execution after hitting the breakpoint. This contains code to fill and wait on the `MVars` mentioned earlier.
+
+
 === Inspecting values ===
 
 This is done exactly as it was before in the prototype debugger. See: [wiki:GhciDebugger].
