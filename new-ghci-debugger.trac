@@ -375,13 +375,21 @@ We experimented with alternative ways of implementing breakpoints, with the hope
 
 === Stopping at a breakpoint at runtime in the byte code interpreter ===
 
-Unfortunately this story is somewhat complicated, ''c'est la vie''.
+Unfortunately this part of the story is somewhat complicated, ''c'est la vie''.
 
 To understand what happens it is necessary to know how GHCi evaluates an expression at the command line. When the user types in an expression (as a string) it is parsed, type checked, and compiled, and then run. In `main/GHC.hs` we have the function:
 {{{
    runStmt :: Session -> String -> IO RunResult
 }}}
-The `Session` argument contains the piles of environmental information which is important to the compiler. The `String` is what the user typed in, and `RunResult` is the answer that you get back if the execution terminates.
+The `Session` argument contains the gobs of environmental information which is important to the compiler. The `String` is what the user typed in, and `RunResult` is the answer that you get back if the execution terminates. `RunResult` is defined like so:
+{{{
+   data RunResult
+      = RunOk [Name]                -- names bound by this evaluation
+      | RunFailed                   -- statement failed compilation
+      | RunException Exception      -- statement raised an exception
+      | forall a . RunBreak a ThreadId BreakInfo (IO RunResult)
+}}}
+The first three constructors are part of the original code, and the last one, `RunBreak` was added for the debugger. Hopefully the first three are self-explanatory; we will explain `RunBreak` in due course.
 
 Normally what happens is that `runStmt` forks a new thread to handle the evaluation of the expression. It then blocks on an `MVar` and waits for the thread to finish. When the thread finishes it fills in the `MVar`, which wakes up `runStmt`, and it returns a `RunResult`. Ultimately this gets passed back to the GHCi command line. Actually, GHCi is merely a ''client'' of the API, and other clients could also call `runStmt` if they wanted something evaluated. 
 
