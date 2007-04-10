@@ -346,6 +346,11 @@ When a breakpoint is hit, we almost always want to look at the source code aroun
 
 Andy's interactive trace viewer is another way of watching the program exeuction, and it would be good to be able to connect the debugger to it. Nonetheless, I think a `:list` command would be useful on its own.
 
+### Blocking breakpoints
+
+
+Typically when we reach a breakpoint we want to inspect the values of local variables. As is often the case the values are thunks. So, to print them, we must force them in some way, and that sometimes raises more breakpoints. Often this is annoying. It would be handy if the debugger allowed us to temporarily disable all breakpoints. It should be relatively easy to implement. The main question is what is the right user interface to the feature?
+
 ---
 
 ## Todo
