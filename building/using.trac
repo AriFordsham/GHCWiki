@@ -359,7 +359,7 @@ best to start {{{make}}} from the top of the tree.  The top-level
 {{{Makefile}}} is set up to do a 2-stage bootstrap by default (when
 you say {{{make}}}).  Some other targets it supports are:
 
-{{{stage1}}}::
+ {{{stage1}}}::
   Build everything as normal, including the stage 1 compiler.
 
  {{{stage2}}}::
@@ -374,7 +374,7 @@ you say {{{make}}}).  Some other targets it supports are:
  {{{bootstrap3}}}::
   Build stages 1, 2 and 3.
 
- {{{install}}}:
+ {{{install}}}::
   Install everything, including the compiler built in stage 2.  To
   override the stage, say {{{make install stage=n}}} where {{{n}}} is
   the stage to install.
