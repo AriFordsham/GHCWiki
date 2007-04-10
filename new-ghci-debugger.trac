@@ -205,6 +205,13 @@ A computation which has stopped at a breakpoint can be resumed with the `:contin
    :continue
 }}}
 
+=== Nested breakpoints ===
+
+The debugger supports nested breakpoints. That is, when you are stopped at a breakpoint, you can issue a command which causes something to be evaluated, and that evaluation might stop at its own breakpoint. And so on ''ad infinitum''. The debugger maintains a stack of breakpoints, so that whenever a new breakpoint is reached it pushes information about how to resume on top of the stack. The `:step` and `:continue` commands resume execution of the topmost breakpoint on the stack. If the breakpoint stack is empty, and you try to resume execution by giving the `:step` command with no arguments, or the `:continue` command, the debugger will report this message:
+{{{
+   There is no computation running.
+}}}
+
 ----
 
 == Known problems in the debugger ==
