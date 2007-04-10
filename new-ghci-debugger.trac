@@ -429,8 +429,18 @@ To arrange the early return of the expression thread when it hits a breakpoint w
 {{{
    breakMVar :: MVar ()
 }}}
-As you can see
+When the expression thread hits a breakpoint it waits on `breakMVar`. When the user decides to continue execution after a breakpoint, the GHCi thread fills `breakMVar`, which wakes up the expression thread and allows it to continue execution.
 
+Now we must return to `statusMVar` and look at it in more detail. We introduce a new type called `Status`:
+{{{
+   data Status a
+      = Break RunResult               
+      | Complete (Either Exception a)
+}}}
+It represents the execution status of the expression thread, which is either `Complete` (with an exception or a value of some type), or `Break`, to indicate that the thread has hit a breakpoint. `statusMVar` simply contains a `Status` value:
+{{{
+   statusMVar :: MVar (Status a)
+}}}
 
 === Inspecting values ===
 
