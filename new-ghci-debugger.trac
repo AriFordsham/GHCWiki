@@ -490,6 +490,8 @@ I've been a bit crafty in my implementation, and you will notice that `resume` a
           = ( ..., ...)
 }}}
 The reason I did it this way is because they need to share their own versions of `breakMVar` and `statusMVar`. This must be understood in the context that we can have nested breakpoints. By writing them in this mutually recursive fashion, we can have multiple (`resume`, `onBreaAction`) pairs, and that they don't get their MVars mixed up. 
+
+When we hit a breakpoint the GHCi client pushes the `resume` function onto a stack. If the user evaluates a different expression, which hits another breakpoint, its `resume` function will be pushed on top of the old one. Eventually, when the user enters `:step` or `:continue`, the top of the resume stack is popped, and that is the action which is run next.
              
 
 === Inspecting values ===
