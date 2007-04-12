@@ -116,20 +116,22 @@ sources, you can skip this step.
 
 Change directory to {{{$(GHC_TOP)}}} and issue the command
 {{{
-$ autoreconf
+$ sh boot
 }}}
 
 (with no arguments). This GNU program (recursively) converts
 {{{$(GHC_TOP)/configure.ac}}} and {{{$(GHC_TOP)/aclocal.m4}}} to a
-shell script called {{{$(GHC_TOP)/configure}}}.  If {{{autoreconf}}}
+shell script called {{{$(GHC_TOP)/configure}}}.  If {{{boot}}}
 bleats that it can't write the file {{{configure}}}, then delete the
-latter and try again.  Note that you must use {{{autoreconf}}}, and
-not the old {{{autoconf}}}!  If you erroneously use the latter, you'll
+latter and try again.  Note that you must use {{{sh boot}}}, and
+not the old {{{autoreconf}}} or {{{autoconf}}}!  If you erroneously
+use {{{autoreconf}}} then building the libraries will fail, and it
+you use {{{autoconf}}} you'll
 get a message like {{{No rule to make target 'mk/config.h.in'}}}.
 
 Some parts of the source tree, particularly libraries, have their own
-configure script.  {{{autoreconf}}} takes care of that, too, so all
-you have to do is calling {{{autoreconf}}} in the top-level directory
+configure script.  {{{sh boot}}} takes care of that, too, so all
+you have to do is calling {{{sh boot}}} in the top-level directory
 {{{$(GHC_TOP)}}}.
 
 These steps are completely platform-independent; they just mean that
@@ -297,7 +299,7 @@ $ cd /scratch/joe-bloggs/myghc-x86
 
  * Prepare for system configuration:
 {{{
-$ autoreconf
+$ sh boot
 }}}
   (You can skip this step if you are starting from a source
   distribution, and you already have {{{configure}}} and

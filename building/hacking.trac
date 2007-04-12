@@ -113,14 +113,10 @@ to rebuild dependencies.
 To just build everything, from the top level:
 
 {{{
-  $ autoreconf
+  $ sh boot
   $ ./configure
   $ make
 }}}
-
-NB. that's auto'''re'''conf, not just `autoconf`.  The former
-works recursively, which is necessary because the GHC tree contains
-multiple configure scripts.
 
 (See here for [wiki:Building/Problems what can go wrong].)
 
