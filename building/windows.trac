@@ -12,6 +12,9 @@ before reading section.
 You don't need Cygwin or MSYS to ''use'' GHC, 
 but you do need one or the other to ''build'' GHC.
 
+== Vista users ==
+
+If you're on Vista, first of all you need to disable "installer-detection", which causes strange things to happen for binaries called "setup.exe", amongst other things.  Go to `Start -> Run` and enter `selpol.msc`.  Then under `Security Settings -> Local Policies -> Security Options`,  disable `UAC: Detect application installations and prompt for elevation`.  Then reboot.
 
 == Installing and configuring MSYS ==
 
@@ -31,13 +34,10 @@ Here's how to install MSYS.
       {{{c:/msys/1.0/local/bin}}}
       to your path.  (Of course, the version number may differ.)
       MSYS mounts the former as both {{{/bin}}} and 
-      {{{/usr/bin}}} and the latter as {{{/usr/local/bin}}}.
-    * {{{HOME}}}: set to your home directory (e.g. {{{c:/userid}}}).
+      {{{/usr/bin}}} and the latter as {{{/usr/local/bin}}}. Make sure that the Windows paths (e.g. `C:/WINDOWS/System32`) are ''after'' the MSYS paths in your `PATH` variable.
+    * {{{HOME}}}: set to your home directory (e.g. {{{c:/userid}}}).  
       This is where, among other things, {{{ssh}}} will look for your {{{.ssh}}} directory.
     * {{{SHELL}}}: set to {{{c:/msys/1.0/bin/sh.exe}}}
-    * {{{CVS_RSH}}}: set to {{{c:/msys/1.0/bin/ssh.exe}}}.  Only necessary if
-      you are using CVS.
-    * {{{MAKE_MODE}}}: set to {{{UNIX}}}.  (I'm not certain this is necessary for MSYS.)
  * Check that the {{{CYGWIN}}} environment variable is ''not'' set.  It's a bad bug
    that MSYS is affected by this, but if you have CYGWIN set to "ntsec ntea", which is right for Cygwin, it
    causes the MSYS {{{ssh}}} to bogusly fail complaining that your {{{.ssh/identity}}}
@@ -50,15 +50,6 @@ Here are some points to bear in mind when using MSYS:
    Do not put any other binaries (such as GHC or Alex) in this directory or its sub-directories: 
    they fail in mysterious ways.  However, it's fine to put other binaries in {{{/usr/local/bin}}},
    which maps to {{{c:/msys/1.0/local/bin}}}.
- * MSYS seems to implement symbolic links by copying, so sharing is lost.
- * Win32 has a {{{find}}} command which is not the same as MSYS's find.
-   You will probably discover that the Win32 {{{find}}} appears in your {{{PATH}}}
-   before the MSYS one, because it's in the ''system'' {{{PATH}}} 
-   environment variable, whereas you have probably modified the ''user'' {{{PATH}}} 
-   variable.  You can always invoke {{{find}}} with an absolute path, or rename it.
- * MSYS comes with {{{bzip}}}, and MSYS's {{{tar}}}'s {{{-j}}} 
-   will bunzip an archive (e.g. {{{tar xvjf foo.tar.bz2}}}).  Useful when you get a
-   bzip'd dump.
 
 == Installing and configuring Cygwin ==
 
@@ -215,21 +206,7 @@ provided they are in your path.
    {{{PATH}}}: the installer tells you the path element
    you need to add upon completion.
  * Install an executable Happy, from [http://www.haskell.org/happy].
-   Happy is a parser generator used to compile the Haskell grammar.  Under MSYS or Cygwin you can easily
-   build it from the source distribution using
-   {{{
-$ ./configure
-$ make
-$ make install
-}}}
-   This should install it in {{{/usr/local/bin}}} (which maps to {{{c:/msys/1.0/local/bin}}}
-   on MSYS).
-   Make sure the installation directory is in your
-   {{{PATH}}}.
- * Install an executable Alex.  This can be done by building from the
-   source distribution in the same way as Happy.  Sources are
-   available from
-   [http://www.haskell.org/alex].
+ * Install an executable Alex, froim [http://www.haskell.org/alex].
  * GHC uses the ''mingw'' C compiler to
    generate code, so you have to install that (see [wiki:Building/PlatformsScriptsFileNames#Windowsplatforms:CygwinMSYSandMinGW Windows platforms: Cygwin, MSYS, and MinGW]). 
    Just pick up a mingw bundle at
