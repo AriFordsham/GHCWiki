@@ -376,6 +376,8 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 ### Pending
 
+- Merge the tick transformation of the coverage tool and the debugger. Simon: currently I have hacked Coverage.lhs so that it doesn't support the hpc tools any more. I turned a few things off and fiddled with where some of the ticks were generated. The changes aren't all that large, so it should be possible to come up with a single piece of code which serves both purposes. One thing you should be aware of is that, now, the tick function is applied to the local variables which are in scope at the tick location. This means that some of the code in the compiler for handling ticks, that is needed for hpc, probably doesn't work. This is simply because that code does not expext the tick function to be applied to anything.
+
 - Replace Loc with a proper source span type. Currently I use a quadruple of Ints to represent a source span. Hpc also has its own representations of spans, as does GHC. It would be nice if we all used the same one (namely the one in GHC). (EASY)
 
 - Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs". (MODERATE)
@@ -386,15 +388,15 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 - Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off. (EASY)
 
-- Allow breakpoints to be set by function name. Some questions: what about local functions? What about functions inside type class instances, and default methods of classes? (MODERATE)
+- Allow breakpoints to be set by function name. Some questions: what about local functions? What about functions inside type class instances, and default methods of classes? One possible solution is to extend the tick tree slightly so that we can search it for function declarations. Another alternative is if the GHC API supports source location queries. The client can simply query GHC to ask what the outermost span of a declaraiton is, then we can set a tick on that span directly. Something to note is that the HPC code has some stuff in it for remembering the "path" of a function, which would be useful for naming nested functions. I don't know if it supports functions inside class declataions. (MODERATE)
 
 - Support Unicode in data constructor names inside info tables. Actually this should just be a matter of using the underlying fast string in the occname. (MODERATE)
 
-- Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time. Simon: I currently re-build the tick tree for a module every time I set a breakpoint. This seems rather ugly. I think it would be better to keep the tick tree inside the ModInfo, and thus only build the ticktree when the module is (re)loaded. (MODERATE)
+- Fix the (sometimes) slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time. Simon: I currently re-build the tick tree for a module every time I set a breakpoint. This seems rather ugly. I think it would be better to keep the tick tree inside the ModInfo, and thus only build the ticktree when the module is (re)loaded. (MODERATE)
 
 - Use a primop for inspecting the STACK_AP, rather than a foreign C call. (MODERATE)
 
-- Timing and correctness tests. (MODERATE)
+- Timing and correctness tests. Pepe has some code for timing that might be useful. (MODERATE)
 
 - Wolfgang's patch for PIC seems to break the strings in Info tables, so we need to fix that. (MODERATE)
 
@@ -605,6 +607,22 @@ The arguments of `RunBreak` are as follows, in order from left to right:
 1. a thread ID of the expression thread. XXX Actually, we no longer use this value for anything, and it can probably be removed. 
 1. a `BreakInfo`, which stores information about the breakpoint, such as the module name, the tick number, and the stack offsets and identifiers of the local variables. 
 1. an IO action to execute when we resume execution after hitting the breakpoint. This contains code to fill and wait on the `MVars` mentioned earlier.
+
+
+Where does the `RunBreak` get assembled? This is done by the I/O action which is executed by a thread when it hits a breakpoint. The code for the I/O action is as follows:
+
+```wiki
+   \ids apStack -> do
+      tid <- myThreadId
+      putMVar statusMVar (Break (RunBreak apStack tid ids resume))
+      takeMVar breakMVar
+```
+
+
+This is defined in `runStmt` in `main/GHC.hs`. We "pass" the I/O action to the runtime system by way of a global stable pointer, which is called `breakPointIOAction`. Note that the thread ID is possibly redundant now, but I left it there since it may be useful for other purposes. The I/O action takes two arguments: `ids` and `apStack`. The first argument is the list of local variables names, paired with their stack offsets. We need this information for printing out the local vars. The second argumet is an AP_STACK closure, which contains the top stack frame of the expression thread. This is saved when the thread hits a breakpoint in Interpreter.c. The AP_STACK is used for finding the *values* of the local variables of the breakpoint. So, `ids` and `apStack` are used in conjunction for inspecting local variables. Note that the I/O action proceeds to write to the `statusMVar`, which wakes up the GHCi thread, and then it waits on the `breakMVar`. 
+
+
+The last tricky part is how we resume execution of a thread after a breakpoint. This 
 
 ### Inspecting values
 
