@@ -44,7 +44,7 @@ Continuting execution from a breakpoint:
 
 === Starting the debugger ===
 
-The debugger is integrated with GHCi, and it is on by default. The debugger slows program execution down by a factor of approximately XXX times. You can turn it off (to avoid the slowdown) using the `-fno-debug` command line argument, when you start GHCi.
+The debugger is integrated with GHCi, and it is on by default. XXX Not true at the moment; you still have to use the -fhpc flag. The debugger slows program execution down by a factor of approximately XXX times. You can turn it off (to avoid the slowdown) using the XXX command line argument, when you start GHCi.
 
 === Setting breakpoints ===
 
@@ -128,6 +128,7 @@ You can also delete all the active breakpoints by giving the asterisk as an argu
 {{{
    :delete *
 }}}
+XXX I don't think the delete command actually turns the breakpoint off yet. Seems I forgot to do that. However, it does delete it, in the sense that ghci no longer prints it out when you ask to show the breakpoints.
 
 === What happens when the debugger hits a breakpoint? ===
 
@@ -201,7 +202,6 @@ The `:step` command accepts an optional argument expression. The expression is e
 {{{
    :step <expression>
 }}}
-
 
 === Continuing execution after a breakpoint ===
 
@@ -287,25 +287,27 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 === Pending ===
 
- * Replace Loc with a proper source span type. (EASY)
+ * Merge the tick transformation of the coverage tool and the debugger. Simon: currently I have hacked Coverage.lhs so that it doesn't support the hpc tools any more. I turned a few things off and fiddled with where some of the ticks were generated. The changes aren't all that large, so it should be possible to come up with a single piece of code which serves both purposes. One thing you should be aware of is that, now, the tick function is applied to the local variables which are in scope at the tick location. This means that some of the code in the compiler for handling ticks, that is needed for hpc, probably doesn't work. This is simply because that code does not expext the tick function to be applied to anything.
+
+ * Replace Loc with a proper source span type. Currently I use a quadruple of Ints to represent a source span. Hpc also has its own representations of spans, as does GHC. It would be nice if we all used the same one (namely the one in GHC). (EASY)
 
  * Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs". (MODERATE)
 
- * Fix the ghci help command. (EASY)
+ * Fix the ghci help command. This can be done when we decide on the final syntax of the commands. (EASY)
 
  * Save/restore the link environment at breakpoints. At a breakpoint we modify both the hsc_env of the current Session, and also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a breakpoint and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc. (MODERATE)
 
  * Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off. (EASY)
 
- * Allow breakpoints to be set by function name. Some questions: what about local functions? What about functions inside type class instances, and default methods of classes? (MODERATE)
+ * Allow breakpoints to be set by function name. Some questions: what about local functions? What about functions inside type class instances, and default methods of classes? One possible solution is to extend the tick tree slightly so that we can search it for function declarations. Another alternative is if the GHC API supports source location queries. The client can simply query GHC to ask what the outermost span of a declaraiton is, then we can set a tick on that span directly. Something to note is that the HPC code has some stuff in it for remembering the "path" of a function, which would be useful for naming nested functions. I don't know if it supports functions inside class declataions. (MODERATE)
 
- * Support Unicode in data constructor names inside info tables. (MODERATE)
+ * Support Unicode in data constructor names inside info tables. Actually this should just be a matter of using the underlying fast string in the occname. (MODERATE)
 
- * Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time. (MODERATE)
+ * Fix the (sometimes) slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time. Simon: I currently re-build the tick tree for a module every time I set a breakpoint. This seems rather ugly. I think it would be better to keep the tick tree inside the ModInfo, and thus only build the ticktree when the module is (re)loaded. (MODERATE)
 
  * Use a primop for inspecting the STACK_AP, rather than a foreign C call. (MODERATE)
 
- * Timing and correctness tests. (MODERATE)
+ * Timing and correctness tests. Pepe has some code for timing that might be useful. (MODERATE)
 
  * Wolfgang's patch for PIC seems to break the strings in Info tables, so we need to fix that. (MODERATE)
 
@@ -315,24 +317,23 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
  * Extend the stack inspection primitive to allow unboxed things to be grabbed. (MODERATE)
 
-
 === Partially done ===
 
- * The delete command. It is fairly primitive, and probably not done in the best way. This will be fixed when the API is finalised.
+ * The delete command. It is fairly primitive, and probably not done in the best way. This will be fixed when the API is finalised. (EASY)
 
- * Look at slow behaviour of :print command on long list of chars. I've asked Pepe about this, he has an idea of what the problem is and will be working on a solution soon.
+ * Look at slow behaviour of :print command on long list of chars. I've asked Pepe about this, he has an idea of what the problem is and will be working on a solution soon. (MODERATE)
 
- * User documentation. You're looking at it. The user manual will have to move into the main GHC docs at some point.
+ * User documentation. You're looking at it. The user manual will have to move into the main GHC docs at some point. (ONGOING)
 
 === Tentative ===
 
- * Perhaps there are some redundant ticks we can delete, such as ones which begin at the same start position?
+ * Perhaps there are some redundant ticks we can delete, such as ones which begin at the same start position? (MODERATE)
 
- * Allow breakpoints to be enabled and disabled without deleting them, as in gdb.
+ * Allow breakpoints to be enabled and disabled without deleting them, as in gdb. (EASY)
 
- * Extend breaks and step with counters, so that we stop after N hits, rather than immediately.
+ * Extend breaks and step with counters, so that we stop after N hits, rather than immediately. (EASY/MODERATE)
 
- * Revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks. I'm not sure that this is worth it. In some ways the implementation based on a byte code instruction is a little cleaner than adding breaks on BCOs directly. Though the bc instruction method may be a little slower than the other way.
+ * Revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks. I'm not sure that this is worth it. In some ways the implementation based on a byte code instruction is a little cleaner than adding breaks on BCOs directly. Though the bc instruction method may be a little slower than the other way. (MODERATE/DIFFICULT)
 
 ----
 
@@ -459,6 +460,58 @@ The arguments of `RunBreak` are as follows, in order from left to right:
  2. a thread ID of the expression thread. XXX Actually, we no longer use this value for anything, and it can probably be removed. 
  3. a `BreakInfo`, which stores information about the breakpoint, such as the module name, the tick number, and the stack offsets and identifiers of the local variables. 
  4. an IO action to execute when we resume execution after hitting the breakpoint. This contains code to fill and wait on the `MVars` mentioned earlier.
+
+Where does the `RunBreak` get assembled? This is done by the I/O action which is executed by a thread when it hits a breakpoint. The code for the I/O action is as follows:
+{{{
+   \ids apStack -> do
+      tid <- myThreadId
+      putMVar statusMVar (Break (RunBreak apStack tid ids resume))
+      takeMVar breakMVar
+}}}
+This is defined in `runStmt` in `main/GHC.hs`. We "pass" the I/O action to the runtime system by way of a global stable pointer, which is called `breakPointIOAction`. Note that the thread ID is possibly redundant now, but I left it there since it may be useful for other purposes. The I/O action takes two arguments: `ids` and `apStack`. The first argument is the list of local variables names, paired with their stack offsets. We need this information for printing out the local vars. The second argumet is an AP_STACK closure, which contains the top stack frame of the expression thread. This is saved when the thread hits a breakpoint in Interpreter.c. The AP_STACK is used for finding the ''values'' of the local variables of the breakpoint. So, `ids` and `apStack` are used in conjunction for inspecting local variables. Note that the I/O action proceeds to write to the `statusMVar`, which wakes up the GHCi thread, and then it waits on the `breakMVar`. 
+
+The last tricky part is how we resume execution of a thread after a breakpoint. This is the purpose of the fourth argument of `Runbreak`:
+{{{
+   resume :: IO RunResult
+}}}
+As you can see it is an I/O action that will eventually yield a `RunResult`. This accords with our intuition that, at least for terminating computations, we will get another `RunResult` if we execute this thing. It could be another breakpoint, or it may be a final value. `resume` is defined like so:
+{{{
+   do stablePtr <- newStablePtr onBreakAction
+      poke breakPointIOAction stablePtr
+      putMVar breakMVar ()
+      status <- takeMVar statusMVar
+      switchOnStatus ref new_hsc_env names status
+}}}
+The first thing it does is set up the `onBreakAction` global variable. Then it writes to the `breakMVar` which wakes up the blocked expression thread. Then it waits for `statusMVar` to be filled in again. Eventually when we get a status value, we call the `switchInStatus` function to decide what to do (either we hit another breakpoint, or we completed). 
+
+I've been a bit crafty in my implementation, and you will notice that `resume` and `onBreakAction` are mutually recursive. So in `main/GHC.runStmt` you will see them defined like this:
+{{{
+   let (resume, onBreakAction)
+          = ( ..., ...)
+}}}
+The reason I did it this way is because they need to share their own versions of `breakMVar` and `statusMVar`. This must be understood in the context that we can have nested breakpoints. By writing them in this mutually recursive fashion, we can have multiple (`resume`, `onBreaAction`) pairs, and that they don't get their MVars mixed up. 
+
+When we hit a breakpoint the GHCi client pushes the `resume` function onto a stack. If the user evaluates a different expression, which hits another breakpoint, its `resume` function will be pushed on top of the old one. Eventually, when the user enters `:step` or `:continue`, the top of the resume stack is popped, and that is the action which is run next.
+            
+=== The view from inside the RTS: `Interpreter.c` ===
+
+As mentioned above, we add a new kind of BCI for breakpoints. It is called `bci_BRK_FUN`. It is added as the first instruction to the BCI sequence for top-level and let-bindings, during Byte Code compilation. When the intepreter hits this instruction it does the following things:
+ 1. Check to see if we are returning from a breakpoint (by checking a bit flag in the current TSO). If so, we don't want to stop again (this time), otherwise we'd get into an infinite loop. We record that we are no longer returning from a breakpoint, and then continue to the next BCI.
+ 2. If we aren't returning from a breakpoint, then we check to see if the global single-step flag is set, or if the individual breakpoint flag for the current expression is set. If this is true, we prepare to save the stack, and call the `onBreakAction`. If it is not true then we skip to the next BCI.
+ 3. If we are going to stop at this breakpoint, we create a new AP_STACK and copy the topmost stack frame into it. Then we push the current BCO onto the stack, and set up the `onBreakAction` so that when we come back to this thread the action will be executed. We then record that we are now stopping at a breakpoint, and then yield to the scheduler. When the scheduler returns to this thread the `onBreakAction` will be executed, which will send us back to the GHCi prompt.
+
+Here's how the stack is set up just prior to yielding:
+{{{
+    Sp -= 7;
+    Sp[6] = (W_)obj;
+    Sp[5] = (W_)&stg_apply_interp_info;
+    Sp[4] = (W_)new_aps;                 /* the AP_STACK */
+    Sp[3] = (W_)BCO_PTR(arg3_freeVars);  /* the info about local vars of the breakpoint */
+    Sp[2] = (W_)&stg_ap_ppv_info;
+    Sp[1] = (W_)ioAction;                /* apply the IO action to its two arguments above */
+    Sp[0] = (W_)&stg_enter_info;         /* get ready to run the IO action */
+}}}
+The first two things are the current BCO and an info table (what do you call these things anyway?). We need these so that when we eventually resume execution from a breakpoint we will start executing the currect BCO again. The next four things correspond to the call to the `onBreakAction`: with its arguments pused first, then an info table, then the action itself. `new_aps` is the AP_STACK which saves the topmost stack frame, and `arg3_freeVars` corresponds to the list of local variable names paired with their stack offsets. Note that (a pointer to) this list is stored in the "pointers" array in the BCO. `arg3_freeVars` is actually just an integer offset into that pointer array, and it is passed as the third argument of the `bci_BRK_FUN` instruction.
 
 
 === Inspecting values ===
