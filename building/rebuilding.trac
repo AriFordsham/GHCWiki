@@ -6,7 +6,7 @@ Note that after pulling new changes, the safest way to continue working is to cl
 
 {{{
   $ make distclean
-  $ autoreconf
+  $ sh boot
   $ ./configure
   $ make
 }}}
