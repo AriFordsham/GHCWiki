@@ -496,10 +496,23 @@ When we hit a breakpoint the GHCi client pushes the `resume` function onto a sta
 === The view from inside the RTS: `Interpreter.c` ===
 
 As mentioned above, we add a new kind of BCI for breakpoints. It is called `bci_BRK_FUN`. It is added as the first instruction to the BCI sequence for top-level and let-bindings, during Byte Code compilation. When the intepreter hits this instruction it does the following things:
- 1. Check to see if we are returning from a breakpoint. If so we don't want to stop again (this time), otherwise we'd get into an infinite loop. We record that we are no longer returning from a breakpoint, and then continue to the next BCI.
+ 1. Check to see if we are returning from a breakpoint (by checking a bit flag in the current TSO). If so, we don't want to stop again (this time), otherwise we'd get into an infinite loop. We record that we are no longer returning from a breakpoint, and then continue to the next BCI.
  2. If we aren't returning from a breakpoint, then we check to see if the global single-step flag is set, or if the individual breakpoint flag for the current expression is set. If this is true, we prepare to save the stack, and call the `onBreakAction`. If it is not true then we skip to the next BCI.
- 3. If we are going to stop at this breakpoint we create a new AP_STACK and copy the topmost stack frame into it. Then we push the current BCO onto the stack, and set up the `onBreakAction` so that when we come back to this thread the action will be executed. We then record that we are now stopping at a breakpoint, and then yield to the scheduler. When the scheduler returns to this thread the `onBreakAction` will be executed, which will send us back to the GHCi prompt.
- 
+ 3. If we are going to stop at this breakpoint, we create a new AP_STACK and copy the topmost stack frame into it. Then we push the current BCO onto the stack, and set up the `onBreakAction` so that when we come back to this thread the action will be executed. We then record that we are now stopping at a breakpoint, and then yield to the scheduler. When the scheduler returns to this thread the `onBreakAction` will be executed, which will send us back to the GHCi prompt.
+
+Here's how the stack is set up just prior to yielding:
+{{{
+    Sp -= 7;
+    Sp[6] = (W_)obj;
+    Sp[5] = (W_)&stg_apply_interp_info;
+    Sp[4] = (W_)new_aps;                 /* the AP_STACK */
+    Sp[3] = (W_)BCO_PTR(arg3_freeVars);  /* the info about local vars of the breakpoint */
+    Sp[2] = (W_)&stg_ap_ppv_info;
+    Sp[1] = (W_)ioAction;                /* apply the IO action to its two arguments above */
+    Sp[0] = (W_)&stg_enter_info;         /* get ready to run the IO action */
+}}}
+The first two things are the current BCO and an info table (what do you call these things anyway?). We need these so that when we eventually resume execution from a breakpoint we will start executing the currect BCO again. The next four things correspond to the call to the `onBreakAction`: with its arguments pused first, then an info table, then the action itself. `new_aps` is the AP_STACK which saves the topmost stack frame, and `arg3_freeVars` corresponds to the list of local variable names paired with their stack offsets. Note that (a pointer to) this list is stored in the "pointers" array in the BCO. `arg3_freeVars` is actually just an integer offset into that pointer array, and it is passed as the third argument of the `bci_BRK_FUN` instruction.
+
 
 === Inspecting values ===
 
