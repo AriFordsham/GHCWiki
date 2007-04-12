@@ -61,7 +61,7 @@ Continuting execution from a breakpoint:
 ### Starting the debugger
 
 
-The debugger is integrated with GHCi, and it is on by default. The debugger slows program execution down by a factor of approximately XXX times. You can turn it off (to avoid the slowdown) using the `-fno-debug` command line argument, when you start GHCi.
+The debugger is integrated with GHCi, and it is on by default. XXX Not true at the moment; you still have to use the -fhpc flag. The debugger slows program execution down by a factor of approximately XXX times. You can turn it off (to avoid the slowdown) using the XXX command line argument, when you start GHCi.
 
 ### Setting breakpoints
 
@@ -169,6 +169,9 @@ You can also delete all the active breakpoints by giving the asterisk as an argu
 ```wiki
    :delete *
 ```
+
+
+XXX I don't think the delete command actually turns the breakpoint off yet. Seems I forgot to do that. However, it does delete it, in the sense that ghci no longer prints it out when you ask to show the breakpoints.
 
 ### What happens when the debugger hits a breakpoint?
 
@@ -373,11 +376,11 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 ### Pending
 
-- Replace Loc with a proper source span type. (EASY)
+- Replace Loc with a proper source span type. Currently I use a quadruple of Ints to represent a source span. Hpc also has its own representations of spans, as does GHC. It would be nice if we all used the same one (namely the one in GHC). (EASY)
 
 - Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs". (MODERATE)
 
-- Fix the ghci help command. (EASY)
+- Fix the ghci help command. This can be done when we decide on the final syntax of the commands. (EASY)
 
 - Save/restore the link environment at breakpoints. At a breakpoint we modify both the hsc_env of the current Session, and also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a breakpoint and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc. (MODERATE)
 
@@ -385,9 +388,9 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 - Allow breakpoints to be set by function name. Some questions: what about local functions? What about functions inside type class instances, and default methods of classes? (MODERATE)
 
-- Support Unicode in data constructor names inside info tables. (MODERATE)
+- Support Unicode in data constructor names inside info tables. Actually this should just be a matter of using the underlying fast string in the occname. (MODERATE)
 
-- Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time. (MODERATE)
+- Fix the slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time. Simon: I currently re-build the tick tree for a module every time I set a breakpoint. This seems rather ugly. I think it would be better to keep the tick tree inside the ModInfo, and thus only build the ticktree when the module is (re)loaded. (MODERATE)
 
 - Use a primop for inspecting the STACK_AP, rather than a foreign C call. (MODERATE)
 
@@ -403,21 +406,21 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 ### Partially done
 
-- The delete command. It is fairly primitive, and probably not done in the best way. This will be fixed when the API is finalised.
+- The delete command. It is fairly primitive, and probably not done in the best way. This will be fixed when the API is finalised. (EASY)
 
-- Look at slow behaviour of :print command on long list of chars. I've asked Pepe about this, he has an idea of what the problem is and will be working on a solution soon.
+- Look at slow behaviour of :print command on long list of chars. I've asked Pepe about this, he has an idea of what the problem is and will be working on a solution soon. (MODERATE)
 
-- User documentation. You're looking at it. The user manual will have to move into the main GHC docs at some point.
+- User documentation. You're looking at it. The user manual will have to move into the main GHC docs at some point. (ONGOING)
 
 ### Tentative
 
-- Perhaps there are some redundant ticks we can delete, such as ones which begin at the same start position?
+- Perhaps there are some redundant ticks we can delete, such as ones which begin at the same start position? (MODERATE)
 
-- Allow breakpoints to be enabled and disabled without deleting them, as in gdb.
+- Allow breakpoints to be enabled and disabled without deleting them, as in gdb. (EASY)
 
-- Extend breaks and step with counters, so that we stop after N hits, rather than immediately.
+- Extend breaks and step with counters, so that we stop after N hits, rather than immediately. (EASY/MODERATE)
 
-- Revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks. I'm not sure that this is worth it. In some ways the implementation based on a byte code instruction is a little cleaner than adding breaks on BCOs directly. Though the bc instruction method may be a little slower than the other way.
+- Revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks. I'm not sure that this is worth it. In some ways the implementation based on a byte code instruction is a little cleaner than adding breaks on BCOs directly. Though the bc instruction method may be a little slower than the other way. (MODERATE/DIFFICULT)
 
 ---
 
