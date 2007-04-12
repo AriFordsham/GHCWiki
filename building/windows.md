@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Building/Windows"
-  queryString          = "?version=7"
+  queryString          = "?version=8"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:02:44 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","255"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Building/Windows\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:02:47 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","255"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Building/Windows\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -265,7 +265,7 @@ OK!
 Now go read the documentation above on building from source ([wiki:Building/QuickStart Quick start: just building and installing GHC]); 
 the bullets below only tell
 you about Windows-specific wrinkles.
- * If you used {{{autoconf}}} instead of {{{autoreconf}}},
+ * If you used {{{autoconf}}} instead of {{{sh boot}}},
    you'll get an error when you run {{{./configure}}}:
    {{{
 
@@ -277,15 +277,15 @@ running /bin/sh ./configure  --cache-file=.././config.cache --srcdir=.
 ./configure: ./configure: No such file or directory
 configure: error: ./configure failed for ghc
 }}}
- * {{{autoreconf}}} seems to create the file {{{configure}}}
-   read-only.  So if you need to run autoreconf again (which I sometimes do for safety's sake),
+ * {{{autoreconf}}} (which gets run by {{{sh boot}}}) seems to create the file {{{configure}}}
+   read-only.  So if you need to run {{{sh boot}}} again (which I sometimes do for safety's sake),
    you get
    {{{
 /usr/bin/autoconf: cannot create configure: permission denied
 }}}
    Solution: delete {{{configure}}} first.
- * After {{{autoreconf}}} run {{{./configure}}} in
-   {{{$(GHC&lowbar;TOP)/}}} thus:
+ * After {{{sh boot}}} run {{{./configure}}} in
+   {{{$(GHC_TOP)/}}} thus:
    {{{
 $ ./configure --host=i386-unknown-mingw32 --with-gcc=c:/mingw/bin/gcc
 }}}
@@ -399,7 +399,7 @@ choices, but it gives a single path that works.
     ; without, we pick up some cygwin tools at best!
   - cd c:/ghc-build
     ; (if you aren't there already)
-  - autoreconf
+  - sh boot
   - ./configure --host=i386-unknown-mingw32 --with-gcc=C:/Mingw/bin/gcc.exe
     ; we use cygwin, but build for windows
   - cp mk/build.mk.sample mk/build.mk
