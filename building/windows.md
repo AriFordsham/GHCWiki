@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/Building/Windows"
-  queryString          = "?version=8"
+  queryString          = "?version=9"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:02:47 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","255"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Building/Windows\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:02:50 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","255"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Building/Windows\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -287,7 +287,7 @@ configure: error: ./configure failed for ghc
  * After {{{sh boot}}} run {{{./configure}}} in
    {{{$(GHC_TOP)/}}} thus:
    {{{
-$ ./configure --host=i386-unknown-mingw32 --with-gcc=c:/mingw/bin/gcc
+$ ./configure --host=i386-unknown-mingw32 --with-gcc=c:/mingw/bin/gcc --with-ld=c:/mingw/bin/ld.exe
 }}}
    This is the point at which you specify that you are building GHC-mingw
    (see [wiki:Building/PlatformsScriptsFileNames#MinGW MinGW]). 
@@ -323,7 +323,7 @@ make: *** [all] Error 1
    If you want to build GHC-cygwin ([wiki:Building/PlatformsScriptsFileNames#MinGW MinGW])
    you'll have to do something more like:
    {{{
-$ ./configure --with-gcc=...the Cygwin gcc...
+$ ./configure --with-gcc=...the Cygwin gcc... --with-gcc=...the Cygwin ld.exe...
 }}}
  * If you are paranoid, delete {{{config.cache}}} if it exists.
    This file occasionally remembers out-of-date configuration information, which 
@@ -400,7 +400,7 @@ choices, but it gives a single path that works.
   - cd c:/ghc-build
     ; (if you aren't there already)
   - sh boot
-  - ./configure --host=i386-unknown-mingw32 --with-gcc=C:/Mingw/bin/gcc.exe
+  - ./configure --host=i386-unknown-mingw32 -with-gcc=C:/Mingw/bin/gcc.exe --with-ld=C:/Mingw/bin/ld.exe
     ; we use cygwin, but build for windows
   - cp mk/build.mk.sample mk/build.mk
   - in mk/build.mk:
@@ -430,7 +430,7 @@ This section collects typical failure cases, and what to do abouut them.
 
 When you run your configure script, it falls over with 
 {{{
-sh-2.04$ ./configure --with-gcc=c:/mingw/bin/gcc --host=i386-unknown-mingw32
+sh-2.04$ ./configure --with-gcc=c:/mingw/bin/gcc --with-ld=c:/mingw/bin/ld.exe --host=i386-unknown-mingw32
 configure: WARNING: If you wanted to set the --build type, don't use --host.
     If a cross compiler is detected then cross compile mode will be used.
 checking for GHC version date... -nThe system cannot find the file specified.
