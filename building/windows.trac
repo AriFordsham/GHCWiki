@@ -14,7 +14,7 @@ but you do need one or the other to ''build'' GHC.
 
 == Vista users ==
 
-If you're on Vista, first of all you need to disable "installer-detection", which causes strange things to happen for binaries called "setup.exe", amongst other things.  Go to `Start -> Run` and enter `selpol.msc`.  Then under `Security Settings -> Local Policies -> Security Options`,  disable `UAC: Detect application installations and prompt for elevation`.  Then reboot.
+If you're on Vista, first of all you need to disable "installer-detection", which causes strange things to happen for binaries called "setup.exe", amongst other things.  Go to `Start -> All Programs -> Accessories > Run` and enter `secpol.msc`.  Then under `Security Settings -> Local Policies -> Security Options`,  disable `UAC: Detect application installations and prompt for elevation`.  Then reboot.
 
 == Installing and configuring MSYS ==
 
