@@ -33,7 +33,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
  * Then the '''!CoreTidy pass''' gets the code into a form in which it can be imported into subsequent modules (when using {{{--make}}}) and/or put into an interface file.  
  
- It makes a difference whether or not you are using `-O` at this stage.  With `-O` (or rather, with `-fomit-interface-pragmas` which is a consequence of `-O`, the tidied program (produced by `tidyProgram`) has unfoldings for Ids, and RULES.  Without `-O` the unfoldings and RULES are omitted from the tidied program.  And that, in turn, affects the interface file generated subsequently.
+ It makes a difference whether or not you are using `-O` at this stage.  With `-O` (or rather, with `-fomit-interface-pragmas` which is a consequence of `-O`), the tidied program (produced by `tidyProgram`) has unfoldings for Ids, and RULES.  Without `-O` the unfoldings and RULES are omitted from the tidied program.  And that, in turn, affects the interface file generated subsequently.
 
  There are good notes at the top of the file [[GhcFile(compiler/main/TidyPgm.lhs)]]; the main function is {{{tidyProgram}}}, for some reason documented as "Plan B".
 
