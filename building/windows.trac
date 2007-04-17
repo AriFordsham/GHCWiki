@@ -302,7 +302,7 @@ make: *** [all] Error 1
    If you want to build GHC-cygwin ([wiki:Building/PlatformsScriptsFileNames#MinGW MinGW])
    you'll have to do something more like:
    {{{
-$ ./configure --with-gcc=...the Cygwin gcc... --with-gcc=...the Cygwin ld.exe...
+$ ./configure --with-gcc=...the Cygwin gcc... --with-ld=...the Cygwin ld.exe...
 }}}
  * If you are paranoid, delete {{{config.cache}}} if it exists.
    This file occasionally remembers out-of-date configuration information, which 
@@ -392,13 +392,9 @@ choices, but it gives a single path that works.
     ; always useful to have a log around
 
 - Package up binary distribution
-  - make binary-dist Project=Ghc 2>&amp;1 | tee make-bin-dist.log
+  - make binary-dist 2>&amp;1 | tee make-bin-dist.log
     ; always useful to have a log around
-  - cd ghc-6.5
-  - chmod +x ../distrib/prep-bin-dist-mingw
-    ; if you're happy with the script's contents (*)
-  - ../distrib/prep-bin-dist-mingw
-    ; then tar up, unpack where wanted, and enjoy
+  - unpack ghc-<version>-i386-unknown-mingw32.tar.bz2 somewhere in your filesystem...
 }}}
 
 == What to look for if your build fails ==
