@@ -3,7 +3,7 @@
 
 = Report of the implementation of the GHCi debugger =
 
-UPDATE: We have prepared a higher level technical report about this work. A [http://darcs.haskell.org/SoC/ghc.debugger.paper/draft.pdf draft] is available.
+UPDATE: We have prepared a higher level technical report about this work, available [http://www.dsic.upv.es/mapa/ingles/informesinv.pl?any=2007 here].
 
 During the Summer of 2006 [mailto:mnislaih@gmail.com I] have been working on this project sponsorized by the[http://code.google.com/soc Google SoC] initiative. My mentors were Simon Marlow and David Himmelstrup (lemmih).
 
