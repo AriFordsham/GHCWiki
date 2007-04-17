@@ -69,4 +69,44 @@ inc :: Num a => CConv (a -> a)
 -- OR
 inc :: Num (CConv a) => CConv (a -> a)
 }}}
-As closure conversion happens on Core code, we need to be careful, as the context is not visible as such in the ''core view'' of types.
+As closure conversion happens on Core code, we need to be careful, as the context is not visible as such in the ''core view'' of types.  (An alternative view point is that as closure conversion happens on Core, we don't want to treat dictionaries specially.  However, interface files contain the ''source view''  of a signature, so we need to deal with closure conversion of contexts in some way, independent of whether we use associated types...unless we manage to keep closure conversion entirely out of interface files.)
+
+=== Contexts: 2. implicit `CC` contexts ===
+
+Our main problem right now is the following.  If we have 
+{{{
+foo :: tau
+foo = e
+}}}
+we want to generate
+{{{
+foo = fr fooCC
+
+fooCC :: CConv tau
+fooCC = <convert> [[e]]
+}}}
+
+Unfortunately, this is not type correct if `tau` contains type variables; e.g.,
+{{{
+id :: a -> a
+id = \x -> x
+}}}
+generates
+{{{
+id = fr idCC
+
+idCC :: CConv (a -> a)
+idCC = ...
+}}}
+as we now have `id :: CC a => a -> a`.
+
+=== Additional notes ===
+
+When we closure convert a module `B`, importing functions from a module `A`, we may be able to completely ignore whether `B` was closure converted itself (that would simplify matters enormously!)  The idea is that if `B` wants to use a function `A.foo` in closure converted code, it simply uses `(to A.foo)`.  If `A` is closure converted, we will have `A.foo = fr A.fooCC`.  Now a simple rewrite rule can eliminate the back and forth conversion (after inlining):
+{{{
+{-# RULES
+"to/fr" forall f. to (fr f) = f
+ #-}
+}}}
+
+We still have to now whether a client module was closure converted to optimise the treatment of data constructors.  Otherwise, we would have to apply `fr` to every scrutinee of a case expression (and `to` to all variables bound in a case branch).
