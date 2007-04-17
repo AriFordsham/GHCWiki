@@ -1,351 +1,366 @@
-CONVERSION ERROR
+# Instructions for building under Windows
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Building/Windows"
-  queryString          = "?version=9"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:02:50 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","255"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Building/Windows\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-Original source:
-
-```trac
-
-[[PageOutline]]
-
-= Instructions for building under Windows =
 This section gives detailed instructions for how to build 
 GHC from source on your Windows machine. Similar instructions for
 installing and running GHC may be found in the user guide. In general,
 Win95/Win98 behave the same, and WinNT/Win2k behave the same.
 
-Make sure you read the preceding section on [wiki:Building/PlatformsScriptsFileNames platforms]
+
+Make sure you read the preceding section on [platforms](building/platforms-scripts-file-names)
 before reading section.
-You don't need Cygwin or MSYS to ''use'' GHC, 
-but you do need one or the other to ''build'' GHC.
+You don't need Cygwin or MSYS to *use* GHC, 
+but you do need one or the other to *build* GHC.
 
-== Vista users ==
+## Vista users
 
-If you're on Vista, first of all you need to disable "installer-detection", which causes strange things to happen for binaries called "setup.exe", amongst other things.  Go to `Start -> Run` and enter `selpol.msc`.  Then under `Security Settings -> Local Policies -> Security Options`,  disable `UAC: Detect application installations and prompt for elevation`.  Then reboot.
 
-== Installing and configuring MSYS ==
+If you're on Vista, first of all you need to disable "installer-detection", which causes strange things to happen for binaries called "setup.exe", amongst other things.  Go to `Start -> All Programs -> Accessories > Run` and enter `secpol.msc`.  Then under `Security Settings -> Local Policies -> Security Options`,  disable `UAC: Detect application installations and prompt for elevation`.  Then reboot.
+
+## Installing and configuring MSYS
+
 
 MSYS is a lightweight alternative to Cygwin.  
-You don't need MSYS to ''use'' GHC, 
-but you do need it or Cygwin to ''build'' GHC.
+You don't need MSYS to *use* GHC, 
+but you do need it or Cygwin to *build* GHC.
 Here's how to install MSYS.
- * Go to [http://www.mingw.org/download.shtml] and 
-   download the following (of course, the version numbers will differ):
-    * The main MSYS package (binary is sufficient): {{{MSYS-1.0.9.exe}}}
-    * The MSYS developer's toolkit (binary is sufficient): {{{msysDTK-1.0.1.exe}}}.
-      This provides {{{make}}}, {{{autoconf}}}, 
-      {{{ssh}}} and probably more besides.
-   Run both executables (in the order given above) to install them.  I put them in {{{c:/msys}}}
- * Set the following environment variables
-    * {{{PATH}}}: add {{{c:/msys/1.0/bin}}} and 
-      {{{c:/msys/1.0/local/bin}}}
-      to your path.  (Of course, the version number may differ.)
-      MSYS mounts the former as both {{{/bin}}} and 
-      {{{/usr/bin}}} and the latter as {{{/usr/local/bin}}}. Make sure that the Windows paths (e.g. `C:/WINDOWS/System32`) are ''after'' the MSYS paths in your `PATH` variable.
-    * {{{HOME}}}: set to your home directory (e.g. {{{c:/userid}}}).  
-      This is where, among other things, {{{ssh}}} will look for your {{{.ssh}}} directory.
-    * {{{SHELL}}}: set to {{{c:/msys/1.0/bin/sh.exe}}}
- * Check that the {{{CYGWIN}}} environment variable is ''not'' set.  It's a bad bug
-   that MSYS is affected by this, but if you have CYGWIN set to "ntsec ntea", which is right for Cygwin, it
-   causes the MSYS {{{ssh}}} to bogusly fail complaining that your {{{.ssh/identity}}}
-   file has too-liberal permissinos.
+
+- Go to [ http://www.mingw.org/download.shtml](http://www.mingw.org/download.shtml) and 
+  download the following (of course, the version numbers will differ):
+
+  - The main MSYS package (binary is sufficient): `MSYS-1.0.9.exe`
+  - The MSYS developer's toolkit (binary is sufficient): `msysDTK-1.0.1.exe`.
+    This provides `make`, `autoconf`, 
+    `ssh` and probably more besides.
+
+  Run both executables (in the order given above) to install them.  I put them in `c:/msys`
+- Set the following environment variables
+
+  - `PATH`: add `c:/msys/1.0/bin` and 
+    `c:/msys/1.0/local/bin`
+    to your path.  (Of course, the version number may differ.)
+    MSYS mounts the former as both `/bin` and 
+    `/usr/bin` and the latter as `/usr/local/bin`. Make sure that the Windows paths (e.g. `C:/WINDOWS/System32`) are *after* the MSYS paths in your `PATH` variable.
+  - `HOME`: set to your home directory (e.g. `c:/userid`).  
+    This is where, among other things, `ssh` will look for your `.ssh` directory.
+  - `SHELL`: set to `c:/msys/1.0/bin/sh.exe`
+- Check that the `CYGWIN` environment variable is *not* set.  It's a bad bug
+  that MSYS is affected by this, but if you have CYGWIN set to "ntsec ntea", which is right for Cygwin, it
+  causes the MSYS `ssh` to bogusly fail complaining that your `.ssh/identity`
+  file has too-liberal permissinos.
+
 
 Here are some points to bear in mind when using MSYS:
- * MSYS does some kind of special magic to binaries stored in 
-   {{{/bin}}} and {{{/usr/bin}}}, which are by default both mapped
-   to {{{c:/msys/1.0/bin}}} (assuming you installed MSYS in {{{c:/msys}}}).
-   Do not put any other binaries (such as GHC or Alex) in this directory or its sub-directories: 
-   they fail in mysterious ways.  However, it's fine to put other binaries in {{{/usr/local/bin}}},
-   which maps to {{{c:/msys/1.0/local/bin}}}.
 
-== Installing and configuring Cygwin ==
+- MSYS does some kind of special magic to binaries stored in 
+  `/bin` and `/usr/bin`, which are by default both mapped
+  to `c:/msys/1.0/bin` (assuming you installed MSYS in `c:/msys`).
+  Do not put any other binaries (such as GHC or Alex) in this directory or its sub-directories: 
+  they fail in mysterious ways.  However, it's fine to put other binaries in `/usr/local/bin`,
+  which maps to `c:/msys/1.0/local/bin`.
 
-Install Cygwin from [http://www.cygwin.com/].
+## Installing and configuring Cygwin
+
+
+Install Cygwin from [ http://www.cygwin.com/](http://www.cygwin.com/).
 The installation process is straightforward; we install it in
-{{{c:/cygwin}}}.
+`c:/cygwin`.
 
-You must install enough Cygwin ''packages'' to support
+
+You must install enough Cygwin *packages* to support
 building GHC.  If you miss out any of these, strange things will happen to you.   There are two ways to do this:
- * The direct, but laborious way is to 
-   select all of the following packages in the installation dialogue:
-   {{{cvs}}}, 
-   {{{openssh}}},
-   {{{autoconf}}},
-   {{{binutils}}} (includes ld and (I think) ar),
-   {{{gcc}}},
-   {{{flex}}},
-   {{{make}}}.
-   To see these packages, 
-   click on the "View" button in the "Select Packages" 
-   stage of Cygwin's installation dialogue, until the view says "Full".  The default view, which is
-   "Category" isn't very helpful, and the "View" button is rather unobtrousive.
- * The clever way is to point the Cygwin installer at the
-   {{{ghc-depends}}} package, which is kept at
-   [http://haskell.org/ghc/cygwin].
-   When the Cygwin installer asks you to "Choose a Download Site", choose one of
-   the
-   offered mirror sites; and then type "http://haskell.org/ghc/cygwin" into the
-   "User URL" box and click "Add"; now two sites are selected. (The Cygwin
-   installer remembers this for next time.)
-   Click "Next".
-   [[br]]
-   In the "Select Packages" dialogue box that follows, click the "+" sign by
-   "Devel", scroll down to the end of the "Devel" packages, and choose
-   {{{ghc-depends}}}.
-   The package {{{ghc-depends}}} will not actually install anything itself, 
-   but forces additional packages to be added by the Cygwin installer.
+
+- The direct, but laborious way is to 
+  select all of the following packages in the installation dialogue:
+  `cvs`, 
+  `openssh`,
+  `autoconf`,
+  `binutils` (includes ld and (I think) ar),
+  `gcc`,
+  `flex`,
+  `make`.
+  To see these packages, 
+  click on the "View" button in the "Select Packages" 
+  stage of Cygwin's installation dialogue, until the view says "Full".  The default view, which is
+  "Category" isn't very helpful, and the "View" button is rather unobtrousive.
+- The clever way is to point the Cygwin installer at the
+  `ghc-depends` package, which is kept at
+  [ http://haskell.org/ghc/cygwin](http://haskell.org/ghc/cygwin).
+  When the Cygwin installer asks you to "Choose a Download Site", choose one of
+  the
+  offered mirror sites; and then type "[ http://haskell.org/ghc/cygwin](http://haskell.org/ghc/cygwin)" into the
+  "User URL" box and click "Add"; now two sites are selected. (The Cygwin
+  installer remembers this for next time.)
+  Click "Next".
+
+  In the "Select Packages" dialogue box that follows, click the "+" sign by
+  "Devel", scroll down to the end of the "Devel" packages, and choose
+  `ghc-depends`.
+  The package `ghc-depends` will not actually install anything itself, 
+  but forces additional packages to be added by the Cygwin installer.
+
 
 Now set the following user environment variables:
- * Add {{{c:/cygwin/bin}}} and {{{c:/cygwin/usr/bin}}} to your 
-   {{{PATH}}}
- * Set {{{MAKE_MODE}}} to {{{UNIX}}}. If you
-   don't do this you get very weird messages when you type
-   {{{make}}}, such as:
-   {{{
-/c: /c: No such file or directory
-}}}
- * Set {{{SHELL}}} to
-   {{{c:/cygwin/bin/bash}}}. When you invoke a shell in Emacs, this
-   {{{SHELL}}} is what you get.
- * Set {{{HOME}}} to point to your 
-   home directory.  This is where, for example,
-   {{{bash}}} will look for your {{{.bashrc}}}
-   file.  Ditto {{{emacs}}} looking for {{{.emacsrc}}}
+
+- Add `c:/cygwin/bin` and `c:/cygwin/usr/bin` to your 
+  `PATH`
+- Set `MAKE_MODE` to `UNIX`. If you
+  don't do this you get very weird messages when you type
+  `make`, such as:
+
+  ```wiki
+  /c: /c: No such file or directory
+  ```
+- Set `SHELL` to
+  `c:/cygwin/bin/bash`. When you invoke a shell in Emacs, this
+  `SHELL` is what you get.
+- Set `HOME` to point to your 
+  home directory.  This is where, for example,
+  `bash` will look for your `.bashrc`
+  file.  Ditto `emacs` looking for `.emacsrc`
+
 
 Here are some things to be aware of when using Cygwin:
- * Cygwin doesn't deal well with filenames that include
-   spaces. "{{{Program Files}}}" and "{{{Local files}}}" are
-   common gotchas.
- * Cygwin implements a symbolic link as a text file with some
-   magical text in it.  So other programs that don't use Cygwin's
-   I/O libraries won't recognise such files as symlinks.  
-   In particular, programs compiled by GHC are meant to be runnable
-   without having Cygwin, so they don't use the Cygwin library, so
-   they don't recognise symlinks.
- * See the notes in [[ref(Installing and configuring MSYS)]] about {{{find}}} and {{{bzip}}},
-   which apply to Cygwin too.
- * Some script files used in the make system start with "{{{#!/bin/perl}}}",
-   (and similarly for {{{sh}}}).  Notice the hardwired path!
-   So you need to ensure that your {{{/bin}}} directory has at least
-   {{{sh}}}, {{{perl}}}, and {{{cat}}} in it.
-   All these come in Cygwin's {{{bin}}} directory, which you probably have
-   installed as {{{c:/cygwin/bin}}}.  By default Cygwin mounts "{{{/}}}" as
-   {{{c:/cygwin}}}, so if you just take the defaults it'll all work ok.
-   (You can discover where your Cygwin
-   root directory {{{/}}} is by typing {{{mount}}}.)
-   Provided {{{/bin}}} points to the Cygwin {{{bin}}}
-   directory, there's no need to copy anything.  If not, copy these binaries from the {{{cygwin/bin}}}
-   directory (after fixing the {{{sh.exe}}} stuff mentioned in the previous bullet).
- * By default, cygwin provides the command shell {{{ash}}}
-   as {{{sh.exe}}}.   It seems to be fine now, but in the past we
-   saw build-system problems that turned out to be due to bugs in {{{ash}}}
-   (to do with quoting and length of command lines).  On the other hand {{{bash}}} seems
-   to be rock solid.
-   If this happens to you (which it shouldn't), in {{{cygwin/bin}}}
-   remove the supplied {{{sh.exe}}} (or rename it as {{{ash.exe}}}),
-   and copy {{{bash.exe}}} to  {{{sh.exe}}}.
-   You'll need to do this in Windows Explorer or the Windows {{{cmd}}} shell, because
-   you can't rename a running program!
 
-== Configuring SSH ==
+- Cygwin doesn't deal well with filenames that include
+  spaces. "`Program Files`" and "`Local files`" are
+  common gotchas.
+- Cygwin implements a symbolic link as a text file with some
+  magical text in it.  So other programs that don't use Cygwin's
+  I/O libraries won't recognise such files as symlinks.  
+  In particular, programs compiled by GHC are meant to be runnable
+  without having Cygwin, so they don't use the Cygwin library, so
+  they don't recognise symlinks.
+- See the notes in [Installing and configuring MSYS](#InstallingandconfiguringMSYS) about `find` and `bzip`,
+  which apply to Cygwin too.
+- Some script files used in the make system start with "`#!/bin/perl`",
+  (and similarly for `sh`).  Notice the hardwired path!
+  So you need to ensure that your `/bin` directory has at least
+  `sh`, `perl`, and `cat` in it.
+  All these come in Cygwin's `bin` directory, which you probably have
+  installed as `c:/cygwin/bin`.  By default Cygwin mounts "`/`" as
+  `c:/cygwin`, so if you just take the defaults it'll all work ok.
+  (You can discover where your Cygwin
+  root directory `/` is by typing `mount`.)
+  Provided `/bin` points to the Cygwin `bin`
+  directory, there's no need to copy anything.  If not, copy these binaries from the `cygwin/bin`
+  directory (after fixing the `sh.exe` stuff mentioned in the previous bullet).
+- By default, cygwin provides the command shell `ash`
+  as `sh.exe`.   It seems to be fine now, but in the past we
+  saw build-system problems that turned out to be due to bugs in `ash`
+  (to do with quoting and length of command lines).  On the other hand `bash` seems
+  to be rock solid.
+  If this happens to you (which it shouldn't), in `cygwin/bin`
+  remove the supplied `sh.exe` (or rename it as `ash.exe`),
+  and copy `bash.exe` to  `sh.exe`.
+  You'll need to do this in Windows Explorer or the Windows `cmd` shell, because
+  you can't rename a running program!
 
-{{{ssh}}} comes with both Cygwin and MSYS. 
-(Cygwin note: you need to ask for package {{{openssh}}} (not ssh)
-in the Cygwin list of packages; or use the {{{ghc-depends}}}
-package -- see [[ref(Installing and configuring Cygwin)]].)
+## Configuring SSH
 
-There are several strange things about {{{ssh}}} on Windows that you need to know.
- * The programs {{{ssh-keygen1}}}, {{{ssh1}}}, and {{{cvs}}},
-   seem to lock up {{{bash}}} entirely if they try to get user input (e.g. if
-   they ask for a password).  To solve this, start up {{{cmd.exe}}} 
-   and run it as follows:
-   {{{
-c:\tmp> set CYGWIN32=tty
-c:\tmp> c:/user/local/bin/ssh-keygen1
-}}} 
- * (Cygwin-only problem, I think.)
-   {{{ssh}}} needs to access your directory {{{.ssh}}}, in your home directory.  
-   To determine your home directory {{{ssh}}} first looks in 
-   {{{c:/cygwin/etc/passwd}}} (or wherever you have Cygwin installed).  If there's an entry
-   there with your userid, it'll use that entry to determine your home directory, ''ignoring
-   the setting of the environment variable $HOME''.  If the home directory is
-   bogus, {{{ssh}}} fails horribly.   The best way to see what is going on is to say
-   {{{
-ssh -v cvs.haskell.org
-}}}
-   which makes {{{ssh}}} print out information about its activity.
-   [[br]]
-   You can fix this problem, either by correcting the home-directory field in 
-   {{{c:/cygwin/etc/passwd}}}, or by simply deleting the entire entry for your userid. If
-   you do that, {{{ssh}}} uses the $HOME environment variable instead.
- * To protect your
-   {{{.ssh}}} from access by anyone else,
-   right-click your {{{.ssh}}} directory, and
-   select {{{Properties}}}.  If you are not on
-   the access control list, add yourself, and give yourself
-   full permissions (the second panel).  Remove everyone else
-   from the access control list.  Don't leave them there but
-   deny them access, because 'they' may be a list that
-   includes you!
- * In fact {{{ssh}}} 3.6.1 now seems to ''require''
-   you to have Unix permissions 600 (read/write for owner only) 
-   on the {{{.ssh/identity}}} file, else it 
-   bombs out.  For your local C drive, it seems that {{{chmod 600 identity}}} works,
-   but on Windows NT/XP, it doesn't work on a network drive (exact dteails obscure).  
-   The solution seems to be to set the {{{$CYGWIN}}} environment
-   variable to "{{{ntsec neta}}}".  The {{{$CYGWIN}}} environment variable is discussed
-   in [http://cygwin.com/cygwin-ug-net/using-cygwinenv.html the Cygwin User's Guide],
-   and there are more details in [http://cygwin.com/faq/faq_4.html#SEC44 the Cygwin FAQ].
+`ssh` comes with both Cygwin and MSYS. 
+(Cygwin note: you need to ask for package `openssh` (not ssh)
+in the Cygwin list of packages; or use the `ghc-depends`
+package -- see [Installing and configuring Cygwin](#InstallingandconfiguringCygwin).)
 
-== Other things you need to install ==
+
+There are several strange things about `ssh` on Windows that you need to know.
+
+- The programs `ssh-keygen1`, `ssh1`, and `cvs`,
+  seem to lock up `bash` entirely if they try to get user input (e.g. if
+  they ask for a password).  To solve this, start up `cmd.exe` 
+  and run it as follows:
+
+  ```wiki
+  c:\tmp> set CYGWIN32=tty
+  c:\tmp> c:/user/local/bin/ssh-keygen1
+  ```
+- (Cygwin-only problem, I think.)
+  `ssh` needs to access your directory `.ssh`, in your home directory.  
+  To determine your home directory `ssh` first looks in 
+  `c:/cygwin/etc/passwd` (or wherever you have Cygwin installed).  If there's an entry
+  there with your userid, it'll use that entry to determine your home directory, *ignoring
+  the setting of the environment variable $HOME*.  If the home directory is
+  bogus, `ssh` fails horribly.   The best way to see what is going on is to say
+
+  ```wiki
+  ssh -v cvs.haskell.org
+  ```
+
+  which makes `ssh` print out information about its activity.
+
+  You can fix this problem, either by correcting the home-directory field in 
+  `c:/cygwin/etc/passwd`, or by simply deleting the entire entry for your userid. If
+  you do that, `ssh` uses the $HOME environment variable instead.
+- To protect your
+  `.ssh` from access by anyone else,
+  right-click your `.ssh` directory, and
+  select `Properties`.  If you are not on
+  the access control list, add yourself, and give yourself
+  full permissions (the second panel).  Remove everyone else
+  from the access control list.  Don't leave them there but
+  deny them access, because 'they' may be a list that
+  includes you!
+- In fact `ssh` 3.6.1 now seems to *require*
+  you to have Unix permissions 600 (read/write for owner only) 
+  on the `.ssh/identity` file, else it 
+  bombs out.  For your local C drive, it seems that `chmod 600 identity` works,
+  but on Windows NT/XP, it doesn't work on a network drive (exact dteails obscure).  
+  The solution seems to be to set the `$CYGWIN` environment
+  variable to "`ntsec neta`".  The `$CYGWIN` environment variable is discussed
+  in [ the Cygwin User's Guide](http://cygwin.com/cygwin-ug-net/using-cygwinenv.html),
+  and there are more details in [ the Cygwin FAQ](http://cygwin.com/faq/faq_4.html#SEC44).
+
+## Other things you need to install
+
 
 You have to install the following other things to build GHC, listed below.
 
+
 On Windows you often install executables in directories with spaces, such as 
-"{{{Program Files}}}". However, the {{{make}}} system doesn't 
+"`Program Files`". However, the `make` system doesn't 
 deal with this situation (it'd have to do more quoting of binaries), so you are strongly advised
 to put binaries for all tools in places with no spaces in their path.
 On both MSYS and Cygwin, it's perfectly OK to install such programs in the standard Unixy places,
-{{{/usr/local/bin}}} and {{{/usr/local/lib}}}.  But it doesn't matter,
+`/usr/local/bin` and `/usr/local/lib`.  But it doesn't matter,
 provided they are in your path.
- * Install an executable GHC, from [http://www.haskell.org/ghc].
-   This is what you will use to compile GHC.  Add it in your
-   {{{PATH}}}: the installer tells you the path element
-   you need to add upon completion.
- * Install an executable Happy, from [http://www.haskell.org/happy].
- * Install an executable Alex, froim [http://www.haskell.org/alex].
- * GHC uses the ''mingw'' C compiler to
-   generate code, so you have to install that (see [wiki:Building/PlatformsScriptsFileNames#Windowsplatforms:CygwinMSYSandMinGW Windows platforms: Cygwin, MSYS, and MinGW]). 
-   Just pick up a mingw bundle at
-   [http://www.mingw.org/].
-   We install it in {{{c:/mingw}}}.
-   [[br]]
-   ''On MSYS'', add {{{c:/mingw/bin}}} to your PATH. MSYS does not provide {{{gcc}}},
-   {{{ld}}}, {{{ar}}}, and so on, because it just uses the MinGW ones.  So you need them
-   in your path.
-   [[br]]
-   ''On Cygwin, do not'' add any of the ''mingw'' binaries to your  path.
-   They are only going to get used by explicit access (via the --with-gcc flag you
-   give to {{{configure}}} later).  If you do add them to your path
-   you are likely to get into a mess because their names overlap with Cygwin
-   binaries.
-   On the other hand, you ''do'' need {{{ld}}}, {{{ar}}}
-   (and perhaps one or two other things) in your path.  The Cygwin ones are fine,
-   but you must have them; hence needing the  Cygwin binutils package.
- * We use {{{emacs}}} a lot, so we install that too.
-   When you are in {{{$(GHC&lowbar;TOP)/compiler}}}, you can use
-   "{{{make tags}}}" to make a TAGS file for emacs.  That uses the utility
-   {{{$(GHC&lowbar;TOP)/ghc/utils/hasktags/hasktags}}}, so you need to make that first.
-   The most convenient way to do this is by going {{{make boot}}} in {{{$(GHC&lowbar;TOP)/ghc}}}.
-   The {{{make tags}}} command also uses {{{etags}}}, which comes with {{{emacs}}},
-   so you will need to add {{{emacs/bin}}} to your {{{PATH}}}.
- * You might want to install GLUT in your MSYS/Cygwin
-   installation, otherwise the GLUT package will not be built with
-   GHC.
- * Finally, check out a copy of GHC sources from
-   the darcs repository, following the instructions at [http://hackage.haskell.org/trac/ghc/wiki/GhcDarcs].
 
-== Building GHC ==
+- Install an executable GHC, from [ http://www.haskell.org/ghc](http://www.haskell.org/ghc).
+  This is what you will use to compile GHC.  Add it in your
+  `PATH`: the installer tells you the path element
+  you need to add upon completion.
+- Install an executable Happy, from [ http://www.haskell.org/happy](http://www.haskell.org/happy).
+- Install an executable Alex, froim [ http://www.haskell.org/alex](http://www.haskell.org/alex).
+- GHC uses the *mingw* C compiler to
+  generate code, so you have to install that (see [Windows platforms: Cygwin, MSYS, and MinGW](building/platforms-scripts-file-names#)). 
+  Just pick up a mingw bundle at
+  [ http://www.mingw.org/](http://www.mingw.org/).
+  We install it in `c:/mingw`.
+  *On MSYS*, add `c:/mingw/bin` to your PATH. MSYS does not provide `gcc`,
+  `ld`, `ar`, and so on, because it just uses the MinGW ones.  So you need them
+  in your path.
+  *On Cygwin, do not* add any of the *mingw* binaries to your  path.
+  They are only going to get used by explicit access (via the --with-gcc flag you
+  give to `configure` later).  If you do add them to your path
+  you are likely to get into a mess because their names overlap with Cygwin
+  binaries.
+  On the other hand, you *do* need `ld`, `ar`
+  (and perhaps one or two other things) in your path.  The Cygwin ones are fine,
+  but you must have them; hence needing the  Cygwin binutils package.
+- We use `emacs` a lot, so we install that too.
+  When you are in `$(GHC&lowbar;TOP)/compiler`, you can use
+  "`make tags`" to make a TAGS file for emacs.  That uses the utility
+  `$(GHC&lowbar;TOP)/ghc/utils/hasktags/hasktags`, so you need to make that first.
+  The most convenient way to do this is by going `make boot` in `$(GHC&lowbar;TOP)/ghc`.
+  The `make tags` command also uses `etags`, which comes with `emacs`,
+  so you will need to add `emacs/bin` to your `PATH`.
+- You might want to install GLUT in your MSYS/Cygwin
+  installation, otherwise the GLUT package will not be built with
+  GHC.
+- Finally, check out a copy of GHC sources from
+  the darcs repository, following the instructions at [ http://hackage.haskell.org/trac/ghc/wiki/GhcDarcs](http://hackage.haskell.org/trac/ghc/wiki/GhcDarcs).
+
+## Building GHC
+
 
 OK!  
-Now go read the documentation above on building from source ([wiki:Building/QuickStart Quick start: just building and installing GHC]); 
+Now go read the documentation above on building from source ([Quick start: just building and installing GHC](building/quick-start)); 
 the bullets below only tell
 you about Windows-specific wrinkles.
- * If you used {{{autoconf}}} instead of {{{sh boot}}},
-   you'll get an error when you run {{{./configure}}}:
-   {{{
 
-...lots of stuff...
-creating mk/config.h
-mk/config.h is unchanged
-configuring in ghc
-running /bin/sh ./configure  --cache-file=.././config.cache --srcdir=.
-./configure: ./configure: No such file or directory
-configure: error: ./configure failed for ghc
-}}}
- * {{{autoreconf}}} (which gets run by {{{sh boot}}}) seems to create the file {{{configure}}}
-   read-only.  So if you need to run {{{sh boot}}} again (which I sometimes do for safety's sake),
-   you get
-   {{{
-/usr/bin/autoconf: cannot create configure: permission denied
-}}}
-   Solution: delete {{{configure}}} first.
- * After {{{sh boot}}} run {{{./configure}}} in
-   {{{$(GHC_TOP)/}}} thus:
-   {{{
-$ ./configure --host=i386-unknown-mingw32 --with-gcc=c:/mingw/bin/gcc --with-ld=c:/mingw/bin/ld.exe
-}}}
-   This is the point at which you specify that you are building GHC-mingw
-   (see [wiki:Building/PlatformsScriptsFileNames#MinGW MinGW]). 
-   [[br]]
-   Both these options are important! It's possible to get into
-   trouble using the wrong C compiler!
-   [[br]]
-   Furthermore, it's ''very important'' that you specify a 
-   full MinGW path for {{{gcc}}}, not a Cygwin path, because GHC (which
-   uses this path to invoke {{{gcc}}}) is a MinGW program and won't
-   understand a Cygwin path.  For example, if you 
-   say {{{--with-gcc=/mingw/bin/gcc}}}, it'll be interpreted as
-   {{{/cygdrive/c/mingw/bin/gcc}}}, and GHC will fail the first
-   time it tries to invoke it.   Worse, the failure comes with
-   no error message whatsoever.  GHC simply fails silently when first invoked, 
-   typically leaving you with this:
-   {{{
-make[4]: Leaving directory `/cygdrive/e/ghc-stage1/ghc/rts/gmp'
-../../ghc/compiler/ghc-inplace -optc-mno-cygwin -optc-O 
--optc-Wall -optc-W -optc-Wstrict-prototypes -optc-Wmissing-prototypes 
--optc-Wmissing-declarations -optc-Winline -optc-Waggregate-return 
--optc-Wbad-function-cast -optc-Wcast-align -optc-I../includes 
--optc-I. -optc-Iparallel -optc-DCOMPILING_RTS 
--optc-fomit-frame-pointer -O2 -static 
--package-name rts -O -dcore-lint -c Adjustor.c -o Adjustor.o
-make[2]: *** [Adjustor.o] Error 1
-make[1]: *** [all] Error 1
-make[1]: Leaving directory `/cygdrive/e/ghc-stage1/ghc'
-make: *** [all] Error 1
-}}}
-   Be warned!
-   [[br]]
-   If you want to build GHC-cygwin ([wiki:Building/PlatformsScriptsFileNames#MinGW MinGW])
-   you'll have to do something more like:
-   {{{
-$ ./configure --with-gcc=...the Cygwin gcc... --with-gcc=...the Cygwin ld.exe...
-}}}
- * If you are paranoid, delete {{{config.cache}}} if it exists.
-   This file occasionally remembers out-of-date configuration information, which 
-   can be really confusing.
- * You almost certainly want to set
-   {{{
-SplitObjs = NO
-}}}
-   in your {{{build.mk}}} configuration file (see [wiki:Building/Using#Gettingthebuildyouwant Getting the build you want]).
-   This tells the build system not to split each library into a myriad of little object files, one
-   for each function.  Doing so reduces binary sizes for statically-linked binaries, but on Windows
-   it dramatically increases the time taken to build the libraries in the first place.
- * Do not attempt to build the documentation.
-   It needs all kinds of wierd Jade stuff that we haven't worked out for
-   Win32.
+- If you used `autoconf` instead of `sh boot`,
+  you'll get an error when you run `./configure`:
 
-== A Windows build log using Cygwin ==
+  ```wiki
+
+  ...lots of stuff...
+  creating mk/config.h
+  mk/config.h is unchanged
+  configuring in ghc
+  running /bin/sh ./configure  --cache-file=.././config.cache --srcdir=.
+  ./configure: ./configure: No such file or directory
+  configure: error: ./configure failed for ghc
+  ```
+- `autoreconf` (which gets run by `sh boot`) seems to create the file `configure`
+  read-only.  So if you need to run `sh boot` again (which I sometimes do for safety's sake),
+  you get
+
+  ```wiki
+  /usr/bin/autoconf: cannot create configure: permission denied
+  ```
+
+  Solution: delete `configure` first.
+- After `sh boot` run `./configure` in
+  `$(GHC_TOP)/` thus:
+
+  ```wiki
+  $ ./configure --host=i386-unknown-mingw32 --with-gcc=c:/mingw/bin/gcc --with-ld=c:/mingw/bin/ld.exe
+  ```
+
+  This is the point at which you specify that you are building GHC-mingw
+  (see [MinGW](building/platforms-scripts-file-names#mingw)). 
+
+  Both these options are important! It's possible to get into
+  trouble using the wrong C compiler!
+
+  Furthermore, it's *very important* that you specify a 
+  full MinGW path for `gcc`, not a Cygwin path, because GHC (which
+  uses this path to invoke `gcc`) is a MinGW program and won't
+  understand a Cygwin path.  For example, if you 
+  say `--with-gcc=/mingw/bin/gcc`, it'll be interpreted as
+  `/cygdrive/c/mingw/bin/gcc`, and GHC will fail the first
+  time it tries to invoke it.   Worse, the failure comes with
+  no error message whatsoever.  GHC simply fails silently when first invoked, 
+  typically leaving you with this:
+
+  ```wiki
+  make[4]: Leaving directory `/cygdrive/e/ghc-stage1/ghc/rts/gmp'
+  ../../ghc/compiler/ghc-inplace -optc-mno-cygwin -optc-O 
+  -optc-Wall -optc-W -optc-Wstrict-prototypes -optc-Wmissing-prototypes 
+  -optc-Wmissing-declarations -optc-Winline -optc-Waggregate-return 
+  -optc-Wbad-function-cast -optc-Wcast-align -optc-I../includes 
+  -optc-I. -optc-Iparallel -optc-DCOMPILING_RTS 
+  -optc-fomit-frame-pointer -O2 -static 
+  -package-name rts -O -dcore-lint -c Adjustor.c -o Adjustor.o
+  make[2]: *** [Adjustor.o] Error 1
+  make[1]: *** [all] Error 1
+  make[1]: Leaving directory `/cygdrive/e/ghc-stage1/ghc'
+  make: *** [all] Error 1
+  ```
+
+  Be warned!
+
+  If you want to build GHC-cygwin ([MinGW](building/platforms-scripts-file-names#mingw))
+  you'll have to do something more like:
+
+  ```wiki
+  $ ./configure --with-gcc=...the Cygwin gcc... --with-gcc=...the Cygwin ld.exe...
+  ```
+- If you are paranoid, delete `config.cache` if it exists.
+  This file occasionally remembers out-of-date configuration information, which 
+  can be really confusing.
+- You almost certainly want to set
+
+  ```wiki
+  SplitObjs = NO
+  ```
+
+  in your `build.mk` configuration file (see [Getting the build you want](building/using#getting-the-build-you-want)).
+  This tells the build system not to split each library into a myriad of little object files, one
+  for each function.  Doing so reduces binary sizes for statically-linked binaries, but on Windows
+  it dramatically increases the time taken to build the libraries in the first place.
+- Do not attempt to build the documentation.
+  It needs all kinds of wierd Jade stuff that we haven't worked out for
+  Win32.
+
+## A Windows build log using Cygwin
+
 
 Here is a complete, from-scratch, log of all you need to build GHC using
 Cygwin, kindly provided by Claus Reinke.  It does not discuss alternative
 choices, but it gives a single path that works.
-{{{
+
+```wiki
 - Install some editor (vim, emacs, whatever)
 
 - Install cygwin (http://www.cygwin.com)
@@ -420,26 +435,31 @@ choices, but it gives a single path that works.
     ; if you're happy with the script's contents (*)
   - ../distrib/prep-bin-dist-mingw
     ; then tar up, unpack where wanted, and enjoy
-}}}
+```
 
-== What to look for if your build fails ==
+## What to look for if your build fails
+
 
 This section collects typical failure cases, and what to do abouut them.
 
-=== Configure can't find darcs version ===
+### Configure can't find darcs version
+
 
 When you run your configure script, it falls over with 
-{{{
+
+```wiki
 sh-2.04$ ./configure --with-gcc=c:/mingw/bin/gcc --with-ld=c:/mingw/bin/ld.exe --host=i386-unknown-mingw32
 configure: WARNING: If you wanted to set the --build type, don't use --host.
     If a cross compiler is detected then cross compile mode will be used.
 checking for GHC version date... -nThe system cannot find the file specified.
 configure: error: failed to detect version date: check that darcs is in your path
-}}}
+```
+
+
 This error is nothing to do with `darcs`!  The darcs-version test in `configure` uses `sort`, and it is picking up the Windows sort (in `c:\windows\system32`) instead of the MSYS or Cygwin sort.  
+
 
 Solution: either hack the configure script by hand, or (better) make sure that MSYS/Cygwin are in your PATH before Windows. Since `c:\windows\system32` is, by default, in the System Environment Variable called PATH, and System Variables come first when searching for paths, you'll have to put MSYS/Cygwin bin directory in the System PATH, before `c:\windows\system32`.
 
-(Incidentally, `find` is another program that Windows has too, with different functionality to Unix.)
 
-```
+(Incidentally, `find` is another program that Windows has too, with different functionality to Unix.)
