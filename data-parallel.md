@@ -9,7 +9,7 @@ Most of the material describing our approach is partitioned into a set of subpag
 - [Nested data parallelism by example](data-parallel/example)
 - [Data parallelism on shared-memory machines](data-parallel/smp)
 - [High-level design of adding NDP to GHC](data-parallel/design)
-- [Notes on closure conversion](data-parallel/closure-conversion)
+- [Details of the implementation of closure conversion (as a smaller-scale trial of what expects us with implementing vectorisation)](data-parallel/closure-conversion)
 - [Desugaring of array comprehensions](data-parallel/desugaring)
 - [Other nested data parallel work](data-parallel/related)
 
