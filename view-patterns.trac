@@ -665,12 +665,14 @@ First, transformational patterns didn't have the value input feature, althought 
 to add (indeed that's what we've done). Second, transformational patterns as described by
 Erwig do no stripping of the `Maybe` (see "Possible extension 2" above).
 
-=== [http://blogs.msdn.com/dsyme/archive/2006/08/16/ActivePatterns.aspx : F# Active Patterns] ===
+=== [http://blogs.msdn.com/dsyme/archive/2006/08/16/ActivePatterns.aspx F# Active Patterns] ===
 
-Simon started this design discussion after the F# project of 2006 conducted by
-Don Syme and Greg Neverov on active patterns in F#. Don presented a preliminary
-version of this work at the WG2.8 workshop in 
-July 2006. F# 1.1.12 included a preliminary version 
+Simon started this design discussion after talking to Don Syme about F#'s '''active patterns''',
+which serve a very similar purpose.
+
+Here is [http://blogs.msdn.com/dsyme/archive/2007/04/07/draft-paper-on-f-active-patterns.aspx a full paper describing the design], by Don Syme, Gregory Neverov, and James Margetson (April 2007).
+
+F# 1.1.12 included a preliminary version 
 of extensible pattern matching where values effectively of type 
 {{{
   val Pattern: int -> int option
@@ -678,9 +680,6 @@ of extensible pattern matching where values effectively of type
 could be used as query functions. Some examples are documented 
 nicely at [[http://tomasp.net/blog/quotvis-reloaded.aspx : Tomas Petricek's website]].
 
-As of March 2007 the F# design has been redesigned and more details will
-be available soon. Don and Simon have been involved in lengthy discussions on the subject
-at MSR Cambridge.
 
 === [http://lambda-the-ultimate.org/node/1960 Emir, Odersky, Williams: Matching objects with patterns] ===
 
