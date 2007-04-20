@@ -1,3 +1,4 @@
+[[wiki:DataParallel/ClosureConversion Up]]
 == Closure conversion without a conversion class ==
 
 The following scheme - if Roman doesn't find any problems with it (he is notorious for that) - should be simpler than what we had in mind so far for mixing converted and unconverted code.
