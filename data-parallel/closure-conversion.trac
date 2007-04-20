@@ -26,10 +26,18 @@ data T_CC = MkT_CC (Clo Int Int)
 }}}
 
 ''Classes.''
-Moreover, if the closure-converted code uses a type class, we need a closure-converted type class.  It might appear that this is a non-issue on Core as classes have already been desugared to plain System F.  The trouble is that GHC does not use plain System F.  It extends it by a whole array of extra type features.  In particular, classes induce datatype declarations., and yhey almost always contain arrow types.  Hence, as we just discussed, they need to be transformed.  Matters are complicated by GHC not actually generating standalone datatypes declarations that are emitted into interface files, a class declaration siliently implies a data declaration - GHC calls this an ''iface declaration sub-binder''.  So, it appears best to create for every class as closure-converted class that - as all other class declarations - implies the closure-converted class representation datatype.
+Moreover, if the closure-converted code uses a type class, we need a closure-converted type class.  It might appear that this is a non-issue on Core as classes have already been desugared to plain System F.  The trouble is that GHC does not use plain System F.  It extends it by a whole array of extra type features.  In particular, classes induce datatype declarations., and yhey almost always contain arrow types.  Hence, as we just discussed, they need to be transformed.  Matters are complicated by GHC not actually generating standalone datatypes declarations that are emitted into interface files, a class declaration siliently implies a data declaration - GHC calls this an ''iface declaration sub-binder''.  So, it appears best to create for every class a closure-converted class that - as all other class declarations - implies the closure-converted class representation datatype.
+
+''Instances.''
+When we call overloaded closure-converted functions, we need to supply closure-converted dictionaries; i.e., closure-converted dfuns.  
 
 ==== Interface files ====
 
+How much information do we want to put into interface files?  For example, for type declarations, we can add the closure-converted declaration to the interface file or we can only add the vanilla one and have the importing modules derive the converted form on the fly during iface type checking - similar to how iface declaration sub-binders are generated on the fly, instead of being put into the interface files.
+
+==== Mixing converted and vanilla code ====
+
+==== An alternative: one-the-fly closure conversion ====
 
 ----
 '''** OLD STUFF **'''
