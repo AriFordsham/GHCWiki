@@ -382,13 +382,9 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 - Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs". (MODERATE)
 
-- Fix the ghci help command. This can be done when we decide on the final syntax of the commands. (EASY)
-
 - Save/restore the link environment at breakpoints. At a breakpoint we modify both the hsc_env of the current Session, and also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a breakpoint and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc. (MODERATE)
 
 - Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off. (EASY)
-
-- Allow breakpoints to be set by function name. Some questions: what about local functions? What about functions inside type class instances, and default methods of classes? One possible solution is to extend the tick tree slightly so that we can search it for function declarations. Another alternative is if the GHC API supports source location queries. The client can simply query GHC to ask what the outermost span of a declaraiton is, then we can set a tick on that span directly. Something to note is that the HPC code has some stuff in it for remembering the "path" of a function, which would be useful for naming nested functions. I don't know if it supports functions inside class declataions. (MODERATE)
 
 - Support Unicode in data constructor names inside info tables. Actually this should just be a matter of using the underlying fast string in the occname. (MODERATE)
 
@@ -398,21 +394,15 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 - Timing and correctness tests. Pepe has some code for timing that might be useful. (MODERATE)
 
-- Wolfgang's patch for PIC seems to break the strings in Info tables, so we need to fix that. (MODERATE)
-
 - Stabilise the API. (MODERATE)
 
 - Fix the calculation of free variables at tick sites (currently done too late in the pipeline, gives some wrong results). Note a possible problem with letrecs, which means some locals vars are missing in where clause. (MODERATE/DIFFICULT)
 
 - Extend the stack inspection primitive to allow unboxed things to be grabbed. (MODERATE)
 
-- Add a commnad to show the current breakpoint stack (`:show context`?)
-
 ### Partially done
 
 - The delete command. It is fairly primitive, and probably not done in the best way. This will be fixed when the API is finalised. (EASY)
-
-- Look at slow behaviour of :print command on long list of chars. I've asked Pepe about this, he has an idea of what the problem is and will be working on a solution soon. (MODERATE)
 
 - User documentation. You're looking at it. The user manual will have to move into the main GHC docs at some point. (ONGOING)
 
@@ -425,6 +415,18 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 - Extend breaks and step with counters, so that we stop after N hits, rather than immediately. (EASY/MODERATE)
 
 - Revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks. I'm not sure that this is worth it. In some ways the implementation based on a byte code instruction is a little cleaner than adding breaks on BCOs directly. Though the bc instruction method may be a little slower than the other way. (MODERATE/DIFFICULT)
+
+### Closed
+
+- Wolfgang's patch for PIC seems to break the strings in Info tables, so we need to fix that. (MODERATE)
+
+- Look at slow behaviour of :print command on long list of chars. I've asked Pepe about this, he has an idea of what the problem is and will be working on a solution soon. (MODERATE)
+
+- Allow breakpoints to be set by function name. Some questions: what about local functions? What about functions inside type class instances, and default methods of classes? One possible solution is to extend the tick tree slightly so that we can search it for function declarations. Another alternative is if the GHC API supports source location queries. The client can simply query GHC to ask what the outermost span of a declaraiton is, then we can set a tick on that span directly. Something to note is that the HPC code has some stuff in it for remembering the "path" of a function, which would be useful for naming nested functions. I don't know if it supports functions inside class declataions. (MODERATE)
+
+- Fix the ghci help command. This can be done when we decide on the final syntax of the commands. (EASY)
+
+- Add a commnad to show the current breakpoint stack (`:show context`?)
 
 ---
 
