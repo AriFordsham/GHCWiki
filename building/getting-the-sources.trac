@@ -51,6 +51,12 @@ Optionally, you might want to grab the testsuite and benchmark suite too, which 
   $ darcs get --partial http://darcs.haskell.org/nofib
 }}}
 
+These can also be fetched with flags to {{{darcs-all}}}:
+{{{
+  $ ./darcs-all --testsuite get
+  $ ./darcs-all --nofib get
+}}}
+
 The full list of darcs repositories relating to GHC is at DarcsRepositories.
 
 === Getting a branch ===
