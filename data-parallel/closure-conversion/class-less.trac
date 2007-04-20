@@ -20,7 +20,7 @@ If we come across a class declaration for a class `C` during conversion, we conv
 If we encounter an instance declaration for `C tau` during conversion, there are two alternatives: we have a conversion for `C` or not:
  * if we do not have a conversion, we generate an instance (and hence dfun) for `C tau^`, where `tau^` is the closure converted `tau`;
  * if we have a conversion, we generate an instance for `C_CC tau^`.
-In any case, we add a field `is_CC :: Just Instance` to `InstEnv.Instance` that contains the additionally generated instance.  And in both cases, we should be able to derive the required code for the dfun from the definition of `C tau`.
+In any case, we add a field `is_CC :: Just Instance` to `InstEnv.Instance` that contains the additionally generated instance.  And in both cases, we should be able to derive the required code for the dfun from the definition of `C tau`.  We also make sure that the `dfun`'s `idCC` field (see below) is set to that of the converted dfun.
 
 === Type terms ===
 
@@ -39,3 +39,12 @@ a^            = a
 === Value bindings ===
 
 When converting a toplevel binding for `f :: t`, we generate `f_CC :: t^`.  The alternatives `GlobalId` and `LocalId` of `Var.Var` get a new field `idCC :: Maybe Id` and the `Id` for `f` contains `Just f_CC` in that field.
+
+=== Core terms ===
+
+Apart from the standard rules, we need to handle the following special cases:
+ * We come across a value variable `v` where `idCC v == Nothing` whose type is `t`: we generate `convert t v` (see below).
+ * We come across a case expression where the scrutinised type `T` has `tyConCC T == Nothing`: we leave the case expression as is (i.e., unconverted), but make sure that the `idCC` field of all variables bound by patterns in the alternatives have their `idCC` field as `Nothing`.  (This implies that the previous case will kick in and convert the (unconverted) values obtained after decomposition.)
+ * We come across a dfun: If its `idCC` field is `Nothing`, we keep the selection as is, but apply `convert t e` from it it, where `t` is the type of the selected method and `e` the selection expression.  If `idCC` is `Just d_CC`, and the dfun's class is converted, `d_CC` is fully converted.  If it's class is not converted, we also keep the selection unconverted, but have a bit less to do in `convert t e`.  '''TODO:''' This needs to be fully worked out.
+
+=== Generating conversions ===
