@@ -1,11 +1,17 @@
+DataParallel Up?
+
 ## Closure conversion as part of vectorisation
 
-**TODO** describe the treatment of higher-order functions and closure conversion here. The relevant paper is [ http://www.cse.unsw.edu.au/\~chak/papers/LCK06.html](http://www.cse.unsw.edu.au/~chak/papers/LCK06.html). The approach is described in more detail in [ http://opus.kobv.de/tuberlin/volltexte/2006/1286/](http://opus.kobv.de/tuberlin/volltexte/2006/1286/).
+**TODO** Describe the treatment of higher-order functions and closure conversion here. The relevant paper is [ http://www.cse.unsw.edu.au/\~chak/papers/LCK06.html](http://www.cse.unsw.edu.au/~chak/papers/LCK06.html). The approach is described in more detail in [ http://opus.kobv.de/tuberlin/volltexte/2006/1286/](http://opus.kobv.de/tuberlin/volltexte/2006/1286/).
 
 ### Closure-converted types as indexed-types
 
 
-After some brainstorming, Roman and I (= Manuel) came to the conclusion that we can save ourselves a lot of bookkeeping if we can represent closure-converted types by indexed types (i.e., keeping track of which original types correspond to which converted types).  The details are under [indexed closure conversion](data-parallel/closure-conversion/indexed).
+One option for implementing closure-conversion is to represent closure-converted types as an indexed type whose type index is the original type and to combine that indexed type in a type class with methods for converting between closure-converted and vanilla terms.  The details are under [indexed closure conversion](data-parallel/closure-conversion/indexed).  There are two potential benefits for this approach: (1) we will probably have to do something similar for vectorisation anyway - see the requirements of vectorisation? - and (2) it seems that we need less bookkeeping (e.g., the name of a closure converted data type is just the indexed type with the original data type as its index).  However, there are problems, too; in particular, as we currently don't have class contexts and polytypes as type indexes.
+
+---
+
+**** OLD STUFF ****
 
 ### From the Skype discussion, 16 Mar 07
 
