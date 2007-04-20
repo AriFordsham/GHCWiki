@@ -13,4 +13,29 @@ Incidentally, if during conversion we come across a type declaration that we don
 
 === Class declarations ===
 
+If we come across a class declaration for a class `C` during conversion, we convert it generating `C_CC`.  Like with type constructors, `Class.Class` gets a `classCC :: Maybe Class` field that is `Just C_CC` for classes that have a conversion.  We also ensure that the `classTyCon` of `C`, let's call it `T_C`, refers to `T_C_CC` and `fr_T_C` and `to_T_C` in its `tyConCC` field, and that the `classTyCon` of `C_CC` is `T_C_CC`.
+
 === Instance declarations ===
+
+If we encounter an instance declaration for `C tau` during conversion, there are two alternatives: we have a conversion for `C` or not:
+ * if we do not have a conversion, we generate an instance (and hence dfun) for `C tau^`, where `tau^` is the closure converted `tau`;
+ * if we have a conversion, we generate an instance for `C_CC tau^`.
+In any case, we add a field `is_CC :: Just Instance` to `InstEnv.Instance` that contains the additionally generated instance.  And in both cases, we should be able to derive the required code for the dfun from the definition of `C tau`.
+
+=== Type terms ===
+
+We determine the converted type `t^` of `t` as follows:
+{{{
+T^            = T_CC , if available
+                T    , otherwise
+a^            = a
+(t1 t2)^      = t1^ t2^
+(t1 -> t2)^   = Clo t1 t2
+(forall a.t)^ = forall a.t^
+(C t1 => t2)^ = C_CC t1^ => t2^ , if available
+                C t1^ => t2^    , otherwise
+}}}
+
+=== Value bindings ===
+
+When converting a toplevel binding for `f :: t`, we generate `f_CC :: t^`.  The alternatives `GlobalId` and `LocalId` of `Var.Var` get a new field `idCC :: Maybe Id` and the `Id` for `f` contains `Just f_CC` in that field.
