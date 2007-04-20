@@ -400,6 +400,10 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 - Extend the stack inspection primitive to allow unboxed things to be grabbed. (MODERATE)
 
+- Prevent unification of the Unknown type family with any other type. Perhaps by giving it some special kind? (MODERATE/EASY)
+
+- Fix GHCi so that it can work with real tyvars (are those called FlexiTyVars?) (UNKNOWN)
+
 ### Partially done
 
 - The delete command. It is fairly primitive, and probably not done in the best way. This will be fixed when the API is finalised. (EASY)
