@@ -37,6 +37,22 @@ How much information do we want to put into interface files?  For example, for t
 
 ==== Mixing converted and vanilla code ====
 
+Mixing converted and vanilla code for closure-conversion is simple as long as we only have lambda terms (we just generate and apply closure as appropriate at places where we move from one representation to another).  However, data types make this more involved again.  Imagine the following scenario:
+{{{
+-- converted code
+data T = MkT (Int -> Int)
+
+-- unconverted code
+foo = MkT ((+) (1::Int))
+
+-- converted code
+appT :: T -> Int -> Int
+appT (MkT f) x = f x
+
+bar = appT foo
+}}}
+Here the result of `foo` needs to be converted before we can call `appT` in `bar`.  In other words, we need conversion functions between converted and unconverted versions of data types.
+
 ==== An alternative: one-the-fly closure conversion ====
 
 ----
