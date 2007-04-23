@@ -136,3 +136,12 @@ used as `T (->)` in converted code.  What is `convert (T (->))`?
 ==== Classes ====
 
 It might be sufficient to never convert class declarations as a whole, but only their representation types.
+
+==== Original functions ====
+
+The previous story was that when vectorising `f` and generating `f_CC`, we now define
+{{{
+f :: tau
+f = trevnoc tau f_CC
+}}}
+Now, with the approximate conversion scheme above, we may not have `trevnoc tau`.  In this case, we still generate `f_CC`, but also leave the rhs of `f` alone (i.e., compile the original functions).
