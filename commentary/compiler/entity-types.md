@@ -6,9 +6,9 @@ Video: [ Types and Classes](http://video.google.com/videoplay?docid=-35882734569
 
 For each kind of Haskell entity (identifier, type variable, type constructor, data constructor, class) GHC has a data type to represent it.  Here they are:
 
-- **Type constructors** are represtented by the `TyCon` type ([compiler/types/TyCon.lhs](/trac/ghc/browser/ghc/compiler/types/TyCon.lhs)).
-- **Classes** are represtented by the `Class` type ([compiler/types/Class.lhs](/trac/ghc/browser/ghc/compiler/types/Class.lhs)).
-- **Data constructors** are represtented by the `DataCon` type ([compiler/basicTypes/DataCon.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/DataCon.lhs)).
+- **Type constructors** are represented by the `TyCon` type ([compiler/types/TyCon.lhs](/trac/ghc/browser/ghc/compiler/types/TyCon.lhs)).
+- **Classes** are represented by the `Class` type ([compiler/types/Class.lhs](/trac/ghc/browser/ghc/compiler/types/Class.lhs)).
+- **Data constructors** are represented by the `DataCon` type ([compiler/basicTypes/DataCon.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/DataCon.lhs)).
 - **Term variables**`Id` and **type variables**`TyVar` are both represented by the `Var` type ([compiler/basicTypes/Var.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Var.lhs)).
 
 
