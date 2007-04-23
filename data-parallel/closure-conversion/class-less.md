@@ -1,46 +1,55 @@
-DataParallel/ClosureConversion Up?
+CONVERSION ERROR
 
-## Closure conversion without a conversion class
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/DataParallel/ClosureConversion/ClassLess"
+  queryString          = "?version=7"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:03:03 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","268"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/DataParallel/ClosureConversion/ClassLess\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
+Original source:
+
+```trac
+[[wiki:DataParallel/ClosureConversion Up]]
+== Closure conversion without a conversion class ==
 
 The following scheme - if Roman doesn't find any problems with it (he is notorious for that) - should be simpler than what we had in mind so far for mixing converted and unconverted code.
 
-### Type declarations
-
+=== Type declarations ===
 
 If a type declaration for constructor `T` occurs in a converted module, we
 (1) generate a converted type declaration `T_CC` together two conversion functions `fr_T` and `to_T`, and
 (2) store these three names in the representation of `T`.
 Concerning Point (2), more precisely the alternatives of `TyCon.TyCon` get a new field `tyConCC :: Maybe (TyCon, Id, Id)`.  This field is `Nothing` for data constructors for which we have no conversion and `Just (T_CC, fr_T, to_T)` if we have a conversion.
 
-
 Incidentally, if during conversion we come across a type declaration that we don't know how to convert (as it uses fancy extensions), we just don't generate a conversion.
-
 
 Note that basic types, such as `Int` and friends, would have `tyConCC` set to `Nothing`, which is exactly what we want.
 
-### Class declarations
-
+=== Class declarations ===
 
 If we come across a class declaration for a class `C` during conversion, we convert it generating `C_CC`.  Like with type constructors, `Class.Class` gets a `classCC :: Maybe Class` field that is `Just C_CC` for classes that have a conversion.  We also ensure that the `classTyCon` of `C`, let's call it `T_C`, refers to `T_C_CC` and `fr_T_C` and `to_T_C` in its `tyConCC` field, and that the `classTyCon` of `C_CC` is `T_C_CC`.
 
-### Instance declarations
-
+=== Instance declarations ===
 
 If we encounter an instance declaration for `C tau` during conversion, there are two alternatives: we have a conversion for `C` or not:
-
-- if we do not have a conversion, we generate an instance (and hence dfun) for `C tau^`, where `tau^` is the closure converted `tau`;
-- if we have a conversion, we generate an instance for `C_CC tau^`.
-
-
+ * if we do not have a conversion, we generate an instance (and hence dfun) for `C tau^`, where `tau^` is the closure converted `tau`;
+ * if we have a conversion, we generate an instance for `C_CC tau^`.
 In any case, we add a field `is_CC :: Just Instance` to `InstEnv.Instance` that contains the additionally generated instance.  And in both cases, we should be able to derive the required code for the dfun from the definition of `C tau`.  We also make sure that the `dfun`'s `idCC` field (see below) is set to that of the converted dfun.
 
-### Type terms
-
+=== Type terms ===
 
 We determine the converted type `t^` of `t` as follows:
-
-```wiki
+{{{
 T^            = T_CC , if available
                 T    , otherwise
 a^            = a
@@ -49,99 +58,75 @@ a^            = a
 (forall a.t)^ = forall a.t^
 (C t1 => t2)^ = C_CC t1^ => t2^ , if available
                 C t1^ => t2^    , otherwise
-```
+}}}
 
-### Value bindings
-
+=== Value bindings ===
 
 When converting a toplevel binding for `f :: t`, we generate `f_CC :: t^`.  The alternatives `GlobalId` and `LocalId` of `Var.Var` get a new field `idCC :: Maybe Id` and the `Id` for `f` contains `Just f_CC` in that field.
 
-### Core terms
-
+=== Core terms ===
 
 Apart from the standard rules, we need to handle the following special cases:
+ * We come across a value variable `v` where `idCC v == Nothing` whose type is `t`: we generate `convert t v` (see below).
+ * We come across a case expression where the scrutinised type `T` has `tyConCC T == Nothing`: we leave the case expression as is (i.e., unconverted), but make sure that the `idCC` field of all variables bound by patterns in the alternatives have their `idCC` field as `Nothing`.  (This implies that the previous case will kick in and convert the (unconverted) values obtained after decomposition.)
+ * Whenever we have an FC `cast` from or to a newtype `T`, where `tyConCC T == Nothing`, we need to add a `convert tau` or `trevnoc tau`, respectively.  We can spot these casts by inspecting the kind of every coercion used in a cast.  One side of the equality will have the newtype constructor.
+ * We come across a dfun: If its `idCC` field is `Nothing`, we keep the selection as is, but apply `convert t e` from it it, where `t` is the type of the selected method and `e` the selection expression.  If `idCC` is `Just d_CC`, and the dfun's class is converted, `d_CC` is fully converted.  If it's class is not converted, we also keep the selection unconverted, but have a bit less to do in `convert t e`.  '''TODO:''' This needs to be fully worked out.
 
-- We come across a value variable `v` where `idCC v == Nothing` whose type is `t`: we generate `convert t v` (see below).
-- We come across a case expression where the scrutinised type `T` has `tyConCC T == Nothing`: we leave the case expression as is (i.e., unconverted), but make sure that the `idCC` field of all variables bound by patterns in the alternatives have their `idCC` field as `Nothing`.  (This implies that the previous case will kick in and convert the (unconverted) values obtained after decomposition.)
-- We come across a dfun: If its `idCC` field is `Nothing`, we keep the selection as is, but apply `convert t e` from it it, where `t` is the type of the selected method and `e` the selection expression.  If `idCC` is `Just d_CC`, and the dfun's class is converted, `d_CC` is fully converted.  If it's class is not converted, we also keep the selection unconverted, but have a bit less to do in `convert t e`.  **TODO** This needs to be fully worked out.
-
-### Generating conversions
-
+=== Generating conversions ===
 
 Whenever we had `convert t e` above, where `t` is an unconverted type and `e` a converted expression, we need to generate some conversion code.  This works roughly as follows in a type directed manner:
-
-```wiki
+{{{
 convert T          = id   , if tyConCC T == Nothing
                    = to_T , otherwise
 convert a          = id
 convert (t1 t2)    = convert t1 (convert t2)
 convert (t1 -> t2) = createClosure using (trevnoc t1) 
                      and (convert t2) on argument and result resp.
-```
-
-
+}}}
 where `trevnoc` is the same as `convert`, but using `from_T` instead of `to_T`.
-
 
 The idea is that conversions for parametrised types are parametrised over conversions of their parameter types.  Wherever we call a function using parametrised types, we will know these type parameters (and hence can use `convert`) to compute their conversions.  This fits well, because it is at occurences of `Id`s that have `idCC == Nothing` where we have to perform conversion.
 
-
 The only remaining problem is that a type parameter to a function may itself be a type parameter got from a calling function; so similar to classes, we need to pass conversion functions with every type parameter.  So, maybe we want to stick `fr` and `to` into a class after all and requires that all functions used in converted contexts have the appropriate contexts in their signatures.
 
-### Issues, aka rl's complaints
+=== Issues, aka rl's complaints ===
 
-#### Non-converted versus unchanged type declarations
-
+==== Non-converted versus unchanged type declarations ====
 
 Many type declarations will not be changed by conversion, as they do not contain any arrows.  Hence, it is more economic to avoid generating a `_CC` version of these declarations.  I initially thought that we can ignore this for a moment, because it is only an optimisation.  However, consider
-
-```wiki
+{{{
 data T = MkT Int
 data S = MkS (Int -> Int)
-```
-
-
+}}}
 As we don't convert `Int`, we cannot convert `T` and `S`, which is a shame as their conversion is simple and (in the vectorisation case may affect performance dramatically).  As a matter of fact, if we identify declarations that need not be converted, then we would mark `Int` and `T` as such and can convert `S` easily.
 
-#### FC Coercions
-
+==== FC Coercions ====
 
 Closure conversion happens on Core, which means that constructors, such as `MkT` of
-
-```wiki
+{{{
 -- unconverted
 newtype T a = MkT (a -> a)
-```
-
-
+}}}
 in a definition
-
-```wiki
+{{{
 -- converted
 foo :: (a -> a) -> T a
 foo f = MkT f
-```
-
-
+}}}
 have vanished, leaving only a coercion.  As `T` is not converted, we need to notice that we need to generate `MkT (fr f)`.  So, we need to spot the conversion representing `MkT`.
-
 
 Generally, we need a story about treating coercions during conversion.
 
-#### Function type constructor
-
+==== Function type constructor ====
 
 It is clear how to treat types involving subtypes of the form `a -> b`.  It is less clear how to deal with partial applications of `(->)`.  Consider
-
-```wiki
+{{{
 -- unconverted
 data T f = T (Int -> Int) (f Int Int)
-```
-
-
+}}}
 used as `T (->)` in converted code.  What is `convert (T (->))`?
 
-#### Classes
-
+==== Classes ====
 
 It might be sufficient to never convert class declarations as a whole, but only their representation types.
+```
