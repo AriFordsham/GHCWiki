@@ -1,7 +1,7 @@
 [[wiki:DataParallel/ClosureConversion Up]]
-== Closure conversion without a conversion class ==
+== Closure conversion without indexed types ==
 
-The following scheme - if Roman doesn't find any problems with it (he is notorious for that) - should be simpler than what we had in mind so far for mixing converted and unconverted code.
+The following scheme - if Roman doesn't find any problems with it (he is notorious for that) - should be simpler (as in relying on fewer other mechanisms) than what we had in mind so far for mixing converted and unconverted code.  In particular, the scheme gracefully handles any declarations that themselves cannot be converted, but occur in a converted module.
 
 === Type declarations ===
 
@@ -96,7 +96,7 @@ have vanished, leaving only a coercion.  As `T` is not converted, we need to not
 
 Generally, we need a story about treating coercions during conversion.
 
-'''PARTIALLY DONE:''' Did the case of newtypes.  Other coercions may still be a problem, esp from unsafe coercions.
+'''PARTIALLY DONE:''' Did the case of newtypes.  Other coercions may still be a problem, esp from unsafe coercions, but we probably just don't want to convert any declarations containing them (at least for the moment).
 
 ==== Function type constructor ====
 
