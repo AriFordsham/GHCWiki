@@ -3,6 +3,7 @@
 Back to TypeFunctions.
 
 '''Current:'''
+ 0. For Tom: Construct `TyCon` for type equation in `tcIdxTyInstDecl1`.  This needs to be a synonym tycon, which still needs to be extended to include family information.
  1. Dictionary handling for equational constraints:
    * Where do we check the details of the formation of equational constraints?  (In `check_pred_ty`?)
    * In the case for ordinary instances in `TcInstDcls.tcInstDecl2`, filter the ids of the super class equalities out of `map instToId sc_dicts`.  (They don't appear explicitly in the `Hs' representation of the methods binding.)
@@ -33,7 +34,6 @@ Done:
 Todo (low-level):
  * RHS of a `type instance` must be a tau type.
  * Check that patterns of type indexes don't contain type functions.
- * Construct `TyCon` for type equation in `tcIdxTyInstDecl1`.  This needs to be a synonym tycon, which still needs to be extended to include family information.
  * Implement the equation of `conflict`, which is local to `FamInst.addLocalFamInst`, for synonyms; ie, check that the left hand sides coincide under the substitution.
  * If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
  * It should be ok to allow newtype instances for data families.  (NB: the rhs of a newtype is guaranteed to be a lifted type.)  Is this desirable?
