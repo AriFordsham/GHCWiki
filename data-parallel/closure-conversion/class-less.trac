@@ -145,3 +145,5 @@ f :: tau
 f = trevnoc tau f_CC
 }}}
 Now, with the approximate conversion scheme above, we may not have `trevnoc tau`.  In this case, we still generate `f_CC`, but also leave the rhs of `f` alone (i.e., compile the original functions).
+
+When we give up on converting a complete right-hand side, we still want to convert all subexpressions that we can convert.
