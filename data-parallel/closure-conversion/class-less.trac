@@ -12,7 +12,10 @@ data StatusCC a
   | AsIsCC    -- Conversion not necessary, use original
   | ConvCC a  -- Here is the converted version
 }}}
-For example, `Id` gets a field of type `StatusCC Id`.
+For example, `Id` gets a field of type `StatusCC Id`.  Declarations can be in one of three categories:
+ * `NoCC`: We did not convert that declaration, either because it was declared in an unconverted module or because it uses some feature that prevents conversion.
+ * `AsIsCC`: The original declaration can be directly used in converted code.  It's converted form is identical to the original (e.g., type declarations not involving arrows directly or indirectly).
+ * `ConvCC decl`: The variant `decl` is the closure converted form of the original declaration.
 
 === Converting type declarations ===
 
