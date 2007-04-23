@@ -37,3 +37,4 @@ can extend it, modify it, and use it to build your code.
 Please feel free to add pages here.  In due course, information can be incorporated into the main documentation above.
 
 - [ProblemsCompilingGhc](problems-compiling-ghc): Hints about building GHC on Windows platforms  
+- [SonyPS3](sony-p-s3)
