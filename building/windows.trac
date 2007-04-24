@@ -16,6 +16,26 @@ but you do need one or the other to ''build'' GHC.
 
 If you're on Vista, first of all you need to disable "installer-detection", which causes strange things to happen for binaries called "setup.exe", amongst other things.  Go to `Start -> All Programs -> Accessories > Run` and enter `secpol.msc`.  Then under `Security Settings -> Local Policies -> Security Options`,  disable `UAC: Detect application installations and prompt for elevation`.  Then reboot.
 
+When building against MingW, make sure that the paths of MingW's gcc.exe and cc1.exe are in your PATH environment variable.
+Best put them at the front. Otherwise Cygwin's executables might be found rather than MingW's. If you do not
+set the path's correctly, you may get the following error in config.log:
+{{{
+  configure:3321: checking for C compiler default output file name
+  configure:3348: c:/MinGW/bin/gcc    conftest.c  >&5
+  ld: /mingw/lib/crt2.o: No such file: No such file or directory
+  configure:3351: $? = 1
+  configure:3389: result:
+  configure: failed program was:
+  configure:3396: error: C compiler cannot create executables
+  See `config.log' for more details.
+}}}
+From within a Cygwin terminal, you can set PATH like:
+{{{
+  export PATH=/cygdrive/c/MingW/bin/:/cygdrive/c/MingW/libexec/gcc/mingw32/3.4.2/:$PATH
+}}}
+If you are unsure whether you have set PATH correctly, try to compile a simple C program
+with MingW's gcc first.
+
 == Installing and configuring MSYS ==
 
 MSYS is a lightweight alternative to Cygwin.  
