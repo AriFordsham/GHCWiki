@@ -9,24 +9,31 @@ We add to all declaration that are affected by closure conversion a value of typ
 {{{
 data StatusCC a 
   = NoCC      -- Declaration has not been converted
-  | AsIsCC    -- Conversion not necessary, use original
   | ConvCC a  -- Here is the converted version
 }}}
-For example, `Id` gets a field of type `StatusCC Id`.  Declarations can be in one of three categories:
+For example, `Id` gets a field of type `StatusCC Id`.  A declaration `thisDecl` can be in one of three categories:
  * `NoCC`: We did not convert that declaration, either because it was declared in an unconverted module or because it uses some feature that prevents conversion.
- * `AsIsCC`: The original declaration can be directly used in converted code.  It's converted form is identical to the original (e.g., type declarations not involving arrows directly or indirectly).
- * `ConvCC decl`: The variant `decl` is the closure converted form of the original declaration.
+ * `ConvCC thisDecl`: Original and converted declaration coincide (e.g., type declarations not involving arrows directly or indirectly).
+ * `ConvCC convDecl`: The variant `convDecl` is the closure-converted form of `thisDecl`.
+
+=== Conversion pairs ===
+
+Conversion functions come in pairs, which we wrap with the following data type for convenience:
+{{{
+data TF a b = TF {to :: a -> b; fr :: b -> a}
+}}}
 
 === Converting type declarations ===
 
 ==== Preliminaries ====
 
-The alternatives of `TyCon.TyCon` get a new field `tyConCC :: StatusCC (TyCon, Id, Id)`.  This field is `NoCC` for data constructors for which we have no conversion, `AsIsCC` if the original and the converted form coincide, and `ConvCC (T_CC, to_T, fr_T)` if we have a converted form.  In the last case, `T_CC` is the converted constructor and `to_T`/`fr_T` are conversion functions between values inhabitating types formed from the original and converted constructor.  The type of these functions is as follows:
+The alternatives of `TyCon.TyCon` get a new field `tyConCC :: StatusCC (TyCon, Id)`.  This field is `NoCC` for data constructors for which we have no conversion and `ConvCC (T_CC, tf_T)` if we have a conversion, where the converted declaration `T_CC` may coincide with `T`.  The value `tf_T` is a ''conversion constructor'' for values inhabitating types formed from the original and converted constructor.  The type of these functions is as follows:
 {{{
-toTy (C::k1->..->kn->*) = forall _1 .. _n _1_CC .. _n_CC.
-  toTy (_1::k1) -> .. -> toTy (_n::kn) -> 
-  (C _1 .. _n -> C_CC _1_CC .. _n_CC)
+tfTy (T::k1->..->kn->*) = forall _1 .. _n _1_CC .. _n_CC.
+  tfTy (_1::k1) -> .. -> tfTy (_n::kn) -> 
+  (TF (C _1 .. _n) (C_CC _1_CC .. _n_CC))
 }}}
+(The type variables beginning with underscores are bound here and we add one underscore for each level of kinding.)
 
 Moreover, we have a type constructor `(-->)` that represents closures and we assume that the field `tyConCC` of `(->)` has the value `ConvCC ((-->), fr_fun, to_fun)`, where `fr_fun` and `to_fun` are appropriate conversion functions.
 
