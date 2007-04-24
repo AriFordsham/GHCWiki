@@ -29,7 +29,13 @@ For example, `Id` gets a field of type `StatusCC Id`.  Declarations can be in on
 #### Preliminaries
 
 
-The alternatives of `TyCon.TyCon` get a new field `tyConCC :: StatusCC (TyCon, Id, Id)`.  This field is `NoCC` for data constructors for which we have no conversion, `AsIsCC` if the original and the converted form coincide, and `ConvCC (T_CC, fr_T, to_T)` if we have a converted form.
+The alternatives of `TyCon.TyCon` get a new field `tyConCC :: StatusCC (TyCon, Id, Id)`.  This field is `NoCC` for data constructors for which we have no conversion, `AsIsCC` if the original and the converted form coincide, and `ConvCC (T_CC, to_T, fr_T)` if we have a converted form.  In the last case, `T_CC` is the converted constructor and `to_T`/`fr_T` are conversion functions between values inhabitating types formed from the original and converted constructor.  The type of these functions is as follows:
+
+```wiki
+toTy (C::k1->..->kn->*) = forall _1 .. _n _1_CC .. _n_CC.
+  toTy (_1::k1) -> .. -> toTy (_n::kn) -> 
+  (C _1 .. _n -> C_CC _1_CC .. _n_CC)
+```
 
 
 Moreover, we have a type constructor `(-->)` that represents closures and we assume that the field `tyConCC` of `(->)` has the value `ConvCC ((-->), fr_fun, to_fun)`, where `fr_fun` and `to_fun` are appropriate conversion functions.
