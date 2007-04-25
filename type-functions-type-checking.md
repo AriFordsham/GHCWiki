@@ -159,21 +159,6 @@ coe co a :: (T [a] Int) ~ (R a)
 
 This may appear overly complicated as we could have created a coercion that has `Maybe a` as its right-hand side, avoiding a representation type `R` entirely.  However, inside GHC, the representation tycon conveniently stores all the information about the type instance (including its coercion), which the coercion by itself could not.  Moreover, we also use it to represent the instance in interface files.
 
----
-
-**Change of plans:** The principle representation of an indexed type synonym will actually be a specially tagged version of the `SynTyCon` variant of `TyCon.TyCon` (it also has a parent, like in the data case).  We won't have an `InstInfo` for family instances, but we maintain family instance environments similar to class instance environments (using the `FamInstEnv.FamInst` type).  Eventually, this will also contain a rough match for indexed types plus a reference to the full `TyCon` representation.
-
----
-
-
-Type functions have a number of properties in common with class instances; in particular, they require a machinery for matching type patterns against types, as instance heads do during context simplification.  Hence, we probably want some structure similar to `InstEnv.Instance` for type functions - for instances this is maintained in the field `iSpec` of `TcEnv.InstInfo` (for type functions we don't need anything like `iBinds` as they are pure type-level entities).  If possible, it would be ideal if we can reuse (or generalise) some of the matching machinery for instance heads.
-
-
-The essentials of a module after type checking are in `HscTypes.ModGuts`; in particular, we have two fields `mg_insts :: [Instance]` and `mg_binds :: [CoreRule]` containing all instance heads and all rewrite rules respectively.  Similarly, we now want something like `mg_tyequa :: [TyEqua]` to represent all type equations.
-
-
-Refined idea: Instead of duplicating the `InstInfo`/`Instance` infrastructure for instances of indexed types, we could just add a second variant to `InstInfo`.  This has the advantage that functions, such as `tcInstDecls1`, still only have to return a list of `InstInfo` and not two different lists.
-
 ## Type checking equational constraints
 
 
