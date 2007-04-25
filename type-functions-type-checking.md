@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/TypeFunctionsTypeChecking"
-  queryString          = "?version=50"
+  queryString          = "?version=51"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:03:09 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","260"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsTypeChecking\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:03:10 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","260"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctionsTypeChecking\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -114,7 +114,7 @@ NB: The type argument variables of the representation tycon are the free variabl
 
 ==== The coercion identifying family instance and representation type ====
 
-As each `data instance` is ''represented'' by its own `TyCon`, we need to be able to move between the type of the family instance and that of the representation.  We do so by an adaptation of the same method used to implement newtypes with coercions (c.f., IntermediateTypes).  Newtypes store the coercion moving between representation and abstract type in the field `nt_co` of the `NewTyCon` variant of `TyCon.AlgTyConRhs`, whereas representation types for indexed data types use `algTcParent` (see above).  Newtype coercions are constructed by `Coercion.mkNewTypeCoercion`, whereas representation types for indexed data types use a similar function `Coercion.mkDataInstCoercion`, which is invoked by `BuildTyCl.buildAlgTyCon` iff it is passed family and instance type information.
+As each `data instance` is ''represented'' by its own `TyCon`, we need to be able to move between the type of the family instance and that of the representation.  We do so by an adaptation of the same method used to implement newtypes with coercions (c.f., IntermediateTypes).  Newtypes store the coercion moving between representation and abstract type in the field `nt_co` of the `NewTyCon` variant of `TyCon.AlgTyConRhs`, whereas representation types for indexed data types use `algTcParent` (see above).  Newtype coercions are constructed by `Coercion.mkNewTypeCoercion`, whereas representation types for indexed data types use a similar function `Coercion.mkFamInstCoercion`, which is invoked by `BuildTyCl.buildAlgTyCon` iff it is passed family and instance type information.  We use the same approach in `BuildTyCl.buildSynTyCon` for `type instance`s.
 
 === Representation of newtype instances ===
 
