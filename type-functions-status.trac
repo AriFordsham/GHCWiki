@@ -63,16 +63,10 @@ Done:
 
 == Desugaring ==
 
-Todo (low-level): None.
+Todo (low-level):
+ * The `IfaceSyn` case of `TcIface.tcIfaceDecl` needs to be extended to receive and handle `mb_parent` information.  That should actually be all required to put synonym family instances into ifaces and get them out again.
 
-Todo (high-level):
-  1. Extend interface files to include equality axioms:
-   * How do we exactly want to represent type equations in interface files?
-     * SPJ pointed out that instances are maintained in `InstEnv.InstEnv` with different values for the home packages and others. Type instances may have to be maintained in a similar way, as they are also incrementally collected during compiling a program.  (We probably include them in the same structure, as they will also be of type `InstInfo`.)
-     * `IfaceInst` contains the instance declaration information for interfaces.
-    '''Answer:''' We don't put anything extra into interface files.  Instead, we derive the information corresponding to`IfaceInst` list in `ModIface` and the `Instance` list in `ModDetails` from the interface declarations and type environment, respectively.  I.e., it is the type instances that carry the whole payload.
-    '''Update:''' We may actually want to put a rough match signature in the iface seperate from the full instance declaration, so we can delay type checking the full instance declaration until we get a rough match.  (This makes only sense for `type instance`s, not for `data instance`s, as the latter are loaded when their constructors are mentioned.  Well actually, it does make sense for `data instance`s as far as loading them for overlap checking is concerned.)
- 2. Emit type function instances to ifaces.
+Todo (high-level): None.
 
 Done:
  * Representation of family kind signatures as `TyCon.TyCon`s.
