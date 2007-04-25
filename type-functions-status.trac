@@ -3,7 +3,7 @@
 Back to TypeFunctions.
 
 '''Current:'''
- 0. For Tom: Construct `TyCon` for type equation in `tcIdxTyInstDecl1`.  This needs to be a synonym tycon, which still needs to be extended to include family information.
+ 0. For Tom: Construct `TyCon` for type equation in `tcFamInstDecl1`.  This needs to be a synonym tycon, which still needs to be extended to include family information.
  1. Dictionary handling for equational constraints:
    * Where do we check the details of the formation of equational constraints?  (In `check_pred_ty`?)
    * In the case for ordinary instances in `TcInstDcls.tcInstDecl2`, filter the ids of the super class equalities out of `map instToId sc_dicts`.  (They don't appear explicitly in the `Hs' representation of the methods binding.)
