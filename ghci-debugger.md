@@ -157,10 +157,10 @@ will cause the type of `f` to be updated in its first argument too.
 
 This is a summary of how things go. The user invokes :print on some binding and `pprintClosureCommand` does: 
 
-- use `obtainTerm` to construct the term. This computes the most concrete possible type.
-- unify the old and new types to compute a substitution.
-- instantiate the range of the substitution with skolem tyvars
-- apply the substitution to all the types in the environment, including the old type
+1. use `obtainTerm` to construct the term. This computes the most concrete possible type.
+1. unify the old and new types to compute a substitution.
+1. instantiate the range of the substitution with skolem tyvars
+1. apply the substitution to all the types in the environment, including the old type
 
 
 One more detail, newtypes need to be flattened before doing the unification step; 
