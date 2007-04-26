@@ -109,7 +109,7 @@ map :: (a -> b) -> [a]->[b]
 map f x = ...
 }}}
 
-recovering the type of `x` (how? after forcing and using :print, see the next section) 
+recovering the type of `x` (how? after forcing and using :print, see the next section example) 
 will cause the type of `f` to be updated in its first argument too.
 
 This is a summary of how things go. The user invokes :print on some binding and `pprintClosureCommand` does: 
