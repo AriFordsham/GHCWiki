@@ -20,36 +20,71 @@ For example, `Id` gets a field of type `StatusCC Id`.  A declaration `thisDecl` 
 
 Conversion functions come in pairs, which we wrap with the following data type for convenience:
 {{{
-data TF a b = TF {to :: a -> b; fr :: b -> a}
+data a :<->: b = (:<->:) {to :: a -> b, fr ::b -> a}
 }}}
 
 === Converting type declarations ===
 
 ==== Preliminaries ====
 
-The alternatives of `TyCon.TyCon` get a new field `tyConCC :: StatusCC (TyCon, Id)`.  This field is `NoCC` for data constructors for which we have no conversion and `ConvCC (T_CC, tf_T)` if we have a conversion, where the converted declaration `T_CC` may coincide with `T`.  The value `tf_T` is a ''conversion constructor'' for values inhabitating types formed from the original and converted constructor.  The type of these functions is as follows:
+The alternatives of `TyCon.TyCon` get a new field `tyConCC :: StatusCC (TyCon, Id)`.  This field is `NoCC` for data constructors for which we have no conversion and `ConvCC (T_CC, iso_T)` if we have a conversion, where the converted declaration `T_CC` may coincide with `T`.  The value `iso_T` is a ''conversion constructor'' for values inhabitating types formed from the original and converted constructor.  The type of these functions is as follows:
 {{{
-tfTy (T::k1->..->kn->*) = forall _1 .. _n _1_CC .. _n_CC.
-  tfTy (_1::k1) -> .. -> tfTy (_n::kn) -> 
-  (TF (C _1 .. _n) (C_CC _1_CC .. _n_CC))
+isoTy (T::k1->..->kn->*) = forall _1 .. _n _1_CC .. _n_CC.
+  isoTy (_1::k1) -> .. -> isoTy (_n::kn) -> 
+  (C _1 .. _n :<->: C_CC _1_CC .. _n_CC)
 }}}
-(The type variables beginning with underscores are bound here and we add one underscore for each level of kinding.)
+(The type variables beginning with underscores are bound here; we add one underscore for each level of kinding.)
 
-Moreover, we have a type constructor `(-->)` that represents closures and we assume that the field `tyConCC` of `(->)` has the value `ConvCC ((-->), fr_fun, to_fun)`, where `fr_fun` and `to_fun` are appropriate conversion functions.
+As an example, consider
+{{{
+data T (f::*->*) = T1 (f Int) | T2 (f Bool)
+}}}
+The type of the conversion constructor is as follows (using more meaningful type variable names):
+{{{
+isoTy (T::(*->*)->*) =
+  forall f f_CC. 
+    (forall a a_CC. 
+       (a :<->: a_CC) -> (f a :<->: f_CC a_CC)) ->
+    T f :<->: T_CC f_CC
+}}}
+The conversion constructor might be implemented as
+{{{
+isoT isof = toT :<->: frT
+  where
+    toT (T1 x) = T1 (to (tff tfInt ) x)
+    toT (T2 y) = T2 (to (tff tfBool) y)
+    frT (T1 x) = T1 (fr (tff tfInt ) x)
+    frT (T2 y) = T2 (fr (tff tfBool) y)
+}}}
+where `isoInt` and `isoBool` are the conversion constructors for `Int`s and `Bool`s.
+
+Moreover, we represent closures - the converted form of function arrows - as follows:
+{{{
+data a :-> b = forall e. !(e -> a -> b) :$ e
+
+isoArr :: a :<->: a_CC -> b :<->: b_CC -> (a -> b) :<->: (a_CC :-> b_CC)
+isoArr (toa :<->: fra) (tob :<->: frb) = toArr :<->: frArr
+  where
+    toArr f        = const (tob . f . fra) :$ ()
+    frArr (f :$ e) = frb . f e . toa
+}}}
 
 ==== Conversion rules ====
 
 If a type declaration for constructor `T` occurs in a converted module, we need to decide whether to convert the declaration of `T`.  We decide this as follows:
  * If the declaration of `T` mentions another type constructor `S` and we have `tyConCC S == NoCC`, we do not convert `T` and set its `tyConCC` field to `NoCC` as well.
  * If the declaration of `T` uses any features that we cannot (or for the moment, don't want to) convert, we do not convert `T` and set its `tyConCC` field to `NoCC`.
- * If all type constructors `S` mentioned in `T`'s definiton have `tyConCC S == AsIsCC`, we do not convert `T` and set its `tyConCC` field to `AsIsCC` as well.  (NB: This implies that `T` does not mention any function arrows.)
- * Otherwise, generate a converted type declaration `T_CC` together two conversion functions `fr_T` and `to_T`, and set 
-`tyConCC` to `ConvCC (T_CC, fr_T, to_T)`.
-Note that basic types, such as `Int` and friends, should have `tyConCC` set to `AsIsCC`.
+ * If all type constructors `S` mentioned in `T`'s definiton have `tyConCC S == ConvCC S`, we do not convert `T` and set its `tyConCC` field to `ConvCC (T, isoT)` generating a suitable conversion constructor `isoT`.  (NB: This implies that `T` does not mention any function arrows.)
+ * Otherwise, we generate a converted type declaration `T_CC` together a conversion constructor  `isoT`, and set `tyConCC` to `ConvCC (T_CC, isoT)`.
+Note that basic types, such as `Int` and friends, should have `tyConCC` set to `ConvCC (Int, isoInt)` with identity conversions `isoInt = id :<->: id`.
 
-=== Converting class declarations ===
+=== Converting class and instances ===
 
-If we come across a class declaration for a class `C` during conversion, we convert it generating `C_CC`.  Like with type constructors, `Class.Class` gets a `classCC :: StatusCC Class` field that is `ConvCC C_CC` for classes that have a conversion.  We also ensure that the `classTyCon` of `C`, let's call it `T_C`, refers to `T_C_CC` and `fr_T_C` and `to_T_C` in its `tyConCC` field, and that the `classTyCon` of `C_CC` is `T_C_CC`.
+We don't alter class and instance declarations in any way.  However, the dictionary type constructors and dfuns are processed in the same way as other data types and value bindings, respectively; i.e., they get a `StatusCC` field and we generate converted versions and conversion constructors as usual.
+
+----
+chak: revision front
+----
 
 === Converting instance declarations ===
 
@@ -106,6 +141,14 @@ The only remaining problem is that a type parameter to a function may itself be 
 
 === Issues, aka rl's complaints ===
 
+==== Unboxed types ====
+
+Consider
+{{{
+data Int = Int# I#
+}}}
+The declaration has no arrow, so we set its `tyConCC` field to `ConvCC Int` (given that we know that all unboxed types can be used unaltered).  Moreover, {{{Int# :: I# -> Int}}} has no converted form as is has an unboxed argument.
+
 ==== Non-converted versus unchanged type declarations ====
 
 '''This issue has now been addressed.'''
@@ -146,6 +189,8 @@ data T f = T (Int -> Int) (f Int Int)
 used as `T (->)` in converted code.  What is `convert (T (->))`?
 
 ==== Classes ====
+
+'''This issue has now been addressed'''
 
 It might be sufficient to never convert class declarations as a whole, but only their representation types.
 
