@@ -78,9 +78,13 @@ If a type declaration for constructor `T` occurs in a converted module, we need 
  * Otherwise, we generate a converted type declaration `T_CC` together a conversion constructor  `isoT`, and set `tyConCC` to `ConvCC (T_CC, isoT)`.
 Note that basic types, such as `Int` and friends, should have `tyConCC` set to `ConvCC (Int, isoInt)` with identity conversions `isoInt = id :<->: id`.
 
-=== Converting class declarations ===
+=== Converting class and instances ===
 
-If we come across a class declaration for a class `C` during conversion, we convert it generating `C_CC`.  Like with type constructors, `Class.Class` gets a `classCC :: StatusCC Class` field that is `ConvCC C_CC` for classes that have a conversion.  We also ensure that the `classTyCon` of `C`, let's call it `T_C`, refers to `T_C_CC` and `fr_T_C` and `to_T_C` in its `tyConCC` field, and that the `classTyCon` of `C_CC` is `T_C_CC`.
+We don't alter class and instance declarations in any way.  However, the dictionary type constructors and dfuns are processed in the same way as other data types and value bindings, respectively; i.e., they get a `StatusCC` field and we generate converted versions and conversion constructors as usual.
+
+----
+chak: revision front
+----
 
 === Converting instance declarations ===
 
@@ -137,6 +141,14 @@ The only remaining problem is that a type parameter to a function may itself be 
 
 === Issues, aka rl's complaints ===
 
+==== Unboxed types ====
+
+Consider
+{{{
+data Int = Int# I#
+}}}
+The declaration has no arrow, so we set its `tyConCC` field to `ConvCC Int` (given that we know that all unboxed types can be used unaltered).  Moreover, {{{Int# :: I# -> Int}}} has no converted form as is has an unboxed argument.
+
 ==== Non-converted versus unchanged type declarations ====
 
 '''This issue has now been addressed.'''
@@ -177,6 +189,8 @@ data T f = T (Int -> Int) (f Int Int)
 used as `T (->)` in converted code.  What is `convert (T (->))`?
 
 ==== Classes ====
+
+'''This issue has now been addressed'''
 
 It might be sufficient to never convert class declarations as a whole, but only their representation types.
 
