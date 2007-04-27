@@ -74,10 +74,10 @@ isoArr (toa :<->: fra) (tob :<->: frb) = toArr :<->: frArr
 If a type declaration for constructor `T` occurs in a converted module, we need to decide whether to convert the declaration of `T`.  We decide this as follows:
  * If the declaration of `T` mentions another type constructor `S` and we have `tyConCC S == NoCC`, we do not convert `T` and set its `tyConCC` field to `NoCC` as well.
  * If the declaration of `T` uses any features that we cannot (or for the moment, don't want to) convert, we do not convert `T` and set its `tyConCC` field to `NoCC`.
- * If all type constructors `S` mentioned in `T`'s definiton have `tyConCC S == AsIsCC`, we do not convert `T` and set its `tyConCC` field to `AsIsCC` as well.  (NB: This implies that `T` does not mention any function arrows.)
- * Otherwise, generate a converted type declaration `T_CC` together two conversion functions `fr_T` and `to_T`, and set 
-`tyConCC` to `ConvCC (T_CC, fr_T, to_T)`.
-Note that basic types, such as `Int` and friends, should have `tyConCC` set to `AsIsCC`.
+ * If all type constructors `S` mentioned in `T`'s definiton have `tyConCC S == ConvCC S`, we do not convert `T` and set its `tyConCC` field to `ConvCC (T, isoT)` generating a suitable conversion constructor `isoT`.  (NB: This implies that `T` does not mention any function arrows.)
+ * Otherwise, we generate a converted type declaration `T_CC` together a conversion constructor  `isoT`, and set 
+`tyConCC` to `ConvCC (T_CC, isoT)`.
+Note that basic types, such as `Int` and friends, should have `tyConCC` set to `ConvCC (Int, isoInt)` with identity conversions `isoInt = id :<->: id.
 
 === Converting class declarations ===
 
