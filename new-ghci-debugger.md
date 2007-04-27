@@ -294,31 +294,6 @@ The debugger supports nested breakpoints. That is, when you are stopped at a bre
 
 ## Known problems in the debugger
 
-### Orphaned threads
-
-
-Computations which fork concurrent threads can use breakpoints, but sometimes a thread gets blocked indefinitely. Consider this program:
-
-```wiki
-   main = do
-      forkIO foo
-      bar
-
-   foo = do something
-
-   bar = do something else
-```
-
-
-Suppose we have a breakpoint set somewhere inside the computation done by `foo`, but there are no breakpoints in the computation done by `bar`. When we run this program in GHCi the following things happen:
-
-- `foo` gets forked and `foo` and `bar` begin their work 
-- `bar` completes its job and we return to the GHCi prompt (uh oh!) 
-- `foo` eventually hits a breakpoint and attempts to return to the command line, but it can't because we are already there (in the previous step).
-
-
-Now the foo thread is blocked, so we can't witness the breakpoint.
-
 ### Wrong variable names in patterns
 
 
@@ -357,14 +332,6 @@ Perhaps the most useful missing feature is the ability to see where the program 
 
 It would be especially useful to be able to get backtraces when exceptions are raised.
 
-### Listing source code at breakpoints
-
-
-When a breakpoint is hit, we almost always want to look at the source code around the location of the breakpoint. It is a pain to have to do this manually in another window. It would be nice if the debugger provided a `:list` command, like gdb. 
-
-
-Andy's interactive trace viewer is another way of watching the program exeuction, and it would be good to be able to connect the debugger to it. Nonetheless, I think a `:list` command would be useful on its own.
-
 ### Temporarily disable breakpoints
 
 
@@ -374,65 +341,49 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 ## Todo
 
-### Pending
+- P1 User documentation. You're looking at it. The user manual will have to move into the main GHC docs at some point. (ONGOING)
 
-- Merge the tick transformation of the coverage tool and the debugger. Simon: currently I have hacked Coverage.lhs so that it doesn't support the hpc tools any more. I turned a few things off and fiddled with where some of the ticks were generated. The changes aren't all that large, so it should be possible to come up with a single piece of code which serves both purposes. One thing you should be aware of is that, now, the tick function is applied to the local variables which are in scope at the tick location. This means that some of the code in the compiler for handling ticks, that is needed for hpc, probably doesn't work. This is simply because that code does not expext the tick function to be applied to anything.
+- P1 It's a bit strange that in "f = e" you don't get a breakpoint covering the whole binding, but in "f x = e" you do.  :break f doesn't work if f is not a function, for example.
 
-- Replace Loc with a proper source span type. Currently I use a quadruple of Ints to represent a source span. Hpc also has its own representations of spans, as does GHC. It would be nice if we all used the same one (namely the one in GHC). (EASY)
+- P1 what happens to TH code?  see dynbrk5 test
 
-- Investigate whether the compiler is eta contracting this def: "bar xs = print xs", this could be a problem if we want to print out "xs". (MODERATE)
+- P1 wrong variable names (see below- why is this still happening?)
 
-- Save/restore the link environment at breakpoints. At a breakpoint we modify both the hsc_env of the current Session, and also the persistent linker state. Both of these are held under IORefs, so we have to be careful about what we do here. The "obvious" option is to save both of these states on the resume stack when we enter a breakpoint and then restore them when we continue execution. I have to check with Simon if there are any difficult issues that need to be resolved here, like gracefully handling exceptions etc. (MODERATE)
+- P2 let you go back in time - save the last N breaks.  (maybe only with a flag, otherwise slow).
 
-- Remove dependency on -fhpc flag, put debugging on by default and have a flag to turn it off. (EASY)
+- P2 when an exception is thrown, behave like a breakpoint.
 
-- Support Unicode in data constructor names inside info tables. Actually this should just be a matter of using the underlying fast string in the occname. (MODERATE)
+- P2 tabs go wrong with :list
 
-- Fix the (sometimes) slow search of the ticktree for larger modules, perhaps by keeping the ticktree in the module info, rather than re-generating it each time. Simon: I currently re-build the tick tree for a module every time I set a breakpoint. This seems rather ugly. I think it would be better to keep the tick tree inside the ModInfo, and thus only build the ticktree when the module is (re)loaded. (MODERATE)
+- P2 Support Unicode in data constructor names inside info tables. Actully this should just be a matter of using the underlying fast string in the occname. (MODERATE)
 
-- Use a primop for inspecting the STACK_AP, rather than a foreign C call. (MODERATE)
+- P2 Use a primop for inspecting the STACK_AP, rather than a foreign C call. (MODERATE)
 
-- Timing and correctness tests. Pepe has some code for timing that might be useful. (MODERATE)
+- P2 Extend the stack inspection primitive to allow unboxed things to be grabbed. (MODERATE)
 
-- Stabilise the API. (MODERATE)
+- P2 Improve :list command: add ':list f', ':list M 23', etc.
 
-- Fix the calculation of free variables at tick sites (currently done too late in the pipeline, gives some wrong results). Note a possible problem with letrecs, which means some locals vars are missing in where clause. (MODERATE/DIFFICULT)
+- P2 The delete command. It is fairly primitive, and probably not done in the best way. This will be fixed when the API is finalised. (EASY)
+- P2 ":delete 999" doesn't complain
 
-- Extend the stack inspection primitive to allow unboxed things to be grabbed. (MODERATE)
+- P2 Allow breakpoints to be enabled and disabled without deleting them, as in gdb. (EASY)
 
-- Prevent unification of the Unknown type family with any other type. Perhaps by giving it some special kind? (MODERATE/EASY)
+- P2 Extend breaks and step with counters, so that we stop after N hits, rather than immediately. (EASY/MODERATE)
 
-- Fix GHCi so that it can work with real tyvars (are those called FlexiTyVars?) (UNKNOWN)
+- P2 Revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks. I'm not sure that this is worth it. In some ways the implementation based on a byte code instruction is a little cleaner than adding breaks on BCOs directly. Though the bc instruction method may be a little slower than the other way. (MODERATE/DIFFICULT)
 
-- The :stop command, to exit from a breakpoint (EASY).
+- P2 Flag to disable breakpoints?
 
-### Partially done
+- P2 When we restore the interactive context on resume, we throw away any new bindings made since the breakpoint.  Can this
+  be fixed?
 
-- The delete command. It is fairly primitive, and probably not done in the best way. This will be fixed when the API is finalised. (EASY)
+- P2 threads and breakpoints.
 
-- User documentation. You're looking at it. The user manual will have to move into the main GHC docs at some point. (ONGOING)
+- P2 if a :force results in a breakpoint, we should treat it as we do other evaluations. (currently we get
+  "**\* Ignoring breakpoint").
+  **
 
-### Tentative
-
-- Perhaps there are some redundant ticks we can delete, such as ones which begin at the same start position? (MODERATE)
-
-- Allow breakpoints to be enabled and disabled without deleting them, as in gdb. (EASY)
-
-- Extend breaks and step with counters, so that we stop after N hits, rather than immediately. (EASY/MODERATE)
-
-- Revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks. I'm not sure that this is worth it. In some ways the implementation based on a byte code instruction is a little cleaner than adding breaks on BCOs directly. Though the bc instruction method may be a little slower than the other way. (MODERATE/DIFFICULT)
-
-### Closed
-
-- Wolfgang's patch for PIC seems to break the strings in Info tables, so we need to fix that. (MODERATE)
-
-- Look at slow behaviour of :print command on long list of chars. I've asked Pepe about this, he has an idea of what the problem is and will be working on a solution soon. (MODERATE)
-
-- Allow breakpoints to be set by function name. Some questions: what about local functions? What about functions inside type class instances, and default methods of classes? One possible solution is to extend the tick tree slightly so that we can search it for function declarations. Another alternative is if the GHC API supports source location queries. The client can simply query GHC to ask what the outermost span of a declaraiton is, then we can set a tick on that span directly. Something to note is that the HPC code has some stuff in it for remembering the "path" of a function, which would be useful for naming nested functions. I don't know if it supports functions inside class declataions. (MODERATE)
-
-- Fix the ghci help command. This can be done when we decide on the final syntax of the commands. (EASY)
-
-- Add a commnad to show the current breakpoint stack (`:show context`?)
+- P2 show variables with unboxed types.
 
 ---
 
