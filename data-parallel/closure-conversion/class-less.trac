@@ -75,9 +75,8 @@ If a type declaration for constructor `T` occurs in a converted module, we need 
  * If the declaration of `T` mentions another type constructor `S` and we have `tyConCC S == NoCC`, we do not convert `T` and set its `tyConCC` field to `NoCC` as well.
  * If the declaration of `T` uses any features that we cannot (or for the moment, don't want to) convert, we do not convert `T` and set its `tyConCC` field to `NoCC`.
  * If all type constructors `S` mentioned in `T`'s definiton have `tyConCC S == ConvCC S`, we do not convert `T` and set its `tyConCC` field to `ConvCC (T, isoT)` generating a suitable conversion constructor `isoT`.  (NB: This implies that `T` does not mention any function arrows.)
- * Otherwise, we generate a converted type declaration `T_CC` together a conversion constructor  `isoT`, and set 
-`tyConCC` to `ConvCC (T_CC, isoT)`.
-Note that basic types, such as `Int` and friends, should have `tyConCC` set to `ConvCC (Int, isoInt)` with identity conversions `isoInt = id :<->: id.
+ * Otherwise, we generate a converted type declaration `T_CC` together a conversion constructor  `isoT`, and set `tyConCC` to `ConvCC (T_CC, isoT)`.
+Note that basic types, such as `Int` and friends, should have `tyConCC` set to `ConvCC (Int, isoInt)` with identity conversions `isoInt = id :<->: id`.
 
 === Converting class declarations ===
 
