@@ -101,15 +101,16 @@ impredicative instantiation as it now stands; it might change!
    on the order of 15%. '''Simon is that right?'''
 
  * Roman Leshchinskiy, Don Stewart, and Duncan Coutts did some beautiful
-   work on ''fusion''; see their papers '''""'''.
+   work on ''fusion''; see their paper http://www.cse.unsw.edu.au/~dons/papers/CSL06.html.
    This fusion work is already being heavily used in the parallel array library
    (see below), and they are also working on replacing foldr/build fusion with
-   stream fusion in the main base library (see their new paper '''""''').
+   stream fusion in the main base library (see their new paper
+   http://www.cse.unsw.edu.au/~dons/papers/CLS07.html).
    [[BR]][[BR]]
    Their work highlighted the importance of the SpecConstr transformation, which Simon
    implemented several years ago.  Of course, they suggested many enhancements, many of
    which Simon duly implemented; see the new paper "Constructor specialisation for Haskell
-   programs" '''\url{}'''
+   programs" http://research.microsoft.com/~simonpj/papers/spec-constr/.
 
  * Alexey Rodriguez visited us for three months from Utrecht, and implemented
    a new back-end optimisation called ''dynamic pointer tagging''.  We have wanted
