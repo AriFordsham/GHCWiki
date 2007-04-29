@@ -93,7 +93,7 @@ story on impredicative instantiation (see the paper "Boxy types").
 The feature is implemented, but the implementation is significantly
 more complicated than we expected; and it delivers less benefits than
 we hoped.  For example, the system described in the paper does not
-type-check (\\verb+runST $ foo+) and everyone complains. So Simon added
+type-check (`runST $ foo`) and everyone complains. So Simon added
 an even more ad-hoc extension that does left-to-right instantiation.
 
 
