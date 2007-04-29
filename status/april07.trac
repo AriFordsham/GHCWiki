@@ -13,8 +13,17 @@ platforms.
 
 We are getting more help from the community, too.  As well as
 poeple who regularly commit patches, we get a steady trickle of patches
-emailed in from folk who do not have commit rights, but who have built GHC,
-debugged a problem, sent us the patch.  Thank you.  '''[Names!]'''
+emailed in from folk who (mostly) do not have commit rights, but who have built GHC,
+debugged a problem, sent us the patch. Our thanks go out to
+Aaron Tomb, Alec Berryman, Alexey Rodriguez, Andrew Pimlott,
+Andy Gill, Bas van Dijk, Bernie Pope, Bjorn Bringert,
+Brian Alliet, Brian Smith, Chris Rodrigues, Claus Reinke,
+David Himmelstrup, David Waern, Judah Jacobson, Isaac Jones,
+Lennart Augustsson, Lennart Kolmodin, Manuel M T Chakravarty,
+Pepe Iborra, Ravi Nanavati, Samuel Bronson, Sigbjorn Finne,
+Spencer Janssen, Sven Panne, Tim Chevalier, Tim Harris,
+Tyson Whitehead, Wolfgang Thaller and anyone else who has contributed
+but we have accidentally omitted.
 
 As a result of this heavy usage, it has taken us nearly six months to
 stabilise GHC 6.6.1, fixing over 100 reported bugs or infelicities in
