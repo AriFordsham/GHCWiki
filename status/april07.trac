@@ -79,7 +79,7 @@ Simon Peyton Jones, Simon Marlow, Ian Lynagh
  * Lennart Augustsson implemented overloaded string literals.  So now
    just as a numeric literal has type `∀ a. Num a ⇒ a`,
    so a string literal has type `∀ a. IsString a ⇒ a`,
-   The documentation is here '''\url{...}'''.
+   The documentation is here: http://www.haskell.org/ghc/dist/current/docs/users_guide/other-type-extensions.html#overloaded-strings'''.
 
 A less successful feature of the last year has been the
 story on impredicative instantiation (see the paper "Boxy types").
