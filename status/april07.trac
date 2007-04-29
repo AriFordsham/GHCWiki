@@ -143,7 +143,8 @@ impredicative instantiation as it now stands; it might change!
 Peng Li, from the University of Pennsylvania, spent an exciting
 three months at Cambridge, working on a whole new architecture for
 concurrency in GHC.  (If you don't know Peng you should read his
-wonderful paper '''"xxx"''' on implementing a network protocol stack in
+wonderful paper http://www.seas.upenn.edu/~lipeng/homepage/papers/lz07pldi.pdf
+on implementing a network protocol stack in
 Haskell.)  At the moment GHC's has threads, scheduling, `forkIO`,
 `MVars`, transactional memory, and more besides, all "baked
 into" the run-time system and implemented in C.  If you want to
