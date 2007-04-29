@@ -131,7 +131,6 @@ impredicative instantiation as it now stands; it might change!
 
  * Gabriele Keller, Manuel Chakravarty, and Roman Leshchinskiy, at the
    University of New South Wales, are collaborating with us on support
-
    for ''nested data-parallel computation'' in GHC.
    We presented a paper at the Declarative Aspects of Multicore Programing
    workshop in January 2007: http://www.cse.unsw.edu.au/~chak/papers/CLPKM07.html,
