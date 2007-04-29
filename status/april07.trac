@@ -131,6 +131,7 @@ impredicative instantiation as it now stands; it might change!
 
  * Gabriele Keller, Manuel Chakravarty, and Roman Leshchinskiy, at the
    University of New South Wales, are collaborating with us on support
+
    for ''nested data-parallel computation'' in GHC.
    We presented a paper at the Declarative Aspects of Multicore Programing
    workshop in January 2007: http://www.cse.unsw.edu.au/~chak/papers/CLPKM07.html,
@@ -205,8 +206,11 @@ environment:
   
 == Libraries ==
 
-'''Simon M or Ian pls elaborate'''
+ * The set of "corelibs" has been further streamlined, with `parsec`, `regex-base`,
+   `regex-compat`, `regex-posix` and `stm` moved to extralibs in the HEAD. This disentangles
+   releases of these packages from the GHC release process, and also means that development
+   builds of GHC are quicker as they don't need to build those libraries.
 
- * More packages moved from core to extralibs
+'''Simon M or Ian pls elaborate'''
 
  * base package breakup (see discussion on libraries list)
