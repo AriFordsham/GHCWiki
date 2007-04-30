@@ -106,7 +106,7 @@ impredicative instantiation as it now stands; it might change!
 
  * Simon rewrote the Simplifier (again).  It isn't clear whether it was that alone, or
    whether something else happened too, but performance has improved quite significantly;
-   on the order of 15%. '''Simon is that right?'''
+   on the order of 12%. '''Simon is that right?'''
 
  * Roman Leshchinskiy, Don Stewart, and Duncan Coutts did some beautiful
    work on ''fusion''; see their paper http://www.cse.unsw.edu.au/~dons/papers/CSL06.html.
