@@ -223,4 +223,4 @@ environment:
   releases of these packages from the GHC release process, and also means that development
   builds of GHC are quicker as they don't need to build those libraries.
 
-- base package breakup (see discussion on libraries list)
+- We plan to extract parts of the base package into separate smaller packages; see [ this thread](http://www.haskell.org/pipermail/libraries/2007-April/007342.html) on the libraries mailing list.
