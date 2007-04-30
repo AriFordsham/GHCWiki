@@ -124,7 +124,7 @@ impredicative instantiation as it now stands; it might change!
    a new back-end optimisation called ''dynamic pointer tagging''.  We have wanted
    to do this for ages, but it needed a skilled and insightful hacker to make it all
    happen, and Alexey is just that.  This optimisation alone buys us another 15%
-   performance for compiled programs: see the paper "Dynamic pointer tagging".
+   performance for compiled programs: see the paper [http://research.microsoft.com/~simonpj/papers/ptr-tag/index.htm Dynamic pointer tagging].
 
 == Concurrency ==
 
