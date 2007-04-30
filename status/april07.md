@@ -194,7 +194,7 @@ environment:
 
 - Pepe Iborra, Bernie Pope, and Simon Marlow have leveraged the same
   "tick" points used in the Haskell Program Coverage work to implement
-  a breakpoint debugger in GHCi.  Unlike HAT, which transforms the whole
+  a [breakpoint debugger in GHCi](new-ghci-debugger).  Unlike HAT, which transforms the whole
   program into a new program that generates its own (massive) trace,
   this is a cheap-and-cheerful debugger.  It simply lets you set
   breakpoints and look around to see what is in the heap, more in the
