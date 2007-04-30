@@ -23,6 +23,7 @@ Conversion functions come in pairs, which we wrap with the following data type f
 {{{
 data a :<->: b = (:<->:) {to :: a -> b, fr ::b -> a}
 }}}
+The functions witness the isomorphism between the two representations, as usual.
 
 === Converting type declarations ===
 
@@ -63,19 +64,28 @@ Moreover, we represent closures - the converted form of function arrows - as fol
 {{{
 data a :-> b = forall e. !(e -> a -> b) :$ e
 
-isoArr :: a :<->: a_CC -> b :<->: b_CC -> (a -> b) :<->: (a_CC :-> b_CC)
+isoArr :: a :<->: a_CC   -- argument conversion
+       -> b :<->: b_CC   -- result conversion
+       -> (a -> b) :<->: (a_CC :-> b_CC)
 isoArr (toa :<->: fra) (tob :<->: frb) = toArr :<->: frArr
   where
     toArr f        = const (tob . f . fra) :$ ()
     frArr (f :$ e) = frb . f e . toa
+}}}
+So, the function array constructor `(->)::*->*->*` has a `tyConCC` field with value `ConvCC ((:->), isoArr)`.
+
+Closure application is defined as
+{{{
+($:) :: (a :-> b) -> a -> b
+(f :$ e) $: x = f e x
 }}}
 
 ==== Conversion rules ====
 
 If a type declaration for constructor `T` occurs in a converted module, we need to decide whether to convert the declaration of `T`.  We decide this as follows:
  * If the declaration of `T` mentions another type constructor `S` and we have `tyConCC S == NoCC`, we do not convert `T` and set its `tyConCC` field to `NoCC` as well.
+ * If all type constructors `S` that are mentioned in `T`'s definiton have `tyConCC S == ConvCC S`, we do not convert `T` and set its `tyConCC` field to `ConvCC (T, isoT)` generating a suitable conversion constructor `isoT`.  (NB: This implies that `T` does not mention any function arrows.)
  * If the declaration of `T` uses any features that we cannot (or for the moment, don't want to) convert, we do not convert `T` and set its `tyConCC` field to `NoCC`.
- * If all type constructors `S` mentioned in `T`'s definiton have `tyConCC S == ConvCC S`, we do not convert `T` and set its `tyConCC` field to `ConvCC (T, isoT)` generating a suitable conversion constructor `isoT`.  (NB: This implies that `T` does not mention any function arrows.)
  * Otherwise, we generate a converted type declaration `T_CC` together a conversion constructor  `isoT`, and set `tyConCC` to `ConvCC (T_CC, isoT)`.
 Note that basic types, such as `Int` and friends, should have `tyConCC` set to `ConvCC (Int, isoInt)` with identity conversions `isoInt = id :<->: id`.
 
