@@ -148,7 +148,8 @@ impredicative instantiation as it now stands; it might change!
    the summer at Microsoft on an internship, implementing a multi-threaded
    GC (http://hackage.haskell.org/trac/ghc/wiki/MotivationForParallelization).
    It works!  But alas, doing GC with two processors runs no faster than
-   with one!   
+   with one!  (we do plan to investigate this further and find the source of
+   the bottleneck).
 
 Peng Li, from the University of Pennsylvania, spent an exciting
 three months at Cambridge, working on a whole new architecture for
@@ -183,7 +184,7 @@ environment:
 
  * Pepe Iborra, Bernie Pope, and Simon Marlow have leveraged the same
    "tick" points used in the Haskell Program Coverage work to implement
-   a breakpoint debugger in GHCi.  Unlike HAT, which transforms the whole
+   a [wiki:NewGhciDebugger breakpoint debugger in GHCi].  Unlike HAT, which transforms the whole
    program into a new program that generates its own (massive) trace,
    this is a cheap-and-cheerful debugger.  It simply lets you set
    breakpoints and look around to see what is in the heap, more in the
@@ -196,12 +197,15 @@ environment:
    Core for any program, perhaps transform it in some external program,
    and read it in again, surviving the round trip unscathed. 
 
- * '''Simon M please amplify'''
-   GHC API changes, compile to object code inside GHCi
+ * It is now possible to compile to object code instead of bytecode inside GHCi, simply by setting a flag
+   (`-fobject-code`).
 
- * '''Simon, can you write something about GHC-Haddock, even if
-   it's just a pointer to the Haddock entry?'''
-  
+ * The GHC API has seen some cleanup, and it should now be both more complete and slightly easier to use.
+
+ * David Wearn has been working on integrating Haddock and GHC during his Google Summer of Code project
+   last year.  The parts of this project that involved modifying GHC are done and integrated into the
+   GHC tree.  The new version of Haddock based on GHC is usable but still experimental; the darcs repository is [http://darcs.haskell.org/SoC/haddock.ghc here].
+
 == Libraries ==
 
  * The set of "corelibs" has been further streamlined, with `parsec`, `regex-base`,
@@ -209,6 +213,4 @@ environment:
    releases of these packages from the GHC release process, and also means that development
    builds of GHC are quicker as they don't need to build those libraries.
 
-'''Simon M or Ian pls elaborate'''
-
- * base package breakup (see discussion on libraries list)
+ * We plan to extract parts of the base package into separate smaller packages; see [http://www.haskell.org/pipermail/libraries/2007-April/007342.html this thread] on the libraries mailing list.
