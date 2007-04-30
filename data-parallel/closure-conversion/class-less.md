@@ -133,14 +133,42 @@ Moreover, we handle other forms of type constructors as follows:
 - `CoercionTyCon` and `SuperKindTyCon`: They don't categorise values and are ignored during conversion.
 
 
-For example, when we process
+For example, when we convert
 
 ```wiki
 data Int = I# Int#
 ```
 
 
-Note that basic types, such as `Int` and friends, should have `tyConCC` set to `ConvCC (Int, isoInt)` with identity conversions `isoInt = id :<->: id`.
+the `tyConCC` field of `Int` is set to `ConvCC (Int, isoInt)` with
+
+```wiki
+isoInt :: Int :<->: Int
+isoInt = toInt :<->: frInt
+  where
+    toInt (I# i#) = I# i#
+    frInt (I# i#) = I# i#
+```
+
+
+As another example, the `tyConCC` field of
+
+```wiki
+data Maybe a = Nothing | Just a
+```
+
+
+has a value of `ConvCC (Maybe, isoMaybe)`, where
+
+```wiki
+isoMaybe :: (a :<->: a_CC) -> (Maybe a :<->: Maybe a_CC)
+isoMaybe isoa = toMaybe :<->: frMaybe
+  where
+    toMaybe isoa Nothing  = Nothing
+    toMaybe isoa (Just x) = Just (to isoa x)
+    frMaybe isoa Nothing  = Nothing
+    frMaybe isoa (Just x) = Just (fr isoa x)
+```
 
 ### Converting class and instances
 
