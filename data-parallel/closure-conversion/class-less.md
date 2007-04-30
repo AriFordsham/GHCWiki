@@ -170,7 +170,7 @@ isoMaybe isoa = toMaybe :<->: frMaybe
     frMaybe isoa (Just x) = Just (fr isoa x)
 ```
 
-### Converting class and instances
+### Converting classes and instances
 
 
 We don't alter class and instance declarations in any way.  However, the dictionary type constructors and dfuns are processed in the same way as other data types and value bindings, respectively; i.e., they get a `StatusCC` field and we generate converted versions and conversion constructors as usual.
@@ -181,17 +181,6 @@ We don't alter class and instance declarations in any way.  However, the diction
 chak: revision front
 
 ---
-
-### Converting instance declarations
-
-
-If we encounter an instance declaration for `C tau` during conversion, there are two alternatives: we have a conversion for `C` or not:
-
-- if we do not have a conversion, we generate an instance (and hence dfun) for `C tau^`, where `tau^` is the closure converted `tau`;
-- if we have a conversion, we generate an instance for `C_CC tau^`.
-
-
-In any case, we add a field `is_CC :: StatusCC Instance` to `InstEnv.Instance` that contains the additionally generated instance.  And in both cases, we should be able to derive the required code for the dfun from the definition of `C tau`.  We also make sure that the `dfun`'s `idCC` field (see below) is set to that of the converted dfun.
 
 ### Converting type terms
 
@@ -251,81 +240,7 @@ The idea is that conversions for parametrised types are parametrised over conver
 
 The only remaining problem is that a type parameter to a function may itself be a type parameter got from a calling function; so similar to classes, we need to pass conversion functions with every type parameter.  So, maybe we want to stick `fr` and `to` into a class after all and requires that all functions used in converted contexts have the appropriate contexts in their signatures.
 
-### Issues, aka rl's complaints
-
-#### Unboxed types
-
-
-Consider
-
-```wiki
-data Int = Int# I#
-```
-
-
-The declaration has no arrow, so we set its `tyConCC` field to `ConvCC Int` (given that we know that all unboxed types can be used unaltered).  Moreover, `Int# :: I# -> Int` has no converted form as is has an unboxed argument.
-
-#### Non-converted versus unchanged type declarations
-
-**This issue has now been addressed.**
-
-
-Many type declarations will not be changed by conversion, as they do not contain any arrows.  Hence, it is more economic to avoid generating a `_CC` version of these declarations.  I initially thought that we can ignore this for a moment, because it is only an optimisation.  However, consider
-
-```wiki
-data T = MkT Int
-data S = MkS (Int -> Int)
-```
-
-
-As we don't convert `Int`, we cannot convert `T` and `S`, which is a shame as their conversion is simple and (in the vectorisation case may affect performance dramatically).  As a matter of fact, if we identify declarations that need not be converted, then we would mark `Int` and `T` as such and can convert `S` easily.
-
-#### FC Coercions
-
-**This issue has now been addressed.**
-
-
-Closure conversion happens on Core, which means that constructors, such as `MkT` of
-
-```wiki
--- unconverted
-newtype T a = MkT (a -> a)
-```
-
-
-in a definition
-
-```wiki
--- converted
-foo :: (a -> a) -> T a
-foo f = MkT f
-```
-
-
-have vanished, leaving only a coercion.  As `T` is not converted, we need to notice that we need to generate `MkT (fr f)`.  So, we need to spot the conversion representing `MkT`.
-
-
-Generally, we need a story about treating coercions during conversion.
-
-#### Function type constructor
-
-
-It is clear how to treat types involving subtypes of the form `a -> b`.  It is less clear how to deal with partial applications of `(->)`.  Consider
-
-```wiki
--- unconverted
-data T f = T (Int -> Int) (f Int Int)
-```
-
-
-used as `T (->)` in converted code.  What is `convert (T (->))`?
-
-#### Classes
-
-**This issue has now been addressed**
-
-
-It might be sufficient to never convert class declarations as a whole, but only their representation types.
+### TODO
 
 #### Original functions
 
