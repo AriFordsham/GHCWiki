@@ -175,6 +175,45 @@ isoMaybe isoa = toMaybe :<->: frMaybe
 
 We don't alter class and instance declarations in any way.  However, the dictionary type constructors and dfuns are processed in the same way as other data types and value bindings, respectively; i.e., they get a `StatusCC` field and we generate converted versions and conversion constructors as usual.
 
+
+As an example, assume `Num Int` were defined as
+
+```wiki
+class Num a where
+  (+)    :: a -> a -> a
+  negate :: a -> a
+instance Num Int where
+  (+)    = primAddInt
+  negate = primNegateInt
+```
+
+
+with the Core code being
+
+```wiki
+data Num a = 
+  Num {
+    (+)    :: a -> a -> a,
+    negate :: a -> a
+  }
+dNumInt = Num Int
+dNumInt = Num primAddInt primNegateInt
+```
+
+
+Then, closure conversion gives us
+
+```wiki
+data Num_CC a =
+  Num_CC {
+    (+_CC)    :: a :-> a :-> a,
+    negate_CC :: a :-> a
+  }
+dNumInt_CC :: Num_CC Int  -- Int \equiv Int_CC
+dNumInt_CC = Num_CC $: fr?? isoInt primAddInt $: fr?? isoInt primNegateInt
+!!!TODO
+```
+
 ---
 
 
