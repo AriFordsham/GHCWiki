@@ -207,11 +207,14 @@ environment:
   Core for any program, perhaps transform it in some external program,
   and read it in again, surviving the round trip unscathed. 
 
-- **Simon M please amplify**
-  GHC API changes, compile to object code inside GHCi
+- It is now possible to compile to object code instead of bytecode inside GHCi, simply by setting a flag
+  (`-fobject-code`).
 
-- **Simon, can you write something about GHC-Haddock, even if
-  it's just a pointer to the Haddock entry?**
+- The GHC API has seen some cleanup, and it should now be both more complete and slightly easier to use.
+
+- David Wearn has been working on integrating Haddock and GHC during his Google Summer of Code project
+  last year.  The parts of this project that involved modifying GHC are done and integrated into the
+  GHC tree.  The new version of Haddock based on GHC is usable but still experimental; the darcs repository is [ here](http://darcs.haskell.org/SoC/haddock.ghc).
 
 ## Libraries
 
@@ -219,7 +222,5 @@ environment:
   `regex-compat`, `regex-posix` and `stm` moved to extralibs in the HEAD. This disentangles
   releases of these packages from the GHC release process, and also means that development
   builds of GHC are quicker as they don't need to build those libraries.
-
-**Simon M or Ian pls elaborate**
 
 - base package breakup (see discussion on libraries list)
