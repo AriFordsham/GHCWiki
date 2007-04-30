@@ -1,11 +1,11 @@
 [[wiki:DataParallel/ClosureConversion Up]]
 == Closure conversion without indexed types ==
 
-The following scheme approaches the problem of mixing converted and unconverted code from the point of view of GHC's Core representation, avoiding the use of classes as much as possible.  In particular, the scheme gracefully handles any declarations that themselves cannot be converted, but occur in a converted module.
+The following scheme approaches the problem of mixing converted and unconverted code from the point of view of GHC's Core representation, avoiding the use of classes as much as possible.  In particular, the scheme gracefully handles any declarations that themselves cannot be converted, but occur in a converted module.  The two essential ideas are that (1) we move between converted and unconverted values/code using a conversion isomorphism and (2) we treat unconverted declarations differently depending on whether or not they involve arrows; e.g., the definition of `Int` by way of unboxed values (which we cannot convert) doesn't prevent us from using `Int`s ''as is'' in converted code.
 
 === Conversion status ===
 
-We add to all declaration that are affected by closure conversion a value of type
+We add to all declarations that are affected by closure conversion a value of type
 {{{
 data StatusCC a 
   = NoCC      -- Declaration has not been converted
@@ -15,6 +15,7 @@ For example, `Id` gets a field of type `StatusCC Id`.  A declaration `thisDecl` 
  * `NoCC`: We did not convert that declaration, either because it was declared in an unconverted module or because it uses some feature that prevents conversion.
  * `ConvCC thisDecl`: Original and converted declaration coincide (e.g., type declarations not involving arrows directly or indirectly).
  * `ConvCC convDecl`: The variant `convDecl` is the closure-converted form of `thisDecl`.
+An example of a feature that prevents conversion are unboxed values.  We cannot make a closure from a function that has an unboxed argument, as we can neither instantiate the parametric polymorphic closure type with unboxed types, nor can we put unboxed values into the existentially quantified environment of a closure.
 
 === Conversion pairs ===
 
