@@ -190,7 +190,7 @@ environment:
    "just works".
 
  * Aaron Tomb and Tim Chevalier are working on resurrecting External
-   Core '''\url{...}''', whose implementation was not only bit-rotted, but also poorly 
+   Core, whose implementation was not only bit-rotted, but also poorly 
    designed (by Simon PJ).  By GHC 6.8 we hope to be able to spit out External
    Core for any program, perhaps transform it in some external program,
    and read it in again, surviving the round trip unscathed. 
