@@ -8,25 +8,20 @@ The following scheme approaches the problem of mixing converted and unconverted 
 ### Conversion status
 
 
-To all `TyCon`s, `DataCon`s, and `Id`s, we add a value of type
+All `TyCon`s, `DataCon`s, and `Id`s have a *conversion status* that determines how occurences of these entities are treated during conversion.  For an `Id` named `v`, we have two alternatives:
 
-```wiki
-data StatusCC a 
-  = NoCC      -- Declaration has not been converted
-  | ConvCC a  -- Here is the converted version
-```
+1. The binding of `v` was compiled without conversion and we have to use `v` itself in converted code, which requires the use of an in-place conversion function.
+1. Otherwise, we have a converted variant `v_CC`, and we use `v_CC` instead of `v` in converted code.
 
 
-For example, `Id` gets a field of type `StatusCC Id`.  A declaration `thisDecl` can be in one of three categories:
+For a type constructor `T` and its data constructors `C`, we have three alternatives:
 
-- `NoCC`: We did not convert that declaration, either because it was declared in an unconverted module or because it uses some feature that prevents conversion.
-- `ConvCC thisDecl`: Original and converted declaration coincide (e.g., type declarations not involving arrows directly or indirectly).
-- `ConvCC convDecl`: The variant `convDecl` is the closure-converted form of `thisDecl`.
+1. The declaration introducing `T` and its constructors was compiled without conversion or we were unable to convert it, as it uses some language features that prevents conversion.
+1. The converted variant `T_CC` coincides with `T` (e.g., because `T` neither directly nor indirectly involves arrows).
+1. The converted variant `T_CC` differs from `T`.
 
 
 An example of a feature that prevents conversion are unboxed values.  We cannot make a closure from a function that has an unboxed argument, as we can neither instantiate the parametric polymorphic closure type with unboxed types, nor can we put unboxed values into the existentially quantified environment of a closure.
-
-**TODO** We won't really store `StatusCC` in `TyCon`s, `DataCon`s, and `Id`s, but instead have three finite maps maintaining the same information.
 
 ### Conversion pairs
 
