@@ -121,14 +121,14 @@ isoArr (toa :<->: fra) (tob :<->: frb) = toArr :<->: frArr
 
 If a type declaration for constructor `T` occurs in a converted module, we need to decide whether to convert the declaration of `T`.  We decide this as follows:
  1. If the declaration of `T` mentions another algebraic type constructor `S` for which there is '''no''' `S_CC`, then we cannot convert `T`.
- 2. If '''all''' algebraic type constructors `S` that are mentioned in `T`'s definiton have `tyConCC S == ConvCC S`, we do not convert `T`, but set its `tyConCC` field to `ConvCC T` and generate a suitable conversion constructor `isoT`.  (NB: The condition implies that `T` does not mention any function arrows.)
- 3. If the declaration of `T` uses any features that we cannot (or for the moment, don't want to) convert, we set its `tyConCC` field to `NoCC` - except if Case 2 applies.
- 4. Otherwise, we generate a converted type declaration `T_CC` together a conversion constructor  `isoT`, and set `tyConCC` to `ConvCC T_CC`.  Conversion proceeds by converting all data constructors (see below).
+ 2. If '''all''' algebraic type constructors `S` mentioned in `T`'s definiton have a conversion `S_CC  == S`, we do not convert `T`, but set `T_CC == T` and generate a suitable conversion constructor `isoT`.  (NB: The condition implies that `T` does not mention any function arrows.)
+ 3. If the declaration of `T` uses any features that we cannot (or for the moment, don't want to) convert, simply don't convert it.
+ 4. Otherwise, we generate a converted type declaration `T_CC` together with a conversion constructor `isoT`.  Conversion proceeds by converting all data constructors (see below).
 Moreover, we handle other forms of type constructors as follows:
- * `FunTyCon`: It's `StatusCC` value was defined above.  We handle any occurence of the function type constructor like that of an algabraic type constructor with the `StatusCC` value given above, but we may not want to explcitly store that value in a field of `FunTyCon`, as `(:->)` would then probably need to go into `TyWiredIn` in.
- * `TupleTyCon`: The `StatusCC` value of a tuple constructor `T` is `ConvCC T`; i.e., we don't need converted tuple type constructors.  However, we need a suitable conversion functions `isoT` for all supported tuple types somewhere.  Unfortunately, there are many tuple types, and hence, many conversion functions.  An alternative might be to special case tuples during conversion generation and just inline the needed case construct.
+ * `FunTyCon`: We have `(->)_CC = (:->)`.
+ * `TupleTyCon`: We have `(,..,)_CC = (,..,)`.  We may either have a (long) list of conversion constructors `iso(,..,)` pre-defined or need to generate them inline by generating a suitable case expression where needed.
  * `SynTyCon`: Closure conversion operates on `coreView`; hence, we will see no synonyms.  (Well, we may see synonym families, but will treat them as not convertible for the moment.)
- * `PrimTyCon`: We essentially ignore primitive types during conversion.  We assume their converted and unconverted form are identical, which implies that they never inhibit conversion and that they need no conversion constructors.
+ * `PrimTyCon`: We essentially ignore primitive types during conversion, assuming that their converted and unconverted forms coincide.  As they cannot contain values of other types, we need no conversion constructor.
  * `CoercionTyCon` and `SuperKindTyCon`: They don't categorise values and are ignored during conversion.
 
 ==== Conversion constructor ====
