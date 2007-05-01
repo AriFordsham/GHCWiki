@@ -38,9 +38,12 @@ data a :-> b = forall e. !(e -> a -> b) :$ e
 ```
 
 
-and define closure application as
+and define closure creation and application as
 
 ```wiki
+lam :: (a -> b) -> (a :-> b)
+lam f = const f :$ ()
+
 ($:) :: (a :-> b) -> a -> b
 (f :$ e) $: x = f e x
 ```
@@ -154,6 +157,48 @@ isoArr (toa :<->: fra) (tob :<->: frb) = toArr :<->: frArr
   where
     toArr f        = const (tob . f . fra) :$ ()
     frArr (f :$ e) = frb . f e . toa
+```
+
+### Conversions
+
+#### Rules
+
+
+To perform the actual conversion of values of a type `t::*`, we generate a conversion `iso<t>` of type `t :<->: t^` as follows:
+
+```wiki
+iso<T>          = isoT           , if T_CC exists
+                = idIso<*>       , otherwise
+iso<a::k>       = idIso<k>
+iso<t1 -> t2>   = idIso<*>       , if kindOf t1 == #
+                                   or kindOf t2 == #
+                = isoArr         , otherwise 
+                    iso<t1> iso<t2>
+iso<t1 t2>      = iso<t1> iso<t2>
+iso<forall a.t> = iso<t>
+```
+
+
+where
+
+```wiki
+idIso<*>      = id :<->: id
+idIso<k1->k2> = \_ -> (idIso<k2>)
+```
+
+#### Examples
+
+
+Here some example conversions:
+
+```wiki
+iso<Int -> Int>     = isoArr isoInt isoInt
+iso<Int -> Int#>    = id :<->: id
+iso<[a -> a]>       = isoList (isoArr (id :<->: id) 
+                                      (id :<->: id))
+iso<f (Int -> Int)> = (\_ -> (id :<->: id))
+                        (isoArr isoInt isoInt)
+                    = id :<-> id
 ```
 
 ### Converting type declarations
@@ -321,14 +366,41 @@ f :: t = fr iso<t> f_CC
 
 #### Examples
 
+
+Given 
+
+```wiki
+add :: Num a -> a -> a
+add = \dNum x -> (+) dNum x 1
+```
+
+
+we generate
+
+```wiki
+add :: Num a -> a -> a
+add = fr isoFun add_CC
+  where
+    isoFun = isoNum (id :<->: id) `isoArr`
+             (id :<->: id)        `isoArr`
+             (id :<->: id)
+
+add_CC :: Num_CC a :-> a :-> a
+add_CC = lam $ \dNum -> 
+           (\dNum x -> (+_CC) dNum $: x $: 1) :$ dNum
+```
+
+
+Note how we have to be careful not to use `($:)` for field selection from the dictionary.
+
+### Converting terms
+
 ---
 
 
 chak: revision front
 
 ---
-
-### Converting core terms
 
 
 Apart from the standard rules, we need to handle the following special cases:
@@ -337,29 +409,6 @@ Apart from the standard rules, we need to handle the following special cases:
 - We come across a case expression where the scrutinised type `T` has `tyConCC T == NoCC`: we leave the case expression as is (i.e., unconverted), but make sure that the `idCC` field of all variables bound by patterns in the alternatives have their `idCC` field as `NoCC`.  (This implies that the previous case will kick in and convert the (unconverted) values obtained after decomposition.)
 - Whenever we have an FC `cast` from or to a newtype `T`, where `tyConCC T == NoCC`, we need to add a `convert tau` or `trevnoc tau`, respectively.  We can spot these casts by inspecting the kind of every coercion used in a cast.  One side of the equality will have the newtype constructor.
 - We come across a dfun: If its `idCC` field is `NoCC`, we keep the selection as is, but apply `convert t e` from it, where `t` is the type of the selected method and `e` the selection expression.  If `idCC` is `ConvCC d_CC`, and the dfun's class is converted, `d_CC` is fully converted.  If it's class is not converted, we also keep the selection unconverted, but have a bit less to do in `convert t e`.  **TODO** This needs to be fully worked out.
-
-### Generating conversions
-
-
-Whenever we had `convert t e` above, where `t` is an unconverted type and `e` a converted expression, we need to generate some conversion code.  This works roughly as follows in a type directed manner:
-
-```wiki
-convert T          = id   , if tyConCC T == NoCC or AsIsCC
-                   = to_T , otherwise
-convert a          = id
-convert (t1 t2)    = convert t1 (convert t2)
-convert (t1 -> t2) = createClosure using (trevnoc t1) 
-                     and (convert t2) on argument and result resp.
-```
-
-
-where `trevnoc` is the same as `convert`, but using `from_T` instead of `to_T`.
-
-
-The idea is that conversions for parametrised types are parametrised over conversions of their parameter types.  Wherever we call a function using parametrised types, we will know these type parameters (and hence can use `convert`) to compute their conversions.  This fits well, because it is at occurences of `Id`s that have `idCC == NoCC` where we have to perform conversion.
-
-
-The only remaining problem is that a type parameter to a function may itself be a type parameter got from a calling function; so similar to classes, we need to pass conversion functions with every type parameter.  So, maybe we want to stick `fr` and `to` into a class after all and requires that all functions used in converted contexts have the appropriate contexts in their signatures.
 
 ### TODO
 
@@ -370,32 +419,3 @@ Have an example with two modules one unconverted, where the converted imports th
 
 
 Also have an example that motivates why we have to vectorise/CC declarations such as `Int`.
-
-#### Conversion functions
-
-
-Similar to `HasGenerics` and instead of storing `Id` of conversion constructors, we can derive from the name of the `TyCon`.
-
-#### Data constructors
-
-
-How to exactly handle the worker and wrapper?  Can we replace arrows by closure types in the worker?  Or do we always have to add a wrapper?
-
-**Simpler''' Don't try to make a complete cloned data constructor.  By the time of CC, its all just Core and so wrappers are just like any other global function.
-**
-
-#### Original functions
-
-
-The previous story was that when vectorising `f` and generating `f_CC`, we now define
-
-```wiki
-f :: tau
-f = trevnoc tau f_CC
-```
-
-
-Now, with the approximate conversion scheme above, we may not have `trevnoc tau`.  In this case, we still generate `f_CC`, but also leave the rhs of `f` alone (i.e., compile the original functions).
-
-
-When we give up on converting a complete right-hand side, we still want to convert all subexpressions that we can convert.
