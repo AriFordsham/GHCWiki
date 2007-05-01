@@ -16,12 +16,12 @@ All `TyCon`s, `DataCon`s, and `Id`s have a *conversion status* that determines h
 
 For a type constructor `T` and its data constructors `C`, we have three alternatives:
 
-1. The declaration introducing `T` and its constructors was compiled without conversion or we were unable to convert it, as it uses some language features that prevents conversion.
-1. The converted variant `T_CC` coincides with `T` (e.g., because `T` neither directly nor indirectly involves arrows).
-1. The converted variant `T_CC` differs from `T`.
+1. The declaration introducing `T` and its constructors was compiled without conversion or we were unable to convert it, as it uses some language feature that prevents conversion.
+1. A converted variant `T_CC` exists, but coincides with `T` (e.g., because `T` neither directly nor indirectly involves arrows).
+1. A converted variant `T_CC` exists and differs from `T`.
 
 
-In the last two cases, we also have a *conversion constructor*`isoT` whose type and function is described below.
+In the last two cases, we also have a *conversion constructor*`isoT` whose type and meaning is described below.
 
 
 An example of a feature that prevents conversion are unboxed values.  We cannot make a closure from a function that has an unboxed argument, as we can neither instantiate the parametric polymorphic closure type with unboxed types, nor can we put unboxed values into the existentially quantified environment of a closure.
@@ -158,17 +158,12 @@ isoArr (toa :<->: fra) (tob :<->: frb) = toArr :<->: frArr
 
 ### Converting type declarations
 
-#### Preliminaries
-
-
-In the latter case, there is also a conversion constructor `isoT` between values inhabitating types formed from the original and converted constructor.  
-
 #### Conversion rules
 
 
 If a type declaration for constructor `T` occurs in a converted module, we need to decide whether to convert the declaration of `T`.  We decide this as follows:
 
-1. If the declaration of `T` mentions another algebraic type constructor `S` with `tyConCC S == NoCC`, we cannot convert `T` and set its `tyConCC` field to `NoCC` as well.
+1. If the declaration of `T` mentions another algebraic type constructor `S` for which there is **no**`S_CC`, then we cannot convert `T`.
 1. If **all** algebraic type constructors `S` that are mentioned in `T`'s definiton have `tyConCC S == ConvCC S`, we do not convert `T`, but set its `tyConCC` field to `ConvCC T` and generate a suitable conversion constructor `isoT`.  (NB: The condition implies that `T` does not mention any function arrows.)
 1. If the declaration of `T` uses any features that we cannot (or for the moment, don't want to) convert, we set its `tyConCC` field to `NoCC` - except if Case 2 applies.
 1. Otherwise, we generate a converted type declaration `T_CC` together a conversion constructor  `isoT`, and set `tyConCC` to `ConvCC T_CC`.  Conversion proceeds by converting all data constructors (see below).
@@ -181,6 +176,11 @@ Moreover, we handle other forms of type constructors as follows:
 - `SynTyCon`: Closure conversion operates on `coreView`; hence, we will see no synonyms.  (Well, we may see synonym families, but will treat them as not convertible for the moment.)
 - `PrimTyCon`: We essentially ignore primitive types during conversion.  We assume their converted and unconverted form are identical, which implies that they never inhibit conversion and that they need no conversion constructors.
 - `CoercionTyCon` and `SuperKindTyCon`: They don't categorise values and are ignored during conversion.
+
+#### Conversion constructor
+
+
+Whenever, we set `T_CC`, we also need to generate a conversion constructor `isoT`.  If `T` has one or more arguments, the conversion is non-trivial, even for `T_CC == T`.
 
 #### Converting data constructors
 
