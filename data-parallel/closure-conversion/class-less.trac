@@ -25,8 +25,11 @@ We represent closures by
 {{{
 data a :-> b = forall e. !(e -> a -> b) :$ e
 }}}
-and define closure application as
+and define closure creation and application as
 {{{
+lam :: (a -> b) -> (a :-> b)
+lam f = const f :$ ()
+
 ($:) :: (a :-> b) -> a -> b
 (f :$ e) $: x = f e x
 }}}
@@ -276,12 +279,31 @@ f :: t = fr iso<t> f_CC
 
 ==== Examples ====
 
+Given 
+{{{
+add :: Num a -> a -> a
+add = \dNum x -> (+) dNum x 1
+}}}
+we generate
+{{{
+add :: Num a -> a -> a
+add = fr isoFun add_CC
+  where
+    isoFun = isoNum (id :<->: id) `isoArr`
+             (id :<->: id)        `isoArr`
+             (id :<->: id)
+
+add_CC :: Num_CC a :-> a :-> a
+add_CC = lam $ \dNum -> 
+           (\dNum x -> (+_CC) dNum $: x $: 1) :$ dNum
+}}}
+Note how we have to be careful not to use `($:)` for field selection from the dictionary.
+
+=== Converting terms ===
 
 ----
 chak: revision front
 ----
-
-=== Converting core terms ===
 
 Apart from the standard rules, we need to handle the following special cases:
  * We come across a value variable `v` where `idCC v == NoCC` whose type is `t`: we generate `convert t v` (see below).
