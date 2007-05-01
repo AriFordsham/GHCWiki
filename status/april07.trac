@@ -146,13 +146,13 @@ impredicative instantiation as it now stands; it might change!
    the summer at Microsoft on an internship, implementing a multi-threaded
    GC (http://hackage.haskell.org/trac/ghc/wiki/MotivationForParallelization).
    It works!  But alas, doing GC with two processors runs no faster than
-   with one!  (we do plan to investigate this further and find the source of
-   the bottleneck).
+   with one!  (We do plan to investigate this further and find the source of
+   the bottleneck.)
 
 Peng Li, from the University of Pennsylvania, spent an exciting
 three months at Cambridge, working on a whole new architecture for
 concurrency in GHC.  (If you don't know Peng you should read his
-wonderful paper http://www.seas.upenn.edu/~lipeng/homepage/papers/lz07pldi.pdf
+wonderful paper [http://www.seas.upenn.edu/~lipeng/homepage/papers/lz07pldi.pdf Combining Events And Threads For Scalable Network Services]
 on implementing a network protocol stack in
 Haskell.)  At the moment GHC's has threads, scheduling, `forkIO`,
 `MVars`, transactional memory, and more besides, all "baked
