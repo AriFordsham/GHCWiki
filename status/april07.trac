@@ -22,7 +22,7 @@ David Himmelstrup, David Waern, Judah Jacobson, Isaac Jones,
 Lennart Augustsson, Lennart Kolmodin, Manuel M T Chakravarty,
 Pepe Iborra, Ravi Nanavati, Samuel Bronson, Sigbjorn Finne,
 Spencer Janssen, Sven Panne, Tim Chevalier, Tim Harris,
-Tyson Whitehead, Wolfgang Thaller and anyone else who has contributed
+Tyson Whitehead, Wolfgang Thaller, and anyone else who has contributed
 but we have accidentally omitted.
 
 As a result of this heavy usage, it has taken us nearly six months to
@@ -55,17 +55,17 @@ Simon Peyton Jones, Simon Marlow, Ian Lynagh
    Much of the conversion work was done by Kevin Donnelly, while he
    was on an internship at Microsoft.
 
- * Manuel Chakravarty has implemented ''type-indexed data types'',
+ * Manuel Chakravarty has implemented ''data-type families'' (aka indexed data types),
    a modest generalisation of the ''associated data types''
    of our POPL'05 paper
    http://research.microsoft.com/~simonpj/papers/assoc-types/.
    [[BR]][[BR]]
-   This part is done. Now we are working on indexed ''type synonyms''
+   This part is done. Now we are working on ''type-synonym families''
    (aka type functions), which are considerably trickier that
    indexed data types, at least so far as type inference is concerned.
    Tom Schrijvers is in Cambridge for three months to help us use ides
    from Constraint Handling Rules to solve the inference problem.
-   Indexed type synonyms will almost completely fill the spot occupied
+   Type synonym families will almost completely fill the spot occupied
    by the always-troublesome functional dependencies, so we are quite
    excited about this.
    [[BR]][[BR]]
