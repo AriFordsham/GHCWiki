@@ -296,6 +296,7 @@ add_CC :: Num_CC a :-> a :-> a
 add_CC = lam $ \dNum -> 
            (\dNum x -> (+_CC) $: dNum $: x $: 1) :$ dNum
 }}}
+If `add` is used in unconverted code it will still refer to the converted computation `add_CC`; i.e., we can use converted (and subsequently vectorised) code from unconverted/unvectorised code just by importing a converted/vectorised module as normal into an unconverted module.
 
 
 === Converting terms ===
