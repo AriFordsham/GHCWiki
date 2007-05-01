@@ -139,8 +139,7 @@ impredicative instantiation as it now stands; it might change!
    http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell.
 
  * Tim Harris added support for ''invariants'' to GHC's Software
-   Transactional Memory (STM) implementation. Paper here:
-   http://research.microsoft.com/~simonpj/papers/stm/.
+   Transactional Memory (STM) implementation. Paper is [http://research.microsoft.com/~simonpj/papers/stm/ Transactional memory with data invariants].
     
  * At the moment GHC's ''garbage collector'' is single-threaded,
    even when GHC is running on a multiprocessor.  Roshan James spent
