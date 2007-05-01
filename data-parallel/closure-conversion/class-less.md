@@ -234,7 +234,12 @@ data Num_CC a =
     negate_CC :: a :-> a
   }
 dNumInt_CC :: Num_CC Int  -- Int \equiv Int_CC
-dNumInt_CC = Num_CC (to (isoArr isoInt (isoArr isoInt isoInt)) primAddInt) (to (isoArr isoInt isoInt) primNegateInt)
+dNumInt_CC = Num_CC 
+               (to isoIntToIntToInt primAddInt) 
+               (to isoIntToInt primNegateInt)
+  where
+    isoIntToIntToInt = isoArr isoInt isoIntToInt
+    isoIntToInt      = isoArr isoInt isoInt
 ```
 
 ---
