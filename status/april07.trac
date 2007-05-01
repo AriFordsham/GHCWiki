@@ -90,7 +90,7 @@ Simon Peyton Jones, Simon Marlow, Ian Lynagh
    The documentation is here: http://www.haskell.org/ghc/dist/current/docs/users_guide/other-type-extensions.html#overloaded-strings.
 
 A less successful feature of the last year has been the
-story on impredicative instantiation (see the paper [http://research.microsoft.com/~simonpj/papers/boxy Boxy types]).
+story on impredicative instantiation (see the paper [http://research.microsoft.com/~simonpj/papers/boxy Boxy types: type inference for higher-rank types and impredicativity]).
 The feature is implemented, but the implementation is significantly
 more complicated than we expected; and it delivers fewer benefits than
 we hoped.  For example, the system described in the paper does not
