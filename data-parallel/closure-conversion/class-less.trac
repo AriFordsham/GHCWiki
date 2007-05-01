@@ -23,6 +23,34 @@ data a :<->: b = (:<->:) {to :: a -> b, fr ::b -> a}
 }}}
 The functions witness the isomorphism between the two representations, as usual.
 
+=== Converting types ===
+
+We determine the converted type `t^` of `t` as follows:
+{{{
+T^            = T_CC , if T_CC exists
+              = T    , otherwise
+a^            = a_CC
+(t1 -> t2)^   = t1 -> t2   , if kindOf t1 == #
+                             or kindOf t2 == #
+              = t1^ :-> t2^, otherwise
+(t1 t2)^      = t1^ t2^
+(forall a.t)^ = forall a_CC.t^
+}}}
+Here some examples,
+{{{
+(Int -> Int)^           = Int :-> Int
+(forall a. [a] -> [a])^ = [a] :-> [a]
+([Int -> Int] -> Int)^  = [Int :-> Int] :-> Int
+(Int# -> Int# -> Int#)^ = Int# -> Int# -> Int#
+((Int -> Int) -> Int#)^ = (Int -> Int) -> Int#
+(Int -> Int -> Int#)^   = Int :-> (Int -> Int#)
+}}}
+
+Why do we use `(t1 -> t2)^ = t1 -> t2` when either argument type is unboxed, instead of producing `t1^ -> t2^`?  Because we want to avoid creating conversion constructors (see below) for such types.  After all, the conversion constructor `isoArr` for function arrows works only for arrows of kind `*->*->*`.
+
+
+
+
 === Converting type declarations ===
 
 ==== Preliminaries ====
@@ -175,31 +203,6 @@ dNumInt_CC = Num_CC
     isoIntToIntToInt = isoArr isoInt isoIntToInt
     isoIntToInt      = isoArr isoInt isoInt
 }}}
-
-=== Converting type terms ===
-
-We determine the converted type `t^` of `t` as follows:
-{{{
-T^            = T_CC , if tyConCC T == ConvCC T_CC
-              = T    , otherwise
-a^            = a_CC
-(t1 -> t2)^   = t1 -> t2   , if kindOf t1 == #
-                             or kindOf t2 == #
-              = t1^ :-> t2^, otherwise
-(t1 t2)^      = t1^ t2^
-(forall a.t)^ = forall a_CC.t^
-}}}
-Here some examples,
-{{{
-(Int -> Int)^           = Int :-> Int
-(forall a. [a] -> [a])^ = [a] :-> [a]
-([Int -> Int] -> Int)^  = [Int :-> Int] :-> Int
-(Int# -> Int# -> Int#)^ = Int# -> Int# -> Int#
-((Int -> Int) -> Int#)^ = (Int -> Int) -> Int#
-(Int -> Int -> Int#)^   = Int :-> (Int -> Int#)
-}}}
-
-Why do we use `(t1 -> t2)^ = t1 -> t2` when either argument type is unboxed, instead of producing `t1^ -> t2^`?  Because we want to avoid   creating conversion constructors for such types.  After all, the conversion constructor `isoArr` for function arrows works only for arrows of kind `*->*->*`.
 
 === Converting value bindings ===
 
