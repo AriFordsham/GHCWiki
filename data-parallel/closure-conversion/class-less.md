@@ -158,6 +158,8 @@ isoArr (toa :<->: fra) (tob :<->: frb) = toArr :<->: frArr
 
 ### Conversions
 
+#### Rules
+
 
 To perform the actual conversion of values of a type `t::*`, we generate a conversion `iso<t>` of type `t :<->: t^` as follows:
 
@@ -179,6 +181,21 @@ where
 ```wiki
 idIso<*>      = id :<->: id
 idIso<k1->k2> = \_ -> (idIso<k2>)
+```
+
+#### Examples
+
+
+Here some example conversions:
+
+```wiki
+iso<Int -> Int>     = isoArr isoInt isoInt
+iso<Int -> Int#>    = id :<->: id
+iso<[a -> a]>       = isoList (isoArr (id :<->: id) 
+                                      (id :<->: id))
+iso<f (Int -> Int)> = (\_ -> (id :<->: id))
+                        (isoArr isoInt isoInt)
+                    = id :<-> id
 ```
 
 ### Converting type declarations
