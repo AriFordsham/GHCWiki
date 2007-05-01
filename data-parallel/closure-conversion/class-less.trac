@@ -13,17 +13,26 @@ For a type constructor `T` and its data constructors `C`, we have three alternat
  1. The declaration introducing `T` and its constructors was compiled without conversion or we were unable to convert it, as it uses some language features that prevents conversion.
  2. The converted variant `T_CC` coincides with `T` (e.g., because `T` neither directly nor indirectly involves arrows).
  3. The converted variant `T_CC` differs from `T`.
+In the last two cases, we also have a ''conversion constructor'' `isoT` whose type and function is described below.
+
 An example of a feature that prevents conversion are unboxed values.  We cannot make a closure from a function that has an unboxed argument, as we can neither instantiate the parametric polymorphic closure type with unboxed types, nor can we put unboxed values into the existentially quantified environment of a closure.
 
-=== Conversion pairs ===
-
-Conversion functions come in pairs, which we wrap with the following data type for convenience:
-{{{
-data a :<->: b = (:<->:) {to :: a -> b, fr ::b -> a}
-}}}
-The functions witness the isomorphism between the two representations, as usual.
-
 === Converting types ===
+
+==== The closure type ====
+
+We represent closures by
+{{{
+data a :-> b = forall e. !(e -> a -> b) :$ e
+}}}
+and define closure application as
+{{{
+($:) :: (a :-> b) -> a -> b
+(f :$ e) $: x = f e x
+}}}
+So, we have `(->)_CC == (:->)`.
+
+==== Conversion of type terms ====
 
 We determine the converted type `t^` of `t` as follows:
 {{{
@@ -49,13 +58,21 @@ Here some examples,
 Why do we use `(t1 -> t2)^ = t1 -> t2` when either argument type is unboxed, instead of producing `t1^ -> t2^`?  Because we want to avoid creating conversion constructors (see below) for such types.  After all, the conversion constructor `isoArr` for function arrows works only for arrows of kind `*->*->*`.
 
 
+=== Conversion constructors ===
 
+To move between `t` and `t^` we use conversion functions.  And to deal with type constructors, we need ''conversion constructors''; i.e., functions that map conversion functions for type arguments to conversion functions for compound types.
 
-=== Converting type declarations ===
+==== Conversion pairs ====
 
-==== Preliminaries ====
+Conversion functions come in pairs, which we wrap with the following data type for convenience:
+{{{
+data a :<->: b = (:<->:) {to :: a -> b, fr ::b -> a}
+}}}
+The functions witness the isomorphism between the two representations, as usual.
 
-The alternatives of `TyCon.TyCon` get a new field `tyConCC :: StatusCC TyCon`.  This field is `NoCC` for data constructors for which we have no conversion and `ConvCC T_CC` if we have a conversion, where the converted declaration `T_CC` may coincide with `T`.  In the latter case, there is also a ''conversion constructor'' `isoT` between values inhabitating types formed from the original and converted constructor.  The type of a conversion constructor is determined by the kind of the converted type, as follows:
+==== Types of convercion constructors ====
+
+The type of a conversion constructor depends on the kind of the converted type constructor:
 {{{
 isoTy (t::k1->k2) = forall a a_CC.
                       isoTy (a::k1) -> isoTy (t a::k2)
@@ -67,7 +84,7 @@ As an example, consider
 {{{
 data T (f::*->*) = T1 (f Int) | T2 (f Bool)
 }}}
-The type of the conversion constructor is as follows (using more meaningful type variable names):
+The type of the conversion constructor is as follows :
 {{{
 isoTy (T::(*->*)->*) =
   forall f f_CC. 
@@ -79,17 +96,15 @@ The conversion constructor might be implemented as
 {{{
 isoT isof = toT :<->: frT
   where
-    toT (T1 x) = T1 (to (tff tfInt ) x)
-    toT (T2 y) = T2 (to (tff tfBool) y)
-    frT (T1 x) = T1 (fr (tff tfInt ) x)
-    frT (T2 y) = T2 (fr (tff tfBool) y)
+    toT (T1 x) = T1 (to (isof isoInt ) x)
+    toT (T2 y) = T2 (to (isof isoBool) y)
+    frT (T1 x) = T1 (fr (isof isoInt ) x)
+    frT (T2 y) = T2 (fr (isof isoBool) y)
 }}}
 where `isoInt` and `isoBool` are the conversion constructors for `Int`s and `Bool`s.
 
-Moreover, we represent closures - the converted form of function arrows - as follows:
+Moreover, the conversion constructor for function arrows is
 {{{
-data a :-> b = forall e. !(e -> a -> b) :$ e
-
 isoArr :: a :<->: a_CC   -- argument conversion
        -> b :<->: b_CC   -- result conversion
        -> (a -> b) :<->: (a_CC :-> b_CC)
@@ -98,13 +113,13 @@ isoArr (toa :<->: fra) (tob :<->: frb) = toArr :<->: frArr
     toArr f        = const (tob . f . fra) :$ ()
     frArr (f :$ e) = frb . f e . toa
 }}}
-So, the function array constructor `(->)::*->*->*` has a `StatusCC` value of `ConvCC ((:->)` with `isoArr` as the conversion constructor.
 
-Closure application is defined as
-{{{
-($:) :: (a :-> b) -> a -> b
-(f :$ e) $: x = f e x
-}}}
+
+=== Converting type declarations ===
+
+==== Preliminaries ====
+
+In the latter case, there is also a conversion constructor `isoT` between values inhabitating types formed from the original and converted constructor.  
 
 ==== Conversion rules ====
 
