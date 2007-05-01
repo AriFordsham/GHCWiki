@@ -30,7 +30,7 @@ We also have notes on [type checking with indexed synonyms.](type-functions-syn-
 
 **Type family**: a data-type family or type-synonym family.
 
-**Parametric type constructors**: Type constructors in vanilla Haskell.
+**Parametric type constructors**: the type constructor of a vanilla Haskell type.
 
 **Family type constructor** or **Family `TyCon`**: the type constructor for a type family.
 
