@@ -8,25 +8,83 @@ The following scheme approaches the problem of mixing converted and unconverted 
 ### Conversion status
 
 
-To all `TyCon`s, `DataCon`s, and `Id`s, we add a value of type
+All `TyCon`s, `DataCon`s, and `Id`s have a *conversion status* that determines how occurences of these entities are treated during conversion.  For an `Id` named `v`, we have two alternatives:
 
-```wiki
-data StatusCC a 
-  = NoCC      -- Declaration has not been converted
-  | ConvCC a  -- Here is the converted version
-```
+1. The binding of `v` was compiled without conversion and we have to use `v` itself in converted code, which requires the use of an in-place conversion function.
+1. Otherwise, we have a converted variant `v_CC`, and we use `v_CC` instead of `v` in converted code.
 
 
-For example, `Id` gets a field of type `StatusCC Id`.  A declaration `thisDecl` can be in one of three categories:
+For a type constructor `T` and its data constructors `C`, we have three alternatives:
 
-- `NoCC`: We did not convert that declaration, either because it was declared in an unconverted module or because it uses some feature that prevents conversion.
-- `ConvCC thisDecl`: Original and converted declaration coincide (e.g., type declarations not involving arrows directly or indirectly).
-- `ConvCC convDecl`: The variant `convDecl` is the closure-converted form of `thisDecl`.
+1. The declaration introducing `T` and its constructors was compiled without conversion or we were unable to convert it, as it uses some language feature that prevents conversion.
+1. A converted variant `T_CC` exists, but coincides with `T` (e.g., because `T` neither directly nor indirectly involves arrows).
+1. A converted variant `T_CC` exists and differs from `T`.
+
+
+In the last two cases, we also have a *conversion constructor*`isoT` whose type and meaning is described below.
 
 
 An example of a feature that prevents conversion are unboxed values.  We cannot make a closure from a function that has an unboxed argument, as we can neither instantiate the parametric polymorphic closure type with unboxed types, nor can we put unboxed values into the existentially quantified environment of a closure.
 
-### Conversion pairs
+### Converting types
+
+#### The closure type
+
+
+We represent closures by
+
+```wiki
+data a :-> b = forall e. !(e -> a -> b) :$ e
+```
+
+
+and define closure application as
+
+```wiki
+($:) :: (a :-> b) -> a -> b
+(f :$ e) $: x = f e x
+```
+
+
+So, we have `(->)_CC == (:->)`.
+
+#### Conversion of type terms
+
+
+We determine the converted type `t^` of `t` as follows:
+
+```wiki
+T^            = T_CC , if T_CC exists
+              = T    , otherwise
+a^            = a_CC
+(t1 -> t2)^   = t1 -> t2   , if kindOf t1 == #
+                             or kindOf t2 == #
+              = t1^ :-> t2^, otherwise
+(t1 t2)^      = t1^ t2^
+(forall a.t)^ = forall a_CC.t^
+```
+
+
+Here some examples,
+
+```wiki
+(Int -> Int)^           = Int :-> Int
+(forall a. [a] -> [a])^ = [a] :-> [a]
+([Int -> Int] -> Int)^  = [Int :-> Int] :-> Int
+(Int# -> Int# -> Int#)^ = Int# -> Int# -> Int#
+((Int -> Int) -> Int#)^ = (Int -> Int) -> Int#
+(Int -> Int -> Int#)^   = Int :-> (Int -> Int#)
+```
+
+
+Why do we use `(t1 -> t2)^ = t1 -> t2` when either argument type is unboxed, instead of producing `t1^ -> t2^`?  Because we want to avoid creating conversion constructors (see below) for such types.  After all, the conversion constructor `isoArr` for function arrows works only for arrows of kind `*->*->*`.
+
+### Conversion constructors
+
+
+To move between `t` and `t^` we use conversion functions.  And to deal with type constructors, we need *conversion constructors*; i.e., functions that map conversion functions for type arguments to conversion functions for compound types.
+
+#### Conversion pairs
 
 
 Conversion functions come in pairs, which we wrap with the following data type for convenience:
@@ -38,21 +96,19 @@ data a :<->: b = (:<->:) {to :: a -> b, fr ::b -> a}
 
 The functions witness the isomorphism between the two representations, as usual.
 
-### Converting type declarations
-
-#### Preliminaries
+#### Types of convercion constructors
 
 
-The alternatives of `TyCon.TyCon` get a new field `tyConCC :: StatusCC (TyCon, Id)`.  This field is `NoCC` for data constructors for which we have no conversion and `ConvCC (T_CC, iso_T)` if we have a conversion, where the converted declaration `T_CC` may coincide with `T`.  The value `iso_T` is a *conversion constructor* for values inhabitating types formed from the original and converted constructor.  The type of these functions is as follows:
+The type of a conversion constructor depends on the kind of the converted type constructor:
 
 ```wiki
-isoTy (T::k1->..->kn->*) = forall _1 .. _n _1_CC .. _n_CC.
-  isoTy (_1::k1) -> .. -> isoTy (_n::kn) -> 
-  (C _1 .. _n :<->: C_CC _1_CC .. _n_CC)
+isoTy (t::k1->k2) = forall a a_CC.
+                      isoTy (a::k1) -> isoTy (t a::k2)
+isoTy (t::*)      = t :<->: t^
 ```
 
 
-(The type variables beginning with underscores are bound here; we add one underscore for each level of kinding.)
+where type conversion `t^` is defined below.
 
 
 As an example, consider
@@ -62,7 +118,7 @@ data T (f::*->*) = T1 (f Int) | T2 (f Bool)
 ```
 
 
-The type of the conversion constructor is as follows (using more meaningful type variable names):
+The type of the conversion constructor is as follows :
 
 ```wiki
 isoTy (T::(*->*)->*) =
@@ -78,21 +134,19 @@ The conversion constructor might be implemented as
 ```wiki
 isoT isof = toT :<->: frT
   where
-    toT (T1 x) = T1 (to (tff tfInt ) x)
-    toT (T2 y) = T2 (to (tff tfBool) y)
-    frT (T1 x) = T1 (fr (tff tfInt ) x)
-    frT (T2 y) = T2 (fr (tff tfBool) y)
+    toT (T1 x) = T1 (to (isof isoInt ) x)
+    toT (T2 y) = T2 (to (isof isoBool) y)
+    frT (T1 x) = T1 (fr (isof isoInt ) x)
+    frT (T2 y) = T2 (fr (isof isoBool) y)
 ```
 
 
 where `isoInt` and `isoBool` are the conversion constructors for `Int`s and `Bool`s.
 
 
-Moreover, we represent closures - the converted form of function arrows - as follows:
+Moreover, the conversion constructor for function arrows is
 
 ```wiki
-data a :-> b = forall e. !(e -> a -> b) :$ e
-
 isoArr :: a :<->: a_CC   -- argument conversion
        -> b :<->: b_CC   -- result conversion
        -> (a -> b) :<->: (a_CC :-> b_CC)
@@ -102,35 +156,55 @@ isoArr (toa :<->: fra) (tob :<->: frb) = toArr :<->: frArr
     frArr (f :$ e) = frb . f e . toa
 ```
 
-
-So, the function array constructor `(->)::*->*->*` has a `StatusCC` value of `ConvCC ((:->), isoArr)`.
-
-
-Closure application is defined as
-
-```wiki
-($:) :: (a :-> b) -> a -> b
-(f :$ e) $: x = f e x
-```
+### Converting type declarations
 
 #### Conversion rules
 
 
 If a type declaration for constructor `T` occurs in a converted module, we need to decide whether to convert the declaration of `T`.  We decide this as follows:
 
-1. If the declaration of `T` mentions another algebraic type constructor `S` with `tyConCC S == NoCC`, we cannot convert `T` and set its `tyConCC` field to `NoCC` as well.
-1. If **all** algebraic type constructors `S` that are mentioned in `T`'s definiton have `tyConCC S == ConvCC S`, we do not convert `T` and set its `tyConCC` field to `ConvCC (T, isoT)` generating a suitable conversion constructor `isoT`.  (NB: The condition implies that `T` does not mention any function arrows.)
-1. If the declaration of `T` uses any features that we cannot (or for the moment, don't want to) convert, we set its `tyConCC` field to `NoCC` - except if Case 2 applies.
-1. Otherwise, we generate a converted type declaration `T_CC` together a conversion constructor  `isoT`, and set `tyConCC` to `ConvCC (T_CC, isoT)`.  Conversion proceeds by converting all data constructors (including their workers and wrappers), and in particular, we need to convert all types in the constructor signatures by replacing all type constructors that have conversions by their converted variant.  Data constructors get a new field `dcCC :: StatusCC DataCon`.
+1. If the declaration of `T` mentions another algebraic type constructor `S` for which there is **no**`S_CC`, then we cannot convert `T`.
+1. If **all** algebraic type constructors `S` mentioned in `T`'s definiton have a conversion `S_CC  == S`, we do not convert `T`, but set `T_CC == T` and generate a suitable conversion constructor `isoT`.  (NB: The condition implies that `T` does not mention any function arrows.)
+1. If the declaration of `T` uses any features that we cannot (or for the moment, don't want to) convert, simply don't convert it.
+1. Otherwise, we generate a converted type declaration `T_CC` together with a conversion constructor `isoT`.  Conversion proceeds by converting all data constructors (see below).
 
 
 Moreover, we handle other forms of type constructors as follows:
 
-- `FunTyCon`: It's `StatusCC` value was defined above.  We handle any occurence of the function type constructor like that of an algabraic type constructor with the `StatusCC` value given above, but we may not want to explcitly store that value in a field of `FunTyCon`, as `(:->)` would then probably need to go into `TyWiredIn` in.
-- `TupleTyCon`: The `StatusCC` value of a tuple constructor `T` is `ConvCC (T, isoT)`, where `isoT` is a suitable conversion function; i.e., we don't need converted tuple type constructors, but we need to define conversions for all supported tuple types somewhere.  Unfortunately, there are many tuple types, and hence, many conversion functions.  An alternative might be to special case tuples during conversion generation and just inline the needed case construct.
+- `FunTyCon`: We have `(->)_CC = (:->)`.
+- `TupleTyCon`: We have `(,..,)_CC = (,..,)`.  We may either have a (long) list of conversion constructors `iso(,..,)` pre-defined or need to generate them inline by generating a suitable case expression where needed.
 - `SynTyCon`: Closure conversion operates on `coreView`; hence, we will see no synonyms.  (Well, we may see synonym families, but will treat them as not convertible for the moment.)
-- `PrimTyCon`: We essentially ignore primitive types during conversion.  We assume their converted and unconverted form are identical, which implies that they never inhibit conversion and that they need no conversion constructors.
+- `PrimTyCon`: We essentially ignore primitive types during conversion, assuming that their converted and unconverted forms coincide.  As they cannot contain values of other types, we need no conversion constructor.
 - `CoercionTyCon` and `SuperKindTyCon`: They don't categorise values and are ignored during conversion.
+
+#### Conversion constructor
+
+
+Whenever we have a converted type constructor `T_CC`, we also need to generate a conversion constructor `isoT`.  If `T` has one or more arguments, the conversion is non-trivial, even for `T_CC == T`.
+
+#### Converting data constructors
+
+
+We convert a data constructor `C :: t1 -> ... -> tn` by generating a converted constructor `C_CC :: t1^ -> .. -> tn^`.  This includes the generation of a corresponding new worker `Id`.  For example, if the original worker has the type signature
+
+```wiki
+MkT :: (Int -> Int) -> Int
+```
+
+
+the converted worker is 
+
+```wiki
+MkT_CC :: (Int :-> Int) -> Int
+```
+
+
+As a consequence, whenever we convert a *partial* wrapper application in an expression, we need to introduce a closure on the spot.  (Simon pointed out that this is a rare case anyway.)
+
+
+We do not specially handle wrappers of data constructors.  They are converted just like any other toplevel function.
+
+#### Examples
 
 
 For example, when we convert
@@ -140,7 +214,7 @@ data Int = I# Int#
 ```
 
 
-the `tyConCC` field of `Int` is set to `ConvCC (Int, isoInt)` with
+we get `Int_CC = Int` and we have
 
 ```wiki
 isoInt :: Int :<->: Int
@@ -151,14 +225,14 @@ isoInt = toInt :<->: frInt
 ```
 
 
-As another example, the `tyConCC` field of
+As another example,
 
 ```wiki
 data Maybe a = Nothing | Just a
 ```
 
 
-has a value of `ConvCC (Maybe, isoMaybe)`, where
+implies `Maybe_CC = Maybe` and
 
 ```wiki
 isoMaybe :: (a :<->: a_CC) -> (Maybe a :<->: Maybe a_CC)
@@ -173,7 +247,7 @@ isoMaybe isoa = toMaybe :<->: frMaybe
 ### Converting classes and instances
 
 
-We don't alter class and instance declarations in any way.  However, the dictionary type constructors and dfuns are processed in the same way as other data types and value bindings, respectively; i.e., they get a `StatusCC` field and we generate converted versions and conversion constructors as usual.
+We don't alter class and instance declarations in any way.  However, the dictionary type constructors and dfuns are converted in the same way as other data types and value bindings, respectively.
 
 
 As an example, assume `Num Int` were defined as
@@ -209,10 +283,43 @@ data Num_CC a =
     (+_CC)    :: a :-> a :-> a,
     negate_CC :: a :-> a
   }
-dNumInt_CC :: Num_CC Int  -- Int \equiv Int_CC
-dNumInt_CC = Num_CC $: fr?? isoInt primAddInt $: fr?? isoInt primNegateInt
-!!!TODO
+dNumInt_CC :: Num_CC Int   -- as Int_CC = Int
+dNumInt_CC = Num_CC 
+               (to isoIntToIntToInt primAddInt) 
+               (to isoIntToInt primNegateInt)
+  where
+    isoIntToIntToInt = isoArr isoInt isoIntToInt
+    isoIntToInt      = isoArr isoInt isoInt
 ```
+
+### Converting value bindings
+
+#### Bindings
+
+
+For every binding
+
+```wiki
+f :: t = e
+```
+
+
+we generate
+
+```wiki
+f_CC :: t^ = e^
+```
+
+#### Toplevel
+
+
+When converting a toplevel binding for `f :: t`, we generate `f_CC :: t^` and redefine `f` as
+
+```wiki
+f :: t = fr iso<t> f_CC
+```
+
+#### Examples
 
 ---
 
@@ -220,31 +327,6 @@ dNumInt_CC = Num_CC $: fr?? isoInt primAddInt $: fr?? isoInt primNegateInt
 chak: revision front
 
 ---
-
-### Converting type terms
-
-
-We determine the converted type `t^` of `t` as follows:
-
-```wiki
-T^            = T_CC , if available
-                T    , otherwise
-a^            = a
-(t1 t2)^      = t1^ t2^
-(t1 -> t2)^   = Clo t1 t2
-(forall a.t)^ = forall a.t^
-(C t1 => t2)^ = C_CC t1^ => t2^ , if available
-                C t1^ => t2^    , otherwise
-```
-
-### Converting value bindings
-
-
-When converting a toplevel binding for `f :: t`, we generate `f_CC :: t^`.  The alternatives `GlobalId` and `LocalId` of `Var.Var` get a new field `idCC :: StatusCC Id` whose values, for a declaration `f`, we determine as follows:
-
-- If `Id`'s declaration uses any features that we cannot (or currently, don't want to) convert, set `idCC` to `NoCC`.
-- If all type constructors involved in `f`'s type are marked `NoCC` or `AsIsCC`, we set `f`'s `idCC` field to `AsIsCC`.
-- Otherwise, convert `f` and set its `ifCC` field to `ConvCC f_CC`.
 
 ### Converting core terms
 
