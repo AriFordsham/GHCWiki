@@ -133,19 +133,19 @@ Moreover, we handle other forms of type constructors as follows:
 
 ==== Conversion constructor ====
 
-Whenever, we set `T_CC`, we also need to generate a conversion constructor `isoT`.  If `T` has one or more arguments, the conversion is non-trivial, even for `T_CC == T`.
+Whenever we have a converted type constructor `T_CC`, we also need to generate a conversion constructor `isoT`.  If `T` has one or more arguments, the conversion is non-trivial, even for `T_CC == T`.
 
 ==== Converting data constructors ====
 
-We convert data constructors by converting their argument types and their representation `DataCon` gets a new filed `dcCC :: StatusCC DataCon`.  In particular, the signature of the worker is converted.  However, in contrast to other functions, we only convert the argument and result types; the arrows tying them together are left intact.  For example, if the original wrapper has the type signature
+We convert a data constructor `C :: t1 -> ... -> tn` by generating a converted constructor `C_CC :: t1^ -> .. -> tn^`.  This includes the generation of a corresponding new worker `Id`.  For example, if the original worker has the type signature
 {{{
 MkT :: (Int -> Int) -> Int
 }}}
-the converted wrapper is 
+the converted worker is 
 {{{
 MkT_CC :: (Int :-> Int) -> Int
 }}}
-As a consequence, whenever we convert a ''partial'' wrapper application in an expression, we need to introduce a closure on the spot.
+As a consequence, whenever we convert a ''partial'' wrapper application in an expression, we need to introduce a closure on the spot.  (Simon pointed out that this is a rare case anyway.)
 
 We do not specially handle wrappers of data constructors.  They are converted just like any other toplevel function.
 
@@ -155,7 +155,7 @@ For example, when we convert
 {{{
 data Int = I# Int#
 }}}
-the `tyConCC` field of `Int` is set to `ConvCC Int` and we have
+we get `Int_CC = Int` and we have
 {{{
 isoInt :: Int :<->: Int
 isoInt = toInt :<->: frInt
@@ -164,11 +164,11 @@ isoInt = toInt :<->: frInt
     frInt (I# i#) = I# i#
 }}}
 
-As another example, the `tyConCC` field of
+As another example,
 {{{
 data Maybe a = Nothing | Just a
 }}}
-has a value of `ConvCC Maybe` and we have
+implies `Maybe_CC = Maybe` and
 {{{
 isoMaybe :: (a :<->: a_CC) -> (Maybe a :<->: Maybe a_CC)
 isoMaybe isoa = toMaybe :<->: frMaybe
@@ -182,7 +182,7 @@ isoMaybe isoa = toMaybe :<->: frMaybe
 
 === Converting classes and instances ===
 
-We don't alter class and instance declarations in any way.  However, the dictionary type constructors and dfuns are processed in the same way as other data types and value bindings, respectively; i.e., they get a `StatusCC` field and we generate converted versions and conversion constructors as usual.
+We don't alter class and instance declarations in any way.  However, the dictionary type constructors and dfuns are converted in the same way as other data types and value bindings, respectively.
 
 As an example, assume `Num Int` were defined as
 {{{
@@ -210,7 +210,7 @@ data Num_CC a =
     (+_CC)    :: a :-> a :-> a,
     negate_CC :: a :-> a
   }
-dNumInt_CC :: Num_CC Int  -- Int \equiv Int_CC
+dNumInt_CC :: Num_CC Int   -- as Int_CC = Int
 dNumInt_CC = Num_CC 
                (to isoIntToIntToInt primAddInt) 
                (to isoIntToInt primNegateInt)
