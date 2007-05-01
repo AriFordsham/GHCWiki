@@ -273,7 +273,7 @@ Here some examples,
 ```
 
 
-Why do we use `(t1 -> t2)^ = t1 -> t2` when either argument type is unboxed?  Because we want to avoid   creating conversion constructors for such types.  Afterall, the conversion constructor `isoArr` for function arrows works only for arrows of kind `*->*->*`.
+Why do we use `(t1 -> t2)^ = t1 -> t2` when either argument type is unboxed, instead of producing `t1^ -> t2^`?  Because we want to avoid   creating conversion constructors for such types.  Afterall, the conversion constructor `isoArr` for function arrows works only for arrows of kind `*->*->*`.
 
 ### Converting value bindings
 
