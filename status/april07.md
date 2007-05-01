@@ -202,14 +202,14 @@ environment:
 
 - Aaron Tomb and Tim Chevalier are working on resurrecting External
   Core **\\url{...}**, whose implementation was not only bit-rotted, but also poorly 
-  designed (by Simon).  By GHC 6.8 we hope to be able to spit out External
+  designed (by Simon PJ).  By GHC 6.8 we hope to be able to spit out External
   Core for any program, perhaps transform it in some external program,
   and read it in again, surviving the round trip unscathed. 
 
 - It is now possible to compile to object code instead of bytecode inside GHCi, simply by setting a flag
   (`-fobject-code`).
 
-- The GHC API has seen some cleanup, and it should now be both more complete and slightly easier to use.
+- The GHC API has seen some cleanup, and it should now be both more complete and slightly easier to use.  There is still plenty of work to do here, though.
 
 - David Wearn has been working on integrating Haddock and GHC during his Google Summer of Code project
   last year.  The parts of this project that involved modifying GHC are done and integrated into the
