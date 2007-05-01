@@ -138,10 +138,10 @@ impredicative instantiation as it now stands; it might change!
 - Gabriele Keller, Manuel Chakravarty, and Roman Leshchinskiy, at the
   University of New South Wales, are collaborating with us on support
   for *nested data-parallel computation* in GHC.
-  We presented a paper at the Declarative Aspects of Multicore Programing
-  workshop in January 2007: [ http://www.cse.unsw.edu.au/\~chak/papers/CLPKM07.html](http://www.cse.unsw.edu.au/~chak/papers/CLPKM07.html),
+  We presented a paper [ Data parallel Haskell: a status report](http://research.microsoft.com/~simonpj/papers/assoc-types) at the Declarative Aspects of Multicore Programing
+  workshop in January 2007,
   and made a first release of the
-  library in March [ http://www.cse.unsw.edu.au/\~dons/polymer.html](http://www.cse.unsw.edu.au/~dons/polymer.html).
+  library in March.
   It's a pretty ambitious project, and we have quite a way to go.
   You can peek at the current status on the project home page:
   [ http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell).
