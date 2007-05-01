@@ -297,24 +297,3 @@ Apart from the standard rules, we need to handle the following special cases:
 Have an example with two modules one unconverted, where the converted imports the unconverted.
 
 Also have an example that motivates why we have to vectorise/CC declarations such as `Int`.
-
-==== Conversion functions ====
-
-Similar to `HasGenerics` and instead of storing `Id` of conversion constructors, we can derive from the name of the `TyCon`.
-
-==== Data constructors ====
-
-How to exactly handle the worker and wrapper?  Can we replace arrows by closure types in the worker?  Or do we always have to add a wrapper?
-
-'''Simpler!''' Don't try to make a complete cloned data constructor.  By the time of CC, its all just Core and so wrappers are just like any other global function.
-
-==== Original functions ====
-
-The previous story was that when vectorising `f` and generating `f_CC`, we now define
-{{{
-f :: tau
-f = trevnoc tau f_CC
-}}}
-Now, with the approximate conversion scheme above, we may not have `trevnoc tau`.  In this case, we still generate `f_CC`, but also leave the rhs of `f` alone (i.e., compile the original functions).
-
-When we give up on converting a complete right-hand side, we still want to convert all subexpressions that we can convert.
