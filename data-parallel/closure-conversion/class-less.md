@@ -253,7 +253,7 @@ We determine the converted type `t^` of `t` as follows:
 T^            = T_CC , if tyConCC T == ConvCC T_CC
               = T    , otherwise
 a^            = a
-(t1 -> t2)^   = t1^ -> t2^ , if kindOf t1 == #
+(t1 -> t2)^   = t1 -> t2   , if kindOf t1 == #
                              or kindOf t2 == #
               = t1^ :-> t2^, otherwise
 (t1 t2)^      = t1^ t2^
@@ -268,9 +268,12 @@ Here some examples,
 (forall a. [a] -> [a])^ = [a] :-> [a]
 ([Int -> Int] -> Int)^  = [Int :-> Int] :-> Int
 (Int# -> Int# -> Int#)^ = Int# -> Int# -> Int#
-((Int -> Int) -> Int#)^ = (Int :-> Int) -> Int#
+((Int -> Int) -> Int#)^ = (Int -> Int) -> Int#
 (Int -> Int -> Int#)^   = Int :-> (Int -> Int#)
 ```
+
+
+Why do we use `(t1 -> t2)^ = t1 -> t2` when either argument type is unboxed?
 
 ### Converting value bindings
 
