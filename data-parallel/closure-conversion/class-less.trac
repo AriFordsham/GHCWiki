@@ -140,6 +140,8 @@ idIso<*>      = id :<->: id
 idIso<k1->k2> = \_ -> (idIso<k2>)
 }}}
 
+'''TODO:''' This doesn't work for types with constructor variables yet, as the `f (Int -> Int)` example below.  Roman has an example, where we actually do need a conversion of the `Int -> Int` to a closure.
+
 ==== Examples ====
 
 Here some example conversions:
