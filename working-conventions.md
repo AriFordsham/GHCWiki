@@ -48,6 +48,11 @@ We welcome your involvement in making GHC able to do more.  That said, we think 
 
 - New features should be switchable with their own flag, by default off.  We used to have just one flag `-fglasgow-exts` but nowadays we try to be much more selective.
 
+- We are much happier about features whose implementation is:   
+
+  - **Localised**: only a handful of places in the code are changed.
+  - **Orthogonal**: no new invariants or constraints are added that subsequent changes must bear in mind. This is really important; any change that imposes costs on later, apparently unrelated, changes is much more costly. 
+
 - A new feature should come with 
 
   - A **commit message** that (a) explains what the patch does, and (b) sketches how it works.
