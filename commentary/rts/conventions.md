@@ -4,7 +4,7 @@
 
 
 These coding style guidelines are mainly intended for use in
-`rts/` and `includes/`.
+`rts/` and `includes/`.  See [Coding Style Guidelines](commentary/coding-style) for code in `compiler/`.
 
 
 NB. This page is pretty old.

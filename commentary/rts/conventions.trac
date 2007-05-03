@@ -5,7 +5,7 @@
 == Comments ==
 
 These coding style guidelines are mainly intended for use in
-{{{rts/}}} and {{{includes/}}}.
+{{{rts/}}} and {{{includes/}}}.  See [wiki:Commentary/CodingStyle Coding Style Guidelines] for code in {{{compiler/}}}.
 
 NB. This page is pretty old.
 
