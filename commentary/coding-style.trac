@@ -16,7 +16,7 @@ We pass all the compiler sources through CPP. The -cpp flag is always added by t
 The following CPP symbols are used throughout the compiler: 
 
  '''DEBUG''':: 
-  Used to enables extra checks and debugging output in the compiler. The ASSERT macro (see HsVersions.h) provides assertions which disappear when DEBUG is not defined. 
+  Used to enables extra checks and debugging output in the compiler. The ASSERT macro (see {{{HsVersions.h}}}) provides assertions which disappear when DEBUG is not defined. 
 
  All debugging output should be placed inside #ifdef DEBUG; we generally use this to provide warnings about strange cases and things that might warrant investigation. When DEBUG is off, the compiler should normally be silent unless something goes wrong (exception when the verbosity level is greater than zero). 
 
@@ -50,7 +50,7 @@ xxx_HOST_OS
 
 GHC must be compilable by every major version of GHC from 5.02 onwards, and itself. It isn't necessary for it to be compilable by every intermediate development version (that includes last week's CVS sources). 
 
-To maintain compatibility, use {{{HsVersions.h}}} (see below) where possible, and try to avoid using #ifdef in the source itself. 
+To maintain compatibility, use [wiki:Commentary/CodingStyle#HsVersions.h HsVersions.h] (see below) where possible, and try to avoid using #ifdef in the source itself. 
 
 == The source file ==
 
@@ -78,7 +78,7 @@ We usually (99% of the time) include an export list. The only exceptions are per
 It's helpful to give type signatures inside comments in the export list, but hard to keep them consistent, so we don't always do that. 
 
 === {{{HsVersions.h}}} ===
-{{{HsVersions.h}}} is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look. 
+{{{HsVersions.h}}} is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look [[GhcFile(compiler/HsVersions.h)]].
 {{{
 #include "HsVersions.h"
 }}}
