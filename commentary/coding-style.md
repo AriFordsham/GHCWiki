@@ -19,7 +19,7 @@ The following CPP symbols are used throughout the compiler:
 
 <table><tr><th>**DEBUG**</th>
 <td>
-Used to enables extra checks and debugging output in the compiler. The ASSERT macro (see HsVersions.h) provides assertions which disappear when DEBUG is not defined. 
+Used to enables extra checks and debugging output in the compiler. The ASSERT macro (see `HsVersions.h`) provides assertions which disappear when DEBUG is not defined. 
 </td></tr></table>
 
 >
@@ -68,7 +68,7 @@ xxx_HOST_OS
 GHC must be compilable by every major version of GHC from 5.02 onwards, and itself. It isn't necessary for it to be compilable by every intermediate development version (that includes last week's CVS sources). 
 
 
-To maintain compatibility, use `HsVersions.h` (see below) where possible, and try to avoid using \#ifdef in the source itself. 
+To maintain compatibility, use [HsVersions.h](commentary/coding-style#) (see below) where possible, and try to avoid using \#ifdef in the source itself. 
 
 ## The source file
 
@@ -103,7 +103,7 @@ It's helpful to give type signatures inside comments in the export list, but har
 
 ### `HsVersions.h`
 
-`HsVersions.h` is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look. 
+`HsVersions.h` is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look [compiler/HsVersions.h](/trac/ghc/browser/ghc/compiler/HsVersions.h).
 
 ```wiki
 #include "HsVersions.h"
