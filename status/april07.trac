@@ -4,7 +4,7 @@ GHC continues to thrive.  One indicator of how widely GHC is used is the
 number of bug reports we get.  Here is the number of Trac tickets milestoned
 for the last few releases of GHC:
 
-'''Simon or Ian: can you add a little table here?'''
+[[Image(Status/April07:bugs_per_day.png)]]
 
 You could interpret these figures as saying that GHC is getting steadily
 more unreliable!  But we don't think so...we believe that it's
