@@ -419,6 +419,25 @@ If `add` is used in unconverted code it will still refer to the converted comput
 
 ### Converting terms
 
+```wiki
+cc[[x::t]]       = x_CC            , if x_CC exists
+                 = to iso<t> x_CC  , otherwise
+cc[[lit]]        = lit
+cc[[C e1 .. en]] = ccCon C [e1 .. en]]
+cc[[e1 e2]]      = cc[[e1]] $: cc[e2]
+cc
+```
+
+
+where
+
+```wiki
+ccCon (C::t) [[e1 .. en]] 
+  = C_CC e1 .. en                   , if C_CC exists 
+                                      and arity C = n
+  = (to iso<t> C) $: e1 $: .. $: en , otherwise
+```
+
 ---
 
 
