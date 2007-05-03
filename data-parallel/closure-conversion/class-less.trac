@@ -132,15 +132,34 @@ iso<t1 -> t2>   = idIso<*>       , if kindOf t1 == #
                 = isoArr         , otherwise 
                     iso<t1> iso<t2>
 iso<t1 t2>      = iso<t1> iso<t2>
-iso<forall a.t> = iso<t>
+iso<forall a.t> = toIso :<->: frIso
+  where
+    toIso (x::forall a.t) = /\a. to (iso<t>)@a x@a
+    frIso (x::forall a.t) = /\a. fr (iso<t>)@a x@a
 }}}
 where
 {{{
 idIso<*>      = id :<->: id
-idIso<k1->k2> = \_ -> (idIso<k2>)
 }}}
 
-'''TODO:''' This doesn't work for types with constructor variables yet, as the `f (Int -> Int)` example below.  Roman has an example, where we actually do need a conversion of the `Int -> Int` to a closure.
+'''OPEN PROBLEM:''' What should `idIso<k>` do for `k` other than `*`?  We might think
+{{{
+idIso<k1->k2> = \_ -> (idIso<k2>)
+}}}
+would work, but it doesn't always.  Take this example
+{{{
+data T a = MkT a
+unit :: T a -> a
+unit (MkT x) = x
+
+-- converted
+foo :: f (Int -> Int) -> (forall a. f a -> a) -> Int
+foo t u = u t 1
+
+-- not converted
+bar = foo unit
+}}}
+Here, we will have to convert the first argument to `foo` and that conversion needs to convert the embedded `Int -> Int` to `Int :-> Int`, which is hard to do in `foo = fr iso<...> foo_CC` as we don't know anything about `f::*->*`.
 
 ==== Examples ====
 
@@ -150,9 +169,7 @@ iso<Int -> Int>     = isoArr isoInt isoInt
 iso<Int -> Int#>    = id :<->: id
 iso<[a -> a]>       = isoList (isoArr (id :<->: id) 
                                       (id :<->: id))
-iso<f (Int -> Int)> = (\_ -> (id :<->: id))
-                        (isoArr isoInt isoInt)
-                    = id :<-> id
+iso<f (Int -> Int)> = ???
 }}}
 
 === Converting type declarations ===
