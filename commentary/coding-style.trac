@@ -1,6 +1,6 @@
 
 
- = The GHC Commentary - Coding Style Guidelines = 
+ = The GHC Commentary - Coding Style Guidelines for the compiler = 
 
 This is a rough description of some of the coding practices and style that we use for Haskell code inside {{{compiler}}}. See the [wiki:Commentary/Rts/Conventions Style Conventions for RTS C code] for code in {{{rts}}} and {{{include}}}.
 
