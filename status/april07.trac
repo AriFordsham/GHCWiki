@@ -11,8 +11,8 @@ more unreliable!  But we don't think so...we believe that it's
 mostly a result of more people using GHC, for more applications, on more
 platforms.
 
-We are getting more help from the community, too.  As well as
-poeple who regularly commit patches, we get a steady trickle of patches
+As well as more bug reports, we are getting more help from the community, too.  
+Some poeple regularly commit patches, and we get a steady trickle of patches
 emailed in from folk who (mostly) do not have commit rights, but who have built GHC,
 debugged a problem, sent us the patch. Our thanks go out to
 Aaron Tomb, Alec Berryman, Alexey Rodriguez, Andrew Pimlott,
