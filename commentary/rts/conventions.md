@@ -1,4 +1,4 @@
-# The GHC Commentary: Style Conventions for RTS C code
+# The GHC Commentary: Coding Style Guidelines for RTS C code
 
 ## Comments
 
