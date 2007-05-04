@@ -84,15 +84,15 @@ Simon Peyton Jones, Simon Marlow, Ian Lynagh
   Implication constraints are described by Martin Sulzmann in
   [ A framework for Extended Algebraic Data Types](http://www.comp.nus.edu.sg/~sulzmann/publications/tr-eadt.ps.gz).
 
-- Björn Bringert (a GHC Hackathon graduate) implemented
+- Bjoern Bringert (a GHC Hackathon graduate) implemented
   *standalone deriving*, which allows you to write a `deriving`
   declaration anywhere, rather than only where the data type is
   declared.  Details of the syntax have not yet quite settled. See
   also [ http://haskell.org/haskellwiki/GHC/StandAloneDeriving](http://haskell.org/haskellwiki/GHC/StandAloneDeriving).
 
 - Lennart Augustsson implemented overloaded string literals.  So now
-  just as a numeric literal has type `∀a. Num a ⇒ a`,
-  so a string literal has type `∀a. IsString a ⇒ a`,
+  just as a numeric literal has type `FAa. Num a => a`,
+  so a string literal has type `FAa. IsString a => a`,
   The documentation is here: [http://www.haskell.org/ghc/dist/current/docs/users_guide/other-type-extensions.html\#overloaded-strings](http://www.haskell.org/ghc/dist/current/docs/users_guide/other-type-extensions.html#overloaded-strings).
 
 
@@ -211,7 +211,7 @@ environment:
 
 - The GHC API has seen some cleanup, and it should now be both more complete and slightly easier to use.  There is still plenty of work to do here, though.
 
-- David Wearn has been working on integrating Haddock and GHC during his Google Summer of Code project
+- David Waern has been working on integrating Haddock and GHC during his Google Summer of Code project
   last year.  The parts of this project that involved modifying GHC are done and integrated into the
   GHC tree.  The new version of Haddock based on GHC is usable but still experimental; the darcs repository is [ here](http://darcs.haskell.org/SoC/haddock.ghc).
 
