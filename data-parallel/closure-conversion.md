@@ -6,7 +6,7 @@ Error: HttpError (HttpExceptionRequest Request {
   secure               = True
   requestHeaders       = []
   path                 = "/trac/ghc/wiki/DataParallel/ClosureConversion"
-  queryString          = "?version=12"
+  queryString          = "?version=15"
   method               = "GET"
   proxy                = Nothing
   rawBody              = False
@@ -14,7 +14,7 @@ Error: HttpError (HttpExceptionRequest Request {
   responseTimeout      = ResponseTimeoutDefault
   requestVersion       = HTTP/1.1
 }
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:03:28 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","262"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/DataParallel/ClosureConversion\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:03:48 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","262"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/DataParallel/ClosureConversion\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
 Original source:
 
@@ -24,21 +24,27 @@ Original source:
 
 '''TODO:''' Describe the treatment of higher-order functions and closure conversion here. The relevant paper is [http://www.cse.unsw.edu.au/~chak/papers/LCK06.html]. The approach is described in more detail in [http://opus.kobv.de/tuberlin/volltexte/2006/1286/].
 
-=== Plan ===
+=== Workplan ===
 
 Implement in following order:
- 1. Call a single closure-converted module from non-converted code (we know how to do this)
- 2. Import cc'd modules in other cc'd modules (we need to decide on how to put the additional CC info into ifaces)
+ 1. Call a single closure-converted module from non-converted code (we know how to do this) ** DONE **
+ 2. Use non-cc'd modules in cc'd modules ** DONE **
+ 2. Import cc'd modules in other cc'd modules (we need to decide on how to put the additional CC info into ifaces) ** IN PROGRESS **
  3. CC data types (see below)
- 4. Use non-cc'd modules in cc'd modules
 
-=== Closure-converted types as indexed-types ===
-
-One option for implementing closure-conversion is to represent closure-converted types as an indexed type whose type index is the original type and to combine that indexed type in a type class with methods for converting between closure-converted and vanilla terms.  The details are under [wiki:DataParallel/ClosureConversion/Indexed indexed closure conversion].  There are two potential benefits for this approach: (1) we will probably have to do something similar for vectorisation anyway - see the [wiki:DataParallel/VectorisationSpec requirements of vectorisation] - and (2) it seems that we need less bookkeeping (e.g., the name of a closure converted data type is just the indexed type with the original data type as its index).  However, there are problems, too; in particular, as we currently don't have class contexts and polytypes as type indexes.
+We have got some [wiki:DataParallel/ClosureConversion/ImplNotes notes
+on the implementation].
 
 === Closure conversion without classes ===
 
-Here is an [wiki:DataParallel/ClosureConversion/ClassLess alternative scheme] that does no rely on conversion classes.
+We currently implement a [wiki:DataParallel/ClosureConversion/ClassLess simple scheme] that operates entirely on the Core representation and doesn't use conversion classes. 
+
+
+=== Alternative: Closure-converted types as indexed types ===
+
+We don't use indexed types in the current implementation of closure conversion.  However, we may have to get back to some of the ideas from this approach when we implement vectorisation.
+
+One option for implementing closure-conversion is to represent closure-converted types as an indexed type whose type index is the original type and to combine that indexed type in a type class with methods for converting between closure-converted and vanilla terms.  The details are under [wiki:DataParallel/ClosureConversion/Indexed indexed closure conversion].  There are two potential benefits for this approach: (1) we will probably have to do something similar for vectorisation anyway - see the [wiki:DataParallel/VectorisationSpec requirements of vectorisation] - and (2) it seems that we need less bookkeeping (e.g., the name of a closure converted data type is just the indexed type with the original data type as its index).  However, there are problems, too; in particular, as we currently don't have class contexts and polytypes as type indexes.
 
 === Requirements of closure conversion ===
 
