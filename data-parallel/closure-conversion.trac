@@ -11,8 +11,7 @@ Implement in following order:
  2. Import cc'd modules in other cc'd modules (we need to decide on how to put the additional CC info into ifaces) ** IN PROGRESS **
  3. CC data types (see below)
 
-We have got some [wiki:DataParallel/ClosureConversion/ImplNotes notes
-on the implementation].
+We have got some  [wiki:DataParallel/ClosureConversion/ImplNotes notes on the implementation].
 
 === Closure conversion without classes ===
 
