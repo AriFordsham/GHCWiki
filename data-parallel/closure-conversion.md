@@ -14,15 +14,18 @@ Implement in following order:
 1. Import cc'd modules in other cc'd modules (we need to decide on how to put the additional CC info into ifaces) ** IN PROGRESS **
 1. CC data types (see below)
 
-### Closure-converted types as indexed-types
-
-
-One option for implementing closure-conversion is to represent closure-converted types as an indexed type whose type index is the original type and to combine that indexed type in a type class with methods for converting between closure-converted and vanilla terms.  The details are under [indexed closure conversion](data-parallel/closure-conversion/indexed).  There are two potential benefits for this approach: (1) we will probably have to do something similar for vectorisation anyway - see the requirements of vectorisation? - and (2) it seems that we need less bookkeeping (e.g., the name of a closure converted data type is just the indexed type with the original data type as its index).  However, there are problems, too; in particular, as we currently don't have class contexts and polytypes as type indexes.
-
 ### Closure conversion without classes
 
 
-Here is an [alternative scheme](data-parallel/closure-conversion/class-less) that does no rely on conversion classes.
+We currently implement a [simple scheme](data-parallel/closure-conversion/class-less) that operates entirely on the Core representation and doesn't use comversion classes. 
+
+### Alternative: Closure-converted types as indexed types
+
+
+We don't use indexed types in the current implementation of closure conversion.  However, we may have to get back to some of the ideas from this approach when we implement vectorisation.
+
+
+One option for implementing closure-conversion is to represent closure-converted types as an indexed type whose type index is the original type and to combine that indexed type in a type class with methods for converting between closure-converted and vanilla terms.  The details are under [indexed closure conversion](data-parallel/closure-conversion/indexed).  There are two potential benefits for this approach: (1) we will probably have to do something similar for vectorisation anyway - see the requirements of vectorisation? - and (2) it seems that we need less bookkeeping (e.g., the name of a closure converted data type is just the indexed type with the original data type as its index).  However, there are problems, too; in particular, as we currently don't have class contexts and polytypes as type indexes.
 
 ### Requirements of closure conversion
 
