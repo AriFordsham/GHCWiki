@@ -17,3 +17,5 @@ The vectorisation information relevant across individual modules is maintained a
 
 
 In the `ExternalPackageState`, we use the same approach to combine the `VectInfo` of the various modules from the `eps_PIT` in a single table as is used for class instances, family instances, and rules.  The corresponding field in `ExternalPackageState` is `eps_vect_info::!PackageVectInfo`.  The information in this field is extended by `LoadIface.loadInterface` along with the corresponding fields for instances and rules.
+
+**TODO**`hptVectInfo` and use of that.
