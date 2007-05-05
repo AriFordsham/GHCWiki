@@ -11,10 +11,12 @@ Implement in following order:
  2. Import cc'd modules in other cc'd modules (we need to decide on how to put the additional CC info into ifaces) ** IN PROGRESS **
  3. CC data types (see below)
 
+We have got some [wiki:DataParallel/ClosureConversion/ImplNotes notes
+on the implementation].
 
 === Closure conversion without classes ===
 
-We currently implement a [wiki:DataParallel/ClosureConversion/ClassLess simple scheme] that operates entirely on the Core representation and doesn't use comversion classes. 
+We currently implement a [wiki:DataParallel/ClosureConversion/ClassLess simple scheme] that operates entirely on the Core representation and doesn't use conversion classes. 
 
 
 === Alternative: Closure-converted types as indexed types ===
