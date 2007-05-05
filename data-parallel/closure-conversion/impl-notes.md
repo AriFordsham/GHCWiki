@@ -1,35 +1,19 @@
-CONVERSION ERROR
+## Implementation notes for closure conversion
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/DataParallel/ClosureConversion/ImplNotes"
-  queryString          = "?version=2"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:03:49 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","269"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/DataParallel/ClosureConversion/ImplNotes\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+### General
 
-Original source:
-
-```trac
-== Implementation notes for closure conversion ==
-
-=== General ===
 
 Almost all of the code concerning closure conversion is in the module `ClosureConv` in the directory `vectorise/`.  This module exports the function `closureConvert`, which is invoked as part of the core-to-core passes right after the desugarer if the option `fclosure-conv` is provided.
 
-=== Actual conversion ===
-
-There is a [wiki:DataParallel/ClosureConversion/ClassLess separate description] of the conversion scheme.  This abstract description uses the convention that the existance of an `Id`, `TyCon`, or `dataCon` name followed by `_CC` indicates whether we have a closure converted variant of the corresponding declaration.  In the concrete implementation this information is maintained in `UniqFM`s.
-
-=== Cross-module information ===
+### Actual conversion
 
 
-```
+There is a [separate description](data-parallel/closure-conversion/class-less) of the conversion scheme.  This abstract description uses the convention that the existance of an `Id`, `TyCon`, or `dataCon` name followed by `_CC` indicates whether we have a closure converted variant of the corresponding declaration.  In the concrete implementation this information is maintained in `UniqFM`s.
+
+### Cross-module information
+
+
+The vectorisation information relevant across individual modules is maintained as values of type `HscTypes.VectInfo` and `HscTypes.IfaceVectInfo`.  The former is the representation in `HscTypes.ModGuts` and the `HscTypes.ExternalPackageState`; the latter is used in `HscTypes.ModIface`.
+
+
+In the `ExternalPackageState`, we use the same approach to combine the `VectInfo` of the various modules from the `eps_PIT` in a single table as is used for class instances, family instances, and rules.  The corresponding field in `ExternalPackageState` is `eps_vect_info::!PackageVectInfo`.  The information in this field is extended by `LoadIface.loadInterface` along with the corresponding fields for instances and rules.
