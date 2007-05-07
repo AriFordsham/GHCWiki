@@ -33,7 +33,7 @@ oFFSET_StgTSO_why_blocked = 18::Int
   [[GhcFile(compiler/main/Constants.lhs)]].  This is the way that these offsets are made
   available to GHC's code generator.
 
-== Generated Cmm Naming Convention==
+== Generated Cmm Naming Convention ==
 
 See [[GhcFile(compiler/cmm/CLabel.hs)]]
 
