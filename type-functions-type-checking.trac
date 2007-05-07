@@ -151,7 +151,7 @@ The matching against the family type constructor and unification with the instan
 
 === Overlap check of the instances in the currently compiled module ===
 
-We maintain a family instance environment in the `TcRnTypes.TcGblEnv` much like that for class instances.  We add instances to this environment, with `FamInst.addLocalFamInst`, as we type check them and perform a consistency check with each addition.  This consistency check includes all the instances in the EPS and HPT, too - again just like with class instance.  Hence, We simultaneously check the instances of the current module against all imported ones, too.  (This, of course, requires that we have them all in the EPS, resp. HPT, at that point, which we guarantee by the calls to `LoadIface.loadOrphanModules` in `TcRnDriver`, reading all `imp_finsts` of the current `ImportAvails`.)
+We maintain a family instance environment in the `TcRnTypes.TcGblEnv` much like that for class instances.  We add instances to this environment, with `FamInst.addLocalFamInst`, as we type check them and perform a consistency check with each addition.  This consistency check includes all the instances in the EPS and HPT, too - again just like with class instance.  Hence, We simultaneously check the instances of the current module against all imported ones, too.  (This, of course, requires that we have them all in the EPS, resp. HPT, at that point, which we guarantee by the calls to `LoadIface.loadOrphanModules` in `TcRnDriver`, reading all `imp_finsts` of the current `ImportAvails`, and by `HscTypes.hptInstances` collecting all class and family instances of imported modules in the home package, which are being used to initialised the `TcGblEnv`.)
 
 === Overlap check for instances of imported modules ===
 
