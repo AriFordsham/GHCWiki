@@ -25,14 +25,15 @@ The meta-function "`^`", written postfix, converts from normal code to closure-c
 
  * For each function definition 
 {{{
-f::ty = e}}}
-create a closure-converted function definition
+f::ty = e
+}}}
+ create a closure-converted function definition for `f_cc`, defining the closure-converted version of `f`, ''and'' a definition for `f` with its original type, that defines it in terms of `f_cc`:
 {{{
 f_cc::ty^ = e^
 
 f::ty = fr iso<ty> f_cc
 }}}
-where `ty^` is the closure-converted version of `ty`, and `e^` is the closure-converted version of `e`.  
+ where `ty^` is the closure-converted version of `ty`, and `e^` is the closure-converted version of `e`.  
 
  * For each data type `T`, create a closure-converted data type `T_CC`, whose constructors use `(:->)` instead of `(->)`. 
 
