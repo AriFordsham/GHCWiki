@@ -3,6 +3,41 @@
 
 The following scheme approaches the problem of mixing converted and unconverted code from the point of view of GHC's Core representation, avoiding the use of classes as much as possible.  In particular, the scheme gracefully handles any declarations that themselves cannot be converted, but occur in a converted module.  The two essential ideas are that (1) we move between converted and unconverted values/code using a conversion isomorphism and (2) we treat unconverted declarations differently depending on whether or not they involve arrows; e.g., the definition of `Int` by way of unboxed values (which we cannot convert) doesn't prevent us from using `Int`s ''as is'' in converted code.
 
+==== The closure type ====
+
+We represent closures by
+{{{
+data a :-> b = forall e. !(e -> a -> b) :$ e
+}}}
+and define closure creation and application as
+{{{
+lam :: (a -> b) -> (a :-> b)
+lam f = const f :$ ()
+
+($:) :: (a :-> b) -> a -> b
+(f :$ e) $: x = f e x
+}}}
+So, we have `(->)_CC == (:->)`.
+
+=== Overview and invariants ===
+
+The meta-function "`^`", written postfix, converts from normal code to closure-converted code. 
+
+ * For each function `f::ty`, create a closure-converted function `f_cc::ty^`, where `ty^` is the closure-converted version of `ty`.  
+
+ * For each data type `T`, create a closure-converted data type `T_CC`, whose constructors use `(:->)` instead of `(->)`. 
+
+ * The value `iso<ty>` is a pair of functions, converting to and fro between `ty` and `ty^`.
+
+Invariants:
+{{{
+  e :: ty     implies       e^ :: ty^
+
+  to iso<ty> :: ty -> ty^
+  fr iso<ty> :: ty^ -> ty
+}}}
+
+
 === Conversion status ===
 
 All `TyCon`s, `DataCon`s, and `Id`s have a ''conversion status'' that determines how occurences of these entities are treated during conversion.  For an `Id` named `v`, we have two alternatives:
@@ -19,21 +54,6 @@ An example of a feature that prevents conversion are unboxed values.  We cannot 
 
 === Converting types ===
 
-==== The closure type ====
-
-We represent closures by
-{{{
-data a :-> b = forall e. !(e -> a -> b) :$ e
-}}}
-and define closure creation and application as
-{{{
-lam :: (a -> b) -> (a :-> b)
-lam f = const f :$ ()
-
-($:) :: (a :-> b) -> a -> b
-(f :$ e) $: x = f e x
-}}}
-So, we have `(->)_CC == (:->)`.
 
 ==== Conversion of type terms ====
 

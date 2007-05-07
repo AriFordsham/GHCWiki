@@ -5,29 +5,6 @@ DataParallel/ClosureConversion Up?
 
 The following scheme approaches the problem of mixing converted and unconverted code from the point of view of GHC's Core representation, avoiding the use of classes as much as possible.  In particular, the scheme gracefully handles any declarations that themselves cannot be converted, but occur in a converted module.  The two essential ideas are that (1) we move between converted and unconverted values/code using a conversion isomorphism and (2) we treat unconverted declarations differently depending on whether or not they involve arrows; e.g., the definition of `Int` by way of unboxed values (which we cannot convert) doesn't prevent us from using `Int`s *as is* in converted code.
 
-### Conversion status
-
-
-All `TyCon`s, `DataCon`s, and `Id`s have a *conversion status* that determines how occurences of these entities are treated during conversion.  For an `Id` named `v`, we have two alternatives:
-
-1. The binding of `v` was compiled without conversion and we have to use `v` itself in converted code, which requires the use of an in-place conversion function.
-1. Otherwise, we have a converted variant `v_CC`, and we use `v_CC` instead of `v` in converted code.
-
-
-For a type constructor `T` and its data constructors `C`, we have three alternatives:
-
-1. The declaration introducing `T` and its constructors was compiled without conversion or we were unable to convert it, as it uses some language feature that prevents conversion.
-1. A converted variant `T_CC` exists, but coincides with `T` (e.g., because `T` neither directly nor indirectly involves arrows).
-1. A converted variant `T_CC` exists and differs from `T`.
-
-
-In the last two cases, we also have a *conversion constructor*`isoT` whose type and meaning is described below.
-
-
-An example of a feature that prevents conversion are unboxed values.  We cannot make a closure from a function that has an unboxed argument, as we can neither instantiate the parametric polymorphic closure type with unboxed types, nor can we put unboxed values into the existentially quantified environment of a closure.
-
-### Converting types
-
 #### The closure type
 
 
@@ -50,6 +27,50 @@ lam f = const f :$ ()
 
 
 So, we have `(->)_CC == (:->)`.
+
+### Overview and invariants
+
+
+The meta-function "`^`", written postfix, converts from normal code to closure-converted code. 
+
+- For each function `f::ty`, create a closure-converted function `f_cc::ty^`, where `ty^` is the closure-converted version of `ty`.  
+
+- For each data type `T`, create a closure-converted data type `T_CC`, whose constructors use `(:->)` instead of `(->)`. 
+
+- The value `iso<ty>` is a pair of functions, converting to and fro between `ty` and `ty^`.
+
+
+Invariants:
+
+```wiki
+  e :: ty     implies       e^ :: ty^
+
+  to iso<ty> :: ty -> ty^
+  fr iso<ty> :: ty^ -> ty
+```
+
+### Conversion status
+
+
+All `TyCon`s, `DataCon`s, and `Id`s have a *conversion status* that determines how occurences of these entities are treated during conversion.  For an `Id` named `v`, we have two alternatives:
+
+1. The binding of `v` was compiled without conversion and we have to use `v` itself in converted code, which requires the use of an in-place conversion function.
+1. Otherwise, we have a converted variant `v_CC`, and we use `v_CC` instead of `v` in converted code.
+
+
+For a type constructor `T` and its data constructors `C`, we have three alternatives:
+
+1. The declaration introducing `T` and its constructors was compiled without conversion or we were unable to convert it, as it uses some language feature that prevents conversion.
+1. A converted variant `T_CC` exists, but coincides with `T` (e.g., because `T` neither directly nor indirectly involves arrows).
+1. A converted variant `T_CC` exists and differs from `T`.
+
+
+In the last two cases, we also have a *conversion constructor*`isoT` whose type and meaning is described below.
+
+
+An example of a feature that prevents conversion are unboxed values.  We cannot make a closure from a function that has an unboxed argument, as we can neither instantiate the parametric polymorphic closure type with unboxed types, nor can we put unboxed values into the existentially quantified environment of a closure.
+
+### Converting types
 
 #### Conversion of type terms
 
