@@ -40,6 +40,8 @@ Note: we previously used the term "indexed type", but have now switched to using
 
 == Specification and Restrictions ==
 
+The user-level definition of the type-family extensions is given here [http://haskell.org/haskellwiki/GHC/Indexed_types]. Section 4, "Definition of the type system extension" constitues the specification.
+
 Refinement of the specification in the ''Beyond Associated Types'' paper.  (I'll actually link this paper here once it is a bit more coherent.)  Some [wiki:TypeFunctionsExamples examples are on an extra page].
  * Kind signatures of indexed data type families have the form
  {{{
