@@ -23,11 +23,21 @@ So, we have `(->)_CC == (:->)`.
 
 The meta-function "`^`", written postfix, converts from normal code to closure-converted code. 
 
- * For each function `f::ty`, create a closure-converted function `f_cc::ty^`, where `ty^` is the closure-converted version of `ty`.  
+ * For each function definition 
+{{{
+f::ty = e}}}
+create a closure-converted function definition
+{{{
+f_cc::ty^ = e^
+
+f::ty = fr iso<ty> f_cc
+}}}
+where `ty^` is the closure-converted version of `ty`, and `e^` is the closure-converted version of `e`.  
 
  * For each data type `T`, create a closure-converted data type `T_CC`, whose constructors use `(:->)` instead of `(->)`. 
 
  * The value `iso<ty>` is a pair of functions, converting to and fro between `ty` and `ty^`.
+Like "`^`", the `iso<ty>` thing should be considered as a meta-function that works recursively on `ty`.
 
 Invariants:
 {{{
@@ -36,7 +46,7 @@ Invariants:
   to iso<ty> :: ty -> ty^
   fr iso<ty> :: ty^ -> ty
 }}}
-
+Provided these invariants are maintained, the transformed program will be type-correct.
 
 === Conversion status ===
 
