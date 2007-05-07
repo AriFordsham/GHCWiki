@@ -1,101 +1,111 @@
-# Type Functions and Associated Types in GHC - The Master Plan
+CONVERSION ERROR
 
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/TypeFunctions"
+  queryString          = "?version=74"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:03:54 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","252"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctions\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-This page serves as a collection of notes concerning the implementation of type functions and associated types, especially about the implications for type checking, interface files, and F<sub>C</sub> intermediate code generation.
+Original source:
 
-## Aims
+```trac
+= Type Functions and Associated Types in GHC - The Master Plan =
 
+This page serves as a collection of notes concerning the implementation of type functions and associated types, especially about the implications for type checking, interface files, and F,,C,, intermediate code generation.
+
+== Aims ==
 
 New features:
-
-- Open type-indexed data types and type functions
-- Associated data types and type synonyms, which are type-indexed data types and type functions associated with a class - i.e., associated types are syntactic sugar for type-indexed types and type functions.
-
+ * Open type-indexed data types and type functions
+ * Associated data types and type synonyms, which are type-indexed data types and type functions associated with a class - i.e., associated types are syntactic sugar for type-indexed types and type functions.
 
 Revised features
+ * We may want to re-implement functional dependencies using associated type synonyms.
 
-- We may want to re-implement functional dependencies using associated type synonyms.
+We keep track of the current [wiki:TypeFunctionsStatus implementation status].
+
+We also have notes on [wiki:TypeFunctionsSynTC type checking with indexed synonyms.]
+
+== Terminology ==
 
 
-We keep track of the current [implementation status](type-functions-status).
+'''Data-type family''': a data type declared with a `data family`  or `newtype family` declaration.
 
+'''Type-synonym family''', or '''type function''': a type synonym declared with a `type family` declaration.
 
-We also have notes on [type checking with indexed synonyms.](type-functions-syn-tc)
+'''Type family''': a data-type family or type-synonym family.
 
-## Terminology
+'''Parametric type constructors''': the type constructor of a vanilla Haskell type.
 
-**Data-type family**: a data type declared with a `data family`  or `newtype family` declaration.
+'''Family type constructor''' or '''Family `TyCon`''': the type constructor for a type family.
 
-**Type-synonym family**, or **type function**: a type synonym declared with a `type family` declaration.
+'''Instance `TyCon`''': the `TyCon` arising from a `data/newtype/type instance` declaration.  Sometimes called the '''representation `TyCon`'''.  The instance `TyCon` is invisible to the programmer; it is only used internally inside GHC.  
 
-**Type family**: a data-type family or type-synonym family.
+'''Associated type''': A type family that is declared in a type class.
 
-**Parametric type constructors**: the type constructor of a vanilla Haskell type.
+'''Kind signature''': Declaration of the name, kind, and arity of an indexed type constructor.  The ''arity'' is the number of type indexes - ''not'' the overall number of parameters - of an indexed type constructor.
 
-**Family type constructor** or **Family `TyCon`**: the type constructor for a type family.
-
-**Instance `TyCon`**: the `TyCon` arising from a `data/newtype/type instance` declaration.  Sometimes called the **representation `TyCon`**.  The instance `TyCon` is invisible to the programmer; it is only used internally inside GHC.  
-
-**Associated type**: A type family that is declared in a type class.
-
-**Kind signature**: Declaration of the name, kind, and arity of an indexed type constructor.  The *arity* is the number of type indexes - *not* the overall number of parameters - of an indexed type constructor.
-
-**Definitions vs. declarations**: We sometimes call the kind signature of an indexed constructor its *declaration* and the subsequent population of the type family by type equations or indexed data/newtype declarations the constructor's *definition*.
-
+'''Definitions vs. declarations''': We sometimes call the kind signature of an indexed constructor its ''declaration'' and the subsequent population of the type family by type equations or indexed data/newtype declarations the constructor's ''definition''.
 
 Note: we previously used the term "indexed type", but have now switched to using "type family".  Please change any  uses of the former into the latter as you come across them.
 
-## Specification and Restrictions
+== Specification and Restrictions ==
 
+The user-level definition of the type-family extensions is given here [http://haskell.org/haskellwiki/GHC/Indexed_types]. Section 4, "Definition of the type system extension" constitues the specification.
 
-Refinement of the specification in the *Beyond Associated Types* paper.  (I'll actually link this paper here once it is a bit more coherent.)  Some [examples are on an extra page](type-functions-examples).
-
-- Kind signatures of indexed data type families have the form
-
-  ```wiki
-  data family T a1 .. an [:: <kind>]
-  ```
-
-  and introduce a type family whose kind is determined by the kinds of the `ai` (which can have kind annotations) and the optional signature `<kind>` (which defaulys to `*`).  Newtypes families have the same form, except for the initial keyword.
-- Kind signatures of type function have the form
-
-  ```wiki
-  type family T a1 .. an [:: <kind>]
-  ```
-
-  and introduce `n`-ary type functions (with `n` \>= 1), which may be of higher-kind.  Again, the type variables can have kind signatures and the result kind signature is optional, with `*` being the default.  Equations for an `n`-ary type function must specify exactly `n` arguments, which serve as indexes. 
-- Applications of type functions need to supply all indexes after unfolding of all ordinary type synonyms.  (This is the same saturation requirement that we already have on ordinary type synonyms.)
-- Instances of indexed data types/newtypes and equations of type functions have the keyword `instance` after the first keyword.  They otherwise have the same form as ordinary data type/newtype and type synonym declarations, respectively, but can have non-variable type indexes as arguments.  Type indexes can include applications of indexed data types and newtypes, but no type functions.
-- Instances of indexed types are only valid if a kind signature for the type constructor is in scope.  The kind of an indexed type is solely determined from the kind signature.  Instances must conform to this kind.  In particular, the argument count of data and newtype instances must match the arity indicated by the kind.  The number of arguments of a type equation must be equal to the number of type indexes (i.e., type variables in the head) of the family declaration.
-- Data family instances can have deriving clauses as usual (but they do not support the non-standard deriving of `Typeable`).
-- Associated types are type families declared as part of a type class.  The syntax of family declarations in class declarations and of type instance declarations in instance declarations is as for toplevel declarations, but without the `family` and `instance` keywords.
-- Instances of an associated type can only be defined in instances of its class.  However, it is admissible to omit the type definition in instances of the class (similar to how methods may be omitted).  Then, the only inhabitant of the corresponding type is `undefined`.
-- All argument variables of an associated type family declaration need to be class parameters.  There may not be any repetitions, but the order of the variables can differ from that in the class head and the type family can be defined over a subset of the class parameters.
-- In instances, the type indexes of a type declaration must be identical to the corresponding class parameters (i.e., those that share the same variable name in the class declaration).  And all arguments that where not connected to a class parameter in the family declaration must be variables; i.e., cannot be used as type indexes.
-- Type contexts (including super class and instance contexts) can have equational constraints of the form `t1 ~ t2`, where the two types `t1` and `t2` need to be rank 0 types.  
-- In an export and import list, associated types are treated as subcomponents of their type class, just like the class methods.  In particular, `C(..)` denotes class `C` with all its methods and all its associated types.  If the associated types of a class are explicitly listed in the parenthesis, each type name needs to be prefixed with the keyword `type`; i.e., to denote class `C` with associated type `T` and method `foo`, we write `C(type T, foo)`.
-- In export and import lists, all data constructors of newtype and data families defined in any newtype or data instance is regarded to be a subcomponent of the family type constructor, and hence specified by `F(..)` if `F` is the family type constructor.  Instead of specifying them all with "`..`", they can also be explicitly listed, just as with vanilla data types.
-- Instances of indexed data and new types may not overlap (as such instances correspond to indeterminate type functions).  Type equations may only overlap if the equations coincide at critical pairs.  (Rational: We cannot be more lazy about checking overlap, as we otherwise cannot guarantee that we generate an F<sub>C</sub> program that fulfils the formal consistency criterion.)
-- FFI signatures do not look through indexed newtypes nor through indexed synonyms.  (The main reason for not looking through indexed synonyms is as they may occur in the rhs of a vanilla newtype.)
-- To enable indexed type families, the switch `-findexed-types` needs to be used (which is implied by `-fglasgow-exts`).
-
+Refinement of the specification in the ''Beyond Associated Types'' paper.  (I'll actually link this paper here once it is a bit more coherent.)  Some [wiki:TypeFunctionsExamples examples are on an extra page].
+ * Kind signatures of indexed data type families have the form
+ {{{
+data family T a1 .. an [:: <kind>]
+}}}
+ and introduce a type family whose kind is determined by the kinds of the `ai` (which can have kind annotations) and the optional signature `<kind>` (which defaulys to `*`).  Newtypes families have the same form, except for the initial keyword.
+ * Kind signatures of type function have the form
+ {{{
+type family T a1 .. an [:: <kind>]
+}}}
+ and introduce `n`-ary type functions (with `n` >= 1), which may be of higher-kind.  Again, the type variables can have kind signatures and the result kind signature is optional, with `*` being the default.  Equations for an `n`-ary type function must specify exactly `n` arguments, which serve as indexes. 
+ * Applications of type functions need to supply all indexes after unfolding of all ordinary type synonyms.  (This is the same saturation requirement that we already have on ordinary type synonyms.)
+ * Instances of indexed data types/newtypes and equations of type functions have the keyword `instance` after the first keyword.  They otherwise have the same form as ordinary data type/newtype and type synonym declarations, respectively, but can have non-variable type indexes as arguments.  Type indexes can include applications of indexed data types and newtypes, but no type functions.
+ * Instances of indexed types are only valid if a kind signature for the type constructor is in scope.  The kind of an indexed type is solely determined from the kind signature.  Instances must conform to this kind.  In particular, the argument count of data and newtype instances must match the arity indicated by the kind.  The number of arguments of a type equation must be equal to the number of type indexes (i.e., type variables in the head) of the family declaration.
+ * Data family instances can have deriving clauses as usual (but they do not support the non-standard deriving of `Typeable`).
+ * Associated types are type families declared as part of a type class.  The syntax of family declarations in class declarations and of type instance declarations in instance declarations is as for toplevel declarations, but without the `family` and `instance` keywords.
+ * Instances of an associated type can only be defined in instances of its class.  However, it is admissible to omit the type definition in instances of the class (similar to how methods may be omitted).  Then, the only inhabitant of the corresponding type is `undefined`.
+ * All argument variables of an associated type family declaration need to be class parameters.  There may not be any repetitions, but the order of the variables can differ from that in the class head and the type family can be defined over a subset of the class parameters.
+ * In instances, the type indexes of a type declaration must be identical to the corresponding class parameters (i.e., those that share the same variable name in the class declaration).  And all arguments that where not connected to a class parameter in the family declaration must be variables; i.e., cannot be used as type indexes.
+ * Type contexts (including super class and instance contexts) can have equational constraints of the form `t1 ~ t2`, where the two types `t1` and `t2` need to be rank 0 types.  
+ * In an export and import list, associated types are treated as subcomponents of their type class, just like the class methods.  In particular, `C(..)` denotes class `C` with all its methods and all its associated types.  If the associated types of a class are explicitly listed in the parenthesis, each type name needs to be prefixed with the keyword `type`; i.e., to denote class `C` with associated type `T` and method `foo`, we write `C(type T, foo)`.
+ * In export and import lists, all data constructors of newtype and data families defined in any newtype or data instance is regarded to be a subcomponent of the family type constructor, and hence specified by `F(..)` if `F` is the family type constructor.  Instead of specifying them all with "`..`", they can also be explicitly listed, just as with vanilla data types.
+ * Instances of indexed data and new types may not overlap (as such instances correspond to indeterminate type functions).  Type equations may only overlap if the equations coincide at critical pairs.  (Rational: We cannot be more lazy about checking overlap, as we otherwise cannot guarantee that we generate an F,,C,, program that fulfils the formal consistency criterion.)
+ * FFI signatures do not look through indexed newtypes nor through indexed synonyms.  (The main reason for not looking through indexed synonyms is as they may occur in the rhs of a vanilla newtype.)
+ * To enable indexed type families, the switch `-findexed-types` needs to be used (which is implied by `-fglasgow-exts`).
 
 Restrictions:
+ * We currently don't allow indexed GADTs. I cannot see any fundamental problem in supporting them, but I want to keep it simple for the moment. (When allowing this, a constructor signature in an associated GADT can of course only refine the instantiation of the type arguments specific to the instance in which the constructor is defined.)
 
-- We currently don't allow indexed GADTs. I cannot see any fundamental problem in supporting them, but I want to keep it simple for the moment. (When allowing this, a constructor signature in an associated GADT can of course only refine the instantiation of the type arguments specific to the instance in which the constructor is defined.)
 
-## How It Works
 
+== How It Works ==
 
 The details of the implementation are split over a couple of subpages, due to the amount of the material:
+ * [wiki:TypeFunctionsSyntax syntax and representation,]
+ * [wiki:TypeFunctionsRenaming renaming,]
+ * [wiki:TypeFunctionsTypeChecking type checking,]
+ * [wiki:TypeFunctionsCore desugaring,] and
+ * [wiki:TypeFunctionsIface interfaces.]
 
-- [syntax and representation,](type-functions-syntax)
-- [renaming,](type-functions-renaming)
-- [type checking,](type-functions-type-checking)
-- [desugaring,](type-functions-core) and
-- [interfaces.](type-functions-iface)
 
-## Possible Extensions
+== Possible Extensions ==
 
-- Our type-indexed data types are open.  However, we currently don't allow case expressions mixing constructors from different indexes.  We could do that if we had a story for open function definitions outside of classes.
-- Class instances of entire data/newtype families (including `deriving` clauses at family declarations to derive for all instances) requires the same sort of capabilities as case expressions mixing data constructors from different indexes.  This is, as they require to build a dictionary that applies to all family instances (as opposed to a distinct dictionary per instance, which is what we have now).
+ * Our type-indexed data types are open.  However, we currently don't allow case expressions mixing constructors from different indexes.  We could do that if we had a story for open function definitions outside of classes.
+ * Class instances of entire data/newtype families (including `deriving` clauses at family declarations to derive for all instances) requires the same sort of capabilities as case expressions mixing data constructors from different indexes.  This is, as they require to build a dictionary that applies to all family instances (as opposed to a distinct dictionary per instance, which is what we have now).
+```
