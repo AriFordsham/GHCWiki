@@ -14,6 +14,9 @@ Please feel free to add material to this commentary: don't worry too much about 
  * [wiki:Commentary/Compiler The Compiler]
   
  * [wiki:Commentary/Rts The Runtime System]
+   In addition to the usual runtime support contains information on:
+    * [wiki:Commentary/Rts/HaskellExecution The Haskell Execution Model]
+    * [wiki:Commentary/Rts/Storage The memory layout of heap and stack objects]
  
  * Cross-cutting concerns: topics which span both the compiler and the runtime system
     * [wiki:Commentary/Profiling Profiling]
