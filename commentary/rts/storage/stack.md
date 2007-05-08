@@ -40,16 +40,16 @@ Stack frames therefore have [bitmap layout](commentary/rts/heap-objects#bitmap-l
 
 ## Kinds of Stack Frame
 
-`RET_BCO`,
-`RET_SMALL`,
-`RET_VEC_SMALL`,
-`RET_BIG`,
-`RET_VEC_BIG`,
-`RET_DYN`,
-`RET_FUN`,
-`UPDATE_FRAME`,
-`CATCH_FRAME`,
-`STOP_FRAME`,
-`ATOMICALLY_FRAME`,
-`CATCH_RETRY_FRAME`,
-`CATCH_STM_FRAME`
+- `RET_BCO`
+- `RET_SMALL`
+- `RET_VEC_SMALL`
+- `RET_BIG`
+- `RET_VEC_BIG`
+- `RET_DYN`
+- `RET_FUN`
+- `UPDATE_FRAME`
+- `CATCH_FRAME`
+- `STOP_FRAME`
+- `ATOMICALLY_FRAME`
+- `CATCH_RETRY_FRAME`
+- `CATCH_STM_FRAME`
