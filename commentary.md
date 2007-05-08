@@ -54,6 +54,10 @@ Please feel free to add new pages here.  In due course information will migrate 
   - [SemiTagging](semi-tagging): Describes how the semi-tagging optimisation will be implemented.
   - [PAPI](papi): Measurement of program performance usign CPU events (cache misses, branch mispredictions).
 
+- Other Cross-cutting concerns: topics which span both the compiler and the runtime system
+
+  - How the [Haskell Program Coverage](commentary/hpc) option works
+
 - Getting to grips with the code base
 
   - BeginnersNotes: Some notes about getting started hacking GHC and the structure of the compiler (especially types and typecheck)
