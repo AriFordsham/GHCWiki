@@ -337,7 +337,7 @@ This technique comes from the Phil Wadler paper [ Fixing some space leaks with a
 
 There is a fixed set of pre-compiled selector thunks built into the
 RTS, representing offsets from 0 to `MAX_SPEC_SELECTOR_THUNK`,
-see [rts/StgMiscThunks.cmm](/trac/ghc/browser/ghc/rts/StgMiscThunks.cmm).
+see [rts/StgStdThunks.cmm](/trac/ghc/browser/ghc/rts/StgStdThunks.cmm).
 The info tables are labelled `__sel_n_upd_info` where `n` is the
 offset.  Non-updating versions are also built in, with info tables
 labelled `_sel_n_noupd_info`.
