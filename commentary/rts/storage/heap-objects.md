@@ -202,11 +202,6 @@ Data constructor closure types:
 - `CONSTR`: a vanilla, dynamically allocated constructor
 - `CONSTR_p_n`: a constructor whose layout is encoded in the closure type (eg. `CONSTR_1_0` has one pointer
   and zero non-pointers.  Having these closure types speeds up GC a little for common layouts.
-- `CONSTR_INTLIKE`, `CONSTR_CHARLIKE`: special closure types corresponding to types like `Int` and
-  `Char`.  The RTS includes some static instances of these types so that instead of allocating a new `Char`
-  on the heap, we can use the static RTS instance instead and save some heap space.  See    
-  [rts/StgMiscClosures.cmm](/trac/ghc/browser/ghc/rts/StgMiscClosures.cmm).
-  TODO No longer in [includes/ClosureTypes.h](/trac/ghc/browser/ghc/includes/ClosureTypes.h).  Needs explaination why or removal.
 - `CONSTR_STATIC`: a statically allocated constructor.
 - `CONSTR_NOCAF_STATIC`: TODO Needs documentation
 
