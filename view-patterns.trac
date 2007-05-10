@@ -522,7 +522,7 @@ greater than or equal to n:
    np k n | k <= n    = Just (n-k)
 	  | otherwise = Nothing
 
-   f :: Num a => a -> Int
+   f :: Num a => a -> a
    f (np 10 -> n) = 0		-- Matches values >= 10
    f (np 4  -> n) = 1		-- Matches values >= 4
    f other        = 2
