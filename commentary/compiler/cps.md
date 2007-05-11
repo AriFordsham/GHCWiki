@@ -1,0 +1,17 @@
+# CPS Conversion
+
+
+This part of the compiler is still under construction and it not presently in ghc-HEAD.
+These notes are to document it for when it does get merged in.
+
+## Overview
+
+
+This pass takes Cmm with native proceedure calls and an implicit stack and produces Cmm with only tail calls implemented as jumps and an explicit stack.  In a word, it does CPS conversion.  (All right, so that's two words.)
+
+## Design Aspects
+
+- Proc-Point Analysis
+- Calling Conventions
+- Live Value Analysis
+- Stack Layout
