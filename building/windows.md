@@ -429,7 +429,7 @@ choices, but it gives a single path that works.
     ; http://www.haskell.org//pipermail/cvs-all/
   - mkdir c:/ghc-build; cd c:/ghc-build
     ; (or whereever you want your darcs tree to be)
-  - darcs get http://darcs.haskell.org/ghc
+  - darcs get --partial http://darcs.haskell.org/ghc
   - cd ghc
   - chmod +x darcs-all
   - ./darcs-all get
