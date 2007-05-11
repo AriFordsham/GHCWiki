@@ -833,11 +833,11 @@ Note how the constructor `CmmJump` contains `[LocalReg]`: this is the Cmm implem
 proc1 {
 ...
 
- jump (f + 1)( ... );
+ jump (bits32[x+4])( ... );
 
 }
 }}}
-Remember that the computed procedure address, `(f + 1)`, is the memory location of a procedure name (assembler label); it is not meant to obtain the address of a code block ''within'' a procedure, as an alternative way of computing a ''continuation''.  
+The computed procedure address, in this case `(bits32[x+4])`, should always be the first instruction of a `Cmm` procedure.  You cannot obtain the address of a code block ''within'' a procedure and `jump` to it, as an alternative way of computing a ''continuation''.  
 
 `CmmBranch BlockId` represents an unconditional branch to another [wiki:Commentary/Compiler/CmmType#BasicBlocksandProcedures Basic Block] in the same procedure.  There are two unconditional branches in Cmm/C--:
  1. `goto` statement; and
