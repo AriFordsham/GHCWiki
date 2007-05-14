@@ -8,7 +8,7 @@ A toplevel family declaration consists of a type declaration head using `family`
 
 === Family declarations ===
 
-`HsDecls.TyClDecl` has a new variant `TyFamily` to represent family declarations of all three flavours (i.e., `type family`, `newtype family`, and `data family`).  The new variant comprises the declaration's flavour, name, type parameters, and optionally a result kind signature.  The type parameters can have kind signatures as usual.  The predicate `HsDecls.isFamilyDecl` recognises family declarations.
+`HsDecls.TyClDecl` has a new variant `TyFamily` to represent family declarations of both flavours (i.e., `type family` and `data family`).  The new variant comprises the declaration's flavour, name, type parameters, and optionally a result kind signature.  The type parameters can have kind signatures as usual.  The predicate `HsDecls.isFamilyDecl` recognises family declarations.
 
 === Family instances ===
 
