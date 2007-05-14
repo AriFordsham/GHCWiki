@@ -19,6 +19,8 @@ This pass takes Cmm with native proceedure calls and an implicit stack and produ
 ## Simple Design
 
 - Split blocks into multiple blocks at function calls
+
+  - TODO eliminate extra jump at block ends when there is already a jump at the end of the call
 - Do liveness analysis
 - Split every block into a separate function
 - Pass all live values as parameters (probably slow)
