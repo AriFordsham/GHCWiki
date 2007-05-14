@@ -30,6 +30,33 @@ This pass takes Cmm with native proceedure calls and an implicit stack and produ
     - Simple design: callee just chooses some order and all callers must comply
   - Eventually could be passed implicitly but keeping things explicit makes things easier
   - Evantually could use a custom calling convention
+  - Actual syntax is probably virtual.  (I.e. in an external table, not in actual syntax because that would require changes to the type for Cmm code)
+
+    - Input code:
+
+      ```wiki
+      f {
+        y = 1;
+        z = 2;
+        x = call g(a, b); // y, z live
+        return x+y+z;
+      }
+      ```
+    - Output code:
+
+      ```wiki
+      f {
+        y = 1;
+        z = 2;
+        push_continuation h [y, z]; // Probably virtual
+        jump g(a, b);
+      }
+
+      foreign "ret" h(x) {
+        (y, z) = expand_continuation; // Probably virtual
+        return x+y+z;
+      } 
+      ```
 - Save live values before a call in the continuation
 
   - Must arrange for both the caller and callee to know field order
@@ -38,6 +65,21 @@ This pass takes Cmm with native proceedure calls and an implicit stack and produ
   - Eventually needs to be optimized to reduce continuation shuffling
 
     - Can register allocation algorithms be unified with this into one framework?
+
+## To be worked out
+
+- The continuations for `f` and `g` are different.
+
+  ```wiki
+  if (test) {
+    x = f();
+  } else {
+    y = g();
+  }
+  ```
+
+  - Could make a for each that shuffles the arguments into a common format.
+  - Could make one branch primary and shuffle the other to match it, but that might entail unnessisary memory writes.
 
 ## Pipeline
 
