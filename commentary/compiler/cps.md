@@ -32,7 +32,7 @@ This pass takes Cmm with native proceedure calls and an implicit stack and produ
   - Evantually could use a custom calling convention
 - Save live values before a call in the continuation
 
-  - Must arrange for bot the caller and callee to know field order
+  - Must arrange for both the caller and callee to know field order
 
     - Simple design: callee just chooses some order and all callers must comply
   - Eventually needs to be optimized to reduce continuation shuffling
