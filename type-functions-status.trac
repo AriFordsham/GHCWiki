@@ -1,6 +1,6 @@
-= Type Functions: Implementation Status =
+[wiki:TypeFunctions]/Status
 
-Back to TypeFunctions.
+= Type Functions: Implementation Status =
 
 '''Current:'''
  0. Add type synonym instances to ifaces.  (This is easy, just add the (new) parent information of `SynTyCon`s.)
