@@ -3,7 +3,6 @@
 = Type Functions: Implementation Status =
 
 '''Current:'''
- 0. Add type synonym instances to ifaces.  (This is easy, just add the (new) parent information of `SynTyCon`s.)
  1. Dictionary handling for equational constraints:
    * Where do we check the details of the formation of equational constraints?  (In `check_pred_ty`?)
    * In the case for ordinary instances in `TcInstDcls.tcInstDecl2`, filter the ids of the super class equalities out of `map instToId sc_dicts`.  (They don't appear explicitly in the `Hs' representation of the methods binding.)
@@ -62,8 +61,7 @@ Done:
 
 == Desugaring ==
 
-Todo (low-level):
- * The `IfaceSyn` case of `TcIface.tcIfaceDecl` needs to be extended to receive and handle `mb_parent` information.  That should actually be all required to put synonym family instances into ifaces and get them out again.
+Todo (low-level): None.
 
 Todo (high-level): None.
 
