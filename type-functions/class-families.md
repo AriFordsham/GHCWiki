@@ -1,64 +1,158 @@
-CONVERSION ERROR
-
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/TypeFunctions/ClassFamilies"
-  queryString          = "?version=2"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:04:04 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","261"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctions/ClassFamilies\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
-
-Original source:
-
-```trac
+## Class Families
 
 
-== Class Families ==
+Our translation of data families in combination with the desugaring of classes into data types suggest the idea of **indexed class families**, which turns out to be rather useful for generalising class APIs for commonly used data structures.
 
-Our translation of data families in combination with the desugaring of classes into data types suggest the idea of '''indexed class families''', which turns out to be rather useful for generalising class APIs for commonly used data structures.
+### An example
 
-=== An example ===
 
-As a motivating example take the following problem from John Hughes' ''Restricted Data Types''.  Suppose we want to implement a set API as a type class.  Then, we find that the signature
-{{{
+As a motivating example take the following problem from John Hughes' *Restricted Data Types*.  Suppose we want to implement a set API as a type class.  Then, we find that the signature
+
+```wiki
 insert :: Set s => a -> s a -> s a
-}}}
-is too general.  We need additional type constraints whose exact form ''depends on the type constructor'' we use to construct the sets; i.e., it varies on an instance by instance basis.  For lists, we just need `Eq`, but for sets as finite maps, we need `Ord`.
+```
+
+
+is too general.  We need additional type constraints whose exact form *depends on the type constructor* we use to construct the sets; i.e., it varies on an instance by instance basis.  For lists, we just need `Eq`, but for sets as finite maps, we need `Ord`.
+
 
 With indexed class families, we can define a set class as follows:
-{{{
+
+```wiki
 class Set s where
   class C s a
   empty  :: s a
   insert :: C s a => a -> s a -> s a
-}}}
-Here, the '''associated class''' `C` of `Set` is indexed by the class parameter `s`.
+```
+
+
+Here, the **associated class**`C` of `Set` is indexed by the class parameter `s`.
+
 
 In instances for sets as lists
-{{{
+
+```wiki
 instance Set [] where
   class Eq a => C [] a
   empty = []
   insert x s | x `elem` s = s
              | otherwise  = x:s
 instance Eq a => C [] a
-}}}
+```
+
+
 and sets as finite maps
-{{{
+
+```wiki
 newtype MapSet a = MapSet (Data.Map.Map a ())
 instance Set MapSet where
   class Ord a => C MapSet a
   empty = Data.Map.empty
   insert x s = Data.Map.insert x () s
 instance Ord a => C MapSet a
-}}}
-we instantiate `C` differently for different type indexes.  The class family instances have no members in this case, but use existing classes as a superclass to supply `insert` with the equality and ordering methods, respectively.  As we want to use these superclasses for sets of any element type of which we have an instance of the superclasses, we need a catch-all instance  for each class instance.  That is somewhat ugly especially, as it requires the use of `-fallow-undecidable-instances`.
 ```
+
+
+we instantiate `C` differently for different type indexes.  The class-family instances have no members in this case, but use existing classes as a superclass to supply `insert` with the equality and ordering methods, respectively.  As we want to use these superclasses for sets of any element type of which we have an instance of the superclasses, we need a catch-all instance  for each class instance.  That is somewhat ugly especially, as it requires the use of `-fallow-undecidable-instances`.
+
+### The language extension
+
+
+We define class families as
+
+```wiki
+class family C a1 .. an
+```
+
+
+and class-family instances as
+
+```wiki
+class instance ctxt => C t1 .. tn where { sigs }
+```
+
+
+Class instances of class-family instances take the normal form.  The only additional constraint is that the class parameters are type instances of the class-family instance types.  That is, if we have
+
+```wiki
+instance ctxt' => C s1 .. sn where { .. }
+```
+
+
+then we need to have that each `si` is a type instance of `ti` for this to be a class instance of the class-family instance `C t1 .. tn`.
+
+
+As with data families, the class families can be associated with a class by declaring them in the class.  In this case, we omit the keywords `family` and `instance` in the family and instance declarations, respectively.  Moreover, all type indexes of an associated class need to be class parameters of the parent class.
+
+**OPEN QUESTION:** Do we allow associated types and classes(?!?) in class-family instances?
+
+### Type checking
+
+
+Like with data families, there is little impact on type checking.  Methods of class-family instances have signatures whole class constraints are not just variables.  For example,
+
+```wiki
+class instance C Int a where 
+  foo :: a -> a
+```
+
+
+gives us
+
+```wiki
+foo :: C Int a => a -> a
+```
+
+
+Otherwise, superclasses and class instance introduce the usual given constraints.
+
+### Desugaring
+
+
+A class family declaration corresponds to a data family:
+
+```wiki
+class family C a1 .. an
+    ||
+    vv
+data family C a1 .. an
+```
+
+
+A class-family instance corresponds to a data-family instance, which is the classes dictionary type.
+
+```wiki
+class instance forall b1..bn. ctxt => C t1 .. tn where { sigs }
+    ||
+    vv
+data :R42C b1 .. bn = R42C { super :: ctxt, sigs }
+coe $Co:R42C b1 .. bn :: C t1 .. tn ~ :R42C b1 .. bn
+$WR42C :: ctxt -> sigs -> C t1 .. tn
+  -- the datacon wrapper and the field selectors
+  -- use the coercion $Co:R42C to move between the
+  -- indexed dictionary type and the representation
+  -- dictionary type (the current code in MkId for
+  -- data families should do all this already)
+```
+
+
+Moreover, the class-family instance will have a representation as a `Class.Class` in GHC, where the `classTyCon` is `:R42C` (i.e., the instance tycon of the dictionary).  We might also want `Class.Class` to have a `classParent` field as we have this at them moment for instance `TyCon`s.
+
+
+Finally, a class instance of a class-family instance is translated as usual:
+
+```wiki
+instance forall c1..cm. ctxt' => C s1 .. sn where { methods }
+    ||
+    vv
+$dCs1sm :: ctxt' -> C s1 .. sn
+$dCs1sm dicts = $WR42C <superdict> methods
+```
+
+
+Moreover, we will have a `InstEnv.Instance` representation of the instance where `is_class` is the name of the class family and `is_tys` is `s1` to `sn`.  This is as constraint simplification does not know anything about the class-family instances.
+
+### Related work
+
+
+Compare to **composite class signatures** and **submodules** of the *Modular Type Classes* paper.
