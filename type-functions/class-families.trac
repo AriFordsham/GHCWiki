@@ -1,0 +1,42 @@
+
+
+== Class Families ==
+
+Our translation of data families in combination with the desugaring of classes into data types motivates the concept of '''indexed class families''', which turns out to be quite useful for generalising class APIs for commonly used data structures.
+
+=== An example ===
+
+As a motivating example take the following problem from John Hughes' ''Restricted Data Types''.  Suppose we want to implement a set API as a type class.  Then, we find that the signature
+{{{
+insert :: Set s => a -> s a -> s a
+}}}
+is too general.  We need additional type constraints whose exact form ''depends on the type constructor'' we use to construct the sets; i.e., it varies on an instance by instance basis.  For list, we just need `Eq`, but for sets as finite maps, we need `Ord`.
+
+With indexed class families, we can define a set class as follows:
+{{{
+class Set s where
+  class C s a
+  empty  :: s a
+  insert :: C s a => a -> s a -> s a
+}}}
+Here, the '''associated class''' `C` of `Set` is indexed by the class parameter `s`.
+
+In instances for sets as lists
+{{{
+instance Set [] where
+  class Eq a => C [] a
+  empty = []
+  insert x s | x `elem` s = s
+             | otherwise  = x:s
+instance C [] a
+}}}
+and sets as finite maps
+{{{
+newtype MapSet a = MapSet (Data.Map.Map a ())
+instance Set MapSet where
+  class Ord a => C MapSet a
+  empty = Data.Map.empty
+  insert x s = Data.Map.insert x () s
+instance C MapSet a
+}}}
+we instantiate `C` differently for different type indexes.  The class family instances have no members in this case, but use existing classes as superclass to supply `insert` with the equality and ordering methods, respectively.
