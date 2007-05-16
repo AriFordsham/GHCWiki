@@ -51,6 +51,8 @@ and class-family instances as
 {{{
 class instance ctxt => C t1 .. tn where { sigs }
 }}}
+where I'd propose to not allow functional dependencies to keep matters simpler.
+
 Class instances of class-family instances take the normal form.  The only additional constraint is that the class parameters are type instances of the class-family instance types.  That is, if we have
 {{{
 instance ctxt' => C s1 .. sn where { .. }
@@ -63,7 +65,7 @@ As with data families, the class families can be associated with a class by decl
 
 === Type checking ===
 
-Like with data families, there is little impact on type checking.  Methods of class-family instances have signatures whole class constraints are not just variables.  For example,
+Like with data families, there is little impact on type checking.  Methods of class-family instances have signatures whose class constraints are not just variables.  For example,
 {{{
 class instance C Int a where 
   foo :: a -> a
@@ -72,7 +74,11 @@ gives us
 {{{
 foo :: C Int a => a -> a
 }}}
-Otherwise, superclasses and class instance introduce the usual given constraints.
+Otherwise, superclasses and class instance introduce the usual given constraints.  
+
+However, to implement superclass constraints, we need to have a `ClassInstEnv` (similar to the `InstEnv` and `FamInstEnv` right now).  For a vanilla class, if we have `C t1 .. tn` in the constraint pool, we just can add all superclasses of `C` at the appropriate instance types.  However, if `C` is a class family, we need to check whether there is a class-family instance `C r1 .. rn` and a substitution `theta`, such that `theta (C r1 .. rn) == C t1 .. tn`, then we can add the superclasses of `C r1 .. rn` at the instance types suggested by `theta`.  This check for a class-family instance requires a function `lookupClassInstEnv` (similar to the current `lookupInstEnv` and `loookupFamInstEnv`).
+
+Finally, we need to exclude overlap of class-family instances in the same way as for data-family instances.
 
 === Desugaring ===
 
@@ -108,7 +114,7 @@ instance forall c1..cm. ctxt' => C s1 .. sn where { methods }
 $dCs1sm :: ctxt' -> C s1 .. sn
 $dCs1sm dicts = $WR42C <superdict> methods
 }}}
-Moreover, we will have a `InstEnv.Instance` representation of the instance where `is_class` is the name of the class family and `is_tys` is `s1` to `sn`.  This is as constraint simplification does not know anything about the class-family instances.
+Moreover, we will have a `InstEnv.Instance` representation of the instance where `is_class` is the name of the class family and `is_tys` is `s1` to `sn`.  This is as lookup in an `InstEnv.InstEnv` does not need to make a distinction between vanilla classes and class-family instances.
 
 === Related work ===
 
