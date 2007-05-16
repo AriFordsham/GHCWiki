@@ -2,7 +2,7 @@
 
 == Class Families ==
 
-Our translation of data families in combination with the desugaring of classes into data types motivates the concept of '''indexed class families''', which turns out to be quite useful for generalising class APIs for commonly used data structures.
+Our translation of data families in combination with the desugaring of classes into data types suggest the idea of '''indexed class families''', which turns out to be rather useful for generalising class APIs for commonly used data structures.
 
 === An example ===
 
@@ -10,7 +10,7 @@ As a motivating example take the following problem from John Hughes' ''Restricte
 {{{
 insert :: Set s => a -> s a -> s a
 }}}
-is too general.  We need additional type constraints whose exact form ''depends on the type constructor'' we use to construct the sets; i.e., it varies on an instance by instance basis.  For list, we just need `Eq`, but for sets as finite maps, we need `Ord`.
+is too general.  We need additional type constraints whose exact form ''depends on the type constructor'' we use to construct the sets; i.e., it varies on an instance by instance basis.  For lists, we just need `Eq`, but for sets as finite maps, we need `Ord`.
 
 With indexed class families, we can define a set class as follows:
 {{{
@@ -28,7 +28,7 @@ instance Set [] where
   empty = []
   insert x s | x `elem` s = s
              | otherwise  = x:s
-instance C [] a
+instance Eq a => C [] a
 }}}
 and sets as finite maps
 {{{
@@ -37,6 +37,6 @@ instance Set MapSet where
   class Ord a => C MapSet a
   empty = Data.Map.empty
   insert x s = Data.Map.insert x () s
-instance C MapSet a
+instance Ord a => C MapSet a
 }}}
-we instantiate `C` differently for different type indexes.  The class family instances have no members in this case, but use existing classes as superclass to supply `insert` with the equality and ordering methods, respectively.
+we instantiate `C` differently for different type indexes.  The class family instances have no members in this case, but use existing classes as a superclass to supply `insert` with the equality and ordering methods, respectively.  As we want to use these superclasses for sets of any element type of which we have an instance of the superclasses, we need a catch-all instance  for each class instance.  That is somewhat ugly especially, as it requires the use of `-fallow-undecidable-instances`.

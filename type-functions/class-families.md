@@ -1,56 +1,64 @@
-## Class Families
+CONVERSION ERROR
+
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/TypeFunctions/ClassFamilies"
+  queryString          = "?version=2"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:04:04 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","261"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/TypeFunctions/ClassFamilies\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+
+Original source:
+
+```trac
 
 
-Our translation of data families in combination with the desugaring of classes into data types motivates the concept of **indexed class families**, which turns out to be quite useful for generalising class APIs for commonly used data structures.
+== Class Families ==
 
-### An example
+Our translation of data families in combination with the desugaring of classes into data types suggest the idea of '''indexed class families''', which turns out to be rather useful for generalising class APIs for commonly used data structures.
 
+=== An example ===
 
-As a motivating example take the following problem from John Hughes' *Restricted Data Types*.  Suppose we want to implement a set API as a type class.  Then, we find that the signature
-
-```wiki
+As a motivating example take the following problem from John Hughes' ''Restricted Data Types''.  Suppose we want to implement a set API as a type class.  Then, we find that the signature
+{{{
 insert :: Set s => a -> s a -> s a
-```
-
-
-is too general.  We need additional type constraints whose exact form *depends on the type constructor* we use to construct the sets; i.e., it varies on an instance by instance basis.  For list, we just need `Eq`, but for sets as finite maps, we need `Ord`.
-
+}}}
+is too general.  We need additional type constraints whose exact form ''depends on the type constructor'' we use to construct the sets; i.e., it varies on an instance by instance basis.  For lists, we just need `Eq`, but for sets as finite maps, we need `Ord`.
 
 With indexed class families, we can define a set class as follows:
-
-```wiki
+{{{
 class Set s where
   class C s a
   empty  :: s a
   insert :: C s a => a -> s a -> s a
-```
-
-
-Here, the **associated class**`C` of `Set` is indexed by the class parameter `s`.
-
+}}}
+Here, the '''associated class''' `C` of `Set` is indexed by the class parameter `s`.
 
 In instances for sets as lists
-
-```wiki
+{{{
 instance Set [] where
   class Eq a => C [] a
   empty = []
   insert x s | x `elem` s = s
              | otherwise  = x:s
-instance C [] a
-```
-
-
+instance Eq a => C [] a
+}}}
 and sets as finite maps
-
-```wiki
+{{{
 newtype MapSet a = MapSet (Data.Map.Map a ())
 instance Set MapSet where
   class Ord a => C MapSet a
   empty = Data.Map.empty
   insert x s = Data.Map.insert x () s
-instance C MapSet a
+instance Ord a => C MapSet a
+}}}
+we instantiate `C` differently for different type indexes.  The class family instances have no members in this case, but use existing classes as a superclass to supply `insert` with the equality and ordering methods, respectively.  As we want to use these superclasses for sets of any element type of which we have an instance of the superclasses, we need a catch-all instance  for each class instance.  That is somewhat ugly especially, as it requires the use of `-fallow-undecidable-instances`.
 ```
-
-
-we instantiate `C` differently for different type indexes.  The class family instances have no members in this case, but use existing classes as superclass to supply `insert` with the equality and ordering methods, respectively.
