@@ -28,7 +28,8 @@ instance Set [] where
   empty = []
   insert x s | x `elem` s = s
              | otherwise  = x:s
-instance Eq a => C [] a
+
+instance Eq a => C [] a                   -- Tiresome instance
 }}}
 and sets as finite maps
 {{{
@@ -37,9 +38,14 @@ instance Set MapSet where
   class Ord a => C MapSet a
   empty = Data.Map.empty
   insert x s = Data.Map.insert x () s
-instance Ord a => C MapSet a
+
+instance Ord a => C MapSet a               -- Tiresome instance
 }}}
-we instantiate `C` differently for different type indexes.  The class-family instances have no members in this case, but use existing classes as a superclass to supply `insert` with the equality and ordering methods, respectively.  As we want to use these superclasses for sets of any element type of which we have an instance of the superclasses, we need a catch-all instance  for each class instance.  That is somewhat ugly especially, as it requires the use of `-fallow-undecidable-instances`.
+we instantiate `C` differently for different type indexes.  
+
+The class-family instances have no members in this case, but use existing classes as a superclass to supply `insert` with the equality and ordering methods, respectively.  As we want to use these superclasses for sets of any element type of which we have an instance of the superclasses, we need a catch-all instance  for each class instance (the "tiresome instances" avove).  That is somewhat ugly especially, as it requires the use of `-fallow-undecidable-instances`.  Furthermore, if the class has no signatures, there is no other useful instance we could possibly give.
+
+SLPJ note: I wonder whether it is ever useful to have a class instance with signatures.  Suppose we only allowed the signature-free form?  That would simplify the explanation in many ways (e.g. no need to say whether class instances can themselves have assoicated types!), and loses no expressive power.  I don't think it loses much convenience either.
 
 === The language extension ===
 
