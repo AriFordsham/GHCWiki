@@ -22,6 +22,9 @@ We keep track of the current [implementation status](type-functions-status).
 
 We also have notes on [type checking with indexed synonyms.](type-functions-syn-tc)
 
+
+A related extension are [class families.](type-functions/class-families)
+
 ## Terminology
 
 **Data-type family**: a data type declared with a `data family` declaration.
