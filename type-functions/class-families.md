@@ -165,3 +165,19 @@ Moreover, we will have a `InstEnv.Instance` representation of the instance where
 
 
 Compare to **composite class signatures** and **submodules** of the *Modular Type Classes* paper.
+
+### Comments
+
+
+Roman objects that he really would like collection interfaces to use synonym families (rather than class families) - for example, 
+
+```wiki
+class Collection c where
+  type Element c
+instance Eq a => Collection (Set a) where
+  type Element (Set a) = a
+instance Ord a => Collection (OrdSet a) where
+  type Element (OrdSet a) = a
+instance Collection [a] where
+  type Element [a] = a
+```
