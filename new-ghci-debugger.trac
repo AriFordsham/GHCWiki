@@ -41,34 +41,26 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 == Todo ==
 
- * P1 User documentation. You're looking at it. The user manual will have to move into the main GHC docs at some point. (ONGOING)
+ * P1 we shouldn't break multiple times for an exceptions, see break011 (at the end)
+
+ * P1 can't do bold on Windows
 
  * P1 It's a bit strange that in "f = e" you don't get a breakpoint covering the whole binding, but in "f x = e" you do.  :break f doesn't work if f is not a function, for example.
 
- * P1 what happens to TH code?  see dynbrk5 test
+ * P2 :force should catch exceptions, so [1,2,undefined]  would display as `[1,2,< exception >]`
 
- * P1 wrong variable names (see below- why is this still happening?)
+ * P2 sometimes the result types are wrong (see result001 test)
 
- * P2 let you go back in time - save the last N breaks.  (maybe only with a flag, otherwise slow).
+ * P2 when showing a SrcSpan, we could say which top-level function contains it.  Ideally we should store the declPath that
+   the coverage pass collects, but as a [OccName] rather than [String].
 
- * P2 when an exception is thrown, behave like a breakpoint.
-
- * P2 tabs go wrong with :list
-
- * P2 Support Unicode in data constructor names inside info tables. Actully this should just be a matter of using the underlying fast string in the occname. (MODERATE)
-
- * P2 Use a primop for inspecting the STACK_AP, rather than a foreign C call. (MODERATE)
+ * P2 perhaps we should have a :watch command, that could be used to save variables for future inspection (they wouldn't get
+   thrown away by :continue)
 
  * P2 Extend the stack inspection primitive to allow unboxed things to be grabbed. (MODERATE)
 
- * P2 Improve :list command: add ':list f', ':list M 23', etc.
-
- * P2 The delete command. It is fairly primitive, and probably not done in the best way. This will be fixed when the API is finalised. (EASY)
- * P2 ":delete 999" doesn't complain
-
- * P2 Allow breakpoints to be enabled and disabled without deleting them, as in gdb. (EASY)
-
- * P2 Extend breaks and step with counters, so that we stop after N hits, rather than immediately. (EASY/MODERATE)
+ * P2 We can disable a breakpoint with ":set stop N :continue", but this still prints out the breakpoint info when we stop.
+   Should we print the info only if there were no commands?
 
  * P2 Revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks. I'm not sure that this is worth it. In some ways the implementation based on a byte code instruction is a little cleaner than adding breaks on BCOs directly. Though the bc instruction method may be a little slower than the other way. (MODERATE/DIFFICULT)
 
@@ -83,6 +75,8 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
    "*** Ignoring breakpoint").
  
  * P2 show variables with unboxed types.
+
+ * P3 tabs go wrong with :list (but only for .lhs files, because unlit does tab expansion... duh)
 
 ----
 
