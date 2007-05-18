@@ -71,6 +71,137 @@ As with data families, the class families can be associated with a class by decl
  * Should an associated class be a (kind of) superclass of its parent.  At least, we may want to add it implicitly to the signature of each method.  Not sure about this, but Roman suggested it, too.
  * Do we allow associated types and classes(?!?) in class-family instances?
 
+
+=== Further Examples ===
+
+Here's a sketch of a "modular" extension of Hinze's "Generics for the masses" (GM)
+approach using indexed classes.  We first explain why in the original
+GM approach we cannot override generic with specific (ad-hoc) behavior
+in a modular fashion.
+
+The main idea behind the GM approach is to provide
+a uniform representation of data types in terms of
+unit, sum and product types.
+Generic functions are defined in terms of this uniform 
+rather than the concrete structural representation of a data type.
+The programmer only needs to maintain a type isomorphism between
+the uniform and concrete representation.
+Thus, there is no need to extend
+the (now generic) definition of functions in case we include new data types.
+
+Here is a (over-simplified) presentation of the GM approach
+We only consider the uniform representations "literals" and "plus".
+
+{{{
+data Lit = Lit Int
+data Plus a b = Plus a b
+class Generic g where
+  lit :: g Lit
+  plus :: g a -> g b -> g (Plus a b)
+}}}
+
+Below is a generic definition of some evaluation function.
+
+{{{
+newtype Ev a = Ev{eval' :: a -> Int}
+instance Generic Ev where
+  lit = Ev (\x -> case x of Lit i -> i)
+  plus a b =  
+    Ev (\p -> case p of 
+               (Plus x y) -> eval' a x + eval' b y)
+}}}
+
+
+In order to use the evaluator on its familiar type,
+we need a ``dispatcher'' function to select the appropriate case of
+a generic function.
+The most straightforward approach is to use an ad-hoc polymorphic
+(therefore extensible) function.
+{{{
+class Rep a where
+  rep :: Generic g => g a
+instance Rep Lit where
+  rep = lit
+instance (Rep a,Rep b) => Rep (Plus a b) where
+  rep = plus rep rep
+eval :: Rep t => t -> Int
+eval = eval' rep
+}}}
+The dispatcher function rep will select the
+appropriate generic case depending on the concrete type context.
+We can straightforwardly introduce new generic functions (omitted here).
+
+Suppose we introduce a new ad-hoc case "minus" which has the
+same structural representation as "plus".
+
+{{{
+data Minus a b = Minus a b
+class Generic g => GMinus g where
+  minus :: g a -> g b -> g (Minus a b)
+instance GMinus Ev where
+  minus a b =  
+    Ev (\p -> case p of 
+               (Minus x y) -> eval' a x - eval' b y)
+instance (Rep a,Rep b) => Rep (Minus a b) where
+  rep = minus rep rep
+}}}
+
+The problem is that we cannot access this new case, unless
+we update the type of the dispatcher function rep. We must
+change rep's declaration as follows.
+
+{{{
+class Rep a where
+  rep :: GMinus g => g a 
+-- original code: rep :: Generic g => g a
+}}}
+
+But changing rep's class declaration requires to recompile the entire
+program. Hence, extending generic definitions with ad-hoc cases
+cannot be modularly.
+
+Such problems go away if we use indexed classes.
+More precisely, we use a type indexed class in rep's class declaration.
+
+The generic cases.
+{{{
+class Rep a where
+  class Generic' g a
+  -- or class Generic' g :: * -> Class using Tom's suggestion
+  rep :: Generic' g a => g a
+instance Rep Lit where
+  class Generic g => Generic' g Lit
+  -- better written as? Generic' g Lit = Generic g
+  rep = lit
+instance (Rep a,Rep b) => Rep (Plus a b) where
+  class Generic g => Generic' g (Plus a b)
+  rep = plus rep rep
+eval :: Rep t => t -> Int
+eval = eval' rep
+}}}
+
+The ad-hoc case. 
+{{{
+class GMinus g where
+  minus :: g a -> g b -> g (Minus a b)
+instance GMinus Ev where
+  minus a b =  
+    Ev (\p -> case p of 
+               (Minus x y) -> eval' a x - eval' b y)
+
+instance (Rep a,Rep b) => Rep (Minus a b) where
+  class GMinus g => Generic' g (Minus a b)
+  rep = minus rep rep
+}}}
+
+Notice the use of indexed classes to select appropriate classes
+for each instance.
+
+
+General insight: It seems that via indexed classes we can encode
+a type-passing type-class translation scheme. 
+
+
 === Type checking ===
 
 Like with data families, there is little impact on type checking.  Methods of class-family instances have signatures whose class constraints are not just variables.  For example,
