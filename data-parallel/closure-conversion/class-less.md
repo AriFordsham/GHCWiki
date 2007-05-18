@@ -455,19 +455,32 @@ If `add` is used in unconverted code it will still refer to the converted comput
 
 ### Converting terms
 
+
+We translate terms as follows:
+
 ```wiki
-cc[[C e1 .. en]] = C_CC e1 .. en   , if C_CC exists 
-                                     and arity C = n
-                 =                 , if C_CC exists
-  lam_k $ \x'0 .. x'k ->           , and arity C = k + 1 + n
-    (\(x1, .., xn) x(n+1) -> 
-      C_CC x1 xn x(n+1) x'0 .. x'k :$ (e1, .. en)) 
-cc[[x::t]]       = x_CC            , if x_CC exists
-                 = to iso<t> x_CC  , otherwise
-cc[[lit]]        = lit
-cc[[e1 e2]]      = cc[[e1]] $: cc[e2]
-cc
+cc[[C]]              = lam_n C_CC      , if C_CC exists
+                                         and has arity n 
+cc[[x::t]]           = x_CC            , if x_CC exists
+                     = to iso<t> x     , otherwise
+cc[[lit]]            = lit
+cc[[e1 e2]]          = cc[[e1]] $: cc[e2]
+cc[[e1@t]]           = cc[[e1]]@t^
+cc[[\x -> e]]        = lam_1 $ \x -> cc[e]]
+cc[let x = e1 in e2] = let x = cc[[e1]] in cc[[e2]]
+cc[[
 ```
+
+
+where the family of functions
+
+```wiki
+lam_n :: (a1  -> ..  -> an  -> b)
+      -> (a1 :-> .. :-> an :-> b)
+```
+
+
+turns an `n`-ary function into an `n`-ary closure.  (NB: This is not the same as `to iso` for that type, as we do not change the types of the arguments of the function.)
 
 ---
 
