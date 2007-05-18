@@ -474,7 +474,11 @@ cc[[x::t]]
 cc[[lit]]                = lit
 cc[[e1 e2]]              = cc[[e1]] $: cc[e2]
 cc[[e1@t]]               = cc[[e1]]@t^
-cc[[\x -> e]]            = lam_1 $ \x_CC -> cc[e]]
+cc[[\x -> e]]            = (\(y1, .., yn) x_CC -> cc[e]]) :$
+                           (y1, .., yn)
+  where
+    y1 .. yn = FV e
+cc[[/\a -> e]]           = /\a -> cc[e]]
 cc[let x = e1 in e2]     = let x_CC = cc[[e1]] in cc[[e2]]
 cc[[case e x::t of alts]]= case cc[[e]] x_CC::t^
                            of cc[[alts]]
