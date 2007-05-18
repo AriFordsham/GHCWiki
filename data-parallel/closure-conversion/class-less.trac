@@ -356,16 +356,29 @@ To keep the translation rules simpler, we assume that for every converted data c
 $WC_CC :: forall a1..an. t1 :-> .. :-> tm :-> t
 $WC_CC = /\a1..an -> lam_m (C_CC@a1@..@an)
 }}}
+where the family of functions
+{{{
+lam_1 :: (a1 -> b) -> (a1 :-> b)
+lam_1 = lam
+
+lam_n :: (a1  -> ..  -> an  -> b)
+      -> (a1 :-> .. :-> an :-> b)
+lam_n f = 
+  lam_(n-1) $ 
+    \x1 .. x(n-1) -> uncurry_(n-1) f :$ (x1, .., x(n-1)
+}}}
+turns an `n`-ary function into an `n`-ary closure.  (NB: This is not the same as `(to iso<..>)` for that type, as we do not convert the types of the arguments of the function.)
 
 We translate terms as follows:
 {{{
-cc[[C]]                  = $WC_CC
+cc[[C]]
+  | if C_CC exists       = $WC_CC
 cc[[x::t]]
   | if x_CC exists       = x_CC
   | otherwise            = to iso<t> x
 cc[[lit]]                = lit
 cc[[e1 e2]]              = cc[[e1]] $: cc[e2]
-cc[[e1@t]]               = cc[[e1]]@t^
+cc[[e@t]]                = cc[[e]]@t^
 cc[[\x -> e]]            = (\(y1, .., yn) x_CC -> cc[e]]) :$
                            (y1, .., yn)
   where
@@ -382,12 +395,7 @@ cc[[C x1 .. xn -> e]]
   | if C_CC exists      = C_CC x1_CC .. xn_CC -> cc[[e]]
   | otherwise           = C x1 .. xn -> cc[[e]]
 }}}
-where the family of functions
-{{{
-lam_n :: (a1  -> ..  -> an  -> b)
-      -> (a1 :-> .. :-> an :-> b)
-}}}
-turns an `n`-ary function into an `n`-ary closure.  (NB: This is not the same as `to iso` for that type, as we do not convert the types of the arguments of the function.)
+
 
 
 === TODO ===
