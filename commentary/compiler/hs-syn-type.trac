@@ -5,7 +5,7 @@ Video: [http://video.google.com/videoplay?docid=-8782356823569862556 Abstract Sy
 
 = The {{{HsSyn}}} types =
 
-The program is initially parsed into "'''{{{HsSyn}}}'''", a collection of data types that describe the full abstract syntax of Haskell.  {{{HsSyn}}} is a pretty big collection of types: there are 52 data types at last count.  Many are pretty trivial, but a few have a lot of constructors ({{{HsExpr}}} has 40).  {{{HsSyn}}} represents Haskell its full glory, complete with all syntactic sugar.
+The program is initially parsed into "'''{{{HsSyn}}}'''", a collection of data types that describe the full abstract syntax of Haskell.  {{{HsSyn}}} is a pretty big collection of types: there are 52 data types at last count.  Many are pretty trivial, but a few have a lot of constructors ({{{HsExpr}}} has 40).  {{{HsSyn}}} represents Haskell in its full glory, complete with all syntactic sugar.
 
 The {{{HsSyn}}} modules live in the [[GhcFile(compiler/hsSyn)]] directory.  Each module declares a related group of declarations, ''and'' gives their pretty-printer.
  * [[GhcFile(compiler/hsSyn/HsSyn.lhs)]]: the root module.  It exports everything you need, and it's generally what you should import.
