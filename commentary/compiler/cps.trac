@@ -76,3 +76,19 @@ if (test) {
        * It's simpler
        * The C code generator can't handle function parameters because of the Evil Mangler
        * The NCG doesn't yet understand parameters
+
+== TODO ==
+ * Downstream
+   * Argument passing convention
+ * Midstream
+   * Support {{{switch}}} (needed by rts/Apply.cmm)
+   * More factoring and cleanup/documentation
+   * Wiki document the designed choosen
+   * Better stack slot selection
+   * Foreign function calls
+   * Garbage collector
+   * Proc points
+     * (May cause new blocks)
+   * Proc grouping of blocks
+ * Upstream
+   * Have {{{codeGen}}} emit C-- with functions.
