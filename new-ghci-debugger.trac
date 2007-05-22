@@ -41,42 +41,43 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 == Todo ==
 
- * P1 we shouldn't break multiple times for an exceptions, see break011 (at the end)
+* Autocompletion for :break only provides names, not modules
 
- * P1 can't do bold on Windows
+ * :break <qualified name> only works if the name is exported can/should we relax this?
 
- * P1 It's a bit strange that in "f = e" you don't get a breakpoint covering the whole binding, but in "f x = e" you do.  :break f doesn't work if f is not a function, for example.
+ * :force should catch exceptions, so [1,2,undefined]  would display as `[1,2,< exception >]`
 
- * P2 :force should catch exceptions, so [1,2,undefined]  would display as `[1,2,< exception >]`
+ * sometimes the result types are wrong (see result001 test)
 
- * P2 sometimes the result types are wrong (see result001 test)
+ * when showing a SrcSpan, we could say which top-level function contains it.  Ideally we should store the declPath that
+   the coverage pass collects, but as a [OccName] rather than [String].  :history, :show context etc. should show the
+   enclosing top-level function (or declpath).
 
- * P2 when showing a SrcSpan, we could say which top-level function contains it.  Ideally we should store the declPath that
-   the coverage pass collects, but as a [OccName] rather than [String].
-
- * P2 perhaps we should have a :watch command, that could be used to save variables for future inspection (they wouldn't get
+ * perhaps we should have a :watch command, that could be used to save variables for future inspection (they wouldn't get
    thrown away by :continue)
 
- * P2 Extend the stack inspection primitive to allow unboxed things to be grabbed. (MODERATE)
+ * Extend the stack inspection primitive to allow unboxed things to be grabbed. (MODERATE)
 
- * P2 We can disable a breakpoint with ":set stop N :continue", but this still prints out the breakpoint info when we stop.
+ * We can disable a breakpoint with ":set stop N :continue", but this still prints out the breakpoint info when we stop.
    Should we print the info only if there were no commands?
 
- * P2 Revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks. I'm not sure that this is worth it. In some ways the implementation based on a byte code instruction is a little cleaner than adding breaks on BCOs directly. Though the bc instruction method may be a little slower than the other way. (MODERATE/DIFFICULT)
+ * Revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks. I'm not sure that this is worth it. In some ways the implementation based on a byte code instruction is a little cleaner than adding breaks on BCOs directly. Though the bc instruction method may be a little slower than the other way. (MODERATE/DIFFICULT)
 
- * P2 Flag to disable breakpoints?
+ * Flag to disable breakpoints?
 
- * P2 When we restore the interactive context on resume, we throw away any new bindings made since the breakpoint.  Can this
+ * When we restore the interactive context on resume, we throw away any new bindings made since the breakpoint.  Can this
    be fixed?
 
- * P2 threads and breakpoints.
+ * threads and breakpoints.
 
- * P2 if a :force results in a breakpoint, we should treat it as we do other evaluations. (currently we get
+ * if a :force results in a breakpoint, we should treat it as we do other evaluations. (currently we get
    "*** Ignoring breakpoint").
  
- * P2 show variables with unboxed types.
+ * show variables with unboxed types.
 
- * P3 tabs go wrong with :list (but only for .lhs files, because unlit does tab expansion... duh)
+ * It's a bit strange that in "f = e" you don't get a breakpoint covering the whole binding, but in "f x = e" you do.
+
+ * tabs go wrong with :list (but only for .lhs files, because unlit does tab expansion... duh)
 
 ----
 
