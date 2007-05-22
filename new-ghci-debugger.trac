@@ -41,7 +41,7 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 
 == Todo ==
 
-* Autocompletion for :break only provides names, not modules
+ * Autocompletion for :break only provides names, not modules
 
  * :break <qualified name> only works if the name is exported can/should we relax this?
 
