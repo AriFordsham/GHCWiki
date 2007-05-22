@@ -1,5 +1,3 @@
-DataParallel Up?
-
 ## Closure conversion as part of vectorisation
 
 **TODO** Describe the treatment of higher-order functions and closure conversion here. The relevant paper is [ http://www.cse.unsw.edu.au/\~chak/papers/LCK06.html](http://www.cse.unsw.edu.au/~chak/papers/LCK06.html). The approach is described in more detail in [ http://opus.kobv.de/tuberlin/volltexte/2006/1286/](http://opus.kobv.de/tuberlin/volltexte/2006/1286/).
@@ -11,8 +9,8 @@ Implement in following order:
 
 1. Call a single closure-converted module from non-converted code (we know how to do this) **DONE**
 1. Use non-cc'd modules in cc'd modules **DONE**
-1. Import cc'd modules in other cc'd modules (we need to decide on how to put the additional CC info into ifaces) ** IN PROGRESS **
-1. CC data types (see below)
+1. Import cc'd modules in other cc'd modules (we need to decide on how to put the additional CC info into ifaces) **DONE**
+1. CC data types ** ALMOST DONE**
 
 
 We have got some  [notes on the implementation](data-parallel/closure-conversion/impl-notes).
