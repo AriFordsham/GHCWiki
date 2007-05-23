@@ -74,10 +74,16 @@ As with data families, the class families can be associated with a class by decl
 
 === Further Examples ===
 
+Indexed classes appear to be highly useful to achieve
+modularity for type-class based generic programming approaches.
 Here's a sketch of a "modular" extension of Hinze's "Generics for the masses" (GM)
-approach using indexed classes.  We first explain why in the original
+approach 
+and Laemmel's and Peyton Jones' "Scrap your boilerplate" (SYB3) approach using indexed classes.  We first explain why in the original
 GM approach we cannot override generic with specific (ad-hoc) behavior
-in a modular fashion.
+in a modular fashion. Then, we show how indexed classes
+come to the rescue. Finally, we consider the SYB3 approach.
+
+==== Generics for the masses ====
 
 The main idea behind the GM approach is to provide
 a uniform representation of data types in terms of
@@ -201,6 +207,55 @@ for each instance.
 General insight: It seems that via indexed classes we can encode
 a type-passing type-class translation scheme. 
 
+
+==== SYB3 ====
+
+The SYB3 approach faces similar challenges when it comes
+to modularity. 
+
+The generic cases.
+{{{
+class Typable a => Data a where
+ gmapQ :: (forall b. Data b => b -> r) -> a -> [r]
+
+instance Data Char where
+  gmapQ f c = []
+instance Data a => Data [a] where  
+  gmapQ f (x:xs) = [f x, f xs]
+}}}
+
+A new generic "size" function.
+{{{
+class Size a where
+  gsize :: a -> Int
+-- specific instance
+instance Size Name where ...
+-- generic instance,
+-- we use overlapping instances to cover all remaining cases
+instance Data t => Size t where         -- (S)
+  gsize t = 1 + sum (gmapQ gsize t)
+}}}
+The problem is that the instance (S) will not type check.
+The program text gmapQ size is the trouble maker.
+In this specific context, the combinator gmapQ expects as
+its first argument a function of type
+{{{
+forall a. Data a => a -> Int
+}}}
+and the actual argument gsize has type
+{{{
+forall a. Size a => a -> Int
+}}}
+But the second type is not a subtype of the second.
+For this subtype relation to hold, if we can satisfy
+the condition
+that from 'Data a' we can derive 'Size a' for any 'a'.
+This condition is satisfied 
+if we make 'Sizes' a superclass of 'Data'.
+But this will break modularity (we have to change
+'Data's class declaration for each new generic function).
+
+'''MS note''': How to fix the (modularity) problem via indexed classes?
 
 === Type checking ===
 
