@@ -85,8 +85,11 @@ entry.
 Please help classify these if you know what they are.
 
  Bitmap
- ClosureInfo
- SMRep
+
+ ClosureInfo:: Stores info about the memory layouts of closures
+ SMRep::
+   Storage manager representation of closures.
+   Part of ClosureInfo but kept separate to "keep nhc happy."
 
  CgTicky
  CgUtils
