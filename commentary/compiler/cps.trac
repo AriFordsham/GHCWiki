@@ -80,6 +80,8 @@ if (test) {
 == TODO ==
  * Downstream
    * Argument passing convention
+   * Stack check
+     * Needs some way to synchronize the branch label with the heap check
  * Midstream
    * Support {{{switch}}} (needed by rts/Apply.cmm)
    * More factoring and cleanup/documentation
