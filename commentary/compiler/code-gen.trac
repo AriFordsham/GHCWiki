@@ -102,7 +102,13 @@ entry.
 === Not yet classified ===
 Please help classify these if you know what they are.
 
- CgBindery
+ CgBindery::
+   Module for {{{CgBindings}}} which maps variable names
+   to all the volitile or stable locations where they are stored
+   (e.g. register, stack slot, computed from other expressions, etc.)
+   Provides the {{{addBindC}}}, {{{modifyBindC}}} and {{{getCgIdInfo}}} functions
+   for adding, modifying and looking up bindings.
+
  CgHeapery
  CgStackery
 
