@@ -68,3 +68,46 @@ Many of these distinctions are only for documentation reasons.  For
 example, _ret is only distinguished from _entry to make it easy to
 tell whether a code fragment is a return point or a closure/function
 entry.
+
+== Modules ==
+  {{{CodeGen}}}:: Top level. Called by the {{{HscMain}}} module.
+
+  {{{CgMonad}}}:: The monad that most of codeGen operates inside
+   * Reader
+   * State
+   * (could be Writer?)
+   * fork
+   * flatten
+
+  {{{CgExpr}}}:: Seems to be the core function since everything in STG is an expression
+
+=== Not yet classified ===
+Please help classify these if you know what they are.
+
+ Bitmap
+ ClosureInfo
+ SMRep
+
+ CgTicky
+ CgUtils
+
+ CgBindery
+ CgHeapery
+ CgStackery
+
+ CgClosure
+ CgCon
+
+ CgCase
+ CgLetNoEscape
+
+ CgHpc
+ CgParallel
+ CgProf
+
+ CgInfoTbls
+ CgCallConv
+
+ CgPrimOp
+ CgTailCall
+ CgForeignCall
