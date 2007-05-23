@@ -81,18 +81,26 @@ entry.
 
   {{{CgExpr}}}:: Seems to be the core function since everything in STG is an expression
 
-=== Not yet classified ===
-Please help classify these if you know what they are.
-
- Bitmap
-
- ClosureInfo:: Stores info about the memory layouts of closures
+=== Misc utilities ===
+ Bitmap::
+   Utility functions for making bitmaps (e.g. {{{mkBitmap}}} with type {{{[Bool] -> Bitmap}}})
+ ClosureInfo::
+   Stores info about the memory layouts of closures
  SMRep::
    Storage manager representation of closures.
    Part of ClosureInfo but kept separate to "keep nhc happy."
+ CgUtils:: TODO
 
- CgTicky
- CgUtils
+=== Special runtime support ===
+ CgTicky:: Ticky-ticky profiling
+ CgProf:: Cost-centre profiling
+ CgHpc:: Support for the Haskell Program Coverage (hpc) toolkit, inside GHC.
+ CgParallel::
+   Code generation for GranSim (GRAN) and parallel (PAR).
+   All the functions are dead stubs except {{{granYield}}} and {{{granFetchAndReschedule}}}.
+
+=== Not yet classified ===
+Please help classify these if you know what they are.
 
  CgBindery
  CgHeapery
@@ -103,10 +111,6 @@ Please help classify these if you know what they are.
 
  CgCase
  CgLetNoEscape
-
- CgHpc
- CgParallel
- CgProf
 
  CgInfoTbls
  CgCallConv
