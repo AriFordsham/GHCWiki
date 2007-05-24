@@ -184,9 +184,14 @@ Provides the `addBindC`, `modifyBindC` and `getCgIdInfo` functions
 for adding, modifying and looking up bindings.
 </td></tr></table>
 
+<table><tr><th>CgStackery</th>
+<td>
+Mostly utility functions for allocating and freeing stack slots.
+But also has things on setting up update frames.
+</td></tr></table>
+
 >
 > CgHeapery
-> CgStackery
 
 <table><tr><th>Maybe top-level</th>
 <td>It seems that codeGen calls these two which in turn call CgExpr
