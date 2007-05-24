@@ -70,7 +70,13 @@ tell whether a code fragment is a return point or a closure/function
 entry.
 
 == Modules ==
+=== Primary Modules ===
   {{{CodeGen}}}:: Top level. Called by the {{{HscMain}}} module.
+  {{{CgClosure}}}:: Called by {{{CodeGen}}} for top level bindings.
+  {{{CgCon}}}:: Called by {{{CodeGen}}} for data types.
+
+  {{{CgExpr}}}:: Called by {{{CgClosure}}} and {{{CgCon}}}.
+    Since everything in STG is an expression, almost everything branches off from here.
 
   {{{CgMonad}}}:: The monad that most of codeGen operates inside
    * Reader
@@ -79,54 +85,50 @@ entry.
    * fork
    * flatten
 
-  {{{CgExpr}}}:: Seems to be the core function since everything in STG is an expression
-
 === Memory and Register Management ===
- CgBindery::
+ {{{CgBindery}}}::
    Module for {{{CgBindings}}} which maps variable names
    to all the volitile or stable locations where they are stored
    (e.g. register, stack slot, computed from other expressions, etc.)
    Provides the {{{addBindC}}}, {{{modifyBindC}}} and {{{getCgIdInfo}}} functions
    for adding, modifying and looking up bindings.
 
- CgStackery::
+ {{{CgStackery}}}::
    Mostly utility functions for allocating and freeing stack slots.
    But also has things on setting up update frames.
 
- CgHeapery::
+ {{{CgHeapery}}}::
    Functions for allocating objects that appear on the heap such as closures and constructors.
    Also includes code for stack and heap checks and {{{emitSetDynHdr}}}.
 
 === Misc utilities ===
- Bitmap::
+ {{{Bitmap}}}::
    Utility functions for making bitmaps (e.g. {{{mkBitmap}}} with type {{{[Bool] -> Bitmap}}})
- ClosureInfo::
-   Stores info about the memory layouts of closures
- SMRep::
+ {{{ClosureInfo}}}::
+   Stores info about closures and bindings.
+   Includes information about memory layout, how to call a binding ({{{LambdaFormInfo}}})
+   and information used to build the info table ({{{ClosureInfo}}}).
+ {{{SMRep}}}::
    Storage manager representation of closures.
    Part of ClosureInfo but kept separate to "keep nhc happy."
- CgUtils:: TODO
+ {{{CgUtils}}}:: TODO
 
 === Special runtime support ===
- CgTicky:: Ticky-ticky profiling
- CgProf:: Cost-centre profiling
- CgHpc:: Support for the Haskell Program Coverage (hpc) toolkit, inside GHC.
- CgParallel::
+ {{{CgTicky}}}:: Ticky-ticky profiling
+ {{{CgProf}}}:: Cost-centre profiling
+ {{{CgHpc}}}:: Support for the Haskell Program Coverage (hpc) toolkit, inside GHC.
+ {{{CgParallel}}}::
    Code generation for GranSim (GRAN) and parallel (PAR).
    All the functions are dead stubs except {{{granYield}}} and {{{granFetchAndReschedule}}}.
 
 === Not yet classified ===
 Please help classify these if you know what they are.
 
- Maybe top-level:: It seems that codeGen calls these two which in turn call CgExpr
-  * CgClosure
-  * CgCon
+ CgInfoTbls
+ CgCallConv
 
  CgCase
  CgLetNoEscape
-
- CgInfoTbls
- CgCallConv
 
  CgPrimOp
  CgTailCall
