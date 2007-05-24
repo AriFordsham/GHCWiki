@@ -116,8 +116,21 @@ entry.
 
 ## Modules
 
+### Primary Modules
+
 <table><tr><th>`CodeGen`</th>
 <td>Top level. Called by the `HscMain` module.
+</td></tr>
+<tr><th>`CgClosure`</th>
+<td>Called by `CodeGen` for top level bindings.
+</td></tr>
+<tr><th>`CgCon`</th>
+<td>Called by `CodeGen` for data types.
+</td></tr></table>
+
+<table><tr><th>`CgExpr`</th>
+<td>Called by `CgClosure` and `CgCon`.
+Since everything in STG is an expression, almost everything branches off from here.
 </td></tr></table>
 
 <table><tr><th>`CgMonad`</th>
@@ -131,13 +144,9 @@ entry.
 
 </td></tr></table>
 
-<table><tr><th>`CgExpr`</th>
-<td>Seems to be the core function since everything in STG is an expression
-</td></tr></table>
-
 ### Memory and Register Management
 
-<table><tr><th>CgBindery</th>
+<table><tr><th>`CgBindery`</th>
 <td>
 Module for `CgBindings` which maps variable names
 to all the volitile or stable locations where they are stored
@@ -146,13 +155,13 @@ Provides the `addBindC`, `modifyBindC` and `getCgIdInfo` functions
 for adding, modifying and looking up bindings.
 </td></tr></table>
 
-<table><tr><th>CgStackery</th>
+<table><tr><th>`CgStackery`</th>
 <td>
 Mostly utility functions for allocating and freeing stack slots.
 But also has things on setting up update frames.
 </td></tr></table>
 
-<table><tr><th>CgHeapery</th>
+<table><tr><th>`CgHeapery`</th>
 <td>
 Functions for allocating objects that appear on the heap such as closures and constructors.
 Also includes code for stack and heap checks and `emitSetDynHdr`.
@@ -160,34 +169,36 @@ Also includes code for stack and heap checks and `emitSetDynHdr`.
 
 ### Misc utilities
 
-<table><tr><th>Bitmap</th>
+<table><tr><th>`Bitmap`</th>
 <td>
 Utility functions for making bitmaps (e.g. `mkBitmap` with type `[Bool] -> Bitmap`)
 </td></tr>
-<tr><th>ClosureInfo</th>
+<tr><th>`ClosureInfo`</th>
 <td>
-Stores info about the memory layouts of closures
+Stores info about closures and bindings.
+Includes information about memory layout, how to call a binding (`LambdaFormInfo`)
+and information used to build the info table (`ClosureInfo`).
 </td></tr>
-<tr><th>SMRep</th>
+<tr><th>`SMRep`</th>
 <td>
 Storage manager representation of closures.
 Part of ClosureInfo but kept separate to "keep nhc happy."
 </td></tr>
-<tr><th>CgUtils</th>
+<tr><th>`CgUtils`</th>
 <td>TODO</td></tr></table>
 
 ### Special runtime support
 
-<table><tr><th>CgTicky</th>
+<table><tr><th>`CgTicky`</th>
 <td>Ticky-ticky profiling
 </td></tr>
-<tr><th>CgProf</th>
+<tr><th>`CgProf`</th>
 <td>Cost-centre profiling
 </td></tr>
-<tr><th>CgHpc</th>
+<tr><th>`CgHpc`</th>
 <td>Support for the Haskell Program Coverage (hpc) toolkit, inside GHC.
 </td></tr>
-<tr><th>CgParallel</th>
+<tr><th>`CgParallel`</th>
 <td>
 Code generation for GranSim (GRAN) and parallel (PAR).
 All the functions are dead stubs except `granYield` and `granFetchAndReschedule`.
@@ -198,21 +209,13 @@ All the functions are dead stubs except `granYield` and `granFetchAndReschedule`
 
 Please help classify these if you know what they are.
 
-<table><tr><th>Maybe top-level</th>
-<td>It seems that codeGen calls these two which in turn call CgExpr
-
-- CgClosure
-- CgCon
-
-</td></tr></table>
+>
+> CgInfoTbls
+> CgCallConv
 
 >
 > CgCase
 > CgLetNoEscape
-
->
-> CgInfoTbls
-> CgCallConv
 
 >
 > CgPrimOp
