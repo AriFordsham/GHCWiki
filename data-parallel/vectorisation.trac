@@ -27,3 +27,14 @@ We have to different array libraries:
  1. The library in `GHC.PArr`, which defines the wired in array constructor `[:.:]`.  It implements `[:.:]` as a parametric data type represented by vanilla boxed arrays.  It does not involve any type class and also no indexed types.  This code is used whenever arrays are mentioned in unvectorised code (i.e., in both all code of unvectorised modules and in the original versions of functions in vectorised modules).
  2. The library in package ndp, which defines a type class `PA` and its associated data type `PArr`.   The type `PArr` implements a flattened array representation for all types `t` for which there is a `PA t` instance.
 Vectorisation transforms all uses of functions from `GHC.PArr` into uses of package ndp.  It can obviously only due that for computations manipulating values for whose type we have `PA` instances.
+
+----
+
+==== TODO ====
+
+Items that need to be addressed on the page:
+ * Mixed use of the CC isomorphism strategy and a `PA` class for arrays.
+ * Introduction of `PA` dictionary arguments right after each big lambda in vectorised code.
+ * Treatment of unboxed values and functions from `GHC.Prim`.
+ * Transformation schemata
+ * Examples
