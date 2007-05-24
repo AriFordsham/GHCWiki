@@ -109,8 +109,11 @@ Please help classify these if you know what they are.
    Provides the {{{addBindC}}}, {{{modifyBindC}}} and {{{getCgIdInfo}}} functions
    for adding, modifying and looking up bindings.
 
+ CgStackery::
+   Mostly utility functions for allocating and freeing stack slots.
+   But also has things on setting up update frames.
+
  CgHeapery
- CgStackery
 
  Maybe top-level:: It seems that codeGen calls these two which in turn call CgExpr
   * CgClosure
