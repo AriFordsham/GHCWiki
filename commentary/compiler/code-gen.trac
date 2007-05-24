@@ -81,6 +81,22 @@ entry.
 
   {{{CgExpr}}}:: Seems to be the core function since everything in STG is an expression
 
+=== Memory and Register Management ===
+ CgBindery::
+   Module for {{{CgBindings}}} which maps variable names
+   to all the volitile or stable locations where they are stored
+   (e.g. register, stack slot, computed from other expressions, etc.)
+   Provides the {{{addBindC}}}, {{{modifyBindC}}} and {{{getCgIdInfo}}} functions
+   for adding, modifying and looking up bindings.
+
+ CgStackery::
+   Mostly utility functions for allocating and freeing stack slots.
+   But also has things on setting up update frames.
+
+ CgHeapery::
+   Functions for allocating objects that appear on the heap such as closures and constructors.
+   Also includes code for stack and heap checks and {{{emitSetDynHdr}}}.
+
 === Misc utilities ===
  Bitmap::
    Utility functions for making bitmaps (e.g. {{{mkBitmap}}} with type {{{[Bool] -> Bitmap}}})
@@ -101,19 +117,6 @@ entry.
 
 === Not yet classified ===
 Please help classify these if you know what they are.
-
- CgBindery::
-   Module for {{{CgBindings}}} which maps variable names
-   to all the volitile or stable locations where they are stored
-   (e.g. register, stack slot, computed from other expressions, etc.)
-   Provides the {{{addBindC}}}, {{{modifyBindC}}} and {{{getCgIdInfo}}} functions
-   for adding, modifying and looking up bindings.
-
- CgStackery::
-   Mostly utility functions for allocating and freeing stack slots.
-   But also has things on setting up update frames.
-
- CgHeapery
 
  Maybe top-level:: It seems that codeGen calls these two which in turn call CgExpr
   * CgClosure
