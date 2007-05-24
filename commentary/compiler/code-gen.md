@@ -135,6 +135,29 @@ entry.
 <td>Seems to be the core function since everything in STG is an expression
 </td></tr></table>
 
+### Memory and Register Management
+
+<table><tr><th>CgBindery</th>
+<td>
+Module for `CgBindings` which maps variable names
+to all the volitile or stable locations where they are stored
+(e.g. register, stack slot, computed from other expressions, etc.)
+Provides the `addBindC`, `modifyBindC` and `getCgIdInfo` functions
+for adding, modifying and looking up bindings.
+</td></tr></table>
+
+<table><tr><th>CgStackery</th>
+<td>
+Mostly utility functions for allocating and freeing stack slots.
+But also has things on setting up update frames.
+</td></tr></table>
+
+<table><tr><th>CgHeapery</th>
+<td>
+Functions for allocating objects that appear on the heap such as closures and constructors.
+Also includes code for stack and heap checks and `emitSetDynHdr`.
+</td></tr></table>
+
 ### Misc utilities
 
 <table><tr><th>Bitmap</th>
@@ -174,24 +197,6 @@ All the functions are dead stubs except `granYield` and `granFetchAndReschedule`
 
 
 Please help classify these if you know what they are.
-
-<table><tr><th>CgBindery</th>
-<td>
-Module for `CgBindings` which maps variable names
-to all the volitile or stable locations where they are stored
-(e.g. register, stack slot, computed from other expressions, etc.)
-Provides the `addBindC`, `modifyBindC` and `getCgIdInfo` functions
-for adding, modifying and looking up bindings.
-</td></tr></table>
-
-<table><tr><th>CgStackery</th>
-<td>
-Mostly utility functions for allocating and freeing stack slots.
-But also has things on setting up update frames.
-</td></tr></table>
-
->
-> CgHeapery
 
 <table><tr><th>Maybe top-level</th>
 <td>It seems that codeGen calls these two which in turn call CgExpr
