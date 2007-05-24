@@ -10,7 +10,8 @@ Implement in following order:
  1. Call a single closure-converted module from non-converted code (we know how to do this) ** DONE **
  2. Use non-cc'd modules in cc'd modules ** DONE **
  2. Import cc'd modules in other cc'd modules (we need to decide on how to put the additional CC info into ifaces) ** DONE **
- 3. CC data types ** ALMOST DONE **
+ 3. CC data types ** DONE **
+Unboxed values aren't really implemented yet, but we'll now go over to implementing vectorisation, which will work a bit different to what is described here.  See the [wiki:DataParallel/Vectorisation vectorisation page].
 
 We have got some  [wiki:DataParallel/ClosureConversion/ImplNotes notes on the implementation].
 
