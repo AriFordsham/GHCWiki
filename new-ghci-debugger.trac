@@ -1,29 +1,7 @@
 
 [[PageOutline]]
 
-== Known problems in the debugger ==
-
-=== Wrong variable names in patterns ===
-
-Consider this program:
-{{{
-   foo (Just _  : xs) = [xs] 
-   foo (Nothing : ys) = [ys]  {- set a breakpoint on this line -}
-
-   main = print (foo [Nothing, Just ()])
-}}}
-
-If we hit a breakpoint in the second equation for `foo` we expect to see `ys` displayed as the local variables. Unfortunately, the debugger says that the locals are called `xs`:
-{{{
-   *Main> :break 2
-   Breakpoint activated in Main. Location: (2,22)-(2,25).
-   *Main> main
-   Stopped at breakpoint in Main. Location: (2,22)-(2,25).
-   Locals: xs :: [Maybe ()]
-}}}
-The problem is the way that the compiler turns pattern matches into case expressions. XXX This issue deserves some extra thought.
-
-----
+The ToDo list for the debugger is now in ticket #1377.
 
 == Wishlist of features (please feel free to add your ideas here) ==
 
@@ -36,48 +14,6 @@ It would be especially useful to be able to get backtraces when exceptions are r
 === Temporarily disable breakpoints ===
 
 Typically when we reach a breakpoint we want to inspect the values of local variables. As is often the case the values are thunks. So, to print them, we must force them in some way, and that sometimes raises more breakpoints. Often this is annoying. It would be handy if the debugger allowed us to temporarily disable all breakpoints. It should be relatively easy to implement. The main question is what is the right user interface to the feature?
-
-----
-
-== Todo ==
-
- * Autocompletion for :break only provides names, not modules
-
- * :break <qualified name> only works if the name is exported can/should we relax this?
-
- * :force should catch exceptions, so [1,2,undefined]  would display as `[1,2,< exception >]`
-
- * sometimes the result types are wrong (see result001 test)
-
- * when showing a SrcSpan, we could say which top-level function contains it.  Ideally we should store the declPath that
-   the coverage pass collects, but as a [OccName] rather than [String].  :history, :show context etc. should show the
-   enclosing top-level function (or declpath).
-
- * perhaps we should have a :watch command, that could be used to save variables for future inspection (they wouldn't get
-   thrown away by :continue)
-
- * Extend the stack inspection primitive to allow unboxed things to be grabbed. (MODERATE)
-
- * We can disable a breakpoint with ":set stop N :continue", but this still prints out the breakpoint info when we stop.
-   Should we print the info only if there were no commands?
-
- * Revert to adding tick information to the BCO directly, and remove the byte code instructions for breaks. I'm not sure that this is worth it. In some ways the implementation based on a byte code instruction is a little cleaner than adding breaks on BCOs directly. Though the bc instruction method may be a little slower than the other way. (MODERATE/DIFFICULT)
-
- * Flag to disable breakpoints?
-
- * When we restore the interactive context on resume, we throw away any new bindings made since the breakpoint.  Can this
-   be fixed?
-
- * threads and breakpoints.
-
- * if a :force results in a breakpoint, we should treat it as we do other evaluations. (currently we get
-   "*** Ignoring breakpoint").
- 
- * show variables with unboxed types.
-
- * It's a bit strange that in "f = e" you don't get a breakpoint covering the whole binding, but in "f x = e" you do.
-
- * tabs go wrong with :list (but only for .lhs files, because unlit does tab expansion... duh)
 
 ----
 
