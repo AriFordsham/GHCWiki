@@ -4,6 +4,7 @@
 
 This page describes our approach to implementing vectorisation by extending our earlier implementation of closure conversion.  A central aspect is the ability to mix modules compiled with vectorisation with modules compiled without vectorisation.
 
+
 === General strategy ===
 
 Vectorisation is only going to '''add''' additional code and data structures to a module.  All the sequential code remains unmodified.  In particular, while vectorised code will call unvectorised code, there are no explicit static calls of unvectorised code into vectorised code.  Nevertheless, dynamic control flow can move from unvectorised to vectorised code by way of vectorised functional values being passed to higher-order unvectorised code.
@@ -21,6 +22,7 @@ main
 }}}
 Let us assume that the functions `getArgs`, `print`, and `read` are defined in modules that have not been vectorised.  When vectorising `main`, we want to use the vectorised versions of the functions `sumP`, `mapP` (implied by the comprehension), and `enumFromToP` (implied by the array constructor).  However, all the rest of the code will remain largely unchanged.  (What ''largely unchanged'' means precisely, we still have to define.)  In fact, there will be two versions of `main`.  The original `main` function that, according to our policy, does not use any vectorised code and `main_v` that has all the array code properly vectorised and all the enclosing `IO` code largely unchanged.  In order to make use of vectorisation, the runtime system will have to invoke `main_v`, not `main`.  Moreover, the code calling `main_v` will have to first set up the thread gang and whatever other extra initialisation is needed.  Whether to execute `main` or `main_v` on program start up is determined by whether the `-fvect` option is present during linking or not.
 
+
 === Two array libraries ===
 
 We have to different array libraries:
@@ -28,22 +30,14 @@ We have to different array libraries:
  2. The library in package ndp, which defines a type class `PA` and its associated data type `PArr`.   The type `PArr` implements a flattened array representation for all types `t` for which there is a `PA t` instance.
 Vectorisation transforms all uses of functions from `GHC.PArr` into uses of package ndp.  It can obviously only do that for computations manipulating values for whose type we have `PA` instances.
 
+
 === Basic data types ===
 
-In the generated code, we need closures, array families, array closure, and so forth.  We define closure as:
-{{{
-data a :-> b = forall e. !(e -> a -> b) :$ e
-}}}
-with basic closure cosntruction and application as
-{{{
-lam :: (a -> b) -> (a :-> b)
-lam f = const f :$ ()
+The following data types are the basis for our representation of arrays and closure in vectorised code.
 
-($:) :: (a :-> b) -> a -> b
-(f :$ e) $: x = f e x
-}}}
+==== Indexed array family ====
 
-Moreover, we have a type class `PA` determining the types of values that may occur as array elements in flattened arrays.  The array type family `PArr` is associated with `PA`:
+The type class `PA` has an instance for every type of values that may occur as elements in flattened arrays.  The array type family `PArr` is associated with `PA`:
 {{{
 class PA a where
   data PArr a
@@ -52,17 +46,55 @@ class PA a where
   ..and so on..
 }}}
 
-A crucial element in the transformation is the representation of arrays of closures as ''array closures'':
+==== Vectorised functions ====
+
+Vectorised functions use an explicit closure representation:
 {{{
-data a :=> b 
+data a :-> b 
+  = forall e. 
+      Cls { clsFun  :: !(e -> a -> b)
+          , clsAFun :: !(PArr e -> PArr a -> PArr b)
+          , clsEnv  :: e
+          }
+}}}
+with basic closure construction and application as
+{{{
+lam :: (a -> b) -> (a :-> b)
+lam f = Cls (const f) (const (mapP f)) ()
+
+($:) :: (a :-> b) -> a -> b
+(Cls f _ e) $: x = f e x
+}}}
+
+----
+'''TODO:''' Can't we actually omit the explicit closure representation for ''scalar'' closures?  We need it for array closures, so that we can, e.g., pack them, but I think we don't really need it for scalar closures when we combine closure-conversion and vectorisation into one pass.  If that is correct, we can represent vectorised functions as
+{{{
+data a ->> b = Fun { fun  :: !(     a ->      b)
+                   , afun :: !(PArr a -> PArr b)
+                   }
+
+vect :: (a -> b) -> (a ->> b)
+vect f = Fun f (mapP f)
+}}}
+----
+
+==== Lifted functions ====
+
+In lifted code, we represent functions by explicit closures combining scalar and lifted versions.  We do so using ''array closures'':
+{{{
+data a =>> b 
   = forall e. PA e => 
-      !(PArr e -> PArr a -> PArr b) ::$ PArr e
+      ACls { aclsFun  :: !(e -> a -> b)
+           , aclsAFun :: !(PArr e -> PArr a -> PArr b)
+           , aclsEnv  :: PArr e
+           }
 }}}
-We apply array closures as follows:
+We apply array closures using
 {{{
-($::) :: (a :=> b) -> PArr a -> PArr b
-(fs ::$ es) $:: as = fs es as
+($||) :: (a :=> b) -> PArr a -> PArr b
+(ACls _ afun es) $:: as = afun es as
 }}}
+
 
 === Transformations ===
 

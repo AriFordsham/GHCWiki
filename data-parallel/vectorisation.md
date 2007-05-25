@@ -40,25 +40,12 @@ Vectorisation transforms all uses of functions from `GHC.PArr` into uses of pack
 ### Basic data types
 
 
-In the generated code, we need closures, array families, array closure, and so forth.  We define closure as:
+The following data types are the basis for our representation of arrays and closure in vectorised code.
 
-```wiki
-data a :-> b = forall e. !(e -> a -> b) :$ e
-```
+#### Indexed array family
 
 
-with basic closure cosntruction and application as
-
-```wiki
-lam :: (a -> b) -> (a :-> b)
-lam f = const f :$ ()
-
-($:) :: (a :-> b) -> a -> b
-(f :$ e) $: x = f e x
-```
-
-
-Moreover, we have a type class `PA` determining the types of values that may occur as array elements in flattened arrays.  The array type family `PArr` is associated with `PA`:
+The type class `PA` has an instance for every type of values that may occur as elements in flattened arrays.  The array type family `PArr` is associated with `PA`:
 
 ```wiki
 class PA a where
@@ -68,21 +55,66 @@ class PA a where
   ..and so on..
 ```
 
+#### Vectorised functions
 
-A crucial element in the transformation is the representation of arrays of closures as *array closures*:
+
+Vectorised functions use an explicit closure representation:
 
 ```wiki
-data a :=> b 
-  = forall e. PA e => 
-      !(PArr e -> PArr a -> PArr b) ::$ PArr e
+data a :-> b 
+  = forall e. 
+      Cls { clsFun  :: !(e -> a -> b)
+          , clsAFun :: !(PArr e -> PArr a -> PArr b)
+          , clsEnv  :: e
+          }
 ```
 
 
-We apply array closures as follows:
+with basic closure construction and application as
 
 ```wiki
-($::) :: (a :=> b) -> PArr a -> PArr b
-(fs ::$ es) $:: as = fs es as
+lam :: (a -> b) -> (a :-> b)
+lam f = Cls (const f) (const (mapP f)) ()
+
+($:) :: (a :-> b) -> a -> b
+(Cls f _ e) $: x = f e x
+```
+
+---
+
+**TODO** Can't we actually omit the explicit closure representation for *scalar* closures?  We need it for array closures, so that we can, e.g., pack them, but I think we don't really need it for scalar closures when we combine closure-conversion and vectorisation into one pass.  If that is correct, we can represent vectorised functions as
+
+```wiki
+data a ->> b = Fun { fun  :: !(     a ->      b)
+                   , afun :: !(PArr a -> PArr b)
+                   }
+
+vect :: (a -> b) -> (a ->> b)
+vect f = Fun f (mapP f)
+```
+
+---
+
+#### Lifted functions
+
+
+In lifted code, we represent functions by explicit closures combining scalar and lifted versions.  We do so using *array closures*:
+
+```wiki
+data a =>> b 
+  = forall e. PA e => 
+      ACls { aclsFun  :: !(e -> a -> b)
+           , aclsAFun :: !(PArr e -> PArr a -> PArr b)
+           , aclsEnv  :: PArr e
+           }
+```
+
+
+We apply array closures using
+
+```wiki
+($||) :: (a :=> b) -> PArr a -> PArr b
+(ACls _ afun es) $:: as = afun es as
 ```
 
 ### Transformations
