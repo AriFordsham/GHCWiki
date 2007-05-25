@@ -4,6 +4,7 @@ The transformation of types includes both closure conversion and the pairing of 
 
 === Transformation rules ===
 
+The type transformation rules achieve two goals: (1) they replace original type constructors and variables by their vectorised variants, where those are available, and (2) they alter the representation of functions:
 {{{
 T*            = T_V , if T_V exists
               = T    , otherwise
@@ -12,7 +13,7 @@ a*            = a_v
                  [:t1*  -> t2*:])   or kindOf t2 == #
               = (  t1* :-> t2*,   , otherwise
                  [:t1* :-> t2*:])
------weiter
-(t1 t2)^      = t1^ t2^
-(forall a.t)^ = forall a_CC.t^
+(t1 t2)*      = t1* t2*
+(forall a.t)* = forall a_v.t*
 }}}
+The transformation of function types includes both the change from `(->)` to `(:->)` as well as 
