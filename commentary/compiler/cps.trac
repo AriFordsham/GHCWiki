@@ -143,7 +143,7 @@ g (g, a, b, c, d, e) {
 }
 }}}
 
- * We need the NCG to do aliasing analysis.  At present the CPS pass will generate the following, and will assume that the NCG can figure out when the loads and stores can be eliminated.
+ * We need the NCG to do aliasing analysis.  At present the CPS pass will generate the following, and will assume that the NCG can figure out when the loads and stores can be eliminated.  (The global saves part of a CmmProc is dead b/c of this.)
 {{{
 foo () {
   // Parameters in regs
@@ -176,3 +176,45 @@ foo () {
 }
 }}}
 
+ * Simple calls
+   * Before
+{{{
+f(..., z, ...) {
+  ...
+  r = f(x, y);
+  ...
+  ... = z;
+  ... = r;
+}
+}}}
+   * Output of CPS
+{{{
+f() {
+  z=R1
+  ...
+  ... = z;
+  ...
+  R1 = x;
+  R2 = y;
+  call f;
+  r = R1
+  ...
+  ... = z;
+  ... = r;
+}
+}}}
+   * Optimization by the NCG
+{{{
+f() {
+  ...
+  ... = R1;
+  ...
+  z = R1;
+  R1 = x;
+  R2 = y;
+  call f;
+  ...
+  ... = z;
+  ... = R1;
+}
+}}}

@@ -176,7 +176,7 @@ This pass takes Cmm with native proceedure calls and an implicit stack and produ
     }
     ```
 
-- We need the NCG to do aliasing analysis.  At present the CPS pass will generate the following, and will assume that the NCG can figure out when the loads and stores can be eliminated.
+- We need the NCG to do aliasing analysis.  At present the CPS pass will generate the following, and will assume that the NCG can figure out when the loads and stores can be eliminated.  (The global saves part of a CmmProc is dead b/c of this.)
 
   ```wiki
   foo () {
@@ -209,3 +209,50 @@ This pass takes Cmm with native proceedure calls and an implicit stack and produ
     
   }
   ```
+
+- Simple calls
+
+  - Before
+
+    ```wiki
+    f(..., z, ...) {
+      ...
+      r = f(x, y);
+      ...
+      ... = z;
+      ... = r;
+    }
+    ```
+  - Output of CPS
+
+    ```wiki
+    f() {
+      z=R1
+      ...
+      ... = z;
+      ...
+      R1 = x;
+      R2 = y;
+      call f;
+      r = R1
+      ...
+      ... = z;
+      ... = r;
+    }
+    ```
+  - Optimization by the NCG
+
+    ```wiki
+    f() {
+      ...
+      ... = R1;
+      ...
+      z = R1;
+      R1 = x;
+      R2 = y;
+      call f;
+      ...
+      ... = z;
+      ... = R1;
+    }
+    ```
