@@ -276,7 +276,7 @@ these steps:
     is a list with a single string which contains extra
     compiler options with which to run the test.  eg.
 {{{                
-    test(tc001, normal, compile, ['-fglasgow-exts'])
+    test('tc001', normal, compile, ['-fglasgow-exts'])
 }}}
     would pass the flag -fglasgow-exts to the compiler
     when compiling tc001.
