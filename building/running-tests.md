@@ -1,74 +1,79 @@
-CONVERSION ERROR
+# GHC Test framework
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Building/RunningTests"
-  queryString          = "?version=5"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:59:26 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","259"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Building/RunningTests\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-Original source:
-
-```trac
-[[PageOutline]]
-= GHC Test framework =
-
-NOTE: you need Python (any version >= 1.5 will probably do) in order
+NOTE: you need Python (any version \>= 1.5 will probably do) in order
 to use the testsuite.
+
 
 To run the test suite against stage 1 of a GHC build in the same
 source tree:
-{{{
+
+```wiki
         cd tests/ghc-regress
         make
-}}}
+```
+
+
 (from now on, we'll assume that you're in the tests/ghc-regress
 directory).
 
+
 To run a fast version of the testsuite, which should complete in under
 5 minutes on a fast machine with an optimised GHC build:
-{{{
+
+```wiki
         make fast
-}}}
+```
+
+
 To run the testsuite with the stage2 compiler (this is often what you
 want, because GHCi tests will fail with stage1):
-{{{
+
+```wiki
         make stage=2
-}}}
+```
+
+
 To run the test suite against a different GHC, say ghc-5.04:
-{{{
+
+```wiki
         make TEST_HC=ghc-5.04
-}}}
+```
+
+
 To run an individual test or tests (eg. tc054):
-{{{
+
+```wiki
         make TEST=tc054
-}}}
+```
+
+
 (you can also go straight to the directory containing the test and say
 'make TEST=tc054' from there, which will save some time).
 
+
 To run the tests one particular way only (eg. GHCi):
-{{{
+
+```wiki
         make WAY=ghci
-}}}
+```
+
+
 To add specific options to the compiler:
-{{{
+
+```wiki
         make EXTRA_HC_OPTS='+RTS -K32M -RTS' 
-}}}
+```
+
+
 For more details, see below.
 
-= Running the testsuite with a compiler other than GHC =
+# Running the testsuite with a compiler other than GHC
+
 
 (to be written.  The plan is something like: 
-{{{
+
+```wiki
         cvs checkout fpconfig
         cd fptools
         cvs checkout testsuite
@@ -76,20 +81,27 @@ For more details, see below.
         ./configure
         cd testsuite
         make TEST_HC=nhc98 COMPILER=nhc98
-}}}
+```
+
+
 )
 
-= Running individual tests or subdirectories of the testsuite =
+# Running individual tests or subdirectories of the testsuite
+
 
 Most of the subdirectories in the testsuite have a Makefile.  In these
 subdirectories you can use 'make' to run the test driver in two
 ways:
-{{{
+
+```wiki
         make            -- run all the tests in the current directory
         make accept     -- run the tests, accepting the current output
-}}}
+```
+
+
 The following variables may be set on the make command line:
-{{{
+
+```wiki
         TESTS                   -- specific tests to run
         TEST_HC                 -- compiler to use
         EXTRA_HC_OPTS           -- extra flags to send to the Haskell compiler
@@ -98,9 +110,12 @@ The following variables may be set on the make command line:
         COMPILER                -- stem of a different configuration file
                                 -- from the config directory [default: ghc]
         WAY                     -- just this way
-}}}
+```
+
+
 The following ways are defined (for GHC, also see the file config/ghc):
-{{{
+
+```wiki
         normal                  -- no special options
         opt                     -- -O
         optasm                  -- -O -fasm
@@ -112,200 +127,268 @@ The following ways are defined (for GHC, also see the file config/ghc):
         optextcore              -- -O -fext-core
         threaded                -- -threaded
         hpc                     -- -fhpc
-}}}
+```
+
+
 certain ways are enabled automatically if the GHC build in the local
 tree supports them.  Ways that are enabled this way are optasm, prof,
 profasm, unreg, threaded, and ghci.
 
-= Updating tests when the output changes =
+# Updating tests when the output changes
+
 
 If the output of a test has changed, but the new output is still
 correct, you can automatically update the sample output to match the
 new output like so:
-{{{
-        make accept TESTS=<test-name>
-}}}
-where <test-name> is the name of the test.  In a directory which
-contains a single test, or if you want to update *all* the tests in
-the current directory, just omit the 'TESTS=<test-name>' part.
 
-= Adding a new test =
+```wiki
+        make accept TESTS=<test-name>
+```
+
+
+where \<test-name\> is the name of the test.  In a directory which
+contains a single test, or if you want to update \*all\* the tests in
+the current directory, just omit the 'TESTS=\<test-name\>' part.
+
+# Adding a new test
+
 
 For a test which can be encapsulated in a single source file, follow
 these steps:
 
- 1. Find the appropriate place for the test.  The GHC regression suite
-    is generally organised in a "white-box" manner: a regression which
-    originally illustrated a bug in a particular part of the compiler
-    is placed in the directory for that part.  For example, typechecker
-    regression tests go in the typechecker/ directory, parser tests
-    go in parser/, and so on.  
+1. Find the appropriate place for the test.  The GHC regression suite
+  is generally organised in a "white-box" manner: a regression which
+  originally illustrated a bug in a particular part of the compiler
+  is placed in the directory for that part.  For example, typechecker
+  regression tests go in the typechecker/ directory, parser tests
+  go in parser/, and so on.  
 
-    It's not always possible to find a single best place for a test;
-    in those cases just pick one which seems reasonable.
+> >
+> > It's not always possible to find a single best place for a test;
+> > in those cases just pick one which seems reasonable.
 
-    Under each main directory may be up to three subdirectories:
+> >
+> > Under each main directory may be up to three subdirectories:
 
-       should_compile:
-           tests which need to compile only
+> > >
+> > > should_compile:
+> > >
+> > > >
+> > > > tests which need to compile only
 
-       should_fail:    
-           tests which should fail to compile and generate a particular error message
+> > >
+> > > should_fail:    
+> > >
+> > > >
+> > > > tests which should fail to compile and generate a particular error message
 
-       should_run:
-           tests which should compile, run with some specific input, and generate a particular output.
-    
-    We don't always divide the tests up like this, and it's not
-    essential to do so (the directory names have no meaning as
-    far as the test driver is concerned).        
+> > >
+> > > should_run:
+> > >
+> > > >
+> > > > tests which should compile, run with some specific input, and generate a particular output.
 
+> >
+> > We don't always divide the tests up like this, and it's not
+> > essential to do so (the directory names have no meaning as
+> > far as the test driver is concerned).        
 
- 2. Having found a suitable place for the test, give the test a name.
-    Follow the convention for the directory in which you place the
-    test: for example, in typecheck/should_compile, tests are named
-    tc001, tc002, and so on.  Suppose you name your test T, then
-    you'll have the following files:
+1. Having found a suitable place for the test, give the test a name.
+  Follow the convention for the directory in which you place the
+  test: for example, in typecheck/should_compile, tests are named
+  tc001, tc002, and so on.  Suppose you name your test T, then
+  you'll have the following files:
 
-      T.hs
-        The source file containing the test
+> >
+> > T.hs
+> >
+> > >
+> > > The source file containing the test
 
-      T.stdin   (for tests that run, and optional)
-        A file to feed the test as standard input when it
-        runs.
+> >
+> > T.stdin   (for tests that run, and optional)
+> >
+> > >
+> > > A file to feed the test as standard input when it
+> > > runs.
 
-      T.stdout  (for tests that run, and optional)
-        For tests that run, this file is compared against
-        the standard output generated by the program.  If 
-        T.stdout does not exist, then the program must not
-        generate anything on stdout.
+> >
+> > T.stdout  (for tests that run, and optional)
+> >
+> > >
+> > > For tests that run, this file is compared against
+> > > the standard output generated by the program.  If 
+> > > T.stdout does not exist, then the program must not
+> > > generate anything on stdout.
 
-      T.stderr  (optional)
-        For tests that run, this file is compared
-        against the standard error generated by the program.
+> >
+> > T.stderr  (optional)
+> >
+> > >
+> > > For tests that run, this file is compared
+> > > against the standard error generated by the program.
 
-        For tests that compile only, this file is compared
-        against the standard error output of the compiler,
-        which is normalised to eliminate bogus differences
-        (eg. absolute pathnames are removed, whitespace
-        differences are ignored, etc.)
+> > >
+> > > For tests that compile only, this file is compared
+> > > against the standard error output of the compiler,
+> > > which is normalised to eliminate bogus differences
+> > > (eg. absolute pathnames are removed, whitespace
+> > > differences are ignored, etc.)
 
+1. Edit all.T in the relevant directory and add a line for the test.  The line is always of the form
 
- 1. Edit all.T in the relevant directory and add a line for the test.  The line is always of the form
-{{{
-      test(<name>, <opt-fn>, <test-fn>, <args>)
-}}}
-    where
+  ```wiki
+        test(<name>, <opt-fn>, <test-fn>, <args>)
+  ```
 
-    ''<name>'' is the name of the test, in quotes (' or ").
+  where
 
-    ''<opt-fn>''  is a function (i.e. any callable object in Python)
-    which allows the options for this test to be changed.
-    There are several pre-defined functions which can be
-    used in this field:
+> > *\<name\>* is the name of the test, in quotes (' or ").
 
-        '''normal'''                don't change any options from the defaults
+> > *\<opt-fn\>*  is a function (i.e. any callable object in Python)
+> > which allows the options for this test to be changed.
+> > There are several pre-defined functions which can be
+> > used in this field:
 
-        '''skip'''                  skip this test
+> > > **normal**                don't change any options from the defaults
 
-        '''omit_ways(ways)'''       skip this test for certain ways
+> > > **skip**                  skip this test
 
-        '''only_ways(ways)'''       do this test certain ways only
+> > > **omit_ways(ways)**       skip this test for certain ways
 
-        '''omit_compiler_types(compilers)'''                           skip this test for certain compilers
+> > > **only_ways(ways)**       do this test certain ways only
 
-        '''only_compiler_types(compilers)'''       do this test for certain compilers only
+> > > **omit_compiler_types(compilers)**                           skip this test for certain compilers
 
-        '''expect_fail'''           this test is an expected failure, i.e. there is a known bug in the compiler, but we don't want to fix it.
+> > > **only_compiler_types(compilers)**       do this test for certain compilers only
 
-        '''expect_fail_for(ways)''' expect failure for certain ways 
+> > > **expect_fail**           this test is an expected failure, i.e. there is a known bug in the compiler, but we don't want to fix it.
 
-        '''expect_fail_if_platform(plat)'''      expect failure on a certain platform
+> > > **expect_fail_for(ways)** expect failure for certain ways 
 
-        '''expect_fail_if_compiler_type(compiler)'''   expect failure from a certain compiler
+> > > **expect_fail_if_platform(plat)**      expect failure on a certain platform
 
-        '''set_stdin(file)'''       use a different file for stdin
+> > > **expect_fail_if_compiler_type(compiler)**   expect failure from a certain compiler
 
-        '''exit_code(n)'''          expect an exit code of 'n' from the prog
+> > > **set_stdin(file)**       use a different file for stdin
 
-        '''extra_run_opts(opts)'''  pass some extra opts to the prog
+> > > **exit_code(n)**          expect an exit code of 'n' from the prog
 
-        '''no_clean'''              don't clean up after this test
+> > > **extra_run_opts(opts)**  pass some extra opts to the prog
 
-      You can compose two of these functions together by
-      saying compose(f,g).  For example, to expect an exit
-      code of 3 and omit way 'opt', we could use
-{{{
-      compose(omit_ways(['opt']), exit_code(3))
-}}}
-      as the <opt-fn> argument.  Calls to compose() can of
-      course be nested.
+> > > **no_clean**              don't clean up after this test
 
-    ''<test-fn>''
-    is a function which describes how the test should be
-    run, and determines the form of <args>.  The possible
-    values are:
+> > >
+> > > You can compose two of these functions together by
+> > > saying compose(f,g).  For example, to expect an exit
+> > > code of 3 and omit way 'opt', we could use
+> > >
+> > > ```wiki
+> > >       compose(omit_ways(['opt']), exit_code(3))
+> > > ```
+> > >
+> > >
+> > > as the \<opt-fn\> argument.  Calls to compose() can of
+> > > course be nested.
 
-      compile
-            Just compile the program, the compilation should succeed.
+> > *\<test-fn\>*
+> > is a function which describes how the test should be
+> > run, and determines the form of \<args\>.  The possible
+> > values are:
 
-      compile_fail
-            Just compile the program, the
-            compilation should fail (error
-            messages will be in T.stderr).
-            This kind of failure is mandated by the language definition - it does '''not''' indicate any bug in the compiler.
+> > >
+> > > compile
+> > >
+> > > >
+> > > > Just compile the program, the compilation should succeed.
 
-      compile_and_run 
-            Compile the program and run it,
-            comparing the output against the 
-            relevant files.
+> > >
+> > > compile_fail
+> > >
+> > > >
+> > > > Just compile the program, the
+> > > > compilation should fail (error
+> > > > messages will be in T.stderr).
+> > > > This kind of failure is mandated by the language definition - it does **not** indicate any bug in the compiler.
 
-      multimod_compile
-            Compile a multi-module program
-            (more about multi-module programs
-            below).
+> > >
+> > > compile_and_run 
+> > >
+> > > >
+> > > > Compile the program and run it,
+> > > > comparing the output against the 
+> > > > relevant files.
 
-      multimod_compile_fail
-            Compile a multi-module program,
-            and expect the compilation to fail
-            with error messages in T.stderr.  This kind of failure does '''not''' indicate a bug in the compiler.
+> > >
+> > > multimod_compile
+> > >
+> > > >
+> > > > Compile a multi-module program
+> > > > (more about multi-module programs
+> > > > below).
 
-      multimod_compile_and_run
-            Compile and run a multi-module
-            program.
+> > >
+> > > multimod_compile_fail
+> > >
+> > > >
+> > > > Compile a multi-module program,
+> > > > and expect the compilation to fail
+> > > > with error messages in T.stderr.  This kind of failure does **not** indicate a bug in the compiler.
 
-      run_command
-            Just run an arbitrary command.  The
-            output is checked against T.stdout and
-            T.stderr, and the stdin and expected
-            exit code can be changed in the same
-            way as for compile_and_run.
+> > >
+> > > multimod_compile_and_run
+> > >
+> > > >
+> > > > Compile and run a multi-module
+> > > > program.
 
-      run_command_ignore_output
-            Same as run_command, except the output
-            (both stdout and stderr) from the
-            command is ignored.
+> > >
+> > > run_command
+> > >
+> > > >
+> > > > Just run an arbitrary command.  The
+> > > > output is checked against T.stdout and
+> > > > T.stderr, and the stdin and expected
+> > > > exit code can be changed in the same
+> > > > way as for compile_and_run.
 
-      ghci_script
-            Runs the current compiler, passing
-            --interactive and using the specified
-            script as standard input.
+> > >
+> > > run_command_ignore_output
+> > >
+> > > >
+> > > > Same as run_command, except the output
+> > > > (both stdout and stderr) from the
+> > > > command is ignored.
 
-    ''<args>''
-    is a list of arguments to be passed to <test-fn>.
+> > >
+> > > ghci_script
+> > >
+> > > >
+> > > > Runs the current compiler, passing
+> > > > --interactive and using the specified
+> > > > script as standard input.
 
-    For compile, compile_fail and compile_and_run, <args>
-    is a list with a single string which contains extra
-    compiler options with which to run the test.  eg.
-{{{                
-    test(tc001, normal, compile, ['-fglasgow-exts'])
-}}}
-    would pass the flag -fglasgow-exts to the compiler
-    when compiling tc001.
+> > *\<args\>*
+> > is a list of arguments to be passed to \<test-fn\>.
 
-    The multimod_ versions of compile and compile_and_run
-    expect an extra argument on the front of the list: the
-    name of the top module in the program to be compiled
-    (usually this will be 'Main').
+> >
+> > For compile, compile_fail and compile_and_run, \<args\>
+> > is a list with a single string which contains extra
+> > compiler options with which to run the test.  eg.
+> >
+> > ```wiki
+> >     test('tc001', normal, compile, ['-fglasgow-exts'])
+> > ```
+> >
+> >
+> > would pass the flag -fglasgow-exts to the compiler
+> > when compiling tc001.
+
+> >
+> > The multimod_ versions of compile and compile_and_run
+> > expect an extra argument on the front of the list: the
+> > name of the top module in the program to be compiled
+> > (usually this will be 'Main').
 
 
 A multi-module test is straightforward.  It usually goes in a
@@ -314,15 +397,20 @@ files can be named anything you like.  The test must have a name, in
 the same way as a single-module test; and the stdin/stdout/stderr
 files follow the name of the test as before.  In the same directory,
 place a file 'test.T' containing a line like
-{{{
+
+```wiki
    test(multimod001, normal, multimod_compile_and_run, \
                  [ 'Main', '-fglasgow-exts', '', 0 ])
-}}}
+```
+
+
 as described above.
+
 
 For some examples, take a look in tests/ghc-regress/programs.
 
-= The details =
+# The details
+
 
 The test suite driver is just a set of Python scripts, as are all of
 the .T files in the test suite.  The driver (driver/runtests.py) first
@@ -330,44 +418,57 @@ searches for all the .T files it can find, and then proceeds to
 execute each one, keeping a track of the number of tests run, and
 which ones succeeded and failed.
 
+
 The script runtests.py takes several options:
 
-  --config <file>
-  
-       <file> is just a file containing Python code which is 
-       executed.   The purpose of this option is so that a file
-       containing settings for the configuration options can
-       be specified on the command line.  Multiple --config options
-       may be given.
+>
+> --config \<file\>
 
-  --rootdir <dir>
+> >
+> > \<file\> is just a file containing Python code which is 
+> > executed.   The purpose of this option is so that a file
+> > containing settings for the configuration options can
+> > be specified on the command line.  Multiple --config options
+> > may be given.
 
-       <dir> is the directory below which to search for .T files
-       to run.
+>
+> --rootdir \<dir\>
 
-  --output-summary <file>
+> >
+> > \<dir\> is the directory below which to search for .T files
+> > to run.
 
-       In addition to dumping the test summary to stdout, also
-       put it in <file>.  (stdout also gets a lot of other output
-       when running a series of tests, so redirecting it isn't  
-       always the right thing).
+>
+> --output-summary \<file\>
 
-  --only <test>
+> >
+> > In addition to dumping the test summary to stdout, also
+> > put it in \<file\>.  (stdout also gets a lot of other output
+> > when running a series of tests, so redirecting it isn't  
+> > always the right thing).
 
-       Only run tests named <test> (multiple --only options can
-       be given).  Useful for running a single test from a .T file
-       containing multiple tests.
+>
+> --only \<test\>
 
-  -e <stmt>
+> >
+> > Only run tests named \<test\> (multiple --only options can
+> > be given).  Useful for running a single test from a .T file
+> > containing multiple tests.
 
-       executes the Python statement <stmt> before running any tests.
-       The main purpose of this option is to allow certain
-       configuration options to be tweaked from the command line; for
-       example, the build system adds '-e config.accept=1' to the
-       command line when 'make accept' is invoked.
+>
+> -e \<stmt\>
+
+> >
+> > executes the Python statement \<stmt\> before running any tests.
+> > The main purpose of this option is to allow certain
+> > configuration options to be tweaked from the command line; for
+> > example, the build system adds '-e config.accept=1' to the
+> > command line when 'make accept' is invoked.
+
 
 Most of the code for running tests is located in driver/testlib.py.
 Take a look.
+
 
 There is a single Python class (TestConfig) containing the global
 configuration for the test suite.  It contains information such as the
@@ -378,63 +479,74 @@ of the configuration, which are sourced by passing the appropriate
 --config options to the test driver.  For example, the GHC
 configuration is contained in the file config/ghc.
 
+
 A .T file can obviously contain arbitrary Python code, but the general
 idea is that it contains a sequence of calls to the function test(),
 which resides in testlib.py.  As described above, test() takes four
 arguments:
 
-      test(<name>, <opt-fn>, <test-fn>, <args>)
+>
+> test(\<name\>, \<opt-fn\>, \<test-fn\>, \<args\>)
 
-The function <opt-fn> is allowed to be any Python callable object,
+
+The function \<opt-fn\> is allowed to be any Python callable object,
 which takes a single argument of type TestOptions.  TestOptions is a
 class containing options which affect the way that the current test is
 run: whether to skip it, whether to expect failure, extra options to
 pass to the compiler, etc. (see testlib.py for the definition of the
-TestOptions class).  The idea is that the <opt-fn> function modifies
+TestOptions class).  The idea is that the \<opt-fn\> function modifies
 the TestOptions object that it is passed.  For example, to expect
 failure for a test, we might do this in the .T file:
-{{{
+
+```wiki
    def fn(opts):
       opts.expect = 'fail'
 
    test(test001, fn, compile, [''])
-}}}
+```
+
+
 so when fn is called, it sets the instance variable "expect" in the
 instance of TestOptions passed as an argument, to the value 'fail'.
 This indicates to the test driver that the current test is expected to
 fail.
 
+
 Some of these functions, such as the one above, are common, so rather
 than forcing every .T file to redefine them, we provide canned
 versions.  For example, the provided function expect_fail does the
 same as fn in the example above.  See testlib.py for all the canned
-functions we provide for <opt-fn>.
+functions we provide for \<opt-fn\>.
 
-The argument <test-fn> is a function which performs the test.  It
+
+The argument \<test-fn\> is a function which performs the test.  It
 takes three or more arguments:
 
-      <test-fn>( <name>, <way>, ... )
+>
+> \<test-fn\>( \<name\>, \<way\>, ... )
 
-where <name> is the name of the test, <way> is the way in which it is
+
+where \<name\> is the name of the test, \<way\> is the way in which it is
 to be run (eg. opt, optasm, prof, etc.), and the rest of the arguments
-are constructed from the list <args> in the original call to test().
-The following <test-fn>s are provided at the moment:
+are constructed from the list \<args\> in the original call to test().
+The following \<test-fn\>s are provided at the moment:
 
-           compile
-           compile_fail
-           compile_and_run
-           multimod_compile
-           multimod_compile_fail
-           multimod_compile_and_run
-           run_command
-           run_command_ignore_output
-           ghci_script
+>
+> compile
+> compile_fail
+> compile_and_run
+> multimod_compile
+> multimod_compile_fail
+> multimod_compile_and_run
+> run_command
+> run_command_ignore_output
+> ghci_script
+
 
 and obviously others can be defined.  The function should return
 either 'pass' or 'fail' indicating that the test passed or failed
 respectively.
 
-= Problems running the testsuite =
+# Problems running the testsuite
 
- 1. If the test suite fails mysteriously, make sure that the {{{timeout}}} utility is working properly. This Haskell utility is compiled with the stage 1 compiler and invoked by the python driver, which does not print a nice error report if the utility fails. This can happen if, for example, the compiler produces bogus binaries. A workaround is to compile {{{timeout}}} with a stable {{{ghc}}}.
-```
+1. If the test suite fails mysteriously, make sure that the `timeout` utility is working properly. This Haskell utility is compiled with the stage 1 compiler and invoked by the python driver, which does not print a nice error report if the utility fails. This can happen if, for example, the compiler produces bogus binaries. A workaround is to compile `timeout` with a stable `ghc`.
