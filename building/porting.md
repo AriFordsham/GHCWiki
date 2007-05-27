@@ -403,7 +403,7 @@ these then things will be significantly easier.  The majority of Unix
 platforms use the ELF format these days.  Even so, there are some
 machine-specific parts of the ELF linker: for example, the code for
 resolving particular relocation types is machine-specific, so some
-porting of this code to your architecture and/or OS will probaly be
+porting of this code to your architecture and/or OS will probably be
 necessary.
 
 
