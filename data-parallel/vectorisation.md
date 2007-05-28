@@ -94,16 +94,28 @@ vect f = Fun f (mapP f)
 ```
 
 
-Hmm, thinking about this, a data type will get us into trouble with unboxed types.  Maybe
+Hmm, thinking about this, a data type will get us into trouble with unboxed types, but we also can't use a type synonym, as we can have partial applications of function arrows.  So, we have to split this up.
+
+
+A data type to combine the scalar and lifted version of  a function:
 
 ```wiki
-type a ->> b = (a -> b) :*: (a^ -> b^)
-vect :: (a -> b) -> (a ->> b)
-vect f = f :*: mapP f
+data VFun f = VFun { vfunS :: !f
+                   , vfunP :: !(PArr f)
+                   }
 ```
 
 
-But that doesn't make any sense due to the `a^` and `b^`.  Seems like we have to hardcode this representation into the type translation scheme.
+On top of this we can define a vectorised function space constructor:
+
+```wiki
+newtype a :-> b = Fun (VFun (a -> b))
+funS (Fun (VFun f _)) = f
+funP (Fun (VFun _ f)) = f
+```
+
+
+So, we have `(->_v) = (:->)`.  Note that the type arguments to `(:->)` will be vectorised types (not vanilla types).  Consequently, instances of `PA` and `PArr` need to be defined for vectorised types.
 
 ---
 
