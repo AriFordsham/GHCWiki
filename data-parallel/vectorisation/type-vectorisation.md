@@ -1,46 +1,62 @@
-## Type Vectorisation
+CONVERSION ERROR
 
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/DataParallel/Vectorisation/TypeVectorisation"
+  queryString          = "?version=5"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:04:21 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","267"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/DataParallel/Vectorisation/TypeVectorisation\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+
+Original source:
+
+```trac
+== Type Vectorisation ==
 
 The transformation of types includes both closure conversion and the pairing of scalar with lifted computations.
 
-### Unboxed types
-
+=== Unboxed types ===
 
 Unboxed types and functions defined in `GHC.Prim` need to be treated specially during vectorisation.  This is as we cannot have `PA` instances for unboxed types and the transformation needs to know which functions from `GHC.Prim` can be safely parallelised (e.g., its fine to run many `+#` in parallel, whereas this is not really advisable for calls to side-effecting RTS functions).  Indeed, we might regard unboxed types and functions from `GHC.Prim` as the place where we make the transition from implementing vectorisation decisions in package ndp to hard-coding them into the compiler.  It is probably a good idea to eventually move as much as possible of the hardcoded information into `primops.txt.pp`, but for the moment, we simply hardcode everything in the modules in `vectorise/`.
 
-
 To treat unboxed type properly, we cannot simply use the type constructor `PArr` wherever we need a flattened array; instead, we define a type translation
-
-```wiki
+{{{
 Int#^    = UArr Int
 Float#^  = UArr Float
 Double#^ = UArr Double
 <and so on for other unboxed types>
 t^       = PArr t
-```
+}}}
 
-### Transformation rules
+We need to represent functions whose argument and/or result type are unboxed different from functions over boxed types.  The reason is the non-standard kinding rule implemented in GHC for `(->)`, which allows that the two argument type variables are instantiated to unboxed values iff the application of `(->)` is saturated.  We can't defined a second type constructor with that property unless we extend the `TypeRep.Type` representation.  We also can't simply use a type synonym for a vectorised type function constructor, because we must be able to partially apply it.
 
-TODO
+=== Transformation rules ===
 
-- Be careful that `t1* ->> t2*` includes `PArr t1` and `PArr t2*`; so, we can only use that if we have `PA` instances for these types.
-
+TODO:
+ * Be careful that `t1* ->> t2*` includes `PArr t1` and `PArr t2*`; so, we can only use that if we have `PA` instances for these types.
 
 The type transformation rules achieve two goals: (1) they replace original type constructors and variables by their vectorised variants, where those are available, and (2) they alter the representation of functions:
-
-```wiki
+{{{
 T*            = T_V  , if T_V exists
               = T    , otherwise
 a*            = a_v
-(t1 -> t2)*   = t1* ->> t2*
+(t1 -> t2)*   = (t1* -> t2*) :*:  , if kindOf t1 == #
+                (t1^ -> t2^)        or kindOf t2 == #
+              = t1 ??
 (t1 t2)*      = t1* t2*
 (forall a.t)* = forall a_v.t*
-```
-
-
+}}}
 The transformation of function types includes both the change from `(->)` to `(:->)` as well as 
 
-```wiki
+{{{
 T*            = T_V , if T_V exists
               = T    , otherwise
 a*            = a_v
@@ -50,4 +66,5 @@ a*            = a_v
                  [:t1* :-> t2*:])
 (t1 t2)*      = t1* t2*
 (forall a.t)* = forall a_v.t*
+}}}
 ```

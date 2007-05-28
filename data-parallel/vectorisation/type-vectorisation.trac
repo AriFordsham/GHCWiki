@@ -15,6 +15,8 @@ Double#^ = UArr Double
 t^       = PArr t
 }}}
 
+We need to represent functions whose argument and/or result type are unboxed different from functions over boxed types.  The reason is the non-standard kinding rule implemented in GHC for `(->)`, which allows that the two argument type variables are instantiated to unboxed values iff the application of `(->)` is saturated.  We can't defined a second type constructor with that property unless we extend the `TypeRep.Type` representation.  We also can't simply use a type synonym for a vectorised type function constructor, because we must be able to partially apply it.
+
 === Transformation rules ===
 
 TODO:
@@ -25,7 +27,9 @@ The type transformation rules achieve two goals: (1) they replace original type 
 T*            = T_V  , if T_V exists
               = T    , otherwise
 a*            = a_v
-(t1 -> t2)*   = t1* ->> t2*
+(t1 -> t2)*   = (t1* -> t2*) :*:  , if kindOf t1 == #
+                (t1^ -> t2^)        or kindOf t2 == #
+              = t1 ??
 (t1 t2)*      = t1* t2*
 (forall a.t)* = forall a_v.t*
 }}}
