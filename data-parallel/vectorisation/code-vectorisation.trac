@@ -2,8 +2,8 @@
 
 {{{
 (\x -> e)*
-  | isUbxFun (\x->e) =      VFun (\x_v -> e*) (\x_v -> e^)
-  | otherwise        = Fun (VFun (\x_v -> e*) (\x_v -> e^))
+  | isUbxFun (\x->e) =      (\x_v -> e*) :|| (\x_v -> e^)
+  | otherwise        = Fun ((\x_v -> e*) :|| (\x_v -> e^))
 (e1 e2)*
   | isUbxFun e1      = vfunS e1* e2*
   | otherwise        = funS e1* e2*
