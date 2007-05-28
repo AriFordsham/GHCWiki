@@ -6,6 +6,15 @@ The transformation of types includes both closure conversion and the pairing of 
 
 Unboxed types and functions defined in `GHC.Prim` need to be treated specially during vectorisation.  This is as we cannot have `PA` instances for unboxed types and the transformation needs to know which functions from `GHC.Prim` can be safely parallelised (e.g., its fine to run many `+#` in parallel, whereas this is not really advisable for calls to side-effecting RTS functions).  Indeed, we might regard unboxed types and functions from `GHC.Prim` as the place where we make the transition from implementing vectorisation decisions in package ndp to hard-coding them into the compiler.  It is probably a good idea to eventually move as much as possible of the hardcoded information into `primops.txt.pp`, but for the moment, we simply hardcode everything in the modules in `vectorise/`.
 
+To treat unboxed type properly, we cannot simply use the type constructor `PArr` wherever we need a flattened array; instead, we define a type translation
+{{{
+Int#^    = UArr Int
+Float#^  = UArr Float
+Double#^ = UArr Double
+<and so on for other unboxed types>
+t^       = PArr t
+}}}
+
 === Transformation rules ===
 
 TODO:
