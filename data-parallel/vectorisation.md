@@ -100,18 +100,18 @@ Hmm, thinking about this, a data type will get us into trouble with unboxed type
 A data type to combine the scalar and lifted version of  a function:
 
 ```wiki
-data VFun f = VFun { vfunS :: !f
-                   , vfunP :: !(PArr f)
-                   }
+data fS :|| fP = !fS :|| !fP
+vfunS (fS :|| _ ) = fS
+vfunP (_  :|| fP) = fP
 ```
 
 
-On top of this we can define a vectorised function space constructor:
+On top of this we define a vectorised function space constructor:
 
 ```wiki
 newtype a :-> b = Fun (VFun (a -> b))
-funS (Fun (VFun f _)) = f
-funP (Fun (VFun _ f)) = f
+funS (Fun (fS :|| _ )) = fS
+funP (Fun (_  :|| fP)) = fP
 ```
 
 

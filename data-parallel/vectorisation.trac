@@ -81,15 +81,15 @@ Hmm, thinking about this, a data type will get us into trouble with unboxed type
 
 A data type to combine the scalar and lifted version of  a function:
 {{{
-data VFun f = VFun { vfunS :: !f
-                   , vfunP :: !(PArr f)
-                   }
+data fS :|| fP = !fS :|| !fP
+vfunS (fS :|| _ ) = fS
+vfunP (_  :|| fP) = fP
 }}}
-On top of this we can define a vectorised function space constructor:
+On top of this we define a vectorised function space constructor:
 {{{
 newtype a :-> b = Fun (VFun (a -> b))
-funS (Fun (VFun f _)) = f
-funP (Fun (VFun _ f)) = f
+funS (Fun (fS :|| _ )) = fS
+funP (Fun (_  :|| fP)) = fP
 }}}
 So, we have `(->_v) = (:->)`.  Note that the type arguments to `(:->)` will be vectorised types (not vanilla types).  Consequently, instances of `PA` and `PArr` need to be defined for vectorised types.
 ----
