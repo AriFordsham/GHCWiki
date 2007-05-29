@@ -101,6 +101,16 @@ entry.
    Functions for allocating objects that appear on the heap such as closures and constructors.
    Also includes code for stack and heap checks and {{{emitSetDynHdr}}}.
 
+=== Function Calls and Parameter Passing ===
+(Note: these will largely go away once CPS conversion is fully implemented.)
+
+ {{{CgPrimOp}}}, {{{CgTailCall}}}, {{{CgForeignCall}}}::
+   Handle different types of calls.
+ {{{CgCallConv}}}::
+   Use by the others in this category to determine liveness and
+   to select in what registers and stack locations arguments and return
+   values get stored.
+
 === Misc utilities ===
  {{{Bitmap}}}::
    Utility functions for making bitmaps (e.g. {{{mkBitmap}}} with type {{{[Bool] -> Bitmap}}})
@@ -125,11 +135,7 @@ entry.
 Please help classify these if you know what they are.
 
  CgInfoTbls
- CgCallConv
 
  CgCase
  CgLetNoEscape
 
- CgPrimOp
- CgTailCall
- CgForeignCall
