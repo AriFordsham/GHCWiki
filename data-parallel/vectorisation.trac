@@ -48,38 +48,9 @@ class PA a where
 
 ==== Vectorised functions ====
 
-Vectorised functions use an explicit closure representation:
-{{{
-data a :-> b 
-  = forall e. 
-      Cls { clsFun  :: !(e -> a -> b)
-          , clsAFun :: !(PArr e -> PArr a -> PArr b)
-          , clsEnv  :: e
-          }
-}}}
-with basic closure construction and application as
-{{{
-lam :: (a -> b) -> (a :-> b)
-lam f = Cls (const f) (const (mapP f)) ()
+For the moment, I am assuming that we only need to closure-convert lifted code, but not scalar code.  The rationale is that the closure representation is only needed to pack, merge, etc. array closures, which represent arrays of functions.
 
-($:) :: (a :-> b) -> a -> b
-(Cls f _ e) $: x = f e x
-}}}
-
-----
-'''TODO:''' Can't we actually omit the explicit closure representation for ''scalar'' closures?  We need it for array closures, so that we can, e.g., pack them, but I think we don't really need it for scalar closures given that we combine closure-conversion and vectorisation into one pass.  If that is correct, we can represent vectorised functions as
-{{{
-data a ->> b = Fun { fun  :: !(     a ->      b)
-                   , afun :: !(PArr a -> PArr b)
-                   }
-
-vect :: (a -> b) -> (a ->> b)
-vect f = Fun f (mapP f)
-}}}
-
-Hmm, thinking about this, a data type will get us into trouble with unboxed types, but we also can't use a type synonym, as we can have partial applications of function arrows.  So, we have to split this up.
-
-A data type to combine the scalar and lifted version of  a function:
+A data type to combine the scalar and lifted version of  a function (i.e., a glorified strict pair):
 {{{
 data fS :|| fP = !fS :|| !fP
 vfunS (fS :|| _ ) = fS
@@ -92,7 +63,11 @@ funS (Fun (fS :|| _ )) = fS
 funP (Fun (_  :|| fP)) = fP
 }}}
 So, we have `(->_v) = (:->)`.  Note that the type arguments to `(:->)` will be vectorised types (not vanilla types).  Consequently, instances of `PA` and `PArr` need to be defined for vectorised types.
-----
+
+Three questions may arise at this point:
+ * Why don't we combine `(:||)` and `(:->)` into one data type?  Answer: This won't work for functions involving unboxed types; in particular, we cannot write `Int# :-> Int#` (this would lead to a kind error).
+ * Do we really define the `PA` instances over the unvectorised types?  Answer: As `(->)` may be partially applied in the original program, we can have partial applications of `(->_v)`, and hence, of `(:->)`.  These may then be used to instantiate type constructor variables in converted types, where the type arguments will be vectorised.
+ * Why don't we closure convert scalar code (to keeps things more orthogonal)?  Answers: (1) I think the transformations are simpler like this, as only lifting has to perform on-the-fly closure conversion; (2) the generated Core code is smaller; (3) flattening and the ndp library place considerable stress on the simplifier, so reducing this a bit seems a good strategy; and (4) I am far from sure that the current approach to handling functions manipulating unboxed types would work if we closure-converted scalar code.
 
 ==== Lifted functions ====
 
@@ -119,13 +94,37 @@ We have a number of transformations that together realise vectorisation:
  * [wiki:DataParallel/Vectorisation/CodeVectorisation Code vectorisation] (`e*`): This includes closure conversion and the pairing of scalar and lifted code.
  * [wiki:DataParallel/Vectorisation/CodeLifting Code lifting] (`e^`): This converts operations on types `t` into operations on types `[:t:]`.
 
+
 ----
 
-==== TODO ====
+=== TODO ===
 
 Items that need to be addressed on the page:
- * Mixed use of the CC isomorphism strategy and a `PA` class for arrays.
  * Introduction of `PA` dictionary arguments right after each big lambda in vectorised code.
- * Treatment of unboxed values and functions from `GHC.Prim`.
  * Transformation schemata
  * Examples
+
+
+----
+
+=== Old Material ===
+
+==== Vectorised functions ====
+
+Vectorised functions use an explicit closure representation:
+{{{
+data a :-> b 
+  = forall e. 
+      Cls { clsFun  :: !(e -> a -> b)
+          , clsAFun :: !(PArr e -> PArr a -> PArr b)
+          , clsEnv  :: e
+          }
+}}}
+with basic closure construction and application as
+{{{
+lam :: (a -> b) -> (a :-> b)
+lam f = Cls (const f) (const (mapP f)) ()
+
+($:) :: (a :-> b) -> a -> b
+(Cls f _ e) $: x = f e x
+}}}
