@@ -246,16 +246,47 @@ and the actual argument gsize has type
 {{{
 forall a. Size a => a -> Int
 }}}
-But the second type is not a subtype of the second.
+But the second type is not a subtype of the second
+because we cannot derive 'Size a' from 'Data a' for any 'a'.
 For this subtype relation to hold, if we can satisfy
-the condition
-that from 'Data a' we can derive 'Size a' for any 'a'.
 This condition is satisfied 
 if we make 'Sizes' a superclass of 'Data'.
 But this will break modularity (we have to change
 'Data's class declaration for each new generic function).
 
-'''MS note''': How to fix the (modularity) problem via indexed classes?
+We fix the problem by by introducing an indexed class
+in gmapQ's context. Thus, we can 'enable' the 'Size' class
+when needed.
+
+{{{
+-- type family 
+class family Context ctxt :: * -> class
+
+class Typeable t => Data ctxt t where
+   gmapQ :: (forall e . Data e ctxt, Context ctxt e => e -> r) -> t -> [r]
+
+instance Data Char ctxt where
+   gmapQ f c = []
+
+instance Data e ctxt => Data [e] ctxt where
+   gmapQ f (x:xs) = [f x,f xs]
+
+
+class Size t where
+   gsize :: t -> Int
+
+instance Size t where
+   gsize = 42
+
+...
+
+instance Data t SizeCtxt => Size t where
+   gsize x = 1 + sum (gmapQ gsize x)
+
+data SizeCtxt -- uninhabited
+
+class instance Context SizeCtxt e = Size e
+}}}
 
 === Type checking ===
 
