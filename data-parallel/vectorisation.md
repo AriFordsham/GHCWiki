@@ -65,17 +65,17 @@ A data type to combine the scalar and lifted version of  a function (i.e., a glo
 
 ```wiki
 data fS :|| fP = !fS :|| !fP
-vfunS (fS :|| _ ) = fS
-vfunP (_  :|| fP) = fP
+funS (fS :|| _ ) = fS
+funP (_  :|| fP) = fP
 ```
 
 
 On top of this we define a vectorised function space constructor:
 
 ```wiki
-newtype a :-> b = Fun ((a -> b) :|| (PArr a -> PArr b))
-funS (Fun (fS :|| _ )) = fS
-funP (Fun (_  :|| fP)) = fP
+newtype a :-> b = VFun ((a -> b) :|| (PArr a -> PArr b))
+vfunS (VFun (fS :|| _ )) = fS
+vfunP (VFun (_  :|| fP)) = fP
 ```
 
 
@@ -91,24 +91,25 @@ Three questions may arise at this point:
 #### Lifted functions
 
 
-In lifted code, we represent functions by explicit closures combining scalar and lifted versions.  We do so using *array closures*:
+In lifted code, we also use `(:||)` to represent pairs of scalar and lifted functions, but here the second component is an array closure; thusly:
 
 ```wiki
-data a =>> b 
-  = forall e. PA e => 
-      ACls { aclsFun  :: !(e -> a -> b)
-           , aclsAFun :: !(PArr e -> PArr a -> PArr b)
-           , aclsEnv  :: PArr e
-           }
+newtype a :=> b = LFun ((a -> b) :|| ACls (PArr a) (PArr b))
+
+data ACls arr brr
+ = forall e. PA e =>
+     ACls { aclsFun :: !(PArr e -> arr -> brr)
+          , aclsEnv :: PArr e
+          }
+
+lfunS (LFun (fS :|| _        )) = fS
+lfunP (LFun (_  :|| ACls fP e)) = fP e
 ```
 
 
-We apply array closures using
+The following questions may arise:
 
-```wiki
-($||) :: (a :=> b) -> PArr a -> PArr b
-(ACls _ afun es) $:: as = afun es as
-```
+- Why do we use array types as arguments of `ACls`, rather than array element types?  Answer: We need this to be able to handle functions manipulating unboxed values.  For example, consider a `inc# :: Int# -> Int#`.  What's the type of an array closure for `inc#`?  Given the current definition, we can denote the type as `ACls (UArr Int) (UArr Int)` (as `Int#* = UArr Int`).  In contrast, we would get a kind error if `ACls` would take element types and we'd use `ACls Int# Int#`.
 
 ### Transformations
 
