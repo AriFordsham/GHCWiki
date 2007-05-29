@@ -285,7 +285,7 @@ instance Data t SizeCtxt => Size t where
 
 data SizeCtxt -- uninhabited
 
-class instance Context SizeCtxt e = Size e
+class instance (Size e) => Context SizeCtxt e
 }}}
 
 === Type checking ===
