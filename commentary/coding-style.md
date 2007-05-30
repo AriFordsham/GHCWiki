@@ -1,166 +1,160 @@
-# The GHC Commentary - Coding Style Guidelines for the compiler
+CONVERSION ERROR
+
+Error: HttpError (HttpExceptionRequest Request {
+  host                 = "ghc.haskell.org"
+  port                 = 443
+  secure               = True
+  requestHeaders       = []
+  path                 = "/trac/ghc/wiki/Commentary/CodingStyle"
+  queryString          = "?version=12"
+  method               = "GET"
+  proxy                = Nothing
+  rawBody              = False
+  redirectCount        = 10
+  responseTimeout      = ResponseTimeoutDefault
+  requestVersion       = HTTP/1.1
+}
+ (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:04:26 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","259"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/CodingStyle\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+
+Original source:
+
+```trac
 
 
-This is a rough description of some of the coding practices and style that we use for Haskell code inside `compiler`. See the [Coding Style Guidelines for RTS C code](commentary/rts/conventions) for code in `rts` and `include`.
+ = The GHC Commentary - Coding Style Guidelines for the compiler = 
 
+This is a rough description of some of the coding practices and style that we use for Haskell code inside {{{compiler}}}. See the [wiki:Commentary/Rts/Conventions Coding Style Guidelines for RTS C code] for code in {{{rts}}} and {{{include}}}.
 
 The general rule is to stick to the same coding style as is already used in the file you're editing. If you must make stylistic changes, commit them separately from functional changes, so that someone looking back through the change logs can easily distinguish them. 
 
-## To literate or not to literate?
+== General Style ==
+
+It's much better to write code that is transparent, than to write code that is short.
+
+Often it's better to write out the code longhand than to reuse a generic abstraction (not always, of course).  Sometimes it's better to duplicate some similar code than to try to construct an elaborate generalisation with only two instances.  Remember: other people have to be able to quickly understand what you've done, and overuse of abstractions just serves to obscure the ''really'' tricky stuff, and there's no shortage of that in GHC.
 
 
-In GHC we use a mixture of literate (`.lhs`) and non-literate (`.hs`) source. I (Simon M.) prefer to use non-literate style, because I think the `\begin{code}..\end{code`} clutter up the source too much, and I like to use Haddock-style comments (we haven't tried processing the whole of GHC with Haddock yet, though). 
+== To literate or not to literate? ==
 
-## To CPP or not to CPP?
+In GHC we use a mixture of literate ({{{.lhs}}}) and non-literate ({{{.hs}}}) source. I (Simon M.) prefer to use non-literate style, because I think the {{{\begin{code}..\end{code}}}} clutter up the source too much, and I like to use Haddock-style comments (we haven't tried processing the whole of GHC with Haddock yet, though). 
 
+== To CPP or not to CPP? ==
 
 We pass all the compiler sources through CPP. The -cpp flag is always added by the build system. 
 The following CPP symbols are used throughout the compiler: 
 
-<table><tr><th>**DEBUG**</th>
-<td>
-Used to enables extra checks and debugging output in the compiler. The ASSERT macro (see `HsVersions.h`) provides assertions which disappear when DEBUG is not defined. 
-</td></tr></table>
+ '''DEBUG''':: 
+  Used to enables extra checks and debugging output in the compiler. The ASSERT macro (see {{{HsVersions.h}}}) provides assertions which disappear when DEBUG is not defined. 
 
->
-> All debugging output should be placed inside \#ifdef DEBUG; we generally use this to provide warnings about strange cases and things that might warrant investigation. When DEBUG is off, the compiler should normally be silent unless something goes wrong (exception when the verbosity level is greater than zero). 
+ All debugging output should be placed inside #ifdef DEBUG; we generally use this to provide warnings about strange cases and things that might warrant investigation. When DEBUG is off, the compiler should normally be silent unless something goes wrong (exception when the verbosity level is greater than zero). 
 
->
-> A good rule of thumb is that DEBUG shouldn't add more than about 10-20% to the compilation time. This is the case at the moment. If it gets too expensive, we won't use it. For more expensive runtime checks, consider adding a flag - see for example -dcore-lint. 
+ A good rule of thumb is that DEBUG shouldn't add more than about 10-20% to the compilation time. This is the case at the moment. If it gets too expensive, we won't use it. For more expensive runtime checks, consider adding a flag - see for example -dcore-lint. 
 
-<table><tr><th>**GHCI**</th>
-<td>
-Enables GHCi support, including the byte code generator and interactive user interface. This isn't the default, because the compiler needs to be bootstrapped with itself in order for GHCi to work properly. The reason is that the byte-code compiler and linker are quite closely tied to the runtime system, so it is essential that GHCi is linked with the most up-to-date RTS. Another reason is that the representation of certain datatypes must be consistent between GHCi and its libraries, and if these were inconsistent then disaster could follow. 
-</td></tr></table>
+ '''GHCI''':: 
+  Enables GHCi support, including the byte code generator and interactive user interface. This isn't the default, because the compiler needs to be bootstrapped with itself in order for GHCi to work properly. The reason is that the byte-code compiler and linker are quite closely tied to the runtime system, so it is essential that GHCi is linked with the most up-to-date RTS. Another reason is that the representation of certain datatypes must be consistent between GHCi and its libraries, and if these were inconsistent then disaster could follow. 
 
-<table><tr><th>**Platform tests**</th>
-<td>
-There are three platforms of interest to GHC: 
+ '''Platform tests'''::
+  There are three platforms of interest to GHC: 
+  * '''The Build platform''': This is the platform on which we are building GHC. 
+  * '''The Host platform''': This is the platform on which we are going to run this GHC binary, and associated tools. 
+  * '''The Target platform''': This is the platform for which this GHC binary will generate code. At the moment, there is very limited support for having different values for buil, host, and target. In particular:
 
-- **The Build platform**: This is the platform on which we are building GHC. 
-- **The Host platform**: This is the platform on which we are going to run this GHC binary, and associated tools. 
-- **The Target platform**: This is the platform for which this GHC binary will generate code. At the moment, there is very limited support for having different values for buil, host, and target. In particular:
+  The build platform is currently always the same as the host platform. The build process needs to use some of the tools in the source tree, for example ghc-pkg and hsc2hs. 
 
-</td></tr></table>
+  If the target platform differs from the host platform, then this is generally for the purpose of building .hc files from Haskell source for porting GHC to the target platform. Full cross-compilation isn't supported (yet). 
+  In the compiler's source code, you may make use of the following CPP symbols:
 
-> >
-> > The build platform is currently always the same as the host platform. The build process needs to use some of the tools in the source tree, for example ghc-pkg and hsc2hs. 
-
-> >
-> > If the target platform differs from the host platform, then this is generally for the purpose of building .hc files from Haskell source for porting GHC to the target platform. Full cross-compilation isn't supported (yet). 
-> > In the compiler's source code, you may make use of the following CPP symbols:
-
-```wiki
+{{{
 xxx_TARGET_ARCH 
 xxx_TARGET_VENDOR 
 xxx_TARGET_OS 
 xxx_HOST_ARCH 
 xxx_HOST_VENDOR 
 xxx_HOST_OS 
-```
+}}}
+  where xxx is the appropriate value: eg. i386_TARGET_ARCH. 
 
-> >
-> > where xxx is the appropriate value: eg. i386_TARGET_ARCH. 
-
-## Compiler versions
-
+== Compiler versions ==
 
 GHC must be compilable by every major version of GHC from 6.2 onwards, and itself. It isn't necessary for it to be compilable by every intermediate development version (that includes last week's darcs sources). 
 
+To maintain compatibility, use [wiki:Commentary/CodingStyle#HsVersions.h HsVersions.h] (see below) where possible, and try to avoid using #ifdef in the source itself. 
 
-To maintain compatibility, use [HsVersions.h](commentary/coding-style#) (see below) where possible, and try to avoid using \#ifdef in the source itself. 
-
-## The source file
-
+== The source file ==
 
 We now describe a typical source file, annotating stylistic choices as we go. 
 
-### The OPTIONS pragma
+===  The OPTIONS pragma ===
 
+An {{{{-# OPTIONS_GHC ... #-}}}} pragma is optional, but if present it should go right at the top of the file. Things you might want to put in OPTIONS include: 
 
-An `{-# OPTIONS_GHC ... #-`} pragma is optional, but if present it should go right at the top of the file. Things you might want to put in OPTIONS include: 
-
-- `#include` options to bring into scope prototypes for FFI declarations 
-- `-fvia-C` if you know that this module won't compile with the native code generator.  (deprecated:
-  everything should compile with the NCG nowadays, but that wasn't always the case).
-
+ * {{{#include}}} options to bring into scope prototypes for FFI declarations 
+ * {{{-fvia-C}}} if you know that this module won't compile with the native code generator.  (deprecated:
+   everything should compile with the NCG nowadays, but that wasn't always the case).
 
 Don't bother putting -cpp or -fglasgow-exts in the OPTIONS pragma; these are already added to the command line by the build system. 
 
-### Exports
+=== Exports ===
 
-```wiki
+{{{
 module Foo (
    T(..),
    foo,	     -- :: T -> T
  ) where
-```
-
-
+}}}
 We usually (99% of the time) include an export list. The only exceptions are perhaps where the export list would list absolutely everything in the module, and even then sometimes we do it anyway. 
-
 
 It's helpful to give type signatures inside comments in the export list, but hard to keep them consistent, so we don't always do that. 
 
-### `HsVersions.h`
-
-`HsVersions.h` is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look [compiler/HsVersions.h](/trac/ghc/browser/ghc/compiler/HsVersions.h).
-
-```wiki
+=== {{{HsVersions.h}}} ===
+{{{HsVersions.h}}} is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look [[GhcFile(compiler/HsVersions.h)]].
+{{{
 #include "HsVersions.h"
-```
+}}}
 
-### Imports
-
-
+=== Imports ===
 List imports in the following order: 
 
-- Local to this subsystem (or directory) first 
-- Compiler imports, generally ordered from specific to generic (ie. modules from utils/ and basicTypes/ usually come last) 
-- Library imports 
-- Standard Haskell 98 imports last 
+ * Local to this subsystem (or directory) first 
+ * Compiler imports, generally ordered from specific to generic (ie. modules from utils/ and basicTypes/ usually come last) 
+ * Library imports 
+ * Standard Haskell 98 imports last 
+{{{
+-- friends
+import SimplMonad
 
-  ```wiki
-  -- friends
-  import SimplMonad
+-- GHC
+import CoreSyn
+import Id
+import BasicTypes
 
-  -- GHC
-  import CoreSyn
-  import Id
-  import BasicTypes
+-- libraries
+import Data.IORef
 
-  -- libraries
-  import Data.IORef
+-- std
+import Data.List
+import Data.Maybe
+}}}
 
-  -- std
-  import Data.List
-  import Data.Maybe
-  ```
+Import library modules from the core packages only (core packages are listed in [[GhcFile(libraries/core-packages)]]). Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
 
+'''Do not use explicit import lists''', except to resolve name clashes.  There are several reasons for this:
 
-Import library modules from the core packages only (core packages are listed in [libraries/core-packages](/trac/ghc/browser/ghc/libraries/core-packages)). Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
+ * They slow down development: almost every change is accompanied by an import list change.
 
-**Do not use explicit import lists**, except to resolve name clashes.  There are several reasons for this:
+ * They cause spurious conflicts between developers.
 
-- They slow down development: almost every change is accompanied by an import list change.
+ * They lead to useless warnings about unused imports, and time wasted trying to
+   keep the import declarations "minimal".
 
-- They cause spurious conflicts between developers.
+ * GHC's warnings are useful for detecting unnecessary imports: see `-fwarn-unused-imports`.
 
-- They lead to useless warnings about unused imports, and time wasted trying to
-  keep the import declarations "minimal".
-
-- GHC's warnings are useful for detecting unnecessary imports: see `-fwarn-unused-imports`.
-
-- TAGS is a good way to find out where an identifier is defined (use `make tags` in `ghc/compiler`,
-  and hit `M-.` in emacs).
-
+ * TAGS is a good way to find out where an identifier is defined (use `make tags` in `ghc/compiler`,
+   and hit `M-.` in emacs).
 
 If the module can be compiled multiple ways (eg. GHCI vs. non-GHCI), make sure the imports are properly `#ifdefed` too, so as to avoid spurious unused import warnings. 
 
-### General Style
 
 
-It's much better to write code that is transparent, than to write code that is short.
 
-
-Often it's better to write out the code longhand than to reuse a generic abstraction (not always, of course).  Sometimes it's better to duplicate some similar code than to try to construct an elaborate generalisation with only two instances.  Remember: other people have to be able to quickly understand what you've done, and overuse of abstractions just serves to obscure the *really* tricky stuff, and there's no shortage of that in GHC.
+```
