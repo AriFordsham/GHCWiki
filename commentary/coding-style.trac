@@ -108,7 +108,7 @@ import Data.List
 import Data.Maybe
 }}}
 
-Import library modules from the core packages only (core packages are listed in [[GhcFile(libraries/core-packages)]]. Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
+Import library modules from the core packages only (core packages are listed in [[GhcFile(libraries/core-packages)]]). Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
 
 '''Do not use explicit import lists''', except to resolve name clashes.  There are several reasons for this:
 
