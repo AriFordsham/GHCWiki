@@ -218,3 +218,21 @@ f() {
   ... = R1;
 }
 }}}
+
+== Not in Scope of Current Work ==
+Improvements that could be made but that will not be implemented durring the curent effort.
+
+=== Static Reference Table Handling (SRT) ===
+As it stands, each function and thus each call site must be annotated with a bitmap and
+a pointer or offset to the SRT shared by the function.
+This does not interact with the stack in any way so it ought to be outside the scope of the CPS
+algorithm.
+However there is some level of interaction because
+ 1. the SRT information on each call site needs to be attached to the resulting continuation and
+ 2. functions read from a Cmm file might need to be annotated with that SRT info.
+The first is a concern for correctness but may be handled by treating the SRT info as opaque data.
+The second is a concern for ease of use and thus the likelyhood of mistakes in hand written C-- code.
+At the moment it appears that all of the C-- functions in
+the runtime system (RTS) use a null SRT so for now we'll just have the CPS algorithm treat the SRT info as opaque.
+
+In the future it would be nice to have a more satisfactory way to handle both these issues.
