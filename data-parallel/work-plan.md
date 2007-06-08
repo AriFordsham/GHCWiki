@@ -5,11 +5,14 @@ Major milestones:
 
 <table><tr><th>**Milestone 1:** basic SMP library (End of Feb 2007)</th>
 <td>
-Implementation of the central parts of an array library of flat and segmented arrays that uses distributed types to partition work on an SMP thread gang and uses fusion to eliminate superflous join points and intermediate arrays.
-</td></tr>
+Implementation of the central parts of an array library of flat and segmented arrays that uses distributed types to partition work on an SMP thread gang and uses fusion to eliminate superflous join points and intermediate arrays. **\[Completed\]**</td></tr>
 <tr><th>**Milestone 2:** basic vectorisation (End of Aug 2007)</th>
 <td>
 Implementation of the vectorisation transformation and basic interaction of vectorised and non-vectorised code to provide (including the results from Milestone 1) a complete path from source programs to parallel executable for simple examples.
+</td></tr>
+<tr><th>**Milestone 2.5:** stocktake (by ICFP)</th>
+<td>
+Technical report summarising the results so far & release of a first publicly announced end-to-end NDP system.
 </td></tr>
 <tr><th>**Milestone 3:** larger examples (End of Feb 2008)</th>
 <td>
@@ -21,19 +24,21 @@ Optimisations and added functionality to handle larger example programs.
 
 For vectorisation:
 
-- \[Roman by **30 Mar 07**\] Implement plain closure conversion
+- \[Roman, June/July\] Implement vectorisation transformation according to the scheme in `ghc-ndp/docs/ndp/`.
+- \[Manuel\] Work with Roman and in particular implement all the iface-related code (`HscTypes.VectInfo` and friends).
 
 
 For the library:
 
-- \[Gabi\] Implement quicksort and all missing library functions for that.
+- \[Gabi\] Complete quicksort implementation.
 
 ### Todo list for vectorisation
 
-- We need closure conversion to handle the full higher-order case.
-- We need to handle cross calls to un-vectorised code.
+- Implement the first version
+- Integeration with package ndp
+- Testing
 
-### Todo list for vectorisation
+### Todo list for package ndp
 
 - Lifted functions
 - Add missing functions
