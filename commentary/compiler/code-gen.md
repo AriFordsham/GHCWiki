@@ -71,8 +71,8 @@ internal names. `<type>` is one of the following:
 <tr><th>vtbl</th>
 <td>Vector table
 </td></tr>
-<tr><th>\<n\>_alt</th>
-<td>Case alternative (tag n)
+<tr><th>*n*_alt</th>
+<td>Case alternative (tag *n*)
 </td></tr>
 <tr><th>dflt</th>
 <td>Default case alternative
@@ -116,25 +116,62 @@ entry.
 
 ## Modules
 
-### Primary Modules
+### `CodeGen`
 
-<table><tr><th>`CodeGen`</th>
-<td>Top level. Called by the `HscMain` module.
-</td></tr>
-<tr><th>`CgClosure`</th>
-<td>Called by `CodeGen` for top level bindings.
-</td></tr>
-<tr><th>`CgCon`</th>
-<td>Called by `CodeGen` for data types.
-</td></tr></table>
 
-<table><tr><th>`CgExpr`</th>
-<td>Called by `CgClosure` and `CgCon`.
-Since everything in STG is an expression, almost everything branches off from here.
-</td></tr></table>
+Top level, only exports `codeGen`.
 
-<table><tr><th>`CgMonad`</th>
-<td>The monad that most of codeGen operates inside
+
+Called from `HscMain` for each module that needs to be converted from Stg to Cmm.
+
+
+For each such module `codeGen` does three things:
+
+- `cgTopBinding` for the `StgBinding`
+- `cgTyCon` for the `TyCon` (These are constructors not constructor calls).
+- `mkModuleInit` for the module
+
+`mkModuleInit` generates several boilerplate initialization functions
+that:
+
+- regiser the module,
+- creates an Hpc table,
+- setup its profiling info (`InitConstCentres`, code coverage info `initHpc`), and
+- calls the initialization functions of the modules it imports.
+
+
+If neither SCC profiling or HPC are used,
+then the initialization code short circuits to return.
+
+
+If the module has already been initialized,
+the initialization function just returns.
+
+
+The Ghc.TopHandler and Ghc.Prim modules get special treatment.
+
+`cgTopBinding` is a small wrapper around `cgTopRhs`
+which in turn disptaches to:
+
+- `cgTopRhsCons` for `StgRhsCons`
+  (these are bindings of constructor applications not constructors themselves) and
+- `cgTopRhsClosure` for `StgRhsClosure`.
+
+`cgTopRhsCons` and `cgTopRhsClosure` are located in `CgCon` and `CgClosure`
+which are the primary modules called by `CodeGen`.
+
+### `CgCon`
+
+TODO
+
+### `CgClosure`
+
+TODO
+
+### `CgMonad`
+
+
+The monad that most of codeGen operates inside
 
 - Reader
 - State
@@ -142,7 +179,147 @@ Since everything in STG is an expression, almost everything branches off from he
 - fork
 - flatten
 
+### `CgExpr`
+
+
+Called by `CgClosure` and `CgCon`.
+
+
+Since everything in STG is an expression, almost everything branches off from here.
+
+
+This module exports only one function `cgExpr`,
+which for the most part just dispatches
+to other functions to handle each specific constructor in `StgExpr`.
+
+
+Here are the core functions that each constructor is disptached to
+(though some may have little helper functions called in addition to the core function):
+
+<table><tr><th>`StgApp`</th>
+<td>Calls to `cgTailCall` in `CgTailCall`</td></tr>
+<tr><th>`StgConApp`</th>
+<td>Calls to `cgReturnDataCon` in `CgCon`</td></tr>
+<tr><th>`StgLit`</th>
+<td>
+Calls to `cgLit` in `CgUtil`
+and `performPrimReturn` in `CgTailCall`</td></tr>
+<tr><th>`StgOpApp`</th>
+<td>
+Is a bit more complicated see below.
+</td></tr>
+<tr><th>`StgCase`</th>
+<td>Calls to `cgCase` in `CgCase`</td></tr>
+<tr><th>`StgLet`</th>
+<td>Calls to `cgRhs` in `CgExpr`</td></tr>
+<tr><th>`StgLetNoEscape`</th>
+<td>
+Calls to `cgLetNoEscapeBindings` in `CgExpr`, but with a little bit of wrapping
+by `nukeDeadBindings` and `saveVolatileVarsAndRegs`.
+</td></tr>
+<tr><th>`StgSCC`</th>
+<td>Calls to  `emitSetCCC` in `CgProf`</td></tr>
+<tr><th>`StgTick`</th>
+<td>Calls to `cgTickBox` in `CgHpc`</td></tr>
+<tr><th>`StgLam`</th>
+<td>
+Does not have a case because it is only for `CoreToStg`'s work.
 </td></tr></table>
+
+
+Some of these cases call to functions defined in `cgExpr`.
+This is because they need a little bit of wrapping and processing
+before calling out to their main worker function.
+
+<table><tr><th>`cgRhs`</th>
+<td>- For `StgRhsCon` calls out to `buildDynCon` in `CgCon`.
+- For `StgRhsClosure` calls out to `mkRhsClosure`.
+  In turn, `mkRhsClosure` calls out to `cgStdRhsClosure` for selectors and thunks,
+  and calls out to `cgRhsClosure` in the default case.
+  Both these are defined in `CgClosure`.
+
+</td></tr></table>
+
+<table><tr><th>`cgLetNoEscapeBindings`</th>
+<td>- Wraps a call to `cgLetNoEscapeRhs` with `addBindsC`
+  depending on whether it is called on a recursive or a non-recursive binding.
+  In turn `cgLetNoEscapeRhs` wraps `cgLetNoEscapeClosure`
+  defined in `CgLetNoEscapeClosure`.
+
+</td></tr></table>
+
+`StgOpApp` has a number of sub-cases.
+
+- `StgFCallOp`
+- `StgPrimOp` of a TagToEnumOp
+- `StgPrimOp` that is primOpOutOfLine
+- `StgPrimOp` that returns Void
+- `StgPrimOp` that returns a single primitive
+- `StgPrimOp` that returns an unboxed tuple
+- `StgPrimOp` that returns an enumeration type
+
+
+(It appears that non-foreign-call, inline [PrimOps](commentary/prim-ops) are not allowed to return complex data types (e.g. a \|Maybe\|), but this fact needs to be verified.)
+
+
+Each of these cases centers around one of these three core calls:
+
+- `emitForeignCall` in `CgForeignCall`
+- `tailCallPrimOp` in `CgTailCall`
+- `cgPrimOp` in `CgPrimOp`
+
+
+There is also a little bit of argument and return marshelling with the following functions
+
+<table><tr><th>Argument marshelling</th>
+<td>`shimForeignCallArg`, `getArgAmods`</td></tr>
+<tr><th>Return marshelling</th>
+<td>`dataReturnConvPrim`, `primRepToCgRep`, `newUnboxedTupleRegs`</td></tr>
+<tr><th>Performing the return</th>
+<td>`emitReturnInstr`, `performReturn`,
+`returnUnboxedTuple`, `ccallReturnUnboxedTuple`</td></tr></table>
+
+
+In summary the modules that get called in order to handle a specific expression case are:
+
+#### Also called for top level bindings by `CodeGen`
+
+<table><tr><th>`CgCon`</th>
+<td>for `StgConApp` and the `StgRhsCon` part of `StgLet`</td></tr>
+<tr><th>`CgClosure`</th>
+<td>for the `StgRhsClosure` part of `StgLet`</td></tr></table>
+
+#### Core code generation
+
+<table><tr><th>`CgTailCall`</th>
+<td>for `StgApp`, `StgLit`, and `StgOpApp`</td></tr>
+<tr><th>`CgPrimOp`</th>
+<td>for `StgOpApp`</td></tr>
+<tr><th>`CgLetNoEscapeClosure`</th>
+<td>for `StgLetNoEscape`</td></tr>
+<tr><th>`CgCase`</th>
+<td>for `StgCase`</td></tr></table>
+
+#### Profiling and Code coverage related
+
+<table><tr><th>`CgProf`</th>
+<td>for `StgSCC`</td></tr>
+<tr><th>`CgHpc`</th>
+<td>for `StgTick`</td></tr></table>
+
+#### Utility modules that happen to have the functions for code generation
+
+<table><tr><th>`CgForeignCall`</th>
+<td>for `StgOpApp`</td></tr>
+<tr><th>`CgUtil`</th>
+<td>for `cgLit`</td></tr></table>
+
+
+Note that the first two are
+the same modules that are called for top level bindings by `CodeGen`,
+and the last two are really utility modules,
+but they happen to have the functions
+needed for those code generation cases.
 
 ### Memory and Register Management
 
@@ -201,6 +378,8 @@ Storage manager representation of closures.
 Part of ClosureInfo but kept separate to "keep nhc happy."
 </td></tr>
 <tr><th>`CgUtils`</th>
+<td>TODO</td></tr>
+<tr><th>`CgInfoTbls`</th>
 <td>TODO</td></tr></table>
 
 ### Special runtime support
@@ -219,15 +398,3 @@ Part of ClosureInfo but kept separate to "keep nhc happy."
 Code generation for GranSim (GRAN) and parallel (PAR).
 All the functions are dead stubs except `granYield` and `granFetchAndReschedule`.
 </td></tr></table>
-
-### Not yet classified
-
-
-Please help classify these if you know what they are.
-
->
-> CgInfoTbls
-
->
-> CgCase
-> CgLetNoEscape
