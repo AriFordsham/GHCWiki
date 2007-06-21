@@ -3,6 +3,16 @@
 = Building the documentation =
 
     
+== Haddock documentation ==
+
+In order to build haddock documentation for the libraries, simply put
+
+{{{
+HADDOCK_DOCS = YES
+}}}
+
+in `mk/build.mk` before running `make`.
+
 == Tools for building the Documentation ==
 
 The following additional tools are required if you want to
