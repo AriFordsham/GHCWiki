@@ -1,5 +1,17 @@
 # Building the documentation
 
+## Haddock documentation
+
+
+In order to build haddock documentation for the libraries, simply put
+
+```wiki
+HADDOCK_DOCS = YES
+```
+
+
+in `mk/build.mk` before running `make`.
+
 ## Tools for building the Documentation
 
 
