@@ -399,7 +399,10 @@ Note, that it's not good to edit `target.mk` in general.
 
 Here is a complete, from-scratch, log of all you need to build GHC using
 Cygwin, kindly provided by Claus Reinke.  It does not discuss alternative
-choices, but it gives a single path that works.
+choices, but it gives a single path that works. Please help us to keep this
+up to date: if you are using newer versions, let us know whether you succeed
+or run into issues while following this log.
+
 {{{
 - Install some editor (vim, emacs, whatever)
 
@@ -436,10 +439,18 @@ choices, but it gives a single path that works.
   - add C:\ghc\ghc-6.4.1\bin to %PATH%
     (Start->Control Panel->System->Advanced->Environment Variables)
 
+- Get and install binary release of darcs
+    ; (http://zooko.com/darcs/darcsdir-cygwin-1.0.7.tar.bz2)
+
+- In the following, shell commands are entered in cygwin bash
+
 - Get darcs version of ghc
-    ; also, subscribe to cvs-all@haskell.org, or follow the mailing list
-    ; archive, in case you checkout a version with problems
-    ; http://www.haskell.org//pipermail/cvs-all/
+    ; also, subscribe to cvs-ghc@haskell.org, and possibly
+    ; to cvs-libraries@haskell.org, or follow the mailing list
+    ; archives, in case you checkout a version with problems
+    ; http://www.haskell.org/mailman/listinfo/cvs-ghc/
+    ; http://www.haskell.org/mailman/listinfo/cvs-libraries/
+
   - mkdir c:/ghc-build; cd c:/ghc-build
     ; (or whereever you want your darcs tree to be)
   - darcs get --partial http://darcs.haskell.org/ghc
