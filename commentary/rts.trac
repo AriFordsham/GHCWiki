@@ -16,7 +16,7 @@ GHC's runtime system is a slightly scary beast: 50,000 lines of C and C-- code, 
 
  * There's a byte-code interpreter for GHCi, and a dynamic linker for loading up object code into a GHCi session.
 
- * Heap-profiling (of various kinds) and time-profiling of Haskell code are included.
+ * Heap-profiling (of various kinds), time-profiling and code coverage of Haskell code are included.
 
  * Support for Software Transactional Memory is now included...
 
