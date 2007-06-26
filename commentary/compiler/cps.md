@@ -125,6 +125,100 @@ This pass takes Cmm with native proceedure calls and an implicit stack and produ
 
   - Have `codeGen` emit C-- with functions.
 
+## Current Pipeline
+
+### `cmmToRawCmm`
+
+
+The `Cmm`/`parseCmmFile` pipeline and the `Stg`/`codeGen` pipeline
+can each independantly use the CPS pass.
+However, they currently bypass it untill the CPS code becomes stablized,
+but they must both use the `cmmToRawCmm` pass.
+This pass converts the header on each function from a `CmmInfo`
+to a `[CmmStatic]`.
+
+## Non-CPS Changes
+
+- Cmm Syntax Changes
+
+  - The returns parameters of a function call must be surrounded by parenthesis.
+    For example
+
+    ```wiki
+    foreign "C" fee ();
+    (x) = foreign "C" foo ();
+    (x, y) = foreign "C--" bar ();
+    ```
+
+    This is simply to avoid shift-reduce conflicts with assignment.
+    Future revisions to the parser may eliminate the need for this.
+
+- Variable declarations may are annotated to indicate
+  whether they are GC followable pointers.
+
+  ```wiki
+  W_ x; // Not GC followable
+  "ptr" W_ y, z; // Both GC followable
+  ```
+- The bitmap of a `INFO_TABLE_RET` is now specified using
+  a parameter like syntax.
+
+  ```wiki
+  INFO_TABLE_RET(stg_ap_v, RET_SMALL) { ... } // No args
+  INFO_TABLE_RET(stg_ap_d, RET_SMALL, D_ unused1) { ... } // Single double arg
+  INFO_TABLE_RET(stg_ap_np, RET_SMALL, W_ non_ptr, "ptr" W_ pointer) { ... }
+    // Pointerhood indicated by "ptr" annotation
+  ```
+
+  Note that these are not real parameters, they are the stack layout
+  of the continuation.  Also, until the CPS algorithm
+  gets properly hooked into the `Cmm` path the parameter names are not used.
+- The return values of a function call may only be `LocalReg`.
+  This is due to changes in the `Cmm` data type.
+
+- Cmm Data Type Changes
+
+  - The return parameters of a `CmmCall` are `LocalReg` instead of `CmmReg`.
+    This is because a `GlobalReg` doesn't have a well defined pointerhood,
+    and the return values will become parameters to continuations where
+    their pointerhood will be needed.
+  - The type of info tables is now a separate parameter to `GenCmmTop`
+
+    - Before
+
+      ```wiki
+      data GenCmmTop d i
+        = CmmProc [d] ...
+        | CmmData Section [d]
+      ```
+    - After
+
+      ```wiki
+      data GenCmmTop d h i
+        = CmmProc h ...
+        | CmmData Section [d]
+      ```
+
+      This is to support using either `CmmInfo` or `[CmmStatic]`
+      as the header of a `CmmProc`.
+    - Before info table conversion use `Cmm`
+
+      ```wiki
+      type Cmm = GenCmmTop CmmStatic CmmInfo CmmStmt
+      ```
+    - After info table conversion use `RawCmm`
+
+      ```wiki
+      type RawCmm = GenCmmTop CmmStatic [CmmStatic] CmmStmt
+      ```
+
+      Same for `CmmTop}} and {{{RawCmmTop`.
+  - New type aliases `CmmActuals`, `CmmFormals` and `CmmHintFormals`.
+    Respectively these are the actual parameters of a function call,
+    the formal parameters of a function, and the
+    return results of a function call with pointerhood annotation
+    (CPS may convert these to formal parameter of the call's continuation).
+
 ## Notes
 
 - Changed the parameter to a `CmmTop` to be `CmmFormals` instead of `[LocalReg]`
