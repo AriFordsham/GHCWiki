@@ -1,0 +1,7 @@
+= Calling Convention =
+
+Entry conventions are very conventional: the first N argumements in registers and the rest on the stack.
+
+= Return Convention =
+
+All returns are now ''direct''; that is, a return is made by jumping to the code associated with the [wiki:Commentary/Rts/Storage/HeapObjects#InfoTables info table] of the topmost [wiki:Commentary/Rts/Storage/Stack stack frame].
