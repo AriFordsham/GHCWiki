@@ -311,3 +311,16 @@ Also, the linker-generated code-stubs (`xfoo@PLT`) require the address of the GO
 ```
 
 **To be done:** powerpc-linux, AIX/powerpc64-linux
+
+## Linking on ELF
+
+
+To generate a DSO on ELF platform, we use GNU ld. Except for `-Bsymbolic`, ld is invoked regularly with the `-shared` option, and `-o` pointing to the output DSO file followed objects that in its sum compose an entire package. In Haskell, we assume that there is a one-to-one mapping from packages to DSOs. So, all parts of the base package will end up in a libHSbase.so. As intra-package references are not generated as PIC code, we have to supply all objects that make up a package, so that ld is able to resolve these references before writing a (.text) relocation free DSO library file. To enable these cross-object relocations GNU ld needs `-Bsymbolic`.
+
+## Mangling dynamic library names
+
+
+As Haskell DSOs might end up in standard library paths, and as they might not be compatible among compilers and compiler version, we need to mangle their names to include the compiler and its version.
+
+
+The scheme is libHS*\<package\>*-*\<package-version\>*-*\<compiler\>\<compilerversion\>*.so. E.g. libHSbase-2.1-ghc6.6.so
