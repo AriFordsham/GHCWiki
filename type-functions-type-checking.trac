@@ -10,7 +10,7 @@ In contrast, family instances are not processed by `TcTyClDecls.tcTyClDecls`, bu
 
 Type checking in the presence of only data and newtype families is much simpler than in the presence of type synonym families as type equality remains purely syntactic (i.e., we do not need to change the unification procedure).  However, we need to check that the alternatives of a case expression inspecting an indexed data/newtype family contains only constructors of one member of the family.  (To relax this restriction, we would need a story for compiling open data types.)
 
-However, this difference in complexity applies only to the type checking of expression whose types involve data and type synonym families, respectively.  Type checking of the declarations themselves is not that different; in fact, data/newtype family declarations require more effort as they introduce data type constructors, which need to be handled as well.  However, a lot of machinery can be re-used from vanilla algebraic data types.
+However, this difference in complexity applies only to the type checking of expression whose types involve data and type synonym families, respectively.  Type checking of the declarations themselves is not that different; in fact, data family declarations require more effort as they introduce data type constructors, which need to be handled as well.  However, a lot of machinery can be re-used from vanilla algebraic data types.
 
 === Type checking family declarations and family instances ===
 
@@ -27,8 +27,8 @@ The main issue when handling `deriving` clauses for data instances in `TcDeriv` 
 The function `TcTyClsDecls.tcTyClsDecls` produces `TypeRep.TyThing`s from type and class declarations.  The `TyThing`s produced from the new declaration forms are the following:
  `type family`::
    Type synonym families are represented by the standard `TyCon` variant for synonyms, namely `SynTyCon`.  They are distinguished from ordinary type synonyms by the value of the field `synTcRhs`, which is now of a new data type `SynTyConRhs`, which has a variant `OpenSynTyCon resKind` to represent families.
- `data family` and `newtype family`::
-   Data and newtype families are represented by the `TyCon` variant `AlgTyCon`, as are their non-indexed counter parts, with the difference that the field `algTcRhs` has the one of the newly introduced values `OpenDataTyCon` or `OpenNewTyCon`.
+ `data family``::
+   Data families are represented by the `TyCon` variant `AlgTyCon`, as are their non-indexed counter parts, with the difference that the field `algTcRhs` has the one of the newly introduced values `OpenDataTyCon` or `OpenNewTyCon`.
 
 === Synonym type constructors: `SynTyCon` ===
 
