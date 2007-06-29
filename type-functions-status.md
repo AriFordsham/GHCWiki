@@ -39,7 +39,6 @@ Done:
 
 Todo (low-level):
 
-- RHS of a `type instance` must be a tau type.
 - Check that patterns of type indexes don't contain type functions.
 - If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
