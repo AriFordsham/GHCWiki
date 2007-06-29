@@ -32,9 +32,7 @@ Done:
 Todo (low-level):
  * RHS of a `type instance` must be a tau type.
  * Check that patterns of type indexes don't contain type functions.
- * Implement the equation of `conflict`, which is local to `FamInst.addLocalFamInst`, for synonyms; ie, check that the left hand sides coincide under the substitution.
  * If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
- * It should be ok to allow newtype instances for data families.  (NB: the rhs of a newtype is guaranteed to be a lifted type.)  Is this desirable?
 
 Todo (high-level):
  1. Type checking of type functions (and hence, associated type synonyms); routines in `TcUnify` that need to be extended:
@@ -75,8 +73,3 @@ Done:
  * Import and exporting.
  * Generation and plumbing through of rough matches.
  * Equational constraints in contexts.
-
-== Testsuite ==
-
-Todo:
- * Are the tests being compiled with CoreLint?
