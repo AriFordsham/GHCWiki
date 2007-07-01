@@ -18,6 +18,16 @@ Finally, if there is anything special that needs to be done for the client (e.g.
 
 Then you'll need to install buildbot and its dependencies on the machine that will be doing the nightly build; see the [http://buildbot.sourceforge.net/ BuildBot website] for details.  NB. if you're on Windows, you'll need to install BuildBot under Cygwin using the Cygwin Python; there are various problems getting the GHC build to work via BuildBot using the native Win32 Python, so we've given up on that route for now.
 
+In order to actually do the build, you'll also need the following software installed:
+  * darcs (0.7 or later ought to do, I believe)
+  * haddock (0.8 works, unsure about older versions)
+  * alex (>= 2.1.0)
+  * happy (1.16 works, unsure about older versions)
+  * ghc (>= 6.0)
+  * gcc, make, etc
+  * perl
+  * python
+
 Now create and enter the directory you want the buildbot client to work in
 {{{
 $ mkdir /buildbot/ghc
