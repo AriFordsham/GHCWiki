@@ -30,7 +30,7 @@ In order to actually do the build, you'll also need the following software insta
 - alex (\>= 2.1.0)
 - happy (1.16 works, unsure about older versions)
 - ghc (\>= 6.0)
-- gcc, make, etc
+- autoreconf (normally in an autoconf package), gcc, make, etc
 - perl
 - python
 
