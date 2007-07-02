@@ -20,6 +20,11 @@ If it is a bug, then it might have been reported before: try searching on the [ 
 
 If in doubt, just report it.
 
+## If already reported, vote for it!
+
+
+If someone else has already reported the bug you've found, then add yourself to the CC list for the bug. We will try to prioritise bugs that affect a lot of people, and the length of the CC list is how we are currently determining this.
+
 ## What to put in a bug report
 
 
