@@ -25,6 +25,9 @@ If in doubt, just report it.
 
 If someone else has already reported the bug you've found, then add yourself to the CC list for the bug. We will try to prioritise bugs that affect a lot of people, and the length of the CC list is how we are currently determining this.
 
+
+Use a comma or space (but not semicolon) to separate your email address from the next one.
+
 ## What to put in a bug report
 
 
