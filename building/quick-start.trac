@@ -10,7 +10,7 @@ to [wiki:Building/Windows]).
 
 The following instructions assume that you have [wiki:Building/GettingTheSources got the sources] (note: not just a `darcs get`) and [wiki:Building/Prerequisites installed the necessary tools].
 
-If you are starting from a {{{darcs}}} checkout, then:
+If you are starting from a {{{darcs}}} checkout(or rebuilding from darcs), then:
 
 {{{
 $ sh boot
