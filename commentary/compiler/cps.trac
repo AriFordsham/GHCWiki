@@ -296,6 +296,61 @@ f() {
 }
 }}}
 
+== Loopholes ==
+There are a number of deviations from what one might expect from a CPS algorithm
+due to the need to encode existing optimizations and idioms.
+
+=== GC Blocks ===
+For obvious reasons,
+the stack used by GC blocks does not count tward the maximum amount of stack
+used by the function.
+
+This loophole is overloaded by the GC '''functions''' so they don't create their own
+infinite loop.  The main block is marked as being the GC block so its stack usage
+doesn't get checked.
+
+=== Update Frames ===
+Update frame have to be pushed onto the stack at the begining of an update function.
+We could do this by wrapping the update function inside another function
+that just does the work of calling that other function,
+but since updates are so common we don't want to pay the cost
+of that extra jump.
+Thus a function can be annotated with a frame that should be pushed on entry.
+
+Note that while the frame is equivalent to a tail call at the end of the function,
+the frame must be pushed at the beginning of the function because parts of the blackhole
+code look for these update frames to determine what thunks are under evaluation.
+
+=== User defined continuations ===
+Pushing an update frame on the stack requires the ability to define a
+function that will pull that frame from the stack and have access to any
+values within the frame.  This is done with user-defined continuations.
+
+=== Branches to continuations ===
+A GC block for a heap check after a call should only take one or two instructions.
+However the natural code:
+{{{
+  r = foo(1, 2);
+  goto L;
+ L:
+  if (Hp < HpLim) { do_gc(); goto L; }
+}}}
+would generate a trivial continuation for the {{{do_gc}}} call as
+well as a trivial continuation for the {{{foo}}} call that just calls
+the proc point {{{L}}}.
+
+We solve this by changing the syntax to
+{{{
+  r = foo(1, 2);
+  goto L;
+ L:
+  if (Hp < HpLim) { r = do_gc_p(r); goto L; }
+}}}
+
+Now the {{{do_gc_p}}} call has the same return signature as {{{foo}}}
+and can use the same continuation.
+(A call followed by a {{{goto}}} thus gets optimized down to just the call.)
+
 == Not in Scope of Current Work ==
 Improvements that could be made but that will not be implemented durring the curent effort.
 
