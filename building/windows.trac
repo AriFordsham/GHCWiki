@@ -227,6 +227,7 @@ provided they are in your path.
    you need to add upon completion.
  * Install an executable Happy, from [http://www.haskell.org/happy].
  * Install an executable Alex, froim [http://www.haskell.org/alex].
+ * If you want to run the testsuite, you'll need Python (at least version 2.4).  This comes with Cygwin, but if you use MSYS you'll need to get Python separately, from `python.org`.  I found I had to set the environment variable `PHTHONHOME` to the installation directory before it would work.
  * GHC uses the ''mingw'' C compiler to
    generate code, so you have to install that (see [wiki:Building/PlatformsScriptsFileNames#Windowsplatforms:CygwinMSYSandMinGW Windows platforms: Cygwin, MSYS, and MinGW]). 
    Just pick up a mingw bundle at
