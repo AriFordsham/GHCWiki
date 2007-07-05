@@ -12,6 +12,8 @@ These darcs repositories are the HEAD (main trunk) of GHC development:
 ||[http://darcs.haskell.org/testsuite]||The test suite (requires python 2.4+) ||
 ||[http://darcs.haskell.org/nofib]||The benchmark suite||
 
+'''Warning.'''  The `testsuite` repository tickles a case-sensitivity bug in darcs, so on Windows (only) you can't do a full `darcs get` for `testsuite`.  Instead, either start with a tarball of the repository gotten from somewhere else, or do `darcs get --partial`.  (The repository itself can't be fixed to avoid the bug, without messing up its history.)
+
 The following repositories are the "core" packages, that populate the libraries directory of a GHC tree:
 
 ||http://darcs.haskell.org/packages/base||
