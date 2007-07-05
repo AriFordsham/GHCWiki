@@ -50,24 +50,6 @@ We use tick boxes to record the result of the boolean, to check for coverage ove
 }}}
 * After desugaring, there is no longer any special code for binary tick box.
 
-== Tracer Mode ==
-
-There is a mode '-fhpc-tracer', which compiles code that talks to the hpc-tracer.
-
- * By default, the -fhpc-tracer program does exactly the same as a -fhpc compiled program.
- * When running inside the hpc-tracer context, each tick and a few other important events calls into
-   the Hpc runtime system function hs_hpc_tick(..).
- * This checks to see if any breakpoint has been met, and if so, starts a dialog with the parent hpc-tracer.
-
-=== Tracer Debugging Low Level command language ===
-
-|| command || purpose || example ||
-|| c<number> || sets the global tick counter breakpoint || c1234567 ||
-|| b<id> || sets a breakpoint an entry to the global tick number <id> || b23 ||
-|| u<id> || remove the breakpoint at entry to the global tick number <id> || u23 ||
-||  || continue till the next breakpoint || (newline) ||
-|| h || show history of the previous 1024 ticks || h ||
-
 == Machine Generated Haskell ==
 
 Sometimes, Haskell is the target language - for example, Happy and Alex. In this case, you want to be able to check for coverage
