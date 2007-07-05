@@ -257,7 +257,7 @@ provided they are in your path.
    installation, otherwise the GLUT package will not be built with
    GHC.
  * Finally, check out a copy of GHC sources from
-   the darcs repository, following the instructions at [http://hackage.haskell.org/trac/ghc/wiki/GettingTheSources].
+   the darcs repository, following the instructions at [http://hackage.haskell.org/trac/ghc/wiki/Building/GettingTheSources].
 
 == Building GHC ==
 
