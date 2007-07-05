@@ -27,6 +27,8 @@ The following repositories are the "core" packages, that populate the libraries 
 ||http://darcs.haskell.org/packages/template-haskell||
 ||http://darcs.haskell.org/packages/unix||
 ||http://darcs.haskell.org/packages/Win32||
+||http://darcs.haskell.org/packages/hpc||
+
 
 And the following repositories are the "extra" packages:
 
