@@ -33,7 +33,8 @@ The following repositories are the "core" packages, that populate the libraries 
 <tr><th>[ http://darcs.haskell.org/packages/stm](http://darcs.haskell.org/packages/stm)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/template-haskell](http://darcs.haskell.org/packages/template-haskell)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/unix](http://darcs.haskell.org/packages/unix)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/Win32](http://darcs.haskell.org/packages/Win32)</th></tr></table>
+<tr><th>[ http://darcs.haskell.org/packages/Win32](http://darcs.haskell.org/packages/Win32)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/hpc](http://darcs.haskell.org/packages/hpc)</th></tr></table>
 
 
 And the following repositories are the "extra" packages:
