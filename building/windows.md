@@ -258,6 +258,7 @@ provided they are in your path.
   you need to add upon completion.
 - Install an executable Happy, from [ http://www.haskell.org/happy](http://www.haskell.org/happy).
 - Install an executable Alex, froim [ http://www.haskell.org/alex](http://www.haskell.org/alex).
+- If you want to run the testsuite, you'll need Python (at least version 2.4).  This comes with Cygwin, but if you use MSYS you'll need to get Python separately, from `python.org`.  I found I had to set the environment variable `PHTHONHOME` to the installation directory before it would work.
 - GHC uses the *mingw* C compiler to
   generate code, so you have to install that (see [Windows platforms: Cygwin, MSYS, and MinGW](building/platforms-scripts-file-names#)). 
   Just pick up a mingw bundle at
@@ -275,17 +276,17 @@ provided they are in your path.
   (and perhaps one or two other things) in your path.  The Cygwin ones are fine,
   but you must have them; hence needing the  Cygwin binutils package.
 - We use `emacs` a lot, so we install that too.
-  When you are in `$(GHC&lowbar;TOP)/compiler`, you can use
+  When you are in `$(GHC_TOP)/compiler`, you can use
   "`make tags`" to make a TAGS file for emacs.  That uses the utility
-  `$(GHC&lowbar;TOP)/ghc/utils/hasktags/hasktags`, so you need to make that first.
-  The most convenient way to do this is by going `make boot` in `$(GHC&lowbar;TOP)/ghc`.
+  `$(GHC_TOP)/ghc/utils/hasktags/hasktags`, so you need to make that first.
+  The most convenient way to do this is by going `make boot` in `$(GHC_TOP)/ghc`.
   The `make tags` command also uses `etags`, which comes with `emacs`,
   so you will need to add `emacs/bin` to your `PATH`.
 - You might want to install GLUT in your MSYS/Cygwin
   installation, otherwise the GLUT package will not be built with
   GHC.
 - Finally, check out a copy of GHC sources from
-  the darcs repository, following the instructions at [ http://hackage.haskell.org/trac/ghc/wiki/GhcDarcs](http://hackage.haskell.org/trac/ghc/wiki/GhcDarcs).
+  the darcs repository, following the instructions at [ http://hackage.haskell.org/trac/ghc/wiki/Building/GettingTheSources](http://hackage.haskell.org/trac/ghc/wiki/Building/GettingTheSources).
 
 ## Building GHC
 
