@@ -368,3 +368,152 @@ At the moment it appears that all of the C-- functions in
 the runtime system (RTS) use a null SRT so for now we'll just have the CPS algorithm treat the SRT info as opaque.
 
 In the future it would be nice to have a more satisfactory way to handle both these issues.
+
+== Notes on future development ==
+=== Handling GC ===
+{{{
+stg_gc_gen        = mkRtsApFastLabel SLIT("stg_gc_gen")
+
+stg_gc_fun_v      = mkRtsApFastLabel SLIT("stg_gc_fun_v")
+stg_gc_fun_n      = mkRtsApFastLabel SLIT("stg_gc_fun_n")
+stg_gc_fun_f      = mkRtsApFastLabel SLIT("stg_gc_fun_f")
+stg_gc_fun_d      = mkRtsApFastLabel SLIT("stg_gc_fun_d")
+stg_gc_fun_l      = mkRtsApFastLabel SLIT("stg_gc_fun_l")
+stg_gc_fun_p      = mkRtsApFastLabel SLIT("stg_gc_fun_p")
+stg_gc_fun_pp     = mkRtsApFastLabel SLIT("stg_gc_fun_pp")
+stg_gc_fun_ppp    = mkRtsApFastLabel SLIT("stg_gc_fun_ppp")
+stg_gc_fun_pppp   = mkRtsApFastLabel SLIT("stg_gc_fun_pppp")
+stg_gc_fun_ppppp  = mkRtsApFastLabel SLIT("stg_gc_fun_ppppp")
+stg_gc_fun_pppppp = mkRtsApFastLabel SLIT("stg_gc_fun_pppppp")
+
+stg_gc_ret_v      = stg_gc_gen -- Conceptually different but practically the same
+stg_gc_ret_n      = mkRtsApFastLabel SLIT("stg_gc_ret_n")
+stg_gc_ret_f      = mkRtsApFastLabel SLIT("stg_gc_ret_f")
+stg_gc_ret_d      = mkRtsApFastLabel SLIT("stg_gc_ret_d")
+stg_gc_ret_l      = mkRtsApFastLabel SLIT("stg_gc_ret_l")
+stg_gc_ret_p      = mkRtsApFastLabel SLIT("stg_gc_ret_p")
+stg_gc_ret_pp     = mkRtsApFastLabel SLIT("stg_gc_ret_pp")
+stg_gc_ret_ppp    = mkRtsApFastLabel SLIT("stg_gc_ret_ppp")
+stg_gc_ret_pppp   = mkRtsApFastLabel SLIT("stg_gc_ret_pppp")
+stg_gc_ret_ppppp  = mkRtsApFastLabel SLIT("stg_gc_ret_ppppp")
+stg_gc_ret_pppppp = mkRtsApFastLabel SLIT("stg_gc_ret_pppppp")
+
+call stg_gc_fun_gen() -> stg_gc_gen
+jump stg_gc_fun_v(f')
+jump stg_gc_fun_p(f', p)
+jump stg_gc_fun_n(f', n)
+
+gcFunPattern []                        = Just stg_gc_fun_v
+gcFunPattern [x]
+  | isNonPtr x && matchRep x NonPtrArg = Just stg_gc_fun_n
+  | isNonPtr x && matchRep x LongArg   = Just stg_gc_fun_l
+  | isNonPtr x && matchRep x FloatArg  = Just stg_gc_fun_f
+  | isNonPtr x && matchRep x DoubleArg = Just stg_gc_fun_d
+gcFunPattern xs
+  | all (\x -> isPtr x && matchRep x PtrArg)
+  = case length xs of
+      1 -> Just stg_gc_fun_p
+      2 -> Just stg_gc_fun_pp
+      3 -> Just stg_gc_fun_ppp
+      4 -> Just stg_gc_fun_pppp
+      5 -> Just stg_gc_fun_ppppp
+      6 -> Just stg_gc_fun_pppppp
+      _ -> Nothing
+gcFunPattern xs = Nothing
+
+case gcFunPattern formals of
+  Nothing -> [stg_gc_gen_call srt, CmmJump target formals]
+  Just gc -> [stg_gc_fun_spec_jump gc formals]
+
+stg_gc_gen_call srt =
+  CmmCall (CmmForeignCall (CmmLit (CmmLabel stg_gc_gen)) CmmCallConv)
+          [] [] (CmmSafe srt)
+stg_gc_fun_spec_jump gc formals =
+  CmmJump (CmmLit (CmmLabel gc)) (map formal_to_actual formals)
+
+isNonPtr x = kind x == KindNonPtr
+matchRep x rep = localRep x == argMachrep rep
+
+call stg_gc_ret_gen() -> stg_gc_gen
+call stg_gc_ret_v() -> stg_gc_gen
+call p = stg_gc_ret_p(p)
+call n = stg_gc_ret_n(n)
+}}}
+
+
+{{{
+hpStkCheck:
+    rts_label | is_fun    = CmmReg (CmmGlobal GCFun)
+                                -- Function entry point
+              | otherwise = CmmReg (CmmGlobal GCEnter1)
+                                -- Thunk or case return
+        -- In the thunk/case-return case, R1 points to a closure
+        -- which should be (re)-entered after GC
+
+altHeapCheck:
+    rts_label PolyAlt = CmmLit (CmmLabel (mkRtsCodeLabel SLIT( "stg_gc_unpt_r1")))
+        -- Do *not* enter R1 after a heap check in
+        -- a polymorphic case.  It might be a function
+        -- and the entry code for a function (currently)
+        -- applies it
+        --
+        -- However R1 is guaranteed to be a pointer
+
+    rts_label (AlgAlt tc) = stg_gc_enter1
+        -- Enter R1 after the heap check; it's a pointer
+        
+    rts_label (PrimAlt tc)
+      = CmmLit $ CmmLabel $ 
+        case primRepToCgRep (tyConPrimRep tc) of
+          VoidArg   -> mkRtsCodeLabel SLIT( "stg_gc_noregs")
+          FloatArg  -> mkRtsCodeLabel SLIT( "stg_gc_f1")
+          DoubleArg -> mkRtsCodeLabel SLIT( "stg_gc_d1")
+          LongArg   -> mkRtsCodeLabel SLIT( "stg_gc_l1")
+                                -- R1 is boxed but unlifted: 
+          PtrArg    -> mkRtsCodeLabel SLIT( "stg_gc_unpt_r1")
+                                -- R1 is unboxed:
+          NonPtrArg -> mkRtsCodeLabel SLIT( "stg_gc_unbx_r1")
+
+    rts_label (UbxTupAlt _) = panic "altHeapCheck"
+
+unbxTupleHeapCheck:
+    rts_label       = CmmLit (CmmLabel (mkRtsCodeLabel SLIT("stg_gc_ut")))
+
+hpChkGen:
+  stg_gc_gen
+
+hpChkNodePointsAssignSp0:
+-- a heap check where R1 points to the closure to enter on return, and
+-- we want to assign to Sp[0] on failure (used in AutoApply.cmm:BUILD_PAP).
+  stg_gc_enter1
+
+stkChkGen:
+  stg_gc_gen
+
+stkChkNodePoints:
+  stg_gc_enter1
+
+--------
+-- hpStkCheck (is_fun)
+stg_gc_fun = CmmReg (CmmGlobal GCFun)
+-- hpStkCheck (no is_fun), altHeapCheck (AlgAlt), hpChkNodePointsAssignSp0, stkChkNodePoints
+stg_gc_enter1 = CmmReg (CmmGlobal GCEnter1)
+-- hpChkGen, stkChkGen
+stg_gc_gen = CmmLit (CmmLabel (mkRtsCodeLabel SLIT("stg_gc_gen")))
+-- unbxTupleHeapCheck
+stg_gc_ut = CmmLit (CmmLabel (mkRtsCodeLabel SLIT("stg_gc_ut")))
+
+-- altHeapCheck (PrimAlt)
+--  VoidArg
+stg_gc_noregs = CmmLit (CmmLabel (mkRtsCodeLabel SLIT( "stg_gc_noregs")))
+--  FloatArg
+stg_gc_f1 = CmmLit (CmmLabel (mkRtsCodeLabel SLIT( "stg_gc_f1")))
+--  DoubleArg
+stg_gc_d1 = CmmLit (CmmLabel (mkRtsCodeLabel SLIT( "stg_gc_d1")))
+--  LongArg
+stg_gc_l1 = CmmLit (CmmLabel (mkRtsCodeLabel SLIT( "stg_gc_l1")))
+--  PtrArg and PolyAlt
+stg_gc_unpt_r1 = CmmLit (CmmLabel (mkRtsCodeLabel SLIT( "stg_gc_unpt_r1")))
+--  NonPtrArg
+stg_gc_unbx_r1 = CmmLit (CmmLabel (mkRtsCodeLabel SLIT( "stg_gc_unbx_r1")))
+}}}
