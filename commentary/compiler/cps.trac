@@ -369,6 +369,16 @@ the runtime system (RTS) use a null SRT so for now we'll just have the CPS algor
 
 In the future it would be nice to have a more satisfactory way to handle both these issues.
 
+=== Cmm Optimization assumed by CPS ===
+In order to simplify the CPS pass, it makes some assumptions about the optimizer.
+ * The CPS pass may generate more blocks than strictly necessary.  In particular,
+   it might be possible to join together two blocks when the second block is only
+   entered by the first block.  This is a simple optimization that needs to be implemented.
+ * The CPS pass may generate more loads and stores than strictly necessary.  In particular,
+   it may load a local register only to store it back to the same stack location a few
+   statements later.  There may be intervening branches.  The optimizer
+   needs to be extended to eliminate these load store pairs.
+
 == Notes on future development ==
 === Handling GC ===
 {{{
