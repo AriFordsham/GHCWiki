@@ -8,6 +8,10 @@ There are some documents on coding style:
  * [wiki:Commentary/CodingStyle Coding style in the compiler]
  * [wiki:Commentary/Rts/Conventions Coding style in the runtime system]
 
+== Testing patches ==
+
+Important! See TestingPatches.
+
 == Submitting patches ==
 
 To submit patches to the GHC developers, please use {{{darcs send}}} to `cvs-ghc@haskell.org`.  You don't need any special permission to do this.  
