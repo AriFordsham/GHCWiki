@@ -8,7 +8,7 @@ In order to test your patches:
 
 - Get a repository containing the latest HEAD, the patches you want to push, and no other patches or unrecorded changes. Depending on what you are doing, your working repository might be appropriate; otherwise you might prefer to keep a separate repository just for patch testing.
 - Run the validate script in the root of the tree. This will do a "quick" build and then run the testsuite in "fast" mode. Do not push if any of the tests give unexpected results!
-- Depending on the nature of the changes, more testing might be sensible. e.g. if possible, build system changes should be tested on Linux, Mac OS X and Windows machines.
+- Depending on the nature of the changes, more testing might be sensible. e.g. if possible, build system changes should be tested on Linux, Mac OS X and Windows machines.  Look at the full documentation for the [test suite](building/running-tests).
 
 
 The validate script should take around 20mins on a fast, dual core machine.
