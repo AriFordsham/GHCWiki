@@ -15,3 +15,22 @@ The validate script should take around 20mins on a fast, dual core machine.
 
 
 Assuming all is well, go ahead and commit your changes! If you have commit access then just push as normal. If not, use "darcs send --edit-description" and add a note to say what testing you have done, and on which operating system/architecture.
+
+## Finding unrecorded or unpushed patches
+
+
+In order to find unrecorded changes run:
+
+```wiki
+./darcs-all what -l
+```
+
+
+from the root of your tree. To find unpushed patches, run:
+
+```wiki
+./darcs-all send --dry-run
+```
+
+
+also from the root of your tree.
