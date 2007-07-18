@@ -252,6 +252,12 @@ these steps:
             Compile and run a multi-module
             program.
 
+      compile_and_run_with_prefix('command')
+            Same as compile_and_run, but with command to use to run the execution of the result binary.
+
+      multimod_compile_and_run_with_prefix('command')
+            Same as multimod_compile_and_run, but with command to use to run the execution of the result binary.
+
       run_command
             Just run an arbitrary command.  The
             output is checked against T.stdout and
