@@ -334,13 +334,17 @@ Of course, a programmer can always use all three type classes explicitly; it's j
 
 == Compilation ==
 
+View patterns can do arbitrary computation, perhaps expensive.
+
+It's reasonable to expect the compiler to avoid repeated computation when pattern line up in a column, as in `size` at the top of the page.  In pattern-guard form, common sub-expression should achieve the same effect, but it's quite a bit less obvious.  We should be able to give clear rules for when the avoidance of repeat computation is guaranteed.
+
 == Features views can have ==
 
-To distinguish between the different proposals, we identify some features of views.
+In comparing the different views proposals below, it will be useful to have terminology for some features of views.
 
 === Value input feature ===
 
-Our proposal has the ''value input'': the view function can be passed parameters; in a function definition, those parameters can mention previous arguments.  For example, this permits a view function itself to be passed as an argument, so patterns, in a sense, become first class.
+Our proposal has the ''value input'' feature: the view function can be passed parameters; in a function definition, those parameters can mention previous arguments.  For example, this permits a view function itself to be passed as an argument, so patterns, in a sense, become first class.
 
 === Implicit `Maybe` feature ===
 
@@ -358,7 +362,7 @@ Our proposal has the ''nesting'' feature: view patterns nest inside other patter
 
 === Integration with type classes ===
 
-Our proposal ''integrates with type classes'': a single "view" can decompose multiple different data types.  
+Our proposal ''integrates with type classes'': an single view function can decompose multiple different data types, and the type class constraints are propagated to the user of the view.  
 
 == Related work ==
 
