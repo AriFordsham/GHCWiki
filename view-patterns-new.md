@@ -295,6 +295,10 @@ View patterns permit programming in an iterator style, where you name the result
    
    foldr f z [] = z
    foldr f z (x : foldr f z -> xs) =  x `f` xs
+
+   unfoldr :: (b -> Maybe (a, b)) -> b -> [a] 
+   unfoldr f (f -> Just (a, b)) = a : unfoldr f b
+   unfoldr f other         = []
 ```
 
 ## Further Syntactic Extensions
