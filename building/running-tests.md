@@ -343,13 +343,13 @@ these steps:
 > > > > program.
 
 > > >
-> > > compile_and_run_with_prefix('command')
+> > > compile_and_run_with_prefix
 > > >
 > > > >
 > > > > Same as compile_and_run, but with command to use to run the execution of the result binary.
 
 > > >
-> > > multimod_compile_and_run_with_prefix('command')
+> > > multimod_compile_and_run_with_prefix
 > > >
 > > > >
 > > > > Same as multimod_compile_and_run, but with command to use to run the execution of the result binary.
