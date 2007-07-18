@@ -423,3 +423,35 @@ or
 
 
 Of course, a programmer can always use all three type classes explicitly; it's just a question of which one should be the default.  We plan to try them out before deciding.
+
+## Features views can have
+
+
+To distinguish between the different proposals, we identify some features of views.
+
+### Value input feature
+
+
+Our proposal has the *value input*: the view function can be passed parameters; in a function definition, those parameters can mention previous arguments.  For example, this permits a view function itself to be passed as an argument, so patterns, in a sense, become first class.
+
+### Implicit `Maybe` feature
+
+
+Our proposal has the *implicit `Maybe`* feature: the syntax *expr*`=>`*pat* permits the programmer to elide the `Just`, for example when using partial views.  
+
+### Transparent ordinary Patterns
+
+
+Our proposal does not have the *transparent ordinary patterns* feature: view patterns are written differently than ordinary patterns.
+There are pros and cons both ways:
+The advantage of having transparent ordinary patterns is that you can replace a concrete datatype with an abstract type and a view without changing client code.  A disadvantage is that view patterns can do arbitrary computation, perhaps expensive, so it's good to have a syntactic marker that some computation beyond ordinary pattern matching may be going on.  Another disadvantage is that transparent ordinary patterns require a larger language extension than just a new form of pattern, so that certain names may be declared to be view constructors for a type.  We consider our proposal's implicit view syntax `(-> e)` to be a nice compromise between the two alternatives.  
+
+### Nesting
+
+
+Our proposal has the *nesting* feature: view patterns nest inside other patterns, and other patterns nest inside them. Nexting is perhaps the biggest practical difference between view patterns and pattern guards.
+
+### Integration with type classes
+
+
+Our proposal *integrates with type classes*: a single "view" can decompose multiple different data types.  
