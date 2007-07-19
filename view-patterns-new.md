@@ -38,7 +38,7 @@ It is necessary to iterate the case, rather than using an equational function de
 In response, programmers sometimes eschew type abstraction in favor of revealing a concrete datatype that is easy to pattern-match against.
 
 
-View patterns permit calling the view function inside the pattern and matching against the result:
+To make programming with such interfaces more convenient, we add a new kind of pattern called a *view pattern*.  View patterns permit calling the view function inside the pattern and matching against the result:
 
 ```wiki
    size (view -> Unit) = 1
@@ -46,7 +46,7 @@ View patterns permit calling the view function inside the pattern and matching a
 ```
 
 
-That is, we add a new form of pattern, written 
+In general, a view pattern is written
 
 ```wiki
    expression -> pattern

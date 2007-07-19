@@ -30,13 +30,13 @@ In current Haskell, using this signature a little inconvenient:
 It is necessary to iterate the case, rather than using an equational function definition.  And the situation is even worse when the matching against `t` is buried deep inside another pattern.
 In response, programmers sometimes eschew type abstraction in favor of revealing a concrete datatype that is easy to pattern-match against.
 
-View patterns permit calling the view function inside the pattern and matching against the result:
+To make programming with such interfaces more convenient, we add a new kind of pattern called a ''view pattern''.  View patterns permit calling the view function inside the pattern and matching against the result:
 {{{
    size (view -> Unit) = 1
    size (view -> Arrow t1 t2) = size t1 + size t2
 }}}
 
-That is, we add a new form of pattern, written 
+In general, a view pattern is written
 {{{
    expression -> pattern
 }}}
