@@ -345,6 +345,31 @@ data SizeCtxt -- uninhabited
 class instance (Size e) => Context SizeCtxt e
 ```
 
+
+====Restricted Monads====
+
+**Tom**: This way we can also make Set an instance of (C)Monad. I believe lots of people
+have been asking for this.
+
+```wiki
+
+class CMonad m where
+  class Condition m :: * -> Class
+  (>>=) :: (Condition a, Condition b) => m a -> (a -> m b) -> m b
+  (>>)  :: (Condition a, Condition b) => m a -> m b -> m b
+  return :: Condition a => a -> m a
+  fail :: Condition a => String -> m a
+
+instance CMonad [] where
+  class Condition [] a
+  ...
+
+instance CMonad Set where
+  class Eq a => Condition Set a
+  ...
+
+```
+
 ### Type checking
 
 
