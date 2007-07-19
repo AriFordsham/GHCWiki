@@ -42,6 +42,14 @@ That is, we add a new form of pattern, written
 }}}
 that means "apply the expression to whatever we're trying to match against, and then match the result of that application against the pattern".  The expression can be any Haskell expression of function type, and view patterns can be used wherever patterns are currently used.
 
+The key feature of this proposal is its modesty, rather than its ambition:
+  * There is no new form of declaration (e.g. 'view' or 'pattern synonym').  
+  * The functions used in view patterns are ordinary Haskell functions, and can be called from ordinary Haskell code.
+  * No changes are needed to import or export mechanisms.
+  * Both static and dynamic semantics are extremely simple.
+It is essentially some simple syntactic sugar for patterns.
+However, sometimes modest syntactic sugar can have profound consequences. In this case, it's possible that people would start routinely hiding the data representation and exporting view functions instead, which would be an excellent thing.
+
 === Semantics ===
 
 '''Scoping''' for ''expr `->` ''pat:
@@ -335,8 +343,9 @@ The downside of these versions is that you can only have one view for a type (wh
 
 == Compilation ==
 
-View patterns can do arbitrary computation, perhaps expensive.
-It's reasonable to expect the compiler to avoid repeated computation when pattern line up in a column, as in `size` at the top of the page.  In pattern-guard form, common sub-expression should achieve the same effect, but it's quite a bit less obvious.  We should be able to give clear rules for when the avoidance of repeat computation is guaranteed.
+'''Efficiency'''  View patterns can do arbitrary computation, perhaps expensive. It's reasonable to expect the compiler to avoid repeated computation when pattern line up in a column, as in `size` at the top of the page.  In pattern-guard form, common sub-expression should achieve the same effect, but it's quite a bit less obvious.  We should be able to give clear rules for when the avoidance of repeat computation is guaranteed.
+
+'''Exhaustiveness/Redundancy.'''  It is hard to check for completeness of pattern matching; and likewise for overlap.  But guards already make both of these hard; and GADTs make completness tricky too. So matters are not much worse than before.
 
 == Features views can have ==
 
