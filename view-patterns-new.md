@@ -4,6 +4,8 @@
 This page describes a lightweight proposal for adding views to Haskell. **We are about to begin prototyping this extension in GHC, so speak now if you have comments or suggestions'''
 **
 
+[Basic view patterns](#Basicviewpatterns)[Semantics](#Semantics)[Examples](#Examples)[Further Syntactic Extensions](#FurtherSyntacticExtensions)[Implicit Maybe](#ImplicitMaybe)[Implicit View Functions](#ImplicitViewFunctions)[Compilation](#Compilation)[Features views can have](#Featuresviewscanhave)[Related work](#Relatedwork)
+
 ## Basic view patterns
 
 
@@ -449,36 +451,36 @@ The downside of these versions is that you can only have one view for a type (wh
 
 In comparing the different views proposals below, it will be useful to have terminology for some features of views.
 
-### Value input feature
+#### Value input feature
 
 
 Our proposal has the *value input* feature: the view function can be passed parameters; and those those parameters can mention variables bound by patterns to the left.  For example, this permits a view function itself to be passed as an argument, so patterns, in a sense, become first class.
 
-### Implicit `Maybe` feature
+#### Implicit `Maybe` feature
 
 
 Our proposal has the *implicit `Maybe`* feature: the syntax *expr*`=>`*pat* permits the programmer to elide the `Just`, for example when using partial views.  
 
-### Transparent ordinary Patterns
+#### Transparent ordinary Patterns
 
 
 Our proposal does not have the *transparent ordinary patterns* feature: view patterns are written differently than ordinary patterns.
 There are pros and cons both ways:
 The advantage of having transparent ordinary patterns is that you can replace a concrete datatype with an abstract type and a view without changing client code.  A disadvantage is that view patterns can do arbitrary computation, perhaps expensive, so it's good to have a syntactic marker that some computation beyond ordinary pattern matching may be going on.  Another disadvantage is that transparent ordinary patterns require a larger language extension than just a new form of pattern, so that certain names may be declared to be view constructors for a type.  We consider our proposal's implicit-view-function syntax `(->`*pat*`)` to be a nice compromise between the two alternatives.  
 
-### Nesting
+#### Nesting
 
 
 Our proposal has the *nesting* feature: view patterns nest inside other patterns, and other patterns nest inside them. Nesting is perhaps the biggest practical difference between view patterns and pattern guards.
 
-### Integration with type classes
+#### Integration with type classes
 
 
 Our proposal *integrates with type classes*: an single view function can decompose multiple different data types, and the type class constraints are propagated to the user of the view.  
 
 ## Related work
 
-### [ Wadler's original paper (POPL 1987)](http://homepages.inf.ed.ac.uk/wadler/papers/view/view.ps)
+#### [ Wadler's original paper (POPL 1987)](http://homepages.inf.ed.ac.uk/wadler/papers/view/view.ps)
 
 
 Wadler's paper was the first concrete proposal.  It proposed a top-level view
@@ -489,7 +491,7 @@ as well as patterns, which seems cool. Unfortunately this dual role proved
 problematic for equational reasoning, and every subsequent proposal restricted
 view constructors to appear in patterns only.
 
-### [ Burton et al views (1996)](http://haskell.org/development/views.html)
+#### [ Burton et al views (1996)](http://haskell.org/development/views.html)
 
 
 This proposal is substantially more complicated than the one above; in particular it
@@ -512,13 +514,13 @@ definable, because all rely on the value input feature.
 I think this proposal is substantially the same as "Pattern matching and
 abstract data types", Burton and Cameron, JFP 3(2), Apr 1993.
 
-### [ Okasaki: views in Standard ML](http://citeseer.ist.psu.edu/okasaki98view.html)
+#### [ Okasaki: views in Standard ML](http://citeseer.ist.psu.edu/okasaki98view.html)
 
 
 Okasaki's design is very similar to Burton et al's, apart from differences due
 to the different host language.  Again, the value input feature is not supported.
 
-### [ Erwig: active patterns](http://citeseer.ist.psu.edu/erwig96active.html)
+#### [ Erwig: active patterns](http://citeseer.ist.psu.edu/erwig96active.html)
 
 
 Erwig's proposal for active patterns renders the Set example like this:
@@ -544,7 +546,7 @@ follows from the `pat` declaration.
 
 Still the proposal does support the value input feature.
 
-### [ Palao et al: active destructors (ICFP'96)](http://portal.acm.org/citation.cfm?id=232641&coll=portal&dl=ACM)
+#### [ Palao et al: active destructors (ICFP'96)](http://portal.acm.org/citation.cfm?id=232641&coll=portal&dl=ACM)
 
 
 Active Destructors (ADs) are defined by a new form of top-level declaration.  
@@ -612,7 +614,7 @@ An alternative to duplicating the value is to compose the functions:
 
 This is a little clumsier: the "`@`" combines functions, with a kind of positional binding; the pattern `(x,ys)` is separated from the combiner so that it's less clear that `headV` binds `x` and `tailV` binds `y`.
 
-### [ Erwig/Peyton Jones: transformational patterns](http://citeseer.ist.psu.edu/erwig00pattern.html)
+#### [ Erwig/Peyton Jones: transformational patterns](http://citeseer.ist.psu.edu/erwig00pattern.html)
 
 
 This paper describes pattern guards, but it also introduces **transformational patterns**.  (Although
@@ -626,7 +628,7 @@ First, transformational patterns didn't have the value input feature, althought 
 to add (indeed that's what we've done). Second, transformational patterns as described by
 Erwig do no stripping of the `Maybe` (see "Possible extension 2" above).
 
-### [ F\# Active Patterns](http://blogs.msdn.com/dsyme/archive/2006/08/16/ActivePatterns.aspx)
+#### [ F\# Active Patterns](http://blogs.msdn.com/dsyme/archive/2006/08/16/ActivePatterns.aspx)
 
 
 Simon started this design discussion after talking to Don Syme about F\#'s **active patterns**, which serve a very similar purpose. These combine both “total” discrimination (views) and “partial” discrimination (implicit maybe) into one mechanism. It does this by embedding the names of discriminators in the names of matching functions, via “values with structured names”.  Sample uses include matching on .NET objects and XML.
@@ -680,7 +682,7 @@ And for views:
         | Param(pos,cxs)    -> Array.fold_right freeVarsAcc cxs (typ :: acc) 
 ```
 
-### [ Emir, Odersky, Williams: Matching objects with patterns](http://lambda-the-ultimate.org/node/1960)
+#### [ Emir, Odersky, Williams: Matching objects with patterns](http://lambda-the-ultimate.org/node/1960)
 
 
 Scala is an OO language with lots of functional features.  It has algebraic data types and
@@ -693,7 +695,7 @@ implicitly meaning "use the constructor in expressions, and use the extractor in
 The paper does a comparative evaluation of various OO paradigms for matching, and 
 concludes that case expressions and extractors work pretty well.
 
-### Pattern synonyms
+#### Pattern synonyms
 
 [ Pattern synonyms](http://hackage.haskell.org/trac/haskell-prime/wiki/PatternSynonyms) 
 are a requested Haskell Prime feature. John Reppy had the same idea years ago for Standard ML; see 
@@ -732,7 +734,7 @@ With pattern views, we'd have to write two functions for the "plus" view:
 
 But perhaps that is not so bad.  Pattern synonyms also require a new form of top level declaration; and are much more limited than view patterns (by design they cannot do computation).
 
-### [ Tullsen: First Class Patterns](http://citeseer.ist.psu.edu/tullsen00first.html)
+#### [ Tullsen: First Class Patterns](http://citeseer.ist.psu.edu/tullsen00first.html)
 
 
 First Class Patterns is an approach that attempts to
@@ -764,7 +766,7 @@ The singleton example above would like this:
                      |>> 2  
 ```
 
-### First class abstractions
+#### First class abstractions
 
 
 Several proposals suggest first class *abstractions* rather that first-class *patterns*.  By a "first class abstraction" I mean a value of type
@@ -797,12 +799,12 @@ None of these proposals say
 anything about the patterns themselves, which in turn is all this
 proposal deals with.  Hence orthgonal.
 
-### Barry Jay: First class patterns
+#### Barry Jay: First class patterns
 
 
 A yet more ambitious scheme is to treat patterns themselves as first class, even though they have free (binding) variables.  This is the approach that Barry Jay has taken in his very interesting project on the *pattern calculus*.  His [ home page](http://www-staff.it.uts.edu.au/~cbj) has more info.
 
-### Uses of Views
+#### Uses of Views
 
 
 The observations from [ Okasaki: Breadth-First Numbering - Lessons ... ](http://citeseer.ist.psu.edu/356396.html) suggest that not having abstract pattern matching (for sequences) can indeed have great impact on the abstractions functional programmers can think of.
