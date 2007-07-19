@@ -1,7 +1,8 @@
 # View patterns: lightweight views for Haskell
 
+[Basic view patterns](#Basicviewpatterns)[Semantics](#Semantics)[Examples](#Examples)[Further Syntactic Extensions](#FurtherSyntacticExtensions)[Implicit Maybe](#ImplicitMaybe)[Implicit View Functions](#ImplicitViewFunctions)[Compilation](#Compilation)[Features views can have](#Featuresviewscanhave)[Related work](#Relatedwork)
 
-This page describes a lightweight proposal for adding views to Haskell. **We are about to begin prototyping this extension in GHC, so speak now if you have comments or suggestions'''
+**We are about to begin prototyping this extension in GHC, so speak now if you have comments or suggestions'''
 **
 
 ## Basic view patterns
@@ -38,7 +39,7 @@ It is necessary to iterate the case, rather than using an equational function de
 In response, programmers sometimes eschew type abstraction in favor of revealing a concrete datatype that is easy to pattern-match against.
 
 
-To make programming with such interfaces more convenient, we add a new kind of pattern called a *view pattern*.  View patterns permit calling the view function inside the pattern and matching against the result:
+View patterns permit calling the view function inside the pattern and matching against the result:
 
 ```wiki
    size (view -> Unit) = 1
@@ -46,7 +47,7 @@ To make programming with such interfaces more convenient, we add a new kind of p
 ```
 
 
-In general, a view pattern is written
+That is, we add a new form of pattern, written 
 
 ```wiki
    expression -> pattern
@@ -55,12 +56,24 @@ In general, a view pattern is written
 
 that means "apply the expression to whatever we're trying to match against, and then match the result of that application against the pattern".  The expression can be any Haskell expression of function type, and view patterns can be used wherever patterns are currently used.
 
+
+The key feature of this proposal is its modesty, rather than its ambition:
+
+- There is no new form of declaration (e.g. 'view' or 'pattern synonym').  
+- The functions used in view patterns are ordinary Haskell functions, and can be called from ordinary Haskell code.
+- No changes are needed to import or export mechanisms.
+- Both static and dynamic semantics are extremely simple.
+
+
+It is essentially some simple syntactic sugar for patterns.
+However, sometimes modest syntactic sugar can have profound consequences. In this case, it's possible that people would start routinely hiding the data representation and exporting view functions instead, which would be an excellent thing.
+
 ### Semantics
 
 **Scoping** for *expr `->`*pat:
 
 - The variables bound by the view pattern are the variables bound by *pat*.
-- Any variables in *expr* are bound occurrences.
+- Any variables in *expr* are bound occurrences.  Variables bound by patterns to the left of a view pattern expression are in scope.  For example:
 
   - In function definitions, variables bound by matching earlier curried arguments may be used in view pattern expressions in later arguments.
 
@@ -68,12 +81,11 @@ that means "apply the expression to whatever we're trying to match against, and 
        example :: (String -> Integer) -> String -> Bool
        example f (f -> 4) = True
     ```
-  - However, pattern variables do not scope over the pattern in which they are bound.
+  - Variables can be bound to the left in tuples and data constructors:
 
     ```wiki
-       -- doesn't work
-       example :: (String -> Integer, String) -> Bool
-       example (f, f -> 4) = True
+       example :: ((String -> Integer,Integer), String) -> Bool
+       example ((f,_), f -> 4) = True
     ```
 
 **Typing**
@@ -102,7 +114,7 @@ The requisite join-list example:
 ```
 
 
-Here we've chosen that the view type only exposes the cons/nil structure one level at a time: the second argument to `Cons` is a join-list---but that's of course up to the programmer.  
+Here we've chosen that the view type only exposes the cons/nil structure one level at a time: the second argument to `Cons` is a join-list, not a view of it---but that's of course up to the programmer.  
 
 
 The implementation of the view:
@@ -150,7 +162,7 @@ that now may be used in view patterns.
 #### Partial views
 
 
-Here's an alternate style of view definition: rather than mapping the abstract type to a single sum type, you provide outjections inverting each constructor:
+Here's an alternate style of view definition: rather than mapping the abstract type to a single sum type, you provide outjections optionally inverting each constructor:
 
 ```wiki
    type Typ
@@ -214,12 +226,11 @@ Then we could write patterns like this:
 
 ```wiki
   parsePacket :: ByteString -> ...
-  -- FIXME: requires scoping inside the same pattern.
   parsePacket (bits 3 -> Just (n, (bits n -> Just (val, bs)))) = ...
 ```
 
 
-This parses 3 bits to get the value of `n`, and then parses `n` bits to get the value of `val`.
+This parses 3 bits to get the value of `n`, and then parses `n` bits to get the value of `val`.  Note that this example uses the left-to-right scoping in the inner tuple: the first component is jused in the view expression in the second.
 
 #### N+k patterns
 
@@ -279,7 +290,7 @@ And used as follows:
 ```
 
 
--- FIXME loss of sharing?
+(However, this might cause a loss of sharing.)
 
 #### Iterator Style
 
@@ -297,14 +308,14 @@ View patterns permit programming in an iterator style, where you name the result
    foldr f z (x : foldr f z -> xs) =  x `f` xs
 
    unfoldr :: (b -> Maybe (a, b)) -> b -> [a] 
-   unfoldr f (f -> Just (a, b)) = a : unfoldr f b
+   unfoldr f (f -> Just (a, unfoldr f -> b)) = a : b
    unfoldr f other         = []
 ```
 
 ## Further Syntactic Extensions
 
 
-Next, we describe two syntactic extensions that we may implement.  
+Next, we describe two further syntactic extensions that we will implement.  
 
 ### Implicit Maybe
 
@@ -342,7 +353,7 @@ This syntax works very nicely with partial views:
 #### Implicit Tupling
 
 
-A further syntactic extension would be to have implcit Maybes with implicit tupling, so that multiple patterns after the `=>` are implicitly tupled.  Then you could write:
+A further syntactic extension would be to have implcit Maybes with implicit tupling: multiple patterns after the `=>` are implicitly tupled.  Then you could write:
 
 ```wiki
    size (outArrow => t1 t2) = size t1 + size t2
@@ -351,7 +362,7 @@ A further syntactic extension would be to have implcit Maybes with implicit tupl
 ### Implicit View Functions
 
 
-Total views have one syntactic disadvantage relative to the iterated case that we started with: you have to repeat the name of the view function in each clause!  We now describe a method for eliding the name of the view function.  
+Total views have one syntactic disadvantage relative to the iterated-case style definition that we started with: you have to repeat the name of the view function in each clause!  We now describe a method for eliding the name of the view function.  
 
 
 The idea is that we distinguish a particular type class as a hook into the pattern compiler.  The class has the following interface:
@@ -362,7 +373,7 @@ The idea is that we distinguish a particular type class as a hook into the patte
 ```
 
 
-Then, you can leave off the expresion in a view pattern, writing `->`*pat*, to mean `view -> `*pat*.  For example:
+Then, you can leave off the expresion in a view pattern, writing (`->`*pat*), to mean `view -> `*pat*.  For example:
 
 ```wiki
    size (-> Unit) = 1
@@ -390,6 +401,9 @@ To use this mechanism, you add instances to `view`, as in:
 
 
 This way, you don't have to write the name of the view function in each case.  However, there is a still a syntactic marker saying that the case isn't an ordinary pattern match, which may be useful in understanding the performance of the code.  
+
+
+Of course, you can only use one view function for each hidden-type/view-type pair this way, since you can only have one instance of the class.
 
 #### Functional dependencies
 
@@ -423,62 +437,49 @@ or
 
 
 Of course, a programmer can always use all three type classes explicitly; it's just a question of which one should be the default.  We plan to try them out before deciding.
+The downside of these versions is that you can only have one view for a type (when `a` determines `View a`) or you can only use a type as a view of one type (when `b` determines `Hidden b`) with the implicit syntax.
 
 ## Compilation
 
+**Efficiency**  View patterns can do arbitrary computation, perhaps expensive. It's reasonable to expect the compiler to avoid repeated computation when pattern line up in a column, as in `size` at the top of the page.  In pattern-guard form, common sub-expression should achieve the same effect, but it's quite a bit less obvious.  We should be able to give clear rules for when the avoidance of repeat computation is guaranteed.
 
-View patterns can do arbitrary computation, perhaps expensive.
-
-
-It's reasonable to expect the compiler to avoid repeated computation when pattern line up in a column, as in `size` at the top of the page.  In pattern-guard form, common sub-expression should achieve the same effect, but it's quite a bit less obvious.  We should be able to give clear rules for when the avoidance of repeat computation is guaranteed.
+**Exhaustiveness/Redundancy.**  It is hard to check for completeness of pattern matching; and likewise for overlap.  But guards already make both of these hard; and GADTs make completness tricky too. So matters are not much worse than before.
 
 ## Features views can have
 
 
 In comparing the different views proposals below, it will be useful to have terminology for some features of views.
 
-### Value input feature
+#### Value input feature
 
 
-Our proposal has the *value input* feature: the view function can be passed parameters; in a function definition, those parameters can mention previous arguments.  For example, this permits a view function itself to be passed as an argument, so patterns, in a sense, become first class.
+Our proposal has the *value input* feature: the view function can be passed parameters; and those those parameters can mention variables bound by patterns to the left.  For example, this permits a view function itself to be passed as an argument, so patterns, in a sense, become first class.
 
-### Implicit `Maybe` feature
+#### Implicit `Maybe` feature
 
 
 Our proposal has the *implicit `Maybe`* feature: the syntax *expr*`=>`*pat* permits the programmer to elide the `Just`, for example when using partial views.  
 
-### Transparent ordinary Patterns
+#### Transparent ordinary Patterns
 
 
 Our proposal does not have the *transparent ordinary patterns* feature: view patterns are written differently than ordinary patterns.
 There are pros and cons both ways:
-The advantage of having transparent ordinary patterns is that you can replace a concrete datatype with an abstract type and a view without changing client code.  A disadvantage is that view patterns can do arbitrary computation, perhaps expensive, so it's good to have a syntactic marker that some computation beyond ordinary pattern matching may be going on.  Another disadvantage is that transparent ordinary patterns require a larger language extension than just a new form of pattern, so that certain names may be declared to be view constructors for a type.  We consider our proposal's implicit view syntax `(-> e)` to be a nice compromise between the two alternatives.  
+The advantage of having transparent ordinary patterns is that you can replace a concrete datatype with an abstract type and a view without changing client code.  A disadvantage is that view patterns can do arbitrary computation, perhaps expensive, so it's good to have a syntactic marker that some computation beyond ordinary pattern matching may be going on.  Another disadvantage is that transparent ordinary patterns require a larger language extension than just a new form of pattern, so that certain names may be declared to be view constructors for a type.  We consider our proposal's implicit-view-function syntax `(->`*pat*`)` to be a nice compromise between the two alternatives.  
 
-### Nesting
+#### Nesting
 
 
-Our proposal has the *nesting* feature: view patterns nest inside other patterns, and other patterns nest inside them. Nexting is perhaps the biggest practical difference between view patterns and pattern guards.
+Our proposal has the *nesting* feature: view patterns nest inside other patterns, and other patterns nest inside them. Nesting is perhaps the biggest practical difference between view patterns and pattern guards.
 
-### Integration with type classes
+#### Integration with type classes
 
 
 Our proposal *integrates with type classes*: an single view function can decompose multiple different data types, and the type class constraints are propagated to the user of the view.  
 
 ## Related work
 
-### Uses of Views
-
-
-The observations from [ Okasaki: Breadth-First Numbering - Lessons ... ](http://citeseer.ist.psu.edu/356396.html) suggest that not having abstract pattern matching (for sequences) can indeed have great impact on the abstractions functional programmers can think of.
-
-
-The abstractional power views offer can also be put to good use when designing data structures, as the following papers show
-
-- [ R.Hinze: A fresh look on binary search trees](http://www.informatik.uni-bonn.de/~ralf/publications/SearchTree.ps.gz).
-- [ R.Hinze:  A Simple Implementation Technique for Priority Search Queues](http://www.informatik.uni-bonn.de/~ralf/publications/ICFP01.pdf)
-- The the key idea of [ M.Erwig: Inductive Graphs and Functional Graph Algorithms](http://web.engr.oregonstate.edu/~erwig/papers/InductiveGraphs_JFP01.ps.gz) is to introduce a suitable view of graphs. This way, graphs can be liberated from their notoriously imperative touch.
-
-### [ Wadler's original paper (POPL 1987)](http://homepages.inf.ed.ac.uk/wadler/papers/view/view.ps)
+#### [ Wadler's original paper (POPL 1987)](http://homepages.inf.ed.ac.uk/wadler/papers/view/view.ps)
 
 
 Wadler's paper was the first concrete proposal.  It proposed a top-level view
@@ -489,7 +490,7 @@ as well as patterns, which seems cool. Unfortunately this dual role proved
 problematic for equational reasoning, and every subsequent proposal restricted
 view constructors to appear in patterns only.
 
-### [ Burton et al views (1996)](http://haskell.org/development/views.html)
+#### [ Burton et al views (1996)](http://haskell.org/development/views.html)
 
 
 This proposal is substantially more complicated than the one above; in particular it
@@ -512,13 +513,13 @@ definable, because all rely on the value input feature.
 I think this proposal is substantially the same as "Pattern matching and
 abstract data types", Burton and Cameron, JFP 3(2), Apr 1993.
 
-### [ Okasaki: views in Standard ML](http://citeseer.ist.psu.edu/okasaki98view.html)
+#### [ Okasaki: views in Standard ML](http://citeseer.ist.psu.edu/okasaki98view.html)
 
 
 Okasaki's design is very similar to Burton et al's, apart from differences due
 to the different host language.  Again, the value input feature is not supported.
 
-### [ Erwig: active patterns](http://citeseer.ist.psu.edu/erwig96active.html)
+#### [ Erwig: active patterns](http://citeseer.ist.psu.edu/erwig96active.html)
 
 
 Erwig's proposal for active patterns renders the Set example like this:
@@ -544,11 +545,21 @@ follows from the `pat` declaration.
 
 Still the proposal does support the value input feature.
 
-### [ Palao et al: active destructors (ICFP'96)](http://portal.acm.org/citation.cfm?id=232641&coll=portal&dl=ACM)
+#### [ Palao et al: active destructors (ICFP'96)](http://portal.acm.org/citation.cfm?id=232641&coll=portal&dl=ACM)
 
 
-Active Desctructors (ADs) are defined by a new form of top-level declaration.  Our
-singleton example would look like this:
+Active Destructors (ADs) are defined by a new form of top-level declaration.  
+
+
+Where we'd write
+
+```wiki
+   sing :: [a] -> a option
+   sing [x] = x 
+```
+
+
+The equivalent active destructor would be
 
 ```wiki
   Sing x match [x]
@@ -561,8 +572,7 @@ Haskell functions, and need their own form of top-level declaration.  They even 
 a special form of type to describe them.
 
 
-The value-input feature is supported, but only via a sort of mode declaration (indicated by a down-arrow) on the
-new form of type.
+The value-input feature is supported, but only via a sort of mode declaration (indicated by a down-arrow) on the new form of type.
 
 
 They also introduce a combining form for ADs, to make a kind of and-pattern.  For
@@ -577,8 +587,7 @@ example, suppose we had
 ```
 
 
-Here `(Head x)@(Tail ys)` is a pattern that matches *both*`(Head x)` and `(Tail ys)`
-against the argument, binding `x` and `ys` respectively.  We can model that with view patterns:
+Here `(Head x)@(Tail ys)` is a pattern that matches *both*`(Head x)` and `(Tail ys)` against the argument, binding `x` and `ys` respectively.  We can model that with view patterns:
 
 ```wiki
   headV (x:xs) = Just x
@@ -591,7 +600,7 @@ against the argument, binding `x` and `ys` respectively.  We can model that with
 ```
 
 
-An to duplicating the value is to compose the functions:
+An alternative to duplicating the value is to compose the functions:
 
 ```wiki
   (@) :: (a -> Maybe b) -> (a -> Maybe c) -> a -> Maybe (b,c)
@@ -602,11 +611,9 @@ An to duplicating the value is to compose the functions:
 ```
 
 
-This is a little clumsier: the "`@`" combines functions, with a kind of positional
-binding; the pattern `(x,ys)` is separated from the combiner so that it's less clear
-that `headV` binds `x` and `tailV` binds `y`.
+This is a little clumsier: the "`@`" combines functions, with a kind of positional binding; the pattern `(x,ys)` is separated from the combiner so that it's less clear that `headV` binds `x` and `tailV` binds `y`.
 
-### [ Erwig/Peyton Jones: transformational patterns](http://citeseer.ist.psu.edu/erwig00pattern.html)
+#### [ Erwig/Peyton Jones: transformational patterns](http://citeseer.ist.psu.edu/erwig00pattern.html)
 
 
 This paper describes pattern guards, but it also introduces **transformational patterns**.  (Although
@@ -620,7 +627,7 @@ First, transformational patterns didn't have the value input feature, althought 
 to add (indeed that's what we've done). Second, transformational patterns as described by
 Erwig do no stripping of the `Maybe` (see "Possible extension 2" above).
 
-### [ F\# Active Patterns](http://blogs.msdn.com/dsyme/archive/2006/08/16/ActivePatterns.aspx)
+#### [ F\# Active Patterns](http://blogs.msdn.com/dsyme/archive/2006/08/16/ActivePatterns.aspx)
 
 
 Simon started this design discussion after talking to Don Syme about F\#'s **active patterns**, which serve a very similar purpose. These combine both “total” discrimination (views) and “partial” discrimination (implicit maybe) into one mechanism. It does this by embedding the names of discriminators in the names of matching functions, via “values with structured names”.  Sample uses include matching on .NET objects and XML.
@@ -674,7 +681,7 @@ And for views:
         | Param(pos,cxs)    -> Array.fold_right freeVarsAcc cxs (typ :: acc) 
 ```
 
-### [ Emir, Odersky, Williams: Matching objects with patterns](http://lambda-the-ultimate.org/node/1960)
+#### [ Emir, Odersky, Williams: Matching objects with patterns](http://lambda-the-ultimate.org/node/1960)
 
 
 Scala is an OO language with lots of functional features.  It has algebraic data types and
@@ -687,7 +694,7 @@ implicitly meaning "use the constructor in expressions, and use the extractor in
 The paper does a comparative evaluation of various OO paradigms for matching, and 
 concludes that case expressions and extractors work pretty well.
 
-### Pattern synonyms
+#### Pattern synonyms
 
 [ Pattern synonyms](http://hackage.haskell.org/trac/haskell-prime/wiki/PatternSynonyms) 
 are a requested Haskell Prime feature. John Reppy had the same idea years ago for Standard ML; see 
@@ -695,8 +702,7 @@ are a requested Haskell Prime feature. John Reppy had the same idea years ago fo
 Reppy & Aiken, TR 92-1290, Cornell, June 1992.
 
 
-The one way in which pattern synonyms are better than view patterns is that
-they define by-construction bi-directional maps.  Example
+The one way in which pattern synonyms are better than view patterns is thatn they define by-construction bi-directional maps.  Example
 
 ```wiki
   data Term = Var String | Term String [Term]
@@ -725,10 +731,9 @@ With pattern views, we'd have to write two functions for the "plus" view:
 ```
 
 
-But perhaps that is not so bad.  Pattern synonyms also require a new form of top level declaration;
-and are much more limited than view patterns (by design they cannot do computation).
+But perhaps that is not so bad.  Pattern synonyms also require a new form of top level declaration; and are much more limited than view patterns (by design they cannot do computation).
 
-### [ Tullsen: First Class Patterns](http://citeseer.ist.psu.edu/tullsen00first.html)
+#### [ Tullsen: First Class Patterns](http://citeseer.ist.psu.edu/tullsen00first.html)
 
 
 First Class Patterns is an approach that attempts to
@@ -749,7 +754,7 @@ The disadvantages are as follows: 1) An extra syntactic construct that binds var
 4) No attempt is made to integrate with Haskell's patterns, the idea is a proposal for an alternative when one needs more than simple patterns.
 
 
-The examples at the top of this page would look like this with first class patterns:
+The singleton example above would like this:
 
 ```wiki
   f = {%sing n} .-> n+1
@@ -760,7 +765,7 @@ The examples at the top of this page would look like this with first class patte
                      |>> 2  
 ```
 
-### First class abstractions
+#### First class abstractions
 
 
 Several proposals suggest first class *abstractions* rather that first-class *patterns*.  By a "first class abstraction" I mean a value of type
@@ -793,7 +798,19 @@ None of these proposals say
 anything about the patterns themselves, which in turn is all this
 proposal deals with.  Hence orthgonal.
 
-### Barry Jay: First class patterns
+#### Barry Jay: First class patterns
 
 
 A yet more ambitious scheme is to treat patterns themselves as first class, even though they have free (binding) variables.  This is the approach that Barry Jay has taken in his very interesting project on the *pattern calculus*.  His [ home page](http://www-staff.it.uts.edu.au/~cbj) has more info.
+
+#### Uses of Views
+
+
+The observations from [ Okasaki: Breadth-First Numbering - Lessons ... ](http://citeseer.ist.psu.edu/356396.html) suggest that not having abstract pattern matching (for sequences) can indeed have great impact on the abstractions functional programmers can think of.
+
+
+The abstractional power views offer can also be put to good use when designing data structures, as the following papers show
+
+- [ R.Hinze: A fresh look on binary search trees](http://www.informatik.uni-bonn.de/~ralf/publications/SearchTree.ps.gz).
+- [ R.Hinze:  A Simple Implementation Technique for Priority Search Queues](http://www.informatik.uni-bonn.de/~ralf/publications/ICFP01.pdf)
+- The the key idea of [ M.Erwig: Inductive Graphs and Functional Graph Algorithms](http://web.engr.oregonstate.edu/~erwig/papers/InductiveGraphs_JFP01.ps.gz) is to introduce a suitable view of graphs. This way, graphs can be liberated from their notoriously imperative touch.
