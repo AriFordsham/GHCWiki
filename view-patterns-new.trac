@@ -1,8 +1,8 @@
 = View patterns: lightweight views for Haskell =
 
-This page describes a lightweight proposal for adding views to Haskell. '''We are about to begin prototyping this extension in GHC, so speak now if you have comments or suggestions!'''
-
 [[PageOutline(2-3,,inline)]]
+
+'''We are about to begin prototyping this extension in GHC, so speak now if you have comments or suggestions!'''
 
 == Basic view patterns == 
 

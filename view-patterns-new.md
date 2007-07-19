@@ -1,10 +1,9 @@
 # View patterns: lightweight views for Haskell
 
-
-This page describes a lightweight proposal for adding views to Haskell. **We are about to begin prototyping this extension in GHC, so speak now if you have comments or suggestions'''
-**
-
 [Basic view patterns](#Basicviewpatterns)[Semantics](#Semantics)[Examples](#Examples)[Further Syntactic Extensions](#FurtherSyntacticExtensions)[Implicit Maybe](#ImplicitMaybe)[Implicit View Functions](#ImplicitViewFunctions)[Compilation](#Compilation)[Features views can have](#Featuresviewscanhave)[Related work](#Relatedwork)
+
+**We are about to begin prototyping this extension in GHC, so speak now if you have comments or suggestions'''
+**
 
 ## Basic view patterns
 
