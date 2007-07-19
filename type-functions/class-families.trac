@@ -288,7 +288,7 @@ data SizeCtxt -- uninhabited
 class instance (Size e) => Context SizeCtxt e
 }}}
 
-====Restricted Monads====
+==== Restricted Monads ====
 
 '''Tom''': This way we can also make Set an instance of (C)Monad. I believe lots of people
 have been asking for this.
