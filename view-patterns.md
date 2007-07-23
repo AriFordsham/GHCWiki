@@ -30,7 +30,7 @@ In current Haskell, using this signature a little inconvenient:
 
 ```wiki
    size :: Typ -> Integer
-   size t = case t of
+   size t = case view t of
      Unit -> 1
      Arrow t1 t2 -> size t1 + size t2
 ```
