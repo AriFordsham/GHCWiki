@@ -204,8 +204,8 @@ module Set(Set, empty, insert, delete, has) where
   delete x s                 = s
   
   insert :: a -> Set a -> Set a
-  insert x s@(has x -> _) = s
-  insert x (S xs)         = S (x:xs)
+  insert x s@(has x -> Just _) = s
+  insert x (S xs)              = S (x:xs)
 ```
 
 
