@@ -300,10 +300,10 @@ View patterns permit programming in an iterator style, where you name the result
 
 ```wiki
    length [] = []
-   length (x : length -> xs) = x + xs
+   length (_ : length -> xs) = 1 + xs
    
    map f [] = []
-   map f (x : map f -> xs) = x : xs
+   map f (x : map f -> xs) = f x : xs
    
    foldr f z [] = z
    foldr f z (x : foldr f z -> xs) =  x `f` xs
