@@ -48,7 +48,7 @@ When optimisation is on, we do know the arities of external functions, and this 
 
 Do we ever assume that a pointer is tagged?  Yes, in the following places:
 
-- In the continuation of an algebraic case, R1 is again assumed tagged
+- In the continuation of an algebraic case, R1 is assumed tagged
 - On entry to a function, R1 is assumed tagged
 
 
