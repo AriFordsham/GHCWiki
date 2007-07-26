@@ -37,6 +37,31 @@ Pointer-tagging is a fairly significant optimisation: we measured 10-14% dependi
 
 The [garbage collector](commentary/rts/storage/gc) maintains tag bits on the pointers it traverses; additionally when it eliminates an indirection it takes the tag bits from the pointer inside the indirection.
 
+## Invariants
+
+
+In the current implementation, all pointers are guaranteed to be tagged, except for pointers to static constructors or functions.  We cannot guarantee to correctly tag a reference to a static closure, because the compiler does not necessarily know what the tag value should be if the static closure resides in another module.
+
+
+When optimisation is on, we do know the arities of external functions, and this information is indeed used to tag pointers to imported functions, but when optimisations is off we do not have this information.  For constructors, the interface doesn't contain information about the constructor tag, except that there may be an unfolding, but the unfolding is not necessarily reliable (the unfolding may be a constructor application, but in reality the closure may be a CAF, e.g. if any of the fields are references outside the current shared library).
+
+
+Do we ever assume that a pointer is tagged?  Yes, in the following places:
+
+- In the continuation of an algebraic case, R1 is again assumed tagged
+- On entry to a function, R1 is assumed tagged
+
+
+These assumptions make the code faster: when extracting values from the closure pointed to be R1, we just subtract the (known) tag from the offset.
+
+
+There is one unexpected consequence of the function entry code assuming that R1 is tagged: the function pointer in a `RET_FUN` stack frame *must* be tagged, because it is just loaded into R1 before jumping to the entry code for the function.  This is the single exception to the general rule that tags are optional in pointers found in heap objects.
+
+## Compacting GC
+
+
+Compacting GC also needs to tag pointers, because it needs to distinguish between a heap pointer and an info pointer quickly.  Unfortunately, this means we lose one tag value (not tag bit) in our space of tags.  Therefore we have 3 tag values (including 0) available on a 32-bit machine, and 7 on a 64-bit machine.
+
 ## Dealing with tags in the code
 
 
