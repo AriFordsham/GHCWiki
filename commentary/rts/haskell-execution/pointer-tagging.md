@@ -49,13 +49,27 @@ When optimisation is on, we do know the arities of external functions, and this 
 Do we ever assume that a pointer is tagged?  Yes, in the following places:
 
 - In the continuation of an algebraic case, R1 is assumed tagged
-- On entry to a function, R1 is assumed tagged
+- On entry to a non-top-level function, R1 is assumed tagged
 
 
 These assumptions make the code faster: when extracting values from the closure pointed to be R1, we just subtract the (known) tag from the offset.
 
 
-There is one unexpected consequence of the function entry code assuming that R1 is tagged: the function pointer in a `RET_FUN` stack frame *must* be tagged, because it is just loaded into R1 before jumping to the entry code for the function.  This is the single exception to the general rule that tags are optional in pointers found in heap objects.
+So each place that enters one of these code fragments must ensure that it is correctly tagging R1.  Here are the cases for an algebraic case alternative:
+
+- the scrutinee of the case jumps directly to the alternative, if R1 is already tagged
+- the constructor entry code returns to an alternative.  This code adds the correct tag.
+- if the case alternative fails a heap or stack check, then the RTS will re-enter the alternative after
+  GC.  In this case, our re-entry arranges to enter the constructor, so we get the correct tag by
+  virtue of going through the constructor entry code.
+
+
+Here are the cases for a function:
+
+- we can assume that pointers to non-top-level functions are always tagged, so entering directly
+  is safe.
+- unknown function application goes via `stg_ap_XXX` (see \[[wiki:Commentary/Rts/HaskellExecution/FunctionCalls\#GenericApply](commentary/rts/haskell-execution/function-calls#) Generic Apply).  
+  The generic apply functions must therefore arrange to correctly tag R1 before entering the function.
 
 ## Compacting GC
 
