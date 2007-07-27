@@ -68,7 +68,7 @@ Here are the cases for a function:
 
 - we can assume that pointers to non-top-level functions are always tagged, so entering directly
   is safe.
-- unknown function application goes via `stg_ap_XXX` (see \[[wiki:Commentary/Rts/HaskellExecution/FunctionCalls\#GenericApply](commentary/rts/haskell-execution/function-calls#) Generic Apply).  
+- unknown function application goes via `stg_ap_XXX` (see [Generic Apply](commentary/rts/haskell-execution/function-calls#)).  
   The generic apply functions must therefore arrange to correctly tag R1 before entering the function.
 
 ## Compacting GC
