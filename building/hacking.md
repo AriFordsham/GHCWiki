@@ -238,7 +238,7 @@ example, try these:
 
 ```wiki
   SRC_HC_OPTS  = -H64m -O2 
-  GhcLibHcOpts = -O2
+  GhcLibHcOpts =
   SplitObjs    = YES
 ```
 
