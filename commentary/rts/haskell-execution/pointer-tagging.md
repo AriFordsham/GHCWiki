@@ -19,7 +19,7 @@ The way the tag bits are used depends on the type of object pointed to:
 - For a pointer to any other object, the tag bits are always zero.
 
 
-Pointer tagging is optional: if all the tags were zero, everything would still work.  The presence of tag bits enables certain optimisations, however:
+The presence of tag bits enables certain optimisations:
 
 - In a case-expression, if the variable being scrutinised has non-zero tag bits, then we know
   that it points directly to a constructor and we can avoid *entering* it to evaluate it.
@@ -40,41 +40,42 @@ The [garbage collector](commentary/rts/storage/gc) maintains tag bits on the poi
 ## Invariants
 
 
-In the current implementation, all pointers are guaranteed to be tagged, except for pointers to static constructors or functions.  We cannot guarantee to correctly tag a reference to a static closure, because the compiler does not necessarily know what the tag value should be if the static closure resides in another module.
-
-
-When optimisation is on, we do know the arities of external functions, and this information is indeed used to tag pointers to imported functions, but when optimisations is off we do not have this information.  For constructors, the interface doesn't contain information about the constructor tag, except that there may be an unfolding, but the unfolding is not necessarily reliable (the unfolding may be a constructor application, but in reality the closure may be a CAF, e.g. if any of the fields are references outside the current shared library).
-
-
-Do we ever assume that a pointer is tagged?  Yes, in the following places:
+Pointer tagging is *not* optional, contrary to what the paper says.  We originally planned that it would be: if the GC threw away all the tags, then everything would continue to work albeit more slowly.  However, it turned out that in fact we really want to assume tag bits in some places:
 
 - In the continuation of an algebraic case, R1 is assumed tagged
 - On entry to a non-top-level function, R1 is assumed tagged
 
 
-These assumptions make the code faster: when extracting values from the closure pointed to be R1, we just subtract the (known) tag from the offset.
+If we don't assume the value of the tag bits in these places, then extra code is needed to untag the pointer.  If we can assume the value of the tag bits, then we just take this into account when indexing off R1.
 
 
-So each place that enters one of these code fragments must ensure that it is correctly tagging R1.  Here are the cases for an algebraic case alternative:
+This means that everywhere that enters either a case continuation or a non-top-level function must ensure that R1 is correctly tagged.  For a case continuation, the possibilities are:
 
-- the scrutinee of the case jumps directly to the alternative, if R1 is already tagged
+- the scrutinee of the case jumps directly to the alternative if R1 is already tagged.
 - the constructor entry code returns to an alternative.  This code adds the correct tag.
 - if the case alternative fails a heap or stack check, then the RTS will re-enter the alternative after
   GC.  In this case, our re-entry arranges to enter the constructor, so we get the correct tag by
   virtue of going through the constructor entry code.
 
 
-Here are the cases for a function:
+For a non-top-level function, the cases are:
 
-- we can assume that pointers to non-top-level functions are always tagged, so entering directly
-  is safe.
 - unknown function application goes via `stg_ap_XXX` (see [Generic Apply](commentary/rts/haskell-execution/function-calls#)).  
   The generic apply functions must therefore arrange to correctly tag R1 before entering the function.
+- A known function can be entered directly, if the call is made with exactly the right number of arguments.
+- If a function fails its heap check and returns to the runtime to garbage collect, on re-entry the closure
+  pointer must be still tagged.
+
+
+In the second case, calling a known non-top-level function must pass the function closure in R1, and this pointer *must* be correctly tagged.  The code generator does not arrange to tag the pointer before calling the function; it assumes the pointer is already tagged.  Since we arrange to tag the pointer when the closure is created, this assumption is normally safe.  However, if the pointer has to be saved on the stack, say across a call, then when the pointer is retrieved again we must either retag it, or be sure that it is still tagged.  Currently we do the latter, but this imposes an invariant on the garbage collector: all tags must be retained on non-top-level function pointers.
+
+
+Pointers to top-level functions are not necessarily tagged, because we don't always know the arity of a function that resides in another module.  When optimisation is on, we do know the arities of external functions, and this information is indeed used to tag pointers to imported functions, but when optimisations is off we do not have this information.  For constructors, the interface doesn't contain information about the constructor tag, except that there may be an unfolding, but the unfolding is not necessarily reliable (the unfolding may be a constructor application, but in reality the closure may be a CAF, e.g. if any of the fields are references outside the current shared library).
 
 ## Compacting GC
 
 
-Compacting GC also needs to tag pointers, because it needs to distinguish between a heap pointer and an info pointer quickly.  Unfortunately, this means we lose one tag value (not tag bit) in our space of tags.  Therefore we have 3 tag values (including 0) available on a 32-bit machine, and 7 on a 64-bit machine.
+Compacting GC also uses tag bits, because it needs to distinguish between a heap pointer and an info pointer quickly.  The compacting GC has complicated scheme to ensure that pointer tags are retained, see the comments in [rts/sm/Compact.c](/trac/ghc/browser/ghc/rts/sm/Compact.c).
 
 ## Dealing with tags in the code
 
