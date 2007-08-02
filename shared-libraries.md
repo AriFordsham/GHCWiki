@@ -38,14 +38,17 @@ Here is what else we'd like to do:
 (3) stage2/ghc-inplace is linked statically.
 
 
+(4) Cabal packages installed outside the system locations are static only.
+
+
 This is attractive, but there are some drawbacks:
 
 - we still need to build a distribution that uses shared libs.  Presumably we have to build both
   shared and static libs then.
-
 - the testsuite needs to build binaries against the shared libs for testing, without installing GHC.
-
 - we want the GHC binary in a shared-library installation to be dynamically linked, not statically linked.
+- if there are some static-only libraries on the system, then all packages must have static versions,
+  because dynamic linking is all-or-nothing in GHC.
 
 ## 2. Dynamic linking
 
