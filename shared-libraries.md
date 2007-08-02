@@ -25,6 +25,7 @@ Here is what else we'd like to do:
   use in (1).
 1. Binaries that are built as part of the GHC build (e.g. stage2/ghc-inplace) need to run from
   the build tree.
+1. Cabal needs to build libraries that can be installed in the system location or elsewhere.
 
 # Proposed strategies
 
