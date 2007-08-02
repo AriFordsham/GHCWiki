@@ -24,7 +24,11 @@ Please feel free to add material to this commentary: don't worry too much about 
 
   - [Profiling](commentary/profiling)
   - [Primitive Operations (PrimOps)](commentary/prim-ops); see also [Wired-in and known-key things](commentary/compiler/wired-in)
-  - [Position Independent Code and Dynamic Linking](commentary/position-independent-code)
+  - Shared Libraries
+
+    - [Position Independent Code and Dynamic Linking](commentary/position-independent-code)
+    - [DynamicLinking](dynamic-linking): Support for dynamic linking on various platforms, and what the flags do
+    - [SharedLibraries](shared-libraries): Distribution and build system issues for shared libraries
 
 - [The User Manual](commentary/user-manual) (formatting guidelines etc)
 
@@ -54,7 +58,6 @@ Please feel free to add new pages here.  In due course information will migrate 
   - [ExternalCore](external-core): Describes the process of bringing External Core up to speed. Once finished, this will simply describe what External Core is, and how it works. 
   - [HaddockComments](haddock-comments): Some notes about how the Haddock comment support is implemented.
   - [ExplicitCallStack](explicit-call-stack): Notes about maintaining an explicit call stack, to support error attribution and profiling.
-  - [DynamicLinking](dynamic-linking): Notes about shared libraries and dynamic linking
 
 - The Runtime System
 
