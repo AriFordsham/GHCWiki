@@ -21,7 +21,10 @@ Please feel free to add material to this commentary: don't worry too much about 
  * Cross-cutting concerns: topics which span both the compiler and the runtime system
     * [wiki:Commentary/Profiling Profiling]
     * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]; see also [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
-    * [wiki:Commentary/PositionIndependentCode Position Independent Code and Dynamic Linking]
+    * Shared Libraries
+      * [wiki:Commentary/PositionIndependentCode Position Independent Code and Dynamic Linking]
+      * [wiki:DynamicLinking]: Support for dynamic linking on various platforms, and what the flags do
+      * [wiki:SharedLibraries]: Distribution and build system issues for shared libraries
 
  * [wiki:Commentary/UserManual The User Manual] (formatting guidelines etc)
 
@@ -48,7 +51,6 @@ Please feel free to add new pages here.  In due course information will migrate 
    * [wiki:ExternalCore]: Describes the process of bringing External Core up to speed. Once finished, this will simply describe what External Core is, and how it works. 
    * [wiki:HaddockComments]: Some notes about how the Haddock comment support is implemented.
    * [wiki:ExplicitCallStack]: Notes about maintaining an explicit call stack, to support error attribution and profiling.
-   * [wiki:DynamicLinking]: Notes about shared libraries and dynamic linking
 
  * The Runtime System
    * [wiki:GarbageCollectorNotes] Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
