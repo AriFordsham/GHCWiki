@@ -64,7 +64,7 @@ Assuming we can fix the locations of shared libraries at link time (eg. with -rp
  4. A Cabal package may install a shared library outside the standard location, but when linking to
     it we must do the equivalent of adding -rpath to point to its location.
 
-ToDo: Windows?
+!ToDo: Windows?
 
 = Platform support for locating shared libraries =
 
