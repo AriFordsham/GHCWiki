@@ -75,6 +75,11 @@ Assuming we can fix the locations of shared libraries at link time (eg. with -rp
 
 ToDo: Windows?
 
+## 3. libtool
+
+
+ToDo: can someone explain how libtool works and how we can use it?
+
 # Platform support for locating shared libraries
 
 
