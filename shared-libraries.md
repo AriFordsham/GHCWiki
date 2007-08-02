@@ -39,6 +39,11 @@ Caveat 1: LD_LIBRARY_PATH has no runtime impact, but it does impact where the st
 
 Caveat 2: Mac OS X has a set of compiler/linker switches for dealing with Frameworks (packages of shared libraries and include files).  These are installed outside the typical \*nix directory structure.  These switches act like -I (to gcc) and -L (to ld).  If you end up totally confused about where to find something, read up on this.  The OpenGL and OpenAL headers and libraries are in Frameworks, for example.
 
+## On Windows
+
+
+ToDo: link to the MSDN page about how DLLs are found, and the details about manifests.  Manifests provide a way to do rpath-like things, I think.
+
 ## Conclusions
 
 
