@@ -21,10 +21,8 @@ Here is what else we'd like to do:
 
 1. Support installing GHC outside of the standard location (e.g. in a home directory), and build
   binaries using that installation.  Multiple such installations should be supported.
-
 1. We need to build a distribution that supports choosing the install location at install time, for
   use in (1).
-
 1. Binaries that are built as part of the GHC build (e.g. stage2/ghc-inplace) need to run from
   the build tree.
 
