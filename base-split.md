@@ -38,5 +38,5 @@ The derivings, as they are, clearly wouldn't work too well for changed classes. 
 
 ## See Also
 
-- our bug
+- [\#1580](https://gitlab.haskell.org//ghc/ghc/issues/1580) (our bug)
 - [PackageReorg: the base package](package-reorg#the-base-package).

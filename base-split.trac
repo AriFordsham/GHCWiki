@@ -31,5 +31,5 @@ The derivings, as they are, clearly wouldn't work too well for changed classes. 
 
 == See Also ==
 
- * our bug
- * [PackageReorg#Thebasepackage PackageReorg: the base package].
+ * #1580 (our bug)
+ * [wiki:PackageReorg#Thebasepackage PackageReorg: the base package].
