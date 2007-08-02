@@ -1,5 +1,55 @@
 # Shared Libraries: distribution and build-system issues
 
+
+This page is for discussing and documenting our strategy for
+
+- How shared libraries are found
+- How the build system works
+- How distributions (of GHC and programs built by GHC) work
+- Issues that affect Cabal
+
+## Goals/Scenarios
+
+
+First of all, we take it as a given that a normal GHC installation will be a good citizen on its host platform: shared libraries will go in the standard locations, and we'll use the system's normal method for finding them at link time and runtime.  Windows is an exception: there is no standard location for installing shared libraries on Windows.
+
+
+So that we can support having multiple versions of GHC installed, shared libraries will have the GHC version number embedded, e.g. `libHSghc6.6.1-network-1.1.so`.
+
+
+Here is what else we'd like to do:
+
+1. Support installing GHC outside of the standard location (e.g. in a home directory), and build
+  binaries using that installation.  Multiple such installations should be supported.
+
+1. We need to build a distribution that supports choosing the install location at install time, for
+  use in (1).
+
+1. Binaries that are built as part of the GHC build (e.g. stage2/ghc-inplace) need to run from
+  the build tree.
+
+# Proposed strategies
+
+## 1. Static linking
+
+
+(1,2) Installations of GHC that are not in the standard locations use static linking and come with static libraries only.
+
+
+(3) stage2/ghc-inplace is linked statically.
+
+
+This is attractive, but there are some drawbacks:
+
+- we still need to build a distribution that uses shared libs.  Presumably we have to build both
+  shared and static libs then.
+
+- the testsuite needs to build binaries against the shared libs for testing, without installing GHC.
+
+- we want the GHC binary in a shared-library installation to be dynamically linked, not statically linked.
+
+## 2. Dynamic linking
+
 # Platform support for locating shared libraries
 
 
