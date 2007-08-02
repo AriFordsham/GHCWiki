@@ -44,8 +44,27 @@ This is attractive, but there are some drawbacks:
  * we want the GHC binary in a shared-library installation to be dynamically linked, not statically linked.
  * if there are some static-only libraries on the system, then all packages must have static versions,
    because dynamic linking is all-or-nothing in GHC.
+ * This approach doesn't address Windows
 
 == 2. Dynamic linking ==
+
+The first plan was this:
+
+[http://www.haskell.org/pipermail/glasgow-haskell-users/2007-June/012740.html]
+
+It has since been pointed out that `LD_LIBRARY_PATH` overrides `-rpath` on some platforms (see below).  This might cause some difficulties (or not?).
+
+Assuming we can fix the locations of shared libraries at link time (eg. with -rpath), then:
+
+ 1. Installations of GHC outside the system default location hardwire the locations of shared libraries
+    into the binaries they build.  (hence such binaries cannot be distributed; this is a drawback)
+ 2. Binaries in the distribution must not have rpaths.  We should use wrapper scripts that set
+    `LD_LIBRARY_PATH` instead.
+ 3. Binaries in the build tree need `LD_LIBRARY_PATH` wrappers.
+ 4. A Cabal package may install a shared library outside the standard location, but when linking to
+    it we must do the equivalent of adding -rpath to point to its location.
+
+ToDo: Windows?
 
 = Platform support for locating shared libraries =
 
