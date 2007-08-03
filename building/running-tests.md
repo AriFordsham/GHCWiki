@@ -274,6 +274,8 @@ these steps:
 
 > > > **exit_code(n)**          expect an exit code of 'n' from the prog
 
+> > > **exit_code_if_platform(n, plat)** as exit_code, but only for the specific platform given
+
 > > > **extra_run_opts(opts)**  pass some extra opts to the prog
 
 > > > **no_clean**              don't clean up after this test
