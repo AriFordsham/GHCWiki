@@ -5,7 +5,7 @@ Video: [ Compilation Pipeline](http://video.google.com/videoplay?docid=-43264201
 
 
 When GHC compiles a module, it calls other programs, and generates a series of intermediate files.  Here's a summary of the process.
-(source reference: `ghc/compiler/main/DriverPipeline.hs`)
+(source reference: [compiler/main/DriverPipeline.hs](/trac/ghc/browser/ghc/compiler/main/DriverPipeline.hs))
 
 
 We start with `Foo.hs` or `Foo.lhs`, the "l" specifing whether literate style is being used.
