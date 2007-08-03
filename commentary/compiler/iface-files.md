@@ -25,4 +25,4 @@ Here are some of the things stored in an interface file `M.hi`
 - The strictness, arity, and unfolding of exported functions.  This is crucial for cross-module optimisation; but it is only included when you compile with `-O`.
 
 
-The contents of an interface file is the result of serialising the **`IfaceSyn`** family of data types.  The data types are in [compiler/iface/IfaceSyn](/trac/ghc/browser/ghc/compiler/iface/IfaceSyn) and [compiler/iface/IfaceType](/trac/ghc/browser/ghc/compiler/iface/IfaceType); the binary serialisation code is in [compiler/iface/BinIface](/trac/ghc/browser/ghc/compiler/iface/BinIface).
+The contents of an interface file is the result of serialising the **`IfaceSyn`** family of data types.  The data types are in [compiler/iface/IfaceSyn.lhs](/trac/ghc/browser/ghc/compiler/iface/IfaceSyn.lhs) and [compiler/iface/IfaceType.lhs](/trac/ghc/browser/ghc/compiler/iface/IfaceType.lhs); the binary serialisation code is in [compiler/iface/BinIface.hs](/trac/ghc/browser/ghc/compiler/iface/BinIface.hs).
