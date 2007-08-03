@@ -262,13 +262,13 @@ these steps:
 
 > > > **only_compiler_types(compilers)**       do this test for certain compilers only
 
-> > > **expect_fail**           this test is an expected failure, i.e. there is a known bug in the compiler, but we don't want to fix it.
+> > > **expect_broken(bug)** this test is a expected not to work due to the indicated trac bug number
 
-> > > **expect_fail_for(ways)** expect failure for certain ways 
+> > > **expect_broken_for(bug, ways)** as expect_broken, but only for the indicated ways
 
-> > > **expect_fail_if_platform(plat)**      expect failure on a certain platform
+> > > **expect_broken_if_platform(bug, plat)** as expect_broken, but only for the specific platform given
 
-> > > **expect_fail_if_compiler_type(compiler)**   expect failure from a certain compiler
+> > > **expect_broken_if_compiler_type(bug, compiler_type)** as expect_broken, but only for the given compiler type
 
 > > > **set_stdin(file)**       use a different file for stdin
 
@@ -277,6 +277,20 @@ these steps:
 > > > **extra_run_opts(opts)**  pass some extra opts to the prog
 
 > > > **no_clean**              don't clean up after this test
+
+> >
+> > These functions should normally not be used; instead, use the `expect_broken*`
+> > functions above so that the problem doesn't get forgotten about, and when we
+> > come back to look at the test later we know whether current behaviour is why
+> > we marked it as expected to fail:
+
+> > > **expect_fail**           this test is an expected failure, i.e. there is a known bug in the compiler, but we don't want to fix it.
+
+> > > **expect_fail_for(ways)** expect failure for certain ways 
+
+> > > **expect_fail_if_platform(plat)**      expect failure on a certain platform
+
+> > > **expect_fail_if_compiler_type(compiler)**   expect failure from a certain compiler
 
 > > >
 > > > You can compose two of these functions together by
@@ -289,7 +303,12 @@ these steps:
 > > >
 > > >
 > > > as the \<opt-fn\> argument.  Calls to compose() can of
-> > > course be nested.
+> > > course be nested, but it is simpler to use the composes
+> > > function which takes a list of functions to be composed, e.g.:
+> > >
+> > > ```wiki
+> > >       composes([omit_ways(['opt']), exit_code(3), expect_broken(123)])
+> > > ```
 
 > > *\<test-fn\>*
 > > is a function which describes how the test should be
