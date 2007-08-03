@@ -14,7 +14,7 @@ This page is for discussing and documenting our strategy for
 First of all, we take it as a given that a normal GHC installation will be a good citizen on its host platform: shared libraries will go in the standard locations, and we'll use the system's normal method for finding them at link time and runtime.  Windows is an exception: there is no standard location for installing shared libraries on Windows.
 
 
-So that we can support having multiple versions of GHC installed, shared libraries will have the GHC version number embedded, e.g. `libHSghc6.6.1-network-1.1.so`.
+So that we can support having multiple versions of GHC installed, shared libraries will have the GHC version number embedded, e.g. `libHSnetwork-1.1-ghc6.6.1.so`.
 
 
 Here is what else we'd like to do:
