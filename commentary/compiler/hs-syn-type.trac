@@ -65,14 +65,14 @@ data HsPat id
 
 == Source Locations == 
 
-`HsSyn` makes heavy use of the `Located` type ([[GhcFile(compiler/BasicTypes/SrcLoc)]]):
+`HsSyn` makes heavy use of the `Located` type ([[GhcFile(compiler/basicTypes/SrcLoc.lhs)]]):
 {{{
 data Located e = L SrcSpan e
 }}}
 A `Located t` is just a pair of a `SrcSpan` (which describes the source location of `t`) and a syntax tree `t`.  The module `SrcLoc` defines two other types:
   * `SrcLoc` specifies a particular source location: (filename, line number, character position)
   * `SrcSpan` specifes a range of source locations: (filename, start line number and character position, end line number and character position)
-More details in [[GhcFile(compiler/BasicTypes/SrcLoc)]].
+More details in [[GhcFile(compiler/basicTypes/SrcLoc.lhs)]].
 
 Naming convention within the code: "`LHs`" means located Haskell, e.g.
 {{{

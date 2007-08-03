@@ -1,104 +1,103 @@
-CONVERSION ERROR
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/Commentary/Compiler/HsSynType"
-  queryString          = "?version=14"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:04:08 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","263"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/Commentary/Compiler/HsSynType\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
+Video: [ Abstract Syntax Types](http://video.google.com/videoplay?docid=-8782356823569862556) (1hr03")
 
-Original source:
+# The `HsSyn` types
 
-```trac
 
-[[PageOutline]]
+The program is initially parsed into "**`HsSyn`**", a collection of data types that describe the full abstract syntax of Haskell.  `HsSyn` is a pretty big collection of types: there are 52 data types at last count.  Many are pretty trivial, but a few have a lot of constructors (`HsExpr` has 40).  `HsSyn` represents Haskell in its full glory, complete with all syntactic sugar.
 
-Video: [http://video.google.com/videoplay?docid=-8782356823569862556 Abstract Syntax Types] (1hr03")
 
-= The {{{HsSyn}}} types =
+The `HsSyn` modules live in the [compiler/hsSyn](/trac/ghc/browser/ghc/compiler/hsSyn) directory.  Each module declares a related group of declarations, *and* gives their pretty-printer.
 
-The program is initially parsed into "'''{{{HsSyn}}}'''", a collection of data types that describe the full abstract syntax of Haskell.  {{{HsSyn}}} is a pretty big collection of types: there are 52 data types at last count.  Many are pretty trivial, but a few have a lot of constructors ({{{HsExpr}}} has 40).  {{{HsSyn}}} represents Haskell in its full glory, complete with all syntactic sugar.
+- [compiler/hsSyn/HsSyn.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsSyn.lhs): the root module.  It exports everything you need, and it's generally what you should import.
+- [compiler/hsSyn/HsBinds.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsBinds.lhs): bindings.
+- [compiler/hsSyn/HsImpExp.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsImpExp.lhs): imports and exports.
+- [compiler/hsSyn/HsDecls.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsDecls.lhs): top-level declarations.
+- [compiler/hsSyn/HsExpr.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsExpr.lhs): expressions, match expressions, comprehensions.
+- [compiler/hsSyn/HsLit.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsLit.lhs): literals.
+- [compiler/hsSyn/HsPat.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsPat.lhs): patterns.
+- [compiler/hsSyn/HsTypes.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsTypes.lhs): types.
+- [compiler/hsSyn/HsUtils.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsUtils.lhs): utility functions (no data types).
 
-The {{{HsSyn}}} modules live in the [[GhcFile(compiler/hsSyn)]] directory.  Each module declares a related group of declarations, ''and'' gives their pretty-printer.
- * [[GhcFile(compiler/hsSyn/HsSyn.lhs)]]: the root module.  It exports everything you need, and it's generally what you should import.
- * [[GhcFile(compiler/hsSyn/HsBinds.lhs)]]: bindings.
- * [[GhcFile(compiler/hsSyn/HsImpExp.lhs)]]: imports and exports.
- * [[GhcFile(compiler/hsSyn/HsDecls.lhs)]]: top-level declarations.
- * [[GhcFile(compiler/hsSyn/HsExpr.lhs)]]: expressions, match expressions, comprehensions.
- * [[GhcFile(compiler/hsSyn/HsLit.lhs)]]: literals.
- * [[GhcFile(compiler/hsSyn/HsPat.lhs)]]: patterns.
- * [[GhcFile(compiler/hsSyn/HsTypes.lhs)]]: types.
- * [[GhcFile(compiler/hsSyn/HsUtils.lhs)]]: utility functions (no data types).
 
-There is significant mutual recursion between modules, and hence a couple of {{{lhs-boot}}} files. Look at [wiki:ModuleDependencies] to see the dependencies.
+There is significant mutual recursion between modules, and hence a couple of `lhs-boot` files. Look at [ModuleDependencies](module-dependencies) to see the dependencies.
 
-== Decorating `HsSyn` with type information ==
+## Decorating `HsSyn` with type information
+
 
 The type checker adds type information to the syntax tree, otherwise leaving it as undisturbed as possible.  This is done in two ways:
-  * Some constructors have a field of type {{{PostTcType}}}, which is just a synonym for {{{Type}}}. For example:
-{{{
-data HsExpr id = ... | ExplicitList PostTcType [LHsExpr id] | ...
 
-type PostTcType = Type
+- Some constructors have a field of type `PostTcType`, which is just a synonym for `Type`. For example:
 
-placeHolderType :: PostTcType
-placeHolderType = panic "Evaluated the place holder for a PostTcType"
-}}}
-  An {{{ExplicitList}}} represents the explicit list construct in Haskell (e.g. "{{{[2, 4, 1]}}}"). The parser fills the {{{PostTcType}}} field with an error thunk {{{HsTypes.placeHolderType}}}; and the renamer does not touch it.  The typechecker figures out the type, and fills in the value.  So until the type checker, we cannot examine or print the {{{PostTcType}}} fields.
+  ```wiki
+  data HsExpr id = ... | ExplicitList PostTcType [LHsExpr id] | ...
 
-  The error thunks mean that we can't conveniently pretty-print the `PostTcType` fields, because the pretty-printer would poke the error thunks when run on pre-typchecked code.  We could have defined `PostTcType` to be `Maybe Type`, but that would have meant unwrapping lots of `Just` constructors, which is messy.  It would be nicer to parameterise `HsSyn` over the `PostTcType` fields.  Thus:
-{{{
-  type RnHsBinds = HsBinds Name ()   -- After renaming
-  type TcHsBinds = HsBinds Id Type   -- After type checking
-}}}
-  This would be a Good Thing to do.
+  type PostTcType = Type
 
-  * In a few cases, the typechecker moves from one constructor to another.  Example:
-{{{
-data HsPat id
-  = ...
-  | ConPatIn	(Located id)
-		(HsConDetails id (LPat id))
+  placeHolderType :: PostTcType
+  placeHolderType = panic "Evaluated the place holder for a PostTcType"
+  ```
 
-  | ConPatOut	(Located DataCon)
-		[TyVar]			-- Existentially bound type variables
-		[id]			-- Ditto dictionaries
-		(DictBinds id)		-- Bindings involving those dictionaries
-		(HsConDetails id (LPat id))
-		Type    		-- The type of the pattern
-  ...
-}}}
-  The parser and renamer use {{{ConPatIn}}}; the typechecker generates a {{{ConPatOut}}}. This naming convention is used consistently.
+  An `ExplicitList` represents the explicit list construct in Haskell (e.g. "`[2, 4, 1]`"). The parser fills the `PostTcType` field with an error thunk `HsTypes.placeHolderType`; and the renamer does not touch it.  The typechecker figures out the type, and fills in the value.  So until the type checker, we cannot examine or print the `PostTcType` fields.
 
-  * There are a few constructors added by type checker (rather than replacing an input constructor), particularly:
-    * {{{HsWrap}}}, in the {{{HsExpr}}} type.
-    * {{{AbsBinds}}}, in the {{{HsBinds}}} type.
-  These are invariably to do with type abstraction and application, since Haskell source is implicitly generalized and instantiated, whereas GHC's intermediate form is explicitly generalized and instantiated.
+>
+> The error thunks mean that we can't conveniently pretty-print the `PostTcType` fields, because the pretty-printer would poke the error thunks when run on pre-typchecked code.  We could have defined `PostTcType` to be `Maybe Type`, but that would have meant unwrapping lots of `Just` constructors, which is messy.  It would be nicer to parameterise `HsSyn` over the `PostTcType` fields.  Thus:
+>
+> ```wiki
+>   type RnHsBinds = HsBinds Name ()   -- After renaming
+>   type TcHsBinds = HsBinds Id Type   -- After type checking
+> ```
+>
+>
+> This would be a Good Thing to do.
 
-== Source Locations == 
+- In a few cases, the typechecker moves from one constructor to another.  Example:
 
-`HsSyn` makes heavy use of the `Located` type ([[GhcFile(compiler/BasicTypes/SrcLoc)]]):
-{{{
+  ```wiki
+  data HsPat id
+    = ...
+    | ConPatIn	(Located id)
+  		(HsConDetails id (LPat id))
+
+    | ConPatOut	(Located DataCon)
+  		[TyVar]			-- Existentially bound type variables
+  		[id]			-- Ditto dictionaries
+  		(DictBinds id)		-- Bindings involving those dictionaries
+  		(HsConDetails id (LPat id))
+  		Type    		-- The type of the pattern
+    ...
+  ```
+
+  The parser and renamer use `ConPatIn`; the typechecker generates a `ConPatOut`. This naming convention is used consistently.
+
+- There are a few constructors added by type checker (rather than replacing an input constructor), particularly:
+
+  - `HsWrap`, in the `HsExpr` type.
+  - `AbsBinds`, in the `HsBinds` type.
+
+>
+> These are invariably to do with type abstraction and application, since Haskell source is implicitly generalized and instantiated, whereas GHC's intermediate form is explicitly generalized and instantiated.
+
+## Source Locations
+
+`HsSyn` makes heavy use of the `Located` type ([compiler/basicTypes/SrcLoc.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/SrcLoc.lhs)):
+
+```wiki
 data Located e = L SrcSpan e
-}}}
+```
+
+
 A `Located t` is just a pair of a `SrcSpan` (which describes the source location of `t`) and a syntax tree `t`.  The module `SrcLoc` defines two other types:
-  * `SrcLoc` specifies a particular source location: (filename, line number, character position)
-  * `SrcSpan` specifes a range of source locations: (filename, start line number and character position, end line number and character position)
-More details in [[GhcFile(compiler/BasicTypes/SrcLoc)]].
+
+- `SrcLoc` specifies a particular source location: (filename, line number, character position)
+- `SrcSpan` specifes a range of source locations: (filename, start line number and character position, end line number and character position)
+
+
+More details in [compiler/basicTypes/SrcLoc.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/SrcLoc.lhs).
+
 
 Naming convention within the code: "`LHs`" means located Haskell, e.g.
-{{{
+
+```wiki
 type LHsBinds n = Located (HsBinds n)
-}}}
-
-
 ```
