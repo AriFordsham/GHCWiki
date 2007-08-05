@@ -9,8 +9,8 @@ Things that we wouldn't really want to change, though we'd want to change the cl
  * lists ([] and :)
  * tuples
  * the {{{IO}}} and {{{ST}}} internals
- * {{Int}}, {{Word}}, etc.
- * {{Float}}, {{Double}}
+ * {{{Int}}}, {{{Word}}}, etc.
+ * {{{Float}}}, {{{Double}}}
 
 (However, we might want to change the classes these are instances of...)
 
@@ -32,4 +32,4 @@ The derivings, as they are, clearly wouldn't work too well for changed classes. 
 == See Also ==
 
  * #1580 (our bug)
- * [wiki:PackageReorg#Thebasepackage PackageReorg: the base package].
+ * [wiki:Commentary/Packages/PackageReorg#Thebasepackage PackageReorg: the base package].
