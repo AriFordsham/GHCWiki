@@ -94,7 +94,7 @@ Done:
 - Generation and plumbing through of rough matches.
 - Equational constraints in contexts.
 
-## Testsuite for type family patches
+## Regression tests of type family patches
 
 
 Current `validate` result:
