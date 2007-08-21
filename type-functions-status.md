@@ -137,3 +137,9 @@ Unexpected failures:
 - tcfail145: VALID. Error message got worse.
 - tcfail153: VALID. Related to Simple5a in that a match against a rigid type variable gets reported as an equality context that could not be deduced.
 - while: VALID. Works if definition of `succeed` gets a type signature `Monad m => a -> m a`.  The error seems to be due to the new GADT rules about annotations, but the error message is a bit strange; ie, need to be improved.
+
+
+Summary of *critical* problems:
+
+1. Panic in case of ambiguous type variables (break001, break006, and print019).
+1. Problem instantiating rank-2/impredicative types (tc210 & tc211).
