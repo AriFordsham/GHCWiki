@@ -94,7 +94,7 @@ Done:
 - Generation and plumbing through of rough matches.
 - Equational constraints in contexts.
 
-## Testsuite
+## Testsuite for type family patches
 
 
 Current `validate` result:
@@ -121,14 +121,19 @@ Unexpected failures:
    while(normal)
 ```
 
-- Class1: Ok.  (Only marked to fail in head to keep validate happy.)
-- Relf2: Type family BUG.
-- Simple5a: Changed error message for data families, BUT the new error message is cryptic and indicates a much too complicated treatment of data families.
+- Class1: VALID.  (Only marked to fail in head to keep validate happy.)
+- Relf2: VALID. Type family BUG.
+- Simple5a: VALID. Changed error message for data families, BUT the new error message is cryptic and indicates a much too complicated treatment of data families.
 - break001: INVALID.  GHC panic instead of printing error message about ambiguous variable.
 - break006: INVALID.  Seems to be the same problem as break001.
 - print019: INVALID.  Seems to be the same problem as break001.
-- rw: Changed error message for GADTs.  Seems to be the same behaviour as in Simple5a. 
+- rw: VALID. Changed error message for GADTs.  Seems to be the same behaviour as in Simple5a. 
 - tc210: INVALID (matching `forall a.a -> Int` against \`Int -\> Int fails).
 - tc211: INVALID (tests impredicative types).
-- tcfail046: Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
-- tcfail071: Changed error message (has now only one of two parts).  Unsure whether the lack of the second part signals regress.
+- tcfail046: VALID: Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
+- tcfail071: ?? Changed error message (has now only one of two parts).  Unsure whether the lack of the second part signals regress.
+- tcfail102: VALID.
+- tcfail128: VALID. Same as tcfail046.
+- tcfail145: VALID. Error message got worse.
+- tcfail153: VALID. Related to Simple5a in that a match against a rigid type variable gets reported as an equality context that could not be deduced.
+- while: VALID. Works if definition of `succeed` gets a type signature `Monad m => a -> m a`.  The error seems to be due to the new GADT rules about annotations, but the error message is a bit strange; ie, need to be improved.
