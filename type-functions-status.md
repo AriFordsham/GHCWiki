@@ -4,13 +4,13 @@
 
 **Current:**
 
-1. Dictionary handling for equational constraints:
+1. Dictionary handling for equational constraints: \[**Which of that has Tom done?**\]
 
   - Where do we check the details of the formation of equational constraints?  (In `check_pred_ty`?)
   - In the case for ordinary instances in `TcInstDcls.tcInstDecl2`, filter the ids of the super class equalities out of `map instToId sc_dicts`.  (They don't appear explicitly in the \`Hs' representation of the methods binding.)
   - Similarly with `map instToId meth_dicts` in `TcClassDcl.tcMethodBind`  Maybe we just need a special function to replace all occurences of `map instToId`?  Occurs also in `TcPat.tcConPat`.
   - We also have `map instToId` in `TcUnify.tcGen`, but here I am not sure yet whether we cans imply drop the coercion variables or have to do something else.
-1. `TcSimplify`: Handle the presence of `EqPred`s in the given set, due to appearing in signature contexts.  (Including that `instToId` doesn't work on `EqPred`s.)
+1. `TcSimplify`: Handle the presence of `EqPred`s in the given set, due to appearing in signature contexts.  (Including that `instToId` doesn't work on `EqPred`s.)  \[**Did Tom do that?**\]
 1. Well-formedness checks for equational constraints (i.e., anything beyond the type arguments being boxed, rank 0 types)
 
 ## Parsing and Renaming
@@ -43,7 +43,7 @@ Todo (low-level):
 - If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
 
-Todo (high-level):
+Todo (high-level): \[**Tom has done much of this.**\]
 
 1. Type checking of type functions (and hence, associated type synonyms); routines in `TcUnify` that need to be extended:
 
@@ -93,3 +93,42 @@ Done:
 - Import and exporting.
 - Generation and plumbing through of rough matches.
 - Equational constraints in contexts.
+
+## Testsuite
+
+
+Current `validate` result:
+
+```wiki
+Unexpected passes:
+   Class1(normal)
+
+Unexpected failures:
+   Refl2(normal)
+   Simple5a(normal)
+   break001(ghci)
+   break006(ghci)
+   print019(ghci)
+   rw(normal)
+   tc210(normal)
+   tc211(normal)
+   tcfail046(normal)
+   tcfail071(normal)
+   tcfail102(normal)
+   tcfail128(normal)
+   tcfail145(normal)
+   tcfail153(normal)
+   while(normal)
+```
+
+- Class1: Ok.  (Only marked to fail in head to keep validate happy.)
+- Relf2: Type family BUG.
+- Simple5a: Changed error message for data families, BUT the new error message is cryptic and indicates a much too complicated treatment of data families.
+- break001: INVALID.  GHC panic instead of printing error message about ambiguous variable.
+- break006: INVALID.  Seems to be the same problem as break001.
+- print019: INVALID.  Seems to be the same problem as break001.
+- rw: Changed error message for GADTs.  Seems to be the same behaviour as in Simple5a. 
+- tc210: INVALID (matching `forall a.a -> Int` against \`Int -\> Int fails).
+- tc211: INVALID (tests impredicative types).
+- tcfail046: Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
+- tcfail071: Changed error message (has now only one of two parts).  Unsure whether the lack of the second part signals regress.
