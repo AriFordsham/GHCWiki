@@ -108,8 +108,13 @@ Unexpected failures:
    tc210(normal)
    tc211(normal)
    tcfail046(normal)
+   tcfail065(normal)
+   tcfail068(normal)
+   tcfail076(normal)
    tcfail102(normal)
+   tcfail103(normal)
    tcfail128(normal)
+   tcfail179(normal)
 ```
 
 - Class1: VALID.  (Only marked to fail in head to keep validate happy.)
@@ -121,13 +126,21 @@ Unexpected failures:
 - ~~rw~~: VALID. Changed error message for GADTs.  Seems to be the same behaviour as in Simple5a. 
 - tc210: INVALID (matching `forall a.a -> Int` against \`Int -\> Int fails).
 - tc211: INVALID (tests impredicative types).
-- tcfail046: VALID: Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
+- tcfail046: VALID.  Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
+- tcfail065: VALID.  Cosmetic difference, as tidy names are assigned in different order.
+- tcfail068: ?? Reports two errors less (probably due to different recovery points)
+- tcfail076: VALID.  Same as tcfail065.
 - ~~tcfail071~~: ?? Changed error message (has now only one of two parts).  Unsure whether the lack of the second part signals regress.
 - tcfail102: VALID.
-- tcfail128: VALID. Same as tcfail046.
-- ~~tcfail145~~: VALID. Error message got worse.
-- ~~tcfail153~~: VALID. Related to Simple5a in that a match against a rigid type variable gets reported as an equality context that could not be deduced.
-- while: VALID. Works if definition of `succeed` gets a type signature `Monad m => a -> m a`.  The error seems to be due to the new GADT rules about annotations, but the error message is a bit strange; ie, need to be improved.
+
+- tcfail103: VALID.  Error message is actually better!
+
+  - tcfail128: VALID. Same as tcfail046.
+  - ~~tcfail145~~: VALID. Error message got worse.
+  - ~~tcfail153~~: VALID. Related to Simple5a in that a match against a rigid type variable gets reported as an equality context that could not be deduced.
+- tcfail179: VALID.  If anything, the error message improved.
+
+  - while: VALID. Works if definition of `succeed` gets a type signature `Monad m => a -> m a`.  The error seems to be due to the new GADT rules about annotations, but the error message is a bit strange; ie, need to be improved.
 
 
 Summary of *critical* problems:
@@ -156,7 +169,6 @@ Unexpected failures:
    tcfail102(normal)
    tcfail103(normal)
    tcfail128(normal)
-   tcfail174(normal)
    tcfail179(normal)
    while(normal)
 ```
