@@ -109,11 +109,11 @@ Unexpected failures:
  * tcfail076: VALID.  Same as tcfail065.
  * ~~tcfail071~~: ?? Changed error message (has now only one of two parts).  Unsure whether the lack of the second part signals regress.
  * tcfail102: VALID.
-* tcfail103: VALID.  Error message is actually better!
+ * tcfail103: VALID.  Error message is actually better!
  * tcfail128: VALID. Same as tcfail046.
  * ~~tcfail145~~: VALID. Error message got worse.
  * ~~tcfail153~~: VALID. Related to Simple5a in that a match against a rigid type variable gets reported as an equality context that could not be deduced.
-* tcfail179: VALID.  If anything, the error message improved.
+ * tcfail179: VALID.  If anything, the error message improved.
  * while: VALID. Works if definition of `succeed` gets a type signature `Monad m => a -> m a`.  The error seems to be due to the new GADT rules about annotations, but the error message is a bit strange; ie, need to be improved.
 
 Summary of ''critical'' problems:
