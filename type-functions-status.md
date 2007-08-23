@@ -134,3 +134,29 @@ Summary of *critical* problems:
 
 1. ~~Panic in case of ambiguous type variables (break001, break006, and print019).~~
 1. Problem instantiating rank-2/impredicative types (tc210 & tc211).
+
+---
+
+
+Local:
+
+```wiki
+Unexpected passes:
+   Class1(normal)
+   GADT2(normal)
+
+Unexpected failures:
+   Refl2(normal)
+   tc210(normal)
+   tc211(normal)
+   tcfail046(normal)
+   tcfail065(normal)
+   tcfail068(normal)
+   tcfail076(normal)
+   tcfail102(normal)
+   tcfail103(normal)
+   tcfail128(normal)
+   tcfail174(normal)
+   tcfail179(normal)
+   while(normal)
+```
