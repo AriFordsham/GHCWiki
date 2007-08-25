@@ -44,8 +44,8 @@ curl -O http://www.haskell.org/ghc/dist/6.6/ghc-6.6-src-extralibs.tar.bz2
 tar xjvf ghc-6.6-src.tar.bz2
 tar xjvf ghc-6.6-src-extralibs.tar.bz2
 cd ghc-6.6
-./configure --with-readline-includes=/usr/local \
-            --with-readline-libraries=/usr/local
+./configure --with-readline-includes=/usr/local/include \
+            --with-readline-libraries=/usr/local/lib
 make -j && sudo make install
 }}}
 
