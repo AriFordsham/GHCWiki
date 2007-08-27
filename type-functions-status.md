@@ -11,6 +11,7 @@
   - This requires a function `Types.tyVarsOfTypeDefinite` that returns only those variables not occurring under type family applications.
   - Moreover, the unification monad `UM` must be extended to be able to collect `EqInst` for later insertion into the LIE.
   - We may have to do the same for other occurs checks.
+  - And we **definitely** need the whole deferral machinery for the GADT unification in `TcGadt`.
 
 **Current:**
 
