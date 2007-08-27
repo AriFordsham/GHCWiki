@@ -113,6 +113,7 @@ Unexpected failures:
    tcfail076(normal)
    tcfail102(normal)
    tcfail103(normal)
+   tcfail153(normal)
    tcfail179(normal)
 ```
 
@@ -130,12 +131,11 @@ Unexpected failures:
 - tcfail068: ?? Reports two errors less (probably due to different recovery points)
 - tcfail071: VALID.  Now reports one instead of two errors as deferred unification is checked only after the contexts of mutually recursive groups have been unified.  (The latter is what this test case is really about, and it still works fine for that.)
 - tcfail076: VALID.  Same as tcfail065.
-- ~~tcfail071~~: ?? Changed error message (has now only one of two parts).  Unsure whether the lack of the second part signals regress.
 - tcfail102: VALID.
 - tcfail103: VALID.  Error message is actually better!
 - ~~tcfail128~~: VALID. Same as tcfail046.
 - ~~tcfail145~~: VALID. Error message got worse.
-- ~~tcfail153~~: VALID. Related to Simple5a in that a match against a rigid type variable gets reported as an equality context that could not be deduced.
+- tcfail153: VALID.  Error message is different, but equally correct and accurate.  The type mismatch manifests itself at two different subexpressions.  Due to a different traversal order, we now report the error at the other subexpression.
 - tcfail179: VALID.  If anything, the error message improved.
 - while: VALID. Works if definition of `succeed` gets a type signature `Monad m => a -> m a`.  The error seems to be due to the new GADT rules about annotations, but the error message is a bit strange; ie, need to be improved.
 
@@ -144,6 +144,3 @@ Summary of *critical* problems:
 
 1. ~~Panic in case of ambiguous type variables (break001, break006, and print019).~~
 1. Problem instantiating rank-2/impredicative types (tc210 & tc211).
-
-
-}}}
