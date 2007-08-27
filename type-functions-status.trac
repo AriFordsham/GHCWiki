@@ -93,9 +93,6 @@ Unexpected passes:
 Unexpected failures:
    Refl2(normal)
    Simple5a(normal)
-   break001(ghci)
-   break006(ghci)
-   print019(ghci)
    rw(normal)
    tcfail065(normal)
    tcfail068(normal)
