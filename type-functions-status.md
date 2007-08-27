@@ -109,7 +109,6 @@ Unexpected passes:
 
 Unexpected failures:
    Refl2(normal)
-   tc211(normal)
    tcfail065(normal)
    tcfail068(normal)
    tcfail071(normal)
@@ -128,7 +127,7 @@ Unexpected failures:
 - ~~print019~~: INVALID.  Seems to be the same problem as break001.
 - ~~rw~~: VALID. Changed error message for GADTs.  Seems to be the same behaviour as in Simple5a. 
 - ~~tc210~~: INVALID (matching `forall a.a -> Int` against \`Int -\> Int fails).
-- tc211: INVALID (tests impredicative types).
+- ~~tc211~~: INVALID (tests impredicative types).
 - ~~tcfail046~~: VALID.  Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
 - tcfail065: VALID.  Cosmetic difference, as tidy names are assigned in different order.
 - tcfail068: ?? Reports two errors less (probably due to different recovery points)
@@ -141,9 +140,3 @@ Unexpected failures:
 - tcfail153: VALID.  Error message is different, but equally correct and accurate.  The type mismatch manifests itself at two different subexpressions.  Due to a different traversal order, we now report the error at the other subexpression.
 - tcfail179: VALID.  If anything, the error message improved.
 - while: VALID. Works if definition of `succeed` gets a type signature `Monad m => a -> m a`.  The error seems to be due to the new GADT rules about annotations, but the error message is a bit strange; ie, need to be improved.
-
-
-Summary of *critical* problems:
-
-1. ~~Panic in case of ambiguous type variables (break001, break006, and print019).~~
-1. Problem instantiatiating impredicative types (tc211).
