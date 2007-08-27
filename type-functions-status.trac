@@ -2,14 +2,20 @@
 
 = Type Functions: Implementation Status =
 
+'''Debugging of type family patch:'''
+ 0. `boxySplitTyConApp` and friends must be able to deal with `orig_ty`s that have outermost type family applications; i.e., they need to try to normalise and possibly have to defer.  They also need to defer on skolems.  Consequently, they also need to return a coercion.  This , in particular, affects the treatment of literal lists, parallel arrays, and tuples in`TcExpr.tcExpr` is fishy.
+ 0. Fix core-lint breakage in cholewo-eval.
+ 0. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
+ 0. To fix Roman's GADT1 test, proceed as follows (as suggested by SPJ):
+   * `TcGadt.uUnrefined`: the occurs check needs to be more subtle.  If the variable occurs, but does so under a type family application, do not fail, but just defer.
+   * This requires a function `Types.tyVarsOfTypeDefinite` that returns only those variables not occurring under type family applications.
+   * Moreover, the unification monad `UM` must be extended to be able to collect `EqInst` for later insertion into the LIE.
+   * We may have to do the same for other occurs checks.
+   * And we '''definitely''' need the whole deferral machinery for the GADT unification in `TcGadt`.
+
 '''Current:'''
- 1. Dictionary handling for equational constraints: ['''Which of that has Tom done?''']
-   * Where do we check the details of the formation of equational constraints?  (In `check_pred_ty`?)
-   * In the case for ordinary instances in `TcInstDcls.tcInstDecl2`, filter the ids of the super class equalities out of `map instToId sc_dicts`.  (They don't appear explicitly in the `Hs' representation of the methods binding.)
-   * Similarly with `map instToId meth_dicts` in `TcClassDcl.tcMethodBind`  Maybe we just need a special function to replace all occurences of `map instToId`?  Occurs also in `TcPat.tcConPat`.
-   * We also have `map instToId` in `TcUnify.tcGen`, but here I am not sure yet whether we cans imply drop the coercion variables or have to do something else.
- 3. `TcSimplify`: Handle the presence of `EqPred`s in the given set, due to appearing in signature contexts.  (Including that `instToId` doesn't work on `EqPred`s.)  ['''Did Tom do that?''']
- 4. Well-formedness checks for equational constraints (i.e., anything beyond the type arguments being boxed, rank 0 types)
+ * Add more details about type families to the !HaskellWiki page; especially, the constraints on decidable type instances and -fallow-undecidable-instances.
+ * Add some wiki documentation of how inference with type families works.
 
 == Parsing and Renaming ==
 
@@ -33,20 +39,10 @@ Todo (low-level):
  * Enforce syntactic constraints on type instances needed to ensure the termination of constraint entailment checking.
  * If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
-Todo (high-level): ['''Tom has done much of this.''']
- 1. Type checking of type functions (and hence, associated type synonyms); routines in `TcUnify` that need to be extended:
+Todo (high-level): 
+ 1. Type checking of type functions (and hence, associated type synonyms); routines in `TcUnify` that still need to be extended:
    * `boxySplitTyConApp`: The second argument (`BoxyRhoType`) can be a synonym family application.  Then, we must produce a wanted coercion and return a `HsWrapper` value that applies that coercion.
    * `boxySplitAppTy`: Basically, the same deal as the previous.
-   * `boxySubMatchType`: Not sure yet.  Do we need to handle the case where in `go` one type is `FunTy` and the other a synonym family application?  But the function doesn't handle the case where a `FunTy` meets a tyvar either, so its probably ok to ignore.
-   * `boxy_match`: Not sure yet.  Do we have to handle the case where `t_ty` is a synonym family application?  On the other hand, this prematching seems to be an approximation.  How much does it hurt if we just  ignore this?
-   * `boxy_lub`: Unclear.  Also seems to approximate.
-   * `tcSubExp`: Defer to boxy matching if we have a synonym family application.
-   * `uTysOuter`, `u_tys`, `uPred`, `uVar`, and their intefaces `boxyUnify`, `boxyUnifyList`, `unifyType`, `unifyPred`, `unifyTheta`, and `unifyTypeList`: Generate wanted equalities and produce coercion(s).  !!!Still need to check usage patterns!!!
-  To make things easy, we might want to always return a `HsWrapper` value (unless the unification fails), which is `WpHole` whenever the coercion is empty.  The disadvantage is that this blows the tree between type checking and desugaring up.  An alternative is to return the coercion only when needed, but write some auxilliary functions that take the result of `boxySplitTyConApp` and friends and turn the optional coercion result in an always present (real Haskell) function that we always apply to the type-checked pattern (in `TcPat`) or expression.  It is simply `id` when we don't need a coercion.
-
-  Invariants:
-   * Arguments and results of synonym families are always tau types.  Then, boxy subsumption becomes easy to handle.  When we have a synonym family application, we defer to boxy matching (i.e., unification) and if that comes up with a coercion, we return it as the subsumption coercion.
-
  2. Type checking in the presence of associated synonym defaults.  (Default AT synonyms are only allowed for ATs defined in the same class.)
  3. Type check functional dependencies as type functions.
 
@@ -73,55 +69,11 @@ Done:
  * Generation and plumbing through of rough matches.
  * Equational constraints in contexts.
 
-== Regression tests of type family patches ==
+== *OLD* Regression tests of type family patches ==
+
+'''[This is outdated pre-merge info just kept around for a while.]'''
 
 Current `validate` result:
-{{{
-Unexpected passes:
-   Class1(normal)
-
-Unexpected failures:
-   Refl2(normal)
-   tc210(normal)
-   tc211(normal)
-   tcfail046(normal)
-   tcfail065(normal)
-   tcfail068(normal)
-   tcfail076(normal)
-   tcfail102(normal)
-   tcfail103(normal)
-   tcfail128(normal)
-   tcfail179(normal)
-}}}
-
- * Class1: VALID.  (Only marked to fail in head to keep validate happy.)
- * Relf2: VALID. Type family BUG.
- * ~~Simple5a~~: VALID. Changed error message for data families, BUT the new error message is cryptic and indicates a much too complicated treatment of data families.
- * ~~break001~~: INVALID.  GHC panic instead of printing error message about ambiguous variable.
- * ~~break006~~: INVALID.  Seems to be the same problem as break001.
- * ~~print019~~: INVALID.  Seems to be the same problem as break001.
- * ~~rw~~: VALID. Changed error message for GADTs.  Seems to be the same behaviour as in Simple5a. 
- * tc210: INVALID (matching `forall a.a -> Int` against `Int -> Int fails).
- * tc211: INVALID (tests impredicative types).
- * tcfail046: VALID.  Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
- * tcfail065: VALID.  Cosmetic difference, as tidy names are assigned in different order.
- * tcfail068: ?? Reports two errors less (probably due to different recovery points)
- * tcfail076: VALID.  Same as tcfail065.
- * ~~tcfail071~~: ?? Changed error message (has now only one of two parts).  Unsure whether the lack of the second part signals regress.
- * tcfail102: VALID.
- * tcfail103: VALID.  Error message is actually better!
- * tcfail128: VALID. Same as tcfail046.
- * ~~tcfail145~~: VALID. Error message got worse.
- * ~~tcfail153~~: VALID. Related to Simple5a in that a match against a rigid type variable gets reported as an equality context that could not be deduced.
- * tcfail179: VALID.  If anything, the error message improved.
- * while: VALID. Works if definition of `succeed` gets a type signature `Monad m => a -> m a`.  The error seems to be due to the new GADT rules about annotations, but the error message is a bit strange; ie, need to be improved.
-
-Summary of ''critical'' problems:
- 0. ~~Panic in case of ambiguous type variables (break001, break006, and print019).~~
- 0. Problem instantiating rank-2/impredicative types (tc210 & tc211).
-
-----
-Local:
 {{{
 Unexpected passes:
    Class1(normal)
@@ -129,15 +81,40 @@ Unexpected passes:
 
 Unexpected failures:
    Refl2(normal)
-   tc210(normal)
-   tc211(normal)
-   tcfail046(normal)
+   Simple5a(normal)
+   rw(normal)
    tcfail065(normal)
    tcfail068(normal)
+   tcfail071(normal)
    tcfail076(normal)
    tcfail102(normal)
    tcfail103(normal)
-   tcfail128(normal)
+   tcfail153(normal)
    tcfail179(normal)
-   while(normal)
 }}}
+
+ * Class1: VALID.  (Only marked to fail in head to keep validate happy.)
+ * GADT2: VALID.  (Only marked to fail in head to keep validate happy.)
+ * Relf2: VALID. Type family BUG.
+ * Simple5a: VALID.  Error message changed.
+ * ~~break001~~: INVALID.  GHC panic instead of printing error message about ambiguous variable.
+ * ~~break006~~: INVALID.  Seems to be the same problem as break001.
+ * ~~print019~~: INVALID.  Seems to be the same problem as break001.
+ * rw: VALID. Changed error message.  Reports one error less.  Other one is pruned, but still raised if the first one is removed.
+ * ~~tc210~~: INVALID (matching `forall a.a -> Int` against `Int -> Int fails).
+ * ~~tc211~~: INVALID (tests impredicative types).
+ * ~~tcfail046~~: VALID.  Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
+ * tcfail065: VALID.  Cosmetic difference, as tidy names are assigned in different order.
+ * tcfail068: VALID.  Reports two errors less (probably due to different recovery points).  Yes, I checked that its not that it admits incorrect programs, but just due to different order of checking/pruning of errors.
+ * tcfail071: VALID.  Now reports one instead of two errors as deferred unification is checked only after the contexts of mutually recursive groups have been unified.  (The latter is what this test case is really about, and it still works fine for that.)
+ * tcfail076: VALID.  Same as tcfail065.
+ * tcfail102: VALID.
+ * tcfail103: VALID.  Error message is actually better!
+ * ~~tcfail128~~: VALID. Same as tcfail046.
+ * ~~tcfail145~~: VALID. Error message got worse.
+ * tcfail153: VALID.  Error message is different, but equally correct and accurate.  The type mismatch manifests itself at two different subexpressions.  Due to a different traversal order, we now report the error at the other subexpression.
+ * tcfail179: VALID.  If anything, the error message improved.
+ * while: VALID. Works if definition of `succeed` gets a type signature `Monad m => a -> m a`.  The error seems to be due to the new GADT rules about annotations, but the error message is a bit strange; ie, need to be improved.
+
+Regression tests that are not part of the fast run:
+ * cholewo-eval: core-lint breakage
