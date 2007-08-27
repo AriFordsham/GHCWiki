@@ -85,7 +85,6 @@ Unexpected passes:
 
 Unexpected failures:
    Refl2(normal)
-   tc210(normal)
    tc211(normal)
    tcfail065(normal)
    tcfail068(normal)
@@ -104,7 +103,7 @@ Unexpected failures:
  * ~~break006~~: INVALID.  Seems to be the same problem as break001.
  * ~~print019~~: INVALID.  Seems to be the same problem as break001.
  * ~~rw~~: VALID. Changed error message for GADTs.  Seems to be the same behaviour as in Simple5a. 
- * tc210: INVALID (matching `forall a.a -> Int` against `Int -> Int fails).
+ * ~~tc210~~: INVALID (matching `forall a.a -> Int` against `Int -> Int fails).
  * tc211: INVALID (tests impredicative types).
  * ~~tcfail046~~: VALID.  Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
  * tcfail065: VALID.  Cosmetic difference, as tidy names are assigned in different order.
@@ -121,4 +120,4 @@ Unexpected failures:
 
 Summary of ''critical'' problems:
  0. ~~Panic in case of ambiguous type variables (break001, break006, and print019).~~
- 0. Problem instantiating rank-2/impredicative types (tc210 & tc211).
+ 0. Problem instantiatiating impredicative types (tc211).
