@@ -86,6 +86,7 @@ Unexpected failures:
    tc211(normal)
    tcfail065(normal)
    tcfail068(normal)
+   tcfail071(normal)
    tcfail076(normal)
    tcfail102(normal)
    tcfail103(normal)
@@ -94,7 +95,7 @@ Unexpected failures:
 
  * Class1: VALID.  (Only marked to fail in head to keep validate happy.)
  * Relf2: VALID. Type family BUG.
- * ~~Simple5a~~: VALID. Changed error message for data families, BUT the new error message is cryptic and indicates a much too complicated treatment of data families.
+ * ~~Simple5a~~: VALID. Changed error message for data families, BUT the new error message is cryptic.
  * ~~break001~~: INVALID.  GHC panic instead of printing error message about ambiguous variable.
  * ~~break006~~: INVALID.  Seems to be the same problem as break001.
  * ~~print019~~: INVALID.  Seems to be the same problem as break001.
@@ -104,6 +105,7 @@ Unexpected failures:
  * ~~tcfail046~~: VALID.  Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
  * tcfail065: VALID.  Cosmetic difference, as tidy names are assigned in different order.
  * tcfail068: ?? Reports two errors less (probably due to different recovery points)
+ * tcfail071: VALID.  Now reports one instead of two errors as deferred unification is checked only after the contexts of mutually recursive groups have been unified.  (The latter is what this test case is really about, and it still works fine for that.)
  * tcfail076: VALID.  Same as tcfail065.
  * ~~tcfail071~~: ?? Changed error message (has now only one of two parts).  Unsure whether the lack of the second part signals regress.
  * tcfail102: VALID.
