@@ -4,6 +4,7 @@
 
 '''Debugging of type family patch:'''
  0. `boxySplitTyConApp` and friends must be able to deal with `orig_ty`s that have outermost type family applications; i.e., they need to try to normalise and possibly have to defer.  They also need to defer on skolems.  Consequently, they also need to return a coercion.  This , in particular, affects the treatment of literal lists, parallel arrays, and tuples in`TcExpr.tcExpr` is fishy.
+ 0. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
  0. To fix Roman's GADT1 test, proceed as follows (as suggested by SPJ):
    * `TcGadt.uUnrefined`: the occurs check needs to be more subtle.  If the variable occurs, but does so under a type family application, do not fail, but just defer.
    * This requires a function `Types.tyVarsOfTypeDefinite` that returns only those variables not occurring under type family applications.
@@ -91,7 +92,11 @@ Unexpected passes:
 
 Unexpected failures:
    Refl2(normal)
-  Simple5a(normal)
+   Simple5a(normal)
+   break001(ghci)
+   break006(ghci)
+   print019(ghci)
+   rw(normal)
    tcfail065(normal)
    tcfail068(normal)
    tcfail071(normal)
@@ -105,11 +110,10 @@ Unexpected failures:
  * Class1: VALID.  (Only marked to fail in head to keep validate happy.)
  * Relf2: VALID. Type family BUG.
  * Simple5a: VALID.  Error message changed.
- * ~~Simple5a~~: VALID. Changed error message for data families, BUT the new error message is cryptic.
  * ~~break001~~: INVALID.  GHC panic instead of printing error message about ambiguous variable.
  * ~~break006~~: INVALID.  Seems to be the same problem as break001.
  * ~~print019~~: INVALID.  Seems to be the same problem as break001.
- * ~~rw~~: VALID. Changed error message for GADTs.  Seems to be the same behaviour as in Simple5a. 
+ * rw: VALID. Changed error message.  Reports one error less.  Other one is pruned, but still raised if the first one is removed.
  * ~~tc210~~: INVALID (matching `forall a.a -> Int` against `Int -> Int fails).
  * ~~tc211~~: INVALID (tests impredicative types).
  * ~~tcfail046~~: VALID.  Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
