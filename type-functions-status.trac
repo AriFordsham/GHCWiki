@@ -106,7 +106,7 @@ Unexpected failures:
  * ~~tc211~~: INVALID (tests impredicative types).
  * ~~tcfail046~~: VALID.  Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
  * tcfail065: VALID.  Cosmetic difference, as tidy names are assigned in different order.
- * tcfail068: ?? Reports two errors less (probably due to different recovery points)
+ * tcfail068: VALID.  Reports two errors less (probably due to different recovery points).  Yes, I checked that its not that it admits incorrect programs, but just due to different order of checking/pruning of errors.
  * tcfail071: VALID.  Now reports one instead of two errors as deferred unification is checked only after the contexts of mutually recursive groups have been unified.  (The latter is what this test case is really about, and it still works fine for that.)
  * tcfail076: VALID.  Same as tcfail065.
  * tcfail102: VALID.
