@@ -115,6 +115,7 @@ Unexpected passes:
 
 Unexpected failures:
    Refl2(normal)
+  Simple5a(normal)
    tcfail065(normal)
    tcfail068(normal)
    tcfail071(normal)
@@ -127,6 +128,7 @@ Unexpected failures:
 
 - Class1: VALID.  (Only marked to fail in head to keep validate happy.)
 - Relf2: VALID. Type family BUG.
+- Simple5a: VALID.  Error message changed.
 - ~~Simple5a~~: VALID. Changed error message for data families, BUT the new error message is cryptic.
 - ~~break001~~: INVALID.  GHC panic instead of printing error message about ambiguous variable.
 - ~~break006~~: INVALID.  Seems to be the same problem as break001.
