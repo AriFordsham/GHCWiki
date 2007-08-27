@@ -114,6 +114,7 @@ Current `validate` result:
 ```wiki
 Unexpected passes:
    Class1(normal)
+   GADT2(normal)
 
 Unexpected failures:
    Refl2(normal)
@@ -130,6 +131,7 @@ Unexpected failures:
 ```
 
 - Class1: VALID.  (Only marked to fail in head to keep validate happy.)
+- GADT2: VALID.  (Only marked to fail in head to keep validate happy.)
 - Relf2: VALID. Type family BUG.
 - Simple5a: VALID.  Error message changed.
 - ~~break001~~: INVALID.  GHC panic instead of printing error message about ambiguous variable.
