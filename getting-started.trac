@@ -1,11 +1,23 @@
 = Getting Started =
 
-How to get started with hacking on GHC:
+THis page tells you how to get started with hacking on GHC.
 
+== Getting GHC to build on your machine ==
  * [wiki:Building/GettingTheSources Grab the latest sources]
  * [wiki:Building/Hacking Set up your build tree]
+ * Although old code in GHC is not warning-clean, we want new code to be, and we are gradually cleaning the old modules.  Here is [wiki:WorkingConventions how to cooperate with this].
+
+== Deciding what to work on ==
+ * You may have a pet project of your own.  If you are wondering which bits of the compiler would be important for you, start by consulting the [wiki:Commentary]. 
  * Pick an easy [query:?status=new&status=assigned&status=reopened&type=bug&order=priority&group=difficulty  bug report] or [query:?status=new&status=assigned&status=reopened&type=task&order=priority&group=difficulty  task] to work on
- * Useful information about GHC's architecture is in the [wiki:Commentary]
- * Hack away... ask questions on [http://haskell.org/mailman/listinfo/cvs-ghc the cvs-ghc mailing list]
- * Familiarise yourself with the GHC WorkingConventions.
+
+== Contributing back to GHC ==
+
+ * Validating your patches
  * [wiki:WorkingConventions#Submittingpatches Submit patches back], using {{{darcs send}}} is the recommended way.
+
+== More information ==
+
+ * Ask questions on [http://haskell.org/mailman/listinfo/cvs-ghc the cvs-ghc mailing list]
+ * Useful information about GHC's architecture is in the [wiki:Commentary]
+ * Familiarise yourself with the GHC WorkingConventions.
