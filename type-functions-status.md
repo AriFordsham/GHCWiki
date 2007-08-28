@@ -5,6 +5,7 @@
 **Debugging of type family patch:**
 
 1. `boxySplitTyConApp` and friends must be able to deal with `orig_ty`s that have outermost type family applications; i.e., they need to try to normalise and possibly have to defer.  They also need to defer on skolems.  Consequently, they also need to return a coercion.  This , in particular, affects the treatment of literal lists, parallel arrays, and tuples in`TcExpr.tcExpr` is fishy.
+1. Fix core-lint breakage in cholewo-eval.
 1. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
 1. To fix Roman's GADT1 test, proceed as follows (as suggested by SPJ):
 
@@ -49,25 +50,12 @@ Todo (low-level):
 - If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
 
-Todo (high-level): \[**Tom has done much of this.**\]
+Todo (high-level): 
 
-1. Type checking of type functions (and hence, associated type synonyms); routines in `TcUnify` that need to be extended:
+1. Type checking of type functions (and hence, associated type synonyms); routines in `TcUnify` that still need to be extended:
 
   - `boxySplitTyConApp`: The second argument (`BoxyRhoType`) can be a synonym family application.  Then, we must produce a wanted coercion and return a `HsWrapper` value that applies that coercion.
   - `boxySplitAppTy`: Basically, the same deal as the previous.
-  - `boxySubMatchType`: Not sure yet.  Do we need to handle the case where in `go` one type is `FunTy` and the other a synonym family application?  But the function doesn't handle the case where a `FunTy` meets a tyvar either, so its probably ok to ignore.
-  - `boxy_match`: Not sure yet.  Do we have to handle the case where `t_ty` is a synonym family application?  On the other hand, this prematching seems to be an approximation.  How much does it hurt if we just  ignore this?
-  - `boxy_lub`: Unclear.  Also seems to approximate.
-  - `tcSubExp`: Defer to boxy matching if we have a synonym family application.
-  - `uTysOuter`, `u_tys`, `uPred`, `uVar`, and their intefaces `boxyUnify`, `boxyUnifyList`, `unifyType`, `unifyPred`, `unifyTheta`, and `unifyTypeList`: Generate wanted equalities and produce coercion(s).  !!!Still need to check usage patterns!!!
-
-  To make things easy, we might want to always return a `HsWrapper` value (unless the unification fails), which is `WpHole` whenever the coercion is empty.  The disadvantage is that this blows the tree between type checking and desugaring up.  An alternative is to return the coercion only when needed, but write some auxilliary functions that take the result of `boxySplitTyConApp` and friends and turn the optional coercion result in an always present (real Haskell) function that we always apply to the type-checked pattern (in `TcPat`) or expression.  It is simply `id` when we don't need a coercion.
-
-> >
-> > Invariants:
-
-- Arguments and results of synonym families are always tau types.  Then, boxy subsumption becomes easy to handle.  When we have a synonym family application, we defer to boxy matching (i.e., unification) and if that comes up with a coercion, we return it as the subsumption coercion.
-
 1. Type checking in the presence of associated synonym defaults.  (Default AT synonyms are only allowed for ATs defined in the same class.)
 1. Type check functional dependencies as type functions.
 
@@ -100,7 +88,9 @@ Done:
 - Generation and plumbing through of rough matches.
 - Equational constraints in contexts.
 
-## Regression tests of type family patches
+## \*OLD\* Regression tests of type family patches
+
+**\[This is outdated pre-merge info just kept around for a while.\]**
 
 
 Current `validate` result:
