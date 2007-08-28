@@ -150,4 +150,4 @@ Unexpected failures:
 
 Regression tests that are not part of the fast run:
 
-- cholewo-eval: core-lint breackage
+- cholewo-eval: core-lint breakage

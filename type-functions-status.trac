@@ -124,4 +124,4 @@ Unexpected failures:
  * while: VALID. Works if definition of `succeed` gets a type signature `Monad m => a -> m a`.  The error seems to be due to the new GADT rules about annotations, but the error message is a bit strange; ie, need to be improved.
 
 Regression tests that are not part of the fast run:
- * cholewo-eval: core-lint breackage
+ * cholewo-eval: core-lint breakage
