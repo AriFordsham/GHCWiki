@@ -17,7 +17,7 @@
 
 **Current:**
 
-- Merge and debug type family patch.
+- Add more details about type families to the HaskellWiki page; especially, the constraints on decidable type instances and -fallow-undecidable-instances.
 - Add some wiki documentation of how inference with type families works.
 
 ## Parsing and Renaming
