@@ -127,3 +127,6 @@ Unexpected failures:
  * tcfail153: VALID.  Error message is different, but equally correct and accurate.  The type mismatch manifests itself at two different subexpressions.  Due to a different traversal order, we now report the error at the other subexpression.
  * tcfail179: VALID.  If anything, the error message improved.
  * while: VALID. Works if definition of `succeed` gets a type signature `Monad m => a -> m a`.  The error seems to be due to the new GADT rules about annotations, but the error message is a bit strange; ie, need to be improved.
+
+Regression tests that are not part of the fast run:
+ * cholewo-eval: core-lint breackage
