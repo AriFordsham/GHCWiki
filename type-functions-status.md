@@ -141,15 +141,3 @@ Unexpected failures:
 Regression tests that are not part of the fast run:
 
 - cholewo-eval: core-lint breakage
-
-
-29/8/7:
-
-```wiki
-   break003(ghci)
-   break006(ghci)
-   break012(ghci)
-   break013(ghci)
-   break018(ghci)
-   break021(ghci)
-```
