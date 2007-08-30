@@ -4,7 +4,6 @@
 
 **Debugging of type family patch:**
 
-1. Add missing formation checks.
 1. `boxySplitTyConApp` and friends must be able to deal with `orig_ty`s that have outermost type family applications; i.e., they need to try to normalise and possibly have to defer.  They also need to defer on skolems.  Consequently, they also need to return a coercion.  This , in particular, affects the treatment of literal lists, parallel arrays, and tuples in`TcExpr.tcExpr` is fishy.
 1. Fix export list problem (ie, export of data constructors introduced by orphan data instances):
 
@@ -55,7 +54,6 @@ Done:
 
 Todo (low-level):
 
-- Enforce syntactic constraints on type instances needed to ensure the termination of constraint entailment checking.
 - Allow data family GADT instances.
 - Deriving `Typeable` for data families.
 - If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
@@ -63,7 +61,7 @@ Todo (low-level):
 
 Todo (high-level): 
 
-1. Type checking of type functions (and hence, associated type synonyms); routines in `TcUnify` that still need to be extended:
+1. Type checking of type families; routines in `TcUnify` that still need to be extended:
 
   - `boxySplitTyConApp`: The second argument (`BoxyRhoType`) can be a synonym family application.  Then, we must produce a wanted coercion and return a `HsWrapper` value that applies that coercion.
   - `boxySplitAppTy`: Basically, the same deal as the previous.
@@ -77,6 +75,7 @@ Done:
 - Kind and type checking of instance declarations of indexed types, including the generation of representation tycons.
 - Wrapper generation and type checking of pattern matching for indexed data and newtypes.
 - Consistency checking for family instances.
+- Enforce syntactic constraints on type instances needed to ensure the termination of constraint entailment checking.
 
 ## Desugaring
 
