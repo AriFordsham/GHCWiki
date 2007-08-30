@@ -12,6 +12,7 @@
   - Then, there is also no need for the grouping of the identifiers by module anymore (but sort it to avoid spurious iface changes dur to re-ordering when re-compiling).
   - We still need to have the name parent map, though.
   - See email for example.
+1. Allow data family GADT instances.
 1. Fix core-lint breakage in cholewo-eval.
 1. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
 1. To move GADT type checking from refinements to using equalities, proceed as follows (as suggested by SPJ):
@@ -56,6 +57,8 @@ Done:
 Todo (low-level):
 
 - Enforce syntactic constraints on type instances needed to ensure the termination of constraint entailment checking.
+- Allow data family GADT instances.
+- Deriving `Typeable` for data families.
 - If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
 
