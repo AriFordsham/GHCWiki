@@ -5,6 +5,7 @@
 **Debugging of type family patch:**
 
 1. [\#1651](https://gitlab.haskell.org//ghc/ghc/issues/1651)
+1. Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.
 1. `boxySplitTyConApp` and friends must be able to deal with `orig_ty`s that have outermost type family applications; i.e., they need to try to normalise and possibly have to defer.  They also need to defer on skolems.  Consequently, they also need to return a coercion.  This , in particular, affects the treatment of literal lists, parallel arrays, and tuples in`TcExpr.tcExpr` is fishy.
 1. Fix export list problem (ie, export of data constructors introduced by orphan data instances):
 
