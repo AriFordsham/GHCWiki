@@ -6,13 +6,27 @@ This is a rough description of some of the coding practices and style that we us
 
 The general rule is to stick to the same coding style as is already used in the file you're editing. If you must make stylistic changes, commit them separately from functional changes, so that someone looking back through the change logs can easily distinguish them. 
 
-## General Style
+## Warnings
 
 
-It's much better to write code that is transparent, than to write code that is short.
+We are aiming to make the GHC code warning-free for all warnings turned on by
+
+```wiki
+-Wall -fno-warn-name-shadowing
+```
 
 
-Often it's better to write out the code longhand than to reuse a generic abstraction (not always, of course).  Sometimes it's better to duplicate some similar code than to try to construct an elaborate generalisation with only two instances.  Remember: other people have to be able to quickly understand what you've done, and overuse of abstractions just serves to obscure the *really* tricky stuff, and there's no shortage of that in GHC.
+and as such the build sets these flags for the stage 2 compiler, and the validate script, which is used to test the build before commiting, additionally sets the `-Werror` flag. As the `-Werror` flag is not set during normal builds, during development warnings will be printed but won't halt the build.
+
+
+Currently we are some way from our goal, so many modules have a
+
+```wiki
+{-# OPTIONS -w #-}
+```
+
+
+pragma; you are encouraged to remove this pragma and fix any warnings when working on a module.
 
 ## To literate or not to literate?
 
@@ -165,24 +179,10 @@ Import library modules from the core packages only (core packages are listed in 
 
 If the module can be compiled multiple ways (eg. GHCI vs. non-GHCI), make sure the imports are properly `#ifdefed` too, so as to avoid spurious unused import warnings. 
 
-## Warnings
+### General Style
 
 
-We are aiming to make the GHC code warning-free for all warnings turned on by
-
-```wiki
--Wall -fno-warn-name-shadowing
-```
+It's much better to write code that is transparent, than to write code that is short.
 
 
-and as such the build sets these flags for the stage 2 compiler, and the validate script, which is used to test the build before commiting, additionally sets the `-Werror` flag. As the `-Werror` flag is not set during normal builds, during development warnings will be printed but won't halt the build.
-
-
-Currently we are some way from our goal, so many modules have a
-
-```wiki
-{-# OPTIONS -w #-}
-```
-
-
-pragma; you are encouraged to remove this pragma and fix any warnings when working on a module.
+Often it's better to write out the code longhand than to reuse a generic abstraction (not always, of course).  Sometimes it's better to duplicate some similar code than to try to construct an elaborate generalisation with only two instances.  Remember: other people have to be able to quickly understand what you've done, and overuse of abstractions just serves to obscure the *really* tricky stuff, and there's no shortage of that in GHC.
