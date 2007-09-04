@@ -16,47 +16,66 @@ These darcs repositories are the HEAD (main trunk) of GHC development:
 
 The following repositories are the "core" packages, that populate the libraries directory of a GHC tree:
 
+||http://darcs.haskell.org/packages/array||
 ||http://darcs.haskell.org/packages/base||
+||http://darcs.haskell.org/packages/bytestring||
 ||http://darcs.haskell.org/packages/Cabal||
+||http://darcs.haskell.org/packages/containers||
+||http://darcs.haskell.org/packages/directory||
+||http://darcs.haskell.org/packages/filepath||
 ||http://darcs.haskell.org/packages/haskell98||
+||http://darcs.haskell.org/packages/old-locale||
+||http://darcs.haskell.org/packages/old-time||
+||http://darcs.haskell.org/packages/packedstring||
+||http://darcs.haskell.org/packages/pretty||
+||http://darcs.haskell.org/packages/process||
+||http://darcs.haskell.org/packages/random||
 ||http://darcs.haskell.org/packages/readline||
-||http://darcs.haskell.org/packages/regex-base||
-||http://darcs.haskell.org/packages/regex-posix||
-||http://darcs.haskell.org/packages/regex-compat||
-||http://darcs.haskell.org/packages/stm||
 ||http://darcs.haskell.org/packages/template-haskell||
 ||http://darcs.haskell.org/packages/unix||
 ||http://darcs.haskell.org/packages/Win32||
 ||http://darcs.haskell.org/packages/hpc||
 
-
 And the following repositories are the "extra" packages:
+
 
 ||http://darcs.haskell.org/packages/ALUT||
 ||http://darcs.haskell.org/packages/GLUT||
 ||http://darcs.haskell.org/packages/HGL||
 ||http://darcs.haskell.org/packages/HUnit||
-||http://darcs.haskell.org/packages/HaXml||
-||http://darcs.haskell.org/packages/Japi||
 ||http://darcs.haskell.org/packages/ObjectIO||
 ||http://darcs.haskell.org/packages/OpenAL||
 ||http://darcs.haskell.org/packages/OpenGL||
 ||http://darcs.haskell.org/packages/QuickCheck||
 ||http://darcs.haskell.org/packages/X11||
 ||http://darcs.haskell.org/packages/arrows||
+||http://darcs.haskell.org/packages/cgi||
 ||http://darcs.haskell.org/packages/fgl||
 ||http://darcs.haskell.org/packages/haskell-src||
 ||http://darcs.haskell.org/packages/html||
-||http://darcs.haskell.org/packages/monads||
 ||http://darcs.haskell.org/packages/mtl||
 ||http://darcs.haskell.org/packages/network||
 ||http://darcs.haskell.org/packages/parsec||
+||http://darcs.haskell.org/packages/parallel||
+||http://darcs.haskell.org/packages/regex-base||
+||http://darcs.haskell.org/packages/regex-compat||
+||http://darcs.haskell.org/packages/regex-posix||
+||http://darcs.haskell.org/packages/stm||
 ||http://darcs.haskell.org/packages/time||
 ||http://darcs.haskell.org/packages/xhtml||
 
 == Branches ==
 
 The following branches are active:
+
+ '''6.8 Branch'''::
+  Prepend `ghc-6.8` to the name of the repository to get the 6.8 branch.  For example,
+  the 6.8 ghc repository is at [http://darcs.haskell.org/ghc-6.8/ghc]. 
+  [[br]][[br]]
+  Note: only the `ghc` repository and the core libraries were branched for 6.8, the
+  extralibs packages are not found under `ghc-6.8`.  The `darcs-all` script knows
+  where to get everything, so you don't have to worry about this, just follow the
+  instructions in [wiki:Building/GettingTheSources].
 
  '''6.6 Branch'''::
   Prepend `ghc-6.6` to the name of the repository to get the 6.6 branch.  For example,
