@@ -6,27 +6,33 @@
 
 1. [\#1651](https://gitlab.haskell.org//ghc/ghc/issues/1651); fixed the panic, remains the bogus missing instance error
 1. Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page. **\[Tom is working at this.\]**
-1. `boxySplitTyConApp` and friends must be able to deal with `orig_ty`s that have outermost type family applications; i.e., they need to try to normalise and possibly have to defer.  They also need to defer on skolems.  Consequently, they also need to return a coercion.  This , in particular, affects the treatment of literal lists, parallel arrays, and tuples in`TcExpr.tcExpr` is fishy.
-1. Can't we now allow non-left-linear declarations; e.g., `instance type F a a = ..`?
-1. Fix export list problem (ie, export of data constructors introduced by orphan data instances):
+1. To fix `Simple8`:
 
-  - Change `HscTypes.IfaceExport` to use `Name` instead of `OccName`.
-  - Then, there is also no need for the grouping of the identifiers by module anymore (but sort it to avoid spurious iface changes dur to re-ordering when re-compiling).
-  - We still need to have the name parent map, though.
-  - See email for example.
-1. Allow data family GADT instances.
-1. Fix core-lint breakage in cholewo-eval.
-1. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
-1. To move GADT type checking from refinements to using equalities, proceed as follows (as suggested by SPJ):
+  - Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
 
-  - In `TcPat.tcConPat`:
+- Issue a warning if there are two identical instances (as per  Roman's suggestion).
 
-    - set `eq_spec' = []`, to get an empty refinement
-    - add the equalities from `eq_spec` to `theta'` (to propagate them instead of the refinement)
-  - Test whether this works (it basically disables the refinement mechanism without deleting it)
-  - In `TcUnify`, make all occurs checks more elaborate.  They should only **defer** if the checked variable occurs as part of an argument to a type family application; in other cases, still fail right away.
-  - `TcGadt.tcUnifyTys` can now probably be replaced again by the non-side-effecting unifier that was in `types/Unify.hs` (recover from previous repo states).
-1. Emit a warning if there are two *identical* type instances.
+  1. `boxySplitTyConApp` and friends must be able to deal with `orig_ty`s that have outermost type family applications; i.e., they need to try to normalise and possibly have to defer.  They also need to defer on skolems.  Consequently, they also need to return a coercion.  This , in particular, affects the treatment of literal lists, parallel arrays, and tuples in`TcExpr.tcExpr` is fishy.
+  1. Can't we now allow non-left-linear declarations; e.g., `instance type F a a = ..`?
+  1. Fix export list problem (ie, export of data constructors introduced by orphan data instances):
+
+    - Change `HscTypes.IfaceExport` to use `Name` instead of `OccName`.
+    - Then, there is also no need for the grouping of the identifiers by module anymore (but sort it to avoid spurious iface changes dur to re-ordering when re-compiling).
+    - We still need to have the name parent map, though.
+    - See email for example.
+  1. Allow data family GADT instances.
+  1. Fix core-lint breakage in cholewo-eval.
+  1. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
+  1. To move GADT type checking from refinements to using equalities, proceed as follows (as suggested by SPJ):
+
+    - In `TcPat.tcConPat`:
+
+      - set `eq_spec' = []`, to get an empty refinement
+      - add the equalities from `eq_spec` to `theta'` (to propagate them instead of the refinement)
+    - Test whether this works (it basically disables the refinement mechanism without deleting it)
+    - In `TcUnify`, make all occurs checks more elaborate.  They should only **defer** if the checked variable occurs as part of an argument to a type family application; in other cases, still fail right away.
+    - `TcGadt.tcUnifyTys` can now probably be replaced again by the non-side-effecting unifier that was in `types/Unify.hs` (recover from previous repo states).
+  1. Emit a warning if there are two *identical* type instances.
 
 **Current:**
 
