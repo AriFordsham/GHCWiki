@@ -5,7 +5,7 @@
 **Debugging of type family patch:**
 
 1. [\#1651](https://gitlab.haskell.org//ghc/ghc/issues/1651); fixed the panic, remains the bogus missing instance error
-1. Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page. **\[Tom is working at this.\]**
+1. Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page.
 1. To fix `Simple8`:
 
   - Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
