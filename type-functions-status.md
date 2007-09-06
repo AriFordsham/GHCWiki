@@ -4,7 +4,6 @@
 
 **Debugging of type family patch:**
 
-1. [\#1651](https://gitlab.haskell.org//ghc/ghc/issues/1651); fixed the panic, remains the bogus missing instance error
 1. Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page.
 1. To fix `Simple8`:
 

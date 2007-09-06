@@ -3,7 +3,6 @@
 = Type Functions: Implementation Status =
 
 '''Debugging of type family patch:'''
- 0. #1651; fixed the panic, remains the bogus missing instance error
  0. Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page.
  0. To fix `Simple8`:
    * Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
