@@ -21,7 +21,7 @@ These darcs repositories are the HEAD (main trunk) of GHC development:
 **Warning.**  Both the `ghc` and `testsuite` repositories tickle a case-sensitivity bug in darcs, so on Windows (only) you can't do a full `darcs get` for `ghc` or `testsuite`.  Instead, either start with a tarball of the repository gotten from somewhere else, or do `darcs get --partial`.  (The repository itself can't be fixed to avoid the bug, without messing up its history.)
 
 
-The following repositories are the "core" packages, that populate the libraries directory of a GHC tree:
+The following repositories are the "GHC boot" libraries, i.e. the set of libraries that are necessary to build GHC. They populate the libraries/ directory of a GHC tree:
 
 <table><tr><th>[ http://darcs.haskell.org/packages/array](http://darcs.haskell.org/packages/array)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/base](http://darcs.haskell.org/packages/base)</th></tr>
@@ -44,7 +44,7 @@ The following repositories are the "core" packages, that populate the libraries 
 <tr><th>[ http://darcs.haskell.org/packages/hpc](http://darcs.haskell.org/packages/hpc)</th></tr></table>
 
 
-And the following repositories are the "extra" packages:
+And the following repositories are the "extra" libraries; if in the libraries/ directory of a GHC tree then they will also be built:
 
 <table><tr><th>[ http://darcs.haskell.org/packages/ALUT](http://darcs.haskell.org/packages/ALUT)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/GLUT](http://darcs.haskell.org/packages/GLUT)</th></tr>
