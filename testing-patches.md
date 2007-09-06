@@ -16,6 +16,11 @@ The validate script should take around 20mins on a fast, dual core machine.
 
 Assuming all is well, go ahead and commit your changes! If you have commit access then just push as normal. If not, use "darcs send --edit-description" and add a note to say what testing you have done, and on which operating system/architecture.
 
+## Testing different configurations
+
+
+You may want to validate a different configuration, e.g. with `GhcLibWays = p`. When validating, `mk/build.mk`, where you would normally put this, is ignored; use `mk/validate.mk` instead.
+
 ## Finding unrecorded or unpushed patches
 
 
