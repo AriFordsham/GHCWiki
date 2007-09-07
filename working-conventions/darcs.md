@@ -1,0 +1,39 @@
+# Guidelines for using darcs with GHC
+
+
+GHC uses [ darcs](http://darcs.net/) for revision control.  This page describes various GHC-specific conventions for using darcs, together with some suggestions and tips for using darcs effectively.
+
+## Conflicts
+
+
+Right now, we avoid having any conflicts in the GHC HEAD repository, because darcs currently doesn't handle conflicts well.  Don't push and conflicts, even resolved ones, to the GHC HEAD.  Instead amend-record or re-record your patches to fix the conflicts before pushing.
+
+
+Conflicts on branches are less of a problem, because branches usually have a limited life-span.  As long as the branch is not intended to be merged with the HEAD in the future (e.g. the stable branches), then small conflicts are ok.
+
+
+We're aware that this policy creates problems for development branches of GHC, and this is truly unfortunate.  We're hopeful that darcs' conflict handling will improve in the future and we can get the full power of darcs for separate development.
+
+## Pushing
+
+
+A GHC tree consists of several repositories (see [Building/GettingTheSources](building/getting-the-sources)).  Sometimes you want to push from them all at the same time, for example after running a validate (see [TestingPatches](testing-patches)).
+
+
+It's good practice to have a completely clean set of repositories locally, i.e. a locally cached copy of the main repositories on `darcs.haskell.org`.  This is useful for creating new trees quickly, or comparing your trees to the HEAD.  To see which patches you have in a GHC tree relative to a clean repository, you can use the `push-all` script in the root of the GHC repository:
+
+```wiki
+  $ ./push-all --checked-out ~/ghc-HEAD --dry-run
+```
+
+
+where `~/ghc-HEAD` is my vanilla HEAD, with all the sub-repositories checked out using `darcs-all`.  This command tells me all the patches in the local repository tree relative to `~/ghc-HEAD`.
+
+
+To actually push to the HEAD, you can do this:
+
+>
+> $ ./push-all simonmar@…:/home/darcs
+
+
+it'll use SSH for the push, but continue to use HTTP for pulling, which is what you want (HTTP is much faster than SSH for darcs operations, but for pushing we can only use SSH).
