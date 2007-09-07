@@ -13,7 +13,7 @@ Although old code in GHC is not warning-clean, we want new code to be, and we ar
 
 == Contributing back to GHC ==
 
- * Validating your patches
+ * [wiki:TestingPatches Validating] your patches
  * [wiki:WorkingConventions/Submissions Submit patches back], using {{{darcs send}}} is the recommended way.
 
 == More information ==
