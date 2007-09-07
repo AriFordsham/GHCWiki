@@ -34,11 +34,7 @@ Guidelines for submitting patches to GHC are here: [WorkingConventions/Submissio
 
 - If possible, push often.  This helps to avoid conflicts.
 
-- Rather than push conflicting patches followed by conflict resolutions, use
-  amend-record (or unrecord/edit/record) to make a single patch.  Darcs currently
-  doesn't handle conflicts
-  well, so we are trying to keep the HEAD clean of conflicts for now.  It doesn't
-  matter so much on the stable branches though.
+- Do not push conflicts (see [WorkingConventions/Darcs](working-conventions/darcs#conflicts)).
 
 - Every patch must pass at least minimal validation: see [TestingPatches](testing-patches).
 
