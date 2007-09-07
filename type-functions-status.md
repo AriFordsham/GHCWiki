@@ -18,6 +18,7 @@
   - We still need to have the name parent map, though.
   - See email for example.
 1. Allow data family GADT instances.
+1. Fix everything in the testsuite.
 1. Can't we now allow non-left-linear declarations; e.g., `instance type F a a = ..`?
 1. Fix core-lint breakage in cholewo-eval.
 1. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
