@@ -32,8 +32,9 @@ where `~/ghc-HEAD` is my vanilla HEAD, with all the sub-repositories checked out
 
 To actually push to the HEAD, you can do this:
 
->
-> $ ./push-all simonmar@…:/home/darcs
+```wiki
+  $ ./push-all simonmar@darcs.haskell.org:/home/darcs
+```
 
 
 it'll use SSH for the push, but continue to use HTTP for pulling, which is what you want (HTTP is much faster than SSH for darcs operations, but for pushing we can only use SSH).
