@@ -79,25 +79,6 @@ We welcome your involvement in making GHC able to do more.  That said, we think 
 
 If you are working on a feature that you think you think is a candidate for including in GHC's main repository, you may want to talk to us while you are developing it.  We may well, for example, have advice about how to structure the change in a way that we're happy to incorporate in our code base.
 
-## The stable branch
-
-
-The preferred way to make a change to the stable branch is to first record it on the HEAD,
-with a note in the commit message that it should be merged. You can then also push it to the
-stable branch if you wish, or you can leave it for the stable branch maintainer to do.
-
-
-Sometimes it is not possible to push the HEAD patch to the stable branch, as it may depend on
-other patches that are meant only for the HEAD. In this case the changes will need to be remade
-in the stable branch. The commit message for this new change should include the entire commit
-message of the original change, prefaced with `"MERGED: "`.
-The same patch should be pushed to both branches whenever possible, though, as it makes it
-easier to compare the two branches.
-
-
-If you first fix a problem in the stable branch then please do apply it only to that branch
-rather than leaving it lying around for when you have time to make the HEAD patch.
-
 ## Guidelines for people with commit permissions
 
 - Try to make small patches (i.e. work in consistent increments).
