@@ -8,20 +8,19 @@ When you are editing GHC's source code, please follow our coding guidelines:
 - [Coding style in the compiler](commentary/coding-style)
 - [Coding style in the runtime system](commentary/rts/conventions)
 
-## Testing patches
-
-
-Important! See [TestingPatches](testing-patches).
-
 ## Using Darcs
 
 
 Our conventions and some useful tips for using darcs are here: [WorkingConventions/Darcs](working-conventions/darcs).
 
-## Submitting patches
+## Testing and submitting patches
 
 
+We would love you to help us improve GHC by submitting patches to us.
 Guidelines for submitting patches to GHC are here: [WorkingConventions/Submissions](working-conventions/submissions).
+
+
+Please test your patch using the [validation script](testing-patches), before you sbmit it.  (If you have write permission to the repository, then you **must** validate before pushing the patch.)
 
 ## The Bug Tracker
 
