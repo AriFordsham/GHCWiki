@@ -18,7 +18,7 @@ Bug fixes always extremely welcome.  GHC is so large, and is used in such divers
 
 - Comment your fix in the source code.  It is often helpful to give a small example code fragment that demonstrates the need for your fix.  This isn't always relevant; sometimes you are fixing a plain error, but often it's more subtle than that.
 
-- Please ensure that there is a test case in the regression-test suite that shows up the bug, and which is fixed by your patch.  This test case should be identified in the "Test Case" field of the Trac report.
+- Please ensure that there is a test case in the [regression-test suite](building/running-tests) that shows up the bug, and which is fixed by your patch.  This test case should be identified in the "Test Case" field of the Trac report.
 
 ## How to submit a patch for a new feature
 
