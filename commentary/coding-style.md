@@ -19,7 +19,7 @@ We are aiming to make the GHC code warning-free, for all warnings turned on by
 The build automatically sets these flags for the stage 2 compiler.  
 
 
-The [validate script](testing-patches), which is used to test the build before commiting, additionally sets the `-Werror` flag. As the `-Werror` flag is not set during normal builds, during development warnings will be printed but won't halt the build.
+The [validate script](testing-patches), which is used to test the build before commiting, additionally sets the `-Werror` flag, so that the code **must** be warning-free to pass validation. The `-Werror` flag is not set during normal builds, so warnings will be printed but won't halt the build.
 
 
 Currently we are some way from our goal, so many modules have a
