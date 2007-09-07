@@ -18,7 +18,7 @@ Important! See [TestingPatches](testing-patches).
 
 Our conventions and some useful tips for using darcs are here: [WorkingConventions/Darcs](working-conventions/darcs).
 
-## Submissions
+## Submitting patches
 
 
 Guidelines for submitting patches to GHC are here: [WorkingConventions/Submissions](working-conventions/submissions).
