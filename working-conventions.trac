@@ -3,7 +3,7 @@
 
 == Coding conventions ==
 
-There are some documents on coding style:
+When you are editing GHC's source code, please follow our coding guidelines:
 
  * [wiki:Commentary/CodingStyle Coding style in the compiler]
  * [wiki:Commentary/Rts/Conventions Coding style in the runtime system]
