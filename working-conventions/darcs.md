@@ -3,6 +3,28 @@
 
 GHC uses [ darcs](http://darcs.net/) for revision control.  This page describes various GHC-specific conventions for using darcs, together with some suggestions and tips for using darcs effectively.
 
+## Patch naming
+
+
+We have a simple naming convention for certain kinds of patches:
+
+- If your patch fixes breakage in the build, then begin the patch name with `"FIX BUILD"`. e.g.
+
+  ```wiki
+    FIX BUILD Use the right find on Windows systems; fixes bindist creation
+  ```
+
+  The point here is that if someone pulls GHC from darcs and experiences a build failure, they can try
+  `darcs pull -a -p "FIX BUILD"` in order to grab patches that fix it, without grabbing anything else
+  that might introduce further breakage.
+
+- If your patch fixes a bug, then begin the patch name with `"FIX #NNNN"`, where `NNNN` is the ticket
+  number. e.g.
+
+  ```wiki
+    FIX #767 (withMVar family have a bug)
+  ```
+
 ## Conflicts
 
 
@@ -14,7 +36,22 @@ Conflicts on branches are less of a problem, because branches usually have a lim
 
 We're aware that this policy creates problems for development branches of GHC, and this is truly unfortunate.  We're hopeful that darcs' conflict handling will improve in the future and we can get the full power of darcs for separate development.
 
-## Pushing
+## Committing changes
+
+
+If you have permission to push patches directly to the repository (pretty easy to get, just demonstrate your competence by sending us a patch or two first), then you can use `darcs push`:
+
+```wiki
+  $ darcs push <account>@darcs.haskell.org:/home/darcs/ghc
+```
+
+
+(change `ghc` to the name of the repository if you're pushing changes from one of the sub-repositories, like `testsuite`, or a package such as `base`.  Note: `darcs push` requires that SSH is working and can log in to your account on `darcs.haskell.org`.
+
+
+Do not forget to `darcs record` your changes first!
+
+## Pushing a whole tree
 
 
 A GHC tree consists of several repositories (see [Building/GettingTheSources](building/getting-the-sources)).  Sometimes you want to push from them all at the same time, for example after running a validate (see [TestingPatches](testing-patches)).
