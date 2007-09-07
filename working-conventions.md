@@ -13,6 +13,11 @@ There are some documents on coding style:
 
 Important! See [TestingPatches](testing-patches).
 
+## Using Darcs
+
+
+Our conventions and some useful tips for using darcs are here: [WorkingConventions/Darcs](working-conventions/darcs).
+
 ## Submitting patches
 
 
@@ -73,43 +78,6 @@ We welcome your involvement in making GHC able to do more.  That said, we think 
 
 
 If you are working on a feature that you think you think is a candidate for including in GHC's main repository, you may want to talk to us while you are developing it.  We may well, for example, have advice about how to structure the change in a way that we're happy to incorporate in our code base.
-
-## Patch naming
-
-
-We have a simple naming convention for certain kinds of patches:
-
-- If your patch fixes breakage in the build, then begin the patch name with `"FIX BUILD"`. e.g.
-
-  ```wiki
-    FIX BUILD Use the right find on Windows systems; fixes bindist creation
-  ```
-
-  The point here is that if someone pulls GHC from darcs and experiences a build failure, they can try
-  `darcs pull -a -p "FIX BUILD"` in order to grab patches that fix it, without grabbing anything else
-  that might introduce further breakage.
-
-- If your patch fixes a bug, then begin the patch name with `"FIX #NNNN"`, where `NNNN` is the ticket
-  number. e.g.
-
-  ```wiki
-    FIX #767 (withMVar family have a bug)
-  ```
-
-## Committing changes
-
-
-If you have permission to push patches directly to the repository (pretty easy to get, just demonstrate your competence by sending us a patch or two first), then you can use `darcs push`:
-
-```wiki
-  $ darcs push <account>@darcs.haskell.org:/home/darcs/ghc
-```
-
-
-(change `ghc` to the name of the repository if you're pushing changes from one of the sub-repositories, like `testsuite`, or a package such as `base`.  Note: `darcs push` requires that SSH is working and can log in to your account on `darcs.haskell.org`.
-
-
-Do not forget to `darcs record` your changes first!
 
 ## The stable branch
 
