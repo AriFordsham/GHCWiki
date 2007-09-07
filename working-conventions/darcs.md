@@ -3,6 +3,23 @@
 
 GHC uses [ darcs](http://darcs.net/) for revision control.  This page describes various GHC-specific conventions for using darcs, together with some suggestions and tips for using darcs effectively.
 
+## General Guidelines
+
+- Try to make small patches (i.e. work in consistent increments).
+
+- Separate changes that affect functionality from those that just affect
+  code layout, indendation, whitespace, filenames etc.  This means that
+  when looking at patches later, we don't have to wade through loads of
+  non-functional changes to get to the important parts of the patch.   
+
+- If possible, record often.  This helps to avoid conflicts.
+
+- Do not push conflicts (see [WorkingConventions/Darcs](working-conventions/darcs#conflicts)).
+
+- Every patch must pass at least minimal validation: see [TestingPatches](testing-patches).
+
+- Discuss anything you think might be controversial before pushing it.
+
 ## Patch naming
 
 
