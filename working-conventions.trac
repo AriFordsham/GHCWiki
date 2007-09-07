@@ -20,23 +20,6 @@ Our conventions and some useful tips for using darcs are here: [wiki:WorkingConv
 
 Guidelines for submitting patches to GHC are here: [wiki:WorkingConventions/Submissions].
 
-== Guidelines for people with commit permissions ==
-
- * Try to make small patches (i.e. work in consistent increments).
-
- * Separate changes that affect functionality from those that just affect
-   code layout, indendation, whitespace, filenames etc.  This means that
-   when looking at patches later, we don't have to wade through loads of
-   non-functional changes to get to the important parts of the patch.   
-
- * If possible, push often.  This helps to avoid conflicts.
-
- * Do not push conflicts (see [wiki:WorkingConventions/Darcs#Conflicts]).
-
- * Every patch must pass at least minimal validation: see TestingPatches.
-
- * Discuss anything you think might be controversial before pushing it.
-
 == The Bug Tracker ==
 
 The following are GHC-specific policies for using the Trac bug tracking system.
