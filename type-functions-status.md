@@ -29,6 +29,7 @@
 
   - Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
   - Issue a warning if there are two identical instances (as per  Roman's suggestion).
+1. CONCEPTUAL issue: At least with `skolemOccurs`, the policy of not zonking the types embedded in the kinds of coercion type variables does no longer work.  This becomes, for example in the test `Simple13`, apparent.  The skolem introduced in `skolemOccurs` finds its way into variable kinds (which is visible when inspecting them during `TcMType.zonk_tc_tyvar`).
 1. When `Simple13` is compiled with a compiler that was built with `-DDEBUG`, it prints a warning about not matching types being used during constructing a trans coercion.
 1. Fix export list problem (ie, export of data constructors introduced by orphan data instances):
 
