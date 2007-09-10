@@ -54,6 +54,10 @@ The Trac bug report system has various fields. Here's how to fill them in:
 
 - **Assign to**, **Difficulty**, **Test case**.  For use by GHC developers; please don't fill these in.
 
+
+See also [GHC working conventions](working-conventions).
+ 
+
 ## Full description: what information to provide in the body of your bug report
 
 
