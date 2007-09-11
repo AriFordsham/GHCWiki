@@ -50,7 +50,7 @@ data Provenance = LocalDef | Imported [ImportSpec]
 data ImportSpec = ImpSpec { is_decl :: ImpDeclSpec, is_item ::  ImpItemSpec }
 }}}
 Here is how to understand these types:
- * The environment maps an {{{OccName}}} to a list of all entities with that occurence name that are in scope (in any way).  
+ * The environment (`GlobalRdrEnv`) maps an {{{OccName}}} to a list of all entities with that occurence name that are in scope (in any way).  
  * Each of these is represented by a {{{GlobalRdrElt}}}, which gives the entity's {{{Name}}} plus a specification of how it is in scope, its {{{Provenance}}}.  
  * The {{{Provenance}}} has one of two forms.  Either it is in scope because it is defined in this module ({{{LocalDef}}}), or because it is imported.  In the latter case, the {{{[ImportSpec]}}} describes all the import statements that bring it into scope. 
  * An {{{ImportSpec}}} has two components: 
