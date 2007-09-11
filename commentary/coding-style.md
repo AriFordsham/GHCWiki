@@ -87,13 +87,16 @@ xxx_HOST_OS
 > >
 > > where xxx is the appropriate value: eg. i386_TARGET_ARCH. 
 
-## Compiler versions
+## Compiler versions and language extensions
 
 
 GHC must be compilable by every major version of GHC from 6.2 onwards, and itself. It isn't necessary for it to be compilable by every intermediate development version (that includes last week's darcs sources). 
 
 
 To maintain compatibility, use [HsVersions.h](commentary/coding-style#) (see below) where possible, and try to avoid using \#ifdef in the source itself. 
+
+
+Also, it is necessary to avoid certain language extensions.  In particular, the `ScopedTypeVariables` extension must not be used.
 
 ## The source file
 
