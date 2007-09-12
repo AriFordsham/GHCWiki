@@ -5,6 +5,7 @@
 **Debugging of type families:**
 
 1. We would need swapInsts for wanted constraints.  However, an alternative is to get rid of swapInst altogether and to make substInst a bit smarter (so it also applies wrongly-oriented equalities properly).
+1. ghci command to print normalised type.
 1. `boxySplitTyConApp` and friends must be able to deal with `orig_ty`s that have outermost type family applications; i.e., they need to try to normalise and possibly have to defer.  They also need to defer on skolems.  Consequently, they also need to return a coercion.  This , in particular, affects the treatment of literal lists, parallel arrays, and tuples in`TcExpr.tcExpr` is fishy.
 1. To move GADT type checking from refinements to equalities, proceed as follows (as suggested by SPJ):
 
