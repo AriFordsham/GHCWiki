@@ -47,11 +47,13 @@ The following CPP symbols are used throughout the compiler:
 Used to enables extra checks and debugging output in the compiler. The ASSERT macro (see `HsVersions.h`) provides assertions which disappear when DEBUG is not defined. 
 </td></tr></table>
 
->
-> All debugging output should be placed inside \#ifdef DEBUG; we generally use this to provide warnings about strange cases and things that might warrant investigation. When DEBUG is off, the compiler should normally be silent unless something goes wrong (exception when the verbosity level is greater than zero). 
+> `HsVersions.h` provides a macro `debugIsOn` which is defined to be `True` when DEBUG is defined and `False` otherwise.  The ideal way to provide debugging output is to use a Haskell expression "`if debugIsOn then ... else ...`" to arrange that the compiler will be silent when DEBUG is off (unless of course something goes wrong or the verbosity level is nonzero).  The advantage of this scheme is that *all code is typechecked on every compilation*, no matter what the setting of DEBUG.  When option `-O` is used, GHC will easily sweep away the unreachable code.
 
 >
-> A good rule of thumb is that DEBUG shouldn't add more than about 10-20% to the compilation time. This is the case at the moment. If it gets too expensive, we won't use it. For more expensive runtime checks, consider adding a flag - see for example -dcore-lint. 
+> As a last resort, debugging code can be placed inside \#ifdef DEBUG, but since this strategy guarantees that only a fraction of the code is seen be the compiler on any one compilation, it is to be avoided when possible.
+
+>
+> Regarding performance, a good rule of thumb is that DEBUG shouldn't add more than about 10-20% to the compilation time. This is the case at the moment. If it gets too expensive, we won't use it. For more expensive runtime checks, consider adding a flag - see for example -dcore-lint. 
 
 <table><tr><th>**GHCI**</th>
 <td>
