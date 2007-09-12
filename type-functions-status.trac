@@ -4,6 +4,7 @@
 
 '''Debugging of type families:'''
  0. We would need swapInsts for wanted constraints.  However, an alternative is to get rid of swapInst altogether and to make substInst a bit smarter (so it also applies wrongly-oriented equalities properly).
+ 0. ghci command to print normalised type.
  0. `boxySplitTyConApp` and friends must be able to deal with `orig_ty`s that have outermost type family applications; i.e., they need to try to normalise and possibly have to defer.  They also need to defer on skolems.  Consequently, they also need to return a coercion.  This , in particular, affects the treatment of literal lists, parallel arrays, and tuples in`TcExpr.tcExpr` is fishy.
  0. To move GADT type checking from refinements to equalities, proceed as follows (as suggested by SPJ):
     * Implemented this as follows in `TcPat.tcConPat:579:`
@@ -27,6 +28,7 @@
    * Issue a warning if there are two identical instances (as per  Roman's suggestion).
  0. CONCEPTUAL issue: At least with `skolemOccurs`, the policy of not zonking the types embedded in the kinds of coercion type variables does no longer work.  This becomes, for example in the test `Simple13`, apparent.  The skolem introduced in `skolemOccurs` finds its way into variable kinds (which is visible when inspecting them during `TcMType.zonk_tc_tyvar`).
  0. When `Simple13` is compiled with a compiler that was built with `-DDEBUG`, it prints a warning about not matching types being used during constructing a trans coercion.
+ 0. ghc falls over if a bang pattern is put at an argument of type `F a`.
  0. Fix export list problem (ie, export of data constructors introduced by orphan data instances):
    * Change `HscTypes.IfaceExport` to use `Name` instead of `OccName`.
    * Then, there is also no need for the grouping of the identifiers by module anymore (but sort it to avoid spurious iface changes dur to re-ordering when re-compiling).
