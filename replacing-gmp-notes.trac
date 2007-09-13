@@ -10,7 +10,8 @@ On this page:
  1. [wiki:ReplacingGMPNotes#FilesrelatedtoGMPintheGHCCompilerSourceCode Files related to GMP in the GHC Compiler Source Code]
  1. [wiki:ReplacingGMPNotes#OptimisationOpportunities Optimisation Opportunities]
 
-Other pages:
+Other pages
+ * [wiki:ReplacingGMPNotes/HaskellLibrary Notes about replacing GMP with a native Haskell library]
  * [wiki:ReplacingGMPNotes/TheCurrentGMPImplementation The Current GMP Implementation][[BR]]A detailed description of the current interface and interaction between GHC's [wiki:Commentary/Rts Runtime System (RTS)] and GMP.
  * [wiki:ReplacingGMPNotes/PerformanceMeasurements Performance Measurements of other Multi-Precision Libraries]
  * [wiki:ReplacingGMPNotes/MiscGMPDiscussion Miscellaneous GMP Discussion]
