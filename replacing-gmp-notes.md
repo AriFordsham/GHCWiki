@@ -11,8 +11,9 @@ On this page:
 1. [Optimisation Opportunities](replacing-gmp-notes#optimisation-opportunities)
 
 
-Other pages:
+Other pages
 
+- [Notes about replacing GMP with a native Haskell library](replacing-gmp-notes/haskell-library)
 - [The Current GMP Implementation](replacing-gmp-notes/the-current-gmp-implementation)
   A detailed description of the current interface and interaction between GHC's [Runtime System (RTS)](commentary/rts) and GMP.
 - [Performance Measurements of other Multi-Precision Libraries](replacing-gmp-notes/performance-measurements)
