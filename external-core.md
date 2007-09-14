@@ -6,6 +6,42 @@ The `ExternalCore` data type is used by GHC to communicate code represented in t
 
 Once the process is finished, this page will just describe the design.
 
+## Format
+
+
+The current plan is to use an "extended" version of interface files for External Core, which contains unfoldings for all functions, not just functions GHC has decided to unfold. 
+
+## Reading in External Core
+
+
+The pipeline looks like:
+
+
+file -\> GHC parser -\> `IfaceSyn` -\> `tcRnExtCore` -\> `ModGuts` -\> (the rest of the compiler)
+
+
+This is a change from the current External Core implementation, where `HsSyn` is used to represent types from External Core files and `IfaceSyn` is used for terms. In the new implementation, `IfaceSyn` is used for both.
+
+## Goals and questions
+
+- Well-defined external format with stand-alone tools
+- External tools will have to be maintained in order to stay in sync with the interface file format
+- How external is "external"? There is a tension between re-using code from GHC, and having a truly independent file format that can be processed with completely stand-alone tools.
+
+  - It's already possible to use the GHC API to generate Core (though not yet to read it back in), which might be enough for some users. On the other hand, the external format allows for writing tools to manipulate Core in languages other than Haskell.
+- External format should be readable by humans (though perhaps only after processing it with a pretty-printing tool)
+- Not too redundant (for example, only print out type information that is necessary to reconstruct types)
+- Don't export information that's internal to GHC (i.e., `IdInfo` fields), since external transformations probably won't preserve it anyway
+
+  - Corollary -- include only just enough information for external tools to be useful
+- Does it still make sense to have a separate External Core datatype?
+- Primitives have to be documented properly in order to write an stand-alone Core interpreter (which would eventually be desirable.)
+- External toolset: typechecker, interpreter (operational semantics), ... 
+
+  - We want to show that External Core is truly "independent", but on the other hand, maintaining these tools is a challenge.
+- How likely are major changes to Core in the future?
+- Should the external format look like -ddump-simpl output (as it does now), or should it be an easier-to-parse format like s-expressions (perhaps with a pretty-printer to help with debugging)?
+
 ## Relevant files
 
 
