@@ -1,0 +1,42 @@
+= The NCG Register Allocator =
+
+== Overview ==
+
+The register allocator is split into two sections, the register allocator proper in nativeGen/Reg*.hs and a generic graph coloring library in utils/Graph*.hs.
+
+=== The register allocator ===
+
+ * [[GhcFile(compiler/nativeGen/RegAllocColor.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/nativeGen/RegAllocLinear.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/nativeGen/RegAllocStats.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/nativeGen/RegArchBase.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/nativeGen/RegArchX86.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/nativeGen/RegCoalesce.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/nativeGen/RegLiveness.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/nativeGen/RegSpillClean.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/nativeGen/RegSpillCost.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/nativeGen/RegSpill.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/nativeGen/RegAllocInfo.hs)]] [[BR]]
+
+
+=== Graph coloring ===
+
+ * [[GhcFile(compiler/util/GraphBase.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/util/GraphColor.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/util/GraphOps.hs)]] [[BR]]
+
+ * [[GhcFile(compiler/util/GraphPps.hs)]] [[BR]]
+
+
