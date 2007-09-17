@@ -19,3 +19,26 @@ In the meantime, there are three options for register allocation:
 
 
 == [wiki:Commentary/Compiler/Backends/NCG/RegisterAllocator/Code Code map] ==
+
+
+
+== References ==
+
+If you decide to do some hacking on the register allocator, I would take a look at (at least) these papers first:
+
+'''Iterated Register Coalescing'''[[BR]]
+''George, Appel, 1996''[[BR]]
+Decribes the core graph coloring algorithm used.
+
+'''A Generalised Algorithm for Graph-Coloring Register Allocation'''[[BR]]
+''Smith, Ramsey, Holloway, 2004''[[BR]]
+For a decription of how to deal with overlapping register sets, which aren't fully implemented yet. Explains what the {{{worst}}}, {{{squeese}}} and {{{triv}}}functions are for.
+
+'''Design and Implementation of a Graph Coloring Register Allocator for GCC'''[[BR]]
+''Matz, 2003''[[BR]]
+For an overview of techniques for inserting spill code.
+
+
+
+
+
