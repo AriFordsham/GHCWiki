@@ -63,7 +63,7 @@ The register allocator code is split into two main sections, the register alloca
 
 - [compiler/nativeGen/RegArchBase.hs](/trac/ghc/browser/ghc/compiler/nativeGen/RegArchBase.hs)
 
-  Defines utils for calculating whether a register in the conflict graph is trivially colorable, in a generic way which handles aliasing between register classes. This module is not used directly by GHC. TODO link to description of algorithm.
+  Defines utils for calculating whether a register in the conflict graph is trivially colorable, in a generic way which handles aliasing between register classes. This module is not used directly by GHC.
 
 - [compiler/nativeGen/RegArchX86.hs](/trac/ghc/browser/ghc/compiler/nativeGen/RegArchX86.hs)
 
