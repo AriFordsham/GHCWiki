@@ -1,4 +1,4 @@
-## Code
+## Register Allocator Code
 
 
 The register allocator code is split into two main sections, the register allocator proper and a generic graph coloring library. The graph coloring library is also used by the Stg-\>Cmm converter.
