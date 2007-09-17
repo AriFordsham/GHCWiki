@@ -28,7 +28,7 @@ In the meantime, there are three options for register allocation:
 ## References
 
 
-If you decide to do some hacking on the register allocator, I would take a look at (at least) these papers first:
+If you decide to do some hacking on the register allocator I would take a look at (at least) these papers first:
 
 **Iterated Register Coalescing**
 *George, Appel, 1996*
@@ -44,3 +44,31 @@ For a decription of how to deal with overlapping register sets, which aren't ful
 *Matz, 2003*
 
 For an overview of techniques for inserting spill code.
+
+## Hacking/Debugging
+
+`-fasm-lint`
+
+Breaking the allocator can result in compiled programs crashing randomly (if you're lucky) or producing the wrong output, which can hard to debug.
+When working on the allocator, make sure to always turn on `-fasm-lint` this will call `GraphOps.validateGraph` after every spill/color stage. `validateGraph` checks that all the edges point to valid nodes, that no conflicting nodes have the same color, and if the graph is supposed to be colored then all nodes are really colored.
+
+
+The main dump flags are
+
+> `-ddump-asm-regalloc-stages`
+
+> `-ddump-asm-stats`
+
+> `-ddump-asm`
+
+> `-ddump-to-file`
+
+## Possible Improvements
+
+- work lists
+
+- spill code
+
+- spill candidates
+
+- aliasing register sets
