@@ -2,8 +2,24 @@
 
 ## Overview
 
+TODO what a register allocator is responsible for.
 
-GHC currently provides two register allocation algorithms, simple linear scan and graph coloring. Although some of the code is currently shared between the two, as we only want to maintain a single algorithm support for linear scan will be removed in a subsequent version.
+
+GHC currently provides two register allocation algorithms, simple linear scan and graph coloring. Although some of the code is shared between the two, as we only want to maintain a single algorithm, support for linear scan will be removed in a subsequent version.
+
+
+In the meantime, there are three options for register allocation:
+
+- Linear allocator
+  The linear allocator is currently turned on by default. This is what you get when you compile with -fasm. The linear allocator does a single pass through the code, allocating registers on a first-come-first-served basis. It is quick, and does a reasonable job for code with little register pressure. It has no look-ahead. If say, a particular register will be clobbered by a function call, it does not know to avoid allocating to that register in the code before the call - and subsequently inserts more spill/reload instructions than the other algorithms.
+
+- Graph coloring allocator
+  Enabled with `-fregs-graph`. The graph coloring algorithm operates on the native code for a whole function at a time. From each function it extracts a register conflict graph which represents which virtual regs are in use (live) at the same time, and thus cannot share a real reg. It tries to assign real regs (represented as colors) to the nodes so that no two adjacent nodes share the same color. This algorithm tends to do better than the linear allocator because the conflict graph helps it avoid the look-ahead problem. The coloring allocator also tries to allocate the source and destination of register-to-register move instruction to the same real reg. This is done by coalescing (merging) move-related nodes. If this succeeds then the move instruction can be erased.
+
+- Graph coloring with iterative coalescing
+  Enabled with `-fregs-iterative`. Iterative coalescing is an improvement over regular graph coloring whereby coalescing passes are interleaved with coloring passes. Iterative coalescing does a better job than regular graph coloring, but is slower.
+
+## Code
 
 
 The register allocator code is split into two main sections, the register allocator proper and a generic graph coloring library. The graph coloring library is also used by the Stg-\>Cmm converter.
@@ -36,7 +52,7 @@ The register allocator code is split into two main sections, the register alloca
 
 - [compiler/nativeGen/RegSpillClean.hs](/trac/ghc/browser/ghc/compiler/nativeGen/RegSpillClean.hs)
 
-  The spill cleaner is run after registers have been allocated and erases spill/reload instructions inserted by `regSpill` which weren't strictly nessesary.
+  The spill cleaner is run after real regs have been allocated and erases spill/reload instructions inserted by `regSpill` that weren't strictly nessesary.
 
 - [compiler/nativeGen/RegAllocStats.hs](/trac/ghc/browser/ghc/compiler/nativeGen/RegAllocStats.hs)
 
