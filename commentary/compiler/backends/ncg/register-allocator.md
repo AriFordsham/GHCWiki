@@ -24,3 +24,23 @@ In the meantime, there are three options for register allocation:
   Iterative coalescing is an improvement over regular graph coloring whereby coalescing passes are interleaved with coloring passes. Iterative coalescing does a better job than regular graph coloring, but is slower because it must alternate between the coloring and coalescing of nodes.
 
 ## [Code map](commentary/compiler/backends/ncg/register-allocator/code)
+
+## References
+
+
+If you decide to do some hacking on the register allocator, I would take a look at (at least) these papers first:
+
+**Iterated Register Coalescing**
+*George, Appel, 1996*
+
+Decribes the core graph coloring algorithm used.
+
+**A Generalised Algorithm for Graph-Coloring Register Allocation**
+*Smith, Ramsey, Holloway, 2004*
+
+For a decription of how to deal with overlapping register sets, which aren't fully implemented yet. Explains what the `worst`, `squeese` and `triv`functions are for.
+
+**Design and Implementation of a Graph Coloring Register Allocator for GCC**
+*Matz, 2003*
+
+For an overview of techniques for inserting spill code.
