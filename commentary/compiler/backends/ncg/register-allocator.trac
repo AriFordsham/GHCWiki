@@ -82,7 +82,13 @@ In the meantime, here are some good sources for test code:
   make EXTRA_HC_OPTS="-O2 -fregs-iterative -ddump-to-file -ddump-asm-regalloc-stages"
   }}}
 
- * Graphviz
+ * '''Visualisation of conflict graphs'''[[BR]]
+   Graphviz, available from [http://www.graphviz.org] can be used to make nice visualisations of the register conflict graphs. Use {{{-ddump-asm-regalloc-stages}}}, and copy one of the graphs into a new file {{{niceGraph.dot}}}
+
+  {{{ 
+  graphviz/bin/circo -Tpng -o niceGraph.png 
+  }}}
+
 
  * checkSpills
 
@@ -91,7 +97,7 @@ In the meantime, here are some good sources for test code:
 These are some ideas for improving the current allocator, most potentially useful first.
 
  * '''Work lists for iterative coalescing.'''[[BR]]
-   The iterative coalescing alternates between scanning the graph for trivially colorable (triv) nodes and perforing coalescing. When two nodes are coalesced, other nodes that are not adjacent to the coalesced nodes do not change and do not need to be rescanned straight away. Runtime performance of the iterative coalescer could probably be improved by keeping a work-list of "nodes that might have become trivially colorable", to help rescanning nodes that won't have changed.
+   The iterative coalescing alternates between scanning the graph for trivially colorable (triv) nodes and perforing coalescing. When two nodes are coalesced, other nodes that are not adjacent to the coalesced nodes do not change and do not need to be rescanned straight away. Runtime performance of the iterative coalescer could probably be improved by keeping a work-list of "nodes that might have become trivially colorable", to help find nodes that won't have changed.
 
  * '''Improve spill code generator/cleaner.'''[[BR]]
    When spilling a particular vreg, the current spill code generator simply inserts a spill after each def and a reload before each use. This quickly reduces the density of conflicts in the graph, but produces inefficient code because more spill/reloads are inserted than strictly nessesary. Good code is recovered by the spill cleaner which runs after allocation and removes spill/reload instructions that aren't nessesary. Some things to try:

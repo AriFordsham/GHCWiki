@@ -106,7 +106,13 @@ cd nofib/real/anna
 make EXTRA_HC_OPTS="-O2 -fregs-iterative -ddump-to-file -ddump-asm-regalloc-stages"
 ```
 
-- Graphviz
+- **Visualisation of conflict graphs**
+
+  Graphviz, available from [ http://www.graphviz.org](http://www.graphviz.org) can be used to make nice visualisations of the register conflict graphs. Use `-ddump-asm-regalloc-stages`, and copy one of the graphs into a new file `niceGraph.dot`
+
+```wiki
+graphviz/bin/circo -Tpng -o niceGraph.png 
+```
 
 - checkSpills
 
@@ -117,7 +123,7 @@ These are some ideas for improving the current allocator, most potentially usefu
 
 - **Work lists for iterative coalescing.**
 
-  The iterative coalescing alternates between scanning the graph for trivially colorable (triv) nodes and perforing coalescing. When two nodes are coalesced, other nodes that are not adjacent to the coalesced nodes do not change and do not need to be rescanned straight away. Runtime performance of the iterative coalescer could probably be improved by keeping a work-list of "nodes that might have become trivially colorable", to help rescanning nodes that won't have changed.
+  The iterative coalescing alternates between scanning the graph for trivially colorable (triv) nodes and perforing coalescing. When two nodes are coalesced, other nodes that are not adjacent to the coalesced nodes do not change and do not need to be rescanned straight away. Runtime performance of the iterative coalescer could probably be improved by keeping a work-list of "nodes that might have become trivially colorable", to help find nodes that won't have changed.
 
 - **Improve spill code generator/cleaner.**
 
