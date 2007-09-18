@@ -111,7 +111,7 @@ make EXTRA_HC_OPTS="-O2 -fregs-iterative -ddump-to-file -ddump-asm-regalloc-stag
   Graphviz, available from [ http://www.graphviz.org](http://www.graphviz.org) can be used to make nice visualisations of the register conflict graphs. Use `-ddump-asm-regalloc-stages`, and copy one of the graphs into a new file `niceGraph.dot`
 
 ```wiki
-circo -Tpng -o niceGraph.png 
+circo -Tpng niceGraph.dot -o niceGraph.png 
 ```
 
 > >
