@@ -90,9 +90,9 @@ In the meantime, here are some good sources for test code:
   }}}
   Here's two from {{{nofib/real/compress2/Encode}}} compiled with {{{-O2 -prof}}}:
 
-  [attachment:graph.dot] [attachment:graph.png]
+   [attachment:graph.dot] -> [attachment:graph.png]
 
-  [attachment:graph-colored.dot] [attachment:graph-colored.png]
+   [attachment:graph-colored.dot] -> [attachment:graph-colored.png]
 
  * checkSpills
 

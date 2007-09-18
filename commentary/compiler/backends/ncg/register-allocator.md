@@ -117,9 +117,9 @@ circo -Tpng -o niceGraph.png
 > >
 > > Here's two from `nofib/real/compress2/Encode` compiled with `-O2 -prof`:
 
-> > [graph.dot](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph.dot)[](/trac/ghc/raw-attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph.dot)[graph.png](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph.png)[](/trac/ghc/raw-attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph.png)
+> > > [graph.dot](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph.dot)[](/trac/ghc/raw-attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph.dot) -\> [graph.png](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph.png)[](/trac/ghc/raw-attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph.png)
 
-> > [graph-colored.dot](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph-colored.dot)[](/trac/ghc/raw-attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph-colored.dot)[graph-colored.png](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph-colored.png)[](/trac/ghc/raw-attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph-colored.png)
+> > > [graph-colored.dot](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph-colored.dot)[](/trac/ghc/raw-attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph-colored.dot) -\> [graph-colored.png](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph-colored.png)[](/trac/ghc/raw-attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph-colored.png)
 
 - checkSpills
 
