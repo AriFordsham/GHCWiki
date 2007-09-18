@@ -82,7 +82,13 @@ make EXTRA_HC_OPTS="-O2 -fregs-iterative -ddump-to-file -ddump-asm-regalloc-stag
 
 - **Register pressure in Haskell code**
 
-  Most GHC compiled code has very little register pressure and only a few spill/reload instructions need to be inserted - many modules need none at all. This is a mixed blessing - on one hand the conflict graphs are small so we don't have too many performance problems related to how the graph is represented, on the other hand it can be hard to find code to test against.
+  Most GHC compiled code has very little register pressure and only a few spill/reload instructions need to be inserted, many modules need none at all. This is a mixed blessing - on one hand the conflict graphs are small so we don't have too many performance problems related to how the graph is represented, on the other hand it can be hard to find code to test against.
+
+> >
+> > Only a few nofib benchmarks create spills with `-O2`, two are `spectral/hartel/genfft` and `spectral/sorting`.
+
+> >
+> > Register pressure increases significantly when profiling is turned on.
 
 ## Possible Improvements
 
