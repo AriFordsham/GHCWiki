@@ -65,15 +65,7 @@ The above will grab the "core" set of packages.  This is the minimal set of pack
 This isn't usually necessary: extra packages can be compiled and installed separately using Cabal, after you have built and installed GHC itself with its core packages.  The list of "core" and "extra" packages is below.
 
 
-Optionally, you might want to grab the testsuite and benchmark suite too, which should also be sub-directories of ghc:
-
-```wiki
-  $ darcs get --partial http://darcs.haskell.org/testsuite
-  $ darcs get --partial http://darcs.haskell.org/nofib
-```
-
-
-These can also be fetched with flags to `darcs-all`:
+Optionally, you might want to grab the testsuite and benchmark suite too, which also become sub-directories of ghc:
 
 ```wiki
   $ ./darcs-all --testsuite get
@@ -97,14 +89,6 @@ To get a branch, add the branch name after [ http://darcs.haskell.org/](http://d
 
 
 and then use `darcs-all` as above to get the rest of the respositories.
-
-
-To get testsuite and/or nofib, you'll need to name the branch repositories:
-
-```wiki
-  $ darcs get --partial http://darcs.haskell.org/ghc-6.6/testsuite
-  $ darcs get --partial http://darcs.haskell.org/ghc-6.6/nofib
-```
 
 ### Pulling new patches
 
