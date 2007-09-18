@@ -95,10 +95,15 @@ These are some ideas for improving the current allocator, most potentially usefu
 
  * '''Improve spill code generator/cleaner.'''[[BR]]
    When spilling a particular vreg, the current spill code generator simply inserts a spill after each def and a reload before each use. This quickly reduces the density of conflicts in the graph, but produces inefficient code because more spill/reloads are inserted than strictly nessesary. Good code is recovered by the spill cleaner which runs after allocation and removes spill/reload instructions that aren't nessesary. Some things to try:
-   * '''Spill coalescing'''. No attempt is currently made to share spill slots between different vregs. Each named vreg is spilled to its own static spill slot on the C stack. The amount of stack space needed could be reduced by sharing spill slots between vregs so long as their live ranges do not overlap.
-   * '''Try to split live ranges before spilling'''. If a live range has several use/defs then we could insert fresh reg-reg moves to break it up into several smaller live ranges. We then might get away with spilling just one section instead of the whole range.
+   * '''Spill coalescing'''[[BR]] 
+     No attempt is currently made to share spill slots between different vregs. Each named vreg is spilled to its own static spill slot on the C stack. The amount of stack space needed could be reduced by sharing spill slots between vregs so long as their live ranges do not overlap.
+   * '''Try to split live ranges before spilling'''[[BR]]
+     If a live range has several use/defs then we could insert fresh reg-reg moves to break it up into several smaller live ranges. We then might get away with spilling just one section instead of the whole range. Not sure if this would be a win over the current situation. We would need spill-coalescing to be implemented before this so that we don't require an extra slot for each new live range.
+   * '''Rematerialization'''[[BR]]
+     As the spill cleaner walks through the code it builds a mapping of which slots and registers hold the same value. On each reload instruction, if the slot and reg are known to already have the same value then the reload can be erased. This mapping could be extended with constants, so that if a vreg holding a constant value cannot be allocated a hreg, the constant value can be rematerialized instead of being spilled/reloaded to a stack slot.
 
- * Revisit choosing of spill candidates.
+ * '''Revisit choosing of spill candidates'''[[BR]]
+   If the graph cannot be colored, a node/vreg must be chosen to be potentially spilled. Chaitin's forumula says to calculate the spill cost by adding up the number of uses and defs of that vreg and divide by the degree of the node. In the code that I've tested against, it's been better to just choose the live range that lives the longest. Perhaps this is because the 'real' spill cost would depend on the spills/reloads actually inserted, not a simple count of use/defs. Perhaps choosing the longest live range is just better for the particular kind of code that GHC generates.
 
  * Revisit trivColorable / aliasing of register sets.
 
