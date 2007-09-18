@@ -12,15 +12,15 @@ GHC currently provides three register allocation algorithms, one which does simp
 
   The linear allocator is turned on by default. This is what you get when you compile with `-fasm`. The linear allocator does a single pass through the code, allocating registers on a first-come-first-served basis. It is quick, and does a reasonable job for code with little register pressure. 
 
-
-This algorithm has no look-ahead. If say, a particular hreg will be clobbered by a function call, it does not know to avoid allocating to it in the code before the call, and subsequently inserts more spill/reload instructions than strictly needed.
+> >
+> > This algorithm has no look-ahead. If say, a particular hreg will be clobbered by a function call, it does not know to avoid allocating to it in the code before the call, and subsequently inserts more spill/reload instructions than strictly needed.
 
 - **Graph coloring** (enabled with `-fregs-graph`)
 
   The graph coloring algorithm operates on the code for a whole function at a time. From each function it extracts a register conflict graph which has a node for every vreg and an edge between two vregs if they are in use at the same time and thus cannot share the same hreg. The algorithm tries to assign hregs (represented as colors) to the nodes so that no two adjacent nodes share the same color, if it can't then it inserts spill code, rebuilds the graph and tries again. 
 
-
-Graph coloring tends to do better than the linear allocator because the conflict graph helps it avoid the look-ahead problem. The coloring allocator also tries harder to allocate the source and destination of reg-to-reg move instructions to the same hreg. This is done by coalescing (merging) move-related nodes. If this succeeds then the moves can be erased.
+> >
+> > Graph coloring tends to do better than the linear allocator because the conflict graph helps it avoid the look-ahead problem. The coloring allocator also tries harder to allocate the source and destination of reg-to-reg move instructions to the same hreg. This is done by coalescing (merging) move-related nodes. If this succeeds then the moves can be erased.
 
 - **Graph coloring with iterative coalescing** (enabled with `-fregs-iterative`)
 
@@ -53,40 +53,36 @@ For an overview of techniques for inserting spill code.
 
 ## Hacking/Debugging
 
-**`-fasm-lint`**
+- **Turn on `-fasm-lint`**
 
-Breaking the allocator can result in compiled programs crashing randomly (if you're lucky) or producing the wrong output.
+  Breaking the allocator can result in compiled programs crashing randomly (if you're lucky) or producing the wrong output. Make sure to always turn on `-fasm-lint`. Doing this makes the allocator call `GraphOps.validateGraph` after every spill/color stage. `validateGraph` checks that all the edges point to valid nodes, that no conflicting nodes have the same color, and if the graph is supposed to be colored then all nodes are really colored.
 
+- **Some useful dump flags**
 
-When working on the allocator, make sure to always turn on `-fasm-lint`. Doing this makes the allocator call `GraphOps.validateGraph` after every spill/color stage. `validateGraph` checks that all the edges point to valid nodes, that no conflicting nodes have the same color, and if the graph is supposed to be colored then all nodes are really colored.
+> > `-ddump-asm-regalloc-stages`
+> >
+> > Shows the code and conflict graph after ever spill/color stage. Also shows spill costs, and what registers were coalesced.
 
+> > `-ddump-asm-stats`
+> >
+> > Gives statistics about how many spills/reloads/reg-reg-moves are in the output program.
 
-The main dump flags are
+> > `-ddump-asm`
+> >
+> > Gives the final output code. 
 
-> `-ddump-asm-regalloc-stages`
->
-> Shows the code and conflict graph after ever spill/color stage. Also shows spill costs, and what registers were coalesced.
+> > `-ddump-to-file`
+> >
+> > Diverts dump output to files. This can be used to get dumps from each module in a nofib benchmark.
 
-> `-ddump-asm-stats`
->
-> Gives statistics about how many spills/reloads/reg-reg-moves are in the output program.
+```wiki
+cd nofib/real/anna
+make EXTRA_HC_OPTS="-O2 -fregs-iterative -ddump-to-file -ddump-asm-regalloc-stages"
+```
 
-> `-ddump-asm`
->
-> Gives the final output code. 
+- **Register pressure in Haskell code**
 
-> `-ddump-to-file`
->
-> Diverts dump outputs to files. This can be used to get dumps from each module in a nofib benchmark.
-
->
-> Compile eg
-
->
-> cd nofib/real/anna
-
->
-> make EXTRA_HC_OPTS="-O2 -fregs-iterative -ddump-to-file -ddump-asm-regalloc-stages"
+  Most GHC compiled code has very little register pressure and only a few spill/reload instructions need to be inserted - many modules need none at all. This is a mixed blessing - on one hand the conflict graphs are small so we don't have too many performance problems related to how the graph is represented, on the other hand it can be hard to find code to test against.
 
 ## Possible Improvements
 
