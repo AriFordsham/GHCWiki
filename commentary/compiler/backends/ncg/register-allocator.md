@@ -6,29 +6,35 @@
 The register allocator is responsible for assigning real/hardware regs (hregs) to each of the virtual regs (vregs) present in the code emitted by the native code generator. It also inserts spill/reload instructions to save vregs to the stack in situations where not enough hregs are available. 
 
 
-GHC currently provides two register allocation algorithms, simple linear scan and graph coloring. Although some of the code is shared between the two, as we only want to maintain a single algorithm, support for linear scan will be removed in a subsequent version.
-
-
-In the meantime, there are three options for register allocation:
+GHC currently provides three register allocation algorithms, one which does simple lineear scan and two version of graph coloring. Support for linear scan is likely to be removed in a subequent version.
 
 - **Linear scan**
 
-  The linear allocator is currently turned on by default. This is what you get when you compile with `-fasm`. The linear allocator does a single pass through the code, allocating registers on a first-come-first-served basis. It is quick, and does a reasonable job for code with little register pressure. It has no look-ahead. If say, a particular register will be clobbered by a function call, it does not know to avoid allocating to that register in the code before the call and subsequently inserts more spill/reload instructions than the other algorithms.
+  The linear allocator is turned on by default. This is what you get when you compile with `-fasm`. The linear allocator does a single pass through the code, allocating registers on a first-come-first-served basis. It is quick, and does a reasonable job for code with little register pressure. 
+
+> >
+> > This algorithm has no look-ahead. If say, a particular hreg will be clobbered by a function call, it does not know to avoid allocating to it in the code before the call, and subsequently inserts more spill/reload instructions than strictly needed.
 
 - **Graph coloring** (enabled with `-fregs-graph`)
 
-  The graph coloring algorithm operates on the code for a whole function at a time. From each function it extracts a register conflict graph. The conflict graph has a node for every vreg in the code and an edge between two vregs if they are in use at the same time and thus cannot share the same hreg. It tries to assign hregs (represented as colors) to the nodes so that no two adjacent nodes share the same color, if it can't then it inserts spill code, rebuilds the graph and tries again. This algorithm tends to do better than the linear allocator because the conflict graph helps it avoid the look-ahead problem. The coloring allocator also tries to allocate the source and destination of register-to-register move instruction to the same hreg. This is done by coalescing (merging) move-related nodes. If this succeeds then the move instruction can be erased.
+  The graph coloring algorithm operates on the code for a whole function at a time. From each function it extracts a register conflict graph which has a node for every vreg and an edge between two vregs if they are in use at the same time and thus cannot share the same hreg. The algorithm tries to assign hregs (represented as colors) to the nodes so that no two adjacent nodes share the same color, if it can't then it inserts spill code, rebuilds the graph and tries again. 
+
+> >
+> > Graph coloring tends to do better than the linear allocator because the conflict graph helps it avoid the look-ahead problem. The coloring allocator also tries harder to allocate the source and destination of reg-to-reg move instructions to the same hreg. This is done by coalescing (merging) move-related nodes. If this succeeds then the moves can be erased.
 
 - **Graph coloring with iterative coalescing** (enabled with `-fregs-iterative`)
 
   Iterative coalescing is an improvement over regular graph coloring whereby coalescing passes are interleaved with coloring passes. Iterative coalescing does a better job than regular graph coloring, but is slower because it must alternate between the coloring and coalescing of nodes.
 
-## [Code map](commentary/compiler/backends/ncg/register-allocator/code)
+## Code map
+
+
+For an outline of the code see [Commentary/Compiler/Backends/NCG/RegisterAllocator/Code](commentary/compiler/backends/ncg/register-allocator/code)
 
 ## References
 
 
-If you decide to do some hacking on the register allocator I would take a look at (at least) these papers first:
+If you decide to do some hacking on the register allocator then take a look at (at least) these papers first:
 
 **Iterated Register Coalescing**
 *George, Appel, 1996*
@@ -38,7 +44,7 @@ Decribes the core graph coloring algorithm used.
 **A Generalised Algorithm for Graph-Coloring Register Allocation**
 *Smith, Ramsey, Holloway, 2004*
 
-For a decription of how to deal with overlapping register sets, which aren't fully implemented yet. Explains what the `worst`, `squeese` and `triv`functions are for.
+For a decription of how to deal with overlapping register sets, which aren't fully implemented yet. Explains what the `worst`, `squeese` and `triv` functions are for.
 
 **Design and Implementation of a Graph Coloring Register Allocator for GCC**
 *Matz, 2003*
@@ -47,28 +53,72 @@ For an overview of techniques for inserting spill code.
 
 ## Hacking/Debugging
 
-`-fasm-lint`
+- **Turn on `-fasm-lint`**
 
-Breaking the allocator can result in compiled programs crashing randomly (if you're lucky) or producing the wrong output, which can hard to debug.
-When working on the allocator, make sure to always turn on `-fasm-lint` this will call `GraphOps.validateGraph` after every spill/color stage. `validateGraph` checks that all the edges point to valid nodes, that no conflicting nodes have the same color, and if the graph is supposed to be colored then all nodes are really colored.
+  Breaking the allocator can result in compiled programs crashing randomly (if you're lucky) or producing the wrong output. Make sure to always turn on `-fasm-lint`. Doing this makes the allocator call `GraphOps.validateGraph` after every spill/color stage. `validateGraph` checks that all the edges point to valid nodes, that no conflicting nodes have the same color, and if the graph is supposed to be colored then all nodes are really colored.
+
+- **Some useful dump flags**
+
+> > `-ddump-asm-regalloc-stages`
+> >
+> > Shows the code and conflict graph after ever spill/color stage. Also shows spill costs, and what registers were coalesced.
+
+> > `-ddump-asm-stats`
+> >
+> > Gives statistics about how many spills/reloads/reg-reg-moves are in the output program.
+
+> > `-ddump-asm`
+> >
+> > Gives the final output code. 
+
+> > `-ddump-to-file`
+> >
+> > Diverts dump output to files. This can be used to get dumps from each module in a nofib benchmark.
+
+```wiki
+cd nofib/real/anna
+make EXTRA_HC_OPTS="-O2 -fregs-iterative -ddump-to-file -ddump-asm-regalloc-stages"
+```
+
+- Graphviz
+
+- checkSpills
+
+## Register pressure in Haskell code
 
 
-The main dump flags are
+Present GHC compiled code places very little pressure on the register set. Even on x86 with only 3 allocable registers, most modules do not need spill/reloads. This is a mixed blessing - on one hand the conflict graphs are small so we can avoid performance problems related to how the graph is represented, on the other hand it can be hard to find code to test against. Register pressure is expected to increase as the Stg-\>Cmm transform improves.
 
-> `-ddump-asm-regalloc-stages`
 
-> `-ddump-asm-stats`
+In the meantime, here are some good sources for test code:
 
-> `-ddump-asm`
+- **Nofib**
 
-> `-ddump-to-file`
+  Only a few nofib benchmarks create spills with `-O2`, two are `spectral/hartel/genfft` and `spectral/sorting`.
+
+- **Turn on profiling.**
+
+  Register pressure increases significantly when the module is compiled with profiling. [checkSpills.report](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/checkSpills.report)[](/trac/ghc/raw-attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/checkSpills.report) gives tuples of `(spills, reloads, reg-reg-moves)` present in output code generated by the three algorithms when compiled with `-O2 -prof`. Left to right are the stats for the linear, graph coloring and iterative coalescing algorithms. Note that most modules compile with no spill/reloads inserted, but a few (notably `real/compress2/Encode`) need several hundred.
+
+> >
+> > I've found it useful to maintain three darcs repos when working on the allocator. `ghc-HEAD-work` compiled with `-Onot` for fast compilation during hacking, `ghc-HEAD-prof` for testing with profiling turned on, and `ghc-HEAD-validate` for running the validate script. Patches are created in `work`, pushed into `prof` where `checkSpills` is used to compile the nofib benchmarks with the most register pressure. Once we're happy that the performance is ok, the patch is then pushed into `validate` for validation before pushing to the main repo on `darcs.haskell.org`
+
+- **SHA from darcs**
+
+  The `SHA1.lhs` module from the darcs source, compiled with `-O2` creates the most register pressure out of any Haskell code that I'm aware of. When compiling SHA1, GHC inlines several worker functions and the native code block that computes the hash ends up being around 1700 instructions long. vregs that live in the middle of the block have in the order of 30 conflict neighbors. (evidently, the conflict graph is too large for most of the graphviz layout algorithms to cope with)
+
+> >
+> > For these reasons, `SHA1.lhs` can be treated as a good worst-case input to the allocator. In fact, the current linear allocator cannot compile it with `-O2 -prof` on x86 as it runs out of stack slots, which are allocated from a static pool. Make sure to test any changes to the allocator against this module.
 
 ## Possible Improvements
 
-- work lists
 
-- spill code
+These are some ideas for improving the current allocator, most usful first.
 
-- spill candidates
+- Work lists for iterative coalescing.
 
-- aliasing register sets
+- Improve spill code cleaner.
+
+- Revisit choosing of spill candidates.
+
+- Revisit trivColorable / aliasing of register sets.
