@@ -149,7 +149,7 @@ These are some ideas for improving the current allocator, most potentially usefu
 
 - **Revisit choosing of spill candidates**
 
-  If the graph cannot be colored, a node/vreg must be chosen to be potentially spilled. Chaitin's forumula says to calculate the spill cost by adding up the number of uses and defs of that vreg and divide by the degree of the node. In the code that I've tested against, it's been better to just choose the live range that lives the longest. Perhaps this is because the 'real' spill cost would depend on the spills/reloads actually inserted, not a simple count of use/defs. Perhaps choosing the longest live range is just better for the particular kind of code that GHC generates.
+  If the graph cannot be colored then a node/vreg must be chosen to be potentially spilled. Chaitin's forumula says to calculate the spill cost by adding up the number of uses and defs of that vreg and divide by the degree of the node. In the code that I've tested against, it's been better to just choose the live range that lives the longest. Perhaps this is because the 'real' spill cost would depend on the spills/reloads actually inserted, not a simple count of use/defs. Perhaps choosing the longest live range is just better for the particular kind of code that GHC generates.
 
 - **Revisit trivColorable / aliasing of register sets**
 
