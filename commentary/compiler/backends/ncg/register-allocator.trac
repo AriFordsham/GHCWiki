@@ -4,7 +4,7 @@
 
 The register allocator is responsible for assigning real/hardware regs (hregs) to each of the virtual regs (vregs) present in the code emitted by the native code generator. It also inserts spill/reload instructions to save vregs to the stack in situations where not enough hregs are available. 
 
-GHC currently provides three register allocation algorithms, one which does simple lineear scan and two version of graph coloring. Support for linear scan is likely to be removed in a subequent version.
+GHC currently provides three register allocation algorithms, one which does simple linear scan and two version of graph coloring. Support for linear scan is likely to be removed in a subequent version.
 
  * '''Linear scan'''[[BR]]
    The linear allocator is turned on by default. This is what you get when you compile with {{{-fasm}}}. The linear allocator does a single pass through the code, allocating registers on a first-come-first-served basis. It is quick, and does a reasonable job for code with little register pressure. 
