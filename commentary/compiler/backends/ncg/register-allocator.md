@@ -20,7 +20,7 @@ GHC currently provides three register allocation algorithms, one which does simp
   The graph coloring algorithm operates on the code for a whole function at a time. From each function it extracts a register conflict graph which has a node for every vreg and an edge between two vregs if they are in use at the same time and thus cannot share the same hreg. The algorithm tries to assign hregs (imagined as colors) to the nodes so that no two adjacent nodes share the same color, if it can't then it inserts spill code, rebuilds the graph and tries again. 
 
 > >
-> > Graph coloring tends to do better than the linear allocator because the conflict graph helps it avoid the look-ahead problem. The coloring allocator also tries harder to allocate the source and destination of reg-to-reg move instructions to the same hreg. This is done by coalescing (merging) move-related nodes. If this succeeds then the moves can be erased.
+> > Graph coloring tends to do better than the linear allocator because the conflict graph helps it avoid the look-ahead problem. The coloring allocator also tries harder to allocate the source and destination of reg-to-reg move instructions to the same hreg. This is done by coalescing (merging) move-related nodes. If this succeeds then the associated moves can be erased.
 
 - **Graph coloring with iterative coalescing** (enabled with `-fregs-iterative`)
 
