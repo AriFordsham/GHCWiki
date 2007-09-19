@@ -6,7 +6,7 @@
 The register allocator is responsible for assigning real/hardware regs (hregs) to each of the virtual regs (vregs) present in the code emitted by the native code generator. It also inserts spill/reload instructions to save vregs to the stack in situations where not enough hregs are available. 
 
 
-GHC currently provides three register allocation algorithms, one which does simple lineear scan and two version of graph coloring. Support for linear scan is likely to be removed in a subequent version.
+GHC currently provides three register allocation algorithms, one which does simple linear scan and two version of graph coloring. Support for linear scan is likely to be removed in a subequent version.
 
 - **Linear scan**
 
@@ -17,10 +17,10 @@ GHC currently provides three register allocation algorithms, one which does simp
 
 - **Graph coloring** (enabled with `-fregs-graph`)
 
-  The graph coloring algorithm operates on the code for a whole function at a time. From each function it extracts a register conflict graph which has a node for every vreg and an edge between two vregs if they are in use at the same time and thus cannot share the same hreg. The algorithm tries to assign hregs (represented as colors) to the nodes so that no two adjacent nodes share the same color, if it can't then it inserts spill code, rebuilds the graph and tries again. 
+  The graph coloring algorithm operates on the code for a whole function at a time. From each function it extracts a register conflict graph which has a node for every vreg and an edge between two vregs if they are in use at the same time and thus cannot share the same hreg. The algorithm tries to assign hregs (imagined as colors) to the nodes so that no two adjacent nodes share the same color, if it can't then it inserts spill code, rebuilds the graph and tries again. 
 
 > >
-> > Graph coloring tends to do better than the linear allocator because the conflict graph helps it avoid the look-ahead problem. The coloring allocator also tries harder to allocate the source and destination of reg-to-reg move instructions to the same hreg. This is done by coalescing (merging) move-related nodes. If this succeeds then the moves can be erased.
+> > Graph coloring tends to do better than the linear allocator because the conflict graph helps it avoid the look-ahead problem. The coloring allocator also tries harder to allocate the source and destination of reg-to-reg move instructions to the same hreg. This is done by coalescing (merging) move-related nodes. If this succeeds then the associated moves can be erased.
 
 - **Graph coloring with iterative coalescing** (enabled with `-fregs-iterative`)
 
@@ -124,6 +124,14 @@ circo -Tpng niceGraph.dot -o niceGraph.png
 - **checkSpills**
   [checkSpills.hs](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/checkSpills.hs)[](/trac/ghc/raw-attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/checkSpills.hs) is a nasty, throw away script which can be used to automate the comparison of allocation algorithms. Copy it and a list of test like [checkSpills.tests](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/checkSpills.tests)[](/trac/ghc/raw-attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/checkSpills.tests) to the top level nofib directory, compile and run. It will build the nofib benchmarks in the list 6 times each, once each with each of the allocators to extract spill counts, and then once again to get compile timings which are unperterbed by the space leaks introduced by compiling with debugging turned on. It's only needed if you're hacking on the allocator, parses the nofib make output directly, and is likely to rot - which is why it isn't included in the main source tree.
 
+## Runtime performance
+
+
+Runtime performance of the graph coloring allocator is proportional to the size of the conflict graph and the number of build/spill cycles needed to obtain a coloring. Most functions have graphs \< 100 nodes and generate no spills, so register allocation is a small fraction of overall compile time.
+
+
+The graph is stored as a `UniqMap` of nodes, which has ... complexity. 
+
 ## Possible Improvements
 
 
@@ -149,6 +157,11 @@ These are some ideas for improving the current allocator, most potentially usefu
 
 - **Revisit choosing of spill candidates**
 
-  If the graph cannot be colored, a node/vreg must be chosen to be potentially spilled. Chaitin's forumula says to calculate the spill cost by adding up the number of uses and defs of that vreg and divide by the degree of the node. In the code that I've tested against, it's been better to just choose the live range that lives the longest. Perhaps this is because the 'real' spill cost would depend on the spills/reloads actually inserted, not a simple count of use/defs. Perhaps choosing the longest live range is just better for the particular kind of code that GHC generates.
+  If the graph cannot be colored then a node/vreg must be chosen to be potentially spilled. Chaitin's forumula says to calculate the spill cost by adding up the number of uses and defs of that vreg and divide by the degree of the node. In the code that I've tested against, it's been better to just choose the live range that lives the longest. Perhaps this is because the 'real' spill cost would depend on the spills/reloads actually inserted, not a simple count of use/defs. Perhaps choosing the longest live range is just better for the particular kind of code that GHC generates.
 
-- Revisit trivColorable / aliasing of register sets.
+- **Revisit trivColorable / aliasing of register sets**
+
+  For the architectures currently supported, x86, x86_64 and ppc, the native code generator currently emits code using only two register classes `RcInteger` and `RcDouble`. As these classes are disjoint (ie, none of the regs from one class alias with with regs from another), checking whether a node of a certain class is trivially colorable reduces to counting up the number of neighbours of that class.
+
+> >
+> > If the NCG starts to use aliasing register classes eg: both 32bit `RcFloat`s and 64bit `RcDouble`s on sparc; combinations of 8, 16, and 32 bit integers on x86 / x86_x6 or usage of sse / altivec regs in different modes, then this can be supported via the method described in \[Smith et al\]. The allocator was designed with this in mind - ie, by passing a function to test if a node is trivially colorable as a parameter to the coloring function - and there is already a description of the register set for x86 in [compiler/nativeGen/RegArchX86.hs](/trac/ghc/browser/ghc/compiler/nativeGen/RegArchX86.hs), but the native code generator doesn't currently emit code to test it against.
