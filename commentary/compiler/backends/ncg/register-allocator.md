@@ -151,4 +151,9 @@ These are some ideas for improving the current allocator, most potentially usefu
 
   If the graph cannot be colored, a node/vreg must be chosen to be potentially spilled. Chaitin's forumula says to calculate the spill cost by adding up the number of uses and defs of that vreg and divide by the degree of the node. In the code that I've tested against, it's been better to just choose the live range that lives the longest. Perhaps this is because the 'real' spill cost would depend on the spills/reloads actually inserted, not a simple count of use/defs. Perhaps choosing the longest live range is just better for the particular kind of code that GHC generates.
 
-- Revisit trivColorable / aliasing of register sets.
+- **Revisit trivColorable / aliasing of register sets**
+
+  For the architectures currently supported, x86, x86_64 and ppc, the native code generator currently emits code using only two register classes `RcInteger` and `RcDouble`. As these classes are disjoint (ie, none of the regs from one class alias with with regs from another), checking whether a certain node is trivially colorable reduces to counting up the number of neighbors of the same class.
+
+> >
+> > If the native code starts to use aliasing register classes eg: both 32bit `RcFloat`s and 64bit `RcDouble`s on sparc; combinations of 8, 16, and 32 bit integers on x86 / x86_x6; usage of sse / altivec regs in different modes, then this could be supported via the method described in \[Smith et al\]. The allocator was designed with this in mind - ie, by passing a function to test if a node is trivially colorable as a parameter to the coloring function - and there is already a description of the register set for X86 in ... , but the native code generator doesn't currently emit code to test it against.
