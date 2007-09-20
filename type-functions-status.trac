@@ -3,7 +3,7 @@
 = Type Functions: Implementation Status =
 
 '''Debugging of type families:'''
- 0. skolemOccurs for wanteds?
+ 0. skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.
  0. `:t` in ghci doesn't print equalities in contexts properly.
  0. ghci command to print normalised type and add [http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799] as a test to the testsuite.
  0. `boxySplitTyConApp` and friends must be able to deal with `orig_ty`s that have outermost type family applications; i.e., they need to try to normalise and possibly have to defer.  They also need to defer on skolems.  Consequently, they also need to return a coercion.  This , in particular, affects the treatment of literal lists, parallel arrays, and tuples in`TcExpr.tcExpr` is fishy.
@@ -100,53 +100,3 @@ Done:
  * Import and exporting.
  * Generation and plumbing through of rough matches.
  * Equational constraints in contexts.
-
-== *OLD* Regression tests of type family patches ==
-
-'''[This is outdated pre-merge info just kept around for a while.]'''
-
-Current `validate` result:
-{{{
-Unexpected passes:
-   Class1(normal)
-   GADT2(normal)
-
-Unexpected failures:
-   Refl2(normal)
-   Simple5a(normal)
-   rw(normal)
-   tcfail065(normal)
-   tcfail068(normal)
-   tcfail071(normal)
-   tcfail076(normal)
-   tcfail102(normal)
-   tcfail103(normal)
-   tcfail153(normal)
-   tcfail179(normal)
-}}}
-
- * Class1: VALID.  (Only marked to fail in head to keep validate happy.)
- * GADT2: VALID.  (Only marked to fail in head to keep validate happy.)
- * Relf2: VALID. Type family BUG.
- * Simple5a: VALID.  Error message changed.
- * ~~break001~~: INVALID.  GHC panic instead of printing error message about ambiguous variable.
- * ~~break006~~: INVALID.  Seems to be the same problem as break001.
- * ~~print019~~: INVALID.  Seems to be the same problem as break001.
- * rw: VALID. Changed error message.  Reports one error less.  Other one is pruned, but still raised if the first one is removed.
- * ~~tc210~~: INVALID (matching `forall a.a -> Int` against `Int -> Int fails).
- * ~~tc211~~: INVALID (tests impredicative types).
- * ~~tcfail046~~: VALID.  Changed error message, BUT the new error message has one more type synonym unfolding, which should be avoided.
- * tcfail065: VALID.  Cosmetic difference, as tidy names are assigned in different order.
- * tcfail068: VALID.  Reports two errors less (probably due to different recovery points).  Yes, I checked that its not that it admits incorrect programs, but just due to different order of checking/pruning of errors.
- * tcfail071: VALID.  Now reports one instead of two errors as deferred unification is checked only after the contexts of mutually recursive groups have been unified.  (The latter is what this test case is really about, and it still works fine for that.)
- * tcfail076: VALID.  Same as tcfail065.
- * tcfail102: VALID.
- * tcfail103: VALID.  Error message is actually better!
- * ~~tcfail128~~: VALID. Same as tcfail046.
- * ~~tcfail145~~: VALID. Error message got worse.
- * tcfail153: VALID.  Error message is different, but equally correct and accurate.  The type mismatch manifests itself at two different subexpressions.  Due to a different traversal order, we now report the error at the other subexpression.
- * tcfail179: VALID.  If anything, the error message improved.
- * while: VALID. Works if definition of `succeed` gets a type signature `Monad m => a -> m a`.  The error seems to be due to the new GADT rules about annotations, but the error message is a bit strange; ie, need to be improved.
-
-Regression tests that are not part of the fast run:
- * cholewo-eval: core-lint breakage
