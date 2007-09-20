@@ -4,10 +4,11 @@
 
 **Debugging of type families:**
 
+1. `substEqInDict` needs to be symmetric (i.e., also apply right-to-left rules); try to re-use existing infrastructure.  It would be neater, easier to understand, and more efficient to have one loop that goes for a fixed point of simultaneously rewriting with given_eqs, wanted_eqs, and type instances.
+1. `boxySplitTyConApp` and friends must be able to deal with `orig_ty`s that have outermost type family applications; i.e., they need to try to normalise and possibly have to defer.  They also need to defer on skolems.  Consequently, they also need to return a coercion.  This , in particular, affects the treatment of literal lists, parallel arrays, and tuples in`TcExpr.tcExpr` is fishy.
 1. skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.
 1. `:t` in ghci doesn't print equalities in contexts properly.
 1. ghci command to print normalised type and add [ http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799](http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799) as a test to the testsuite.
-1. `boxySplitTyConApp` and friends must be able to deal with `orig_ty`s that have outermost type family applications; i.e., they need to try to normalise and possibly have to defer.  They also need to defer on skolems.  Consequently, they also need to return a coercion.  This , in particular, affects the treatment of literal lists, parallel arrays, and tuples in`TcExpr.tcExpr` is fishy.
 1. [\#1715](https://gitlab.haskell.org//ghc/ghc/issues/1715)
 1. To move GADT type checking from refinements to equalities, proceed as follows (as suggested by SPJ):
 
