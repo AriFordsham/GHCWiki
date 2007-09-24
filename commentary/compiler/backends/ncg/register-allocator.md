@@ -129,9 +129,6 @@ circo -Tpng niceGraph.dot -o niceGraph.png
 
 Runtime performance of the graph coloring allocator is proportional to the size of the conflict graph and the number of build/spill cycles needed to obtain a coloring. Most functions have graphs \< 100 nodes and generate no spills, so register allocation is a small fraction of overall compile time.
 
-
-The graph is stored as a `UniqMap` of nodes, which has ... complexity. 
-
 ## Possible Improvements
 
 
