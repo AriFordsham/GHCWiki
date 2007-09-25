@@ -5,8 +5,19 @@
 **Open Trac bugs related to type families**
 
 - [\#1715](https://gitlab.haskell.org//ghc/ghc/issues/1715)
-- [\#1729](https://gitlab.haskell.org//ghc/ghc/issues/1729)
-- [\#1730](https://gitlab.haskell.org//ghc/ghc/issues/1730)
+- [\#1729](https://gitlab.haskell.org//ghc/ghc/issues/1729) (type synonym families)
+- [\#1730](https://gitlab.haskell.org//ghc/ghc/issues/1730) (type synonym families)
+
+**Failing testsuite tests**
+
+
+All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
+
+- `should_run/GMapAssoc(optc,hpc,profc,profasm)` (data type families)
+- `should_run/GMapTop(optc,hpc,profc,profasm)` (data type families)
+- `should_run/ind2(profc,profasm)` (data type families)
+- `should_compile/GADT3(profc,profasm)` (type syonym families)
+- `should_run/Simple12(normal,optc,profc,profasm)` (type synonym families)
 
 **Debugging of type families:**
 
