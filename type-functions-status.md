@@ -15,7 +15,6 @@
 1. skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.
 1. `:t` in ghci doesn't print equalities in contexts properly.
 1. ghci command to print normalised type and add [ http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799](http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799) as a test to the testsuite.
-
 1. To move GADT type checking from refinements to equalities, proceed as follows (as suggested by SPJ):
 
   - Implemented this as follows in `TcPat.tcConPat:579:`
