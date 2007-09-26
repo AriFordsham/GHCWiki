@@ -7,7 +7,7 @@ Please help us fix bugs in GHC!  GHC is so large, and is used in such diverse wa
 Here's how to go about it.
 
 1. **Make sure the bug is in Trac**.  Usually it is (that's why you are working on it), but if it's a bug you have found yourself, add it to Trac before you start work.  
-1. Take ownership of the bug in Trac, by using the "Action" chunk at the bottom of the Trac bug display (you need to be logged in to see it), and putting your name in the "reassign to" box.  This makes sure that two people don't work on the same bug.  If you later decide you can't do it after all, remove your name.
+1. **Take ownership of the bug in Trac**, by using the "Action" chunk at the bottom of the Trac bug display (you need to be logged in to see it), and putting your name in the "reassign to" box.  This makes sure that two people don't work on the same bug.  If you later decide you can't do it after all, remove your name.
 1. **Add a test case** in the [regression-test suite](building/running-tests) that shows up the bug.  
 
   - Put the name of the test in the "Test Case" field of the Trac report.  
