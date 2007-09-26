@@ -1,4 +1,4 @@
-# How to submit a bug fix
+# How to contribute a bug fix to GHC
 
 
 Please help us fix bugs in GHC!  GHC is so large, and is used in such diverse ways by so many people, that we really need your help in fixing bugs, especially those that show up in specialised situations.
