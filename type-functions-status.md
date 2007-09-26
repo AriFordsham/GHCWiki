@@ -6,7 +6,7 @@
 
 - [\#1715](https://gitlab.haskell.org//ghc/ghc/issues/1715)
 - [\#1722](https://gitlab.haskell.org//ghc/ghc/issues/1722) (type families & GADTs)
-- [\#1723](https://gitlab.haskell.org//ghc/ghc/issues/1723) (type families & GADTs)
+- [\#1723](https://gitlab.haskell.org//ghc/ghc/issues/1723) (type families & GADTs) \[will be fixed when GADTs are implemented by equalities; we'll want to add the test case to the testsuite\]
 - [\#1729](https://gitlab.haskell.org//ghc/ghc/issues/1729) (type synonym families)
 - [\#1730](https://gitlab.haskell.org//ghc/ghc/issues/1730) (type synonym families)
 
@@ -18,7 +18,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 - `should_run/GMapAssoc(optc,hpc,profc,profasm)` (data type families)
 - `should_run/GMapTop(optc,hpc,profc,profasm)` (data type families)
 - `should_run/ind2(profc,profasm)` (data type families)
-- `should_compile/GADT3(profc,profasm)` (type syonym families)
+- `should_compile/GADT3(profc,profasm)` (type syonym families) -- unexpected pass
 - `should_run/Simple12(normal,optc,profc,profasm)` (type synonym families)
 
 **Debugging of type families:**
