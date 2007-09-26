@@ -5,6 +5,7 @@
 **Open Trac bugs related to type families**
 
 - [\#1715](https://gitlab.haskell.org//ghc/ghc/issues/1715)
+- [\#1722](https://gitlab.haskell.org//ghc/ghc/issues/1722) (type families & GADTs)
 - [\#1729](https://gitlab.haskell.org//ghc/ghc/issues/1729) (type synonym families)
 - [\#1730](https://gitlab.haskell.org//ghc/ghc/issues/1730) (type synonym families)
 
