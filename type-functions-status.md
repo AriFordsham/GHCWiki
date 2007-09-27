@@ -9,6 +9,7 @@
 - [\#1723](https://gitlab.haskell.org//ghc/ghc/issues/1723) (type families & GADTs) \[will be fixed when GADTs are implemented by equalities; we'll want to add the test case to the testsuite\]
 - [\#1729](https://gitlab.haskell.org//ghc/ghc/issues/1729) (type synonym families)
 - [\#1730](https://gitlab.haskell.org//ghc/ghc/issues/1730) (type synonym families)
+- [\#1738](https://gitlab.haskell.org//ghc/ghc/issues/1738) (GADTs with equalities)
 
 **Failing testsuite tests**
 
