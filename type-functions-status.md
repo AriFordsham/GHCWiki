@@ -60,6 +60,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   - Issue a warning if there are two identical instances (as per  Roman's suggestion).
 1. CONCEPTUAL issue: At least with `skolemOccurs`, the policy of not zonking the types embedded in the kinds of coercion type variables does no longer work.  This becomes, for example in the test `Simple13`, apparent.  The skolem introduced in `skolemOccurs` finds its way into variable kinds (which is visible when inspecting them during `TcMType.zonk_tc_tyvar`).
 1. When `Simple13` is compiled with a compiler that was built with `-DDEBUG`, it prints a warning about not matching types being used during constructing a trans coercion.
+1. To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use HsBind.VarBind and make its right-hand side a specially data structure describing evidence construction, instead of being a general HsExpr.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
 1. In `TcTyFuns.genericNormaliseInst`, we need to figure out what to do with `ImplicInst`, `Method`, and `LitInst` dictionaries.
 1. ghc falls over if a bang pattern is put at an argument of type `F a`.
 1. Fix export list problem (ie, export of data constructors introduced by orphan data instances):
