@@ -41,7 +41,8 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
       * Immediately fixes the tests GADT3, GADT4 & GADT5.
       * Unfortunately, it breaks a whole lot of tests in `gadt/`.
       * The remaining problems are partially due to (1) the splitBoxyXXX function issue mentioned above, (2) the occurs check issue mentioned below, (3) the same problem exhibited by GADT9 (with or without this change), (4) some problems getting hold of the right given class constraints, and (5) some random stuff that I haven't looked at more closely.
-    * In `TcUnify`, make all occurs checks more elaborate.  They should only '''defer''' if the checked variable occurs as part of an argument to a type family application; in other cases, still fail right away.
+    * Handling of cases expression scrutinising GADTs: implement proposal where we generalise the scrutinees inferred type to ensure it is rigid.
+    * In `TcUnify`, make all occurs checks more elaborate.  They should only '''defer''' if the checked variable occurs as part of an argument to a type family application; in other cases, still fail right away.  DONE?
     * `TcGadt.tcUnifyTys` can now probably be replaced again by the non-side-effecting unifier that was in `types/Unify.hs` (recover from previous repo states).
  0. Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page.
  0. When can foralls appear in equalities?  What constraints does that place on GADTs?  Also, the code in `TcTyFuns` doesn't really deal with rank-n types properly, esp `decompRule`.
