@@ -10,7 +10,6 @@
  * #1738 (GADTs with equalities)
  * #1722 (type families & GADTs) [look at when GADTs are implemented by equalities]
  * #1723 (type families & GADTs) [will be fixed when GADTs are implemented by equalities; we'll want to add the test case to the testsuite]
- * #1746 (GADT panic on a cast when optimising)
 
 '''Failing testsuite tests'''
 
