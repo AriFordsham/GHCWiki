@@ -10,6 +10,7 @@
 - [\#1729](https://gitlab.haskell.org//ghc/ghc/issues/1729) (type synonym families)
 - [\#1730](https://gitlab.haskell.org//ghc/ghc/issues/1730) (type synonym families)
 - [\#1738](https://gitlab.haskell.org//ghc/ghc/issues/1738) (GADTs with equalities)
+- [\#1746](https://gitlab.haskell.org//ghc/ghc/issues/1746) (GADT panic on a cast when optimising)
 
 **Failing testsuite tests**
 
