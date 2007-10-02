@@ -13,11 +13,12 @@
 
 All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
-- `should_run/GMapAssoc(optc,hpc,profc,profasm)` (data type families)
-- `should_run/GMapTop(optc,hpc,profc,profasm)` (data type families)
+- `should_run/GMapAssoc(profc,profasm)` (data type families)
+- `should_run/GMapTop(profc,profasm)` (data type families)
 - `should_run/ind2(profc,profasm)` (data type families)
-- `should_compile/GADT3(profc,profasm)` (type syonym families) -- unexpected pass
 - `should_run/Simple12(normal,optc,profc,profasm)` (type synonym families)
+
+**Check whether these still fail.**
 
 **Debugging of type families:**
 
