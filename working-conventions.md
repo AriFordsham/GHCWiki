@@ -7,8 +7,11 @@ This page has pointers to information you'll need.
 
 Especially, please read:
 
-- [How to fix a bug](working-conventions/fixing-bugs)
-- [How to add a new feature](working-conventions/adding-features)
+- [How to fix a bug in GHC](working-conventions/fixing-bugs)
+- [How to add a new feature to GHC](working-conventions/adding-features)
+
+
+There are separate guidelines for proposing changes to standard libraries; see [ Library Submissions](http://haskell.org/haskellwiki/Library_submissions).
 
 ## Coding conventions
 

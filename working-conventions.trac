@@ -6,8 +6,10 @@ This page has pointers to information you'll need.
 
 Especially, please read:
 
- * [wiki:WorkingConventions/FixingBugs How to fix a bug]
- * [wiki:WorkingConventions/AddingFeatures How to add a new feature]
+ * [wiki:WorkingConventions/FixingBugs How to fix a bug in GHC]
+ * [wiki:WorkingConventions/AddingFeatures How to add a new feature to GHC]
+
+There are separate guidelines for proposing changes to standard libraries; see [http://haskell.org/haskellwiki/Library_submissions Library Submissions].
 
 == Coding conventions ==
 
