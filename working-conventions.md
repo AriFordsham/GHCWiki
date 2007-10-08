@@ -1,5 +1,15 @@
 # Working conventions for working on GHC
 
+
+GHC is a BSD-licensed open-source project, and we welcome your help in making it better.
+This page has pointers to information you'll need.
+
+
+Especially, please read:
+
+- [How to fix a bug](working-conventions/fixing-bugs)
+- [How to add a new feature](working-conventions/adding-features)
+
 ## Coding conventions
 
 
@@ -13,19 +23,13 @@ When you are editing GHC's source code, please follow our coding guidelines:
 
 Our conventions and some useful tips for using darcs are here: [WorkingConventions/Darcs](working-conventions/darcs).
 
-## Testing and submitting patches
-
-
-We would love you to help us improve GHC by submitting patches to us.
-Guidelines for submitting patches to GHC are here: [WorkingConventions/Submissions](working-conventions/submissions).
-
-
-Please test your patch using the [validation script](testing-patches), before you submit it.  (If you have write permission to the repository, then you **must** validate before pushing the patch.)
-
 ## The Bug Tracker
 
 
-The following are GHC-specific policies for using the Trac bug tracking system.
+We organise our work (both bug fixing and feature requests) using the Trac bug tracker.   There are links to the bug tracker in the sidebar under "View tickets" ad "Create ticket". 
+
+
+The following are GHC-specific policies for using the Trac bug tracking system. (See also [the bug reporting guidelines](report-a-bug).
 
 - When a bug is fixed, but the patch or patches still need to be merged to other branches, then
   don't close the bug, just change its type from "bug" or "task" to "merge".  Also add a list of
