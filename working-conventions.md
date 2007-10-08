@@ -29,7 +29,7 @@ Our conventions and some useful tips for using darcs are here: [WorkingConventio
 We organise our work (both bug fixing and feature requests) using the Trac bug tracker.   There are links to the bug tracker in the sidebar under "View tickets" ad "Create ticket". 
 
 
-The following are GHC-specific policies for using the Trac bug tracking system. (See also [the bug reporting guidelines](report-a-bug).
+The following are GHC-specific policies for using the Trac bug tracking system. (See also [the bug reporting guidelines](report-a-bug).)
 
 - When a bug is fixed, but the patch or patches still need to be merged to other branches, then
   don't close the bug, just change its type from "bug" or "task" to "merge".  Also add a list of
