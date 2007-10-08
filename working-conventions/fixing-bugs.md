@@ -1,10 +1,27 @@
 # How to contribute a bug fix to GHC
 
 
-Please help us fix bugs in GHC!  GHC is so large, and is used in such diverse ways by so many people, that we really need your help in fixing bugs, especially those that show up in specialised situations.
+Please help us fix bugs in GHC!  GHC is so large, and is used in such diverse ways by so many people, that we really need your help in fixing bugs, especially those that show up in specialised situations.  
 
 
-Here's how to go about it.
+There are two ways to help: the Quick Fix and the True Way.
+
+## The Quick Fix
+
+
+Some bugs are easy to fix: improvement in documentation, misleading comments, poorly-worded error messages, or egregious little bugs.  In these cases, please just
+
+- Fix the code
+- Create a patch
+- Mail it to cvs-ghc@….  Make sure you include in your email a summary of what the problem is, and the nature of your fix.
+
+
+This route is easy for you, but more work for us; we have to check your fix, make sure it doesn't break anything etc.  But it's a low-overhead route for easy fixes.
+
+## The True Way
+
+
+Many bugs require a bit more work.  Here's how to go about helping with a non-trivial bug.
 
 1. **Make sure the bug is in Trac**.  Usually it is (that's why you are working on it), but if it's a bug you have found yourself, add it to Trac before you start work.  
 1. **Take ownership of the bug in Trac**, by using the "Action" chunk at the bottom of the Trac bug display (you need to be logged in to see it), and putting your name in the "reassign to" box.  This makes sure that two people don't work on the same bug.  If you later decide you can't do it after all, remove your name.
@@ -14,6 +31,7 @@ Here's how to go about it.
   - Put a reference to the Trac bug e.g. "Trac [\#1466](https://gitlab.haskell.org//ghc/ghc/issues/1466)" in a comment in the test case.
 1. **Fix the bug**!
 
+  - If your proposed fix has non-local consequences, please consult us (on cvs-ghc@…) before investing too much of your time.
   - Please follow our [coding conventions](working-conventions#)
   - Comment your fix in the source code, and include a reference to the bug ticket number, e.g. "`#1466`" (this helps when grepping for the fix later).  It is often helpful to give a small example code fragment that demonstrates the need for your fix.  This isn't always relevant; sometimes you are fixing a plain error, but often it's more subtle than that.
 1. **Record a patch** that embodies your fix.  Please follow our convention for naming patches: [WorkingConventions/Darcs](working-conventions/darcs#).
