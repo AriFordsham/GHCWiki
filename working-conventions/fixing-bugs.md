@@ -9,14 +9,13 @@ There are two ways to help: the Quick Fix and the True Way.
 ## The Quick Fix
 
 
-Some bugs are easy to fix: improvement in documentation, misleading comments, poorly-worded error messages, or egregious little bugs.  In these cases, please just
+Some bugs are easy to fix: improvements to documentation, misleading comments, poorly-worded error messages, or egregious little bugs.  In these cases, please just
 
 - Fix the code
-- Create a patch
-- Mail it to cvs-ghc@….  Make sure you include in your email a summary of what the problem is, and the nature of your fix.
+- Use `darcs send`, or just mail a patch to cvs-ghc@….  Make sure you include in the patch description a summary of what the problem is, and the nature of your fix.
 
 
-This route is easy for you, but more work for us; we have to check your fix, make sure it doesn't break anything etc.  But it's a low-overhead route for easy fixes.
+This route is easy for you, but more work for us; we have to [test your fix](testing-patches).  But it's a low-overhead route for easy fixes.
 
 ## The True Way
 
