@@ -44,6 +44,7 @@ Instead, follow the following steps:
 }}}
  0. Now use the `darcs-all` script to pull patches from all the library repositories, and the testsuite repository:
 {{{
+   $ chmod +x darcs-all
    $ ./darcs-all pull -a
 }}}
    The command `darcs-all` automates the fetching of the repositories for the libraries.

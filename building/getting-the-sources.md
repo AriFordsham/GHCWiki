@@ -55,6 +55,7 @@ Instead, follow the following steps:
 1. Now use the `darcs-all` script to pull patches from all the library repositories, and the testsuite repository:
 
   ```wiki
+     $ chmod +x darcs-all
      $ ./darcs-all pull -a
   ```
 
