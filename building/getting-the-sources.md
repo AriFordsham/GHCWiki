@@ -30,7 +30,7 @@ Source distributions are easier to build, because we also include the output fro
 The first thing to do is install [ darcs](http://darcs.net/).
 
 
-A source tree consists of the GHC repository, with a set of packages in the libraries directory.  We supply a script to automate the checking out of packages, `darcs-all`.  Checking out a tree goes like this:
+A source tree consists of the GHC repository, with a set of packages in the libraries directory.  If you only want to download the latest sources and aren't interested in working on GHC, then you can get *partial* repositories:
 
 ```wiki
   $ darcs get --partial http://darcs.haskell.org/ghc
@@ -39,10 +39,11 @@ A source tree consists of the GHC repository, with a set of packages in the libr
   $ ./darcs-all get
 ```
 
-**NOTE**: You really want `--partial` when grabbing GHC.  There are some 15000 patches in the repository, which take a long time to download without `--partial`.  The `darcs-all` script automatically adds `--partial` for the packages.  However, if you are a developer and intend to make changes to your GHC source tree, then we recommend *not* using `--partial`, and adding `--complete` to the `darcs-all` command-line which disables its default use of `--partial`.  We avoid `--partial` when developing due to bugs in darcs that affect moving patches between partial repositories.
+
+The command `darcs-all` automates the fetching of the repositories for the libraries, and it automatically adds the `--partial` flag.
 
 
-Getting GHC without `--partial` may take a while, so we occasionally make tarballs of the full GHC repo, which you can look for in [ here](http://darcs.haskell.org/) (look for files named `ghc-HEAD-<date>.tar.bz2`).  However, if you do this, do it as follows 
+If you plan to modify GHC, then you really want to get repositories with full history rather than just partial repositories, the reason being that darcs has some bugs that sometimes cause problems when using partial repositories for anything more than just pulling the latest patches.  However, don't just omit the `--partial` flag: GHC has more than 16,000 patches and the get will take forever.  Instead, download a complete bundle of the required repositories first, these are on [ http://darcs.haskell.org/](http://darcs.haskell.org/) in files of the form `ghc-HEAD-`*date*`-ghc-corelibs-testsuite.tar.bz2`, e.g. `ghc-HEAD-2007-08-29-ghc-corelibs-testsuite.tar.bz2`.  After unpacking the bundle, update your repositories like this:
 
 ```wiki
    $ ..untar tarball..
