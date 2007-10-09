@@ -30,7 +30,41 @@ Source distributions are easier to build, because we also include the output fro
 The first thing to do is install [ darcs](http://darcs.net/).
 
 
-A source tree consists of the GHC repository, with a set of packages in the libraries directory.  If you only want to download the latest sources and aren't interested in working on GHC, then you can get *partial* repositories:
+A source tree consists of the GHC repository, 
+with a set of library packages in the `libraries` directory.  Each of these
+libraries has its own repository: see [DarcsRepositories](darcs-repositories).
+
+
+If you plan to modify GHC, then you **must** get repositories with full history rather than just partial repositories.  (Why?  Because darcs has some bugs that sometimes cause problems when using partial repositories for anything more than just pulling the latest patches.)
+However, you cannot use `darcs get` to get a full GHC repository, for two reasons:
+
+- GHC has more than 16,000 patches and the get will take forever. 
+- Darcs has a bug concerning the interaction of case-sensitivity and Windows, which makes Darcs crash if you do `darcs get` on the full GHC repository on Windows.
+
+
+Instead, follow the following steps:
+
+1. Download a complete bundle of the required repositories first, using your browser rather than darcs. These bundles are on [ http://darcs.haskell.org/](http://darcs.haskell.org/) in files of the form `ghc-HEAD-`*date*`-ghc-corelibs-testsuite.tar.bz2`, e.g. `ghc-HEAD-2007-08-29-ghc-corelibs-testsuite.tar.bz2`.
+1. Unpack the bundle, which will create a directory called `ghc`.  You can rename this directory freely.
+1. Change into the new directory, and pull patches from the main GHC repository:
+
+  ```wiki
+     $ cd ghc
+     $ darcs pull -a
+  ```
+1. Now use the `darcs-all` script to pull patches from all the library repositories, and the testsuite repository:
+
+  ```wiki
+     $ ./darcs-all pull -a
+  ```
+
+  The command `darcs-all` automates the fetching of the repositories for the libraries.
+
+
+If you omit step (3), `darcs-all` will pull patches into the GHC repository too, and if that pulls a patch that modifies the `darcs-all` script itself, then bizarre things can (or at least could in the past) happen.  The safe thing to do is to get your main `ghc` repo up to date (step 3) and then run the script.
+
+
+If you only want to download the latest sources and aren't interested in working on GHC, then you can get *partial* repositories:
 
 ```wiki
   $ darcs get --partial http://darcs.haskell.org/ghc
@@ -40,33 +74,22 @@ A source tree consists of the GHC repository, with a set of packages in the libr
 ```
 
 
-The command `darcs-all` automates the fetching of the repositories for the libraries, and it automatically adds the `--partial` flag.
+The command `darcs-all` adds the `--partial` flag by default.
+
+## Getting more packages
 
 
-If you plan to modify GHC, then you really want to get repositories with full history rather than just partial repositories, the reason being that darcs has some bugs that sometimes cause problems when using partial repositories for anything more than just pulling the latest patches.  However, don't just omit the `--partial` flag: GHC has more than 16,000 patches and the get will take forever.  Instead, download a complete bundle of the required repositories first, these are on [ http://darcs.haskell.org/](http://darcs.haskell.org/) in files of the form `ghc-HEAD-`*date*`-ghc-corelibs-testsuite.tar.bz2`, e.g. `ghc-HEAD-2007-08-29-ghc-corelibs-testsuite.tar.bz2`.  After unpacking the bundle, update your repositories like this:
-
-```wiki
-   $ ..untar tarball..
-   $ cd ghc
-   $ darcs pull -a
-   $ ./darcs-all pull -a
-```
-
-
-If you do `darcs-all`, and that pulls in a patch that modifies the `darcs-all` script itself, then bizarre things can (or at least could in the past) happen.  The safe thing to do is to get your main `ghc` repo up to date (the `darcs pull` line) and then run the script.
-
-
-The above will grab the "core" set of packages.  This is the minimal set of packages required to bootstrap GHC.  If you want to get a more comprehensive set of packages and include them in your GHC build, then you can say:
+The above will grab the "core" set of packages and the testsuite.  This is the minimal set of packages required to bootstrap GHC.  If you want to get a more comprehensive set of packages and include them in your GHC build, then you can say:
 
 ```wiki
   $ ./darcs-all --extra get
 ```
 
 
-This isn't usually necessary: extra packages can be compiled and installed separately using Cabal, after you have built and installed GHC itself with its core packages.  The list of "core" and "extra" packages is below.
+This isn't usually necessary: extra packages can be compiled and installed separately using Cabal, after you have built and installed GHC itself with its core packages.  The "core" and "extra" packages are listed in [DarcsRepositories](darcs-repositories).
 
 
-Optionally, you might want to grab the testsuite and benchmark suite too, which also become sub-directories of ghc:
+Optionally, you might want to grab the testsuite (if you have not already got it) and `nofib` benchmark suite too, which also become sub-directories of ghc:
 
 ```wiki
   $ ./darcs-all --testsuite get
