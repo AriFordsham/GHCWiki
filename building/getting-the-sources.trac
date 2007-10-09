@@ -31,8 +31,8 @@ libraries has its own repository: see DarcsRepositories.
 
 If you plan to modify GHC, then you '''must''' get repositories with full history rather than just partial repositories.  (Why?  Because darcs has some bugs that sometimes cause problems when using partial repositories for anything more than just pulling the latest patches.)
 However, you cannot use `darcs get` to get a full GHC repository, for two reasons:
-  * GHC has more than 16,000 patches and the get will take forever. 
-  * Darcs has a bug concerning the interaction of case-sensitivity and Windows, which makes Darcs crash if you do `darcs get` on the full GHC repository on Windows.
+  * GHC has more than 16,000 patches and the `darcs get` will take forever. 
+  * Darcs has a bug concerning the interaction of case-sensitivity and Windows, which makes Darcs crash on Windows if you do `darcs get` on the full GHC repository.
 
 Instead, follow the following steps:
  0. Download a complete bundle of the required repositories first, using your browser rather than darcs. These bundles are on [http://darcs.haskell.org/] in files of the form `ghc-HEAD-`''date''`-ghc-corelibs-testsuite.tar.bz2`, e.g. `ghc-HEAD-2007-08-29-ghc-corelibs-testsuite.tar.bz2`.[[BR]][[BR]]

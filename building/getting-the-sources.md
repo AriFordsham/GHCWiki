@@ -38,8 +38,8 @@ libraries has its own repository: see [DarcsRepositories](darcs-repositories).
 If you plan to modify GHC, then you **must** get repositories with full history rather than just partial repositories.  (Why?  Because darcs has some bugs that sometimes cause problems when using partial repositories for anything more than just pulling the latest patches.)
 However, you cannot use `darcs get` to get a full GHC repository, for two reasons:
 
-- GHC has more than 16,000 patches and the get will take forever. 
-- Darcs has a bug concerning the interaction of case-sensitivity and Windows, which makes Darcs crash if you do `darcs get` on the full GHC repository on Windows.
+- GHC has more than 16,000 patches and the `darcs get` will take forever. 
+- Darcs has a bug concerning the interaction of case-sensitivity and Windows, which makes Darcs crash on Windows if you do `darcs get` on the full GHC repository.
 
 
 Instead, follow the following steps:
