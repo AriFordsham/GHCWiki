@@ -49,7 +49,7 @@ If you plan to modify GHC, then you really want to get repositories with full hi
    $ ..untar tarball..
    $ cd ghc
    $ darcs pull -a
-   $ ./darcs-all get
+   $ ./darcs-all pull -a
 ```
 
 

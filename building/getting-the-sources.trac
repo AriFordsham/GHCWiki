@@ -42,7 +42,7 @@ If you plan to modify GHC, then you really want to get repositories with full hi
    $ ..untar tarball..
    $ cd ghc
    $ darcs pull -a
-   $ ./darcs-all get
+   $ ./darcs-all pull -a
 }}}
 If you do `darcs-all`, and that pulls in a patch that modifies the `darcs-all` script itself, then bizarre things can (or at least could in the past) happen.  The safe thing to do is to get your main `ghc` repo up to date (the `darcs pull` line) and then run the script.
 
