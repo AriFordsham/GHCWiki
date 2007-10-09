@@ -45,9 +45,9 @@ The current CCS configuration at the moment of deallocating the base PAP is '''[
 We deallocate the base PAP, allocate the new AP closure, and annotate it with CCS '''[main,f,g,h,j]'''.
 }}}
 * Deallocating AP closures: Following the semantics of [Samson 97], we must
- # Extract the SCC annotated in the closure and push it in the CCS stack
- # Deallocate the AP closure and enter it
- # When we are done and before leaving, pop the CCS stack.
+ 1. Extract the SCC annotated in the closure and push it in the CCS stack
+ 1. Deallocate the AP closure and enter it
+ 1. When we are done and before leaving, pop the CCS stack.
 
 * Deallocating PAP closures: propagate the CCS annotation in the closure to the AP being allocated. (I am assuming that PAPs are never entered directly, even if the application is saturated)
 
@@ -55,8 +55,8 @@ We deallocate the base PAP, allocate the new AP closure, and annotate it with CC
 
 Following the semantics, we must restore the CCS after the scrutinee of a case statement has been entered. I.e. we should duplicate the CCS stack top before entering the scrutinee, and pop out before continuing to the alternatives. We are not very sure on how to do this, but the current plan is the following. 
 
-# When we see a PUSH_ALT instruction, we duplicate the stack.
-# After that, we know that the scrutinee will be entered, with a continuation. We modify the code generated for this continuation so that it will pushes a POP_CCS in the GHC stack. 
+ 1. When we see a PUSH_ALT instruction, we duplicate the stack.
+ 1. After that, we know that the scrutinee will be entered, with a continuation. We modify the code generated for this continuation so that it will pushes a POP_CCS in the GHC stack. 
 
 POP_CCS will be some piece of code that will pop the CCS stack. 
 (I am not very sure how this part works since Alexey is not here and my knowledge of all this is very vague).
