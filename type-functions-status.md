@@ -44,7 +44,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     - Works in principle.
     - Immediately fixes the tests GADT3, GADT4 & GADT5.
     - Unfortunately, it breaks a whole lot of tests in `gadt/`.
-    - The remaining problems are partially due to (1) the splitBoxyXXX function issue mentioned above, (2) the occurs check issue mentioned below, (3) the same problem exhibited by GADT9 (with or without this change), (4) some problems getting hold of the right given class constraints, and (5) some random stuff that I haven't looked at more closely.
+    - The remaining problems are partially due to ~~(1) the splitBoxyXXX function issue mentioned above,~~ (2) the occurs check issue mentioned below, (3) the same problem exhibited by GADT9 (with or without this change), (4) some problems getting hold of the right given class constraints, and (5) some random stuff that I haven't looked at more closely.
   - Handling of cases expression scrutinising GADTs: 
 
     - implement proposal where we infer a rigidity flag for case scutinees and pass that down when type checking the patterns,
