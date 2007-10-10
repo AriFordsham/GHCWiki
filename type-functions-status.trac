@@ -91,7 +91,7 @@ Done:
 
 Todo (low-level):
  * Allow data family GADT instances.
- * Deriving `Typeable` for data families.
+ * Deriving `Typeable` for data families (#1769)
  * If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
 Todo (high-level): 
