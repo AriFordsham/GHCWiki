@@ -79,6 +79,21 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 1. Fix core-lint breakage in cholewo-eval.
 1. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
 1. What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
+1. Can we support
+
+  ```wiki
+  {-# LANGUAGE TypeFamilies, TypeOperators, GADTs #-}
+  module Equality( (:=:), eq_elim, eq_refl ) where
+
+  data a:=: b where
+    EQUAL :: a :=: a
+
+  eq_refl :: a :=: a
+  eq_refl = EQUAL
+
+  eq_elim :: (a~b) => a :=: b -> (a~b => p) -> p
+  eq_elim EQUAL p = p 
+  ```
 
 **Current:**
 
