@@ -74,7 +74,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
  0. What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
  0. Can we support
 {{{
-{-# LANGUAGE TypeFamilies, TypeOperators, GADTs #-}
+{-# LANGUAGE TypeFamilies, TypeOperators, GADTs,  RankNTypes, FlexibleContexts #-}
 module Equality( (:=:), eq_elim, eq_refl ) where
 
 data a:=: b where

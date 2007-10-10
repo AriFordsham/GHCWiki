@@ -85,7 +85,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 1. Can we support
 
   ```wiki
-  {-# LANGUAGE TypeFamilies, TypeOperators, GADTs #-}
+  {-# LANGUAGE TypeFamilies, TypeOperators, GADTs,  RankNTypes, FlexibleContexts #-}
   module Equality( (:=:), eq_elim, eq_refl ) where
 
   data a:=: b where
