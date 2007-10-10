@@ -8,6 +8,7 @@
 - [\#1722](https://gitlab.haskell.org//ghc/ghc/issues/1722) (type families & GADTs) \[look at when GADTs are implemented by equalities\]
 - [\#1723](https://gitlab.haskell.org//ghc/ghc/issues/1723) (type families & GADTs) \[will be fixed when GADTs are implemented by equalities; we'll want to add the test case to the testsuite\]
 - [\#1715](https://gitlab.haskell.org//ghc/ghc/issues/1715) (iface problem, which is tricky to reproduce)
+- [\#1769](https://gitlab.haskell.org//ghc/ghc/issues/1769) (deriving typeable for data families)
 
 **Failing testsuite tests**
 
