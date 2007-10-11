@@ -79,7 +79,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 1. Eliminate code duplication between `tcTyClDecl1` and `tcFamInstDecl1`.  The code for vanilla data/newtype declarations and the code for data/newtype instances has many commonalities.
 1. Fix everything in the testsuite.
 1. Can't we now allow non-left-linear declarations; e.g., `instance type F a a = ..`?
-1. Fix core-lint breakage in cholewo-eval.
 1. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
 1. What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
 1. Can we support
