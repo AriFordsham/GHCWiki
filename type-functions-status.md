@@ -83,6 +83,27 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 1. Can't we now allow non-left-linear declarations; e.g., `instance type F a a = ..`?
 1. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
 1. What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
+1. Consider
+
+  ```wiki
+  type family F a
+  data T a b = MkT1 { fa :: F a, fb :: b }
+  upd t x = t { fb = x }
+  ```
+
+  What is the most general type of `upd`?  It's
+
+  ```wiki
+  upd :: (F a ~ F d) => T a b -> c -> T d c
+  ```
+
+  However, we currently insist on the less general
+
+  ```wiki
+  upd :: T a b -> c -> T a c
+  ```
+
+  It seems a bit complicated to come up with the most general type.  THe relevant code is in `TcExpr.tcExpr` in STEP 4 of the `RecordUpd` case.
 1. Can we support
 
   ```wiki
