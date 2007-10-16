@@ -65,8 +65,8 @@ We will have to change the following bits of code for this:
 
 Following the semantics, we must restore the CCS after the scrutinee of a case statement has been entered. I.e. we should duplicate the CCS stack top before entering the scrutinee, and pop out before continuing to the alternatives. We are not very sure on how to do this, but the current plan is the following. 
 
-1. When we see a PUSH_ALT instruction, we duplicate the stack.
-1. After that, we know that the scrutinee will be entered, with a continuation. We modify the code generated for this continuation so that it will pushes a POP_CCS in the GHC stack. 
+1. When we see a PUSH_ALT instruction, we do a DUP_STACK in the CCS stack.
+1. After that, we know that the scrutinee will be entered, with a continuation. We modify the code generated for this continuation so that it will pushes a POP_CCS in the GHC stack.
 
 
 POP_CCS will be some piece of code that will pop the CCS stack. 
