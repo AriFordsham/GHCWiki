@@ -39,10 +39,11 @@ The Trac bug report system has various fields. Here's how to fill them in:
 
 - **Type** says what kind of Trac ticket this is:
 
-  - Bug: something wrong with GHC.
-  - Feature request: something you would like GHC to do
-  - Task: something we intend to do sometime (for use by GHC developers only)
-  - Merge: job done, but must be merged to stable branch (for use by GHC developers only)
+  - **bug**: incorrect behaviour by GHC
+  - **feature request**: something you would like GHC to do
+  - **proposal**: reserved for use with the [ Library submissions](http://www.haskell.org/haskellwiki/Library_submissions) process
+  - **task** (for use by GHC developers only): something we intend to do sometime
+  - **merge** (for use by GHC developers only): job done, but must be merged to stable branch
 
 - **Severity**.  How much this bug matters to you.
 
