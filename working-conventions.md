@@ -32,13 +32,21 @@ Our conventions and some useful tips for using darcs are here: [WorkingConventio
 We organise our work (both bug fixing and feature requests) using the Trac bug tracker.   There are links to the bug tracker in the sidebar under "View tickets" ad "Create ticket". 
 
 
-The following are GHC-specific policies for using the Trac bug tracking system. (See also [the bug reporting guidelines](report-a-bug).)
+The following are GHC-specific policies regarding the fields of the Trac bug tracking system. (See also [the bug reporting guidelines](report-a-bug).)
 
-- When a bug is fixed, but the patch or patches still need to be merged to other branches, then
-  don't close the bug, just change its type from "bug" or "task" to "merge".  Also add a list of
+- **Type**: When a bug is fixed, but the patch or patches still need to be merged to other branches, then
+  don't close the bug, just change its type from **bug** or **task** to **merge**.  Also add a list of
   patches to be merged, and which branch to merge to, as a comment.
 
-- **Milestones**: we have milestones for each release, and three special milestones:
+- **Severity**: this is set by the submitter of the ticket, and indicates how important the issue is to
+  them, i.e. is it preventing them from doing something altogether, or just a minor annoyance.  The
+  severity might be reduced if we discover a workaround.
+
+- **Priority**: this field is for the GHC development team to help us prioritise what we work on.  Bugs
+  that have a high severity will tend to be prioritised higher, as will bugs that are regressions from
+  a previous release.
+
+- **Milestone**: this field is for the GHC development team to indicate by when we intend to fix the bug.  We have a milestone for each release, and three special milestones:
 
   - An empty milestone field means the bug has not been triaged yet.  We don't yet know if the
     ticket is a real, unique, issue.  Once this has been established, the ticket will be given
@@ -48,14 +56,6 @@ The following are GHC-specific policies for using the Trac bug tracking system. 
     into this category.
   - **_\|_** is for tickets that have been triaged, but we don't plan to fix them for a particular
     release.  This might be because the bug is low priority, or is simply too hard to fix right now.
-
-- **Severity**: this is set by the submitter of the ticket, and indicates how important the issue is to
-  them, i.e. is it preventing them from doing something altogether, or just a minor annoyance.  The
-  severity might be reduced if we discover a workaround.
-
-- **Priority**: this field is for the GHC development team to help us prioritise what we work on.  Bugs
-  that have a high severity will tend to be prioritised higher, as will bugs that are regressions from
-  a previous release.
 
 - **Test Case**: fill in this field with the name of the test in the test suite.  Typically every bug
   closed should have an appropriate test case added to the test suite.
