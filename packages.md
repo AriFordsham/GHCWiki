@@ -1,9 +1,12 @@
 # Packages
 
 
-This page indexes the various package-related material on this wiki:
+This page indexes the various package-related material on this wiki.
 
-- [Commentary/Compiler/Packages](commentary/compiler/packages): GHC's implementation of the package system
+
+GHC's implementation of the package system:
+
+- [Commentary/Compiler/Packages](commentary/compiler/packages)
 
 
 Discussion and proposals for managing the module namespace using packages.  None of the following proposals have been implemented at this time (Oct 2007):
