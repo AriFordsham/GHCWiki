@@ -35,3 +35,22 @@ To do..
 
 To do..
 
+== 5. Allow package overlaps ==
+
+This is not a solution to the problem of splitting a package but helps in the case that we want to use a new package that provides an updated version of some modules in an existing package. An example of this is the bytestring and base package. The base-2.0 package included Data.ByteString but it was split off into a bytestring package and not included in base-3.0. At the moment ghc allows local .hs files to provide modules that can shadow modules from a package but does not packages to shadow each other.
+
+So an extension that would help this case would be to let packages shadow each other. The user would need to specify an ordering on packages so ghc knows which way round the shadowing should go. This could be specified by the order of the -package flags on the command line, which is equivalent to the order in which they are listed in the build-depends field in a .cabal file. This would be a relatively easy extension to implement.
+
+Note that it only solves the problem of backporting packages to be used on top of older versions of the package they were split from. It also provides a way for people to experiment with packages that provide alternative implementations of standard modules. 
+
+There is potential for confusion if this is used too heavily however. For example two packages built against standard and replacement modules may not be able to be used together because they will re-export different types.
+
+== The problem of lax version dependencies ==
+
+Supposing that we used solution 3 above and had a base-2.x and a base-3.x. If we take an old package and build it against base-2.x then it will work and if we build it against base-3.x then it'll fail because it uses modules from the split out packages like directory, bytestring etc. So obviously Cabal should select base-2.x, but how is this decision actually supposed to be made automatically? From a quick survey of the packages on hackage we find that 85% specify unversioned dependencies on the base package and none of them specify upper bounds for the version of base. So presented with a package that says:
+
+{{{
+build-depends: base
+}}}
+
+how are we to know if we should use base-2.x or base-3.x. It may be that this package has been updated to work with base-3.x or that it only ever used the parts of base-2.x that were not split off. This dependency does not provide us with enough information to know which to choose. So we are still left with the situation that every package must be updated to specify an api version of base.
