@@ -121,7 +121,7 @@ There is potential for confusion if this is used too heavily however. For exampl
 ## The problem of lax version dependencies
 
 
-Supposing that we used solution 3 above and had a base-2.x and a base-3.x. If we take an old package and build it against base-2.x then it will work and if we build it against base-3.x then it'll fail because it uses modules from the split out packages like directory, bytestring etc. So obviously Cabal should select base-2.x, but how is this decision actually supposed to be made automatically? From a quick survey of the packages on hackage we find that 85% specify unversioned dependencies on the base package and none of them specify upper bounds for the version of base. So presented with a package that says:
+Supposing that we used solution 2 above and had a base-2.x and a base-3.x. If we take an old package and build it against base-2.x then it will work and if we build it against base-3.x then it'll fail because it uses modules from the split out packages like directory, bytestring etc. So obviously Cabal should select base-2.x, but how is this decision actually supposed to be made automatically? From a quick survey of the packages on hackage we find that 85% specify unversioned dependencies on the base package and none of them specify upper bounds for the version of base. So presented with a package that says:
 
 ```wiki
 build-depends: base
@@ -129,3 +129,6 @@ build-depends: base
 
 
 how are we to know if we should use base-2.x or base-3.x. It may be that this package has been updated to work with base-3.x or that it only ever used the parts of base-2.x that were not split off. This dependency does not provide us with enough information to know which to choose. So we are still left with the situation that every package must be updated to specify an api version of base.
+
+
+One possible remedy would be to call version 3 something other than base.  Any dependency on 'base' would refer to the set of modules that comprise base-2.x.
