@@ -27,15 +27,61 @@ The GHC build gets slower, and the testing surface increases for each release.
 
 Furthermore, the package database cannot currently understand multiple packages compiled against different versions of dependencies.  One workaround is to have multiple package databases, but that's not too convenient.
 
-== 3. Provide older versions of base that re-export the new version ==
+== 4. Allow packages to re-export modules ==
 
-To do..
+Packages currently cannot re-export modules from other packages.  Well, that's not strictly true, it is possible to do this but it currently requires an extra package and two stub modules per module to be re-exported (see [http://www.haskell.org/pipermail/haskell-cafe/2007-October/033141.html]).
 
-== 4. Do some kind of provides/requires interface in Cabal ==
+This could be made easier.  Suppose you could write this:
 
-To do..
+{{{
+module Data.Maybe (module Old.Data.Maybe) where
+import "base-2.0" Data.Maybe as Old.Data.Maybe
+}}}
 
-== 5. Allow package overlaps ==
+to construct a module called `Data.Maybe` that re-exports the module `Data.Maybe` from package `base-2.0`.  This extension to the import syntax was proposed in PackageImports.
+
+Using this extension, we can construct packages that re-export modules using only one stub module per re-exported module, and Cabal could generate the stubs for us given a suitable addition to the `.cabal` file syntax.
+
+Package re-exports are useful for 
+
+ * Constructing packages that are backwards-compatible with old packages by re-exporting parts of the new API.
+ * Providing a single wrapper for choosing one of several underlying providers
+
+== 4.1 Provide backwards-compatible versions of base ==
+
+So using re-exports we can construct a backwards-compatible version of base (`base-2.0` that re-exports `base-3.0` and the other packages that were split from it).  We can do this for other packages that have changed, too.  This is good because:
+
+ * Code is shared between the two versions of the package
+ * Multiple versions of each package can coexist in the same program easily (unlike in proposal 2)
+
+However, this approach runs into problems when types or classes, rather than just functions, change.  Suppose in `base-3.0` we changed a type somewhere; for example, we remove a constructor from the `Exception` type.  Now `base-2.0` has to provide the old `Exception` type.  It can do this, but the `Exception` type in `base-2.0` is now incompatible with the `Exception` type in `base-3.0`, so every function that refers to `Exception` must be copied into `base-2.0`.  At this point we start to need to recompile other packages against `base-2.0` too, and before long we're back in the state of proposal (2) above.
+
+This approach therefore doesn't scale to API changes that include types and classes, but it can cope with changes to functions only.
+
+== 4.2 Split base from underneath ==
+
+This requires the re-exporting functionality described above.  When splitting base, we would create several new packages and additionally a backwards-compatibility wrapper called `base` that re-exports all of them.
+
+Advantages:
+
+ * Updates to existing packages are much easier (no configurations required)
+ * Doesn't fall into the trap of trying to maintain a completely backwards-compatible version of the old API, as in 4.1
+
+Disadvantages:
+
+ * All packages still break when the base API changes (if they are using precise dependencies on base, which they should be)
+ * Backwards compatibility cruft in the form of the `base` wrapper will be hard to get rid of; there's no
+   incentive for packages to stop using it.  Perhaps we need a deprecation marker on packages.
+
+== 5. Do some kind of provides/requires interface in Cabal ==
+
+To do... someone please fill in a proposal here.
+
+== 6. Distributions at the Hackage level ==
+
+The idea here is to group packages into "distributions" in Hackage, with the property that all packages within a distribution are mutually compatible.  Todo... expand.
+
+== 7. Allow package overlaps ==
 
 This is not a solution to the problem of splitting a package but helps in the case that we want to use a new package that provides an updated version of some modules in an existing package. An example of this is the bytestring and base package. The base-2.0 package included Data.ByteString but it was split off into a bytestring package and not included in base-3.0. At the moment ghc allows local .hs files to provide modules that can shadow modules from a package but does not packages to shadow each other.
 
