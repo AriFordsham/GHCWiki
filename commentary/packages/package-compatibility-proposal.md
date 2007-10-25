@@ -131,4 +131,4 @@ build-depends: base
 how are we to know if we should use base-2.x or base-3.x. It may be that this package has been updated to work with base-3.x or that it only ever used the parts of base-2.x that were not split off. This dependency does not provide us with enough information to know which to choose. So we are still left with the situation that every package must be updated to specify an api version of base.
 
 
-One possible remedy would be to call version 3 something other than base.  Any dependency on 'base' would refer to the set of modules that comprise base-2.x.
+One possible remedy would be to call version 3 something other than base.  Any dependency on 'base' would then refer to the set of modules that comprise base-2.x (this is (4.2) above, incedentally).
