@@ -93,6 +93,8 @@ Disadvantages:
 - All packages still break when the base API changes (if they are using precise dependencies on base, which they should be)
 - Backwards compatibility cruft in the form of the `base` wrapper will be hard to get rid of; there's no
   incentive for packages to stop using it.  Perhaps we need a deprecation marker on packages.
+- Each time we split base we have to invent a new name for it, and we accumulate a new compatibility wrapper
+  for the old one.
 
 ## 5. Do some kind of provides/requires interface in Cabal
 
