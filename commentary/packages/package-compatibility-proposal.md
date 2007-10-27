@@ -99,7 +99,34 @@ Disadvantages:
 ## 5. Do some kind of provides/requires interface in Cabal
 
 
-To do... someone please fill in a proposal here.
+Currently, Cabal's idea of API is asymmetric and very coarse: the client depends on a package by name and version only, the provider implements a single package name and version by exposing a list of modules. That has several disadvantages:
+
+- Cabal cannot ensure build safety: most errors will not show up before build-time (contrast that with Haskell's usual model of static type safety).
+- Cabal has no idea what a dependency consists of unless it is installed. even if it is installed, it only knows the modules exposed. The actual API might be defined in Haddock comments, but is not formally specified or verified.
+
+### 5.1 Make API specifications more symmetric
+
+
+Just as a provider lists the modules it exposes, clients should list the modules they import (this field should be inferred by a 'ghc -M'-style dependency analysis). Advantages:
+
+- Cabal would have an idea which parts of a package a client depends on instead of defaulting to "every client needs everything" (example: clients using only parts of the old base not split off should be happy with the new base)
+- Cabal would have an idea what a missing dependency was meant to provide (example: clients using parts of the old base that have been split off could be offered the split-off packages as alternative providers of the modules imported)
+
+### 5.2 Make API specifications explicit
+
+
+Currently, the name and version of a package are synonymous with its API. That is like modules depending on concrete data type representations instead of abstract types. It should not really matter that the functionality needed by package P was only available in package Q-2.3.42 at the time P was written. What should matter is which parts of Q are needed for P, and which packages are able to provide those parts when P is built.
+
+
+Section 5.1 above suggests to make this specification at least at the level of modules, in both providers and clients. But even if one wanted to stay at the coarser level of API names and versions, one should distinguish between an API and one of its implementing packages. Each client should list the APIs it depends on, each provider should list the APIs it can be called upon to provide.
+
+
+One can achieve some of this in current Cabal by introducing intermediate packages that represent named APIs to clients while re-exporting implementations of those APIs by providers. Apart from needing re-export functionality, this is more complicated than it should be.
+
+### 5.3 Make API specifications more specific
+
+
+If one compares Cabal's ideas of packages and APIs with Standard ML's module language, with its structures, functors, and interfaces forming part of a statically typed functional program composition language, one can see a lot of room for development.
 
 ## 6. Distributions at the Hackage level
 
