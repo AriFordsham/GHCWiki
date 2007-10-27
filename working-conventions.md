@@ -21,6 +21,11 @@ When you are editing GHC's source code, please follow our coding guidelines:
 - [Coding style in the compiler](commentary/coding-style)
 - [Coding style in the runtime system](commentary/rts/conventions)
 
+## Testing patches
+
+
+For people with commit privileges, the policy on testing patches is at: [TestingPatches](testing-patches)
+
 ## Using Darcs
 
 
