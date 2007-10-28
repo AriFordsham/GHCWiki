@@ -37,15 +37,16 @@ Unfortunately, there is a practical problem with using brackets in this way: doi
 }}}
 
 When the parser reaches the bracket after "e" it is valid to either reduce "(i, e)" to a pair of qualifiers (i.e. i and e are treated as guard expressions), OR to reduce it to the tuple expression (i, e) which will be later converted to a pattern. There are a number of alternative ways we could solve this:
-* Disallow bracketing of qualifiers altogether!
- * This keeps the concrete syntax simple and should cover all common use cases
- * It does reduce the composability of the qualifier syntax rather drastically however
-* Keep bracketing in this manner but use type information to resolve the ambiguity
- * I will need to change the parser to consider qualifiers as expressions so that we can parse without any reduce/reduce conflicts
- * We can then always use type information to determine which reading is correct, because guards are always boolean, and so can be distinguished from tuples as required
- * Might have negative implications on the readability of some error messages :(
- * If the parser finds it hard to understand this syntax, you can argue that any human reader would too and hence we should look for something less ambiguous
-* Introduce new syntax to allow this idiom to be expressed unambiguously. Some examples of what we could use are below:
+
+ * Disallow bracketing of qualifiers altogether!
+  * This keeps the concrete syntax simple and should cover all common use cases
+  * It does reduce the composability of the qualifier syntax rather drastically however
+ * Keep bracketing in this manner but use type information to resolve the ambiguity
+  * I will need to change the parser to consider qualifiers as expressions so that we can parse without any reduce/reduce conflicts
+  * We can then always use type information to determine which reading is correct, because guards are always boolean, and so can be distinguished from tuples as required
+  * Might have negative implications on the readability of some error messages :(
+  * If the parser finds it hard to understand this syntax, you can argue that any human reader would too and hence we should look for something less ambiguous
+ * Introduce new syntax to allow this idiom to be expressed unambiguously. Some examples of what we could use are below:
 
 {{{
 -- 1) A new keyword
