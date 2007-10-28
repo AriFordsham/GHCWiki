@@ -58,6 +58,7 @@ Please feel free to add new pages here.  In due course information will migrate 
   - [ExternalCore](external-core): Describes the process of bringing External Core up to speed. Once finished, this will simply describe what External Core is, and how it works. 
   - [HaddockComments](haddock-comments): Some notes about how the Haddock comment support is implemented.
   - [ExplicitCallStack](explicit-call-stack): Notes about maintaining an explicit call stack, to support error attribution and profiling.
+  - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
 
 - The Runtime System
 
