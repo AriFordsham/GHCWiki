@@ -310,6 +310,5 @@ to ignore case statements related to dictionaries.
 
 # References
 
-
-\[Samson 97\] P. Samson and S.P.J. - Formally based profiling for Higher-Order languages
-\[Jarvis 93\] R.G.Morgan and S.A.Jarvis - Profiling large scale lazy functional programs
+- \[Samson 97\] P. Samson and S.P.J. - Formally based profiling for Higher-Order languages
+- \[Jarvis 93\] R.G.Morgan and S.A.Jarvis - Profiling large scale lazy functional programs
