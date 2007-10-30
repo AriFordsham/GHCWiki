@@ -27,7 +27,7 @@ Use a comma or space (but not semicolon) to separate your email address from the
 
 The Trac bug report system has various fields. Here's how to fill them in:
 
- * '''Your email or user name'''.  If you are logged in this will be filled in automatically.  If you are only logged in as ''guest'' then please consider replacing it with your email address. That way we can ask you questions, and you'll get email from Trac when something happens to your bug.
+ * '''CC'''.  If you are only logged in as ''guest'' then please consider including your email address (using a comma or space as separator, not a semicolon). That way we can ask you questions, and you'll get email from Trac when something happens to your bug.
 
  * '''Short summary'''.  This is what appears in one-bug-per line lists, so try to make it as informative as you can.
 
