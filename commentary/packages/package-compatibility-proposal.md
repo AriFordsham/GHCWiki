@@ -76,10 +76,10 @@ However, this approach runs into problems when types or classes, rather than jus
 
 This approach therefore doesn't scale to API changes that include types and classes, but it can cope with changes to functions only.
 
-## 4.2 Split base from underneath
+## 4.2 Rename base, and provide a compatibility wrapper
 
 
-This requires the re-exporting functionality described above.  When splitting base, we would create several new packages and additionally a backwards-compatibility wrapper called `base` that re-exports all of them.
+This requires the re-exporting functionality described above.  When splitting base, we would rename the base package, creating several new packages.  e.g. `base-3.0` would be replaced by `newbase-1.0`, `concurrent-1.0`, `generics-1.0`, etc.  Additionally, we would provide a wrapper called `base-4.0` that re-exports all of the new packages.
 
 
 Advantages:
@@ -95,6 +95,34 @@ Disadvantages:
   incentive for packages to stop using it.  Perhaps we need a deprecation marker on packages.
 - Each time we split base we have to invent a new name for it, and we accumulate a new compatibility wrapper
   for the old one.
+
+## 4.3 Don't rename base
+
+
+This is a slight variation on 4.2, in which instead of renaming `base` to `newbase`, we simply provide two versions of `base` after the split.  Take the example of splitting `base-3.0` into `base + concurrent + generics` again:
+
+- `base-4.0` is the remaining contents of `base-3.0` after the split
+- `base-3.1` is a compatibility wrapper, re-exporting `base-4.0 + concurrent-1.0 + generics-1.0`.
+
+
+The idea is that all existing packages that worked with `base-3.0` will have
+
+```wiki
+  build-depends: base-3.0
+```
+
+
+or similar.  To make these work after the split, all that is needed is to modify the upper bound:
+
+```wiki
+  build-depends: base >= 3.0 && < 3.1
+```
+
+
+which is better than requiring a conditional dependency, as was the case with the `base-3.0` split.  In due course, these packages can be updated to use the new `base-4.0`.
+
+
+Advantages: the same as 4.2, plus there's no need to rename `base` for each split.  Disadvantages: multiple versions of `base` could get confusing.  The upgrade path is still not completely smooth (existing packages all need to be modified manually).
 
 ## 5. Do some kind of provides/requires interface in Cabal
 
