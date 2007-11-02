@@ -12,21 +12,21 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
 - The program is initially parsed into the [big HsSyn type](commentary/compiler/hs-syn-type). `HsSyn` is parameterised over the types of the term variables it contains.  The first three passes (the front end) of the compiler work like this:
 
-  - The **parser** produces `HsSyn` parameterised by **[RdrName](commentary/compiler/rdr-name-type)**.  To a first approximation, a `RdrName` is just a string.
-  - The **[renamer](commentary/compiler/renamer)** transforms this to `HsSyn` parameterised by **[Name](commentary/compiler/name-type)**.  To a first appoximation, a `Name` is a string plus a `Unique` (number) that uniquely identifies it.  In particular, the renamer associates each identifier with its binding instance and ensures that all occurrences which associate to the same binding instance share a single `Unique`.
-  - The **typechecker** transforms this further, to `HsSyn` parameterised by **[Id](commentary/compiler/entity-types)**.  To a first approximation, an `Id` is a `Name` plus a type. In addition, the type-checker converts class declarations to `Class`es, and type declarations to `TyCon`s and `DataCon`s.  And of course, the type-checker deals in `Type`s and `TyVar`s. The [data types for these entities](commentary/compiler/entity-types) (`Type`, `TyCon`, `Class`, `Id`, `TyVar`) are pervasive throughout the rest of the compiler.
+  - The **Parser** produces `HsSyn` parameterised by **[RdrName](commentary/compiler/rdr-name-type)**.  To a first approximation, a `RdrName` is just a string.
+  - The **[Renamer](commentary/compiler/renamer)** transforms this to `HsSyn` parameterised by **[Name](commentary/compiler/name-type)**.  To a first appoximation, a `Name` is a string plus a `Unique` (number) that uniquely identifies it.  In particular, the renamer associates each identifier with its binding instance and ensures that all occurrences which associate to the same binding instance share a single `Unique`.
+  - The **Typechecker** transforms this further, to `HsSyn` parameterised by **[Id](commentary/compiler/entity-types)**.  To a first approximation, an `Id` is a `Name` plus a type. In addition, the type-checker converts class declarations to `Class`es, and type declarations to `TyCon`s and `DataCon`s.  And of course, the type-checker deals in `Type`s and `TyVar`s. The [data types for these entities](commentary/compiler/entity-types) (`Type`, `TyCon`, `Class`, `Id`, `TyVar`) are pervasive throughout the rest of the compiler.
 
 >
 > These three passes can all discover programmer errors, which are sorted and reported to the user.
 
-- The **desugarer** ([compiler/deSugar/Desugar](/trac/ghc/browser/ghc/compiler/deSugar/Desugar)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.
+- The **Desugarer** ([compiler/deSugar/Desugar](/trac/ghc/browser/ghc/compiler/deSugar/Desugar)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.
    
   This late desugaring is somewhat unusual.  It is much more common to desugar the program before typechecking, or renaming, becuase that presents the renamer and typechecker with a much smaller language to deal with.  However, GHC's organisation means that
 
   - error messages can display precisely the syntax that the user wrote; and 
   - desugaring is not required to preserve type-inference properties.
 
-  Generally speaking, the desugarer produces few user errors or warnings. But it does produce *some*.  In particular, (a) pattern-match overlap warnings are produced here; and (b) when desugaring Template Haskell code quotations, the desugarer may find that `THSyntax` is not expressive enough.  In that case, we must produce an error ([compiler/deSugar/DsMeta](/trac/ghc/browser/ghc/compiler/deSugar/DsMeta)).
+    Generally speaking, the desugarer produces few user errors or warnings. But it does produce *some*.  In particular, (a) pattern-match overlap warnings are produced here; and (b) when desugaring Template Haskell code quotations, the desugarer may find that `THSyntax` is not expressive enough.  In that case, we must produce an error ([compiler/deSugar/DsMeta](/trac/ghc/browser/ghc/compiler/deSugar/DsMeta)).
 
 - The **SimplCore** pass ([simplCore/SimplCore.lhs](/trac/ghc/browser/ghc/simplCore/SimplCore.lhs)) is a bunch of Core-to-Core passes that optimise the program; see [ A transformation-based optimiser for Haskell (SCP'98)](http://research.microsoft.com/%7Esimonpj/Papers/comp-by-trans-scp.ps.gz) for a more-or-less accurate overview.  The main passes are:
 
@@ -58,7 +58,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
   - The first step is called **CorePrep**, a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually `CorePrep` does quite a bit more: there is a detailed list at the top of the file [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs).
   - The second step, **CoreToStg**, moves to the `StgSyn` data type (the code is in \[GhcFile(stgSyn/CoreToStg.lhs)?\].  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
 
-- Next, the **code generator** converts the STG program to a `C--` program.  The code generator is a Big Mother, and lives in directory [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen)
+- Next, the **Code Generator?** converts the STG program to a `C--` program.  The code generator is a Big Mother, and lives in directory [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen)
 
 - Now the path forks again:
 
