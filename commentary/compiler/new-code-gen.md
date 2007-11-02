@@ -1,0 +1,26 @@
+# Material about the new code generator
+
+
+This page summarises work that Norman Ramsey, Simon M, and Simon PJ are doing on re-architecting GHC's back end.
+
+## The new Cmm data type
+
+
+There is a new Cmm data type:
+
+- **`ZipCfg`** contains a generic zipper-based control-flow graph data type.  It is generic in the sense that it's polymorphic in the type of **middle nodes** and **last nodes** of a block.  (Middle nodes don't do control transfers; last nodes only do control transfers.)  There are extensive notes at the start of the module.
+
+  The key types it defines are:
+
+  - Block identifiers: `BlockId`, `BlockEnv`, `BlockSet`
+  - Control-flow blocks: `Block`
+  - Control-flow graphs: `Graph`
+- **`ZipCfgCmm`** instantiates `ZipCfg` for Cmm, by defining types `Middle` and `Last` and using these to instantiate the polymorphic fields of `ZipCfg`.  It also defines a bunch of smart constructor (`mkJump`, `mkAssign`, mkCmmIfThenElse\` etc) which make it easy to build Cmm.
+
+## The pipeline
+
+- Code generator converts STG to Cmm.
+
+- **Simple control flow optimisation** (implemented in `CmmContFlowOpt`)
+
+  - 
