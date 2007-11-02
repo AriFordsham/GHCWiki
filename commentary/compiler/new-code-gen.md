@@ -21,9 +21,21 @@ Status:
 
 ToDo list
 
+- Shall we rename Branch to GoTo?!
+- Where is the "push new continuation" middle node? 
+- How do we write continuations in the RTS?  E.g. the update-frame continuation?  Michael Adams had a syntax with two sets of parameters, the the ones on the stack and the return values.
+
+- Review code gen for calls with lots of args.  In the existing codegen we push magic continuations that say "apply the return value to N more args".  Do we want to do this?  ToDo: how rare is it to have too many args?
+
+- Figure out how PAPs work.  This may interact with the GC check and stack check at the start of a function call.
+
+- How do stack overflow checks work?  (They are inserted by the CPS conversion, and must not generate a new info table etc.)
+
 - Get rid of `CmmFormals` on `LastJump` and `LastCall` in `ZipCfgCmm` in favour of `CopyIn` and `CopyOut`.
 - Change the C-- parser (which parses RTS .cmm files) to directly construct `CmmGraph`.  
 - Was there something about sinking spills and hoisting reloads?
+
+- (SLPJ) See let-no-escape todos in `StgCmmExpr`.
 
 ## The new Cmm data type
 
@@ -82,3 +94,16 @@ There is a new Cmm data type:
   - Avoid memory traffic at joins. (What does this mean?)
 
 - **Split into multiple CmmProcs**.
+
+## Runtime system
+
+- **Garbage collector entry points**: see `Note [Heap checks]` in `StgCmmHeapery`.
+
+- **PAPs**
+
+- **Update frames** and **exception handling**.  Also STM frames.
+
+- **Primitives** can be rewritten:
+
+  - Use parameters
+  - In a few cases, use native calls (notably eval)
