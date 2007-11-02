@@ -1,11 +1,18 @@
 # GHC Commentary: The Code Generator
 
-[compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen)
+
+The material below describes the old (and still current) code generator.  New stuff is here:
+
+- [Michael Adams CPS conversion](commentary/compiler/cps)
+- [New code generator](commentary/compiler/new-code-gen)
+
+
+The code generator lives in [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen)
+
+## Storage manager representations
 
 
 See [The Storage Manager](commentary/rts/storage) for the [Layout of the stack](commentary/rts/storage/stack).
-
-## Storage manager representations
 
 
 The code generator needs to know the layout of heap objects, because it generates code that accesses and constructs those heap objects.  The runtime also needs to know about the layout of heap objects, because it contains the garbage collector.  How can we share the definition of storage layout such that the code generator and the runtime both have access to it, and so that we don't have to keep two independent definitions in sync?
