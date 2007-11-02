@@ -17,6 +17,11 @@ There is a new Cmm data type:
   - Control-flow graphs: `Graph`
 - **`ZipCfgCmm`** instantiates `ZipCfg` for Cmm, by defining types `Middle` and `Last` and using these to instantiate the polymorphic fields of `ZipCfg`.  It also defines a bunch of smart constructor (`mkJump`, `mkAssign`, mkCmmIfThenElse\` etc) which make it easy to build Cmm.
 
+
+Todo list:
+
+- Get rid of `CmmFormals` on `LastJump` and `LastCall` in `ZipCfgCmm`
+
 ## The pipeline
 
 - Code generator converts STG to Cmm.
