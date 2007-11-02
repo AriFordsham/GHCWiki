@@ -3,6 +3,28 @@
 
 This page summarises work that Norman Ramsey, Simon M, and Simon PJ are doing on re-architecting GHC's back end.
 
+
+Status:
+
+- Code generator: first draft done.
+- Control-flow opt: simple ones done
+
+  - Common block elmination: to do
+  - Block concatenation: to do
+- Adams optimisation: currently done somewhere but not modularly.  I think.
+- Proc-point analysis and transformation: done?
+- Add spill/reload: done?
+- Stack slot alloction?
+- Make stack explicit: to do
+- Split into multiple CmmProcs: to do
+
+
+ToDo list
+
+- Get rid of `CmmFormals` on `LastJump` and `LastCall` in `ZipCfgCmm` in favour of `CopyIn` and `CopyOut`.
+- Change the C-- parser (which parses RTS .cmm files) to directly construct `CmmGraph`.  
+- Was there something about sinking spills and hoisting reloads?
+
 ## The new Cmm data type
 
 
@@ -17,15 +39,9 @@ There is a new Cmm data type:
   - Control-flow graphs: `Graph`
 - **`ZipCfgCmm`** instantiates `ZipCfg` for Cmm, by defining types `Middle` and `Last` and using these to instantiate the polymorphic fields of `ZipCfg`.  It also defines a bunch of smart constructor (`mkJump`, `mkAssign`, mkCmmIfThenElse` etc) which make it easy to build `CmmGraph\`.
 
-
-Todo list:
-
-- Get rid of `CmmFormals` on `LastJump` and `LastCall` in `ZipCfgCmm` in favour of `CopyIn` and `CopyOut`.
-- Change the C-- parser (which parses RTS .cmm files) to directly construct `CmmGraph`.  
-
 ## The pipeline
 
-- Code generator converts STG to `CmmGraph`.
+- **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`).
 
 - **Simple control flow optimisation**, implemented in `CmmContFlowOpt`:
 
@@ -33,6 +49,7 @@ Todo list:
   - Remove unreachable blocks
   - TODO block concatenation.  branch to K; and this is the only use of K.
   - Consider: block duplication.  branch to K; and K is a short block.  Branch chain elimination is just a special case of this.
+  - TODO Common block elimination (like CSE). This makes something else significantly simpler.  (**ToDo**: what?).
 
 - **The Adams optimisation**.  Given:
 
@@ -55,3 +72,13 @@ Todo list:
 
 - **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The middle node of the result is `Middle` (from `ZipCfgCmm` extended with `Spill` and `Reload` constructors.  
   Invariant: (something like) all variables in a block are gotten from `CopyIn` or `Reload`. 
+
+- **Stack slot layout**.  Build inteference graph for variables live across calls, and allocate a stack slot for such variables.  That is, stack slot allocation is very like register allocation.
+
+- **Make the stack explicit**. 
+
+  - Convert `CopyIn`, `CopyOut`, `Spill`, `Reload` to hardware-register and stack traffic.
+  - Add stack-pointer adjustment instructions.
+  - Avoid memory traffic at joins. (What does this mean?)
+
+- **Split into multiple CmmProcs**.
