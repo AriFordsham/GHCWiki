@@ -26,7 +26,7 @@ are missing something.
   GHC.
 
  Perl::
-  ''You must have Perl to proceed!''
+  ''You must have Perl to proceed! ''
   Perl version 5 at least is required.  GHC has been known to
   tickle bugs in Perl, so if you find that Perl crashes when
   running GHC try updating (or downgrading) your Perl
