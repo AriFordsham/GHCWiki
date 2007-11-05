@@ -5,7 +5,7 @@
 **Open Trac bugs related to type families**
 
 - [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775)
-- [\#1754](https://gitlab.haskell.org//ghc/ghc/issues/1754)
+- [\#1754](https://gitlab.haskell.org//ghc/ghc/issues/1754) & [\#1808](https://gitlab.haskell.org//ghc/ghc/issues/1808)
 - [\#1716](https://gitlab.haskell.org//ghc/ghc/issues/1716) (maybe the same problem as [\#1754](https://gitlab.haskell.org//ghc/ghc/issues/1754))
 - [\#1772](https://gitlab.haskell.org//ghc/ghc/issues/1772)
 - [\#1722](https://gitlab.haskell.org//ghc/ghc/issues/1722) (type families & GADTs) \[look at when GADTs are implemented by equalities\]
