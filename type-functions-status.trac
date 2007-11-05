@@ -4,6 +4,7 @@
 
 '''Open Trac bugs related to type families'''
 
+ * #1809
  * #1775
  * #1754 & #1808
  * #1716 (maybe the same problem as #1754)
