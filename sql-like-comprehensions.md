@@ -27,7 +27,7 @@ It has been noted that introducing a new keyword may not be desirable, especiall
 ```
 
 
-For those reasons, Max's implementation is currently based around the syntax proposed in section 6.1 of the paper:
+For those reasons, Max's implementation was initially based around the syntax proposed in section 6.1 of the paper:
 
 ```wiki
 [ (the dept, sum salary)
@@ -84,6 +84,15 @@ Or we could even do an implicit call to "the" on the grouped-by variables:
 
 
 We would be interested in hearing peoples thoughts on these issues.
+
+
+SPJ, after looking at the issues above, has decided that Max's implementation should at least initially be based on syntax like this:
+
+```wiki
+then group by dept using groupWith
+then group by dept       -- The function groupWith is implicit here
+then group using runs 3  -- The runs function has type [a] -> [[a]] rather than the (a -> t) -> [a] -> [[a]] type required if you used "by"
+```
 
 ## Bracketing Syntax
 
@@ -172,6 +181,9 @@ When the parser reaches the bracket after "e" it is valid to either reduce "(i, 
         x > y + 3 ]
 ```
 
+
+This functionality was implemented and working, but owing to the syntactic difficulties support was dropped.
+
 ## Extending To Arbitrary Monads
 
 
@@ -212,3 +224,15 @@ Where we have:
 ```wiki
 foo :: forall a. (a -> t) -> m a -> m a
 ```
+
+## Extensions
+
+
+Some other possible ways we could add to Max's implementation given the need:
+
+- Add associativity back in
+- Add desugaring support for parallel arrays as well as lists: every other part of the compiler should already handle these seamlessly
+- Extend all list comprehension desugaring to "big" tuples: this will let it deal gracefully with the case where we need to bind an intermediate tuple of size exceeding the maximum tuple size
+
+  - This limitation was present in head at the time work was started, but the extensions have made it more acute
+  - It only causes problems when you are binding more things than the maximum tuple size of GHC (62 currently), which is pretty unlikely!
