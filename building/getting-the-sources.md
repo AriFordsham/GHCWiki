@@ -36,10 +36,16 @@ libraries has its own repository: see [DarcsRepositories](darcs-repositories).
 
 
 If you plan to modify GHC, then you **must** get repositories with full history rather than just partial repositories.  (Why?  Because darcs has some bugs that sometimes cause problems when using partial repositories for anything more than just pulling the latest patches.)
-However, you cannot use `darcs get` to get a full GHC repository, for two reasons:
+However, **you cannot use `darcs get` to get a full GHC repository**, for two reasons:
 
 - GHC has more than 16,000 patches and the `darcs get` will take forever. 
-- Darcs has a bug concerning the interaction of case-sensitivity and Windows, which makes Darcs crash on Windows if you do `darcs get` on the full GHC repository.
+- Darcs has a bug concerning case-sensitivity on Windows, and ([ apparently](http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html)) MacOS X, which makes Darcs crash on Windows if you do `darcs get` on the full GHC repository.  You get this message
+
+  ```wiki
+  Applying patch 12 of 17349... Unapplicable patch:
+  Thu Jan 11 07:26:13 MST 1996  partain
+    * [project @ 1996-01-11 14:06:51 by partain]
+  ```
 
 
 Instead, follow the following steps:
@@ -52,6 +58,14 @@ Instead, follow the following steps:
      $ cd ghc
      $ darcs pull -a
   ```
+
+  We've had [ reports](http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html) of Darcs crashing in this step with
+
+  ```wiki
+  darcs: getCurrentDirectory: resource exhausted (Too many open files)
+  ```
+
+  If this happens to you, report to `bugs@darcs.net` and work around by pulling 100 patches at a time.
 1. Now use the `darcs-all` script to pull patches from all the library repositories, and the testsuite repository:
 
   ```wiki
