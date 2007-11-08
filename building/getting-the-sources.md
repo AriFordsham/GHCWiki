@@ -59,13 +59,7 @@ Instead, follow the following steps:
      $ darcs pull -a
   ```
 
-  We've had [ reports](http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html) of Darcs crashing in this step with
-
-  ```wiki
-  darcs: getCurrentDirectory: resource exhausted (Too many open files)
-  ```
-
-  If this happens to you, report to `bugs@darcs.net` and work around by pulling 100 patches at a time.
+  We've had [ reports](http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html) of Darcs crashing on Mac OS X in this step.  If this happens, see the section on troubleshooting.
 1. Now use the `darcs-all` script to pull patches from all the library repositories, and the testsuite repository:
 
   ```wiki
@@ -140,3 +134,32 @@ To update your tree from the master repositories, the quickest way is to use the
 
 
 See [Building/Rebuilding](building/rebuilding) for how to update your build after pulling patches.
+
+## Troubleshooting
+
+### Mac OS X
+
+#### getCurrentDirectory: resource exhausted (Too many open files)
+
+
+By default, Mac OS X limits the number of open files to 256.  This may cause problems when applying patches in step 3 of *Getting a GHC source tree using darcs* with darcs 1.0.9.
+
+```wiki
+$ darcs pull -a
+Pulling from "http://darcs.haskell.org/ghc"...
+This is the GHC darcs repository (HEAD branch)
+
+For more information, visit the GHC developer wiki at
+  http://hackage.haskell.org/trac/ghc
+**********************
+darcs: getCurrentDirectory: resource exhausted (Too many open files)
+```
+
+
+If this happens, try increasing the number of open files allowed by typing in `$ ulimit -n unlimited` and try pulling again.  If this fails, close all terminal windows, restart Terminal.app, and try again.
+
+
+If this still doesn't work, try pulling 100 patches at a time using the `darcs pull` command (notice the lack of the `-a` flag).  Hold down 'y' until 100 or so patches are accepted, then hit 'd' to skip the rest; repeat until all patches are applied.  If this fails, try with less than 100 patches at a time (e.g., 50).
+
+
+This issue has been reported as [ issue 560](http://bugs.darcs.net/issue560) in the darcs bug tracking system.
