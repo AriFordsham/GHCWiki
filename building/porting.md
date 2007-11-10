@@ -391,7 +391,7 @@ it for your system.
 The native code generator isn't essential to getting a
 registerised build going, but it's a desirable thing to have
 because it can cut compilation times in half.  The native code
-generator is described in detail in Commentary/Compiler/BackEnds/NCG?.
+generator is described in detail in [Commentary/Compiler/Backends/NCG](commentary/compiler/backends/ncg).
 
 ### GHCi
 
