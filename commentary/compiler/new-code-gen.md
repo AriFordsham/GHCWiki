@@ -40,7 +40,6 @@ ToDo: small issues
 
 - Shall we rename Branch to GoTo?!
 - Where is the "push new continuation" middle node? 
-- Get rid of `CmmFormals` on `LastJump` and `LastCall` in `ZipCfgCmm` in favour of `CopyIn` and `CopyOut`.
 - Change the C-- parser (which parses RTS .cmm files) to directly construct `CmmGraph`.  
 - (SLPJ) See let-no-escape todos in `StgCmmExpr`.
 
