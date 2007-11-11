@@ -10,3 +10,4 @@ The purpose of this page is to collect and discuss proposals for adding extensib
  * [http://www.cs.uu.nl/~daan/download/papers/scopedlabels.pdf Scoped Labels]
  * [http://homepage.ntlworld.com/b.hilken/files/Records.hs Type Families]
  * [http://homepages.cwi.nl/~ralf/HList/ Heterogeneous Collections], see also [http://okmij.org/ftp/Haskell/keyword-arguments.lhs Keyword Arguments]
+ * [http://hackage.haskell.org/trac/haskell-prime/attachment/ticket/92/Data.Record.hs Poor Man's Records]
