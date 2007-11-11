@@ -8,6 +8,7 @@ The purpose of this page is to collect and discuss proposals for adding extensib
 
 # Proposals
 
+- [ A Polymorphic Type System for Extensible Records and Variants](http://web.cecs.pdx.edu/~mpj/pubs/polyrec.html)
 - [ A proposal for records in Haskell](http://research.microsoft.com/~simonpj/Haskell/records.html) (wherein [ TRex](http://cvs.haskell.org/Hugs/pages/hugsman/exts.html#sect7.2) is rejected as having a high implementation cost)
 - [ Scoped Labels](http://www.cs.uu.nl/~daan/download/papers/scopedlabels.pdf)
 - [ Type Families](http://homepage.ntlworld.com/b.hilken/files/Records.hs)
