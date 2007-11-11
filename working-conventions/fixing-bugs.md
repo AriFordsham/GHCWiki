@@ -37,7 +37,7 @@ Many bugs require a bit more work.  Here's how to go about helping with a non-tr
 1. **Test your patch** using the [validation script](testing-patches), before you submit it.  (If you have write permission to the repository, then you **must** validate before pushing the patch.)
 1. **Submit your patch**.  If you don't have commit permission for the repository, 
 
-  - Use 'darcs send' to create a patch bundle
+  - Use 'darcs send -o filename' to create a patch bundle
   - Attach the patch bundle to the Trac bug report
   - Add a comment to the Trac bug report to say what you've done
   - Change the owner of the bug to the GHC support engineer (currently 'igloo')
