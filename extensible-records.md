@@ -110,19 +110,27 @@ As it seems possible to implement most of the functionality in a library, there 
 
 Please put examples here, if possible using the above notation. The aim is to find out which features of the various systems are important in practice, so uncontrived examples which illustrate differences between the systems are wanted!
 
->
-> 1 An example to show the need for extra polymorphism in unpermuted records:
->
-> ```wiki
-> type Point = {x :: Float, y :: Float}
->
-> norm :: Point -> Float
-> norm p = sqrt (p.x * p.x + p.y * p.y)
->
-> norm {y = 3.0, x = 4.0}    -- this is a type error
->
-> norm' :: (Select x a Float, Select y a Float) => a -> Float
-> norm' p = sqrt (p.x * p.x + p.y * p.y)
->
-> norm' {y = 3.0, x = 4.0}    -- this is OK
-> ```
+
+An example to show the need for extra polymorphism in unpermuted records:
+
+```wiki
+type Point = {X :: Float, Y :: Float}
+
+norm :: Point -> Float
+norm p = sqrt (p.X * p.X + p.Y * p.Y)
+
+norm {Y = 3.0, X = 4.0}    -- this is a type error, because X and Y are in the wrong order
+
+norm' :: (Select X a Float, Select Y a Float) => a -> Float
+norm' p = sqrt (p.X * p.X + p.Y * p.Y)
+
+norm' {Y = 3.0, X = 4.0}    -- this is OK, because norm' is polymorphic
+```
+
+
+The more complex systems support first class labels. Here is an example using the Type Families system:
+
+```wiki
+labelZip :: ({n :: a} `Disjoint` {m :: b}) => n -> m -> [a] -> [b] -> [{n :: a, m :: b}]
+labelZip n m = zipWith (\x y -> {n = x, m = y})
+```
