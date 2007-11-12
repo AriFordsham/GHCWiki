@@ -8,9 +8,12 @@ To report a bug, either:
 
 - Preferred:
 
-  - [ login](http://hackage.haskell.org/trac/ghc/login) to GHC's trac (use guest/guest as user/password if you don't already have an account) 
+  - [register](/trac/ghc/trac/ghc/register) an account on this Trac
   - Create a [ new bug](http://hackage.haskell.org/trac/ghc/newticket?type=bug), and enter your bug report. You can also search the bug database here to make sure your bug hasn't already been reported (if it has, it might still help to add information from your experience to the existing report).
-- Bug reports can also be emailed to \<glasgow-haskell-bugs@…\>. 
+- Less preferred:
+
+  - To submit an anonymous bug: use login "guest", password "guest"
+  - Bug reports can also be emailed to \<glasgow-haskell-bugs@…\>. 
 
 ## How do I tell if I should report my bug?
 
