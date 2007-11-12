@@ -13,7 +13,7 @@ The purpose of this page is to collect and discuss proposals for adding extensib
 - [ Scoped Labels](http://www.cs.uu.nl/~daan/download/papers/scopedlabels.pdf)
 - [ Type Families](http://homepage.ntlworld.com/b.hilken/files/Records.hs)
 - [ Heterogeneous Collections](http://homepages.cwi.nl/~ralf/HList/), see also [ Keyword Arguments](http://okmij.org/ftp/Haskell/keyword-arguments.lhs)
-- [ Poor Man's Records](http://hackage.haskell.org/trac/haskell-prime/attachment/ticket/92/Data.Record.hs)
+- [ Data.Record.hs](http://www.cs.kent.ac.uk/people/staff/cr3/toolbox/haskell/Data.Record.hs), expanded and documented version of the old Haskell prime [\#92](https://gitlab.haskell.org//ghc/ghc/issues/92) attachment [ Poor Man's Records](http://hackage.haskell.org/trac/haskell-prime/attachment/ticket/92/Data.Record.hs)
 
 # Syntax
 
@@ -86,4 +86,4 @@ The most important difference between the various record proposals seems to be t
 </td></tr></table>
 
 
-The `Subrecord` predicate and `<-` operator could easily be added. The difference between **Heterogeneous Collections** and **Poor Man's Records** is that **Poor Man's Records** makes no attempt to sort labels or remove duplicates, so for example `{x = 3, y = 4}` and `{y = 4, x = 3}` have different types, so are certainly not equal.
+The `Subrecord` predicate and `<-` operator could easily be added. The difference between **Heterogeneous Collections** and **Poor Man's Records** is that **Poor Man's Records** makes no attempt to sort labels or remove duplicates, so for example `{x = 3, y = 4}` and `{y = 4, x = 3}` have different types, so are certainly not equal (the updated version of November 2007 supports record projection and permutation, among most other operations).
