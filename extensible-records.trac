@@ -24,7 +24,42 @@ Purely for the sake of argument on this page, I propose the following syntax. Fe
  * `t ::. L` the type of the field labelled `L` in record type `t`
  * `r - L` the record `r` with field `L` deleted
  * `t ::- L` the record type `t` with field `L` deleted
- * `r + s` record `r` extended by adding all the fields of `s`. Many systems restrict to the case where `s` is constant.
- * `t ::+ u` record type `t` extended by adding all the fields of type `u`. Many systems restrict to the case where `u` is constant.
+ * `r + s` record `r` extended by adding all the fields of `s`. Many systems restrict to the case where `s` has constant shape.
+ * `t ::+ u` record type `t` extended by adding all the fields of type `u`. Many systems restrict to the case where `u` has constant shape.
+ * `r <- s` record `r` updated by replacing the all fields of `s`. Many type systems restrict to the case where `s` has constant shape.
+
+By '''constant shape''' we mean that the field names of a record are given literally, though the values and types of the fields could be variables.
+
+= Type Systems =
+
+The most important difference between the various record proposals seems to be the expressive power of their type systems. Most systems depend on special predicates in the type context. As usual there is a trade-off between power and simplicity.
+
+ No predicates:: You can get away without any predicates if you are prepared to allow records to have multiple fields with the same label. In the '''scoped labels''' system, the syntactic form of the type matches that of the record, so you can type the operators by
+ * `(. L) :: a ::+ {L :: b} -> b`
+ * `(- L) :: a ::+ {L :: b} -> a`
+ * `(+ {L = v}) :: a -> a ::+ {L :: b}`
+ * `(<- {L = v}) :: a ::+ {L :: b} -> a ::+ {L :: b}`
+
+ Positive predicates:: If you allow only positive information about records in the context, you can only type some of the operators. In '''A proposal for records in Haskell''' the condition `a <: {L1::t1, L2 :: t2, ...}` means that `a` is a record type with at least the fields `L1, L2, ...` of types `t1, t2, ...` respectively. You can type the following operators:
+ * `(. L) :: a <: {L :: b} => a -> b`
+ * `(<- {L = v}) :: a <: {L :: b} => a -> a`
+
+ Lacks predicates:: In order to type the other operators, we need negative information about records. In the Hugs '''Trex''' system the condition `a \ L` means that `a` is a record type without a field `L`. You can type all the operators if you restrict the right-hand sides to constant shape records:
+ * `(. L) :: a \ L => a ::+ {L :: b} -> b`
+ * `(- L) :: a \ L => a ::+ {L :: b} -> a`
+ * `(+ {L = v}) :: a \ L => a -> a ::+ {L :: b}`
+ * `(<- {L = v}) :: a \ L => a ::+ {L :: b} -> a ::+ {L :: b}`
+
+ General predicates, using type families:: The '''Type Families''' system uses three predicates: {{{ a `Contains` L }}} means that `a` is a record type with a field labelled `L`; {{{ a `Disjoint` b }}} means that `a` and `b` are record types with no fields in common; and {{{ a `Subrecord` b }}} means that `a` and `b` are record types, and every field of `a` also occurs in `b` (with the same type). You can type all the operators:
+ * {{{ (. L) :: a `Contains` L => a -> a ::. L }}}
+ * {{{ (- L) :: a `Contains` L => a -> a ::- L }}}
+ * {{{ (+) :: a `Disjoint` b => a -> b -> a ::+ b }}}
+ * {{{ (<-) :: a `Subrecord` b => b -> a -> b }}}
+
+ General predicates, using functional dependencies:: The '''Heterogeneous Collections''' and '''Poor Man's Records''' systems achieve the same as the '''Type Families''' system, using the relational style of functional dependencies. In '''Poor Man's Records''', `Select L a b` means that `a` is a record type with a field labelled `L`, and `b = a ::. L`; `Remove L a b` means that `a` is a record type with a field labelled `L`, and `b = a ::- L`; and `Concat a b c` means that `a` and `b` are record types with no fields in common, and `c = a ::+ b`. You can type the operators:
+ * {{{ (. L) :: Select L a b => a -> b }}}
+ * {{{ (- L) :: Remove L a b => a -> b }}}
+ * {{{ (+) :: Concat a b c => a -> b -> c }}}
+The `Subrecord` predicate and `<-` operator could easily be added. The difference between '''Heterogeneous Collections''' and '''Poor Man's Records''' is that '''Poor Man's Records''' makes no attempt to sort labels or remove duplicates, so for example `{x = 3, y = 4}` and `{y = 4, x = 3}` have different types, so are certainly not equal.
 
 
