@@ -13,7 +13,7 @@ The purpose of this page is to collect and discuss proposals for adding extensib
 - [ Scoped Labels](http://www.cs.uu.nl/~daan/download/papers/scopedlabels.pdf)
 - [ Type Families](http://homepage.ntlworld.com/b.hilken/files/Records.hs)
 - [ Heterogeneous Collections](http://homepages.cwi.nl/~ralf/HList/), see also [ Keyword Arguments](http://okmij.org/ftp/Haskell/keyword-arguments.lhs)
-- [ Data.Record.hs](http://www.cs.kent.ac.uk/people/staff/cr3/toolbox/haskell/Data.Record.hs), expanded and documented version of the old Haskell prime [\#92](https://gitlab.haskell.org//ghc/ghc/issues/92) attachment [ Poor Man's Records](http://hackage.haskell.org/trac/haskell-prime/attachment/ticket/92/Data.Record.hs)
+- [ Data.Record.hs](http://www.cs.kent.ac.uk/people/staff/cr3/toolbox/haskell/Data.Record.hs), expanded and documented version of the old Haskell prime ticket 92 attachment [ Poor Man's Records](http://hackage.haskell.org/trac/haskell-prime/attachment/ticket/92/Data.Record.hs)
 
 # Syntax
 
