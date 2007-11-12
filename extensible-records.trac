@@ -62,4 +62,9 @@ The most important difference between the various record proposals seems to be t
  * {{{ (+) :: Concat a b c => a -> b -> c }}}
 The `Subrecord` predicate and `<-` operator could easily be added. The difference between '''Heterogeneous Collections''' and '''Poor Man's Records''' is that '''Poor Man's Records''' makes no attempt to sort labels or remove duplicates, so for example `{x = 3, y = 4}` and `{y = 4, x = 3}` have different types, so are certainly not equal (the updated version of November 2007 supports record projection and permutation, among most other operations).
 
+= Implementation and Language support =
 
+As it seems possible to implement most of the functionality in a library, there might be no need for a complex '''extensible records''' feature. Nevertheless, there are issues which are common to most proposals and which would best be addressed at the language and implementation level:
+ * type sharing: not specific to records, but crucial for record programming practice. If multiple modules introduce the "same" labels, means are needed to specify the equivalence of these types (cf [http://hackage.haskell.org/trac/haskell-prime/ticket/92 Haskell prime ticket 92]).
+ * partial evaluation of type class programs: to achieve constant time record field access. Again, this feature is not specific to records, but crucial for record programming practice.
+ * portability: it would be nice if extensible records libraries were portable over multiple Haskell implementations. That not only means that these implementations need to support the same features, but that they need to interpret these features in the same way (this is currently not the case for the interaction of functional dependencies and type class overlap resolution in GHC and Hugs).
