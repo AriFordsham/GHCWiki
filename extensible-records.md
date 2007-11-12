@@ -14,3 +14,17 @@ The purpose of this page is to collect and discuss proposals for adding extensib
 - [ Type Families](http://homepage.ntlworld.com/b.hilken/files/Records.hs)
 - [ Heterogeneous Collections](http://homepages.cwi.nl/~ralf/HList/), see also [ Keyword Arguments](http://okmij.org/ftp/Haskell/keyword-arguments.lhs)
 - [ Poor Man's Records](http://hackage.haskell.org/trac/haskell-prime/attachment/ticket/92/Data.Record.hs)
+
+# Syntax
+
+
+Purely for the sake of argument on this page, I propose the following syntax. Feel free to change or extend this if you can think of something better. Many of these conflict with existing Haskell operators, so can't be used in any concrete proposal.
+
+- `{L1 = v1, L2 = v2, ...}` the constant record with field labels `L1, L2, ...` and corresponding values `v1, v2, ...`
+- `{L1 :: t1, L2 :: t2, ...}` the type of the constant record with field labels `L1, L2, ...` and corresponding values of types `t1, t2, ...`
+- `r . L` the value of the field labelled `L` in record `r`
+- `t ::. L` the type of the field labelled `L` in record type `t`
+- `r - L` the record `r` with field `L` deleted
+- `t ::- L` the record type `t` with field `L` deleted
+- `r + s` record `r` extended by adding all the fields of `s`. Many systems restrict to the case where `s` is constant.
+- `t ::+ u` record type `t` extended by adding all the fields of type `u`. Many systems restrict to the case where `u` is constant.
