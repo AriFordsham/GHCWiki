@@ -11,7 +11,7 @@ The purpose of this page is to collect and discuss proposals for adding extensib
  * [http://www.cs.uu.nl/~daan/download/papers/scopedlabels.pdf Scoped Labels]
  * [http://homepage.ntlworld.com/b.hilken/files/Records.hs Type Families]
  * [http://homepages.cwi.nl/~ralf/HList/ Heterogeneous Collections], see also [http://okmij.org/ftp/Haskell/keyword-arguments.lhs Keyword Arguments]
- * [http://www.cs.kent.ac.uk/people/staff/cr3/toolbox/haskell/Data.Record.hs Data.Record.hs], expanded and documented version of the old Haskell prime #92 attachment [http://hackage.haskell.org/trac/haskell-prime/attachment/ticket/92/Data.Record.hs Poor Man's Records]
+ * [http://www.cs.kent.ac.uk/people/staff/cr3/toolbox/haskell/Data.Record.hs Data.Record.hs], expanded and documented version of the old Haskell prime ticket 92 attachment [http://hackage.haskell.org/trac/haskell-prime/attachment/ticket/92/Data.Record.hs Poor Man's Records]
 
 
 = Syntax =
