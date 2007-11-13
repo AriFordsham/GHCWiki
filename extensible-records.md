@@ -44,10 +44,10 @@ An important difference between the various proposals is what constitutes a vali
 # Label Namespace
 
 
-The proposals which are implemented as libraries put labels in conid (at the value level) and tycon (at the type level). In other words they must begin with capital letters, and not clash with any other constructor or type. If we want to support labels as first-class objects, this is essential so that we can distinguish labels from other objects.
+The proposals which are implemented as libraries put labels in conid (at the value level) and tycon (at the type level). In other words they must begin with capital letters, not clash with any other constructor or type, and be declared before use. If we want to support labels as first-class objects, this is essential so that we can distinguish them from other objects.
 
 
-The other proposals allow arbitrary labels, and distinguish them by context.
+The other proposals allow labels to be arbitrary strings, and distinguish them by context.
 
 # Type Systems
 
