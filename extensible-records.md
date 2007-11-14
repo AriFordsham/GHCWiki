@@ -47,7 +47,13 @@ An important difference between the various proposals is what constitutes a vali
 The proposals which are implemented as libraries put labels in conid (at the value level) and tycon (at the type level). In other words they must begin with capital letters, not clash with any other constructor or type, and be declared before use. If we want to support labels as first-class objects, this is essential so that we can distinguish them from other objects.
 
 
-The other proposals allow labels to be arbitrary strings, and distinguish them by context.
+The other proposals allow labels to be arbitrary strings, and distinguish them from other objects by context.
+
+
+This is related to the problem of Label Sharing: if the label `L` is declared in two different modules `M1` and `M2`, both of which are imported, do we have one label `L` or two labels `M1.L` and `M2.L`? Should there be a mechanism for identifying labels on import?
+
+
+The **Heterogeneous Collections** system introduces user defined Label Namespaces. All the labels in a record must live in the same namespace, and within a namespace, labels are defined in a way which forces a linear ordering. This gives a kind of modularity which interacts with the module system in a complex way: is not clear (for example) what happens when two imported modules extend a namespace independently.
 
 # Type Systems
 
@@ -102,7 +108,7 @@ The most important difference between the various record proposals seems to be t
 </td></tr></table>
 
 
-The `Subrecord` predicate and `<-` operator could easily be added. The difference between **Heterogeneous Collections** and **Poor Man's Records** is that **Poor Man's Records** makes no attempt to sort labels or remove duplicates, so for example `{x = 3, y = 4}` and `{y = 4, x = 3}` have different types, so are certainly not equal (the updated version of November 2007 supports record projection and permutation, among most other operations).
+The `Subrecord` predicate and `<-` operator could easily be added. The difference between **Heterogeneous Collections** and **Poor Man's Records** is that **Poor Man's Records** makes no attempt to sort labels or remove duplicates, so for example `{X = 3, Y = 4}` and `{Y = 4, X = 3}` have different types, so are certainly not equal (the updated version of November 2007 supports record projection and permutation, among most other operations).
 
 # Implementation and Language support
 
@@ -112,6 +118,7 @@ As it seems possible to implement most of the functionality in a library, there 
 - type sharing: not specific to records, but crucial for record programming practice. If multiple modules introduce the "same" labels, means are needed to specify the equivalence of these types (cf [ Haskell prime ticket 92](http://hackage.haskell.org/trac/haskell-prime/ticket/92)).
 - partial evaluation of type class programs: to achieve constant time record field access. Again, this feature is not specific to records, but crucial for record programming practice.
 - portability: it would be nice if extensible records libraries were portable over multiple Haskell implementations. That not only means that these implementations need to support the same features, but that they need to interpret these features in the same way (this is currently not the case for the interaction of functional dependencies and type class overlap resolution in GHC and Hugs).
+- permutativity: The easiest way to implement permutativity of field labels is to sort them by some total ordering. Although this can be implemented using functional dependencies, it's complex and inefficient. Compiler support for a global order on tycons (based on fully qualified name, perhaps) would be very helpful. I have submitted a feature request [\#1894](https://gitlab.haskell.org//ghc/ghc/issues/1894). Does this conflict with type sharing?
 
 # Examples
 
