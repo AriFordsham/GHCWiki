@@ -31,13 +31,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
 **Debugging of type families:**
 
-1. `substEqInDict` needs to be symmetric (i.e., also apply right-to-left rules); try to re-use existing infrastructure.  It would be neater, easier to understand, and more efficient to have one loop that goes for a fixed point of simultaneously rewriting with given_eqs, wanted_eqs, and type instances.
-1. skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.
-1. Comments:
-
-  - When we raise a mismatch error in `TcSimplify` for unresolvable equalities, we effectively tidy the two non-matching types twice.  Add a comment to highlight this and say way it is ok (i.e., they are never grouped together with `groupErrs` or similar).
-1. `:t` in ghci doesn't print equalities in contexts properly.
-1. ghci command to print normalised type and add [ http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799](http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799) as a test to the testsuite.
 1. To move GADT type checking from refinements to equalities, proceed as follows (as suggested by SPJ):
 
   - Implemented this as follows in `TcPat.tcConPat:579:`
@@ -61,6 +54,13 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     - we  need to know of types whether they are rigid (not only whether they contain unification variables, but by a flag in the environment that indicates whether the computation of that type involved non-rigid type variables)
   - In `TcUnify`, make all occurs checks more elaborate.  They should only **defer** if the checked variable occurs as part of an argument to a type family application; in other cases, still fail right away.  DONE?
   - `TcGadt.tcUnifyTys` can now probably be replaced again by the non-side-effecting unifier that was in `types/Unify.hs` (recover from previous repo states).
+1. `substEqInDict` needs to be symmetric (i.e., also apply right-to-left rules); try to re-use existing infrastructure.  It would be neater, easier to understand, and more efficient to have one loop that goes for a fixed point of simultaneously rewriting with given_eqs, wanted_eqs, and type instances.
+1. skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.
+1. Comments:
+
+  - When we raise a mismatch error in `TcSimplify` for unresolvable equalities, we effectively tidy the two non-matching types twice.  Add a comment to highlight this and say way it is ok (i.e., they are never grouped together with `groupErrs` or similar).
+1. `:t` in ghci doesn't print equalities in contexts properly.
+1. ghci command to print normalised type and add [ http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799](http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799) as a test to the testsuite.
 1. Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page.
 1. When can foralls appear in equalities?  What constraints does that place on GADTs?  Also, the code in `TcTyFuns` doesn't really deal with rank-n types properly, esp `decompRule`.
 1. To fix `Simple8`:
