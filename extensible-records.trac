@@ -41,7 +41,7 @@ An important difference between the various proposals is what constitutes a vali
 
 The proposals which are implemented as libraries put labels in conid (at the value level) and tycon (at the type level). In other words they must begin with capital letters, not clash with any other constructor or type, and be declared before use. If we want to support labels as first-class objects, this is essential so that we can distinguish them from other objects.
 
-The other proposals allow labels to be arbitrary strings, and distinguish them by context.
+The other proposals allow labels to be arbitrary strings, and distinguish them from other objects by context.
 
 This is related to the problem of Label Sharing: if the label `L` is declared in two different modules `M1` and `M2`, both of which are imported, do we have one label `L` or two labels `M1.L` and `M2.L`? Should there be a mechanism for identifying labels on import?
 
@@ -77,7 +77,7 @@ The most important difference between the various record proposals seems to be t
  * {{{ (. L) :: Select L a b => a -> b }}}
  * {{{ (- L) :: Remove L a b => a -> b }}}
  * {{{ (+) :: Concat a b c => a -> b -> c }}}
-The `Subrecord` predicate and `<-` operator could easily be added. The difference between '''Heterogeneous Collections''' and '''Poor Man's Records''' is that '''Poor Man's Records''' makes no attempt to sort labels or remove duplicates, so for example `{x = 3, y = 4}` and `{y = 4, x = 3}` have different types, so are certainly not equal (the updated version of November 2007 supports record projection and permutation, among most other operations).
+The `Subrecord` predicate and `<-` operator could easily be added. The difference between '''Heterogeneous Collections''' and '''Poor Man's Records''' is that '''Poor Man's Records''' makes no attempt to sort labels or remove duplicates, so for example `{X = 3, Y = 4}` and `{Y = 4, X = 3}` have different types, so are certainly not equal (the updated version of November 2007 supports record projection and permutation, among most other operations).
 
 = Implementation and Language support =
 
