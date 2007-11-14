@@ -118,7 +118,7 @@ As it seems possible to implement most of the functionality in a library, there 
 - type sharing: not specific to records, but crucial for record programming practice. If multiple modules introduce the "same" labels, means are needed to specify the equivalence of these types (cf [ Haskell prime ticket 92](http://hackage.haskell.org/trac/haskell-prime/ticket/92)).
 - partial evaluation of type class programs: to achieve constant time record field access. Again, this feature is not specific to records, but crucial for record programming practice.
 - portability: it would be nice if extensible records libraries were portable over multiple Haskell implementations. That not only means that these implementations need to support the same features, but that they need to interpret these features in the same way (this is currently not the case for the interaction of functional dependencies and type class overlap resolution in GHC and Hugs).
-- permutativity: The easiest way to implement permutativity of field labels is to sort them by some total ordering. Although this can be implemented using functional dependencies, it's complex and inefficient. Compiler support for a global order on typids (based on fully qualified name, perhaps) would be very helpful. Does this conflict with type sharing?
+- permutativity: The easiest way to implement permutativity of field labels is to sort them by some total ordering. Although this can be implemented using functional dependencies, it's complex and inefficient. Compiler support for a global order on tycons (based on fully qualified name, perhaps) would be very helpful. I have submitted a feature request [\#1894](https://gitlab.haskell.org//ghc/ghc/issues/1894). Does this conflict with type sharing?
 
 # Examples
 
