@@ -5,7 +5,7 @@ various platforms.  To find out who is responsible for each platform, see [wiki:
 
 Definitions:
 
-'''Registerised'''
+'''Reg'd (Registerised)'''
   A catch-all term for a number of optimisations, which collectively
   require the ''mangler'' (a Perl script that post-processes the
   assembly output from gcc).  Unregisterised builds require only a
@@ -31,7 +31,7 @@ Definitions:
 
 == Platforms that work in the current release ==
 
-|| '''Architecture''' || '''OS''' || '''Build name''' || '''Registerised''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' || '''WikiPage''' ||
+|| '''Architecture''' || '''OS''' || '''Build name''' || '''Reg'd''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' || '''WikiPage''' ||
 || x86          || Windows (MinGW) || i386-unknown-mingw32    || Yes          || Yes  || Yes                   || Yes          || No(*2)            ||[wiki:WindowsGhc] ||
 || x86          || Linux           || i386-unknown-{linux,gnu} || Yes          || Yes  || Yes                   || Yes          || No                || ||
 || x86          || FreeBSD         || i386-unknown-freebsd    || Yes          || Yes  || Yes                   || Yes          || No                || ||
@@ -63,13 +63,13 @@ Definitions:
 
 == Platforms that worked in the past ==
 
-|| '''Architecture''' || '''OS''' || '''Build name''' || '''Registerised''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' ||
+|| '''Architecture''' || '''OS''' || '''Build name''' || '''Reg'd''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' ||
 || x86          || Windows (Cygwin) || i386-unknown-cygwin32 || Yes          || No  || Yes                   || Yes          || No(*2)            ||
 || x86          || Solaris          || i386-unknown-solaris2 || Yes          || No  || Yes                   || Yes          || No            ||
 || Alpha        || Dec OSF          || alpha-dec-osf3        || No           || No  || No                    || Yes          || No               ||
 
 == Platforms currently being ported ==
 
-|| '''Architecture''' || '''OS'''      || '''Build name'''      || '''Registerised''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' || '''WikiPage''' ||
+|| '''Architecture''' || '''OS'''      || '''Build name'''      || '''Reg'd''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' || '''WikiPage''' ||
 || ARM                || Maemo (Linux) || arm-unknown-linux-gnu || Yes                || No         || No        || No                 || No                      || ArmLinuxGhc    ||
 || ARM                || Debian armel || arm-linux-gnueabi || No                || No         || No        || No                 || No                      ||                ||
