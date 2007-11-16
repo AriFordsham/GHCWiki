@@ -49,8 +49,8 @@ Definitions:
 <th>**Reg'd**</th>
 <th>**GHCi**</th>
 <th>**NCG**</th>
-<th>**f.i. wrapper**</th>
-<th>**Dynamic libraries**</th>
+<th>**f.i.**</th>
+<th>**Dyn libs**</th>
 <th>**WikiPage**</th></tr>
 <tr><th> x86          </th>
 <th> Windows (MinGW) </th>
@@ -281,8 +281,8 @@ Definitions:
 <th>**Reg'd**</th>
 <th>**GHCi**</th>
 <th>**NCG**</th>
-<th>**f.i. wrapper**</th>
-<th>**Dynamic libraries**</th></tr>
+<th>**f.i.**</th>
+<th>**Dyn libs**</th></tr>
 <tr><th> x86          </th>
 <th> Windows (Cygwin) </th>
 <th> i386-unknown-cygwin32 </th>
@@ -319,8 +319,8 @@ Definitions:
 <th>**Reg'd**</th>
 <th>**GHCi**</th>
 <th>**NCG**</th>
-<th>**f.i. wrapper**</th>
-<th>**Dynamic libraries**</th>
+<th>**f.i.**</th>
+<th>**Dyn libs**</th>
 <th>**WikiPage**</th></tr>
 <tr><th> ARM                </th>
 <th> Maemo (Linux) </th>
