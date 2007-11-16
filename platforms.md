@@ -7,7 +7,7 @@ various platforms.  To find out who is responsible for each platform, see [Contr
 
 Definitions:
 
-**Registerised**
+**Reg'd (Registerised)**
 
 >
 > A catch-all term for a number of optimisations, which collectively
@@ -46,7 +46,7 @@ Definitions:
 <table><tr><th>**Architecture**</th>
 <th>**OS**</th>
 <th>**Build name**</th>
-<th>**Registerised**</th>
+<th>**Reg'd**</th>
 <th>**GHCi**</th>
 <th>**NCG**</th>
 <th>**f.i. wrapper**</th>
@@ -278,7 +278,7 @@ Definitions:
 <table><tr><th>**Architecture**</th>
 <th>**OS**</th>
 <th>**Build name**</th>
-<th>**Registerised**</th>
+<th>**Reg'd**</th>
 <th>**GHCi**</th>
 <th>**NCG**</th>
 <th>**f.i. wrapper**</th>
@@ -316,7 +316,7 @@ Definitions:
 <table><tr><th>**Architecture**</th>
 <th>**OS**</th>
 <th>**Build name**</th>
-<th>**Registerised**</th>
+<th>**Reg'd**</th>
 <th>**GHCi**</th>
 <th>**NCG**</th>
 <th>**f.i. wrapper**</th>
