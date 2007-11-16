@@ -57,8 +57,8 @@ Definitions:
 || mipsel       || Linux           || mipsel-unknown-linux    || No           || No   || No                    || No           || No                || ||
 || arm          || Linux           || arm-unknown-linux       || No           || No   || No                    || No           || No                || ||
 
-'''*1''' Sparc NCG bitrotted, but still in the tree[[BR]]
-'''*2''' Win32 DLL support bitrotted[[BR]]
+'''*1''' Sparc NCG bitrotten, but still in the tree[[BR]]
+'''*2''' Win32 DLL support bitrotten[[BR]]
 '''*3''' but see #591
 
 == Platforms that worked in the past ==
@@ -72,3 +72,4 @@ Definitions:
 
 || '''Architecture''' || '''OS'''      || '''Build name'''      || '''Registerised''' || '''GHCi''' || '''NCG''' || '''f.i. wrapper''' || '''Dynamic libraries''' || '''WikiPage''' ||
 || ARM                || Maemo (Linux) || arm-unknown-linux-gnu || Yes                || No         || No        || No                 || No                      || ArmLinuxGhc    ||
+|| ARM                || Debian armel || arm-linux-gnueabi || No                || No         || No        || No                 || No                      ||                ||
