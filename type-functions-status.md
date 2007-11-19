@@ -4,6 +4,7 @@
 
 **Open Trac bugs related to type families**
 
+- [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) & [\#1900](https://gitlab.haskell.org//ghc/ghc/issues/1900)
 - [\#1834](https://gitlab.haskell.org//ghc/ghc/issues/1834)
 - [\#1809](https://gitlab.haskell.org//ghc/ghc/issues/1809)
 - [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775)
@@ -14,7 +15,6 @@
 - [\#1722](https://gitlab.haskell.org//ghc/ghc/issues/1722) (type families & GADTs) \[look at when GADTs are implemented by equalities\]
 - [\#1723](https://gitlab.haskell.org//ghc/ghc/issues/1723) (type families & GADTs) \[will be fixed when GADTs are implemented by equalities; we'll want to add the test case to the testsuite\]
 - [\#1716](https://gitlab.haskell.org//ghc/ghc/issues/1716) (bogus evidence generation with type equalities)
-- [\#1715](https://gitlab.haskell.org//ghc/ghc/issues/1715) (iface problem, which is tricky to reproduce)
 - [\#1769](https://gitlab.haskell.org//ghc/ghc/issues/1769) (deriving typeable for data families)
 
 **Failing testsuite tests**
@@ -31,29 +31,60 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
 **Debugging of type families:**
 
-1. To move GADT type checking from refinements to equalities, proceed as follows (as suggested by SPJ):
+1. Replacing GADT refinements by explicit equality constraints:
 
-  - Implemented this as follows in `TcPat.tcConPat:579:`
+  - Impact on testsuite: 
 
     ```wiki
-    - 	      eq_spec' = substEqSpec tenv eq_spec
-    +	      eq_spec' = []
-    +              eq_preds = [mkEqPred (mkTyVarTy tv, ty) | (tv, ty) <- eq_spec]
-    +	      theta'   = substTheta  tenv (eq_theta ++ dict_theta ++ eq_preds)
-    ```
-  - Results:
+    == indexed-types/ ==
+    Unexpected passes:
+       GADT4(normal)
+       GADT5(normal)
+    --   GADT7(normal)   -- fails due to current rigidity test
+    Unexpected failures:
+       GADT3(normal) -- ok, just tickles a known bug
 
-    - Works in principle.
-    - Immediately fixes the tests GADT3, GADT4 & GADT5.
-    - Unfortunately, it breaks a whole lot of tests in `gadt/`.
-    - The remaining problems are partially due to ~~(1) the splitBoxyXXX function issue mentioned above,~~ (2) the occurs check issue mentioned below, (3) the same problem exhibited by GADT9 (with or without this change), (4) some problems getting hold of the right given class constraints, and (5) some random stuff that I haven't looked at more closely.
+    == typecheck/ ==
+    Unexpected failures:
+       tcfail167(normal)    -- Doesn't produce inaccessible case alternative message anymore.
+
+    == gadt/ ==
+    Unexpected failures:
+       Session(normal)  -- maybe same problem as in equal
+       arrow(normal)  -- maybe same problem as in equal
+       doaitse(normal)  -- maybe same problem as in equal
+       equal(normal)   -- GADT givens (from pattern matching) don't seem to be used to discharge GADT wanteds (demanded by rhs)
+       gadt18(normal)  -- GADT equalities not properly propagated in class instances
+       gadt21(normal)  -- OK!  Appears to just be a different error message.
+       gadt22(normal)  -- CoreLint failure
+       gadt9(normal)  -- seems like the problem with equal
+       lazypatok(normal)  -- Need to fix this, but low priority.
+       nbe(normal)  --  maybe same problem as in equal
+       set(normal)  -- Urgh!  Context reduction stack overflow
+       tc(normal)
+       termination(normal)
+       while(normal) -- maybe same problem as equal
+    ```
   - Handling of cases expression scrutinising GADTs: 
 
+    - Remove the dodgy rigidity test that is in `tcConPat` right now.
     - implement proposal where we infer a rigidity flag for case scutinees and pass that down when type checking the patterns,
+    - We infer the rigidity flag for the case scrutinee by generalising its type and checking whether that has an foralls at the top.  It's rigid if it has no foralls.
     - if a pattern has a GADT constructor (ie, any constraints in the data constructor signature), the scutinee must be rigid,
     - we  need to know of types whether they are rigid (not only whether they contain unification variables, but by a flag in the environment that indicates whether the computation of that type involved non-rigid type variables)
   - In `TcUnify`, make all occurs checks more elaborate.  They should only **defer** if the checked variable occurs as part of an argument to a type family application; in other cases, still fail right away.  DONE?
   - `TcGadt.tcUnifyTys` can now probably be replaced again by the non-side-effecting unifier that was in `types/Unify.hs` (recover from previous repo states).
+  - CLEANUP:
+
+    - `TcPat.refineAlt`: This function is now dead code, so is all its support code.
+    - `pat_reft` field of `TcPat.PatState`: Not needed anymore and code maintaining can go, too.
+    - We can remove the `CoVars` and `Refinement` argument of `TcSimplify.tcSimplifyCheckPat`.
+  - Re `tcfail167`, SPJ proposes that could generate a better error message, at least most of the time.  If the "expected type" of a pattern is 's', and we meet a constructor with result type (T t1 ..tn), then one could imagine a 2-step process:
+
+    1. check that 's' is (or can be made to be) of form (T ....)
+    1. check that the ... can be unified with t1..tn
+
+    If (1) succeeds but (2) fails, the alternative is in accessible.  Of course, (2) might fail "later" by generating a constraint that later can't be satisfied, and we won't report that well, but we'd get a good message in the common fails-fast case.  We could even improve the message from (1) to say: "Constructor C is from data type T, but a pattern of type s is expected.
 1. `substEqInDict` needs to be symmetric (i.e., also apply right-to-left rules); try to re-use existing infrastructure.  It would be neater, easier to understand, and more efficient to have one loop that goes for a fixed point of simultaneously rewriting with given_eqs, wanted_eqs, and type instances.
 1. skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.
 1. Comments:
