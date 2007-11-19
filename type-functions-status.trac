@@ -31,18 +31,41 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
 '''Debugging of type families:'''
  0. To move GADT type checking from refinements to equalities, proceed as follows (as suggested by SPJ):
-    * Implemented this as follows in `TcPat.tcConPat:579:`
-{{{
-- 	      eq_spec' = substEqSpec tenv eq_spec
-+	      eq_spec' = []
-+              eq_preds = [mkEqPred (mkTyVarTy tv, ty) | (tv, ty) <- eq_spec]
-+	      theta'   = substTheta  tenv (eq_theta ++ dict_theta ++ eq_preds)
-}}}
     * Results:
-      * Works in principle.
-      * Immediately fixes the tests GADT4, GADT5 & GADT7.  GADT3 fals, but that is due to another known bug.
-      * Unfortunately, it breaks a whole lot of tests in `gadt/`.
-      * The remaining problems are partially due to ~~(1) the splitBoxyXXX function issue mentioned above,~~ (2) the occurs check issue mentioned below, (3) the same problem exhibited by GADT9 (with or without this change), (4) some problems getting hold of the right given class constraints, and (5) some random stuff that I haven't looked at more closely.
+      * Impact on testsuite: 
+{{{
+== indexed-types/ ==
+Unexpected passes:
+   GADT4(normal)
+   GADT5(normal)
+   GADT7(normal)
+Unexpected failures:
+   GADT3(normal) -- ok, just tickles a known bug
+
+== typecheck/ ==
+Unexpected failures:
+   tcfail167(normal)  -- Doesn't produce inaccessible case alternative message anymore.
+   tcfail172(normal)  -- Passes the non-rigid context example...is this good or bad?
+
+== gadt/ ==
+Unexpected failures:
+   Session(normal)  -- maybe same problem as in equal
+   arrow(normal)  -- maybe same problem as in equal
+   doaitse(normal)  -- maybe same problem as in equal
+   equal(normal)   -- GADT givens (from pattern matching) don't seem to be used to discharge GADT wanteds (demanded by rhs)
+   gadt13(normal)  --  Passes the non-rigid context example...is this good or bad?
+   gadt18(normal)  -- GADT equalities not properly propagated in class instances
+   gadt21(normal)  -- OK!  Appears to just be a different error message.
+   gadt22(normal)  -- CoreLint failure
+   gadt7(normal)    --  Passes the non-rigid context example...is this good or bad?
+   gadt9(normal)  -- seems like the problem with equal
+   lazypatok(normal)  -- May actually be better than before!
+   nbe(normal)  --  maybe same problem as in equal
+   set(normal)  -- Urgh!  Context reduction stack overflow
+   tc(normal)
+   termination(normal)
+   while(normal) -- maybe same problem as equal
+}}}
     * Handling of cases expression scrutinising GADTs: 
       * implement proposal where we infer a rigidity flag for case scutinees and pass that down when type checking the patterns,
       * if a pattern has a GADT constructor (ie, any constraints in the data constructor signature), the scutinee must be rigid,
