@@ -15,7 +15,7 @@
 - [\#1722](https://gitlab.haskell.org//ghc/ghc/issues/1722) (type families & GADTs) \[look at when GADTs are implemented by equalities\]
 - [\#1723](https://gitlab.haskell.org//ghc/ghc/issues/1723) (type families & GADTs) \[will be fixed when GADTs are implemented by equalities; we'll want to add the test case to the testsuite\]
 - [\#1716](https://gitlab.haskell.org//ghc/ghc/issues/1716) (bogus evidence generation with type equalities)
-- [\#1715](https://gitlab.haskell.org//ghc/ghc/issues/1715) (iface problem, which is tricky to reproduce)
+- [\#1715](https://gitlab.haskell.org//ghc/ghc/issues/1715) (iface problem, which is tricky to reproduce...not anymore, also appears in package ndp)
 - [\#1769](https://gitlab.haskell.org//ghc/ghc/issues/1769) (deriving typeable for data families)
 
 **Failing testsuite tests**
@@ -43,14 +43,13 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
       Unexpected passes:
          GADT4(normal)
          GADT5(normal)
-         GADT7(normal)
+      --   GADT7(normal)   -- fails due to current rigidity test
       Unexpected failures:
          GADT3(normal) -- ok, just tickles a known bug
 
       == typecheck/ ==
       Unexpected failures:
-         tcfail167(normal)  -- Doesn't produce inaccessible case alternative message anymore.
-         tcfail172(normal)  -- Passes the non-rigid context example...is this good or bad?
+         tcfail167(normal)    -- Doesn't produce inaccessible case alternative message anymore.
 
       == gadt/ ==
       Unexpected failures:
@@ -58,11 +57,9 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
          arrow(normal)  -- maybe same problem as in equal
          doaitse(normal)  -- maybe same problem as in equal
          equal(normal)   -- GADT givens (from pattern matching) don't seem to be used to discharge GADT wanteds (demanded by rhs)
-         gadt13(normal)  --  Passes the non-rigid context example...is this good or bad?
          gadt18(normal)  -- GADT equalities not properly propagated in class instances
          gadt21(normal)  -- OK!  Appears to just be a different error message.
          gadt22(normal)  -- CoreLint failure
-         gadt7(normal)    --  Passes the non-rigid context example...is this good or bad?
          gadt9(normal)  -- seems like the problem with equal
          lazypatok(normal)  -- May actually be better than before!
          nbe(normal)  --  maybe same problem as in equal
@@ -73,7 +70,9 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
       ```
   - Handling of cases expression scrutinising GADTs: 
 
+    - Remove the dodgy rigidity test that is in `tcConPat` right now.
     - implement proposal where we infer a rigidity flag for case scutinees and pass that down when type checking the patterns,
+    - We infer the rigidity flag for the case scrutinee by generalising its type and checking whether that has an foralls at the top.  It's rigid if it has no foralls.
     - if a pattern has a GADT constructor (ie, any constraints in the data constructor signature), the scutinee must be rigid,
     - we  need to know of types whether they are rigid (not only whether they contain unification variables, but by a flag in the environment that indicates whether the computation of that type involved non-rigid type variables)
   - In `TcUnify`, make all occurs checks more elaborate.  They should only **defer** if the checked variable occurs as part of an argument to a type family application; in other cases, still fail right away.  DONE?
