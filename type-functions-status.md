@@ -59,7 +59,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
        gadt21(normal)  -- OK!  Appears to just be a different error message.
        gadt22(normal)  -- CoreLint failure
        gadt9(normal)  -- seems like the problem with equal
-       lazypatok(normal)  -- May actually be better than before!
+       lazypatok(normal)  -- Need to fix this, but low priority.
        nbe(normal)  --  maybe same problem as in equal
        set(normal)  -- Urgh!  Context reduction stack overflow
        tc(normal)
