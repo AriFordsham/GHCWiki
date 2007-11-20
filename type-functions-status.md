@@ -32,42 +32,40 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
 **Debugging of type families:**
 
-1. To move GADT type checking from refinements to equalities, proceed as follows (as suggested by SPJ):
+1. Replacing GADT refinements by explicit equality constraints:
 
-  - Results:
+  - Impact on testsuite: 
 
-    - Impact on testsuite: 
+    ```wiki
+    == indexed-types/ ==
+    Unexpected passes:
+       GADT4(normal)
+       GADT5(normal)
+    --   GADT7(normal)   -- fails due to current rigidity test
+    Unexpected failures:
+       GADT3(normal) -- ok, just tickles a known bug
 
-      ```wiki
-      == indexed-types/ ==
-      Unexpected passes:
-         GADT4(normal)
-         GADT5(normal)
-      --   GADT7(normal)   -- fails due to current rigidity test
-      Unexpected failures:
-         GADT3(normal) -- ok, just tickles a known bug
+    == typecheck/ ==
+    Unexpected failures:
+       tcfail167(normal)    -- Doesn't produce inaccessible case alternative message anymore.
 
-      == typecheck/ ==
-      Unexpected failures:
-         tcfail167(normal)    -- Doesn't produce inaccessible case alternative message anymore.
-
-      == gadt/ ==
-      Unexpected failures:
-         Session(normal)  -- maybe same problem as in equal
-         arrow(normal)  -- maybe same problem as in equal
-         doaitse(normal)  -- maybe same problem as in equal
-         equal(normal)   -- GADT givens (from pattern matching) don't seem to be used to discharge GADT wanteds (demanded by rhs)
-         gadt18(normal)  -- GADT equalities not properly propagated in class instances
-         gadt21(normal)  -- OK!  Appears to just be a different error message.
-         gadt22(normal)  -- CoreLint failure
-         gadt9(normal)  -- seems like the problem with equal
-         lazypatok(normal)  -- May actually be better than before!
-         nbe(normal)  --  maybe same problem as in equal
-         set(normal)  -- Urgh!  Context reduction stack overflow
-         tc(normal)
-         termination(normal)
-         while(normal) -- maybe same problem as equal
-      ```
+    == gadt/ ==
+    Unexpected failures:
+       Session(normal)  -- maybe same problem as in equal
+       arrow(normal)  -- maybe same problem as in equal
+       doaitse(normal)  -- maybe same problem as in equal
+       equal(normal)   -- GADT givens (from pattern matching) don't seem to be used to discharge GADT wanteds (demanded by rhs)
+       gadt18(normal)  -- GADT equalities not properly propagated in class instances
+       gadt21(normal)  -- OK!  Appears to just be a different error message.
+       gadt22(normal)  -- CoreLint failure
+       gadt9(normal)  -- seems like the problem with equal
+       lazypatok(normal)  -- May actually be better than before!
+       nbe(normal)  --  maybe same problem as in equal
+       set(normal)  -- Urgh!  Context reduction stack overflow
+       tc(normal)
+       termination(normal)
+       while(normal) -- maybe same problem as equal
+    ```
   - Handling of cases expression scrutinising GADTs: 
 
     - Remove the dodgy rigidity test that is in `tcConPat` right now.
@@ -82,6 +80,12 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     - `TcPat.refineAlt`: This function is now dead code, so is all its support code.
     - `pat_reft` field of `TcPat.PatState`: Not needed anymore and code maintaining can go, too.
     - We can remove the `CoVars` and `Refinement` argument of `TcSimplify.tcSimplifyCheckPat`.
+  - Re `tcfail167`, SPJ proposes that could generate a better error message, at least most of the time.  If the "expected type" of a pattern is 's', and we meet a constructor with result type (T t1 ..tn), then one could imagine a 2-step process:
+
+    1. check that 's' is (or can be made to be) of form (T ....)
+    1. check that the ... can be unified with t1..tn
+
+    If (1) succeeds but (2) fails, the alternative is in accessible.  Of course, (2) might fail "later" by generating a constraint that later can't be satisfied, and we won't report that well, but we'd get a good message in the common fails-fast case.  We could even improve the message from (1) to say: "Constructor C is from data type T, but a pattern of type s is expected.
 1. `substEqInDict` needs to be symmetric (i.e., also apply right-to-left rules); try to re-use existing infrastructure.  It would be neater, easier to understand, and more efficient to have one loop that goes for a fixed point of simultaneously rewriting with given_eqs, wanted_eqs, and type instances.
 1. skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.
 1. Comments:
