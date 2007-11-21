@@ -28,6 +28,7 @@ Norman's plan
 1. Simple optimizations on `CopyIn` and `CopyOut` may be required
 1. Define an interface for calling conventions and invariants for the output of frame layout \[will require help from Simon M\]
 1. Stack layout
+1. Glue the whole pipeline together and make sure it works.
 
 
 Items 1-5 look like a few days apiece. Items 6 and 7 are more scary...
