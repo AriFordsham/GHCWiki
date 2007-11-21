@@ -19,6 +19,20 @@ Status:
 - Split into multiple CmmProcs: to do
 
 
+Norman's plan
+
+1. New code to check invariants of output from `ZipDataflow`
+1. Finish debugging `ZipDataflow`
+1. Use Simon PJ's 'common-blockifier' to move the Adams optimization outside `CmmProcProintZ`
+1. ProcPointZ does not insert `CopyOut` nodes; this omission must be rectified and will require some general infrastructure for inserting predecessors.
+1. Simple optimizations on `CopyIn` and `CopyOut` may be required
+1. Define an interface for calling conventions and invariants for the output of frame layout \[will require help from Simon M\]
+1. Stack layout
+
+
+Items 1-5 look like a few days apiece. Items 6 and 7 are more scary...
+
+
 ToDo: main issues
 
 - SRTs simply record live global variables.  So we should use the same live-variable framework as for live local variables.  That means we must be able to identify which globals are SRT-able.  What about compression/encoding schemes?
