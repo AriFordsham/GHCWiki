@@ -38,18 +38,15 @@ By **constant shape** we mean that the field names of a record are given literal
 
 An important difference between the various proposals is what constitutes a valid record, and similarly a valid record type. The key points are:
 
-- Permutativity:: Are `{X :: Int, Y :: Int}` and `{Y :: Int, X :: Int}` the same type? The **Poor Man's Records** system distinguishes these two, which makes implementation much simpler, but means that any function which accepts permuted records must be polymorphic. *(i don't see why this is an issue? you can either list the fields you want as separate constraints, or you can have a single constraint requiring your record's type to be a permutation of the interface you want, or you can give a specific interface type and permute any record to that interface's field ordering, without ever requiring a global ordering on field types, as most other proposals do)*
+- Permutativity:: Are `{X :: Int, Y :: Int}` and `{Y :: Int, X :: Int}` the same type? The **Poor Man's Records** system distinguishes these two, which makes implementation much simpler, but means that any function which accepts permuted records must be polymorphic. *(i don't see why this is an issue? you can either list the fields you want as separate constraints, or you can have a single constraint requiring your record's type to be a permutation of the interface you want, or you can give a specific interface type and permute any record to that interface's field ordering, without ever requiring a global ordering on field types, as most other proposals do; i've added some `Data.Record` versions of your example, to demonstrate)*
 - Repeated Fields:: Is `{X :: Int, X :: Int}` a valid record type? Both **Poor Man's Records** and **Scoped Labels** allow this type, but other systems consider this an error. *(note that **Poor Man's Records** can handle both scoped and unscoped records: if you start from non-scoped records and only apply non-scoped record operations, your records will remain unscoped. you can also easily define a type predicate that guarantees your record to be unscoped. i accept, however, that a non-scoped-only style should be better supported, so i've added such a predicate for the next version of the library, and i'd like to add a type tag that turns this predicate into an invariant.)*
 
 <table><tr><th>Ok, opinion (since you asked for it!)</th>
-<td>The problem with scoping is that, in most cases, repeated fields are a programmer error, and the point of types is to catch such errors at compile time. At first sight, the ability to scope fields in this way looks like extra power to the programmer, but is this actually useful? I've seen no convincing examples where scoping allows a more clearly structured program, whereas there are plenty of cases where it will mean an error goes uncaught. If you have a good example of scoping, please add it to the examples section on this page.
-</td></tr>
+<td>The problem with scoping is that, in most cases, repeated fields are a programmer error, and the point of types is to catch such errors at compile time. At first sight, the ability to scope fields in this way looks like extra power to the programmer, but is this actually useful? I've seen no convincing examples where scoping allows a more clearly structured program, whereas there are plenty of cases where it will mean an error goes uncaught. If you have a good example of scoping, please add it to the examples section on this page. *(the way to think about scoped records is not as "repeated fields are required", but as "if repeated fields cause no errors, they are not ruled out"; an example would be `PATH` settings: you can make sure that you have only one version of each tool in `PATH`, but most of the time you just move the version you want right now to the front)*</td></tr>
 <tr><th>.</th>
-<td>The problem with unpermuted records is illustrated in the example at the bottom of this page: it forces you to make functions polymorphic when they "ought" to be monomorphic. This means that no-one can use records in a straightforward way without understanding the details of all the predicates.
-</td></tr>
+<td>The problem with unpermuted records is illustrated in the example at the bottom of this page: it forces you to make functions polymorphic when they "ought" to be monomorphic. This means that no-one can use records in a straightforward way without understanding the details of all the predicates. *(predicates are parts of types, in particular, they restrict polymorphism. as the example shows, you can still be monomorphic if you absolutely want to, but understanding types, including predicates, is essential for understanding how to use haskell operations)*</td></tr>
 <tr><th>.</th>
-<td>In both cases, the usual approach (permutation, no repeats) is what most programmers expect. We have to remember that this proposal is supposed to be *the* records system for Haskell. It must be the right system for simple problems as well as complex ones.
-</td></tr></table>
+<td>In both cases, the usual approach (permutation, no repeats) is what most programmers expect. We have to remember that this proposal is supposed to be *the* records system for Haskell. It must be the right system for simple problems as well as complex ones. *(if you are really still stuck at the "one system fits everyone" stage, i would find it difficult to continue any discussion)*</td></tr></table>
 
 # Label Namespace
 
@@ -150,6 +147,45 @@ norm' :: (Select X a Float, Select Y a Float) => a -> Float
 norm' p = sqrt (p.X * p.X + p.Y * p.Y)
 
 norm' {Y = 3.0, X = 4.0}    -- this is OK, because norm' is polymorphic
+```
+
+
+Here is the example translated into `Data.Record`, and slightly expanded to demonstrate the flexibility with which one may specify precisely as much detail as wanted, without requiring a global label ordering (if that is wanted, we simply permute to the locally expected order). `norm1` has the type asked for above (no extra fields, specific order for expected fields), `norm2` has the most flexible type (only expected fields are specified), `norm3` shows a middle ground (no extra fields permitted, but order is irrelevant):
+
+```wiki
+data X = X deriving Show; instance Label X where label = X
+data Y = Y deriving Show; instance Label Y where label = Y
+data Z = Z deriving Show; instance Label Z where label = Z
+
+type Point = (X := Float) :# (Y := Float) :# ()
+-- a record is a list of fields, sorted to match expected order
+record r = r !#& undefined
+-- a point is a Point, if re-ordered
+point = record ((Y := (3.0::Float)) :# (X := (4.0::Float)) :# ()) :: Point
+
+norm1 :: Point -> Float
+norm1 p = sqrt (p #? X * p #? X + p #? Y * p #? Y)
+
+-- this is a type error, because X and Y are not in the expected order
+-- test1a = norm1 ((Y := 3.0) :# (X := 4.0) :# ())
+-- this works, because X and Y will be permuted into the expected order
+test1b = norm1 (record $ (Y := (3.0::Float)) :# (X := (4.0::Float)) :# ())
+
+norm2 :: (Select X Float rec, Select Y Float rec) => rec -> Float
+norm2 p = sqrt ((p #? X) * (p #? X) + (p #? Y) * (p #? Y))
+
+-- this is OK, because norm2 doesn't care about field order
+test2a = norm2 ((Y := 3.0) :# (X := 4.0) :# ())
+-- this is OK, because norm2 doesn't care about unused fields
+test2b = norm2 ((Y := 3.0) :# (X := 4.0) :# (Z := True) :# ())
+
+norm3 :: Project' rec Point => rec -> Float
+norm3 p' = sqrt ((p #? X) * (p #? X) + (p #? Y) * (p #? Y)) where p = (record p')::Point
+
+-- this is OK, because norm3 is doesn't care about field order
+test3a = norm3 ((Y := (3.0::Float)) :# (X := (4.0::Float)) :# ())
+-- this is a type error, because norm3 doesn't accept unused fields
+-- test3b = norm3 ((Y := 3.0) :# (X := 4.0) :# (Z := True) :# ())
 ```
 
 
