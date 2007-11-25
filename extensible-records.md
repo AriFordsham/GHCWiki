@@ -48,8 +48,13 @@ An important difference between the various proposals is what constitutes a vali
 <tr><th>.</th>
 <td>In both cases, the usual approach (permutation, no repeats) is what most programmers expect. We have to remember that this proposal is supposed to be *the* records system for Haskell. It must be the right system for simple problems as well as complex ones. *(if you are really still stuck at the "one system fits everyone" stage, i would find it difficult to continue any discussion; my premises in this round have been that (1) we should try to implement as many useful record operations, predicates, and invariants as we can, (2) we should try to unify the sets of operations into a coherent whole, (3) we should identify to what extent and in what form we need to have language and implementation support, and (4) users, not library providers, will decide which subsets of operations they use most; assuming that one particular view of records is "the usual one", or "what most programmers expect" has not helped in the past, and will not help now; just making yet-another-record-proposal is no more likely to succeed than any of the previous attempts, whereas a library providing for as many common usage patterns as possible might have a chance of breaking the deadlock, and laying the groundwork for a future design that might actually have some users and experience behind it; to be successful, such a design would evolve in use, rather than be proclaimed and ignored)*</td></tr></table>
 
+<table><tr><th>.</th>
+<td>I totally disagree. More operations aren't always better! What the language needs is a records system which allows and encourages you to structure your code in the clearest possible way. In my opinion, choosing a type system which behaves as expected is an important part of that, but I would quickly be convinced otherwise by some examples which show that these extra features help to write better code. Personal comments, on the other hand, don't help.
+</td></tr></table>
 
-I suggest we both delete all personal comments and end this pointless spat.
+<table><tr><th>.</th>
+<td>The way forward (as I see it) is to implement all the various possible designs as libraries (with the necessary compiler support) and then see which library is best in practice.
+</td></tr></table>
 
 # Label Namespace
 
