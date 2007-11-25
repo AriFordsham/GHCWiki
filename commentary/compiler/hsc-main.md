@@ -62,7 +62,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
 - Now the path forks again:
 
-  - If we are generating GHC's stylised C code, we can just pretty-print the `C--` code as stylised C ([compiler/cmm/PprC.hs)](/trac/ghc/browser/ghc/compiler/cmm/PprC.hs))
+  - If we are generating GHC's stylised C code, we can just pretty-print the `C--` code as stylised C ([compiler/cmm/PprC.hs](/trac/ghc/browser/ghc/compiler/cmm/PprC.hs)
   - If we are generating native code, we invoke the native code generator.  This is another Big Mother, and lives in [compiler/nativeGen](/trac/ghc/browser/ghc/compiler/nativeGen).
 
 # The Diagram
