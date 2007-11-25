@@ -49,7 +49,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
   * Next, the '''[wiki:Commentary/Compiler/CodeGen Code Generator]''' converts the STG program to a {{{C--}}} program.  The code generator is a Big Mother, and lives in directory [[GhcFile(compiler/codeGen)]]  
 
   * Now the path forks again:
-    * If we are generating GHC's stylised C code, we can just pretty-print the {{{C--}}} code as stylised C ([[GhcFile(compiler/cmm/PprC.hs)]]
+    * If we are generating GHC's stylised C code, we can just pretty-print the {{{C--}}} code as stylised C ([[GhcFile(compiler/cmm/PprC.hs)]])
     * If we are generating native code, we invoke the native code generator.  This is another Big Mother, and lives in [[GhcFile(compiler/nativeGen)]].
 
 = The Diagram =
