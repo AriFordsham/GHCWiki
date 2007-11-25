@@ -48,6 +48,9 @@ An important difference between the various proposals is what constitutes a vali
 <tr><th>.</th>
 <td>In both cases, the usual approach (permutation, no repeats) is what most programmers expect. We have to remember that this proposal is supposed to be *the* records system for Haskell. It must be the right system for simple problems as well as complex ones. *(if you are really still stuck at the "one system fits everyone" stage, i would find it difficult to continue any discussion)*</td></tr></table>
 
+
+I think both points of view are quite clear. I also think it is not up to us alone to decide what goes into Haskell. I must say, I find your last comment extraordinary! If we are going to have lots of systems, why bother to argue about which is best? The reason Haskell has no decent records system at the moment is because there are too many good proposals, not that there are none. When writing this page, I was trying to make clear the various design decisions that must be made in choosing a system. Obviously, different people would make different decisions, but at some point, the Haskell committee must make a decision about what to include in the standard.
+
 # Label Namespace
 
 
