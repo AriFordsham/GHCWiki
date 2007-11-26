@@ -163,8 +163,8 @@ I believe the way forward is to implement several of the possible systems, and r
 {{{
 expressions: {n1 = e1, ... , nn = en} --> mkUnderlyingRecord n1 e1 ( ... mkUnderlyingRecord nn en underlyingEmptyRecord)
 types: {n1 :: t1, ..., nn :: tn} --> MkUnderlyingRecord n1 e1 ( ... MkUnderlyingRecord nn en UnderlyingEmptyRecord)
-patterns: {n1 = p1, ... , nn = pn} --> (viewUnderlyingRecord n1 -> p1) @ ... @ (viewUnderlyingRecord nn -> pn)
+patterns: {n1 = p1, ... , nn = pn} --> (viewUnderlyingRecord n1 -> (p1, ...  ,(viewUnderlyingRecord nn -> (pn, viewUnderlyingEmptyRecord -> ())))
+patterns: {n1 = p1, ... , nn = pn, ..} --> (viewUnderlyingRecord n1 -> (p1, ...  ,(viewUnderlyingRecord nn -> (pn, _)))
 }}}
-Libraries could then implement {{{mkUnderlyingRecord}}}, {{{underlyingEmptyRecord}}}, {{{MkUnderlyingRecord}}}, {{{UnderlyingEmptyRecord}}} and {{{viewUnderlyingRecord}}} in whatever way is best.
-What do you think?
+Libraries could then implement {{{mkUnderlyingRecord}}}, {{{underlyingEmptyRecord}}}, {{{MkUnderlyingRecord}}}, {{{UnderlyingEmptyRecord}}}, {{{viewUnderlyingRecord}}}  and {{{viewUnderlyingEmptyRecord}}} in whatever way is best. What do you think?
 
