@@ -191,3 +191,21 @@ The more complex systems support first class labels. Here is an example using th
 labelZip :: ({n :: a} `Disjoint` {m :: b}) => n -> m -> [a] -> [b] -> [{n :: a, m :: b}]
 labelZip n m = zipWith (\x y -> {n = x, m = y})
 ```
+
+# How to proceed?
+
+
+There are a lot of design decisions listed on this page, some of which inspire strongly-help opinions. It is clear that discussion will not resolve these, and we don't seem to have a lot of examples to help clarify matters. The deadlock is unchanged: we still have too many good ideas.
+
+
+I believe the way forward is to implement several of the possible systems, and release them for feedback. To get users to actually try out the libraries, I think we need some concrete syntax for constant records, so I suggest we put in a feature request. Something like:
+
+```wiki
+expressions: {n1 = e1, ... , nn = en} --> mkUnderlyingRecord n1 e1 ( ... mkUnderlyingRecord nn en underlyingEmptyRecord)
+types: {n1 :: t1, ..., nn :: tn} --> MkUnderlyingRecord n1 e1 ( ... MkUnderlyingRecord nn en UnderlyingEmptyRecord)
+patterns: {n1 = p1, ... , nn = pn} --> (viewUnderlyingRecord n1 -> p1) @ ... @ (viewUnderlyingRecord nn -> pn)
+```
+
+
+Libraries could then implement `mkUnderlyingRecord`, `underlyingEmptyRecord`, `MkUnderlyingRecord`, `UnderlyingEmptyRecord` and `viewUnderlyingRecord` in whatever way is best.
+What do you think?
