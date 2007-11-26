@@ -11,7 +11,8 @@ GHC has been using darcs for version control since the beginning of 2006.  It ha
 
  * Speed.  many operations are impractical (annotate, `darcs changes <file>`), and many operations just take "too
    long" (i.e. long enough that you go and do something else rather than wait for it to finish,
-   which incurs a context-switch cost). 
+   which incurs a context-switch cost).  We can't use Trac's darcs integration or darcsweb, for example,
+   because both rely on invoking `darcs changes <file>`.
 
  * bugs: we run into darcs bugs other than the conflict/merging bug on a regular basis.
 
