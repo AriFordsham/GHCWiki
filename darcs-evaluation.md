@@ -64,6 +64,9 @@ ToDo.  Compare workflows using darcs with the same workflow in other systems.  I
     # repo2's and repo3's file now contains lines 1,3,4,5,7
 ```
 
+
+This workflow is going to favour darcs over everything else, because of the cherrypicking.  Before you put too much faith in it, it would be good to ask how often people really cherrypick, and why they don't seem to miss it in other systems.
+
 ### Mercurial
 
 ### Git
