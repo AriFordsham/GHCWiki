@@ -65,6 +65,8 @@ For a non-top-level function, the cases are:
 - A known function can be entered directly, if the call is made with exactly the right number of arguments.
 - If a function fails its heap check and returns to the runtime to garbage collect, on re-entry the closure
   pointer must be still tagged.
+- the PAP entry code jumps to the function's entry code, so it must have a tagged pointer to the function
+  closure in R1.  We therefore assume that a PAP always contains a tagged pointer to the function closure.
 
 
 In the second case, calling a known non-top-level function must pass the function closure in R1, and this pointer *must* be correctly tagged.  The code generator does not arrange to tag the pointer before calling the function; it assumes the pointer is already tagged.  Since we arrange to tag the pointer when the closure is created, this assumption is normally safe.  However, if the pointer has to be saved on the stack, say across a call, then when the pointer is retrieved again we must either retag it, or be sure that it is still tagged.  Currently we do the latter, but this imposes an invariant on the garbage collector: all tags must be retained on non-top-level function pointers.
