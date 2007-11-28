@@ -4,7 +4,7 @@
 There's been some confusion  (myself included) about how OS X frameworks integrate with the compiler and linker.  Apple's documentation is not very clear on some of these points.  So I hope this page will clear up any misconceptions, and let us decide how to integrate them with GHC.
 
 
-First, a review: A framework is a directory ending in `.framework` which stores headers and object code associated with a library.  Frameworks are always dynamically linked at runtime.
+First, a review: A framework is a directory ending in `.framework` which stores headers and object code associated with a library.  Frameworks are always dynamically linked.
 
 
 Note ghc provides the following flags equivalents:
@@ -35,7 +35,7 @@ Once Foo.framework is found, `gcc` will look for:
 - `Foo.framework/PrivateHeaders/header.h`.
 
 
-Note: if you specify `#include <Foo/header.h>`, `gcc` will also search for `/usr/local/include/Foo/header.h`, and may use it if found.
+Note: if you specify `#include <Foo/header.h>`, `gcc` will also search for, e.g.,  `/usr/local/include/Foo/header.h`, and may use it if found.
 
 #### More unix-y way
 
