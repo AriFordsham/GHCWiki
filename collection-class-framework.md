@@ -37,11 +37,6 @@ I'm especially interested in cases where this framework does not fit your applic
 - Java's implementation : [ http://java.sun.com/j2se/1.5.0/docs/api/java/util/package-summary.html](http://java.sun.com/j2se/1.5.0/docs/api/java/util/package-summary.html)
 - C++ STL: [ http://www.cppreference.com/cppstl.html](http://www.cppreference.com/cppstl.html)
 
-## Haddock
-
-
-Please find an haddocked API here: [ http://users.skynet.be/jyp/Data.Collections.html](http://users.skynet.be/jyp/Data.Collections.html)
-
 ## TODO
 
 - Quite some functions are missing, they are omitted for the sake of brievety,
@@ -52,7 +47,6 @@ Please find an haddocked API here: [ http://users.skynet.be/jyp/Data.Collections
 ## Note
 
 
-Attachment below is outdated.
+Attachment below is outdated, but the library can be found on Hackage:
 
-
-use the darcs repo [ http://darcs.haskell.org/packages/collections](http://darcs.haskell.org/packages/collections)
+[ http://hackage.haskell.org/cgi-bin/hackage-scripts/package/collections-0.3](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/collections-0.3)
