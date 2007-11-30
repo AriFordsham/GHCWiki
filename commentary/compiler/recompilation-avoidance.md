@@ -5,7 +5,7 @@
 
 When GHC is compiling a module, it tries to determine early on whether
 
-- The object file and interface file exist from a previous compilation
+- The object file and [interface file](commentary/compiler/iface-files) exist from a previous compilation
 - Recompilation is sure to produce exactly the same results, so it
   is not necessary.
 
