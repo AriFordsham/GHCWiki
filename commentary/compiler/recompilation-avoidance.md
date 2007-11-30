@@ -66,6 +66,12 @@ h x = x + 3
 
 ## Why do we need recompilation avoidance?
 
+### GHCi and `--make`
+
+
+The simple fact is that when you make a small change to a large program, it is often not necessary to recompile
+every module that depends directly or indirectly on something that changed.  In GHCi and `--make`, GHC considers every module in the program in dependency order, and decides whether it needs to be recompiled, or whether the existing object code and interface will do.
+
 ### `make`
 
 `make` works by checking the timestamps on dependencies and
