@@ -21,7 +21,7 @@ Here are some of the things stored in an interface file `M.hi`
 
 - A list of what `M` exports.
 - The types of exported functions, definition of exported types, and so on.
-- Version information, used to drive the smart recompilation checker.
+- Version information, used to drive the [smart recompilation checker](commentary/compiler/recompilation-avoidance).
 - The strictness, arity, and unfolding of exported functions.  This is crucial for cross-module optimisation; but it is only included when you compile with `-O`.
 
 
