@@ -132,7 +132,7 @@ to determine whether recompilation can be avoided in this case.
 
 == How does it work? ==
 
-An [wiki:Commentary/Compiler/IfaceFile interface file] contains:
+An [wiki:Commentary/Compiler/IfaceFiles interface file] contains:
 
  * The module ''version'' (more about this below)
  * ''exports'': what the module exports

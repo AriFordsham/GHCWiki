@@ -141,7 +141,7 @@ to determine whether recompilation can be avoided in this case.
 ## How does it work?
 
 
-An interface file? contains:
+An [interface file](commentary/compiler/iface-files) contains:
 
 - The module *version* (more about this below)
 - *exports*: what the module exports
