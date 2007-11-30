@@ -25,7 +25,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
 - [Wired-in and known-key things](commentary/compiler/wired-in)
 - [Packages](commentary/compiler/packages)
 - The Finder?
-- [Commentary/Compiler/RecompilationAvoidance](commentary/compiler/recompilation-avoidance)
+- [Recompilation Avoidance](commentary/compiler/recompilation-avoidance)
 - [Backends](commentary/compiler/backends):
 
   - [C code generator](commentary/compiler/backends/ppr-c)
