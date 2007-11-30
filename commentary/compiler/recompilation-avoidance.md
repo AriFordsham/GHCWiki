@@ -226,7 +226,7 @@ an inlined copy of the old `D.f`, which it got via `B`.
 
 It works like this: 
 
-- `D` is recopmiled; the version of `D.f` increases
+- `D` is recompiled; the version of `D.f` increases
 - `B` is considered; it recorded a usage on the old `D.f`, so
   gets recompiled, and now its interface records a usage on the new `D.f`
 - `C` is considered; it doesn't need to be recompiled.
@@ -338,6 +338,9 @@ In summary:
 
 We wouldn't have to record usages on entities that are just
 re-exported, and we might get less recompilation.
+
+
+However, this is not so good, because now when modifying a module at the bottom of the dependency graph we have to invoke the compiler on every single module above it: that is, we lost the benefit of the optimisation of not modifying the `.hi` file if it hasn't changed.
 
 ### fingerprints instead of versions
 
