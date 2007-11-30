@@ -1,6 +1,8 @@
-= Recompilation checking in GHC =
 
-== What is recompilation checking? ==
+
+= Recompilation Avoidance =
+
+== What is recompilation avoidance? ==
 
 When GHC is compiling a module, it tries to determine early on whether
 
@@ -61,7 +63,7 @@ h x = x + 3
 }}}
 
 
-== Why do we need recompilation checking? ==
+== Why do we need recompilation avoidance? ==
 
 === `make` ===
 
