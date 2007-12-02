@@ -149,7 +149,7 @@ shipped with GHC.
 
 
 Increasingly, therefore, we are trying to un-couple GHC from big
-libraries.  We ship GHC with a set of "core" libraries, without which
+libraries.  We ship GHC with a set of "boot" libraries, without which
 GHC will not function at all, and "extra" libraries, which just happen
 to come with GHC, and which can be upgraded separately at any time.
 To further that end, we've split the "base" package into a bunch of
