@@ -8,13 +8,9 @@ where we can make a release is becoming quite a challenge.  Indeed, a
 good deal of our effort in the last six months has been in the form of
 consolidation: fixing bugs and solidifying what we have.  
 
-```wiki
-IAN: add graphs: 
-		bug reporting rate
-		bug fixing rate
-		total number of open bugs
-				and feature requests
-```
+[](/trac/ghc/attachment/wiki/Status/Nov07/rolling_average.png)
+
+[](/trac/ghc/attachment/wiki/Status/Nov07/totals.png)
 
 
 The major new features of 6.8.1 were described in the last issue
@@ -74,8 +70,8 @@ syntactic innovations, which now form part of the HEAD:
 > > > None of these changes tackle the deeper issue of whether or not
 > > > Haskell's current approach to records is the Right Way; rather the
 > > > changes just make the current approach work a bit better. 
-> > > Furthermore, the are all somewhat controversial about this, because they makes it
-> > > harder to say where something comes into scope.  Let's see what you think!
+> > > Furthermore, they are all somewhat controversial, because they make it
+> > > harder to see where something comes into scope.  Let's see what you think!
 
 - **View patterns** are implemented, by Dan Licata. Here's a simple example:
 
@@ -153,13 +149,16 @@ shipped with GHC.
 
 
 Increasingly, therefore, we are trying to un-couple GHC from big
-libraries.  We ship GHC with a set of "core" libraries, without which
+libraries.  We ship GHC with a set of "boot" libraries, without which
 GHC will not function at all, and "extra" libraries, which just happen
-to come with GHC, and which can be upgraded separately at any time.
+to come with some binary distributions of GHC, and which can be upgraded
+separately at any time.
 To further that end, we've split the "base" package into a bunch of
-smaller packages.  This has led to lots of pain, because old programs
-that depended on 'base' now need to depend on other packages too.  But
-it's good pain, and matters should improve too as Cabal matures.
-
-
-More detail here: XXX
+smaller packages, and expect to further split it up for GHC 6.10.
+This has led to lots of pain, because old programs
+that depended on 'base' now need to depend on other packages too;
+see [ upgrading packages](http://www.haskell.org/haskellwiki/Upgrading_packages) for details.  But
+it's good pain, and matters should improve too as Cabal matures. We
+have also devised a
+[ package versioning policy](http://www.haskell.org/haskellwiki/Package_versioning_policy)
+which will help future library upgrades.
