@@ -58,8 +58,8 @@ syntactic innovations, which now form part of the HEAD:
     None of these changes tackle the deeper issue of whether or not
     Haskell's current approach to records is the Right Way; rather the
     changes just make the current approach work a bit better. 
-    Furthermore, the are all somewhat controversial about this, because they makes it
-    harder to say where something comes into scope.  Let's see what you think!
+    Furthermore, they are all somewhat controversial, because they make it
+    harder to see where something comes into scope.  Let's see what you think!
 
  * '''View patterns''' are implemented, by Dan Licata. Here's a simple example:
 {{{
