@@ -7,13 +7,11 @@ such a large feature "surface area" that simply getting to the point
 where we can make a release is becoming quite a challenge.  Indeed, a
 good deal of our effort in the last six months has been in the form of
 consolidation: fixing bugs and solidifying what we have.  
-{{{
-IAN: add graphs: 
-		bug reporting rate
-		bug fixing rate
-		total number of open bugs
-				and feature requests
-}}}
+
+[[Image(Status/Nov07:rolling_average.png)]]
+
+[[Image(Status/Nov07:totals.png)]]
+
 The major new features of 6.8.1 were described in the last issue
 of the Haskell Communities Newsletter, so we won't repeat them here.
 Instead, here are some of the highlights of what we are working on now.

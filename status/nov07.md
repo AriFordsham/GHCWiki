@@ -8,13 +8,9 @@ where we can make a release is becoming quite a challenge.  Indeed, a
 good deal of our effort in the last six months has been in the form of
 consolidation: fixing bugs and solidifying what we have.  
 
-```wiki
-IAN: add graphs: 
-		bug reporting rate
-		bug fixing rate
-		total number of open bugs
-				and feature requests
-```
+[](/trac/ghc/attachment/wiki/Status/Nov07/rolling_average.png)
+
+[](/trac/ghc/attachment/wiki/Status/Nov07/totals.png)
 
 
 The major new features of 6.8.1 were described in the last issue
