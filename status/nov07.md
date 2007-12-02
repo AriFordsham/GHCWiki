@@ -151,11 +151,14 @@ shipped with GHC.
 Increasingly, therefore, we are trying to un-couple GHC from big
 libraries.  We ship GHC with a set of "boot" libraries, without which
 GHC will not function at all, and "extra" libraries, which just happen
-to come with GHC, and which can be upgraded separately at any time.
+to come with some binary distributions of GHC, and which can be upgraded
+separately at any time.
 To further that end, we've split the "base" package into a bunch of
-smaller packages.  This has led to lots of pain, because old programs
-that depended on 'base' now need to depend on other packages too.  But
-it's good pain, and matters should improve too as Cabal matures.
-
-
-More detail here: XXX
+smaller packages, and expect to further split it up for GHC 6.10.
+This has led to lots of pain, because old programs
+that depended on 'base' now need to depend on other packages too;
+see [ upgrading packages](http://www.haskell.org/haskellwiki/Upgrading_packages) for details.  But
+it's good pain, and matters should improve too as Cabal matures. We
+have also devised a
+[ package versioning policy](http://www.haskell.org/haskellwiki/Package_versioning_policy)
+which will help future library upgrades.
