@@ -228,7 +228,7 @@ smaller packages, and expect to further split it up for GHC 6.10.
 This has led to lots of pain, because old programs
 that depended on 'base' now need to depend on other packages too;
 see [ upgrading packages](http://www.haskell.org/haskellwiki/Upgrading_packages) for details.  But
-it's good pain, and matters should improve too as Cabal matures.  We have been exploring possibilities for \[wkki:PackageCompatibility lessening the pain\] in 6.10.  We
+it's good pain, and matters should improve too as Cabal matures.  We have been exploring possibilities for [lessening the pain](package-compatibility) in 6.10.  We
 have also devised a
 [ package versioning policy](http://www.haskell.org/haskellwiki/Package_versioning_policy)
 which will help future library upgrades.  
