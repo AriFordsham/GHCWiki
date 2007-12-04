@@ -50,14 +50,14 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
     == gadt/ ==
     Unexpected failures:
-       Session(normal
+       Session(normal)
        gadt18(normal)  -- GADT equalities not properly propagated in class instances
        gadt21(normal)  -- OK!  Appears to just be a different error message.
        gadt22(normal)  -- CoreLint failure
        lazypatok(normal)  -- Need to fix this, but low priority.
-       nbe(normal)  --  maybe same problem as in equal
+       nbe(normal)
        set(normal)  -- Urgh!  Context reduction stack overflow
-       while(normal) -- maybe same problem as equal
+       while(normal)
     ```
   - Handling of cases expression scrutinising GADTs: 
 
