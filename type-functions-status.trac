@@ -4,12 +4,12 @@
 
 '''Open Trac bugs related to type families'''
 
+ * #1754 & #1808 (high priority - people stumble over it often)
  * #1948
  * #1897 & #1900
  * #1834
  * #1809
  * #1775
- * #1754 & #1808
  * #1716 (maybe the same problem as #1754)
  * #1772
  * #1815 (type families & GADTs)

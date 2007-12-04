@@ -4,12 +4,12 @@
 
 **Open Trac bugs related to type families**
 
+- [\#1754](https://gitlab.haskell.org//ghc/ghc/issues/1754) & [\#1808](https://gitlab.haskell.org//ghc/ghc/issues/1808) (high priority - people stumble over it often)
 - [\#1948](https://gitlab.haskell.org//ghc/ghc/issues/1948)
 - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) & [\#1900](https://gitlab.haskell.org//ghc/ghc/issues/1900)
 - [\#1834](https://gitlab.haskell.org//ghc/ghc/issues/1834)
 - [\#1809](https://gitlab.haskell.org//ghc/ghc/issues/1809)
 - [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775)
-- [\#1754](https://gitlab.haskell.org//ghc/ghc/issues/1754) & [\#1808](https://gitlab.haskell.org//ghc/ghc/issues/1808)
 - [\#1716](https://gitlab.haskell.org//ghc/ghc/issues/1716) (maybe the same problem as [\#1754](https://gitlab.haskell.org//ghc/ghc/issues/1754))
 - [\#1772](https://gitlab.haskell.org//ghc/ghc/issues/1772)
 - [\#1815](https://gitlab.haskell.org//ghc/ghc/issues/1815) (type families & GADTs)
