@@ -119,7 +119,7 @@ Since 6.6 GHC has had support for running parallel Haskell on a multi-processor 
 
 Roshan James did an internship at MSR in 2006 during which he and I (Simon M) worked on parallelising the major collections in GHC's generational garbage collector.  We had a working algorithm, but didn't observe much speedup on a multi-processor.  Since then, I rewrote the implementation and spent a large amount of time with various profiling tools, which uncovered some cache-unfriendly behaviour.  We are now seeing some speedup, but there is more tweaking and measuring still to be done.
 
-This parallel GC is likely to be in GHC 6.10.  If you have enough cores and your program does enough GC, you might even see a speedup for purely single-threaded Haskell programs.
+This parallel GC is likely to be in GHC 6.10.  Note that parallel GC is independent of whether the Haskell program itself is parallel - so even single-threaded Haskell programs (e.g. GHC itself) should benefit from it.
 
 The other side of the coin is to parallelise the ''minor'' collections.  These are normally too small and quick to apply the full-scale parallel GC to, and yet the whole system still has to stop to perform a minor GC.  The solution is almost certainly to allow each CPU to GC its own nursery independently.  There is existing research describing how to do this, and we plan to try applying it in context of GHC.
 
