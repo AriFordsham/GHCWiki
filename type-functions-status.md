@@ -4,11 +4,12 @@
 
 **Open Trac bugs related to type families**
 
+- [\#1754](https://gitlab.haskell.org//ghc/ghc/issues/1754) & [\#1808](https://gitlab.haskell.org//ghc/ghc/issues/1808) (high priority - people stumble over it often)
+- [\#1948](https://gitlab.haskell.org//ghc/ghc/issues/1948)
 - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) & [\#1900](https://gitlab.haskell.org//ghc/ghc/issues/1900)
 - [\#1834](https://gitlab.haskell.org//ghc/ghc/issues/1834)
 - [\#1809](https://gitlab.haskell.org//ghc/ghc/issues/1809)
 - [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775)
-- [\#1754](https://gitlab.haskell.org//ghc/ghc/issues/1754) & [\#1808](https://gitlab.haskell.org//ghc/ghc/issues/1808)
 - [\#1716](https://gitlab.haskell.org//ghc/ghc/issues/1716) (maybe the same problem as [\#1754](https://gitlab.haskell.org//ghc/ghc/issues/1754))
 - [\#1772](https://gitlab.haskell.org//ghc/ghc/issues/1772)
 - [\#1815](https://gitlab.haskell.org//ghc/ghc/issues/1815) (type families & GADTs)
@@ -40,7 +41,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     Unexpected passes:
        GADT4(normal)
        GADT5(normal)
-    --   GADT7(normal)   -- fails due to current rigidity test
     Unexpected failures:
        GADT3(normal) -- ok, just tickles a known bug
 
@@ -50,20 +50,14 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
     == gadt/ ==
     Unexpected failures:
-       Session(normal)  -- maybe same problem as in equal
-       arrow(normal)  -- maybe same problem as in equal
-       doaitse(normal)  -- maybe same problem as in equal
-       equal(normal)   -- GADT givens (from pattern matching) don't seem to be used to discharge GADT wanteds (demanded by rhs)
+       Session(normal)
        gadt18(normal)  -- GADT equalities not properly propagated in class instances
        gadt21(normal)  -- OK!  Appears to just be a different error message.
        gadt22(normal)  -- CoreLint failure
-       gadt9(normal)  -- seems like the problem with equal
        lazypatok(normal)  -- Need to fix this, but low priority.
-       nbe(normal)  --  maybe same problem as in equal
+       nbe(normal)
        set(normal)  -- Urgh!  Context reduction stack overflow
-       tc(normal)
-       termination(normal)
-       while(normal) -- maybe same problem as equal
+       while(normal)
     ```
   - Handling of cases expression scrutinising GADTs: 
 
