@@ -600,8 +600,8 @@ the same target it takes each in turn and fires it if its
 dependencies say to do so.  This means that you can, for
 example, define both `HS_PROG` and
 `LIBRARY`, which will generate two rules for
-`install`.  When you type {{{make
-install}}} both rules will be fired, and both the program
+`install`.  When you type `make install` both rules
+will be fired, and both the program
 and the library will be installed, just as you wanted.
 
 ## Recursion
@@ -720,8 +720,8 @@ in which this happens:
   `Foo.mp_o`) there is a rule which
   recursively invokes `make` to make the
   specified target, setting the `way`
-  variable.  So if you say {{{make
-  Foo.mp_o}}} you should see a recursive
+  variable.  So if you say `make Foo.mp_o`
+  you should see a recursive
   invocation `make Foo.mp_o way=mp`,
   and *in this recursive invocation the pattern rule
   for compiling a Haskell file into a `.o`
