@@ -13,6 +13,9 @@ consolidation: fixing bugs and solidifying what we have.
 [](/trac/ghc/attachment/wiki/Status/Nov07/totals.png)
 
 
+These graphs show "tickets" which include bugs, feature requests, and tasks.  Of the "open tickets", about half are bugs.  
+
+
 The major new features of 6.8.1 were described in the last issue
 of the Haskell Communities Newsletter, so we won't repeat them here.
 Instead, here are some of the highlights of what we are working on now.
@@ -105,7 +108,36 @@ syntactic innovations, which now form part of the HEAD:
 
 ## Type system stuff
 
-- I'll write more about type equalities
+
+The big innovation in GHC's type system has been the gradual
+introduction of indexed type families in the surface syntax, and of
+type equalities in the internal machinery.  
+
+
+Indexed data families (called "associated data types" when
+declared in type classes) are fairly simple, and they work fine
+in GHC 6.8.1.  Indexed type families (aka "associated type synonyms")
+are a different kettle of fish, especially when combined with
+the ability to mention type equalities in overloaded types, thus:
+
+```wiki
+  f :: forall a b. (a ~ [b]) => ...
+```
+
+
+Tom Schrijvers spent three months at Cambridge, working on
+the theory and implementation of a type inference algorithm. As 
+a result we have a partially-working implementation, and we 
+understand the problem much better, but there is still much to
+do, both on the theoretical and practical front.  It's trickier
+than we thought!  We have a short paper [ Towards open type functions for Haskell](http://research.microsoft.com/%7Esimonpj/papers/assoc-types/index.htm) which
+describes some of the issues, and an [ wiki page](http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions) that we keep up to date; it has a link to details of implementation status.  This is all joint work with
+Martin Sulzmann, Manuel Chakravarty, and Tom Schrijvers.
+
+## Data parallel Haskell
+
+
+MANUEL: can you write something?
 
 ## Back end stuff
 
