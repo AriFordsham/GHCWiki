@@ -24,7 +24,7 @@ Instead, here are some of the highlights of what we are working on now.
 
 
 Several people have developed superficial but perhaps-very-useful
-syntactic innovations, which now form part of the HEAD:
+syntactic innovations, which are (or will shortly be) in the HEAD:
 
 - Three improvements to records
 
