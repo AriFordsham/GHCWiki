@@ -41,7 +41,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     Unexpected passes:
        GADT4(normal)
        GADT5(normal)
-    --   GADT7(normal)   -- fails due to current rigidity test
     Unexpected failures:
        GADT3(normal) -- ok, just tickles a known bug
 
@@ -51,19 +50,13 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
     == gadt/ ==
     Unexpected failures:
-       Session(normal)  -- maybe same problem as in equal
-       arrow(normal)  -- maybe same problem as in equal
-       doaitse(normal)  -- maybe same problem as in equal
-       equal(normal)   -- GADT givens (from pattern matching) don't seem to be used to discharge GADT wanteds (demanded by rhs)
+       Session(normal
        gadt18(normal)  -- GADT equalities not properly propagated in class instances
        gadt21(normal)  -- OK!  Appears to just be a different error message.
        gadt22(normal)  -- CoreLint failure
-       gadt9(normal)  -- seems like the problem with equal
        lazypatok(normal)  -- Need to fix this, but low priority.
        nbe(normal)  --  maybe same problem as in equal
        set(normal)  -- Urgh!  Context reduction stack overflow
-       tc(normal)
-       termination(normal)
        while(normal) -- maybe same problem as equal
     ```
   - Handling of cases expression scrutinising GADTs: 
