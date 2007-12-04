@@ -140,7 +140,7 @@ Martin Sulzmann, Manuel Chakravarty, and Tom Schrijvers.
 Since 6.6 GHC has had support for running parallel Haskell on a multi-processor out of the box.  However, the main drawback has been that the garbage collector is still single-threaded and stop-the-world.  Since GC can commonly account for 30% of runtime (depending on the GC settings), this can seriously put a crimp in your parallel speedup.
 
 
-Roshan James did an internship at MSR in 2006 during which he and I (Simon M) worked on parallelising the major collections in GHC's generational garbage collector.  We had a working algorithm, but didn't observe much speedup on a multi-processor.  Since then, I rewrote the implementation and spent a large amount of time with various profiling tools, which uncovered some cache-unfriendly behaviour.  We are now seeing some speedup, but there is more tweaking and measuring still to be done.
+Roshan James did an internship at MSR in 2006 during which he and Simon M worked on parallelising the major collections in GHC's generational garbage collector.  We had a working algorithm, but didn't observe much speedup on a multi-processor.  Since then, Simon rewrote the implementation and spent a large amount of time with various profiling tools, which uncovered some cache-unfriendly behaviour.  We are now seeing some speedup, but there is more tweaking and measuring still to be done.
 
 
 This parallel GC is likely to be in GHC 6.10.  Note that parallel GC is independent of whether the Haskell program itself is parallel - so even single-threaded Haskell programs (e.g. GHC itself) should benefit from it.
@@ -164,7 +164,7 @@ the entire back end.
 
 What we want to do:
 
-- split the STG-to-C-- code generator (`codeGen`) into two: one pass
+- Split the STG-to-C-- code generator (`codeGen`) into two: one pass
   generating C-- with functions and calls, and a second pass ("CPS") to 
   manifest the stack and calling/return conventions.
 
@@ -194,7 +194,7 @@ What we've done so far:
   coalescing register allocator for GHC's native code generator.
 
 
-As a result, we now have \*lots\* of new code.  Some of it is working;
+As a result, we now have *lots* of new code.  Some of it is working;
 much of it is as yet un-integrated and un-tested.  However, once we
 have it all glued back together, GHC will become a place where you can
 do Real Work on low-level optimisations, and code generation.  Indeed
