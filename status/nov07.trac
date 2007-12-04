@@ -131,9 +131,29 @@ MANUEL: can you write something?
 
 == Back end stuff ==
 
- * Ben Lippmeir spent his internship building a graph-colouring,
-  coalescing register allocator for GHC's native code generator.
-	SIMON SAY MORE
+GHC's back end code generator has long been known to generate poor code, particularly 
+for tight loops of the kind that are cropping up more and more in highly optimised
+Haskell code.  So in typical GHC style, rather than patch the immediate problem, we're redesigning
+the entire back end.
+
+What we want to do:
+
+ * split the STG-to-C-- code generator (`codeGen`) into two: one pass
+   generating C-- with functions and calls, and a second pass ("CPS") to 
+   manifest the stack and calling/return conventions.
+
+ * Redesign the calling and return conventions, so that we can use more
+   registers for parameter passing (this will entail decommissioning the
+   via-C code generator, but the native code generator will outperform it).
+
+ * Give the back end more opportunity to do low-level transformation and
+   optimisation, e.g. by exposing loops at the C-- level.
+
+ * Implement more optimisations over C--.
+
+ * Plug in a better register allocator.
+
+What we've done so far:
 
  * Michael Adams came for an internship and built a CPS converter
   for GHC's internal C-- data type.  He had barely left when Norman
@@ -142,6 +162,9 @@ MANUEL: can you write something?
   zipper-based data structure to represent C-- code, and a sophisticated
   dataflow framework so that you can write new dataflow analyses in 
   30 mins.  
+
+ * Ben Lippmeir spent his internship building a graph-colouring,
+  coalescing register allocator for GHC's native code generator.
 
 As a result, we now have *lots* of new code.  Some of it is working;
 much of it is as yet un-integrated and un-tested.  However, once we
