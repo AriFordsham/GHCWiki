@@ -115,7 +115,7 @@ sections:
   code, called
   `target.mk`.
   It contains the rules that tell `make` how
-  to make the standard targets ([standard targets](building/using#standard-targets)).  Why, you ask, can't this
+  to make the [standard targets](building/using#standard-targets).  Why, you ask, can't this
   standard code be part of
   `boilerplate.mk`?  Good question.  We
   discuss the reason later, in [Boilerplate architecture](#Boilerplatearchitecture).

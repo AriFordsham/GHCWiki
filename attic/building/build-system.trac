@@ -112,7 +112,7 @@ include ../mk/boilerplate.mk  # NO NO NO
    code, called
    {{{target.mk}}}.
    It contains the rules that tell {{{make}}} how
-   to make the standard targets ([wiki:Building/Using#StandardTargets standard targets]).  Why, you ask, can't this
+   to make the [wiki:Building/Using#StandardTargets standard targets].  Why, you ask, can't this
    standard code be part of
    {{{boilerplate.mk}}}?  Good question.  We
    discuss the reason later, in [[ref(Boilerplate architecture)]].
