@@ -341,6 +341,38 @@ In summary:
 
 ## Alternative design choices
 
-### fingerprints instead of versions
+### Fingerprints instead of versions
 
-### module-granularity instead of declaration-granularity
+
+Version numbers in this context have a couple of problems:
+
+- New version numbers are calculated from the old version numbers, so we have to
+  keep the old interface around to generate the new one.  (but we need to keep
+  the old interface around anyway, because we might avoid touching it if it
+  doesn't change).
+
+- Removing an interface file can have disastrous effects, as all its version
+  numbers will be reset when it is next compiled.  To be fair, this doesn't seem
+  to affect many people (that we know of).
+
+- We want to detect changes in package dependencies (see [\#1372](https://gitlab.haskell.org//ghc/ghc/issues/1372)): right now, we only
+  record a dependency on the package.  The right thing to do is to record a dependency
+  on the module that we import, so we can detect when it changes.  But packages are
+  generally compiled from scratch and then installed, so typically all the version
+  numbers will be 1, and our dependency is not telling us when the package has changed.
+
+
+Using fingerprints or hashes instead of version numbers is morally the right thing to do.  A fingerprint can be calculated independently of the previous version of the interface interface, and it solves the package dependency problem.
+
+### Module-granularity instead of entity-granularity
+
+
+Fingerprints or hashes are larger than version numbers (typically 128 bits instead of 32), so we might not want to put a fingerprint on every entity.
+
+
+Also, it's worth thinking about whether tracking changes at a lower level of granularity would result in a system that is simpler to implement, understand, and get right.  The obvious choice is to track modules instead of entities.  Clearly this loses some resolution, and will therefore entail more unnecessary recompilation, but how much?  Let's look at how it would work, and then some examples.
+
+
+Every module will have a single version number (or fingerprint), which is increased whenever there is a change to either the exports or the decls (but not the usages) in the interface, or the version of any module referred to by the exports or decls changes.  The usages of the module lists the modules and versions referred to by the source code (as before, except that we only record modules not entities).
+
+**Examples**.
