@@ -342,3 +342,16 @@ Every module will have a single version number (or fingerprint), which is increa
 
 '''Examples'''.
 
+Suppose we change the definition of `T` in module D.  
+
+ * We recompile D, and D's version will change from 1 to 2, because its decls have changed.  
+ * B will be recompiled, because its usages lists D (since it exports `D.f`).  Since its exports lists
+   `D.f`, and D's version has changed, B's version will also increase to 2.
+ * C will be recompiled, but its version stays the same, since it has no exports or decls.
+ * A will be recompiled, because its usage list includes D, and D's version changed.  A's version will
+   stay the same, however.
+
+So in this case modifying `D.T` has forced recompilation of B and A, although under the current scheme neither of these modules would be recompiled.
+
+
+

@@ -376,3 +376,16 @@ Also, it's worth thinking about whether tracking changes at a lower level of gra
 Every module will have a single version number (or fingerprint), which is increased whenever there is a change to either the exports or the decls (but not the usages) in the interface, or the version of any module referred to by the exports or decls changes.  The usages of the module lists the modules and versions referred to by the source code (as before, except that we only record modules not entities).
 
 **Examples**.
+
+
+Suppose we change the definition of `T` in module D.  
+
+- We recompile D, and D's version will change from 1 to 2, because its decls have changed.  
+- B will be recompiled, because its usages lists D (since it exports `D.f`).  Since its exports lists
+  `D.f`, and D's version has changed, B's version will also increase to 2.
+- C will be recompiled, but its version stays the same, since it has no exports or decls.
+- A will be recompiled, because its usage list includes D, and D's version changed.  A's version will
+  stay the same, however.
+
+
+So in this case modifying `D.T` has forced recompilation of B and A, although under the current scheme neither of these modules would be recompiled.
