@@ -63,7 +63,7 @@ from the source is that the build tree can be placed in a
 non-backed-up partition, saving your systems support people from
 backing up untold megabytes of easily-regenerated, and
 rapidly-changing, gubbins.  The golden rule is that (with a single
-exception - [Getting the build you want](#Gettingthebuildyouwant)*absolutely
+exception - [Getting the build you want](#Gettingthebuildyouwant)) *absolutely
 everything in the build tree is either a symbolic link to the source
 tree, or else is mechanically generated*.  It should be perfectly OK
 for your build tree to vanish overnight; an hour or two compiling and
@@ -224,7 +224,7 @@ tree, precisely because it says how this build differs from the
 source.  (Just in case your build tree does die, you might want to
 keep a private directory of `build.mk` files, and use a symbolic
 link in each build tree to point to the appropriate one.)  So
-`mk/build.mk` never exists in the source tree&mdash;you create one
+`mk/build.mk` never exists in the source tree &mdash; you create one
 in each build tree from the template.  We'll discuss what to put in it
 shortly.
 
@@ -235,8 +235,8 @@ And that's it for configuration. Simple, eh?
 What do you put in your build-specific configuration file
 `mk/build.mk`?  *For almost all purposes all you will do is put
 make variable definitions that override those in*`mk/config.mk.in`.  The whole point of
-`mk/config.mk.in`&mdash;and its derived counterpart
-`mk/config.mk`&mdash;is to define the build configuration. It is
+`mk/config.mk.in` &mdash; and its derived counterpart
+`mk/config.mk` &mdash; is to define the build configuration. It is
 heavily commented, as you will see if you look at it.  So generally,
 what you do is look at `mk/config.mk.in`, and add definitions in
 `mk/build.mk` that override any of the `config.mk` definitions
@@ -251,7 +251,7 @@ can serve as a starting point for your `build.mk`.
 
 For example, `config.mk.in` contains the definition:
 
-<table><tr><th>`GhcHcOpts=-Rghc-timing`</th>
+<table><tr><th>`GhcHcOpts = -Rghc-timing`</th>
 <td>
 The accompanying comment explains that this is the list of flags
 passed to GHC when building GHC itself.  For doing development, it
@@ -371,7 +371,7 @@ You can make subsequent changes to `mk/build.mk` as often as you
 like.  You do not have to run any further configuration programs to
 make these changes take effect. In theory you should, however, say
 `make clean; make`, because configuration option changes could
-affect anything&mdash;but in practice you are likely to know what's
+affect anything &mdash; but in practice you are likely to know what's
 affected.
 
 ## Making things
@@ -491,8 +491,8 @@ contain programs.  It also builds the necessary tools for
 compilation to proceed.
 
 Invoking the `boot` target explicitly is not normally necessary.
-From the top-level directory, invoking `make` causes {{{make
-boot}}} to be invoked in various subdirectories first, in the right
+From the top-level directory, invoking `make` causes `make boot`
+to be invoked in various subdirectories first, in the right
 order.  Unless you really know what you are doing, it is best to
 always say `make` from the top level first.
 
@@ -543,9 +543,8 @@ because the distribution comes with them.
 <td>
 Delete all files from the current directory that are created by
 configuring or building the program. If you have unpacked the source
-and built the program without creating any other files, {{{make
-distclean}}} should leave only the files that were in the
-distribution.
+and built the program without creating any other files, `make distclean`
+should leave only the files that were in the distribution.
 </td></tr></table>
 
 <table><tr><th>`mostlyclean`</th>
@@ -563,9 +562,9 @@ produced by Bison, tags tables, Info files, and so on.
     
 One exception, however: `make maintainer-clean` should not
 delete `configure` even if `configure` can be remade using a
-rule in the `Makefile`. More generally, {{{make
-maintainer-clean}}} should not delete anything that needs to exist
-in order to run `configure` and then begin to build the program.
+rule in the `Makefile`. More generally, `make maintainer-clean`
+should not delete anything that needs to exist in order to run
+`configure` and then begin to build the program.
     
 After a `maintainer-clean`, a `configure` will be necessary
 before building again.
