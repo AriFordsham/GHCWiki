@@ -37,6 +37,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 Unexpected passes:
    GADT4(normal)
    GADT5(normal)
+   InstEqContext2(normal)
 Unexpected failures:
    GADT3(normal) -- ok, just tickles a known bug
 
