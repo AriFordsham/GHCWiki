@@ -34,26 +34,10 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
 1. Replacing GADT refinements by explicit equality constraints:
 
-  - Impact on testsuite: 
+  - Regressions that remain to be fixed: 
 
-    ```wiki
-    == indexed-types/ ==
-    Unexpected passes:
-       GADT4(normal)
-       GADT5(normal)
-       InstEqContext2(normal)
-    Unexpected failures:
-       GADT3(normal) -- ok, just tickles a known bug
-
-    == typecheck/ ==
-    Unexpected failures:
-       tcfail167(normal)    -- Doesn't produce inaccessible case alternative message anymore.
-
-    == gadt/ ==
-    Unexpected failures:
-       gadt21(normal)       -- OK!  (Just be a different error message.)
-       lazypatok(normal)  -- Need to fix this, but low priority.
-    ```
+    - `gadt/lazypatok` needs to be fixed
+    - Error message of `tcfail167` should include "Inaccessible case alternative: Can't match types `Char' and `Float'" again
   - Handling of cases expression scrutinising GADTs: 
 
     - Remove the dodgy rigidity test that is in `tcConPat` right now.
