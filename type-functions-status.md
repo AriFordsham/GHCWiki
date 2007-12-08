@@ -53,8 +53,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     Unexpected failures:
        gadt21(normal)       -- OK!  (Just be a different error message.)
        lazypatok(normal)  -- Need to fix this, but low priority.
-       nbe(normal)
-       while(normal)
     ```
   - Handling of cases expression scrutinising GADTs: 
 
