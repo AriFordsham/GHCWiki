@@ -23,12 +23,11 @@ Instead, here are some of the highlights of what we are working on now.
 ## Syntactic and front-end enhancements
 
 
-Several people have developed superficial but perhaps-very-useful
-syntactic innovations, which are (or will shortly be) in the HEAD:
+Several people have developed syntactic innovations, which are (or will shortly be) in the HEAD:
 
-- Three improvements to records
+- **Three improvements to records**
 
-  - **Wild-card patterns for records**.  If you have
+  - *Wild-card patterns for records*.  If you have
 
     ```wiki
     	data T = MkT {x,y::Int, z::Bool}
@@ -49,7 +48,7 @@ syntactic innovations, which are (or will shortly be) in the HEAD:
     The ".." in a pattern brings into scope all the fields of the
     record; while in a record construction it uses variables with
     those names to initialise the record fields. Here's the [user manual entry](http://www.haskell.org/ghc/dist/current/docs/users_guide/syntax-extns.html#record-wildcards)
-  - **Record puns** is a slightly less abbreviated approach. You can write 'f' like this:
+  - *Record puns* is a slightly less abbreviated approach. You can write 'f' like this:
 
     ```wiki
      	f (MkT {x,y}) = x+y
@@ -57,7 +56,7 @@ syntactic innovations, which are (or will shortly be) in the HEAD:
 
     whereas Haskell 98 requires you to write "x=x,y=y" in the pattern. Similarly 
     in record construction.
-  - **Record field disambiguation** is useful when there are several types in
+  - *Record field disambiguation* is useful when there are several types in
     scope, all with the same field name.  For example, suppose another data type S
     had an 'x' field. Then if you write
 
@@ -183,12 +182,9 @@ What we want to do:
 What we've done so far:
 
 - Michael Adams came for an internship and built a CPS converter
-  for GHC's internal C-- data type.  He had barely left when Norman
-  Ramsey arrived for a short sabbatical.  Based on his experience of
-  building back ends for the Quick C-- compiler, he worked on a new
-  zipper-based data structure to represent C-- code, and a sophisticated
-  dataflow framework so that you can write new dataflow analyses in 
-  30 mins.  
+  for GHC's internal C-- data type.  
+
+- He had barely left when Norman Ramsey arrived for a short sabbatical.  Based on his experience of building back ends for the Quick C-- compiler, he worked on a new zipper-based data structure to represent C-- code, and a sophisticated dataflow framework so that you can write new dataflow analyses in 30 mins.  
 
 - Ben Lippmeir spent his internship building a graph-colouring,
   coalescing register allocator for GHC's native code generator.
