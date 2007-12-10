@@ -82,6 +82,26 @@ Disadvantages:
 
 - Lack of good Windows support?
 
+### Bzr
+
+
+Advantages:
+
+- Fairly fast
+- Portable (as portable as python, anyhow)
+- Merging works correctly based on closest-common-ancestor
+- Tracking of renamed files / directories merges correctly
+- Revisions form a DAG (more like a tree with merge-points) rather than patchsets
+- Supports convenient "centralised-style" commit-remote-by-default as well as "distributed-style" commit-local-by-default. Just 'bind' or 'unbind' your branch whenever you want.
+- Simple clear UI
+
+
+Disadvantages
+
+- Revisions form a DAG (more like a tree with merge-points) rather than patchsets (this is a subjective point, which is why it's in both lists. Which model do you believe in?)
+- Cherry-picking isn't very "native" to the data model.
+- UI is rather different from darcs (which current contributors are used to).
+
 ### Darcs
 
 
@@ -142,3 +162,5 @@ Posts/blogs:
 - [ Hans Fugal: Mercurial and Darcs](http://hans.fugal.net/blog/articles/2007/11/16/mercurial-and-darcs)
 - [ Hans Fugal: Darcs and Mercurial Redux](http://hans.fugal.net/blog/articles/2007/11/20/darcs-and-mercurial-redux)
 - [ iBanjo: The Risks of Distributed Version Control](http://blog.red-bean.com/sussman/?p=20)
+- [ https://lists.ubuntu.com/archives/bazaar/2007q4/033256.html](https://lists.ubuntu.com/archives/bazaar/2007q4/033256.html)
+- [ http://bazaar-vcs.org/BzrVsGit](http://bazaar-vcs.org/BzrVsGit)
