@@ -3,17 +3,17 @@
 
 Lots has happened on the GHC front over the last few months.  We
 released GHC 6.8.1 on 3 November 2007.  GHC now has so many users, and
-such a large feature "surface area" that simply getting to the point
+such a large feature "surface area", that simply getting to the point
 where we can make a release is becoming quite a challenge.  Indeed, a
 good deal of our effort in the last six months has been in the form of
 consolidation: fixing bugs and solidifying what we have.  
 
+
+These graphs show "tickets" which include bugs, feature requests, and tasks.  Of the "open tickets", about half are bugs.  Notice the big spike in "closed tickets" just before the 6.8.1 release!
+
 [](/trac/ghc/attachment/wiki/Status/Nov07/rolling_average.png)
 
 [](/trac/ghc/attachment/wiki/Status/Nov07/totals.png)
-
-
-These graphs show "tickets" which include bugs, feature requests, and tasks.  Of the "open tickets", about half are bugs.  
 
 
 The major new features of 6.8.1 were described in the last issue
