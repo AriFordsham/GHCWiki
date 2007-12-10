@@ -3,7 +3,7 @@
 [Basic view patterns](#Basicviewpatterns)[Semantics](#Semantics)[Examples](#Examples)[Further Syntactic Extensions](#FurtherSyntacticExtensions)[Implicit Maybe](#ImplicitMaybe)[Implicit View Functions](#ImplicitViewFunctions)[Compilation](#Compilation)[Features views can have](#Featuresviewscanhave)[Related work](#Relatedwork)
 
 
-This page has been revised to reflect what we're going to implement.  For the previous discussion, see [ViewPatternsArchive](view-patterns-archive).
+This page has been revised to reflect what we've implemented.  For the previous discussion, see [ViewPatternsArchive](view-patterns-archive).
 
 ## Basic view patterns
 
