@@ -2,9 +2,8 @@
 
 [Basic view patterns](#Basicviewpatterns)[Semantics](#Semantics)[Examples](#Examples)[Further Syntactic Extensions](#FurtherSyntacticExtensions)[Implicit Maybe](#ImplicitMaybe)[Implicit View Functions](#ImplicitViewFunctions)[Compilation](#Compilation)[Features views can have](#Featuresviewscanhave)[Related work](#Relatedwork)
 
-**We are about to begin prototyping this extension in GHC, so speak now if you have comments or suggestions'''
+
 This page has been revised to reflect what we're going to implement.  For the previous discussion, see [ViewPatternsArchive](view-patterns-archive).
-**
 
 ## Basic view patterns
 

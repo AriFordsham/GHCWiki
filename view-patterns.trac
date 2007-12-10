@@ -2,7 +2,6 @@
 
 [[PageOutline(2-3,,inline)]]
 
-'''We are about to begin prototyping this extension in GHC, so speak now if you have comments or suggestions!'''
 This page has been revised to reflect what we're going to implement.  For the previous discussion, see ViewPatternsArchive.
 
 == Basic view patterns == 
