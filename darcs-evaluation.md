@@ -164,3 +164,4 @@ Posts/blogs:
 - [ iBanjo: The Risks of Distributed Version Control](http://blog.red-bean.com/sussman/?p=20)
 - [ https://lists.ubuntu.com/archives/bazaar/2007q4/033256.html](https://lists.ubuntu.com/archives/bazaar/2007q4/033256.html)
 - [ http://bazaar-vcs.org/BzrVsGit](http://bazaar-vcs.org/BzrVsGit)
+- [ cgit = super-fast](http://community.livejournal.com/evan_tech/236528.html)
