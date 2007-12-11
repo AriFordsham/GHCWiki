@@ -12,7 +12,6 @@
 - [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775)
 - [\#1716](https://gitlab.haskell.org//ghc/ghc/issues/1716) (maybe the same problem as [\#1754](https://gitlab.haskell.org//ghc/ghc/issues/1754))
 - [\#1772](https://gitlab.haskell.org//ghc/ghc/issues/1772)
-- [\#1722](https://gitlab.haskell.org//ghc/ghc/issues/1722) (type families & GADTs) \[look at when GADTs are implemented by equalities\]
 - [\#1723](https://gitlab.haskell.org//ghc/ghc/issues/1723) (type families & GADTs) \[will be fixed when GADTs are implemented by equalities; we'll want to add the test case to the testsuite\]
 - [\#1716](https://gitlab.haskell.org//ghc/ghc/issues/1716) (bogus evidence generation with type equalities)
 - [\#1769](https://gitlab.haskell.org//ghc/ghc/issues/1769) (deriving typeable for data families)
