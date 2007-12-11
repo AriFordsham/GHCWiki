@@ -37,7 +37,7 @@ Other important points are these:
 
 **Parsing `.cmm` RTS files.**  The global register `P0` is a gc-pointer version of `R0`.  They both map to the same physical register, though!
 
-## `MachOp`
+## The `MachOp` type
 
 
 The `MachOp` type enumerates (in machine-independent form) the available machine instructions.  The principle they embody is that *everything except the width is embodied in the opcode*.  In particular, we have

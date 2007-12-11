@@ -1,5 +1,5 @@
 --------------------------------------
-= Types in the back end (aka "The `Rep` swamp")=
+= Types in the back end (aka "The `Rep` swamp") =
 
 I have completed a major representation change, affecting both old and new code generators, of the  various `Rep` types.  It's pervasive in that it touches a lot of files; and in the native code-gen very many lines are changed.  The new situation is much cleaner.
 
@@ -31,7 +31,7 @@ Other important points are these:
 '''Parsing `.cmm` RTS files.'''  The global register `P0` is a gc-pointer version of `R0`.  They both map to the same physical register, though!
 
 
-== `MachOp` ==
+== The `MachOp` type ==
 
 The `MachOp` type enumerates (in machine-independent form) the available machine instructions.  The principle they embody is that ''everything except the width is embodied in the opcode''.  In particular, we have
  * `MO_S_Lt`, `MO_U_Lt`, and `MO_F_Lt` for comparison (signed, unsigned, and float).
