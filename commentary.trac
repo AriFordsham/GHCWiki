@@ -38,6 +38,7 @@ Please feel free to add material to this commentary: don't worry too much about 
 Please feel free to add new pages here.  In due course information will migrate from here to the main commentary above.
 
  * The Compiler
+   * [wiki:Commentary/Compiler/NewCodeGen Notes about the new code generator]
    * [wiki:TypeFunctions]: Notes concerning the implementation of type functions and associated types, which was merged in the HEAD during ICFP'06.
    * [wiki:IntermediateTypes]: Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)
    * [wiki:DataParallel]: Notes about the implementation of Data Parallel Haskell
