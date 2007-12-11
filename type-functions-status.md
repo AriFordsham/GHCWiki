@@ -4,7 +4,6 @@
 
 **Open Trac bugs related to type families**
 
-- [\#1808](https://gitlab.haskell.org//ghc/ghc/issues/1808) (high priority - people stumble over it often)
 - [\#1948](https://gitlab.haskell.org//ghc/ghc/issues/1948)
 - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) & [\#1900](https://gitlab.haskell.org//ghc/ghc/issues/1900)
 - [\#1834](https://gitlab.haskell.org//ghc/ghc/issues/1834)
