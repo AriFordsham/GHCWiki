@@ -82,7 +82,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   - Then, there is also no need for the grouping of the identifiers by module anymore (but sort it to avoid spurious iface changes dur to re-ordering when re-compiling).
   - We still need to have the name parent map, though.
   - See email for example.
-1. Allow data family GADT instances:
+1. Allow data family GADT instances [\#1968](https://gitlab.haskell.org//ghc/ghc/issues/1968):
 
   - Need to check the result types of the data constructors, probably in `checkValidDataCon`.
   - `tcFamInstDecl1` needs to allow family GADT instances.
