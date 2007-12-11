@@ -150,7 +150,10 @@ The other side of the coin is to parallelise the *minor* collections.  These are
 ## Data parallel Haskell
 
 
-MANUEL: can you write something?
+After many month of designing, re-designing, and finally implementing a vectorisation pass operating on GHC's Core intermediate language, we finally have a complete path from nested data parallel array programs to the low-level, multi-threaded array library in package ndp.  We are very excited about having reached this milestone, but the path is currently very thin, complete unoptimised, and requires a special Prelude mockup.   More work is required before vectorisation is ready for end-users, but now that the core infrastructure is in place, we expect more rapid progress on user-visible features.
+
+
+Besides working on optimisations and completing the backend library, we still need to implement [ Partial Vectorisation of Haskell Programs](http://www.cse.unsw.edu.au/~chak/papers/CLPK07.html) and the treatment of unboxed types, which is crucial to vectorise the standard Prelude.  Most of the code was written by Roman Leshchinskiy.
 
 ## Back end stuff
 
@@ -224,7 +227,7 @@ smaller packages, and expect to further split it up for GHC 6.10.
 This has led to lots of pain, because old programs
 that depended on 'base' now need to depend on other packages too;
 see [ upgrading packages](http://www.haskell.org/haskellwiki/Upgrading_packages) for details.  But
-it's good pain, and matters should improve too as Cabal matures.  We have been exploring possibilities for [lessening the pain](package-compatibility) in 6.10.  We
+it's good pain, and matters should improve too as Cabal matures.  We have been exploring possibilities for [lessening the pain](commentary/packages/package-compatibility-proposal) in 6.10.  We
 have also devised a
 [ package versioning policy](http://www.haskell.org/haskellwiki/Package_versioning_policy)
 which will help future library upgrades.  
