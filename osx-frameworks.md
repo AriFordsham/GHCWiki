@@ -57,19 +57,27 @@ will be searched for in:
 ### Loading at runtime
 
 
-When you run a program which was linked against a framework, it is loaded by the dynamic link editor, `dyld`.  The dynamic linker searches for the framework using the following
-variables, whose default values may be overwritten by setting environmental variables (colon-separated strings)
+When you run a program which was linked against a framework, it is loaded by the dynamic link editor, `dyld`.  The dynamic linker searches for the framework using the following algorithm.  
+(The default values of `DYLD_(FALLBACK_)FRAMEWORK_PATH` may be overwritten by setting environmental variables as colon-separated strings).
 
-- `DYLD_FRAMEWORK_PATH`, which defaults to empty
-- `DYLD_FALLBACK_FRAMEWORK_PATH`, which defaults to searching the following:
+- Look in each of the entries of `DYLD_FRAMEWORK_PATH`, which defaults to empty.
+- Check the current directory.
+- Look in each of the entries of `DYLD_FALLBACK_FRAMEWORK_PATH`, which defaults to searching the following:
 
   - `$HOME/Library/Frameworks`
   - `/Library/Frameworks`
   - `/Network/Library/Frameworks`
   - `/System/Library/Frameworks`
+- If the framework name starts with `"@executable_path"` or `"@loader_path"`, replace it with, e.g., the full path to the application bundle:
+
+  - [ http://developer.apple.com/documentation/DeveloperTools/Conceptual/MachOTopics/Articles/loading_code.html](http://developer.apple.com/documentation/DeveloperTools/Conceptual/MachOTopics/Articles/loading_code.html)
+  - [ http://www.cocoadev.com/index.pl?LinkingAuxiliaryExecutablesToEmbeddedFramework](http://www.cocoadev.com/index.pl?LinkingAuxiliaryExecutablesToEmbeddedFramework)
 
 
 Note that the `-F` is irrelevant to runtime behavior! (Apple's docs are not at all clear, but that's definitely how it works.)
 
 
-Also, note `$HOME/Library/Frameworks` is searched by default at runtime, despite what `dyld`'s manpage says; I've checked the source of dyld.cpp and tested the behavior to confirm.
+Also, note `$HOME/Library/Frameworks` is searched by default at runtime, despite what `dyld`'s manpage says.  I've checked the source of dyld.cpp and tested the behavior to confirm; you can download it at the following locations (requires free Apple ID registration)
+
+- [ Download the source of all Darwin releases](http://www.opensource.apple.com/darwinsource/)
+- [ Direct link to dyld.cpp](http://www.opensource.apple.com/darwinsource/10.5/dyld-95.3/src/dyld.cpp)
