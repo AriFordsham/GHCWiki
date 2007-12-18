@@ -54,9 +54,9 @@ When you run a program which was linked against a framework, it is loaded by the
    * [http://www.cocoadev.com/index.pl?LinkingAuxiliaryExecutablesToEmbeddedFramework]
 
 
-Note that the {{{-F}}} is irrelevant to runtime behavior! (Apple's docs are not at all clear, but that's definitely how it works.)
+Note that the {{{-F}}} is irrelevant to runtime behavior! (Apple's docs are not at all clear, but that's definitely how it works.)  Also, note {{{$HOME/Library/Frameworks}}} is searched by default at runtime, despite what {{{dyld}}}'s manpage says.  
 
-Also, note {{{$HOME/Library/Frameworks}}} is searched by default at runtime, despite what {{{dyld}}}'s manpage says.  I've checked the source of dyld.cpp and tested the behavior to confirm; you can download it at the following locations (requires free Apple ID registration)
+We've checked the source of dyld.cpp and tested most of the above behavior to confirm; you can download it at the following locations (requires free Apple ID registration).  See especially the functions `load` and `loadPhase0, loadPhase1, ..., loadPhase5`.
  * [http://www.opensource.apple.com/darwinsource/ Download the source of any Darwin releases]
  * [http://www.opensource.apple.com/darwinsource/10.5/dyld-95.3/src/dyld.cpp Direct link to dyld.cpp]
 
