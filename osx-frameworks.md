@@ -79,5 +79,5 @@ Note that the `-F` is irrelevant to runtime behavior! (Apple's docs are not at a
 
 Also, note `$HOME/Library/Frameworks` is searched by default at runtime, despite what `dyld`'s manpage says.  I've checked the source of dyld.cpp and tested the behavior to confirm; you can download it at the following locations (requires free Apple ID registration)
 
-- [ Download the source of all Darwin releases](http://www.opensource.apple.com/darwinsource/)
+- [ Download the source of any Darwin releases](http://www.opensource.apple.com/darwinsource/)
 - [ Direct link to dyld.cpp](http://www.opensource.apple.com/darwinsource/10.5/dyld-95.3/src/dyld.cpp)
