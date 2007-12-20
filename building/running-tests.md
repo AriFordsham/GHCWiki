@@ -117,7 +117,7 @@ The following ways are defined (for GHC, also see the file config/ghc):
 
 ```wiki
         normal                  -- no special options
-        opt                     -- -O
+        optc                    -- -O -fvia-C
         optasm                  -- -O -fasm
         prof                    -- -O -prof -auto-all
         profasm                 -- -O -prof -auto-all -fasm
