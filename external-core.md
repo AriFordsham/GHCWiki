@@ -71,22 +71,14 @@ Other files that contain some reference to External Core or are otherwise releva
 
 ## Design changes
 
-- External Core originally parsed into a list of `TyClDecl` and a list of `IfaceBinding`. It now seems as though it might be better to replace the `IfaceBinding` with `LHsDecl`. This would require us to:
-
-  - Add a new data constructor for `HsBind`: `data HsBind id = ... | CoreBind id (ExtCore id)`
-  - Extend the renamer to rename `ExtCore RdrName` to `ExtCore Name`
-  - Extend the type checker to typecheck `ExtCore Name` to generate `ExtCore Id`
-  - Extend the desugarer to desugar `ExtCore Id` to `Core`
 - We probably want to represent all data types as GADTs, even if they can be represented in Haskell 98 form, so that we only have one representation.
 
 ## Tasks
 
-- Define an external text representation for External Core (which will probably be simply a minor modification of the old format) (mostly  done?)
-- Update the External Core data type to be compatible with the current Core data type. (mostly done)
-- Update `PprExternalCore.lhs` to print stuff that `LexCore` and `ParserCore` can understand. (mostly done)
-- Update `MkExternalCore.lhs` to support both the current Core and the new External Core. (mostly done)
-- Update the parser to recognize the new external syntax, generating an empty module at first. (partly done)
-- Update the parser to generate LHsBind rather than IfaceBinding
+- Complete external core type checker.
+- Define an external text representation for External Core.
+- Write pretty-printer for the new textual format.
+- Write a parser for the new textual format.
 - Convert the current External Core documentation (in LaTeX) into a chapter (in XML) in the User's Guide.
 
 ## Miscellaneous notes
