@@ -110,4 +110,5 @@ keywordmaster\.de
 (?i)<text>
 editfriendster\.com
 photobucket\.com
+healthbuy\.info
 ```
