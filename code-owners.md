@@ -21,7 +21,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - Linux (generic): Simon Marlow,
     Simon Peyton Jones
   - FreeBSD: Simon Marlow,Oliver Braun,Volker Stolz
-  - OpenBSD: Don Stewart
+  - OpenBSD: Matthias Kilian
   - SuSE Linux/x86 packages: Sven Panne,Ralf Hinze
   - Gentoo Linux/x86 packages: Gentoo Haskell team
   - Debian GNU/Linux/x86 packages: Ian Lynagh
@@ -49,7 +49,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - Linux: Simon Marlow
   - Gentoo Linux packages: Gentoo Haskell team
   - Debian GNU/Linux/amd64 packages: Ian Lynagh
-  - OpenBSD: Don Stewart
+  - OpenBSD: Matthias Kilian
   - Fedora Extras packages: Jens Petersen
 
 - **Mips64**
