@@ -43,7 +43,7 @@ libraries:
   `mk/build.mk`:
 
   ```wiki
-  SRC_HC_OPTS     = -H32m -O -fasm -Rghc-timing -keep-hc-files
+  SRC_HC_OPTS     = -H32m -O -fvia-C -Rghc-timing -keep-hc-files
   GhcLibHcOpts    = -O
   GhcLibWays      =
   SplitObjs       = NO
