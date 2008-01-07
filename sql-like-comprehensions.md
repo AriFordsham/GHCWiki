@@ -1,7 +1,7 @@
 # Comprehensive comprehensions
 
 
-As part of his final year work at Cambridge, Max Bolingbroke is working on implementing the "Comprehensive Comprehensions" described in a paper [ available here](http://research.microsoft.com/~simonpj/papers/list-comp/index.htm) in GHC. This page will contain notes on the implementation as it unfolds.
+As part of his final year work at Cambridge, Max Bolingbroke worked on implementing the "Comprehensive Comprehensions" described in a paper [ available here](http://research.microsoft.com/~simonpj/papers/list-comp/index.htm) in GHC. A patch with the complete functionality described here was integrated into GHCs HEAD branch on the 20th December 2007.
 
 ## Ordering Syntax
 
@@ -232,7 +232,3 @@ Some other possible ways we could add to Max's implementation given the need:
 
 - Add associativity back in
 - Add desugaring support for parallel arrays as well as lists: every other part of the compiler should already handle these seamlessly
-- Extend all list comprehension desugaring to "big" tuples: this will let it deal gracefully with the case where we need to bind an intermediate tuple of size exceeding the maximum tuple size
-
-  - This limitation was present in head at the time work was started, but the extensions have made it more acute
-  - It only causes problems when you are binding more things than the maximum tuple size of GHC (62 currently), which is pretty unlikely!
