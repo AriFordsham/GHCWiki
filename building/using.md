@@ -52,7 +52,7 @@ copy of the source file.  There are "standard" Unix utilities that
 make such copies, so standard that they go by different names:
 `lndir` and `mkshadowdir` are two (If you don't have either, the
 source distribution includes sources for the X11
-`lndir` - check out `utils/lndir`). See 
+`lndir` — check out `utils/lndir`). See 
 [The story so far](#Thestorysofar) 
 for a typical invocation.
 
@@ -63,7 +63,7 @@ from the source is that the build tree can be placed in a
 non-backed-up partition, saving your systems support people from
 backing up untold megabytes of easily-regenerated, and
 rapidly-changing, gubbins.  The golden rule is that (with a single
-exception - [Getting the build you want](#Gettingthebuildyouwant)) *absolutely
+exception — [Getting the build you want](#Gettingthebuildyouwant)) *absolutely
 everything in the build tree is either a symbolic link to the source
 tree, or else is mechanically generated*.  It should be perfectly OK
 for your build tree to vanish overnight; an hour or two compiling and
