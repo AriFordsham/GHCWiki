@@ -50,7 +50,7 @@ build tree is initially an exact copy of the source tree, except that
 each file is a symbolic link to the source file, rather than being a
 copy of the source file.  There are "standard" Unix utilities that
 make such copies, so standard that they go by different names:
-`lndir``mkshadowdir` are two (If you don't have either, the
+`lndir` and `mkshadowdir` are two (If you don't have either, the
 source distribution includes sources for the X11
 `lndir` - check out `utils/lndir`). See 
 [The story so far](#Thestorysofar) 
@@ -224,7 +224,7 @@ tree, precisely because it says how this build differs from the
 source.  (Just in case your build tree does die, you might want to
 keep a private directory of `build.mk` files, and use a symbolic
 link in each build tree to point to the appropriate one.)  So
-`mk/build.mk` never exists in the source tree &mdash; you create one
+`mk/build.mk` never exists in the source tree — you create one
 in each build tree from the template.  We'll discuss what to put in it
 shortly.
 
@@ -235,8 +235,8 @@ And that's it for configuration. Simple, eh?
 What do you put in your build-specific configuration file
 `mk/build.mk`?  *For almost all purposes all you will do is put
 make variable definitions that override those in*`mk/config.mk.in`.  The whole point of
-`mk/config.mk.in` &mdash; and its derived counterpart
-`mk/config.mk` &mdash; is to define the build configuration. It is
+`mk/config.mk.in` — and its derived counterpart
+`mk/config.mk` — is to define the build configuration. It is
 heavily commented, as you will see if you look at it.  So generally,
 what you do is look at `mk/config.mk.in`, and add definitions in
 `mk/build.mk` that override any of the `config.mk` definitions
@@ -371,7 +371,7 @@ You can make subsequent changes to `mk/build.mk` as often as you
 like.  You do not have to run any further configuration programs to
 make these changes take effect. In theory you should, however, say
 `make clean; make`, because configuration option changes could
-affect anything &mdash; but in practice you are likely to know what's
+affect anything — but in practice you are likely to know what's
 affected.
 
 ## Making things
