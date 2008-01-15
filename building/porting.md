@@ -266,7 +266,7 @@ $ make hc-file-bundle Project=Ghc<
 Unpack `<H>/*-hc.tar.gz` to `<T>/..`.
 
 ```wiki
-tar xzf <H>/*-hc.tar.gz -C <T>/..
+$ tar xzf <H>/*-hc.tar.gz -C <T>/..
 ```
 
 **On the target machine**
