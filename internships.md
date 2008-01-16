@@ -29,8 +29,8 @@ Internship projects should have some research content, and ideally lead to a pap
 
 To give you some idea, here are some past projects
 
-- Kevin Donnelly is changing GHC's intermediate language to support equality constraints.
-- Roshan James is writing a parallel garbage collection
+- Kevin Donnelly changed GHC's intermediate language to support equality constraints.
+- Roshan James wrote a parallel garbage collectof
 - Geoff Washburn made the first implementation of GADTs in GHC
 - Dimitrios Vitytonis worked on type inference for impredicative polymorphism
 - Krasimir Angelov completed and released Visual Haskell. 
@@ -38,7 +38,7 @@ To give you some idea, here are some past projects
 ## Current projects
 
 
-Here is a list of some possible future projects we have in mind:
+Here is a list of some possible future projects we have in mind.  But feel free to suggest your own!
 
 ### Programming environment and tools
 
@@ -59,6 +59,18 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
 
 - **Improve the GHC API**, whereby you can import GHC as a library.  We make improvements now and then, but it would benefit from some sustained attention.  A particular project would be to port the Haskell refactorer [ HaRE](http://www.cs.kent.ac.uk/projects/refactor-fp/hare.html) to use the GHC API.
 
+### Types
+
+- **Allow unboxed tuples as function arguments**.   Currently unboxed tuples are second class; fixing this would be a nice simplification.
+
+- **Implement overlap and exhaustiveness checking for pattern matching**.  GHC's current overlap and exhaustiveness checker is old and inadequate.  Furthermore, it takes no account of GADTs and type families. 
+
+- **Extend kinds beyond \* and k1-\>k2**.  With GADTs etc we clearly want to have kinds like `Nat`, so that advanced hackery at the type level can be done in a typed language; currently it's all effectively untyped.  A neat approach would be to re-use any data type declaration as a kind declaration.
+
+- **Extensible constraint domains**.  Andrew Kennedy shows how to incorporate [ dimensional analysis](http://research.microsoft.com/~akenn/units/index.html) into an ML-like type system.  Maybe we could do an extensible version of this, so that it wasn't restricted to dimensions.  Integer arithmetic is another obvious domain.  
+
+- Implement [ John Meacham's class alias proposal](http://repetae.net/john/recent/out/classalias.html)
+
 ### Parallel stuff
 
 - Experiment with multiprocessor Haskell and/or STM by building and measuring applications, investigate improvements
@@ -67,8 +79,6 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
 ### Other stuff
 
 - Back end and code generation.  This is an active area at the moment, but there is sure to be more to do.  See suggestions in [BackEndNotes](back-end-notes)
-
-- Implement [ John Meacham's class alias proposal](http://repetae.net/john/recent/out/classalias.html)
 
 ### Build system
 
