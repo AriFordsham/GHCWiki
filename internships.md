@@ -11,7 +11,7 @@ The next available slots will be for Summer 2008 or thereabouts.  Deadline for a
 An internship is a paid post, for three months (occasionally up to 6), at Microsoft Research in Cambridge (MSRC).  You get to work on a project agreed, usually in advance, with your MSRC sponsor.  Both parties benefit.  You get to work in a leading-edge research lab, with fantastic people floating around all the time.  We get the benefit of your hard work, and perhaps the start of a collaborative relationship.
 
 
-Almost all interns are in the middle of their !PhD.  This is not an absolute requirement; for example, post-!PhD is certainly possible.  However, if you are, say, an undergraduate you'd need to be exceptional to beat out the !PhD applicants.  
+Almost all interns are in the middle of their PhD.  This is not an absolute requirement; for example, post-PhD is certainly possible.  However, if you are, say, an undergraduate you'd need to be exceptional to beat out the PhD applicants.  
 
 
 In principle, Microsoft owns any intellectual property you generate, but this isn't relevant for an open-source project like GHC.  You're also strongly encouraged to publish your work as a paper, often written jointly with your sponsor.
