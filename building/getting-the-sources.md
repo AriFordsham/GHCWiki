@@ -95,7 +95,7 @@ The above will grab the "core" set of packages and the testsuite.  This is the m
 ```
 
 
-This isn't usually necessary: extra packages can be compiled and installed separately using Cabal, after you have built and installed GHC itself with its core packages.  The "core" and "extra" packages are listed in [DarcsRepositories](darcs-repositories).
+This isn't usually necessary: extra packages can be compiled and installed separately using Cabal, after you have built and installed GHC itself with its core packages.  The "core" and "extra" packages are listed in [DarcsRepositories](darcs-repositories). [ Gordonii](http://inaturaldiet.com/)[ hair](http://osthair.com/)
 
 
 Optionally, you might want to grab the testsuite (if you have not already got it) and `nofib` benchmark suite too, which also become sub-directories of ghc:
