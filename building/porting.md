@@ -159,7 +159,7 @@ tree `<T>`.
 
 ```wiki
 $ cd <T>
-$ ./configure --enable-hc-boot --enable-hc-boot-unregisterised
+$ ./configure --enable-hc-boot --enable-hc-boot-unregisterised --srcdir=.
 ```
 
 

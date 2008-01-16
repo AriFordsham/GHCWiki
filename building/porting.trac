@@ -144,7 +144,7 @@ tree `<T>`.
 
 {{{
 $ cd <T>
-$ ./configure --enable-hc-boot --enable-hc-boot-unregisterised
+$ ./configure --enable-hc-boot --enable-hc-boot-unregisterised --srcdir=.
 }}}
 
 You might need to update {{{configure.ac}}} to recognise the new
