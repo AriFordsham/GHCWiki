@@ -26,6 +26,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 '''Check whether these still fail.'''
 
 '''Debugging of type families:'''
+ 0. Allow overlapping instances disambiguated by textual order if they are in the same model (maybe only when an extra flag is given).  Instances from differnt modules still need to have coinciding rhses if they overlap.
  0. Replacing GADT refinements by explicit equality constraints:
     * Regressions that remain to be fixed: 
       * `gadt/lazypatok` needs to be fixed
