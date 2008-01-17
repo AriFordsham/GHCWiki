@@ -4,6 +4,8 @@
 
 **Open Trac bugs related to type families**
 
+- [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (GADT)
+- [\#1999](https://gitlab.haskell.org//ghc/ghc/issues/1999) (GADT)
 - [\#1948](https://gitlab.haskell.org//ghc/ghc/issues/1948)
 - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) & [\#1900](https://gitlab.haskell.org//ghc/ghc/issues/1900)
 - [\#1834](https://gitlab.haskell.org//ghc/ghc/issues/1834)
@@ -26,6 +28,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
 **Debugging of type families:**
 
+1. Allow overlapping instances disambiguated by textual order if they are in the same model (maybe only when an extra flag is given).  Instances from differnt modules still need to have coinciding rhses if they overlap.
 1. Replacing GADT refinements by explicit equality constraints:
 
   - Regressions that remain to be fixed: 
