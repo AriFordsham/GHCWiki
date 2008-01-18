@@ -144,7 +144,7 @@ tree `<T>`.
 
 {{{
 $ cd <T>
-$ ./configure --enable-hc-boot --enable-hc-boot-unregisterised --srcdir=.
+$ ./configure --enable-hc-boot --enable-hc-boot-unregisterised
 }}}
 
 You might need to update {{{configure.ac}}} to recognise the new
@@ -235,7 +235,7 @@ $ make -k UseStage1=YES EXTRA_HC_OPTS='-O -fvia-C -keep-hc-files'
 
 {{{
 $ cd <H>
-$ make hc-file-bundle Project=Ghc<
+$ make hc-file-bundle Project=Ghc
 }}}
 
 Unpack {{{<H>/*-hc.tar.gz}}} to {{{<T>/..}}}.
