@@ -159,7 +159,7 @@ tree `<T>`.
 
 ```wiki
 $ cd <T>
-$ ./configure --enable-hc-boot --enable-hc-boot-unregisterised --srcdir=.
+$ ./configure --enable-hc-boot --enable-hc-boot-unregisterised
 ```
 
 
@@ -259,7 +259,7 @@ $ make -k UseStage1=YES EXTRA_HC_OPTS='-O -fvia-C -keep-hc-files'
 
 ```wiki
 $ cd <H>
-$ make hc-file-bundle Project=Ghc<
+$ make hc-file-bundle Project=Ghc
 ```
 
 
