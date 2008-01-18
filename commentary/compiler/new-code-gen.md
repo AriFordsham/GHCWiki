@@ -12,10 +12,13 @@ Status:
 
   - Common block elmination: to do
   - Block concatenation: to do
-- Adams optimisation: currently done somewhere but not modularly.  I think.
-- Proc-point analysis and transformation: done?
-- Add spill/reload: done?
-- Stack slot alloction?
+- Adams optimisation: currently done in cmm/CmmProcPointZ, which is incomplete because it does not insert the correct CopyOut nodes.  The Adams optimization should be divorced from this module and replaced with common-block elimination, to be done after the proc-point transformation.  In principle this combination may be slightly less effective than the current code, since the selection of proc-point protocols is guided by Adams's criteria, but NR thinks it will be easy to get the common, important cases nailed.
+- Proc-point analysis and transformation: 'working' but incomplete and incorrect in the sense that CopyIn nodes are created without all the required dual CopyOut nodes.  There is still no coherent plan for calling conventions, and the lack of such a plan prevents the completion of proc-point analysis, as in principle it should come up with a calling convention for each freely chosen proc point.  In practice NR recommends the following procedure:
+
+  - All optional proc points to be generated with no parameters (all live variables on the stack)
+  - This situation to be remedied when the code generator is reorganized along the lines NR proposed in July 2007, i.e., the register allocator runs on C-- with calls (as opposed to C-- with jumps only) and therefore *before* proc-point analysis
+- Add spill/reload: Implemented to NR's satisfaction in cmm/CmmSpillReload.hs, with the proviso that spilling is done to *abstract* stack slots rather than real stack positions (see comments below on stack-slot allocation)
+- Stack slot allocation: nothing here but some broken bits and pieces.  Progress in this arena is blocked by the lack of a full understanding of how to do stack-frame layout and how to deal with calling conventions.  NR proposes that life would be simplified if *all* calls downstream from the Cmm converter were to be parameterless---the idea being to handle the calling conventions *here* and to put arguments and results in their conventional locations.
 - Make stack explicit: to do
 - Split into multiple CmmProcs: to do
 
@@ -24,7 +27,7 @@ Norman's plan
 
 1. New code to check invariants of output from `ZipDataflow`
 1. Finish debugging `ZipDataflow`
-1. Use Simon PJ's 'common-blockifier' to move the Adams optimization outside `CmmProcProintZ`
+1. Use Simon PJ's 'common-blockifier' (which does not exist!!!) to move the Adams optimization outside `CmmProcProintZ`
 1. ProcPointZ does not insert `CopyOut` nodes; this omission must be rectified and will require some general infrastructure for inserting predecessors.
 1. Simple optimizations on `CopyIn` and `CopyOut` may be required
 1. Define an interface for calling conventions and invariants for the output of frame layout \[will require help from Simon M\]
@@ -38,8 +41,6 @@ Items 1-5 look like a few days apiece. Items 6 and 7 are more scary...
 ToDo: main issues
 
 - SRTs simply record live global variables.  So we should use the same live-variable framework as for live local variables.  That means we must be able to identify which globals are SRT-able.  What about compression/encoding schemes?
-
-- Draining the Rep swamp.
 
 - How do we write continuations in the RTS?  E.g. the update-frame continuation?  Michael Adams had a syntax with two sets of parameters, the the ones on the stack and the return values.
 
