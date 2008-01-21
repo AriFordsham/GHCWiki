@@ -26,8 +26,8 @@ achieved by taking the intermediate C files (known as HC files) from
 another GHC compilation, compiling them using gcc to get a working
 GHC.
 
-**NOTE**: GHC versions 5.xx were hard to bootstrap from C.  We
-recommend using GHC 6.0.1 or later.
+**NOTE**: Versions supported: between 6.0.1 and 6.6.2.  We are working
+on getting bootstrapping working again in the 6.8 series, see [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346).
 
 
 HC files are platform-dependent, so you have to get a set that were
@@ -81,6 +81,9 @@ libraries:
   ```
 
 ## Porting GHC to a new platform
+
+**NOTE**: Versions supported: between 6.0.1 and 6.6.2.  We are working
+on getting bootstrapping working again in the 6.8 series, see [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346).
 
 
 The first step in porting to a new platform is to get an
