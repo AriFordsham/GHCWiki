@@ -12,12 +12,12 @@ Status:
 
   - Common block elmination: to do
   - Block concatenation: to do
-- Adams optimisation: currently done in cmm/CmmProcPointZ, which is incomplete because it does not insert the correct CopyOut nodes.  The Adams optimization should be divorced from this module and replaced with common-block elimination, to be done after the proc-point transformation.  In principle this combination may be slightly less effective than the current code, since the selection of proc-point protocols is guided by Adams's criteria, but NR thinks it will be easy to get the common, important cases nailed.
+- Adams optimisation: currently done in [compiler/cmm/CmmProcPointZ.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmProcPointZ.hs), which is incomplete because it does not insert the correct CopyOut nodes.  The Adams optimization should be divorced from this module and replaced with common-block elimination, to be done after the proc-point transformation.  In principle this combination may be slightly less effective than the current code, since the selection of proc-point protocols is guided by Adams's criteria, but NR thinks it will be easy to get the common, important cases nailed.
 - Proc-point analysis and transformation: 'working' but incomplete and incorrect in the sense that CopyIn nodes are created without all the required dual CopyOut nodes.  There is still no coherent plan for calling conventions, and the lack of such a plan prevents the completion of proc-point analysis, as in principle it should come up with a calling convention for each freely chosen proc point.  In practice NR recommends the following procedure:
 
   - All optional proc points to be generated with no parameters (all live variables on the stack)
   - This situation to be remedied when the code generator is reorganized along the lines NR proposed in July 2007, i.e., the register allocator runs on C-- with calls (as opposed to C-- with jumps only) and therefore *before* proc-point analysis
-- Add spill/reload: Implemented to NR's satisfaction in cmm/CmmSpillReload.hs, with the proviso that spilling is done to *abstract* stack slots rather than real stack positions (see comments below on stack-slot allocation)
+- Add spill/reload: Implemented to NR's satisfaction in [compiler/cmm/CmmSpillReload.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmSpillReload.hs), with the proviso that spilling is done to *abstract* stack slots rather than real stack positions (see comments below on stack-slot allocation)
 - Stack slot allocation: nothing here but some broken bits and pieces.  Progress in this arena is blocked by the lack of a full understanding of how to do stack-frame layout and how to deal with calling conventions.  NR proposes that life would be simplified if *all* calls downstream from the Cmm converter were to be parameterless---the idea being to handle the calling conventions *here* and to put arguments and results in their conventional locations.
 - Make stack explicit: to do
 - Split into multiple CmmProcs: to do
@@ -25,9 +25,9 @@ Status:
 
 Norman's plan
 
-1. New code to check invariants of output from `ZipDataflow`
-1. Finish debugging `ZipDataflow`
-1. Use Simon PJ's 'common-blockifier' (which does not exist!!!) to move the Adams optimization outside `CmmProcProintZ`
+1. New code to check invariants of output from [compiler/cmm/ZipDataflow.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipDataflow.hs)
+1. Finish debugging [compiler/cmm/ZipDataflow.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipDataflow.hs).
+1. Use Simon PJ's 'common-blockifier' (which does not exist!!!) to move the Adams optimization outside [compiler/cmm/CmmProcProintZ.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmProcProintZ.hs)
 1. ProcPointZ does not insert `CopyOut` nodes; this omission must be rectified and will require some general infrastructure for inserting predecessors.
 1. Simple optimizations on `CopyIn` and `CopyOut` may be required
 1. Define an interface for calling conventions and invariants for the output of frame layout \[will require help from Simon M\]
@@ -65,7 +65,7 @@ ToDo: small issues
 
 There is a new Cmm data type:
 
-- **`ZipCfg`** contains a generic zipper-based control-flow graph data type.  It is generic in the sense that it's polymorphic in the type of **middle nodes** and **last nodes** of a block.  (Middle nodes don't do control transfers; last nodes only do control transfers.)  There are extensive notes at the start of the module.
+- [compiler/cmm/ZipCfg.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfg.hs) contains a generic zipper-based control-flow graph data type.  It is generic in the sense that it's polymorphic in the type of **middle nodes** and **last nodes** of a block.  (Middle nodes don't do control transfers; last nodes only do control transfers.)  There are extensive notes at the start of the module.
 
   The key types it defines are:
 
@@ -73,7 +73,7 @@ There is a new Cmm data type:
   - Control-flow blocks: `Block`
   - Control-flow graphs: `Graph`
 - **`ZipDataFlow`** contains a generic framework for solving dataflow problems over `ZipCfg`.
-- **`ZipCfgCmm`** instantiates `ZipCfg` for Cmm, by defining types `Middle` and `Last` and using these to instantiate the polymorphic fields of `ZipCfg`.  It also defines a bunch of smart constructor (`mkJump`, `mkAssign`, `mkCmmIfThenElse` etc) which make it easy to build `CmmGraph`.
+- **[compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)** instantiates `ZipCfg` for Cmm, by defining types `Middle` and `Last` and using these to instantiate the polymorphic fields of `ZipCfg`.  It also defines a bunch of smart constructor (`mkJump`, `mkAssign`, `mkCmmIfThenElse` etc) which make it easy to build `CmmGraph`.
 - **`CmmExpr`** contains the data types for Cmm expressions, registers, and the like.  It does not depend on the dataflow framework at all.
 
 ---
