@@ -47,7 +47,7 @@ All docs are gzipped A4 Postscript unless otherwise specified.
 
 - [Unboxed Values as First-Class Citizens](http://www.haskell.org/ghc/docs/papers/unboxed-values.ps.gz)
 
-- [Time and Space Profiling for non-stict, higher-order functional programs](http://www.haskell.org/ghc/docs/papers/profiling.ps.gz)
+- [Time and Space Profiling for non-strict, higher-order functional programs](http://www.haskell.org/ghc/docs/papers/profiling.ps.gz)
 
 - [The Glasgow Haskell Compiler - a Technical Overview](http://www.haskell.org/ghc/docs/papers/grasp-jfit.ps.gz) - from 1992, not entirely relevant any more.
 
