@@ -46,7 +46,7 @@ Exceptions to this are:
 
 == Licensing contributions ==
 
-Contributions to GHC or the libraries are assumed to be supplied under the same license as the existing code.
+If you make a contribution to GHC or to the libraries, we will assume that you are supplying your contribution under the same license as the existing code.
 
 Most source files have a copyright notice at the top.  If you contribute significantly to an existing file, or create a new file, please add your own copyright to the top of the file.  If you copy code from one file to another, please try to maintain the copyright attributions correctly (this may involve digging through the revision history).  
 
