@@ -18,8 +18,11 @@ Although old code in GHC is not warning-clean, we want new code to be, and we ar
 
 ## Contributing back to GHC
 
-- [Validating](testing-patches) your patches
-- [Submit patches back](working-conventions/submissions), using `darcs send` is the recommended way.
+
+The following pages describe the process of making a change to GHC and contributing it back.  For small changes you can just `darcs send`, but for larger changes it helps a great deal if the patch is in a form that we can review quickly and use without too much extra work.
+
+- [How to fix a bug in GHC](working-conventions/fixing-bugs)
+- [How to add a new feature to GHC](working-conventions/adding-features)
 
 ## More information
 
