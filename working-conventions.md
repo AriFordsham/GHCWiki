@@ -5,13 +5,14 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 This page has pointers to information you'll need.
 
 
-Especially, please read:
+First, make sure you are familiar with GHC's [Licensing](licensing).  Unless you say otherwise, we will assume that any contributions you make are supplied to us under the same license as the existing code.
+
+
+These pages guide you step-by-step through making a contribution:
 
 - [How to fix a bug in GHC](working-conventions/fixing-bugs)
 - [How to add a new feature to GHC](working-conventions/adding-features)
-
-
-There are separate guidelines for proposing changes to standard libraries; see [ Library Submissions](http://haskell.org/haskellwiki/Library_submissions).
+- [ How to propose a change to the libraries](http://haskell.org/haskellwiki/Library_submissions)
 
 ## Coding conventions
 
@@ -24,7 +25,7 @@ When you are editing GHC's source code, please follow our coding guidelines:
 ## Testing patches
 
 
-For people with commit privileges, the policy on testing patches is at: [TestingPatches](testing-patches)
+The policy on testing patches is at: [TestingPatches](testing-patches).
 
 ## Using Darcs
 
