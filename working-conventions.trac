@@ -4,7 +4,7 @@
 GHC is a BSD-licensed open-source project, and we welcome your help in making it better.
 This page has pointers to information you'll need.
 
-First, make sure you are familiar with GHC's [wiki:Licensing].  Unless you say otherwise, we will assume that any contributions you make are supplied to us under the same license as the existing code.
+First, make sure you are familiar with GHC's [wiki:Licensing].  Unless you say otherwise, we will assume that if you submit a contribution to GHC, then you intend to supply it to us under the same license as the existing code.
 
 These pages guide you step-by-step through making a contribution:
 
