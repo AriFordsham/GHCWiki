@@ -41,6 +41,9 @@ An important difference between the various proposals is what constitutes a vali
 - Permutativity:: Are `{X :: Int, Y :: Int}` and `{Y :: Int, X :: Int}` the same type? The **Poor Man's Records** system distinguishes these two, which makes implementation much simpler, but means that any function which accepts permuted records must be polymorphic. 
 - Repeated Fields:: Is `{X :: Int, X :: Int}` a valid record type? Both **Poor Man's Records** and **Scoped Labels** allow this type, but other systems consider this an error. 
 
+
+Apparently the first of these is particularly controversial: see [ http://www.haskell.org/pipermail/haskell/2008-February/020177.html](http://www.haskell.org/pipermail/haskell/2008-February/020177.html)
+
 # Label Namespace
 
 
