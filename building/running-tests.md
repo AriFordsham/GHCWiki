@@ -119,20 +119,20 @@ The following ways are defined (for GHC, also see the file config/ghc):
         normal                  -- no special options
         optc                    -- -O -fvia-C
         optasm                  -- -O -fasm
-        prof                    -- -O -prof -auto-all
+        profc                   -- -O -prof -auto-all -fvia-C
         profasm                 -- -O -prof -auto-all -fasm
-        unreg                   -- -unreg
         ghci                    -- (run only, not compile) run test under GHCi
         extcore                 -- -fext-core
         optextcore              -- -O -fext-core
-        threaded                -- -threaded
+        threaded1               -- -threaded -debug
+        threaded2               -- -threaded -O, and +RTS -N2 at run-time
         hpc                     -- -fhpc
 ```
 
 
 certain ways are enabled automatically if the GHC build in the local
-tree supports them.  Ways that are enabled this way are optasm, prof,
-profasm, unreg, threaded, and ghci.
+tree supports them.  Ways that are enabled this way are optasm, profc,
+profasm, threaded1, threaded2, and ghci.
 
 # Updating tests when the output changes
 
@@ -142,13 +142,13 @@ correct, you can automatically update the sample output to match the
 new output like so:
 
 ```wiki
-        make accept TESTS=<test-name>
+        make accept TEST=<test-name>
 ```
 
 
 where \<test-name\> is the name of the test.  In a directory which
 contains a single test, or if you want to update \*all\* the tests in
-the current directory, just omit the 'TESTS=\<test-name\>' part.
+the current directory, just omit the 'TEST=\<test-name\>' part.
 
 # Adding a new test
 
@@ -194,7 +194,8 @@ these steps:
 > > far as the test driver is concerned).        
 
 1. Having found a suitable place for the test, give the test a name.
-  Follow the convention for the directory in which you place the
+  For regression tests, we often just name the test after the bug number (e.g. 2047).
+  Alternatively, follow the convention for the directory in which you place the
   test: for example, in typecheck/should_compile, tests are named
   tc001, tc002, and so on.  Suppose you name your test T, then
   you'll have the following files:
@@ -238,25 +239,37 @@ these steps:
 1. Edit all.T in the relevant directory and add a line for the test.  The line is always of the form
 
   ```wiki
-        test(<name>, <opt-fn>, <test-fn>, <args>)
+        test(<name>, <setup>, <test-fn>, <args>)
   ```
 
   where
 
 > > *\<name\>* is the name of the test, in quotes (' or ").
 
-> > *\<opt-fn\>*  is a function (i.e. any callable object in Python)
+> > *\<setup\>*  is a function (i.e. any callable object in Python)
 > > which allows the options for this test to be changed.
-> > There are several pre-defined functions which can be
+> > There are many pre-defined functions which can be
 > > used in this field:
 
 > > > **normal**                don't change any options from the defaults
 
 > > > **skip**                  skip this test
 
+> > > **skip_if_no_ghci**       skip unless GHCi is available
+
+> > > **skip_if_fast**          skip if "fast" is enabled
+
+> > > **skip_if_platform(platform)**  skip if we're on the named platform
+
+> > > **skip_if_tag(tag)**      skip if the compiler has a given tag
+
+> > > **skip_unless_tag(tag)**  skip unless the compiler has a given tag
+
 > > > **omit_ways(ways)**       skip this test for certain ways
 
 > > > **only_ways(ways)**       do this test certain ways only
+
+> > > **extra_ways(ways)**      add some ways which would normally be disabled
 
 > > > **omit_compiler_types(compilers)**                           skip this test for certain compilers
 
@@ -272,6 +285,8 @@ these steps:
 
 > > > **set_stdin(file)**       use a different file for stdin
 
+> > > **no_stdin**              use no stdin at all (otherwise use `/dev/null`)
+
 > > > **exit_code(n)**          expect an exit code of 'n' from the prog
 
 > > > **exit_code_if_platform(n, plat)** as exit_code, but only for the specific platform given
@@ -280,8 +295,37 @@ these steps:
 
 > > > **no_clean**              don't clean up after this test
 
+> > > **extra_clean(files)**    extra files to clean after the test has completed
+
+> > > **reqlib(P)**             requires package P
+
+> > > **req_profiling**         requires profiling
+
+> > > **ignore_output**         don't try to compare output
+
+> > > **alone**                 don't run this test in parallel with anything else
+
+> > > **literate**              look for a `.lhs` file instead of a `.hs` file
+
+> > > **c_src**                 look for a `.c` file
+
+> > > **cmd_prefix(string)**    prefix this string to the command when run
+
+> > > **normalise_slashes**     convert backslashes to forward slashes before comparing the output
+
 > >
-> > These functions should normally not be used; instead, use the `expect_broken*`
+> > To use more than one modifier on a test, just put them in a list.
+> > For example, to expect an exit code of 3 and omit way 'opt', we could use
+> >
+> > ```wiki
+> >       [ omit_ways(['opt']), exit_code(3) ]
+> > ```
+> >
+> > >
+> > > as the `<setup>` argument.
+
+> >
+> > The following should normally not be used; instead, use the `expect_broken*`
 > > functions above so that the problem doesn't get forgotten about, and when we
 > > come back to look at the test later we know whether current behaviour is why
 > > we marked it as expected to fail:
@@ -293,24 +337,6 @@ these steps:
 > > > **expect_fail_if_platform(plat)**      expect failure on a certain platform
 
 > > > **expect_fail_if_compiler_type(compiler)**   expect failure from a certain compiler
-
-> > >
-> > > You can compose two of these functions together by
-> > > saying compose(f,g).  For example, to expect an exit
-> > > code of 3 and omit way 'opt', we could use
-> > >
-> > > ```wiki
-> > >       compose(omit_ways(['opt']), exit_code(3))
-> > > ```
-> > >
-> > >
-> > > as the \<opt-fn\> argument.  Calls to compose() can of
-> > > course be nested, but it is simpler to use the composes
-> > > function which takes a list of functions to be composed, e.g.:
-> > >
-> > > ```wiki
-> > >       composes([omit_ways(['opt']), exit_code(3), expect_broken(123)])
-> > > ```
 
 > > *\<test-fn\>*
 > > is a function which describes how the test should be
@@ -379,19 +405,10 @@ these steps:
 > > > run_command
 > > >
 > > > >
-> > > > Just run an arbitrary command.  The
-> > > > output is checked against T.stdout and
-> > > > T.stderr, and the stdin and expected
-> > > > exit code can be changed in the same
-> > > > way as for compile_and_run.
-
-> > >
-> > > run_command_ignore_output
-> > >
-> > > >
-> > > > Same as run_command, except the output
-> > > > (both stdout and stderr) from the
-> > > > command is ignored.
+> > > > Just run an arbitrary command.  The output is checked
+> > > > against `T.stdout` and `T.stderr` (unless `ignore_output`
+> > > > is used), and the stdin and expected exit code can be
+> > > > changed in the same way as for compile_and_run.
 
 > > >
 > > > ghci_script
@@ -441,6 +458,31 @@ as described above.
 
 
 For some examples, take a look in tests/ghc-regress/programs.
+
+# Sample output files
+
+
+Normally, the sample `stdout` and `stderr` for a test T go in the
+files `T.stdout` and `T.stderr` respectively.  However, sometimes a
+test may generate different output depending on the platform,
+compiler, compiler version, or word-size.  For this reason the test
+driver looks for sample output files using this pattern:
+
+```wiki
+ T.stdout[-<compiler>][-<version>][-ws-<wordsize>][-<platform>]
+```
+
+
+Any combination of the optional extensions may be given, but they must
+be in the order specified.  The most specific output file that matches
+the current configuration will be selected; for example if the
+platform is `i386-unknown-mingw32` then `T.stderr-i386-unknown-mingw32`
+will be picked in preference to `T.stderr`.
+
+
+Another common example is to give different sample output for an older
+compiler version.  For example, the sample `stderr` for GHC 6.8.x would go in the file
+`T.stderr-ghc-6.8`.
 
 # The details
 
