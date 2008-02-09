@@ -53,6 +53,9 @@ The proposals which are implemented as libraries put labels in conid (at the val
 The other proposals allow labels to be arbitrary strings, and distinguish them from other objects by context.
 
 
+A third possibility (suggested on the mailing list) is to reserve a new syntactic class, such as identifiers starting with ', so that labels do not need to be declared before use.
+
+
 This is related to the problem of Label Sharing: if the label `L` is declared in two different modules `M1` and `M2`, both of which are imported, do we have one label `L` or two labels `M1.L` and `M2.L`? Should there be a mechanism for identifying labels on import?
 
 
