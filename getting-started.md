@@ -24,6 +24,9 @@ The following pages describe the process of making a change to GHC and contribut
 - [How to fix a bug in GHC](working-conventions/fixing-bugs)
 - [How to add a new feature to GHC](working-conventions/adding-features)
 
+
+Note that, largely due to performance issues in darcs 1.\*, we currently avoid applying patches with conflicts to GHC, and its associated repositories. If you find that you have a conflict in a patch that you want to send or apply, please first unrecord and re-record (or amend-record) it so that the conflict is removed.
+
 ## More information
 
 - Ask questions on [ the cvs-ghc mailing list](http://haskell.org/mailman/listinfo/cvs-ghc)
