@@ -34,6 +34,8 @@ env CFLAGS=-Wl,-search_paths_first\
 
 GHC is packaged as a [http://developer.apple.com/documentation/MacOSX/Conceptual/BPFrameworks/Frameworks.html framework bundle], which uses GHC's integer version number, consisting of the major and minor version component only, to assign framework versions - ie, package of the 6.8 branch install framework version 608.  This is in line with Apple's recommendation to use version numbers that signify API changes for frameworks.
 
+The package installs appropriate links in /usr/bin, /usr/man/man1, and /usr/share/doc to make the binaries, ghc manpage, and html documentation easily accessible.  Furthermore, it comes with a shell script, installed at `/Library/Frameworks/GHC.framework/Tools/Uninstaller`, that removes the GHC.framework and all symbolic links into the framework.
+
 Currently, GHC only supports building systemwide frameworks installed at `/Library/Frameworks`.  Relocatable frameworks would be desirable, but are much more messy as GHC (once installed) is currently not easily relocatable.  (The GHC Xcode project under `distrib/MacOS/GHC.xcodeproj`, which builds GHC frameworks, includes a partially completed target to build a relocatable package if anybody is interested in getting their hands dirty.)  A hybrid installer that let's users choose between a systemwide and a non-admin install is AFAIK currently not feasible due to limitations of Apple's !PackageMaker software unless we include two separate distributions in one package (leading to a very large package).
 
 == PPC and Tiger ==
