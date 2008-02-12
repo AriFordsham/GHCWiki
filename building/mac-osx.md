@@ -15,6 +15,21 @@ You must download the development tools manually.
 Successful builds have been reported using Xcode 3.0, 2.4 and 2.4.1 on Intel and PowerPC Macs. Xcode 2.2.1 is known *not* to
 work out of the box on Intel Macs.
 
+## Building installer packages
+
+
+After running `./configure`, you can create a Mac installer package (.pkg) fully automatically by issuing
+
+```wiki
+make framework-pkg
+```
+
+
+The result will be a file `GHC-<version>-<arch>.pkg`, where `<version>` is the full version string and `<arch>` is `i386` or `ppc`.  The build process uses `xcodebuild` and `packagemaker` and has only been tested with Xcode 3.0.
+
+
+More details [about installer packages](building/mac-osx/installer) are available.
+
 ## Getting Readline to work
 
 
