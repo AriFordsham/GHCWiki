@@ -38,6 +38,10 @@ The package installs appropriate links in /usr/bin, /usr/man/man1, and /usr/shar
 
 Currently, GHC only supports building systemwide frameworks installed at `/Library/Frameworks`.  Relocatable frameworks would be desirable, but are much more messy as GHC (once installed) is currently not easily relocatable.  (The GHC Xcode project under `distrib/MacOS/GHC.xcodeproj`, which builds GHC frameworks, includes a partially completed target to build a relocatable package if anybody is interested in getting their hands dirty.)  A hybrid installer that let's users choose between a systemwide and a non-admin install is AFAIK currently not feasible due to limitations of Apple's !PackageMaker software unless we include two separate distributions in one package (leading to a very large package).
 
+== Multiple versions ==
+
+In principle, it should be possible to have multiple versions of the `GHC.framework` installed simultaneously.  However, this doesn't seem to work at the moment.  Installing a newer versions, seems to delete the old one.  Installing an older version - I ticked the downgradable option in !PackageMaker - seems to mess things up completely (i.e., the framework structure is still there, but both versions are gone).  If any !PackageMaker guru could shed light on that behaviour, that'd be great.  (There is also a package version in the !PackageMaker document, which I am unsure what it is for - given we already have framework versions.)
+
 == PPC and Tiger ==
 
 I have tested package building only on Intel Leopard with Xcode 3.0.  I expect that PPC Leopard works without any further adjustments.  However, the Xcode project building the framework may not be suitable for Xcode 2.5, which is the latest version on Tiger.  Nevertheless, it should be possible to build packages on Leopard that run on both Tiger and Leopard.  This will require some tweaks, but may not be difficult to achieve.
