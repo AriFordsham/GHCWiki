@@ -12,7 +12,7 @@ Once upon a time Apple distributed updates to Xcode by using their Software Upda
 You must download the development tools manually.
 
 
-Successful builds have been reported using Xcode 2.4 and 2.4.1 on Intel and PowerPC Macs. Xcode 2.2.1 is known *not* to
+Successful builds have been reported using Xcode 3.0, 2.4 and 2.4.1 on Intel and PowerPC Macs. Xcode 2.2.1 is known *not* to
 work out of the box on Intel Macs.
 
 ## Getting Readline to work
