@@ -1,6 +1,6 @@
 # Mac OS X Installer Packages
 
-## Building a package
+## Roll your own
 
 
 In a GHC build tree, after having run `./configure` (if the tree came straight out of darcs, also `sh boot`), issue
@@ -38,3 +38,11 @@ env CFLAGS=-Wl,-search_paths_first\
 
 
 (Don't forget to replace `/Users/chak/lib` by your private library directory.)  Note that simply removing (or renaming) the dynamic libraries of readline will not work, as this will lead the configure script of the readline package to assume that readline isn't installed at all.  As a result, you will get a GHC without readline support.
+
+## What's inside?
+
+
+GHC is packaged as a [ framework bundle](http://developer.apple.com/documentation/MacOSX/Conceptual/BPFrameworks/Frameworks.html), which uses GHC's integer version number, consisting of the major and minor version component only, to assign framework versions - ie, package of the 6.8 branch install framework version 608.  This is in line with Apple's recommendation to use version numbers that signify API changes for frameworks.
+
+
+Currently, GHC only supports building systemwide frameworks installed at `/Library/Frameworks`.  Relocatable frameworks would be desirable, but are much more messy as GHC (once installed) is currently not easily relocatable.  (The GHC Xcode project under `distrib/MacOS/GHC.xcodeproj`, which builds GHC frameworks, includes a partially completed target to build a relocatable package if anybody is interested to get their hands dirty.)  A hybrid installer that let's users choose between a systemwide and a non-admin install is AFAIK currently not feasible due to limitations of Apple's PackageMaker software (without including two separate distributions in one package).
