@@ -39,3 +39,7 @@ Currently, GHC only supports building systemwide frameworks installed at `/Libra
 == PPC and Tiger ==
 
 I have tested package building only on Intel Leopard with Xcode 3.0.  I expect that PPC Leopard works without any further adjustments.  However, the Xcode project building the framework may not be suitable for Xcode 2.5, which is the latest version on Tiger.  Nevertheless, it should be possible to build packages on Leopard that run on both Tiger and Leopard.  This will require some tweaks, but may not be difficult to achieve.
+
+== Where is the code? ==
+
+All code and documents needed to build Mac installers is below `distrib/MacOS`.  There is an Xcode project `GHC.xcodeproj` that builds GHC appropriately, creates the framework structure (at `/tmp/GHC.dest/Library/Frameworks`), and installs GHC into that framework structure.  Moreover the !PackageMaker document `GHC-system.pmdoc` specifies the installer package layout and meta information.  The post-install script setting up the links and the uninstaller are in the `installer-scripts` directory.
