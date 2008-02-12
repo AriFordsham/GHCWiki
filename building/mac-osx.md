@@ -28,7 +28,7 @@ make framework-pkg
 The result will be a file `GHC-<version>-<arch>.pkg`, where `<version>` is the full version string and `<arch>` is `i386` or `ppc`.  The build process uses `xcodebuild` and `packagemaker` and has only been tested with Xcode 3.0.
 
 
-More details [about installer packages](building/mac-osx/installer) are available.
+More details about [building installer packages](building/mac-osx/installer) are available, this includes how to specify non-standard library locations (.e.g, for readline) and information about the build process.
 
 ## Getting Readline to work
 
