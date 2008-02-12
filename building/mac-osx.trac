@@ -11,8 +11,18 @@ Downloading requires that you sign up for a free membership in the Apple Develop
 Once upon a time Apple distributed updates to Xcode by using their Software Update service but not anymore.
 You must download the development tools manually.
 
-Successful builds have been reported using Xcode 2.4 and 2.4.1 on Intel and PowerPC Macs. Xcode 2.2.1 is known ''not'' to
+Successful builds have been reported using Xcode 3.0, 2.4 and 2.4.1 on Intel and PowerPC Macs. Xcode 2.2.1 is known ''not'' to
 work out of the box on Intel Macs.
+
+== Building installer packages ==
+
+After running `./configure`, you can create a Mac installer package (.pkg) fully automatically by issuing
+{{{
+make framework-pkg
+}}}
+The result will be a file `GHC-<version>-<arch>.pkg`, where `<version>` is the full version string and `<arch>` is `i386` or `ppc`.  The build process uses `xcodebuild` and `packagemaker` and has only been tested with Xcode 3.0.
+
+More details about [wiki:Building/MacOSX/Installer building installer packages] are available, this includes how to specify non-standard library locations (.e.g, for readline) and information about the build process.
 
 == Getting Readline to work ==
 
