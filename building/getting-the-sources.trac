@@ -55,7 +55,7 @@ Instead, follow the following steps:
 }}}
    The command `darcs-all` automates the fetching of the repositories for the libraries.
 
-If you omit step (3), `darcs-all` will pull patches into the GHC repository too, and if that pulls a patch that modifies the `darcs-all` script itself, then bizarre things can (or at least could in the past) happen.  The safe thing to do is to get your main `ghc` repo up to date (step 3) and then run the script.
+If you omit step (3), then `darcs-all` will pull patches into the GHC repository too. If one of those patches modifies the `darcs-all` script itself, then bizarre things can happen (or at least: in the past, they could happen.) The safe thing to do is to get your main `ghc` repo up to date (step 3) and then run the script.
 
 If you only want to download the latest sources and aren't interested in working on GHC, then you can get ''partial'' repositories:
 
