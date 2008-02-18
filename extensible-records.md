@@ -129,6 +129,9 @@ As it seems possible to implement most of the functionality in a library, there 
 
 - permutativity: The easiest way to implement permutativity of field labels is to sort them by some total ordering. Although this can be implemented using functional dependencies, it's complex and inefficient. Compiler support for a global order on tycons (based on fully qualified name, perhaps) would be very helpful. I have submitted a feature request [\#1894](https://gitlab.haskell.org//ghc/ghc/issues/1894). Does this conflict with type sharing?
 
+
+I have submitted another feature request, [\#2104](https://gitlab.haskell.org//ghc/ghc/issues/2104), which would support permutativity and labels without declaration, as well as sort out sharing in the simplest possible way (all labels are global).
+
 # Examples
 
 
