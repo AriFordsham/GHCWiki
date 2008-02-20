@@ -34,7 +34,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
   - Regressions that remain to be fixed: 
 
-    - `gadt/lazypatok` needs to be fixed
+    - `gadt/lazypatok` needs to be fixed (are irrefutable patterns really ok, see [ http://okmij.org/ftp/Haskell/GADT-problem.hs](http://okmij.org/ftp/Haskell/GADT-problem.hs)\]?)
     - Error message of `tcfail167` should include "Inaccessible case alternative: Can't match types `Char' and `Float'" again
   - Handling of cases expression scrutinising GADTs: 
 
