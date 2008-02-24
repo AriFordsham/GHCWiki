@@ -66,7 +66,7 @@ There are three platforms of interest to GHC:
 
 - **The Build platform**: This is the platform on which we are building GHC. 
 - **The Host platform**: This is the platform on which we are going to run this GHC binary, and associated tools. 
-- **The Target platform**: This is the platform for which this GHC binary will generate code. At the moment, there is very limited support for having different values for buil, host, and target. In particular:
+- **The Target platform**: This is the platform for which this GHC binary will generate code. At the moment, there is very limited support for having different values for build, host, and target. In particular:
 
 </td></tr></table>
 
