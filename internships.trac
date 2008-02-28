@@ -44,6 +44,8 @@ Here is a list of some possible future projects we have in mind.  But feel free 
 
   * Make GHC work with [http://research.sun.com/projects/gcspy/ GCSpy], a generic heap visualiser tool.
 
+  * Maintaining an explicit call stack [wiki:ExplicitCallStack]
+
 === Turning GHC into a platform ===
 
 Projects aimed at making GHC into a user-extensible plug-in platform, and less of a monolithic compiler.
