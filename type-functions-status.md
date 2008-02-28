@@ -32,6 +32,12 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 1. Allow overlapping instances disambiguated by textual order if they are in the same model (maybe only when an extra flag is given).  Instances from differnt modules still need to have coinciding rhses if they overlap.
 1. Replacing GADT refinements by explicit equality constraints:
 
+  - CLEANUP:
+
+    - `TcGadt.tcUnifyTys` can now probably be replaced again by the non-side-effecting unifier that was in `types/Unify.hs` (recover from previous repo states).
+    - `TcPat.refineAlt`: This function is now dead code, so is all its support code.
+    - `pat_reft` field of `TcPat.PatState`: Not needed anymore and code maintaining can go, too.
+    - We can remove the `CoVars` and `Refinement` argument of `TcSimplify.tcSimplifyCheckPat`.
   - Regressions that remain to be fixed: 
 
     - `gadt/lazypatok` needs to be fixed (are irrefutable patterns really ok, see [ http://okmij.org/ftp/Haskell/GADT-problem.hs](http://okmij.org/ftp/Haskell/GADT-problem.hs)\]?)
@@ -44,18 +50,17 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     - if a pattern has a GADT constructor (ie, any constraints in the data constructor signature), the scutinee must be rigid,
     - we  need to know of types whether they are rigid (not only whether they contain unification variables, but by a flag in the environment that indicates whether the computation of that type involved non-rigid type variables)
   - In `TcUnify`, make all occurs checks more elaborate.  They should only **defer** if the checked variable occurs as part of an argument to a type family application; in other cases, still fail right away.  DONE?
-  - `TcGadt.tcUnifyTys` can now probably be replaced again by the non-side-effecting unifier that was in `types/Unify.hs` (recover from previous repo states).
-  - CLEANUP:
-
-    - `TcPat.refineAlt`: This function is now dead code, so is all its support code.
-    - `pat_reft` field of `TcPat.PatState`: Not needed anymore and code maintaining can go, too.
-    - We can remove the `CoVars` and `Refinement` argument of `TcSimplify.tcSimplifyCheckPat`.
   - Re `tcfail167`, SPJ proposes that could generate a better error message, at least most of the time.  If the "expected type" of a pattern is 's', and we meet a constructor with result type (T t1 ..tn), then one could imagine a 2-step process:
 
     1. check that 's' is (or can be made to be) of form (T ....)
     1. check that the ... can be unified with t1..tn
 
     If (1) succeeds but (2) fails, the alternative is in accessible.  Of course, (2) might fail "later" by generating a constraint that later can't be satisfied, and we won't report that well, but we'd get a good message in the common fails-fast case.  We could even improve the message from (1) to say: "Constructor C is from data type T, but a pattern of type s is expected.
+1. Implementing FDs by TFs:
+
+  - Step 1: Replace the existing improvement machinery for FDs by code that generates explicit equalities from the two FD rules.  Then, all improvement is by normalisation of equalities, which hopefully allows us to simplify `TcSimplify.reduceContext`.
+  - Step 2: Desugar FDs into TFs and superclass equalities.
+1. Clean up `TcSimplify.reduceContext` and try to get rid of of having two loops, namely the ones used in `TcTyFuns` and the one implemented by `checkLoop`.
 1. `substEqInDict` needs to be symmetric (i.e., also apply right-to-left rules); try to re-use existing infrastructure.  It would be neater, easier to understand, and more efficient to have one loop that goes for a fixed point of simultaneously rewriting with given_eqs, wanted_eqs, and type instances.
 1. skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.  As an example consider
 
@@ -179,10 +184,6 @@ Todo (low-level):
 
 Todo (high-level): 
 
-1. Type checking of type families; routines in `TcUnify` that still need to be extended:
-
-  - `boxySplitTyConApp`: The second argument (`BoxyRhoType`) can be a synonym family application.  Then, we must produce a wanted coercion and return a `HsWrapper` value that applies that coercion.
-  - `boxySplitAppTy`: Basically, the same deal as the previous.
 1. Type checking in the presence of associated synonym defaults.  (Default AT synonyms are only allowed for ATs defined in the same class.)
 1. Type check functional dependencies as type functions.
 
@@ -194,6 +195,7 @@ Done:
 - Wrapper generation and type checking of pattern matching for indexed data and newtypes.
 - Consistency checking for family instances.
 - Enforce syntactic constraints on type instances needed to ensure the termination of constraint entailment checking.
+- Equality constraint normalisation and coercion term generation.
 
 ## Desugaring
 
