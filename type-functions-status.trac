@@ -27,7 +27,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 '''Check whether these still fail.'''
 
 '''Debugging of type families:'''
- 0. Allow overlapping instances disambiguated by textual order if they are in the same model (maybe only when an extra flag is given).  Instances from differnt modules still need to have coinciding rhses if they overlap.
+ 0. Allow overlapping instances disambiguated by textual order if they are in the same modul (maybe only when an extra flag is given).  Instances from differnt modules still need to have coinciding rhses if they overlap.
  0. Replacing GADT refinements by explicit equality constraints:
     * CLEANUP:
      * `TcGadt.tcUnifyTys` can now probably be replaced again by the non-side-effecting unifier that was in `types/Unify.hs` (recover from previous repo states).
