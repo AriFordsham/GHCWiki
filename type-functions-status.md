@@ -35,9 +35,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   - CLEANUP:
 
     - `TcGadt.tcUnifyTys` can now probably be replaced again by the non-side-effecting unifier that was in `types/Unify.hs` (recover from previous repo states).
-    - `TcPat.refineAlt`: This function is now dead code, so is all its support code.
-    - `pat_reft` field of `TcPat.PatState`: Not needed anymore and code maintaining can go, too.
-    - We can remove the `CoVars` and `Refinement` argument of `TcSimplify.tcSimplifyCheckPat`.
+    - What else?
   - Regressions that remain to be fixed: 
 
     - `gadt/lazypatok` needs to be fixed (are irrefutable patterns really ok, see [ http://okmij.org/ftp/Haskell/GADT-problem.hs](http://okmij.org/ftp/Haskell/GADT-problem.hs)\]?)
