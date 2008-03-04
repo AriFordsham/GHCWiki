@@ -204,7 +204,7 @@ nicer output:
 the bottom.  In this case I'm displaying memory pointed to by the
 register `rbx`, which corresponds to the STG register `R1` on
 a recent x86_64 build.  Check
-[ MachRegs.h](http://darcs.haskell.org/ghc/ghc/includes/MachRegs.h) to
+[ MachRegs.h](http://darcs.haskell.org/ghc/includes/MachRegs.h) to
 see which machine registers correspond to which STG registers on your
 platform.
 
