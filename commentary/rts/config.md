@@ -38,6 +38,14 @@ GHC option: `-unreg`
 
 RTS suffix: `u`</td></tr></table>
 
+<table><tr><th>`TICKY`</th>
+<td>
+Ticky-ticky profiling
+
+GHC option: `-ticky`
+
+RTS suffix: `t`</td></tr></table>
+
 
 So for example, `libHSRts_thr_debug.a` is the version of the runtime compiled with `THREADED_RTS` and `DEBUG`, and will be linked in if you use the `-threaded` and `-debug` options to GHC.
 
@@ -57,14 +65,7 @@ The following combinations are allowed:
 
 The following ways are bitrotted and currently don't work (GHC 6.6):
 
-<table><tr><th>`TICKY`</th>
-<td>
-Ticky-ticky profiling
-
-GHC option: `-ticky`
-
-RTS suffix: `t`</td></tr>
-<tr><th>`PAR`, `GRANSIM`</th>
+<table><tr><th>`PAR`, `GRANSIM`</th>
 <td>
 Parallel Haskell
 

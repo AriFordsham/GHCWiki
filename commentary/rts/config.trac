@@ -26,6 +26,11 @@ The CPP symbols and their corresponding command-line flags are:
   GHC option: {{{-unreg}}}[[br]]
   RTS suffix: {{{u}}}
 
+ {{{TICKY}}}::
+  Ticky-ticky profiling[[br]]
+  GHC option: {{{-ticky}}}[[br]]
+  RTS suffix: {{{t}}}
+  
 So for example, {{{libHSRts_thr_debug.a}}} is the version of the runtime compiled with {{{THREADED_RTS}}} and {{{DEBUG}}}, and will be linked in if you use the {{{-threaded}}} and {{{-debug}}} options to GHC.
 
 The ways that the RTS is built in are controlled by the {{{GhcRTSWays}}} Makefile variable.  
@@ -41,11 +46,6 @@ The following combinations are allowed:
 
 The following ways are bitrotted and currently don't work (GHC 6.6):
 
- {{{TICKY}}}::
-  Ticky-ticky profiling[[br]]
-  GHC option: {{{-ticky}}}[[br]]
-  RTS suffix: {{{t}}}
-  
  {{{PAR}}}, {{{GRANSIM}}}::
   Parallel Haskell[[br]]
   GHC option: {{{-par}}}[[br]]
