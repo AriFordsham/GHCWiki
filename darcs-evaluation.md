@@ -13,7 +13,11 @@ GHC has been using darcs for version control since the beginning of 2006.  It ha
 - Speed.  many operations are impractical (annotate, `darcs changes <file>`), and many operations just take "too
   long" (i.e. long enough that you go and do something else rather than wait for it to finish,
   which incurs a context-switch cost).  We can't use Trac's darcs integration or darcsweb, for example,
-  because both rely on invoking `darcs changes <file>`.
+  because both rely on invoking `darcs changes <file>` (for that matter, that's not completely true for the
+  [ trac darcs plugin](http://progetti.arstecnica.it/trac+darcs) as it does not execute that command
+  on a per-file basis, but rather it loads and caches into its own database the result of `darcs changes -v` 
+  on the "not-yet-loaded" changesets, visiting every patch in the repository just once. 
+  It caches also the actual content of each file touched by any browsed changeset, to compute the unidiff.).
 
 - bugs: we run into darcs bugs other than the conflict/merging bug on a regular basis.
 
