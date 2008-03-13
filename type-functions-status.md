@@ -4,6 +4,7 @@
 
 **Open Trac bugs related to type families**
 
+- [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (GADT)
 - [\#2146](https://gitlab.haskell.org//ghc/ghc/issues/2146) (minor problem)
 - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclasses)
 - [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (GADT)
