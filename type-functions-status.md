@@ -4,6 +4,7 @@
 
 **Open Trac bugs related to type families**
 
+- [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (GADT)
 - [\#2146](https://gitlab.haskell.org//ghc/ghc/issues/2146) (minor problem)
 - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclasses)
 - [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (GADT)
@@ -11,7 +12,6 @@
 - [\#1948](https://gitlab.haskell.org//ghc/ghc/issues/1948)
 - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) & [\#1900](https://gitlab.haskell.org//ghc/ghc/issues/1900)
 - [\#1834](https://gitlab.haskell.org//ghc/ghc/issues/1834)
-- [\#1809](https://gitlab.haskell.org//ghc/ghc/issues/1809)
 - [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775)
 - [\#1772](https://gitlab.haskell.org//ghc/ghc/issues/1772)
 - [\#1769](https://gitlab.haskell.org//ghc/ghc/issues/1769) (deriving typeable for data families)
