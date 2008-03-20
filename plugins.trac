@@ -142,7 +142,7 @@ newtype CommandLineOptions = ...
 === GHC Stuff ===
 
 The compiler needs to bring the plugin writer and users contributions together. A possible game plan might be:
- 0. Check for plugins referenced on the command line and give them a chance to parse command
+ 0. Save any command line options beginning with -p so we can give them to plugins later.
  1. Suck in Haskell source as normal, but also parsing PLUGIN pragmas
  2. Load up any plugins we see referenced by PLUGIN pragmas, discarding those we don't know about (on the basis that PRAGMAS are meant to be extra information that isn't essential to compile the program, though we might want to at least warn if we can't find one!). This could happen via [http://www.cse.unsw.edu.au/~dons/hs-plugins/ hs-plugins].
  3. Give the plugins a chance to add some "implicit" imports so that the renamer can see the pragma data types when going through the pragmas. Again this is motivated by the idea that programs that use plugins should still compile if they are absent.
