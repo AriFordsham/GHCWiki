@@ -86,7 +86,8 @@ data GHCPluginInstance = GHCPluginInstance {
   providedCorePasses :: [(CorePassPlacementSpec, PluginCorePassName, PluginCorePass)]
   -- For details see note [Declarative Core Pass Placement]
 
-  -- TODO: work out the best way to allow plugins to specify link artifacts
+  -- This very simple approach will probably be sufficient
+  getAdditionalLinkArtifacts :: IO [FilePath]
 }
 
 
@@ -118,9 +119,6 @@ data CorePassName
 -- This would let us recover some compile time safety while still allowing plugins to refer
 -- to passes installed by other plugins, which may be desirable.
 -- End Note: [Declarative Core Pass Placement]
-
-
--- 
 
 }}}
 
