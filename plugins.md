@@ -12,7 +12,10 @@ We would like to support dynamically-linked Core-to-Core plug-ins, so that peopl
 ### General Design Goals
 
 
-I 
+It would be desirable to ensure that Haskell programs that contain information for a particular plugin still compile when that plugin is not available, in the sprit of other pragma-carried information.
+
+
+We would like the plugin install process to be totally painless, ideally by reusing the existing Cabal / package.info mechanisms.
 
 ### User Interface
 
