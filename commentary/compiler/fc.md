@@ -146,8 +146,14 @@ newtype T a = MkT (a -> a)
 ```
 
 
-the `NewTyCon` for `T` will contain n`t_co = CoT` where \`CoT t : T t :=: t -\>
-t`.  This `TyCon` is a `CoercionTyCon\`, so it does not have a kind on its
+the `NewTyCon` for `T` will contain n`t_co = CoT` where:
+
+```wiki
+CoT t : (T t :=: t -> t)
+```
+
+
+This `TyCon` is a `CoercionTyCon`, so it does not have a kind on its
 own; it basically has its own typing rule for the fully-applied
 version.  If the newtype `T` has k type variables, then `CoT` has arity at
 most k.  In the case that the right hand side is a type application
