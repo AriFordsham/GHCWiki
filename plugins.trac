@@ -8,6 +8,10 @@ We would like to support dynamically-linked Core-to-Core plug-ins, so that peopl
 
 '''Here be dragons! ''' This is just the result of my very preliminary thinking about how we might implement this in GHC. I am by no means an expert and so this section is certainly neither authoritative or correct! - Max Bolingbroke, March 08
 
+=== General Design Goals ===
+
+I 
+
 === User Interface ===
 
 The user would write code something like the following:
@@ -146,11 +150,10 @@ The compiler needs to bring the plugin writer and users contributions together. 
  3. Give the plugins a chance to add some "implicit" imports so that the renamer can see the pragma data types when going through the pragmas. Again this is motivated by the idea that programs that use plugins should still compile if they are absent.
  4. Rename, type check as normal, though TcBinds.mkPragFun will need to be extended to splat binder-specific PLUGIN pragmas on those binders
  5. Desugarer will have to do something to make the pragma data structure syntax trees into an actual in-memory value. Essentially, we want to evaluate the expression in a context where it just has access to the constructors of the plugins imported data type library. We could reuse some of the GHCi apparatus to do this, see e.g. HscMain.compileExpr, HscMain.hscStmt and Linker.linkExpr. We then wrap this value up into an existential type that has a Dynamic instance and put it into the pragma on the Core (so the typechecker will have to make sure this part of the pragma has such an instance).
- 5. Give the plugin a chance to install core passes into the pipeline. For each one (assuming we use external core..):
-  1. Convert the input into external core. Note this loses information we try and construct in the core2core pipeline like demands and strictness, so this probably limits plugins to early or late in the pipeline where this doesn't matter, or else we will just have to reconstruct the info after every plugin pass..
-  2. Feed the external core to the dynamically linked pass function. To ensure binary compatibility we will have to lift external-core out to a library that the stage2 compiler and the plugin both depend on. 
-  3. The plugin will encounter CoreSyn Notes that include information about various binders: it can use Dynamic to try and cast the existentially typed value this contains to an appropriate type from the accompanying pragma data type library
-  3. Convert the returned core back into GHC core and give that to the next core2core stage.
+ 5. Give the plugin a chance to install core passes into the pipeline. For each one:
+  1. Feed the core to the dynamically linked pass function.
+  2. The plugin will encounter CoreSyn Notes that include information about various binders OR will get a map of pragma information on a per-function basis. It can use Dynamic to try and cast the value this contains to an appropriate type from the accompanying pragma data type library
+  3. Give the returned core to the next core2core stage.
  6. Codegen etc as normal
  7. Add to the output file links to anything the plugin specified. Somehow record the extra library files to eventually link in, e.g. via a .hi file
 
