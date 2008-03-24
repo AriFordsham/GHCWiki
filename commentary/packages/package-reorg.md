@@ -207,7 +207,8 @@ Still, for convenience we'd probably arrange that the GHC Install
 Packages included all the GHC Boot Packages.
 
 
-Every GHC installation must include packages: `base` and
+Every GHC installation must include packages: `base`, `ghc-prim`,
+`integer` and
 `template-haskell`, else GHC itself will not work.  (In fact
 `haskell98` is also required, but only because it is linked by
 default.)
@@ -216,8 +217,9 @@ default.)
 So GHC's Install Packages would be the Core Packages plus
 
 - `template-haskell`
-- `stm`
-- `readline`
+- `editline`
+- `integer`
+- `ghc-prim`
 
 
 You can upgrade any package, including `base` after installing GHC.
