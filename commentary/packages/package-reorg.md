@@ -186,12 +186,14 @@ together into the testsuite repository.
 ### Notes about GHC
 
 
-Currently GHC installs a set of packages by default: base, stm,
-template-haskell, cabal, haskel98, readline, 3 of the 5 regex
-packages.  These are exactly the libraries required to build GHC.
-That shouldn't be the criterion.  This set of packages are currently
-called GHC's "core packages", but should be renamed to **GHC Boot
-Packages**.
+Currently GHC installs a set of packages by default, the so-called
+**GHC Boot Packages**. They are graphed here, with arrows representing
+dependencies between them:
+[](/trac/ghc/attachment/wiki/Commentary/Packages/PackageReorg/packagegraph.png)
+
+
+These are exactly the libraries required to build GHC.
+That shouldn't be the criterion for the core packages.
 
 
 One reason we do this is because it means that every GHC installation
@@ -205,7 +207,8 @@ Still, for convenience we'd probably arrange that the GHC Install
 Packages included all the GHC Boot Packages.
 
 
-Every GHC installation must include packages: `base` and
+Every GHC installation must include packages: `base`, `ghc-prim`,
+`integer` and
 `template-haskell`, else GHC itself will not work.  (In fact
 `haskell98` is also required, but only because it is linked by
 default.)
@@ -214,8 +217,9 @@ default.)
 So GHC's Install Packages would be the Core Packages plus
 
 - `template-haskell`
-- `stm`
-- `readline`
+- `editline`
+- `integer`
+- `ghc-prim`
 
 
 You can upgrade any package, including `base` after installing GHC.
