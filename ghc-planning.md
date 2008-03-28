@@ -54,7 +54,7 @@ Simon PJ's projects
 - **Implication constraints** doc/tidying up
 - **Demand analysis** with Kirsten Chevalier
 - **Associated data types and type synonyms**, with Manuel: [TypeFunctions](type-functions)
-- **Data parallel Haksell**, with Manuel, Gabi, Roman; see [ http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)
+- **Data parallel Haskell**, with Manuel, Gabi, Roman; see [ http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)
 
 
 Simon M's projects
@@ -65,9 +65,9 @@ Simon M's projects
 ## Awaiting attention
 
 
-This list intended to be in priority order (but of course the prorities might not be right!
+This list intended to be in priority order (but of course the priorities might not be right!)
 
 - **Windows installers**. Want to help Neil get going (see also [\#604](https://gitlab.haskell.org//ghc/ghc/issues/604)).
 - **Merge commentaries**. We should merge all the info from the old commentary into the new one and then remove the old one.
 - **Dynamicise flags**. `-auto-all` should be dynamic, and `-prof` too if it's easy. And many, many others!
-- **stdin/stdou/stderr**. The initialisation should be done at startup, not when stdin/stdout/stderr are forced. May be tricky on Windows when we don't have a console.
+- **stdin/stdout/stderr**. The initialisation should be done at startup, not when stdin/stdout/stderr are forced. May be tricky on Windows when we don't have a console.
