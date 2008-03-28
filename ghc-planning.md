@@ -54,7 +54,7 @@ Simon PJ's projects
 - **Implication constraints** doc/tidying up
 - **Demand analysis** with Kirsten Chevalier
 - **Associated data types and type synonyms**, with Manuel: [TypeFunctions](type-functions)
-- **Data parallel Haksell**, with Manuel, Gabi, Roman; see [ http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)
+- **Data parallel Haskell**, with Manuel, Gabi, Roman; see [ http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)
 
 
 Simon M's projects
