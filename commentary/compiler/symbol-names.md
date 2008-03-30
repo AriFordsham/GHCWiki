@@ -114,7 +114,7 @@ Since Haskell allows many symbols in constructor and variable names that C compi
 </th></tr>
 <tr><th>`^`</th>
 <th> zc </th>
-<th> Carrot 
+<th> Caret 
 </th></tr>
 <tr><th> $ </th>
 <th> zd </th>
