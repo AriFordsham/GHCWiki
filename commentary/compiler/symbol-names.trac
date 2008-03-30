@@ -36,7 +36,7 @@ Since Haskell allows many symbols in constructor and variable names that C compi
 || Decoded || Encoded || Mnemonic ||
 || & || za || Ampersand ||
 || | || zb || Bar ||
-|| {{{^}}} || zc || Carrot ||
+|| {{{^}}} || zc || Caret ||
 || $ || zd || Dollar ||
 || = || ze || Equals ||
 || > || zg || Greater than ||
