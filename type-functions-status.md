@@ -33,7 +33,8 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
 **Debugging of type families:**
 
-1. Allow overlapping instances disambiguated by textual order if they are in the same modul (maybe only when an extra flag is given).  Instances from differnt modules still need to have coinciding rhses if they overlap.
+1. Allow toplevel equalities disambiguated by textual order by way of type instance ... where {} declarations.  Instances from different modules still need to have coinciding rhses if they overlap.
+1. Allow repeated variable occurrences in lhses of type instances (see paper).
 1. Replacing GADT refinements by explicit equality constraints:
 
   - CLEANUP:
@@ -58,6 +59,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     1. check that the ... can be unified with t1..tn
 
     If (1) succeeds but (2) fails, the alternative is in accessible.  Of course, (2) might fail "later" by generating a constraint that later can't be satisfied, and we won't report that well, but we'd get a good message in the common fails-fast case.  We could even improve the message from (1) to say: "Constructor C is from data type T, but a pattern of type s is expected.
+1. When a `type instance` changes (in an orphan modules), currently clients are not properly recompiled at least by `--make`.
 1. Implementing FDs by TFs:
 
   - Step 1: Replace the existing improvement machinery for FDs by code that generates explicit equalities from the two FD rules.  Then, all improvement is by normalisation of equalities, which hopefully allows us to simplify `TcSimplify.reduceContext`.
