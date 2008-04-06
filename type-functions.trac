@@ -13,7 +13,8 @@ Implemented features:
 Missing features:
  * Superclass equalities.
  * Data family instances in GADT form.
- * Closed or exhaustive synonym families.
+ * [wiki:TypeFunctions/TotalFamilies Total type families.]
+ * Closed synonym families.
  * Re-implement functional dependencies using type families.
 
 Speculative ideas:
