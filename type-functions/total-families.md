@@ -104,4 +104,60 @@ Matching on such *rewrite rule blocks* starts with the first equality.  If a giv
 - `TypeEq Int Bool  -->  TFalse`
 - `TypeEq a b` where `a` and `b` are two rigid type variables, can't be rewritten without further information about `a` and `b`.
 
-### Critical examples from the paper
+### Critical examples concerning termination
+
+
+Example 1 of the paper:
+
+```wiki
+Et: {F Bool ~ F (G Int); F _ ~ VOID}
+    {G _ ~ VOID}
+
+Eg: G Int ~ Bool
+```
+
+
+Completion gives:
+
+```wiki
+  Eg
+=> (TOP)
+  VOID ~ Bool
+=> FAIL
+```
+
+
+We can be a bit more tricky and use
+
+```wiki
+Et: {F [a] ~ F (G a); F _ ~ VOID}
+    {G _ ~ VOID}
+
+Eg: G x ~ [x]
+```
+
+
+Here the idea is to use a new symbol in the local given, namely a rigid type variable.  Nevertheless, the only equality of `G` matches `G x` and completion of `Eg` leads to an inconsistency.
+
+
+However, if we add another equality to `G`, the situation changes:
+
+```wiki
+Et: {F [a] ~ F (G a); F _ ~ VOID}
+    {G Int ~ Bool; G _ ~ VOID}
+
+Eg: G x ~ [x]
+```
+
+
+Here completion can't rewrite `G x`, as the outcome depends on getting more information about `x`.  However, we have the following infinite derivation:
+
+```wiki
+F [x]  -->  F (G x)  -->  F [x]  -->  ...
+```
+
+
+This is although `Eg` is inconsistent (and hence shouldn't be used for rewriting at all).
+
+
+Can we fix this???
