@@ -35,3 +35,45 @@ type instance TypeEq s t = FFalse  -- matches only if the previous instance does
 
 
 Unfortunately, the two instances are overlapping and there is no means by which we can disambiguate the overlap by using the same textual ordering as that which we are used to from value-level functions.
+
+### Defining total families
+
+
+To enable textual disambiguation of overlapping instances, we declare the equalities together (by transferring GADT syntax to type synonyms):
+
+```wiki
+type TypeEq s t where
+  TypeEq s s = TTrue
+  TypeEq s t = TFalse
+```
+
+`TypeEq` is a standard type family, but by virtue of being total (i.e., exhaustive) it is also closed.  Further equalities cannot define it any further.
+
+
+Let's use the same idea for the addition/multiplication examples:
+
+```wiki
+type x :+ y where
+  Z   :+ y = y
+  S x :+ y = S (x :+ y)
+
+type x :* y where
+  Z     :* y = Z
+  (S x) :* y = x :* y :+ y
+```
+
+
+In contrast to `TypeEq`, `(:+)` and `(:*)` is not total without an extra equality.  We take another idea from value-level function definitions and implicitly complete each of these definitions by a final catch all equality.  So, for `(:+)`, we assume a final
+
+```wiki
+x :+ y = VOID
+```
+
+
+and for `(:*)` a final
+
+```wiki
+x :* y = VOID
+```
+
+### Critical examples from the paper
