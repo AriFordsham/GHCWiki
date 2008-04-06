@@ -46,7 +46,7 @@ Please feel free to add new pages here.  In due course information will migrate 
 - The Compiler
 
   - [Notes about the new code generator](commentary/compiler/new-code-gen)
-  - [TypeFunctions](type-functions): Notes concerning the implementation of type functions and associated types, which was merged in the HEAD during ICFP'06.
+  - [Type families/type functions](type-functions): Notes concerning the implementation of type families, associated types, and equality constraints as well as the extension of the type checker with a contraint solver for equality constraints.
   - [IntermediateTypes](intermediate-types): Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)
   - [DataParallel](data-parallel): Notes about the implementation of Data Parallel Haskell
   - [RewriteRules](rewrite-rules): Notes about the implementation of RULEs in GHC

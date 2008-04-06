@@ -39,7 +39,7 @@ Please feel free to add new pages here.  In due course information will migrate 
 
  * The Compiler
    * [wiki:Commentary/Compiler/NewCodeGen Notes about the new code generator]
-   * [wiki:TypeFunctions]: Notes concerning the implementation of type functions and associated types, which was merged in the HEAD during ICFP'06.
+   * [wiki:TypeFunctions Type families/type functions]: Notes concerning the implementation of type families, associated types, and equality constraints as well as the extension of the type checker with a contraint solver for equality constraints.
    * [wiki:IntermediateTypes]: Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)
    * [wiki:DataParallel]: Notes about the implementation of Data Parallel Haskell
    * [wiki:RewriteRules]: Notes about the implementation of RULEs in GHC
