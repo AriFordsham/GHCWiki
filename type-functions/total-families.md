@@ -15,8 +15,8 @@ type instance S x :+ y = S (x :+ y)
 
 -- meets only the Relaxed Condition
 type family x :* y
-type instance Z     :* y = Z
-type instance (S x) :* y = x :* y :+ y
+type instance Z   :* y = Z
+type instance S x :* y = x :* y :+ y
 ```
 
 
@@ -58,8 +58,8 @@ type x :+ y where
   S x :+ y = S (x :+ y)
 
 type x :* y where
-  Z     :* y = Z
-  (S x) :* y = x :* y :+ y
+  Z   :* y = Z
+  S x :* y = x :* y :+ y
 ```
 
 
@@ -82,15 +82,26 @@ x :* y = VOID
 We denote the rewrite system for `TypeEq` as
 
 ```wiki
-Et: {TypeEq s s ~ TTrue; TypeEq st ~ TFalse}
+Et: {TypeEq s s ~ TTrue; TypeEq s t ~ TFalse}
 ```
 
 
 and that of the type-level addition and multiplication as
 
 ```wiki
-Et: {Z :+ y ~ y; S x :+ y ~ S (x :+ y); _ :+ _ ~ VOID}
-      {Z :* y ~ Z; (S x) :* y ~ x :* y :+ y; _ :* _ ~ VOID}
+Et: {Z   :+ y ~ y;
+     S x :+ y ~ S (x :+ y); 
+     _   :+ _ ~ VOID}
+    {Z   :* y ~ Z; 
+     S x :* y ~ x :* y :+ y; 
+     _   :* _ ~ VOID}
 ```
+
+
+Matching on such *rewrite rule blocks* starts with the first equality.  If a given family application cannot possibly match on the first equality, the second is considered, and so on.  The last one is guaranteed to match, and this is what makes the definitions total.  Consider the following examples:
+
+- `TypeEq Int Int  -->  TTrue`
+- `TypeEq Int Bool  -->  TFalse`
+- `TypeEq a b` where `a` and `b` are two rigid type variables, can't be rewritten without further information about `a` and `b`.
 
 ### Critical examples from the paper
