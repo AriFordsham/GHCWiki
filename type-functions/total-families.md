@@ -76,4 +76,21 @@ and for `(:*)` a final
 x :* y = VOID
 ```
 
+### A rewrite system with total families
+
+
+We denote the rewrite system for `TypeEq` as
+
+```wiki
+Et: {TypeEq s s ~ TTrue; TypeEq st ~ TFalse}
+```
+
+
+and that of the type-level addition and multiplication as
+
+```wiki
+Et: {Z :+ y ~ y; S x :+ y ~ S (x :+ y); _ :+ _ ~ VOID}
+      {Z :* y ~ Z; (S x) :* y ~ x :* y :+ y; _ :* _ ~ VOID}
+```
+
 ### Critical examples from the paper
