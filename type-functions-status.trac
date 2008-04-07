@@ -30,7 +30,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 '''Check whether these still fail.'''
 
 '''Debugging of type families:'''
- 0. Allow toplevel equalities disambiguated by textual order by way of type instance ... where {} declarations.  Instances from different modules still need to have coinciding rhses if they overlap.
+ 0. Total families
  0. Allow repeated variable occurrences in lhses of type instances (see paper).
  0. Replacing GADT refinements by explicit equality constraints:
     * CLEANUP:
