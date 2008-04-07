@@ -8,12 +8,12 @@ To guarantee the termination and completeness of the solving of equality constra
 ```wiki
 data Z; data S a;
 
--- meets the Strong Termination Condition
+-- meets the Relaxed Condition
 type family x :+ y
 type instance Z   :+ y = y
 type instance S x :+ y = S (x :+ y)
 
--- meets only the Relaxed Condition
+-- does not even meet the Relaxed Condition
 type family x :* y
 type instance Z   :* y = Z
 type instance S x :* y = x :* y :+ y
