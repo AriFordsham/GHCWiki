@@ -37,10 +37,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 1. Allow repeated variable occurrences in lhses of type instances (see paper).
 1. Replacing GADT refinements by explicit equality constraints:
 
-  - CLEANUP:
-
-    - `TcGadt.tcUnifyTys` can now probably be replaced again by the non-side-effecting unifier that was in `types/Unify.hs` (recover from previous repo states).
-    - What else?
   - Regressions that remain to be fixed: 
 
     - `gadt/lazypatok` needs to be fixed (are irrefutable patterns really ok, see [ http://okmij.org/ftp/Haskell/GADT-problem.hs](http://okmij.org/ftp/Haskell/GADT-problem.hs)\]?)
@@ -52,7 +48,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     - We infer the rigidity flag for the case scrutinee by generalising its type and checking whether that has an foralls at the top.  It's rigid if it has no foralls.
     - if a pattern has a GADT constructor (ie, any constraints in the data constructor signature), the scutinee must be rigid,
     - we  need to know of types whether they are rigid (not only whether they contain unification variables, but by a flag in the environment that indicates whether the computation of that type involved non-rigid type variables)
-  - In `TcUnify`, make all occurs checks more elaborate.  They should only **defer** if the checked variable occurs as part of an argument to a type family application; in other cases, still fail right away.  DONE?
   - Re `tcfail167`, SPJ proposes that could generate a better error message, at least most of the time.  If the "expected type" of a pattern is 's', and we meet a constructor with result type (T t1 ..tn), then one could imagine a 2-step process:
 
     1. check that 's' is (or can be made to be) of form (T ....)
@@ -200,6 +195,7 @@ Done:
 - Consistency checking for family instances.
 - Enforce syntactic constraints on type instances needed to ensure the termination of constraint entailment checking.
 - Equality constraint normalisation and coercion term generation.
+- GADT type checking implemented with equality and implication constraints.
 
 ## Desugaring
 
