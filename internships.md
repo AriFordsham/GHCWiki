@@ -98,7 +98,7 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
 You can apply ANY TIME.  Internships are not just the summer months. Contact one of us (simonpj@…, simonmar@…) in the first instance (or another sponsor if they are more suitable).
 
 
-To apply, follow the instructions at [ http://research.microsoft.com/aboutmsr/jobs/internships/](http://research.microsoft.com/aboutmsr/jobs/internships/), **and email one of us to say that you have done so**. Do not omit the latter step; across the whole of MSR there are hundreds of applicants.
+To apply, follow the instructions at [ http://research.microsoft.com/aboutmsr/jobs/internships/](http://research.microsoft.com/aboutmsr/jobs/internships/), **and email one of us to say that you have done so**. Do not omit the latter step; across MSR there are hundreds of applicants, and if we don't hear from you personally we may miss your application.  If you don't get a reply to your email, try again - the spam filter may have caught it.
 
 
 A CV is typically a boring, dry kind of thing, consisting entirely of data (education, employment, publications, talks etc etc).  Yes, we need that, but **please also include a final section entitled "Personal research statement"**.  This should address the following questions:
