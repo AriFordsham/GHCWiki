@@ -4,7 +4,10 @@
 
 **Open Trac bugs related to type families**
 
-- [\#2202](https://gitlab.haskell.org//ghc/ghc/issues/2202) (Uses `a ~ MeshVertex a b` in `normaliseWantedDicts` w/o the occurs check kicking in; also occurs in 6.8.2 ad the program doesn't mention TFs, so need to merge)
+- [\#2202](https://gitlab.haskell.org//ghc/ghc/issues/2202) (Uses `a ~ MeshVertex a b` in `normaliseWantedDicts` w/o the occurs check kicking in; also occurs in 6.8.2 and the program doesn't mention TFs, so need to merge):
+
+  - Should `eqInstToRewrite` already check for and return whether the equality is cyclic in a bad way (i.e., without intervening tyfam)?  (Would that be less efficient?)  In any case, document the invariants.
+  - `rewriteWithOneEquality` should uses `eqInstToRewrite`
 - [\#2203](https://gitlab.haskell.org//ghc/ghc/issues/2203) (TFs in class instance heads)
 - [\#2157](https://gitlab.haskell.org//ghc/ghc/issues/2157) (solution: lhs of type instances may not contain partially applied vanilla type synonyms)
 
