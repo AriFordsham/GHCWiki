@@ -47,7 +47,7 @@ Instead, follow the following steps:
    $ cd ghc
    $ darcs pull -a
 }}}
- We've had [http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html reports] of Darcs crashing on Mac OS X in this step.  If this happens, see the section on troubleshooting.
+ We've had [http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html reports] of Darcs crashing on Mac OS X in this step.  If this happens, see the section on troubleshooting.[[BR]][[BR]]
  0. Now use the `darcs-all` script to pull patches from all the library repositories, and the testsuite repository:
 {{{
    $ chmod +x darcs-all
