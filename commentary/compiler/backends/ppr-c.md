@@ -34,11 +34,13 @@ This has several advantages:
 
 
   
-There is one disadvantage:
+There are some disadvantages:
   
 
 - we get no checking by the C compiler that the FFI declaration
   is correct.
+
+- we can't benefit from inline definitions in header files.
 
 ## Prototypes
 
