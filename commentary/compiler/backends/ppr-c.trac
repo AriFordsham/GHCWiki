@@ -29,10 +29,12 @@ This has several advantages:
  * bootstrapping via C will be more reliable, because this difference
    in behavour between the two backends has been removed.
   
-There is one disadvantage:
+There are some disadvantages:
   
  * we get no checking by the C compiler that the FFI declaration
    is correct.
+
+ * we can't benefit from inline definitions in header files.
   
 == Prototypes ==
 
