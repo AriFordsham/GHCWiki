@@ -4,6 +4,7 @@
 
 **Open Trac bugs related to type families**
 
+- [\#2219](https://gitlab.haskell.org//ghc/ghc/issues/2219)
 - [\#2212](https://gitlab.haskell.org//ghc/ghc/issues/2212)
 - [\#2202](https://gitlab.haskell.org//ghc/ghc/issues/2202) (Uses `a ~ MeshVertex a b` in `normaliseWantedDicts` w/o the occurs check kicking in; also occurs in 6.8.2 and the program doesn't mention TFs, so need to merge):
 
