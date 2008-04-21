@@ -13,14 +13,23 @@ See also
 
 ## The basic idea
 
-1.  GHC's 'assert' magically injects the current file location.  One could imagine generalising this a bit so that you could say
+1.  GHC's 'assert' magically injects the current file location.  But Template Haskell already allows you do to this rather nicely:
 
   ```wiki
   	...(f $currentLocation)...
   ```
 
 
-to pass a string describing the current location to f.
+where
+
+```wiki
+  currentLocation :: Q Exp
+  currentLocation = do { loc <- qLocation
+                       ; return [| loc |] }
+```
+
+
+This doesn't quite work today because `loc` has type `Language.Haskell.TH.Syntax.Loc`, a record of location information, and that isn't an instance of `Lift` (yet).  But the idea is basically fine: TH gives you access to the current source location.
 
 1.  But that doesn't help with 'head'.  We want to pass head's *call site* to head. That's what jhc does when you give 'head' the a magic [ SRCLOC_ANNOTATE pragma](http://repetae.net/john/computer/jhc/jhc.html):
 
