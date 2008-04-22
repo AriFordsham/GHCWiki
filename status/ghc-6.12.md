@@ -8,6 +8,16 @@ Here are our [ release plans for 6.8.3](http://www.haskell.org/pipermail/glasgow
 
 We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we hope to include, along with who is primarily responsible for delivering these promises:
 
+- Several **language extensions** advertised in the [November 2007 status report](status/nov07):
+
+  - Improvements to record syntax
+  - View patterns
+  - Quasiquotation
+  - Generalised list comprehensions
+
+>
+> These are all in the HEAD already.
+
 - **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.  *Simon Marlow*
 
 - **Parallel garbage collection** (see [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  *Simon Marlow*
