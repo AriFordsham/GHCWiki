@@ -14,9 +14,11 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 - **Shared libraries**, as a result of Clemens Fruhwirth's Summer of Code project.  *Simon Marlow*
 
-- [ Type families](http://haskell.org/haskellwiki/GHC/Indexed_types), fully working. *Manuel Chakravarty and Simon PJ*
+- **[ Type families](http://haskell.org/haskellwiki/GHC/Indexed_types)**, fully working. *Manuel Chakravarty and Simon PJ*
 
-- [ Nested data parallelism](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell), in some form. *Roman Leshchinskiy, Gabriele Keller, Manuel Chakravarty, Simon PJ*
+- **[ Nested data parallelism](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)**, in some form. *Roman Leshchinskiy, Gabriele Keller, Manuel Chakravarty, Simon PJ*
+
+- **Substantial changes to the [back end](commentary/compiler/new-code-gen)** are likely, now that John Dias is here as an intern.n  *John Dias, Simon PJ, Norman Ramsey*
 
 - Further **library reorganisation**, but with more attention paid to backward compatibility. *Ian Lynagh*
 
