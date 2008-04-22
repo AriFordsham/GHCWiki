@@ -1,3 +1,8 @@
+# Plans for 6.8.3
+
+
+Here are our [ release plans for 6.8.3](http://www.haskell.org/pipermail/glasgow-haskell-users/2008-March/014467.html)
+
 # Plans for GHC 6.10
 
 
