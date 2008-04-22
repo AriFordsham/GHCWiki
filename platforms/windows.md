@@ -12,7 +12,7 @@ We no longer support Windows 95, 98, ME or NT. We do support 2000, XP and Vista.
 First places to look is the Building Guide.  Specifically:
 
 - [Stuff about Cyginw and MSYS](http://www.haskell.org/ghc/docs/latest/html/building/platforms.html#cygwin-and-mingw).  GHC builds many, many times faster if you use MSYS than Cygwin.
-- [Instructions for building under Windows](http://www.haskell.org/ghc/docs/latest/html/building/winbuild.html)
+- [ Instructions for building under Windows](http://hackage.haskell.org/trac/ghc/wiki/Building/Windows)
 
 ## Common problems
 
