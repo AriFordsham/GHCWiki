@@ -18,7 +18,7 @@ is a collection of header
 files and import libraries that allow one to use `gcc` and produce
 native Win32 programs that do not rely on any third-party DLLs. The
 current set of tools include GNU Compiler Collection (`gcc`), GNU Binary
-Utilities (Binutils), GNU debugger (Gdb), GNU make, and a assorted
+Utilities (Binutils), GNU debugger (Gdb), GNU make, and assorted
 other utilities. 
 
 
