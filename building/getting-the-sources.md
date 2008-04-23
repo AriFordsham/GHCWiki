@@ -35,6 +35,19 @@ with a set of library packages in the `libraries` directory.  Each of these
 libraries has its own repository: see [DarcsRepositories](darcs-repositories).
 
 
+If you only want to download the latest sources and aren't interested in working on GHC, then you can get *partial* repositories:
+
+```wiki
+  $ darcs get --partial http://darcs.haskell.org/ghc
+  $ cd ghc
+  $ chmod +x darcs-all
+  $ ./darcs-all get
+```
+
+
+The command `darcs-all` adds the `--partial` flag by default.
+
+
 If you plan to modify GHC, then you **must** get repositories with full history rather than just partial repositories.  (Why?  Because darcs has some bugs that sometimes cause problems when using partial repositories for anything more than just pulling the latest patches.)
 However, **you cannot use `darcs get` to get a full GHC repository**, for two reasons:
 
@@ -71,19 +84,6 @@ Instead, follow the following steps:
 
 
 If you omit step (3), then `darcs-all` will pull patches into the GHC repository too. If one of those patches modifies the `darcs-all` script itself, then bizarre things can happen (or at least: in the past, they could happen.) The safe thing to do is to get your main `ghc` repo up to date (step 3) and then run the script.
-
-
-If you only want to download the latest sources and aren't interested in working on GHC, then you can get *partial* repositories:
-
-```wiki
-  $ darcs get --partial http://darcs.haskell.org/ghc
-  $ cd ghc
-  $ chmod +x darcs-all
-  $ ./darcs-all get
-```
-
-
-The command `darcs-all` adds the `--partial` flag by default.
 
 ## Getting more packages
 
