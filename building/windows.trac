@@ -310,7 +310,8 @@ make: *** [all] Error 1
    If you want to build GHC-cygwin ([wiki:Building/PlatformsScriptsFileNames#MinGW MinGW])
    you'll have to do something more like:
    {{{
-$ ./configure --with-gcc=...the Cygwin gcc... --with-ld=...the Cygwin ld.exe...
+$ ./configure --with-gcc=...the Cygwin gcc...
+              --with-ld=...the Cygwin ld.exe...
 }}}
  * If you are paranoid, delete {{{config.cache}}} if it exists.
    This file occasionally remembers out-of-date configuration information, which 
