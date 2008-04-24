@@ -345,7 +345,8 @@ this one for typical failure cases and what do to about them.
   you'll have to do something more like:
 
   ```wiki
-  $ ./configure --with-gcc=...the Cygwin gcc... --with-ld=...the Cygwin ld.exe...
+  $ ./configure --with-gcc=...the Cygwin gcc...
+                --with-ld=...the Cygwin ld.exe...
   ```
 - If you are paranoid, delete `config.cache` if it exists.
   This file occasionally remembers out-of-date configuration information, which 
