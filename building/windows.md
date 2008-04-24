@@ -61,14 +61,8 @@ Here's how to install MSYS.
     `ssh` and probably more besides.
 
   Run both executables (in the order given above) to install them.  I put them in `c:/msys`
-- From [ http://www.mingw.org/download.shtml](http://www.mingw.org/download.shtml),
-  download 
-
-  - The MinGW utility wget (wget-1.9.1.tar.gz),
-    which is required by Darcs.
-    The tarball contains the
-    binary wget.exe. Place wget.exe on your path.
-    Note: Do not drop the extension '.exe'.
+- Get libcurl, which is helps Darcs download files quickly.
+  You could get wget instead, but only if you have the patience of a saint.
 - Set the following environment variables
 
   - `PATH`: add `c:/msys/1.0/bin` and 
