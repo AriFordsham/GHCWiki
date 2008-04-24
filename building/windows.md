@@ -303,7 +303,9 @@ this one for typical failure cases and what do to about them.
   `$(GHC_TOP)/` thus:
 
   ```wiki
-  $ ./configure --host=i386-unknown-mingw32 --with-gcc=c:/mingw/bin/gcc --with-ld=c:/mingw/bin/ld.exe
+  $ ./configure --host=i386-unknown-mingw32
+           --with-gcc=c:/mingw/bin/gcc
+           --with-ld=c:/mingw/bin/ld.exe
   ```
 
   This is the point at which you specify that you are building GHC-mingw
