@@ -39,19 +39,19 @@ The register allocator code is split into two main sections, the register alloca
 
 ### Graph coloring
 
-- [compiler/util/GraphBase.hs](/trac/ghc/browser/ghc/compiler/util/GraphBase.hs)
+- [compiler/utils/GraphBase.hs](/trac/ghc/browser/ghc/compiler/utils/GraphBase.hs)
 
   Defines the basic `Graph`, `Node` and `Triv` types used by the coloring algorithm.
 
-- [compiler/util/GraphColor.hs](/trac/ghc/browser/ghc/compiler/util/GraphColor.hs)
+- [compiler/utils/GraphColor.hs](/trac/ghc/browser/ghc/compiler/utils/GraphColor.hs)
 
   Defines the function `colorGraph` which is responsible for assigning colors (real regs) to nodes (virtual regs) in the register conflict graph. For more detail see Commentary/Compiler/GraphColoring Graph Coloring?.
 
-- [compiler/util/GraphOps.hs](/trac/ghc/browser/ghc/compiler/util/GraphOps.hs)
+- [compiler/utils/GraphOps.hs](/trac/ghc/browser/ghc/compiler/utils/GraphOps.hs)
 
   Defines functions to perform basic operations on the graphs such as adding, deleting, and coalescing nodes.
 
-- [compiler/util/GraphPps.hs](/trac/ghc/browser/ghc/compiler/util/GraphPps.hs)
+- [compiler/utils/GraphPps.hs](/trac/ghc/browser/ghc/compiler/utils/GraphPps.hs)
 
   Defines functions for pretty print graphs in human readable-ish and graphviz format.
 
