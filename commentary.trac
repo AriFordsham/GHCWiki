@@ -30,6 +30,8 @@ Please feel free to add material to this commentary: don't worry too much about 
       * [wiki:DynamicLinking]: Support for dynamic linking on various platforms, and what the flags do
       * [wiki:SharedLibraries]: Distribution and build system issues for shared libraries
 
+ * [wiki:Commentary/Libraries The Libraries]
+  
  * [wiki:Commentary/UserManual The User Manual] (formatting guidelines etc)
 
  * [wiki:Commentary/EvilMangler The Evil Mangler]
