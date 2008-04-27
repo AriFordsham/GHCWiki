@@ -39,7 +39,10 @@ In GHC we use a mixture of literate (`.lhs`) and non-literate (`.hs`) source. I 
 ## To CPP or not to CPP?
 
 
-We pass all the compiler sources through CPP. The -cpp flag is always added by the build system. 
+Currently we pass all the compiler sources through CPP. The -cpp flag is always added by the build system. 
+However, whenever possible we try to avoid using CPP, as it can hide code from the compiler (which means changes that work on one platform can break the build on another) and code using CPP can be harder to understand.
+
+
 The following CPP symbols are used throughout the compiler: 
 
 <table><tr><th>**DEBUG**</th>
@@ -47,13 +50,14 @@ The following CPP symbols are used throughout the compiler:
 Used to enables extra checks and debugging output in the compiler. The ASSERT macro (see `HsVersions.h`) provides assertions which disappear when DEBUG is not defined. 
 </td></tr></table>
 
-> `HsVersions.h` provides a macro `debugIsOn` which is defined to be `True` when DEBUG is defined and `False` otherwise.  The ideal way to provide debugging output is to use a Haskell expression "`if debugIsOn then ... else ...`" to arrange that the compiler will be silent when DEBUG is off (unless of course something goes wrong or the verbosity level is nonzero).  The advantage of this scheme is that *all code is typechecked on every compilation*, no matter what the setting of DEBUG.  When option `-O` is used, GHC will easily sweep away the unreachable code.
+>
+> However, whenever possible, it is better to us `debugIsOn` from the `Util` module, which is defined to be `True` when `DEBUG` is defined and `False` otherwise.  The ideal way to provide debugging output is to use a Haskell expression "`when debugIsOn $ ...`" to arrange that the compiler will be silent when `DEBUG` is off (unless of course something goes wrong or the verbosity level is nonzero). When option `-O` is used, GHC will easily sweep away the unreachable code.
 
 >
-> As a last resort, debugging code can be placed inside \#ifdef DEBUG, but since this strategy guarantees that only a fraction of the code is seen be the compiler on any one compilation, it is to be avoided when possible.
+> As a last resort, debugging code can be placed inside `#ifdef DEBUG`, but since this strategy guarantees that only a fraction of the code is seen be the compiler on any one compilation, it is to be avoided when possible.
 
 >
-> Regarding performance, a good rule of thumb is that DEBUG shouldn't add more than about 10-20% to the compilation time. This is the case at the moment. If it gets too expensive, we won't use it. For more expensive runtime checks, consider adding a flag - see for example -dcore-lint. 
+> Regarding performance, a good rule of thumb is that `DEBUG` shouldn't add more than about 10-20% to the compilation time. This is the case at the moment. If it gets too expensive, we won't use it. For more expensive runtime checks, consider adding a flag - see for example `-dcore-lint`.
 
 <table><tr><th>**GHCI**</th>
 <td>
@@ -115,7 +119,7 @@ An `{-# OPTIONS_GHC ... #-`} pragma is optional, but if present it should go rig
   everything should compile with the NCG nowadays, but that wasn't always the case).
 
 
-Don't bother putting -cpp or -fglasgow-exts in the OPTIONS pragma; these are already added to the command line by the build system. 
+Don't bother putting `-cpp` or `-fglasgow-exts` in the `OPTIONS` pragma; these are already added to the command line by the build system. 
 
 ### Exports
 
@@ -168,7 +172,7 @@ List imports in the following order:
   ```
 
 
-Import library modules from the core packages only (core packages are listed in [libraries/core-packages](/trac/ghc/browser/ghc/libraries/core-packages)). Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
+Import library modules from the boot packages only (boot packages are listed in [libraries/boot-packages](/trac/ghc/browser/ghc/libraries/boot-packages)). Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
 
 **Do not use explicit import lists**, except to resolve name clashes.  There are several reasons for this:
 
