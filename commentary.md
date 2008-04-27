@@ -36,6 +36,8 @@ Please feel free to add material to this commentary: don't worry too much about 
     - [DynamicLinking](dynamic-linking): Support for dynamic linking on various platforms, and what the flags do
     - [SharedLibraries](shared-libraries): Distribution and build system issues for shared libraries
 
+- [The Libraries](commentary/libraries)
+
 - [The User Manual](commentary/user-manual) (formatting guidelines etc)
 
 - [The Evil Mangler](commentary/evil-mangler)
