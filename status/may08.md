@@ -1,0 +1,6 @@
+# GHC Status May 2008
+
+TODO
+
+- Current status of type families and integration of GADTs -=chak
+- Current status of Data Parallel Haskell -=chak
