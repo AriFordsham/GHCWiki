@@ -49,8 +49,6 @@ Here's how to install MSYS.
       This provides {{{make}}}, {{{autoconf}}}, 
       {{{ssh}}} and probably more besides.
    Run both executables (in the order given above) to install them.  I put them in {{{c:/msys}}}
- * Get libcurl, which is helps Darcs download files quickly.
-   You could get wget instead, but only if you have the patience of a saint.
  * Set the following environment variables
     * {{{PATH}}}: add {{{c:/msys/1.0/bin}}} and 
       {{{c:/msys/1.0/local/bin}}}
