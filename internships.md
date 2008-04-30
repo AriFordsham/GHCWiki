@@ -3,7 +3,7 @@
 [ Microsoft Research Cambridge](http://research.microsoft.com/aboutmsr/labs/cambridge/) now runs a year-round [ internship programme](http://research.microsoft.com/aboutmsr/jobs/internships/).  You can apply for an internship slot in any area covered by the lab, but Simon and I are of course keen to attract strong applications from people interested in functional programming, Haskell, and GHC.
 
 
-The next available slots will be for Summer 2008 or thereabouts.  Deadline for application is end Feb; decisions in March.
+The next available slots will be for January 2009 or thereabouts.  We'll consider applications for January in the summer of 2008.
 
 ## What is an internship?
 
