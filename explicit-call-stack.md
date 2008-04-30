@@ -107,6 +107,56 @@ or make this the default behaviour for error, and ensure that this transformatio
 
 How realistic this is, I have no idea... but sounds good.
 
+1. This is similar to numbers 2-4 above, but rather than having an implicit stack built up we annotate all the functions whose position we don't care about, and we are told the position of the most recent function which doesn't have such an annotation. Suppose `location` is a magic variable of a datatype `Location`, which might include source position, source span, lexical address (by which I mean, for `foo = let x = location in ...`, something like `["Main", "foo", "x"]`), and anything else that might be useful. Then
+
+  ```wiki
+  undefinedFunction = error ("Undefined here: " ++ showLocation location)
+  ```
+
+
+would desugar to
+
+```wiki
+undefinedFunction = error ("Undefined here: " ++ showLocation (Loc 3 ...)
+```
+
+
+However, for `assert`, we want the location of the assertion, not the
+assertion function. So we annotate `assert` with a pragma to indicate that
+it is the location of the caller that we care about, so
+
+```wiki
+{-# INVISIBLE_LOCATION assert #-}
+assert True  _ x = x
+assert False s _ = error ("Assert failed at " ++
+                          showLocation location ++ ": " ++ s)
+
+{-# INVISIBLE_LOCATION fooAssert #-}
+fooAssert b s x = assert b ("Foo: " ++ s) x
+
+fun = fooAssert myBool "what myBool tests" myResult
+```
+
+
+would desugar to
+
+```wiki
+{-# INVISIBLE_LOCATION assert #-}
+assert _ True  _ x = x
+assert l False s _ = error ("Assert failed at " ++ 
+                            showLocation l ++ ": " ++ s)
+
+{-# INVISIBLE_LOCATION fooAssert #-}
+fooAssert l b s x = assert l b ("Foo: " ++ s) x
+
+fun = fooAssert (Loc 10 ...) myBool "what myBool tests" myResult
+```
+
+
+i.e. wherever you see `assert` or `fooAssert` you apply your location as
+the first argument, unless you are yourself at an invisible location in
+which case you just pass along your first argument.
+
 ## Open questions
 
 
