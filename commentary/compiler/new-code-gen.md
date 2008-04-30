@@ -4,6 +4,12 @@
 This page summarises work that Norman Ramsey, Simon M, and Simon PJ are doing on re-architecting GHC's back end.
 
 
+Bug list (code-gen related bugs that we may be able to fix):
+
+- [\#2249](https://gitlab.haskell.org//ghc/ghc/issues/2249)
+- [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253)
+
+
 Status:
 
 - The Rep swamp is drained: see [Commentary/Compiler/BackEndTypes](commentary/compiler/back-end-types)
