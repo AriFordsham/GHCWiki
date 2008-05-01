@@ -2,3 +2,26 @@
 
 == Status of DPH Banchmarks ==
 
+|| '''Program'''  || '''Sequential (manually vectorised) ''' || '''Vectorised'''         || ''' Parallel'''                     ||
+|| DotP           ||Order of mag. faster than list impl      || Same performance as seq. || speedup of 2 for 2 CPUs, 4 threads  ||
+|| !QuickSort     ||Slower than list (fusion)                || Slower than seq. (why?)  || speedup of 1.4 on 2 CPUs            ||
+|| !SparseVector  ||Similar to DotP                          ||                          ||                                     ||
+|| Primes (Nesl)  ||15 x faster than list version            || NYI                      || 20 x slower than seq (fusion?)      ||
+|| Primes (Simon) ||NYI                                      || Working                  || NYI                                 ||
+|| !BarnesHut     ||Small bug in alg                         || Working                  || See seq.                            ||  
+ 
+
+General remarks:
+
+* I only ran a first set of benchmarks when checking for what's there. I'll run the benchmarks 
+  properly as next step
+
+* Fusion doesn't work well on parallel programs yet, so for all but simple examples, the parallel program performs worse than the
+  sequential
+
+* The compiler doesn't explooit all fusion opportunities for QSort and BarnesHut. Once this is fixed, they should run considerably faster.
+
+
+
+
+  
