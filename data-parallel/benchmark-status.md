@@ -43,4 +43,6 @@ General remarks:
 - Fusion doesn't work well on parallel programs yet, so for all but simple examples, the parallel program performs worse than the
   sequential
 
-- The compiler doesn't explooit all fusion opportunities for QSort and BarnesHut. Once this is fixed, they should run considerably faster.
+- The compiler doesn't exploit all fusion opportunities for QSort and BarnesHut. Once this is fixed, they should run considerably faster.
+
+- Interestingly, the automatically vectorised version of qsort is quite a bit faster than the hand-flattened. Need to find out why.
