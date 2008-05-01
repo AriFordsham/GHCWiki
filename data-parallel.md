@@ -1,49 +1,31 @@
-CONVERSION ERROR
+# Data Parallel Haskell
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "/trac/ghc/wiki/DataParallel"
-  queryString          = "?version=14"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 07:04:12 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","251"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access /trac/ghc/wiki/DataParallel\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-Original source:
+This page documents the integration of nested data parallelism into GHC at the developer level, including notes about where we are and what needs doing.  See also the [ user-level wiki page](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell), which includes examples and tutorial-style instructions.
 
-```trac
-= Data Parallel Haskell =
-
-This page documents the integration of nested data parallelism into GHC at the developer level, including notes about where we are and what needs doing.  See also the [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell user-level wiki page], which includes examples and tutorial-style instructions.
 
 Most of the material describing our approach is partitioned into a set of subpages:
 
- * [wiki:DataParallel/Example Nested data parallelism by example]
- * [wiki:DataParallel/SMP Data parallelism on shared-memory machines]
- * [wiki:DataParallel/Design High-level design of adding NDP to GHC]
- * [wiki:DataParallel/ClosureConversion Details of the implementation of closure conversion]
- * [wiki:DataParallel/Vectorisation Our plan for implementing vectorisation on top of closure conversion]
- * [wiki:DataParallel/Desugaring Desugaring of array comprehensions]
- * [wiki:DataParallel/Related Other nested data parallel work]
+- [Nested data parallelism by example](data-parallel/example)
+- [Data parallelism on shared-memory machines](data-parallel/smp)
+- [High-level design of adding NDP to GHC](data-parallel/design)
+- [Details of the implementation of closure conversion](data-parallel/closure-conversion)
+- [Our plan for implementing vectorisation on top of closure conversion](data-parallel/vectorisation)
+- [Desugaring of array comprehensions](data-parallel/desugaring)
+- [Other nested data parallel work](data-parallel/related)
 
-== Status and work plan ==
+## Status and work plan
 
-Detailed information on how to use the current implementation is at the [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell user-level wiki page].  Here is information on the implementation status and outstanding work items:
 
- * DPH [wiki:DataParallel/Repositories repositories]
- * Our [wiki:DataParallel/WorkPlan work plan]
- * Some [wiki:DataParallel/Benchmarks benchmarks]
+Detailed information on how to use the current implementation is at the [ user-level wiki page](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell).  Here is information on the implementation status and outstanding work items:
 
-== Old material ==
+- DPH [repositories](data-parallel/repositories)
+- Our [work plan](data-parallel/work-plan) (needs to be updated!)
+- Some [benchmarks](data-parallel/benchmarks)
+
+## Old material
+
 
 Pages that have fallen out of use (and contain out dated information):
 
- * [wiki:DataParallel/Optimisation Optimisation, and problems therewith]
-```
+- [Optimisation, and problems therewith](data-parallel/optimisation)
