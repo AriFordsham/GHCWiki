@@ -17,7 +17,7 @@ Most of the material describing our approach is partitioned into a set of subpag
 Detailed information on how to use the current implementation is at the [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell user-level wiki page].  Here is information on the implementation status and outstanding work items:
 
  * DPH [wiki:DataParallel/Repositories repositories]
- * Our [wiki:DataParallel/WorkPlan work plan]
+ * Our [wiki:DataParallel/WorkPlan work plan] (needs to be updated!)
  * Some [wiki:DataParallel/Benchmarks benchmarks]
 
 == Old material ==
