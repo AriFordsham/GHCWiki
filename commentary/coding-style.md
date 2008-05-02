@@ -6,6 +6,64 @@ This is a rough description of some of the coding practices and style that we us
 
 The general rule is to stick to the same coding style as is already used in the file you're editing. If you must make stylistic changes, commit them separately from functional changes, so that someone looking back through the change logs can easily distinguish them. 
 
+## Comments and commit messages
+
+
+Commenting is good but (
+
+- long comments *interleaved with the code* can make the code itself incredibly hard to read, and
+- long comments *detached from the code* are easy to miss when you are editing the code itself, and soon become out of date or even misleading.
+
+
+We have adopted a style that seems to help.  Here's an example:
+
+```wiki
+prepareRhs :: SimplEnv -> OutExpr -> SimplM (SimplEnv, OutExpr)
+-- Adds new floats to the env iff that allows us to return a good RHS
+prepareRhs env (Cast rhs co)    -- Note [Float coercions]
+  | (ty1, _ty2) <- coercionKind co      -- Do *not* do this if rhs is unlifted 
+  , not (isUnLiftedType ty1)            -- see Note [Float coercions (unlifted)]
+  = do  { (env', rhs') <- makeTrivial env rhs
+        ; return (env', Cast rhs' co) }
+
+        ...more equations for prepareRhs....
+
+{- Note [Float coercions]
+~~~~~~~~~~~~~~~~~~~~~~
+When we find the binding
+        x = e `cast` co
+we'd like to transform it to
+        x' = e
+        x = x `cast` co         -- A trivial binding
+There's a chance that e will be a constructor application or function, or something
+like that, so moving the coerion to the usage site may well cancel the coersions
+and lead to further optimisation.  Example:
+        ...more stuff about coercion floating...
+-}
+```
+
+
+Notice that
+
+- **Interleaved with the code** is a short link `Note [Float coercions]`. You can't miss it when you are editing the code, but you can still see the code itself.
+- **Detached from the code** is the linked comment, starting with the same string `Note [Float coercions]`.  It can be long, and often includes examples.
+
+
+The standard format "`Note [Float coercions]`" serves like URL, to point to an out-of-line comment.  Usually the target is in the same module, but not always.  Sometimes we say
+
+```wiki
+    -- See Note [Float coercions] in SpecConstr.lhs
+```
+
+
+Please use this technique.  It's robust, and survives successive changes to the same lines of code.  When you are changing code, it draws attention to non-obvious things you might want to bear in mind.  When you encounter the note itself you can search for the string to find the code that implements the thoughts contained in the comment.
+
+
+Please do not put comments like these in commit messages instead, *even if the patch is devoted to a single change*.  The information is harder to find in a commit message, and (much worse) there is no explicit indication in the code that there is carefully-written information available about that particular line of code.  Instead, you can refer to the Note from the commit message.
+
+
+(Commit messages can nevertheless contain substantial information, but it is usually of a global nature.  E.g. "This patch modifies 20 files to implement a new form of inlining pragma".)
+
 ## Warnings
 
 
