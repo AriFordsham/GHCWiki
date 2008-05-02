@@ -9,7 +9,7 @@ The general rule is to stick to the same coding style as is already used in the 
 
 == Comments and commit messages ==
 
-Commenting is good but (
+Commenting is good but
   * long comments ''interleaved with the code'' can make the code itself incredibly hard to read, and
   * long comments ''detached from the code'' are easy to miss when you are editing the code itself, and soon become out of date or even misleading.
 
