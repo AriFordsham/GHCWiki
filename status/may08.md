@@ -5,7 +5,7 @@ The last six months have been a time of consolidation for GHC.  We have done man
 
 ## Highlights of the last six months
 
-- **Simple language extensions** are now solidly in the HEAD
+- **Several simple language extensions** are now solidly in the HEAD
 
   - Record syntax: wild-card patterns, punning, and field disambiguation
   - View patterns
