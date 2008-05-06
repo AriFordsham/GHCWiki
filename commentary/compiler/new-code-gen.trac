@@ -67,7 +67,7 @@ There is a new Cmm data type:
  * '''`CmmExpr`''' contains the data types for Cmm expressions, registers, and the like.  It does not depend on the dataflow framework at all.
 
 --------------------------------------
-== The pipeline ==
+== The pipeline: Make the new code generator work with the existing native codeGen ==
 
  * '''Code generator''' converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`).
 

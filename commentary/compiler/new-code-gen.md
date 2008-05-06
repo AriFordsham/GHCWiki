@@ -84,7 +84,7 @@ There is a new Cmm data type:
 
 ---
 
-## The pipeline
+## The pipeline: Make the new code generator work with the existing native codeGen
 
 - **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`).
 
