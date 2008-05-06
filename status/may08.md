@@ -1,7 +1,9 @@
 # GHC Status May 2008
 
 
-The last six months have been a time of consolidation for GHC.  We have done many of the things described in the last HCAR status report (November 2007), but there are few new headline items to report, so this status report is briefer than usual.  
+The last six months have been a time of consolidation for GHC.  We have done many of the things described in the last HCAR status report (November 2007), but there are few new headline items to report, so this status report is briefer than usual. 
+
+## Highlights of the last six months
 
 - **Simple language extensions**
 
@@ -16,8 +18,7 @@ The last six months have been a time of consolidation for GHC.  We have done man
 
 - **Impredicative polymorphism**.  We are not happy with GHC's current implementation of impredicative polymorphism, which is rather complicated and ad hoc.  Dimitrios (with Simon and Stephanie) wrote a paper about a new and better approach: "[ FPH : First-class Polymorphism for Haskell](http://research.microsoft.com/%7Esimonpj/papers/boxy)".  At the same time, Daan Leijen has been working on his closely-related design: "[ Flexible types: robust type inference for first-class polymorphism](http://research.microsoft.com/users/daan/pubs.html)".  Daan's design has a much simpler implementation, in exchange for an (arguably) less-predictable specification.  Which of these two should we implement?  Let us know!
 
-
-Work on the back end has been stalled, but John Dias started a 6-month internship in April, so expect progress on this front!
+- **External Core**.  Tim Chevalier has been working on making GHC emit External Core that can be correctly parsed, typechecked, and interpreted by a separate Haskell program.  This isn't the same as the ability to round-trip External Core back into GHC, but it's a big step forward from the bit-rotted state into which External Core had fallen.
 
 ## Nested data parallelism
 
@@ -28,6 +29,14 @@ We have been working hard on Data Parallel Haskell, especially Roman Leshchinski
 
 
 We expect to release a working version of Data Parallel Haskell as part of GHC 6.10 (see below).
+
+## Other current activities
+
+- Work on the **back end** has been stalled, but John Dias started a 6-month internship in April, so expect progress on this front.
+
+- Thomas Schilling is doing a Google Summer of Code project to improve the **GHC API**.
+
+- Max Bolingbroke is doing a Google Summer of Code project to make it easy to build a **plug-in** for GHC; for example, a new optimisation or analysis pass.
 
 ## Release plans
 
@@ -42,6 +51,7 @@ We plan to release GHC 6.10 around the time of ICFP, with significant new featur
 - Data Parallel Haskell
 - Parallel garbage collection
 - Extensible exceptions
+- External Core
 - Shared libraries
 - Improved back end
 - Further library reorganisation
