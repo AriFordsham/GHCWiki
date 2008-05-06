@@ -18,7 +18,7 @@ The last six months have been a time of consolidation for GHC.  We have done man
 
 - **Impredicative polymorphism**.  We are not happy with GHC's current implementation of impredicative polymorphism, which is rather complicated and ad hoc.  Dimitrios (with Simon and Stephanie) wrote a paper about a new and better approach: "[ FPH : First-class Polymorphism for Haskell](http://research.microsoft.com/%7Esimonpj/papers/boxy)".  At the same time, Daan Leijen has been working on his closely-related design: "[ Flexible types: robust type inference for first-class polymorphism](http://research.microsoft.com/users/daan/pubs.html)".  Daan's design has a much simpler implementation, in exchange for an (arguably) less-predictable specification.  Which of these two should we implement?  Let us know!
 
-- **External Core**.  Tim Chevalier has been working on making GHC emit External Core that can be correctly parsed, typechecked, and interpreted by a separate Haskell program.  This isn't the same as the ability to round-trip External Core back into GHC, but it's a big step forward from the bit-rotted state into which External Core had fallen.
+- **External Core**.  Tim Chevalier has updated the External Core format to incorporate type equality coercions and other recent GHC changes, as well as extending the stand-alone External Core tools (a parser, typechecker and interpreter that can be built separately from GHC) to handle this new format. As of now, it's only possible to use GHC's front-end to pipe External Core into other back-end tools -- GHC still cannot read in External Core that was produced by other tools (or itself). But, this is an improvement over the bit-rotted state into which External Core had fallen.
 
 ## Nested data parallelism
 
