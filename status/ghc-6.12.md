@@ -18,6 +18,8 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 >
 > These are all in the HEAD already.
 
+- **External Core** (output only) is working again, thanks to Tim Chevalier.
+
 - **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.  *Simon Marlow*
 
 - **Parallel garbage collection** (see [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  *Simon Marlow*
