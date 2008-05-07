@@ -38,6 +38,8 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 - Improvements to the **GHC API** (Thomas Schilling's SoC project)
 
+- GHC now uses **libffi** to implement parts of the FFI, replacing some of the home-grown and very architecture-specific code we had to do this.  Amongst other benefits, this will ease the task of porting GHC in the future.
+
 # Beyond 6.10
 
 
