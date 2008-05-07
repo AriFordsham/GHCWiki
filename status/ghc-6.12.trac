@@ -29,6 +29,8 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
  
  * Better '''versioning''' to support separate compilation; perhaps checksums/fingerprints.
 
+ * Improvements to the '''GHC API''' (Thomas Schilling's SoC project)
+
 
 
 = Beyond 6.10 =
