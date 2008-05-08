@@ -25,7 +25,8 @@ The last six months have been a time of consolidation for GHC.  We have done man
 
 We have been working hard on Data Parallel Haskell, especially Roman Leshchinskiy and Gabriele Keller.  It has turned out be be hard to get the entire transformation and optimisation stack to work smoothly, and we have not made progress announcements because we don't want to yell about it until it Actually Works.  But it is the biggest single GHC focus: Roman works on it full time.
 
-*Manuel: more to say.*
+
+Large parts of the major pieces are in place.  GHC contains a shiny new vectoriser that turns scalar into data-parallel functions.  Moreover, the sequential and parallel array libraries targeted by the vectoriser have been steadily growing.  We managed to successfully run small applications, such as an *n*-body simulator based on the Barnes-Hut algorithm, but the vectoriser and library are still awkward to use and need to be more robust before being useful to a wider audience.  We also need to improve performance.
 
 
 We expect to release a working version of Data Parallel Haskell as part of GHC 6.10 (see below).
