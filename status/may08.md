@@ -12,7 +12,7 @@ The last six months have been a time of consolidation for GHC.  We have done man
   - Generalised list comprehensions
   - Quasi-quoting
 
-- **Type-indexed families**.  We learned a lot by writing a paper about the question of type inference in the presence of type families (and existentials, and GADTs): "[ Type checking with open type functions](http://research.microsoft.com/%7Esimonpj/papers/assoc-types)".  The implementation has not quite caught up with the paper and is still incomplete in many ways, but it's a focus of active work.  
+- **Type-indexed families**.  We learned a lot by writing a paper about the question of type inference in the presence of type families (and existentials, and GADTs): "[ Type checking with open type functions](http://research.microsoft.com/%7Esimonpj/papers/assoc-types)".  The implementation has not quite caught up with the paper and is still incomplete in many ways, but it's a focus of active work and already usable.  If you are interested in type families, now would be a good time to grab a development snapshot of GHC, write some programs or port your favourite program using functional dependencies, and then, let us know what does and what doesn't work for you.
 
 - **Parallel garbage collection**. Much implementation work, and a paper for ISMM 2008: "[ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)". 
 
