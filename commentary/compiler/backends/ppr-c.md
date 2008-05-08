@@ -48,13 +48,33 @@ There are some disadvantages:
 When a label is referenced by an expression, the compiler needs to
 know whether to declare the label first, and if so, at what type.
 
+
+C only lets us declare an external label at one
+type in any given source file, even if the scopes of the
+declarations don't overlap.  So we either have to scan the whole code to figure out what the type of each label should be, or we opt for declaring all labels at the same type and then casting later.  Currently we do the latter.
+
 - all labels referenced as a result of an FFI declaration
   are declared as `extern StgWord[]`, including funciton labels.
   If the label is called, it is first cast to the correct
   function type.  This is because the same label might be
   referred to both as a function and an untyped data label in
   the same module (e.g. Foreign.Marsal.Alloc refers to "free"
-  this way).
+  this way).  
+
+- An exception is made to the above for functions declared with
+  the `stdcall` calling convention on Windows.  These functions must
+  be declared with the `stdcall` attribute and a function type,
+  otherwise the C compiler won't add the `@n` suffix to the symbol.
+  We can't add the `@n` suffix ourselves, because it is illegal
+  syntax in C.  However, we always declare these labels with the
+  type `void (*)(void)`, to avoid conflicts if the same function
+  is called at different types in one module (see `Graphics.Win32.GDI.HDC.SelectObject`).
+
+- Another exception is made for functions that are marked `never returns`.  We
+  have to put an `__attribute__((noreturn))` on the declaration for these functions,
+  and it only works if the function is declared with a proper function type and
+  called without casting it to/from a pointer.  So only the correct prototype
+  will do here.
 
 - all RTS symbols already have declarations (mostly with the correct
   type) in [includes/StgMiscClosures.h](/trac/ghc/browser/ghc/includes/StgMiscClosures.h), so no declarations are generated.
