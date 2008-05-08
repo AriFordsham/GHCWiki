@@ -70,7 +70,7 @@ declarations don't overlap.  So we either have to scan the whole code to figure 
   type `void (*)(void)`, to avoid conflicts if the same function
   is called at different types in one module (see `Graphics.Win32.GDI.HDC.SelectObject`).
 
-- Another exception is made for functions that are marked `never returns`.  We
+- Another exception is made for functions that are marked `never returns` in C--.  We
   have to put an `__attribute__((noreturn))` on the declaration for these functions,
   and it only works if the function is declared with a proper function type and
   called without casting it to/from a pointer.  So only the correct prototype
