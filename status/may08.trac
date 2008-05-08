@@ -28,6 +28,8 @@ We expect to release a working version of Data Parallel Haskell as part of GHC 6
 
 == Other current activities ==
 
+ * Max Bolingbroke resurrected the '''static argument transformation'''.  It doesn't matter for most programs, but has a big effect on a few.
+
  * Work on the '''back end''' has been stalled, but John Dias started a 6-month internship in April, so expect progress on this front.
 
  * Thomas Schilling is doing a Google Summer of Code project to improve the '''GHC API'''.
