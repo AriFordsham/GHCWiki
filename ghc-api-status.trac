@@ -13,3 +13,9 @@ This Wiki page shall serve as a central place to collect all issues and ideas re
 === Possibly Related ===
 
  * #2159 - Use a more efficient representation than {{{[DynFlag]}}}
+
+== Related Documents and Discussions ==
+
+ * [http://code.google.com/soc/2008/haskell/appinfo.html?csaid=4189AF2C8AE5E25A my (Thomas Schilling) GSoC proposal]
+
+ * [http://www.haskell.org/pipermail/haskell-cafe/2008-May/042616.html (@cafe Q) How to get the typechecked AST?]
