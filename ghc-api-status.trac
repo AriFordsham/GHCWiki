@@ -4,18 +4,27 @@ This Wiki page shall serve as a central place to collect all issues and ideas re
 
 Simon Marlow reported that the last time he tried to work on the GHC API, it turned into a huge refactoring task.  This could mean that it may take a while until bigger changes are visible and it is very likely that programs that currently use the GHC API will break.  Hopefully, though, it will lead to a more usable GHC API and maybe to a more hackable code base in general.  
 
-I plan to work with a use case and try to make it as clear and simple as possible by adapting the GHC API. 
+I plan to work with a use case and try to make it as clear and simple as possible by adapting the GHC API.  The use case will be a program that generates HTML pages for Haskell programs which will give access to more and more semantic information.  E.g. it will start out with linking references of names to their definitions (possibly to import statement or link to other module), then give typing information, and later give types for sub-expressions.  A lot of this is already possible, but some may not.  
+
+This use case will hopefully reflect many features an IDE or code analysis tools need.  Once this is working, we can move on to performing various transformations on the given code, or only a selected part of it.  This will should help figure out what information needs to be available to work with exposed, separate compilation phases.
+
+There are also a few non-functional requirements:
+
+ * Using the API should be fairly self-explainatory and safe.  I.e., where necessary inputs are checked for invariants and there should be no implicit dependencies.  More concretely:
+   * If several phases use the same AST, the AST will contain a type parameter which corresponds to the phases that have been performed with it.  Hence, if a function requires input of type {{{AST Phase3}}} then it is clear that the phases with types {{{AST Phase2 -> AST Phase3}}} and {{{AST Phase1 -> AST Phase3}}} must be performed first.
+   * GHC uses some evil hacks to simulate global variables but has some implicit assumptions when those are actually accessible.  If you call a function too early, ie., before a certain variable is initialised, GHC will die with a very unhelpful error message.  I hope to make as many of those dependencies explicit and encode those dependencies via the API (mostly via types).
+   
 
 == Trac Tickets Related to the GHC API ==
 
  * #1467 - GHC API: expose separate compilation stages
  * #1886 - GHC API should preserve and provide access to comments
  * #654 - Cabalization of the GHC library.
- * #1631 - Make the External Package Table contain {{{ModDetails}}} not {{{ModIface}}}
 
 === Possibly Related ===
 
  * #2159 - Use a more efficient representation than {{{[DynFlag]}}}
+ * #1631 - Make the External Package Table contain {{{ModDetails}}} not {{{ModIface}}}
 
 == Related Documents and Discussions ==
 
@@ -55,3 +64,5 @@ I plan to work with a use case and try to make it as clear and simple as possibl
    anyway, but it would be nice to have the ugly bits hidden,
    such as {{{unsafeCast#}}}, or whatever it was). that might require
    a standard for typeReps, if I recall correctly.. (Claus Reinke)
+ * ... more comments here ...
+ 
