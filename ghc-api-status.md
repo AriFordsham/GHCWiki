@@ -5,4 +5,11 @@ This Wiki page shall serve as a central place to collect all issues and ideas re
 
 ## Trac Tickets Related to the GHC API
 
+- [\#1467](https://gitlab.haskell.org//ghc/ghc/issues/1467) - GHC API: expose separate compilation stages
 - [\#1886](https://gitlab.haskell.org//ghc/ghc/issues/1886) - GHC API should preserve and provide access to comments
+- [\#654](https://gitlab.haskell.org//ghc/ghc/issues/654) - Cabalization of the GHC library.
+- [\#1631](https://gitlab.haskell.org//ghc/ghc/issues/1631) - Make the External Package Table contain `ModDetails` not `ModIface`
+
+### Possibly Related
+
+- [\#2159](https://gitlab.haskell.org//ghc/ghc/issues/2159) - Use a more efficient representation than `[DynFlag]`
