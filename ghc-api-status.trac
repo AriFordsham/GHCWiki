@@ -1,0 +1,8 @@
+= GHC API Improvement Status =
+
+This Wiki page shall serve as a central place to collect all issues and ideas related to the GHC API.  If you feel that something is missing from this page, please put it here.
+
+
+== Trac Tickets Related to the GHC API ==
+
+ * #1886 - GHC API should preserve and provide access to comments
