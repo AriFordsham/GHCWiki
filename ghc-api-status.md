@@ -22,3 +22,34 @@ This Wiki page shall serve as a central place to collect all issues and ideas re
 - [ Porting HaRe to the GHC API](http://www.cs.kent.ac.uk/pubs/2005/2266/) Technical report describing some difficulties with the current API.
 - [ GHC as a Library](http://www.haskell.org/haskellwiki/GHC/As_a_library), the Haskell Wiki page
 - [ GHC Commentary on the GHC API](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/API) (may be outdated)
+
+## Various Ideas, Comments, Questions
+
+- **Interface Stability** - Is there a way to reduce version-skew for clients of the GHC
+  API (currently, there is no stability guaranteed at all, so if you
+  don't want to live with lots of \#ifdefs and breakage, you keep
+  delaying your fantastic GHC API-base projects "until the dust
+  settles") (Claus Reinke)
+- Is it possible to use standalone deriving to get a generic
+  programming framework over the ASTs without blowing
+  up GHC's code for its own use (deriving Data, etc.)? (Claus Reinke)
+- From `compiler/main/GHC.hs`:
+
+  ```wiki
+  -- NOTE:
+  --   - things that aren't in the output of the typechecker right now:
+  --     - the export list
+  --     - the imports
+  --     - type signatures
+  --     - type/data/newtype declarations
+  --     - class declarations
+  --     - instances
+  --   - extra things in the typechecker's output:
+  --     - default methods are turned into top-level decls.
+  --     - dictionary bindings
+  ```
+- dynamic loading of Haskell code, ala hs-plugins, but without
+  the version/platform issues (GHCi has to be able to do this
+  anyway, but it would be nice to have the ugly bits hidden,
+  such as `unsafeCast#`, or whatever it was). that might require
+  a standard for typeReps, if I recall correctly.. (Claus Reinke)
