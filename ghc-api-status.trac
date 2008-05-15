@@ -17,5 +17,6 @@ This Wiki page shall serve as a central place to collect all issues and ideas re
 == Related Documents and Discussions ==
 
  * [http://code.google.com/soc/2008/haskell/appinfo.html?csaid=4189AF2C8AE5E25A my (Thomas Schilling) GSoC proposal]
-
- * [http://www.haskell.org/pipermail/haskell-cafe/2008-May/042616.html (@cafe Q) How to get the typechecked AST?]
+ * Related GSoC project [http://code.google.com/soc/2008/haskell/appinfo.html?csaid=69C2ABD1E013EE0C Dynamically Loaded Plugins for the Glasgow Haskell Compiler]
+ * Haskell-cafe question: [http://www.haskell.org/pipermail/haskell-cafe/2008-May/042616.html How to get the typechecked AST?]
+ * [http://www.cs.kent.ac.uk/pubs/2005/2266/ Porting HaRe to the GHC API] Technical report describing some difficulties with the current API.
