@@ -9,3 +9,53 @@ The current conversion from STG to CMM leaves stack management completely implic
 And of course, none of the argument-passing or stack-adjusting instructions are available during optimization, before the stack layout is fixed.
 
 A much better approach is to give symbolic names to locations on the stack, lower all the argument passing and stack adjusting to the actual data-movement instructions, and replace the names later when the final stack layout is fixed.
+
+For example
+{{{
+f(x) {
+   y = x;
+   ...
+
+   call g(x) returning to L;
+
+ L:
+   ...
+}
+}}}
+
+should be compiled to
+
+{{{
+f:
+   x = m[stack(f, 1)]; // copy the argument from stack area `f' to 
+   y = x;
+
+   ...
+
+   sp = stack(L, 1); // Make room on the stack for the arguments
+   m[stack(L, 1)] = x; // copy the argument
+   m[stack(L, 0)] = L;
+   call g();
+
+ L:
+   ... 
+}
+}}}
+
+The exact syntax will probably be a bit different, making the representation of the stack slots abstract, but there's the gist of it.
+
+Ah, but do we assign stack slots? As it turns out, an important optimization in GHC is to use return values as stack slots whenever possible. For example, given the program
+
+{{{
+f() {
+  x = g();
+  ...
+}
+}}}
+
+If g() returns x on the stack, we would like the return location be used as x's stack slot for the rest of the procedure.
+Issues raised by this (to be expounded upon):
+ * Stack holes where return addresses were stored. Such a hole can be filled with a variable that can't be stored in a convenient return slot.
+ * Stack allocation must be based on control flow -- how else would you know if x has already been placed or if it can be stored on the bottom of the stack?
+ 
+Ah! Here's an argument for making the stack slots abstract and unique, instead of referring to two values that share the same stack slot (e.g. a call parameter and a return parameter) by the same name. Another apparently important GHC optimization is to keep a return address live on the stack if it can be reused in a subsequent call. It would be really easy to say that an abstract stack slot is live. But it's not so easy if the only way to name the slot is by its (non-distinct) address stack(L, 3) because stack(L, 3) may also be used by some other value that shares the same slot.
