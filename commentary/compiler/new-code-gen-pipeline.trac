@@ -2,6 +2,7 @@
 == The pipeline: Make the new code generator work with the existing native codeGen ==
 
  * '''Code generator''' converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`).
+   * TODO: Make parameter passing and stack adjustments explicit using the [wiki:Commentary/Compiler/StackAreas ''Stack Area'' abstraction.]
 
  * '''Simple control flow optimisation''', implemented in `CmmContFlowOpt`:
    * Branch chain elimination.
@@ -9,7 +10,6 @@
    * Block concatenation.  branch to K; and this is the only use of K.  
    * Common Block Elimination (like CSE). This essentially implements the Adams optimisation, we believe.
    * Consider (sometime): block duplication.  branch to K; and K is a short block.  Branch chain elimination is just a special case of this.
-
 
  * '''Proc-point analysis''' and '''transformation''', implemented in `CmmProcPointZ`.  (Adams version is `CmmProcPoint`.) The transformation part adds a `CopyIn` to the front of each proc-point, which expresses the idea that proc-points use a standard entry convention.
     * The analysis produces a set of `BlockId` that should become proc-point
