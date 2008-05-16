@@ -1,0 +1,56 @@
+---
+
+## The pipeline: Make the new code generator work with the existing native codeGen
+
+- **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`).
+
+- **Simple control flow optimisation**, implemented in `CmmContFlowOpt`:
+
+  - Branch chain elimination.
+  - Remove unreachable blocks.
+  - Block concatenation.  branch to K; and this is the only use of K.  
+  - Common Block Elimination (like CSE). This essentially implements the Adams optimisation, we believe.
+  - Consider (sometime): block duplication.  branch to K; and K is a short block.  Branch chain elimination is just a special case of this.
+
+- **Proc-point analysis** and **transformation**, implemented in `CmmProcPointZ`.  (Adams version is `CmmProcPoint`.) The transformation part adds a `CopyIn` to the front of each proc-point, which expresses the idea that proc-points use a standard entry convention.
+
+  - The analysis produces a set of `BlockId` that should become proc-point
+  - The transformation inserts a `CopyIn` at the start of each proc-point, and a `CopyOut` just before each branch to a proc-point.
+
+- **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The middle node of the result is `Middle` (from `ZipCfgCmm` extended with `Spill` and `Reload` constructors.  
+  Invariant: (something like) all variables in a block are gotten from `CopyIn` or `Reload`. 
+
+- **Stack slot layout**.  Build inteference graph for variables live across calls, and allocate a stack slot for such variables.  That is, stack slot allocation is very like register allocation.
+
+- **Lay out the stack**
+
+  - A `SlotId` is the offset of a stack slot from the old end (high address) of the frame.  It doesn't vary as the physical stack pointer moves.
+  - A particular variable has one and only one `SlotId`.  
+  - The stack layout pass produces a mapping of: *(variable -\> slotid, label -\> slotid)*
+  - Plus, it transforms the code by eliminating `CopyIn` and `CopyOut` in favour of assigments
+
+- **Make the stack explicit**. 
+
+  - Convert `Spill`, `Reload` to hardware-register and stack traffic.
+  - Add stack-pointer adjustment instructions.
+  - Avoid memory traffic at joins. (What does this mean?)
+
+- **Split into multiple CmmProcs**.
+
+**The Adams optimisation** is done by stuff above.  Given:
+
+```wiki
+  call f returns to K
+  K: CopyIn retvals; goto L
+  L: <code>
+```
+
+>
+> transform to 
+>
+> ```wiki
+>   call f returns to L
+>   L : CopyIn retvals; <code>
+> ```
+>
+> *and* move `CopyOut` into L's other predecessors.  ToDo: explain why this is a good thing.  In fact Common Block Elimination does this, we think.
