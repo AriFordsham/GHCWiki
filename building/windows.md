@@ -27,11 +27,11 @@ but you do need one or the other to *build* GHC.
   - Python (already in Cygwin)
   - An editor 
 
-1. Get MinGW. This is used solely for the C compiler and linker that are bundled into the GHC distribution.  Do not add any of the MinGW stuff to your path; the C compiler is only explicitly (via the `--with-gcc` flag you give to `configure` later)
+1. Get MinGW?. This is used solely for the C compiler and linker that are bundled into the GHC distribution.  
 
 1. Get the [GHC sources](building/getting-the-sources)
 
-1. Do the build
+1. [Do the build](building/windows#building-ghc)
 
 ## Vista users
 
