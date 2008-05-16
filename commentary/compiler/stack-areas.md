@@ -1,0 +1,79 @@
+---
+
+## Stack Areas: How to name stack locations before laying out the stack
+
+
+The current conversion from STG to CMM leaves stack management completely implicit. The consequence is that a number of things must happen all at once:
+
+- The stack is laid out.
+- CopyIn and CopyOut nodes are converted to the appropriate moves, loads and stores, as required by the calling conventions.
+- The stack pointer is adjusted to conventional locations before and after function calls.
+- The return address is pushed on the stack at call sites.
+
+
+And of course, none of the argument-passing or stack-adjusting instructions are available during optimization, before the stack layout is fixed.
+
+
+A much better approach is to give symbolic names to locations on the stack, lower all the argument passing and stack adjusting to the actual data-movement instructions, and replace the names later when the final stack layout is fixed.
+
+
+For example
+
+```wiki
+f(x) {
+   y = x;
+   ...
+
+   call g(x) returning to L;
+
+ L:
+   ...
+}
+```
+
+
+should be compiled to
+
+```wiki
+f:
+   x = m[stack(f, 1)]; // copy the argument from stack area `f' to local x
+   y = x;
+
+   ...
+
+   sp = stack(L, 1); // Make room on the stack for the arguments
+   m[stack(L, 1)] = L; // copy the return address
+   m[stack(L, 0)] = x; // copy the argument
+   call g();
+
+ L:
+   ... 
+}
+```
+
+
+The exact syntax will probably be a bit different, but there's the gist of it.
+
+
+But how do we map the stack slots to actual hardware locations? As it turns out, it is quite common in GHC that the first definition of a variable comes when its value is returned from a function call. If the value is returned on the stack, then an important optimization is to avoid copying that value to some other ``local`` location on the stack. How is that achieved? By making sure the location where the value is returned is defined as its local location.
+
+
+For example,
+
+```wiki
+f() {
+  x = g();
+  ...
+}
+```
+
+
+If g() returns x on the stack, we would like the return location be used as x's stack slot for the rest of the procedure.
+Issues raised by this (to be expounded upon):
+
+- Stack holes where return addresses were stored. Such a hole can be filled with a variable that can't be stored in a convenient return slot.
+- Stack allocation must be based on control flow -- how else would you know if x has already been placed or if it can be stored on the bottom of the stack?
+
+
+ 
+Ah! Here's an argument for making the stack slots abstract and unique, instead of referring to two values that share the same stack slot (e.g. a call parameter and a return parameter) by the same name. Another apparently important GHC optimization is to keep a return address live on the stack if it can be reused in a subsequent call. It would be really easy to say that an abstract stack slot is live. But it's not so easy if the only way to name the slot is by its (non-distinct) address stack(L, 3) because stack(L, 3) may also be used by some other value that shares the same slot.
