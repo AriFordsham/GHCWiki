@@ -96,23 +96,6 @@ There is a new Cmm data type:
   - Common Block Elimination (like CSE). This essentially implements the Adams optimisation, we believe.
   - Consider (sometime): block duplication.  branch to K; and K is a short block.  Branch chain elimination is just a special case of this.
 
-- **The Adams optimisation**.  Given:
-
-  ```wiki
-    call f returns to K
-    K: CopyIn retvals; goto L
-    L: <code>
-  ```
-
-  transform to 
-
-  ```wiki
-    call f returns to L
-    L : CopyIn retvals; <code>
-  ```
-
-  *and* move `CopyOut` into L's other predecessors.  ToDo: explain why this is a good thing.  In fact Common Block Elimination does this, we think.
-
 - **Proc-point analysis** and **transformation**, implemented in `CmmProcPointZ`.  (Adams version is `CmmProcPoint`.) The transformation part adds a `CopyIn` to the front of each proc-point, which expresses the idea that proc-points use a standard entry convention.
 
   - The analysis produces a set of `BlockId` that should become proc-point
@@ -123,13 +106,38 @@ There is a new Cmm data type:
 
 - **Stack slot layout**.  Build inteference graph for variables live across calls, and allocate a stack slot for such variables.  That is, stack slot allocation is very like register allocation.
 
+- **Lay out the stack**
+
+  - A `SlotId` is the offset of a stack slot from the old end (high address) of the frame.  It doesn't vary as the physical stack pointer moves.
+  - A particular variable has one and only one `SlotId`.  
+  - The stack layout pass produces a mapping of: *(variable -\> slotid, label -\> slotid)*
+  - Plus, it transforms the code by eliminating `CopyIn` and `CopyOut` in favour of assigments
+
 - **Make the stack explicit**. 
 
-  - Convert `CopyIn`, `CopyOut`, `Spill`, `Reload` to hardware-register and stack traffic.
+  - Convert `Spill`, `Reload` to hardware-register and stack traffic.
   - Add stack-pointer adjustment instructions.
   - Avoid memory traffic at joins. (What does this mean?)
 
 - **Split into multiple CmmProcs**.
+
+**The Adams optimisation** is done by stuff above.  Given:
+
+```wiki
+  call f returns to K
+  K: CopyIn retvals; goto L
+  L: <code>
+```
+
+>
+> transform to 
+>
+> ```wiki
+>   call f returns to L
+>   L : CopyIn retvals; <code>
+> ```
+>
+> *and* move `CopyOut` into L's other predecessors.  ToDo: explain why this is a good thing.  In fact Common Block Elimination does this, we think.
 
 ---
 
