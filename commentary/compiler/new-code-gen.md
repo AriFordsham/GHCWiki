@@ -93,9 +93,8 @@ There is a new Cmm data type:
   - Branch chain elimination.
   - Remove unreachable blocks.
   - Block concatenation.  branch to K; and this is the only use of K.  
-
-- Common block elimination (like CSE). This essentially implements the Adams optimisation, we believe.
-- Consider (sometime): block duplication.  branch to K; and K is a short block.  Branch chain elimination is just a special case of this.
+  - Common Block Elimination (like CSE). This essentially implements the Adams optimisation, we believe.
+  - Consider (sometime): block duplication.  branch to K; and K is a short block.  Branch chain elimination is just a special case of this.
 
 - **The Adams optimisation**.  Given:
 
