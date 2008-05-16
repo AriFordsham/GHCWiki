@@ -320,8 +320,10 @@ data T a b
 ```
 
 
-The version of `D.h` jumped to 4 (things that change get the new
-module version, rather than just increasing by 1).
+The version of `D.h` jumped to 4: things that change get the new
+module version, rather than just increasing by 1.  This is so that
+if you remove something and then add it back in again, the version
+number does not go down.
 
 
 However, the version of `D.f` also changed.  This is vital, because
