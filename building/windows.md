@@ -14,7 +14,7 @@ but you do need one or the other to *build* GHC.
 
 ## Summary
 
-1. Install *either*MSYS? (including the MSYS Devlopment ToolKit) *or*Cygwin?.  This is the interactive shell plus development tools (make etc) in which you're going to build GHC.
+1. Install *either*MSYS? (including the MSYS Development ToolKit) *or*Cygwin?.  This is the interactive shell plus development tools (make etc) in which you're going to build GHC.
 
 1. Configure SSH?.
 
