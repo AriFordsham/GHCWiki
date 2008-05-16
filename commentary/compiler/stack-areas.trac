@@ -2,10 +2,10 @@
 == Stack Areas: How to name stack locations before laying out the stack ==
 
 The current conversion from STG to CMM leaves stack management completely implicit. The consequence is that a number of things must happen all at once:
-* The stack is laid out.
-* CopyIn and CopyOut nodes are converted to the appropriate moves, loads and stores, as required by the calling conventions.
-* The stack pointer is adjusted to conventional locations before and after function calls.
-* The return address is pushed on the stack at call sites.
+ * The stack is laid out.
+ * !CopyIn and !CopyOut nodes are converted to the appropriate moves, loads and stores, as required by the calling conventions.
+ * The stack pointer is adjusted to conventional locations before and after function calls.
+ * The return address is pushed on the stack at call sites.
 And of course, none of the argument-passing or stack-adjusting instructions are available during optimization, before the stack layout is fixed.
 
 A much better approach is to give symbolic names to locations on the stack, lower all the argument passing and stack adjusting to the actual data-movement instructions, and replace the names later when the final stack layout is fixed.
