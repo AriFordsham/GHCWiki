@@ -4,6 +4,8 @@
 
 - **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`).
 
+  - TODO Make parameter passing and stack adjustments explicit using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas)
+
 - **Simple control flow optimisation**, implemented in `CmmContFlowOpt`:
 
   - Branch chain elimination.
