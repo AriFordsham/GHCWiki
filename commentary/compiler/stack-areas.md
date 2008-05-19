@@ -36,14 +36,14 @@ should be compiled to
 
 ```wiki
 f:
-   x = m[stack(f, 1)]; // copy the argument from stack area `f' to 
+   x = m[stack(f, 1)]; // copy the argument from stack area `f' to local x
    y = x;
 
    ...
 
    sp = stack(L, 1); // Make room on the stack for the arguments
    m[stack(L, 1)] = x; // copy the argument
-   m[stack(L, 0)] = L;
+   m[stack(L, 0)] = L; // copy the return address
    call g();
 
  L:
@@ -52,10 +52,13 @@ f:
 ```
 
 
-The exact syntax will probably be a bit different, making the representation of the stack slots abstract, but there's the gist of it.
+The exact syntax will probably be a bit different, but there's the gist of it.
 
 
-Ah, but do we assign stack slots? As it turns out, an important optimization in GHC is to use return values as stack slots whenever possible. For example, given the program
+But how do we map the stack slots to actual hardware locations? As it turns out, it is quite common in GHC that the first definition of a variable comes when its value is returned from a function call. If the value is returned on the stack, then an important optimization is to avoid copying that value to some other ``local`` location on the stack. How is that achieved? By making sure the location where the value is returned is defined as its local location.
+
+
+For example,
 
 ```wiki
 f() {
