@@ -63,7 +63,15 @@ However, **you cannot use `darcs get` to get a full GHC repository**, for two re
 
 Instead, follow the following steps:
 
-1. Download a complete bundle of the required repositories first, using your browser rather than darcs. These bundles are on [ http://darcs.haskell.org/](http://darcs.haskell.org/) in files of the form `ghc-HEAD-`*date*`-ghc-corelibs-testsuite.tar.bz2`, e.g. `ghc-HEAD-2007-08-29-ghc-corelibs-testsuite.tar.bz2`.
+1. Download a complete bundle of the required repositories first, using your browser rather than darcs. These bundles are on [ http://darcs.haskell.org/](http://darcs.haskell.org/) usually in three files of the form 
+
+  - `ghc-HEAD-2007-08-29-ghc-corelibs-testsuite.tar.bz2` (100Mbytes)
+  - `ghc-HEAD-2007-08-29-ghc-corelibs.tar.bz2` (90 Mbytes)
+  - `ghc-HEAD-2007-08-29-ghc.tar.bz2` (60 Mbytes)
+
+>
+> Each of these is a subset of the previous one; pick the smallest one that has what you need.  Of course, the dates may vary.
+
 1. Unpack the bundle, which will create a directory called `ghc`.  You can rename this directory freely.
 1. Change into the new directory, and pull patches from the main GHC repository:
 
