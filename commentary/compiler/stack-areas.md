@@ -68,12 +68,8 @@ f() {
 ```
 
 
-If g() returns x on the stack, we would like the return location be used as x's stack slot for the rest of the procedure.
-Issues raised by this (to be expounded upon):
+If g() returns x on the stack, we would like the return location to be x's stack slot for the rest of the procedure.
+Issues raised by this:
 
 - Stack holes where return addresses were stored. Such a hole can be filled with a variable that can't be stored in a convenient return slot.
 - Stack allocation must be based on control flow -- how else would you know if x has already been placed or if it can be stored on the bottom of the stack?
-
-
- 
-Ah! Here's an argument for making the stack slots abstract and unique, instead of referring to two values that share the same stack slot (e.g. a call parameter and a return parameter) by the same name. Another apparently important GHC optimization is to keep a return address live on the stack if it can be reused in a subsequent call. It would be really easy to say that an abstract stack slot is live. But it's not so easy if the only way to name the slot is by its (non-distinct) address stack(L, 3) because stack(L, 3) may also be used by some other value that shares the same slot.
