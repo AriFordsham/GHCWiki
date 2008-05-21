@@ -16,7 +16,7 @@ but you do need one or the other to ''build'' GHC.
 
  1. Install ''either'' [wiki:Building/WindowsTools#InstallingandconfiguringMSYS MSYS] (including the MSYS Development !ToolKit) ''or'' [wiki:Building/WindowsTools#InstallingandconfiguringCygwin Cygwin].  This is the interactive shell plus development tools (make etc) in which you're going to build GHC.
 
- 2. [wiki:Building/WindowsTools#ConfigureSSH Configure SSH].
+ 2. [wiki:Building/WindowsTools#ConfiguringSSH Configure SSH].
 
  3. [wiki:Building/WindowsTools#Otherthingsyouneedtoinstall Get other tools you need for development]:
     * Darcs
