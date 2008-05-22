@@ -37,11 +37,9 @@
 
 General remarks:
 
-- I only ran a first set of benchmarks when checking for what's there. I'll run the benchmarks 
-  properly as next step
+- I only ran a first set of benchmarks when checking for what's there. I'll run the benchmarks properly as next step
 
-- Fusion doesn't work well on parallel programs yet, so for all but simple examples, the parallel program performs worse than the
-  sequential
+- Fusion doesn't work well on parallel programs yet, so for all but simple examples, the parallel program performs worse than the sequential
 
 - The compiler doesn't exploit all fusion opportunities for QSort and BarnesHut. Once this is fixed, they should run considerably faster.
 
