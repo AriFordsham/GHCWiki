@@ -66,3 +66,26 @@ There are also a few non-functional requirements:
    a standard for typeReps, if I recall correctly.. (Claus Reinke)
  * ... more comments here ...
  
+== Refactoring Ideas ==
+
+There follow some notes about desirable refactorings, mainly around [[GhcFile(compiler/main/HscMain.lhs)]].  These will be important when looking at how to modify the GHC API to expose the individual compilation stages.  At the moment, the compilation stages are all hidden behind the `HscMain` interface, which in turn is hidden behind the `DriverPipeline` module, which is used by the code in `GHC`.  In order to untangle things, we need to make some changes.  Not all of these are essential, and some of them might not even end up being good ideas at all; this is just a list of things we (Simon M & Simon PJ) noticed while doing a code walkthrough.
+
+ * We should separate the action of reading the old interface from checking its usages.  Currently the two
+   are mixed up in `checkOldIface`.  (in the new story with fingerprints instead of versions, we also want
+   to discard the old interface as soon as we decide to recompile, because it isn't necessary for calculating
+   the new versions now).
+
+ * Perhaps `HsModule` should indicate whether the module is an `hs-boot` module or not.  That would reduce the
+   number of arguments to `tcRnModule` by one.
+
+ * It would be nicer to return error messages from each phase directly rather than invoking the `log_action` callback
+   in `DynFlags`.
+
+ * What is currently called `RenamedStuff` should be `HsModule Name`.  Hence, the `tcg_rn_` files in `TcGblEnv`
+   can be merged into a single `tc_rn_module`.
+
+ * instead of passing a `Bool` to `tcRnModule` to ask for the renamed syntax, use a flag in `DynFlags`?
+
+ * `mi_globals` is in the wrong place: it is not part of the interface.  The reason it is where it is is because
+   we need to keep it when a module is considered for compilation but not recompiled; when we generate the
+   `ModDetails` from the `ModIface`.  ToDo: find a better place to put it.
