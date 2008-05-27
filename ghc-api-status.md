@@ -17,7 +17,7 @@ There are also a few non-functional requirements:
 
 - Using the API should be fairly self-explainatory and safe.  I.e., where necessary inputs are checked for invariants and there should be no implicit dependencies.  More concretely:
 
-  - If several phases use the same AST, the AST will contain a type parameter which corresponds to the phases that have been performed with it.  Hence, if a function requires input of type `AST Phase3` then it is clear that the phases with types `AST Phase2 -> AST Phase3` and `AST Phase1 -> AST Phase3` must be performed first.
+  - If several phases use the same AST, the AST will contain a type parameter which corresponds to the phases that have been performed with it.  Hence, if a function requires input of type `AST Phase3` then it is clear that the phases with types `AST Phase2 -> AST Phase3` and `AST Phase1 -> AST Phase2`  must be performed first.
   - GHC uses some evil hacks to simulate global variables but has some implicit assumptions when those are actually accessible.  If you call a function too early, ie., before a certain variable is initialised, GHC will die with a very unhelpful error message.  I hope to make as many of those dependencies explicit and encode those dependencies via the API (mostly via types).
 
 ## Trac Tickets Related to the GHC API
