@@ -76,17 +76,22 @@ Concretely, the plugin writer would implement an interface that looked something
 --  * -pfoo-arg (NOT -pfoo arg)
 --  * -pfoo=n
 --  * -pfoo;
--- Furthermore we cannot warn about unrecognized -p args unless we have plugins report back unrecognized args. Reporting the error at that
--- late stage will also be problematic, so we probably shouldn't bother.
--- We should provide a library that is able to parse these for plugin writers so they don't reinvent the wheel (maybe just using 
--- GHCs CmdLineParser)
--- An alternative design for functionPragmaOptions would be to attach the pragma data structures to Notes in the Core syntax tree. 
--- However, SPJ feels that would interact too much with other compiler stages, that have a habit of moving Notes around..
-newtype PluginOptions = PluginOptions { ambientPragmaOptions :: [Dynamic], functionPragmaOptions :: Map Id [Dynamic], commandLineOptions :: [String] }
+-- Furthermore we cannot warn about unrecognized -p args unless we have plugins report back unrecognized args. 
+-- Reporting the error at that late stage will also be problematic, so we probably shouldn't bother.
+-- We should provide a library that is able to parse these for plugin writers so they don't reinvent the 
+-- wheel (maybe just using GHCs CmdLineParser)
+-- An alternative design for functionPragmaOptions would be to attach the pragma data structures to Notes 
+-- in the Core syntax tree. However, SPJ feels that would interact too much with other compiler stages, that 
+-- have a habit of moving Notes around.
+newtype PluginOptions = 
+  PluginOptions { ambientPragmaOptions :: [Dynamic]
+                , functionPragmaOptions :: Map Id [Dynamic]
+                , commandLineOptions :: [String] }
 initialize :: PluginOptions -> IO GHCPluginInstance
              
 data GHCPluginInstance = GHCPluginInstance {
-  -- We could either have them change the pipeline explicitly, by providing a CoreDoPluginPass constructor in CoreToDo:
+  -- We could either have them change the pipeline explicitly, 
+  -- by providing a CoreDoPluginPass constructor in CoreToDo:
   installCorePasses :: [CoreToDo] -> [CoreToDo]
   -- Or (possibly less fragile and operational, but more complicated) just something like:
   providedCorePasses :: [(CorePassPlacementSpec, PluginCorePassName, PluginCorePass)]
