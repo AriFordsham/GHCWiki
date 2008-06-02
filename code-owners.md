@@ -25,7 +25,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - SuSE Linux/x86 packages: Sven Panne,Ralf Hinze
   - Gentoo Linux/x86 packages: Gentoo Haskell team
   - Debian GNU/Linux/x86 packages: Ian Lynagh
-  - MacOS X (port in progress): Wolfgang Thaller
+  - MacOS X: Wolfgang Thaller,Manuel Chakravarty
   - Fedora Extras packages: Jens Petersen
 
 - **PowerPC**
@@ -105,7 +105,7 @@ and a short description of what they're doing or have done.
 - Jean-Philippe Bernardy (Maintenance of Data.\*Map/\*Set libraries)
 - [ Jost Berthold](http://www.mathematik.uni-marburg.de/~berthold) (Parallel Haskell: Eden)
 - Bjorn Bringert
-- Manuel Chakravarty (FFI, Data Parallel Haskell, associated types)
+- Manuel Chakravarty (FFI, Data Parallel Haskell, associated types & type families, Mac OS X port)
 - Andrew Cheadle
 - [ Tim Chevalier](http://catamorphism.org/) (External Core, strictness analysis, ticky-ticky profiling)
 - Duncan Coutts (Gentoo packages)

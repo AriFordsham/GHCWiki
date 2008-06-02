@@ -21,7 +21,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * SuSE Linux/x86 packages: [mailto:sven.panne@aedion.de Sven Panne],[mailto:ralf@informatik.uni-bonn.de Ralf Hinze]
    * Gentoo Linux/x86 packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/x86 packages: [mailto:igloo@debian.org Ian Lynagh]
-   * MacOS X (port in progress): [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller]
+   * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller],[mailto:chak@cse.unsw.edu.au Manuel Chakravarty]
    * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
 
  * '''PowerPC'''
@@ -88,7 +88,7 @@ and a short description of what they're doing or have done.
  * [mailto:jeanphilippe.bernardy@gmail.com Jean-Philippe Bernardy] (Maintenance of Data.*Map/*Set libraries)
  * [http://www.mathematik.uni-marburg.de/~berthold Jost Berthold] (Parallel Haskell: Eden)
  * [mailto:d00bring@dtek.chalmers.se Bjorn Bringert]
- * [mailto:chak@cse.unsw.edu.au Manuel Chakravarty] (FFI, Data Parallel Haskell, associated types)
+ * [mailto:chak@cse.unsw.edu.au Manuel Chakravarty] (FFI, Data Parallel Haskell, associated types & type families, Mac OS X port)
  * [mailto:amc4@doc.ic.ac.uk Andrew Cheadle]
  * [http://catamorphism.org/ Tim Chevalier] (External Core, strictness analysis, ticky-ticky profiling)
  * [mailto:duncan.coutts@worc.ox.ac.uk Duncan Coutts] (Gentoo packages)
