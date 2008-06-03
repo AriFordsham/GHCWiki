@@ -3,14 +3,11 @@
 
 All GHC installations contain a set of libraries called the *boot libraries*, and this set is sufficient to compile GHC. The file `libraries/boot-packages` contains the list of libraries in this set.
 
+- At the root of the tree we have **`ghc-prim`**. As the name implies this package contains the most primitive types and functions. It only contains a handful of modules, including `GHC.Prim` (which contains `Int#`, `+#`, etc) and `GHC.Bool`, containing the `Bool` datatype.
 
-At the root of the tree we have `ghc-prim`. As the name implies this package contains the most primitive types and functions. It only contains a handful of modules, including `GHC.Prim` (which contains `Int#`, `+#`, etc) and `GHC.Bool`, containing the `Bool` datatype.
+- Above `ghc-prim` is the **`integer`** package, which provides a definition of the `Integer` type on top of the C `gmp` library. Which functionality is provided in `ghc-prim` is mostly driven by what functionality the `integer` package needs.
 
-
-Above `ghc-prim` is the `integer` package, which provides a definition of the `Integer` type on top of the C `gmp` library. Which functionality is provided in `ghc-prim` is mostly driven by what functionality the `integer` package needs.
-
-
-Next is the `base` package. This contains a large number of modules, many of which are in one big cyclic import knot, mostly due to the `Exception` type. This is something that we hope to improve upon, so that base can be split up.
+- Next is the **`base`** package. This contains a large number of modules, many of which are in one big cyclic import knot, mostly due to the `Exception` type. This is something that we hope to improve upon, so that base can be split up.
 
 
 On top of base are a number of other, more specialised packages, whose purpose is generally clear from their name.
