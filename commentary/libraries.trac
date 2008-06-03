@@ -1,6 +1,6 @@
 = GHC Commentary: Libraries =
 
-All GHC installations contain a set of libraries called the '''boot libraries''', and this set is sufficient to compile GHC. The file `libraries/boot-packages` contains the list of libraries in this set.
+All GHC installations contain a set of libraries called the '''boot packages''', and this set is sufficient to compile GHC. The file `libraries/boot-packages` contains the list of libraries in this set.
 
  * At the root of the tree we have '''`ghc-prim`'''. As the name implies this package contains the most primitive types and functions. It only contains a handful of modules, including `GHC.Prim` (which contains `Int#`, `+#`, etc) and `GHC.Bool`, containing the `Bool` datatype.
 
