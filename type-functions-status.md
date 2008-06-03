@@ -22,7 +22,7 @@
 - [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (GADT)
 - [\#1999](https://gitlab.haskell.org//ghc/ghc/issues/1999) (GADT)
 - [\#1948](https://gitlab.haskell.org//ghc/ghc/issues/1948)
-- [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) & [\#1900](https://gitlab.haskell.org//ghc/ghc/issues/1900)
+- [\#1900](https://gitlab.haskell.org//ghc/ghc/issues/1900)
 - [\#1834](https://gitlab.haskell.org//ghc/ghc/issues/1834)
 - [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775)
 - [\#1772](https://gitlab.haskell.org//ghc/ghc/issues/1772)
@@ -43,6 +43,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 **Debugging of type families:**
 
 1. Total families
+1. Follow up on [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html)
 1. Allow repeated variable occurrences in lhses of type instances (see paper).
 1. Replacing GADT refinements by explicit equality constraints:
 
