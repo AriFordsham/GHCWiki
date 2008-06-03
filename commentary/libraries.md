@@ -23,7 +23,6 @@ The file `libraries/boot-packages` contains the list of boot packages:
   - `filepath`
   - `haskell98`
   - `hpc`
-  - `integer-gmp`
   - `old-locale`
   - `old-time`
   - `packedstring`
