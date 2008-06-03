@@ -1,7 +1,7 @@
 # GHC Commentary: Libraries
 
 
-All GHC installations contain a set of libraries called the *boot libraries*, and this set is sufficient to compile GHC. The file `libraries/boot-packages` contains the list of libraries in this set.
+All GHC installations contain a set of libraries called the **boot libraries**, and this set is sufficient to compile GHC. The file `libraries/boot-packages` contains the list of libraries in this set.
 
 - At the root of the tree we have **`ghc-prim`**. As the name implies this package contains the most primitive types and functions. It only contains a handful of modules, including `GHC.Prim` (which contains `Int#`, `+#`, etc) and `GHC.Bool`, containing the `Bool` datatype.
 
@@ -9,6 +9,27 @@ All GHC installations contain a set of libraries called the *boot libraries*, an
 
 - Next is the **`base`** package. This contains a large number of modules, many of which are in one big cyclic import knot, mostly due to the `Exception` type. This is something that we hope to improve upon, so that base can be split up.
 
+- On top of base are a number of other, more specialised packages, whose purpose is generally clear from their name. If not, you can get more detail from the descriptions in their Cabal files.  Currently these packages are are:
 
-On top of base are a number of other, more specialised packages, whose purpose is generally clear from their name.
-If not, you can get more detail from the descriptions in their Cabal files.
+  - `array`
+  - `bytestring`
+  - `Cabal`
+  - `containers`
+  - `directory`
+  - `editline`
+  - `filepath`
+  - `haskell98`
+  - `hpc`
+  - `integer-gmp`
+  - `old-locale`
+  - `old-time`
+  - `packedstring`
+  - `pretty`
+  - `process`
+  - `random`
+  - `template-haskell`
+  - `unix`
+  - `Win32`
+
+> >
+> > However the definitive list is in `libraries/boot-packages`
