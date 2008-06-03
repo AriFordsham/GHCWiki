@@ -39,7 +39,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
 '''Debugging of type families:'''
  0. Total families
- 0. Follow up on [http://www.mail-archive.com/haskell-cafe@haskell.org/msg39821.html]
+ 0. Follow up on [http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html]
  0. Allow repeated variable occurrences in lhses of type instances (see paper).
  0. Replacing GADT refinements by explicit equality constraints:
     * Regressions that remain to be fixed: 
