@@ -13,7 +13,7 @@ The main infrastructure of the back end may be complicated in some cases, but th
 Pipeline
 
 1. Stg -\> Cmm: Converts to a flat representation of C--.
-1. Cmm -\> ZGraphCmm:
+1. Cmm -\> ZGraphCmm\<stack slots, compile-time constants\>:
 
   - Converts the flat representation to a control-flow graph, with Cmm statements representing instructions in the basic blocks.
   - Implements calling conventions for call, jump, and return instructions: all parameter passing is turned into data-movement instructions (register-to-register move, load, or store), and stack-pointer adjustments are inserted. After this point, calls, returns, and jumps are just control-transfer instructions -- the parameter passing has been compiled away.
