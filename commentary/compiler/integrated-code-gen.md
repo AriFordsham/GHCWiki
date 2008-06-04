@@ -1,5 +1,5 @@
 
-The long-term plan for reworking GHC's back end is to produce an "Integrated Code Generator", which will break down the barrier between the machine-independent code generator (CPS conversion, stack layout, etc) and the native-code generators (instruction selection, calling conventions, register allocation -- including spilling to the C stack, etc). The goal is to simplify the back ends by reducing code duplication and to improve the quality of the generated code by making machine-specific decisions (such as register usage) using knowledge of the actual target machine.
+The long-term plan for reworking GHC's back end is to produce an "Integrated Code Generator," which will break down the barrier between the machine-independent code generator (CPS conversion, stack layout, etc) and the native-code generators (instruction selection, calling conventions, register allocation -- including spilling to the C stack, etc). The goal is to simplify the back ends by reducing code duplication and to improve the quality of the generated code by making machine-specific decisions (such as register usage) using knowledge of the actual target machine.
 
 
 Philosophy
@@ -21,6 +21,10 @@ Pipeline
 
   - Expands each Cmm instruction into a series of instructions. The representation of an instruction can be chosen by the back end. In some compilers (vpo, gcc, QC--), machine instructions are represented using RTLs. But Machine SUIF uses a target-specific, abstract representation that must satisfy a well-defined interface (i.e. by using a typeclass). It would be nice to support both.
 1. Optimizer: ZGraph Instrs\<stack slots, compile-time constants\> -\> ZGraph Instrs\<stack slots, compile-time constants\>
+1. Proc-point analysis and splitting: ZGraph Instrs\<stack slots, compile-time constants\> -\> \[ZGraph Instrs\<stack slots, compile-time constants\>\]
+
+  - Why so early? Depending on the back end (think of C as the worst case), the proc-point analysis might have to satisfy some horrible calling convention. We want to make these requirements explicit before we get to the register allocator.
+1. 
 
 
 Implicit in this pipeline:
