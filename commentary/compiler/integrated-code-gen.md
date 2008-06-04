@@ -5,26 +5,30 @@ The long-term plan for reworking GHC's back end is to produce an "Integrated Cod
 Philosophy
 
 
-The main infrastructure of the back end may be complicated in some cases, but the  the interface for extending a back end should be as simple as possible. For example, the implementation of the dataflow framework is quite complicated. But we can use the framework to write a new optimization by simply writing down the dataflow transfer functions that are found in standard compiler textbooks. Better yet, we can write combined ``superoptimizations* with no more effort than writing the dataflow transfer functions for each individual optimization.
-*
+The main infrastructure of the back end may be complicated in some cases, but the  the interface for extending a back end should be as simple as possible. For example, the implementation of the dataflow framework is quite complicated. But we can use the framework to write a new optimization by simply writing down the dataflow transfer functions that are found in standard compiler textbooks. Better yet, we can write combined "superoptimizations" with no more effort than writing the dataflow transfer functions for each individual optimization.
 
 
 Pipeline
 
 1. Convert from STG to a flat representation of C--: Stg -\> Cmm
-1. Build control-flow graph: Cmm -\> ZGraphCmm\<stack slots, compile-time constants\>
+1. Build control-flow graph: Cmm -\> ZGraphCmm\<variables, stack slots, compile-time constants\>
 
   - Converts the flat representation to a control-flow graph, with Cmm statements representing instructions in the basic blocks.
   - Implements calling conventions for call, jump, and return instructions: all parameter passing is turned into data-movement instructions (register-to-register move, load, or store), and stack-pointer adjustments are inserted. After this point, calls, returns, and jumps are just control-transfer instructions -- the parameter passing has been compiled away.
   - How do we refer to locations on the stack when we haven't laid it out yet? The compiler names a stack slot using the idea of a "late compile-time constant," which is just a symbolic constant that will be replaced with an actual stack offset when the stack layout is chosen.
-1. Code expansion (instruction selection): ZGraph Cmm\<stack slots, compile-time constants\> -\> ZGraph Instrs\<stack slots, compile-time constants\>
+1. Code expansion (instruction selection): ZGraph Cmm\<variables, stack slots, compile-time constants\> -\> ZGraph Instrs\<variables, stack slots, compile-time constants\>
 
   - Expands each Cmm instruction into a series of instructions. The representation of an instruction can be chosen by the back end. In some compilers (vpo, gcc, QC--), machine instructions are represented using RTLs. But Machine SUIF uses a target-specific, abstract representation that must satisfy a well-defined interface (i.e. by using a typeclass). It would be nice to support both.
-1. Optimizer: ZGraph Instrs\<stack slots, compile-time constants\> -\> ZGraph Instrs\<stack slots, compile-time constants\>
-1. Proc-point analysis and splitting: ZGraph Instrs\<stack slots, compile-time constants\> -\> \[ZGraph Instrs\<stack slots, compile-time constants\>\]
+1. Optimizer: ZGraph Instrs\<variables, stack slots, compile-time constants\> -\> ZGraph Instrs\<variables, stack slots, compile-time constants\>
+1. Proc-point analysis: ZGraph Instrs\<variables, stack slots, compile-time constants\> -\> \[ZGraph Instrs\<variables, stack slots, compile-time constants\>\]
 
+  - Proc points are found, and the appropriate control-transfer instructions are inserted.
   - Why so early? Depending on the back end (think of C as the worst case), the proc-point analysis might have to satisfy some horrible calling convention. We want to make these requirements explicit before we get to the register allocator.
-1. 
+1. Register allocation: ZGraph Instrs\<variables, stack slots, compile-time constants\> -\> ZGraph Instrs\<stack slots, compile-time constants\>
+
+  - Replace variable references with machine register and stack slots.
+1. Stack Layout: ZGraph Instrs\<\> -\> ZGraph Instrs\<\>
+1. Proc-point splitting: ZGraph Instrs\<\> -\> \[ZGraph Instrs\<\>\]
 
 
 Implicit in this pipeline:
