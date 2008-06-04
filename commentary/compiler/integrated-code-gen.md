@@ -28,7 +28,16 @@ Pipeline
 
   - Replace variable references with machine register and stack slots.
 1. Stack Layout: ZGraph Instrs\<\> -\> ZGraph Instrs\<\>
+
+  - Choose a stack layout.
+  - Replace references to stack slots with addresses on the stack.
+  - Replace compile-time constants with offsets into the stack.
 1. Proc-point splitting: ZGraph Instrs\<\> -\> \[ZGraph Instrs\<\>\]
+
+  - Each proc point gets its own procedure.
+1. Code emission: ZGraph Instrs\<\> -\> String
+
+  - Assembly code ahoy!
 
 
 Implicit in this pipeline:
