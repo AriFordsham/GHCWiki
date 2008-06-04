@@ -8,7 +8,6 @@ Pipeline
 
  0. Stg -> Cmm: Converts to a flat representation of C--.
  0. Cmm -> ZGraphCmm:
- * Converts the flat representation to a control-flow graph, with Cmm statements representing instructions in the basic blocks.
- * Implements calling conventions for call, jump, and return instructions: all parameter passing is turned into data-movement instructions (register-to-register move, load, or store), and stack-pointer adjustments are inserted.
- * How do we refer to locations on the stack when we haven't laid it out yet? The compiler names a stack slot using the idea of a "late compile-time constant," which is just a symbolic constant that will be replaced with an actual stack offset when the stack layout is chosen.
-
+  * Converts the flat representation to a control-flow graph, with Cmm statements representing instructions in the basic blocks.
+  * Implements calling conventions for call, jump, and return instructions: all parameter passing is turned into data-movement instructions (register-to-register move, load, or store), and stack-pointer adjustments are inserted. After this point, calls, returns, and jumps are just control-transfer instructions -- the parameter passing has been compiled away.
+  * How do we refer to locations on the stack when we haven't laid it out yet? The compiler names a stack slot using the idea of a "late compile-time constant," which is just a symbolic constant that will be replaced with an actual stack offset when the stack layout is chosen.
