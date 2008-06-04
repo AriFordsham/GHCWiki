@@ -6,8 +6,14 @@ The main infrastructure of the back end may be complicated in some cases, but th
 
 Pipeline
 
- 0. Stg -> Cmm: Converts to a flat representation of C--.
- 0. Cmm -> ZGraphCmm<stack slots, compile-time constants>:
+ 0. Convert from STG to a flat representation of C--: Stg -> Cmm
+ 0. Build control-flow graph: Cmm -> ZGraphCmm<stack slots, compile-time constants>
   * Converts the flat representation to a control-flow graph, with Cmm statements representing instructions in the basic blocks.
   * Implements calling conventions for call, jump, and return instructions: all parameter passing is turned into data-movement instructions (register-to-register move, load, or store), and stack-pointer adjustments are inserted. After this point, calls, returns, and jumps are just control-transfer instructions -- the parameter passing has been compiled away.
   * How do we refer to locations on the stack when we haven't laid it out yet? The compiler names a stack slot using the idea of a "late compile-time constant," which is just a symbolic constant that will be replaced with an actual stack offset when the stack layout is chosen.
+ 0. Code expansion (instruction selection): ZGraph Cmm<stack slots, compile-time constants> -> ZGraph Instrs<stack slots, compile-time constants>
+  * Expands each Cmm instruction into a series of instructions. The representation of an instruction can be chosen by the back end. In some compilers (vpo, gcc, QC--), machine instructions are represented using RTLs. But Machine SUIF uses a target-specific, abstract representation that must satisfy a well-defined interface (i.e. by using a typeclass). It would be nice to support both.
+ 0. Optimizer: ZGraph Instrs<stack slots, compile-time constants> -> ZGraph Instrs<stack slots, compile-time constants>
+
+Implicit in this pipeline:
+ * Besides the expander, (parts of) the optimizer, and the code emitter, the rest of the passes should work on any chosen representation of instructions. Typeclasses are our friends.
