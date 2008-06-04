@@ -1,4 +1,4 @@
-The long-term plan for reworking GHC's back end is to produce an ``Integrated Code Generator'', which will break down the barrier between the machine-independent code generator (CPS conversion, stack layout, etc) and the native-code generators (instruction selection, calling conventions, register allocation -- including spilling to the C stack, etc). The goal is to simplify the back ends by reducing code duplication and to improve the quality of the generated code by making machine-specific decisions (such as register usage) using knowledge of the actual target machine.
+The long-term plan for reworking GHC's back end is to produce an "Integrated Code Generator", which will break down the barrier between the machine-independent code generator (CPS conversion, stack layout, etc) and the native-code generators (instruction selection, calling conventions, register allocation -- including spilling to the C stack, etc). The goal is to simplify the back ends by reducing code duplication and to improve the quality of the generated code by making machine-specific decisions (such as register usage) using knowledge of the actual target machine.
 
 Philosophy
 
