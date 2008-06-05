@@ -4,7 +4,7 @@
 === The old approach ===
 
 
-In the old code generator, most of the pipeline refers to variables by name. In fact, we have a phase ordering problem: no compiler phase can name a stack slot until stack layout has been fixed. But stack layout can only be fixed at the end of the pipeline. The consequence of this approach is that we have to provide special treatment for code that must refer to stack slots (e.g. parameter passing in calling conventions, or spills and reloads). In particular, we defined special instructions for !CopyIn and !CopyOut of function arguments. Every stage of the back end must cope with these special cases.
+In the old code generator, most of the pipeline refers to variables by name. In fact, we have a phase ordering problem: no compiler phase can name a stack slot until stack layout has been fixed. But stack layout can only be fixed at the end of the pipeline. The consequence of this approach is that we have to provide special treatment for code that must refer to stack slots (e.g. parameter passing in calling conventions, or spills and reloads). In particular, we defined special instructions for !CopyIn and !CopyOut of function arguments, which implicitly stand for an adjustment to the stack pointer and some parallel assignments to the function parameters or return results. Every stage of the back end must cope with these special cases.
 
 === The new approach ===
 
@@ -33,7 +33,9 @@ data CmmExpr
 }}}
 
 
-The current conversion from STG to CMM leaves stack management completely implicit. The consequence is that a number of things must happen all at once:
+
+
+The current CMM code-generation path leaves stack management completely implicit until the end of the pipeline. The consequence is that a number of things must happen all at once:
  * The stack is laid out.
  * !CopyIn and !CopyOut nodes are converted to the appropriate moves, loads and stores, as required by the calling conventions.
  * The stack pointer is adjusted to conventional locations before and after function calls.
