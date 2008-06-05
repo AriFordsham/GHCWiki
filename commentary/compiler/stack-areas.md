@@ -13,7 +13,28 @@ In the old code generator, most of the pipeline refers to variables by name. In 
 A better approach is to introduce a unique name for each stack slot, then treat the name as the addressing expression for the slot. At the end of the pipeline, we choose a stack layout, then replace each stack slot with its offset from the stack pointer. The benefit is that we break the phase-ordering problem: any phase of the compiler can name a stack slot.
 
 
-For example
+For example, if we want to spill a variable *x*, we use a regular store instruction to a stack slot *Stack\<x\>*:
+
+```wiki
+m[Stack<x>] := x;
+```
+
+
+where *m\[e\]* refers to an address *e* in memory.
+If the 
+
+```wiki
+data Area
+  = RegSlot  LocalReg
+  | CallArea BlockId Int Int
+  deriving (Eq, Ord)
+
+data CmmExpr
+  = CmmLit CmmLit
+  ...
+  | CmmStackSlot Area Int
+  deriving Eq
+```
 
 
 The current conversion from STG to CMM leaves stack management completely implicit. The consequence is that a number of things must happen all at once:
