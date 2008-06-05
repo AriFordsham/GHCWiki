@@ -2,7 +2,7 @@
 
 ## Stack Layout
 
-# The old approach
+### The old approach
 
 
 In the old code generator, most of the pipeline refers to variables by name. Only at the end of the pipeline is the stack laid out, at which point we finally have instructions that can refer to stack slots. The consequence of this approach is that we have to provide special treatment for code that must refer to stack slots (e.g. parameter passing in calling conventions, or spills and reloads). In particular, we defined special instructions for CopyIn and CopyOut of function arguments. Every stage of the back end must cope with these special cases.
