@@ -5,7 +5,27 @@
 ### The old approach
 
 
-In the old code generator, most of the pipeline refers to variables by name. In fact, we have a phase ordering problem: no compiler phase can name a stack slot until stack layout has been fixed. But stack layout can only be fixed at the end of the pipeline. The consequence of this approach is that we have to provide special treatment for code that must refer to stack slots (e.g. parameter passing in calling conventions, or spills and reloads). In particular, we defined special instructions for CopyIn and CopyOut of function arguments, which implicitly stand for an adjustment to the stack pointer and some parallel assignments to the function parameters or return results. Every stage of the back end must cope with these special cases.
+In the old code generator, most of the pipeline refers to variables by name. In fact, we have a phase ordering problem: no compiler phase can name a stack slot until stack layout has been fixed. But stack layout can only be fixed at the end of the pipeline. The consequence of this approach is that we have to provide special treatment for code that must refer to stack slots (e.g. parameter passing in calling conventions, or spills and reloads). In particular, we defined special instructions for CopyIn and CopyOut of function arguments, which implicitly stand for an adjustment to the stack pointer and some parallel assignments to the function parameters or return results.
+
+
+For example, we compile a function call
+
+```wiki
+x, y = f(a, b, c)
+```
+
+
+into the following C--:
+
+```wiki
+  CopyOut(a, b, c);
+  call f returns to k;
+k:
+  CopyIn (x, y)
+```
+
+
+Every stage of the back end must cope with the CopyIn and CopyOut pseudoinstructions.
 
 ### The new approach
 
@@ -23,11 +43,28 @@ m[stack<x>] := x;
 where *m\[e\]* refers to an address *e* in memory.
 
 
-But what about parameter passing? We use a similar technique, but we maintain the relative positions of the arguments. For example, consider a function call:
+But what about parameter passing? We use a similar technique, but this time we describe the slot for each location as an offset within the area where the parameters are passed. For example, we compile a function call
 
 ```wiki
 x, y = f(a, b, c);
 ```
+
+
+into approximately the following C--:
+
+```wiki
+  sp := stack<k + 4>;
+  m[stack<k + 1>] := k_info_table;
+  m[stack<k + 2>] := a;
+  m[stack<k + 3>] := b;
+  m[stack<k + 4>] := c;
+k:  // on entry to k, sp == stack<k+3>
+  x := m[stack<k + 2>]
+  y := m[stack<k + 1>]
+```
+
+
+Note that the semantics of the now-unnecessary CopyIn and CopyOut are reified by explicit an assignment to the stack pointer and by a series of copy instructions. An optimization that understands copy instructions can improve this code -- without having to worry about understanding the semantics of CopyIn.
 
 
 We use the following types:
