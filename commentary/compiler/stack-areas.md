@@ -64,10 +64,13 @@ k:  // on entry to k, sp == stack<k+3>
 ```
 
 
-Note that the semantics of the now-unnecessary CopyIn and CopyOut are reified by explicit an assignment to the stack pointer and by a series of copy instructions. An optimization that understands copy instructions can improve this code -- without having to worry about understanding the semantics of CopyIn.
+Note that the semantics of the now-unnecessary CopyIn and CopyOut are reified by an assignment to the stack pointer and by a series of copy instructions. If an optimization understands copy instructions, it can improve this code -- without having to worry about the semantics of CopyIn.
 
 
-We use the following types:
+Furthermore, the job of laying out the stack is now pleasantly simple: decide where to place the slots and parameter-passing areas, then rewrite the references to stack locations. The stack-layout phase is no longer responsible for inserting stack adjustments or lowering CopyIn and CopyOut nodes to data-movement instructions.
+
+
+We use the following types to represent stack slots and parameter-passing areas:
 
 ```wiki
 data Area
