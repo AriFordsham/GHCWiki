@@ -1,6 +1,19 @@
 ---
 
-## Stack Areas: How to name stack locations before laying out the stack
+## Stack Layout
+
+# The old approach
+
+
+In the old code generator, most of the pipeline refers to variables by name. Only at the end of the pipeline is the stack laid out, at which point we finally have instructions that can refer to stack slots. The consequence of this approach is that we have to provide special treatment for code that must refer to stack slots (e.g. parameter passing in calling conventions, or spills and reloads). In particular, we defined special instructions for CopyIn and CopyOut of function arguments. Every stage of the back end must cope with these special cases.
+
+# The new approach
+
+
+A better approach is to introduce a unique name for each stack slot, then treat the name as the addressing expression for the slot. At the end of the pipeline, we choose a stack layout. Then, we replace each stack slot with its offset from the stack pointer. The benefit is that we break the phase-ordering problem: any phase of the compiler can name a stack slot.
+
+
+For example
 
 
 The current conversion from STG to CMM leaves stack management completely implicit. The consequence is that a number of things must happen all at once:
