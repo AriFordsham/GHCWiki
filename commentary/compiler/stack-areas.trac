@@ -10,14 +10,23 @@ In the old code generator, most of the pipeline refers to variables by name. In 
 
 A better approach is to introduce a unique name for each stack slot, then treat the name as the addressing expression for the slot. At the end of the pipeline, we choose a stack layout, then replace each stack slot with its offset from the stack pointer. The benefit is that we break the phase-ordering problem: any phase of the compiler can name a stack slot.
 
-For example, if we want to spill a variable ''x'', we use a regular store instruction to a stack slot ''Stack<x>'':
+For example, if we want to spill a variable ''x'', we use a regular store instruction to a stack slot at address ''stack<x>'':
 
 {{{
-m[Stack<x>] := x;
+m[stack<x>] := x;
 }}}
 
 where ''m[e]'' refers to an address ''e'' in memory.
-If the 
+
+But what about parameter passing? We use a similar technique, but we maintain the relative positions of the arguments. For example, consider a function call:
+
+{{{
+x, y = f(a, b, c);
+}}}
+
+
+
+We use the following types:
 
 {{{
 data Area
@@ -34,6 +43,14 @@ data CmmExpr
 
 
 
+== ToDo ==
+
+ * Explain the stack layout algorithm.
+ * State the invariants.
+ * Say something about aliasing.
+
+
+== Old Text ==
 
 The current CMM code-generation path leaves stack management completely implicit until the end of the pipeline. The consequence is that a number of things must happen all at once:
  * The stack is laid out.
