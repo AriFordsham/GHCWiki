@@ -39,6 +39,7 @@ There are also a few non-functional requirements:
 - [ Porting HaRe to the GHC API](http://www.cs.kent.ac.uk/pubs/2005/2266/) Technical report describing some difficulties with the current API.
 - [ GHC as a Library](http://www.haskell.org/haskellwiki/GHC/As_a_library), the Haskell Wiki page
 - [ GHC Commentary on the GHC API](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/API) (may be outdated)
+- [ hint, an attempt to provide a simplified and stable subset of the GHC API](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/hint-0.2.1)
 
 ## Various Ideas, Comments, Questions
 
@@ -46,10 +47,13 @@ There are also a few non-functional requirements:
   API (currently, there is no stability guaranteed at all, so if you
   don't want to live with lots of \#ifdefs and breakage, you keep
   delaying your fantastic GHC API-base projects "until the dust
-  settles") (Claus Reinke)
-- Is it possible to use standalone deriving to get a generic
-  programming framework over the ASTs without blowing
+  settles") (Claus Reinke) 
+  Would it be possible to separate the monolithic GHC API into two parts, one providing a simplified and stable subset/wrapper of commonly used functionality (as in Hint, hs-plugins, GHCi), the other providing all the rest, with no stability guarantees?
+- Is it possible to use standalone deriving to get a **generic
+  programming framework over the ASTs** without blowing
   up GHC's code for its own use (deriving Data, etc.)? (Claus Reinke)
+- David Waern mentions [ deriving \`Data.Traversable\`](http://www.haskell.org/pipermail/haskell-cafe/2008-May/042961.html) for GHC's AST
+- the need to hardcode the **GHC library directory in GHC API clients** is very fragile and troublesome (cf. the [ Haddock version during build](http://www.haskell.org/pipermail/cvs-libraries/2008-June/008942.html) thread on `cvs-ghc` for just one example). would it be possible to integrate the path for the compiling GHC as a default, so that one only needs to specify an explicit path if the default doesn't work (compiling GHC moved/unavailable)? (Claus Reinke)
 - From `compiler/main/GHC.hs`:
 
   ```wiki
@@ -65,6 +69,7 @@ There are also a few non-functional requirements:
   --     - default methods are turned into top-level decls.
   --     - dictionary bindings
   ```
+- is there a way to make all the useful functionality of GHCi more easily available from the GHC API? ie, refactoring GHCi so that both it and other GHC API clients can use the same collection of useful functionality? (Claus Reinke)
 - dynamic loading of Haskell code, ala hs-plugins, but without
   the version/platform issues (GHCi has to be able to do this
   anyway, but it would be nice to have the ugly bits hidden,
