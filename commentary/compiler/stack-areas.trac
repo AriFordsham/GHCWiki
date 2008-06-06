@@ -1,6 +1,8 @@
 --------------------------------------
 == Stack Layout ==
 
+The stack-layout phase decides where to spill variables. The important goals are to avoid memory traffic and to minimize the size of the stack frame. Both of these goals are accomplished by reusing stack slots.
+
 === The old approach ===
 
 
