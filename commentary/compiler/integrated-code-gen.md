@@ -3,7 +3,7 @@
 
 We propose reworking GHC's back end into an **Integrated Code
 Generator**, which will widen the interface between
-machine-independent and machine-independent parts of the back end.
+machine-independent and machine-dependent parts of the back end.
 We wish to **dissolve the barrier** between the current
 machine-independent transformations (CPS
 conversion, stack layout, etc) and the native-code generators
@@ -32,7 +32,7 @@ The important elements of
 our design are as follows:
 
 1. Build two big hammers, and hit as many nails as possible.  (The big hammers are the **dataflow rewriting engine** and a **coalescing register allocator.**)  The hammer itself may be big and complicated, but **using a big hammer should be easy** and should give easily predictable results.
-1. Load all back ends into every instance of the compiler, and **treat every compilation as a cross-compilation.**  Despite having been used in production compilers for at least twenty years, this technique is still seen as somewhat unorthodox, but it removes many `#ifdef`s and saves significant complexity at compiler-configuration time.
+1. Load all back ends into every instance of the compiler, and **treat every compilation as a cross-compilation.**  Despite having been used in production compilers for at least twenty years, this technique is still seen as somewhat unorthodox, but it removes many `#ifdef`s and saves significant complexity at compiler-configuration time. Removing `#ifdef`s also mitigates problems with  validating the compiler under different build configurations.
 
 ## Design philosophy
 
@@ -67,7 +67,7 @@ require complex implementations.  We live with this complexity because
 ## Proposed compilation pipeline
 
 1. Convert from `STG` to an abstract `CmmAgraph` ([compiler/cmm/ZipCfg.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfg.hs), [compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)).  This step is Simon PJ's "new code generator" from September 2007.  One departure from the old code generator is that **we do not build a `Cmm` abstract-syntax tree;** instead we go straight to a control-flow graph.
-1. Reify the control-flow graph in a non-abstract form that can be analyzed, transformed, and optimized: convert `CmmAgraph -> CmmGraph`.  This conversion may instroduce new variables, stack slots, and compile-time constants. 
+1. Reify the control-flow graph in a non-abstract form that can be analyzed, transformed, and optimized: convert `CmmAgraph -> CmmGraph`.  This conversion may introduce new variables, stack slots, and compile-time constants. 
 
   - Implements calling conventions for call, jump, and return instructions: all parameter passing is turned into data-movement instructions (register-to-register move, load, or store), and stack-pointer adjustments are inserted. After this point, calls, returns, and jumps are just control-transfer instructions -- the parameter passing has been compiled away.  
   - How do we refer to locations on the stack when we haven't laid it out yet? The compiler names a stack slot using the idea of a "late compile-time constant," which is just a symbolic constant that will be replaced with an actual stack offset when the stack layout is chosen.
@@ -98,7 +98,7 @@ require complex implementations.  We live with this complexity because
   - Each proc point gets its own procedure.
 1. Code layout: `LGraph Instrs -> [String]`
 
-  - A reverse postorder depth-first traversal simultaneously converts the graph from to sequential code and converts each instruction into an assembly-code string: **Assembly code ahoy**!
+  - A reverse postorder depth-first traversal simultaneously converts the graph to sequential code and converts each instruction into an assembly-code string: **Assembly code ahoy**!
 
 ### Machine-dependence
 
