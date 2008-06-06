@@ -13,7 +13,7 @@ In the old code generator, we have a phase ordering problem: no compiler phase c
 For example, we compile a function call
 
 {{{
-x, y = f(a, b, c)
+x, y = f(a, b, c);
 }}}
 
 into the following C--:
@@ -87,7 +87,7 @@ Note: We don't have a virtual frame pointer in this story, but do we really want
 === Laying out the stack ===
 
 A naive approach to laying out the stack would be to give each variable its own stack slot for spilling, and allocate only the ends of the stack frame for parameter-passing areas. But this approach misses two important opportunities for optimization:
- * Stack slots can be reused
+ * Stack slots can be reused by variables that are never on the stack at the same time
  * If a function returns a variable on the stack, we might be able to use the return location as the variable's spill slot.
 
 As it turns out, it is quite common in GHC that the first definition of a variable comes when its value is returned from a function call. If the value is returned on the stack, then an important optimization is to avoid copying that value to some other local location on the stack. How is that achieved? By making sure the location where the value is returned is defined as its spill slot. 

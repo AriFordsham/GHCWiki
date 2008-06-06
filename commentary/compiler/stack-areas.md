@@ -16,7 +16,7 @@ In the old code generator, we have a phase ordering problem: no compiler phase c
 For example, we compile a function call
 
 ```wiki
-x, y = f(a, b, c)
+x, y = f(a, b, c);
 ```
 
 
@@ -104,7 +104,7 @@ Note: We don't have a virtual frame pointer in this story, but do we really want
 
 A naive approach to laying out the stack would be to give each variable its own stack slot for spilling, and allocate only the ends of the stack frame for parameter-passing areas. But this approach misses two important opportunities for optimization:
 
-- Stack slots can be reused
+- Stack slots can be reused by variables that are never on the stack at the same time
 - If a function returns a variable on the stack, we might be able to use the return location as the variable's spill slot.
 
 
