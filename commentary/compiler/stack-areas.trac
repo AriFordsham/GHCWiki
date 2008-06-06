@@ -86,8 +86,13 @@ Note: We don't have a virtual frame pointer in this story, but do we really want
 
 === Laying out the stack ===
 
+A naive way to lay out the stack would be to give each variable its own stack slot for spilling, 
 
+As it turns out, it is quite common in GHC that the first definition of a variable comes when its value is returned from a function call. If the value is returned on the stack, then an important optimization is to avoid copying that value to some other local location on the stack. How is that achieved? By making sure the location where the value is returned is defined as its spill slot. 
 
+== Random Thoughts ==
+
+Assignments into parameter-passing areas can't be hoisted past adjustments to the stack pointer until we know the stack layout -- otherwise we might try to write off the young end of the stack. There must be some sort of invariant here, something along the lines of: "a reference to a parameter passing area must (a) succeed the adjustment moving the stack pointer to the bottom of the area and (b) precede any other stack adjustment.
 
 == !ToDo ==
 
