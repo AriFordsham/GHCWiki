@@ -3,7 +3,7 @@
 
 We propose reworking GHC's back end into an **Integrated Code
 Generator**, which will widen the interface between
-machine-independent and machine-independent parts of the back end.
+machine-independent and machine-dependent parts of the back end.
 We wish to **dissolve the barrier** between the current
 machine-independent transformations (CPS
 conversion, stack layout, etc) and the native-code generators
