@@ -97,7 +97,7 @@ An `Area` represents space on the stack; it may use either the `RegSlot` constru
 To name a specific location on the stack, we represent its address with a new kind of `CmmExpr`: the `CmmStackSlot`. A `CmmStackSlot` is just an integer offset into an `Area`. If the `Area` is a `RegSlot`, it is a dynamic invariant that the offset must be `0`.
 
 
-Note: We don't have a virtual frame pointer in this story, but do we really need it? Here's a minor argument against: it requires special treatment by some analyses in Quick C--, although it might just fold away into the large set of global registers in GHC.
+Note: We don't have a virtual frame pointer in this story, but do we really want it? Here's a minor argument against: it requires special treatment by some analyses in Quick C-- (on the other hand, QC-- doesn't have distinguished global registers, so it might not even be an issue in GHC, which has many distinguished global registers).
 
 ## ToDo
 
