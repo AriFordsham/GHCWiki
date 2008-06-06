@@ -75,6 +75,12 @@ data CmmExpr
   deriving Eq
 }}}
 
+An '''Area''' represents space on the stack; it may contain either a single stack slot for a register or a number of parameters passed to/from a function call/return. The '''BlockId''' is the label of the function call's continuation, and the two integers are the sizes of the outgoing and incoming parameter-passing areas.
+
+To name a specific location on the stack, we represent its address with a new kind of '''CmmExpr''': the '''CmmStackSlot'''. A '''CmmStackSlot''' is just an integer offset into an '''Area'''.
+
+Note: We don't have a virtual frame pointer in this story, but do we really need it? Here's a minor argument against: it requires special treatment by some analyses in Quick C--, although it might just fold away into the large set of global registers in GHC.
+
 
 
 == !ToDo ==
