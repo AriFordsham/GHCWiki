@@ -63,7 +63,7 @@ into approximately the following C--:
   m[stack<k + 4>] := c;
 k:  // on entry to k, sp == stack<k+3>
   x := m[stack<k + 2>]
-  y := m[stack<k + 1>]
+  y := m[stack<k + 3>]
 ```
 
 
