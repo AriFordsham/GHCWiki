@@ -98,7 +98,7 @@ require complex implementations.  We live with this complexity because
   - Each proc point gets its own procedure.
 1. Code layout: `LGraph Instrs -> [String]`
 
-  - A reverse postorder depth-first traversal simultaneously converts the graph from to sequential code and converts each instruction into an assembly-code string: **Assembly code ahoy**!
+  - A reverse postorder depth-first traversal simultaneously converts the graph to sequential code and converts each instruction into an assembly-code string: **Assembly code ahoy**!
 
 ### Machine-dependence
 
