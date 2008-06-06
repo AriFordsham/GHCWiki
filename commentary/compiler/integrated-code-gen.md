@@ -67,7 +67,7 @@ require complex implementations.  We live with this complexity because
 ## Proposed compilation pipeline
 
 1. Convert from `STG` to an abstract `CmmAgraph` ([compiler/cmm/ZipCfg.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfg.hs), [compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)).  This step is Simon PJ's "new code generator" from September 2007.  One departure from the old code generator is that **we do not build a `Cmm` abstract-syntax tree;** instead we go straight to a control-flow graph.
-1. Reify the control-flow graph in a non-abstract form that can be analyzed, transformed, and optimized: convert `CmmAgraph -> CmmGraph`.  This conversion may instroduce new variables, stack slots, and compile-time constants. 
+1. Reify the control-flow graph in a non-abstract form that can be analyzed, transformed, and optimized: convert `CmmAgraph -> CmmGraph`.  This conversion may introduce new variables, stack slots, and compile-time constants. 
 
   - Implements calling conventions for call, jump, and return instructions: all parameter passing is turned into data-movement instructions (register-to-register move, load, or store), and stack-pointer adjustments are inserted. After this point, calls, returns, and jumps are just control-transfer instructions -- the parameter passing has been compiled away.  
   - How do we refer to locations on the stack when we haven't laid it out yet? The compiler names a stack slot using the idea of a "late compile-time constant," which is just a symbolic constant that will be replaced with an actual stack offset when the stack layout is chosen.
