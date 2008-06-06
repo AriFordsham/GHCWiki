@@ -54,7 +54,7 @@ k:  // on entry to k, sp == stack<k+3>
   y := m[stack<k + 1>]
 }}}
 
-Note that the semantics of the now-unnecessary !CopyIn and !CopyOut are reified by an assignment to the stack pointer and by a series of copy instructions. If an optimization understands copy instructions, it can improve this code -- without having to worry about the semantics of !CopyIn.
+Note that the semantics of the now-unnecessary !CopyIn and !CopyOut are reified by an assignment to the stack pointer and a series of copy instructions. If an optimization understands copy instructions, it can improve this code -- without having to worry about the semantics of !CopyIn.
 
 Furthermore, the job of laying out the stack is now pleasantly simple: decide where to place the slots and parameter-passing areas, then rewrite the references to stack locations. The stack-layout phase is no longer responsible for inserting stack adjustments or lowering !CopyIn and !CopyOut nodes to data-movement instructions.
 
