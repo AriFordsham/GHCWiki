@@ -16,17 +16,17 @@ Status:
 - Code generator: first draft done.
 - Control-flow opt: simple ones done
 
-  - Common block elmination: to do
-  - Block concatenation: to do
+  - Common block elimination: done
+  - Block concatenation: done
 - Adams optimisation: currently done in [compiler/cmm/CmmProcPointZ.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmProcPointZ.hs), which is incomplete because it does not insert the correct CopyOut nodes.  The Adams optimization should be divorced from this module and replaced with common-block elimination, to be done after the proc-point transformation.  In principle this combination may be slightly less effective than the current code, since the selection of proc-point protocols is guided by Adams's criteria, but NR thinks it will be easy to get the common, important cases nailed.
-- Proc-point analysis and transformation: 'working' but incomplete and incorrect in the sense that CopyIn nodes are created without all the required dual CopyOut nodes.  There is still no coherent plan for calling conventions, and the lack of such a plan prevents the completion of proc-point analysis, as in principle it should come up with a calling convention for each freely chosen proc point.  In practice NR recommends the following procedure:
+- Proc-point analysis and transformation: 'working' but largely untested.  There is still no coherent plan for calling conventions, and the lack of such a plan prevents the completion of proc-point analysis, as in principle it should come up with a calling convention for each freely chosen proc point.  In practice NR recommends the following procedure:
 
   - All optional proc points to be generated with no parameters (all live variables on the stack)
   - This situation to be remedied when the code generator is reorganized along the lines NR proposed in July 2007, i.e., the register allocator runs on C-- with calls (as opposed to C-- with jumps only) and therefore *before* proc-point analysis
 - Add spill/reload: Implemented to NR's satisfaction in [compiler/cmm/CmmSpillReload.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmSpillReload.hs), with the proviso that spilling is done to *abstract* stack slots rather than real stack positions (see comments below on stack-slot allocation)
-- Stack slot allocation: nothing here but some broken bits and pieces.  Progress in this arena is blocked by the lack of a full understanding of how to do stack-frame layout and how to deal with calling conventions.  NR proposes that life would be simplified if *all* calls downstream from the Cmm converter were to be parameterless---the idea being to handle the calling conventions *here* and to put arguments and results in their conventional locations.
-- Make stack explicit: to do
-- Split into multiple CmmProcs: to do
+- Stack slot allocation: nothing here but some broken bits and pieces.  Progress in this arena is blocked by the lack of a full understanding of how to do stack-frame layout and how to deal with calling conventions.  NR proposes that life would be simplified if *all* calls downstream from the Cmm converter were to be parameterless---the idea being to handle the calling conventions *here* and to put arguments and results in their conventional locations. John has done much of the work here already; the remaining bit is the actual layout of the stack slots.
+- Make stack explicit: done.
+- Split into multiple CmmProcs: mostly done, just a bit of patching up remains.
 
 
 Norman's plan
