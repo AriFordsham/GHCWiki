@@ -148,7 +148,14 @@ The `substExprs` operation returns a `Just` iff a substitution took place.
 Interfaces like these would require the machine-specific abstract type `i` to contain enough information to reconstruct a `LocalReg` or `CmmExpr`.  Later one, we'll need to construct SRTs too, so we must continue to track pointer-hood.
 
 
-One possible implementation for `I386` or `Sparc` would be to use a generic RTL representation, together with a recogniser to maintain the machine invariant.  Our initial idea, though, is that  is an implementation choice.  
+One possible implementation for `I386` or `Sparc` would be to use a generic RTL representation, together with a recogniser to maintain the machine invariant.  Our initial idea, though, is that  is an implementation choice.  It's still possible that a machine-independent optimisation could take advantage of the representation being an RTL. For example, we could provide a function in the `Instr` class
+
+```wiki
+   rtl :: i -> RTL
+```
+
+
+which is particularly cheap for architectures that do use `RTL` as the representation type.
 
 ### Optimisation
 
