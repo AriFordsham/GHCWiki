@@ -65,27 +65,20 @@ require complex implementations.  We live with this complexity because
 == Proposed compilation pipeline ==
 
  0. Convert from {{{STG}}} to an control flow graph {{{CmmGraph}}}:
-{{{
-STG -> CmmGraph Cmm.Middle Cmm.Last
-}}}
  0. Instruction selection:
-{{{
-CmmGraph Cmm.Middle Cmm.Last -> CmmGraph I386.Middle I386.Last
-}}}
  0. Optimise:
-{{{
-CmmGraph I386.Middle I386.Last -> CmmGraph I386.Middle I386.Last
-}}}
  0. Proc-point analysis, and transformation
-{{{
-analyse :: CmmGraph I386.Middle I386.Last -> [BlockId]
-transform :: [BlockId] -> CmmGraph I386.Middle I386.Last -> CmmGraph I386.Middle I386.Last
-}}}
+ 0. Register allocation
+ 0. Stack layout
+ 0. Tidy up
 
 
 === Convert from STG to control flow graph ===
 
 Convert from {{{STG}}} to an control flow graph {{{CmmGraph}}} ([[GhcFile(compiler/cmm/ZipCfg.hs)]], [[GhcFile(compiler/cmm/ZipCfgCmmRep.hs)]]).  This step is Simon PJ's "new code generator" from September 2007.  This conversion may introduce new variables, stack slots, and compile-time constants. 
+{{{
+STG -> CmmGraph Cmm.Middle Cmm.Last
+}}}
    * Implements calling conventions for call, jump, and return instructions: all parameter passing is turned into data-movement instructions (register-to-register move, load, or store), and stack-pointer adjustments are inserted. After this point, calls, returns, and jumps are just control-transfer instructions -- the parameter passing has been compiled away.  
    * How do we refer to locations on the stack when we haven't laid it out yet? The compiler names a stack slot using the idea of a "late compile-time constant," which is just a symbolic constant that will be replaced with an actual stack offset when the stack layout is chosen.One departure from the old code generator is that '''we do not build a {{{Cmm}}} abstract-syntax tree;''' instead we go straight to a control-flow graph.
 
@@ -116,7 +109,20 @@ class Instr i where
   uses :: i -> [LocalReg]
   ..etc..
 }}}
-This allows us to  '''make code improvements machine-independent''', by using machine-dependent functions to capture the semantics of instructions.
+This allows us to  '''make code improvements machine-independent''', by using machine-dependent functions to capture the semantics of instructions.  Figuring out precisely what the interace should be is a key step.  For example, to support copy propagation we might want an operation
+{{{ 
+  isCopy :: i -> Maybe (LocalReg,LocalReg)
+}}}
+Similarly, to support peephole optimsation (eg transform `x = y+2; p = bits32[x]` to `p = bits32[y+2]`) we might want something like
+{{{
+  availExprs :: i -> [(LocalReg,CmmExpr)]
+  substExprs :: [(LocalReg,CmmExpr)] -> i -> Maybe i
+}}}
+The `substExprs` operation returns a `Just` iff a substitution took place.
+
+Interfaces like these would require the machine-specific abstract type `i` to contain enough information to reconstruct a `LocalReg` or `CmmExpr`.  Later one, we'll need to construct SRTs too, so we must continue to track pointer-hood.
+
+One possible implementation for `I386` or `Sparc` would be to use a generic RTL representation, together with a recogniser to maintain the machine invariant.  Our initial idea, though, is that  is an implementation choice.  
 
 === Optimisation ===
 
@@ -134,7 +140,12 @@ Optimise the code.  {{{LGraph Instrs}}} (with variables, stack slots, and compil
 
 === Proc-point analysis ===
 
-Proc-point analysis: {{{LGraph Instrs}}} (with variables, stack slots, and compile-time constants) -> {{{LGraph Instrs}}} (with variables, stack slots, and compile-time constants)
+{{{
+analyse :: CmmGraph I386.Middle I386.Last -> [BlockId]
+transform :: [BlockId] -> CmmGraph I386.Middle I386.Last -> CmmGraph I386.Middle I386.Last
+}}}
+Both input and output still have variables and stack-slot addressing modes.
+
   * Proc points are found, and the appropriate control-transfer instructions are inserted.
   * Why so early(before register allocation, stack layout)? Depending on the back end (think of C as the worst case), the proc-point analysis might have to satisfy some horrible calling convention. We want to make these requirements explicit before we get to the register allocator.  We also want to '''exploit the register allocator''' to make the best possible decisions about ''which live variables (if any) should be in registers at a proc point''.
 
