@@ -99,7 +99,7 @@ Convert from `STG` to an control flow graph `CmmGraph` ([compiler/cmm/ZipCfg.hs]
 
 In practice, we first generate an "abstract control flow graph", `CmmAGraph`, which makes the business of generating fresh `BlockId`s more convenient, and convert that to a `CmmGraph`.  The former is convenient for *construction* but cannot be analysed; the latter is concrete, and can be analyzed, transformed, and optimized.  
 
-### Establish the Machine Invariant
+### Instruction selection
 
 
 Instruction selection: each `Cmm``Middle` and `Last` node in the control-flow graph is replaced with a new graph in which the nodes are machine instructions.
@@ -109,7 +109,16 @@ CmmGraph Cmm.Middle Cmm.Last -> CmmGraph I386.Middle I386.Last
 ```
 
 
-The `I386.Middle` type represents computational machine instructions; the `I376.Last` type represents control-transfer instructions.  The choice of representation is up to the author of the back end, but for continuity with the existing native code generators, we expect to begin by using algebraic data types inspired by the existing definitions in [compiler/nativeGen/MachInstrs.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachInstrs.hs).
+The `I386.Middle` type represents computational machine instructions; the `I386.Last` type represents control-transfer instructions.  The choice of representation is up to the author of the back end, but for continuity with the existing native code generators, we expect to begin by using algebraic data types inspired by the existing definitions in [compiler/nativeGen/MachInstrs.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachInstrs.hs).
+
+
+Note that the graph still contains:
+
+- **Variables** (ie local register that are not yet mapped to particular machine registers)
+- **Stack-slot addressing modes**, which include late-bound compile-time constants, such as the offset in the frame of the a variable spill location, or BlockId stack-top-on-entry.
+
+
+The invariant is that each node could be done by one machine instruction, provided each `LocalReg` maps to a (suitable) physical register; and an instruction involving a stack-slot can cope with (Sp+n).  
 
 
 An **extremely important distinction** from the existing code is that we plan to eliminate `#ifdef` and instead provide multiple datatypes, e.g., in `I386.hs`, `PpcInstrs.hs`, `Sparc.hs`, and so on.  
@@ -151,18 +160,34 @@ Optimise the code.  `LGraph Instrs` (with variables, stack slots, and compile-ti
 Proc-point analysis: `LGraph Instrs` (with variables, stack slots, and compile-time constants) -\> `LGraph Instrs` (with variables, stack slots, and compile-time constants)
 
 - Proc points are found, and the appropriate control-transfer instructions are inserted.
-- Why so early? Depending on the back end (think of C as the worst case), the proc-point analysis might have to satisfy some horrible calling convention. We want to make these requirements explicit before we get to the register allocator.  We also want to **exploit the register allocator** to make the best possible decisions about *which live variables (if any) should be in registers at a proc point*.
+- Why so early(before register allocation, stack layout)? Depending on the back end (think of C as the worst case), the proc-point analysis might have to satisfy some horrible calling convention. We want to make these requirements explicit before we get to the register allocator.  We also want to **exploit the register allocator** to make the best possible decisions about *which live variables (if any) should be in registers at a proc point*.
 
-### not yet done
+### Register allocation
 
-1. Register allocation: `LGraph Instrs` (with variables, stack slots, and compile-time constants) `-> LGraph Instrs` (with stack slots, and compile-time constants)
 
-  - Replace variable references with machine register and stack slots.
-1. Stack Layout: `LGraph Instrs` (with stack slots, and compile-time constants) `-> LGraph Instrs`
+Register allocation replaces variable references with machine register and stack slots.  This may introduce spills and reloads (to account for register shortage), which which is why we may get new stack-slot references.
 
-  - Choose a stack layout.
-  - Replace references to stack slots with addresses on the stack.
-  - Replace compile-time constants with offsets into the stack.
+
+That is, register allocation takes `LGraph Instrs` (with variables, stack slots) `-> LGraph Instrs` (with stack slots only).  No more variables!  
+
+
+We no longer need to spill to the C stack, because we have fully allocated everything
+to machine registers.
+
+### Stack layout
+
+
+Stack Layout: `LGraph Instrs` (with stack slots, and compile-time constants) `-> LGraph Instrs`
+
+- Choose a stack layout.
+- Replace references to stack slots with addresses on the stack.
+- Replace compile-time constants with offsets into the stack.
+
+
+No more stack-slot references.
+
+### Tidy up
+
 1. Proc-point splitting: `LGraph Instrs -> [LGraph Instrs]`
 
   - Each proc point gets its own procedure.
