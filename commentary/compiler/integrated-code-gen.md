@@ -66,28 +66,95 @@ require complex implementations.  We live with this complexity because
 
 ## Proposed compilation pipeline
 
-1. Convert from `STG` to an control flow graph `CmmGraph` ([compiler/cmm/ZipCfg.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfg.hs), [compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)).  This step is Simon PJ's "new code generator" from September 2007.  This conversion may introduce new variables, stack slots, and compile-time constants. 
+1. Convert from `STG` to an control flow graph `CmmGraph`:
 
-  - Implements calling conventions for call, jump, and return instructions: all parameter passing is turned into data-movement instructions (register-to-register move, load, or store), and stack-pointer adjustments are inserted. After this point, calls, returns, and jumps are just control-transfer instructions -- the parameter passing has been compiled away.  
-  - How do we refer to locations on the stack when we haven't laid it out yet? The compiler names a stack slot using the idea of a "late compile-time constant," which is just a symbolic constant that will be replaced with an actual stack offset when the stack layout is chosen.One departure from the old code generator is that **we do not build a `Cmm` abstract-syntax tree;** instead we go straight to a control-flow graph.
+  ```wiki
+  STG -> CmmGraph Cmm.Middle Cmm.Last
+  ```
+1. Instruction selection:
 
->
-> In practice, we first generate an "abstract control flow graph", `CmmAGraph`, which makes the business of generating fresh `BlockId`s more convenient, and convert that to a `CmmGraph`.  The former is convenient for *construction* but cannot be analysed; the latter is concrete, and can be analyzed, transformed, and optimized.  
+  ```wiki
+  CmmGraph Cmm.Middle Cmm.Last -> CmmGraph I386.Middle I386.Last
+  ```
+1. Optimise:
 
-1. Instruction selection: each `Cmm``Middle` and `Last` node in the control-flow graph is replaced with a new graph in which the nodes are machine instructions.  The `MachineMiddle` type represents computational machine instructions; the `MachineLast` type represents control-transfer instructions.  The choice of representation is up to the author of the back end, but for continuity with the existing native code generators, we expect to begin by using algebraic data types inspired by the existing definitions in [compiler/nativeGen/MachInstrs.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachInstrs.hs).
+  ```wiki
+  CmmGraph I386.Middle I386.Last -> CmmGraph I386.Middle I386.Last
+  ```
+1. Proc-point analysis, and transformation
 
-  - An **extremely important distinction** from the existing code is that we plan to eliminate `#ifdef` and instead provide multiple datatypes, e.g., in `I386Instrs.hs`, `PpcInstrs.hs`, `SparcInstrs.hs`, and so on.
+  ```wiki
+  analyse :: CmmGraph I386.Middle I386.Last -> [BlockId]
+  transform :: [BlockId] -> CmmGraph I386.Middle I386.Last -> CmmGraph I386.Middle I386.Last
+  ```
 
-  We expect to **abstract away from the details of these representations** by borrowing some abstractions from [ Machine SUIF](http://www.eecs.harvard.edu/hube/software/nci/overview.html).  In the longer term we would like to support RTL-based representations such as are used in gcc, vpo and Quick C--.  
-   We expect a set of types and an instruction selector for *each* back end, so for example, we might have a transformation that maps `LGraph Cmm.Middle Cmm.Last` (with variables, stack slots, and compile-time constants) `-> LGraph I368Instrs.Middle I368Instrs.Last` (with variables, stack slots, and compile-time constants)
-1. Optimizer: `LGraph Instrs` (with variables, stack slots, and compile-time constants) `-> LGraph Instrs` (with variables, stack slots, and compile-time constants)
+### Convert from STG to control flow graph
 
-  - Obvious code improvements include lazy code motion and dead-code elimination as well as various optimizations based on forward substitution (copy propagation, constant propagation, peephole optimization).  We intend to follow the style of Machine SUIF and **make code improvements machine-independent**, using machine-dependent functions to capture the semantics of instructions.
-  - The difficulty of implementing a good peephole optimizer varies greatly with the representation of instructions.  We propose to postpone serious work on peephole optimization until we have a back end capable of representing machine instructions as RTLs, which makes peephole optimization trivial.
-1. Proc-point analysis: `LGraph Instrs` (with variables, stack slots, and compile-time constants) -\> `LGraph Instrs` (with variables, stack slots, and compile-time constants)
 
-  - Proc points are found, and the appropriate control-transfer instructions are inserted.
-  - Why so early? Depending on the back end (think of C as the worst case), the proc-point analysis might have to satisfy some horrible calling convention. We want to make these requirements explicit before we get to the register allocator.  We also want to **exploit the register allocator** to make the best possible decisions about *which live variables (if any) should be in registers at a proc point*.
+Convert from `STG` to an control flow graph `CmmGraph` ([compiler/cmm/ZipCfg.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfg.hs), [compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)).  This step is Simon PJ's "new code generator" from September 2007.  This conversion may introduce new variables, stack slots, and compile-time constants. 
+
+- Implements calling conventions for call, jump, and return instructions: all parameter passing is turned into data-movement instructions (register-to-register move, load, or store), and stack-pointer adjustments are inserted. After this point, calls, returns, and jumps are just control-transfer instructions -- the parameter passing has been compiled away.  
+- How do we refer to locations on the stack when we haven't laid it out yet? The compiler names a stack slot using the idea of a "late compile-time constant," which is just a symbolic constant that will be replaced with an actual stack offset when the stack layout is chosen.One departure from the old code generator is that **we do not build a `Cmm` abstract-syntax tree;** instead we go straight to a control-flow graph.
+
+
+In practice, we first generate an "abstract control flow graph", `CmmAGraph`, which makes the business of generating fresh `BlockId`s more convenient, and convert that to a `CmmGraph`.  The former is convenient for *construction* but cannot be analysed; the latter is concrete, and can be analyzed, transformed, and optimized.  
+
+### Establish the Machine Invariant
+
+
+Instruction selection: each `Cmm``Middle` and `Last` node in the control-flow graph is replaced with a new graph in which the nodes are machine instructions.
+
+```wiki
+CmmGraph Cmm.Middle Cmm.Last -> CmmGraph I386.Middle I386.Last
+```
+
+
+The `I386.Middle` type represents computational machine instructions; the `I376.Last` type represents control-transfer instructions.  The choice of representation is up to the author of the back end, but for continuity with the existing native code generators, we expect to begin by using algebraic data types inspired by the existing definitions in [compiler/nativeGen/MachInstrs.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachInstrs.hs).
+
+
+An **extremely important distinction** from the existing code is that we plan to eliminate `#ifdef` and instead provide multiple datatypes, e.g., in `I386.hs`, `PpcInstrs.hs`, `Sparc.hs`, and so on.  
+
+
+Similarly, we expect a an instruction selector for *each* back end, so for example, we might have a transformation that maps `LGraph Cmm.Middle Cmm.Last` (with variables, stack slots, and compile-time constants) `-> LGraph I86.Middle I386.Last` (with variables, stack slots, and compile-time constants).
+
+
+We expect to **abstract away from the details of these representations** by borrowing some abstractions from [ Machine SUIF](http://www.eecs.harvard.edu/hube/software/nci/overview.html).  In the longer term we would like to support RTL-based representations such as are used in gcc, vpo and Quick C--.  What this means is that `I386.Middle` (etc) is an abstract type, an instance of type class that supports the functions that the rest of the pipeline needs. For example:
+
+```wiki
+class Instr i where
+  defs :: i -> [LocalReg]
+  uses :: i -> [LocalReg]
+  ..etc..
+```
+
+
+This allows us to  **make code improvements machine-independent**, by using machine-dependent functions to capture the semantics of instructions.
+
+### Optimisation
+
+
+Optimise the code.  `LGraph Instrs` (with variables, stack slots, and compile-time constants) `-> LGraph Instrs` (with variables, stack slots, and compile-time constants), such as
+
+- Branch chain elimination.
+- Remove unreachable blocks (dead code).
+- Constant propagation.
+- Copy propagation.
+- Lazy code motion (hoisting, sinking, partial redundancy elimination).
+- Block concatenation.  branch to K; and this is the only use of K.  
+- Common Block Elimination (like CSE). This essentially implements the Adams optimisation, we believe.
+- Consider (sometime): block duplication.  branch to K; and K is a short block.  Branch chain elimination is just a special case of this.
+- Peephole optimisation.  The difficulty of implementing a good peephole optimizer varies greatly with the representation of instructions.  We propose to postpone serious work on peephole optimization until we have a back end capable of representing machine instructions as RTLs, which makes peephole optimization trivial.
+
+### Proc-point analysis
+
+
+Proc-point analysis: `LGraph Instrs` (with variables, stack slots, and compile-time constants) -\> `LGraph Instrs` (with variables, stack slots, and compile-time constants)
+
+- Proc points are found, and the appropriate control-transfer instructions are inserted.
+- Why so early? Depending on the back end (think of C as the worst case), the proc-point analysis might have to satisfy some horrible calling convention. We want to make these requirements explicit before we get to the register allocator.  We also want to **exploit the register allocator** to make the best possible decisions about *which live variables (if any) should be in registers at a proc point*.
+
+### not yet done
+
 1. Register allocation: `LGraph Instrs` (with variables, stack slots, and compile-time constants) `-> LGraph Instrs` (with stack slots, and compile-time constants)
 
   - Replace variable references with machine register and stack slots.
