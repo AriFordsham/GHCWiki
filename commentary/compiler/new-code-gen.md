@@ -1,7 +1,10 @@
 # Material about the new code generator
 
 
-This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end. You may want to see the [short-term view of the pipeline](commentary/compiler/new-code-gen-pipeline).
+This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end. You may want to see the
+
+- [short-term view of the pipeline](commentary/compiler/new-code-gen-pipeline)
+- [longer term plan](commentary/compiler/integrated-code-gen)
 
 
 Bug list (code-gen related bugs that we may be able to fix):
