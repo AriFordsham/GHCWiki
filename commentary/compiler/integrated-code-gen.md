@@ -127,7 +127,7 @@ class Instr i where
 ```
 
 
-This allows us to  **make code improvements machine-independent**, by using machine-dependent functions to capture the semantics of instructions.  Figuring out precisely what the interace should be is a key step.  For example, to support copy propagation we might want an operation
+This allows us to  **make code improvements machine-independent**, by using machine-dependent functions to capture the semantics of instructions.  Figuring out precisely what the interface should be is a key step.  For example, to support copy propagation we might want an operation
 
 ```wiki
   isCopy :: i -> Maybe (LocalReg,LocalReg)
@@ -218,7 +218,7 @@ No more stack-slot references.
 
   - A reverse postorder depth-first traversal simultaneously converts the graph to sequential code and converts each instruction into an assembly-code string: **Assembly code ahoy**!
 
-### Machine-dependence
+## Machine-dependence
 
 
 A key property of the design is that the scopes of machine-dependent code and machine-dependent static types are limited as much as possible:
