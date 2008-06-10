@@ -17,7 +17,7 @@ It would be desirable to ensure that Haskell programs that contain information f
 
 We would like the plugin install process to be totally painless, ideally by reusing the existing Cabal / package.info mechanisms.
 
-### Implementation Issues
+### Detailed Discussion Of Implementation Issues
 
 - [Plugins/Phases](plugins/phases)
 - [Plugins/Annotations](plugins/annotations)
