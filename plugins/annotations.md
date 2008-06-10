@@ -1,0 +1,119 @@
+# GHC Plugin Annotations
+
+## The Problem
+
+
+Plugins need to attach information to identifiers:
+
+- When users specify PLUGIN pragmas for particular binders
+- If they do their own analysis on the source code which they want to record for later passes
+
+
+Information to be attached might be:
+ 
+
+- Names of functions in the module
+- Names of types in the module
+- Plugin-specific data structures
+
+## Possible Solution 1
+
+```wiki
+
+module Main where
+
+{-# PLUGIN NVidia.GHC.GPU NVidiaGPUSettings { useTextureMemoryMb = 256 } #-}
+
+{-# PLUGIN NVidia.GHC.GPU doSomethingExpensive NVidiaGPUFunctionSettings { maxStackDepth = 1024 } #-}
+doSomethingExpensive :: Int -> ImpressiveResult
+doSomethingExpensive = ....
+
+```
+
+
+In this module the user has specified one module-level annotation (NVidiaGPUSettings) and one binder-level annotation (NVidiaGPUFunctionSettings). These will be stored in a Map which is given to the plugin code so it can lookup the appropriate annotations.
+
+
+A problem with this is that identifiers are somewhat unstable in Core. All non-top-level binders are destroyed and created willy-nilly by Core passes. Top-level binders are only stable if they are exported from the module. Even top level binders may vanish from an expression if e.g. we perform inlining.
+
+
+This can be "solved" by marking all identifiers occuring in PLUGIN pragmas as stable (i.e. exported), and restricting such pragmas to top level identifiers only.
+
+
+Another possible solution is to turn the pragmas into Notes that live on the source tree itself. However this may suffer from Notes being shuffled around by some Core passes. Additionally, this may be slightly harder to use for plugin authors.
+
+## Possible Solution 2
+
+
+The previous solution renamed NVidiaGPUSettings etc in an environment that only contained the imported NVidia.GHC.GPU module. This has the advantages that:
+
+- A staging issue is solved as these pragmas are then unable to refer to identifiers in the module being compiled
+- The module involved can still be compiled if the NVidia.GHC.GPU module is not available
+- Is consistent with the intuition that 
+
+
+However:
+
+- This style of "implicit import statement" is inconsistent with Template Haskell which requires an explicit import for code that is run at compile time, even if that import is never used at runtime
+- The required pragma is bloated by the fully qualified module name
+- We cannot include references to the names of functions in the pragma, e.g using the Template Haskell quoting mechanism:
+
+  ```wiki
+
+  module ServerApplication where
+
+  clientFunction :: (Request, Response) -> IO ()
+  clientFunction = ...
+
+  {-# PLUGIN HVolta.TierSplitting serverFunction HV { correspondingClientFunction = 'clientFunction } #-}
+  serverFunction :: Request -> IO Response
+  serverFunction = ...
+
+  ```
+
+
+An alternative that makes the imports consistent (and makes the pragma shorter) is:
+
+```wiki
+
+module Main where
+
+import NVidia.GHC.GPU
+
+{-# PLUGIN NVidiaGPUSettings { useTextureMemoryMb = 256 } #-}
+
+{-# PLUGIN doSomethingExpensive NVidiaGPUFunctionSettings { maxStackDepth = 1024 } #-}
+doSomethingExpensive :: Int -> ImpressiveResult
+doSomethingExpensive = ....
+
+```
+
+## Other Considerations
+
+- We may wish to restrict/change the language features usable within annotations:
+
+  - Data constructors and literals should be allowed
+  - Arbitrary function applications are not necessarily a good idea, but \>probably\< are
+  - Might want to access (quoted) identifiers in the module being compiled and its imports
+- Should plugins be able to see annotations across module boundaries?
+
+  - If so, we need to put them in the .hi
+  - It would make sense to provide a GHC API to allow users to reflect on the annotations of an arbitrary imported module (including your own module)
+  - Such an expanded annotation system might find use beyond plugins:
+
+```wiki
+
+module MyLibraryProperties where
+
+import QuickCheck(QCProperty(..), runTestsInModule)
+
+{-# PLUGIN prop_f QCProperty #-}
+prop_f = \xs -> f xs == f (reverse xs)
+
+{-# PLUGIN prop_g QCProperty { timeout = 1000 } #-}
+prop_g = \x -> g (x * 2) == (g x) / 2
+
+-- This line uses the annotations system to find things with QCProperty annotations and runs them
+main = runTestsInModule
+
+```
