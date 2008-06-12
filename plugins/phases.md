@@ -59,3 +59,29 @@ module Spqr(..., {-# PHASE C #-}, ...) where
 
 
 This module explicitly exports its local phase C, which is defined to occur before the [SpecConstr](spec-constr) phase. However the programmer is totally free to remove it from the exports list and hence prevent other modules from referring to it.
+
+## Expressing Dependence
+
+
+Assuming we just have two levels of ordering we want to express:
+
+- Strict ordering (A MUST appear before/after B)
+- Lenient ordering (A SHOULD appear before/after B)
+
+
+Then a possible syntax is:
+
+
+{-\# PHASE A \< B, \[\< C\], \> D, \[\> E\] \#-}
+
+
+To express that A:
+
+- MUST appear before B
+- SHOULD appear before C
+- MUST appear after D
+- SHOULD appear after E
+
+
+The square brackets are meant to be evocative of optionality in Backus-Naur form, but I'm not yet sure if that is too easily confused with Haskell list syntax.
+ 
