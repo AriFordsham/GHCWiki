@@ -71,8 +71,11 @@ Assuming we just have two levels of ordering we want to express:
 
 Then a possible syntax is:
 
+```wiki
 
-{-\# PHASE A \< B, \[\< C\], \> D, \[\> E\] \#-}
+{-# PHASE A < B, [< C], > D, [> E] #-}
+
+```
 
 
 To express that A:
