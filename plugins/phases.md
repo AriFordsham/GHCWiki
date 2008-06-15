@@ -150,7 +150,7 @@ An example of how it would look is:
 
 ```wiki
 
-module Qux({-# PHASE F #-} {-# PHASE G #-} {-# PHASE H #-} where
+module Qux({-# PHASE F #-} {-# PHASE G #-} {-# PHASE H #-}) where
 
 import Quux({-# PHASE I #-} {-# PHASE J #-})
 
