@@ -135,6 +135,7 @@ and a short description of what they're doing or have done.
 - Don Stewart (OpenBSD support)
 - Volker Stolz
 - Josef Svenningsson
+- Audrey Tang (Perl-related tools (ghc-asm, ghc-split), AIX port)
 - Wolfgang Thaller (Darwin/Mac OS X ports, position-independent code generation)
 - Mike Thomas
 - Christopher D. Thompson-Walsh
