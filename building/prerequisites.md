@@ -123,3 +123,29 @@ in it that is tickled by the build-configuration.  2.0.5 is
 OK. Others are probably OK too (assuming we don't create too
 elaborate configure scripts.)
 </td></tr></table>
+
+<table><tr><th>Python</th>
+<td>
+Required for [running the testsuite](building/running-tests).
+Version 2.5.2 or later is preferred, because you'll get support for
+running the testsuite in parallel.
+</td></tr></table>
+
+## Preparing a Linux system
+
+
+If you're on a recent Linux system, then you should be able to get a working build environment by installing the following packages using your system's package manager:
+
+- glibc-devel
+- autoconf
+- automake
+- gcc
+- gmp-devel
+- make
+- perl
+- python
+
+
+other packages that are useful for development:
+
+- strace
