@@ -4,7 +4,7 @@
 Here are the gory details about some utility programs you may need;
 `GHC`, `perl`, `gcc`, `happy` and `alex` are the
 only important ones. The `configure` script will tell you if you
-are missing something.
+are missing something.  If you're on a Linux system, skip to "Preparing a Linux System" below.
 
 <table><tr><th>GHC</th>
 <td>
@@ -149,10 +149,10 @@ If you're on a recent Linux system, then you should be able to get a working bui
 - alex
 - haddock
 
+**Note:** currently you'll also need to install an older version of [ Haddock](http://www.haskell.org/haddock) (0.9) manually, because the version of Haddock you'll get by default is 2.0.0.0 which doesn't work with GHC's build system yet.
+
 
 other packages that are useful for development:
 
 - strace
-
-
-Note that currently you'll also need to install an older version of [ Haddock](http://www.haskell.org/haddock) (0.8) manually, because the version of Haddock you'll get by default is 2.0.0.0 which doesn't work with GHC's build system yet.
+- libcurl-devel and zlib-devel (for building darcs)
