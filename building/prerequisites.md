@@ -144,8 +144,15 @@ If you're on a recent Linux system, then you should be able to get a working bui
 - make
 - perl
 - python
+- ghc
+- happy
+- alex
+- haddock
 
 
 other packages that are useful for development:
 
 - strace
+
+
+Note that currently you'll also need to install an older version of [ Haddock](http://www.haskell.org/haddock) (0.8) manually, because the version of Haddock you'll get by default is 2.0.0.0 which doesn't work with GHC's build system yet.
