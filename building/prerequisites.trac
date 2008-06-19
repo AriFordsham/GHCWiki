@@ -5,7 +5,7 @@
 Here are the gory details about some utility programs you may need;
 {{{GHC}}}, {{{perl}}}, {{{gcc}}}, {{{happy}}} and {{{alex}}} are the
 only important ones. The {{{configure}}} script will tell you if you
-are missing something.  If you're on a Linux system, skip to [#Preparingalinuxsystem Preparing a Linux System] below.
+are missing something.  If you're on a Linux system, skip to "Preparing a Linux System" below.
 
  GHC::
   GHC is required to build GHC, because GHC itself is
