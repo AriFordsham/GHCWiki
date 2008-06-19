@@ -155,3 +155,4 @@ If you're on a recent Linux system, then you should be able to get a working bui
 other packages that are useful for development:
 
 - strace
+- libcurl-devel and zlib-devel (for building darcs)
