@@ -435,6 +435,11 @@ When fingerprinting a recursive group of entities, we fingerprint the
 group as a whole.  If any of the definitions changes, the fingerprint
 of every entity in the group changes.
 
+### Fixities
+
+
+We include the fixity of an entity when computing its fingerprint.
+
 ### Instances
 
 
