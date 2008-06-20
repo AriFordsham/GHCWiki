@@ -536,3 +536,16 @@ compiler.
 
 The solution is to sort the elements using a stable ordering, such as
 lexicographic ordering.
+
+
+=== Packages ===
+
+We need to record usage information about package modules too, so that we
+can correctly trigger recompilation if we depend on a package that has changed.  But
+packages change rarely, so it would be wasteful to record detailed usage information for
+every entity that we use from an external package (imagine recording the fingerprints for
+`Bool`, `Int`, etc.).  Instead, we simply record the ABI fingerprint for every package
+module that was imported by the current module.  That way, if anything about the ABI of
+that package module has changed, then we can trigger a recompilation.
+
+(Correctly triggering recompilation when packages change was one of the things we fixed when implementing fingerprints, see #1372).
