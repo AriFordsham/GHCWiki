@@ -97,9 +97,11 @@ As it turns out, it is quite common in GHC that the first definition of a variab
 
 One way to assign stack slots is to traverse the flow graph in a reverse post-order depth-first search, allocating a stack location to each stack slot the first time we encounter the slot. (Note: When we encounter a parameter-passing area for the first time, we allocate stack locations for the whole area.) The allocation is then reused for every reference to the stack slot.
 
-The algorithm keeps two maps:
+The algorithm keeps two pieces of information:
  * A map from each allocated stack slot to its assigned location on the stack: this map is used to make sure that we use only a single stack location for each stack slot.
- * A map that tracks the contents of the stack: this map allows us to identify empty locations on the stack that can be assigned to stack slots. Also, it should identify the young end of the stack. Assume for simplicity that each stack location is assigned to only one stack slot at a time.
+ * A map that tracks the contents of the stack: this map allows us to identify empty locations on the stack that can be assigned to stack slots. Also, it should identify the young end of the stack. For now, each stack location is assigned to only one stack slot at a time.
+
+Because the second map is just the inverse of the first, my examples will show only the map from stack slots to stack addresses.
 
 Note: We want to reuse stack slots whenever possible. Therefore, if a stack slot is assigned to a location {{{l}}}, we need a variation of liveness analysis to identify final references to {{{l}}}. After the final reference to {{{l}}}, we can remove it from our maps, freeing up {{{l}}} for reallocation to other stack slots.
 
@@ -145,7 +147,10 @@ L4:
 
 Let's assume we visit the blocks in lexical order, which is what a reverse post-order depth-first search would give us. At each block, we give the initial maps as a pair of bindings, then describe what we do at each instruction.
 
- * L0: Initial maps: ({}, {}). At the instruction {{{sp := stack<L1 + 2>;}}}, we see the stack area associated with {{{L1}}} for the first time. Checking the maps, we see that {{{<L1 + 2>}}} is not bound, so we have to allocate space for it. Because it is a parameter-passing area, it must be placed at the young end of the stack. .....
+ * L0: Initial map: {}. At the instruction {{{sp := stack<L1 + 2>;}}}, we see the stack area associated with {{{L1}}} for the first time. Checking the maps, we see that {{{<L1 + 2>}}} is not bound, so we have to allocate space for it. Because it is a parameter-passing area, it must be placed at the young end of the stack. The stack is currently empty, so we place {{{L1}}} at location {{{0}}} on the stack, which means that the slot {{{<L1 + 2>}}} is at location {{{2}}} on the stack. We go ahead and fill in the rest of the locations in the stack area for {{{L1}}}, for both the incoming and outgoing parameters, producing the following map: {<L1 + 0> -> 0, <L1 + 1> -> 1, <L1 + 2> -> 2, <L1 + 3> -> 3}. [[BR]]
+The subsequent instructions in the basic block mention only stack slots that have already been allocated, so the map remains unchanged.
+
+
 
 
 Note: This greedy algorithm makes the copy propagation only if the stack location is not "live"-out. Otherwise, we would have two values sharing the stack slot, with no guarantee that they could safely share the location. If we had an interference graph, we could make a more informed decision, but that's a non-greedy optimization.
@@ -153,6 +158,8 @@ Note: This greedy algorithm makes the copy propagation only if the stack locatio
 What about a procedure's incoming and outgoing parameters, which should appear at the young end of the stack, in a predetermined location? The locations of these stack slots are determined by convention. Should we initialize the map with their locations?
 
 Invariant: A load from a stack slot must be preceded by a spill to that stack slot. And we should visit that spill before the reload. Otherwise, something has gone horribly wrong.
+
+Note: Obviously, we need to keep track of the actual widths of values to compute stack addresses.
 
 == Random Thoughts ==
 
