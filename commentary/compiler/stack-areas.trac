@@ -101,9 +101,7 @@ The algorithm keeps two pieces of information:
  * A map from each allocated stack slot to its assigned location on the stack: this map is used to make sure that we use only a single stack location for each stack slot.
  * A map that tracks the contents of the stack: this map allows us to identify empty locations on the stack that can be assigned to stack slots. Also, it should identify the young end of the stack. For now, each stack location is assigned to only one stack slot at a time.
 
-Because the second map is just the inverse of the first, my examples will show only the map from stack slots to stack addresses.
-
-Note: We want to reuse stack slots whenever possible. Therefore, if a stack slot is assigned to a location {{{l}}}, we need a variation of liveness analysis to identify final references to {{{l}}}. After the final reference to {{{l}}}, we can remove it from our maps, freeing up {{{l}}} for reallocation to other stack slots.
+Note: We want to reuse stack slots whenever possible. Therefore, if a stack slot is assigned to a location {{{l}}}, we need a variation of liveness analysis to identify final references to {{{l}}}. After the final reference to {{{l}}}, we can remove it from the second map, freeing up {{{l}}} for reallocation to other stack slots.
 
 Let's walk through an example. The following is a simple program in pseudo-C--:
 
@@ -147,13 +145,23 @@ L4:
 
 Let's assume we visit the blocks in lexical order, which is what a reverse post-order depth-first search would give us. At each block, we give the initial maps as a pair of bindings, then describe what we do at each instruction.
 
- * L0: Initial map: {}. At the instruction {{{sp := stack<L1 + 2>;}}}, we see the stack area associated with {{{L1}}} for the first time. Checking the maps, we see that {{{<L1 + 2>}}} is not bound, so we have to allocate space for it. Because it is a parameter-passing area, it must be placed at the young end of the stack. The stack is currently empty, so we place {{{L1}}} at location {{{0}}} on the stack, which means that the slot {{{<L1 + 2>}}} is at location {{{2}}} on the stack. We go ahead and fill in the rest of the locations in the stack area for {{{L1}}}, for both the incoming and outgoing parameters, producing the following map: {<L1 + 0> -> 0, <L1 + 1> -> 1, <L1 + 2> -> 2, <L1 + 3> -> 3}. [[BR]]
-The subsequent instructions in the basic block mention only stack slots that have already been allocated, so the map remains unchanged.
+ * L0: Initial maps: ({}, {}). At the instruction {{{sp := stack<L1 + 2>;}}}, we see the stack area associated with {{{L1}}} for the first time. Checking the maps, we see that {{{<L1 + 2>}}} is not bound, so we have to allocate space for it. Because it is a parameter-passing area, it must be placed at the young end of the stack. The stack is currently empty, so we place {{{L1}}} at location {{{0}}} on the stack, which means that the slot {{{<L1 + 2>}}} is at location {{{2}}} on the stack. We go ahead and fill in the rest of the locations in the stack area for {{{L1}}}, for both the incoming and outgoing parameters, producing the following maps: ({<L1 + 0> -> 0, <L1 + 1> -> 1, <L1 + 2> -> 2, <L1 + 3> -> 3}, {0-> <L1 + 0>, 1 -> <L1 + 1>, 2 -> <L1 + 2>, 3 -> <L1 + 3>}). [[BR]]
+The next instruction stores a label into an allocated stack slot, so nothing changes.
+Then, we store the variable {{{a}}} into an allocated stack slot. It might be tempting
+to set {{{a}}}'s spill slot to be the same as {{{<L1 + 2>}}}, but it might be wrong: the function {{{f}}} might overwrite its value (especially with return arguments). Therefore, we do not try to set a variable's spill slot when it appears on the right-hand side of a store. (NB: This restriction is a consequence of the liveness properties of the stack slot; it would be nice if it just fell out.)
+  * L1: Initial maps: ({<L1 + 0> -> 0, <L1 + 1> -> 1, <L1 + 2> -> 2, <L1 + 3> -> 3}, {0-> <L1 + 0>, 1 -> <L1 + 1>, 2 -> <L1 + 2>, 3 -> <L1 + 3>}).
+Before we consider the first instruction, we can note that the stack slots <L1 + 0> and <L1 + 1> are not referenced in the rest of the procedure, so we can drop them from the second map, leaving those spaces free for other stack slots: ({<L1 + 0> -> 0, <L1 + 1> -> 1, <L1 + 2> -> 2, <L1 + 3> -> 3}, {2 -> <L1 + 2>, 3 -> <L1 + 3>}).
+The first instruction {{{x := m[stack<L1 + 2>]}}} uses a stack slot that has already been allocated. But it also offers an opportunity for optimization: we can allocate {{{stack<x> == stack<L1 + 2>}}}, as long as the two locations do not interfere (i.e. one must not overwrite the value of the other). As a proxy for interference in this greedy approach, we will make this allocation only if the stack location on the right-hand side is not "live out" in the rest of the program (where "live out" says whether the location is referenced, including definitions). In our example, we assume that the stack location is not live out, so we allocate x's spill slot and remove the (now-dead) {{{<L1 + 2>}}} from the second map: ({<L1 + 0> -> 0, <L1 + 1> -> 1, <L1 + 2> -> 2, <L1 + 3> -> 3, stack<x> -> 2}, {2 -> stack<x>, 3 -> <L1 + 3>}). Similarly, after the next instruction, we have the maps ({<L1 + 0> -> 0, <L1 + 1> -> 1, <L1 + 2> -> 2, <L1 + 3> -> 3, stack<x> -> 2, stack<y> -> 3}, {2 -> stack<x>, 3 -> stack<y>).
+ * L2: Initial maps: ({<L1 + 0> -> 0, <L1 + 1> -> 1, <L1 + 2> -> 2, <L1 + 3> -> 3, stack<x> -> 2, stack<y> -> 3}, {2 -> stack<x>, 3 -> stack<y>). Before considering the instructions in L2, we can drop any stack 
+
+UGH... THE INITIAL MAP FOR L2 SHOULD BE DIFFERENT -- THE SECOND MAP SHOULD INCLUDE ANY MAPPINGS LIVE INTO L2. OF COURSE, WE CAN'T DROP THE MAPPINGS ADDED IN L1 B/C THEY MIGHT CONFLICT WITH MAPPINGS WE TRY TO ADD IN L2 (DEPENDING ON THE LIVENESS OF THE STACK SLOTS). SO, I THINK THE 2ND MAP SHOULD JUST BE THE INVERSE OF THE 1ST, WITH EACH ENTRY MAPPING A STACK ADDRESS TO THE LIST OF SLOTS IT CONTAINS OVER TIME.
 
 
-
+Note: Call instructions should indicate not only the registers they use and kill but also the stack slots.
 
 Note: This greedy algorithm makes the copy propagation only if the stack location is not "live"-out. Otherwise, we would have two values sharing the stack slot, with no guarantee that they could safely share the location. If we had an interference graph, we could make a more informed decision, but that's a non-greedy optimization.
+
+Problem: I don't think this approach deals nicely with the case where the arguments returned along both branches are bound to the same variables. In particular, when allocating the first returned value, it may be the same on both branches, but you don't know if the second one will be, so you can't commit to using the same stack space.
 
 What about a procedure's incoming and outgoing parameters, which should appear at the young end of the stack, in a predetermined location? The locations of these stack slots are determined by convention. Should we initialize the map with their locations?
 
