@@ -86,15 +86,22 @@ Note: We don't have a virtual frame pointer in this story, but do we really want
 
 === Laying out the stack ===
 
-A naive approach to laying out the stack would be to give each variable its own stack slot for spilling, and allocate only the ends of the stack frame for parameter-passing areas. But this approach misses two important opportunities for optimization:
+A naive approach to laying out the stack would be to give each variable its own stack slot for spilling, and allocate only the ends of the stack frame for parameter-passing areas. But this approach misses two opportunities for optimization:
  * Stack slots can be reused by variables that are never on the stack at the same time
- * If a function returns a variable on the stack, we might be able to use the return location as the variable's spill slot.
+ * If a function returns a variable on the stack, we might be able to use the return location as the variable's stack slot.
 
-As it turns out, it is quite common in GHC that the first definition of a variable comes when its value is returned from a function call. If the value is returned on the stack, then an important optimization is to avoid copying that value to some other local location on the stack. How is that achieved? By making sure the location where the value is returned is defined as its spill slot. 
+As it turns out, it is quite common in GHC that the first definition of a variable comes when its value is returned from a function call. If the value is returned on the stack, then an important optimization is to avoid copying that value to some other location on the stack. How is that achieved? By making sure the location where the value is returned is also its spill slot.
+
+== The greedy algorithm ==
 
 == Random Thoughts ==
 
 Assignments into parameter-passing areas can't be hoisted past adjustments to the stack pointer until we know the stack layout -- otherwise we might try to write off the young end of the stack. There must be some sort of invariant here, something along the lines of: "a reference to a parameter passing area must (a) succeed the adjustment moving the stack pointer to the bottom of the area and (b) precede any other stack adjustment.
+Restated: a def or use of a stack location is well-defined only if the stack pointer points "past" the location. Therefore, we can move a stack assignment/reference past an assignment to the stack pointer only if we can prove that this property is maintained.
+
+This all feels related to the coalescing optimization performed by register allocators.
+
+We're missing another optimization opportunity: there's no reason why different live ranges need to share the same stack slot.
 
 == !ToDo ==
 
