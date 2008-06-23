@@ -110,7 +110,19 @@ A naive approach to laying out the stack would be to give each variable its own 
 
 As it turns out, it is quite common in GHC that the first definition of a variable comes when its value is returned from a function call. If the value is returned on the stack, then an important optimization is to avoid copying that value to some other location on the stack. How is that achieved? By making sure the location where the value is returned is also its spill slot.
 
-## The greedy algorithm
+### The greedy algorithm
+
+
+One way to assign stack slots is to traverse the flow graph in a depth-first search, assigning stack space to each stack slot the first time it is encountered. The second time we encounter a stack slot, we reuse the previous assignment.
+
+
+The algorithm keeps two maps:
+
+- A map from (allocated) stack slots to a space on the stack: this map is used to make sure that we use only a single stack location for each stack slot.
+- A map that tracks the contents of the stack: this map allows us to identify empty locations on the stack that can be assigned to stack slots. Also, it should identify where the young end of the stack is.
+
+
+Note: We want to reuse stack slots whenever possible. Therefore, if a stack slot is assigned to a location `l`, we need a variation of liveness analysis to identify final references to `l`. After the final reference to `l`, we can remove it from our maps, freeing up `l` for reallocation to other stack slots.
 
 ## Random Thoughts
 
