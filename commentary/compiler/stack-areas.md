@@ -119,11 +119,22 @@ One way to assign stack slots is to traverse the flow graph in a reverse post-or
 
 The algorithm keeps two pieces of information:
 
-- A map from each allocated stack slot to its assigned location on the stack: this map is used to make sure that we use only a single stack location for each stack slot.
-- A map that tracks the contents of the stack: this map allows us to identify empty locations on the stack that can be assigned to stack slots. Also, it should identify the young end of the stack. For now, each stack location is assigned to only one stack slot at a time.
+- A many-to-one map from each allocated stack slot to its assigned location on the stack: this map is used to make sure that we use only a single stack location for each stack slot.
+- The (one-to-many) inverse of the first map. This map gives the contents of each stack location.
 
 
-Note: We want to reuse stack slots whenever possible. Therefore, if a stack slot is assigned to a location `l`, we need a variation of liveness analysis to identify final references to `l`. After the final reference to `l`, we can remove it from the second map, freeing up `l` for reallocation to other stack slots.
+We want to reuse stack slots whenever possible. Therefore, if a stack slot is assigned to a location `l`, we need a variation of liveness analysis to identify final references to `l`. Under this analysis, we say that a stack slot is "live out" if the stack slot may be referenced as either a use or definition in a subsequent instruction. If a location `l` is not live out, we can reallocate `l` to other stack slots.
+
+
+The algorithm makes a forward pass over the code, making the following decisions for stack slots in each instruction:
+
+- If the stack slot has already been allocated, leave it alone.
+- If the (unallocated) stack slot is part of a `CallArea`, then allocate the entire `CallArea` after the youngest stack slot that is live out. We might be able to do better than this, of course, but probably not without significantly more effort.
+- If the (unallocated) stack slot is a variable spill, then allocate it to any stack location that is not live out (or, more accurately, that does not contain a stack slot that is live out). If possible, this stack slot should not come from the youngest end of the stack.
+- If the instruction is a reload from a stack slot `s` in a `CallArea` to a variable `x` whose stack slot is unallocated, and `s` is not live out, then allocate `stack<x>` to `s`. We avoid allocating `stack<x>` to `s` if `s` is live out because we don't have full interference information to ensure that they can share a stack slot.
+
+
+We could rewrite the graph in a subsequent pass or in the same pass. The latter seems preferable.
 
 
 Let's walk through an example. The following is a simple program in pseudo-C--:
@@ -135,7 +146,6 @@ Let's walk through an example. The following is a simple program in pseudo-C--:
    else
      x, z = g(a);
    spill<x> // some source code resulting in x getting spilled
-   ... <possibly uses y>
 ```
 
 
@@ -152,8 +162,8 @@ L1:  // on entry to L1, sp == stack<L1+3>
    x := m[stack<L1 + 2>];
    y := m[stack<L1 + 3>];
    ... <uses y>
-   goto L4;
-L2:
+   goto L4; // L1 stack area dead out
+L2: // stack<y> is live out
    sp := stack<L3 + 2>;
    m[stack<L3 + 1>] := L3_info_table;
    m[stack<L3 + 2>] := a;
@@ -161,32 +171,39 @@ L2:
 L3:  // on entry to L3, sp == stack<L3+3>
    x := m[stack<L3 + 2>];
    y := m[stack<L3 + 3>];
-   goto L4;
-L4:
+   goto L4; // L3 stack area dead out
+L4: // y dead out
    m[stack<x>] := x;
-   ... <possibly uses y>
+   m[stack<z>] := x;
+L5:
 ```
 
 
-Let's assume we visit the blocks in lexical order, which is what a reverse post-order depth-first search would give us. At each block, we give the initial maps as a pair of bindings, then describe what we do at each instruction.
+Let's assume we visit the blocks in lexical order, which is what a reverse post-order depth-first search would give us. Here's a map we might expect to produce at input to each label:
 
-- L0: Initial maps: ({}, {}). At the instruction `sp := stack<L1 + 2>;`, we see the stack area associated with `L1` for the first time. Checking the maps, we see that `<L1 + 2>` is not bound, so we have to allocate space for it. Because it is a parameter-passing area, it must be placed at the young end of the stack. The stack is currently empty, so we place `L1` at location `0` on the stack, which means that the slot `<L1 + 2>` is at location `2` on the stack. We go ahead and fill in the rest of the locations in the stack area for `L1`, for both the incoming and outgoing parameters, producing the following maps: ({\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3}, {0-\> \<L1 + 0\>, 1 -\> \<L1 + 1\>, 2 -\> \<L1 + 2\>, 3 -\> \<L1 + 3\>}). 
+- L0: {} (empty input map -- should have incoming and outgoing parameters for the function)
+- L1: {L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3}
+- L2: {\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3, stack\<x\> -\> 2, stack\<y\> -\> 3}
+- L3: {\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3, stack\<x\> -\> 2, stack\<y\> -\> 3,
+
+> >
+> > \<L3 + 1\> -\> 4, \<L3 + 2\> -\> 5, \<L3 + 3\> -\> 6}
+
+- L4: {\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3, stack\<x\> -\> 2, stack\<y\> -\> 3,
+
+> >
+> > \<L3 + 1\> -\> 4, \<L3 + 2\> -\> 5, \<L3 + 3\> -\> 6}
+
+- L5: {\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3, stack\<x\> -\> 2, stack\<y\> -\> 3,
+
+> >
+> > \<L3 + 1\> -\> 4, \<L3 + 2\> -\> 5, \<L3 + 3\> -\> 6, stack\<z\> -\> 3}
 
 
-The next instruction stores a label into an allocated stack slot, so nothing changes.
-Then, we store the variable `a` into an allocated stack slot. It might be tempting
-to set `a`'s spill slot to be the same as `<L1 + 2>`, but it might be wrong: the function `f` might overwrite its value (especially with return arguments). Therefore, we do not try to set a variable's spill slot when it appears on the right-hand side of a store. (NB: This restriction is a consequence of the liveness properties of the stack slot; it would be nice if it just fell out.)
+MISSING BIT:
+WE NEED TO INITIALIZE THE MAP TO DEAL WITH THE INCOMING AND OUTGOING CALL AREA OF THE FUNCTION, WHOSE LOCATIONS ARE FIXED BY CONVENTION AT THE OLD END OF THE STACK FRAME.
 
-- L1: Initial maps: ({\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3}, {0-\> \<L1 + 0\>, 1 -\> \<L1 + 1\>, 2 -\> \<L1 + 2\>, 3 -\> \<L1 + 3\>}).
-
-
-Before we consider the first instruction, we can note that the stack slots \<L1 + 0\> and \<L1 + 1\> are not referenced in the rest of the procedure, so we can drop them from the second map, leaving those spaces free for other stack slots: ({\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3}, {2 -\> \<L1 + 2\>, 3 -\> \<L1 + 3\>}).
-The first instruction `x := m[stack<L1 + 2>]` uses a stack slot that has already been allocated. But it also offers an opportunity for optimization: we can allocate `stack<x> == stack<L1 + 2>`, as long as the two locations do not interfere (i.e. one must not overwrite the value of the other). As a proxy for interference in this greedy approach, we will make this allocation only if the stack location on the right-hand side is not "live out" in the rest of the program (where "live out" says whether the location is referenced, including definitions). In our example, we assume that the stack location is not live out, so we allocate x's spill slot and remove the (now-dead) `<L1 + 2>` from the second map: ({\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3, stack\<x\> -\> 2}, {2 -\> stack\<x\>, 3 -\> \<L1 + 3\>}). Similarly, after the next instruction, we have the maps ({\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3, stack\<x\> -\> 2, stack\<y\> -\> 3}, {2 -\> stack\<x\>, 3 -\> stack\<y\>).
-
-- L2: Initial maps: ({\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3, stack\<x\> -\> 2, stack\<y\> -\> 3}, {2 -\> stack\<x\>, 3 -\> stack\<y\>). Before considering the instructions in L2, we can drop any stack 
-
-
-UGH... THE INITIAL MAP FOR L2 SHOULD BE DIFFERENT -- THE SECOND MAP SHOULD INCLUDE ANY MAPPINGS LIVE INTO L2. OF COURSE, WE CAN'T DROP THE MAPPINGS ADDED IN L1 B/C THEY MIGHT CONFLICT WITH MAPPINGS WE TRY TO ADD IN L2 (DEPENDING ON THE LIVENESS OF THE STACK SLOTS). SO, I THINK THE 2ND MAP SHOULD JUST BE THE INVERSE OF THE 1ST, WITH EACH ENTRY MAPPING A STACK ADDRESS TO THE LIST OF SLOTS IT CONTAINS OVER TIME.
+### Notes
 
 
 Note: Call instructions should indicate not only the registers they use and kill but also the stack slots.
