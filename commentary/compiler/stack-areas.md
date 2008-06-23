@@ -120,7 +120,7 @@ One way to assign stack slots is to traverse the flow graph in a reverse post-or
 The algorithm keeps two maps:
 
 - A map from each allocated stack slot to its assigned location on the stack: this map is used to make sure that we use only a single stack location for each stack slot.
-- A map that tracks the contents of the stack: this map allows us to identify empty locations on the stack that can be assigned to stack slots. Also, it should identify where the young end of the stack is.
+- A map that tracks the contents of the stack: this map allows us to identify empty locations on the stack that can be assigned to stack slots. Also, it should identify the young end of the stack. Assume for simplicity that each stack location is assigned to only one stack slot at a time.
 
 
 Note: We want to reuse stack slots whenever possible. Therefore, if a stack slot is assigned to a location `l`, we need a variation of liveness analysis to identify final references to `l`. After the final reference to `l`, we can remove it from our maps, freeing up `l` for reallocation to other stack slots.
@@ -168,10 +168,12 @@ L4:
 ```
 
 
-Let's assume we visit the blocks in lexical order, which is what a reverse post-order depth-first search would give us.
+Let's assume we visit the blocks in lexical order, which is what a reverse post-order depth-first search would give us. At each block, we give the initial maps as a pair of bindings, then describe what we do at each instruction.
+
+- L0: Initial maps: ({}, {}). At the instruction `sp := stack<L1 + 2>;`, we see the stack area associated with `L1` for the first time. Checking the maps, we see that `<L1 + 2>` is not bound, so we have to allocate space for it. Because it is a parameter-passing area, it must be placed at the young end of the stack. .....
 
 
-Note: We can make the copy propagation only if the stack location is not "live"-out. Otherwise, we would have two values sharing the stack slot, with no guarantee that they could safely share the location. If we had an interference graph, we could make a more informed decision, but that's a non-greedy optimization.
+Note: This greedy algorithm makes the copy propagation only if the stack location is not "live"-out. Otherwise, we would have two values sharing the stack slot, with no guarantee that they could safely share the location. If we had an interference graph, we could make a more informed decision, but that's a non-greedy optimization.
 
 
 What about a procedure's incoming and outgoing parameters, which should appear at the young end of the stack, in a predetermined location? The locations of these stack slots are determined by convention. Should we initialize the map with their locations?
