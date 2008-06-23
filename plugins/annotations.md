@@ -88,6 +88,71 @@ doSomethingExpensive = ....
 
 ```
 
+## Possible Solution 3
+
+
+This solution has all annotations being desugared to Notes that live on the Core syntax tree. The reasons for this are as follows:
+
+- It means annotations are basically stable at all points in the compile pipeline: you won't miss one if for example some inlining happens. This is nice and predictable for plugin authors. This is especially troublesome because some things are inlined very eagerly indeed (e.g. non-exported IDs that are referenced only once).
+- It means that potentially something like SCCs could be implemented outside of GHC itself, which is very useful for plugins that perform analytics, which I suspect will be an important use case.
+- Allows us to attach information to non top-level binders, which I think is essentially impossible if we require a name in the annotation (making non top-level binders stable is HARD).
+
+
+Disadavantages are that:
+
+- It becomes harder to annotate types and data constructors: a similar effect can be achieved by supplying a module level annotation that references the appropriate object by quoting its name.
+- Establishing relationships between objects in an annotation may become less principled if the annotation is forcibly attached to one of the objects.
+- Lack of a simple Id -\> Annotation lookup facility may make plugin development harder.
+- Lack of a simple Id -\> Annotation correspondence essentially rules out accessing these things externally in future.
+
+
+The syntax could be used in three ways. Like a traditional annotation:
+
+```wiki
+
+data Stuff deriving Typeable
+
+{-# ANN foo Stuff #-}
+foo x = ...
+
+```
+
+
+The identifier does not necessarily have to be top level as this usage is immediately transformed as follows to ensure stability:
+
+```wiki
+
+data Stuff deriving Typeable
+
+foo = {-# ANN Stuff #-} \x -> ...
+
+```
+
+
+And this usage may also be typed directly by the user in the expression language as with SCC annotations currently. This is the "true form" of most of the annotations we will use. The only other possibility is module level annotations:
+
+```wiki
+{-# ANN Stuff #-}
+
+module Main where
+
+...
+
+```
+
+
+All of these forms allow arbitrary expressions in "Stuff", which are renamed and typechecked almost as if they had been written inside a splice $() in Template Haskell but instead of having the thing inside the splice return Q Exp we require it returns a Typeable thing. This code will be executed during desugaring of the whole program to generate the actual value we will attach to the Core syntax tree in a note.
+
+
+This treatment has a few nice effects:
+
+- References to names of non top-level things are disallowed by Template Haskell semantics
+- We get quoting of variable, constructor, type and phase names for free and in a uniform manner
+- We get free checking that the Stuff does not try to execute something defined in the module being compiled
+
+
+An interesting alternative might be to have a notion of an "annotation type" similar to the class name used by C\# / Java, and let those types e.g. implicitly add NOINLINE semantics to what they are attached to. This should help stability of the names used in annotations at the cost of reducing optimization opportunities.
+
 ## Other Considerations
 
 - We may wish to restrict/change the language features usable within annotations:
