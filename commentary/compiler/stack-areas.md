@@ -63,6 +63,7 @@ into approximately the following C--:
   m[stack<k + 2>] := a;
   m[stack<k + 3>] := b;
   m[stack<k + 4>] := c;
+  call f returns to k;
 k:  // on entry to k, sp == stack<k+3>
   x := m[stack<k + 2>]
   y := m[stack<k + 3>]
@@ -129,10 +130,10 @@ Let's walk through an example. The following is a simple program in pseudo-C--:
 
 ```wiki
    if <> then
-     x, y = f(a, b, c);
+     x, y = f(a);
      ... <uses y>
    else
-     x, z = g(a, b, c);
+     x, z = g(a);
    spill<x> // some source code resulting in x getting spilled
    ... <possibly uses y>
 ```
@@ -141,15 +142,36 @@ Let's walk through an example. The following is a simple program in pseudo-C--:
 The program may be lowered to the following C-- code:
 
 ```wiki
-  sp := stack<k + 4>;
-  m[stack<k + 1>] := k_info_table;
-  m[stack<k + 2>] := a;
-  m[stack<k + 3>] := b;
-  m[stack<k + 4>] := c;
-k:  // on entry to k, sp == stack<k+3>
-  x := m[stack<k + 2>]
-  y := m[stack<k + 3>]
+   if <> then goto L0; else goto L2;
+L0:
+   sp := stack<L1 + 2>;
+   m[stack<L1 + 1>] := L1_info_table;
+   m[stack<L1 + 2>] := a;
+   call f returns to L1;
+L1:  // on entry to L1, sp == stack<L1+3>
+   x := m[stack<L1 + 2>];
+   y := m[stack<L1 + 3>];
+   ... <uses y>
+   goto L4;
+L2:
+   sp := stack<L3 + 2>;
+   m[stack<L3 + 1>] := L3_info_table;
+   m[stack<L3 + 2>] := a;
+   call f returns to L3;
+L3:  // on entry to L3, sp == stack<L3+3>
+   x := m[stack<L3 + 2>];
+   y := m[stack<L3 + 3>];
+   goto L4;
+L4:
+   m[stack<x>] := x;
+   ... <possibly uses y>
 ```
+
+
+What about a procedure's incoming and outgoing parameters, which should appear at the young end of the stack?
+
+
+Invariant: A load from a stack slot must be preceded by a spill to that stack slot. And we should visit that spill before the reload. Otherwise, something has gone horribly wrong.
 
 ## Random Thoughts
 
