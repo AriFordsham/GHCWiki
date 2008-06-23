@@ -114,7 +114,7 @@ As it turns out, it is quite common in GHC that the first definition of a variab
 ### The greedy algorithm
 
 
-One way to assign stack slots is to traverse the flow graph in a depth-first search, assigning a stack location to a stack slot the first time we encounter the slot. The assignment is reused for each subsequent reference to the stack slot.
+One way to assign stack slots is to traverse the flow graph in a reverse post-order depth-first search, assigning a stack location to each stack slot the first time we encounter the slot. The assignment is reused for each subsequent reference to the stack slot.
 
 
 The algorithm keeps two maps:
@@ -168,7 +168,13 @@ L4:
 ```
 
 
-What about a procedure's incoming and outgoing parameters, which should appear at the young end of the stack?
+Let's assume we visit the blocks in lexical order, which is what a reverse post-order depth-first search would give us.
+
+
+Note: We can make the copy propagation only if the stack location is not "live"-out. Otherwise, we would have two values sharing the stack slot, with no guarantee that they could safely share the location. If we had an interference graph, we could make a more informed decision, but that's a non-greedy optimization.
+
+
+What about a procedure's incoming and outgoing parameters, which should appear at the young end of the stack, in a predetermined location? The locations of these stack slots are determined by convention. Should we initialize the map with their locations?
 
 
 Invariant: A load from a stack slot must be preceded by a spill to that stack slot. And we should visit that spill before the reload. Otherwise, something has gone horribly wrong.
