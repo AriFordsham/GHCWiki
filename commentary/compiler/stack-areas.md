@@ -114,7 +114,7 @@ As it turns out, it is quite common in GHC that the first definition of a variab
 ### The greedy algorithm
 
 
-One way to assign stack slots is to traverse the flow graph in a reverse post-order depth-first search, assigning a stack location to each stack slot the first time we encounter the slot. The assignment is reused for each subsequent reference to the stack slot.
+One way to assign stack slots is to traverse the flow graph in a reverse post-order depth-first search, allocating a stack location to each stack slot the first time we encounter the slot. (Note: When we encounter a parameter-passing area for the first time, we allocate stack locations for the whole area.) The allocation is then reused for every reference to the stack slot.
 
 
 The algorithm keeps two maps:
