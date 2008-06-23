@@ -48,7 +48,7 @@ m[stack<x>] := x;
 where `m[e]` refers to an address `e` in memory.
 
 
-But what about parameter passing? We use a similar technique, but this time we describe the slot for each location as an offset within the area where the parameters are passed. For example, we compile a function call
+But what about parameter passing? We use a similar technique, but this time we describe the slot for each location as an offset within the area where the parameters are passed. For example, we lower a function call
 
 ```wiki
 x, y = f(a, b, c);
@@ -63,6 +63,7 @@ into approximately the following C--:
   m[stack<k + 2>] := a;
   m[stack<k + 3>] := b;
   m[stack<k + 4>] := c;
+  call f returns to k;
 k:  // on entry to k, sp == stack<k+3>
   x := m[stack<k + 2>]
   y := m[stack<k + 3>]
@@ -102,18 +103,137 @@ Note: We don't have a virtual frame pointer in this story, but do we really want
 ### Laying out the stack
 
 
-A naive approach to laying out the stack would be to give each variable its own stack slot for spilling, and allocate only the ends of the stack frame for parameter-passing areas. But this approach misses two important opportunities for optimization:
+A naive approach to laying out the stack would be to give each variable its own stack slot for spilling, and allocate only the ends of the stack frame for parameter-passing areas. But this approach misses two opportunities for optimization:
 
 - Stack slots can be reused by variables that are never on the stack at the same time
-- If a function returns a variable on the stack, we might be able to use the return location as the variable's spill slot.
+- If a function returns a variable on the stack, we might be able to use the return location as the variable's stack slot.
 
 
-As it turns out, it is quite common in GHC that the first definition of a variable comes when its value is returned from a function call. If the value is returned on the stack, then an important optimization is to avoid copying that value to some other local location on the stack. How is that achieved? By making sure the location where the value is returned is defined as its spill slot. 
+As it turns out, it is quite common in GHC that the first definition of a variable comes when its value is returned from a function call. If the value is returned on the stack, then an important optimization is to avoid copying that value to some other location on the stack. How is that achieved? By making sure the location where the value is returned is also its spill slot.
+
+### The greedy algorithm
+
+
+One way to assign stack slots is to traverse the flow graph in a reverse post-order depth-first search, allocating a stack location to each stack slot the first time we encounter the slot. (Note: When we encounter a parameter-passing area for the first time, we allocate stack locations for the whole area.) The allocation is then reused for every reference to the stack slot.
+
+
+The algorithm keeps two pieces of information:
+
+- A many-to-one map from each allocated stack slot to its assigned location on the stack: this map is used to make sure that we use only a single stack location for each stack slot.
+- The (one-to-many) inverse of the first map. This map gives the contents of each stack location.
+
+
+We want to reuse stack slots whenever possible. Therefore, if a stack slot is assigned to a location `l`, we need a variation of liveness analysis to identify final references to `l`. Under this analysis, we say that a stack slot is "live out" if the stack slot may be referenced as either a use or definition in a subsequent instruction. If a location `l` is not live out, we can reallocate `l` to other stack slots.
+
+
+The algorithm makes a forward pass over the code, making the following decisions for stack slots in each instruction:
+
+- If the stack slot has already been allocated, leave it alone.
+- If the (unallocated) stack slot is part of a `CallArea`, then allocate the entire `CallArea` after the youngest stack slot that is live out. We might be able to do better than this, of course, but probably not without significantly more effort.
+- If the (unallocated) stack slot is a variable spill, then allocate it to any stack location that is not live out (or, more accurately, that does not contain a stack slot that is live out). If possible, this stack slot should not come from the youngest end of the stack.
+- If the instruction is a reload from a stack slot `s` in a `CallArea` to a variable `x` whose stack slot is unallocated, and `s` is not live out, then allocate `stack<x>` to `s`. We avoid allocating `stack<x>` to `s` if `s` is live out because we don't have full interference information to ensure that they can share a stack slot.
+
+
+We could rewrite the graph in a subsequent pass or in the same pass. The latter seems preferable.
+
+
+Let's walk through an example. The following is a simple program in pseudo-C--:
+
+```wiki
+   if <> then
+     x, y = f(a);
+     ... <uses y>
+   else
+     x, z = g(a);
+   spill<x> // some source code resulting in x getting spilled
+```
+
+
+The program may be lowered to the following C-- code:
+
+```wiki
+   if <> then goto L0; else goto L2;
+L0:
+   sp := stack<L1 + 2>;
+   m[stack<L1 + 1>] := L1_info_table;
+   m[stack<L1 + 2>] := a;
+   call f returns to L1;
+L1:  // on entry to L1, sp == stack<L1+3>
+   x := m[stack<L1 + 2>];
+   y := m[stack<L1 + 3>];
+   ... <uses y>
+   goto L4; // L1 stack area dead out
+L2: // stack<y> is live out
+   sp := stack<L3 + 2>;
+   m[stack<L3 + 1>] := L3_info_table;
+   m[stack<L3 + 2>] := a;
+   call f returns to L3;
+L3:  // on entry to L3, sp == stack<L3+3>
+   x := m[stack<L3 + 2>];
+   y := m[stack<L3 + 3>];
+   goto L4; // L3 stack area dead out
+L4: // y dead out
+   m[stack<x>] := x;
+   m[stack<z>] := x;
+L5:
+```
+
+
+Let's assume we visit the blocks in lexical order, which is what a reverse post-order depth-first search would give us. Here's a map we might expect to produce at input to each label:
+
+- L0: {} (empty input map -- should have incoming and outgoing parameters for the function)
+- L1: {L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3}
+- L2: {\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3, stack\<x\> -\> 2, stack\<y\> -\> 3}
+- L3: {\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3, stack\<x\> -\> 2, stack\<y\> -\> 3,
+
+> >
+> > \<L3 + 1\> -\> 4, \<L3 + 2\> -\> 5, \<L3 + 3\> -\> 6}
+
+- L4: {\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3, stack\<x\> -\> 2, stack\<y\> -\> 3,
+
+> >
+> > \<L3 + 1\> -\> 4, \<L3 + 2\> -\> 5, \<L3 + 3\> -\> 6}
+
+- L5: {\<L1 + 0\> -\> 0, \<L1 + 1\> -\> 1, \<L1 + 2\> -\> 2, \<L1 + 3\> -\> 3, stack\<x\> -\> 2, stack\<y\> -\> 3,
+
+> >
+> > \<L3 + 1\> -\> 4, \<L3 + 2\> -\> 5, \<L3 + 3\> -\> 6, stack\<z\> -\> 3}
+
+
+MISSING BIT:
+WE NEED TO INITIALIZE THE MAP TO DEAL WITH THE INCOMING AND OUTGOING CALL AREA OF THE FUNCTION, WHOSE LOCATIONS ARE FIXED BY CONVENTION AT THE OLD END OF THE STACK FRAME.
+
+### Notes
+
+
+Note: Call instructions should indicate not only the registers they use and kill but also the stack slots.
+
+
+Note: This greedy algorithm makes the copy propagation only if the stack location is not "live"-out. Otherwise, we would have two values sharing the stack slot, with no guarantee that they could safely share the location. If we had an interference graph, we could make a more informed decision, but that's a non-greedy optimization.
+
+
+Problem: I don't think this approach deals nicely with the case where the arguments returned along both branches are bound to the same variables. In particular, when allocating the first returned value, it may be the same on both branches, but you don't know if the second one will be, so you can't commit to using the same stack space.
+
+
+What about a procedure's incoming and outgoing parameters, which should appear at the young end of the stack, in a predetermined location? The locations of these stack slots are determined by convention. Should we initialize the map with their locations?
+
+
+Invariant: A load from a stack slot must be preceded by a spill to that stack slot. And we should visit that spill before the reload. Otherwise, something has gone horribly wrong.
+
+
+Note: Obviously, we need to keep track of the actual widths of values to compute stack addresses.
 
 ## Random Thoughts
 
 
 Assignments into parameter-passing areas can't be hoisted past adjustments to the stack pointer until we know the stack layout -- otherwise we might try to write off the young end of the stack. There must be some sort of invariant here, something along the lines of: "a reference to a parameter passing area must (a) succeed the adjustment moving the stack pointer to the bottom of the area and (b) precede any other stack adjustment.
+Restated: a def or use of a stack location is well-defined only if the stack pointer points "past" the location. Therefore, we can move a stack assignment/reference past an assignment to the stack pointer only if we can prove that this property is maintained.
+
+
+This all feels related to the coalescing optimization performed by register allocators.
+
+
+We're missing another optimization opportunity: there's no reason why different live ranges need to share the same stack slot.
 
 ## ToDo
 
