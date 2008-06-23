@@ -48,7 +48,7 @@ m[stack<x>] := x;
 where `m[e]` refers to an address `e` in memory.
 
 
-But what about parameter passing? We use a similar technique, but this time we describe the slot for each location as an offset within the area where the parameters are passed. For example, we compile a function call
+But what about parameter passing? We use a similar technique, but this time we describe the slot for each location as an offset within the area where the parameters are passed. For example, we lower a function call
 
 ```wiki
 x, y = f(a, b, c);
@@ -113,16 +113,43 @@ As it turns out, it is quite common in GHC that the first definition of a variab
 ### The greedy algorithm
 
 
-One way to assign stack slots is to traverse the flow graph in a depth-first search, assigning stack space to each stack slot the first time it is encountered. The second time we encounter a stack slot, we reuse the previous assignment.
+One way to assign stack slots is to traverse the flow graph in a depth-first search, assigning a stack location to a stack slot the first time we encounter the slot. The assignment is reused for each subsequent reference to the stack slot.
 
 
 The algorithm keeps two maps:
 
-- A map from (allocated) stack slots to a space on the stack: this map is used to make sure that we use only a single stack location for each stack slot.
+- A map from each allocated stack slot to its assigned location on the stack: this map is used to make sure that we use only a single stack location for each stack slot.
 - A map that tracks the contents of the stack: this map allows us to identify empty locations on the stack that can be assigned to stack slots. Also, it should identify where the young end of the stack is.
 
 
 Note: We want to reuse stack slots whenever possible. Therefore, if a stack slot is assigned to a location `l`, we need a variation of liveness analysis to identify final references to `l`. After the final reference to `l`, we can remove it from our maps, freeing up `l` for reallocation to other stack slots.
+
+
+Let's walk through an example. The following is a simple program in pseudo-C--:
+
+```wiki
+   if <> then
+     x, y = f(a, b, c);
+     ... <uses y>
+   else
+     x, z = g(a, b, c);
+   spill<x> // some source code resulting in x getting spilled
+   ... <possibly uses y>
+```
+
+
+The program may be lowered to the following C-- code:
+
+```wiki
+  sp := stack<k + 4>;
+  m[stack<k + 1>] := k_info_table;
+  m[stack<k + 2>] := a;
+  m[stack<k + 3>] := b;
+  m[stack<k + 4>] := c;
+k:  // on entry to k, sp == stack<k+3>
+  x := m[stack<k + 2>]
+  y := m[stack<k + 3>]
+```
 
 ## Random Thoughts
 
