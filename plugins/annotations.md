@@ -49,7 +49,6 @@ The previous solution renamed NVidiaGPUSettings etc in an environment that only 
 
 - A staging issue is solved as these pragmas are then unable to refer to identifiers in the module being compiled
 - The module involved can still be compiled if the NVidia.GHC.GPU module is not available
-- Is consistent with the intuition that 
 
 
 However:
