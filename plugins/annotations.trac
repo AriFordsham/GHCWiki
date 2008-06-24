@@ -40,7 +40,6 @@ Another possible solution is to turn the pragmas into Notes that live on the sou
 The previous solution renamed NVidiaGPUSettings etc in an environment that only contained the imported NVidia.GHC.GPU module. This has the advantages that:
  * A staging issue is solved as these pragmas are then unable to refer to identifiers in the module being compiled
  * The module involved can still be compiled if the NVidia.GHC.GPU module is not available
- * Is consistent with the intuition that 
 
 However:
  * This style of "implicit import statement" is inconsistent with Template Haskell which requires an explicit import for code that is run at compile time, even if that import is never used at runtime
