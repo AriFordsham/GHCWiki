@@ -115,6 +115,16 @@ Note: We don't have a virtual frame pointer in this story, but do we really want
 ### Laying out the stack
 
 
+The business of the stack-layout pass is to construct a mapping (fixed across a single procedure)
+
+```wiki
+   Area |-> VirtualOffset
+```
+
+
+which assigns a virtual stack slot (i.e offset relative to the virtual frame pointer) to each `Area`.   **Mutter about vfp**.
+
+
 A naive approach to laying out the stack would be to give each variable its own stack slot for spilling, and allocate only the ends of the stack frame for parameter-passing areas. But this approach misses two opportunities for optimization:
 
 - Stack slots can be reused by variables that are never on the stack at the same time
