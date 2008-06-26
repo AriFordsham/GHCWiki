@@ -26,7 +26,7 @@
 
   - A `SlotId` is the offset of a stack slot from the old end (high address) of the frame.  It doesn't vary as the physical stack pointer moves.
   - A particular variable has one and only one `SlotId`.  
-  - The stack layout pass produces a mapping of: *(Area -\> slotid)*. See [Commentary/Compiler/StackAreas](commentary/compiler/stack-areas#)
+  - The stack layout pass produces a mapping of: *(Area -\> slotid)*. For more detail, see [the description of stack layout.](commentary/compiler/stack-areas#laying-out-the-stack)
   - Walk over the graph, replacing references to stack areas with offsets from the stack pointer.
 
 - **Split into multiple CmmProcs**.  At this point we build an info-table for each of the CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
