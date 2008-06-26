@@ -21,7 +21,7 @@
  * '''Lay out the stack'''
    * A `SlotId` is the offset of a stack slot from the old end (high address) of the frame.  It doesn't vary as the physical stack pointer moves.
    * A particular variable has one and only one `SlotId`.  
-   * The stack layout pass produces a mapping of: ''(Area -> slotid)''. See [wiki:Commentary/Compiler/StackAreas#Layingoutthestack.]
+   * The stack layout pass produces a mapping of: ''(Area -> slotid)''. For more detail, see [wiki:Commentary/Compiler/StackAreas#Layingoutthestack the description of stack layout.]
    * Walk over the graph, replacing references to stack areas with offsets from the stack pointer.
 
  * '''Split into multiple !CmmProcs'''.  At this point we build an info-table for each of the !CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
