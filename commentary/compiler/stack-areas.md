@@ -98,6 +98,18 @@ An `Area` represents space on the stack; it may use either the `RegSlot` constru
 To name a specific location on the stack, we represent its address with a new kind of `CmmExpr`: the `CmmStackSlot`. A `CmmStackSlot` is just an integer offset into an `Area`. If the `Area` is a `RegSlot`, it is a dynamic invariant that the offset must be `0`.
 
 
+Notice that a `CmmStackSlot` is an *address*, so we can say
+
+```wiki
+  Sp = SS(a+0)
+```
+
+
+to make `Sp` point to an particular area.   Use a `CmmLoad` to load from the stack.
+
+**More detail needed about which location in a `CallArea` is numbered 0**
+
+
 Note: We don't have a virtual frame pointer in this story, but do we really want it? Here's a minor argument against: it requires special treatment by some analyses in Quick C-- (on the other hand, QC-- doesn't have distinguished global registers, so it might not even be an issue in GHC, which has many distinguished global registers).
 
 ### Laying out the stack
