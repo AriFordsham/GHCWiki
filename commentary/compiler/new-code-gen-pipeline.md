@@ -37,7 +37,7 @@
   - Add stack-pointer adjustment instructions.
   - Avoid memory traffic at joins. (What does this mean?)
 
-- **Split into multiple CmmProcs**.
+- **Split into multiple CmmProcs**.  At this point we build an info-table for each of the CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
 
 **The Adams optimisation** is done by stuff above.  Given:
 
