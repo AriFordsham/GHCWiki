@@ -7,35 +7,8 @@ The stack-layout phase decides where to spill variables. The important goals are
 
 ### Representing Stack Slots
 
-#### The old approach
 
-
-In the old code generator, we have a phase ordering problem: no compiler phase can name a stack slot until stack layout has been fixed. But stack layout can only be fixed at the end of the pipeline. The consequence of this approach is that most of the pipeline requires special treatment for code that must refer to stack slots (e.g. parameter passing in calling conventions, or spills and reloads). In particular, we defined special instructions for CopyIn and CopyOut of function arguments, which implicitly stand for an adjustment to the stack pointer and some parallel assignments to the function parameters or return results.
-
-
-For example, we compile a function call
-
-```wiki
-x, y = f(a, b, c);
-```
-
-
-into the following C--:
-
-```wiki
-  CopyOut(a, b, c);
-  call f returns to k;
-k:
-  CopyIn (x, y)
-```
-
-
-Every stage of the back end must cope with the CopyIn and CopyOut pseudoinstructions.
-
-#### The new approach
-
-
-A better approach is to introduce a unique name for each stack slot, then treat the name as the addressing expression for the slot. At the end of the pipeline, we choose a stack layout, then replace each stack slot with its offset from the stack pointer. The benefit is that we break the phase-ordering problem: any phase of the compiler can name a stack slot.
+For each stack slot, we introduce a new name, then treat the name as the addressing expression for the slot. At the end of the pipeline, we choose a stack layout, then replace each stack slot with its offset from the stack pointer. The benefit is that we break the phase-ordering problem: any phase of the compiler can name a stack slot.
 
 
 For example, if we want to spill a variable `x`, we use a regular store instruction to a stack slot at address `stack<x>`:
@@ -70,12 +43,6 @@ k:  // on entry to k, sp == stack<k+3>
 ```
 
 
-Note that the semantics of the now-unnecessary CopyIn and CopyOut are reified by an assignment to the stack pointer and a series of copy instructions. If an optimization understands copy instructions, it can improve this code -- without having to worry about the semantics of CopyIn.
-
-
-Furthermore, the job of laying out the stack is now pleasantly simple: decide where to place the slots and parameter-passing areas, then rewrite the references to stack locations. The stack-layout phase is no longer responsible for inserting stack adjustments or lowering CopyIn and CopyOut nodes to data-movement instructions.
-
-
 We use the following types to represent stack slots and parameter-passing areas:
 
 ```wiki
@@ -95,7 +62,7 @@ data CmmExpr
 An `Area` represents space on the stack; it may use either the `RegSlot` constructor to represent a single stack slot for a register or the `CallArea` constructor to represent parameters passed to/from a function call/return. In a `CallArea`, the `BlockId` is the label of the function call's continuation, and the two integers are the sizes of the outgoing and incoming parameter-passing areas.
 
 
-To name a specific location on the stack, we represent its address with a new kind of `CmmExpr`: the `CmmStackSlot`. A `CmmStackSlot` is just an integer offset into an `Area`. If the `Area` is a `RegSlot`, it is a dynamic invariant that the offset must be `0`.
+To name a specific location on the stack, we represent its address with a new kind of `CmmExpr`: the `CmmStackSlot`. A `CmmStackSlot` is just an integer offset into an `Area`. If the `Area` is a `RegSlot`, we might still use a non-zero offset: for example, we might want to load the low word from a long integer.
 
 
 Notice that a `CmmStackSlot` is an *address*, so we can say
