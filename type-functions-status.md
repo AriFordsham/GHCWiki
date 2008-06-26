@@ -45,7 +45,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 **Debugging of type families:**
 
 1. Total families
-1. Follow up on \[\]
 1. Allow repeated variable occurrences in lhses of type instances (see paper).
 1. Replacing GADT refinements by explicit equality constraints:
 
