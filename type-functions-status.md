@@ -65,6 +65,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     1. check that the ... can be unified with t1..tn
 
     If (1) succeeds but (2) fails, the alternative is in accessible.  Of course, (2) might fail "later" by generating a constraint that later can't be satisfied, and we won't report that well, but we'd get a good message in the common fails-fast case.  We could even improve the message from (1) to say: "Constructor C is from data type T, but a pattern of type s is expected.
+1. Single phase algorithm; cf `single_phase_algorithm.tex`.
 1. When a `type instance` changes (in an orphan modules), currently clients are not properly recompiled at least by `--make`.
 1. Implementing FDs by TFs:
 
