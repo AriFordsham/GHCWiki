@@ -82,10 +82,24 @@ An {{{Area}}} represents space on the stack; it may use either the {{{RegSlot}}}
 
 To name a specific location on the stack, we represent its address with a new kind of {{{CmmExpr}}}: the {{{CmmStackSlot}}}. A {{{CmmStackSlot}}} is just an integer offset into an {{{Area}}}. If the {{{Area}}} is a {{{RegSlot}}}, it is a dynamic invariant that the offset must be {{{0}}}.
 
+Notice that a `CmmStackSlot` is an ''address'', so we can say
+{{{
+  Sp = SS(a+0)
+}}}
+to make `Sp` point to an particular area.   Use a `CmmLoad` to load from the stack.
+
+'''More detail needed about which location in a `CallArea` is numbered 0'''
+
 Note: We don't have a virtual frame pointer in this story, but do we really want it? Here's a minor argument against: it requires special treatment by some analyses in Quick C-- (on the other hand, QC-- doesn't have distinguished global registers, so it might not even be an issue in GHC, which has many distinguished global registers).
 
 
 === Laying out the stack ===
+
+The business of the stack-layout pass is to construct a mapping (fixed across a single procedure)
+{{{
+   Area |-> VirtualOffset
+}}}
+which assigns a virtual stack slot (i.e offset relative to the virtual frame pointer) to each `Area`.   '''Mutter about vfp'''.
 
 A naive approach to laying out the stack would be to give each variable its own stack slot for spilling, and allocate only the ends of the stack frame for parameter-passing areas. But this approach misses two opportunities for optimization:
  * Stack slots can be reused by variables that are never on the stack at the same time
