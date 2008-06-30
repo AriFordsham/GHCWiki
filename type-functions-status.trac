@@ -5,6 +5,7 @@
 '''Open Trac bugs related to type families'''
 
  * #714 (fundeps treated inconsistently in superclasses and type sigs)
+ * #2291 (panic mixing RULES and type families)
  * #2235 (occurs check)
  * #2219
  * #2212
