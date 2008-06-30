@@ -63,7 +63,7 @@ An `Area` represents space on the stack; it may use either the `RegSlot` constru
 
 
 To name a specific location on the stack, we represent its address with a new kind of `CmmExpr`: the `CmmStackSlot`. A `CmmStackSlot` is just an integer offset into an `Area`. 
-Notice that a `CmmStackSlot` is an *address*, so we can say
+Notice that a `CmmStackSlot` is an address, so we can say
 
 ```wiki
   Sp = SS(a+0)

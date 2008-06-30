@@ -56,7 +56,7 @@ data CmmExpr
 An `Area` represents space on the stack; it may use either the `RegSlot` constructor to represent a single stack slot for a register or the `CallArea` constructor to represent parameters passed to/from a function call/return. In a `CallArea`, the `BlockId` is the label of the function call's continuation, and the two integers are the sizes of the outgoing and incoming parameter-passing areas.
 
 To name a specific location on the stack, we represent its address with a new kind of `CmmExpr`: the `CmmStackSlot`. A `CmmStackSlot` is just an integer offset into an `Area`. 
-Notice that a `CmmStackSlot` is an ''address'', so we can say
+Notice that a `CmmStackSlot` is an address, so we can say
 {{{
   Sp = SS(a+0)
 }}}
