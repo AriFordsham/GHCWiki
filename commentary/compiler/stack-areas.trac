@@ -71,10 +71,9 @@ The following image shows the layout of a `CallArea` for both the outgoing param
 [[Image(CallArea.png)]]
 
 
-Note: A `RegSlot` is laid out in the same fashion, with the offset 0 pointing off the high byte of the stack slot. To address an 8-byte double-word, we would use the offset 8. To address only the high word of the same stack slot, we would use the offset 4.
+A `RegSlot` is laid out in the same fashion, with the offset 0 pointing off the high byte of the stack slot. To address an 8-byte double-word, we would use the offset 8. To address only the high word of the same stack slot, we would use the offset 4.
 
-
-Note: We don't have a virtual frame pointer in this story, but do we really want it? Here's a minor argument against: it requires special treatment by some analyses in Quick C-- (on the other hand, QC-- doesn't have distinguished global registers, so it might not even be an issue in GHC, which has many distinguished global registers).
+Currently, the intermediate code does not explicitly use a virtual frame pointer, but when we talk about offsets into the stack, we implicitly assume that there is a virtual frame pointer that points just off the oldest byte of the return address on entry to the procedures.
 
 
 === Laying out the stack ===
@@ -83,7 +82,7 @@ The business of the stack-layout pass is to construct a mapping (fixed across a 
 {{{
    Area |-> VirtualOffset
 }}}
-which assigns a virtual stack slot (i.e offset relative to the virtual frame pointer) to each `Area`.   '''Mutter about vfp'''.
+which assigns a virtual stack slot (i.e offset relative to the virtual frame pointer) to each `Area`.
 
 A naive approach to laying out the stack would be to give each variable its own stack slot for spilling, and allocate only the ends of the stack frame for parameter-passing areas. But this approach misses two opportunities for optimization:
  * Stack slots can be reused by variables that are never on the stack at the same time
