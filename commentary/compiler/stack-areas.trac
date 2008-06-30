@@ -71,10 +71,8 @@ The following image shows the layout of a `CallArea` for both the outgoing param
 [[Image(CallArea.png)]]
 
 
-Note: If the `Area` is a `RegSlot`, we might still use a non-zero offset: for example, we might want to load the low word from a long integer.
+Note: A `RegSlot` is laid out in the same fashion, with the offset 0 pointing off the high byte of the stack slot. To address an 8-byte double-word, we would use the offset 8. To address only the high word of the same stack slot, we would use the offset 4.
 
-
-'''More detail needed about which location in a `CallArea` is numbered 0'''
 
 Note: We don't have a virtual frame pointer in this story, but do we really want it? Here's a minor argument against: it requires special treatment by some analyses in Quick C-- (on the other hand, QC-- doesn't have distinguished global registers, so it might not even be an issue in GHC, which has many distinguished global registers).
 
