@@ -48,7 +48,7 @@ We use the following types to represent stack slots and parameter-passing areas:
 ```wiki
 data Area
   = RegSlot  LocalReg
-  | CallArea BlockId Int Int
+  | CallArea BlockId
   deriving (Eq, Ord)
 
 data CmmExpr
@@ -59,24 +59,23 @@ data CmmExpr
 ```
 
 
-An `Area` represents space on the stack; it may use either the `RegSlot` constructor to represent a single stack slot for a register or the `CallArea` constructor to represent parameters passed to/from a function call/return. In a `CallArea`, the `BlockId` is the label of the function call's continuation, and the two integers are the sizes of the outgoing and incoming parameter-passing areas.
+An `Area` represents space on the stack; it may use either the `RegSlot` constructor to represent a single stack slot for a register or the `CallArea` constructor to represent parameters passed to/from a function call/return. In a `CallArea`, the `BlockId` is the label of the function call's continuation. Each `Area` grows down, with offset 0 pointing to the old end of the `Area`.
 
 
 To name a specific location on the stack, we represent its address with a new kind of `CmmExpr`: the `CmmStackSlot`.
 A `CmmStackSlot` is just an integer offset into an `Area`. 
 
+To address a 4-byte object at the old end of the `Area`, we use the offset 4.
+
 
 Notice that a `CmmStackSlot` is an *address*, so we can say
 
 ```wiki
-  Sp = SS(a+0)
+  Sp = SS(a+4)
 ```
 
 
-to make `Sp` point to an particular area.   Use a `CmmLoad` to load from the stack.
-
-
-Each stack area grows down, with offset 0 pointing to the old end of the area. If we wanted to place a 4-byte object at the old end of the area, we would address it using the offset 4.
+to make `Sp` point to a particular stack slot.   Use a `CmmLoad` to load from the stack slot.
 
 
 The following image shows the layout of a `CallArea` for both the outgoing parameters (function call) and incoming results (continuation after returning from the function call). Note that the incoming and outgoing parameters may be different, and they may overlap.
