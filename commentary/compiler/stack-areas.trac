@@ -73,7 +73,7 @@ The following image shows the layout of a `CallArea` for both the outgoing param
 
 A `RegSlot` is laid out in the same fashion, with the offset 0 pointing off the high byte of the stack slot. To address an 8-byte double-word, we would use the offset 8. To address only the high word of the same stack slot, we would use the offset 4.
 
-Currently, the intermediate code does not explicitly use a virtual frame pointer, but when we talk about offsets into the stack, we implicitly assume that there is a virtual frame pointer that points just off the oldest byte of the return address on entry to the procedures.
+Currently, the intermediate code does not explicitly use a virtual frame pointer, but when we talk about offsets into the stack, we implicitly assume that there is a virtual frame pointer that points just off the oldest byte of the return address on entry to the procedures. Therefore, on entry to the procedure, the offset of the (4-byte) return address is 4.
 
 
 === Laying out the stack ===
@@ -82,7 +82,7 @@ The business of the stack-layout pass is to construct a mapping (fixed across a 
 {{{
    Area |-> VirtualOffset
 }}}
-which assigns a virtual stack slot (i.e offset relative to the virtual frame pointer) to each `Area`.
+which assigns a virtual stack slot (i.e. offset in bytes, relative to the virtual frame pointer) to each `Area`.
 
 A naive approach to laying out the stack would be to give each variable its own stack slot for spilling, and allocate only the ends of the stack frame for parameter-passing areas. But this approach misses two opportunities for optimization:
  * Stack slots can be reused by variables that are never on the stack at the same time
@@ -90,7 +90,11 @@ A naive approach to laying out the stack would be to give each variable its own 
 
 As it turns out, it is quite common in GHC that the first definition of a variable comes when its value is returned from a function call. If the value is returned on the stack, then an important optimization is to avoid copying that value to some other location on the stack. How is that achieved? By making sure the location where the value is returned is also its spill slot.
 
-=== The greedy algorithm ===
+=== A greedy algorithm ===
+
+We rewrite the stack slots in two passes:
+ 1. Walk over the graph and choose an offset for each `Area`.
+ 1. Walk over the graph, keeping track of the stack pointer, and rewrite each address of a stack slot with an offset from the stack pointer.
 
 One way to assign stack slots is to traverse the flow graph in a reverse post-order depth-first search, allocating a stack location to each stack slot the first time we encounter the slot. (Note: When we encounter a parameter-passing area for the first time, we allocate stack locations for the whole area.) The allocation is then reused for every reference to the stack slot.
 
