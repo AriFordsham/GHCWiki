@@ -16,6 +16,36 @@ Information to be attached might be:
 - Names of types in the module
 - Plugin-specific data structures
 
+## Other Considerations
+
+- We may wish to restrict/change the language features usable within annotations:
+
+  - Data constructors and literals should be allowed
+  - Arbitrary function applications are not necessarily a good idea, but \>probably\< are
+  - Might want to access (quoted) identifiers in the module being compiled and its imports
+- Should plugins be able to see annotations across module boundaries?
+
+  - If so, we need to put them in the .hi
+  - It would make sense to provide a GHC API to allow users to reflect on the annotations of an arbitrary imported module (including your own module)
+  - Such an expanded annotation system might find use beyond plugins:
+
+```wiki
+
+module MyLibraryProperties where
+
+import QuickCheck(QCProperty(..), runTestsInModule)
+
+{-# PLUGIN prop_f QCProperty #-}
+prop_f = \xs -> f xs == f (reverse xs)
+
+{-# PLUGIN prop_g QCProperty { timeout = 1000 } #-}
+prop_g = \x -> g (x * 2) == (g x) / 2
+
+-- This line uses the annotations system to find things with QCProperty annotations and runs them
+main = runTestsInModule
+
+```
+
 ## Possible Solution 1
 
 ```wiki
@@ -152,32 +182,58 @@ This treatment has a few nice effects:
 
 An interesting alternative might be to have a notion of an "annotation type" similar to the class name used by C\# / Java, and let those types e.g. implicitly add NOINLINE semantics to what they are attached to. This should help stability of the names used in annotations at the cost of reducing optimization opportunities.
 
-## Other Considerations
+## Possible Solution 4
 
-- We may wish to restrict/change the language features usable within annotations:
 
-  - Data constructors and literals should be allowed
-  - Arbitrary function applications are not necessarily a good idea, but \>probably\< are
-  - Might want to access (quoted) identifiers in the module being compiled and its imports
-- Should plugins be able to see annotations across module boundaries?
-
-  - If so, we need to put them in the .hi
-  - It would make sense to provide a GHC API to allow users to reflect on the annotations of an arbitrary imported module (including your own module)
-  - Such an expanded annotation system might find use beyond plugins:
+This is the one I'm actually going to try and implement. Annotations will look like this:
 
 ```wiki
+{-# ANN f 1 #-}
+f = ...
 
-module MyLibraryProperties where
-
-import QuickCheck(QCProperty(..), runTestsInModule)
-
-{-# PLUGIN prop_f QCProperty #-}
-prop_f = \xs -> f xs == f (reverse xs)
-
-{-# PLUGIN prop_g QCProperty { timeout = 1000 } #-}
-prop_g = \x -> g (x * 2) == (g x) / 2
-
--- This line uses the annotations system to find things with QCProperty annotations and runs them
-main = runTestsInModule
-
+{-# ANN g Just ("foo", 1337) #-}
+g = ...
 ```
+
+
+I.e. you annotate an actual identifier with an expression. We impose the further constraint that that expression has the form of an actual literal (including data constructors). In particular, general application is disallowed, so this is not kosher:
+
+```wiki
+{-# ANN f id 1 #-}
+```
+
+
+You can introduce compile time compilation by using Template Haskell as usual:
+
+```wiki
+{-# ANN f $(id [| 1 |]) #-}
+```
+
+
+We will need another notation to be able to refer to identifiers other than data constructor and function names, something like:
+
+```wiki
+{-# ANN_TYPE Foo Just 2 #-}
+data Foo = Foo
+```
+
+
+You may refer to the names of things in the modules being compiled, but not their implementations:
+
+```wiki
+data Foo = Foo ...
+f = ...
+g = ...
+
+-- OK:
+{-# ANN f Just ('g, ''Foo) #-}
+
+-- Not OK:
+{-# ANN f Just (f, Foo) #-}
+```
+
+
+Side note: I believe it would make sense to allow annotations to use the implementations of values in the module being compiled,: after all, I believe they can use the implementations of values in imported modules. This would filling out the relevant field with an error during compilation (for the benefit of plugins) and linking the annotation fields up to the required values after compilation.
+
+
+Notice that this notation does not allow annotating non-top-level names or expressions, and due to its use of an Id -\> Annotation mapping may not survive inlining. These are annoying limitations but it does fit with our view that the annotations should be exportable and accessible by an Id -\> Annotation mapping by other modules.
