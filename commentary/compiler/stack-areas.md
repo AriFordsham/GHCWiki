@@ -64,6 +64,9 @@ An `Area` represents space on the stack; it may use either the `RegSlot` constru
 
 To name a specific location on the stack, we represent its address with a new kind of `CmmExpr`: the `CmmStackSlot`. A `CmmStackSlot` is just an integer offset into an `Area`. Each stack area grows down, with offset 0 pointing to the old end of the area. If we wanted to place a 4-byte object at the old end of the area, we would address it using the offset 4.
 
+
+The following image shows the layout of a `CallArea` for both the outgoing parameters (function call) and incoming results (continuation after returning from the function call). Note that the incoming and outgoing parameters may be different, and they may overlap.
+
 [](/trac/ghc/attachment/wiki/Commentary/Compiler/StackAreas/CallArea.png)
 
 
