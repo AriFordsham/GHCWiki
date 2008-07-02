@@ -1,3 +1,26 @@
+= Revival =
+
+Everything from here to the "Original Page" heading is for the revival in July 2008.
+
+== Hackathon? ==
+
+A Hackathon in the San Diego area for sometime in 2008 was suggested. Thoughts?
+
+== The Influence of GHC 6.10 ==
+
+Any notable pending changes we need to wait for? Do we need to wait for the final 6.10 release?
+
+== Owned Devices ==
+
+All developers, what ARM-based devices do you have available for testing?
+
+ * shepheb has a Nokia N810.
+
+
+
+
+= Original Page =
+
 = GHC port for arm-unknown-linux-gnu =
 
 My goal is to create a registerised port of GHC to the nokia 770.
