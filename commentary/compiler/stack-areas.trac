@@ -10,10 +10,9 @@ The stack-layout phase decides where to spill variables. The important goals are
 
 For each stack slot, we introduce a new name, then treat the name as the addressing expression for the slot. At the end of the pipeline, we choose a stack layout, then replace each stack slot with its offset from the stack pointer. The benefit is that we break the phase-ordering problem: any phase of the compiler can name a stack slot.
 
-For example, if we want to spill a variable `x`, we use a regular store instruction to a stack slot at address `SS(x)`:
-
+For example, for a variable `x`, the expression `SS(x)` is the address of the stack slot where we can spill `x`. The stack is assumed to grow down, and we assume that the address `SS(x)` points to the old end of the slot. Therefore, to address the low address of a 4-byte slot, we would use the expression `SS(x + 4)`. And we would spill `x` using the following instruction:
 {{{
-m[SS(x)] := x;
+m[SS(x + 4)] := x;
 }}}
 
 where {{{m[e]}}} refers to an address {{{e}}} in memory.
@@ -27,15 +26,15 @@ x, y = f(a, b, c);
 into approximately the following C--:
 
 {{{
-  sp := SS(k + 4);
-  m[SS(k + 1)] := k_info_table;
-  m[SS(k + 2)] := a;
-  m[SS(k + 3)] := b;
-  m[SS(k + 4)] := c;
+  sp := SS(k + 16);
+  m[SS(k + 4)]  := k_info_table;
+  m[SS(k + 8)]  := a;
+  m[SS(k + 12)] := b;
+  m[SS(k + 16)] := c;
   call f returns to k;
-k:  // on entry to k, sp == stack<k+3>
-  x := m[SS(k + 2)]
-  y := m[SS(k + 3)]
+k:  // on entry to k, sp == stack<k+12>
+  x := m[SS(k + 8)]
+  y := m[SS(k + 12)]
 }}}
 
 We use the following types to represent stack slots and parameter-passing areas:
