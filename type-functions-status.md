@@ -4,6 +4,10 @@
 
 **Open Trac bugs related to type families**
 
+- If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread. 
+
+[ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041465.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041465.html)
+
 - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (fundeps treated inconsistently in superclasses and type sigs)
 - [\#2291](https://gitlab.haskell.org//ghc/ghc/issues/2291) (panic mixing RULES and type families)
 - [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235) (occurs check)
