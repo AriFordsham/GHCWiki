@@ -11,10 +11,10 @@ The stack-layout phase decides where to spill variables. The important goals are
 For each stack slot, we introduce a new name, then treat the name as the addressing expression for the slot. At the end of the pipeline, we choose a stack layout, then replace each stack slot with its offset from the stack pointer. The benefit is that we break the phase-ordering problem: any phase of the compiler can name a stack slot.
 
 
-For example, if we want to spill a variable `x`, we use a regular store instruction to a stack slot at address `SS(x)`:
+For example, for a variable `x`, the expression `SS(x)` is the address of the stack slot where we can spill `x`. The stack is assumed to grow down, and we assume that the address `SS(x)` points to the old end of the slot. Therefore, to address the low address of a 4-byte slot, we would use the expression `SS(x + 4)`. And we would spill `x` using the following instruction:
 
 ```wiki
-m[SS(x)] := x;
+m[SS(x + 4)] := x;
 ```
 
 
@@ -31,15 +31,15 @@ x, y = f(a, b, c);
 into approximately the following C--:
 
 ```wiki
-  sp := SS(k + 4);
-  m[SS(k + 1)] := k_info_table;
-  m[SS(k + 2)] := a;
-  m[SS(k + 3)] := b;
-  m[SS(k + 4)] := c;
+  sp := SS(k + 16);
+  m[SS(k + 4)]  := k_info_table;
+  m[SS(k + 8)]  := a;
+  m[SS(k + 12)] := b;
+  m[SS(k + 16)] := c;
   call f returns to k;
-k:  // on entry to k, sp == stack<k+3>
-  x := m[SS(k + 2)]
-  y := m[SS(k + 3)]
+k:  // on entry to k, sp == stack<k+12>
+  x := m[SS(k + 8)]
+  y := m[SS(k + 12)]
 ```
 
 
@@ -78,7 +78,7 @@ Notice that a `CmmStackSlot` is an *address*, so we can say
 to make `Sp` point to a particular stack slot.   Use a `CmmLoad` to load from the stack slot.
 
 
-The following image shows the layout of a `CallArea` for both the outgoing parameters (function call) and incoming results (continuation after returning from the function call). Note that the incoming and outgoing parameters may be different, and they may overlap.
+The following figure shows the layout of a `CallArea` for both the outgoing parameters (function call) and incoming results (continuation after returning from the function call). Note that the incoming and outgoing parameters may be different, and they may overlap.
 
 [](/trac/ghc/attachment/wiki/Commentary/Compiler/StackAreas/CallArea.png)
 
@@ -118,7 +118,10 @@ We rewrite the stack slots in two passes:
 1. Walk over the graph, keeping track of the stack pointer, and rewrite each address of a stack slot with an offset from the stack pointer.
 
 
-One way to assign stack slots is to traverse the flow graph in a reverse post-order depth-first search, allocating a stack location to each stack slot the first time we encounter the slot. (Note: When we encounter a parameter-passing area for the first time, we allocate stack locations for the whole area.) The allocation is then reused for every reference to the stack slot.
+One way to assign stack slots is to traverse the flow graph in a reverse post-order depth-first search, allocating stack slots to each `Area`. Subsequently, when we see an `Area` again, we reuse the previous allocation. A stack slot is allocated the first time we encounter:
+
+- A use or definition of a `RegSlot` for a variable
+- A call site, where we allocate stack slots for the `CallArea` associated with the return continuation. Note that we cannot allocate stack slots for a `CallArea` when we first see a use or definition of a slot in the `CallArea`. Why? At a call site, the `CallArea` holding the function arguments must be the youngest live area on the stack. If we were to eagerly allocate stack slots for the `CallArea`, we wouldn't know how much space to leave on the stack for variable spills that we will yet encounter on the path to the call site. By waiting until we reach the call site, we can be sure that we have already seen all the variables that are spilled before the call site.
 
 
 The algorithm keeps two pieces of information:
