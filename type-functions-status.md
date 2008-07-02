@@ -4,10 +4,6 @@
 
 **Open Trac bugs related to type families**
 
-- If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread. 
-
-[ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041465.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041465.html)
-
 - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (fundeps treated inconsistently in superclasses and type sigs)
 - [\#2291](https://gitlab.haskell.org//ghc/ghc/issues/2291) (panic mixing RULES and type families)
 - [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235) (occurs check)
@@ -21,7 +17,7 @@
 - [\#2157](https://gitlab.haskell.org//ghc/ghc/issues/2157) (solution: lhs of type instances may not contain partially applied vanilla type synonyms)
 
   - Addition to user manual, see [ http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html](http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html) and [http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html\#type-synonyms](http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html#type-synonyms)
-- [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) (see also [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html))
+- [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html))
 - [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (GADT)
 - [\#2146](https://gitlab.haskell.org//ghc/ghc/issues/2146) (minor problem)
 - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclasses)
