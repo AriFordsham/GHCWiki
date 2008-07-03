@@ -17,6 +17,31 @@ All developers, what ARM-based devices do you have available for testing?
  * shepheb has a Nokia N810.
 
 
+== First Unregisterised Hack Notes ==
+
+This documents shepheb's first attempt at a crude, unregisterised build for the Nokia N810 using Maemo 4 Diablo and the Maemo SDK (scratchbox-based)
+
+I'm following the Building/Porting guide's section on porting to a new platform.
+
+=== Target-side Changes ===
+
+==== utils/pwd/pwd is an x86 binary, and there's no GHC to recompile it ====
+
+The guide's suggestion to run
+
+{{{
+./configure --enable-hc-boot --enable-hc-boot-unregisterised
+}}}
+
+fails because utils/pwd/pwd is a Haskell binary that I can't run, since this is the ARM-based emulated target system and not the x86 it was compiled for. I can't reach the host's GHC to recompile it, so I just replaced it with the hacky
+
+{{{
+#!/bin/sh
+echo /home/braden/ghc/ghc-6.9.20080614
+}}}
+
+and the above ./configure worked fine.
+
 
 
 = Original Page =
