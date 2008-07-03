@@ -50,6 +50,32 @@ echo /home/braden/ghc/ghc-6.9.20080614
 
 and the above ./configure worked fine.
 
+#### libgmp
+
+
+The 
+
+```wiki
+cd includes
+make
+```
+
+
+step in the porting guide fails with an error message implying that libgmp headers were missing. Well clearly, they aren't included in the Maemo SDK. I grabbed the GMP sources inside the SDK scratchbox environment, and did
+
+```wiki
+./configure
+make
+make check
+make install
+```
+
+
+and all was well. Since make check passed, I have to hope it (cross-)compiled properly and I have a working libgmp now.
+
+
+After that the includes/ make worked fine. That completes the target-side part for now.
+
 # Original Page
 
 # GHC port for arm-unknown-linux-gnu
