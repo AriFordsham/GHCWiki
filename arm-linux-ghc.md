@@ -76,6 +76,26 @@ and all was well. Since make check passed, I have to hope it (cross-)compiled pr
 
 After that the includes/ make worked fine. That completes the target-side part for now.
 
+### Host-side Changes
+
+#### utils/pwd/pwd again
+
+
+utils/pwd/pwd failed again, not sure why this time (I run an i686 Arch Linux and custom kernel, and I'm using 6.8.2. was it built for i386? using 6.9.\*?). Anyway, running
+
+```wiki
+cd utils/pwd
+ghc -o pwd pwd.hs
+```
+
+
+fixed it, so that's that.
+
+#### Changing build.mk
+
+
+As the porting guide says, I had to change the TARGETPLATFORM to arm-unknown-linux. The LeadingUnderscore setting can be left at NO, which is the target-side setting.
+
 # Original Page
 
 # GHC port for arm-unknown-linux-gnu
