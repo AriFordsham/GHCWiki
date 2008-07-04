@@ -114,10 +114,30 @@ ghc-6.9.20080614: could not execute: /home/braden/src/ghc-6.9.20080614/driver/ma
 ```
 
 
+OLD:
 There is no such file, though there is the script driver/mangler/ghc-asm.lprl. I tried making it executable with no results, but I'm not really sure what to do next. Any pointers are greatly appreciated!
 
 
 Of possible note is that I re-ran ./configure a while back while trying to get /compiler to make boot && make in an effort to make it find libffi. I doubt that would matter, but I'll record it anyway.
+
+
+UPDATE:
+I fixed this one, just run
+
+```wiki
+cd driver/mangler
+make
+```
+
+
+to build ghc-asm, and then the
+
+```wiki
+cd rts && make boot && make
+```
+
+
+run flawlessly.
 
 # Original Page
 
