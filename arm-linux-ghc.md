@@ -22,6 +22,13 @@ All developers, what ARM-based devices do you have available for testing?
 
 ## First Unregisterised Hack Notes
 
+### Why it doesn't work
+
+
+On discussion with Igloo (Ian Lynagh) on \#haskell, it turns out that hc-file bootstrapping has been broken in 6.8 since the beginning, meaning that only platforms with a working GHC prior to 6.8 can build a 6.8 or later. This undercuts the porting effort until [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346) is fixed. I may try the "quick hack" diff attached to see if it works out. The comment from the user who posted it seems to imply that it's incomplete, though.
+
+### The original attempt
+
 
 This documents shepheb's first attempt at a crude, unregisterised build for the Nokia N810 using Maemo 4 Diablo and the Maemo SDK (scratchbox-based)
 
