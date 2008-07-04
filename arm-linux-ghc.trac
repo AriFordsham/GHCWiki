@@ -83,7 +83,26 @@ Same problem with utils/pwd/pwd as in the first attempt below, with the same sol
 
 Got all the way to make hc-file-bundle Project=Ghc, the last host-side step for now, before running into trouble. It couldn't find the file rts/AutoApply_debug.hc, so I touched it and ran the command again. I have no idea if that will break anything later on, but we shall see.
 
+=== Back to the Target ===
 
+==== Stuck on libraries/ again ====
+
+I'm manually stepping through distrib/hc-build, and get stuck on
+
+{{{
+make -C libraries boot all GhcBootLibs=YES
+}}}
+
+with the error message
+
+{{{
+> make -C libraries boot all GhcBootLibs=YES
+make: Entering directory `/home/braden/ghc/ghc-6.8.2/libraries'
+make: *** No rule to make target `base/Makefile', needed by `boot'.  Stop.
+make: Leaving directory `/home/braden/ghc/ghc-6.8.2/libraries'
+> echo $?
+2
+}}}
 
 == First Unregisterised Hack Notes ==
 
