@@ -20,6 +20,51 @@ All developers, what ARM-based devices do you have available for testing?
 
 - shepheb has a Nokia N810.
 
+## Unregisterised 6.6.1 Notes
+
+
+Building using the 6.6.1 released source. Note that I already have libgmp and libffi installed on both machines (though libffi isn't being used).
+
+### Target-side Prep
+
+
+Flawless! (Again, I had libgmp installed this time).
+
+### Host-side
+
+#### It complains about Perl 5.10
+
+
+./configure failed saying my Perl version wouldn't work. perl --version reveals it's 5.10, and I had to edit aclocal.m4, thus:
+
+```wiki
+AC_DEFUN([FPTOOLS_CHECK_PERL_VERSION],
+[$PerlCmd -v >conftest.out 2>&1
+   if grep "v5.6" conftest.out >/dev/null 2>&1; then
+      :
+   else
+      if grep "v5.8" conftest.out >/dev/null 2>&1; then
+         :
+      else
+         if grep "v5.10" conftest.out >/dev/null 2>&1; then
+            :
+         else
+            if grep "version 6" conftest.out >/dev/null 2>&1; then
+               :
+            else
+               AC_MSG_ERROR([your version of perl probably won't work, try up\
+grading it.])
+            fi
+         fi
+      fi
+   fi
+rm -fr conftest*
+])
+```
+
+
+making it accept 5.10 too. Then I ran autoreconf, and ./configure ran to completion.
+
 ## First Unregisterised Hack Notes
 
 ### Why it doesn't work
