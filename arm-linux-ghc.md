@@ -22,6 +22,13 @@ All developers, what ARM-based devices do you have available for testing?
 
 ## Unregisterised 6.6.1 Notes
 
+### Another False Start
+
+
+I had to install 6.6.1 on my system to compile 6.6.1, first off. Then I apparent need an older gcc (have 4.3.0). Rather than dive deeper into that (it would require an old gcc on the scratchbox dev environment too, too much pain when I have an alternative), I'm just going to try to build an unregisterised 6.8.2 with the patch posted in [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346). The results for that build attempt follow, after the info for the failed 6.6.1 one.
+
+### Original 6.6.1 Build Intro
+
 
 Building using the 6.6.1 released source. Note that I already have libgmp and libffi installed on both machines (though libffi isn't being used).
 
@@ -64,6 +71,18 @@ rm -fr conftest*
 
 
 making it accept 5.10 too. Then I ran autoreconf, and ./configure ran to completion.
+
+## Third Unregistered Build - GHC 6.8.2
+
+
+Using the patch posted at [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346), I'm trying to build 6.8.2.
+
+### Target-side
+
+#### utils/pwd/pwd again
+
+
+Same problem with utils/pwd/pwd as in the first attempt below, with the same solution. After that fix both machines configure successfully.
 
 ## First Unregisterised Hack Notes
 
