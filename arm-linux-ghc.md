@@ -139,6 +139,123 @@ cd rts && make boot && make
 
 run flawlessly.
 
+#### make hc-file-bundle Project=Ghc fails
+
+
+Cut down at the last! Here's the last part of the output:
+
+```wiki
+echo ghc-6.9.20080614/libraries/base/GHC/PrimopWrappers.hs >> hc-files-to-go
+echo ghc-6.9.20080614/compiler/parser/Parser.hs >> hc-files-to-go
+echo ghc-6.9.20080614/compiler/parser/ParserCore.hs >> hc-files-to-go
+echo ghc-6.9.20080614/compiler/main/ParsePkgConf.hs >> hc-files-to-go
+echo ghc-6.9.20080614/libraries/haskell-src/Language/Haskell/Parser.hs >> hc-files-to-go
+tar czf ghc-6.9.20080614-i386-unknown-linux-hc.tar.gz `cat hc-files-to-go`
+tar: ghc-6.9.20080614/rts/AutoApply_thr.hc: Cannot stat: No such file or directory
+tar: ghc-6.9.20080614/rts/AutoApply_debug.hc: Cannot stat: No such file or directory
+tar: ghc-6.9.20080614/rts/AutoApply_thr_debug.hc: Cannot stat: No such file or directory
+tar: ghc-6.9.20080614/rts/AutoApply_thr_p.hc: Cannot stat: No such file or directory
+tar: ghc-6.9.20080614/libraries/base/GHC/PrimopWrappers.hs: Cannot stat: No such file or directory
+tar: Error exit delayed from previous errors
+make: *** [hc-file-bundle] Error 2
+```
+
+
+Those files don't exist, here's an ls -l of rts/Auto\* and libraries/base/GHC/
+
+```wiki
+$ ls -l rts/Auto*
+-rw-r--r-- 1 braden users  77562 2008-07-03 20:26 rts/AutoApply.cmm
+-rw-r--r-- 1 braden users   2634 2008-06-14 13:20 rts/AutoApply.h
+-rw-r--r-- 1 braden users 175505 2008-07-03 20:26 rts/AutoApply.hc
+-rw-r--r-- 1 braden users  28896 2008-07-03 20:26 rts/AutoApply.o
+-rw-r--r-- 1 braden users  77562 2008-07-03 20:26 rts/AutoApply_debug.cmm
+-rw-r--r-- 1 braden users  34784 2008-07-03 20:26 rts/AutoApply_debug.debug_o
+-rw-r--r-- 1 braden users  77562 2008-07-03 20:26 rts/AutoApply_thr.cmm
+-rw-r--r-- 1 braden users 175505 2008-07-03 20:26 rts/AutoApply_thr.thr_hc
+-rw-r--r-- 1 braden users  28904 2008-07-03 20:26 rts/AutoApply_thr.thr_o
+-rw-r--r-- 1 braden users  77562 2008-07-03 20:27 rts/AutoApply_thr_debug.cmm
+-rw-r--r-- 1 braden users  34788 2008-07-03 20:27 rts/AutoApply_thr_debug.thr_debug_o
+-rw-r--r-- 1 braden users  77562 2008-07-03 20:27 rts/AutoApply_thr_p.cmm
+-rw-r--r-- 1 braden users 180881 2008-07-03 20:27 rts/AutoApply_thr_p.thr_p_hc
+-rw-r--r-- 1 braden users  31248 2008-07-03 20:27 rts/AutoApply_thr_p.thr_p_o
+
+$ ls -l libraries/base/GHC/
+total 6940
+-rw-r--r-- 1 braden users 456468 2008-07-03 20:30 Arr.hc
+-rw-r--r-- 1 braden users  27585 2008-06-14 13:31 Arr.lhs
+-rw-r--r-- 1 braden users 158095 2008-07-03 20:30 Base.hc
+-rw-r--r-- 1 braden users  37851 2008-06-14 13:31 Base.lhs
+-rw-r--r-- 1 braden users 174470 2008-07-03 20:32 Conc.hc
+-rw-r--r-- 1 braden users  42057 2008-06-14 13:31 Conc.lhs
+-rw-r--r-- 1 braden users    536 2008-07-03 20:32 ConsoleHandler.hc
+-rw-r--r-- 1 braden users   4545 2008-06-14 13:31 ConsoleHandler.hs
+-rw-r--r-- 1 braden users   1460 2008-07-03 20:32 Desugar.hc
+-rw-r--r-- 1 braden users   1018 2008-06-14 13:31 Desugar.hs
+-rw-r--r-- 1 braden users   9670 2008-07-03 20:32 Dotnet.hc
+-rw-r--r-- 1 braden users   1882 2008-06-14 13:31 Dotnet.hs
+-rw-r--r-- 1 braden users 284441 2008-07-03 20:30 Enum.hc
+-rw-r--r-- 1 braden users  21720 2008-06-14 13:31 Enum.lhs
+-rw-r--r-- 1 braden users   5401 2008-07-03 20:32 Environment.hc
+-rw-r--r-- 1 braden users    476 2008-06-14 13:31 Environment.hs
+-rw-r--r-- 1 braden users  29973 2008-07-03 20:31 Err.hc
+-rw-r--r-- 1 braden users   4704 2008-06-14 13:31 Err.lhs
+-rw-r--r-- 1 braden users    950 2008-06-14 13:31 Err.lhs-boot
+-rw-r--r-- 1 braden users   5086 2008-07-03 20:31 Exception.hc
+-rw-r--r-- 1 braden users   5041 2008-06-14 13:31 Exception.lhs
+-rw-r--r-- 1 braden users  17611 2008-07-03 20:32 Exts.hc
+-rw-r--r-- 1 braden users   3055 2008-06-14 13:31 Exts.hs
+-rw-r--r-- 1 braden users 679803 2008-07-03 20:31 Float.hc
+-rw-r--r-- 1 braden users  35844 2008-06-14 13:31 Float.lhs
+-rw-r--r-- 1 braden users  60228 2008-07-03 20:31 ForeignPtr.hc
+-rw-r--r-- 1 braden users  13324 2008-06-14 13:31 ForeignPtr.hs
+-rw-r--r-- 1 braden users 577252 2008-07-03 20:32 Handle.hc
+-rw-r--r-- 1 braden users  66352 2008-06-14 13:31 Handle.hs
+-rw-r--r-- 1 braden users 215127 2008-07-03 20:32 IO.hc
+-rw-r--r-- 1 braden users  35712 2008-06-14 13:31 IO.hs
+-rw-r--r-- 1 braden users 459483 2008-07-03 20:31 IOBase.hc
+-rw-r--r-- 1 braden users  38839 2008-06-14 13:31 IOBase.lhs
+-rw-r--r-- 1 braden users 501468 2008-07-03 20:31 Int.hc
+-rw-r--r-- 1 braden users  31664 2008-06-14 13:31 Int.hs
+-rw-r--r-- 1 braden users 112191 2008-07-03 20:30 List.hc
+-rw-r--r-- 1 braden users  23569 2008-06-14 13:31 List.lhs
+-rw-r--r-- 1 braden users  73014 2008-07-03 20:30 Num.hc
+-rw-r--r-- 1 braden users  10799 2008-06-14 13:31 Num.lhs
+-rw-r--r-- 1 braden users 480700 2008-07-03 20:32 PArr.hc
+-rw-r--r-- 1 braden users  26686 2008-06-14 13:31 PArr.hs
+-rw-r--r-- 1 braden users   7527 2008-07-03 20:31 Pack.hc
+-rw-r--r-- 1 braden users   3312 2008-06-14 13:31 Pack.lhs
+-rw-r--r-- 1 braden users  40733 2008-07-03 20:31 Ptr.hc
+-rw-r--r-- 1 braden users   5937 2008-06-14 13:31 Ptr.lhs
+-rw-r--r-- 1 braden users 371859 2008-07-03 20:31 Read.hc
+-rw-r--r-- 1 braden users  23992 2008-06-14 13:31 Read.lhs
+-rw-r--r-- 1 braden users 509294 2008-07-03 20:31 Real.hc
+-rw-r--r-- 1 braden users  16977 2008-06-14 13:31 Real.lhs
+-rw-r--r-- 1 braden users  14969 2008-07-03 20:30 ST.hc
+-rw-r--r-- 1 braden users   5113 2008-06-14 13:31 ST.lhs
+-rw-r--r-- 1 braden users   6354 2008-07-03 20:31 STRef.hc
+-rw-r--r-- 1 braden users   1412 2008-06-14 13:31 STRef.lhs
+-rw-r--r-- 1 braden users 330295 2008-07-03 20:30 Show.hc
+-rw-r--r-- 1 braden users  16288 2008-06-14 13:31 Show.lhs
+-rw-r--r-- 1 braden users   7852 2008-07-03 20:31 Stable.hc
+-rw-r--r-- 1 braden users   3921 2008-06-14 13:31 Stable.lhs
+-rw-r--r-- 1 braden users  46768 2008-07-03 20:31 Storable.hc
+-rw-r--r-- 1 braden users   7545 2008-06-14 13:31 Storable.lhs
+-rw-r--r-- 1 braden users  29052 2008-07-03 20:32 TopHandler.hc
+-rw-r--r-- 1 braden users   4815 2008-06-14 13:31 TopHandler.lhs
+-rw-r--r-- 1 braden users    253 2008-06-14 13:31 TopHandler.lhs-boot
+-rw-r--r-- 1 braden users  23608 2008-07-03 20:31 Unicode.hc
+-rw-r--r-- 1 braden users   7979 2008-06-14 13:31 Unicode.hs
+-rw-r--r-- 1 braden users    479 2008-06-14 13:31 Unicode.hs-boot
+-rw-r--r-- 1 braden users  13658 2008-07-03 20:32 Weak.hc
+-rw-r--r-- 1 braden users   4895 2008-06-14 13:31 Weak.lhs
+-rw-r--r-- 1 braden users 615579 2008-07-03 20:31 Word.hc
+-rw-r--r-- 1 braden users  32589 2008-06-14 13:31 Word.hs
+```
+
+
+The finish line is in sight, but I'm stuck.
+
 # Original Page
 
 # GHC port for arm-unknown-linux-gnu
