@@ -26,6 +26,7 @@
 
 - Misc:
 
+  - [\#2418](https://gitlab.haskell.org//ghc/ghc/issues/2418) (desguaring type functions to constraints changes behaviour)
   - [\#2417](https://gitlab.haskell.org//ghc/ghc/issues/2417) (using GADT-style syntax causes panic)
   - [\#2291](https://gitlab.haskell.org//ghc/ghc/issues/2291) (panic mixing RULES and type families; rule simplification stumbles over a coercion)
   - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (feature request: fundeps treated inconsistently in superclasses and type sigs)

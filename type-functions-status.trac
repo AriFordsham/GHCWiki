@@ -20,6 +20,7 @@
   * #2151 (nested GADT constructors in patterns)
 
  * Misc:
+   * #2418 (desguaring type functions to constraints changes behaviour)
    * #2417 (using GADT-style syntax causes panic)
    * #2291 (panic mixing RULES and type families; rule simplification stumbles over a coercion)
    * #714 (feature request: fundeps treated inconsistently in superclasses and type sigs)
