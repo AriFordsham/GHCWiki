@@ -80,9 +80,26 @@ fixed it, so that's that.
 
 ==== Changing build.mk ====
 
-As the porting guide says, I had to change the TARGETPLATFORM to arm-unknown-linux. The LeadingUnderscore setting can be left at NO, which is the target-side setting.
+As the porting guide says, I had to change the TARGETPLATFORM to arm-unknown-linux. The !LeadingUnderscore setting can be left at NO, which is the target-side setting.
 
 
+==== Need libffi ====
+
+GHC 6.9 now uses libffi,  and so I needed to install it too. I Googled libffi, installed the newest version (it was released in April 2008 so I assume it's old enough to be the one used in 6.9), built and installed it on the host machine.
+
+Its header files are not installed into a system-wide include directory, so I symlinked them into /usr/include. Then the cd compiler && make boot && make step ran fine (though it took long enough running natively on my Core 2 Duo 2.8 GHz that I fear how long the emulated stage 2 will take).
+
+==== make in /rts ====
+
+This fails saying 
+
+{{{
+ghc-6.9.20080614: could not execute: /home/braden/src/ghc-6.9.20080614/driver/mangler/ghc-asm
+}}}
+
+There is no such file, though there is the script driver/mangler/ghc-asm.lprl. I tried making it executable with no results, but I'm not really sure what to do next. Any pointers are greatly appreciated!
+
+Of possible note is that I re-ran ./configure a while back while trying to get /compiler to make boot && make in an effort to make it find libffi. I doubt that would matter, but I'll record it anyway.
 
 = Original Page =
 
