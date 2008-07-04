@@ -4,10 +4,19 @@
 
 **Open Trac bugs related to type families**
 
-- [\#2366](https://gitlab.haskell.org//ghc/ghc/issues/2366) (GADT)
-- [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (fundeps treated inconsistently in superclasses and type sigs)
-- [\#2291](https://gitlab.haskell.org//ghc/ghc/issues/2291) (panic mixing RULES and type families)
-- [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235) (occurs check)
+- Solving of equalities (`TcTyFuns`):
+
+  - [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235) (bogus occurs check)
+
+- GADT:
+
+  - [\#2366](https://gitlab.haskell.org//ghc/ghc/issues/2366) (Assertion failure in `writeMetaTyVar` with -DDEBUG on gadt/equal; see also below)
+
+- Misc:
+
+  - [\#2291](https://gitlab.haskell.org//ghc/ghc/issues/2291) (panic mixing RULES and type families; rule simplification stumbles over a coercion)
+  - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (feature request: fundeps treated inconsistently in superclasses and type sigs)
+
 - [\#2219](https://gitlab.haskell.org//ghc/ghc/issues/2219)
 - [\#2212](https://gitlab.haskell.org//ghc/ghc/issues/2212)
 - [\#2202](https://gitlab.haskell.org//ghc/ghc/issues/2202) (Uses `a ~ MeshVertex a b` in `normaliseWantedDicts` w/o the occurs check kicking in; also occurs in 6.8.2 and the program doesn't mention TFs, so need to merge):
