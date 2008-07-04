@@ -84,6 +84,13 @@ Using the patch posted at [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/13
 
 Same problem with utils/pwd/pwd as in the first attempt below, with the same solution. After that fix both machines configure successfully.
 
+### Host-side
+
+#### Tripped up at the last again
+
+
+Got all the way to make hc-file-bundle Project=Ghc, the last host-side step for now, before running into trouble. It couldn't find the file rts/AutoApply_debug.hc, so I touched it and ran the command again. I have no idea if that will break anything later on, but we shall see.
+
 ## First Unregisterised Hack Notes
 
 ### Why it doesn't work
