@@ -235,6 +235,19 @@ total 6940
 
 The finish line is in sight, but I'm stuck.
 
+UPDATE: I touched all of those files and it built. No idea if it will work in the end though, that one GHC/PrimopWrappers file in particular is worrying.
+
+=== Back on the Target Machine ===
+
+==== libffi and libgmp again ====
+
+Need to compile these on the target too, and again put the two ffi*.h files in one of the include directories searched by the GHC build process (I used /usr/include).
+
+==== Apparently I need a GHC already running? ====
+
+I unpack the hc-file distribution, and then manually step through the actions of distrib/hc-build. The line to make the libraries fails, ultimately because $(GHC) is empty. Unsurprising, since we don't have a GHC for the target yet. So I built compiler/ first, in defiance of the script. It failed too, late in the process, because it couldn't find -lHSregex-compat. Since this seems to be part of libraries/, I'm at a catch-22.
+
+
 = Original Page =
 
 = GHC port for arm-unknown-linux-gnu =
@@ -322,6 +335,7 @@ This should build and install ghc. Unfortunately, the floating point
 code will be broken.
 
 == Run the test suite ==
+
 
 (1) get the testsuite that corresponds to your release, for example:
 
