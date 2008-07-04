@@ -4,6 +4,7 @@
 
 **Open Trac bugs related to type families**
 
+- [\#2366](https://gitlab.haskell.org//ghc/ghc/issues/2366) (GADT)
 - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (fundeps treated inconsistently in superclasses and type sigs)
 - [\#2291](https://gitlab.haskell.org//ghc/ghc/issues/2291) (panic mixing RULES and type families)
 - [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235) (occurs check)
