@@ -22,14 +22,14 @@
 - GADT:
 
   - [\#2212](https://gitlab.haskell.org//ghc/ghc/issues/2212) (Assertion failure in `writeMetaTyVar` with -DDEBUG on gadt/equal; see also below)
+  - [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (nested GADT constructors in patterns)
 
 - Misc:
 
   - [\#2291](https://gitlab.haskell.org//ghc/ghc/issues/2291) (panic mixing RULES and type families; rule simplification stumbles over a coercion)
   - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (feature request: fundeps treated inconsistently in superclasses and type sigs)
+  - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html))
 
-- [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html))
-- [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (GADT)
 - [\#2146](https://gitlab.haskell.org//ghc/ghc/issues/2146) (minor problem)
 - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclasses)
 - [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (GADT)
