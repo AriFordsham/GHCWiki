@@ -14,6 +14,7 @@
   * #2202 (Uses `a ~ MeshVertex a b` in `normaliseWantedDicts` w/o the occurs check kicking in; also occurs in 6.8.2 and the program doesn't mention TFs, so need to merge):
     * Should `eqInstToRewrite` already check for and return whether the equality is cyclic in a bad way (i.e., without intervening tyfam)?  (Would that be less efficient?)  In any case, document the invariants.
     * `rewriteWithOneEquality` should uses `eqInstToRewrite`
+   * #2146 (infelicity in decomposition for higher-order TFs)
 
  * GADT:
   * #2212 (Assertion failure in `writeMetaTyVar` with -DDEBUG on gadt/equal; see also below)
@@ -26,7 +27,6 @@
    * #714 (feature request: fundeps treated inconsistently in superclasses and type sigs)
    * #1897 If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html)
  
- * #2146 (minor problem)
  * #2102 (superclasses)
  * #2040 (GADT)
  * #1999 (GADT)

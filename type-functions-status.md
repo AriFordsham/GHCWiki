@@ -18,6 +18,7 @@
 
     - Should `eqInstToRewrite` already check for and return whether the equality is cyclic in a bad way (i.e., without intervening tyfam)?  (Would that be less efficient?)  In any case, document the invariants.
     - `rewriteWithOneEquality` should uses `eqInstToRewrite`
+  - [\#2146](https://gitlab.haskell.org//ghc/ghc/issues/2146) (infelicity in decomposition for higher-order TFs)
 
 - GADT:
 
@@ -32,7 +33,6 @@
   - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (feature request: fundeps treated inconsistently in superclasses and type sigs)
   - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html))
 
-- [\#2146](https://gitlab.haskell.org//ghc/ghc/issues/2146) (minor problem)
 - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclasses)
 - [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (GADT)
 - [\#1999](https://gitlab.haskell.org//ghc/ghc/issues/1999) (GADT)
