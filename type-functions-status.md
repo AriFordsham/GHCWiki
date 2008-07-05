@@ -19,11 +19,15 @@
     - Should `eqInstToRewrite` already check for and return whether the equality is cyclic in a bad way (i.e., without intervening tyfam)?  (Would that be less efficient?)  In any case, document the invariants.
     - `rewriteWithOneEquality` should uses `eqInstToRewrite`
   - [\#2146](https://gitlab.haskell.org//ghc/ghc/issues/2146) (infelicity in decomposition for higher-order TFs)
+  - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
+
+    - To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use `HsBind.VarBind` and make its right-hand side a specially data structure describing evidence construction, instead of being a general `HsExpr`.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
 
 - GADT:
 
   - [\#2212](https://gitlab.haskell.org//ghc/ghc/issues/2212) (Assertion failure in `writeMetaTyVar` with -DDEBUG on gadt/equal; see also below)
   - [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (nested GADT constructors in patterns)
+  - [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (incomplete deduction of evidence)
 
 - Misc:
 
@@ -33,8 +37,6 @@
   - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (feature request: fundeps treated inconsistently in superclasses and type sigs)
   - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html))
 
-- [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclasses)
-- [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (GADT)
 - [\#1999](https://gitlab.haskell.org//ghc/ghc/issues/1999) (GADT)
 - [\#1948](https://gitlab.haskell.org//ghc/ghc/issues/1948)
 - [\#1900](https://gitlab.haskell.org//ghc/ghc/issues/1900)
@@ -54,7 +56,11 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 - `should_run/ind2(profc,profasm)` (data type families)
 - `should_run/Simple12(normal,optc,profc,profasm)` (type synonym families)
 
-**Check whether these still fail.**
+*Check whether these still fail.*
+
+**Feature requests:**
+
+- [\#2101](https://gitlab.haskell.org//ghc/ghc/issues/2101)
 
 **Debugging of type families:**
 
@@ -117,7 +123,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   - Issue a warning if there are two identical instances (as per  Roman's suggestion).
 1. CONCEPTUAL issue: At least with `skolemOccurs`, the policy of not zonking the types embedded in the kinds of coercion type variables does no longer work.  This becomes, for example in the test `Simple13`, apparent.  The skolem introduced in `skolemOccurs` finds its way into variable kinds (which is visible when inspecting them during `TcMType.zonk_tc_tyvar`).
 1. When `Simple13` is compiled with a compiler that was built with `-DDEBUG`, it prints a warning about not matching types being used during constructing a trans coercion.
-1. To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use `HsBind.VarBind` and make its right-hand side a specially data structure describing evidence construction, instead of being a general `HsExpr`.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
 1. In `TcTyFuns.genericNormaliseInst`, we need to figure out what to do with `ImplicInst`, `Method`, and `LitInst` dictionaries.
 1. ghc falls over if a bang pattern is put at an argument of type `F a`.
 1. Fix export list problem (ie, export of data constructors introduced by orphan data instances):
