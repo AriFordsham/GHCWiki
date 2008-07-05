@@ -2,47 +2,54 @@
 
 # Type Functions: Implementation Status
 
-**Open Trac bugs related to type families**
+**Add to test suite:**
+
+- Add the program of [\#1900](https://gitlab.haskell.org//ghc/ghc/issues/1900) & [\#1999](https://gitlab.haskell.org//ghc/ghc/issues/1999) and [\#1834](https://gitlab.haskell.org//ghc/ghc/issues/1834) (but needs to use ghci)
+
+**Open bugs related to type families**
 
 - Well-formedness of declarations involving families:
 
-  - [\#2157](https://gitlab.haskell.org//ghc/ghc/issues/2157) (solution: lhs of type instances may not contain partially applied vanilla type synonyms)
+  - [\#1968](https://gitlab.haskell.org//ghc/ghc/issues/1968) (GADT syntax in family instances; at least provide a proper error message and don't panic!)
 
-    - Addition to user manual, see [ http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html](http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html) and [http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html\#type-synonyms](http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html#type-synonyms)
+    - Need to check the result types of the data constructors, probably in `checkValidDataCon`.
+    - `tcFamInstDecl1` needs to allow family GADT instances.
+  - [\#2157](https://gitlab.haskell.org//ghc/ghc/issues/2157) (solution: lhs of type instances may not contain partially applied vanilla type synonyms)
+  - Allow repeated variable occurrences in lhses of type instances (see paper).
+  - Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page.
+  - Test`Simple8`:
+
+    - Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
+    - Issue a warning if there are two identical instances (as per  Roman's suggestion).
+  - Addition to user manual, see [ http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html](http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html) and [http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html\#type-synonyms](http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html#type-synonyms)
   - [\#2203](https://gitlab.haskell.org//ghc/ghc/issues/2203) (TFs in class instance heads)
 
 - Solving of equalities (`TcTyFuns`):
 
-  - [\#2219](https://gitlab.haskell.org//ghc/ghc/issues/2219) & [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235) (bogus occurs check failure - in both bugs, the loop is through a TF)
+  - [\#2219](https://gitlab.haskell.org//ghc/ghc/issues/2219), [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235), [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775) & test `GADT1` (bogus occurs check failure - in both bugs, the loop is through a TF)
   - [\#2202](https://gitlab.haskell.org//ghc/ghc/issues/2202) (Uses `a ~ MeshVertex a b` in `normaliseWantedDicts` w/o the occurs check kicking in; also occurs in 6.8.2 and the program doesn't mention TFs, so need to merge):
 
     - Should `eqInstToRewrite` already check for and return whether the equality is cyclic in a bad way (i.e., without intervening tyfam)?  (Would that be less efficient?)  In any case, document the invariants.
     - `rewriteWithOneEquality` should uses `eqInstToRewrite`
+  - [\#2146](https://gitlab.haskell.org//ghc/ghc/issues/2146) (infelicity in decomposition for higher-order TFs)
+  - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
+
+    - To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use `HsBind.VarBind` and make its right-hand side a specially data structure describing evidence construction, instead of being a general `HsExpr`.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
 
 - GADT:
 
   - [\#2212](https://gitlab.haskell.org//ghc/ghc/issues/2212) (Assertion failure in `writeMetaTyVar` with -DDEBUG on gadt/equal; see also below)
   - [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (nested GADT constructors in patterns)
+  - [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (incomplete deduction of evidence for class contexts in GADT constructors)
 
 - Misc:
 
-  - [\#2418](https://gitlab.haskell.org//ghc/ghc/issues/2418) (desguaring type functions to constraints changes behaviour)
-  - [\#2417](https://gitlab.haskell.org//ghc/ghc/issues/2417) (using GADT-style syntax causes panic)
+  - Test `Simple17` & `GADT12` (corelint errors)
   - [\#2291](https://gitlab.haskell.org//ghc/ghc/issues/2291) (panic mixing RULES and type families; rule simplification stumbles over a coercion)
   - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (feature request: fundeps treated inconsistently in superclasses and type sigs)
-  - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html))
-
-- [\#2146](https://gitlab.haskell.org//ghc/ghc/issues/2146) (minor problem)
-- [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclasses)
-- [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (GADT)
-- [\#1999](https://gitlab.haskell.org//ghc/ghc/issues/1999) (GADT)
-- [\#1948](https://gitlab.haskell.org//ghc/ghc/issues/1948)
-- [\#1900](https://gitlab.haskell.org//ghc/ghc/issues/1900)
-- [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897) (confusing error message)
-- [\#1834](https://gitlab.haskell.org//ghc/ghc/issues/1834)
-- [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775)
-- [\#1772](https://gitlab.haskell.org//ghc/ghc/issues/1772)
-- [\#1769](https://gitlab.haskell.org//ghc/ghc/issues/1769) (deriving typeable for data families)
+  - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html).  [\#2418](https://gitlab.haskell.org//ghc/ghc/issues/2418) suggests that for higher-kinded TFs, we could use decomposition more aggressively.
+  - [\#1769](https://gitlab.haskell.org//ghc/ghc/issues/1769) (deriving typeable for data families)
+  - When a `type instance` changes (in an orphan modules), currently clients are not properly recompiled at least by `--make`.
 
 **Failing testsuite tests**
 
@@ -54,12 +61,40 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 - `should_run/ind2(profc,profasm)` (data type families)
 - `should_run/Simple12(normal,optc,profc,profasm)` (type synonym families)
 
-**Check whether these still fail.**
+*Check whether these still fail.*
+
+**Additional feature:**
+
+- [\#2101](https://gitlab.haskell.org//ghc/ghc/issues/2101)
+- Total families
+- Test `DerivingNewType`
+- Implementing FDs by TFs:
+
+  - Step 1: Replace the existing improvement machinery for FDs by code that generates explicit equalities from the two FD rules.  Then, all improvement is by normalisation of equalities, which hopefully allows us to simplify `TcSimplify.reduceContext`.
+  - Step 2: Desugar FDs into TFs and superclass equalities.
+  - ghci command to print normalised type and add [ http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799](http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799) as a test to the testsuite.
 
 **Debugging of type families:**
 
-1. Total families
-1. Allow repeated variable occurrences in lhses of type instances (see paper).
+1. Single phase algorithm; cf `single_phase_algorithm.tex`.
+
+  - Clean up `TcSimplify.reduceContext` and try to get rid of of having two loops, namely the ones used in `TcTyFuns` and the one implemented by `checkLoop`.
+  - `substEqInDict` needs to be symmetric (i.e., also apply right-to-left rules); try to re-use existing infrastructure.  It would be neater, easier to understand, and more efficient to have one loop that goes for a fixed point of simultaneously rewriting with given_eqs, wanted_eqs, and type instances.
+  - skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.  As an example that is rejected if the signature for `test` is present, but accepted if the signature is omitted (and inferred), consider
+
+    ```wiki
+    type family F x
+    type instance F [x] = [F x]
+
+    t :: a -> a -> Bool
+    t _ _ = True
+
+    f :: a -> F [a]
+    f = undefined
+
+    test :: ([F a] ~ a) => a -> Bool
+    test x = t x (f x)
+    ```
 1. Replacing GADT refinements by explicit equality constraints:
 
   - Regressions that remain to be fixed: 
@@ -68,6 +103,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     - Error message of `tcfail167` should include "Inaccessible case alternative: Can't match types `Char' and `Float'" again
   - Handling of cases expression scrutinising GADTs: 
 
+    - See also test `GADT7`
     - Remove the dodgy rigidity test that is in `tcConPat` right now.
     - implement proposal where we infer a rigidity flag for case scutinees and pass that down when type checking the patterns,
     - We infer the rigidity flag for the case scrutinee by generalising its type and checking whether that has an foralls at the top.  It's rigid if it has no foralls.
@@ -77,47 +113,14 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
     1. check that 's' is (or can be made to be) of form (T ....)
     1. check that the ... can be unified with t1..tn
-
-    If (1) succeeds but (2) fails, the alternative is in accessible.  Of course, (2) might fail "later" by generating a constraint that later can't be satisfied, and we won't report that well, but we'd get a good message in the common fails-fast case.  We could even improve the message from (1) to say: "Constructor C is from data type T, but a pattern of type s is expected.
-1. Single phase algorithm; cf `single_phase_algorithm.tex`.
-1. When a `type instance` changes (in an orphan modules), currently clients are not properly recompiled at least by `--make`.
-1. Implementing FDs by TFs:
-
-  - Step 1: Replace the existing improvement machinery for FDs by code that generates explicit equalities from the two FD rules.  Then, all improvement is by normalisation of equalities, which hopefully allows us to simplify `TcSimplify.reduceContext`.
-  - Step 2: Desugar FDs into TFs and superclass equalities.
-1. Clean up `TcSimplify.reduceContext` and try to get rid of of having two loops, namely the ones used in `TcTyFuns` and the one implemented by `checkLoop`.
-1. `substEqInDict` needs to be symmetric (i.e., also apply right-to-left rules); try to re-use existing infrastructure.  It would be neater, easier to understand, and more efficient to have one loop that goes for a fixed point of simultaneously rewriting with given_eqs, wanted_eqs, and type instances.
-1. skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.  As an example consider
-
-  ```wiki
-  type family F x
-  type instance F [x] = [F x]
-
-  t :: a -> a -> Bool
-  t _ _ = True
-
-  f :: a -> F [a]
-  f = undefined
-
-  test :: ([F a] ~ a) => a -> Bool
-  test x = t x (f x)
-  ```
-
-  It is reject if the signature for `test` is present, but accepted if the signature is omitted (and inferred).
+      If (1) succeeds but (2) fails, the alternative is in accessible.  Of course, (2) might fail "later" by generating a constraint that later can't be satisfied, and we won't report that well, but we'd get a good message in the common fails-fast case.  We could even improve the message from (1) to say: "Constructor C is from data type T, but a pattern of type s is expected.
 1. Comments:
 
   - When we raise a mismatch error in `TcSimplify` for unresolvable equalities, we effectively tidy the two non-matching types twice.  Add a comment to highlight this and say way it is ok (i.e., they are never grouped together with `groupErrs` or similar).
 1. `:t` in ghci doesn't print equalities in contexts properly.
-1. ghci command to print normalised type and add [ http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799](http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799) as a test to the testsuite.
-1. Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page.
-1. When can foralls appear in equalities?  What constraints does that place on GADTs?  Also, the code in `TcTyFuns` doesn't really deal with rank-n types properly, esp `decompRule`.
-1. To fix `Simple8`:
-
-  - Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
-  - Issue a warning if there are two identical instances (as per  Roman's suggestion).
+1. RankN: When can foralls appear in equalities?  What constraints does that place on GADTs?  Also, the code in `TcTyFuns` doesn't really deal with rank-n types properly, esp `decompRule`.  Also test `Simple14` & `GADT10`.
 1. CONCEPTUAL issue: At least with `skolemOccurs`, the policy of not zonking the types embedded in the kinds of coercion type variables does no longer work.  This becomes, for example in the test `Simple13`, apparent.  The skolem introduced in `skolemOccurs` finds its way into variable kinds (which is visible when inspecting them during `TcMType.zonk_tc_tyvar`).
 1. When `Simple13` is compiled with a compiler that was built with `-DDEBUG`, it prints a warning about not matching types being used during constructing a trans coercion.
-1. To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use `HsBind.VarBind` and make its right-hand side a specially data structure describing evidence construction, instead of being a general `HsExpr`.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
 1. In `TcTyFuns.genericNormaliseInst`, we need to figure out what to do with `ImplicInst`, `Method`, and `LitInst` dictionaries.
 1. ghc falls over if a bang pattern is put at an argument of type `F a`.
 1. Fix export list problem (ie, export of data constructors introduced by orphan data instances):
@@ -126,13 +129,8 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   - Then, there is also no need for the grouping of the identifiers by module anymore (but sort it to avoid spurious iface changes dur to re-ordering when re-compiling).
   - We still need to have the name parent map, though.
   - See email for example.
-1. Allow data family GADT instances [\#1968](https://gitlab.haskell.org//ghc/ghc/issues/1968):
-
-  - Need to check the result types of the data constructors, probably in `checkValidDataCon`.
-  - `tcFamInstDecl1` needs to allow family GADT instances.
 1. Eliminate code duplication between `tcTyClDecl1` and `tcFamInstDecl1`.  The code for vanilla data/newtype declarations and the code for data/newtype instances has many commonalities.
 1. Fix everything in the testsuite.
-1. Can't we now allow non-left-linear declarations; e.g., `instance type F a a = ..`?
 1. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
 1. What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
 1. Consider
@@ -155,7 +153,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   upd :: T a b -> c -> T a c
   ```
 
-  It seems a bit complicated to come up with the most general type.  THe relevant code is in `TcExpr.tcExpr` in STEP 4 of the `RecordUpd` case.
+  It seems a bit complicated to come up with the most general type.  The relevant code is in `TcExpr.tcExpr` in STEP 4 of the `RecordUpd` case.
 1. Can we support
 
   ```wiki
@@ -171,10 +169,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   eq_elim :: (a~b) => a :=: b -> (a~b => p) -> p
   eq_elim EQUAL p = p 
   ```
-
-**Current:**
-
-- Add some trac wiki documentation of how inference with type families works.
 
 ## Parsing and Renaming
 
