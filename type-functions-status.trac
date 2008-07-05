@@ -2,6 +2,9 @@
 
 = Type Functions: Implementation Status =
 
+'''Add to test suite:'''
+ * Add the program of #1999
+
 '''Open Trac bugs related to type families'''
 
  * Well-formedness of declarations involving families:
@@ -21,7 +24,7 @@
  * GADT:
   * #2212 (Assertion failure in `writeMetaTyVar` with -DDEBUG on gadt/equal; see also below)
   * #2151 (nested GADT constructors in patterns)
-  * #2040 (incomplete deduction of evidence)
+  * #2040 (incomplete deduction of evidence for class contexts in GADT constructors)
 
  * Misc:
    * #2418 (desguaring type functions to constraints changes behaviour)
@@ -30,8 +33,6 @@
    * #714 (feature request: fundeps treated inconsistently in superclasses and type sigs)
    * #1897 If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html)
  
- * #1999 (GADT)
- * #1948
  * #1900
  * #1897 (confusing error message)
  * #1834
