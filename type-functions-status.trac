@@ -8,6 +8,7 @@
 '''Open Trac bugs related to type families'''
 
  * Well-formedness of declarations involving families:
+  * #2417 (GADT syntax in family instances; at least provide a proper error message and don't panic!)
   * #2157 (solution: lhs of type instances may not contain partially applied vanilla type synonyms)
    * Addition to user manual, see [http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html] and [http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html#type-synonyms]
   * #2203 (TFs in class instance heads)
