@@ -35,7 +35,7 @@
   * #2040 (incomplete deduction of evidence for class contexts in GADT constructors)
 
  * Misc:
-   * Test `Simple17`
+   * Test `Simple17` & `GADT12` (corelint errors)
    * #2291 (panic mixing RULES and type families; rule simplification stumbles over a coercion)
    * #714 (feature request: fundeps treated inconsistently in superclasses and type sigs)
    * #1897: If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html.  #2418 suggests that for higher-kinded TFs, we could use decomposition more aggressively.
@@ -98,7 +98,7 @@ test x = t x (f x)
  0. Comments:
    * When we raise a mismatch error in `TcSimplify` for unresolvable equalities, we effectively tidy the two non-matching types twice.  Add a comment to highlight this and say way it is ok (i.e., they are never grouped together with `groupErrs` or similar).
  0. `:t` in ghci doesn't print equalities in contexts properly.
- 0. RankN: When can foralls appear in equalities?  What constraints does that place on GADTs?  Also, the code in `TcTyFuns` doesn't really deal with rank-n types properly, esp `decompRule`.  Also test `Simple14`.
+ 0. RankN: When can foralls appear in equalities?  What constraints does that place on GADTs?  Also, the code in `TcTyFuns` doesn't really deal with rank-n types properly, esp `decompRule`.  Also test `Simple14` & `GADT10`.
  0. CONCEPTUAL issue: At least with `skolemOccurs`, the policy of not zonking the types embedded in the kinds of coercion type variables does no longer work.  This becomes, for example in the test `Simple13`, apparent.  The skolem introduced in `skolemOccurs` finds its way into variable kinds (which is visible when inspecting them during `TcMType.zonk_tc_tyvar`).
  0. When `Simple13` is compiled with a compiler that was built with `-DDEBUG`, it prints a warning about not matching types being used during constructing a trans coercion.
  0. In `TcTyFuns.genericNormaliseInst`, we need to figure out what to do with `ImplicInst`, `Method`, and `LitInst` dictionaries.
