@@ -10,7 +10,10 @@
 
 - Well-formedness of declarations involving families:
 
-  - [\#2417](https://gitlab.haskell.org//ghc/ghc/issues/2417) (GADT syntax in family instances; at least provide a proper error message and don't panic!)
+  - [\#1968](https://gitlab.haskell.org//ghc/ghc/issues/1968) (GADT syntax in family instances; at least provide a proper error message and don't panic!)
+
+    - Need to check the result types of the data constructors, probably in `checkValidDataCon`.
+    - `tcFamInstDecl1` needs to allow family GADT instances.
   - [\#2157](https://gitlab.haskell.org//ghc/ghc/issues/2157) (solution: lhs of type instances may not contain partially applied vanilla type synonyms)
 
     - Addition to user manual, see [ http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html](http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html) and [http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html\#type-synonyms](http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html#type-synonyms)
@@ -41,8 +44,7 @@
   - [\#2291](https://gitlab.haskell.org//ghc/ghc/issues/2291) (panic mixing RULES and type families; rule simplification stumbles over a coercion)
   - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (feature request: fundeps treated inconsistently in superclasses and type sigs)
   - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html).  [\#2418](https://gitlab.haskell.org//ghc/ghc/issues/2418) suggests that for higher-kinded TFs, we could use decomposition more aggressively.
-
-- [\#1769](https://gitlab.haskell.org//ghc/ghc/issues/1769) (deriving typeable for data families)
+  - [\#1769](https://gitlab.haskell.org//ghc/ghc/issues/1769) (deriving typeable for data families)
 
 **Failing testsuite tests**
 
@@ -129,10 +131,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   - Then, there is also no need for the grouping of the identifiers by module anymore (but sort it to avoid spurious iface changes dur to re-ordering when re-compiling).
   - We still need to have the name parent map, though.
   - See email for example.
-1. Allow data family GADT instances [\#1968](https://gitlab.haskell.org//ghc/ghc/issues/1968):
-
-  - Need to check the result types of the data constructors, probably in `checkValidDataCon`.
-  - `tcFamInstDecl1` needs to allow family GADT instances.
 1. Eliminate code duplication between `tcTyClDecl1` and `tcFamInstDecl1`.  The code for vanilla data/newtype declarations and the code for data/newtype instances has many commonalities.
 1. Fix everything in the testsuite.
 1. Can't we now allow non-left-linear declarations; e.g., `instance type F a a = ..`?
