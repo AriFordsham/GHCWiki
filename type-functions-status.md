@@ -15,6 +15,7 @@
     - Need to check the result types of the data constructors, probably in `checkValidDataCon`.
     - `tcFamInstDecl1` needs to allow family GADT instances.
   - [\#2157](https://gitlab.haskell.org//ghc/ghc/issues/2157) (solution: lhs of type instances may not contain partially applied vanilla type synonyms)
+  - Allow repeated variable occurrences in lhses of type instances (see paper).
   - Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page.
   - Test`Simple8`:
 
@@ -25,7 +26,7 @@
 
 - Solving of equalities (`TcTyFuns`):
 
-  - [\#2219](https://gitlab.haskell.org//ghc/ghc/issues/2219), [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235) & [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775) (bogus occurs check failure - in both bugs, the loop is through a TF)
+  - [\#2219](https://gitlab.haskell.org//ghc/ghc/issues/2219), [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235), [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775) & test `GADT1` (bogus occurs check failure - in both bugs, the loop is through a TF)
   - [\#2202](https://gitlab.haskell.org//ghc/ghc/issues/2202) (Uses `a ~ MeshVertex a b` in `normaliseWantedDicts` w/o the occurs check kicking in; also occurs in 6.8.2 and the program doesn't mention TFs, so need to merge):
 
     - Should `eqInstToRewrite` already check for and return whether the equality is cyclic in a bad way (i.e., without intervening tyfam)?  (Would that be less efficient?)  In any case, document the invariants.
@@ -66,7 +67,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
 - [\#2101](https://gitlab.haskell.org//ghc/ghc/issues/2101)
 - Total families
-- Allow repeated variable occurrences in lhses of type instances (see paper).
+- Test `DerivingNewType`
 - Implementing FDs by TFs:
 
   - Step 1: Replace the existing improvement machinery for FDs by code that generates explicit equalities from the two FD rules.  Then, all improvement is by normalisation of equalities, which hopefully allows us to simplify `TcSimplify.reduceContext`.
@@ -102,6 +103,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     - Error message of `tcfail167` should include "Inaccessible case alternative: Can't match types `Char' and `Float'" again
   - Handling of cases expression scrutinising GADTs: 
 
+    - See also test `GADT7`
     - Remove the dodgy rigidity test that is in `tcConPat` right now.
     - implement proposal where we infer a rigidity flag for case scutinees and pass that down when type checking the patterns,
     - We infer the rigidity flag for the case scrutinee by generalising its type and checking whether that has an foralls at the top.  It's rigid if it has no foralls.
