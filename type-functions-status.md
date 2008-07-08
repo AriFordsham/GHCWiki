@@ -41,7 +41,6 @@
 - Misc:
 
   - [\#2418](https://gitlab.haskell.org//ghc/ghc/issues/2418) (desguaring type functions to constraints changes behaviour)
-  - [\#2417](https://gitlab.haskell.org//ghc/ghc/issues/2417) (using GADT-style syntax causes panic)
   - [\#2291](https://gitlab.haskell.org//ghc/ghc/issues/2291) (panic mixing RULES and type families; rule simplification stumbles over a coercion)
   - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (feature request: fundeps treated inconsistently in superclasses and type sigs)
   - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html).  [\#2418](https://gitlab.haskell.org//ghc/ghc/issues/2418) suggests that for higher-kinded TFs, we could use decomposition more aggressively.
@@ -77,7 +76,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
   - Clean up `TcSimplify.reduceContext` and try to get rid of of having two loops, namely the ones used in `TcTyFuns` and the one implemented by `checkLoop`.
   - `substEqInDict` needs to be symmetric (i.e., also apply right-to-left rules); try to re-use existing infrastructure.  It would be neater, easier to understand, and more efficient to have one loop that goes for a fixed point of simultaneously rewriting with given_eqs, wanted_eqs, and type instances.
-  - skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.  As an example consider
+  - skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.  As an example that is rejected if the signature for `test` is present, but accepted if the signature is omitted (and inferred), consider
 
     ```wiki
     type family F x
@@ -92,8 +91,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
     test :: ([F a] ~ a) => a -> Bool
     test x = t x (f x)
     ```
-
-  It is reject if the signature for `test` is present, but accepted if the signature is omitted (and inferred).
 1. Replacing GADT refinements by explicit equality constraints:
 
   - Regressions that remain to be fixed: 
@@ -111,8 +108,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
     1. check that 's' is (or can be made to be) of form (T ....)
     1. check that the ... can be unified with t1..tn
-
-    If (1) succeeds but (2) fails, the alternative is in accessible.  Of course, (2) might fail "later" by generating a constraint that later can't be satisfied, and we won't report that well, but we'd get a good message in the common fails-fast case.  We could even improve the message from (1) to say: "Constructor C is from data type T, but a pattern of type s is expected.
+      If (1) succeeds but (2) fails, the alternative is in accessible.  Of course, (2) might fail "later" by generating a constraint that later can't be satisfied, and we won't report that well, but we'd get a good message in the common fails-fast case.  We could even improve the message from (1) to say: "Constructor C is from data type T, but a pattern of type s is expected.
 1. Comments:
 
   - When we raise a mismatch error in `TcSimplify` for unresolvable equalities, we effectively tidy the two non-matching types twice.  Add a comment to highlight this and say way it is ok (i.e., they are never grouped together with `groupErrs` or similar).
@@ -134,7 +130,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   - See email for example.
 1. Eliminate code duplication between `tcTyClDecl1` and `tcFamInstDecl1`.  The code for vanilla data/newtype declarations and the code for data/newtype instances has many commonalities.
 1. Fix everything in the testsuite.
-1. Can't we now allow non-left-linear declarations; e.g., `instance type F a a = ..`?
 1. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
 1. What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
 1. Consider
@@ -157,7 +152,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   upd :: T a b -> c -> T a c
   ```
 
-  It seems a bit complicated to come up with the most general type.  THe relevant code is in `TcExpr.tcExpr` in STEP 4 of the `RecordUpd` case.
+  It seems a bit complicated to come up with the most general type.  The relevant code is in `TcExpr.tcExpr` in STEP 4 of the `RecordUpd` case.
 1. Can we support
 
   ```wiki
@@ -173,10 +168,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   eq_elim :: (a~b) => a :=: b -> (a~b => p) -> p
   eq_elim EQUAL p = p 
   ```
-
-**Current:**
-
-- Add some trac wiki documentation of how inference with type families works.
 
 ## Parsing and Renaming
 
