@@ -40,7 +40,6 @@
 
 - Misc:
 
-  - [\#2418](https://gitlab.haskell.org//ghc/ghc/issues/2418) (desguaring type functions to constraints changes behaviour)
   - [\#2291](https://gitlab.haskell.org//ghc/ghc/issues/2291) (panic mixing RULES and type families; rule simplification stumbles over a coercion)
   - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (feature request: fundeps treated inconsistently in superclasses and type sigs)
   - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html).  [\#2418](https://gitlab.haskell.org//ghc/ghc/issues/2418) suggests that for higher-kinded TFs, we could use decomposition more aggressively.
