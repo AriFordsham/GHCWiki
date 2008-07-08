@@ -13,7 +13,10 @@
    * `tcFamInstDecl1` needs to allow family GADT instances.
   * #2157 (solution: lhs of type instances may not contain partially applied vanilla type synonyms)
   * Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page.
-   * Addition to user manual, see [http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html] and [http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html#type-synonyms]
+  * Test`Simple8`:
+   * Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
+   * Issue a warning if there are two identical instances (as per  Roman's suggestion).
+  * Addition to user manual, see [http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html] and [http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html#type-synonyms]
   * #2203 (TFs in class instance heads)
 
  * Solving of equalities (`TcTyFuns`):
@@ -93,9 +96,6 @@ test x = t x (f x)
    * When we raise a mismatch error in `TcSimplify` for unresolvable equalities, we effectively tidy the two non-matching types twice.  Add a comment to highlight this and say way it is ok (i.e., they are never grouped together with `groupErrs` or similar).
  0. `:t` in ghci doesn't print equalities in contexts properly.
  0. When can foralls appear in equalities?  What constraints does that place on GADTs?  Also, the code in `TcTyFuns` doesn't really deal with rank-n types properly, esp `decompRule`.
- 0. To fix `Simple8`:
-   * Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
-   * Issue a warning if there are two identical instances (as per  Roman's suggestion).
  0. CONCEPTUAL issue: At least with `skolemOccurs`, the policy of not zonking the types embedded in the kinds of coercion type variables does no longer work.  This becomes, for example in the test `Simple13`, apparent.  The skolem introduced in `skolemOccurs` finds its way into variable kinds (which is visible when inspecting them during `TcMType.zonk_tc_tyvar`).
  0. When `Simple13` is compiled with a compiler that was built with `-DDEBUG`, it prints a warning about not matching types being used during constructing a trans coercion.
  0. In `TcTyFuns.genericNormaliseInst`, we need to figure out what to do with `ImplicInst`, `Method`, and `LitInst` dictionaries.
