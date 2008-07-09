@@ -20,17 +20,17 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 - **External Core** (output only) is working again, thanks to Tim Chevalier.
 
-- **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim), [\#2335](https://gitlab.haskell.org//ghc/ghc/issues/2335) (build problem)).  (**Ian**: a few days.)
+- **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim), [\#2335](https://gitlab.haskell.org//ghc/ghc/issues/2335) (build problem)).  (**Ian Lynagh**: a few days.)
 
   - Build it with GHC (maybe ship it with GHC too)
   - Documentation for GHC API done via Haddock 2
 
-- **Unicode support for text I/O**.  This means adding Unicode encoding/decoding for Text I/O handles.   (**Simon M**: a few days work.)
+- **Unicode support for text I/O**.  This means adding Unicode encoding/decoding for Text I/O handles.   (**Simon Marlow**: a few days work.)
 
   - Consensus was that Text I/O should always use the current locale encoding.  
   - You can elect to have no encoding by opening in binary mode, but that's all.
 
-- **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.  *Ian Lynagh* is running a discussion, but we expect it to reach consensus in plenty of time for 6.10.
+- **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.  **Ian Lynagh** is running a discussion, but we expect it to reach consensus in plenty of time for 6.10.
 
 - **Parallel garbage collection** (see [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  *Simon Marlow*
 
@@ -41,7 +41,7 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
   - C program (or Excel) that calls multiple Haskell functions gets just one copy of the RTS, rather than one per DLL as now.
   - Performance penalty, but too small to measure
 
-- **[Back-end revamp](commentary/compiler/new-code-gen)** (see also [\#1501](https://gitlab.haskell.org//ghc/ghc/issues/1501)).  John Dias is in charge.  For 6.10 we will make sure that the whole existing path still exists, so we can choose at a late date whether to rely on the new path or not.
+- **[Back-end revamp](commentary/compiler/new-code-gen)** (see also [\#1501](https://gitlab.haskell.org//ghc/ghc/issues/1501)).  **John Dias** is in charge.  For 6.10 we will make sure that the whole existing path still exists, so we can choose at a late date whether to rely on the new path or not.
 
 - **[ Type families](http://haskell.org/haskellwiki/GHC/Indexed_types)**, fully working. *Manuel Chakravarty and Simon PJ*
 
