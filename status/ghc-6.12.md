@@ -6,7 +6,9 @@ Here are our [ release plans for 6.8.3](http://www.haskell.org/pipermail/glasgow
 # Plans for GHC 6.10
 
 
-We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we hope to include, along with who is primarily responsible for delivering these promises:
+We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we hope to include, along with who is primarily responsible for delivering these promises.
+
+## Things that are done already
 
 - Several **language extensions** advertised in the [November 2007 status report](status/nov07):
 
@@ -17,7 +19,13 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 > **Done**: these are all in the HEAD already.
 
+- **Parallel garbage collection** (see [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  **Done**.
+
 - **External Core** (output only) is working again, thanks to Tim Chevalier.
+
+- Better **versioning** to support separate compilation; perhaps checksums/fingerprints. Already done!
+
+## Things we plan to do for sure
 
 - **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim), [\#2335](https://gitlab.haskell.org//ghc/ghc/issues/2335) (build problem)).  (**Ian Lynagh**: a few days.)
 
@@ -30,8 +38,6 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
   - You can elect to have no encoding by opening in binary mode, but that's all.
 
 - **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.  **Ian Lynagh** is running a discussion, but we expect it to reach consensus in plenty of time for 6.10.
-
-- **Parallel garbage collection** (see [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  **Done**.
 
 - **Shared libraries**, as a result of Clemens Fruhwirth's Summer of Code project.  ([\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)) *Simon Marlow*
 
@@ -48,9 +54,7 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 - Further **library reorganisation**, but with more attention paid to backward compatibility. *Ian Lynagh*
 
-- Better **versioning** to support separate compilation; perhaps checksums/fingerprints. Already done!
-
-- Improvements to the **GHC API** (Thomas Schilling's SoC project)
+- **GHC API** improvement: **Thomas Schilling** is doing a SoC project.
 
 - GHC now uses **libffi** to implement parts of the FFI, replacing some of the home-grown and very architecture-specific code we had to do this.  Amongst other benefits, this will ease the task of porting GHC in the future.
 
