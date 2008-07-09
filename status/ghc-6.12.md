@@ -6,7 +6,12 @@ Here are our [ release plans for 6.8.3](http://www.haskell.org/pipermail/glasgow
 # Plans for GHC 6.10
 
 
-We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we hope to include, along with who is primarily responsible for delivering these promises.
+We expect to release GHC 6.10 around ICFP 2008.  
+
+- **Release candidate: Friday 19th September 2008.**
+
+
+Here are the big items that we hope to include, along with who is primarily responsible for delivering these promises.
 
 ## Things that are done already
 
