@@ -41,7 +41,7 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
   - C program (or Excel) that calls multiple Haskell functions gets just one copy of the RTS, rather than one per DLL as now.
   - Performance penalty, but too small to measure
 
-- **Back-end revamp**[back end](commentary/compiler/new-code-gen) (see also [\#1501](https://gitlab.haskell.org//ghc/ghc/issues/1501)).  John Dias is in charge.  For 6.10 we will make sure that the whole existing path still exists, so we can choose at a late date whether to rely on the new path or not.
+- **[Back-end revamp](commentary/compiler/new-code-gen)** (see also [\#1501](https://gitlab.haskell.org//ghc/ghc/issues/1501)).  John Dias is in charge.  For 6.10 we will make sure that the whole existing path still exists, so we can choose at a late date whether to rely on the new path or not.
 
 - **[ Type families](http://haskell.org/haskellwiki/GHC/Indexed_types)**, fully working. *Manuel Chakravarty and Simon PJ*
 
