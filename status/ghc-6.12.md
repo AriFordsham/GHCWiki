@@ -52,13 +52,13 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 - **[ Nested data parallelism](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)**, in some form. *Roman Leshchinskiy, Gabriele Keller, Manuel Chakravarty, Simon PJ*
 
-- Further **library reorganisation**, but with more attention paid to backward compatibility. *Ian Lynagh*
-
 - **GHC API** improvement: **Thomas Schilling** is doing a SoC project.  Preserve comments and pragmas, generic traversals ([\#1467](https://gitlab.haskell.org//ghc/ghc/issues/1467), [\#1886](https://gitlab.haskell.org//ghc/ghc/issues/1886), [GhcApiStatus](ghc-api-status)). We'll ship whatever Thomas has committed by then.
 
 - GHC now uses **libffi** to implement parts of the FFI, replacing some of the home-grown and very architecture-specific code we had to do this.  Amongst other benefits, this will ease the task of porting GHC in the future.
 
 - **Include cabal-install in the release** ([\#2385](https://gitlab.haskell.org//ghc/ghc/issues/2385)). **Ian Lynagh** will do this.
+
+- **Finish System.Process revamp** ([\#2233](https://gitlab.haskell.org//ghc/ghc/issues/2233))
 
 ## Lower priorities for 6.10
 
@@ -69,8 +69,6 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 - Binary package DB, or at least make the one-file-per package work ([\#593](https://gitlab.haskell.org//ghc/ghc/issues/593), [\#723](https://gitlab.haskell.org//ghc/ghc/issues/723), [\#2089](https://gitlab.haskell.org//ghc/ghc/issues/2089))
 
 - `^C` should raise an exception by default (also SIGPIPE, see [\#1619](https://gitlab.haskell.org//ghc/ghc/issues/1619), [\#2301](https://gitlab.haskell.org//ghc/ghc/issues/2301)). Nearly done!  But not quite complete if you fork another process.  This latter part is lower priority.
-
-- Finish System.Process revamp ([\#2233](https://gitlab.haskell.org//ghc/ghc/issues/2233))
 
 # Beyond 6.10
 
