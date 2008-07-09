@@ -29,6 +29,8 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 ## Things we plan to do for sure
 
+- **Ship the Haskell Library Platform** instead of 'extralibs'.  **Don and Duncan** are leading.
+
 - **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim), [\#2335](https://gitlab.haskell.org//ghc/ghc/issues/2335) (build problem)).  (**Ian Lynagh**: a few days.)
 
   - Build it with GHC (maybe ship it with GHC too)
