@@ -40,6 +40,22 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 - GHC now uses **libffi** to implement parts of the FFI, replacing some of the home-grown and very architecture-specific code we had to do this.  Amongst other benefits, this will ease the task of porting GHC in the future.
 
+## Temporary list of 6.10 priorities
+
+- Back-end revamp, remove mangler (see also [\#1501](https://gitlab.haskell.org//ghc/ghc/issues/1501))
+- shared libraries ([\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876))
+- Haddock 2 (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim), [\#2335](https://gitlab.haskell.org//ghc/ghc/issues/2335) (build problem))
+- encoding/decoding for Text I/O handles. Consensus was that Text I/O should always use the current locale encoding.
+- backwards compat
+- extensible exceptions
+- more library reorg ([\#1338](https://gitlab.haskell.org//ghc/ghc/issues/1338))
+- binary package DB, or at least make the one-file-per package work ([\#593](https://gitlab.haskell.org//ghc/ghc/issues/593), [\#723](https://gitlab.haskell.org//ghc/ghc/issues/723), [\#2089](https://gitlab.haskell.org//ghc/ghc/issues/2089))
+- <sup>C should raise an exception by default (also SIGPIPE, see [\#1619](https://gitlab.haskell.org//ghc/ghc/issues/1619), [\#2301](https://gitlab.haskell.org//ghc/ghc/issues/2301))
+  </sup>
+- initial GHC API improvements: preserve comments and pragmas, generic traversals ([\#1467](https://gitlab.haskell.org//ghc/ghc/issues/1467), [\#1886](https://gitlab.haskell.org//ghc/ghc/issues/1886), [GhcApiStatus](ghc-api-status))
+- include cabal-install in the release ([\#2385](https://gitlab.haskell.org//ghc/ghc/issues/2385))
+- finish System.Process revamp ([\#2233](https://gitlab.haskell.org//ghc/ghc/issues/2233))
+
 # Beyond 6.10
 
 
