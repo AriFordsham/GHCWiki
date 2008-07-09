@@ -50,8 +50,7 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 - extensible exceptions
 - more library reorg ([\#1338](https://gitlab.haskell.org//ghc/ghc/issues/1338))
 - binary package DB, or at least make the one-file-per package work ([\#593](https://gitlab.haskell.org//ghc/ghc/issues/593), [\#723](https://gitlab.haskell.org//ghc/ghc/issues/723), [\#2089](https://gitlab.haskell.org//ghc/ghc/issues/2089))
-- <sup>C should raise an exception by default (also SIGPIPE, see [\#1619](https://gitlab.haskell.org//ghc/ghc/issues/1619), [\#2301](https://gitlab.haskell.org//ghc/ghc/issues/2301))
-  </sup>
+- `^C` should raise an exception by default (also SIGPIPE, see [\#1619](https://gitlab.haskell.org//ghc/ghc/issues/1619), [\#2301](https://gitlab.haskell.org//ghc/ghc/issues/2301))
 - initial GHC API improvements: preserve comments and pragmas, generic traversals ([\#1467](https://gitlab.haskell.org//ghc/ghc/issues/1467), [\#1886](https://gitlab.haskell.org//ghc/ghc/issues/1886), [GhcApiStatus](ghc-api-status))
 - include cabal-install in the release ([\#2385](https://gitlab.haskell.org//ghc/ghc/issues/2385))
 - finish System.Process revamp ([\#2233](https://gitlab.haskell.org//ghc/ghc/issues/2233))
