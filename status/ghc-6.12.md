@@ -47,11 +47,9 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 - **[ Nested data parallelism](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)**, in some form. *Roman Leshchinskiy, Gabriele Keller, Manuel Chakravarty, Simon PJ*
 
-- **Substantial changes to the ** are likely, now that John Dias is here as an intern.n  *John Dias, Simon PJ, Norman Ramsey*
-
 - Further **library reorganisation**, but with more attention paid to backward compatibility. *Ian Lynagh*
 
-- Better **versioning** to support separate compilation; perhaps checksums/fingerprints.
+- Better **versioning** to support separate compilation; perhaps checksums/fingerprints. Already done!
 
 - Improvements to the **GHC API** (Thomas Schilling's SoC project)
 
