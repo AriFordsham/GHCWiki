@@ -41,7 +41,7 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 - **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.  **Ian Lynagh** is running a discussion, but we expect it to reach consensus in plenty of time for 6.10.
 
-- **Shared libraries**, as a result of Clemens Fruhwirth's Summer of Code project.  ([\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)) *Simon Marlow*
+- **Shared libraries**, as a result of Clemens Fruhwirth's Summer of Code project.  ([\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)) **Simon Marlow**: about a week's work.
 
   - Binaries get much smaller
   - Compile a package on Windows to a DLL; it just works
