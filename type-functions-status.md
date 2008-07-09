@@ -2,10 +2,6 @@
 
 # Type Functions: Implementation Status
 
-**Add to test suite:**
-
-- Add the program of [\#1900](https://gitlab.haskell.org//ghc/ghc/issues/1900) & [\#1999](https://gitlab.haskell.org//ghc/ghc/issues/1999) and [\#1834](https://gitlab.haskell.org//ghc/ghc/issues/1834) (but needs to use ghci)
-
 **Open bugs related to type families**
 
 - Well-formedness of declarations involving families:
@@ -38,6 +34,7 @@
 
 - GADT:
 
+  - [\#1999](https://gitlab.haskell.org//ghc/ghc/issues/1999) (barfs with corelint)
   - [\#2212](https://gitlab.haskell.org//ghc/ghc/issues/2212) (Assertion failure in `writeMetaTyVar` with -DDEBUG on gadt/equal; see also below)
   - [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (nested GADT constructors in patterns)
   - [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (incomplete deduction of evidence for class contexts in GADT constructors)
