@@ -55,13 +55,17 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 - GHC now uses **libffi** to implement parts of the FFI, replacing some of the home-grown and very architecture-specific code we had to do this.  Amongst other benefits, this will ease the task of porting GHC in the future.
 
-## Temporary list of 6.10 priorities
+## Lower priorities for 6.10
 
-- backwards compat
-- more library reorg ([\#1338](https://gitlab.haskell.org//ghc/ghc/issues/1338))
-- binary package DB, or at least make the one-file-per package work ([\#593](https://gitlab.haskell.org//ghc/ghc/issues/593), [\#723](https://gitlab.haskell.org//ghc/ghc/issues/723), [\#2089](https://gitlab.haskell.org//ghc/ghc/issues/2089))
-- `^C` should raise an exception by default (also SIGPIPE, see [\#1619](https://gitlab.haskell.org//ghc/ghc/issues/1619), [\#2301](https://gitlab.haskell.org//ghc/ghc/issues/2301))
-- initial GHC API improvements: preserve comments and pragmas, generic traversals ([\#1467](https://gitlab.haskell.org//ghc/ghc/issues/1467), [\#1886](https://gitlab.haskell.org//ghc/ghc/issues/1886), [GhcApiStatus](ghc-api-status))
+- Backwards compatibility: we're not sure what to do here.
+
+- More library reorg ([\#1338](https://gitlab.haskell.org//ghc/ghc/issues/1338)).  The goal here is to shift stuff out of boot-libs and into the Haskell Library Platform, which is independently upgradable.  Not hugely urgent, nice to have.
+
+- Binary package DB, or at least make the one-file-per package work ([\#593](https://gitlab.haskell.org//ghc/ghc/issues/593), [\#723](https://gitlab.haskell.org//ghc/ghc/issues/723), [\#2089](https://gitlab.haskell.org//ghc/ghc/issues/2089))
+
+- `^C` should raise an exception by default (also SIGPIPE, see [\#1619](https://gitlab.haskell.org//ghc/ghc/issues/1619), [\#2301](https://gitlab.haskell.org//ghc/ghc/issues/2301)). Nearly done!  But not quite complete if you fork another process.  This latter part is lower priority.
+
+- Initial GHC API improvements: preserve comments and pragmas, generic traversals ([\#1467](https://gitlab.haskell.org//ghc/ghc/issues/1467), [\#1886](https://gitlab.haskell.org//ghc/ghc/issues/1886), [GhcApiStatus](ghc-api-status))
 - include cabal-install in the release ([\#2385](https://gitlab.haskell.org//ghc/ghc/issues/2385))
 - finish System.Process revamp ([\#2233](https://gitlab.haskell.org//ghc/ghc/issues/2233))
 
