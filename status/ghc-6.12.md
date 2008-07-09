@@ -20,21 +20,21 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 - **External Core** (output only) is working again, thanks to Tim Chevalier.
 
-- **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim), [\#2335](https://gitlab.haskell.org//ghc/ghc/issues/2335) (build problem)).  (Ian: a few days.)
+- **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim), [\#2335](https://gitlab.haskell.org//ghc/ghc/issues/2335) (build problem)).  (**Ian**: a few days.)
 
   - Build it with GHC (maybe ship it with GHC too)
   - Documentation for GHC API done via Haddock 2
 
-- **Unicode support for text I/O**.  This means adding Unicode encoding/decoding for Text I/O handles.   (Simon M: a few days work.)
+- **Unicode support for text I/O**.  This means adding Unicode encoding/decoding for Text I/O handles.   (**Simon M**: a few days work.)
 
   - Consensus was that Text I/O should always use the current locale encoding.  
   - You can elect to have no encoding by opening in binary mode, but that's all.
 
-- **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.  *Simon Marlow*
+- **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.  *Ian Lynagh* is running a discussion, but we expect it to reach consensus in plenty of time for 6.10.
 
 - **Parallel garbage collection** (see [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  *Simon Marlow*
 
-- **Shared libraries**, as a result of Clemens Fruhwirth's Summer of Code project.  *Simon Marlow*
+- **Shared libraries**, as a result of Clemens Fruhwirth's Summer of Code project.  ([\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)) *Simon Marlow*
 
   - Binaries get much smaller
   - Compile a package on Windows to a DLL; it just works
@@ -59,15 +59,7 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 ## Temporary list of 6.10 priorities
 
-- shared libraries ([\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876))
-- Haddock 2 (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim), [\#2335](https://gitlab.haskell.org//ghc/ghc/issues/2335) (build problem))
-
-  - Build with GHC (maybe ship it with GHC too)
-  - Documentation for GHC API done via Haddock 2
-
-- encoding/decoding for Text I/O handles. Consensus was that Text I/O should always use the current locale encoding.
 - backwards compat
-- extensible exceptions
 - more library reorg ([\#1338](https://gitlab.haskell.org//ghc/ghc/issues/1338))
 - binary package DB, or at least make the one-file-per package work ([\#593](https://gitlab.haskell.org//ghc/ghc/issues/593), [\#723](https://gitlab.haskell.org//ghc/ghc/issues/723), [\#2089](https://gitlab.haskell.org//ghc/ghc/issues/2089))
 - `^C` should raise an exception by default (also SIGPIPE, see [\#1619](https://gitlab.haskell.org//ghc/ghc/issues/1619), [\#2301](https://gitlab.haskell.org//ghc/ghc/issues/2301))
