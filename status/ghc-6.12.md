@@ -15,8 +15,7 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
   - Quasiquotation
   - Generalised list comprehensions
 
->
-> These are all in the HEAD already.
+> **Done**: these are all in the HEAD already.
 
 - **External Core** (output only) is working again, thanks to Tim Chevalier.
 
@@ -32,7 +31,7 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 - **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.  **Ian Lynagh** is running a discussion, but we expect it to reach consensus in plenty of time for 6.10.
 
-- **Parallel garbage collection** (see [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  *Simon Marlow*
+- **Parallel garbage collection** (see [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  **Done**.
 
 - **Shared libraries**, as a result of Clemens Fruhwirth's Summer of Code project.  ([\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)) *Simon Marlow*
 
