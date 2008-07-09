@@ -25,6 +25,8 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 
 - Better **versioning** to support separate compilation; perhaps checksums/fingerprints. Already done!
 
+- GHC now uses **libffi** to implement parts of the FFI, replacing some of the home-grown and very architecture-specific code we had to do this.  Amongst other benefits, this will ease the task of porting GHC in the future. Done; but *maybe use it to solve the SE Linux paranoia problem?*
+
 ## Things we plan to do for sure
 
 - **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim), [\#2335](https://gitlab.haskell.org//ghc/ghc/issues/2335) (build problem)).  (**Ian Lynagh**: a few days.)
@@ -53,8 +55,6 @@ We expect to release GHC 6.10 around ICFP 2008.  Here are the big items that we 
 - **[ Nested data parallelism](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)**, in some form. *Roman Leshchinskiy, Gabriele Keller, Manuel Chakravarty, Simon PJ*
 
 - **GHC API** improvement: **Thomas Schilling** is doing a SoC project.  Preserve comments and pragmas, generic traversals ([\#1467](https://gitlab.haskell.org//ghc/ghc/issues/1467), [\#1886](https://gitlab.haskell.org//ghc/ghc/issues/1886), [GhcApiStatus](ghc-api-status)). We'll ship whatever Thomas has committed by then.
-
-- GHC now uses **libffi** to implement parts of the FFI, replacing some of the home-grown and very architecture-specific code we had to do this.  Amongst other benefits, this will ease the task of porting GHC in the future.
 
 - **Include cabal-install in the release** ([\#2385](https://gitlab.haskell.org//ghc/ghc/issues/2385)). **Ian Lynagh** will do this.
 
