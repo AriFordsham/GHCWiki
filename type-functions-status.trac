@@ -2,9 +2,6 @@
 
 = Type Functions: Implementation Status =
 
-'''Add to test suite:'''
- * Add the program of #1900 & #1999 and #1834 (but needs to use ghci)
-
 '''Open bugs related to type families'''
 
  * Well-formedness of declarations involving families:
