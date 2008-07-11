@@ -1,0 +1,66 @@
+= Support for Generic Ghc Api Ast Traversals =
+
+This Wiki page is a spin off of GhcApiStatus, focussing on information related to generic traversals (transformations/queries) over the Ghc Ast types.
+
+== `Data.Traversable` ==
+
+David Waern has been working on deriving `Data.Traversable` for the Ast types, to get `mapM` for use in Haddock 2. He points out that, by default, SYB-style traversals do not seem to support type-changing maps.
+
+== `Data.Generics` ==
+
+Since Ghc does support (standalone) deriving of `Data` and `Typeable`, it seems natural to want those classes instantiated for the Ghc Api types. In case that would lead to blowup of standard releases, it would be even better if those instances could be provided as an add-on to a release.
+
+- until recently, standalone deriving of `Data/Typeable` was broken (#2378, fixed in HEAD, 07/01/08)
+
+- standalone deriving of `Typeable` fails if data constructors are not in scope - this looks like a bug (#2433)
+
+- standalone deriving of `Data` fails if data constructors are not in scope - this means that `Data` instances are in conflict with the intended data abstraction for some Ghc Ast types!
+
+- using the internal CPP hackery of `Data.Generics` for `Typeable`, standalone deriving of `Data` for non-abstract types, and the traditional manual dummy `Data` instances for abstract types, it seems we can get initial `Data.Generics` support over the Ghc Ast types!
+
+- since I want to be able to identify the abstract types, I've replaced the traditional `toConstr _ = error "toConstr"`:
+{{{
+abstractConstr   n = mkConstr (abstractDataType n) ("{abstract:"++n++"}") [] Prefix
+abstractDataType n = mkDataType n [abstractConstr n]
+
+-- TypeableINSTANCE_TYPEABLE0(SrcSpan,srcSpanTc,"SrcSpan")
+instance Data SrcSpan where
+  toConstr _   = abstractConstr "SrcSpan"
+  gunfold _ _  = error "gunfold"
+  dataTypeOf _ = mkNorepType "SrcSpan"
+}}}
+  TODO: Is that ok, or is it going to cause problems?
+
+- putting all those instances in a single file seems to trigger a memory bug in the compiler (#2438), but splitting them into two files appears to avoid that. See the attached `Instances` and `Instances0`
+
+- for starters, here's a `Data`-based show that shows the constructors/abstract types instead of pretty-printing them:
+{{{
+showData :: Data a => Int -> a -> String
+showData n = generic `ext1Q` list `extQ` string 
+                     `extQ` occName `extQ` moduleName `extQ` srcSpan
+                     `extQ` postTcType `extQ` fixity
+  where generic :: Data a => a -> String
+        generic t = "\n" ++ replicate n ' ' 
+                 ++ "(" ++ showConstr (toConstr t)
+                 ++ space (concat (intersperse " " (gmapQ (showData (n+1)) t))) ++ ")"
+        space "" = ""
+        space s  = ' ':s
+        string     = show :: String -> String
+        list l     = "[" ++ concat (intersperse "," (map (showData (n+1)) l)) ++ "]"
+        occName    = ("{OccName: "++) . (++"}") .  OccName.occNameString 
+        srcSpan    = ("{"++) . (++"}") . showSDoc . ppr :: SrcSpan -> String
+        moduleName = ("{"++) . (++"}") . showSDoc . ppr :: ModuleName -> String
+        postTcType = const "{!type placeholder here?!}" :: PostTcType -> String
+        fixity     = const "{!fixity placeholder here?!}" :: GHC.Fixity -> String
+}}}
+  For example usage, see the attached `APISybTesting`: it parses a `TestModule`, prettyprints and shows, does an identity transform, and an example query (extract classes and family declarations).
+
+- some of the predefined instances in `Data.Generics.Instances` are dummies, preventing traversals of substructures or pretending that non-concrete types are `Data` - this should probably be changed by splitting that module and not re-exporting the dummy part from `Data.Generics` by default. See [http://www.haskell.org/pipermail/generics/2008-June/000347.html], [http://www.haskell.org/pipermail/generics/2008-June/000346.html], [http://www.haskell.org/pipermail/generics/2008-June/000342.html] for more info.
+
+- it seems as if the issue of type-changing traversals can be addressed within SYB, although those dummy instances cause trouble here.
+
+  - [http://www.haskell.org/pipermail/generics/2008-June/000343.html Traversable Functor Data,or: X marks the spot], a technique based on `gfoldl` plus one nasty and two non-nasty uses of `unsafeCoerce`. The nasty use interacts badly with the dummy instances.
+
+  - [http://www.haskell.org/pipermail/generics/2008-July/000349.html gMap in SYB1], a technique based on `gfoldl`, `gunfoldl`, and some Dynamic types in the middle. Avoids `unsafeCoerce`, and uses the fact that the dummy instances are slightly more honest about `gunfoldl` than about `gfoldl`, but `gMap` cannot distinguish functor parameters from equivalent types (no `fmap`) and its type is too general for direct use (runtime type errors instead of compile time type errors)
+
+  - [http://www.haskell.org/pipermail/generics/2008-July/000351.html], combining the advantages of the previous two techniques to define a `Data`-based `fmap`. The remaining uses of `unsafeCoerce` only distinguish the functor parameter type from equivalent types occuring elsewhere in the functor, so seem to be ok?
