@@ -51,9 +51,9 @@ There are also a few non-functional requirements:
   Would it be possible to separate the monolithic GHC API into two parts, one providing a simplified and stable subset/wrapper of commonly used functionality (as in Hint, hs-plugins, GHCi), the other providing all the rest, with no stability guarantees?
 - Is it possible to use standalone deriving to get a **generic
   programming framework over the ASTs** without blowing
-  up GHC's code for its own use (deriving Data, etc.)? (Claus Reinke)
+  up GHC's code for its own use (deriving Data, etc.)? (Claus Reinke) see: [GhcApiAstTraversals](ghc-api-ast-traversals)
 - David Waern mentions [ deriving \`Data.Traversable\`](http://www.haskell.org/pipermail/haskell-cafe/2008-May/042961.html) for GHC's AST
-- the need to hardcode the **GHC library directory in GHC API clients** is very fragile and troublesome (cf. the [ Haddock version during build](http://www.haskell.org/pipermail/cvs-libraries/2008-June/008942.html) thread on `cvs-ghc` for just one example). would it be possible to integrate the path for the compiling GHC as a default, so that one only needs to specify an explicit path if the default doesn't work (compiling GHC moved/unavailable)? (Claus Reinke)
+- the need to hardcode the **GHC library directory in GHC API clients** is very fragile and troublesome (cf. the [ Haddock version during build](http://www.haskell.org/pipermail/cvs-libraries/2008-June/008942.html) thread on `cvs-ghc` for just one example). would it be possible to integrate the path for the compiling GHC as a default, so that one only needs to specify an explicit path if the default doesn't work (compiling GHC moved/unavailable)? (Claus Reinke) this has been addressed by the new [ ghc-paths](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-paths) package
 - From `compiler/main/GHC.hs`:
 
   ```wiki
