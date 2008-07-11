@@ -2,8 +2,10 @@
 
 ## The pipeline: Make the new code generator work with the existing native codeGen
 
-- **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`). Parameter passing and stack adjustments are made explicit using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas)
+- **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`). 
 
+  - Parameter passing and stack adjustments are made explicit using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas)
+  - But we still have `LastCall`, `LastReturn`, `LastBranch` as `Last` nodes.
   - TODO Use the proper calling conventions (post Rep Swamp).
 
 - **Simple control flow optimisation**, implemented in `CmmContFlowOpt`:
