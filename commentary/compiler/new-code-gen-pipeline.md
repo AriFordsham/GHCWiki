@@ -5,7 +5,9 @@
 - **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`). 
 
   - Parameter passing and stack adjustments are made explicit using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas)
-  - But we still have `LastCall`, `LastReturn`, `LastBranch` as `Last` nodes.
+  - That includes a store of the return address.
+  - No `CopyIn`, `CopyOut` nodes any more; instead "smart constructors" lower the calling convention to loads/stores/register transfers, using stack area abstraction.
+  - But we still have `LastCall`, `LastReturn`, `LastBranch`, `LastJump` as `Last` nodes.
   - TODO Use the proper calling conventions (post Rep Swamp).
 
 - **Simple control flow optimisation**, implemented in `CmmContFlowOpt`:
@@ -20,6 +22,8 @@
 
   - The analysis produces a set of `BlockId` that should become proc-points
   - The transformation inserts a function prologue at the start of each proc-point, and a function epilogue just before each branch to a proc-point.
+  - No more `LastCall` nodes; instead they have turned into `LastB` nodes.
+  - *Perhpas*, not more `LastReturn` nodes.
 
 - **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The middle node of the result is `Middle` (from `ZipCfgCmm` extended with `Spill` and `Reload` constructors.  
   Invariant: (something like) all variables in a block are gotten from `CopyIn` or `Reload`. 
