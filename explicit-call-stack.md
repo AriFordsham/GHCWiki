@@ -6,7 +6,7 @@ There has been a vigorous thread on error attribution ("I get a `head []` error;
 
 See also
 
-- [\#1441](https://gitlab.haskell.org//ghc/ghc/issues/1441), which would be fixed by this.
+- [\#1441](https://gitlab.haskell.org//ghc/ghc/issues/1441), [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960), which would be fixed by this.
 - [ The Haskell cafe thread](http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html)
 - [ http://www.cse.unsw.edu.au/\~dons/loch.html](http://www.cse.unsw.edu.au/~dons/loch.html)
 - [ HAT](http://haskell.org/hat)
