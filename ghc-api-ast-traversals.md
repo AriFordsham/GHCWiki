@@ -42,20 +42,25 @@ Since Ghc does support (standalone) deriving of `Data` and `Typeable`, it seems 
 
   ```wiki
   showData :: Data a => Int -> a -> String
-  showData n = generic `ext1Q` list `extQ` string 
-                       `extQ` occName `extQ` moduleName `extQ` srcSpan
+  showData n = generic `ext1Q` list `extQ` string `extQ` bagName `extQ` bagRdrName
+                       `extQ` name `extQ` occName `extQ` moduleName `extQ` srcSpan
                        `extQ` postTcType `extQ` fixity
     where generic :: Data a => a -> String
-          generic t = "\n" ++ replicate n ' ' 
-                   ++ "(" ++ showConstr (toConstr t)
+          generic t = indent n ++ "(" ++ showConstr (toConstr t)
                    ++ space (concat (intersperse " " (gmapQ (showData (n+1)) t))) ++ ")"
           space "" = ""
           space s  = ' ':s
+          indent n = "\n" ++ replicate n ' ' 
           string     = show :: String -> String
-          list l     = "[" ++ concat (intersperse "," (map (showData (n+1)) l)) ++ "]"
+          list l     = indent n ++ "[" ++ concat (intersperse "," (map (showData (n+1)) l)) ++ "]"
+          name       = ("{Name: "++) . (++"}") . showSDoc . ppr :: Name -> String
           occName    = ("{OccName: "++) . (++"}") .  OccName.occNameString 
+          moduleName = ("{ModuleName: "++) . (++"}") . showSDoc . ppr :: ModuleName -> String
           srcSpan    = ("{"++) . (++"}") . showSDoc . ppr :: SrcSpan -> String
-          moduleName = ("{"++) . (++"}") . showSDoc . ppr :: ModuleName -> String
+          bagRdrName:: Bag (Located (HsBind RdrName)) -> String
+          bagRdrName = ("{Bag(Located (HsBind RdrName)): "++) . (++"}") . list . bagToList 
+          bagName   :: Bag (Located (HsBind Name)) -> String
+          bagName    = ("{Bag(Located (HsBind Name)): "++) . (++"}") . list . bagToList 
           postTcType = const "{!type placeholder here?!}" :: PostTcType -> String
           fixity     = const "{!fixity placeholder here?!}" :: GHC.Fixity -> String
   ```
