@@ -22,8 +22,6 @@
 
   - The analysis produces a set of `BlockId` that should become proc-points
   - The transformation inserts a function prologue at the start of each proc-point, and a function epilogue just before each branch to a proc-point.
-  - No more `LastCall` nodes; instead they have turned into `LastB` nodes.
-  - *Perhpas*, not more `LastReturn` nodes.
 
 - **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The middle node of the result is `Middle` (from `ZipCfgCmm` extended with `Spill` and `Reload` constructors.  
   Invariant: (something like) all variables in a block are gotten from `CopyIn` or `Reload`. 
@@ -36,6 +34,8 @@
   - Walk over the graph, replacing references to stack areas with offsets from the stack pointer.
 
 - **Split into multiple CmmProcs**.  At this point we build an info-table for each of the CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
+
+  - `LastCall` and `LastReturn` nodes are replaced by `Jump`s.
 
 **The Adams optimisation** is done by stuff above.  Given:
 
