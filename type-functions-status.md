@@ -10,7 +10,6 @@
 
     - Need to check the result types of the data constructors, probably in `checkValidDataCon`.
     - `tcFamInstDecl1` needs to allow family GADT instances.
-  - [\#2157](https://gitlab.haskell.org//ghc/ghc/issues/2157) (solution: lhs of type instances may not contain partially applied vanilla type synonyms)
   - Allow repeated variable occurrences in lhses of type instances (see paper).
   - Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page.
   - Test`Simple8`:
