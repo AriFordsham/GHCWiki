@@ -38,17 +38,17 @@ There are also a few non-functional requirements:
 
 == Various Ideas, Comments, Questions ==
 
- * '''Interface Stability''' - Is there a way to reduce version-skew for clients of the GHC
-   API (currently, there is no stability guaranteed at all, so if you
-   don't want to live with lots of #ifdefs and breakage, you keep
-   delaying your fantastic GHC API-base projects "until the dust
-   settles") (Claus Reinke) 
-   Would it be possible to separate the monolithic GHC API into two parts, one providing a simplified and stable subset/wrapper of commonly used functionality (as in Hint, hs-plugins, GHCi), the other providing all the rest, with no stability guarantees?
- * Is it possible to use standalone deriving to get a '''generic
-   programming framework over the ASTs''' without blowing
-   up GHC's code for its own use (deriving Data, etc.)? (Claus Reinke) see: GhcApiAstTraversals
- * David Waern mentions [http://www.haskell.org/pipermail/haskell-cafe/2008-May/042961.html deriving `Data.Traversable`] for GHC's AST
- * the need to hardcode the '''GHC library directory in GHC API clients''' is very fragile and troublesome (cf. the [http://www.haskell.org/pipermail/cvs-libraries/2008-June/008942.html Haddock version during build] thread on `cvs-ghc` for just one example). would it be possible to integrate the path for the compiling GHC as a default, so that one only needs to specify an explicit path if the default doesn't work (compiling GHC moved/unavailable)? (Claus Reinke) this has been addressed by the new [http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-paths ghc-paths] package
+ * '''Interface Stability''' 
+   - Is there a way to reduce version-skew for clients of the GHC API (currently, there is no stability guaranteed at all, so if you don't want to live with lots of #ifdefs and breakage, you keep delaying your fantastic GHC API-base projects "until the dust settles") (Claus Reinke)
+   - Would it be possible to separate the monolithic GHC API into two parts, one providing a simplified and stable subset/wrapper of commonly used functionality (as in Hint, hs-plugins, GHCi), the other providing all the rest, with no stability guarantees? (Claus Reinke)
+ * '''Ast Traversals/Queries''', see: GhcApiAstTraversals
+   - Is it possible to use standalone deriving to get a '''generic programming framework over the ASTs''' without blowing up GHC's code for its own use (deriving Data, etc.)? (Claus Reinke)
+   - David Waern mentions [http://www.haskell.org/pipermail/haskell-cafe/2008-May/042961.html deriving `Data.Traversable`] for GHC's AST
+ * '''GHC library directory in GHC API clients'''
+   - the need to hardcode the libdir is very fragile and troublesome (cf. the [http://www.haskell.org/pipermail/cvs-libraries/2008-June/008942.html Haddock version during build] thread on `cvs-ghc` for just one example). would it be possible to integrate the path for the compiling GHC as a default, so that one only needs to specify an explicit path if the default doesn't work (compiling GHC moved/unavailable)? (Claus Reinke) 
+   - this has been addressed by the new [http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-paths ghc-paths] package
+ * '''binary incompatibility of GHC versions'''
+   - this also affects GHC Api clients, see [http://www.haskell.org/pipermail/cvs-ghc/2008-July/043568.html the Haddock 2 in GHC build issues] for an infamous example
  * From {{{compiler/main/GHC.hs}}}:
 {{{
 -- NOTE:
@@ -69,6 +69,7 @@ There are also a few non-functional requirements:
    anyway, but it would be nice to have the ugly bits hidden,
    such as {{{unsafeCast#}}}, or whatever it was). that might require
    a standard for typeReps, if I recall correctly.. (Claus Reinke)
+ * since the refactoring ideas below mention error handling: it appears that some GHC Api functions output error messages directly, without providing a means to handle/capture them in callers. I ran into one such instance a while ago (#1463, comments 8, 10, 11)
  * ... more comments here ...
  
 == Refactoring Ideas ==
