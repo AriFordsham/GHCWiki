@@ -41,28 +41,49 @@ Since Ghc does support (standalone) deriving of `Data` and `Typeable`, it seems 
 - for starters, here's a `Data`-based show that shows the constructors/abstract types instead of pretty-printing them:
 
   ```wiki
-  showData :: Data a => Int -> a -> String
-  showData n = generic `ext1Q` list `extQ` string `extQ` bagName `extQ` bagRdrName
-                       `extQ` name `extQ` occName `extQ` moduleName `extQ` srcSpan
-                       `extQ` postTcType `extQ` fixity
+  -- generic Data-based show, with special cases for GHC Ast types,
+  -- showing abstract types abstractly and avoiding known potholes
+  showData :: Data a => Stage -> Int -> a -> String
+  showData stage n = 
+    generic `ext1Q` list `extQ` string `extQ` fastString `extQ` srcSpan 
+            `extQ` name `extQ` occName `extQ` moduleName `extQ` var `extQ` dataCon
+            `extQ` bagName `extQ` bagRdrName `extQ` bagVar `extQ` nameSet
+            `extQ` postTcType `extQ` fixity
     where generic :: Data a => a -> String
           generic t = indent n ++ "(" ++ showConstr (toConstr t)
-                   ++ space (concat (intersperse " " (gmapQ (showData (n+1)) t))) ++ ")"
+                   ++ space (concat (intersperse " " (gmapQ (showData stage (n+1)) t))) ++ ")"
           space "" = ""
           space s  = ' ':s
           indent n = "\n" ++ replicate n ' ' 
           string     = show :: String -> String
-          list l     = indent n ++ "[" ++ concat (intersperse "," (map (showData (n+1)) l)) ++ "]"
+          fastString = ("{FastString: "++) . (++"}") . show :: FastString -> String
+          list l     = indent n ++ "[" 
+                                ++ concat (intersperse "," (map (showData stage (n+1)) l)) ++ "]"
+
           name       = ("{Name: "++) . (++"}") . showSDoc . ppr :: Name -> String
           occName    = ("{OccName: "++) . (++"}") .  OccName.occNameString 
           moduleName = ("{ModuleName: "++) . (++"}") . showSDoc . ppr :: ModuleName -> String
           srcSpan    = ("{"++) . (++"}") . showSDoc . ppr :: SrcSpan -> String
+          var        = ("{Var: "++) . (++"}") . showSDoc . ppr :: Var -> String
+          dataCon    = ("{DataCon: "++) . (++"}") . showSDoc . ppr :: DataCon -> String
+
           bagRdrName:: Bag (Located (HsBind RdrName)) -> String
           bagRdrName = ("{Bag(Located (HsBind RdrName)): "++) . (++"}") . list . bagToList 
           bagName   :: Bag (Located (HsBind Name)) -> String
           bagName    = ("{Bag(Located (HsBind Name)): "++) . (++"}") . list . bagToList 
-          postTcType = const "{!type placeholder here?!}" :: PostTcType -> String
-          fixity     = const "{!fixity placeholder here?!}" :: GHC.Fixity -> String
+          bagVar    :: Bag (Located (HsBind Var)) -> String
+          bagVar     = ("{Bag(Located (HsBind Var)): "++) . (++"}") . list . bagToList 
+
+          nameSet | stage `elem` [Parser,TypeChecker] 
+                  = const ("{!NameSet placeholder here!}") :: NameSet -> String
+                  | otherwise     
+                  = ("{NameSet: "++) . (++"}") . list . nameSetToList 
+
+          postTcType | stage<TypeChecker = const "{!type placeholder here?!}" :: PostTcType -> String
+                     | otherwise     = showSDoc . ppr :: Type -> String
+
+          fixity | stage<Renamer = const "{!fixity placeholder here?!}" :: GHC.Fixity -> String
+                 | otherwise     = ("{Fixity: "++) . (++"}") . showSDoc . ppr :: GHC.Fixity -> String
   ```
 
   For example usage, see the attached `APISybTesting`: it parses a `TestModule`, prettyprints and shows, does an identity transform, and an example query (extract classes and family declarations).
