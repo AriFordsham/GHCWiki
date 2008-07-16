@@ -22,6 +22,10 @@ Utilities (Binutils), GNU debugger (Gdb), GNU make, and assorted
 other utilities. 
 
 
+GHC requires both the MinGW "core system" (a C compiler + other essential stuff)
+and the g++ system (required by libffi) to be installed. 
+
+
 The down-side of MinGW is that the MinGW libraries do not support anything like the full
 Posix interface.  
 
