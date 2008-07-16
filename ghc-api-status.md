@@ -115,3 +115,6 @@ There follow some notes about desirable refactorings, mainly around [compiler/ma
   - More error information than a simple `Nothing`.
   - Errors can be handled in one place rather than case matching after each API call
   - ToDo: evaluate role of `log_action`
+- Functions that previously worked on a `Session` are now in `Ghc`.  `newSession` is now `withGhc` which is the exported run function for the `Ghc` monad.
+- `parseStaticFlags` has been removed, the functionality is now integrated with `withGhc`.  Before users had to be really careful in what order to call functions.
+- ATM, most things that import `GHC.hs` are broken due to the monadification.
