@@ -124,6 +124,12 @@ OK. Others are probably OK too (assuming we don't create too
 elaborate configure scripts.)
 </td></tr></table>
 
+<table><tr><th>`diff`</th>
+<td>
+Most installations should have this by default, but inexplicably 
+Cygwin does not bundle it by default.
+</td></tr></table>
+
 <table><tr><th>Python</th>
 <td>
 Required for [running the testsuite](building/running-tests).
