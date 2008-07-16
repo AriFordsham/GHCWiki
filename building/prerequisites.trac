@@ -111,6 +111,10 @@ are missing something.  If you're on a Linux system, skip to "Preparing a Linux 
   OK. Others are probably OK too (assuming we don't create too
   elaborate configure scripts.)
 
+ {{{diff}}}::
+  Most installations should have this by default, but inexplicably 
+  Cygwin does not bundle it by default.
+
  Python::
   Required for [wiki:Building/RunningTests running the testsuite].
   Version 2.5.2 or later is preferred, because you'll get support for
