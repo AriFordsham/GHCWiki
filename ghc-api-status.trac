@@ -95,3 +95,11 @@ There follow some notes about desirable refactorings, mainly around [[GhcFile(co
  * `mi_globals` is in the wrong place: it is not part of the interface.  The reason it is where it is is because
    we need to keep it when a module is considered for compilation but not recompiled; when we generate the
    `ModDetails` from the `ModIface`.  ToDo: find a better place to put it.
+
+== Change Log ==
+
+ * introduced the {{{Ghc}}} monad which is (currently) defined as {{{Session -> IO (Either GhcError a)}}} where Session is mutabe.  This improves the following:
+    * API functions no longer need to pass around sessions explicitly.  The single-threaded usage of a session is enforced.
+    * More error information than a simple {{{Nothing}}}.
+    * Errors can be handled in one place rather than case matching after each API call
+    * ToDo: evaluate role of {{{log_action}}}
