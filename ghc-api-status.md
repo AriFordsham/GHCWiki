@@ -118,3 +118,11 @@ There follow some notes about desirable refactorings, mainly around [compiler/ma
 - Functions that previously worked on a `Session` are now in `Ghc`.  `newSession` is now `withGhc` which is the exported run function for the `Ghc` monad.
 - `parseStaticFlags` has been removed, the functionality is now integrated with `withGhc`.  Before users had to be really careful in what order to call functions.
 - ATM, most things that import `GHC.hs` are broken due to the monadification.
+
+## Open Issues
+
+- Which operations should automatically call `clearWarnings`?
+- Get Haddock to work.
+- Error handling strategy.
+- Remove `compileToCore` (it says it's there for backwards compatibility only)
+- What's the deal with `SuccessFlag`?  Shouldn't that be `Either SomeError ()`?
