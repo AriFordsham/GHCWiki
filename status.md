@@ -1,5 +1,10 @@
 # GHC Status
 
+## Releases
+
+
+Here are our plans for the next GHC release?.
+
 ## Biannual status reports
 
 
