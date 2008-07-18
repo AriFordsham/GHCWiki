@@ -81,7 +81,7 @@ Advantages:
 
 - Speed
 - Very similar workflow possible: `git add --patch`, `git cherry-pick`, and others
-- Some operations become feasible (bisect, changes)
+- Some operations become feasible (bisect, annotate)
 - Many helper tools
 
 
