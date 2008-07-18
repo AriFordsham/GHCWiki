@@ -1,7 +1,3 @@
-= Plans for 6.8.3 =
-
-Here are our [http://www.haskell.org/pipermail/glasgow-haskell-users/2008-March/014467.html release plans for 6.8.3]
-
 = Plans for GHC 6.10 =
 
 We expect to release GHC 6.10 around ICFP 2008.  
