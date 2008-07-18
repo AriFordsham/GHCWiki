@@ -80,11 +80,16 @@ Advantages:
   
 
 - Speed
+- Very similar workflow possible: `git add --patch`, `git cherry-pick`, and others
+- Some operations become feasible (bisect, changes)
+- Many helper tools
 
 
 Disadvantages:
 
+- Complex command set?  (Though, it should be possible to find replacements for the darcs commands and be happy.) 
 - Lack of good Windows support?
+- bisect support would require git modules to also pick the correct version of libraries.  Keeping this in sync is not easy, atm.
 
 ### Bzr
 
@@ -171,4 +176,3 @@ Posts/blogs:
 - [ cgit = super-fast](http://community.livejournal.com/evan_tech/236528.html)
 - [ How I stopped missing Darcs and started loving Git](http://blog.moertel.com/articles/2007/12/10/how-i-stopped-missing-darcs-and-started-loving-git)
 - [ Thomas Schilling converts the GHC tree to Git](http://nominolo.blogspot.com/2008/05/thing-that-should-not-be-or-how-to.html)
-- [ Thomas' clone of GHC at GitHub](http://github.com/nominolo/ghc/tree)
