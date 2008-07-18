@@ -84,6 +84,7 @@ Disadvantages:
  * Complex command set?  (Though, it should be possible to find replacements for the darcs commands and be happy.) 
  * Lack of good Windows support?
  * bisect support would require git modules to also pick the correct version of libraries.  Keeping this in sync is not easy, atm.
+ * uses its own protocol for network transmission (http works but is slower, however, other hosting services are available, e.g., github)
 
 === Bzr ===
 
