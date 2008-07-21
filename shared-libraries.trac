@@ -74,7 +74,7 @@ When building an object file for a library, libtool builds both the PIC and non-
 
 When building a library, libtool builds both the shared and static version, and remembers where the shared version will be installed later (you have to supply this path when building the library).
 
-When building an executable against shared libraries, libtool creates a script instead.  The script relinks the executable against uninstalled shared libraries (using `-rpath` on Linux) on demand, caches the resulting executable in `.libs`.
+When building an executable against shared libraries, libtool links the executable with no paths embedded (for installation), and stores this in `.libs`.  It also creates a script for running the program in-place.  The script relinks the executable against uninstalled shared libraries (using `-rpath` on Linux) on demand, caches the resulting executable in `.libs`.
 
 = Platform support for locating shared libraries =
 
