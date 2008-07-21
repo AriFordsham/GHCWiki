@@ -126,3 +126,15 @@ There follow some notes about desirable refactorings, mainly around [compiler/ma
 - Error handling strategy.
 - Remove `compileToCore` (it says it's there for backwards compatibility only)
 - What's the deal with `SuccessFlag`?  Shouldn't that be `Either SomeError ()`?
+- Comment in HscTypes:
+
+  ```wiki
+  -- If the module does come from the home package, why do we look in the PIT as well?
+  -- (a) In OneShot mode, even home-package modules accumulate in the PIT
+  -- (b) Even in Batch (--make) mode, there is *one* case where a home-package
+  --     module is in the PIT, namely GHC.Prim when compiling the base package.
+  -- We could eliminate (b) if we wanted, by making GHC.Prim belong to a package
+  -- of its own, but it doesn't seem worth the bother.
+  ```
+
+  We now have a separate `ghc-prim` package.  Should we eliminate (b) then?
