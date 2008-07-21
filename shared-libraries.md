@@ -78,7 +78,16 @@ ToDo: Windows?
 ## 3. libtool
 
 
-ToDo: can someone explain how libtool works and how we can use it?
+libtool hides the building of shared and static libraries and executables behind a single simple command-line interface.  It hides the details of how to build executables against uninstalled shared libraries, and how to install those executables, on multiple platforms.
+
+
+When building an object file for a library, libtool builds both the PIC and non-PIC versions.
+
+
+When building a library, libtool builds both the shared and static version, and remembers where the shared version will be installed later (you have to supply this path when building the library).
+
+
+When building an executable against shared libraries, libtool creates a script instead.  The script relinks the executable against uninstalled shared libraries (using `-rpath` on Linux) on demand, caches the resulting executable in `.libs`.
 
 # Platform support for locating shared libraries
 
