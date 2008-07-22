@@ -20,6 +20,7 @@ Coercions `co` are either wanteds (represented by a flexible type variable) or g
 
 == Normalisation ==
 
+ * Perform Rule Triv as part of normalisation.
  * Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
 
 == Termination ==
