@@ -14,9 +14,9 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
  * '''x86'''
    * Windows (targetting [http://www.mingw.org mingw]): [mailto:sof@galois.com Sigbjorn Finne]
    * Windows (targetting [http://www.cygwin.com Cygwin]): Position open; port bitrotted
-   * Linux (generic): [mailto:simonmar@microsoft.com Simon Marlow],
+   * Linux (generic): [mailto:marlowsd@gmail.com Simon Marlow],
      [mailto:simonpj@microsoft.com Simon Peyton Jones]
-   * FreeBSD: [mailto:simonmar@microsoft.com Simon Marlow],[mailto:obraun@FreeBSD.org Oliver Braun],[mailto:vs@FreeBSD.org Volker Stolz]
+   * FreeBSD: [mailto:marlowsd@gmail.com Simon Marlow],[mailto:obraun@FreeBSD.org Oliver Braun],[mailto:vs@FreeBSD.org Volker Stolz]
    * OpenBSD: [mailto:kili@openbsd.org Matthias Kilian]
    * SuSE Linux/x86 packages: [mailto:sven.panne@aedion.de Sven Panne],[mailto:ralf@informatik.uni-bonn.de Ralf Hinze]
    * Gentoo Linux/x86 packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
@@ -39,7 +39,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Debian GNU/Linux/sparc packages: [mailto:igloo@debian.org Ian Lynagh]
 
  * '''x86_64'''
-   * Linux: [mailto:simonmar@microsoft.com Simon Marlow]
+   * Linux: [mailto:marlowsd@gmail.com Simon Marlow]
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/amd64 packages: [mailto:igloo@debian.org Ian Lynagh]
    * OpenBSD: [mailto:kili@openbsd.org Matthias Kilian]
@@ -106,7 +106,7 @@ and a short description of what they're doing or have done.
  * [mailto:andres@cs.uu.nl Andres Loeh]
  * [mailto:desrt@desrt.ca Ryan Lortie] (PowerPC Linux port, packages)
  * [mailto:igloo@earth.li Ian Lynagh] (GHC support engineer, Debian packages)
- * [mailto:simonmar@microsoft.com Simon Marlow] (GHC developer, x86_64 port, SMP support)
+ * [mailto:marlowsd@gmail.com Simon Marlow] (GHC developer, x86_64 port, SMP support)
  * [mailto:john@repetae.net John Meacham]
  * [mailto:ross@soi.city.ac.uk Ross Paterson]
  * [mailto:Sven.Panne@aedion.de Sven Panne]
