@@ -55,6 +55,8 @@ The details of the implementation are split over a couple of subpages, due to th
  * [wiki:TypeFunctionsCore desugaring,] and
  * [wiki:TypeFunctionsIface interfaces.]
 
+Furthermore, we have
+ * [wiki:TypeFunctionsSolving details on the normalisation and solving of type equalities.]
 
 == References ==
 
