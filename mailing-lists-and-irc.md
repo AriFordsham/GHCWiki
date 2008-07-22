@@ -19,4 +19,4 @@ Checkins for packages are reported on the [ cvs-libraries mailing list](http://w
 GHC developers also hang out on `#ghc` channel on [ FreeNode](http://freenode.net/).  This is a good place to ask questions related to working on GHC itself; if you have more general questions then `#haskell` is probably more appropriate.
 
 
-We hold a weekly meeting in the `#ghc` IRC channel, at 15:00 UTC on Wednesdays.  Everyone is welcome!  The GHC developers will be discussing current issues related to GHC, and we're happy to field questions and comments from users.
+We hold a weekly meeting in the `#ghc` IRC channel for developers and users of GHC, see [IRC_Meetings](irc-meetings).
