@@ -63,6 +63,11 @@ The details of the implementation are split over a couple of subpages, due to th
 - [desugaring,](type-functions-core) and
 - [interfaces.](type-functions-iface)
 
+
+Furthermore, we have
+
+- [details on the normalisation and solving of type equalities.](type-functions-solving)
+
 ## References
 
 - [ Associated Types with Class.](http://www.cse.unsw.edu.au/~chak/papers/CKPM05.html) Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones, and Simon Marlow. In Proceedings of The 32nd Annual ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL'05), ACM Press, pages 1-13, 2005.
