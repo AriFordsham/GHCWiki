@@ -30,7 +30,8 @@ Coercions `co` are either wanteds (represented by a flexible type variable) or g
 ## Solving
 
 - (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables.)
-- (Local) only applies to normalised equalities in Form (2) & (3) - and currently also only to local equalities, not to wanteds.  After an **exhaustive** application of (Local), the rewrite rule can be discarded
+- (Local) only applies to normalised equalities in Form (2) & (3) - and currently also only to local equalities, not to wanteds.  In principle, a rewrite rule could be discarded after an exhaustive application of (Local).  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint.
+- (IdenticalLHS) I don't think it is useful to apply that rule when both equalities are wanted, which makes it a variant of (Local).
 
 ## Termination
 
