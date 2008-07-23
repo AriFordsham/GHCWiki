@@ -28,9 +28,11 @@ Coercions `co` are either wanteds (represented by a flexible type variable) or g
 == Solving ==
 
  * (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables.)
- * (Local) only applies to normalised equalities in Form (2) & (3) - and currently also only to local equalities, not to wanteds.  In principle, a rewrite rule could be discarded after an exhaustive application of (Local).  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint.
+ * (Local) only applies to normalised equalities in Form (2) & (3) - and currently also only to local equalities, not to wanteds.  In principle, a rewrite rule could be discarded after an exhaustive application of (Local).  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint, and hence, need to keep all local equalities around.  NB: (Local) -for Forms (2) & (3)- is the most expensive rule as it needs to traverse all type terms.
  * (IdenticalLHS) I don't think it is useful to apply that rule when both equalities are wanted, which makes it a variant of (Local).
 
+Observation:
+ * Only (Local) when replacing a variable in the ''left-hand side'' of an equality of Form (1) can  lead to recursion with (Top).
 
 == Termination ==
 
@@ -76,7 +78,7 @@ v ~ [a], F v ~ a ||-
 QED
 }}}
 
-Derivation our modified rules:
+Derivation with modified rules:
 {{{
 [F v] ~ v  ||-  [F v] ~ v
 ==> normalise
