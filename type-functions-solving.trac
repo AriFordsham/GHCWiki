@@ -22,12 +22,14 @@ Coercions `co` are either wanteds (represented by a flexible type variable) or g
 
  * Perform Rule Triv as part of normalisation.
  * Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
+ * Use flexible tyvars for flattening of locals, too.
 
 
 == Solving ==
 
- * (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.
- * (Local) only applies to normalised equalities in Form (2) & (3).  After an application of (Local), the rewrite rule can be discarded
+ * (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables.)
+ * (Local) only applies to normalised equalities in Form (2) & (3) - and currently also only to local equalities, not to wanteds.  After an '''exhaustive''' application of (Local), the rewrite rule can be discarded
+
 
 == Termination ==
 
