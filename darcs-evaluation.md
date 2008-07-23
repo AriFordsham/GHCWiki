@@ -125,6 +125,11 @@ darcs revert -a
 # Now file contains lines 1,2,3,5,6,7,9
 ```
 
+### amend-record
+
+
+So, you make your lovely patch, it all looks good, so you record it. Then you do a build to make sure it works, and during the build or testsuite run you find that the patch wasn't quite right after all. You could just add a little 2-line patch, but that isn't very pleasant: It's nice if, as far as possible, all intermediate compiler states are buildable. Also, people might pull the first patch but not the second when cherry-picking, leading to head-scratching down the line. It's much nicer to be able to just amend-record the fix into your original patch.
+
 ## Darcs alternatives still in the running
 
 ### Mercurial
