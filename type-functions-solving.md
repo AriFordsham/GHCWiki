@@ -23,6 +23,51 @@ Coercions `co` are either wanteds (represented by a flexible type variable) or g
 
 ## Normalisation
 
+
+(Ignoring the coercions for the moment.)
+
+```wiki
+norm [[F s1..sn ~ t]] = [[F s1'..sn' ~ t']] : eqs1++..++eqsn++eqt
+  where
+    (s1', eqs1) = flatten s1
+    ..
+    (sn', eqsn) = flatten sn
+    (t', eqt)   = flatten t
+norm [[t ~ F s1..sn]] = norm [[F s1..sn ~ t]]
+norm [[s ~ t]] = check [[s' ~ t']] : eqs++eqt
+  where
+    (s', eqs) = flatten s
+    (t', eqt) = flatten t
+
+check [[t ~ t]] = []
+check [[x ~ t]] | x `occursIn` t = fail
+                          | otherwise = [[x ~ t]]
+check [[t ~ x]] | x `occursIn` t = fail
+                          | otherwise = [[x ~ t]]
+check [[a ~ t]] | a `occursIn` t = fail
+                          | otherwise = [[a ~ t]]
+check [[t ~ a]] | a `occursIn` t = fail
+                          | otherwise = [[a ~ t]]
+check [[s1 s2 ~ t1 t2]] = check [[s1 ~ t1]] ++ check [[s2 ~ t2]]
+check [[T ~ S]] = fail
+
+flatten [[F t1..tn]] = (x, [[F t1'..tn' ~ x]] : eqt1++..++eqtn)
+  where
+    (t1', eqt1) = flatten t1
+    ..
+    (tn', eqtn) = flatten tn
+    NEW x
+    -- also need to add x := F t1'..tn'
+flatten [[t1 t2]] = (t1' t2', eqs++eqt)
+  where
+    (t1', eqs) = flatten t1
+    (t2', eqt) = flatten t2
+flatten t = (t, [])
+```
+
+
+Notes:
+
 - Perform Rule Triv as part of normalisation.
 - Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
 - Use flexible tyvars for flattening of locals, too.  (We have flexibles in locals anyway and don't use (Unify) on locals, so the flexibles shouldn't cause any harm, but the elimination of skolems is much easier for flexibles - we just instantiate them.)
