@@ -42,10 +42,15 @@ On the 23rd July 2008 an IRC meeting on the \#ghc channel decided to make a seri
 - More investigation of the Mercurial option for GHC is needed, especially in light of reported poor support for Windows with Git. This
   work is ongoing
 
-## Darcs alternatives still in the running
+## Important workflows
 
 
-ToDo.  Compare workflows using darcs with the same workflow in other systems.  Igloo suggested one basis for comparison:
+ToDo.  Compare workflows using darcs with the same workflow in other systems.
+
+### Cherry-picking patches
+
+
+This is how we maintain the stable GHC branch. Particular fixes are pulled from the HEAD. When the desired patches don't depend on undesired patches, darcs takes care of this automatically, as demonstrated below. Otherwise, with darcs, the patch has to be merged by hand.
 
 ```wiki
     # Make a repo with a single file with lines 1,3,5,7 in
@@ -83,8 +88,7 @@ ToDo.  Compare workflows using darcs with the same workflow in other systems.  I
     # repo2's and repo3's file now contains lines 1,3,4,5,7
 ```
 
-
-This workflow is going to favour darcs over everything else, because of the cherrypicking.  Before you put too much faith in it, it would be good to ask how often people really cherrypick, and why they don't seem to miss it in other systems.
+## Darcs alternatives still in the running
 
 ### Mercurial
 
