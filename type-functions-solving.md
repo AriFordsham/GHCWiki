@@ -25,7 +25,8 @@ Coercions `co` are either wanteds (represented by a flexible type variable) or g
 
 - Perform Rule Triv as part of normalisation.
 - Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
-- Use flexible tyvars for flattening of locals, too.
+- Use flexible tyvars for flattening of locals, too.  (We have flexibles in locals anyway and don't use (Unify) on locals, so the flexibles shouldn't cause any harm, but the elimination of skolems is much easier for flexibles - we just instantiate them.)
+- Do we need to record a skolem elimination substitution for skolems introduced during flattening for wanteds, too?
 
 ## Solving
 
@@ -90,7 +91,51 @@ QED
 ```
 
 
-Derivation with modified rules:
+Same, but de-prioritise (Local) rewriting with equalities of Forms (2) & (3):
+
+```wiki
+[F v] ~ v  ||-  [F v] ~ v
+==> normalise
+v ~ [a], F v ~ a  ||-  v ~ [x], F v ~ x
+a := F v
+==> (Local) with F v
+v ~ [a], F v ~ a  ||-  v ~ [x], x ~ a
+==> (Unify)
+v ~ [a], F v ~ a  ||-  v ~ [a]
+==> (Local) with v
+v ~ [a], F [a] ~ a ||- [a] ~ [a]
+==> normalise
+v ~ [a], F [a] ~ a ||-
+QED
+```
+
+
+Problem is that we still fail to terminate for unsatisfiable queries:
+
+```wiki
+[F v] ~ v  ||-  [G v] ~ v
+==> normalise
+v ~ [a], F v ~ a  ||-  v ~ [x], G v ~ x
+a := F v
+==> (Local) with v
+F [a] ~ a  ||-  [a] ~ [x], G [a] ~ x
+==> normalise
+F [a] ~ a  ||-  x ~ a, G [a] ~ x
+==> (Unify)
+F [a] ~ a  ||-  G [a] ~ a
+==> (Top)
+[F a] ~ a  ||-  G [a] ~ a
+==> normalise
+a ~ [b], F a ~ b  ||-  G [a] ~ a
+b := F a
+..and so on..
+```
+
+
+Is the algorithm semi-decidable?
+
+
+Derivation when normalisation of locals uses flexible tyvars, too - simulates the effect of (SkolemOccurs):
 
 ```wiki
 [F v] ~ v  ||-  [F v] ~ v
@@ -111,3 +156,6 @@ x1 ~ [y2], F x1 ~ y2  ||-  x1 ~ [y1], F x1 ~ y1
 ** x1 := F v, y2 := F x1
 ..we stop here if (Local) doesn't apply to flexible tyvars
 ```
+
+
+Problem is that with rank-n signatures, we do want to use (Local) with flexible tyvars.
