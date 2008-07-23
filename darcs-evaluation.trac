@@ -107,6 +107,45 @@ git checkout branch1
 git cherry-pick <commit-id from above>
 }}}
 
+Mercurial:
+{{{
+# Make a repo with a single file with lines 1,3,5,7 in
+
+mkdir repo1
+cd repo1
+hg init
+printf 'Line1\nLine3\nLine5\nLine7\n' > file
+hg commit --addremove -m patch1 -u igloo@earth.li
+cd ..
+
+# Check out 2 copies of the repo
+
+hg clone repo1 repo2
+hg clone repo1 repo3
+
+# Add a patch that adds lines 2 and 6, then another that adds line 4
+
+cd repo1
+printf 'Line1\nLine2\nLine3\nLine5\nLine6\nLine7\n' > file
+hg commit -m patch2
+printf 'Line1\nLine2\nLine3\nLine4\nLine5\nLine6\nLine7\n' > file
+hg commit -m patch3
+
+# Pull the line 4 patch, but not the lines 2 and 6 patch, into the
+# other repos non-interactively and interactively
+
+cd ../repo2
+# Don't know how to do this: darcs pull --all --patches patch3
+cd ../repo3
+hg transplant --source ../repo1
+# It doesn't appear to be possible to omit the source argument for transplant,
+# though you can omit it from the non-cherrypicking hg pull
+n
+y
+
+# repo2's and repo3's file now contains lines 1,3,4,5,7
+}}}
+
 === Cherry-picking during record ===
 
 In this example, we want to record just the fixes we have made, and not the debugging prints. We want something similar for:
@@ -164,11 +203,45 @@ git commit -m the_fix
 git reset --hard   # delete all changes in working dir
 }}}
 
+Mercurial:
+{{{
+# Make a repo with a single file with lines 1,3,5,7,9 in
+
+mkdir repo1
+cd repo1
+hg init
+printf 'Line1\nLine3\nLine5\nLine7\nLine9\n' > file
+hg commit --addremove -m patch1 -u igloo@earth.li
+
+# Now we fix a bug, and in the process add some debugging prints.
+
+printf 'Line1\nFix2\nLine3\nDebug4\nLine5\nFix6\nLine7\nDebug8\nLine9\n' > file
+
+# We want to record our fix, but not the debugging prints.
+
+hg record -m the_fix
+# Annoyingly you have to press enter after each of these characters. Darcs does not require this.
+# Perhaps it's configurable?
+Y
+y
+n
+y
+n
+
+# Get rid of the debug prints
+
+hg revert -a
+
+# Now file contains lines 1,2,3,5,6,7,9
+}}}
+
 === amend-record ===
 
 So, you make your lovely patch, it all looks good, so you record it. Then you do a build to make sure it works, and during the build or testsuite run you find that the patch wasn't quite right after all. You could just add a little 2-line patch, but that isn't very pleasant: It's nice if, as far as possible, all intermediate compiler states are buildable. Also, people might pull the first patch but not the second when cherry-picking, leading to head-scratching down the line. It's much nicer to be able to just amend-record the fix into your original patch.
 
 The same is available for Git.  The command is called {{{git commit --amend}}}.  You usually checkout the commit you want to edit into a branch, do the changes, then rebase the remaining patches on top of this.  Example coming soon...
+
+I can't find a way to do this directly with Mercurial. You can of course do {{{hg rollback}}} and then add a new commit, however.
 
 == Darcs alternatives still in the running ==
 
