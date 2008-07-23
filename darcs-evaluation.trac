@@ -88,6 +88,7 @@ y
 
 In this example, we want to record just the fixes we have made, and not the debugging prints. We want something similar for:
  * reverting just the debugging prints, and not the fixes
+ * reverting the parts of a change you are working on that turned out not to be right
  * in the middle of doing a large change, discovering a little bug and wanting to fix and record it
 
 {{{
