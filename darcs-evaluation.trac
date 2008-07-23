@@ -243,6 +243,61 @@ The same is available for Git.  The command is called {{{git commit --amend}}}. 
 
 I can't find a way to do this directly with Mercurial. You can of course do {{{hg rollback}}} and then add a new commit, however.
 
+=== Darcs vs Mercurial Overview ===
+
+Commands somehow different in behaviour between Hg and Darcs:
+{{{
+darcs whatsnew -> hg diff / hg status
+darcs record -> hg commit / hg record (record extension needed to allow cherrypicking)
+darcs pull -> hg pull -u / hg pull && hg update (hg pull does not modify the working copy by default)
+(automatic merging) -> hg merge && hg commit / hg fetch (fetch extension does pull/update/merge in one step, like Darcs)
+darcs unrecord -> hg rollback (works for just the most recent record/push, confusingly different from Darcs equivalent command)
+}}}
+
+Commands that differ essentialy only in name:
+{{{
+darcs rollback -> hg backout --merge (records an inverse changeset, go back as far as you like)
+darcs changes -> hg log
+darcs move <FILE> -> hg rename <FILE>
+darcs send -o <FILE> -> hg bundle <FILE>
+darcs apply <FILE> -> hg unbundle <FILE>
+}}}
+
+Commands the same between Hg and Darcs:
+{{{
+darcs push -> hg push
+darcs add/remove <FILE> -> hg add/remove <FILE>
+darcs revert -> hg revert
+darcs tag -> hg tag
+darcs annotate -> hg annotate
+}}}
+
+{{{hg addremove}}} adds untracked files and marks missing files as removed. hg commit -A does a similar thing at commit time
+
+Misc. differences from Darcs:
+
+* Don't have summary/message split: the first line of the message is the summary
+* Files are not automatically considered removed if you delete them. You need to run hg remove --after <FILE> to remove them from the repo as well
+
+To be able to use all the commands in the example above, you should create a .hgrc file in your home directory, looking something like this:
+{{{
+[extensions]
+hgext.record=
+transplant=
+
+[ui]
+username = My Name <foo@bar.com>
+}}}
+
+Other issues:
+
+ * There appears to be poor support for Windows with the transplant command [http://www.selenic.com/mercurial/bts/issue1077]
+ 
+ * The transplant command wiki page [http://www.selenic.com/mercurial/wiki/index.cgi/TransplantExtension] contains the text "Three-way merge doesn't cope particularly well with transplanted patches - it will tend to generate false conflicts",
+   which doesn't fill me with confidence
+
+Setting up a Mercurial HTTP interface: [http://hgbook.red-bean.com/hgbookch6.html#x10-1310006.6]
+
 == Darcs alternatives still in the running ==
 
 === Mercurial ===
