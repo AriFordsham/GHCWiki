@@ -301,6 +301,7 @@ darcs annotate -> hg annotate
 Misc. differences from Darcs:
 
 - Don't have summary/message split: the first line of the message is the summary
+
 - Files are not automatically considered removed if you delete them. You need to run hg remove --after \<FILE\> to remove them from the repo as well
 
 
