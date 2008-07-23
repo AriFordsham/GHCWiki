@@ -276,8 +276,9 @@ darcs annotate -> hg annotate
 
 Misc. differences from Darcs:
 
-* Don't have summary/message split: the first line of the message is the summary
-* Files are not automatically considered removed if you delete them. You need to run hg remove --after <FILE> to remove them from the repo as well
+ * Don't have summary/message split: the first line of the message is the summary
+
+ * Files are not automatically considered removed if you delete them. You need to run hg remove --after <FILE> to remove them from the repo as well
 
 To be able to use all the commands in the example above, you should create a .hgrc file in your home directory, looking something like this:
 {{{
