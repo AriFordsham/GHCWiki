@@ -27,7 +27,22 @@ GHC has been using darcs for version control since the beginning of 2006.  It ha
 - Windows support: is quite flaky still.  (well, it's certainly better than it used to be, and
   at least some Windows users don't consider it to be bad).
 
-## Comparison of darcs relative to other systems
+## Current status
+
+
+On the 23rd July 2008 an IRC meeting on the \#ghc channel decided to make a serious effort to replace Darcs, due to all the problems described above. The logs of that meeting are available in full at [ http://hackage.haskell.org/trac/ghc/attachment/wiki/IRC_Meetings/ghc-metting-2008-07-23.log](http://hackage.haskell.org/trac/ghc/attachment/wiki/IRC_Meetings/ghc-metting-2008-07-23.log), but the main conclusions were:
+
+- The GHC developers have sufficient problems with Darcs that a change would be beneficial
+
+- We want to stick with distributed version control, and have a widely-used and well-supported system, so Mercurial and Git are the only real
+  contenders
+
+- Mercurial and Git and percived as being mostly feature-and-performance comparable, although git is more popular
+
+- More investigation of the Mercurial option for GHC is needed, especially in light of reported poor support for Windows with Git. This
+  work is ongoing
+
+## Darcs alternatives still in the running
 
 
 ToDo.  Compare workflows using darcs with the same workflow in other systems.  Igloo suggested one basis for comparison:
@@ -73,6 +88,21 @@ This workflow is going to favour darcs over everything else, because of the cher
 
 ### Mercurial
 
+
+Advantages:
+
+- Speed comparable to Git
+- Some operations become feasible (bisect, annotate)
+- Many helper tools
+- Good Windows support
+- HTTP and SSH sync possible, but unknown how this compares to Git native protocol sync speed
+
+
+Disadvantages:
+
+- Similar problems with bisect support as Git
+- (Unknown: suitability of command set?)
+
 ### Git
 
 
@@ -91,6 +121,8 @@ Disadvantages:
 - Lack of good Windows support?
 - bisect support would require git modules to also pick the correct version of libraries.  Keeping this in sync is not easy, atm.
 - uses its own protocol for network transmission (http works but is slower, however, other hosting services are available, e.g., github)
+
+## Eliminated alternatives
 
 ### Bzr
 
@@ -112,6 +144,9 @@ Disadvantages
 - Cherry-picking isn't very "native" to the data model.
 - UI is rather different from darcs (which current contributors are used to).
 
+
+Reason for elimination: lack of uptake and hence more risk of Bzr becoming unmaintained.
+
 ### Darcs
 
 
@@ -128,6 +163,9 @@ Disadvantages to staying with darcs:
 
 - Uncertain future: no critical mass of hackers/maintainers.  The technical basis is not well enough
   understood by enough people.
+
+
+Reason for elimination: persistent performance and algorithmic problems, see above.
 
 ## Dependencies on darcs
 
