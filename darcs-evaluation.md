@@ -150,6 +150,30 @@ darcs revert -a
 # Now file contains lines 1,2,3,5,6,7,9
 ```
 
+
+Git:
+
+```wiki
+mkdir repo1
+cd repo1
+git init
+printf 'Line1\nLine3\nLine5\nLine7\nLine9\n' > file
+git add *
+git commit -m patch1
+
+printf 'Line1\nFix2\nLine3\nDebug4\nLine5\nFix6\nLine7\nDebug8\nLine9\n' > file
+
+git add --patch
+s  # split the diffs
+y
+n
+y
+n
+git commit -m the_fix
+
+git reset --hard   # delete all changes in working dir
+```
+
 ### amend-record
 
 
