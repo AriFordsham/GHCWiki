@@ -63,12 +63,44 @@ F [a] ~ a  ||-  x ~ a, F[a] ~ x
 ..and so on..
 ```
 
+
+Same, but de-prioritise (Local) - i.e., (Local) applies only if nothing else does:
+
 ```wiki
-  v ~ [x], F v ~ x
+[F v] ~ v  ||-  [F v] ~ v
+==> normalise
+v ~ [a], F v ~ a  ||-  v ~ [x], F v ~ x
+a := F v
+==> (IdenticalLHS) with v & F v
+v ~ [a], F v ~ a  ||- [a] ~ [x], x ~ a
+==> normalise
+v ~ [a], F v ~ a  ||-  x ~ a, x ~ a
+==> (Unify)
+v ~ [a], F v ~ a  ||-  a ~ a
+==> normalise
+v ~ [a], F v ~ a ||-
+QED
+```
+
+
+Derivation our modified rules:
+
+```wiki
+[F v] ~ v  ||-  [F v] ~ v
+==> normalise
+v ~ [x2], F v ~ x2  ||-  v ~ [x1], F v ~ x1
+** x2 := F v
 ==> (Local) with v
-  v ~ [x], F [a] ~ x
-==> (Top)
-  v ~ [x], x ~ [F x]
-===> normalise
-  v ~ [x], x ~ [y], F x ~ y
+F [x2] ~ x2  ||-  [x2] ~ [x1], F [x2] ~ x1
+** x2 := F v
+==> normalise
+F [x2] ~ x2  ||-  x2 ~ x1, F [x2] ~ x1
+** x2 := F v
+==> 2x (Top) & Unify
+[F x1] ~ x1  ||-  [F x1] ~ x1
+** x1 := F v
+==> normalise
+x1 ~ [y2], F x1 ~ y2  ||-  x1 ~ [y1], F x1 ~ y1
+** x1 := F v, y2 := F x1
+..we stop here if (Local) doesn't apply to flexible tyvars
 ```
