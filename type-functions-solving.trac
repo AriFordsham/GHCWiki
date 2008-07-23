@@ -23,6 +23,45 @@ Coercions `co` are either wanteds (represented by a flexible type variable) or g
  * Perform Rule Triv as part of normalisation.
  * Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
 
+
+== Solving ==
+
+ * (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.
+ * (Local) only applies to normalised equalities in Form (2) & (3).  After an application of (Local), the rewrite rule can be discarded
+
 == Termination ==
 
-The Note [skolemOccurs loop] in the old code explains that equalities of the form `x ~ t` (where `x` is a flexible type variable) may not be used as rewrite rules, but only be solved by applying Rule Unify.  As Unify carefully avoids cycles, this prevents the use of equalities introduced by the Rule !SkolemOccurs as rewrite rules.  For this to work, !SkolemOccurs also had to apply to equalities of the form `a ~ t[[a]]`.  This was a somewhat intricate set up that's being simplified in the new algorithm.  Whether equalities of the form `x ~ t` are used as rewrite rules or solved by Unify doesn't matter anymore.  Instead, we disallow recursive equalities completely.  This is possible as right-hand sides are free of synonym families.
+=== !SkolemOccurs ===
+
+The Note [skolemOccurs loop] in the old code explains that equalities of the form `x ~ t` (where `x` is a flexible type variable) may not be used as rewrite rules, but only be solved by applying Rule Unify.  As Unify carefully avoids cycles, this prevents the use of equalities introduced by the Rule !SkolemOccurs as rewrite rules.  For this to work, !SkolemOccurs also had to apply to equalities of the form `a ~ t[[a]]`.  This was a somewhat intricate set up that's being simplified in the new algorithm.  Whether equalities of the form `x ~ t` are used as rewrite rules or solved by Unify doesn't matter anymore.  Instead, we disallow recursive equalities after normalisation completely (both locals and wanteds).  This is possible as right-hand sides are free of synonym families.
+
+To see how the new algorithm handles the type of equalities that required !SkolemOccurs in the ICFP'08 algorithm, consider the following notorious example:
+{{{
+E_t: forall x. F [x] ~ [F x]
+[F v] ~ v  ||-  [F v] ~ v
+}}}
+
+Derivation with rules in the new-single report:
+{{{
+[F v] ~ v  ||-  [F v] ~ v
+==> normalise
+v ~ [a], F v ~ a  ||-  v ~ [x], F v ~ x
+a := F v
+==> (Local) with v
+F [a] ~ a  ||-  [a] ~ [x], F [a] ~ x
+==> normalise
+F [a] ~ a  ||-  x ~ a, F[a] ~ x
+==> 2x (Top) & Unify
+[F a] ~ a  ||-  [F a] ~ a
+..and so on..
+}}}
+
+{{{
+  v ~ [x], F v ~ x
+==> (Local) with v
+  v ~ [x], F [a] ~ x
+==> (Top)
+  v ~ [x], x ~ [F x]
+===> normalise
+  v ~ [x], x ~ [y], F x ~ y
+}}}
