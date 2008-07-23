@@ -88,6 +88,42 @@ y
 # repo2's and repo3's file now contains lines 1,3,4,5,7
 ```
 
+### Cherry-picking during record
+
+
+In this example, we want to record just the fixes we have made, and not the debugging prints. We want something similar for:
+
+- reverting just the debugging prints, and not the fixes
+- in the middle of doing a large change, discovering a little bug and wanting to fix and record it
+
+```wiki
+# Make a repo with a single file with lines 1,3,5,7,9 in
+
+mkdir repo1
+cd repo1
+darcs init
+printf 'Line1\nLine3\nLine5\nLine7\nLine9\n' > file
+darcs record --all --look-for-adds -m patch1 -A igloo@earth.li
+
+# Now we fix a bug, and in the process add some debugging prints.
+
+printf 'Line1\nFix2\nLine3\nDebug4\nLine5\nFix6\nLine7\nDebug8\nLine9\n' > file
+
+# We want to record our fix, but not the debugging prints.
+
+darcs rec -m the_fix
+y
+n
+y
+n
+
+# Get rid of the debug prints
+
+darcs revert -a
+
+# Now file contains lines 1,2,3,5,6,7,9
+```
+
 ## Darcs alternatives still in the running
 
 ### Mercurial
