@@ -1,5 +1,3 @@
-Outline?
-
 # Darcs retrospective, and the future
 
 
