@@ -404,7 +404,7 @@ Disadvantages:
 - Similar problems with bisect support as Git
 - (Unknown: suitability of command set?)
 
-### Darcs vs Mercurial Overview
+#### Darcs vs Mercurial Overview
 
 
 Commands somehow different in behaviour between Hg and Darcs:
@@ -505,7 +505,7 @@ Disadvantages:
 - bisect support would require git modules to also pick the correct version of libraries.  Keeping this in sync is not easy, atm.
 - uses its own protocol for network transmission (http works but is slower, however, other hosting services are available, e.g., github)
 
-### Darcs / Git Command Comparison
+#### Darcs / Git Command Comparison
 
 <table><tr><th>`darcs whatsnew -s`</th>
 <th>`git status`</th></tr>
