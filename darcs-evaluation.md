@@ -44,9 +44,6 @@ On the 23rd July 2008 an IRC meeting on the \#ghc channel decided to make a seri
 
 ## Important workflows
 
-
-ToDo.  Compare workflows using darcs with the same workflow in other systems.
-
 ### Cherry-picking patches
 
 
@@ -371,6 +368,17 @@ Disadvantages:
 
 - Similar problems with bisect support as Git
 - (Unknown: suitability of command set?)
+
+#### Notes On Conversion
+
+
+Currently using Tailor. Problems encountered:
+ 
+
+- Darcs outputs XML without an encoding header. Patched Tailor to append Latin-1 encoding to the XML output. This will be sent to the tailor author
+- In hg.py, replace the line `self._hgCommand('tag', tag)` with `self._hgCommand('tag', tag, force=True)` because we seem to be trying to apply duplicate tags at some points. Don't know quite how this is possible!
+- MUST USE the seperate-subdir mode of Tailor because we have some tricky Darcs patches. I've added my scripts to [ http://www.selenic.com/mercurial/wiki/index.cgi/Tailor\#preview](http://www.selenic.com/mercurial/wiki/index.cgi/Tailor#preview)
+- No support for author remapping in Tailor yet. I've added it and I'm going to submit the patch to the Tailor author
 
 ### Git
 
