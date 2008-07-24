@@ -382,6 +382,28 @@ bzr merge -c 4 ../repo1
 bzr diff
 ```
 
+## Darcs alternatives still in the running
+
+### Mercurial
+
+
+\#mercurial: 118 members
+
+
+Advantages:
+
+- Speed comparable to Git
+- Some operations become feasible (bisect, annotate)
+- Many helper tools
+- Good Windows support
+- HTTP and SSH sync possible, but unknown how this compares to Git native protocol sync speed
+
+
+Disadvantages:
+
+- Similar problems with bisect support as Git
+- (Unknown: suitability of command set?)
+
 ### Darcs vs Mercurial Overview
 
 
@@ -449,46 +471,6 @@ Other issues:
 
 Setting up a Mercurial HTTP interface: [ http://hgbook.red-bean.com/hgbookch6.html\#x10-1310006.6](http://hgbook.red-bean.com/hgbookch6.html#x10-1310006.6)
 
-### Darcs / Git Command Comparison
-
-<table><tr><th>`darcs whatsnew -s`</th>
-<th>`git status`</th></tr>
-<tr><th>`darcs whatsnew`</th>
-<th>`git diff`</th></tr>
-<tr><th>`darcs record`</th>
-<th>`git add --patch` (goes through all changes)/`git add -i` (starts with a file-based view) Git add only marks changes for commit.  This can be nicer if you want to check some things first before you commit them.
-</th></tr>
-<tr><th></th>
-<th>`git commit` (do the actual commit)
-</th></tr>
-<tr><th>`darcs record -a -m foo`</th>
-<th>`git commit -a -m foo`</th></tr>
-<tr><th>`darcs pull`</th>
-<th>`git pull` then `git cherry-pick`/`gitk` + select patches using mouse.  It's probably best to have one local branch correspond to the remote branch and then cherry-pick from that.  You can also create local names for several remote repositories.
-</th></tr></table>
-
-## Darcs alternatives still in the running
-
-### Mercurial
-
-
-\#mercurial: 118 members
-
-
-Advantages:
-
-- Speed comparable to Git
-- Some operations become feasible (bisect, annotate)
-- Many helper tools
-- Good Windows support
-- HTTP and SSH sync possible, but unknown how this compares to Git native protocol sync speed
-
-
-Disadvantages:
-
-- Similar problems with bisect support as Git
-- (Unknown: suitability of command set?)
-
 #### Notes On Conversion
 
 
@@ -523,7 +505,23 @@ Disadvantages:
 - bisect support would require git modules to also pick the correct version of libraries.  Keeping this in sync is not easy, atm.
 - uses its own protocol for network transmission (http works but is slower, however, other hosting services are available, e.g., github)
 
-## Eliminated alternatives
+### Darcs / Git Command Comparison
+
+<table><tr><th>`darcs whatsnew -s`</th>
+<th>`git status`</th></tr>
+<tr><th>`darcs whatsnew`</th>
+<th>`git diff`</th></tr>
+<tr><th>`darcs record`</th>
+<th>`git add --patch` (goes through all changes)/`git add -i` (starts with a file-based view) Git add only marks changes for commit.  This can be nicer if you want to check some things first before you commit them.
+</th></tr>
+<tr><th></th>
+<th>`git commit` (do the actual commit)
+</th></tr>
+<tr><th>`darcs record -a -m foo`</th>
+<th>`git commit -a -m foo`</th></tr>
+<tr><th>`darcs pull`</th>
+<th>`git pull` then `git cherry-pick`/`gitk` + select patches using mouse.  It's probably best to have one local branch correspond to the remote branch and then cherry-pick from that.  You can also create local names for several remote repositories.
+</th></tr></table>
 
 ### Bzr
 
@@ -548,8 +546,7 @@ Disadvantages
 - Cherry-picking isn't very "native" to the data model.
 - UI is rather different from darcs (which current contributors are used to).
 
-
-Reason for elimination: lack of uptake and hence more risk of Bzr becoming unmaintained.
+## Eliminated alternatives
 
 ### Darcs
 
