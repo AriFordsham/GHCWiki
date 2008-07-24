@@ -307,6 +307,16 @@ Other issues:
 
 Setting up a Mercurial HTTP interface: [http://hgbook.red-bean.com/hgbookch6.html#x10-1310006.6]
 
+=== Darcs / Git Command Comparison ===
+
+||{{{darcs whatsnew -s}}}||{{{git status}}}||
+||{{{darcs whatsnew}}}   ||{{{git diff}}}||
+||{{{darcs record}}}     ||{{{git add --patch}}} (goes through all changes)/{{{git add -i}}} (starts with a file-based view)
+Git add only marks changes for commit.  This can be nicer if you want to check some things first before you commit them.
+
+{{{git commit}}} (do the actual commit)||
+
+
 == Darcs alternatives still in the running ==
 
 === Mercurial ===
