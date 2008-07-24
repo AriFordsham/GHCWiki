@@ -264,92 +264,10 @@ The same is available for Git.  The command is called `git commit --amend`.  You
 
 I can't find a way to do this directly with Mercurial. You can of course do `hg rollback` and then add a new commit. The Mercurial Queues extension is also able to do this (hg qrefresh) but it is rather complicated to use.
 
-### Darcs vs Mercurial Overview
-
-
-Commands somehow different in behaviour between Hg and Darcs:
-
-```wiki
-darcs whatsnew -> hg diff / hg status
-darcs record -> hg commit / hg record (record extension needed to allow cherrypicking)
-darcs pull -> hg pull -u / hg pull && hg update (hg pull does not modify the working copy by default)
-(automatic merging) -> hg merge && hg commit / hg fetch (fetch extension does pull/update/merge in one step, like Darcs)
-darcs unrecord -> hg rollback (works for just the most recent record/push, confusingly different from Darcs equivalent command)
-```
-
-
-Commands that differ essentialy only in name:
-
-```wiki
-darcs rollback -> hg backout --merge (records an inverse changeset, go back as far as you like)
-darcs changes -> hg log
-darcs move <FILE> -> hg rename <FILE>
-darcs send -o <FILE> -> hg bundle <FILE>
-darcs apply <FILE> -> hg unbundle <FILE>
-```
-
-
-Commands the same between Hg and Darcs:
-
-```wiki
-darcs push -> hg push
-darcs add/remove <FILE> -> hg add/remove <FILE>
-darcs revert -> hg revert
-darcs tag -> hg tag
-darcs annotate -> hg annotate
-```
-
-`hg addremove` adds untracked files and marks missing files as removed. hg commit -A does a similar thing at commit time
-
-
-Misc. differences from Darcs:
-
-- Don't have summary/message split: the first line of the message is the summary
-
-- Files are not automatically considered removed if you delete them. You need to run hg remove --after \<FILE\> to remove them from the repo as well
-
-
-To be able to use all the commands in the example above, you should create a .hgrc file in your home directory, looking something like this:
-
-```wiki
-[extensions]
-hgext.record=
-transplant=
-
-[ui]
-username = My Name <foo@bar.com>
-```
-
-
-Other issues:
-
-- (Note: not nearly as bad as I first thought, this only applies to the use of an extension called win32text: There appears to be poor support for Windows with the transplant command [ http://www.selenic.com/mercurial/bts/issue1077](http://www.selenic.com/mercurial/bts/issue1077))
-
-- The transplant command wiki page [ http://www.selenic.com/mercurial/wiki/index.cgi/TransplantExtension](http://www.selenic.com/mercurial/wiki/index.cgi/TransplantExtension) contains the text "Three-way merge doesn't cope particularly well with transplanted patches - it will tend to generate false conflicts",
-  which doesn't fill me with confidence. However, we only want to use transplant to maintain a branch (e.g. 6.8) which we won't merge back into the one we are pulling from (e.g. HEAD), so this may be a non-issue
-
-
-Setting up a Mercurial HTTP interface: [ http://hgbook.red-bean.com/hgbookch6.html\#x10-1310006.6](http://hgbook.red-bean.com/hgbookch6.html#x10-1310006.6)
-
-### Darcs / Git Command Comparison
-
-<table><tr><th>`darcs whatsnew -s`</th>
-<th>`git status`</th></tr>
-<tr><th>`darcs whatsnew`</th>
-<th>`git diff`</th></tr>
-<tr><th>`darcs record`</th>
-<th>`git add --patch` (goes through all changes)/`git add -i` (starts with a file-based view) Git add only marks changes for commit.  This can be nicer if you want to check some things first before you commit them.
-</th></tr>
-<tr><th></th>
-<th>`git commit` (do the actual commit)
-</th></tr>
-<tr><th>`darcs record -a -m foo`</th>
-<th>`git commit -a -m foo`</th></tr>
-<tr><th>`darcs pull`</th>
-<th>`git pull` then `git cherry-pick`/`gitk` + select patches using mouse.  It's probably best to have one local branch correspond to the remote branch and then cherry-pick from that.  You can also create local names for several remote repositories.
-</th></tr></table>
-
 ### File renames
+
+
+We often want to cherry-pick a change where the file has been renamed on one branch or the other.  This should work without any extra intervention from the user, and does under darcs.
 
 
 Git doesn't handle file renames well.  Here's a script to demonstrate the problem:
@@ -464,8 +382,90 @@ bzr merge -c 4 ../repo1
 bzr diff
 ```
 
+### Darcs vs Mercurial Overview
 
-and, of course, darcs has no difficulty either.
+
+Commands somehow different in behaviour between Hg and Darcs:
+
+```wiki
+darcs whatsnew -> hg diff / hg status
+darcs record -> hg commit / hg record (record extension needed to allow cherrypicking)
+darcs pull -> hg pull -u / hg pull && hg update (hg pull does not modify the working copy by default)
+(automatic merging) -> hg merge && hg commit / hg fetch (fetch extension does pull/update/merge in one step, like Darcs)
+darcs unrecord -> hg rollback (works for just the most recent record/push, confusingly different from Darcs equivalent command)
+```
+
+
+Commands that differ essentialy only in name:
+
+```wiki
+darcs rollback -> hg backout --merge (records an inverse changeset, go back as far as you like)
+darcs changes -> hg log
+darcs move <FILE> -> hg rename <FILE>
+darcs send -o <FILE> -> hg bundle <FILE>
+darcs apply <FILE> -> hg unbundle <FILE>
+```
+
+
+Commands the same between Hg and Darcs:
+
+```wiki
+darcs push -> hg push
+darcs add/remove <FILE> -> hg add/remove <FILE>
+darcs revert -> hg revert
+darcs tag -> hg tag
+darcs annotate -> hg annotate
+```
+
+`hg addremove` adds untracked files and marks missing files as removed. hg commit -A does a similar thing at commit time
+
+
+Misc. differences from Darcs:
+
+- Don't have summary/message split: the first line of the message is the summary
+
+- Files are not automatically considered removed if you delete them. You need to run hg remove --after \<FILE\> to remove them from the repo as well
+
+
+To be able to use all the commands in the example above, you should create a .hgrc file in your home directory, looking something like this:
+
+```wiki
+[extensions]
+hgext.record=
+transplant=
+
+[ui]
+username = My Name <foo@bar.com>
+```
+
+
+Other issues:
+
+- (Note: not nearly as bad as I first thought, this only applies to the use of an extension called win32text: There appears to be poor support for Windows with the transplant command [ http://www.selenic.com/mercurial/bts/issue1077](http://www.selenic.com/mercurial/bts/issue1077))
+
+- The transplant command wiki page [ http://www.selenic.com/mercurial/wiki/index.cgi/TransplantExtension](http://www.selenic.com/mercurial/wiki/index.cgi/TransplantExtension) contains the text "Three-way merge doesn't cope particularly well with transplanted patches - it will tend to generate false conflicts",
+  which doesn't fill me with confidence. However, we only want to use transplant to maintain a branch (e.g. 6.8) which we won't merge back into the one we are pulling from (e.g. HEAD), so this may be a non-issue
+
+
+Setting up a Mercurial HTTP interface: [ http://hgbook.red-bean.com/hgbookch6.html\#x10-1310006.6](http://hgbook.red-bean.com/hgbookch6.html#x10-1310006.6)
+
+### Darcs / Git Command Comparison
+
+<table><tr><th>`darcs whatsnew -s`</th>
+<th>`git status`</th></tr>
+<tr><th>`darcs whatsnew`</th>
+<th>`git diff`</th></tr>
+<tr><th>`darcs record`</th>
+<th>`git add --patch` (goes through all changes)/`git add -i` (starts with a file-based view) Git add only marks changes for commit.  This can be nicer if you want to check some things first before you commit them.
+</th></tr>
+<tr><th></th>
+<th>`git commit` (do the actual commit)
+</th></tr>
+<tr><th>`darcs record -a -m foo`</th>
+<th>`git commit -a -m foo`</th></tr>
+<tr><th>`darcs pull`</th>
+<th>`git pull` then `git cherry-pick`/`gitk` + select patches using mouse.  It's probably best to have one local branch correspond to the remote branch and then cherry-pick from that.  You can also create local names for several remote repositories.
+</th></tr></table>
 
 ## Darcs alternatives still in the running
 
