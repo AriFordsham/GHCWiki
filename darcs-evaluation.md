@@ -390,6 +390,45 @@ Apparently git didn't realise that "file" had been renamed to "file1" in one bra
 
 This goes wrong with git version 1.5.2.5.  I wouldn't be surprised if other versions work, but the underlying issue is that git doesn't store information about file and directory renames, and has to rely on heuristics to recover the information when necessary.  Converting a darcs repo into a git repo is a lossy conversion - it discards information about renames.
 
+
+Hg doesn't seem to deal with it well either:
+
+```wiki
+rm -rf repo1 repo2
+
+mkdir repo1
+cd repo1
+hg init
+printf "b\nd\n" >file
+hg add file
+hg status
+hg commit -m "bd"
+
+cd ..
+hg clone repo1 repo2
+ 
+cd repo1
+hg rename file file1
+hg commit -m move
+printf "a\nb\nd\ne\n" >file1
+hg commit -m "abde" file1 
+printf "a\nb\nc\nd\ne\n" >file1
+hg commit -m "abcde" file1
+ 
+cd ../repo2
+hg transplant --source ../repo1 tip
+# transplant the most recent change from repo1
+# BANG!!!
+#
+# searching for changes
+# applying b613e5e3dc1a
+# unable to find 'file1' for patching
+# 1 out of 1 hunk FAILED -- saving rejects to file file1.rej
+# file1: No such file or directory
+# patch failed to apply
+# abort: Fix up the merge and run hg transplant --continue
+```
+
 ## Darcs alternatives still in the running
 
 ### Mercurial
