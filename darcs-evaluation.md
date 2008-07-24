@@ -354,6 +354,9 @@ Setting up a Mercurial HTTP interface: [ http://hgbook.red-bean.com/hgbookch6.ht
 ### Mercurial
 
 
+\#mercurial: 118 members
+
+
 Advantages:
 
 - Speed comparable to Git
@@ -382,6 +385,9 @@ Currently using Tailor. Problems encountered:
 ### Git
 
 
+\#git: 388 members
+
+
 Advantages:
   
 
@@ -401,6 +407,9 @@ Disadvantages:
 ## Eliminated alternatives
 
 ### Bzr
+
+
+\#bzr: 143 members
 
 
 Advantages:
@@ -424,6 +433,9 @@ Disadvantages
 Reason for elimination: lack of uptake and hence more risk of Bzr becoming unmaintained.
 
 ### Darcs
+
+
+\#darcs: 39 members
 
 
 Advantages to staying with darcs:
