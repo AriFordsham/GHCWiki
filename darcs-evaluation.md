@@ -264,6 +264,124 @@ The same is available for Git.  The command is called `git commit --amend`.  You
 
 I can't find a way to do this directly with Mercurial. You can of course do `hg rollback` and then add a new commit. The Mercurial Queues extension is also able to do this (hg qrefresh) but it is rather complicated to use.
 
+### File renames
+
+
+We often want to cherry-pick a change where the file has been renamed on one branch or the other.  This should work without any extra intervention from the user, and does under darcs.
+
+
+Git doesn't handle file renames well.  Here's a script to demonstrate the problem:
+
+```wiki
+# Demonstrates problem with git's cherry picking not commuting around
+# file renmaes.
+
+rm -rf repo1 repo2
+
+mkdir repo1
+cd repo1
+git init
+printf "b\nd\n" >file
+git-add file
+git-status
+git-commit -m "bd"
+
+cd ..
+git clone repo1 repo2
+ 
+cd repo1
+git mv file file1
+git commit -m move
+printf "a\nb\nd\ne\n" >file1
+git commit -m "abde" file1 
+printf "a\nb\nc\nd\ne\n" >file1
+git commit -m "abcde" file1
+ 
+cd ../repo2
+git remote add -f repo1 ../repo1
+git cherry-pick repo1/master
+# cherry-picks the most recent change from repo1
+# BANG!!!
+```
+
+
+Apparently git didn't realise that "file" had been renamed to "file1" in one branch, because its contents had also changed sufficiently.  In fact, if you add enough other stuff to the file so that both versions are similar, then the merge works, which is deeply worrying.
+
+
+This goes wrong with git version 1.5.2.5.  I wouldn't be surprised if other versions work, but the underlying issue is that git doesn't store information about file and directory renames, and has to rely on heuristics to recover the information when necessary.  Converting a darcs repo into a git repo is a lossy conversion - it discards information about renames.
+
+
+Hg doesn't seem to deal with it well either:
+
+```wiki
+rm -rf repo1 repo2
+
+mkdir repo1
+cd repo1
+hg init
+printf "b\nd\n" >file
+hg add file
+hg status
+hg commit -m "bd"
+
+cd ..
+hg clone repo1 repo2
+ 
+cd repo1
+hg rename file file1
+hg commit -m move
+printf "a\nb\nd\ne\n" >file1
+hg commit -m "abde" file1 
+printf "a\nb\nc\nd\ne\n" >file1
+hg commit -m "abcde" file1
+ 
+cd ../repo2
+hg transplant --source ../repo1 tip
+# transplant the most recent change from repo1
+# BANG!!!
+#
+# searching for changes
+# applying b613e5e3dc1a
+# unable to find 'file1' for patching
+# 1 out of 1 hunk FAILED -- saving rejects to file file1.rej
+# file1: No such file or directory
+# patch failed to apply
+# abort: Fix up the merge and run hg transplant --continue
+```
+
+
+bzr manages this example without any difficulty:
+
+```wiki
+#!/bin/sh
+
+rm -rf repo1 repo2
+
+mkdir repo1
+cd repo1
+bzr init
+printf "b\nd\n" >file
+bzr add file
+bzr status
+bzr commit -m "bd"
+
+cd ..
+bzr checkout repo1 repo2
+  
+cd repo1
+bzr mv file file1
+bzr commit -m move
+printf "a\nb\nd\ne\n" >file1
+bzr commit -m "abde" file1 
+printf "a\nb\nc\nd\ne\n" >file1
+bzr commit -m "abcde" file1
+  
+cd ../repo2
+bzr merge -c 4 ../repo1
+# cherry-picks revision 4 from repo1
+bzr diff
+```
+
 ### Darcs vs Mercurial Overview
 
 
@@ -348,86 +466,6 @@ Setting up a Mercurial HTTP interface: [ http://hgbook.red-bean.com/hgbookch6.ht
 <tr><th>`darcs pull`</th>
 <th>`git pull` then `git cherry-pick`/`gitk` + select patches using mouse.  It's probably best to have one local branch correspond to the remote branch and then cherry-pick from that.  You can also create local names for several remote repositories.
 </th></tr></table>
-
-
-Git doesn't handle file renames well.  Here's a script to demonstrate the problem:
-
-```wiki
-# Demonstrates problem with git's cherry picking not commuting around
-# file renmaes.
-
-rm -rf repo1 repo2
-
-mkdir repo1
-cd repo1
-git init
-printf "b\nd\n" >file
-git-add file
-git-status
-git-commit -m "bd"
-
-cd ..
-git clone repo1 repo2
- 
-cd repo1
-git mv file file1
-git commit -m move
-printf "a\nb\nd\ne\n" >file1
-git commit -m "abde" file1 
-printf "a\nb\nc\nd\ne\n" >file1
-git commit -m "abcde" file1
- 
-cd ../repo2
-git remote add -f repo1 ../repo1
-git cherry-pick repo1/master
-# cherry-picks the most recent change from repo1
-# BANG!!!
-```
-
-
-Apparently git didn't realise that "file" had been renamed to "file1" in one branch, because its contents had also changed sufficiently.  In fact, if you add enough other stuff to the file so that both versions are similar, then the merge works, which is deeply worrying.
-
-
-This goes wrong with git version 1.5.2.5.  I wouldn't be surprised if other versions work, but the underlying issue is that git doesn't store information about file and directory renames, and has to rely on heuristics to recover the information when necessary.  Converting a darcs repo into a git repo is a lossy conversion - it discards information about renames.
-
-
-Hg doesn't seem to deal with it well either:
-
-```wiki
-rm -rf repo1 repo2
-
-mkdir repo1
-cd repo1
-hg init
-printf "b\nd\n" >file
-hg add file
-hg status
-hg commit -m "bd"
-
-cd ..
-hg clone repo1 repo2
- 
-cd repo1
-hg rename file file1
-hg commit -m move
-printf "a\nb\nd\ne\n" >file1
-hg commit -m "abde" file1 
-printf "a\nb\nc\nd\ne\n" >file1
-hg commit -m "abcde" file1
- 
-cd ../repo2
-hg transplant --source ../repo1 tip
-# transplant the most recent change from repo1
-# BANG!!!
-#
-# searching for changes
-# applying b613e5e3dc1a
-# unable to find 'file1' for patching
-# 1 out of 1 hunk FAILED -- saving rejects to file file1.rej
-# file1: No such file or directory
-# patch failed to apply
-# abort: Fix up the merge and run hg transplant --continue
-```
 
 ## Darcs alternatives still in the running
 
