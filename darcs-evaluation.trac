@@ -1,3 +1,4 @@
+[[Outline]]
 = Darcs retrospective, and the future =
 
 GHC has been using darcs for version control since the beginning of 2006.  It has not been all plain sailing, so in this page we will record our experiences with darcs, and attempt to objectively evaluate whether we would be better off with a different version control system.  In the event that we do switch, we need to track exactly what needs to change, so this page will also list those dependencies.
