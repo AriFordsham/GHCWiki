@@ -349,6 +349,47 @@ Setting up a Mercurial HTTP interface: [ http://hgbook.red-bean.com/hgbookch6.ht
 <th>`git pull` then `git cherry-pick`/`gitk` + select patches using mouse.  It's probably best to have one local branch correspond to the remote branch and then cherry-pick from that.  You can also create local names for several remote repositories.
 </th></tr></table>
 
+
+Git doesn't handle file renames well.  Here's a script to demonstrate the problem:
+
+```wiki
+# Demonstrates problem with git's cherry picking not commuting around
+# file renmaes.
+
+rm -rf repo1 repo2
+
+mkdir repo1
+cd repo1
+git init
+printf "b\nd\n" >file
+git-add file
+git-status
+git-commit -m "bd"
+
+cd ..
+git clone repo1 repo2
+ 
+cd repo1
+git mv file file1
+git commit -m move
+printf "a\nb\nd\ne\n" >file1
+git commit -m "abde" file1 
+printf "a\nb\nc\nd\ne\n" >file1
+git commit -m "abcde" file1
+ 
+cd ../repo2
+git remote add -f repo1 ../repo1
+git cherry-pick repo1/master
+# cherry-picks the most recent change from repo1
+# BANG!!!
+```
+
+
+Apparently git didn't realise that "file" had been renamed to "file1" in one branch, because its contents had also changed sufficiently.  In fact, if you add enough other stuff to the file so that both versions are similar, then the merge works, which is deeply worrying.
+
+
+This goes wrong with git version 1.5.2.5.  I wouldn't be surprised if other versions work, but the underlying issue is that git doesn't store information about file and directory renames, and has to rely on heuristics to recover the information when necessary.  Converting a darcs repo into a git repo is a lossy conversion - it discards information about renames.
+
 ## Darcs alternatives still in the running
 
 ### Mercurial
