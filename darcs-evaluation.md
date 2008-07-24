@@ -349,6 +349,8 @@ Setting up a Mercurial HTTP interface: [ http://hgbook.red-bean.com/hgbookch6.ht
 <th>`git pull` then `git cherry-pick`/`gitk` + select patches using mouse.  It's probably best to have one local branch correspond to the remote branch and then cherry-pick from that.  You can also create local names for several remote repositories.
 </th></tr></table>
 
+### File renames
+
 
 Git doesn't handle file renames well.  Here's a script to demonstrate the problem:
 
@@ -428,6 +430,42 @@ hg transplant --source ../repo1 tip
 # patch failed to apply
 # abort: Fix up the merge and run hg transplant --continue
 ```
+
+
+bzr manages this example without any difficulty:
+
+```wiki
+#!/bin/sh
+
+rm -rf repo1 repo2
+
+mkdir repo1
+cd repo1
+bzr init
+printf "b\nd\n" >file
+bzr add file
+bzr status
+bzr commit -m "bd"
+
+cd ..
+bzr checkout repo1 repo2
+  
+cd repo1
+bzr mv file file1
+bzr commit -m move
+printf "a\nb\nd\ne\n" >file1
+bzr commit -m "abde" file1 
+printf "a\nb\nc\nd\ne\n" >file1
+bzr commit -m "abcde" file1
+  
+cd ../repo2
+bzr merge -c 4 ../repo1
+# cherry-picks revision 4 from repo1
+bzr diff
+```
+
+
+and, of course, darcs has no difficulty either.
 
 ## Darcs alternatives still in the running
 
