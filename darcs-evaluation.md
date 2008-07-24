@@ -148,13 +148,14 @@ hg commit -m patch3
 # other repos non-interactively and interactively
 
 cd ../repo2
-# Don't know how to do this: darcs pull --all --patches patch3
+(cd ../repo1; hg log | grep patch3 -4) # note the changeset number of patch3, should be 2
+hg transplant --source ../repo1 2
 cd ../repo3
 hg transplant --source ../repo1
 # It doesn't appear to be possible to omit the source argument for transplant,
 # though you can omit it from the non-cherrypicking hg pull
-n
-y
+n <press enter>
+y <press enter>
 
 # repo2's and repo3's file now contains lines 1,3,4,5,7
 ```
@@ -239,13 +240,11 @@ printf 'Line1\nFix2\nLine3\nDebug4\nLine5\nFix6\nLine7\nDebug8\nLine9\n' > file
 # We want to record our fix, but not the debugging prints.
 
 hg record -m the_fix
-# Annoyingly you have to press enter after each of these characters. Darcs does not require this.
-# Perhaps it's configurable?
-Y
-y
-n
-y
-n
+Y <press enter>
+y <press enter>
+n <press enter>
+y <press enter>
+n <press enter>
 
 # Get rid of the debug prints
 
@@ -263,7 +262,7 @@ So, you make your lovely patch, it all looks good, so you record it. Then you do
 The same is available for Git.  The command is called `git commit --amend`.  You usually checkout the commit you want to edit into a branch, do the changes, then rebase the remaining patches on top of this.  Example coming soon...
 
 
-I can't find a way to do this directly with Mercurial. You can of course do `hg rollback` and then add a new commit, however.
+I can't find a way to do this directly with Mercurial. You can of course do `hg rollback` and then add a new commit. The Mercurial Queues extension is also able to do this (hg qrefresh) but it is rather complicated to use.
 
 ### Darcs vs Mercurial Overview
 
