@@ -298,10 +298,10 @@ username = My Name <foo@bar.com>
 
 Other issues:
 
- * There appears to be poor support for Windows with the transplant command [http://www.selenic.com/mercurial/bts/issue1077]
+ * (Note: not nearly as bad as I first thought, this only applies to the use of an extension called win32text: There appears to be poor support for Windows with the transplant command [http://www.selenic.com/mercurial/bts/issue1077])
  
  * The transplant command wiki page [http://www.selenic.com/mercurial/wiki/index.cgi/TransplantExtension] contains the text "Three-way merge doesn't cope particularly well with transplanted patches - it will tend to generate false conflicts",
-   which doesn't fill me with confidence
+   which doesn't fill me with confidence. However, we only want to use transplant to maintain a branch (e.g. 6.8) which we won't merge back into the one we are pulling from (e.g. HEAD), so this may be a non-issue
 
 Setting up a Mercurial HTTP interface: [http://hgbook.red-bean.com/hgbookch6.html#x10-1310006.6]
 
