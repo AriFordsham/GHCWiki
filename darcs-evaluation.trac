@@ -93,7 +93,7 @@ printf 'Line1\nLine3\nLine5\nLine7\n' > file
 git add *
 git commit -a -m patch1
 
-# create the branch (we only need one) 
+# create the branch
 git checkout -b branch1  # also switches to the branch
 git checkout master      # switch back to master
 
@@ -105,6 +105,14 @@ git commit -a -m patch3
 git log --grep=patch3   # prints the commit id for that change
 git checkout branch1
 git cherry-pick <commit-id from above>
+
+# we can also cherry-pick using the GUI
+git checkout master
+git checkout -b branch2 master^^  # start a new branch from tree after patch1 
+# we're in branch2 now
+gitk master  # start the gui for master branch (which containts patch2 & patch3)
+# in the gui you can rightclick on the desired patch and choose 
+# "cherry-pick" this commit.  et voila, it's in branch2
 }}}
 
 Mercurial:
