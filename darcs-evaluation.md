@@ -298,6 +298,37 @@ hg revert -a
 # Now file contains lines 1,2,3,5,6,7,9
 ```
 
+
+Bzr:
+
+```wiki
+# Make a repo with a single file with lines 1,3,5,7,9 in
+
+mkdir repo1
+cd repo1
+bzr init
+printf 'Line1\nLine3\nLine5\nLine7\nLine9\n' > file
+bzr add file
+bzr commit -m patch1 --author igloo@earth.li
+
+# Now we fix a bug, and in the process add some debugging prints.
+
+printf 'Line1\nFix2\nLine3\nDebug4\nLine5\nFix6\nLine7\nDebug8\nLine9\n' > file
+
+# We want to record our fix, but not the debugging prints.
+
+# Using the new interactive plugin: https://launchpad.net/bzr-interactive
+# However, the plugin seems to require curses and hence will not work on windows
+#bzr commit -m the_fix -i
+# .. and it won't let us cherry pick each line. It's all or nothing!
+
+# Get rid of the debug prints
+
+bzr revert
+
+# Now file contains lines 1,2,3,5,6,7,9
+```
+
 ### amend-record
 
 
@@ -600,7 +631,7 @@ Advantages:
 Disadvantages
 
 - Revisions form a DAG (more like a tree with merge-points) rather than patchsets (this is a subjective point, which is why it's in both lists. Which model do you believe in?)
-- Cherry-picking isn't very "native" to the data model.
+- Cherry-picking isn't very "native" to the data model. Support for this is very poor.
 - UI is rather different from darcs (which current contributors are used to).
 
 ## Eliminated alternatives
