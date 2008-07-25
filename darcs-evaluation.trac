@@ -302,9 +302,13 @@ printf 'Line1\nFix2\nLine3\nDebug4\nLine5\nFix6\nLine7\nDebug8\nLine9\n' > file
 # We want to record our fix, but not the debugging prints.
 
 # Using the new interactive plugin: https://launchpad.net/bzr-interactive
-# However, the plugin seems to require curses and hence will not work on windows
 #bzr commit -m the_fix -i
 # .. and it won't let us cherry pick each line. It's all or nothing!
+# bzr shelve is a better supported plugin that allows something similar to this
+# (shelve the debug prints, commit what remains, unshelve the debug prints
+# and revert them)
+# but it also doesn't let us pick between the changes in this hunk. They are
+# welded into one hunk because they are close together.
 
 # Get rid of the debug prints
 
