@@ -490,6 +490,7 @@ Disadvantages:
 - Similar problems with bisect support as Git
 - (Unknown: suitability of command set?)
 - No rebase, though this is being added as part of the Summer of Code
+- Need to run a special server to be able to clone over HTTP
 
 #### Darcs vs Mercurial Overview
 
