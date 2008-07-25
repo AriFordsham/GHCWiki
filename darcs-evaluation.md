@@ -403,6 +403,7 @@ Disadvantages:
 
 - Similar problems with bisect support as Git
 - (Unknown: suitability of command set?)
+- No rebase, though this is being added as part of the Summer of Code
 
 #### Darcs vs Mercurial Overview
 
@@ -532,9 +533,10 @@ Disadvantages:
 Advantages:
 
 - Fairly fast
-- Portable (as portable as python, anyhow)
+- Allows checkout without any history
+- Portable (as portable as python, anyhow), works on Windows
 - Merging works correctly based on closest-common-ancestor
-- Tracking of renamed files / directories merges correctly
+- Tracking of renamed files / directories merges correctly (better even than Mercurial)
 - Revisions form a DAG (more like a tree with merge-points) rather than patchsets
 - Supports convenient "centralised-style" commit-remote-by-default as well as "distributed-style" commit-local-by-default. Just 'bind' or 'unbind' your branch whenever you want.
 - Simple clear UI
@@ -545,6 +547,7 @@ Disadvantages
 - Revisions form a DAG (more like a tree with merge-points) rather than patchsets (this is a subjective point, which is why it's in both lists. Which model do you believe in?)
 - Cherry-picking isn't very "native" to the data model.
 - UI is rather different from darcs (which current contributors are used to).
+- No rebase
 
 ## Eliminated alternatives
 
