@@ -338,7 +338,10 @@ So, you make your lovely patch, it all looks good, so you record it. Then you do
 The same is available for Git.  The command is called `git commit --amend`.  You usually checkout the commit you want to edit into a branch, do the changes, then rebase the remaining patches on top of this.  Example coming soon...
 
 
-I can't find a way to do this directly with Mercurial. You can of course do `hg rollback` and then add a new commit. The Mercurial Queues extension is also able to do this (hg qrefresh) but it is rather complicated to use.
+I can't find a way to do this directly with Mercurial. You can of course do `hg rollback` and then add a new commit. The Mercurial Queues extension is also able to do this (`hg qrefresh`) but it is rather complicated to use.
+
+
+It doesn't appear to be possible with Bzr either. You have to do `bzr uncommit` and then `bzr commit`, similarly to Mercurial.
 
 ### File renames
 
