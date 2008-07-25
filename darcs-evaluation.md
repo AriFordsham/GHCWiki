@@ -390,6 +390,9 @@ bzr diff
 \#mercurial: 118 members
 
 
+Sample repo available at [ http://darcs.haskell.org/ghc.hg](http://darcs.haskell.org/ghc.hg)
+
+
 Advantages:
 
 - Speed comparable to Git
@@ -489,6 +492,9 @@ Currently using Tailor. Problems encountered:
 \#git: 388 members
 
 
+Sample repo available at [ http://darcs.haskell.org/ghc.git](http://darcs.haskell.org/ghc.git)
+
+
 Advantages:
   
 
@@ -530,6 +536,9 @@ Disadvantages:
 \#bzr: 143 members
 
 
+Sample repo will soon be available at [ http://darcs.haskell.org/ghc.bzr](http://darcs.haskell.org/ghc.bzr)
+
+
 Advantages:
 
 - Fairly fast
@@ -540,6 +549,7 @@ Advantages:
 - Revisions form a DAG (more like a tree with merge-points) rather than patchsets
 - Supports convenient "centralised-style" commit-remote-by-default as well as "distributed-style" commit-local-by-default. Just 'bind' or 'unbind' your branch whenever you want.
 - Simple clear UI
+- Has rebase
 
 
 Disadvantages
@@ -547,7 +557,6 @@ Disadvantages
 - Revisions form a DAG (more like a tree with merge-points) rather than patchsets (this is a subjective point, which is why it's in both lists. Which model do you believe in?)
 - Cherry-picking isn't very "native" to the data model.
 - UI is rather different from darcs (which current contributors are used to).
-- No rebase
 
 ## Eliminated alternatives
 
