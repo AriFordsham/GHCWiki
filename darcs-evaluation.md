@@ -160,6 +160,51 @@ y <press enter>
 # repo2's and repo3's file now contains lines 1,3,4,5,7
 ```
 
+
+Bzr:
+
+```wiki
+# Make a repo with a single file with lines 1,3,5,7 in
+
+mkdir repo1
+cd repo1
+bzr init
+printf 'Line1\nLine3\nLine5\nLine7\n' > file
+bzr add file
+bzr commit -m patch1 --author igloo@earth.li
+cd ..
+
+# Check out 2 copies of the repo
+
+bzr clone repo1 repo2
+bzr clone repo1 repo3
+
+# Add a patch that adds lines 2 and 6, then another that adds line 4
+
+cd repo1
+printf 'Line1\nLine2\nLine3\nLine5\nLine6\nLine7\n' > file
+bzr commit file -m patch2
+printf 'Line1\nLine2\nLine3\nLine4\nLine5\nLine6\nLine7\n' > file
+bzr commit file -m patch3
+
+# Pull the line 4 patch, but not the lines 2 and 6 patch, into the
+# other repos non-interactively and interactively
+
+cd ../repo2
+(cd ../repo1; bzr log | grep -5 patch2) # Note revision number 2
+bzr merge -c 2 ../repo1
+cd ../repo3
+# We can't do this yet because bzr does not support interactive cherrypicking for merge:
+#darcs pull 
+#n
+#y
+# However, these is a plugin that aims to add it, though it's not very active:
+# https://launchpad.net/bzr-interactive
+# That plugin does however support interactive record
+
+# repo2's and repo3's file now contains lines 1,3,4,5,7
+```
+
 ### Cherry-picking during record
 
 
