@@ -506,6 +506,7 @@ To be able to use all the commands in the example above, you should create a .hg
 
 
 
+
 {{{
 [extensions]
 hgext.record=
@@ -602,7 +603,14 @@ Footnotes:
 
 ** {{{darcs get}}} fails with {{{Unapplicable patch}}} due to the case-insensitivity of HFS+, so you don't get a clone
 
-The Bzr clone time is high because it does an actual copy rather than just using hard links, by design. However, even on the other commands it seems to be about twice as slow as Hg, which is on average somewhat slower than Git.
+These figures were obtained with a warm disk cache on a clean tree, using a Windows XP Parallels virtual machine running under OS X 10.5:
+
+||     ||Annotate||Log   ||Status||Clone   ||
+||Git  ||1.191s  ||0.681s||0.180s||3.035s  ||
+||Hg   ||0.420s  ||2.844s||0.221s||16.383s ||
+||Bzr  ||2.954s  ||7.731s||0.350s||62.190s ||
+
+The Bzr clone time is high because it does an actual copy rather than just using hard links, by design (you can use the shared repository feature instead). However, even on the other commands it seems to be about twice as slow as Hg, which is on average somewhat slower than Git.
 
 Note that this is a very limited benchmark: it doesn't even test merging / pulling or the cost of cloning over a network.
 
