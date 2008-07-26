@@ -687,7 +687,35 @@ Footnotes:
 **
 
 
-The Bzr clone time is high because it does an actual copy rather than just using hard links, by design. However, even on the other commands it seems to be about twice as slow as Hg, which is on average somewhat slower than Git.
+These figures were obtained with a warm disk cache on a clean tree, using a Windows XP Parallels virtual machine running under OS X 10.5:
+
+<table><tr><th></th>
+<th>Annotate</th>
+<th>Log   </th>
+<th>Status</th>
+<th>Clone   
+</th></tr>
+<tr><th>Git  </th>
+<th>1.191s  </th>
+<th>0.681s</th>
+<th>0.180s</th>
+<th>3.035s  
+</th></tr>
+<tr><th>Hg   </th>
+<th>0.420s  </th>
+<th>2.844s</th>
+<th>0.221s</th>
+<th>16.383s 
+</th></tr>
+<tr><th>Bzr  </th>
+<th>2.954s  </th>
+<th>7.731s</th>
+<th>0.350s</th>
+<th>62.190s 
+</th></tr></table>
+
+
+The Bzr clone time is high because it does an actual copy rather than just using hard links, by design (you can use the shared repository feature instead). However, even on the other commands it seems to be about twice as slow as Hg, which is on average somewhat slower than Git.
 
 
 Note that this is a very limited benchmark: it doesn't even test merging / pulling or the cost of cloning over a network.
@@ -778,7 +806,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=49&format=txt)
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=50&format=txt)
 
 ---
 
