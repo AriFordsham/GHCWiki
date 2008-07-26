@@ -503,6 +503,9 @@ Misc. differences from Darcs:
  * Files are not automatically considered removed if you delete them. You need to run hg remove --after <FILE> to remove them from the repo as well
 
 To be able to use all the commands in the example above, you should create a .hgrc file in your home directory, looking something like this:
+
+
+
 {{{
 [extensions]
 hgext.record=
@@ -582,6 +585,26 @@ Disadvantages
  * Revisions form a DAG (more like a tree with merge-points) rather than patchsets (this is a subjective point, which is why it's in both lists. Which model do you believe in?)
  * Cherry-picking isn't very "native" to the data model. Support for this is very poor.
  * UI is rather different from darcs (which current contributors are used to).
+
+=== Benchmarks ===
+
+These benchmark figures were obtained with a warm disk cache on a clean tree, using OS X 10.5:
+
+||     ||Annotate||Log   ||Status||Clone   ||
+||Git  ||0.936s  ||0.523s||0.030s||0.580s  ||
+||Hg   ||0.230s  ||3.772s||0.178s||9.455s  ||
+||Bzr  ||2.131s  ||7.278s||0.312s||49.788s ||
+||Darcs||47.080s*||2.115s||0.053s||28.276**||
+
+Footnotes:
+
+* {{{darcs annotate}}} fails with {{{Stack space overflow: current size 8388608 bytes.}}}, so you don't get an answer
+
+** {{{darcs get}}} fails with {{{Unapplicable patch}}} due to the case-insensitivity of HFS+, so you don't get a clone
+
+The Bzr clone time is high because it does an actual copy rather than just using hard links, by design. However, even on the other commands it seems to be about twice as slow as Hg, which is on average somewhat slower than Git.
+
+Note that this is a very limited benchmark: it doesn't even test merging / pulling or the cost of cloning over a network.
 
 == Eliminated alternatives ==
 
