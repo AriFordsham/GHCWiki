@@ -643,6 +643,55 @@ Disadvantages
 - Cherry-picking isn't very "native" to the data model. Support for this is very poor.
 - UI is rather different from darcs (which current contributors are used to).
 
+### Benchmarks
+
+
+These benchmark figures were obtained with a warm disk cache on a clean tree, using OS X 10.5:
+
+<table><tr><th></th>
+<th>Annotate</th>
+<th>Log   </th>
+<th>Status</th>
+<th>Clone   
+</th></tr>
+<tr><th>Git  </th>
+<th>0.936s  </th>
+<th>0.523s</th>
+<th>0.030s</th>
+<th>0.580s  
+</th></tr>
+<tr><th>Hg   </th>
+<th>0.230s  </th>
+<th>3.772s</th>
+<th>0.178s</th>
+<th>9.455s  
+</th></tr>
+<tr><th>Bzr  </th>
+<th>2.131s  </th>
+<th>7.278s</th>
+<th>0.312s</th>
+<th>49.788s 
+</th></tr>
+<tr><th>Darcs</th>
+<th>47.080s\*</th>
+<th>2.115s</th>
+<th>0.053s</th>
+<th>28.276****
+
+
+Footnotes:
+
+- `darcs annotate` fails with `Stack space overflow: current size 8388608 bytes.`, so you don't get an answer
+
+**`darcs get` fails with `Unapplicable patch` due to the case-insensitivity of HFS+, so you don't get a clone
+**
+
+
+The Bzr clone time is high because it does an actual copy rather than just using hard links, by design. However, even on the other commands it seems to be about twice as slow as Hg, which is on average somewhat slower than Git.
+
+
+Note that this is a very limited benchmark: it doesn't even test merging / pulling or the cost of cloning over a network.
+
 ## Eliminated alternatives
 
 ### Darcs
@@ -716,3 +765,30 @@ Posts/blogs:
 - [ cgit = super-fast](http://community.livejournal.com/evan_tech/236528.html)
 - [ How I stopped missing Darcs and started loving Git](http://blog.moertel.com/articles/2007/12/10/how-i-stopped-missing-darcs-and-started-loving-git)
 - [ Thomas Schilling converts the GHC tree to Git](http://nominolo.blogspot.com/2008/05/thing-that-should-not-be-or-how-to.html)
+
+### Attachments (2)
+
+- [Darcs-vs-Hg-Bugs.png](/trac/ghc/attachment/wiki/DarcsEvaluation/Darcs-vs-Hg-Bugs.png)[](/trac/ghc/raw-attachment/wiki/DarcsEvaluation/Darcs-vs-Hg-Bugs.png) (44.9 KB) - added by batterseapower[11 years ago](/trac/ghc/timeline?from=2008-07-24T11%3A14%3A03Z&precision=second).
+                Due diligence on hg bug tracker: relative numbers of bugs of each status for hg and darcs
+- [dag-version-control.txt](/trac/ghc/attachment/wiki/DarcsEvaluation/dag-version-control.txt)[](/trac/ghc/raw-attachment/wiki/DarcsEvaluation/dag-version-control.txt) (22.4 KB) - added by guest[11 years ago](/trac/ghc/timeline?from=2008-07-30T22%3A11%3A26Z&precision=second).
+                Discussion of how to conduct versioning on a git/hg style system versus Darcs
+
+
+            Download all attachments as: [.zip](/trac/ghc/zip-attachment/wiki/DarcsEvaluation/)
+
+### Download in other formats:
+
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=49&format=txt)
+
+---
+
+[](http://trac.edgewall.org/)
+
+Powered by [Trac 1.2.2](/trac/ghc/about)
+
+        By [Edgewall Software](http://www.edgewall.org/).
+
+Visit the Trac open source project at
+[http://trac.edgewall.org/](http://trac.edgewall.org/)
+
+</th></tr></table>
