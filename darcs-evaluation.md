@@ -465,6 +465,11 @@ bzr merge -c 4 ../repo1
 bzr diff
 ```
 
+### Popularity
+
+
+The Debian popularity contest has some interesting numbers: [ http://people.debian.org/\~igloo/popcon-graphs/index.php?packages=bzr%2Cgit-core%2Cmercurial&show_vote=on&want_legend=on&from_date=&to_date=&hlght_date=&date_fmt=%25Y-%25m&beenhere=1](http://people.debian.org/~igloo/popcon-graphs/index.php?packages=bzr%2Cgit-core%2Cmercurial&show_vote=on&want_legend=on&from_date=&to_date=&hlght_date=&date_fmt=%25Y-%25m&beenhere=1). Git is the clear winner in popularity terms.
+
 ## Darcs alternatives still in the running
 
 ### Mercurial
@@ -806,7 +811,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=50&format=txt)
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=51&format=txt)
 
 ---
 
