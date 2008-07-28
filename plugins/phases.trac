@@ -11,6 +11,77 @@ The current solution where we have phases 0, 1 and 2 is too restrictive to let u
 
 I believe the proposed system represents a significant improvement in modularity and usability of phase control within GHC.
 
+== CURRENT STATUS ==
+
+{{{
+-- $phase_control
+-- #phase_control#
+--
+-- Compiler /core phases/ represent contiguous intervals of time spent in the core pipeline. They are used
+-- to control when core-to-core passes, inlining and rule activation take place. The phases @Foo@ and @Bar@
+-- would be used in @INLINE@ and @RULES@ pragmas like so:
+--
+-- > {-# INLINE [Foo] myIdentifier #-}
+-- > {-# RULES "myrule" [~Bar] map f (map g xs) = map (f . g) xs #-}
+--
+-- Phases, with the constraints on when they can run are introduced by the @PHASE@ pragma syntax. So, a phase
+-- called @Foo@ that must run before one called @Bar@, after one called @Baz@ and at the same time as one
+-- called @Spqr@ is written like so:
+--
+-- > {-# PHASE Foo < Bar, > Baz, = Spqr #-}
+--
+-- All the constraints above are so-called /strong/ constraints: there are also /weak/ constraints, which are
+-- suggestions but not commands to the compiler as to when to run phases. If, for example, a cycle is formed
+-- by including these constraints into the phase partial ordering then the compiler may ignore them, at it's
+-- discretion. Weak constraints are indicated by enclosing the constraint in square brackets:
+--
+-- > {-# PHASE Foo [< Bar], [> Baz] #-}
+--
+-- Note that it is not currently possible for an equality constraint (phase alias) to be weak.
+--
+-- Phases may be imported and exported:
+--
+-- > import MyModule ({-# PHASE Foo #-} {-# PHASE Bar #-})
+--
+-- There are three built-in phases that are implicitly imported, and these have the special names @0@, @1@ and
+-- @2@. These are constrained such that @2@ must run first, then @1@ and finally @0@. The GHC compiler also
+-- exports a number of phases from @GHC.Prim@ that correspond to the particular optimizations and analyses
+-- that it may run.
+--
+-- When constructing the core pipeline, GHC gathers all the phases available to it, and then imposes a total
+-- order than respects all the strong constraints of those phases and as many of the weak constraints as it
+-- wishes. This linearises the core phase graph, which serves as the scaffolding on which the actual Core
+-- transformations are hung.
+--
+-- Now we come to /core passes/, which represent a concrete transformation to be applied to GHCs current Core.
+-- Passes will typically just do a single action, but it is possible to specify a \"core pass\" that just runs a
+-- list of several other core passes. /Core to-dos/ then associates a core pass with a particular core phase.
+--
+-- After solving for some linearisation of the available core phases, the compiler takes the core passes associated
+-- with each phase in that linearisation by way of a core to-do and concatenates them in order. This yields
+-- the final compiler pipeline, which is what is actually run.
+
+-- The above is actually a somewhat simplified picture. It gives the /user model/ for what we do with core phases
+-- and passes, but actually we implement a number of optimizations to this process. What is there to optimize? Well,
+-- we want to minimize the number of simplifier passes that we perform. A naive approach would be to just do one
+-- simplifier run per core phase, to deal with activating the rules and inlinings in that phase. However, this
+-- results in a lot of simplification! So, we optimize in three ways:
+--
+-- 1) When solving for a linearisation of the phases, we group phases together into so-called /phase groups/, which
+--    have the property that every phase within the group is depedent only on the phases in other groups. Hence the
+--    phases within a phase group are independent, and may be treated by a single simplifier run that "acts as though"
+--    it were a simplifier run for every pass individually.
+--
+-- 2) Before running a simplifier pass introduced for the sole purpose of performing the rules and inlining activations
+--    associated with a particular phase, the compiler does a pre-pass to check if there exists any actual uses of that 
+--    phase in the source code being compiled. If not, it doesn't bother running that simplifier pass.
+--
+-- 3) When building up the core pass pipeline, as far as is possible simplifier passes are moved to the end of the part
+--    of the core pipeline belonging to their associated phase group. This gives them their maximum effectiveness, while
+--    simultaneously allowing us to "coalesce" those simplifier passes that are adjacent into a single simplifier pass
+--    that performs the union of the operations of each individual simplifier pass.
+}}}
+
 == Solution ==
 
 {{{
