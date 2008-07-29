@@ -143,10 +143,12 @@ running the testsuite in parallel.
 If you're on a recent Linux system, then you should be able to get a working build environment by installing the following packages using your system's package manager:
 
 - glibc-devel
+- libedit-devel
+- ncurses-devel
+- gmp-devel
 - autoconf
 - automake
 - gcc
-- gmp-devel
 - make
 - perl
 - python
@@ -156,6 +158,13 @@ If you're on a recent Linux system, then you should be able to get a working bui
 - haddock
 
 **Note:** currently you'll also need to install an older version of [ Haddock](http://www.haskell.org/haddock) (0.9) manually, because the version of Haddock you'll get by default is 2.0.0.0 which doesn't work with GHC's build system yet.
+
+
+To be able to build the documentation (User's Guide):
+
+- docbook-utils
+- docbook-utils-pdf
+- docbook-style-xsl
 
 
 other packages that are useful for development:
