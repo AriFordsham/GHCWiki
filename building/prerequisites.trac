@@ -125,10 +125,12 @@ are missing something.  If you're on a Linux system, skip to "Preparing a Linux 
 If you're on a recent Linux system, then you should be able to get a working build environment by installing the following packages using your system's package manager:
 
  * glibc-devel
+ * editline-devel
+ * ncurses-devel
+ * gmp-devel
  * autoconf
  * automake
  * gcc
- * gmp-devel
  * make
  * perl
  * python
