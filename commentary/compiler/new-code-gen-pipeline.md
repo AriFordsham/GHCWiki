@@ -27,11 +27,10 @@
 
 - **Lay out the stack**
 
-  - A `SlotId` is the offset of a stack slot from the old end (high address) of the frame.  It doesn't vary as the physical stack pointer moves.
-  - A particular variable 'x' has one and only one `SlotId`, written `SS(x)`.
-  - A proc-point label K has a `SlotId`, written `SS(K)`, from which its (perhaps multiple) fields can be accessed.
-  - The stack layout pass produces a mapping of: *(Area -\> slotid)*. For more detail, see [the description of stack layout.](commentary/compiler/stack-areas#laying-out-the-stack)
-  - Walk over the graph, replacing references to stack areas with offsets from the stack pointer.
+  - Each variable 'x', and each proc-point label 'K', has an associated *Area*, written SS(x) and SS(k) resp, that names a contiguous portion of the stack frame.  
+  - The stack layout pass produces a mapping of: *(`Area` -\> `StackOffset`)*. For more detail, see [the description of stack layout.](commentary/compiler/stack-areas#laying-out-the-stack)
+  - A `StackOffset` is the byte offset of a stack slot from the old end (high address) of the frame.  It doesn't vary as the physical stack pointer moves.
+  - ONce the stack layout mapping has been determined, a second pass walks over the graph, replacing references to `Areas` with offsets from the stack pointer.
 
 - **Split into multiple CmmProcs**.  At this point we build an info-table for each of the CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
 
