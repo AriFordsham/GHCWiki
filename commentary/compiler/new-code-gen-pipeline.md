@@ -23,13 +23,13 @@
   - The analysis produces a set of `BlockId` that should become proc-points
   - The transformation inserts a function prologue at the start of each proc-point, and a function epilogue just before each branch to a proc-point.
 
-- **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The middle node of the result is `Middle` (from `ZipCfgCmm` extended with `Spill` and `Reload` constructors.  
-  Invariant: (something like) all variables in a block are gotten from `CopyIn` or `Reload`. 
+- **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The spill and reload instructions are simply memory stores and loads respectively, using symbolic stack offsets (see [stack layout](commentary/compiler/stack-areas#laying-out-the-stack)).  For example, a spill of variable 'x' would look like `Ptr32[SS(x)] = x`.
 
 - **Lay out the stack**
 
   - A `SlotId` is the offset of a stack slot from the old end (high address) of the frame.  It doesn't vary as the physical stack pointer moves.
-  - A particular variable has one and only one `SlotId`.  
+  - A particular variable 'x' has one and only one `SlotId`, written `SS(x)`.
+  - A proc-point label K has a `SlotId`, written `SS(K)`, from which its (perhaps multiple) fields can be accessed.
   - The stack layout pass produces a mapping of: *(Area -\> slotid)*. For more detail, see [the description of stack layout.](commentary/compiler/stack-areas#laying-out-the-stack)
   - Walk over the graph, replacing references to stack areas with offsets from the stack pointer.
 
