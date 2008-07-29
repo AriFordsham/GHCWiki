@@ -28,7 +28,7 @@ The info table for a stack frame has a couple of extra fields in addition to the
 [](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/Stack/ret-itbl.png)
 
 
-The *SRT* field points to the SRT table for this stack frame (see [Commentary/Rts/CAFs](commentary/rts/ca-fs) for details of SRTs).  The return vector gives a vector of return addresses in the case of the `RET_VEC_SMALL` and `RET_VEC_BIG` types of return addresses; see [vectored returns](commentary/rts/haskell-execution#vectored-returns) for more details.
+The *SRT* field points to the SRT table for this stack frame (see [Commentary/Rts/CAFs](commentary/rts/ca-fs) for details of SRTs).
 
 ## Layout of the payload
 
@@ -42,9 +42,7 @@ Stack frames therefore have [bitmap layout](commentary/rts/heap-objects#bitmap-l
 
 - `RET_BCO`
 - `RET_SMALL`
-- `RET_VEC_SMALL`
 - `RET_BIG`
-- `RET_VEC_BIG`
 - `RET_DYN`
 - `RET_FUN`
 - `UPDATE_FRAME`
