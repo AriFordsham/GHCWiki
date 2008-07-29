@@ -28,6 +28,7 @@ The info table for a stack frame has a couple of extra fields in addition to the
 [](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/Stack/ret-itbl.png)
 
 
+(ignore the "return vector" part of the above diagram; return vectors were removed from GHC in version 6.8.1)
 The *SRT* field points to the SRT table for this stack frame (see [Commentary/Rts/CAFs](commentary/rts/ca-fs) for details of SRTs).
 
 ## Layout of the payload
