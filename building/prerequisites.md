@@ -162,6 +162,7 @@ To be able to build the documentation (User's Guide):
 
 - docbook-utils
 - docbook-utils-pdf
+- docbook-style-xsl
 
 
 other packages that are useful for development:
