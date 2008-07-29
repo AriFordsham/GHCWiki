@@ -23,15 +23,18 @@
   - The analysis produces a set of `BlockId` that should become proc-points
   - The transformation inserts a function prologue at the start of each proc-point, and a function epilogue just before each branch to a proc-point.
 
-- **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The middle node of the result is `Middle` (from `ZipCfgCmm` extended with `Spill` and `Reload` constructors.  
-  Invariant: (something like) all variables in a block are gotten from `CopyIn` or `Reload`. 
+- **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The spill and reload instructions are simply memory stores and loads respectively, using symbolic stack offsets (see [stack layout](commentary/compiler/stack-areas#laying-out-the-stack)).  For example, a spill of variable 'x' would look like `Ptr32[SS(x)] = x`.
 
-- **Lay out the stack**
+- **Figure out the stack layout**
 
-  - A `SlotId` is the offset of a stack slot from the old end (high address) of the frame.  It doesn't vary as the physical stack pointer moves.
-  - A particular variable has one and only one `SlotId`.  
-  - The stack layout pass produces a mapping of: *(Area -\> slotid)*. For more detail, see [the description of stack layout.](commentary/compiler/stack-areas#laying-out-the-stack)
-  - Walk over the graph, replacing references to stack areas with offsets from the stack pointer.
+  - Each variable 'x', and each proc-point label 'K', has an associated *Area*, written SS(x) and SS(k) resp, that names a contiguous portion of the stack frame.  
+  - The stack layout pass produces a mapping of: *(`Area` -\> `StackOffset`)*. For more detail, see [the description of stack layout.](commentary/compiler/stack-areas#laying-out-the-stack)
+  - A `StackOffset` is the byte offset of a stack slot from the old end (high address) of the frame.  It doesn't vary as the physical stack pointer moves.
+
+- **Manifest the stack pointer**.  Once the stack layout mapping has been determined, a second pass walks over the graph, making the stack pointer, `Sp` explicit. Before this pass, there is no `Sp` at all.  After this, `Sp` is completely manifest.
+
+  - replacing references to `Areas` with offsets from `Sp`.
+  - adding adjustments to `Sp`.
 
 - **Split into multiple CmmProcs**.  At this point we build an info-table for each of the CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
 
