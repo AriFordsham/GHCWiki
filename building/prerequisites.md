@@ -143,7 +143,7 @@ running the testsuite in parallel.
 If you're on a recent Linux system, then you should be able to get a working build environment by installing the following packages using your system's package manager:
 
 - glibc-devel
-- editline-devel
+- libedit-devel
 - ncurses-devel
 - gmp-devel
 - autoconf
