@@ -58,8 +58,6 @@ Here are the big items that we hope to include, along with who is primarily resp
 
 - **GHC API** improvement: **Thomas Schilling** is doing a SoC project.  Preserve comments and pragmas, generic traversals ([\#1467](https://gitlab.haskell.org//ghc/ghc/issues/1467), [\#1886](https://gitlab.haskell.org//ghc/ghc/issues/1886), [GhcApiStatus](ghc-api-status)). We'll ship whatever Thomas has committed by then.
 
-- **Include cabal-install in the release** ([\#2385](https://gitlab.haskell.org//ghc/ghc/issues/2385)). **Ian Lynagh** will do this.
-
 - **Finish System.Process revamp** ([\#2233](https://gitlab.haskell.org//ghc/ghc/issues/2233))
 
 ## Lower priorities for 6.10
