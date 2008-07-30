@@ -58,7 +58,7 @@ norm [[s ~ t]] = check [[s' ~ t']] : eqs++eqt
     (t', eqt) = flatten t
 
 check :: FlattenedEqInst -> [FlattenedEqInst]
--- Does occurs-checks + decomposition
+-- Does OccursCheck + Decomp + Swap
 check [[t ~ t]] = []
 check [[x ~ t]] | x `occursIn` t = fail
                           | otherwise = [[x ~ t]]
