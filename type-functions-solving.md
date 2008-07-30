@@ -1,7 +1,16 @@
 # Normalising and Solving Type Equalities
 
 
-The following is based on ideas for the new, post-ICFP'08 solving algorithm.  Most of the code is in the module `TcTyFuns`.
+The following is based on ideas for the new, post-ICFP'08 solving algorithm.  Technical details are in CVS `papers/type-synonym/new-single.tex`.  Most of the code is in the module `TcTyFuns`.
+
+## Overall algorithm
+
+
+The overall algorithm is as in `new-single.tex`, namely
+
+- Normalise all constraints (both locals and wanteds)
+- Solve the wanteds
+- Finalise
 
 ## Normal equalities
 
@@ -15,11 +24,15 @@ Central to the algorithm are **normal equalities**, which can be regarded as a s
 
 The types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families.  Moreover, in Forms (2) & (3), the left- and right-hand side need to be different, and the left-hand side may not occur in the right-hand side.
 
+**SLPJ**: Terminology: I think "flexible type variable" = "unification variable" = "HM variable".
+
+**SLPJ**: I think that you intend a "normal equality" to embody the Orientation Invariant and the Flattening Invariant from new-single.tex.  But they don't line up exactly.  For example, what about `F [x] ~ G x`?  That satisfies both invariants.
+
 
 NB: We explicitly permit equalities of the form `x ~ y` and `a ~ b`, where both sides are either flexible or rigid type variables.
 
 
-Coercions `co` are either wanteds (represented by a flexible type variable) or givens *aka* locals (represented by a type term of kind CO).  In GHC, they are represented by `TcRnTypes.EqInstCo`.   Moreover, `TcTyFuns.RewriteInst` represents normal equalities, emphasising their role as rewrite rules.
+Coercions `co` are either wanteds (represented by a flexible type variable) or givens *aka* locals (represented by a type term of kind CO).  In GHC, they are represented by `TcRnTypes.EqInstCo`.   Moreover, `TcTyFuns.RewriteInst` represents normal equalities, emphasising their role as rewrite rules.  **SLPJ** but I hope the difference between wanted and given is explicit (different constructor) not implicit (look at the form of the coercion).
 
 ## Normalisation
 
@@ -27,6 +40,11 @@ Coercions `co` are either wanteds (represented by a flexible type variable) or g
 (Ignoring the coercions for the moment.)
 
 ```wiki
+--    EqInst             Arbitrary equalities
+--    FlattenedEqInst    Any type function application is at the top
+--    RewriteInst        Satisfies invariants above
+
+norm :: EqInst -> [RewriteInst]
 norm [[F s1..sn ~ t]] = [[F s1'..sn' ~ t']] : eqs1++..++eqsn++eqt
   where
     (s1', eqs1) = flatten s1
@@ -39,6 +57,8 @@ norm [[s ~ t]] = check [[s' ~ t']] : eqs++eqt
     (s', eqs) = flatten s
     (t', eqt) = flatten t
 
+check :: FlattenedEqInst -> [FlattenedEqInst]
+-- Does OccursCheck + Decomp + Swap
 check [[t ~ t]] = []
 check [[x ~ t]] | x `occursIn` t = fail
                           | otherwise = [[x ~ t]]
@@ -51,6 +71,8 @@ check [[t ~ a]] | a `occursIn` t = fail
 check [[s1 s2 ~ t1 t2]] = check [[s1 ~ t1]] ++ check [[s2 ~ t2]]
 check [[T ~ S]] = fail
 
+flatten :: Type -> (Type, [FlattenedEqInst])
+-- Result type has no type functions whatsoever
 flatten [[F t1..tn]] = (x, [[F t1'..tn' ~ x]] : eqt1++..++eqtn)
   where
     (t1', eqt1) = flatten t1
@@ -75,7 +97,7 @@ Notes:
 
 ## Solving
 
-- (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables.)
+- (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables.)  **SLPJ**: right, precisely as in `new-single.tex`.
 - (Local) only applies to normalised equalities in Form (2) & (3) - and currently also only to local equalities, not to wanteds.  In principle, a rewrite rule could be discarded after an exhaustive application of (Local).  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint, and hence, need to keep all local equalities around.  NB: (Local) -for Forms (2) & (3)- is the most expensive rule as it needs to traverse all type terms.
 - (IdenticalLHS) I don't think it is useful to apply that rule when both equalities are wanted, which makes it a variant of (Local).
 
