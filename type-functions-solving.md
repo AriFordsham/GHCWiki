@@ -131,7 +131,7 @@ E_t: forall x. F [x] ~ [F x]
 ```
 
 
-Derivation with rules in the new-single report:  **SLPJ**: urk!  That is, `new-single` goes into a loop on this??  Martin?
+Derivation with rules in the new-single report: 
 
 ```wiki
 [F v] ~ v  ||-  [F v] ~ v
