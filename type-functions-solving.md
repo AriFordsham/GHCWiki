@@ -97,7 +97,7 @@ Notes:
 
 ## Solving
 
-- (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables.)
+- (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables.)  **SLPJ**: right, precisely as in `new-single.tex`.
 - (Local) only applies to normalised equalities in Form (2) & (3) - and currently also only to local equalities, not to wanteds.  In principle, a rewrite rule could be discarded after an exhaustive application of (Local).  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint, and hence, need to keep all local equalities around.  NB: (Local) -for Forms (2) & (3)- is the most expensive rule as it needs to traverse all type terms.
 - (IdenticalLHS) I don't think it is useful to apply that rule when both equalities are wanted, which makes it a variant of (Local).
 
