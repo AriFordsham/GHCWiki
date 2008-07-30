@@ -5,7 +5,7 @@ GHC has been using darcs for version control since the beginning of 2006.  It ha
 
 ## Problems we currently experience with darcs
 
-- Conflicts and merging.  This is the biggest problem we encounter, and is also the [\#1](https://gitlab.haskell.org//ghc/ghc/issues/1) priority for
+- Conflicts and merging.  This is the biggest problem we encounter, and is also the \#1 priority for
   Darcs development.  Any non-trivial branch is affected, and essentially the workaround is to discard
   the history from the branch when merging, and use ordinary diff/patch tools.  Keeping history is
   possible, but impractical for branches with more than a few patches.
@@ -811,7 +811,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=53&format=txt)
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=54&format=txt)
 
 ---
 
