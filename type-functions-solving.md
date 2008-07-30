@@ -3,6 +3,15 @@
 
 The following is based on ideas for the new, post-ICFP'08 solving algorithm.  Technical details are in CVS `papers/type-synonym/new-single.tex`.  Most of the code is in the module `TcTyFuns`.
 
+## Overall algorithm
+
+
+The overall algorithm is as in `new-single.tex`, namely
+
+- Normalise all constraints (both locals and wanteds)
+- Solve the wanteds
+- Finalise
+
 ## Normal equalities
 
 
