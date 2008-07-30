@@ -58,7 +58,8 @@ check [[t ~ a]] | a `occursIn` t = fail
 check [[s1 s2 ~ t1 t2]] = check [[s1 ~ t1]] ++ check [[s2 ~ t2]]
 check [[T ~ S]] = fail
 
-flatten :: EqInst -> (FlattenedEqInst, [FlattenedEqInst])
+flatten :: Type -> (Type, [FlattenedEqInst])
+-- Result type has no type functions whatsoever
 flatten [[F t1..tn]] = (x, [[F t1'..tn' ~ x]] : eqt1++..++eqtn)
   where
     (t1', eqt1) = flatten t1
