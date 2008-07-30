@@ -575,7 +575,7 @@ Sample repo will soon be available at [http://darcs.haskell.org/ghc.bzr]
 
 Advantages:
 
- * Fairly fast
+ * Fairly fast (but not as fast as Git or Mercurial - see Benchmark below)
  * Allows checkout without any history
  * Portable (as portable as python, anyhow), works on Windows
  * Merging works correctly based on closest-common-ancestor

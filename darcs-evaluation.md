@@ -631,7 +631,7 @@ Sample repo will soon be available at [ http://darcs.haskell.org/ghc.bzr](http:/
 
 Advantages:
 
-- Fairly fast
+- Fairly fast (but not as fast as Git or Mercurial - see Benchmark below)
 - Allows checkout without any history
 - Portable (as portable as python, anyhow), works on Windows
 - Merging works correctly based on closest-common-ancestor
@@ -811,7 +811,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=52&format=txt)
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=53&format=txt)
 
 ---
 
