@@ -32,6 +32,8 @@ Coercions `co` are either wanteds (represented by a flexible type variable) or g
 
 (Ignoring the coercions for the moment.)
 
+'''SLPJ''': added comments/invariants below, pls check.
+
 {{{
 --    EqInst             Arbitrary equalities
 --    FlattenedEqInst    Any type function application is at the top
@@ -90,8 +92,13 @@ Notes:
 == Solving ==
 
  * (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables.)  '''SLPJ''': right, precisely as in `new-single.tex`.
- * (Local) only applies to normalised equalities in Form (2) & (3) - and currently also only to local equalities, not to wanteds.  In principle, a rewrite rule could be discarded after an exhaustive application of (Local).  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint, and hence, need to keep all local equalities around.  NB: (Local) -for Forms (2) & (3)- is the most expensive rule as it needs to traverse all type terms.
- * (IdenticalLHS) I don't think it is useful to apply that rule when both equalities are wanted, which makes it a variant of (Local).
+
+ * (Local) only applies to normalised equalities in Form (2) & (3) - and currently also only to local equalities, not to wanteds.  '''SLPJ''' by "applies to" I think you mean that only those forms are considered to substitute.  We must ''perform'' the substitution on all constraints, right?  '''SLPJ''' why does it not apply to wanteds?[[BR]][[BR]]  
+ In principle, a rewrite rule could be discarded after an exhaustive application of (Local).  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint, and hence, need to keep all local equalities around.[[BR]][[BR]]
+ NB: (Local) -for Forms (2) & (3)- is the most expensive rule as it needs to traverse all type terms.
+
+ * (IdenticalLHS) I don't think it is useful to apply that rule when both equalities are wanted, which makes it a variant of (Local).  '''SLPJ''' good point: in view of (Local) there's no need for (IdenticalLHS) to deal with a given `a~t`.  So if epsilon1 is 'g', the LHS could be restricted to form `F t1..tn` which would be good (in the paper).[[BR]][[BR]]
+ '''SLPJ''' but why do you say that we don't want IdenticalLHS on wanteds?  What about `F a ~ x1, F a ~ Int`.  Then we could unify the HM variable `x` with `Int`.
 
 Observation:
  * Only (Local) when replacing a variable in the ''left-hand side'' of an equality of Form (1) can  lead to recursion with (Top).
