@@ -1,6 +1,6 @@
 = Normalising and Solving Type Equalities =
 
-The following is based on ideas for the new, post-ICFP'08 solving algorithm.  Most of the code is in the module `TcTyFuns`.
+The following is based on ideas for the new, post-ICFP'08 solving algorithm.  Technical details are in CVS `papers/type-synonym/new-single.tex`.  Most of the code is in the module `TcTyFuns`.
 
 
 == Normal equalities ==
