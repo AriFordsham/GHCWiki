@@ -15,6 +15,10 @@ Central to the algorithm are **normal equalities**, which can be regarded as a s
 
 The types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families.  Moreover, in Forms (2) & (3), the left- and right-hand side need to be different, and the left-hand side may not occur in the right-hand side.
 
+**SLPJ**: Terminology: I think "flexible type variable" = "unification variable" = "HM variable".
+
+**SLPJ**: I think that you intend a "normal equality" to embody the Orientation Invariant and the Flattening Invariant from new-single.tex.  But they don't line up exactly.  For example, what about `F [x] ~ G x`?  That satisfies both invariants.
+
 
 NB: We explicitly permit equalities of the form `x ~ y` and `a ~ b`, where both sides are either flexible or rigid type variables.
 
