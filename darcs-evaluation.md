@@ -249,6 +249,7 @@ Git:
 mkdir repo1
 cd repo1
 git init
+
 printf 'Line1\nLine3\nLine5\nLine7\nLine9\n' > file
 git add *
 git commit -m patch1
@@ -497,6 +498,7 @@ Disadvantages:
 - No rebase, though this is being added as part of the Summer of Code
 - Need to run a special server to be able to clone over HTTP (free hosting service is available, will provide free plans for open source projects, supports HTTPS and SSH, [ http://www.bitbucket.org/](http://www.bitbucket.org/))
 - Some suggestion that you may get performance problems on OS X due to the pervasive use of hardlinks, which HFS+ supports poorly (see [ http://weblogs.mozillazine.org/jst/archives/2007/02/more_on_distributed_vcs_perfor.html](http://weblogs.mozillazine.org/jst/archives/2007/02/more_on_distributed_vcs_perfor.html))
+- Debian stable (which e.g. darcs.haskell.org runs) only has v0.9.1, which does not include the new repository format that makes case-sensitivity fixes
 
 #### Darcs vs Mercurial Overview
 
@@ -811,7 +813,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=55&format=txt)
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=56&format=txt)
 
 ---
 
