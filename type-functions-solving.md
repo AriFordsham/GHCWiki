@@ -32,7 +32,7 @@ The types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym famili
 NB: We explicitly permit equalities of the form `x ~ y` and `a ~ b`, where both sides are either flexible or rigid type variables.
 
 
-Coercions `co` are either wanteds (represented by a flexible type variable) or givens *aka* locals (represented by a type term of kind CO).  In GHC, they are represented by `TcRnTypes.EqInstCo`.   Moreover, `TcTyFuns.RewriteInst` represents normal equalities, emphasising their role as rewrite rules.
+Coercions `co` are either wanteds (represented by a flexible type variable) or givens *aka* locals (represented by a type term of kind CO).  In GHC, they are represented by `TcRnTypes.EqInstCo`.   Moreover, `TcTyFuns.RewriteInst` represents normal equalities, emphasising their role as rewrite rules.  **SLPJ** but I hope the difference between wanted and given is explicit (different constructor) not implicit (look at the form of the coercion).
 
 ## Normalisation
 
