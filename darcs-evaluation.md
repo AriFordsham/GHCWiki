@@ -495,7 +495,7 @@ Disadvantages:
 - Similar problems with bisect support as Git
 - (Unknown: suitability of command set?)
 - No rebase, though this is being added as part of the Summer of Code
-- Need to run a special server to be able to clone over HTTP
+- Need to run a special server to be able to clone over HTTP (free hosting service is available, will provide free plans for open source projects, supports HTTPS and SSH, [ http://www.bitbucket.org/](http://www.bitbucket.org/))
 - Some suggestion that you may get performance problems on OS X due to the pervasive use of hardlinks, which HFS+ supports poorly (see [ http://weblogs.mozillazine.org/jst/archives/2007/02/more_on_distributed_vcs_perfor.html](http://weblogs.mozillazine.org/jst/archives/2007/02/more_on_distributed_vcs_perfor.html))
 
 #### Darcs vs Mercurial Overview
@@ -811,7 +811,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=51&format=txt)
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=52&format=txt)
 
 ---
 
