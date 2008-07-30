@@ -31,6 +31,11 @@ Coercions `co` are either wanteds (represented by a flexible type variable) or g
 (Ignoring the coercions for the moment.)
 
 ```wiki
+--    EqInst             Arbitrary equalities
+--    FlattenedEqInst    Any type function application is at the top
+--    RewriteInst        Satisfies invariants above
+
+norm :: EqInst -> [RewriteInst]
 norm [[F s1..sn ~ t]] = [[F s1'..sn' ~ t']] : eqs1++..++eqsn++eqt
   where
     (s1', eqs1) = flatten s1
@@ -43,6 +48,8 @@ norm [[s ~ t]] = check [[s' ~ t']] : eqs++eqt
     (s', eqs) = flatten s
     (t', eqt) = flatten t
 
+check :: FlattenedEqInst -> [FlattenedEqInst]
+-- Does occurs-checks + decomposition
 check [[t ~ t]] = []
 check [[x ~ t]] | x `occursIn` t = fail
                           | otherwise = [[x ~ t]]
@@ -55,6 +62,7 @@ check [[t ~ a]] | a `occursIn` t = fail
 check [[s1 s2 ~ t1 t2]] = check [[s1 ~ t1]] ++ check [[s2 ~ t2]]
 check [[T ~ S]] = fail
 
+flatten :: EqInst -> (FlattenedEqInst, [FlattenedEqInst])
 flatten [[F t1..tn]] = (x, [[F t1'..tn' ~ x]] : eqt1++..++eqtn)
   where
     (t1', eqt1) = flatten t1
