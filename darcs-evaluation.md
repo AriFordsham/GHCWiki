@@ -34,7 +34,7 @@ On the 23rd July 2008 an IRC meeting on the \#ghc channel decided to make a seri
 
 - The GHC developers have sufficient problems with Darcs that a change would be beneficial
 
-- We want to stick with distributed version control, and have a widely-used and well-supported system, so Mercurial and Git are the only real
+- We want to stick with distributed version control, and have a widely-used and well-supported system, so Mercurial and Git and bzr are the only real
   contenders
 
 - Mercurial and Git and percived as being mostly feature-and-performance comparable, although git is more popular
@@ -811,7 +811,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=54&format=txt)
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=55&format=txt)
 
 ---
 
