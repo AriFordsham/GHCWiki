@@ -250,6 +250,7 @@ mkdir repo1
 cd repo1
 git init
 
+
 printf 'Line1\nLine3\nLine5\nLine7\nLine9\n' > file
 git add *
 git commit -m patch1
@@ -628,7 +629,7 @@ Disadvantages:
 \#bzr: 143 members
 
 
-Sample repo will soon be available at [ http://darcs.haskell.org/ghc.bzr](http://darcs.haskell.org/ghc.bzr)
+Sample repo available at [ http://darcs.haskell.org/ghc.bzr](http://darcs.haskell.org/ghc.bzr)
 
 
 Advantages:
@@ -813,7 +814,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=56&format=txt)
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=57&format=txt)
 
 ---
 
