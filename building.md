@@ -13,15 +13,13 @@ can extend it, modify it, and use it to build your code.
 Start here
 
 - [Quick start: just building and installing GHC](building/quick-start)
-
 - [Getting the sources](building/getting-the-sources)
 - [General FAQ for building GHC](building/faq)
 
 
-More detailed information
+More detailed information about using the system
 
 - [What tools you need](building/prerequisites)
-
 - [Quick start for developers](building/hacking)
 - [How do I re-build after updating or changing GHC?](building/rebuilding)
 - [Building the documentation](building/docs)
@@ -29,6 +27,9 @@ More detailed information
 - [Porting GHC](building/porting)
 - [Running the GHC test framework](building/running-tests)
 - [The NoFib benchmark suite](building/running-no-fib)
+
+
+How the build system works
 
 - [Using the build system](building/using)
 - Architecture of the build system?
