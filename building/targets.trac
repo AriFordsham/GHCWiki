@@ -6,7 +6,7 @@ This is intended as a short summary of how to do common tasks.  See also [wiki:B
 
 Do these things in the `$(TOP)` directory.
 
- * Initialisation: `sh boot; ./configure`, create `build.mk`.  See [wiki:http://hackage.haskell.org/trac/ghc/wiki/Building/Using#Gettingthebuildyouwant the details].
+ * Initialisation: `sh boot; ./configure`, create `build.mk`.  See [wiki:Building/Using#Gettingthebuildyouwant the details].
 
  * `make`.  This should make everything: the support utilities, stage1 compiler, libraries, and stage2 compiler.
 
