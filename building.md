@@ -31,6 +31,7 @@ More detailed information about using the system
 
 How the build system works
 
+- [Layout of important files and directories](building/files)
 - [Using the build system](building/using)
 - Architecture of the build system?
 

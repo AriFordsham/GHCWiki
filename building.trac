@@ -26,6 +26,7 @@ More detailed information about using the system
  * [wiki:Building/RunningNoFib The NoFib benchmark suite]
 
 How the build system works
+ * [wiki:Building/Files Layout of important files and directories]
  * [wiki:Building/Using Using the build system]
  * [wiki:Building/BuildSystem Architecture of the build system]
 
