@@ -1,6 +1,6 @@
 [ Video: Getting and Building](http://video.google.com/videoplay?docid=7166458546326012899), layout of the source tree, how to set up build.mk (23'43")
 
-# Quick start for developers
+# Controlling your build
 
 
 This section is for those who want to do more than just build & install GHC.  It
@@ -9,7 +9,7 @@ modifications to others.  This section contains a few nuggets of information
 that will help get you started right away.  For more detailed documentation
 on the build system, read on to the later sections.
 
-## Controlling your build: `mk/build.mk`
+## Using `mk/build.mk`
 
 `mk/build.mk` is a GNU makefile that contains all your build settings.
 By default, this file doesn't exist, and all the parameters are set to
