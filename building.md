@@ -10,10 +10,12 @@ can extend it, modify it, and use it to build your code.
 ## Contents
 
 
-Start here
+Quick starts
 
 - [Getting the sources](building/getting-the-sources)
-- [Quick start: just building and installing GHC](building/quick-start)
+- [Just building and installing GHC](building/quick-start)
+- [Layout of important files and directories](building/files)
+- [Useful workflows](building/targets)
 - [General FAQ for building GHC](building/faq)
 
 
@@ -31,8 +33,6 @@ More detailed information about using the system
 
 How the build system works
 
-- [Layout of important files and directories](building/files)
-- [Useful makefile targets](building/targets)
 - [Using the build system](building/using)
 - Architecture of the build system?
 
