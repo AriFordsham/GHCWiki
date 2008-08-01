@@ -11,8 +11,8 @@ can extend it, modify it, and use it to build your code.
 == Contents ==
 
 Start here
- * [wiki:Building/QuickStart Quick start: just building and installing GHC]
  * [wiki:Building/GettingTheSources Getting the sources]
+ * [wiki:Building/QuickStart Quick start: just building and installing GHC]
  * [wiki:Building/FAQ General FAQ for building GHC]
 
 More detailed information about using the system

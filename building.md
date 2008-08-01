@@ -12,8 +12,8 @@ can extend it, modify it, and use it to build your code.
 
 Start here
 
-- [Quick start: just building and installing GHC](building/quick-start)
 - [Getting the sources](building/getting-the-sources)
+- [Quick start: just building and installing GHC](building/quick-start)
 - [General FAQ for building GHC](building/faq)
 
 
