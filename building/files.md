@@ -62,3 +62,6 @@ This directory appears only in the build tree. It contains the `.hi` and `.o` fi
   Code for the stage1 and stage2 compiler.
 
 </td></tr></table>
+
+*There seems to be `ghc/dist-stage1` too... what's that?  Also there is `compiler/stage1`!
+*

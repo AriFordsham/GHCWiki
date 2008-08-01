@@ -49,3 +49,4 @@ The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.  Ea
     * '''`ghc/stage1-inplace/`, `ghc/stage2-inplace/`'''
       Code for the stage1 and stage2 compiler.
 
+''There seems to be `ghc/dist-stage1` too... what's that?  Also there is `compiler/stage1`!
