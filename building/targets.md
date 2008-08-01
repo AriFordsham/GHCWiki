@@ -41,4 +41,4 @@ Do these things in `$(TOP)/libraries` directory.
 Do you do the selective work in `libraries/` or in `libraries/haskell98/` (say)?
 
 
-Disabling a library you don't want to build.
+Disabling a library you don't want to build.  (Mess with SUBDIRS?)
