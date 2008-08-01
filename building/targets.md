@@ -42,3 +42,9 @@ Do you do the selective work in `libraries/` or in `libraries/haskell98/` (say)?
 
 
 Disabling a library you don't want to build.  (Mess with SUBDIRS?)
+
+### Testing
+
+- Perform [validation before committing changes](testing-patches)
+- Run the [test suite](building/running-tests)
+- Run the [nofib suite](building/running-no-fib)
