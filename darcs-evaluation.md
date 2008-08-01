@@ -251,6 +251,7 @@ cd repo1
 git init
 
 
+
 printf 'Line1\nLine3\nLine5\nLine7\nLine9\n' > file
 git add *
 git commit -m patch1
@@ -531,6 +532,7 @@ Commands the same between Hg and Darcs:
 ```wiki
 darcs push -> hg push
 darcs add/remove <FILE> -> hg add/remove <FILE>
+
 darcs revert -> hg revert
 darcs tag -> hg tag
 darcs annotate -> hg annotate
@@ -728,6 +730,16 @@ The Bzr clone time is high because it does an actual copy rather than just using
 
 Note that this is a very limited benchmark: it doesn't even test merging / pulling or the cost of cloning over a network.
 
+<table><tr><th></th>
+<th>HTTP Clone (darcs.haskell.org)
+</th></tr>
+<tr><th>Git </th>
+<th>21m 23.612s                   
+</th></tr>
+<tr><th>Bzr </th>
+<th>\> 2h (still running...        
+</th></tr></table>
+
 ## Eliminated alternatives
 
 ### Darcs
@@ -814,7 +826,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=57&format=txt)
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=58&format=txt)
 
 ---
 
