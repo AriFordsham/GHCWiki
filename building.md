@@ -22,7 +22,7 @@ Quick starts
 More detailed information about using the system
 
 - [What tools you need](building/prerequisites)
-- [Quick start for developers](building/hacking)
+- [Controlling your build](building/hacking)
 - [How do I re-build after updating or changing GHC?](building/rebuilding)
 - [Building the documentation](building/docs)
 - [Unregisterised builds](building/unregisterised)

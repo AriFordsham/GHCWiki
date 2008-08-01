@@ -19,7 +19,7 @@ Quick starts
 
 More detailed information about using the system
  * [wiki:Building/Prerequisites What tools you need]
- * [wiki:Building/Hacking Quick start for developers]
+ * [wiki:Building/Hacking Controlling your build]
  * [wiki:Building/Rebuilding How do I re-build after updating or changing GHC?]
  * [wiki:Building/Docs Building the documentation]
  * [wiki:Building/Unregisterised Unregisterised builds]
