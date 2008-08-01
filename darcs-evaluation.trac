@@ -240,6 +240,7 @@ git init
 
 
 
+
 printf 'Line1\nLine3\nLine5\nLine7\nLine9\n' > file
 git add *
 git commit -m patch1
@@ -624,7 +625,7 @@ Note that this is a very limited benchmark: it doesn't even test merging / pulli
 
 ||    ||HTTP Clone (darcs.haskell.org)||
 ||Git ||21m 23.612s                   ||
-||Bzr ||> 2h (still running...        ||
+||Bzr ||77m 11.526s                   ||
 
 == Eliminated alternatives ==
 

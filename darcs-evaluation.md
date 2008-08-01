@@ -252,6 +252,7 @@ git init
 
 
 
+
 printf 'Line1\nLine3\nLine5\nLine7\nLine9\n' > file
 git add *
 git commit -m patch1
@@ -737,7 +738,7 @@ Note that this is a very limited benchmark: it doesn't even test merging / pulli
 <th>21m 23.612s                   
 </th></tr>
 <tr><th>Bzr </th>
-<th>\> 2h (still running...        
+<th>77m 11.526s                   
 </th></tr></table>
 
 ## Eliminated alternatives
@@ -826,7 +827,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=58&format=txt)
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=59&format=txt)
 
 ---
 
