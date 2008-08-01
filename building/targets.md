@@ -25,7 +25,7 @@ Do these things in the `$(TOP)/compiler` directory.
 - **`make rebuild`**, **`make rebuild stage=2`**.  This just builds the stage1 or stage2 compiler respectively.
 
 
-How to clean selectively?  
+How to clean selectively?  I tried 'make clean stage=2' but I think that deleted my stage1 files too.  
 
 ### Build libraries
 
@@ -42,3 +42,9 @@ Do you do the selective work in `libraries/` or in `libraries/haskell98/` (say)?
 
 
 Disabling a library you don't want to build.  (Mess with SUBDIRS?)
+
+### Testing
+
+- Perform [validation before committing changes](testing-patches)
+- Run the [test suite](building/running-tests)
+- Run the [nofib suite](building/running-no-fib)
