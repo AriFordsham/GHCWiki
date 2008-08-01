@@ -18,7 +18,7 @@ Quick starts
  * [wiki:Building/FAQ General FAQ for building GHC]
 
 More detailed information about using the system
- * [wiki:Building/Prerequisites What tools you need]
+ * [wiki:Building/Using Using the build system]
  * [wiki:Building/Hacking Controlling your build]
  * [wiki:Building/Rebuilding How do I re-build after updating or changing GHC?]
  * [wiki:Building/Docs Building the documentation]
@@ -28,7 +28,7 @@ More detailed information about using the system
  * [wiki:Building/RunningNoFib The NoFib benchmark suite]
 
 How the build system works
- * [wiki:Building/Using Using the build system]
+ * [wiki:Building/Prerequisites What tools you need]
  * [wiki:Building/BuildSystem Architecture of the build system]
 
 Platform-specific guidance

@@ -21,7 +21,7 @@ Quick starts
 
 More detailed information about using the system
 
-- [What tools you need](building/prerequisites)
+- [Using the build system](building/using)
 - [Controlling your build](building/hacking)
 - [How do I re-build after updating or changing GHC?](building/rebuilding)
 - [Building the documentation](building/docs)
@@ -33,7 +33,7 @@ More detailed information about using the system
 
 How the build system works
 
-- [Using the build system](building/using)
+- [What tools you need](building/prerequisites)
 - Architecture of the build system?
 
 
