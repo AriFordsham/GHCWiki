@@ -29,12 +29,12 @@ Getting started for developers
 More detailed information about the build system
 
 - [Using the build system](building/using)
+- Architecture of the build system?
 - [Building the documentation](building/docs)
 - [Unregisterised builds](building/unregisterised)
 - [Porting GHC](building/porting)
 - [Running the GHC test framework](building/running-tests)
 - [The NoFib benchmark suite](building/running-no-fib)
-- Architecture of the build system?
 
 
 Platform-specific guidance
