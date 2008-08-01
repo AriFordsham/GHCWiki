@@ -25,7 +25,7 @@ Do these things in the `$(TOP)/compiler` directory.
 - **`make rebuild`**, **`make rebuild stage=2`**.  This just builds the stage1 or stage2 compiler respectively.
 
 
-How to clean selectively?  
+How to clean selectively?  I tried 'make clean stage=2' but I think that deleted my stage1 files too.  
 
 ### Build libraries
 
