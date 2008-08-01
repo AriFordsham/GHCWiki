@@ -14,7 +14,7 @@ Quick starts
  * [wiki:Building/GettingTheSources Getting the sources]
  * [wiki:Building/QuickStart Just building and installing GHC]
  * [wiki:Building/Files Layout of important files and directories]
- * [wiki:Building/Targets Useful workflows]
+ * [wiki:Building/Targets Useful workflows and makefile targets]
  * [wiki:Building/FAQ General FAQ for building GHC]
 
 More detailed information about using the system
