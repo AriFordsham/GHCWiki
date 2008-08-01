@@ -1,4 +1,4 @@
-# Useful building workflows
+# Useful workflows and makefile targets
 
 
 This is intended as a short summary of how to do common tasks.  See also [Building/Using](building/using#standard-targets), although that may not be fully up to date. 
@@ -8,7 +8,7 @@ This is intended as a short summary of how to do common tasks.  See also [Buildi
 
 Do these things in the `$(TOP)` directory.
 
-- Initialisation: `sh boot; ./configure`, create `build.mk`.  See [the details](building/using#getting-the-build-you-want).
+- Initialisation: `sh boot; ./configure`, create `build.mk`.  See [the details](building/using#getting-the-build-you-want), and more about [controlling the build](building/hacking).
 
 - **`make`**.  This should make everything: the support utilities, stage1 compiler, libraries, and stage2 compiler.
 
