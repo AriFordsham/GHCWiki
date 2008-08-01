@@ -32,6 +32,7 @@ More detailed information about using the system
 How the build system works
 
 - [Layout of important files and directories](building/files)
+- [Useful makefile targets](building/targets)
 - [Using the build system](building/using)
 - Architecture of the build system?
 
