@@ -3,6 +3,8 @@
 
 Everything starts with the main GHC repository (see [Building/GettingTheSources](building/getting-the-sources)).   The buld system calls that directory `$(TOP)`.  All the paths below are relative to `$(TOP)`.
 
+## Files in `$(TOP)`
+
 <table><tr><th>**`darcs-all`**</th>
 <td>
 This script allows you to get or pull all the additional repositories that you need to build GHC.  The command-line interface is documented in the file itself.
@@ -13,30 +15,32 @@ This script allows you to get or pull all the additional repositories that you n
 Lists the packages that `darcs-all` should get or pull.  `packages` is looked at only by `darcs-all`.
 </td></tr></table>
 
-<table><tr><th>**`libraries/`**</th>
+<table><tr><th>**`ghc.spec`**</th>
 <td>
-Sub-directory for all the packages that GHC needs.
+What is this?
 </td></tr></table>
 
-<table><tr><th>**`utils/`**</th>
-<td>
-Sub-directory for support utilities that GHC uses.  Some of these are themselves separate repositories that `darcs-all` pulls; others are part of the main GHC repository.  Typically these utilities are built once and for all when your build tree is initialised.
-</td></tr></table>
+## `libraries/`
 
-<table><tr><th>**`compiler/`**</th>
-<td>
-The main GHC compiler.
-</td></tr></table>
 
-<table><tr><th>**`rts/`**</th>
-<td>
-The runtime system.
-</td></tr></table>
+The `libraries/` directory contains all the packages that GHC needs to build.
 
-<table><tr><th>**`mk/`**</th>
-<td>
-Makefile support for the build system.
-</td></tr></table>
+## `utils/`
+
+
+The `utils` directory contains support utilities that GHC uses.  Some of these are themselves separate repositories that `darcs-all` pulls; others are part of the main GHC repository.  Typically these utilities are built once and for all when your build tree is initialised.
+
+## `compiler/`, `rts/`, `docs/`, `includes/`
+
+
+These directories contain the main GHC compiler, runtime system, and documentation.
+
+## `testsuite/`, `nofib/`
+
+
+The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.  Each is a separate repository, which can be gotten with `darcs-all`.
+
+## Stuff that appears only in a build tree
 
 <table><tr><th>**`ghc/`**</th>
 <td>
