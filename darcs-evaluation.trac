@@ -239,6 +239,7 @@ cd repo1
 git init
 
 
+
 printf 'Line1\nLine3\nLine5\nLine7\nLine9\n' > file
 git add *
 git commit -m patch1
@@ -494,6 +495,7 @@ Commands the same between Hg and Darcs:
 {{{
 darcs push -> hg push
 darcs add/remove <FILE> -> hg add/remove <FILE>
+
 darcs revert -> hg revert
 darcs tag -> hg tag
 darcs annotate -> hg annotate
@@ -619,6 +621,10 @@ These figures were obtained with a warm disk cache on a clean tree, using a Wind
 The Bzr clone time is high because it does an actual copy rather than just using hard links, by design (you can use the shared repository feature instead). However, even on the other commands it seems to be about twice as slow as Hg, which is on average somewhat slower than Git.
 
 Note that this is a very limited benchmark: it doesn't even test merging / pulling or the cost of cloning over a network.
+
+||    ||HTTP Clone (darcs.haskell.org)||
+||Git ||21m 23.612s                   ||
+||Bzr ||> 2h (still running...        ||
 
 == Eliminated alternatives ==
 
