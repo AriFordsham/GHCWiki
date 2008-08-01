@@ -1,3 +1,6 @@
+
+[[PageOutline]]
+
 = Layout of important files and directories =
 
 Everything starts with the main GHC repository (see [wiki:Building/GettingTheSources]).   The buld system calls that directory `$(TOP)`.  All the paths below are relative to `$(TOP)`.
