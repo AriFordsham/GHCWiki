@@ -9,27 +9,39 @@ can extend it, modify it, and use it to build your code.
 
 ## Contents
 
+
+Start here
+
 - [Getting the sources](building/getting-the-sources)
-- [Platforms that GHC currently supports](platforms)
-- [What tools you need](building/prerequisites)
 - [Quick start: just building and installing GHC](building/quick-start)
+- [General FAQ for building GHC](building/faq)
+
+
+More detailed information about using the system
+
+- [What tools you need](building/prerequisites)
 - [Quick start for developers](building/hacking)
-- [Unregisterised builds](building/unregisterised)
 - [How do I re-build after updating or changing GHC?](building/rebuilding)
-- [Using the build system](building/using)
-- Architecture of the build system?
 - [Building the documentation](building/docs)
+- [Unregisterised builds](building/unregisterised)
 - [Porting GHC](building/porting)
 - [Running the GHC test framework](building/running-tests)
 - [The NoFib benchmark suite](building/running-no-fib)
 
-- Platform-specific guidance
 
-  - [Platforms, scripts, and file names](building/platforms-scripts-file-names)
-  - [Building under Windows](building/windows)
-  - [Building under MacOS X](building/mac-osx)
+How the build system works
 
-- [General FAQ for building GHC](building/faq)
+- [Layout of important files and directories](building/files)
+- [Using the build system](building/using)
+- Architecture of the build system?
+
+
+Platform-specific guidance
+
+- [Platforms that GHC currently supports](platforms)
+- [Platforms, scripts, and file names](building/platforms-scripts-file-names)
+- [Building under Windows](building/windows)
+- [Building under MacOS X](building/mac-osx)
 
 ## Contributed documentation
 
