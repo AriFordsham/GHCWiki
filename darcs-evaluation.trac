@@ -241,6 +241,7 @@ git init
 
 
 
+
 printf 'Line1\nLine3\nLine5\nLine7\nLine9\n' > file
 git add *
 git commit -m patch1
@@ -625,7 +626,10 @@ Note that this is a very limited benchmark: it doesn't even test merging / pulli
 
 ||    ||HTTP Clone (darcs.haskell.org)||
 ||Git ||21m 23.612s                   ||
+||Hg  ||231m 11.580s                  ||
 ||Bzr ||77m 11.526s                   ||
+
+All of these clone times can be improved by deploying server-side software of some sort or another. But it's nice to just be able to set up a repo by exposing a directory, and these are the sort of pull times you can expect from such a deployment.
 
 == Eliminated alternatives ==
 
@@ -678,6 +682,7 @@ The following documentation would need to change:
  * [wiki:WorkingConventions/FixingBugs]
  * [wiki:WorkingConventions/AddingFeatures]
  * [wiki:GettingStarted]
+
  * TestingPatches
  * BuildBot
 

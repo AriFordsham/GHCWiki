@@ -253,6 +253,7 @@ git init
 
 
 
+
 printf 'Line1\nLine3\nLine5\nLine7\nLine9\n' > file
 git add *
 git commit -m patch1
@@ -737,9 +738,15 @@ Note that this is a very limited benchmark: it doesn't even test merging / pulli
 <tr><th>Git </th>
 <th>21m 23.612s                   
 </th></tr>
+<tr><th>Hg  </th>
+<th>231m 11.580s                  
+</th></tr>
 <tr><th>Bzr </th>
 <th>77m 11.526s                   
 </th></tr></table>
+
+
+All of these clone times can be improved by deploying server-side software of some sort or another. But it's nice to just be able to set up a repo by exposing a directory, and these are the sort of pull times you can expect from such a deployment.
 
 ## Eliminated alternatives
 
@@ -798,6 +805,7 @@ The following documentation would need to change:
 - [WorkingConventions/FixingBugs](working-conventions/fixing-bugs)
 - [WorkingConventions/AddingFeatures](working-conventions/adding-features)
 - [GettingStarted](getting-started)
+
 - [TestingPatches](testing-patches)
 - [BuildBot](build-bot)
 
@@ -827,7 +835,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=59&format=txt)
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=60&format=txt)
 
 ---
 
