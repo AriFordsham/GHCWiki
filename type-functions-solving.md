@@ -1,16 +1,35 @@
 # Normalising and Solving Type Equalities
 
 
-The following is based on ideas for the new, post-ICFP'08 solving algorithm.  Technical details are in CVS `papers/type-synonym/new-single.tex`.  Most of the code is in the module `TcTyFuns`.
+The following is based on ideas for the new, post-ICFP'08 solving algorithm described in CVS `papers/type-synonym/new-single.tex`.  Most of the code is in the module `TcTyFuns`.
+
+## Terminology
+
+<table><tr><th>*Wanted equality*</th>
+<td>
+An equality constraint that we need to derive during type checking.  Failure to derive it leads to rejection of the checked program.
+</td></tr>
+<tr><th>*Local equality*, *given equality*</th>
+<td>
+An equality constraint that -in a certain scope- may be used to derive wanted equalities.
+</td></tr>
+<tr><th>*Flexible type variable*,  *unification variable*, *HM variable*</th>
+<td>
+Type variables that may be **globally** instantiated by unification.
+</td></tr>
+<tr><th>*Rigid type variable*, *skolem type variable*</th>
+<td>
+Type variable that cannot be globally instantiated, but it may be **locally** refined by a local equality constraint.
+</td></tr></table>
 
 ## Overall algorithm
 
 
 The overall algorithm is as in `new-single.tex`, namely
 
-- Normalise all constraints (both locals and wanteds)
-- Solve the wanteds
-- Finalise
+1. normalise all constraints (both locals and wanteds),
+1. solve the wanteds, and
+1. finalise.
 
 ## Normal equalities
 
@@ -23,8 +42,6 @@ Central to the algorithm are **normal equalities**, which can be regarded as a s
 
 
 The types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families.  Moreover, in Forms (2) & (3), the left- and right-hand side need to be different, and the left-hand side may not occur in the right-hand side.
-
-**SLPJ**: Terminology: I think "flexible type variable" = "unification variable" = "HM variable".
 
 **SLPJ**: I think that you intend a "normal equality" to embody the Orientation Invariant and the Flattening Invariant from new-single.tex.  But they don't line up exactly.  For example, what about `F [x] ~ G x`?  That satisfies both invariants.
 
