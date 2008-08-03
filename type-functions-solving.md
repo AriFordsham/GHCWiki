@@ -180,7 +180,7 @@ F [a] ~ a  ||-  x ~ a, F[a] ~ x
 ..and so on..
 ```
 
-**New-single using flexible tyvars to flatten locals, but w/o Rule (Local) for flexible type variables**: Interestingly, new-single emulates the effect of (SkolemOccurs) if we (a) use flexible type variables to flatten local equalities and (b) at the same time do not use Rule (Local) for variable equalities with flexible type variables.  NB: Point (b) was necessary for the ICFP'08 algorithm, too.
+**New-single using flexible tyvars to flatten locals, but w/o Rule (Local) for flexible type variables**: With (SkolemOccurs) it is crucial to avoid using Rule (Local) with flexible type variables.  We can achieve a similar effect with new-single if we (a) use flexible type variables to flatten local equalities and (b) at the same time do not use Rule (Local) for variable equalities with flexible type variables.  NB: Point (b) was necessary for the ICFP'08 algorithm, too.
 
 ```wiki
 [F v] ~ v  ||-  [F v] ~ v
