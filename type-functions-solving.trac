@@ -57,14 +57,11 @@ Moreover, `TcTyFuns.RewriteInst` represents normal equalities, emphasising their
 
 == Normalisation ==
 
-(Ignoring the coercions for the moment.)
-
-'''SLPJ''': added comments/invariants below, pls check.
-
+The following function `norm` turns an arbitrary equality into a set of normal equalities.  (It ignores the coercions for the moment.)
 {{{
---    EqInst             Arbitrary equalities
---    FlattenedEqInst    Any type function application is at the top
---    RewriteInst        Satisfies invariants above
+data EqInst         -- arbitrary equalities
+data FlatEqInst     -- synonym families may only occur outermost on the lhs
+data RewriteInst    -- normal equality
 
 norm :: EqInst -> [RewriteInst]
 norm [[F s1..sn ~ t]] = [[F s1'..sn' ~ t']] : eqs1++..++eqsn++eqt
@@ -80,7 +77,7 @@ norm [[s ~ t]] = check [[s' ~ t']] : eqs++eqt
     (t', eqt) = flatten t
 
 check :: FlattenedEqInst -> [FlattenedEqInst]
--- Does OccursCheck + Decomp + Swap
+-- Does OccursCheck + Decomp + Swap (of new-single)
 check [[t ~ t]] = []
 check [[x ~ t]] | x `occursIn` t = fail
                           | otherwise = [[x ~ t]]
@@ -94,7 +91,7 @@ check [[s1 s2 ~ t1 t2]] = check [[s1 ~ t1]] ++ check [[s2 ~ t2]]
 check [[T ~ S]] = fail
 
 flatten :: Type -> (Type, [FlattenedEqInst])
--- Result type has no type functions whatsoever
+-- Result type has no synonym families whatsoever
 flatten [[F t1..tn]] = (x, [[F t1'..tn' ~ x]] : eqt1++..++eqtn)
   where
     (t1', eqt1) = flatten t1
@@ -113,21 +110,22 @@ Notes:
  * Perform Rule Triv as part of normalisation.
  * Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
  * Use flexible tyvars for flattening of locals, too.  (We have flexibles in locals anyway and don't use (Unify) on locals, so the flexibles shouldn't cause any harm, but the elimination of skolems is much easier for flexibles - we just instantiate them.)
- * Do we need to record a skolem elimination substitution for skolems introduced during flattening for wanteds, too?
+ * '''TODO:''' Do we need to record a skolem elimination substitution for skolems introduced during flattening for wanteds, too?
 
 
 == Solving ==
 
- * (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables.)  '''SLPJ''': right, precisely as in `new-single.tex`.
+ * (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables - just as in new-single.)
 
- * (Local) only applies to normalised equalities in Form (2) & (3) - and currently also only to local equalities, not to wanteds.  '''SLPJ''' by "applies to" I think you mean that only those forms are considered to substitute.  We must ''perform'' the substitution on all constraints, right?  '''SLPJ''' why does it not apply to wanteds?[[BR]][[BR]]  
- In principle, a rewrite rule could be discarded after an exhaustive application of (Local).  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint, and hence, need to keep all local equalities around.[[BR]][[BR]]
- NB: (Local) -for Forms (2) & (3)- is the most expensive rule as it needs to traverse all type terms.
+ * (Local) only substitutes normal variable equalities - and currently also only local equalities, not wanteds.  (We should call this Rule (Subst) again.) 
+
+ In principle, a rewrite rule could be discarded after an exhaustive application of (Local).  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint, and hence, need to keep all local equalities around.
 
  * (IdenticalLHS) I don't think it is useful to apply that rule when both equalities are wanted, which makes it a variant of (Local).  '''SLPJ''' good point: in view of (Local) there's no need for (IdenticalLHS) to deal with a given `a~t`.  So if epsilon1 is 'g', the LHS could be restricted to form `F t1..tn` which would be good (in the paper).[[BR]][[BR]]
  '''SLPJ''' but why do you say that we don't want IdenticalLHS on wanteds?  What about `F a ~ x1, F a ~ Int`.  Then we could unify the HM variable `x` with `Int`.
 
-Observation:
+=== Observations ===
+ *  Rule (Local) -substituting variable equalities- is the most expensive rule as it needs to traverse all type terms.
  * Only (Local) when replacing a variable in the ''left-hand side'' of an equality of Form (1) can  lead to recursion with (Top).
 
 == Termination ==
