@@ -154,18 +154,17 @@ Notes:
 ### SkolemOccurs
 
 
-The Note \[skolemOccurs loop\] in the old code explains that equalities of the form `x ~ t` (where `x` is a flexible type variable) may not be used as rewrite rules, but only be solved by applying Rule Unify.  As Unify carefully avoids cycles, this prevents the use of equalities introduced by the Rule SkolemOccurs as rewrite rules.  For this to work, SkolemOccurs also had to apply to equalities of the form `a ~ t[[a]]`.  This was a somewhat intricate set up that's being simplified in the new algorithm.  Whether equalities of the form `x ~ t` are used as rewrite rules or solved by Unify doesn't matter anymore.  Instead, we disallow recursive equalities after normalisation completely (both locals and wanteds).  This is possible as right-hand sides are free of synonym families.
+The Note \[skolemOccurs loop\] in the old code explains that equalities of the form `x ~ t` (where `x` is a flexible type variable) may not be used as rewrite rules, but only be solved by applying Rule Unify.  As Unify carefully avoids cycles, this prevents the use of equalities introduced by the Rule SkolemOccurs as rewrite rules.  For this to work, SkolemOccurs also had to apply to equalities of the form `a ~ t[[a]]`.  This was a somewhat intricate set up that we seek to simplify here.  Whether equalities of the form `x ~ t` are used as rewrite rules or solved by Unify doesn't matter anymore.  Instead, we disallow recursive equalities after normalisation completely (both locals and wanteds).  This is possible as right-hand sides are free of synonym families.
 
 
-To see how the new algorithm handles the type of equalities that required SkolemOccurs in the ICFP'08 algorithm, consider the following notorious example:
+To look at this in more detail, let's consider the following notorious example:
 
 ```wiki
 E_t: forall x. F [x] ~ [F x]
 [F v] ~ v  ||-  [F v] ~ v
 ```
 
-
-Derivation with rules in the new-single report: 
+**New-single**: The following derivation shows how the algorithm in new-single fails to terminate for this example.
 
 ```wiki
 [F v] ~ v  ||-  [F v] ~ v
@@ -181,71 +180,7 @@ F [a] ~ a  ||-  x ~ a, F[a] ~ x
 ..and so on..
 ```
 
-
-Same, but de-prioritise (Local) - i.e., (Local) applies only if nothing else does:
-
-```wiki
-[F v] ~ v  ||-  [F v] ~ v
-==> normalise
-v ~ [a], F v ~ a  ||-  v ~ [x], F v ~ x
-a := F v
-==> (IdenticalLHS) with v & F v
-v ~ [a], F v ~ a  ||- [a] ~ [x], x ~ a
-==> normalise
-v ~ [a], F v ~ a  ||-  x ~ a, x ~ a
-==> (Unify)
-v ~ [a], F v ~ a  ||-  a ~ a
-==> normalise
-v ~ [a], F v ~ a ||-
-QED
-```
-
-
-Same, but de-prioritise (Local) rewriting with equalities of Forms (2) & (3):
-
-```wiki
-[F v] ~ v  ||-  [F v] ~ v
-==> normalise
-v ~ [a], F v ~ a  ||-  v ~ [x], F v ~ x
-a := F v
-==> (Local) with F v
-v ~ [a], F v ~ a  ||-  v ~ [x], x ~ a
-==> (Unify)
-v ~ [a], F v ~ a  ||-  v ~ [a]
-==> (Local) with v
-v ~ [a], F [a] ~ a ||- [a] ~ [a]
-==> normalise
-v ~ [a], F [a] ~ a ||-
-QED
-```
-
-
-Problem is that we still fail to terminate for unsatisfiable queries:
-
-```wiki
-[F v] ~ v  ||-  [G v] ~ v
-==> normalise
-v ~ [a], F v ~ a  ||-  v ~ [x], G v ~ x
-a := F v
-==> (Local) with v
-F [a] ~ a  ||-  [a] ~ [x], G [a] ~ x
-==> normalise
-F [a] ~ a  ||-  x ~ a, G [a] ~ x
-==> (Unify)
-F [a] ~ a  ||-  G [a] ~ a
-==> (Top)
-[F a] ~ a  ||-  G [a] ~ a
-==> normalise
-a ~ [b], F a ~ b  ||-  G [a] ~ a
-b := F a
-..and so on..
-```
-
-
-Is the algorithm semi-decidable?
-
-
-Derivation when normalisation of locals uses flexible tyvars, too - simulates the effect of (SkolemOccurs):
+**New-single using flexible tyvars to flatten locals, but w/o Rule (Local) for flexible type variables**: Interestingly, new-single emulates the effect of (SkolemOccurs) if we (a) use flexible type variables to flatten local equalities and (b) at the same time do not use Rule (Local) for variable equalities with flexible type variables.  NB: Point (b) was necessary for the ICFP'08 algorithm, too.
 
 ```wiki
 [F v] ~ v  ||-  [F v] ~ v
@@ -268,4 +203,65 @@ x1 ~ [y2], F x1 ~ y2  ||-  x1 ~ [y1], F x1 ~ y1
 ```
 
 
-Problem is that with rank-n signatures, we do want to use (Local) with flexible tyvars.
+A serious disadvantage of this approach is that we **do** want to use Rule (Local) with flexible type variables as soon as we have rank-n signatures.  In fact, the lack of doing so is responsible for a few Trac bugs in the GHC implementation of (SkolemOccurs).
+
+**De-prioritise Rule (Local)**: Instead of outright forbidding the use of Rule (Local) with flexible type variables, we can simply require that Local is only used if no other rule is applicable.  (That has the same effect on satisfiable queries, and in particular, the present example.)
+
+```wiki
+[F v] ~ v  ||-  [F v] ~ v
+==> normalise
+v ~ [a], F v ~ a  ||-  v ~ [x], F v ~ x
+a := F v
+==> (IdenticalLHS) with v & F v
+v ~ [a], F v ~ a  ||- [a] ~ [x], x ~ a
+==> normalise
+v ~ [a], F v ~ a  ||-  x ~ a, x ~ a
+==> (Unify)
+v ~ [a], F v ~ a  ||-  a ~ a
+==> normalise
+v ~ [a], F v ~ a ||-
+QED
+```
+
+
+In fact, it is sufficient to de-prioritise Rule (Local) for variable equalities (if it is used for other equalities at all):
+
+```wiki
+[F v] ~ v  ||-  [F v] ~ v
+==> normalise
+v ~ [a], F v ~ a  ||-  v ~ [x], F v ~ x
+a := F v
+==> (Local) with F v
+v ~ [a], F v ~ a  ||-  v ~ [x], x ~ a
+==> (Unify)
+v ~ [a], F v ~ a  ||-  v ~ [a]
+==> (Local) with v
+v ~ [a], F [a] ~ a ||- [a] ~ [a]
+==> normalise
+v ~ [a], F [a] ~ a ||-
+QED
+```
+
+**One problems remains**: The algorithm still fails to terminate for unsatisfiable queries.
+
+```wiki
+[F v] ~ v  ||-  [G v] ~ v
+==> normalise
+v ~ [a], F v ~ a  ||-  v ~ [x], G v ~ x
+a := F v
+==> (Local) with v
+F [a] ~ a  ||-  [a] ~ [x], G [a] ~ x
+==> normalise
+F [a] ~ a  ||-  x ~ a, G [a] ~ x
+==> (Unify)
+F [a] ~ a  ||-  G [a] ~ a
+==> (Top)
+[F a] ~ a  ||-  G [a] ~ a
+==> normalise
+a ~ [b], F a ~ b  ||-  G [a] ~ a
+b := F a
+..and so on..
+```
+
+
+My guess is that the algorithm terminates for all satisfiable queries.  If that is correct, the entailment problem that the algorithm solves would be  semi-decidable.
