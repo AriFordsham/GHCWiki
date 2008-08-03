@@ -41,15 +41,33 @@ Central to the algorithm are **normal equalities**, which can be regarded as a s
 1. `co :: a ~ t`, where `a` is a rigid type variable (skolem) and `t` is *not* a flexible type variable.
 
 
-The types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families.  Moreover, in Forms (2) & (3), the left- and right-hand side need to be different, and the left-hand side may not occur in the right-hand side.
+where
 
-**SLPJ**: I think that you intend a "normal equality" to embody the Orientation Invariant and the Flattening Invariant from new-single.tex.  But they don't line up exactly.  For example, what about `F [x] ~ G x`?  That satisfies both invariants.
+- the types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families, and
+- we call the Forms (2) & (3) **variable equalities**, and require that the left- and right-hand side need to be different, and that the left-hand side does not occur in the right-hand side.
+
+### Observations
 
 
-NB: We explicitly permit equalities of the form `x ~ y` and `a ~ b`, where both sides are either flexible or rigid type variables.
+The following is interesting to note:
+
+- We explicitly permit equalities of the form `x ~ y` and `a ~ b`, where both sides are either flexible or rigid type variables.
+- Normal equalities are similar to equalities meeting the Orientation Invariant and Flattening Invariant of new-single, but they are not the same.
+- Normal equalities are **never** recursive.  They can be mutually recursive.  A mutually recursive group will exclusively contain variable equalities.
+
+### Coercions
 
 
-Coercions `co` are either wanteds (represented by a flexible type variable) or givens *aka* locals (represented by a type term of kind CO).  In GHC, they are represented by `TcRnTypes.EqInstCo`.   Moreover, `TcTyFuns.RewriteInst` represents normal equalities, emphasising their role as rewrite rules.  **SLPJ** but I hope the difference between wanted and given is explicit (different constructor) not implicit (look at the form of the coercion).
+Coercions `co` are either wanteds (represented by a flexible type variable) or givens *aka* locals (represented by a type term of kind CO).  In GHC, they are represented by `TcRnTypes.EqInstCo`, which is defined as
+
+```wiki
+type EqInstCo = Either 
+                  TcTyVar    -- case for wanteds (variable to be filled with a witness)
+		  Coercion   -- case for locals
+```
+
+
+Moreover, `TcTyFuns.RewriteInst` represents normal equalities, emphasising their role as rewrite rules. 
 
 ## Normalisation
 
