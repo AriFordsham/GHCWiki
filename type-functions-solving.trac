@@ -27,14 +27,16 @@ The overall algorithm is as in `new-single.tex`, namely
 
 Central to the algorithm are '''normal equalities''', which can be regarded as a set of rewrite rules.  Normal equalities are carefully oriented and contain synonym families only as the head symbols of left-hand sides.  They assume one of the following three forms:
 
- 1. `co :: F t1..tn ~ t`,
- 2. `co :: x ~ t`, where `x` is a flexible type variable, or
- 3. `co :: a ~ t`, where `a` is a rigid type variable (skolem) and `t` is ''not'' a flexible type variable.
+ 1. '''Family equality:''' `co :: F t1..tn ~ t`,
+ 2. '''Flexible variable equality:''' `co :: x ~ t`, where `x` is a flexible type variable, or
+ 3. '''Rigid variable equality:''' `co :: a ~ t`, where `a` is a rigid type variable (skolem) and `t` is ''not'' a flexible type variable.
 
 where
 
- * the types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families, and
- * we call the Forms (2) & (3) '''variable equalities''', and require that the left- and right-hand side need to be different, and that the left-hand side does not occur in the right-hand side.
+ * the types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families and
+ * left-hand side of an equality may not occur in the right-hand side.
+
+The second bullet of the where clause is trivially true for equalities of Form (1) and it implies that the left- and right-hand sides are different.
 
 === Observations ===
 
@@ -114,6 +116,8 @@ Notes:
 
 
 == Solving ==
+
+'''TODO:''' Partition the rules depending on which if the three forms of normal equalities they apply to!!!
 
 Notes:
 
