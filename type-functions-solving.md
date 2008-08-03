@@ -203,7 +203,7 @@ x1 ~ [y2], F x1 ~ y2  ||-  x1 ~ [y1], F x1 ~ y1
 ```
 
 
-A serious disadvantage of this approach is that we **do** want to use Rule (Local) with flexible type variables as soon as we have rank-n signatures.  In fact, the lack of doing so is responsible for a few Trac bugs in the GHC implementation of (SkolemOccurs).
+A serious disadvantage of this approach is that we **do** want to use Rule (Local) with flexible type variables as soon as we have rank-n signatures.  In fact, the lack of doing so is responsible for a few failing tests in the testsuite in the GHC implementation of (SkolemOccurs).
 
 **De-prioritise Rule (Local)**: Instead of outright forbidding the use of Rule (Local) with flexible type variables, we can simply require that Local is only used if no other rule is applicable.  (That has the same effect on satisfiable queries, and in particular, the present example.)
 
