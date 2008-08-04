@@ -56,7 +56,7 @@ The following is interesting to note:
 
 - We explicitly permit equalities of the form `x ~ y` and `a ~ b`, where both sides are either flexible or rigid type variables.
 - Normal equalities are similar to equalities meeting the Orientation Invariant and Flattening Invariant of new-single, but they are not the same.
-- Normal equalities are **never** recursive.  They can be mutually recursive.  A mutually recursive group will exclusively contain variable equalities.
+- Normal equalities are **never** self-recursive.  They can be mutually recursive.  A mutually recursive group will exclusively contain variable equalities.  **SLPJ** why.  What prevents `a ~ [b], b ~ [a]`?  
 
 ### Coercions
 
@@ -71,6 +71,8 @@ type EqInstCo = Either
 
 
 Moreover, `TcTyFuns.RewriteInst` represents normal equalities, emphasising their role as rewrite rules. 
+
+**SLPJ**: I propose that we use a proper data type, not `Either` for this.
 
 ## Normalisation
 
