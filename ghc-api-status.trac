@@ -2,6 +2,66 @@
 
 This Wiki page shall serve as a central place to collect all issues and ideas related to the GHC API.  If you feel that something is missing from this page, please add a comment to the comment section below.
 
+-------
+
+= Current GHC API design =
+
+Most exported API functions that were previously in {{{IO}}} are now
+in the {{{Ghc}}} monad.  Those functions now require no {{{Session}}}
+parameter.  To start a GHC API session you now use:
+
+{{{
+withGhc :: Maybe FilePath  -- path to GHC library
+        -> Maybe [String]  -- ^ Optional list of static flags.
+        -> Ghc a           -- ^ The action(s) to perform.
+        -> IO a
+}}}
+
+The first parameter can be determined automatically with the ghc-path
+package.  The second is a set of "static" command line flags, for
+example, profiling options.  Having those part of the run function for
+the monad avoids complicated usage rules (e.g. before parseStaticFlags
+had to be called before {{{newSession}}}).
+
+{{{load}}} and {{{setTarget}}} work like before.  {{{checkModule}}}
+has been split up into:
+
+{{{
+parseModule :: ModuleName -> Ghc ParsedModule
+typecheck :: ParsedModule -> Ghc TypecheckedModule
+desugarModule :: TypecheckedModule -> Ghc DesugaredModule
+loadModule :: TypecheckedMod m => m -> Ghc ()
+}}}
+
+{{{TypecheckedMod}}} has two instances {{{TypecheckedModule}}},
+{{{DesugaredModule}}}.  A {{{DesugaredModule}}} desugared module is a
+very similar to a {{{CoreModule}}}, but the latter contains less
+information, while the former also contains all the information from
+the parser and typechecker.  Users should therefore be careful about
+memory leaks by and discard old intermediate results as soon as
+possible.
+
+Compile errors are thrown inside the {{{Ghc}}} monad, and can be
+caught with {{{onCompileError}}}.  {{{IO}}} errors can also be caught
+using {{{ghcCatch}}}.  Warnings are logged automatically and can be
+retrieved using {{{getWarnings}}} or discarded using
+{{{clearWarnings}}}.  Error messages are communicated in the
+exceptions thrown.
+
+== Current Work ==
+
+I am currently evaluating what information can be added to the output
+of the various phases and how hard it would be to modify or create
+intermediate types (e.g., typecheck a "hand-crafted" module).
+
+Additionally, logging of errors and warnings is somewhat spread-out,
+so I try to find the places where that happens and incorporate that
+into the {{{Ghc}}} monad.
+
+------
+
+= Project Overview =
+
 Simon Marlow reported that the last time he tried to work on the GHC API, it turned into a huge refactoring task.  This could mean that it may take a while until bigger changes are visible and it is very likely that programs that currently use the GHC API will break.  Hopefully, though, it will lead to a more usable GHC API and maybe to a more hackable code base in general.  
 
 I plan to work with a use case and try to make it as clear and simple as possible by adapting the GHC API.  The use case will be a program that generates HTML pages for Haskell programs which will give access to more and more semantic information.  E.g. it will start out with linking references of names to their definitions (possibly to import statement or link to other module), then give typing information, and later give types for sub-expressions.  A lot of this is already possible, but some may not.  
