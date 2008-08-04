@@ -13,7 +13,7 @@ Done:
 Pending:
 
 - The buildbot scripts
-- Checkin email script: `/home/darcs/bin/commit-messages-split.sh`
+- Deploy post-receive-email ([ http://darcs.haskell.org/ghc.git/hooks/post-receive](http://darcs.haskell.org/ghc.git/hooks/post-receive) and /usr/share/doc/git-core/contrib/hooks/post-receive-email on d.h.o)
 - Deploy GitPlugin for Trac ([ http://trac-hacks.org/wiki/GitPlugin](http://trac-hacks.org/wiki/GitPlugin))
 - Deploy gitweb ([ http://git.or.cz/gitwiki/InterfacesFrontendsAndTools\#head-1dbe0dba1fdab64e839b2c4acd882446742e572e](http://git.or.cz/gitwiki/InterfacesFrontendsAndTools#head-1dbe0dba1fdab64e839b2c4acd882446742e572e))
 
