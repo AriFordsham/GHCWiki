@@ -115,7 +115,7 @@ As it turns out, it is quite common in GHC that the first definition of a variab
 We rewrite the stack slots in two passes:
 
 1. Walk over the graph and choose an offset for each `Area`.
-1. Walk over the graph, keeping track of the stack pointer, and rewrite each address of a stack slot with an offset from the stack pointer.
+1. Walk over the graph, keeping track of the stack pointer, and rewrite each address of a stack slot with an offset from the stack pointer. Also, insert adjustments to the stack pointer before and after proc points.
 
 
-NEED TO REWRITE THIS SECTION WITH RECENT CHANGES.
+The details are in cmm/CmmProcPointZ.hs (they have not yet been committed, but will be soon - Aug 4, 2008).
