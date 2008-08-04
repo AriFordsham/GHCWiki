@@ -5,7 +5,17 @@
 
 Done:
 
-- `.darcs-boring` -\> \`.gitignore'
+- `.darcs-boring` -\> `.gitignore`
+- `darcs-all`, `push-all` -\> `sync-all`
+- `aclocal.m4`
+
+
+Pending:
+
+- The buildbot scripts
+- Checkin email script: `/home/darcs/bin/commit-messages-split.sh`
+- Deploy GitPlugin for Trac ([ http://trac-hacks.org/wiki/GitPlugin](http://trac-hacks.org/wiki/GitPlugin))
+- Deploy gitweb ([ http://git.or.cz/gitwiki/InterfacesFrontendsAndTools\#head-1dbe0dba1fdab64e839b2c4acd882446742e572e](http://git.or.cz/gitwiki/InterfacesFrontendsAndTools#head-1dbe0dba1fdab64e839b2c4acd882446742e572e))
 
 ## Dependencies on darcs
 
