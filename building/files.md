@@ -47,6 +47,8 @@ The `utils` directory contains support utilities that GHC uses.  Some of these a
 
 These directories contain the main GHC compiler, runtime system, and documentation.
 
+- **`compiler/ghc.cabal`**: the Cabal file for GHC.  If you add a module to GHC's source code, you must add it in the `ghc.cabal` file too, else you'll get link errors.
+
 ## `testsuite/`, `nofib/`
 
 
