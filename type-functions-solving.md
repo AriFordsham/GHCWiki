@@ -141,7 +141,7 @@ Notes:
 
 - Rules applying to family equalities:
 
-  - IdenticalLHS only applies to family equalities (both local and wanteds)
+  - IdenticalLHS only applies to family equalities (both local and wanteds) - MAYBE only when at least one of the equalities is a local (see email).
   - Top only applies to family equalities (both locals and wanteds)
 
 >
