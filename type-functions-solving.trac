@@ -80,7 +80,7 @@ norm [[s ~ t]] = check [[s' ~ t']] : eqs++eqt
     (t', eqt) = flatten t
 
 check :: FlattenedEqInst -> [FlattenedEqInst]
--- Does OccursCheck + Decomp + Swap (of new-single)
+-- Does OccursCheck + Decomp + Triv + Swap (of new-single)
 check [[t ~ t]] = []
 check [[x ~ t]] | x `occursIn` t = fail
                           | otherwise = [[x ~ t]]
@@ -118,7 +118,15 @@ Notes:
 
 == Solving ==
 
-'''TODO:''' Partition the rules depending on which if the three forms of normal equalities they apply to!!!
+'''TODO:'''
+ * Rules applying to family equalities:
+  * IdenticalLHS only applies to family equalities (both local and wanteds)
+  * Top only applies to family equalities (both locals and wanteds)
+ We should apply IdenticalLHS first as it cheaper and potentially reduces the number of applications of Top.
+ * Rules applying to variable equalities:
+  * Unify only applies to all wanted flexible variable equalities
+  * Subst (= local for variable equalities) applies to all variable equalities, where local variable equalities are substituted into all equalities, but wanted variable equalities are only substituted into wanted equalities.
+ We should first apply Unify where possible and, only when that is exhausted, apply Subst.  This is as Unify is cheaper and has global impact (instantiates variables in the environment, too).
 
 Notes:
 
