@@ -38,7 +38,7 @@
 - GADT:
 
   - [\#1999](https://gitlab.haskell.org//ghc/ghc/issues/1999) (barfs with corelint) & [\#2432](https://gitlab.haskell.org//ghc/ghc/issues/2432) (fails in same function, but also w/o corelint)
-  - [\#2212](https://gitlab.haskell.org//ghc/ghc/issues/2212) (Assertion failure in `writeMetaTyVar` with -DDEBUG on gadt/equal; see also below)
+  - [\#2212](https://gitlab.haskell.org//ghc/ghc/issues/2212) (Assertion failure in `writeMetaTyVar` with -DDEBUG on gadt/equal; see also below, and check [\#2231](https://gitlab.haskell.org//ghc/ghc/issues/2231) and [\#2366](https://gitlab.haskell.org//ghc/ghc/issues/2366) which are probably duplicates).  Simon found the exact cause: it's in TcSimplify where we abandon an implication constraint despite having solved some equalities.
   - [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (nested GADT constructors in patterns)
   - [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (incomplete deduction of evidence for class contexts in GADT constructors)
 
