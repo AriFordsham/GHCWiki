@@ -9,7 +9,7 @@ This Wiki page shall serve as a central place to collect all issues and ideas re
 
 
 Most exported API functions that were previously in `IO` are now
-in the `Ghc` monad.  Those functions now require no `Session`
+in the `Ghc` monad.  Those functions now no longer require a `Session`
 parameter.  To start a GHC API session you now use:
 
 ```wiki
