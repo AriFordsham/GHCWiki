@@ -33,20 +33,21 @@ desugarModule :: TypecheckedModule -> Ghc DesugaredModule
 loadModule :: TypecheckedMod m => m -> Ghc ()
 }}}
 
-{{{TypecheckedMod}}} has two instances {{{TypecheckedModule}}},
-{{{DesugaredModule}}}.  A {{{DesugaredModule}}} desugared module is a
+{{{TypecheckedMod}}} has two instances {{{TypecheckedModule}}}, and
+{{{DesugaredModule}}}.  A {{{DesugaredModule}}} is
 very similar to a {{{CoreModule}}}, but the latter contains less
 information, while the former also contains all the information from
 the parser and typechecker.  Users should therefore be careful about
-memory leaks by and discard old intermediate results as soon as
+memory leaks and discard old intermediate results as soon as
 possible.
 
-Compile errors are thrown inside the {{{Ghc}}} monad, and can be
+Compile errors are thrown inside the {{{Ghc}}} monad and can be
 caught with {{{onCompileError}}}.  {{{IO}}} errors can also be caught
-using {{{ghcCatch}}}.  Warnings are logged automatically and can be
+using {{{ghcCatch}}}.  (If we get a type class that allows handling exceptions in any monad, we should add instances in a wrapper package outside of the {{{GHC}}} package.) 
+Warnings are logged automatically and can be
 retrieved using {{{getWarnings}}} or discarded using
-{{{clearWarnings}}}.  Error messages are communicated in the
-exceptions thrown.
+{{{clearWarnings}}}.  An exception currently only contains the 
+name of the phase it occurred in and the error message(s).
 
 == Current Work ==
 
