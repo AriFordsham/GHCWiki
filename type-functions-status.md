@@ -23,6 +23,7 @@
 
 - Solving of equalities (`TcTyFuns`):
 
+  - Fix the problem reported [ here](http://www.haskell.org/pipermail/haskell-cafe/2008-July/044911.html), and add a test case to the test suite.  The issue is whether to apply (Decomp) to an application of a saturated application of a type-function.
   - [\#2219](https://gitlab.haskell.org//ghc/ghc/issues/2219), [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235), [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775) & test `GADT1` (bogus occurs check failure - in both bugs, the loop is through a TF)
   - [\#2202](https://gitlab.haskell.org//ghc/ghc/issues/2202) (Uses `a ~ MeshVertex a b` in `normaliseWantedDicts` w/o the occurs check kicking in; also occurs in 6.8.2 and the program doesn't mention TFs, so need to merge):
 
@@ -37,7 +38,7 @@
 - GADT:
 
   - [\#1999](https://gitlab.haskell.org//ghc/ghc/issues/1999) (barfs with corelint) & [\#2432](https://gitlab.haskell.org//ghc/ghc/issues/2432) (fails in same function, but also w/o corelint)
-  - [\#2212](https://gitlab.haskell.org//ghc/ghc/issues/2212) (Assertion failure in `writeMetaTyVar` with -DDEBUG on gadt/equal; see also below)
+  - [\#2212](https://gitlab.haskell.org//ghc/ghc/issues/2212) (Assertion failure in `writeMetaTyVar` with -DDEBUG on gadt/equal; see also below, and check [\#2231](https://gitlab.haskell.org//ghc/ghc/issues/2231) and [\#2366](https://gitlab.haskell.org//ghc/ghc/issues/2366) which are probably duplicates).  Simon found the exact cause: it's in TcSimplify where we abandon an implication constraint despite having solved some equalities.
   - [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (nested GADT constructors in patterns)
   - [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (incomplete deduction of evidence for class contexts in GADT constructors)
 
