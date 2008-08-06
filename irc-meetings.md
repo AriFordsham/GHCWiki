@@ -14,4 +14,8 @@ Held in \#ghc on [ FreeNode](http://www.haskell.org/haskellwiki/IRC_channel), ev
 <tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-07-30.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-07-30.log)</th>
 <th>Third meeting, 2008-07-30, 4pm UK time</th>
 <th>Build System and Version Control System for GHC
+</th></tr>
+<tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-06.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-06.log)</th>
+<th>Fourth meeting, 2008-08-06, 4pm UK time</th>
+<th>Build System, Build System and Version Control System
 </th></tr></table>
