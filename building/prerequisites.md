@@ -170,4 +170,5 @@ To be able to build the documentation (User's Guide):
 other packages that are useful for development:
 
 - strace
+- patch
 - libcurl-devel and zlib-devel (for building darcs)
