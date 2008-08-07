@@ -3,6 +3,9 @@
 
 This Wiki page shall serve as a central place to collect all issues and ideas related to the GHC API.  If you feel that something is missing from this page, please add a comment to the comment section below.
 
+- [ Source code](http://code.haskell.org/~nominolo/src/ghc/)
+- [ Haddock docs](http://code.haskell.org/~nominolo/html/ghc/) (may occasionally be out of date with the source)
+
 ---
 
 # Current GHC API design
