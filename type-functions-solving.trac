@@ -174,7 +174,7 @@ Top: F Int ~ [Int]
 QED
 }}}
 
-=== ===
+=== Interaction between local and wanted family equalities ===
 
 Example 4 of Page 9 of the ICFP'09 paper.
 
