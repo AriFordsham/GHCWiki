@@ -183,7 +183,7 @@ Notes:
 
 ## Examples
 
-### SubstFun on two wanteds is crucial
+### Substituting wanted family equalities with SubstFun is crucial
 
 ```wiki
 Top: F Int ~ [Int]
