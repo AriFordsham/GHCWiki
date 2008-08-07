@@ -158,6 +158,7 @@ A significant difference to new-single is that solving is a purely local operati
   - SubstVar (formerly, Local) applies to variable equalities (both locals and wanteds)
 - With SubstFam and SubstVar, we always substitute locals into wanteds and never the other way around.  We perform substitutions exhaustively.  For SubstVar, this is crucial to avoid non-termination.
 - We should probably use SubstVar on all variable equalities before using SubstFam, as the former may refine the left-hand sides of family equalities, and hence, lead to Top being applicable where it wasn't before.
+- We use SubstFam and SubstVar to substitute wanted equalities **only** if their right-hand side contains a flexible type variables (which for variable equalities means that we apply SubstVar only to flexible variable equalities).
 
 
 Notes:
@@ -203,6 +204,33 @@ Top: F Int ~ [Int]
   |- delta ~ Int
 QED
 ```
+
+###
+
+
+Example 4 of Page 9 of the ICFP'09 paper.
+
+```wiki
+  F [Int] ~ F (G Int)  |-  G Int ~ [Int], H (F [Int]) ~ Bool
+=(norm)=>
+  F [Int] ~ a, F b ~ a, G Int ~ b
+  |-
+  G Int ~ [Int], H x ~ Bool, F [Int] ~ x
+(SubstFam w/ F [Int])
+  F [Int] ~ a, F b ~ a, G Int ~ b
+  |-
+  G Int ~ [Int], H x ~ Bool, x ~ a
+(SubstFam w/ G Int)
+  F [Int] ~ a, F b ~ a, G Int ~ b
+  |-
+  b ~ [Int], H x ~ Bool, x ~ a
+(SubstVar w/ x)
+  F [Int] ~ a, F b ~ a, G Int ~ b
+  |-
+  b ~ [Int], H a ~ Bool, x ~ a
+```
+
+**TODO** If we use flexible variables for the flattening of the wanteds, too, the equality corresponding to `x ~ a` above will be oriented the other way around.  That can be a problem because of the asymmetry of the SubstVar and SubstFun rules (i.e., wanted equalities are not substituted into locals).
 
 ## Termination
 
