@@ -1,7 +1,7 @@
 # Normalising and Solving Type Equalities
 
 
-The following is based on ideas for the new, post-ICFP'08 solving algorithm described in CVS `papers/type-synonym/new-single.tex`.  Most of the code is in the module `TcTyFuns`.
+The following is based on ideas for the new, post-ICFP'08 solving algorithm described in CVS `papers/type-synonym/new-single.tex`.  A revised version of `new-single.tex` that integrates the core ideas from this wiki page is in `papers/type-synonym/normalised_equations_algorithm.tex`.  Most of the code is in the module `TcTyFuns`.
 
 ## Terminology
 
@@ -25,11 +25,14 @@ Type variable that cannot be globally instantiated, but it may be **locally** re
 ## Overall algorithm
 
 
-The overall algorithm is as in `new-single.tex`, namely
+The overall structure is as in `new-single.tex`, namely
 
 1. normalise all constraints (both locals and wanteds),
 1. solve the wanteds, and
 1. finalise.
+
+
+However, the three phases differ in important ways.  In particular, normalisation includes decompositions & the occurs check, and we don't instantiate any flexible type variables before we finalise (i.e., solving is purely local).
 
 ## Normal equalities
 
