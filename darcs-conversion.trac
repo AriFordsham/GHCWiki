@@ -7,6 +7,7 @@ Done:
  * `.darcs-boring` -> `.gitignore`
  * `darcs-all`, `push-all` -> `sync-all`
  * `aclocal.m4`
+ * [wiki:Building/GettingTheSources] -> [wiki:DarcsConversion/Building/GettingTheSources] (not yet applied)
 
 Pending:
  * The buildbot scripts
@@ -33,7 +34,6 @@ The following code/scripts would need to be adapted or replaced:
 The following documentation would need to change:
 
  * `README`
- * [wiki:Building/GettingTheSources]
  * [wiki:Building/Windows]
  * [wiki:Building/QuickStart]
  * [wiki:Building/Rebuilding]
