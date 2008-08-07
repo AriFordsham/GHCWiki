@@ -151,7 +151,7 @@ A significant difference to new-single is that solving is a purely local operati
   - Top only applies to family equalities (both locals and wanteds)
 
 >
-> We should apply SubstFam first as it cheaper and potentially reduces the number of applications of Top.  On the other hand, for each family equality, we may want to try to reduce it with Top, and if that fails, use it with SubstFam.  (That strategy should lend itself well to an implementation.)
+> We should apply SubstFam first as it cheaper and potentially reduces the number of applications of Top.  On the other hand, for each family equality, we may want to try to reduce it with Top, and if that fails, use it with SubstFam.  (That strategy should lend itself well to an implementation.)  But be careful, we need to apply Top exhaustively, to avoid non-termination.  More precisely, if we interleave Top and SubstFam, we can easily diverge.
 
 - Rules applying to variable equalities:
 
@@ -183,7 +183,7 @@ Notes:
 
 ## Examples
 
-### Substituting wanted family equalities with SubstFun is crucial
+### Substituting wanted family equalities with SubstFam is crucial if the right-hand side contains a flexible type variable
 
 ```wiki
 Top: F Int ~ [Int]
