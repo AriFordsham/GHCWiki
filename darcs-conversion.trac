@@ -15,6 +15,17 @@ Pending:
  * Deploy GitPlugin for Trac (http://trac-hacks.org/wiki/GitPlugin)
  * Deploy gitweb (http://git.or.cz/gitwiki/InterfacesFrontendsAndTools#head-1dbe0dba1fdab64e839b2c4acd882446742e572e)
  * Start a git server on darcs.haskell.org?
+ * `README`
+ * [wiki:Building/Windows]
+ * [wiki:Building/QuickStart]
+ * [wiki:Building/Rebuilding]
+ * [wiki:Building/RunningNoFib]
+ * [wiki:DarcsRepositories] (inc. the sidebar)
+ * [wiki:WorkingConventions]
+ * [wiki:WorkingConventions/Darcs]
+ * [wiki:WorkingConventions/FixingBugs]
+ * [wiki:WorkingConventions/AddingFeatures]
+ * [wiki:GettingStarted]
 
 == Dependencies on darcs ==
 
@@ -34,6 +45,7 @@ The following code/scripts would need to be adapted or replaced:
 The following documentation would need to change:
 
  * `README`
+ * [wiki:Building/GettingTheSources]
  * [wiki:Building/Windows]
  * [wiki:Building/QuickStart]
  * [wiki:Building/Rebuilding]

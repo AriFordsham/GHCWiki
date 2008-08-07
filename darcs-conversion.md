@@ -18,6 +18,17 @@ Pending:
 - Deploy GitPlugin for Trac ([ http://trac-hacks.org/wiki/GitPlugin](http://trac-hacks.org/wiki/GitPlugin))
 - Deploy gitweb ([ http://git.or.cz/gitwiki/InterfacesFrontendsAndTools\#head-1dbe0dba1fdab64e839b2c4acd882446742e572e](http://git.or.cz/gitwiki/InterfacesFrontendsAndTools#head-1dbe0dba1fdab64e839b2c4acd882446742e572e))
 - Start a git server on darcs.haskell.org?
+- `README`
+- [Building/Windows](building/windows)
+- [Building/QuickStart](building/quick-start)
+- [Building/Rebuilding](building/rebuilding)
+- [Building/RunningNoFib](building/running-no-fib)
+- [DarcsRepositories](darcs-repositories) (inc. the sidebar)
+- [WorkingConventions](working-conventions)
+- [WorkingConventions/Darcs](working-conventions/darcs)
+- [WorkingConventions/FixingBugs](working-conventions/fixing-bugs)
+- [WorkingConventions/AddingFeatures](working-conventions/adding-features)
+- [GettingStarted](getting-started)
 
 ## Dependencies on darcs
 
@@ -40,6 +51,7 @@ The following code/scripts would need to be adapted or replaced:
 The following documentation would need to change:
 
 - `README`
+- [Building/GettingTheSources](building/getting-the-sources)
 - [Building/Windows](building/windows)
 - [Building/QuickStart](building/quick-start)
 - [Building/Rebuilding](building/rebuilding)
