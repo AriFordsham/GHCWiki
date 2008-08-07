@@ -157,11 +157,12 @@ A significant difference to new-single is that solving is a purely local operati
 
   - SubstVar (formerly, Local) applies to variable equalities (both locals and wanteds)
 - With SubstFam and SubstVar, we always substitute locals into wanteds and never the other way around.  We perform substitutions exhaustively.  For SubstVar, this is crucial to avoid non-termination.
+- We should probably use SubstVar on all variable equalities before using SubstFam, as the former may refine the left-hand sides of family equalities, and hence, lead to Top being applicable where it wasn't before.
 
 
 Notes:
 
-- In principle, a variable equality could be discarded after an exhaustive application of SubstVar.  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint, and hence, need to keep all local equalities around.  That reasoning definitely applies to local equalities, but I think it also applies to wanteds (and I think that GHC so far never applies wanteds to class dictionaries, which might explain some of the failing tests.)
+- In principle, a variable equality could be discarded after an exhaustive application of SubstVar.  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint, and hence, need to keep all local equalities around.  That reasoning definitely applies to local equalities, but I think it also applies to wanteds (and I think that GHC so far never applies wanteds to class dictionaries, which might explain some of the failing tests.)  Flexible variable equalities cannot be discarded in any case as we need them for finalisation.
 
 ### Observations
 
@@ -179,6 +180,29 @@ Notes:
 - (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables - just as in new-single.)
 
 - **TODO** Now that we delay instantiation until after solving, do we still need to prioritise flexible variables equalities over rigid ones?  (Probably not.)
+
+## Examples
+
+### SubstFun on two wanteds is crucial
+
+```wiki
+Top: F Int ~ [Int]
+
+  |- F delta ~ [delta], F delta ~ [Int]
+(SubstFam)
+  |- F delta ~ [delta], norm [[ [delta] ~ [Int] ]]
+==
+  |- F delta ~ [delta], delta ~ Int
+(SubstVar)
+  |- norm [[ F Int ~ [Int] ]], delta ~ Int
+==
+  |- F Int ~ [Int], delta ~ Int
+(Top)
+  |- norm [[ [Int] ~ [Int] ]], delta ~ Int
+==
+  |- delta ~ Int
+QED
+```
 
 ## Termination
 
