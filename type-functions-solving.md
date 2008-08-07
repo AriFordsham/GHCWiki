@@ -140,40 +140,45 @@ Notes:
 
 ## Solving
 
+
+A significant difference to new-single is that solving is a purely local operation.  We never instantiate any flexible variables.
+
 **TODO**
 
 - Rules applying to family equalities:
 
-  - IdenticalLHS only applies to family equalities (both local and wanteds) - MAYBE only when at least one of the equalities is a local (see email).
+  - SubstFam (formerly, IdenticalLHS) only applies to family equalities (both local and wanteds)
   - Top only applies to family equalities (both locals and wanteds)
 
 >
-> We should apply IdenticalLHS first as it cheaper and potentially reduces the number of applications of Top.
+> We should apply SubstFam first as it cheaper and potentially reduces the number of applications of Top.  On the other hand, for each family equality, we may want to try to reduce it with Top, and if that fails, use it with SubstFam.  (That strategy should lend itself well to an implementation.)
 
 - Rules applying to variable equalities:
 
-  - Unify only applies to all wanted flexible variable equalities
-  - Subst (= local for variable equalities) applies to all variable equalities, where local variable equalities are substituted into all equalities, but wanted variable equalities are only substituted into wanted equalities.
+  - SubstVar (formerly, Local) applies to variable equalities (both locals and wanteds)
+- With SubstFam and SubstVar, we always substitute locals into wanteds and never the other way around.  We perform substitutions exhaustively.  For SubstVar, this is crucial to avoid non-termination.
 
->
-> We should first apply Unify where possible and, only when that is exhausted, apply Subst.  This is as Unify is cheaper and has global impact (instantiates variables in the environment, too).
+
+Notes:
+
+- In principle, a variable equality could be discarded after an exhaustive application of SubstVar.  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint, and hence, need to keep all local equalities around.  That reasoning definitely applies to local equalities, but I think it also applies to wanteds (and I think that GHC so far never applies wanteds to class dictionaries, which might explain some of the failing tests.)
+
+### Observations
+
+- SubstVar is the most expensive rule as it needs to traverse all type terms.
+- Only SubstVar when replacing a variable in a family equality can  lead to recursion with (Top).
+
+## Finalisation
+
+
+If only flexible type equalities remain as wanted equalities, the locals entail the wanteds.  We can now instantiate type variables in flexible type equalities where possible to propagate constraints into the environment.  In GHC, we may wrap any remaining equalities (of any form) into an implication constraint to be propagated outwards (where it may be solved under an extended set of local equalities.)
 
 
 Notes:
 
 - (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables - just as in new-single.)
 
-- (Local) only substitutes normal variable equalities - and currently also only local equalities, not wanteds.  (We should call this Rule (Subst) again.) 
-
->
-> In principle, a rewrite rule could be discarded after an exhaustive application of (Local).  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint, and hence, need to keep all local equalities around.
-
-- (IdenticalLHS) I don't think it is useful to apply that rule when both equalities are wanted, which makes it a variant of (Local).   BUT as SLPJ points out what about `F a ~ x1, F a ~ Int`?  Then we could unify the HM variable `x` with `Int`.
-
-### Observations
-
--  Rule (Local) -substituting variable equalities- is the most expensive rule as it needs to traverse all type terms.
-- Only (Local) when replacing a variable in the *left-hand side* of an equality of Form (1) can  lead to recursion with (Top).
+- **TODO** Now that we delay instantiation until after solving, do we still need to prioritise flexible variables equalities over rigid ones?  (Probably not.)
 
 ## Termination
 
