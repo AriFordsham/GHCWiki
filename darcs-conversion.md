@@ -8,6 +8,7 @@ Done:
 - `.darcs-boring` -\> `.gitignore`
 - `darcs-all`, `push-all` -\> `sync-all`
 - `aclocal.m4`
+- [Building/GettingTheSources](building/getting-the-sources) -\> [DarcsConversion/Building/GettingTheSources](darcs-conversion/building/getting-the-sources) (not yet applied)
 
 
 Pending:
@@ -17,6 +18,17 @@ Pending:
 - Deploy GitPlugin for Trac ([ http://trac-hacks.org/wiki/GitPlugin](http://trac-hacks.org/wiki/GitPlugin))
 - Deploy gitweb ([ http://git.or.cz/gitwiki/InterfacesFrontendsAndTools\#head-1dbe0dba1fdab64e839b2c4acd882446742e572e](http://git.or.cz/gitwiki/InterfacesFrontendsAndTools#head-1dbe0dba1fdab64e839b2c4acd882446742e572e))
 - Start a git server on darcs.haskell.org?
+- `README`
+- [Building/Windows](building/windows)
+- [Building/QuickStart](building/quick-start)
+- [Building/Rebuilding](building/rebuilding)
+- [Building/RunningNoFib](building/running-no-fib)
+- [DarcsRepositories](darcs-repositories) (inc. the sidebar)
+- [WorkingConventions](working-conventions)
+- [WorkingConventions/Darcs](working-conventions/darcs)
+- [WorkingConventions/FixingBugs](working-conventions/fixing-bugs)
+- [WorkingConventions/AddingFeatures](working-conventions/adding-features)
+- [GettingStarted](getting-started)
 
 ## Dependencies on darcs
 
