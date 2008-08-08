@@ -136,7 +136,7 @@ To just build everything, from the top level:
 ```
 
 
-(See here for [what can go wrong](building/problems).)
+(See here for [what can go wrong](building/faq).)
 
 
 If you just want to build stage 1, then instead you can say
