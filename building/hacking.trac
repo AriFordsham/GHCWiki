@@ -118,7 +118,7 @@ To just build everything, from the top level:
   $ make
 }}}
 
-(See here for [wiki:Building/Problems what can go wrong].)
+(See here for [wiki:Building/FAQ what can go wrong].)
 
 If you just want to build stage 1, then instead you can say
 
