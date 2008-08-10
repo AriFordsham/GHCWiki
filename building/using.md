@@ -611,6 +611,11 @@ Do *NOT* use `compiler/stage1/ghc`, or
 installation, and contain hard-wired paths to the installed libraries,
 rather than the libraries in the build tree.
 
+
+For darcs version, use `ghc/stage1-inplace/ghc` etc.
+Utils like `ghc-pkg` can be found under
+`utils/ghc-pkg/install-inplace/bin/ghc-pkg` etc.
+
 ## Fast Making
 
 
