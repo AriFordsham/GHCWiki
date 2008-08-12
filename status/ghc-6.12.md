@@ -23,7 +23,7 @@ Here are the big items that we hope to include, along with who is primarily resp
 
 - **External Core** (output only) is working again, thanks to Tim Chevalier.
 
-- Better **versioning** to support separate compilation; perhaps checksums/fingerprints. Already done!
+- Better **versioning** to support separate compilation based on MD5 fingerprints. Already done (and documented! see [Commentary/Compiler/RecompilationAvoidance](commentary/compiler/recompilation-avoidance).
 
 - GHC now uses **libffi** to implement parts of the FFI, replacing some of the home-grown and very architecture-specific code we had to do this.  Amongst other benefits, this will ease the task of porting GHC in the future. Done; but *maybe use it to solve the SE Linux paranoia problem?*
 
@@ -60,9 +60,11 @@ Here are the big items that we hope to include, along with who is primarily resp
 
 - **Finish System.Process revamp** ([\#2233](https://gitlab.haskell.org//ghc/ghc/issues/2233))
 
-## Lower priorities for 6.10
+- Backwards compatibility: we've introduce "base3-compat", a backwards-compatible version of the base library
+  that will provide essentially the same API as the base library that shipped with GHC 6.8.3, so that code
+  depending on base-3 will continue to just work.
 
-- Backwards compatibility: we're not sure what to do here.
+## Lower priorities for 6.10
 
 - More library reorg ([\#1338](https://gitlab.haskell.org//ghc/ghc/issues/1338)).  The goal here is to shift stuff out of boot-libs and into the Haskell Library Platform, which is independently upgradable.  Not hugely urgent, nice to have.
 
