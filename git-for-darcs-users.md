@@ -1,5 +1,41 @@
 # Git for Darcs Users
 
+
+Just like Darcs, every Git command comes with a `--help` option.  For example `git add --help`.  You can also check out the [ official Git documentation](http://git.or.cz/gitwiki/GitDocumentation).
+
+
+Also see "General Notes" below for features present in Git but not in Darcs.
+
+# General Settings
+
+
+Just like Darcs, Git has global and per-repository configuration options.  To globally set your committer name and email use
+
+```wiki
+git config --global user.name "Haskell Curry"
+git config --global user.email haskell@example.com
+```
+
+# Commands
+
+## darcs init
+
+```wiki
+git init
+```
+
+## darcs get
+
+```wiki
+git clone <repo-url> [<local-name>]
+```
+
+## darcs add
+
+```wiki
+git add <dir-or-file>
+```
+
 ## darcs record
 
 
@@ -25,6 +61,13 @@ git commit [-m "commit message"]
 
 
 If you do not supply a commit message, it will open your default editor.  If you want to abort the commit, use an empty commit message.
+
+
+To see what will be committed, use
+
+```wiki
+git diff --cached
+```
 
 **Tip**: If you want to see the diff when you edit the commit message, use
 
@@ -58,6 +101,15 @@ git log -n <N>
 ```wiki
 git log --stat
 ```
+
+### other
+
+```wiki
+git log -p
+```
+
+
+Shows the patch for each commit.
 
 
 See `git log --help` for a lot of extra options, to refine the output.
@@ -99,4 +151,30 @@ git blame
 
 ## The Index
 
+## Local Branches
+
+TODO
+
+```wiki
+git branch
+git branch <name>
+git branch -b <name>
+git checkout
+git branch -d <name>
+git branch -D <name>
+git stash
+git show-branch
+```
+
+```wiki
+git pull
+git fetch
+git merge
+```
+
 ## Suggested Workflow
+
+TODO
+
+- feature branches
+- `git rerere`
