@@ -49,3 +49,44 @@ git log -n <N>
 git log --stat
 }}}
 See {{{git log --help}}} for a lot of extra options, to refine the output.
+
+== darcs whatsnew ==
+
+{{{
+git status
+}}}
+
+== darcs diff ==
+
+{{{
+git diff
+}}}
+
+TODO: describe diff commands for index
+
+== darcs revert ==
+
+{{{
+git reset --hard
+}}}
+
+'''Note''': {{{git reset}}} only resets the staged files, i.e., the things added with {{{git add}}}.
+
+== darcs unrecord ==
+
+...
+
+== darcs annotate ==
+
+{{{
+git blame
+}}}
+
+= General Notes =
+
+== The Index ==
+
+== Suggested Workflow ==
+
+
+

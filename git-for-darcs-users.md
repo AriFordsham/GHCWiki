@@ -61,3 +61,42 @@ git log --stat
 
 
 See `git log --help` for a lot of extra options, to refine the output.
+
+## darcs whatsnew
+
+```wiki
+git status
+```
+
+## darcs diff
+
+```wiki
+git diff
+```
+
+TODO describe diff commands for index
+
+## darcs revert
+
+```wiki
+git reset --hard
+```
+
+**Note**: `git reset` only resets the staged files, i.e., the things added with `git add`.
+
+## darcs unrecord
+
+
+...
+
+## darcs annotate
+
+```wiki
+git blame
+```
+
+# General Notes
+
+## The Index
+
+## Suggested Workflow
