@@ -88,6 +88,7 @@ This will add and commit all (not ignored) files.
 
 ```wiki
 git log
+git log <file-or-directory>
 ```
 
 ### darcs changes --last \<N\>
@@ -101,6 +102,15 @@ git log -n <N>
 ```wiki
 git log --stat
 ```
+
+### darcs changes --match
+
+```wiki
+git log --grep="something"
+```
+
+
+(the `=`-sign is important)
 
 ### other
 
