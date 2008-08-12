@@ -30,6 +30,15 @@ git init
 git clone <repo-url> [<local-name>]
 ```
 
+
+Possible repo URLs look like this:
+
+```wiki
+git clone http://darcs.haskell.org/ghc.git  # via HTTP (slowest)
+git clone git://darcs.haskell.org/ghc.git   # git's protocol (fast, read-only)
+git clone [username@]darcs.haskell.org:ghc.git  # via SSH
+```
+
 ## darcs add
 
 ```wiki
@@ -82,12 +91,13 @@ git commit -a
 ```
 
 
-This will add and commit all (not ignored) files.
+This will add and commit all (not ignored) files.  It will *not* add newly created files. (To do this call `git add .` before in the repo root directory.)
 
 ## darcs changes
 
 ```wiki
 git log
+git log <file-or-directory>
 ```
 
 ### darcs changes --last \<N\>
@@ -102,7 +112,16 @@ git log -n <N>
 git log --stat
 ```
 
-### other
+### darcs changes --match
+
+```wiki
+git log --grep="something"
+```
+
+
+(the `=`-sign is important)
+
+### Other useful variants
 
 ```wiki
 git log -p
@@ -111,8 +130,42 @@ git log -p
 
 Shows the patch for each commit.
 
+```wiki
+git grep <text>
+```
+
+
+Look for something anywhere in the repository's history (tag names, commit messages, file contents).
+
+```wiki
+git show <commit-id>
+```
+
+
+Show the changes by the given patch
+
+
+More examples.
+
+```wiki
+git log v2.5..v2.6            # commits between v2.5 and v2.6
+git log v2.5..                # commits since v2.5
+git log --since="2 weeks ago" # commits from the last 2 weeks
+git log v2.5.. Makefile       # commits since v2.5 which modify
+                              # Makefile
+```
+
 
 See `git log --help` for a lot of extra options, to refine the output.
+
+## darcs tag
+
+```wiki
+git tag <tagname>
+```
+
+
+This will fail if the tag already exists.  If you want to move an existing tag use `git tag -f <tagname>`, but **never move a tag in a public repo/branch**.  Use this only on local branches, and only if the tag exists nowhere else.  `git tag --help` contains a discussion of this.
 
 ## darcs whatsnew
 
@@ -126,7 +179,9 @@ git status
 git diff
 ```
 
-TODO describe diff commands for index
+```wiki
+git diff <commit1>..<commit2>  # show diff between two commits
+```
 
 ## darcs revert
 
@@ -139,7 +194,33 @@ git reset --hard
 ## darcs unrecord
 
 
-...
+???
+
+```wiki
+git reset --soft HEAD^
+```
+
+## darcs amend-record
+
+
+If the change to be amended is the latest commit
+
+```wiki
+git commit --amend
+```
+
+TODO describe workflow if amended patch is not the current HEAD.
+
+TODO add note for merge commits
+
+## darcs rollback
+
+```wiki
+git revert <commit-id>
+```
+
+
+Working directory must be clean.  (You can use `git stash` to save local changes).
 
 ## darcs annotate
 
