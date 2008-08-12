@@ -22,8 +22,8 @@ Here are the big items that we hope to include, along with who is primarily resp
  * GHC now uses '''libffi''' to implement parts of the FFI, replacing some of the home-grown and very architecture-specific code we had to do this.  Amongst other benefits, this will ease the task of porting GHC in the future. Done; but ''maybe use it to solve the SE Linux paranoia problem?''
 
  * '''Backwards compatibility''': we've introduce "base3-compat", a backwards-compatible version of the base library
-    that will provide essentially the same API as the base library that shipped with GHC 6.8.3, so that code
-    depending on base-3 will continue to just work.
+   that will provide essentially the same API as the base library that shipped with GHC 6.8.3, so that code
+   depending on base-3 will continue to just work.
 
 == Things we plan to do for sure ==
 
