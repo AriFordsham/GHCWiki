@@ -87,7 +87,7 @@ git commit -v
 ## darcs pull
 
 
-There is a direct mapping to `darcs pull -a`.  Cherry-picking is not as streamlined as in Darcs.  For a start, here is how you update from the source repo:
+There is a direct mapping for `darcs pull -a`, but not for the interactive `darcs pull`.  Cherry-picking is not as streamlined as in Darcs.  For a start, here is how you update from the source repo:
 
 ```wiki
 git pull
@@ -111,6 +111,11 @@ Like in Darcs, you may get conflicts.  To resolve conflicts, edit the conflictin
 
 
 If you want to see whether you get conflicts before pulling `git pull` is actually ... XXX
+
+### darcs push
+
+
+git equivalent is unknown
 
 ### darcs record -a
 
