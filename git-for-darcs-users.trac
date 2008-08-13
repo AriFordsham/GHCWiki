@@ -13,6 +13,10 @@ git config --global user.name "Haskell Curry"
 git config --global user.email haskell@example.com
 }}}
 
+For an overview of what repositories (or parts of repositories) are modified by various git commands:
+    http://osteele.com/images/2008/git-transport.png
+The git "local repository" corresponds to darcs internal store of patches.  The git "workspace" corresponds to your normal code tree in darcs. The git "index" is a staging area within the current repository, for storing partially-committed hunks.  It has no equivalent in darcs.
+
 = Commands =
 
 == darcs init ==
@@ -85,11 +89,11 @@ Like in Darcs, you may get conflicts.  To resolve conflicts, edit the conflictin
 
 If you want to see whether you get conflicts before pulling {{{git pull}}} is actually ... XXX
 
-=== darcs push ===
+== darcs push ==
 
 git equivalent is unknown
 
-=== darcs record -a ===
+== darcs record -a ==
 
 {{{
 git commit -a
