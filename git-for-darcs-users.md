@@ -226,6 +226,9 @@ git diff <commit1>..<commit2>  # show diff between two commits
 
 ## darcs revert
 
+
+Not sure if this gives you fine-grained reversion of individual hunks:
+
 ```wiki
 git reset --hard
 ```
@@ -235,11 +238,16 @@ git reset --hard
 ## darcs unrecord
 
 
-???
+Not sure if this will unrecord any patches except the most recent???
 
 ```wiki
 git reset --soft HEAD^
 ```
+
+## darcs unpull
+
+
+unknown
 
 ## darcs amend-record
 
