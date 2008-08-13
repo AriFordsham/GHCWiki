@@ -156,7 +156,10 @@ If you want to see whether you get conflicts before pulling `git pull` is actual
 ## darcs push
 
 
-Selectively pushing patches is not available directly in Git.  In general, Git promotes a pull model, that is, to work on a project you typically "fork" (`git clone`) the source repository, add your changes, publish *your* repository, and send a pull-request to the upstream maintainer.  The reasoning behind that is that you don't have something akin to a list of committers, but rather the maintainer has a set of trusted peers.  This model is very different than what seems to be common among darcs users, but it has its advantages.
+Selectively pushing patches is not available directly in Git.  A comparable workflow is to merge a local branch into the master branch and then `git push`, which does the same as `darcs push -a`.
+
+
+In general, even though a central repository is possible, Git promotes a pull model.  That is, to work on a project you typically "fork" (`git clone`) the source repository, add your changes, publish *your* repository, and send a pull-request to the upstream maintainer.  The reasoning behind that is that you don't have something akin to a list of committers, but rather the maintainer has a set of trusted peers.  This model is very different than what seems to be common among darcs users, but it has its advantages.
 
 
 Obviously, this requires that it's made easy to publish your version of the repository easily.  This is where websites like [ GitHub](http://github.com) come into play.  GitHub is free for open source projects (it offers a paid service with private repos), and makes it particularly easy to share with Git.  GitHub automates things like forking and sending pull requests.  GitHub has a quota of 100 MB, but *a forked repository will not count on your quota*.  This is particularly useful for large code bases like GHC.  (The GitHub quota isn't always correct; so if it seems wrong check again the next day.)
