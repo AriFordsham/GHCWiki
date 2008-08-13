@@ -47,6 +47,30 @@ git clone git://darcs.haskell.org/ghc.git   # git's protocol (fast, read-only)
 git clone [username@]darcs.haskell.org:ghc.git  # via SSH
 ```
 
+## darcs put
+
+
+There's no default command to do that, but the following should work:
+
+```wiki
+ssh me@remote
+cd /some/directory
+git init
+exit
+cd my/local/repo
+git push me@remote:/some/directory
+```
+
+**Note**: If the repository is supposed to be shared by several users, it's best to init it with either of these commands:
+
+```wiki
+git init --shared=group   # everyone in the same group can read and write
+git init --shared=all     # same group can read/write, others can read
+```
+
+
+You can also set this after the fact, by setting the configuration variable `core.sharedRepository`.  See `git config --help` for more information.
+
 ## darcs add
 
 ```wiki
