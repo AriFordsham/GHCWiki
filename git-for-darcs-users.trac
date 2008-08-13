@@ -117,7 +117,20 @@ If you want to see whether you get conflicts before pulling {{{git pull}}} is ac
 
 == darcs push ==
 
-git equivalent is unknown
+Selectively pushing patches is not available directly in Git.  In general, Git promotes a pull model, that is, to work on a project you typically "fork" ({{{git clone}}}) the source repository, add your changes, publish ''your'' repository, and send a pull-request to the upstream maintainer.  The reasoning behind that is that you don't have something akin to a list of committers, but rather the maintainer has a set of trusted peers.  This model is very different than what seems to be common among darcs users, but it has its advantages.
+
+Obviously, this requires that it's made easy to publish your version of the repository easily.  This is where websites like [http://github.com GitHub] come into play.  GitHub is free for open source projects (it offers a paid service with private repos), and makes it particularly easy to share with Git.  GitHub automates things like forking and sending pull requests.  GitHub has a quota of 100 MB, but ''a forked repository will not count on your quota''.  This is particularly useful for large code bases like GHC.  (The GitHub quota isn't always correct; so if it seems wrong check again the next day.)
+
+{{{darcs push}}} is also used to exchange patches between local repositories.  See "Local Branches" below for how to work with branches in Git.
+
+Of course, you need to be able to publish your local changes to a remote repo (even if it's not the main repo).  This is done using {{{git push}}} which is largely equivalent to {{{darcs push -a}}}
+
+=== darcs push -a ===
+
+{{{
+git push [<repo-url-or-alias>]
+}}}
+Without argument this will push to your {{{origin}}}.
 
 == darcs changes ==
 
