@@ -116,6 +116,15 @@ git diff --cached
 git commit -v
 ```
 
+### darcs record -a
+
+```wiki
+git commit -a
+```
+
+
+This will add and commit all (not ignored) files.  It will *not* add newly created files. (To do this call `git add .` before in the repo root directory.)
+
 ## darcs pull
 
 
@@ -148,15 +157,6 @@ If you want to see whether you get conflicts before pulling `git pull` is actual
 
 
 git equivalent is unknown
-
-## darcs record -a
-
-```wiki
-git commit -a
-```
-
-
-This will add and commit all (not ignored) files.  It will *not* add newly created files. (To do this call `git add .` before in the repo root directory.)
 
 ## darcs changes
 
