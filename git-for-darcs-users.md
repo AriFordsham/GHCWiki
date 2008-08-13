@@ -84,6 +84,34 @@ git diff --cached
 git commit -v
 ```
 
+### darcs pull
+
+
+There is a direct mapping to `darcs pull -a`.  Cherry-picking is not as streamlined as in Darcs.  For a start, here is how you update from the source repo:
+
+```wiki
+git pull
+```
+
+
+If all you want to do is to keep updated then this is fine.  The above is actually a shortcut for
+
+```wiki
+git pull origin
+```
+
+
+where `origin` is the name of your default remote branch.  (You can name it as you like, but certain Git commands will use `origin` as the default if no argument is specified.)
+
+
+XXX: will this pull into the current branch, or always into master?
+
+
+Like in Darcs, you may get conflicts.  To resolve conflicts, edit the conflicting file, `git add` it, and `git commit` it.
+
+
+If you want to see whether you get conflicts before pulling `git pull` is actually ... XXX
+
 ### darcs record -a
 
 ```wiki
