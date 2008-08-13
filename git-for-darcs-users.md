@@ -84,7 +84,7 @@ git diff --cached
 git commit -v
 ```
 
-### darcs pull
+## darcs pull
 
 
 There is a direct mapping to `darcs pull -a`.  Cherry-picking is not as streamlined as in Darcs.  For a start, here is how you update from the source repo:
