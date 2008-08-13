@@ -283,3 +283,26 @@ TODO:
  - feature branches
  - {{{git rerere}}}
 
+== Example Workflows ==
+
+=== Fix a bug ===
+{{{
+git pull <upstream>  # get latest changes
+git checkout -b fix_bug    # start a branch to fix the bug
+# ... hack ...
+git add -i           # select the proper changes
+git diff --cached    # verify what will be committed
+git commit
+# ... test ... oops, forgot something
+git add -i           # add the new patches
+git commit --amend   # add them to previous commit
+# ... test ... looks fine now
+git checkout master  # back to main branch
+git pull             # make sure it's up to date
+git merge fix_bug    # merge in our local changes
+# ... if we get a conflict here, edit the file then
+# ... add the changed files with git add, then git commit
+git push             # push changes to personal public repo
+                     # or directly to <upstream>
+git branch -d fix_foo # delete the branch we no longer need
+}}}
