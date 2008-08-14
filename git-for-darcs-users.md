@@ -16,6 +16,9 @@ git config --global user.name "Haskell Curry"
 git config --global user.email haskell@example.com
 ```
 
+
+Since Git keeps several branches in the same repository it is very useful to [ show the current branch in your shell prompt](http://unboundimagination.com/Current-Git-Branch-in-Bash-Prompt). 
+
 # Git Overview
 
 
