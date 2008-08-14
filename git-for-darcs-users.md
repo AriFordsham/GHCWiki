@@ -16,6 +16,8 @@ git config --global user.name "Haskell Curry"
 git config --global user.email haskell@example.com
 ```
 
+# Git Overview
+
 
 For an overview of what repositories (or parts of repositories) are modified by various git commands:
 
@@ -128,7 +130,12 @@ This will add and commit all (not ignored) files.  It will *not* add newly creat
 ## darcs pull
 
 
-There is a direct mapping for `darcs pull -a`, but not for the interactive `darcs pull`.  Cherry-picking is not as streamlined as in Darcs.  For a start, here is how you update from the source repo:
+There is no direct mapping for the interactive `darcs pull`.  Cherry-picking is not as streamlined as in Darcs.
+
+### darcs pull -a
+
+
+Here is how you update (everything) from the source repo:
 
 ```wiki
 git pull
@@ -145,7 +152,7 @@ git pull origin
 where `origin` is the name of your default remote branch.  (You can name it as you like, but certain Git commands will use `origin` as the default if no argument is specified.)
 
 
-XXX: will this pull into the current branch, or always into master?
+XXX: will this pull into the current branch, or always into master?  (Websites suggest always into master, so you likely need to follow `git pull` with `git rebase <branch-name>`)
 
 
 Like in Darcs, you may get conflicts.  To resolve conflicts, edit the conflicting file, `git add` it, and `git commit` it.
@@ -156,7 +163,10 @@ If you want to see whether you get conflicts before pulling `git pull` is actual
 ## darcs push
 
 
-Selectively pushing patches is not available directly in Git.  A comparable workflow is to merge a local branch into the master branch and then `git push`, which does the same as `darcs push -a`.
+Selectively pushing patches is not available directly in Git.  `git push` does the same as `darcs push -a`.
+
+
+A comparable interactive workflow is to merge a selection of patches from a local branch into the local master branch and then `git push` that.
 
 
 In general, even though a central repository is possible, Git promotes a pull model.  That is, to work on a project you typically "fork" (`git clone`) the source repository, add your changes, publish *your* repository, and send a pull-request to the upstream maintainer.  The reasoning behind that is that you don't have something akin to a list of committers, but rather the maintainer has a set of trusted peers.  This model is very different than what seems to be common among darcs users, but it has its advantages.
@@ -296,6 +306,9 @@ unknown
 ## darcs amend-record
 
 
+It is not easy to amend any patch except the last one committed.
+
+
 If the change to be amended is the latest commit
 
 ```wiki
@@ -376,4 +389,20 @@ git merge fix_bug    # merge in our local changes
 git push             # push changes to personal public repo
                      # or directly to <upstream>
 git branch -d fix_foo # delete the branch we no longer need
+```
+
+
+Yes, it is a bit more complicated than using darcs to do the same thing:
+
+```wiki
+darcs pull <upstream>  # get latest changes
+# ... hack ...
+darcs record           # select the proper changes
+# ... test ... oops, forgot something
+darcs amend-record     # add the new patches
+# ... test ... looks fine now
+darcs pull             # make sure it's up to date
+# ... if we get a conflict here, edit the file then
+# ... darcs amend-record
+darcs push             # push changes  <upstream>
 ```
