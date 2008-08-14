@@ -59,18 +59,21 @@ There's no default command to do that, but the following should work:
 
 ```wiki
 ssh me@remote
-cd /some/directory
-git init
+cd /some/directory.git
+git init --bare
 exit
 cd my/local/repo
 git push me@remote:/some/directory
 ```
 
+
+The `--bare` option disables a checkout of the working copy, i.e., only the contents of the `.git` directory are stored.
+
 **Note**: If the repository is supposed to be shared by several users, it's best to init it with either of these commands:
 
 ```wiki
-git init --shared=group   # everyone in the same group can read and write
-git init --shared=all     # same group can read/write, others can read
+git init --bare --shared=group   # everyone in the same group can read and write
+git init --bare --shared=all     # same group can read/write, others can read
 ```
 
 
