@@ -42,6 +42,41 @@ Here we have three branches "feature1", "develop", and "master".  "master" is th
 
 Note that Git branches all exist in the same repository.  You can have several physical clones of the same repository like in Darcs, but it is often more convenient to work with multiple branches in the same directory.  The most important commands for working with branch are `git checkout` and `git branch`, see below.
 
+
+The typical Git workflow is to use one branch per feature and merge into their original branch once they are considered ready.  For example, if we think ready that "feature1" is ready, we can `git merge` it into master:
+
+```wiki
+$ git checkout develop   # switch to develop branch
+$ git merge feature1     # merge feature1 into current branch
+
+          o---o---o---o---o <-- develop, feature1  
+;
+o---o---A---o---o---o <-- master
+```
+
+
+This merge is actually a **fast-forward**, meaning that no new commit is necessary, since "develop" didn't contain any other changes the pointer for the "develop" branch is merely set to point to the same commit that feature1 pointed to.  On the other hand, if we now merge "devel" into "master" we get a now commit:
+
+```wiki
+$ git checkout master
+$ git merge devel
+          o---o---o---o---o <-- develop, feature1  
+         /                 \
+o---o---A---o---o---o-------o <-- master
+```
+
+## Remote Repositories
+
+
+XXX: talk about `remote/origin/master`, `fetch`, and how it's mostly just already known `merge`
+
+## Rebase
+
+
+First of all, `git rebase` is a very dangerous feature, *it should never be done in shared repositories* (this is like `darcs amend-record` and `darcs unpull`, but even harder to fix.)
+
+`git rebase` is a way to "rewrite history".  (XXX: complete me)
+
 # General Settings
 
 
