@@ -15,12 +15,15 @@ An equality constraint that -in a certain scope- may be used to derive wanted eq
 </td></tr>
 <tr><th>*Flexible type variable*,  *unification variable*, *HM variable*</th>
 <td>
-Type variables that may be **globally** instantiated by unification.
+Type variables that may be **globally** instantiated by unification.  We use Greek letters `alpha, beta,`... as names for these variables.
 </td></tr>
 <tr><th>*Rigid type variable*, *skolem type variable*</th>
 <td>
-Type variable that cannot be globally instantiated, but it may be **locally** refined by a local equality constraint.
+Type variable that cannot be globally instantiated, but it may be **locally** refined by a local equality constraint.  We use Roman letters `a, b,`... as names for these variables.
 </td></tr></table>
+
+
+In positions where we can have both flexible and rigid variables, we use `x, y, z`.
 
 ## Overall algorithm
 
@@ -40,17 +43,17 @@ However, the three phases differ in important ways.  In particular, normalisatio
 Central to the algorithm are **normal equalities**, which can be regarded as a set of rewrite rules.  Normal equalities are carefully oriented and contain synonym families only as the head symbols of left-hand sides.  They assume one of the following two major forms:
 
 1. **Family equality:**`co :: F t1..tn ~ t` or
-1. **Variable equality:**`co :: a ~ t`, where we again distinguish two forms:
+1. **Variable equality:**`co :: x ~ t`, where we again distinguish two forms:
 
-  1. **Variable-term equality.**`co :: a ~ t`, where `t` is **not** a variable, or
-  1. **Variable-variable equality.**`co :: a ~ b`, where `a < b`.
+  1. **Variable-term equality:**`co :: x ~ t`, where `t` is *not* a variable, or
+  1. **Variable-variable equality:**`co :: x ~ y`, where `x < y`.
 
 
 where
 
 - the types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families,
 - the left-hand side of an equality may not occur in the right-hand side, and
-- the relation `a < b` is a total order on type variables, where `x < a` whenever `x` is a flexible and `a` a rigid type variable (otherwise, the details of the total order are irrelevant).
+- the relation `x < y` is a total order on type variables, where `alpha < a` whenever `alpha` is a flexible and `a` a rigid type variable (otherwise, the details of the total order are irrelevant).
 
 
 The second bullet of the where clause is trivially true for equalities of Form (1) and it implies that the left- and right-hand sides are different.
@@ -63,7 +66,6 @@ Furthermore, we call a variable equality whose left-hand side is a flexible type
 
 The following is interesting to note:
 
-- We explicitly permit equalities of the form `x ~ y` and `a ~ b`, where both sides are either flexible or rigid type variables.
 - Normal equalities are similar to equalities meeting the Orientation Invariant and Flattening Invariant of new-single, but they are not the same.
 - Normal equalities are **never** self-recursive.  They can be mutually recursive.  A mutually recursive group will exclusively contain variable equalities. 
 
@@ -109,26 +111,24 @@ norm [[s ~ t]] = check [[s' ~ t']] : eqs++eqt
 check :: FlattenedEqInst -> [FlattenedEqInst]
 -- Does OccursCheck + Decomp + Triv + Swap (of new-single)
 check [[t ~ t]] = []
+check [[x ~ y]] | x < y = [[x ~ y]]
+                | otherwise = [[y ~ x]]
 check [[x ~ t]] | x `occursIn` t = fail
-                          | otherwise = [[x ~ t]]
+                | otherwise = [[x ~ t]]
 check [[t ~ x]] | x `occursIn` t = fail
-                          | otherwise = [[x ~ t]]
-check [[a ~ t]] | a `occursIn` t = fail
-                          | otherwise = [[a ~ t]]
-check [[t ~ a]] | a `occursIn` t = fail
-                          | otherwise = [[a ~ t]]
+                | otherwise = [[x ~ t]]
 check [[s1 s2 ~ t1 t2]] = check [[s1 ~ t1]] ++ check [[s2 ~ t2]]
 check [[T ~ S]] = fail
 
 flatten :: Type -> (Type, [FlattenedEqInst])
 -- Result type has no synonym families whatsoever
-flatten [[F t1..tn]] = (x, [[F t1'..tn' ~ x]] : eqt1++..++eqtn)
+flatten [[F t1..tn]] = (alpha, [[F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
   where
     (t1', eqt1) = flatten t1
     ..
     (tn', eqtn) = flatten tn
-    NEW x
-    -- also need to add x := F t1'..tn'
+    NEW alpha
+    -- also need to add alpha := F t1'..tn'
 flatten [[t1 t2]] = (t1' t2', eqs++eqt)
   where
     (t1', eqs) = flatten t1
