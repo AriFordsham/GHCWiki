@@ -6,6 +6,42 @@ Just like Darcs, every Git command comes with a `--help` option.  For example `g
 
 Also see "General Notes" below for features present in Git but not in Darcs.
 
+# Git Concepts
+
+
+In order to understand some commands it is important to compare both Git's and Darcs' internal model.  A Darcs repository is a collection of patches with some dependencies between them.  The working directory is what you get when you apply all those patches in a valid order.
+
+
+Git on the other hand tracks states of the working directory.  Each commit refers to a particular "version" of the working tree.  So far, this is just a different view of the same thing, in fact, Git internally stores some sort of diffs for space efficiency.  The important difference is that a Git commit also remembers which version we make our patch against, i.e., the parent of the new commit.  Several commits can have the same parent or multiple parents, in which case they are merges.  As a result, a Git repository forms a directed acyclic graph.  These are often depicted in ASCII art like this:
+
+```wiki
+          o---o---o---o
+         /             \
+o---o---A---o---o---o---B---o
+```
+
+
+After commit "A" two developers (or the same developer in different branches) performed different commits on top of the same original version.  The "B" commit is a merge.  If the two branches contained conflicting changes "B" would contain its resolution. 
+
+## Branches
+
+
+A **branch** in Git is now merely *a pointer to a commit*.  For example, a typical situation is this:
+
+```wiki
+                o---o---o <-- feature1
+;
+          o---o <-- develop  
+;
+o---o---A---o---o---o <-- master
+```
+
+
+Here we have three branches "feature1", "develop", and "master".  "master" is the default branch that is created automatically, when you initialise a new Git repository.  Some commands also default to the master branch for certain actions, but otherwise it is not special in any way.
+
+
+Note that Git branches all exist in the same repository.  You can have several physical clones of the same repository like in Darcs, but it is often more convenient to work with multiple branches in the same directory.  The most important commands for working with branch are `git checkout` and `git branch`, see below.
+
 # General Settings
 
 
