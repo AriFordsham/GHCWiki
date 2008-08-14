@@ -25,18 +25,22 @@ However, the three phases differ in important ways.  In particular, normalisatio
 
 == Normal equalities ==
 
-Central to the algorithm are '''normal equalities''', which can be regarded as a set of rewrite rules.  Normal equalities are carefully oriented and contain synonym families only as the head symbols of left-hand sides.  They assume one of the following three forms:
+Central to the algorithm are '''normal equalities''', which can be regarded as a set of rewrite rules.  Normal equalities are carefully oriented and contain synonym families only as the head symbols of left-hand sides.  They assume one of the following two major forms:
 
- 1. '''Family equality:''' `co :: F t1..tn ~ t`,
- 2. '''Flexible variable equality:''' `co :: x ~ t`, where `x` is a flexible type variable, or
- 3. '''Rigid variable equality:''' `co :: a ~ t`, where `a` is a rigid type variable (skolem) and `t` is ''not'' a flexible type variable.
+ 1. '''Family equality:''' `co :: F t1..tn ~ t` or
+ 2. '''Variable equality:''' `co :: a ~ t`, where we again distinguish two forms:
+  a. '''Variable-term equality.''' `co :: a ~ t`, where `t` is '''not''' a variable, or
+  b. '''Variable-variable equality.''' `co :: a ~ b`, where `a < b`.
 
 where
 
- * the types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families and
- * left-hand side of an equality may not occur in the right-hand side.
+ * the types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families,
+ * the left-hand side of an equality may not occur in the right-hand side, and
+ * the relation `a < b` is a total order on type variables, where `x < a` whenever `x` is a flexible and `a` a rigid type variable (otherwise, the details of the total order are irrelevant).
 
 The second bullet of the where clause is trivially true for equalities of Form (1) and it implies that the left- and right-hand sides are different.
+
+Furthermore, we call a variable equality whose left-hand side is a flexible type variable (aka unification variable) a '''flexible variable equality''', and correspondingly, a variable equality whose left-hand side is a rigid type variable (aka skolem variable) a '''rigid variable equality.'''
 
 === Observations ===
 
