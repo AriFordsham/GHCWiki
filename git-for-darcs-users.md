@@ -55,7 +55,7 @@ o---o---A---o---o---o <-- master
 ```
 
 
-This merge is actually a **fast-forward**, meaning that no new commit is necessary, since "develop" didn't contain any other changes the pointer for the "develop" branch is merely set to point to the same commit that feature1 pointed to.  On the other hand, if we now merge "devel" into "master" we get a now commit:
+The above merge is actually a **fast-forward**, meaning that no new commit is necessary, since "develop" didn't contain any other changes--the pointer for the "develop" branch is merely set to point to the same commit that feature1 pointed to.  On the other hand, if we now merge "devel" into "master" we get a now commit:
 
 ```wiki
 $ git checkout master
@@ -75,7 +75,78 @@ XXX: talk about `remote/origin/master`, `fetch`, and how it's mostly just alread
 
 First of all, `git rebase` is a very dangerous feature, *it should never be done in shared repositories* (this is like `darcs amend-record` and `darcs unpull`, but even harder to fix.)
 
-`git rebase` is a way to "rewrite history".  (XXX: complete me)
+`git rebase` is a way to "rewrite history".  You can use this to remove bad patches or to move a branch. For example, consider the following history:
+
+```wiki
+      A---B---C---D <-- feature1
+;
+o---o---o---o---o <-- master
+```
+
+
+Now, it turns out that `B` was not a good patch.  With `git rebase`, you can choose to just remove `B` completely (similar to `darcs unpull`)
+
+```wiki
+      A---C'---D' <-- feature1
+;
+o---o---o---o---o <-- master
+```
+
+
+or you could edit `B` and replace it with another change `B'` (similar to `darcs amend-record`).
+
+```wiki
+      A---B'---C'---D' <-- feature1
+;
+o---o---o---o---o <-- master
+```
+
+
+The easiest way is to use `rebase` for these use cases is via `git rebase -i` (see its documentation).
+
+
+Note in the above examples how patches `C` and `D` got renamed to `C'`, `D'`.  This indicates that they now have different commit ids because they are now are the same patches but based upon a different history.  That means that another user that already has the original patches `C` and `D` and tries to update from the rebased branch will get conflicts!  (This is comparable to how an amended patch in darcs will lead to conflicts, if someone else already has the original patch in the repository.)
+
+
+Therefore: **Never rebase a published branch**.
+
+
+Another use case is to move a branch.  In the above example we can rebase `feature1` onto `master`, resulting in this history:
+
+```wiki
+                  A'---B'---C'---D' <-- feature1
+;
+o---o---o---o---o <-- master
+```
+
+
+You can do this if the changes in the feature branch semantically aren't really a branch, but make equally sense on top of the master's history.  In the above example, merging `feature1` into `master` will now be a simple fast-forward and will not introduce a merge commit.
+
+
+Finally, `rebase` can be used to move a feature branch onto another branch.  For example, say we have a big feature and we want to implement a smaller feature:
+
+```wiki
+                o---o---o <-- small_feature
+;
+          o---o <-- big_feature  
+;
+o---o---A---o---o---o <-- master
+```
+
+
+Now we realise that `small_feature` is already useful and want to merge it into master without the commits that were made on the `big_feature` branch.  We can therefore rebase `small_feature` onto master:
+
+```wiki
+$ git rebase --onto master big_feature small_feature
+          o---o <-- big_feature
+;
+        |             o'--o'--o' <-- small_feature
+        |            / 
+o---o---A---o---o---o <-- master
+```
+
+
+See `git rebase --help` for more usage information and more examples.
 
 # General Settings
 
