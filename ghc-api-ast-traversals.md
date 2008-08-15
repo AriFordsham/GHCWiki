@@ -13,9 +13,15 @@ David Waern has been working on deriving `Data.Traversable` for the Ast types, t
 
 Since Ghc does support (standalone) deriving of `Data` and `Typeable`, it seems natural to want those classes instantiated for the Ghc Api types. In case that would lead to blowup of standard releases, it would be even better if those instances could be provided as an add-on to a release.
 
-- until recently, standalone deriving of `Data/Typeable` was broken ([\#2378](https://gitlab.haskell.org//ghc/ghc/issues/2378), fixed in HEAD, 07/01/08)
+- for recent code/documentation, see the syb-utils darcs repo ([ rss feed of darcs changes](http://www.cs.kent.ac.uk/~cr3/toolbox/haskell/syb-utils/changes.xml)):
 
-- standalone deriving of `Typeable` fails if data constructors are not in scope - this looks like a bug ([\#2433](https://gitlab.haskell.org//ghc/ghc/issues/2433))
+  ```wiki
+      darcs get http://www.cs.kent.ac.uk/~cr3/toolbox/haskell/syb-utils
+  ```
+
+- until recently, standalone deriving of `Data/Typeable` was broken ([\#2378](https://gitlab.haskell.org//ghc/ghc/issues/2378), fixed in HEAD, 01.07.08)
+
+- standalone deriving of `Typeable` fails if data constructors are not in scope - this looks like a bug ([\#2433](https://gitlab.haskell.org//ghc/ghc/issues/2433), fixed in HEAD, 04.08.08)
 
 - standalone deriving of `Data` fails if data constructors are not in scope - this means that `Data` instances are in conflict with the intended data abstraction for some Ghc Ast types!
 
@@ -102,5 +108,5 @@ Since Ghc does support (standalone) deriving of `Data` and `Typeable`, it seems 
 
   - there are various more or less obvious ways in which naive use of Syb traversal schemes can lead to very inefficient traversals
   - until proven wrong, I'll assume that all of these traps can be avoided by careful tuning of traversal schemes!-)
-  - three example issues are listed in [ Data.Generics with GPS (using Maps to avoid getting lost in Data)](http://www.haskell.org/pipermail/generics/2008-July/000353.html), which also provides a generalisation of the main Uniplate `PlateData` (Uniplate over Syb) optimisation, in a form that can be used to address one of the performance issues of `everywhere` and `everything` (traversal of irrelevant substructures)
-  - I've been trying to address another of those three issues (too many runtime type checks), but am currently stuck because merely mentioning the necessary auxilary structures seems to disable some GHC optimisation, leading to a drastical loss of performance (as I'm not even using those structures yet, this might be a GHC bug? see [\#2463](https://gitlab.haskell.org//ghc/ghc/issues/2463))
+  - three example issues are listed in [ Data.Generics with GPS (using Maps to avoid getting lost in Data)](http://www.haskell.org/pipermail/generics/2008-July/000353.html), which also provides a generalisation of the main Uniplate `PlateData` (Uniplate over Syb) optimisation, in a form that can be used to address one of the performance issues of `everywhere` and `everything` (traversal of irrelevant substructures) - this gives the expected speedup of naive traversal schemes
+  - I've been trying to address another of those three issues (too many runtime type checks, specifically linear lookup), but the overhead of working a map of functions of different types means that this isn't really a win (for the typical few specific cases, linear lookup is faster, and as the number of specific cases grows, they tend to be organised so as to reduce type checks and traversals, so having a map is still not necessarily a win)
