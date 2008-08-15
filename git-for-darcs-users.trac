@@ -368,18 +368,31 @@ git reset --soft HEAD^
 
 == darcs unpull ==
 
-unknown
+This can be done with {{{git rebase}}}, but consider the consequences of what you are about to do (see "Git Concepts" above).
+
+Given a (partial) history like this
+{{{
+A---B---C---D---E <-- mybranch
+}}}
+you want to remove patch {{{C}}}.  Using interactive rebase, it can be done like this:
+{{{
+git rebase -i C^ mybranch
+}}}
+This opens your editor with a list of the commits {{{C}}}, {{{D}}}, and {{{E}}}.  By default they are labelled with {{{pick}}}.  Now remove the line for patch {{{C}}} and save your changes.  Git rebase will now check out version {{{B}}} and apply the remaining patches {{{D}}} and {{{E}}} in order, resulting in the desired outcome:
+{{{
+A---B---D'---E' <-- mybranch
+}}}
 
 == darcs amend-record ==
-
-It is not easy to amend any patch except the last one committed.
 
 If the change to be amended is the latest commit
 {{{
 git commit --amend
 }}}
 
-TODO: describe workflow if amended patch is not the current HEAD.
+If the patch is not the last commit you can also use {{{git rebase -i}}} as above, but instead of deleting the line, change {{{pick}}} to {{{edit}}}.  Rebase will then stop and let you edit the files.  Then do your edits, {{{git commit --amend}}}, then continue the rebase with {{{git rebase --continue}}}.
+
+You can do a lot more things with {{{git rebase -i}}}, like reordering changes or joining or splitting patches.  See the "Interactive Mode" section of {{{git rebase --help}}} for more information.
 
 TODO: add note for merge commits
 
