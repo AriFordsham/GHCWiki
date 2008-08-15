@@ -148,6 +148,45 @@ o---o---A---o---o---o <-- master
 
 See `git rebase --help` for more usage information and more examples.
 
+### Uh-oh, I trashed my repo with a rebase, what do I do?
+
+
+Two Options:
+
+1. Recover from the backup copy (you *did* make backup copy before the rebase, didn't you?)
+
+1. In case you were in a hurry and option 1 is not an option for you, there may be some hope.  Git actually has a bit of a functional philosophy in that it doesn't immediately throw away the orignal commits.  Git uses garbage collection for this, which is called automatically every once in a while.
+
+
+Suppose we started with this repository state
+
+```wiki
+      A---B---C---D <-- feature1
+;
+o---o---o---o---o <-- master
+```
+
+
+and decided to remove `B` from our history.  The actual repository now looks like this:
+
+```wiki
+        C'--D' <-- feature1
+;
+      A---B---C---D
+;
+o---o---o---o---o <-- master
+```
+
+
+If you happen to have the commit id of `D` (maybe in your console backlog) you can create a branch `feature1_old` that points to `D` via
+
+```wiki
+$ git checkout -b feature1_old <commit-id-of-D>
+```
+
+
+Now you have a handle to both `D'` and `D`.
+
 # General Settings
 
 
