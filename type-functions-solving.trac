@@ -120,10 +120,10 @@ The substitutions `RECORD`ed during `flatten` need to be (unconditionally) appli
 Notes:
  * Perform Rule Triv as part of normalisation.
  * Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
- * We flatten locals and wanteds in the same manner, using fresh flexible type variables.  (We have flexibles in locals anyway and don't use (Unify) during normalisation - this is different to new-single.)
+ * We flatten locals and wanteds in the same manner, using fresh flexible type variables.  (We have flexibles in locals anyway and don't use (Unify) during normalisation - this is different to `new-single`.)
 
 
-== Solving ==
+== Propagation (aka Solving) ==
 
 A significant difference to new-single is that solving is a purely local operation.  We never instantiate any flexible variables.
 
