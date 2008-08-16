@@ -40,7 +40,7 @@ where
  * the left-hand side of an equality may not occur in the right-hand side, and
  * the relation `x < y` is a total order on type variables, where `alpha < a` whenever `alpha` is a flexible and `a` a rigid type variable (otherwise, the total order may be aribitrary).
 
-The second bullet of the where clause is trivially true for equalities of Form (1) and it implies that the left- and right-hand sides are different.
+The second bullet of the where clause is trivially true for equalities of Form (1); it also implies that the left- and right-hand sides are different.
 
 Furthermore, we call a variable equality whose left-hand side is a flexible type variable (aka unification variable) a '''flexible variable equality''', and correspondingly, a variable equality whose left-hand side is a rigid type variable (aka skolem variable) a '''rigid variable equality.'''
 
