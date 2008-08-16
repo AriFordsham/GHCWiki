@@ -65,58 +65,62 @@ Moreover, `TcTyFuns.RewriteInst` represents normal equalities, emphasising their
 
 == Normalisation ==
 
-The following function `norm` turns an arbitrary equality into a set of normal equalities.  (It ignores the coercions for the moment.)
+The following function `norm` turns an arbitrary equality into a set of normal equalities.  As in `new-single`, the evidence equations are differently interpreted depending on whether we handle a wanted or local equality.
 {{{
 data EqInst         -- arbitrary equalities
 data FlatEqInst     -- synonym families may only occur outermost on the lhs
 data RewriteInst    -- normal equality
 
 norm :: EqInst -> [RewriteInst]
-norm [[F s1..sn ~ t]] = [[F s1'..sn' ~ t']] : eqs1++..++eqsn++eqt
+norm [[co :: F s1..sn ~ t]] = [[co :: F s1'..sn' ~ t']] : eqs1++..++eqsn++eqt
   where
     (s1', eqs1) = flatten s1
     ..
     (sn', eqsn) = flatten sn
     (t', eqt)   = flatten t
-norm [[t ~ F s1..sn]] = norm [[F s1..sn ~ t]]
-norm [[s ~ t]] = check [[s' ~ t']] : eqs++eqt
+norm [[co :: t ~ F s1..sn]] = norm [[co' :: F s1..sn ~ t]] with co = sym co'
+norm [[co :: s ~ t]] = check [[co :: s' ~ t']] : eqs++eqt
   where
     (s', eqs) = flatten s
     (t', eqt) = flatten t
 
 check :: FlattenedEqInst -> [FlattenedEqInst]
 -- Does OccursCheck + Decomp + Triv + Swap (of new-single)
-check [[t ~ t]] = []
-check [[x ~ y]] | x < y = [[x ~ y]]
-                | otherwise = [[y ~ x]]
-check [[x ~ t]] | x `occursIn` t = fail
-                | otherwise = [[x ~ t]]
-check [[t ~ x]] | x `occursIn` t = fail
-                | otherwise = [[x ~ t]]
-check [[s1 s2 ~ t1 t2]] = check [[s1 ~ t1]] ++ check [[s2 ~ t2]]
-check [[T ~ S]] = fail
+check [[co :: t ~ t]] = [] with co = id
+check [[co :: x ~ y]] 
+  | x < y     = [[co :: x ~ y]]
+  | otherwise = [[co' :: y ~ x]] with co = sym co'
+check [[co :: x ~ t]] 
+  | x `occursIn` t = fail
+  | otherwise      = [[co :: x ~ t]]
+check [[co :: t ~ x]] 
+  | x `occursIn` t = fail
+  | otherwise      = [[co' :: x ~ t]] with co = sym co'
+check [[co :: s1 s2 ~ t1 t2]]
+  = check [[col :: s1 ~ t1]] ++ check [[cor :: s2 ~ t2]] with co = col cor
+check [[co :: T ~ S]] = fail
 
 flatten :: Type -> (Type, [FlattenedEqInst])
 -- Result type has no synonym families whatsoever
-flatten [[F t1..tn]] = (alpha, [[F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
+flatten [[F t1..tn]] = (alpha, [[id :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
   where
     (t1', eqt1) = flatten t1
     ..
     (tn', eqtn) = flatten tn
     NEW alpha
-    -- also need to add alpha := F t1'..tn'
+    RECORD alpha := F t1'..tn'
 flatten [[t1 t2]] = (t1' t2', eqs++eqt)
   where
     (t1', eqs) = flatten t1
     (t2', eqt) = flatten t2
 flatten t = (t, [])
 }}}
+The substitutions `RECORD`ed during `flatten` need to be (unconditionally) applied during finalisation (i.e., the 3rd phase).
 
 Notes:
  * Perform Rule Triv as part of normalisation.
  * Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
  * Use flexible tyvars for flattening of locals, too.  (We have flexibles in locals anyway and don't use (Unify) on locals, so the flexibles shouldn't cause any harm, but the elimination of skolems is much easier for flexibles - we just instantiate them.)
- * '''TODO:''' Do we need to record a skolem elimination substitution for skolems introduced during flattening for wanteds, too?
 
 
 == Solving ==
