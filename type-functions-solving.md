@@ -53,7 +53,7 @@ where
 
 - the types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families,
 - the left-hand side of an equality may not occur in the right-hand side, and
-- the relation `x < y` is a total order on type variables, where `alpha < a` whenever `alpha` is a flexible and `a` a rigid type variable (otherwise, the details of the total order are irrelevant).
+- the relation `x < y` is a total order on type variables, where `alpha < a` whenever `alpha` is a flexible and `a` a rigid type variable (otherwise, the total order may be aribitrary).
 
 
 The second bullet of the where clause is trivially true for equalities of Form (1) and it implies that the left- and right-hand sides are different.
