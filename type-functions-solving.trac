@@ -1,4 +1,12 @@
-= Normalising and Solving Type Equalities =
+= Entailment of Type Equalities =
+
+Our aim is to derive the entailment judgement
+{{{
+  g1, .., gn  |-  w1, .., wm
+}}}
+i.e., whether we can derive the wanted equalities `w1` to `wm` from the given equalities `g1`, .., `gn` under a given set of toplevel equality schemas (i.e., equalities involving universally quantified variables).  We permit unification variables in the wanted equalities, and a derivation may include the instantiation of these variables; i.e., may compute a unifier.  However, that unifer must be most general.
+
+The derivation algorithm is complicated by the pragmatic requirement that, even if there is no derivation for the judgement, we would like to compute a unifier.  This unifier should be as specific as possible under some not yet specified (strongest) weakening of the judgement so that it is derivable.  (Whatever that means...)
 
 The following is based on ideas for the new, post-ICFP'08 solving algorithm described in CVS `papers/type-synonym/new-single.tex`.  A revised version of `new-single.tex` that integrates the core ideas from this wiki page is in `papers/type-synonym/normalised_equations_algorithm.tex`.  Most of the code is in the module `TcTyFuns`.
 
@@ -32,15 +40,15 @@ Central to the algorithm are '''normal equalities''', which can be regarded as a
  1. '''Family equality:''' `co :: F t1..tn ~ t` or
  2. '''Variable equality:''' `co :: x ~ t`, where we again distinguish two forms:
   a. '''Variable-term equality:''' `co :: x ~ t`, where `t` is ''not'' a variable, or
-  b. '''Variable-variable equality:''' `co :: x ~ y`, where `x < y`.
+  b. '''Variable-variable equality:''' `co :: x ~ y`, where `x > y`.
 
 where
 
  * the types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families,
  * the left-hand side of an equality may not occur in the right-hand side, and
- * the relation `x < y` is a total order on type variables, where `alpha < a` whenever `alpha` is a flexible and `a` a rigid type variable (otherwise, the details of the total order are irrelevant).
+ * the relation `x > y` is a total order on type variables, where `alpha > a` whenever `alpha` is a flexible and `a` a rigid type variable (otherwise, the total order may be aribitrary).
 
-The second bullet of the where clause is trivially true for equalities of Form (1) and it implies that the left- and right-hand sides are different.
+The second bullet of the where clause is trivially true for equalities of Form (1); it also implies that the left- and right-hand sides are different.
 
 Furthermore, we call a variable equality whose left-hand side is a flexible type variable (aka unification variable) a '''flexible variable equality''', and correspondingly, a variable equality whose left-hand side is a rigid type variable (aka skolem variable) a '''rigid variable equality.'''
 
@@ -65,63 +73,97 @@ Moreover, `TcTyFuns.RewriteInst` represents normal equalities, emphasising their
 
 == Normalisation ==
 
-The following function `norm` turns an arbitrary equality into a set of normal equalities.  (It ignores the coercions for the moment.)
+The following function `norm` turns an arbitrary equality into a set of normal equalities.  As in `new-single`, the evidence equations are differently interpreted depending on whether we handle a wanted or local equality.
 {{{
 data EqInst         -- arbitrary equalities
 data FlatEqInst     -- synonym families may only occur outermost on the lhs
 data RewriteInst    -- normal equality
 
 norm :: EqInst -> [RewriteInst]
-norm [[F s1..sn ~ t]] = [[F s1'..sn' ~ t']] : eqs1++..++eqsn++eqt
+norm [[co :: F s1..sn ~ t]] = [[co :: F s1'..sn' ~ t']] : eqs1++..++eqsn++eqt
   where
     (s1', eqs1) = flatten s1
     ..
     (sn', eqsn) = flatten sn
     (t', eqt)   = flatten t
-norm [[t ~ F s1..sn]] = norm [[F s1..sn ~ t]]
-norm [[s ~ t]] = check [[s' ~ t']] : eqs++eqt
+norm [[co :: t ~ F s1..sn]] = norm [[co' :: F s1..sn ~ t]] with co = sym co'
+norm [[co :: s ~ t]] = check [[co :: s' ~ t']] : eqs++eqt
   where
     (s', eqs) = flatten s
     (t', eqt) = flatten t
 
 check :: FlattenedEqInst -> [FlattenedEqInst]
 -- Does OccursCheck + Decomp + Triv + Swap (of new-single)
-check [[t ~ t]] = []
-check [[x ~ y]] | x < y = [[x ~ y]]
-                | otherwise = [[y ~ x]]
-check [[x ~ t]] | x `occursIn` t = fail
-                | otherwise = [[x ~ t]]
-check [[t ~ x]] | x `occursIn` t = fail
-                | otherwise = [[x ~ t]]
-check [[s1 s2 ~ t1 t2]] = check [[s1 ~ t1]] ++ check [[s2 ~ t2]]
-check [[T ~ S]] = fail
+check [[co :: t ~ t]] = [] with co = id
+check [[co :: x ~ y]] 
+  | x < y     = [[co :: x ~ y]]
+  | otherwise = [[co' :: y ~ x]] with co = sym co'
+check [[co :: x ~ t]] 
+  | x `occursIn` t = fail
+  | otherwise      = [[co :: x ~ t]]
+check [[co :: t ~ x]] 
+  | x `occursIn` t = fail
+  | otherwise      = [[co' :: x ~ t]] with co = sym co'
+check [[co :: s1 s2 ~ t1 t2]]
+  = check [[col :: s1 ~ t1]] ++ check [[cor :: s2 ~ t2]] with co = col cor
+check [[co :: T ~ S]] = fail
 
 flatten :: Type -> (Type, [FlattenedEqInst])
 -- Result type has no synonym families whatsoever
-flatten [[F t1..tn]] = (alpha, [[F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
+flatten [[F t1..tn]] = (alpha, [[id :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
   where
     (t1', eqt1) = flatten t1
     ..
     (tn', eqtn) = flatten tn
-    NEW alpha
-    -- also need to add alpha := F t1'..tn'
+    FRESH alpha, such that alpha > x for all x already used
+    RECORD alpha := F t1'..tn'
 flatten [[t1 t2]] = (t1' t2', eqs++eqt)
   where
     (t1', eqs) = flatten t1
     (t2', eqt) = flatten t2
 flatten t = (t, [])
 }}}
+The substitutions `RECORD`ed during `flatten` need to be (unconditionally) applied during finalisation (i.e., the 3rd phase).
 
 Notes:
  * Perform Rule Triv as part of normalisation.
  * Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
- * Use flexible tyvars for flattening of locals, too.  (We have flexibles in locals anyway and don't use (Unify) on locals, so the flexibles shouldn't cause any harm, but the elimination of skolems is much easier for flexibles - we just instantiate them.)
- * '''TODO:''' Do we need to record a skolem elimination substitution for skolems introduced during flattening for wanteds, too?
+ * We flatten locals and wanteds in the same manner, using fresh flexible type variables.  (We have flexibles in locals anyway and don't use (Unify) during normalisation - this is different to `new-single`.)
 
 
-== Solving ==
+== Propagation (aka Solving) ==
 
-A significant difference to new-single is that solving is a purely local operation.  We never instantiate any flexible variables.
+A significant difference to `new-single` is that solving is a purely local operation.  We never instantiate any flexible variables.
+
+=== Rules ===
+
+ '''Top'''::
+{{{
+co :: F t1..tn ~ t
+=(Top)=>
+co' :: [s1/x1, .., sm/xm]s ~ t with co = g s1..sm |> co'  
+}}}
+ where `g :: forall x1..xm. F u1..um ~ s` and `[s1/x1, .., sm/xm]u1 == t1`.
+
+ '''!SubstFam'''::
+{{{
+co1 :: F t1..tn ~ t  &  co2 :: F t1..tn ~ s
+=(SubstFam)=>
+co1 :: F t1..tn ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
+}}}
+ where `co1` is local, or both `co1` and `co2` are wanted and at least one of the equalities contains a flexible variable.
+
+ '''!SubstVarVar'''::
+{{{
+co1 :: x ~ t  &  co2 :: x ~ s
+=(SubstVar)=>
+co1 :: x ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
+}}}
+ where `co1` is local, or both `co1` and `co2` are wanted and at least one of the equalities contains a flexible variable.
+
+ '''!SubstVarFam'''::
+{{{
+}}}
 
 '''TODO:'''
  * Rules applying to family equalities:
@@ -130,9 +172,10 @@ A significant difference to new-single is that solving is a purely local operati
  We should apply !SubstFam first as it cheaper and potentially reduces the number of applications of Top.  On the other hand, for each family equality, we may want to try to reduce it with Top, and if that fails, use it with !SubstFam.  (That strategy should lend itself well to an implementation.)  But be careful, we need to apply Top exhaustively, to avoid non-termination.  More precisely, if we interleave Top and !SubstFam, we can easily diverge.
  * Rules applying to variable equalities:
   * !SubstVar (formerly, Local) applies to variable equalities (both locals and wanteds)
- * With !SubstFam and !SubstVar, we always substitute locals into wanteds and never the other way around.  We perform substitutions exhaustively.  For !SubstVar, this is crucial to avoid non-termination.
+ * With !SubstFam and !SubstVar, we always substitute locals into wanteds and never the other way around.  We perform substitutions exhaustively.  For !SubstVar, this is crucial to avoid non-termination.  (It seems we can drop this requirement if we only ever substitute into left-hand sides.)
  * We should probably use !SubstVar on all variable equalities before using !SubstFam, as the former may refine the left-hand sides of family equalities, and hence, lead to Top being applicable where it wasn't before.
- * We use !SubstFam and !SubstVar to substitute wanted equalities '''only''' if their right-hand side contains a flexible type variables (which for variable equalities means that we apply !SubstVar only to flexible variable equalities).  '''TODO:''' This is not sufficient while we are inferring a type signature as SPJ's example shows: `|- a ~ [x], a ~ [Int]`.  Here we want to infer `x := Int` before yielding `a ~ [Int]` as an irred.  So, we need to use !SubstVar and !SubstFam also if the rhs of a wanted contains a flexible variable.  This unfortunately makes termination more complicated.  However, SPJ also observed that we really only need to substitute variables in left-hand sides (not in right-hand sides) as far as enabling other rewrites goes.  However, there are trick problems left as the following two examples show `|- a~c, a~b, c~a` and `|- b ~ c, b ~ a, a ~ b, c ~ a`.
+ * We use !SubstFam and !SubstVar to substitute wanted equalities '''only''' if their left-hand side contains a flexible type variables (which for variable equalities means that we apply !SubstVar only to flexible variable equalities).  '''TODO:''' This is not sufficient while we are inferring a type signature as SPJ's example shows: `|- a ~ [x], a ~ [Int]`.  Here we want to infer `x := Int` before yielding `a ~ [Int]` as an irred.  So, we need to use !SubstVar and !SubstFam also if the rhs of a wanted contains a flexible variable.  This unfortunately makes termination more complicated.  However, SPJ also observed that we really only need to substitute variables in left-hand sides (not in right-hand sides) as far as enabling other rewrites goes.  However, there are trick problems left as the following two examples show `|- a~c, a~b, c~a` and `|- b ~ c, b ~ a, a ~ b, c ~ a`.  !!Seems SubstVar with a wanted is also sometimes needed if the wanted contains no flexible type variable (as this can trigger applications of Top, which may lead to more specific unifiers).
+ * Substitute only into left-hand sides?
 
 Notes:
 
