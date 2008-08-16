@@ -171,6 +171,7 @@ A significant difference to new-single is that solving is a purely local operati
 - With SubstFam and SubstVar, we always substitute locals into wanteds and never the other way around.  We perform substitutions exhaustively.  For SubstVar, this is crucial to avoid non-termination.
 - We should probably use SubstVar on all variable equalities before using SubstFam, as the former may refine the left-hand sides of family equalities, and hence, lead to Top being applicable where it wasn't before.
 - We use SubstFam and SubstVar to substitute wanted equalities **only** if their right-hand side contains a flexible type variables (which for variable equalities means that we apply SubstVar only to flexible variable equalities).  **TODO** This is not sufficient while we are inferring a type signature as SPJ's example shows: `|- a ~ [x], a ~ [Int]`.  Here we want to infer `x := Int` before yielding `a ~ [Int]` as an irred.  So, we need to use SubstVar and SubstFam also if the rhs of a wanted contains a flexible variable.  This unfortunately makes termination more complicated.  However, SPJ also observed that we really only need to substitute variables in left-hand sides (not in right-hand sides) as far as enabling other rewrites goes.  However, there are trick problems left as the following two examples show `|- a~c, a~b, c~a` and `|- b ~ c, b ~ a, a ~ b, c ~ a`.
+- Substitute only into left-hand sides?
 
 
 Notes:
