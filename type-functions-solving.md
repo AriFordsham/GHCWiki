@@ -131,7 +131,7 @@ flatten [[F t1..tn]] = (alpha, [[id :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
     (t1', eqt1) = flatten t1
     ..
     (tn', eqtn) = flatten tn
-    NEW alpha
+    FRESH alpha
     RECORD alpha := F t1'..tn'
 flatten [[t1 t2]] = (t1' t2', eqs++eqt)
   where
@@ -148,7 +148,7 @@ Notes:
 
 - Perform Rule Triv as part of normalisation.
 - Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
-- Use flexible tyvars for flattening of locals, too.  (We have flexibles in locals anyway and don't use (Unify) on locals, so the flexibles shouldn't cause any harm, but the elimination of skolems is much easier for flexibles - we just instantiate them.)
+- We flatten locals and wanteds in the same manner, using fresh flexible type variables.  (We have flexibles in locals anyway and don't use (Unify) during normalisation - this is different to new-single.)
 
 ## Solving
 
