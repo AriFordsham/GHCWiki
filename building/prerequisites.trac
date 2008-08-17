@@ -2,9 +2,8 @@
 
 == Prerequisites for Buiding GHC ==
 
-Here are the gory details about some utility programs you may need;
-{{{GHC}}}, {{{perl}}}, {{{gcc}}}, {{{happy}}} and {{{alex}}} are the
-only important ones. The {{{configure}}} script will tell you if you
+Here are the gory details about some utility programs you may need.
+In most cases the `configure` script will tell you if you
 are missing something.  If you're on a Linux system, skip to "Preparing a Linux System" below.
 
  GHC::
@@ -85,6 +84,14 @@ are missing something.  If you're on a Linux system, skip to "Preparing a Linux 
   written in Haskell and is a project in the darcs repository.
   Alex distributions are available from 
   [http://www.haskell.org/alex/ Alex's Web Page].
+
+ [http://www.haskell.org/haddock/ Haddock]::
+  Haddock is a documentation generator for Haskell,
+  used for making the docs for the libraries.
+  [[br]][[br]]
+  If you don't want to build the docs then you don't need haddock.
+  [[br]][[br]]
+  Currently you need a 0.* version of haddock; 2.* versions won't work.
 
  {{{autoconf}}} and {{{automake}}}::
   These are needed if you intend to build from the
