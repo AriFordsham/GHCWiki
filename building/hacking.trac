@@ -134,8 +134,8 @@ To install the compiler you built, you can say
   $ make install
 }}}
 
-However, you don't need to install GHC to use it.  Running `./compiler/stage1/ghc-inplace` from the build tree
-will invoke the stage1 compiler, and `./compiler/stage2/ghc-inplace` will invoke the stage2 compiler.
+However, you don't need to install GHC to use it.  Running `ghc/stage1-inplace/ghc` from the build tree
+will invoke the stage1 compiler, and `ghc/stage2-inplace/ghc` will invoke the stage2 compiler.
 
 == Building individual parts of the tree ==
 
