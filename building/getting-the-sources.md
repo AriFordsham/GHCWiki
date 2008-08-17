@@ -81,7 +81,12 @@ Instead, follow the following steps:
   ```
 
   We've had [ reports](http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html) of Darcs crashing on Mac OS X in this step.  If this happens, see the section on troubleshooting.
-1. Now use the `darcs-all` script to pull patches from all the library repositories, and the testsuite repository:
+1. Some core libraries might have been added to HEAD which were not in the last tarball. This means that after doing the last pull (which updates the list of core libraries) we need to do this to get any new libraries:
+
+  ```wiki
+     $ ./darcs-all get
+  ```
+1. Now use the `darcs-all` script to pull patches from all the library repositories that came in the tarball, and the testsuite repository:
 
   ```wiki
      $ chmod +x darcs-all
@@ -182,6 +187,7 @@ The default Mac OS X files systems (HFS+) is case-insensitive and darcs is case 
 1. Click the "New Image" button.
 1. Set the "Volume Format" to "Mac OS X Extended (Case Sensitive)".
 1. Set "Encryption" to "None".
+
 1. Set "Partitions" to "Single Partition - Apple Partition Map"
 1. Set "Image Format" to "sparse disk image".
 1. Set "Volume Size" to "Custom..." and select an appropriately large size.  Sparse images only take up as much space is as needed, plus a little overhead, so it's better to overestimate than underestimate.  A 30 GB sparse image with no data in it takes up \~50 MB.
