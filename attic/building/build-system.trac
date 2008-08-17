@@ -43,38 +43,47 @@ To get started, let us look at the
 {{{Makefile}}} for an imaginary small program,
 {{{small}}}.  Each program or library in the GHC
 source tree typically has its own directory, in this case we'll
-use {{{$(GHC_TOP)/small}}}.
+use {{{$(TOP)/small}}}.
 Inside the {{{small/}}} directory there will be a
 {{{Makefile}}}, looking something like
 this:
 
 {{{
-# Makefile for program "small"
 TOP = ..
+
+ENABLE_SHELL_WRAPPERS = YES
+EXTRA_CLEAN = myFile
+EXTRA_DISTCLEAN = myFile
+
 include $(TOP)/mk/boilerplate.mk
-
-HS_PROG = small
-
-include $(TOP)/target.mk
+include $(TOP)/mk/cabal.mk
 }}}
 
 this {{{Makefile}}} has three
 sections:
 
-      
- * The first section includes
-   (One of the most important
+ * We start by defining `$(TOP)` to point to the top of the tree.
+
+ * Next there are some variables that we can set to control how `small` is built.
+   The most common one is `ENABLE_SHELL_WRAPPERS`, which we can set to `YES`
+   if we want to use Cabal's binary wrappers feature. This means that, on
+   unix-like OSes, we install `small.wrapper` as a shell script wrapper
+   around the real `small` binary.
+   [[br]][[br]]
+   Less common are `EXTRA_CLEAN` and `EXTRA_DISTCLEAN`, which list extra files
+   to be removed during `make clean` and `make distclean`.
+
+ * Finally we include (One of the most important
    features of GNU {{{make}}} that we use is the ability for a {{{Makefile}}} to
    include another named file, very like {{{cpp}}}'s {{{#include}}}
    directive.)
-   a file of "boilerplate" code from the top level.
-   As its name suggests, {{{boilerplate.mk}}}
+   the common build system components.
+   First is `boilerplate.mk` which, as its name suggests,
    consists of a large quantity of standard
    {{{Makefile}}} code.  We discuss this
    boilerplate in more detail in [[ref(the mk/boilerplate.mk file)]].
    [[br]][[br]]
-   Before the {{{include}}} statement, you
-   must define the {{{make}}} variable
+   Note that you '''must''' define the {{{make}}} variable
    {{{TOP}}}
    to be the top-level directory of the source tree, containing
    the {{{mk}}}
@@ -97,91 +106,25 @@ include ../mk/boilerplate.mk  # NO NO NO
    refers to itself.'' It is up to the
    {{{Makefile}}} doing the
    {{{include}}} to ensure this is the case.
-
-
- * The second section defines the standard
-   {{{make}}} variable
-   {{{HS_PROG}}}
-   (the executable binary to be built).  We will discuss in
-   more detail what the "standard variables" are,
-   and how they affect what happens, in 
-   [[ref(the main mk/target.mk file)]].
-
-
- * The last section includes a second file of standard
-   code, called
-   {{{target.mk}}}.
-   It contains the rules that tell {{{make}}} how
-   to make the [wiki:Building/Using#StandardTargets standard targets].  Why, you ask, can't this
-   standard code be part of
-   {{{boilerplate.mk}}}?  Good question.  We
-   discuss the reason later, in [[ref(Boilerplate architecture)]].
    [[br]][[br]]
-   You do not ''have'' to
-   {{{include}}} the
-   {{{target.mk}}} file.  Instead, you can write
-   rules of your own for all the standard targets.  Usually,
-   though, you will find quite a big payoff from using the
-   canned rules in {{{target.mk}}}; the price
-   tag is that you have to understand what canned rules get
-   enabled, and what they do 
-   [[ref(the main mk/target.mk file)]].
+   Second is `cabal.mk`, which is the rules for how to build a
+   Cabal package in the build system.
+   It contains the rules that tell {{{make}}} how
+   to make the [wiki:Building/Using#StandardTargets standard targets].
+   The reason that this standard code isn't part of
+   {{{boilerplate.mk}}} is that some directories are built differently,
+   either because they have not yet been migrated to build with Cabal,
+   or because they have needs that don't fit well into a generic
+   system.
 
-      
-
-In our example {{{Makefile}}}, most of the
-work is done by the two {{{include}}}d files.  When
-you say {{{make all}}}, the following things
-happen:
-
-      
- * {{{make}}} looks in the current directory
-   to see what source files it can find
-   (eg. {{{Foo.hs}}},
-   {{{Baz.c}}}), and from that it figures out
-   what object files need to be built
-   (eg. {{{Foo.o}}},
-   {{{Baz.o}}}).  Because source files are found
-   and used automatically, omitting them from a program or
-   library has to be done manually (see
-   {{{EXCLUDED_SRCS}}} in [[ref(the mk/boilerplate.mk file)]]).
-
-
- * It uses a boilerplate pattern rule to compile
-   {{{Foo.hs}}} to {{{Foo.o}}}
-   using a Haskell compiler.  (Which one?  That is set in the
-   build configuration.)
-
-
- * It uses another standard pattern rule to compile
-   {{{Baz.c}}} to {{{Baz.o}}},
-   using a C compiler.  (Ditto.)
-
-
- * It links the resulting {{{.o}}} files
-   together to make {{{small}}}, using the Haskell
-   compiler to do the link step.  (Why not use
-   {{{ld}}}?  Because the Haskell compiler knows
-   what standard libraries to link in.  How did
-   {{{make}}} know to use the Haskell compiler to
-   do the link, rather than the C compiler?  Because we set the
-   variable {{{HS_PROG}}} rather than
-   {{{C_PROG}}}.)
-
-      
-
-All {{{Makefile}}}s should follow the above
-three-section format.
 
 == Boilerplate architecture ==
 
 
 Every {{{Makefile}}} includes a
 {{{boilerplate.mk}}}
-file at the top, and
-{{{target.mk}}}
-file at the bottom.  In this section we discuss what is in these
-files, and why there have to be two of them.  In general:
+file at the top.  In this section we discuss what is in this
+file.  In general:
 
       
  * {{{boilerplate.mk}}} consists of:
@@ -198,12 +141,13 @@ files, and why there have to be two of them.  In general:
       GHC in the {{{ghc}}} project.
     * ''Standard pattern rules'' that
       tell {{{make}}} how to construct one file
-      from another.
+      from another. These rules are becoming more and more
+      redundant as we move to building with Cabal instead.
 
   {{{boilerplate.mk}}} needs to be
   {{{include}}}d at the ''top''
   of each {{{Makefile}}}, so that the user can
-  replace the boilerplate definitions or pattern rules by
+  replace the boilerplate variable definitions by
   simply giving a new definition or pattern rule in the
   {{{Makefile}}}.  {{{make}}}
   simply takes the last definition as the definitive one.
@@ -219,7 +163,8 @@ SRC_HC_OPTS += -O
   the end of
   {{{SRC_HC_OPTS}}}.
 
- * {{{target.mk}}} contains
+ * {{{target.mk}}} is part of the old build system, but is still used
+   to compile some parts of GHC. It contains
    {{{make}}} rules for the standard targets
    described in [wiki:Building/Using#StandardTargets standard targets].  These
    rules are selectively included, depending on the setting of
@@ -262,8 +207,6 @@ $(HS_PROG) : $(OBJS)
     * There are a couple of other reasons I've
       forgotten, but it doesn't matter too much.
 
-	     
-      
 
 == The {{{mk/boilerplate.mk}}} file ==
 
@@ -281,8 +224,10 @@ length in [wiki:Building/Using#Gettingthebuildyouwant getting the build you want
 
 
 === {{{paths.mk}}} ===
+
+is part of the old build system, i.e. it is not used by packages that are built with Cabal.
             
-defines {{{make}}} variables for
+`paths.mk` defines {{{make}}} variables for
 pathnames and file lists.  This file contains code for
 automatically compiling lists of source files and deriving
 lists of object files from those.  The results can be
@@ -414,7 +359,9 @@ the option strings to pass to the Haskell compiler.  See
 
 === {{{suffix.mk}}} ===
 
-defines standard pattern rules--see [[ref(Pattern rules and options)]].
+is part of the old build system, i.e. it is not used by packages that are built with Cabal.
+
+`suffix.mk` defines standard pattern rules--see [[ref(Pattern rules and options)]].
 
       
 
@@ -465,6 +412,7 @@ the comments in {{{config.mk}}}.
 
 == Pattern rules and options ==
 
+This section relates mainly to the old build system.
 
 The file
 {{{suffix.mk}}}
@@ -550,6 +498,7 @@ meaning:
 
 == The main {{{mk/target.mk}}} file ==
 
+This section relates mainly to the old build system.
 
 {{{target.mk}}} contains canned rules for
 all the standard targets described in [wiki:Building/Using#StandardTargets standard targets].  It is complicated by the fact
@@ -642,12 +591,11 @@ of {{{make boot}}} is done in one sub-directory
 Generally, put the most independent sub-directory first, and the
 most dependent last.
 
-== Way management ==
-
+== Way management in the old build system ==
 
 We sometimes want to build essentially the same system in
 several different "ways".  For example, we want to build GHC's
-{{{Prelude}}} libraries with and without profiling,
+runtime system libraries with and without thread support,
 so that there is an appropriately-built library archive to link
 with when the user compiles his program.  It would be possible
 to have a completely separate build tree for each such "way",
@@ -749,6 +697,22 @@ $ make way=p
    will build files for the profiling way only in the current
    directory. 
 
+== Way management in the new build system ==
+
+When building with Cabal, way management is much simpler.
+
+For libraries, we simply tell Cabal whether or not it should also
+build profiling versions of the library.
+
+There are a couple of cases where we want something similar:
+For GHC itself, we want stage1, stage2 and stage3 builds; and for
+some utils, as discussed earlier, we want to build the util with
+both the bootstrapping compiler and the stage1 compiler.
+
+When Cabal builds a package, by default it does its building in a
+`dist` directory. In order to build packages in different ways, we
+use a different directory for each way, using the `--distpref` flag
+to tell Cabal which one to use.
 
 == When the canned rule isn't right ==
 
