@@ -19,11 +19,6 @@ Lists the packages that `darcs-all` should get or pull.  `packages` is looked at
 <td>Run `validate` before committing (see [TestingPatches](testing-patches)).  The script is documented in the file itself.
 </td></tr></table>
 
-<table><tr><th>**`ghc.spec`**</th>
-<td>
-What is this?
-</td></tr></table>
-
 ## `libraries/`
 
 

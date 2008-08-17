@@ -15,9 +15,6 @@ Everything starts with the main GHC repository (see [wiki:Building/GettingTheSou
 
  '''`validate`''':: Run `validate` before committing (see [wiki:TestingPatches]).  The script is documented in the file itself.
 
- '''`ghc.spec`'''::
-  What is this?
-
 == `libraries/` ==
 
 The `libraries/` directory contains all the packages that GHC needs to build.  It has one sub-directory for each package repository (e.g. `base`, `haskell98`, `random`). Usually each such repository builds just one package but sometimes more than one (e.g DPH).
