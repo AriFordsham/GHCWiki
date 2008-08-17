@@ -75,7 +75,7 @@ you about Windows-specific wrinkles. Also look in the section that immediately f
 this one for typical failure cases and what do to about them.
 
 - After `sh boot` run `./configure` in
-  `$(GHC_TOP)/` thus:
+  `$(TOP)/` thus:
 
   ```wiki
   $ ./configure --host=i386-unknown-mingw32
