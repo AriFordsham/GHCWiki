@@ -81,12 +81,10 @@ While GHC ''targets'' MinGW, that says nothing about
 how GHC is ''built''.  We use both MSYS and Cygwin as build environments for
 GHC; both work fine, though MSYS is rather lighter weight.
 
-In your build tree, you build a compiler called {{{ghc-inplace}}}.  It
-uses the {{{gcc}}} that you specify using the
-{{{--with-gcc}}} flag when you run
-{{{configure}}} (see below).
-The makefiles are careful to use {{{ghc-inplace}}} (not {{{gcc}}})
-to compile any C files, so that it will in turn invoke the correct {{{gcc}}} rather that
+In your build tree, the compiler you build uses the {{{gcc}}} that you specify using the
+{{{--with-gcc}}} flag when you run {{{configure}}} (see below).
+The makefiles are careful to use the right gcc, either via the in-place ghc or directly,
+to compile any C files, so that we use correct {{{gcc}}} rather than
 whatever one happens to be in your path.  However, the makefiles do use whatever {{{ld}}} 
 and {{{ar}}} happen to be in your path. This is a bit naughty, but (a) they are only
 used to glom together .o files into a bigger .o file, or a .a file, 
