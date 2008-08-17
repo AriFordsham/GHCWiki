@@ -191,8 +191,6 @@ these steps:
 
         '''skip_if_fast'''          skip if "fast" is enabled
 
-        '''skip_if_platform(platform)'''  skip if we're on the named platform
-
         '''skip_if_tag(tag)'''      skip if the compiler has a given tag
 
         '''skip_unless_tag(tag)'''  skip unless the compiler has a given tag
@@ -211,9 +209,9 @@ these steps:
 
         '''expect_broken_for(bug, ways)''' as expect_broken, but only for the indicated ways
 
-        '''expect_broken_if_platform(bug, plat)''' as expect_broken, but only for the specific platform given
-
         '''expect_broken_if_compiler_type(bug, compiler_type)''' as expect_broken, but only for the given compiler type
+
+        '''if_platform(plat, f)'''  Do `f`, but only if we are on the specific platform given
 
         '''set_stdin(file)'''       use a different file for stdin
 
