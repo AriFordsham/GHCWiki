@@ -1,4 +1,12 @@
-= Normalising and Solving Type Equalities =
+= Entailment of Type Equalities =
+
+Our aims is to derive the entailment judgement
+{{{
+  g1, .., gn  |-  w1, .., wm
+}}}
+i.e., whether we can derive the wanted equalities `w1` to `wm` from the given equalities `g1`, .., `gn` under a given set of toplevel equality schemas (i.e., equalities involving universally quantified variables).  We permit unification variables in the wanted equalities, and a derivation may include the instantiation of these variables; i.e., may compute a unifier.  However, that unifer must be most general.
+
+The derivation algorithm is complicated by the pragmatic requirement that, even if there is no derivation for the judgement, we would like to compute a unifier.  This unifier should be as specific as possible under some not yet specified (strongest) weakening of the judgement so that it is derivable.  (Whatever that means...)
 
 The following is based on ideas for the new, post-ICFP'08 solving algorithm described in CVS `papers/type-synonym/new-single.tex`.  A revised version of `new-single.tex` that integrates the core ideas from this wiki page is in `papers/type-synonym/normalised_equations_algorithm.tex`.  Most of the code is in the module `TcTyFuns`.
 
