@@ -121,7 +121,7 @@ norm [[co :: s ~ t]] = check [[co :: s' ~ t']] : eqs++eqt
     (s', eqs) = flatten s
     (t', eqt) = flatten t
 
-check :: FlattenedEqInst -> [FlattenedEqInst]
+check :: FlatEqInst -> [RewriteInst]
 -- Does OccursCheck + Decomp + Triv + Swap (of new-single)
 check [[co :: t ~ t]] = [] with co = id
 check [[co :: x ~ y]] 
@@ -137,7 +137,7 @@ check [[co :: s1 s2 ~ t1 t2]]
   = check [[col :: s1 ~ t1]] ++ check [[cor :: s2 ~ t2]] with co = col cor
 check [[co :: T ~ S]] = fail
 
-flatten :: Type -> (Type, [FlattenedEqInst])
+flatten :: Type -> (Type, [RewriteInst])
 -- Result type has no synonym families whatsoever
 flatten [[F t1..tn]] = (alpha, [[id :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
   where
@@ -166,7 +166,7 @@ Notes:
 ## Propagation (aka Solving)
 
 
-A significant difference to `new-single` is that solving is a purely local operation.  We never instantiate any flexible variables.
+Propagation is based on four rules that transform family and variable equalities.  The first rule transforms a family equality using a toplevel equality schema.  The other three use one equality to transform another.  In the presentation, the transforming equality is always first and the transformed is second, separate by an ampersand (`&`).
 
 ### Rules
 
@@ -193,7 +193,7 @@ where `co1` is local, or both `co1` and `co2` are wanted and at least one of the
 <table><tr><th>**SubstVarVar**</th>
 <td>```wiki
 co1 :: x ~ t  &  co2 :: x ~ s
-=(SubstVar)=>
+=(SubstVarVar)=>
 co1 :: x ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
 ```
 
@@ -201,17 +201,34 @@ where `co1` is local, or both `co1` and `co2` are wanted and at least one of the
 </td></tr></table>
 
 <table><tr><th>**SubstVarFam**</th>
-<td></td></tr></table>
+<td>```wiki
+co1 :: x ~ t  &  co2 :: F s1..sn ~ s
+=(SubstVarFam)=>
+co1 :: x ~ t  &  co2' :: [t/x](F s1..sn) ~ s with co2 = [co1/x](F s1..sn) |> co2'
+```
+
+</td></tr></table>
+
+
+where `x` occurs in `F s1..sn`.  (`co1` may be local or wanted.)
+
+### Rule application
+
+
+The following function gets a list with all local and wanted equalities.  It returns a list of residual equalities that permit no further rule application.
+
+```wiki
+propagate :: [RewriteInst] -> [RewriteInst]
+propagate eqs = snd (prop eqs [])
+  where
+    prop :: [RewriteInst] -> [RewriteInst] -> [RewriteInst]
+    prop [] res = res
+    prop (eq:eqs) res = apply eq eqs res
+
+    apply [[co :: F t1..tn ~ t]] eqs res = ...apply (Top) to lhs exhaustively, then try pairwise rules
+```
 
 **TODO**
-
-- Rules applying to family equalities:
-
-  - SubstFam (formerly, IdenticalLHS) only applies to family equalities (both local and wanteds)
-  - Top only applies to family equalities (both locals and wanteds)
-
->
-> We should apply SubstFam first as it cheaper and potentially reduces the number of applications of Top.  On the other hand, for each family equality, we may want to try to reduce it with Top, and if that fails, use it with SubstFam.  (That strategy should lend itself well to an implementation.)  But be careful, we need to apply Top exhaustively, to avoid non-termination.  More precisely, if we interleave Top and SubstFam, we can easily diverge.
 
 - Rules applying to variable equalities:
 
@@ -228,8 +245,8 @@ Notes:
 
 ### Observations
 
-- SubstVar is the most expensive rule as it needs to traverse all type terms.
-- Only SubstVar when replacing a variable in a family equality can  lead to recursion with (Top).
+- Only SubstVarFam when replacing a variable in a family equality can  lead to recursion with (Top).
+- A significant difference to `new-single` is that solving is a purely local operation.  We never instantiate any flexible variables.
 
 ## Finalisation
 
