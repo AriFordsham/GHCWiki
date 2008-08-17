@@ -46,38 +46,48 @@ To get started, let us look at the
 `Makefile` for an imaginary small program,
 `small`.  Each program or library in the GHC
 source tree typically has its own directory, in this case we'll
-use `$(GHC_TOP)/small`.
+use `$(TOP)/small`.
 Inside the `small/` directory there will be a
 `Makefile`, looking something like
 this:
 
 ```wiki
-# Makefile for program "small"
 TOP = ..
+
+ENABLE_SHELL_WRAPPERS = YES
+EXTRA_CLEAN = myFile
+EXTRA_DISTCLEAN = myFile
+
 include $(TOP)/mk/boilerplate.mk
-
-HS_PROG = small
-
-include $(TOP)/target.mk
+include $(TOP)/mk/cabal.mk
 ```
 
 
 this `Makefile` has three
 sections:
 
-- The first section includes
-  (One of the most important
+- We start by defining `$(TOP)` to point to the top of the tree.
+
+- Next there are some variables that we can set to control how `small` is built.
+  The most common one is `ENABLE_SHELL_WRAPPERS`, which we can set to `YES`
+  if we want to use Cabal's binary wrappers feature. This means that, on
+  unix-like OSes, we install `small.wrapper` as a shell script wrapper
+  around the real `small` binary.
+
+  Less common are `EXTRA_CLEAN` and `EXTRA_DISTCLEAN`, which list extra files
+  to be removed during `make clean` and `make distclean`.
+
+- Finally we include (One of the most important
   features of GNU `make` that we use is the ability for a `Makefile` to
   include another named file, very like `cpp`'s `#include`
   directive.)
-  a file of "boilerplate" code from the top level.
-  As its name suggests, `boilerplate.mk`
+  the common build system components.
+  First is `boilerplate.mk` which, as its name suggests,
   consists of a large quantity of standard
   `Makefile` code.  We discuss this
   boilerplate in more detail in [the mk/boilerplate.mk file](#themk/boilerplate.mkfile).
 
-  Before the `include` statement, you
-  must define the `make` variable
+  Note that you **must** define the `make` variable
   `TOP`
   to be the top-level directory of the source tree, containing
   the `mk`
@@ -103,72 +113,15 @@ sections:
   `Makefile` doing the
   `include` to ensure this is the case.
 
-- The second section defines the standard
-  `make` variable
-  `HS_PROG`
-  (the executable binary to be built).  We will discuss in
-  more detail what the "standard variables" are,
-  and how they affect what happens, in 
-  [the main mk/target.mk file](#themainmk/target.mkfile).
-
-- The last section includes a second file of standard
-  code, called
-  `target.mk`.
+  Second is `cabal.mk`, which is the rules for how to build a
+  Cabal package in the build system.
   It contains the rules that tell `make` how
-  to make the [standard targets](building/using#standard-targets).  Why, you ask, can't this
-  standard code be part of
-  `boilerplate.mk`?  Good question.  We
-  discuss the reason later, in [Boilerplate architecture](#Boilerplatearchitecture).
-
-  You do not *have* to
-  `include` the
-  `target.mk` file.  Instead, you can write
-  rules of your own for all the standard targets.  Usually,
-  though, you will find quite a big payoff from using the
-  canned rules in `target.mk`; the price
-  tag is that you have to understand what canned rules get
-  enabled, and what they do 
-  [the main mk/target.mk file](#themainmk/target.mkfile).
-
-
-In our example `Makefile`, most of the
-work is done by the two `include`d files.  When
-you say `make all`, the following things
-happen:
-
-- `make` looks in the current directory
-  to see what source files it can find
-  (eg. `Foo.hs`,
-  `Baz.c`), and from that it figures out
-  what object files need to be built
-  (eg. `Foo.o`,
-  `Baz.o`).  Because source files are found
-  and used automatically, omitting them from a program or
-  library has to be done manually (see
-  `EXCLUDED_SRCS` in [the mk/boilerplate.mk file](#themk/boilerplate.mkfile)).
-
-- It uses a boilerplate pattern rule to compile
-  `Foo.hs` to `Foo.o`
-  using a Haskell compiler.  (Which one?  That is set in the
-  build configuration.)
-
-- It uses another standard pattern rule to compile
-  `Baz.c` to `Baz.o`,
-  using a C compiler.  (Ditto.)
-
-- It links the resulting `.o` files
-  together to make `small`, using the Haskell
-  compiler to do the link step.  (Why not use
-  `ld`?  Because the Haskell compiler knows
-  what standard libraries to link in.  How did
-  `make` know to use the Haskell compiler to
-  do the link, rather than the C compiler?  Because we set the
-  variable `HS_PROG` rather than
-  `C_PROG`.)
-
-
-All `Makefile`s should follow the above
-three-section format.
+  to make the [standard targets](building/using#standard-targets).
+  The reason that this standard code isn't part of
+  `boilerplate.mk` is that some directories are built differently,
+  either because they have not yet been migrated to build with Cabal,
+  or because they have needs that don't fit well into a generic
+  system.
 
 ## Boilerplate architecture
 
