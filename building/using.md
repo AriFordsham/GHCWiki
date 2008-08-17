@@ -127,7 +127,7 @@ NOTE: if you're starting from a source distribution, rather than darcs
 sources, you can skip this step.
 
 
-Change directory to `$(GHC_TOP)` and issue the command
+Change directory to `$(TOP)` and issue the command
 
 ```wiki
 $ sh boot
@@ -135,8 +135,8 @@ $ sh boot
 
 
 (with no arguments). This GNU program (recursively) converts
-`$(GHC_TOP)/configure.ac` and `$(GHC_TOP)/aclocal.m4` to a
-shell script called `$(GHC_TOP)/configure`.  If `boot`
+`$(TOP)/configure.ac` and `$(TOP)/aclocal.m4` to a
+shell script called `$(TOP)/configure`.  If `boot`
 bleats that it can't write the file `configure`, then delete the
 latter and try again.  Note that you must use `sh boot`, and
 not the old `autoreconf` or `autoconf`!  If you erroneously
@@ -148,7 +148,7 @@ get a message like `No rule to make target 'mk/config.h.in'`.
 Some parts of the source tree, particularly libraries, have their own
 configure script.  `sh boot` takes care of that, too, so all
 you have to do is calling `sh boot` in the top-level directory
-`$(GHC_TOP)`.
+`$(TOP)`.
 
 
 These steps are completely platform-independent; they just mean that
