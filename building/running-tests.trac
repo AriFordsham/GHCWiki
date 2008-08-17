@@ -191,10 +191,6 @@ these steps:
 
         '''skip_if_fast'''          skip if "fast" is enabled
 
-        '''skip_if_tag(tag)'''      skip if the compiler has a given tag
-
-        '''skip_unless_tag(tag)'''  skip unless the compiler has a given tag
-
         '''omit_ways(ways)'''       skip this test for certain ways
 
         '''only_ways(ways)'''       do this test certain ways only
@@ -212,6 +208,10 @@ these steps:
         '''if_compiler_type(compiler_type, f)''' Do `f`, but only for the given compiler type
 
         '''if_platform(plat, f)'''  Do `f`, but only if we are on the specific platform given
+
+        '''if_tag(tag, f)'''        do `f` if the compiler has a given tag
+
+        '''unless_tag(tag, f)'''    do `f` unless the compiler has a given tag
 
         '''set_stdin(file)'''       use a different file for stdin
 
