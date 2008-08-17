@@ -28,8 +28,6 @@ The `libraries/` directory contains all the packages that GHC needs to build.  I
 - **`libraries/ifBuildable/`** is a utility that we use in the build system. It allows the build to continue if an extralib is not buildable (e.g., if we are missing a C library that an extralib depends on then we can still build the compiler). We expect this to disappear soon, when extralibs are removed.
 - **`libraries/bootstrapping/`**: In order to build `cabal-bin` we need to compile `cabal-bin.hs`, as well as a few libraries that we can't rely on the bootstrapping compiler having. We put the `.hi` and `.o` files that result from this in `bootstrapping/`.
 
-`runghc.wrapper`?
-
 ## `utils/`, `libffi/`
 
 
