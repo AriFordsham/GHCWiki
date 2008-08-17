@@ -10,7 +10,19 @@ In fact, it's best to clean the tree ''before'' pulling, because the new code ma
   $ make distclean
 }}}
 
-Now you can `sh darcs-all pull`, followed by building the tree as normal:
+Next you need to pull any new patches:
+
+{{{
+  $ sh darcs-all pull
+}}}
+
+But there may have been new subrepos added to the build, so you need to grab them:
+
+{{{
+  $ sh darcs-all get
+}}}
+
+Now build the tree as normal:
 
 {{{
   $ sh boot
