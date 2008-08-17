@@ -159,7 +159,7 @@ scripts and the C header template `mk/config.h.in`) are long.
 ### Step 2: system configuration.
 
 
-Runs the newly-created `configure` script, thus:
+Run the newly-created `configure` script, thus:
 
 ```wiki
 $ ./configure <args>
@@ -306,7 +306,7 @@ don't, you'll get all the default settings from
 >
 > You can also use `build.mk` to override anything that
 > `configure` got wrong.  One place where this happens often is
-> with the definition of `GHC_TOP_ABS`: this variable is supposed
+> with the definition of `FPTOOLS_TOP_ABS`: this variable is supposed
 > to be the canonical path to the top of your source tree, but if your
 > system uses an automounter then the correct directory is hard to
 > find automatically.  If you find that `configure` has got it
