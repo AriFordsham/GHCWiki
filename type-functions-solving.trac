@@ -135,6 +135,8 @@ Notes:
 
 Propagation is based on four rules that transform family and variable equalities.  The first rule transforms a family equality using a toplevel equality schema.  The other three use one equality to transform another.  In the presentation, the transforming equality is always first and the transformed is second, separate by an ampersand (`&`).
 
+Below the rules are two scheme for applying the rules.  The first one naively iterates until the system doesn't change anymore.  The second scheme optimises the iteration somewhat.
+
 === Rules ===
 
  '''Top'''::
@@ -169,11 +171,23 @@ co1 :: x ~ t  &  co2' :: [t/x](F s1..sn) ~ s with co2 = [co1/x](F s1..sn) |> co2
 }}}
 where `x` occurs in `F s1..sn`.  (`co1` may be local or wanted.)
 
-=== Rule application ===
+=== Rule application: specification ===
+
+Propagation proceeds by applying any of the four rules until the system does not change anymore.  After application of a rule, the equalities that were modified need to be normalised again:
+{{{
+Propagate = fix (Top | SubstFam | SubstVarVar | SubstVarFam)
+}}}
+
+=== Rule application: algorithm ===
 
 The following function gets a list with all local and wanted equalities.  It returns a list of residual equalities that permit no further rule application.
-
 {{{
+-- all four rule functions return Nothing if rule not applicable
+applyTop         :: RewriteInst -> Maybe EqInst
+applySubstFam    :: RewriteInst -> RewriteInst -> Maybe EqInst    -- return only...
+applySubstVarVar :: RewriteInst -> RewriteInst -> Maybe EqInst    -- ...the modified...
+applySubstVarFam :: RewriteInst -> RewriteInst -> Maybe EqInst    -- ...equality
+
 propagate :: [RewriteInst] -> [RewriteInst]
 propagate eqs = snd (prop eqs [])
   where
@@ -181,26 +195,16 @@ propagate eqs = snd (prop eqs [])
     prop [] res = res
     prop (eq:eqs) res = apply eq eqs res
 
-    apply [[co :: F t1..tn ~ t]] eqs res = ...apply (Top) to lhs exhaustively, then try pairwise rules
+    apply eq@[[co :: F t1..tn ~ t]] eqs res 
+      | Just eq' <- applyTop eq = prop (norm eq' ++ eqs) res
+      | otherwise        = mapRule (applySubstFam eq) -- TODO!!!
 }}}
-
-
-'''TODO:'''
- * Rules applying to variable equalities:
-  * !SubstVar (formerly, Local) applies to variable equalities (both locals and wanteds)
- * With !SubstFam and !SubstVar, we always substitute locals into wanteds and never the other way around.  We perform substitutions exhaustively.  For !SubstVar, this is crucial to avoid non-termination.  (It seems we can drop this requirement if we only ever substitute into left-hand sides.)
- * We should probably use !SubstVar on all variable equalities before using !SubstFam, as the former may refine the left-hand sides of family equalities, and hence, lead to Top being applicable where it wasn't before.
- * We use !SubstFam and !SubstVar to substitute wanted equalities '''only''' if their left-hand side contains a flexible type variables (which for variable equalities means that we apply !SubstVar only to flexible variable equalities).  '''TODO:''' This is not sufficient while we are inferring a type signature as SPJ's example shows: `|- a ~ [x], a ~ [Int]`.  Here we want to infer `x := Int` before yielding `a ~ [Int]` as an irred.  So, we need to use !SubstVar and !SubstFam also if the rhs of a wanted contains a flexible variable.  This unfortunately makes termination more complicated.  However, SPJ also observed that we really only need to substitute variables in left-hand sides (not in right-hand sides) as far as enabling other rewrites goes.  However, there are trick problems left as the following two examples show `|- a~c, a~b, c~a` and `|- b ~ c, b ~ a, a ~ b, c ~ a`.  !!Seems SubstVar with a wanted is also sometimes needed if the wanted contains no flexible type variable (as this can trigger applications of Top, which may lead to more specific unifiers).
- * Substitute only into left-hand sides?
-
-Notes:
-
- * In principle, a variable equality could be discarded after an exhaustive application of !SubstVar.  However, while the set of class constraints is kept separate, we may always have some occurrences of the supposedly eliminated variable in a class constraint, and hence, need to keep all local equalities around.  That reasoning definitely applies to local equalities, but I think it also applies to wanteds (and I think that GHC so far never applies wanteds to class dictionaries, which might explain some of the failing tests.)  Flexible variable equalities cannot be discarded in any case as we need them for finalisation.
 
 === Observations ===
 
  * Only !SubstVarFam when replacing a variable in a family equality can  lead to recursion with (Top).
  * A significant difference to `new-single` is that solving is a purely local operation.  We never instantiate any flexible variables.
+ * We cannot discard any variable equalities after substitution since we do not substitute into right-hand sides anymore.  Moreover, in the concrete implementation, variables may also be re-introduced due to simplification of type classes (which currently doesn't happen in the same iteration).
 
 
 == Finalisation ==
@@ -211,6 +215,10 @@ Notes:
 
  * (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables - just as in new-single.)
 * '''TODO:''' Now that we delay instantiation until after solving, do we still need to prioritise flexible variables equalities over rigid ones?  (Probably not.)
+
+----
+
+'''TODO:'''  Still need to adapt example to new rule set!
 
 
 == Examples ==
