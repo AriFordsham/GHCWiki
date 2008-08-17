@@ -61,6 +61,7 @@ version of Cabal.
 
 <table><tr><th>compiler/?</th>
 <td>[The Compiler](commentary/compiler) itself: all Haskell code.
+This is actually a library; see `ghc/` for the compiler binary.
 </td></tr></table>
 
 <table><tr><th>`driver/`</th>
@@ -72,6 +73,12 @@ This directory still contains the [mangler](commentary/evil-mangler)
 and the splitter? Perl scripts, and a couple
 of wrappers used to invoke GHC on Windows.  Also the package
 database constructed during a GHC build is stored in here.
+</td></tr></table>
+
+<table><tr><th>`ghc/`</th>
+<td>
+The actual compiler binary. This is just a thin wrapper around the library
+in `compiler/`.
 </td></tr></table>
 
 <table><tr><th>libraries/?</th>

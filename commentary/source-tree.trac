@@ -45,6 +45,7 @@ See [wiki:Building/BuildSystem].
 
  [wiki:Commentary/SourceTree/Compiler compiler/]::
   [wiki:Commentary/Compiler The Compiler] itself: all Haskell code.
+  This is actually a library; see `ghc/` for the compiler binary.
 
  {{{driver/}}}::
   Historically this contained the Perl script known as the GHC
@@ -54,6 +55,10 @@ See [wiki:Building/BuildSystem].
   and the [wiki:Commentary/EvilSplitter splitter] Perl scripts, and a couple
   of wrappers used to invoke GHC on Windows.  Also the package
   database constructed during a GHC build is stored in here.
+
+ {{{ghc/}}}::
+  The actual compiler binary. This is just a thin wrapper around the library
+  in `compiler/`.
 
  [wiki:Commentary/SourceTree/Libraries libraries/]::
    The libraries that are built and distributed with GHC.
