@@ -40,13 +40,13 @@ Central to the algorithm are '''normal equalities''', which can be regarded as a
  1. '''Family equality:''' `co :: F t1..tn ~ t` or
  2. '''Variable equality:''' `co :: x ~ t`, where we again distinguish two forms:
   a. '''Variable-term equality:''' `co :: x ~ t`, where `t` is ''not'' a variable, or
-  b. '''Variable-variable equality:''' `co :: x ~ y`, where `x < y`.
+  b. '''Variable-variable equality:''' `co :: x ~ y`, where `x > y`.
 
 where
 
  * the types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families,
  * the left-hand side of an equality may not occur in the right-hand side, and
- * the relation `x < y` is a total order on type variables, where `alpha < a` whenever `alpha` is a flexible and `a` a rigid type variable (otherwise, the total order may be aribitrary).
+ * the relation `x > y` is a total order on type variables, where `alpha > a` whenever `alpha` is a flexible and `a` a rigid type variable (otherwise, the total order may be aribitrary).
 
 The second bullet of the where clause is trivially true for equalities of Form (1); it also implies that the left- and right-hand sides are different.
 
@@ -115,7 +115,7 @@ flatten [[F t1..tn]] = (alpha, [[id :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
     (t1', eqt1) = flatten t1
     ..
     (tn', eqtn) = flatten tn
-    FRESH alpha
+    FRESH alpha, such that alpha > x for all x already used
     RECORD alpha := F t1'..tn'
 flatten [[t1 t2]] = (t1' t2', eqs++eqt)
   where
