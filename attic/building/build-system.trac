@@ -123,10 +123,8 @@ include ../mk/boilerplate.mk  # NO NO NO
 
 Every {{{Makefile}}} includes a
 {{{boilerplate.mk}}}
-file at the top, and
-{{{target.mk}}}
-file at the bottom.  In this section we discuss what is in these
-files, and why there have to be two of them.  In general:
+file at the top.  In this section we discuss what is in this
+file.  In general:
 
       
  * {{{boilerplate.mk}}} consists of:
@@ -143,12 +141,13 @@ files, and why there have to be two of them.  In general:
       GHC in the {{{ghc}}} project.
     * ''Standard pattern rules'' that
       tell {{{make}}} how to construct one file
-      from another.
+      from another. These rules are becoming more and more
+      redundant as we move to building with Cabal instead.
 
   {{{boilerplate.mk}}} needs to be
   {{{include}}}d at the ''top''
   of each {{{Makefile}}}, so that the user can
-  replace the boilerplate definitions or pattern rules by
+  replace the boilerplate variable definitions by
   simply giving a new definition or pattern rule in the
   {{{Makefile}}}.  {{{make}}}
   simply takes the last definition as the definitive one.
@@ -164,7 +163,8 @@ SRC_HC_OPTS += -O
   the end of
   {{{SRC_HC_OPTS}}}.
 
- * {{{target.mk}}} contains
+ * {{{target.mk}}} is part of the old build system, but is still used
+   to compile some parts of GHC. It contains
    {{{make}}} rules for the standard targets
    described in [wiki:Building/Using#StandardTargets standard targets].  These
    rules are selectively included, depending on the setting of
@@ -207,8 +207,6 @@ $(HS_PROG) : $(OBJS)
     * There are a couple of other reasons I've
       forgotten, but it doesn't matter too much.
 
-	     
-      
 
 == The {{{mk/boilerplate.mk}}} file ==
 
@@ -226,8 +224,10 @@ length in [wiki:Building/Using#Gettingthebuildyouwant getting the build you want
 
 
 === {{{paths.mk}}} ===
+
+is part of the old build system, i.e. it is not used by packages that are built with Cabal.
             
-defines {{{make}}} variables for
+`paths.mk` defines {{{make}}} variables for
 pathnames and file lists.  This file contains code for
 automatically compiling lists of source files and deriving
 lists of object files from those.  The results can be
@@ -359,7 +359,9 @@ the option strings to pass to the Haskell compiler.  See
 
 === {{{suffix.mk}}} ===
 
-defines standard pattern rules--see [[ref(Pattern rules and options)]].
+is part of the old build system, i.e. it is not used by packages that are built with Cabal.
+
+`suffix.mk` defines standard pattern rules--see [[ref(Pattern rules and options)]].
 
       
 
@@ -410,6 +412,7 @@ the comments in {{{config.mk}}}.
 
 == Pattern rules and options ==
 
+This section relates mainly to the old build system.
 
 The file
 {{{suffix.mk}}}
@@ -495,6 +498,7 @@ meaning:
 
 == The main {{{mk/target.mk}}} file ==
 
+This section relates mainly to the old build system.
 
 {{{target.mk}}} contains canned rules for
 all the standard targets described in [wiki:Building/Using#StandardTargets standard targets].  It is complicated by the fact
@@ -587,12 +591,11 @@ of {{{make boot}}} is done in one sub-directory
 Generally, put the most independent sub-directory first, and the
 most dependent last.
 
-== Way management ==
-
+== Way management in the old build system ==
 
 We sometimes want to build essentially the same system in
 several different "ways".  For example, we want to build GHC's
-{{{Prelude}}} libraries with and without profiling,
+runtime system libraries with and without thread support,
 so that there is an appropriately-built library archive to link
 with when the user compiles his program.  It would be possible
 to have a completely separate build tree for each such "way",
@@ -694,6 +697,22 @@ $ make way=p
    will build files for the profiling way only in the current
    directory. 
 
+== Way management in the new build system ==
+
+When building with Cabal, way management is much simpler.
+
+For libraries, we simply tell Cabal whether or not it should also
+build profiling versions of the library.
+
+There are a couple of cases where we want something similar:
+For GHC itself, we want stage1, stage2 and stage3 builds; and for
+some utils, as discussed earlier, we want to build the util with
+both the bootstrapping compiler and the stage1 compiler.
+
+When Cabal builds a package, by default it does its building in a
+`dist` directory. In order to build packages in different ways, we
+use a different directory for each way, using the `--distpref` flag
+to tell Cabal which one to use.
 
 == When the canned rule isn't right ==
 
