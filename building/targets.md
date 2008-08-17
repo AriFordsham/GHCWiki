@@ -29,16 +29,13 @@ Do these things in the `$(TOP)/compiler` directory.
 
 Do these things in `$(TOP)/libraries` directory.
 
-- Build all libraries
-- Build just one library
-- Clean all libraries
-- Clean just one library
+- Build all libraries: `make`
+- Build just the `foo` library: `make make.library.foo`. You need to `make remake.library.foo` if you need clean or reconfigure first, e.g. if you changed the module imports.
+- Clean all libraries: `make clean`
+- Clean just the `foo` library: `make clean.library.foo`
 
 
-Do you do the selective work in `libraries/` or in `libraries/haskell98/` (say)?
-
-
-Disabling a library you don't want to build.  (Mess with SUBDIRS?)
+It's not possible to stop the build system from trying to build a boot library, other than fiddling with SUBDIRS in `libraries/Makefile`.
 
 ### Testing
 
