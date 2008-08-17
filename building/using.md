@@ -90,12 +90,12 @@ copy.  More commonly you do want to edit the source file.)
 
 
 Like the source tree, the top level of your build tree must be (a
-linked copy of) the root directory of the GHC source tree..  Inside
+linked copy of) the root directory of the GHC source tree.  Inside
 Makefiles, the root of your build tree is called
-`$(GHC_TOP)`.  In
-the rest of this document path names are relative to `$(GHC_TOP)`
+`$(TOP)`.  In
+the rest of this document path names are relative to `$(TOP)`
 unless otherwise stated.  For example, the file `mk/target.mk` is
-actually `$(GHC_TOP)/mk/target.mk`.
+actually `$(TOP)/mk/target.mk`.
 
 ## Getting the build you want
 
@@ -127,7 +127,7 @@ NOTE: if you're starting from a source distribution, rather than darcs
 sources, you can skip this step.
 
 
-Change directory to `$(GHC_TOP)` and issue the command
+Change directory to `$(TOP)` and issue the command
 
 ```wiki
 $ sh boot
@@ -135,8 +135,8 @@ $ sh boot
 
 
 (with no arguments). This GNU program (recursively) converts
-`$(GHC_TOP)/configure.ac` and `$(GHC_TOP)/aclocal.m4` to a
-shell script called `$(GHC_TOP)/configure`.  If `boot`
+`$(TOP)/configure.ac` and `$(TOP)/aclocal.m4` to a
+shell script called `$(TOP)/configure`.  If `boot`
 bleats that it can't write the file `configure`, then delete the
 latter and try again.  Note that you must use `sh boot`, and
 not the old `autoreconf` or `autoconf`!  If you erroneously
@@ -148,7 +148,7 @@ get a message like `No rule to make target 'mk/config.h.in'`.
 Some parts of the source tree, particularly libraries, have their own
 configure script.  `sh boot` takes care of that, too, so all
 you have to do is calling `sh boot` in the top-level directory
-`$(GHC_TOP)`.
+`$(TOP)`.
 
 
 These steps are completely platform-independent; they just mean that
@@ -159,7 +159,7 @@ scripts and the C header template `mk/config.h.in`) are long.
 ### Step 2: system configuration.
 
 
-Runs the newly-created `configure` script, thus:
+Run the newly-created `configure` script, thus:
 
 ```wiki
 $ ./configure <args>
@@ -306,7 +306,7 @@ don't, you'll get all the default settings from
 >
 > You can also use `build.mk` to override anything that
 > `configure` got wrong.  One place where this happens often is
-> with the definition of `GHC_TOP_ABS`: this variable is supposed
+> with the definition of `FPTOOLS_TOP_ABS`: this variable is supposed
 > to be the canonical path to the top of your source tree, but if your
 > system uses an automounter then the correct directory is hard to
 > find automatically.  If you find that `configure` has got it
