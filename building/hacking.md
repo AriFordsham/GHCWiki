@@ -162,21 +162,17 @@ will invoke the stage1 compiler, and `ghc/stage2-inplace/ghc` will invoke the st
 ## Building individual parts of the tree
 
 
-The first thing to understand is that the source tree is built in two
-passes.  First `make boot` builds dependencies and any other tools
-required as part of the build itself.  For example,
-`utils/genprimopcode` is built as part of `make boot`, because it is
-required to preprocess `compiler/prelude/primops.txt.pp`.
-
-
-After `make boot`, `make` will build everything.
+The first thing to understand is that in general each part of the source
+tree may be built in two passes.  First `make boot` does any configuring
+necessary, and then `make` will actually build everything.
 
 
 If you say `make` from the very top-level, the build system will
-arrange to do the appropriate 'make boot' steps for you.  If you just
-want to build in a subdirectory (eg. ghc), you have to do `make boot`
-yourself.  You don't need to `make boot` after every single change,
-but you might want to do it to update dependencies, for example.
+arrange to do the appropriate `make boot` steps for you.  If you just
+want to build in a subdirectory (eg. `compiler`), you have to do
+`make boot` yourself. You don't need to `make boot` after every single
+change, but you might need to do it after changing modules imports,
+for example, so that the module dependency graph can be recalculated.
 
 ## Refining the setup
 
