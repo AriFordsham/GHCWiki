@@ -257,10 +257,6 @@ these steps:
 
         '''expect_fail_for(ways)''' expect failure for certain ways 
 
-        '''expect_fail_if_platform(plat)'''      expect failure on a certain platform
-
-        '''expect_fail_if_compiler_type(compiler)'''   expect failure from a certain compiler
-
     ''<test-fn>''
     is a function which describes how the test should be
     run, and determines the form of <args>.  The possible
