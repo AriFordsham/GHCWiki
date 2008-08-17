@@ -17,15 +17,12 @@ Do these things in the `$(TOP)` directory.
 
 - **`make clean`**, **`make distclean`**: various levels of cleanery.
 
-### Build just the compiler
+### Clean and rebuild just the compiler
 
 
 Do these things in the `$(TOP)/compiler` directory.
 
-- **`make rebuild`**, **`make rebuild stage=2`**.  This just builds the stage1 or stage2 compiler respectively.
-
-
-How to clean selectively?  I tried 'make clean stage=2' but I think that deleted my stage1 files too.  
+- `make clean stage=2`, `make boot stage=2`, `make stage=2`. This cleans, boots and builds the stage 2 compiler. You can do the same for the other stages. Note the first command is rarely necessary, and you normally don't need the second one either.
 
 ### Build libraries
 
