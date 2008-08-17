@@ -90,12 +90,12 @@ copy.  More commonly you do want to edit the source file.)
 
 
 Like the source tree, the top level of your build tree must be (a
-linked copy of) the root directory of the GHC source tree..  Inside
+linked copy of) the root directory of the GHC source tree.  Inside
 Makefiles, the root of your build tree is called
-`$(GHC_TOP)`.  In
-the rest of this document path names are relative to `$(GHC_TOP)`
+`$(TOP)`.  In
+the rest of this document path names are relative to `$(TOP)`
 unless otherwise stated.  For example, the file `mk/target.mk` is
-actually `$(GHC_TOP)/mk/target.mk`.
+actually `$(TOP)/mk/target.mk`.
 
 ## Getting the build you want
 
