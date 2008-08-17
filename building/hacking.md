@@ -40,7 +40,7 @@ we use to build fast:
 ```wiki
 # My build settings for hacking on stage 1 
 SRC_HC_OPTS     = -H32m -O -fasm -Rghc-timing
-GhcStage1HcOpts = -O0 -DDEBUG -W
+GhcStage1HcOpts = -O0 -DDEBUG -Wall
 GhcLibHcOpts    = -O -fgenerics
 GhcLibWays      =
 SplitObjs       = NO
@@ -54,11 +54,10 @@ What do these options do?
 <td>
 These options are added to the command line for all Haskell
 compilations.  We turn on `-fasm`, because that halves compilation
-time at the expense of a few percent performance.  `-Rghc-timing`
+time at the expense of a few percent performance. `-Rghc-timing`
 prints out a line of timing info about each compilation.  It's handy
-to keep an eye on.  `-W` turns on some warnings; you probably want
-to tweak exactly which warnings are turned on, since GHC isn't
-very warning-clean with `-W`.
+to keep an eye on.  `-Wall` turns on all the warnings; GHC is
+meant to be warning-clean with `-Wall`.
 </td></tr></table>
 
 <table><tr><th>`GhcStage1HcOpts = -O0 -DDEBUG`</th>
@@ -157,8 +156,8 @@ To install the compiler you built, you can say
 ```
 
 
-However, you don't need to install GHC to use it.  Running `./compiler/stage1/ghc-inplace` from the build tree
-will invoke the stage1 compiler, and `./compiler/stage2/ghc-inplace` will invoke the stage2 compiler.
+However, you don't need to install GHC to use it.  Running `ghc/stage1-inplace/ghc` from the build tree
+will invoke the stage1 compiler, and `ghc/stage2-inplace/ghc` will invoke the stage2 compiler.
 
 ## Building individual parts of the tree
 
