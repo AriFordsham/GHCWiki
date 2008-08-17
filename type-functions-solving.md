@@ -166,7 +166,42 @@ Notes:
 ## Propagation (aka Solving)
 
 
-A significant difference to new-single is that solving is a purely local operation.  We never instantiate any flexible variables.
+A significant difference to `new-single` is that solving is a purely local operation.  We never instantiate any flexible variables.
+
+### Rules
+
+<table><tr><th>**Top**</th>
+<td>```wiki
+co :: F t1..tn ~ t
+=(Top)=>
+co' :: [s1/x1, .., sm/xm]s ~ t with co = g s1..sm |> co'  
+```
+
+where `g :: forall x1..xm. F u1..um ~ s` and `[s1/x1, .., sm/xm]u1 == t1`.
+</td></tr></table>
+
+<table><tr><th>**SubstFam**</th>
+<td>```wiki
+co1 :: F t1..tn ~ t  &  co2 :: F t1..tn ~ s
+=(SubstFam)=>
+co1 :: F t1..tn ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
+```
+
+where `co1` is local, or both `co1` and `co2` are wanted and at least one of the equalities contains a flexible variable.
+</td></tr></table>
+
+<table><tr><th>**SubstVarVar**</th>
+<td>```wiki
+co1 :: x ~ t  &  co2 :: x ~ s
+=(SubstVar)=>
+co1 :: x ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
+```
+
+where `co1` is local, or both `co1` and `co2` are wanted and at least one of the equalities contains a flexible variable.
+</td></tr></table>
+
+<table><tr><th>**SubstVarFam**</th>
+<td></td></tr></table>
 
 **TODO**
 
