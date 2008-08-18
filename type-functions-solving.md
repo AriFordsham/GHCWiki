@@ -116,7 +116,7 @@ norm [[co :: F s1..sn ~ t]] = [[co :: F s1'..sn' ~ t']] : eqs1++..++eqsn++eqt
     (sn', eqsn) = flatten sn
     (t', eqt)   = flatten t
 norm [[co :: t ~ F s1..sn]] = norm [[co' :: F s1..sn ~ t]] with co = sym co'
-norm [[co :: s ~ t]] = check [[co :: s' ~ t']] : eqs++eqt
+norm [[co :: s ~ t]] = check [[co :: s' ~ t']] ++ eqs ++ eqt
   where
     (s', eqs) = flatten s
     (t', eqt) = flatten t
@@ -162,6 +162,8 @@ Notes:
 - Perform Rule Triv as part of normalisation.
 - Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
 - We flatten locals and wanteds in the same manner, using fresh flexible type variables.  (We have flexibles in locals anyway and don't use (Unify) during normalisation - this is different to `new-single`.)
+
+**TODO** We may want to drop the `alpha > x for all x already used` side condition on fresh `alpha`s again.  Instead, we should probably consider all *local* flexible variable equalities during finalisation, too.  At least, those involving flexible variables introduced by flattening.
 
 ## Propagation (aka Solving)
 
