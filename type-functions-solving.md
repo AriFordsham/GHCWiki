@@ -146,7 +146,6 @@ flatten [[F t1..tn]] = (alpha, [[id :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
     (tn', eqtn) = flatten tn
     FRESH alpha, such that alpha > x for all x already used
     RECORD alpha := F t1'..tn'
-!!!TODO: maybe use a fresh gamma instead of 'id' for wanteds (and drop the alpha > x requirement (See SPJ's email)
 flatten [[t1 t2]] = (t1' t2', eqs++eqt)
   where
     (t1', eqs) = flatten t1
@@ -215,9 +214,6 @@ co1 :: x ~ t  &  co2' :: [t/x](F s1..sn) ~ s with co2 = [co1/x](F s1..sn) |> co2
 
 
 where `x` occurs in `F s1..sn`.  (`co1` may be local or wanted.)
-
-
-!!TODO: maybe make it " where `co1` is local, or both `co1` and `co2` are wanted", but no requirement for flexibles (a SubstVarFam may lead to refinement of unifier even if it has no flexible tyvar due to n-ary type families)  (see also SPJ's email)
 
 ### Rule application: specification
 
