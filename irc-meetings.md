@@ -22,4 +22,8 @@ Held in \#ghc on [ FreeNode](http://www.haskell.org/haskellwiki/IRC_channel), ev
 <tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-13.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-13.log)</th>
 <th>Fifth meeting, 2008-08-13, 4pm UK time</th>
 <th>Darcs vs. Git - The War Continues
+</th></tr>
+<tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-20.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-20.log)</th>
+<th>Sixth meeting, 2008-08-20, 4pm UK time</th>
+<th>build system, epoll for GHC rts 
 </th></tr></table>
