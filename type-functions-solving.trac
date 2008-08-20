@@ -131,6 +131,9 @@ Notes:
  * We flatten locals and wanteds in the same manner, using fresh flexible type variables.  (We have flexibles in locals anyway and don't use (Unify) during normalisation - this is different to `new-single`.)
 
 
+'''TODO:''' We may want to drop the `alpha > x for all x already used` side condition on fresh `alpha`s again.  Instead, we should probably consider all ''local'' flexible variable equalities during finalisation, too.  At least, those involving flexible variables introduced by flattening.
+
+
 == Propagation (aka Solving) ==
 
 Propagation is based on four rules that transform family and variable equalities.  The first rule transforms a family equality using a toplevel equality schema.  The other three use one equality to transform another.  In the presentation, the transforming equality is always first and the transformed is second, separate by an ampersand (`&`).
