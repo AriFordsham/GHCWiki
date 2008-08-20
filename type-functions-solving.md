@@ -116,7 +116,7 @@ norm [[co :: F s1..sn ~ t]] = [[co :: F s1'..sn' ~ t']] : eqs1++..++eqsn++eqt
     (sn', eqsn) = flatten sn
     (t', eqt)   = flatten t
 norm [[co :: t ~ F s1..sn]] = norm [[co' :: F s1..sn ~ t]] with co = sym co'
-norm [[co :: s ~ t]] = check [[co :: s' ~ t']] : eqs++eqt
+norm [[co :: s ~ t]] = check [[co :: s' ~ t']] ++ eqs ++ eqt
   where
     (s', eqs) = flatten s
     (t', eqt) = flatten t
