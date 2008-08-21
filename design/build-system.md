@@ -21,7 +21,13 @@ The basic plan is
 The advantages of this are:
 
 - The critical parts of the build system are under our
-  control, and are easily modifiable.
+  control, and are easily modifiable.    
+
+- Modifying the build system does not require modifying Cabal.
+  We rely on a stable, slowly-varying version of Cabal, not on the
+  leading edge.  That take pressure off the Cabal developers,
+  and means that GHC can use a version of Cabal that has 
+  survived quite a bit of testing.
 
 - Development is easier, because 'make' will preprocess files
   too.  Right now if you modify a .y or .hsc file, you need
