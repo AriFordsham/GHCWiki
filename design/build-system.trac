@@ -21,7 +21,7 @@ The advantages of this are:
   * The critical parts of the build system are under our
     control, and are easily modifiable.
 
-  * development is easier, because 'make' will preprocess files
+  * Development is easier, because 'make' will preprocess files
     too.  Right now if you modify a .y or .hsc file, you need
     to tell Cabal to preprocess again before saying 'make'
     (this is a regression from pre-Cabal).
@@ -36,12 +36,27 @@ The advantages of this are:
     duplicating the package metadata or the code that processes it,
     only the build rules.
 
-Here's a more detailed plan:
+== Detailed plan ==
 
 
-  * Modify cabal-bin.hs with a new command to generate the
+  * Modify `cabal-bin.hs` with a new command to generate the
     Makefile bindings for a package, into a file e.g. 
-    ghc-build.mk
+    `ghc-build.mk`.  That is, `cabal-bin.hs` imports the Cabal libraries
+    and uses them to support all of Cabal's existing features, plus
+    the new one. 
+
+  * There is just one `cabal-bin` executable for
+    the whole GHC build tree.  
+
+  * Question: should we rename `cabal-bin.hs` to `ghc-cabal.hs`?
+
+  * The version of Cabal used by `cabal-bin.hs` does not need to be an up-to-the-minute
+    bleeding-edge version.  It should be stable and vary slowly.  We suck a new
+    version of Cabal into the GHC build system manually, rather than mirroring the
+    Cabal HEAD.
+
+  * The makefile-generation stuff (which Duncan dislikes) can be removed from Cabal itself.
+    In effect, it now lives in `cabal-bin.hs`.
 
   * libraries/Makefile puts a GNUmakefile into each library
     subdir, with identical contents, something like
@@ -50,24 +65,29 @@ TOP=../..
 -include ghc-build.mk
 include $(TOP)/cabal-package.mk
 }}}
+    The boilerplate in `cabal-package.mk` is written by hand (not generated), and
+    contains all the make rules required implement the desired make targets.
 
   * In each subdir we support various make targets, e.g.
-    * `make configure`, configures the package and generates ghc-build.mk
-    * `make all`, builds the .a, and registers.  Builds dependencies autoamtically (or perhaps not: calculating dependencies
+    * `make configure`, configures the package and uses `cabal-bin` to generate `ghc-build.mk`
+    * `make all`, builds the .a, and registers (using `cabal-bin`.  Builds dependencies 
+      automatically (or perhaps not: calculating dependencies
       in GHC takes a while, and traditionally we've done this on demand only).
-    * `make install`
+    * `make install` uses `cabal-bin`.
 
-  * libraries/Makefile just invokes make in the subdirs in the 
+  * Question: do we still have `Setup.hs` in each library directory?  Presumably not.
+
+  * libraries/Makefile just invokes `make` in the subdirs in the 
     appropriate order.
 
-Improvements for later
+== Improvements for later ==
 
-  * we want dependencies from every object file on the .a files of the
+  * We want dependencies from every object file on the .a files of the
     packages that it depends on.  This way we can make it possible to
     modify a library module and say 'make' and have everything rebuilt 
     that needs to be rebuilt (including the stage2 compiler).  Note that
     we need to know about indirect as well as direct package dependencies.
 
-  * build multiple libraries in parallel
+  * Build multiple libraries in parallel
 
-  * remove the makefile code from Cabal
+  * Remove the makefile code from Cabal
