@@ -76,12 +76,10 @@ include $(TOP)/cabal-package.mk
 
   * In each subdir we support various make targets, e.g.
     * `make configure`, configures the package and uses `cabal-bin` to generate `ghc-build.mk`
-    * `make all`, builds the .a, and registers (using `cabal-bin`.  Builds dependencies 
+    * `make all`, builds the .a, and registers (using `cabal-bin`).  Builds dependencies 
       automatically (or perhaps not: calculating dependencies
       in GHC takes a while, and traditionally we've done this on demand only).
     * `make install` uses `cabal-bin`.
-
-  * Question: do we still have `Setup.hs` in each library directory?  Presumably not.
 
   * libraries/Makefile just invokes `make` in the subdirs in the 
     appropriate order.
