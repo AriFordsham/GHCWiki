@@ -56,8 +56,8 @@ The advantages of this are:
   version of Cabal into the GHC build system manually, rather than mirroring the
   Cabal HEAD.
 
-- The makefile-generation stuff (which Duncan dislikes) can be removed from Cabal itself.
-  In effect, it now lives in `cabal-bin.hs`.
+- The makefile-generation stuff (which Duncan dislikes) can be removed from Cabal itself
+  by the Cabal crew at their leisure.  In effect, that code now lives in `cabal-bin.hs`.
 
 - libraries/Makefile puts a GNUmakefile into each library
   subdir, with identical contents, something like
@@ -93,5 +93,3 @@ The advantages of this are:
   we need to know about indirect as well as direct package dependencies.
 
 - Build multiple libraries in parallel
-
-- Remove the makefile code from Cabal
