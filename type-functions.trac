@@ -63,6 +63,6 @@ Furthermore, we have
  * [http://www.cse.unsw.edu.au/~chak/papers/CKPM05.html Associated Types with Class.] Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones, and Simon Marlow. In Proceedings of The 32nd Annual ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL'05), ACM Press, pages 1-13, 2005.
  * [http://www.cse.unsw.edu.au/~chak/papers/CKP05.html Associated Type Synonyms.] Manuel M. T. Chakravarty, Gabriele Keller, and Simon Peyton Jones. In Proceedings of The Tenth ACM SIGPLAN International Conference on Functional Programming, ACM Press, pages 241-253, 2005.
  * [http://www.cse.unsw.edu.au/~chak/papers/SSPC07.html Towards Open Type Functions for Haskell.] Tom Schrijvers, Martin Sulzmann, Simon Peyton-Jones, and Manuel M. T. Chakravarty. Presented at IFL 2007.
- * [http://www.cse.unsw.edu.au/~chak/papers/SPCS08.html Type Checking with Open Type Functions.] Tom Schrijvers, Simon Peyton-Jones, Manuel M. T. Chakravarty, and Martin Sulzmann. ICFP 2008 : The 13th ACM SIGPLAN International Conference on Functional Programming, ACM Press, 2008.
+ * [http://www.cse.unsw.edu.au/~chak/papers/SPCS08.html Type Checking with Open Type Functions.] Tom Schrijvers, Simon Peyton-Jones, Manuel M. T. Chakravarty, and Martin Sulzmann. ICFP 2008: The 13th ACM SIGPLAN International Conference on Functional Programming, ACM Press, 2008.
  * Old and outdated wiki material on [wiki:TypeFunctionsSynTC type checking with indexed synonyms.]
 
