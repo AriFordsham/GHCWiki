@@ -125,7 +125,7 @@ check :: FlatEqInst -> [RewriteInst]
 -- Does OccursCheck + Decomp + Triv + Swap (of new-single)
 check [[co :: t ~ t]] = [] with co = id
 check [[co :: x ~ y]] 
-  | x < y     = [[co :: x ~ y]]
+  | x > y     = [[co :: x ~ y]]
   | otherwise = [[co' :: y ~ x]] with co = sym co'
 check [[co :: x ~ t]] 
   | x `occursIn` t = fail
