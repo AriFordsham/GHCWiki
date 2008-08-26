@@ -24,14 +24,18 @@ The validate script should take around 20mins on a fast, dual core machine.
 
 Assuming all is well, go ahead and commit your changes! If you have commit access then just push as normal. If not, use "darcs send --edit-description" and add a note to say what testing you have done, and on which operating system/architecture.
 
+## More details on validation
 
-In order to save time while debugging problems revealed by validate, the validate script understands a couple of flags. 
-
-- If you run `sh validate --no-clean` then validate will not clean the tree before starting, so it will continue a previous build. 
-- If you run `sh validate --testsuite-only` then validate will not build the tree at all, but only run the testsuite. This is useful if the problems validate found were only due to the testsuite falling out of sync with the code. 
+`validate` usually starts by `make distclean` to make sure that everything builds from scratch.  Furthermore, it ignores the build settings you have put in `mk/build.mk`, and instead uses those in `mk/validate-settings.mk`.  (It does not mess up your `mk/build.mk` file of course.)
 
 
-These flags, and others understood by `validate` are documented in the `validate` script itself.
+After you run `validate` your tree will continue to use the same settings. The way to get back to using your own `build.mk` is to run `make distclean`.  Less brutally, simply remove the file `mk/are-validating.mk`.
+
+
+In order to save time while debugging problems revealed by validate, the validate script understands several flags. These flags, and others understood by `validate` are documented in the `validate` script itself.
+
+- **`--no-clean`**:  validate will not clean the tree before starting, so it will continue a previous build. 
+- **`--testsuite-only`**: then validate will not build the tree at all, but only run the testsuite. This is useful if the problems validate found were only due to the testsuite falling out of sync with the code. 
 
 **Important:** When using either of these flags, be careful that you don't end up pushing patches that have not been properly validated!
 
