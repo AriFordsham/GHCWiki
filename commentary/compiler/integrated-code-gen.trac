@@ -94,7 +94,7 @@ The {{{I386.Middle}}} type represents computational machine instructions; the {{
 
 Note that the graph still contains:
  * '''Variables''' (ie local register that are not yet mapped to particular machine registers)
- * '''Stack-slot addressing modes''', which include late-bound compile-time constants, such as the offset in the frame of the a variable spill location, or BlockId stack-top-on-entry.
+ * '''Stack-slot addressing modes''', which include late-bound compile-time constants, such as the offset in the frame of the a variable spill location, or !BlockId stack-top-on-entry.
 
 The invariant is that each node could be done by one machine instruction, provided each `LocalReg` maps to a (suitable) physical register; and an instruction involving a stack-slot can cope with (Sp+n).  
 
