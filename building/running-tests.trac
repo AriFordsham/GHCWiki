@@ -46,17 +46,11 @@ For more details, see below.
 
 = Running the testsuite with a compiler other than GHC =
 
-(to be written.  The plan is something like: 
+This doesn't work at the moment, but if it did then it would probably involve something like:
 {{{
-        cvs checkout fpconfig
-        cd fptools
-        cvs checkout testsuite
-        autoconf
-        ./configure
         cd testsuite
         make TEST_HC=nhc98 COMPILER=nhc98
 }}}
-)
 
 = Running individual tests or subdirectories of the testsuite =
 
