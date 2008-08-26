@@ -1,7 +1,8 @@
 # Re-structuring the GHC build system
 
 
-The basic plan is 
+This page describes our current plan (Aug 08) for making GHC's build system more malleable.
+The basic plan is this:
 
 - Use our own build system for the work of actually
   building packages from source to .a/.so, including
