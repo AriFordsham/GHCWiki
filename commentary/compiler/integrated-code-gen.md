@@ -52,7 +52,7 @@ require complex implementations.  We live with this complexity because
   no matter how many times they are re-run.
   The dataflow engine is based on 
   [ (Lerner, Grove, and Chambers 2002)](http://citeseer.ist.psu.edu/old/lerner01composing.html);
-  you can find a functional implementation presented in
+  you can find a functional implementation of the dataflow engine presented in
   [ (Ramsey and Dias 2005)](http://www.cs.tufts.edu/~nr/pubs/zipcfg-abstract.html).
 
 - **Coalescing register allocator:** The back end can use fresh temporaries and register-register moves
