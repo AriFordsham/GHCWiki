@@ -31,7 +31,7 @@ refactoring we expect the following benefits:
 The important elements of
 our design are as follows:
 
-1. Build two big hammers, and hit as many nails as possible.  (The big hammers are the **dataflow optimization engine** and a **coalescing register allocator.**)  The hammer itself may be big and complicated, but **using a big hammer should be easy** and should give easily predictable results.
+1. Build two big hammers, and hit as many nails as possible.  (The big hammers are the **dataflow optimization engine** and a **coalescing register allocator.** For more on their uses, see our [design philosophy](commentary/compiler/integrated-code-gen#design-philosophy).)  The hammer itself may be big and complicated, but **using a big hammer should be easy** and should give easily predictable results.
 1. Load all back ends into every instance of the compiler, and **treat every compilation as a cross-compilation.**  Despite having been used in production compilers for at least twenty years, this technique is still seen as somewhat unorthodox, but it removes many `#ifdef`s and saves significant complexity at compiler-configuration time. Removing `#ifdef`s also mitigates problems with  validating the compiler under different build configurations.
 
 ## Design philosophy
@@ -49,14 +49,17 @@ require complex implementations.  We live with this complexity because
   useful on its own, but that can easily be composed with other
   optimizations to create an integrated "superoptimization" that is
   strictly more powerful than any sequence of individual optimizations,
-  no matter how many times they are re-run
-  [ (Lerner, Grove, and Chambers 2002)](http://portal.acm.org/citation.cfm?id=503298).
+  no matter how many times they are re-run.
+  The dataflow engine is based on 
+  [ (Lerner, Grove, and Chambers 2002)](http://citeseer.ist.psu.edu/old/lerner01composing.html);
+  you can find a functional implementation presented in
+  [ (Ramsey and Dias 2005)](http://www.cs.tufts.edu/~nr/pubs/zipcfg-abstract.html).
 
 - **Coalescing register allocator:** The back end can use fresh temporaries and register-register moves
   with abandon, knowing that a state-of-the-art register allocator
   will eliminate almost all move instructions.
 
-- Our ultimate goal is to make adding a new back end easy as well.
+- **Back ends:** Our ultimate goal is to make adding a new back end easy as well.
   In the long run, we wish to apply John Dias's dissertation work to GHC.
   In the short run, however, we
   think it more sensible to represent each target-machine instruction
