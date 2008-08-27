@@ -1,16 +1,7 @@
 # Material about the new code generator
 
 
-This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.
-
-
-The **design** is documented here: 
-
-- [short-term view of the pipeline](commentary/compiler/new-code-gen-pipeline).
-- [longer term plan](commentary/compiler/integrated-code-gen)
-
-
-Our plan is as follows:
+This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.  Our plan is as follows:
 
 - **Step 1**: drain the "Rep swamp".  This is a change of data representation that pervades the compiler, including lots and lots of tiny changes in the existing native code generators.  It's done, and tested, but not yet committed to the HEAD.
 
