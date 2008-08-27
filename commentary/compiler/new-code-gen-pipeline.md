@@ -19,7 +19,14 @@ There is a new Cmm data type:
 - **[compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)** instantiates `ZipCfg` for Cmm, by defining types `Middle` and `Last` and using these to instantiate the polymorphic fields of `ZipCfg`.  It also defines a bunch of smart constructor (`mkJump`, `mkAssign`, `mkCmmIfThenElse` etc) which make it easy to build `CmmGraph`.
 - **`CmmExpr`** contains the data types for Cmm expressions, registers, and the like.  It does not depend on the dataflow framework at all.
 
-## The pipeline: Make the new code generator work with the existing native codeGen
+## The the Cmm pipeline
+
+
+Code generation now has three stages:
+
+- Convert STG to Cmm, with implicit stack implicit, and native Cmm calls.
+- Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls.
+- Feed the CPS-converted Cmm to the existing, unmodified native code generators.
 
 - **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`). 
 
