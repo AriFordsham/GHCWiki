@@ -65,3 +65,22 @@ The following documentation would need to change:
 
 - [TestingPatches](testing-patches)
 - [BuildBot](build-bot)
+
+## Plan for libraries
+
+
+The remaining question is what to do about the library repositories.  It is possible to work with the GHC repository in git and all the other repositories in darcs, but this can't be a long-term strategy: our motivation for moving away from darcs is invalid if parts of the repository still require darcs.  We need a strategy for a single-VCS solution.
+
+
+Here's a tentative plan:
+
+- Some libraries belong to GHC (template-haskell, ghc-prim, integer-gmp, hpc), and for these we can convert
+  the repos to git and keep them as subrepos.  (alterantively we could just import them into the main
+  git repository for convenience).
+
+- Of the rest, base is somewhat special, because this alone often needs to be modified at the same time as GHC.  We propose migrating base to a git repository.
+
+- For the rest of libraries (e.g. filepath, containers, bytestring, editline), GHC is just a client, and we don't expect to be modifying these libraries
+  often.  Hence we can just copy the libraries wholesale into the GHC git repository, and update the copies
+  occasionally when a new version of the library is released.  We can provide a way to update the GHC copy from
+  the official darcs repository easily.  The local copy would be read-only, except when updating from the master copy.
