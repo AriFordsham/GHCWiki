@@ -3,7 +3,7 @@
 
 This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.  Our plan is as follows:
 
-- **Step 1**: drain the "Rep swamp".  This is a change of data representation that pervades the compiler, including lots and lots of tiny changes in the existing native code generators.  It's done, and tested, but not yet committed to the HEAD.
+- **Step 1**: drain the "Rep swamp".  This is a change of data representation that pervades the compiler, including lots and lots of tiny changes in the existing native code generators.  It's done (see [Commentary/Compiler/BackEndTypes](commentary/compiler/back-end-types)), and tested, but not yet committed to the HEAD.
 
 - **Step 2**: Replace the existing Stg to Cmm code generator (a very complex and inflexible pass) with a new modular pipeline. The output of this pipeline is fed to the existing, un-modified code geneators.  The design of the new pipeline is here: [Commentary/Compiler/NewCodeGenPipeline](commentary/compiler/new-code-gen-pipeline).
 
@@ -37,7 +37,6 @@ Bug list (code-gen related bugs that we may be able to fix):
 These notes are largely out of date, but I don't want to dump them till we're sure that we've sucked all the juice out of them.
  
 
-- The Rep swamp is drained: see [Commentary/Compiler/BackEndTypes](commentary/compiler/back-end-types)
 - Code generator: first draft done.
 - Control-flow opt: simple ones done
 
