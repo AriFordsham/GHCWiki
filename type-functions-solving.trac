@@ -158,7 +158,8 @@ co1 :: F t1..tn ~ t  &  co2 :: F t1..tn ~ s
 =(SubstFam)=>
 co1 :: F t1..tn ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
 }}}
- where `co1` is local, or both `co1` and `co2` are wanted and at least one of the equalities contains a flexible variable.
+ where `co1` is local, or both `co1` and `co2` are wanted and at least one of the equalities contains a flexible variable.  '''SLPJ: why this restriction?  I thought we were treating
+flexible and rigid variables the same.'''
 
  NB: Afterwards, we need to normalise `co2'`.  Then, the !SubstVarVar or !SubstVarFam rules may apply to the results of normalisation.  Moreover, `co1` may have a !SubstFam or a !SubstVarFam match with rules other than the results of normalising `co2'`.
 
