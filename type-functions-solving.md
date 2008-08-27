@@ -266,11 +266,11 @@ Notes:
 
 - (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables - just as in new-single.)
 
-- **TODO** Now that we delay instantiation until after solving, do we still need to prioritise flexible variables equalities over rigid ones?  (Probably not.)
-
 ---
 
 **TODO**  Still need to adapt example to new rule set!
+
+**TODO** Now that we delay instantiation until after solving, do we still need to prioritise flexible variables equalities over rigid ones?  (Probably not.)  In any case, we need to handle variable-variable equalities (at least of flexibles) specially during finalisation.  Even if they locals, they need to be taken into account during finalisation.  (Otherwise, we may miss some instantiations of flexibles that occur in the environment.)
 
 ## Examples
 
