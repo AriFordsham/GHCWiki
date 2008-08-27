@@ -13,8 +13,11 @@ This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias a
 In timescale terms it looks like this:
 
 - GHC 6.10 will have nothing new at all
+
 - Immediately after the code fork for 6.10 we'll commit the new stuff for Step 1 and Step 2.  By the end of 2008 (latest) we hope to be using the Step 2 pipeline in anger, and can discard the existing code generator entirely.  To be fair, at this point you probably won't see any performance improvements; indeed compilation could be a bit slower.  But the pipeline will be far more modular and flexible.
-- Work on Step 3 will proceed in 2009.
+
+- Work on Step 3 will proceed in 2009, but at a slower pace because John's internship ends in Oct 2008.
+
 - At the same time, others can help!  In particular, Cmm-to-Cmm optimisations will be easy.  And some of them really should yield performance improvements.
 
 ## Bugs
