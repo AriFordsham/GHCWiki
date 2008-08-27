@@ -1,10 +1,28 @@
-# Material about the new code generator
+# GHC's glorious nwe code generator
 
 
-This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end. You may want to see the
+This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.  Our plan is as follows:
 
-- [short-term view of the pipeline](commentary/compiler/new-code-gen-pipeline)
-- [longer term plan](commentary/compiler/integrated-code-gen)
+- **Step 1**: drain the "Rep swamp".  This is a change of data representation that pervades the compiler, including lots and lots of tiny changes in the existing native code generators.  It's done, and tested, but not yet committed to the HEAD.
+
+- **Step 2**: Replace the existing Stg to Cmm code generator (a very complex and inflexible pass) with a new modular pipeline. The output of this pipeline is fed to the existing, un-modified code geneators.  The design of the new pipeline is here: [Commentary/Compiler/NewCodeGenPipeline](commentary/compiler/new-code-gen-pipeline).
+
+- **Step 3**: Expand the capability of the new pipeline so that it does native code generation too, and we can ultimately discard the existing code generators.  The design of this stage is here: [Commentary/Compiler/IntegratedCodeGen](commentary/compiler/integrated-code-gen)
+
+
+In timescale terms it looks like this:
+
+- GHC 6.10 will have nothing new at all
+
+- Immediately after the code fork for 6.10 we'll commit the new stuff for Step 1 and Step 2 to the HEAD.  
+
+- By the end of 2008 (and probably much earlier) we hope to be using the Step 2 pipeline in anger, and can discard the existing code generator entirely.  To be fair, at this point you probably won't see any performance improvements; indeed compilation could be a bit slower.  But the pipeline will be far more modular and flexible.
+
+- Work on Step 3 will proceed in 2009, but at a slower pace because John's internship ends in Oct 2008.
+
+- At the same time, others can help!  In particular, Cmm-to-Cmm optimisations will be easy.  And some of them really should yield performance improvements.
+
+## Bugs
 
 
 Bug list (code-gen related bugs that we may be able to fix):
