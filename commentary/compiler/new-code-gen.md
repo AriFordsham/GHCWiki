@@ -1,4 +1,4 @@
-# Material about the new code generator
+# GHC's glorious nwe code generator
 
 
 This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.  Our plan is as follows:
