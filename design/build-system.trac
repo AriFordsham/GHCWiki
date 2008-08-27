@@ -55,7 +55,7 @@ The advantages of this are:
   * There is just one `cabal-bin` executable for
     the whole GHC build tree.  
 
-  * Question: should we rename `cabal-bin.hs` to `ghc-cabal.hs`?
+  * Question: should we rename `cabal-bin.hs` to `ghc-cabal.hs`?  (Simon, Manuel say: yes.)
 
   * The version of Cabal used by `cabal-bin.hs` does not need to be an up-to-the-minute
     bleeding-edge version.  It should be stable and vary slowly.  We suck a new
