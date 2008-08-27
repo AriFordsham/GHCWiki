@@ -12,8 +12,11 @@ Bug list (code-gen related bugs that we may be able to fix):
 - [\#2249](https://gitlab.haskell.org//ghc/ghc/issues/2249)
 - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253)
 
+## Notes about the state of play in late 2007
 
-Status:
+
+These notes are largely out of date, but I don't want to dump them till we're sure that we've sucked all the juice out of them.
+ 
 
 - The Rep swamp is drained: see [Commentary/Compiler/BackEndTypes](commentary/compiler/back-end-types)
 - Code generator: first draft done.
@@ -68,34 +71,3 @@ ToDo: small issues
 - Where is the "push new continuation" middle node? 
 - Change the C-- parser (which parses RTS .cmm files) to directly construct `CmmGraph`.  
 - (SLPJ) See let-no-escape todos in `StgCmmExpr`.
-
-## The new Cmm data type
-
-
-There is a new Cmm data type:
-
-- [compiler/cmm/ZipCfg.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfg.hs) contains a generic zipper-based control-flow graph data type.  It is generic in the sense that it's polymorphic in the type of **middle nodes** and **last nodes** of a block.  (Middle nodes don't do control transfers; last nodes only do control transfers.)  There are extensive notes at the start of the module.
-
-  The key types it defines are:
-
-  - Block identifiers: `BlockId`, `BlockEnv`, `BlockSet`
-  - Control-flow blocks: `Block`
-  - Control-flow graphs: `Graph`
-- **`ZipDataFlow`** contains a generic framework for solving dataflow problems over `ZipCfg`.
-- **[compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)** instantiates `ZipCfg` for Cmm, by defining types `Middle` and `Last` and using these to instantiate the polymorphic fields of `ZipCfg`.  It also defines a bunch of smart constructor (`mkJump`, `mkAssign`, `mkCmmIfThenElse` etc) which make it easy to build `CmmGraph`.
-- **`CmmExpr`** contains the data types for Cmm expressions, registers, and the like.  It does not depend on the dataflow framework at all.
-
----
-
-## Runtime system
-
-- **Garbage collector entry points**: see `Note [Heap checks]` in `StgCmmHeapery`.
-
-- **PAPs**
-
-- **Update frames** and **exception handling**.  Also STM frames.
-
-- **Primitives** can be rewritten:
-
-  - Use parameters
-  - In a few cases, use native calls (notably eval)
