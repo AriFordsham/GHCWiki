@@ -24,14 +24,17 @@ There is a new Cmm data type:
 
 Code generation now has three stages:
 
-- Convert STG to Cmm, with implicit stack implicit, and native Cmm calls.
-- Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls.
-- Feed the CPS-converted Cmm to the existing, unmodified native code generators.
+1. Convert STG to Cmm, with implicit stack implicit, and native Cmm calls.
+1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls.
+1. Feed the CPS-converted Cmm to the existing, unmodified native code generators.
+
+
+The first two steps are described in more detail here:
 
 - **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`). 
 
-  - Parameter passing and stack adjustments are made explicit using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas)
-  - That includes a store of the return address.
+  - Parameter passing is made explicit.  Parameters are passed in virtual registers R1, R2 etc. Overflow parameters are passed on the stack using explicit memory stores, to locations described abstractly using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas).   
+  - That includes a store of the return address, which is stored explicitly on the stack in the same way as overflow parameters.
   - No `CopyIn`, `CopyOut` nodes any more; instead "smart constructors" lower the calling convention to loads/stores/register transfers, using stack area abstraction.
   - But we still have `LastCall`, `LastReturn`, `LastBranch`, `LastJump` as `Last` nodes.
   - TODO Use the proper calling conventions (post Rep Swamp).
