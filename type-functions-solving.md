@@ -211,7 +211,8 @@ co1 :: x \~ t  &  co2' :: \[t/x\](F s1..sn) \~ s with co2 = \[co1/x\](F s1..sn) 
 where `x` occurs in `F s1..sn`.  (`co1` may be local or wanted.)
 
 NB: No normalisation required.  Afterwards, SubstVarVar or SubstVarFam may apply to `co1` and all rules, except SubstVarVar, may apply to `co2'`.  However, SubstVarFam cannot again apply to `co1` and `co2'`, as `t` cannot contain `x` -- cf. the definition of normal equalities..
-Rule application: specification
+**SLPJ**: why distinguish SubstVarVar and SubstVarFam.  The paper has only one rule**.
+**Rule application: specification
 Propagation proceeds by applying any of the four rules until the system does not change anymore.  After application of a rule, the equalities that were modified need to be normalised again:
 Propagate = fix (Top \| SubstFam \| SubstVarVar \| SubstVarFam)
 Rule application: algorithm
@@ -364,7 +365,7 @@ b := F a
 ..and so on..
 
 My guess is that the algorithm terminates for all satisfiable queries.  If that is correct, the entailment problem that the algorithm solves would be  semi-decidable.
-Download in other formats:[Plain Text](/trac/ghc/wiki/TypeFunctionsSolving?version=70&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+Download in other formats:[Plain Text](/trac/ghc/wiki/TypeFunctionsSolving?version=71&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
         By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
 [http://trac.edgewall.org/](http://trac.edgewall.org/)**</td></tr></table>
