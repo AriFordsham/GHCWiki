@@ -1,11 +1,40 @@
----
+# Design of the new code generator
 
-## The pipeline: Make the new code generator work with the existing native codeGen
+
+This page contains notes about the design of the new code generator
+
+## The new Cmm data type
+
+
+There is a new Cmm data type:
+
+- [compiler/cmm/ZipCfg.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfg.hs) contains a generic zipper-based control-flow graph data type.  It is generic in the sense that it's polymorphic in the type of **middle nodes** and **last nodes** of a block.  (Middle nodes don't do control transfers; last nodes only do control transfers.)  There are extensive notes at the start of the module.
+
+  The key types it defines are:
+
+  - Block identifiers: `BlockId`, `BlockEnv`, `BlockSet`
+  - Control-flow blocks: `Block`
+  - Control-flow graphs: `Graph`
+- **`ZipDataFlow`** contains a generic framework for solving dataflow problems over `ZipCfg`.
+- **[compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)** instantiates `ZipCfg` for Cmm, by defining types `Middle` and `Last` and using these to instantiate the polymorphic fields of `ZipCfg`.  It also defines a bunch of smart constructor (`mkJump`, `mkAssign`, `mkCmmIfThenElse` etc) which make it easy to build `CmmGraph`.
+- **`CmmExpr`** contains the data types for Cmm expressions, registers, and the like.  It does not depend on the dataflow framework at all.
+
+## The the Cmm pipeline
+
+
+Code generation now has three stages:
+
+1. Convert STG to Cmm, with implicit stack implicit, and native Cmm calls.
+1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls.
+1. Feed the CPS-converted Cmm to the existing, unmodified native code generators.
+
+
+The first two steps are described in more detail here:
 
 - **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`). 
 
-  - Parameter passing and stack adjustments are made explicit using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas)
-  - That includes a store of the return address.
+  - Parameter passing is made explicit.  Parameters are passed in virtual registers R1, R2 etc. Overflow parameters are passed on the stack using explicit memory stores, to locations described abstractly using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas).   
+  - That includes a store of the return address, which is stored explicitly on the stack in the same way as overflow parameters.
   - No `CopyIn`, `CopyOut` nodes any more; instead "smart constructors" lower the calling convention to loads/stores/register transfers, using stack area abstraction.
   - But we still have `LastCall`, `LastReturn`, `LastBranch`, `LastJump` as `Last` nodes.
   - TODO Use the proper calling conventions (post Rep Swamp).
@@ -57,3 +86,16 @@
 > ```
 >
 > *and* move `CopyOut` into L's other predecessors.  ToDo: explain why this is a good thing.  In fact Common Block Elimination does this, we think.
+
+## Runtime system
+
+- **Garbage collector entry points**: see `Note [Heap checks]` in `StgCmmHeapery`.
+
+- **PAPs**
+
+- **Update frames** and **exception handling**.  Also STM frames.
+
+- **Primitives** can be rewritten:
+
+  - Use parameters
+  - In a few cases, use native calls (notably eval)
