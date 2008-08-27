@@ -150,6 +150,8 @@ co' :: [s1/x1, .., sm/xm]s ~ t with co = g s1..sm |> co'
 }}}
  where `g :: forall x1..xm. F u1..um ~ s` and `[s1/x1, .., sm/xm]u1 == t1`.
 
+ NB: Afterwards, we need to normalise.  Then, any of the four propagation rules may apply.
+
  '''!SubstFam'''::
 {{{
 co1 :: F t1..tn ~ t  &  co2 :: F t1..tn ~ s
@@ -157,6 +159,8 @@ co1 :: F t1..tn ~ t  &  co2 :: F t1..tn ~ s
 co1 :: F t1..tn ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
 }}}
  where `co1` is local, or both `co1` and `co2` are wanted and at least one of the equalities contains a flexible variable.
+
+ NB: Afterwards, we need to normalise `co2'`.  Then, the !SubstVarVar or !SubstVarFam rules may apply to the results of normalisation.  Moreover, `co1` may have a !SubstFam or a !SubstVarFam match with rules other than the results of normalising `co2'`.
 
  '''!SubstVarVar'''::
 {{{
@@ -166,7 +170,9 @@ co1 :: x ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
 }}}
  where `co1` is local, or both `co1` and `co2` are wanted and at least one of the equalities contains a flexible variable.
 
- '''!SubstVarFam'''::
+ NB: Afterwards, we need to normalise `co2'`.  Then, the !SubstVarVar or !SubstVarFam rules may apply to the results of normalisation, but not with `co1`, as `s` and `t` cannot contain `x` - cf. the definition of normal equalities.  However, `co1` may have another !SubstVarVar or !SubstVarFam match with rules other than the results of normalising `co2'`.
+
+'''!SubstVarFam'''::
 {{{
 co1 :: x ~ t  &  co2 :: F s1..sn ~ s
 =(SubstVarFam)=>
