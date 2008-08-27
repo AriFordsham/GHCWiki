@@ -9,7 +9,7 @@ To run the test suite against stage 1 of a GHC build in the same
 source tree:
 
 ```wiki
-        cd tests/ghc-regress
+        cd testsuite/tests/ghc-regress
         make
 ```
 
