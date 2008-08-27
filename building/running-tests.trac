@@ -7,7 +7,7 @@ to use the testsuite.
 To run the test suite against stage 1 of a GHC build in the same
 source tree:
 {{{
-        cd tests/ghc-regress
+        cd testsuite/tests/ghc-regress
         make
 }}}
 (from now on, we'll assume that you're in the tests/ghc-regress
