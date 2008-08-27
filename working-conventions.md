@@ -22,10 +22,13 @@ When you are editing GHC's source code, please follow our coding guidelines:
 - [Coding style in the compiler](commentary/coding-style)
 - [Coding style in the runtime system](commentary/rts/conventions)
 
-## Testing patches
+## Validating patches and the test suite
 
 
-The policy on testing patches is at: [TestingPatches](testing-patches).
+Before you commit a patch you want to be reasonably sure you haven't broken anything.  So before you commit, you must **validate** your changes, using the **regression test suite**:
+
+- The policy on validating patches, and how to perform validation, is at: [TestingPatches](testing-patches).
+- Details about the regression test suite, and how to use it are at: [Building/RunningTests](building/running-tests)
 
 ## Using Darcs
 
