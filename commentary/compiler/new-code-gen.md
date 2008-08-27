@@ -29,6 +29,7 @@ Bug list (code-gen related bugs that we may be able to fix):
 
 - [\#2249](https://gitlab.haskell.org//ghc/ghc/issues/2249)
 - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253)
+- [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289)
 
 ## Notes about the state of play in late 2007
 

@@ -24,6 +24,7 @@ In timescale terms it looks like this:
 Bug list (code-gen related bugs that we may be able to fix):
  * #2249
  * #2253
+ * #2289
 
 == Notes about the state of play in late 2007 ==
 
