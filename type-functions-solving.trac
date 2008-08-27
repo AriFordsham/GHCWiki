@@ -172,7 +172,7 @@ co1 :: x ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
 
  NB: Afterwards, we need to normalise `co2'`.  Then, the !SubstVarVar or !SubstVarFam rules may apply to the results of normalisation, but not with `co1`, as `s` and `t` cannot contain `x` -- cf. the definition of normal equalities.  However, `co1` may have another !SubstVarVar or !SubstVarFam match with rules other than the results of normalising `co2'`.
 
-'''!SubstVarFam'''::
+ '''!SubstVarFam'''::
 {{{
 co1 :: x ~ t  &  co2 :: F s1..sn ~ s
 =(SubstVarFam)=>

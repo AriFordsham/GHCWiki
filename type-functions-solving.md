@@ -214,16 +214,15 @@ where `co1` is local, or both `co1` and `co2` are wanted and at least one of the
 >
 > NB: Afterwards, we need to normalise `co2'`.  Then, the SubstVarVar or SubstVarFam rules may apply to the results of normalisation, but not with `co1`, as `s` and `t` cannot contain `x` -- cf. the definition of normal equalities.  However, `co1` may have another SubstVarVar or SubstVarFam match with rules other than the results of normalising `co2'`.
 
-**SubstVarFam**::
-
-```wiki
+<table><tr><th>**SubstVarFam**</th>
+<td>```wiki
 co1 :: x ~ t  &  co2 :: F s1..sn ~ s
 =(SubstVarFam)=>
 co1 :: x ~ t  &  co2' :: [t/x](F s1..sn) ~ s with co2 = [co1/x](F s1..sn) |> co2'
 ```
 
->
-> where `x` occurs in `F s1..sn`.  (`co1` may be local or wanted.)
+where `x` occurs in `F s1..sn`.  (`co1` may be local or wanted.)
+</td></tr></table>
 
 >
 > NB: No normalisation required.  Afterwards, SubstVarVar or SubstVarFam may apply to `co1` and all rules, except SubstVarVar, may apply to `co2'`.  However, SubstVarFam cannot again apply to `co1` and `co2'`, as `t` cannot contain `x` -- cf. the definition of normal equalities..
