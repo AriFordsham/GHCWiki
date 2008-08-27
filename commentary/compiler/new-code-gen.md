@@ -13,7 +13,9 @@ The **design** is documented here:
 Our plan is as follows:
 
 - **Step 1**: drain the "Rep swamp".  This is a change of data representation that pervades the compiler, including lots and lots of tiny changes in the existing native code generators.  It's done, and tested, but not yet committed to the HEAD.
+
 - **Step 2**: Replace the existing Stg to Cmm code generator (a very complex and inflexible pass) with a new modular pipeline. The output of this pipeline is fed to the existing, un-modified code geneators.  The design of the new pipeline is here: [Commentary/Compiler/NewCodeGenPipeline](commentary/compiler/new-code-gen-pipeline).
+
 - **Step 3**: Expand the capability of the new pipeline so that it does native code generation too, and we can ultimately discard the existing code generators.  The design of this stage is here: [Commentary/Compiler/IntegratedCodeGen](commentary/compiler/integrated-code-gen)
 
 
