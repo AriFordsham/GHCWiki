@@ -79,7 +79,10 @@ printExceptionAndWarnings err = do
 ```
 
 
-To start a GHC API session you now use:
+GHC internally uses `handleSourceError`, but this is only to avoid bootstrapping issues.  API clients can just use the standard extensible exception handling mechanism, but should use `gcatch`, `gtry`, etc. as these work in any monad with the proper instance.
+
+
+To start a 'Ghc' session use:
 
 ```wiki
 withGhc :: Maybe FilePath  -- path to GHC library
@@ -123,6 +126,8 @@ reifyGhc act = Ghc $ act
 ```
 
 ## Interface Changes
+
+**Most (all?) GHC API clients will break**, since any function that uses a Session now has a different type.  However, these changes are usually rather straightforward.  The tricky parts are what to do with error messages.  So far, messages could be intercepted by overriding `log_action`.  This was awkward, comparable to Unix calls returning that an error code and storing it in some global variable.  OTOH, the new method requires that errors are explicitly dealt with--otherwise, exceptions will propagate and quit the program.
 
 `load` and `setTarget` work like before.  `checkModule`
 has been split up into:
