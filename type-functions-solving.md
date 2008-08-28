@@ -219,7 +219,10 @@ where `x` occurs in `F s1..sn`.  (`co1` may be local or wanted.)
 </td></tr></table>
 
 >
-> NB: No normalisation required.  Afterwards, SubstVarVar or SubstVarFam may apply to `co1` and all rules, except SubstVarVar, may apply to `co2'`.  However, SubstVarFam cannot again apply to `co1` and `co2'`, as `t` cannot contain `x` -- cf. the definition of normal equalities..
+> NB: No normalisation required.  Afterwards, SubstVarVar or SubstVarFam may apply to `co1` and all rules, except SubstVarVar, may apply to `co2'`.  However, SubstVarFam cannot again apply to `co1` and `co2'`, as `t` cannot contain `x` -- cf. the definition of normal equalities.
+
+
+NB: In the three substitution rules, it is never necessary to try using `co1` with any of the equalities derived from `co2'`.  Hence, after having considered one equality as `co1` with every other equality, we can immediately put `co1` into the list of residual equalities.
 
 ### Rule application: specification
 
