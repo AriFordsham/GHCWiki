@@ -46,7 +46,7 @@ where
 
  * the types `t`, `t1`, ..., `tn` may not contain any occurrences of synonym families,
  * the left-hand side of an equality may not occur in the right-hand side, and
- * the relation `x > y` is a total order on type variables, where `alpha > a` whenever `alpha` is a flexible and `a` a rigid type variable (otherwise, the total order may be aribitrary).
+ * the relation `x > y` is an arbitrary, but total order on type variables.
 
 The second bullet of the where clause is trivially true for equalities of Form (1); it also implies that the left- and right-hand sides are different.
 
@@ -115,23 +115,18 @@ flatten [[F t1..tn]] = (alpha, [[id :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
     (t1', eqt1) = flatten t1
     ..
     (tn', eqtn) = flatten tn
-    FRESH alpha, such that alpha > x for all x already used
-    RECORD alpha := F t1'..tn'
+    FRESH alpha
 flatten [[t1 t2]] = (t1' t2', eqs++eqt)
   where
     (t1', eqs) = flatten t1
     (t2', eqt) = flatten t2
 flatten t = (t, [])
 }}}
-The substitutions `RECORD`ed during `flatten` need to be (unconditionally) applied during finalisation (i.e., the 3rd phase).
 
 Notes:
  * Perform Rule Triv as part of normalisation.
  * Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
  * We flatten locals and wanteds in the same manner, using fresh flexible type variables.  (We have flexibles in locals anyway and don't use (Unify) during normalisation - this is different to `new-single`.)
-
-
-'''TODO:''' We may want to drop the `alpha > x for all x already used` side condition on fresh `alpha`s again.  Instead, we should probably consider all ''local'' flexible variable equalities during finalisation, too.  At least, those involving flexible variables introduced by flattening.
 
 
 == Propagation (aka Solving) ==
@@ -158,8 +153,7 @@ co1 :: F t1..tn ~ t  &  co2 :: F t1..tn ~ s
 =(SubstFam)=>
 co1 :: F t1..tn ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
 }}}
- where `co1` is local, or both `co1` and `co2` are wanted and at least one of the equalities contains a flexible variable.  '''SLPJ: why this restriction?  I thought we were treating
-flexible and rigid variables the same.'''
+ where `co1` may be a wanted only if `co2` is a wanted, too.
 
  NB: Afterwards, we need to normalise `co2'`.  Then, the !SubstVarVar or !SubstVarFam rules may apply to the results of normalisation.  Moreover, `co1` may have a !SubstFam or a !SubstVarFam match with rules other than the results of normalising `co2'`.
 
@@ -169,7 +163,7 @@ co1 :: x ~ t  &  co2 :: x ~ s
 =(SubstVarVar)=>
 co1 :: x ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
 }}}
- where `co1` is local, or both `co1` and `co2` are wanted and at least one of the equalities contains a flexible variable.
+ where `co1` may be a wanted only if `co2` is a wanted, too.
 
  NB: Afterwards, we need to normalise `co2'`.  Then, the !SubstVarVar or !SubstVarFam rules may apply to the results of normalisation, but not with `co1`, as `s` and `t` cannot contain `x` -- cf. the definition of normal equalities.  However, `co1` may have another !SubstVarVar or !SubstVarFam match with rules other than the results of normalising `co2'`.
 
@@ -183,7 +177,6 @@ co1 :: x ~ t  &  co2' :: [t/x](F s1..sn) ~ s with co2 = [co1/x](F s1..sn) |> co2
 
  NB: No normalisation required.  Afterwards, !SubstVarVar or !SubstVarFam may apply to `co1` and all rules, except !SubstVarVar, may apply to `co2'`.  However, !SubstVarFam cannot again apply to `co1` and `co2'`, as `t` cannot contain `x` -- cf. the definition of normal equalities..
 
-'''SLPJ''': why distinguish SubstVarVar and SubstVarFam.  The paper has only one rule'''.
 
 === Rule application: specification ===
 
