@@ -3,6 +3,17 @@
 
 Everything from here to the "Original Page" heading is for the revival in July 2008.
 
+## jhc Success
+
+
+I heard that John Meacham's jhc compiler produces portable C code, so I grabbed the jhc-0.5.20080307 tarball, built it, wrote a quick Hello, World! test, and built that with jhc. It produced an x86 binary, but also the C code which included the correct gcc command line at the top. Logging into the Nokia scratchbox development environment, I ran the command. It built successfully, and ran on the scratchbox environment. It runs on the device! So we have a working H98 cross-compiler, effectively. This is a long way better than nothing.
+
+
+jhc isn't self-hosting, and requires gcc anyway, so it can't run on the device itself.
+
+
+It's good to finally post some positive progress.
+
 ## New Update on [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346)
 
 [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346), the bug tracking having bootstrapping working again, has had its milestone changed from 6.10.1 to 6.12, as the build system overhaul has grown into too large of a project and 6.10 needs to be released before it will be completed.
