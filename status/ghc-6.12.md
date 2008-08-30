@@ -31,14 +31,16 @@ Here are the big items that we hope to include, along with who is primarily resp
   that will provide essentially the same API as the base library that shipped with GHC 6.8.3, so that code
   depending on base-3 will continue to just work.
 
+- **Haddock 2**
+
+  - Build it with GHC (maybe ship it with GHC too)
+  - Documentation for GHC API done via Haddock 2
+
 ## Things we plan to do for sure
 
 - **Ship the Haskell Library Platform** instead of 'extralibs'.  **Don and Duncan** are leading.
 
-- **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim), [\#2335](https://gitlab.haskell.org//ghc/ghc/issues/2335) (build problem)).  (**Ian Lynagh**: a few days.)
-
-  - Build it with GHC (maybe ship it with GHC too)
-  - Documentation for GHC API done via Haddock 2
+- **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim)).  (**Ian Lynagh**)
 
 - **Unicode support for text I/O**.  This means adding Unicode encoding/decoding for Text I/O handles.   (**Simon Marlow**: a few days work.)
 
