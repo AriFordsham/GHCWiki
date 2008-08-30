@@ -276,23 +276,9 @@ There follow some notes about desirable refactorings, mainly around [compiler/ma
   we need to keep it when a module is considered for compilation but not recompiled; when we generate the
   `ModDetails` from the `ModIface`.  ToDo: find a better place to put it.
 
-## Change Log
-
-- introduced the `Ghc` monad which is (currently) defined as `Session -> IO (Either GhcError a)` where Session is mutabe.  This improves the following:
-
-  - API functions no longer need to pass around sessions explicitly.  The single-threaded usage of a session is enforced.
-  - More error information than a simple `Nothing`.
-  - Errors can be handled in one place rather than case matching after each API call
-  - ToDo: evaluate role of `log_action`
-- Functions that previously worked on a `Session` are now in `Ghc`.  `newSession` is now `withGhc` which is the exported run function for the `Ghc` monad.
-- `parseStaticFlags` has been removed, the functionality is now integrated with `withGhc`.  Before users had to be really careful in what order to call functions.
-- ATM, most things that import `GHC.hs` are broken due to the monadification.
-
 ## Open Issues
 
 - Which operations should automatically call `clearWarnings`?
-- Get Haddock to work.
-- Error handling strategy.
 - Remove `compileToCore` (it says it's there for backwards compatibility only)
 - What's the deal with `SuccessFlag`?  Shouldn't that be `Either SomeError ()`?
 - Comment in HscTypes:
