@@ -147,3 +147,18 @@ Once the master is reconfiged and the client is started, the client should becom
 
 
 At present there is no way to force an immediate test build.
+
+## Buildbot gotchas
+
+
+On MacOS X, when the user who runs the buildbot process logs out, the process keeps  
+running, but it loses the ability to do DNS queries!  This shows up as failures like this:
+
+```wiki
+darcs failed:  Not a repository:  
+http://darcs.haskell.org/ghc
+(Failed to download URL http://darcs.haskell.org/ghc/_darcs/inventory: couldn't resolve host name)
+```
+
+
+To resolve this, there is some extra work to do when you configure your buildbot client: [ http://buildbot.net/trac/wiki/UsingLaunchd](http://buildbot.net/trac/wiki/UsingLaunchd)
