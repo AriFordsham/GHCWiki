@@ -9,6 +9,7 @@ On this page:
 1. [Reasons for Replacing GMP as the Bignum library](replacing-gmp-notes#reasons-for-replacing-gmp-as-the-bignum-library)
 1. [Files related to GMP in the GHC Compiler Source Code](replacing-gmp-notes#files-related-to-gmp-in-the-ghc-compiler-source-code)
 1. [Optimisation Opportunities](replacing-gmp-notes#optimisation-opportunities)
+1. [Binary Drop in Replacement for GMP](replacing-gmp-notes#binary-drop-in-replacement-for-gmp)
 
 
 Other pages
@@ -242,3 +243,14 @@ emitPrimOp[res_r,res_c]IntAddCOp[aa,bb]live{-
 
 
 If an integer add were to overflow here, the addition operation would be performed *twice*; even if the integer add did not overflow one extra operation is performed.  Is this an acceptable price for no comparisons?
+
+### Binary Drop in Replacement for GMP
+
+
+One approach which would only address the license issue would be to develop doing your own linking, without gmp. Each time you come to a linker error having to do with a missing function, you can add the function to a gmp replacement which exports the same interface as gmp as you go... Over time, we'd re-implement as much of GMP as is required by any haskell program... Getting somethign working can take priority.  
+
+
+Test suites can be developed and perhaps even borrowed from the gmp development team since we should be binary compatable...
+
+
+This approach has been started already here: [ http://hackage.haskell.org/trac/ghc/attachment/ticket/601/jmp.c](http://hackage.haskell.org/trac/ghc/attachment/ticket/601/jmp.c)
