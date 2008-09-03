@@ -256,7 +256,7 @@ propagate eqs = prop eqs []
 
     apply eq eqs res 
       | Just eq' <- applyTop eq
-     = prop (norm eq' ++ eqs) res
+      = prop (norm eq' ++ eqs) res
       | otherwise
       = let (new_eqs, unchanged_eqs) = mapAndUnzip (applySubstRules eq) eqs
             (new_res, unchanged_res) = mapAndUnzip (applySubstRules eq) res
