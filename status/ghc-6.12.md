@@ -36,7 +36,7 @@ Here are the big items that we hope to include, along with who is primarily resp
   - Build it with GHC (maybe ship it with GHC too)
   - Documentation for GHC API done via Haddock 2
 
-- **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.  **Ian Lynagh** is running a discussion, but we expect it to reach consensus in plenty of time for 6.10.
+- **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.
 
 ## Things we plan to do for sure
 
