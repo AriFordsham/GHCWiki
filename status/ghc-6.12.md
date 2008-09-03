@@ -36,6 +36,8 @@ Here are the big items that we hope to include, along with who is primarily resp
   - Build it with GHC (maybe ship it with GHC too)
   - Documentation for GHC API done via Haddock 2
 
+- **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.  **Ian Lynagh** is running a discussion, but we expect it to reach consensus in plenty of time for 6.10.
+
 ## Things we plan to do for sure
 
 - **Ship the Haskell Library Platform** instead of 'extralibs'.  **Don and Duncan** are leading.
@@ -46,8 +48,6 @@ Here are the big items that we hope to include, along with who is primarily resp
 
   - Consensus was that Text I/O should always use the current locale encoding.  
   - You can elect to have no encoding by opening in binary mode, but that's all.
-
-- **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.  **Ian Lynagh** is running a discussion, but we expect it to reach consensus in plenty of time for 6.10.
 
 - **Shared libraries**, as a result of Clemens Fruhwirth's Summer of Code project.  ([\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)) **Simon Marlow**: about a week's work.
 

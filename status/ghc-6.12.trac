@@ -25,9 +25,11 @@ Here are the big items that we hope to include, along with who is primarily resp
    that will provide essentially the same API as the base library that shipped with GHC 6.8.3, so that code
    depending on base-3 will continue to just work.
 
-  * '''Haddock 2'''
+ * '''Haddock 2'''
     * Build it with GHC (maybe ship it with GHC too)
     * Documentation for GHC API done via Haddock 2
+
+ * '''Extensible exceptions''', along the lines of Simon's paper [http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf "An Extensible Dynamically-Typed Hierarchy of Exceptions"].  This is mainly a library change.  '''Ian Lynagh''' is running a discussion, but we expect it to reach consensus in plenty of time for 6.10.
 
 == Things we plan to do for sure ==
 
@@ -38,8 +40,6 @@ Here are the big items that we hope to include, along with who is primarily resp
  * '''Unicode support for text I/O'''.  This means adding Unicode encoding/decoding for Text I/O handles.   ('''Simon Marlow''': a few days work.)
    * Consensus was that Text I/O should always use the current locale encoding.  
    * You can elect to have no encoding by opening in binary mode, but that's all.
-
- * '''Extensible exceptions''', along the lines of Simon's paper [http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf "An Extensible Dynamically-Typed Hierarchy of Exceptions"].  This is mainly a library change.  '''Ian Lynagh''' is running a discussion, but we expect it to reach consensus in plenty of time for 6.10.
 
  * '''Shared libraries''', as a result of Clemens Fruhwirth's Summer of Code project.  (#1876) '''Simon Marlow''': about a week's work.
    * Binaries get much smaller
