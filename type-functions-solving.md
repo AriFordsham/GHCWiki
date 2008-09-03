@@ -246,15 +246,28 @@ applySubstVarVar :: RewriteInst -> RewriteInst -> Maybe EqInst    -- ...the modi
 applySubstVarFam :: RewriteInst -> RewriteInst -> Maybe EqInst    -- ...equality
 
 propagate :: [RewriteInst] -> [RewriteInst]
-propagate eqs = snd (prop eqs [])
+propagate eqs = prop eqs []
   where
-    prop :: [RewriteInst] -> [RewriteInst] -> [RewriteInst]
-    prop [] res = res
+    prop :: [RewriteInst]  -- todo list (still need to try these equalities)
+         -> [RewriteInst]  -- residual list (tried all equalities here already pairwise)
+         -> [RewriteInst]  -- these permit no further rule application
+    prop []       res = res
     prop (eq:eqs) res = apply eq eqs res
 
-    apply eq@[[co :: F t1..tn ~ t]] eqs res 
-      | Just eq' <- applyTop eq = prop (norm eq' ++ eqs) res
-      | otherwise        = mapRule (applySubstFam eq) -- TODO!!!
+    apply eq eqs res 
+      | Just eq' <- applyTop eq
+     = prop (norm eq' ++ eqs) res
+      | otherwise
+      = let (new_eqs, unchanged_eqs) = mapAndUnzip (applySubstRules eq) eqs
+            (new_res, unchanged_res) = mapAndUnzip (applySubstRules eq) res
+        in prop (concat new_eqs ++ concat new_res ++ concat unchanged_eqs)
+                (eq : concat unchanged_res)
+
+  applySubstRules eq1 eq2
+    | Just eq2' <- applySubstFam eq1 eq2    = (norm eq2', [])
+    | Just eq2' <- applySubstVarVar e1 eq2  = (norm eq2', [])
+    | Just eq2' <- applySubstVarFam eq1 eq2 = ([eq2'], [])
+    | otherwise                             = ([], [eq2])
 ```
 
 ### Observations
