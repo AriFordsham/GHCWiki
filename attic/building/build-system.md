@@ -722,7 +722,7 @@ build profiling versions of the library.
 There are a couple of cases where we want something similar:
 For GHC itself, we want stage1, stage2 and stage3 builds; and for
 some utils, as discussed earlier, we want to build the util with
-both the bootstrapping compiler and the stage1 compiler.
+both the bootstrapping compiler and the stage2 compiler.
 
 
 When Cabal builds a package, by default it does its building in a
