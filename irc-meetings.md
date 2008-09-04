@@ -26,4 +26,8 @@ Held in \#ghc on [ FreeNode](http://www.haskell.org/haskellwiki/IRC_channel), ev
 <tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-20.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-20.log)</th>
 <th>Sixth meeting, 2008-08-20, 4pm UK time</th>
 <th>build system, epoll for GHC rts 
+</th></tr>
+<tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-09-03.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-09-03.log)</th>
+<th>Eighth meeting, 2008-09-03, 4pm UK time</th>
+<th>GHC 6.10 release, HP/extralibs 
 </th></tr></table>
