@@ -84,3 +84,14 @@ Here's a tentative plan:
   often.  Hence we can just copy the libraries wholesale into the GHC git repository, and update the copies
   occasionally when a new version of the library is released.  We can provide a way to update the GHC copy from
   the official darcs repository easily.  The local copy would be read-only, except when updating from the master copy.
+
+## The perspective on submodules
+
+
+Submodules do not really seem to be designed for what we want to do (work on a cohesive set of components that are developed together): they seem more suited to tracking upstream branches that you do not modify locally.
+
+
+However, if we did want to use them there is a git-rake tool that provides many of the submodule commands to do this that are missing from Git proper: [ http://github.com/mdalessio/git-rake/tree/master/README.markdown](http://github.com/mdalessio/git-rake/tree/master/README.markdown). See also the discussion on his blog at [ http://flavoriffic.blogspot.com/2008/05/managing-git-submodules-with-gitrake.html](http://flavoriffic.blogspot.com/2008/05/managing-git-submodules-with-gitrake.html).
+
+
+An alternative approach seems to be using a single repo and the "subtree" merge strategy. There are some tools for making this work nicely with external repositories, such as [ http://dysinger.net/2008/04/29/replacing-braid-or-piston-for-git-with-40-lines-of-rake/](http://dysinger.net/2008/04/29/replacing-braid-or-piston-for-git-with-40-lines-of-rake/) and what looks like a nice tool called Braid [ http://github.com/evilchelu/braid/tree/master](http://github.com/evilchelu/braid/tree/master).
