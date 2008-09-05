@@ -16,7 +16,7 @@ Lists the packages that `darcs-all` should get or pull.  `packages` is looked at
 </td></tr></table>
 
 <table><tr><th>**`validate`**</th>
-<td>Run `validate` before committing (see [TestingPatches](testing-patches)).  The script is documented in the file itself.
+<td>Run `validate` (a shell script) before committing (see [TestingPatches](testing-patches)).  The script is documented in the file itself.
 </td></tr></table>
 
 ## `libraries/`
@@ -31,7 +31,10 @@ The `libraries/` directory contains all the packages that GHC needs to build.  I
 ## `utils/`, `libffi/`
 
 
-The `utils` directory contains support utilities that GHC uses.  Some of these are themselves separate repositories that `darcs-all` pulls; others are part of the main GHC repository. These utils may be built with the bootstrapping compiler, for use during the build, or with the stage2 compiler, for installing. Some of them are built with both; we can't install the utils built with the bootstrapping compiler as they may use different versions of C libraries. The reason we use stage2 rather than stage1 is that some utils, e.g. haddock, need the GHC API package.
+The `utils` directory contains support utilities that GHC uses.  Some of these are themselves separate repositories that `darcs-all` pulls; others are part of the main GHC repository. 
+
+
+These utils may be built with the bootstrapping compiler, for use during the build, or with the stage2 compiler, for installing. Some of them are built with both; we can't install the utils built with the bootstrapping compiler as they may use different versions of C libraries. The reason we use stage2 rather than stage1 is that some utils, e.g. haddock, need the GHC API package.  The file `utils/Makefile` controls all this.
 
 *Why isn't libffi in utils/?*
 
@@ -46,6 +49,14 @@ These directories contain the main GHC compiler, runtime system, and documentati
 
 
 The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.  Each is a separate repository, which can be gotten with `darcs-all`.
+
+## `mk/`
+
+
+The `mk/` directory contains all the build system Makefile boilerplate.  Some particular files are interesting:
+
+- **`mk/build.mk`**: contains Makefile settings that control your build. Details [here](building/hacking).  The file `mk/build.mk.sample` contains a starting point that you can copy to `mk/build.mk` if you want.
+- **`mk/are-validating.mk`**: this file records the fact that you are doing [validation](testing-patches), by containing the single line `Validating=YES`.  That in turn means the the build system gets its settings from `mk/validate-settings.mk` instead of from `mk/build.mk`.  Remove the file to stop validating.
 
 ## Stuff that appears only in a build tree
 
