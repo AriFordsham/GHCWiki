@@ -293,4 +293,39 @@ Additional notes from Neil Mitchell:
 - cygwin installation doesn't quite work with the latest version because the ghc depends file doesn't have a .sig file with it
 
 - for mingw installation just select the minimal package (or at least i did...)
+
+- I got the following hiccup, which seemed transient:
+----------
+nmitche6@wlon1207009001 /cygdrive/c/ghc-build/ghc
+$ sh boot
+Booting .
+/usr/bin/m4:configure.ac:1281: cannot create temporary file for diversion: Permi
+ssion denied
+autom4te-2.61: /usr/bin/m4 failed with exit status: 1
+Booting libraries/base
+Booting libraries/directory
+Booting libraries/editline
+Booting libraries/old-time
+Booting libraries/process
+Booting libraries/unix
+
+nmitche6@wlon1207009001 /cygdrive/c/ghc-build/ghc
+$ ./configure --host=i386-unknown-mingw32 --with-gcc=C:/Mingw/bin/gcc.exe --wit
+h-ld=C:/Mingw/bin/ld.exe
+configure: WARNING: If you wanted to set the --build type, don't use --host.
+    If a cross compiler is detected then cross compile mode will be used.
+mk/config.h.in doesn't exist: perhaps you haven't run 'sh boot'?
+
+nmitche6@wlon1207009001 /cygdrive/c/ghc-build/ghc
+$ sh boot
+Booting .
+Booting libraries/base
+Booting libraries/directory
+Booting libraries/editline
+Booting libraries/old-time
+Booting libraries/process
+Booting libraries/unix
+---------
+
+- I required happy to be installed
 }}}
