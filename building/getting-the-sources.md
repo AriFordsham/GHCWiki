@@ -197,3 +197,10 @@ The default Mac OS X files systems (HFS+) is case-insensitive and darcs is case 
 
 
 This creates a file with a `.sparseimage` extension (e.g., `GHC Disk.sparseimage`) at the location that was set in step 10 and automatically mounts it.  The partition can be accessed through the `/Volumes` folder (e.g., `/Volumes/GHC`).  This partition behaves exactly like any other Apple partition except that it's case sensitive and darcs can apply the patches it couldn't on the case insensitive file system.  After the patches have been applied, the repository can be copied to the normal file system, the partition can be unmounted, and the sparse image can be deleted.
+
+### Ubuntu
+
+#### `dash` vs `bash`
+
+
+In Ubuntu 6.10 the default system shell `/bin/sh` was changed to `dash` (The Debian Almquist Shell) instead of `bash`, see [ DashAsBinSh](http://wiki.ubuntu.com/DashAsBinSh). This has been reported to break the GHC build. Until the GHC scripts are updated, the easiest way to fix this problem is to (as `root`) change the `/bin/sh` link back to `/bin/bash`. There should be minimal effect on the rest of the system, bar a small speed penalty for script heavy processes due to `bash` slowness.
