@@ -16,7 +16,7 @@ Lists the packages that `darcs-all` should get or pull.  `packages` is looked at
 </td></tr></table>
 
 <table><tr><th>**`validate`**</th>
-<td>Run `validate` before committing (see [TestingPatches](testing-patches)).  The script is documented in the file itself.
+<td>Run `validate` (a shell script) before committing (see [TestingPatches](testing-patches)).  The script is documented in the file itself.
 </td></tr></table>
 
 ## `libraries/`

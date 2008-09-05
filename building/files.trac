@@ -13,7 +13,7 @@ Everything starts with the main GHC repository (see [wiki:Building/GettingTheSou
  '''`packages`'''::
   Lists the packages that `darcs-all` should get or pull.  `packages` is looked at only by `darcs-all`.
 
- '''`validate`''':: Run `validate` before committing (see [wiki:TestingPatches]).  The script is documented in the file itself.
+ '''`validate`''':: Run `validate` (a shell script) before committing (see [wiki:TestingPatches]).  The script is documented in the file itself.
 
 == `libraries/` ==
 
