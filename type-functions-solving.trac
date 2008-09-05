@@ -240,6 +240,7 @@ alpha in environ, beta in skolems:
   gamma1 :: alpha ~ [beta], id :: G a ~ beta   -- , gamma2 :: F a ~ beta
 }}}
 
+
 ----
 
 '''TODO:'''  Still need to adapt examples to new rule set!
