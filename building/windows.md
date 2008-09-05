@@ -311,7 +311,7 @@ or run into issues while following this log.
     ; for haddock, alex, happy (*)
   - export PATH=/cygdrive/c/mingw/bin:$PATH
     ; without, we pick up some cygwin tools at best!
-  - cd c:/ghc-build
+  - cd c:/ghc-build/ghc
     ; (if you aren't there already)
   - sh boot
   - ./configure --host=i386-unknown-mingw32 -with-gcc=C:/Mingw/bin/gcc.exe --with-ld=C:/Mingw/bin/ld.exe
