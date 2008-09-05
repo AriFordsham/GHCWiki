@@ -108,6 +108,7 @@ data EqInst         -- arbitrary equalities
 data FlatEqInst     -- synonym families may only occur outermost on the lhs
 data RewriteInst    -- normal equality
 
+-- !!!TODO: Adapt to new flattening!!!
 norm :: EqInst -> [RewriteInst]
 norm [[co :: F s1..sn ~ t]] = [[co :: F s1'..sn' ~ t']] : eqs1++..++eqsn++eqt
   where
@@ -137,19 +138,20 @@ check [[co :: s1 s2 ~ t1 t2]]
   = check [[col :: s1 ~ t1]] ++ check [[cor :: s2 ~ t2]] with co = col cor
 check [[co :: T ~ S]] = fail
 
-flatten :: Type -> (Type, [RewriteInst])
+-- !!!TODO: Well, we actually only want the coercion for wanteds, locals should stay with id...
+flatten :: Type -> (Type, Coercion, [RewriteInst])
 -- Result type has no synonym families whatsoever
-flatten [[F t1..tn]] = (alpha, [[id :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
+flatten [[F t1..tn]] = (alpha, [[F c1..cn |> gamma]], [[gamma :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
   where
-    (t1', eqt1) = flatten t1
+    (t1', c1, eqt1) = flatten t1
     ..
-    (tn', eqtn) = flatten tn
-    FRESH alpha
-flatten [[t1 t2]] = (t1' t2', eqs++eqt)
+    (tn', cn, eqtn) = flatten tn
+    FRESH alpha, gamma
+flatten [[t1 t2]] = ([[t1' t2']], [[c1 c2]], eqs++eqt)
   where
-    (t1', eqs) = flatten t1
-    (t2', eqt) = flatten t2
-flatten t = (t, [])
+    (t1', c1, eqs) = flatten t1
+    (t2', c2, eqt) = flatten t2
+flatten t = (t, t, [])
 ```
 
 
