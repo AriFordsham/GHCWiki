@@ -81,17 +81,17 @@ data RewriteInst    -- normal equality
 
 -- !!!TODO: Adapt to new flattening!!!
 norm :: EqInst -> [RewriteInst]
-norm [[co :: F s1..sn ~ t]] = [[co :: F s1'..sn' ~ t']] : eqs1++..++eqsn++eqt
+norm [[co :: F s1..sn ~ t]] = adjust [[co :: F s1'..sn' ~ t']] (F c1..cn |> sym c) (eqs1++..++eqsn++eqt)
   where
-    (s1', eqs1) = flatten s1
+    (s1', c1, eqs1) = flatten s1
     ..
-    (sn', eqsn) = flatten sn
-    (t', eqt)   = flatten t
+    (sn', cn, eqsn) = flatten sn
+    (t', c, eqt)   = flatten t
 norm [[co :: t ~ F s1..sn]] = norm [[co' :: F s1..sn ~ t]] with co = sym co'
-norm [[co :: s ~ t]] = check [[co :: s' ~ t']] ++ eqs ++ eqt
+norm [[co :: s ~ t]] = adjust (check [[co :: s' ~ t']]) (cs |> sym ct) (eqs ++ eqt)
   where
-    (s', eqs) = flatten s
-    (t', eqt) = flatten t
+    (s', cs, eqs) = flatten s
+    (t', ct, eqt) = flatten t
 
 check :: FlatEqInst -> [RewriteInst]
 -- Does OccursCheck + Decomp + Triv + Swap (of new-single)
@@ -109,7 +109,6 @@ check [[co :: s1 s2 ~ t1 t2]]
   = check [[col :: s1 ~ t1]] ++ check [[cor :: s2 ~ t2]] with co = col cor
 check [[co :: T ~ S]] = fail
 
--- !!!TODO: Well, we actually only want the coercion for wanteds, locals should stay with id...
 flatten :: Type -> (Type, Coercion, [RewriteInst])
 -- Result type has no synonym families whatsoever
 flatten [[F t1..tn]] = (alpha, [[F c1..cn |> gamma]], [[gamma :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
@@ -123,6 +122,10 @@ flatten [[t1 t2]] = ([[t1' t2']], [[c1 c2]], eqs++eqt)
     (t1', c1, eqs) = flatten t1
     (t2', c2, eqt) = flatten t2
 flatten t = (t, t, [])
+
+adjust :: [RewriteInst] -> Coercion -> [RewriteInst] -> [RewriteInst]
+-- Adjust coercions depending on whether we process a local or wanted equality
+adjust ...
 }}}
 
 Notes:
