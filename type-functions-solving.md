@@ -279,18 +279,19 @@ propagate eqs = prop eqs []
 ## Finalisation
 
 
-If only flexible type equalities remain as wanted equalities, the locals entail the wanteds.  We can now instantiate type variables in flexible type equalities where possible to propagate constraints into the environment.  In GHC, we may wrap any remaining equalities (of any form) into an implication constraint to be propagated outwards (where it may be solved under an extended set of local equalities.)
+The finalisation step instantiates as many flexible type variables as possible, but it takes care to not to affect variables occurring in the global environment.  The latter is important to obtain principle types (c.f., Andrew Kennedy's thesis).  Hence, we perform finalisation in two phases:
 
+1. **Instantiation:** For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted or `alpha` is a variable introduced by flattening, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.
+1. **Substitution:** For any family equality...
 
-Notes:
-
-- (Unify) is an asymmetric rule, and hence, only fires for equalities of the form `x ~ c`, where `c` is free of synonym families.  Moreover, it only applies to wanted equalities.  (Rationale: Local equality constraints don't justify global instantiation of flexible type variables - just as in new-single.)
+```wiki
+alpha in environ, beta in skolems:
+  gamma1 :: alpha ~ [beta], id :: G a ~ beta   -- , gamma2 :: F a ~ beta
+```
 
 ---
 
-**TODO**  Still need to adapt example to new rule set!
-
-**TODO** Now that we delay instantiation until after solving, do we still need to prioritise flexible variables equalities over rigid ones?  (Probably not.)  In any case, we need to handle variable-variable equalities (at least of flexibles) specially during finalisation.  Even if they locals, they need to be taken into account during finalisation.  (Otherwise, we may miss some instantiations of flexibles that occur in the environment.)
+**TODO**  Still need to adapt examples to new rule set!
 
 ## Examples
 
