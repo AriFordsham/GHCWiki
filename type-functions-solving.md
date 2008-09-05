@@ -108,19 +108,20 @@ data EqInst         -- arbitrary equalities
 data FlatEqInst     -- synonym families may only occur outermost on the lhs
 data RewriteInst    -- normal equality
 
--- !!!TODO: Adapt to new flattening!!!
 norm :: EqInst -> [RewriteInst]
-norm [[co :: F s1..sn ~ t]] = adjust [[co :: F s1'..sn' ~ t']] (F c1..cn |> sym c) (eqs1++..++eqsn++eqt)
+norm [[co :: F s1..sn ~ t]] = [[co' :: F s1'..sn' ~ t']] : eqs
   where
     (s1', c1, eqs1) = flatten s1
     ..
     (sn', cn, eqsn) = flatten sn
-    (t', c, eqt)   = flatten t
+    (t', c, eqt)    = flatten t
+    (co', eqs)      = adjust co (F c1..cn |> sym c) (eqs1++..++eqsn++eqt)
 norm [[co :: t ~ F s1..sn]] = norm [[co' :: F s1..sn ~ t]] with co = sym co'
-norm [[co :: s ~ t]] = adjust (check [[co :: s' ~ t']]) (cs |> sym ct) (eqs ++ eqt)
+norm [[co :: s ~ t]] = check [[co' :: s' ~ t']] ++ eqs
   where
     (s', cs, eqs) = flatten s
     (t', ct, eqt) = flatten t
+    (co', eqs)    = adjust co (cs |> sym ct) (eqs ++ eqt)
 
 check :: FlatEqInst -> [RewriteInst]
 -- Does OccursCheck + Decomp + Triv + Swap (of new-single)
@@ -140,7 +141,8 @@ check [[co :: T ~ S]] = fail
 
 flatten :: Type -> (Type, Coercion, [RewriteInst])
 -- Result type has no synonym families whatsoever
-flatten [[F t1..tn]] = (alpha, [[F c1..cn |> gamma]], [[gamma :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
+flatten [[F t1..tn]
+  = (alpha, [[F c1..cn |> gamma]], [[gamma :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
   where
     (t1', c1, eqt1) = flatten t1
     ..
@@ -152,9 +154,11 @@ flatten [[t1 t2]] = ([[t1' t2']], [[c1 c2]], eqs++eqt)
     (t2', c2, eqt) = flatten t2
 flatten t = (t, t, [])
 
-adjust :: [RewriteInst] -> Coercion -> [RewriteInst] -> [RewriteInst]
+adjust :: EqInstCo -> Coercion -> [RewriteInst] -> (EqInstCo, [RewriteInst])
 -- Adjust coercions depending on whether we process a local or wanted equality
-adjust ...
+adjust co co' eqs@[[co1 :: s1 ~ t1, .., con :: sn ~ tn]]
+  | isWanted co = (co_new, eqs) with co = co' |> co_new
+  | otherwise   = (co, [[id :: s1 ~ t1, .., id :: sn ~ tn]])
 ```
 
 
@@ -220,7 +224,7 @@ co1 :: x ~ t  &  co2 :: F s1..sn ~ s
 co1 :: x ~ t  &  co2' :: [t/x](F s1..sn) ~ s with co2 = [co1/x](F s1..sn) |> co2'
 ```
 
-where `x` occurs in `F s1..sn`.  (`co1` may be local or wanted.)
+where `x` occurs in `F s1..sn`, and `co1` may be a wanted only if `co2` is a wanted, too.
 </td></tr></table>
 
 >
@@ -283,11 +287,15 @@ propagate eqs = prop eqs []
 
 ## Finalisation
 
+**!!TODO:** complete the following.
+
 
 The finalisation step instantiates as many flexible type variables as possible, but it takes care to not to affect variables occurring in the global environment.  The latter is important to obtain principle types (c.f., Andrew Kennedy's thesis).  Hence, we perform finalisation in two phases:
 
 1. **Instantiation:** For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted or `alpha` is a variable introduced by flattening, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.
 1. **Substitution:** For any family equality...
+
+**!!TODO:** What about unflattening the locals?
 
 ```wiki
 alpha in environ, beta in skolems:
