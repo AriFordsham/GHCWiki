@@ -331,3 +331,11 @@ or run into issues while following this log.
     ; always useful to have a log around
   - unpack ghc-<version>-i386-unknown-mingw32.tar.bz2 somewhere in your filesystem...
 ```
+
+```wiki
+Additional notes from Neil Mitchell:
+
+- cygwin installation doesn't quite work with the latest version because the ghc depends file doesn't have a .sig file with it
+
+- for mingw installation just select the minimal package (or at least i did...)
+```
