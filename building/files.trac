@@ -40,6 +40,12 @@ These directories contain the main GHC compiler, runtime system, and documentati
 
 The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.  Each is a separate repository, which can be gotten with `darcs-all`.
 
+== `mk/` ==
+
+The `mk/` directory contains all the build system Makefile boilerplate.  Some particular files are interesting:
+  * '''`mk/build.mk`''': contains Makefile settings that control your build. Details [wiki:Building/Hacking here].  The file `mk/build.mk.sample` contains a starting point that you can copy to `mk/build.mk` if you want.
+  * '''`mk/are-validating.mk`''': this file records the fact that you are doing [wiki:TestingPatches validation], by containing the single line `Validating=YES`.  That in turn means the the build system gets its settings from `mk/validate-settings.mk` instead of from `mk/build.mk`.  Remove the file to stop validating.
+
 == Stuff that appears only in a build tree ==
 
     * '''`ghc/stage1-inplace/`, `ghc/stage2-inplace/`'''
