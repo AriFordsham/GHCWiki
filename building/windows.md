@@ -372,5 +372,5 @@ Booting libraries/process
 Booting libraries/unix
 ---------
 
-- I required happy to be installed
+- I required happy, haddock and alex to be installed
 ```
