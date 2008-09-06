@@ -98,3 +98,8 @@ The advantages of this are:
   we need to know about indirect as well as direct package dependencies.
 
 - Build multiple libraries in parallel
+
+- It should be possible to "make distclean" without configuring first.
+  Mostly this just means that we need to, for example, remove both
+  `prog` and `prog.exe` when cleaning, as we don't know if we are on
+  Windows or not.
