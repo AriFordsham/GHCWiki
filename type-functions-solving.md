@@ -286,20 +286,11 @@ propagate eqs = prop eqs []
 
 ## Finalisation
 
-**!!TODO:** complete the following.
 
+The finalisation step instantiates as many flexible type variables as possible, but it takes care not to instantiate variables occurring in the global environment with types containing synonym family applications.  This is important to obtain principle types (c.f., Andrew Kennedy's thesis).  Hence, we perform finalisation in two phases:
 
-The finalisation step instantiates as many flexible type variables as possible, but it takes care to not to affect variables occurring in the global environment.  The latter is important to obtain principle types (c.f., Andrew Kennedy's thesis).  Hence, we perform finalisation in two phases:
-
-1. **Instantiation:** For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted or `alpha` is a variable introduced by flattening, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.
-1. **Substitution:** For any family equality...
-
-**!!TODO:** What about unflattening the locals?
-
-```wiki
-alpha in environ, beta in skolems:
-  gamma1 :: alpha ~ [beta], id :: G a ~ beta   -- , gamma2 :: F a ~ beta
-```
+1. **Substitution:** For any variable equality of the form `co :: x ~ t` (both local and wanted), we apply the substitution `[t/x]` to all equalities.
+1. **Instantiation:** For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.
 
 ## Examples
 
