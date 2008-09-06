@@ -141,7 +141,7 @@ check [[co :: T ~ S]] = fail
 
 flatten :: Type -> (Type, Coercion, [RewriteInst])
 -- Result type has no synonym families whatsoever
-flatten [[F t1..tn]
+flatten [[F t1..tn]]
   = (alpha, [[F c1..cn |> gamma]], [[gamma :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
   where
     (t1', c1, eqt1) = flatten t1
