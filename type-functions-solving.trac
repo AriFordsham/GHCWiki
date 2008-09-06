@@ -73,7 +73,7 @@ Moreover, `TcTyFuns.RewriteInst` represents normal equalities, emphasising their
 
 == Normalisation ==
 
-The following function `norm` turns an arbitrary equality into a set of normal equalities.  As in `new-single`, the evidence equations are differently interpreted depending on whether we handle a wanted or local equality.
+The following function `norm` turns an arbitrary equality into a set of normal equalities.
 {{{
 data EqInst         -- arbitrary equalities
 data FlatEqInst     -- synonym families may only occur outermost on the lhs
@@ -112,7 +112,7 @@ check [[co :: T ~ S]] = fail
 
 flatten :: Type -> (Type, Coercion, [RewriteInst])
 -- Result type has no synonym families whatsoever
-flatten [[F t1..tn]
+flatten [[F t1..tn]]
   = (alpha, [[F c1..cn |> gamma]], [[gamma :: F t1'..tn' ~ alpha]] : eqt1++..++eqtn)
   where
     (t1', c1, eqt1) = flatten t1
@@ -133,10 +133,8 @@ adjust co co' eqs@[[co1 :: s1 ~ t1, .., con :: sn ~ tn]]
 }}}
 
 Notes:
- * Perform Rule Triv as part of normalisation.
+ * Perform Rule Triv & Decomp as part of normalisation.
  * Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
- * We flatten locals and wanteds in the same manner, using fresh flexible type variables.  (We have flexibles in locals anyway and don't use (Unify) during normalisation - this is different to `new-single`.)
-
 
 == Propagation (aka Solving) ==
 
@@ -240,25 +238,65 @@ propagate eqs = prop eqs []
 
 == Finalisation ==
 
-'''!!!TODO:''' complete the following.
+The finalisation step instantiates as many flexible type variables as possible, but it takes care not to instantiate variables occurring in the global environment with types containing synonym family applications.  This is important to obtain principle types (c.f., Andrew Kennedy's thesis).  We perform finalisation in two phases:
+ 1.  '''Substitution:''' For any variable equality of the form `co :: x ~ t` (both local and wanted), we apply the substitution `[t/x]` to all equalities.
+ 2. '''Instantiation:''' For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.
 
-The finalisation step instantiates as many flexible type variables as possible, but it takes care to not to affect variables occurring in the global environment.  The latter is important to obtain principle types (c.f., Andrew Kennedy's thesis).  Hence, we perform finalisation in two phases:
- 1. '''Instantiation:''' For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted or `alpha` is a variable introduced by flattening, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.
- 2. '''Substitution:''' For any family equality...
 
-'''!!!TODO:''' What about unflattening the locals?
+== Examples ==
 
+=== Unflattening locals and finalisation ===
+
+This seems ok:
 {{{
-alpha in environ, beta in skolems:
-  gamma1 :: alpha ~ [beta], id :: G a ~ beta   -- , gamma2 :: F a ~ beta
+c :: a ~ [F b] |- gamma :: alpha ~ a
+=(norm)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma :: alpha ~ a
+=(final)=>
+alpha := a, gamma := id
 }}}
 
+The problem becomes obvious when we orient the wanted equality the other way around:
+{{{
+c :: a ~ [F b] |- gamma :: a ~ alpha
+=(norm)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma :: a ~ alpha
+=(SubstVarVar)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma' :: [beta] ~ alpha
+  with gamma := c |> gamma'
+=(norm)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma'' :: alpha ~ [beta]
+  with gamma' := sym gamma''
+=(final)=>
+alpha := [beta], gamma'' := id
+}}}
+What about `F b ~ beta`?  If we just throw that away, we have an unconstrained `beta` in the environment.  However, instantiating `beta` with `F b` doesn't seem to be right, too (considering Andrew Kennedy).
+
+Let's assume one toplevel equality `forall x. g x :: F x = ()`:
+{{{
+c :: a ~ [F b] |- gamma :: a ~ alpha
+=(norm)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma :: a ~ alpha
+=(SubstVarVar)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma' :: [beta] ~ alpha
+  with gamma := c |> gamma'
+=(norm)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma'' :: alpha ~ [beta]
+  with gamma' := sym gamma''
+=(Top)=>
+c :: a ~ [beta], sym (g b) :: () ~ beta |- gamma'' :: alpha ~ [beta]
+=(norm)=>
+c :: a ~ [beta], g b :: beta ~ () |- gamma'' :: alpha ~ [beta]
+=(final)=>
+alpha := [beta], gamma'' := id
+}}}
+This is obviously bad, as we want to get `alpha := [()]` and not `alpha := [beta]` for a free `beta` out of finalisation.
+
+'''NB:''' The problem in the last example arises when we finalise as described in the `normalisied_equalities_algorithm` paper.  It is not a problem when using the strategy outlined on this wiki page.
 
 ----
 
-'''TODO:'''  Still need to adapt examples to new rule set!
-
-== Examples ==
+'''TODO:'''  Still need to adapt the following examples to new rule set!
 
 === Substituting wanted family equalities with !SubstFam is crucial if the right-hand side contains a flexible type variable ===
 
