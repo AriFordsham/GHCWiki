@@ -252,11 +252,59 @@ alpha in environ, beta in skolems:
 }}}
 
 
-----
-
-'''TODO:'''  Still need to adapt examples to new rule set!
 
 == Examples ==
+
+=== Unflattening locals and finalisation ===
+
+This seems ok:
+{{{
+c :: a ~ [F b] |- gamma :: alpha ~ a
+=(norm)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma :: alpha ~ a
+=(final)=>
+alpha := a, gamma := id
+}}}
+
+The problem becomes obvious when we orient the wanted equality the other way around:
+{{{
+c :: a ~ [F b] |- gamma :: a ~ alpha
+=(norm)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma :: a ~ alpha
+=(SubstVarVar)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma' :: [beta] ~ alpha
+  with gamma := c |> gamma'
+=(norm)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma'' :: alpha ~ [beta]
+  with gamma' := sym gamma''
+=(final)=>
+alpha := [beta], gamma'' := id
+}}}
+What about `F b ~ beta`?  If we just throw that away, we have an unconstrained `beta` in the environment.  However, instantiating `beta` with `F b` doesn't seem to be right, too (considering Andrew Kennedy).
+
+Let's assume one toplevel equality `forall x. g x :: F x = ()`:
+{{{
+c :: a ~ [F b] |- gamma :: a ~ alpha
+=(norm)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma :: a ~ alpha
+=(SubstVarVar)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma' :: [beta] ~ alpha
+  with gamma := c |> gamma'
+=(norm)=>
+c :: a ~ [beta], id :: F b ~ beta |- gamma'' :: alpha ~ [beta]
+  with gamma' := sym gamma''
+=(Top)=>
+c :: a ~ [beta], sym (g b) :: () ~ beta |- gamma'' :: alpha ~ [beta]
+=(norm)=>
+c :: a ~ [beta], g b :: beta ~ () |- gamma'' :: alpha ~ [beta]
+=(final)=>
+alpha := [beta], gamma'' := id
+}}}
+This is obviously bad, as we want to get `alpha := [()]` and not `alpha := [beta]` for a free `beta` out of finalisation.
+
+----
+
+'''TODO:'''  Still need to adapt the following examples to new rule set!
 
 === Substituting wanted family equalities with !SubstFam is crucial if the right-hand side contains a flexible type variable ===
 
