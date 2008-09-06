@@ -292,6 +292,8 @@ alpha := [beta], gamma'' := id
 }}}
 This is obviously bad, as we want to get `alpha := [()]` and not `alpha := [beta]` for a free `beta` out of finalisation.
 
+'''NB:''' The problem in the last example arises when we finalise as described in the `normalisied_equalities_algorithm` paper.  It is not a problem when using the strategy outlined on this wiki page.
+
 ----
 
 '''TODO:'''  Still need to adapt the following examples to new rule set!
