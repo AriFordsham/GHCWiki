@@ -289,11 +289,11 @@ propagate eqs = prop eqs []
 
 The finalisation step instantiates as many flexible type variables as possible, but it takes care not to instantiate variables occurring in the global environment with types containing synonym family applications.  This is important to obtain principle types (c.f., Andrew Kennedy's thesis).  We perform finalisation in two phases:
 
-1. **Substitution:** For any variable equality of the form `co :: x ~ t` (both local and wanted), we apply the substitution `[t/x]` to all equalities.
+1. **Substitution:** For any variable equality of the form `co :: x ~ t` (both local and wanted), we apply the substitution `[t/x]` to the **left-hand side** of all equalities.
 1. **Instantiation:** For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.
 
 
-The substitution step can lead to recursive equalities; i.e., we need to apply an occurs check.
+The substitution step can lead to recursive equalities; i.e., we need to apply an occurs check after each substitution.  It is an important property of propagation that we only need to substitute into right-hand sides during finalisation.
 
 ## Examples
 
