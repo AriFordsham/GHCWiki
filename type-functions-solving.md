@@ -292,6 +292,9 @@ The finalisation step instantiates as many flexible type variables as possible, 
 1. **Substitution:** For any variable equality of the form `co :: x ~ t` (both local and wanted), we apply the substitution `[t/x]` to all equalities.
 1. **Instantiation:** For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.
 
+
+The substitution step can lead to recursive equalities; i.e., we need to apply an occurs check.
+
 ## Examples
 
 ### Unflattening locals and finalisation
