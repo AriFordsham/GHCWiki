@@ -328,4 +328,6 @@ Booting libraries/unix
 ---------
 
 - I required happy, haddock and alex to be installed
+
+- [I required c:/ghc/ghc-6.8.3/gcc-lib on the $PATH, at the end, but then everything failed...]
 }}}
