@@ -206,6 +206,7 @@ choices, but it gives a single path that works. Please help us to keep this
 up to date: if you are using newer versions, let us know whether you succeed
 or run into issues while following this log.
 
+Note: starting with the [http://cygwin.com/ml/cygwin-announce/2008-08/msg00001.html August 2008 version of 'setup.exe'], adding 'http://www.haskell.org/ghc/cygwin' will not work unless you disable verification (not recommended) - until that site has a signature, you can add the dependencies from [http://www.haskell.org/ghc/cygwin/setup.ini 'Devel->ghc-depends'] manually.
 {{{
 - Install some editor (vim, emacs, whatever)
 
