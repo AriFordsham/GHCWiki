@@ -331,6 +331,7 @@ Booting libraries/unix
 
 - I required happy, haddock and alex to be installed
 
-- Everything died at the end:
+- Everything failed a few minutes in to the compile:
   http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015429.html
+  No solutions are yet known
 }}}
