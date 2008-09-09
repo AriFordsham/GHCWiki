@@ -334,4 +334,7 @@ Booting libraries/unix
 - Everything failed a few minutes in to the compile:
   http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015429.html
   No solutions are yet known
+
+- http://www.nabble.com/cc1-not-found-td9742088.html - looks interesting, tried adding
+  c:\mingw\libexec\gcc\mingw32\3.4.5 to the $PATH
 }}}
