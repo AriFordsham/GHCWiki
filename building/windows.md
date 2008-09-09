@@ -330,7 +330,7 @@ Note: starting with the [ August 2008 version of 'setup.exe'](http://cygwin.com/
     ; always useful to have a log around
 
 - Package up binary distribution
-  - make binary-dist 2>&amp;1 | tee make-bin-dist.log
+  - make binary-dist 2>&1 | tee make-bin-dist.log
     ; always useful to have a log around
   - unpack ghc-<version>-i386-unknown-mingw32.tar.bz2 somewhere in your filesystem...
 ```
