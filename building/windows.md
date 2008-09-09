@@ -338,7 +338,8 @@ Note: starting with the [ August 2008 version of 'setup.exe'](http://cygwin.com/
 ```wiki
 Additional notes from Neil Mitchell:
 
-- cygwin installation doesn't quite work with the latest version because the ghc depends file doesn't have a .sig file with it
+- cygwin installation doesn't quite work with the latest version because the ghc
+  depends file doesn't have a .sig file with it
 
 - for mingw installation just select the minimal package (or at least i did...)
 
@@ -377,5 +378,6 @@ Booting libraries/unix
 
 - I required happy, haddock and alex to be installed
 
-- [I required c:/ghc/ghc-6.8.3/gcc-lib on the $PATH, at the end, but then everything failed...]
+- Everything died at the end:
+  http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015429.html
 ```
