@@ -283,7 +283,7 @@ Note: starting with the [http://cygwin.com/ml/cygwin-announce/2008-08/msg00001.h
     ; always useful to have a log around
 
 - Package up binary distribution
-  - make binary-dist 2>&amp;1 | tee make-bin-dist.log
+  - make binary-dist 2>&1 | tee make-bin-dist.log
     ; always useful to have a log around
   - unpack ghc-<version>-i386-unknown-mingw32.tar.bz2 somewhere in your filesystem...
 }}}
@@ -291,7 +291,8 @@ Note: starting with the [http://cygwin.com/ml/cygwin-announce/2008-08/msg00001.h
 {{{
 Additional notes from Neil Mitchell:
 
-- cygwin installation doesn't quite work with the latest version because the ghc depends file doesn't have a .sig file with it
+- cygwin installation doesn't quite work with the latest version because the ghc
+  depends file doesn't have a .sig file with it
 
 - for mingw installation just select the minimal package (or at least i did...)
 
@@ -330,5 +331,13 @@ Booting libraries/unix
 
 - I required happy, haddock and alex to be installed
 
-- [I required c:/ghc/ghc-6.8.3/gcc-lib on the $PATH, at the end, but then everything failed...]
+- Everything failed a few minutes in to the compile:
+  http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015429.html
+  No solutions are yet known
+
+- http://www.nabble.com/cc1-not-found-td9742088.html - looks interesting, tried adding
+  c:\mingw\libexec\gcc\mingw32\3.4.5 to the $PATH
+
+- Some hacks make the build get further:
+  http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015434.html
 }}}
