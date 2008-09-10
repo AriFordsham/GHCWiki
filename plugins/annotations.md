@@ -76,10 +76,35 @@ g = ...
 ```
 
 
-(Side note: I believe it would make sense to allow annotations to use the implementations of values in the module being compiled,: after all, I believe they can use the implementations of values in imported modules. This would filling out the relevant field with an error during compilation (for the benefit of plugins) and linking the annotation fields up to the required values after compilation. However, this has not been implemented.)
-
-
 Notice that this notation does not allow annotating non-top-level names or expressions, and due to its use of an Id -\> Annotation mapping may not survive inlining (this only matters to plugins, not users of annotations on exported stuff). These are annoying limitations but it does fit with our view that the annotations should be exportable and accessible by an Id -\> Annotation mapping by other modules.
+
+## Future Work
+
+- Plugins cannot currently add further annotations during compilation that will be compiled into the result. I.e. any annotations they add are transient and disappear at the end of that particular run of the Core pipeline.
+
+- We might want to add attribute metadata, so users can specify the multiplicity attributes should take, what sorts of things they can be attached to (value, type, module), and perhaps even what types they can be attached to (e.g. "only things of type a -\> Bool for some a"), similar to C\# ([ http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx](http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx)) or Java.
+
+- We might want to extend annotation syntax so you can attach multiple annotations in a single definition, like so:
+
+```wiki
+{-# ANN f, g, x Foo #-}
+f = ...
+g = ...
+x = ...
+```
+
+- It might be nice to be able to write annotations in more places:
+
+  - Exports
+  - Function parameters
+  - Expressions (for plugins, similar to SCCs)
+  - Fields of data/newtype declarations
+  - Non-top-level identifiers (for plugins: tricky because such names are unstable)
+
+- I believe it would make sense to allow annotations to use the implementations of values in the module being compiled,: after all, I they can use the implementations of values in imported modules. This would filling out the relevant field with an error during compilation (for the benefit of plugins) and linking the annotation fields up to the required values after compilation. Is this a good idea?
+
+- Have retention policies, similar to Java?
+- See also the Haskell Prime ticket: [ http://hackage.haskell.org/trac/haskell-prime/ticket/88](http://hackage.haskell.org/trac/haskell-prime/ticket/88)
 
 # Out-of-date speculation below
 
