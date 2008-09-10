@@ -6,32 +6,7 @@ We would like to support dynamically-linked Core-to-Core plug-ins, so that peopl
 
 == Future Work ==
 
-Annotation related:
-
- * Plugins cannot currently add further annotations during compilation that will be compiled into the result. I.e. any annotations they add are transient and disappear at the end of that particular run of the Core pipeline.
- 
- * We might want to add attribute metadata, so users can specify the multiplicity attributes should take, what sorts of things they can be attached to (value, type, module), and perhaps even what types they can be attached to (e.g. "only things of type a -> Bool for some a"), similar to C# ([http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx]) or Java.
-
- * We might want to extend annotation syntax so you can attach multiple annotations in a single definition, like so:
-
-{{{
-{-# ANN f, g, x Foo #-}
-f = ...
-g = ...
-x = ...
-}}}
-
- * It might be nice to be able to write annotations in more places:
-
-   * Exports
-
-   * Function parameters
-
-   * Expressions (for plugins, similar to SCCs)
-
-   * Fields of data/newtype declarations
-
-   * Non-top-level identifiers (for plugins, tricky because such names are unstable)
+Annotation related: see [[Plugins/Annotatations]].
 
 == (OUTDATED) Implementation Speculation ==
 
