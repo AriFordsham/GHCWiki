@@ -8,7 +8,7 @@ We would like to support dynamically-linked Core-to-Core plug-ins, so that peopl
 ## Future Work
 
 
-Annotation related: see Plugins/Annotatations?.
+Annotation related: see [Plugins/Annotations](plugins/annotations).
 
 ## (OUTDATED) Implementation Speculation
 
