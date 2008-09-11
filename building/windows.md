@@ -387,4 +387,7 @@ Booting libraries/unix
 
 - Some hacks make the build get further:
   http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015434.html
+
+- Plus some things that don't work with the latest mingw:
+  http://www.haskell.org/pipermail/cvs-ghc/2008-September/044945.html
 ```
