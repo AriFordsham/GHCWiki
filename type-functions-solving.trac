@@ -119,6 +119,7 @@ flatten [[F t1..tn]]
     ..
     (tn', cn, eqtn) = flatten tn
     FRESH alpha, gamma
+    RECORD alpha := F t1..tn IF local equality
 flatten [[t1 t2]] = ([[t1' t2']], [[c1 c2]], eqs++eqt)
   where
     (t1', c1, eqs) = flatten t1
@@ -135,6 +136,8 @@ adjust co co' eqs@[[co1 :: s1 ~ t1, .., con :: sn ~ tn]]
 Notes:
  * Perform Rule Triv & Decomp as part of normalisation.
  * Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
+ * For all local equalities, we `RECORD` substitutions for fresh flexibles introduced by `flatten` by already updating the meta type variable.  However, the update will only have an effect after the Insts have been zonked; i.e., after finalisation.
+ * We do the essentially same for class constraints; i.e., we use `flatten` to extract all family applications as equality constraints.  However, instead of adjusting the coercion at the flattened constraint, we generate a dictionary binding for the new dictionary (using a cast expression).
 
 == Propagation (aka Solving) ==
 
