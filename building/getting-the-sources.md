@@ -84,12 +84,12 @@ Instead, follow the following steps:
 1. Some core libraries might have been added to HEAD which were not in the last tarball. This means that after doing the last pull (which updates the list of core libraries) we need to do this to get any new libraries:
 
   ```wiki
+     $ chmod +x darcs-all
      $ ./darcs-all get
   ```
 1. Now use the `darcs-all` script to pull patches from all the library repositories that came in the tarball, and the testsuite repository:
 
   ```wiki
-     $ chmod +x darcs-all
      $ ./darcs-all pull -a
   ```
 
