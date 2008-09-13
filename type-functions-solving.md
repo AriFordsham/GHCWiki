@@ -148,6 +148,7 @@ flatten [[F t1..tn]]
     ..
     (tn', cn, eqtn) = flatten tn
     FRESH alpha, gamma
+    RECORD alpha := F t1..tn IF local equality
 flatten [[t1 t2]] = ([[t1' t2']], [[c1 c2]], eqs++eqt)
   where
     (t1', c1, eqs) = flatten t1
@@ -166,6 +167,9 @@ Notes:
 
 - Perform Rule Triv & Decomp as part of normalisation.
 - Whenever an equality of Form (2) or (3) would be recursive, the program can be rejected on the basis of a failed occurs check.  (Immediate rejection is always justified, as right-hand sides do not contain synonym familles; hence, any recursive occurrences of a left-hand side imply that the equality is unsatisfiable.)
+- For all local equalities, we `RECORD` substitutions for fresh flexibles introduced by `flatten` by already updating the meta type variable.  However, the update will only have an effect after the Insts have been zonked; i.e., after finalisation.
+- We drop all loopy equalities (see Section 8.2 of our ICFP'08 paper).  If we drop a wanted, it is a type error; if we drop a local, we emit a warning (as we only sacrifice completeness).
+- We do the essentially same for class constraints; i.e., we use `flatten` to extract all family applications as equality constraints.  However, instead of adjusting the coercion at the flattened constraint, we generate a dictionary binding for the new dictionary (using a cast expression).
 
 ## Propagation (aka Solving)
 
@@ -289,11 +293,14 @@ propagate eqs = prop eqs []
 
 The finalisation step instantiates as many flexible type variables as possible, but it takes care not to instantiate variables occurring in the global environment with types containing synonym family applications.  This is important to obtain principle types (c.f., Andrew Kennedy's thesis).  We perform finalisation in two phases:
 
-1. **Substitution:** For any variable equality of the form `co :: x ~ t` (both local and wanted), we apply the substitution `[t/x]` to the **left-hand side** of all equalities.
-1. **Instantiation:** For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.
+1. **Substitution:** For any variable equality of the form `co :: x ~ t` (both local and wanted), we apply the substitution `[t/x]` to the **left-hand side** of all equalities.  We also perform the same substitution on all class constraints.
+1. **Instantiation:** For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.  (We never instantiate any flexibles introduced by flattening locals.)
 
 
 The substitution step can lead to recursive equalities; i.e., we need to apply an occurs check after each substitution.  It is an important property of propagation that we only need to substitute into right-hand sides during finalisation.
+
+
+After finalisation and zonking all flattening of locals is undone (c.f., note below the flattening code above).
 
 ## Examples
 
@@ -306,6 +313,7 @@ This seems ok:
 c :: a ~ [F b] |- gamma :: alpha ~ a
 =(norm)=>
 c :: a ~ [beta], id :: F b ~ beta |- gamma :: alpha ~ a
+  with beta := F b
 =(final)=>
 alpha := a, gamma := id
 ```
@@ -324,11 +332,11 @@ c :: a ~ [beta], id :: F b ~ beta |- gamma' :: [beta] ~ alpha
 c :: a ~ [beta], id :: F b ~ beta |- gamma'' :: alpha ~ [beta]
   with gamma' := sym gamma''
 =(final)=>
-alpha := [beta], gamma'' := id
+alpha := [F b], gamma'' := id
 ```
 
 
-What about `F b ~ beta`?  If we just throw that away, we have an unconstrained `beta` in the environment.  However, instantiating `beta` with `F b` doesn't seem to be right, too (considering Andrew Kennedy).
+This result is fine, even when considering Andrew Kennedy's concerns, as we are necessarily in checking mode (following the `normalised_equation_algorithm` terminology).
 
 
 Let's assume one toplevel equality `forall x. g x :: F x = ()`:
@@ -337,6 +345,7 @@ Let's assume one toplevel equality `forall x. g x :: F x = ()`:
 c :: a ~ [F b] |- gamma :: a ~ alpha
 =(norm)=>
 c :: a ~ [beta], id :: F b ~ beta |- gamma :: a ~ alpha
+  with beta := F b
 =(SubstVarVar)=>
 c :: a ~ [beta], id :: F b ~ beta |- gamma' :: [beta] ~ alpha
   with gamma := c |> gamma'
@@ -348,13 +357,10 @@ c :: a ~ [beta], sym (g b) :: () ~ beta |- gamma'' :: alpha ~ [beta]
 =(norm)=>
 c :: a ~ [beta], g b :: beta ~ () |- gamma'' :: alpha ~ [beta]
 =(final)=>
-alpha := [beta], gamma'' := id
+alpha := [()], gamma'' := id
 ```
 
-
-This is obviously bad, as we want to get `alpha := [()]` and not `alpha := [beta]` for a free `beta` out of finalisation.
-
-**NB:** The problem in the last example arises when we finalise as described in the `normalisied_equalities_algorithm` paper.  It is not a problem when using the strategy outlined on this wiki page.
+**NB:** The algorithm in the `normalisied_equalities_algorithm` paper (as opposed to the on this wiki page) will compute `alpha := [F b]`, which is equivalent, but less normalised.
 
 ---
 
@@ -524,3 +530,25 @@ b := F a
 
 
 My guess is that the algorithm terminates for all satisfiable queries.  If that is correct, the entailment problem that the algorithm solves would be  semi-decidable.
+
+**Derivation with latest (and implemented) algorithm**:
+
+```wiki
+Top:
+  forall x. F x ~ [F x]
+
+F [a] ~ a |-
+=(norm)=>
+F [a] ~ a |-
+=(Top)=>
+[F a] ~ a |-
+=(norm)=>
+a ~ [beta], F a ~ beta |-
+  with beta := F a
+=(SubtVarFam)=>
+a ~ [beta], F [beta] ~ beta |-
+...and so on...
+```
+
+
+The only solution seems to be to give up on completeness and throw away *loopy equalities* as proposed in the ICFP'08 paper.
