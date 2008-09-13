@@ -64,11 +64,11 @@ Instead, follow the following steps:
  We've had [http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html reports] of Darcs crashing on Mac OS X in this step.  If this happens, see the section on troubleshooting.[[BR]][[BR]]
  0. Some core libraries might have been added to HEAD which were not in the last tarball. This means that after doing the last pull (which updates the list of core libraries) we need to do this to get any new libraries:
 {{{
+   $ chmod +x darcs-all
    $ ./darcs-all get
 }}}
  0. Now use the `darcs-all` script to pull patches from all the library repositories that came in the tarball, and the testsuite repository:
 {{{
-   $ chmod +x darcs-all
    $ ./darcs-all pull -a
 }}}
    The command `darcs-all` automates the fetching of the repositories for the libraries.
