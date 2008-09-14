@@ -529,3 +529,25 @@ b := F a
 
 
 My guess is that the algorithm terminates for all satisfiable queries.  If that is correct, the entailment problem that the algorithm solves would be  semi-decidable.
+
+**Derivation with latest (and implemented) algorithm**:
+
+```wiki
+Top:
+  forall x. F x ~ [F x]
+
+F [a] ~ a |-
+=(norm)=>
+F [a] ~ a |-
+=(Top)=>
+[F a] ~ a |-
+=(norm)=>
+a ~ [beta], F a ~ beta |-
+  with beta := F a
+=(SubtVarFam)=>
+a ~ [beta], F [beta] ~ beta |-
+...and so on...
+```
+
+
+The only solution seems to be to give up on completeness and throw away *loopy equalities* as proposed in the ICFP'08 paper.
