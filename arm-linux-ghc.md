@@ -14,6 +14,26 @@ jhc isn't self-hosting, and requires gcc anyway, so it can't run on the device i
 
 It's good to finally post some positive progress.
 
+## Attempt with Hugs
+
+
+Since we have jhc to provide cross-compiled binaries, we search for a way to run Haskell code natively on the device. Hugs is written in C, portable, and has been successfully ported to the Nintendo DS. That platform is both ARM-based and far more limited and special-purpose than most.
+
+
+Building the Hugs source inside the scratchbox environment seems to go fine, but then on the device it fails to start, saying:
+
+```wiki
+Prelude not found on current path: ".:{Home}/lib/hugs/packages/*:/usr/local/lib/hugs/packages/*:{Hugs}/packages/*"
+
+FATAL ERROR: Unable to load prelude
+```
+
+
+The path /usr/local/lib/hugs/packages is in fact where the Prelude lives, however, exactly where it should be (as far as I know), in /usr/local/lib/hugs/packages/hugsbase/Hugs/Prelude.hs
+
+
+Anyone know what could be wrong here?
+
 ## New Update on [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346)
 
 [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346), the bug tracking having bootstrapping working again, has had its milestone changed from 6.10.1 to 6.12, as the build system overhaul has grown into too large of a project and 6.10 needs to be released before it will be completed.
