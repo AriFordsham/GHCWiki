@@ -312,6 +312,7 @@ This seems ok:
 c :: a ~ [F b] |- gamma :: alpha ~ a
 =(norm)=>
 c :: a ~ [beta], id :: F b ~ beta |- gamma :: alpha ~ a
+  with beta := F b
 =(final)=>
 alpha := a, gamma := id
 ```
@@ -330,11 +331,11 @@ c :: a ~ [beta], id :: F b ~ beta |- gamma' :: [beta] ~ alpha
 c :: a ~ [beta], id :: F b ~ beta |- gamma'' :: alpha ~ [beta]
   with gamma' := sym gamma''
 =(final)=>
-alpha := [beta], gamma'' := id
+alpha := [F b], gamma'' := id
 ```
 
 
-What about `F b ~ beta`?  If we just throw that away, we have an unconstrained `beta` in the environment.  However, instantiating `beta` with `F b` doesn't seem to be right, too (considering Andrew Kennedy).
+This result is fine, even when considering Andrew Kennedy's concerns, as we are necessarily in checking mode (following the `normalised_equation_algorithm` terminology).
 
 
 Let's assume one toplevel equality `forall x. g x :: F x = ()`:
@@ -343,6 +344,7 @@ Let's assume one toplevel equality `forall x. g x :: F x = ()`:
 c :: a ~ [F b] |- gamma :: a ~ alpha
 =(norm)=>
 c :: a ~ [beta], id :: F b ~ beta |- gamma :: a ~ alpha
+  with beta := F b
 =(SubstVarVar)=>
 c :: a ~ [beta], id :: F b ~ beta |- gamma' :: [beta] ~ alpha
   with gamma := c |> gamma'
@@ -354,13 +356,10 @@ c :: a ~ [beta], sym (g b) :: () ~ beta |- gamma'' :: alpha ~ [beta]
 =(norm)=>
 c :: a ~ [beta], g b :: beta ~ () |- gamma'' :: alpha ~ [beta]
 =(final)=>
-alpha := [beta], gamma'' := id
+alpha := [()], gamma'' := id
 ```
 
-
-This is obviously bad, as we want to get `alpha := [()]` and not `alpha := [beta]` for a free `beta` out of finalisation.
-
-**NB:** The problem in the last example arises when we finalise as described in the `normalisied_equalities_algorithm` paper.  It is not a problem when using the strategy outlined on this wiki page.
+**NB:** The algorithm in the `normalisied_equalities_algorithm` paper (as opposed to the on this wiki page) will compute `alpha := [F b]`, which is equivalent, but less normalised.
 
 ---
 
