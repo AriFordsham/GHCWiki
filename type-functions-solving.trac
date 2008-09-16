@@ -86,13 +86,13 @@ norm [[co :: F s1..sn ~ t]] = [[co' :: F s1'..sn' ~ t']] : eqs
     ..
     (sn', cn, eqsn) = flatten sn
     (t', c, eqt)    = flatten t
-    (co', eqs)      = adjust co (F c1..cn |> sym c) (eqs1++..++eqsn++eqt)
+    (co', eqs)      = adjust co (F c1..cn) (sym c) (eqs1++..++eqsn++eqt)
 norm [[co :: t ~ F s1..sn]] = norm [[co' :: F s1..sn ~ t]] with co = sym co'
 norm [[co :: s ~ t]] = check [[co' :: s' ~ t']] ++ eqs
   where
     (s', cs, eqs) = flatten s
     (t', ct, eqt) = flatten t
-    (co', eqs)    = adjust co (cs |> sym ct) (eqs ++ eqt)
+    (co', eqs)    = adjust co cs (sym ct) (eqs ++ eqt)
 
 check :: FlatEqInst -> [RewriteInst]
 -- Does OccursCheck + Decomp + Triv + Swap (of new-single)
@@ -126,10 +126,10 @@ flatten [[t1 t2]] = ([[t1' t2']], [[c1 c2]], eqs++eqt)
     (t2', c2, eqt) = flatten t2
 flatten t = (t, t, [])
 
-adjust :: EqInstCo -> Coercion -> [RewriteInst] -> (EqInstCo, [RewriteInst])
+adjust :: EqInstCo -> Coercion -> Coercion -> [RewriteInst] -> (EqInstCo, [RewriteInst])
 -- Adjust coercions depending on whether we process a local or wanted equality
-adjust co co' eqs@[[co1 :: s1 ~ t1, .., con :: sn ~ tn]]
-  | isWanted co = (co_new, eqs) with co = co' |> co_new
+adjust co co1 co2 eqs@[[co1 :: s1 ~ t1, .., con :: sn ~ tn]]
+  | isWanted co = (co_new, eqs) with co = co1 |> co_new |> co2
   | otherwise   = (co, [[id :: s1 ~ t1, .., id :: sn ~ tn]])
 }}}
 
