@@ -317,7 +317,7 @@ Note: starting with the [ August 2008 version of 'setup.exe'](http://cygwin.com/
   - cd c:/ghc-build/ghc
     ; (if you aren't there already)
   - sh boot
-  - ./configure --host=i386-unknown-mingw32 -with-gcc=C:/Mingw/bin/gcc.exe --with-ld=C:/Mingw/bin/ld.exe
+  - ./configure --host=i386-unknown-mingw32 --with-gcc=C:/Mingw/bin/gcc.exe --with-ld=C:/Mingw/bin/ld.exe
     ; we use cygwin, but build for windows
   - cp mk/build.mk.sample mk/build.mk
   - in mk/build.mk:
