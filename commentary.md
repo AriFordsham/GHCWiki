@@ -14,7 +14,7 @@ Please feel free to add material to this commentary: don't worry too much about 
 
 ## Contents
 
-- [Source Tree Roadmap](commentary/source-tree)
+- [Source Tree Roadmap](building/files)
 - [Coding style guidelines](working-conventions)
 - [The compilation pipeline](commentary/pipeline)
 
