@@ -45,6 +45,13 @@ The `libraries/` directory contains all the packages that GHC needs to build.  I
 - **`libraries/ifBuildable/`** is a utility that we use in the build system. It allows the build to continue if an extralib is not buildable (e.g., if we are missing a C library that an extralib depends on then we can still build the compiler). We expect this to disappear soon, when extralibs are removed.
 - **`libraries/bootstrapping/`**: In order to build `cabal-bin` we need to compile `cabal-bin.hs`, as well as a few libraries that we can't rely on the bootstrapping compiler having. We put the `.hi` and `.o` files that result from this in `bootstrapping/`.
 
+## `compiler/`, `rts/`, `docs/`, `includes/`, `ghc/`
+
+
+These directories contain the main GHC compiler, runtime system, and documentation.  The `compiler/` and `rts/` directories each build a *library*.  These libraries are linked into an executable in the `ghc/` directory.
+
+- **`compiler/ghc.cabal`**: the Cabal file for GHC.  If you add a module to GHC's source code, you must add it in the `ghc.cabal` file too, else you'll get link errors.
+
 ## `utils/`, `libffi/`
 
 
@@ -54,13 +61,6 @@ The `utils` directory contains support utilities that GHC uses.  Some of these a
 These utils may be built with the bootstrapping compiler, for use during the build, or with the stage2 compiler, for installing. Some of them are built with both; we can't install the utils built with the bootstrapping compiler as they may use different versions of C libraries. The reason we use stage2 rather than stage1 is that some utils, e.g. haddock, need the GHC API package.  The file `utils/Makefile` controls all this.
 
 *Why isn't libffi in utils/?*
-
-## `compiler/`, `rts/`, `docs/`, `includes/`, `ghc/`
-
-
-These directories contain the main GHC compiler, runtime system, and documentation.  The `compiler/` and `rts/` directories each build a *library*.  These libraries are linked into an executable in the `ghc/` directory.
-
-- **`compiler/ghc.cabal`**: the Cabal file for GHC.  If you add a module to GHC's source code, you must add it in the `ghc.cabal` file too, else you'll get link errors.
 
 ## `testsuite/`, `nofib/`
 
