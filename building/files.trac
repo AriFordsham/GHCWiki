@@ -24,6 +24,8 @@ Everything starts with the main GHC repository (see [wiki:Building/GettingTheSou
 
  '''GNU autoconf machinery''':: `aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`
 
+ '''`ghc.spec.in`''':: the RPM spec file
+
 == `libraries/` ==
 
 The `libraries/` directory contains all the packages that GHC needs to build.  It has one sub-directory for each package repository (e.g. `base`, `haskell98`, `random`). Usually each such repository builds just one package but sometimes more than one (e.g DPH).
@@ -40,9 +42,10 @@ These utils may be built with the bootstrapping compiler, for use during the bui
 
 ''Why isn't libffi in utils/?''
 
-== `compiler/`, `ghc/`, `rts/`, `docs/`, `includes/` == 
+== `compiler/`, `rts/`, `docs/`, `includes/`, `ghc/` == 
 
-These directories contain the main GHC compiler, runtime system, and documentation.
+These directories contain the main GHC compiler, runtime system, and documentation.  The `compiler/` and `rts/` directories each build a ''library''.  These libraries are linked into an executable in the `ghc/` directory.
+
  * '''`compiler/ghc.cabal`''': the Cabal file for GHC.  If you add a module to GHC's source code, you must add it in the `ghc.cabal` file too, else you'll get link errors.
 
 == `testsuite/`, `nofib/` == 
@@ -54,6 +57,10 @@ The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.  Ea
 The `mk/` directory contains all the build system Makefile boilerplate.  Some particular files are interesting:
   * '''`mk/build.mk`''': contains Makefile settings that control your build. Details [wiki:Building/Hacking here].  The file `mk/build.mk.sample` contains a starting point that you can copy to `mk/build.mk` if you want.
   * '''`mk/are-validating.mk`''': this file records the fact that you are doing [wiki:TestingPatches validation], by containing the single line `Validating=YES`.  That in turn means the the build system gets its settings from `mk/validate-settings.mk` instead of from `mk/build.mk`.  Remove the file to stop validating.
+
+== `distrib/` == 
+
+Micellaneous files for building distributions.
 
 == Stuff that appears only in a build tree ==
 

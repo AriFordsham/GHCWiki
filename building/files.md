@@ -32,6 +32,10 @@ Lists the packages that `darcs-all` should get or pull.  `packages` is looked at
 <table><tr><th>**GNU autoconf machinery**</th>
 <td>`aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`</td></tr></table>
 
+<table><tr><th>**`ghc.spec.in`**</th>
+<td>the RPM spec file
+</td></tr></table>
+
 ## `libraries/`
 
 
@@ -51,10 +55,10 @@ These utils may be built with the bootstrapping compiler, for use during the bui
 
 *Why isn't libffi in utils/?*
 
-## `compiler/`, `ghc/`, `rts/`, `docs/`, `includes/`
+## `compiler/`, `rts/`, `docs/`, `includes/`, `ghc/`
 
 
-These directories contain the main GHC compiler, runtime system, and documentation.
+These directories contain the main GHC compiler, runtime system, and documentation.  The `compiler/` and `rts/` directories each build a *library*.  These libraries are linked into an executable in the `ghc/` directory.
 
 - **`compiler/ghc.cabal`**: the Cabal file for GHC.  If you add a module to GHC's source code, you must add it in the `ghc.cabal` file too, else you'll get link errors.
 
@@ -70,6 +74,11 @@ The `mk/` directory contains all the build system Makefile boilerplate.  Some pa
 
 - **`mk/build.mk`**: contains Makefile settings that control your build. Details [here](building/hacking).  The file `mk/build.mk.sample` contains a starting point that you can copy to `mk/build.mk` if you want.
 - **`mk/are-validating.mk`**: this file records the fact that you are doing [validation](testing-patches), by containing the single line `Validating=YES`.  That in turn means the the build system gets its settings from `mk/validate-settings.mk` instead of from `mk/build.mk`.  Remove the file to stop validating.
+
+## `distrib/`
+
+
+Micellaneous files for building distributions.
 
 ## Stuff that appears only in a build tree
 
