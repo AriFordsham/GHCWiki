@@ -10,6 +10,13 @@ Everything starts with the main GHC repository (see [Building/GettingTheSources]
 This script allows you to get or pull all the additional repositories that you need to build GHC.  The command-line interface is documented in the file itself.
 </td></tr></table>
 
+<table><tr><th>**`Makefile`**</th>
+<td>Top-level `Makefile`; `make` by itself does a full 2-stage
+bootstrap of GHC, there are also targets for building source and
+binary distributions.  GHC requires
+[ GNU make](http://www.gnu.org/software/make/).
+</td></tr></table>
+
 <table><tr><th>**`packages`**</th>
 <td>
 Lists the packages that `darcs-all` should get or pull.  `packages` is looked at only by `darcs-all`.
@@ -17,6 +24,16 @@ Lists the packages that `darcs-all` should get or pull.  `packages` is looked at
 
 <table><tr><th>**`validate`**</th>
 <td>Run `validate` (a shell script) before committing (see [TestingPatches](testing-patches)).  The script is documented in the file itself.
+</td></tr></table>
+
+<table><tr><th>**Documentation files**</th>
+<td>`README`, `ANNOUNCE`, `HACKING`, `LICENSE`</td></tr></table>
+
+<table><tr><th>**GNU autoconf machinery**</th>
+<td>`aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`</td></tr></table>
+
+<table><tr><th>**`ghc.spec.in`**</th>
+<td>the RPM spec file
 </td></tr></table>
 
 ## `libraries/`
@@ -28,6 +45,13 @@ The `libraries/` directory contains all the packages that GHC needs to build.  I
 - **`libraries/ifBuildable/`** is a utility that we use in the build system. It allows the build to continue if an extralib is not buildable (e.g., if we are missing a C library that an extralib depends on then we can still build the compiler). We expect this to disappear soon, when extralibs are removed.
 - **`libraries/bootstrapping/`**: In order to build `cabal-bin` we need to compile `cabal-bin.hs`, as well as a few libraries that we can't rely on the bootstrapping compiler having. We put the `.hi` and `.o` files that result from this in `bootstrapping/`.
 
+## `compiler/`, `rts/`, `docs/`, `includes/`, `ghc/`
+
+
+These directories contain the main GHC compiler, runtime system, and documentation.  The `compiler/` and `rts/` directories each build a *library*.  These libraries are linked into an executable in the `ghc/` directory.
+
+- **`compiler/ghc.cabal`**: the Cabal file for GHC.  If you add a module to GHC's source code, you must add it in the `ghc.cabal` file too, else you'll get link errors.
+
 ## `utils/`, `libffi/`
 
 
@@ -37,13 +61,6 @@ The `utils` directory contains support utilities that GHC uses.  Some of these a
 These utils may be built with the bootstrapping compiler, for use during the build, or with the stage2 compiler, for installing. Some of them are built with both; we can't install the utils built with the bootstrapping compiler as they may use different versions of C libraries. The reason we use stage2 rather than stage1 is that some utils, e.g. haddock, need the GHC API package.  The file `utils/Makefile` controls all this.
 
 *Why isn't libffi in utils/?*
-
-## `compiler/`, `ghc/`, `rts/`, `docs/`, `includes/`
-
-
-These directories contain the main GHC compiler, runtime system, and documentation.
-
-- **`compiler/ghc.cabal`**: the Cabal file for GHC.  If you add a module to GHC's source code, you must add it in the `ghc.cabal` file too, else you'll get link errors.
 
 ## `testsuite/`, `nofib/`
 
@@ -57,6 +74,11 @@ The `mk/` directory contains all the build system Makefile boilerplate.  Some pa
 
 - **`mk/build.mk`**: contains Makefile settings that control your build. Details [here](building/hacking).  The file `mk/build.mk.sample` contains a starting point that you can copy to `mk/build.mk` if you want.
 - **`mk/are-validating.mk`**: this file records the fact that you are doing [validation](testing-patches), by containing the single line `Validating=YES`.  That in turn means the the build system gets its settings from `mk/validate-settings.mk` instead of from `mk/build.mk`.  Remove the file to stop validating.
+
+## `distrib/`
+
+
+Micellaneous files for building distributions.
 
 ## Stuff that appears only in a build tree
 
