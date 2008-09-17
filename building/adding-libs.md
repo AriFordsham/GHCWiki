@@ -21,6 +21,7 @@ Descend into `libraries` and issue a `darcs get <repo>` (where `<repo>` is the r
 A later `./darcs-all pull ` should now pull not only ghc and the core libraries, but also any library you have added like this.
 
 ```wiki
+  $ cd libraries
   $ darcs get http://darcs.haskell.org/packages/<name>
   $ cd ..
   $ ./darcs-all pull

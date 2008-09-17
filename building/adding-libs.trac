@@ -17,6 +17,7 @@ You are now in directory {{{ghc}}}.
 Descend into {{{libraries}}} and issue a {{{darcs get <repo>}}} (where {{{<repo>}}} is the repository of the package you want to get, ending in the package {{{<name>}}}.
 A later {{{./darcs-all pull }}} should now pull not only ghc and the core libraries, but also any library you have added like this.
 {{{
+  $ cd libraries
   $ darcs get http://darcs.haskell.org/packages/<name>
   $ cd ..
   $ ./darcs-all pull
