@@ -16,7 +16,7 @@ Building GHC
 - [Platforms that GHC currently supports](platforms)
 - [What tools you need](building/prerequisites)
 - [Just building and installing GHC](building/quick-start)
-- [Adding additional libraries to the build (including extralibs)](building/adding-libs)
+- [Adding libraries to the build (i.e. extralibs)](building/adding-libs)
 
 
 Getting started for developers
