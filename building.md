@@ -56,3 +56,4 @@ Please feel free to add pages here.  In due course, information can be incorpora
 - [ProblemsCompilingGhc](problems-compiling-ghc): Hints about building GHC on Windows platforms  
 - [SonyPS3](sony-p-s3) : Hints for building on the Sony PS3
 - [Code coverage of our testsuite](ghc-coverage)
+- [Manually adding libraries to a GHC build](adding-libs-to-build)
