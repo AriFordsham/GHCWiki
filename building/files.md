@@ -10,6 +10,13 @@ Everything starts with the main GHC repository (see [Building/GettingTheSources]
 This script allows you to get or pull all the additional repositories that you need to build GHC.  The command-line interface is documented in the file itself.
 </td></tr></table>
 
+<table><tr><th>**`Makefile`**</th>
+<td>Top-level `Makefile`; `make` by itself does a full 2-stage
+bootstrap of GHC, there are also targets for building source and
+binary distributions.  GHC requires
+[ GNU make](http://www.gnu.org/software/make/).
+</td></tr></table>
+
 <table><tr><th>**`packages`**</th>
 <td>
 Lists the packages that `darcs-all` should get or pull.  `packages` is looked at only by `darcs-all`.
@@ -18,6 +25,12 @@ Lists the packages that `darcs-all` should get or pull.  `packages` is looked at
 <table><tr><th>**`validate`**</th>
 <td>Run `validate` (a shell script) before committing (see [TestingPatches](testing-patches)).  The script is documented in the file itself.
 </td></tr></table>
+
+<table><tr><th>**Documentation files**</th>
+<td>`README`, `ANNOUNCE`, `HACKING`, `LICENSE`</td></tr></table>
+
+<table><tr><th>**GNU autoconf machinery**</th>
+<td>`aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`</td></tr></table>
 
 ## `libraries/`
 
