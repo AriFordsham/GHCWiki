@@ -49,7 +49,10 @@ Please feel free to add material to this commentary: don't worry too much about 
 ## Contributed Documentation
 
 
-Please feel free to add new pages here.  In due course information will migrate from here to the main commentary above.
+Please edit and improve the Commentary above, or the Building Guide.  
+
+
+However sometimes you may want to add new material that doesn't quite fit into the existing structure.  Or perhaps your pages are about work-in-progress, status reports and suchlike, which don't belong in the Commentary per se.  Regardless, you can add your new material here.
 
 - The Compiler
 
