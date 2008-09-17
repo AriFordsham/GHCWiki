@@ -16,6 +16,7 @@ Building GHC
 - [Platforms that GHC currently supports](platforms)
 - [What tools you need](building/prerequisites)
 - [Just building and installing GHC](building/quick-start)
+- [Adding additional libraries to the build (including extralibs)](building/adding-libs)
 
 
 Getting started for developers
@@ -53,7 +54,7 @@ FAQ
 
 Please feel free to add pages here.  In due course, information can be incorporated into the main documentation above.
 
-- [ProblemsCompilingGhc](problems-compiling-ghc): Hints about building GHC on Windows platforms  
+- [ProblemsCompilingGhc](problems-compiling-ghc): Hints about building GHC on Windows platforms (somewhat obsolete)
 - [SonyPS3](sony-p-s3) : Hints for building on the Sony PS3
 - [Code coverage of our testsuite](ghc-coverage)
 - [Manually adding libraries to a GHC build](adding-libs-to-build)
