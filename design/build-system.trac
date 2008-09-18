@@ -100,4 +100,11 @@ include $(TOP)/cabal-package.mk
     `prog` and `prog.exe` when cleaning, as we don't know if we are on
     Windows or not.
 
+  * The "vanilla" way should actually have a name. Currently, there's no
+    nice way to /only/ build something the profiling way, as you can't
+    just not put "v" in WAYS.
 
+  * We could simplify a lot of stuff if all of the inplace installations
+    went into TOP/inplace, and that had the same layout as an installed tree.
+    The main thing holding us back is that both
+    stage1 and stage2 ghc currently want a binary called "ghc".
