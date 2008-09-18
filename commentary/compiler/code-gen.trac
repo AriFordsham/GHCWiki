@@ -21,7 +21,7 @@ Currently we solve the problem this way:
 
  * A C program, [[GhcFile(includes/mkDerivedConstants.c)]],  `#includes` the runtime headers.
    This program is built and run when you type `make` or `make boot` in `includes/`.  It is
-   run twice: once to generate `includes\DerivedConstants.h`, and again to generate 
+   run twice: once to generate `includes/DerivedConstants.h`, and again to generate 
    `includes/GHCConstants.h`.
 
  * The file `DerivedConstants.h` contains lots of `#defines` like this:
