@@ -38,11 +38,11 @@ Here are the big items that we hope to include, along with who is primarily resp
 
 - **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.
 
+- **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim)).  (**Ian Lynagh**)
+
 ## Things we plan to do for sure
 
 - **Ship the Haskell Library Platform** instead of 'extralibs'.  **Don and Duncan** are leading.
-
-- **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim)).  (**Ian Lynagh**)
 
 - **Unicode support for text I/O**.  This means adding Unicode encoding/decoding for Text I/O handles.   (**Simon Marlow**: a few days work.)
 
