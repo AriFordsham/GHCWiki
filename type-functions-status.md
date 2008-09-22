@@ -77,25 +77,12 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 
 **Debugging of type families:**
 
-1. Single phase algorithm; cf `single_phase_algorithm.tex`.
+1. Open points in the new `TcTyFuns` code:
 
-  - Clean up `TcSimplify.reduceContext` and try to get rid of of having two loops, namely the ones used in `TcTyFuns` and the one implemented by `checkLoop`.
-  - `substEqInDict` needs to be symmetric (i.e., also apply right-to-left rules); try to re-use existing infrastructure.  It would be neater, easier to understand, and more efficient to have one loop that goes for a fixed point of simultaneously rewriting with given_eqs, wanted_eqs, and type instances.
-  - skolemOccurs for wanteds?  At least `F a ~ [G (F a)]` and similar currently result in an occurs check error.  Without skolemOccurs in wanted, the occurs check for wanted would need to be smarter (and just prevent cyclic substitutions of the outlined form silently).  However, when inferring a type, having the rewrites enabled by skolemOccurs available will leads to potentially simpler contexts.  As an example that is rejected if the signature for `test` is present, but accepted if the signature is omitted (and inferred), consider
+  - extract from `TODO`s in `TcTyFuns`
+1. Issues in `TcSimplify`:
 
-    ```wiki
-    type family F x
-    type instance F [x] = [F x]
-
-    t :: a -> a -> Bool
-    t _ _ = True
-
-    f :: a -> F [a]
-    f = undefined
-
-    test :: ([F a] ~ a) => a -> Bool
-    test x = t x (f x)
-    ```
+  - Why does the call to `reduceList` (in `reduceContext`) extend the LIE?  What are the produced `extra_eqs`?  (Put an assert there and run the testsuite to see whether `extra_eqs` is non-empty in any of the tests.)
 1. Replacing GADT refinements by explicit equality constraints:
 
   - Regressions that remain to be fixed: 
