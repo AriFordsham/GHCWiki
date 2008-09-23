@@ -143,9 +143,16 @@ I make two proposals:
 
 ### Proposal 1: disambiguation in export lists and fixity declarations
 
-- Extend export lists and fixity declarations to permit the disambiguating specifier `data`, `type`, and `class`.
-- The specifier is always permitted, but only required if the situation would otherwise be ambiguous.
-- The specifier must match the corresponding declaration, except that the specifier `data` matches a `newtype` declaration too.
+- Extend export lists and fixity declarations to permit the
+  disambiguating specifier `data`, `type`, and `class`.
+- The specifier is always permitted, but only required if the
+  situation would otherwise be ambiguous.
+- The specifier must match the corresponding declaration, except that
+  the specifier `data` matches a `newtype` declaration too.  (This
+  "except" is arguable. The idea is that someone looking at the
+  export list doesn't need to know whether the type is declared with
+  `data` or `newtype`, whereas for `type` synonyms they do need to
+  know.)
 
 
 Thus you can say
@@ -240,6 +247,13 @@ notation must be reasonably quiet.
   disambiguate.  Thus `Nat.Succ` would name the data construtor.
   (Obvious question: the overlap with the module qualifiers.)
 
+- Not every data type type can be lifted to the kind level; for
+  example, existentials and GADTS!  It seems messy to have this done
+  or not done silently; perhaps there should be some indication in
+  the data type declaration to say "make this available as a kind
+  too".  Or perhaps the whole idea of automatic lifting isn't worth
+  the candle, and we should should provide explicit `datakind`.
 
-Neither of these alternatives seem compatible with lists and 
+
+None of these alternatives seem compatible with lists and 
 tuples at the type level. Maybe they can still use the "`%`" notation?
