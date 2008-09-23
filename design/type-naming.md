@@ -227,3 +227,19 @@ The principles are
 
 Whether "`%`" is the best notation isn't clear to me, but the
 notation must be reasonably quiet.
+
+### Alternatives to proposal 2
+
+- One alternative would be simple but brutal: simply have 
+  no "`%`" escape notation.  In the above examples, saying
+  `Succ` at the the type level would mean the data type `Succ`,
+  and there would be no way to get to the data constructor.
+  You lose.
+
+- Another alternative would be to allow the type name to
+  disambiguate.  Thus `Nat.Succ` would name the data construtor.
+  (Obvious question: the overlap with the module qualifiers.)
+
+
+Neither of these alternatives seem compatible with lists and 
+tuples at the type level. Maybe they can still use the "`%`" notation?
