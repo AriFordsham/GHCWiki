@@ -49,7 +49,7 @@ However, I really want to allow this too:
 ```
 
 
-That is, allow oprerators like `(+)` to be type constructors. 
+That is, allow operators like `(+)` to be type constructors. 
 You can find discussion of the merits of this proposal here.
 At first it seems fairly straightforward; for example, it is
 quite clear that in a type signature 
@@ -79,6 +79,8 @@ There is a very similar issue with fixity declarations
 
 In these two contexts we need to disambiguate whether we mean
 the type-level or value-level identifier. 
+
+*This suggestion seems inconsistent with the value level.  Today (with -XTypeOperators) one can write "`data T (-=>) = C (Int -=> Bool)`" and "`-=>`" is a type variable, and this is a very useful feature (just look at Arrow).  Being able to use, e.g., "`+`" as a type constructor it's no longer possible to tell syntactically what's a type variable and what's a type constructor.  One could use what's in scope to distinguish them, but that's not how it works on the value level.  -- Lennart*
 
 **Proper kinding**.  At the moment you see a lot of this
 kind of nonsense:
