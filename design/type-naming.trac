@@ -183,6 +183,8 @@ The principles are
 Whether "`%`" is the best notation isn't clear to me, but the
 notation must be reasonably quiet.
 
+''If you want a lifting character I suggest "`@`" instead of "`%`" since the former is unused in types.  -- Lennart''
+
 
 === Alternatives to proposal 2 ===
 
