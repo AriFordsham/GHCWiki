@@ -23,7 +23,6 @@
 
 - Solving of equalities (`TcTyFuns`):
 
-  - Fix the problem reported [ here](http://www.haskell.org/pipermail/haskell-cafe/2008-July/044911.html), and add a test case to the test suite.  The issue is whether to apply (Decomp) to an application of a saturated application of a type-function.
   - [\#2219](https://gitlab.haskell.org//ghc/ghc/issues/2219), [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235), [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775) & test `GADT1` (bogus occurs check failure - in both bugs, the loop is through a TF)
   - [\#2202](https://gitlab.haskell.org//ghc/ghc/issues/2202) (Uses `a ~ MeshVertex a b` in `normaliseWantedDicts` w/o the occurs check kicking in; also occurs in 6.8.2 and the program doesn't mention TFs, so need to merge):
 
