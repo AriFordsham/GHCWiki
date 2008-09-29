@@ -24,14 +24,11 @@
 - Solving of equalities (`TcTyFuns`):
 
   - [\#2219](https://gitlab.haskell.org//ghc/ghc/issues/2219), [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235), [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775) & test `GADT1` (bogus occurs check failure - in both bugs, the loop is through a TF)
-  - [\#2202](https://gitlab.haskell.org//ghc/ghc/issues/2202) (Uses `a ~ MeshVertex a b` in `normaliseWantedDicts` w/o the occurs check kicking in; also occurs in 6.8.2 and the program doesn't mention TFs, so need to merge):
 
-    - Should `eqInstToRewrite` already check for and return whether the equality is cyclic in a bad way (i.e., without intervening tyfam)?  (Would that be less efficient?)  In any case, document the invariants.
-    - `rewriteWithOneEquality` should uses `eqInstToRewrite`
-  - [\#2448](https://gitlab.haskell.org//ghc/ghc/issues/2448) (givens not properly used in superclass entailment check)
-  - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
+    - [\#2448](https://gitlab.haskell.org//ghc/ghc/issues/2448) (givens not properly used in superclass entailment check)
+    - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
 
-    - To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use `HsBind.VarBind` and make its right-hand side a specially data structure describing evidence construction, instead of being a general `HsExpr`.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
+      - To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use `HsBind.VarBind` and make its right-hand side a specially data structure describing evidence construction, instead of being a general `HsExpr`.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
 
 - GADT:
 
