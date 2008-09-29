@@ -28,7 +28,6 @@
 
     - Should `eqInstToRewrite` already check for and return whether the equality is cyclic in a bad way (i.e., without intervening tyfam)?  (Would that be less efficient?)  In any case, document the invariants.
     - `rewriteWithOneEquality` should uses `eqInstToRewrite`
-  - [\#2146](https://gitlab.haskell.org//ghc/ghc/issues/2146) (infelicity in decomposition for higher-order TFs)
   - [\#2448](https://gitlab.haskell.org//ghc/ghc/issues/2448) (givens not properly used in superclass entailment check)
   - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
 
