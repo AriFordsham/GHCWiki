@@ -248,15 +248,23 @@ Propagate = fix (Top | SubstFam | SubstVarVar | SubstVarFam)
 ### Rule application: algorithm
 
 
-The following function gets a list with all local and wanted equalities.  It returns a list of residual equalities that permit no further rule application.
+The four propagation rules are implemented by the following four functions:
 
 ```wiki
 -- all four rule functions return Nothing if rule not applicable
 applyTop         :: RewriteInst -> Maybe EqInst
-applySubstFam    :: RewriteInst -> RewriteInst -> Maybe EqInst    -- return only...
-applySubstVarVar :: RewriteInst -> RewriteInst -> Maybe EqInst    -- ...the modified...
-applySubstVarFam :: RewriteInst -> RewriteInst -> Maybe EqInst    -- ...equality
+applySubstFam    :: RewriteInst -> RewriteInst -> Maybe EqInst    -- return second argument...
+applySubstVarVar :: RewriteInst -> RewriteInst -> Maybe EqInst    -- ...if it needs to go into...
+applySubstVarFam :: RewriteInst -> RewriteInst -> Maybe EqInst    -- ...the todo list
+```
 
+
+For `applySubstFam`, `applySubstVarVar`, and `applySubstVarFam`, if the rule is not applicable to the arguments in the given order, *but it is applicable in the opposite order,* return the second argument as if it had been modified.  (As a result, it will get onto the todo list, and the equalities eventually be used in the opposite order.)
+
+
+The following function gets a list with all local and wanted equalities.  It returns a list of residual equalities that permit no further rule application.
+
+```wiki
 propagate :: [RewriteInst] -> [RewriteInst]
 propagate eqs = prop eqs []
   where
@@ -276,10 +284,10 @@ propagate eqs = prop eqs []
                 (eq : concat unchanged_res)
 
   applySubstRules eq1 eq2
-    | Just eq2' <- applySubstFam eq1 eq2    = (norm eq2', [])
-    | Just eq2' <- applySubstVarVar e1 eq2  = (norm eq2', [])
-    | Just eq2' <- applySubstVarFam eq1 eq2 = ([eq2'], [])
-    | otherwise                             = ([], [eq2])
+    | Just eq2' <- applySubstFam eq1 eq2    = (norm eq2', [eq1])
+    | Just eq2' <- applySubstVarVar e1 eq2  = (norm eq2', [eq1])
+    | Just eq2' <- applySubstVarFam eq1 eq2 = ([eq2'], [eq1])
+    | otherwise                             = ([], [eq1, eq2])
 ```
 
 ### Observations
