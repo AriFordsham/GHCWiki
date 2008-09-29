@@ -38,7 +38,6 @@
 
   - [\#2627](https://gitlab.haskell.org//ghc/ghc/issues/2627) (GADT-TF interaction)
   - [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (nested GADT constructors in patterns)
-  - [\#2040](https://gitlab.haskell.org//ghc/ghc/issues/2040) (incomplete deduction of evidence for class contexts in GADT constructors)
 
 - Misc:
 

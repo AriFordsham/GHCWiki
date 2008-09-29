@@ -31,7 +31,6 @@
  * GADT:
   * #2627 (GADT-TF interaction)
   * #2151 (nested GADT constructors in patterns)
-  * #2040 (incomplete deduction of evidence for class contexts in GADT constructors)
 
  * Misc:
    * Test `Simple17` & `GADT12` (corelint errors)
