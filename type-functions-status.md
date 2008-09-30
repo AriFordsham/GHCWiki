@@ -23,7 +23,6 @@
 
 - Solving of equalities (`TcTyFuns`):
 
-  - [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235) & [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775) (bogus occurs check failure - in both bugs, the loop is through a TF)
   - [\#2448](https://gitlab.haskell.org//ghc/ghc/issues/2448) (givens not properly used in superclass entailment check)
   - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
 
@@ -31,6 +30,7 @@
 
 - GADT:
 
+  - [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235) (trying to use a TF lemma in the form of a local equality annotation, leading to a tricky GADT-TF interaction)
   - [\#2627](https://gitlab.haskell.org//ghc/ghc/issues/2627) (GADT-TF interaction)
   - [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (nested GADT constructors in patterns)
 
@@ -38,23 +38,10 @@
 
   - Test `Simple17` & `GADT12` (corelint errors)
   - [\#2291](https://gitlab.haskell.org//ghc/ghc/issues/2291) (panic mixing RULES and type families; rule simplification stumbles over a coercion)
-  - [\#714](https://gitlab.haskell.org//ghc/ghc/issues/714) (feature request: fundeps treated inconsistently in superclasses and type sigs)
-  - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html).  [\#2418](https://gitlab.haskell.org//ghc/ghc/issues/2418) suggests that for higher-kinded TFs, we could use decomposition more aggressively.
+  - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html).
   - [\#1769](https://gitlab.haskell.org//ghc/ghc/issues/1769) (deriving typeable for data families)
   - When a `type instance` changes (in an orphan modules), currently clients are not properly recompiled at least by `--make`.
   - [\#2296](https://gitlab.haskell.org//ghc/ghc/issues/2296): error message involving fundep gives unhelpful location.  I want to remember to come back to this one when we have the new type-family simplification stuff in place.
-
-**Failing testsuite tests**
-
-
-All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
-
-- `should_run/GMapAssoc(profc,profasm)` (data type families)
-- `should_run/GMapTop(profc,profasm)` (data type families)
-- `should_run/ind2(profc,profasm)` (data type families)
-- `should_run/Simple12(normal,optc,profc,profasm)` (type synonym families)
-
-*Check whether these still fail.*
 
 **Additional feature:**
 
@@ -97,12 +84,7 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
 1. Comments:
 
   - When we raise a mismatch error in `TcSimplify` for unresolvable equalities, we effectively tidy the two non-matching types twice.  Add a comment to highlight this and say way it is ok (i.e., they are never grouped together with `groupErrs` or similar).
-1. `:t` in ghci doesn't print equalities in contexts properly.
 1. RankN: When can foralls appear in equalities?  What constraints does that place on GADTs?  Also, the code in `TcTyFuns` doesn't really deal with rank-n types properly, esp `decompRule`.  Also test `Simple14` & `GADT10`.
-1. CONCEPTUAL issue: At least with `skolemOccurs`, the policy of not zonking the types embedded in the kinds of coercion type variables does no longer work.  This becomes, for example in the test `Simple13`, apparent.  The skolem introduced in `skolemOccurs` finds its way into variable kinds (which is visible when inspecting them during `TcMType.zonk_tc_tyvar`).
-1. When `Simple13` is compiled with a compiler that was built with `-DDEBUG`, it prints a warning about not matching types being used during constructing a trans coercion.
-1. In `TcTyFuns.genericNormaliseInst`, we need to figure out what to do with `ImplicInst`, `Method`, and `LitInst` dictionaries.
-1. ghc falls over if a bang pattern is put at an argument of type `F a`.
 1. Fix export list problem (ie, export of data constructors introduced by orphan data instances):
 
   - Change `HscTypes.IfaceExport` to use `Name` instead of `OccName`.
@@ -111,7 +93,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   - See email for example.
 1. Eliminate code duplication between `tcTyClDecl1` and `tcFamInstDecl1`.  The code for vanilla data/newtype declarations and the code for data/newtype instances has many commonalities.
 1. Fix everything in the testsuite.
-1. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
 1. What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
 1. Consider
 
@@ -134,21 +115,6 @@ All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
   ```
 
   It seems a bit complicated to come up with the most general type.  The relevant code is in `TcExpr.tcExpr` in STEP 4 of the `RecordUpd` case.
-1. Can we support
-
-  ```wiki
-  {-# LANGUAGE TypeFamilies, TypeOperators, GADTs,  RankNTypes, FlexibleContexts #-}
-  module Equality( (:=:), eq_elim, eq_refl ) where
-
-  data a:=: b where
-    EQUAL :: a :=: a
-
-  eq_refl :: a :=: a
-  eq_refl = EQUAL
-
-  eq_elim :: (a~b) => a :=: b -> (a~b => p) -> p
-  eq_elim EQUAL p = p 
-  ```
 
 ## Parsing and Renaming
 
