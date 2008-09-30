@@ -84,12 +84,7 @@
 1. Comments:
 
   - When we raise a mismatch error in `TcSimplify` for unresolvable equalities, we effectively tidy the two non-matching types twice.  Add a comment to highlight this and say way it is ok (i.e., they are never grouped together with `groupErrs` or similar).
-1. `:t` in ghci doesn't print equalities in contexts properly.
 1. RankN: When can foralls appear in equalities?  What constraints does that place on GADTs?  Also, the code in `TcTyFuns` doesn't really deal with rank-n types properly, esp `decompRule`.  Also test `Simple14` & `GADT10`.
-1. CONCEPTUAL issue: At least with `skolemOccurs`, the policy of not zonking the types embedded in the kinds of coercion type variables does no longer work.  This becomes, for example in the test `Simple13`, apparent.  The skolem introduced in `skolemOccurs` finds its way into variable kinds (which is visible when inspecting them during `TcMType.zonk_tc_tyvar`).
-1. When `Simple13` is compiled with a compiler that was built with `-DDEBUG`, it prints a warning about not matching types being used during constructing a trans coercion.
-1. In `TcTyFuns.genericNormaliseInst`, we need to figure out what to do with `ImplicInst`, `Method`, and `LitInst` dictionaries.
-1. ghc falls over if a bang pattern is put at an argument of type `F a`.
 1. Fix export list problem (ie, export of data constructors introduced by orphan data instances):
 
   - Change `HscTypes.IfaceExport` to use `Name` instead of `OccName`.
@@ -98,7 +93,6 @@
   - See email for example.
 1. Eliminate code duplication between `tcTyClDecl1` and `tcFamInstDecl1`.  The code for vanilla data/newtype declarations and the code for data/newtype instances has many commonalities.
 1. Fix everything in the testsuite.
-1. The tests `tcfail068` and `rw` used to raise more type errors right away.  Now, we see less recovery.
 1. What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
 1. Consider
 
@@ -121,21 +115,6 @@
   ```
 
   It seems a bit complicated to come up with the most general type.  The relevant code is in `TcExpr.tcExpr` in STEP 4 of the `RecordUpd` case.
-1. Can we support
-
-  ```wiki
-  {-# LANGUAGE TypeFamilies, TypeOperators, GADTs,  RankNTypes, FlexibleContexts #-}
-  module Equality( (:=:), eq_elim, eq_refl ) where
-
-  data a:=: b where
-    EQUAL :: a :=: a
-
-  eq_refl :: a :=: a
-  eq_refl = EQUAL
-
-  eq_elim :: (a~b) => a :=: b -> (a~b => p) -> p
-  eq_elim EQUAL p = p 
-  ```
 
 ## Parsing and Renaming
 
