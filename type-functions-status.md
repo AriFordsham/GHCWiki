@@ -21,7 +21,7 @@
   - [\#2435](https://gitlab.haskell.org//ghc/ghc/issues/2435) (Bug with qualified names in declarations)
   - [\#2436](https://gitlab.haskell.org//ghc/ghc/issues/2436) (Bad warning on export)
 
-- Solving of equalities (`TcTyFuns`):
+- Constraint simplification:
 
   - [\#2448](https://gitlab.haskell.org//ghc/ghc/issues/2448) (givens not properly used in superclass entailment check)
   - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
@@ -29,10 +29,7 @@
     - To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use `HsBind.VarBind` and make its right-hand side a specially data structure describing evidence construction, instead of being a general `HsExpr`.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
 
 - GADT:
-
-  - [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235) (trying to use a TF lemma in the form of a local equality annotation, leading to a tricky GADT-TF interaction)
-  - [\#2627](https://gitlab.haskell.org//ghc/ghc/issues/2627) (GADT-TF interaction)
-  - [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (nested GADT constructors in patterns)
+  None.
 
 - Misc:
 
