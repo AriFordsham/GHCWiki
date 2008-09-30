@@ -23,7 +23,6 @@
 
 - Solving of equalities (`TcTyFuns`):
 
-  - [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235)
   - [\#2448](https://gitlab.haskell.org//ghc/ghc/issues/2448) (givens not properly used in superclass entailment check)
   - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
 
@@ -31,6 +30,7 @@
 
 - GADT:
 
+  - [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235) (trying to use a TF lemma in the form of a local equality annotation, leading to a tricky GADT-TF interaction)
   - [\#2627](https://gitlab.haskell.org//ghc/ghc/issues/2627) (GADT-TF interaction)
   - [\#2151](https://gitlab.haskell.org//ghc/ghc/issues/2151) (nested GADT constructors in patterns)
 
