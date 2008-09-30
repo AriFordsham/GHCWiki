@@ -43,18 +43,6 @@
   - When a `type instance` changes (in an orphan modules), currently clients are not properly recompiled at least by `--make`.
   - [\#2296](https://gitlab.haskell.org//ghc/ghc/issues/2296): error message involving fundep gives unhelpful location.  I want to remember to come back to this one when we have the new type-family simplification stuff in place.
 
-**Failing testsuite tests**
-
-
-All these tests are in `testsuite/tests/ghc-regress/indexed-types`:
-
-- `should_run/GMapAssoc(profc,profasm)` (data type families)
-- `should_run/GMapTop(profc,profasm)` (data type families)
-- `should_run/ind2(profc,profasm)` (data type families)
-- `should_run/Simple12(normal,optc,profc,profasm)` (type synonym families)
-
-*Check whether these still fail.*
-
 **Additional feature:**
 
 - [\#2101](https://gitlab.haskell.org//ghc/ghc/issues/2101)
