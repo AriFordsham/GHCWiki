@@ -23,7 +23,7 @@
 
 - Solving of equalities (`TcTyFuns`):
 
-  - [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235) & [\#1775](https://gitlab.haskell.org//ghc/ghc/issues/1775) (bogus occurs check failure - in both bugs, the loop is through a TF)
+  - [\#2235](https://gitlab.haskell.org//ghc/ghc/issues/2235)
   - [\#2448](https://gitlab.haskell.org//ghc/ghc/issues/2448) (givens not properly used in superclass entailment check)
   - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
 
