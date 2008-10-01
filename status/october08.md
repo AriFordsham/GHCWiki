@@ -1,0 +1,54 @@
+# GHC Status October 2008
+
+
+For the last six months we have been primarily focussed on the 6.10.1 release, which should be out by the time you read this. We are extremely grateful for the increasing support we get for the community in putting GHC releases together; more people than ever before are now helping maintain subcomponents, implementing features, fixing bugs, testing release candidates, and much more besides. We couldn't have made this release without your help!
+
+## The GHC 6.10 branch
+
+
+GHC 6.10.1 is the first release in the 6.10 branch, and features many improvements over the 6.8 branch; the highlights are:
+
+- Some new language features have been implemented:
+
+  - Generalised quasi-quotes
+  - Generalised list comprehensions
+  - View patterns
+
+- GHC now comes with haddock 2, which supports all GHC extensions
+
+- The garbage collector can now use multiple parallel threads, making garbage collection faster on multi-core machines.
+
+- The base library now uses extensible exceptions
+
+- The GHC API now uses a Ghc Monad, making it easier to use
+
+- The GHC API now has haddock documentation
+
+- External core (output only) now works again
+
+- DPH (Data Parallel Haskell, which supercedes NDP) is now an extralib
+
+
+See the release notes for full details.
+
+## The GHC 6.12 branch
+
+
+Meanwhile, development goes on in the HEAD:
+
+- John Dias is still working hard on rewriting GHC's backend, and his changes should be landing in the next few months
+
+- the DPH team are still developing furiously
+
+- We hope that Max Bolingbroke's "Dynamically Loaded Plugins" summer of code project will be merged in time for 6.12
+
+- Likewise, Donnie Jones's project for profiling parallel programs should be merged in time for 6.12
+
+- Finally, unicode text I/O and dynamic libraries were slated for 6.10 but weren't quite ready in time, so we certainly expect those to make it for in 6.12
+
+
+From a development point of view, there are a couple of changes on the horizon:
+
+- We plan to change how GHC's build system works, to decouple it from Cabal's internals
+
+- We plan to change from darcs to git for the version control system used by GHC
