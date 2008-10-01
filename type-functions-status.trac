@@ -27,8 +27,8 @@
   None.
 
  * Misc:
-   * Test `Simple17` (corelint error)
-   * Improve error messages for loopy equalities: TF tests Simple13 & SkolemOccursLoop
+   * Test `Simple17` (corelint error as a dict binding, used to specialise a call to a local function, floats out too far)
+   * Improve error messages for loopy equalities: TF tests `Simple13` & `SkolemOccursLoop`
    * #2291 (panic mixing RULES and type families; rule simplification stumbles over a coercion)
    * #1897: If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html.
    * #1769 (deriving typeable for data families)
@@ -42,7 +42,7 @@
  * Implementing FDs by TFs:
    * Step 1: Replace the existing improvement machinery for FDs by code that generates explicit equalities from the two FD rules.  Then, all improvement is by normalisation of equalities, which hopefully allows us to simplify `TcSimplify.reduceContext`.
    * Step 2: Desugar FDs into TFs and superclass equalities.
-   * ghci command to print normalised type and add [http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799] as a test to the testsuite.
+  * ghci command to print normalised type and add [http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799] as a test to the testsuite.
 
 '''Debugging of type families:'''
  0. Open points in the new `TcTyFuns` code:
