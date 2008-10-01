@@ -21,7 +21,7 @@
   - [\#2435](https://gitlab.haskell.org//ghc/ghc/issues/2435) (Bug with qualified names in declarations)
   - [\#2436](https://gitlab.haskell.org//ghc/ghc/issues/2436) (Bad warning on export)
 
-- Solving of equalities (`TcTyFuns`):
+- Constraint simplification:
 
   - [\#2448](https://gitlab.haskell.org//ghc/ghc/issues/2448) (givens not properly used in superclass entailment check)
   - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
