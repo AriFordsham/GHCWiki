@@ -46,10 +46,6 @@
   * ghci command to print normalised type and add [http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799] as a test to the testsuite.
 
 '''Debugging of type families:'''
- 0. Open points in the new `TcTyFuns` code:
-    * extract from `TODO`s in `TcTyFuns`
- 0. Issues in `TcSimplify`:
-    * Why does the call to `reduceList` (in `reduceContext`) extend the LIE?  What are the produced `extra_eqs`?  (Put an assert there and run the testsuite to see whether `extra_eqs` is non-empty in any of the tests.)
  0. Replacing GADT refinements by explicit equality constraints:
     * Regressions that remain to be fixed: 
       * `gadt/lazypatok` needs to be fixed (are irrefutable patterns really ok, see http://okmij.org/ftp/Haskell/GADT-problem.hs]?)

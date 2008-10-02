@@ -55,12 +55,6 @@
 
 **Debugging of type families:**
 
-1. Open points in the new `TcTyFuns` code:
-
-  - extract from `TODO`s in `TcTyFuns`
-1. Issues in `TcSimplify`:
-
-  - Why does the call to `reduceList` (in `reduceContext`) extend the LIE?  What are the produced `extra_eqs`?  (Put an assert there and run the testsuite to see whether `extra_eqs` is non-empty in any of the tests.)
 1. Replacing GADT refinements by explicit equality constraints:
 
   - Regressions that remain to be fixed: 
