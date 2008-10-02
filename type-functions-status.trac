@@ -23,6 +23,7 @@
     * To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use `HsBind.VarBind` and make its right-hand side a specially data structure describing evidence construction, instead of being a general `HsExpr`.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
   * Rank-n types: In `TcTyFuns.flattenType`, we need to pull out type families below foralls.
   * Implicit parameters: In `TcTyFuns`, we need to normalise IP constraints, too (in `normDict` and `substDict`).
+  * Most general types: In `TcTyFuns.instantiateAndExtract`, the condition for when to instantiate alpha in a wanted equation of  the form `F t1..tn ~ alpha` is still to liberal.
 
  * GADT:
   None.
