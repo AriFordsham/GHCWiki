@@ -41,7 +41,7 @@
  * Total families
  * Test `DerivingNewType`
  * Implementing FDs by TFs:
-   * Step 1: Replace the existing improvement machinery for FDs by code that generates explicit equalities from the two FD rules.  Then, all improvement is by normalisation of equalities, which hopefully allows us to simplify `TcSimplify.reduceContext`.
+   * Step 1: Replace the existing improvement machinery for FDs by code that generates explicit equalities from the two FD rules.  Then, all improvement is by normalisation of equalities, which hopefully allows us to simplify `TcSimplify.reduceContext`.  (Apply this change when integrating the simplification of equalities and dictionaries.)
    * Step 2: Desugar FDs into TFs and superclass equalities.
   * ghci command to print normalised type and add [http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799] as a test to the testsuite.
 
