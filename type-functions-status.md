@@ -10,7 +10,6 @@
 
     - Need to check the result types of the data constructors, probably in `checkValidDataCon`.
     - `tcFamInstDecl1` needs to allow family GADT instances.
-  - Check that the restrictions on equality constraints in instance and class contexts are enforced.  We should have tests for that in the testsuite.  Document the exact restrictions on the Haskell wiki tutorial page.
   - Test`Simple8`:
 
     - Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
