@@ -4,6 +4,8 @@
 
 **Open bugs related to type families**
 
+- **Move description of the language extension from the wiki to the User's Guide.**
+
 - Declarations involving families:
 
   - [\#1968](https://gitlab.haskell.org//ghc/ghc/issues/1968) (GADT syntax in family instances; at least provide a proper error message and don't panic!)
@@ -14,7 +16,6 @@
 
     - Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
     - Issue a warning if there are two identical instances (as per  Roman's suggestion).
-  - Addition to user manual, see [ http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html](http://www.haskell.org/pipermail/haskell-cafe/2008-March/040989.html) and [http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html\#type-synonyms](http://www.haskell.org/ghc/docs/latest/html/users_guide/data-type-extensions.html#type-synonyms)
   - [\#2203](https://gitlab.haskell.org//ghc/ghc/issues/2203) (TFs in class instance heads)
   - [\#2435](https://gitlab.haskell.org//ghc/ghc/issues/2435) (Bug with qualified names in declarations)
   - [\#2436](https://gitlab.haskell.org//ghc/ghc/issues/2436) (Bad warning on export)
