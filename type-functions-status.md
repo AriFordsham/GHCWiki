@@ -8,17 +8,16 @@
 
 - Declarations involving families:
 
-  - [\#1968](https://gitlab.haskell.org//ghc/ghc/issues/1968) (GADT syntax in family instances; at least provide a proper error message and don't panic!)
-
-    - Need to check the result types of the data constructors, probably in `checkValidDataCon`.
-    - `tcFamInstDecl1` needs to allow family GADT instances.
   - Test`Simple8`:
 
     - Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
     - Issue a warning if there are two identical instances (as per  Roman's suggestion).
+  - [\#1968](https://gitlab.haskell.org//ghc/ghc/issues/1968) (GADT syntax in family instances; at least provide a proper error message and don't panic!)
+
+    - Need to check the result types of the data constructors, probably in `checkValidDataCon`.
+    - `tcFamInstDecl1` needs to allow family GADT instances.
   - [\#2203](https://gitlab.haskell.org//ghc/ghc/issues/2203) (TFs in class instance heads)
   - [\#2435](https://gitlab.haskell.org//ghc/ghc/issues/2435) (Bug with qualified names in declarations)
-  - [\#2436](https://gitlab.haskell.org//ghc/ghc/issues/2436) (Bad warning on export)
   - Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)  If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
 - Constraint simplification:
@@ -59,6 +58,7 @@
     - Then, there is also no need for the grouping of the identifiers by module anymore (but sort it to avoid spurious iface changes dur to re-ordering when re-compiling).
     - We still need to have the name parent map, though.
     - See email for example.
+  - [\#2436](https://gitlab.haskell.org//ghc/ghc/issues/2436) (Bad warning on export)
   - Eliminate code duplication between `tcTyClDecl1` and `tcFamInstDecl1`.  The code for vanilla data/newtype declarations and the code for data/newtype instances has many commonalities.
 
 **Additional feature:**
