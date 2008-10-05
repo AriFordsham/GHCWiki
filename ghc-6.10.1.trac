@@ -7,6 +7,6 @@ Please do update this table if you have more up-to-date info, or add new platfor
 ||Windows||YES||6.10.0.20081004||
 ||OS X/x86|| || ||
 ||OS X/powerpc|| || ||
-||Linux/amd64|| || ||
+||Linux/amd64|| ||6.10.0.20081004 (bindist Makefiles since fixed)||
 ||Linux/x86|| || ||
 ||Linux/powerpc|| || ||
