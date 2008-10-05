@@ -1,7 +1,7 @@
 
 This table summarises which platforms we believe the 6.10.1 release properly builds on.
 
-||Platform||Works?||Last Checked||
+||'''Platform'''||'''Works?'''||'''Last Checked'''||
 ||Windows||YES||6.10.0.20081004||
 ||x86/OS X|| || ||
 ||amd64/Linux|| || ||
