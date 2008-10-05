@@ -3,7 +3,8 @@ This table summarises which platforms we believe the 6.10.1 release properly bui
 
 ||'''Platform'''||'''Works?'''||'''Last Checked'''||
 ||Windows||YES||6.10.0.20081004||
-||x86/OS X|| || ||
-||amd64/Linux|| || ||
-||x86/Linux|| || ||
-||powerpc/Linux|| || ||
+||OS X/x86|| || ||
+||OS X/powerpc|| || ||
+||Linux/amd64|| || ||
+||Linux/x86|| || ||
+||Linux/powerpc|| || ||
