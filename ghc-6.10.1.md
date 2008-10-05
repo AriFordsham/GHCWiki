@@ -1,6 +1,9 @@
 
 This table summarises which platforms we believe the 6.10.1 release properly builds on.
 
+
+Please do update this table if you have more up-to-date info, or add new platforms if you have info for them.
+
 <table><tr><th>**Platform**</th>
 <th>**Works?**</th>
 <th>**Last Checked**</th></tr>

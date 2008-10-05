@@ -1,6 +1,8 @@
 
 This table summarises which platforms we believe the 6.10.1 release properly builds on.
 
+Please do update this table if you have more up-to-date info, or add new platforms if you have info for them.
+
 ||'''Platform'''||'''Works?'''||'''Last Checked'''||
 ||Windows||YES||6.10.0.20081004||
 ||OS X/x86|| || ||
