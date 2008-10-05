@@ -5,8 +5,8 @@ Please do update this table if you have more up-to-date info, or add new platfor
 
 ||'''Platform'''||'''Works?'''||'''Last Checked'''||
 ||Windows||YES||6.10.0.20081004||
-||OS X/x86|| || ||
+||OS X/x86||mostly||6.10.0.20081004 (installer generator since fixed)||
 ||OS X/powerpc|| || ||
-||Linux/amd64|| ||6.10.0.20081004 (bindist Makefiles since fixed)||
+||Linux/amd64||mostly||6.10.0.20081004 (bindist Makefiles since fixed)||
 ||Linux/x86|| || ||
 ||Linux/powerpc|| || ||

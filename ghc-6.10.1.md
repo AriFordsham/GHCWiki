@@ -12,13 +12,14 @@ Please do update this table if you have more up-to-date info, or add new platfor
 <th>6.10.0.20081004
 </th></tr>
 <tr><th>OS X/x86</th>
-<th></th>
-<th></th></tr>
+<th>mostly</th>
+<th>6.10.0.20081004 (installer generator since fixed)
+</th></tr>
 <tr><th>OS X/powerpc</th>
 <th></th>
 <th></th></tr>
 <tr><th>Linux/amd64</th>
-<th></th>
+<th>mostly</th>
 <th>6.10.0.20081004 (bindist Makefiles since fixed)
 </th></tr>
 <tr><th>Linux/x86</th>
