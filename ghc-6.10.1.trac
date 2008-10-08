@@ -4,8 +4,8 @@ This table summarises which platforms we believe the 6.10.1 release properly bui
 Please do update this table if you have more up-to-date info, or add new platforms if you have info for them.
 
 ||'''Platform'''||'''Works?'''||'''Last Checked'''||'''Tickets'''||
-||Windows/x86||YES||6.10.0.20081004||[[TicketQuery(milestone=6.10.1&status!=closed&os=Windows)]]||
-||OS X/x86||mostly||6.10.0.20081004 (installer generator since fixed)||[[TicketQuery(milestone=6.10.1&status!=closed&os=MacOS X&architecture=x86)]]||
+||Windows/x86||YES||6.10.0.20081007||[[TicketQuery(milestone=6.10.1&status!=closed&os=Windows)]]||
+||OS X/x86||YES||6.10.0.20081007||[[TicketQuery(milestone=6.10.1&status!=closed&os=MacOS X&architecture=x86)]]||
 ||OS X/powerpc|| || ||[[TicketQuery(milestone=6.10.1&status!=closed&os=MacOS X&architecture=powerpc)]]||
 ||Linux/x86|| || ||[[TicketQuery(milestone=6.10.1&status!=closed&os=Linux&architecture=x86)]]||
 ||Linux/amd64||YES||6.10.0.20081007||[[TicketQuery(milestone=6.10.1&status!=closed&os=Linux&architecture=x86_64 (amd64))]]||

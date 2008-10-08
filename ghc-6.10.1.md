@@ -10,11 +10,11 @@ Please do update this table if you have more up-to-date info, or add new platfor
 <th>**Tickets**</th></tr>
 <tr><th>Windows/x86</th>
 <th>YES</th>
-<th>6.10.0.20081004</th>
+<th>6.10.0.20081007</th>
 <th>No results</th></tr>
 <tr><th>OS X/x86</th>
-<th>mostly</th>
-<th>6.10.0.20081004 (installer generator since fixed)</th>
+<th>YES</th>
+<th>6.10.0.20081007</th>
 <th>No results</th></tr>
 <tr><th>OS X/powerpc</th>
 <th></th>
