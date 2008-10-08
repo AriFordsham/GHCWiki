@@ -30,7 +30,7 @@ Simon and I always have a zillion projects that we'd like to see done, but do no
 Internship projects should have some research content, and ideally lead to a paper.  It's not just hacking.
 
 
-To give you some idea, here are some past projects (in no particular order):
+To give you some idea, here are some past projects (in approximate date order):
 
 - \[2008\] Jost Berthold worked on parallel evaluation
 - \[2007\] Dan Licata implemented [view patterns](view-patterns)
