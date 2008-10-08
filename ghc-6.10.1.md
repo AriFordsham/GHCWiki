@@ -25,8 +25,8 @@ Please do update this table if you have more up-to-date info, or add new platfor
 <th></th>
 <th>No results</th></tr>
 <tr><th>Linux/amd64</th>
-<th>mostly</th>
-<th>6.10.0.20081004 (bindist Makefiles since fixed)</th>
+<th>YES</th>
+<th>6.10.0.20081007</th>
 <th>No results</th></tr>
 <tr><th>Linux/powerpc</th>
 <th></th>
