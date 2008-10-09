@@ -22,6 +22,7 @@
 
 - Constraint simplification:
 
+  - [\#2664](https://gitlab.haskell.org//ghc/ghc/issues/2664) (typechecker diverges)
   - [\#2639](https://gitlab.haskell.org//ghc/ghc/issues/2639) (CoreLint failure)
   - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
 
