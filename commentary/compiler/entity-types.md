@@ -14,7 +14,7 @@ For each kind of Haskell entity (identifier, type variable, type constructor, da
 
 All of these entities have a `Name`, but that's about all they have in common.  However they are sometimes treated uniformly:
 
-- A **TyThing** ([compiler/types/TypeRep.lhs](/trac/ghc/browser/ghc/compiler/types/TypeRep.lhs)) is simply the sum of all four:
+- A **`TyThing`** ([compiler/types/TypeRep.lhs](/trac/ghc/browser/ghc/compiler/types/TypeRep.lhs)) is simply the sum of all four:
 
   ```wiki
   data TyThing = AnId     Id
