@@ -22,6 +22,8 @@
 
 - Constraint simplification:
 
+  - [\#2664](https://gitlab.haskell.org//ghc/ghc/issues/2664) (typechecker diverges)
+  - [\#2639](https://gitlab.haskell.org//ghc/ghc/issues/2639) (CoreLint failure)
   - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
 
     - To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use `HsBind.VarBind` and make its right-hand side a specially data structure describing evidence construction, instead of being a general `HsExpr`.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
@@ -45,6 +47,7 @@
 
 - Misc:
 
+  - [\#2649](https://gitlab.haskell.org//ghc/ghc/issues/2649) (panic, missing case)
   - Test `Simple17` (corelint error as a dict binding, used to specialise a call to a local function, floats out too far)
   - Improve error messages for loopy equalities: TF tests `Simple13` & `SkolemOccursLoop`
   - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html).
