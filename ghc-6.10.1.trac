@@ -13,7 +13,7 @@ Please do update this table if you have more up-to-date info, or add new platfor
 ||Solaris/x86|| || ||[[TicketQuery(milestone=6.10.1&status!=closed&os=NetBSD&architecture=x86)]]||
 ||Solaris/amd64|| || ||[[TicketQuery(milestone=6.10.1&status!=closed&os=NetBSD&architecture=x86_64 (amd64))]]||
 ||Solaris/sparc|| || ||[[TicketQuery(milestone=6.10.1&status!=closed&os=Solaris&architecture=sparc)]]||
-||FreeBSD/x86|| || ||[[TicketQuery(milestone=6.10.1&status!=closed&os=FreeBSD&architecture=x86)]]||
+||FreeBSD/x86||YES||6.10.0.20081007||[[TicketQuery(milestone=6.10.1&status!=closed&os=FreeBSD&architecture=x86)]]||
 ||FreeBSD/amd64|| || ||[[TicketQuery(milestone=6.10.1&status!=closed&os=FreeBSD&architecture=x86_64 (amd64))]]||
 ||OpenBSD/x86|| || ||[[TicketQuery(milestone=6.10.1&status!=closed&os=OpenBSD&architecture=x86)]]||
 ||OpenBSD/amd64|| || ||[[TicketQuery(milestone=6.10.1&status!=closed&os=OpenBSD&architecture=x86_64 (amd64))]]||
