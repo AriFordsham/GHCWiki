@@ -17,8 +17,8 @@ Please do update this table if you have more up-to-date info, or add new platfor
 <th>6.10.0.20081007</th>
 <th>No results</th></tr>
 <tr><th>OS X/powerpc</th>
-<th></th>
-<th></th>
+<th>YES</th>
+<th>6.10.0.20081007</th>
 <th>No results</th></tr>
 <tr><th>Linux/x86</th>
 <th>YES</th>
@@ -33,8 +33,8 @@ Please do update this table if you have more up-to-date info, or add new platfor
 <th></th>
 <th>No results</th></tr>
 <tr><th>Solaris/x86</th>
-<th></th>
-<th></th>
+<th>YES</th>
+<th>6.10.0.20081007</th>
 <th>No results</th></tr>
 <tr><th>Solaris/amd64</th>
 <th></th>
