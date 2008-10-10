@@ -17,7 +17,7 @@ Information to be attached might be:
 - Plugin-specific data structures
 
 
-As the annotations system is orthogonal to plugins, further development of this page will take place at [Plugins](plugins).
+As the annotations system is orthogonal to plugins, further development of this page will take place at [Annotations](plugins/annotations).
 
 # Out of date speculation below
 
