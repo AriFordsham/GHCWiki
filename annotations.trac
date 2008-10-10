@@ -102,6 +102,10 @@ A disadvantage to this approach is that it does not allow functions to be stored
 
 But clearly there is no sensible Binary instance for ''a -> b'' in general.
 
+A further disadvantage is that you can't now just pull out '''all''' annotations (of any type) for a name (as you can in the SoC design, using a list of Dynamics). We can't allow this even if we had a DynamicBinary type that encapsulated the Binary dictionary too because those dictionaries really do have to be supplied by the guy doing the pulling!
+
+Yet another disadvantage is that we will be doing some compile time compilation without it being introduced with the $() syntax that has heralded all such computation previously - instead, annotations are wrapped in a sort of "implicit splice". This might cause user confusion.
+
 Another disadvantage is that currently there is no standard Binary class in the Haskell libraries. We propose to add such a beast by adding [http://code.haskell.org/binary/ Data.Binary] as a boot library and supporting automatic instance deriving for it in GHC. The advantages of doing this rather than somehow reusing GHCs inbuilt Binary class are that:
 
  * It is compiler independent
