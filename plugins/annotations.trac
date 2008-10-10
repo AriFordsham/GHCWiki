@@ -13,7 +13,7 @@ Information to be attached might be:
  * Names of types in the module
  * Plugin-specific data structures
 
-As the annotations system is orthogonal to plugins, further development of this page will take place at [Plugins].
+As the annotations system is orthogonal to plugins, further development of this page will take place at Plugins.
 
 = Out of date speculation below =
 
