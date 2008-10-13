@@ -3,17 +3,25 @@
 ## Motivation
 
 
-Annotations are useful for both [Plugins](plugins) and for users that would like to introspect more carefully on other, already-compiled modules.
+Annotations are useful for both [Plugins](plugins) and for users that would like to introspect more carefully on other, already-compiled modules. The concept is substantially similar to the annotation systems in such popular languages as C\# and Java. Some use cases might be:
+
+- Mark functions for modification by [Plugins](plugins)
+
+- Store extra information relevant to a plugin but which is added by that plugin itself, such as a strictness analysis plugin that adds a demand signature to functions, which can be inspected later on by the same plugin when it comes to compile modules that depend on that one
+
+- Specify extra documentation or comments for functions / types in the source code that could be extracted / nicely formatted by a later program
+
+- Mark certain functions as tests, suitable for execution by a QuickCheck runner
 
 ## State Of Play
 
 
 An annotations system was implemented as part of the Compiler Plugins Summer of Code project (Summer 08). It is currently in the process of being revised before being committed to GHC HEAD. Details of the implementation are below.
 
-## Summer of Code Implementation
+## Summer of Code Implementation (OLD)
 
 
-Annotations look like this:
+In this old implementation, annotations look like this:
 
 ```wiki
 {-# ANN f 1 #-}
@@ -127,14 +135,18 @@ A further disadvantage is that you can't now just pull out **all** annotations (
 
 Yet another disadvantage is that we will be doing some compile time compilation without it being introduced with the $() syntax that has heralded all such computation previously - instead, annotations are wrapped in a sort of "implicit splice". This might cause user confusion.
 
+### Serialization Issues
 
-Another disadvantage is that currently there is no standard Binary class in the Haskell libraries. We propose to add such a beast by adding [ Data.Binary](http://code.haskell.org/binary/) as a boot library and supporting automatic instance deriving for it in GHC. The advantages of doing this rather than somehow reusing GHCs inbuilt Binary class are that:
+
+Another disadvantage of this new annotations scheme is that currently there is no standard Binary class in the Haskell libraries. We propose to add such a beast by adding [ Data.Binary](http://code.haskell.org/binary/) as a boot library and supporting automatic instance deriving for it in GHC. The advantages of doing this rather than somehow reusing GHCs inbuilt Binary class are that:
 
 - It is compiler independent
 
 - Much user code already has instances for Data.Binary (it is a popular Hackage package)
 
 - The binary package will be distributed with the Haskell Platform anyway because it is depended on by cabal-install
+
+- We can provide *deriving (Binary)*
 
 
 Disadvantages are that:
@@ -143,9 +155,63 @@ Disadvantages are that:
 
 - GHCs own Binary instances for it's own data types cannot be reused straightforwardly. We contend that there are few cases where doing so would be useful, and if e.g. you want to refer to another thing rather than use a GHC Name you can use a TH Name. It would be difficult to piggyback the GHC Binary instance on Data.Binary because there is nowhere in Data.Binary to squirrel away the UserData GHCs Binary instance needs to do some of its stuff (but maybe you could deserialize to a function of type *UserData -\> Iface\** to achieve the same effect...)
 
+- By adding binary as a boot library distributed with GHC it will be impossible to upgrade binary separately from GHC itself without introducing problems. Consider packages P and Q, the binary package distributed with ghc (binary-1) and that installed at a later point by a user (binary-2), and the following web of dependencies:
+
+```wiki
+           P
+           |\____
+          /      Q
+        ghc       \
+        /       binary-1
+    binary-2
+```
+
+
+P depends indirectly on both binary versions. What happens if it tries to use an instance of Binary from binary-1 with ghc, or an instance of Binary from binary-2 with Q? They won't unify, so this is a (rather confusing) type error! Argh! What's more, this really might happen because Binary is exported in the API to access annotations:
+
+```wiki
+-- For normal GHC API users:
+getAnnotations :: (Typeable a, Binary a) => Name -> GHCM [a]
+
+-- Only for plugins adding their own annotations:
+getAnnotations :: (Typeable a, Binary a) => Name -> CoreM [a]
+putAnnotations :: (Typeable a, Binary a) => Name -> a -> CoreM ()
+```
+
+
+We have sort of the same problem outlined above even today because bytestring is a boot library. However, since bytestring isn't exported by GHC you don't end up with this sort of weird situation. (Though it might give Cabal as much of a headache as the binary problem outlined above).
+
+
+The main alternative to using binary as a boot package is to import the whole source tree for binary and bytestring but rename them to ghc-binary and ghc-bytestring respectively. This ensures there are no conflicts with user code, but:
+
+- Might be confusing!
+
+- Means user code might have to make use of the package-qualified import syntax if they intend to reference both ghc-binary and binary from their code
+
+- Means we have to have two identical instance declarations for any user types that want to be used both as normal Binary and GHC Binary
+
+- Means we can't support *deriving Binary*
+
+- Etc etc...
+
+
+The other alternative we came up with is to change the GHC API to annotations to this:
+
+```wiki
+-- For normal GHC API users:
+getAnnotations :: (Typeable a) => (ByteString -> a) -> Name -> GHCM [a]
+
+-- Only for plugins adding their own annotations:
+getAnnotations :: (Typeable a) => (ByteString -> a) -> Name -> CoreM [a]
+putAnnotations :: (Typeable a) => (a -> ByteString) -> Name -> a -> CoreM ()
+```
+
+
+This doesn't require any more packages (we could even remove the ByteString usages here) and it does allow use of multiple different serialization libraries for annotations (should that be desirable). However, this doesn't enforce that the serializer and deserializer for a particular bit of data should be coherent and makes the API a bit unfriendlier.
+
 ## Future Work
 
-- Plugins cannot currently add further annotations during compilation that will be compiled into the result. I.e. any annotations they add are transient and disappear at the end of that particular run of the Core pipeline.
+- **(Only in SoC implementation)** Plugins cannot currently add further annotations during compilation that will be compiled into the result. I.e. any annotations they add are transient and disappear at the end of that particular run of the Core pipeline.
 
 - We might want to add attribute metadata, so users can specify the multiplicity attributes should take, what sorts of things they can be attached to (value, type, module), and perhaps even what types they can be attached to (e.g. "only things of type a -\> Bool for some a"), similar to C\# ([ http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx](http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx)) or Java.
 
@@ -166,7 +232,7 @@ x = ...
   - Fields of data/newtype declarations
   - Non-top-level identifiers (for plugins: tricky because such names are unstable)
 
-- I believe it would make sense to allow annotations to use the implementations of values in the module being compiled,: after all, I they can use the implementations of values in imported modules. This would filling out the relevant field with an error during compilation (for the benefit of plugins) and linking the annotation fields up to the required values after compilation. Is this a good idea?
+- **(Only in SoC implementation)** I believe it would make sense to allow annotations to use the implementations of values in the module being compiled,: after all, I they can use the implementations of values in imported modules. This would filling out the relevant field with an error during compilation (for the benefit of plugins) and linking the annotation fields up to the required values after compilation. Is this a good idea?
 
 - Have retention policies, similar to Java?
 - See also the Haskell Prime ticket: [ http://hackage.haskell.org/trac/haskell-prime/ticket/88](http://hackage.haskell.org/trac/haskell-prime/ticket/88)
