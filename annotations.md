@@ -137,6 +137,8 @@ Yet another disadvantage is that we will be doing some compile time compilation 
 
 ### Serialization Issues
 
+#### Alternative 1 (Proposed) =
+
 
 Another disadvantage of this new annotations scheme is that currently there is no standard Binary class in the Haskell libraries. We propose to add such a beast by adding [ Data.Binary](http://code.haskell.org/binary/) as a boot library and supporting automatic instance deriving for it in GHC. The advantages of doing this rather than somehow reusing GHCs inbuilt Binary class are that:
 
@@ -181,6 +183,8 @@ putAnnotations :: (Typeable a, Binary a) => Name -> a -> CoreM ()
 
 We have sort of the same problem outlined above even today because bytestring is a boot library. However, since bytestring isn't exported by GHC you don't end up with this sort of weird situation. (Though it might give Cabal as much of a headache as the binary problem outlined above).
 
+#### Alternative 2
+
 
 The main alternative to using binary as a boot package is to import the whole source tree for binary and bytestring but rename them to ghc-binary and ghc-bytestring respectively. This ensures there are no conflicts with user code, but:
 
@@ -193,6 +197,8 @@ The main alternative to using binary as a boot package is to import the whole so
 - Means we can't support *deriving Binary*
 
 - Etc etc...
+
+#### Alternative 3
 
 
 The other alternative we came up with is to change the GHC API to annotations to this:
