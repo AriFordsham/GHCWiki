@@ -190,6 +190,13 @@ This doesn't require any more packages (we could even remove the ByteString usag
 
 == Future Work ==
 
+ * The syntax is a bit verbose. What about this?
+
+{{{
+{-@ f Just "My Annotation" @-}
+f = ...
+}}}
+
  * '''(Only in SoC implementation)''' Plugins cannot currently add further annotations during compilation that will be compiled into the result. I.e. any annotations they add are transient and disappear at the end of that particular run of the Core pipeline.
  
  * We might want to add attribute metadata, so users can specify the multiplicity attributes should take, what sorts of things they can be attached to (value, type, module), and perhaps even what types they can be attached to (e.g. "only things of type a -> Bool for some a"), similar to C# ([http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx]) or Java.
