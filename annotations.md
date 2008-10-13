@@ -137,7 +137,7 @@ Yet another disadvantage is that we will be doing some compile time compilation 
 
 ### Serialization Issues
 
-#### Alternative 1 (Proposed) =
+#### Alternative 1 (Proposed)
 
 
 Another disadvantage of this new annotations scheme is that currently there is no standard Binary class in the Haskell libraries. We propose to add such a beast by adding [ Data.Binary](http://code.haskell.org/binary/) as a boot library and supporting automatic instance deriving for it in GHC. The advantages of doing this rather than somehow reusing GHCs inbuilt Binary class are that:
