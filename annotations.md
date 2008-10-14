@@ -101,10 +101,17 @@ From the point of view of a client of the GHC API or a plugin, the interface loo
 ```wiki
 -- For normal GHC API users:
 getAnnotations :: (Typeable a, Binary a) => Name -> GHCM [a]
+   -- Get the annotations for an arbitrary Name
 
--- Only for plugins adding their own annotations:
 getAnnotations :: (Typeable a, Binary a) => Name -> CoreM [a]
+   -- Allows a plugin to get the annotations for any Name
+   -- whether defined locally or imported
+
 putAnnotations :: (Typeable a, Binary a) => Name -> a -> CoreM ()
+   -- Allows a plugin to add its own annotation 
+   -- e.g. the results of an analysis
+   -- The Name must be from the module being compiled; the 
+   -- annotation is persisted into the interface file.
 ```
 
 
