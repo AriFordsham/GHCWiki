@@ -206,8 +206,7 @@ putAnnotations :: (Typeable a) => (a -> ByteString) -> Name -> a -> CoreM ()
 
 This doesn't require any more packages (we could even remove the ByteString usages here) and it does allow use of multiple different serialization libraries for annotations (should that be desirable). However, this makes the API a bit unfriendlier; and (more important) doesn't enforce that the serializer and deserializer for a particular bit of data should be coherent.  For example, the following could easily happen:
  * A plugin uses binary-2.1 to serialise stuff into Foo.hi
- * A GHC api client uses binary-3.0 to deserialise it
-	(probably without realising that they are using the "wrong" Binary)
+ * A GHC api client uses binary-3.0 to deserialise it (probably without realising that they are using the "wrong" Binary)
 
 Result: extreme broken-ness at run time (not compile time).
 
