@@ -5,6 +5,13 @@ NOTE: you need Python (any version \>= 1.5 will probably do) in order
 to use the testsuite.
 
 
+If you have not checked out the test suite, first run:
+
+```wiki
+       ./darcs-all --testsuite get
+```
+
+
 To run the test suite against stage 1 of a GHC build in the same
 source tree:
 
