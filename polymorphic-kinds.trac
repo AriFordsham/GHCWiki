@@ -101,27 +101,54 @@ f :: forall (m :: k -> *) (a :: k) . m a -> Int
 
 == Type Classes ==
 
+Declaration options:
 
+=== Option 1: Implicit kind variables ===
 
 {{{
 #!text/x-haskell
 class Bar (a :: k -> *) where                      -- standalone
 
 class Bar (a :: k -> *) => Baz (a :: * -> k) where -- superclass, explicit name (shared)
-class Bar a => Baz (a :: * -> k) where             -- superclass, implicit or new name?
+class Bar a => Baz (a :: * -> k) where             -- superclass, new k?
 
 instance Bang (a :: k -> *) => Bar (a :: k -> *)   -- instance implication, explic
+instance Bang a => Bar (a :: k -> *)   -- instance implication, explic
+
+class Foo (a :: k -> *) (b :: k -> *) where        -- MPTC name shared
 }}}
+
+=== Option 2: Explicit kind variables ===
+
+Here reusing {{{forall}} is probably safe, although possibly inconsistent if we go for {{{forall_kind}}} (or other) as a term level quantifier...
 
 {{{
 #!text/x-haskell
-class forall k . Blah (a :: k -> *) where
+class forall k . Blah (a :: k -> *) where                     -- standalone
+class forall k . Baz (a :: k -> *) => Bar (a :: * -> k) where -- superclass, shared k
+class forall k . Baz a => Bar (a :: * -> k) where             -- superclass, new k
+
+instance forall k . Bang (a :: k -> *) => Bar (a :: k -> *)   -- instance implication, shared k
+instance forall k . Bang a => Bar (a :: k -> *)               -- instance implication, new k
+
+class forall k . Foo (a :: k -> *) (b :: k -> *) where        -- MPTC name shared
 }}}
 
+Again, this doesn't seem to add much now, however if we ever want to constrain the kind variables to particular sorts in the future, we will probably need binders for them.
+
+=== Option 3: Explicit kind signatures for type classes ===
+
+Can't do this in general, as you need to name the variables that index the type class for use in member functions.  Although for type classes with no member functions this may be a viable option.  The question is what is the result of a type class?
+
 {{{
-#!text/x-haskell
-class forall k . Baz (a :: k -> *) => Bar (a :: * -> k) where
+class Blah :: forall k . (k -> *) -> ??? where
 }}}
+
+
+== Type functions ==
+
+Follow as per type classes
+
 
 == Syntax of Kinds ==
 
@@ -132,12 +159,12 @@ kind ::=  * | # | ? | (kind) | kind -> kind |
 
 == Syntax of Types ==
 
-Type syntax need to be extended with a new binder TODO
+Type syntax need to be extended with a new binder.
 
 
-== Type Classes ==
+== Implementation route ==
+...
 
-TODO
 
 == To classify ==
 

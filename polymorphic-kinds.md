@@ -87,17 +87,40 @@ f:: forall (m :: k ->*)(a :: k). m a ->Int
 
 ## Type Classes
 
-```
-classBar(a :: k ->*)where-- standaloneclassBar(a :: k ->*)=>Baz(a ::*-> k)where-- superclass, explicit name (shared)classBar a =>Baz(a ::*-> k)where-- superclass, implicit or new name?instanceBang(a :: k ->*)=>Bar(a :: k ->*)-- instance implication, explic
-```
+
+Declaration options:
+
+### Option 1: Implicit kind variables
 
 ```
-class forall k .Blah(a :: k ->*)where
+classBar(a :: k ->*)where-- standaloneclassBar(a :: k ->*)=>Baz(a ::*-> k)where-- superclass, explicit name (shared)classBar a =>Baz(a ::*-> k)where-- superclass, new k?instanceBang(a :: k ->*)=>Bar(a :: k ->*)-- instance implication, explicinstanceBang a =>Bar(a :: k ->*)-- instance implication, explicclassFoo(a :: k ->*)(b :: k ->*)where-- MPTC name shared
 ```
 
+### Option 2: Explicit kind variables
+
+
+Here reusing `forall}} is probably safe, although possibly inconsistent if we go for {{{forall_kind` (or other) as a term level quantifier...
+
 ```
-class forall k .Baz(a :: k ->*)=>Bar(a ::*-> k)where
+class forall k .Blah(a :: k ->*)where-- standaloneclass forall k .Baz(a :: k ->*)=>Bar(a ::*-> k)where-- superclass, shared kclass forall k .Baz a =>Bar(a ::*-> k)where-- superclass, new kinstance forall k .Bang(a :: k ->*)=>Bar(a :: k ->*)-- instance implication, shared kinstance forall k .Bang a =>Bar(a :: k ->*)-- instance implication, new kclass forall k .Foo(a :: k ->*)(b :: k ->*)where-- MPTC name shared
 ```
+
+
+Again, this doesn't seem to add much now, however if we ever want to constrain the kind variables to particular sorts in the future, we will probably need binders for them.
+
+### Option 3: Explicit kind signatures for type classes
+
+
+Can't do this in general, as you need to name the variables that index the type class for use in member functions.  Although for type classes with no member functions this may be a viable option.  The question is what is the result of a type class?
+
+```wiki
+class Blah :: forall k . (k -> *) -> ??? where
+```
+
+## Type functions
+
+
+Follow as per type classes
 
 ## Syntax of Kinds
 
@@ -109,11 +132,12 @@ kind ::=  * | # | ? | (kind) | kind -> kind |
 ## Syntax of Types
 
 
-Type syntax need to be extended with a new binder TODO
+Type syntax need to be extended with a new binder.
 
-## Type Classes
+## Implementation route
 
-TODO
+
+...
 
 ## To classify
 
