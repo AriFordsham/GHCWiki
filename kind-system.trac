@@ -228,6 +228,7 @@ At the moment I haven't thought about existential kinds or kind-refinement that 
 Note: I don't think it's worth having existential kinds without kind-refinement as we don't have kind-classes, and so no user could ever make use of them.  Kind refinement does allow existential kinds to make sense however (or at least be usable).  The question then is when does kind-refinement come into play - pattern matches.  TODO generate some examples to motivate this.
 
 
+
 == Implementation things ==
 
 With bits stolen from IntermediateTypes
@@ -363,6 +364,10 @@ data and kind Maybe a = Nothing | Just a
 
 This has the problems of verbosity and is hard to apply after the fact to an existing data type.
 
+
+== Kind Synonyms ==
+
+Simple type synonyms have a natural analogy at the kind level that could be a useful feature to provde.  Depending on whether we keep the kind and type namespaces separate (above) we could just abuse the current {{{type Foo = Either Baz Bang}}} syntax to also allow creating {{{kind synonyms}}}, or if we need to invent some new syntax.  {{{kind Foo = Either Baz Bang}}} would seen natural, or perhaps more safely {{{type kind Foo = Either Baz Bang}}}.
 
 == Unfiltered thoughts ==
 
