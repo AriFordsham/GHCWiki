@@ -2,7 +2,7 @@
 
 
 Currently thinking about adding **Polymorphic Kinds** to GHC...
-(Currently very WIPish)
+(Currently very WIP)
 
 ## Example: At the term level
 
@@ -99,7 +99,7 @@ classBar(a :: k ->*)where-- standaloneclassBar(a :: k ->*)=>Baz(a ::*-> k)where-
 ### Option 2: Explicit kind variables
 
 
-Here reusing `forall}} is probably safe, although possibly inconsistent if we go for {{{forall_kind` (or other) as a term level quantifier...
+Here reusing `forall` is probably safe, although possibly inconsistent if we go for `forall_kind` (or other) as a term level quantifier...
 
 ```
 class forall k .Blah(a :: k ->*)where-- standaloneclass forall k .Baz(a :: k ->*)=>Bar(a ::*-> k)where-- superclass, shared kclass forall k .Baz a =>Bar(a ::*-> k)where-- superclass, new kinstance forall k .Bang(a :: k ->*)=>Bar(a :: k ->*)-- instance implication, shared kinstance forall k .Bang a =>Bar(a :: k ->*)-- instance implication, new kclass forall k .Foo(a :: k ->*)(b :: k ->*)where-- MPTC name shared
@@ -132,12 +132,28 @@ kind ::=  * | # | ? | (kind) | kind -> kind |
 ## Syntax of Types
 
 
-Type syntax need to be extended with a new binder.
+Type syntax needs to be extended with a new binder.
 
 ## Implementation route
 
 
-...
+Places that would be hit TODO:
+
+- Parser
+
+  - New Language Flag {-\# [PolymorphicKinds](polymorphic-kinds) \#-} ?
+  - Syntax of kinds
+  - Possibly syntax of function types
+
+- Type checker
+
+- Core / Core Lint
+
+- Module interfaces
+
+  - To expose kind-quantified variables (does this drop out of any other change)
+
+- Test cases
 
 ## To classify
 
