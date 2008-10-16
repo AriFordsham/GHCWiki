@@ -9,7 +9,7 @@ Please do update this table if you have more up-to-date info, or add new platfor
 ||OS X/powerpc||YES||6.10.0.20081007||[[TicketQuery(milestone=6.10.1&status!=closed&os=MacOS X&architecture=powerpc)]]||
 ||Linux/x86||YES||6.10.0.20081007||[[TicketQuery(milestone=6.10.1&status!=closed&os=Linux&architecture=x86)]]||
 ||Linux/amd64||YES||6.10.0.20081007||[[TicketQuery(milestone=6.10.1&status!=closed&os=Linux&architecture=x86_64 (amd64))]]||
-||Linux/powerpc|| || ||[[TicketQuery(milestone=6.10.1&status!=closed&os=Linux&architecture=powerpc)]]||
+||Linux/powerpc||YES||6.10.0.20081007||[[TicketQuery(milestone=6.10.1&status!=closed&os=Linux&architecture=powerpc)]]||
 ||Solaris/x86||YES||6.10.0.20081007||[[TicketQuery(milestone=6.10.1&status!=closed&os=NetBSD&architecture=x86)]]||
 ||Solaris/amd64|| || ||[[TicketQuery(milestone=6.10.1&status!=closed&os=NetBSD&architecture=x86_64 (amd64))]]||
 ||Solaris/sparc|| || ||[[TicketQuery(milestone=6.10.1&status!=closed&os=Solaris&architecture=sparc)]]||
