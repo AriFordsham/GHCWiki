@@ -29,8 +29,8 @@ Please do update this table if you have more up-to-date info, or add new platfor
 <th>6.10.0.20081007</th>
 <th>No results</th></tr>
 <tr><th>Linux/powerpc</th>
-<th></th>
-<th></th>
+<th>YES</th>
+<th>6.10.0.20081007</th>
 <th>No results</th></tr>
 <tr><th>Solaris/x86</th>
 <th>YES</th>
