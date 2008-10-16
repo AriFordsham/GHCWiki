@@ -1,4 +1,4 @@
 # Closed Type Synonym Families
 
 
-See TotalFamilies
+see [TypeFunctions/TotalFamilies](type-functions/total-families)
