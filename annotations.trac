@@ -212,7 +212,7 @@ This doesn't require any more packages (we could even remove the ByteString usag
 
 Result: extreme broken-ness at run time (not compile time).
 
-=== Alternative 4 ====
+==== Alternative 4 ====
 
 We could use Data to implement serialization, and require that instead of Binary. Advantages are manifold (credit goes to Neil Mitchell for this list):
 
