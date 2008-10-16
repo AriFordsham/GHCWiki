@@ -249,6 +249,13 @@ Result: extreme broken-ness at run time (not compile time).
 f = ...
 ```
 
+- Also syntax related, we could provide a positional syntax. SPJ suggests that the annotations should be hung on the type signature rather than the definition because the definition must be spread out, whereas the type signature occurs in precisely one place. This might make the above example even nicer:
+
+```wiki
+{-@ Just "My Annotation" @-}
+f :: ...
+```
+
 - **(Only in SoC implementation)** Plugins cannot currently add further annotations during compilation that will be compiled into the result. I.e. any annotations they add are transient and disappear at the end of that particular run of the Core pipeline.
 
 - We might want to add attribute metadata, so users can specify the multiplicity attributes should take, what sorts of things they can be attached to (value, type, module), and perhaps even what types they can be attached to (e.g. "only things of type a -\> Bool for some a"), similar to C\# ([ http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx](http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx)) or Java.
