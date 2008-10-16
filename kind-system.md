@@ -332,9 +332,62 @@ Strictly, the new kinds that have been introduced using `data kind` syntax inhab
 
 ## Auto Promotion of Types to Kinds
 
-TODO
+
+Many simple data declarations it would be convinient to also have at the type level.  Assuming we resolve the TypeNaming and ambiguity issues above, we could support automatically deriving the data kind based on the data.
+
+
+There are some other issues to be wary of (care of Simon PJ):
+
+- Auto lifting of:
+
+```wiki
+data Foo = Foo Int
+```
+
+> >
+> > Automated lifting this would try and create a kind `Foo` with an associated type `Foo`.  But we've just declared a type `Foo` in the data declaration.
+
+- Automatic lifting of GADTs / existentials and parametric types is tricky until we have a story for them.
+
+- Automatic lifting of some non-data types could be problematic (what types parameterise the kind `Int` or `Double`?)
+
+- We have no plan to auto-lift term \*functions\* to become type functions.  So it seems odd to auto-lift the type declarations which are, after all, the easy bit.
+
+
+Syntactically however, there are some options for how to do this in cases when it is safe to do: 
+
+**Option 0: Always promote \[when safe\]**
+
+
+E.g. writing
+
+```wiki
+data Foo = Bar | Baz
+```
+
+
+will impliclty create a kind `Foo` and types `Bar` and `Baz`
+
+**Option 1: Steal the `deriving` syntax**
+This has an advantage of allowing standalone deriving for those data types that are declared elsewhere but not with Kind equivalents
+
+```
+dataMaybe a =Nothing|Just a
+  deriving(Kind)derivinginstance(KindBool)
+```
+
+**Option 2: Add an extra flag to the `data` keyword**
+
+```wiki
+data and kind Maybe a = Nothing | Just a
+```
+
+
+This has the problems of verbosity and is hard to apply after the fact to an existing data type.
 
 ## Unfiltered thoughts
+
+TODO clean up, delete or something
 
 ```wiki
 data kind List k = Nil | Cons k (List k)
