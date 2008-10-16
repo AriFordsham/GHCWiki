@@ -390,6 +390,8 @@ This has the problems of verbosity and is hard to apply after the fact to an exi
 
 Simple type synonyms have a natural analogy at the kind level that could be a useful feature to provde.  Depending on whether we keep the kind and type namespaces separate (above) we could just abuse the current `type Foo = Either Baz Bang` syntax to also allow creating `kind synonyms`, or if we need to invent some new syntax.  `kind Foo = Either Baz Bang` would seen natural, or perhaps more safely `type kind Foo = Either Baz Bang`.
 
+`newkind` doesn't make sense to add as there is no associated semantics to gain at the type level that `data kind` doesn't already provide.
+
 ## Unfiltered thoughts
 
 TODO clean up, delete or something
