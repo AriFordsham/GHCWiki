@@ -219,6 +219,9 @@ The main alternative to using binary as a boot package is to import the whole so
 
 #### Alternative 3
 
+**Update: this doesn't actually work because we need to look up the serialization function for user-defined annotations'''
+**
+
 
 The other alternative we came up with is to change the GHC API to annotations to this:
 
@@ -239,6 +242,54 @@ This doesn't require any more packages (we could even remove the ByteString usag
 
 
 Result: extreme broken-ness at run time (not compile time).
+
+### Alternative 4 =
+
+
+We could use Data to implement serialization, and require that instead of Binary. Advantages are manifold (credit goes to Neil Mitchell for this list):
+
+- You don't get any additional dependencies (other than perhaps SYB,
+
+
+which I hope you are going to add for the GHC API data types anyway).
+
+- You can control the format of the serialisation perfectly, and in a
+
+
+version independent way.
+
+- You can add type structure checksums to stop changed types with the
+
+
+same name being messed around - which should eliminate all heisenbugs
+from stale .hi files.
+
+- Everyone can write deriving Data/Typeable with automatic deriving.
+
+- Data/Typeable seems a much more natural pair of instances than
+
+
+Typeable/Binary
+
+- Data has been around and solidified for a lot longer time period, and
+
+
+isn't likely to change in incompatible ways.
+
+- You can serialise things into XML etc. without any interface change,
+
+
+should your requirements change.
+
+
+There are some disadvantages:
+
+- Serialisation will be slower. Not massively slower, but a bit. And
+
+
+hopefully it isn't a bottleneck anyway.
+
+- Datas gunfold won't be defined for abstract data types or those that omit some fields from gfoldl. This actually bites GHC, because the Template Haskell NameFlavour type had an abstract Data instance like that! I've worked around it by making the Data instance expose the internals of NameFlavour
 
 ## Future Work
 
