@@ -1,6 +1,9 @@
 # GHC's glorious new code generator
 
 
+See also: overview of the module structure in the new code generator?.
+
+
 This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.  Our plan is as follows:
 
 - **Step 1**: drain the "Rep swamp".  This is a change of data representation that pervades the compiler, including lots and lots of tiny changes in the existing native code generators.  It's done (see [Commentary/Compiler/BackEndTypes](commentary/compiler/back-end-types)), and tested, but not yet committed to the HEAD.
@@ -56,15 +59,11 @@ These notes are largely out of date, but I don't want to dump them till we're su
 
 ToDo: main issues
 
-- SRTs simply record live global variables.  So we should use the same live-variable framework as for live local variables.  That means we must be able to identify which globals are SRT-able.  What about compression/encoding schemes? Status: live variables are finished, but the actual SRT tables aren't right -- need to write new code that can handle recursive let bindings.
-
 - How do we write continuations in the RTS?  E.g. the update-frame continuation?  Michael Adams had a syntax with two sets of parameters, the the ones on the stack and the return values.
 
 - Review code gen for calls with lots of args.  In the existing codegen we push magic continuations that say "apply the return value to N more args".  Do we want to do this?  ToDo: how rare is it to have too many args?
 
 - Figure out how PAPs work.  This may interact with the GC check and stack check at the start of a function call.  The concern is how to enter the garbage collector with an infotable that properly describes the live variables. Now that we generate info tables on demand at the end of the pipeline, we can enter the gc with a regular procedure call and expect that the proper info table will be generated.
-
-- How do stack overflow checks work?  A stack check is inserted during the conversion from Stg to Cmm, with a proxy constant standing for the stack high-water mark. It is replaced when the stack pointer is reified. Status: Todo.
 
 - Was there something about sinking spills and hoisting reloads?
 
@@ -72,6 +71,5 @@ ToDo: main issues
 ToDo: small issues
 
 - Shall we rename Branch to GoTo?!
-- Where is the "push new continuation" middle node? It's gone!
 - Change the C-- parser (which parses RTS .cmm files) to directly construct `CmmGraph`.  
 - (SLPJ) See let-no-escape todos in `StgCmmExpr`.
