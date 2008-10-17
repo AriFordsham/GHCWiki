@@ -30,9 +30,14 @@ Bug list (code-gen related bugs that we may be able to fix):
 
 == Loose ends as at October 2008 ==
 
- * We only use one GC entry point, but there should be a bunch of canned ones.
- * Get rid of SRTs and live-variable info from STG, and from the Core-to-Stg phase.
+Short term
  * Fix if-then-else special case in `StgCmmExpr`
+ * Perhaps some obvious CSE opportunities
+ * We only use one GC entry point, but there should be a bunch of canned ones.
+ * Check performance regressions (one or two allocation (odd)); several on time.
+
+Tidying up 
+ * Get rid of SRTs and live-variable info from STG, and from the Core-to-Stg phase.
  * Do not split proc-points into separate `CmmProc`
  * Nuke old code gen, and associated Cmm cruft
  * Simplify dataflow framework, by doing deep rewriting only
