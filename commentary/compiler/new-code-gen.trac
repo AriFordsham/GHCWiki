@@ -30,14 +30,19 @@ Bug list (code-gen related bugs that we may be able to fix):
 
 == Loose ends as at October 2008 ==
 
+Testing
+  * Check nofib performance regressions (one or two allocation (odd)); several on time.
+  * Compile libraries and test
+
 Short term
  * Nuke `CmmCPSGen`, `CmmCPS`, and the two `Maybe`s in `CmmInfo` data type.
  * Remove `optionallyConvertAndOrCPS` from main pipeline.
  * Fix if-then-else special case in `StgCmmExpr`
  * Perhaps some obvious CSE opportunities
  * We only use one GC entry point, but there should be a bunch of canned ones.
- * Check performance regressions (one or two allocation (odd)); several on time.
+
  * To `Convention` add `StaticNative` (which does not use R1), and use it appropriately.  Replace `GC` by `gc = Native`.
+ * Allow .cmx files to come in ''before'' the new pipeline, to aid graceful migration of RTS.
 
 Larger
  * Migrate RTS to use procedures
