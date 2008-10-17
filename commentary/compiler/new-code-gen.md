@@ -39,6 +39,8 @@ Bug list (code-gen related bugs that we may be able to fix):
 - We only use one GC entry point, but there should be a bunch of canned ones.
 - Get rid of SRTs and live-variable info from STG, and from the Core-to-Stg phase.
 - Fix if-then-else special case in `StgCmmExpr`
+- Do not split proc-points into separate `CmmProc`
+- Nuke old code gen, and associated Cmm cruft
 
 ## Notes about the state of play in August, 2008
 
