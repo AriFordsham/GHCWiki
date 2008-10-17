@@ -177,13 +177,71 @@ Also see [PolymorphicKinds](polymorphic-kinds) which this would build upon...
 
 Data kinds could also be parameterised by kinds in the same way that data types can be parameterised by types.  This will require *polymorphic kinds*, see below:
 
+## Syntax
+
+
+We need a syntax for sorts as well as kinds:
+
 ```wiki
-data kind Maybe k = Nothing | Just k
+  kind variable ::= k, ... etc
+  kind ::= * | kind -> kind | forall k. kind | k
+
+  sort ::= ** | sort -> sort
 ```
 
 
-So here, `Maybe` has *sort*`* -> *`,
-`Nothing` has *kind*`forall k . Maybe k` and `Just` has *kind*`forall k . k -> Maybe k`.
+Choices
+
+- What to use for the sort that classifies `*`, `*->*` etc?  
+
+  - `*2` (as in Omega; but \*2 isn't a Haskell lexeme)
+  - `**` (using unary notation)
+  - `*s` (Tristan)
+  - `kind` (use a keyword)
+
+- Do we have sort polymorphism?  No!
+
+## Examples
+
+```wiki
+data kind MaybeK k = NothingK | JustK k
+```
+
+
+So here we have
+
+```wiki
+  MaybeK   :: ** -> **                      -- Sort of MaybeK
+  NothingK :: forall k::**. MaybeK k        -- Kind of NothingK
+  JustK    :: forall k::**. k -> MaybeK k   -- Kind of JustK
+```
+
+
+It might also be nice to support GADK (Generalized Algebraic Data Kind) syntax for declaring kinds, ala:
+
+```wiki
+data kind MaybeK :: ** -> ** where
+  NothingK :: MaybeK k
+  JustK :: k -> MaybeK k
+```
+
+
+Again, note that `Maybe` above is decorated with a `sort` signature.
+
+
+or
+
+```wiki
+data kind MaybeK k where
+  NothingK :: MaybeK k
+  JustK :: k -> MaybeK k
+```
+
+
+However no GADTs or existentials at the kind level (yet).  TODO think about motivating examples.
+
+
+Note: I don't think it's worth having existential kinds without kind-refinement as we don't have kind-classes, and so no user could ever make use of them.  Kind refinement does allow existential kinds to make sense however (or at least be usable).  The question then is when does kind-refinement come into play - pattern matches.  TODO generate some examples to motivate this.
 
 ## A detour of Sorts
 
@@ -213,33 +271,6 @@ data kind With :: forall (k :: * -> *) . k -> * where
 ```
 
 ## GADK Syntax
-
-
-It might also be nice to support GADK (Generalized Algebraic Data Kind) syntax for declaring kinds, ala:
-
-```wiki
-data kind Maybe :: * -> * where
-  Nothing :: Maybe k
-  Just :: k -> Maybe k
-```
-
-
-Again, note that `Maybe` above is decorated with a `sort` signature.
-
-
-or
-
-```wiki
-data kind Maybe k where
-  Nothing :: Maybe k
-  Just :: k -> Maybe k
-```
-
-
-At the moment I haven't thought about existential kinds or kind-refinement that GADK syntax makes natural. Probably beyond the scope of this work, but should be open for someone to add in the future.  TODO think about motivating examples.
-
-
-Note: I don't think it's worth having existential kinds without kind-refinement as we don't have kind-classes, and so no user could ever make use of them.  Kind refinement does allow existential kinds to make sense however (or at least be usable).  The question then is when does kind-refinement come into play - pattern matches.  TODO generate some examples to motivate this.
 
 ## Implementation things
 
