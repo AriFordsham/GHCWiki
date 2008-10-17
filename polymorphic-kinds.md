@@ -67,6 +67,9 @@ in the kind signatures.
 
 ### Option 3: Completely implicit quantified kind variables
 
+
+In any type signature, find all the free kind variables; bring them into scope; kind-check the type signature; fix the sorts of the kind variables. Entirely local to an explicit, user-written type signature.
+
 ```
 f:: forall (m :: k ->*)(a :: k). m a ->Int
 ```
