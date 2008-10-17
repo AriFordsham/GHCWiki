@@ -123,19 +123,6 @@ In the above example, there is the question of what kind we should assign to `a`
 
 GADT constructors must only accept arguments of kind `*` (as per the restrictions on (-\>) described above), but may also collect constraints for the kind inference system.
 
-### Kind inference
-
-
-Kind inference figures out the kind of each type variable.   There are often ambiguous cases:
-
-```wiki
-  data T a b = MkT (a b)
-```
-
-
-These are resolved by Haskell 98 with `(a :: *->*)` and `(b :: *)`.  We propose no change.
-But see kind polymorphism below.
-
 ### Interaction with Type Classes
 
 
@@ -160,12 +147,23 @@ instance Bad Zero  -- BAD: ill-kinded
 
 By default declaration arguments are inferred to be of kind `*` if there is nothing in the class declaration (member functions or explicit kind signature) to change this.  This seems sensible for backward-compatibility.
 
-### Interaction with Type Synonym Families
+### Interaction with Data/Type Synonym Families
 
-TODO
-Also see: [ClosedTypeFamilies](closed-type-families)
 
-### Interaction with Data Type Families
+Follows as per type classes
+
+### Kind inference
+
+
+Kind inference figures out the kind of each type variable.   There are often ambiguous cases:
+
+```wiki
+  data T a b = MkT (a b)
+```
+
+
+These are resolved by Haskell 98 with `(a :: *->*)` and `(b :: *)`.  We propose no change.
+But see kind polymorphism below.
 
 ---
 
