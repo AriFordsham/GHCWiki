@@ -254,20 +254,20 @@ This means we could allow explicit sort-signatures on kind arguments, e.g.:
 TODO think really hard about this example.
 
 ```wiki
-data kind With (k :: * -> *) = WithStar (k *) | WithNat (k Nat)
+data kind With (k :: ** -> **) = WithStar (k *) | WithNat (k Nat)
 
-data Blah :: * -> With Maybe -> * where
-  B1 :: Int -> Blah (WithStar (Just Int))
-  B2 :: Int -> Blah (WithNat Nothing) -- type error!
+data Blah :: With MaybeK -> * where
+  B1 :: Int -> Blah (WithStar (JustK Int))
+  B2 :: Int -> Blah (WithNat NothingK) -- type error!
 ```
 
 
 Alt formulation of With using GADK syntax.  Does this help?
 
 ```wiki
-data kind With :: forall (k :: * -> *) . k -> * where
-  WithStar :: (k *) -> With k
-  WithNat :: (k Nat) -> With k
+data kind With :: (** -> **) -> ** where
+  WithStar :: forall (k :: ** -> **). (k *) -> With k
+  WithNat  :: forall (k :: ** -> **). (k Nat) -> With k
 ```
 
 ## GADK Syntax
