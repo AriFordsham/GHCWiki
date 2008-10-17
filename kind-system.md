@@ -45,7 +45,9 @@ foo::Zero->SuccZero->Bool
 
 - Nothing stops a user creating the silly type `List Int Int` even though the intention is that the second argument is structured out of `Succ`s and `Zero`s.
 
-## Proposal
+---
+
+## Basic proposal
 
 
 We propose to add new base kinds other than `*` using a simple notation.  The above example *could* become:
@@ -58,7 +60,7 @@ data kind Nat=Zero|SuccNatdataList::*->Nat->*whereNil::List a Zero-- Cons :: a -
 
 - We then declare the type `List`, but we now say the second argument to `List` has to be a type of kind `Nat`.  With this extra information, the compiler can statically detect our erroneous `Cons` declaration and would also reject silly types like `List Int Int`.
 
-### ADT syntax
+### Syntax
 
 
 The idea would be to mirror existing Haskell data declarations.  There is a clear analogy as we are now creating new kinds consiting of type constructors as opposed to new types consisting of data constructors.
@@ -153,12 +155,14 @@ instance Bad Zero  -- BAD: ill-kinded
 
 By default declaration arguments are inferred to be of kind `*` if there is nothing in the class declaration (member functions or explicit kind signature) to change this.  This seems sensible for backward-compatibility.
 
-## Interaction with Type Synonym Families
+### Interaction with Type Synonym Families
 
 TODO
 Also see: [ClosedTypeFamilies](closed-type-families)
 
-## Interaction with Data Type Families
+### Interaction with Data Type Families
+
+---
 
 ## Polymorphic kinds
 

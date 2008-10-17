@@ -44,7 +44,8 @@ There are many eugh moments in this code:
 
   * Nothing stops a user creating the silly type {{{List Int Int}}} even though the intention is that the second argument is structured out of {{{Succ}}}s and {{{Zero}}}s.
 
-== Proposal ==
+-----------------------------
+== Basic proposal ==
 
 We propose to add new base kinds other than {{{*}}} using a simple notation.  The above example ''could'' become:
 
@@ -66,7 +67,7 @@ data List :: * -> Nat -> * where
 
 
 
-=== ADT syntax ===
+=== Syntax ===
 
 The idea would be to mirror existing Haskell data declarations.  There is a clear analogy as we are now creating new kinds consiting of type constructors as opposed to new types consisting of data constructors.
 
@@ -160,15 +161,15 @@ instance Bad Zero  -- BAD: ill-kinded
 
 By default declaration arguments are inferred to be of kind {{{*}}} if there is nothing in the class declaration (member functions or explicit kind signature) to change this.  This seems sensible for backward-compatibility.
 
-== Interaction with Type Synonym Families ==
+=== Interaction with Type Synonym Families ===
 
 TODO
 Also see: ClosedTypeFamilies
 
 
-== Interaction with Data Type Families ==
+=== Interaction with Data Type Families ===
 
-
+-----------------------------------
 == Polymorphic kinds ==
 
 Also see PolymorphicKinds which this would build upon...
