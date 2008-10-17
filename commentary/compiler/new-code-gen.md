@@ -45,6 +45,12 @@ Short term
 - Check performance regressions (one or two allocation (odd)); several on time.
 
 
+Larger
+
+- Migrate RTS to use procedures
+- Explore new calling conventions
+
+
 Tidying up 
 
 - Get rid of SRTs and live-variable info from STG, and from the Core-to-Stg phase.

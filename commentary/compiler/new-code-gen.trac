@@ -36,6 +36,10 @@ Short term
  * We only use one GC entry point, but there should be a bunch of canned ones.
  * Check performance regressions (one or two allocation (odd)); several on time.
 
+Larger
+ * Migrate RTS to use procedures
+ * Explore new calling conventions
+
 Tidying up 
  * Get rid of SRTs and live-variable info from STG, and from the Core-to-Stg phase.
  * Do not split proc-points into separate `CmmProc`
