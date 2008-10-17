@@ -168,7 +168,7 @@ But see kind polymorphism below.
 ### Kind Namespace
 
 
-Also see: TypeNaming
+Also see: [Design/TypeNaming](design/type-naming)
 
 
 Strictly, the new kinds that have been introduced using `data kind` syntax inhabit a new namespace.  Mostly it is unambiguous when you refer to a type and when you refer to a kind.  However there are some corner cases, particularly in module import/export lists.
@@ -198,7 +198,7 @@ Strictly, the new kinds that have been introduced using `data kind` syntax inhab
 ## Auto Promotion of Types to Kinds
 
 
-Many simple data declarations it would be convinient to also have at the type level.  Assuming we resolve TypeNaming and some ambiguity issues, we could support automatically deriving the data kind based on the data.
+Many simple data declarations it would be convinient to also have at the type level.  Assuming we resolve [Design/TypeNaming](design/type-naming) and some ambiguity issues, we could support automatically deriving the data kind based on the data.
 
 
 There are some other issues to be wary of (care of Simon PJ):
