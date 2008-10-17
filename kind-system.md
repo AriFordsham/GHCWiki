@@ -85,7 +85,7 @@ Alternatively (preferably), we can add a modifier to data declarations to indica
 data kind Bool=True|False
 ```
 
-## Interaction with normal functions
+### Interaction with normal functions
 
 
 Functions cannot have arguments of a non \* kind.  So the following would be disallowed:
@@ -108,7 +108,7 @@ dataNatRep::Nat->*whereZeroRep::NatRepZeroSuccRep::(NatRep n)->NatRep(Succ n)tRe
 
 In the above, `n` would be inferred to have kind `Nat` and `a` would have kind `*`.
 
-## Interaction with (G)ADTs
+### Interaction with (G)ADTs
 
 
 (G)ADTs can already be annotated with a mixture of names with optional explicit kind signatures and just kind signatures. These kind signatures would now be able to refer to the newly declared, non-\* kinds.  However the ultimate kind of a (G)ADT must still be `*`. i.e.
@@ -164,6 +164,36 @@ Kind inference figures out the kind of each type variable.   There are often amb
 
 These are resolved by Haskell 98 with `(a :: *->*)` and `(b :: *)`.  We propose no change.
 But see kind polymorphism below.
+
+### Kind Namespace
+
+
+Also see: TypeNaming
+
+
+Strictly, the new kinds that have been introduced using `data kind` syntax inhabit a new namespace.  Mostly it is unambiguous when you refer to a type and when you refer to a kind.  However there are some corner cases, particularly in module import/export lists.
+
+**Option 1 : Collapse Type and Kind namespace**
+
+*Pros:*
+
+- Simple
+- Follows behaviour of type classes, type functions and data type functions.
+
+*Cons:*
+
+- Inconsistent.  It would allow the user to create `True` and `False` as types, but not to be able to put them under kind `Bool`.  (You'd need to name your kind a `Bool'` or `Bool_k`)
+
+**Option 2 : Fix ambiguities**
+
+*Pros:*
+
+- As more extensions are put into the language, it'll have to happen sooner or later
+
+*Cons:*
+
+- Will involve creating a whole new namespace
+- Several corner cases
 
 ---
 
@@ -258,22 +288,19 @@ TODO think really hard about this example.
 
 ```wiki
 data kind With (k :: ** -> **) = WithStar (k *) | WithNat (k Nat)
-
-data Blah :: With MaybeK -> * where
-  B1 :: Int -> Blah (WithStar (JustK Int))
-  B2 :: Int -> Blah (WithNat NothingK) -- type error!
 ```
 
 
-Alt formulation of With using GADK syntax.  Does this help?
+or
+
+
+Alternate formulation of With using GADK syntax.
 
 ```wiki
 data kind With :: (** -> **) -> ** where
   WithStar :: forall (k :: ** -> **). (k *) -> With k
   WithNat  :: forall (k :: ** -> **). (k Nat) -> With k
 ```
-
-## GADK Syntax
 
 ## Implementation things
 
@@ -344,36 +371,6 @@ Possibly with some form of aliases to make the common levels more memorable, e.g
 
 
 Of course, if we are going to worry about `*` at different levels, the same could apply to other machinary that is applied at different levels (I'm looking at you (-\>)).
-
-## Kind Namespace
-
-
-With reference to: TypeNaming
-
-
-Strictly, the new kinds that have been introduced using `data kind` syntax inhabit a new namespace.  Mostly it is unambiguous when you refer to a type and when you refer to a kind.  However there are some corner cases, particularly in module import/export lists.
-
-### Option 1 : Collapse Type and Kind namespace
-
-**Pros:**
-
-- Simple
-- Follows behaviour of type classes, type functions and data type functions.
-
-**Cons:**
-
-- Inconsistent.  It would allow the user to create `True` and `False` as types, but not to be able to put them under kind `Bool`.  (You'd need to name your kind a `Bool'` or `Bool_k`)
-
-### Option 2 : Fix ambiguities
-
-**Pros:**
-
-- As more extensions are put into the language, it'll have to happen sooner or later
-
-**Cons:**
-
-- Will involve creating a whole new namespace
-- Several corner cases
 
 ## Auto Promotion of Types to Kinds
 
