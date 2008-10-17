@@ -55,7 +55,7 @@ Tidying up
 
 - Remove `optionallyConvertAndOrCPS` from main pipeline.
 - Get rid of SRTs and live-variable info from STG, and from the Core-to-Stg phase.
-- Do not split proc-points into separate `CmmProc`
+- Do not split proc-points into separate `CmmProc`. Not a trivial change, because it involves attaching info tables to blocks, not just to `CmmProc`s.
 - Nuke old code gen, and associated Cmm cruft
 - Simplify dataflow framework, by doing deep rewriting only
 
