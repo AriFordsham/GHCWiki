@@ -1,7 +1,8 @@
 # Design of the new code generator
 
 
-This page contains notes about the design of the new code generator
+This page contains notes about the design of the new code generator.
+See also: overview of the module structure in the new code generator?.
 
 ## The new Cmm data type
 
@@ -19,13 +20,14 @@ There is a new Cmm data type:
 - **[compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)** instantiates `ZipCfg` for Cmm, by defining types `Middle` and `Last` and using these to instantiate the polymorphic fields of `ZipCfg`.  It also defines a bunch of smart constructor (`mkJump`, `mkAssign`, `mkCmmIfThenElse` etc) which make it easy to build `CmmGraph`.
 - **`CmmExpr`** contains the data types for Cmm expressions, registers, and the like.  It does not depend on the dataflow framework at all.
 
-## The the Cmm pipeline
+## The Cmm pipeline
 
 
 Code generation now has three stages:
 
 1. Convert STG to Cmm, with implicit stack implicit, and native Cmm calls.
 1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls.
+  This part of the pipeline is stitched together in `cmm/CmmCPSZ.hs`.
 1. Feed the CPS-converted Cmm to the existing, unmodified native code generators.
 
 
@@ -37,7 +39,6 @@ The first two steps are described in more detail here:
   - That includes a store of the return address, which is stored explicitly on the stack in the same way as overflow parameters.
   - No `CopyIn`, `CopyOut` nodes any more; instead "smart constructors" lower the calling convention to loads/stores/register transfers, using stack area abstraction.
   - But we still have `LastCall`, `LastReturn`, `LastBranch`, `LastJump` as `Last` nodes.
-  - TODO Use the proper calling conventions (post Rep Swamp).
 
 - **Simple control flow optimisation**, implemented in `CmmContFlowOpt`:
 
@@ -54,22 +55,22 @@ The first two steps are described in more detail here:
 
 - **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The spill and reload instructions are simply memory stores and loads respectively, using symbolic stack offsets (see [stack layout](commentary/compiler/stack-areas#laying-out-the-stack)).  For example, a spill of variable 'x' would look like `Ptr32[SS(x)] = x`.
 
-- **Figure out the stack layout**
+- **Figure out the stack layout**, implemented in `CmmStackLayout`.
 
   - Each variable 'x', and each proc-point label 'K', has an associated *Area*, written SS(x) and SS(k) resp, that names a contiguous portion of the stack frame.  
   - The stack layout pass produces a mapping of: *(`Area` -\> `StackOffset`)*. For more detail, see [the description of stack layout.](commentary/compiler/stack-areas#laying-out-the-stack)
   - A `StackOffset` is the byte offset of a stack slot from the old end (high address) of the frame.  It doesn't vary as the physical stack pointer moves.
 
-- **Manifest the stack pointer**.  Once the stack layout mapping has been determined, a second pass walks over the graph, making the stack pointer, `Sp` explicit. Before this pass, there is no `Sp` at all.  After this, `Sp` is completely manifest.
+- **Manifest the stack pointer**, implemented in `CmmStackLayout`.  Once the stack layout mapping has been determined, a second pass walks over the graph, making the stack pointer, `Sp` explicit. Before this pass, there is no `Sp` at all.  After this, `Sp` is completely manifest.
 
   - replacing references to `Areas` with offsets from `Sp`.
   - adding adjustments to `Sp`.
 
-- **Split into multiple CmmProcs**.  At this point we build an info-table for each of the CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
+- **Split into multiple CmmProcs**, implemented in `CmmProcPointZ`.  At this point we build an info-table for each of the CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
 
   - `LastCall` and `LastReturn` nodes are replaced by `Jump`s.
 
-- **Build info tables**.  
+- **Build info tables**, implemented in `CmmBuildInfoTables`..  
 
   - Find each safe `MidForeignCall` node, "lowers" it into the suspend/call/resume sequence (see `Note [Foreign calls]` in `CmmNode.hs`.), and build an info table for them.
   - Convert the `CmmInfo` for each `CmmProc` into a `[CmmStatic]`, using the live variable information computed just before "Figure out stack layout".  
