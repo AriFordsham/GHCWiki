@@ -60,6 +60,9 @@ data kind Nat=Zero|SuccNatdataList::*->Nat->*whereNil::List a Zero-- Cons :: a -
 
 - We then declare the type `List`, but we now say the second argument to `List` has to be a type of kind `Nat`.  With this extra information, the compiler can statically detect our erroneous `Cons` declaration and would also reject silly types like `List Int Int`.
 
+
+In the basic proposal the `data kind` declaration has no kind parameters.  (See below for kind polymorphism.)
+
 ### Syntax
 
 
