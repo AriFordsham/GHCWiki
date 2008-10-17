@@ -35,6 +35,7 @@ Bug list (code-gen related bugs that we may be able to fix):
  * Fix if-then-else special case in `StgCmmExpr`
  * Do not split proc-points into separate `CmmProc`
  * Nuke old code gen, and associated Cmm cruft
+ * Simplify dataflow framework, by doing deep rewriting only
 
 == Notes about the state of play in August, 2008 ==
 
