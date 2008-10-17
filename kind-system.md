@@ -1,7 +1,7 @@
 # A Kind System for GHC
 
 
-Currently thinking about adding a more expressive **Kind System** to GHC.  This document is currently very WIP and does feature mistakes...
+Currently thinking about adding a more expressive **Kind System** to GHC.  This page is currently a WIP ...
 
 ## Rationale
 
@@ -108,10 +108,10 @@ dataNatRep::Nat->*whereZeroRep::NatRepZeroSuccRep::(NatRep n)->NatRep(Succ n)tRe
 
 In the above, `n` would be inferred to have kind `Nat` and `a` would have kind `*`.
 
-## Interaction with GADTs
+## Interaction with (G)ADTs
 
 
-GADTs can already be annotated with a mixture of names with optional explicit kind signatures and just kind signatures. These kind signatures would now be able to refer to the newly declared, non-\* kinds.  However the ultimate kind of a GADT must still be `*`. i.e.
+(G)ADTs can already be annotated with a mixture of names with optional explicit kind signatures and just kind signatures. These kind signatures would now be able to refer to the newly declared, non-\* kinds.  However the ultimate kind of a (G)ADT must still be `*`. i.e.
 
 ```
 dataOk a (b ::Bool)::Nat->*whereOkC::OkIntTrueZeroOkC'::OkStringFalse(SuccZero)dataBad a ::Nat->Natwhere-- result kind is not *...
