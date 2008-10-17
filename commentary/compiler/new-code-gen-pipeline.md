@@ -4,22 +4,6 @@
 This page contains notes about the design of the new code generator.
 See also: overview of the module structure in the new code generator?.
 
-## The new Cmm data type
-
-
-There is a new Cmm data type:
-
-- [compiler/cmm/ZipCfg.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfg.hs) contains a generic zipper-based control-flow graph data type.  It is generic in the sense that it's polymorphic in the type of **middle nodes** and **last nodes** of a block.  (Middle nodes don't do control transfers; last nodes only do control transfers.)  There are extensive notes at the start of the module.
-
-  The key types it defines are:
-
-  - Block identifiers: `BlockId`, `BlockEnv`, `BlockSet`
-  - Control-flow blocks: `Block`
-  - Control-flow graphs: `Graph`
-- **`ZipDataFlow`** contains a generic framework for solving dataflow problems over `ZipCfg`. It allows you to define a new optimization simply by defining a lattice of dataflow facts (akin to a specialized logic) and then writing the dataflow-transfer functions found in compiler textbooks. Handing these functions to the dataflow engine produces a new optimization that is not only useful on its own, but that can easily be composed with other optimizations to create an integrated "superoptimization" that is strictly more powerful than any sequence of individual optimizations, no matter how many times they are re-run.  The dataflow engine is based on [ (Lerner, Grove, and Chambers 2002)](http://citeseer.ist.psu.edu/old/lerner01composing.html); you can find a functional implementation of the dataflow engine presented in [ (Ramsey and Dias 2005)](http://www.cs.tufts.edu/~nr/pubs/zipcfg-abstract.html).
-- **[compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)** instantiates `ZipCfg` for Cmm, by defining types `Middle` and `Last` and using these to instantiate the polymorphic fields of `ZipCfg`.  It also defines a bunch of smart constructor (`mkJump`, `mkAssign`, `mkCmmIfThenElse` etc) which make it easy to build `CmmGraph`.
-- **`CmmExpr`** contains the data types for Cmm expressions, registers, and the like.  It does not depend on the dataflow framework at all.
-
 ## The Cmm pipeline
 
 
