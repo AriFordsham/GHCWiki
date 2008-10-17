@@ -21,7 +21,7 @@ Because we need a way of talking about the types (and hence their kinds) in the
 type classes' functions, we will need a proxy data type:
 
 ```
-dataProxy:: forall k . k ->*forall_kind k .classTypeable(t :: k)where
+dataProxy:: forall k . k ->*classTypeable(k ::**)(t :: k)where
   typeOf ::Proxy t ->TypeRepinstanceTypeableBoolwhere
   typeOf _= mkTyCon "Prelude.Bool"[]instanceTypeableMaybewhere
   typeOf _= mkTyConApp (mkTyCon "Prelude.Mabe")[]instanceTypeableEitherwhere

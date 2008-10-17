@@ -27,7 +27,7 @@ type classes' functions, we will need a proxy data type:
 #!text/x-haskell
 data Proxy :: forall k . k -> *
 
-forall_kind k . class Typeable (t :: k) where
+class Typeable (k :: **) (t :: k) where
   typeOf :: Proxy t -> TypeRep
 
 instance Typeable Bool where
