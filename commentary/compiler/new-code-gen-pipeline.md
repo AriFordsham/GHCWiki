@@ -26,6 +26,7 @@ Code generation now has three stages:
 
 1. Convert STG to Cmm, with implicit stack implicit, and native Cmm calls.
 1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls.
+  This part of the pipeline is stitched together in `cmm/CmmCPSZ.hs`.
 1. Feed the CPS-converted Cmm to the existing, unmodified native code generators.
 
 
@@ -37,7 +38,6 @@ The first two steps are described in more detail here:
   - That includes a store of the return address, which is stored explicitly on the stack in the same way as overflow parameters.
   - No `CopyIn`, `CopyOut` nodes any more; instead "smart constructors" lower the calling convention to loads/stores/register transfers, using stack area abstraction.
   - But we still have `LastCall`, `LastReturn`, `LastBranch`, `LastJump` as `Last` nodes.
-  - TODO Use the proper calling conventions (post Rep Swamp).
 
 - **Simple control flow optimisation**, implemented in `CmmContFlowOpt`:
 
