@@ -121,18 +121,20 @@ dataOk a (b ::Bool)::Nat->*whereOkC::OkIntTrueZeroOkC'::OkStringFalse(SuccZero)d
 In the above example, there is the question of what kind we should assign to `a` in `Ok`.  Currently it would be inferred to be `*`.  That inference engine would need to be improved to include inference of other kinds. 
 
 
-GADT constructors must only accept arguments of kind `*` (as per the restrictions on (-\>) described below), but may also collect constraints for the kind inference system.
+GADT constructors must only accept arguments of kind `*` (as per the restrictions on (-\>) described above), but may also collect constraints for the kind inference system.
 
-### Ambiguous cases
+### Kind inference
 
-TODO are there real ambiguous cases?  _Assuming_ data types have their kind signatures inferred before functions are type checked and must be monomorphic in their kinds, I don't see how there could be unless a variable is totally unconstrained (i.e. not mentioned)
+
+Kind inference figures out the kind of each type variable.   There are often ambiguous cases:
 
 ```wiki
-foo :: forall a . Int
+  data T a b = MkT (a b)
 ```
 
 
-However this is accepted (6.8.3), although ghci drops the 'a'.  Even if it was used in a scoped setting (TODO example of where that makes sense without a type class grounding it), the moment it is used it'll get a kind constraint.  Do [PolymorphicKinds](polymorphic-kinds) break this assumption?
+These are resolved by Haskell 98 with `(a :: *->*)` and `(b :: *)`.  We propose no change.
+But see kind polymorphism below.
 
 ### Interaction with Type Classes
 
