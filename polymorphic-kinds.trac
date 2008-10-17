@@ -103,14 +103,15 @@ f :: forall (m :: k -> *) (a :: k) . m a -> Int
 ''' Cons: '''
  * This makes it hard to add additional constraints to the k in future (sort annotations, kind classes?)
 
- * A typo with a rank-n kind could be very confusing, e.g.
-  
+Just occasionally, a Haskell program ''needs'' an explicit kind signature, because the defaulting mechanism makes the wrong choice:
 {{{
-#!text/x-haskell
-  f :: forall (m :: k -> (forall k . k' -> *))
+data T m = MkT    -- m defaults to (m::*)
 }}}
-
-
+Suppose you really wanted
+{{{
+data T (m::*->*) = MkT
+}}}
+Question: could the same thing happen at the next level up, so that we want explicit sort signatures?  And if so, does that mean we need explicit binding sites for kind variables? 
 
 == Type Classes ==
 
