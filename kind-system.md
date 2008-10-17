@@ -26,8 +26,7 @@ dataList::*->*->*whereNil::List a ZeroCons:: a ->List n a ->List a (Succ n)
 There are many eugh moments in this code:
 
 - We first declare two new types (`Zero` and `Succ`), and, thanks to the EmpyDataDecls extension, say that they are uninhabited by values (except bottom/error).
-
-  - `Zero` has kind `*`, and `Succ` has kind `* -> *`, so it is perfectly valid to create a haskell function with a signature:
+- `Zero` has kind `*`, and `Succ` has kind `* -> *`, so it is perfectly valid to create a haskell function with a signature:
 
 ```
 foo::Zero->SuccZero->Bool
@@ -40,7 +39,7 @@ foo::Zero->SuccZero->Bool
 
 - We then decalare a new data type to hold lists parameterised by their lengths.
 
-  - `List` has kind `* -> * -> *`, which really doesn't tell us anything other than its arity.  An alternative definition could have been: `data List item len where ... `, although this adds only pedagogical information, and nothing new that the compiler can statically check.
+- `List` has kind `* -> * -> *`, which really doesn't tell us anything other than its arity.  An alternative definition could have been: `data List item len where ... `, although this adds only pedagogical information, and nothing new that the compiler can statically check.
 
 - The `Cons` constructor actually has a mistake in it.  The second argument (`List n a`) has the names to the type parameters flipped.  The compiler cannot detect this, and the error will become apparant at use sites which are at a distance from this declaration site.
 
