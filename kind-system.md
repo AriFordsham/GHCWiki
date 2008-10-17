@@ -184,7 +184,8 @@ We need a syntax for sorts as well as kinds:
 
 ```wiki
   kind variable ::= k, ... etc
-  kind ::= * | kind -> kind | forall k. kind | k
+  monokind ::= * | monokind -> monokind | k
+  polykind ::= forall k1.. kn. monokind
 
   sort ::= ** | sort -> sort
 ```
@@ -200,6 +201,10 @@ Choices
   - `kind` (use a keyword)
 
 - Do we have sort polymorphism?  No!
+
+- Do we have higher ranked kinds?  No (for now)!  Only a monokind on either side of an `(->)` in a kind.  The things that have polykinds are (top-level) type constructors and type functions.
+
+- Impredicative kinds?  No!
 
 ## Examples
 
