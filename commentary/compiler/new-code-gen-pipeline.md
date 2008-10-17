@@ -1,7 +1,8 @@
 # Design of the new code generator
 
 
-This page contains notes about the design of the new code generator
+This page contains notes about the design of the new code generator.
+See also: overview of the module structure in the new code generator?.
 
 ## The new Cmm data type
 
