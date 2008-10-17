@@ -1,7 +1,5 @@
 = GHC's glorious new code generator =
 
-See also: [wiki:NewCodeGenOverview overview of the module structure in the new code generator].
-
 This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.  Our plan is as follows:
 
  * '''Step 1''': drain the "Rep swamp".  This is a change of data representation that pervades the compiler, including lots and lots of tiny changes in the existing native code generators.  It's done (see [wiki:Commentary/Compiler/BackEndTypes]), and tested, but not yet committed to the HEAD.
