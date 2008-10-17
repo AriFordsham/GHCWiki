@@ -4,7 +4,7 @@ Currently thinking about adding a more expressive '''Kind System''' to GHC.  Thi
 
 == Rationale ==
 
-Haskell has a very powerful and expressive static type system.  The problem is when you come to do any programming at the type level, that is typed by an unsatisfactorily inexpressive kind system.  We propose to make it just a little bit stronger.
+Haskell has a very powerful and expressive static type system.  The problem is when you come to do any programming at the type level, that is typed by an unsatisfactorily inexpressive kind system.    We propose to make it just a little bit stronger.
 
 Note: the aim here initially is to implement a small useful extension to Haskell, and not to retrofit the entirety of e.g. [http://web.cecs.pdx.edu/~sheard/Omega/index.html Omega] into GHC yet ;))
 
@@ -60,9 +60,9 @@ data List :: * -> Nat -> * where
 
 
 
-* We first declare a new ''kind'' {{{Nat}}}, that is defined by two types, {{{Zero}}} and {{{Succ}}}.  Although {{{Zero}}} and {{{Succ}}} are types, they do not classify any haskell values (including undefined/bottom).  So the {{{ foo :: Zero -> Succ Zero -> Bool }}} type signature from earlier would be rejected by the compiler.
+  * We first declare a new ''kind'' {{{Nat}}}, that is defined by two types, {{{Zero}}} and {{{Succ}}}.  Although {{{Zero}}} and {{{Succ}}} are types, they do not classify any haskell values (including undefined/bottom).  So the {{{ foo :: Zero -> Succ Zero -> Bool }}} type signature from earlier would be rejected by the compiler.
 
-* We then declare the type {{{List}}}, but we now say the second argument to {{{List}}} has to be a type of kind {{{Nat}}}.  With this extra information, the compiler can statically detect our erroneous {{{Cons}}} declaration and would also reject silly types like {{{List Int Int}}}.
+  * We then declare the type {{{List}}}, but we now say the second argument to {{{List}}} has to be a type of kind {{{Nat}}}.  With this extra information, the compiler can statically detect our erroneous {{{Cons}}} declaration and would also reject silly types like {{{List Int Int}}}.
 
 
 
