@@ -1,8 +1,11 @@
 # Polymorphic Kinds for Haskell
 
 
-Currently thinking about adding **Polymorphic Kinds** to GHC...
-(Currently very WIP)
+Currently thinking about adding **Polymorphic Kinds** to GHC ... this document is a WIP
+
+
+This is strongly motivated by wanting to add a new [KindSystem](kind-system), but does not require it.  
+See [KindSystem](kind-system) for a discussion of the syntax of sorts (which classify kinds).
 
 ## Example: At the term level
 
@@ -26,7 +29,7 @@ dataProxy:: forall k . k ->*classTypeable(k ::**)(t :: k)where
   typeOf _= mkTyCon "Prelude.Bool"[]instanceTypeableMaybewhere
   typeOf _= mkTyConApp (mkTyCon "Prelude.Mabe")[]instanceTypeableEitherwhere
   typeOf _=...instance(Typeable(t1 ::(*->*),Typeable(t2 ::*)))=>Typeable(t1 t2)where
-  typeOf _=(typeOf (undefined :: t1))`mkAppTy`(typeOf (undefined :: t2))
+  typeOf _=(typeOf (undefined ::Proxy t1))`mkAppTy`(typeOf (undefined ::Proxy t2))
 ```
 
 ## Functions Quantifying over Kinds
@@ -128,60 +131,5 @@ Again, this doesn't seem to add much now, however if we ever want to constrain t
 Can't do this in general, as you need to name the variables that index the type class for use in member functions.  Although for type classes with no member functions this may be a viable option.  The question is what is the result of a type class?
 
 ```wiki
-class Blah :: forall k . (k -> *) -> ??? where
-```
-
-## Type functions
-
-
-Follow as per type classes
-
-## Syntax of Kinds
-
-```wiki
-kind ::=  * | # | ? | (kind) | kind -> kind | 
-          ty :=: ty | forall var . kind | var
-```
-
-## Syntax of Types
-
-
-Type syntax needs to be extended with a new binder.
-
-## Implementation route
-
-
-Places that would be hit TODO:
-
-- Parser
-
-  - New Language Flag {-\# [PolymorphicKinds](polymorphic-kinds) \#-} ?
-  - Syntax of kinds
-  - Possibly syntax of function types
-
-- Type checker
-
-- Core / Core Lint
-
-- Module interfaces
-
-  - To expose kind-quantified variables (does this drop out of any other change)
-
-- Test cases
-
-## To classify
-
-
-Other 'issues' (probably non-issues).  Kinds in rank-n types?
-foobar :: forall k1 (b :: k1) (c :: k1 -\> \*) . (forall k2 (e :: k2 -\> \*) (f :: k) . e f -\> Int ) -\> b c -\> Int
-
-
-Impredicativity
-
-```
-dataProxy:: forall k . k ->*foo:: forall (m :: forall k . k ->*). m Int-> m Maybe->Int-- This is okbar= foo ProxyProxy
-```
-
-```
-dataFoo:: forall k . k ->*foo:: forall (m ::(forall k . k ->*)->*). m Proxy->Int-- This line is ok-- has a higher-- ranked kind, but-- that's not an-- issue as we-- have to be-- explicitbar= foo Foo-- This is impredicative (and rejected) as it requires instantiating -- Foo's k to (forall k .  k -> *)
+class Blah :: forall k . (k -> *) -> CLASS where
 ```
