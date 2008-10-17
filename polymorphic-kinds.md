@@ -7,7 +7,7 @@ Currently thinking about adding **Polymorphic Kinds** to GHC...
 ## Example: At the term level
 
 ```
-f:: forall_kind k . forall (m :: k ->*)(a :: k). m a ->Intf_=2dataT m =MkT(m Int)foo= f (Just2)-- m = Maybe, a = Intbar= f (MkT(Just2))-- m = T    , a = Maybe
+f:: forall_kind (k ::**). forall (m :: k ->*)(a :: k). m a ->Intf_=2dataT m =MkT(m Int)foo= f (Just2)-- m = Maybe, a = Intbar= f (MkT(Just2))-- m = T    , a = Maybe
 ```
 
 ## Example: Typeable\[123..\]
@@ -21,8 +21,8 @@ Because we need a way of talking about the types (and hence their kinds) in the
 type classes' functions, we will need a proxy data type:
 
 ```
-dataProxy:: forall k . k ->*forall_kind k .classTypeable(t :: k)where
-  typeOf ::Proxy t ->TypeRepinstanceTypeableBoolwhere
+dataProxy:: forall k . k ->*classTypeable(k ::**)(t :: k)where
+  typeOf ::Proxy t ->TypeRep-- Typeable :: forall (k :: **). k -> Class-- f :: forall a. a -> Int-- forall a. f (x::a) = 3???-- At term level we scope type variables from a separate signature-- For class decls it's unclear. One possiblity: implicitly bring k into scope, and-- infer its sort. -- When we call f, we write (f 3) not (f Int 3)-- Similarly we want to write (Typeable Int) not (Typable * Int)instanceTypeableBoolwhere
   typeOf _= mkTyCon "Prelude.Bool"[]instanceTypeableMaybewhere
   typeOf _= mkTyConApp (mkTyCon "Prelude.Mabe")[]instanceTypeableEitherwhere
   typeOf _=...instance(Typeable(t1 ::(*->*),Typeable(t2 ::*)))=>Typeable(t1 t2)where
@@ -66,6 +66,9 @@ in the kind signatures.
 - More complicated for both users and implementaion logic to work out what's going on
 
 ### Option 3: Completely implicit quantified kind variables
+
+
+In any type signature, find all the free kind variables; bring them into scope; kind-check the type signature; fix the sorts of the kind variables. Entirely local to an explicit, user-written type signature.
 
 ```
 f:: forall (m :: k ->*)(a :: k). m a ->Int
