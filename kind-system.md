@@ -37,13 +37,15 @@ foo::Zero->SuccZero->Bool
 
 - `Succ` has kind `* -> *`, whereas really the programmer wants to enforce that the argument to `Succ` will only ever consist of `Zero`s or `Succ`s.  i.e. the `* -> *` kind given to `Succ` is far to relaxed.
 
-- We then decalare a new data type to hold lists parameterised by their lengths.
+- We then declare a new data type to hold lists parameterised by their lengths.
 
 - `List` has kind `* -> * -> *`, which really doesn't tell us anything other than its arity.  An alternative definition could have been: `data List item len where ... `, although this adds only pedagogical information, and nothing new that the compiler can statically check.
 
-- The `Cons` constructor actually has a mistake in it.  The second argument (`List n a`) has the names to the type parameters flipped.  The compiler cannot detect this, and the error will become apparant at use sites which are at a distance from this declaration site.
+- The `Cons` constructor actually has a mistake in it.  The second argument (`List n a`) has the names to the type parameters flipped.  The compiler cannot detect this, and the error will become apparent at use sites which are at a distance from this declaration site.
 
 - Nothing stops a user creating the silly type `List Int Int` even though the intention is that the second argument is structured out of `Succ`s and `Zero`s.
+
+## Proposal
 
 
 We propose to add new base kinds other than `*` using a simple notation.  The above example *could* become:
@@ -55,8 +57,6 @@ data kind Nat=Zero|SuccNatdataList::*->Nat->*whereNil::List a Zero-- Cons :: a -
 - We first declare a new *kind*`Nat`, that is defined by two types, `Zero` and `Succ`.  Although `Zero` and `Succ` are types, they do not classify any haskell values (including undefined/bottom).  So the ` foo :: Zero -> Succ Zero -> Bool ` type signature from earlier would be rejected by the compiler.
 
 - We then declare the type `List`, but we now say the second argument to `List` has to be a type of kind `Nat`.  With this extra information, the compiler can statically detect our erroneous `Cons` declaration and would also reject silly types like `List Int Int`.
-
-## Declaration Syntax
 
 ### ADT syntax
 
