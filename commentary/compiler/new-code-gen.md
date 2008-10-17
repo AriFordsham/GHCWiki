@@ -53,6 +53,7 @@ Larger
 
 Tidying up 
 
+- Remove `optionallyConvertAndOrCPS` from main pipeline.
 - Get rid of SRTs and live-variable info from STG, and from the Core-to-Stg phase.
 - Do not split proc-points into separate `CmmProc`
 - Nuke old code gen, and associated Cmm cruft
