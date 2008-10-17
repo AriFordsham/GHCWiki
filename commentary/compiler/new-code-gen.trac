@@ -37,6 +37,7 @@ Short term
  * Perhaps some obvious CSE opportunities
  * We only use one GC entry point, but there should be a bunch of canned ones.
  * Check performance regressions (one or two allocation (odd)); several on time.
+ * To `Convention` add `StaticNative` (which does not use R1), and use it appropriately.  Replace `GC` by `gc = Native`.
 
 Larger
  * Migrate RTS to use procedures
