@@ -80,21 +80,6 @@ Alternatively (preferably), we can add a modifier to data declarations to indica
 data kind Bool=True|False
 ```
 
-## Interaction with GADTs
-
-
-GADTs can already be annotated with a mixture of names with optional explicit kind signatures and just kind signatures. These kind signatures would now be able to refer to the newly declared, non-\* kinds.  However the ultimate kind of a GADT must still be `*`. i.e.
-
-```
-dataOk a (b ::Bool)::Nat->*whereOkC::OkIntTrueZeroOkC'::OkStringFalse(SuccZero)dataBad a ::Nat->Natwhere-- result kind is not *...
-```
-
-
-In the above example, there is the question of what kind we should assign to `a` in `Ok`.  Currently it would be inferred to be `*`.  That inference engine would need to be improved to include inference of other kinds. 
-
-
-GADT constructors must only accept arguments of kind `*` (as per the restrictions on (-\>) described below), but may also collect constraints for the kind inference system.
-
 ## Interaction with normal functions
 
 
@@ -118,6 +103,21 @@ dataNatRep::Nat->*whereZeroRep::NatRepZeroSuccRep::(NatRep n)->NatRep(Succ n)tRe
 
 In the above, `n` would be inferred to have kind `Nat` and `a` would have kind `*`.
 
+## Interaction with GADTs
+
+
+GADTs can already be annotated with a mixture of names with optional explicit kind signatures and just kind signatures. These kind signatures would now be able to refer to the newly declared, non-\* kinds.  However the ultimate kind of a GADT must still be `*`. i.e.
+
+```
+dataOk a (b ::Bool)::Nat->*whereOkC::OkIntTrueZeroOkC'::OkStringFalse(SuccZero)dataBad a ::Nat->Natwhere-- result kind is not *...
+```
+
+
+In the above example, there is the question of what kind we should assign to `a` in `Ok`.  Currently it would be inferred to be `*`.  That inference engine would need to be improved to include inference of other kinds. 
+
+
+GADT constructors must only accept arguments of kind `*` (as per the restrictions on (-\>) described below), but may also collect constraints for the kind inference system.
+
 ### Ambiguous cases
 
 TODO are there real ambiguous cases?  _Assuming_ data types have their kind signatures inferred before functions are type checked and must be monomorphic in their kinds, I don't see how there could be unless a variable is totally unconstrained (i.e. not mentioned)
@@ -139,12 +139,15 @@ class LessThanOrEqual (n1 :: Nat) (n2 :: Nat)       -- ok
 
 instance LessThanOrEqual Zero Zero
 instance LessThanOrEqual n m => LessThanOrEqual n (Succ m)
+```
 
-class Bad x y            -- \
-instance Bad True Int    --  |
-instance Bad Int String  --   > Together this would require argument x :: forall kind k . k, 
-                         --  |  see PolymorphicKinds
-                         -- /
+
+This example is ill-kinded though:
+
+```wiki
+class Bad x           -- Defaults to x::*
+instance Bad Int   -- OK
+instance Bad Zero  -- BAD: ill-kinded 
 ```
 
 
