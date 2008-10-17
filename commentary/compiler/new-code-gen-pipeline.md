@@ -69,6 +69,11 @@ The first two steps are described in more detail here:
 
   - `LastCall` and `LastReturn` nodes are replaced by `Jump`s.
 
+- **Build info tables**.  
+
+  - Find each safe `MidForeignCall` node, "lowers" it into the suspend/call/resume sequence (see `Note [Foreign calls]` in `CmmNode.hs`.), and build an info table for them.
+  - Convert the `CmmInfo` for each `CmmProc` into a `[CmmStatic]`.  
+
 **The Adams optimisation** is done by stuff above.  Given:
 
 ```wiki
