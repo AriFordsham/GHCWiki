@@ -10,6 +10,7 @@ GHC 6.10.1 is the first release in the 6.10 branch, and features many improvemen
 
 - Some new language features have been implemented:
 
+  - Record syntax: wild-card patterns, punning, and field disambiguation
   - Generalised quasi-quotes
   - Generalised list comprehensions
   - View patterns
