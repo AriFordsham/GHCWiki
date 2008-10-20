@@ -15,9 +15,11 @@ GHC 6.10.1 is the first release in the 6.10 branch, and features many improvemen
   - Generalised list comprehensions
   - View patterns
 
-- GHC now comes with haddock 2, which supports all GHC extensions
+- **Type families** have been completely re-implemented, by Manuel Chakravarty, along the lines of our ICFP 2008 paper [ Type checking with open type functions](http://research.microsoft.com/%7Esimonpj/papers/assoc-types/index.htm) --- only simpler.  As a result, we believe that type families work reliably in GHC 6.10.  There is one missing feature, however, namely the ability to have equalities in the superclass context of a class.   We'll add that to the HEAD in the next few months.
 
-- The garbage collector can now use multiple parallel threads, making garbage collection faster on multi-core machines.
+- GHC now comes with **Haddock 2**, which supports all GHC extensions
+
+- **Parallel garbage collection** is implemented, by Simon Marlow. "[ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)". 
 
 - The base library now uses extensible exceptions
 
