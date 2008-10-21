@@ -10,6 +10,7 @@ Here are our plans for the next GHC release?.
 
 Here are biannual GHC status reports, published in the [ Haskell Communities and Activities Report](http://haskell.org/communities/)
 
+- [GHC status October 2008](status/october08)
 - [GHC status May 2008](status/may08)
 - [GHC status November 2007](status/nov07)
 - [GHC status April 2007](status/april07)
