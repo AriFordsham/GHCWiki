@@ -19,17 +19,15 @@ GHC 6.10.1 is the first release in the 6.10 branch, and features many improvemen
 
 - GHC now comes with **Haddock 2**, which supports all GHC extensions
 
-- **Parallel garbage collection** is implemented, by Simon Marlow. "[ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)". 
+- **Parallel garbage collection** has been implemented by Simon Marlow.  This speeds up even purely-sequential programs, by using the extra processors during garbage collection.  Our ISMM'08 paper gives the details [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm). 
 
-- The base library now uses extensible exceptions
+- The base library now uses extensible exceptions, as described in Simon Marlow's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf) (Haskell workshop 2006).
 
-- The GHC API now uses a Ghc Monad, making it easier to use
-
-- The GHC API now has haddock documentation
+- The GHC API now uses a Ghc Monad, making it easier to use.  Furthermore, the API now has Haddock documentation
 
 - External core (output only) now works again
 
-- DPH (Data Parallel Haskell, which supercedes NDP) is now an extralib
+- Data Parallel Haskell (DPH), which supercedes NDP) is now an extralib
 
 
 See the release notes for full details.
