@@ -25,7 +25,7 @@
 
   - [\#2693](https://gitlab.haskell.org//ghc/ghc/issues/2693) (seems to be a problem during finalisation)
   - [\#2664](https://gitlab.haskell.org//ghc/ghc/issues/2664) (typechecker diverges; actually, it's after Tc9, probably during zonking)
-  - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) (superclass equalities)
+  - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) & 2715 (superclass equalities)
 
     - To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use `HsBind.VarBind` and make its right-hand side a specially data structure describing evidence construction, instead of being a general `HsExpr`.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
     - What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
