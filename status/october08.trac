@@ -49,3 +49,7 @@ From a development point of view, there are a couple of changes on the horizon:
  * We plan to change from darcs to git for the version control system used by GHC; our plans are described [wiki:Design/VersionControlSystem here].
 
 We plan to make the build-system changes first, and only then tackle the version control system.
+
+== Summary ==
+
+Keeping GHC functioning for an increasingly-diverse user base is quite a challenge, especially as we keep changing the wheels while the bus is driving along.  Please do consider joining in; there are plenty of things that need doing, and do not require intimate knowledge of the internals.  We could particularly do with more help on supporting the Windows, Sparc, and BSD ports of GHC.
