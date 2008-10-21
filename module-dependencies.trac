@@ -74,3 +74,9 @@ This section of the commentary documents the subtlest part of the module depende
  * Data.!HashTable (Data.Bits, Control.Monad)
  * Data.Typeable (GHC.IOBase, Data.!HashTable)
  * GHC.Weak (Data.Typeable, GHC.IOBase) 
+
+== High-level Dependency Graph ==
+
+Dark red edges indicate that only one module in one group depends on a module in the other group. Dark green means 11 or more dependencies. Arrows point from the importing module to the imported module.
+
+[[Image(dep5.png)]]
