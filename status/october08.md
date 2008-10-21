@@ -37,7 +37,7 @@ See the release notes for full details.
 
 Meanwhile, development goes on in the HEAD:
 
-- John Dias is still working hard on rewriting GHC's backend, and his changes should be landing in the HEAD during October.
+- John Dias has been working hard on rewriting GHC's backend, and his changes should be landing in the HEAD during October.  You can find an [overview of the new architecture on the wiki](commentary/compiler/new-code-gen-pipeline)
 
 - The DPH team are still developing furiously.
 
@@ -50,6 +50,9 @@ Meanwhile, development goes on in the HEAD:
 
 From a development point of view, there are a couple of changes on the horizon:
 
-- We plan to change how GHC's build system works, to decouple it from Cabal's internals.  Our current plans are [here](design/build-system).
+- We plan to change how GHC's build system works, to decouple it from Cabal's internals.  Our current plans are [here](design/build-system). 
 
-- We plan to change from darcs to git for the version control system used by GHC
+- We plan to change from darcs to git for the version control system used by GHC; our plans are described [here](design/version-control-system).
+
+
+We plan to make the build-system changes first, and only then tackle the version control system.
