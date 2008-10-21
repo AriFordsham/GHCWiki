@@ -23,7 +23,6 @@
 
 - Constraint simplification:
 
-  - [\#2693](https://gitlab.haskell.org//ghc/ghc/issues/2693) (seems to be a problem during finalisation)
   - [\#2664](https://gitlab.haskell.org//ghc/ghc/issues/2664) (typechecker diverges; actually, it's after Tc9, probably during zonking)
   - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) & 2715 (superclass equalities)
 
