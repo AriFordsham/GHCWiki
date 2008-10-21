@@ -4,7 +4,7 @@ For the last six months we have been primarily focussed on the 6.10.1 release, w
 
 == The GHC 6.10 branch ==
 
-GHC 6.10.1 is the first release in the 6.10 branch, and features many improvements over the 6.8 branch; the highlights are:
+GHC 6.10.1 is the first release in the 6.10 branch, and features many improvements over the 6.8 branch. The release notes have fully details, but the highlights are:
 
  * Some '''new language features''' have been implemented:
    * Record syntax: wild-card patterns, punning, and field disambiguation
@@ -26,7 +26,7 @@ GHC 6.10.1 is the first release in the 6.10 branch, and features many improvemen
 
  * '''Data Parallel Haskell''' (DPH) comes as part of GHC, as a result of Roman Leshchinskiy's efforts.  In 6.10, for the first time, DPH includes a full vectoriser, so the system is much more usable than before.  It's still really an alpha release though; we very much welcome friendly guinea pigs, but it's not ready for your 3 gigabyte genome search program.  We have a lot of performance tuning to do.  We've written a new paper [http://research.microsoft.com/%7Esimonpj/papers/ndp/index.htm Harnessing the multicores: nested data parallelism in Haskell] (FSTTCS'08), which gives a tutorial overview of the system, focusing especially on vectorisation.
 
-See the release notes for full details.
+
 
 == The GHC 6.12 branch ==
 
