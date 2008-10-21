@@ -36,7 +36,7 @@ Meanwhile, development goes on in the HEAD:
 
  * The DPH team are still developing furiously.
 
- * We hope that Max Bolingbroke's '''Dynamically Loaded Plugins''' summer of code project will be merged in time for 6.12.  Part of this is a new, modular system for user-defined '''annotations''', rather like Java or C# attributes.  These attributes are persisted into interface files, can be examined and created by plugins, or by GHC API clients.
+ * We hope that Max Bolingbroke's '''Dynamically Loaded Plugins''' summer of code project will be merged in time for 6.12.  Part of this is a new, modular system for [wiki:Annotations user-defined '''annotations'''], rather like Java or C# attributes.  These attributes are persisted into interface files, can be examined and created by plugins, or by GHC API clients.
 
  * Likewise, Donnie Jones's project for profiling parallel programs should be merged in time for 6.12
 
