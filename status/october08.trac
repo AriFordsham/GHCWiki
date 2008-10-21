@@ -12,7 +12,7 @@ GHC 6.10.1 is the first release in the 6.10 branch, and features many improvemen
    * Generalised list comprehensions (Max Bolingbroke), from the paper [http://research.microsoft.com/%7Esimonpj/papers/list-comp/index.htm  Comprehensive comprehensions: comprehensions with "Order by" and "Group by"] (Haskell workshop 2007).
    * View patterns (Dan Licata); see [wiki:ViewPatterns view patterns wiki page].
 
- * '''Type families''' have been completely re-implemented, by Manuel Chakravarty, along the lines of our ICFP 2008 paper [http://research.microsoft.com/%7Esimonpj/papers/assoc-types/index.htm Type checking with open type functions] --- only simpler.  As a result, we believe that type families work reliably in GHC 6.10.  There is one missing feature, however, namely the ability to have equalities in the superclass context of a class.   We'll add that to the HEAD in the next few months.
+ * '''Type families''' have been completely re-implemented, by Manuel Chakravarty, along the lines of our ICFP 2008 paper [http://research.microsoft.com/%7Esimonpj/papers/assoc-types/index.htm Type checking with open type functions] --- only simpler.  As a result, we believe that type families work reliably in GHC 6.10.  There is one missing feature, however, namely the ability to have equalities in the superclass context of a class.   We'll add that to the HEAD in the next few months.  An [wiki:TypeFunctions up-to-date wiki page] tracks design issues and current status.
 
  * GHC now comes with '''Haddock 2''', which supports all GHC extensions, thanks to David Waern.
 
