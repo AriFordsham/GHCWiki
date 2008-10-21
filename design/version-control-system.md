@@ -1,7 +1,7 @@
 # GHC Version Control plans
 
 
-We plan to move from Darcs to Git for GHC itself.  The recent flurry of work on Darcs is very encouraging, but GHC is a particularly high-end client, and taking a direct dependency leads to stress at both ends.  This page describes the plan.  See \[wike:DarcsConversion\] for more details about the conversion process, and [GitForDarcsUsers](git-for-darcs-users) for a quick reference on how to use Git.
+We plan to move from Darcs to Git for GHC itself.  The recent flurry of work on Darcs is very encouraging, but GHC is a particularly high-end client, and taking a direct dependency leads to stress at both ends.  This page describes the plan.  See [DarcsConversion](darcs-conversion) for more details about the conversion process, and [GitForDarcsUsers](git-for-darcs-users) for a quick reference on how to use Git.
 
 
 We do not plan to change before the 6.10 release. Doing so would be destabilising at a time when we are trying to stabilise; and we need to devote all our active cycles to getting 6.10 out.  Yes, that means it'll be more painful to move patches from the (Git) HEAD to the (Darcs) 6.10 branch, but we'll put up with that.  We'll delay the change until the 6.10 branch seems to have settled down; i.e. roughly 6.10.2.
