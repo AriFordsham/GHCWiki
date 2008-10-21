@@ -1,7 +1,7 @@
 = Design of the new code generator =
 
 This page contains notes about the design of the new code generator.
-See also: [wiki:Commentary/Comiler/NewCodeGenModules overview of the module structure in the new code generator].
+See also: [wiki:Commentary/Compiler/NewCodeGenModules overview of the module structure in the new code generator].
 
 == The Cmm pipeline ==
 

@@ -2,7 +2,7 @@
 
 
 This page contains notes about the design of the new code generator.
-See also: overview of the module structure in the new code generator?.
+See also: [overview of the module structure in the new code generator](commentary/compiler/new-code-gen-modules).
 
 ## The Cmm pipeline
 
