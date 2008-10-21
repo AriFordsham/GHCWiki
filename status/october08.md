@@ -27,7 +27,7 @@ GHC 6.10.1 is the first release in the 6.10 branch, and features many improvemen
 
 - External core (output only) now works again
 
-- Data Parallel Haskell (DPH), which supercedes NDP) is now an extralib
+- **Data Parallel Haskell** (DPH) comes as part of GHC.  In 6.10, for the first time, DPH includes a full vectoriser, so the system is much more usable than before.  It's still really an alpha release though; we very much welcome friendly guinea pigs, but it's not ready for your 3 gigabyte genome search program.  We have a lot of performance tuning to do.  We've written a new paper [ Harnessing the multicores: nested data parallelism in Haskell](http://research.microsoft.com/%7Esimonpj/papers/ndp/index.htm) (FSTTCS'08), which gives a tutorial overview of the system, focusing especially on vectorisation.
 
 
 See the release notes for full details.
