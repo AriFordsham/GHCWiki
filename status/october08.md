@@ -8,12 +8,12 @@ For the last six months we have been primarily focussed on the 6.10.1 release, w
 
 GHC 6.10.1 is the first release in the 6.10 branch, and features many improvements over the 6.8 branch; the highlights are:
 
-- Some new language features have been implemented:
+- Some **new language features** have been implemented:
 
   - Record syntax: wild-card patterns, punning, and field disambiguation
-  - Generalised quasi-quotes
-  - Generalised list comprehensions
-  - View patterns
+  - Generalised quasi-quotes (Geoff Mainland), from the paper [ Why it's nice to be quoted: quasi-quoting in Haskell](http://www.eecs.harvard.edu/~mainland/ghc-quasiquoting/mainland07quasiquoting.pdf) (Haskell workshop 2007)
+  - Generalised list comprehensions (Max Bolingbroke), from the paper [ Comprehensive comprehensions: comprehensions with "Order by" and "Group by"](http://research.microsoft.com/%7Esimonpj/papers/list-comp/index.htm) (Haskell workshop 2007).
+  - View patterns (Dan Licata); see [view patterns wiki page](view-patterns).
 
 - **Type families** have been completely re-implemented, by Manuel Chakravarty, along the lines of our ICFP 2008 paper [ Type checking with open type functions](http://research.microsoft.com/%7Esimonpj/papers/assoc-types/index.htm) --- only simpler.  As a result, we believe that type families work reliably in GHC 6.10.  There is one missing feature, however, namely the ability to have equalities in the superclass context of a class.   We'll add that to the HEAD in the next few months.
 
