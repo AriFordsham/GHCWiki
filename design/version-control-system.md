@@ -16,10 +16,9 @@ We propose the following:
 
 - Each Boot Library will
 
-> >
-> > (a) either be mastered in Git, with a read-only Darcs mirror
-> > (b) or be mastered in Darcs, with a read-only Git mirror
-> > (c) or be mastered in Darcs, with an occasional, manual process to copy a snapshot of the library from Darcs into GHC's Git repo.  (Those Git files should be considered read-only.)
+  - (a)either be mastered in Git, with a read-only Darcs mirror
+  - (b) or be mastered in Darcs, with a read-only Git mirror
+  - (c) or be mastered in Darcs, with an occasional, manual process to copy a snapshot of the library from Darcs into GHC's Git repo.  (Those Git files should be considered read-only.)
 
 - That means that if we want to modify a Darcs-mastered library we'll have to get the Darcs version, make the patch, test it, push it, and then the Git mirror will be right.  Inconvenient,     but we can live with that.  We might even arrange it to be possible for super-developers to use the Darcs repo (rather than the mirror) direct from their tree.  Ordinary developers can continue to be Git-only.
 
@@ -28,8 +27,8 @@ We propose the following:
 
 - Which is which will be decided on a case-by-case basis.  The main criterion is: is GHC a passive client of the library, which is maintained by someone else (e.g. Cabal, containers), or is the library intimately coupled with GHC's inner workings (e.g. template-haskell)?
 
-> >
-> > If in doubt we should resolve ties in favour of darcs; we can always change our minds later, but changing and then changing back would be silly.
+>
+> If in doubt we should resolve ties in favour of darcs; we can always change our minds later, but changing and then changing back would be silly.
 
 - Our specific proposals for the master VCS for each boot library are:
 
@@ -65,7 +64,4 @@ We propose the following:
 Of these, probably the only contentious one is `base`, which is both very tightly coupled to GHC, but also used by nhc and Hugs.  We humbly beg indulgence from Malcolm and Ross, and hope that the Darcs mirror be acceptable.  They have kindly offered such indulgence!
 
 
-However, `array`, `process`, `unix`, `Win32` are also somewhat less obvious, but they
-
->
-> are quite intimately connected to GHC
+However, `array`, `process`, `unix`, `Win32` are also somewhat less obvious, but they are quite intimately connected to GHC
