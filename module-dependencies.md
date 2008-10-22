@@ -1,5 +1,7 @@
 # The Marvellous Module Structure of GHC
 
+- **See also: [Proposal for hierarchical module structure](module-dependencies/hierarchical)**
+
 
 (possibly outdated, please fix anything that is wrong)
 
