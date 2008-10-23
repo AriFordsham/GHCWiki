@@ -1,8 +1,8 @@
 = Overview of modules in the new code generator =
 
 This page gives an overview of the new code generator, including discussion of:
- * the [wiki:NewCodeGenOverview#ThenewCmmdatatype new Cmm type]
- * the [wiki:NewCodeGenOverview#Modulestructureofthenewcodegenerator module structure of the new code generator]
+ * the [wiki:NewCodeGenModules#ThenewCmmdatatype new Cmm type]
+ * the [wiki:NewCodeGenModules#Modulestructureofthenewcodegenerator module structure of the new code generator]
 
 See also [wiki:Commentary/Compiler/NewCodeGenPipeline the description of the new code generation pipeline].
 

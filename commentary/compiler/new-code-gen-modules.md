@@ -3,8 +3,8 @@
 
 This page gives an overview of the new code generator, including discussion of:
 
-- the new Cmm type?
-- the module structure of the new code generator?
+- the [new Cmm type](commentary/compiler/new-code-gen-modules#the-new-cmm-data-type)
+- the [module structure of the new code generator](commentary/compiler/new-code-gen-modules#module-structure-of-the-new-code-generator)
 
 
 See also [the description of the new code generation pipeline](commentary/compiler/new-code-gen-pipeline).
