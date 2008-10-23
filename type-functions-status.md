@@ -47,6 +47,7 @@
 
 - Misc:
 
+  - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types)
   - `TcPat` and `TcUnify` (and maybe other modules) still have calls to the unification engine that ignore the returned coercion!!
   - Test `Simple17` (corelint error as a dict binding, used to specialise a call to a local function, floats out too far)
   - Improve error messages for loopy equalities: TF tests `Simple13` & `SkolemOccursLoop`
