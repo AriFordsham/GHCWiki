@@ -41,7 +41,7 @@ Please do update this table if you have more up-to-date info, or add new platfor
 <th></th>
 <th>No results</th></tr>
 <tr><th>Solaris/sparc</th>
-<th></th>
+<th> NO </th>
 <th></th>
 <th>No results</th></tr>
 <tr><th>FreeBSD/x86</th>
