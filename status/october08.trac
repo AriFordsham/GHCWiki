@@ -40,6 +40,8 @@ Meanwhile, development goes on in the HEAD:
 
  * Likewise, Donnie Jones's project for profiling parallel programs should be merged in time for 6.12
 
+ * Simon Marlow is working on improving parallel performance, incorporating the work done by Jost Berthold during his internship at Microsoft in the summer of 2008.  The plan is to make writing performant parallel programs less of a trial-and-error process, by whacking as many bottlenecks as we can find in the runtime system.   We're already making significant improvements, and there's plenty more low-hanging fruit to pick.  One large project that we hope to tackle is the issue of doing independent per-CPU garbage collection.
+
  * Finally, unicode text I/O and dynamic libraries were slated for 6.10 but weren't quite ready in time, so we certainly expect those to make it for in 6.12
 
 From a development point of view, there are a couple of changes on the horizon:
