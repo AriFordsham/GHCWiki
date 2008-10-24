@@ -29,8 +29,6 @@ GHC 6.10.1 is the first release in the 6.10 branch, and features many improvemen
 
 - **Data Parallel Haskell** (DPH) comes as part of GHC, as a result of Roman Leshchinskiy's efforts.  In 6.10, for the first time, DPH includes a full vectoriser, so the system is much more usable than before.  It's still really an alpha release though; we very much welcome friendly guinea pigs, but it's not ready for your 3 gigabyte genome search program.  We have a lot of performance tuning to do.  We've written a new paper [ Harnessing the multicores: nested data parallelism in Haskell](http://research.microsoft.com/%7Esimonpj/papers/ndp/index.htm) (FSTTCS'08), which gives a tutorial overview of the system, focusing especially on vectorisation.
 
-- **Shared Libraries**, are inching ever closer to being completed.  Clemens Fruhwirth has been working on polishing the support for shared libraries on Unix systems in particular, and when the remaining issues are ironed out we should be able to roll them out in a release.
-
 ## The GHC 6.12 branch
 
 
@@ -45,6 +43,8 @@ Meanwhile, development goes on in the HEAD:
 - Likewise, Donnie Jones's project for profiling parallel programs should be merged in time for 6.12
 
 - Simon Marlow is working on improving parallel performance, incorporating the work done by Jost Berthold during his internship at Microsoft in the summer of 2008.  The plan is to make writing performant parallel programs less of a trial-and-error process, by whacking as many bottlenecks as we can find in the runtime system.   We're already making significant improvements, and there's plenty more low-hanging fruit to pick.  One large project that we hope to tackle is the issue of doing independent per-CPU garbage collection.
+
+- **Shared Libraries**, are inching ever closer to being completed.  Clemens Fruhwirth has been working on polishing the support for shared libraries on Unix systems in particular, and when the remaining issues are ironed out we should be able to roll them out in a release.
 
 - Finally, unicode text I/O and dynamic libraries were slated for 6.10 but weren't quite ready in time, so we certainly expect those to make it for in 6.12
 
