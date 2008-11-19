@@ -1,110 +1,281 @@
+
 = Re-structuring the GHC build system =
 
-This page describes our current plan (Aug 08) for making GHC's build system more malleable.
-The basic plan is this:
+This page describes our current plan for making GHC's build system more
+malleable. 
 
-  * Use our own build system for the work of actually
-    building packages from source to .a/.so, including
-    preprocessing (hsc2hs et. al.).
+== Design goals ==
 
-  * Use Cabal to preprocess the .cabal file and generate
-    metadata in the form of Makefile bindings for our
-    build system to use.
+ * The build system should not only be easy to use for ''users'' (does
+   the right thing with the minimum of intervention) but also for
+   ''developers''.  This means:
+    * when something changes, it is easy to bring the build up to date
+      quickly to test the change, with the option of just updating the
+      part of the system being changed (library module, GHC module,
+      tool, etc.)  In all cases a simple 'make' should bring the part
+      of the system in the current directory up to date, or complain
+      if that can't be done for some reason.
+    * easy to build individual modules, and add extra flags
+      (e.g. -v, -ddump-simpl)
+    * easy to modify the build system.  If you modify some part of the
+      build system, it should take immediate effect: no having to
+      remove bits and rebuild them manually to get changes to take
+      effect.
+    * as little "state" in the build as possible: e.g. avoid stamp
+      files unless they are just join points for dependencies.  Stamp
+      files should be invisible to the developer if they are needed at
+      all.
+    * The build system should be tractable: if it doesn't do what you
+      expect, there should be a clear path to understanding why and
+      how to fix it.  Extra make rules are sometimes good for this:
+      e.g. we currently have 'make show VALUE=VAR' which is a godsend.
 
-  * Use Cabal to generate the !InstalledPackageInfo and
-    do registration.
+ * The build should be as parallel as possible
 
-  * Use Cabal for Haddocking, installing, and anything else
-    we need to do.
+ * The build system should support bootstrapping from HC files,
+   something that hasn't worked since 6.6.1.
 
-The advantages of this are:
+ * The build should not emit any warnings unless something is actually
+   wrong (they cause concerned users).
 
-  * The critical parts of the build system are under our
-    control, and are easily modifiable.    
- 
-  * Modifying the build system does not require modifying Cabal.
-    We rely on a stable, slowly-varying version of Cabal, not on the
-    leading edge.  That take pressure off the Cabal developers,
-    and means that GHC can use a version of Cabal that has 
-    survived quite a bit of testing.
+ * The build system should be well documented on the wiki.  We should
+   pay special attention to the documentation for building on Windows:
+   it's currently far too verbose, complex, and out-of-date.  Ideally
+   there should be a short section on how to prepare a Windows system
+   for building GHC (in the section on pre-requisites), and perhaps
+   short Windows-specific notes throughout the rest of the docs.
+   Putting it all in one place risks duplication and things getting
+   outdated.
 
-  * Development is easier, because 'make' will preprocess files
-    too.  Right now if you modify a .y or .hsc file, you need
-    to tell Cabal to preprocess again before saying 'make'
-    (this is a regression from pre-Cabal).
+ * The build system should clearly report what it's doing (and
+   sometimes why), without being too verbose.  It should emit actual
+   command lines as much as possible, so that they can be inspected
+   and cut & pasted.
 
-  * We can make improvements that would be hard in Cabal, such
-    as making libraries depend on each other.
+ * We should express as many dependencies as possible in the build
+   system, but occasionally removing a few edges is prudent.  For
+   example, if we have rebuilt some libraries, we might not want that
+   to immediately invalidate the whole stage 2 GHC build, since the
+   binary still works (as long as we're using static libraries...).
+   However, if we need to rebuild ''any'' module in stage 2 and a
+   library has changed, it's probably a good idea to rebuild them all
+   at that point, because otherwise the resulting binary will likely
+   be broken.  GHC will probably say "compilation IS NOT required" for
+   most modules anyway.
 
-  * It ought to be easier to reinstate HC bootstrapping,
-    since we rely less on Cabal to get us to a .a file.
+== Basic plan ==
 
-  * Compared to the pre-Cabal build system, we're not
-    duplicating the package metadata or the code that processes it,
-    only the build rules.
+ * Use our own build system for the work of actually building packages
+   from source to .a/.so, including preprocessing (hsc2hs et. al.). 
 
-== Detailed plan ==
+ * Use Cabal to preprocess the .cabal file and generate metadata in the
+   form of Makefile bindings for our build system to use. 
 
+ * Use Cabal to generate the !InstalledPackageInfo.
 
-  * Modify `cabal-bin.hs` with a new command to generate the
-    Makefile bindings for a package, into a file e.g. 
-    `ghc-build.mk`.  That is, `cabal-bin.hs` imports the Cabal libraries
-    and uses them to support all of Cabal's existing features, plus
-    the new one. 
+ * We do registration and installation using Makefile rules.
 
-  * There is just one `cabal-bin` executable for
-    the whole GHC build tree.  
+ * Use Cabal for Haddocking, and anything else we need to do. 
 
-  * Question: should we rename `cabal-bin.hs` to `ghc-cabal.hs`?  (Simon, Manuel say: yes.)
+ The advantages of this are:
 
-  * The version of Cabal used by `cabal-bin.hs` does not need to be an up-to-the-minute
-    bleeding-edge version.  It should be stable and vary slowly.  We suck a new
-    version of Cabal into the GHC build system manually, rather than mirroring the
-    Cabal HEAD.
+ * The critical parts of the build system are under our control, and are
+   easily modifiable. 
 
-  * The makefile-generation stuff (which Duncan dislikes) can be removed from Cabal itself
-    by the Cabal crew at their leisure.  In effect, that code now lives in `cabal-bin.hs`.
+ * Modifying the build system does not require modifying Cabal. We rely
+   on a stable, slowly-varying version of Cabal, not on the leading edge.
+   That take pressure off the Cabal developers, and means that GHC can use
+   a version of Cabal that has survived quite a bit of testing. 
 
-  * libraries/Makefile puts a GNUmakefile into each library
-    subdir, with identical contents, something like
+ * Development is easier, because 'make' will preprocess files too. Right
+   now if you modify a .y or .hsc file, you need to tell Cabal to
+   preprocess again before saying 'make' (this is a regression from
+   pre-Cabal). 
+
+ * We can make improvements that would be hard in Cabal, such as making
+   libraries depend on each other. 
+
+ * It ought to be easier to reinstate HC bootstrapping, since we rely
+   less on Cabal to get us to a .a file. 
+
+ * Compared to the pre-Cabal build system, we're not duplicating the
+   package metadata or the code that processes it, only the build rules. 
+
+== Detailed plan == 
+
+ * Rename cabal-bin.hs to ghc-cabal.hs, and move it into utils/ghc-cabal/
+
+ * The version of Cabal used by ghc-cabal.hs does not need to be an
+   up-to-the-minute bleeding-edge version. It should be stable and vary
+   slowly. We suck a new version of Cabal into the GHC build system
+   manually, rather than mirroring the Cabal HEAD. 
+
+ * Rather than installing things in-place all over the build tree, we
+   will have a single inplace directory at the root of the tree. The
+   structure inside this directory will match that of the normal install,
+   which will simplify various things. There are two slight wrinkles:
+   * The tree will not be complete; for example, the libraries will be
+     registered in-place in their dist directories
+   * Rather than inplace/bin/ghc, we will have inplace/bin/ghc-stage[123]
+   Tools like genprimopcode, genapply etc. will probably also go into
+   inplace/bin, in order to make the makefiles more consistent.
+
+ * The build order looks something like:
+     * With bootstrapping compiler:
+       * Build libraries/{filepath,Cabal}
+       * Build utils/ghc-cabal
+     * With bootstrapping compiler and ghc-cabal:
+       * Build utils/hsc2hs
+       * Build libraries/hpc
+       * Build compiler (stage 1)
+     * With stage 1:
+       * Build libraries/*
+       * Build utils/* (except haddock)
+       * Build compiler (stage 2)
+     * With stage 2:
+       * Build utils/haddock
+       * Build compiler (stage 3)
+     * With haddock:
+       * libraries/*
+       * compiler
+   Currently, with recursive make, this means we jump around between
+   Makefiles a lot, which isn't good for parallelism in the build.
+   Instead, we want to move all the logic and dependencies into the root
+   Makefile (or files that get included into it) so that make sees all of
+   it together.
+
+   One concern is that make may take a long time thinking if it can see
+   the rules for the whole system, even when only asked to build a single
+   file. We will have to see how well it performs in practice.
+
+ * But we still want "make" to work in subdirectories, so for example the
+   Makefile (actually GNUmakefile, to avoid colliding with Makefile in
+   libraries like Cabal) in libraries/base might look like
+
 {{{
-TOP=../..
--include ghc-build.mk
-include $(TOP)/cabal-package.mk
+.NOTPARALLEL
+
+.PHONY: default
+default: dist/build/libbase.a
+    @:
+
+# Note that this rule also generates ghc.mk if it doesn't exist
+%:
+    $(MAKE) -C ../.. libraries/base/$@
 }}}
-    The boilerplate in `cabal-package.mk` is written by hand (not generated), and
-    contains all the make rules required implement the desired make targets.
 
-  * In each subdir we support various make targets, e.g.
-    * `make configure`, configures the package and uses `cabal-bin` to generate `ghc-build.mk`
-    * `make all`, builds the .a, and registers (using `cabal-bin`).  Builds dependencies 
-      automatically (or perhaps not: calculating dependencies
-      in GHC takes a while, and traditionally we've done this on demand only).
-    * `make install` uses `cabal-bin`.
+   (ghc.mk is discussed later). In actual fact, GNUmakefile will want to
+   be more complicated, to handle "make way=v", "make way=p", "make doc",
+   etc. Where possible, the make code will be "include"d in, rather than
+   generated, so as to make it easier to deal with.
 
-  * libraries/Makefile just invokes `make` in the subdirs in the 
-    appropriate order.
+   We need the .NOTPARALLEL or if you say "make foo bar" then the two
+   recursive make calls might both make "quux" (a dependency of foo and
+   bar) at the same time. The main Makefile will be able to do work in
+   parallel when building each of foo and bar, though. The common case,
+   where you only specify 0 or 1 targets, doesn't lose any parallelism.
 
-== Improvements for later ==
+ * In e.g. utils/ghc-pkg, the default target will be
+{{{
+default:
+    $(MAKE) -C ../.. inplace/bin/ghc-pkg
+}}}
+   and inplace/bin/ghc-pkg will in turn depend on something like
+   utils/ghc-pkg/dist-inplace/build/ghc-pkg. It would be possible to
+   put the binary in inplace/bin directly, but at the cost of diverging
+   from Cabal's filesystem layout. Also, it would be a little odd to
+   install from inplace/. On *nix machines we can make the inplace files
+   symlinks.
 
-  * We want dependencies from every object file on the .a files of the
-    packages that it depends on.  This way we can make it possible to
-    modify a library module and say 'make' and have everything rebuilt 
-    that needs to be rebuilt (including the stage2 compiler).  Note that
-    we need to know about indirect as well as direct package dependencies.
+ * It should be possible to "make distclean" without configuring first.
+   Distcleaning should be much simpler now: Just remove
+   * all the generated makefiles
+   * all the dist directories
+   * the inplace directory.
+   * files generated by configure
+   * generated makefiles
+   * and doubtless a few other bits and pieces
 
-  * Build multiple libraries in parallel
+ * There are a number of tools, for example ghc and ghc-pkg, which we
+   build with both the bootstrapping compiler (for use during the build)
+   and the in-tree compiler (to be installed). When you run "make" in the
+   tool's directory, only the earliest version will be built by default.
 
-  * It should be possible to "make distclean" without configuring first.
-    Mostly this just means that we need to, for example, remove both
-    `prog` and `prog.exe` when cleaning, as we don't know if we are on
-    Windows or not.
+ * The rules (in ghc.mk) for actually building the foo library (which
+   depends on the bar library) will look something like:
 
-  * The "vanilla" way should actually have a name. Currently, there's no
-    nice way to /only/ build something the profiling way, as you can't
-    just not put "v" in WAYS.
+{{{
+all: libraries/foo/dist/build/foo.a
+all: libraries/foo/dist/doc/foo.haddock
 
-  * We could simplify a lot of stuff if all of the inplace installations
-    went into TOP/inplace, and that had the same layout as an installed tree.
-    The main thing holding us back is that both
-    stage1 and stage2 ghc currently want a binary called "ghc".
+LIBRARY_foo_HS_FILES = libraries/foo/dist/build/Bar.hs \
+                       libraries/foo/dist/build/Quux.lhs
+LIBRARY_foo_v_O_FILES = libraries/foo/dist/build/Bar.o \
+                        libraries/foo/dist/build/Quux.o
+LIBRARY_foo_v_HI_FILES = libraries/foo/dist/build/Bar.hi \
+                         libraries/foo/dist/build/Quux.hi
+LIBRARY_foo_v_A_FILE = libraries/foo/dist/build/foo.a
+
+libraries/foo/dist/build/Quux.o libraries/foo/dist/build/Quux.hi: \
+    libraries/foo/dist/build/Bar.hi
+
+libraries/foo/dist/build/%.hs: libraries/foo/%.hs
+    cp $< $@
+# and a duplicate rule for .lhs. We can use ln instead of cp on
+# *nix.
+
+libraries/foo/dist/build/%.hs: libraries/foo/%.y inplace/bin/happy
+    inplace/bin/happy ...
+# and alex, hsc2hs, etc
+
+libraries/foo/dist/build/%.o: libraries/foo/dist/build/%.hs \
+                              $(LIBRARY_bar_v_HI_FILES) \
+                              inplace/bin/ghc-stage1
+    inplace/bin/ghc-stage1 -c ^< -o ^@ # -hidir etc
+# and a duplicate rule for .lhs. This rule can probably be
+# generalised to handle building of all libraries .o files,
+# and perhaps even all .o files.
+
+.DELETE_ON_ERROR: $(LIBRARY_foo_v_A_FILE)
+
+$(LIBRARY_foo_v_A_FILE): inplace/bin/ghc-pkg \
+                         libraries/foo/dist/inplace-config \
+                         $(LIBRARY_foo_v_O_FILES) \
+                         $(LIBRARY_bar_v_A_FILE)
+    ghc $(LIBRARY_foo_v_O_FILES) -package bar -o $@
+    inplace/bin/ghc-cabal --in-dir libraries/foo register
+
+libraries/foo/dist/doc/foo.haddock: inplace/bin/haddock
+    inplace/bin/ghc-cabal --in-dir libraries/foo haddock
+}}}
+
+   and the rules for building tools and GHC will look similar.
+   There will also need to be rules for profiling libraries etc.
+   For the tools, there will be copies of the rules for the "in-place"
+   and "install" dist directories (or perhaps we have ghc-inplace.mk
+   and ghc-install.mk).
+
+ * The above makefile gets generated by something like
+
+{{{
+include libraries/foo/ghc.mk
+
+libraries/%/ghc.mk: inplace/bin/ghc-cabal
+    inplace/bin/ghc-cabal --in-dir $* generate $@
+}}}
+
+   in the top-level Makefile.
+
+ * We don't want to require that the libraries ship part of the GHC build
+   system in their tarballs, so instead we will generate the GNUmakefile's
+   during ./configure.
+
+ * The "Setup makefile" command can be removed from Cabal.
+
+ * ghc-pkg will be extended to be able to register libraries compiled
+   different ways separately. As well as making the dependencies workable
+   in the makefiles, this will also allow cabal-install to work better,
+   at the risk of allowing library variants to desync more easily.
+
+ * Does ghc-pkg currently cope with being called twice simultaneously?
+   We should move to using a directory of package.conf files too.
