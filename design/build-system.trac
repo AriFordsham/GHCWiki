@@ -63,6 +63,8 @@ malleable.
    be broken.  GHC will probably say "compilation IS NOT required" for
    most modules anyway.
 
+ * The build system should report clearly at configure-time the status of each optional feature (e.g. editline support).
+
 == Basic plan ==
 
  * Use our own build system for the work of actually building packages
