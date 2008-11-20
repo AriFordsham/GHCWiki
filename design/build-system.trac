@@ -268,6 +268,14 @@ libraries/%/ghc.mk: inplace/bin/ghc-cabal
 
    in the top-level Makefile.
 
+ * There are two ways that we could handle the generation. We could
+   generate the complete rules, as above, but that makes them harder to
+   edit (as you'd actually have to edit some Haskell source that generates
+   them). Alternatively, we could generate them with a little `$(eval ...)`
+   in the makefile. the downside of that is that it requires make >= 3.80,
+   which msys doesn't come with. However, it looks like it is easy to
+   upgrade an msys installation, so that's the route that we plan to take.
+
  * We don't want to require that the libraries ship part of the GHC build
    system in their tarballs, so instead we will generate the GNUmakefile's
    during ./configure.
