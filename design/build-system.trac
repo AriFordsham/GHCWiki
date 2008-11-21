@@ -132,7 +132,7 @@ Makefiles a lot, which isn't good for parallelism in the build.  For example, th
        * libraries/*
        * compiler
 
-Instead, following [http://miller.emu.id.au/pmiller/books/rmch/?ref=DDiyet.Com Recursive make considered harmful], we want to move all the logic and dependencies into the root
+Instead, following [http://miller.emu.id.au/pmiller/books/rmch/?ref=DDiyet.Com Recursive make considered harmful], we propose to move all the logic and dependencies into the root
 Makefile (or files that get included into it) so that make sees all of
 it together.  Advantages:
 

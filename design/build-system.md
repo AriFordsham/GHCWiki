@@ -143,7 +143,7 @@ Makefiles a lot, which isn't good for parallelism in the build.  For example, th
   - compiler
 
 
-Instead, following [ Recursive make considered harmful](http://miller.emu.id.au/pmiller/books/rmch/?ref=DDiyet.Com), we want to move all the logic and dependencies into the root
+Instead, following [ Recursive make considered harmful](http://miller.emu.id.au/pmiller/books/rmch/?ref=DDiyet.Com), we propose to move all the logic and dependencies into the root
 Makefile (or files that get included into it) so that make sees all of
 it together.  Advantages:
 
