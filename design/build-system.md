@@ -77,7 +77,10 @@ snapshot tarball:
   from source to .a/.so, including preprocessing (hsc2hs et. al.). 
 
 - Use Cabal to preprocess the .cabal file and generate metadata in the
-  form of Makefile bindings for our build system to use. 
+  form of Makefile bindings for our build system to use.  We plan to
+  generate **only** Makefile bindings this way; we will not generate Makefile
+  **rules** or shell commands.  All Makefile code and shell commands will be
+  in plain honest-to-goodness Makefiles.
 
 - Use Cabal to generate the InstalledPackageInfo.
 
@@ -85,8 +88,8 @@ snapshot tarball:
 
 - Use Cabal for Haddocking, and anything else we need to do. 
 
->
-> The advantages of this are:
+
+The advantages of this are:
 
 - The critical parts of the build system are under our control, and are
   easily modifiable. 
