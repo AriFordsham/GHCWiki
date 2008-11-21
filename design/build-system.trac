@@ -110,6 +110,85 @@ The advantages of this are:
  * Compared to the pre-Cabal build system, we're not duplicating the
    package metadata or the code that processes it, only the build rules. 
 
+== Avoiding recursive makefiles ==
+
+Currently, with recursive make, this means we jump around between
+Makefiles a lot, which isn't good for parallelism in the build.  For example, the current build order looks like this:
+     * With bootstrapping compiler:
+       * Build libraries/{filepath,Cabal}
+       * Build utils/ghc-cabal
+     * With bootstrapping compiler and ghc-cabal:
+       * Build utils/hsc2hs
+       * Build libraries/hpc
+       * Build compiler (stage 1)
+     * With stage 1:
+       * Build libraries/*
+       * Build utils/* (except haddock)
+       * Build compiler (stage 2)
+     * With stage 2:
+       * Build utils/haddock
+       * Build compiler (stage 3)
+     * With haddock:
+       * libraries/*
+       * compiler
+
+Instead, following [http://miller.emu.id.au/pmiller/books/rmch/?ref=DDiyet.Com Recursive make considered harmful], we want to move all the logic and dependencies into the root
+Makefile (or files that get included into it) so that make sees all of
+it together.  Advantages:
+
+   * We get to specify dependencies between different parts of the tree much
+     more easily and precisely.  BIG WIN.  Have you noticed how often you
+     need to `make distclean` in a GHC tree to make sure everything is up to
+     date? (well I rarely do this, because I have the dependencies in my
+     head and I can rebuild manually, but I imagine this isn't the case for
+     most people!)
+
+   * We get more parallelism, more easily.  I'd argue this is a big win too,
+     right now a validate only uses about 1.3 out of 2 cores.
+
+We don't lose modularity: different parts of the build system are still in
+different files, it's just that make sees them all at once.  Right now
+every make invocation already reads thousands of lines of boilerplate
+Makefile code, and we'd be invoking make only once rather than many times.
+
+So we will probably have to worry about efficiency.  For example, it takes
+tens of seconds on Windows for make to discover that compiler/ is up to
+date.  We don't want that happening every time you rebuild some small part
+of the tree, so we plan to cut a few dependencies on purpose.  But I'm
+hoping it'll be necessary to do this in a few well-defined places only, and
+only when building in subdirectories.  For example, If you say 'make' in
+libraries/base, then we won't try to rebuild the stage1 compiler, we'll
+just fail if it does't exist.
+
+
+We still want "make" to work in subdirectories, so for example the
+Makefile (actually GNUmakefile, to avoid colliding with Makefile in
+libraries like Cabal) in libraries/base might look like
+
+{{{
+.NOTPARALLEL
+
+.PHONY: default
+default: dist/build/libbase.a
+    @:
+
+# Note that this rule also generates ghc.mk if it doesn't exist
+%:
+    $(MAKE) -C ../.. libraries/base/$@
+}}}
+
+(ghc.mk is discussed later). In actual fact, GNUmakefile will want to
+be more complicated, to handle "make way=v", "make way=p", "make doc",
+etc. Where possible, the make code will be "include"d in, rather than
+generated, so as to make it easier to deal with.
+
+We need the .NOTPARALLEL or if you say "make foo bar" then the two
+recursive make calls might both make "quux" (a dependency of foo and
+bar) at the same time. The main Makefile will be able to do work in
+parallel when building each of foo and bar, though. The common case,
+where you only specify 0 or 1 targets, doesn't lose any parallelism.
+
+
 == Detailed plan == 
 
  * Rename cabal-bin.hs to ghc-cabal.hs, and move it into utils/ghc-cabal/
@@ -129,60 +208,6 @@ The advantages of this are:
    Tools like genprimopcode, genapply etc. will probably also go into
    inplace/bin, in order to make the makefiles more consistent.
 
- * The build order looks something like:
-     * With bootstrapping compiler:
-       * Build libraries/{filepath,Cabal}
-       * Build utils/ghc-cabal
-     * With bootstrapping compiler and ghc-cabal:
-       * Build utils/hsc2hs
-       * Build libraries/hpc
-       * Build compiler (stage 1)
-     * With stage 1:
-       * Build libraries/*
-       * Build utils/* (except haddock)
-       * Build compiler (stage 2)
-     * With stage 2:
-       * Build utils/haddock
-       * Build compiler (stage 3)
-     * With haddock:
-       * libraries/*
-       * compiler
-   Currently, with recursive make, this means we jump around between
-   Makefiles a lot, which isn't good for parallelism in the build.
-   Instead, we want to move all the logic and dependencies into the root
-   Makefile (or files that get included into it) so that make sees all of
-   it together.
-
-   One concern is that make may take a long time thinking if it can see
-   the rules for the whole system, even when only asked to build a single
-   file. We will have to see how well it performs in practice.
-
- * But we still want "make" to work in subdirectories, so for example the
-   Makefile (actually GNUmakefile, to avoid colliding with Makefile in
-   libraries like Cabal) in libraries/base might look like
-
-{{{
-.NOTPARALLEL
-
-.PHONY: default
-default: dist/build/libbase.a
-    @:
-
-# Note that this rule also generates ghc.mk if it doesn't exist
-%:
-    $(MAKE) -C ../.. libraries/base/$@
-}}}
-
-   (ghc.mk is discussed later). In actual fact, GNUmakefile will want to
-   be more complicated, to handle "make way=v", "make way=p", "make doc",
-   etc. Where possible, the make code will be "include"d in, rather than
-   generated, so as to make it easier to deal with.
-
-   We need the .NOTPARALLEL or if you say "make foo bar" then the two
-   recursive make calls might both make "quux" (a dependency of foo and
-   bar) at the same time. The main Makefile will be able to do work in
-   parallel when building each of foo and bar, though. The common case,
-   where you only specify 0 or 1 targets, doesn't lose any parallelism.
 
  * In e.g. utils/ghc-pkg, the default target will be
 {{{
