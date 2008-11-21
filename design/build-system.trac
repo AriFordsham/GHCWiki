@@ -21,6 +21,9 @@ http://darcs.haskell.org/ghc-new-build-system-2008-11-20-ghc-corelibs-testsuite.
       if that can't be done for some reason.
     * easy to build individual modules, and add extra flags
       (e.g. -v, -ddump-simpl)
+    * easy to change build parameters from the command line.  e.g. we 
+      often want to build something using a different compiler, `make HC=ghc`,
+      to see how a different compiler behaves.
     * easy to modify the build system.  If you modify some part of the
       build system, it should take immediate effect: no having to
       remove bits and rebuild them manually to get changes to take
