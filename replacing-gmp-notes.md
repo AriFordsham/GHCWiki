@@ -33,7 +33,7 @@ This task was started following [ Task \#601](http://hackage.haskell.org/trac/gh
 GHC currently implements the Integer and Fractional types by using the [ The GNU MP Bignum Library](http://swox.com/gmp/) (GMP) which supports arbitrary precision mathematical calculations.  GMP is fast, memory efficient, and offers many high level signed integer functions (140 of them), as well as many rational and floating point arithmetic functions.  The current GHC implementation only uses those functions necessary for the Prelude.  
 
 
-GMP memory is integrated with the [RunTime System's](commentary/rts) (RTS's) [Storage Manager](commentary/rts/storage) (SM)--the RTS's Garbage Collector (GC).  GMP memory is allocated from the GC heap, so values produced by GMP are under the control of the RTS and its GC.  The current implementation is memory efficient wile allowing the RTS and its GC to maintain control of GMP evaluations.
+GMP memory is integrated with the [RunTime System's](commentary/rts) (RTS's) [Storage Manager](commentary/rts/storage) (SM)--the RTS's Garbage Collector (GC).  GMP memory is allocated from the GC heap, so values produced by GMP are under the control of the RTS and its GC.  The current implementation is memory efficient while allowing the RTS and its GC to maintain control of GMP evaluations.
 
 
 If you want to help with replacing GMP or do it yourself, you will have to work with the GC and RTS system.  The parts you will have to modify are written in C and C--, with configuration and assembly done through the Makefiles.  You should have an understanding of:
