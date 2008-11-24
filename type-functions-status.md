@@ -23,6 +23,7 @@
 
 - Constraint simplification:
 
+  - [\#2796](https://gitlab.haskell.org//ghc/ghc/issues/2796)
   - [\#2767](https://gitlab.haskell.org//ghc/ghc/issues/2767)
   - [\#2775](https://gitlab.haskell.org//ghc/ghc/issues/2775)
   - [\#2787](https://gitlab.haskell.org//ghc/ghc/issues/2787)
