@@ -44,7 +44,7 @@
 == Features == 
 
  * #788	Class aliases	
- * #2086: Require bang patterns on unlifted let-bindings	
+ * #2806: Require bang patterns on unlifted let-bindings	
  * #2600: Bind type variables in RULES	
  * #1930: Infix type operators:  a+b.	
  * #960: Generate local info for ‘undefined’.  Implicit location parameters in general	

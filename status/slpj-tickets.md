@@ -46,7 +46,7 @@
 ## Features
 
 - [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788)        Class aliases        
-- [\#2086](https://gitlab.haskell.org//ghc/ghc/issues/2086): Require bang patterns on unlifted let-bindings        
+- [\#2806](https://gitlab.haskell.org//ghc/ghc/issues/2806): Require bang patterns on unlifted let-bindings        
 - [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600): Bind type variables in RULES        
 - [\#1930](https://gitlab.haskell.org//ghc/ghc/issues/1930): Infix type operators:  a+b.        
 - [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960): Generate local info for ‘undefined’.  Implicit location parameters in general        
