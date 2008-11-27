@@ -13,17 +13,14 @@
 - [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): array indexing, inlining/arity bug        
 - [\#149](https://gitlab.haskell.org//ghc/ghc/issues/149): float-out/CSE        
 - [\#2078](https://gitlab.haskell.org//ghc/ghc/issues/2078): INLINing improvement; ask Christian.Maeder@… to see if it improves CASL
-- [\#2463](https://gitlab.haskell.org//ghc/ghc/issues/2463): mall change makes a big change to inlining (of a record) and performance        
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), 2387:(a) cheap check at start of case alternatives, (b) nested CPR analysis        
-- [\#1818](https://gitlab.haskell.org//ghc/ghc/issues/1818): code size regression        Simonmar
-- [\#2092](https://gitlab.haskell.org//ghc/ghc/issues/2092): Possible quadratic-sized Eq instances. Does it really go quadratic, or does the join-point inlining machinery prevent it?        Simonmar
+- [\#2092](https://gitlab.haskell.org//ghc/ghc/issues/2092): Possible quadratic-sized Eq instances. Does it really go quadratic, or does the join-point inlining machinery prevent it?  Still to check: delicacy wrt case-of-case
 - [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255): Improve [SpecConstr](spec-constr) for free variables        
-- [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and MutableByteArray        Max?
+- [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
 - [\#2420](https://gitlab.haskell.org//ghc/ghc/issues/2420): Inlining of class methods infelicity (odd rather than bad)        
 
 ## Outright bugs
 
-- [\#2202](https://gitlab.haskell.org//ghc/ghc/issues/2202): Typechecker loop, caused by normalization of equalities.  There’s a related bug from Bryan Donlan in the same ticket.
 - [\#1870](https://gitlab.haskell.org//ghc/ghc/issues/1870): Panic compiling regex-tdfa-0.93        
 - [\#1148](https://gitlab.haskell.org//ghc/ghc/issues/1148), 2267, 1074: “Unused import” warnings should be generated from RdrNames        
 - [\#2193](https://gitlab.haskell.org//ghc/ghc/issues/2193): Bad error message with impredicative types        
@@ -31,7 +28,6 @@
 - [\#2152](https://gitlab.haskell.org//ghc/ghc/issues/2152): Bogus inlining of foregn import.  Arises from seeing through a NOINLINE in `exprIsConApp_maybe`
 - [\#1241](https://gitlab.haskell.org//ghc/ghc/issues/1241): Lifting the Coverage Condition for functional dependencies isn’t the Right Thing        Manuel
 - [\#2256](https://gitlab.haskell.org//ghc/ghc/issues/2256): Incomplete inference due to lack of quantification over implication constraints.  Also, see “BUG WARNING” in `TcSimplify` line 717 or thereabouts.  `fdPredsOfInsts` is returning preds that mention quantified variables, which is quite wrong        Manuel
-- [\#2219](https://gitlab.haskell.org//ghc/ghc/issues/2219): GADT refinement fails to refine type variable        Manuel
 - [\#2239](https://gitlab.haskell.org//ghc/ghc/issues/2239): Lack of improvement with type functions        Manuel
 - [\#1954](https://gitlab.haskell.org//ghc/ghc/issues/1954): Incorrect “defined but not used” msg        
 
@@ -52,9 +48,8 @@
 - [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788)        Class aliases        
 - [\#2086](https://gitlab.haskell.org//ghc/ghc/issues/2086): Require bang patterns on unlifted let-bindings        
 - [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600): Bind type variables in RULES        
-- [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595): Record update for existentials        
 - [\#1930](https://gitlab.haskell.org//ghc/ghc/issues/1930): Infix type operators:  a+b.        
-- [\#1441](https://gitlab.haskell.org//ghc/ghc/issues/1441): Generate local info for ‘undefined’.  Implicit location parameters in general        
+- [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960): Generate local info for ‘undefined’.  Implicit location parameters in general        
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): Allow TH to generate import declarations        
 - [\#2135](https://gitlab.haskell.org//ghc/ghc/issues/2135): Warn when exporting a function whose type mentions a type constructor defined locally but not itself exported        
 - [\#2526](https://gitlab.haskell.org//ghc/ghc/issues/2526): Add -fwarn-missing-export-signatures        
