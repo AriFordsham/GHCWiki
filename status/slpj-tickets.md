@@ -35,11 +35,12 @@
 - [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#2643](https://gitlab.haskell.org//ghc/ghc/issues/2643): Improve **`SpecConstr`** for free variables, and for join points.
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
 
+---
+
 ## Outright bugs
 
 - [\#1870](https://gitlab.haskell.org//ghc/ghc/issues/1870): Panic compiling regex-tdfa-0.93        
 - [\#1148](https://gitlab.haskell.org//ghc/ghc/issues/1148), 2267, 1074: “Unused import” warnings should be generated from `RdrNames`
-- [\#2193](https://gitlab.haskell.org//ghc/ghc/issues/2193): Bad error message with impredicative types        
 - [\#2182](https://gitlab.haskell.org//ghc/ghc/issues/2182): GHCi session retains instance after removing a module from scope        
 - [\#2152](https://gitlab.haskell.org//ghc/ghc/issues/2152): Bogus inlining of foregn import.  Arises from seeing through a NOINLINE in `exprIsConApp_maybe`
 - [\#1241](https://gitlab.haskell.org//ghc/ghc/issues/1241): Lifting the Coverage Condition for functional dependencies isn’t the Right Thing        Manuel
@@ -47,9 +48,12 @@
 - [\#2239](https://gitlab.haskell.org//ghc/ghc/issues/2239): Lack of improvement with type functions        Manuel
 - [\#1954](https://gitlab.haskell.org//ghc/ghc/issues/1954): Incorrect “defined but not used” msg        
 
+---
+
 ## Better error messages
 
 - [\#2648](https://gitlab.haskell.org//ghc/ghc/issues/2648): Report out of date interface files robustly        
+- [\#2193](https://gitlab.haskell.org//ghc/ghc/issues/2193): Bad error message with impredicative types        
 - [\#2599](https://gitlab.haskell.org//ghc/ghc/issues/2599): Better error message for non-rigid types        
 - [\#2588](https://gitlab.haskell.org//ghc/ghc/issues/2588): Better error message about ‘forall’        
 - [\#2360](https://gitlab.haskell.org//ghc/ghc/issues/2360): Better location info in occurs-check message.        
@@ -58,6 +62,8 @@
 - [\#2534](https://gitlab.haskell.org//ghc/ghc/issues/2534): Another confusing type error message        
 - [\#2442](https://gitlab.haskell.org//ghc/ghc/issues/2442): Better error message heuristics for “not in scope”        Max B’s patch
 - [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.        
+
+---
 
 ## Features
 
