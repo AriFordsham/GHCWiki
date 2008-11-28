@@ -7,7 +7,8 @@
 - [\#2822](https://gitlab.haskell.org//ghc/ghc/issues/2822): arity expansion not happening right
 - [\#2823](https://gitlab.haskell.org//ghc/ghc/issues/2823): another arity expansion bug (related to dictionaries)
 - [\#2440](https://gitlab.haskell.org//ghc/ghc/issues/2440): bad code with type families; I believe this is also arity-related
-- [\#2762](https://gitlab.haskell.org//ghc/ghc/issues/2762): Arity analysis        
+- [\#2762](https://gitlab.haskell.org//ghc/ghc/issues/2762): Arity analysis
+- [\#2368](https://gitlab.haskell.org//ghc/ghc/issues/2368): ASSERT fails in `CorePrep`.  Seems to be arity-related.
 
 ### Inlining
 
