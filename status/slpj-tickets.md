@@ -79,3 +79,9 @@
 - [\#2116](https://gitlab.haskell.org//ghc/ghc/issues/2116): GHCi should load as much of the module as it can        
 - [\#2207](https://gitlab.haskell.org//ghc/ghc/issues/2207): Load interfaces for GHC.\* even without -O        
 - [\#1231](https://gitlab.haskell.org//ghc/ghc/issues/1231): Better deprecations        
+
+---
+
+## Not sure what to do about these
+
+- [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284): the state-hack "optimisation" causes much re-computation
