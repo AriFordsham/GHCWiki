@@ -2,6 +2,7 @@
 
 ## Performance
 
+- [\#2670](https://gitlab.haskell.org//ghc/ghc/issues/2670): record selectors behaving badly wrt optimisation
 - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253): NCG could do better. Look at this when John D’s ncg is working
 - [\#2762](https://gitlab.haskell.org//ghc/ghc/issues/2762): Arity analysis        
 - [\#1434](https://gitlab.haskell.org//ghc/ghc/issues/1434): Slow conversion Double to Int        
