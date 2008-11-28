@@ -24,16 +24,20 @@
 - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253): NCG could do better. Look at this when John D’s ncg is working
 - [\#1434](https://gitlab.haskell.org//ghc/ghc/issues/1434): Slow conversion Double to Int        
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries        
-- [\#2002](https://gitlab.haskell.org//ghc/ghc/issues/2002): Very slow compilation.   (There is linear stack growth with depth of linear list literal, which we think is ok, but it still should not be so slow.)        Needs profiling
 - [\#2132](https://gitlab.haskell.org//ghc/ghc/issues/2132): Optimise nested comparisons: if you know x\>0 then you know x\>=1 etc.  Maybe a special pass that knows about arithmetic?        
 - [\#783](https://gitlab.haskell.org//ghc/ghc/issues/783): SRTs getting big        
-- [\#1969](https://gitlab.haskell.org//ghc/ghc/issues/1969): quadratic behaviour in the specialiser        
 - [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): array indexing, inlining/arity bug        
 - [\#149](https://gitlab.haskell.org//ghc/ghc/issues/149): float-out/CSE        
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), 2387:(a) cheap check at start of case alternatives, (b) nested CPR analysis        
 - [\#2092](https://gitlab.haskell.org//ghc/ghc/issues/2092): Possible quadratic-sized Eq instances. Does it really go quadratic, or does the join-point inlining machinery prevent it?  Still to check: delicacy wrt case-of-case
 - [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#2643](https://gitlab.haskell.org//ghc/ghc/issues/2643): Improve **`SpecConstr`** for free variables, and for join points.
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
+
+### Compiler performance
+
+- [\#2002](https://gitlab.haskell.org//ghc/ghc/issues/2002): Very slow compilation.   (There is linear stack growth with depth of linear list literal, which we think is ok, but it still should not be so slow.)        Needs profiling
+- [\#1969](https://gitlab.haskell.org//ghc/ghc/issues/1969): quadratic behaviour in the specialiser
+- [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
 
 ---
 
