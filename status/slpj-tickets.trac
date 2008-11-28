@@ -2,6 +2,7 @@
 
 == Performance ==
  * #2670: record selectors behaving badly wrt optimisation
+ * #2731: avoiding unnecessary evaluation when unpacking constructors
  * #2253: NCG could do better. Look at this when John D’s ncg is working
  * #2762: Arity analysis	
  * #1434: Slow conversion Double to Int	
