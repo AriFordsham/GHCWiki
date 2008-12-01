@@ -5,6 +5,9 @@
 
 Here are our plans for the next GHC release?.
 
+
+Here are details about what [platforms GHC supports](platforms).
+
 ## Biannual status reports
 
 
