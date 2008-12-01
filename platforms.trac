@@ -10,7 +10,7 @@ Although there are not many Tier 1 platforms, they cover a very large fraction o
 
 Criteria for Tier 1 platforms:
   * An active buildbot client, capable of doing full builds and uploading distributions.
-  * An active maintainer, willing to investigate and fix platform-specific bugs, and 
+  * An active sponsor, willing to investigate and fix platform-specific bugs, and 
   to work with us during the release process
 
 
