@@ -8,6 +8,14 @@ various platforms.  To find out who is responsible for each platform, see [Contr
 
 
 Tier 1 platforms are our top priority.  We only release GHC when they all work.
+Although there are not many Tier 1 platforms, they cover a very large fraction of our users.
+
+
+Criteria for Tier 1 platforms:
+
+- An active buildbot client, capable of doing full builds and uploading distributions.
+- An active sponsor, willing to investigate and fix platform-specific bugs, and 
+  to work with us during the release process
 
 <table><tr><th>**Architecture**</th>
 <th>**OS**</th>
@@ -65,11 +73,13 @@ developing, testing, and building distributions.  We may release GHC
 with some Tier 2 platforms not working.  
 
 
+Platform-specific bugs on Tier 2 platforms are marked "low priority" (unless there's
+a strong reason not to do so), not because they are unimportant to the users of that
+platform, but to express the fact that they aren't going to hold up the release.
+
+
 We'd like to promote as many
-Tier 2 platforms as possible to Tier 1; the criterion is that there's
-an active community supporter (or supporters) who is willing to take
-responsibility for the platform and work with us during the release
-process.
+Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria.
 
 <table><tr><th>**Architecture**</th>
 <th>**OS**</th>
@@ -208,7 +218,7 @@ process.
 <th></th></tr></table>
 
 **\*S1** Sparc NCG bitrotten, but still in the tree
-**\*S3** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)
+**\*S2** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)
 
 ## Tier 3 platforms
 
