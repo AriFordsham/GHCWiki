@@ -8,6 +8,7 @@
  * #2440: bad code with type families; I believe this is also arity-related
  * #2762: Arity analysis
  * #2368: ASSERT fails in `CorePrep`.  Seems to be arity-related.
+ * #2831: error expressions and arities
 
 === Inlining ===
  * #2396: default class method not inlined
