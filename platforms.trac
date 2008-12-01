@@ -6,8 +6,13 @@ various platforms.  To find out who is responsible for each platform, see [wiki:
 == Tier 1 platforms ==
 
 Tier 1 platforms are our top priority.  We only release GHC when they all work.
-
 Although there are not many Tier 1 platforms, they cover a very large fraction of our users.
+
+Criteria for Tier 1 platforms:
+  * An active buildbot client, capable of doing full builds and uploading distributions.
+  * An active maintainer, willing to investigate and fix platform-specific bugs, and 
+  to work with us during the release process
+
 
 || '''Architecture''' || '''OS''' || '''Build name''' || '''Reg'd''' || '''GHCi''' || '''NCG''' || '''f.i.''' || '''Dyn libs''' || '''!WikiPage''' ||
 || x86          || Windows (MinGW) || i386-unknown-mingw32    || Yes          || Yes  || Yes                   || Yes          || No(*W)            ||[wiki:WindowsGhc] ||
@@ -24,10 +29,7 @@ developing, testing, and building distributions.  We may release GHC
 with some Tier 2 platforms not working.  
 
 We'd like to promote as many
-Tier 2 platforms as possible to Tier 1; the criterion is that there's
-an active community supporter (or supporters) who is willing to take
-responsibility for the platform and work with us during the release
-process.
+Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria.
 
 || '''Architecture''' || '''OS''' || '''Build name''' || '''Reg'd''' || '''GHCi''' || '''NCG''' || '''f.i.''' || '''Dyn libs''' || '''!WikiPage''' ||
 || x86          || FreeBSD         || i386-unknown-freebsd    || Yes          || Yes  || Yes    || Yes          || No                || ||

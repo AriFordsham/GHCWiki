@@ -8,9 +8,14 @@ various platforms.  To find out who is responsible for each platform, see [Contr
 
 
 Tier 1 platforms are our top priority.  We only release GHC when they all work.
-
-
 Although there are not many Tier 1 platforms, they cover a very large fraction of our users.
+
+
+Criteria for Tier 1 platforms:
+
+- An active buildbot client, capable of doing full builds and uploading distributions.
+- An active maintainer, willing to investigate and fix platform-specific bugs, and 
+  to work with us during the release process
 
 <table><tr><th>**Architecture**</th>
 <th>**OS**</th>
@@ -69,10 +74,7 @@ with some Tier 2 platforms not working.
 
 
 We'd like to promote as many
-Tier 2 platforms as possible to Tier 1; the criterion is that there's
-an active community supporter (or supporters) who is willing to take
-responsibility for the platform and work with us during the release
-process.
+Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria.
 
 <table><tr><th>**Architecture**</th>
 <th>**OS**</th>
