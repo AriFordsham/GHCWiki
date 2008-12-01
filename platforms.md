@@ -213,7 +213,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th></th></tr></table>
 
 **\*S1** Sparc NCG bitrotten, but still in the tree
-**\*S3** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)
+**\*S2** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)
 
 ## Tier 3 platforms
 

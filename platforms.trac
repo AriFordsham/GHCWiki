@@ -48,7 +48,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 || Sparc        || OpenBSD         || sparc-unknown-openbsd   || Yes          || Yes  || No(*S1) || Yes          || No                || ||
 
 '''*S1''' Sparc NCG bitrotten, but still in the tree[[BR]]
-'''*S3''' but see #591
+'''*S2''' but see #591
 
 == Tier 3 platforms ==
 
