@@ -7,6 +7,8 @@ various platforms.  To find out who is responsible for each platform, see [wiki:
 
 Tier 1 platforms are our top priority.  We only release GHC when they all work.
 
+Although there are not many Tier 1 platforms, they cover a very large fraction of our users.
+
 || '''Architecture''' || '''OS''' || '''Build name''' || '''Reg'd''' || '''GHCi''' || '''NCG''' || '''f.i.''' || '''Dyn libs''' || '''!WikiPage''' ||
 || x86          || Windows (MinGW) || i386-unknown-mingw32    || Yes          || Yes  || Yes                   || Yes          || No(*W)            ||[wiki:WindowsGhc] ||
 || x86          || Linux           || i386-unknown-{linux,gnu} || Yes          || Yes  || Yes                   || Yes          || No                || ||

@@ -9,6 +9,9 @@ various platforms.  To find out who is responsible for each platform, see [Contr
 
 Tier 1 platforms are our top priority.  We only release GHC when they all work.
 
+
+Although there are not many Tier 1 platforms, they cover a very large fraction of our users.
+
 <table><tr><th>**Architecture**</th>
 <th>**OS**</th>
 <th>**Build name**</th>
