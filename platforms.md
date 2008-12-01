@@ -73,6 +73,11 @@ developing, testing, and building distributions.  We may release GHC
 with some Tier 2 platforms not working.  
 
 
+Platform-specific bugs on Tier 2 platforms are marked "low priority" (unless there's
+a strong reason not to do so), not because they are unimportant to the users of that
+platform, but to express the fact that they aren't going to hold up the release.
+
+
 We'd like to promote as many
 Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria.
 
