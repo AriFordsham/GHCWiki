@@ -18,6 +18,13 @@ tcReduceEqs :: [Inst]             -- locals
 
 It already processes both equalities and class constraints, but only to simplify the type parameters of class constraints, no attempt to simplify them is made.
 
+
+Predicate solver
+
+```wiki
+reduceList :: RedEnv -> [Inst] -> Avails -> TcM Avails
+```
+
 ### Module structure
 
 
@@ -28,3 +35,8 @@ Currently, the equality solver lives in `TcTyFuns` and the class solver lives in
 
 
 To me, the second option is more appealing as I expect it to keep interfaces smaller.
+
+### Functional dependencies
+
+
+Currently, `tcImproveOne` generates pairs of types to be unified (on the basis of the FD improvement rules) and does unify them with `unifyType` (via `unifyEqns`).  In the integrated solver, `tcImproveOne` should generate equality constraints instead.  This will get rid of the `extra_eqs` that we currently have in `reduceContext`.
