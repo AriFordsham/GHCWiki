@@ -51,7 +51,6 @@
 
 ## Outright bugs
 
-- [\#1870](https://gitlab.haskell.org//ghc/ghc/issues/1870): Panic compiling regex-tdfa-0.93        
 - [\#1148](https://gitlab.haskell.org//ghc/ghc/issues/1148), 2267, 1074: “Unused import” warnings should be generated from `RdrNames`
 - [\#2182](https://gitlab.haskell.org//ghc/ghc/issues/2182): GHCi session retains instance after removing a module from scope        
 - [\#2152](https://gitlab.haskell.org//ghc/ghc/issues/2152): Bogus inlining of foregn import.  Arises from seeing through a NOINLINE in `exprIsConApp_maybe`
