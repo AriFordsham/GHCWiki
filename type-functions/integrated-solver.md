@@ -92,3 +92,27 @@ To me, the second option is more appealing as I expect it to keep interfaces sma
 
 
 Currently, `tcImproveOne` generates pairs of types to be unified (on the basis of the FD improvement rules) and does unify them with `unifyType` (via `unifyEqns`).  In the integrated solver, `tcImproveOne` should generate equality constraints (with identity coercions) instead.  This will get rid of the `extra_eqs` that we currently have in `reduceContext`.
+
+---
+
+### Additional points raised during phone conf, 3 Dec
+
+
+The plan is to outline on this page, the final design we are aiming for (independent of whether we implement it in one rewrite of the source or more).
+
+#### Orientation of normal variable equalities
+
+
+Currently, when we finalise `alpha ~> beta`, we may decide to instantiate `beta` with `alpha` (in `uMeta`).  We should not make the choice about which way to instantiate at that late stage.  Instead, we should adjust the \< relation between type variables to orient them already such that the instantiation is always in the direction of the rewrite rule.  That just seems cleaner.
+
+#### Treatment of variable instantiation
+
+
+Instead of instantiating type variables during finalisation, we should already remove equalities of the form `co :w alpha ~> t` during normalisation or propagation and remember them as substitutions `alpha := t` in `EqConfig` (or similar) and instantiate `co := id`.  We also need to ensure that the substitution is propagated to all other constraints.
+
+
+When we return to `reduceContext` and solve the implication constraint, we also got to use the substitutions as given equalities when we try to solve the implications.
+
+#### EqConfig
+
+`EqConfig` needs to become more general and be a general solver configuration.  Likewise `RewriteInst` needs to include a variant for class constraints, which we need to handle during propagate.
