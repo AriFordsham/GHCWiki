@@ -18,6 +18,7 @@
 - [\#2353](https://gitlab.haskell.org//ghc/ghc/issues/2353): GHC inliner doesn't inline
 - [\#2420](https://gitlab.haskell.org//ghc/ghc/issues/2420): Inlining of class methods infelicity (odd rather than bad)        
 - [\#2078](https://gitlab.haskell.org//ghc/ghc/issues/2078): INLINing improvement; ask Christian.Maeder@… to see if it improves CASL
+- [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): array indexing, inlining/arity bug        
 
 ## New code generator
 
@@ -34,7 +35,6 @@
 - [\#1434](https://gitlab.haskell.org//ghc/ghc/issues/1434): Slow conversion Double to Int        
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries        
 - [\#2132](https://gitlab.haskell.org//ghc/ghc/issues/2132): Optimise nested comparisons: if you know x\>0 then you know x\>=1 etc.  Maybe a special pass that knows about arithmetic?        
-- [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): array indexing, inlining/arity bug        
 - [\#149](https://gitlab.haskell.org//ghc/ghc/issues/149): float-out/CSE        
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), 2387: nested CPR analysis        
 - [\#2092](https://gitlab.haskell.org//ghc/ghc/issues/2092): Possible quadratic-sized Eq instances. Does it really go quadratic, or does the join-point inlining machinery prevent it?  Still to check: delicacy wrt case-of-case

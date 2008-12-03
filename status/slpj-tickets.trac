@@ -16,6 +16,7 @@
  * #2353: GHC inliner doesn't inline
  * #2420: Inlining of class methods infelicity (odd rather than bad)	
  * #2078: INLINing improvement; ask Christian.Maeder@dfki.de to see if it improves CASL
+ * #1216: array indexing, inlining/arity bug	
 
 == New code generator ==
  * #2253: NCG could do better. Look at this when John D’s ncg is working
@@ -30,7 +31,6 @@
  * #1434: Slow conversion Double to Int	
  * #2439: Strict dictionaries	
  * #2132: Optimise nested comparisons: if you know x>0 then you know x>=1 etc.  Maybe a special pass that knows about arithmetic?	
- * #1216: array indexing, inlining/arity bug	
  * #149: float-out/CSE	
  * #2289, 2387: nested CPR analysis	
  * #2092: Possible quadratic-sized Eq instances. Does it really go quadratic, or does the join-point inlining machinery prevent it?  Still to check: delicacy wrt case-of-case
