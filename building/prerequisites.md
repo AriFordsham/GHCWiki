@@ -13,9 +13,9 @@ to build GHC using just a C compiler, and indeed some
 distributions of GHC do just that, but it isn't the best
 supported method, and you may encounter difficulties.  Full
 instructions are in [Porting GHC](building/porting).
-  
+
 GHC can be built using either an earlier released
-version of GHC (currently 6.0 and later are supported), or
+version of GHC (currently 6.6 and later are supported), or
 bootstrapped using a GHC built from exactly the same
 sources.  Note that this means you cannot in general build
 GHC using an arbitrary development snapshot, or a build from
@@ -23,6 +23,13 @@ say last week.  It might work, it might not - we don't
 guarantee anything.  To be on the safe side, start your
 build using the most recently released stable version of
 GHC.
+
+In general, we support building with the previous 2
+major releases, so:
+
+- To build 6.8.\* you need GHC \>= 6.4
+- To build 6.10.\* you need GHC \>= 6.6
+
 </td></tr></table>
 
 <table><tr><th>Perl</th>
