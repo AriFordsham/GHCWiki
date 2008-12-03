@@ -26,11 +26,11 @@
 - [\#2838](https://gitlab.haskell.org//ghc/ghc/issues/2838): trouble with `CmmInt` masking; watch out for this
 - [\#783](https://gitlab.haskell.org//ghc/ghc/issues/783): SRTs getting big        
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): cheap check at start of case alternatives        
+- [\#2731](https://gitlab.haskell.org//ghc/ghc/issues/2731): avoiding unnecessary evaluation when unpacking constructors
 
 ### Other performance
 
 - [\#2670](https://gitlab.haskell.org//ghc/ghc/issues/2670): record selectors behaving badly wrt optimisation
-- [\#2731](https://gitlab.haskell.org//ghc/ghc/issues/2731): avoiding unnecessary evaluation when unpacking constructors
 - [\#1434](https://gitlab.haskell.org//ghc/ghc/issues/1434): Slow conversion Double to Int        
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries        
 - [\#2132](https://gitlab.haskell.org//ghc/ghc/issues/2132): Optimise nested comparisons: if you know x\>0 then you know x\>=1 etc.  Maybe a special pass that knows about arithmetic?        
