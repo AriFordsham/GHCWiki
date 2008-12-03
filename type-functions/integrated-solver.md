@@ -1,0 +1,30 @@
+## Integrating Class and Equality Solving
+
+### Current main functions
+
+
+Equality solver
+
+```wiki
+tcReduceEqs :: [Inst]             -- locals
+            -> [Inst]             -- wanteds
+            -> TcM ([Inst],       -- normalised locals (w/o equalities)
+                    [Inst],       -- normalised wanteds (including equalities)
+                    TcDictBinds,  -- bindings for all simplified dictionaries
+                    Bool)         -- whether any flexibles where instantiated
+
+```
+
+
+It already processes both equalities and class constraints, but only to simplify the type parameters of class constraints, no attempt to simplify them is made.
+
+### Module structure
+
+
+Currently, the equality solver lives in `TcTyFuns` and the class solver lives in `TcSimplify` together with the higher-level logic.  This set up is no longer feasible when we integrate both solvers as we don't want to add a recursive module dependency.  It seems undesirable to have everything in `TcSimplify`; so, we should move the class constraint solving out.  I think, there are two options:
+
+1. We could have a new module `TcSolver` that includes all the code currently in `TcTyFuns` plus all the class constraint solving code from `TcSimplify` (and remove `TcTyFuns`.)
+1. We could have a new module `TcTyPred` that gets all the class constraint solver code from `TcSimplify`.  The code that coordinates solving of equalities with class constraints should go into `TcTyFuns` as it needs to do the preparatory normalising of types (lifting out family synonym applications) and similar things that are due to type families.  `TcTyFuns` will then invoke functions in `TcTyPred` to perform class solving steps. 
+
+
+To me, the second option is more appealing as I expect it to keep interfaces smaller.
