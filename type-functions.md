@@ -19,13 +19,13 @@ Missing features:
 
 - Superclass equalities.
 - Data family instances in GADT form.
-- [Total type families.](type-functions/total-families)
-- Closed synonym families.
-- Re-implement functional dependencies using type families.
+- Re-implement functional dependencies using explicit equalities.
 
 
 Speculative ideas:
 
+- [Total type families.](type-functions/total-families)
+- Closed synonym families.
 - [Class families.](type-functions/class-families)
 - Our type-indexed data types are open.  However, we currently don't allow case expressions mixing constructors from different indexes.  We could do that if we had a story for open function definitions outside of classes.  Class instances of entire data families (including `deriving` clauses at family declarations to derive for all instances) requires the same sort of capabilities as case expressions mixing data constructors from different indexes.  This is, as they require to build a dictionary that applies to all family instances (as opposed to a distinct dictionary per instance, which is what we have now).
 
@@ -66,10 +66,12 @@ The details of the implementation are split over a couple of subpages, due to th
 
 Furthermore, we have
 
-- [details on the normalisation and solving of type equalities.](type-functions-solving)
+- [details on the normalisation and solving of type equalities](type-functions-solving) and
+- [integrating class and equality constraint solving.](wiki-start???)
 
 ## References
 
+- [ Type Checking with Open Type Functions.](http://www.cse.unsw.edu.au/~chak/papers/SPCS08.html) Tom Schrijvers, Simon Peyton-Jones, Manuel M. T. Chakravarty, and Martin Sulzmann. In Proceedings of ICFP 2008 : The 13th ACM SIGPLAN International Conference on Functional Programming, ACM Press, pages 51-62, 2008.
 - [ Associated Types with Class.](http://www.cse.unsw.edu.au/~chak/papers/CKPM05.html) Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones, and Simon Marlow. In Proceedings of The 32nd Annual ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL'05), ACM Press, pages 1-13, 2005.
 - [ Associated Type Synonyms.](http://www.cse.unsw.edu.au/~chak/papers/CKP05.html) Manuel M. T. Chakravarty, Gabriele Keller, and Simon Peyton Jones. In Proceedings of The Tenth ACM SIGPLAN International Conference on Functional Programming, ACM Press, pages 241-253, 2005.
 - [ Towards Open Type Functions for Haskell.](http://www.cse.unsw.edu.au/~chak/papers/SSPC07.html) Tom Schrijvers, Martin Sulzmann, Simon Peyton-Jones, and Manuel M. T. Chakravarty. Presented at IFL 2007.
