@@ -67,7 +67,7 @@ The details of the implementation are split over a couple of subpages, due to th
 Furthermore, we have
 
 - [details on the normalisation and solving of type equalities](type-functions-solving) and
-- [integrating class and equality constraint solving.](wiki-start???)
+- [integrating class and equality constraint solving.](type-functions/integrated-solver)
 
 ## References
 

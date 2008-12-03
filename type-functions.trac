@@ -57,7 +57,7 @@ The details of the implementation are split over a couple of subpages, due to th
 
 Furthermore, we have
  * [wiki:TypeFunctionsSolving details on the normalisation and solving of type equalities] and
- * [wiki:??? integrating class and equality constraint solving.]
+ * [wiki:TypeFunctions/IntegratedSolver integrating class and equality constraint solving.]
 
 == References ==
 
