@@ -19,6 +19,7 @@
 - [\#2420](https://gitlab.haskell.org//ghc/ghc/issues/2420): Inlining of class methods infelicity (odd rather than bad)        
 - [\#2078](https://gitlab.haskell.org//ghc/ghc/issues/2078): INLINing improvement; ask Christian.Maeder@… to see if it improves CASL
 - [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): array indexing, inlining/arity bug        
+- [\#2840](https://gitlab.haskell.org//ghc/ghc/issues/2840): top level unlifted string literals
 
 ## New code generator
 
@@ -45,6 +46,7 @@
 - [\#2002](https://gitlab.haskell.org//ghc/ghc/issues/2002): Very slow compilation.   (There is linear stack growth with depth of linear list literal, which we think is ok, but it still should not be so slow.)        Needs profiling
 - [\#1969](https://gitlab.haskell.org//ghc/ghc/issues/1969): quadratic behaviour in the specialiser
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
+- Use wildcards for dead variables in interface files.
 
 ---
 
