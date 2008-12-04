@@ -17,6 +17,7 @@
  * #2420: Inlining of class methods infelicity (odd rather than bad)	
  * #2078: INLINing improvement; ask Christian.Maeder@dfki.de to see if it improves CASL
  * #1216: array indexing, inlining/arity bug	
+ * #2840: top level unlifted string literals
 
 == New code generator ==
  * #2253: NCG could do better. Look at this when John D’s ncg is working
