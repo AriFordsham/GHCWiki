@@ -14,7 +14,7 @@ View patterns are a convenient way of pattern-matching against values of abstrac
    data TypView = Unit
                 | Arrow Typ Typ
 
-   view :: Type -> TypeView
+   view :: Typ -> TypView
 
    -- additional operations for constructing Typ's ...
 }}}
