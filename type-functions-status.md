@@ -4,8 +4,6 @@
 
 **Open bugs related to type families**
 
-- **Move description of the language extension from the wiki to the User's Guide.**
-
 - Declarations involving families:
 
   - [\#2677](https://gitlab.haskell.org//ghc/ghc/issues/2677) (depending on the order of instances, overlap is sometimes not properly recognised)
