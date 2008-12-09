@@ -215,33 +215,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> No(\*S1) </th>
 <th> Yes          </th>
 <th> No                </th>
-<th></th></tr></table>
-
-**\*S1** Sparc NCG bitrotten, but still in the tree
-**\*S2** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)
-
-## Tier 3 platforms
-
-
-Tier 3 platforms worked in the past, but probably do not work now.
-
-<table><tr><th>**Architecture**</th>
-<th>**OS**</th>
-<th>**Build name**</th>
-<th>**Reg'd**</th>
-<th>**GHCi**</th>
-<th>**NCG**</th>
-<th>**f.i.**</th>
-<th>**Dyn libs**</th>
-<th>**WikiPage**</th></tr>
-<tr><th> Mips64       </th>
-<th> Irix            </th>
-<th> mips-unknown-linux      </th>
-<th> No           </th>
-<th> No   </th>
-<th> No     </th>
-<th> No           </th>
-<th> No                </th>
 <th></th></tr>
 <tr><th> IA-64        </th>
 <th> Linux           </th>
@@ -251,26 +224,6 @@ Tier 3 platforms worked in the past, but probably do not work now.
 <th> No     </th>
 <th> Yes          </th>
 <th> No                </th>
-<th></th></tr>
-<tr><th> x86          </th>
-<th> Windows (Cygwin) </th>
-<th> i386-unknown-cygwin32 </th>
-<th> Yes          </th>
-<th> No  </th>
-<th> Yes      </th>
-<th> Yes          </th>
-<th> No(\*2)            
-</th>
-<th></th></tr>
-<tr><th> Alpha        </th>
-<th> Dec OSF          </th>
-<th> alpha-dec-osf3        </th>
-<th> No           </th>
-<th> No  </th>
-<th> No       </th>
-<th> Yes          </th>
-<th> No               
-</th>
 <th></th></tr>
 <tr><th> Alpha        </th>
 <th> Linux           </th>
@@ -336,15 +289,6 @@ Tier 3 platforms worked in the past, but probably do not work now.
 <th> No                </th>
 <th></th></tr>
 <tr><th> ARM          </th>
-<th> Maemo (Linux)   </th>
-<th> arm-unknown-linux-gnu   </th>
-<th> Yes          </th>
-<th> No   </th>
-<th> No     </th>
-<th> No           </th>
-<th> No                      </th>
-<th>[ArmLinuxGhc](arm-linux-ghc)</th></tr>
-<tr><th> ARM          </th>
 <th> Debian armel    </th>
 <th> arm-linux-gnueabi       </th>
 <th> No           </th>
@@ -353,6 +297,65 @@ Tier 3 platforms worked in the past, but probably do not work now.
 <th> No           </th>
 <th> No                      </th>
 <th></th></tr></table>
+
+**\*S1** Sparc NCG bitrotten, but still in the tree
+**\*S2** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)
+
+
+In most cases, binaries for the tier 2 platforms can be downloaded from the [Distribution Packages](http://www.haskell.org/ghc/distribution_packages.html) page, e.g. you can get binaries for most of the Linux platforms from Debian. In some cases, for example the Solaris platforms, you'll need to go to the [download page](http://www.haskell.org/ghc/download.html) of a particular release to get a bindist.
+
+## Tier 3 platforms
+
+
+Tier 3 platforms worked in the past, but probably do not work now.
+
+<table><tr><th>**Architecture**</th>
+<th>**OS**</th>
+<th>**Build name**</th>
+<th>**Reg'd**</th>
+<th>**GHCi**</th>
+<th>**NCG**</th>
+<th>**f.i.**</th>
+<th>**Dyn libs**</th>
+<th>**WikiPage**</th></tr>
+<tr><th> Mips64       </th>
+<th> Irix            </th>
+<th> mips-unknown-linux      </th>
+<th> No           </th>
+<th> No   </th>
+<th> No     </th>
+<th> No           </th>
+<th> No                </th>
+<th></th></tr>
+<tr><th> x86          </th>
+<th> Windows (Cygwin) </th>
+<th> i386-unknown-cygwin32 </th>
+<th> Yes          </th>
+<th> No  </th>
+<th> Yes      </th>
+<th> Yes          </th>
+<th> No(\*2)            
+</th>
+<th></th></tr>
+<tr><th> Alpha        </th>
+<th> Dec OSF          </th>
+<th> alpha-dec-osf3        </th>
+<th> No           </th>
+<th> No  </th>
+<th> No       </th>
+<th> Yes          </th>
+<th> No               
+</th>
+<th></th></tr>
+<tr><th> ARM          </th>
+<th> Maemo (Linux)   </th>
+<th> arm-unknown-linux-gnu   </th>
+<th> Yes          </th>
+<th> No   </th>
+<th> No     </th>
+<th> No           </th>
+<th> No                      </th>
+<th>[ArmLinuxGhc](arm-linux-ghc)</th></tr></table>
 
 ## Definitions
 
