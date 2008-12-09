@@ -51,6 +51,7 @@
 
 - Misc:
 
+  - [\#2856](https://gitlab.haskell.org//ghc/ghc/issues/2856) (generalised new type deriving for associated data types)
   - [\#2853](https://gitlab.haskell.org//ghc/ghc/issues/2853) (type families and defaulting)
   - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types)
   - `TcPat` and `TcUnify` (and maybe other modules) still have calls to the unification engine that ignore the returned coercion!!
