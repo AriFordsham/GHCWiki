@@ -4,8 +4,6 @@
 
 **Open bugs related to type families**
 
-- **Move description of the language extension from the wiki to the User's Guide.**
-
 - Declarations involving families:
 
   - [\#2677](https://gitlab.haskell.org//ghc/ghc/issues/2677) (depending on the order of instances, overlap is sometimes not properly recognised)
@@ -51,6 +49,8 @@
 
 - Misc:
 
+  - [\#2856](https://gitlab.haskell.org//ghc/ghc/issues/2856) (generalised new type deriving for associated data types)
+  - [\#2853](https://gitlab.haskell.org//ghc/ghc/issues/2853) (type families and defaulting)
   - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types)
   - `TcPat` and `TcUnify` (and maybe other modules) still have calls to the unification engine that ignore the returned coercion!!
   - Test `Simple17` (corelint error as a dict binding, used to specialise a call to a local function, floats out too far)
