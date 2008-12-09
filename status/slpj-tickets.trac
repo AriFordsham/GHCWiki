@@ -59,6 +59,7 @@
  
  * #1897: don't infer a type that can't be checked if the type is given as a signature
  * #2859: optimise coercion terms
+ * #2641: revise what `-XExtendedDefaultRules` does
 
 ------------------------
 == Better error messages == 
