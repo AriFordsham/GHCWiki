@@ -62,6 +62,13 @@
 
 ---
 
+## Types and type inference
+
+- [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): don't infer a type that can't be checked if the type is given as a signature
+- [\#2859](https://gitlab.haskell.org//ghc/ghc/issues/2859): optimise coercion terms
+
+---
+
 ## Better error messages
 
 - [\#2648](https://gitlab.haskell.org//ghc/ghc/issues/2648): Report out of date interface files robustly        
