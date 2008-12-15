@@ -21,6 +21,21 @@ In addition to fixed releases of GHC, source distributions are also made each ni
 
 Source distributions are easier to build, because we also include the output from running certain external tools like [http://haskell.org/happy Happy], so you don't need to install these tools.  See [wiki:Building/Prerequisites] for details.
 
+== Getting a GHC source tree using git ==
+
+The first thing to do is install [http://darcs.net/ darcs] and [http://git.or.cz/ git].
+
+{{{
+git clone http://darcs.haskell.org/ghc.git ghc
+cd ghc
+curl 'http://hackage.haskell.org/trac/ghc/attachment/ticket/2857/fix-sync-all-patch?format=raw' | patch -p1
+./sync-all --complete get
+sh boot
+./configure && make
+}}}
+
+The third line applies a patch from [http://hackage.haskell.org/trac/ghc/ticket/2857 bug 2857]; when that bug is closed it should be removed.
+
 == Getting a GHC source tree using darcs ==
 
 The first thing to do is install [http://darcs.net/ darcs].
