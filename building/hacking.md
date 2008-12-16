@@ -206,10 +206,10 @@ gets overwritten when you run `./configure`).
 The settings that give you the fastest complete GHC build are these:
 
 ```wiki
-  SRC_HC_OPTS     = -H64m -Onot -fasm
+  SRC_HC_OPTS     = -H64m -O0 -fasm
   GhcStage1HcOpts = -O -fasm
-  GhcStage2HcOpts = -Onot -fasm
-  GhcLibHcOpts    = -Onot -fasm
+  GhcStage2HcOpts = -O0 -fasm
+  GhcLibHcOpts    = -O0 -fasm
   GhcLibWays      =
   SplitObjs       = NO
 ```
