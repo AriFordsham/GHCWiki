@@ -13,7 +13,7 @@ The benchmarks below were made with unmodified multi-precision libraries for Int
 - [ MAPM](http://www.tc.umn.edu/~ringx004/mapm-main.html)
 
 
-Crypto++, Botan, MPI and MAPM showed performance far below ARPREC, OpenSSL's BN, GMP and LibTomMath, so results are only shown for the last four.  Note that there are other libraries available for arbitrary precision arithmetic other than those mentioned or tested here.  Most of those other libraries are licensed under the GPL, while the remainder, such as the [ decNumber](http://www2.hursley.ibm.com/decimal/decnumber.html) library (free, under the [ ICU license](http://www-306.ibm.com/software/globalization/icu/license.jsp)) are designed and tuned for operations that would be difficult to translate into Haskell's Integer primitive.
+Crypto++, Botan, MPI and MAPM showed performance far below ARPREC, OpenSSL's BN, GMP and LibTomMath, so results are only shown for the last four.  Note that there are other libraries available for arbitrary precision arithmetic other than those mentioned or tested here.  Most of those other libraries are licensed under the GPL, while the remainder, such as the [ decNumber](http://www2.hursley.ibm.com/decimal/decnumber.html) library (free, under the [ ICU license](http://source.icu-project.org/repos/icu/icu/trunk/license.html)) are designed and tuned for operations that would be difficult to translate into Haskell's Integer primitive.
 
 [](/trac/ghc/attachment/wiki/ReplacingGMPNotes/PerformanceMeasurements/Multiplication.gif)
 
