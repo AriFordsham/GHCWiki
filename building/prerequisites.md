@@ -1,9 +1,54 @@
-## Prerequisites for Buiding GHC
+## Preparing a Linux system
 
 
-Here are the gory details about some utility programs you may need.
-In most cases the `configure` script will tell you if you
-are missing something.  If you're on a Linux system, skip to "Preparing a Linux System" below.
+If you're on a recent Linux system, then you should be able to get a working build environment by installing the following packages using your system's package manager:
+
+- glibc-devel
+- libedit-devel
+- ncurses-devel
+- gmp-devel
+- autoconf
+- automake
+- gcc
+- make
+- perl
+- python
+- ghc
+- happy
+- alex
+- haddock
+
+**Note:** currently you'll also need to install an older version of [ Haddock](http://www.haskell.org/haddock) (0.9) manually, because the version of Haddock you'll get by default is 2.0.0.0 which doesn't work with GHC's build system yet.
+
+
+To be able to build the documentation (User's Guide):
+
+- docbook-utils
+- docbook-utils-pdf
+- docbook-style-xsl
+
+
+other packages that are useful for development:
+
+- strace
+- patch
+- libcurl-devel and zlib-devel (for building darcs)
+
+## Preparing a Windows system
+
+
+See [Building/Windows](building/windows).  ToDo: move the relevant parts of the docs here.
+
+## Preparing a MacOS X system
+
+
+See [Building/MacOSX](building/mac-osx).  ToDo: move the relevant parts of the docs here.
+
+## Other systems
+
+
+Here are the gory details about which programs and tools you need in order to build GHC.
+In most cases the `configure` script will tell you if you are missing something.
 
 <table><tr><th>GHC</th>
 <td>
@@ -33,7 +78,7 @@ major releases, so:
 </td></tr></table>
 
 <table><tr><th>Perl</th>
-<td>*You must have Perl to proceed! *
+<td>
 Perl version 5 at least is required.  GHC has been known to
 tickle bugs in Perl, so if you find that Perl crashes when
 running GHC try updating (or downgrading) your Perl
@@ -105,11 +150,10 @@ Alex distributions are available from
 <table><tr><th>[ Haddock](http://www.haskell.org/haddock/)</th>
 <td>
 Haddock is a documentation generator for Haskell,
-used for making the docs for the libraries.
+used for making the docs for the libraries. If you don't want to build the docs then you don't need haddock.
 
-If you don't want to build the docs then you don't need haddock.
-
-Currently you need a 0.\* version of haddock; 2.\* versions won't work.
+Haddock is only needed for GHC 6.8.3 and older; GHC 6.10 comes with Haddock.  
+For GHC 6.8 and older you need a 0.\* version of haddock; 2.\* versions won't work.
 </td></tr></table>
 
 <table><tr><th>`autoconf` and `automake`</th>
@@ -161,39 +205,3 @@ If a suitable version of libedit cannot be found, ghc/ghci will still build fine
  If your installation does not have libedit by default, you may either download and build it yourself from the link above, or else install your distro's relevant package (sometimes called "libedit-devel" or "libedit-dev").
 GHC does not use libedit on Windows; instead, it uses the console's default line editor.
 </td></tr></table>
-
-## Preparing a Linux system
-
-
-If you're on a recent Linux system, then you should be able to get a working build environment by installing the following packages using your system's package manager:
-
-- glibc-devel
-- libedit-devel
-- ncurses-devel
-- gmp-devel
-- autoconf
-- automake
-- gcc
-- make
-- perl
-- python
-- ghc
-- happy
-- alex
-- haddock
-
-**Note:** currently you'll also need to install an older version of [ Haddock](http://www.haskell.org/haddock) (0.9) manually, because the version of Haddock you'll get by default is 2.0.0.0 which doesn't work with GHC's build system yet.
-
-
-To be able to build the documentation (User's Guide):
-
-- docbook-utils
-- docbook-utils-pdf
-- docbook-style-xsl
-
-
-other packages that are useful for development:
-
-- strace
-- patch
-- libcurl-devel and zlib-devel (for building darcs)
