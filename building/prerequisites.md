@@ -47,9 +47,8 @@ See [Building/MacOSX](building/mac-osx).  ToDo: move the relevant parts of the d
 ## Other systems
 
 
-Here are the gory details about some utility programs you may need.
-In most cases the `configure` script will tell you if you
-are missing something.  If you're on a Linux system, skip to "Preparing a Linux System" below.
+Here are the gory details about which programs and tools you need in order to build GHC.
+In most cases the `configure` script will tell you if you are missing something.
 
 <table><tr><th>GHC</th>
 <td>
@@ -79,7 +78,7 @@ major releases, so:
 </td></tr></table>
 
 <table><tr><th>Perl</th>
-<td>*You must have Perl to proceed! *
+<td>
 Perl version 5 at least is required.  GHC has been known to
 tickle bugs in Perl, so if you find that Perl crashes when
 running GHC try updating (or downgrading) your Perl
@@ -151,11 +150,10 @@ Alex distributions are available from
 <table><tr><th>[ Haddock](http://www.haskell.org/haddock/)</th>
 <td>
 Haddock is a documentation generator for Haskell,
-used for making the docs for the libraries.
+used for making the docs for the libraries. If you don't want to build the docs then you don't need haddock.
 
-If you don't want to build the docs then you don't need haddock.
-
-Currently you need a 0.\* version of haddock; 2.\* versions won't work.
+Haddock is only needed for GHC 6.8.3 and older; GHC 6.10 comes with Haddock.  
+For GHC 6.8 and older you need a 0.\* version of haddock; 2.\* versions won't work.
 </td></tr></table>
 
 <table><tr><th>`autoconf` and `automake`</th>

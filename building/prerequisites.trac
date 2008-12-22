@@ -36,17 +36,16 @@ other packages that are useful for development:
 
 == Preparing a Windows system ==
 
-See [wiki:Building/Windows].  ToDo: move the relevant parts of the docs here.
+See [wiki:Building/Windows].  !ToDo: move the relevant parts of the docs here.
 
 == Preparing a MacOS X system ==
 
-See [wiki:Building/MacOSX].  ToDo: move the relevant parts of the docs here.
+See [wiki:Building/MacOSX].  !ToDo: move the relevant parts of the docs here.
 
 == Other systems ==
 
-Here are the gory details about some utility programs you may need.
-In most cases the `configure` script will tell you if you
-are missing something.  If you're on a Linux system, skip to "Preparing a Linux System" below.
+Here are the gory details about which programs and tools you need in order to build GHC.
+In most cases the `configure` script will tell you if you are missing something.
 
  GHC::
   GHC is required to build GHC, because GHC itself is
@@ -72,7 +71,6 @@ are missing something.  If you're on a Linux system, skip to "Preparing a Linux 
   * To build 6.10.* you need GHC >= 6.6
 
  Perl::
-  ''You must have Perl to proceed! ''
   Perl version 5 at least is required.  GHC has been known to
   tickle bugs in Perl, so if you find that Perl crashes when
   running GHC try updating (or downgrading) your Perl
@@ -134,11 +132,10 @@ are missing something.  If you're on a Linux system, skip to "Preparing a Linux 
 
  [http://www.haskell.org/haddock/ Haddock]::
   Haddock is a documentation generator for Haskell,
-  used for making the docs for the libraries.
+  used for making the docs for the libraries. If you don't want to build the docs then you don't need haddock.
   [[br]][[br]]
-  If you don't want to build the docs then you don't need haddock.
-  [[br]][[br]]
-  Currently you need a 0.* version of haddock; 2.* versions won't work.
+  Haddock is only needed for GHC 6.8.3 and older; GHC 6.10 comes with Haddock.  
+  For GHC 6.8 and older you need a 0.* version of haddock; 2.* versions won't work.
 
  {{{autoconf}}} and {{{automake}}}::
   These are needed if you intend to build from the
