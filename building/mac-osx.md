@@ -3,17 +3,13 @@
 ## Get the latest development tools
 
 
-Certain versions of Apple's Xcode tools are known to cause problems when building ghc 6.6.
-You should download the latest Xcode from the [ Apple Developer Connection](http://developer.apple.com/tools/xcode) website.
-Downloading requires that you sign up for a free membership in the Apple Developer Connection.
+Certain versions of Apple's Xcode tools are known to cause problems when building some versions of GHC. You should download the latest Xcode (currently 3.1) from the [ Apple Developer Connection](http://developer.apple.com/tools/xcode) website. Downloading requires that you sign up for a free membership in the Apple Developer Connection.
 
 
-Once upon a time Apple distributed updates to Xcode by using their Software Update service but not anymore.
-You must download the development tools manually.
+Once upon a time Apple distributed updates to Xcode by using their Software Update service but not anymore. You must download the development tools manually.
 
 
-Successful builds have been reported using Xcode 3.0, 2.4 and 2.4.1 on Intel and PowerPC Macs. Xcode 2.2.1 is known *not* to
-work out of the box on Intel Macs.
+Successful builds of older GHC sources have been reported using Xcode 3.0, 2.4 and 2.4.1 on Intel and PowerPC Macs. Xcode 2.2.1 is known *not* to work out of the box on Intel Macs. Versions prior to 3.1 may build GHC successfully, but choke on certain libraries.
 
 ## Building installer packages
 
