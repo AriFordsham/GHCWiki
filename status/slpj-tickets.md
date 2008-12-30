@@ -4,6 +4,7 @@
 
 ### Arity
 
+- [\#2902](https://gitlab.haskell.org//ghc/ghc/issues/2902): an excellen example of the need for arity analysis
 - [\#2822](https://gitlab.haskell.org//ghc/ghc/issues/2822): arity expansion not happening right
 - [\#2823](https://gitlab.haskell.org//ghc/ghc/issues/2823): another arity expansion bug (related to dictionaries)
 - [\#2440](https://gitlab.haskell.org//ghc/ghc/issues/2440): bad code with type families; I believe this is also arity-related
@@ -16,7 +17,6 @@
 - [\#2396](https://gitlab.haskell.org//ghc/ghc/issues/2396): default class method not inlined
 - [\#2354](https://gitlab.haskell.org//ghc/ghc/issues/2354): NOINLINE pragma ignored
 - [\#2353](https://gitlab.haskell.org//ghc/ghc/issues/2353): GHC inliner doesn't inline
-- [\#2420](https://gitlab.haskell.org//ghc/ghc/issues/2420): Inlining of class methods infelicity (odd rather than bad)        
 - [\#2078](https://gitlab.haskell.org//ghc/ghc/issues/2078): INLINing improvement; ask Christian.Maeder@… to see if it improves CASL
 - [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): array indexing, inlining/arity bug        
 - [\#2840](https://gitlab.haskell.org//ghc/ghc/issues/2840): top level unlifted string literals
@@ -24,7 +24,6 @@
 ## New code generator
 
 - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253): NCG could do better. Look at this when John D’s ncg is working
-- [\#2838](https://gitlab.haskell.org//ghc/ghc/issues/2838): trouble with `CmmInt` masking; watch out for this
 - [\#783](https://gitlab.haskell.org//ghc/ghc/issues/783): SRTs getting big        
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): cheap check at start of case alternatives        
 - [\#2731](https://gitlab.haskell.org//ghc/ghc/issues/2731): avoiding unnecessary evaluation when unpacking constructors
@@ -43,7 +42,6 @@
 
 ### Compiler performance
 
-- [\#2002](https://gitlab.haskell.org//ghc/ghc/issues/2002): Very slow compilation.   (There is linear stack growth with depth of linear list literal, which we think is ok, but it still should not be so slow.)        Needs profiling
 - [\#1969](https://gitlab.haskell.org//ghc/ghc/issues/1969): quadratic behaviour in the specialiser
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
 - Use wildcards for dead variables in interface files.
@@ -52,7 +50,7 @@
 
 ## Outright bugs
 
-- [\#1148](https://gitlab.haskell.org//ghc/ghc/issues/1148), 2267, 1074: “Unused import” warnings should be generated from `RdrNames`
+- [\#1148](https://gitlab.haskell.org//ghc/ghc/issues/1148), [\#2267](https://gitlab.haskell.org//ghc/ghc/issues/2267), [\#1074](https://gitlab.haskell.org//ghc/ghc/issues/1074): “Unused import” warnings should be generated from `RdrNames`
 - [\#2182](https://gitlab.haskell.org//ghc/ghc/issues/2182): GHCi session retains instance after removing a module from scope        
 - [\#2152](https://gitlab.haskell.org//ghc/ghc/issues/2152): Bogus inlining of foregn import.  Arises from seeing through a NOINLINE in `exprIsConApp_maybe`
 - [\#1241](https://gitlab.haskell.org//ghc/ghc/issues/1241): Lifting the Coverage Condition for functional dependencies isn’t the Right Thing        Manuel
@@ -64,16 +62,21 @@
 
 ## Types and type inference
 
-- [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): don't infer a type that can't be checked if the type is given as a signature
+- [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): **Ambiguity: don't infer a type that can't be checked if the type is given as a signature** (this one is important)
 - [\#2859](https://gitlab.haskell.org//ghc/ghc/issues/2859): optimise coercion terms
 - [\#2641](https://gitlab.haskell.org//ghc/ghc/issues/2641): revise what `-XExtendedDefaultRules` does
+- [\#1634](https://gitlab.haskell.org//ghc/ghc/issues/1634): deep skolemisation
+- [\#2357](https://gitlab.haskell.org//ghc/ghc/issues/2357): **Implement the Haskell Prime proposal for polymorphic pattern bindings**
 
----
+### Impredicativity
 
-## Better error messages
+- [\#2846](https://gitlab.haskell.org//ghc/ghc/issues/2846): polymorphism leaking into constraints
+- [\#2193](https://gitlab.haskell.org//ghc/ghc/issues/2193): Bad error message with impredicative types
+- [\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330): another bad error message (Church2)
+
+### Better error messages
 
 - [\#2648](https://gitlab.haskell.org//ghc/ghc/issues/2648): Report out of date interface files robustly        
-- [\#2193](https://gitlab.haskell.org//ghc/ghc/issues/2193): Bad error message with impredicative types        
 - [\#2599](https://gitlab.haskell.org//ghc/ghc/issues/2599): Better error message for non-rigid types        
 - [\#2588](https://gitlab.haskell.org//ghc/ghc/issues/2588): Better error message about ‘forall’        
 - [\#2360](https://gitlab.haskell.org//ghc/ghc/issues/2360): Better location info in occurs-check message.        
@@ -81,7 +84,8 @@
 - [\#1928](https://gitlab.haskell.org//ghc/ghc/issues/1928): Confusing type error message (Claus makes suggestions)        
 - [\#2534](https://gitlab.haskell.org//ghc/ghc/issues/2534): Another confusing type error message        
 - [\#2442](https://gitlab.haskell.org//ghc/ghc/issues/2442): Better error message heuristics for “not in scope”        Max B’s patch
-- [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.        
+- [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.
+- [\#2900](https://gitlab.haskell.org//ghc/ghc/issues/2900): Improve decomposition of function types        
 
 ---
 
