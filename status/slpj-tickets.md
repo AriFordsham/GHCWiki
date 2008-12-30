@@ -81,7 +81,8 @@
 - [\#1928](https://gitlab.haskell.org//ghc/ghc/issues/1928): Confusing type error message (Claus makes suggestions)        
 - [\#2534](https://gitlab.haskell.org//ghc/ghc/issues/2534): Another confusing type error message        
 - [\#2442](https://gitlab.haskell.org//ghc/ghc/issues/2442): Better error message heuristics for “not in scope”        Max B’s patch
-- [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.        
+- [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.
+- [\#2900](https://gitlab.haskell.org//ghc/ghc/issues/2900): Improve decomposition of function types        
 
 ---
 

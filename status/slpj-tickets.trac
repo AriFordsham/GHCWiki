@@ -72,7 +72,8 @@
  * #1928: Confusing type error message (Claus makes suggestions)	
  * #2534: Another confusing type error message	
  * #2442: Better error message heuristics for “not in scope”	Max B’s patch
- * #2340: Better TH error recovery.  Easy to do; change to signature of qRecover.	
+ * #2340: Better TH error recovery.  Easy to do; change to signature of qRecover.
+ * #2900: Improve decomposition of function types	
 
 ------------------------
 == Features == 
