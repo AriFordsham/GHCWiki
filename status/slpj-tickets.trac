@@ -61,6 +61,9 @@
  * #2859: optimise coercion terms
  * #2641: revise what `-XExtendedDefaultRules` does
 
+=== Impredicativity ===
+ * #2846: polymorphism leaking into constraints
+
 ------------------------
 == Better error messages == 
  * #2648: Report out of date interface files robustly	
