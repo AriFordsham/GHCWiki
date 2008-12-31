@@ -58,6 +58,7 @@
  * #2859: optimise coercion terms
  * #2641: revise what `-XExtendedDefaultRules` does
  * #1634: deep skolemisation
+ * #2357: '''Implement the Haskell Prime proposal for polymorphic pattern bindings'''
 
 === Impredicativity ===
  * #2846: polymorphism leaking into constraints
