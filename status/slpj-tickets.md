@@ -67,17 +67,17 @@
 - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): **Ambiguity: don't infer a type that can't be checked if the type is given as a signature** (this one is important)
 - [\#2859](https://gitlab.haskell.org//ghc/ghc/issues/2859): optimise coercion terms
 - [\#2641](https://gitlab.haskell.org//ghc/ghc/issues/2641): revise what `-XExtendedDefaultRules` does
+- [\#1634](https://gitlab.haskell.org//ghc/ghc/issues/1634): deep skolemisation
 
 ### Impredicativity
 
 - [\#2846](https://gitlab.haskell.org//ghc/ghc/issues/2846): polymorphism leaking into constraints
+- [\#2193](https://gitlab.haskell.org//ghc/ghc/issues/2193): Bad error message with impredicative types
+- [\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330): another bad error message (Church2)
 
----
-
-## Better error messages
+### Better error messages
 
 - [\#2648](https://gitlab.haskell.org//ghc/ghc/issues/2648): Report out of date interface files robustly        
-- [\#2193](https://gitlab.haskell.org//ghc/ghc/issues/2193): Bad error message with impredicative types        
 - [\#2599](https://gitlab.haskell.org//ghc/ghc/issues/2599): Better error message for non-rigid types        
 - [\#2588](https://gitlab.haskell.org//ghc/ghc/issues/2588): Better error message about ‘forall’        
 - [\#2360](https://gitlab.haskell.org//ghc/ghc/issues/2360): Better location info in occurs-check message.        
