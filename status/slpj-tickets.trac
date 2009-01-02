@@ -3,6 +3,7 @@
 == Performance ==
 
 === Arity ===
+ * #2902: an excellen example of the need for arity analysis
  * #2822: arity expansion not happening right
  * #2823: another arity expansion bug (related to dictionaries)
  * #2440: bad code with type families; I believe this is also arity-related
