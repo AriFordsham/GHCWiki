@@ -9,7 +9,7 @@ Certain versions of Apple's Xcode tools are known to cause problems when buildin
 Once upon a time Apple distributed updates to Xcode by using their Software Update service but not anymore. You must download the development tools manually.
 
 
-Successful builds of older GHC sources have been reported using Xcode 3.0, 2.4 and 2.4.1 on Intel and PowerPC Macs. Xcode 2.2.1 is known *not* to work out of the box on Intel Macs. Versions prior to 3.1 may build GHC successfully, but choke on certain libraries.
+Successful builds of older GHC sources have been reported using Xcode 3.0, 2.4 and 2.4.1 on Intel Macs. Xcode 2.2.1 is known *not* to work out of the box on Intel Macs, and Xcode 3.0 is known *not* to work out of the box on PowerPC Macs ([\#2887](https://gitlab.haskell.org//ghc/ghc/issues/2887)). Versions prior to 3.1 may build GHC successfully, but choke on certain libraries.
 
 ## Building installer packages
 
