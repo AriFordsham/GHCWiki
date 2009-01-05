@@ -28,7 +28,10 @@ worker xs = rep (reverse xs)
   ```
 
 
-Now the worker/wrapper PRAGMA does its magic.
+The design here intentionally works if the PRAGMA is ignored: the original reverse is used but all,
+and worker gets removed as dead code.
+
+
 You also may need to provide the coercion functions that go with the above definition.
 
 ```wiki
