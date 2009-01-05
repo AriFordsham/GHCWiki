@@ -32,14 +32,10 @@ The first thing to do is install [ darcs](http://darcs.net/) and [ git](http://g
 ```wiki
 git clone http://darcs.haskell.org/ghc.git ghc
 cd ghc
-curl 'http://hackage.haskell.org/trac/ghc/attachment/ticket/2857/fix-sync-all-patch?format=raw' | patch -p1
 ./sync-all --complete get
 sh boot
 ./configure && make
 ```
-
-
-The third line applies a patch from [ bug 2857](http://hackage.haskell.org/trac/ghc/ticket/2857); when that bug is closed it should be removed.
 
 ## Getting a GHC source tree using darcs
 
