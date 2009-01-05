@@ -25,7 +25,7 @@ worker xs = rep (reverse xs)
 {-# RULE "reverse" [WRAPPER] reverse xs = abs (worker xs) #-}
 }}}
 
-The design here intentionally works if the PRAGMA is ignored: the original reverse is used but all,
+The design here intentionally works if the PRAGMA is ignored: the original reverse is used by everyone,
 and worker gets removed as dead code.
 
 You also may need to provide the coercion functions that go with the above definition.

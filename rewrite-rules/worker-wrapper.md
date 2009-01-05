@@ -28,7 +28,7 @@ worker xs = rep (reverse xs)
   ```
 
 
-The design here intentionally works if the PRAGMA is ignored: the original reverse is used but all,
+The design here intentionally works if the PRAGMA is ignored: the original reverse is used by everyone,
 and worker gets removed as dead code.
 
 
