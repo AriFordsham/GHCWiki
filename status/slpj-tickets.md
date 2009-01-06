@@ -4,6 +4,7 @@
 
 ### Arity
 
+- [\#2915](https://gitlab.haskell.org//ghc/ghc/issues/2915): arity too small
 - [\#2902](https://gitlab.haskell.org//ghc/ghc/issues/2902): an excellen example of the need for arity analysis
 - [\#2822](https://gitlab.haskell.org//ghc/ghc/issues/2822): arity expansion not happening right
 - [\#2823](https://gitlab.haskell.org//ghc/ghc/issues/2823): another arity expansion bug (related to dictionaries)
