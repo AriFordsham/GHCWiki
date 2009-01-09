@@ -97,11 +97,9 @@ In most cases the `configure` script will tell you if you are missing something.
 
  GNU Make::
   The GHC build system makes heavy use of features
-  specific to GNU {{{make}}}, so you must have
-  this installed in order to build GHC.
-  [[br]][[br]]
-  NB. it has been reported that version 3.79 no longer
-  works to build GHC, and 3.80 is required.
+  specific to recent versions of GNU {{{make}}}, so
+  you must have at least GNU make 3.80 installed in
+  order to build GHC.
 
  [http://www.haskell.org/happy Happy]::
   Happy is a parser generator tool for Haskell, and is
