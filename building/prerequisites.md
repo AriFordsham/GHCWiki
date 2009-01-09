@@ -109,11 +109,9 @@ Guide).
 <table><tr><th>GNU Make</th>
 <td>
 The GHC build system makes heavy use of features
-specific to GNU `make`, so you must have
-this installed in order to build GHC.
-
-NB. it has been reported that version 3.79 no longer
-works to build GHC, and 3.80 is required.
+specific to recent versions of GNU `make`, so
+you must have at least GNU make 3.80 installed in
+order to build GHC.
 </td></tr></table>
 
 <table><tr><th>[ Happy](http://www.haskell.org/happy)</th>
