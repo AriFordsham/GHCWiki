@@ -14,7 +14,7 @@ If you're on a recent Linux system, then you should be able to get a working bui
  * gcc
  * make
  * perl
- * python
+ * python (only needed for the testsuite)
  * ghc
  * happy
  * alex
