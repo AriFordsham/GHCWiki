@@ -12,9 +12,10 @@ foreign import objc "@selector locationInView:" s'locationInView
 The first argument is the receiver object.  All following arguments are message arguments (one per colon, as usual).  A foreign import is just about issuing Objective-C messages.  We are not trying to model overloading at this point or anything similar.  So, if we, for example, want `s'locationInView` for a subclass, we need to define another function **with a different name.**
 
 
-We might use the imported function as follows in a statement of a do block:
+We might use the imported function as follows:
 
 ```wiki
+-- ObjC: touchedPoint = [myTouchObject locationInView:currentView];
 s'locationInView touchedPoint myTouchObject currentView
 ```
 
