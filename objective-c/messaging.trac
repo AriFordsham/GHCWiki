@@ -16,10 +16,12 @@ s'locationInView touchedPoint myTouchObject currentView
 }}}
 This will translate to something which essentially has the same effect as
 {{{
-objc_msgSend_stret (touchedPoint, myTouchObject, @SELECTOR("locationInView), currentView);
+objc_msgSend_stret (touchedPoint, myTouchObject, sel_getUid("locationInView"), currentView);
 }}}
 
 ''Implementation note:'' The foreign import should arrange for a call to `sel_getUid` at program start or when an imported selector is used for the first time.  The result should be cached to speed up subsequent uses of the same selector in the same program.
+
+''Usage note:'' To wrap imported functions handling C structs in a nice way, we define a `Foreign.Storable` instance and a convenience wrapper as usual.
 
 == Distinguishing the three messaging types ==
 
