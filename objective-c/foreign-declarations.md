@@ -1,0 +1,16 @@
+# Haskell Objective-C FFI: Foreign Declarations
+
+
+Objective-C is a proper superset of plain C.  Consequently, we want all the Haskell FFI foreign declarations for C unchanged when dealing with Objective-C.  \[**FIXME***We can achieve this in two ways: (1) Mix foreign declarations with the 'ccall' calling convention with those with the 'objc' calling convention or (2) promote all existing 'ccall' conventions to be usable with 'objc', too.***Which should we choose?**\]
+
+**Incomplete** list of new declarations:
+
+- foreign import for selector
+
+  ```wiki
+  foreign import objc "@selector <selector name>" var :: <type>
+  ```
+
+  there can be more than one foreign import decl for one selector (and they can have different types)
+- foreign label (or equiv) for shared objects
+- foreign export for subclasses??
