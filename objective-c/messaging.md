@@ -12,9 +12,10 @@ foreign import objc "@selector locationInView:" s'locationInView
 The first argument is the receiver object.  All following arguments are message arguments (one per colon, as usual).  A foreign import is just about issuing Objective-C messages.  We are not trying to model overloading at this point or anything similar.  So, if we, for example, want `s'locationInView` for a subclass, we need to define another function **with a different name.**
 
 
-We might use the imported function as follows in a statement of a do block:
+We might use the imported function as follows:
 
 ```wiki
+-- ObjC: touchedPoint = [myTouchObject locationInView:currentView];
 s'locationInView touchedPoint myTouchObject currentView
 ```
 
@@ -22,10 +23,12 @@ s'locationInView touchedPoint myTouchObject currentView
 This will translate to something which essentially has the same effect as
 
 ```wiki
-objc_msgSend_stret (touchedPoint, myTouchObject, @SELECTOR("locationInView), currentView);
+objc_msgSend_stret (touchedPoint, myTouchObject, sel_getUid("locationInView"), currentView);
 ```
 
 *Implementation note:* The foreign import should arrange for a call to `sel_getUid` at program start or when an imported selector is used for the first time.  The result should be cached to speed up subsequent uses of the same selector in the same program.
+
+*Usage note:* To wrap imported functions handling C structs in a nice way, we define a `Foreign.Storable` instance and a convenience wrapper as usual.
 
 ## Distinguishing the three messaging types
 
