@@ -1,0 +1,35 @@
+
+
+= Haskell Objective-C FFI: Messaging =
+
+Here is an example of how we import selectors:
+{{{
+foreign import objc "@selector locationInView:" s'locationInView
+   :: Ptr CGPoint -> C'UITouch -> C'UIView -> IO ()
+}}}
+The first argument is the receiver object.  All following arguments are message arguments (one per colon, as usual).  A foreign import is just about issuing Objective-C messages.  We are not trying to model overloading at this point or anything similar.  So, if we, for example, want `s'locationInView` for a subclass, we need to define another function '''with a different name.'''
+
+We might use the imported function as follows in a statement of a do block:
+{{{
+s'locationInView touchedPoint myTouchObject currentView
+}}}
+This will translate to something which essentially has the same effect as
+{{{
+objc_msgSend_stret (touchedPoint, myTouchObject, @SELECTOR("locationInView), currentView);
+}}}
+
+''Implementation note:'' The foreign import should arrange for a call to `sel_getUid` at program start or when an imported selector is used for the first time.  The result should be cached to speed up subsequent uses of the same selector in the same program.
+
+== Distinguishing the three messaging types ==
+
+The ObjC runtime has three kinds of messaging functions: `objc_msgSend` (when the message returns an object), `objc_msgSend_stret` (when the message returns a structure), and `objc_msgSend_fpret` (when the structure returns a floating-point value).  During code generation for `foreign import`, we select the appropriate messaging function as follows:
+ * If the returned type is `()`, we use `objc_msgSend_stret`; the first argument to the function must be a `(Ptr t)` and the second must be the receiver object.
+ * If the returned type is `CFloat`, `CDouble`, or `CLDouble`, we use `objc_msgSend_fpret` (with the function pointer cast to the appropriate return type first); the first argument must be the receiver object.
+ * Otherwise, we use `objc_msgSend`; the first argument must be the receiver object.  ['''FIXME:''' ''What about integral return types?  Just use obc_msgSend and cast its function pointer first?'']
+
+== Messaging super ==
+
+The ObjC runtime has two extra functions, `objc_msgSendSuper` and `objc_msgSendSuper_stret`, to message the super object.
+ * ['''FIXME:''' ''How do we want to handle them?'']
+ * ['''FIXME:''' ''There is no objc_msgSendSuper_fpret?'']
+These functions need to get an `objc_super` struct as the first parameter, which the compiler is supposed to compute from the enclosing class definition.
