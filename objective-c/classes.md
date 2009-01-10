@@ -1,0 +1,11 @@
+# Haskell Objective-C FFI: Declaring Objective-C Classes
+
+
+One option might be something like
+
+```wiki
+foreign export "@class MyUIView : UIView"
+```
+
+
+The class would then be populated with methods in subsequent `foreign export` declarations.  **Would that make sense?**
