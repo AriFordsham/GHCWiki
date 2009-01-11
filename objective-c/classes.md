@@ -31,3 +31,12 @@ What about ObjC classes that have been declared in other Haskell modules, do we 
 
 
 We may have to compute the class DAG and make sure we generate class initialisation code that at module load time allocates, registers, and subclasses all Objective-C classes in the right order.
+
+## BIG Questions
+
+### How do we represent ObjC classes in Haskell land?
+
+
+It could just be a pointer.  The advantage of a pointer is that there is no issue of keeping ObjC land and Haskell land data in sync (BIG PLUS).  However, what does it mean to export a class in that case?  In fact, we would need to allocate, populate, and register the class in ObjC land and then **import** it into Haskell land.  This clashes with that the Haskell identifier mentioned in a `foreign export` is at a usage, not a defining occurrence.
+
+### How do we populate ObjC classes with ivars, methods & properties in Haskell land?
