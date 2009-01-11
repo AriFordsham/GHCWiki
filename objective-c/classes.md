@@ -4,11 +4,18 @@
 One option might be something like
 
 ```wiki
-foreign export "@class MyUIView : UIView"
+foreign export "@class MyUIView : UIView" myUIView :: C'UIView
 ```
 
+## Option 1: value definition
 
-The class would then be populated with methods in subsequent `foreign export` declarations.
+
+The class definition value `myUIView` contains the details of the class definition.  However, it is odd, because `C'UIView` should usually be the type of instances if of `UIView`.
+
+## Option 2: incremental definition
+
+
+In addition to the `foreign export` declaring the class, the class is populated with methods in further `foreign export` declarations.
 
 
 We have the following problems: 

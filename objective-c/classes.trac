@@ -4,9 +4,16 @@
 
 One option might be something like
 {{{
-foreign export "@class MyUIView : UIView"
+foreign export "@class MyUIView : UIView" myUIView :: C'UIView
 }}}
-The class would then be populated with methods in subsequent `foreign export` declarations.
+
+== Option 1: value definition ==
+
+The class definition value `myUIView` contains the details of the class definition.  However, it is odd, because `C'UIView` should usually be the type of instances if of `UIView`.
+
+== Option 2: incremental definition ==
+
+In addition to the `foreign export` declaring the class, the class is populated with methods in further `foreign export` declarations.
 
 We have the following problems: 
  * The ObjC runtime uses two functions to initiate and finalise the declaration of a new class, namely `objc_allocateClassPair` and `objc_registerClassPair`.  All ivars must be added between these two calls (except for the 64-bit runtime, I guess, but the runtime ref doesn't say that).  Methods and protocols can still be added after registering.
