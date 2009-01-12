@@ -96,8 +96,8 @@ below).
 Now that our build system is one giant `Makefile`, all our variables
 share the same namespace.  Where previously we might have had a
 variable that contained a list of the Haskell source files called
-`HS_SRCS`, now we have one of these for each directory in the build
-system, so we have to give them all different names.
+`HS_SRCS`, now we have one of these for each directory in the source tree,
+so we have to give them all different names.
 
 The idiom that we use for distinguishing variable names is to prepend
 the directory name to the variable.  So for example the list of
