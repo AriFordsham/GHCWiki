@@ -43,7 +43,10 @@ This gives us the following advantages:
 
  * Specifying dependencies between different parts of the tree is
    easy.  In this way, we can accurately specify many dependencies
-   that we could not in the old recursive-make system.
+   that we could not in the old recursive-make system.  This makes it much more likely that when you say "make"
+   after modifying parts of the tree or pulling new patches,
+   the build system will bring everything up-to-date in the correct order, and leave you with a working
+   system.
 
  * More parallelism: dependencies are more fine-grained, and there
    is no need to build separate parts of the system in sequence, so
