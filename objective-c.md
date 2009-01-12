@@ -29,7 +29,7 @@ We discuss the following subtopics on separate pages:
 
 - \[ObjectiveC/ForeignDeclarations Foreign declarations for Objective-C\]
 - \[ObjectiveC/Messaging Sending messages\]
-- \[ObjectiveC/Classes Declaring Objective-C classes\]
+- \[ObjectiveC/Classes Objective-C classes\]
 - \[ObjectiveC/Naming Naming conventions\] (they are not enforced, but recommended)
 - \[ObjectiveC/MemoryManagement Memory management\] 
 
