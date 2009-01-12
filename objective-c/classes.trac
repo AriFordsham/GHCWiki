@@ -1,17 +1,27 @@
 
 
-= Haskell Objective-C FFI: Declaring Objective-C Classes =
+= Haskell Objective-C FFI: Objective-C Classes =
+
+== Using classes ==
+
+We might import ObjC classes like so:
+{{{
+foreign import objc "@class UIView" o'UIView :: Class
+}}}
+''Problem:''' We also need to introduce the class type `C'UIView`. So far, the FFI has no support for the import of types.
+
+== Declaring classes ==
 
 One option might be something like
 {{{
 foreign export "@class MyUIView : UIView" myUIView :: C'UIView
 }}}
 
-== Option 1: value definition ==
+=== Option 1: value definition ===
 
 The class definition value `myUIView` contains the details of the class definition.  However, it is odd, because `C'UIView` should usually be the type of instances if of `UIView`.
 
-== Option 2: incremental definition ==
+=== Option 2: incremental definition ===
 
 In addition to the `foreign export` declaring the class, the class is populated with methods in further `foreign export` declarations.
 
