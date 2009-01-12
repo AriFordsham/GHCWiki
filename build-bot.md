@@ -20,7 +20,7 @@ First you, as a buildbot client, need to agree a buildbot username (`myUser`) an
 Finally, if there is anything special that needs to be done for the client (e.g. if gcc is in an unusual place) then you'll need to let the admins know.
 
 
-Then you'll need to install buildbot and its dependencies on the machine that will be doing the nightly build; see the [ BuildBot website](http://buildbot.sourceforge.net/) for details.  NB. if you're on Windows, you'll need to install [BuildBot](build-bot) under Cygwin using the Cygwin Python; there are various problems getting the GHC build to work via [BuildBot](build-bot) using the native Win32 Python, so we've given up on that route for now.
+Then you'll need to install buildbot and its dependencies on the machine that will be doing the nightly build; see the [ BuildBot website](http://buildbot.net/) for details.  NB. if you're on Windows, you'll need to install BuildBot under Cygwin using the Cygwin Python; there are various problems getting the GHC build to work via BuildBot using the native Win32 Python, so we've given up on that route for now.
 
 
 In order to actually do the build, you'll also need the prerequisite tools for a GHC build, see [Building/Prerequisites](building/prerequisites), and you should have darcs installed too (we recommend at least version 0.9).
