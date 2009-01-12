@@ -8,7 +8,7 @@ We might import ObjC classes like so:
 {{{
 foreign import objc "@class UIView" o'UIView :: Class
 }}}
-'''Problem:''' We also need to introduce the class type `C'UIView`. So far, the FFI has no support for the import of types.
+'''Problem:''' We also need to introduce the class type `C'UIView`. So far, the FFI has no support for the import of types.  Maybe we need a `foreign type` declaration.
 
 == Declaring classes ==
 
