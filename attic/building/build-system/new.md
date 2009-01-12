@@ -1,4 +1,7 @@
-# The GHC Build System
+# The (new) GHC Build System
+
+
+(this page will eventually replace [Building/BuildSystem](attic/building/build-system) when the new build system is merged in)
 
 
 This section contains everything you need to know in order to
