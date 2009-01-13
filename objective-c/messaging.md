@@ -39,6 +39,11 @@ The ObjC runtime has three kinds of messaging functions: `objc_msgSend` (when th
 - If the returned type is `CFloat`, `CDouble`, or `CLDouble`, we use `objc_msgSend_fpret` (with the function pointer cast to the appropriate return type first); the first argument must be the receiver object.
 - Otherwise, we use `objc_msgSend`; the first argument must be the receiver object.  \[**FIXME***What about integral return types?  Just use obc_msgSend and cast its function pointer first?*\]
 
+## Return values
+
+
+Like in the C FFI, return values can be pure (no `IO`), but it is the programmer responsibility to ensure that these foreign imports are safe.
+
 ## Messaging super
 
 
