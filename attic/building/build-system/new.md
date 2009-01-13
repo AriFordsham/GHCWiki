@@ -160,7 +160,7 @@ this means we need to use `$$` instead of `$` everywhere in the body of
 `define`.
 
 
-Now, the `build-package` macro may need to define local variables.
+Now, the `build-package` macro may need to define **local variables**.
 There is no support for local variables in macros, but we can define
 variables which are guaranteed to not clash with other variables by
 preceding their names with a string that is unique to this macro call.
