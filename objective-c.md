@@ -3,7 +3,7 @@
 ## Goals
 
 
-We aim for an extensions of the Standard Haskell Foreign Function Interface to include bindings to Objective-C.  We like to make it easy to embed Haskell code in Objective-C programs as well as the other way around.  Moreover, we like to be able to use object hierarchies stored in NIB files directly in Haskell code.
+We aim for an extension of the Standard Haskell Foreign Function Interface to include bindings to Objective-C.  We like to make it easy to embed Haskell code in Objective-C programs as well as the other way around.  Moreover, we like to be able to use object hierarchies stored in NIB files directly in Haskell code.
 
 ### Consequences of the goals
 
