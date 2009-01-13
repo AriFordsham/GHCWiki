@@ -293,12 +293,12 @@ Each time '''make''' is invoked, we recursively invoke '''make''' in several
  * '''Phase 0''': invoke `inc.mk` with `PHASE=0`.  This brings `inc1.mk` 
    up-to-date (and ''only'' `inc1.mk`).  
 
- * '''Phase 1''': invoke `inc.mk` again (without `PHASE=0`).  Now we can be sure 
+ * '''Final phase''': invoke `inc.mk` again (with `PHASE` unset).  Now we can be sure 
    that `inc1.mk` is up-to-date and proceed to generate `inc2.mk`.  
    If this changes `inc2.mk`, then '''make''' automatically re-invokes itself,
-   repeating Phase 1.
-We could have abandoned '''make''''s automatic re-invocation mechanism altogether,
-and used three phases, but in practice it's very convenient to use the automatic
+   repeating the final phase.
+We could instead have abandoned '''make''''s automatic re-invocation mechanism altogether,
+and used three explicit phases (0, 1, and final), but in practice it's very convenient to use the automatic
 re-invocation in the final phase.  However no automatic re-invocation should happen
 in any phase except the final one.
 
