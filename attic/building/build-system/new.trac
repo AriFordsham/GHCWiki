@@ -14,7 +14,7 @@ when you've understood them all you'll be able to understand most of
 the code you'll find in the build system.  We'll describe the idioms
 first, and then get on to the specifics of how we build GHC.
 
-Historical note: this is the third major revision of the GHC build
+'''Historical note''': this is the third major revision of the GHC build
 system.  The first incarnation was based on "jmake", a derivative of
 X11's "imake", which is based on using the C preprocessor to add macro
 capabilities and `#include` to plain make.  The second incarnation
