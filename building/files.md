@@ -1,1 +1,2 @@
-**This page redirects to: **[Commentary/SourceTree](/trac/ghc/wiki/Commentary/SourceTree)
+
+Moved to [Commentary/SourceTree](commentary/source-tree)
