@@ -39,7 +39,7 @@ We discuss the following subtopics on separate pages:
 - \[ObjectiveC/Classes Objective-C classes\]
 - \[ObjectiveC/Naming Naming conventions\] (they are not enforced, but recommended)
 - \[ObjectiveC/MemoryManagement Memory management\] 
-- `Foreign.Objective.C`
+- `Foreign.ObjectiveC`
 
 ## Background and related work
 
