@@ -292,7 +292,8 @@ Each time '''make''' is invoked, we recursively invoke '''make''' in several
 ''phases'':
  * '''Phase 0''': invoke `inc.mk` with `PHASE=0`.  This brings `inc1.mk` 
    up-to-date (and ''only'' `inc1.mk`).  
- * '''Phase 1''': the second time we invoke '''make''', we can be sure 
+
+ * '''Phase 1''': invoke `inc.mk` again (without `PHASE=0`).  Now we can be sure 
    that `inc1.mk` is up-to-date and proceed to generate `inc2.mk`.  
    If this changes `inc2.mk`, then '''make''' automatically re-invokes itself,
    repeating Phase 1.
