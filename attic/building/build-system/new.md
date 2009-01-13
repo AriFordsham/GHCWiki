@@ -103,7 +103,7 @@ is a target `all_`*directory* (e.g. `all_libraries/base`) which
 builds every target in that directory (see "Idiom: the "all" target",
 below).
 
-## Idiom: macros and variable names
+## Idiom: variable names
 
 
 Now that our build system is one giant `Makefile`, all our variables
@@ -130,8 +130,10 @@ names related to this build would be named something like
 `compiler_stage1_HS_SRCS`.  The pattern is therefore:
 *directory*_*build*_*variable*.
 
+## Idiom: macros
 
-The build system makes extensive use of macros.  A macro is defined in
+
+The build system makes extensive use of Gnu make **macros**.  A macro is defined in
 GNU make using `define`, e.g.
 
 ```wiki
@@ -149,7 +151,7 @@ $(eval $(call build-library,libraries/base,dist))
 ```
 
 
-(this code would be in `libraries/base/ghc.mk`).
+(this invocation would be in `libraries/base/ghc.mk`).
 
 
 Note that `eval` works like this: its argument is expended as normal,
