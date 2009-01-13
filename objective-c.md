@@ -55,4 +55,4 @@ We discuss the following subtopics on separate pages:
 - [ André Pang](http://algorithm.com.au/)
 
 
-Please send us an suggestions or comments that you might have.
+Please send us any suggestions or comments that you might have.
