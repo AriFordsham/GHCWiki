@@ -72,7 +72,7 @@ Specific notes related to this idiom:
 
 - Other parts of the build system are in `mk/*.mk` and `rules/*.mk`.
 
-## Idiom: stub makefiles
+## Idiom: stub makefiles and standard targets (e.g. "all" and "clean")
 
 
 It's all very well having a single giant `Makefile` that knows how to
@@ -96,11 +96,29 @@ include $(TOP)/mk/sub-makefile.mk
 ```
 
 
-where `mk/sub-makefile.mk` knows how to recursively invoke **make**.  How
-does it know what to build?  By convention, for each directory there
-is a target `all_`*directory* (e.g. `all_libraries/base`) which
-builds every target in that directory (see "Idiom: the "all" target",
-below).
+where `mk/sub-makefile.mk` knows how to recursively invoke the giant top-level **make**.  This in turn includes the `ghc.mk` from each sub-directory (including the one where you invoked the original `make`).
+
+
+We want an `all` target that builds everything, but we also want a way to build individual components (say, everything in `rts/`).  This is achieved by having a separate `all` target for each directory, named `all_`*directory*.  For example in `rts/ghc.mk` we might have this:
+
+```wiki
+all : all_rts
+.PHONY all_rts
+all_rts : ...
+```
+
+
+So you can say
+
+- `make all_rts` (anywhere) to build everything in the RTS directory
+- `make all` (anywhere) to build everything
+- `make`, with no explicit target, makes the default target in the stub `Makefile`, 
+
+> >
+> > which in turn makes the target `all_`*dir*, when you are in directory *dir*.
+
+
+Other standard targets such as `clean`, `install`, and so on use the same technique.  There are pre-canned macros to define your "all" and "clean" targets, take a look in `rules/all-target.mk` and `rules/clean-target.mk`.
 
 ## Idiom: stages
 
@@ -376,23 +394,6 @@ comments in the top-level `ghc.mk` for details.
 This approach is not at all pretty, and
 re-invoking **make** every time is slow, but we don't know of a better
 workaround for this problem.
-
-## Idiom: the "all" and "clean" targets
-
-
-We want an `all` target that builds everything, but we also want a way to build individual components (say, everything in `rts/`).  This is achieved by having a separate `all` target for each directory, named `all_`*directory*, e.g.
-
-```wiki
-all : all_rts
-.PHONY all_rts
-all_rts : ...
-```
-
-
-The `all_rts` target is used by the stub makefile (see earlier stub-makefile idiom) when you say `make` in `rts/`.
-
-
-Other standard targets such as `clean`, `install`, and so on use the same technique.  There are pre-canned macros to define your "all" and "clean" targets, take a look in `rules/all-target.mk` and `rules/clean-target.mk`.
 
 ## Idiom: no double-colon rules
 
