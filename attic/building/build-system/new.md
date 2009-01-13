@@ -237,7 +237,8 @@ of our build system fall into two main categories:
 
 Now, we also want to be able to use `make` to build these files, since
 they have complex dependencies themselves.  For example, in order to build
-`package-data.mk` we need to first build `ghc-cabal` etc., and a `.depend` file needs to be re-generated if any of the source files have changed.
+`package-data.mk` we need to first build `ghc-cabal` etc.; similarly,
+a `.depend` file needs to be re-generated if any of the source files have changed.
 
 
 GNU make has a clever strategy for handling this kind of scenario.  It
