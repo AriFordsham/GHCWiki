@@ -115,7 +115,7 @@ GHC is built by itself.  In a complete build we actually build GHC twice: once u
 
 Only stages 2 and 3 support interactive execution (GHCi) and Template Haskell.  The reason being that when running interactive code we must dynamically link the packages, and only in stage 2 can we guarantee that the packages we dynamically link are compatible with those that GHC was built against (because they are the very same packages).
 
-## Idiom: multiple builds per directory
+## Idiom: distdir
 
 
 Often we want to build a component multiple times in different ways.  For example:
@@ -325,16 +325,20 @@ two Makefiles, the first a wrapper around the second.
 ```wiki
 # inc.mk
 
--include inc1.mk
+include inc1.mk
 
-inc1.mk : Makefile
+ifeq "$(PHASE)" "0"
+
+inc1.mk : inc.mk
 	echo "X = C" >$@
 
-ifneq "$(PHASE)" "0"
+else
+
 include inc2.mk
 
 inc2.mk : inc1.mk
 	echo "Y = $(X)" >$@
+
 endif
 
 just-makefiles:
@@ -359,8 +363,10 @@ Each time **make** is invoked, we recursively invoke **make** in several
 
 We could instead have abandoned **make**'s automatic re-invocation mechanism altogether,
 and used three explicit phases (0, 1, and final), but in practice it's very convenient to use the automatic
-re-invocation in the final phase.  However no automatic re-invocation should happen
-in any phase except the final one.
+re-invocation when there are no problematic dependencies.
+
+
+Note that the `inc1.mk` rule is *only* enabled in phase 0, so that if we accidentally call `inc.mk` without first performing phase 0, we will either get a failure (if `inc1.mk` doesn't exist), or otherwise **make** will not update `inc1.mk` if it is out-of-date.
 
 
 In the case of the GHC build system we need 4 such phases, see the
@@ -371,19 +377,30 @@ This approach is not at all pretty, and
 re-invoking **make** every time is slow, but we don't know of a better
 workaround for this problem.
 
+## Idiom: the "all" and "clean" targets
+
+
+We want an `all` target that builds everything, but we also want a way to build individual components (say, everything in `rts/`).  This is achieved by having a separate `all` target for each directory, named `all_`*directory*, e.g.
+
+```wiki
+all : all_rts
+.PHONY all_rts
+all_rts : ...
+```
+
+
+The `all_rts` target is used by the stub makefile (see earlier stub-makefile idiom) when you say `make` in `rts/`.
+
+
+Other standard targets such as `clean`, `install`, and so on use the same technique.  There are pre-canned macros to define your "all" and "clean" targets, take a look in `rules/all-target.mk` and `rules/clean-target.mk`.
+
 ## Idiom: no double-colon rules
 
 **Make** has a special type of rule of the form `target :: prerequisites`,
 with the behaviour that all double-colon rules for a given target are
 executed if the target needs to be rebuilt.  This style was popular
 for things like "all" and "clean" targets in the past, but it's not
-really necessary.   We adopt the following idiom instead:
-
-```wiki
-all : all_foo
-.PHONY all_foo
-all_foo : ...
-```
+really necessary - see the "all" idiom above - and this means there's one fewer makeism you need to know about.
 
 ## Idiom: the vanilla way
 
@@ -400,9 +417,3 @@ This means that the `GhcLibWays` variable, which lists the ways in
 which the libraries are built, must include "v" if you want the
 vanilla way to be built (this is included in the default setup, of
 course).
-
-## Idiom: the "all" and "clean" targets
-
-
-There are pre-canned macros to define your "all" and "clean" targets,
-take a look in `rules/all-target.mk` and `rules/clean-target.mk`.
