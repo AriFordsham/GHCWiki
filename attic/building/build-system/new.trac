@@ -96,12 +96,12 @@ below).
 
 == Idiom: stages ==
 
-GHC is built by itself.  In a complete build we actually build GHC twice: once using the GHC version that is installed, and then again using the GHC we just built.  To be clear about which GHC we are talking about, we number them:
+What do we use to compile GHC?  GHC itself, of course.  In a complete build we actually build GHC twice: once using the GHC version that is installed, and then again using the GHC we just built.  To be clear about which GHC we are talking about, we number them:
 
- * stage 0 is the GHC you have installed
- * stage 1 is the first GHC we build, using stage 0
- * stage 2 is the second GHC we build, using stage 1.  This is the one we normally install when you say `make install`.
- * stage 3 is optional, but is sometimes built to test stage 2.
+ * '''Stage 0''' is the GHC you have installed.  The "GHC you have installed" is also called "the bootstrap compiler".
+ * '''Stage 1''' is the first GHC we build, using stage 0
+ * '''Stage 2''' is the second GHC we build, using stage 1.  This is the one we normally install when you say `make install`.
+ * '''Stage 3''' is optional, but is sometimes built to test stage 2.
 
 Only stages 2 and 3 support interactive execution (GHCi) and Template Haskell.  The reason being that when running interactive code we must dynamically link the packages, and only in stage 2 can we guarantee that the packages we dynamically link are compatible with those that GHC was built against (because they are the very same packages).
 
@@ -166,6 +166,7 @@ endef
 }}}
 
 (for example, see `rules/build-package`), and is invoked like this:
+
 
 {{{
 $(eval $(call build-package,libraries/base,dist))
