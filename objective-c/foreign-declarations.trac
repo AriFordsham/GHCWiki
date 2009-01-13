@@ -2,13 +2,22 @@
 
 = Haskell Objective-C FFI: Foreign Declarations =
 
-Objective-C is a proper superset of plain C.  Consequently, we want all the Haskell FFI foreign declarations for C unchanged when dealing with Objective-C.  ['''FIXME:''' ''We can achieve this in two ways: (1) Mix foreign declarations with the 'ccall' calling convention with those with the 'objc' calling convention or (2) promote all existing 'ccall' conventions to be usable with 'objc', too.''  '''Which should we choose?''']
+Objective-C is a proper superset of plain C.  Consequently, we want all the Haskell FFI foreign declarations for C unchanged when dealing with Objective-C.  They use the `ccall` calling convention as usual.  In addition, we introduce the new `objc` calling conventions for new declarations specific to Objective-C.
 
-'''Incomplete''' list of new declarations:
- * foreign import for selector
+== Summary of foreign declarations ==
+
+The following declarations specific to Objective-C:
+ * Import an ObjC class (may be defined in Haskell):
 {{{
-foreign import objc "@selector <selector name>" var :: <type>
+foreign class objc "<optional header> <optional implementation> <class name>" tycon
 }}}
-  there can be more than one foreign import decl for one selector (and they can have different types)
- * foreign label (or equiv) for shared objects
- * foreign export for subclasses??
+  The newly introduced type `tycon` can be marshalled to and from ObjC land; i.e., it is a ''foreign type'' in the sense of Section 3.2 of the Haskell FFI.
+ * Import of an ObjC selector (maybe synthesized from a property):
+{{{
+foreign import objc "<optional synthesize> <selector>" varid :: <type>
+}}}
+  there can be more than one foreign import declaration for one selector with different Haskell identifiers and types.
+ * Export of a method implementation:
+{{{
+foreign export objc "<optional header> +/-[<class> <selector>]" varid :: <type>
+}}}
