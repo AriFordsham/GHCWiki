@@ -377,19 +377,30 @@ This approach is not at all pretty, and
 re-invoking **make** every time is slow, but we don't know of a better
 workaround for this problem.
 
+## Idiom: the "all" and "clean" targets
+
+
+We want an `all` target that builds everything, but we also want a way to build individual components (say, everything in `rts/`).  This is achieved by having a separate `all` target for each directory, named `all_`*directory*, e.g.
+
+```wiki
+all : all_rts
+.PHONY all_rts
+all_rts : ...
+```
+
+
+The `all_rts` target is used by the stub makefile (see earlier stub-makefile idiom) when you say `make` in `rts/`.
+
+
+Other standard targets such as `clean`, `install`, and so on use the same technique.  There are pre-canned macros to define your "all" and "clean" targets, take a look in `rules/all-target.mk` and `rules/clean-target.mk`.
+
 ## Idiom: no double-colon rules
 
 **Make** has a special type of rule of the form `target :: prerequisites`,
 with the behaviour that all double-colon rules for a given target are
 executed if the target needs to be rebuilt.  This style was popular
 for things like "all" and "clean" targets in the past, but it's not
-really necessary.   We adopt the following idiom instead:
-
-```wiki
-all : all_foo
-.PHONY all_foo
-all_foo : ...
-```
+really necessary - see the "all" idiom above - and this means there's one fewer makeism you need to know about.
 
 ## Idiom: the vanilla way
 
@@ -406,9 +417,3 @@ This means that the `GhcLibWays` variable, which lists the ways in
 which the libraries are built, must include "v" if you want the
 vanilla way to be built (this is included in the default setup, of
 course).
-
-## Idiom: the "all" and "clean" targets
-
-
-There are pre-canned macros to define your "all" and "clean" targets,
-take a look in `rules/all-target.mk` and `rules/clean-target.mk`.
