@@ -30,6 +30,7 @@ We discuss the following subtopics on separate pages:
  * [ObjectiveC/ForeignDeclarations Foreign declarations for Objective-C]
  * [ObjectiveC/Messaging Sending messages]
  * [ObjectiveC/Classes Objective-C classes]
+ * Categories & protocols
  * [ObjectiveC/Naming Naming conventions] (they are not enforced, but recommended)
  * [ObjectiveC/MemoryManagement Memory management] 
  * `Foreign.ObjectiveC`
