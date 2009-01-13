@@ -325,16 +325,20 @@ two Makefiles, the first a wrapper around the second.
 ```wiki
 # inc.mk
 
--include inc1.mk
+include inc1.mk
 
-inc1.mk : Makefile
+ifeq "$(PHASE)" "0"
+
+inc1.mk : inc.mk
 	echo "X = C" >$@
 
-ifneq "$(PHASE)" "0"
+else
+
 include inc2.mk
 
 inc2.mk : inc1.mk
 	echo "Y = $(X)" >$@
+
 endif
 
 just-makefiles:
@@ -359,8 +363,10 @@ Each time **make** is invoked, we recursively invoke **make** in several
 
 We could instead have abandoned **make**'s automatic re-invocation mechanism altogether,
 and used three explicit phases (0, 1, and final), but in practice it's very convenient to use the automatic
-re-invocation in the final phase.  However no automatic re-invocation should happen
-in any phase except the final one.
+re-invocation when there are no problematic dependencies.
+
+
+Note that the `inc1.mk` rule is *only* enabled in phase 0, so that if we accidentally call `inc.mk` without first performing phase 0, we will either get a failure (if `inc1.mk` doesn't exist), or otherwise **make** will not update `inc1.mk` if it is out-of-date.
 
 
 In the case of the GHC build system we need 4 such phases, see the
