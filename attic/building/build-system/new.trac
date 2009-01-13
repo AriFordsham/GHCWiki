@@ -288,16 +288,27 @@ just-makefiles:
 clean :
 	rm -f inc1.mk inc2.mk
 }}}
-
-each time '''make''' is invoked, it first invokes `inc.mk` with `PHASE=0`.
-This brings `inc1.mk` up-to-date (and ''only'' `inc1.mk`).  The second
-time we invoke '''make''', we can be sure that `inc1.mk` is up-to-date and
-proceed to generate `inc2.mk`.  This is not at all pretty, and
-re-invoking '''make''' every time is slow, but we don't know of a better
-workaround for this problem.
+Each time '''make''' is invoked, we recursively invoke '''make''' in several
+''phases'':
+ * '''Phase 0''': invoke `inc.mk` with `PHASE=0`.  This brings `inc1.mk` 
+   up-to-date (and ''only'' `inc1.mk`).  
+ * '''Phase 1''': the second time we invoke '''make''', we can be sure 
+   that `inc1.mk` is up-to-date and proceed to generate `inc2.mk`.  
+   If this changes `inc2.mk`, then '''make''' automatically re-invokes itself,
+   repeating Phase 1.
+We could have abandoned '''make''''s automatic re-invocation mechanism altogether,
+and used three phases, but in practice it's very convenient to use the automatic
+re-invocation in the final phase.  However no automatic re-invocation should happen
+in any phase except the final one.
 
 In the case of the GHC build system we need 4 such phases, see the
 comments in the top-level `ghc.mk` for details.
+
+This approach is not at all pretty, and
+re-invoking '''make''' every time is slow, but we don't know of a better
+workaround for this problem.
+
+
 
 == Idiom: no double-colon rules ==
 
