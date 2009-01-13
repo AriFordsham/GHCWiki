@@ -10,23 +10,23 @@ These are header files that define an external API to the RTS that can
 be used by client code.  These interfaces are intended to be
 relatively stable:
 
-<table><tr><th>[ HsFFI.h](http://darcs.haskell.org/includes/HsFFI.h)</th>
+<table><tr><th>[ HsFFI.h](http://darcs.haskell.org/ghc/includes/HsFFI.h)</th>
 <td>
 The external FFI api
 </td></tr>
-<tr><th>[ RtsAPI.h](http://darcs.haskell.org/includes/RtsAPI.h)</th>
+<tr><th>[ RtsAPI.h](http://darcs.haskell.org/ghc/includes/RtsAPI.h)</th>
 <td>
 The top-level interface to the RTS (`rts_evalIO()`, etc.)
 </td></tr>
-<tr><th>[ SchedAPI.h](http://darcs.haskell.org/includes/SchedAPI.h)</th>
+<tr><th>[ SchedAPI.h](http://darcs.haskell.org/ghc/includes/SchedAPI.h)</th>
 <td>
 External API to the RTS scheduler
 </td></tr>
-<tr><th>[ RtsFlags.h](http://darcs.haskell.org/includes/RtsFlags.h)</th>
+<tr><th>[ RtsFlags.h](http://darcs.haskell.org/ghc/includes/RtsFlags.h)</th>
 <td>
 External API to the RTS runtime flags
 </td></tr>
-<tr><th>[ Linker.h](http://darcs.haskell.org/includes/Linker.h)</th>
+<tr><th>[ Linker.h](http://darcs.haskell.org/ghc/includes/Linker.h)</th>
 <td>
 External API to the linker
 </td></tr></table>
@@ -42,53 +42,53 @@ These days the amount of stuff included this way is kept to a minimum,
 because we don't want to pollute the C namespace with too much
 extraneous goop.
 
-<table><tr><th>[ Stg.h](http://darcs.haskell.org/includes/Stg.h)</th>
+<table><tr><th>[ Stg.h](http://darcs.haskell.org/ghc/includes/Stg.h)</th>
 <td>
 The top of the hierarchy is `Stg.h`, which includes everything required by
 `.hc` code.  The following files are `#included` by `Stg.h`:
 </td></tr></table>
 
-<table><tr><th>[ ghcconfig.h](http://darcs.haskell.org/includes/ghcconfig.h)</th>
+<table><tr><th>[ ghcconfig.h](http://darcs.haskell.org/ghc/includes/ghcconfig.h)</th>
 <td>
 Configuration info derived by the `configure` script.
 </td></tr>
-<tr><th>[ RtsConfig.h](http://darcs.haskell.org/includes/RtsConfig.h)</th>
+<tr><th>[ RtsConfig.h](http://darcs.haskell.org/ghc/includes/RtsConfig.h)</th>
 <td>
 Settings for Rts configurables (eg. eager vs. lazy BH)
 </td></tr>
-<tr><th>[ MachDeps.h](http://darcs.haskell.org/includes/MachDeps.h)</th>
+<tr><th>[ MachDeps.h](http://darcs.haskell.org/ghc/includes/MachDeps.h)</th>
 <td>
 Sizes of various basic types.
 </td></tr>
-<tr><th>[ StgTypes.h](http://darcs.haskell.org/includes/StgTypes.h)</th>
+<tr><th>[ StgTypes.h](http://darcs.haskell.org/ghc/includes/StgTypes.h)</th>
 <td>
 Basic types specific to the virtual machine (eg. `StgWord`).
 </td></tr>
-<tr><th>[ TailCalls.h](http://darcs.haskell.org/includes/TailCalls.h)</th>
+<tr><th>[ TailCalls.h](http://darcs.haskell.org/ghc/includes/TailCalls.h)</th>
 <td>
 Tail calls in `.hc` code.
 </td></tr>
-<tr><th>[ StgDLL.h](http://darcs.haskell.org/includes/StgDLL.h)</th>
+<tr><th>[ StgDLL.h](http://darcs.haskell.org/ghc/includes/StgDLL.h)</th>
 <td>
 Stuff related to Windows DLLs.
 </td></tr>
-<tr><th>[ MachRegs.h](http://darcs.haskell.org/includes/MachRegs.h)</th>
+<tr><th>[ MachRegs.h](http://darcs.haskell.org/ghc/includes/MachRegs.h)</th>
 <td>
 Global register assignments for this processor.
 </td></tr>
-<tr><th>[ Regs.h](http://darcs.haskell.org/includes/Regs.h)</th>
+<tr><th>[ Regs.h](http://darcs.haskell.org/ghc/includes/Regs.h)</th>
 <td>
 "registers" in the virtual machine.
 </td></tr>
-<tr><th>[ StgProf.h](http://darcs.haskell.org/includes/StgProf.h)</th>
+<tr><th>[ StgProf.h](http://darcs.haskell.org/ghc/includes/StgProf.h)</th>
 <td>
 Profiling gubbins.
 </td></tr>
-<tr><th>[ StgMiscClosures.h](http://darcs.haskell.org/includes/StgMiscClosures.h)</th>
+<tr><th>[ StgMiscClosures.h](http://darcs.haskell.org/ghc/includes/StgMiscClosures.h)</th>
 <td>
 Declarations for closures & info tables built-in to the RTS
 </td></tr>
-<tr><th>[ RtsExternal.h](http://darcs.haskell.org/includes/RtsExternal.h)</th>
+<tr><th>[ RtsExternal.h](http://darcs.haskell.org/ghc/includes/RtsExternal.h)</th>
 <td>
 Declarations for RTS things referred to by `.hc` code.  (NOTE:
 also includes `RtsAPI.h` and `HsFFI.h`.
@@ -107,80 +107,80 @@ hierarchy, in general all RTS sources `#include``Rts.h`.
 Pretty much all the header files in this directory fall into this
 category.
 
-<table><tr><th>[ Rts.h](http://darcs.haskell.org/includes/Rts.h)</th>
+<table><tr><th>[ Rts.h](http://darcs.haskell.org/ghc/includes/Rts.h)</th>
 <td></td></tr>
-<tr><th>[ RtsTypes.h](http://darcs.haskell.org/includes/RtsTypes.h)</th>
+<tr><th>[ RtsTypes.h](http://darcs.haskell.org/ghc/includes/RtsTypes.h)</th>
 <td>
 Types used in the RTS
 </td></tr>
-<tr><th>[ Constants.h](http://darcs.haskell.org/includes/Constants.h)</th>
+<tr><th>[ Constants.h](http://darcs.haskell.org/ghc/includes/Constants.h)</th>
 <td>
 Build-time constants
 </td></tr>
-<tr><th>[ StgLdvProf.h](http://darcs.haskell.org/includes/StgLdvProf.h)</th>
+<tr><th>[ StgLdvProf.h](http://darcs.haskell.org/ghc/includes/StgLdvProf.h)</th>
 <td></td></tr>
-<tr><th>[ StgFun.h](http://darcs.haskell.org/includes/StgFun.h)</th>
+<tr><th>[ StgFun.h](http://darcs.haskell.org/ghc/includes/StgFun.h)</th>
 <td></td></tr>
-<tr><th>[ Closures.h](http://darcs.haskell.org/includes/Closures.h)</th>
+<tr><th>[ Closures.h](http://darcs.haskell.org/ghc/includes/Closures.h)</th>
 <td>
 The layout of closures.
 </td></tr>
-<tr><th>[ Liveness.h](http://darcs.haskell.org/includes/Liveness.h)</th>
+<tr><th>[ Liveness.h](http://darcs.haskell.org/ghc/includes/Liveness.h)</th>
 <td>
 macros for constructing RET_DYN liveness masks
 </td></tr>
-<tr><th>[ ClosureMacros.h](http://darcs.haskell.org/includes/ClosureMacros.h)</th>
+<tr><th>[ ClosureMacros.h](http://darcs.haskell.org/ghc/includes/ClosureMacros.h)</th>
 <td></td></tr>
-<tr><th>[ ClosureTypes.h](http://darcs.haskell.org/includes/ClosureTypes.h)</th>
+<tr><th>[ ClosureTypes.h](http://darcs.haskell.org/ghc/includes/ClosureTypes.h)</th>
 <td></td></tr>
-<tr><th>[ InfoTables.h](http://darcs.haskell.org/includes/InfoTables.h)</th>
+<tr><th>[ InfoTables.h](http://darcs.haskell.org/ghc/includes/InfoTables.h)</th>
 <td>
 The layout of info tables.
 </td></tr>
-<tr><th>[ TSO.h](http://darcs.haskell.org/includes/TSO.h)</th>
+<tr><th>[ TSO.h](http://darcs.haskell.org/ghc/includes/TSO.h)</th>
 <td>
 The structure of Thread State Objects.
 </td></tr>
-<tr><th>[ Updates.h](http://darcs.haskell.org/includes/Updates.h)</th>
+<tr><th>[ Updates.h](http://darcs.haskell.org/ghc/includes/Updates.h)</th>
 <td>
 Macros for performing updates.
 </td></tr>
-<tr><th>[ GranSim.h](http://darcs.haskell.org/includes/GranSim.h)</th>
+<tr><th>[ GranSim.h](http://darcs.haskell.org/ghc/includes/GranSim.h)</th>
 <td></td></tr>
-<tr><th>[ Parallel.h](http://darcs.haskell.org/includes/Parallel.h)</th>
+<tr><th>[ Parallel.h](http://darcs.haskell.org/ghc/includes/Parallel.h)</th>
 <td></td></tr>
-<tr><th>[ SMP.h](http://darcs.haskell.org/includes/SMP.h)</th>
+<tr><th>[ SMP.h](http://darcs.haskell.org/ghc/includes/SMP.h)</th>
 <td>
 Macros for multiprocessor support, eg. `cas()`.
 </td></tr>
-<tr><th>[ Block.h](http://darcs.haskell.org/includes/Block.h)</th>
+<tr><th>[ Block.h](http://darcs.haskell.org/ghc/includes/Block.h)</th>
 <td>
 The block allocator, block descriptors, `Bdescr()`.
 </td></tr>
-<tr><th>[ StgTicky.h](http://darcs.haskell.org/includes/StgTicky.h)</th>
+<tr><th>[ StgTicky.h](http://darcs.haskell.org/ghc/includes/StgTicky.h)</th>
 <td>
 Ticky-ticky profiling.
 </td></tr>
-<tr><th>[ Stable.h](http://darcs.haskell.org/includes/Stable.h)</th>
+<tr><th>[ Stable.h](http://darcs.haskell.org/ghc/includes/Stable.h)</th>
 <td>
 Stable pointers, stable names.
 </td></tr>
-<tr><th>[ Hooks.h](http://darcs.haskell.org/includes/Hooks.h)</th>
+<tr><th>[ Hooks.h](http://darcs.haskell.org/ghc/includes/Hooks.h)</th>
 <td>
 Hooks for changing RTS behaviour.
 </td></tr>
-<tr><th>[ Signals.h](http://darcs.haskell.org/includes/Signals.h)</th>
+<tr><th>[ Signals.h](http://darcs.haskell.org/ghc/includes/Signals.h)</th>
 <td>
 The API for using Signals from Haskell.
 </td></tr>
-<tr><th>[ DNInvoke.h](http://darcs.haskell.org/includes/DNInvoke.h)</th>
+<tr><th>[ DNInvoke.h](http://darcs.haskell.org/ghc/includes/DNInvoke.h)</th>
 <td>
 .NET stuff (bitrotted).
 </td></tr></table>
 
 ## Included into C-- code
 
-<table><tr><th>[ Cmm.h](http://darcs.haskell.org/includes/Cmm.h)</th>
+<table><tr><th>[ Cmm.h](http://darcs.haskell.org/ghc/includes/Cmm.h)</th>
 <td>
 included into .cmm source only
 </td></tr>
@@ -189,7 +189,7 @@ included into .cmm source only
 generated by [includes/mkDerivedConstants.c](/trac/ghc/browser/ghc/includes/mkDerivedConstants.c) from other .h files, see
 [Commentary/Compiler/CodeGen](commentary/compiler/code-gen#storage-manager-representations).
 </td></tr>
-<tr><th>[ Block.h](http://darcs.haskell.org/includes/Block.h)</th>
+<tr><th>[ Block.h](http://darcs.haskell.org/ghc/includes/Block.h)</th>
 <td>
 also included into `.cmm` code.
 </td></tr></table>
@@ -205,32 +205,32 @@ configuration settings.  Files in this category therefore must contain
 
 The following headers are in this category:
 
-<table><tr><th>[ config.h](http://darcs.haskell.org/includes/config.h)</th>
+<table><tr><th>[ config.h](http://darcs.haskell.org/ghc/includes/config.h)</th>
 <td></td></tr>
-<tr><th>[ RtsConfig.h](http://darcs.haskell.org/includes/RtsConfig.h)</th>
+<tr><th>[ RtsConfig.h](http://darcs.haskell.org/ghc/includes/RtsConfig.h)</th>
 <td></td></tr>
-<tr><th>[ Constants.h](http://darcs.haskell.org/includes/Constants.h)</th>
+<tr><th>[ Constants.h](http://darcs.haskell.org/ghc/includes/Constants.h)</th>
 <td></td></tr>
 <tr><th>DerivedConstants.h</th>
 <td></td></tr>
-<tr><th>[ ClosureTypes.h](http://darcs.haskell.org/includes/ClosureTypes.h)</th>
+<tr><th>[ ClosureTypes.h](http://darcs.haskell.org/ghc/includes/ClosureTypes.h)</th>
 <td></td></tr>
-<tr><th>[ StgFun.h](http://darcs.haskell.org/includes/StgFun.h)</th>
+<tr><th>[ StgFun.h](http://darcs.haskell.org/ghc/includes/StgFun.h)</th>
 <td></td></tr>
-<tr><th>[ MachRegs.h](http://darcs.haskell.org/includes/MachRegs.h)</th>
+<tr><th>[ MachRegs.h](http://darcs.haskell.org/ghc/includes/MachRegs.h)</th>
 <td></td></tr>
-<tr><th>[ Liveness.h](http://darcs.haskell.org/includes/Liveness.h)</th>
+<tr><th>[ Liveness.h](http://darcs.haskell.org/ghc/includes/Liveness.h)</th>
 <td></td></tr>
-<tr><th>[ StgLdvProf.h](http://darcs.haskell.org/includes/StgLdvProf.h)</th>
+<tr><th>[ StgLdvProf.h](http://darcs.haskell.org/ghc/includes/StgLdvProf.h)</th>
 <td></td></tr></table>
 
 ## Miscellaneous
 
-<table><tr><th>[ Bytecodes.h](http://darcs.haskell.org/includes/Bytecodes.h)</th>
+<table><tr><th>[ Bytecodes.h](http://darcs.haskell.org/ghc/includes/Bytecodes.h)</th>
 <td>
 Bytecode definitions for the interpreter
 </td></tr>
-<tr><th>[ ieee-flpt.h](http://darcs.haskell.org/includes/ieee-flpt.h)</th>
+<tr><th>[ ieee-flpt.h](http://darcs.haskell.org/ghc/includes/ieee-flpt.h)</th>
 <td>
 ToDo: needed?
 </td></tr></table>
