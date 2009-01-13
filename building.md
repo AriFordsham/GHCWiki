@@ -23,7 +23,7 @@ Getting started for developers
 - [Controlling your build](building/hacking)
 - [Useful workflows and makefile targets](building/targets) (new)
 - [How do I re-build after updating or changing GHC?](building/rebuilding)
-- [Layout of important files and directories](building/files) (new)
+- [Layout of the source tree](commentary/source-tree)
 
 
 More detailed information about the build system
