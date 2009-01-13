@@ -39,6 +39,9 @@ The ObjC runtime has three kinds of messaging functions: `objc_msgSend` (when th
 - If the returned type is `CFloat`, `CDouble`, or `CLDouble`, we use `objc_msgSend_fpret` (with the function pointer cast to the appropriate return type first); the first argument must be the receiver object.
 - Otherwise, we use `objc_msgSend`; the first argument must be the receiver object.  We need to cast  `obc_msgSend`'s function pointer first.
 
+
+The decision which function to use is unfortunately a bit more complicated - see [ http://www.sealiesoftware.com/blog/archive/2008/10/30/objc_explain_objc_msgSend_stret.html](http://www.sealiesoftware.com/blog/archive/2008/10/30/objc_explain_objc_msgSend_stret.html).
+
 ## Return values
 
 
