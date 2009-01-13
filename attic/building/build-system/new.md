@@ -244,7 +244,7 @@ a `.depend` file needs to be re-generated if any of the source files have change
 GNU **make** has a clever strategy for handling this kind of scenario.  It
 first reads all the included Makefiles, and then tries to build each
 one if it is out-of-date, using the rules in the Makefiles themselves.
-When it has brought all the Makefiles up-to-date, it restarts itself
+When it has brought all the included Makefiles up-to-date, it restarts itself
 to read the newly-generated Makefiles.
 
 
@@ -253,12 +253,12 @@ Makefiles.  For example in the GHC build, the `.depend` file for a
 package cannot be generated until `package-data.mk` has been generated
 and **make** has been restarted to read in its contents, because it is the
 `package-data.mk` file that tells us which modules are in the package.
-But **make** always makes all the `Makefiles` before restarting - it
+But **make** always makes **all** the included `Makefiles` before restarting - it
 doesn't know how to restart itself earlier when there is a dependency
-between `Makefiles`.
+between included `Makefiles`.
 
 
-Consider the following makefile:
+Consider the following Makefile:
 
 ```wiki
 all :
