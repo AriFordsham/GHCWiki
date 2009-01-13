@@ -17,15 +17,14 @@ when you've understood them all you'll be able to understand most of
 the code you'll find in the build system.  We'll describe the idioms
 first, and then get on to the specifics of how we build GHC.
 
-
-Historical note: this is the third major revision of the GHC build
+**Historical note**: this is the third major revision of the GHC build
 system.  The first incarnation was based on "jmake", a derivative of
 X11's "imake", which is based on using the C preprocessor to add macro
-capabilities and `#include` to plain make.  The second incarnation
-used GNU make's extensions for including makefiles (but lost the
-ability to use macros, since at the time GNU make didn't have support
+capabilities and `#include` to plain **make**.  The second incarnation
+used GNU **make**'s extensions for including makefiles (but lost the
+ability to use macros, since at the time GNU **make** didn't have support
 for general macros).  In this third revision, we use even more of GNU
-make's extensions, and we make a fundamental change to the design, as
+**make**'s extensions, and we make a fundamental change to the design, as
 described in the next section.
 
 ## Idiom: non-recursive make
@@ -35,14 +34,14 @@ Build systems for large projects often use the technique commonly
 known as "recursive make", where there is a separate `Makefile` in
 each directory that is capable of building that part of the system.
 The `Makefile`s may share some common infrastructure and configuration
-by using GNU make's `include` directive; this is exactly what the
+by using GNU **make**'s `include` directive; this is exactly what the
 previous GHC build system did.  However, this design has a number of
 flaws, as described in Peter Miller's
 [ Recursive Make Considered Harmful](http://miller.emu.id.au/pmiller/books/rmch/).  
 
 
-The GHC build system adopts the non-recursive make idiom.  That is, we
-never invoke make from inside a `Makefile`, and the whole build system
+The GHC build system adopts the non-recursive **make** idiom.  That is, we
+never invoke **make** from inside a `Makefile`, and the whole build system
 is effectively a single giant `Makefile`.
 
 
@@ -61,7 +60,7 @@ This gives us the following advantages:
 
 
 Doesn't this sacrifice modularity?  No - we can still split the build
-system into separate files, using GNU make's `include`.
+system into separate files, using GNU **make**'s `include`.
 
 
 Specific notes related to this idiom:
@@ -79,7 +78,7 @@ Specific notes related to this idiom:
 It's all very well having a single giant `Makefile` that knows how to
 build everything in the right order, but sometimes you want to build
 just part of the system.  When working on GHC itself, we might want to
-build just the compiler, for example.  In the recursive make system we
+build just the compiler, for example.  In the recursive **make** system we
 would do `cd ghc` and then `make`.  In the non-recursive system we can
 still achieve this by specifying the target with something like \`make
 ghc/stage1/build/ghc\`, but that's not so convenient.
@@ -97,13 +96,36 @@ include $(TOP)/mk/sub-makefile.mk
 ```
 
 
-where `mk/sub-makefile.mk` knows how to recursively invoke make.  How
+where `mk/sub-makefile.mk` knows how to recursively invoke **make**.  How
 does it know what to build?  By convention, for each directory there
 is a target `all_`*directory* (e.g. `all_libraries/base`) which
 builds every target in that directory (see "Idiom: the "all" target",
 below).
 
-## Idiom: macros and variable names
+## Idiom: interaction with Cabal
+
+
+Many of the components of the GHC build system are also Cabal
+packages, with package metadata defined in a `foo.cabal` file. For the
+GHC build system we need to extract that metadata and use it to build
+the package. This is done by the program `ghc-cabal` (in `utils/ghc-cabal`
+in the GHC source tree). This program reads `foo.cabal` and produces
+`package-data.mk` containing the package metadata in the form of
+makefile bindings that we can use directly.
+
+
+We adhere to the following rule: **`ghc-cabal` generates only
+makefile variable bindings**, such as
+
+```wiki
+  HS_SRCS = Foo.hs Bar.hs
+```
+
+`ghc-cabal` never generates makefile rules, macro, macro invocations etc. 
+All the makefile code is therefore contained in fixed, editable 
+`.mk` files.
+
+## Idiom: variable names
 
 
 Now that our build system is one giant `Makefile`, all our variables
@@ -116,7 +138,7 @@ so we have to give them all different names.
 The idiom that we use for distinguishing variable names is to prepend
 the directory name to the variable.  So for example the list of
 Haskell sources in the directory `utils/hsc2hs` would be in the
-variable `utils/hsc2hs_HS_SRCS` (make doesn't mind slashes in variable
+variable `utils/hsc2hs_HS_SRCS` (**make** doesn't mind slashes in variable
 names).
 
 
@@ -130,9 +152,11 @@ names related to this build would be named something like
 `compiler_stage1_HS_SRCS`.  The pattern is therefore:
 *directory*_*build*_*variable*.
 
+## Idiom: macros
 
-The build system makes extensive use of macros.  A macro is defined in
-GNU make using `define`, e.g.
+
+The build system makes extensive use of Gnu **make****macros**.  A macro is defined in
+GNU **make** using `define`, e.g.
 
 ```wiki
 define build-package
@@ -149,17 +173,17 @@ $(eval $(call build-library,libraries/base,dist))
 ```
 
 
-(this code would be in `libraries/base/ghc.mk`).
+(this invocation would be in `libraries/base/ghc.mk`).
 
 
 Note that `eval` works like this: its argument is expended as normal,
-and then the result is interpreted by make as makefile code.  This
+and then the result is interpreted by **make** as makefile code.  This
 means the body of the `define` gets expanded *twice*.  Typically
 this means we need to use `$$` instead of `$` everywhere in the body of
 `define`.
 
 
-Now, the `build-package` macro may need to define local variables.
+Now, the `build-package` macro may need to define **local variables**.
 There is no support for local variables in macros, but we can define
 variables which are guaranteed to not clash with other variables by
 preceding their names with a string that is unique to this macro call.
@@ -180,7 +204,7 @@ $1_$2_INPLACE = $$(INPLACE_BIN)/$$($1_$2_PROG)
 
 
 So if `build-prog` is called with `utils/hsc2hs` and `dist` for the
-first two arguments, after expansion make would see this:
+first two arguments, after expansion **make** would see this:
 
 ```wiki
 utils/hsc2hs_dist_INPLACE = $(INPLACE_BIN)/$(utils/hsc2hs_dist_PROG)
@@ -195,10 +219,10 @@ single `$` in the body of `define` is to refer to the parameters `$1`,
 ## Idiom: phase ordering
 
 
-NB. you need to understand this section if either (a) you are modifying parts of the build system that include automatically-generated `Makefile` code, or (b) you need to understand why we have a top-level `Makefile` that recursively invokes make.
+NB. you need to understand this section if either (a) you are modifying parts of the build system that include automatically-generated `Makefile` code, or (b) you need to understand why we have a top-level `Makefile` that recursively invokes **make**.
 
 
-The main hitch with non-recursive make arises when parts of the build
+The main hitch with non-recursive **make** arises when parts of the build
 system are automatically-generated.  The automatically-generated parts
 of our build system fall into two main categories:
 
@@ -207,39 +231,34 @@ of our build system fall into two main categories:
   C files.  The dependencies are normally generated into a file
   `.depend`, which is included as normal.
 
-- `package-data.mk`.  Many of the components of the GHC build system
-  are also Cabal packages, with package metadata defined in a 
-  `foo.cabal` file.  For the GHC build system we need to extract that
-  metadata and use it to build the package.  This is done by the
-  program `ghc-cabal` (in `utils/ghc-cabal` in the GHC source tree).
-  This program reads `foo.cabal` and produces `package-data.mk` 
-  containing the package metadata in the form of makefile bindings
-  that we can use directly.
+- Makefile binding generated from `.cabal` package descriptions.  See
+  "Idiom: interaction with Cabal".
 
 
-Now, we also want to be able to use make to build these files, since
-they have complex dependencies themselves (in order to build
-`package-data.mk` we need to first build `ghc-cabal` etc., and a `.depend` file needs to be re-generated if any of the source files have changed).
+Now, we also want to be able to use `make` to build these files, since
+they have complex dependencies themselves.  For example, in order to build
+`package-data.mk` we need to first build `ghc-cabal` etc.; similarly,
+a `.depend` file needs to be re-generated if any of the source files have changed.
 
 
-GNU make has a clever strategy for handling this kind of scenario.  It
+GNU **make** has a clever strategy for handling this kind of scenario.  It
 first reads all the included Makefiles, and then tries to build each
 one if it is out-of-date, using the rules in the Makefiles themselves.
-When it has brought all the Makefiles up-to-date, it restarts itself
+When it has brought all the included Makefiles up-to-date, it restarts itself
 to read the newly-generated Makefiles.
 
 
 This works fine, unless there are dependencies *between* the
 Makefiles.  For example in the GHC build, the `.depend` file for a
 package cannot be generated until `package-data.mk` has been generated
-and make has been restarted to read in its contents, because it is the
+and **make** has been restarted to read in its contents, because it is the
 `package-data.mk` file that tells us which modules are in the package.
-But make always makes all the `Makefiles` before restarting - it
+But **make** always makes **all** the included `Makefiles` before restarting - it
 doesn't know how to restart itself earlier when there is a dependency
-between `Makefiles`.
+between included `Makefiles`.
 
 
-Consider the following makefile:
+Consider the following Makefile:
 
 ```wiki
 all :
@@ -267,8 +286,7 @@ echo "Y = " >inc2.mk
 make: Nothing to be done for `all'.
 ```
 
-
-make built both `inc1.mk` and `inc2.mk` without restarting itself
+**make** built both `inc1.mk` and `inc2.mk` without restarting itself
 between the two (even though we added a dependency on `inc1.mk` from
 `inc2.mk`).
 
@@ -306,21 +324,35 @@ clean :
 ```
 
 
-each time make is invoked, it first invokes `inc.mk` with `PHASE=0`.
-This brings `inc1.mk` up-to-date (and *only*`inc1.mk`).  The second
-time we invoke make, we can be sure that `inc1.mk` is up-to-date and
-proceed to generate `inc2.mk`.  This is not at all pretty, and
-re-inovking make every time is slow, but we don't know of a better
-workaround for this problem.
+Each time **make** is invoked, we recursively invoke **make** in several
+*phases*:
+
+- **Phase 0**: invoke `inc.mk` with `PHASE=0`.  This brings `inc1.mk` 
+  up-to-date (and *only*`inc1.mk`).  
+
+- **Final phase**: invoke `inc.mk` again (with `PHASE` unset).  Now we can be sure 
+  that `inc1.mk` is up-to-date and proceed to generate `inc2.mk`.  
+  If this changes `inc2.mk`, then **make** automatically re-invokes itself,
+  repeating the final phase.
+
+
+We could instead have abandoned **make**'s automatic re-invocation mechanism altogether,
+and used three explicit phases (0, 1, and final), but in practice it's very convenient to use the automatic
+re-invocation in the final phase.  However no automatic re-invocation should happen
+in any phase except the final one.
 
 
 In the case of the GHC build system we need 4 such phases, see the
 comments in the top-level `ghc.mk` for details.
 
+
+This approach is not at all pretty, and
+re-invoking **make** every time is slow, but we don't know of a better
+workaround for this problem.
+
 ## Idiom: no double-colon rules
 
-
-Make has a special type of rule of the form `target :: prerequisites`,
+**Make** has a special type of rule of the form `target :: prerequisites`,
 with the behaviour that all double-colon rules for a given target are
 executed if the target needs to be rebuilt.  This style was popular
 for things like "all" and "clean" targets in the past, but it's not
