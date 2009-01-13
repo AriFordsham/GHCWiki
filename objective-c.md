@@ -53,3 +53,6 @@ We discuss the following subtopics on separate pages:
 
 - [ Manuel M. T. Chakravarty](http://www.cse.unsw.edu.au/~chak/)
 - [ André Pang](http://algorithm.com.au/)
+
+
+Please send us an suggestions or comments that you might have.
