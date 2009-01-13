@@ -36,7 +36,8 @@ For any Haskell module that implements one or more class, we generate an ObjC st
 For any class or instance method of a class implemented in Haskell, we have one `foreign export` statement; for example,
 
 ```wiki
-foreign export objc "-[MyClass doSomethingCool:]" doSomethingCool :: MyClass -> UIView -> IO BOOL
+foreign export objc "-[MyClass doSomethingCool:]" doSomethingCool 
+  :: MyClass -> UIView -> IO BOOL
 ```
 
 
