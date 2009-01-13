@@ -62,11 +62,11 @@ module A where
   a = Q.f + g
 ```
 
-then in module `A`}, the function `Q.f` has an External Name `M.f`.
+then in module `A`, the function `Q.f` has an External Name `M.f`.
 </td></tr></table>
 
 > >
-> > During any invocation of GHC, each (module, occurrence-name) gets one, and only one, `Unique`, stored in the `n_uniq`} field of the `Name`.  This association remains fixed even when GHC finishes one module and starts to compile another.  This association between (module, occurrence-name) pairs and the corresponding `Name` (with its `n_uniq` field) is maintained by the !Name !Cache.
+> > During any invocation of GHC, each (module, occurrence-name) gets one, and only one, `Unique`, stored in the `n_uniq` field of the `Name`.  This association remains fixed even when GHC finishes one module and starts to compile another.  This association between (module, occurrence-name) pairs and the corresponding `Name` (with its `n_uniq` field) is maintained by the Name Cache.
 
 <table><tr><th>`WiredIn`</th>
 <td>
