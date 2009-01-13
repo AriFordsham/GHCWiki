@@ -102,6 +102,29 @@ is a target `all_`*directory* (e.g. `all_libraries/base`) which
 builds every target in that directory (see "Idiom: the "all" target",
 below).
 
+## Idiom: interaction with Cabal
+
+
+Many of the components of the GHC build system are also Cabal
+packages, with package metadata defined in a `foo.cabal` file. For the
+GHC build system we need to extract that metadata and use it to build
+the package. This is done by the program `ghc-cabal` (in `utils/ghc-cabal`
+in the GHC source tree). This program reads `foo.cabal` and produces
+`package-data.mk` containing the package metadata in the form of
+makefile bindings that we can use directly.
+
+
+We adhere to the following rule: **`ghc-cabal` generates only
+makefile variable bindings**, such as
+
+```wiki
+  HS_SRCS = Foo.hs Bar.hs
+```
+
+`ghc-cabal` never generates makefile rules, macro, macro invocations etc. 
+All the makefile code is therefore contained in fixed, editable 
+`.mk` files.
+
 ## Idiom: variable names
 
 
@@ -208,19 +231,13 @@ of our build system fall into two main categories:
   C files.  The dependencies are normally generated into a file
   `.depend`, which is included as normal.
 
-- `package-data.mk`.  Many of the components of the GHC build system
-  are also Cabal packages, with package metadata defined in a 
-  `foo.cabal` file.  For the GHC build system we need to extract that
-  metadata and use it to build the package.  This is done by the
-  program `ghc-cabal` (in `utils/ghc-cabal` in the GHC source tree).
-  This program reads `foo.cabal` and produces `package-data.mk` 
-  containing the package metadata in the form of makefile bindings
-  that we can use directly.
+- Makefile binding generated from `.cabal` package descriptions.  See
+  "Idiom: interaction with Cabal".
 
 
-Now, we also want to be able to use make to build these files, since
-they have complex dependencies themselves (in order to build
-`package-data.mk` we need to first build `ghc-cabal` etc., and a `.depend` file needs to be re-generated if any of the source files have changed).
+Now, we also want to be able to use `make` to build these files, since
+they have complex dependencies themselves.  For example, in order to build
+`package-data.mk` we need to first build `ghc-cabal` etc., and a `.depend` file needs to be re-generated if any of the source files have changed.
 
 
 GNU make has a clever strategy for handling this kind of scenario.  It
