@@ -79,12 +79,13 @@ It's all very well having a single giant `Makefile` that knows how to
 build everything in the right order, but sometimes you want to build
 just part of the system.  When working on GHC itself, we might want to
 build just the compiler, for example.  In the recursive **make** system we
-would do `cd ghc` and then `make`.  In the non-recursive system we can
+would do `cd ghc` and then `make`.  In the non-recursive system we could
 still achieve this by specifying the target with something like \`make
 ghc/stage1/build/ghc\`, but that's not so convenient.
 
 
-Our second idiom therefore is to have a tiny stub `Makefile` in each
+Our second idiom therefore supports the `cd ghc; make` idiom, just as
+with recursive make. To achieve this we put tiny stub `Makefile` in each
 directory whose job it is to invoke the main `Makefile` specifying the
 appropriate target(s) for that directory.  These stub `Makefiles`
 follow a simple pattern:
@@ -96,26 +97,24 @@ include $(TOP)/mk/sub-makefile.mk
 ```
 
 
-where `mk/sub-makefile.mk` knows how to recursively invoke the giant top-level **make**.  This in turn includes the `ghc.mk` from each sub-directory (including the one where you invoked the original `make`).
+where `mk/sub-makefile.mk` knows how to recursively invoke the giant top-level **make**.  This in turn includes the `ghc.mk` from all sub-directories, presumably including the one where you invoked the original `make`.
 
 
-We want an `all` target that builds everything, but we also want a way to build individual components (say, everything in `rts/`).  This is achieved by having a separate `all` target for each directory, named `all_`*directory*.  For example in `rts/ghc.mk` we might have this:
+We want an `all` target that builds everything, but we also want a way to build individual components (say, everything in `rts/`).  This is achieved by having a separate "all" target for each directory, named `all_`*directory*.  For example in `rts/ghc.mk` we might have this:
 
 ```wiki
 all : all_rts
 .PHONY all_rts
-all_rts : ...
+all_rts : ..dependencies...
+   ...how to build all_rts...
 ```
 
 
-So you can say
+When the top level **make** includes all these `ghc.mk` files, it will see that target `all` depends on `all_rts, all_ghc, ...etc...`; so `make all` will make all of these.  But the individual targets are still available.  In particular, you can say
 
 - `make all_rts` (anywhere) to build everything in the RTS directory
 - `make all` (anywhere) to build everything
-- `make`, with no explicit target, makes the default target in the stub `Makefile`, 
-
-> >
-> > which in turn makes the target `all_`*dir*, when you are in directory *dir*.
+- `make`, with no explicit target, makes the default target in the current directory's stub `Makefile`, which in turn makes the target `all_`*dir*, where *dir* is the current directory.
 
 
 Other standard targets such as `clean`, `install`, and so on use the same technique.  There are pre-canned macros to define your "all" and "clean" targets, take a look in `rules/all-target.mk` and `rules/clean-target.mk`.
