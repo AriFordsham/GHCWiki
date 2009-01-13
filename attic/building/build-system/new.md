@@ -72,19 +72,20 @@ Specific notes related to this idiom:
 
 - Other parts of the build system are in `mk/*.mk` and `rules/*.mk`.
 
-## Idiom: stub makefiles
+## Idiom: stub makefiles and standard targets (e.g. "all" and "clean")
 
 
 It's all very well having a single giant `Makefile` that knows how to
 build everything in the right order, but sometimes you want to build
 just part of the system.  When working on GHC itself, we might want to
 build just the compiler, for example.  In the recursive **make** system we
-would do `cd ghc` and then `make`.  In the non-recursive system we can
+would do `cd ghc` and then `make`.  In the non-recursive system we could
 still achieve this by specifying the target with something like \`make
 ghc/stage1/build/ghc\`, but that's not so convenient.
 
 
-Our second idiom therefore is to have a tiny stub `Makefile` in each
+Our second idiom therefore supports the `cd ghc; make` idiom, just as
+with recursive make. To achieve this we put tiny stub `Makefile` in each
 directory whose job it is to invoke the main `Makefile` specifying the
 appropriate target(s) for that directory.  These stub `Makefiles`
 follow a simple pattern:
@@ -96,21 +97,37 @@ include $(TOP)/mk/sub-makefile.mk
 ```
 
 
-where `mk/sub-makefile.mk` knows how to recursively invoke **make**.  How
-does it know what to build?  By convention, for each directory there
-is a target `all_`*directory* (e.g. `all_libraries/base`) which
-builds every target in that directory (see "Idiom: the "all" target",
-below).
+where `mk/sub-makefile.mk` knows how to recursively invoke the giant top-level **make**.  This in turn includes the `ghc.mk` from all sub-directories, presumably including the one where you invoked the original `make`.
+
+
+We want an `all` target that builds everything, but we also want a way to build individual components (say, everything in `rts/`).  This is achieved by having a separate "all" target for each directory, named `all_`*directory*.  For example in `rts/ghc.mk` we might have this:
+
+```wiki
+all : all_rts
+.PHONY all_rts
+all_rts : ..dependencies...
+   ...how to build all_rts...
+```
+
+
+When the top level **make** includes all these `ghc.mk` files, it will see that target `all` depends on `all_rts, all_ghc, ...etc...`; so `make all` will make all of these.  But the individual targets are still available.  In particular, you can say
+
+- `make all_rts` (anywhere) to build everything in the RTS directory
+- `make all` (anywhere) to build everything
+- `make`, with no explicit target, makes the default target in the current directory's stub `Makefile`, which in turn makes the target `all_`*dir*, where *dir* is the current directory.
+
+
+Other standard targets such as `clean`, `install`, and so on use the same technique.  There are pre-canned macros to define your "all" and "clean" targets, take a look in `rules/all-target.mk` and `rules/clean-target.mk`.
 
 ## Idiom: stages
 
 
-GHC is built by itself.  In a complete build we actually build GHC twice: once using the GHC version that is installed, and then again using the GHC we just built.  To be clear about which GHC we are talking about, we number them:
+What do we use to compile GHC?  GHC itself, of course.  In a complete build we actually build GHC twice: once using the GHC version that is installed, and then again using the GHC we just built.  To be clear about which GHC we are talking about, we number them:
 
-- stage 0 is the GHC you have installed
-- stage 1 is the first GHC we build, using stage 0
-- stage 2 is the second GHC we build, using stage 1.  This is the one we normally install when you say `make install`.
-- stage 3 is optional, but is sometimes built to test stage 2.
+- **Stage 0** is the GHC you have installed.  The "GHC you have installed" is also called "the bootstrap compiler".
+- **Stage 1** is the first GHC we build, using stage 0
+- **Stage 2** is the second GHC we build, using stage 1.  This is the one we normally install when you say `make install`.
+- **Stage 3** is optional, but is sometimes built to test stage 2.
 
 
 Only stages 2 and 3 support interactive execution (GHCi) and Template Haskell.  The reason being that when running interactive code we must dynamically link the packages, and only in stage 2 can we guarantee that the packages we dynamically link are compatible with those that GHC was built against (because they are the very same packages).
@@ -376,23 +393,6 @@ comments in the top-level `ghc.mk` for details.
 This approach is not at all pretty, and
 re-invoking **make** every time is slow, but we don't know of a better
 workaround for this problem.
-
-## Idiom: the "all" and "clean" targets
-
-
-We want an `all` target that builds everything, but we also want a way to build individual components (say, everything in `rts/`).  This is achieved by having a separate `all` target for each directory, named `all_`*directory*, e.g.
-
-```wiki
-all : all_rts
-.PHONY all_rts
-all_rts : ...
-```
-
-
-The `all_rts` target is used by the stub makefile (see earlier stub-makefile idiom) when you say `make` in `rts/`.
-
-
-Other standard targets such as `clean`, `install`, and so on use the same technique.  There are pre-canned macros to define your "all" and "clean" targets, take a look in `rules/all-target.mk` and `rules/clean-target.mk`.
 
 ## Idiom: no double-colon rules
 
