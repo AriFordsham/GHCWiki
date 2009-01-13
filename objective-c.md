@@ -32,10 +32,12 @@ We discuss the following subtopics on separate pages:
 - \[ObjectiveC/Naming Naming conventions\] (they are not enforced, but recommended)
 - \[ObjectiveC/MemoryManagement Memory management\] 
 
-## Related work
+## Background and related work
 
-
-Chicken scheme objc egg: [ http://chicken.wiki.br/objc](http://chicken.wiki.br/objc)
+- [ The Haskell 98 Foreign Function Interface 1.0](http://www.cse.unsw.edu.au/~chak/haskell/ffi/ffi/ffi.html)
+- [ Objective-C 2.0 Runtime Programming Guide](https://developer.apple.com/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/chapter_1_section_1.html)
+- [ Objective-C 2.0 Runtime Reference](https://developer.apple.com/documentation/Cocoa/Reference/ObjCRuntimeRef/Reference/reference.html)
+- [ Chicken scheme objc egg](http://chicken.wiki.br/objc)
 
 ## Development team
 
