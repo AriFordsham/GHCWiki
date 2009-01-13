@@ -37,7 +37,7 @@ The ObjC runtime has three kinds of messaging functions: `objc_msgSend` (when th
 
 - If the returned type is `()`, we use `objc_msgSend_stret`; the first argument to the function must be a `(Ptr t)` and the second must be the receiver object.
 - If the returned type is `CFloat`, `CDouble`, or `CLDouble`, we use `objc_msgSend_fpret` (with the function pointer cast to the appropriate return type first); the first argument must be the receiver object.
-- Otherwise, we use `objc_msgSend`; the first argument must be the receiver object.  \[**FIXME***What about integral return types?  Just use obc_msgSend and cast its function pointer first?*\]
+- Otherwise, we use `objc_msgSend`; the first argument must be the receiver object.  We need to cast  `obc_msgSend`'s function pointer first.
 
 ## Return values
 
