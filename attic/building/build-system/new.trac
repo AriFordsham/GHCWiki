@@ -102,7 +102,7 @@ GHC is built by itself.  In a complete build we actually build GHC twice: once u
 
 Only stages 2 and 3 support interactive execution (GHCi) and Template Haskell.  The reason being that when running interactive code we must dynamically link the packages, and only in stage 2 can we guarantee that the packages we dynamically link are compatible with those that GHC was built against (because they are the very same packages).
 
-== Idiom: multiple builds per directory ==
+== Idiom: distdir ==
 
 Often we want to build a component multiple times in different ways.  For example:
 
