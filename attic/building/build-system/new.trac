@@ -91,6 +91,33 @@ is a target `all_`''directory'' (e.g. `all_libraries/base`) which
 builds every target in that directory (see "Idiom: the "all" target",
 below).
 
+== Idiom: stages ==
+
+GHC is built by itself.  In a complete build we actually build GHC twice: once using the GHC version that is installed, and then again using the GHC we just built.  To be clear about which GHC we are talking about, we number them:
+
+ * stage 0 is the GHC you have installed
+ * stage 1 is the first GHC we build, using stage 0
+ * stage 2 is the second GHC we build, using stage 1.  This is the one we normally install when you say `make install`.
+ * stage 3 is optional, but is sometimes built to test stage 2.
+
+Only stages 2 and 3 support interactive execution (GHCi) and Template Haskell.  The reason being that when running interactive code we must dynamically link the packages, and only in stage 2 can we guarantee that the packages we dynamically link are compatible with those that GHC was built against (because they are the very same packages).
+
+== Idiom: multiple builds per directory ==
+
+Often we want to build a component multiple times in different ways.  For example:
+
+ * certain libraries (e.g. Cabal) are required by GHC, so we build them once with the
+   bootstrapping compiler, and again with stage 1 once that is built.
+
+ * GHC itself is built multiple times (stage 1, stage 2, maybe stage 3)
+
+ * some tools (e.g. ghc-pkg) are also built once with the bootstrapping compiler,
+   and then again using stage 1 later.
+
+In order to support multiple builds in a directory, we place all generated files in a subdirectory, called the "distdir".  The distdir can be anything at all; for example in `compiler/` we name our distdirs after the stage (`stage1`, `stage2` etc.).  When there is only a single build in a directory, by convention we usually call the distdir simply "dist".
+
+There is a related concept called ''ways'', which includes profiling and dynamic-linking.  Multiple ways are currently part of the same "build" and use the same distdir, but in the future we might unify these concepts and give each way its own distdir.
+
 == Idiom: interaction with Cabal ==
 
 Many of the components of the GHC build system are also Cabal
@@ -115,24 +142,14 @@ All the makefile code is therefore contained in fixed, editable
 Now that our build system is one giant `Makefile`, all our variables
 share the same namespace.  Where previously we might have had a
 variable that contained a list of the Haskell source files called
-`HS_SRCS`, now we have one of these for each directory in the source tree,
+`HS_SRCS`, now we have one of these for each directory (and indeed each build, or distdir) in the source tree,
 so we have to give them all different names.
 
 The idiom that we use for distinguishing variable names is to prepend
-the directory name to the variable.  So for example the list of
+the directory name and the distdir to the variable.  So for example the list of
 Haskell sources in the directory `utils/hsc2hs` would be in the
-variable `utils/hsc2hs_HS_SRCS` ('''make''' doesn't mind slashes in variable
-names).
-
-In many parts of the build, we can build the same component in
-multiple different ways.  For example, the compiler itself is built in
-the `stage1` and `stage2` ways, so we additionally need to distinguish
-variable names based on which way we're building.  Typically we place
-each build in a separate subdirectory, so for example the `stage1`
-build of the compiler places its files in `compiler/stage1`.  Variable
-names related to this build would be named something like
-`compiler_stage1_HS_SRCS`.  The pattern is therefore:
-''directory''_''build''_''variable''.
+variable `utils/hsc2hs_dist_HS_SRCS` ('''make''' doesn't mind slashes in variable
+names).  The pattern is: ''directory''_''distdir''_''variable''.
 
 == Idiom: macros ==
 The build system makes extensive use of Gnu '''make''' '''macros'''.  A macro is defined in
@@ -140,7 +157,7 @@ GNU '''make''' using `define`, e.g.
 
 {{{
 define build-package
-# args: $1 = directory, $2 = build
+# args: $1 = directory, $2 = distdir
 ... makefile code to build a package ...
 endef
 }}}
@@ -148,7 +165,7 @@ endef
 (for example, see `rules/build-package`), and is invoked like this:
 
 {{{
-$(eval $(call build-library,libraries/base,dist))
+$(eval $(call build-package,libraries/base,dist))
 }}}
 
 (this invocation would be in `libraries/base/ghc.mk`).
@@ -163,7 +180,7 @@ Now, the `build-package` macro may need to define '''local variables'''.
 There is no support for local variables in macros, but we can define
 variables which are guaranteed to not clash with other variables by
 preceding their names with a string that is unique to this macro call.
-A convenient unique string to use is ''directory''_''build''_; this is unique as long as we only call each macro with a given directory/build pair once.  Most macros in
+A convenient unique string to use is ''directory''_''distdir''_; this is unique as long as we only call each macro with a given directory/build pair once.  Most macros in
 the GHC build system take the directory and build as the first two
 arguments for exactly this reason.  For example, here's an excerpt
 from the `build-prog` macro:
