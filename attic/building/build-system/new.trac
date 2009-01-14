@@ -60,7 +60,7 @@ system into separate files, using GNU '''make''''s `include`.
 
 Specific notes related to this idiom:
 
- * Individual directories have a `ghc.mk` file which typically
+ * Individual directories usually have a `ghc.mk` file which
    contains the build instructions for that directory.
 
  * Other parts of the build system are in `mk/*.mk` and `rules/*.mk`.
