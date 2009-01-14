@@ -11,7 +11,7 @@ foreign import objc "UIKit/UIKit.h UIView" o'UIView :: Class  -- imports the cla
 ```
 
 
-The class type is implemented as a newtype of a `ForeignPtr`.  The type is abstract, but can be passed to and received from ObjC land; i.e., it is a *foreign type* in the sense of Section 3.2 of the Haskell FFI.  The class object is looked up by the module initialisation code using `objc_lookUpClass` and `Class` is defined in `Foreign.ObjectiveC` and corresponds to the type `Class` of the ObjC runtime.
+The class type is implemented as a newtype of a `ForeignPtr`.  The type is abstract, but can be passed to and received from ObjC land; i.e., it is a *foreign type* in the sense of Section 3.2 of the Haskell FFI.  The class object is looked up by the module initialisation code using `objc_getClass` and `Class` is defined in `Foreign.ObjectiveC` and corresponds to the type `Class` of the ObjC runtime.
 
 ### Finaliser
 
