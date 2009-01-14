@@ -63,9 +63,12 @@ Specific notes related to this idiom:
  * Individual directories have a `ghc.mk` file which typically
    contains the build instructions for that directory.
 
- * The top-level of the build system is in `Makefile` and `ghc.mk`.
-
  * Other parts of the build system are in `mk/*.mk` and `rules/*.mk`.
+
+ * The top-level `ghc.mk` file includes all the other `*.mk` files in
+   the tree.  The top-level `Makefile` invokes '''make''' on `ghc.mk`
+   (this is the only recursive invocation of '''make'''; see the "phase
+   ordering" idiom below).
 
 == Idiom: stub makefiles and standard targets (e.g. "all" and "clean") ==
 
@@ -89,7 +92,9 @@ TOP = ../..
 include $(TOP)/mk/sub-makefile.mk
 }}}
 
-where `mk/sub-makefile.mk` knows how to recursively invoke the giant top-level '''make'''.  This in turn includes the `ghc.mk` from all sub-directories, presumably including the one where you invoked the original `make`.
+where `mk/sub-makefile.mk` knows how to recursively invoke the giant top-level '''make'''.
+
+== Idiom: standard targets (all, clean, etc.) ==
 
 We want an `all` target that builds everything, but we also want a way to build individual components (say, everything in `rts/`).  This is achieved by having a separate "all" target for each directory, named `all_`''directory''.  For example in `rts/ghc.mk` we might have this:
 
