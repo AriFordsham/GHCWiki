@@ -79,7 +79,7 @@ It's all very well having a single giant `Makefile` that knows how to
 build everything in the right order, but sometimes you want to build
 just part of the system.  When working on GHC itself, we might want to
 build just the compiler, for example.  In the recursive **make** system we
-would do `cd ghc` and then `make`.  In the non-recursive system we could
+would do `cd ghc` and then `make`.  In the non-recursive system we can
 still achieve this by specifying the target with something like \`make
 ghc/stage1/build/ghc\`, but that's not so convenient.
 
@@ -105,8 +105,7 @@ We want an `all` target that builds everything, but we also want a way to build 
 ```wiki
 all : all_rts
 .PHONY all_rts
-all_rts : ..dependencies...
-   ...how to build all_rts...
+all_rts : ...dependencies...
 ```
 
 
