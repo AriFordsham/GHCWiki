@@ -75,7 +75,7 @@ Specific notes related to this idiom:
   (this is the only recursive invocation of **make**; see the "phase
   ordering" idiom below).
 
-## Idiom: stub makefiles and standard targets (e.g. "all" and "clean")
+## Idiom: stub makefiles
 
 
 It's all very well having a single giant `Makefile` that knows how to
