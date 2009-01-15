@@ -5,8 +5,8 @@
 ### Arity
 
 - [\#2915](https://gitlab.haskell.org//ghc/ghc/issues/2915): arity too small
+- [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): array indexing, inlining/arity bug        
 - [\#2902](https://gitlab.haskell.org//ghc/ghc/issues/2902): an excellen example of the need for arity analysis
-- [\#2822](https://gitlab.haskell.org//ghc/ghc/issues/2822): arity expansion not happening right
 - [\#2823](https://gitlab.haskell.org//ghc/ghc/issues/2823): another arity expansion bug (related to dictionaries)
 - [\#2440](https://gitlab.haskell.org//ghc/ghc/issues/2440): bad code with type families; I believe this is also arity-related
 - [\#2762](https://gitlab.haskell.org//ghc/ghc/issues/2762): Arity analysis
@@ -20,7 +20,6 @@
 - [\#2354](https://gitlab.haskell.org//ghc/ghc/issues/2354): NOINLINE pragma ignored
 - [\#2353](https://gitlab.haskell.org//ghc/ghc/issues/2353): GHC inliner doesn't inline
 - [\#2078](https://gitlab.haskell.org//ghc/ghc/issues/2078): INLINing improvement; ask Christian.Maeder@… to see if it improves CASL
-- [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): array indexing, inlining/arity bug        
 - [\#2840](https://gitlab.haskell.org//ghc/ghc/issues/2840): top level unlifted string literals
 
 ## New code generator
