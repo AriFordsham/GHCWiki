@@ -24,7 +24,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - OpenBSD: Matthias Kilian
   - SuSE Linux/x86 packages: Sven Panne,Ralf Hinze
   - Gentoo Linux/x86 packages: Gentoo Haskell team
-  - Debian GNU/Linux/x86 packages: Ian Lynagh
+  - Debian GNU/Linux/x86 packages: Kari Pahula
   - MacOS X: Wolfgang Thaller,Manuel Chakravarty
   - Fedora Extras packages: Jens Petersen
 
@@ -33,7 +33,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - AIX: Audrey Tang
   - Linux: Ryan Lortie
   - Gentoo Linux packages (32 and 64bit): Gentoo Haskell team
-  - Debian GNU/Linux/powerpc packages: Ian Lynagh
+  - Debian GNU/Linux/powerpc packages: Kari Pahula
   - MacOS X: Wolfgang Thaller,Thorkil Naur
   - Fedora Extras packages: Jens Petersen
 
@@ -42,13 +42,13 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - Solaris: Position open
   - Linux:   Position open
   - Gentoo Linux packages: Gentoo Haskell team
-  - Debian GNU/Linux/sparc packages: Ian Lynagh
+  - Debian GNU/Linux/sparc packages: Kari Pahula
 
 - **x86_64**
 
   - Linux: Simon Marlow
   - Gentoo Linux packages: Gentoo Haskell team
-  - Debian GNU/Linux/amd64 packages: Ian Lynagh
+  - Debian GNU/Linux/amd64 packages: Kari Pahula
   - OpenBSD: Matthias Kilian
   - Fedora Extras packages: Jens Petersen
 
@@ -58,41 +58,41 @@ For a full description of GHC support for various platforms, see [Platforms](pla
 
 - **Mips**
 
-  - Debian GNU/Linux/mips packages: Ian Lynagh
+  - Debian GNU/Linux/mips packages: Kari Pahula
 
 - **Mipsel**
 
-  - Debian GNU/Linux/mipsel packages: Ian Lynagh
+  - Debian GNU/Linux/mipsel packages: Kari Pahula
 
 - **IA-64**
 
   - Linux: Matt Chapman
   - Gentoo Linux packages: Gentoo Haskell team
-  - Debian GNU/Linux/ia64 packages: Ian Lynagh
+  - Debian GNU/Linux/ia64 packages: Kari Pahula
 
 - **Alpha**
 
   - Dec OSF: Ken Shan
   - Linux: Position open.
   - Gentoo Linux packages: Gentoo Haskell team
-  - Debian GNU/Linux/alpha packages: Ian Lynagh
+  - Debian GNU/Linux/alpha packages: Kari Pahula
 
 - **HPPA**
 
   - Gentoo Linux packages: Gentoo Haskell team
-  - Debian GNU/Linux/hppa packages: Ian Lynagh
+  - Debian GNU/Linux/hppa packages: Kari Pahula
 
 - **S/390**
 
-  - Debian GNU/Linux/s390 packages: Ian Lynagh
+  - Debian GNU/Linux/s390 packages: Kari Pahula
 
 - **Arm**
 
-  - Debian GNU/Linux/arm packages: Ian Lynagh
+  - Debian GNU/Linux/arm packages: Kari Pahula
 
 - **m68k**
 
-  - Debian GNU/Linux/m68k packages: Ian Lynagh
+  - Debian GNU/Linux/m68k packages: Kari Pahula
 
 ## Current committers (alphabetical order)
 

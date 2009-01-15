@@ -20,7 +20,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * OpenBSD: [mailto:kili@openbsd.org Matthias Kilian]
    * SuSE Linux/x86 packages: [mailto:sven.panne@aedion.de Sven Panne],[mailto:ralf@informatik.uni-bonn.de Ralf Hinze]
    * Gentoo Linux/x86 packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/x86 packages: [mailto:igloo@debian.org Ian Lynagh]
+   * Debian GNU/Linux/x86 packages: [mailto:kaol@debian.org Kari Pahula]
    * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller],[mailto:chak@cse.unsw.edu.au Manuel Chakravarty]
    * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
 
@@ -28,7 +28,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * AIX: [mailto:audreyt@audreyt.org Audrey Tang]
    * Linux: [mailto:desrt@desrt.ca Ryan Lortie]
    * Gentoo Linux packages (32 and 64bit): [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/powerpc packages: [mailto:igloo@debian.org Ian Lynagh]
+   * Debian GNU/Linux/powerpc packages: [mailto:kaol@debian.org Kari Pahula]
    * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller],[mailto:naur@post11.tele.dk Thorkil Naur]
    * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
 
@@ -36,12 +36,12 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Solaris: Position open
    * Linux:   Position open
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/sparc packages: [mailto:igloo@debian.org Ian Lynagh]
+   * Debian GNU/Linux/sparc packages: [mailto:kaol@debian.org Kari Pahula]
 
  * '''x86_64'''
    * Linux: [mailto:marlowsd@gmail.com Simon Marlow]
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/amd64 packages: [mailto:igloo@debian.org Ian Lynagh]
+   * Debian GNU/Linux/amd64 packages: [mailto:kaol@debian.org Kari Pahula]
    * OpenBSD: [mailto:kili@openbsd.org Matthias Kilian]
    * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
 
@@ -49,34 +49,34 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Irix: [mailto:dons@cse.unsw.edu.au Don Stewart]
 
  * '''Mips'''
-   * Debian GNU/Linux/mips packages: [mailto:igloo@debian.org Ian Lynagh]
+   * Debian GNU/Linux/mips packages: [mailto:kaol@debian.org Kari Pahula]
 
  * '''Mipsel'''
-   * Debian GNU/Linux/mipsel packages: [mailto:igloo@debian.org Ian Lynagh]
+   * Debian GNU/Linux/mipsel packages: [mailto:kaol@debian.org Kari Pahula]
 
  * '''IA-64'''
    * Linux: [mailto:matthewc@cse.unsw.edu.au Matt Chapman]
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/ia64 packages: [mailto:igloo@debian.org Ian Lynagh]
+   * Debian GNU/Linux/ia64 packages: [mailto:kaol@debian.org Kari Pahula]
 
  * '''Alpha'''
    * Dec OSF: [mailto:ken@digitas.harvard.edu Ken Shan]
    * Linux: Position open.
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/alpha packages: [mailto:igloo@debian.org Ian Lynagh]
+   * Debian GNU/Linux/alpha packages: [mailto:kaol@debian.org Kari Pahula]
 
  * '''HPPA'''
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
-   * Debian GNU/Linux/hppa packages: [mailto:igloo@debian.org Ian Lynagh]
+   * Debian GNU/Linux/hppa packages: [mailto:kaol@debian.org Kari Pahula]
 
  * '''S/390'''
-   * Debian GNU/Linux/s390 packages: [mailto:igloo@debian.org Ian Lynagh]
+   * Debian GNU/Linux/s390 packages: [mailto:kaol@debian.org Kari Pahula]
 
  * '''Arm'''
-   * Debian GNU/Linux/arm packages: [mailto:igloo@debian.org Ian Lynagh]
+   * Debian GNU/Linux/arm packages: [mailto:kaol@debian.org Kari Pahula]
 
  * '''m68k'''
-   * Debian GNU/Linux/m68k packages: [mailto:igloo@debian.org Ian Lynagh]
+   * Debian GNU/Linux/m68k packages: [mailto:kaol@debian.org Kari Pahula]
 
 == Current committers (alphabetical order) ==
 
