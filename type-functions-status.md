@@ -11,10 +11,6 @@
 
     - Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
     - Issue a warning if there are two identical instances (as per  Roman's suggestion).
-  - [\#1968](https://gitlab.haskell.org//ghc/ghc/issues/1968) (GADT syntax in family instances; at least provide a proper error message and don't panic!)
-
-    - Need to check the result types of the data constructors, probably in `checkValidDataCon`.
-    - `tcFamInstDecl1` needs to allow family GADT instances.
   - [\#2203](https://gitlab.haskell.org//ghc/ghc/issues/2203) (TFs in class instance heads)
   - [\#2435](https://gitlab.haskell.org//ghc/ghc/issues/2435) (Bug with qualified names in declarations)
   - Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)  If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
@@ -49,8 +45,6 @@
 
 - Misc:
 
-  - [\#2856](https://gitlab.haskell.org//ghc/ghc/issues/2856) (generalised new type deriving for associated data types)
-  - [\#2853](https://gitlab.haskell.org//ghc/ghc/issues/2853) (type families and defaulting)
   - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types)
   - `TcPat` and `TcUnify` (and maybe other modules) still have calls to the unification engine that ignore the returned coercion!!
   - Test `Simple17` (corelint error as a dict binding, used to specialise a call to a local function, floats out too far)
