@@ -1,0 +1,126 @@
+# Building on Solaris
+
+
+These instructions have only been checked for GHC 6.8.3 on Solaris 10 on SPARC. It should mostly apply to later versions of GHC, Solaris 8 and later and perhaps Solaris on x86.
+
+## Using the right GCC
+
+### Avoid the system GCC versions
+
+
+On Solaris 10, the `/usr/bin/gcc` is a version that uses Sun's code generator backend. This is completely unusable for ghc because ghc has to post-process the assembly output of gcc. It expects the format and layout that the normal gcc uses.
+
+
+The `/usr/sfw/bin/gcc` version (at least on Solaris 10) is 3.4.x which is reported to have problems, see below.
+
+
+It is recommended therefor to install another gcc package, either from some Solaris binary package or to build a vanilla gcc from source.
+
+### Selecting a good GCC version
+
+
+GCC version 4.1.x and 4.0.x seem to be fine. 4.1.2 is recommended.
+
+
+GCC version 3.4.x is reported to mis-compile the runtime system leading to a runtime error `schedule: re-entered unsafely`.
+
+
+GHC has not yet been updated to understand the assembly output of GCC version 4.3.x.
+
+
+GCC version 4.2.x works but takes hours and hours to build the large `.hc` files that GHC generates. It is reported that particular modules can take upwards of 5 hours and the overall build takes a couple days.
+
+## Using GCC from a non-standard location
+
+
+Since the recommendation is not to use the system `/usr/bin/gcc` then it is necessary to configure GHC to use a different GCC. Not only do we have to ensure that this alternate GCC is used while building GHC, but we must ensure that this alternate GCC is used by default by the built GHC once we install it and try to use it. Otherwise it will default to whatever `gcc` is on the `$PATH` which would typically be `/usr/bin/gcc` again.
+
+
+Due to a bug in the build system ([\#2966](https://gitlab.haskell.org//ghc/ghc/issues/2966)) it is not enough to specify `--with-gcc=` when running `./configure`. It is necessary to adjust the `$PATH` so that the correct gcc is found \*and\* to use `--with-gcc=` to the full path to that same version of gcc. Having it first in the `$PATH` is required for the build to go through and the `--with-gcc=` flag is necessary to have the resulting ghc use that gcc once installed.
+
+
+For example:
+
+```wiki
+export PATH=/opt/gcc-vanilla/bin:$PATH
+./configure --with-gcc=/opt/gcc-vanilla/bin/gcc
+```
+
+## Fixing the `unix` package
+
+
+At the time of writing the `unix` package gets built wrong (see [\#2969](https://gitlab.haskell.org//ghc/ghc/issues/2969)) which results in `getSymbolicLinkStatus` not working which in turn breaks darcs. The fix is given in the ticket.
+
+TODO attach a patch for ghc-6.8.3, send in a patch for ghc-6.10.x and HEAD.
+
+## Using GMP and other libs from non-standard locations
+
+
+The gmp library is not a standard system library on Solaris. It can usually be installed from a third party binary package collection or built from source. Either way it will usually not be on the standard cpp include path or the standard static linker path, or the standard dynamic linker path.
+
+
+We can handle the first two aspects with these `./configure` flags `--with-gmp-includes` and `--with-gmp-libraries`.
+
+
+For example, using gmp installed from the 'blastwave' package collection:
+
+```wiki
+./configure --with-gmp-includes=/opt/csw/include --with-gmp-libraries=/opt/csw/lib
+```
+
+
+However to actually run programs compiled by ghc (such as stage1) that use gmp from this location we need to link them in such a way that they will find the gmp lib at runtime. The best way is to use the `-R` linker flag to 'bake in' the right path.
+
+
+This can be specified in the `mk/build.mk` file by using:
+
+```wiki
+SRC_HC_OPTS=-optl-R/opt/csw/lib
+```
+
+TODO check this works, it was only tested with a bootstrapping ghc that always used the above flag, baked into the driver shell script. In that case only `GhcStage2HcOpts=-optl-R/opt/csw/lib` was needed.
+
+## Split objects
+
+
+With the right toolchain this can work. It's been tested on Solaris 10 with ghc-6.8.3, gcc-4.1.2 and the system (not GNU) binutils (ie as, ld etc from /usr/ccs/bin).
+
+
+If you run into problems however turn it off by adding this to your `mk/build.mk`:
+
+```wiki
+SplitObjs=NO
+```
+
+## Putting it all together
+
+
+This example uses ghc-6.8.3 on Solaris 10, using gmp and other tools from the 'blastwave' collection installed in `/opt/csw`. The gcc is 4.1.2 install in `/opt/ghc-vanilla/4.1.2/bin`. The bootstrapping ghc is the binary from the ghc download page installed in `/opt/ghc-bin`.
+
+
+The `mk/build.mk` file is
+
+```wiki
+SRC_HC_OPTS=-optl-R/opt/csw/lib
+SplitObjs=YES
+```
+
+
+The `$PATH`
+
+```wiki
+export PATH=/opt/gcc-vanilla/4.1.2/bin:/opt/csw/bin:/usr/bin:/usr/ccs/bin
+```
+
+
+The `./configure` options
+
+```wiki
+./configure --prefix=/opt/ghc \
+            --with-ghc=/opt/ghc-bin/bin/ghc \
+            --with-gcc=/opt/gcc-vanilla/4.1.2/bin/gcc \
+            --with-gmp-includes=/opt/csw/include \
+            --with-gmp-libraries=/opt/csw/lib
+```
+
+TODO link to expected testsuite results.
