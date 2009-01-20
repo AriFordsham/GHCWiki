@@ -92,6 +92,9 @@ If you run into problems however turn it off by adding this to your `mk/build.mk
 SplitObjs=NO
 ```
 
+
+Note that to use split objects at the moment you need your gcc to default to the SPARC V9 ABI or to tell ghc to tell gcc to use the V9 ABI it when assembling (`-opta-mcpu=v9`) otherwise you'll hit bug [\#2872](https://gitlab.haskell.org//ghc/ghc/issues/2872).
+
 ## Putting it all together
 
 
