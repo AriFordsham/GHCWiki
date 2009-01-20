@@ -42,6 +42,7 @@ Platform-specific guidance
 - [Platforms, scripts, and file names](building/platforms-scripts-file-names)
 - [Building under Windows](building/windows)
 - [Building under MacOS X](building/mac-osx)
+- [Building under Solaris](building/solaris)
 
 
 FAQ
