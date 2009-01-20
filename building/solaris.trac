@@ -106,4 +106,8 @@ gmake -j4
 
 If you are lucky enough to have a box with lots of CPU cores then use them! Sadly the maximum number that it can actually use effectively is around 4. Hopefully the new build system in ghc-6.11 and later will be able to use more.
 
-TODO: link to expected testsuite results.
+== TODO ==
+
+ * link to expected testsuite results.
+ * how to make ghc use `-R/opt/csw/lib` for everything it builds (it get it into the rts pkg conifg)
+ * how to make sure it really does get built with readline support
