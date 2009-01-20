@@ -99,4 +99,11 @@ The `./configure` options
             --with-gmp-libraries=/opt/csw/lib
 }}}
 
+Remember of course that you must use GNU make, not the system make. The Solaris 10 `/usr/sfw/bin/gmake` should do. Any other GNU make that you install from a third party repository should also be ok.
+{{{
+gmake -j4
+}}}
+
+If you are lucky enough to have a box with lots of CPU cores then use them! Sadly the maximum number that it can actually use effectively is around 4. Hopefully the new build system in ghc-6.11 and later will be able to use more.
+
 TODO: link to expected testsuite results.
