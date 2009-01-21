@@ -23,6 +23,7 @@ GCC version 4.1.x and 4.0.x seem to be fine. 4.1.2 is recommended.
 
 
 GCC version 3.4.x is reported to mis-compile the runtime system leading to a runtime error `schedule: re-entered unsafely`.
+But such a gcc version is sufficient for most user programs in case you just installed a ghc binary distribution.
 
 
 GHC has not yet been updated to understand the assembly output of GCC version 4.3.x.
