@@ -11,6 +11,7 @@ If you're on a recent Linux system, then you should be able to get a working bui
  * gmp-devel
  * autoconf
  * automake
+ * libtool
  * gcc
  * make
  * perl
