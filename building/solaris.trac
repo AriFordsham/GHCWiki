@@ -97,7 +97,7 @@ In the editing step you need to add the `-R/path/to/gmp/lib` to the `ld-options`
 
 As with gmp, we need to tell `./configure` about the location of `readline`. Be careful here because it may look like you are building with readline support when in fact you are not.
 
-Using the `--with-gmp-includes=` `--with-gmp-libraries=` flags are enough to get the top level `./configure` script to believe that using readline will work, if you happen to have gmp and readline installed under the same prefix. However it is not enough for the Haskell readline package's configure script. Unfortunately that one gets run half way through the build process (after building stage1) and if it fails it does so silently and the readline feature is simply not used. This means you end up with a useless ghci.
+Using the `--with-gmp-includes=` `--with-gmp-libraries=` flags are enough to get the top level `./configure` script to believe that using readline will work, if you happen to have gmp and readline installed under the same prefix. However it is not enough for the Haskell readline package's configure script. Unfortunately that one gets run half way through the build process (after building stage1) and if it fails it does so silently and the readline feature is simply not used. This means you end up with a useless ghci. See #2970.
 
 So it is necessary to pass these flags to `./configure`:
 
@@ -111,13 +111,7 @@ If you want to double-check that ghci really did get built with readline support
 ldd compiler/stage2/ghc-6.8.3
 }}}
 
-And check that it really does link to readline. It is also worth checking at this point that ghc will run without `LD_LIBRARY_PATH` set:
-
-{{{
-LD_LIBRARY_PATH="" ldd compiler/stage2/ghc-6.8.3
-}}}
-
-This should all libs as being found.
+And check that it really does link to readline.
 
 == Split objects ==
 
@@ -168,6 +162,17 @@ gmake -j4
 
 If you are lucky enough to have a box with lots of CPU cores then use them! Sadly the maximum number that it can actually use effectively is around 4. Hopefully the new build system in ghc-6.11 and later will be able to use more.
 
+It is worth checking at this point that ghc will run without `LD_LIBRARY_PATH` set:
+
+{{{
+unset LD_LIBRARY_PATH
+ldd compiler/stage2/ghc-6.8.3
+}}}
+
+This should report all libs as being found. (If you expect to use readline then check it is also linked to readline.)
+
+Now to install:
+
 {{{
 sudo gmake install
 }}}
@@ -196,5 +201,3 @@ $ ./Hello
 == TODO ==
 
  * link to expected testsuite results.
- * how to make ghc use `-R/opt/csw/lib` for everything it builds (it get it into the rts pkg conifg)
- * how to make sure it really does get built with readline support
