@@ -3,6 +3,27 @@
 
 These instructions have only been checked for GHC 6.8.3 on Solaris 10 on SPARC. It should mostly apply to later versions of GHC, Solaris 8 and later and perhaps Solaris on x86.
 
+
+A common theme in these instructions is the issue that required tools and libraries are not part of the standard system set and the need for us to set various flags to tell the build system where to find them. For the sake of being concrete, the instructions below use the example of packages from the [ blastwave.org](http://www.blastwave.org/) collection which get installed under the `/opt/csw` prefix. You can substitute your own path (or paths) as appropriate to your system.
+
+## Using a bootstrapping GHC
+
+
+You can either get the binary from the ghc download page or use some other pre-existing ghc binary.
+
+
+The binary from the ghc download page depends on `gmp`, `readline` and `ncurses`, none of which are on the default runtime linker search path. It is necessary therefore to set the `LD_LIBRARY_PATH`, either in the ghc driver shell script or in the environment while doing the build. The latter is simpler:
+
+```wiki
+export LD_LIBRARY_PATH=/opt/csw/lib
+```
+
+
+Note: part of the aim of these instructions is to build a ghc that will not require the use of `LD_LIBRARY_PATH`. That is, it should not be required to run ghc itself, or any of the programs built by ghc.
+
+
+In the example below we will assume that the bootstrapping ghc is installed in `/opt/ghc-bin` and that our final ghc will be installed to `/opt/ghc`.
+
 ## Using the right GCC
 
 ### Avoid the system GCC versions
@@ -23,7 +44,7 @@ GCC version 4.1.x and 4.0.x seem to be fine. 4.1.2 is recommended.
 
 
 GCC version 3.4.x is reported to mis-compile the runtime system leading to a runtime error `schedule: re-entered unsafely`.
-But such a gcc version is sufficient for most user programs in case you just installed a ghc binary distribution.
+But such a gcc version is sufficient for most user programs in case you just installed a ghc binary distribution. 
 
 
 GHC has not yet been updated to understand the assembly output of GCC version 4.3.x.
@@ -44,7 +65,7 @@ For example:
 
 ```wiki
 export PATH=/opt/gcc-vanilla/bin:$PATH
-./configure --with-gcc=/opt/gcc-vanilla/bin/gcc
+./configure --with-gcc=/opt/gcc-vanilla/4.1.2/bin/gcc
 ```
 
 ## Fixing the `unix` package
@@ -54,7 +75,7 @@ At the time of writing the `unix` package gets built wrong (see [\#2969](https:/
 
 TODO attach a patch for ghc-6.8.3, send in a patch for ghc-6.10.x and HEAD.
 
-## Using GMP and other libs from non-standard locations
+## Using GMP from a non-standard location
 
 
 The gmp library is not a standard system library on Solaris. It can usually be installed from a third party binary package collection or built from source. Either way it will usually not be on the standard cpp include path or the standard static linker path, or the standard dynamic linker path.
@@ -63,7 +84,7 @@ The gmp library is not a standard system library on Solaris. It can usually be i
 We can handle the first two aspects with these `./configure` flags `--with-gmp-includes` and `--with-gmp-libraries`.
 
 
-For example, using gmp installed from the 'blastwave' package collection:
+For example:
 
 ```wiki
 ./configure --with-gmp-includes=/opt/csw/include --with-gmp-libraries=/opt/csw/lib
@@ -80,6 +101,53 @@ SRC_HC_OPTS=-optl-R/opt/csw/lib
 ```
 
 TODO check this works, it was only tested with a bootstrapping ghc that always used the above flag, baked into the driver shell script. In that case only `GhcStage2HcOpts=-optl-R/opt/csw/lib` was needed.
+
+
+Additionally, the `--with-gmp-`\* flags ensure that when using the resulting ghc, that it will be able to link programs to gmp. That is `ghc --make Hello.hs` will actually compile because it will pass `-L/opt/csw/lib` when linking it. However as before, while it links this does not ensure that the resulting program will run. We also need to tell the dynamic linker to look in the gmp lib dir. To get ghc to pass `-R` as well as `-L` we need to alter the registration information for the rts package.
+
+
+Note that this currently needs to be done after installation. See 2933\# about integrating it into the build process.
+
+```wiki
+ghc-pkg describe rts > rts.pkg
+vim rts.pkg
+ghc-pkg update rts.pkg
+```
+
+
+In the editing step you need to add the `-R/path/to/gmp/lib` to the `ld-options` field.
+
+## Using readline from a non-standard location
+
+
+As with gmp, we need to tell `./configure` about the location of `readline`. Be careful here because it may look like you are building with readline support when in fact you are not.
+
+
+Using the `--with-gmp-includes=``--with-gmp-libraries=` flags are enough to get the top level `./configure` script to believe that using readline will work, if you happen to have gmp and readline installed under the same prefix. However it is not enough for the Haskell readline package's configure script. Unfortunately that one gets run half way through the build process (after building stage1) and if it fails it does so silently and the readline feature is simply not used. This means you end up with a useless ghci.
+
+
+So it is necessary to pass these flags to `./configure`:
+
+```wiki
+./configure --with-readline-includes=/opt/csw/include --with-readline-libraries=/opt/csw/lib
+```
+
+
+If you want to double-check that ghci really did get built with readline support before you install it then run:
+
+```wiki
+ldd compiler/stage2/ghc-6.8.3
+```
+
+
+And check that it really does link to readline. It is also worth checking at this point that ghc will run without `LD_LIBRARY_PATH` set:
+
+```wiki
+LD_LIBRARY_PATH="" ldd compiler/stage2/ghc-6.8.3
+```
+
+
+This should all libs as being found.
 
 ## Split objects
 
@@ -99,7 +167,7 @@ Note that to use split objects at the moment you need your gcc to default to the
 ## Putting it all together
 
 
-This example uses ghc-6.8.3 on Solaris 10, using gmp and other tools from the 'blastwave' collection installed in `/opt/csw`. The gcc is 4.1.2 install in `/opt/ghc-vanilla/4.1.2/bin`. The bootstrapping ghc is the binary from the ghc download page installed in `/opt/ghc-bin`.
+This example uses ghc-6.8.3 on Solaris 10, using gmp and other tools installed in `/opt/csw`. The gcc is 4.1.2 installed in `/opt/ghc-vanilla/4.1.2/bin`. The bootstrapping ghc is the binary from the ghc download page installed in `/opt/ghc-bin`.
 
 
 The `mk/build.mk` file is
@@ -117,6 +185,13 @@ export PATH=/opt/gcc-vanilla/4.1.2/bin:/opt/csw/bin:/usr/bin:/usr/ccs/bin
 ```
 
 
+The `LD_LIBRARY_PATH`
+
+```wiki
+export LD_LIBRARY_PATH=/opt/csw/lib
+```
+
+
 The `./configure` options
 
 ```wiki
@@ -125,6 +200,8 @@ The `./configure` options
             --with-gcc=/opt/gcc-vanilla/4.1.2/bin/gcc \
             --with-gmp-includes=/opt/csw/include \
             --with-gmp-libraries=/opt/csw/lib
+            --with-readline-includes=/opt/csw/include \
+            --with-readline-libraries=/opt/csw/lib
 ```
 
 
@@ -136,6 +213,33 @@ gmake -j4
 
 
 If you are lucky enough to have a box with lots of CPU cores then use them! Sadly the maximum number that it can actually use effectively is around 4. Hopefully the new build system in ghc-6.11 and later will be able to use more.
+
+```wiki
+sudo gmake install
+```
+
+
+Remember that you will now need to modify the `rts` package for the newly installed ghc so that the programs it builds will be able to find the gmp lib at runtime. See the section above on using gmp from a non-standard location for more details.
+
+```wiki
+export PATH=/opt/ghc/bin:$PATH
+ghc-pkg describe rts > rts.pkg
+vim rts.pkg     # add -R/opt/csw/lib to the ld-options field.
+ghc-pkg update rts.pkg
+```
+
+
+Now check that compiling and running a hello world program works:
+
+```wiki
+$ unset LD_LIBRARY_PATH
+$ which ghc
+/opt/ghc/bin/ghc
+$ echo 'main = print "hello"' > Hello.hs
+$ ghc --make Hello.hs
+$ ./Hello
+"hello"
+```
 
 ## TODO
 
