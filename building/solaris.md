@@ -120,6 +120,9 @@ ghc-pkg update rts.pkg
 
 In the editing step you need to add the `-R/path/to/gmp/lib` to the `ld-options` field.
 
+
+Again, it may easier to avoid possibly wrong `-L` or `-R` linker flags (being baked in) and just leave it to the user to set up a proper `$LD_LIBRARY_PATH`.
+
 ## Using readline from a non-standard location
 
 
