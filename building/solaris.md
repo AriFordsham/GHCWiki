@@ -35,7 +35,7 @@ On Solaris 10, the `/usr/bin/gcc` is a version that uses Sun's code generator ba
 The `/usr/sfw/bin/gcc` version (at least on Solaris 10) is 3.4.x which is reported to have problems, see below.
 
 
-It is recommended therefor to install another gcc package, either from some Solaris binary package or to build a vanilla gcc from source.
+It is recommended therefore to install another gcc package, either from some Solaris binary package or to build a vanilla gcc from source.
 
 ### Selecting a good GCC version
 
@@ -67,6 +67,9 @@ For example:
 export PATH=/opt/gcc-vanilla/bin:$PATH
 ./configure --with-gcc=/opt/gcc-vanilla/4.1.2/bin/gcc
 ```
+
+
+Of course, it may also make sense to omit the `--with-gcc=` flag (with an exotic path) and leave it to the user to ensure the proper `gcc` is found via the $PATH\`.
 
 ## Fixing the `unix` package
 
