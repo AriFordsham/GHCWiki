@@ -34,12 +34,12 @@ It is recommended therefore to install another gcc package, either from some Sol
 
 GCC version 4.1.x and 4.0.x seem to be fine. 4.1.2 is recommended.
 
-GCC version 3.4.x is reported to mis-compile the runtime system leading to a runtime error `schedule: re-entered unsafely`.
+GCC version 3.4.x is reported (#951) to mis-compile the runtime system leading to a runtime error `schedule: re-entered unsafely`.
 But such a gcc version is sufficient for most user programs in case you just installed a ghc binary distribution. 
 
 GHC has not yet been updated to understand the assembly output of GCC version 4.3.x.
 
-GCC version 4.2.x works but takes hours and hours to build the large `.hc` files that GHC generates. It is reported that particular modules can take upwards of 5 hours and the overall build takes a couple days.
+GCC version 4.2.x works but takes hours and hours to build the large `.hc` files that GHC generates. It is reported (#1293, #2906) that particular modules can take upwards of 5 hours and the overall build takes a couple days.
 
 == Using GCC from a non-standard location ==
 
