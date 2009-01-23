@@ -17,7 +17,7 @@ The binary from the ghc download page depends on `gmp`, `readline` and `ncurses`
 export LD_LIBRARY_PATH=/opt/csw/lib
 }}}
 
-Note: part of the aim of these instructions is to build a ghc that will not require the use of `LD_LIBRARY_PATH`. That is, it should not be required to run ghc itself, or any of the programs built by ghc.
+Note: part of the aim of these instructions is to build a ghc that will not require the use of `LD_LIBRARY_PATH`. That is, it should not be required to run ghc itself, or any of the programs built by ghc. This is appropriate for installing on a single machine or a set of identically configured machine, or for a binary package collection. However this is not appropriate if you are trying to build a generic, relocatable, redistributable binary package. In that case you do not want to hard code the location of libraries or programs and the user of the package will have to set their `$PATH` and `LD_LIBRARY_PATH` appropriately. The differences are noted below.
 
 In the example below we will assume that the bootstrapping ghc is installed in `/opt/ghc-bin` and that our final ghc will be installed to `/opt/ghc`.
 
@@ -54,7 +54,7 @@ export PATH=/opt/gcc-vanilla/bin:$PATH
 ./configure --with-gcc=/opt/gcc-vanilla/4.1.2/bin/gcc
 }}}
 
-Of course, it may also make sense to omit the `--with-gcc=` flag (with an exotic path) and leave it to the user to ensure the proper `gcc` is found via the $PATH`.
+Of course, if you are building a relocatable binary package then it makes sense to omit the `--with-gcc=` flag (with an exotic path) and leave it to the user to ensure the proper `gcc` is found via the $PATH`.
 
 == Fixing the `unix` package ==
 
@@ -95,7 +95,7 @@ ghc-pkg update rts.pkg
 
 In the editing step you need to add the `-R/path/to/gmp/lib` to the `ld-options` field.
 
-Again, it may easier to avoid possibly wrong `-L` or `-R` linker flags (being baked in) and just leave it to the user to set up a proper `$LD_LIBRARY_PATH`.
+Again, if you are building a relocatable binary package then you will want to avoid `-L` or `-R` linker flags being baked in and instead require that the end user set an appropriate `$LD_LIBRARY_PATH`.
 
 == Using readline from a non-standard location ==
 
