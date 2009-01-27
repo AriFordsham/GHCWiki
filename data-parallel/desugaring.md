@@ -1,6 +1,3 @@
-
-\[{ShowPath\]\]
-
 ## Desugaring of array comprehensions
 
 
