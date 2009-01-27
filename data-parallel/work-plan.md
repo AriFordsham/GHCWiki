@@ -1,23 +1,5 @@
 ## Work plan for implementing Data Parallel Haskell
 
-### Categories
-
-
-Tasks below are labelled with categories that indicate the purpose of the task:
-
-<table><tr><th>*Efficiency*</th>
-<td>
-Improve scalability and/or baseline performance of generated code
-</td></tr>
-<tr><th>*Compile time*</th>
-<td>
-Improve compile times
-</td></tr>
-<tr><th>*Ease of use*</th>
-<td>
-Make the system easier or more convenient to use for end users
-</td></tr></table>
-
 ### Task assignments
 
 <table><tr><th>*Roman*</th>
@@ -30,16 +12,49 @@ Make the system easier or more convenient to use for end users
 – status: unknown
 </td></tr></table>
 
+<table><tr><th>*Gabi*</th>
+<td></td></tr></table>
+
+<table><tr><th>*Manuel*</th>
+<td>**Desugaring comprehensions**
+– status: not started
+</td></tr></table>
+
 ### Open tasks
 
-1. **Replicate** \[*Efficiency*\]: Implement an extended array representation that uses an optimised representation for arrays that are the result of common forms of replication (i.e., due to free variables in lifted expressions).  The optimised representation stores the data to be replicated and the replication count(s) instead of actually replicating the data.  This also requires all functions consuming arrays to be adapted.
 
-1. **Recycling** \[*Efficiency*\]: Use Roman's recycling optimisation (PADL'09) to avoid copying in `joinD`.
+Category: *efficiency* (improve scalability and/or baseline performance of generated code):
 
-1. **Scaling** \[*Efficiency*\]: Investigate the scaling problems that we are seeing with vectorised code at the moment.  (**Replicate** and **Recycling** play a role here, but it is unclear whether that's all.)
+- **Replicate:** Implement an extended array representation that uses an optimised representation for arrays that are the result of common forms of replication (i.e., due to free variables in lifted expressions).  The optimised representation stores the data to be replicated and the replication count(s) instead of actually replicating the data.  This also requires all functions consuming arrays to be adapted.
 
-1. **Test new inliner** \[*Compile time* & *Efficiency*\]: Retest package dph with new inliner and the simplifier changes and try to simplify the library on the basis of these new phases.
+- **Recycling:** Use Roman's recycling optimisation (PADL'09) to avoid copying in `joinD`.
 
-1. **Code blow up** \[*Compile time*\]: GHC generates a lot of intermediate code when vectorisation is enabled, leading to excessive compilation times.  Find out whether the new inliner helped here and what else can be done to improve this situation.
+- **Scaling:** Investigate the scaling problems that we are seeing with vectorised code at the moment.  (**Replicate** and **Recycling** play a role here, but it is unclear whether that's all.)
 
-1. **Conversion of vectorised representations** \[*Ease of use*\]: We need other than just identity conversions between vanilla and vectorised data representations, especially `[:a:] <-> PArray a`.  This will make the system more convenient to use.
+- **Test new inliner:** Retest package dph with new inliner and the simplifier changes and try to simplify the library on the basis of these new phases.
+
+- **Desugaring comprehensions:** The current desugaring of array comprehensions produces very inefficient code.  This needs to be improved.
+
+
+Category:  *Compile time* (improve compile times):
+
+- **Code blow up:** GHC generates a lot of intermediate code when vectorisation is enabled, leading to excessive compilation times.  Find out whether the new inliner helped here and what else can be done to improve this situation.
+
+
+Category: *Ease of use* (make the system easier or more convenient to use for end users):
+
+- **Conversion of vectorised representations:** We need other than just identity conversions between vanilla and vectorised data representations, especially `[:a:] <-> PArray a`.  This will make the system more convenient to use.
+
+- **Selective vectorisation:** The scheme from our DAMP'08 paper that enables mixing vectorised and unvectorised code in a single module.
+
+- **Unboxed values:** Extend vectorisation to handle unboxed values.
+
+- **Prelude:** Extend vectorisation to the point, where it can compile the relevant pieces of the standard Prelude, so that we can remove the DPH-specific mini-Prelude.  (Requires: **Unboxed values)
+  **
+
+
+Category: *Case studies* (benchmarks and example applications):
+
+- **Matrix representation:**
+
+- **N-body:** Get a fully vectorised n-body code to run.
