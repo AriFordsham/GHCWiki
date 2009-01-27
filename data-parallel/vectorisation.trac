@@ -4,6 +4,8 @@
 
 This page describes our approach to implementing vectorisation by extending our earlier implementation of closure conversion.  A central aspect is the ability to mix modules compiled with vectorisation with modules compiled without vectorisation.
 
+  '''The following description is incomplete.  For a detailed account of vectorisation, see [http://www.cse.unsw.edu.au/~chak/papers/PLKC08.html].'''
+
 
 === General strategy ===
 
@@ -105,28 +107,3 @@ Items that need to be addressed on the page:
  * Introduction of `PA` dictionary arguments right after each big lambda in vectorised code.
  * Transformation schemata
  * Examples
-
-
-----
-
-=== Old Material ===
-
-==== Vectorised functions ====
-
-Vectorised functions use an explicit closure representation:
-{{{
-data a :-> b 
-  = forall e. 
-      Cls { clsFun  :: !(e -> a -> b)
-          , clsAFun :: !(PArr e -> PArr a -> PArr b)
-          , clsEnv  :: e
-          }
-}}}
-with basic closure construction and application as
-{{{
-lam :: (a -> b) -> (a :-> b)
-lam f = Cls (const f) (const (mapP f)) ()
-
-($:) :: (a :-> b) -> a -> b
-(Cls f _ e) $: x = f e x
-}}}
