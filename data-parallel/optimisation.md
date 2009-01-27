@@ -1,5 +1,3 @@
-ShiwPath?
-
 ## Optimisation problems
 
 > **This page is outdated.**
