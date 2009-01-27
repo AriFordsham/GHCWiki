@@ -8,7 +8,7 @@
 </td></tr></table>
 
 <table><tr><th>*Simon*</th>
-<td>**Code blow up**
+<td>**CoreToStg** & **Code blow up**
 – status: unknown
 </td></tr></table>
 
@@ -23,6 +23,11 @@
 </td></tr></table>
 
 ### Open tasks
+
+
+Category: *Bugs*
+
+- **CoreToStg**: Compiling package dph with the HEAD currently results in `ASSERT failed! file stgSyn/CoreToStg.lhs line 239` (with a DEBUG compiler).
 
 
 Category: *Efficiency* (improve scalability and/or baseline performance of generated code):
