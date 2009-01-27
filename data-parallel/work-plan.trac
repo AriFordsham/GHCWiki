@@ -35,7 +35,7 @@ Category: ''Efficiency'' (improve scalability and/or baseline performance of gen
 
  * '''Test new inliner:''' Retest package dph with new inliner and the simplifier changes and try to simplify the library on the basis of these new phases.
 
- * '''Desugaring comprehensions:''' The current desugaring of array comprehensions produces very inefficient code.  This needs to be improved.
+ * '''Desugaring comprehensions:''' The current desugaring of array comprehensions produces very inefficient code.  This needs to be improved.  In particular, the `map/crossMap` base case in `dotP` for `x<-xs` and use `zipWith` instead of `map/zip`.
 
 Category:  ''Compile time'' (improve compile times):
 
