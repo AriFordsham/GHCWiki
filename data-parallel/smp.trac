@@ -1,3 +1,4 @@
+
 == Data parallelism on shared-memory machines ==
 
 The implementation of NDP on shared-memory machines is based on Concurrent Haskell; in the following, a thread is always a Haskell thread. Parallel computations are executed by several threads (a ''gang''), typically as many as there are processors or cores. The gang threads run continuously, waiting for work requests. Non-parallel code is executed in a separate thread (the main Haskell thread). Once it encounters a parallel computation, it passes work requests to the gang threads, such that each thread executes a part of the computation, blocks until the result becomes available and then resumes execution. For instance, `sumP [:1 .. n*n:] + 1` is roughly evaluated as follows:
