@@ -1,47 +1,45 @@
 ## Work plan for implementing Data Parallel Haskell
 
+### Categories
 
-Major milestones:
 
-<table><tr><th>**Milestone 1:** basic SMP library (End of Feb 2007)</th>
+Tasks below are labelled with categories that indicate the purpose of the task:
+
+<table><tr><th>*Efficiency*</th>
 <td>
-Implementation of the central parts of an array library of flat and segmented arrays that uses distributed types to partition work on an SMP thread gang and uses fusion to eliminate superflous join points and intermediate arrays. **\[Completed\]**</td></tr>
-<tr><th>**Milestone 2:** basic vectorisation (End of Aug 2007)</th>
-<td>
-Implementation of the vectorisation transformation and basic interaction of vectorised and non-vectorised code to provide (including the results from Milestone 1) a complete path from source programs to parallel executable for simple examples.
+Improve scalability and/or baseline performance of generated code
 </td></tr>
-<tr><th>**Milestone 2.5:** stocktake (by ICFP)</th>
+<tr><th>*Compile time*</th>
 <td>
-Technical report summarising the results so far & release of a first publicly announced end-to-end NDP system.
+Improve compile times
 </td></tr>
-<tr><th>**Milestone 3:** larger examples (End of Feb 2008)</th>
+<tr><th>*Ease of use*</th>
 <td>
-Optimisations and added functionality to handle larger example programs.
+Make the system easier or more convenient to use for end users
 </td></tr></table>
 
-### Current work items
+### Task assignments
 
+<table><tr><th>*Roman*</th>
+<td>**Replicate** & **Recycling**
+– status: partly implemented, but still needs serious work
+</td></tr></table>
 
-For vectorisation:
+<table><tr><th>*Simon*</th>
+<td>**Code blow up**
+– status: unknown
+</td></tr></table>
 
-- \[Roman, June/July\] Implement vectorisation transformation according to the scheme in `ghc-ndp/docs/ndp/`.
-- \[Manuel\] Work with Roman and in particular implement all the iface-related code (`HscTypes.VectInfo` and friends).
+### Open tasks
 
+1. **Replicate** \[*Efficiency*\]: Implement an extended array representation that uses an optimised representation for arrays that are the result of common forms of replication (i.e., due to free variables in lifted expressions).  The optimised representation stores the data to be replicated and the replication count(s) instead of actually replicating the data.  This also requires all functions consuming arrays to be adapted.
 
-For the library:
+1. **Recycling** \[*Efficiency*\]: Use Roman's recycling optimisation (PADL'09) to avoid copying in `joinD`.
 
-- \[Gabi\] Complete quicksort implementation.
+1. **Scaling** \[*Efficiency*\]: Investigate the scaling problems that we are seeing with vectorised code at the moment.  (**Replicate** and **Recycling** play a role here, but it is unclear whether that's all.)
 
-### Todo list for vectorisation
+1. **Test new inliner** \[*Compile time* & *Efficiency*\]: Retest package dph with new inliner and the simplifier changes and try to simplify the library on the basis of these new phases.
 
-- Implement the first version
-- Integeration with package ndp
-- Testing
+1. **Code blow up** \[*Compile time*\]: GHC generates a lot of intermediate code when vectorisation is enabled, leading to excessive compilation times.  Find out whether the new inliner helped here and what else can be done to improve this situation.
 
-### Todo list for package ndp
-
-- Lifted functions
-- Add missing functions
-- Fusion for segmented operations
-- Fusion with cost function
-- NUMA support
+1. **Conversion of vectorised representations** \[*Ease of use*\]: We need other than just identity conversions between vanilla and vectorised data representations, especially `[:a:] <-> PArray a`.  This will make the system more convenient to use.
