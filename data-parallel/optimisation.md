@@ -1,7 +1,9 @@
-# Optimisation problems
+## Optimisation problems
+
+> **This page is outdated.**
 
 
-This is a summary of the current optimisation problems we know about
+This is a summary of the current optimisation problems we know about.
 
 1. General remarks
 
