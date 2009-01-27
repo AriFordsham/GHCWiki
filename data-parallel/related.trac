@@ -1,4 +1,5 @@
-= Other work on nested data parallelism =
+
+== Other work on nested data parallelism ==
 
  * There is obviously all the work of Blelloch's group on [http://en.wikipedia.org/wiki/NESL NESL] including an implementation based on flattening.
 
