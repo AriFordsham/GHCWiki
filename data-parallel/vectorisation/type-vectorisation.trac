@@ -1,3 +1,4 @@
+
 == Type Vectorisation ==
 
 The transformation of types includes the generation of lifted types, the pairing of scalar with lifted computations, and closure conversion.
