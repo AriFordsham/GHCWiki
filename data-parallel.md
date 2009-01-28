@@ -21,7 +21,7 @@ Detailed information on how to use the current implementation is at the [ user-l
 
 - DPH [repositories](data-parallel/repositories)
 - Current [benchmark status](data-parallel/benchmark-status)
-- Our [work plan](data-parallel/work-plan) (needs to be updated!)
+- Our [work plan](data-parallel/work-plan)
 - Some early [benchmarks](data-parallel/benchmarks) from 2007
 
 ## Old material
