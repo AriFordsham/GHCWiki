@@ -31,6 +31,7 @@
 
 ### Other performance
 
+- [\#2988](https://gitlab.haskell.org//ghc/ghc/issues/2988): better float-in
 - [\#2940](https://gitlab.haskell.org//ghc/ghc/issues/2940): do CSE after `CorePrep`
 - [\#2670](https://gitlab.haskell.org//ghc/ghc/issues/2670): record selectors behaving badly wrt optimisation
 - [\#1434](https://gitlab.haskell.org//ghc/ghc/issues/1434): Slow conversion Double to Int        
