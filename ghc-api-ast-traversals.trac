@@ -16,10 +16,6 @@ Since Ghc does support (standalone) deriving of `Data` and `Typeable`, it seems 
 }}}
 ''update (30/01/2009)'': by now, most code of `syb-utils` has moved to maintained packages, either [http://hackage.haskell.org/cgi-bin/hackage-scripts/package/syb `syb`] or [http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-syb `ghc-syb`]. 
 
-- until recently, standalone deriving of `Data/Typeable` was broken (#2378, fixed in HEAD, 01.07.08)
-
-- standalone deriving of `Typeable` fails if data constructors are not in scope - this looks like a bug (#2433, fixed in HEAD, 04.08.08)
-
 - standalone deriving of `Data` fails if data constructors are not in scope - this means that `Data` instances are in conflict with the intended data abstraction for some Ghc Ast types!
 
 - using the internal CPP hackery of `Data.Generics` for `Typeable`, standalone deriving of `Data` for non-abstract types, and the traditional manual dummy `Data` instances for abstract types, it seems we can get initial `Data.Generics` support over the Ghc Ast types!
@@ -36,8 +32,6 @@ instance Data SrcSpan where
   dataTypeOf _ = mkNorepType "SrcSpan"
 }}}
   TODO: Is that ok, or is it going to cause problems?
-
-- putting all those instances in a single file seems to trigger a memory bug in the compiler (#2438), but splitting them into two files appears to avoid that. See the attached `Instances` and `Instances0`
 
 - for starters, here's a `Data`-based show that shows the constructors/abstract types instead of pretty-printing them:
 {{{
