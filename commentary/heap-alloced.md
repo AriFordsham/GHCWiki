@@ -47,23 +47,13 @@ Disadvantages:
   
 
 - references to static objects go through another indirection.  
-  ** when doing dynamic linking, references to static objects in another package
-  **
 
-> >
-> > already go through an indirection and we could arrange that only one indirection is required.
->
-> ** References to static closures from the the fields of a static constructor would not incur the extra indirection,
-> **
->
-> >
-> > only direct references to static closures from code.
->
-> ** we currently reference the static closure of a function from the heap-check-fail code, but in fact
-> **
->
-> >
-> > we only really need to pass the info pointer.
+  - when doing dynamic linking, references to static objects in another package
+    already go through an indirection and we could arrange that only one indirection is required.
+  - References to static closures from the the fields of a static constructor would not incur the extra indirection,
+    only direct references to static closures from code.
+  - we currently reference the static closure of a function from the heap-check-fail code, but in fact
+    we only really need to pass the info pointer.
 
 
 Advantages
