@@ -1,19 +1,28 @@
 ## Work plan for implementing Data Parallel Haskell
 
+### Milestones
+
+1. **DUE 6 March.** Solve major performance and scalability problems for our current benchmarks.  Try to get a performance advantage over plain Haskell on LimitingFactor (i.e., 8 cores).
+1. **DUE 30 March.** Presentation for *Microsoft External Research Symposium*.
+
 ### Task assignments
 
 <table><tr><th>*Roman*</th>
-<td>**Replicate** & **Recycling**
+<td>**Replicate** & [\#2984](https://gitlab.haskell.org//ghc/ghc/issues/2984) & **Recycling**
 – status: partly implemented, but still needs serious work
+
+- To use the special representation of task **Replicate** most effectively, we would *again* need different views on arrays together with a cost function and optimisation rules taking the cost function into account.  That requires a lot of work!
+- We decided that, for the moment, Roman will first try to integrate the replication representation directly and see how far that gets us.  Maybe it helps at least with some examples and gives us something somewhat usable more quickly.
+
 </td></tr></table>
 
 <table><tr><th>*Simon*</th>
-<td>**CoreToStg** & **Code blow up**
+<td>**Code blow up**
 – status: unknown
 </td></tr></table>
 
 <table><tr><th>*Gabi*</th>
-<td>**Hierarchical matrix representation**
+<td>**Hierarchical matrix representation** & **Benchmark status**
 – status: just started
 </td></tr></table>
 
@@ -27,7 +36,7 @@
 
 Category: *Bugs*
 
-- **CoreToStg**: Compiling package dph with the HEAD currently results in `ASSERT failed! file stgSyn/CoreToStg.lhs line 239` (with a DEBUG compiler).
+- [\#2984](https://gitlab.haskell.org//ghc/ghc/issues/2984)
 
 
 Category: *Efficiency* (improve scalability and/or baseline performance of generated code):
@@ -63,4 +72,12 @@ Category: *Case studies* (benchmarks and example applications):
 
 - **Hierarchical matrix representation:** Sparse matrices can be space-efficiently represented by recursively decomposing them into four quadrants.  Decomposition stops if a quadrant is smaller than a threshold or contains only zeros.  Multiplication of such matrices is straight forward using Strassen's divide-and-conquer scheme, which is popular for parallel implementations.  Other operations, such as transposing a matrix, can also be efficiently implemented.  The plan is to experiment with the implementation of some BLAS routines using this representation.
 
+- **Benchmark status:** Update and complete [DataParallel/BenchmarkStatus](data-parallel/benchmark-status).
+
 - **N-body:** Get a fully vectorised n-body code to run and scale well on LimitingFactor.
+
+---
+
+### Done
+
+- **CoreToStg**: Compiling package dph with the HEAD currently results in `ASSERT failed! file stgSyn/CoreToStg.lhs line 239` (with a DEBUG compiler).
