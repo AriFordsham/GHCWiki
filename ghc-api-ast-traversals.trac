@@ -14,6 +14,7 @@ Since Ghc does support (standalone) deriving of `Data` and `Typeable`, it seems 
 {{{
     darcs get http://www.cs.kent.ac.uk/~cr3/toolbox/haskell/syb-utils
 }}}
+''update (30/01/2009)'': by now, most code of `syb-utils` has moved to maintained packages, either [http://hackage.haskell.org/cgi-bin/hackage-scripts/package/syb `syb`] or [http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-syb `ghc-syb`]. 
 
 - until recently, standalone deriving of `Data/Typeable` was broken (#2378, fixed in HEAD, 01.07.08)
 
