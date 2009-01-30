@@ -16,7 +16,7 @@ On a 64-bit machine, it's a bit more difficult.  The current method (GHC 6.10.1 
 
 We should consider how to speed up `HEAP_ALLOCED()` for large heaps on 64-bit machines.  This involves some kind of cache arrangement - the memory map is like a page table, and we want a cache that gives us quick access to commonly accessed parts of that map.
 
-The attached patch implements one such scheme.  Measurements show that it slows down GC by about 20% for small heaps (hence it wasn't committed), though it would probably speed up GC on large heaps.
+[attachment:faster-heap-alloced.patch.gz] implements one such scheme.  Measurements show that it slows down GC by about 20% for small heaps (hence it wasn't committed), though it would probably speed up GC on large heaps.
 
 == Eliminating `HEAP_ALLOCED` completely ==
 
@@ -26,7 +26,7 @@ Can we eliminate `HEAP_ALLOCED` altogether?  We must arrange that all closure po
 
 ELF sections can be arbitrarily aligned.  So we could put all our static closures in a special section, align the section to 1MB, and arrange that there is space at the beginning of the section for the block descriptors.
 
-This almost works (see attached patch), but sadly fails for shared libraries: the system dynamic linker doesn't honour section-alignment requests larger than a page, it seems.
+This almost works (see [attachment:eliminate-heap-alloced.patch.gz]), but sadly fails for shared libraries: the system dynamic linker doesn't honour section-alignment requests larger than a page, it seems.
 
 === Method 2: copy static closures into a special area at startup ===
 
