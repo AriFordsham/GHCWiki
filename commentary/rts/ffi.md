@@ -2,5 +2,4 @@
 
 ---
 
-
-\[[CategoryStub](category-stub)\]
+[CategoryStub](category-stub)
