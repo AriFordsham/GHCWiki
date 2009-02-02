@@ -1,1 +1,5 @@
 # GHC Commentary: The byte-code interpreter and dynamic linker
+
+---
+
+[CategoryStub](category-stub)
