@@ -38,6 +38,7 @@
      * We  need to know of types whether they are rigid (not only whether they contain unification variables).  We can achieve that by a flag in the environment that indicates whether the computation of that type involved non-rigid type variables.
 
  * Misc:
+  * #2658
   * #2721 (generalised newtype deriving for classes with associated types)
   * `TcPat` and `TcUnify` (and maybe other modules) still have calls to the unification engine that ignore the returned coercion!!
   * Test `Simple17` (corelint error as a dict binding, used to specialise a call to a local function, floats out too far)
