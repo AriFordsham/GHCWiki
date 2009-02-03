@@ -8,11 +8,12 @@
 ### Task assignments
 
 <table><tr><th>*Roman*</th>
-<td>**Replicate** & [\#2984](https://gitlab.haskell.org//ghc/ghc/issues/2984) & **Recycling**
+<td>**New build system**, **Template Haskell**, **Replicate**, [\#2984](https://gitlab.haskell.org//ghc/ghc/issues/2984) & **Recycling**
 – status: partly implemented, but still needs serious work
 
 - To use the special representation of task **Replicate** most effectively, we would *again* need different views on arrays together with a cost function and optimisation rules taking the cost function into account.  That requires a lot of work!
 - We decided that, for the moment, Roman will first try to integrate the replication representation directly and see how far that gets us.  Maybe it helps at least with some examples and gives us something somewhat usable more quickly.
+- However, before any further major changes to the library, Roman needs to first re-arrange things such that the library boilerplate is generated, instead of being hardcode; otherwise, changes require a lot of tiresome code editing.  Unfortunately, that lands us in build system hell again, as we can only use TH if package dph is built in stage2.  (Is this easy(?) to achieve with the current build system, or do we want the new one for that?)
 
 </td></tr></table>
 
@@ -75,6 +76,13 @@ Category: *Case studies* (benchmarks and example applications):
 - **Benchmark status:** Update and complete [DataParallel/BenchmarkStatus](data-parallel/benchmark-status).
 
 - **N-body:** Get a fully vectorised n-body code to run and scale well on LimitingFactor.
+
+
+Category: *Infrastructure* (fiddling with GHC's build system and similar infrastructure):
+
+- **New build system:** Evaluate whether the preview of the new build system looks like it is what we want
+
+- **Template Haskell:** Arrange for package DPH to be build in stage2, so that we can use TH to generate library boilerplate & rewrite the library to generate the boilerplate that's currently hardcoded.
 
 ---
 
