@@ -45,6 +45,7 @@
 
 - Misc:
 
+  - [\#2999](https://gitlab.haskell.org//ghc/ghc/issues/2999) (should go away once we don't update coercion and unification variables during equality solving, but return a set of type variable bindings)
   - [\#2658](https://gitlab.haskell.org//ghc/ghc/issues/2658)
   - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types)
   - `TcPat` and `TcUnify` (and maybe other modules) still have calls to the unification engine that ignore the returned coercion!!
