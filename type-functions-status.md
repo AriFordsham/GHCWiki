@@ -45,7 +45,6 @@
 
 - Misc:
 
-  - [\#2999](https://gitlab.haskell.org//ghc/ghc/issues/2999) (should go away once we don't update coercion and unification variables during equality solving, but return a set of type variable bindings)
   - [\#2658](https://gitlab.haskell.org//ghc/ghc/issues/2658)
   - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types)
   - `TcPat` and `TcUnify` (and maybe other modules) still have calls to the unification engine that ignore the returned coercion!!
@@ -74,7 +73,7 @@
 
   - Step 1: Replace the existing improvement machinery for FDs by code that generates explicit equalities from the two FD rules.  Then, all improvement is by normalisation of equalities, which hopefully allows us to simplify `TcSimplify.reduceContext`.  (Apply this change when integrating the simplification of equalities and dictionaries.)
   - Step 2: Desugar FDs into TFs and superclass equalities.
-- ghci command to print normalised type and add [ http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799](http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799) as a test to the testsuite.
+- [\#3005](https://gitlab.haskell.org//ghc/ghc/issues/3005) & ghci command to print normalised type and add [ http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799](http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799) as a test to the testsuite.
 - Most general signatures for record selectors:
 
   ```wiki
