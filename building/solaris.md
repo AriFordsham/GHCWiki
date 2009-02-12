@@ -109,7 +109,7 @@ TODO check this works, it was only tested with a bootstrapping ghc that always u
 Additionally, the `--with-gmp-`\* flags ensure that when using the resulting ghc, that it will be able to link programs to gmp. That is `ghc --make Hello.hs` will actually compile because it will pass `-L/opt/csw/lib` when linking it. However as before, while it links this does not ensure that the resulting program will run. We also need to tell the dynamic linker to look in the gmp lib dir. To get ghc to pass `-R` as well as `-L` we need to alter the registration information for the rts package.
 
 
-Note that this currently needs to be done after installation. See 2933\# about integrating it into the build process.
+Note that this currently needs to be done after installation. See [\#2933](https://gitlab.haskell.org//ghc/ghc/issues/2933) about integrating it into the build process.
 
 ```wiki
 ghc-pkg describe rts > rts.pkg
