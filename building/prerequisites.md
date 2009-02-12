@@ -45,6 +45,11 @@ See [Building/Windows](building/windows).  ToDo: move the relevant parts of the 
 
 See [Building/MacOSX](building/mac-osx).  ToDo: move the relevant parts of the docs here.
 
+## Preparing a Solaris system
+
+
+See [Building/Solaris](building/solaris).  ToDo: move the relevant parts of the docs here.
+
 ## Other systems
 
 
