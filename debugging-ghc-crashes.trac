@@ -41,6 +41,9 @@ Usually you want to do something along these lines:
    version of the runtime, that includes extra assertions, debugging
    code, and debugging info for gdb.
 
+ * Don't compile with {{{-threaded}}} (assuming the bug still happens
+   with the non-threaded runtime).
+
  * Grab our [attachment:".gdbinit" gdb macros].
 
  * Run the program in gdb until it crashes, type {{{where}}} to find

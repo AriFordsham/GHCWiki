@@ -45,6 +45,9 @@ Usually you want to do something along these lines:
   version of the runtime, that includes extra assertions, debugging
   code, and debugging info for gdb.
 
+- Don't compile with `-threaded` (assuming the bug still happens
+  with the non-threaded runtime).
+
 - Grab our [gdb macros](/trac/ghc/attachment/wiki/DebuggingGhcCrashes/.gdbinit)[](/trac/ghc/raw-attachment/wiki/DebuggingGhcCrashes/.gdbinit).
 
 - Run the program in gdb until it crashes, type `where` to find
