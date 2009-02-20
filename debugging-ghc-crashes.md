@@ -21,7 +21,9 @@ This is quite scary, for a few reasons:
   - when the crash happens inside the runtime, you can use the usual
     C debugging facilities of gdb with full backtrace and
     source-level debugging.  (make sure you use a `-debug`
-    version of the runtime to get the debug info, though).
+    version of the runtime to get the debug info, though, and if
+    the bug happens with the non-threaded runtime then that will also
+    simplify things).
   - when the crash happens inside a foreign call invoked by Haskell
     code.  In this case you'll be able to see which Haskell fragment
     invoked the foreign call (it'll be something like
