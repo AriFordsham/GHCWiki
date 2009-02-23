@@ -37,6 +37,16 @@ sh boot
 ./configure && make
 ```
 
+
+Note, on Windows you may have to change git's line-ending behaviour first:
+
+```wiki
+git config --global core.autocrlf false
+```
+
+
+since this is a global setting, you probably want to change it back after cloning ghc, and then set it locally for the GHC repo(s).
+
 ## Getting a GHC source tree using darcs
 
 
