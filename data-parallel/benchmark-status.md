@@ -25,10 +25,11 @@ Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache
 <tr><th> DotP, primitives </th>
 <th> 10M elements </th>
 <th> 823/823/824 </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
+<th> 812/813/815 </th>
+<th> 408/408/409 </th>
+<th> 220/223/227 </th>
+<th> 210/214/221 
+</th></tr>
 <tr><th> DotP, vectorised </th>
 <th> 10M elements </th>
 <th> 823/824/824 </th>
@@ -39,6 +40,8 @@ Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache
 
 
 All results are in milliseconds, and the triples report best/average/worst execution case time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "N cores" report times when linked against `dph-par` and run in parallel on the specified number of processor cores.
+
+**NB:** At the moment, the CPU times goes up proportional to the number of cores added beyond four cores (hence, no wall clock speed up beyond four cores).  Not clear where this comes from.
 
 ---
 
