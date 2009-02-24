@@ -24,29 +24,6 @@ In addition to fixed releases of GHC, source distributions are also made each ni
 
 Source distributions are easier to build, because we also include the output from running certain external tools like [ Happy](http://haskell.org/happy), so you don't need to install these tools.  See [Building/Prerequisites](building/prerequisites) for details.
 
-## Getting a GHC source tree using git
-
-
-The first thing to do is install [ darcs](http://darcs.net/) and [ git](http://git.or.cz/).
-
-```wiki
-git clone http://darcs.haskell.org/ghc.git ghc
-cd ghc
-./sync-all --complete get
-sh boot
-./configure && make
-```
-
-
-Note, on Windows you may have to change git's line-ending behaviour first:
-
-```wiki
-git config --global core.autocrlf false
-```
-
-
-since this is a global setting, you probably want to change it back after cloning ghc, and then set it locally for the GHC repo(s).
-
 ## Getting a GHC source tree using darcs
 
 
@@ -156,6 +133,32 @@ Optionally, you might want to grab the testsuite (if you have not already got it
 
 
 The full list of darcs repositories relating to GHC is at [DarcsRepositories](darcs-repositories).
+
+## Getting a GHC source tree using git
+
+
+NOTE: This is not yet supported. We currently recommend you use darcs to get a source tree.
+
+
+The first thing to do is install [ darcs](http://darcs.net/) and [ git](http://git.or.cz/).
+
+```wiki
+git clone http://darcs.haskell.org/ghc.git ghc
+cd ghc
+./sync-all --complete get
+sh boot
+./configure && make
+```
+
+
+Note, on Windows you may have to change git's line-ending behaviour first:
+
+```wiki
+git config --global core.autocrlf false
+```
+
+
+since this is a global setting, you probably want to change it back after cloning ghc, and then set it locally for the GHC repo(s).
 
 ### Getting a branch
 
