@@ -33,10 +33,11 @@ Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache
 <tr><th> DotP, vectorised </th>
 <th> 10M elements </th>
 <th> 823/824/824 </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<th> 814/816/818 </th>
+<th> 412/417/421 </th>
+<th> 222/225/227 </th>
+<th> 227/232/238 
+</th></tr></table>
 
 
 All results are in milliseconds, and the triples report best/average/worst execution case time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "N cores" report times when linked against `dph-par` and run in parallel on the specified number of processor cores.
