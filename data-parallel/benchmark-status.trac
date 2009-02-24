@@ -16,8 +16,8 @@ This page gives an overview of how well the benchmarks in the [http://darcs.hask
 Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
 
 || '''Program''' || '''Problem size''' || '''sequential''' || '''1 core''' || '''2 cores''' || '''4 cores''' || '''8 cores''' ||
-|| DotP, primitives || 10M elements || 823/823/824 || 812/813/815 || 408/408/409 || 220/223/227 || 210/214/221 ||
-|| DotP, vectorised || 10M elements || 823/824/824 || 814/816/818 || 412/417/421 || 222/225/227 || 227/232/238 ||
+|| DotP, primitives || 100M elements || 823/823/824 || 812/813/815 || 408/408/409 || 220/223/227 || 210/214/221 ||
+|| DotP, vectorised || 100M elements || 823/824/824 || 814/816/818 || 412/417/421 || 222/225/227 || 227/232/238 ||
 || SMVM, primitives || ?? elems, density ?? ||  ||  ||  ||  ||  ||
 || SMVM, vectorised || ?? elems, density ?? ||  ||  ||  ||  ||  ||
 

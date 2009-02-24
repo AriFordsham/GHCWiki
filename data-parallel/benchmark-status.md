@@ -27,7 +27,7 @@ Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache
 <th>**4 cores**</th>
 <th>**8 cores**</th></tr>
 <tr><th> DotP, primitives </th>
-<th> 10M elements </th>
+<th> 100M elements </th>
 <th> 823/823/824 </th>
 <th> 812/813/815 </th>
 <th> 408/408/409 </th>
@@ -35,7 +35,7 @@ Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache
 <th> 210/214/221 
 </th></tr>
 <tr><th> DotP, vectorised </th>
-<th> 10M elements </th>
+<th> 100M elements </th>
 <th> 823/824/824 </th>
 <th> 814/816/818 </th>
 <th> 412/417/421 </th>
