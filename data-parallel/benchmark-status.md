@@ -1,4 +1,46 @@
-## Status of DPH Banchmarks
+## Status of DPH Benchmarks
+
+
+This page gives an overview of how well the benchmarks in the [ examples/](http://darcs.haskell.org/packages/dph/examples/) directory of package dph are currently working.
+
+### Overview over the benchmark programs
+
+<table><tr><th>[ DotP](http://darcs.haskell.org/packages/dph/examples/dotp/)</th>
+<td>
+Computes the dot product of two vectors of `Double`s.  There are two variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.
+</td></tr></table>
+
+### Execution on LimitingFactor (2x Quad-Core Xeon)
+
+
+Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
+
+<table><tr><th>**Program**</th>
+<th>**Problem size**</th>
+<th>**sequential**</th>
+<th>**1 core**</th>
+<th>**2 cores**</th>
+<th>**4 cores**</th>
+<th>**8 cores**</th></tr>
+<tr><th> DotP, primitives </th>
+<th> 10M elements </th>
+<th> 823/823/824 </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th> DotP, vectorised </th>
+<th> 10M elements </th>
+<th> 823/824/824 </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
+
+
+All results are in milliseconds, and the triples report best/average/worst execution case time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "N cores" report times when linked against `dph-par` and run in parallel on the specified number of processor cores.
+
+---
 
 <table><tr><th>**Program**</th>
 <th>**Sequential (manually vectorised) **</th>
