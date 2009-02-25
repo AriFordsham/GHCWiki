@@ -1,20 +1,19 @@
 ## Summary
 
->
-> Eventlog framework exists in the GHC RTS to support profiling of GHC run-time events, such as capability states.  A visualizer is currently under development for viewing the profiling information.
+> [EventLog](event-log) framework exists in the GHC RTS to support profiling of GHC run-time events, such as capability states.  A visualizer is currently under development for viewing the profiling information.
 
 ## Design
 
-- Eventlog framework in ghc/rts/eventlog/
-- Library to parse eventlog files for any visualizer, which relies upon the Data.Binary library: GHC/RTS/Events
+- [EventLog](event-log) framework is located in ghc/rts/eventlog/
+- Library to parse [EventLog](event-log) files for any visualizer, which relies upon the Data.Binary library: GHC/RTS/Events
 - Visualizer: under development
 
 ## Feature List
 
-- Eventlog framework
+- [EventLog](event-log) framework
 
   - Support for more events, such as cpu and memory usage TODO
-- Eventlog parser library
+- [EventLog](event-log) parser library
 
   - Parsing all events supported by eventlog framework TODO
 - Visualizer 
