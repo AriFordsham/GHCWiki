@@ -30,3 +30,9 @@
 ## Code repository
 
 > TODO
+
+## Contributors
+
+- Satnam Singh
+- Simon Marlow
+- Donnie Jones \<donnie@…\>
