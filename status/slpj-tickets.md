@@ -7,7 +7,7 @@
 - [\#2915](https://gitlab.haskell.org//ghc/ghc/issues/2915): arity too small
 - [\#2762](https://gitlab.haskell.org//ghc/ghc/issues/2762): arity analysis would fix a space leak
 - [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): array indexing, inlining/arity bug        
-- [\#2902](https://gitlab.haskell.org//ghc/ghc/issues/2902): an excellen example of the need for arity analysis
+- [\#2902](https://gitlab.haskell.org//ghc/ghc/issues/2902): an excellent example of the need for arity analysis
 - [\#2823](https://gitlab.haskell.org//ghc/ghc/issues/2823): another arity expansion bug (related to dictionaries)
 - [\#2440](https://gitlab.haskell.org//ghc/ghc/issues/2440): bad code with type families; I believe this is also arity-related
 - [\#2762](https://gitlab.haskell.org//ghc/ghc/issues/2762): Arity analysis
