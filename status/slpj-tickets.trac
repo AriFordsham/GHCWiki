@@ -4,6 +4,7 @@
 
 === Arity ===
  * #2915: arity too small
+ * #2762: arity analysis would fix a space leak
  * #1216: array indexing, inlining/arity bug	
  * #2902: an excellen example of the need for arity analysis
  * #2823: another arity expansion bug (related to dictionaries)
