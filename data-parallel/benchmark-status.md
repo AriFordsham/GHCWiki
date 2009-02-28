@@ -7,7 +7,7 @@ This page gives an overview of how well the benchmarks in the [ examples/](http:
 
 <table><tr><th>[ DotP](http://darcs.haskell.org/packages/dph/examples/dotp/)</th>
 <td>
-Computes the dot product of two vectors of `Double`s.  There are two variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.
+Computes the dot product of two vectors of `Double`s.  There are two variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  In addition to these two DPH variants of the dot product, we also have two non-DPH reference implementations: (a) "ref Haskell" is a Haskell program using imperative, unboxed arrays and and (b) "ref C" is a C implementation using pthreads.
 </td></tr>
 <tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)</th>
 <td>
@@ -18,6 +18,9 @@ Multiplies a dense vector with a sparse matrix represented in the *compressed sp
 
 
 Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
+
+
+Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 
 <table><tr><th>**Program**</th>
 <th>**Problem size**</th>
@@ -41,6 +44,22 @@ Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache
 <th> 412/417/421 </th>
 <th> 222/225/227 </th>
 <th> 227/232/238 
+</th></tr>
+<tr><th> DotP, ref Haskell </th>
+<th> 100M elements </th>
+<th> – </th>
+<th> 810 </th>
+<th> 437 </th>
+<th> 221 </th>
+<th> 209 
+</th></tr>
+<tr><th> DotP, ref C </th>
+<th> 100M elements </th>
+<th> – </th>
+<th> 458 </th>
+<th> 235 </th>
+<th> 210 </th>
+<th> 210 
 </th></tr>
 <tr><th> SMVM, primitives </th>
 <th> ?? elems, density ?? </th>
