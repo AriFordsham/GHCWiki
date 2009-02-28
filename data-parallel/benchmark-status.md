@@ -42,6 +42,14 @@ Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache
 <th> 222/225/227 </th>
 <th> 227/232/238 
 </th></tr>
+<tr><th> DotP, ref Haskell </th>
+<th> 100M elements </th>
+<th> – </th>
+<th> 810 </th>
+<th> 601 </th>
+<th> 221 </th>
+<th> 209 
+</th></tr>
 <tr><th> SMVM, primitives </th>
 <th> ?? elems, density ?? </th>
 <th></th>
