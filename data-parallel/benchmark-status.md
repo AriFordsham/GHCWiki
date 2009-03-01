@@ -49,7 +49,7 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 <th> 100M elements </th>
 <th> – </th>
 <th> 810 </th>
-<th> 601 </th>
+<th> 437 </th>
 <th> 221 </th>
 <th> 209 
 </th></tr>

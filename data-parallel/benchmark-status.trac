@@ -20,7 +20,7 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 || '''Program''' || '''Problem size''' || '''sequential''' || '''1 core''' || '''2 cores''' || '''4 cores''' || '''8 cores''' ||
 || DotP, primitives || 100M elements || 823/823/824 || 812/813/815 || 408/408/409 || 220/223/227 || 210/214/221 ||
 || DotP, vectorised || 100M elements || 823/824/824 || 814/816/818 || 412/417/421 || 222/225/227 || 227/232/238 ||
-|| DotP, ref Haskell || 100M elements || – || 810 || 601 || 221 || 209 ||
+|| DotP, ref Haskell || 100M elements || – || 810 || 437 || 221 || 209 ||
 || DotP, ref C || 100M elements || – || 458 || 235 || 210 || 210 ||
 || SMVM, primitives || ?? elems, density ?? ||  ||  ||  ||  ||  ||
 || SMVM, vectorised || ?? elems, density ?? ||  ||  ||  ||  ||  ||
