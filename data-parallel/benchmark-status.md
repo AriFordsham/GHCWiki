@@ -19,6 +19,9 @@ Multiplies a dense vector with a sparse matrix represented in the *compressed sp
 
 Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
 
+
+Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
+
 <table><tr><th>**Program**</th>
 <th>**Problem size**</th>
 <th>**sequential**</th>
