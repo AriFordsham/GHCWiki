@@ -7,7 +7,7 @@ This page gives an overview of how well the benchmarks in the [http://darcs.hask
 === Overview over the benchmark programs ===
 
  [http://darcs.haskell.org/packages/dph/examples/dotp/ DotP]::
-  Computes the dot product of two vectors of `Double`s.  There are two variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.
+  Computes the dot product of two vectors of `Double`s.  There are two variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  In addition to these two DPH variants of the dot product, we also have two non-DPH reference implementations: (a) "ref Haskell" is a Haskell program using imperative, unboxed arrays and and (b) "ref C" is a C implementation using pthreads.
  [http://darcs.haskell.org/packages/dph/examples/smvm/ SMVM]::
   Multiplies a dense vector with a sparse matrix represented in the ''compressed sparse row format (CSR).''  There are three variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.
 
@@ -21,6 +21,7 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 || DotP, primitives || 100M elements || 823/823/824 || 812/813/815 || 408/408/409 || 220/223/227 || 210/214/221 ||
 || DotP, vectorised || 100M elements || 823/824/824 || 814/816/818 || 412/417/421 || 222/225/227 || 227/232/238 ||
 || DotP, ref Haskell || 100M elements || – || 810 || 601 || 221 || 209 ||
+|| DotP, ref C || 100M elements || – || 458 || 235 || 210 || 210 ||
 || SMVM, primitives || ?? elems, density ?? ||  ||  ||  ||  ||  ||
 || SMVM, vectorised || ?? elems, density ?? ||  ||  ||  ||  ||  ||
 
@@ -45,7 +46,7 @@ General remarks:
 
  * Fusion doesn't work well on parallel programs yet, so for all but simple examples, the parallel program performs worse than the sequential
 
- * The compiler doesn't exploit all fusion opportunities for QSort and BarnesHut. Once this is fixed, they should run considerably faster.
+ * The compiler doesn't exploit all fusion opportunities for QSort and !BarnesHut. Once this is fixed, they should run considerably faster.
 
  * Interestingly, the automatically vectorised version of qsort is quite a bit faster than the hand-flattened. Need to find out why.
 
