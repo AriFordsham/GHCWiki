@@ -45,6 +45,7 @@
 
 - Misc:
 
+  - [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): exponentially slow compile times
   - [\#2658](https://gitlab.haskell.org//ghc/ghc/issues/2658)
   - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types)
   - `TcPat` and `TcUnify` (and maybe other modules) still have calls to the unification engine that ignore the returned coercion!!
