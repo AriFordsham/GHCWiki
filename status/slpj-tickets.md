@@ -43,6 +43,7 @@
 - [\#2092](https://gitlab.haskell.org//ghc/ghc/issues/2092): Possible quadratic-sized Eq instances. Does it really go quadratic, or does the join-point inlining machinery prevent it?  Still to check: delicacy wrt case-of-case
 - [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#2643](https://gitlab.haskell.org//ghc/ghc/issues/2643): Improve **`SpecConstr`** for free variables, and for join points.
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
+- [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065): better code in quot/rem
 
 ### Compiler performance
 
@@ -70,6 +71,7 @@
 - [\#2859](https://gitlab.haskell.org//ghc/ghc/issues/2859): optimise coercion terms
 - [\#2641](https://gitlab.haskell.org//ghc/ghc/issues/2641): revise what `-XExtendedDefaultRules` does
 - [\#1634](https://gitlab.haskell.org//ghc/ghc/issues/1634): deep skolemisation
+- [\#3018](https://gitlab.haskell.org//ghc/ghc/issues/3018): be lazier about solving class instances
 - [\#2357](https://gitlab.haskell.org//ghc/ghc/issues/2357): **Implement the Haskell Prime proposal for polymorphic pattern bindings**
 
 ### Impredicativity
@@ -89,7 +91,8 @@
 - [\#2534](https://gitlab.haskell.org//ghc/ghc/issues/2534): Another confusing type error message        
 - [\#2442](https://gitlab.haskell.org//ghc/ghc/issues/2442): Better error message heuristics for “not in scope”        Max B’s patch
 - [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.
-- [\#2900](https://gitlab.haskell.org//ghc/ghc/issues/2900): Improve decomposition of function types        
+- [\#2900](https://gitlab.haskell.org//ghc/ghc/issues/2900): Improve decomposition of function types
+- [\#3023](https://gitlab.haskell.org//ghc/ghc/issues/3023): Apply fundeps before printing error
 
 ---
 
