@@ -38,7 +38,7 @@ Category: ''Efficiency'' (improve scalability and/or baseline performance of gen
 
  * '''Recycling:''' Use Roman's recycling optimisation (PADL'09) to avoid copying in `joinD`.
 
- * '''Scaling:''' Investigate the scaling problems that we are seeing with vectorised code at the moment.  ('''Replicate''' and '''Recycling''' play a role here, but it is unclear whether that's all.)
+ * '''Scaling:''' Investigate the scaling problems that we are seeing with vectorised code at the moment.  ('''Replicate''' and '''Recycling''' play a role here, but it is unclear whether that's all.  Some benchmarks are simply memory-bandwidth limited.)
 
  * '''Test new inliner:''' Retest package dph with new inliner and the simplifier changes and try to simplify the library on the basis of these new phases.
 
