@@ -5,7 +5,11 @@ This page gives an overview of how well the benchmarks in the [ examples/](http:
 
 ### Overview over the benchmark programs
 
-<table><tr><th>[ DotP](http://darcs.haskell.org/packages/dph/examples/dotp/)</th>
+<table><tr><th>[ SumSq](http://darcs.haskell.org/packages/dph/examples/sumsq/)</th>
+<td>
+Computes the sum of the squares from 1 to N using `Int`.  There are two variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  As a reference implementation, we have a sequential C program denoted by "ref C".
+</td></tr>
+<tr><th>[ DotP](http://darcs.haskell.org/packages/dph/examples/dotp/)</th>
 <td>
 Computes the dot product of two vectors of `Double`s.  There are two variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  In addition to these two DPH variants of the dot product, we also have two non-DPH reference implementations: (a) "ref Haskell" is a Haskell program using imperative, unboxed arrays and and (b) "ref C" is a C implementation using pthreads.
 </td></tr>
@@ -117,6 +121,39 @@ Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gc
 <th>**P=16**</th>
 <th>**P=32**</th>
 <th>**P=64**</th></tr>
+<tr><th> SumSq, primitives </th>
+<th> 10M </th>
+<th> 212/212 </th>
+<th> 255/255 </th>
+<th> 128/128 </th>
+<th> 64/64 </th>
+<th> 36/36 </th>
+<th> 28/28 </th>
+<th> 17/17 </th>
+<th> 10/10 
+</th></tr>
+<tr><th> SumSq, vectorised </th>
+<th> 10M </th>
+<th> 1161/1161 </th>
+<th> 1884/1884 </th>
+<th>950/950 </th>
+<th>499/499 </th>
+<th> 288/288 </th>
+<th> 254/254 </th>
+<th> 193/193 </th>
+<th> 337/377 
+</th></tr>
+<tr><th> SumSq, ref C </th>
+<th>10M </th>
+<th> 130 </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – 
+</th></tr>
 <tr><th> DotP, primitives </th>
 <th> 100M elements </th>
 <th> 937/937 </th>
@@ -197,6 +234,11 @@ Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gc
 
 
 All results are in milliseconds, and the triples report best/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
+
+#### Comments regarding SumSq
+
+
+The primitives scale nicely, but something is deeply wrong (lack of fusion, perhaps) with the vectorised version.
 
 #### Comments regarding DotP
 
