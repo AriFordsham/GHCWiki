@@ -53,7 +53,8 @@ Points worth noting:
 - The class gives rise to an eponymous data type (in GHC it is actually
   called `:TC`), the dictionary. 
 
-- There is a top-level selector function for each class method.
+- There is an eponymous top-level selector function for each class method, 
+  `opF` and `opG` in this case.
 
 - The default method for `opG` becomes a top-level function `$dmopG`.
   It takes the `(C a)` dictionary a argument because it can call
