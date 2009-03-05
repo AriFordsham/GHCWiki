@@ -35,13 +35,13 @@ Performance is memory bound, and hence, the benchmark stops scaling once the mem
 
 Hardware spec: 1x 1.4GHz UltraSPARC T2; 8 cores/processors with 8 hardware threads/core; 4MB on-die L2 cache per processor; FB-DIMM; Solaris 5.10
 
-Software spec: GHC 6.11 (from end of Feb 09); gccfss 4.0.4 (gcc front-end with Sun compiler backend)
+Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gccfss 4.0.4 (gcc front-end with Sun compiler backend) for C code (as it generates code that is more than twice as fast for numeric computations than vanilla gcc)
 
 || '''Program''' || '''Problem size''' || '''sequential''' || '''P=1''' || '''P=2''' || '''P=4''' || '''P=8''' || '''P=16''' || '''P=32''' || '''P=64''' ||
 || DotP, primitives || 100M elements || 937/937 || 934/934 || 474/474 || 238/238 || 120/120 || 65/65 || 38/38 || 28/28 ||
 || DotP, vectorised || 100M elements || 937/937 || 942/942 || 471/471 || 240/240 || 118/118 || 65/65 || 43/43 || 29/29 || 
 || DotP, ref Haskell || 100M elements || – || 934 || 467 || 238 || 117 || 61 || 65 || 36 ||
-|| DotP, ref C || 100M elements || – || || || || || || || || ||
+|| DotP, ref C || 100M elements || – || 554 || 277 || 142 || 72 || 37 || 22 || 20 ||
 || SMVM, primitives || ?? elems, density ?? ||  || || || || || || || ||
 || SMVM, vectorised || ?? elems, density ?? ||  || || || || || || || ||
 

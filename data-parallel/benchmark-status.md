@@ -90,7 +90,7 @@ Performance is memory bound, and hence, the benchmark stops scaling once the mem
 Hardware spec: 1x 1.4GHz UltraSPARC T2; 8 cores/processors with 8 hardware threads/core; 4MB on-die L2 cache per processor; FB-DIMM; Solaris 5.10
 
 
-Software spec: GHC 6.11 (from end of Feb 09); gccfss 4.0.4 (gcc front-end with Sun compiler backend)
+Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gccfss 4.0.4 (gcc front-end with Sun compiler backend) for C code (as it generates code that is more than twice as fast for numeric computations than vanilla gcc)
 
 <table><tr><th>**Program**</th>
 <th>**Problem size**</th>
@@ -101,8 +101,7 @@ Software spec: GHC 6.11 (from end of Feb 09); gccfss 4.0.4 (gcc front-end with S
 <th>**P=8**</th>
 <th>**P=16**</th>
 <th>**P=32**</th>
-<th>**P=64**</th>
-<th></th></tr>
+<th>**P=64**</th></tr>
 <tr><th> DotP, primitives </th>
 <th> 100M elements </th>
 <th> 937/937 </th>
@@ -113,8 +112,7 @@ Software spec: GHC 6.11 (from end of Feb 09); gccfss 4.0.4 (gcc front-end with S
 <th> 65/65 </th>
 <th> 38/38 </th>
 <th> 28/28 
-</th>
-<th></th></tr>
+</th></tr>
 <tr><th> DotP, vectorised </th>
 <th> 100M elements </th>
 <th> 937/937 </th>
@@ -125,8 +123,7 @@ Software spec: GHC 6.11 (from end of Feb 09); gccfss 4.0.4 (gcc front-end with S
 <th> 65/65 </th>
 <th> 43/43 </th>
 <th> 29/29 
-</th>
-<th></th></tr>
+</th></tr>
 <tr><th> DotP, ref Haskell </th>
 <th> 100M elements </th>
 <th> – </th>
@@ -137,22 +134,20 @@ Software spec: GHC 6.11 (from end of Feb 09); gccfss 4.0.4 (gcc front-end with S
 <th> 61 </th>
 <th> 65 </th>
 <th> 36 
-</th>
-<th></th></tr>
+</th></tr>
 <tr><th> DotP, ref C </th>
 <th> 100M elements </th>
 <th> – </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
+<th> 554 </th>
+<th> 277 </th>
+<th> 142 </th>
+<th> 72 </th>
+<th> 37 </th>
+<th> 22 </th>
+<th> 20 
+</th></tr>
 <tr><th> SMVM, primitives </th>
 <th> ?? elems, density ?? </th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -163,7 +158,6 @@ Software spec: GHC 6.11 (from end of Feb 09); gccfss 4.0.4 (gcc front-end with S
 <th></th></tr>
 <tr><th> SMVM, vectorised </th>
 <th> ?? elems, density ?? </th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
