@@ -48,7 +48,7 @@ Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gc
 || DotP, ref Haskell || 100M elements || – || 934 || 467 || 238 || 117 || 61 || 65 || 36 ||
 || DotP, ref C || 100M elements || – || 554 || 277 || 142 || 72 || 37 || 22 || 20 ||
 || SMVM, primitives || 100kx100k @ density 0.001 || 1112/1112 || 1926/1926 || 1009/1009 || 797/797 || 463/ 463 || 326/326 || 189/189 || 207/207 ||
-|| SMVM, vectorised || 100kx100k @ density 0.001 ||  || || || || || || || ||
+|| SMVM, vectorised || 100kx100k @ density 0.001 || _|_ || _|_ || _|_ || _|_ || _|_ || _|_ || _|_ || _|_ ||
 || SMVM, ref C || 100kx100k @ density 0.001 || 600 || – || – || – || – || – || – || – ||
 
 All results are in milliseconds, and the triples report best/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.

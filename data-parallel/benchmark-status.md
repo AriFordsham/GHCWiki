@@ -174,14 +174,15 @@ Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gc
 </th></tr>
 <tr><th> SMVM, vectorised </th>
 <th> 100kx100k @ density 0.001 </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
+<th> _\|_ </th>
+<th> _\|_ </th>
+<th> _\|_ </th>
+<th> _\|_ </th>
+<th> _\|_ </th>
+<th> _\|_ </th>
+<th> _\|_ </th>
+<th> _\|_ 
+</th></tr>
 <tr><th> SMVM, ref C </th>
 <th> 100kx100k @ density 0.001 </th>
 <th> 600 </th>
