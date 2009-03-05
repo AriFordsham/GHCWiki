@@ -14,6 +14,7 @@
  * #2831: error expressions and arities
 
 === Inlining ===
+ * #3073 and [wiki:Commentary/Compiler/DesugaringInstances]: better desugaring for instances
  * #2422: interaction of inlining and specialisation
  * #2396: default class method not inlined
  * #2354: NOINLINE pragma ignored
