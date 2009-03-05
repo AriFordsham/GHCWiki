@@ -117,14 +117,15 @@ Software spec: GHC 6.11 (from end of Feb 09); gccfss 4.0.4 (gcc front-end with S
 <th></th></tr>
 <tr><th> DotP, vectorised </th>
 <th> 100M elements </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
+<th> 937/937 </th>
+<th> 942/942 </th>
+<th> 471/471 </th>
+<th> 240/240 </th>
+<th> 118/118 </th>
+<th> 65/65 </th>
+<th> 43/43 </th>
+<th> 29/29 
+</th>
 <th></th></tr>
 <tr><th> DotP, ref Haskell </th>
 <th> 100M elements </th>
