@@ -62,27 +62,42 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 <th> 210 
 </th></tr>
 <tr><th> SMVM, primitives </th>
-<th> ?? elems, density ?? </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
+<th> 100kx100k @ density 0.001 </th>
+<th> 119/119 </th>
+<th> 254/254 </th>
+<th> 154/154 </th>
+<th> 90/90 </th>
+<th> 67/67 
+</th></tr>
 <tr><th> SMVM, vectorised </th>
-<th> ?? elems, density ?? </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<th> 100kx100k @ density 0.001 </th>
+<th> _\|_ </th>
+<th> _\|_ </th>
+<th> _\|_ </th>
+<th> _\|_ </th>
+<th> _\|_ 
+</th></tr>
+<tr><th> SMVM, ref C </th>
+<th> 100kx100k @ density 0.001 </th>
+<th>  46 </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – 
+</th></tr></table>
 
 
 All results are in milliseconds, and the triples report best/average/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
 
-#### Observations regarding DotP
+#### Comments regarding DotP
 
 
 Performance is memory bound, and hence, the benchmark stops scaling once the memory bus saturated.  As a consequence, the wall-clock execution time of the Haskell programs and the C reference implementation are the same when all available parallelism is exploited.  The parallel DPH library delivers the same single core performance as the sequential one in this benchmark.
+
+#### Comments regarding smvm
+
+
+There seems to be a fusion problem in DotP with `dph-par` (even if the version of `zipWithSUP` that uses `splitSD/joinSD` is used); hence the much lower runtime for "N=1" than for "sequential".  The vectorised version runs out of memory; maybe because we didn't solve the `bpermute` problem, yet.
 
 ### Execution on greyarea (1x UltraSPARC T2)
 
@@ -147,7 +162,18 @@ Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gc
 <th> 20 
 </th></tr>
 <tr><th> SMVM, primitives </th>
-<th> ?? elems, density ?? </th>
+<th> 100kx100k @ density 0.001 </th>
+<th> 1112/1112 </th>
+<th> 1926/1926 </th>
+<th> 1009/1009 </th>
+<th> 797/797 </th>
+<th> 463/ 463 </th>
+<th> 326/326 </th>
+<th> 189/189 </th>
+<th> 207/207 
+</th></tr>
+<tr><th> SMVM, vectorised </th>
+<th> 100kx100k @ density 0.001 </th>
 <th></th>
 <th></th>
 <th></th>
@@ -156,24 +182,30 @@ Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gc
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th> SMVM, vectorised </th>
-<th> ?? elems, density ?? </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<tr><th> SMVM, ref C </th>
+<th> 100kx100k @ density 0.001 </th>
+<th> 600 </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – 
+</th></tr></table>
 
 
 All results are in milliseconds, and the triples report best/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
 
-#### Observations regarding DotP
+#### Comments regarding DotP
 
 
 The benchmark scales nicely up to the maximum number of hardware threads.  Memory latency is largely covered by excess parallelism.  It is unclear why the Haskell reference implementation "ref Haskell" falls of at 32 and 64 threads.
+
+#### Comments regarding smvm
+
+
+As on LimitingFactor, but it scales much more nicely and improves until using four threads per core.  This suggets that memory bandwidth is again a critical factor in this benchmark (this fits well with earlier observations on other architectures).  Despite fusion problem with `dph-par`, the parallel Haskell program, using all 8 cores, still ends up three times faster than the sequential C program.
 
 ---
 
