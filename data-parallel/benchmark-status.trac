@@ -40,7 +40,7 @@ Software spec: GHC 6.11 (from end of Feb 09); gccfss 4.0.4 (gcc front-end with S
 || '''Program''' || '''Problem size''' || '''sequential''' || '''P=1''' || '''P=2''' || '''P=4''' || '''P=8''' || '''P=16''' || '''P=32''' || '''P=64''' ||
 || DotP, primitives || 100M elements || 937/937 || 934/934 || 474/474 || 238/238 || 120/120 || 65/65 || 38/38 || 28/28 ||
 || DotP, vectorised || 100M elements || 937/937 || 942/942 || 471/471 || 240/240 || 118/118 || 65/65 || 43/43 || 29/29 || 
-|| DotP, ref Haskell || 100M elements || – || || || || || || || ||
+|| DotP, ref Haskell || 100M elements || – || 934 || 467 || 238 || 117 || 61 || 65 || 36 ||
 || DotP, ref C || 100M elements || – || || || || || || || || ||
 || SMVM, primitives || ?? elems, density ?? ||  || || || || || || || ||
 || SMVM, vectorised || ?? elems, density ?? ||  || || || || || || || ||
@@ -49,7 +49,7 @@ All results are in milliseconds, and the triples report best/worst execution tim
 
 ==== Observations regarding DotP ====
 
-The benchmark scales nicely up to the maximum number of hardware threads.  Memory latency is largely covered by excess parallelism.
+The benchmark scales nicely up to the maximum number of hardware threads.  Memory latency is largely covered by excess parallelism.  It is unclear why the Haskell reference implementation "ref Haskell" falls of at 32 and 64 threads.
 
 ----
 

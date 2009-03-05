@@ -130,13 +130,14 @@ Software spec: GHC 6.11 (from end of Feb 09); gccfss 4.0.4 (gcc front-end with S
 <tr><th> DotP, ref Haskell </th>
 <th> 100M elements </th>
 <th> – </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
+<th> 934 </th>
+<th> 467 </th>
+<th> 238 </th>
+<th> 117 </th>
+<th> 61 </th>
+<th> 65 </th>
+<th> 36 
+</th>
 <th></th></tr>
 <tr><th> DotP, ref C </th>
 <th> 100M elements </th>
@@ -178,7 +179,7 @@ All results are in milliseconds, and the triples report best/worst execution tim
 #### Observations regarding DotP
 
 
-The benchmark scales nicely up to the maximum number of hardware threads.  Memory latency is largely covered by excess parallelism.
+The benchmark scales nicely up to the maximum number of hardware threads.  Memory latency is largely covered by excess parallelism.  It is unclear why the Haskell reference implementation "ref Haskell" falls of at 32 and 64 threads.
 
 ---
 
