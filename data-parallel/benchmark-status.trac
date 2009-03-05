@@ -13,11 +13,11 @@ This page gives an overview of how well the benchmarks in the [http://darcs.hask
 
 === Execution on !LimitingFactor (2x Quad-Core Xeon) ===
 
-Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
+Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2 FB-DIMM; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
 
 Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 
-|| '''Program''' || '''Problem size''' || '''sequential''' || '''1 core''' || '''2 cores''' || '''4 cores''' || '''8 cores''' ||
+|| '''Program''' || '''Problem size''' || '''sequential''' || '''P=1''' || '''P=2''' || '''P=4''' || '''P=8''' ||
 || DotP, primitives || 100M elements || 823/823/824 || 812/813/815 || 408/408/409 || 220/223/227 || 210/214/221 ||
 || DotP, vectorised || 100M elements || 823/824/824 || 814/816/818 || 412/417/421 || 222/225/227 || 227/232/238 ||
 || DotP, ref Haskell || 100M elements || – || 810 || 437 || 221 || 209 ||
@@ -25,11 +25,31 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 || SMVM, primitives || ?? elems, density ?? ||  ||  ||  ||  ||  ||
 || SMVM, vectorised || ?? elems, density ?? ||  ||  ||  ||  ||  ||
 
-All results are in milliseconds, and the triples report best/average/worst execution case time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "N cores" report times when linked against `dph-par` and run in parallel on the specified number of processor cores.
+All results are in milliseconds, and the triples report best/average/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
 
 ==== Observations regarding DotP ====
 
 Performance is memory bound, and hence, the benchmark stops scaling once the memory bus saturated.  As a consequence, the wall-clock execution time of the Haskell programs and the C reference implementation are the same when all available parallelism is exploited.  The parallel DPH library delivers the same single core performance as the sequential one in this benchmark.
+
+=== Execution on greyarea (1x UltraSPARC T2) ===
+
+Hardware spec: 1x 1.4GHz UltraSPARC T2; 8 cores/processors with 8 hardware threads/core; 4MB on-die L2 cache per processor; FB-DIMM; Solaris 5.10
+
+Software spec: GHC 6.11 (from end of Feb 09); gccfss 4.0.4 (gcc front-end with Sun compiler backend)
+
+|| '''Program''' || '''Problem size''' || '''sequential''' || '''P=1''' || '''P=2''' || '''P=4''' || '''P=8''' || '''P=16''' || '''P=32''' || '''P=64''' ||
+|| DotP, primitives || 100M elements || 937/937 || 934/934 || 474/474 || 238/238 || 120/120 || 65/65 || 38/38 || 28/28 ||
+|| DotP, vectorised || 100M elements || || || || || || || || || 
+|| DotP, ref Haskell || 100M elements || – || || || || || || || ||
+|| DotP, ref C || 100M elements || – || || || || || || || || ||
+|| SMVM, primitives || ?? elems, density ?? ||  || || || || || || || ||
+|| SMVM, vectorised || ?? elems, density ?? ||  || || || || || || || ||
+
+All results are in milliseconds, and the triples report best/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
+
+==== Observations regarding DotP ====
+
+The benchmark scales nicely up to the maximum number of hardware threads.  Memory latency is largely covered by excess parallelism.
 
 ----
 

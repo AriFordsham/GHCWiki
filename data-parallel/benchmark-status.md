@@ -17,7 +17,7 @@ Multiplies a dense vector with a sparse matrix represented in the *compressed sp
 ### Execution on LimitingFactor (2x Quad-Core Xeon)
 
 
-Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
+Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2 FB-DIMM; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
 
 
 Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
@@ -25,10 +25,10 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 <table><tr><th>**Program**</th>
 <th>**Problem size**</th>
 <th>**sequential**</th>
-<th>**1 core**</th>
-<th>**2 cores**</th>
-<th>**4 cores**</th>
-<th>**8 cores**</th></tr>
+<th>**P=1**</th>
+<th>**P=2**</th>
+<th>**P=4**</th>
+<th>**P=8**</th></tr>
 <tr><th> DotP, primitives </th>
 <th> 100M elements </th>
 <th> 823/823/824 </th>
@@ -77,12 +77,107 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 <th></th></tr></table>
 
 
-All results are in milliseconds, and the triples report best/average/worst execution case time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "N cores" report times when linked against `dph-par` and run in parallel on the specified number of processor cores.
+All results are in milliseconds, and the triples report best/average/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
 
 #### Observations regarding DotP
 
 
 Performance is memory bound, and hence, the benchmark stops scaling once the memory bus saturated.  As a consequence, the wall-clock execution time of the Haskell programs and the C reference implementation are the same when all available parallelism is exploited.  The parallel DPH library delivers the same single core performance as the sequential one in this benchmark.
+
+### Execution on greyarea (1x UltraSPARC T2)
+
+
+Hardware spec: 1x 1.4GHz UltraSPARC T2; 8 cores/processors with 8 hardware threads/core; 4MB on-die L2 cache per processor; FB-DIMM; Solaris 5.10
+
+
+Software spec: GHC 6.11 (from end of Feb 09); gccfss 4.0.4 (gcc front-end with Sun compiler backend)
+
+<table><tr><th>**Program**</th>
+<th>**Problem size**</th>
+<th>**sequential**</th>
+<th>**P=1**</th>
+<th>**P=2**</th>
+<th>**P=4**</th>
+<th>**P=8**</th>
+<th>**P=16**</th>
+<th>**P=32**</th>
+<th>**P=64**</th>
+<th></th></tr>
+<tr><th> DotP, primitives </th>
+<th> 100M elements </th>
+<th> 937/937 </th>
+<th> 934/934 </th>
+<th> 474/474 </th>
+<th> 238/238 </th>
+<th> 120/120 </th>
+<th> 65/65 </th>
+<th> 38/38 </th>
+<th> 28/28 
+</th>
+<th></th></tr>
+<tr><th> DotP, vectorised </th>
+<th> 100M elements </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th> DotP, ref Haskell </th>
+<th> 100M elements </th>
+<th> – </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th> DotP, ref C </th>
+<th> 100M elements </th>
+<th> – </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th> SMVM, primitives </th>
+<th> ?? elems, density ?? </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th> SMVM, vectorised </th>
+<th> ?? elems, density ?? </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
+
+
+All results are in milliseconds, and the triples report best/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
+
+#### Observations regarding DotP
+
+
+The benchmark scales nicely up to the maximum number of hardware threads.  Memory latency is largely covered by excess parallelism.
 
 ---
 
