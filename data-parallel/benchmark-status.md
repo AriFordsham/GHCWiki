@@ -201,7 +201,7 @@ All results are in milliseconds, and the triples report best/worst execution tim
 #### Comments regarding DotP
 
 
-The benchmark scales nicely up to the maximum number of hardware threads.  Memory latency is largely covered by excess parallelism.  It is unclear why the Haskell reference implementation "ref Haskell" falls of at 32 and 64 threads.
+The benchmark scales nicely up to the maximum number of hardware threads.  Memory latency is largely covered by excess parallelism.  It is unclear why the Haskell reference implementation "ref Haskell" falls of at 32 and 64 threads.  See also [ a comparison graph between LimitingFactor and greyarea](http://justtesting.org/post/83014052/this-is-the-performance-of-a-dot-product-of-two).
 
 #### Comments regarding smvm
 
