@@ -57,7 +57,7 @@ Points worth noting:
   `opF` and `opG` in this case.
 
 - The default method for `opG` becomes a top-level function `$dmopG`.
-  It takes the `(C a)` dictionary a argument because it can call
+  It takes the `(C a)` dictionary a argument because the RHS is allowed to call
   other methods of C.
 
 - The instance declaration defines a dictionary `dCInt`.  Notice  
