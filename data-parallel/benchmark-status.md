@@ -93,6 +93,14 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 
 All results are in milliseconds, and the triples report best/average/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
 
+#### Comments regarding SumSq
+
+
+The "primitives" version works nicely, but the vectorised one exposes some problems:
+
+- We need an extra -funfolding-use-threshold.  We don't really want users having to worry about that.
+- `mapP (\x -> x * x) xs` essentially turns into `zipWithU (*) xs xs`, which doesn't fuse with `enumFromTo` anymore.  We have a rewrite rule in the library to fix that, but that's not general enough.  We really would rather not vectorise the lambda abstraction at all.
+
 #### Comments regarding DotP
 
 
@@ -124,17 +132,17 @@ Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gc
 <tr><th> SumSq, primitives </th>
 <th> 10M </th>
 <th> 212/212 </th>
-<th> 255/255 </th>
-<th> 128/128 </th>
+<th> 254/254 </th>
+<th> 127/127 </th>
 <th> 64/64 </th>
 <th> 36/36 </th>
-<th> 28/28 </th>
+<th> 25/25 </th>
 <th> 17/17 </th>
 <th> 10/10 
 </th></tr>
 <tr><th> SumSq, vectorised </th>
 <th> 10M </th>
-<th> 1161/1161 </th>
+<th> 212/212 </th>
 <th> 1884/1884 </th>
 <th>950/950 </th>
 <th>499/499 </th>
@@ -145,7 +153,7 @@ Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gc
 </th></tr>
 <tr><th> SumSq, ref C </th>
 <th>10M </th>
-<th> 130 </th>
+<th> 120 </th>
 <th> – </th>
 <th> – </th>
 <th> – </th>

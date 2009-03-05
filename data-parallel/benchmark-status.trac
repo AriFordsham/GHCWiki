@@ -30,6 +30,12 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 
 All results are in milliseconds, and the triples report best/average/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
 
+==== Comments regarding !SumSq ====
+
+The "primitives" version works nicely, but the vectorised one exposes some problems:
+ * We need an extra -funfolding-use-threshold.  We don't really want users having to worry about that.
+ * `mapP (\x -> x * x) xs` essentially turns into `zipWithU (*) xs xs`, which doesn't fuse with `enumFromTo` anymore.  We have a rewrite rule in the library to fix that, but that's not general enough.  We really would rather not vectorise the lambda abstraction at all.
+
 ==== Comments regarding DotP ====
 
 Performance is memory bound, and hence, the benchmark stops scaling once the memory bus saturated.  As a consequence, the wall-clock execution time of the Haskell programs and the C reference implementation are the same when all available parallelism is exploited.  The parallel DPH library delivers the same single core performance as the sequential one in this benchmark.
@@ -45,9 +51,9 @@ Hardware spec: 1x 1.4GHz UltraSPARC T2; 8 cores/processors with 8 hardware threa
 Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gccfss 4.0.4 (gcc front-end with Sun compiler backend) for C code (as it generates code that is more than twice as fast for numeric computations than vanilla gcc)
 
 || '''Program''' || '''Problem size''' || '''sequential''' || '''P=1''' || '''P=2''' || '''P=4''' || '''P=8''' || '''P=16''' || '''P=32''' || '''P=64''' ||
-|| !SumSq, primitives || 10M || 212/212 || 255/255 || 128/128 || 64/64 || 36/36 || 28/28 || 17/17 || 10/10 ||
-|| !SumSq, vectorised || 10M || 1161/1161 || 1884/1884 ||950/950 ||499/499 || 288/288 || 254/254 || 193/193 || 337/377 ||
-|| !SumSq, ref C ||10M || 130 || – || – || – || – || – || – || – ||
+|| !SumSq, primitives || 10M || 212/212 || 254/254 || 127/127 || 64/64 || 36/36 || 25/25 || 17/17 || 10/10 ||
+|| !SumSq, vectorised || 10M || 212/212 || 1884/1884 ||950/950 ||499/499 || 288/288 || 254/254 || 193/193 || 337/377 ||
+|| !SumSq, ref C ||10M || 120 || – || – || – || – || – || – || – ||
 || DotP, primitives || 100M elements || 937/937 || 934/934 || 474/474 || 238/238 || 120/120 || 65/65 || 38/38 || 28/28 ||
 || DotP, vectorised || 100M elements || 937/937 || 942/942 || 471/471 || 240/240 || 118/118 || 65/65 || 43/43 || 29/29 || 
 || DotP, ref Haskell || 100M elements || – || 934 || 467 || 238 || 117 || 61 || 65 || 36 ||
@@ -58,7 +64,7 @@ Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gc
 
 All results are in milliseconds, and the triples report best/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
 
-==== Comments regarding SumSq ====
+==== Comments regarding !SumSq ====
 
 The primitives scale nicely, but something is deeply wrong (lack of fusion, perhaps) with the vectorised version.
 
