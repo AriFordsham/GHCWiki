@@ -136,7 +136,7 @@ We call these dictionary functions a lot, often in a nested way, and
 we know programs for which the INLINE-all-dfuns approach generates
 gigantic code.  (Example: Serge's DoCon.)
 
-## The out-of-line strategy (A)
+## The out-of-line (A) strategy
 
 
 The INLINE strategy would make sense if `dCList` could be guaranteed small.
@@ -224,7 +224,7 @@ Notice that
   each iteration of the loop.  As Ganesh points out in [\#3073](https://gitlab.haskell.org//ghc/ghc/issues/3073), that
   is sometimes bad.
 
-## The out-of-line strategy (B)
+## The out-of-line (B) strategy
 
 
 We can avoid reconstructing the dictionary by passing it to `opF_aux`, 
