@@ -53,10 +53,11 @@ Points worth noting:
 - The class gives rise to an eponymous data type (in GHC it is actually
   called `:TC`), the dictionary. 
 
-- There is a top-level selector function for each class method.
+- There is an eponymous top-level selector function for each class method, 
+  `opF` and `opG` in this case.
 
 - The default method for `opG` becomes a top-level function `$dmopG`.
-  It takes the `(C a)` dictionary a argument because it can call
+  It takes the `(C a)` dictionary a argument because the RHS is allowed to call
   other methods of C.
 
 - The instance declaration defines a dictionary `dCInt`.  Notice  
@@ -135,7 +136,7 @@ We call these dictionary functions a lot, often in a nested way, and
 we know programs for which the INLINE-all-dfuns approach generates
 gigantic code.  (Example: Serge's DoCon.)
 
-## The out-of-line strategy (A)
+## The out-of-line (A) strategy
 
 
 The INLINE strategy would make sense if `dCList` could be guaranteed small.
@@ -223,7 +224,7 @@ Notice that
   each iteration of the loop.  As Ganesh points out in [\#3073](https://gitlab.haskell.org//ghc/ghc/issues/3073), that
   is sometimes bad.
 
-## The out-of-line strategy (B)
+## The out-of-line (B) strategy
 
 
 We can avoid reconstructing the dictionary by passing it to `opF_aux`, 
@@ -336,3 +337,6 @@ Here are the current (realistic) options:
 
 My current difficulty is that I see no way to get all the good things
 at once.
+
+
+PS: see also the comments at the start of `compiler/typecheck/TcInstDcls.lhs`, which cover some of the same ground.
