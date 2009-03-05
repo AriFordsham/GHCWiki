@@ -16,7 +16,10 @@ Computes the dot product of two vectors of `Double`s.  There are two variants of
 <tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)</th>
 <td>
 Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*  There are three variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  As a reference implementation, we have a sequential C program denoted by "ref C".
-</td></tr></table>
+</td></tr>
+<tr><th>[ Primes](http://darcs.haskell.org/packages/dph/examples/primes/)</th>
+<td>
+The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes.  **Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).**</td></tr></table>
 
 ### Execution on LimitingFactor (2x Quad-Core Xeon)
 
@@ -33,6 +36,30 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 <th>**P=2**</th>
 <th>**P=4**</th>
 <th>**P=8**</th></tr>
+<tr><th> SumSq, primitives </th>
+<th> 10M </th>
+<th> 22 </th>
+<th> 40 </th>
+<th> 20 </th>
+<th> 10 </th>
+<th> 5 
+</th></tr>
+<tr><th> SumSq, vectorised </th>
+<th> 10M </th>
+<th> 22 </th>
+<th> 292 </th>
+<th> 170 </th>
+<th> 119 </th>
+<th> 171 
+</th></tr>
+<tr><th> SumSq, ref C </th>
+<th>10M </th>
+<th> 9 </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – 
+</th></tr>
 <tr><th> DotP, primitives </th>
 <th> 100M elements </th>
 <th> 823/823/824 </th>
@@ -100,6 +127,7 @@ The "primitives" version works nicely, but the vectorised one exposes some probl
 
 - We need an extra -funfolding-use-threshold.  We don't really want users having to worry about that.
 - `mapP (\x -> x * x) xs` essentially turns into `zipWithU (*) xs xs`, which doesn't fuse with `enumFromTo` anymore.  We have a rewrite rule in the library to fix that, but that's not general enough.  We really would rather not vectorise the lambda abstraction at all.
+- `enumFromTo` doesn't fuse due to excessive dictionaries in the unfolding of `zipWithUP`.
 
 #### Comments regarding DotP
 

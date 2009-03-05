@@ -12,6 +12,8 @@ This page gives an overview of how well the benchmarks in the [http://darcs.hask
   Computes the dot product of two vectors of `Double`s.  There are two variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  In addition to these two DPH variants of the dot product, we also have two non-DPH reference implementations: (a) "ref Haskell" is a Haskell program using imperative, unboxed arrays and and (b) "ref C" is a C implementation using pthreads.
  [http://darcs.haskell.org/packages/dph/examples/smvm/ SMVM]::
   Multiplies a dense vector with a sparse matrix represented in the ''compressed sparse row format (CSR).''  There are three variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  As a reference implementation, we have a sequential C program denoted by "ref C".
+ [http://darcs.haskell.org/packages/dph/examples/primes/ Primes]::
+  The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes.  '''Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).'''
 
 === Execution on !LimitingFactor (2x Quad-Core Xeon) ===
 
@@ -20,6 +22,9 @@ Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache
 Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 
 || '''Program''' || '''Problem size''' || '''sequential''' || '''P=1''' || '''P=2''' || '''P=4''' || '''P=8''' ||
+|| !SumSq, primitives || 10M || 22 || 40 || 20 || 10 || 5 ||
+|| !SumSq, vectorised || 10M || 22 || 292 || 170 || 119 || 171 ||
+|| !SumSq, ref C ||10M || 9 || – || – || – || – ||
 || DotP, primitives || 100M elements || 823/823/824 || 812/813/815 || 408/408/409 || 220/223/227 || 210/214/221 ||
 || DotP, vectorised || 100M elements || 823/824/824 || 814/816/818 || 412/417/421 || 222/225/227 || 227/232/238 ||
 || DotP, ref Haskell || 100M elements || – || 810 || 437 || 221 || 209 ||
@@ -35,6 +40,7 @@ All results are in milliseconds, and the triples report best/average/worst execu
 The "primitives" version works nicely, but the vectorised one exposes some problems:
  * We need an extra -funfolding-use-threshold.  We don't really want users having to worry about that.
  * `mapP (\x -> x * x) xs` essentially turns into `zipWithU (*) xs xs`, which doesn't fuse with `enumFromTo` anymore.  We have a rewrite rule in the library to fix that, but that's not general enough.  We really would rather not vectorise the lambda abstraction at all.
+ * `enumFromTo` doesn't fuse due to excessive dictionaries in the unfolding of `zipWithUP`.
 
 ==== Comments regarding DotP ====
 
