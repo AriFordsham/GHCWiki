@@ -27,7 +27,9 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 
 All results are in milliseconds, and the triples report best/average/worst execution case time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "N cores" report times when linked against `dph-par` and run in parallel on the specified number of processor cores.
 
-'''NB:''' At the moment, the CPU times goes up proportional to the number of cores added beyond four cores (hence, no wall clock speed up beyond four cores).  Not clear where this comes from.
+==== Observations regarding DotP ====
+
+Performance is memory bound, and hence, the benchmark stops scaling once the memory bus saturated.  As a consequence, the wall-clock execution time of the Haskell programs and the C reference implementation are the same when all available parallelism is exploited.  The parallel DPH library delivers the same single core performance as the sequential one in this benchmark.
 
 ----
 
