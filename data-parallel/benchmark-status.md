@@ -11,7 +11,7 @@ Computes the dot product of two vectors of `Double`s.  There are two variants of
 </td></tr>
 <tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)</th>
 <td>
-Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*  There are three variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.
+Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*  There are three variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  As a reference implementation, we have a sequential C program denoted by "ref C".
 </td></tr></table>
 
 ### Execution on LimitingFactor (2x Quad-Core Xeon)
