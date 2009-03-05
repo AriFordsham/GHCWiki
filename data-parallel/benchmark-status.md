@@ -33,6 +33,30 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 <th>**P=2**</th>
 <th>**P=4**</th>
 <th>**P=8**</th></tr>
+<tr><th> SumSq, primitives </th>
+<th> 10M </th>
+<th> 22 </th>
+<th> 40 </th>
+<th> 20 </th>
+<th> 10 </th>
+<th> 5 
+</th></tr>
+<tr><th> SumSq, vectorised </th>
+<th> 10M </th>
+<th> 22 </th>
+<th> 292 </th>
+<th> 170 </th>
+<th> 119 </th>
+<th> 171 
+</th></tr>
+<tr><th> SumSq, ref C </th>
+<th>10M </th>
+<th> 9 </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – 
+</th></tr>
 <tr><th> DotP, primitives </th>
 <th> 100M elements </th>
 <th> 823/823/824 </th>
@@ -100,6 +124,7 @@ The "primitives" version works nicely, but the vectorised one exposes some probl
 
 - We need an extra -funfolding-use-threshold.  We don't really want users having to worry about that.
 - `mapP (\x -> x * x) xs` essentially turns into `zipWithU (*) xs xs`, which doesn't fuse with `enumFromTo` anymore.  We have a rewrite rule in the library to fix that, but that's not general enough.  We really would rather not vectorise the lambda abstraction at all.
+- `enumFromTo` doesn't fuse due to excessive dictionaries in the unfolding of `zipWithUP`.
 
 #### Comments regarding DotP
 
