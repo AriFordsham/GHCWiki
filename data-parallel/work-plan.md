@@ -2,8 +2,7 @@
 
 ### Milestones
 
-1. **DUE 6 March.** Solve major performance and scalability problems for our current benchmarks.  Try to get a performance advantage over plain Haskell on LimitingFactor (i.e., 8 cores).
-1. **DUE 30 March.** Presentation/poster for *Microsoft External Research Symposium*.
+1. **DUE 9 March.** Poster for *Microsoft External Research Symposium*.
 
 ### Task assignments
 
@@ -13,7 +12,7 @@
 
 - To use the special representation of task **Replicate** most effectively, we would *again* need different views on arrays together with a cost function and optimisation rules taking the cost function into account.  That requires a lot of work!
 - We decided that, for the moment, Roman will first try to integrate the replication representation directly and see how far that gets us.  Maybe it helps at least with some examples and gives us something somewhat usable more quickly.
-- However, before any further major changes to the library, Roman needs to first re-arrange things such that the library boilerplate is generated, instead of being hardcode; otherwise, changes require a lot of tiresome code editing.  
+- However, before any further major changes to the library, Roman needs to first re-arrange things such that the library boilerplate is generated, instead of being hardcode; otherwise, changes require a lot of tiresome code editing.  This is partially done.
 
 </td></tr></table>
 
@@ -23,13 +22,13 @@
 </td></tr></table>
 
 <table><tr><th>*Gabi*</th>
-<td>**Hierarchical matrix representation** & **Benchmark status**
-– status: just started
+<td>**Hierarchical matrix representation**
+– status: partially implemented (needed new library support for shape manipulations that had to be implemented first)
 </td></tr></table>
 
 <table><tr><th>*Manuel*</th>
-<td>**Desugaring comprehensions**
-– status: not started
+<td>**Benchmark status** & **Desugaring comprehensions**
+– status: in the middle of cleaning up and measuring the benchmarks
 </td></tr></table>
 
 ### Open tasks
@@ -73,7 +72,7 @@ Category: *Case studies* (benchmarks and example applications):
 
 - **Hierarchical matrix representation:** Sparse matrices can be space-efficiently represented by recursively decomposing them into four quadrants.  Decomposition stops if a quadrant is smaller than a threshold or contains only zeros.  Multiplication of such matrices is straight forward using Strassen's divide-and-conquer scheme, which is popular for parallel implementations.  Other operations, such as transposing a matrix, can also be efficiently implemented.  The plan is to experiment with the implementation of some BLAS routines using this representation.
 
-- **Benchmark status:** Update and complete [DataParallel/BenchmarkStatus](data-parallel/benchmark-status).
+- **Benchmark status:** Update and complete [DataParallel/BenchmarkStatus](data-parallel/benchmark-status); at the same time clean up the benchmark portion of the repo.
 
 - **N-body:** Get a fully vectorised n-body code to run and scale well on LimitingFactor.
 
