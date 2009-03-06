@@ -175,13 +175,13 @@ Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gc
 <tr><th> SumSq, vectorised </th>
 <th> 10M </th>
 <th> 212/212 </th>
-<th> 1884/1884 </th>
-<th>950/950 </th>
-<th>499/499 </th>
-<th> 288/288 </th>
 <th> 254/254 </th>
-<th> 193/193 </th>
-<th> 337/377 
+<th> 128/128 </th>
+<th> 64/64 </th>
+<th> 32/32 </th>
+<th> 25/25 </th>
+<th> 17/17 </th>
+<th> 10/10 
 </th></tr>
 <tr><th> SumSq, ref C </th>
 <th>10M </th>
