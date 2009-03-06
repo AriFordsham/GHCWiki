@@ -19,7 +19,7 @@ This page gives an overview of how well the benchmarks in the [http://darcs.hask
 
 Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2 FB-DIMM; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
 
-Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
+Software spec: GHC 6.11 (from first week of Mar 09); gcc 4.0.1
 
 || '''Program''' || '''Problem size''' || '''sequential''' || '''P=1''' || '''P=2''' || '''P=4''' || '''P=8''' ||
 || !SumSq, primitives || 10M || 22 || 40 || 20 || 10 || 5 ||
@@ -57,7 +57,7 @@ There seems to be a fusion problem in DotP with `dph-par` (even if the version o
 
 Hardware spec: 1x 1.4GHz UltraSPARC T2; 8 cores/processors with 8 hardware threads/core; 4MB on-die L2 cache per processor; FB-DIMM; Solaris 5.10
 
-Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gccfss 4.0.4 (gcc front-end with Sun compiler backend) for C code (as it generates code that is more than twice as fast for numeric computations than vanilla gcc)
+Software spec: GHC 6.11 (from first week of Mar 09) with gcc 4.1.2 for Haskell code; gccfss 4.0.4 (gcc front-end with Sun compiler backend) for C code (as it generates code that is more than twice as fast for numeric computations than vanilla gcc)
 
 || '''Program''' || '''Problem size''' || '''sequential''' || '''P=1''' || '''P=2''' || '''P=4''' || '''P=8''' || '''P=16''' || '''P=32''' || '''P=64''' ||
 || !SumSq, primitives || 10M || 212/212 || 254/254 || 127/127 || 64/64 || 36/36 || 25/25 || 17/17 || 10/10 ||

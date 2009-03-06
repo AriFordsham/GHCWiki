@@ -27,7 +27,7 @@ The Sieve of Eratosthenes using parallel writes into a sieve structure represent
 Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2 FB-DIMM; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
 
 
-Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
+Software spec: GHC 6.11 (from first week of Mar 09); gcc 4.0.1
 
 <table><tr><th>**Program**</th>
 <th>**Problem size**</th>
@@ -149,7 +149,7 @@ There seems to be a fusion problem in DotP with `dph-par` (even if the version o
 Hardware spec: 1x 1.4GHz UltraSPARC T2; 8 cores/processors with 8 hardware threads/core; 4MB on-die L2 cache per processor; FB-DIMM; Solaris 5.10
 
 
-Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gccfss 4.0.4 (gcc front-end with Sun compiler backend) for C code (as it generates code that is more than twice as fast for numeric computations than vanilla gcc)
+Software spec: GHC 6.11 (from first week of Mar 09) with gcc 4.1.2 for Haskell code; gccfss 4.0.4 (gcc front-end with Sun compiler backend) for C code (as it generates code that is more than twice as fast for numeric computations than vanilla gcc)
 
 <table><tr><th>**Program**</th>
 <th>**Problem size**</th>
