@@ -47,10 +47,10 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 <tr><th> SumSq, vectorised </th>
 <th> 10M </th>
 <th> 22 </th>
-<th> 292 </th>
-<th> 170 </th>
-<th> 119 </th>
-<th> 171 
+<th> 40 </th>
+<th> 20 </th>
+<th> 10 </th>
+<th> 5 
 </th></tr>
 <tr><th> SumSq, ref C </th>
 <th>10M </th>
@@ -123,11 +123,15 @@ All results are in milliseconds, and the triples report best/average/worst execu
 #### Comments regarding SumSq
 
 
-The "primitives" version works nicely, but the vectorised one exposes some problems:
+The versions compiled against `dph-par` are by factor of two slower than the ones linked against `dph-seq`.  This is as the parallel versions needs to compute the length of the array to determine how to split the work.
+
+
+However, found a number of general problems when working on this example:
 
 - We need an extra -funfolding-use-threshold.  We don't really want users having to worry about that.
 - `mapP (\x -> x * x) xs` essentially turns into `zipWithU (*) xs xs`, which doesn't fuse with `enumFromTo` anymore.  We have a rewrite rule in the library to fix that, but that's not general enough.  We really would rather not vectorise the lambda abstraction at all.
 - `enumFromTo` doesn't fuse due to excessive dictionaries in the unfolding of `zipWithUP`.
+- Finally, to achieve the current result, we needed an analysis that avoids vectorising subcomputations that don't to be vectorised, and worse, that fusion has to turn back into their original form.  In this case, the lambda abstraction `\x -> x * x`.  This is currently implemented in a rather limited and ad-hoc way.  We should implement this on the basis of a more general analysis.
 
 #### Comments regarding DotP
 
