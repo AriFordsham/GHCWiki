@@ -27,7 +27,7 @@ The Sieve of Eratosthenes using parallel writes into a sieve structure represent
 Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2 FB-DIMM; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
 
 
-Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
+Software spec: GHC 6.11 (from first week of Mar 09); gcc 4.0.1
 
 <table><tr><th>**Program**</th>
 <th>**Problem size**</th>
@@ -47,10 +47,10 @@ Software spec: GHC 6.11 (from end of Feb 09); gcc 4.0.1
 <tr><th> SumSq, vectorised </th>
 <th> 10M </th>
 <th> 22 </th>
-<th> 292 </th>
-<th> 170 </th>
-<th> 119 </th>
-<th> 171 
+<th> 40 </th>
+<th> 20 </th>
+<th> 10 </th>
+<th> 5 
 </th></tr>
 <tr><th> SumSq, ref C </th>
 <th>10M </th>
@@ -123,11 +123,15 @@ All results are in milliseconds, and the triples report best/average/worst execu
 #### Comments regarding SumSq
 
 
-The "primitives" version works nicely, but the vectorised one exposes some problems:
+The versions compiled against `dph-par` are by factor of two slower than the ones linked against `dph-seq`.  
+
+
+However, found a number of general problems when working on this example:
 
 - We need an extra -funfolding-use-threshold.  We don't really want users having to worry about that.
 - `mapP (\x -> x * x) xs` essentially turns into `zipWithU (*) xs xs`, which doesn't fuse with `enumFromTo` anymore.  We have a rewrite rule in the library to fix that, but that's not general enough.  We really would rather not vectorise the lambda abstraction at all.
 - `enumFromTo` doesn't fuse due to excessive dictionaries in the unfolding of `zipWithUP`.
+- Finally, to achieve the current result, we needed an analysis that avoids vectorising subcomputations that don't to be vectorised, and worse, that fusion has to turn back into their original form.  In this case, the lambda abstraction `\x -> x * x`.  This is currently implemented in a rather limited and ad-hoc way.  We should implement this on the basis of a more general analysis.
 
 #### Comments regarding DotP
 
@@ -145,7 +149,7 @@ There seems to be a fusion problem in DotP with `dph-par` (even if the version o
 Hardware spec: 1x 1.4GHz UltraSPARC T2; 8 cores/processors with 8 hardware threads/core; 4MB on-die L2 cache per processor; FB-DIMM; Solaris 5.10
 
 
-Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gccfss 4.0.4 (gcc front-end with Sun compiler backend) for C code (as it generates code that is more than twice as fast for numeric computations than vanilla gcc)
+Software spec: GHC 6.11 (from first week of Mar 09) with gcc 4.1.2 for Haskell code; gccfss 4.0.4 (gcc front-end with Sun compiler backend) for C code (as it generates code that is more than twice as fast for numeric computations than vanilla gcc)
 
 <table><tr><th>**Program**</th>
 <th>**Problem size**</th>
@@ -171,13 +175,13 @@ Software spec: GHC 6.11 (from end of Feb 09) with gcc 4.1.2 for Haskell code; gc
 <tr><th> SumSq, vectorised </th>
 <th> 10M </th>
 <th> 212/212 </th>
-<th> 1884/1884 </th>
-<th>950/950 </th>
-<th>499/499 </th>
-<th> 288/288 </th>
 <th> 254/254 </th>
-<th> 193/193 </th>
-<th> 337/377 
+<th> 128/128 </th>
+<th> 64/64 </th>
+<th> 32/32 </th>
+<th> 25/25 </th>
+<th> 17/17 </th>
+<th> 10/10 
 </th></tr>
 <tr><th> SumSq, ref C </th>
 <th>10M </th>
