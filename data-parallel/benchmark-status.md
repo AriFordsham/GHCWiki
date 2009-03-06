@@ -16,7 +16,10 @@ Computes the dot product of two vectors of `Double`s.  There are two variants of
 <tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)</th>
 <td>
 Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*  There are three variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  As a reference implementation, we have a sequential C program denoted by "ref C".
-</td></tr></table>
+</td></tr>
+<tr><th>[ Primes](http://darcs.haskell.org/packages/dph/examples/primes/)</th>
+<td>
+The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes.  **Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).**</td></tr></table>
 
 ### Execution on LimitingFactor (2x Quad-Core Xeon)
 
