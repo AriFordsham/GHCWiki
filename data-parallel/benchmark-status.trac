@@ -37,7 +37,7 @@ All results are in milliseconds, and the triples report best/average/worst execu
 
 ==== Comments regarding !SumSq ====
 
-The versions compiled against `dph-par` are by factor of two slower than the ones linked against `dph-seq`.  This is as the parallel versions needs to compute the length of the array to determine how to split the work.
+The versions compiled against `dph-par` are by factor of two slower than the ones linked against `dph-seq`.  
 
 However, found a number of general problems when working on this example:
  * We need an extra -funfolding-use-threshold.  We don't really want users having to worry about that.
