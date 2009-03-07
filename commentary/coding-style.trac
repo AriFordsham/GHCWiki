@@ -118,6 +118,15 @@ The following CPP symbols are used throughout the compiler:
 
  Regarding performance, a good rule of thumb is that `DEBUG` shouldn't add more than about 10-20% to the compilation time. This is the case at the moment. If it gets too expensive, we won't use it. For more expensive runtime checks, consider adding a flag - see for example `-dcore-lint`.
 
+'''Trap, pitfall for using the ASSERT macro''':
+
+The ASSERT macro uses CPP, and if you are unwise enough to try to write assertions using primed variables ({{{ASSERT (not $ intersectsBlockEnv b b')}}}), one possible outcome is that CPP silently fails to expand the ASSERT, and you get this very baffling error message:
+{{{
+Not in scope: data constructor `ASSERT'
+}}}
+Now you can Google for this error message :-)
+
+
  '''GHCI''':: 
   Enables GHCi support, including the byte code generator and interactive user interface. This isn't the default, because the compiler needs to be bootstrapped with itself in order for GHCi to work properly. The reason is that the byte-code compiler and linker are quite closely tied to the runtime system, so it is essential that GHCi is linked with the most up-to-date RTS. Another reason is that the representation of certain datatypes must be consistent between GHCi and its libraries, and if these were inconsistent then disaster could follow. 
 

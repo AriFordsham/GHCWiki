@@ -152,6 +152,18 @@ Used to enables extra checks and debugging output in the compiler. The ASSERT ma
 >
 > Regarding performance, a good rule of thumb is that `DEBUG` shouldn't add more than about 10-20% to the compilation time. This is the case at the moment. If it gets too expensive, we won't use it. For more expensive runtime checks, consider adding a flag - see for example `-dcore-lint`.
 
+**Trap, pitfall for using the ASSERT macro**:
+
+
+The ASSERT macro uses CPP, and if you are unwise enough to try to write assertions using primed variables (`ASSERT (not $ intersectsBlockEnv b b')`), one possible outcome is that CPP silently fails to expand the ASSERT, and you get this very baffling error message:
+
+```wiki
+Not in scope: data constructor `ASSERT'
+```
+
+
+Now you can Google for this error message :-)
+
 <table><tr><th>**GHCI**</th>
 <td>
 Enables GHCi support, including the byte code generator and interactive user interface. This isn't the default, because the compiler needs to be bootstrapped with itself in order for GHCi to work properly. The reason is that the byte-code compiler and linker are quite closely tied to the runtime system, so it is essential that GHCi is linked with the most up-to-date RTS. Another reason is that the representation of certain datatypes must be consistent between GHCi and its libraries, and if these were inconsistent then disaster could follow. 
@@ -167,12 +179,12 @@ There are three platforms of interest to GHC:
 
 </td></tr></table>
 
-> >
-> > The build platform is currently always the same as the host platform. The build process needs to use some of the tools in the source tree, for example ghc-pkg and hsc2hs. 
+>
+> The build platform is currently always the same as the host platform. The build process needs to use some of the tools in the source tree, for example ghc-pkg and hsc2hs. 
 
-> >
-> > If the target platform differs from the host platform, then this is generally for the purpose of building .hc files from Haskell source for porting GHC to the target platform. Full cross-compilation isn't supported (yet). 
-> > In the compiler's source code, you may make use of the following CPP symbols:
+>
+> If the target platform differs from the host platform, then this is generally for the purpose of building .hc files from Haskell source for porting GHC to the target platform. Full cross-compilation isn't supported (yet). 
+> In the compiler's source code, you may make use of the following CPP symbols:
 
 ```wiki
 xxx_TARGET_ARCH 
@@ -183,8 +195,8 @@ xxx_HOST_VENDOR
 xxx_HOST_OS 
 ```
 
-> >
-> > where xxx is the appropriate value: eg. i386_TARGET_ARCH. 
+>
+> where xxx is the appropriate value: eg. i386_TARGET_ARCH. 
 
 ## Compiler versions and language extensions
 
