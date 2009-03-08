@@ -179,7 +179,10 @@ Performance is memory bound, and hence, the benchmark stops scaling once the mem
 There seems to be a fusion problem in DotP with `dph-par` (even if the version of `zipWithSUP` that uses `splitSD/joinSD` is used); hence the much lower runtime for "N=1" than for "sequential".  The vectorised version runs out of memory; maybe because we didn't solve the `bpermute` problem, yet.
 
 
-Obviously, the vectorised version remains to be improved.  This is due to an unexploited fusion opportunity.  Moreover, "SMVM, primitives" exhibits a strange behaviour from 2 to 4 threads with the matrix of density 0.001.  This might be a scheduling problem.
+Obviously, the vectorised version remains to be improved.  This is due to an unexploited fusion opportunity.  Even to achieve the observed efficiency, we need an overly general (and hence, in some case incorrect) rewrite rule to fuse repeat combinators.  We need more expressive rewrite rules to specify the correct rule.  More generally, we need these more expressive rules to express important rewrites for the replicate combinator in its various forms; in particular, to optimise shape computations that enable other optimisations.
+
+
+Moreover, "SMVM, primitives" exhibits a strange behaviour from 2 to 4 threads with the matrix of density 0.001.  This might be a scheduling problem.
 
 ### Execution on greyarea (1x UltraSPARC T2)
 
