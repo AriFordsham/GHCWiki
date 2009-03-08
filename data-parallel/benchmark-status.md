@@ -19,7 +19,18 @@ Multiplies a dense vector with a sparse matrix represented in the *compressed sp
 </td></tr>
 <tr><th>[ Primes](http://darcs.haskell.org/packages/dph/examples/primes/)</th>
 <td>
-The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes.  **Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).**</td></tr></table>
+The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes.  **Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).**</td></tr>
+<tr><th>[ Quickhull](http://darcs.haskell.org/packages/dph/examples/quickhull/)</th>
+<td>
+Given a set of points (in a plane), compute the sequence of points that encloses all points in the set. There is only a vectorised version.  **Currently doesn't work due to bugs in dph-par.  Also needs to get a wrapper using the new benchmark framework to generated test input and time execution.**</td></tr>
+<tr><th>[ Quicksort](http://darcs.haskell.org/packages/dph/examples/qsort/)</th>
+<td>FIXME</td></tr>
+<tr><th>[ ConComp](http://darcs.haskell.org/packages/dph/examples/concomp/)</th>
+<td>
+Implementation of the Awerbuch-Shiloach and Hybrid algorithms for finding connected components in undirected graphs.  There is only a version directly coded against the array primitives.  **Needs to be adapted to new benchmark framework.**</td></tr>
+<tr><th>[ BarnesHut](http://darcs.haskell.org/packages/dph/examples/barnesHut/)</th>
+<td>
+This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions.  **Currently won't compile with vectorisation due to excessive inlining of dictionaries.**</td></tr></table>
 
 ### Execution on LimitingFactor (2x Quad-Core Xeon)
 
@@ -93,20 +104,44 @@ Software spec: GHC 6.11 (from first week of Mar 09); gcc 4.0.1
 <th> 210 
 </th></tr>
 <tr><th> SMVM, primitives </th>
-<th> 100kx100k @ density 0.001 </th>
+<th> 10kx10k @ density 0.1 </th>
 <th> 119/119 </th>
-<th> 254/254 </th>
-<th> 154/154 </th>
-<th> 90/90 </th>
-<th> 67/67 
+<th> 111/111 </th>
+<th> 78/78 </th>
+<th> 36/36 </th>
+<th> 21/21 
+</th></tr>
+<tr><th> SMVM, vectorised </th>
+<th> 10kx10k @ density 0.1 </th>
+<th> 175/175 </th>
+<th> 137/137 </th>
+<th> 74/74 </th>
+<th> 47/47 </th>
+<th> 23/23 
+</th></tr>
+<tr><th> SMVM, ref C </th>
+<th> 10kx10k @ density 0.1 </th>
+<th>  35 </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – 
+</th></tr>
+<tr><th> SMVM, primitives </th>
+<th> 100kx100k @ density 0.001 </th>
+<th> 132/132 </th>
+<th> 135/135 </th>
+<th> 81/81 </th>
+<th> 91/91 </th>
+<th> 48/48 
 </th></tr>
 <tr><th> SMVM, vectorised </th>
 <th> 100kx100k @ density 0.001 </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ 
+<th> 182/182 </th>
+<th> 171/171 </th>
+<th> 93/93 </th>
+<th> 89/89 </th>
+<th> 53/53 
 </th></tr>
 <tr><th> SMVM, ref C </th>
 <th> 100kx100k @ density 0.001 </th>
@@ -141,7 +176,10 @@ Performance is memory bound, and hence, the benchmark stops scaling once the mem
 #### Comments regarding smvm
 
 
-There seems to be a fusion problem in DotP with `dph-par` (even if the version of `zipWithSUP` that uses `splitSD/joinSD` is used); hence the much lower runtime for "N=1" than for "sequential".  The vectorised version runs out of memory; maybe because we didn't solve the `bpermute` problem, yet.
+"SMVM, vectorised" needs a lot of tinkering in the form of special rules at the moment and forcing particular inlines.  We need more expressive rewrite rules; in particular, we need these more expressive rules to express important rewrites for the replicate combinator in its various forms and to optimise shape computations that enable other optimisations.
+
+
+Moreover, "SMVM, primitives" & "SMVM, vectorised" exhibit a strange behaviour from 2 to 4 threads with the matrix of density 0.001.  This might be a scheduling problem.
 
 ### Execution on greyarea (1x UltraSPARC T2)
 
@@ -239,26 +277,59 @@ Software spec: GHC 6.11 (from first week of Mar 09) with gcc 4.1.2 for Haskell c
 <th> 20 
 </th></tr>
 <tr><th> SMVM, primitives </th>
+<th> 10kx10k @ density 0.1 </th>
+<th> 1102/1102 </th>
+<th> 1112/1112 </th>
+<th> 561/561 </th>
+<th> 285/285 </th>
+<th> 150/150 </th>
+<th> 82/82 </th>
+<th> 63/70 </th>
+<th> 54/100 
+</th></tr>
+<tr><th> SMVM, vectorised </th>
+<th> 10kx10k @ density 0.1 </th>
+<th> 1784/1784 </th>
+<th> 1810/1810 </th>
+<th> 910/910 </th>
+<th> 466/466 </th>
+<th> 237/237 </th>
+<th> 131/131 </th>
+<th> 96/96 </th>
+<th> 87/87 
+</th></tr>
+<tr><th> SMVM, ref C </th>
+<th> 10kx10k @ density 0.1 </th>
+<th> 580 </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – 
+</th></tr>
+<tr><th> SMVM, primitives </th>
 <th> 100kx100k @ density 0.001 </th>
 <th> 1112/1112 </th>
-<th> 1926/1926 </th>
-<th> 1009/1009 </th>
-<th> 797/797 </th>
-<th> 463/ 463 </th>
-<th> 326/326 </th>
-<th> 189/189 </th>
-<th> 207/207 
+<th> 1299/1299 </th>
+<th> 684/684 </th>
+<th> 653/653 </th>
+<th> 368/368 </th>
+<th> 294/294 </th>
+<th> 197/197 </th>
+<th> 160/160 
 </th></tr>
 <tr><th> SMVM, vectorised </th>
 <th> 100kx100k @ density 0.001 </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ 
+<th> 1824/1824 </th>
+<th> 2008/2008 </th>
+<th> 1048/1048 </th>
+<th> 1010/1010 </th>
+<th> 545/545 </th>
+<th> 426/426 </th>
+<th> 269/269 </th>
+<th> 258/258 
 </th></tr>
 <tr><th> SMVM, ref C </th>
 <th> 100kx100k @ density 0.001 </th>
@@ -278,7 +349,7 @@ All results are in milliseconds, and the triples report best/worst execution tim
 #### Comments regarding SumSq
 
 
-The primitives scale nicely, but something is deeply wrong (lack of fusion, perhaps) with the vectorised version.
+As on LimitingFactor.
 
 #### Comments regarding DotP
 
@@ -288,51 +359,12 @@ The benchmark scales nicely up to the maximum number of hardware threads.  Memor
 #### Comments regarding smvm
 
 
-As on LimitingFactor, but it scales much more nicely and improves until using four threads per core.  This suggets that memory bandwidth is again a critical factor in this benchmark (this fits well with earlier observations on other architectures).  Despite fusion problem with `dph-par`, the parallel Haskell program, using all 8 cores, still ends up three times faster than the sequential C program.
-
----
-
-<table><tr><th>**Program**</th>
-<th>**Sequential (manually vectorised) **</th>
-<th>**Vectorised**</th>
-<th>** Parallel**</th></tr>
-<tr><th> DotP           </th>
-<th>Order of mag. faster than list impl      </th>
-<th> Same performance as seq. </th>
-<th> speedup of 2 for 2 CPUs, 4 threads  
-</th></tr>
-<tr><th> QuickSort     </th>
-<th>Slower than list (fusion)                </th>
-<th> Slower than seq. (why?)  </th>
-<th> speedup of 1.4 on 2 CPUs            
-</th></tr>
-<tr><th> SparseVector  </th>
-<th>Similar to DotP                          </th>
-<th></th>
-<th></th></tr>
-<tr><th> Primes (Nesl)  </th>
-<th>15 x faster than list version            </th>
-<th> NYI                      </th>
-<th> 20 x slower than seq (fusion?)      
-</th></tr>
-<tr><th> Primes (Simon) </th>
-<th>NYI                                      </th>
-<th> Working                  </th>
-<th> NYI                                 
-</th></tr>
-<tr><th> BarnesHut     </th>
-<th>Small bug in alg                         </th>
-<th> Working                  </th>
-<th> See seq.                            
-</th></tr></table>
+As on LimitingFactor, but it scales much more nicely and improves until using four threads per core.  This suggets that memory bandwidth is again a critical factor in this benchmark (this fits well with earlier observations on other architectures).
 
 
-General remarks:
+On this machine, "SMVM primitives" & "SMVM, vectorised" also have a quirk from 2 to 4 threads.  This re-enforces the suspicion that this is a scheduling problem.
 
-- I only ran a first set of benchmarks when checking for what's there. I'll run the benchmarks properly as next step
+### Summary
 
-- Fusion doesn't work well on parallel programs yet, so for all but simple examples, the parallel program performs worse than the sequential
 
-- The compiler doesn't exploit all fusion opportunities for QSort and BarnesHut. Once this is fixed, they should run considerably faster.
-
-- Interestingly, the automatically vectorised version of qsort is quite a bit faster than the hand-flattened. Need to find out why.
+The speedup relative to a sequential C program for SumSq, DotP, and SMVM on both architectures is illustrated by [ this graph.](http://www.cse.unsw.edu.au/~chak/project/dph/benchmarks/speedup-mar09.png)  In all cases, the data parallel Haskell program outperforms the sequential C program by a large margin on 8 cores.  The gray graph is a parallel C program computing the dot product using pthreads.  It clearly shows that the two Quad-Core Xeon with 8x1 threads are memory-limited for this benchmark, and the C code is barely any faster on 8 cores than the Haskell code.
