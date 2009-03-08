@@ -274,26 +274,59 @@ Software spec: GHC 6.11 (from first week of Mar 09) with gcc 4.1.2 for Haskell c
 <th> 20 
 </th></tr>
 <tr><th> SMVM, primitives </th>
+<th> 10kx10k @ density 0.1 </th>
+<th> 1102/1102 </th>
+<th> 1112/1112 </th>
+<th> 561/561 </th>
+<th> 285/285 </th>
+<th> 150/150 </th>
+<th> 82/82 </th>
+<th> 63/70 </th>
+<th> 54/100 
+</th></tr>
+<tr><th> SMVM, vectorised </th>
+<th> 10kx10k @ density 0.1 </th>
+<th> 2312/2312 </th>
+<th> 15960/15960 </th>
+<th> 8192/8192 </th>
+<th> 4188/4188 </th>
+<th> 2362/2362 </th>
+<th> 1538/1538 </th>
+<th> 1047/1047 </th>
+<th> 950/950 
+</th></tr>
+<tr><th> SMVM, ref C </th>
+<th> 10kx10k @ density 0.1 </th>
+<th> 580 </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – 
+</th></tr>
+<tr><th> SMVM, primitives </th>
 <th> 100kx100k @ density 0.001 </th>
 <th> 1112/1112 </th>
-<th> 1926/1926 </th>
-<th> 1009/1009 </th>
-<th> 797/797 </th>
-<th> 463/ 463 </th>
-<th> 326/326 </th>
-<th> 189/189 </th>
-<th> 207/207 
+<th> 1299/1299 </th>
+<th> 684/684 </th>
+<th> 653/653 </th>
+<th> 368/368 </th>
+<th> 294/294 </th>
+<th> 197/197 </th>
+<th> 160/160 
 </th></tr>
 <tr><th> SMVM, vectorised </th>
 <th> 100kx100k @ density 0.001 </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ 
+<th> 2345/2345 </th>
+<th> 16110/16110 </th>
+<th> 8553/8553 </th>
+<th> 4400/4400 </th>
+<th> 2572/2572 </th>
+<th> 1645/1645 </th>
+<th> 1224/1224 </th>
+<th> 1005/1005 
 </th></tr>
 <tr><th> SMVM, ref C </th>
 <th> 100kx100k @ density 0.001 </th>

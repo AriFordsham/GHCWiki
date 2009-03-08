@@ -79,8 +79,11 @@ Software spec: GHC 6.11 (from first week of Mar 09) with gcc 4.1.2 for Haskell c
 || DotP, vectorised || 100M elements || 937/937 || 942/942 || 471/471 || 240/240 || 118/118 || 65/65 || 43/43 || 29/29 || 
 || DotP, ref Haskell || 100M elements || – || 934 || 467 || 238 || 117 || 61 || 65 || 36 ||
 || DotP, ref C || 100M elements || – || 554 || 277 || 142 || 72 || 37 || 22 || 20 ||
-|| SMVM, primitives || 100kx100k @ density 0.001 || 1112/1112 || 1926/1926 || 1009/1009 || 797/797 || 463/ 463 || 326/326 || 189/189 || 207/207 ||
-|| SMVM, vectorised || 100kx100k @ density 0.001 || _|_ || _|_ || _|_ || _|_ || _|_ || _|_ || _|_ || _|_ ||
+|| SMVM, primitives || 10kx10k @ density 0.1 || 1102/1102 || 1112/1112 || 561/561 || 285/285 || 150/150 || 82/82 || 63/70 || 54/100 ||
+|| SMVM, vectorised || 10kx10k @ density 0.1 || 2312/2312 || 15960/15960 || 8192/8192 || 4188/4188 || 2362/2362 || 1538/1538 || 1047/1047 || 950/950 ||
+|| SMVM, ref C || 10kx10k @ density 0.1 || 580 || – || – || – || – || – || – || – ||
+|| SMVM, primitives || 100kx100k @ density 0.001 || 1112/1112 || 1299/1299 || 684/684 || 653/653 || 368/368 || 294/294 || 197/197 || 160/160 ||
+|| SMVM, vectorised || 100kx100k @ density 0.001 || 2345/2345 || 16110/16110 || 8553/8553 || 4400/4400 || 2572/2572 || 1645/1645 || 1224/1224 || 1005/1005 ||
 || SMVM, ref C || 100kx100k @ density 0.001 || 600 || – || – || – || – || – || – || – ||
 
 All results are in milliseconds, and the triples report best/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
