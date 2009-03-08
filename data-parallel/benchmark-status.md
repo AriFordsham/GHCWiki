@@ -19,7 +19,18 @@ Multiplies a dense vector with a sparse matrix represented in the *compressed sp
 </td></tr>
 <tr><th>[ Primes](http://darcs.haskell.org/packages/dph/examples/primes/)</th>
 <td>
-The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes.  **Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).**</td></tr></table>
+The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes.  **Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).**</td></tr>
+<tr><th>[ Quickhull](http://darcs.haskell.org/packages/dph/examples/quickhull/)</th>
+<td>
+Given a set of points (in a plane), compute the sequence of points that encloses all points in the set. There is only a vectorised version.  **Currently doesn't work due to bugs in dph-par.  Also needs to get a wrapper using the new benchmark framework to generated test input and time execution.**</td></tr>
+<tr><th>[ Quicksort](http://darcs.haskell.org/packages/dph/examples/qsort/)</th>
+<td>FIXME</td></tr>
+<tr><th>[ ConComp](http://darcs.haskell.org/packages/dph/examples/concomp/)</th>
+<td>
+Implementation of the Awerbuch-Shiloach and Hybrid algorithms for finding connected components in undirected graphs.  There is only a version directly coded against the array primitives.  **Needs to be adapted to new benchmark framework.**</td></tr>
+<tr><th>[ BarnesHut](http://darcs.haskell.org/packages/dph/examples/barnesHut/)</th>
+<td>
+This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions.  **Currently won't compile with vectorisation due to excessive inlining of dictionaries.**</td></tr></table>
 
 ### Execution on LimitingFactor (2x Quad-Core Xeon)
 
@@ -289,50 +300,3 @@ The benchmark scales nicely up to the maximum number of hardware threads.  Memor
 
 
 As on LimitingFactor, but it scales much more nicely and improves until using four threads per core.  This suggets that memory bandwidth is again a critical factor in this benchmark (this fits well with earlier observations on other architectures).  Despite fusion problem with `dph-par`, the parallel Haskell program, using all 8 cores, still ends up three times faster than the sequential C program.
-
----
-
-<table><tr><th>**Program**</th>
-<th>**Sequential (manually vectorised) **</th>
-<th>**Vectorised**</th>
-<th>** Parallel**</th></tr>
-<tr><th> DotP           </th>
-<th>Order of mag. faster than list impl      </th>
-<th> Same performance as seq. </th>
-<th> speedup of 2 for 2 CPUs, 4 threads  
-</th></tr>
-<tr><th> QuickSort     </th>
-<th>Slower than list (fusion)                </th>
-<th> Slower than seq. (why?)  </th>
-<th> speedup of 1.4 on 2 CPUs            
-</th></tr>
-<tr><th> SparseVector  </th>
-<th>Similar to DotP                          </th>
-<th></th>
-<th></th></tr>
-<tr><th> Primes (Nesl)  </th>
-<th>15 x faster than list version            </th>
-<th> NYI                      </th>
-<th> 20 x slower than seq (fusion?)      
-</th></tr>
-<tr><th> Primes (Simon) </th>
-<th>NYI                                      </th>
-<th> Working                  </th>
-<th> NYI                                 
-</th></tr>
-<tr><th> BarnesHut     </th>
-<th>Small bug in alg                         </th>
-<th> Working                  </th>
-<th> See seq.                            
-</th></tr></table>
-
-
-General remarks:
-
-- I only ran a first set of benchmarks when checking for what's there. I'll run the benchmarks properly as next step
-
-- Fusion doesn't work well on parallel programs yet, so for all but simple examples, the parallel program performs worse than the sequential
-
-- The compiler doesn't exploit all fusion opportunities for QSort and BarnesHut. Once this is fixed, they should run considerably faster.
-
-- Interestingly, the automatically vectorised version of qsort is quite a bit faster than the hand-flattened. Need to find out why.

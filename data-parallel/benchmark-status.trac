@@ -14,6 +14,15 @@ This page gives an overview of how well the benchmarks in the [http://darcs.hask
   Multiplies a dense vector with a sparse matrix represented in the ''compressed sparse row format (CSR).''  There are three variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  As a reference implementation, we have a sequential C program denoted by "ref C".
  [http://darcs.haskell.org/packages/dph/examples/primes/ Primes]::
   The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes.  '''Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).'''
+ [http://darcs.haskell.org/packages/dph/examples/quickhull/ Quickhull]::
+  Given a set of points (in a plane), compute the sequence of points that encloses all points in the set. There is only a vectorised version.  '''Currently doesn't work due to bugs in dph-par.  Also needs to get a wrapper using the new benchmark framework to generated test input and time execution.'''
+ [http://darcs.haskell.org/packages/dph/examples/qsort/ Quicksort]::
+  FIXME
+ [http://darcs.haskell.org/packages/dph/examples/concomp/ ConComp]::
+  Implementation of the Awerbuch-Shiloach and Hybrid algorithms for finding connected components in undirected graphs.  There is only a version directly coded against the array primitives.  '''Needs to be adapted to new benchmark framework.'''
+ [http://darcs.haskell.org/packages/dph/examples/barnesHut/ BarnesHut]::
+  This benchmark implements the Barnes-Hut algorithm to solve the ''n''-body problem in two dimensions.  '''Currently won't compile with vectorisation due to excessive inlining of dictionaries.'''
+
 
 === Execution on !LimitingFactor (2x Quad-Core Xeon) ===
 
@@ -84,27 +93,6 @@ The benchmark scales nicely up to the maximum number of hardware threads.  Memor
 ==== Comments regarding smvm ====
 
 As on !LimitingFactor, but it scales much more nicely and improves until using four threads per core.  This suggets that memory bandwidth is again a critical factor in this benchmark (this fits well with earlier observations on other architectures).  Despite fusion problem with `dph-par`, the parallel Haskell program, using all 8 cores, still ends up three times faster than the sequential C program.
-
-----
-
-|| '''Program'''  || '''Sequential (manually vectorised) ''' || '''Vectorised'''         || ''' Parallel'''                     ||
-|| DotP           ||Order of mag. faster than list impl      || Same performance as seq. || speedup of 2 for 2 CPUs, 4 threads  ||
-|| !QuickSort     ||Slower than list (fusion)                || Slower than seq. (why?)  || speedup of 1.4 on 2 CPUs            ||
-|| !SparseVector  ||Similar to DotP                          ||                          ||                                     ||
-|| Primes (Nesl)  ||15 x faster than list version            || NYI                      || 20 x slower than seq (fusion?)      ||
-|| Primes (Simon) ||NYI                                      || Working                  || NYI                                 ||
-|| !BarnesHut     ||Small bug in alg                         || Working                  || See seq.                            ||  
- 
-
-General remarks:
-
- * I only ran a first set of benchmarks when checking for what's there. I'll run the benchmarks properly as next step
-
- * Fusion doesn't work well on parallel programs yet, so for all but simple examples, the parallel program performs worse than the sequential
-
- * The compiler doesn't exploit all fusion opportunities for QSort and !BarnesHut. Once this is fixed, they should run considerably faster.
-
- * Interestingly, the automatically vectorised version of qsort is quite a bit faster than the hand-flattened. Need to find out why.
 
 
   
