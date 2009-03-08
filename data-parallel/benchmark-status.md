@@ -104,20 +104,44 @@ Software spec: GHC 6.11 (from first week of Mar 09); gcc 4.0.1
 <th> 210 
 </th></tr>
 <tr><th> SMVM, primitives </th>
-<th> 100kx100k @ density 0.001 </th>
+<th> 10kx10k @ density 0.1 </th>
 <th> 119/119 </th>
-<th> 254/254 </th>
-<th> 154/154 </th>
-<th> 90/90 </th>
-<th> 67/67 
+<th> 111/111 </th>
+<th> 78/78 </th>
+<th> 36/36 </th>
+<th> 21/21 
+</th></tr>
+<tr><th> SMVM, vectorised </th>
+<th> 10kx10k @ density 0.1 </th>
+<th> 196/196 </th>
+<th> 1220/1220 </th>
+<th> 847/847 </th>
+<th> 515/515 </th>
+<th> 424/424 
+</th></tr>
+<tr><th> SMVM, ref C </th>
+<th> 10kx10k @ density 0.1 </th>
+<th>  35 </th>
+<th> – </th>
+<th> – </th>
+<th> – </th>
+<th> – 
+</th></tr>
+<tr><th> SMVM, primitives </th>
+<th> 100kx100k @ density 0.001 </th>
+<th> 132/132 </th>
+<th> 135/135 </th>
+<th> 81/81 </th>
+<th> 91/91 </th>
+<th> 48/48 
 </th></tr>
 <tr><th> SMVM, vectorised </th>
 <th> 100kx100k @ density 0.001 </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ </th>
-<th> _\|_ 
+<th> 214/214 </th>
+<th> 1259/1259 </th>
+<th> 899/899 </th>
+<th> 556/556 </th>
+<th> 429/429 
 </th></tr>
 <tr><th> SMVM, ref C </th>
 <th> 100kx100k @ density 0.001 </th>
