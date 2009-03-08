@@ -178,6 +178,9 @@ Performance is memory bound, and hence, the benchmark stops scaling once the mem
 
 There seems to be a fusion problem in DotP with `dph-par` (even if the version of `zipWithSUP` that uses `splitSD/joinSD` is used); hence the much lower runtime for "N=1" than for "sequential".  The vectorised version runs out of memory; maybe because we didn't solve the `bpermute` problem, yet.
 
+
+Obviously, the vectorised version remains to be improved.  This is due to an unexploited fusion opportunity.  Moreover, "SMVM, primitives" exhibits a strange behaviour from 2 to 4 threads with the matrix of density 0.001.  This might be a scheduling problem.
+
 ### Execution on greyarea (1x UltraSPARC T2)
 
 
@@ -357,3 +360,6 @@ The benchmark scales nicely up to the maximum number of hardware threads.  Memor
 
 
 As on LimitingFactor, but it scales much more nicely and improves until using four threads per core.  This suggets that memory bandwidth is again a critical factor in this benchmark (this fits well with earlier observations on other architectures).  Despite fusion problem with `dph-par`, the parallel Haskell program, using all 8 cores, still ends up three times faster than the sequential C program.
+
+
+On this machine, "SMVM primitives" also has a quirk from 2 to 4 threads.  This re-enforces the suspicion that this is a scheduling problem.
