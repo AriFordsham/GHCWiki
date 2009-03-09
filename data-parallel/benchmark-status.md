@@ -176,7 +176,7 @@ Performance is memory bound, and hence, the benchmark stops scaling once the mem
 #### Comments regarding smvm
 
 
-"SMVM, vectorised" needs a lot of tinkering in the form of special rules at the moment.  In particular, we need an overly general (and hence, in some case incorrect) rewrite rule to fuse repeat combinators and we need to artificially force the inlining of a specific function.  We need more expressive rewrite rules to specify the correct rule.  More generally, we need these more expressive rules to express important rewrites for the replicate combinator in its various forms; in particular, to optimise shape computations that enable other optimisations.
+"SMVM, vectorised" needs a lot of tinkering in the form of special rules at the moment and forcing particular inlines.  We need more expressive rewrite rules; in particular, we need these more expressive rules to express important rewrites for the replicate combinator in its various forms and to optimise shape computations that enable other optimisations.
 
 
 Moreover, "SMVM, primitives" & "SMVM, vectorised" exhibit a strange behaviour from 2 to 4 threads with the matrix of density 0.001.  This might be a scheduling problem.
