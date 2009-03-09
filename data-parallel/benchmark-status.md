@@ -113,11 +113,11 @@ Software spec: GHC 6.11 (from first week of Mar 09); gcc 4.0.1
 </th></tr>
 <tr><th> SMVM, vectorised </th>
 <th> 10kx10k @ density 0.1 </th>
-<th> 196/196 </th>
-<th> 1220/1220 </th>
-<th> 847/847 </th>
-<th> 515/515 </th>
-<th> 424/424 
+<th> 175/175 </th>
+<th> 137/137 </th>
+<th> 74/74 </th>
+<th> 47/47 </th>
+<th> 23/23 
 </th></tr>
 <tr><th> SMVM, ref C </th>
 <th> 10kx10k @ density 0.1 </th>
@@ -137,11 +137,11 @@ Software spec: GHC 6.11 (from first week of Mar 09); gcc 4.0.1
 </th></tr>
 <tr><th> SMVM, vectorised </th>
 <th> 100kx100k @ density 0.001 </th>
-<th> 214/214 </th>
-<th> 1259/1259 </th>
-<th> 899/899 </th>
-<th> 556/556 </th>
-<th> 429/429 
+<th> 182/182 </th>
+<th> 171/171 </th>
+<th> 93/93 </th>
+<th> 89/89 </th>
+<th> 53/53 
 </th></tr>
 <tr><th> SMVM, ref C </th>
 <th> 100kx100k @ density 0.001 </th>
@@ -176,13 +176,10 @@ Performance is memory bound, and hence, the benchmark stops scaling once the mem
 #### Comments regarding smvm
 
 
-There seems to be a fusion problem in DotP with `dph-par` (even if the version of `zipWithSUP` that uses `splitSD/joinSD` is used); hence the much lower runtime for "N=1" than for "sequential".  The vectorised version runs out of memory; maybe because we didn't solve the `bpermute` problem, yet.
+"SMVM, vectorised" needs a lot of tinkering in the form of special rules at the moment.  In particular, we need an overly general (and hence, in some case incorrect) rewrite rule to fuse repeat combinators and we need to artificially force the inlining of a specific function.  We need more expressive rewrite rules to specify the correct rule.  More generally, we need these more expressive rules to express important rewrites for the replicate combinator in its various forms; in particular, to optimise shape computations that enable other optimisations.
 
 
-Obviously, the vectorised version remains to be improved.  This is due to an unexploited fusion opportunity.  Even to achieve the observed efficiency, we need an overly general (and hence, in some case incorrect) rewrite rule to fuse repeat combinators.  We need more expressive rewrite rules to specify the correct rule.  More generally, we need these more expressive rules to express important rewrites for the replicate combinator in its various forms; in particular, to optimise shape computations that enable other optimisations.
-
-
-Moreover, "SMVM, primitives" exhibits a strange behaviour from 2 to 4 threads with the matrix of density 0.001.  This might be a scheduling problem.
+Moreover, "SMVM, primitives" & "SMVM, vectorised" exhibit a strange behaviour from 2 to 4 threads with the matrix of density 0.001.  This might be a scheduling problem.
 
 ### Execution on greyarea (1x UltraSPARC T2)
 
