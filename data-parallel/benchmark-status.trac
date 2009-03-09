@@ -103,3 +103,7 @@ The benchmark scales nicely up to the maximum number of hardware threads.  Memor
 As on !LimitingFactor, but it scales much more nicely and improves until using four threads per core.  This suggets that memory bandwidth is again a critical factor in this benchmark (this fits well with earlier observations on other architectures).
 
 On this machine, "SMVM primitives" & "SMVM, vectorised" also have a quirk from 2 to 4 threads.  This re-enforces the suspicion that this is a scheduling problem.
+
+=== Summary ===
+
+The speedup relative to a sequential C program for !SumSq, DotP, and SMVM on both architectures is illustrated by [http://www.cse.unsw.edu.au/~chak/project/dph/benchmarks/speedup-mar09.png this graph.]  In all cases, the data parallel Haskell program outperforms the sequential C program by a large margin on 8 cores.

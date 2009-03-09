@@ -363,3 +363,8 @@ As on LimitingFactor, but it scales much more nicely and improves until using fo
 
 
 On this machine, "SMVM primitives" & "SMVM, vectorised" also have a quirk from 2 to 4 threads.  This re-enforces the suspicion that this is a scheduling problem.
+
+### Summary
+
+
+The speedup relative to a sequential C program for SumSq, DotP, and SMVM on both architectures is illustrated by [ this graph.](http://www.cse.unsw.edu.au/~chak/project/dph/benchmarks/speedup-mar09.png)  In all cases, the data parallel Haskell program outperforms the sequential C program by a large margin on 8 cores.
