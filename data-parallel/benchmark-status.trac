@@ -92,7 +92,7 @@ All results are in milliseconds, and the triples report best/worst execution tim
 
 ==== Comments regarding !SumSq ====
 
-The primitives scale nicely, but something is deeply wrong (lack of fusion, perhaps) with the vectorised version.
+As on !LimitingFactor.
 
 ==== Comments regarding DotP ====
 
