@@ -289,14 +289,14 @@ Software spec: GHC 6.11 (from first week of Mar 09) with gcc 4.1.2 for Haskell c
 </th></tr>
 <tr><th> SMVM, vectorised </th>
 <th> 10kx10k @ density 0.1 </th>
-<th> 2312/2312 </th>
-<th> 15960/15960 </th>
-<th> 8192/8192 </th>
-<th> 4188/4188 </th>
-<th> 2362/2362 </th>
-<th> 1538/1538 </th>
-<th> 1047/1047 </th>
-<th> 950/950 
+<th> 1784/1784 </th>
+<th> 1810/1810 </th>
+<th> 910/910 </th>
+<th> 466/466 </th>
+<th> 237/237 </th>
+<th> 131/131 </th>
+<th> 96/96 </th>
+<th> 87/87 
 </th></tr>
 <tr><th> SMVM, ref C </th>
 <th> 10kx10k @ density 0.1 </th>
@@ -322,14 +322,14 @@ Software spec: GHC 6.11 (from first week of Mar 09) with gcc 4.1.2 for Haskell c
 </th></tr>
 <tr><th> SMVM, vectorised </th>
 <th> 100kx100k @ density 0.001 </th>
-<th> 2345/2345 </th>
-<th> 16110/16110 </th>
-<th> 8553/8553 </th>
-<th> 4400/4400 </th>
-<th> 2572/2572 </th>
-<th> 1645/1645 </th>
-<th> 1224/1224 </th>
-<th> 1005/1005 
+<th> 1824/1824 </th>
+<th> 2008/2008 </th>
+<th> 1048/1048 </th>
+<th> 1010/1010 </th>
+<th> 545/545 </th>
+<th> 426/426 </th>
+<th> 269/269 </th>
+<th> 258/258 
 </th></tr>
 <tr><th> SMVM, ref C </th>
 <th> 100kx100k @ density 0.001 </th>
@@ -359,7 +359,7 @@ The benchmark scales nicely up to the maximum number of hardware threads.  Memor
 #### Comments regarding smvm
 
 
-As on LimitingFactor, but it scales much more nicely and improves until using four threads per core.  This suggets that memory bandwidth is again a critical factor in this benchmark (this fits well with earlier observations on other architectures).  Despite fusion problem with `dph-par`, the parallel Haskell program, using all 8 cores, still ends up three times faster than the sequential C program.
+As on LimitingFactor, but it scales much more nicely and improves until using four threads per core.  This suggets that memory bandwidth is again a critical factor in this benchmark (this fits well with earlier observations on other architectures).
 
 
 On this machine, "SMVM primitives" also has a quirk from 2 to 4 threads.  This re-enforces the suspicion that this is a scheduling problem.
