@@ -14,23 +14,9 @@ but you do need one or the other to *build* GHC.
 
 ## Summary
 
-1. Install *either*MSYS? (including the MSYS Development ToolKit) *or*Cygwin?.  This is the interactive shell plus development tools (make etc) in which you're going to build GHC.
-
-1. Configure SSH?.
-
-1. Get other tools you need for development?:
-
-  - Darcs
-  - GHC itself (used for bootstrapping)
-  - Happy
-  - Alex
-  - Python (already in Cygwin)
-  - An editor 
-
-1. Get MinGW?. This is used solely for the C compiler and linker that are bundled into the GHC distribution.  
-
+1. [Get the tools you need for development](building/prerequisites#preparing-a-windows-system)
 1. Get the [GHC sources](building/getting-the-sources)
-
+1. Configure SSH? (if you need it)
 1. [Do the build](building/windows#building-ghc)
 
 ## Vista users
