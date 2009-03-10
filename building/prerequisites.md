@@ -1,3 +1,14 @@
+# Installing the tools you need to build GHC
+
+
+This page describes how to set up your system with all the tools you need to build, and develop, GHC.  Jump to the relevant section for your operating system:
+
+- [Linux](building/prerequisites#preparing-a-linux-system)
+- [Windows](building/prerequisites#preparing-a-windows-system)
+- [MacOS X](building/prerequisites#preparing-a-macos-x-system)
+- [Solaris](building/prerequisites#preparing-a-solaris-system)
+- [Other](building/prerequisites#other-systems)
+
 ## Preparing a Linux system
 
 
@@ -38,7 +49,36 @@ other packages that are useful for development:
 ## Preparing a Windows system
 
 
-See [Building/Windows](building/windows).  ToDo: move the relevant parts of the docs here.
+Installing the following will get you a working build environment with MSYS (ToDo: add Cygwin).  For your convenience we've cached a working set of build tools that you can download.
+
+- First install a recent stable version of [GHC](http://www.haskell.org/ghc/download.html).
+- Install MinGW: [http://www.haskell.org/ghc/tools/Win32/MinGW-5.1.4.exe](http://www.haskell.org/ghc/tools/Win32/MinGW-5.1.4.exe)
+- Install MSYS: 
+
+  - [http://www.haskell.org/ghc/tools/Win32/MSYS-1.0.10.exe](http://www.haskell.org/ghc/tools/Win32/MSYS-1.0.10.exe)
+  - [http://www.haskell.org/ghc/tools/Win32/msysDTK-1.0.1.exe](http://www.haskell.org/ghc/tools/Win32/msysDTK-1.0.1.exe)
+  - [http://www.haskell.org/ghc/tools/Win32/msysCORE-1.0.11-20080826.tar.gz](http://www.haskell.org/ghc/tools/Win32/msysCORE-1.0.11-20080826.tar.gz) (this is a tar file, which you have to unpack in `c:/msys/1.0`, or wherever you installed MSYS.  Note that you can't do that using an MSYS shell, because you can't overwrite the files in use, so make a copy of `c:/msys/1.0`, unpack it there, and then rename the copy back to `c:/msys/1.0`).
+- Install [ Python](http://www.python.org/download/releases/) (version 2.5.x or 2.6.x, NOT 3.x).
+
+
+The next three are just zip files, you can unpack them wherever you like, but you need to ensure that the programs can be found on your `PATH`.  I usually put all these in `c:/tools` (NB. don't put them anywhere in `c:/msys`, that's special).
+
+- Install Happy: [http://www.haskell.org/ghc/tools/Win32/happy-1.17.zip](http://www.haskell.org/ghc/tools/Win32/happy-1.17.zip)
+- Install Alex: [http://www.haskell.org/ghc/tools/Win32/alex-2.2.zip](http://www.haskell.org/ghc/tools/Win32/alex-2.2.zip)
+- Install Haddock: [http://www.haskell.org/ghc/tools/Win32/haddock-0.8-Win32.zip](http://www.haskell.org/ghc/tools/Win32/haddock-0.8-Win32.zip)
+
+
+Now set your `PATH`.  We recommend doing this by creating a file `.profile` in your home directory (by default `c:/msys/1.0/home/<username>`).  The contents of your `.profile` should be something like this:
+
+```wiki
+PATH=/c/mingw/bin:/c/ghc/ghc-6.10.1/bin:/usr/bin:/bin:/c/tools:/c/Python26:/c/windows/system32
+```
+
+
+Modify the above according to where you installed things, and change the GHC version appropriately.
+
+
+See also [Building/Windows](building/windows).
 
 ## Preparing a MacOS X system
 
@@ -198,7 +238,7 @@ Cygwin does not bundle it by default.
 <td>
 Required for [running the testsuite](building/running-tests).
 Version 2.5.2 or later is preferred, because you'll get support for
-running the testsuite in parallel.
+running the testsuite in parallel.  Stay away from 3.0 and later for now.
 </td></tr></table>
 
 <table><tr><th>[ libedit](http://www.thrysoee.dk/editline/)</th>
