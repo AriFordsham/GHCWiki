@@ -225,3 +225,24 @@ machine with more memory or turn off the split-objs feature when you
 configure ghc. Just add `SplitObjs=NO` to your `mk/build.mk` file (which
 may not exist to start with). (The Gentoo ebuild does this
 automatically)
+
+### Crippled `ld`
+
+
+It turns out that on both Cygwin and MSYS, the `ld` has a
+limit of 32kbytes on its command line.  Especially when using split object
+files, the make system can emit calls to `ld` with thousands
+of files on it.  Then you may see something like this:
+
+```wiki
+
+(cd Graphics/Rendering/OpenGL/GL/QueryUtils_split && /mingw/bin/ld -r -x -o ../QueryUtils.o *.o)
+/bin/sh: /mingw/bin/ld: Invalid argument
+
+```
+
+
+The solution is either to switch off object file splitting (set
+`SplitObjs` to `NO` in your
+`build.mk`),
+or to make the module smaller.
