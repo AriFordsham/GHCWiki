@@ -53,7 +53,7 @@ Category: *Efficiency* (improve scalability and/or baseline performance of gener
 
 - **Replicate:** Implement an extended array representation that uses an optimised representation for arrays that are the result of common forms of replication (i.e., due to free variables in lifted expressions).  The optimised representation stores the data to be replicated and the replication count(s) instead of actually replicating the data.  This also requires all functions consuming arrays to be adapted.  We may habe a new take on this; see **More expressive rewrite rules**.
 
-- **More expressive rewrite rules:** It seems that with more expressive rewrite rules may enable us to handle many of the problems with replicate an friends using rules.  (At least of the proper inlining happens.)
+- **More expressive rewrite rules:** It seems that with more expressive rewrite rules may enable us to handle many of the problems with replicate an friends using rules.  (At least when the proper inlining happens.)  Much of this is needed to optimise shape computations, which in turn enables subsequent optimisations.
 
 - **Recycling:** Use Roman's recycling optimisation (PADL'09) to avoid copying in `joinD`.
 
