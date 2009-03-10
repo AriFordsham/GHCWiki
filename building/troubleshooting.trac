@@ -194,3 +194,14 @@ The solution is either to switch off object file splitting (set
 {{{SplitObjs}}} to {{{NO}}} in your
 {{{build.mk}}}),
 or to make the module smaller.
+
+=== `CYGWIN` environment variable in MSYS ===
+
+When using MSYS, check that the {{{CYGWIN}}} environment variable is ''not'' set.  It's a bad bug
+that MSYS is affected by this, but if you have CYGWIN set to "ntsec ntea", which is right for Cygwin, it
+causes the MSYS {{{ssh}}} to bogusly fail complaining that your {{{.ssh/identity}}}
+file has too-liberal permissinos. 
+
+!ToDo: what's the error message for this?
+
+
