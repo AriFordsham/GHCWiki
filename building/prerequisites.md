@@ -49,7 +49,7 @@ other packages that are useful for development:
 ## Preparing a Windows system
 
 
-Installing the following will get you a working build environment with MSYS (ToDo: add Cygwin).  For your convenience we've cached a working set of build tools that you can download.
+Installing the following will get you a working build environment with MSYS (ToDo: add Cygwin).  For your convenience we've cached a working set of build tools that you can download.  Note: do not install anything in a directory that contains spaces, because the GHC build system is not capable of handling paths with spaces in.
 
 - First install a recent stable version of [GHC](http://www.haskell.org/ghc/download.html).
 - Install MinGW: [http://www.haskell.org/ghc/tools/Win32/MinGW-5.1.4.exe](http://www.haskell.org/ghc/tools/Win32/MinGW-5.1.4.exe)
