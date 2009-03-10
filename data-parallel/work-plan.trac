@@ -1,10 +1,19 @@
 
 == Work plan for implementing Data Parallel Haskell ==
 
+=== Issues that need discussion and planning ===
+
+ * '''Unlifted functions:''' specify the exact behaviour of this optimisation and how the unliftedness of a named function is propagated across module boundaries.
+
+ * '''Code blow up:''' what do we do about dictionary instances, their inlining, floating, and sharing?
+
+ * '''More expressive rewrite rules:''' Roman has some concrete ideas, which we need to discuss.
+
 === Milestones ===
 
- 0. '''DUE 9 March.''' Poster for ''Microsoft External Research Symposium''.
+ 0. The system should be usable for small applications for the GHC 6.12 release.
 
+ 
 === Task assignments ===
 
  ''Roman''::
@@ -23,8 +32,8 @@
    – status: partially implemented (needed new library support for shape manipulations that had to be implemented first)
 
  ''Manuel''::
-   '''Benchmark status''' & '''Desugaring comprehensions'''
-   – status: in the middle of cleaning up and measuring the benchmarks
+   '''Desugaring comprehensions''' & '''Benchmark status'''
+   – status: not started on comprehensions and waiting for code blow up to be improved before continuing with benchmarks
 
 === Open tasks ===
 
@@ -34,19 +43,21 @@ Category: ''Bugs''
 
 Category: ''Efficiency'' (improve scalability and/or baseline performance of generated code):
 
- * '''Replicate:''' Implement an extended array representation that uses an optimised representation for arrays that are the result of common forms of replication (i.e., due to free variables in lifted expressions).  The optimised representation stores the data to be replicated and the replication count(s) instead of actually replicating the data.  This also requires all functions consuming arrays to be adapted.
+ * '''Replicate:''' Implement an extended array representation that uses an optimised representation for arrays that are the result of common forms of replication (i.e., due to free variables in lifted expressions).  The optimised representation stores the data to be replicated and the replication count(s) instead of actually replicating the data.  This also requires all functions consuming arrays to be adapted.  We may habe a new take on this; see '''More expressive rewrite rules'''.
+
+ * '''More expressive rewrite rules:''' It seems that with more expressive rewrite rules may enable us to handle many of the problems with replicate an friends using rules.  (At least of the proper inlining happens.)
 
  * '''Recycling:''' Use Roman's recycling optimisation (PADL'09) to avoid copying in `joinD`.
-
- * '''Scaling:''' Investigate the scaling problems that we are seeing with vectorised code at the moment.  ('''Replicate''' and '''Recycling''' play a role here, but it is unclear whether that's all.  Some benchmarks are simply memory-bandwidth limited.)
 
  * '''Test new inliner:''' Retest package dph with new inliner and the simplifier changes and try to simplify the library on the basis of these new phases.
 
  * '''Desugaring comprehensions:''' The current desugaring of array comprehensions produces very inefficient code.  This needs to be improved.  In particular, the `map/crossMap` base case in `dotP` for `x<-xs` and use `zipWith` instead of `map/zip`.
 
+ * '''Unlifted functions:''' For some scalar functions (especially numeric functions and functions operating on enumerations), it is easier to not lift them at all; rather than to lift them and then attempt to recover the original form with fusion and other optimisations.  An example is the `SumSq` benchmark, where we have `sumP (mapP (\x -> x * x) [:1..n:]`.  Here, we would rather not lift `\x -> x * x` at all.  Roman implemented a very simple form of this idea (which works for `SumSq`).  However, we would like this in a more general form, where named functions that remain unlifted are marked suitably, as clients of a function can only be unlifted if all functions it calls are already unlifted.
+
 Category:  ''Compile time'' (improve compile times):
 
- * '''Code blow up:''' GHC generates a lot of intermediate code when vectorisation is enabled, leading to excessive compilation times.  Find out whether the new inliner helped here and what else can be done to improve this situation.
+ * '''Code blow up:''' GHC generates a lot of intermediate code when vectorisation is enabled, leading to excessive compilation times.  It all appears to come down to the treatment of dictionary instances.  We need a plan for how to make progress here.
 
 Category: ''Ease of use'' (make the system easier or more convenient to use for end users):
 
@@ -62,7 +73,7 @@ Category: ''Case studies'' (benchmarks and example applications):
 
  * '''Hierarchical matrix representation:''' Sparse matrices can be space-efficiently represented by recursively decomposing them into four quadrants.  Decomposition stops if a quadrant is smaller than a threshold or contains only zeros.  Multiplication of such matrices is straight forward using Strassen's divide-and-conquer scheme, which is popular for parallel implementations.  Other operations, such as transposing a matrix, can also be efficiently implemented.  The plan is to experiment with the implementation of some BLAS routines using this representation.
 
- * '''Benchmark status:''' Update and complete [wiki:DataParallel/BenchmarkStatus]; at the same time clean up the benchmark portion of the repo.
+ * '''Benchmark status:''' Once the code blow up problem is under control, update and complete those benchmarks on [wiki:DataParallel/BenchmarkStatus] that didn't work earlier.
 
  * '''N-body:''' Get a fully vectorised n-body code to run and scale well on !LimitingFactor.
 
@@ -73,6 +84,12 @@ Category: ''Infrastructure'' (fiddling with GHC's build system and similar infra
 ----
 
 === Done ===
+
+ * '''Scaling:''' Investigate the scaling problems that we are seeing with vectorised code at the moment.  ('''Replicate''' and '''Recycling''' play a role here, but it is unclear whether that's all.  Some benchmarks are simply memory-bandwidth limited.)  [So far, we only found scaling problems due to memory bandwidth of the tested architecture.  Scaling on the Sun T2 is excellent.]
+
+ * '''DUE 9 March.''' Poster for ''Microsoft External Research Symposium''.  [Submitted to MER.]†
+
+ * '''Benchmark status:''' Update and complete [wiki:DataParallel/BenchmarkStatus]; at the same time clean up the benchmark portion of the repo.  [Completed a first sweep through this with updated benchmark results for !SumSq, DotP, and SMVM, cleaned up code, and a much better idea of what the most important work items from now on are.]
 
  * '''New build system:''' Evaluate whether the preview of the new build system looks like it is what we want.  [The new build system seems fine and we should have no problem building package dph in stage2 either.]
 
