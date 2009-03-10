@@ -164,8 +164,8 @@ The versions compiled against `dph-par` are by factor of two slower than the one
 However, found a number of general problems when working on this example:
 
 - We need an extra -funfolding-use-threshold.  We don't really want users having to worry about that.
-- `mapP (\x -> x * x) xs` essentially turns into `zipWithU (*) xs xs`, which doesn't fuse with `enumFromTo` anymore.  We have a rewrite rule in the library to fix that, but that's not general enough.  We really would rather not vectorise the lambda abstraction at all.
 - `enumFromTo` doesn't fuse due to excessive dictionaries in the unfolding of `zipWithUP`.
+- `mapP (\x -> x * x) xs` essentially turns into `zipWithU (*) xs xs`, which doesn't fuse with `enumFromTo` anymore.  We have a rewrite rule in the library to fix that, but that's not general enough.  We really would rather not vectorise the lambda abstraction at all.
 - Finally, to achieve the current result, we needed an analysis that avoids vectorising subcomputations that don't to be vectorised, and worse, that fusion has to turn back into their original form.  In this case, the lambda abstraction `\x -> x * x`.  This is currently implemented in a rather limited and ad-hoc way.  We should implement this on the basis of a more general analysis.
 
 #### Comments regarding DotP
@@ -367,4 +367,4 @@ On this machine, "SMVM primitives" & "SMVM, vectorised" also have a quirk from 2
 ### Summary
 
 
-The speedup relative to a sequential C program for SumSq, DotP, and SMVM on both architectures is illustrated by [ two summary graphs.](http://justtesting.org/post/85103645/these-graphs-summarise-the-performance-of-data)  In all cases, the data parallel Haskell program outperforms the sequential C program by a large margin on 8 cores.  The gray graph is a parallel C program computing the dot product using pthreads.  It clearly shows that the two Quad-Core Xeon with 8x1 threads are memory-limited for this benchmark, and the C code is barely any faster on 8 cores than the Haskell code.
+The speedup relative to a sequential C program for SumSq, DotP, and SMVM on both architectures is illustrated by [ two summary graphs.](http://justtesting.org/post/85103645/these-graphs-summarise-the-performance-of-data)  In all cases, the data parallel Haskell program outperforms the sequential C program by a large margin on 8 cores.  The gray curve is a parallel C program computing the dot product using pthreads.  It clearly shows that the two Quad-Core Xeon with 8x1 threads are memory-limited for this benchmark, and the C code is barely any faster on 8 cores than the Haskell code.
