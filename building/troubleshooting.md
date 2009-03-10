@@ -3,6 +3,9 @@
 
 Here we keep track of failures that can occur when building GHC, with solutions.
 
+
+We don't expect anyone to read this page from beginning to end.  The only way you get here is by searching, so remember when adding a new entry the most important thing to do is to **include the error message verbatim**, so searches will find it.
+
 ### Using autoconf by mistake
 
 
