@@ -1,5 +1,14 @@
 
-[[PageOutline]]
+
+= Installing the tools you need to build GHC =
+
+This page describes how to set up your system with all the tools you need to build, and develop, GHC.  Jump to the relevant section for your operating system:
+
+ * [#PreparingaLinuxsystem Linux]
+ * [#PreparingaWindowssystem Windows]
+ * [#PreparingaMacOSXsystem MacOS X]
+ * [#PreparingaSolarissystem Solaris]
+ * [#Othersystems Other]
 
 == Preparing a Linux system ==
 
@@ -196,7 +205,7 @@ In most cases the `configure` script will tell you if you are missing something.
  Python::
   Required for [wiki:Building/RunningTests running the testsuite].
   Version 2.5.2 or later is preferred, because you'll get support for
-  running the testsuite in parallel.
+  running the testsuite in parallel.  Stay away from 3.0 and later for now.
 
  [http://www.thrysoee.dk/editline/ libedit]::
   If libedit is installed, ghci will be built with a nice interactive line-editing interface.  

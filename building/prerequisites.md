@@ -1,3 +1,14 @@
+# Installing the tools you need to build GHC
+
+
+This page describes how to set up your system with all the tools you need to build, and develop, GHC.  Jump to the relevant section for your operating system:
+
+- [Linux](building/prerequisites#preparing-a-linux-system)
+- [Windows](building/prerequisites#preparing-a-windows-system)
+- [MacOS X](building/prerequisites#preparing-a-macos-x-system)
+- [Solaris](building/prerequisites#preparing-a-solaris-system)
+- [Other](building/prerequisites#other-systems)
+
 ## Preparing a Linux system
 
 
@@ -227,7 +238,7 @@ Cygwin does not bundle it by default.
 <td>
 Required for [running the testsuite](building/running-tests).
 Version 2.5.2 or later is preferred, because you'll get support for
-running the testsuite in parallel.
+running the testsuite in parallel.  Stay away from 3.0 and later for now.
 </td></tr></table>
 
 <table><tr><th>[ libedit](http://www.thrysoee.dk/editline/)</th>
