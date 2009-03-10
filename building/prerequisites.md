@@ -47,6 +47,7 @@ Installing the following will get you a working build environment with MSYS (ToD
   - [http://www.haskell.org/ghc/tools/Win32/MSYS-1.0.10.exe](http://www.haskell.org/ghc/tools/Win32/MSYS-1.0.10.exe)
   - [http://www.haskell.org/ghc/tools/Win32/msysDTK-1.0.1.exe](http://www.haskell.org/ghc/tools/Win32/msysDTK-1.0.1.exe)
   - [http://www.haskell.org/ghc/tools/Win32/msysCORE-1.0.11-20080826.tar.gz](http://www.haskell.org/ghc/tools/Win32/msysCORE-1.0.11-20080826.tar.gz) (this is a tar file, which you have to unpack in `c:/msys/1.0`, or wherever you installed MSYS.  Note that you can't do that using an MSYS shell, because you can't overwrite the files in use, so make a copy of `c:/msys/1.0`, unpack it there, and then rename the copy back to `c:/msys/1.0`).
+- Install [ Python](http://www.python.org/download/releases/) (version 2.5.x or 2.6.x, NOT 3.x).
 
 
 The next three are just zip files, you can unpack them wherever you like, but you need to ensure that the programs can be found on your `PATH`.  I usually put all these in `c:/tools` (NB. don't put them anywhere in `c:/msys`, that's special).
@@ -59,7 +60,7 @@ The next three are just zip files, you can unpack them wherever you like, but yo
 Now set your `PATH`.  We recommend doing this by creating a file `.profile` in your home directory (by default `c:/msys/1.0/home/<username>`).  The contents of your `.profile` should be something like this:
 
 ```wiki
-PATH=/c/mingw/bin:/c/ghc/ghc-6.10.1/bin:/usr/bin:/bin:/c/tools:/c/windows/system32
+PATH=/c/mingw/bin:/c/ghc/ghc-6.10.1/bin:/usr/bin:/bin:/c/tools:/c/Python26:/c/windows/system32
 ```
 
 
