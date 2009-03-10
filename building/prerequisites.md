@@ -59,7 +59,7 @@ The next three are just zip files, you can unpack them wherever you like, but yo
 Now set your `PATH`.  We recommend doing this by creating a file `.profile` in your home directory (by default `c:/msys/1.0/home/<username>`).  The contents of your `.profile` should be something like this:
 
 ```wiki
-PATH=/c/mingw/bin:/usr/bin:/bin:/c/ghc/ghc-6.10.1/bin:/c/tools:/c/windows/system32
+PATH=/c/mingw/bin:/c/ghc/ghc-6.10.1/bin:/usr/bin:/bin:/c/tools:/c/windows/system32
 ```
 
 
