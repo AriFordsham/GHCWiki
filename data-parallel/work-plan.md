@@ -8,6 +8,8 @@
 
 - **More expressive rewrite rules:** Roman has some concrete ideas, which we need to discuss.
 
+- What the status of using TH for generating library boilerplate?
+
 ### Milestones
 
 1. The system should be usable for small applications for the GHC 6.12 release.
@@ -59,7 +61,7 @@ Category: *Efficiency* (improve scalability and/or baseline performance of gener
 
 - **Desugaring comprehensions:** The current desugaring of array comprehensions produces very inefficient code.  This needs to be improved.  In particular, the `map/crossMap` base case in `dotP` for `x<-xs` and use `zipWith` instead of `map/zip`.
 
-- **Unlifted functions:** For some scalar functions (especially numeric functions and functions operating on enumerations), it is easier to not lift them at all; rather than to lift them and then attempt to recover the original form with fusion and other optimisations.  An example is the `SumSq` benchmark, where we have `sumP (mapP (\x -> x * x) [:1..n:]`.  Here, we would rather not lift `\x -> x * x` at all.  Roman implemented a very simple form of this idea (which works for `SumSq`).  However, we would like this in a more general form, where named functions that remain unlifted are marked suitably, as clients of a function can only be unlifted if all functions it calls are already unlifted.
+- **Unlifted functions:** For some scalar functions (especially numeric functions and functions operating on enumerations), it is easier to not lift them at all; rather than to lift them and then attempt to recover the original form with fusion and other optimisations.  An example is the `SumSq` benchmark, where we have `sumP (mapP (\x -> x * x) [:1..n:]`.  Here, we would rather not lift `\x -> x * x` at all.  Roman implemented a very simple form of this idea (which works for `SumSq`).  However, we would like this in a more general form, where named functions that remain unlifted are marked suitably, as clients of a function can only be unlifted if all functions it calls are already unlifted.  How much does that tie in with **Selective vectorisation**?
 
 
 Category:  *Compile time* (improve compile times):
@@ -89,7 +91,7 @@ Category: *Case studies* (benchmarks and example applications):
 
 Category: *Infrastructure* (fiddling with GHC's build system and similar infrastructure):
 
-- **Template Haskell:** Arrange for package DPH to be build in stage2, so that we can use TH to generate library boilerplate & rewrite the library to generate the boilerplate that's currently hardcoded.
+- **Template Haskell:** Rewrite the library to generate the boilerplate that's currently hardcoded.
 
 ---
 
@@ -100,6 +102,8 @@ Category: *Infrastructure* (fiddling with GHC's build system and similar infrast
 - **DUE 9 March.** Poster for *Microsoft External Research Symposium*.  \[Submitted to MER.\]†
 
 - **Benchmark status:** Update and complete [DataParallel/BenchmarkStatus](data-parallel/benchmark-status); at the same time clean up the benchmark portion of the repo.  \[Completed a first sweep through this with updated benchmark results for SumSq, DotP, and SMVM, cleaned up code, and a much better idea of what the most important work items from now on are.\]
+
+- **Template Haskell:** Arrange for package DPH to be build in stage2, so that we can use TH to generate library boilerplate.
 
 - **New build system:** Evaluate whether the preview of the new build system looks like it is what we want.  \[The new build system seems fine and we should have no problem building package dph in stage2 either.\]
 
