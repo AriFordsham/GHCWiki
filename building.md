@@ -47,6 +47,7 @@ Platform-specific guidance
 
 FAQ
 
+- [Solving common problems with building GHC](building/troubleshooting)
 - [General FAQ for building GHC](building/faq)
 
 ## Contributed documentation
