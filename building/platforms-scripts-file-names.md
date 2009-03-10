@@ -121,27 +121,6 @@ However:
 
   The Cygwin shell does no argument processing when invoking non-Cygwin programs.
 
-### Crippled `ld`
-
-
-It turns out that on both Cygwin and MSYS, the `ld` has a
-limit of 32kbytes on its command line.  Especially when using split object
-files, the make system can emit calls to `ld` with thousands
-of files on it.  Then you may see something like this:
-
-```wiki
-
-(cd Graphics/Rendering/OpenGL/GL/QueryUtils_split && /mingw/bin/ld -r -x -o ../QueryUtils.o *.o)
-/bin/sh: /mingw/bin/ld: Invalid argument
-
-```
-
-
-The solution is either to switch off object file splitting (set
-`SplitObjs` to `NO` in your
-`build.mk`),
-or to make the module smaller.
-
 ### Host System vs Target System
 
 
