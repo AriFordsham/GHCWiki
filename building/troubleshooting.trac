@@ -4,6 +4,8 @@
 
 Here we keep track of failures that can occur when building GHC, with solutions.
 
+We don't expect anyone to read this page from beginning to end.  The only way you get here is by searching, so remember when adding a new entry the most important thing to do is to '''include the error message verbatim''', so searches will find it.  If a build failure is caused by a bug in GHC or the build system, please link to the ticket number so we can tell when it's safe to remove the entry and keep this page from getting too crufty.
+
 === Using autoconf by mistake ===
 
 If you used {{{autoconf}}} instead of {{{sh boot}}}, you'll get an error when you run {{{./configure}}}:
@@ -176,3 +178,19 @@ configure ghc. Just add `SplitObjs=NO` to your `mk/build.mk` file (which
 may not exist to start with). (The Gentoo ebuild does this
 automatically)
 
+=== Crippled {{{ld}}} ===
+
+It turns out that on both Cygwin and MSYS, the {{{ld}}} has a
+limit of 32kbytes on its command line.  Especially when using split object
+files, the make system can emit calls to {{{ld}}} with thousands
+of files on it.  Then you may see something like this:
+{{{
+
+(cd Graphics/Rendering/OpenGL/GL/QueryUtils_split && /mingw/bin/ld -r -x -o ../QueryUtils.o *.o)
+/bin/sh: /mingw/bin/ld: Invalid argument
+
+}}}
+The solution is either to switch off object file splitting (set
+{{{SplitObjs}}} to {{{NO}}} in your
+{{{build.mk}}}),
+or to make the module smaller.
