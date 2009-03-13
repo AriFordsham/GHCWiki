@@ -3,8 +3,8 @@
 
 Here are some suggestions for projects related to GHC that could be undertaken by an intern or undergraduate project student.  There are also lots of ideas in
 
-- GHC's \[query?status=new&status=assigned&status=reopened&type=task&order=priority task list\]
-- GHC's \[query?status=new&status=assigned&status=reopened&type=feature+request&order=priority feature request list\]
+- GHC's task list (Ticket query: status: new, status: assigned, status: reopened, type: task, order: priority)
+- GHC's feature request list (Ticket query: status: new, status: assigned, status: reopened, type: feature%2Brequest, order: priority)
 
 ---
 
@@ -71,7 +71,7 @@ Projects for people who want a decent-sized hacking project, with less research 
   Whole-program dead-code detection (with `--make`).
   Whole-program overloading elimination (with `--make`).
   Evolve a better ordering for the optimisation passes using [ Acovea](http://www.coyotegulch.com/products/acovea/).
-  Build system[\#989](https://gitlab.haskell.org//ghc/ghc/issues/989)Build GHC on Windows using Microsoft toolchain[\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)Complete shared library supportRuntime system[\#599](https://gitlab.haskell.org//ghc/ghc/issues/599)The Front PanelDownload in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=6&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+  Build system[\#989](https://gitlab.haskell.org//ghc/ghc/issues/989)Build GHC on Windows using Microsoft toolchain[\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)Complete shared library supportRuntime system[\#599](https://gitlab.haskell.org//ghc/ghc/issues/599)The Front PanelDownload in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=7&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)

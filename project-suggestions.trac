@@ -1,8 +1,8 @@
 = Suggestions for projects related to GHC =
 
 Here are some suggestions for projects related to GHC that could be undertaken by an intern or undergraduate project student.  There are also lots of ideas in
-  * GHC's [query?status=new&status=assigned&status=reopened&type=task&order=priority task list]
-  * GHC's [query?status=new&status=assigned&status=reopened&type=feature+request&order=priority feature request list]
+  * GHC's [query:status=new&status=assigned&status=reopened&type=task&order=priority task list]
+  * GHC's [query:status=new&status=assigned&status=reopened&type=feature+request&order=priority feature request list]
 
 -------------
 == Projects that should be within reach of a good undergraduate ==
