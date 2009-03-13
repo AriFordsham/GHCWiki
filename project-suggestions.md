@@ -21,7 +21,7 @@ Here are some suggestions for projects related to GHC that could be undertaken b
 
 - Update/improve [ Visual Haskell](http://www.haskell.org/visualhaskell) to use the (free) [ Visual Studio Shell](http://msdn2.microsoft.com/en-us/vsx2008/products/bb933751.aspx).
 
-- Make GHC work with [ GCSpy](http://research.sun.com/projects/gcspy/), a generic heap visualiser tool.
+- Make GHC work with [ GCSpy](http://research.sun.com/projects/gcspy/), a generic heap visualiser tool. See [\#603](https://gitlab.haskell.org//ghc/ghc/issues/603).
 
 - Maintaining an explicit call stack [ExplicitCallStack](explicit-call-stack)
 
