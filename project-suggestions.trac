@@ -48,7 +48,24 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
   * Experiment with multiprocessor Haskell and/or STM by building and measuring applications, investigate improvements
   * Continue work on parallel GC: particularly independent minor-generation collections.
 
+-------------
 
-=== Build system ===
+= Just Hacking =
 
-  * Build a Windows-native version of GHC (using MS tools instead of gcc).
+Projects for people who want a decent-sized hacking project, with less research content.
+
+== Compiler ==
+
+ * [[TicketQuery(id=602|0)]]
+ * Whole-program dead-code detection (with {{{--make}}}).
+ * Whole-program overloading elimination (with {{{--make}}}).
+ * Evolve a better ordering for the optimisation passes using [http://www.coyotegulch.com/products/acovea/ Acovea].
+
+== Build system ==
+
+ * [[TicketQuery(id=989|0)]]
+ * [[TicketQuery(id=1876|0)]]
+
+== Runtime system ==
+
+ * [[TicketQuery(id=599|0)]]

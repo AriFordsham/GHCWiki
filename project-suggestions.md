@@ -54,6 +54,24 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
 - Experiment with multiprocessor Haskell and/or STM by building and measuring applications, investigate improvements
 - Continue work on parallel GC: particularly independent minor-generation collections.
 
-### Build system
+---
 
-- Build a Windows-native version of GHC (using MS tools instead of gcc).
+# Just Hacking
+
+
+Projects for people who want a decent-sized hacking project, with less research content.
+
+## Compiler
+
+- 
+
+  <table><tr><th>[\#602](https://gitlab.haskell.org//ghc/ghc/issues/602)</th>
+  <td>Warning Suppression</td></tr></table>
+
+  Whole-program dead-code detection (with `--make`).
+  Whole-program overloading elimination (with `--make`).
+  Evolve a better ordering for the optimisation passes using [ Acovea](http://www.coyotegulch.com/products/acovea/).
+  Build system[\#989](https://gitlab.haskell.org//ghc/ghc/issues/989)Build GHC on Windows using Microsoft toolchain[\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)Complete shared library supportRuntime system[\#599](https://gitlab.haskell.org//ghc/ghc/issues/599)The Front PanelDownload in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=5&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+
+          By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
+  [http://trac.edgewall.org/](http://trac.edgewall.org/)
