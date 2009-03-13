@@ -10,7 +10,7 @@ Here are some suggestions for projects related to GHC that could be undertaken b
 
 ## Projects that should be within reach of a good undergraduate
 
-- **Implement overlap and exhaustiveness checking for pattern matching**.  GHC's current overlap and exhaustiveness checker is old and inadequate.  Furthermore, it takes no account of GADTs and type families. 
+- **Implement overlap and exhaustiveness checking for pattern matching**.  GHC's current overlap and exhaustiveness checker is old and inadequate.  Furthermore, it takes no account of GADTs and type families. See [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595).
 
 - **Improve parallel profiling tools**.  Satnam Singh and Simon Marlow have made a start on some tools for visualising the behaviour of parallel programs, but there is much more to do here, and it'll be eagerly adopted by users.
 
