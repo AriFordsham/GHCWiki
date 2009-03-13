@@ -3,8 +3,8 @@
 
 Here are some suggestions for projects related to GHC that could be undertaken by an intern or undergraduate project student.  There are also lots of ideas in
 
-- GHC's [ task list](http://hackage.haskell.org/trac/ghc/report/2)
-- GHC's [ feature request list](http://hackage.haskell.org/trac/ghc/report/2)
+- GHC's task list (Ticket query: status: !closed, type: task, order: priority)
+- GHC's feature request list (Ticket query: status: !closed, type: feature+request, order: priority)
 
 ---
 
@@ -18,13 +18,9 @@ Here are some suggestions for projects related to GHC that could be undertaken b
 
 ---
 
-## More ambitious or less-well-defined projects (PhD students)
+## More ambitious or less-well-defined projects (PhD students / Interns)
 
 ### Programming environment and tools
-
-- Update/improve [ Visual Haskell](http://www.haskell.org/visualhaskell) to use the (free) [ Visual Studio Shell](http://msdn2.microsoft.com/en-us/vsx2008/products/bb933751.aspx).
-
-- Make GHC work with [ GCSpy](http://research.sun.com/projects/gcspy/), a generic heap visualiser tool. See [\#603](https://gitlab.haskell.org//ghc/ghc/issues/603).
 
 - Maintaining an explicit call stack [ExplicitCallStack](explicit-call-stack)
 
@@ -47,13 +43,20 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
 
 - **Extensible constraint domains**.  Andrew Kennedy shows how to incorporate [ dimensional analysis](http://research.microsoft.com/~akenn/units/index.html) into an ML-like type system.  Maybe we could do an extensible version of this, so that it wasn't restricted to dimensions.  Integer arithmetic is another obvious domain.  
 
-- Implement [ John Meacham's class alias proposal](http://repetae.net/john/recent/out/classalias.html)
+- 
 
-### Parallel stuff
+  <table><tr><th>[\#788](https://gitlab.haskell.org//ghc/ghc/issues/788)</th>
+  <td>Implement class aliases and/or constraint synonyms</td></tr></table>
 
-- Experiment with multiprocessor Haskell and/or STM by building and measuring applications, investigate improvements
-- Continue work on parallel GC: particularly independent minor-generation collections.
+  [\#1872](https://gitlab.haskell.org//ghc/ghc/issues/1872)Extensible RecordsParallel stuffExperiment with multiprocessor Haskell and/or STM by building and measuring applications, investigate improvements
+  Continue work on parallel GC: particularly independent minor-generation collections.
+  Just Hacking
+  Projects for people who want a decent-sized hacking project, with less research content.
+  Compiler[\#595](https://gitlab.haskell.org//ghc/ghc/issues/595)Overhaul GHC's overlapping/non-exhaustive pattern checking[\#602](https://gitlab.haskell.org//ghc/ghc/issues/602)Warning SuppressionWhole-program dead-code detection (with `--make`).
+  Whole-program overloading elimination (with `--make`).
+  Evolve a better ordering for the optimisation passes using [ Acovea](http://www.coyotegulch.com/products/acovea/).
+  [\#1341](https://gitlab.haskell.org//ghc/ghc/issues/1341)allow loading partially correct modules[\#2362](https://gitlab.haskell.org//ghc/ghc/issues/2362)allow full import syntax in GHCi[\#2979](https://gitlab.haskell.org//ghc/ghc/issues/2979)better support for FFI C wrappers for macros in system headersBuild system[\#989](https://gitlab.haskell.org//ghc/ghc/issues/989)Build GHC on Windows using Microsoft toolchain[\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)Complete shared library supportRuntime system[\#599](https://gitlab.haskell.org//ghc/ghc/issues/599)The Front Panel[\#603](https://gitlab.haskell.org//ghc/ghc/issues/603)GC-spy connectionToolsUpdate/improve [ Visual Haskell](http://www.haskell.org/visualhaskell) to use the (free) [ Visual Studio Shell](http://msdn2.microsoft.com/en-us/vsx2008/products/bb933751.aspx).
+  Download in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=10&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
-### Build system
-
-- Build a Windows-native version of GHC (using MS tools instead of gcc).
+          By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
+  [http://trac.edgewall.org/](http://trac.edgewall.org/)
