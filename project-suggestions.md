@@ -1,17 +1,20 @@
 # Suggestions for projects related to GHC
 
 
-Here are some suggestions for projects related to GHC that could be undertaken by an intern or undergraduate project student.
+Here are some suggestions for projects related to GHC that could be undertaken by an intern or undergraduate project student.  There are also lots of ideas in
+
+- GHC's [ task list](http://hackage.haskell.org/trac/ghc/report/2)
+- GHC's [ feature request list](http://hackage.haskell.org/trac/ghc/report/2)
 
 ---
 
 ## Projects that should be within reach of a good undergraduate
 
-- **Implement overlap and exhaustiveness checking for pattern matching**.  GHC's current overlap and exhaustiveness checker is old and inadequate.  Furthermore, it takes no account of GADTs and type families. 
+- **Implement overlap and exhaustiveness checking for pattern matching**.  GHC's current overlap and exhaustiveness checker is old and inadequate.  Furthermore, it takes no account of GADTs and type families. See [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595).
 
 - **Improve parallel profiling tools**.  Satnam Singh and Simon Marlow have made a start on some tools for visualising the behaviour of parallel programs, but there is much more to do here, and it'll be eagerly adopted by users.
 
-- **Implement some low-level C-- optimisations**.  During 2009 we expect to have the new C-- code generation route in place, and that will open up new opportunities for doing classic compiler-course optimisations on the imperative C-- code.  There is more than routine stuff here, because we can use our [ dataflow framework](http://research.microsoft.com/~simonpj/papers/c--|generic) to do the heavy lifting.  Here are some [particular ideas for optimisations](back-end-notes) we'd like to implement.
+- **Implement some low-level C-- optimisations**.  During 2009 we expect to have the new C-- code generation route in place, and that will open up new opportunities for doing classic compiler-course optimisations on the imperative C-- code.  There is more than routine stuff here, because we can use our [ generic dataflow framework](http://research.microsoft.com/~simonpj/papers/c--) to do the heavy lifting.  Here are some [particular ideas for optimisations](back-end-notes) we'd like to implement.
 
 ---
 
@@ -21,7 +24,7 @@ Here are some suggestions for projects related to GHC that could be undertaken b
 
 - Update/improve [ Visual Haskell](http://www.haskell.org/visualhaskell) to use the (free) [ Visual Studio Shell](http://msdn2.microsoft.com/en-us/vsx2008/products/bb933751.aspx).
 
-- Make GHC work with [ GCSpy](http://research.sun.com/projects/gcspy/), a generic heap visualiser tool.
+- Make GHC work with [ GCSpy](http://research.sun.com/projects/gcspy/), a generic heap visualiser tool. See [\#603](https://gitlab.haskell.org//ghc/ghc/issues/603).
 
 - Maintaining an explicit call stack [ExplicitCallStack](explicit-call-stack)
 
