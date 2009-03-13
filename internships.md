@@ -44,56 +44,8 @@ To give you some idea, here are some past projects (in approximate date order):
 - Krasimir Angelov completed and released Visual Haskell
 - Roshan James wrote a parallel garbage collector
 
-## Current projects
 
-
-Here is a list of some possible future projects we have in mind.  But feel free to suggest your own!
-
-### Programming environment and tools
-
-- Update/improve [ Visual Haskell](http://www.haskell.org/visualhaskell) to use the (free) [ Visual Studio Shell](http://msdn2.microsoft.com/en-us/vsx2008/products/bb933751.aspx).
-
-- Work on the [ GHCi debugger](http://www.haskell.org/haskellwiki/Ghci/Debugger)
-
-- Make GHC work with [ GCSpy](http://research.sun.com/projects/gcspy/), a generic heap visualiser tool.
-
-- Maintaining an explicit call stack [ExplicitCallStack](explicit-call-stack)
-
-### Turning GHC into a platform
-
-
-Projects aimed at making GHC into a user-extensible plug-in platform, and less of a monolithic compiler.
-
-- **Allow much finer and more modular control over the way in which rewrite rules and inlining directives are ordered**.  See this [ email thread](http://www.haskell.org/pipermail/haskell-cafe/2008-January/038196.html)
-
-- **Support dynamically-linked Core-to-Core plug-ins**, so that people can add passes simply by writing a Core-to-Core function, and dynamically linking it to GHC.  This would need to be supported by an extensible mechanism like ``attributes`` in mainstream OO languages, so that programmers can add declarative information to the source program that guides the transformation pass.  Likewise the pass might want to construct information that is accessible later.  This mechanism could obviously be used for optimisations, but also for program verifiers, and perhaps also for domain-specific code generation (the pass generates a GPU file, say, replacing the Core code with a foreign call to the GPU program). See [Plugins](plugins) for some early thoughts on this.
-
-- **Improve the GHC API**, whereby you can import GHC as a library.  We make improvements now and then, but it would benefit from some sustained attention.  A particular project would be to port the Haskell refactorer [ HaRE](http://www.cs.kent.ac.uk/projects/refactor-fp/hare.html) to use the GHC API.
-
-### Types
-
-- **Allow unboxed tuples as function arguments**.   Currently unboxed tuples are second class; fixing this would be a nice simplification.
-
-- **Implement overlap and exhaustiveness checking for pattern matching**.  GHC's current overlap and exhaustiveness checker is old and inadequate.  Furthermore, it takes no account of GADTs and type families. 
-
-- **Extend kinds beyond \* and k1-\>k2**.  With GADTs etc we clearly want to have kinds like `Nat`, so that advanced hackery at the type level can be done in a typed language; currently it's all effectively untyped.  A neat approach would be to re-use any data type declaration as a kind declaration.
-
-- **Extensible constraint domains**.  Andrew Kennedy shows how to incorporate [ dimensional analysis](http://research.microsoft.com/~akenn/units/index.html) into an ML-like type system.  Maybe we could do an extensible version of this, so that it wasn't restricted to dimensions.  Integer arithmetic is another obvious domain.  
-
-- Implement [ John Meacham's class alias proposal](http://repetae.net/john/recent/out/classalias.html)
-
-### Parallel stuff
-
-- Experiment with multiprocessor Haskell and/or STM by building and measuring applications, investigate improvements
-- Continue work on parallel GC: particularly independent minor-generation collections.
-
-### Other stuff
-
-- Back end and code generation.  This is an active area at the moment, but there is sure to be more to do.  See suggestions in [BackEndNotes](back-end-notes)
-
-### Build system
-
-- Build a Windows-native version of GHC (using MS tools instead of gcc).
+Here a [bunch of suggestions](project-suggestions).
 
 ## How to apply
 
