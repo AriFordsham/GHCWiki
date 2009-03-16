@@ -1,54 +1,6 @@
 
-[[PageOutline]]
 
-= Instructions for building under Windows =
-This section gives detailed instructions for how to build 
-GHC from source on your Windows machine. Similar instructions for
-installing and running GHC may be found in the user guide. In general,
-Win95/Win98 behave the same, and WinNT/Win2k behave the same.
-
-Make sure you read the preceding section on [wiki:Building/PlatformsScriptsFileNames platforms]
-before reading section.
-You don't need Cygwin or MSYS to ''use'' GHC, 
-but you do need one or the other to ''build'' GHC.
-
-== Summary ==
-
- 1. [wiki:Building/Prerequisites#PreparingaWindowssystem Get the tools you need for development]
- 2. Get the [wiki:Building/GettingTheSources GHC sources]
- 3. [wiki:Building/Windows/SSH Configure SSH] (if you need it)
- 4. [wiki:Building/Windows#BuildingGHC Do the build]
-
-== Building GHC ==
-
-OK!  
-Now go read the documentation above on building from source ([wiki:Building/QuickStart Quick start: just building and installing GHC]); 
-the bullets below only tell
-you about Windows-specific wrinkles. Also look in the section that immediately follows
-this one for typical failure cases and what do to about them.
-
- * After {{{sh boot}}} run {{{./configure}}} in
-   {{{$(TOP)/}}} thus:
-   {{{
-$ ./configure --host=i386-unknown-mingw32
-         --with-gcc=c:/mingw/bin/gcc
-         --with-ld=c:/mingw/bin/ld.exe
-}}}
-   This is the point at which you specify that you are building GHC-mingw
-   (see [wiki:Building/PlatformsScriptsFileNames#MinGW MinGW]). 
-   [[br]]
-   Both these options are important! It's possible to get into
-   trouble using the wrong C compiler!
-   [[br]]
-
- * You almost certainly want to set
-   {{{
-SplitObjs = NO
-}}}
-   in your {{{build.mk}}} configuration file (see [wiki:Building/Using#Gettingthebuildyouwant Getting the build you want]).
-   This tells the build system not to split each library into a myriad of little object files, one
-   for each function.  Doing so reduces binary sizes for statically-linked binaries, but on Windows
-   it dramatically increases the time taken to build the libraries in the first place.
+If you're looking for instructions for building GHC on Windows, they are now incorporated in the main [wiki:Building Building Guide].
 
 == A Windows build log using Cygwin ==
 
