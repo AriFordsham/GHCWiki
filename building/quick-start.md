@@ -5,8 +5,7 @@
 
 
 No problem.  This recipe should build and install a working GHC with
-all the default settings.  (unless you're on Windows, in which case go
-to [Building/Windows](building/windows)).
+all the default settings.
 
 
 The following instructions assume that you have [got the sources](building/getting-the-sources) (note: not just a `darcs get`) and [installed the necessary tools](building/prerequisites).
@@ -22,16 +21,34 @@ $ sh boot
 (this step isn't necessary if you have a source distribution).
 
 
-Now, everybody:
+Windows users:
+
+```wiki
+$ ./configure --host=i386-unknown-mingw32
+      --with-gcc=c:/mingw/bin/gcc
+      --with-ld=c:/mingw/bin/ld.exe
+```
+
+
+where `c:/mingw` should be replaced by the place you installed MinGW, if you installed it somewhere other than the default.
+
+
+Non-Windows users can just say:
 
 ```wiki
 $ ./configure
+```
+
+
+Now everybody:
+
+```wiki
 $ make
 $ make install
 ```
 
 
-For GHC, this will do a 2-stage bootstrap build of the compiler, with
+This will do a 2-stage bootstrap build of the compiler, with
 profiling libraries, and install the results in the default location
 (under `/usr/local` on Unix, for example).
 
