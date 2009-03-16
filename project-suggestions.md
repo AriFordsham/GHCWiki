@@ -52,11 +52,11 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
   Continue work on parallel GC: particularly independent minor-generation collections.
   Just Hacking
   Projects for people who want a decent-sized hacking project, with less research content.
-  Compiler[\#595](https://gitlab.haskell.org//ghc/ghc/issues/595)Overhaul GHC's overlapping/non-exhaustive pattern checking[\#602](https://gitlab.haskell.org//ghc/ghc/issues/602)Warning SuppressionWhole-program dead-code detection (with `--make`).
+  Compiler[\#602](https://gitlab.haskell.org//ghc/ghc/issues/602)Warning SuppressionWhole-program dead-code detection (with `--make`).
   Whole-program overloading elimination (with `--make`).
   Evolve a better ordering for the optimisation passes using [ Acovea](http://www.coyotegulch.com/products/acovea/).
   [\#1341](https://gitlab.haskell.org//ghc/ghc/issues/1341)allow loading partially correct modules[\#2362](https://gitlab.haskell.org//ghc/ghc/issues/2362)allow full import syntax in GHCi[\#2979](https://gitlab.haskell.org//ghc/ghc/issues/2979)better support for FFI C wrappers for macros in system headersBuild system[\#989](https://gitlab.haskell.org//ghc/ghc/issues/989)Build GHC on Windows using Microsoft toolchain[\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)Complete shared library supportRuntime system[\#599](https://gitlab.haskell.org//ghc/ghc/issues/599)The Front Panel[\#603](https://gitlab.haskell.org//ghc/ghc/issues/603)GC-spy connectionToolsUpdate/improve [ Visual Haskell](http://www.haskell.org/visualhaskell) to use the (free) [ Visual Studio Shell](http://msdn2.microsoft.com/en-us/vsx2008/products/bb933751.aspx).
-  Download in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=10&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+  Download in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=11&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)
