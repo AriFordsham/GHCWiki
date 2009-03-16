@@ -52,12 +52,15 @@ other packages that are useful for development:
 Installing the following will get you a working build environment with MSYS (alternatively, install Cygwin?).  For your convenience we've cached a working set of build tools that you can download.  Note: do not install anything in a directory that contains spaces, because the GHC build system is not capable of handling paths with spaces in.
 
 - First install a recent stable version of [GHC](http://www.haskell.org/ghc/download.html).
-- Install MinGW: [http://www.haskell.org/ghc/tools/Win32/MinGW-5.1.4.exe](http://www.haskell.org/ghc/tools/Win32/MinGW-5.1.4.exe)
+
+- Install MinGW: [http://www.haskell.org/ghc/tools/Win32/MinGW-5.1.4.exe](http://www.haskell.org/ghc/tools/Win32/MinGW-5.1.4.exe).  When the installer asks you which version to install, choose "Current".
+
 - Install MSYS: 
 
   - [http://www.haskell.org/ghc/tools/Win32/MSYS-1.0.10.exe](http://www.haskell.org/ghc/tools/Win32/MSYS-1.0.10.exe)
   - [http://www.haskell.org/ghc/tools/Win32/msysDTK-1.0.1.exe](http://www.haskell.org/ghc/tools/Win32/msysDTK-1.0.1.exe)
   - [http://www.haskell.org/ghc/tools/Win32/msysCORE-1.0.11-20080826.tar.gz](http://www.haskell.org/ghc/tools/Win32/msysCORE-1.0.11-20080826.tar.gz) (this is a tar file, which you have to unpack in `c:/msys/1.0`, or wherever you installed MSYS.  Note that you can't do that using an MSYS shell, because you can't overwrite the files in use, so make a copy of `c:/msys/1.0`, unpack it there, and then rename the copy back to `c:/msys/1.0`).
+
 - Install [ Python](http://www.python.org/download/releases/) (version 2.5.x or 2.6.x, NOT 3.x).
 
 
