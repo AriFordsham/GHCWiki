@@ -16,7 +16,7 @@ but you do need one or the other to ''build'' GHC.
 
  1. [wiki:Building/Prerequisites#PreparingaWindowssystem Get the tools you need for development]
  2. Get the [wiki:Building/GettingTheSources GHC sources]
- 3. [wiki:Building/WindowsTools#ConfiguringSSH Configure SSH] (if you need it)
+ 3. [wiki:Building/Windows/SSH Configure SSH] (if you need it)
  4. [wiki:Building/Windows#BuildingGHC Do the build]
 
 == Vista users ==
