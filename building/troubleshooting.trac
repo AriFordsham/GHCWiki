@@ -204,4 +204,13 @@ file has too-liberal permissinos.
 
 !ToDo: what's the error message for this?
 
+=== Forgetting to install `automake` ===
+
+If you get a message like this:
+{{{
+Can't locate object method "path" via package "Autom4te::Request" (perhaps you forgot to load "Autom4te::Request"?) at /usr/bin/autom4te line 81.
+Can't locate object method "path" via package "Autom4te::Request" (perhaps you forgot to load "Autom4te::Request"?) at /usr/bin/autom4te line 81.
+autoreconf: /usr/bin/autoconf failed with exit status: 1
+}}}
+then you have probably not got {{{automake}}} installed (or at least findable).
 
