@@ -271,3 +271,11 @@ autoreconf: /usr/bin/autoconf failed with exit status: 1
 
 
 then you have probably not got `automake` installed (or at least findable).
+
+### Vista installer detection
+
+
+Vista has a "feature" called "installer detection" which tries to elevate permissinos for executables named things like `Setup` and `Install`.  There are lots of programs called `Setup` in a GHC build, and if you see permission-denied errors relating to programs called `Setup` you may need to disable installer detection.  Go to `Start -> All Programs -> Accessories > Run` and enter `secpol.msc`.  Then under `Security Settings -> Local Policies -> Security Options`,  disable `UAC: Detect application installations and prompt for elevation`.  Then reboot.
+
+
+We added a workaround for install-detection in GHC 6.8.1 (see [\#1271](https://gitlab.haskell.org//ghc/ghc/issues/1271)), so if you're using that version or later you shouldn't encounter this issue.
