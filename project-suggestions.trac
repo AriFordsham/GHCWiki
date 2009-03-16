@@ -54,7 +54,6 @@ Projects for people who want a decent-sized hacking project, with less research 
 
 == Compiler ==
 
- * [[TicketQuery(id=595|0)]]
  * [[TicketQuery(id=602|0)]]
  * Whole-program dead-code detection (with {{{--make}}}).
  * Whole-program overloading elimination (with {{{--make}}}).
