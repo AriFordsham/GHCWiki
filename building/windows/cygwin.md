@@ -41,8 +41,8 @@ building GHC.  If you miss out any of these, strange things will happen to you. 
 
 Now set the following user environment variables:
 
-- Add `c:/cygwin/bin` and `c:/cygwin/usr/bin` to your 
-  `PATH`
+- Add `c:/cygwin/bin` and `c:/cygwin/usr/bin` to your `PATH`
+- Make sure the MinGW `gcc` and `ld` are in your `PATH` before the Cygwin `gcc` (hopefully this requirement will go away at some point; see [\#2966](https://gitlab.haskell.org//ghc/ghc/issues/2966))
 - Set `MAKE_MODE` to `UNIX`. If you
   don't do this you get very weird messages when you type
   `make`, such as:
