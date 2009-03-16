@@ -52,6 +52,8 @@ Installing the following will get you a working build environment with MSYS (alt
 
  * Install MinGW: [http://www.haskell.org/ghc/tools/Win32/MinGW-5.1.4.exe].  When the installer asks you which version to install, choose "Current".
 
+ * The `windres` program that comes with MinGW isn't compatible with GHC.  Download a later version: [http://www.haskell.org/ghc/tools/Win32/windres.exe] and put it in `c:/mingw/bin` (or wherever you installed MinGW).
+
  * Install MSYS: 
    * [http://www.haskell.org/ghc/tools/Win32/MSYS-1.0.10.exe]
    * [http://www.haskell.org/ghc/tools/Win32/msysDTK-1.0.1.exe]
@@ -72,8 +74,6 @@ PATH=/c/mingw/bin:/c/ghc/ghc-6.10.1/bin:/usr/bin:/bin:/c/tools:/c/Python26:/c/wi
 }}}
 
 Modify the above according to where you installed things, and change the GHC version appropriately.
-
-See also [wiki:Building/Windows].
 
 == Preparing a MacOS X system ==
 
