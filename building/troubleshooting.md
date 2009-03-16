@@ -279,3 +279,27 @@ Vista has a "feature" called "installer detection" which tries to elevate permis
 
 
 We added a workaround for install-detection in GHC 6.8.1 (see [\#1271](https://gitlab.haskell.org//ghc/ghc/issues/1271)), so if you're using that version or later you shouldn't encounter this issue.
+
+### Cygwin: failure to use native path to `gcc` when configuring
+
+
+It's *very important* that you specify a 
+native Windows path for `gcc`, not a Cygwin path, because GHC (which
+uses this path to invoke `gcc`) is a Windows program and won't
+understand a Cygwin path.  For example, you want to say something like `--with-gcc=c:/mingw/bin/gcc.exe` and *not*`--with-gcc=/cygdrive/c/mingw/bin/gcc.exe` or `--with-gcc=/mingw/bin/gcc.exe`.  If you get this wrong, the failure might come with no error message whatsoever.  GHC simply fails silently when first invoked, 
+typically leaving you with this:
+
+```wiki
+make[4]: Leaving directory `/cygdrive/e/ghc-stage1/ghc/rts/gmp'
+../../ghc/compiler/ghc-inplace -optc-mno-cygwin -optc-O 
+-optc-Wall -optc-W -optc-Wstrict-prototypes -optc-Wmissing-prototypes 
+-optc-Wmissing-declarations -optc-Winline -optc-Waggregate-return 
+-optc-Wbad-function-cast -optc-Wcast-align -optc-I../includes 
+-optc-I. -optc-Iparallel -optc-DCOMPILING_RTS 
+-optc-fomit-frame-pointer -O2 -static 
+-package-name rts -O -dcore-lint -c Adjustor.c -o Adjustor.o
+make[2]: *** [Adjustor.o] Error 1
+make[1]: *** [all] Error 1
+make[1]: Leaving directory `/cygdrive/e/ghc-stage1/ghc'
+make: *** [all] Error 1
+```
