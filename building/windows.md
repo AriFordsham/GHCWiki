@@ -43,43 +43,6 @@ this one for typical failure cases and what do to about them.
   Both these options are important! It's possible to get into
   trouble using the wrong C compiler!
 
-  Furthermore, it's *very important* that you specify a 
-  full MinGW path for `gcc`, not a Cygwin path, because GHC (which
-  uses this path to invoke `gcc`) is a MinGW program and won't
-  understand a Cygwin path.  For example, if you 
-  say `--with-gcc=/mingw/bin/gcc`, it'll be interpreted as
-  `/cygdrive/c/mingw/bin/gcc`, and GHC will fail the first
-  time it tries to invoke it.   Worse, the failure comes with
-  no error message whatsoever.  GHC simply fails silently when first invoked, 
-  typically leaving you with this:
-
-  ```wiki
-  make[4]: Leaving directory `/cygdrive/e/ghc-stage1/ghc/rts/gmp'
-  ../../ghc/compiler/ghc-inplace -optc-mno-cygwin -optc-O 
-  -optc-Wall -optc-W -optc-Wstrict-prototypes -optc-Wmissing-prototypes 
-  -optc-Wmissing-declarations -optc-Winline -optc-Waggregate-return 
-  -optc-Wbad-function-cast -optc-Wcast-align -optc-I../includes 
-  -optc-I. -optc-Iparallel -optc-DCOMPILING_RTS 
-  -optc-fomit-frame-pointer -O2 -static 
-  -package-name rts -O -dcore-lint -c Adjustor.c -o Adjustor.o
-  make[2]: *** [Adjustor.o] Error 1
-  make[1]: *** [all] Error 1
-  make[1]: Leaving directory `/cygdrive/e/ghc-stage1/ghc'
-  make: *** [all] Error 1
-  ```
-
-  Be warned!
-
-  If you want to build GHC-cygwin ([MinGW](building/platforms-scripts-file-names#mingw))
-  you'll have to do something more like:
-
-  ```wiki
-  $ ./configure --with-gcc=...the Cygwin gcc...
-                --with-ld=...the Cygwin ld.exe...
-  ```
-- If you are paranoid, delete `config.cache` if it exists.
-  This file occasionally remembers out-of-date configuration information, which 
-  can be really confusing.
 - You almost certainly want to set
 
   ```wiki
@@ -90,9 +53,6 @@ this one for typical failure cases and what do to about them.
   This tells the build system not to split each library into a myriad of little object files, one
   for each function.  Doing so reduces binary sizes for statically-linked binaries, but on Windows
   it dramatically increases the time taken to build the libraries in the first place.
-- Do not attempt to build the documentation.
-  It needs all kinds of wierd Jade stuff that we haven't worked out for
-  Win32.
 
 ## A Windows build log using Cygwin
 
