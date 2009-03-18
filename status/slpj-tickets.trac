@@ -66,6 +66,7 @@
  * #2641: revise what `-XExtendedDefaultRules` does
  * #1634: deep skolemisation
  * #3018: be lazier about solving class instances
+ * #3108: interaction of fundeps and type class solving
  * #2357: '''Implement the Haskell Prime proposal for polymorphic pattern bindings'''
 
 === Impredicativity ===
