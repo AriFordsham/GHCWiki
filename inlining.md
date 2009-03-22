@@ -31,16 +31,14 @@ In the following, let `REC({f g ..})` denote the set of all identifiers belongin
 
 `{-# INLINE f g .. PEEL n #-}`
 
->
-> _new_: unfold definitions of the named identifiers at their call sites \*outside\* their recursion group `REC({f g ..})`. In other words, \*entries into\* `REC({f g ..})` via `f`, `g`, .. are unfolded.
+> new: unfold definitions of the named identifiers at their call sites **outside** their recursion group `REC({f g ..})`. In other words, **entries into**`REC({f g ..})` via `f`, `g`, .. are unfolded.
 
 >
 > (for the special case of loops this corresponds to loop peeling)
 
 `{-# INLINE f g .. UNROLL m #-}`
 
->
-> _new_: unfold definitions of the named identifiers at their call sites \*inside\* their recursion group `REC({f g ..})`. In other words, \*cross-references inside\* `REC({f g ..})` via `f`, `g`, .. are unfolded.
+> new: unfold definitions of the named identifiers at their call sites **inside** their recursion group `REC({f g ..})`. In other words, **cross-references inside**`REC({f g ..})` via `f`, `g`, .. are unfolded.
 
 >
 > (for the special case of loops this corresponds to loop unrolling)
