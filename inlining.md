@@ -129,6 +129,19 @@ In the following, let `REC({f g ..})` denote the set of all identifiers belongin
 
 > > > `PEEL/UNROLL` have their own limits, applicable to the whole recursion group, creating intrinsic loop breakers when the counters run out. Every `PEEL` or `UNROLL` action creates calls with smaller counters in the inlined copies, if the calls go into the same recursion.
 
+## Examples
+
+
+Examples of hand-unrolled/-peeled loops abound in optimized code. `unroll2.hs` demonstrates the usual worker/wrapper split (+static argument transform), which is part of the standard recommendations for writing code with good performance, and is used all through the standard libraries (here, `PEEL` is more important than `UNROLL`. `unroll0.hs` shows an extreme example with a near trivial loop body, so that the loop administration overhead is relatively expensive (`PEEL` makes the loop body available to the loop combinator worker, `UNROLL` reduces loop administration overhead, and reassociation rules enact constant folding). `unroll1.hs` is an example of loop unrolling activating existing optimization `RULES` (array fusion in this case; note that a [ fixpoint fusion](http://www.haskell.org/pipermail/haskell-cafe/2009-March/057295.html) could be even more beneficial than the finite unrolling fusion here).
+
+## Open Issues
+
+- how to handle programs using implicit recursions (via combinators)? One could `PEEL/UNROLL` the definitions of said combinators, but that would give no control at the call sites (like a single setting for all loops). One possibility is to allow `INLINE PEEL/UNROLL` at the call sites, interpreted as making and unfolding copies of the combinator definitions?
+
+- while, eg, `Hugs` just ignores `INLINE` pragmas, recent `GHC` versions have taken to reporting parse errors instead of warnings when encountering unknown forms of `INLINE`
+
+- how does Core-level recursion unfolding interact with backend-level loop transformations (once those come into existence)?
+
 ## Further References
 
 \[0\] GHC mailing list threads, with examples and discussion
