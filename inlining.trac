@@ -111,6 +111,8 @@ Examples of hand-unrolled/-peeled loops abound in optimized code. `unroll2.hs` d
 
 == Open Issues ==
 
+ - there is quite a bit of performance to be gained from simple `PEEL/UNROLL`, followed by existing optimizations, but rewrite `RULES` appear insufficiently expressive to handle many of the optimizing transformations involving loops (starting from reassociating the nested expressions arising from unfolding, as indicated in the examples and the `optimization and rewrite rules questions` thread referenced below; but that extends further, eg, one might prefer to express fixpoint fusion of two composed fixpoints (needs `RULES` matching over `case`) without having to write the fixpoints in stream form, or one might want to fuse operations from the end of a loop body with complementary operations from the beginning of the next iteration (TODO: could that be hacked around?))
+
  - how to handle programs using implicit recursions (via combinators)? One could `PEEL/UNROLL` the definitions of said combinators, but that would give no control at the call sites (like a single setting for all loops). One possibility is to allow `INLINE PEEL/UNROLL` at the call sites, interpreted as making and unfolding __copies__ of the combinator definitions?
 
  - while, eg, `Hugs` just ignores `INLINE` pragmas, recent `GHC` versions have taken to reporting parse errors instead of warnings when encountering unknown forms of `INLINE`
