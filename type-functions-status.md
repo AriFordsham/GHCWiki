@@ -47,7 +47,6 @@
 
 - Misc:
 
-  - [\#1673](https://gitlab.haskell.org//ghc/ghc/issues/1673) (Template Haskell support for type families)
   - [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): exponentially slow compile times
   - [\#2658](https://gitlab.haskell.org//ghc/ghc/issues/2658)
   - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types)
