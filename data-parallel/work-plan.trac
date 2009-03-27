@@ -17,7 +17,7 @@
 === Task assignments ===
 
  ''Roman''::
-   '''Code blow up''', '''Generate boilerplate with TH''' & '''Recycling for joinD'''
+   '''Code blow up''', '''Generate boilerplate with TH''', '''Explicit shape information''' & '''Recycling for joinD'''
    – status: partly implemented, but still needs serious work
    * We still don't have the code blow up under control.
    * Before any further major changes to the library, Roman needs to first re-arrange things such that the library boilerplate is generated, instead of being hardcode; otherwise, changes require a lot of tiresome code editing.  This is partially done.
@@ -40,7 +40,7 @@ Category: ''Bugs''
 
  * #2984
 
-Category: ''Efficiency'' (improve scalability and/or baseline performance of generated code):
+Category: ''Efficiency, short term'' (improve scalability and/or baseline performance of generated code):
 
  * '''Recycling for joinD:''' Use Roman's recycling optimisation (PADL'09) to avoid copying in `joinD`.
 
@@ -50,7 +50,15 @@ Category: ''Efficiency'' (improve scalability and/or baseline performance of gen
 
  * '''Regular multi-dimensional arrays:''' Representing regular arrays by nested arrays is generally not efficient, but due to the current lack of fusion for segmented arrays that produce multiple arrays of different length (e.g., `filterSU :: (a -> Bool) -> SUArr a -> SUArr a`), matters are worse than one might think (e.g., when using a hierarchical matrix representation).  Hence, we need direct support for regular, multi-dimensional arrays.
 
+ * '''Explicit shape information:''' All library internal functions should get shape information (including the lengths of flat arrays) as extra arguments; in particular, lengths shouldn't be stored in every level of a flattened data structure.  This should simplify the use of rewrite rules that are shape sensitive.
+
+ * '''Split/join fusion for segmented arrays:''' Needs to be redone completely, as it currently only works for very simple cases.
+
  * '''Unlifted functions:''' For some scalar functions (especially numeric functions and functions operating on enumerations), it is easier to not lift them at all; rather than to lift them and then attempt to recover the original form with fusion and other optimisations.  An example is the `SumSq` benchmark, where we have `sumP (mapP (\x -> x * x) [:1..n:]`.  Here, we would rather not lift `\x -> x * x` at all.  Roman implemented a very simple form of this idea (which works for `SumSq`).  However, we would like this in a more general form, where named functions that remain unlifted are marked suitably, as clients of a function can only be unlifted if all functions it calls are already unlifted.  How much does that tie in with '''Selective vectorisation'''?
+
+Category: ''Efficiency, long term'' (larger work items that will probably get more important with more complex applications):
+
+ * '''Fusion for segmented arrays:''' Some segmented functions (e.g., `filterSU :: (a -> Bool) -> SUArr a -> SUArr a`) produce multiple arrays of varying lengths.  We currently have no good story for fusing such operations.
 
  * '''Replicate:''' Implement an extended array representation that uses an optimised representation for arrays that are the result of common forms of replication (i.e., due to free variables in lifted expressions).  The optimised representation stores the data to be replicated and the replication count(s) instead of actually replicating the data.  This also requires all functions consuming arrays to be adapted.  ''Update:'' Since we have `INLINE CONLIKE`, we can handle `replicate` using rules as long as it gets close to its consumer during simplification.  This makes the use of an extended array representation less important.  We will delay it until we run into examples where its lack bites us significantly.
 
