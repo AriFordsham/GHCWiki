@@ -23,9 +23,9 @@
 </td></tr></table>
 
 <table><tr><th>*Simon*</th>
-<td>*New dictionary representation and optimisation**
+<td>**New dictionary representation and optimisation**
 – status: unknown
-***</td></tr></table>
+</td></tr></table>
 
 <table><tr><th>*Gabi*</th>
 <td>**Regular multi-dimensional arrays** & **Hierarchical matrix representation**

@@ -22,7 +22,7 @@
    * However, before any further major changes to the library, Roman needs to first re-arrange things such that the library boilerplate is generated, instead of being hardcode; otherwise, changes require a lot of tiresome code editing.  This is partially done.
 
  ''Simon''::
-   ''New dictionary representation and optimisation'''
+   '''New dictionary representation and optimisation'''
    – status: unknown
 
  ''Gabi''::
