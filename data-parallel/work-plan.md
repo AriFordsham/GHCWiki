@@ -25,7 +25,7 @@
 
 <table><tr><th>*Simon*</th>
 <td>**New dictionary representation and optimisation**
-– status: unknown
+– status: prototype shipped to Roman, seems to work.   I am doing detailed perf comparisons before committing to HEAD. 
 </td></tr></table>
 
 <table><tr><th>*Gabi*</th>
