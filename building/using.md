@@ -380,7 +380,7 @@ the libraries in your tree, you can stop them being built by setting
 `GhcBootLibs` in your `build.mk`.
 </td></tr></table>
 
-## BUilding things
+## Building things
 
 
 At this point you have made yourself a fully-configured build tree, so

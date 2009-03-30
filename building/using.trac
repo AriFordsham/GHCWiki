@@ -303,7 +303,7 @@ What do these options do?
   the libraries in your tree, you can stop them being built by setting
   `GhcBootLibs` in your `build.mk`.
 
-== BUilding things ==
+== Building things ==
 
 At this point you have made yourself a fully-configured build tree, so
 you are ready to start building real things.
