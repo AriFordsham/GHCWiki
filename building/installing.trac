@@ -1,0 +1,50 @@
+= Installing GHC from a build tree =
+
+After GHC has been built, it can be installed on your system with
+
+{{{
+$ make install
+}}}
+
+This will build anything that isn't up-to-date, copy the files into the right places (see below) and make sure all the packages are registered properly.
+
+== Layout of the installed files ==
+
+This section describes how the files of a GHC installation are laid out.  The root of the GHC installation is specified via the `--prefix` flag to `configure` (see [wiki:Building/Using#Runtheconfigurescript Running the configure script]), and we refer to that location as `$(prefix)`.
+
+(A GHC installation typically has three parts:
+
+ `bindir`::
+  (default: `$(prefix)/bin`)[[br]]
+  This is where the programs that you can run are installed, such as `ghc`, `ghci`, `ghc-pkg`, and `haddock`.
+
+ `libdir`::
+  (default: Unix: `$(prefix)/lib/ghc-<version>`, Windows: `$(prefix)/lib`)[[br]]
+  Where all of GHC's support files are kept, including `package.conf`, the header files, and the libraries.
+  The location of `libdir` can be found by asking GHC: `ghc --print-libdir`.  Normally you shouldn't have to
+  look in here, and you shouldn't install extra files here.  The only reason you might need to know the location
+  of `libdir` at all is for passing to the GHC API, and the best way to do that is to use the [http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-paths ghc-paths package].
+
+ `docdir`::
+  (default: Unix: `$(prefix)/share/doc/ghc`, Windows: `$(prefix)/doc`)[[br]]
+  Where the documentation is installed.
+
+On Unix systems you can change `libdir` and `bindir` using the `--libdir` and `--bindir` options respectively, and the location of the documentation can be changed using `--datadir`.  On Windows all you can do is change `$(prefix)`, because GHC finds the rest of its files by knowing their location relative to the `ghc.exe` binary, so the layout of the install tree is fixed (see [#HowGHCfindsitsfiles How GHC finds its files], below).
+
+To see how the install directories are derived from `$(prefix)`, look in [[GhcFile(mk/config.mk.in)]].
+
+== The installed copy of MinGW on Windows ==
+
+On Windows, GHC also comes with a copy of (most of) [http://www.mingw.org MinGW], in `$(prefix)/mingw`.  So for instance, you can invoke the `gcc` that comes with GHC as `$(prefix)/mingw/bin/gcc` (replacing `$(prefix)` appropriately).
+
+== How GHC finds its files ==
+
+GHC, when it starts, needs to find `libdir`, so that it can read `package.conf`, and find things like the `unlit` program.  It does this in one of two ways:
+
+ * On '''Windows''', `libdir` is in a fixed location relative to the `ghc.exe` binary, namely `../lib`.  The advantage of the Windows way is that the installed GHC on Windows is independent of its location; it can be moved anywhere on the system, as long as the layout of the tree remains intact (however, links from the start menu and other shortcuts will break if you do this). 
+
+ * On '''Unix''', it is standard to be able to change `libdir` relative to `bindir`, and also it is typically hard (or
+   at least non-portable) to find the pathname to a running binary.  So on Unix systems we use a different method: we make a wrapper script that passes the location of `libdir` to the GHC binary
+   proper using the `-B` flag.  Therefore, `$(bindir)/ghc` is a script that invokes `$(libdir)/ghc`
+   passing it `-B<libdir>`, and the rest of the command-line arguments.  All the other files that GHC
+   needs are found by reading the `package.conf` file.
