@@ -7,13 +7,6 @@ non-standard in various ways (to be explained shortly), and is
 decidedly non-trivial: do not attempt to modify it without having a
 grasp of the concepts that follow!
 
-
-Each of the following subsections describes one of the ``idioms`` that
-we use in the build system.  There are a handful of such idioms, and
-when you've understood them all you'll be able to understand most of
-the code you'll find in the build system.  We'll describe the idioms
-first, and then get on to the specifics of how we build GHC.
-
 **Historical note**: this is the third major revision of the GHC build
 system.  The first incarnation was based on "jmake", a derivative of
 X11's "imake", which is based on using the C preprocessor to add macro
@@ -24,7 +17,16 @@ for general macros).  In this third revision, we use even more of GNU
 **make**'s extensions, and we make a fundamental change to the design, as
 described in the next section.
 
-## Idiom: non-recursive make
+## Idioms
+
+
+Each of the following subsections describes one of the ``idioms`` that
+we use in the build system.  There are a handful of such idioms, and
+when you've understood them all you'll be able to understand most of
+the code you'll find in the build system.  We'll describe the idioms
+first, and then get on to the specifics of how we build GHC.
+
+### Idiom: non-recursive make
 
 
 Build systems for large projects often use the technique commonly
@@ -72,7 +74,7 @@ Specific notes related to this idiom:
   (this is the only recursive invocation of **make**; see the "phase
   ordering" idiom below).
 
-## Idiom: stub makefiles
+### Idiom: stub makefiles
 
 
 It's all very well having a single giant `Makefile` that knows how to
@@ -99,7 +101,7 @@ include $(TOP)/mk/sub-makefile.mk
 
 where `mk/sub-makefile.mk` knows how to recursively invoke the giant top-level **make**.
 
-## Idiom: standard targets (all, clean, etc.)
+### Idiom: standard targets (all, clean, etc.)
 
 
 We want an `all` target that builds everything, but we also want a way to build individual components (say, everything in `rts/`).  This is achieved by having a separate "all" target for each directory, named `all_`*directory*.  For example in `rts/ghc.mk` we might have this:
@@ -120,7 +122,7 @@ When the top level **make** includes all these `ghc.mk` files, it will see that 
 
 Other standard targets such as `clean`, `install`, and so on use the same technique.  There are pre-canned macros to define your "all" and "clean" targets, take a look in `rules/all-target.mk` and `rules/clean-target.mk`.
 
-## Idiom: stages
+### Idiom: stages
 
 
 What do we use to compile GHC?  GHC itself, of course.  In a complete build we actually build GHC twice: once using the GHC version that is installed, and then again using the GHC we just built.  To be clear about which GHC we are talking about, we number them:
@@ -133,7 +135,7 @@ What do we use to compile GHC?  GHC itself, of course.  In a complete build we a
 
 Stage 1 does not support interactive execution (GHCi) and Template Haskell.  The reason being that when running byte code we must dynamically link the packages, and only in stage 2 and later can we guarantee that the packages we dynamically link are compatible with those that GHC was built against (because they are the very same packages).
 
-## Idiom: distdir
+### Idiom: distdir
 
 
 Often we want to build a component multiple times in different ways.  For example:
@@ -152,7 +154,7 @@ In order to support multiple builds in a directory, we place all generated files
 
 There is a related concept called *ways*, which includes profiling and dynamic-linking.  Multiple ways are currently part of the same "build" and use the same distdir, but in the future we might unify these concepts and give each way its own distdir.
 
-## Idiom: interaction with Cabal
+### Idiom: interaction with Cabal
 
 
 Many of the components of the GHC build system are also Cabal
@@ -175,7 +177,7 @@ makefile variable bindings**, such as
 All the makefile code is therefore contained in fixed, editable 
 `.mk` files.
 
-## Idiom: variable names
+### Idiom: variable names
 
 
 Now that our build system is one giant `Makefile`, all our variables
@@ -255,7 +257,7 @@ system - get used to reading it!  Note that the only time we use a
 single `$` in the body of `define` is to refer to the parameters `$1`,
 `$2`, and so on.
 
-## Idiom: phase ordering
+### Idiom: phase ordering
 
 
 NB. you need to understand this section if either (a) you are modifying parts of the build system that include automatically-generated `Makefile` code, or (b) you need to understand why we have a top-level `Makefile` that recursively invokes **make**.
@@ -395,7 +397,7 @@ This approach is not at all pretty, and
 re-invoking **make** every time is slow, but we don't know of a better
 workaround for this problem.
 
-## Idiom: no double-colon rules
+### Idiom: no double-colon rules
 
 **Make** has a special type of rule of the form `target :: prerequisites`,
 with the behaviour that all double-colon rules for a given target are
@@ -403,7 +405,7 @@ executed if the target needs to be rebuilt.  This style was popular
 for things like "all" and "clean" targets in the past, but it's not
 really necessary - see the "all" idiom above - and this means there's one fewer makeism you need to know about.
 
-## Idiom: the vanilla way
+### Idiom: the vanilla way
 
 
 Libraries can be built in several different "ways", for example
@@ -419,7 +421,7 @@ which the libraries are built, must include "v" if you want the
 vanilla way to be built (this is included in the default setup, of
 course).
 
-## Idiom: whitespace
+### Idiom: whitespace
 
 
 make has a rather ad-hoc approach to whitespace. Most of the time it ignores it, e.g.
