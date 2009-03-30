@@ -451,3 +451,96 @@ reinvoked make, and then thought it was out of date again.
 
 
 The moral of the story is, avoid white space unless you're sure it'll be OK!
+
+## Modifying the build system
+
+
+This section is a collection of information that you should find
+useful when modifying the build system.
+
+### Overall structure and important files
+
+<table><tr><th>[ ghc.mk](http://darcs.haskell.org/ghc/ghc.mk)</th>
+<td>
+This is where you should start reading: `ghc.mk` is the main file in
+the build system which ties together all the other build-system
+files.  It uses **make**'s `include` directive to include all the
+files in `mk/*.mk`, `rules/*.mk`, and all the other `ghc.mk` files
+elsewhere in the tree.
+</td></tr></table>
+
+<table><tr><th>[ Makefile](http://darcs.haskell.org/ghc/Makefile)</th>
+<td>
+The top-level `Makefile`, recursively invokes `make` on `ghc.mk`
+according to the [phase ordering idiom](building/architecture#).
+</td></tr></table>
+
+<table><tr><th>`rules/*.mk`</th>
+<td>
+Each `.mk` file in the `rules` directory corresponds to a single
+macro that can be called using **make**'s `$(call ...)`
+expression.  For example, the `build-package` macro is in
+`rules/build-package.mk`.
+</td></tr></table>
+
+<table><tr><th>[ config.mk.in](http://darcs.haskell.org/ghc/mk/config.mk.in)</th>
+<td>
+The configuration information for the build system, processed by
+`configure` to produce `mk/config.mk`.  Settings can be overriden by
+creating a local file `mk/build.mk` (see
+[Build configuration](building/using#build-configuration)).
+</td></tr></table>
+
+<table><tr><th>[ compiler/ghc.mk](http://darcs.haskell.org/ghc/compiler/ghc.mk), [ rts/ghc.mk](http://darcs.haskell.org/ghc/rts/ghc.mk), etc.</th>
+<td>
+Most subdirectories of the source tree have a `ghc.mk` file which
+contains the instructions for building the components in that
+directory.  Note: these `ghc.mk` files cannot be invoked
+individually, they should only be included by the top-level
+`ghc.mk`.
+</td></tr></table>
+
+### Debugging
+
+
+When the build system doesn't do what you want, the results can be
+pretty cryptic.  Often the problem is that something is being built in
+the wrong order, or some variable isn't being propagated to the places
+you thought it was.  How do you go about debugging the build system?
+Here are the techniques that we use:
+
+
+Note, for many of these diagnosis techniques you may want to invoke
+**make** on `ghc.mk` directly using `make -f ghc.mk`, to bypass the
+[phase ordering](building/architecture#) machinery of the top-level
+`Makefile`.
+
+<table><tr><th>`make --debug=b --debug=m`</th>
+<td>
+causes **make** to show the sequence of dependencies that it is
+following, which will often tell you *why* something is being
+built.  This can help to track down missing or incorrect
+dependencies.
+</td></tr></table>
+
+<table><tr><th>`make -p`</th>
+<td>
+prints out all the generated rules and variables.  The output can be
+huge; so pipe it to a file, and search through it for the bits of
+interest.
+</td></tr></table>
+
+<table><tr><th>`$(warning ... message ...)`</th>
+<td>
+equivalent to "printf-debugging\` in a C program: this causes
+**make** to print a message when it reads the `$(warning ..)`
+expression, and the message can include variable references.  Very
+useful for finding out what **make** thinks the value of a
+variable is at a particular point in the `Makefile`, or for finding
+out the parameters for a particular macro call.
+</td></tr></table>
+
+<table><tr><th>`make show VALUE=VAR`</th>
+<td>
+prints the value of variable `VAR`.  Useful for quick diagnosis.
+</td></tr></table>
