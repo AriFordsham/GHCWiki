@@ -29,7 +29,8 @@ Getting started for developers
 More detailed information about the build system
 
 - [Using the build system](building/using)
-- Architecture of the build system?
+- [Installing GHC from a build](building/installing)
+- [Architecture of the build system](building/architecture)
 - [Building the documentation](building/docs)
 - [Unregisterised builds](building/unregisterised)
 - [Porting GHC](building/porting)
