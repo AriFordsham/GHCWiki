@@ -35,3 +35,12 @@ Now build the tree as normal:
 
 
 You may be able to shortcut this procedure if you know what you're doing, or you could just take a risk and if anything goes wrong fall back to the above procedure.
+
+---
+
+
+Notes (things that might go wrong): 
+
+- watch out for distclean not cleaning properly, especially if you haven't updated for a long time, darcs-all/packages list changing due to darcs-all (meaning you need to re-run darcs-all with the now up-to-date information), missing/new packages, darcs warnings; keeping a log of darcs-all's and make's output can be helpful
+
+- unsupported: I'm using a slightly modified darcs-all script (see attached diff) that tries to alert me to the darcs-all issues listed above by summarizing them at the end of the run, or aborting the run if it needs to be restarted due to update
