@@ -121,20 +121,20 @@ the ones you might need:
 
 <table><tr><th>`--build=<platform>`</th>
 <td>
-Specifies the "build platform" (see Building/BuildSystem?).
+Specifies the "build platform" (see [platform names](building/architecture#)).
 This is usually only necessary on Windows, where you should set it
 to `--build=i386-unknown-mingw32`.
 </td></tr></table>
 
 <table><tr><th>`--host=<platform>`</th>
 <td>
-Set the "host platform" (see Building/BuildSystem?).
+Set the "host platform" (see [platform names](building/architecture#)).
 Usually not necessary.
 </td></tr></table>
 
 <table><tr><th>`--target=<platform>`</th>
 <td>
-Set the "target platform" (see Building/BuildSystem?).
+Set the "target platform" (see [platform names](building/architecture#)).
 Usually not necessary.
 </td></tr></table>
 
@@ -403,6 +403,35 @@ in the correct order, resulting in a complete build of GHC that can
 even be used directly from the tree (as `inplace/bin/ghc-stage2`),
 without being installed first.
 
+### Order of the build
+
+
+Here is a high level view of what happens when you build GHC:
+
+- First, we build a few packages that GHC itself depends on, such as
+  `Cabal`, and `filepath`, using your installed GHC.  These packages
+  are under `libraries`, and each is built in a subdirectory
+  `dist-boot`; for example the bootstrap build of Cabal will be in
+  `libraries/Cabal/dist-boot`.
+
+- Then we build GHC against these packages, still using your
+  installed GHC.  This is called the "stage 1" compiler (see
+  [stages](building/architecture#)).  You can run the
+  stage 1 compiler by invoking `inplace/bin/ghc-stage1`.  The stage 1
+  build of GHC happens in `compiler/stage1`.
+
+- The stage 1 compiler is now used to build all the packages in the
+  `libraries` subdirectory, and the runtime system in `rts`.
+
+- Finally, the stage 1 compiler is used to build GHC itself again,
+  this time against the libraries we just built.  This GHC is called
+  stage 2, and can be invokes as `inplace/bin/ghc-stage2`.
+
+
+There's an optional final stage, using the stage 2 compiler to build a
+stage 3 compiler, but this isn't strictly necessary, and is only used
+to check that the stage 2 compiler is working properly.
+
 ### What to do after `make` has finished
 
 
@@ -439,35 +468,6 @@ if you don't find a solution:
 
 - Ask someone: [MailingListsAndIRC](mailing-lists-and-irc)
 - or just [ReportABug](report-a-bug)
-
-## Components of the build
-
-
-Here is a high level view of what happens when you build GHC:
-
-- First, we build a few packages that GHC itself depends on, such as
-  `Cabal`, and `filepath`, using your installed GHC.  These packages
-  are under `libraries`, and each is built in a subdirectory
-  `dist-boot`; for example the bootstrap build of Cabal will be in
-  `libraries/Cabal/dist-boot`.
-
-- Then we build GHC against these packages, still using your
-  installed GHC.  This is called the "stage 1" compiler (see
-  [stages](building/architecture#)).  You can run the
-  stage 1 compiler by invoking `inplace/bin/ghc-stage1`.  The stage 1
-  build of GHC happens in `compiler/stage1`.
-
-- The stage 1 compiler is now used to build all the packages in the
-  `libraries` subdirectory, and the runtime system in `rts`.
-
-- Finally, the stage 1 compiler is used to build GHC itself again,
-  this time against the libraries we just built.  This GHC is called
-  stage 2, and can be invokes as `inplace/bin/ghc-stage2`.
-
-
-There's an optional final stage, using the stage 2 compiler to build a
-stage 3 compiler, but this isn't strictly necessary, and is only used
-to check that the stage 2 compiler is working properly.
 
 ## Developing in a GHC build tree
 
@@ -509,7 +509,7 @@ account, and a lot of rebuilding would probably ensue.
 
 
 Each subdirectory of the source tree has a
-stub makefile?,
+[stub makefile](building/architecture#),
 most of which follow this pattern:
 
 ```wiki

@@ -108,16 +108,16 @@ to get a list of the available arguments.  Here are some of
 the ones you might need:
 
  `--build=<platform>`::
-  Specifies the "build platform" (see [wiki:Building/BuildSystem#Platformsettings]).
+  Specifies the "build platform" (see [wiki:Building/Architecture#Idiom:platformnames platform names]).
   This is usually only necessary on Windows, where you should set it
   to `--build=i386-unknown-mingw32`.
 
  `--host=<platform>`::
-  Set the "host platform" (see [wiki:Building/BuildSystem#Platformsettings]).
+  Set the "host platform" (see [wiki:Building/Architecture#Idiom:platformnames platform names]).
   Usually not necessary.
 
  `--target=<platform>`::
-  Set the "target platform" (see [wiki:Building/BuildSystem#Platformsettings]).
+  Set the "target platform" (see [wiki:Building/Architecture#Idiom:platformnames platform names]).
   Usually not necessary.
 
  `--with-ghc=<path>`::
@@ -323,6 +323,34 @@ in the correct order, resulting in a complete build of GHC that can
 even be used directly from the tree (as `inplace/bin/ghc-stage2`),
 without being installed first.
 
+=== Order of the build ===
+
+Here is a high level view of what happens when you build GHC:
+
+ * First, we build a few packages that GHC itself depends on, such as
+   `Cabal`, and `filepath`, using your installed GHC.  These packages
+   are under `libraries`, and each is built in a subdirectory
+   `dist-boot`; for example the bootstrap build of Cabal will be in
+   `libraries/Cabal/dist-boot`.
+
+ * Then we build GHC against these packages, still using your
+   installed GHC.  This is called the "stage 1" compiler (see
+   [wiki:Building/Architecture#Idiom:stages stages]).  You can run the
+   stage 1 compiler by invoking `inplace/bin/ghc-stage1`.  The stage 1
+   build of GHC happens in `compiler/stage1`.
+
+ * The stage 1 compiler is now used to build all the packages in the
+   `libraries` subdirectory, and the runtime system in `rts`.
+
+ * Finally, the stage 1 compiler is used to build GHC itself again,
+   this time against the libraries we just built.  This GHC is called
+   stage 2, and can be invokes as `inplace/bin/ghc-stage2`.
+
+There's an optional final stage, using the stage 2 compiler to build a
+stage 3 compiler, but this isn't strictly necessary, and is only used
+to check that the stage 2 compiler is working properly.
+
+
 === What to do after `make` has finished ===
 
 If `make` completes successfully, then it should have created
@@ -355,32 +383,6 @@ if you don't find a solution:
  * Ask someone: [wiki:MailingListsAndIRC]
  * or just [wiki:ReportABug]
 
-== Components of the build ==
-
-Here is a high level view of what happens when you build GHC:
-
- * First, we build a few packages that GHC itself depends on, such as
-   `Cabal`, and `filepath`, using your installed GHC.  These packages
-   are under `libraries`, and each is built in a subdirectory
-   `dist-boot`; for example the bootstrap build of Cabal will be in
-   `libraries/Cabal/dist-boot`.
-
- * Then we build GHC against these packages, still using your
-   installed GHC.  This is called the "stage 1" compiler (see
-   [wiki:Building/Architecture#Idiom:stages stages]).  You can run the
-   stage 1 compiler by invoking `inplace/bin/ghc-stage1`.  The stage 1
-   build of GHC happens in `compiler/stage1`.
-
- * The stage 1 compiler is now used to build all the packages in the
-   `libraries` subdirectory, and the runtime system in `rts`.
-
- * Finally, the stage 1 compiler is used to build GHC itself again,
-   this time against the libraries we just built.  This GHC is called
-   stage 2, and can be invokes as `inplace/bin/ghc-stage2`.
-
-There's an optional final stage, using the stage 2 compiler to build a
-stage 3 compiler, but this isn't strictly necessary, and is only used
-to check that the stage 2 compiler is working properly.
 
 
 == Developing in a GHC build tree ==
@@ -418,7 +420,7 @@ from the top-level, all of these dependencies would be taken into
 account, and a lot of rebuilding would probably ensue.
 
 Each subdirectory of the source tree has a
-[wiki:BuildSystem/Architecture#Idiom:stubmakefiles stub makefile],
+[wiki:Building/Architecture#Idiom:stubmakefiles stub makefile],
 most of which follow this pattern:
 
 {{{
