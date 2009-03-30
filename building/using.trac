@@ -215,8 +215,7 @@ take a look in [[GhcFile(mk/config.mk.in)]].
  `GhcLibWays`::
   (default: `p`)[[br]]
   Ways in which to build the libraries.  Must contain
-  at least `v` ([wiki:Building/Architecture#Idiom:thevanillaway the
-  vanilla way]).  Also contains `p` by default (profiling).  For other
+  at least `v` ([wiki:Building/Architecture#Idiom:thevanillaway the vanilla way]).  Also contains `p` by default (profiling).  For other
   ways, see `mk/config.mk.in`.
 
  `SplitObjs`::

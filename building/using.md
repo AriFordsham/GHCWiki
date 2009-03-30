@@ -271,8 +271,7 @@ Set to `YES` to pass `-debug` when building GHC (stage 2).
 (default: `p`)
 
 Ways in which to build the libraries.  Must contain
-at least `v` (\[[wiki:Building/Architecture\#Idiom:thevanillaway](building/architecture#) the
-vanilla way\]).  Also contains `p` by default (profiling).  For other
+at least `v` ([the vanilla way](building/architecture#)).  Also contains `p` by default (profiling).  For other
 ways, see `mk/config.mk.in`.
 </td></tr></table>
 
