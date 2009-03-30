@@ -1,130 +1,74 @@
+**NOTE**: this page now describes the new GHC build system, due to
+be added to GHC in April 2009.  For documentation of the "old" build
+system, see Building/Old/Using?.
+
 # Using the Build System
 
 
     
-This rest of this guide is designed to help you even if you aren't
-really interested in Makefiles and systems configurations, but you
-need a mental model of the interlocking pieces so that they can make
-them work, extend them consistently when adding new software, and lay
-hands on them gently when they don't work.
+This part of the guide is about *using* the build system, that is,
+how to interact with the build system when you're developing some part
+of GHC, its libraries or tools.
 
-## History
+## Source trees and build trees
 
 
-First, a historical note.  The GHC build system used to be
-called "fptools": a generic build system used to build multiple
-projects (GHC, Happy, GreenCard, H/Direct, etc.).  It had a
-concept of the generic project-independent parts, and
-project-specific parts that resided in a project
-subdirectory.
+Sometimes we want to separate the build tree from the source tree.
+There are a few advantages to doing this:
+
+- You can make multiple different builds from the same sources,
+  perhaps for testing different build settings, or for building
+  on different platforms.
+
+- You might want to put the source tree on a remote, backed-up,
+  filesystem, but keep your build tree on a local fast unbacked-up
+  drive (this is a configuration we use regularly at GHC HQ).  It
+  doesn't matter if you lose the build tree: it can easily be
+  regenerated.
+
+- It's easy to blow away a build tree and start again, without
+  modifying your source tree.  `make maintainer-clean` is usually
+  good for this too, but it can miss files that it doesn't know
+  about, or files that are remnants from older versions of GHC.
 
 
-Nowadays, most of these other projects are using
-[ Cabal](http://www.haskell.org/cabal/), or have faded away, and GHC is
-the only regular user of the fptools build system.  We decided
-therefore to simplify the situation for developers, and specialise the
-build system for GHC.  This resulted in a simpler organisation of the
-source tree and the build system, which hopefully makes the whole
-thing easier to understand.
+However, if you just want to build the software once on a single
+platform, then your source tree can also be your build tree, and you
+can skip the rest of this section.
 
 
-You might find old comments that refer to "projects" or "fptools" in
-the documentation and/or source; please let us know if you do.
-
-## Build trees
-
-
-If you just want to build the software once on a single platform, then
-your source tree can also be your build tree, and you can skip the
-rest of this section.
-
-
-We often want to build multiple versions of our software for different
-architectures, or with different options (e.g. profiling).  It's very
-desirable to share a single copy of the source code among all these
-builds.
-
-
-So for every source tree we have zero or more *build trees*.  Each
-build tree is initially an exact copy of the source tree, except that
-each file is a symbolic link to the source file, rather than being a
-copy of the source file.  There are "standard" Unix utilities that
-make such copies, so standard that they go by different names:
-`lndir` and `mkshadowdir` are two (If you don't have either, the
-source distribution includes sources for the X11
-`lndir` — check out `utils/lndir`). See 
-[The story so far](#Thestorysofar) 
-for a typical invocation.
-
-
-The build tree does not need to be anywhere near the source tree in
-the file system.  Indeed, one advantage of separating the build tree
-from the source is that the build tree can be placed in a
-non-backed-up partition, saving your systems support people from
-backing up untold megabytes of easily-regenerated, and
-rapidly-changing, gubbins.  The golden rule is that (with a single
-exception — [Getting the build you want](#Gettingthebuildyouwant)) *absolutely
-everything in the build tree is either a symbolic link to the source
-tree, or else is mechanically generated*.  It should be perfectly OK
-for your build tree to vanish overnight; an hour or two compiling and
-you're on the road again.
+A *build tree* is just an exact copy of the source tree, except that
+every file in it is a symbolic link to the appropriate file in the
+source tree.  There are "standard" Unix utilities that make such
+copies, so standard that they go by different names: `lndir` and
+`mkshadowdir` are two (If you don't have either, the GHC source
+tree contains sources for the X11 `lndir` check out
+`utils/lndir`).
 
 
 You need to be a bit careful, though, that any new files you create
-(if you do any development work) are in the source tree, not a build
+(if you do any development work) are in the source tree, not the build
 tree!
 
-
-Remember, that the source files in the build tree are *symbolic
-links* to the files in the source tree.  (The build tree soon
-accumulates lots of built files like `Foo.o`, as well.)  You can
-*delete* a source file from the build tree without affecting the
-source tree (though it's an odd thing to do).  On the other hand, if
-you *edit* a source file from the build tree, you'll edit the
-source-tree file directly.  (You can set up Emacs so that if you edit
-a source file from the build tree, Emacs will silently create an
-edited copy of the source file in the build tree, leaving the source
-file unchanged; but the danger is that you think you've edited the
-source file whereas actually all you've done is edit the build-tree
-copy.  More commonly you do want to edit the source file.)
+## Steps for building GHC
 
 
-Like the source tree, the top level of your build tree must be (a
-linked copy of) the root directory of the GHC source tree.  Inside
-Makefiles, the root of your build tree is called
-`$(TOP)`.  In
-the rest of this document path names are relative to `$(TOP)`
-unless otherwise stated.  For example, the file `mk/target.mk` is
-actually `$(TOP)/mk/target.mk`.
-
-## Getting the build you want
+We gave a quick getting-started introduction to building GHC in
+[Building/QuickStart](building/quick-start), the following sections describe each step
+in more detail.
 
 
-When you build GHC you will be compiling code on a particular *host
-platform*, to run on a particular *target platform* (usually the
-same as the host platform).  The difficulty is that there are minor
-differences between different platforms; minor, but enough that the
-code needs to be a bit different for each.  There are some big
-differences too: for a different architecture we need to build GHC
-with a different native-code generator.
+In the build system, the path to the top of your build tree is
+referred to as `$(TOP)`, and we will use that convention in the
+following sections.
+
+### Generate configure scripts
 
 
-There are also knobs you can turn to control how the software is
-built.  For example, you might want to build GHC optimised (so that it
-runs fast) or unoptimised (so that you can compile it fast after
-you've modified it.  Or, you might want to compile it with debugging
-on (so that extra consistency-checking code gets included) or off.
-And so on.
-
-
-All of this stuff is called the *configuration* of your build.  You
-set the configuration using a three-step process.
-
-### Step 1: get ready for configuration
-
-
-NOTE: if you're starting from a source distribution, rather than darcs
-sources, you can skip this step.
+NOTE: if you're starting from a source distribution that you
+downloaded from the GHC web site, rather than darcs sources, you can
+skip this step.  Source distributions come with configure scripts
+pre-generated for you.
 
 
 Change directory to `$(TOP)` and issue the command
@@ -134,32 +78,19 @@ $ sh boot
 ```
 
 
-(with no arguments). This GNU program (recursively) converts
-`$(TOP)/configure.ac` and `$(TOP)/aclocal.m4` to a
-shell script called `$(TOP)/configure`.  If `boot`
-bleats that it can't write the file `configure`, then delete the
-latter and try again.  Note that you must use `sh boot`, and
-not the old `autoreconf` or `autoconf`!  If you erroneously
-use `autoreconf` then building the libraries will fail, and it
-you use `autoconf` you'll
-get a message like `No rule to make target 'mk/config.h.in'`.
+(Note: the `$` is the prompt.  You don't type that bit.)  This runs
+`autoreconf` on the various `configure.ac` scripts in the GHC build
+tree, generating `configure` scripts and other miscellaneous files.
 
 
-Some parts of the source tree, particularly libraries, have their own
-configure script.  `sh boot` takes care of that, too, so all
-you have to do is calling `sh boot` in the top-level directory
-`$(TOP)`.
+You have to re-do this step if (and only if) you ever change one of
+the files that `autoconf` uses to generate the `configure` scripts,
+such as `configure.ac`, or `aclocal.m4`.
+
+### Run the configure script
 
 
-These steps are completely platform-independent; they just mean that
-the human-written files (`configure.ac` and `aclocal.m4`) can
-be short, although the resulting files (the `configure` shell
-scripts and the C header template `mk/config.h.in`) are long.
-
-### Step 2: system configuration.
-
-
-Run the newly-created `configure` script, thus:
+Run the `configure` script, thus:
 
 ```wiki
 $ ./configure <args>
@@ -172,20 +103,40 @@ available, where various obscure `#include` files are, whether
 it's a leap year, and what the systems manager had for lunch.  It
 communicates these snippets of information in two ways:
 
-- It translates `mk/config.mk.in` to `mk/config.mk`,
-  substituting for things between "`@`" brackets.  So,
-  "`@HaveGcc@`" will be replaced by "`YES`" or "`NO`"
-  depending on what `configure` finds.  `mk/config.mk` is
-  included by every Makefile (directly or indirectly), so the
-  configuration information is thereby communicated to all Makefiles.
+- It translates various files such as `mk/config.mk.in` to
+  `mk/config.mk`, substituting for things between "`@`"
+  brackets.  So, "`@HaveGcc@`" will be replaced by "`YES`" or
+  "`NO`" depending on what `configure` finds.
+  `mk/config.mk` is included by every Makefile (directly or
+  indirectly), so the configuration information is thereby
+  communicated to all Makefiles.
 
 - It translates `mk/config.h.in` to `mk/config.h`.  The
-  latter is `#include`d by various C programs, which can
+  latter is `#include`d by various C source files, which can
   thereby make use of configuration information.
 
 `configure` takes some optional arguments.  Use `./configure --help`
 to get a list of the available arguments.  Here are some of
 the ones you might need:
+
+<table><tr><th>`--build=<platform>`</th>
+<td>
+Specifies the "build platform" (see Building/BuildSystem?).
+This is usually only necessary on Windows, where you should set it
+to `--build=i386-unknown-mingw32`.
+</td></tr></table>
+
+<table><tr><th>`--host=<platform>`</th>
+<td>
+Set the "host platform" (see Building/BuildSystem?).
+Usually not necessary.
+</td></tr></table>
+
+<table><tr><th>`--target=<platform>`</th>
+<td>
+Set the "target platform" (see Building/BuildSystem?).
+Usually not necessary.
+</td></tr></table>
 
 <table><tr><th>`--with-ghc=<path>`</th>
 <td>
@@ -195,186 +146,241 @@ itself).  This option *cannot* be specified using `build.mk`
 (see later), because `configure` needs to auto-detect the
 version of GHC you're using.  The default is to look for a compiler
 named `ghc` in your path.
-              
-</td></tr>
-<tr><th>`--with-hc=<path>`</th>
-<td>
-Specifies the path to any installed Haskell compiler.  This compiler
-will be used for compiling generic Haskell code.  The default is to
-use `ghc`. (NOTE: I'm not sure it actually works to specify a
-compiler other than GHC here; unless you really know what you're
-doing I suggest not using this option at all.)
-              
-</td></tr>
-<tr><th>`--with-gcc=<path>`</th>
+</td></tr></table>
+
+<table><tr><th>`--with-gcc=<path>`</th>
 <td>
 Specifies the path to the installed GCC. This compiler will be used
 to compile all C files, *except* any generated by the installed
 Haskell compiler, which will have its own idea of which C compiler
-(if any) to use.  The default is to use `gcc`.
+(if any) to use.  The default is to use `gcc`.  On Windows, this
+should be set to the gcc that comes with MinGW, which by default
+is `c:/mingw/bin/gcc`.
 </td></tr></table>
 
-### Step 3: build configuration.
+<table><tr><th>`--with-ld=<path>`</th>
+<td>
+Specifies which `ld` program to use.  Normally only necessary on
+Windows, where you should set it to the `ld` that comes with MinGW,
+which is usually `c:/mingw/bin/ld`.
+</td></tr></table>
+
+<table><tr><th>`--prefix`</th>
+<td>
+Tells the build system where you would like GHC to be eventually
+installed.  You don't have to install GHC in order to use it: it is
+entirely possible to work on GHC and test it without ever modifying
+anything outside the build tree.  However, if you do with to install
+GHC, then the `--prefix` directory is the root of the install tree.
+Typciallly on Unix systems the default for `--prefix` is
+`/usr/local`.  See also [Installing](building/installing) for more details.
+</td></tr></table>
+
+### Build configuration
 
 
 Next, you say how this build of GHC is to differ from the standard
-defaults by creating a new file `mk/build.mk`*in the build
-tree*.  This file is the one and only file you edit in the build
-tree, precisely because it says how this build differs from the
-source.  (Just in case your build tree does die, you might want to
-keep a private directory of `build.mk` files, and use a symbolic
-link in each build tree to point to the appropriate one.)  So
-`mk/build.mk` never exists in the source tree — you create one
-in each build tree from the template.  We'll discuss what to put in it
-shortly.
+defaults by creating a new file `mk/build.mk`*in the build tree*.
+This file is the one and only file you edit in the build tree,
+precisely because it says how this build differs from the source.
+(Just in case your build tree does die, you might want to keep a
+private directory of `build.mk` files, and use a symbolic link in each
+build tree to point to the appropriate one.)
+
+`mk/build.mk` is purely for overriding settings that are found in
+`mk/config.mk`.  You should never edit `mk/config.mk` directly, since
+it is automatically generated from `mk/config.mk.in` by `configure`.
+Neither should you edit `mk/config.mk.in`; just provide your settings
+in `mk/build.mk`.
 
 
-And that's it for configuration. Simple, eh?
+We provide a sample file, `mk/build.mk.sample`, which you can copy to
+`mk/build.mk` and edit.  It provides a number of pre-defined
+configurations, such as a "fast build" or a "development build".  Take
+a look in the file itself for details.
 
 
-What do you put in your build-specific configuration file
-`mk/build.mk`?  *For almost all purposes all you will do is put
-make variable definitions that override those in*`mk/config.mk.in`.  The whole point of
-`mk/config.mk.in` — and its derived counterpart
-`mk/config.mk` — is to define the build configuration. It is
-heavily commented, as you will see if you look at it.  So generally,
-what you do is look at `mk/config.mk.in`, and add definitions in
-`mk/build.mk` that override any of the `config.mk` definitions
-that you want to change.  (The override occurs because the main
-boilerplate file, `mk/boilerplate.mk`, includes `build.mk`
-after `config.mk`.)
+To understand more about what you can put in `mk/build.mk`, read on.
+
+#### Common build.mk options
 
 
-For your convenience, there's a file called `build.mk.sample` that
-can serve as a starting point for your `build.mk`.
+The following are some common variables that you might want to set in
+your `mk/build.mk`.  For other variables that you can override,
+take a look in [mk/config.mk.in](/trac/ghc/browser/ghc/mk/config.mk.in).
 
-
-For example, `config.mk.in` contains the definition:
-
-<table><tr><th>`GhcHcOpts = -Rghc-timing`</th>
+<table><tr><th>`SRC_HC_OPTS`</th>
 <td>
-The accompanying comment explains that this is the list of flags
-passed to GHC when building GHC itself.  For doing development, it
-is wise to add `-DDEBUG`, to enable debugging code.  So you
-would add the following to `build.mk`:
-      
-</td></tr>
-<tr><th>`GhcHcOpts += -DDEBUG`</th>
-<td>
-GNU `make` allows existing definitions to have new text appended
-using the "`+=`" operator, which is quite a convenient feature.
+(default: `-H32m -O`)
 
-Haskell compilations by default have `-O` turned on, by virtue
-of this setting from `config.mk`:
+Options passed to GHC for all Haskell compilations.
 </td></tr></table>
 
-<table><tr><th>`SRC_HC_OPTS += -H16m -O`</th>
-<td>`SRC_HC_OPTS` means "options for HC from the source tree", where
-HC stands for Haskell Compiler.  `SRC_HC_OPTS` are added to
-every Haskell compilation.  To turn off optimisation, you could add
-this to `build.mk`:
-</td></tr></table>
-
-<table><tr><th>`SRC_HC_OPTS = -H16m -O0`</th>
+<table><tr><th>`GhcHcOpts`</th>
 <td>
-Or you could just add `-O0` to `GhcHcOpts` to turn off
-optimisation for the compiler.  See [Building/Hacking](building/hacking)
-for some more suggestions.
+(default: `-Rghc-timing`)
 
-When reading `config.mk.in`, remember that anything between
-"@...@" signs is going to be substituted by `configure` later.
-You *can* override the resulting definition if you want, but you
-need to be a bit surer what you are doing.  For example, there's a
-line that says:
+Options added when compiling GHC (all
+[stages](building/architecture#))
 </td></tr></table>
 
-<table><tr><th>`TAR = @TarCmd@`</th>
+<table><tr><th>`GhcStage1HcOpts`</th>
 <td>
-This defines the Make variables `TAR` to the pathname for a
-`tar` that `configure` finds somewhere.  If you have your
-own pet `tar` you want to use instead, that's fine. Just add
-this line to `mk/build.mk`:
+(default: *empty*)
+
+Options added when compiling the stage 1 GHC.
 </td></tr></table>
 
-<table><tr><th>`TAR = mytar`</th>
+<table><tr><th>`GhcStage2HcOpts`</th>
 <td>
-You do not *have* to have a `mk/build.mk` file at all; if you
-don't, you'll get all the default settings from
-`mk/config.mk.in`.
+(default: `-O2`)
+
+Options added when compiling the stage 2 GHC.
 </td></tr></table>
 
->
-> You can also use `build.mk` to override anything that
-> `configure` got wrong.  One place where this happens often is
-> with the definition of `FPTOOLS_TOP_ABS`: this variable is supposed
-> to be the canonical path to the top of your source tree, but if your
-> system uses an automounter then the correct directory is hard to
-> find automatically.  If you find that `configure` has got it
-> wrong, just put the correct definition in `build.mk`.
+<table><tr><th>`GhcStage3HcOpts`</th>
+<td>
+(default: `-O2`)
 
-## The story so far
+Options added when compiling the stage 3 GHC.
+</td></tr></table>
 
+<table><tr><th>`GhcLibHcOpts`</th>
+<td>
+(default: `-O2 -XGenerics`)
 
-Let's summarise the steps you need to carry to get yourself a
-fully-configured build tree from scratch.
+Options added when compiling the libraries.
+</td></tr></table>
 
-- Get your source tree from somewhere (darcs repository or source
-  distribution).  Say you call the root directory `myghc` (it
-  does not have to be called `ghc`).
+<table><tr><th>`GhcProfiled`</th>
+<td>
+(default: `NO`)
 
-- (Optional) Use `lndir` or `mkshadowdir` to create a build
-  tree.
+Set to `YES` to enable profiling for GHC itself (stage 2).
+</td></tr></table>
 
-  ```wiki
-  $ cd myghc
-  $ mkshadowdir . /scratch/joe-bloggs/myghc-x86
-  ```
+<table><tr><th>`GhcDebugged`</th>
+<td>
+(default: `NO`)
 
-  (N.B. `mkshadowdir`'s first argument is taken relative to its
-  second.) You probably want to give the build tree a name that
-  suggests its main defining characteristic (in your mind at least),
-  in case you later add others.
+Set to `YES` to pass `-debug` when building GHC (stage 2).
+</td></tr></table>
 
-- Change directory to the build tree.  Everything is going to happen
-  there now.
+<table><tr><th>`GhcLibWays`</th>
+<td>
+(default: `p`)
 
-  ```wiki
-  $ cd /scratch/joe-bloggs/myghc-x86
-  ```
+Ways in which to build the libraries.  Must contain
+at least `v` (\[[wiki:Building/Architecture\#Idiom:thevanillaway](building/architecture#) the
+vanilla way\]).  Also contains `p` by default (profiling).  For other
+ways, see `mk/config.mk.in`.
+</td></tr></table>
 
-- Prepare for system configuration:
+<table><tr><th>`SplitObjs`</th>
+<td>
+(default: `YES` if supported, `NO` otherwise)
 
-  ```wiki
-  $ sh boot
-  ```
+When set to `YES`, static library object files are split into smaller
+pieces.  This means that less of the library code needs to be linked
+into the final application, which makes smaller binaries.  It takes
+longer to build libraries this way, though.
+  
+</td></tr></table>
 
-  (You can skip this step if you are starting from a source
-  distribution, and you already have `configure` and
-  `mk/config.h.in`.)
-
-- Do system configuration:
-
-  ```wiki
-  $ ./configure
-  ```
-
-  Don't forget to check whether you need to add any arguments to
-  `configure`; for example, a common requirement is to specify
-  which GHC to use with
-  `--with-ghc=<path>`.
-
-- Create the file `mk/build.mk`, adding definitions for your
-  desired configuration options.
+#### How to make GHC build quickly
 
 
-You can make subsequent changes to `mk/build.mk` as often as you
-like.  You do not have to run any further configuration programs to
-make these changes take effect. In theory you should, however, say
-`make clean; make`, because configuration option changes could
-affect anything — but in practice you are likely to know what's
-affected.
+The GHC build tree is set up so that, by default, it builds a compiler
+ready for installing and using.  That means full optimisation, and the
+build can take a *long* time.  If you unpack your source tree and
+right away say `./configure; make`, expect to have to wait a while.
+For hacking, you want the build to be quick - quick to build in the
+first place, and quick to rebuild after making changes.  Tuning your
+build setup can make the difference between several hours to build
+GHC, and less than an hour.  
 
-## Making things
+
+Here are the `build.mk` settings that we use to build fast:
+
+```wiki
+# My build settings for hacking on stage 2
+SRC_HC_OPTS     = -H32m -O -fasm -Rghc-timing
+GhcStage1HcOpts = -O -fasm
+GhcStage2HcOpts = -O0 -DDEBUG -Wall
+GhcLibHcOpts    = -O -fasm -XGenerics
+GhcLibWays      =
+SplitObjs       = NO
+GhcBootLibs     = YES
+```
+
+
+What do these options do?
+
+<table><tr><th>`SRC_HC_OPTS = -H32m -O -fasm -Rghc-timing`</th>
+<td>
+These options are added to the command line for all Haskell
+compilations.  We turn on `-fasm`, because that halves compilation
+time at the expense of a few percent performance. `-Rghc-timing`
+prints out a line of timing info about each compilation.  It's handy
+to keep an eye on.  `-Wall` turns on all the warnings; GHC is
+meant to be warning-clean with `-Wall`.
+</td></tr></table>
+
+<table><tr><th>`GhcStage1HcOpts = -O -fasm`</th>
+<td>
+Build stage 1 optimised: we're going to be rebuilding stage 2 a lot,
+so we want the compiler that does the building to be fast.
+</td></tr></table>
+
+<table><tr><th>`GhcStage2HcOpts = -O0 -DDEBUG -Wall`</th>
+<td>
+We turn off optimisation here, assuming you'll be modifying and
+testing stage 2.  With optimisation off, rebuilding GHC after
+modifying it will be *much* quicker, not only because the
+individual compilations will be quicker, but also there will be
+fewer dependencies between modules, so much less stuff is recompiled
+after each modification.
+
+Also we turn on `-DDEBUG`, because that enables assertions and
+debugging code in the compiler itself.  Turning on DEBUG makes
+the compiler about 30% slower.
+</td></tr></table>
+
+<table><tr><th>`GhcLibHcOpts = -O -fasm -XGenerics`</th>
+<td>
+You almost certainly want optimisation *on* when building
+libraries, otherwise the code you build with this compiler
+goes really slowly.  `-fgenerics` add generics support to the
+libraries - you can turn this off if you like (it'll make the
+libraries a bit smaller), but you won't be able to use Generics in
+the code you build against these libraries.
+</td></tr></table>
+
+<table><tr><th>`GhcLibWays =`</th>
+<td>
+Normally the profiled libraries are built.  Setting `GhcLibWays` to
+empty disables this, so you only build the normal libs.
+</td></tr></table>
+
+<table><tr><th>`SplitObjs = NO`</th>
+<td>
+Object splitting causes each module to be split into smaller
+pieces in the final library, to reduce executable sizes when
+linking against the library.  It can be quite time and
+memory-consuming, so turn it off when you're hacking.
+</td></tr></table>
+
+<table><tr><th>`GhcBootLibs = YES`</th>
+<td>
+If you're just interested in working on GHC, then you probably don't want
+to build the "extralibs" libraries that we normally ship with GHC.  
+So when [getting the sources](building/getting-the-sources), 
+run `darcs-all` without the `--extra` option.  Alternatively, even if you have
+the libraries in your tree, you can stop them being built by setting
+`GhcBootLibs` in your `build.mk`.
+</td></tr></table>
+
+### Making things
 
 
 At this point you have made yourself a fully-configured build tree, so
@@ -391,239 +397,216 @@ damage) because the GHC `Makefiles` use GNU `make`'s
 facilities extensively.
 
 
-To just build the whole thing, `cd` to the top of your build tree
-and type `make`.  This will prepare the tree and build the various
-parts in the correct order, resulting in a complete build of GHC that
-can even be used directly from the tree, without being installed
-first.
+To just build the whole thing, `cd` to the top of your build tree and
+type `make`.  This will prepare the tree and build the various parts
+in the correct order, resulting in a complete build of GHC that can
+even be used directly from the tree (as `inplace/bin/ghc-stage2`),
+without being installed first.
 
-## Bootstrapping GHC
-
-
-GHC requires a 2-stage bootstrap in order to provide full
-functionality, including GHCi.  By a 2-stage bootstrap, we mean that
-the compiler is built once using the installed GHC, and then again
-using the compiler built in the first stage.  You can also build a
-stage 3 compiler, but this normally isn't necessary except to verify
-that the stage 2 compiler is working properly.
+### What to do after `make` has finished
 
 
-Note that when doing a bootstrap, the stage 1 compiler must be built,
-followed by the runtime system and libraries, and then the stage 2
-compiler.  The correct ordering is implemented by the top-level
-`Makefile`, so if you want everything to work automatically it's
-best to start `make` from the top of the tree.  The top-level
-`Makefile` is set up to do a 2-stage bootstrap by default (when
-you say `make`).  Some other targets it supports are:
-
-<table><tr><th>`stage1`</th>
-<td>
-Build everything as normal, including the stage 1 compiler.
-</td></tr></table>
-
-<table><tr><th>`stage2`</th>
-<td>
-Build the stage 2 compiler only.
-</td></tr></table>
-
-<table><tr><th>`stage3`</th>
-<td>
-Build the stage 3 compiler only.
-</td></tr></table>
-
-<table><tr><th>`bootstrap`, `bootstrap2`</th>
-<td>
-Build stage 1 followed by stage 2.
-</td></tr></table>
-
-<table><tr><th>`bootstrap3`</th>
-<td>
-Build stages 1, 2 and 3.
-</td></tr></table>
-
-<table><tr><th>`install`</th>
-<td>
-Install everything, including the compiler built in stage 2.  To
-override the stage, say `make install stage=n` where `n` is
-the stage to install.
-</td></tr></table>
-
-<table><tr><th>`binary-dist`</th>
-<td>
-make a binary distribution.  This is the target we
-use to build the binary distributions of GHC.
-</td></tr></table>
-
-<table><tr><th>`dist`</th>
-<td>
-make a source distribution.  Note that this target
-does `make distclean` as part of its work;
-don't use it if you want to keep what you've built.
-</td></tr></table>
+If `make` completes successfully, then it should have created
+`inplace/bin/ghc-stage2`, which is a GHC binary you can run directly.
+It supports all the usual features, including GHCi if you pass the
+`--interactive` flag.  
 
 
-The top-level `Makefile` also arranges
-to do the appropriate `make boot` steps (see
-below) before actually building anything.
+In fact, the `inplace` directory looks a lot like an installed copy of
+GHC (see [Building/Installing](building/installing)): there is a `bin`
+subdirectory containing various programs that can be run, including
+`ghc-pkg`, Haddock and `hsc2hs`.
 
 
-The `stage1`, `stage2` and `stage3` targets also work in
-the `compiler` directory, but don't forget that each stage
-requires its own `make boot` step: for example, you must do
+You can now run the testsuite, see [Building/RunningTests](building/running-tests).
+ 
+You can now install GHC, by typing `make install`.
+
+## What to do if you get a build failure
+
+
+GHC is a complex system, with many platform-dependent components.  We
+try our best to make sure it builds out of the box as often as
+possible, but build failures are not uncommon.  If you get some kind
+of failure, don't panic.
+
+
+The chances are, someone else already encountered the same problem as
+you and has reported it on a mailing list or as a ticket.  Search for
+the error message using your favourite search engine, and if that
+doesn't turn anything up then search directly on this Trac.  Finally,
+if you don't find a solution:
+
+- Ask someone: [MailingListsAndIRC](mailing-lists-and-irc)
+- or just [ReportABug](report-a-bug)
+
+## Components of the build
+
+
+Here is a high level view of what happens when you build GHC:
+
+- First, we build a few packages that GHC itself depends on, such as
+  `Cabal`, and `filepath`, using your installed GHC.  These packages
+  are under `libraries`, and each is built in a subdirectory
+  `dist-boot`; for example the bootstrap build of Cabal will be in
+  `libraries/Cabal/dist-boot`.
+
+- Then we build GHC against these packages, still using your
+  installed GHC.  This is called the "stage 1" compiler (see
+  [stages](building/architecture#)).  You can run the
+  stage 1 compiler by invoking `inplace/bin/ghc-stage1`.  The stage 1
+  build of GHC happens in `compiler/stage1`.
+
+- The stage 1 compiler is now used to build all the packages in the
+  `libraries` subdirectory, and the runtime system in `rts`.
+
+- Finally, the stage 1 compiler is used to build GHC itself again,
+  this time against the libraries we just built.  This GHC is called
+  stage 2, and can be invokes as `inplace/bin/ghc-stage2`.
+
+
+There's an optional final stage, using the stage 2 compiler to build a
+stage 3 compiler, but this isn't strictly necessary, and is only used
+to check that the stage 2 compiler is working properly.
+
+## Developing in a GHC build tree
+
+
+This section describes how to make changes to the sources of GHC, or
+its libraries and tools, and use the build system to build and test
+those changes.
+
+### Bringing the whole tree up to date
+
+
+The easy way to bring the tree up to date after making some changes is
+simply to go to the top of the tree and say `make`.  The build system
+has enough dependencies encoded into it that this should rebuild
+everything that needs to be rebuilt, in the correct order.  The
+downside is that it will build everything right though to the stage2
+compiler and including all the documentation, which might be overkill
+if all you wanted to do was to test a small change to GHC.
+
+### Just building a single component
+
+
+Suppose you want to make a small change to GHC itself and test it.
+Assuming that your tree is already up to date, the best way to do this
+is as follows:
 
 ```wiki
-$ make boot stage=2
+$ cd ghc
+$ make stage2
 ```
 
 
-before `make stage2` in `compiler`.
+This will bring the stage2 compiler up to date only.  In particular,
+it will ignore the fact that by modifying GHC you have thereby made
+the stage 1 compiler out of date, and hence possibly all the libraries
+and the whole of stage 2 are now also out of date.  If you did `make`
+from the top-level, all of these dependencies would be taken into
+account, and a lot of rebuilding would probably ensue.
+
+
+Each subdirectory of the source tree has a
+stub makefile?,
+most of which follow this pattern:
+
+```wiki
+dir = libraries/base
+TOP = ../..
+include $(TOP)/mk/sub-makefile.mk
+```
+
+
+the main purpose of the stub makefile is to invoke `make` at the
+top-level of the tree: GHC's build system is
+[non-recursive](building/architecture#), so
+in effect there is really just one `Makefile`, at the top level.
+However, the stub makefile has another purpose: it passes a target to
+the top-level `Makefile`, telling it to build just the components of
+the system in this directory.  For example, when you say `make` in the
+`rts` directory, this is actually equivalent to
+
+```wiki
+$ (cd ..; make all_rts)
+```
+
+
+where `make all_rts` makes every target in the `rts` subdirectory.
+Equivalently, `make all_libraries/base` at the top level would build
+everything in the `libraries/base` subdirectory.  To understand how
+the `all` targets are defined, see
+[standard targets](building/architecture#).
+
+
+You can also clean a single component of the tree, just by saying
+`make clean` in a subdirectory.  Again this is equivalent to issuing a
+command at the top of the tree of the form `make clean_libraries/base`.
+
+
+The `stage2` target in the `ghc` directory does something else: it
+also disables the dependencies that would otherwise cause the stage 1
+compiler and the libraries to be rebuilt.  It does this by simply
+setting `ASSUME_STAGE1=YES` and `ASSUME_LIBRARIES=YES` when invoking
+the top-level `make`.
 
 ## Standard Targets
 
 
-In any directory you should be able to make the following:
-
-<table><tr><th>`boot`</th>
-<td>
-does the one-off preparation required to get ready for the real
-work, e.g. building the module dependency graph.
-
-Invoking the `boot` target explicitly is not normally necessary.
-From the top-level directory, invoking `make` causes `make boot`
-to be invoked in various subdirectories, in the right
-order.  Unless you really know what you are doing, it is best to
-always say `make` from the top level first.
-
-If you're working in a subdirectory somewhere and need to update the
-dependencies, `make boot` is a good way to do it.
-</td></tr></table>
+The main targets understood by the top-level `Makefile` are as
+follows:
 
 <table><tr><th>`all`</th>
 <td>
-makes all the final target(s) for this Makefile.  Depending on which
-directory you are in a "final target" may be an executable program,
-a library archive, a shell script, or a Postscript file.  Typing
-`make` alone is generally the same as typing `make all`.
+(default target, can be omitted).  Builds everything that needs to
+be built for a GHC installation, including the stage 2 GHC, all
+libraries and documentation.  After `make`, `make install` will not
+need to do any further rebuilding.
 </td></tr></table>
 
 <table><tr><th>`install`</th>
 <td>
-installs the things built by `all` (except for the
-documentation).  Where does it install them?  That is specified by
-`mk/config.mk.in`; you can override it in `mk/build.mk`, or
-by running `configure` with command-line arguments like
-`--bindir=/home/simonpj/bin`; see `./configure --help` for
-the full details.
-</td></tr></table>
-
-<table><tr><th>`install-docs`</th>
-<td>
-installs the documentation. Otherwise behaves just like
-`install`.
+installs the things built by `all`.  Where does it install them?  In
+the places you specified when running `configure`, principally set
+by the `--prefix` flag; see [Building/Installing](building/installing).
 </td></tr></table>
 
 <table><tr><th>`clean`</th>
 <td>
 Delete all files from the current directory that are normally
-created by building the program.  Don't delete the files that record
-the configuration, or files generated by `make boot`.  Also
-preserve files that could be made by building, but normally aren't
-because the distribution comes with them.
+created by `make`.  Don't delete the files that record the
+configuration.
 </td></tr></table>
 
 <table><tr><th>`distclean`</th>
 <td>
-Delete all files from the current directory that are created by
-configuring or building the program. If you have unpacked the source
-and built the program without creating any other files, `make distclean`
-should leave only the files that were in the distribution.
-</td></tr></table>
-
-<table><tr><th>`mostlyclean`</th>
-<td>
-Like `clean`, but may refrain from deleting a few files that
-people normally don't want to recompile.
+The same as `clean`, but also removes files created by `configure`.
+`distclean` preserves files that would normally go in a source
+distrubtion.  Note that after `make distclean` you will have to run
+`./configure` before building again.
 </td></tr></table>
 
 <table><tr><th>`maintainer-clean`</th>
 <td>
-Delete everything from the current directory that can be
-reconstructed with this Makefile.  This typically includes
-everything deleted by `distclean`, plus more: C source files
-produced by Bison, tags tables, Info files, and so on.
-    
-One exception, however: `make maintainer-clean` should not
-delete `configure` even if `configure` can be remade using a
-rule in the `Makefile`. More generally, `make maintainer-clean`
-should not delete anything that needs to exist in order to run
-`configure` and then begin to build the program.
-    
-After a `maintainer-clean`, a `configure` will be necessary
-before building again.
+The same as `distclean`, but also removes files generated by `sh boot`.
+The result of `make maintainer-clean` should be a completely clean
+source tree, containing only revision-controlled files.
 </td></tr></table>
 
-
-All of these standard targets automatically recurse into
-sub-directories.  Certain other standard targets do not:
-
-<table><tr><th>`depend`</th>
+<table><tr><th>`binary-dist`</th>
 <td>
-make a `.depend` file in each directory that needs it. This
-`.depend` file contains mechanically-generated dependency
-information; for example, suppose a directory contains a Haskell
-source module `Foo.lhs` which imports another module `Baz`.
-Then the generated `.depend` file will contain the dependency:
-
-```wiki
-Foo.o : Baz.hi
-```
-
-which says that the object file `Foo.o` depends on the interface
-file `Baz.hi` generated by compiling module `Baz`.  The
-`.depend` file is automatically included by every Makefile.
-Now that we are using Cabal for most of the building, most directories
-don't support the `depend` target any more. Use `boot` instead.
+Builds a binary distribution.  A binary distribution is a copy of
+the build tree with the source files removed, such that it can be
+installed on a different system simply by issuing \`./configure; make
+install\`.
 </td></tr></table>
 
-
-Some `Makefile`s have targets other
-than these.  You can discover them by looking in the
-`Makefile` itself.
-
-## Using GHC from the build tree
-
-
-If you want to build GHC and just use it direct from the build tree
-without doing `make install` first, you can run the in-place
-driver script.  To run the stage 1 compiler, use
-`ghc/stage1-inplace/ghc`, stage 2 is
-`ghc/stage2-inplace/ghc`, and so on.
-
-
-Utils like `ghc-pkg` can be found under
-`utils/ghc-pkg/install-inplace/bin/ghc-pkg` etc.
-
-## Fast Making
-
-
-Sometimes the dependencies get in the way: if you've made a small
-change to one file, and you're absolutely sure that it won't affect
-anything else, but you know that `make` is going to rebuild
-everything anyway, the following hack may be useful:
-
-```wiki
-$ make FAST=YES
-```
-
-
-This tells the make system to ignore dependencies and just build what
-you tell it to.  In other words, it's equivalent to temporarily
-removing the `.depend` file in the current directory (where
-`mkdependHS` and friends store their dependency information).
-
-
-A bit of history: GHC used to come with a `fastmake` script that
-did the above job, but GNU make provides the features we need to do it
-without resorting to a script.  Also, we've found that fastmaking is
-less useful since the advent of GHC's recompilation checker (see the
-User's Guide section on "Separate Compilation").
+<table><tr><th>`sdist`</th>
+<td>
+Builds a source distribution.  A source distribution is a source
+tree for GHC, complete with some extra files included for
+convenience so that the user doesn't need to install `autoconf`,
+`Happy`, or `Alex` in order to build it.  Hence `make sdist` only
+works in a completely built tree.
+</td></tr></table>
