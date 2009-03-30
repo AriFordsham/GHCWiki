@@ -50,7 +50,7 @@ You need to be a bit careful, though, that any new files you create
 (if you do any development work) are in the source tree, not the build
 tree!
 
-## Steps for building GHC
+## Steps to prepare for building
 
 
 We gave a quick getting-started introduction to building GHC in
@@ -380,7 +380,7 @@ the libraries in your tree, you can stop them being built by setting
 `GhcBootLibs` in your `build.mk`.
 </td></tr></table>
 
-### Making things
+## BUilding things
 
 
 At this point you have made yourself a fully-configured build tree, so
@@ -422,7 +422,7 @@ You can now run the testsuite, see [Building/RunningTests](building/running-test
  
 You can now install GHC, by typing `make install`.
 
-## What to do if you get a build failure
+### What to do if you get a build failure
 
 
 GHC is a complex system, with many platform-dependent components.  We
