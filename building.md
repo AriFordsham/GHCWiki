@@ -31,6 +31,8 @@ More detailed information about the build system
 - [Using the build system](building/using)
 - [Installing GHC from a build](building/installing)
 - [Architecture of the build system](building/architecture)
+- [Modifying the build system](building/modifying)
+
 - [Building the documentation](building/docs)
 - [Unregisterised builds](building/unregisterised)
 - [Porting GHC](building/porting)
@@ -38,7 +40,12 @@ More detailed information about the build system
 - [The NoFib benchmark suite](building/running-no-fib)
 
 
-Platform-specific guidance
+Platform-specific build-system documentation:
+
+- [Windows](building/platforms/windows)
+
+
+Platform-specific building instructions:
 
 - [Platforms, scripts, and file names](building/platforms-scripts-file-names)
 - [Building under Windows](building/windows)
