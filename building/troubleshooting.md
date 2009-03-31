@@ -303,3 +303,33 @@ make[1]: *** [all] Error 1
 make[1]: Leaving directory `/cygdrive/e/ghc-stage1/ghc'
 make: *** [all] Error 1
 ```
+
+### getCurrentDirectory: resource exhausted (Too many open files)
+
+
+By default, Mac OS X limits the number of open files to 256.  This may cause problems when applying patches in step 3 of *Getting a GHC source tree using darcs* with darcs 1.0.9.
+
+```wiki
+$ darcs pull -a
+Pulling from "http://darcs.haskell.org/ghc"...
+This is the GHC darcs repository (HEAD branch)
+
+For more information, visit the GHC developer wiki at
+  http://hackage.haskell.org/trac/ghc
+**********************
+darcs: getCurrentDirectory: resource exhausted (Too many open files)
+```
+
+
+If this happens, try increasing the number of open files allowed by typing in `$ ulimit -n unlimited` and try pulling again.  If this fails, close all terminal windows, restart Terminal.app, and try again.
+
+
+If this still doesn't work, try pulling 100 patches at a time using the `darcs pull` command (notice the lack of the `-a` flag).  Hold down 'y' until 100 or so patches are accepted, then hit 'd' to skip the rest; repeat until all patches are applied.  If this fails, try with less than 100 patches at a time (e.g., 50).
+
+
+This issue has been reported as [ issue 560](http://bugs.darcs.net/issue560) in the darcs bug tracking system.
+
+### Ubuntu: `dash` vs `bash`
+
+
+In Ubuntu 6.10 the default system shell `/bin/sh` was changed to `dash` (The Debian Almquist Shell) instead of `bash`, see [ DashAsBinSh](http://wiki.ubuntu.com/DashAsBinSh). This has been reported to break the GHC build. Until the GHC scripts are updated, the easiest way to fix this problem is to (as `root`) change the `/bin/sh` link back to `/bin/bash`. There should be minimal effect on the rest of the system, bar a small speed penalty for script heavy processes due to `bash` slowness.
