@@ -30,6 +30,9 @@ described in the next section.
 
 ## Overall structure and important files
 
+
+The following are a few of the most important files in the build system.  For a more complete overview of the source-tree layout, see [Commentary/SourceTree](commentary/source-tree).
+
 <table><tr><th>[ ghc.mk](http://darcs.haskell.org/ghc/ghc.mk)</th>
 <td>
 This is where you should start reading: `ghc.mk` is the main file in
