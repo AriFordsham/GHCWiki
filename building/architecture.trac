@@ -29,6 +29,38 @@ for general macros).  In this third revision, we use even more of GNU
 '''make''''s extensions, and we make a fundamental change to the design, as
 described in the next section.
 
+== Overall structure and important files ==
+ 
+ [http://darcs.haskell.org/ghc/ghc.mk ghc.mk]::
+  This is where you should start reading: `ghc.mk` is the main file in
+  the build system which ties together all the other build-system
+  files.  It uses '''make''''s `include` directive to include all the
+  files in `mk/*.mk`, `rules/*.mk`, and all the other `ghc.mk` files
+  elsewhere in the tree.
+
+ [http://darcs.haskell.org/ghc/Makefile Makefile]::
+  The top-level `Makefile`, recursively invokes `make` on `ghc.mk`
+  according to the [#Idiom:phaseordering phase ordering idiom].
+
+ `rules/*.mk`::
+  Each `.mk` file in the `rules` directory corresponds to a single
+  macro that can be called using '''make''''s `$(call ...)`
+  expression.  For example, the `build-package` macro is in
+  `rules/build-package.mk`.
+
+ [http://darcs.haskell.org/ghc/mk/config.mk.in config.mk.in]::
+  The configuration information for the build system, processed by
+  `configure` to produce `mk/config.mk`.  Settings can be overriden by
+  creating a local file `mk/build.mk` (see
+  [wiki:Building/Using#Buildconfiguration Build configuration]).
+
+ [http://darcs.haskell.org/ghc/compiler/ghc.mk compiler/ghc.mk], [http://darcs.haskell.org/ghc/rts/ghc.mk rts/ghc.mk], etc.::
+  Most subdirectories of the source tree have a `ghc.mk` file which
+  contains the instructions for building the components in that
+  directory.  Note: these `ghc.mk` files cannot be invoked
+  individually, they should only be included by the top-level
+  `ghc.mk`.
+
 == Idioms ==
 
 Each of the following subsections describes one of the ``idioms`` that
@@ -438,76 +470,3 @@ will be built as HC files for the target system (see [wiki:Building/Porting Port
 
 More details on when to use BUILD, HOST or TARGET can be found in
 the comments in [http://darcs.haskell.org/mk/project.mk.in project.mk.in].
-
-
-== Modifying the build system ==
-
-This section is a collection of information that you should find
-useful when modifying the build system.
-
-=== Overall structure and important files ===
- 
- [http://darcs.haskell.org/ghc/ghc.mk ghc.mk]::
-  This is where you should start reading: `ghc.mk` is the main file in
-  the build system which ties together all the other build-system
-  files.  It uses '''make''''s `include` directive to include all the
-  files in `mk/*.mk`, `rules/*.mk`, and all the other `ghc.mk` files
-  elsewhere in the tree.
-
- [http://darcs.haskell.org/ghc/Makefile Makefile]::
-  The top-level `Makefile`, recursively invokes `make` on `ghc.mk`
-  according to the [#Idiom:phaseordering phase ordering idiom].
-
- `rules/*.mk`::
-  Each `.mk` file in the `rules` directory corresponds to a single
-  macro that can be called using '''make''''s `$(call ...)`
-  expression.  For example, the `build-package` macro is in
-  `rules/build-package.mk`.
-
- [http://darcs.haskell.org/ghc/mk/config.mk.in config.mk.in]::
-  The configuration information for the build system, processed by
-  `configure` to produce `mk/config.mk`.  Settings can be overriden by
-  creating a local file `mk/build.mk` (see
-  [wiki:Building/Using#Buildconfiguration Build configuration]).
-
- [http://darcs.haskell.org/ghc/compiler/ghc.mk compiler/ghc.mk], [http://darcs.haskell.org/ghc/rts/ghc.mk rts/ghc.mk], etc.::
-  Most subdirectories of the source tree have a `ghc.mk` file which
-  contains the instructions for building the components in that
-  directory.  Note: these `ghc.mk` files cannot be invoked
-  individually, they should only be included by the top-level
-  `ghc.mk`.
-
-=== Debugging ===
-
-When the build system doesn't do what you want, the results can be
-pretty cryptic.  Often the problem is that something is being built in
-the wrong order, or some variable isn't being propagated to the places
-you thought it was.  How do you go about debugging the build system?
-Here are the techniques that we use:
-
-Note, for many of these diagnosis techniques you may want to invoke
-'''make''' on `ghc.mk` directly using `make -f ghc.mk`, to bypass the
-[#Idiom:phaseordering phase ordering] machinery of the top-level
-`Makefile`.
-
- `make --debug=b --debug=m`::
-   causes '''make''' to show the sequence of dependencies that it is
-   following, which will often tell you ''why'' something is being
-   built.  This can help to track down missing or incorrect
-   dependencies.
-
- `make -p`::
-  prints out all the generated rules and variables.  The output can be
-  huge; so pipe it to a file, and search through it for the bits of
-  interest.
-
- `$(warning ... message ...)`::
-  equivalent to "printf-debugging` in a C program: this causes
-  '''make''' to print a message when it reads the `$(warning ..)`
-  expression, and the message can include variable references.  Very
-  useful for finding out what '''make''' thinks the value of a
-  variable is at a particular point in the `Makefile`, or for finding
-  out the parameters for a particular macro call.
-
- `make show VALUE=VAR`::
-  prints the value of variable `VAR`.  Useful for quick diagnosis.
