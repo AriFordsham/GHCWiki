@@ -31,7 +31,6 @@ More detailed information about the build system
 - [Installing GHC from a build](building/installing)
 - [Architecture of the build system](building/architecture)
 - [Modifying the build system](building/modifying)
-
 - [Unregisterised builds](building/unregisterised)
 - [Porting GHC](building/porting)
 - [Running the GHC test framework](building/running-tests)
