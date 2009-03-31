@@ -120,3 +120,24 @@ before restarting.
 
 A nice feature of MacPorts is that you can put its installation directory tree anywhere.
 This allows installations without administrator privileges.
+
+## Case insensitivity
+
+
+The default Mac OS X files systems (HFS+) is case-insensitive and darcs is case sensitive.  While this ususally doesn't cause any problems, occassionally a `Unapplicable patch` error can occur.  It's possible to work around this by using `Disk Utility` to create a case sensitive file system and apply the patches inside of it.  To do this:
+
+1. Open `/Applications/Utilities/Disk Utility`.
+1. Make sure that none of the images/disks on the left are highlighted/selected.  If any are, \<Cmd\>+Click them to unselect them.
+1. Click the "New Image" button.
+1. Set the "Volume Format" to "Mac OS X Extended (Case Sensitive)".
+1. Set "Encryption" to "None".
+
+1. Set "Partitions" to "Single Partition - Apple Partition Map"
+1. Set "Image Format" to "sparse disk image".
+1. Set "Volume Size" to "Custom..." and select an appropriately large size.  Sparse images only take up as much space is as needed, plus a little overhead, so it's better to overestimate than underestimate.  A 30 GB sparse image with no data in it takes up \~50 MB.
+1. Set "Volume Name" to something appropriate (e.g., "GHC").
+1. Set "Save As" to something appropriate (e.g., "GHC Disk").
+1. Click the "Create" button.
+
+
+This creates a file with a `.sparseimage` extension (e.g., `GHC Disk.sparseimage`) at the location that was set in step 10 and automatically mounts it.  The partition can be accessed through the `/Volumes` folder (e.g., `/Volumes/GHC`).  This partition behaves exactly like any other Apple partition except that it's case sensitive and darcs can apply the patches it couldn't on the case insensitive file system.  After the patches have been applied, the repository can be copied to the normal file system, the partition can be unmounted, and the sparse image can be deleted.
