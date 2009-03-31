@@ -26,7 +26,7 @@ If you're on a recent Linux system, then you should be able to get a working bui
  * make
  * perl
  * python (only needed for the testsuite)
- * ghc (release version of ghc, not a development version)
+ * ghc (recent stable version of ghc, not a development version)
  * happy
  * alex
 
