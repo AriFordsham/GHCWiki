@@ -173,7 +173,7 @@ entirely possible to work on GHC and test it without ever modifying
 anything outside the build tree.  However, if you do with to install
 GHC, then the `--prefix` directory is the root of the install tree.
 Typciallly on Unix systems the default for `--prefix` is
-`/usr/local`.  See also [Installing](building/installing) for more details.
+`/usr/local`.  See also [Building/Installing](building/installing) for more details.
 </td></tr></table>
 
 ### Build configuration
@@ -609,3 +609,6 @@ convenience so that the user doesn't need to install `autoconf`,
 `Happy`, or `Alex` in order to build it.  Hence `make sdist` only
 works in a completely built tree.
 </td></tr></table>
+
+
+To see how these targets are defined: [Building/Architecture/Idiom/StandardTargets](building/architecture/idiom/standard-targets).
