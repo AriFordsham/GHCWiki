@@ -8,7 +8,8 @@ This page describes how to set up your system with all the tools you need to bui
  * [#PreparingaWindowssystem Windows]
  * [#PreparingaMacOSXsystem MacOS X]
  * [#PreparingaSolarissystem Solaris]
- * [#Details Details]
+
+[#Details Details] are available below on the software prerequisites.
 
 == Preparing a Linux system ==
 
@@ -97,7 +98,7 @@ See [wiki:Building/MacOSX].  !ToDo: move the relevant parts of the docs here.
 
 See [wiki:Building/Solaris].  !ToDo: move the relevant parts of the docs here.
 
-== Details ==
+= Details =
 
 Here are the gory details about which programs and tools you need in order to build GHC.
 In most cases the `configure` script will tell you if you are missing something.
