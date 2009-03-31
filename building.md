@@ -40,7 +40,12 @@ More detailed information about the build system
 - [The NoFib benchmark suite](building/running-no-fib)
 
 
-Platform-specific guidance
+Platform-specific build-system documentation:
+
+- [Windows](building/platforms/windows)
+
+
+Platform-specific building instructions:
 
 - [Platforms, scripts, and file names](building/platforms-scripts-file-names)
 - [Building under Windows](building/windows)

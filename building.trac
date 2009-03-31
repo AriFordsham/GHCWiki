@@ -37,7 +37,12 @@ More detailed information about the build system
  * [wiki:Building/RunningTests Running the GHC test framework]
  * [wiki:Building/RunningNoFib The NoFib benchmark suite]
 
-Platform-specific guidance
+Platform-specific build-system documentation:
+
+ * [wiki:Building/Platforms/Windows Windows]
+
+Platform-specific building instructions:
+
  * [wiki:Building/PlatformsScriptsFileNames Platforms, scripts, and file names]
  * [wiki:Building/Windows Building under Windows]
  * [wiki:Building/MacOSX Building under MacOS X]
