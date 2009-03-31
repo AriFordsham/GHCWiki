@@ -45,7 +45,7 @@ elsewhere in the tree.
 <table><tr><th>[ Makefile](http://darcs.haskell.org/ghc/Makefile)</th>
 <td>
 The top-level `Makefile`, recursively invokes `make` on `ghc.mk`
-according to the [phase ordering idiom](building/architecture#).
+according to the [phase ordering idiom](building/architecture/idiom/phase-ordering).
 </td></tr></table>
 
 <table><tr><th>`rules/*.mk`</th>

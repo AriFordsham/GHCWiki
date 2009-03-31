@@ -42,7 +42,7 @@ The following are a few of the most important files in the build system.  For a 
 
  [http://darcs.haskell.org/ghc/Makefile Makefile]::
   The top-level `Makefile`, recursively invokes `make` on `ghc.mk`
-  according to the [#Idiom:phaseordering phase ordering idiom].
+  according to the [wiki:Building/Architecture/Idiom/PhaseOrdering phase ordering idiom].
 
  `rules/*.mk`::
   Each `.mk` file in the `rules` directory corresponds to a single
