@@ -21,7 +21,6 @@ Building GHC
 Getting started for developers
 
 - [Getting started with the build system](building/hacking)
-- [Useful workflows and makefile targets](building/targets) (new)
 - [How do I re-build after updating or changing GHC?](building/rebuilding)
 - [Layout of the source tree](commentary/source-tree)
 
