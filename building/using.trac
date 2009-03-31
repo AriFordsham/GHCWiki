@@ -108,16 +108,16 @@ to get a list of the available arguments.  Here are some of
 the ones you might need:
 
  `--build=<platform>`::
-  Specifies the "build platform" (see [wiki:Building/Architecture#Idiom:platformnames platform names]).
+  Specifies the "build platform" (see [wiki:Building/Architecture/Idiom/PlatformNames platform names]).
   This is usually only necessary on Windows, where you should set it
   to `--build=i386-unknown-mingw32`.
 
  `--host=<platform>`::
-  Set the "host platform" (see [wiki:Building/Architecture#Idiom:platformnames platform names]).
+  Set the "host platform" (see [wiki:Building/Architecture/Idiom/PlatformNames platform names]).
   Usually not necessary.
 
  `--target=<platform>`::
-  Set the "target platform" (see [wiki:Building/Architecture#Idiom:platformnames platform names]).
+  Set the "target platform" (see [wiki:Building/Architecture/Idiom/PlatformNames platform names]).
   Usually not necessary.
 
  `--with-ghc=<path>`::
@@ -186,7 +186,7 @@ take a look in [[GhcFile(mk/config.mk.in)]].
  `GhcHcOpts`::
   (default: `-Rghc-timing`)[[br]]
   Options added when compiling GHC (all
-  [wiki:Building/Architecture#Idiom:stages stages])
+  [wiki:Building/Architecture/Idiom/Stages stages])
 
  `GhcStage1HcOpts`::
   (default: ''empty'')[[br]]
@@ -215,7 +215,7 @@ take a look in [[GhcFile(mk/config.mk.in)]].
  `GhcLibWays`::
   (default: `p`)[[br]]
   Ways in which to build the libraries.  Must contain
-  at least `v` ([wiki:Building/Architecture#Idiom:thevanillaway the vanilla way]).  Also contains `p` by default (profiling).  For other
+  at least `v` ([wiki:Building/Architecture/Idiom/VanillaWay the vanilla way]).  Also contains `p` by default (profiling).  For other
   ways, see `mk/config.mk.in`.
 
  `SplitObjs`::
@@ -334,7 +334,7 @@ Here is a high level view of what happens when you build GHC:
 
  * Then we build GHC against these packages, still using your
    installed GHC.  This is called the "stage 1" compiler (see
-   [wiki:Building/Architecture#Idiom:stages stages]).  You can run the
+   [wiki:Building/Architecture/Idiom/Stages stages]).  You can run the
    stage 1 compiler by invoking `inplace/bin/ghc-stage1`.  The stage 1
    build of GHC happens in `compiler/stage1`.
 
@@ -419,7 +419,7 @@ from the top-level, all of these dependencies would be taken into
 account, and a lot of rebuilding would probably ensue.
 
 Each subdirectory of the source tree has a
-[wiki:Building/Architecture#Idiom:stubmakefiles stub makefile],
+[wiki:Building/Architecture/Idiom/StubMakefiles stub makefile],
 most of which follow this pattern:
 
 {{{
@@ -430,7 +430,7 @@ include $(TOP)/mk/sub-makefile.mk
 
 the main purpose of the stub makefile is to invoke `make` at the
 top-level of the tree: GHC's build system is
-[wiki:Building/Architecture#Idiom:non-recursivemake non-recursive], so
+[wiki:Building/Architecture/Idiom/NonRecursiveMake non-recursive], so
 in effect there is really just one `Makefile`, at the top level.
 However, the stub makefile has another purpose: it passes a target to
 the top-level `Makefile`, telling it to build just the components of
@@ -445,7 +445,7 @@ where `make all_rts` makes every target in the `rts` subdirectory.
 Equivalently, `make all_libraries/base` at the top level would build
 everything in the `libraries/base` subdirectory.  To understand how
 the `all` targets are defined, see
-[wiki:Building/Architecture#Idiom:standardtargetsallcleanetc. standard targets].
+[wiki:Building/Architecture/Idiom/StandardTargets standard targets].
 
 You can also clean a single component of the tree, just by saying
 `make clean` in a subdirectory.  Again this is equivalent to issuing a

@@ -121,20 +121,20 @@ the ones you might need:
 
 <table><tr><th>`--build=<platform>`</th>
 <td>
-Specifies the "build platform" (see [platform names](building/architecture#)).
+Specifies the "build platform" (see [platform names](building/architecture/idiom/platform-names)).
 This is usually only necessary on Windows, where you should set it
 to `--build=i386-unknown-mingw32`.
 </td></tr></table>
 
 <table><tr><th>`--host=<platform>`</th>
 <td>
-Set the "host platform" (see [platform names](building/architecture#)).
+Set the "host platform" (see [platform names](building/architecture/idiom/platform-names)).
 Usually not necessary.
 </td></tr></table>
 
 <table><tr><th>`--target=<platform>`</th>
 <td>
-Set the "target platform" (see [platform names](building/architecture#)).
+Set the "target platform" (see [platform names](building/architecture/idiom/platform-names)).
 Usually not necessary.
 </td></tr></table>
 
@@ -221,7 +221,7 @@ Options passed to GHC for all Haskell compilations.
 (default: `-Rghc-timing`)
 
 Options added when compiling GHC (all
-[stages](building/architecture#))
+[stages](building/architecture/idiom/stages))
 </td></tr></table>
 
 <table><tr><th>`GhcStage1HcOpts`</th>
@@ -271,7 +271,7 @@ Set to `YES` to pass `-debug` when building GHC (stage 2).
 (default: `p`)
 
 Ways in which to build the libraries.  Must contain
-at least `v` ([the vanilla way](building/architecture#)).  Also contains `p` by default (profiling).  For other
+at least `v` ([the vanilla way](building/architecture/idiom/vanilla-way)).  Also contains `p` by default (profiling).  For other
 ways, see `mk/config.mk.in`.
 </td></tr></table>
 
@@ -415,7 +415,7 @@ Here is a high level view of what happens when you build GHC:
 
 - Then we build GHC against these packages, still using your
   installed GHC.  This is called the "stage 1" compiler (see
-  [stages](building/architecture#)).  You can run the
+  [stages](building/architecture/idiom/stages)).  You can run the
   stage 1 compiler by invoking `inplace/bin/ghc-stage1`.  The stage 1
   build of GHC happens in `compiler/stage1`.
 
@@ -508,7 +508,7 @@ account, and a lot of rebuilding would probably ensue.
 
 
 Each subdirectory of the source tree has a
-[stub makefile](building/architecture#),
+[stub makefile](building/architecture/idiom/stub-makefiles),
 most of which follow this pattern:
 
 ```wiki
@@ -520,7 +520,7 @@ include $(TOP)/mk/sub-makefile.mk
 
 the main purpose of the stub makefile is to invoke `make` at the
 top-level of the tree: GHC's build system is
-[non-recursive](building/architecture#), so
+[non-recursive](building/architecture/idiom/non-recursive-make), so
 in effect there is really just one `Makefile`, at the top level.
 However, the stub makefile has another purpose: it passes a target to
 the top-level `Makefile`, telling it to build just the components of
@@ -536,7 +536,7 @@ where `make all_rts` makes every target in the `rts` subdirectory.
 Equivalently, `make all_libraries/base` at the top level would build
 everything in the `libraries/base` subdirectory.  To understand how
 the `all` targets are defined, see
-[standard targets](building/architecture#).
+[standard targets](building/architecture/idiom/standard-targets).
 
 
 You can also clean a single component of the tree, just by saying
