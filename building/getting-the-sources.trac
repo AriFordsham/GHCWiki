@@ -126,7 +126,7 @@ git config --global core.autocrlf false
 
 since this is a global setting, you probably want to change it back after cloning ghc, and then set it locally for the GHC repo(s).
 
-=== Getting a branch ===
+== Getting a branch ==
 
 The above instructions will get the HEAD - the main trunk of GHC development.  There are also branches, from which stable releases are made.  The active branches are listed on DarcsRepositories.
 
@@ -138,7 +138,7 @@ To get a branch, add the branch name after http://darcs.haskell.org/.  For examp
 
 and then use `darcs-all` as above to get the rest of the respositories.
 
-=== Pulling new patches ===
+== Pulling new patches ==
 
 To update your tree from the master repositories, the quickest way is to use the {{{darcs-all}}} script:
 
