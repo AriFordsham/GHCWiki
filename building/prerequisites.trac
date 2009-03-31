@@ -8,7 +8,7 @@ This page describes how to set up your system with all the tools you need to bui
  * [#PreparingaWindowssystem Windows]
  * [#PreparingaMacOSXsystem MacOS X]
  * [#PreparingaSolarissystem Solaris]
- * [#Othersystems Other]
+ * [#Details Details]
 
 == Preparing a Linux system ==
 
@@ -25,7 +25,7 @@ If you're on a recent Linux system, then you should be able to get a working bui
  * make
  * perl
  * python (only needed for the testsuite)
- * ghc
+ * ghc (release version of ghc, not a development version)
  * happy
  * alex
 
