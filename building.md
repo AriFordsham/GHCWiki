@@ -22,7 +22,6 @@ Getting started for developers
 
 - [Getting started with the build system](building/hacking)
 - [How do I re-build after updating or changing GHC?](building/rebuilding)
-- [Layout of the source tree](commentary/source-tree)
 
 
 More detailed information about the build system
