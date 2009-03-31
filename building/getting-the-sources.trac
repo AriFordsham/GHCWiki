@@ -42,14 +42,14 @@ The command `darcs-all` adds the `--partial` flag by default.
 If you plan to modify GHC, then you '''must''' get repositories with full history rather than just partial repositories.  (Why?  Because darcs has some bugs that sometimes cause problems when using partial repositories for anything more than just pulling the latest patches.)
 However, '''you cannot use `darcs get` to get a full GHC repository''', for two reasons:
   * GHC has more than 16,000 patches and the `darcs get` will take forever. 
-  * Darcs has a bug concerning case-sensitivity on Windows, and ([http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html apparently]) MacOS X, which makes Darcs crash on Windows if you do `darcs get` on the full GHC repository.  You get this message
+  * Darcs has a bug concerning case-sensitivity on Windows, and ([http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html apparently]) MacOS X, which makes Darcs crash if you do `darcs get` on the full GHC repository.  You get this message
 {{{
 Applying patch 12 of 17349... Unapplicable patch:
 Thu Jan 11 07:26:13 MST 1996  partain
   * [project @ 1996-01-11 14:06:51 by partain]
 }}}
 
-Instead, follow the following steps:
+On MacOS X this can be [wiki:Building/MacOSX#Caseinsensitivity worked around using filesystem tricks].  A way to  work around the problem on any system is to follow the following steps:
  0. Download a complete bundle of the required repositories first, using your browser rather than darcs. These bundles are on [http://darcs.haskell.org/] usually in three files of the form 
    * `ghc-HEAD-2007-08-29-ghc-corelibs-testsuite.tar.bz2` (100Mbytes)
    * `ghc-HEAD-2007-08-29-ghc-corelibs.tar.bz2` (90 Mbytes)
@@ -61,7 +61,6 @@ Instead, follow the following steps:
    $ cd ghc
    $ darcs pull -a
 }}}
- We've had [http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html reports] of Darcs crashing on Mac OS X in this step.  If this happens, see the section on troubleshooting.[[BR]][[BR]]
  0. Some core libraries might have been added to HEAD which were not in the last tarball. This means that after doing the last pull (which updates the list of core libraries) we need to do this to get any new libraries:
 {{{
    $ chmod +x darcs-all
@@ -151,24 +150,4 @@ To update your tree from the master repositories, the quickest way is to use the
 The second step is required in the event that new packages or repositories have been added to GHC.
 
 See [wiki:Building/Rebuilding] for how to update your build after pulling patches.
-
-== Troubleshooting ==
-=== Mac OS X ===
-==== Case insensitivity ====
-The default Mac OS X files systems (HFS+) is case-insensitive and darcs is case sensitive.  While this ususally doesn't cause any problems, occassionally a {{{Unapplicable patch}}} error can occur.  It's possible to work around this by using {{{Disk Utility}}} to create a case sensitive file system and apply the patches inside of it.  To do this:
-
- 1. Open {{{/Applications/Utilities/Disk Utility}}}.
- 2. Make sure that none of the images/disks on the left are highlighted/selected.  If any are, <Cmd>+Click them to unselect them.
- 3. Click the "New Image" button.
- 4. Set the "Volume Format" to "Mac OS X Extended (Case Sensitive)".
- 5. Set "Encryption" to "None".
-
- 6. Set "Partitions" to "Single Partition - Apple Partition Map"
- 7. Set "Image Format" to "sparse disk image".
- 8. Set "Volume Size" to "Custom..." and select an appropriately large size.  Sparse images only take up as much space is as needed, plus a little overhead, so it's better to overestimate than underestimate.  A 30 GB sparse image with no data in it takes up ~50 MB.
- 9. Set "Volume Name" to something appropriate (e.g., "GHC").
- 10. Set "Save As" to something appropriate (e.g., "GHC Disk").
- 11. Click the "Create" button.
-
-This creates a file with a {{{.sparseimage}}} extension (e.g., {{{GHC Disk.sparseimage}}}) at the location that was set in step 10 and automatically mounts it.  The partition can be accessed through the {{{/Volumes}}} folder (e.g., {{{/Volumes/GHC}}}).  This partition behaves exactly like any other Apple partition except that it's case sensitive and darcs can apply the patches it couldn't on the case insensitive file system.  After the patches have been applied, the repository can be copied to the normal file system, the partition can be unmounted, and the sparse image can be deleted.
 
