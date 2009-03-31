@@ -7,7 +7,8 @@ This page describes how to set up your system with all the tools you need to bui
 - [Windows](building/prerequisites#preparing-a-windows-system)
 - [MacOS X](building/prerequisites#preparing-a-macos-x-system)
 - [Solaris](building/prerequisites#preparing-a-solaris-system)
-- [Other](building/prerequisites#other-systems)
+
+[Details](building/prerequisites#details) are available below on the software prerequisites.
 
 ## Preparing a Linux system
 
@@ -25,7 +26,7 @@ If you're on a recent Linux system, then you should be able to get a working bui
 - make
 - perl
 - python (only needed for the testsuite)
-- ghc
+- ghc (recent stable version of ghc, not a development version)
 - happy
 - alex
 
@@ -109,7 +110,7 @@ See [Building/MacOSX](building/mac-osx).  ToDo: move the relevant parts of the d
 
 See [Building/Solaris](building/solaris).  ToDo: move the relevant parts of the docs here.
 
-## Other systems
+# Details
 
 
 Here are the gory details about which programs and tools you need in order to build GHC.
