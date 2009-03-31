@@ -1,3 +1,5 @@
+**NOTE**: this page relates to the new GHC build system, due to be added to GHC in April 2009. For documentation of the "old" build system, see Building/Old/Using? and Building/BuildSystem?.
+
 # Modifying the build system
 
 
@@ -24,7 +26,7 @@ Debugging techniques can also be a handy way to understand how the build system 
 
 Here are the techniques that we use.  Note, for many of these diagnosis techniques you may want to invoke
 **make** on `ghc.mk` directly using `make -f ghc.mk`, to bypass the
-[phase ordering](building/modifying#) machinery of the top-level
+[phase ordering](building/architecture/idiom/phase-ordering) machinery of the top-level
 `Makefile`.
 
 <table><tr><th>`make --debug=b --debug=m`</th>
@@ -129,7 +131,7 @@ utils/hpc_dist_MODULES = Main HpcCombine HpcDraft HpcFlags HpcLexer HpcMap \
 ```
 
 
-remember that variable names all begin with *directory*_*distdir* (see [Idiom: variable names](building/architecture#)), and in this case the directory is `utils/hpc`, and the distdir is just `dist`.  The variable `utils/hpc_dist_MODULES` specifies the list of Haskell modules that make up the `hpc` program.
+remember that variable names all begin with *directory*_*distdir* (see [Idiom: variable names](building/architecture/idiom/variable-names)), and in this case the directory is `utils/hpc`, and the distdir is just `dist`.  The variable `utils/hpc_dist_MODULES` specifies the list of Haskell modules that make up the `hpc` program.
 
 ```wiki
 utils/hpc_dist_HC_OPTS = -cpp -package hpc
