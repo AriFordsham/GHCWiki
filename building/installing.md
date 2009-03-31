@@ -12,20 +12,14 @@ $ make install
 
 This will build anything that isn't up-to-date, copy the files into the right places (see below) and make sure all the packages are registered properly.
 
+## Layout of the installed files
 
-If you are wondering where the make system is going to install, just say
+
+This section describes how the files of a GHC installation are laid out.  The root of the GHC installation is specified via the `--prefix` flag to `configure` (see [Running the configure script](building/using#run-the-configure-script)), and we refer to that location as `$(prefix)`.  If you are wondering what `$(prefix)` is, and hence where the make system is going to install GHC, just say (see [debugging the build system](building/modifying#debugging))
 
 ```wiki
 $ make show VALUE=prefix
 ```
-
-
-See the section on [debugging the build system](building/modifying#debugging)
-
-## Layout of the installed files
-
-
-This section describes how the files of a GHC installation are laid out.  The root of the GHC installation is specified via the `--prefix` flag to `configure` (see [Running the configure script](building/using#run-the-configure-script)), and we refer to that location as `$(prefix)`.
 
 
 A GHC installation typically has three parts:
