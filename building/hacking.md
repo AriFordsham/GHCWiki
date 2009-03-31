@@ -54,7 +54,7 @@ $ make clean
 ## Validating
 
 
-Another way to build GHC is to [run the validate script](testing-patches), which does a build of GHC from scratch (it does `make distclean` first), using standard settings.
+Another way to build GHC is to [run the validate script](testing-patches), which does a build of GHC from scratch (it does `make distclean` first), using standard settings, and then runs the testsuite.  If validate passes without any errors, then it is ok to submit the patches from your tree.
 
 ## Parallel builds
 
