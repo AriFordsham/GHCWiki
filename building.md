@@ -42,7 +42,7 @@ More detailed information about the build system
 
 Platform-specific build-system documentation:
 
-- \[[wiki:Building/Platforms/Windows](building/platforms/windows) Windows platforms: Cygwin, MSYS, and MinGW
+- [Windows platforms: Cygwin, MSYS, and MinGW](building/platforms/windows)
 
 
 Platform-specific building instructions:
