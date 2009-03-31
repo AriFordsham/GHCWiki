@@ -97,7 +97,7 @@ See [wiki:Building/MacOSX].  !ToDo: move the relevant parts of the docs here.
 
 See [wiki:Building/Solaris].  !ToDo: move the relevant parts of the docs here.
 
-== Other systems ==
+== Details ==
 
 Here are the gory details about which programs and tools you need in order to build GHC.
 In most cases the `configure` script will tell you if you are missing something.
