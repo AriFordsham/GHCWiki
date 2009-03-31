@@ -42,12 +42,11 @@ More detailed information about the build system
 
 Platform-specific build-system documentation:
 
-- [Windows](building/platforms/windows)
+- \[[wiki:Building/Platforms/Windows](building/platforms/windows) Windows platforms: Cygwin, MSYS, and MinGW
 
 
 Platform-specific building instructions:
 
-- [Platforms, scripts, and file names](building/platforms-scripts-file-names)
 - [Building under Windows](building/windows)
 - [Building under MacOS X](building/mac-osx)
 - [Building under Solaris](building/solaris)
