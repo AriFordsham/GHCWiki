@@ -20,7 +20,7 @@ Debugging techniques can also be a handy way to understand how the build system 
 
 Here are the techniques that we use.  Note, for many of these diagnosis techniques you may want to invoke
 '''make''' on `ghc.mk` directly using `make -f ghc.mk`, to bypass the
-[#Idiom:phaseordering phase ordering] machinery of the top-level
+[wiki:Building/Architecture/Idiom/PhaseOrdering phase ordering] machinery of the top-level
 `Makefile`.
 
  `make --debug=b --debug=m`::
@@ -106,7 +106,7 @@ utils/hpc_dist_MODULES = Main HpcCombine HpcDraft HpcFlags HpcLexer HpcMap \
 			 HpcShowTix HpcUtils
 }}}
 
-remember that variable names all begin with ''directory''_''distdir'' (see [wiki:Building/Architecture#Idiom:variablenames Idiom: variable names]), and in this case the directory is `utils/hpc`, and the distdir is just `dist`.  The variable `utils/hpc_dist_MODULES` specifies the list of Haskell modules that make up the `hpc` program.
+remember that variable names all begin with ''directory''_''distdir'' (see [wiki:Building/Architecture/Idiom/VariableNames Idiom: variable names]), and in this case the directory is `utils/hpc`, and the distdir is just `dist`.  The variable `utils/hpc_dist_MODULES` specifies the list of Haskell modules that make up the `hpc` program.
 
 {{{
 utils/hpc_dist_HC_OPTS = -cpp -package hpc
