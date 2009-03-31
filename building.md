@@ -14,7 +14,7 @@ Building GHC
 
 - [Getting the sources](building/getting-the-sources)
 - [Platforms that GHC currently supports](platforms)
-- [What tools you need](building/prerequisites)
+- [Setting up your system for building GHC](building/prerequisites)
 - [Just building and installing GHC](building/quick-start)
 
 
@@ -42,7 +42,7 @@ More detailed information about the build system
 
 Platform-specific build-system documentation:
 
-- \[[wiki:Building/Platforms/Windows](building/platforms/windows) Windows platforms: Cygwin, MSYS, and MinGW
+- [Windows platforms: Cygwin, MSYS, and MinGW](building/platforms/windows)
 
 
 Platform-specific building instructions:
