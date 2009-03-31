@@ -51,6 +51,11 @@ $ cd rts
 $ make clean
 ```
 
+## Validating
+
+
+Another way to build GHC is to [run the validate script](testing-patches), which does a build of GHC from scratch (it does `make distclean` first), using standard settings.
+
 ## Parallel builds
 
 

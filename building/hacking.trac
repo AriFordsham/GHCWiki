@@ -46,6 +46,10 @@ $ cd rts
 $ make clean
 }}}
 
+== Validating ==
+
+Another way to build GHC is to [wiki:TestingPatches run the validate script], which does a build of GHC from scratch (it does `make distclean` first), using standard settings.
+
 == Parallel builds ==
 
 The GHC build system works with make's `-j` flag, which spawns multiple compile processes in parallel.  Even on a single processor machine it's usually worthwhile using at least `make -j2`, because the I/O will be overlapped with compute-intensive compilation.  On a multicore machine, higher `-j` values will speed up the build even more.
