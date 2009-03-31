@@ -25,7 +25,7 @@ $ make show VALUE=prefix
 This section describes how the files of a GHC installation are laid out.  The root of the GHC installation is specified via the `--prefix` flag to `configure` (see [Running the configure script](building/using#run-the-configure-script)), and we refer to that location as `$(prefix)`.
 
 
-(A GHC installation typically has three parts:
+A GHC installation typically has three parts:
 
 <table><tr><th>`bindir`</th>
 <td>
