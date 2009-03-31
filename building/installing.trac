@@ -16,6 +16,7 @@ If you are wondering where the make system is going to install, just say
 {{{
 $ make show VALUE=prefix
 }}}
+See the section on [wiki:Building/Modifying#Debugging debugging the build system]
 
 == Layout of the installed files ==
 

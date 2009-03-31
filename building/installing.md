@@ -19,6 +19,9 @@ If you are wondering where the make system is going to install, just say
 $ make show VALUE=prefix
 ```
 
+
+See the section on [debugging the build system](building/modifying#debugging)
+
 ## Layout of the installed files
 
 
