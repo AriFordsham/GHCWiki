@@ -1,0 +1,139 @@
+# Idiom: phase ordering
+
+
+NB. you need to understand this section if either (a) you are modifying parts of the build system that include automatically-generated `Makefile` code, or (b) you need to understand why we have a top-level `Makefile` that recursively invokes **make**.
+
+
+The main hitch with non-recursive **make** arises when parts of the build
+system are automatically-generated.  The automatically-generated parts
+of our build system fall into two main categories:
+
+- Dependencies: we use `ghc -M` to generate make-dependencies for 
+  Haskell source files, and similarly `gcc -M` to do the same for
+  C files.  The dependencies are normally generated into a file
+  `.depend`, which is included as normal.
+
+- Makefile binding generated from `.cabal` package descriptions.  See
+  "Idiom: interaction with Cabal".
+
+
+Now, we also want to be able to use `make` to build these files, since
+they have complex dependencies themselves.  For example, in order to build
+`package-data.mk` we need to first build `ghc-cabal` etc.; similarly,
+a `.depend` file needs to be re-generated if any of the source files have changed.
+
+
+GNU **make** has a clever strategy for handling this kind of scenario.  It
+first reads all the included Makefiles, and then tries to build each
+one if it is out-of-date, using the rules in the Makefiles themselves.
+When it has brought all the included Makefiles up-to-date, it restarts itself
+to read the newly-generated Makefiles.
+
+
+This works fine, unless there are dependencies *between* the
+Makefiles.  For example in the GHC build, the `.depend` file for a
+package cannot be generated until `package-data.mk` has been generated
+and **make** has been restarted to read in its contents, because it is the
+`package-data.mk` file that tells us which modules are in the package.
+But **make** always makes **all** the included `Makefiles` before restarting - it
+doesn't know how to restart itself earlier when there is a dependency
+between included `Makefiles`.
+
+
+Consider the following Makefile:
+
+```wiki
+all :
+
+include inc1.mk
+
+inc1.mk : Makefile
+	echo "X = C" >$@
+
+include inc2.mk
+
+inc2.mk : inc1.mk
+	echo "Y = $(X)" >$@
+```
+
+
+Now try it:
+
+```wiki
+$ make -f fail.mk
+fail.mk:3: inc1.mk: No such file or directory
+fail.mk:8: inc2.mk: No such file or directory
+echo "X = C" >inc1.mk
+echo "Y = " >inc2.mk
+make: Nothing to be done for `all'.
+```
+
+**make** built both `inc1.mk` and `inc2.mk` without restarting itself
+between the two (even though we added a dependency on `inc1.mk` from
+`inc2.mk`).
+
+
+The solution we adopt in the GHC build system is as follows.  We have
+two Makefiles, the first a wrapper around the second.
+
+```wiki
+# top-level Makefile
+% :
+        $(MAKE) -f inc.mk PHASE=0 just-makefiles
+        $(MAKE) -f inc.mk $<
+```
+
+```wiki
+# inc.mk
+
+include inc1.mk
+
+ifeq "$(PHASE)" "0"
+
+inc1.mk : inc.mk
+	echo "X = C" >$@
+
+else
+
+include inc2.mk
+
+inc2.mk : inc1.mk
+	echo "Y = $(X)" >$@
+
+endif
+
+just-makefiles:
+        @: # do nothing
+
+clean :
+	rm -f inc1.mk inc2.mk
+```
+
+
+Each time **make** is invoked, we recursively invoke **make** in several
+*phases*:
+
+- **Phase 0**: invoke `inc.mk` with `PHASE=0`.  This brings `inc1.mk` 
+  up-to-date (and *only*`inc1.mk`).  
+
+- **Final phase**: invoke `inc.mk` again (with `PHASE` unset).  Now we can be sure 
+  that `inc1.mk` is up-to-date and proceed to generate `inc2.mk`.  
+  If this changes `inc2.mk`, then **make** automatically re-invokes itself,
+  repeating the final phase.
+
+
+We could instead have abandoned **make**'s automatic re-invocation mechanism altogether,
+and used three explicit phases (0, 1, and final), but in practice it's very convenient to use the automatic
+re-invocation when there are no problematic dependencies.
+
+
+Note that the `inc1.mk` rule is *only* enabled in phase 0, so that if we accidentally call `inc.mk` without first performing phase 0, we will either get a failure (if `inc1.mk` doesn't exist), or otherwise **make** will not update `inc1.mk` if it is out-of-date.
+
+
+In the case of the GHC build system we need 4 such phases, see the
+comments in the top-level `ghc.mk` for details.
+
+
+This approach is not at all pretty, and
+re-invoking **make** every time is slow, but we don't know of a better
+workaround for this problem.
