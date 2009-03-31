@@ -12,6 +12,13 @@ $ make install
 
 This will build anything that isn't up-to-date, copy the files into the right places (see below) and make sure all the packages are registered properly.
 
+
+If you are wondering where the make system is going to install, just say
+
+```wiki
+$ make show VALUE=prefix
+```
+
 ## Layout of the installed files
 
 
