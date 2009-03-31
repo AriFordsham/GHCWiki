@@ -181,8 +181,12 @@ and then use `darcs-all` as above to get the rest of the respositories.
 To update your tree from the master repositories, the quickest way is to use the `darcs-all` script:
 
 ```wiki
-  $ ./darcs-all pull -a
+  $ ./darcs-all pull
+  $ ./darcs-all get
 ```
+
+
+The second step is required in the event that new packages or repositories have been added to GHC.
 
 
 See [Building/Rebuilding](building/rebuilding) for how to update your build after pulling patches.
