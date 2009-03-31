@@ -30,7 +30,9 @@ for general macros).  In this third revision, we use even more of GNU
 described in the next section.
 
 == Overall structure and important files ==
- 
+
+The following are a few of the most important files in the build system.  For a more complete overview of the source-tree layout, see [wiki:Commentary/SourceTree].
+
  [http://darcs.haskell.org/ghc/ghc.mk ghc.mk]::
   This is where you should start reading: `ghc.mk` is the main file in
   the build system which ties together all the other build-system
