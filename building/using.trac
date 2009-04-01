@@ -32,6 +32,11 @@ There are a few advantages to doing this:
    good for this too, but it can miss files that it doesn't know
    about, or files that are remnants from older versions of GHC.
 
+ * It helps to avoid mistakes whereby you edit a file that happens
+   to be automatically generated, instead of the original source
+   file (e.g. editing `config.mk` instead of `config.mk.in`).  If
+   you only edit files in the source tree, then this can't happen.
+
 However, if you just want to build the software once on a single
 platform, then your source tree can also be your build tree, and you
 can skip the rest of this section.
