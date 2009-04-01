@@ -19,6 +19,7 @@ If you're on a recent Linux system, then you should be able to get a working bui
 - `ghc`
 - `happy`
 - `alex`
+- `darcs`
 
 
 For building the documentataion: (User's Guide and Cabal guide):
@@ -50,6 +51,7 @@ other packages that are useful for development:
 - `ghc`
 - `happy`
 - `alex`
+- `darcs`
 
 
 For building the documentataion: (User's Guide and Cabal guide):
