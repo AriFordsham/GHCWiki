@@ -487,7 +487,7 @@ downside is that it will build everything right though to the stage2
 compiler and including all the documentation, which might be overkill
 if all you wanted to do was to test a small change to GHC.
 
-### Just building a single component
+### Rebuilding the GHC binary after making changes
 
 
 Suppose you want to make a small change to GHC itself and test it.
@@ -496,16 +496,25 @@ is as follows:
 
 ```wiki
 $ cd ghc
-$ make stage2
+$ make stage=2
 ```
 
 
-This will bring the stage2 compiler up to date only.  In particular,
-it will ignore the fact that by modifying GHC you have thereby made
-the stage 1 compiler out of date, and hence possibly all the libraries
-and the whole of stage 2 are now also out of date.  If you did `make`
+This will bring the stage 2 compiler up to date only.  Setting `stage=2` has the effect of disabling all the
+rules that build the stage 1 compiler, so the build system will ignore the fact that the stage 1 compiler is also out of date, and hence all the libraries are also potentially out of date.  If you did `make`
 from the top-level, all of these dependencies would be taken into
-account, and a lot of rebuilding would probably ensue.
+account, and a lot of rebuilding would probably ensue.  There's another target
+that takes an even quicker shortcut:
+
+```wiki
+$ cd ghc
+$ make 2
+```
+
+
+This is like `make stage=2`, except that it omits the dependency-building phase.  If you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you might get a build failure.  On the other hand, this shortcut usually works and the few seconds it saves can make GHC development a much more interactive experience.  There are also `make 1` and `make 3` targets to make the stage 1 and stage 3 compilers respectively.  These targets work in both the `ghc` and `compiler` subdirectories.
+
+### Building a single component in general
 
 
 Each subdirectory of the source tree has a
@@ -529,11 +538,11 @@ the system in this directory.  For example, when you say `make` in the
 `rts` directory, this is actually equivalent to
 
 ```wiki
-$ (cd ..; make all_rts)
+$ make -C .. all_rts
 ```
 
 
-where `make all_rts` makes every target in the `rts` subdirectory.
+where "`-C ..`" tells make to invoke the `Makefile` in the directory "`..`", and `all_rts` is the target that makes everything in the `rts` subdirectory.
 Equivalently, `make all_libraries/base` at the top level would build
 everything in the `libraries/base` subdirectory.  To understand how
 the `all` targets are defined, see
@@ -544,32 +553,46 @@ You can also clean a single component of the tree, just by saying
 `make clean` in a subdirectory.  Again this is equivalent to issuing a
 command at the top of the tree of the form `make clean_libraries/base`.
 
+## Building a single file
 
-The `stage2` target in the `ghc` directory does something else: it
-also disables the dependencies that would otherwise cause the stage 1
-compiler and the libraries to be rebuilt.  It does this by simply
-setting `ASSUME_STAGE1=YES` and `ASSUME_LIBRARIES=YES` when invoking
-the top-level `make`.
+
+It's possible to tell make to build a single file, from any subdirectory in the tree.  For example, suppose I want to build just the module `Control.Monad` in the `base` package, I can do it like this:
+
+```wiki
+$ make libraries/base/dist-install/build/Control/Monad.o
+```
+
+
+(you have to know that `dist-install` is the distdir for a package, and object files are put in the subdirectory `build`).  It's also possible to do this from the `libraries/base` subdirectory:
+
+```wiki
+$ cd libraries/base
+$ make dist-install/build/Control/Monad.o
+```
+
+
+suppose you wanted to build this module with a few extra flags, perhaps because you want to see what GHC's optimiser is doing on this module:
+
+```wiki
+$ rm dist-install/build/Control/Monad.o
+$ make dist-install/build/Control/Monad.o EXTRA_HC_OPTS=-dcore-lint
+```
+
+
+you could also cut-and-paste the command-line to add flags, but sometimes the `EXTRA_HC_OPTS` method is more convenient.
 
 ## Standard Targets
 
 
-The main targets understood by the top-level `Makefile` are as
-follows:
+The following targets work both at the top level, and in any subdirectory of the tree.  When used in a subdirectory, they apply only to the components of the system in that directory.
 
 <table><tr><th>`all`</th>
 <td>
-(default target, can be omitted).  Builds everything that needs to
+(default target, can be omitted).  Builds all the targets for this
+directory.  At the top level, builds everything that needs to
 be built for a GHC installation, including the stage 2 GHC, all
 libraries and documentation.  After `make`, `make install` will not
 need to do any further rebuilding.
-</td></tr></table>
-
-<table><tr><th>`install`</th>
-<td>
-installs the things built by `all`.  Where does it install them?  In
-the places you specified when running `configure`, principally set
-by the `--prefix` flag; see [Building/Installing](building/installing).
 </td></tr></table>
 
 <table><tr><th>`clean`</th>
@@ -577,6 +600,19 @@ by the `--prefix` flag; see [Building/Installing](building/installing).
 Delete all files from the current directory that are normally
 created by `make`.  Don't delete the files that record the
 configuration.
+</td></tr></table>
+
+
+To see how these targets are defined: [Building/Architecture/Idiom/StandardTargets](building/architecture/idiom/standard-targets).
+
+
+The following targets are accepted only by the top-level `Makefile`:
+
+<table><tr><th>`install`</th>
+<td>
+installs the things built by `all`.  Where does it install them?  In
+the places you specified when running `configure`, principally set
+by the `--prefix` flag; see [Building/Installing](building/installing).
 </td></tr></table>
 
 <table><tr><th>`distclean`</th>
@@ -610,6 +646,3 @@ convenience so that the user doesn't need to install `autoconf`,
 `Happy`, or `Alex` in order to build it.  Hence `make sdist` only
 works in a completely built tree.
 </td></tr></table>
-
-
-To see how these targets are defined: [Building/Architecture/Idiom/StandardTargets](building/architecture/idiom/standard-targets).
