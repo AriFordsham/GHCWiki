@@ -14,7 +14,7 @@ Building GHC
 
 - [Getting the sources](building/getting-the-sources)
 - [Platforms that GHC currently supports](platforms)
-- [Setting up your system for building GHC](building/prerequisites)
+- [Setting up your system for building GHC](building/preparation)
 - [Just building and installing GHC](building/quick-start)
 
 
