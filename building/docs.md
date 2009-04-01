@@ -11,7 +11,7 @@ The GHC build includes Haddock, and the Haddock documentation for libraries is b
 The rest of the documentation, in particular the Users' Guide and Cabal documentation, are in [ DocBook](http://www.docbook.org/) XML format.  In order to process the documentation into HTML or printable formats, you need appropriate tools installed.  The `configure` script searches for the appropriate tools, and will tell you whether it found any.
 
 
-To install the tools necessary for building the documentation, see [Building/Prerequisites](building/prerequisites).
+To install the tools necessary for building the documentation, see [Building/Preparation](building/preparation).
 
 
 At the moment, we are not able to build documentation in PDF format due to tool flakiness.  If you manage to find a way to process the documentation into readable PDF, please let us know!
