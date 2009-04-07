@@ -1,6 +1,6 @@
 # Internships on Haskell and GHC, at Microsoft Research, Cambridge
 
-[ Microsoft Research Cambridge](http://research.microsoft.com/aboutmsr/labs/cambridge/) now runs a year-round [ internship programme](http://research.microsoft.com/aboutmsr/jobs/internships/).  You can apply for an internship slot in any area covered by the lab, but Simon and I are of course keen to attract strong applications from people interested in functional programming, Haskell, and GHC.
+[ Microsoft Research Cambridge](http://research.microsoft.com/aboutmsr/labs/cambridge/) now runs a year-round [ internship programme](http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx).  You can apply for an internship slot in any area covered by the lab, but Simon and I are of course keen to attract strong applications from people interested in functional programming, Haskell, and GHC.
 
 
 The next available slots will be for January 2009 or thereabouts.  We'll consider applications for January in the summer of 2008.
@@ -53,7 +53,7 @@ Here a [bunch of suggestions](project-suggestions).
 You can apply ANY TIME.  Internships are not just the summer months. Contact one of us (simonpj@…, marlowsd@…) in the first instance (or another sponsor if they are more suitable).
 
 
-To apply, follow the instructions at [ http://research.microsoft.com/aboutmsr/jobs/internships/](http://research.microsoft.com/aboutmsr/jobs/internships/), **and email one of us to say that you have done so**. Do not omit the latter step; across MSR there are hundreds of applicants, and if we don't hear from you personally we may miss your application.  If you don't get a reply to your email, try again - the spam filter may have caught it.
+To apply, follow the instructions at [ http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx](http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx), **and email one of us to say that you have done so**. Do not omit the latter step; across MSR there are hundreds of applicants, and if we don't hear from you personally we may miss your application.  If you don't get a reply to your email, try again - the spam filter may have caught it.
 
 
 A CV is typically a boring, dry kind of thing, consisting entirely of data (education, employment, publications, talks etc etc).  Yes, we need that, but **please also include a final section entitled "Personal research statement"**.  This should address the following questions:
