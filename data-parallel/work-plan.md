@@ -52,7 +52,7 @@ Category: *Efficiency, short term* (improve scalability and/or baseline performa
 
 - **Test new inliner:** Retest package dph with new inliner and the simplifier changes and try to simplify the library on the basis of these new phases.
 
-- **Desugaring comprehensions:** The current desugaring of array comprehensions produces very inefficient code.  This needs to be improved.  In particular, the `map/crossMap` base case in `dotP` for `x<-xs` and use `zipWith` instead of `map/zip`.
+- **Desugaring comprehensions:** The current desugaring of array comprehensions produces very inefficient code.  This needs to be improved.  In particular, the `map/crossMap` base case in `dotP` for `x<-xs` and use `zipWith` instead of `map/zip`.  Moreover, `[:n..m:]` is being desugared to `GHC.PArr.enumFromToP` - it needs to use the implementation from the current dph backend instead.
 
 - **Regular multi-dimensional arrays:** Representing regular arrays by nested arrays is generally not efficient, but due to the current lack of fusion for segmented arrays that produce multiple arrays of different length (e.g., `filterSU :: (a -> Bool) -> SUArr a -> SUArr a`), matters are worse than one might think (e.g., when using a hierarchical matrix representation).  Hence, we need direct support for regular, multi-dimensional arrays.
 
