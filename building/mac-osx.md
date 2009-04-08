@@ -28,6 +28,9 @@ More details about [building installer packages](building/mac-osx/installer) are
 
 ## Getting Readline to work
 
+**With recent versions of GHC (6.10 and above) it is no longer necessary to take any
+special steps to get readline features in GHCi -- GHC now uses editline.**
+
 
 Thanks to Paul R Brown for the following [ instructions](http://mult.ifario.us/articles/2006/10/17/ghc-6-6-and-mac-os-x-readline-quick-fix).
 

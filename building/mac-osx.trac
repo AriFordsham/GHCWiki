@@ -22,6 +22,9 @@ More details about [wiki:Building/MacOSX/Installer building installer packages] 
 
 == Getting Readline to work ==
 
+'''With recent versions of GHC (6.10 and above) it is no longer necessary to take any
+special steps to get readline features in GHCi -- GHC now uses editline.'''
+
 Thanks to Paul R Brown for the following [http://mult.ifario.us/articles/2006/10/17/ghc-6-6-and-mac-os-x-readline-quick-fix instructions].
 
 Building GHC 6.6 out of the box on MacOS X will leave you with a GHCi binary that has no readline support.  This is because MacOS X comes NetBSD's libedit and Apple has made /usr/lib/libreadline.dylib a symlink to libedit. libedit does not support all of the libreadline API that GHC requires, so the GHC configure script decides not to use it.
