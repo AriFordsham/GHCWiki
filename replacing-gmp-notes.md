@@ -5,6 +5,7 @@
 
 On this page:
 
+1. [Current Status](replacing-gmp-notes#current-status)
 1. [Introduction](replacing-gmp-notes#introduction)
 1. [Reasons for Replacing GMP as the Bignum library](replacing-gmp-notes#reasons-for-replacing-gmp-as-the-bignum-library)
 1. [Files related to GMP in the GHC Compiler Source Code](replacing-gmp-notes#files-related-to-gmp-in-the-ghc-compiler-source-code)
@@ -23,6 +24,20 @@ Other pages
 - [Required Integer Functions](replacing-gmp-notes/required-integer-functions)
 - Integer Function Design (C library)?
 - Replacement Library Integration?
+
+### Current Status
+
+
+The `Integer` type is now provided by a separate `integer` package, which provides an API that hides the implementation details. By default this is `integer-gmp`. To change it, set `INTEGER_LIBRARY=integer-foo` in `mk/build.mk`.
+
+
+There is an alternative implementation [ integer-simple](http://darcs.haskell.org/libraries/integer-simple/), although as we don't regularly test builds with it you may need to make a few tweaks to get it to work. `integer-simple` is intended to be easily understood, entirely Haskell code that is *fast enough*. For serious number crunching one of the highly tuned big integer libraries will be needed, but hopefully `integer-simple` will suffice for normal use. In order to test this, we need to do some testing, e.g. nofib runs.
+
+
+It would also be interesting to separate out the `J#/S#` wrapper from the GMP `Integer`, and to compare all 4 combinations: `GMP`, `GMP+J#/S#`, `simple`, `simple+S#/J#`.
+
+
+If `integer-simple` is indeed fast enough, then I think that it solves all of the problems with `integer-gmp`. We would also have packages like `gmp` for those who want to use the fast C implementations.
 
 ### Introduction
 
