@@ -3,6 +3,11 @@
 
 Everything from here to the "Original Page" heading is for the revival in July 2008.
 
+## To Anyone Interested
+
+
+I'm not sure where to put this, but I have an unregisterised build of GHC 6.8.2 that ran on a Nokia 810 a while ago. I could polish it off and try to get it running again if it would help. You can contact me at *firstname* dot *lastname* at gmail dot com -- Dustin DeWeese
+
 ## jhc Success
 
 
