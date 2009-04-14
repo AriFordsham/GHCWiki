@@ -42,7 +42,7 @@
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries        
 - [\#2132](https://gitlab.haskell.org//ghc/ghc/issues/2132): Optimise nested comparisons: if you know x\>0 then you know x\>=1 etc.  Maybe a special pass that knows about arithmetic?        
 - [\#149](https://gitlab.haskell.org//ghc/ghc/issues/149): float-out/CSE        
-- [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), 2387: nested CPR analysis        
+- [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387), [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600): nested CPR analysis        
 - [\#2092](https://gitlab.haskell.org//ghc/ghc/issues/2092): Possible quadratic-sized Eq instances. Does it really go quadratic, or does the join-point inlining machinery prevent it?  Still to check: delicacy wrt case-of-case
 - [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#2643](https://gitlab.haskell.org//ghc/ghc/issues/2643): Improve **`SpecConstr`** for free variables, and for join points.
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
