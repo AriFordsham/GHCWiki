@@ -301,7 +301,10 @@ propagate eqs = prop eqs []
 
 The finalisation step instantiates as many flexible type variables as possible, but it takes care not to instantiate variables occurring in the global environment with types containing synonym family applications.  This is important to obtain principle types (c.f., Andrew Kennedy's thesis).  We perform finalisation in two phases:
 
-1. **Substitution:** For any variable equality of the form `co :: x ~ t` (both local and wanted), we apply the substitution `[t/x]` to the **right-hand side** of all equalities.  We also perform the same substitution on class constraints.
+1. **Substitution:**
+
+  - **Pass A:** For any variable equality of the form `co :: x ~ t` (both local and wanted), we apply the substitution `[t/x]` to the **right-hand side** of all equalities.  We also perform the same substitution on class constraints.
+  - **Pass B:** For any family equality of the form `co :: F t1..tn ~ alpha`, we apply the substitution `[F t1..tn/alpha]` to the **both sides** of all family equalities.
 1. **Instantiation:** For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.  Moreover, we have to do the same for equalities of the form `co :: F t1..tn ~ alpha` unless we are in inference mode and `alpha` appears in the environment or any other wanteds. (We never instantiate any flexibles introduced by flattening locals.)
 
 
