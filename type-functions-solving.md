@@ -304,11 +304,15 @@ The finalisation step instantiates as many flexible type variables as possible, 
 1. **Substitution:**
 
   - **Pass A:** For any variable equality of the form `co :: x ~ t` (both local and wanted), we apply the substitution `[t/x]` to the **right-hand side** of all equalities.  We also perform the same substitution on class constraints.
-  - **Pass B:** For any family equality of the form `co :: F t1..tn ~ alpha`, we apply the substitution `[F t1..tn/alpha]` to the **both sides** of all family equalities.
+  - **Pass B:** Unless we are in inference mode, for any wanted family equality of the form `co :: F t1..tn ~ alpha`, we apply the substitution `[F t1..tn/alpha]` to **both sides** of all family equalities.  We need to substitute all flexibles that arose as skolems during flattening of wanteds *before* we substitute any other flexibles.
 1. **Instantiation:** For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.  Moreover, we have to do the same for equalities of the form `co :: F t1..tn ~ alpha` unless we are in inference mode and `alpha` appears in the environment or any other wanteds. (We never instantiate any flexibles introduced by flattening locals.)
 
 
-The substitution step can lead to recursive equalities; i.e., we need to apply an occurs check after each substitution.  We need to instantiate all flexibles that arose as skolems during flattening of wanteds *before* we instantiate any other flexibles.  Consider `F delta ~ alpha, F alpha ~ delta`, where `alpha` is a skolem and `delta` a free flexible.  We need to produce `F (F delta) ~ delta` (and not `F (F alpha) ~ alpha`).  Otherwise, we may wrongly claim to having performed an improvement, which can lead to non-termination of the combined class-family solver.
+Important points are the following:
+
+- The substitution step can lead to recursive equalities; i.e., we need to apply an occurs check after each substitution.  
+- We need to substitute all flexibles that arose as skolems during flattening of wanteds *before* we substitute any other flexibles.  Consider `F delta ~ alpha, F alpha ~ delta`, where `alpha` is a skolem and `delta` a free flexible.  We need to produce `F (F delta) ~ delta` (and not `F (F alpha) ~ alpha`).  Otherwise, we may wrongly claim to having performed an improvement, which can lead to non-termination of the combined class-family solver.
+- We need to substitute family equalities into both sides of family equalities; consider, `F t1..tn ~ alpha, G s1..sm ~ alpha`.
 
 
 Note that it is an important property of propagation that we only need to substitute into right-hand sides during finalisation.  After finalisation and zonking all flattening of locals is undone (c.f., note below the flattening code above).
