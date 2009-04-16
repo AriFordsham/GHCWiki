@@ -6,10 +6,14 @@ Our aim is to derive the entailment judgement
 }}}
 i.e., whether we can derive the wanted equalities `w1` to `wm` from the given equalities `g1`, .., `gn` under a given set of toplevel equality schemas (i.e., equalities involving universally quantified variables).  We permit unification variables in the wanted equalities, and a derivation may include the instantiation of these variables; i.e., may compute a unifier.  However, that unifer must be most general.
 
-The derivation algorithm is complicated by the pragmatic requirement that, even if there is no derivation for the judgement, we would like to compute a unifier.  This unifier should be as specific as possible under some not yet specified (strongest) weakening of the judgement so that it is derivable.  (Whatever that means...)
+The derivation algorithm is complicated by the pragmatic requirement that, even if there is no derivation for the judgement, we would like to compute a unifier by simplifying the set of wanted equalities as far as possible (to get a unifier that is as specific as possible).  The solution, then, consists of this unifer together with the simplified wanted equalities.  This functionality is necessary for type inference.
 
 The following is based on ideas for the new, post-ICFP'08 solving algorithm described in CVS `papers/type-synonym/new-single.tex`.  A revised version of `new-single.tex` that integrates the core ideas from this wiki page is in `papers/type-synonym/normalised_equations_algorithm.tex`.  Most of the code is in the module `TcTyFuns`.
 
+Notes regarding the implementation inn `TcTyFuns`
+ * The implementation simultaneously normalises class constraints, but does not simplify them.  Currently, equality and class constraint simplification are separate processes and invoked alternating.  We are currently in the process of changing this to realise an [TypeFunctions/IntegratedSolver integrated solver.]
+ * Due to higher-rank types, the given equalities may contain meta type variables.  However, during solving of equalities, we treat these meta variables like skolems; in particular, we won't instantiate them.
+ * The implementation does not instantiate meta variables in place, but instead returns a set of type variables bindings.  More precisely, the solver will only instantiate meta variables that are created during solving.  All other variables, which may be free in the environment, will appear in the resulting unifier strictly as explicit type variable bindings.  (These may then be executed by the caller.)
 
 == Terminology ==
 
