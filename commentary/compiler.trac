@@ -9,8 +9,9 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
 
  * '''Compiling one module: HscMain'''
    * [wiki:Commentary/Compiler/HscMain Overview] gives the big picture. 
-   * [wiki:Commentary/Compiler/Renamer Details of the renamer]
-   * [wiki:Commentary/Compiler/CodeGen Details of the code generator]
+   * Some details of the [wiki:Commentary/Compiler/Parser parser]
+   * Some details of the [wiki:Commentary/Compiler/Renamer renamer]
+   * Some details of the [wiki:Commentary/Compiler/CodeGen Details of the code generator]
 
  * [wiki:Commentary/Compiler/KeyDataTypes Key data types]
    * [wiki:Commentary/Compiler/HsSynType The source language: HsSyn] 
