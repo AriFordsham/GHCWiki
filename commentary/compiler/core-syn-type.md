@@ -64,7 +64,7 @@ Here are some notes about the individual constructors of `Expr`.
 
 - `Case` expressions need [more explanation](commentary/compiler/core-syn-type#case-expressions).
 
-- `Cast` is used for an [FC cast expression](commentary/compiler/fc).  `Corecion` is a synonym for `Type`.
+- `Cast` is used for an [FC cast expression](commentary/compiler/fc).  `Coercion` is a synonym for `Type`.
 
 - `Note` is used for profiling and debugging information.
 
