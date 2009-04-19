@@ -56,7 +56,7 @@ Here are some notes about the individual constructors of {{{Expr}}}.
 
  * {{{Case}}} expressions need [wiki:Commentary/Compiler/CoreSynType#Caseexpressions more explanation].
 
- * {{{Cast}}} is used for an [wiki:Commentary/Compiler/FC FC cast expression].  {{{Corecion}}} is a synonym for {{{Type}}}.
+ * {{{Cast}}} is used for an [wiki:Commentary/Compiler/FC FC cast expression].  {{{Coercion}}} is a synonym for {{{Type}}}.
 
  * {{{Note}}} is used for profiling and debugging information.
 
