@@ -3,10 +3,31 @@
 
 Everything from here to the "Original Page" heading is for the revival in July 2008.
 
-## To Anyone Interested
+## GHC 6.8 for N810
 
 
-I'm not sure where to put this, but I have an unregisterised build of GHC 6.8.2 that ran on a Nokia 810 a while ago. I could polish it off and try to get it running again if it would help. You can contact me at *firstname* dot *lastname* at gmail dot com -- Dustin DeWeese
+I have an unregisterised GHC 6.8 build for the N810.
+
+
+You can get the N810 GHC packages at: [ ftp://ripplelabs.com/pub/ghc-debs/](ftp://ripplelabs.com/pub/ghc-debs/)
+
+
+Some other packages are required that are available elsewhere, such as gcc.
+
+
+I have not tried them in about a year, so I'm not sure if they run on the latest SDK or OS. They may not work at all - I'm not sure I uploaded all the right packages. Let me know if you have problems.
+
+
+It's not really practical to run GHC on the N810 because of memory limitations, but you can compile small programs. It could be used with the SDK to compile Haskell programs for the N810. Also, GHC + libs won't fit in the program area - I moved all the libs to external flash and symlinked them to get GHC running on the device.
+
+
+If I get time, I might use GHC 6.8 to bootstrap 6.10.
+
+
+-- Dustin DeWeese
+
+
+(You can contact me at *firstname* dot *lastname* at gmail dot com)
 
 ## jhc Success
 
