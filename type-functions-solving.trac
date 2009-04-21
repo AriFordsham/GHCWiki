@@ -250,11 +250,13 @@ propagate eqs = prop eqs []
 
 == Finalisation ==
 
-The finalisation step instantiates as many flexible type variables as possible, but it takes care not to instantiate variables occurring in the global environment with types containing synonym family applications.  This is important to obtain principle types (c.f., Andrew Kennedy's thesis).  We perform finalisation in two phases:
+The finalisation step instantiates as many flexible type variables as possible, but it takes care not to instantiate variables occurring in the global environment with types containing synonym family applications.  This is important to obtain principle types (c.f., Andrew Kennedy's thesis).  We perform finalisation in two steps:
  1.  '''Substitution:''' 
-  * '''Pass A:''' For any variable equality of the form `co :: x ~ t` (both local and wanted), we apply the substitution `[t/x]` to the '''right-hand side''' of all equalities.  We also perform the same substitution on class constraints.
-  * '''Pass B:''' Unless we are in inference mode, for any wanted family equality of the form `co :: F t1..tn ~ alpha`, we apply the substitution `[F t1..tn/alpha]` to '''both sides''' of all family equalities.  We need to substitute all flexibles that arose as skolems during flattening of wanteds ''before'' we substitute any other flexibles.
- 2. '''Instantiation:''' For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.  Moreover, we have to do the same for equalities of the form `co :: F t1..tn ~ alpha` unless we are in inference mode and `alpha` appears in the environment or any other wanteds. (We never instantiate any flexibles introduced by flattening locals.)
+  * '''Step A:''' For any (local or wanted) variable equality of the form `co :: x ~ t`, we apply the substitution `[t/x]` to the '''right-hand side''' of all equalities (wanteds only to wanteds).  We also perform the same substitution on class constraints (again, wanteds only to wanteds).
+  * '''Step B:''' We have two cases:
+   * ''In checking mode,'' for any wanted family equality of the form `co :: F t1..tn ~ alpha`, we apply the substitution `[F t1..tn/alpha]` to '''both sides''' of all wanted variable and family equalities with the exception that, if `alpha` is a local flexible (introduced during flattening of wanteds), we do '''not''' substitute into family equalities of the form `co' :: G s1..sm ~ delta`, where `delta` is a non-local flexible.
+   * ''In inference mode,'' we proceed as in checking mode, but we do not substitute into variable equalities.
+ 2. '''Instantiation:''' For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.  Moreover, we have to do the same for equalities of the form `co :: F t1..tn ~ alpha` unless we are in inference mode and `alpha` appears in the environment or any other wanteds. (We never instantiate any flexibles introduced by flattening locals.)  '''!!!FIXME: Take the escaped locals into account!!!'''
 
 Important points are the following:
  * The substitution step can lead to recursive equalities; i.e., we need to apply an occurs check after each substitution.  
