@@ -270,11 +270,11 @@ typedef enum
   However, note that macros can serve as both l-values and r-values and
   can be "polymorphic" as these examples show:
 {{{
-  // you can use this as an l-value or an l-value
+  // you can use this as an l-value or an r-value
   #define PROF_INFO(cl) (((StgClosure*)(cl))->header.profInfo)
 
   // polymorphic case
-  // but note that min(min(1,2),3) does 3 comparisions instead of 2!!
+  // but note that min(min(1,2),3) does 3 comparisons instead of 2!
   #define min(x,y) (((x)<=(y)) ? (x) : (y))
 }}}
 

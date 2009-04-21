@@ -295,11 +295,11 @@ Particular guidelines for writing robust code:
 > > can be "polymorphic" as these examples show:
 > >
 > > ```wiki
-> >   // you can use this as an l-value or an l-value
+> >   // you can use this as an l-value or an r-value
 > >   #define PROF_INFO(cl) (((StgClosure*)(cl))->header.profInfo)
 > >
 > >   // polymorphic case
-> >   // but note that min(min(1,2),3) does 3 comparisions instead of 2!!
+> >   // but note that min(min(1,2),3) does 3 comparisons instead of 2!
 > >   #define min(x,y) (((x)<=(y)) ? (x) : (y))
 > > ```
 
