@@ -260,8 +260,10 @@ Important points are the following:
  * The substitution step can lead to recursive equalities; i.e., we need to apply an occurs check after each substitution.  
  * We need to substitute all flexibles that arose as skolems during flattening of wanteds ''before'' we substitute any other flexibles.  Consider `F delta ~ alpha, F alpha ~ delta`, where `alpha` is a skolem and `delta` a free flexible.  We need to produce `F (F delta) ~ delta` (and not `F (F alpha) ~ alpha`).  Otherwise, we may wrongly claim to having performed an improvement, which can lead to non-termination of the combined class-family solver.
  * We need to substitute family equalities into both sides of family equalities; consider, `F t1..tn ~ alpha, G s1..sm ~ alpha`.
+ * We must not substitute family equalities into right-hand sides of variable equalities.  (If the variable equality directly or indirectly instantiates a flexible that is free in the environment, we would instantiate it with a family application, which we set out to avoid.)
+ * There is no need to substitute family equalities into dictionaries as they cannot influence instance selection.
 
-Note that it is an important property of propagation that we only need to substitute into right-hand sides during finalisation.  After finalisation and zonking all flattening of locals is undone (c.f., note below the flattening code above).
+Note that it is an important property of propagation that we need to substitute variable equalities only into right-hand sides during finalisation.  After finalisation and zonking all flattening of locals is undone (c.f., note below the flattening code above).
 
 == Examples ==
 
