@@ -16,6 +16,7 @@
 
 ### Inlining
 
+- [\#3181](https://gitlab.haskell.org//ghc/ghc/issues/3181): join point boxing.
 - [\#3073](https://gitlab.haskell.org//ghc/ghc/issues/3073) and [Commentary/Compiler/DesugaringInstances](commentary/compiler/desugaring-instances): better desugaring for instances
 - [\#2422](https://gitlab.haskell.org//ghc/ghc/issues/2422): interaction of inlining and specialisation
 - [\#2396](https://gitlab.haskell.org//ghc/ghc/issues/2396): default class method not inlined
