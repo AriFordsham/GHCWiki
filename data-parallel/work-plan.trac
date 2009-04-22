@@ -19,6 +19,7 @@
  ''Roman''::
    '''Code blow up''', '''Generate boilerplate with TH''', '''Explicit shape information''' & '''Recycling for joinD'''
    – status: partly implemented, but still needs serious work
+   * All segmented operations have been removed from the backend library.
    * We still don't have the code blow up under control.
    * Before any further major changes to the library, Roman needs to first re-arrange things such that the library boilerplate is generated, instead of being hardcode; otherwise, changes require a lot of tiresome code editing.  This is partially done.
 
