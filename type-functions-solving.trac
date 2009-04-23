@@ -256,7 +256,8 @@ The finalisation step instantiates as many flexible type variables as possible, 
   * '''Step B:''' We have two cases:
    * ''In checking mode,'' for any wanted family equality of the form `co :: F t1..tn ~ alpha`, we apply the substitution `[F t1..tn/alpha]` to the right-hand side of all wanted variable equalities and to both sides of all wanted family equalities with the exception that, if `alpha` is a local flexible (introduced during flattening of wanteds), we do '''not''' substitute into family equalities of the form `co' :: G s1..sm ~ delta`, where `delta` is a non-local flexible.
    * ''In inference mode,'' we proceed as in checking mode, but we do not substitute into variable equalities.
- 2. '''Instantiation:''' For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.  Moreover, we have to do the same for equalities of the form `co :: F t1..tn ~ alpha` unless we are in inference mode and `alpha` appears in the environment or any other wanteds. (We never instantiate any flexibles introduced by flattening locals.)  '''!!!FIXME: Take the escaped locals into account!!!'''
+ At this point all variables bound in the next step have disappeared from the constraint set; it is as if the variables have been locally instantiated.
+ 2. '''Instantiation:''' For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.  Moreover, we have to do the same for equalities of the form `co :: F t1..tn ~ alpha` unless we are in inference mode and `alpha` appears in the environment or is a local skolem flexible that is propagated into the environment by another binding.
 
 Important points are the following:
  * The substitution step can lead to recursive equalities; i.e., we need to apply an occurs check after each substitution.  
