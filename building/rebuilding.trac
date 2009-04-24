@@ -5,8 +5,8 @@
 To pull new changes:
 
 {{{
-$ sh darcs-all pull
-$ sh darcs-all get
+$ ./darcs-all pull
+$ ./darcs-all get
 }}}
 
 (the second step is required in the event that new packages or repositories have been added to GHC).

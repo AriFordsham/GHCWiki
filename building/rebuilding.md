@@ -4,8 +4,8 @@
 To pull new changes:
 
 ```wiki
-$ sh darcs-all pull
-$ sh darcs-all get
+$ ./darcs-all pull
+$ ./darcs-all get
 ```
 
 
