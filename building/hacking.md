@@ -25,7 +25,7 @@ this should rebuild just the RTS.  If you want to just build the stage 2 compile
 
 ```wiki
 $ cd ghc
-$ make stage2
+$ make stage=2
 ```
 
 
