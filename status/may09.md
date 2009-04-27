@@ -2,8 +2,7 @@
 - 6.10.3: tiny release, "by the time you read this ..."
 
   - Moving to Haskeline
-  - Fix <sup>C in ghci.
-    </sup>
+  - Fix \^C in ghci.
 
 - 6.12:
 
