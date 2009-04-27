@@ -51,13 +51,13 @@ He and Norman and Simon wrote [http://research.microsoft.com/~simonpj/papers/c--
 
  * We hope that Max Bolingbroke's '''Dynamically Loaded Plugins''' summer of code project will be merged in time for 6.12.  Part of this is a new, modular system for [wiki:Annotations user-defined '''annotations'''], rather like Java or C# attributes.  These attributes are persisted into interface files, can be examined and created by plugins, or by GHC API clients.
 
- * Likewise, Donnie Jones's project for '''profiling parallel programs''' should be merged in time for 6.12
+ * '''(Simon)''' mention Satname, new profiler.  Likewise, Donnie Jones's project for '''profiling parallel programs''' should be merged in time for 6.12
 
- * Simon Marlow is working on '''improving parallel performance''', incorporating the work done by Jost Berthold during his internship at Microsoft in the summer of 2008.  The plan is to make writing performant parallel programs less of a trial-and-error process, by whacking as many bottlenecks as we can find in the runtime system.   We're already making significant improvements, and there's plenty more low-hanging fruit to pick.  One large project that we hope to tackle is the issue of doing independent per-CPU garbage collection.
+ * '''(Simon)''' (include pointer to paper).  Simon Marlow is working on '''improving parallel performance''', incorporating the work done by Jost Berthold during his internship at Microsoft in the summer of 2008.  The plan is to make writing performant parallel programs less of a trial-and-error process, by whacking as many bottlenecks as we can find in the runtime system.   We're already making significant improvements, and there's plenty more low-hanging fruit to pick.  One large project that we hope to tackle is the issue of doing independent per-CPU garbage collection.
 
- * '''Shared Libraries''', are inching ever closer to being completed.  Clemens Fruhwirth has been working on polishing the support for shared libraries on Unix systems in particular, and when the remaining issues are ironed out we should be able to roll them out in a release.
+ * '''(Simon)'''  '''Shared Libraries''', are inching ever closer to being completed.  Clemens Fruhwirth has been working on polishing the support for shared libraries on Unix systems in particular, and when the remaining issues are ironed out we should be able to roll them out in a release.
 
- * Finally, '''unicode text I/O''' and '''dynamic libraries''' were slated for 6.10 but weren't quite ready in time, so we certainly expect those to make it for in 6.12
+ * '''(Ian or Simon)''' Finally, '''unicode text I/O''' and '''dynamic libraries''' were slated for 6.10 but weren't quite ready in time, so we certainly expect those to make it for in 6.12
 
  * 6.12:
    * Release expected shortly after ICFP?
