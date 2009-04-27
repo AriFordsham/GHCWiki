@@ -1,6 +1,9 @@
+- 6.10.2 released. Bugfixes etc only.
 - 6.10.3: tiny release, "by the time you read this ..."
 
-- Moving to Haskeline
+  - Moving to Haskeline
+  - Fix <sup>C in ghci.
+    </sup>
 
 - 6.12:
 
