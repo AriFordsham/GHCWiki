@@ -1,15 +1,70 @@
-- 6.10.2 released. Bugfixes etc only.
-- 6.10.3: tiny release, "by the time you read this ..."
+# GHC Status May 2009
 
-  - Moving to Haskeline
-  - Fix \^C in ghci.
 
-- 6.12:
+The last six months have been busy ones for GHC.  
 
-  - Release expected shortly after ICFP?
-  - New build system: main bulk done, merged in head. Details still to be ironed out. Should be more parallel, and more correct (i.e. saying "make" should correctly rebuild things)
-  - John Dias's backend stuff; done?
-  - Donnie's profiler
-  - unicode IO
-  - shared libraries
-  - DPH development continues
+## The GHC 6.10 branch
+
+
+We finally released GHC 6.10.1 on 4 November 2008, with a raft of new
+features we discussed in the October 2008 status report.
+
+
+A little over five months later we released GHC 6.10.2, with XX new
+patches fixing YY new tickets raised against 6.10.1 **IAN CAN YOU FILL IN XX and YY?**.  We hoped that'd be
+it for the 6.10 branch, but we slipped up and 6.10.2 contained a couple
+of annoying regresssions (concerning Control-C and editline). 
+By the time you read this, GHC 6.10.3 (fixing these regressions) should
+be out, after which we hope to shift all our attention to the 6.12 branch.
+
+## The new build system
+
+
+Our old multi-makefile build system had grown old, crufty, hard to 
+understand.  And it didn't even work very well.  So we embarked
+on a [plan to re-implement the build system](design/build-system).
+Rather than impose the new system on everyone immediately, Ian and Simon (Marlow) 
+did all the development on a branch, and invited others to give it a whirl.
+Finally, on 25 April 2009, we went "live" on the HEAD. 
+
+
+The new design is [extensively described](building) on the wiki.  It still
+uses `make`, but there is no only one (giant) Makefile, with no recursive invocations
+of `make`.  That in turn means that dependency tracking is vastly more accurate than before,
+so that if something should be built it will be built.
+
+
+The new build system is also much less dependent on Cabal than it was before.
+We now use Cabal only to read package metadata from the `<pkg>.cabal` file, 
+and emit a bunch of Makefile bindings.  Everything else is done in `make`.
+You can read more about the [design rationale](design/build-system) on the wiki.
+
+
+We also advertised our [intent to switch to Git](design/version-control-system) as our
+version control system (VCS).  We always planned to change the build system first, and only
+then tackle the VCS.  Since then, there has been lots of activity on the Darcs front, so
+it's not clear how high priority making this change is.  We'd welcome your opinion.
+
+## The GHC 6.12 branch
+
+
+The main list of new features in GHC 6.12 remains much the same as it was in our last status report.  Happily, there has been progress on all fronts.
+
+- The whole area of **GADTs, indexed type families, and associated types** remains in a ferment of development.  It's clear that type families jolly useful: many people are using them even though they are only partially supported by GHC 6.10. (You might enjoy a programmers-eye-view tutorial [ Fun with type functions](http://research.microsoft.com/~simonpj/papers/assoc-types) that Oleg, Ken, and Simon wrote in April 2009.) 
+
+>
+> But these new features have made the type inference engine pretty complicated and, Simon PJ, Manuel Chakravarty, Tom Schrijvers, Dimitrios Vytiniotis, and Martin Sulzmann have been busy thinking about ways to make type inference simpler and more uniform. Our ICFP'08 paper [ Type checking with open type functions](http://research.microsoft.com/~simonpj/papers/assoc-types) was a first stab (which we subsequently managed to simplify quite a bit).  Our new paper (submitted to ICFP'09) [ Complete and decidable type inference for GADTs](http://research.microsoft.com/~simonpj/papers/gadt) tackles a different part of the problem.  And we are not done yet; for example, our new inference framework is designed to smoothly accommodate Dimitrios's work on [ FPH: First class polymorphism for Haskell (ICFP'08)](http://research.microsoft.com/~simonpj/papers/boxy/).   
+
+- **Data Parallel Haskell** remains under very active development. The [current state of play](data-parallel), including some benchmark figures is on the wiki.  We also wrote a substantial paper [ Harnessing the multicores: nested data parallelism in Haskell](http://research.microsoft.com/~simonpj/papers/ndp) for FSTTCS; you may find this paper a useful tutorial on the whole idea of nested data parallelism.
+
+- Max Bolingbroke has revised and simplified his **Dynamically Loaded Plugins** summer of code project, and we (continue to) plan to merge it into 6.12.  Part of this is already merged: a new, modular system for [user-defined '''annotations'''](annotations), rather like Java or C\# attributes.  These attributes are persisted into interface files, can be examined and created by plugins, or by GHC API clients.
+
+- **(Simon M)** mention Satnam, new profiler.  Likewise, Donnie Jones's project for **profiling parallel programs** should be merged in time for 6.12
+
+- John Dias has continued work on **rewriting GHC's backend**.  You can find an [overview of the new architecture](commentary/compiler/new-code-gen-pipeline) on the wiki.  He and Norman and Simon wrote [ Dataflow optimisation made simple](http://research.microsoft.com/~simonpj/papers/c--), a paper about the dataflow optimisation framework\] that the new back end embodies.  Needless to say, the act of writing the paper has made us re-design the framework, so at the time of writing it still isn't on GHC's main compilation path.  But it will be.
+
+- **(Simon M)** (include pointer to paper).  Simon Marlow is working on **improving parallel performance**, incorporating the work done by Jost Berthold during his internship at Microsoft in the summer of 2008.  The plan is to make writing performant parallel programs less of a trial-and-error process, by whacking as many bottlenecks as we can find in the runtime system.   We're already making significant improvements, and there's plenty more low-hanging fruit to pick.  One large project that we hope to tackle is the issue of doing independent per-CPU garbage collection.
+
+- **(Simon M)****Shared Libraries**, are inching ever closer to being completed.  Clemens Fruhwirth has been working on polishing the support for shared libraries on Unix systems in particular, and when the remaining issues are ironed out we should be able to roll them out in a release.
+
+- **(Ian or Simon M)** Finally, **unicode text I/O** and **dynamic libraries** were slated for 6.10 but weren't quite ready in time, so we certainly expect those to make it for in 6.12
