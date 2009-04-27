@@ -5,7 +5,7 @@
 
  * 6.12:
    * Release expected shortly after ICFP?
-   * New build system: main bulk done, merged in head
+   * New build system: main bulk done, merged in head. Details still to be ironed out. Should be more parallel, and more correct (i.e. saying "make" should correctly rebuild things)
    * John Dias's backend stuff; done?
    * Donnie's profiler
    * unicode IO
