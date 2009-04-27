@@ -51,10 +51,7 @@ it's not clear how high priority making this change is.  We'd welcome your opini
 
 The main list of new features in GHC 6.12 remains much the same as it was in our last status report.  Happily, there has been progress on all fronts.
 
-- John Dias has continued work on **rewriting GHC's backend**.  You can find an [overview of the new architecture](commentary/compiler/new-code-gen-pipeline) on the wiki.
-
-
-He and Norman and Simon wrote [ Dataflow optimisation made simple](http://research.microsoft.com/~simonpj/papers/c--), a paper about the dataflow optimisation framework\] that the new back end embodies.  Needless to say, the act of writing the paper has made us re-design the framework, so at the time of writing it still isn't on GHC's main compilation path.  But it will be.
+- John Dias has continued work on **rewriting GHC's backend**.  You can find an [overview of the new architecture](commentary/compiler/new-code-gen-pipeline) on the wiki.  He and Norman and Simon wrote [ Dataflow optimisation made simple](http://research.microsoft.com/~simonpj/papers/c--), a paper about the dataflow optimisation framework\] that the new back end embodies.  Needless to say, the act of writing the paper has made us re-design the framework, so at the time of writing it still isn't on GHC's main compilation path.  But it will be.
 
 - **Data Parallel Haskell** remains under very active development. The [current state of play](data-parallel), including some benchmark figures is on the wiki.  We also wrote a substantial paper [ Harnessing the multicores: nested data parallelism in Haskell](http://research.microsoft.com/~simonpj/papers/ndp) for FSTTCS; you may find this paper a useful tutorial on the whole idea of nested data parallelism.
 
