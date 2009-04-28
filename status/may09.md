@@ -11,7 +11,7 @@ features we discussed in the October 2008 status report.
 
 
 A little over five months later we released GHC 6.10.2, with more than 200 new
-patches fixing YY new tickets raised against 6.10.1 **IAN CAN YOU FILL IN XX and YY?**.  We hoped that'd be
+patches fixing more than 100 tickets raised against 6.10.1.  We hoped that'd be
 it for the 6.10 branch, but we slipped up and 6.10.2 contained a couple
 of annoying regresssions (concerning Control-C and editline). 
 By the time you read this, GHC 6.10.3 (fixing these regressions) should
