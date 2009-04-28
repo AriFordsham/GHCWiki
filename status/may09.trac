@@ -25,8 +25,7 @@ did all the development on a branch, and invited others to give it a whirl.
 Finally, on 25 April 2009, we went "live" on the HEAD. 
 
 The new design is [wiki:Building extensively described] on the wiki.  It still
-uses `make`, but there is no only one (giant) Makefile, with no recursive invocations
-of `make`.  That in turn means that dependency tracking is vastly more accurate than before,
+uses `make`, but it is now based on a [wiki:Building/Architecture/Idiom/NonRecursiveMake non-recursive make] strategy.  This means that dependency tracking is vastly more accurate than before,
 so that if something should be built it will be built.
 
 The new build system is also much less dependent on Cabal than it was before.
@@ -43,22 +42,47 @@ it's not clear how high priority making this change is.  We'd welcome your opini
 
 The main list of new features in GHC 6.12 remains much the same as it was in our last status report.  Happily, there has been progress on all fronts.
 
+=== Parallel Performance ===
+
+Simon Marlow has been working on improving performance for parallel programs, and there will be significant imporovements to be had in 6.12.  In particular
+
+ * There's an implementation of lock-free work-stealing queues, used for load-balancing of sparks and also
+   in the parallel GC.  Initial work on this was done by Jost Berthold.
+
+ * The parallel GC itself has been tuned to retain locality in parallel programs.  Some speedups are
+   dramatic.
+
+ * The overhead for running a spark is much lower, as sparks are now run in batches rather than creating
+   a new thread for each one.  This makes it possible to take advantage of parallelism at a much finer
+   granularity than before.
+
+ * There is optional "eager-blackholing", with the new `-feager-blackholing` flag, which can help eliminate
+   duplicate computation in parallel programs.
+
+Our [http://ghcmutterings.wordpress.com/2009/03/03/new-paper-runtime-support-for-multicore-haskell/ recent ICFP submission] describes all these in more detail, and gives extensive measurements.
+
+Things aren't in their final state yet: for example, we still need to work on tuning the default flag settings to get good performance for more programs without any manual tweaking.  There are some larger possibilities on the horizon too, such as redesigning the garbage collector to support per-CPU independent GC, which will reduce the synchronization overheads of the current stop-the-world strategy.
+
+=== Parallel Profiling ===
+
+GHC 6.12 will feature parallel profiling in the form of [http://raintown.org/?page_id=132 ThreadScope], under development by Satnam Singh, Donnie Jones and Simon Marlow.  Support has been added to GHC for lightweight runtime tracing (work originally done by Donnie Jones), which is used by !ThreadScope to generate profiles of the program's real-time execution behaviour.  This work is still in the very early stages, and there are many interesting directions we could take this in.
+
+=== Data Parallel Haskell ===
+
+DPH remains under very active development. The [wiki:DataParallel current state of play], including some benchmark figures is on the wiki.  We also wrote a substantial paper [http://research.microsoft.com/~simonpj/papers/ndp Harnessing the multicores: nested data parallelism in Haskell] for FSTTCS; you may find this paper a useful tutorial on the whole idea of nested data parallelism.
+
+=== Type system improvements ===
+
  * The whole area of '''GADTs, indexed type families, and associated types''' remains in a ferment of development.  It's clear that type families jolly useful: many people are using them even though they are only partially supported by GHC 6.10. (You might enjoy a programmers-eye-view tutorial [http://research.microsoft.com/~simonpj/papers/assoc-types Fun with type functions] that Oleg, Ken, and Simon wrote in April 2009.) 
 
  But these new features have made the type inference engine pretty complicated and, Simon PJ, Manuel Chakravarty, Tom Schrijvers, Dimitrios Vytiniotis, and Martin Sulzmann have been busy thinking about ways to make type inference simpler and more uniform. Our ICFP'08 paper [http://research.microsoft.com/~simonpj/papers/assoc-types Type checking with open type functions] was a first stab (which we subsequently managed to simplify quite a bit).  Our new paper (submitted to ICFP'09) [http://research.microsoft.com/~simonpj/papers/gadt Complete and decidable type inference for GADTs] tackles a different part of the problem.  And we are not done yet; for example, our new inference framework is designed to smoothly accommodate Dimitrios's work on [http://research.microsoft.com/~simonpj/papers/boxy/ FPH: First class polymorphism for Haskell (ICFP'08)].   
 
- * '''Data Parallel Haskell''' remains under very active development. The [wiki:DataParallel current state of play], including some benchmark figures is on the wiki.  We also wrote a substantial paper [http://research.microsoft.com/~simonpj/papers/ndp Harnessing the multicores: nested data parallelism in Haskell] for FSTTCS; you may find this paper a useful tutorial on the whole idea of nested data parallelism.
+=== Other developments ===
 
  * Max Bolingbroke has revised and simplified his '''Dynamically Loaded Plugins''' summer of code project, and we (continue to) plan to merge it into 6.12.  Part of this is already merged: a new, modular system for [wiki:Annotations user-defined '''annotations'''], rather like Java or C# attributes.  These attributes are persisted into interface files, can be examined and created by plugins, or by GHC API clients.
 
- * '''(Simon M)''' mention Satnam, new profiler.  Likewise, Donnie Jones's project for '''profiling parallel programs''' should be merged in time for 6.12
-
  * John Dias has continued work on '''rewriting GHC's backend'''.  You can find an [wiki:Commentary/Compiler/NewCodeGenPipeline overview of the new architecture] on the wiki.  He and Norman and Simon wrote [http://research.microsoft.com/~simonpj/papers/c-- Dataflow optimisation made simple], a paper about the dataflow optimisation framework] that the new back end embodies.  Needless to say, the act of writing the paper has made us re-design the framework, so at the time of writing it still isn't on GHC's main compilation path.  But it will be.
 
- * '''(Simon M)''' (include pointer to paper).  Simon Marlow is working on '''improving parallel performance''', incorporating the work done by Jost Berthold during his internship at Microsoft in the summer of 2008.  The plan is to make writing performant parallel programs less of a trial-and-error process, by whacking as many bottlenecks as we can find in the runtime system.   We're already making significant improvements, and there's plenty more low-hanging fruit to pick.  One large project that we hope to tackle is the issue of doing independent per-CPU garbage collection.
+ * '''Shared Libraries''', are inching ever closer to being completed.  Duncan Coutts has taken up the reins and is pushing our shared library support towards a fully working state.  This project is supported by the IHG.
 
- * '''(Simon M)'''  '''Shared Libraries''', are inching ever closer to being completed.  Clemens Fruhwirth has been working on polishing the support for shared libraries on Unix systems in particular, and when the remaining issues are ironed out we should be able to roll them out in a release.
-
- * '''(Ian or Simon M)''' Finally, '''unicode text I/O''' and '''dynamic libraries''' were slated for 6.10 but weren't quite ready in time, so we certainly expect those to make it for in 6.12
-
- 
+ * '''Unicode text I/O''' support is [http://www.haskell.org/pipermail/glasgow-haskell-users/2009-February/016558.html at the testing stage], and should be merged in in time for 6.12.1.
