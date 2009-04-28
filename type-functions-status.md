@@ -18,11 +18,7 @@
 
 - Constraint simplification:
 
-  - [\#2828](https://gitlab.haskell.org//ghc/ghc/issues/2828)
-  - [\#2796](https://gitlab.haskell.org//ghc/ghc/issues/2796)
   - [\#2767](https://gitlab.haskell.org//ghc/ghc/issues/2767)
-  - [\#2775](https://gitlab.haskell.org//ghc/ghc/issues/2775)
-  - [\#2360](https://gitlab.haskell.org//ghc/ghc/issues/2360): improve error message when unifying `a~T a` where `a` is rigid.
   - [\#2664](https://gitlab.haskell.org//ghc/ghc/issues/2664) (typechecker diverges; actually, it's after Tc9, probably during zonking)
   - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) & [\#2715](https://gitlab.haskell.org//ghc/ghc/issues/2715) (superclass equalities)
 
@@ -48,7 +44,7 @@
 - Misc:
 
   - [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): exponentially slow compile times
-  - [\#3169](https://gitlab.haskell.org//ghc/ghc/issues/3169) (improve occurs-check error message)
+  - [\#3169](https://gitlab.haskell.org//ghc/ghc/issues/3169) & [\#2360](https://gitlab.haskell.org//ghc/ghc/issues/2360) (improve occurs-check error message in two instances)
   - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types)
   - `TcPat` and `TcUnify` (and maybe other modules) still have calls to the unification engine that ignore the returned coercion!!
   - Test `Simple17` (corelint error as a dict binding, used to specialise a call to a local function, floats out too far)
