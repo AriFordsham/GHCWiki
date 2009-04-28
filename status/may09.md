@@ -81,7 +81,7 @@ GHC 6.12 will feature parallel profiling in the form of [ ThreadScope](http://ra
 ### Data Parallel Haskell
 
 
-DPH remains under very active development. The [current state of play](data-parallel), including some benchmark figures is on the wiki.  We also wrote a substantial paper [ Harnessing the multicores: nested data parallelism in Haskell](http://research.microsoft.com/~simonpj/papers/ndp) for FSTTCS; you may find this paper a useful tutorial on the whole idea of nested data parallelism.
+DPH remains under very active development. The [current state of play](data-parallel), including some benchmark figures, is on the wiki.  We also wrote a substantial paper [ Harnessing the multicores: nested data parallelism in Haskell](http://research.microsoft.com/~simonpj/papers/ndp) for FSTTCS; you may find this paper a useful tutorial on the whole idea of nested data parallelism.
 
 ### Type system improvements
 

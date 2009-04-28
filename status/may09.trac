@@ -69,7 +69,7 @@ GHC 6.12 will feature parallel profiling in the form of [http://raintown.org/?pa
 
 === Data Parallel Haskell ===
 
-DPH remains under very active development. The [wiki:DataParallel current state of play], including some benchmark figures is on the wiki.  We also wrote a substantial paper [http://research.microsoft.com/~simonpj/papers/ndp Harnessing the multicores: nested data parallelism in Haskell] for FSTTCS; you may find this paper a useful tutorial on the whole idea of nested data parallelism.
+DPH remains under very active development. The [wiki:DataParallel current state of play], including some benchmark figures, is on the wiki.  We also wrote a substantial paper [http://research.microsoft.com/~simonpj/papers/ndp Harnessing the multicores: nested data parallelism in Haskell] for FSTTCS; you may find this paper a useful tutorial on the whole idea of nested data parallelism.
 
 === Type system improvements ===
 
