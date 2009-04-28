@@ -52,7 +52,7 @@ The main list of new features in GHC 6.12 remains much the same as it was in our
 ### Parallel Performance
 
 
-Simon Marlow has been working on improving performance for parallel programs, and there will be significant imporovements to be had in 6.12.  In particular
+Simon Marlow has been working on improving performance for parallel programs, and there will be significant imporovements to be had in 6.12 compared to 6.10.  In particular
 
 - There's an implementation of lock-free work-stealing queues, used for load-balancing of sparks and also
   in the parallel GC.  Initial work on this was done by Jost Berthold.
