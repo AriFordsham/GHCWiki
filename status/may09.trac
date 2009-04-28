@@ -59,7 +59,7 @@ Simon Marlow has been working on improving performance for parallel programs, an
  * There is optional "eager-blackholing", with the new `-feager-blackholing` flag, which can help eliminate
    duplicate computation in parallel programs.
 
-Our [http://ghcmutterings.wordpress.com/2009/03/03/new-paper-runtime-support-for-multicore-haskell/ recent ICFP submission] describes all these in more detail, and gives extensive measurements.
+Our recent ICFP submission[http://ghcmutterings.wordpress.com/2009/03/03/new-paper-runtime-support-for-multicore-haskell/ Runtime Support for Multicore Haskell] describes all these in more detail, and gives extensive measurements.
 
 Things aren't in their final state yet: for example, we still need to work on tuning the default flag settings to get good performance for more programs without any manual tweaking.  There are some larger possibilities on the horizon too, such as redesigning the garbage collector to support per-CPU independent GC, which will reduce the synchronization overheads of the current stop-the-world strategy.
 
