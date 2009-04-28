@@ -42,7 +42,7 @@ You can read more about the [design rationale](design/build-system) on the wiki.
 We also advertised our [intent to switch to Git](design/version-control-system) as our
 version control system (VCS).  We always planned to change the build system first, and only
 then tackle the VCS.  Since then, there has been lots of activity on the Darcs front, so
-it's not clear how high priority making this change is.  We'd welcome your opinion.
+it's not clear how high priority making this change is.  We'd welcome your opinion (email `cvs-ghc@haskell.org`).
 
 ## The GHC 6.12 branch
 
@@ -85,10 +85,11 @@ DPH remains under very active development. The [current state of play](data-para
 
 ### Type system improvements
 
-- The whole area of **GADTs, indexed type families, and associated types** remains in a ferment of development.  It's clear that type families are jolly useful: many people are using them even though they are only partially supported by GHC 6.10. (You might enjoy a programmers-eye-view tutorial [ Fun with type functions](http://research.microsoft.com/~simonpj/papers/assoc-types) that Oleg, Ken, and Simon wrote in April 2009.) 
 
->
-> But these new features have made the type inference engine pretty complicated, and Simon PJ, Manuel Chakravarty, Tom Schrijvers, Dimitrios Vytiniotis, and Martin Sulzmann have been busy thinking about ways to make type inference simpler and more uniform. Our ICFP'08 paper [ Type checking with open type functions](http://research.microsoft.com/~simonpj/papers/assoc-types) was a first stab (which we subsequently managed to simplify quite a bit).  Our new paper (submitted to ICFP'09) [ Complete and decidable type inference for GADTs](http://research.microsoft.com/~simonpj/papers/gadt) tackles a different part of the problem.  And we are not done yet; for example, our new inference framework is designed to smoothly accommodate Dimitrios's work on [ FPH: First class polymorphism for Haskell (ICFP'08)](http://research.microsoft.com/~simonpj/papers/boxy/).   
+The whole area of **GADTs, indexed type families, and associated types** remains in a ferment of development.  It's clear that type families are jolly useful: many people are using them even though they are only partially supported by GHC 6.10. (You might enjoy a programmers-eye-view tutorial [ Fun with type functions](http://research.microsoft.com/~simonpj/papers/assoc-types) that Oleg, Ken, and Simon wrote in April 2009.) 
+
+
+But these new features have made the type inference engine pretty complicated, and Simon PJ, Manuel Chakravarty, Tom Schrijvers, Dimitrios Vytiniotis, and Martin Sulzmann have been busy thinking about ways to make type inference simpler and more uniform. Our ICFP'08 paper [ Type checking with open type functions](http://research.microsoft.com/~simonpj/papers/assoc-types) was a first stab (which we subsequently managed to simplify quite a bit).  Our new paper (submitted to ICFP'09) [ Complete and decidable type inference for GADTs](http://research.microsoft.com/~simonpj/papers/gadt) tackles a different part of the problem.  And we are not done yet; for example, our new inference framework is designed to smoothly accommodate Dimitrios's work on [ FPH: First class polymorphism for Haskell (ICFP'08)](http://research.microsoft.com/~simonpj/papers/boxy/).   
 
 ### Other developments
 
