@@ -10,8 +10,8 @@ We finally released GHC 6.10.1 on 4 November 2008, with a raft of new
 features we discussed in the October 2008 status report.
 
 
-A little over five months later we released GHC 6.10.2, with XX new
-patches fixing YY new tickets raised against 6.10.1 **IAN CAN YOU FILL IN XX and YY?**.  We hoped that'd be
+A little over five months later we released GHC 6.10.2, with more than 200 new
+patches fixing more than 100 tickets raised against 6.10.1.  We hoped that'd be
 it for the 6.10 branch, but we slipped up and 6.10.2 contained a couple
 of annoying regresssions (concerning Control-C and editline). 
 By the time you read this, GHC 6.10.3 (fixing these regressions) should
@@ -68,7 +68,7 @@ Simon Marlow has been working on improving performance for parallel programs, an
   duplicate computation in parallel programs.
 
 
-Our recent ICFP submission[ Runtime Support for Multicore Haskell](http://ghcmutterings.wordpress.com/2009/03/03/new-paper-runtime-support-for-multicore-haskell/) describes all these in more detail, and gives extensive measurements.
+Our recent ICFP submission [ Runtime Support for Multicore Haskell](http://ghcmutterings.wordpress.com/2009/03/03/new-paper-runtime-support-for-multicore-haskell/) describes all these in more detail, and gives extensive measurements.
 
 
 Things aren't in their final state yet: for example, we still need to work on tuning the default flag settings to get good performance for more programs without any manual tweaking.  There are some larger possibilities on the horizon too, such as redesigning the garbage collector to support per-CPU independent GC, which will reduce the synchronization overheads of the current stop-the-world strategy.
@@ -81,14 +81,14 @@ GHC 6.12 will feature parallel profiling in the form of [ ThreadScope](http://ra
 ### Data Parallel Haskell
 
 
-DPH remains under very active development. The [current state of play](data-parallel), including some benchmark figures is on the wiki.  We also wrote a substantial paper [ Harnessing the multicores: nested data parallelism in Haskell](http://research.microsoft.com/~simonpj/papers/ndp) for FSTTCS; you may find this paper a useful tutorial on the whole idea of nested data parallelism.
+DPH remains under very active development. The [current state of play](data-parallel), including some benchmark figures, is on the wiki.  We also wrote a substantial paper [ Harnessing the multicores: nested data parallelism in Haskell](http://research.microsoft.com/~simonpj/papers/ndp) for FSTTCS; you may find this paper a useful tutorial on the whole idea of nested data parallelism.
 
 ### Type system improvements
 
-- The whole area of **GADTs, indexed type families, and associated types** remains in a ferment of development.  It's clear that type families jolly useful: many people are using them even though they are only partially supported by GHC 6.10. (You might enjoy a programmers-eye-view tutorial [ Fun with type functions](http://research.microsoft.com/~simonpj/papers/assoc-types) that Oleg, Ken, and Simon wrote in April 2009.) 
+- The whole area of **GADTs, indexed type families, and associated types** remains in a ferment of development.  It's clear that type families are jolly useful: many people are using them even though they are only partially supported by GHC 6.10. (You might enjoy a programmers-eye-view tutorial [ Fun with type functions](http://research.microsoft.com/~simonpj/papers/assoc-types) that Oleg, Ken, and Simon wrote in April 2009.) 
 
 >
-> But these new features have made the type inference engine pretty complicated and, Simon PJ, Manuel Chakravarty, Tom Schrijvers, Dimitrios Vytiniotis, and Martin Sulzmann have been busy thinking about ways to make type inference simpler and more uniform. Our ICFP'08 paper [ Type checking with open type functions](http://research.microsoft.com/~simonpj/papers/assoc-types) was a first stab (which we subsequently managed to simplify quite a bit).  Our new paper (submitted to ICFP'09) [ Complete and decidable type inference for GADTs](http://research.microsoft.com/~simonpj/papers/gadt) tackles a different part of the problem.  And we are not done yet; for example, our new inference framework is designed to smoothly accommodate Dimitrios's work on [ FPH: First class polymorphism for Haskell (ICFP'08)](http://research.microsoft.com/~simonpj/papers/boxy/).   
+> But these new features have made the type inference engine pretty complicated, and Simon PJ, Manuel Chakravarty, Tom Schrijvers, Dimitrios Vytiniotis, and Martin Sulzmann have been busy thinking about ways to make type inference simpler and more uniform. Our ICFP'08 paper [ Type checking with open type functions](http://research.microsoft.com/~simonpj/papers/assoc-types) was a first stab (which we subsequently managed to simplify quite a bit).  Our new paper (submitted to ICFP'09) [ Complete and decidable type inference for GADTs](http://research.microsoft.com/~simonpj/papers/gadt) tackles a different part of the problem.  And we are not done yet; for example, our new inference framework is designed to smoothly accommodate Dimitrios's work on [ FPH: First class polymorphism for Haskell (ICFP'08)](http://research.microsoft.com/~simonpj/papers/boxy/).   
 
 ### Other developments
 
