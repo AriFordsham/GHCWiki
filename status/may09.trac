@@ -7,7 +7,7 @@ The last six months have been busy ones for GHC.
 We finally released GHC 6.10.1 on 4 November 2008, with a raft of new
 features we discussed in the October 2008 status report.
 
-A little over five months later we released GHC 6.10.2, with XX new
+A little over five months later we released GHC 6.10.2, with more than 200 new
 patches fixing YY new tickets raised against 6.10.1 '''IAN CAN YOU FILL IN XX and YY?'''.  We hoped that'd be
 it for the 6.10 branch, but we slipped up and 6.10.2 contained a couple
 of annoying regresssions (concerning Control-C and editline). 
