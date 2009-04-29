@@ -266,3 +266,7 @@ This issue has been reported as [http://bugs.darcs.net/issue560 issue 560] in th
 
 === Ubuntu: {{{dash}}} vs {{{bash}}} ===
 In Ubuntu 6.10 the default system shell {{{/bin/sh}}} was changed to {{{dash}}} (The Debian Almquist Shell) instead of {{{bash}}}, see [http://wiki.ubuntu.com/DashAsBinSh DashAsBinSh]. This has been reported to break the GHC build. Until the GHC scripts are updated, the easiest way to fix this problem is to (as {{{root}}}) change the {{{/bin/sh}}} link back to {{{/bin/bash}}}. There should be minimal effect on the rest of the system, bar a small speed penalty for script heavy processes due to {{{bash}}} slowness.
+
+=== c:\msys\1.0\bin\make.exe: *** couldn't commit memory for cygwin heap, Win32 error 0 ===
+
+This error occurs when using the new build system with MSYS on Windows.  It is a temporary error; just type `make` again to continue the build.  Hopefully this is a bug in MSYS that will be fixed at some point.
