@@ -1,7 +1,7 @@
 # Layout of important files and directories
 
 
-This page summarises the overall file and directory structure of GHC.  We include both source files and generated files; the latter are always identified as such.
+This page summarises the overall file and directory structure of GHC.  We include both source files and generated files; the latter are always identified "build-tree only".
 
 
 Everything starts with the main GHC repository (see [Building/GettingTheSources](building/getting-the-sources)).   The biuld system calls that directory `$(TOP)`.  All the paths below are relative to `$(TOP)`.
@@ -13,10 +13,8 @@ Everything starts with the main GHC repository (see [Building/GettingTheSources]
 This script allows you to get or pull all the additional repositories that you need to build GHC.  The command-line interface is documented in the file itself.
 </td></tr></table>
 
-<table><tr><th>**`Makefile`**</th>
-<td>Top-level `Makefile`; `make` by itself does a full 2-stage
-bootstrap of GHC, there are also targets for building source and
-binary distributions.  GHC requires
+<table><tr><th>**`ghc.mk`**, **`Makefile`**</th>
+<td>The top-level `Makefile`: see [GHC Build System Architecture](building/architecture). GHC requires
 [ GNU make](http://www.gnu.org/software/make/).
 </td></tr></table>
 
@@ -87,18 +85,19 @@ These utils may be built with the bootstrapping compiler, for use during the bui
 
 The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.  Each is a separate repository, which can be gotten with `darcs-all`.
 
-## `mk/`
+## `mk/`, `rules.mk`
 
 
-The `mk/` directory contains all the build system Makefile boilerplate.  Some particular files are interesting:
+The `mk/` and `rules.mk` directories contains all the build system Makefile boilerplate; see [GHC Build System Architecture](building/architecture).  Some particular files are interesting:
 
 - **`mk/build.mk`**: contains Makefile settings that control your build. Details [here](building/hacking).  The file `mk/build.mk.sample` contains a starting point that you can copy to `mk/build.mk` if you want.
 - **`mk/are-validating.mk`**: this file records the fact that you are doing [validation](testing-patches), by containing the single line `Validating=YES`.  That in turn means the the build system gets its settings from `mk/validate-settings.mk` instead of from `mk/build.mk`.  Remove the file to stop validating.
+- **`mk/validate.mk`**: just like `build.mk`, but applies when validating.  Use this file to override the default settings for validation, which are in `mk/validate-settings.mk`.
 
 ## `inplace/`
 
 
-The `inplace/` directory is where we "install" stage1 and stage2 compilers when they are built, and GHC's utility programs, entirely locally to the tree.  The layout is exactly the same as that of an installed GHC on the host platform.
+The `inplace/` directory (build tree only) is where we "install" stage1 and stage2 compilers when they are built, and GHC's utility programs, entirely locally to the tree.  The layout is exactly the same as that of an installed GHC on the host platform.
 
 - **`inplace/bin/`**: executables, including `ghc-stage1`, `ghc-stage2`, `hasktags`, `hsc2hs`, `haddock`, etc
 - **`inplace/lib/`**: suppporting libraries for the above.
@@ -109,9 +108,6 @@ The `inplace/` directory is where we "install" stage1 and stage2 compilers when 
 Micellaneous files for building distributions.
 
 ## Stuff that appears only in a build tree
-
-- **`ghc/stage1-inplace/`, `ghc/stage2-inplace/`**
-  The in-place installations of GHC, so you can use the compiler in a build tree.
 
 - **`compiler/stage1/`, `ghc/stage2plus/`**
   These directories contain `ghc_boot_platform.h`, which contains various `#define`s needed when building GHC. These are different depending on whether we are building stage1 or a later stage.
