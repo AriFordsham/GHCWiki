@@ -1,7 +1,10 @@
 # Layout of important files and directories
 
 
-Everything starts with the main GHC repository (see [Building/GettingTheSources](building/getting-the-sources)).   The buld system calls that directory `$(TOP)`.  All the paths below are relative to `$(TOP)`.
+This page summarises the overall file and directory structure of GHC.  We include both source files and generated files; the latter are always identified as such.
+
+
+Everything starts with the main GHC repository (see [Building/GettingTheSources](building/getting-the-sources)).   The biuld system calls that directory `$(TOP)`.  All the paths below are relative to `$(TOP)`.
 
 ## Files in `$(TOP)`
 
@@ -41,6 +44,8 @@ Lists the packages that `darcs-all` should get or pull.  `packages` is looked at
 
 The `libraries/` directory contains all the packages that GHC needs to build.  It has one sub-directory for each package repository (e.g. `base`, `haskell98`, `random`). Usually each such repository builds just one package but sometimes more than one (e.g DPH).
 
+**NOT RIGHT: PLEASE FIX**
+
 - **`libraries/cabal-bin.hs`** is a little program we use for building the libraries. It's similar to cabal-install, but without the dependencies on `http` etc.
 - **`libraries/ifBuildable/`** is a utility that we use in the build system. It allows the build to continue if an extralib is not buildable (e.g., if we are missing a C library that an extralib depends on then we can still build the compiler). We expect this to disappear soon, when extralibs are removed.
 - **`libraries/bootstrapping/`**: In order to build `cabal-bin` we need to compile `cabal-bin.hs`, as well as a few libraries that we can't rely on the bootstrapping compiler having. We put the `.hi` and `.o` files that result from this in `bootstrapping/`.
@@ -55,7 +60,7 @@ into an executable in the `ghc/` directory.
 
 There is [documentation of the intended module dependency structure](module-dependencies) of the `compiler/` directory.
 
-- **`compiler/ghc.cabal`**: the Cabal file for GHC.  If you add a module to GHC's source code, you must add it in the `ghc.cabal` file too, else you'll get link errors.
+- **`compiler/ghc.cabal`**: the Cabal file for GHC.  If you add a module to GHC's source code, you must add it in the `ghc.cabal` file too, else you'll get link errors. **LIES ALL LIES**
 
 ## `rts/`
 
@@ -89,6 +94,14 @@ The `mk/` directory contains all the build system Makefile boilerplate.  Some pa
 
 - **`mk/build.mk`**: contains Makefile settings that control your build. Details [here](building/hacking).  The file `mk/build.mk.sample` contains a starting point that you can copy to `mk/build.mk` if you want.
 - **`mk/are-validating.mk`**: this file records the fact that you are doing [validation](testing-patches), by containing the single line `Validating=YES`.  That in turn means the the build system gets its settings from `mk/validate-settings.mk` instead of from `mk/build.mk`.  Remove the file to stop validating.
+
+## `inplace/`
+
+
+The `inplace/` directory is where we "install" stage1 and stage2 compilers when they are built, and GHC's utility programs, entirely locally to the tree.  The layout is exactly the same as that of an installed GHC on the host platform.
+
+- **`inplace/bin/`**: executables, including `ghc-stage1`, `ghc-stage2`, `hasktags`, `hsc2hs`, `haddock`, etc
+- **`inplace/lib/`**: suppporting libraries for the above.
 
 ## `distrib/`
 
