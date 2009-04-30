@@ -46,6 +46,13 @@ There is [wiki:ModuleDependencies documentation of the intended module dependenc
 
  * '''`compiler/ghc.cabal`''': the Cabal file for GHC.  If you add a module to GHC's source code, you must add it in the `ghc.cabal` file too, else you'll get link errors. '''LIES ALL LIES'''
 
+The following directories appear only in the build tree:
+
+ * '''`compiler/stage1`''': generated files for the stage1 build of GHC.  There are a handful of files (`ghc_boot_platform.h` etc), and a directory `compiler/stage1/build/` that contains all the `.o` and `.hi` files for the compiler.
+ * '''`compiler/stage2''': similarly stage2.
+
+You can't run a binary from here: look in the `inplace/` directory below for that.
+
 == `rts/` ==
 
 Sources for the runtime system; see [wiki:Commentary/SourceTree/Rts].
@@ -66,7 +73,7 @@ These utils may be built with the bootstrapping compiler, for use during the bui
 
 The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.  Each is a separate repository, which can be gotten with `darcs-all`.
 
-== `mk/`, `rules.mk` ==
+== `mk/`, `rules.mk/` ==
 
 The `mk/` and `rules.mk` directories contains all the build system Makefile boilerplate; see [wiki:Building/Architecture GHC Build System Architecture].  Some particular files are interesting:
   * '''`mk/build.mk`''': contains Makefile settings that control your build. Details [wiki:Building/Hacking here].  The file `mk/build.mk.sample` contains a starting point that you can copy to `mk/build.mk` if you want.
@@ -85,8 +92,8 @@ Micellaneous files for building distributions.
 
 == Stuff that appears only in a build tree ==
 
-    * '''`compiler/stage1/`, `ghc/stage2plus/`'''
-      These directories contain `ghc_boot_platform.h`, which contains various `#define`s needed when building GHC. These are different depending on whether we are building stage1 or a later stage. '''WHERE ARE THESE FILES NOW?'''
+'''THIS WHOLE SECTION SHOULD GO AWAY'''
 
+ 
     * '''`.../dist*/`'''
       In many directories, `dist*` subdirectories appear. These are where Cabal puts all of the files generated while building.  '''IS THIS STILL TRUE?'''
