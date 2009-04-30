@@ -110,7 +110,7 @@ Micellaneous files for building distributions.
 ## Stuff that appears only in a build tree
 
 - **`compiler/stage1/`, `ghc/stage2plus/`**
-  These directories contain `ghc_boot_platform.h`, which contains various `#define`s needed when building GHC. These are different depending on whether we are building stage1 or a later stage.
+  These directories contain `ghc_boot_platform.h`, which contains various `#define`s needed when building GHC. These are different depending on whether we are building stage1 or a later stage. **WHERE ARE THESE FILES NOW?**
 
 - **`.../dist*/`**
-  In many directories, `dist*` subdirectories appear. These are where Cabal puts all of the files generated while building.
+  In many directories, `dist*` subdirectories appear. These are where Cabal puts all of the files generated while building.  **IS THIS STILL TRUE?**
