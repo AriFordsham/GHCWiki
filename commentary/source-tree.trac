@@ -66,7 +66,7 @@ These utils may be built with the bootstrapping compiler, for use during the bui
 
 The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.  Each is a separate repository, which can be gotten with `darcs-all`.
 
-== `mk/`, `rules.mk` ==
+== `mk/`, `rules.mk/` ==
 
 The `mk/` and `rules.mk` directories contains all the build system Makefile boilerplate; see [wiki:Building/Architecture GHC Build System Architecture].  Some particular files are interesting:
   * '''`mk/build.mk`''': contains Makefile settings that control your build. Details [wiki:Building/Hacking here].  The file `mk/build.mk.sample` contains a starting point that you can copy to `mk/build.mk` if you want.
