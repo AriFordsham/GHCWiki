@@ -13,11 +13,6 @@ Everything starts with the main GHC repository (see [Building/GettingTheSources]
 This script allows you to get or pull all the additional repositories that you need to build GHC.  The command-line interface is documented in the file itself.
 </td></tr></table>
 
-<table><tr><th>**`ghc.mk`**, **`Makefile`**</th>
-<td>The top-level `Makefile`: see [GHC Build System Architecture](building/architecture). GHC requires
-[ GNU make](http://www.gnu.org/software/make/).
-</td></tr></table>
-
 <table><tr><th>**`packages`**</th>
 <td>
 Lists the packages that `darcs-all` should get or pull.  `packages` is looked at only by `darcs-all`.
@@ -31,10 +26,15 @@ Lists the packages that `darcs-all` should get or pull.  `packages` is looked at
 <td>`README`, `ANNOUNCE`, `HACKING`, `LICENSE`</td></tr></table>
 
 <table><tr><th>**GNU autoconf machinery**</th>
-<td>`aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`</td></tr></table>
+<td>`aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`, `config.mk.in`</td></tr></table>
 
 <table><tr><th>**`ghc.spec.in`**</th>
 <td>the RPM spec file
+</td></tr></table>
+
+<table><tr><th>**`ghc.mk`**, **`Makefile`**</th>
+<td>The top-level `Makefile`: see [GHC Build System Architecture](building/architecture). GHC requires
+[ GNU make](http://www.gnu.org/software/make/).
 </td></tr></table>
 
 ## `libraries/`
