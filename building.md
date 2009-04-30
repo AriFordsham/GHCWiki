@@ -29,6 +29,7 @@ More detailed information about the build system
 - [Using the build system](building/using)
 - [Building the documentation](building/docs)
 - [Installing GHC from a build](building/installing)
+- [Overview of files and directories](commentary/source-tree)
 - [Architecture of the build system](building/architecture)
 - [Modifying the build system](building/modifying)
 - [Unregisterised builds](building/unregisterised)
