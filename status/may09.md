@@ -103,6 +103,6 @@ But these new features have made the type inference engine pretty complicated, a
 
 - John Dias has continued work on **rewriting GHC's backend**.  You can find an [overview of the new architecture](commentary/compiler/new-code-gen-pipeline) on the wiki.  He and Norman and Simon wrote [ Dataflow optimisation made simple](http://research.microsoft.com/~simonpj/papers/c--), a paper about the dataflow optimisation framework that the new back end embodies.  Needless to say, the act of writing the paper has made us re-design the framework, so at the time of writing it still isn't on GHC's main compilation path.  But it will be.
 
-- **Shared Libraries**, are inching ever closer to being completed.  Duncan Coutts has taken up the reins and is pushing our shared library support towards a fully working state.  This project is supported by the IHG.
+- **Shared Libraries**, are inching ever closer to being completed.  Duncan Coutts has taken up the reins and is pushing our shared library support towards a fully working state.  This project is supported by the Industrial Haskell Group.
 
 - **Unicode text I/O** support is [ at the testing stage](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-February/016558.html), and should be merged in in time for 6.12.1.
