@@ -26,7 +26,7 @@ Finally, on 25 April 2009, we went "live" on the HEAD.
 
 The new design is [wiki:Building extensively described] on the wiki.  It still
 uses `make`, but it is now based on a [wiki:Building/Architecture/Idiom/NonRecursiveMake non-recursive make] strategy.  This means that dependency tracking is vastly more accurate than before,
-so that if something should be built it will be built.
+so that if something ''should'' be built it ''will'' be built.
 
 The new build system is also much less dependent on Cabal than it was before.
 We now use Cabal only to read package metadata from the `<pkg>.cabal` file, 
