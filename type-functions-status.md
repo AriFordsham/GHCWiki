@@ -44,6 +44,7 @@
 
 - Misc:
 
+  - [\#3208](https://gitlab.haskell.org//ghc/ghc/issues/3208): panic `idInfo` of a coercion variable
   - [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): exponentially slow compile times
   - [\#3169](https://gitlab.haskell.org//ghc/ghc/issues/3169) & [\#2360](https://gitlab.haskell.org//ghc/ghc/issues/2360) (improve occurs-check error message in two instances)
   - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types)
