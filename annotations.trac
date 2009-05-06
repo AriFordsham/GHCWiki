@@ -18,12 +18,16 @@ An annotations system was implemented as part of the Compiler Plugins Summer of 
 
 The situation as-implemented is not well represented by the text below. The annotation system committed in the end is very simple. Basically, you can write things like this:
 
+{{{
 {-# ANN x e #-}
+}}}
 
 Where x is an identifier and e is an expression with a Data instance (used only for serialization - a bit of a wart). You can also annotate types and modules in the same manner:
 
+{{{
 {-# ANN type T e #-}
 {-# ANN module e #-}
+}}}
 
 The expressions e are all evaluated at compile time, and subject to the same restrictions as spliced expressions in Template Haskell.
 
