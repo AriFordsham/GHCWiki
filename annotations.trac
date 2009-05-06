@@ -14,7 +14,29 @@ Annotations are useful for both [wiki:Plugins Plugins] and for users that would 
 
 == State Of Play ==
 
-An annotations system was implemented as part of the Compiler Plugins Summer of Code project (Summer 08). It is currently in the process of being revised before being committed to GHC HEAD. Details of the implementation are below.
+An annotations system was implemented as part of the Compiler Plugins Summer of Code project (Summer 08). It has been submitted to the HEAD, and will appear in GHC 6.12 and later.  Documentation will be available at http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html when that is released.
+
+The situation as-implemented is not well represented by the text below. The annotation system committed in the end is very simple. Basically, you can write things like this:
+
+{-# ANN x e #-}
+
+Where x is an identifier and e is an expression with a Data instance (used only for serialization - a bit of a wart). You can also annotate types and modules in the same manner:
+
+{-# ANN type T e #-}
+{-# ANN module e #-}
+
+The expressions e are all evaluated at compile time, and subject to the same restrictions as spliced expressions in Template Haskell.
+
+Annotations are accessible via the GHC API by doing something such as this (untested):
+
+{{{
+import Serialized
+import Annotations
+import GHC
+
+findAnnsForNamedThing nm = findGlobalAnns deserializeWithData (NamedTarget nm)
+}}}
+
 
 == Summer of Code Implementation (OLD) ==
 
