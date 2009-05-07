@@ -3,6 +3,9 @@
 
 This page serves as a collection of notes concerning the implementation of type families (aka type functions) and associated types, especially about the implications for type checking, interface files, and F<sub>C</sub> intermediate code generation.
 
+
+See the Haskell Wiki for [ user-level documentation](http://haskell.org/haskellwiki/GHC/Indexed_types).
+
 ## Status
 
 
