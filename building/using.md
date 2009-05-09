@@ -289,6 +289,18 @@ When set to `YES`, static library object files are split into smaller
 pieces.  This means that less of the library code needs to be linked
 into the final application, which makes smaller binaries.  It takes
 longer to build libraries this way, though.
+</td></tr></table>
+
+<table><tr><th>`BUILD_DOCBOOK_HTML`</th>
+<td></td></tr>
+<tr><th>`BUILD_DOCBOOK_PS`</th>
+<td></td></tr>
+<tr><th>`BUILD_DOCBOOK_PDF`</th>
+<td>
+(default: `YES` if supported, `NO` otherwise)
+
+When set to `YES`, these build the docbook documentation (e.g. the
+users guide) as HTML, PS and PDF respectively.
   
 </td></tr></table>
 
