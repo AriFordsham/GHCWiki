@@ -289,9 +289,9 @@ When set to `YES`, static library object files are split into smaller
 pieces.  This means that less of the library code needs to be linked
 into the final application, which makes smaller binaries.  It takes
 longer to build libraries this way, though.
-  
-</td></tr>
-<tr><th>`BUILD_DOCBOOK_HTML``BUILD_DOCBOOK_PS``BUILD_DOCBOOK_PDF`</th>
+</td></tr></table>
+
+<table><tr><th>`BUILD_DOCBOOK_HTML``BUILD_DOCBOOK_PS``BUILD_DOCBOOK_PDF`</th>
 <td>
 (default: `YES` if supported, `NO` otherwise)
 

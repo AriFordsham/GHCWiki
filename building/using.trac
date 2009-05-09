@@ -230,7 +230,7 @@ take a look in [[GhcFile(mk/config.mk.in)]].
   pieces.  This means that less of the library code needs to be linked
   into the final application, which makes smaller binaries.  It takes
   longer to build libraries this way, though.
-  
+
  `BUILD_DOCBOOK_HTML` `BUILD_DOCBOOK_PS` `BUILD_DOCBOOK_PDF`::
   (default: `YES` if supported, `NO` otherwise)[[br]]
   When set to `YES`, these build the docbook documentation (e.g. the
