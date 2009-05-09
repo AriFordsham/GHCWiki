@@ -291,7 +291,11 @@ into the final application, which makes smaller binaries.  It takes
 longer to build libraries this way, though.
 </td></tr></table>
 
-<table><tr><th>`BUILD_DOCBOOK_HTML``BUILD_DOCBOOK_PS``BUILD_DOCBOOK_PDF`</th>
+<table><tr><th>`BUILD_DOCBOOK_HTML`</th>
+<td></td></tr>
+<tr><th>`BUILD_DOCBOOK_PS`</th>
+<td></td></tr>
+<tr><th>`BUILD_DOCBOOK_PDF`</th>
 <td>
 (default: `YES` if supported, `NO` otherwise)
 
