@@ -1,5 +1,7 @@
 = GHC Commentary: Libraries =
 
+'''OUT OF DATE: IAN WILL UPDATE'''
+
 All GHC installations contain a set of libraries called the '''boot packages'''.  They are so called because the boot packages are the ones required for GHC to compile itself (the stage-2 bootstrap compiler). 
 
 The file `libraries/boot-packages` contains the list of boot packages:
