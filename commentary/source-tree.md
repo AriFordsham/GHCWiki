@@ -42,6 +42,9 @@ Lists the packages that `darcs-all` should get or pull.  `packages` is looked at
 
 The `libraries/` directory contains all the packages that GHC needs to build.  It has one sub-directory for each package repository (e.g. `base`, `haskell98`, `random`). Usually each such repository builds just one package, but there is more than one in `dph`.
 
+
+GHC's libraries are described in more detail on the [libraries page](commentary/libraries).
+
 ## `compiler/`, `docs/`, `ghc/`
 
 
