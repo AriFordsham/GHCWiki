@@ -103,14 +103,6 @@ The `mk/` and `rules.mk` directories contains all the build system Makefile boil
 - **`mk/are-validating.mk`**: this file records the fact that you are doing [validation](testing-patches), by containing the single line `Validating=YES`.  That in turn means the the build system gets its settings from `mk/validate-settings.mk` instead of from `mk/build.mk`.  Remove the file to stop validating.
 - **`mk/validate.mk`**: just like `build.mk`, but applies when validating.  Use this file to override the default settings for validation, which are in `mk/validate-settings.mk`.
 
-## `inplace/`
-
-
-The `inplace/` directory (build tree only) is where we "install" stage1 and stage2 compilers when they are built, and GHC's utility programs, entirely locally to the tree.  The layout is exactly the same as that of an installed GHC on the host platform.
-
-- **`inplace/bin/`**: executables, including `ghc-stage1`, `ghc-stage2`, `hasktags`, `hsc2hs`, `haddock`, etc
-- **`inplace/lib/`**: suppporting libraries for the above.
-
 ## `distrib/`
 
 
@@ -118,7 +110,15 @@ Micellaneous files for building distributions.
 
 ## Stuff that appears only in a build tree
 
-**THIS WHOLE SECTION SHOULD GO AWAY**
+### `inplace/`
 
-- **`.../dist*/`**
-  In many directories, `dist*` subdirectories appear. These are where Cabal puts all of the files generated while building.  **IS THIS STILL TRUE?**
+
+The `inplace/` directory is where we "install" stage1 and stage2 compilers, and other utility programs, when they are built, to be used when building other things in the build tree.  The layout is exactly the same as that of an installed GHC on the host platform.
+
+- **`inplace/bin/`**: executables, including `ghc-stage1`, `ghc-stage2`, `hasktags`, `hsc2hs`, `haddock`, etc.
+- **`inplace/lib/`**: suppporting libraries for the above.
+
+### `.../dist*/`
+
+
+In many directories, `dist*` subdirectories appear. These are where Cabal, and the build system makefiles, put all of the files generated while building.
