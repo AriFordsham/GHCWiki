@@ -55,7 +55,7 @@ into an executable in the `ghc/` directory.
 
 There is [documentation of the intended module dependency structure](module-dependencies) of the `compiler/` directory.
 
-- **`compiler/ghc.cabal`**: the Cabal file for GHC.  If you add a module to GHC's source code, you must add it in the `ghc.cabal` file too, else you'll get link errors. **LIES ALL LIES**
+- **`compiler/ghc.cabal.in`**: the Cabal file for GHC is generated from this.  If you add a module to GHC's source code, you must add it in the `ghc.cabal.in` file too, else you'll get link errors.
 
 
 The following directories appear only in the build tree:
