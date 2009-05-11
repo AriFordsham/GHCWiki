@@ -43,7 +43,7 @@ There is [wiki:ModuleDependencies documentation of the intended module dependenc
 The following directories appear only in the build tree:
 
  * '''`compiler/stage1`''': generated files for the stage1 build of GHC.  There are a handful of files (`ghc_boot_platform.h` etc), and a directory `compiler/stage1/build/` that contains all the `.o` and `.hi` files for the compiler.
- * '''`compiler/stage2''': similarly stage2.
+ * '''`compiler/stage2`''': similarly stage2.
 
 You can't run a binary from here: look in the `inplace/` directory below for that.
 
