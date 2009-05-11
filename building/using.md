@@ -56,6 +56,49 @@ You need to be a bit careful, though, that any new files you create
 (if you do any development work) are in the source tree, not the build
 tree!
 
+## Booting, configuring, cleaning
+
+
+GHC uses the `autoconf` tools in the standard Unixy way, described in more detail in subsequent subsections on this page:
+
+```wiki
+      ---------------
+      |             |
+      | Source code | <--------------
+      |             |               |
+      ---------------     maintainer-clean
+        |                           |
+      sh boot (runs autoconf)       | 
+        |                           |
+        v                           |   
+      ---------------------         |
+      | Source tar-ball   |>--------|
+      |  ./configure      |         |
+      |  */ghc.mk         |<--      |
+      ---------------------  |      |
+        |                    |      |
+      ./configure        distclean  |
+        |                    |      |
+        v                    |      |
+      ------------------     |      |         
+      | Configured     |>-----      |
+      |   mk/config.mk |     |      |
+      |                |>------------
+      ------------------     |      |
+        |                    |      |
+       make                  |      |
+        |                    |      |
+        v                    |      |
+      ------------------     |      |
+      | Built          |>-----      |
+      |                |            |
+      |                |>------------
+      ------------------
+```
+
+
+See also [standard targets](building/using#standard-targets) and [Commentary/SourceTree](commentary/source-tree).
+
 ## Steps to prepare for building
 
 
