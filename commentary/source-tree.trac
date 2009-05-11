@@ -40,7 +40,7 @@ into an executable in the `ghc/` directory.
 
 There is [wiki:ModuleDependencies documentation of the intended module dependency structure] of the `compiler/` directory.
 
- * '''`compiler/ghc.cabal`''': the Cabal file for GHC.  If you add a module to GHC's source code, you must add it in the `ghc.cabal` file too, else you'll get link errors. '''LIES ALL LIES'''
+ * '''`compiler/ghc.cabal.in`''': the Cabal file for GHC is generated from this.  If you add a module to GHC's source code, you must add it in the `ghc.cabal.in` file too, else you'll get link errors.
 
 The following directories appear only in the build tree:
 
@@ -72,18 +72,12 @@ These utils may be built with the bootstrapping compiler, for use during the bui
 
 The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.  Each is a separate repository, which can be gotten with `darcs-all`.
 
-== `mk/`, `rules.mk/` ==
+== `mk/`, `rules/` ==
 
 The `mk/` and `rules.mk` directories contains all the build system Makefile boilerplate; see [wiki:Building/Architecture GHC Build System Architecture].  Some particular files are interesting:
   * '''`mk/build.mk`''': contains Makefile settings that control your build. Details [wiki:Building/Hacking here].  The file `mk/build.mk.sample` contains a starting point that you can copy to `mk/build.mk` if you want.
   * '''`mk/are-validating.mk`''': this file records the fact that you are doing [wiki:TestingPatches validation], by containing the single line `Validating=YES`.  That in turn means the the build system gets its settings from `mk/validate-settings.mk` instead of from `mk/build.mk`.  Remove the file to stop validating.
   * '''`mk/validate.mk`''': just like `build.mk`, but applies when validating.  Use this file to override the default settings for validation, which are in `mk/validate-settings.mk`.
-
-== `inplace/` ==
-
-The `inplace/` directory (build tree only) is where we "install" stage1 and stage2 compilers when they are built, and GHC's utility programs, entirely locally to the tree.  The layout is exactly the same as that of an installed GHC on the host platform.
-   * '''`inplace/bin/`''': executables, including `ghc-stage1`, `ghc-stage2`, `hasktags`, `hsc2hs`, `haddock`, etc
-   * '''`inplace/lib/`''': suppporting libraries for the above.
 
 == `distrib/` == 
 
@@ -91,8 +85,12 @@ Micellaneous files for building distributions.
 
 == Stuff that appears only in a build tree ==
 
-'''THIS WHOLE SECTION SHOULD GO AWAY'''
+=== `inplace/` ===
 
- 
-    * '''`.../dist*/`'''
-      In many directories, `dist*` subdirectories appear. These are where Cabal puts all of the files generated while building.  '''IS THIS STILL TRUE?'''
+The `inplace/` directory is where we "install" stage1 and stage2 compilers, and other utility programs, when they are built, to be used when building other things in the build tree.  The layout is exactly the same as that of an installed GHC on the host platform.
+   * '''`inplace/bin/`''': executables, including `ghc-stage1`, `ghc-stage2`, `hasktags`, `hsc2hs`, `haddock`, etc.
+   * '''`inplace/lib/`''': suppporting libraries for the above.
+
+=== `.../dist*/` ===
+
+In many directories, `dist*` subdirectories appear. These are where Cabal, and the build system makefiles, put all of the files generated while building.
