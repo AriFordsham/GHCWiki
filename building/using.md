@@ -59,7 +59,7 @@ tree!
 ## Booting, configuring, cleaning
 
 
-GHC uses the `autoconf` tools in the standard Unixy way, thus:
+GHC uses the `autoconf` tools in the standard Unixy way, described in more detail in subsequent subsections on this page:
 
 ```wiki
       ---------------
