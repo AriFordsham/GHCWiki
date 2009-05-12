@@ -9,7 +9,8 @@ addressing.
 
 - [ExplicitCallStack](explicit-call-stack) - read this to get an overview of the idea
 - [ Blog post giving an overview](http://ghcmutterings.wordpress.com/2008/12/04/explicit-stack-traces/)
-- [ The GHC patch](http://www.zonetora.co.uk/NonBlog/explicitCallStack.tgz)
+- [ Darcs repository with paper sources and patches](http://code.haskell.org/explicitCallStackPaper/)
+- [ Paper describing the work submitted to Haskell Symposium 2009](http://pubs.doc.ic.ac.uk/finding-the-needle/)
 
 ## Examples
 
@@ -151,6 +152,8 @@ Several flags have been added in the patch:
 - `-ddump-ecs` which dumps the core after the explicit call stack phase
   has run
 
+- `-fds-simple` which causes the desugarer to massivly simplify how it translates mutually recursive functions with typeclass/type parameter arguments.
+
 ### Annotations
 
 
@@ -215,6 +218,15 @@ _}}}.
 A utility pass was also written and added to `simplCore/` called
 `StripSrrcLocNote` that removes all these notes again.  This is used in e.g.
 desugaring `RULES` to make sure the patterns don't get clobbered.
+
+
+However this is a bit messy.  It could be better to add an explicit phase in the pipeline which goes
+
+
+HSSyn --desugarer--\> Expr SrcLocAnnotatedVar --passes that safely work with src locs--\> Expr SrcLocAnnotatedVar --strip anns--\> CoreExpr --rest of pipeline--\> ...
+
+
+Alternatively, HPC works fine on HSSyn, maybe that'd be a better target for this work.
 
 ### The transform
 
@@ -347,8 +359,7 @@ This table is used to memoise push calls.
 There are several open problems and incomplete corners in the implementation
 
 
-Some are mentioned here, they are elaborated on more fully in the draft paper on
-this work which is TODOTODO.
+Some are mentioned here, they are elaborated on more fully in the paper, linked above.
 
 ### Bootstrapping
 
@@ -379,10 +390,7 @@ error function to be generated.
 
 Type classes provide many interesting problems; some theoretical, some pragmatic
 
-- TODO I have a section outlining some approaches in a draft paper that will be
-
-
-linked from here..
+- I have a section outlining some approaches in the paper
 
 ### Source locations in `AbsBinds`
 
@@ -401,4 +409,5 @@ there.
 
 ### Higher order functions
 
-TODO link to the paper
+
+Also discussed in the paper
