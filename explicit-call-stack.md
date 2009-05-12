@@ -11,6 +11,7 @@ See also
 - [ http://www.cse.unsw.edu.au/\~dons/loch.html](http://www.cse.unsw.edu.au/~dons/loch.html)
 - [ HAT](http://haskell.org/hat)
 - [ExplicitCallStack/StackTraceExperience](explicit-call-stack/stack-trace-experience): Some tests done on real programs with various tools for displaying stack traces. 
+- [ExplicitCallStack/CorePassImplementation](explicit-call-stack/core-pass-implementation): MSR Internship Oct-Dec 2008 that provided a prototype implementation for this.
 
 ## The basic idea
 
