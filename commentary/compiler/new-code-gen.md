@@ -76,7 +76,7 @@ These notes are largely out of date, but I don't want to dump them till we're su
 
   - Common block elimination: done
   - Block concatenation: done
-- Adams optimisation: currently done in \[\[GhcFile(compiler/cmm/CmmProcPointZ.hs.  The Adams optimization should be divorced from this module and replaced with common-block elimination, to be done after the proc-point transformation.  In principle this combination may be slightly less effective than the current code, since the selection of proc-point protocols is guided by Adams's criteria, but NR thinks it will be easy to get the common, important cases nailed.
+- Adams optimisation: currently done in [compiler/cmm/CmmProcPointZ.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmProcPointZ.hs).  The Adams optimization should be divorced from this module and replaced with common-block elimination, to be done after the proc-point transformation.  In principle this combination may be slightly less effective than the current code, since the selection of proc-point protocols is guided by Adams's criteria, but NR thinks it will be easy to get the common, important cases nailed.
 - Proc-point analysis and transformation: working, although there is plenty of room for experimentation with the calling conventions at proc points.  In practice NR recommends the following procedure:
 
   - All optional proc points to be generated with no parameters (all live variables on the stack)
