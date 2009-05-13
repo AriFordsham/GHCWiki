@@ -67,13 +67,13 @@ point numbers, and tuples. **SLPJ: so what is in class `Elt`?**
 ### Creating Arrays
 
 
-A new arrays can be created from flat parallel arrays 
+A new array can be created from a flat parallel array
 
 ```wiki
 fromNArray:: U.Elt r => U.Array r -> Array DIM1 r
 ```
 
-
+**SLPJ: what is U?  What is U.Array?**
 and from scalar values:
 
 ```wiki
@@ -87,8 +87,8 @@ and  bpermuteR, which creates a new array of new shape, using values of the argu
 bpermuteR:: Array dim e -> Shape dim' -> (Shape dim' -> Shape dim) -> Array dim'
 ```
 
-
-For example, transposition of a two dimensional array can be defined in terms of mkArray as follows:
+**SLPJ: I'd call it `reshape` like APL.**
+For example, transposition of a two dimensional array can be defined in terms of mkArray as follows **SLPJ: in terms of `bpermuteR` perhaps?**:
 
 ```wiki
 transpose:: Array DIM2 a -> Array DIM2 a
@@ -96,7 +96,7 @@ transpose arr = bpermuteR arr (n,m) (\(i,j) -> (j,i))
   where (n,m) = shape arr
 ```
 
-
+**SLPJ: presumably `shape :: Array dim a -> Shape dim`?**.
 Or cutting a 3 x 3 tile starting at indices (0,0) out of a two dimensional matrix:
 
 ```wiki
