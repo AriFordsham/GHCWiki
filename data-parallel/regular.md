@@ -9,13 +9,23 @@ The nested parallel arrays of DPH could be used to model regular arrays, as we c
 Languages like SAC, which provide high-level support for operations on multi-dimensional arrays, offer shape invariant operations. If we want to model this on a library level, we either have to give up type safety to a
 large extend (for example, by encoding the shape as a list of integer values whose length is proportionate to its dimensionality) or use sophisticated language features like GADTs, which may impede the usability of the library for inexperienced users.
 
+### Efficiency
+
+
+When encoding multidimensional arrays using segment descriptors or by storing the dimensions separately. In the first case, this would mean significant memory overhead proportionate to the number of subarrays on each level. But even in the second case, segment descriptors have to be generated to call functions like segmented fold and scan. It is hard to predict the exact overhead for this step, as fusion might prevent the segment descriptor array to be actually built in many cases. More significant in terms of overhead is that, when using segment descriptors, parallel splits become significantly more complicated, as they require communication in the irregular case to determine the distribution, whereas the distributions of a regularly segmented array can be determined locally on each processor.
+
+## Language Support
+
+
+The remainder of this document is a first design draft for SAC style language support of multidimensional arrays in the context of DPH. The implementation is not completed yet, and there are several open questions.
+
 ## The regular array type
 
 
  
 Regular parallel arrays are similar to arrays in SAC, with one major
 difference: array operations in DPH are fully typed, and consequently, what
-is called 'shape invariant programming' in SAC works differently in DPH.
+is called 'shape invariant programming' in SAC works differently in DPH. In particular, the dimensionality of an array (not its size, however) are encoded in its type. 
 
 
 An multidimensional array is parametrised with its dimensionality and its
@@ -27,7 +37,7 @@ element type:
 ```
 
 
-where Shape is a type family defined on tuples of integers, including nullary
+where IX is the standard Haskell index class,  Shape is a type family defined on tuples of integers, including nullary
 tuples - arrays of which correspond to scalar values. So, for example
 
 ```wiki
@@ -68,6 +78,30 @@ and from scalar values:
 fromScalar::  U.Elt r => r -> Array DIM0 r
 ```
 
+
+and  bpermuteR, which creates a new array of new shape, using values of the argument array.
+
+```wiki
+bpermuteR:: Array dim e -> Shape dim' -> (Shape dim' -> Shape dim) -> Array dim'
+```
+
+
+For example, transposition of a two dimensional array can be defined in terms of mkArray as follows:
+
+```wiki
+transpose:: Array DIM2 a -> Array DIM2 a
+transpose arr = bpermuteR arr (n,m) (\(i,j) -> (j,i))
+  where (n,m) = shape arr
+```
+
+
+Or cutting a 3 x 3 tile starting at indices (0,0) out of a two dimensional matrix:
+
+```wiki
+tile:: Array DIM2 a -> Array DIM2 a
+tile arr = bpermuteR arr (3,3) id
+```
+
 ### Manipulating array values
 
 
@@ -94,6 +128,7 @@ scan        :: Elt a => ((a, a) -> a)            -- combination function
 Manipulating the shape of arrays:
 
 ```wiki
+-- size of both shapes have to be the same, otherwise runtime error
 reshape     ::(Ix (Shape dim), Ix (Shape dim')) =>
                  (Shape dim)                  -- new shape
               -> Array dim' a                 -- array to be reshaped
@@ -110,7 +145,7 @@ array, namely the generalised indexing function, which extracts
 subarrays from an multidimensional array, and generalised replicate,
 which expands the array along specified axes. To encode the
 relationship between the argument's dimensionality and the result's dimensionality, 
-we use the Index type. 
+we use the Index type:
 
 ```wiki
 (!) :: Elt e => Arr dim e -> Index dim dim' -> Arr dim' e
@@ -131,6 +166,34 @@ data Index initialDim projectedDim where
   IndexFixed :: Int -> Index init proj -> Index (init, Int)  proj
 ```
 
+
+The index type is similar to generalized  selection in SaC. For example, the selection vector 
+
+```wiki
+  (1,2,3)
+```
+
+
+which indexes the fourth element in the third subarray of the second matrix in a three dimensional array would correspond to the index value
+
+```wiki
+ IndexFixed 1 (IndexFixed 2 (IndexFixed 3 IndexNil)) :: Index ((((),Int), Int),,Int) ()
+```
+
+
+Where the type tells us that the index value describes a projection from a three dimensional array to a scalar value. More interestingly,  the SaC selection
+
+```wiki
+ (1,.,3)
+```
+
+
+specifies a subvector (i.e., all the values in position (1,i,3) for all i's in the arrays range. This corresponds to
+
+```wiki
+IndexFixed 1 (IndexAll (IndexFixed 3 IndexNil)):: Index ((((),Int), Int),,Int) ((),Int)
+```
+
 #### Examples
 
 
@@ -143,10 +206,12 @@ replicateC:: Int -> Array DIM1 a -> Array DIM2 a
 replicateC n arr = RArray.replicate       (IndexFixed n (IndexAll IndexNil))  arr
 
 -- create a two dimensional array by replicating each element n times
+-- 'replicateLifted'
 replicateL:: Int -> Array DIM1 a -> Array DIM2 a
 replicateL n arr = RArray.replicate (IndexAll (IndexFixed n IndexNil))  arr
 
-
+-- 'chunkreplicate' on a two dimensional array
+--
 replicateC2:: Int -> Array DIM2 a -> Array DIM3 a
 replicateC2 n arr = RArray.replicate       (IndexFixed n (IndexAll (IndexAll IndexNil)))  arr
  
@@ -156,5 +221,9 @@ replicateLL n arr = RArray.replicate (IndexAll (IndexAll (IndexFixed n IndexNil)
 ```
 
 
-The use of the index type is not very intuitive, and it should be
-hidden from the user, preferably by offering syntactic support similar to SACs dot-notation.
+In the actual array language (user level) the DPH should provide a general selection-like notation for index expressions.
+
+### Comparison with SaC
+
+
+We started out with the goal to provide support for SaC like array programming. In this section compares SaC's functionality with the approach described in this document.
