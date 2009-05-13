@@ -80,14 +80,14 @@ and from scalar values:
 fromScalar::  U.Elt r => r -> Array DIM0 r
 ```
 
-**SLPJ: whoa!  What are `DIM1`, `DIM0`?**
+**SLPJ: whoa!  What are `DIM1`, `DIM0`?  Presumably you mean 1-dimensional etc.  But indexed by what?  Always `Int`?  Maybe that's ok; but say so.**
 and  bpermuteR, which creates a new array of new shape, using values of the argument array.
 
 ```wiki
 bpermuteR:: Array dim e -> Shape dim' -> (Shape dim' -> Shape dim) -> Array dim'
 ```
 
-**SLPJ: I'd call it `reshape` like APL.**
+
 For example, transposition of a two dimensional array can be defined in terms of mkArray as follows **SLPJ: in terms of `bpermuteR` perhaps?**:
 
 ```wiki
@@ -96,13 +96,15 @@ transpose arr = bpermuteR arr (n,m) (\(i,j) -> (j,i))
   where (n,m) = shape arr
 ```
 
-**SLPJ: presumably `shape :: Array dim a -> Shape dim`?**.
+**SLPJ: presumably `shape :: Array dim a -> Shape dim`?  Or perhaps rather `shape :: Array dim a -> dim`?**.  **SLPJ: did you mean `bpermuteR arr (m,n)`?**
 Or cutting a 3 x 3 tile starting at indices (0,0) out of a two dimensional matrix:
 
 ```wiki
 tile:: Array DIM2 a -> Array DIM2 a
 tile arr = bpermuteR arr (3,3) id
 ```
+
+**SLPJ: Does the `Shape` stuff need to be exposed at this level. Could we not work just in terms of the `(Int,Int)` indices the programmer expects, and hide the shapery?**
 
 ### Manipulating array values
 
@@ -126,8 +128,7 @@ scan        :: Elt a => ((a, a) -> a)            -- combination function
               -> (Array dim a, Array (dim, Int) a)
 ```
 
-
-Manipulating the shape of arrays:
+**SLPJ: didn't understand scan**.  Manipulating the shape of arrays:
 
 ```wiki
 -- size of both shapes have to be the same, otherwise runtime error
@@ -136,6 +137,8 @@ reshape     ::(Ix (Shape dim), Ix (Shape dim')) =>
               -> Array dim' a                 -- array to be reshaped
               -> Array dim a
 ```
+
+**SLPJ: why doesn't `reshape` need the size of the result array, as `bpermuteR` did.**
 
 ### Changing the dimensionality of an array
 
