@@ -19,13 +19,16 @@ When encoding multidimensional arrays using segment descriptors or by storing th
 
 The remainder of this document is a first design draft for SAC style language support of multidimensional arrays in the context of DPH. The implementation is not completed yet, and there are several open questions.
 
+**SLPJ: perhaps early give some SAC examples and the corresponding
+code for us.**
+
 ## The regular array type
 
 
  
 Regular parallel arrays are similar to arrays in SAC, with one major
 difference: array operations in DPH are fully typed, and consequently, what
-is called 'shape invariant programming' in SAC works differently in DPH. In particular, the dimensionality of an array (not its size, however) are encoded in its type. 
+is called 'shape invariant programming' in SAC works differently in DPH. In particular, the dimensionality of an array (not its size, however) are encoded in its type.  **SLPJ: unlike SAC, where functions can be polymorphic even in the dimensionality of the array?**
 
 
 An multidimensional array is parametrised with its dimensionality and its
