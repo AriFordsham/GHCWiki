@@ -12,6 +12,7 @@ Most of the material describing our approach is partitioned into a set of subpag
  * [wiki:DataParallel/Desugaring Desugaring of array comprehensions]
  * [wiki:DataParallel/Regular Our approach to integrating an optimised treatment of multi-dimensional regular arrays]
  * [wiki:DataParallel/Related Other nested data parallel work]
+ * [wiki:DataParallel/Regular Design work for data parallelism over regular arrays]
 
 == Status and work plan ==
 
