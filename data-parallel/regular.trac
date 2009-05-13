@@ -16,29 +16,32 @@ When encoding multidimensional arrays using segment descriptors or by storing th
 
 The remainder of this document is a first design draft for SAC style language support of multidimensional arrays in the context of DPH. The implementation is not completed yet, and there are several open questions.
 
-'''SLPJ: perhaps early give some SAC examples and the corresponding
-code for us.'''
+
 
 == The regular array type ==
- 
+
+=== SaC ===
+
+=== DPH === 
 Regular parallel arrays are similar to arrays in SAC, with one major
 difference: array operations in DPH are fully typed, and consequently, what
-is called 'shape invariant programming' in SAC works differently in DPH. In particular, the dimensionality of an array (not its size, however) are encoded in its type.  '''SLPJ: unlike SAC, where functions can be polymorphic even in the dimensionality of the array?'''
+is called 'shape invariant programming' in SAC works differently in DPH. In particular, in DPH the dimensionality of an array (not its size, however) are encoded in its type.
 
 An multidimensional array is parametrised with its dimensionality and its
 element type:
 
 {{{
-(Ix (Shape dim), Elt a)  => Array dim a 
+(Ix (Shape dim), U.Elt a)  => Array dim a 
 
 }}}
-where IX is the standard Haskell index class,  Shape is a type family defined on tuples of integers, including nullary
+where Ix is the standard Haskell index class,  Shape is a type family defined on tuples of integers, including nullary
 tuples - arrays of which correspond to scalar values. So, for example
 {{{
-  Array ()      Double    -- scalar double precision floating point value
-  Array (3,2) Double   -- two dimensional array (matrix) of three rows, two columns
+  Array ()        Double   -- scalar double precision floating point value
+  Array (Int,Int) Double   -- two dimensional array (matrix)
 }}}
-'''SLPJ: urk. Is `(2,3)` a type?!  Or did you mean `Array (Int,Int) Double`?'''
+`U.Elt` is the `Elt` type class defined in ` Data.Array.Parallel.Unlifted` and contains all primitive types like `Int`, `Bool`, and tuples thereof.
+
 
 Internally, shapes are represented as nested pairs
 {{{
@@ -48,11 +51,35 @@ type instance Shape (Int) = ((),Int)
 type instance Shape (Int, Int) = (((),Int), Int)
 }}}
 
-Elements types are restricted to the element type of flat parallel
-arrays, that it, primitive types like integers, boolean and floating
-point numbers, and tuples. '''SLPJ: so what is in class `Elt`?'''
-
+For readability, we define the following type synonyms:
+{{{
+type DIM0 = Shape ()
+type DIM1 = Shape Int
+type DIM2 = Shape (Int, Int)
+type DIM3 = Shape (Int, Int, Int)
+}}}
 == Operations ==
+
+=== Array Shapes ===
+The `shape` function returns the shape of an n-dimensional array as n-tuple:
+{{{
+shape  :: Array dim e -> Shape dim
+}}}
+For example
+{{{
+matrixMult:: (Elt e, Num e) => Array DIM2 -> Array DIM2 e -> Array DIM2 e 
+matrixMult m1 m2| snd (shape m1) == fst (shape m2) = multiply ....
+                | otherwise                                             = error "Incompatible array sizes in matrixMult..."
+
+}}}
+
+{{{
+-- size of both shapes have to be the same, otherwise runtime error
+reshape     ::(Ix (Shape dim), Ix (Shape dim')) =>
+                 (Shape dim)                  -- new shape
+              -> Array dim' a                 -- array to be reshaped
+              -> Array dim a
+}}}
 
 === Creating Arrays ===
 
@@ -60,23 +87,22 @@ A new array can be created from a flat parallel array
 {{{
 fromNArray:: U.Elt r => U.Array r -> Array DIM1 r
 }}}
-'''SLPJ: what is U?  What is U.Array?'''
-and from scalar values:
+where `U.Array` is the array type defined in `Data.Array.Parallel.Unlifted` - that is, non-nested parallel arrays.
+ 
 {{{
 fromScalar::  U.Elt r => r -> Array DIM0 r
 }}}
-'''SLPJ: whoa!  What are `DIM1`, `DIM0`?  Presumably you mean 1-dimensional etc.  But indexed by what?  Always `Int`?  Maybe that's ok; but say so.'''
+''
 and  bpermuteR, which creates a new array of new shape, using values of the argument array.
 {{{
 bpermuteR:: Array dim e -> Shape dim' -> (Shape dim' -> Shape dim) -> Array dim'
 }}}
-For example, transposition of a two dimensional array can be defined in terms of mkArray as follows '''SLPJ: in terms of `bpermuteR` perhaps?''':
+For example, transposition of a two dimensional array can be defined in terms of bpermuteR as follows:
 {{{
 transpose:: Array DIM2 a -> Array DIM2 a
-transpose arr = bpermuteR arr (n,m) (\(i,j) -> (j,i))
+transpose arr = bpermuteR arr (m,n) (\(i,j) -> (j,i))
   where (n,m) = shape arr
 }}}
-'''SLPJ: presumably `shape :: Array dim a -> Shape dim`?  Or perhaps rather `shape :: Array dim a -> dim`?'''.  '''SLPJ: did you mean `bpermuteR arr (m,n)`?'''
 Or cutting a 3 x 3 tile starting at indices (0,0) out of a two dimensional matrix:
 {{{
 tile:: Array DIM2 a -> Array DIM2 a
@@ -102,13 +128,6 @@ scan        :: Elt a => ((a, a) -> a)            -- combination function
               -> (Array dim a, Array (dim, Int) a)
 }}}
 '''SLPJ: didn't understand scan'''.  Manipulating the shape of arrays:
-{{{
--- size of both shapes have to be the same, otherwise runtime error
-reshape     ::(Ix (Shape dim), Ix (Shape dim')) =>
-                 (Shape dim)                  -- new shape
-              -> Array dim' a                 -- array to be reshaped
-              -> Array dim a
-}}}
 '''SLPJ: why doesn't `reshape` need the size of the result array, as `bpermuteR` did.'''
 
 === Changing the dimensionality of an array ===
