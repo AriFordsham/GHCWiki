@@ -27,14 +27,9 @@ Please feel free to add material to this commentary: don't worry too much about 
 
   - [Profiling](commentary/profiling)
   - [Primitive Operations (PrimOps)](commentary/prim-ops); see also [Wired-in and known-key things](commentary/compiler/wired-in)
-  - Shared Libraries
-
-    - [Position Independent Code and Dynamic Linking](commentary/position-independent-code)
-    - [DynamicLinking](dynamic-linking): Support for dynamic linking on various platforms, and what the flags do
-    - [SharedLibraries](shared-libraries): Distribution and build system issues for shared libraries
+  - [Support for shared libraries and dynamic linking](shared-libraries)
 
 - [The Libraries](commentary/libraries)
-- [Support for shared libraries and dynamic linking](shared-libraries)
 
 - [The User Manual](commentary/user-manual) (formatting guidelines etc)
 
