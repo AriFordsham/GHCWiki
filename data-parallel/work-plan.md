@@ -109,6 +109,8 @@ Category: *Infrastructure* (fiddling with GHC's build system and similar infrast
 
 ### Done
 
+- **Integrate DPH into the new build system** . \[Done w/ help from Ian.\]
+
 - **Template Haskell support for type families and INLINE pragmas** . \[Implemented.\]
 
 - **More expressive rewrite rules:** It seems that with more expressive rewrite rules may enable us to handle many of the problems with replicate an friends using rules.  (At least when the proper inlining happens.)  Much of this is needed to optimise shape computations, which in turn enables subsequent optimisations. \[Further investigation suggested the following approach: We want to handle some functions (until their are inlined) like data constructors during rule matching, so that they also match rule arguments when they are bound to a variable.  This is, for example, important to optimise `repeat` in `smvm`.  (GHC now supports `INLINE CONLIKE` pragmas.)\]
