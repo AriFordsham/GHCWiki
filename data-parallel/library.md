@@ -29,7 +29,11 @@ GHC knows about DPH as follows.  A single flag `-dph` switches on the following:
 
 - Adds `-package dph` (**SLPJ: correct?**), so that the user can `import Data.Array.Parallel`.  And so that the right package gets linked in the link step.
 
-- Runs a special pass called the **vectoriser**.  This pass generates code that mentions (by Original Name) various functions defined in `dph-prim-seq` or `dph-prim-par` (depending on the compiler flag used).  So if you change where a function is defined in `dph-prim-*`, or the name of the function, you have to make a corresponding change in GHC.
+- Runs a special pass called the **vectoriser**.  This generates a close coupling between the vectoriser and the library:
+
+  - The vectoriser generates code that mentions (by Original Name) various functions defined in `dph-prim-seq` or `dph-prim-par` (depending on the compiler flag used).  So if you change where a function is defined in `dph-prim-*`, or the name of the function, you have to make a corresponding change in GHC.
+  - The vectoriser knows quite a lot about the internal working of the library. For instance, it knows about the array representation.
+  - Parts of the library are vectorised and since these are low-level parts, they rely on being vectorised in particular ways. This means that a particular version of the library will only work correctly with a particular version of the vectoriser and vice versa.  **SLPJ: can you be more precise here?  Which packages are vectorised?  What do you meean by "particular ways"?**
 
 **SLPJ: is it correct that GHC only generates Names in dph-prim?  If not, could it be made true?**
 
