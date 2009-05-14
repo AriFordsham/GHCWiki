@@ -27,7 +27,7 @@ Please feel free to add material to this commentary: don't worry too much about 
 
   - [Profiling](commentary/profiling)
   - [Primitive Operations (PrimOps)](commentary/prim-ops); see also [Wired-in and known-key things](commentary/compiler/wired-in)
-  - [Support for shared libraries and dynamic linking](shared-libraries)
+  - [Support for shared libraries](shared-libraries)
 
 - [The Libraries](commentary/libraries)
 
