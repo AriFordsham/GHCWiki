@@ -1,8 +1,8 @@
 = GHC Commentary: Libraries =
 
-All GHC installations contain a set of libraries called the '''boot packages'''.  They are so called because the boot packages are the ones required for GHC to compile itself (the stage-2 bootstrap compiler). 
+All GHC installations contain a set of libraries called the '''boot packages'''.  They are so called because the boot packages are the ones required for GHC to compile itself (the stage-2 compiler). 
 
-The boot packages, along with the other subcomponents of the GHC build system, are in the file `packages` in a GHC tree. To get a list of them, you can run `make show VALUE=PACKAGES` in a configured GHC build tree.
+The boot packages, along with the other subcomponents of the GHC build system, are in the file `packages` in a GHC tree. To get a list of them, you can run `make show VALUE=PACKAGES` in a configured GHC build tree.  (This variable is set in `$(TOP)/ghc.mk`.)
 
  * At the root of the hierarchy we have '''`ghc-prim`'''. As the name implies, this package contains the most primitive types and functions. It only contains a handful of modules, including `GHC.Prim` (which contains `Int#`, `+#`, etc) and `GHC.Bool`, containing the `Bool` datatype.
 
