@@ -51,6 +51,13 @@ Unfortunately, while static linking is relatively uncomplicated and similar betw
 
 An excellent technical introduction to ELF shared libraries is [ How To Write Shared Libraries](http://people.redhat.com/drepper/dsohowto.pdf) by Ulrich Drepper (author of glibc).
 
+
+ELF "visibility" reading list:
+
+- [ http://gcc.gnu.org/wiki/Visibility](http://gcc.gnu.org/wiki/Visibility)
+- [ http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Code-Gen-Options.html](http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Code-Gen-Options.html), see `-fvisibility` flag
+- [ http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Function-Attributes.html](http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Function-Attributes.html), see `visibility` attribute
+
 ## Why we care about shared libraries
 
 
