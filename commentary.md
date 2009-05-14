@@ -34,6 +34,7 @@ Please feel free to add material to this commentary: don't worry too much about 
     - [SharedLibraries](shared-libraries): Distribution and build system issues for shared libraries
 
 - [The Libraries](commentary/libraries)
+- [Support for shared libraries and dynamic linking](shared-libraries)
 
 - [The User Manual](commentary/user-manual) (formatting guidelines etc)
 
