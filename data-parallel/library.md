@@ -33,6 +33,14 @@ GHC knows about DPH as follows.  A single flag `-dph` switches on the following:
 
 **SLPJ: is it correct that GHC only generates Names in dph-prim?  If not, could it be made true?**
 
+## DPH and ways
+
+
+When compiling a module with `-dph`, its imported modules must also have been compiled with `-dph`.  It's a bit like profiling; so maybe compiling with `-dph` should count as another "way".  This is an unresolved issue.  Compiling the entire `base` package (say) with `-dph` might well be overkill; for example, we don't want to vectorise the IO library.
+
+
+At the moment, we finesse this problem by simply requiring that the user solves it; and hence we do not use any `base` package functions in vectorised code.
+
 ## Array library of flat and segmented operations
 
 **TODO** Here we need to document the structure of the current implementation with subpages for the more complicated aspects (e.g., representation types, distributed types, and gangs).
