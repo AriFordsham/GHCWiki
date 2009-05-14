@@ -13,38 +13,46 @@ The `-dynamic` flag does two things:
 # Build System
 
 
-There is now minimal support in the build system for building dynamic libraries. It's a hack.
+There is now some support in the build system for building dynamic libraries.
 
 
-I need help, volunteers report at wolfgang.thaller@… or to the cvs-ghc mailing list.
-
-
-You need to add a few things to your build.mk file:
+You need to add a flag when you configure
 
 ```wiki
-SplitObjs = NO
-GhcStage2HcOpts=-dynamic
-GhcLibHcOpts=-O -fasm -fPIC -dynamic
-GhcRtsHcOpts=-fPIC -fvia-C -dynamic
-GhcBuildDylibs=YES
-#GHC_CC_OPTS+=-fPIC
+./configure --enable-shared
 ```
 
 
-Uncomment the last line after compiling libghccompat and stage1 in ghc, but before compiling in libraries. Sorry for the inconvenience, feel free to fix it. For Powerpc64 Linux, you only need the first two lines.
+There has been some churn in how dynamic libraries are built since the introduction of the new build system in ghc HEAD (6.11). The only platforms that have been tested with the new system are currently Linux/x86 and Linux/x86-64. The current target is to have GHC itself built statically but to build dynamic libraries such that GHC is capable of linking libraries and programs that use dynamic libraries.
+
+
+If anyone would like to help, report to the cvs-ghc mailing list or directly to wolfgang.thaller@… or duncan@….
 
 # Platform-Specific TODO
 
 
 Profiled code isn't yet really position-independent even when `-fPIC` is specified. Building profiled dynamic libraries therefore fails on Mac OS X (Linux silently accepts relocations - it's just slightly bad for performance).
 
+## All ELF systems
+
+- Get the "soname" set, probably based on -o file name. (see [ this message](http://www.haskell.org/pipermail/cvs-ghc/2009-May/048567.html))
+- Make sure all shared libs properly record their dependencies, including on the rts (to enable soname chasing)
+- Work out a scheme to enable switching the variant of the rts at link time.
+- Switch default dynamic linking mode to "system dependent"
+- Use an external Main.o rather than having main in the rts (see [ this message](http://www.haskell.org/pipermail/cvs-ghc/2009-May/048573.html)).
+- In a final link, use the minimum set of libraries, only direct dependencies (assume soname chasing). Avoid -u flags (which are only required for linking base and rts as static libs).
+
+- Get GHCi working by loading shared libs
+- Check ld.so loading performance, check quality of hashing.
+- Test that for every rts way, the combination of rts.so + base.so has no unresolved symbols. They should stand alone. Eg check bfd and liberty in debug rts way and check pthread in threaded way.
+
 ## x86 and powerpc32 ELF/Linux TODO
 
 
-The NCG works. Support for `-fPIC` in the mangler is buggy on PowerPC and nonexistent on x86. Due to the strange way that dynamic linking is implemented, it will be very hard to generate position-dependent code that correctly links to (Haskell code in) dynamic libraries without the NCG.
+Summary: -fPIC -fasm works, -fPIC -fvia-C does not work and is unlikely to ever work.
 
 
-As the RTS can't currently be compiled with the NCG (a volunteer opportunity!), the RTS has to be compiled as position dependent code.
+Support for `-fPIC` in the mangler is buggy on PowerPC and nonexistent on x86. Due to the strange way that dynamic linking is implemented, it will be very hard to generate position-dependent code that correctly links to (Haskell code in) dynamic libraries without the NCG.
 
 ## Windows TODO
 
@@ -153,7 +161,7 @@ dynamic librariesstatic codedynamically linked executablesstatically linked plug
 -fPIC         NO               YES        NO                            YES           NO
 -dynamic -fPICYES              NO         YES                           NO            YES
 `-fPIC` is ignored.
-Download in other formats:[Plain Text](/trac/ghc/wiki/DynamicLinking?version=2&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+Download in other formats:[Plain Text](/trac/ghc/wiki/DynamicLinking?version=3&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
         By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
 [http://trac.edgewall.org/](http://trac.edgewall.org/)**</th>
