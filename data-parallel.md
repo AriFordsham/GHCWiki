@@ -9,7 +9,7 @@ Most of the material describing our approach is partitioned into a set of subpag
 - [Nested data parallelism by example](data-parallel/example)
 - [Data parallelism on shared-memory machines](data-parallel/smp)
 - [High-level design of adding NDP to GHC](data-parallel/design)
-- Design of the DPH packages?
+- [Design of the DPH packages](data-parallel/library)
 - [Details of the implementation of closure conversion](data-parallel/closure-conversion)
 - [Our plan for implementing vectorisation on top of closure conversion](data-parallel/vectorisation)
 - [Desugaring of array comprehensions](data-parallel/desugaring)
