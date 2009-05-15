@@ -76,7 +76,7 @@ type instance Shape (Int, Int) = (((),Int), Int)
 ```
 
 
-The user, however,  doesn't need to be aware of this and can view the shape of an n-dimensional array  a n-tuple.
+The user, however,  doesn't need to be aware of this and can view the shape of an n-dimensional array  as n-tuple of integer values.
 
 
 For readability, we define the following type synonyms:
