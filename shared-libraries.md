@@ -58,6 +58,15 @@ ELF "visibility" reading list:
 - [ http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Code-Gen-Options.html](http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Code-Gen-Options.html), see `-fvisibility` flag
 - [ http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Function-Attributes.html](http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Function-Attributes.html), see `visibility` attribute
 
+
+PE format introduction:
+
+- [ Part 1](http://msdn.microsoft.com/en-us/magazine/cc301805.aspx)
+- [ Part 2](http://msdn.microsoft.com/en-us/magazine/cc301805.aspx)
+
+
+In particular these describe how dll import and export works.
+
 ## Why we care about shared libraries
 
 
