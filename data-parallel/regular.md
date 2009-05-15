@@ -17,18 +17,33 @@ When encoding multidimensional arrays using segment descriptors or by storing th
 ## Language Support
 
 
-The remainder of this document is a first design draft for SAC style language support of multidimensional arrays in the context of DPH. The implementation is not completed yet, and there are several open questions.
+The remainder of this document is a first design draft for SaC style language support of multidimensional arrays in the context of DPH. The implementation is not completed yet, and there are several open questions.
 
 ## The regular array type
 
 ### SaC
 
+
+In SaC, multidimensional arrays are represented by two vectors, the shape and the data vector, where vectors are one dimensional arrays. Scalar values are viewed as 0-dimensional arrays. The function `reshape` takes as first argument a shape vector, as second an array, and creates an array with identical data vector and the given shape vector. For example:
+
+```wiki
+  reshape ([3,2],[1,2,3,4,5,6])
+```
+
+
+produces a 3 times 2 matrix.
+
 ### DPH
 
 
-Regular parallel arrays are similar to arrays in SAC, with one major
-difference: array operations in DPH are fully typed, and consequently, what
-is called 'shape invariant programming' in SAC works differently in DPH. In particular, in DPH the dimensionality of an array (not its size, however) are encoded in its type.
+Regular parallel arrays are similar to arrays in SaC, with one major
+difference: SaC employs a mix of static and dynamic type checking, combined with a form of shape inference, whereas we use GHC's type checker to ensure certain domain restrictions are not violated.  
+
+**Note:** currently, we are only able to statically check that restrictions regarding the dimensionality of and array are met, but not with respect to the size. SaC is, to a certain extend, able to do so. I still need to check if there are some cases where the DPH approach would statically find some dimensionality bugs where SaC wouldn't - need to check that. 
+
+
+array operations in DPH are fully typed, and consequently, what
+is called 'shape invariant programming' in SaC works differently in DPH. In particular, in DPH the dimensionality of an array (not its size, however) are encoded in its type.
 
 
 An multidimensional array is parametrised with its dimensionality and its
@@ -59,6 +74,9 @@ type instance Shape () = ()
 type instance Shape (Int) = ((),Int)
 type instance Shape (Int, Int) = (((),Int), Int)
 ```
+
+
+The user, however,  doesn't need to be aware of this and can view the shape of an n-dimensional array  a n-tuple.
 
 
 For readability, we define the following type synonyms:
