@@ -268,7 +268,7 @@ $ for c in libraries/*/configure; do ( cd `dirname $c`; ./configure ); done
 ```
 
 ```wiki
-$ sed -i .bak "s/<H>/<T>/g" */*/package-data.mk */*/*/package-data.mk
+$ sed -i .bak "s#<H>#<T>#g" */*/package-data.mk */*/*/package-data.mk
 $ touch -r compiler/stage2/package-data.mk */*/package-data.mk */*/*/package-data.mk
 ```
 
