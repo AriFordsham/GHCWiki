@@ -3,6 +3,7 @@
 
 NOTE: you need GNU make and Python (any version \>= 1.5 will probably do) in order
 to use the testsuite. If you want to run the testsuite in parallel then you need Python 2.5.2 or later.
+(Avoid Python 2.6.1 as the testsuite tickles a bug in one of the included libraries)
 
 
 If you have not checked out the test suite, first run:
