@@ -87,7 +87,7 @@ libraries:
 
 The first step in porting to a new platform is to get an
 *unregisterised* build working.  An unregisterised build is one that
-compiles via vanilla C only. Tist costs about a factor of two in
+compiles via vanilla C only. This costs about a factor of two in
 performance, but since unregisterised compilation is usually just a step
 on the way to a full registerised port, we don't mind too much.
 
@@ -138,9 +138,8 @@ version).  We will call the path to the root of this
 tree `<T>`.
 
 ```wiki
-$ cd <T>
-$ sh boot
-$ ./configure --enable-hc-boot
+<T>$ sh boot
+<T>$ ./configure --enable-hc-boot
 ```
 
 
@@ -148,18 +147,17 @@ You might need to update `configure.ac` to recognise the new
 platform, and re-generate `configure` with `autoreconf`.
 
 ```wiki
-$ make bootstrapping-files
+<T>$ make bootstrapping-files
 ```
 
 **On the host machine**
 
 
-Unpack a source tree (same released version, with the extra libs).  Call this directory `<H>`.
+Unpack a source tree (exactly the same version as before).  Call this directory `<H>`.
 
 ```wiki
-$ cd <H>
-$ sh boot
-$ ./configure
+<H>$ sh boot
+<H>$ ./configure
 ```
 
 
@@ -202,7 +200,7 @@ be suitable for compiling on the target system.
 Now build the compiler:
 
 ```wiki
-$ make
+<H>$ make
 ```
 
 
@@ -210,38 +208,36 @@ You may need to work around problems that occur due to differences
 between the host and target platforms.
 
 ```wiki
-$ cd <H>
-$ rm -f list mkfiles boot.tar.gz
-$ find . -name "*.hc" >> list
-$ find . -name "*_stub.*" >> list
-$ find . -name package-data.mk >> list
-$ find . -name package.conf >> list
-$ find . -name package.conf.inplace >> list
-$ echo compiler/main/Config.hs >> list
-$ find . -name .depend | sed -e 's/^/mkdir -p `dirname /' -e 's/$/`/' >> mkfiles
-$ find . -name .depend | sed "s/^/touch /" >> mkfiles
-$ echo mkfiles >> list
-$ tar -zcf boot.tar.gz -T list
+<H>$ rm -f list mkfiles boot.tar.gz
+<H>$ find . -name "*.hc" >> list
+<H>$ find . -name "*_stub.*" >> list
+<H>$ find . -name package-data.mk >> list
+<H>$ find . -name package.conf >> list
+<H>$ find . -name package.conf.inplace >> list
+<H>$ echo compiler/main/Config.hs >> list
+<H>$ find . -name .depend | sed -e 's/^/mkdir -p `dirname /' -e 's/$/`/' >> mkfiles
+<H>$ find . -name .depend | sed "s/^/touch /" >> mkfiles
+<H>$ echo mkfiles >> list
+<H>$ tar -zcf boot.tar.gz -T list
 ```
 
 **On the target machine**
 
 ```wiki
-$ cd <T>
-$ cp /bin/pwd utils/ghc-pwd/ghc-pwd
+<T>$ cp /bin/pwd utils/ghc-pwd/ghc-pwd
 ```
 
 ```wiki
-$ sh boot
-$ ./configure --enable-hc-boot
+<T>$ sh boot
+<T>$ ./configure --enable-hc-boot
 ```
 
 
 Unpack `<H>/boot.tar.gz` to `<T>/`.
 
 ```wiki
-$ tar --touch -zxf boot.tar.gz
-$ sh mkfiles
+<T>$ tar --touch -zxf boot.tar.gz
+<T>$ sh mkfiles
 ```
 
 
@@ -264,12 +260,12 @@ ghc_stage2_v_EXTRA_CC_OPTS += -Lgmp -lgmp -lm -lutil -lrt
 ```
 
 ```wiki
-$ for c in libraries/*/configure; do ( cd `dirname $c`; ./configure ); done
+<T>$ for c in libraries/*/configure; do ( cd `dirname $c`; ./configure ); done
 ```
 
 ```wiki
-$ sed -i .bak "s#<H>#<T>#g" */*/package-data.mk */*/*/package-data.mk
-$ touch -r compiler/stage2/package-data.mk */*/package-data.mk */*/*/package-data.mk
+<T>$ sed -i .bak "s#<H>#<T>#g" */*/package-data.mk */*/*/package-data.mk
+<T>$ touch -r compiler/stage2/package-data.mk */*/package-data.mk */*/*/package-data.mk
 ```
 
 
@@ -277,11 +273,11 @@ Now make bootstrapping files; what we're really doing here is making
 libffi, and libgmp if necessary:
 
 ```wiki
-$ make bootstrapping-files
+<T>$ make bootstrapping-files
 ```
 
 ```wiki
-$ make all_ghc_stage2 2>&1 | tee log
+<T>$ make all_ghc_stage2 2>&1 | tee log
 ```
 
 
