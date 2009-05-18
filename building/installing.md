@@ -71,3 +71,11 @@ GHC, when it starts, needs to find `libdir`, so that it can read `package.conf`,
   proper using the `-B` flag.  Therefore, `$(bindir)/ghc` is a script that invokes `$(libdir)/ghc`
   passing it `-B<libdir>`, and the rest of the command-line arguments.  All the other files that GHC
   needs are found by reading the `package.conf` file.
+
+## Relocating a GHC installation
+
+
+On Windows, because GHC finds its files relative to itself, the whole installed tree can be relocated elsewhere in the filesystem, and everything will continue to work (except that if there are shortcuts or links from elsewhere, such as start menu items, these will need to be updated to point to the new location).
+
+
+On Unix, GHC installations contain hardcoded paths in the `package.conf` file and also in the wrapper scripts for `ghc` and `ghc-pkg` in `$bindir`.  So relocating the bits of a GHC installation on a Unix system is much harder; these paths would have to be updated manually.
