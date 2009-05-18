@@ -135,7 +135,10 @@ bootstrap the compiler on the *target* machine.
 
 Unpack a source tree (preferably a released
 version).  We will call the path to the root of this
-tree `<T>`.
+tree `<T>`.  
+
+
+In the instructions that follow, "`<T>$ cmd`" means that the current directory should be `<T>` when executing the command "`cmd`".
 
 ```wiki
 <T>$ sh boot
