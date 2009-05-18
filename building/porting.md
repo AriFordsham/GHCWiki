@@ -135,7 +135,10 @@ bootstrap the compiler on the *target* machine.
 
 Unpack a source tree (preferably a released
 version).  We will call the path to the root of this
-tree `<T>`.
+tree `<T>`.  
+
+
+In the instructions that follow, "`<T>$ cmd`" means that the current directory should be `<T>` when executing the command "`cmd`".
 
 ```wiki
 <T>$ sh boot
@@ -308,14 +311,14 @@ tweaks in order to get a registerised build going.
 The following files need architecture-specific code for a registerised
 build:
 
-> `includes/MachRegs.h`:
->
-> >
-> > Defines the STG-register to machine-register
-> > mapping.  You need to know your platform's C calling
-> > convention, and which registers are generally available
-> > for mapping to global register variables.  There are
-> > plenty of useful comments in this file.
+<table><tr><th>`includes/MachRegs.h`</th>
+<td>
+Defines the STG-register to machine-register
+mapping.  You need to know your platform's C calling
+convention, and which registers are generally available
+for mapping to global register variables.  There are
+plenty of useful comments in this file.
+</td></tr></table>
 
 <table><tr><th>`includes/TailCalls.h`</th>
 <td>
