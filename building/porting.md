@@ -311,14 +311,14 @@ tweaks in order to get a registerised build going.
 The following files need architecture-specific code for a registerised
 build:
 
-> `includes/MachRegs.h`:
->
-> >
-> > Defines the STG-register to machine-register
-> > mapping.  You need to know your platform's C calling
-> > convention, and which registers are generally available
-> > for mapping to global register variables.  There are
-> > plenty of useful comments in this file.
+<table><tr><th>`includes/MachRegs.h`</th>
+<td>
+Defines the STG-register to machine-register
+mapping.  You need to know your platform's C calling
+convention, and which registers are generally available
+for mapping to global register variables.  There are
+plenty of useful comments in this file.
+</td></tr></table>
 
 <table><tr><th>`includes/TailCalls.h`</th>
 <td>
