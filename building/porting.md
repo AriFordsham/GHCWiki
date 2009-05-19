@@ -141,6 +141,7 @@ tree `<T>`.
 In the instructions that follow, "`<T>$ cmd`" means that the current directory should be `<T>` when executing the command "`cmd`".
 
 ```wiki
+<T>$ cp /bin/pwd utils/ghc-pwd/ghc-pwd
 <T>$ sh boot
 <T>$ ./configure --enable-hc-boot
 ```
