@@ -7,7 +7,7 @@ Here are some suggestions for projects related to GHC that could be undertaken b
 -------------
 == Projects that should be within reach of a good undergraduate ==
 
-  * '''Implement overlap and exhaustiveness checking for pattern matching'''.  GHC's current overlap and exhaustiveness checker is old and inadequate.  Furthermore, it takes no account of GADTs and type families. See #595.  There's an excellent selection of background material:
+  * '''Implement overlap and exhaustiveness checking for pattern matching'''.  GHC's current overlap and exhaustiveness checker is old and inadequate.  Furthermore, it takes no account of GADTs and type families. See #595 and #2395.  There's an excellent selection of background material:
     * [http://pauillac.inria.fr/~maranget/papers/warn/warn.pdf Warnings for pattern matching] by Luc Maranget (JFP 17(3), 2007)
     * [http://www.cs.cmu.edu/~neelk/pattern-popl09.pdf Focusing on pattern matching] by Neelakantan Krishnaswami (POPL 2009)
     * [http://pauillac.inria.fr/~maranget/papers/ml05e-maranget.pdf Compiling pattern matching to good decision trees] by Luc Maranget, ML Workshop 2008

@@ -10,7 +10,7 @@ Here are some suggestions for projects related to GHC that could be undertaken b
 
 ## Projects that should be within reach of a good undergraduate
 
-- **Implement overlap and exhaustiveness checking for pattern matching**.  GHC's current overlap and exhaustiveness checker is old and inadequate.  Furthermore, it takes no account of GADTs and type families. See [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595).  There's an excellent selection of background material:
+- **Implement overlap and exhaustiveness checking for pattern matching**.  GHC's current overlap and exhaustiveness checker is old and inadequate.  Furthermore, it takes no account of GADTs and type families. See [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595) and [\#2395](https://gitlab.haskell.org//ghc/ghc/issues/2395).  There's an excellent selection of background material:
 
   - [ Warnings for pattern matching](http://pauillac.inria.fr/~maranget/papers/warn/warn.pdf) by Luc Maranget (JFP 17(3), 2007)
   - [ Focusing on pattern matching](http://www.cs.cmu.edu/~neelk/pattern-popl09.pdf) by Neelakantan Krishnaswami (POPL 2009)
@@ -60,7 +60,7 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
   Whole-program overloading elimination (with `--make`).
   Evolve a better ordering for the optimisation passes using [ Acovea](http://www.coyotegulch.com/products/acovea/).
   [\#1341](https://gitlab.haskell.org//ghc/ghc/issues/1341)allow loading partially correct modules[\#2362](https://gitlab.haskell.org//ghc/ghc/issues/2362)allow full import syntax in GHCi[\#2979](https://gitlab.haskell.org//ghc/ghc/issues/2979)better support for FFI C wrappers for macros in system headers[\#594](https://gitlab.haskell.org//ghc/ghc/issues/594)Support use of SSE2 in the x86 native code genreatorBuild system[\#989](https://gitlab.haskell.org//ghc/ghc/issues/989)Build GHC on Windows using Microsoft toolchain[\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)Complete shared library supportRuntime system[\#599](https://gitlab.haskell.org//ghc/ghc/issues/599)The Front Panel[\#603](https://gitlab.haskell.org//ghc/ghc/issues/603)GC-spy connectionToolsUpdate/improve [ Visual Haskell](http://www.haskell.org/visualhaskell) to use the (free) [ Visual Studio Shell](http://msdn2.microsoft.com/en-us/vsx2008/products/bb933751.aspx).
-  Download in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=13&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+  Download in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=14&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)
