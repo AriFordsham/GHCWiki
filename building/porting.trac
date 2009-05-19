@@ -126,6 +126,7 @@ tree `<T>`.
 In the instructions that follow, "`<T>$ cmd`" means that the current directory should be `<T>` when executing the command "`cmd`".
 
 {{{
+<T>$ cp /bin/pwd utils/ghc-pwd/ghc-pwd
 <T>$ sh boot
 <T>$ ./configure --enable-hc-boot
 }}}
@@ -190,7 +191,8 @@ between the host and target platforms.
 {{{
 <H>$ rm -f list mkfiles boot.tar.gz
 <H>$ find . -name "*.hc" >> list
-<H>$ find . -name "*_stub.*" >> list
+<H>$ find . -name "*_stub.c" >> list
+<H>$ find . -name "*_stub.h" >> list
 <H>$ find . -name package-data.mk >> list
 <H>$ find . -name package.conf >> list
 <H>$ find . -name package.conf.inplace >> list
