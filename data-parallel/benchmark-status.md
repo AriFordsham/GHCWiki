@@ -17,12 +17,13 @@ Computes the dot product of two vectors of `Double`s.  There are two variants of
 <td>
 Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*  There are three variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  As a reference implementation, we have a sequential C program denoted by "ref C".
 </td></tr>
+<tr><th>[ Quickhull](http://darcs.haskell.org/packages/dph/examples/quickhull/)</th>
+<td>
+Given a set of points (in a plane), compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism.  We have only a "vectorised" version of this benchmark and a sequential Haskell reference implementation, "ref Haskell", using vanilla lists.
+</td></tr>
 <tr><th>[ Primes](http://darcs.haskell.org/packages/dph/examples/primes/)</th>
 <td>
 The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes.  **Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).**</td></tr>
-<tr><th>[ Quickhull](http://darcs.haskell.org/packages/dph/examples/quickhull/)</th>
-<td>
-Given a set of points (in a plane), compute the sequence of points that encloses all points in the set. There is only a vectorised version.  **Currently doesn't work due to bugs in dph-par.  Also needs to get a wrapper using the new benchmark framework to generated test input and time execution.**</td></tr>
 <tr><th>[ Quicksort](http://darcs.haskell.org/packages/dph/examples/qsort/)</th>
 <td>FIXME</td></tr>
 <tr><th>[ ConComp](http://darcs.haskell.org/packages/dph/examples/concomp/)</th>
