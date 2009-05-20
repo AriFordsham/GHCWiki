@@ -210,7 +210,8 @@ Now build the compiler:
 
 
 You may need to work around problems that occur due to differences
-between the host and target platforms.
+between the host and target platforms. You may also need to use `make -k`
+in order to ignore unimportant build failures in the RTS.
 
 ```wiki
 <H>$ rm -f list mkfiles boot.tar.gz
