@@ -289,6 +289,17 @@ ghc_stage2_v_EXTRA_CC_OPTS += -Lgmp -lgmp -lm -lutil -lrt
 utils/ghc-pkg_dist-install_v_EXTRA_CC_OPTS += -Lgmp -lgmp -lm -lutil -lrt
 ```
 
+
+You should also consider putting:
+
+```wiki
+SRC_CC_OPTS += -g -O0
+```
+
+
+in `<T>/mk/build.mk`. It'll make the resulting compiler slower, but it'll be a lot easier
+if you get segfaults etc later on.
+
 ```wiki
 <T>$ for c in libraries/*/configure; do ( cd `dirname $c`; ./configure ); done
 ```
