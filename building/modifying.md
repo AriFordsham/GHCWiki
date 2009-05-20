@@ -1,4 +1,4 @@
-**NOTE**: this page relates to the new GHC build system, which was added to GHC in April 2009. For documentation of the "old" build system, see Building/Old/Using? and Building/BuildSystem?.
+**NOTE**: this page relates to the new GHC build system, which was added to GHC in April 2009. For documentation of the "old" build system, see [Attic/Building/Old/Using](attic/building/old/using) and [Attic/Building/BuildSystem](attic/building/build-system).
 
 # Modifying the build system
 
@@ -80,6 +80,26 @@ To add a module to the `ghc` package:
 
 - Add your module to the `exposed-modules` section of [compiler/ghc.cabal.in](/trac/ghc/browser/ghc/compiler/ghc.cabal.in)
 - `cd compiler; make stage2`
+
+### Removing a source file from GHC
+
+
+To retire a GHC source file that is no longer needed:
+
+- Remove the working copy of the file (darcs will notice it is gone; if you are using git use `git rm`.
+- Remove the module from the list of modules in [compiler/ghc.cabal.in](/trac/ghc/browser/ghc/compiler/ghc.cabal.in).
+- To remove all mention of the file from derived dependency files, it is necessary to do something on the order of
+
+  ```wiki
+  cd $TOP
+  sh config.status
+  make all_compiler_stage1
+  ```
+
+  or `make all_compiler_stage2` if you prefer.
+
+>
+> If you wish something slower but more confident, you may `cd $TOP; ./configure; make`.
 
 ### Adding a source file to the RTS
 
