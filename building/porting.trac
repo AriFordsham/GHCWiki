@@ -258,7 +258,8 @@ libffi, and libgmp if necessary:
 }}}
 
 {{{
-<T>$ make all_ghc_stage2 2>&1 | tee log
+<T>$ make all_ghc_stage2      2>&1 | tee c.log
+<T>$ make inplace/bin/ghc-pkg 2>&1 | tee gp.log
 }}}
 
 Don't bother with running {{{make install}}} in the newly bootstrapped
