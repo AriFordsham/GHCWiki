@@ -140,6 +140,16 @@ tree `<T>`.
 
 In the instructions that follow, "`<T>$ cmd`" means that the current directory should be `<T>` when executing the command "`cmd`".
 
+
+If your target platform requires it, then you may need to set CFLAGS appropriately here, e.g.
+
+```wiki
+$ export CFLAGS=-m64
+```
+
+
+Now begin with:
+
 ```wiki
 <T>$ cp /bin/pwd utils/ghc-pwd/ghc-pwd
 <T>$ sh boot
@@ -149,6 +159,17 @@ In the instructions that follow, "`<T>$ cmd`" means that the current directory s
 
 You might need to update `configure.ac` to recognise the new
 platform, and re-generate `configure` with `autoreconf`.
+
+
+If necessary on your platform, you may again need to create a mk/build.mk
+to pass any necessary flags to gcc, e.g.:
+
+```wiki
+SRC_CC_OPTS += -m64
+```
+
+
+Then:
 
 ```wiki
 <T>$ make bootstrapping-files
