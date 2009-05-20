@@ -320,6 +320,7 @@ libffi, and libgmp if necessary:
 ```wiki
 <T>$ make all_ghc_stage2      2>&1 | tee c.log
 <T>$ make inplace/bin/ghc-pkg 2>&1 | tee gp.log
+<T>$ make inplace/lib/unlit
 ```
 
 
