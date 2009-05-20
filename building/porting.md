@@ -272,8 +272,8 @@ utils/ghc-pkg_dist-install_v_EXTRA_CC_OPTS += -Lgmp -lgmp -lm -lutil -lrt
 ```
 
 ```wiki
-<T>$ sed -i .bak "s#<H>#<T>#g" */*/package-data.mk */*/*/package-data.mk
-<T>$ touch -r compiler/stage2/package-data.mk */*/package-data.mk */*/*/package-data.mk
+<T>$ sed -i .bak "s#<H>#<T>#g" inplace/lib/package.conf */*/package-data.mk */*/*/package-data.mk
+<T>$ touch -r inplace/lib/package.conf */*/package-data.mk */*/*/package-data.mk
 ```
 
 
