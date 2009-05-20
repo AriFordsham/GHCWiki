@@ -359,7 +359,7 @@ In Ubuntu 6.10 the default system shell `/bin/sh` was changed to `dash` (The Deb
 
 This error occurs when using the new build system with MSYS on Windows.  It is a temporary error; just type `make` again to continue the build.  Hopefully this is a bug in MSYS that will be fixed at some point.
 
-## /usr/bin/patch: Permission denied
+### /usr/bin/patch: Permission denied
 
 
 This happened to me with MSYS on Windows Server 2003.  Exact cause unknown, but it seems that Windows Server 2003 was upset by the `patch.exe.manifest` supplied with MSYS alongside `patch.exe` to work around the installer-detection nonsense on Vista.  Workaround: remove `/usr/bin/patch.exe.manifest`.
