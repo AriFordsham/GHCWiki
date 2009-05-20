@@ -140,6 +140,16 @@ tree `<T>`.
 
 In the instructions that follow, "`<T>$ cmd`" means that the current directory should be `<T>` when executing the command "`cmd`".
 
+
+If your target platform requires it, then you may need to set CFLAGS appropriately here, e.g.
+
+```wiki
+$ export CFLAGS=-m64
+```
+
+
+Now begin with:
+
 ```wiki
 <T>$ cp /bin/pwd utils/ghc-pwd/ghc-pwd
 <T>$ sh boot
@@ -149,6 +159,17 @@ In the instructions that follow, "`<T>$ cmd`" means that the current directory s
 
 You might need to update `configure.ac` to recognise the new
 platform, and re-generate `configure` with `autoreconf`.
+
+
+If necessary on your platform, you may again need to create a mk/build.mk
+to pass any necessary flags to gcc, e.g.:
+
+```wiki
+SRC_CC_OPTS += -m64
+```
+
+
+Then:
 
 ```wiki
 <T>$ make bootstrapping-files
@@ -179,6 +200,7 @@ GhcStage1HcOpts = -O
 GhcStage2HcOpts = -O -fvia-C -keep-hc-files
 SRC_HC_OPTS += -H32m
 GhcWithSMP = NO
+utils/ghc-pkg_dist-install_v_HC_OPTS += -keep-hc-files
 ```
 
 
@@ -209,10 +231,12 @@ Now build the compiler:
 
 
 You may need to work around problems that occur due to differences
-between the host and target platforms.
+between the host and target platforms. You may also need to use `make -k`
+in order to ignore unimportant build failures in the RTS.
 
 ```wiki
 <H>$ rm -f list mkfiles boot.tar.gz
+<H>$ find . -name "*.hi" >> list
 <H>$ find . -name "*.hc" >> list
 <H>$ find . -name "*_stub.c" >> list
 <H>$ find . -name "*_stub.h" >> list
@@ -262,15 +286,27 @@ GhcWithNativeCodeGen = NO
 GhcWithInterpreter = NO
 GhcWithSMP = NO
 ghc_stage2_v_EXTRA_CC_OPTS += -Lgmp -lgmp -lm -lutil -lrt
+utils/ghc-pkg_dist-install_v_EXTRA_CC_OPTS += -Lgmp -lgmp -lm -lutil -lrt
 ```
+
+
+You should also consider putting:
+
+```wiki
+SRC_CC_OPTS += -g -O0
+```
+
+
+in `<T>/mk/build.mk`. It'll make the resulting compiler slower, but it'll be a lot easier
+if you get segfaults etc later on.
 
 ```wiki
 <T>$ for c in libraries/*/configure; do ( cd `dirname $c`; ./configure ); done
 ```
 
 ```wiki
-<T>$ sed -i .bak "s#<H>#<T>#g" */*/package-data.mk */*/*/package-data.mk
-<T>$ touch -r compiler/stage2/package-data.mk */*/package-data.mk */*/*/package-data.mk
+<T>$ sed -i .bak "s#<H>#<T>#g" inplace/lib/package.conf */*/package-data.mk */*/*/package-data.mk
+<T>$ touch -r inplace/lib/package.conf */*/package-data.mk */*/*/package-data.mk
 ```
 
 
@@ -282,7 +318,9 @@ libffi, and libgmp if necessary:
 ```
 
 ```wiki
-<T>$ make all_ghc_stage2 2>&1 | tee log
+<T>$ make all_ghc_stage2      2>&1 | tee c.log
+<T>$ make inplace/bin/ghc-pkg 2>&1 | tee gp.log
+<T>$ make inplace/lib/unlit
 ```
 
 
