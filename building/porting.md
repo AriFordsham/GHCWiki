@@ -215,6 +215,7 @@ in order to ignore unimportant build failures in the RTS.
 
 ```wiki
 <H>$ rm -f list mkfiles boot.tar.gz
+<H>$ find . -name "*.hi" >> list
 <H>$ find . -name "*.hc" >> list
 <H>$ find . -name "*_stub.c" >> list
 <H>$ find . -name "*_stub.h" >> list
