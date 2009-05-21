@@ -50,42 +50,47 @@ An multidimensional array is parametrised with its dimensionality and its
 element type:
 
 ```wiki
-(Ix (Shape dim), U.Elt a)  => Array dim a 
-
+(Shape dim, U.Elt a)  => Array dim a 
 ```
 
 
-where Ix is the standard Haskell index class,  Shape is a type family defined on tuples of integers, including nullary
-tuples - arrays of which correspond to scalar values. So, for example
+The element type of multidimensional arrays is restricted to the type class `Elt` exported from ` Data.Array.Parallel.Unlifted`, and contains all primitive types like `Bool`, `Int`, `Float`, and pairs thereof constructed with the type constructor `:*:`, also exported from the same module. The elements of the type class `Shape` describe the shape of a multidimensional array, but also indices into
+an array (**Note:** so, is `Shape` really the right name? `Ix` however, also doesn't seem to be right, since it is too different from the`Ix` defined in the Prelude) 
 
 ```wiki
-  Array ()        Double   -- scalar double precision floating point value
-  Array (Int,Int) Double   -- two dimensional array (matrix)
+class U.Elt sh => Shape sh where
+  dim   :: sh -> Int                 -- number of dimensions (>= 0)
+  size  :: sh -> Int                  -- for a shape, yield the total number of 
+                                                 -- elements in that array
+  index :: sh -> sh -> Int     -- corresponding index into a linear, row-major 
+                                                 -- representation of the array (first argument
+                                                 -- is the shape)
+
+  shLast:: (sh :*: Int) -> Int  --  given an at least one dimensional shape, returns the innermost 
+                                                 --  dimension   
+  shInit:: (sh :*: Int) -> sh    --  returns the outermost dimensions
+  range:: sh -> U.Array sh    -- all indexes for a given shape
 ```
 
-`U.Elt` is the `Elt` type class defined in ` Data.Array.Parallel.Unlifted` and contains all primitive types like `Int`, `Bool`, and tuples thereof.
 
-
-Internally, shapes are represented as nested pairs
+with the following instances:
 
 ```wiki
-type family Shape dim
-type instance Shape () = ()
-type instance Shape (Int) = ((),Int)
-type instance Shape (Int, Int) = (((),Int), Int)
+instance Shape ()
+instance (Shape sh1, U.Elt sh1) => Shape (sh1 :*: Int) 
 ```
 
 
-The user, however,  doesn't need to be aware of this and can view the shape of an n-dimensional array  as n-tuple of integer values.
+So, for example a two dimensional array of three vectors of the length five has the shape `(() :*: 5) :*: 3`. This is a suitable internal representation, but it should be hidden from the user, who should be provided with a more familiar notation, but for now, we will stick with the internal representation.
 
 
-For readability, we define the following type synonyms:
+We use the following type synonyms to improve the readability of the code:
 
 ```wiki
-type DIM0 = Shape ()
-type DIM1 = Shape Int
-type DIM2 = Shape (Int, Int)
-type DIM3 = Shape (Int, Int, Int)
+type DIM0 = ()
+type DIM1 = DIM0 :*: Int
+type DIM2 = DIM1 :*: Int
+type DIM3 = DIM2 :*: Int
 ```
 
 ## Operations
@@ -96,7 +101,7 @@ type DIM3 = Shape (Int, Int, Int)
 The `shape` function returns the shape of an n-dimensional array as n-tuple:
 
 ```wiki
-shape  :: Array dim e -> Shape dim
+shape  :: Array dim e ->  dim
 ```
 
 
@@ -111,9 +116,9 @@ matrixMult m1 m2| snd (shape m1) == fst (shape m2) = multiply ....
 
 ```wiki
 -- size of both shapes have to be the same, otherwise runtime error
-reshape     ::(Ix (Shape dim), Ix (Shape dim')) =>
-                 (Shape dim)                  -- new shape
-              -> Array dim' a                 -- array to be reshaped
+reshape     ::(Shape dim, Shape dim') =>
+                    dim                             -- new shape
+              -> Array dim' a              -- array to be reshaped
               -> Array dim a
 ```
 
@@ -125,10 +130,6 @@ A new array can be created from a flat parallel array
 ```wiki
 fromNArray:: U.Elt r => U.Array r -> Array DIM1 r
 ```
-
-
-where `U.Array` is the array type defined in `Data.Array.Parallel.Unlifted` - that is, non-nested parallel arrays.
- 
 
 ```wiki
 fromScalar::  U.Elt r => r -> Array DIM0 r
