@@ -3,14 +3,13 @@
 
 === Issues that need discussion and planning ===
 
+ * '''Code blow up:''' Even for Quickhull, the generated Core is too much admit any sensible attempt at optimising it.  ''This is our main road block at the moment.''
+
  * '''Unlifted functions:''' specify the exact behaviour of this optimisation and how the unliftedness of a named function is propagated across module boundaries.
-
- * '''Code blow up:''' what do we do about dictionary instances, their inlining, floating, and sharing?
-
- * What is the status of using TH for generating library boilerplate?
 
 === Milestones ===
 
+ 0. Get Quickhull to run fast.
  0. The system should be usable for small applications for the GHC 6.12 release.
 
  
@@ -20,16 +19,17 @@
    '''Code blow up''', '''Generate boilerplate with TH''', '''Explicit shape information''' & '''Recycling for joinD'''
    – status: partly implemented, but still needs serious work
    * All segmented operations have been removed from the backend library.
+   * Roman currently adapts the vectoriser to make use of the separation of data and shape in the library.  This turned out to be more work than expected, but it should also simplify the vectoriser.
    * We still don't have the code blow up under control.
    * Before any further major changes to the library, Roman needs to first re-arrange things such that the library boilerplate is generated, instead of being hardcode; otherwise, changes require a lot of tiresome code editing.  This is partially done.
 
  ''Simon''::
    '''New dictionary representation and optimisation'''
-   – status: prototype shipped to Roman, seems to work.   I am doing detailed perf comparisons before committing to HEAD. 
+   – status: prototype shipped to Roman, seems to work.   I am doing detailed perf comparisons before committing to HEAD.  '''NB:''' We won't be able to make progress with benchmarks, before we can use the new inliner (currently we have no version that applies to the HEAD).
 
  ''Gabi''::
-   '''Regular multi-dimensional arrays''' & '''Hierarchical matrix representation'''
-   – status: partially implemented benchmark; regular multi-dimensional arrays are in the design phase
+   '''Regular multi-dimensional arrays (language design and implementation)''' & '''Hierarchical matrix representation'''
+   – status: partially implemented benchmark; regular multi-dimensional arrays are in an experimental state
 
  ''Manuel''::
    '''Desugaring comprehensions''' & '''Benchmark status'''
@@ -49,7 +49,7 @@ Category: ''Efficiency, short term'' (improve scalability and/or baseline perfor
 
  * '''Desugaring comprehensions:''' The current desugaring of array comprehensions produces very inefficient code.  This needs to be improved.  In particular, the `map/crossMap` base case in `dotP` for `x<-xs` and use `zipWith` instead of `map/zip`.  Moreover, `[:n..m:]` is being desugared to `GHC.PArr.enumFromToP` - it needs to use the implementation from the current dph backend instead.
 
- * '''Regular multi-dimensional arrays:''' Representing regular arrays by nested arrays is generally not efficient, but due to the current lack of fusion for segmented arrays that produce multiple arrays of different length (e.g., `filterSU :: (a -> Bool) -> SUArr a -> SUArr a`), matters are worse than one might think (e.g., when using a hierarchical matrix representation).  Hence, we need direct support for regular, multi-dimensional arrays.
+ * '''Regular multi-dimensional arrays (language design and implementation):''' Representing regular arrays by nested arrays is generally not efficient, but due to the current lack of fusion for segmented arrays that produce multiple arrays of different length (e.g., `filterSU :: (a -> Bool) -> SUArr a -> SUArr a`), matters are worse than one might think (e.g., when using a hierarchical matrix representation).  Hence, we need direct support for regular, multi-dimensional arrays.
 
  * '''Explicit shape information:''' All library internal functions should get shape information (including the lengths of flat arrays) as extra arguments; in particular, lengths shouldn't be stored in every level of a flattened data structure.  This should simplify the use of rewrite rules that are shape sensitive.
 
