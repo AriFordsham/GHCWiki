@@ -305,7 +305,7 @@ the Haskell world.  See the comments and code for the
 other architectures in this file for pointers.
 </td></tr></table>
 
-<table><tr><th>`rts/MBlock.h`, `rts/MBlock.c`</th>
+<table><tr><th>`rts/sm/MBlock.h`, `rts/sm/MBlock.c`</th>
 <td>
 These files are really OS-specific rather than
 architecture-specific.  In `MBlock.h`

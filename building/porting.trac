@@ -269,7 +269,7 @@ build:
   the Haskell world.  See the comments and code for the
   other architectures in this file for pointers.
 
- {{{rts/MBlock.h}}}, {{{rts/MBlock.c}}}::
+ {{{rts/sm/MBlock.h}}}, {{{rts/sm/MBlock.c}}}::
   These files are really OS-specific rather than
   architecture-specific.  In {{{MBlock.h}}}
   is specified the absolute location at which the RTS
