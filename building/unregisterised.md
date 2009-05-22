@@ -9,7 +9,6 @@ To do an unregisterised build, add the following to your `mk/build.mk` file:
 ```wiki
 GhcUnregisterised=YES                                                     
 GhcWithNativeCodeGen=NO                                                   
-GhcWithInterpreter=NO                                                     
 SplitObjs=NO
 ```
 
