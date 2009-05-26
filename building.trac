@@ -31,7 +31,7 @@ More detailed information about the build system
  * [wiki:Building/Architecture Architecture of the build system]
  * [wiki:Building/Modifying Modifying the build system]
  * [wiki:Building/Unregisterised Unregisterised builds]
- * [wiki:Building/Porting Porting GHC]
+ * [wiki:Building/Porting Porting GHC to a new platform]
  * [wiki:Building/RunningTests Running the GHC test framework]
  * [wiki:Building/RunningNoFib The NoFib benchmark suite]
 
