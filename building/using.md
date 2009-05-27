@@ -64,35 +64,36 @@ GHC uses the `autoconf` tools in the standard Unixy way, described in more detai
 ```wiki
       ---------------
       |             |
-      | Source code | <--------------
-      |             |               |
-      ---------------     maintainer-clean
-        |                           |
-      sh boot (runs autoconf)       | 
-        |                           |
-        v                           |   
-      ---------------------         |
-      | Source tar-ball   |>--------|
-      |  ./configure      |         |
-      |  */ghc.mk         |<--      |
-      ---------------------  |      |
-        |                    |      |
-      ./configure        distclean  |
-        |                    |      |
-        v                    |      |
-      ------------------     |      |         
-      | Configured     |>-----      |
-      |   mk/config.mk |     |      |
-      |                |>------------
-      ------------------     |      |
-        |                    |      |
-       make                  |      |
-        |                    |      |
-        v                    |      |
-      ------------------     |      |
-      | Built          |>-----      |
-      |                |            |
-      |                |>------------
+      | Source code | <---------------------
+      |             |                      |
+      ---------------            maintainer-clean
+        |                                  |
+      sh boot (runs autoconf)              | 
+        |                                  |
+        v                                  |   
+      ----------------------------         |
+      | Source tar-ball          |>--------|
+      |  ./configure             |         |
+      |  libraries/*/GNUmakefile |         |
+      |  libraries/*/ghc.mk      |<--      |
+      ----------------------------  |      |
+        |                           |      |
+      ./configure               distclean  |
+        |                           |      |
+        v                           |      |
+      ------------------            |      |         
+      | Configured     |>------------      |
+      |   mk/config.mk |            |      |
+      |                |>-------------------
+      ------------------            |      |
+        |                           |      |
+       make                         |      |
+        |                           |      |
+        v                           |      |
+      ------------------            |      |
+      | Built          |>------------      |
+      |                |                   |
+      |                |>-------------------
       ------------------
 ```
 
