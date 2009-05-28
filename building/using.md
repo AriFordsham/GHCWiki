@@ -575,7 +575,7 @@ $ make 2
 
 This is like `make stage=2`, except that it omits the dependency-building phase.  If you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you might get a build failure.  On the other hand, this shortcut usually works and the few seconds it saves can make GHC development a much more interactive experience.  There are also `make 1` and `make 3` targets to make the stage 1 and stage 3 compilers respectively.  These targets work in both the `ghc` and `compiler` subdirectories.
 
-### Building a single component in general
+### Building a single sub-component
 
 
 Each subdirectory of the source tree has a
@@ -614,7 +614,7 @@ You can also clean a single component of the tree, just by saying
 `make clean` in a subdirectory.  Again this is equivalent to issuing a
 command at the top of the tree of the form `make clean_libraries/base`.
 
-## Building a single file
+### Building a single file
 
 
 It's possible to tell make to build a single file, from any subdirectory in the tree.  For example, suppose I want to build just the module `Control.Monad` in the `base` package, I can do it like this:
@@ -641,6 +641,34 @@ $ make dist-install/build/Control/Monad.o EXTRA_HC_OPTS=-dcore-lint
 
 
 you could also cut-and-paste the command-line to add flags, but sometimes the `EXTRA_HC_OPTS` method is more convenient.
+
+## Building libraries
+
+
+The [boot libraries](commentary/libraries) are built as part of building GHC; they are built with the stage1 compiler, and imported when the stage2 compiler is compiled with stage1.
+
+
+All other libraries are stand-alone Cabal packages, and the build system knows nothing about them.  Nevertheless, it is common to want to install extra packages for the GHC in your build tree.  Here's how to do it.
+
+
+First, download the package.  For example (using `$(TOP)` to stand for the root directory of your build tree):
+
+```wiki
+$ cd $(TOP)/libraries
+$ darcs get http:://darcs.haskell.org/packages/parallel
+```
+
+
+(You don't have to download the package to `$(TOP)/libraries`; it can go anywhere.)  Now build it using Cabal, telling Cabal to use the GHC from your build tree:
+
+```wiki
+runhaskell Setup configure --with-ghc=$(TOP)/inplace/bin/ghc-stage2
+runhaskell Setup build
+runhaskell Setup install --inplace
+```
+
+
+The `--inplace` flag to `install` is passed by Cabal to `ghc-pkg` (which in turn is found form the `--with-ghc` flag you gave to `configure`, and tells `ghc-pkg` not to copy the compiled package, but rather to leave it right where it is.
 
 ## Standard Targets
 
