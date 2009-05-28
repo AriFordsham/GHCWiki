@@ -94,8 +94,8 @@
 
 ------------------------
 == Features == 
-
- * #788	Class aliases	
+ * #3217: better flag handling for GHCi
+ * #788:	Class aliases	
  * #2806: Require bang patterns on unlifted let-bindings	
  * #2600: Bind type variables in RULES	
  * #1930: Infix type operators:  a+b.	
