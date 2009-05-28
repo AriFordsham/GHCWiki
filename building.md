@@ -24,18 +24,22 @@ Getting started for developers
 - [How do I re-build after updating or changing GHC?](building/rebuilding)
 
 
-More detailed information about the build system
+More detailed information about using the build system
 
 - [Using the build system](building/using)
 - [Building the documentation](building/docs)
 - [Installing GHC from a build](building/installing)
-- [Overview of files and directories](commentary/source-tree)
-- [Architecture of the build system](building/architecture)
-- [Modifying the build system](building/modifying)
 - [Unregisterised builds](building/unregisterised)
 - [Porting GHC to a new platform](building/porting)
 - [Running the GHC test framework](building/running-tests)
 - [The NoFib benchmark suite](building/running-no-fib)
+
+
+More detailed information about how the build system works
+
+- [Overview of files and directories](commentary/source-tree)
+- [Architecture of the build system](building/architecture)
+- [Modifying the build system](building/modifying)
 
 
 Platform-specific build-system documentation:

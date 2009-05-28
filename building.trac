@@ -22,18 +22,20 @@ Getting started for developers
  * [wiki:Building/Hacking Getting started with the build system]
  * [wiki:Building/Rebuilding How do I re-build after updating or changing GHC?]
 
-More detailed information about the build system
+More detailed information about using the build system
 
  * [wiki:Building/Using Using the build system]
  * [wiki:Building/Docs Building the documentation]
  * [wiki:Building/Installing Installing GHC from a build]
- * [wiki:Commentary/SourceTree Overview of files and directories]
- * [wiki:Building/Architecture Architecture of the build system]
- * [wiki:Building/Modifying Modifying the build system]
  * [wiki:Building/Unregisterised Unregisterised builds]
  * [wiki:Building/Porting Porting GHC to a new platform]
  * [wiki:Building/RunningTests Running the GHC test framework]
  * [wiki:Building/RunningNoFib The NoFib benchmark suite]
+
+More detailed information about how the build system works
+ * [wiki:Commentary/SourceTree Overview of files and directories]
+ * [wiki:Building/Architecture Architecture of the build system]
+ * [wiki:Building/Modifying Modifying the build system]
 
 Platform-specific build-system documentation:
 
