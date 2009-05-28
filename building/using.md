@@ -575,7 +575,7 @@ $ make 2
 
 This is like `make stage=2`, except that it omits the dependency-building phase.  If you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you might get a build failure.  On the other hand, this shortcut usually works and the few seconds it saves can make GHC development a much more interactive experience.  There are also `make 1` and `make 3` targets to make the stage 1 and stage 3 compilers respectively.  These targets work in both the `ghc` and `compiler` subdirectories.
 
-### Building a single component in general
+### Building a single sub-component
 
 
 Each subdirectory of the source tree has a
@@ -614,7 +614,7 @@ You can also clean a single component of the tree, just by saying
 `make clean` in a subdirectory.  Again this is equivalent to issuing a
 command at the top of the tree of the form `make clean_libraries/base`.
 
-## Building a single file
+### Building a single file
 
 
 It's possible to tell make to build a single file, from any subdirectory in the tree.  For example, suppose I want to build just the module `Control.Monad` in the `base` package, I can do it like this:
