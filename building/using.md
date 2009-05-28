@@ -642,6 +642,34 @@ $ make dist-install/build/Control/Monad.o EXTRA_HC_OPTS=-dcore-lint
 
 you could also cut-and-paste the command-line to add flags, but sometimes the `EXTRA_HC_OPTS` method is more convenient.
 
+## Building libraries
+
+
+The [boot libraries](commentary/libraries) are built as part of building GHC; they are built with the stage1 compiler, and imported when the stage2 compiler is compiled with stage1.
+
+
+All other libraries are stand-alone Cabal packages, and the build system knows nothing about them.  Nevertheless, it is common to want to install extra packages for the GHC in your build tree.  Here's how to do it.
+
+
+First, download the package.  For example (using `$(TOP)` to stand for the root directory of your build tree):
+
+```wiki
+$ cd $(TOP)/libraries
+$ darcs get http:://darcs.haskell.org/packages/parallel
+```
+
+
+(You don't have to download the package to `$(TOP)/libraries`; it can go anywhere.)  Now build it using Cabal, telling Cabal to use the GHC from your build tree:
+
+```wiki
+runhaskell Setup configure --with-ghc=$(TOP)/inplace/bin/ghc-stage2
+runhaskell Setup build
+runhaskell Setup install --inplace
+```
+
+
+The `--inplace` flag to `install` is passed by Cabal to `ghc-pkg` (which in turn is found form the `--with-ghc` flag you gave to `configure`, and tells `ghc-pkg` not to copy the compiled package, but rather to leave it right where it is.
+
 ## Standard Targets
 
 
