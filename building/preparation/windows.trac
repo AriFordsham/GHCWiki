@@ -15,7 +15,7 @@ Installing the following will get you a working build environment with MSYS (alt
    * [http://www.haskell.org/ghc/tools/Win32/msysDTK-1.0.1.exe]
    * [http://www.haskell.org/ghc/tools/Win32/msysCORE-1.0.11-20080826.tar.gz] (this is a tar file, which you have to unpack in `c:/msys/1.0`, or wherever you installed MSYS.  Note that you can't do that using an MSYS shell, because you can't overwrite the files in use, so make a copy of `c:/msys/1.0`, unpack it there, and then rename the copy back to `c:/msys/1.0`).
 
- * Install [http://www.python.org/download/releases/ Python] (version 2.5.x or 2.6.x, NOT 3.x).
+ * Install [http://www.python.org/download/releases/ Python] (version 2.6.2 is a good choice.  2.6.1 causes a problem with the test suite, and we don't support 3.x at this time).
 
 The next three are just zip files, you can unpack them wherever you like, but you need to ensure that the programs can be found on your `PATH`.  I usually put all these in `c:/tools` (NB. don't put them anywhere in `c:/msys`, that's special).
 
