@@ -60,7 +60,7 @@
 
 ## Outright bugs
 
-- [\#1148](https://gitlab.haskell.org//ghc/ghc/issues/1148), [\#2267](https://gitlab.haskell.org//ghc/ghc/issues/2267), [\#1074](https://gitlab.haskell.org//ghc/ghc/issues/1074): “Unused import” warnings should be generated from `RdrNames`
+- [\#1148](https://gitlab.haskell.org//ghc/ghc/issues/1148), [\#2267](https://gitlab.haskell.org//ghc/ghc/issues/2267), [\#1074](https://gitlab.haskell.org//ghc/ghc/issues/1074), [\#2436](https://gitlab.haskell.org//ghc/ghc/issues/2436): “Unused import” warnings should be generated from `RdrNames`
 - [\#2182](https://gitlab.haskell.org//ghc/ghc/issues/2182): GHCi session retains instance after removing a module from scope        
 - [\#2152](https://gitlab.haskell.org//ghc/ghc/issues/2152): Bogus inlining of foregn import.  Arises from seeing through a NOINLINE in `exprIsConApp_maybe`
 - [\#1241](https://gitlab.haskell.org//ghc/ghc/issues/1241): Lifting the Coverage Condition for functional dependencies isn’t the Right Thing        Manuel
