@@ -12,10 +12,10 @@ can extend it, modify it, and use it to build your code.
 
 Building GHC
 
- * [wiki:Building/GettingTheSources Getting the sources]
- * [wiki:Platforms Platforms that GHC currently supports]
  * [wiki:Building/Preparation Setting up your system for building GHC]
+ * [wiki:Building/GettingTheSources Getting the sources]
  * [wiki:Building/QuickStart Just building and installing GHC]
+ * [wiki:Platforms Platforms that GHC currently supports]
 
 Getting started for developers
 
