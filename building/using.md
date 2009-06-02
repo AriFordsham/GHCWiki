@@ -42,6 +42,8 @@ However, if you just want to build the software once on a single
 platform, then your source tree can also be your build tree, and you
 can skip the rest of this section.
 
+**Windows users**: so far as we know, symbolic links do not work right on MSYS at least, so we never use separate source and build trees on Windows.
+
 
 A *build tree* is just an exact copy of the source tree, except that
 every file in it is a symbolic link to the appropriate file in the
