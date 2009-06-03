@@ -6,26 +6,6 @@ Here we keep track of failures that can occur when building GHC, with solutions.
 
 We don't expect anyone to read this page from beginning to end.  The only way you get here is by searching, so remember when adding a new entry the most important thing to do is to **include the error message verbatim**, so searches will find it.  If a build failure is caused by a bug in GHC or the build system, please link to the ticket number so we can tell when it's safe to remove the entry and keep this page from getting too crufty.
 
-### Missing ghc.mk files (distclean)
-
-
-If you try `make distclean` or `sh validate` and get something like
-
-```wiki
-ghc.mk:534: libraries/dph/dph-base/ghc.mk: No such file or directory
-```
-
-
-it's probably because (alas) `make distclean` only works on a [configured tree](building/using#booting,-configuring,-cleaning).
-
-
-Solution: 
-
-```wiki
-sh boot
-./configure
-```
-
 ### Using autoconf by mistake
 
 
