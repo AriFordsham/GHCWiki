@@ -4,7 +4,7 @@ Video: [http://video.google.com/videoplay?docid=-2701204964659708761 STG languag
 
 = The STG syntax data types =
 
-Before code generation, GHC converts the Core-language program into {{{StgSyn}}}.  The basic ideas are still pretty much exactly as described in the paper [http://research.microsoft.com/copyright/accept.asp?path=/users/simonpj/papers/spineless-tagless-gmachine.ps.gz Implementing lazy functional languages on stock hardware: the Spineless Tagless G-machine].
+Before code generation, GHC converts the Core-language program into {{{StgSyn}}}.  The basic ideas are still pretty much exactly as described in the paper [http://research.microsoft.com/en-us/um/people/simonpj/papers/spineless-tagless-gmachine.ps.gz Implementing lazy functional languages on stock hardware: the Spineless Tagless G-machine].
 
 The best way to think of STG is as special form of [wiki:Commentary/Compiler/CoreSynType Core].  Specifically, the differences are these (see [[GhcFile(compiler/stgSyn/StgSyn.lhs)]]):
  * Functions arguments are atoms (literals or variables), of type {{{StgArg}}}.
