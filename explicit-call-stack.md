@@ -6,7 +6,7 @@ There has been a vigorous thread on error attribution ("I get a `head []` error;
 
 See also
 
-- [ Finding the needle](http://http://research.microsoft.com/~simonpj/papers/stack-trace/DebugTraces.pdf), a paper describing Tristan Allwood's intern project to implement explicit call stacks in GHC (May 2009).
+- [ Finding the needle](http://research.microsoft.com/~simonpj/papers/stack-trace/DebugTraces.pdf), a paper describing Tristan Allwood's intern project to implement explicit call stacks in GHC (May 2009).
 - [\#1441](https://gitlab.haskell.org//ghc/ghc/issues/1441), [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960), which would be fixed by this.
 - [ The Haskell cafe thread](http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html)
 - [ http://www.cse.unsw.edu.au/\~dons/loch.html](http://www.cse.unsw.edu.au/~dons/loch.html)

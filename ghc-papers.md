@@ -15,7 +15,7 @@ All docs are gzipped A4 Postscript unless otherwise specified.
 
 - [Run-time System document](http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz).  This document (is supposed to) describe the new run-time system in GHC 4.xx.  Be warned that the implementation and this document are evolving in parallel, so they might not be quite in sync.
 
-- [ The Spineless Tagless G-Machine](http://research.microsoft.com/copyright/accept.asp?path=/users/simonpj/papers/spineless-tagless-gmachine.ps.gz#26pub=34).  This paper describes the execution model used by GHC.  It is most relevant to GHC up to version 3.xx---in version 4 we made some changes which are described in the [RTS document](http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz).
+- [ The Spineless Tagless G-Machine](http://research.microsoft.com/en-us/um/people/simonpj/papers/spineless-tagless-gmachine.ps.gz#26pub=34).  This paper describes the execution model used by GHC.  It is most relevant to GHC up to version 3.xx---in version 4 we made some changes which are described in the [RTS document](http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz).
 
 - The UsageSP analysis (ghc/compiler/usageSP/) is described in Keith Wansbrough and Simon Peyton Jones, [ Once Upon a Polymorphic Type](http://www.cl.cam.ac.uk/users/kw217/research/phd/usptr-10pt.ps.gz), Technical Report TR-1998-19, Department of Computing Science, University of Glasgow, 1998.  Conference version [ Once Upon a Polymorphic Type](http://www.cl.cam.ac.uk/users/kw217/research/phd/popl99-usage.ps.gz), in The Twenty-sixth ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages, January 20-22, 1999, San Antonio, Texas.
 

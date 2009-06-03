@@ -3,7 +3,7 @@
 There has been a vigorous thread on error attribution ("I get a `head []` error; but who called `head`?").  This page summarises some half baked ideas that Simon and I have been discussing. Do by all means edit this page to add comments and further ideas or pointers.  (As usual, ''discussion'' is best done by email; but this page could be a place to record ideas, design alternatives, list pros and cons, pointers to related work etc.)
 
 See also
-  * [http://http://research.microsoft.com/~simonpj/papers/stack-trace/DebugTraces.pdf Finding the needle], a paper describing Tristan Allwood's intern project to implement explicit call stacks in GHC (May 2009).
+  * [http://research.microsoft.com/~simonpj/papers/stack-trace/DebugTraces.pdf Finding the needle], a paper describing Tristan Allwood's intern project to implement explicit call stacks in GHC (May 2009).
   * #1441, #960, which would be fixed by this.
   * [http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html The Haskell cafe thread]
   * [http://www.cse.unsw.edu.au/~dons/loch.html]
