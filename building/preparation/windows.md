@@ -26,9 +26,6 @@ The next three are just zip files, you can unpack them wherever you like, but yo
 - Install Darcs: [http://www.haskell.org/ghc/tools/Win32/darcs.zip](http://www.haskell.org/ghc/tools/Win32/darcs.zip)
 
 
-Don't use Cygwin's `unzip` to unzip these files; that may give you strange errors.  Use WinZip.
-
-
 Now set your `PATH`.  We recommend doing this by creating a file `.profile` in your home directory (by default `c:/msys/1.0/home/<username>`).  The contents of your `.profile` should be something like this:
 
 ```wiki
