@@ -6,6 +6,57 @@ Here we keep track of failures that can occur when building GHC, with solutions.
 
 We don't expect anyone to read this page from beginning to end.  The only way you get here is by searching, so remember when adding a new entry the most important thing to do is to '''include the error message verbatim''', so searches will find it.  If a build failure is caused by a bug in GHC or the build system, please link to the ticket number so we can tell when it's safe to remove the entry and keep this page from getting too crufty.
 
+=== All binaries crash (Windows only) ===
+
+On Windows you may see this
+{{{
+"inplace/bin/hsc2hs.exe" --cc=gcc --ld=gcc --cflag=-g --cflag=-O2
+--cflag=-D__GLASGOW_HASKELL__=611 '--cflag=-O' '--cflag=-g'
+'--cflag=-O2' '--cflag=-Ilibraries/hpc/.'
+'--cflag=-isystemc:/ghc/ghc-6.10.3\directory-1.0.0.3\include'
+'--cflag=-isystemc:/ghc/ghc-6.10.3\old-time-1.0.0.2\include'
+'--cflag=-isystemc:/ghc/ghc-6.10.3\Win32-2.2.0.0\include'
+'--cflag=-isystemc:/ghc/ghc-6.10.3\bytestring-0.9.1.4\include'
+'--cflag=-isystemc:/ghc/ghc-6.10.3\base-4.1.0.0\include'
+'--cflag=-isystemc:/ghc/ghc-6.10.3/include'
+'--cflag=-isystemPAPI_INCLUDE_DIR'
+'--lflag=-Lc:/ghc/ghc-6.10.3\directory-1.0.0.3'
+'--lflag=-Lc:/ghc/ghc-6.10.3\old-time-1.0.0.2'
+'--lflag=-Lc:/ghc/ghc-6.10.3\old-locale-1.0.0.1'
+'--lflag=-Lc:/ghc/ghc-6.10.3\filepath-1.1.0.2'
+'--lflag=-Lc:/ghc/ghc-6.10.3\containers-0.2.0.1'
+'--lflag=-Lc:/ghc/ghc-6.10.3\array-0.2.0.0'
+'--lflag=-Lc:/ghc/ghc-6.10.3\syb-0.1.0.1'
+'--lflag=-Lc:/ghc/ghc-6.10.3\Win32-2.2.0.0'
+'--lflag=-Lc:/ghc/ghc-6.10.3\bytestring-0.9.1.4'
+'--lflag=-Lc:/ghc/ghc-6.10.3\base-4.1.0.0'
+'--lflag=-Lc:/ghc/ghc-6.10.3\integer-0.1.0.1'
+'--lflag=-Lc:/ghc/ghc-6.10.3\ghc-prim-0.1.0.0'
+'--lflag=-Lc:/ghc/ghc-6.10.3' '--lflag=-Lc:/ghc/ghc-6.10.3/gcc-lib'
+'--lflag=-luser32' '--lflag=-lgdi32' '--lflag=-lwinmm'
+'--lflag=-lkernel32' '--lflag=-ladvapi32' '--lflag=-lwsock32'
+'--lflag=-lmsvcrt' '--lflag=-lkernel32' '--lflag=-luser32'
+'--lflag=-lshell32' '--lflag=-lm' '--lflag=-lffi' '--lflag=-lgmp'
+'--lflag=-lwsock32' libraries/hpc/./Trace/Hpc/Reflect.hsc -o
+libraries/hpc/dist-boot/build/Trace/Hpc/Reflect.hs
+
+running libraries/hpc/dist-boot/build/Trace/Hpc/Reflect_hsc_make.exe failed
+command was: libraries/hpc/dist-boot/build/Trace/Hpc/Reflect_hsc_make.exe  
+    >libraries/hpc/dist-boot/build/Trace/Hpc/Reflect.hs
+make[1]: *** [libraries/hpc/dist-boot/build/Trace/Hpc/Reflect.hs] Error 1
+make: *** [all] Error 2
+}}}
+A dialog pops up: “Reflect_hsc_make.exe has stopped working”, with the buttons “Debug” and “Close program”.
+
+This signals an obscure problem whose source is still unknown: 
+if GHC links in certain Windows libraries, `kernel32` and `msvcrt`, the resulting program crashes.  
+See [http://www.haskell.org/pipermail/glasgow-haskell-bugs/2009-April/018643.html Sigbjorn's email].  We wish we knew why!
+
+We've worked around this in GHC 6.10.4 (and later) so that the problem shouldn't arise if you use that to build GHC with.  But if you have an earlier GHC on your machine you can still work around it as follows:
+
+'''Simon to fill in'''
+
+
 === Using autoconf by mistake ===
 
 If you used {{{autoconf}}} instead of {{{sh boot}}}, you'll get an error when you run {{{./configure}}}:
