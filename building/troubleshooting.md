@@ -58,9 +58,12 @@ if GHC links in certain Windows libraries, `kernel32` and `msvcrt`, the resultin
 See [ Sigbjorn's email](http://www.haskell.org/pipermail/glasgow-haskell-bugs/2009-April/018643.html).  We wish we knew why!
 
 
-We've worked around this in GHC 6.10.4 (and later) so that the problem shouldn't arise if you use that to build GHC with.  But if you have an earlier GHC on your machine you can still work around it as follows:
+We've worked around this in GHC 6.10.4 (and later) so that the problem shouldn't arise if you use that to build GHC with.  But if you have an earlier GHC on your machine you can still work around it as follows.  These two commands will fix up the base and Win32 packages respectively to remove the offending libraries from `extra-libraries` and add a suitable `extra-ghci-libraries`:
 
-**Simon to fill in**
+```wiki
+ghc-pkg describe 'base-4*' | sed 's/msvcrt//;s/kernel32//;s/^extra-ghci-libraries:/extra-ghci-libraries: wsock32 user32 shell32 kernel32 msvcrt/' | ghc-pkg update -
+ghc-pkg describe Win32 | sed 's/kernel32//' | ghc-pkg update -
+```
 
 ### Using autoconf by mistake
 
