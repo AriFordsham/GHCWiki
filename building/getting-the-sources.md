@@ -41,11 +41,14 @@ If you only want to download the latest sources and aren't interested in working
   $ darcs get --partial http://darcs.haskell.org/ghc
   $ cd ghc
   $ chmod +x darcs-all
-  $ ./darcs-all get
+  $ ./darcs-all --testsuite get
 ```
 
 
 The command `darcs-all` adds the `--partial` flag by default.
+
+
+The full list of darcs repositories relating to GHC is at [DarcsRepositories](darcs-repositories).
 
 
 If you plan to modify GHC, then you **must** get repositories with full history rather than just partial repositories.  (Why?  Because darcs has some bugs that sometimes cause problems when using partial repositories for anything more than just pulling the latest patches.)
@@ -95,42 +98,6 @@ On MacOS X this can be [worked around using filesystem tricks](building/mac-osx#
 
 
 If you omit step (3), then `darcs-all` will pull patches into the GHC repository too. If one of those patches modifies the `darcs-all` script itself, then bizarre things can happen (or at least: in the past, they could happen.) The safe thing to do is to get your main `ghc` repo up to date (step 3) and then run the script.
-
-## Getting more packages
-
-
-The above will grab the "core" set of packages and the testsuite.  This is the minimal set of packages required to bootstrap GHC.  If you want to get a more comprehensive set of packages and include them in your GHC build, then you can say:
-
-```wiki
-  $ ./darcs-all --extra get
-```
-
-
-This isn't usually necessary: extra packages can be compiled and installed separately using Cabal, after you have built and installed GHC itself with its core packages.  The "core" and "extra" packages are listed in [DarcsRepositories](darcs-repositories).
-
-
-If you want only one of the extra libraries, you can also use darcs to manually add it to the tree. 
-Suppose you have downloaded a GHC source tree as advised above.
-Look up the directory name (i.e. the package name) of the library which you want to add.
-Descend into `libraries` and issue a `darcs get <repo>` (where `<repo>` is the repository of the package you want to get, ending in the package `<name>`).
-A later `./darcs-all pull ` now pulls updates not only for ghc and the core libraries, but also for any library you have added in this way.
-
-```wiki
-  $ cd libraries
-  $ darcs get http://darcs.haskell.org/packages/<name>
-  $ cd ..
-```
-
-
-Optionally, you might want to grab the testsuite (if you have not already got it) and `nofib` benchmark suite too, which also become sub-directories of ghc:
-
-```wiki
-  $ ./darcs-all --testsuite get
-  $ ./darcs-all --nofib get
-```
-
-
-The full list of darcs repositories relating to GHC is at [DarcsRepositories](darcs-repositories).
 
 ## Getting a GHC source tree using git
 
