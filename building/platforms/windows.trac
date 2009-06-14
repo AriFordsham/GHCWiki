@@ -6,6 +6,8 @@ The build system is built around Unix-y makefiles.  Because it's not native,
 the Windows situation for building GHC is particularly confusing.  This section
 tries to clarify, and to establish terminology.
 
+See also [http://hackage.haskell.org/trac/ghc/wiki/Building/Preparation/Windows Preparation].
+
 == MinGW ==
 
 [http://www.mingw.org MinGW (Minimalist GNU for Windows)] 
