@@ -44,7 +44,7 @@
 
 - Misc:
 
-  - [\#3287](https://gitlab.haskell.org//ghc/ghc/issues/3287): `flattenType` error
+  - [\#3297](https://gitlab.haskell.org//ghc/ghc/issues/3297): `flattenType` error
   - [\#3220](https://gitlab.haskell.org//ghc/ghc/issues/3220) (generalisation)
   - [\#3208](https://gitlab.haskell.org//ghc/ghc/issues/3208): panic `idInfo` of a coercion variable
   - [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): exponentially slow compile times
