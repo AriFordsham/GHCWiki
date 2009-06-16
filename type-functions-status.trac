@@ -37,6 +37,7 @@
      * We  need to know of types whether they are rigid (not only whether they contain unification variables).  We can achieve that by a flag in the environment that indicates whether the computation of that type involved non-rigid type variables.
 
  * Misc:
+  * #3297, #3272: `flattenType` errors
   * #3220 (generalisation)
   * #3208: panic `idInfo` of a coercion variable
   * #3064: exponentially slow compile times
