@@ -677,6 +677,12 @@ The `--inplace` flag to `install` is passed by Cabal to `ghc-pkg` (which in turn
 
 The following targets work both at the top level, and in any subdirectory of the tree.  When used in a subdirectory, they apply only to the components of the system in that directory.
 
+<table><tr><th>`help`</th>
+<td>
+Invoking `make help` in any directory of the build tree will elicit
+a message describing the targets available in that directory.
+</td></tr></table>
+
 <table><tr><th>`all`</th>
 <td>
 (default target, can be omitted).  Builds all the targets for this
