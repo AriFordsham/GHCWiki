@@ -261,7 +261,7 @@ take a look in [[GhcFile(mk/config.mk.in)]].
   Set to `YES` to pass `-debug` when building GHC (stage 2).
 
  `GhcLibWays`::
-  (default: `p`)[[br]]
+  (default: `v p`)[[br]]
   Ways in which to build the libraries.  Must contain
   at least `v` ([wiki:Building/Architecture/Idiom/VanillaWay the vanilla way]).  Also contains `p` by default (profiling).  For other
   ways, see `mk/config.mk.in`.
@@ -300,7 +300,7 @@ SRC_HC_OPTS     = -H32m -O -fasm -Rghc-timing
 GhcStage1HcOpts = -O -fasm
 GhcStage2HcOpts = -O0 -DDEBUG -Wall
 GhcLibHcOpts    = -O -fasm -XGenerics
-GhcLibWays      =
+GhcLibWays      = v
 SplitObjs       = NO
 GhcBootLibs     = YES
 }}}
@@ -339,9 +339,9 @@ What do these options do?
   libraries a bit smaller), but you won't be able to use Generics in
   the code you build against these libraries.
 
- {{{GhcLibWays =}}}::
+ {{{GhcLibWays = v}}}::
   Normally the profiled libraries are built.  Setting {{{GhcLibWays}}} to
-  empty disables this, so you only build the normal libs.
+  just "v" disables this, so you only build the normal libs.
 
  {{{SplitObjs = NO}}}::
   Object splitting causes each module to be split into smaller
