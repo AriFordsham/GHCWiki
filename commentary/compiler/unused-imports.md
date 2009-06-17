@@ -5,11 +5,6 @@ GHC has a series of bugs related to the "report unused imports"
 flags, including [\#1148](https://gitlab.haskell.org//ghc/ghc/issues/1148), [\#2267](https://gitlab.haskell.org//ghc/ghc/issues/2267), [\#1074](https://gitlab.haskell.org//ghc/ghc/issues/1074), [\#2436](https://gitlab.haskell.org//ghc/ghc/issues/2436). 
 This page describes a new design.
 
-
-The idea is that for each use of an imported name, we will attribute
-that use to one or more import decls. Then, any import decls with no
-uses attributed to them are unused, and are warned about.
-
 ## The current story
 
 
@@ -84,20 +79,20 @@ We can at least agree on this:
 - It's not worth trying to be too subtle.  The 90% case is very simple.
 
 
-Here is an attempt at a specification:
+Say that an *import-item* is either an entire import-all decl (eg `import Foo`),
+or a particular item in an import list (eg `import Foo( ..., x, ...)`).  
+The general idea is that for each use of an imported name, we will attribute
+that use to one (or possibly more) import-items. Then, any import items with no
+uses attributed to them are unused, and are warned about.
+More precisely:
 
-1.  Say that an *import-item* is either an entire import-all decl (eg `import Foo`),
-  or a particular item in an import list (eg `import Foo( ..., x, ...)`).  
-1.  For every `RdrName` in the program text, choose one of the import-items
-  that brought it into scope, the "chosen import-item",
-  and mark it "used".  
+1.  For every `RdrName` in the program text, find all the import-items that brought it     into scope.  The lookup mechanism on `RdrNames` already takes account of whether the `RdrName` was qualified, and which imports have the right qualification etc, so this step is very easy.
+
+1. Choose one of these, the "chosen import-item", and mark it "used".  
+
 1.  Now bleat about any import-items that are unused.  For a decl
   `import Foo(x,y)`, if both the `x` and `y` items are unused, it'd be better
   to bleant about the entire decl rather than the individual items.
-
-
-In step 2, the lookup mechanism on `RdrNames` already takes account of whether
-the `RdrName` was qualified, and which imports have the right qualification etc.
 
 
 The import-item choosing step 2 implies that there is a total order on 
@@ -109,14 +104,17 @@ A over B.  Here is one possible dominance relationship:
 - Otherwise choose the textually first one.
 
 
-Note that this algorithm chooses exactly one import-item in step 2.  It would
-also be sound to choose more than one if there was a tie, but then completely-duplicate
-imports might not be reported.
+Other notes:
 
+- The algorithm chooses exactly one import-item in step 2.  It would
+  also be sound to choose more than one if there was a tie, but then completely-duplicate
+  imports might not be reported.
 
-Note that if we have an import item `import Foo (Bar(bar))`, then
-it's marked as used if either `Bar` or `bar` are used.  We could have yet finer
-resolution and report even unused sub-items.
+- Note that if we have an import item `import Foo (Bar(bar))`, then
+  it's marked as used if either `Bar` or `bar` are used.  We could have yet finer
+  resolution and report even unused sub-items.
+
+- We should retain the special case of not warning about `import Foo ()`, which implies "instance declarations only".
 
 ---
 
