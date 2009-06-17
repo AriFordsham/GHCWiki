@@ -320,7 +320,7 @@ Set to `YES` to pass `-debug` when building GHC (stage 2).
 
 <table><tr><th>`GhcLibWays`</th>
 <td>
-(default: `p`)
+(default: `v p`)
 
 Ways in which to build the libraries.  Must contain
 at least `v` ([the vanilla way](building/architecture/idiom/vanilla-way)).  Also contains `p` by default (profiling).  For other
@@ -371,7 +371,7 @@ SRC_HC_OPTS     = -H32m -O -fasm -Rghc-timing
 GhcStage1HcOpts = -O -fasm
 GhcStage2HcOpts = -O0 -DDEBUG -Wall
 GhcLibHcOpts    = -O -fasm -XGenerics
-GhcLibWays      =
+GhcLibWays      = v
 SplitObjs       = NO
 GhcBootLibs     = YES
 ```
@@ -419,10 +419,10 @@ libraries a bit smaller), but you won't be able to use Generics in
 the code you build against these libraries.
 </td></tr></table>
 
-<table><tr><th>`GhcLibWays =`</th>
+<table><tr><th>`GhcLibWays = v`</th>
 <td>
 Normally the profiled libraries are built.  Setting `GhcLibWays` to
-empty disables this, so you only build the normal libs.
+just "v" disables this, so you only build the normal libs.
 </td></tr></table>
 
 <table><tr><th>`SplitObjs = NO`</th>
