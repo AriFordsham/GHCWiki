@@ -230,7 +230,7 @@ if you get segfaults etc later on.
 ```
 
 ```wiki
-<T>$ sed -i .bak "s#<H>#<T>#g" inplace/lib/package.conf */*/package-data.mk */*/*/package-data.mk
+<T>$ sed -i.bak "s#<H>#<T>#g" inplace/lib/package.conf */*/package-data.mk */*/*/package-data.mk
 <T>$ touch -r inplace/lib/package.conf */*/package-data.mk */*/*/package-data.mk
 ```
 
