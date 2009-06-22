@@ -1,7 +1,7 @@
 = Notes From a Beginning GHC Hacker =
 
 == General notes (some just for Windows) ==
- 1. [http://www.haskell.org/ghc/docs/latest/html/building/index.html The Building Guide] is very good, read the appropriate parts.
+ 1. [wiki:Building The Building Guide] is very good, read the appropriate parts.
  1. Optimize your set up for build speed.  Having to wait 10 minutes to compile because you added an export to a critical module is no fun.
    1. Use MSYS, not cygwin.  MSYS is '''much''' faster.
    1. Do not use -O to compile GHC while you are making heavy changes.  Once things compile smoothly and you want to test it, compile with optimization (on my machine, adding -O triples the compile time for a fresh 'make').
