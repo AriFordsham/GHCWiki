@@ -94,6 +94,22 @@ SRC_CC_OPTS += -m64
 ```
 
 
+As of June 23rd, GHC HQ has exorcised and split out GMP from the runtime
+system into the separate 'integer-gmp' package. If you are bootstrapping a
+compiler and are going to use integer-gmp for your `Integer` type, instead of
+'integer-simple' which is a pure Haskell equivalent, then you will need to
+run `configure` in `libraries/integer-gmp` here as well:
+
+```wiki
+<T>$ cd libraries/integer-gmp
+<T>$ ./configure
+<T>$ cd ../..
+```
+
+
+ToDo: explain how to use the 'integer-simple' package.
+
+
 Then:
 
 ```wiki
