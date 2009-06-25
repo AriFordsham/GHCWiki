@@ -125,7 +125,7 @@ Unpack a source tree (exactly the same version as before).  Call this directory 
 
 ```wiki
 <H>$ sh boot
-<H>$ ./configure
+<H>$ ./configure --target=plat
 ```
 
 
@@ -149,11 +149,6 @@ utils/ghc-pkg_dist-install_v_HC_OPTS += -keep-hc-files
 
 Edit `<H>/mk/project.mk`:
 
-- change `TARGETPLATFORM` appropriately, and set the variables
-  involving `TARGET` or `Target` to the correct values for
-  the target platform.  This step is necessary because
-  currently `configure` doesn't cope with specifying different
-  values for the `--host` and `--target` flags.
 - copy `LeadingUnderscore` setting from target.
 
 
