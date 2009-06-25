@@ -53,7 +53,9 @@ The following step-by-step instructions should result in a fully
 working, albeit unregisterised, GHC.  Firstly, you need a machine that
 already has a working GHC (we'll call this the *host* machine), in
 order to cross-compile the intermediate C files that we will use to
-bootstrap the compiler on the *target* machine.
+bootstrap the compiler on the *target* machine. We'll assume that you
+are porting to platform *plat*, e.g. *plat* may be
+`x86_64-unknown-linux`.
 
 **On the target machine**
 
@@ -78,7 +80,7 @@ Now begin with:
 ```wiki
 <T>$ cp /bin/pwd utils/ghc-pwd/ghc-pwd
 <T>$ sh boot
-<T>$ ./configure --enable-hc-boot
+<T>$ ./configure --enable-hc-boot --build=plat --host=plat --target=plat
 ```
 
 
@@ -123,7 +125,7 @@ Unpack a source tree (exactly the same version as before).  Call this directory 
 
 ```wiki
 <H>$ sh boot
-<H>$ ./configure
+<H>$ ./configure --target=plat
 ```
 
 
@@ -147,11 +149,6 @@ utils/ghc-pkg_dist-install_v_HC_OPTS += -keep-hc-files
 
 Edit `<H>/mk/project.mk`:
 
-- change `TARGETPLATFORM` appropriately, and set the variables
-  involving `TARGET` or `Target` to the correct values for
-  the target platform.  This step is necessary because
-  currently `configure` doesn't cope with specifying different
-  values for the `--host` and `--target` flags.
 - copy `LeadingUnderscore` setting from target.
 
 
@@ -199,7 +196,7 @@ in order to ignore unimportant build failures in the RTS.
 
 ```wiki
 <T>$ sh boot
-<T>$ ./configure --enable-hc-boot
+<T>$ ./configure --enable-hc-boot --build=plat --host=plat --target=plat
 ```
 
 
