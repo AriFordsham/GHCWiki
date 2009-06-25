@@ -53,7 +53,9 @@ The following step-by-step instructions should result in a fully
 working, albeit unregisterised, GHC.  Firstly, you need a machine that
 already has a working GHC (we'll call this the *host* machine), in
 order to cross-compile the intermediate C files that we will use to
-bootstrap the compiler on the *target* machine.
+bootstrap the compiler on the *target* machine. We'll assume that you
+are porting to platform *plat*, e.g. *plat* may be
+`x86_64-unknown-linux`.
 
 **On the target machine**
 
@@ -78,7 +80,7 @@ Now begin with:
 ```wiki
 <T>$ cp /bin/pwd utils/ghc-pwd/ghc-pwd
 <T>$ sh boot
-<T>$ ./configure --enable-hc-boot
+<T>$ ./configure --enable-hc-boot --build=plat --host=plat --target=plat
 ```
 
 
@@ -199,7 +201,7 @@ in order to ignore unimportant build failures in the RTS.
 
 ```wiki
 <T>$ sh boot
-<T>$ ./configure --enable-hc-boot
+<T>$ ./configure --enable-hc-boot --build=plat --host=plat --target=plat
 ```
 
 
