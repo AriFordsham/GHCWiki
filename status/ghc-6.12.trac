@@ -1,79 +1,59 @@
-= Plans for GHC 6.10 =
+= Release plans for GHC 6.12 =
 
-We expect to release GHC 6.10 around ICFP 2008.  
+As usual, we're planning a major release of GHC around September. 
+Here's our list of the main items currently scheduled for 6.12.1, and 
+their status.  If you have the time and inclination to help with any of 
+these, please get involved!
 
- *  [http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015539.html Beta released]. 
+ * '''Parallel performance'''.  6.12.1 will ship with the improvements to 
+ parallel performance described in our ICFP 2009 paper.  Still to do: 
+ overhaul the +RTS GC settings, tune for good performance by default.
 
-== Things that are done already ==
+ * '''Parallel profiling''': the new RTS tracing features will be included, and 
+ we hope to have a release of `ThreadScope` to coincide with GHC 6.12.1. 
+ `ThreadScope` is written using gtk2hs, and could benefit from someone with 
+ expertise in producing polished gtk2hs apps - if you can lend a hand, 
+ contact Satnam Singh <satnams@microsoft.com>.
 
- * Several '''language extensions''' advertised in the [wiki:Status/Nov07 November 2007 status report]:
-   * Improvements to record syntax
-   * View patterns
-   * Quasiquotation
-   * Generalised list comprehensions
- '''Done''': these are all in the HEAD already.
+ * '''Unicode I/O''': the new Unicode I/O library is in, and will ship with 
+ 6.12.1.  Still to do: decide on the public API for changing encodings 
+ and newline conversion.
 
- * '''Parallel garbage collection''' (see [http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm Parallel generational-copying garbage collection with a block-structured heap]).  '''Done'''.
+ * '''Shared libraries''': we intend to ship with shared library support on at 
+ least x86/Linux and x86-64/Linux.  There are various tasks remaining to 
+ do here - Duncan, can we have a summary?
 
- * '''External Core''' (output only) is working again, thanks to Tim Chevalier.
+ * '''Data Parallel Haskell'''.  Manuel, can you comment on the state of play? 
+   What can we expect in time for 6.12.1?
 
- * Better '''versioning''' to support separate compilation based on MD5 fingerprints. Already done (and documented! see [wiki:Commentary/Compiler/RecompilationAvoidance].
+ * '''Plugin support in GHC'''.  The patches are not yet in GHC; they are awaiting review by Simon PJ.
 
- * GHC now uses '''libffi''' to implement parts of the FFI, replacing some of the home-grown and very architecture-specific code we had to do this.  Amongst other benefits, this will ease the task of porting GHC in the future. Done; but ''maybe use it to solve the SE Linux paranoia problem?''
+ * '''The new backend code generator'''.  At the moment, it seems unlikely that 
+ GHC 6.12.1 will ship with the new code generator enabled by default, 
+ although it may well be available for testing.  Meanwhile, work on it 
+ continues.
 
- * '''Backwards compatibility''': we've introduce "base3-compat", a backwards-compatible version of the base library
-   that will provide essentially the same API as the base library that shipped with GHC 6.8.3, so that code
-   depending on base-3 will continue to just work.
+The smaller items are all embodied in tickets, here are the tickets 
+currently in the 6.12.1 milestone (135):
+ * http://hackage.haskell.org/trac/ghc/query?status=new&status=assigned&status=reopened&milestone=6.12.1
+and on the 6.12 branch (251):
+ * http://hackage.haskell.org/trac/ghc/query?status=new&status=assigned&status=reopened&milestone=6.12+branch
 
- * '''Haddock 2'''
-    * Build it with GHC (maybe ship it with GHC too)
-    * Documentation for GHC API done via Haddock 2
+I estimate there are 2 man years of work here - needless to say, we 
+aren't going to fix all these tickets :)  As usual, if you want to vote 
+for something, add your email to the CC field of the ticket.
 
- * '''Extensible exceptions''', along the lines of Simon's paper [http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf "An Extensible Dynamically-Typed Hierarchy of Exceptions"].  This is mainly a library change.
+Several of these tickets would make good tasks for a fledgling GHC 
+hacker.  e.g.  http://hackage.haskell.org/trac/ghc/ticket/2362 (allow 
+full import syntax in GHCi) has a lot of support, and is a nice 
+self-contained task (but not a small one).
 
- * '''Haddock 2''' (see also #1964 (GHC.Prim)).  ('''Ian Lynagh''')
+Even if you're not a GHC hacker you can still help, e.g. by helping to 
+narrow down the cause of a bug, or verifying a bug on your platform.
 
- * '''GHC API''' improvement: '''Thomas Schilling''' is doing a SoC project.  Preserve comments and pragmas, generic traversals (#1467, #1886, GhcApiStatus). We'll ship whatever Thomas has committed by then.
-
- * '''[http://haskell.org/haskellwiki/GHC/Indexed_types Type families]''', fully working. ''Manuel Chakravarty and Simon PJ''
-
- * '''[http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell Nested data parallelism]''', in some form. ''Roman Leshchinskiy, Gabriele Keller, Manuel Chakravarty, Simon PJ''
- 
-  * More library reorg (#1338).  The goal here is to shift stuff out of boot-libs and into the Haskell Library Platform, which is independently upgradable.  Not hugely urgent, nice to have.
-
-  * `^C` should raise an exception by default (also SIGPIPE, see #1619, #2301). Nearly done!  But not quite complete if you fork another process.  This latter part is lower priority.
-
-== Things we plan to do for sure ==
-
-  * '''Ship the Haskell Library Platform''' instead of 'extralibs'.  '''Don and Duncan''' are leading.
-
-= Beyond 6.10 =
-
-This is a list of things that are floating about in our minds for what to do beyond 6.10.  Nothing is decided, and these items vary wildly in their size.
-
- * '''[wiki:Commentary/Compiler/NewCodeGen Back-end revamp]''' (see also #1501).  '''John Dias''' is in charge.  For 6.10 we will make sure that the whole existing path still exists, so we can choose at a late date whether to rely on the new path or not.
-
- * '''Unicode support for text I/O'''.  This means adding Unicode encoding/decoding for Text I/O handles.   ('''Simon Marlow''': a few days work.)
-   * Consensus was that Text I/O should always use the current locale encoding.  
-   * You can elect to have no encoding by opening in binary mode, but that's all.
-
- * '''Shared libraries''', as a result of Clemens Fruhwirth's Summer of Code project.  (#1876) '''Simon Marlow''': about a week's work.
-   * Binaries get much smaller
-   * Compile a package on Windows to a DLL; it just works
-   * C program (or Excel) that calls multiple Haskell functions gets just one copy of the RTS, rather than one per DLL as now.
-   * Performance penalty, but too small to measure
-
-
- * '''Opaque interfaces''' (optionally), so you can upgrade a library without recompiling.
-
- * '''Parallelism'': better profiling tools.
-
- * '''Visual Haskell''': a Visual Studio plugin.  There is one, but it has suffered bit-rot.
- 
- * '''GHC as a platform''' is the aspiration that it should be easy to plug extensions into GHC, and easy to use GHC to extend other software.
-
- * '''Static verification''' along the lines of Dana Xu's work.
-
- * '''Finish System.Process revamp''' (#2233)
-
- * Binary package DB, or at least make the one-file-per package work (#593, #723, #2089)
+Let me remind people that GHC HEAD has the new build system, and it's 
+actually rather pleasant to work with.  Even if you have no idea what 
+you're doing, you can always say 'make' at the top level and the build 
+system will figure out what needs doing (ok, so that's what build 
+systems are supposed to do, but GHC's has never quite managed it until 
+now!).
