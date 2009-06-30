@@ -3,7 +3,10 @@
 ## Releases
 
 
-Here are our plans for the next GHC release?.
+Here are our release plans for 
+
+- The next GHC release (6.12)?
+- [GHC 6.10 (outdated)](status/ghc-6.10)
 
 
 Here are details about what [platforms GHC supports](platforms).
