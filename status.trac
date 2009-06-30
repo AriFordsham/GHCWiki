@@ -2,7 +2,9 @@
 
 == Releases ==
 
-Here are our plans for [wiki:Status/Releases the next GHC release].
+Here are our release plans for 
+  * [wiki:Status/Releases The next GHC release (6.12)]
+  * [wiki:Status/GHC-6.10 GHC 6.10 (outdated)]
 
 Here are details about what [wiki:Platforms platforms GHC supports].
 
