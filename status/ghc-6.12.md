@@ -6,31 +6,30 @@ Here's our list of the main items currently scheduled for 6.12.1, and
 their status.  If you have the time and inclination to help with any of 
 these, please get involved!
 
-- Parallel performance.  6.12.1 will ship with the improvements to 
+- **Parallel performance**.  6.12.1 will ship with the improvements to 
   parallel performance described in our ICFP 2009 paper.  Still to do: 
   overhaul the +RTS GC settings, tune for good performance by default.
 
-- Parallel profiling: the new RTS tracing features will be included, and 
+- **Parallel profiling**: the new RTS tracing features will be included, and 
   we hope to have a release of `ThreadScope` to coincide with GHC 6.12.1. 
   `ThreadScope` is written using gtk2hs, and could benefit from someone with 
   expertise in producing polished gtk2hs apps - if you can lend a hand, 
   contact Satnam Singh \<satnams@…\>.
 
-- Unicode I/O: the new Unicode I/O library is in, and will ship with 
+- **Unicode I/O**: the new Unicode I/O library is in, and will ship with 
   6.12.1.  Still to do: decide on the public API for changing encodings 
   and newline conversion.
 
-- Shared libraries: we intend to ship with shared library support on at 
+- **Shared libraries**: we intend to ship with shared library support on at 
   least x86/Linux and x86-64/Linux.  There are various tasks remaining to 
   do here - Duncan, can we have a summary?
 
-- Data Parallel Haskell.  Manuel, can you comment on the state of play? 
+- **Data Parallel Haskell**.  Manuel, can you comment on the state of play? 
   What can we expect in time for 6.12.1?
 
-- Plugin support in GHC.  The patches are not yet in GHC, and as far as 
-  I know are awaiting review - Simon, can you say more?
+- **Plugin support in GHC**.  The patches are not yet in GHC; they are awaiting review by Simon PJ.
 
-- The new backend code generator.  At the moment, it seems unlikely that 
+- **The new backend code generator**.  At the moment, it seems unlikely that 
   GHC 6.12.1 will ship with the new code generator enabled by default, 
   although it may well be available for testing.  Meanwhile, work on it 
   continues.
