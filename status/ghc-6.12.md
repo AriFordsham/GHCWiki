@@ -21,8 +21,11 @@ these, please get involved!
   and newline conversion.
 
 - **Shared libraries**: we intend to ship with shared library support on at 
-  least x86/Linux and x86-64/Linux.  There are various tasks remaining to 
-  do here - Duncan, can we have a summary?
+  least x86/Linux and x86-64/Linux.  This is almost done, the remaining tasks are:
+
+  - Turn on `--enable-shared` on Linux x86/x86-64 platforms by default, to shake out as-yet detected bugs. We want this to be the default for ghc-6.12.
+  - Change where the RTS libs are stored and use the `-rpath` to select one at exe link time. Then link all shared libs to the rts (without specifying an rpath).
+  - Testing testing testing. Try building a subset of hackage using cabal and shared libs. See what fails.
 
 - **Data Parallel Haskell**.  Manuel, can you comment on the state of play? 
   What can we expect in time for 6.12.1?
