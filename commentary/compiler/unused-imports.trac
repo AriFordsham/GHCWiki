@@ -188,11 +188,12 @@ ImportInfo "Foo" []
 If a node in the tree is marked as used, then so are all nodes above it. For example, given the tree
 {{{
 ImportInfo "Foo" []
+    ImportInfo "a" ["a", "Foo.a"]
     ImportInfo "D" ["D", "Foo.D"]
         ImportInfo "c1" ["c1", "Foo.c1"]
         ImportInfo "c2" ["c2", "Foo.c2"]
 }}}
-a use of `"D"` marks both the first and second lines as used.
+a use of `"D"` marks both the first and third lines as used.
 
 When we come to giving warnings, if a node is unused then we warn about it, and do not descend into the rest of that subtree, as the node we warn about subsumes its children. If the node is marked as used then we descend, looking to see if any of its children are unused.
 
