@@ -169,6 +169,8 @@ Other notes
 
 ---
 
+## Algorithm
+
 
 The algorithm for deciding which imports have been used is based around this datatype:
 
