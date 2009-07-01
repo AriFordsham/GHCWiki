@@ -308,7 +308,7 @@ Options added when compiling the libraries.
 <td>
 (default: `NO`)
 
-Set to `YES` to enable profiling for GHC itself (stage 2).
+Set to `YES` to enable profiling for GHC itself (stage 2).  You'll also need to add `GhcLibWays += p` to make this work.
 </td></tr></table>
 
 <table><tr><th>`GhcDebugged`</th>
