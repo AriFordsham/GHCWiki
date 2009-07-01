@@ -112,15 +112,15 @@ program.  We must collect '''`RdrNames`''' not `Names`:
 Here both imports are required, but you can only tell that by
 seeing the RdrNames, not by knowing that the name 'x' is used.
 
-I think that all lookups go through a single function, 
-   `RnEnv.lookupGreRn_maybe`
-So in `RnEnv.lookupGreRn_maybe`, if `(gre_prov gre)` is `(Imported _)`
-hen put `rdr_name` in a new
+I think that all lookups go through either, `RnEnv.lookupGreRn_maybe` or `RnEnv.lookup_sub_bndr`.
+So in `RnEnv.lookupGreRn_maybe`, if `(gre_prov gre)` is `(Imported _)`,
+and in `RnEnv.lookup_sub_bndr`,
+put `rdr_name` in a new
 {{{
-tcg_used_imports :: TcRef (Set RdrName)
+tcg_used_rdrnames :: TcRef (Set RdrName)
 }}}
-in `TcGblEnv`.  All the `tcg_used_imports` are in scope; if not,
-we report an error and do not add it to `tct_used_imports`.
+in `TcGblEnv`.  All the `tcg_used_rdrnames` are in scope; if not,
+we report an error and do not add it to `tcg_used_rdrnames`.
 
 Other notes
 
@@ -136,16 +136,83 @@ Other notes
 
   * We can compare `ImportSpecs` for equality by their `SrcSpans`
 
-
-Also perhpas:
-
   * In `TcRnDriver.tcRnImports`, save import_decls in a new
   `tcg_rn_rdr_imports :: Maybe [LImportDecl RdrName]`
   in `TcGblEnv`
 
-  * In `RnNames.reportUnusedNames`, call a function that actually does the
-  hard work. The ugly part is when we have an import of Foo(..). Then we
-  need to dig through the environments, similar to what
-  `RnNames.exports_from_avail` does, so that we can expand the (..).
+----
+== Algorithm == 
 
+The algorithm for deciding which imports have been used is based around this datatype:
+{{{
+data ImportInfo = ImportInfo SrcSpan
+                             SDoc
+                             (Maybe ModuleName) -- The effective module name
+                             [RdrName] -- The names the import provides
+                             Bool -- Has it been used yet?
+                             [ImportInfo] -- Child import infos
+}}}
 
+We convert import declarations into trees of `ImportInfo`s, e.g.
+{{{
+import Foo (a, D(c1, c2))
+}}}
+becomes (only the `SDoc` and `[RdrName]` fields are given, as that's the interesting bit)
+{{{
+ImportInfo "Foo" []
+    ImportInfo "a" ["a", "Foo.a"]
+    ImportInfo "D" ["D", "Foo.D"]
+        ImportInfo "c1" ["c1", "Foo.c1"]
+        ImportInfo "c2" ["c2", "Foo.c2"]
+}}}
+If a node in the tree is marked as used, then so are all nodes above it. For example, given the tree
+a use of `"D"` marks both the first and third lines as used.
+
+When we come to giving warnings, if a node is unused then we warn about it, and do not descend into the rest of that subtree, as the node we warn about subsumes its children. If the node is marked as used then we descend, looking to see if any of its children are unused.
+
+Here are how some example imports map to trees of `ImportInfo`, assuming `Foo` exports `a`, `b`, `D(c1, c2)`.
+{{{
+import Foo
+->
+ImportInfo "Foo" ["a", "b", "D", "c1", "c2", "Foo.a", "Foo.b", "Foo.D", "Foo.c1", "Foo.c2"]
+
+import qualified Foo as Bar
+->
+ImportInfo "Foo" ["Bar.a", "Bar.b", "Bar.D", "Bar.c1", "Bar.c2"]
+
+import qualified Foo (a, D)
+->
+ImportInfo "Foo" []
+    ImportInfo "a" ["Foo.a"]
+    ImportInfo "D" ["Foo.D"]
+
+import qualified Foo hiding (a, D(..))
+->
+ImportInfo "Foo" ["Foo.b"]
+
+import Foo (D(c1, c2))
+->
+ImportInfo "Foo" []
+    ImportInfo "D" ["D", "Foo.D"]
+        ImportInfo "c1" ["c1", "Foo.c1"]
+        ImportInfo "c2" ["c2", "Foo.c2"]
+
+import qualified Foo (D(..))
+->
+ImportInfo "Foo" []
+    ImportInfo "D(..)" ["Foo.D", "Foo.c1", "Foo.c2"]
+}}}
+
+These trees are built by `RnNames.mkImportInfo`. In `RnNames.warnUnusedImportDecls` we make two lists of `ImportInfo`s; one list contains all the explicit imports, e.g.
+{{{
+import Foo (a, b)
+}}}
+and the other contains the implicit imports, e.g.
+{{{
+import Foo
+import Foo hiding (a, b)
+}}}
+
+Then `RnNames.markUsages` is called for each `RdrName` that was used in the program. The current implementation marks all explicit import as used unless there are no such imports, in which case it marks all implicit imports as used. A small tweak to `markUsages` would allow it to mark only the first import it finds as used.
+
+As well as the `RdrName`s used in the source, we also need to mark as used the names that are exported. We first call `RnNames.expandExports` to expand `D(..)` into `D(c1, c2)`, and then call `RnNames.markExportUsages`. Normally this just marks the `RdrName`s as used in the same way that uses in the module body are handled, but it is also possible for an entire module to be "used", if `module Foo` is in the export list. In this case `RnNames.markModuleUsed` does the hard work, marking every module imported with that name as used.
