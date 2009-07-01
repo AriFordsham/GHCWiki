@@ -254,7 +254,7 @@ take a look in [[GhcFile(mk/config.mk.in)]].
 
  `GhcProfiled`::
   (default: `NO`)[[br]]
-  Set to `YES` to enable profiling for GHC itself (stage 2).
+  Set to `YES` to enable profiling for GHC itself (stage 2).  You'll also need to add `GhcLibWays += p` to make this work.
 
  `GhcDebugged`::
   (default: `NO`)[[br]]
