@@ -175,13 +175,14 @@ The algorithm for deciding which imports have been used is based around this dat
 ```wiki
 data ImportInfo = ImportInfo SrcSpan
                              SDoc
+                             (Maybe ModuleName) -- The effective module name
                              [RdrName] -- The names the import provides
                              Bool -- Has it been used yet?
                              [ImportInfo] -- Child import infos
 ```
 
 
-Here are how some example imports map to trees of `ImportInfo`, assuming `Foo` exports `a`, `b`, `D(c1, c2)`:
+Here are how some example imports map to trees of `ImportInfo`, assuming `Foo` exports `a`, `b`, `D(c1, c2)`. Only the `SDoc` and `[RdrName]` fields are given, as that's the interesting bit.
 
 ```wiki
 import Foo
@@ -195,8 +196,8 @@ ImportInfo "Foo" ["Bar.a", "Bar.b", "Bar.D", "Bar.c1", "Bar.c2"]
 import qualified Foo (a, D)
 ->
 ImportInfo "Foo" []
-    ImportInfo "Foo" ["Foo.a"]
-    ImportInfo "Foo" ["Foo.D"]
+    ImportInfo "a" ["Foo.a"]
+    ImportInfo "D" ["Foo.D"]
 
 import qualified Foo hiding (a, D(..))
 ->
@@ -205,14 +206,14 @@ ImportInfo "Foo" ["Foo.b"]
 import Foo (D(c1, c2))
 ->
 ImportInfo "Foo" []
-    ImportInfo "Foo" ["D", "Foo.D"]
-        ImportInfo "Foo" ["c1", "Foo.c1"]
-        ImportInfo "Foo" ["c2", "Foo.c2"]
+    ImportInfo "D" ["D", "Foo.D"]
+        ImportInfo "c1" ["c1", "Foo.c1"]
+        ImportInfo "c2" ["c2", "Foo.c2"]
 
 import qualified Foo (D(..))
 ->
 ImportInfo "Foo" []
-    ImportInfo "Foo" ["Foo.D", "Foo.c1", "Foo.c2"]
+    ImportInfo "D(..)" ["Foo.D", "Foo.c1", "Foo.c2"]
 ```
 
 
@@ -220,9 +221,9 @@ If a node in the tree is marked as used, then so are all nodes above it. For exa
 
 ```wiki
 ImportInfo "Foo" []
-    ImportInfo "Foo" ["D", "Foo.D"]
-        ImportInfo "Foo" ["c1", "Foo.c1"]
-        ImportInfo "Foo" ["c2", "Foo.c2"]
+    ImportInfo "D" ["D", "Foo.D"]
+        ImportInfo "c1" ["c1", "Foo.c1"]
+        ImportInfo "c2" ["c2", "Foo.c2"]
 ```
 
 
