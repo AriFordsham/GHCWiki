@@ -184,7 +184,29 @@ data ImportInfo = ImportInfo SrcSpan
 ```
 
 
-Here are how some example imports map to trees of `ImportInfo`, assuming `Foo` exports `a`, `b`, `D(c1, c2)`. Only the `SDoc` and `[RdrName]` fields are given, as that's the interesting bit.
+We convert import declarations into trees of `ImportInfo`s, e.g.
+
+```wiki
+import Foo (a, D(c1, c2))
+```
+
+
+becomes (only the `SDoc` and `[RdrName]` fields are given, as that's the interesting bit)
+
+```wiki
+ImportInfo "Foo" []
+    ImportInfo "a" ["a", "Foo.a"]
+    ImportInfo "D" ["D", "Foo.D"]
+        ImportInfo "c1" ["c1", "Foo.c1"]
+        ImportInfo "c2" ["c2", "Foo.c2"]
+```
+
+
+If a node in the tree is marked as used, then so are all nodes above it. For example, given the tree
+a use of `"D"` marks both the first and third lines as used.
+
+
+Here are how some example imports map to trees of `ImportInfo`, assuming `Foo` exports `a`, `b`, `D(c1, c2)`.
 
 ```wiki
 import Foo
@@ -217,20 +239,6 @@ import qualified Foo (D(..))
 ImportInfo "Foo" []
     ImportInfo "D(..)" ["Foo.D", "Foo.c1", "Foo.c2"]
 ```
-
-
-If a node in the tree is marked as used, then so are all nodes above it. For example, given the tree
-
-```wiki
-ImportInfo "Foo" []
-    ImportInfo "a" ["a", "Foo.a"]
-    ImportInfo "D" ["D", "Foo.D"]
-        ImportInfo "c1" ["c1", "Foo.c1"]
-        ImportInfo "c2" ["c2", "Foo.c2"]
-```
-
-
-a use of `"D"` marks both the first and third lines as used.
 
 
 When we come to giving warnings, if a node is unused then we warn about it, and do not descend into the rest of that subtree, as the node we warn about subsumes its children. If the node is marked as used then we descend, looking to see if any of its children are unused.
