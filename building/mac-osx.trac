@@ -119,3 +119,10 @@ The default Mac OS X files systems (HFS+) is case-insensitive and darcs is case 
 
 This creates a file with a {{{.sparseimage}}} extension (e.g., {{{GHC Disk.sparseimage}}}) at the location that was set in step 10 and automatically mounts it.  The partition can be accessed through the {{{/Volumes}}} folder (e.g., {{{/Volumes/GHC}}}).  This partition behaves exactly like any other Apple partition except that it's case sensitive and darcs can apply the patches it couldn't on the case insensitive file system.  After the patches have been applied, the repository can be copied to the normal file system, the partition can be unmounted, and the sparse image can be deleted.
 
+== Building the documentation ==
+
+If you have installed {{{docbook-xsl}}} using macports then the configure script might still tell you that you are unable to build the HTML documentation due to missing stylesheets. This is because it is using the {{{xsltproc}}} supplied with OS X rather than the one MacPorts installs, but you can work around it by adding the following to your {{{.bash_profile}}}:
+
+{{{
+export XML_CATALOG_FILES="/opt/local/etc/xml/catalog"
+}}}
