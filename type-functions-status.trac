@@ -15,6 +15,7 @@
   * Can we add a warning in case of a signature that is ambiguous due to a type variable only been mentioned as an argument to a type synonym family?
 
  * Constraint simplification:
+  * #3330: typechecker goes into a loop
   * #2767 & #3208 (`idInfo` panic)
   * #2664 (typechecker diverges; actually, it's after Tc9, probably during zonking)
   * #2102 & #2715 (superclass equalities)
