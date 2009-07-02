@@ -7,7 +7,7 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 An attempted list at differences between [ Supero](http://community.haskell.org/~ndm/supero) and [ positive supercompilation for call-by-value](http://www.csee.ltu.se/~pj/papers/scp/popl09-scp.pdf) (abbreviated to pscp below). 
 
 
-1) Call-by-value vs Call-by-n{ame,eed}. I am not completely clear on whether Supero preserves sharing. (Pscp does, otherwise the improvement theory is not usable and the proof doesn't go through. Previous discussions between Neil and Peter concluded that this is not sufficient - more expressions need to be inlined so we do not want to preserve all the sharing for performance reasons).
+1) Call-by-value vs Call-by-n{ame,eed}. I am not completely clear on whether Supero preserves sharing. (Pscp does, otherwise the improvement theory is not usable and the proof doesn't go through. Previous discussions between Neil and Peter concluded that this is not sufficient - more expressions need to be inlined so we do not want to preserve all the sharing for performance reasons; Simon later pointed out that we must preserve sharing).
 
 
 2) Termination criterion. Both use the homeomorphic embedding, but there are some small differences.
@@ -19,10 +19,26 @@ An attempted list at differences between [ Supero](http://community.haskell.org/
 > b) Generalisation. Pscp currently uses the msg, and Neil has deducted a better way to split expressions. Switching between them should be a matter of changing a couple of lines of code in an actual implementation.
 
 >
-> c) simpleTerminate. This roughly corresponds to a mixture between values and what pscp have labeled as "annoying expressions". Neil was spot on in earlier discussions on what annoying expressions are: something where evaluation is stuck (normally because of a free variable in the next position, for example the application "x es").
+> c) simpleTerminate. This roughly corresponds to a mixture between values and what pscp have labeled as "annoying expressions". Neil was spot on in earlier discussions on what annoying expressions are: something where evaluation is stuck (normally because of a free variable in the next position, for example the application "x es"). Simon has an interesting algorithm formulation that avoids annoying expressions altogether and is probably simpler to implement.
 
 
 3) Inlining decisions. Neil has a more advanced way of determining when things should be inlined or not. I believe that the solution is some kind of union between the inliner paper, Neil's work and possibly some kind of cost calculus for inlining.
 
 
 What is not mentioned in either of our works though is that it is a typed intermediate representation in GHC. System Fc has the casts that might get in the way of transformations (so effectively they are some kind of annoying expressions). Rank-n polymorphism is another potential problem, but I am not sure if that will be a problem with System Fc. These are not fundamental problems that will take two months to solve, but I think that implementing a supercompiler for System Fc is more than just two days of intense hacking, even for someone already familiar with GHC internals.
+
+
+Progress report at the end of June:
+
+
+A substitution based implementation exists, that transforms append, reverse with accumulating parameters, basic arithmetics and similar things. There are still bugs in the implementation, mainly name capture. It takes 8 seconds to transform the double append example, but there's still plenty of room for improvement with respect to performance.
+
+
+The typed intermediate representation has caused some trouble, but nothing fundamental. 
+
+
+Open questions:
+
+>
+> \*) Should R contexts include let-statements? 
+> \*) Should matching for renamings be modulo permutation of lets? (Performance vs code size)
