@@ -18,6 +18,7 @@
 
 - Constraint simplification:
 
+  - [\#3330](https://gitlab.haskell.org//ghc/ghc/issues/3330): typechecker goes into a loop
   - [\#2767](https://gitlab.haskell.org//ghc/ghc/issues/2767) & [\#3208](https://gitlab.haskell.org//ghc/ghc/issues/3208) (`idInfo` panic)
   - [\#2664](https://gitlab.haskell.org//ghc/ghc/issues/2664) (typechecker diverges; actually, it's after Tc9, probably during zonking)
   - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) & [\#2715](https://gitlab.haskell.org//ghc/ghc/issues/2715) (superclass equalities)
