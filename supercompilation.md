@@ -39,8 +39,12 @@ The typed intermediate representation has caused some trouble, but nothing funda
 
 Open questions:
 
->
-> \*) Should R contexts include let-statements? 
+- Should R contexts include let-statements? 
 
->
-> \*) Should matching for renamings be modulo permutation of lets? (Performance vs code size)
+- Should matching for renamings be modulo permutation of lets? (Performance vs code size)
+
+- Consider `(\x xs. append x xs)`.  Do we inline append, and create a specialised copy?  (Of course, identical to the original definition.)
+
+  - **Yes**.  At provided we don't create *multiple* specialised copies, we are effectively copying library code into the supercompiled program.  Then we can discard all libraries (provided we have all unfoldings).
+  - **No**: then need to keep the libraries
+    But it's not clear that we can *always* inline *everything*.  For example things with `unsafePerformIO`.
