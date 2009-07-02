@@ -6,7 +6,6 @@
 
 - Declarations involving families:
 
-  - [\#3197](https://gitlab.haskell.org//ghc/ghc/issues/3197) (problem with qualified names in type instance heads)
   - [\#2677](https://gitlab.haskell.org//ghc/ghc/issues/2677) (depending on the order of instances, overlap is sometimes not properly recognised)
   - Test`Simple8`:
 
