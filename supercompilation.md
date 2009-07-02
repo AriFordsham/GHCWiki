@@ -41,4 +41,6 @@ Open questions:
 
 >
 > \*) Should R contexts include let-statements? 
+
+>
 > \*) Should matching for renamings be modulo permutation of lets? (Performance vs code size)
