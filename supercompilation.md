@@ -48,3 +48,5 @@ Open questions:
   - **Yes**.  At provided we don't create *multiple* specialised copies, we are effectively copying library code into the supercompiled program.  Then we can discard all libraries (provided we have all unfoldings).
   - **No**: then need to keep the libraries
     But it's not clear that we can *always* inline *everything*.  For example things with `unsafePerformIO`.
+
+- Can we improve the homeomorphic embedding so that append xs xs is not embedded in append xs ys?
