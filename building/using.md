@@ -550,33 +550,6 @@ downside is that it will build everything right though to the stage2
 compiler and including all the documentation, which might be overkill
 if all you wanted to do was to test a small change to GHC.
 
-### Rebuilding the GHC binary after making changes
-
-
-Suppose you want to make a small change to GHC itself and test it.
-Assuming that your tree is already up to date, the best way to do this
-is as follows:
-
-```wiki
-$ cd ghc
-$ make stage=2
-```
-
-
-This will bring the stage 2 compiler up to date only.  Setting `stage=2` has the effect of disabling all the
-rules that build the stage 1 compiler, so the build system will ignore the fact that the stage 1 compiler is also out of date, and hence all the libraries are also potentially out of date.  If you did `make`
-from the top-level, all of these dependencies would be taken into
-account, and a lot of rebuilding would probably ensue.  There's another target
-that takes an even quicker shortcut:
-
-```wiki
-$ cd ghc
-$ make 2
-```
-
-
-This is like `make stage=2`, except that it omits the dependency-building phase.  If you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you might get a build failure.  On the other hand, this shortcut usually works and the few seconds it saves can make GHC development a much more interactive experience.  There are also `make 1` and `make 3` targets to make the stage 1 and stage 3 compilers respectively.  These targets work in both the `ghc` and `compiler` subdirectories.
-
 ### Building a single sub-component
 
 
@@ -616,6 +589,33 @@ You can also clean a single component of the tree, just by saying
 `make clean` in a subdirectory.  Again this is equivalent to issuing a
 command at the top of the tree of the form `make clean_libraries/base`.
 
+### Rebuilding the GHC binary after making changes
+
+
+Suppose you want to make a small change to GHC itself and test it.
+Assuming that your tree is already up to date, the best way to do this
+is as follows:
+
+```wiki
+$ cd ghc
+$ make stage=2
+```
+
+
+This will bring the stage 2 compiler up to date only.  Setting `stage=2` has the effect of disabling all the
+rules that build the stage 1 compiler, so the build system will ignore the fact that the stage 1 compiler is also out of date, and hence all the libraries are also potentially out of date.  If you did `make`
+from the top-level, all of these dependencies would be taken into
+account, and a lot of rebuilding would probably ensue.  There's another target
+that takes an even quicker shortcut:
+
+```wiki
+$ cd ghc
+$ make 2
+```
+
+
+This is like `make stage=2`, except that it omits the dependency-building phase (`make 2` is in fact just shorthand for `make stage=2 FAST=YES`; see [Fast Rebuilding](building/using#fast-rebuilding) below).  If you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you might get a build failure.  On the other hand, this shortcut usually works and the few seconds it saves can make GHC development a much more interactive experience.  There are also `make 1` and `make 3` targets to make the stage 1 and stage 3 compilers respectively.  These targets work in both the `ghc` and `compiler` subdirectories.
+
 ### Building a single file
 
 
@@ -643,6 +643,23 @@ $ make dist-install/build/Control/Monad.o EXTRA_HC_OPTS=-dcore-lint
 
 
 you could also cut-and-paste the command-line to add flags, but sometimes the `EXTRA_HC_OPTS` method is more convenient.
+
+### Fast rebuilding
+
+
+Often when you're working in a particular part of the tree, the rest of the tree is up to date, and you just want to rebuild the component you're working on after making changes.  To speed things up, we'd like to avoid having `make` check that everything else in the tree is up-to-date before building the component we're working on.  So the GHC build system provides a couple of ways to do this:
+
+<table><tr><th>`make FAST=YES`</th>
+<td>
+Only has an effect in a subdirectory.  Setting `FAST=YES` causes `make` to omit rebuilding the `.depend` file (if any),
+and also omits some of the [phases](building/architecture/idiom/phase-ordering).  `FAST=YES` is allowed in conjunction
+with any other target; for example, it makes sense when rebuilding a single file, as in the previous section.
+</td></tr></table>
+
+<table><tr><th>`make fast`</th>
+<td>
+Shorthand for `make all FAST=YES`.
+</td></tr></table>
 
 ## Installing extra packages
 
