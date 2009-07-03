@@ -23,6 +23,14 @@ A substitution based implementation exists, that transforms append, reverse with
 
 The typed intermediate representation has caused some trouble, but nothing fundamental. 
 
+Fixes that should go into the implementation:
+
+ * Understand how the inscope-set is handled in SpecConstr, and use that. Stop recreating inscope-sets in substNewExpr (top3 on memory profile).
+
+ * Both msg and split' are broken; namecapture. Must be fixed.
+
+ * Implement Simon's algorithm.
+
 Open questions:
 
  * Should R contexts include let-statements? 
@@ -33,3 +41,6 @@ Open questions:
    * '''Yes'''.  At provided we don't create ''multiple'' specialised copies, we are effectively copying library code into the supercompiled program.  Then we can discard all libraries (provided we have all unfoldings).
    * '''No''': then need to keep the libraries
    But it's not clear that we can ''always'' inline ''everything''.  For example things with `unsafePerformIO`.
+     * Perhaps the things we can not inline should be put in the same module?
+
+ * Can we improve the homeomorphic embedding so that append xs xs is not embedded in append xs ys?
