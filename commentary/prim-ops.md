@@ -60,10 +60,32 @@ All other PrimOps are classified as out-of-line, and are implemented by hand-wri
 - PrimOps cannot be partially applied.  Calls to all PrimOps are made at the correct arity; this is ensured by 
   the CorePrep? pass.
 
-- Out-of-line PrimOps have a special, fixed, [calling convention](commentary/rts/haskell-execution#):
+- Out-of-line PrimOps have a special, fixed, [calling convention](commentary/rts/haskell-execution#calling-convention):
   all arguments
   are in the [registers](commentary/rts/haskell-execution#registers) R1-R8.  This is to make it easy to write the
   C-- code for these PrimOps: we don't have to write code for multiple calling conventions.
+
+### Foreign out-of-line PrimOps
+
+
+A new and somewhat more flexible form of out-of-line PrimOp is the foreign out-of-line PrimOp. These are essentially the same but instead of their Cmm code being included in the RTS, they can be defined in Cmm code in any package and instead of knowledge of the PrimOp being baked into the compiler, they can be imported using special FFI syntax:
+
+```wiki
+foreign import prim "int2Integerzh"
+  int2Integer# :: Int# -> (# Int#, ByteArray# #)
+```
+
+
+Using this syntax requires the extensions `ForeignFunctionInterface`, `GHCForeignImportPrim`, `MagicHash`, `UnboxedTuples` and `UnliftedFFITypes`. The current type restriction is that all arguments and results must be unlifted types. Additionally the result type is allowed to be an unboxed tuple. The calling convention is exactly the same as for ordinary out-of-line primops. Currently it is not possible to specify any of the PrimOp attributes.
+
+
+The `integer-gmp` package now uses this method for all the primops that deal with GMP big integer values. The advantage of using this technique is that it is a bit more modular. The RTS does not need to include all the primops. For example in the integer case the RTS no longer needs to link against the GMP C library.
+
+
+The future direction is to extend this syntax to allow PrimOp attributes to be specified. The calling convention for primops and ordinary compiled Haskell functions may be unified in future and at that time it the restriction on using only unlifted types may be lifted.
+
+
+It has been suggested that we extend this PrimOp definition and import method to cover all PrimOps, even inline ones. This would replace the current `primops.txt.pp` system of builtin PrimOps. The inline PrimOps would still be defined in the compiler but they would be imported in any module via `foreign import prim` rather than appearing magically to be exported from the `GHC.Prim` module. Hugs has used a similar system for years (with the syntax `primitive seq :: a -> b -> b`).
 
 ## Adding a new PrimOp
 
