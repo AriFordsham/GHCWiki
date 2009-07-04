@@ -76,7 +76,7 @@ foreign import prim "int2Integerzh"
 ```
 
 
-Using this syntax requires the extensions `ForeignFunctionInterface`, `GHCForeignImportPrim`, `MagicHash`, `UnboxedTuples` and `UnliftedFFITypes`. The current type restriction is that all arguments and results must be unlifted types. Additionally the result type is allowed to be an unboxed tuple. The calling convention is exactly the same as for ordinary out-of-line primops. Currently it is not possible to specify any of the PrimOp attributes.
+The string (e.g. "int2Integerzh") is the linker name of the Cmm function. Using this syntax requires the extensions `ForeignFunctionInterface`, `GHCForeignImportPrim`, `MagicHash`, `UnboxedTuples` and `UnliftedFFITypes`. The current type restriction is that all arguments and results must be unlifted types. Additionally the result type is allowed to be an unboxed tuple. The calling convention is exactly the same as for ordinary out-of-line primops. Currently it is not possible to specify any of the PrimOp attributes.
 
 
 The `integer-gmp` package now uses this method for all the primops that deal with GMP big integer values. The advantage of using this technique is that it is a bit more modular. The RTS does not need to include all the primops. For example in the integer case the RTS no longer needs to link against the GMP C library.
@@ -105,6 +105,11 @@ To add a new primop, you currently need to update the following files:
   - [includes/StgMiscClosures.h](/trac/ghc/browser/ghc/includes/StgMiscClosures.h) (just add the declaration),
   - [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm) (implement it here)
   - [rts/Linker.c](/trac/ghc/browser/ghc/rts/Linker.c) (declare the symbol for GHCi)
+
+- for a foreign out-of-line primop You do not need to modify the rts or compiler at all.
+
+  - `yourpackage/cbits/primops.cmm`: implement your primops here. You have to arrange for the .cmm file to be compiled and linked into the package. The GHC build system has support for this. Cabal does not yet.
+  - `yourpackage/TheCode.hs`: use `foreign import prim` to import the primops.
 
 
 See also [AddingNewPrimitiveOperations](adding-new-primitive-operations), a blow-by-blow description of the process for adding a new out-of-line primop from someone who went through the process.
