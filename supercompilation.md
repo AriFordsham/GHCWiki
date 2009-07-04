@@ -58,4 +58,6 @@ Open questions:
   - **No**: then need to keep the libraries
     But it's not clear that we can *always* inline *everything*.  For example things with `unsafePerformIO`.
 
+    - Perhaps the things we can not inline should be put in the same module?
+
 - Can we improve the homeomorphic embedding so that append xs xs is not embedded in append xs ys?
