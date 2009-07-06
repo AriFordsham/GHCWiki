@@ -7,11 +7,11 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
  * [wiki:ModuleDependencies Compiler Module Dependencies] (deals with the arcane mutual recursions among GHC's many data types)
  * [wiki:Commentary/CodingStyle Coding guidelines]
 
- * '''Compiling one module: HscMain'''
+ * '''Compiling one module: !HscMain'''
    * [wiki:Commentary/Compiler/HscMain Overview] gives the big picture. 
    * Some details of the [wiki:Commentary/Compiler/Parser parser]
    * Some details of the [wiki:Commentary/Compiler/Renamer renamer]
-   * Some details of the [wiki:Commentary/Compiler/CodeGen Details of the code generator]
+   * Some details of the [wiki:Commentary/Compiler/CodeGen code generator]
 
  * [wiki:Commentary/Compiler/KeyDataTypes Key data types]
    * [wiki:Commentary/Compiler/HsSynType The source language: HsSyn] 
