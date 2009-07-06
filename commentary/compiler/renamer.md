@@ -108,6 +108,11 @@ The global rdr-env is created by [compiler/rename/RnNames.lhs](/trac/ghc/browser
 
 It is important to note that the global rdr-env is created  *before* the renamer actually descends into the top=level bindings of a module. In other words, before `TcRnDriver.rnTopSrcDecls` performs the renaming of a module by way of `RnSource.rnSrcDecls`, it uses `RnNames.importsFromLocalDecls` to set up the global rdr-env environment, which contains `Names` for all imported and all locally defined toplevel binders.  Hence, when the helpers of `rnSrcDecls` come across the defining occurences of a toplevel `RdrName`, they don't rename it by generating a new name, but they simply look up its name in the global rdr-env. 
 
+## Unused imports
+
+
+See [how the renamer reports unused imports](commentary/compiler/unused-imports)
+
 ## Name Space Management
 
 
