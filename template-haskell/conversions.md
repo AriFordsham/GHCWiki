@@ -16,7 +16,7 @@ HsSyn Name --------'        |
    |                        |
    | DsMeta.dsBracket       |
    |                        |
-   |                        |
+   V                        |
  Core <---------------------'
 ```
 
