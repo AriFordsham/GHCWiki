@@ -49,6 +49,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
 
 - The Compiler
 
+  - Notes about Template Haskell?
   - [Notes about the new code generator](commentary/compiler/new-code-gen)
   - [Type families/type functions](type-functions): Notes concerning the implementation of type families, associated types, and equality constraints as well as the extension of the type checker with a contraint solver for equality constraints.
   - [IntermediateTypes](intermediate-types): Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)
