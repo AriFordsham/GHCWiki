@@ -48,3 +48,13 @@ For the purposes of this commentary, we are mostly concerned with GHC and `ghc-p
 
 The tools do not currently support having multiple packages with the same name and version.  When re-installing an existing package, the new package should have a different `InstalledPackageId` from the previous version, even if the `PackageIdentifiers` are the same.  In this way, we can detect when a package is broken because one of its dependencies has been recompiled and re-installed.
 
+== Design constraints ==
+
+ 1. We want RecompilationAvoidance to work.  So that means symbol names should not contain any information that varies too often, such as the ABI hash of the module, or the package.
+
+ 2. We want to be able to compile a package that is compatible with another package; i.e. exports the same ABI.  Right now it isn't possible to do this, but we hope to be able to do it in the future, and we should design the system with that in mind.
+
+ 3. When a package is recompiled and installed, packages that depended on the old version should now be detectably broken (unless the newly compiled version is really compatible with the old one).
+
+
+(3) means that dependencies in the package database should mention something unique about a package installation that changes when the package is installed.  However, (1) means that we don't want to put such unique things in symbol names.
