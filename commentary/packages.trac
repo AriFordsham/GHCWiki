@@ -1,0 +1,50 @@
+
+
+= Commentary: The Package System =
+
+
+== Architecture ==
+
+GHC maintains a package database, that is basically a list of `InstalledPackageInfo`.  The `InstalledPackageInfo` type is defined in `Distribution.InstalledPackageInfo` in Cabal, and both `ghc-pkg` and GHC itself import it directly from there.
+
+There are four main components of the package system:
+
+ Cabal::
+   Cabal is a Haskell library, which provides basic datatypes for the package system, and support for building,
+   configuring, and installing packages.
+
+ GHC itself::
+   GHC reads the package database(s), understands the flags `-package`, `-hide-package`, etc., and uses the package database
+   to find `.hi` files and library files for packages.  GHC imports modules from Cabal.
+
+ `ghc-pkg`::
+   The `ghc-pkg` tool manages the package database, including registering/unregistering packages, queries, and
+   checking consistency.  `ghc-pkg ` also imports modules from Cabal.
+
+ `cabal-install`::
+   A tool built on top of Cabal, which adds support for downloading packages from Hackage, and building and installing
+   multiple packages with a single command.
+
+For the purposes of this commentary, we are mostly concerned with GHC and `ghc-pkg`.
+
+== Identifying Packages ==
+
+ `PackageName`::
+    A string, e.g. "base".  Defined in `Distribution.Package`.  Does not uniquely identify a package: the package
+    database can contain several packages with the same name.
+
+ `PackageIdentifier`::
+    A `PackageName` plus a `Version`.  Does uniquely identify a package, but only by convention (we may lift
+    this restriction in the future).  `InstalledPackageInfo` contains the field `package :: PackageIdentifier`.
+
+ `InstalledPackageId`:: 
+    An opaque string.  Each package is uniquely identified by its `InstalledPackageId`.  Dependencies
+    between installed packages are also identified by the `InstalledPackageId`.
+
+ `PackageId`::
+    Inside GHC, we use the type `PackageId`, which is a `FastString` representation of `InstalledPackageId`.
+    The (Z-encoding of) `PackageId` prefixes each external symbol in the generated code, so that the modules of one package do
+    not clash with those of another package, even when the module names overlap.
+
+The tools do not currently support having multiple packages with the same name and version.  When re-installing an existing package, the new package should have a different `InstalledPackageId` from the previous version, even if the `PackageIdentifiers` are the same.  In this way, we can detect when a package is broken because one of its dependencies has been recompiled and re-installed.
+
