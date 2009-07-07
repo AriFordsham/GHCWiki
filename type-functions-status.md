@@ -6,7 +6,6 @@
 
 - Declarations involving families:
 
-  - [\#2677](https://gitlab.haskell.org//ghc/ghc/issues/2677) (depending on the order of instances, overlap is sometimes not properly recognised)
   - Test`Simple8`:
 
     - Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
