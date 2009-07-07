@@ -1,5 +1,6 @@
 = WikiFormatting =
 [[TracGuideToc]]
+[[PageOutline(2-5,,inline)]]
 
 Wiki markup is a core feature in Trac, tightly integrating all the other parts of Trac into a flexible and powerful whole.
 
