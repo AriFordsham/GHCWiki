@@ -61,3 +61,5 @@ Open questions:
     - (Given no cycle in imports) Perhaps the things we can not inline should be put at the top level in the same module, and the old module discarded?
 
 - Can we improve the homeomorphic embedding so that append xs xs is not embedded in append xs ys?
+
+- [ http://hackage.haskell.org/trac/ghc/ticket/2598](http://hackage.haskell.org/trac/ghc/ticket/2598)
