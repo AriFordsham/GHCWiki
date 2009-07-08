@@ -27,7 +27,7 @@ these, please get involved!
    * Check the user guide is accurate (we're not currently aware of any infidelities).
 
  * '''Data Parallel Haskell'''.  Manuel, can you comment on the state of play? 
-   What can we expect in time for 6.12.1?
+   What can we expect in time for 6.12.1? [Roman is just finishing a major change.  Once that is in, we'll have a better idea of how far we might get.  -=chak]
 
  * '''Plugin support in GHC'''.  The patches are not yet in GHC; they are awaiting review by Simon PJ.
 
