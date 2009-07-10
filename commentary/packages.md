@@ -37,25 +37,25 @@ For the purposes of this commentary, we are mostly concerned with GHC and `ghc-p
 
 ## Identifying Packages
 
-<table><tr><th>`PackageName`</th>
+<table><tr><th>`PackageName` ("base")</th>
 <td>
-A string, e.g. "base".  Defined in `Distribution.Package`.  Does not uniquely identify a package: the package
+A string.  Defined in `Distribution.Package`.  Does not uniquely identify a package: the package
 database can contain several packages with the same name.
 </td></tr></table>
 
-<table><tr><th>`PackageIdentifier`</th>
+<table><tr><th>`PackageIdentifier` ("base-4.1.0.0")</th>
 <td>
 A `PackageName` plus a `Version`.  Does uniquely identify a package, but only by convention (we may lift
 this restriction in the future).  `InstalledPackageInfo` contains the field `package :: PackageIdentifier`.
 </td></tr></table>
 
-<table><tr><th>`InstalledPackageId`</th>
+<table><tr><th>`InstalledPackageId` ("base-4.1.0.0-1mpgjN")</th>
 <td>
-An opaque string.  Each package is uniquely identified by its `InstalledPackageId`.  Dependencies
+A string that uniquely identifies a package in the database.  Dependencies
 between installed packages are also identified by the `InstalledPackageId`.
 </td></tr></table>
 
-<table><tr><th>`PackageId`</th>
+<table><tr><th>`PackageId` (these currently look like "base-4.1.0.0" in GHC 6.12)</th>
 <td>
 Inside GHC, we use the type `PackageId`, which is a `FastString`.  The (Z-encoding of) `PackageId` prefixes each
 external symbol in the generated code, so that the modules of one package do not clash with those of another package,
@@ -88,8 +88,6 @@ Right now, we do not have repeatable compilations, so while we cannot do (3), we
 
 We need to talk about some more package Ids:
 
-- `InstalledPackageId`: the identifier of a package in the package database.  The `InstalledPackageId` is just a string,
-  but it may contain the package name and API version for documentation.
 - `PackageSymbolId`: the symbol prefix used in compiled code.
 - `PackageLibId`: the package Id in the name of a compiled library file (static and shared).
 
@@ -139,5 +137,5 @@ We need to talk about some more package Ids:
 
 - The previous schemes only allow compatible ABI changes to be made.  If we want to allow incompatible changes to be
   made, then we need something like ELF's symbol versioning.  This is probably overkill, since we will be making
-  incompatible ABI changes in the compiler and RTS at regular intervals anyway.  ABI compatibility is more important
-  between major releases of the compiler.
+  incompatible ABI changes in the compiler and RTS at regular intervals anyway, so long-term ABI compatibility is
+  impractical at this stage.
