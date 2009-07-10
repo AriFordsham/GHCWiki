@@ -51,8 +51,9 @@ this restriction in the future).  `InstalledPackageInfo` contains the field `pac
 
 <table><tr><th>`InstalledPackageId` ("base-4.1.0.0-1mpgjN")</th>
 <td>
-A string that uniquely identifies a package in the database.  Dependencies
-between installed packages are also identified by the `InstalledPackageId`.
+(introduced in GHC 6.12 / Cabal 1.7.2) A string that uniquely identifies a package in the database.  Dependencies
+between installed packages are identified by the `InstalledPackageId`.  An `InstalledPackageId` is currently
+chosen by adding a random suffix to the string representing the `PackageIdentifier` when a package is registered.
 </td></tr></table>
 
 <table><tr><th>`PackageId` (these currently look like "base-4.1.0.0" in GHC 6.12)</th>
@@ -64,7 +65,7 @@ even when the module names overlap.
 
 ## Design constraints
 
-1. We want [Commentary/Compiler/RecompilationAvoidance](commentary/compiler/recompilation-avoidance) to work.  So that means symbol names should not contain any information that varies too often, such as the ABI hash of the module or package.  The ABI of an entity should depend only on its definition, and the definitons of the things it depends on.
+1. We want [Commentary/Compiler/RecompilationAvoidance](commentary/compiler/recompilation-avoidance) to work.  This means that symbol names should not contain any information that varies too often, such as the ABI hash of the module or package.  The ABI of an entity should depend only on its definition, and the definitons of the things it depends on.
 
 1. We want to be able to detect ABI incompatibility.  If a package is recompiled and installed over the top of the old one, and the new version is ABI-incompatible with the old one, then packages that depended on the old version should be detectably broken using the tools.
 
