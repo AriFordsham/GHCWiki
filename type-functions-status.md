@@ -21,7 +21,6 @@
     - What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
   - Rank-n types: In `TcTyFuns.flattenType`, we need to pull out type families below foralls.
   - Implicit parameters: In `TcTyFuns`, we need to normalise IP constraints, too (in `normDict` and `substDict`).
-  - Most general types: In `TcTyFuns.instantiateAndExtract`, the condition for when to instantiate alpha in a wanted equation of  the form `F t1..tn ~ alpha` is still to liberal.
 
 - GADT:
 
