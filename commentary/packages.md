@@ -64,7 +64,7 @@ even when the module names overlap.
 
 ## Design constraints
 
-1. We want [Commentary/Compiler/RecompilationAvoidance](commentary/compiler/recompilation-avoidance) to work.  So that means symbol names should not contain any information that varies too often, such as the ABI hash of the module or package.  The ABI of an entity should depend only on its definition, the definitons of the things it depends on, and compiler settings.
+1. We want [Commentary/Compiler/RecompilationAvoidance](commentary/compiler/recompilation-avoidance) to work.  So that means symbol names should not contain any information that varies too often, such as the ABI hash of the module or package.  The ABI of an entity should depend only on its definition, and the definitons of the things it depends on.
 
 1. We want to be able to detect ABI incompatibility.  If a package is recompiled and installed over the top of the old one, and the new version is ABI-incompatible with the old one, then packages that depended on the old version should be detectably broken using the tools.
 
@@ -91,7 +91,7 @@ We need to talk about some more package Ids:
 - `InstalledPackageId`: the identifier of a package in the package database.  The `InstalledPackageId` is just a string,
   but it may contain the package name and API version for documentation.
 - `PackageSymbolId`: the symbol prefix used in compiled code.
-- `PackageLibId`: the package Id placed in library files (static and shared).
+- `PackageLibId`: the package Id in the name of a compiled library file (static and shared).
 
 ### Detecting ABI incompatibility
 
@@ -102,16 +102,16 @@ We need to talk about some more package Ids:
 
 - If, say, package P-1.0 is recompiled and re-installed, the new instance of the package will almost
   certainly have an incompatible ABI from the previous version.  We give the new package a distinct
-  `InstalledPackageId`, so that packages that depend on the old P-1.0 will now be broken.
+  `InstalledPackageId`, so that packages that depend on the old P-1.0 will now be detectably broken.
 
 - `PackageSymbolId`: We do not use the `InstalledPackageId` as the symbol prefix in the compiled code, because 
   that interacts badly with [Commentary/Compiler/RecompilationAvoidance](commentary/compiler/recompilation-avoidance).  Every time we pick a
   new unique `InstalledPackageId` (e.g. when reconfiguring the package), we would have to recompile
   the entire package.  Hence, the `PackageSymbolId` is picked deterministically for the package, e.g.
-  it can be just the package name/version.
+  it can be the `PackageIdentifier`.
 
-- `PackageLibId`: ee do want to put the `InstalledPackageId` in the name of a library file, however.  This allows
-  ABI compatibility to be detected by the linker.  This is important for shared libraries too: we
+- `PackageLibId`: we do want to put the `InstalledPackageId` in the name of a library file, however.  This allows
+  ABI incompatibility to be detected by the linker.  This is important for shared libraries too: we
   want an ABI-incompatible shared library upgrade to be detected by the dynamic linker.  Hence,
   `PackageLibId` == `InstalledPackageId`.
 
@@ -119,7 +119,7 @@ We need to talk about some more package Ids:
 
 - The simplest scheme is to have an identifier for each distinct ABI, e.g. a pair of the package name and an integer
   that is incremented each time an ABI change of any kind is made to the package.  The ABI identifier
-  by the package, and is used as the `PackageSymbolId`.  Since packages with the same `PackageAbiId`
+  is declared by the package, and is used as the `PackageSymbolId`.  Since packages with the same ABI identifier
   are ABI-compatible, the `PackageLibId` can be the same as the `PackageSymbolId`.
 
 - The previous scheme does not allow ABI-compatible changes (e.g. ABI extension) to be made.  Hence, we could
@@ -127,8 +127,9 @@ We need to talk about some more package Ids:
 
   - the ABI major version is as before, the package name + an integer.  This is also the `PackageSymbolId`.
   - the ABI minor version is an integer that is incremented each time the ABI is extended in a compatible way.
-  - package dependencies in the database specify the major+minor version they require.  The may be satisfied by 
-    a greater minor version.
+  - package dependencies in the database specify the major+minor ABI version they require, in addition to the
+    `InstalledPackageId`.  They may be satisfied by a greater minor version; when upgrading a package with an 
+    ABI-compatible replacement, ghc-pkg updates dependencies to point to the new `InstalledPackageId`.
   - `PackageLibId` is the major version.  In the case of shared libraries, we may name the library using the
     major + minor versions, with a symbolic link from the major version to major+minor.
   - the shared library `SONAME` is the major version.
