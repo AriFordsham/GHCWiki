@@ -1,6 +1,6 @@
 [TypeFunctions](type-functions)/Status
 
-# Type Functions: Implementation Status
+# Type Families: Implementation Status
 
 **Open bugs related to type families**
 
