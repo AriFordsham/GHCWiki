@@ -1,17 +1,13 @@
 [wiki:TypeFunctions]/Status
 
-= Type Functions: Implementation Status =
+= Type Families: Implementation Status =
 
 '''Open bugs related to type families'''
 
  * Declarations involving families:
-  * Test`Simple8`:
-   * Fix tcLookupFamInst to gracefully handle this case.  (This requires some care to not violate assumptions made by other  clients of this function, as it is also used for data families,  but I see no fundamental problem.)
-   * Issue a warning if there are two identical instances (as per  Roman's suggestion).
-  * #2203 (TFs in class instance heads)
+  * Can we add a warning in case of a signature that is ambiguous due to a type variable only been mentioned as an argument to a type synonym family?
   * #2435 (Inconsistency in handling qualification of names of class methods and associated types in instance declarations)
   * Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)  If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
-  * Can we add a warning in case of a signature that is ambiguous due to a type variable only been mentioned as an argument to a type synonym family?
 
  * Constraint simplification:
   * #3330: typechecker goes into a loop
@@ -22,7 +18,6 @@
     * What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
   * Rank-n types: In `TcTyFuns.flattenType`, we need to pull out type families below foralls.
   * Implicit parameters: In `TcTyFuns`, we need to normalise IP constraints, too (in `normDict` and `substDict`).
-  * Most general types: In `TcTyFuns.instantiateAndExtract`, the condition for when to instantiate alpha in a wanted equation of  the form `F t1..tn ~ alpha` is still to liberal.
 
  * GADT:
   * `gadt/lazypatok` needs to be fixed, but are irrefutable patterns really ok, see [http://okmij.org/ftp/Haskell/GADT-problem.hs]?
