@@ -41,14 +41,12 @@ Fixes that should go into the implementation:
 
 - Understand how the inscope-set is handled in [SpecConstr](spec-constr), and use that. Stop recreating inscope-sets in substNewExpr (top3 on memory profile).
 
-- msg is broken; namecapture. Must be fixed.
-
 - Implement Simon's algorithm.
 
 
 Open questions:
 
-- Should R contexts include let-statements? 
+- Should R contexts include let-statements? Need to worry about name capture even more then.
 
 - Should matching for renamings be modulo permutation of lets? (Performance vs code size)
 
@@ -63,3 +61,18 @@ Open questions:
 - Can we improve the homeomorphic embedding so that append xs xs is not embedded in append xs ys?
 
 - [ http://hackage.haskell.org/trac/ghc/ticket/2598](http://hackage.haskell.org/trac/ghc/ticket/2598)
+
+
+Random thoughts about the prettyprinter:
+
+- Let-statements: 
+
+  - LclId is not really useful for me.
+  - The empty list on the line below it is also wasting space.
+  - The occurence information sometimes pushes the type signature over several lines. 
+- Case-statements:
+
+  - The occurence information pushes case branches over several lines.
+  - case e of { tp1 tp2 tp3 tp4 -\> tp3 } prettyprints over 5 lines.
+- Long types: Is the complete "GHC.Types.Char" necessary?
+- Names: Why is it sometimes $dShow{v a1lm} and sometimes $dShow_a1lm? The latter is easier to grep for.
