@@ -31,7 +31,7 @@ Fixes that should go into the implementation:
 
 Open questions:
 
- * Should R contexts include let-statements? 
+ * Should R contexts include let-statements? Need to worry about name capture even more then.
 
  * Should matching for renamings be modulo permutation of lets? (Performance vs code size)
 
