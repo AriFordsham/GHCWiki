@@ -44,3 +44,10 @@ Open questions:
  * Can we improve the homeomorphic embedding so that append xs xs is not embedded in append xs ys?
 
  * http://hackage.haskell.org/trac/ghc/ticket/2598
+
+Random thoughts about the prettyprinter:
+
+ * Let-statements: 
+   * LclId is not really useful for me.
+   * The empty list on the line below it is also wasting space.
+   * The occurence information sometimes pushes the type signature over several lines. 
