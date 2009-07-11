@@ -41,8 +41,6 @@ Fixes that should go into the implementation:
 
 - Understand how the inscope-set is handled in [SpecConstr](spec-constr), and use that. Stop recreating inscope-sets in substNewExpr (top3 on memory profile).
 
-- msg is broken; namecapture. Must be fixed.
-
 - Implement Simon's algorithm.
 
 
