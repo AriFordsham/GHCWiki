@@ -51,3 +51,6 @@ Random thoughts about the prettyprinter:
    * LclId is not really useful for me.
    * The empty list on the line below it is also wasting space.
    * The occurence information sometimes pushes the type signature over several lines. 
+ * Case-statements:
+   * The occurence information pushes case branches over several lines.
+ * Long types: Is the complete "GHC.Types.Char" necessary?
