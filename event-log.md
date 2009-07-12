@@ -28,7 +28,9 @@
 
 ## Code repository
 
-> TODO
+- Available in GHC 6.10.x in ghc_root/rts/eventlog
+- ghc-events: [ http://code.haskell.org/ghc-events](http://code.haskell.org/ghc-events)
+- ThreadScope: [ http://code.haskell.org/ThreadScope/](http://code.haskell.org/ThreadScope/)
 
 ## Contributors
 
