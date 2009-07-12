@@ -1,6 +1,6 @@
 ## Summary
 
-> [EventLog](event-log) framework exists in the GHC run-time system (RTS) to support profiling of GHC run-time events. 
+> [EventLog](event-log) is a fast, extensible event logging framework in the GHC run-time system (RTS) to support profiling of GHC run-time events. 
 
 ## Design
 
