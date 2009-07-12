@@ -1,6 +1,6 @@
 ## Summary
 
-> [EventLog](event-log) framework exists in the GHC RTS to support profiling of GHC run-time events, such as capability states.  A visualizer is currently under development for viewing the profiling information.
+> [EventLog](event-log) framework exists in the GHC run-time system (RTS) to support profiling of GHC run-time events. 
 
 ## Design
 
