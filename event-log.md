@@ -29,8 +29,8 @@
 ## Code repository
 
 - Available in GHC 6.10.x in ghc_root/rts/eventlog
-- ghc-events: [ http://code.haskell.org/ghc-events](http://code.haskell.org/ghc-events)
-- ThreadScope: [ http://code.haskell.org/ThreadScope/](http://code.haskell.org/ThreadScope/)
+- [ ghc-events: EventLog binary file parser for profilers](http://code.haskell.org/ghc-events)
+- [ ThreadScope: thread-level profiler for GHC EventLog events](http://code.haskell.org/ThreadScope/)
 
 ## Contributors
 
