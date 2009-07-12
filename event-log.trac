@@ -4,7 +4,7 @@
 == Design ==
   * EventLog framework is located in ghc_root/rts/eventlog/
   * Library to parse EventLog files for any visualizer, which relies upon the Data.Binary library: ghc-events.
-  * Visualizer: ThreadScope
+  * Visualizer: [http://raintown.org/?page_id=132 ThreadScope]
 
 == Code repository ==
   * Available in GHC 6.10.x in ghc_root/rts/eventlog
