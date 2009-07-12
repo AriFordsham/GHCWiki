@@ -74,3 +74,4 @@ Random thoughts about the prettyprinter:
 
   - The occurence information pushes case branches over several lines.
 - Long types: Is the complete "GHC.Types.Char" necessary?
+- Names: Why is it sometimes $dShow{v a1lm} and sometimes $dShow_a1lm? The latter is easier to grep for.
