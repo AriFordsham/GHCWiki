@@ -26,8 +26,7 @@ these, please get involved!
    * Testing testing testing. Try building a subset of hackage using cabal and shared libs. See what fails.
    * Check the user guide is accurate (we're not currently aware of any infidelities).
 
- * '''Data Parallel Haskell'''.  Manuel, can you comment on the state of play? 
-   What can we expect in time for 6.12.1? [Roman is just finishing a major change.  Once that is in, we'll have a better idea of how far we might get.  -=chak]
+ * '''Data Parallel Haskell'''.  The goal for DPH for 6.12.1 is to be usable for small applications.  The system will still be highly experimental and use a minimal Prelude substitute, but small dataparallel kernels should see reasonable parallel performance and scalability.  Still to do: we still haven't got a handle on the mysterious code blow up produced by the Simplifier on vectorised code.  Whether or not we can track down and fix that problem in time for 6.12.1 will have a significant impact on the complexity of the dataparallel code that we will support.
 
  * '''Plugin support in GHC'''.  The patches are not yet in GHC; they are awaiting review by Simon PJ.
 
