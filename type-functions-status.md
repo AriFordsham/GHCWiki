@@ -12,15 +12,15 @@
 
 - Constraint simplification:
 
-  - [\#3330](https://gitlab.haskell.org//ghc/ghc/issues/3330): typechecker goes into a loop
   - [\#2767](https://gitlab.haskell.org//ghc/ghc/issues/2767) & [\#3208](https://gitlab.haskell.org//ghc/ghc/issues/3208) (`idInfo` panic)
+  - [\#3297](https://gitlab.haskell.org//ghc/ghc/issues/3297): Rank-n types: In `TcTyFuns.flattenType`, we need to pull out type families below foralls -maybe pull out if possible, but definitely improve the error message
+  - Implicit parameters: In `TcTyFuns`, we need to normalise IP constraints, too (in `normDict` and `substDict`).
+  - [\#3330](https://gitlab.haskell.org//ghc/ghc/issues/3330): typechecker goes into a loop
   - [\#2664](https://gitlab.haskell.org//ghc/ghc/issues/2664) (typechecker diverges; actually, it's after Tc9, probably during zonking)
   - [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102) & [\#2715](https://gitlab.haskell.org//ghc/ghc/issues/2715) (superclass equalities)
 
     - To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use `HsBind.VarBind` and make its right-hand side a specially data structure describing evidence construction, instead of being a general `HsExpr`.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
     - What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
-  - Rank-n types: In `TcTyFuns.flattenType`, we need to pull out type families below foralls.
-  - Implicit parameters: In `TcTyFuns`, we need to normalise IP constraints, too (in `normDict` and `substDict`).
 
 - GADT:
 
@@ -37,9 +37,7 @@
 
 - Misc:
 
-  - [\#3297](https://gitlab.haskell.org//ghc/ghc/issues/3297), [\#3272](https://gitlab.haskell.org//ghc/ghc/issues/3272): `flattenType` errors
   - [\#3220](https://gitlab.haskell.org//ghc/ghc/issues/3220) (generalisation)
-  - [\#3208](https://gitlab.haskell.org//ghc/ghc/issues/3208): panic `idInfo` of a coercion variable
   - [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): exponentially slow compile times
   - [\#3169](https://gitlab.haskell.org//ghc/ghc/issues/3169) & [\#2360](https://gitlab.haskell.org//ghc/ghc/issues/2360) (improve occurs-check error message in two instances)
   - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types)
