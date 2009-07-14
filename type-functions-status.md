@@ -12,7 +12,6 @@
 
 - Constraint simplification:
 
-  - [\#3272](https://gitlab.haskell.org//ghc/ghc/issues/3272): flatten predicates
   - [\#2767](https://gitlab.haskell.org//ghc/ghc/issues/2767) & [\#3208](https://gitlab.haskell.org//ghc/ghc/issues/3208) (`idInfo` panic)
   - [\#3297](https://gitlab.haskell.org//ghc/ghc/issues/3297): Rank-n types: In `TcTyFuns.flattenType`, we need to pull out type families below foralls -maybe pull out if possible, but definitely improve the error message
   - Implicit parameters: In `TcTyFuns`, we need to normalise IP constraints, too (in `normDict` and `substDict`).
