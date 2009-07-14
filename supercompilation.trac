@@ -55,4 +55,5 @@ Random thoughts about the prettyprinter:
    * The occurence information pushes case branches over several lines.
    * case e of { tp1 tp2 tp3 tp4 -> tp3 } prettyprints over 5 lines.
  * Long types: Is the complete "GHC.Types.Char" necessary?
- * Names: Why is it sometimes $dShow{v a1lm} and sometimes $dShow_a1lm? The latter is easier to grep for.
+ * Names: 
+   * Why is it sometimes $dShow{v a1lm} and sometimes $dShow_a1lm? The latter is easier to grep for.
