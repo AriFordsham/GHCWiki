@@ -307,7 +307,7 @@ an inlined copy of the old `D.f`, which it got via `B`.
 
 It works like this: 
 
-- `D` is recompiled; the version of `D.f` increases
+- `D` is recompiled; the fingerprint of `D.f` changes
 - `B` is considered; it recorded a usage on the old `D.f`, so
   gets recompiled, and now its interface records a usage on the new `D.f`
 - `C` is considered; it doesn't need to be recompiled.
