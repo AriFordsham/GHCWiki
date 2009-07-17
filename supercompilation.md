@@ -59,21 +59,23 @@ Shortcomings of the prototype:
   - Extending this to specialised functions themselves.
 
 
-What next?
+What next? **Implement the new algorithm.**
 
-- Export unfoldings for recursive functions.  Remember to add the "loop-breaker" info to interface files (and read it back in).
 - Write drive, msg, split in the R form.  Still with eager substitution
+- Export unfoldings for recursive functions.  Remember to add the "loop-breaker" info to interface files (and read it back in).
 - Lambda lifting
-- Using lazy substitutions
 - Refined whistle-blowing test
-- Neil's msg
+- Neil's msg idea
+- State monad and good logging info
 
 
 Later
 
+- Using lazy substitutions
 - Case-of-case duplication
 - Post-pass to identify deepId
 - Post-pass to undo redundant specialisation??
+- Neil does "evaluation" before specialising, to expose more values to let, and maybe make lets into linear lets.  We don't. Yet.
 
 ## Open questions
 
