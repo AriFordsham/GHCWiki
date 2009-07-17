@@ -45,15 +45,25 @@ database can contain several packages with the same name.
 
 <table><tr><th>`PackageIdentifier` ("base-4.1.0.0")</th>
 <td>
-A `PackageName` plus a `Version`.  Does uniquely identify a package, but only by convention (we may lift
-this restriction in the future).  `InstalledPackageInfo` contains the field `package :: PackageIdentifier`.
+A `PackageName` plus a `Version`.  A `PackageIdentifier` names an API.  If two `PackageIdentifiers` are
+the same, they have the same API.
+`InstalledPackageInfo` contains the field `package :: PackageIdentifier`.
+
+In GHC 6.11, the `PackageIdentifier` also uniquely identifies a package instance in the package database, but
+only by convention (we may lift this restriction in the future, and allow the database to contain
+multiple package instances with the same `PackageIdentifier` (and different `InstalledPackageId`s).
 </td></tr></table>
 
 <table><tr><th>`InstalledPackageId` ("base-4.1.0.0-1mpgjN")</th>
 <td>
-(introduced in GHC 6.12 / Cabal 1.7.2) A string that uniquely identifies a package in the database.  Dependencies
-between installed packages are identified by the `InstalledPackageId`.  An `InstalledPackageId` is currently
-chosen by adding a random suffix to the string representing the `PackageIdentifier` when a package is registered.
+(introduced in GHC 6.12 / Cabal 1.7.2) A string that uniquely identifies a package instance in the database.
+An `InstalledPackageId` identifies an ABI: if two `InstalledPackageIds` are the same, they have the
+same ABI.
+`InstalledPackageInfo` contains the field `package :: PackageIdentifier`.
+
+Dependencies between installed packages are identified by the `InstalledPackageId`.  An `InstalledPackageId` is
+currently chosen by adding a random suffix to the string representing the `PackageIdentifier` when a package is
+registered.
 </td></tr></table>
 
 <table><tr><th>`PackageId` (these currently look like "base-4.1.0.0" in GHC 6.12)</th>
