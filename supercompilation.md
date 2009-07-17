@@ -45,8 +45,10 @@ Fixes that should go into the implementation:
 - Implement Simon's algorithm.
 
 
-Other things we need to watch out for
+Shortcomings of the prototype:
 
+- Use a state monad
+- Uses eager substitution
 - Divide by zero
 - Homeomorphic embedding for types?  Currently all types are regarded as equal (like literals).  Decision: leave it this way for now.
 - Msg does not respect alpha-equivalence.  If we match lambda against lambdas, and the binders differ, we say "different".  Decision: deal with alpha-equiv in msg when we have the new alg working.
@@ -55,6 +57,23 @@ Other things we need to watch out for
 
   - case (x\>y)of { ....case (x\>y) of ... }
   - Extending this to specialised functions themselves.
+
+
+What next?
+
+- Export unfoldings for recursive functions.  Remember to add the "loop-breaker" info to interface files (and read it back in).
+- Write drive, msg, split in the R form.  Still with eager substitution
+- Lambda lifting
+- Using lazy substitutions
+- Refined whistle-blowing test
+- Neil's msg
+
+
+Later
+
+- Case-of-case duplication
+- Post-pass to identify deepId
+- Post-pass to undo redundant specialisation??
 
 ## Open questions
 
