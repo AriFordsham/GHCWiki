@@ -1,7 +1,9 @@
-## Notes on the implementation of Supercompilation in GHC
+# Notes on the implementation of Supercompilation in GHC
 
 
 This page is very much a draft and may be incorrect in places. Please fix problems that you spot.
+
+## Diffferences from Supero
 
 
 An attempted list at differences between [ Supero](http://community.haskell.org/~ndm/supero) and [ positive supercompilation for call-by-value](http://www.csee.ltu.se/~pj/papers/scp/popl09-scp.pdf) (abbreviated to pscp below). 
@@ -27,8 +29,7 @@ An attempted list at differences between [ Supero](http://community.haskell.org/
 
 What is not mentioned in either of our works though is that it is a typed intermediate representation in GHC. System Fc has the casts that might get in the way of transformations (so effectively they are some kind of annoying expressions). Rank-n polymorphism is another potential problem, but I am not sure if that will be a problem with System Fc. These are not fundamental problems that will take two months to solve, but I think that implementing a supercompiler for System Fc is more than just two days of intense hacking, even for someone already familiar with GHC internals.
 
-
-Progress report at the end of June:
+## Progress report at the end of June
 
 
 A substitution based implementation exists, that transforms append, reverse with accumulating parameters, basic arithmetics and similar things. There are still bugs in the implementation, mainly name capture. It takes 8 seconds to transform the double append example, but there's still plenty of room for improvement with respect to performance.
@@ -43,8 +44,7 @@ Fixes that should go into the implementation:
 
 - Implement Simon's algorithm.
 
-
-Open questions:
+## Open questions
 
 - Should R contexts include let-statements? Need to worry about name capture even more then.
 
