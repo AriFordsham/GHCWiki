@@ -44,6 +44,18 @@ Fixes that should go into the implementation:
 
 - Implement Simon's algorithm.
 
+
+Other things we need to watch out for
+
+- Divide by zero
+- Homeomorphic embedding for types?  Currently all types are regarded as equal (like literals).  Decision: leave it this way for now.
+- Msg does not respect alpha-equivalence.  If we match lambda against lambdas, and the binders differ, we say "different".  Decision: deal with alpha-equiv in msg when we have the new alg working.
+- Inlining `unsafePerformIO`
+- Adding constraint info
+
+  - case (x\>y)of { ....case (x\>y) of ... }
+  - Extending this to specialised functions themselves.
+
 ## Open questions
 
 - Should R contexts include let-statements? Need to worry about name capture even more then.
