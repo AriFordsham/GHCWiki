@@ -1,6 +1,8 @@
-== Notes on the implementation of Supercompilation in GHC ==
+= Notes on the implementation of Supercompilation in GHC =
 
 This page is very much a draft and may be incorrect in places. Please fix problems that you spot.
+
+== Diffferences from Supero ==
 
 An attempted list at differences between [http://community.haskell.org/~ndm/supero Supero] and [http://www.csee.ltu.se/~pj/papers/scp/popl09-scp.pdf positive supercompilation for call-by-value] (abbreviated to pscp below). 
 
@@ -17,7 +19,7 @@ An attempted list at differences between [http://community.haskell.org/~ndm/supe
 
 What is not mentioned in either of our works though is that it is a typed intermediate representation in GHC. System Fc has the casts that might get in the way of transformations (so effectively they are some kind of annoying expressions). Rank-n polymorphism is another potential problem, but I am not sure if that will be a problem with System Fc. These are not fundamental problems that will take two months to solve, but I think that implementing a supercompiler for System Fc is more than just two days of intense hacking, even for someone already familiar with GHC internals.
 
-Progress report at the end of June:
+== Progress report at the end of June ==
 
 A substitution based implementation exists, that transforms append, reverse with accumulating parameters, basic arithmetics and similar things. There are still bugs in the implementation, mainly name capture. It takes 8 seconds to transform the double append example, but there's still plenty of room for improvement with respect to performance.
 
@@ -29,7 +31,34 @@ Fixes that should go into the implementation:
 
  * Implement Simon's algorithm.
 
-Open questions:
+Shortcomings of the prototype:
+ * Use a state monad
+ * Uses eager substitution
+ * Divide by zero
+ * Homeomorphic embedding for types?  Currently all types are regarded as equal (like literals).  Decision: leave it this way for now.
+ * Msg does not respect alpha-equivalence.  If we match lambda against lambdas, and the binders differ, we say "different".  Decision: deal with alpha-equiv in msg when we have the new alg working.
+ * Inlining `unsafePerformIO`
+ * Adding constraint info
+   * case (x>y)of { ....case (x>y) of ... }
+   * Extending this to specialised functions themselves.
+
+What next? '''Implement the new algorithm.'''
+
+ * Write drive, msg, split in the R form.  Still with eager substitution
+ * Export unfoldings for recursive functions.  Remember to add the "loop-breaker" info to interface files (and read it back in).
+ * Lambda lifting
+ * Refined whistle-blowing test
+ * Neil's msg idea
+ * State monad and good logging info
+
+Later
+ * Using lazy substitutions
+ * Case-of-case duplication
+ * Post-pass to identify deepId
+ * Post-pass to undo redundant specialisation??
+ * Neil does "evaluation" before specialising, to expose more values to let, and maybe make lets into linear lets.  We don't. Yet.
+
+== Open questions ==
 
  * Should R contexts include let-statements? Need to worry about name capture even more then.
 
