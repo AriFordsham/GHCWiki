@@ -62,7 +62,7 @@ Shortcomings of the prototype:
 What next? **Implement the new algorithm.**
 
 - Write drive, msg, split in the R form.  Still with eager substitution
-- Export unfoldings for recursive functions.  Remember to add the "loop-breaker" info to interface files (and read it back in).
+- Export unfoldings for recursive functions.  
 - Refined whistle-blowing test
 - Neil's msg idea
 - State monad and good logging info
@@ -80,6 +80,7 @@ Later
 Done 
 
 - Lambda lifting
+- Add the "loop-breaker" info to interface files (and read it back in).
 
 ## Open questions
 
