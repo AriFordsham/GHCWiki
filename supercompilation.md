@@ -62,10 +62,8 @@ Shortcomings of the prototype:
 What next? **Implement the new algorithm.**
 
 - Write drive, msg, split in the R form.  Still with eager substitution
-- Export unfoldings for recursive functions.  
 - Refined whistle-blowing test
 - Neil's msg idea
-- State monad and good logging info
 
 
 Later
@@ -79,8 +77,17 @@ Later
 
 Done 
 
+- State monad and good logging info; Stole SimplMonad.
 - Lambda lifting
 - Add the "loop-breaker" info to interface files (and read it back in).
+- Export unfoldings for recursive functions; does not validate: 
+
+  - ds060: Overlapping pattern match?
+  - ds061: Turns pattern-matches non-exhaustive
+  - dsrun015: Foo.x not in scope
+  - driver063: Exposes modules that were invisible earlier. 
+  - print010: changes output from Integer to GHC.Integer.GMP.Internals.Integer 0 to GHC.Integer.GMP.Internals.S\# 0.
+  - break026: No show instance
 
 ## Open questions
 
