@@ -80,7 +80,14 @@ Done
 
 - Lambda lifting
 - Add the "loop-breaker" info to interface files (and read it back in).
-- Export unfoldings for recursive functions.  
+- Export unfoldings for recursive functions; does not validate: 
+
+  - ds060: Overlapping pattern match?
+  - ds061: Turns pattern-matches non-exhaustive
+  - dsrun015: Foo.x not in scope
+  - driver063: Exposes modules that were invisible earlier. 
+  - print010: changes output from Integer to GHC.Integer.GMP.Internals.Integer 0 to GHC.Integer.GMP.Internals.S\# 0.
+  - break026: No show instance
 
 ## Open questions
 
