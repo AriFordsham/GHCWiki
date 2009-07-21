@@ -47,7 +47,6 @@ What next? '''Implement the new algorithm.'''
  * Write drive, msg, split in the R form.  Still with eager substitution
  * Refined whistle-blowing test
  * Neil's msg idea
- * State monad and good logging info
 
 Later
  * Using lazy substitutions
@@ -57,6 +56,7 @@ Later
  * Neil does "evaluation" before specialising, to expose more values to let, and maybe make lets into linear lets.  We don't. Yet.
 
 Done 
+ * State monad and good logging info; Stole SimplMonad.
  * Lambda lifting
  * Add the "loop-breaker" info to interface files (and read it back in).
  * Export unfoldings for recursive functions; does not validate: 

@@ -64,7 +64,6 @@ What next? **Implement the new algorithm.**
 - Write drive, msg, split in the R form.  Still with eager substitution
 - Refined whistle-blowing test
 - Neil's msg idea
-- State monad and good logging info
 
 
 Later
@@ -78,6 +77,7 @@ Later
 
 Done 
 
+- State monad and good logging info; Stole SimplMonad.
 - Lambda lifting
 - Add the "loop-breaker" info to interface files (and read it back in).
 - Export unfoldings for recursive functions; does not validate: 
