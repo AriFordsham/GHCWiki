@@ -6,8 +6,9 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 What next? '''Implement the new algorithm.'''
 
- * Flag -fexpose-all-unfoldings (a cousin of -fomit-interface-pragmas) (default is off) to switch on the spit-out-all-unfoldings stuff.
- * Validate with flag off; then push.
+ * Exposing all unfoldings:
+   * Flag -fexpose-all-unfoldings (a cousin of -fomit-interface-pragmas) (default is off) to switch on the spit-out-all-unfoldings stuff.
+   * Validate with flag off; then push.
  * Add IO monad; add logging (one line per specialisation start, and completion)
  * Use a record for the memo table contents
  * Write msg, split in the R form.  Still with eager substitution
