@@ -6,6 +6,17 @@ Here we keep track of failures that can occur when building GHC, with solutions.
 
 We don't expect anyone to read this page from beginning to end.  The only way you get here is by searching, so remember when adding a new entry the most important thing to do is to '''include the error message verbatim''', so searches will find it.  If a build failure is caused by a bug in GHC or the build system, please link to the ticket number so we can tell when it's safe to remove the entry and keep this page from getting too crufty.
 
+=== chr: bad argument ===
+
+Occasionally you see this:
+{{{
+Compile failed (status 256) errors were:
+ghc-stage2.exe: panic! (the 'impossible' happened)
+  (GHC version 6.11.20090722 for i386-unknown-mingw32):
+	Prelude.chr: bad argument: 50331648
+}}}
+This is almost certainly because you have stale interface files (`Foo.hi`) lying around, and GHC's binary interface-file format has changed.  Try `make distclean` and rebuild.  If you still get it, use `find` to find `*.hi` and remove them.
+
 === All binaries crash (Windows only) ===
 
 On Windows you may see this
