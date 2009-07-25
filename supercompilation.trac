@@ -2,6 +2,10 @@
 
 This page is very much a draft and may be incorrect in places. Please fix problems that you spot.
 
+== Insights ==
+
+* Looking for instances, instead of renamings, has implications with the global store. Do we want to fold append (append xs' ys) zs against append (append xs ys) zs (in rho) or append ys zs (in store).
+
 == Current status ==
 
 What next? '''Implement the new algorithm.'''
