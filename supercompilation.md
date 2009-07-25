@@ -3,6 +3,45 @@
 
 This page is very much a draft and may be incorrect in places. Please fix problems that you spot.
 
+## Problems
+
+- The Simplifier gets confused by the wrong OccInfo on things. So run occurence analysis at the end of supercompilation. The occurence analyser gets confused by having the wrong Unfoldings for id's though. We currently zap things here and there, but this is not the right way to do it.
+
+## Insights
+
+- Looking for instances, instead of renamings, has implications with the global store. Do we want to fold append (append xs' ys) zs against append (append xs ys) zs (in rho) or append ys zs (in store).
+
+- Applications are not saturated in Core, there's eta::GHC.Prim.State\# GHC.Prim.RealWorld roughly everywhere.
+
+- The whistle blows on several expressions sometimes. We need to sort them. Example: 
+
+
+case GHC.Num.- @ GHC.Types.Int GHC.Num.$fNumInt (GHC.Num.+ @ GHC.Types.Int GHC.Num.$fNumInt i (Main.check l)) (Main.check r) of _ {
+
+>
+> GHC.Types.I\# y \[ALWAYS Once Nothing\] -\> GHC.Types.I\# (GHC.Prim.-\# (GHC.Prim.+\# x 0) y)
+
+
+}
+
+
+against both of these:
+
+
+case Main.check r of _ { 
+
+>
+> GHC.Types.I\# y \[ALWAYS Once Nothing\] -\> GHC.Types.I\# (GHC.Prim.-\# (GHC.Prim.+\# x 0) y)
+
+
+}
+
+
+GHC.Num.- @ GHC.Types.Int GHC.Num.$fNumInt (GHC.Num.+ @ GHC.Types.Int GHC.Num.$fNumInt i (Main.check l)) (Main.check r))
+
+
+The latter is better to generalise against. How do we capture this? Perhaps by sorting on the length of free variables in rho.
+
 ## Current status
 
 
@@ -22,6 +61,7 @@ What next? **Implement the new algorithm.**
 Later
 
 - Faster representation for memo table; a finite map driven by the head function
+- Use idUnfolding and a bitmap for letrec/toplevel things instead of traversing the binds list.
 - Using lazy substitutions
 - Case-of-case duplication
 - Post-pass to identify deepId
@@ -51,13 +91,6 @@ A substitution-based implementation exists, that transforms append, reverse with
 The typed intermediate representation has caused some trouble, but nothing fundamental. 
 
 
-Fixes that should go into the implementation:
-
-- Understand how the inscope-set is handled in [SpecConstr](spec-constr), and use that. Stop recreating inscope-sets in substNewExpr (top3 on memory profile).
-
-- Implement Simon's algorithm.
-
-
 Shortcomings of the prototype:
 
 - Use a state monad
@@ -70,6 +103,35 @@ Shortcomings of the prototype:
 
   - case (x\>y)of { ....case (x\>y) of ... }
   - Extending this to specialised functions themselves.
+
+## Performance
+
+```wiki
+COST CENTRE                    MODULE               %time %alloc
+
+correctNodeUFM                 UniqFM                16.1   23.3
+isHomemb                       Scp2                   9.3   19.7
+peel                           Scp2                   4.1    1.7
+realExprSize                   Scp2                   4.0    6.4
+iBox                           FastTypes              3.7    5.9
+maybeInline                    Scp2                   2.2    1.5
+dive                           Scp2                   2.1    3.4
+thenSmpl                       SimplMonad             2.0    0.1
+mkLeafUFM                      UniqFM                 1.9    2.3
+match_list                     Unify                  1.8    0.5
+mkLLNodeUFM                    UniqFM                 1.8    3.6
+shiftR1                        UniqFM                 1.5    0.0
+cmpName                        Name                   1.3    1.3
+match                          Scp2                   1.2    1.7
+shiftL1                        UniqFM                 1.2    0.0
+map_tree                       UniqFM                 1.2    2.7
+match                          Unify                  1.2    0.0
+mkLitString                    FastString             1.2    1.0
+insert_ele                     UniqFM                 1.1    1.2
+getCommonNodeUFMData           UniqFM                 1.1    0.1
+plug                           Scp2                   0.9    1.3
+renamings                      Scp2                   0.6    1.2
+```
 
 ## Open questions
 
