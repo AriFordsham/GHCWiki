@@ -9,6 +9,35 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 - Applications are not saturated in Core, there's eta::GHC.Prim.State\# GHC.Prim.RealWorld roughly everywhere.
 
+- The whistle blows on several expressions sometimes. We need to sort them. Example: 
+
+
+case GHC.Num.- @ GHC.Types.Int GHC.Num.$fNumInt (GHC.Num.+ @ GHC.Types.Int GHC.Num.$fNumInt i (Main.check l)) (Main.check r) of _ {
+
+>
+> GHC.Types.I\# y \[ALWAYS Once Nothing\] -\> GHC.Types.I\# (GHC.Prim.-\# (GHC.Prim.+\# x 0) y)
+
+
+}
+
+
+against both of these:
+
+
+case Main.check r of _ { 
+
+>
+> GHC.Types.I\# y \[ALWAYS Once Nothing\] -\> GHC.Types.I\# (GHC.Prim.-\# (GHC.Prim.+\# x 0) y)
+
+
+}
+
+
+GHC.Num.- @ GHC.Types.Int GHC.Num.$fNumInt (GHC.Num.+ @ GHC.Types.Int GHC.Num.$fNumInt i (Main.check l)) (Main.check r))
+
+
+The latter is better to generalise against. How do we capture this?
+
 ## Current status
 
 
