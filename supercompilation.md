@@ -36,7 +36,7 @@ case Main.check r of _ {
 GHC.Num.- @ GHC.Types.Int GHC.Num.$fNumInt (GHC.Num.+ @ GHC.Types.Int GHC.Num.$fNumInt i (Main.check l)) (Main.check r))
 
 
-The latter is better to generalise against. How do we capture this?
+The latter is better to generalise against. How do we capture this? Perhaps by sorting on the length of free variables in rho.
 
 ## Current status
 
