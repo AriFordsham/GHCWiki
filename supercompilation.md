@@ -103,6 +103,35 @@ Shortcomings of the prototype:
   - case (x\>y)of { ....case (x\>y) of ... }
   - Extending this to specialised functions themselves.
 
+## Performance
+
+```wiki
+COST CENTRE                    MODULE               %time %alloc
+
+correctNodeUFM                 UniqFM                16.1   23.3
+isHomemb                       Scp2                   9.3   19.7
+peel                           Scp2                   4.1    1.7
+realExprSize                   Scp2                   4.0    6.4
+iBox                           FastTypes              3.7    5.9
+maybeInline                    Scp2                   2.2    1.5
+dive                           Scp2                   2.1    3.4
+thenSmpl                       SimplMonad             2.0    0.1
+mkLeafUFM                      UniqFM                 1.9    2.3
+match_list                     Unify                  1.8    0.5
+mkLLNodeUFM                    UniqFM                 1.8    3.6
+shiftR1                        UniqFM                 1.5    0.0
+cmpName                        Name                   1.3    1.3
+match                          Scp2                   1.2    1.7
+shiftL1                        UniqFM                 1.2    0.0
+map_tree                       UniqFM                 1.2    2.7
+match                          Unify                  1.2    0.0
+mkLitString                    FastString             1.2    1.0
+insert_ele                     UniqFM                 1.1    1.2
+getCommonNodeUFMData           UniqFM                 1.1    0.1
+plug                           Scp2                   0.9    1.3
+renamings                      Scp2                   0.6    1.2
+```
+
 ## Open questions
 
 - Should R contexts include let-statements? Need to worry about name capture even more then.
