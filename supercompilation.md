@@ -61,6 +61,7 @@ What next? **Implement the new algorithm.**
 Later
 
 - Faster representation for memo table; a finite map driven by the head function
+- Use idUnfolding and a bitmap for letrec/toplevel things instead of traversing the binds list.
 - Using lazy substitutions
 - Case-of-case duplication
 - Post-pass to identify deepId
