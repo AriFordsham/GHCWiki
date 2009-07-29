@@ -22,7 +22,7 @@ If you're on a recent Linux system, then you should be able to get a working bui
 - `darcs`
 
 
-For building the documentataion: (User's Guide and Cabal guide):
+For building the documentation: (User's Guide and Cabal guide):
 
 - `docbook-utils`
 - `docbook-utils-pdf`
