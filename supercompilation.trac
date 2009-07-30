@@ -4,6 +4,8 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 == Problems ==
 
+* The whistle implementation: What does the subterms of a context mean?
+
 * The Simplifier gets confused by the wrong OccInfo on things. So run occurence analysis at the end of supercompilation. The occurence analyser gets confused by having the wrong Unfoldings for id's though. We currently zap things here and there, but this is not the right way to do it.
 
 == Insights ==
