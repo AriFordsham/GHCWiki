@@ -21,7 +21,7 @@ These darcs repositories are the HEAD (main trunk) of GHC development:
 **Warning.**  Both the `ghc` and `testsuite` repositories tickle a case-sensitivity bug in darcs, so on Windows (only) you can't do a full `darcs get` for `ghc` or `testsuite`.  Instead, either start with a tarball of the repository gotten from somewhere else, or do `darcs get --partial`.  (The repository itself can't be fixed to avoid the bug, without messing up its history.)
 
 
-The following repositories are the "GHC boot" libraries, i.e. the set of libraries that are necessary to build GHC (i.e. they are used when building the stage 2 compiler). They populate the libraries/ directory of a GHC tree:
+The following repositories are the "GHC boot" libraries, i.e. the set of libraries that are necessary to build GHC (i.e. they are used when building the stage 2 compiler). They populate the libraries/ directory of a GHC tree.
 
 <table><tr><th>[ http://darcs.haskell.org/packages/array](http://darcs.haskell.org/packages/array)</th></tr>
 <tr><th>[ http://darcs.haskell.org/packages/base](http://darcs.haskell.org/packages/base)</th></tr>
@@ -44,32 +44,10 @@ The following repositories are the "GHC boot" libraries, i.e. the set of librari
 <tr><th>[ http://darcs.haskell.org/packages/hpc](http://darcs.haskell.org/packages/hpc)</th></tr></table>
 
 
-And the following repositories are the "extra" libraries; if in the libraries/ directory of a GHC tree then they will also be built:
+Additionally a GHC build needs these two tools:
 
-<table><tr><th>[ http://darcs.haskell.org/packages/ALUT](http://darcs.haskell.org/packages/ALUT)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/GLUT](http://darcs.haskell.org/packages/GLUT)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/HGL](http://darcs.haskell.org/packages/HGL)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/HUnit](http://darcs.haskell.org/packages/HUnit)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/ObjectIO](http://darcs.haskell.org/packages/ObjectIO)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/OpenAL](http://darcs.haskell.org/packages/OpenAL)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/OpenGL](http://darcs.haskell.org/packages/OpenGL)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/QuickCheck](http://darcs.haskell.org/packages/QuickCheck)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/X11](http://darcs.haskell.org/packages/X11)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/arrows](http://darcs.haskell.org/packages/arrows)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/cgi](http://darcs.haskell.org/packages/cgi)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/fgl](http://darcs.haskell.org/packages/fgl)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/haskell-src](http://darcs.haskell.org/packages/haskell-src)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/html](http://darcs.haskell.org/packages/html)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/mtl](http://darcs.haskell.org/packages/mtl)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/network](http://darcs.haskell.org/packages/network)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/parsec](http://darcs.haskell.org/packages/parsec)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/parallel](http://darcs.haskell.org/packages/parallel)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/regex-base](http://darcs.haskell.org/packages/regex-base)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/regex-compat](http://darcs.haskell.org/packages/regex-compat)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/regex-posix](http://darcs.haskell.org/packages/regex-posix)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/stm](http://darcs.haskell.org/packages/stm)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/time](http://darcs.haskell.org/packages/time)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/xhtml](http://darcs.haskell.org/packages/xhtml)</th></tr></table>
+<table><tr><th>[ http://darcs.haskell.org/hsc2hs](http://darcs.haskell.org/hsc2hs)</th></tr>
+<tr><th>[ http://darcs.haskell.org/haddock2](http://darcs.haskell.org/haddock2)</th></tr></table>
 
 ## Branches
 
