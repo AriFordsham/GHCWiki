@@ -9,6 +9,10 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 - The Simplifier gets confused by the wrong OccInfo on things. So run occurence analysis at the end of supercompilation. The occurence analyser gets confused by having the wrong Unfoldings for id's though. We currently zap things here and there, but this is not the right way to do it.
 
+## Scalability
+
+- The whistle is THE bad guy when it comes to performance; we spend 35% of our time on testing. It is trivial to run in parallell. 
+
 ## Insights
 
 - Looking for instances, instead of renamings, has implications with the global store. Do we want to fold append (append xs' ys) zs against append (append xs ys) zs (in rho) or append ys zs (in store).
@@ -109,58 +113,23 @@ Shortcomings of the prototype:
 ## Performance
 
 ```wiki
-COST CENTRE                    MODULE               %time %alloc
+COST CENTRE                    MODULE               %time %alloc  ticks     bytes
 
-isHomemb                       Scp                   19.7   46.8
-peel                           Scp                    9.5    3.5
-dive                           Scp                    5.1    8.2
-maybeInline                    Scp                    3.0    2.1
-thenSmpl                       SimplMonad             2.1    0.2
-match_list                     Unify                  1.9    0.6
-shiftR1                        UniqFM                 1.6    0.0
-cmpName                        Name                   1.5    1.8
-match                          Scp                    1.4    2.1
-getCommonNodeUFMData           UniqFM                 1.4    0.1
-shiftL1                        UniqFM                 1.4    0.0
-match                          Unify                  1.4    0.0
-rhssOfAlts                     CoreSyn                1.3    2.1
->>=_aLo                        RegAlloc.Linear.State   1.3    0.4
-mkLitString                    FastString             1.2    1.2
-thenFC                         CgMonad                1.2    0.4
-iBox                           FastTypes              1.1    1.5
-thenNat                        NCGMonad               1.1    0.1
-insert_ele                     UniqFM                 1.0    1.5
-plug                           Scp                    0.7    1.6
-renamings                      Scp                    0.6    1.4
-match_ty                       Scp                    0.6    1.1
-collectArgs                    CoreSyn                0.5    1.4
-```
-
-```wiki
-COST CENTRE                    MODULE               %time %alloc
-
-correctNodeUFM                 UniqFM                16.1   23.3
-isHomemb                       Scp2                   9.3   19.7
-peel                           Scp2                   4.1    1.7
-realExprSize                   Scp2                   4.0    6.4
-iBox                           FastTypes              3.7    5.9
-maybeInline                    Scp2                   2.2    1.5
-dive                           Scp2                   2.1    3.4
-thenSmpl                       SimplMonad             2.0    0.1
-mkLeafUFM                      UniqFM                 1.9    2.3
-match_list                     Unify                  1.8    0.5
-mkLLNodeUFM                    UniqFM                 1.8    3.6
-shiftR1                        UniqFM                 1.5    0.0
-cmpName                        Name                   1.3    1.3
-match                          Scp2                   1.2    1.7
-shiftL1                        UniqFM                 1.2    0.0
-map_tree                       UniqFM                 1.2    2.7
-match                          Unify                  1.2    0.0
-mkLitString                    FastString             1.2    1.0
-insert_ele                     UniqFM                 1.1    1.2
-getCommonNodeUFMData           UniqFM                 1.1    0.1
-plug                           Scp2                   0.9    1.3
-renamings                      Scp2                   0.6    1.2
+isHomemb                       Scp                   19.3   47.2    853 4763146466
+peel                           Scp                    9.0    4.0    396 408786710
+dive                           Scp                    5.3    8.2    233 832498569
+thenSmpl                       SimplMonad             3.1    0.2    135  24371642
+thenNat                        NCGMonad               1.9    0.2     85  16580813
+>>=_aLo                        RegAlloc.Linear.State   1.8    0.5     79  50778216
+mkLitString                    FastString             1.7    1.7     76 171934583
+maybeInline                    Scp                    1.6    0.3     69  29715474
+thenFC                         CgMonad                1.6    0.6     69  56081175
+rhssOfAlts                     CoreSyn                1.5    2.1     68 208655884
+inlinePerformIO                FastFunctions          1.4    0.0     64         0
+varUnique                      Var                    1.1    1.0     48 100342146
+renamings                      Scp                    0.8    1.8     36 185457589
+collectArgs                    CoreSyn                0.8    2.3     36 228680316
+insert_ele                     UniqFM                 0.7    1.1     30 109012316
 ```
 
 ## Open questions
