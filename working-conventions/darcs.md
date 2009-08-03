@@ -96,17 +96,19 @@ A GHC tree consists of several repositories (see [Building/GettingTheSources](bu
 It's good practice to have a completely clean set of repositories locally, i.e. a locally cached copy of the main repositories on `darcs.haskell.org`.  This is useful for creating new trees quickly, or comparing your trees to the HEAD.  To see which patches you have in a GHC tree relative to a clean repository, you can use the `push-all` script in the root of the GHC repository:
 
 ```wiki
-  $ ./push-all --checked-out ~/ghc-HEAD --dry-run
+  $ ./darcs-all -r ~/ghc-HEAD push --dry-run --no-set-default
 ```
 
 
-where `~/ghc-HEAD` is my vanilla HEAD, with all the sub-repositories checked out using `darcs-all`.  This command tells me all the patches in the local repository tree relative to `~/ghc-HEAD`.
+where `~/ghc-HEAD` is my vanilla HEAD, with all the sub-repositories checked out using `darcs-all`.  This command tells me all the patches in the local repository tree relative to `~/ghc-HEAD`. 
+
+**Tip**: add `pull --no-set-default` and `push --no-set-default` to your `~/.darcs/defaults` file, to avoid having to give `--no-set-default` in commands like the above.
 
 
 To actually push to the HEAD, you can do this:
 
 ```wiki
-  $ ./push-all simonmar@darcs.haskell.org:/home/darcs
+  $ ./darcs-all -r simonmar@darcs.haskell.org:/home/darcs push --no-set-default
 ```
 
 
