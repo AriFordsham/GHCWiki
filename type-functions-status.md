@@ -38,6 +38,7 @@
 
 - Misc:
 
+  - [\#3409](https://gitlab.haskell.org//ghc/ghc/issues/3409) (CoreLint error checking an iface)
   - [\#3220](https://gitlab.haskell.org//ghc/ghc/issues/3220) (generalisation)
   - [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): exponentially slow compile times
   - [\#3169](https://gitlab.haskell.org//ghc/ghc/issues/3169) & [\#2360](https://gitlab.haskell.org//ghc/ghc/issues/2360) (improve occurs-check error message in two instances)
