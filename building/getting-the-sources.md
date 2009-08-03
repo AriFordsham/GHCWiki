@@ -155,3 +155,23 @@ The second step is required in the event that new packages or repositories have 
 
 
 See [Building/Rebuilding](building/rebuilding) for how to update your build after pulling patches.
+
+
+You can also pull patches from another tree:
+
+```wiki
+  $ ./darcs-all -r /another/ghc pull
+```
+
+
+where `/another/ghc` is a path to another local GHC repository.  You can specify a remote repository here too, e.g. `-r http://darcs.haskell.org/ghc-6.10` (remember to omit the final "ghc" when using a remote repo).
+
+
+The `darcs-all` command is useful for finding out what patches you have relative to another repository:
+
+```wiki
+  $ ./darcs-all -r /another/ghc push --dry-run
+```
+
+
+this tells you which patches there are in your local repository tree relative to the tree over in `/another/ghc`.
