@@ -57,7 +57,7 @@ What next? **Implement the new algorithm.**
 
   - Flag -fexpose-all-unfoldings (a cousin of -fomit-interface-pragmas) (default is off) to switch on the spit-out-all-unfoldings stuff.
   - Validate with flag off; then push.
-- Add IO monad; add logging (one line per specialisation start, and completion)
+- Add IO monad; 
 - Write msg, split in the R form.  Still with eager substitution
 - Figure out arity for each top-level (lambda lifted) function, and only inline when it is saturated.  (Write notes in paper, explaining why this might be good.)  NB: linearity becomes simpler, because a variable cannot occur under a lambda.
 - Refined whistle-blowing test
@@ -77,6 +77,7 @@ Later
 
 Done 
 
+- add logging (one line per specialisation start, and completion)
 - Use a record for the memo table contents
 - State monad and good logging info; Stole SimplMonad.
 - Lambda lifting
@@ -130,6 +131,19 @@ varUnique                      Var                    1.1    1.0     48 10034214
 renamings                      Scp                    0.8    1.8     36 185457589
 collectArgs                    CoreSyn                0.8    2.3     36 228680316
 insert_ele                     UniqFM                 0.7    1.1     30 109012316
+```
+
+
+Full unfoldings on stage2 and libraries:
+
+```wiki
+Total bytes: 28541166 bytes vs 55642519 bytes
+
+Largest byte difference: ./libraries/haskeline/dist-install/build/System/Console/Haskeline/Vi.hi, with 887989 bytes
+62885 bytes vs 950874 bytes.
+
+Largest % difference: ./ghc/stage2/build/InteractiveUI.hi, with 6031.62723322067% 
+10355 bytes vs 624575 bytes
 ```
 
 ## Open questions
