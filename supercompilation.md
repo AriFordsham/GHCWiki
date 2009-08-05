@@ -132,6 +132,19 @@ collectArgs                    CoreSyn                0.8    2.3     36 22868031
 insert_ele                     UniqFM                 0.7    1.1     30 109012316
 ```
 
+
+Full unfoldings on stage2 and libraries:
+
+```wiki
+Total bytes: 28541166 bytes vs 55642519 bytes
+
+Largest byte difference: ./libraries/haskeline/dist-install/build/System/Console/Haskeline/Vi.hi, with 887989 bytes
+62885 bytes vs 950874 bytes.
+
+Largest % difference: ./ghc/stage2/build/InteractiveUI.hi, with 6031.62723322067% 
+10355 bytes vs 624575 bytes
+```
+
 ## Open questions
 
 - Should R contexts include let-statements? Need to worry about name capture even more then.
