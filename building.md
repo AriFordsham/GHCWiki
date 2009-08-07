@@ -43,11 +43,6 @@ More detailed information about how the build system works
 - [Modifying the build system](building/modifying)
 
 
-Platform-specific build-system documentation:
-
-- [Windows platforms: Cygwin, MSYS, and MinGW](building/platforms/windows)
-
-
 Platform-specific building instructions:
 
 - [Building under Windows](building/windows)

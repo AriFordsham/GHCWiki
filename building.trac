@@ -38,10 +38,6 @@ More detailed information about how the build system works
  * [wiki:Building/Architecture Architecture of the build system]
  * [wiki:Building/Modifying Modifying the build system]
 
-Platform-specific build-system documentation:
-
- * [wiki:Building/Platforms/Windows Windows platforms: Cygwin, MSYS, and MinGW]
-
 Platform-specific building instructions:
 
  * [wiki:Building/Windows Building under Windows]
