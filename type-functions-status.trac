@@ -33,7 +33,8 @@
      * We  need to know of types whether they are rigid (not only whether they contain unification variables).  We can achieve that by a flag in the environment that indicates whether the computation of that type involved non-rigid type variables.
 
  * Misc:
-  * #3409 (CoreLint error checking an iface)
+  * #3423 (deriving)
+  * #3409 (!CoreLint error checking an iface)
   * #3220 (generalisation)
   * #3064: exponentially slow compile times
   * #3169 & #2360 (improve occurs-check error message in two instances)
