@@ -30,6 +30,8 @@ Everything starts with the main GHC repository (see [wiki:Building/GettingTheSou
 
 The `libraries/` directory contains all the packages that GHC needs to build.  It has one sub-directory for each package repository (e.g. `base`, `haskell98`, `random`). Usually each such repository builds just one package, but there is more than one in `dph`.
 
+  * '''`libraries/`''lib''`/dist-install/doc/html/`''lib''''': contains the Haddock'd documentation for library ''lib''
+
 GHC's libraries are described in more detail on the [wiki:Commentary/Libraries libraries page].
 
 == `compiler/`, `docs/`, `ghc/` == 
