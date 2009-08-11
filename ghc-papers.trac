@@ -14,30 +14,6 @@ All docs are gzipped A4 Postscript unless otherwise specified.
 
  * [http://www.haskell.org/ghc/docs/papers/hep.ps.gz Haskell Execution Platform] design document.  This document describes the design for an integrated compiler/interpreter API for executing Haskell programs, which forms the heart of the combined Hugs/GHC system.
 
-== The innards of the complier ==
-
- * [http://research.microsoft.com/en-us/um/people/simonpj/papers/spineless-tagless-gmachine.ps.gz#26pub=34  The Spineless Tagless G-Machine].  This paper describes the execution model used by GHC.  It is most relevant to GHC up to version 3.xx---in version 4 we made some changes which are described in the [http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz RTS document].
-
- * [2002] [http://www.research.microsoft.com/~simonpj/Papers/inlining/index.htm Secrets of the GHC inliner] is still highly relevant; it is still a more-or-less accurate description of GHC's "simplifier".
-
- * [1993] [http://www.haskell.org/ghc/docs/papers/grasp-jfit.ps.gz The Glasgow Haskell Compiler - a Technical Overview] - from 1992, not entirely relevant any more.
-
- * [http://www.haskell.org/ghc/docs/papers/extendGHC.ps.gz Adding an Optimisation Pass to the Glasgow Haskell Compiler] (Olaf Chitil).  Somewhat out of date.
-
-== Types and typechecking == 
-
- *  [1994] GHC's typechecker implementation is described in the paper [http://research.microsoft.com/~simonpj/Papers/classhask.ps.gz  Type classes in Haskell], CV Hall, K Hammond, SL Peyton Jones, and PL Wadler, European Symposium On Programming, LNCS 788, Springer Verlag, pp.  241-256, April 1994.
-
- * [1998] The UsageSP analysis is described in Keith Wansbrough and Simon Peyton Jones, [http://www.cl.cam.ac.uk/users/kw217/research/phd/usptr-10pt.ps.gz Once Upon a Polymorphic Type], Technical Report TR-1998-19, Department of Computing Science, University of Glasgow, 1998.  Conference version [http://www.cl.cam.ac.uk/users/kw217/research/phd/popl99-usage.ps.gz Once Upon a Polymorphic Type], in The Twenty-sixth ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages, January 20-22, 1999, San Antonio, Texas.  This work isn't in GHC.
-
-== Runtime system ==
-
- * [http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz Run-time System document].  This document (is supposed to) describe the new run-time system in GHC 4.xx.  Be warned that the implementation and this document are evolving in parallel, so they might not be quite in sync.
-
- * [2000] [http://research.microsoft.com/~simonpj/Papers/inc-gc.htm Non-stop Haskell] the workings of an incremental garbage collecton.  Not included in GHC, so far.
-
- * [1999] [http://www.haskell.org/ghc/docs/papers/new-rts.ps.gz The New GHC/Hugs Runtime System]---a summary of the [http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz RTS document].
-
 == Language design == 
 
  * [1999] [http://www.haskell.org/ghc/docs/papers/except_ps.gz A semantics for imprecise exceptions] describes how exceptions work in GHC.  A follow-up paper is [http://research.microsoft.com/~simonpj/Papers/imprecise-exn-sem.htm Imprecise Exceptions, Co-Inductively]
@@ -50,6 +26,29 @@ All docs are gzipped A4 Postscript unless otherwise specified.
 
  * [1991] [http://www.haskell.org/ghc/docs/papers/unboxed-values.ps.gz Unboxed Values as First-Class Citizens].   Fully implemented.
 
+== Types and typechecking == 
+
+ *  [1994] GHC's typechecker implementation is described in the paper [http://research.microsoft.com/~simonpj/Papers/classhask.ps.gz  Type classes in Haskell], CV Hall, K Hammond, SL Peyton Jones, and PL Wadler, European Symposium On Programming, LNCS 788, Springer Verlag, pp.  241-256, April 1994.
+
+ * [1998] The UsageSP analysis is described in Keith Wansbrough and Simon Peyton Jones, [http://www.cl.cam.ac.uk/users/kw217/research/phd/usptr-10pt.ps.gz Once Upon a Polymorphic Type], Technical Report TR-1998-19, Department of Computing Science, University of Glasgow, 1998.  Conference version [http://www.cl.cam.ac.uk/users/kw217/research/phd/popl99-usage.ps.gz Once Upon a Polymorphic Type], in The Twenty-sixth ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages, January 20-22, 1999, San Antonio, Texas.  This work isn't in GHC.
+
+== The innards of the complier ==
+
+ * [http://research.microsoft.com/en-us/um/people/simonpj/papers/spineless-tagless-gmachine.ps.gz#26pub=34  The Spineless Tagless G-Machine].  This paper describes the execution model used by GHC.  It is most relevant to GHC up to version 3.xx---in version 4 we made some changes which are described in the [http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz RTS document].
+
+ * [2002] [http://www.research.microsoft.com/~simonpj/Papers/inlining/index.htm Secrets of the GHC inliner] is still highly relevant; it is still a more-or-less accurate description of GHC's "simplifier".
+
+ * [1993] [http://www.haskell.org/ghc/docs/papers/grasp-jfit.ps.gz The Glasgow Haskell Compiler - a Technical Overview] - from 1992, not entirely relevant any more.
+
+ * [http://www.haskell.org/ghc/docs/papers/extendGHC.ps.gz Adding an Optimisation Pass to the Glasgow Haskell Compiler] (Olaf Chitil).  Somewhat out of date.
+
+== Runtime system ==
+
+ * [http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz Run-time System document].  This document (is supposed to) describe the new run-time system in GHC 4.xx.  Be warned that the implementation and this document are evolving in parallel, so they might not be quite in sync.
+
+ * [2000] [http://research.microsoft.com/~simonpj/Papers/inc-gc.htm Non-stop Haskell] the workings of an incremental garbage collecton.  Not included in GHC, so far.
+
+ * [1999] [http://www.haskell.org/ghc/docs/papers/new-rts.ps.gz The New GHC/Hugs Runtime System]---a summary of the [http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz RTS document].
 
 == The awkward squad: I/O, concurrency, exceptions, and foreign functions ==
 
