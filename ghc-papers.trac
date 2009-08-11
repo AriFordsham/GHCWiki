@@ -6,7 +6,7 @@ generally describe stuff we've implemented in GHC.
 Many of these papers are old.  For more up-to-date ones look on:
  * [http://research.microsoft.com/~simonpj Simon PJ's home page]
  * [http://research.microsoft.com/~simonpj/papers Simon PJ's papers page]
- * [www.haskell.org/~simonmar/ Simon Marlow's home page]
+ * [http://www.haskell.org/~simonmar/ Simon Marlow's home page]
 
 All docs are gzipped A4 Postscript unless otherwise specified.
 

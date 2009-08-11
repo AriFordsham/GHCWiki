@@ -9,7 +9,7 @@ Many of these papers are old.  For more up-to-date ones look on:
 
 - [ Simon PJ's home page](http://research.microsoft.com/~simonpj)
 - [ Simon PJ's papers page](http://research.microsoft.com/~simonpj/papers)
-- \[www.haskell.org/\~simonmar/ Simon Marlow's home page\]
+- [ Simon Marlow's home page](http://www.haskell.org/~simonmar/)
 
 
 All docs are gzipped A4 Postscript unless otherwise specified.
