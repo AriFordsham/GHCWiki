@@ -7,7 +7,7 @@ All docs are gzipped A4 Postscript unless otherwise specified.
 
  * [http://www.haskell.org/ghc/docs/papers/threads.ps.gz The Concurrent Haskell Foreign Function Interface].  This document is a draft Haskell addendum that describes GHC's approach to concurrency and its interaction with the FFI and OS threads.
 
- * [http://www.haskell.org/ghc/docs/papers/core.ps.gz An External Representation for the GHC Core Language].  This document describes the syntax of GHC Core (.hcr) files, which can be used to feed GHC intermediate code to other (non-GHC) back-end processors.
+ * [http://www.haskell.org/ghc/docs/latest/html/ext-core/core.pdf An External Representation for the GHC Core Language].  This document describes the syntax of GHC Core (.hcr) files, which can be used to feed GHC intermediate code to other (non-GHC) back-end processors.
 
  * [http://www.haskell.org/ghc/docs/papers/hep.ps.gz Haskell Execution Platform] design document.  This document describes the design for an integrated compiler/interpreter API for executing Haskell programs, which forms the heart of the combined Hugs/GHC system.
 
