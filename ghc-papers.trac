@@ -28,7 +28,7 @@ All docs are gzipped A4 Postscript unless otherwise specified.
 
  *  [1994] GHC's typechecker implementation is described in the paper [http://research.microsoft.com/~simonpj/Papers/classhask.ps.gz  Type classes in Haskell], CV Hall, K Hammond, SL Peyton Jones, and PL Wadler, European Symposium On Programming, LNCS 788, Springer Verlag, pp.  241-256, April 1994.
 
- * [1998] The !UsageSP analysis is described in Keith Wansbrough and Simon Peyton Jones, [http://www.cl.cam.ac.uk/users/kw217/research/phd/usptr-10pt.ps.gz Once Upon a Polymorphic Type], Technical Report TR-1998-19, Department of Computing Science, University of Glasgow, 1998.  Conference version [http://www.cl.cam.ac.uk/users/kw217/research/phd/popl99-usage.ps.gz Once Upon a Polymorphic Type], in The Twenty-sixth ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages, January 20-22, 1999, San Antonio, Texas.  This work isn't in GHC.
+ * [1998] The UsageSP analysis is described in Keith Wansbrough and Simon Peyton Jones, [http://www.cl.cam.ac.uk/users/kw217/research/phd/usptr-10pt.ps.gz Once Upon a Polymorphic Type], Technical Report TR-1998-19, Department of Computing Science, University of Glasgow, 1998.  Conference version [http://www.cl.cam.ac.uk/users/kw217/research/phd/popl99-usage.ps.gz Once Upon a Polymorphic Type], in The Twenty-sixth ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages, January 20-22, 1999, San Antonio, Texas.  This work isn't in GHC.
 
 == Runtime system ==
 
