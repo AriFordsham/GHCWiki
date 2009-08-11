@@ -2,6 +2,10 @@
 
 This page is very much a draft and may be incorrect in places. Please fix problems that you spot.
 
+== Lambda lifting ==
+
+* We lambda lift to avoid re-specialising the same local function in two different branches: letrec g = .. in (f1 (g x), f2 (g x))
+
 == Problems ==
 
 * The whistle implementation: What does the subterms of a context mean?
