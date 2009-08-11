@@ -34,7 +34,7 @@ All docs are gzipped A4 Postscript unless otherwise specified.
 
 == The innards of the complier ==
 
- * [http://research.microsoft.com/en-us/um/people/simonpj/papers/spineless-tagless-gmachine.ps.gz#26pub=34  The Spineless Tagless G-Machine].  This paper describes the execution model used by GHC.  It is most relevant to GHC up to version 3.xx---in version 4 we made some changes which are described in the [http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz RTS document].
+ * [http://research.microsoft.com/en-us/um/people/simonpj/papers/spineless-tagless-gmachine.ps.gz#26pub=34  Implementing lazy functional languages on stock hardware: the Spineless Tagless G-Machine].  This paper describes the execution model used by GHC.  It is most relevant to GHC up to version 3.xx---in version 4 we made some changes which are described in the [http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz RTS document].
 
  * [2002] [http://www.research.microsoft.com/~simonpj/Papers/inlining/index.htm Secrets of the GHC inliner] is still highly relevant; it is still a more-or-less accurate description of GHC's "simplifier".
 
