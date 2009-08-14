@@ -42,8 +42,6 @@ Lists the packages that `darcs-all` should get or pull.  `packages` is looked at
 
 The `libraries/` directory contains all the packages that GHC needs to build.  It has one sub-directory for each package repository (e.g. `base`, `haskell98`, `random`). Usually each such repository builds just one package, but there is more than one in `dph`.
 
-- **`libraries/`*lib*`/dist-install/doc/html/`*lib***: contains the Haddock'd documentation for library *lib*
-
 
 GHC's libraries are described in more detail on the [libraries page](commentary/libraries).
 
@@ -117,10 +115,20 @@ Micellaneous files for building distributions.
 
 The `inplace/` directory is where we "install" stage1 and stage2 compilers, and other utility programs, when they are built, to be used when building other things in the build tree.  The layout is exactly the same as that of an installed GHC on the host platform.
 
-- **`inplace/bin/`**: executables, including `ghc-stage1`, `ghc-stage2`, `hasktags`, `hsc2hs`, `haddock`, etc.
-- **`inplace/lib/`**: suppporting libraries for the above.
+- **`inplace/bin/`**: executables, including 
+
+  - `ghc-stage1`
+  - `ghc-stage2`
+  - `hasktags`
+  - `hsc2hs`
+  - `haddock`
+
+- **`inplace/lib/`**: suppporting libraries for the executables.
 
 ### `.../dist*/`
 
 
-In many directories, `dist*` subdirectories appear. These are where Cabal, and the build system makefiles, put all of the files generated while building.
+In many directories, `dist*` subdirectories appear. These are where Cabal, and the build system makefiles, put all of the files generated while building.  Some particularly interesting files are:
+
+- **`docs/users_guide/users_guide/index.html`**: the HTML for the user manual
+- **`libraries/`*lib*`/dist-install/doc/html/`*lib***: contains the Haddock'd documentation for library *lib*
