@@ -76,3 +76,6 @@ Still undecided on best way to represent and emit the LLVM IR. There are 3 main 
 
 
 This is something I am currently investigating. I think at the moment that using both EHC's LLVM module and the LLVM Bindings would be best. My main concern with the LLVM bindings is that I'm not sure how well it could handle representing the LLVM IR during translation from *CmmStmts*. This is, I need a representation of the LLVM IR to work with during translation from *CmmStmts* that can be easily built up and changed (an abstract syntax form of LLVM IR). However instead of pretty printing it to LLVM Assembly, it would be *pretty printed* to LLVM Bitcode using the LLVM Bindings.
+
+
+As I may end up only using a small part of the LLVM Bindings then it will need to be decided eventually if its worth including them with GHC or extracting just the parts needed for inclusion.
