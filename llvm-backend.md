@@ -64,3 +64,15 @@ Optimises the cmm code, in particular it changes loads from global registers to 
 
 
 Until the amount of shared code can be determined and the LLVM back-end approaches a level of maturity that is suitable for inclusion in *GHC HEAD*, this is probably a mute issue.
+
+### LLVM IR Representation
+
+
+Still undecided on best way to represent and emit the LLVM IR. There are 3 main options as outlined in the [ LLVM FAQ](http://llvm.org/docs/FAQ.html#langirgen):
+
+- Call into LLVM Libraries using FFI (can probably use [ Haskell LLVM Bindings](http://hackage.haskell.org/package/llvm))
+- Emit LLVM Assembly (approach taken by [ EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome)'s LLVM Back-end, can use the [ module](https://subversion.cs.uu.nl/repos/project.UHC.pub/trunk/EHC/src/ehc/LLVM.cag) developed by them for this)
+- Emit LLVM Bitcode (can't see any reason to do this)
+
+
+This is something I am currently investigating. I think at the moment that using both EHC's LLVM module and the LLVM Bindings would be best. My main concern with the LLVM bindings is that I'm not sure how well it could handle representing the LLVM IR during translation from *CmmStmts*. This is, I need a representation of the LLVM IR to work with during translation from *CmmStmts* that can be easily built up and changed (an abstract syntax form of LLVM IR). However instead of pretty printing it to LLVM Assembly, it would be *pretty printed* to LLVM Bitcode using the LLVM Bindings.
