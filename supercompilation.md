@@ -9,8 +9,6 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 ## Problems
 
-- The whistle implementation: What does the subterms of a context mean?
-
 - The Simplifier gets confused by the wrong OccInfo on things. So run occurence analysis at the end of supercompilation. The occurence analyser gets confused by having the wrong Unfoldings for id's though. We currently zap things here and there, but this is not the right way to do it.
 
 ## Scalability
@@ -62,10 +60,10 @@ What next? **Implement the new algorithm.**
   - Flag -fexpose-all-unfoldings (a cousin of -fomit-interface-pragmas) (default is off) to switch on the spit-out-all-unfoldings stuff.
   - Validate with flag off; then push.
 - Add IO monad; 
-- Write msg, split in the R form.  Still with eager substitution
+- Write msg in the R form.  Still with eager substitution
 - Figure out arity for each top-level (lambda lifted) function, and only inline when it is saturated.  (Write notes in paper, explaining why this might be good.)  NB: linearity becomes simpler, because a variable cannot occur under a lambda.
-- Refined whistle-blowing test
-- Neil's msg idea
+
+  - Neil's msg idea
 
 
 Later
@@ -81,6 +79,8 @@ Later
 
 Done 
 
+- Refined whistle-blowing test
+- Write split in the R form.
 - add logging (one line per specialisation start, and completion)
 - Use a record for the memo table contents
 - State monad and good logging info; Stole SimplMonad.
