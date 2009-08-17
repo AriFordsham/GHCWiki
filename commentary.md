@@ -57,6 +57,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
   - [DataParallel](data-parallel): Notes about the implementation of Data Parallel Haskell
   - [RewriteRules](rewrite-rules): Notes about the implementation of RULEs in GHC
   - [BackEndNotes](back-end-notes): Some ideas and notes about the back end.
+  - [LlvmBackend](llvm-backend): Some notes about the design of a new LLVM back-end for GHC
   - [Cmm: Implementing Exception Handling](commentary/cmm-exceptions): Implementing exception handling for primitive operations in Cmm
   - [Cmm: Using Kinds to implement calling conventions](commentary/cmm-kinds): Pointers to explanations of what a `CmmKind` is and why you might find one useful.
   - [GhciDebugger](ghci-debugger): Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
