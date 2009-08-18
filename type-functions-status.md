@@ -6,7 +6,6 @@
 
 - Declarations involving families:
 
-  - [\#3405](https://gitlab.haskell.org//ghc/ghc/issues/3405) (simple fix to pretty printing of family instance headers)
   - [\#3418](https://gitlab.haskell.org//ghc/ghc/issues/3418) (equalities in stupid theta need to be turned into foralls before Core)
   - If a type variable occurs only in arguments to type synonym families in a signature, GHC ought to reject the signature as ambiguous.  (If the variable is mentioned in an argument to a type class in the context, we cannot reject it though, as the class may contain a TF or FD that constrains the variable.)
   - [\#2435](https://gitlab.haskell.org//ghc/ghc/issues/2435) (Inconsistency in handling qualification of names of class methods and associated types in instance declarations)
