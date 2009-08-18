@@ -88,6 +88,12 @@ fromDArray:: (U.Elt e, Array.Shape dim) => DArray dim e      -> Array dim e
 
 === Shape Invariant Computations on Arrays ===
 
+The array operations described in this and the following subsection
+are available on both strict and delayed arrays, and yield the same
+result, with the exception that in case of delayed arrays, the result
+is only calculated once its forced by calling `fromDArray`. No
+intermediate array structures are ever created.
+
 The library provides a range of operation where the dimensionality of
 the result depends on the dimensionality of the argument in a
 non-trivial matter, which we want to be reflected in the type system. 
@@ -116,9 +122,65 @@ data Index a initialDim projectedDim where
 type SelectIndex = Index Int
 type MapIndex    = Index ()
 }}}
-
+Given this definition, the type of `select` now becomes
+{{{
+select:: (U.Elt e, Shape dim, Shape dim') => Array dim e -> SelectIndex dim dim'  -> Array dim' e
+}}}
+Example:
+{{{
+arr:: Array DIM3 Double
+select arr (IndexFixed 3 (IndexAll (IndexAll IndexNil)))
+}}}
+The index type is also used to express the type of generalised replicate:
+{{{
+replicate:: Array dim' e -> SelectIndex dim dim'  -> Array dim e
+}}}
+Even though the index type serves well to express the relationship
+between the selector/multiplicator and the dimensionality of the
+argument and the result array, it is somehow inconvenient to use, as
+the examples demonstrate. This is therefore another example where we
+need to add another layer to improve the usability of the library. 
 
 Note that the library provides no way to statically check the pre- and
 postconditions on the actual size of arguments and results. This has
 to be done at run time using assertions.
 
+== Array Operations ==
+   
+Backpermute and default backpermute are two general operations which allow 
+the programmer to express all structural operations which reorder or extract
+elements based on their position in the argument array:
+{{{
+backpermute:: (U.Elt e, Shape dim, Shape dim') => 
+  Array dim e -> dim' -> (dim' -> dim) -> Array dim' e
+
+backpermuteDft::(U.Elt e, Shape dim, Shape dim') => 
+  Array dim e -> e -> dim' -> (dim' -> Maybe dim) -> Array dim' e
+}}}
+
+
+{{{
+map:: (U.Elt a, U.Elt b, Shape dim) => (a -> b) -> Array dim a -> Array dim b
+
+zip:: (U.Elt a, U.Elt b, Shape dim) => Array dim a -> Array dim b-> Array dim (a :*: b)
+
+zipWith:: (U.Elt a, U.Elt b, U.Elt c, Shape dim) => 
+          (a -> b -> c) -> Array dim a -> Array dim b-> Array dim c
+
+mapFold:: (U.Elt e, Shape dim) => (e -> e-> e) -> e -> Array (dim :*: Int) e  -> Array dim  e
+
+reshape:: (Shape dim', Shape dim, U.Elt e) => Array dim e -> dim' -> Array dim' e
+}}}
+
+The following operations could be (and in the sequential implementation indeed are)  expressed
+in terms of backpermute and default backpermute. However, a programmer should aim at using more
+specialised functions when provided, as they carry more information about the pattern of reordering. 
+In particular in the parallel case, this could be used to provide significantly more efficient 
+implementation which make use of locality and communication patterns.
+{{{
+shift:: (Shape dim, U.Elt e) => Array dim e -> e -> dim -> Array dim e
+
+rotate:: (Shape dim, U.Elt e) => Array dim e -> e -> dim -> Array dim e
+
+tile::  (Shape dim, U.Elt e) => Array dim e -> dim -> dim -> Array dim e
+}}}
