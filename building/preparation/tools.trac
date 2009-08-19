@@ -70,7 +70,7 @@ In most cases the `configure` script will tell you if you are missing something.
   modify the compiler and/or you're using a darcs checkout, then you
   need Happy.
   [[br]][[br]]
-  Happy version 1.15 is currently required to build GHC.
+  Happy version 1.16 is currently required to build GHC.
   Grab a copy from
   [http://www.haskell.org/happy/ Happy's Web Page].
 
