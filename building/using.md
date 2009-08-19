@@ -614,7 +614,13 @@ $ make 2
 ```
 
 
-This is like `make stage=2`, except that it omits the dependency-building phase (`make 2` is in fact just shorthand for `make stage=2 FAST=YES`; see [Fast Rebuilding](building/using#fast-rebuilding) below).  If you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you might get a build failure.  On the other hand, this shortcut usually works and the few seconds it saves can make GHC development a much more interactive experience.  There are also `make 1` and `make 3` targets to make the stage 1 and stage 3 compilers respectively.  These targets work in both the `ghc` and `compiler` subdirectories.
+This is like `make stage=2`, except that it omits the dependency-building phase (`make 2` is in fact just shorthand for `make stage=2 FAST=YES`; see [Fast Rebuilding](building/using#fast-rebuilding) below).  If you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you might get a build failure.  On the other hand, this shortcut usually works and the few seconds it saves can make GHC development a much more interactive experience.  There are also targets
+
+- `make 1`
+- `make 3`
+
+
+to make the stage 1 and stage 3 compilers respectively.  These targets work in both the `ghc` and `compiler` subdirectories ([Commentary/SourceTree](commentary/source-tree)).
 
 ### Building a single file
 
