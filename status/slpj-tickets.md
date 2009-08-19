@@ -89,6 +89,7 @@
 
 ### Better error messages
 
+- [\#3440](https://gitlab.haskell.org//ghc/ghc/issues/3440): type families and GADT error message
 - [\#3169](https://gitlab.haskell.org//ghc/ghc/issues/3169): better occurs-check error message
 - [\#2648](https://gitlab.haskell.org//ghc/ghc/issues/2648): Report out of date interface files robustly        
 - [\#2599](https://gitlab.haskell.org//ghc/ghc/issues/2599): Better error message for non-rigid types        
