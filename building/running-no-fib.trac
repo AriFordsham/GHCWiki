@@ -15,8 +15,8 @@ To run the tests:
 
 will put the results in the file `nofib-log`.
 
-To compare the results of multiple runs, use the program in
-[[GhcFile(utils/nofib-analyse)]].  Something like this:
+To compare the results of multiple runs, use the program
+[[GhcFile(nofib/nofib-analyse/nofib-analyse)]].  Something like this:
 
 {{{
   $ nofib-analyse nofib-log-6.4.2 nofib-log-6.6
@@ -37,5 +37,18 @@ you'll need to get hold of Cachegrind, which is part of
   $ make SRC_RUNTEST_OPTS=-cachegrind
 }}}
 
-There are some options you might want to tweak; search for nofib in
-{{{mk/config.mk}}} ([[GhcFile(mk/config.mk.in)]]), and override settings in `mk/build.mk` as usual.
+== Tweaking things ==
+
+To tweak things, add settings to your `mk/build.mk` (see [wiki:Commentary/SourceTree]).
+
+ * Each benchmark is run in each "way" in `NoFibWays`.  By default `NoFibWays` is initialised to `GhcLibWays`, but you can override that in `mk/build.mk`. Typically, to just use the vanilla way, set `NoFibWays` to empty:
+{{{
+NoFibWays =
+}}}
+
+ * By default nofib uses the stage-2 compiler from your build tree.  To tell nofib to use a different compiler, set `WithNofibHc`.  For example:
+{{{
+WithNofibHc = /home/simonpj/builds/HEAD/inplace/bin/ghc-stage1
+}}}
+
+
