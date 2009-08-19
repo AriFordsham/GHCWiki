@@ -81,7 +81,7 @@ pre-processed versions of the Happy parsers.  If you intend to
 modify the compiler and/or you're using a darcs checkout, then you
 need Happy.
 
-Happy version 1.15 is currently required to build GHC.
+Happy version 1.16 is currently required to build GHC.
 Grab a copy from
 [ Happy's Web Page](http://www.haskell.org/happy/).
 </td></tr></table>
