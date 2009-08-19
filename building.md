@@ -28,12 +28,13 @@ Getting started for developers
 More detailed information about using the build system
 
 - [Using the build system](building/using)
+- [Running the GHC test framework](building/running-tests)
+- [The NoFib benchmark suite](building/running-no-fib)
+
 - [Building the documentation](building/docs)
 - [Installing GHC from a build](building/installing)
 - [Unregisterised builds](building/unregisterised)
 - [Porting GHC to a new platform](building/porting)
-- [Running the GHC test framework](building/running-tests)
-- [The NoFib benchmark suite](building/running-no-fib)
 
 
 More detailed information about how the build system works
