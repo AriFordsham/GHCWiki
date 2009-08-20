@@ -13,7 +13,7 @@
 
 - Constraint simplification:
 
-  - [\#2767](https://gitlab.haskell.org//ghc/ghc/issues/2767) & [\#3208](https://gitlab.haskell.org//ghc/ghc/issues/3208) (`idInfo` panic)
+  - [\#3208](https://gitlab.haskell.org//ghc/ghc/issues/3208) (another problem with recursive groups that containing signatures with equalities over TFs)
   - [\#3297](https://gitlab.haskell.org//ghc/ghc/issues/3297): Rank-n types: In `TcTyFuns.flattenType`, we need to pull out type families below foralls -maybe pull out if possible, but definitely improve the error message
   - Implicit parameters: In `TcTyFuns`, we need to normalise IP constraints, too (in `normDict` and `substDict`).
   - [\#3330](https://gitlab.haskell.org//ghc/ghc/issues/3330): typechecker goes into a loop
