@@ -188,8 +188,7 @@ same as external symbols but without the module name.
 
 There are two things you usually want to inspect inside a code
 fragment: the contents of heap objects, and the contents of the
-stack.  A full description of the layout of these things is beyond the
-scope of this tuturial, but what follows is a basic introduction to
+stack.  A full description of the layout of these things is here: [Commentary/Rts/Storage](commentary/rts/storage); what follows is a basic introduction to
 looking at heap & stack objects in a running program.
 
 
