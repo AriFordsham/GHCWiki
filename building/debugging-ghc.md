@@ -6,7 +6,7 @@ This page is about strategies that may help you find a bug in GHC or its runtime
 ## Consistency checking flags
 
 
-At compile time:
+At compile time (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/options-debugging.html)):
 
 - Add `-dcore-lint` the GHC command line when compiling each Haskell module.  This makes GHC type-check the intermediate program after every optimisation pass, which often nails a fault.
 
@@ -20,7 +20,7 @@ At link time:
 - Add `-debug` to the GHC command line when linking. This links the program against a special version of the runtime system that does lots of extra internal consistency checking.  Overall performance is significantly reduced.  **Simon: any flags?**
 
 
-At run time
+At run time (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime-control.html#rts-options-debugging)):
 
 - Use `+RTS -sstderr` or `+RTS -Sstderr` to watch garbage collection activity.
 
