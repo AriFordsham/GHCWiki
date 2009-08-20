@@ -6,14 +6,13 @@
 
 - Declarations involving families:
 
-  - [\#3418](https://gitlab.haskell.org//ghc/ghc/issues/3418) (equalities in stupid theta need to be turned into foralls before Core)
   - If a type variable occurs only in arguments to type synonym families in a signature, GHC ought to reject the signature as ambiguous.  (If the variable is mentioned in an argument to a type class in the context, we cannot reject it though, as the class may contain a TF or FD that constrains the variable.)
   - [\#2435](https://gitlab.haskell.org//ghc/ghc/issues/2435) (Inconsistency in handling qualification of names of class methods and associated types in instance declarations)
   - Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)  If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
 - Constraint simplification:
 
-  - [\#2767](https://gitlab.haskell.org//ghc/ghc/issues/2767) & [\#3208](https://gitlab.haskell.org//ghc/ghc/issues/3208) (`idInfo` panic)
+  - [\#3208](https://gitlab.haskell.org//ghc/ghc/issues/3208) (another problem with recursive groups that containing signatures with equalities over TFs)
   - [\#3297](https://gitlab.haskell.org//ghc/ghc/issues/3297): Rank-n types: In `TcTyFuns.flattenType`, we need to pull out type families below foralls -maybe pull out if possible, but definitely improve the error message
   - Implicit parameters: In `TcTyFuns`, we need to normalise IP constraints, too (in `normDict` and `substDict`).
   - [\#3330](https://gitlab.haskell.org//ghc/ghc/issues/3330): typechecker goes into a loop
