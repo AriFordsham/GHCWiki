@@ -29,6 +29,8 @@ More detailed information about using the build system
  * [wiki:Building/RunningTests Running the GHC test framework]
  * [wiki:Building/RunningNoFib The NoFib benchmark suite]
 
+ * [wiki:Building/DebuggingGHC Debugging GHC itself]
+ 
  * [wiki:Building/Docs Building the documentation]
  * [wiki:Building/Installing Installing GHC from a build]
  * [wiki:Building/Unregisterised Unregisterised builds]
