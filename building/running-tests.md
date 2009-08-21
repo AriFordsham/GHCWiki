@@ -253,8 +253,7 @@ these steps:
         test(<name>, <setup>, <test-fn>, <args>)
   ```
 
-
-The format of these fields is described in the [next section](building/running-tests#format-of-the-test-entries).
+  The format of these fields is described in the [next section](building/running-tests#format-of-the-test-entries).
 
 
 A multi-module test is straightforward.  It usually goes in a
