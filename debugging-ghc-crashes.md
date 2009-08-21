@@ -38,6 +38,8 @@ This is quite scary, for a few reasons:
 
 Usually you want to do something along these lines:
 
+- Look at the advice on the [Debugging GHC page](building/debugging-ghc).
+
 - Compile with `-dcore-lint` to make sure the crash isn't caused by the compiler
   generating incorrect code in a way that can be detected statically.
 
