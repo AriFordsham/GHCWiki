@@ -3,7 +3,7 @@
 
 This page is about strategies that may help you find a bug in GHC or its runtime system.
 
-## Consistency checking flags
+## At compile time
 
 
 At compile time (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/options-debugging.html)):
@@ -14,15 +14,23 @@ At compile time (see also the [relevant User Manual section](http://www.haskell.
 
 - The flag `-dppr-debug` makes the `-ddump-x` flags print much more verbose output.  Use this if you are getting desperate!
 
-
-At link time:
+## At link time
 
 - Add `-debug` to the GHC command line when linking. This links the program against a special version of the runtime system that does lots of extra internal consistency checking.  Overall performance is significantly reduced.  **Simon: any flags?**
+
+## At run time
 
 
 At run time (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime-control.html#rts-options-debugging)):
 
 - Use `+RTS -sstderr` or `+RTS -Sstderr` to watch garbage collection activity.
+
+## At crash time
+
+
+If your GHC-compiled program actually crashes, you may have to roll up your sleeves and wake up gdb.  There's a [whole Wiki page describing what to do](debugging-ghc-crashes).
+
+---
 
 ## Ticky-ticky profiling
 
