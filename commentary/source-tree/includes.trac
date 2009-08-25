@@ -29,10 +29,8 @@ relatively stable:
 
 The canonical definition of certain structures are in C header files.
 For example, the layout of closures and info tables are defined in the
-headers [http://darcs.haskell.org/ghc/includes/rts/storage/Closures.h
-Closures.h] and
-[http://darcs.haskell.org/ghc/includes/rts/storage/InfoTables.h
-InfoTables.h] respectivesly.  How do we get the information about the
+headers [http://darcs.haskell.org/ghc/includes/rts/storage/Closures.h Closures.h] and
+[http://darcs.haskell.org/ghc/includes/rts/storage/InfoTables.h InfoTables.h] respectivesly.  How do we get the information about the
 layout of these structures to the parts of the system that are not
 written in C, such as the compiler itself, or the C-- code in the RTS?
 
