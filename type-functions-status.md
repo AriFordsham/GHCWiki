@@ -12,6 +12,7 @@
 
 - Constraint simplification:
 
+  - [\#3460](https://gitlab.haskell.org//ghc/ghc/issues/3460): mixed equalities and type classes
   - [\#3208](https://gitlab.haskell.org//ghc/ghc/issues/3208) (another problem with recursive groups that containing signatures with equalities over TFs)
   - [\#3297](https://gitlab.haskell.org//ghc/ghc/issues/3297): Rank-n types: In `TcTyFuns.flattenType`, we need to pull out type families below foralls -maybe pull out if possible, but definitely improve the error message
   - Implicit parameters: In `TcTyFuns`, we need to normalise IP constraints, too (in `normDict` and `substDict`).
