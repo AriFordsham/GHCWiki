@@ -2,7 +2,7 @@
 
 
 This directory contains C header files that are included in a GHC
-distribution.  We classify header files into 4 categories.
+distribution.  The headers fall into several categories.
 
 ## External APIs
 
@@ -53,7 +53,8 @@ The program generates the following files:
 
 
 Take a look at those files in a build tree to see exactly what is
-generated.
+generated.  These new headers can then be `#included` into Haskell
+code or C-- code.
 
 ## Used when compiling via C
 
