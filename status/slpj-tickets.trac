@@ -26,6 +26,7 @@
  * #3123: feature request: recursive inlining and peeling
 
 == New code generator ==
+ * #3462: allocate large objects with `allocateLocal()`
  * #2253: NCG could do better. Look at this when John D’s ncg is working
  * #783: SRTs getting big	
  * #2289: cheap check at start of case alternatives	
