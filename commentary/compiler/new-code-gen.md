@@ -27,6 +27,7 @@ In timescale terms it looks like this:
 
 Bug list (code-gen related bugs that we may be able to fix):
 
+- [\#3462](https://gitlab.haskell.org//ghc/ghc/issues/3462) (a feature)
 - [\#2249](https://gitlab.haskell.org//ghc/ghc/issues/2249)
 - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253)
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289)
