@@ -3,7 +3,12 @@
 ## Basic strategies
 
 
-At compile time (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/options-debugging.html)):
+When compiling GHC:
+
+- add `-DDEBUG` to your `GhcStage1HcOpts` and/or `GhcStage2HcOpts` in `mk/build.mk`.  This enables assertions and extra debug code.
+
+
+When compiling the program (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/options-debugging.html)):
 
 - Use `-v3` or `-v4` to get an idea about what GHC is doing when the problem occurs.
 
@@ -12,3 +17,9 @@ At compile time (see also the [relevant User Manual section](http://www.haskell.
 - Add `-ddump-simpl` to see the optimised Core output.  There are a number of other `-ddump-x` flags; see the user manual.
 
 - The flag `-dppr-debug` makes the `-ddump-x` flags print much more verbose output.  Use this if you are getting desperate!
+
+## Adding debugging code to the compiler
+
+- `Outputable.pprTrace` is a nice way to print trace messages from the compiler
+
+- `ASSERT(p)`, `ASSERT2(p,msg)`, `WARN(p,msg)` are assertions and warning enabled only when the compiler is compiled with `-DDEBUG`.  There are also variants of these that work better in a monad setting; see [compiler/HsVersions.h](/trac/ghc/browser/ghc/compiler/HsVersions.h).
