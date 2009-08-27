@@ -1,10 +1,21 @@
 # Debugging
 
 
-This part of the wiki collects all the information related to debugging GHC: that includes debugging the compiler itself, the libraries, the runtime system, the code generator, or the build system.  We've split up these various scenarios into separate pages:
+This part of the wiki collects all the information related to debugging GHC: that includes debugging the compiler itself, the libraries, the runtime system, the code generator, or the build system.
+
+
+If you're debugging a compiler panic or some problem in GHC itself, then go to 
 
 - [Debugging/Compiler](debugging/compiler): Debugging the compiler itself
-- [Debugging/CompiledCode](debugging/compiled-code): Debugging a compiled program, perhaps to find a bug in the code generator or runtime system
+
+
+If the compiled program crashes or panics, then go to 
+
+- [Debugging/CompiledCode](debugging/compiled-code): Debugging a compiled program
+
+
+If you are debugging performance-related issues in compiled code:
+
 - [Debugging/TickyTicky](debugging/ticky-ticky): Ticky-ticky profiling, for performance debugging
 
 
