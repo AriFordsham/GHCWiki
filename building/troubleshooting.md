@@ -6,6 +6,26 @@ Here we keep track of failures that can occur when building GHC, with solutions.
 
 We don't expect anyone to read this page from beginning to end.  The only way you get here is by searching, so remember when adding a new entry the most important thing to do is to **include the error message verbatim**, so searches will find it.  If a build failure is caused by a bug in GHC or the build system, please link to the ticket number so we can tell when it's safe to remove the entry and keep this page from getting too crufty.
 
+## haddock: internal Haddock or GHC error: Data.Binary.getWord8: end of file
+
+
+If you see this
+
+```wiki
+Documentation created: stage2/doc/html/ghc/index.html
+cd libraries && sh gen_contents_index --inplace
+haddock: internal Haddock or GHC error: Data.Binary.getWord8: end of file
+make[1]: *** [libraries/index.html] Error 1
+make: *** [all] Error 2
+```
+
+
+it's probably because you have an old library in your tree with incomprehensible `.haddock` files.  Try
+
+```wiki
+rm libraries/*/*/doc/*/*/*.haddock
+```
+
 ### ar: Bad file number
 
 **Fixed in 6.12.1**.  See [\#3201](https://gitlab.haskell.org//ghc/ghc/issues/3201).  Workaround: add `SplitObjs=NO` to `mk/build.mk`.
