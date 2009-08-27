@@ -38,8 +38,6 @@ This is quite scary, for a few reasons:
 
 Usually you want to do something along these lines:
 
-- Look at the advice on the [Debugging GHC page](building/debugging-ghc).
-
 - Compile with `-dcore-lint` to make sure the crash isn't caused by the compiler
   generating incorrect code in a way that can be detected statically.
 
@@ -49,6 +47,8 @@ Usually you want to do something along these lines:
 
 - Don't compile with `-threaded` (assuming the bug still happens
   with the non-threaded runtime).
+
+- Use runtime debugging options to help narrow down the fault (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime-control.html#rts-options-debugging)).
 
 - Grab our [gdb macros](/trac/ghc/attachment/wiki/Debugging/CompiledCode/.gdbinit)[](/trac/ghc/raw-attachment/wiki/Debugging/CompiledCode/.gdbinit).
 
