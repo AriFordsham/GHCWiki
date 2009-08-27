@@ -44,12 +44,13 @@ The full list of darcs repositories relating to GHC is at DarcsRepositories.
 If you plan to modify GHC, then you '''must''' get repositories with full history rather than just partial repositories.  (Why?  Because darcs has some bugs that sometimes cause problems when using partial repositories for anything more than just pulling the latest patches.)
 However, '''you cannot use `darcs get` to get a full GHC repository''', for two reasons:
   * GHC has more than 16,000 patches and the `darcs get` will take forever. 
-  * Darcs has a bug concerning case-sensitivity on Windows, and ([http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html apparently]) MacOS X, which makes Darcs crash if you do `darcs get` on the full GHC repository.  You get this message
+  * Darcs prior to version 2.3 has a bug concerning case-sensitivity on Windows, and ([http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html apparently]) MacOS X, which makes Darcs crash if you do `darcs get` on the full GHC repository.  You get this message
 {{{
 Applying patch 12 of 17349... Unapplicable patch:
 Thu Jan 11 07:26:13 MST 1996  partain
   * [project @ 1996-01-11 14:06:51 by partain]
 }}}
+  In darcs verison 2.3 and later, `darcs get` uses the hashed repository format by default, which is not subject to the case-sensitivity bug.
 
 On MacOS X this can be [wiki:Building/MacOSX#Caseinsensitivity worked around using filesystem tricks].  A way to  work around the problem on any system is to follow the following steps:
  0. Download a complete bundle of the required repositories first, using your browser rather than darcs. These bundles are on [http://darcs.haskell.org/] usually in three files of the form 
