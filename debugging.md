@@ -5,6 +5,7 @@ This part of the wiki collects all the information related to debugging GHC: tha
 
 - [Debugging/Compiler](debugging/compiler): Debugging the compiler itself
 - [Debugging/CompiledCode](debugging/compiled-code): Debugging a compiled program, perhaps to find a bug in the code generator or runtime system
+- [Debugging/TickyTicky](debugging/ticky-ticky): Ticky-ticky profiling, for performance debugging
 
 
 If you're trying to debug a build failure, then you probably want to look at
