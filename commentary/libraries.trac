@@ -14,7 +14,8 @@ As time goes on, a Zero-boot package may become an ordinary boot package, becaus
 
 The current Zero-boot packages are:
  * `Cabal`: we frequently update Cabal and GHC in sync
- * `filepath`
+ * `hpc`
+ * `extensible-exceptions`
 
 == Classifying the boot packages ==
 
