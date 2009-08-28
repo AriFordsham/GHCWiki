@@ -9,7 +9,7 @@ The Boot Packages, along with the other subcomponents of the GHC build system, a
 
 Every installation of GHC includes the Boot Packages.
 
-## Zero-boot package
+## Zero-boot packages
 
 
 The **Zero-boot Packages** are a small subset of the boot packages.  Since GHC's source code imports the boot packages, *even the bootstrap compiler must have the boot packages available*.  But for certain fast-moving boot packages (eg Cabal), we don't want to rely on the user having installed a bang-up-to-date version of the package.  So we begin the entire build process by installing the zero-boot packages in the bootstrap compiler.  (This installation is purely local to the build tree.)  The bootstrap compiler is expected to have all other (non-zero-) boot packages already installed.
@@ -43,7 +43,7 @@ The current classification of packages is:
 - COUPLED: `base`
 - INDEPENDENT: all other packages
 
-## Structure of the boot packages
+## Boot packages dependencies
 
 - At the root of the hierarchy we have **`ghc-prim`**. As the name implies, this package contains the most primitive types and functions. It only contains a handful of modules, including `GHC.Prim` (which contains `Int#`, `+#`, etc) and `GHC.Bool`, containing the `Bool` datatype.
 
