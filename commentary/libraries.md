@@ -7,12 +7,21 @@ All GHC build trees contain a set of libraries, called the **Boot Packages**.  T
 The Boot Packages, along with the other subcomponents of the GHC build system, are in the file `packages` in a GHC tree. To get a list of them, you can run `make show VALUE=PACKAGES` in a configured GHC build tree.  (This variable is set in `$(TOP)/ghc.mk`.)
 
 
+You can see exactly which versions of what packages GHC depends on by looking in `$(TOP)/compiler/ghc.cabal.in`.
+
+
 Every installation of GHC includes the Boot Packages.
 
 ## Zero-boot packages
 
 
-The **Zero-boot Packages** are a small subset of the boot packages.  Since GHC's source code imports the boot packages, *even the bootstrap compiler must have the boot packages available*.  But for certain fast-moving boot packages (eg Cabal), we don't want to rely on the user having installed a bang-up-to-date version of the package.  So we begin the entire build process by installing the zero-boot packages in the bootstrap compiler.  (This installation is purely local to the build tree.)  The bootstrap compiler is expected to have all other (non-zero-) boot packages already installed.
+Since GHC's source code imports the boot packages, *even the bootstrap compiler must have the boot packages available*.  (Or, more precisely, all the types and values that are imported must be available from some package in the bootstrap compiler; the exact set of packages does not need to be identical.)
+
+
+For the most part we simply assume that the bootstrap compiler already has the boot packages installed.  The **Zero-boot Packages** are a set of packages for which this assumption does not hold.  For example, for certain fast-moving boot packages (eg Cabal), we don't want to rely on the user having installed a bang-up-to-date version of the package.  
+
+
+So we begin the entire build process by installing the zero-boot packages in the bootstrap compiler.  (This installation is purely local to the build tree.)  
 
 
 As time goes on, a Zero-boot package may become an ordinary boot package, because the bootstrap compiler is expected to have (a sufficiently up to date) version of the package already.
