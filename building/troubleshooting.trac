@@ -6,6 +6,19 @@ Here we keep track of failures that can occur when building GHC, with solutions.
 
 We don't expect anyone to read this page from beginning to end.  The only way you get here is by searching, so remember when adding a new entry the most important thing to do is to '''include the error message verbatim''', so searches will find it.  If a build failure is caused by a bug in GHC or the build system, please link to the ticket number so we can tell when it's safe to remove the entry and keep this page from getting too crufty.
 
+== configure: error: C++ preprocessor "/lib/cpp" fails sanity check ==
+
+On Windows, if you see this error when building GHC:
+
+{{{
+checking how to run the C++ preprocessor... /lib/cpp
+configure: error: C++ preprocessor "/lib/cpp" fails sanity check
+See `config.log' for more details.
+make[1]: *** [libffi/stamp.ffi.configure] Error 1
+}}}
+
+then you probably have the Microsoft C compiler in your `PATH`, and this has confused the `configure` script for `libffi`.  Try editing your `PATH` so that it no longer points to the MS compilers and tools.
+
 == haddock: internal Haddock or GHC error: Data.Binary.getWord8: end of file ==
 
 If you see this
