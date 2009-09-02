@@ -45,7 +45,7 @@ We discuss the following subtopics on separate pages:
 ## Background and related work
 
 - [ The Haskell 98 Foreign Function Interface 1.0](http://www.cse.unsw.edu.au/~chak/haskell/ffi/ffi/ffi.html)
-- [ Objective-C 2.0 Runtime Programming Guide](https://developer.apple.com/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/chapter_1_section_1.html)
+- [ Objective-C 2.0 Runtime Programming Guide](http://developer.apple.com/mac/library/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html)
 - [ Objective-C 2.0 Runtime Reference](https://developer.apple.com/documentation/Cocoa/Reference/ObjCRuntimeRef/Reference/reference.html)
 - [ Chicken scheme objc egg](http://chicken.wiki.br/objc)
 
