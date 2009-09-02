@@ -42,6 +42,7 @@ foreign export objc "-[MyClass doSomethingCool:]" doSomethingCool
 
 
 \[**FIXME***Need to make sure that we can determine the ObjC signature from the Haskell signature in every case.*\]
+\[**FIXME***Shouldn't that be "-\[MyClass doSomethingCool:(UIView\*)\]"?  Or will the types be filled in somehow?*\]
 
 ### Ivars and properties
 
