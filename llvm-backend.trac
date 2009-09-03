@@ -37,6 +37,15 @@ This should be the easiest and thus quickest to initially implement. Ideally tho
 
 The new back-end will at first only operate in GHC's unregistered mode due to the lack of support in LLVM for 'pinning' virtual registers to actual machine registers. The current approach taken by the C back-end and NCG of having a fixed assignment of STG virtual registers to hardware registers for performance gains is impossible to implement in LLVM. Once the back-end is working for unregistered code, I will attempt to improve on the performance by using a custom calling convention to support something semantically equivalent to register pinning. The custom calling convention will pass the first N variables in specific hardware registers, thus guaranteeing on all function entries that the STG virtual registers can be found in the expected hardware registers. This approach is hoped to provide better performance than the register pinning used by NCG/C back-ends as it keeps the STG virtual registers mostly in hardware registers but allows the register allocator more flexibility and access to all machine registers.
 
+=== TABLES_NEXT_TO_CODE ===
+
+GHC for heap objects places the info table (meta data) and the code adjacent to each other. That is, in memory, the object firstly has a head structure, which consists of a pointer to an info table and a payload structure. The pointer points to the bottom of the info table and the closures code is placed to be straight after the info table, so to jump to the code we can just jump one past the info table pointer. The other way to do this would be to have the info table contain a pointer to the closure code. However this would then require two jumps to get to the code instead of just one jump in the optimised layout. Achieving this layout can create some difficulty, the current back-ends handle it as follows:
+
+  * The NCG can create this layout itself
+  * The C code generator can't. So the Evil Mangler rearranges the GCC assembly code to achieve the layout. 
+
+There is a build option in GHC to use the unoptimised layout and instead use a pointer to the code in the info table. This layout can be enabled/disabled by using the compiler def TABLES_NEXT_TO_CODE. As LLVM has no means to achieve the optimised layout and we don't wish to write an LLVM sister for the Evil Mangler, I will be using the unoptimised layout. This apparenlty incurs a performance penalty of 5% (source, Making a ''Fast Curry: Push/Enter vs. Eval/Apply for Higher-order Languages'', Simon Marlow and Simon Peyton Jones, 2004).
+
 === Shared Code with NCG ===
 
 It is probable that some of the code needed by the LLVM back-end is already implemented for the NCG back-end. Some examples of this code would be the following two functions in ''compiler/main/AsmCodeGen.lhs'':
