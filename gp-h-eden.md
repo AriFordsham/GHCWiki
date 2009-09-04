@@ -1,0 +1,7 @@
+# Glasgow Parallel Haskell (GpH) and Eden documentation
+
+
+This page will describe the GpH and Eden parallel variants of GHC.  This is work in progress.
+
+
+St Andrews will host the [HackPar](hack-par) parallel hackathon in December to progress this...
