@@ -162,8 +162,7 @@ labelZip :: ({n :: a} `Disjoint` {m :: b}) => n -> m -> [a] -> [b] -> [{n :: a, 
 labelZip n m = zipWith (\x y -> {n = x, m = y})
 }}}
 
-
- = How to proceed? =
+= How to proceed? =
 
 There are a lot of design decisions listed on this page, some of which inspire strongly-help opinions. It is clear that discussion will not resolve these, and we don't seem to have a lot of examples to help clarify matters. The deadlock is unchanged: we still have too many good ideas.
 
@@ -176,3 +175,7 @@ patterns: {n1 = p1, ... , nn = pn, ..} --> (viewUnderlyingRecord n1 -> (p1, ... 
 }}}
 Libraries could then implement {{{mkUnderlyingRecord}}}, {{{underlyingEmptyRecord}}}, {{{MkUnderlyingRecord}}}, {{{UnderlyingEmptyRecord}}}, {{{viewUnderlyingRecord}}}  and {{{viewUnderlyingEmptyRecord}}} in whatever way is best. What do you think?
 
+= See Also =
+
+ * [http://www.haskell.org/haskellwiki/Extensible_record HaskellWiki]
+ * [http://hackage.haskell.org/trac/haskell-prime/wiki/FirstClassLabels Haskell']
