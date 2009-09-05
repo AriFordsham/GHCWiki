@@ -223,3 +223,8 @@ patterns: {n1 = p1, ... , nn = pn, ..} --> (viewUnderlyingRecord n1 -> (p1, ... 
 
 
 Libraries could then implement `mkUnderlyingRecord`, `underlyingEmptyRecord`, `MkUnderlyingRecord`, `UnderlyingEmptyRecord`, `viewUnderlyingRecord`  and `viewUnderlyingEmptyRecord` in whatever way is best. What do you think?
+
+# See Also
+
+- [ HaskellWiki](http://www.haskell.org/haskellwiki/Extensible_record)
+- [ Haskell'](http://hackage.haskell.org/trac/haskell-prime/wiki/FirstClassLabels)
