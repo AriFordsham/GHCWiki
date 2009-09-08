@@ -32,3 +32,6 @@ Hence, we could:
 
 - Refactor `TcSplice.reify` into pieces A and B.
 - implement C, and replace `DsMeta.dsBracket` with the composition `C.B`.
+
+
+Code for A is in [\#3492](https://gitlab.haskell.org//ghc/ghc/issues/3492)
