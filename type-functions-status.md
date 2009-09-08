@@ -61,6 +61,7 @@
 
 **Additional feature:**
 
+- [\#3491](https://gitlab.haskell.org//ghc/ghc/issues/3491): relax restrictions on superclass contexts
 - [\#2101](https://gitlab.haskell.org//ghc/ghc/issues/2101)
 - Total families
 - Test `DerivingNewType`
