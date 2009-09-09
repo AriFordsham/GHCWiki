@@ -34,4 +34,4 @@ Hence, we could:
 - implement C, and replace `DsMeta.dsBracket` with the composition `C.B`.
 
 
-Code for A is in [\#3492](https://gitlab.haskell.org//ghc/ghc/issues/3492)
+Code for A is in [\#3355](https://gitlab.haskell.org//ghc/ghc/issues/3355)
