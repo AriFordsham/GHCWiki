@@ -33,6 +33,7 @@
  * #2731: avoiding unnecessary evaluation when unpacking constructors
 
 === Other performance ===
+ * #3501: error thunks without "B" strictness
  * #3138: returning a known constructor (Lennart's cmonad package)
  * #2988: better float-in
  * #2940: do CSE after `CorePrep`

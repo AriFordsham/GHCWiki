@@ -37,6 +37,7 @@
 
 ### Other performance
 
+- [\#3501](https://gitlab.haskell.org//ghc/ghc/issues/3501): error thunks without "B" strictness
 - [\#3138](https://gitlab.haskell.org//ghc/ghc/issues/3138): returning a known constructor (Lennart's cmonad package)
 - [\#2988](https://gitlab.haskell.org//ghc/ghc/issues/2988): better float-in
 - [\#2940](https://gitlab.haskell.org//ghc/ghc/issues/2940): do CSE after `CorePrep`
