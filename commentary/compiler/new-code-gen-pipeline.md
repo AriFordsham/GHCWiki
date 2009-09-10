@@ -64,23 +64,42 @@ The first two steps are described in more detail here:
   - Find each safe `MidForeignCall` node, "lowers" it into the suspend/call/resume sequence (see `Note [Foreign calls]` in `CmmNode.hs`.), and build an info table for them.
   - Convert the `CmmInfo` for each `CmmProc` into a `[CmmStatic]`, using the live variable information computed just before "Figure out stack layout".  
 
-**The Adams optimisation** is done by stuff above.  Given:
+### Branches to continuations and the "Adams optimisation"
+
+
+A GC block for a heap check after a call should only take one or two instructions.
+However the natural code:
 
 ```wiki
-  call f returns to K
-  K: CopyIn retvals; goto L
-  L: <code>
+    r = foo(1, 2) returns to L
+ L: r = R1   -- get return value
+    goto M
+ M: if (Hp < HpLim) { do_gc() returns to K;
+                   K: goto M; }
 ```
 
->
-> transform to 
->
-> ```wiki
->   call f returns to L
->   L : CopyIn retvals; <code>
-> ```
->
-> *and* move `CopyOut` into L's other predecessors.  ToDo: explain why this is a good thing.  In fact Common Block Elimination does this, we think.
+
+The label M is the head of the call-gc-and-try-again loop.
+If we do this, we'll generate two info tables, one for L and one for K.
+
+
+We can do better like this:
+
+```wiki
+    r = foo(1, 2) returns to L
+ L: r = R1
+    goto M
+ M: if (Hp < HpLim) { r = do_gc_p(r) returns to K;
+                   K: r = R1; goto M; }
+```
+
+
+Now the `do_gc_p` call has the same return signature as `foo`
+and can use the same continuation.
+(A call followed by a `goto` thus gets optimized down to just the call.)
+
+
+Now things are good.  Simple common block elimination (CBE) will common up K and L, so both calls share the same info table.
 
 ## Runtime system
 
