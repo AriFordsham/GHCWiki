@@ -10,7 +10,7 @@
   * Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)  If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
  * Constraint simplification:
-  * #3500: type functions and recursive dictionaries
+  * #3500: type functions and recursive dictionaries — need to require !UndecidableInstances
   * #3484: type checker diverges (involves higher rank types)
   * #3460: mixed equalities and type classes
   * #3208 (another problem with recursive groups that containing signatures with equalities over TFs)
