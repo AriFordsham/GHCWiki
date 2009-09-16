@@ -21,7 +21,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * SuSE Linux/x86 packages: [mailto:sven.panne@aedion.de Sven Panne],[mailto:ralf@informatik.uni-bonn.de Ralf Hinze]
    * Gentoo Linux/x86 packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/x86 packages: [mailto:kaol@debian.org Kari Pahula]
-   * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller],[mailto:chak@cse.unsw.edu.au Manuel Chakravarty]
+   * MacOS X: [mailto:chak@cse.unsw.edu.au Manuel Chakravarty]
    * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
 
  * '''PowerPC'''
