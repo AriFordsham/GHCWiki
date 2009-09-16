@@ -25,7 +25,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - SuSE Linux/x86 packages: Sven Panne,Ralf Hinze
   - Gentoo Linux/x86 packages: Gentoo Haskell team
   - Debian GNU/Linux/x86 packages: Kari Pahula
-  - MacOS X: Wolfgang Thaller,Manuel Chakravarty
+  - MacOS X: Manuel Chakravarty
   - Fedora Extras packages: Jens Petersen
 
 - **PowerPC**
