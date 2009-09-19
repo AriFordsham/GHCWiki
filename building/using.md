@@ -347,7 +347,13 @@ longer to build libraries this way, though.
 
 When set to `YES`, these build the docbook documentation (e.g. the
 users guide) as HTML, PS and PDF respectively.
-  
+</td></tr></table>
+
+<table><tr><th>`INTEGER_LIBRARY`</th>
+<td>
+By default this is set to `integer-gmp`, which means Integer is implemented
+on top of the C GMP library. If you set it to `integer-simple` than a
+simple, BSD-licensed Haskell implementation will be used instead.
 </td></tr></table>
 
 #### How to make GHC build quickly

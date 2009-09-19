@@ -279,7 +279,11 @@ take a look in [[GhcFile(mk/config.mk.in)]].
   (default: `YES` if supported, `NO` otherwise)[[br]]
   When set to `YES`, these build the docbook documentation (e.g. the
   users guide) as HTML, PS and PDF respectively.
-  
+
+ `INTEGER_LIBRARY`::
+  By default this is set to `integer-gmp`, which means Integer is implemented
+  on top of the C GMP library. If you set it to `integer-simple` than a
+  simple, BSD-licensed Haskell implementation will be used instead.
 
 ==== How to make GHC build quickly ====
 
