@@ -373,7 +373,6 @@ GhcStage2HcOpts = -O0 -DDEBUG -Wall
 GhcLibHcOpts    = -O -fasm -XGenerics
 GhcLibWays      = v
 SplitObjs       = NO
-GhcBootLibs     = YES
 ```
 
 
@@ -431,16 +430,6 @@ Object splitting causes each module to be split into smaller
 pieces in the final library, to reduce executable sizes when
 linking against the library.  It can be quite time and
 memory-consuming, so turn it off when you're hacking.
-</td></tr></table>
-
-<table><tr><th>`GhcBootLibs = YES`</th>
-<td>
-If you're just interested in working on GHC, then you probably don't want
-to build the "extralibs" libraries that we normally ship with GHC.  
-So when [getting the sources](building/getting-the-sources), 
-run `darcs-all` without the `--extra` option.  Alternatively, even if you have
-the libraries in your tree, you can stop them being built by setting
-`GhcBootLibs` in your `build.mk`.
 </td></tr></table>
 
 ## Building things
