@@ -158,7 +158,7 @@ in order to ignore unimportant build failures in the RTS.
 <H>$ find . -name "*_stub.c" >> list
 <H>$ find . -name "*_stub.h" >> list
 <H>$ find . -name package-data.mk >> list
-<H>$ find . -name package.conf >> list
+<H>$ find . -name package.conf.d >> list
 <H>$ find . -name package.conf.inplace >> list
 <H>$ echo compiler/main/Config.hs >> list
 <H>$ find . -name .depend | sed -e 's/^/mkdir -p `dirname /' -e 's/$/`/' >> mkfiles
@@ -218,7 +218,7 @@ if you get segfaults etc later on.
 
 {{{
 <T>$ sed -i.bak "s#<H>#<T>#g" inplace/lib/package.conf */*/package-data.mk */*/*/package-data.mk
-<T>$ touch -r inplace/lib/package.conf */*/package-data.mk */*/*/package-data.mk
+<T>$ touch -r inplace/lib/package.conf.d */*/package-data.mk */*/*/package-data.mk
 }}}
 
 Now make bootstrapping files; what we're really doing here is making
