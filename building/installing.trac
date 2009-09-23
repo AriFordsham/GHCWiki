@@ -1,6 +1,6 @@
 
 
-'''NOTE''': this page relates to the new GHC build system, due to be added to GHC in April 2009. For documentation of the "old" build system, see [wiki:Building/Old/Using] and [wiki:Building/BuildSystem].
+'''NOTE''': this page relates to the new GHC build system, due to be added to GHC in April 2009. For documentation of the "old" build system, see [wiki:Attic/Building/Old/Using] and [wiki:Attic/Building/BuildSystem].
 
 = Installing GHC from a build tree =
 
@@ -38,7 +38,17 @@ A GHC installation typically has three parts:
 
 On Unix systems you can change `libdir` and `bindir` using the `--libdir` and `--bindir` options respectively, and the location of the documentation can be changed using `--datadir`.  On Windows all you can do is change `$(prefix)`, because GHC finds the rest of its files by knowing their location relative to the `ghc.exe` binary, so the layout of the install tree is fixed (see [#HowGHCfindsitsfiles How GHC finds its files], below).
 
-To see how the install directories are derived from `$(prefix)`, look in [[GhcFile(mk/config.mk.in)]].
+To see how the install directories are derived from `$(prefix)`, look in [[GhcFile(mk/install.mk.in)]].
+
+== DESTDIR ==
+
+It is common to want `make install` to install the files somewhere other than their final location.  That is, we want to perform the normal installation operations but have the files be copied to a new empty location so that we can pack up the files for distribution and later installation.  This is achieved by setting `DESTDIR` when installating:
+
+{{{
+$ make install DESTDIR=/tmp/ghc-install
+}}}
+
+this will install as usual, but prepend $(DESTDIR) to every file that is installed.  So for example if $(bindir) is `/usr/bin`, then the `ghc` binary will end up in `/tmp/ghc-install/usr/bin/ghc`.
 
 == The installed copy of MinGW on Windows ==
 
