@@ -43,7 +43,6 @@ If you only want to download the latest sources and aren't interested in working
 ```wiki
   $ git clone http://darcs.haskell.org/ghc.git ghc
   $ cd ghc
-  $ chmod +x sync-all
   $ ./sync-all get
 ```
 
@@ -91,7 +90,6 @@ Instead, follow the following steps:
 1. Now use the `sync-all` script to pull patches from all the library repositories, and the testsuite repository:
 
   ```wiki
-     $ chmod +x sync-all
      $ ./sync-all pull-all
   ```
 
