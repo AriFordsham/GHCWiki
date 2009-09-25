@@ -36,7 +36,6 @@ If you only want to download the latest sources and aren't interested in working
 {{{
   $ git clone http://darcs.haskell.org/ghc.git ghc
   $ cd ghc
-  $ chmod +x sync-all
   $ ./sync-all get
 }}}
 The command `sync-all` adds the `--partial` flag when getting Darcs repos by default.
@@ -71,7 +70,6 @@ Instead, follow the following steps:
 }}}
  0. Now use the `sync-all` script to pull patches from all the library repositories, and the testsuite repository:
 {{{
-   $ chmod +x sync-all
    $ ./sync-all pull-all
 }}}
    The command `sync-all` automates the fetching of the repositories for the libraries.
