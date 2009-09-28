@@ -65,6 +65,7 @@ These utils may be built with the bootstrapping compiler, for use during the bui
 
  * '''`utils/ghc-pwd`''' is a little program we use for getting the current directory. We use this, rather than `pwd`, as the latter may give reults that we can't use on Windows.
  * '''`utils/ghc-cabal`''' is a little program we use for building the libraries. It's similar to cabal-install, but without the dependencies on `http` etc.
+ * '''`utils/count_lines`''' is a program that counts the number of source-code lines in GHC's code-base.  It distinguishes comments from non-comments.
 
 ''Why isn't libffi in utils/?''
 
