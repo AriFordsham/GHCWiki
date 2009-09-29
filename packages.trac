@@ -2,6 +2,10 @@
 
 This page indexes the various package-related material on this wiki.
 
+Design of the Package System
+
+ * [wiki:Commentary/Packages]
+
 GHC's implementation of the package system:
 
  * [wiki:Commentary/Compiler/Packages]
