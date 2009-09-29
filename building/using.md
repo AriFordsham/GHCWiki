@@ -324,7 +324,7 @@ Set to `YES` to pass `-debug` when building GHC (stage 2).
 
 Ways in which to build the libraries.  Must contain
 at least `v` ([the vanilla way](building/architecture/idiom/vanilla-way)).  Also contains `p` by default (profiling).  For other
-ways, see `mk/config.mk.in`.
+ways, see `mk/ways.mk`.
 </td></tr></table>
 
 <table><tr><th>`SplitObjs`</th>
