@@ -42,6 +42,9 @@ The current Zero-boot packages are:
  * `Cabal`: we frequently update Cabal and GHC in sync
  * `hpc`
  * `extensible-exceptions`: this is a shim that provides an API to older versions of GHC that is compatible with what the current `base` package now exports.  So, unusually, `extensible-exceptions` is a zero-boot package, but not a boot package.
+ * `bin-package-db`: a GHC-specific package that provides binary serialisation of the package database, use by `ghc-pkg` and
+GHC itself.
+ * `binary` (renamed to `ghc-binary` in the 6.12 branch): required by `bin-package-db`.
 
 == Installation ==
 
