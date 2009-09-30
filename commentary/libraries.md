@@ -4,10 +4,20 @@
 All GHC build trees contain a set of libraries, called the **Boot Packages**.  These are the libraries that GHC's source code imports.  Obviously you need the boot packages to build GHC at all.
 
 
-The Boot Packages, along with the other subcomponents of the GHC build system, are in the file `packages` in a GHC tree. To get a list of them, you can run `make show VALUE=PACKAGES` in a configured GHC build tree.  (This variable is set in `$(TOP)/ghc.mk`.)
+The Boot Packages, along with the other subcomponents of the GHC build system, are in the file `packages` in a GHC tree. To get a list of them, do the following in a configured GHC build tree:
 
 
-You can see exactly which versions of what packages GHC depends on by looking in `$(TOP)/compiler/ghc.cabal.in`.
+To find out which packages are currently zero-boot packages, do the following in a GHC build:
+
+```wiki
+$ make show VALUE=PACKAGES
+```
+
+
+(The `PACKAGES` variable is set in `$(TOP)/`[ghc.mk](/trac/ghc/browser/ghc/ghc.mk).)
+
+
+You can see exactly which versions of what packages GHC depends on by looking in `$(TOP)/`[compiler/ghc.cabal.in](/trac/ghc/browser/ghc/compiler/ghc.cabal.in).
 
 
 Boot packages can be classified in three different ways:
@@ -54,16 +64,19 @@ So we begin the entire build process by installing the zero-boot packages in the
 As time goes on, a Zero-boot package may become an ordinary boot package, because the bootstrap compiler is expected to have (a sufficiently up to date) version of the package already.
 
 
+To find out which packages are currently zero-boot packages, do the following in a GHC build:
+
+```wiki
+$ make show VALUE=BOOT_PKGS
+```
+
+
 The current Zero-boot packages are:
 
 - `Cabal`: we frequently update Cabal and GHC in sync
 - `hpc`
 - `extensible-exceptions`: this is a shim that provides an API to older versions of GHC that is compatible with what the current `base` package now exports.  So, unusually, `extensible-exceptions` is a zero-boot package, but not a boot package.
-- `bin-package-db`: a GHC-specific package that provides binary serialisation of the package database, use by `ghc-pkg` and
-
-
-GHC itself.
-
+- `bin-package-db`: a GHC-specific package that provides binary serialisation of the package database, use by `ghc-pkg` and GHC itself.
 - `binary` (renamed to `ghc-binary` in the 6.12 branch): required by `bin-package-db`.
 
 ## Installation
@@ -75,7 +88,7 @@ When we build a distribution of GHC, it includes at least some libraries, otherw
 Alas, since the `ghc` package (implementing the GHC API) is certainly an installed package, all the packages on which it depends must also be installed, and hence willy-nilly become part of the Haskell Platform.  In practice that means that almost all the Boot Packages are installed.  In some cases that is unfortunate.  For example, we currently have a special version of the `binary` library, which we don't really expect Haskell users to use; in this case, we call it `ghc-binary`, and informally discourage its use.
 
 
-Currently the only Boot Package that is not installed is `haskelline`; it needed to build `ghci`, but not to build the `ghc` package.
+Currently the Boot Packages that are not installed are `haskelline`, `mtl`, and `terminfo`; these are needed to build the GHC front-end, but not to build the `ghc`*package*.
 
 # Boot packages dependencies
 
