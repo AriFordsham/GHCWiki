@@ -6,12 +6,15 @@ The Boot Packages, along with the other subcomponents of the GHC build system, a
 
 You can see exactly which versions of what packages GHC depends on by looking in `$(TOP)/compiler/ghc.cabal.in`.
 
-Every installation of GHC includes the Boot Packages.
+Boot packages can be classified in three different ways:
+  * Independent/Coupled/Specific
+  * Zero-boot/not zero-boot
+  * Installed/not installed
+These distinctions are described in the following sub-sections.
 
+== Coupling to GHC ==
 
-== Classifying the boot packages ==
-
-A second important classification of the boot packages is as follows:
+An important classification of the boot packages is as follows:
 
  * '''INDEPENDENT''': Independently maintained (e.g. time, haskeline)
  * '''COUPLED''': Tightly coupled to GHC, but used by others (base)
@@ -40,7 +43,15 @@ The current Zero-boot packages are:
  * `hpc`
  * `extensible-exceptions`: this is a shim that provides an API to older versions of GHC that is compatible with what the current `base` package now exports.  So, unusually, `extensible-exceptions` is a zero-boot package, but not a boot package.
 
-== Boot packages dependencies ==
+== Installation ==
+
+When we build a distribution of GHC, it includes at least some libraries, otherwise it would be utterly useless.  Since GHC is part of the Haskell Platform, any library that is installed with GHC is necessarily part of the Haskell Platform, so we have to be a bit careful what we include.  
+
+Alas, since the `ghc` package (implementing the GHC API) is certainly an installed package, all the packages on which it depends must also be installed, and hence willy-nilly become part of the Haskell Platform.  In practice that means that almost all the Boot Packages are installed.  In some cases that is unfortunate.  For example, we currently have a special version of the `binary` library, which we don't really expect Haskell users to use; in this case, we call it `ghc-binary`, and informally discourage its use.
+
+Currently the only Boot Package that is not installed is `haskelline`; it needed to build `ghci`, but not to build the `ghc` package.
+
+= Boot packages dependencies =
 
  * At the root of the hierarchy we have '''`ghc-prim`'''. As the name implies, this package contains the most primitive types and functions. It only contains a handful of modules, including `GHC.Prim` (which contains `Int#`, `+#`, etc) and `GHC.Bool`, containing the `Bool` datatype.
 
