@@ -4,10 +4,20 @@
 All GHC build trees contain a set of libraries, called the **Boot Packages**.  These are the libraries that GHC's source code imports.  Obviously you need the boot packages to build GHC at all.
 
 
-The Boot Packages, along with the other subcomponents of the GHC build system, are in the file `packages` in a GHC tree. To get a list of them, you can run `make show VALUE=PACKAGES` in a configured GHC build tree.  (This variable is set in `$(TOP)/ghc.mk`.)
+The Boot Packages, along with the other subcomponents of the GHC build system, are in the file `packages` in a GHC tree. To get a list of them, do the following in a configured GHC build tree:
 
 
-You can see exactly which versions of what packages GHC depends on by looking in `$(TOP)/compiler/ghc.cabal.in`.
+To find out which packages are currently zero-boot packages, do the following in a GHC build:
+
+```wiki
+$ make show VALUE=PACKAGES
+```
+
+
+(The `PACKAGES` variable is set in `$(TOP)/`[ghc.mk](/trac/ghc/browser/ghc/ghc.mk).)
+
+
+You can see exactly which versions of what packages GHC depends on by looking in `$(TOP)/`[compiler/ghc.cabal.in](/trac/ghc/browser/ghc/compiler/ghc.cabal.in).
 
 
 Boot packages can be classified in three different ways:
@@ -52,6 +62,13 @@ So we begin the entire build process by installing the zero-boot packages in the
 
 
 As time goes on, a Zero-boot package may become an ordinary boot package, because the bootstrap compiler is expected to have (a sufficiently up to date) version of the package already.
+
+
+To find out which packages are currently zero-boot packages, do the following in a GHC build:
+
+```wiki
+$ make show VALUE=BOOT_PKGS
+```
 
 
 The current Zero-boot packages are:
