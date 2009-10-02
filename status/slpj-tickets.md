@@ -107,9 +107,13 @@
 
 ---
 
-## Features
+## Template Haskell features
 
 - [\#3497](https://gitlab.haskell.org//ghc/ghc/issues/3497): Template Haskell support for GADTs
+- [\#3507](https://gitlab.haskell.org//ghc/ghc/issues/3507): use "`type T`" instead of `''T`
+
+## Features
+
 - [\#3217](https://gitlab.haskell.org//ghc/ghc/issues/3217): better flag handling for GHCi
 - [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788): Class aliases        
 - [\#2806](https://gitlab.haskell.org//ghc/ghc/issues/2806): Require bang patterns on unlifted let-bindings        
