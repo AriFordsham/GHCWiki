@@ -97,8 +97,11 @@
  * #3023: Apply fundeps before printing error
 
 ------------------------
-== Features == 
+== Template Haskell features == 
  * #3497: Template Haskell support for GADTs
+ * #3507: use "`type T`" instead of {{{''T}}}
+
+== Features == 
  * #3217: better flag handling for GHCi
  * #788: Class aliases	
  * #2806: Require bang patterns on unlifted let-bindings	
