@@ -239,7 +239,7 @@ in `<T>/mk/build.mk`. It'll make the resulting compiler slower, but it'll be a l
 if you get segfaults etc later on.
 
 ```wiki
-<T>$ for c in libraries/*/configure; do ( cd `dirname $c`; ./configure ); done
+<T>$ for c in libraries/*/configure; do ( cd `dirname $c`; sh configure ); done
 ```
 
 ```wiki
