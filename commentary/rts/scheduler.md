@@ -53,7 +53,7 @@ threads in [includes/rts/OSThreads.h](/trac/ghc/browser/ghc/includes/rts/OSThrea
 
 
 A Haskell thread is represented by a Thread State Object
-[TSO](commentary/rts/storage/heap-objects#thread-state-objects).  There are
+([TSO](commentary/rts/storage/heap-objects#thread-state-objects)).  There are
 two kinds of Haskell thread:
 
 - A *bound* thread is created as the result of a *call-in* from

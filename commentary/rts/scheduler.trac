@@ -46,7 +46,7 @@ threads in [[GhcFile(includes/rts/OSThreads.h)]].
 == Haskell threads ==
 
 A Haskell thread is represented by a Thread State Object
-[wiki:Commentary/Rts/Storage/HeapObjects#ThreadStateObjects TSO].  There are
+([wiki:Commentary/Rts/Storage/HeapObjects#ThreadStateObjects TSO]).  There are
 two kinds of Haskell thread:
 
  * A ''bound'' thread is created as the result of a ''call-in'' from
