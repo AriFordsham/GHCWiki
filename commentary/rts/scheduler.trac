@@ -17,7 +17,7 @@ We begin by discussing the basic abstractions used in the scheduler.
 
 == OS Threads ==
 
-Source files: [[GhcFile(includes/OSThreads.h)]],
+Source files: [[GhcFile(includes/rts/OSThreads.h)]],
 [[GhcFile(rts/win32/OSThreads.c)]], [[GhcFile(rts/posix/OSThreads.c)]]
 
 We assume that the OS provides some kind of native threads, and for
@@ -41,12 +41,12 @@ number of OS threads in the runtime, but only this number will be
 executing Haskell code at any one time.
 
 The RTS provides a platform-independent abstraction layer for OS
-threads in [[GhcFile(rts/OSThreads.h)]].
+threads in [[GhcFile(includes/rts/OSThreads.h)]].
 
 == Haskell threads ==
 
-A Haskell thread is represented by a
-[wiki:Commentary/Rts/Storage/HeapObjects#ThreadStateObjects TSO].  There are
+A Haskell thread is represented by a Thread State Object
+([wiki:Commentary/Rts/Storage/HeapObjects#ThreadStateObjects TSO]).  There are
 two kinds of Haskell thread:
 
  * A ''bound'' thread is created as the result of a ''call-in'' from
