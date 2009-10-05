@@ -17,7 +17,7 @@ We begin by discussing the basic abstractions used in the scheduler.
 
 == OS Threads ==
 
-Source files: [[GhcFile(includes/OSThreads.h)]],
+Source files: [[GhcFile(includes/rts/OSThreads.h)]],
 [[GhcFile(rts/win32/OSThreads.c)]], [[GhcFile(rts/posix/OSThreads.c)]]
 
 We assume that the OS provides some kind of native threads, and for
