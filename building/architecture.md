@@ -1,4 +1,4 @@
-**NOTE**: this page relates to the new GHC build system, due to be added to GHC in April 2009. For documentation of the "old" build system, see Building/Old/Using? and Building/BuildSystem?.
+**NOTE**: this page relates to the new GHC build system, due to be added to GHC in April 2009. For documentation of the "old" build system, see [Attic/Building/Old/Using](attic/building/old/using) and [Attic/Building/BuildSystem](attic/building/build-system).
 
 # The GHC Build System Architecture
 
@@ -95,3 +95,4 @@ first, and then get on to the specifics of how we build GHC.
 - [The vanilla way](building/architecture/idiom/vanilla-way)
 - [Whitespace](building/architecture/idiom/whitespace)
 - [Platform names (build, host, target)](building/architecture/idiom/platform-names)
+- [Directories](building/architecture/idiom/directories)
