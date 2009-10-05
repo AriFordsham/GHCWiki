@@ -42,7 +42,7 @@ Stack frames therefore have [bitmap layout](commentary/rts/heap-objects#bitmap-l
 ## Kinds of Stack Frame
 
 
-(defined in [includes/rts/storage/ClosureTypes.h](/trac/ghc/browser/ghc/includes/rts/storage/ClosureTypes.h))
+The constants for the different types of stack frame are defined in [includes/rts/storage/ClosureTypes.h](/trac/ghc/browser/ghc/includes/rts/storage/ClosureTypes.h).  More details about the layouts are available in [includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h)
 
 - `RET_BCO`
 - `RET_SMALL`
