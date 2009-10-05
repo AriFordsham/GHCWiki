@@ -16,12 +16,12 @@ The code for evaluating a {{{case}}} pushes a new stack frame representing the a
 
 == Info tables for stack frames ==
 
-The info table for a stack frame has a couple of extra fields in addition to the [wiki:Commentary/Rts/HeapObjects#InfoTables basic info table layout].  A stack-frame info table is defined by {{{StgRetInfoTable}}} in [[GhcFile(includes/InfoTables.h)]].
+The info table for a stack frame has a couple of extra fields in addition to the [wiki:Commentary/Rts/HeapObjects#InfoTables basic info table layout].  A stack-frame info table is defined by {{{StgRetInfoTable}}} in [[GhcFile(includes/rts/storage/InfoTables.h)]].
 
 [[Image(ret-itbl.png)]]
 
 (ignore the "return vector" part of the above diagram; return vectors were removed from GHC in version 6.8.1)
-The ''SRT'' field points to the SRT table for this stack frame (see [wiki:Commentary/Rts/CAFs] for details of SRTs).
+The ''SRT'' field points to the static reference table (SRT) for this stack frame (see [wiki:Commentary/Rts/CAFs] for details of SRTs).
 
 == Layout of the payload ==
 
@@ -30,6 +30,8 @@ Unlike heap objects which mainly have "pointers first" layout, in a stack frame 
 Stack frames therefore have [wiki:Commentary/Rts/HeapObjects#Bitmaplayout bitmap layout].
 
 == Kinds of Stack Frame ==
+
+(defined in [[GhcFile(includes/rts/storage/ClosureTypes.h)]])
 
  * {{{RET_BCO}}}
  * {{{RET_SMALL}}}

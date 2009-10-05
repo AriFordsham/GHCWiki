@@ -23,13 +23,13 @@ The code for evaluating a `case` pushes a new stack frame representing the alter
 ## Info tables for stack frames
 
 
-The info table for a stack frame has a couple of extra fields in addition to the [basic info table layout](commentary/rts/heap-objects#info-tables).  A stack-frame info table is defined by `StgRetInfoTable` in [includes/InfoTables.h](/trac/ghc/browser/ghc/includes/InfoTables.h).
+The info table for a stack frame has a couple of extra fields in addition to the [basic info table layout](commentary/rts/heap-objects#info-tables).  A stack-frame info table is defined by `StgRetInfoTable` in [includes/rts/storage/InfoTables.h](/trac/ghc/browser/ghc/includes/rts/storage/InfoTables.h).
 
 [](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/Stack/ret-itbl.png)
 
 
 (ignore the "return vector" part of the above diagram; return vectors were removed from GHC in version 6.8.1)
-The *SRT* field points to the SRT table for this stack frame (see [Commentary/Rts/CAFs](commentary/rts/ca-fs) for details of SRTs).
+The *SRT* field points to the static reference table (SRT) for this stack frame (see [Commentary/Rts/CAFs](commentary/rts/ca-fs) for details of SRTs).
 
 ## Layout of the payload
 
@@ -40,6 +40,9 @@ Unlike heap objects which mainly have "pointers first" layout, in a stack frame 
 Stack frames therefore have [bitmap layout](commentary/rts/heap-objects#bitmap-layout).
 
 ## Kinds of Stack Frame
+
+
+(defined in [includes/rts/storage/ClosureTypes.h](/trac/ghc/browser/ghc/includes/rts/storage/ClosureTypes.h))
 
 - `RET_BCO`
 - `RET_SMALL`
