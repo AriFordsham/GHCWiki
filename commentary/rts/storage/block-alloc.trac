@@ -2,7 +2,7 @@
 
 = The Block Allocator =
 
-Source: [[GhcFile(includes/Block.h)]], [[GhcFile(rts/BlockAlloc.h)]], [[GhcFile(rts/BlockAlloc.c)]], [[GhcFile(rts/MBlock.h)]], [[GhcFile(rts/MBlock.c)]].
+Source: [[GhcFile(includes/rts/storage/Block.h)]], [[GhcFile(rts/sm/BlockAlloc.h)]], [[GhcFile(rts/sm/BlockAlloc.c)]], [[GhcFile(includes/rts/storage/MBlock.h)]], [[GhcFile(rts/sm/MBlock.c)]].
 
 The block allocator is where the storage manager derives much of its flexibilty.  Rather than keep our heap in a single contiguous region of memory, or one contiguous region per generation, we manage linked lists of memory blocks.  Managing contiguous regions is difficult, especially when you want to change the size of some of the areas.  A block-structured storage arrangement has several advantages:
 
