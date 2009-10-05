@@ -47,21 +47,21 @@ We currently have megablocks of 1Mb in size (m = 20) with blocks of 4k in size (
 
 
 Block descriptors are currently 32 or 64 bytes depending on the word size (d = 5 or 6).  The block descriptor itself is 
-the structure `bdescr` defined in [includes/Block.h](/trac/ghc/browser/ghc/includes/Block.h), and that file also defines the `Bdescr()` macro.
+the structure `bdescr` defined in [includes/rts/storage/Block.h](/trac/ghc/browser/ghc/includes/rts/storage/Block.h), and that file also defines the `Bdescr()` macro.
 
 
 The block allocator has a the following structure:
 
-- At the bottom, talking to the OS, is the megablock allocator ([rts/MBlock.c](/trac/ghc/browser/ghc/rts/MBlock.c), [rts/MBlock.h](/trac/ghc/browser/ghc/rts/MBlock.h)).
+- At the bottom, talking to the OS, is the megablock allocator ([rts/sm/MBlock.c](/trac/ghc/browser/ghc/rts/sm/MBlock.c), [includes/rts/storage/MBlock.h](/trac/ghc/browser/ghc/includes/rts/storage/MBlock.h)).
   It is responsible for delivering megablocks, correctly aligned, to the upper layers.  It is also responsible for
   implementing `HEAP_ALLOCED()`: the predicate that tests whether a pointer points to dynamically allocated memory
   or not.  This is implemented as a simple bitmap lookup on a 32-bit machine, and something more complex on
-  64-bit addressed machines.  See [rts/MBlock.h](/trac/ghc/browser/ghc/rts/MBlock.h) for details.
+  64-bit addressed machines.  See [includes/rts/storage/MBlock.h](/trac/ghc/browser/ghc/includes/rts/storage/MBlock.h) for details.
 
   Currently, megablocks are never freed back to the OS, except at the end of the program.  This is a potential
   improvement that could be made.
 
-- Sitting on top of the megablock allocator is the block layer ([includes/Block.h](/trac/ghc/browser/ghc/includes/Block.h), [rts/BlockAlloc.c](/trac/ghc/browser/ghc/rts/BlockAlloc.c)).
+- Sitting on top of the megablock allocator is the block layer ([includes/rts/storage/Block.h](/trac/ghc/browser/ghc/includes/rts/storage/Block.h), [rts/sm/BlockAlloc.c](/trac/ghc/browser/ghc/rts/sm/BlockAlloc.c)).
   This layer is responsible for providing:
 
   ```wiki
