@@ -37,7 +37,7 @@ We adopt the second approach.  The following diagram shows a megablock:
 
 [[Image(sm-block.png)]]
 
-We currently have megablocks of 1Mb in size (m = 20) with blocks of 4k in size (k = 12), and these sizes are easy to change  ([[GhcFile(includes/Constants.h)]]).  
+We currently have megablocks of 1Mb in size (m = 20) with blocks of 4k in size (k = 12), and these sizes are easy to change  ([[GhcFile(includes/rts/Constants.h)]]).  
 
 Block descriptors are currently 32 or 64 bytes depending on the word size (d = 5 or 6).  The block descriptor itself is 
 the structure `bdescr` defined in [[GhcFile(includes/rts/storage/Block.h)]], and that file also defines the `Bdescr()` macro.

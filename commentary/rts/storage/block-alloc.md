@@ -43,7 +43,7 @@ We adopt the second approach.  The following diagram shows a megablock:
 [](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/BlockAlloc/sm-block.png)
 
 
-We currently have megablocks of 1Mb in size (m = 20) with blocks of 4k in size (k = 12), and these sizes are easy to change  ([includes/Constants.h](/trac/ghc/browser/ghc/includes/Constants.h)).  
+We currently have megablocks of 1Mb in size (m = 20) with blocks of 4k in size (k = 12), and these sizes are easy to change  ([includes/rts/Constants.h](/trac/ghc/browser/ghc/includes/rts/Constants.h)).  
 
 
 Block descriptors are currently 32 or 64 bytes depending on the word size (d = 5 or 6).  The block descriptor itself is 
