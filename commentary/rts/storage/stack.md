@@ -23,7 +23,7 @@ The code for evaluating a `case` pushes a new stack frame representing the alter
 ## Info tables for stack frames
 
 
-The info table for a stack frame has a couple of extra fields in addition to the [basic info table layout](commentary/rts/heap-objects#info-tables).  A stack-frame info table is defined by `StgRetInfoTable` in [includes/InfoTables.h](/trac/ghc/browser/ghc/includes/InfoTables.h).
+The info table for a stack frame has a couple of extra fields in addition to the [basic info table layout](commentary/rts/heap-objects#info-tables).  A stack-frame info table is defined by `StgRetInfoTable` in [includes/rts/storage/InfoTables.h](/trac/ghc/browser/ghc/includes/rts/storage/InfoTables.h).
 
 [](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/Stack/ret-itbl.png)
 

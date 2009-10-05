@@ -16,7 +16,7 @@ The code for evaluating a {{{case}}} pushes a new stack frame representing the a
 
 == Info tables for stack frames ==
 
-The info table for a stack frame has a couple of extra fields in addition to the [wiki:Commentary/Rts/HeapObjects#InfoTables basic info table layout].  A stack-frame info table is defined by {{{StgRetInfoTable}}} in [[GhcFile(includes/InfoTables.h)]].
+The info table for a stack frame has a couple of extra fields in addition to the [wiki:Commentary/Rts/HeapObjects#InfoTables basic info table layout].  A stack-frame info table is defined by {{{StgRetInfoTable}}} in [[GhcFile(includes/rts/storage/InfoTables.h)]].
 
 [[Image(ret-itbl.png)]]
 
