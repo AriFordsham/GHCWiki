@@ -41,11 +41,11 @@ number of OS threads in the runtime, but only this number will be
 executing Haskell code at any one time.
 
 The RTS provides a platform-independent abstraction layer for OS
-threads in [[GhcFile(rts/OSThreads.h)]].
+threads in [[GhcFile(includes/rts/OSThreads.h)]].
 
 == Haskell threads ==
 
-A Haskell thread is represented by a
+A Haskell thread is represented by a Thread State Object
 [wiki:Commentary/Rts/Storage/HeapObjects#ThreadStateObjects TSO].  There are
 two kinds of Haskell thread:
 
