@@ -1,3 +1,5 @@
+# Idiom: Directories
+
 
 In order to create directories, we use "order-only" make dependencies, e.g.
 
