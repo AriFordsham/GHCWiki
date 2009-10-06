@@ -9,5 +9,5 @@ To avoid memory leaks caused by CAFs we need to detect when all values/functions
 
 
 To achieve this, during GC we maintain a linked list of static objects that are still live.
-Closure that might refer to CAFs contains a Satic Reference Table (SRT) which indicates what
-CAFs are still in use by this closure.
+Closures that might refer to CAFs contain a Static Reference Table (SRT) which indicates what
+CAFs are still in use by the closure.
