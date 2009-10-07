@@ -246,7 +246,7 @@ if you get segfaults etc later on.
 Note that if you need some special arguments to configure on you platform (like --with-iconv-includes and --with-iconv-libraries on OpenBSD), you will have to pass them to the configure runs above, too.
 
 ```wiki
-<T>$ sed -i.bak "s#<H>#<T>#g" inplace/lib/package.conf */*/package-data.mk */*/*/package-data.mk
+<T>$ sed -i.bak "s#<H>#<T>#g" inplace/lib/package.conf.d/*.conf */*/package-data.mk */*/*/package-data.mk
 <T>$ touch -r inplace/lib/package.conf.d */*/package-data.mk */*/*/package-data.mk
 ```
 
