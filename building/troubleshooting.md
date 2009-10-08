@@ -6,6 +6,52 @@ Here we keep track of failures that can occur when building GHC, with solutions.
 
 We don't expect anyone to read this page from beginning to end.  The only way you get here is by searching, so remember when adding a new entry the most important thing to do is to **include the error message verbatim**, so searches will find it.  If a build failure is caused by a bug in GHC or the build system, please link to the ticket number so we can tell when it's safe to remove the entry and keep this page from getting too crufty.
 
+## Pulling from "simonpj@…;c: msys 1.0 home darcs ghc"
+
+
+On Windows under MSYS, suppose your `_darcs/pref/defaultrepo` contains `simonpj@darcs.haskell.org:/home/darcs/ghc` (i.e. you are using an SSH connection). Then `darcs_all` will screw up: 
+
+```wiki
+bash-3.1$ ./darcs-all pull
+== running darcs pull --repodir . simonpj@darcs.haskell.org:/home/darcs/ghc
+No remote changes to pull in!
+== running darcs pull --repodir utils/hsc2hs simonpj@darcs.haskell.org:/home/darcs/hsc2hs
+Reading inventory of repository c:/code/HEAD/utils/hsc2hs inventory
+No remote changes to pull in!
+...
+```
+
+
+Looks ok, but look at the defaultrepo:
+
+```wiki
+bash-3.1$ cat _darcs/prefs/defaultrepo
+simonpj@darcs.haskell.org;c:\msys\1.0\home\darcs\ghc/ghc
+```
+
+
+Glarp!  And indeed if you re-try the pull, bad things happen:
+
+```wiki
+./darcs-all pull
+== running darcs pull --repodir . simonpj@darcs.haskell.org;c:\msys\1.0\home\darcs\ghc/ghc
+No remote changes to pull in!
+== running darcs pull --repodir utils/hsc2hs simonpj@darcs.haskell.org;c:\msys\1.0\home\darcs\ghc/hsc2hs
+...
+```
+
+
+Since defaultrepo is hosed, plain darcs fails too:
+
+```wiki
+bash-3.1$ darcs pull
+Pulling from "simonpj@darcs.haskell.org;c:\\msys\\1.0\\home\\darcs\\ghc"...
+No remote changes to pull in!
+```
+
+
+This problem seems hard to fix, because it's a bug in MSYS's perl.  See [\#3499](https://gitlab.haskell.org//ghc/ghc/issues/3499) for a workaround.
+
 ## configure: error: C++ preprocessor "/lib/cpp" fails sanity check
 
 
