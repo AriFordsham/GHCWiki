@@ -23,7 +23,7 @@
 - [\#2422](https://gitlab.haskell.org//ghc/ghc/issues/2422): interaction of inlining and specialisation
 - [\#2396](https://gitlab.haskell.org//ghc/ghc/issues/2396): default class method not inlined
 - [\#2354](https://gitlab.haskell.org//ghc/ghc/issues/2354): NOINLINE pragma ignored
-- [\#2353](https://gitlab.haskell.org//ghc/ghc/issues/2353): GHC inliner doesn't inline
+- [\#2353](https://gitlab.haskell.org//ghc/ghc/issues/2353): GHC inliner doesn't inline (with follow-up from Ross)
 - [\#2078](https://gitlab.haskell.org//ghc/ghc/issues/2078): INLINing improvement; ask Christian.Maeder@… to see if it improves CASL
 - [\#2840](https://gitlab.haskell.org//ghc/ghc/issues/2840): top level unlifted string literals
 - [\#3123](https://gitlab.haskell.org//ghc/ghc/issues/3123): feature request: recursive inlining and peeling
