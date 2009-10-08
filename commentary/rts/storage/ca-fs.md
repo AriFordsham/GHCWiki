@@ -6,8 +6,8 @@ Files: [rts/sm/GC.c](/trac/ghc/browser/ghc/rts/sm/GC.c), function scavange_srt i
 
 Constant Applicative Forms, or CAFs for short, are top-level values defined in a program.
 Essentially, they are objects that are not allocated dynamically at run-time but, instead,
-are part of the static data of the program.  Sometimes, a CAF may refer to many values in the heap.  This is why, we need to know when a CAF is never going to be used again by the program, and
-hence the values to which it refers may be garbage collected.
+are part of the static data of the program.  Sometimes, a CAF may refer to many values in the heap.  To avoid memory leaks in such situations, we need to know when a CAF is never going to be used
+again, and so we can deallocate the values that it refers to.
 
 ## Static Reference Tables
 
