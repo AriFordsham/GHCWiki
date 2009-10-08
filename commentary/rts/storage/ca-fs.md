@@ -30,3 +30,18 @@ There are two different ways to access this information depending on the size of
 
 - "small": if `srt_bitmask` is a small bitmask, not all 1s, then GET_FUN?_SRT contains the SRT.
 - "large": if `srt_bitmask` is all 1s, then GET_FUN?_SRT contains a large bitmap, and the actual SRT.
+
+## Evacuating Static Objects
+
+
+Files: [rts/sm/GcTrhead.h](/trac/ghc/browser/ghc/rts/sm/GcTrhead.h), [rts/sm/Evac.c](/trac/ghc/browser/ghc/rts/sm/Evac.c), [rts/sm/GC.c](/trac/ghc/browser/ghc/rts/sm/GC.c)
+
+
+While scavenging objects, we also process (aka "evacuate") any static objects that need to be kept alive.  When a GC thread discovers a live static object, it places it on its `static_objects`
+list.  Later, this list is used to scavange the static objects, potentially finding more live objects.
+Note that this process might find more static objects, and thus further extend the `static_objects` list.
+
+
+When a static object is scavenged, it is removed from `static_objects` and placed on another list, called `scavenged_static_objects`.  Later, we use this list to "clean up" the liveness markers from these static objects, so that we can repeat the process on the next garbage collection.
+Note that we can't "clean up" the liveness markers as we go along because we use them to notice
+cycles among the static objects.
