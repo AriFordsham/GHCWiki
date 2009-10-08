@@ -4,13 +4,11 @@
 
 Files: [[GhcFile(rts/sm/GC.c)]], function scavange_srt in [[GhcFile(rts/sm/Scav.h)]]
 
-Constant Applicative Forms, or CAFs for short, are top-level values defined in a program. 
-To avoid memory leaks caused by CAFs we need to detect when all values/functions that could potentially refer to a CAF are gone, and so it is safe to deallocate the CAF.  
+Constant Applicative Forms, or CAFs for short, are top-level values defined in a program.
+Essentially, they are objects that are not allocated dynamically at run-time but, instead,
+are part of the static data of the program.  Sometimes, a CAF may refer to many values in the heap.  This is why, we need to know when a CAF is never going to be used again by the program, and
+hence the values to which it refers may be garbage collected.
 
-(???)
-To achieve this, all static objects are linked together with the static link field.  During GC we maintain traverse the static objects to see which are still live.
-Closures that might refer to CAFs contain a Static Reference Table (SRT) which indicates what
-static objects are still needed.
 
 == Static Reference Tables ==
 File: [[GhcFile(includes/rts/storage/InfoTables.h)]]
