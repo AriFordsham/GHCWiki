@@ -34,7 +34,7 @@ There are two different ways to access this information depending on the size of
 ## Evacuating Static Objects
 
 
-Files: [rts/sm/GcTrhead.h](/trac/ghc/browser/ghc/rts/sm/GcTrhead.h), [rts/sm/Evac.c](/trac/ghc/browser/ghc/rts/sm/Evac.c), [rts/sm/GC.c](/trac/ghc/browser/ghc/rts/sm/GC.c)
+Files: [rts/sm/GcThread.h](/trac/ghc/browser/ghc/rts/sm/GcThread.h), [rts/sm/Evac.c](/trac/ghc/browser/ghc/rts/sm/Evac.c), [rts/sm/GC.c](/trac/ghc/browser/ghc/rts/sm/GC.c)
 
 
 While scavenging objects, we also process (aka "evacuate") any static objects that need to be kept alive.  When a GC thread discovers a live static object, it places it on its `static_objects`
