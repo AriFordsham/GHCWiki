@@ -2,7 +2,7 @@
 
 = GHC Commentary: Garbage Collecting CAFs =
 
-Files: [[GhcFile(rts/sm/GC.c)]]
+Files: [[GhcFile(rts/sm/GC.c)]], function scavange_srt in [[Ghc(rts/sm/Scav.h)]]
 
 Constant Applicative Forms, or CAFs for short, are top-level values defined in a program. 
 To avoid memory leaks caused by CAFs we need to detect when all values/functions that could potentially refer to a CAF are gone, and so it is safe to deallocate the CAF.  

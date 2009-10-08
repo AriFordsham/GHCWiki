@@ -1,7 +1,7 @@
 # GHC Commentary: Garbage Collecting CAFs
 
 
-Files: [rts/sm/GC.c](/trac/ghc/browser/ghc/rts/sm/GC.c)
+Files: [rts/sm/GC.c](/trac/ghc/browser/ghc/rts/sm/GC.c), function scavange_srt in Ghc(rts/sm/Scav.h)?
 
 
 Constant Applicative Forms, or CAFs for short, are top-level values defined in a program. 
