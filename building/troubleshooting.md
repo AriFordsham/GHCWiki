@@ -41,6 +41,15 @@ No remote changes to pull in!
 ```
 
 
+Since defaultrepo is hosed, plain darcs fails too:
+
+```wiki
+bash-3.1$ darcs pull
+Pulling from "simonpj@darcs.haskell.org;c:\\msys\\1.0\\home\\darcs\\ghc"...
+No remote changes to pull in!
+```
+
+
 This problem seems hard to fix, because it's a bug in MSYS's perl.  See [\#3499](https://gitlab.haskell.org//ghc/ghc/issues/3499) for a workaround.
 
 ## configure: error: C++ preprocessor "/lib/cpp" fails sanity check
