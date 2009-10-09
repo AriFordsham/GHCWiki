@@ -3,4 +3,6 @@ Parallel Haskell Hackaton
 
 
 Most likely dates : 10-12 December
+
+
 Location : Most likely Edinburgh
