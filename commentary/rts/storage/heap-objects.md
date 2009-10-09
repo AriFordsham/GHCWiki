@@ -25,12 +25,12 @@ Unlifted types cannot currently be used to represent terminating functions: an u
 ## Heap Objects
 
 
-All heap objects have the same basic layout, embodied by the type `StgClosure` in [ Closures.h](http://darcs.haskell.org/ghc/includes/Closures.h).  The diagram below shows the layout of a heap object:
+All heap objects have the same basic layout, embodied by the type `StgClosure` in [ Closures.h](http://darcs.haskell.org/ghc/includes/rts/storage/Closures.h).  The diagram below shows the layout of a heap object:
 
 [](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/HeapObjects/heap-object.png)
 
 
-A heap object always begins with a *header*, defined by `StgHeader` in [ Closures.h](http://darcs.haskell.org/ghc/includes/Closures.h):
+A heap object always begins with a *header*, defined by `StgHeader` in [ Closures.h](http://darcs.haskell.org/ghc/includes/rts/storage/Closures.h):
 
 ```wiki
 typedef struct {
@@ -62,7 +62,7 @@ The compiler also needs to know the layout of heap objects, and the way this inf
 ## Info Tables
 
 
-The info table contains all the information that the runtime needs to know about the closure.  The layout of info tables is defined by `StgInfoTable` in [includes/InfoTables.h](/trac/ghc/browser/ghc/includes/InfoTables.h).  The basic info table layout looks like this:
+The info table contains all the information that the runtime needs to know about the closure.  The layout of info tables is defined by `StgInfoTable` in [includes/rts/storage/InfoTables.h](/trac/ghc/browser/ghc/includes/rts/storage/InfoTables.h).  The basic info table layout looks like this:
 
 [](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/HeapObjects/basic-itbl.png)
 
@@ -71,8 +71,8 @@ Where:
   
 
 - The *closure type* is a constant describing the kind of closure this is (function, thunk, constructor etc.).  All
-  the closure types are defined in [includes/ClosureTypes.h](/trac/ghc/browser/ghc/includes/ClosureTypes.h), and many of them have corresponding C struct
-  definitions in [includes/Closures.h](/trac/ghc/browser/ghc/includes/Closures.h).
+  the closure types are defined in [includes/rts/storage/ClosureTypes.h](/trac/ghc/browser/ghc/includes/rts/storage/ClosureTypes.h), and many of them have corresponding C struct
+  definitions in [includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h).
 
 - The *SRT bitmap* field is used to support [garbage collection of CAFs](commentary/rts/ca-fs).
 
@@ -137,9 +137,9 @@ The payload consists of a mixture of pointers and non-pointers, described by a b
 The size field gives the size of the payload, and each bit of the bitmap is 1 if the corresponding word of payload contains a pointer to a live object.
 
 
-The macros `MK_BITMAP`, `BITMAP_SIZE`, and `BITMAP_BITS` in [includes/InfoTables.h](/trac/ghc/browser/ghc/includes/InfoTables.h) provide ways to conveniently operate on small bitmaps.
+The macros `MK_BITMAP`, `BITMAP_SIZE`, and `BITMAP_BITS` in [includes/rts/storage/InfoTables.h](/trac/ghc/browser/ghc/includes/rts/storage/InfoTables.h) provide ways to conveniently operate on small bitmaps.
 
-**Large bitmaps.** If the size of the stack frame is larger than the 27 words that a small bitmap can describe, then the fallback mechanism is the large bitmap.  A large bitmap is a separate structure, containing a single word size and a multi-word bitmap: see `StgLargeBitmap` in [includes/InfoTables.h](/trac/ghc/browser/ghc/includes/InfoTables.h).
+**Large bitmaps.** If the size of the stack frame is larger than the 27 words that a small bitmap can describe, then the fallback mechanism is the large bitmap.  A large bitmap is a separate structure, containing a single word size and a multi-word bitmap: see `StgLargeBitmap` in [includes/rts/storage/InfoTables.h](/trac/ghc/browser/ghc/includes/rts/storage/InfoTables.h).
 
 ---
 
@@ -162,7 +162,7 @@ To find out whether a particular object is dynamic or static, use the `HEAP_ALLO
 Dynamic objects have a minimum size, because every object must be big
 enough to be overwritten by a
 forwarding pointer ([Forwarding Pointers](#ForwardingPointers)) during GC.
-The minimum size of the payload is given by `MIN_PAYLOAD_SIZE` in [includes/Constants.h](/trac/ghc/browser/ghc/includes/Constants.h).
+The minimum size of the payload is given by `MIN_PAYLOAD_SIZE` in [includes/rts/Constants.h](/trac/ghc/browser/ghc/includes/rts/Constants.h).
 
 ### Static objects
 
@@ -180,7 +180,7 @@ all the static objects in order to [garbage collect CAFs](commentary/rts/ca-fs).
 The static link field resides after the normal payload, so that the
 static variant of an object has compatible layout with the dynamic
 variant.  To access the static link field of a closure, use the
-`STATIC_LINK()` macro from [includes/ClosureMacros.h](/trac/ghc/browser/ghc/includes/ClosureMacros.h).
+`STATIC_LINK()` macro from [includes/rts/storage/ClosureMacros.h](/trac/ghc/browser/ghc/includes/rts/storage/ClosureMacros.h).
 
 ---
 
@@ -498,7 +498,7 @@ TSOs are ordinary objects that live in the heap, so we can use the existing allo
 GHC keeps stacks contiguous, there are no "stack chunk" objects.  This is simpler, but means that when growing a stack we have to copy the old contents to a larger area (see `threadStackOverflow()` in [rts/Schedule.c](/trac/ghc/browser/ghc/rts/Schedule.c)).
 
 
-The TSO structure contains several fields.  For full details see [includes/TSO.h](/trac/ghc/browser/ghc/includes/TSO.h).  Some of the more important fields are:
+The TSO structure contains several fields.  For full details see [includes/rts/storage/TSO.h](/trac/ghc/browser/ghc/includes/rts/storage/TSO.h).  Some of the more important fields are:
 
 - *link*: field for linking TSOs together in a list.  For example, the threads blocked on an `MVar` are kept in
   a queue threaded through the link field of each TSO.
@@ -511,7 +511,7 @@ The TSO structure contains several fields.  For full details see [includes/TSO.h
   - `ThreadRelocated`: this thread ran out of stack and has been relocated to a larger TSO; the link field points
     to its new location.
   - `ThreadComplete`: this thread has finished and can be garbage collected when it is unreachable.
-- *why_blocked*: for a blocked thread, indicates why the thread is blocked.  See [includes/Constants.h](/trac/ghc/browser/ghc/includes/Constants.h) for
+- *why_blocked*: for a blocked thread, indicates why the thread is blocked.  See [includes/rts/Constants.h](/trac/ghc/browser/ghc/includes/rts/Constants.h) for
   the list of possible values.
 - *block_info*: for a blocked thread, gives more information about the reason for blockage, eg. when blocked on an
 
