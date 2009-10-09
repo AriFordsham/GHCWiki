@@ -24,8 +24,8 @@ references by the closure.  This information is stored in two parts:
 
 There are two different ways to access this information depending on the size of the SRT:
 
-- "small": if `srt_bitmask` is a small bitmask, not all 1s, then GET_FUN?_SRT contains the SRT.
-- "large": if `srt_bitmask` is all 1s, then GET_FUN?_SRT contains a large bitmap, and the actual SRT.
+- "small": if `srt_bitmap` is a small bitmap, not all 1s, then GET_FUN?_SRT contains the SRT.
+- "large": if `srt_bitmap` is all 1s, then GET_FUN?_SRT contains a large bitmap, and the actual SRT.
 
 ## Evacuating Static Objects
 
