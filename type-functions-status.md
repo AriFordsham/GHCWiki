@@ -12,6 +12,7 @@
 
 - Constraint simplification:
 
+  - [\#3584](https://gitlab.haskell.org//ghc/ghc/issues/3584): premature commitment to an instance declaration
   - [\#3554](https://gitlab.haskell.org//ghc/ghc/issues/3554): assertion failure
   - [\#3500](https://gitlab.haskell.org//ghc/ghc/issues/3500): type functions and recursive dictionaries — need to require UndecidableInstances
   - [\#3484](https://gitlab.haskell.org//ghc/ghc/issues/3484): type checker diverges (involves higher rank types)
