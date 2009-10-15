@@ -61,7 +61,7 @@ However the natural code:
  L: r = R1   -- get return value
     goto M
  M: Hp = Hp + 20
-    if (Hp > HpLim) { do_gc() returns to K;
+    if (Hp > HpLim) { call do_gc returns to K;
                    K: goto M; }
 }}}
 The label M is the head of the call-gc-and-try-again loop.
@@ -74,7 +74,8 @@ We can do better like this:
  L: r = R1
     goto M
  M: Hp = Hp + 20
-    if (Hp > HpLim) { r = do_gc_p(r) returns to K;
+    if (Hp > HpLim) { R1 = r
+                      call do_gc_p returns to K;
                    K: r = R1; goto M; }
 }}}
 
