@@ -100,7 +100,19 @@ We can do better like this:
 
 
 Now the `do_gc_p` call has the same return signature as `foo`
-and can use the same continuation.
+and can use the same continuation, thus:
+
+```wiki
+    ...put params in R1 R2 etc...
+    call foo returns to L
+ L: r = R1
+    goto M
+ M: Hp = Hp + 20
+    if (Hp > HpLim) { R1 = r
+                      call do_gc_p returns to L }
+```
+
+
 (A call followed by a `goto` thus gets optimized down to just the call.)
 
 
