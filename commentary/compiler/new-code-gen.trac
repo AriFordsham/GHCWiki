@@ -22,6 +22,7 @@ In timescale terms it looks like this:
 == Bugs ==
 
 Bug list (code-gen related bugs that we may be able to fix):
+ * #1498 (avoid redundant heap check on the fast path)
  * #3552 (unreachable code)
  * #3462 (a feature)
  * #2249
