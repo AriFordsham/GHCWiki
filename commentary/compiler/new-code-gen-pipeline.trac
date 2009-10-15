@@ -67,10 +67,12 @@ If we do this, we'll generate two info tables, one for L and one for K.
 
 We can do better like this:
 {{{
-    r = foo(1, 2) returns to L
+    ...put params in R1 R2 etc...
+    call foo returns to L
  L: r = R1
     goto M
- M: if (Hp < HpLim) { r = do_gc_p(r) returns to K;
+ M: Hp = Hp + 20
+    if (Hp > HpLim) { r = do_gc_p(r) returns to K;
                    K: r = R1; goto M; }
 }}}
 
