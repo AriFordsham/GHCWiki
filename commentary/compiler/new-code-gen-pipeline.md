@@ -71,10 +71,12 @@ A GC block for a heap check after a call should only take one or two instruction
 However the natural code:
 
 ```wiki
-    r = foo(1, 2) returns to L
+    ...put params in R1 R2 etc...
+    call foo returns to L
  L: r = R1   -- get return value
     goto M
- M: if (Hp < HpLim) { do_gc() returns to K;
+ M: Hp = Hp + 20
+    if (Hp > HpLim) { do_gc() returns to K;
                    K: goto M; }
 ```
 
