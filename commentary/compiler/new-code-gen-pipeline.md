@@ -71,10 +71,12 @@ A GC block for a heap check after a call should only take one or two instruction
 However the natural code:
 
 ```wiki
-    r = foo(1, 2) returns to L
+    ...put params in R1 R2 etc...
+    call foo returns to L
  L: r = R1   -- get return value
     goto M
- M: if (Hp < HpLim) { do_gc() returns to K;
+ M: Hp = Hp + 20
+    if (Hp > HpLim) { call do_gc returns to K;
                    K: goto M; }
 ```
 
@@ -86,16 +88,43 @@ If we do this, we'll generate two info tables, one for L and one for K.
 We can do better like this:
 
 ```wiki
-    r = foo(1, 2) returns to L
+    ...put params in R1 R2 etc...
+    call foo returns to L
  L: r = R1
     goto M
- M: if (Hp < HpLim) { r = do_gc_p(r) returns to K;
+ M: Hp = Hp + 20
+    if (Hp > HpLim) { R1 = r
+                      call do_gc_p returns to K;
                    K: r = R1; goto M; }
 ```
 
 
 Now the `do_gc_p` call has the same return signature as `foo`
-and can use the same continuation.
+and can use the same continuation, thus:
+
+```wiki
+    ...put params in R1 R2 etc...
+    call foo returns to L
+ L: r = R1
+    goto M
+ M: Hp = Hp + 20
+    if (Hp > HpLim) { R1 = r
+                      call do_gc_p returns to L }
+```
+
+
+Now we can coalesce the uniquely-used block M into L, thus:
+
+```wiki
+    ...put params in R1 R2 etc...
+    call foo returns to L
+ L: r = R1
+    Hp = Hp + 20
+    if (Hp > HpLim) { R1 = r
+                      call do_gc_p returns to L }
+```
+
+
 (A call followed by a `goto` thus gets optimized down to just the call.)
 
 
