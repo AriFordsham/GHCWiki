@@ -182,6 +182,8 @@ in order to ignore unimportant build failures in the RTS.
 <H>$ find . -name package.conf.d >> list
 <H>$ find . -name package.conf.inplace >> list
 <H>$ echo compiler/main/Config.hs >> list
+<H>$ echo compiler/prelude/primop.txt >> list
+<H>$ ls compiler/primop-*.hs-incl >> list
 <H>$ find . -name .depend | sed -e 's/^/mkdir -p `dirname /' -e 's/$/`/' >> mkfiles
 <H>$ find . -name .depend | sed "s/^/touch /" >> mkfiles
 <H>$ echo mkfiles >> list
