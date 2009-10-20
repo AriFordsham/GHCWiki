@@ -16,6 +16,7 @@ Here are details about what [platforms GHC supports](platforms).
 
 Here are biannual GHC status reports, published in the [ Haskell Communities and Activities Report](http://haskell.org/communities/)
 
+- [GHC status October 2009](status/oct09)
 - [GHC status May 2009](status/may09)
 - [GHC status October 2008](status/october08)
 - [GHC status May 2008](status/may08)
