@@ -1,6 +1,8 @@
 **NB.** This is an old design document.  The current implementation of Pointer Tagging is described in [Commentary/Rts/HaskellExecution/PointerTagging](commentary/rts/haskell-execution/pointer-tagging).
 
-# The semi-tagging optimisation
+---
+
+# OLD DESIGN DOCUMENT: The semi-tagging optimisation
 
 
 Here I describe the design of the semi-tagging optimisation. Originally the text comes from [ http://hackage.haskell.org/trac/summer-of-code/ticket/48](http://hackage.haskell.org/trac/summer-of-code/ticket/48)
