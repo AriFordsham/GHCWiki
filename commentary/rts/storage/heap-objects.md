@@ -206,7 +206,7 @@ Data constructor closure types:
 - `CONSTR_NOCAF_STATIC`: TODO Needs documentation
 
 
-The entry code for a constructor returns immediately to the topmost stack frame, because the data constructor is already in WHNF.  The return convention may be vectored or non-vectored, depending on the type (see [Commentary/Rts/HaskellExecution](commentary/rts/haskell-execution#return-convention)).
+The entry code for a constructor returns immediately to the topmost stack frame, because the data constructor is already in WHNF.  The return convention may be vectored or non-vectored, depending on the type (see [Commentary/Rts/HaskellExecution/CallingConvention](commentary/rts/haskell-execution/calling-convention)).
 
 
 Symbols related to a data constructor X:

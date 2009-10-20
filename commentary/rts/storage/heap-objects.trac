@@ -173,7 +173,7 @@ Data constructor closure types:
  * {{{CONSTR_STATIC}}}: a statically allocated constructor.
  * {{{CONSTR_NOCAF_STATIC}}}: TODO: Needs documentation
 
-The entry code for a constructor returns immediately to the topmost stack frame, because the data constructor is already in WHNF.  The return convention may be vectored or non-vectored, depending on the type (see [wiki:Commentary/Rts/HaskellExecution#ReturnConvention]).
+The entry code for a constructor returns immediately to the topmost stack frame, because the data constructor is already in WHNF.  The return convention may be vectored or non-vectored, depending on the type (see [wiki:Commentary/Rts/HaskellExecution/CallingConvention]).
 
 Symbols related to a data constructor X:
 
