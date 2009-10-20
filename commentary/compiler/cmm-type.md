@@ -323,8 +323,8 @@ General `GlobalRegs` numbers are decimal integers, see the `parseInteger` functi
 `GlobalRegs` are a very special case in Cmm, partly because they must conform to the STG register convention and the target C calling convention.  That the Cmm parser recognises `R1` and `F3` as `GlobalRegs` is only the first step.  The main files to look at for more information on this delicate topic are:
 
 - [compiler/codeGen/CgCallConv.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgCallConv.hs) (the section on "Register assignment")
-- [includes/Regs.h](/trac/ghc/browser/ghc/includes/Regs.h) (defining STG registers)
-- [includes/MachRegs.h](/trac/ghc/browser/ghc/includes/MachRegs.h) (target-specific mapping of machine registers for *registerised* builds of GHC)
+- [includes/stg/Regs.h](/trac/ghc/browser/ghc/includes/stg/Regs.h) (defining STG registers)
+- [includes/stg/MachRegs.h](/trac/ghc/browser/ghc/includes/stg/MachRegs.h) (target-specific mapping of machine registers for *registerised* builds of GHC)
 - [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm) (examples of `GlobalReg` register usage for out-of-line primops)
 
 
@@ -612,7 +612,7 @@ target
 This is essentially a custom-coded version of the GNU Assembler (`as`) `.machine` directive, which is essentially the same as passing the `-arch [cpu_type]` option to `as`.
 
 
-Cmm does not support the `target` directive.  This is partly due GHC generally lacking cross-compiler capabilities.  Should GHC move toward adding cross-compilation capabilities, the `target` might not be a bad thing to add.  Target architecture parameters are currently handled through the Build System?, which partly sets such architectural parameters through [includes/mkDerivedConstants.c](/trac/ghc/browser/ghc/includes/mkDerivedConstants.c) and [includes/ghcconfig.h](/trac/ghc/browser/ghc/includes/ghcconfig.h).
+Cmm does not support the `target` directive.  This is partly due GHC generally lacking cross-compiler capabilities.  Should GHC move toward adding cross-compilation capabilities, the `target` might not be a bad thing to add.  Target architecture parameters are currently handled through the [Build System](attic/building/build-system), which partly sets such architectural parameters through [includes/mkDerivedConstants.c](/trac/ghc/browser/ghc/includes/mkDerivedConstants.c) and [includes/ghcconfig.h](/trac/ghc/browser/ghc/includes/ghcconfig.h).
 
 ### Expressions
 
