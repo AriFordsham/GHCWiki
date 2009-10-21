@@ -6,6 +6,20 @@ Here we keep track of failures that can occur when building GHC, with solutions.
 
 We don't expect anyone to read this page from beginning to end.  The only way you get here is by searching, so remember when adding a new entry the most important thing to do is to '''include the error message verbatim''', so searches will find it.  If a build failure is caused by a bug in GHC or the build system, please link to the ticket number so we can tell when it's safe to remove the entry and keep this page from getting too crufty.
 
+== wget: missing URL ==
+
+On MSYS I got this:
+{{{
+bash$ ./darcs-all get
+     ....snip...
+== Syncing tarballs
+== running  wget http://darcs.haskell.org/ghc-tarballs/binutils-2.19.1-mingw32-
+bin.tar.gz -O mingw/binutils-2.19.1-mingw32-bin.tar.gz
+wget: missing URL
+Usage: wget [OPTION]... [URL]...
+}}}
+This happened to me with an old version of the shell (say "sh --version").  I think perhaps the path-mangling is different.  With the MSYS recommended [wiki:Building/Preparation/Windows here], all is well.  The shell there is version 3.1.0(1).
+
 == Pulling from "simonpj@darcs.haskell.org;c:\\msys\\1.0\\home\\darcs\\ghc" ==
 
 On Windows under MSYS, suppose your `_darcs/pref/defaultrepo` contains `simonpj@darcs.haskell.org:/home/darcs/ghc` (i.e. you are using an SSH connection). Then `darcs_all` will screw up: 
