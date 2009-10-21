@@ -14,6 +14,7 @@
  * #2831: error expressions and arities
 
 === Inlining ===
+ * #3586: inlining default methods
  * #3526: Inliner behaviour confusing
  * #3198: check this is still ok after the Big INLINE Patch
  * #3181: check unboxing regression fixed in Big INLINE Patch

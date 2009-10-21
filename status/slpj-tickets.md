@@ -16,6 +16,7 @@
 
 ### Inlining
 
+- [\#3586](https://gitlab.haskell.org//ghc/ghc/issues/3586): inlining default methods
 - [\#3526](https://gitlab.haskell.org//ghc/ghc/issues/3526): Inliner behaviour confusing
 - [\#3198](https://gitlab.haskell.org//ghc/ghc/issues/3198): check this is still ok after the Big INLINE Patch
 - [\#3181](https://gitlab.haskell.org//ghc/ghc/issues/3181): check unboxing regression fixed in Big INLINE Patch
