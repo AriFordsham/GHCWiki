@@ -56,7 +56,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 - The same, tidied Core program is now fed to the Back End.  First there is a two-stage conversion from `CoreSyn` to [GHC's intermediate language, StgSyn](commentary/compiler/stg-syn-type).
 
   - The first step is called **CorePrep**, a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually `CorePrep` does quite a bit more: there is a detailed list at the top of the file [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs).
-  - The second step, **CoreToStg**, moves to the `StgSyn` data type (the code is in \[GhcFile(stgSyn/CoreToStg.lhs)?\].  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
+  - The second step, **CoreToStg**, moves to the `StgSyn` data type (the code is in \[GhcFile(compiler/stgSyn/CoreToStg.lhs)?\].  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
 
 - Next, the **[Code Generator](commentary/compiler/code-gen)** converts the STG program to a `C--` program.  The code generator is a Big Mother, and lives in directory [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen)
 
