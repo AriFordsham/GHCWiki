@@ -6,6 +6,40 @@ Here we keep track of failures that can occur when building GHC, with solutions.
 
 We don't expect anyone to read this page from beginning to end.  The only way you get here is by searching, so remember when adding a new entry the most important thing to do is to **include the error message verbatim**, so searches will find it.  If a build failure is caused by a bug in GHC or the build system, please link to the ticket number so we can tell when it's safe to remove the entry and keep this page from getting too crufty.
 
+## tar: unable to record current working directory: No such file or directory
+
+
+On MSYS I got this, during the construction of a binary distribution:
+
+```wiki
+...
+cd bindistprep && "/usr/bin/tar" cf - ghc-6.13.20091020 | bzip2 -c > ../bindistprep/ghc-6.13.20091020-i386-unknown-mingw32.tar.bz2
+/usr/bin/tar: unable to record current working directory: No such file or directory
+```
+
+
+It turns out that, at least on my Windows XP machine, the `tar` in the MSYS bundle for 1.0.10 (namely `tar` version 1.19.90) simply fails when creating a tar archive for a directory.  For example:
+
+```wiki
+sh-3.1$ tar cf foo.tar mk
+tar: unable to record current working directory: No such file or directory
+sh-3.1$ tar --version
+tar (GNU tar) 1.19.90
+```
+
+
+I fixed this by downloading an up-to-date `tar`, from [ http://sourceforge.net/projects/mingw/files/](http://sourceforge.net/projects/mingw/files/).  I put this `tar.exe` in `c:/msys/1.0/bin`, overwriting the old `tar.exe`.  This works:
+
+```wiki
+sh-3.1$ tar cf foo.tar mk
+tar: unable to record current working directory: No such file or directory
+sh-3.1$ tar --version
+tar (GNU tar) 1.22
+```
+
+
+Simon and/or Ian plan to investigate; is MSYS 1.0.10 really so broken?
+
 ## wget: missing URL
 
 
