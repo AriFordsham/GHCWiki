@@ -11,7 +11,7 @@ You should have a look at the wiki page about [wiki:Commentary/Rts/Storage/HeapO
 === TODO: this subject deserves largely more space, and links to GHC commentary pages. ===
 
 ==== Pointer tagging ====
-Recently, Hans-Wolfgang Loidl spotted a number of issues with [wiki:SemiTagging Pointer Tagging] in version 6.8.
+Recently, Hans-Wolfgang Loidl spotted a number of issues with [wiki:Commentary/Rts/HaskellExecution/PointerTagging Pointer Tagging] in version 6.8.
 The e-mail exchange related to this is documented [wiki:GpHEden/PackingAndPointerTagging here: GpHEden-PackingAndPointerTagging].
 
 
