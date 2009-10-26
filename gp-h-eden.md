@@ -16,11 +16,11 @@ The different aspects are covered by separate pages reachable from here.
 
 ## Modifications to implement Eden (and parallel RTS instances in general)
 
-- Compiler Ways? for parallelism
-- Startup and Shutdown? of the parallel system
-- Packing and Unpacking Heap Structures?
-- Primitive Operations for Coordination Control?
-- Placeholders, Garbage Collection, other Aspects?
+- [Compiler Ways](gp-h-eden/compiler-ways) for parallelism
+- [Startup and Shutdown](gp-h-eden/start-stop) of the parallel system
+- [Packing and Unpacking Heap Structures](gp-h-eden/packing)
+- [Primitive Operations for Coordination Control](gp-h-eden/primitives)
+- [Placeholders, Garbage Collection, other Aspects](gp-h-eden/placeholders-and-gc)
 
 
 Future work
