@@ -11,14 +11,11 @@ Installing the following will get you a working build environment with MSYS (alt
   - [http://www.haskell.org/ghc/tools/Win32/msysDTK-1.0.1.exe](http://www.haskell.org/ghc/tools/Win32/msysDTK-1.0.1.exe) (originally from [ http://sourceforge.net/projects/mingw/files/](http://sourceforge.net/projects/mingw/files/) under "MSYS Supplementary Tools")
   - [http://www.haskell.org/ghc/tools/Win32/msysCORE-1.0.11-bin.tar.gz](http://www.haskell.org/ghc/tools/Win32/msysCORE-1.0.11-bin.tar.gz) (originally from [ http://sourceforge.net/projects/mingw/files/](http://sourceforge.net/projects/mingw/files/) under "MSYS Base System") (this is a tar file, which you have to unpack in `c:/msys/1.0`, or wherever you installed MSYS.  Note that you can't do that using an MSYS shell, because you can't overwrite the files in use, so make a copy of `c:/msys/1.0`, unpack it there, and then rename the copy back to `c:/msys/1.0`).
 
-- Install [ Python](http://www.python.org/download/releases/) (version 2.6.2 is a good choice.  2.6.1 causes a problem with the test suite, and we don't support 3.x at this time).
-
 
 The next three are just zip files, you can unpack them wherever you like, but you need to ensure that the programs can be found on your `PATH`.  I usually put all these in `c:/tools` (NB. don't put them anywhere in `c:/msys`, that's special).
 
 - Install Happy: [http://www.haskell.org/ghc/tools/Win32/happy-1.17.zip](http://www.haskell.org/ghc/tools/Win32/happy-1.17.zip)
 - Install Alex: [http://www.haskell.org/ghc/tools/Win32/alex-2.2.zip](http://www.haskell.org/ghc/tools/Win32/alex-2.2.zip)
-- Install Haddock: [http://www.haskell.org/ghc/tools/Win32/haddock-0.8-Win32.zip](http://www.haskell.org/ghc/tools/Win32/haddock-0.8-Win32.zip)
 - Install Darcs: [http://www.haskell.org/ghc/tools/Win32/darcs.zip](http://www.haskell.org/ghc/tools/Win32/darcs.zip)
 
 
