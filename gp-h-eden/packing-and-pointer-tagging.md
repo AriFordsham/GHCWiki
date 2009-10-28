@@ -6,7 +6,7 @@ For now, it reproduces e-mail exchange between Simon Marlow and Hans-Wolfgang Lo
 
 > >
 > > On Tue, 20 Oct 2009 13:16:56 +0100
-> > Simon Marlow\<marlowsd@…\>  wrote:
+> > Simon Marlow\<marlowsd@...\>  wrote:
 > >
 > > >
 > > > On 16/10/2009 21:33, Hans-Wolfgang Loidl wrote:
