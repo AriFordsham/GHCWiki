@@ -16,6 +16,7 @@ You need to use `-ddump-simpl -ddump-prep` when compiling the source files to se
 It's very low level stuff, but in exchange:
 
 - It's guaranteed that adding `-ticky` doesn't affect optimisation or transformation.  It just adds the overhead of performance counters to the final code.
+
 - You can mix modules compiled with `-ticky` and modules compiled without.
 
 
