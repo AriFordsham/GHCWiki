@@ -5,7 +5,7 @@ Ticky-ticky profiling adds counters to every STG function.  It's very low-level,
 
 - Add the `-ticky` flag when compiling a Haskell module to enable "ticky-ticky" profiling of that module.  This makes GHC emit performance-counting instructions in every STG function.  
 
-- Add `-debug` to the command line when linking, so that you link against a version of the runtime system that allows you to display the results.  \[Adding `-ticky` should work too, but it doesn't yet.\]
+- Add `-debug` to the command line when linking, so that you link against a version of the runtime system that allows you to display the results.  \[Adding `-ticky` should work too, but it doesn't yet; see [\#3439](https://gitlab.haskell.org//ghc/ghc/issues/3439).\]
 
 - Add `+RTS -rfoo.ticky` to the run-time command line, to put the ticky-ticky profile in the file `foo.ticky`.
 
@@ -27,13 +27,4 @@ GhcRTSWays += t
 
 # Currently ticky is incompatible with threading
 GhcThreaded = NO
-
-# When linking stage2 you need -ticky, else you get unresolved symols
-GhcStage2HcOpts += -ticky
-
-# Ditto Haddock
-utils/haddock_dist_EXTRA_HC_OPTS += -ticky
 ```
-
-
-But see [\#3439](https://gitlab.haskell.org//ghc/ghc/issues/3439), which would allow you to drop the last two.
