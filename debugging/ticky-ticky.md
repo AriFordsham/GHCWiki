@@ -10,13 +10,16 @@ Ticky-ticky profiling adds counters to every STG function.  It's very low-level,
 - Add `+RTS -rfoo.ticky` to the run-time command line, to put the ticky-ticky profile in the file `foo.ticky`.
 
 
-It's very low level stuff.  You need to use `-ddump-simpl -ddump-prep` when compiling the source files to see the functions that correspond to the performance counter report.
+You need to use `-ddump-simpl -ddump-prep` when compiling the source files to see the functions that correspond to the performance counter report.
 
 
-You can mix modules compiled with `-ticky` and modules compiled without.
+It's very low level stuff, but in exchange:
+
+- It's guaranteed that adding `-ticky` doesn't affect optimisation or transformation.  It just adds the overhead of performance counters to the final code.
+- You can mix modules compiled with `-ticky` and modules compiled without.
 
 
-To really see everything you need to compile all the libraries with `-ticky`.  To do that in a standard build tree, here are some flag settings in `build.mk` that work:
+To *really* see everything you need to compile all the libraries with `-ticky`.  To do that in a standard build tree, here are some flag settings in `build.mk` that work:
 
 ```wiki
 # Build all libraries with -ticky
