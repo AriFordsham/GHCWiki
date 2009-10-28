@@ -5,7 +5,7 @@ Ticky-ticky profiling adds counters to every STG function.  It's very low-level,
 
 - Add the `-ticky` flag when compiling a Haskell module to enable "ticky-ticky" profiling of that module.  This makes GHC emit performance-counting instructions in every STG function.  
 
-- Add `-ticky` to the command line when linking, so that you link against a version of the runtime system that allows you to display the results.
+- Add `-debug` to the command line when linking, so that you link against a version of the runtime system that allows you to display the results.  \[Adding `-ticky` should work too, but it doesn't yet.\]
 
 - Add `+RTS -rfoo.ticky` to the run-time command line, to put the ticky-ticky profile in the file `foo.ticky`.
 
