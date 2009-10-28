@@ -1,7 +1,7 @@
 # Setting up a Windows system for building GHC
 
 
-Installing the following will get you a working build environment with MSYS (alternatively, [install Cygwin](building/windows/cygwin)).  For your convenience we've cached a working set of build tools that you can download.  Note: do not install anything in a directory that contains spaces, because the GHC build system is not capable of handling paths with spaces in.
+Installing the following will get you a working build environment with MSYS (alternatively, [install Cygwin](building/windows/cygwin)).  For your convenience we've cached a working set of build tools that you can download.  Note: we recommend not installing anything in a directory that contains spaces.
 
 - First install a recent stable version of [GHC](http://www.haskell.org/ghc/download.html).
 
