@@ -19,7 +19,7 @@ Annotations are useful for both [Plugins](plugins) and for users that would like
 An annotations system was implemented as part of the Compiler Plugins Summer of Code project (Summer 08). It has been submitted to the HEAD, and will appear in GHC 6.12 and later.  Documentation will be available at [http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html](http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html) when that is released.
 
 
-The situation as-implemented is not well represented by the text below. The annotation system committed in the end is very simple. Basically, you can write things like this:
+The annotation system committed in the end is very simple. Basically, you can write things like this:
 
 ```wiki
 {-# ANN x e #-}
@@ -47,7 +47,41 @@ import GHC
 findAnnsForNamedThing nm = findGlobalAnns deserializeWithData (NamedTarget nm)
 ```
 
-## Summer of Code Implementation (OLD)
+## Why The Implementation Is The Way It Is
+
+- The interface-file loader (part of the GHC library) can't deserialise because it doesn't have an appropriate deserialiser for every type -- a client of the GHC library might be using one unknown to GHC.  That's why Serialized is a pair (TypeRep, \[Word8\])
+- Any particular client, such as [SpecConstr](spec-constr), is interested in annotations of a particular type (let's say just one for now).  That type, T, is known to the client, of course.
+
+
+So the client can take the AnnEnv:
+
+```wiki
+    AnnEnv = NameEnv [Serialized]
+```
+
+
+and convert it to:
+
+```wiki
+     MyAnnEnv = NameEnv T
+```
+
+
+That is, find all the Serializeds whose TypeRep matches T, and deserialise them.
+
+
+The general function is something like:
+
+```wiki
+deserialiseAnnEnv :: Typeable t => ([Word8] -> t) -> AnnEnv -> NameEnv t
+```
+
+
+This function could be in main/Annotations.lhs.
+
+## OLD Implementation Notes
+
+****
 
 
 In this old implementation, annotations look like this:
