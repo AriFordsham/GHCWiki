@@ -82,7 +82,7 @@
 - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): **Ambiguity: don't infer a type that can't be checked if the type is given as a signature** (this one is important).  See SPJ's mailbox: Haskell type system/Ambiguity.
 - [\#2859](https://gitlab.haskell.org//ghc/ghc/issues/2859): optimise coercion terms
 - [\#2641](https://gitlab.haskell.org//ghc/ghc/issues/2641): revise what `-XExtendedDefaultRules` does
-- [\#1634](https://gitlab.haskell.org//ghc/ghc/issues/1634): deep skolemisation
+- [\#1634](https://gitlab.haskell.org//ghc/ghc/issues/1634): deep skolemisation; also this one [\#3592](https://gitlab.haskell.org//ghc/ghc/issues/3592)
 - [\#3018](https://gitlab.haskell.org//ghc/ghc/issues/3018): be lazier about solving class instances
 - [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): interaction of fundeps and type class solving
 - [\#2357](https://gitlab.haskell.org//ghc/ghc/issues/2357): **Implement the Haskell Prime proposal for polymorphic pattern bindings**
