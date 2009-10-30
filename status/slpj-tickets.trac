@@ -3,6 +3,7 @@
 == Performance ==
 
 === Arity ===
+ * #3627: profiling and eta expansion
  * #2915: arity too small
  * #2762: arity analysis would fix a space leak
  * #1216: array indexing, inlining/arity bug	

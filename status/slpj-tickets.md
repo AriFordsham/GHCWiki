@@ -4,6 +4,7 @@
 
 ### Arity
 
+- [\#3627](https://gitlab.haskell.org//ghc/ghc/issues/3627): profiling and eta expansion
 - [\#2915](https://gitlab.haskell.org//ghc/ghc/issues/2915): arity too small
 - [\#2762](https://gitlab.haskell.org//ghc/ghc/issues/2762): arity analysis would fix a space leak
 - [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): array indexing, inlining/arity bug        
