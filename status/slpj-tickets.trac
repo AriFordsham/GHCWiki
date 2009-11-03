@@ -71,6 +71,7 @@
 ------------------------
 == Types and type inference ==
  
+ * #3632: better update for records with existentials
  * #1496: Newtype deriving and type families type soundness problem
  * #1897: '''Ambiguity: don't infer a type that can't be checked if the type is given as a signature''' (this one is important).  See SPJ's mailbox: Haskell type system/Ambiguity.
  * #2859: optimise coercion terms
