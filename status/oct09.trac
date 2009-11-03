@@ -150,7 +150,7 @@ Some highlights
    general-purpose way for a programmer to add annotations to
    top-level definitions that can be consulted by a core-to-core pass,
    and for a core-to-core pass to pass information to its successors
-   [!Annotations].
+   [wiki:Annotations].
    We expect to use these annotations increasingly in GHC itself.
 
 === Parallelism ===
@@ -190,11 +190,11 @@ already; you can switch it on by saying `-fnew-codegen`.  What remains is
 commit to it, which will allow us to remove gargantuan quantities of
 cruft; (c) exploit it, by implementing cool new optimisations at the `C--` level;
 (d) take it further by integrating the native code generators into the 
-same pipeline.  You can read more on the wiki [!CodeGen].
+same pipeline.  You can read more on the wiki [[wiki:Commentary/Compiler/NewCodeGenPipeline !CodeGen]].
 
 Several passes of the new code generation pipeline are supported by Hoopl,
 a Haskell library that makes it easy to write dataflow analyses and optimisations
-over `C--` code [Hoopl].  We think Hoopl is pretty cool, and have well-advanced
+over `C--` code [[http://research.microsoft.com/~simonpj/papers/c-- Hoopl]].  We think Hoopl is pretty cool, and have well-advanced
 ideas for how to improve it a lot more.
 
 All of this has taken longer than we hoped.  Once the new pipeline is in place
@@ -212,7 +212,7 @@ We are particularly grateful to Ben Lippmeier for his work on the SPARC native c
 
  * [!LetGen] "Let should not be generalised", Dimitrios Vytiniotis, Simon Peyton Jones, and Tom Schrijvers, submitted to TLDI'10.  [http://research.microsoft.com/~simonpj/papers/constraints/index.htm]
 
- * [Hoopl] "Hoopl: dataflow optimisation made simple", Norman Ramsey, John Dias, and Simon Peyton Jones, rejected by POPL 2010. [[http://research.microsoft.com/~simonpj/papers/c--]]
+ * [Hoopl] "Hoopl: dataflow optimisation made simple", Norman Ramsey, John Dias, and Simon Peyton Jones, rejected by POPL 2010. [http://research.microsoft.com/~simonpj/papers/c--]
 
  * [Terei] '''Manuel: what URL?'''
 

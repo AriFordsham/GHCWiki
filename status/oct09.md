@@ -161,7 +161,7 @@ Some highlights
   general-purpose way for a programmer to add annotations to
   top-level definitions that can be consulted by a core-to-core pass,
   and for a core-to-core pass to pass information to its successors
-  \[!Annotations\].
+  [Annotations](annotations).
   We expect to use these annotations increasingly in GHC itself.
 
 ### Parallelism
@@ -206,12 +206,12 @@ already; you can switch it on by saying `-fnew-codegen`.  What remains is
 commit to it, which will allow us to remove gargantuan quantities of
 cruft; (c) exploit it, by implementing cool new optimisations at the `C--` level;
 (d) take it further by integrating the native code generators into the 
-same pipeline.  You can read more on the wiki \[CodeGen\].
+same pipeline.  You can read more on the wiki Commentary/Compiler/NewCodeGenPipeline !CodeGen?.
 
 
 Several passes of the new code generation pipeline are supported by Hoopl,
 a Haskell library that makes it easy to write dataflow analyses and optimisations
-over `C--` code \[Hoopl\].  We think Hoopl is pretty cool, and have well-advanced
+over `C--` code [ http://research.microsoft.com/\~simonpj/papers/c-- Hoopl](http://research.microsoft.com/~simonpj/papers/c-- Hoopl).  We think Hoopl is pretty cool, and have well-advanced
 ideas for how to improve it a lot more.
 
 
