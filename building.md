@@ -36,7 +36,7 @@ More detailed information about using the build system
 - [Unregisterised builds](building/unregisterised)
 - [Porting GHC to a new platform](building/porting)
 
-- [Debugging GHC](debugging)
+- [Debugging and performance-tuning for GHC](debugging)
 
 
 More detailed information about how the build system works

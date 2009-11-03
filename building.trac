@@ -34,7 +34,7 @@ More detailed information about using the build system
  * [wiki:Building/Unregisterised Unregisterised builds]
  * [wiki:Building/Porting Porting GHC to a new platform]
 
- * [wiki:Debugging Debugging GHC]
+ * [wiki:Debugging Debugging and performance-tuning for GHC]
 
 More detailed information about how the build system works
  * [wiki:Commentary/SourceTree Overview of files and directories]
