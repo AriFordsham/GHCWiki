@@ -5,7 +5,7 @@ We are just about to make our annual major release, of GHC 6.12.1 (in the follow
 GHC continues to be very active, with many opportunities
 for others to get involved.  We are particularly eager to find partners
 who are willing to take responsibility for a particular platform 
-(e.g. '''Simon M fill in the most popular Tier 2 plaform'''); see [Platforms].
+(e.g. Sparc/Solaris, currently maintained by Ben Lippmeier); see [wiki:Platforms].
 
 == The GHC 6.12 release == 
 
@@ -21,10 +21,10 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
    gotchas that made parallel programs run slowly.
 
  * As part of this parallel-performance tuning, Satnam Singh and Simon
-   Marlow have developed ThreadScope, a GUI that lets you see what is
+   Marlow have developed !ThreadScope, a GUI that lets you see what is
    going on inside your parallel program.  It's a huge step forward
    from "It takes 4 seconds with 1 processor, and 3 seconds with 8
-   processors; now what?".  ThreadScope will be released separately
+   processors; now what?".  !ThreadScope will be released separately
    from GHC, but at more or less the same time as GHC 6.12.
 
  * Dynamic linking is now supported on Linux, and support for other
@@ -44,9 +44,11 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
  * The package system has been made more robust, by associating each
    installed package with a unique identifier based on its exposed ABI.
    Now, cases where the user re-installs a package without recompiling
-   its dependencies will be detected, and the broken dependencies will
+   packages that depend on it will be detected, and the packages with broken dependencies will
    be disabled.  Previously, this would lead to obscure compilation errors,
-   or worse, segfaulting programs.  This involved a large amount of
+   or worse, segfaulting programs.[[BR]]
+   [[BR]]
+   This change involved a large amount of
    internal restructuring, but it paves the way for future improvements
    to the way packages are handled.  For instance, in the future we
    expect to track profiled packages independently of non-profiled ones,
@@ -71,8 +73,7 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
    It'll be depreceated in 6.12 (but will still work), and will be either
    removed or replaced with something simpler in 6.14.
 
-For more detail, see the release notes in the  6.12 User manual [UM], 
-which mention many things skipped over here.
+For more detail, see the release notes in the  [http://www.haskell.org/ghc/dist/current/docs/html/users_guide/index.html 6.12 User manual], which mention many things skipped over here.
 
 Another big change with GHC 6.12 is that Hackage and the Haskell Platform is
 allowing GHC HQ to get out of the libraries business.  So the plan is
@@ -91,8 +92,7 @@ use (an up to date) cabal-install to download libraries, and accept that
 they may not be tested with GHC 6.12.
 
 Lastly, GHC 6.12 has a totally re-engineered build system, with much-improved
-dependency tracking [BuildSystem].  While there have been lots of teething problems, the 
-old system had become increasingly troublesome, so we had to make a change.
+dependency tracking [wiki:Building].  While there have been lots of teething problems, things are settling down and the new system is a huge improvement over the old one.  The main improvement is that you can usually just say `make`, and everything will be brought up to date (before it was often necessary to `make clean` first).  Another improvement is that the new system exposes much more parallelism in the build, so GHC builds faster on multicores.
 
 == What's hot for the next year ==
 
@@ -153,7 +153,17 @@ Some highlights
 
 === Parallelism ===
 
-SIMON MARLOW to write
+Most of the changes in this area were described in our ICFP'09 paper [http://www.haskell.org/~simonmar/bib/multicore-ghc-09_abstract.html Runtime Support for Multicore Haskell].  The highlights:
+
+ * Load-balancing of sparks is now based on lock-free work-stealing queues.
+
+ * The overhead for ''running'' a spark is significantly less, so GHC can take advantage of finer-grained parallelism
+
+ * The parallel GC is now much more locality-aware.  We now do parallel GC in young-generation collections by default, mainly
+   to avoid destroying locality by moving data out of the CPU cache on which it is needed.  Young-generation collections
+   are parallel but not load-balanced.  There are new RTS flags to control parallel GC behaviour.
+
+ * Various other minor performance tweaks.
 
 === Data Parallelism ===
 
@@ -192,11 +202,7 @@ We are particularly grateful to Ben Lippmeier for his work on the SPARC native c
 
 == References ==
 
-[Platforms]  '''A wiki ref'''
-[[BR]]
-[IHG]  Industrial Haskell Group 
-[http://industry.haskell.org]
-[[BR]]
+[
 [UM]   GHC 6.12 user manual 
 [http://haskell.org/ghc]
 [[BR]]
