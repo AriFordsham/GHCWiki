@@ -204,12 +204,6 @@ We are particularly grateful to Ben Lippmeier for his work on the SPARC native c
 
 == References ==
 
-[
-[UM]   GHC 6.12 user manual 
-[http://haskell.org/ghc]
-[[BR]]
-[BuildSystem] '''A wiki ref'''
-[[BR]]
 [ICFP09] "Complete and Decidable Type Inference for GADTs", Tom Schrijvers, 
 Simon Peyton Jones, Martin Sulzmann, and Dimitrios Vytiniotis. ICFP'09. 
 [http://research.microsoft.com/~simonpj/papers/gadt]
