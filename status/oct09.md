@@ -118,15 +118,17 @@ Vytiniotis, Martin Sulzmann, and Manuel Chakravarty have been working
 with Simon PJ to understand the fundamentals and, in the light of that
 insight, to re-engineer the implementation into something more robust.
 We have developed the "OutsideIn" algorithm, which gives a much nicer
-account of type inference than our previous story of type inference
+account of type inference than our previous story of type inference.
+The new approach is described in [ Complete and Decidable Type Inference for GADTs](http://research.microsoft.com/~simonpj/papers/gadt) 
 \[ICFP09a\]. More controversially, we now believe that local let/where
-bindings should not be generalised \[LetGen\].  Dimitrios is building a
+bindings should not be generalised -- 
+see [ should not be generalised](http://research.microsoft.com/~simonpj/papers/constraintsLet) \[LetGen\].  Dimitrios is building a
 prototype that embodies these ideas, which we'll then transfer into
 GHC.
 
 
 Meanwhile, Dimitrios, Simon, and Stephanie Weirich are also working on
-fixing one of GHC's more embarassing bugs (Trac [\#1969](https://gitlab.haskell.org//ghc/ghc/issues/1969)**Simon check**),
+fixing one of GHC's more embarassing bugs (Trac [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496)),
 whereby an interaction of type families and the newtype-deriving can
 persuade GHC to generate type-unsound code. It's remained un-fixed
 because the obvious approaches seem to be hacks, so the cure was as
@@ -139,19 +141,19 @@ Although it is, by design, invisible to users, GHC's intermediate language
 and optimsation passes have been receiving quite a bit of attention.
 Some highlights
 
-- Read Max Bolingbroke's paper on Strict Core \[MaxB\], a possible new
+- Read Max Bolingbroke's paper on [ Strict Core](http://www.cl.cam.ac.uk/~mb566/papers/tacc-hs09.pdf) \[MaxB\], a possible new
   intermediate language for GHC.  Adopting Strict Core would be a Big 
   Change, however, and we have not decided to do so (yet).
 
 - Simon PJ totally re-engineered the way that INLINE pragmas are 
   implemented., with the goal of making them more robust and 
-  predicatable \[InlinePatch\].  There's a new CONLIKE pragma which
+  predicatable [ http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html !InlinePatch](http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html !InlinePatch).  There's a new CONLIKE pragma which
   affects rule matching.
 
 - Peter Jonsson did an internship in which he made a start on turning
-  GHC into a supercompiler.  Neil Mitchell's terrific PhD thesis suggested
+  GHC into a supercompiler.  Neil Mitchell's [ terrific PhD thesis](http://community.haskell.org/~ndm/thesis/) suggested
   that supercompliation works well for Haskell \[!NeilM\], and Peter has been working on
-  supercompilation for Timber as part of his own PhD \[!PeterJ\].
+  supercompilation for Timber as part of his [ own PhD](http://www.csee.ltu.se/~pj/papers/scp/index.html) \[!PeterJ\].
   The GHC version isn't ready for prime time yet, but Simon PJ (now
   educated by Peter and Neil) is keen to pursue it.
 
@@ -165,7 +167,7 @@ Some highlights
 ### Parallelism
 
 
-Most of the changes in this area in GHC 6.12.1 were described in our ICFP'09 paper \[!ICFP09b\][ Runtime Support for Multicore Haskell](http://www.haskell.org/~simonmar/bib/multicore-ghc-09_abstract.html).  The highlights:
+Most of the changes in this area in GHC 6.12.1 were described in our ICFP'09 paper [ Runtime Support for Multicore Haskell](http://www.haskell.org/~simonmar/bib/multicore-ghc-09_abstract.html) \[ICFP09b\].  The highlights:
 
 - Load-balancing of sparks is now based on lock-free work-stealing queues.
 
