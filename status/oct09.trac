@@ -153,7 +153,7 @@ Some highlights
 
 === Parallelism ===
 
-Most of the changes in this area were described in our ICFP'09 paper [http://www.haskell.org/~simonmar/bib/multicore-ghc-09_abstract.html Runtime Support for Multicore Haskell].  The highlights:
+Most of the changes in this area in GHC 6.12.1 were described in our ICFP'09 paper [http://www.haskell.org/~simonmar/bib/multicore-ghc-09_abstract.html Runtime Support for Multicore Haskell].  The highlights:
 
  * Load-balancing of sparks is now based on lock-free work-stealing queues.
 
@@ -164,6 +164,8 @@ Most of the changes in this area were described in our ICFP'09 paper [http://www
    are parallel but not load-balanced.  There are new RTS flags to control parallel GC behaviour.
 
  * Various other minor performance tweaks.
+
+In the future we plan to focus on the GC, with the main goal being to implement independent per-CPU collection.  The other area we plan to look at is changing the GC policy for sparks, as described in our ICFP'09 paper; this will need a corresponding change to the Strategies library to avoid relying on the current "sparks are roots" GC policy, which causes difficulties for writing parallel code that exploits speculation.
 
 === Data Parallelism ===
 
