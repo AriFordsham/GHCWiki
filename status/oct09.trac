@@ -5,7 +5,7 @@ We are just about to make our annual major release, of GHC 6.12.1 (in the follow
 GHC continues to be very active, with many opportunities
 for others to get involved.  We are particularly eager to find partners
 who are willing to take responsibility for a particular platform 
-(e.g. Sparc/Solaris, currently maintained by Ben Lippmeier); see [wiki:Platforms].
+(e.g. Sparc/Solaris, currently maintained by Ben Lippmeier); see [Platforms].
 
 == The GHC 6.12 release == 
 
@@ -29,7 +29,7 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
 
  * Dynamic linking is now supported on Linux, and support for other
    platforms will follow.  Thanks for this most recently go to
-   the [http://industry.haskell.org Industrial Haskell Group] (thank you, IHG!) who
+   the [http://industry.haskell.org Industrial Haskell Group] (thank you [IHG]!) who
    pushed it into a fully-working state; dynamic linking is the culmination of the work of
    several people over recent years.[[BR]]
    [[BR]]
@@ -73,7 +73,7 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
    It'll be depreceated in 6.12 (but will still work), and will be either
    removed or replaced with something simpler in 6.14.
 
-For more detail, see the release notes in the  [http://www.haskell.org/ghc/dist/current/docs/html/users_guide/index.html 6.12 User manual], which mention many things skipped over here.
+For more detail, see the release notes in the [http://www.haskell.org/ghc/dist/current/docs/html/users_guide/index.html 6.12 User manual] [!UserManual], which mention many things skipped over here.
 
 Another big change with GHC 6.12 is that Hackage and the Haskell Platform is
 allowing GHC HQ to get out of the libraries business.  So the plan is
@@ -110,7 +110,7 @@ with Simon PJ to understand the fundamentals and, in the light of that
 insight, to re-engineer the implementation into something more robust.
 We have developed the "!OutsideIn" algorithm, which gives a much nicer
 account of type inference than our previous story of type inference
-[ICFP09].  More controversially, we now believe that local let/where
+[ICFP09a]. More controversially, we now believe that local let/where
 bindings should not be generalised [!LetGen].  Dimitrios is building a
 prototype that embodies these ideas, which we'll then transfer into
 GHC.
@@ -202,7 +202,7 @@ Krzysztof Wos is just beginning an undergraduate project on optimisation in the 
 We are particularly grateful to Ben Lippmeier for his work on the SPARC native code generator.
 
 
-== References ==
+== Bibliography: papers ==
 
  * [ICFP09a] "Complete and Decidable Type Inference for GADTs", Tom Schrijvers, Simon Peyton Jones, Martin Sulzmann, and Dimitrios Vytiniotis. ICFP'09.  [http://research.microsoft.com/~simonpj/papers/gadt]
 
@@ -222,6 +222,14 @@ We are particularly grateful to Ben Lippmeier for his work on the SPARC native c
 
  * [PeterJ] "Positive supercompliation for a higher order call-by-value language", Peter Jonsson and Johan Nordlander, POPL 2009. [http://www.csee.ltu.se/~pj/papers/scp/index.html]
 
- * [Annotations] Annotations in GHC [http://hackage.haskell.org/trac/ghc/wiki/Annotations]
+ * [IHG] The Industrial Haskell Group. http://industry.haskell.org
 
- * [!CodeGen] The new codegen pipeline [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGenPipeline]
+ * [UserManual] GHC 6.12 user manual.  http://www.haskell.org/ghc/dist/current/docs/html/users_guide/index.htm
+
+== Bibliography: wiki==
+
+All these URLs should be preceded with http://hackage.haskell.org/trac/ghc/wiki
+
+ * [Platforms] Platforms that GHC supports [wiki:Platforms]
+ * [Annotations] Annotations in GHC [wiki:Annotations]
+ * [!CodeGen] The new codegen pipeline [wike:Commentary/Compiler/NewCodeGenPipeline]
