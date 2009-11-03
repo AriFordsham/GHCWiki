@@ -7,7 +7,10 @@ This part of the wiki collects all the information related to debugging GHC: tha
 
 - **Debugging a compiled program**. If the compiled program crashes or panics, then go to [Debugging/CompiledCode](debugging/compiled-code)
 
-- **Performance debugging**. If you are debugging performance-related issues in compiled code, try [Debugging/TickyTicky](debugging/ticky-ticky).
+- **Performance debugging**. 
+
+  - [Debugging/TickyTicky](debugging/ticky-ticky): for debugging performance-related issues in compiled code.  Typically for performance debugging of the Simplifier and Core-level optimisations.
+  - [Debugging/LowLevelProfiling](debugging/low-level-profiling): way to investigate low-level performance, typically for performance debugging of the code generator or RTS.
 
 - **Build failures**.  If you're trying to debug a build failure, then you probably want to look at
 
