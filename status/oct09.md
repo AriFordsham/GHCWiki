@@ -150,8 +150,8 @@ Some highlights
 
 - Peter Jonsson did an internship in which he made a start on turning
   GHC into a supercompiler.  Neil Mitchell's terrific PhD thesis suggested
-  that supercompliation works well for Haskell \[NeilM\], and Peter has been working on
-  supercompilation for Timber as part of his own PhD \[Peter J\].
+  that supercompliation works well for Haskell \[!NeilM\], and Peter has been working on
+  supercompilation for Timber as part of his own PhD \[!PeterJ\].
   The GHC version isn't ready for prime time yet, but Simon PJ (now
   educated by Peter and Neil) is keen to pursue it.
 
@@ -159,13 +159,13 @@ Some highlights
   general-purpose way for a programmer to add annotations to
   top-level definitions that can be consulted by a core-to-core pass,
   and for a core-to-core pass to pass information to its successors
-  \[Annotations\].
+  \[!Annotations\].
   We expect to use these annotations increasingly in GHC itself.
 
 ### Parallelism
 
 
-Most of the changes in this area in GHC 6.12.1 were described in our ICFP'09 paper [ Runtime Support for Multicore Haskell](http://www.haskell.org/~simonmar/bib/multicore-ghc-09_abstract.html).  The highlights:
+Most of the changes in this area in GHC 6.12.1 were described in our ICFP'09 paper \[!ICFP09b\][ Runtime Support for Multicore Haskell](http://www.haskell.org/~simonmar/bib/multicore-ghc-09_abstract.html).  The highlights:
 
 - Load-balancing of sparks is now based on lock-free work-stealing queues.
 
@@ -221,34 +221,24 @@ We are particularly grateful to Ben Lippmeier for his work on the SPARC native c
 
 ## References
 
+- \[ICFP09a\] "Complete and Decidable Type Inference for GADTs", Tom Schrijvers, Simon Peyton Jones, Martin Sulzmann, and Dimitrios Vytiniotis. ICFP'09.  [ http://research.microsoft.com/\~simonpj/papers/gadt](http://research.microsoft.com/~simonpj/papers/gadt)
 
-\[ICFP09\] "Complete and Decidable Type Inference for GADTs", Tom Schrijvers, 
-Simon Peyton Jones, Martin Sulzmann, and Dimitrios Vytiniotis. ICFP'09. 
-[ http://research.microsoft.com/\~simonpj/papers/gadt](http://research.microsoft.com/~simonpj/papers/gadt)
+- \[ICFP09b\] "Runtime Support for Multicore Haskell", Simon Marlow, Satnam Singh, and Simon Peyton Jones, ICFP 2009. [ http://www.haskell.org/\~simonmar/bib/multicore-ghc-09_abstract.html](http://www.haskell.org/~simonmar/bib/multicore-ghc-09_abstract.html)
 
-\[LetGen\] "Let should not be generalised", Dimitrios Vytiniotis, Simon
-Peyton Jones, and Tom Schrijvers, submitted to TLDI'10. 
-[ http://research.microsoft.com/\~simonpj/papers/constraints/index.htm](http://research.microsoft.com/~simonpj/papers/constraints/index.htm)
+- \[LetGen\] "Let should not be generalised", Dimitrios Vytiniotis, Simon Peyton Jones, and Tom Schrijvers, submitted to TLDI'10.  [ http://research.microsoft.com/\~simonpj/papers/constraints/index.htm](http://research.microsoft.com/~simonpj/papers/constraints/index.htm)
 
-\[Hoopl\] "Hoopl: dataflow optimisation made simple", Norman Ramsey, John Dias, and Simon Peyton Jones, 
-rejected by POPL 2010.
-[ http://research.microsoft.com/\~simonpj/papers/c--](http://research.microsoft.com/~simonpj/papers/c--)
+- \[Hoopl\] "Hoopl: dataflow optimisation made simple", Norman Ramsey, John Dias, and Simon Peyton Jones, rejected by POPL 2010. [ http://research.microsoft.com/\~simonpj/papers/c--](http://research.microsoft.com/~simonpj/papers/c--)
 
-\[Terei\] **Manuel: what URL?**
+- \[Terei\] **Manuel: what URL?**
 
-\[MaxB\] "Types are calling conventions", Max Bolingbroke and Simon Peyton Jones, Haskell Symposium 2009.
-[ http://www.cl.cam.ac.uk/\~mb566/papers/tacc-hs09.pdf](http://www.cl.cam.ac.uk/~mb566/papers/tacc-hs09.pdf)
+- \[MaxB\] "Types are calling conventions", Max Bolingbroke and Simon Peyton Jones, Haskell Symposium 2009. [ http://www.cl.cam.ac.uk/\~mb566/papers/tacc-hs09.pdf](http://www.cl.cam.ac.uk/~mb566/papers/tacc-hs09.pdf)
 
-\[InlinePatch\] The big INLINE patch [ http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html](http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html)
+- \[InlinePatch\] The big INLINE patch [ http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html](http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html)
 
-\[NeilM\] "Transformation and Analysis of Functional Programs", Neil Mitchelll, 
-PhD thesis, University of York, 2009. 
-[ http://community.haskell.org/\~ndm/thesis/](http://community.haskell.org/~ndm/thesis/)
+- \[NeilM\] "Transformation and Analysis of Functional Programs", Neil Mitchelll, PhD thesis, University of York, 2009. [ http://community.haskell.org/\~ndm/thesis/](http://community.haskell.org/~ndm/thesis/)
 
-\[PeterJ\] "Positive supercompliation for a higher order call-by-value language", 
-Peter Jonsson and Johan Nordlander, POPL 2009.
-[ http://www.csee.ltu.se/\~pj/papers/scp/index.html](http://www.csee.ltu.se/~pj/papers/scp/index.html)
+- \[PeterJ\] "Positive supercompliation for a higher order call-by-value language", Peter Jonsson and Johan Nordlander, POPL 2009. [ http://www.csee.ltu.se/\~pj/papers/scp/index.html](http://www.csee.ltu.se/~pj/papers/scp/index.html)
 
-\[Annotations\] **A wiki ref**
+- \[Annotations\] Annotations in GHC [ http://hackage.haskell.org/trac/ghc/wiki/Annotations](http://hackage.haskell.org/trac/ghc/wiki/Annotations)
 
-\[CodeGen\] **A wiki ref**
+- \[CodeGen\] The new codegen pipeline [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGenPipeline](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGenPipeline)
