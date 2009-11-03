@@ -1,1 +1,2 @@
-redirect(wiki:Debugging/LowLevelProfiling/PAPI)?
+
+\[\[redirect([wiki:Debugging/LowLevelProfiling/PAPI](debugging/low-level-profiling/papi))
