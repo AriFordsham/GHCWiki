@@ -3,11 +3,11 @@
 
 = Low-level Profiling =
 
+ * [wiki:Debugging/LowLevelProfiling/PAPI]
+
 == Event tracing ==
 
 == oprofile ==
-
-== PAPI ==
 
 == dtrace ==
 
