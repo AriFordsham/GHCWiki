@@ -50,10 +50,6 @@ These patches are not submitted to the HEAD (yet?) because they are not mature, 
 
 To collect statistics just run make inside nofib as usual, as an example let's collect statistics together with cache misses: {{{make papi=1}}}.
 
-= Work in progress =
-
-The PAPI framework has been used to measure the effects of the [wiki:SemiTagging semi-tagging optimisation], in particular, the effects on branch misprediction. We are currently writing a paper and cleaning up the code for this optimisation.
-
 = Resources =
 
  * [http://icl.cs.utk.edu/papi/] PAPI home page.
