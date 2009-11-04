@@ -373,4 +373,4 @@ The speedup relative to a sequential C program for SumSq, DotP, and SMVM on both
 ### Regular, multidimensional arrays
 
 
-First benchmark results for the multiplication of two dense matrices using `dph-seq` are in the attachment *delayed-regular-arrays-Sep09*.
+First benchmark results for the multiplication of two dense matrices using `dph-seq` are summarised in [ comparison graph](http://www.scribd.com/doc/22091707/Delayed-Regular-Arrays-Sep09).
