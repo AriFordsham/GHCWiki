@@ -35,7 +35,6 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
   the [ Industrial Haskell Group](http://industry.haskell.org) (thank you \[IHG\]!) who
   pushed it into a fully-working state; dynamic linking is the culmination of the work of
   several people over recent years.
-
   One effect of dynamic linking is that binaries shrink dramatically, because the run-time
   system and libraries are shared.  Perhaps more importantly, it is possible
   to make dynamic plugins from Haskell code that can be used from other
@@ -51,7 +50,7 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
   be disabled.  Previously, this would lead to obscure compilation errors,
   or worse, segfaulting programs.
 
-  This change involved a large amount of
+  This change involved a lot of
   internal restructuring, but it paves the way for future improvements
   to the way packages are handled.  For instance, in the future we
   expect to track profiled packages independently of non-profiled ones,
@@ -60,21 +59,20 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
   facility will be especially important as we move towards using
   more shared libraries.
 
-- A variety of small improvements to data types: record punning,
-  declararing constructors with class constraints, GADT syntax for
-  type fammilies etc.
+- There are a variety of small language changes, including
 
-- You can omit the "`$`" in a top-level Template Haskell splice, which
-  makes the TH call look more like an ordinary top-level declaration with
-  a new keyword.
-
-- We're are deprecating `mdo` for recursive do-notation, in favour of
-  the more expressive `rec` statement.
-
-- We've concluded that the implementation of impredicative
-  polymorphism is unsustainably complicated, so we are re-trenching.
-  It'll be depreceated in 6.12 (but will still work), and will be either
-  removed or replaced with something simpler in 6.14.
+  - Some improvements to data types: record punning,
+    declaring constructors with class constraints, GADT syntax for
+    type families etc.
+  - You can omit the "`$`" in a top-level Template Haskell splice, which
+    makes the TH call look more like an ordinary top-level declaration with
+    a new keyword.
+  - We're are deprecating `mdo` for recursive do-notation, in favour of
+    the more expressive `rec` statement.
+  - We've concluded that the implementation of impredicative
+    polymorphism is unsustainably complicated, so we are re-trenching.
+    It'll be deprecated in 6.12 (but will still work), and will be either
+    removed or replaced with something simpler in 6.14.
 
 
 For more detail, see the release notes in the [6.12 User manual](http://www.haskell.org/ghc/dist/current/docs/html/users_guide/index.html) \[UserManual\], which mention many things skipped over here.
