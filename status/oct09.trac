@@ -214,7 +214,7 @@ We are particularly grateful to Ben Lippmeier for his work on the SPARC native c
 
  * [Hoopl] "Hoopl: dataflow optimisation made simple", Norman Ramsey, John Dias, and Simon Peyton Jones, rejected by POPL 2010. [http://research.microsoft.com/~simonpj/papers/c--]
 
- * [Terei] '''Manuel: what URL?'''
+ * [Terei] "Low Level Virtual Machine for Glasgow Haskell Compiler", David A. Terei, BSc Thesis. [http://www.cse.unsw.edu.au/~pls/thesis/davidt-thesis.pdf]
 
  * [MaxB] "Types are calling conventions", Max Bolingbroke and Simon Peyton Jones, Haskell Symposium 2009. [http://www.cl.cam.ac.uk/~mb566/papers/tacc-hs09.pdf]
 
