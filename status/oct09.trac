@@ -102,7 +102,7 @@ we are working on at the moment.
 
 Type families have proved a great success.  From the outside it might
 seem that they are done -- after all, they are in GHC 6.10 -- but the
-internals are quite fragile and it's amazing that it all works well as
+internals are quite fragile and it's amazing that it all works as well as
 it does.  (Thanks to Manuel's work.)  Tom Schrijver, Dimitrios
 Vytiniotis, Martin Sulzmann, and Manuel Chakravarty have been working
 with Simon PJ to understand the fundamentals and, in the light of that
@@ -123,10 +123,10 @@ persuade GHC to generate type-unsound code. It's remained un-fixed
 because the obvious approaches seem to be hacks, so the cure was as
 bad as the disease.  We think we are on to something; stay tuned.
 
-=== Interemediate language and optimisation ===
+=== Intermediate language and optimisation ===
 
 Although it is, by design, invisible to users, GHC's intermediate language
-and optimsation passes have been receiving quite a bit of attention.
+and optimisation passes have been receiving quite a bit of attention.
 Some highlights
 
  * Read Max Bolingbroke's paper on [http://www.cl.cam.ac.uk/~mb566/papers/tacc-hs09.pdf Strict Core] [MaxB], a possible new
@@ -134,7 +134,7 @@ Some highlights
    Change, however, and we have not decided to do so (yet).
 
  * Simon PJ totally re-engineered the way that INLINE pragmas are 
-   implemented., with the goal of making them more robust and 
+   implemented, with the goal of making them more robust and 
    predicatable [[http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html !InlinePatch]].  There's a new CONLIKE pragma which
    affects rule matching.
 
