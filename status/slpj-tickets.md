@@ -113,8 +113,9 @@
 
 ---
 
-## Template Haskell features
+## Template Haskell
 
+- [\#3492](https://gitlab.haskell.org//ghc/ghc/issues/3492): refactor `TyThing` to `HsSyn` code
 - [\#3497](https://gitlab.haskell.org//ghc/ghc/issues/3497): Template Haskell support for GADTs
 - [\#3507](https://gitlab.haskell.org//ghc/ghc/issues/3507): use "`type T`" instead of `''T`
 
