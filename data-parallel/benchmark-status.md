@@ -369,3 +369,8 @@ On this machine, "SMVM primitives" & "SMVM, vectorised" also have a quirk from 2
 
 
 The speedup relative to a sequential C program for SumSq, DotP, and SMVM on both architectures is illustrated by [ two summary graphs.](http://justtesting.org/post/85103645/these-graphs-summarise-the-performance-of-data)  In all cases, the data parallel Haskell program outperforms the sequential C program by a large margin on 8 cores.  The gray curve is a parallel C program computing the dot product using pthreads.  It clearly shows that the two Quad-Core Xeon with 8x1 threads are memory-limited for this benchmark, and the C code is barely any faster on 8 cores than the Haskell code.
+
+### Regular, multidimensional arrays
+
+
+First benchmark results for the multiplication of two dense matrices using `dph-seq` are summarised in [ comparison graph](http://www.scribd.com/doc/22091707/Delayed-Regular-Arrays-Sep09).
