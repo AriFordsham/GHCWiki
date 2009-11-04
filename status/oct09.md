@@ -185,7 +185,7 @@ In the future we plan to focus on the GC, with the main goal being to implement 
 ### Data Parallelism
 
 
-MANUEL CHAKRAVARTY to write
+Data Parallel Haskell has seen few user-visible changes since the last report.  Nevertheless, Roman Leshchinskiy has been busy improving many of the fundamental building blocks behind the scenes.  These changes were necessary as DPH was able to generate very fast parallel code for simple examples, but the optimisation infrastructure was been too fragile — i.e., small changes to other parts of GHC (most notably, the Simplifier) or to the DPH libraries could lead to dramatic performance regressions.  Over the last few months, Roman has been working on making the system more robust, while Simon PJ improved and extended parts of GHC's existing optimisation infrastructure (such as the Inliner and other aspects of the Simplifier) to support Roman's efforts.  As a first consequence of these efforts, the divide-and-conquer quickhull benchmark (computing a convex hull) is now significantly faster than the corresponding list-based implementation \[QuickHull\].  This is an important milestone as quickhull uses dynamically nested parallelism whose depth is not statically bound.
 
 ### Code generation
 
@@ -231,7 +231,7 @@ We are particularly grateful to Ben Lippmeier for his work on the SPARC native c
 
 - \[Hoopl\] "Hoopl: dataflow optimisation made simple", Norman Ramsey, John Dias, and Simon Peyton Jones, rejected by POPL 2010. [ http://research.microsoft.com/\~simonpj/papers/c--](http://research.microsoft.com/~simonpj/papers/c--)
 
-- \[Terei\] **Manuel: what URL?**
+- \[Terei\] "Low Level Virtual Machine for Glasgow Haskell Compiler", David A. Terei, BSc Thesis. [ http://www.cse.unsw.edu.au/\~pls/thesis/davidt-thesis.pdf](http://www.cse.unsw.edu.au/~pls/thesis/davidt-thesis.pdf)
 
 - \[MaxB\] "Types are calling conventions", Max Bolingbroke and Simon Peyton Jones, Haskell Symposium 2009. [ http://www.cl.cam.ac.uk/\~mb566/papers/tacc-hs09.pdf](http://www.cl.cam.ac.uk/~mb566/papers/tacc-hs09.pdf)
 
@@ -244,6 +244,8 @@ We are particularly grateful to Ben Lippmeier for his work on the SPARC native c
 - \[IHG\] The Industrial Haskell Group. [ http://industry.haskell.org](http://industry.haskell.org)
 
 - \[UserManual\] GHC 6.12 user manual.  [http://www.haskell.org/ghc/dist/current/docs/html/users_guide/index.htm](http://www.haskell.org/ghc/dist/current/docs/html/users_guide/index.htm)
+
+- \[QuickHull\] [ http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs)
 
 ## Bibliography: wiki
 
