@@ -7,7 +7,7 @@ We are just about to make our annual major release, of GHC 6.12.1 (in the follow
 GHC continues to be very active, with many opportunities
 for others to get involved.  We are particularly eager to find partners
 who are willing to take responsibility for a particular platform 
-(e.g. Sparc/Solaris, currently maintained by Ben Lippmeier); see \[Platforms\].
+(e.g. Sparc/Solaris, currently maintained by Ben Lippmeier); see [Platforms](platforms).
 
 ## The GHC 6.12 release
 
@@ -35,7 +35,6 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
   the [ Industrial Haskell Group](http://industry.haskell.org) (thank you \[IHG\]!) who
   pushed it into a fully-working state; dynamic linking is the culmination of the work of
   several people over recent years.
-
   One effect of dynamic linking is that binaries shrink dramatically, because the run-time
   system and libraries are shared.  Perhaps more importantly, it is possible
   to make dynamic plugins from Haskell code that can be used from other
@@ -51,7 +50,7 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
   be disabled.  Previously, this would lead to obscure compilation errors,
   or worse, segfaulting programs.
 
-  This change involved a large amount of
+  This change involved a lot of
   internal restructuring, but it paves the way for future improvements
   to the way packages are handled.  For instance, in the future we
   expect to track profiled packages independently of non-profiled ones,
@@ -60,24 +59,29 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
   facility will be especially important as we move towards using
   more shared libraries.
 
-- A variety of small improvements to data types: record punning,
-  declararing constructors with class constraints, GADT syntax for
-  type fammilies etc.
+- There are a variety of small language changes, including
 
-- You can omit the "`$`" in a top-level Template Haskell splice, which
-  makes the TH call look more like an ordinary top-level declaration with
-  a new keyword.
-
-- We're are deprecating `mdo` for recursive do-notation, in favour of
-  the more expressive `rec` statement.
-
-- We've concluded that the implementation of impredicative
-  polymorphism is unsustainably complicated, so we are re-trenching.
-  It'll be depreceated in 6.12 (but will still work), and will be either
-  removed or replaced with something simpler in 6.14.
+  - Some improvements to data types: record punning,
+    declaring constructors with class constraints, GADT syntax for
+    type families etc.
+  - You can omit the "`$`" in a top-level Template Haskell splice, which
+    makes the TH call look more like an ordinary top-level declaration with
+    a new keyword.
+  - We're are deprecating `mdo` for recursive do-notation, in favour of
+    the more expressive `rec` statement.
+  - We've concluded that the implementation of impredicative
+    polymorphism is unsustainably complicated, so we are re-trenching.
+    It'll be deprecated in 6.12 (but will still work), and will be either
+    removed or replaced with something simpler in 6.14.
 
 
 For more detail, see the release notes in the [6.12 User manual](http://www.haskell.org/ghc/dist/current/docs/html/users_guide/index.html) \[UserManual\], which mention many things skipped over here.
+
+
+Internally, GHC 6.12 has a totally re-engineered build system, with much-improved
+dependency tracking [Building](building).  While there have been lots of teething problems, things are settling down and the new system is a huge improvement over the old one.  The main improvement is that you can usually just say `make`, and everything will be brought up to date (before it was often necessary to `make clean` first).  Another improvement is that the new system exposes much more parallelism in the build, so GHC builds faster on multicores.
+
+## GHC and the Haskell platform
 
 
 Another big change with GHC 6.12 is that Hackage and the Haskell Platform is
@@ -96,10 +100,6 @@ So if you are Joe User, you want to wait for the HP release.  Don't
 grab the GHC 6.12 release.  It'll be perfectly usable, but only if you
 use (an up to date) cabal-install to download libraries, and accept that
 they may not be tested with GHC 6.12.
-
-
-Lastly, GHC 6.12 has a totally re-engineered build system, with much-improved
-dependency tracking [Building](building).  While there have been lots of teething problems, things are settling down and the new system is a huge improvement over the old one.  The main improvement is that you can usually just say `make`, and everything will be brought up to date (before it was often necessary to `make clean` first).  Another improvement is that the new system exposes much more parallelism in the build, so GHC builds faster on multicores.
 
 ## What's hot for the next year
 
@@ -262,6 +262,7 @@ We are particularly grateful to Ben Lippmeier for his work on the SPARC native c
 
 All these URLs should be preceded with [ http://hackage.haskell.org/trac/ghc/wiki](http://hackage.haskell.org/trac/ghc/wiki)
 
+- \[Building\] GHC's new build system [Building](building)
 - \[Platforms\] Platforms that GHC supports [Platforms](platforms)
 - \[Annotations\] Annotations in GHC [Annotations](annotations)
 - \[CodeGen\] The new codegen pipeline [Commentary/Compiler/NewCodeGenPipeline](commentary/compiler/new-code-gen-pipeline)
