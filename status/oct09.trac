@@ -5,7 +5,7 @@ We are just about to make our annual major release, of GHC 6.12.1 (in the follow
 GHC continues to be very active, with many opportunities
 for others to get involved.  We are particularly eager to find partners
 who are willing to take responsibility for a particular platform 
-(e.g. Sparc/Solaris, currently maintained by Ben Lippmeier); see [Platforms].
+(e.g. Sparc/Solaris, currently maintained by Ben Lippmeier); see [[wiki:Platforms]].
 
 == The GHC 6.12 release == 
 
