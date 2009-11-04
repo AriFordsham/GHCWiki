@@ -112,7 +112,7 @@ account of type inference than our previous story of type inference.
 The new approach is described in [http://research.microsoft.com/~simonpj/papers/gadt Complete and Decidable Type Inference for GADTs] 
 [ICFP09a]. More controversially, we now believe that local let/where
 bindings should not be generalised -- 
-see [http://research.microsoft.com/~simonpj/papers/constraintsLet should not be generalised] [!LetGen].  Dimitrios is building a
+see [http://research.microsoft.com/~simonpj/papers/constraints/index.htm Let should not be generalised] [!LetGen].  Dimitrios is building a
 prototype that embodies these ideas, which we'll then transfer into
 GHC.
 
