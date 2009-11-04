@@ -41,7 +41,7 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
   applications.
 
 - The I/O libraries are now Unicode-aware, so your Haskell programs
-  should now handle text files containing weird characters.
+  should now handle text files containing non-ascii characters, without special effort.
 
 - The package system has been made more robust, by associating each
   installed package with a unique identifier based on its exposed ABI.
