@@ -37,6 +37,13 @@ GhcRtsWithPapi = YES
 ```
 
 
+You may need to add the PAPI library directory to your LD_LIBRARY_PATH. For example in bash:
+
+```wiki
+$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/papi/lib
+```
+
+
 Now, to monitor and report level 1 cache misses, invoke a program compiled by ghc as follows:
 
 ```wiki
