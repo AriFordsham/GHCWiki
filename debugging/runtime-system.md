@@ -1,0 +1,39 @@
+## Debugging the runtime system
+
+
+If you link with `-debug` you'll get the "debugging RTS".  This has some extra consistency checking (which makes it run a little slower), and has lots of logging infrastructure to tell what is going on.
+
+
+The extra features are controlled with the `-D` runtime system flag. So you might say
+
+```wiki
+sh$ ghc -o MyProg Main.hs
+sh$ ./MyProg +RTS -Ds
+```
+
+
+to see logging information from the scheduler.
+
+
+Use `+RTS -?` to see a list of all the `-D` flags. The current list (GHC 6.12) is:
+
+```wiki
+  -Ds  DEBUG: scheduler
+  -Di  DEBUG: interpreter
+  -Dw  DEBUG: weak
+  -DG  DEBUG: gccafs
+  -Dg  DEBUG: gc
+  -Db  DEBUG: block
+  -DS  DEBUG: sanity
+  -Dt  DEBUG: stable
+  -Dp  DEBUG: prof
+  -Dr  DEBUG: gran
+  -DP  DEBUG: par
+  -Dl  DEBUG: linker
+  -Dm  DEBUG: stm
+  -Dz  DEBUG: stack squezing
+  -Dc  DEBUG: program coverage
+```
+
+
+Of these, `-DS` (sanity checking) is special. It switches on a rather expensive heap-consistency check which runs after every garbage collection.  Your program will run a lot slower, but it helps when tracking down garbage-collection errors.
