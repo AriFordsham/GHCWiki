@@ -22,7 +22,7 @@ $(eval $(call build-package,libraries/base,dist))
 (this invocation would be in `libraries/base/ghc.mk`).
 
 
-Note that `eval` works like this: its argument is expended as normal,
+Note that `eval` works like this: its argument is expanded as normal,
 and then the result is interpreted by **make** as makefile code.  This
 means the body of the `define` gets expanded *twice*.  Typically
 this means we need to use `$$` instead of `$` everywhere in the body of
