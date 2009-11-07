@@ -128,7 +128,7 @@ GHC.
 
 
 Meanwhile, Dimitrios, Simon, and Stephanie Weirich are also working on
-fixing one of GHC's more embarassing bugs (Trac [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496)),
+fixing one of GHC's more embarrassing bugs (Trac [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496)),
 whereby an interaction of type families and the newtype-deriving can
 persuade GHC to generate type-unsound code. It's remained un-fixed
 because the obvious approaches seem to be hacks, so the cure was as
@@ -147,7 +147,7 @@ Some highlights
 
 - Simon PJ totally re-engineered the way that INLINE pragmas are 
   implemented, with the goal of making them more robust and 
-  predicatable [ http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html !InlinePatch](http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html !InlinePatch).  There's a new CONLIKE pragma which
+  predictable [ http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html !InlinePatch](http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html !InlinePatch).  There's a new CONLIKE pragma which
   affects rule matching.
 
 - Peter Jonsson did an internship in which he made a start on turning
