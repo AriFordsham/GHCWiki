@@ -227,8 +227,8 @@ SplitObjs = NO
 GhcWithNativeCodeGen = NO
 GhcWithInterpreter = NO
 GhcWithSMP = NO
-ghc_stage2_v_EXTRA_CC_OPTS += -Lgmp -lgmp -lm -lutil -lrt
-utils/ghc-pkg_dist-install_v_EXTRA_CC_OPTS += -Lgmp -lgmp -lm -lutil -lrt
+ghc_stage2_v_EXTRA_CC_OPTS += -Llibraries/integer-gmp/gmp -lgmp -lm -lutil -lrt
+utils/ghc-pkg_dist-install_v_EXTRA_CC_OPTS += -Llibraries/integer-gmp/gmp -lgmp -lm -lutil -lrt
 ```
 
 
