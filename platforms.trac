@@ -65,7 +65,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 || ARM          || Debian armel    || arm-linux-gnueabi       || No           || No   || No     || No           || No                      ||                ||
 
 '''*S1''' Sparc NCG bitrotten, but still in the tree[[BR]]
-'''*S2''' but see #591
+'''*S2''' but see #591[[BR]]
 '''*S3''' Goetz Isenmann [http://www.haskell.org/pipermail/glasgow-haskell-users/2009-November/017961.html reports] that GHCi is currently unable to load compiled code that refers to errno.
 
 In most cases, binaries for the tier 2 platforms can be downloaded from the [http://www.haskell.org/ghc/distribution_packages.html Distribution Packages] page, e.g. you can get binaries for most of the Linux platforms from Debian. In some cases, for example the Solaris platforms, you'll need to go to the [http://www.haskell.org/ghc/download.html download page] of a particular release to get a bindist.
