@@ -31,7 +31,7 @@ Modify the above according to where you installed things, and change the GHC ver
 ### Building documentation on Windows
 
 
-Documentation is optional, but in order to build it in Windows you must currently use Cygwin (there isn't a working DocBook toolchain on MSYS as far as we know).
+Building GHC's documentation is optional, but in order to build it in Windows you must currently use Cygwin (there isn't a working DocBook toolchain on MSYS as far as we know).
 
 
 In the Cygwin installer, just install the complete `Doc` category. You
