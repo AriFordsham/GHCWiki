@@ -8,7 +8,7 @@ If you're on a recent Linux system, then you should be able to get a working bui
 == Fedora ==
 
  * `glibc-devel`
- * `libedit-devel`
+ * `libedit-devel` (6.10 only)
  * `ncurses-devel`
  * `gmp-devel`
  * `autoconf`
@@ -38,7 +38,7 @@ other packages that are useful for development:
 == Debian-based systems (e.g. Debian, Ubuntu) ==
 
  * `glibc-dev`
- * `libedit-dev`
+ * `libedit-dev` (6.10 only)
  * `ncurses-dev`
  * `gmp-dev`
  * `autoconf`
