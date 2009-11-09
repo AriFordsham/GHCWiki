@@ -71,7 +71,7 @@ Criteria for Tier 1 platforms:
 ## Tier 2 platforms
 
 
-Tier 2 platforms should work, but we rely on community support for
+Tier 2 platforms work (to varying degrees), but we rely on community support for
 developing, testing, and building distributions.  We may release GHC
 with some Tier 2 platforms not working.  
 
@@ -116,6 +116,15 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> i386-unknown-netbsd     </th>
 <th> Yes          </th>
 <th> Yes  </th>
+<th> Yes    </th>
+<th> Yes          </th>
+<th> No                </th>
+<th></th></tr>
+<tr><th> x86          </th>
+<th> DragonFlyBSD    </th>
+<th> i386-unknown-dflybsd    </th>
+<th> Yes          </th>
+<th> No(\*S3) </th>
 <th> Yes    </th>
 <th> Yes          </th>
 <th> No                </th>
@@ -311,7 +320,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th></th></tr></table>
 
 **\*S1** Sparc NCG bitrotten, but still in the tree
-**\*S2** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)
+**\*S2** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)**\*S3** Goetz Isenmann [ reports](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-November/017961.html) that GHCi is currently unable to load compiled code that refers to errno.
 
 
 In most cases, binaries for the tier 2 platforms can be downloaded from the [Distribution Packages](http://www.haskell.org/ghc/distribution_packages.html) page, e.g. you can get binaries for most of the Linux platforms from Debian. In some cases, for example the Solaris platforms, you'll need to go to the [download page](http://www.haskell.org/ghc/download.html) of a particular release to get a bindist.
