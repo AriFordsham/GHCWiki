@@ -78,6 +78,7 @@
 
 ## Types and type inference
 
+- [TypeFunctionsStatus](type-functions-status)
 - [\#3490](https://gitlab.haskell.org//ghc/ghc/issues/3490): superclasses and ambiguity
 - [\#3638](https://gitlab.haskell.org//ghc/ghc/issues/3638): rules and rigidity for GADTs
 - [\#3632](https://gitlab.haskell.org//ghc/ghc/issues/3632): better update for records with existentials
