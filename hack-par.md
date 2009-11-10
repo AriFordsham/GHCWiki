@@ -14,6 +14,7 @@ Location : St Andrews
 Topics to cover in the Hackaton:
 
 - Short overview sessions on implementation internals
+- Usage of new tracing infrastructure
 - GUM-6 port
 - Merging GUM and Eden implementations
 
@@ -21,13 +22,18 @@ Topics to cover in the Hackaton:
   - Scheduler
   - GC interface
   - Tagging
-- Integrating migration
-- Integration with GHC/SMP
-- Globus interface
-- Micro-kernel/substrate approach to the RTS
-- pre-SCSCP GAP interface
-- Packaging
-- Unified revision control
+- Maintenance and packaging
+
+  - Unified revision control
+  - Packaging
+  - Setup for automatic tests
 - Parallel nofib-suite
+- Planned extensions and applications
+
+  - Integration with GHC/SMP
+  - Integrating migration
+  - Globus interface
+  - pre-SCSCP GAP interface
+- Micro-kernel/substrate approach to the RTS
 - Nominating people in charge of sub-projects
-- Prize for the most awkward bug fixed in the Hackaton
+- Prize for the most awkward bug fixed in the Hackaton. <sub>~~Jost: I am non-competitive in this contest, since my task is to introduce them ;)~~</sub>
