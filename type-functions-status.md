@@ -12,6 +12,7 @@
 
 - Constraint simplification:
 
+  - [\#3651](https://gitlab.haskell.org//ghc/ghc/issues/3651): unreachable branches not discovered
   - [\#3584](https://gitlab.haskell.org//ghc/ghc/issues/3584): premature commitment to an instance declaration
   - [\#3554](https://gitlab.haskell.org//ghc/ghc/issues/3554): assertion failure
   - [\#3500](https://gitlab.haskell.org//ghc/ghc/issues/3500): type functions and recursive dictionaries — need to require UndecidableInstances
