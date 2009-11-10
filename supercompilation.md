@@ -5,15 +5,15 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 ## Current Bugs
 
-- Naivrec: infinite recursion
+- Naivrec: Double runtime
 
 - Boyer Moore: out of memory
 
-- nbody: Assertion
+- nbody: Assertion; evalPush
 
 - boyer2: head: empty list; splitTerm
 
-- Sieve2: run with argument 3. Wrong output.
+- Sieve2: infinite recursion (old: run with argument 3. Wrong output.)
 
 ## Open shortcomings
 
@@ -86,7 +86,6 @@ What next? **Implement the new algorithm.**
   - Flag -fexpose-all-unfoldings (a cousin of -fomit-interface-pragmas) (default is off) to switch on the spit-out-all-unfoldings stuff.
   - Validate with flag off; then push.
 - Add IO monad; 
-- Write msg in the R form.  Still with eager substitution
 - Figure out arity for each top-level (lambda lifted) function, and only inline when it is saturated.  (Write notes in paper, explaining why this might be good.)  NB: linearity becomes simpler, because a variable cannot occur under a lambda.
 
   - Neil's msg idea
@@ -107,19 +106,22 @@ Done
 
 - Refined whistle-blowing test
 - Write split in the R form.
-- add logging (one line per specialisation start, and completion)
-- Use a record for the memo table contents
-- State monad and good logging info; Stole SimplMonad.
-- Lambda lifting
-- Add the "loop-breaker" info to interface files (and read it back in).
-- Export unfoldings for recursive functions; does not validate: 
 
-  - ds060: Overlapping pattern match?
-  - ds061: Turns pattern-matches non-exhaustive
-  - dsrun015: Foo.x not in scope
-  - driver063: Exposes modules that were invisible earlier. 
-  - print010: changes output from Integer to GHC.Integer.GMP.Internals.Integer 0 to GHC.Integer.GMP.Internals.S\# 0.
-  - break026: No show instance
+- Write msg in the R form.  Still with eager substitution
+
+  - add logging (one line per specialisation start, and completion)
+  - Use a record for the memo table contents
+  - State monad and good logging info; Stole SimplMonad.
+  - Lambda lifting
+  - Add the "loop-breaker" info to interface files (and read it back in).
+  - Export unfoldings for recursive functions; does not validate: 
+
+    - ds060: Overlapping pattern match?
+    - ds061: Turns pattern-matches non-exhaustive
+    - dsrun015: Foo.x not in scope
+    - driver063: Exposes modules that were invisible earlier. 
+    - print010: changes output from Integer to GHC.Integer.GMP.Internals.Integer 0 to GHC.Integer.GMP.Internals.S\# 0.
+    - break026: No show instance
 
 
 A substitution-based implementation exists, that transforms append, reverse with accumulating parameters, basic arithmetics and similar things. There are still bugs in the implementation, mainly name capture. It takes 8 seconds to transform the double append example, but there's still plenty of room for improvement with respect to performance.
