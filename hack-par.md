@@ -1,4 +1,4 @@
-# Parallel Haskell Hackaton
+# Parallel Haskell Hackathon
 
 ## Organisation
 
@@ -11,7 +11,7 @@ Location : St Andrews
 ## Agenda
 
 
-Topics to cover in the Hackaton:
+Topics to cover in the Hackathon:
 
 - Short overview sessions on implementation internals
 - Usage of new tracing infrastructure
@@ -36,4 +36,4 @@ Topics to cover in the Hackaton:
   - pre-SCSCP GAP interface
 - Micro-kernel/substrate approach to the RTS
 - Nominating people in charge of sub-projects
-- Prize for the most awkward bug fixed in the Hackaton. <sub>~~Jost: I am non-competitive in this contest, since my task is to introduce them ;)~~</sub>
+- Prize for the most awkward bug fixed in the Hackaton. <sub>~~Jost: I am non-competitive in this contest, since my task is to introduce them ;)~~</sub><sub>~~HWL: Clearly you are at an disadvantage: you first have to introduce the bug; we don't have that problem;-)~~</sub>
