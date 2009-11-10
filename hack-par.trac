@@ -1,4 +1,4 @@
-= Parallel Haskell Hackaton =
+= Parallel Haskell Hackathon =
 
 == Organisation ==
 
@@ -8,7 +8,7 @@ Location : St Andrews
 
 == Agenda ==
 
-Topics to cover in the Hackaton:
+Topics to cover in the Hackathon:
 
  * Short overview sessions on implementation internals
  * Usage of new tracing infrastructure
