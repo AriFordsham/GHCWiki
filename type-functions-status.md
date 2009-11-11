@@ -45,7 +45,7 @@
 
   - [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): exponentially slow compile times
   - [\#3169](https://gitlab.haskell.org//ghc/ghc/issues/3169) & [\#2360](https://gitlab.haskell.org//ghc/ghc/issues/2360) (improve occurs-check error message in two instances)
-  - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types)
+  - [\#2721](https://gitlab.haskell.org//ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types) Tom S has a use-case for this
   - `TcPat` and `TcUnify` (and maybe other modules) still have calls to the unification engine that ignore the returned coercion!!
   - Test `Simple17` (corelint error as a dict binding, used to specialise a call to a local function, floats out too far)
   - Improve error messages for loopy equalities: TF tests `Simple13` & `SkolemOccursLoop`
