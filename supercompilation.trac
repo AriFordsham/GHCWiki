@@ -8,7 +8,7 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 * Boyer Moore: out of memory
 
-* nbody: Assertion; evalPush
+* nbody: unsafe-things.
 
 * boyer2: head: empty list; splitTerm
 
@@ -16,9 +16,7 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 == Open shortcomings ==
 
-* Msg on new terms
-
-  * Change representation in rho
+* Change representation in rho
 
 * case var subst
 
@@ -88,7 +86,7 @@ Later
 Done 
  * Refined whistle-blowing test
  * Write split in the R form.
-* Write msg in the R form.  Still with eager substitution
+ * Write msg in the R form.  Still with eager substitution
  * add logging (one line per specialisation start, and completion)
  * Use a record for the memo table contents
  * State monad and good logging info; Stole SimplMonad.
