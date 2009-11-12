@@ -28,7 +28,7 @@ Getting started for developers
 More detailed information about using the build system
 
 - [Using the build system](building/using)
-- \[wike:TestingPatches Validating changes\]
+- [Validating changes](testing-patches)
 - [Running the GHC test framework](building/running-tests)
 - [The NoFib benchmark suite](building/running-no-fib)
 
