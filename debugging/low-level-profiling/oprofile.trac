@@ -20,6 +20,8 @@ $ sudo opreport
 }}}
 check that the program you ran is at the top of the profile somewhere.  Sometimes for me it doesn't appear, and have to run it again.  To see a list of possible `<event>`s, use `$ opcontrol --list-events`.
 
+It may be necessary to use `opcontrol --dump; opcontrol --shutdown` prior to `sudo opreport` above.  We are not sure.
+
 Then to annotate the source:
 {{{
 $ sudo opannotate --source <program> >&! log
