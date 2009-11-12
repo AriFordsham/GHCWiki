@@ -8,7 +8,7 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 * Boyer Moore: out of memory
 
-* nbody: Assertion; evalPush
+* nbody: unsafe-things.
 
 * boyer2: head: empty list; splitTerm
 
