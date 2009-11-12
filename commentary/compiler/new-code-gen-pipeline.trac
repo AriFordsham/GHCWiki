@@ -23,7 +23,7 @@ The first two steps are described in more detail here:
    * No `CopyIn`, `CopyOut` nodes any more; instead "smart constructors" lower the calling convention to loads/stores/register transfers, using stack area abstraction.
    * But we still have `LastCall`, `LastReturn`, `LastBranch`, `LastJump` as `Last` nodes.
 
- * '''Simple control flow optimisation''', implemented in `CmmContFlowOpt`:
+ * '''Simple control flow optimisation''', implemented in `CmmContFlowOpt`, called from `HscMain` (weirdly).  It's called both at the beginning and end of the pipeline.
    * Branch chain elimination.
    * Remove unreachable blocks.
    * Block concatenation.  branch to K; and this is the only use of K.  
