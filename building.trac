@@ -26,6 +26,7 @@ Getting started for developers
 More detailed information about using the build system
 
  * [wiki:Building/Using Using the build system]
+ * [wiki:TestingPatches Validating changes]
  * [wiki:Building/RunningTests Running the GHC test framework]
  * [wiki:Building/RunningNoFib The NoFib benchmark suite]
 
