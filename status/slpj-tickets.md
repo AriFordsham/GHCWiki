@@ -32,10 +32,11 @@
 
 ## New code generator
 
+- [New code generator tickets](commentary/compiler/new-code-gen)
 - [\#3462](https://gitlab.haskell.org//ghc/ghc/issues/3462): allocate large objects with `allocateLocal()`
 - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253): NCG could do better. Look at this when John D’s ncg is working
 - [\#783](https://gitlab.haskell.org//ghc/ghc/issues/783): SRTs getting big        
-- [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): cheap check at start of case alternatives        
+- [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): cheap check at start of case alternatives
 - [\#2731](https://gitlab.haskell.org//ghc/ghc/issues/2731): avoiding unnecessary evaluation when unpacking constructors
 
 ### Other performance
