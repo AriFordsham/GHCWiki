@@ -7,13 +7,15 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 - Naivrec: Double runtime
 
-- Boyer Moore: out of memory
+- Boyer Moore: run with argument 2. Wrong output
 
-- nbody: unsafe-things.
+- Queens: Wrong output for all arguments.
+
+- nbody: unsafe-things, segfault.
 
 - boyer2: head: empty list; splitTerm
 
-- Sieve2: infinite recursion (old: run with argument 3. Wrong output.)
+- Sieve2: run with argument 3. Wrong output.
 
 ## Open shortcomings
 
@@ -91,7 +93,6 @@ What next? **Implement the new algorithm.**
 
 Later
 
-- Faster representation for memo table; a finite map driven by the head function
 - Use idUnfolding and a bitmap for letrec/toplevel things instead of traversing the binds list.
 - Using lazy substitutions
 - Case-of-case duplication
@@ -100,8 +101,9 @@ Later
 - Neil does "evaluation" before specialising, to expose more values to let, and maybe make lets into linear lets.  We don't. Yet.
 
 
-Done 
+Done
 
+- Faster representation for memo table; a finite map driven by the head function 
 - Refined whistle-blowing test
 - Write split in the R form.
 - Write msg in the R form.  Still with eager substitution
