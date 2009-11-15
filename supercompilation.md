@@ -91,7 +91,6 @@ What next? **Implement the new algorithm.**
 
 Later
 
-- Faster representation for memo table; a finite map driven by the head function
 - Use idUnfolding and a bitmap for letrec/toplevel things instead of traversing the binds list.
 - Using lazy substitutions
 - Case-of-case duplication
@@ -100,8 +99,9 @@ Later
 - Neil does "evaluation" before specialising, to expose more values to let, and maybe make lets into linear lets.  We don't. Yet.
 
 
-Done 
+Done
 
+- Faster representation for memo table; a finite map driven by the head function 
 - Refined whistle-blowing test
 - Write split in the R form.
 - Write msg in the R form.  Still with eager substitution
