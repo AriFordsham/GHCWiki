@@ -138,6 +138,7 @@ GhcUnregisterised = YES
 GhcLibHcOpts = -O -fvia-C -keep-hc-files
 GhcRtsHcOpts = -keep-hc-files
 GhcLibWays = v
+GhcRTSWays = v
 SplitObjs = NO
 GhcWithNativeCodeGen = NO
 GhcWithInterpreter = NO
