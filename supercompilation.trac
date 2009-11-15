@@ -6,13 +6,13 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 * Naivrec: Double runtime
 
-* Boyer Moore: out of memory
+* Boyer Moore: run with argument 2. Wrong output
 
-* nbody: unsafe-things.
+* nbody: unsafe-things, segfault.
 
 * boyer2: head: empty list; splitTerm
 
-* Sieve2: infinite recursion (old: run with argument 3. Wrong output.)
+* Sieve2: run with argument 3. Wrong output.
 
 == Open shortcomings ==
 
