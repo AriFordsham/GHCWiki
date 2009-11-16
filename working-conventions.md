@@ -38,7 +38,7 @@ Our conventions and some useful tips for using darcs are here: [WorkingConventio
 ## The Bug Tracker
 
 
-We organise our work (both bug fixing and feature requests) using the Trac bug tracker.   There are links to the bug tracker in the sidebar under "View tickets" ad "Create ticket". 
+We organise our work (both bug fixing and feature requests) using the Trac bug tracker.   There are links to the bug tracker in the sidebar under "View tickets" and "Create ticket". 
 
 
 The following are GHC-specific policies regarding the fields of the Trac bug tracking system. (See also [the bug reporting guidelines](report-a-bug).)
