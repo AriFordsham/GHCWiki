@@ -39,13 +39,11 @@ Here are some things to check:
    * check that it hasn't already been done.
    * link to related feature requests
 
-
 Here are some [wiki:WorkingConventions#TheBugTracker more details on how we use the bug tracker].
 
-For many tickets there may be nothing to do.  In some cases you might
-not know what to do: e.g. you might not know which is a good milestone
-for a bug.  In that case, you could ask a GHC developer on IRC, or
-just make a guess; we can always correct it later.  You might not be
+Note: you don't have to do ''all'' of the things on the list.  Doing ''any'' of them is good.  The main thing is that every ticket gets at least looked at.
+
+For many tickets there may be nothing to do: if so, just proceed to the next ticket.  You might not be
 able to reproduce the bug (because you don't have access to the right
 platform, for instance).  In that case just add a comment to the
 ticket to note that the bug needs to be reproduced with an up to date
