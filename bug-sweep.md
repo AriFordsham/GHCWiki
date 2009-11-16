@@ -65,7 +65,7 @@ database and start again.
 ## The bugs
 
 
-Remove a few from the top of the list:
+Remove a bug from the top of the list:
 
 - [\#17](https://gitlab.haskell.org//ghc/ghc/issues/17)
 - [\#29](https://gitlab.haskell.org//ghc/ghc/issues/29)
