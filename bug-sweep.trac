@@ -15,30 +15,25 @@ ticket).  You don't necessarily have to fix the bug or implement the
 feature: all you have to do is make ''some'' progress on the ticket.
 Here are some things to check:
 
- * Check for duplicates (Google search with "site:hackage.haskell.org"
-   is usually better than using Trac's search).
+ * '''All tickets''': 
+   * Check for duplicates (Google search with "site:hackage.haskell.org" is usually better than using Trac's search).
+   * Check that the ticket is categoriesd correctly, including
+     * the title is a good summary of the bug
+     * platform/OS are correct
+     * component is correct
+     * it is on the correct milestone
+     * the "difficulty" is a reasonable estimate
 
- * Check that the bug hasn't already been fixed, or if it is a feature
-   request, that it hasn't already been implemented.  If the bug has
-   some reproduction instructions, try them out with a recent GHC and
-   see if the bug still happens.  If the results are different, update
-   the ticket to include that information.  If the bug does not have
-   repro instructions, ask the submitter for more details.
+ * '''Bugs''':
+   * Check that the bug hasn't already been fixed.
+   * If the bug has some reproduction instructions, try them out with a recent GHC and see if the bug still happens.  If the results are different, update the ticket to include that information.  
+   * If the bug does not have repro instructions, ask the submitter for more details.
+   * Check that there is still value in having the ticket open.  If we cannot make progress without feedback from the submitter, and a long time has elapsed (e.g. 6 months), then we should close the bug.
 
- * Check that there is still value in having the ticket open.  If we
-   cannot make progress without feedback from the submitter, and a
-   long time has elapsed (e.g. 6 months), then we should close the
-   bug.
+ * '''Feature requests''' and '''tasks''': check that it hasnt' already been done.
 
  * If the ticket has a patch and looks ready to go, add a comment
    to the ticket to say so.
-
- * Check that the ticket is categoriesd correctly, including
-   * the title is a good summary of the bug
-   * platform/OS are correct
-   * component is correct
-   * it is on the correct milestone
-   * the "difficulty" is a reasonable estimate
 
 Here are some [wiki:WorkingConventions#TheBugTracker more details on how we use the bug tracker].
 
@@ -51,14 +46,14 @@ platform, for instance).  In that case just add a comment to the
 ticket to note that the bug needs to be reproduced with an up to date
 GHC, and hopefully someone else will pick it up.
 
-How do we track which bugs have been looked at in the sweep yet?
+How do we track which tickets have been looked at in the sweep yet?
 Below is a list: just edit this page, remove a bug from the list, and
 look at it.  When the list is empty, we'll take a new snapshot of the
 database and start again.
 
-== The bugs ==
+== The tickets (bugs, tasks, feature requests, the lot) ==
 
-Remove a bug from the top of the list:
+Remove a ticket from the top of the list:
 
  * #17
  * #29
