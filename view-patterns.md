@@ -3,7 +3,11 @@
 [Basic view patterns](#Basicviewpatterns)[Semantics](#Semantics)[Examples](#Examples)[Further Syntactic Extensions](#FurtherSyntacticExtensions)[Implicit Maybe](#ImplicitMaybe)[Implicit View Functions](#ImplicitViewFunctions)[Compilation](#Compilation)[Features views can have](#Featuresviewscanhave)[Related work](#Relatedwork)
 
 
-This page has been revised to reflect what we've implemented.  For the previous discussion, see [ViewPatternsArchive](view-patterns-archive).
+This page has been revised to reflect what we've implemented.  
+
+- For the previous discussion, see [ViewPatternsArchive](view-patterns-archive).
+- For an assessment of view patterns in practice, see [ Neil Mitchell's blog entry](http://neilmitchell.blogspot.com/2009/11/reviewing-view-patterns.html)
+- For some discussion of implicit view patterns see [ GHC feature request 3583](http://hackage.haskell.org/trac/ghc/ticket/3583)
 
 ## Basic view patterns
 
