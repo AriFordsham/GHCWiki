@@ -5,7 +5,7 @@ This page tells you how to get started with hacking on GHC.
 
 ## Contributing to the Wiki
 
-- [register](/trac/ghc/trac/ghc/register) an account, so that you can edit pages
+- [Register](/trac/ghc/trac/ghc/register) an account, so that you can edit pages
 
 ## Getting GHC to build on your machine
 
