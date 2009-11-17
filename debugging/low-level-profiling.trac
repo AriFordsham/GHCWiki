@@ -3,15 +3,11 @@
 
 = Low-level Profiling =
 
- * [wiki:Debugging/LowLevelProfiling/PAPI]
- * [wiki:Debugging/LowLevelProfiling/oprofile]
-
-== Event tracing ==
-
-== dtrace ==
-
-== ftrace ==
-
-== ETW ==
-
-== Linux Performance Events ==
+ * '''PAPI''': [wiki:Debugging/LowLevelProfiling/PAPI]
+ * '''oprofile''' [wiki:Debugging/LowLevelProfiling/oprofile]
+ * '''qprof''' [wiki:Debugging/LowLevelProfiling/QProf]
+ * RTS Tracing
+ * dtrace (MacOS X, *BSD)
+ * ETW (Windows)
+ * ftrace (Linux)
+ * perfcounters, perfevents (Linux)
