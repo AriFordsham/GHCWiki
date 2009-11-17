@@ -72,7 +72,6 @@ Remove a ticket from the top of the list:
 
 - [\#110](https://gitlab.haskell.org//ghc/ghc/issues/110)
 - [\#149](https://gitlab.haskell.org//ghc/ghc/issues/149)
-- [\#229](https://gitlab.haskell.org//ghc/ghc/issues/229)
 - [\#284](https://gitlab.haskell.org//ghc/ghc/issues/284)
 - [\#285](https://gitlab.haskell.org//ghc/ghc/issues/285)
 - [\#307](https://gitlab.haskell.org//ghc/ghc/issues/307)
