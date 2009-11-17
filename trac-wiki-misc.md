@@ -4,15 +4,14 @@
 The GHC Wiki is open to everyone to edit, but you need to be logged in:
 
 - [Register](/trac/ghc/trac/ghc/register) an account, so that you can edit pages
-- If you don't want an account, for some reason, you 
-
-[log in](/trac/ghc/trac/ghc/login) as user **guest** with password **guest**.
+- If you don't want an account, for some reason, you [log in](/trac/ghc/trac/ghc/login) as user **guest** with password **guest**.
 
 
 When writing Wiki pages you need to know the markup conventions:
 
-- The [Help/Guide link](trac-guide) at the top of  every page gives a good description of the markup language etc.  From there you can get to the [main guide to the Trac Wiki formatting](wiki-formatting).  
-- The "Wiki" links in the green sidebar on every page gives similar information.
+- The [Help/Guide link](trac-guide) at the top of  every page gives a good description of the markup language etc.  
+- From there you can get to the [main guide to the Trac Wiki formatting](wiki-formatting).  
+- The "Wiki notes" link in the green sidebar on every page gets you to this page.
 
 
 The notes on the rest of this page are the GHC team's observations and/or clarifications.
