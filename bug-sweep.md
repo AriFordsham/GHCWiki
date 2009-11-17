@@ -70,7 +70,6 @@ database and start again.
 
 Remove a ticket from the top of the list:
 
-- [\#29](https://gitlab.haskell.org//ghc/ghc/issues/29)
 - [\#68](https://gitlab.haskell.org//ghc/ghc/issues/68)
 - [\#95](https://gitlab.haskell.org//ghc/ghc/issues/95)
 - [\#110](https://gitlab.haskell.org//ghc/ghc/issues/110)
