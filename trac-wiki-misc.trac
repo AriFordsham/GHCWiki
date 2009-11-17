@@ -1,15 +1,15 @@
 = Notes on Trac Wiki formatting =
 
+The GHC Wiki is open to everyone to edit, but you need to be logged in:
+ * [/trac/ghc/register Register] an account, so that you can edit pages
+ * If you don't want an account, for some reason, you [/trac/ghc/login log in] as user '''guest''' with password '''guest'''.
+
 When writing Wiki pages you need to know the markup conventions:
   * The [wiki:TracGuide Help/Guide link] at the top of  every page gives a good description of the markup language etc.  
   * From there you can get to the [wiki:WikiFormatting main guide to the Trac Wiki formatting].  
+  * The "Wiki notes" link in the green sidebar on every page gets you to this page.
 
 The notes on the rest of this page are the GHC team's observations and/or clarifications.
-
-The GHC Wiki is open to everyone to edit, but you need to be logged in to edit. If you don't have an account, just 
-[/trac/ghc/login log in] as user '''guest''' with password '''guest'''.  
-
-
 
 == Formatting list items with multiple paragraphs ==
 
