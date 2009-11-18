@@ -61,14 +61,13 @@ GHC, and hopefully someone else will pick it up.
 
 
 How do we track which tickets have been looked at in the sweep yet?
-Below is a list: just edit this page, remove a bug from the list, and
+Below is a list: just [ edit this page](http://hackage.haskell.org/trac/ghc/wiki/BugSweep?action=edit), remove a bug from the list, and
 look at it.  When the list is empty, we'll take a new snapshot of the
 database and start again.
 
 ## The tickets (bugs, tasks, feature requests, the lot)
 
-
-Remove a ticket from the top of the list:
+[ Edit this page](http://hackage.haskell.org/trac/ghc/wiki/BugSweep?action=edit) to remove a ticket from the following list.  You don't have to take the one at the top, but the top is as good a place to start as any:
 
 - [\#284](https://gitlab.haskell.org//ghc/ghc/issues/284)
 - [\#285](https://gitlab.haskell.org//ghc/ghc/issues/285)
