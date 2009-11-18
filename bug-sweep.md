@@ -190,7 +190,6 @@ Remove a ticket from the top of the list:
 - [\#1102](https://gitlab.haskell.org//ghc/ghc/issues/1102)
 - [\#1105](https://gitlab.haskell.org//ghc/ghc/issues/1105)
 - [\#1107](https://gitlab.haskell.org//ghc/ghc/issues/1107)
-- [\#1117](https://gitlab.haskell.org//ghc/ghc/issues/1117)
 - [\#1120](https://gitlab.haskell.org//ghc/ghc/issues/1120)
 - [\#1123](https://gitlab.haskell.org//ghc/ghc/issues/1123)
 - [\#1133](https://gitlab.haskell.org//ghc/ghc/issues/1133)
