@@ -7,10 +7,6 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 - Naivrec: Double runtime
 
-- Boyer Moore: run with argument 2. Wrong output
-
-- Queens: Wrong output for all arguments.
-
 - nbody: unsafe-things, segfault.
 
 - boyer2: head: empty list; splitTerm
