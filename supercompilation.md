@@ -36,7 +36,7 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 - Looking for instances, instead of renamings, has implications with the global store. Do we want to fold append (append xs' ys) zs against append (append xs ys) zs (in rho) or append ys zs (in store).
 
-- Applications are not saturated in Core, there's eta::GHC.Prim.State\# GHC.Prim.RealWorld roughly everywhere.
+- Applications are not saturated in Core, there's `eta::GHC.Prim.State# GHC.Prim.RealWorld` roughly everywhere.
 
 - The whistle blows on several expressions sometimes. We need to sort them. Example: 
 
@@ -79,10 +79,7 @@ This page is very much a draft and may be incorrect in places. Please fix proble
   deepId (Branch l r) = Branch (deepId l) (deepId r)
   ```
 
-  Neil removed these in a post-pass as  
-
-
-far as I understood, and he said it was a good idea.
+  Neil removed these in a post-pass as far as I understood, and he said it was a good idea.
 
 - Using other constraints than equality. This means things like
 
