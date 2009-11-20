@@ -6,71 +6,104 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 ## Current Bugs
 
 - Naivrec: Double runtime
-
 - nbody: unsafe-things, segfault.
-
 - boyer2: head: empty list; splitTerm
-
 - Sieve2: run with argument 3. Wrong output.
+- The Simplifier gets confused by the wrong `OccInfo` on things. So run occurrence analysis at the end of supercompilation. The occurrence analyser gets confused by having the wrong Unfoldings for id's though. We currently zap things here and there, but this is not the right way to do it.
 
-## Open shortcomings
+## Shortcomings of the prototype
 
+- Use a state monad
+- Uses eager substitution
+- Divide by zero
+- Homeomorphic embedding for types?  Currently all types are regarded as equal (like literals).  Decision: leave it this way for now.
+- Msg does not respect alpha-equivalence.  If we match lambda against lambdas, and the binders differ, we say "different".  Decision: deal with alpha-equiv in msg when we have the new alg working.
+- Inlining `unsafePerformIO`
+- Adding constraint info
+
+  - case (x\>y)of { ....case (x\>y) of ... }
+  - Extending this to specialised functions themselves.
 - Change representation in rho
-
 - case var subst
-
 - strictness annotations
-
-- unsafePerformIO etc.
-
 - Extend homemb.
-
-## Lambda lifting
-
-- We lambda lift to avoid re-specialising the same local function in two different branches: letrec g = .. in (f1 (g x), f2 (g x))
-
-## Problems
-
-- The Simplifier gets confused by the wrong OccInfo on things. So run occurence analysis at the end of supercompilation. The occurence analyser gets confused by having the wrong Unfoldings for id's though. We currently zap things here and there, but this is not the right way to do it.
-
-## Scalability
-
-- The whistle is THE bad guy when it comes to performance; we spend 35% of our time on testing. It is trivial to run in parallell. 
 
 ## Insights
 
+- The whistle is THE bad guy when it comes to performance; we spend 35% of our time on testing. It is trivial to run in parallel. 
+
+- We lambda lift to avoid re-specialising the same local function in two different branches: letrec g = .. in (f1 (g x), f2 (g x))
+
 - Looking for instances, instead of renamings, has implications with the global store. Do we want to fold append (append xs' ys) zs against append (append xs ys) zs (in rho) or append ys zs (in store).
 
-- Applications are not saturated in Core, there's eta::GHC.Prim.State\# GHC.Prim.RealWorld roughly everywhere.
+- Applications are not saturated in Core, there's `eta::GHC.Prim.State# GHC.Prim.RealWorld` roughly everywhere.
 
 - The whistle blows on several expressions sometimes. We need to sort them. Example: 
 
+  ```wiki
+  case GHC.Num.- @ GHC.Types.Int GHC.Num.$fNumInt (GHC.Num.+ @ GHC.Types.Int GHC.Num.$fNumInt i (Main.check l)) (Main.check r) of _ {
+    GHC.Types.I# y [ALWAYS Once Nothing] -> GHC.Types.I# (GHC.Prim.-# (GHC.Prim.+# x 0) y)
+  }
+  ```
 
-case GHC.Num.- @ GHC.Types.Int GHC.Num.$fNumInt (GHC.Num.+ @ GHC.Types.Int GHC.Num.$fNumInt i (Main.check l)) (Main.check r) of _ {
+  against both of these:
 
->
-> GHC.Types.I\# y \[ALWAYS Once Nothing\] -\> GHC.Types.I\# (GHC.Prim.-\# (GHC.Prim.+\# x 0) y)
+  ```wiki
+  case Main.check r of _ { 
+    GHC.Types.I# y [ALWAYS Once Nothing] -> GHC.Types.I# (GHC.Prim.-# (GHC.Prim.+# x 0) y)
+  }
 
+  GHC.Num.- @ GHC.Types.Int GHC.Num.$fNumInt (GHC.Num.+ @ GHC.Types.Int GHC.Num.$fNumInt i (Main.check l)) (Main.check r))
+  ```
 
-}
+  The latter is better to generalise against. How do we capture this? Perhaps by sorting on the length of free variables in rho.
 
+## Open questions
 
-against both of these:
+- The new msg for different types. What should the outcome of:
 
+  ```wiki
+  msg (rev @ Int (xs::[Int]) (rev @ Bool (xs::[Bool]))
+  ```
 
-case Main.check r of _ { 
+  be? We currently fail and split to `[rev @ Int/z]` and `z xs` instead.
 
->
-> GHC.Types.I\# y \[ALWAYS Once Nothing\] -\> GHC.Types.I\# (GHC.Prim.-\# (GHC.Prim.+\# x 0) y)
+- Rank-n-polymorphism. Given: `msg (f e) (f e')`, we return `f (z::typeof e)` and `[e/z]`. I'm not sure if it's possible to create an example where we should have taken z to have the same type as the type signature for the argument of f instead.
 
+- You had a suggestion to convert the entire program to the zipper-representation before supercompiling.
 
-}
+- The supercompiler can after transformation leave deep identity functions in place, that will traverse the entire structure and re-assemble it.  If you supercompile `flip (flip t)` the resulting program will be `deepId t` where 
 
+  ```wiki
+  deepId (Leaf d)     = Leaf d
+  deepId (Branch l r) = Branch (deepId l) (deepId r)
+  ```
 
-GHC.Num.- @ GHC.Types.Int GHC.Num.$fNumInt (GHC.Num.+ @ GHC.Types.Int GHC.Num.$fNumInt i (Main.check l)) (Main.check r))
+  Neil removed these in a post-pass as far as I understood, and he said it was a good idea.
 
+- Using other constraints than equality. This means things like
 
-The latter is better to generalise against. How do we capture this? Perhaps by sorting on the length of free variables in rho.
+  ```wiki
+   	case (a>b) of ....(case a+1>b of ...) ...
+  ```
+
+  (This could save more transformation time than it spends if it manages to eliminate a lot of case-alternatives, and intuitively it doesn't feel prohibitively expensive for many constraint domains).
+
+- Should R contexts include let-statements? Need to worry about name capture even more then.
+
+- Should matching for renamings be modulo permutation of lets? (Performance vs code size)
+
+- Consider `(\x xs. append x xs)`.  Do we inline append, and create a specialised copy?  (Of course, identical to the original definition.)
+
+  - **Yes**.  At provided we don't create *multiple* specialised copies, we are effectively copying library code into the supercompiled program.  Then we can discard all libraries (provided we have all unfoldings).
+  - **No**: then need to keep the libraries
+    But it's not clear that we can *always* inline *everything*.  For example things with `unsafePerformIO`.
+
+    - (Given no cycle in imports) Perhaps the things we can not inline should be put at the top level in the same module, and the old module discarded?
+
+- Can we improve the homeomorphic embedding so that append xs xs is not embedded in append xs ys?
+
+- [ http://hackage.haskell.org/trac/ghc/ticket/2598](http://hackage.haskell.org/trac/ghc/ticket/2598)
 
 ## Current status
 
@@ -124,18 +157,21 @@ A substitution-based implementation exists, that transforms append, reverse with
 The typed intermediate representation has caused some trouble, but nothing fundamental. 
 
 
-Shortcomings of the prototype:
+Random thoughts about the prettyprinter:
 
-- Use a state monad
-- Uses eager substitution
-- Divide by zero
-- Homeomorphic embedding for types?  Currently all types are regarded as equal (like literals).  Decision: leave it this way for now.
-- Msg does not respect alpha-equivalence.  If we match lambda against lambdas, and the binders differ, we say "different".  Decision: deal with alpha-equiv in msg when we have the new alg working.
-- Inlining `unsafePerformIO`
-- Adding constraint info
+- Let-statements: 
 
-  - case (x\>y)of { ....case (x\>y) of ... }
-  - Extending this to specialised functions themselves.
+  - LclId is not really useful for me.
+  - The empty list on the line below it is also wasting space.
+  - The occurence information sometimes pushes the type signature over several lines. 
+- Case-statements:
+
+  - The occurence information pushes case branches over several lines.
+  - case e of { tp1 tp2 tp3 tp4 -\> tp3 } prettyprints over 5 lines.
+- Long types: Is the complete "GHC.Types.Char" necessary?
+- Names: 
+
+  - Why is it sometimes $dShow{v a1lm} and sometimes $dShow_a1lm? The latter is easier to grep for.
 
 ## Performance
 
@@ -171,41 +207,6 @@ Largest byte difference: ./libraries/haskeline/dist-install/build/System/Console
 Largest % difference: ./ghc/stage2/build/InteractiveUI.hi, with 6031.62723322067% 
 10355 bytes vs 624575 bytes
 ```
-
-## Open questions
-
-- Should R contexts include let-statements? Need to worry about name capture even more then.
-
-- Should matching for renamings be modulo permutation of lets? (Performance vs code size)
-
-- Consider `(\x xs. append x xs)`.  Do we inline append, and create a specialised copy?  (Of course, identical to the original definition.)
-
-  - **Yes**.  At provided we don't create *multiple* specialised copies, we are effectively copying library code into the supercompiled program.  Then we can discard all libraries (provided we have all unfoldings).
-  - **No**: then need to keep the libraries
-    But it's not clear that we can *always* inline *everything*.  For example things with `unsafePerformIO`.
-
-    - (Given no cycle in imports) Perhaps the things we can not inline should be put at the top level in the same module, and the old module discarded?
-
-- Can we improve the homeomorphic embedding so that append xs xs is not embedded in append xs ys?
-
-- [ http://hackage.haskell.org/trac/ghc/ticket/2598](http://hackage.haskell.org/trac/ghc/ticket/2598)
-
-
-Random thoughts about the prettyprinter:
-
-- Let-statements: 
-
-  - LclId is not really useful for me.
-  - The empty list on the line below it is also wasting space.
-  - The occurence information sometimes pushes the type signature over several lines. 
-- Case-statements:
-
-  - The occurence information pushes case branches over several lines.
-  - case e of { tp1 tp2 tp3 tp4 -\> tp3 } prettyprints over 5 lines.
-- Long types: Is the complete "GHC.Types.Char" necessary?
-- Names: 
-
-  - Why is it sometimes $dShow{v a1lm} and sometimes $dShow_a1lm? The latter is easier to grep for.
 
 ## Diffferences from Supero
 
