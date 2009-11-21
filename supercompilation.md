@@ -13,12 +13,10 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 ## Shortcomings of the prototype
 
-- Use a state monad
 - Uses eager substitution
-- Divide by zero
 - Homeomorphic embedding for types?  Currently all types are regarded as equal (like literals).  Decision: leave it this way for now.
 - Msg does not respect alpha-equivalence.  If we match lambda against lambdas, and the binders differ, we say "different".  Decision: deal with alpha-equiv in msg when we have the new alg working.
-- Inlining `unsafePerformIO`
+- Inlining `unsafePerformIO` and other NOINLINE things.
 - Adding constraint info
 
   - case (x\>y)of { ....case (x\>y) of ... }
@@ -26,7 +24,6 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 - Change representation in rho
 - case var subst
 - strictness annotations
-- Extend homemb.
 
 ## Insights
 
@@ -101,7 +98,7 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
     - (Given no cycle in imports) Perhaps the things we can not inline should be put at the top level in the same module, and the old module discarded?
 
-- Can we improve the homeomorphic embedding so that append xs xs is not embedded in append xs ys?
+- Can we improve the homeomorphic embedding so that append xs xs is not embedded in append xs ys? **Done**
 
 - [ http://hackage.haskell.org/trac/ghc/ticket/2598](http://hackage.haskell.org/trac/ghc/ticket/2598)
 
@@ -110,14 +107,9 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 What next? **Implement the new algorithm.**
 
-- Exposing all unfoldings:
-
-  - Flag -fexpose-all-unfoldings (a cousin of -fomit-interface-pragmas) (default is off) to switch on the spit-out-all-unfoldings stuff.
-  - Validate with flag off; then push.
-- Add IO monad; 
 - Figure out arity for each top-level (lambda lifted) function, and only inline when it is saturated.  (Write notes in paper, explaining why this might be good.)  NB: linearity becomes simpler, because a variable cannot occur under a lambda.
 
-  - Neil's msg idea
+  - Neil's msg idea; Will not help as much in practice since we are guaranteed to have the same head
 
 
 Later
@@ -132,6 +124,11 @@ Later
 
 Done
 
+- Exposing all unfoldings:
+
+  - Flag -fexpose-all-unfoldings (a cousin of -fomit-interface-pragmas) (default is off) to switch on the spit-out-all-unfoldings stuff.
+  - Validate with flag off; then push.
+- Add IO monad; 
 - Faster representation for memo table; a finite map driven by the head function 
 - Refined whistle-blowing test
 - Write split in the R form.
