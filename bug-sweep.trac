@@ -18,7 +18,7 @@ Here are some things to check:
  * '''All tickets''': 
    * Check for duplicates (Google search with "site:hackage.haskell.org" is usually better than using Trac's search).
    * Tidy up the description: add markup if necessary, link to related information and/or other tickets
-   * Check that the ticket is categoriesd correctly, including
+   * Check that the ticket is categorised correctly, including
      * the title is a good summary of the bug
      * platform/OS are correct
      * component is correct
