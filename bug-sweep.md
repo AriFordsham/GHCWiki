@@ -78,7 +78,6 @@ database and start again.
 - [\#437](https://gitlab.haskell.org//ghc/ghc/issues/437)
 - [\#459](https://gitlab.haskell.org//ghc/ghc/issues/459)
 - [\#472](https://gitlab.haskell.org//ghc/ghc/issues/472)
-- [\#476](https://gitlab.haskell.org//ghc/ghc/issues/476)
 - [\#481](https://gitlab.haskell.org//ghc/ghc/issues/481)
 - [\#485](https://gitlab.haskell.org//ghc/ghc/issues/485)
 - [\#487](https://gitlab.haskell.org//ghc/ghc/issues/487)
