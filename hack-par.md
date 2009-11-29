@@ -8,6 +8,13 @@ Dates : 10-12 December
 
 Location : St Andrews
 
+## Participants
+
+<sub>(JB: as far as I know, please correct/add/remove as necessary)</sub>
+
+
+Vladimir Janjic (Host), Hans-Wolfgang Loidl, Kevin Hammond, Mustafa Aswad, Philip W Trinder, Patrick Maier, Mischa Dieterle, Thomas Horstmeyer, Jost Berthold, Simon Marlow (virtual),
+
 ## Agenda
 
 
@@ -27,10 +34,10 @@ Topics to cover in the Hackathon:
   - Scheduler
   - GC interface
   - Tagging
+- Usage of new tracing infrastructure
 - Development infrastructure
 
-  - Unified revision control
-  - Usage of new tracing infrastructure
+  - Unified revision control (darcs)
   - Debugging infrastructure
   - Packaging
   - Setup for automatic tests
@@ -41,7 +48,7 @@ Topics to cover in the Hackathon:
   - Integrating migration
   - Globus interface
   - pre-SCSCP GAP interface
-- Micro-kernel/substrate approach to the RTS
+  - Micro-kernel/substrate approach to the RTS
 - Nominating people in charge of sub-projects
 
   - parallel nofib suite
