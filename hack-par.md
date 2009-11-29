@@ -13,7 +13,7 @@ Location : St Andrews
 <sub>(JB: as far as I know, please correct/add/remove as necessary)</sub>
 
 
-Vladimir Janjic (Host), Hans-Wolfgang Loidl, Kevin Hammond, Mustafa Aswad, Philip W Trinder, Patrick Maier, Mischa Dieterle, Thomas Horstmeyer, Jost Berthold, Simon Marlow (virtual),
+Vladimir Janjic (Host), Hans-Wolfgang Loidl, Kevin Hammond, Mustafa Aswad, Henrique Ferreiro Garcia, Philip W Trinder, Patrick Maier, Abyd Al Zain, Mischa Dieterle, Thomas Horstmeyer, Jost Berthold, Simon Marlow (virtual),
 
 ## Agenda
 
@@ -27,6 +27,7 @@ Topics to cover in the Hackathon:
   - Globus (Abyd)
   - Migration/Load Balancing (Vladimir)
   - ghc HEAD developments (Simon)
+  - GUM/Eden Compilation and Debugging (Vladimir?)
 - GUM-6 port
 - Merging GUM and Eden implementations
 
