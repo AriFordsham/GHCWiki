@@ -13,7 +13,7 @@ Location : St Andrews
 <sub>(JB: as far as I know, please correct/add/remove as necessary)</sub>
 
 
-Vladimir Janjic (Host), Hans-Wolfgang Loidl, Kevin Hammond, Mustafa Aswad, Philip W Trinder, Patrick Maier, Mischa Dieterle, Thomas Horstmeyer, Jost Berthold, Simon Marlow (virtual),
+Vladimir Janjic (Host), Hans-Wolfgang Loidl, Kevin Hammond, Mustafa Aswad, Henrique Garcia Ferreiro, Philip W Trinder, Patrick Maier, Mischa Dieterle, Thomas Horstmeyer, Jost Berthold, Simon Marlow (virtual),
 
 ## Agenda
 
