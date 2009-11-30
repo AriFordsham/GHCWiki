@@ -24,7 +24,7 @@ We start with {{{Foo.hs}}} or {{{Foo.lhs}}}, the "l" specifing whether literate 
 
   * If `-split-objs` is in force, run the '''splitter''' on `Foo.s`.  This splits `Foo.s` into lots of small files.  The idea is that the static linker will thereby avoid linking dead code.
 
-  * Run the assembler on `Foo.s` or, if `-split-objs` in in force, on each individual assembly file.
+  * Run the assembler on `Foo.s`, or if `-split-objs` is in force, on each individual assembly file.
 
 = The compiler pipeline =
 
