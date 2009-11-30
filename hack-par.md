@@ -10,10 +10,18 @@ Location : St Andrews
 
 ## Participants
 
-<sub>(JB: as far as I know, please correct/add/remove as necessary)</sub>
-
 
 Vladimir Janjic (Host), Hans-Wolfgang Loidl, Kevin Hammond, Mustafa Aswad, Henrique Ferreiro Garcia, Philip W Trinder, Patrick Maier, Abyd Al Zain, Mischa Dieterle, Thomas Horstmeyer, Jost Berthold, Simon Marlow (virtual),
+
+## Source code
+
+
+Important: if you can, please prepare a setup of the latest sources in advance.
+A darcs repository has been set up on the server in Marburg, please read here how to get a working setup: [ Repository Briefing](http://james.mathematik.uni-marburg.de:8080/EdenWiki/DarcsRepoCheatSheet).
+
+
+You should contact Mischa (dieterle\@mathematik...) in order to get access, or check out read-only via http (which is of course not what we want later).
+If you have questions or problems, edit the page or mail Jost (berthold\@mathematik...)
 
 ## Agenda
 
