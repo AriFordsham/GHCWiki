@@ -174,7 +174,7 @@ Since Haskell allows many symbols in constructor and variable names that C compi
 </th></tr>
 <tr><th> % </th>
 <th> zv </th>
-<th> (TODO I don't know what the mnemonic for this one is) 
+<th> (TODO I don't know what the mnemonic for this one is. Perhaps relatiVe or diVide?) 
 </th></tr></table>
 
 ## Other

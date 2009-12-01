@@ -51,7 +51,7 @@ Since Haskell allows many symbols in constructor and variable names that C compi
 || / || zs || Slash ||
 || * || zt || Times sign ||
 || _ || zu || Underscore ||
-|| % || zv || (TODO: I don't know what the mnemonic for this one is) ||
+|| % || zv || (TODO: I don't know what the mnemonic for this one is. Perhaps relatiVe or diVide?) ||
 
 == Other ==
 Any other character is encoded as a 'z' followed by its hex code (lower case, variable length) followed by 'U'.  If the hex code starts with 'a', 'b, 'c', 'd', 'e' or 'f', then an extra '0' is placed before the hex code to avoid conflicts with the other escape characters.
