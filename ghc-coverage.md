@@ -2,7 +2,7 @@
 
 
 We bootstrap GHC with the code coverage tool regularly. The
-latest copy is always located at [ http://coverage.unsafePerformIO.com/ghc](http://coverage.unsafePerformIO.com/ghc)
+latest copy is always located at [ http://hackage.haskell.org/cgi-bin/hackage-scripts/package/hpc](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/hpc)
 
 
 This is a possible place to start looking for code that is not currently
