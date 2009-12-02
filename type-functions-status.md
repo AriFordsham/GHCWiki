@@ -20,6 +20,7 @@ This section collects notes about the new constraint solver (Dec 2009) that we a
 
 - Declarations involving families:
 
+  - [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): scoping error for associated types
   - If a type variable occurs only in arguments to type synonym families in a signature, GHC ought to reject the signature as ambiguous.  (If the variable is mentioned in an argument to a type class in the context, we cannot reject it though, as the class may contain a TF or FD that constrains the variable.)
   - [\#2435](https://gitlab.haskell.org//ghc/ghc/issues/2435) (Inconsistency in handling qualification of names of class methods and associated types in instance declarations)
   - Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)  If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
@@ -79,6 +80,7 @@ This section collects notes about the new constraint solver (Dec 2009) that we a
 
 **Additional feature:**
 
+- [\#3699](https://gitlab.haskell.org//ghc/ghc/issues/3699): wildcards in type function LHSs
 - [\#3491](https://gitlab.haskell.org//ghc/ghc/issues/3491): relax restrictions on superclass contexts
 - [\#2101](https://gitlab.haskell.org//ghc/ghc/issues/2101)
 - Total families
