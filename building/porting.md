@@ -1,9 +1,5 @@
 # Porting GHC to a new platform
 
-**NOTE**: Versions supported: 6.11+.
-
-**NOTE**: there are bugs in this procedure; see [\#3472](https://gitlab.haskell.org//ghc/ghc/issues/3472)
-
 
 This section describes how to port GHC to a currently
 unsupported platform.  To avoid confusion, when we say
@@ -40,8 +36,12 @@ code which needs tweaking for your system.
 
 ## Cross-compiling to produce an unregisterised GHC
 
+**NOTE**: Versions supported: 6.11+.
 
-NOTE! These instructions apply to GHC 6.11 and (hopefully) later.
+**NOTE**: for current issues, see 
+
+<table><tr><th>[\#3472](https://gitlab.haskell.org//ghc/ghc/issues/3472)</th>
+<td>Porting through .hc files broken</td></tr></table>
 
 
 In this section, we explain how to bootstrap GHC on a new platform,
