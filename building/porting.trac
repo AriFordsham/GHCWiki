@@ -3,10 +3,6 @@
 
 = Porting GHC to a new platform =
 
-'''NOTE''': Versions supported: 6.11+.
-
-'''NOTE''': there are bugs in this procedure; see #3472
-
 This section describes how to port GHC to a currently
 unsupported platform.  To avoid confusion, when we say
 "architecture" we are referring to the processor, and
@@ -38,7 +34,10 @@ code which needs tweaking for your system.
 
 == Cross-compiling to produce an unregisterised GHC ==
 
-NOTE! These instructions apply to GHC 6.11 and (hopefully) later.
+'''NOTE''': Versions supported: 6.11+.
+
+'''NOTE''': for current issues, see 
+[[TicketQuery(id=3472|)]]
 
 In this section, we explain how to bootstrap GHC on a new platform,
 using unregisterised intermediate C files.  We haven't put a great
