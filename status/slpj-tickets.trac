@@ -113,6 +113,7 @@
  * #2340: Better TH error recovery.  Easy to do; change to signature of qRecover.
 
 == Features == 
+ * #3701: Implicitly declared existentials: a class as a type
  * #3480: Fingerprints in `TypeRep`
  * #3217: better flag handling for GHCi
  * #788: Class aliases	
