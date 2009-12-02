@@ -1,5 +1,19 @@
 [TypeFunctions](type-functions)/Status
 
+# The new solver infrastructure: Dimitrios and Simon
+
+
+This section collects notes about the new constraint solver (Dec 2009) that we are about to put into GHC.
+
+- Don't forget: instance declarations should not mention a type family in the head, just as type instances should not:
+
+  ```wiki
+  type instance F (G x) = x    -- Illegal if G is a type function
+  instance C (G x) where ...   -- Likewise should be illegal
+  ```
+
+---
+
 # Type Families: Implementation Status
 
 **Open bugs related to type families**
