@@ -69,6 +69,7 @@ instance C (G x) where ...   -- Likewise should be illegal
   * Eliminate code duplication between `tcTyClDecl1` and `tcFamInstDecl1`.  The code for vanilla data/newtype declarations and the code for data/newtype instances has many commonalities.
 
 '''Additional feature:'''
+ * #3699: wildcards in type function LHSs
  * #3491: relax restrictions on superclass contexts
  * #2101
  * Total families
