@@ -70,3 +70,80 @@ Topics to cover in the Hackathon:
 - Unified repository, containing Eden and GUM code
 - Common test platform
 - List of people in charge of sub-projects
+
+## Agenda proposals
+
+
+JB: I suggest a more informal format than real talks. 
+
+- Practical Code Knowledge: One person gives informative overview and points to relevant source code, followed/interrupted by time slots to look up and read the code. 
+- Brainstorm: One person presents ideas (slides, black/white board, ???) about future features and development, and is chairing a discussion round afterwards. After discussion, results have to be fixed in keywords, within 5 minutes.
+
+<table><tr><th>**Time**</th>
+<th>**Topic**</th>
+<th>**Chair/Presenter**</th></tr>
+<tr><th></th>
+<th></th>
+<th></th></tr>
+<tr><th> Thu, ???  </th>
+<th> Build setup, Compilation, Debugging GHC </th>
+<th> ?Vladimir? 
+</th></tr>
+<tr><th></th>
+<th></th>
+<th></th></tr>
+<tr><th> Thu, noon </th>
+<th> Lunch break </th>
+<th></th></tr>
+<tr><th> Thu, 2pm </th>
+<th> Overview of the Implementation Structure, Eden parts </th>
+<th> Jost 
+</th></tr>
+<tr><th> Thu, 2:30 </th>
+<th> Heap Closures, Pointer tagging for Dummies </th>
+<th> ?Simon?
+</th></tr>
+<tr><th></th>
+<th></th>
+<th></th></tr>
+<tr><th> Fri, 9am </th>
+<th> Breakfast </th>
+<th></th></tr>
+<tr><th></th>
+<th></th>
+<th></th></tr>
+<tr><th></th>
+<th></th>
+<th></th></tr>
+<tr><th> Fri, 1pm </th>
+<th> Lunch break </th>
+<th></th></tr>
+<tr><th></th>
+<th></th>
+<th></th></tr>
+<tr><th></th>
+<th></th>
+<th></th></tr>
+<tr><th></th>
+<th></th>
+<th></th></tr>
+<tr><th> Sat, 9am </th>
+<th> Breakfast </th>
+<th></th></tr>
+<tr><th></th>
+<th></th>
+<th></th></tr>
+<tr><th></th>
+<th></th>
+<th></th></tr>
+<tr><th> Sat, 1pm </th>
+<th> Lunch break </th>
+<th></th></tr>
+<tr><th></th>
+<th></th>
+<th></th></tr>
+<tr><th></th>
+<th></th>
+<th></th></tr></table>
+
+<sub>Please maintain this table and the list above together, striking out in the list what is already here.</sub>
