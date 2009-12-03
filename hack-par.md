@@ -28,7 +28,7 @@ If you have questions or problems, edit the page or mail Jost (berthold\@mathema
 
 Topics to cover in the Hackathon:
 
-- Short overview sessions on implementation internals:
+- Short overview sessions on implementation internals (KH: these should not all be on the first afternoon!):
 
   - GUM (Mustafa)
   - Eden (Jost)
