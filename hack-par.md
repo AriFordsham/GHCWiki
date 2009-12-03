@@ -31,11 +31,11 @@ Topics to cover in the Hackathon:
 - Short overview sessions on implementation internals (KH: these should not all be on the first afternoon!):
 
   - GUM (Mustafa)
-  - Eden (Jost)
+  - ~~Eden (Jost)~~ (see agenda)
   - Globus (Abyd)
   - Migration/Load Balancing (Vladimir)
   - ghc HEAD developments (Simon)
-  - GUM/Eden Compilation and Debugging (Vladimir?)
+  - ~~GUM/Eden Compilation and Debugging (Vladimir?)~~ (see agenda)
 - GUM-6 port
 - Merging GUM and Eden implementations
 
@@ -108,6 +108,12 @@ JB: I suggest a more informal format than real talks.
 <th></th></tr>
 <tr><th> Fri, 9am </th>
 <th> Breakfast </th>
+<th></th></tr>
+<tr><th> Fri, 9:30</th>
+<th> Brainstorm: Test suite coverage and Setup </th>
+<th></th></tr>
+<tr><th> Fri, 10:00</th>
+<th> Collective Test Program Hacking</th>
 <th></th></tr>
 <tr><th></th>
 <th></th>
