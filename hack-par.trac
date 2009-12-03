@@ -58,3 +58,32 @@ Topics to cover in the Hackathon:
  * Common test platform
  * List of people in charge of sub-projects
 
+== Agenda proposals ==
+
+JB: I suggest a more informal format than real talks. 
+ * Practical Code Knowledge: One person gives informative overview and points to relevant source code, followed/interrupted by time slots to look up and read the code. 
+ * Brainstorm: One person presents ideas (slides, black/white board, ???) about future features and development, and is chairing a discussion round afterwards. After discussion, results have to be fixed in keywords, within 5 minutes.
+
+|| '''Time''' || '''Topic''' || '''Chair/Presenter''' ||
+|| || || ||
+|| Thu, ???  || Build setup, Compilation, Debugging GHC || ?Vladimir? ||
+|| || || ||
+|| Thu, noon || Lunch break || ||
+|| Thu, 2pm || Overview of the Implementation Structure, Eden parts || Jost ||
+|| Thu, 2:30 || Heap Closures, Pointer tagging for Dummies || ?Simon?||
+|| || || ||
+|| Fri, 9am || Breakfast || ||
+|| || || ||
+|| || || ||
+|| Fri, 1pm || Lunch break || ||
+|| || || ||
+|| || || ||
+|| || || ||
+|| Sat, 9am || Breakfast || ||
+|| || || ||
+|| || || ||
+|| Sat, 1pm || Lunch break || ||
+|| || || ||
+|| || || ||
+,,Please maintain this table and the list above together, striking out in the list what is already here.,,
+
