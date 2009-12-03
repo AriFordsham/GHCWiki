@@ -64,3 +64,9 @@ Topics to cover in the Hackathon:
   - Eden/GUM code maintenance
   - testing framework
 - Prize for the most awkward bug fixed in the Hackaton. <sub>~~Jost: I am non-competitive in this contest, since my task is to introduce them ;)~~</sub><sub>~~HWL: Clearly you are at an disadvantage: you first have to introduce the bug; we don't have that problem;-)~~</sub>
+
+## Expected Outcomes
+
+- Unified repository, containing Eden and GUM code
+- Common test platform
+- List of people in charge of sub-projects
