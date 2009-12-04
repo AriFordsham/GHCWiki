@@ -5,6 +5,8 @@ GC concepts:
 
 - [Aging](commentary/rts/storage/gc/aging)
 - [Pinned objects](commentary/rts/storage/gc/pinneed)
+- [Roots](commentary/rts/storage/gc/roots)
+- [Eager promotion](commentary/rts/storage/gc/eager-promotion)
 
 
 GC algorithms supported:
