@@ -26,11 +26,6 @@ The CPP symbols and their corresponding command-line flags are:
   GHC option: {{{-unreg}}}[[br]]
   RTS suffix: {{{u}}}
 
- {{{TICKY}}}::
-  Ticky-ticky profiling[[br]]
-  GHC option: {{{-ticky}}}[[br]]
-  RTS suffix: {{{t}}}
-  
 So for example, {{{libHSRts_thr_debug.a}}} is the version of the runtime compiled with {{{THREADED_RTS}}} and {{{DEBUG}}}, and will be linked in if you use the {{{-threaded}}} and {{{-debug}}} options to GHC.
 
 The ways that the RTS is built in are controlled by the {{{GhcRTSWays}}} Makefile variable.  
@@ -50,3 +45,11 @@ The following ways are bitrotted and currently don't work (GHC 6.6):
   Parallel Haskell[[br]]
   GHC option: {{{-par}}}[[br]]
   RTS suffix: {{{mp, mg}}}
+
+ {{{TICKY}}}::
+  Ticky-ticky profiling used to be a separate "way"; you had to rebuild all the libraries and the RTS for ticky-ticky profiling, 
+  just like ordinary time/space profiling.  This isn't the case any more: you can link modules compiled with `-ticky`
+  against modules or packages compiled without it.  Since 6.12.1, the `-debug` RTS version also include ticky-ticky
+  support, and there is no separate RTS version for ticky.  If you use the `-ticky` flag when linking a program, it implies
+  `-debug`.
+
