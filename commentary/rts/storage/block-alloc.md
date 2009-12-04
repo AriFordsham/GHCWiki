@@ -54,7 +54,7 @@ The block allocator has a the following structure:
 
 - At the bottom, talking to the OS, is the megablock allocator ([rts/sm/MBlock.c](/trac/ghc/browser/ghc/rts/sm/MBlock.c), [includes/rts/storage/MBlock.h](/trac/ghc/browser/ghc/includes/rts/storage/MBlock.h)).
   It is responsible for delivering megablocks, correctly aligned, to the upper layers.  It is also responsible for
-  implementing `HEAP_ALLOCED()`: the predicate that tests whether a pointer points to dynamically allocated memory
+  implementing [HEAP_ALLOCED()](commentary/heap-alloced): the predicate that tests whether a pointer points to dynamically allocated memory
   or not.  This is implemented as a simple bitmap lookup on a 32-bit machine, and something more complex on
   64-bit addressed machines.  See [includes/rts/storage/MBlock.h](/trac/ghc/browser/ghc/includes/rts/storage/MBlock.h) for details.
 
