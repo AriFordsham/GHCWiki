@@ -20,3 +20,17 @@ The basic copying scheme is [ Cheney's Algorithm](http://en.wikipedia.org/wiki/C
 Evacuation is implemented in the file [rts/sm/Evac.c](/trac/ghc/browser/ghc/rts/sm/Evac.c).
 
 Scavenging is implemented in the file [rts/sm/Scav.c](/trac/ghc/browser/ghc/rts/sm/Scav.c).
+
+
+The principle APIs are
+
+<table><tr><th>`void evacuate (StgClosure **p)`</th>
+<td>
+which evacuates the object pointed to by the pointer at `p`, and updates `p` to point to the new location.
+</td></tr></table>
+
+<table><tr><th>`void scavenge_block (bdescr *bd)`</th>
+<td>
+which scavenges all the objects in the block `bd` (objects betwee `bd->u.scan` and `bd->free` are assumed to
+be unscavenged so far).
+</td></tr></table>
