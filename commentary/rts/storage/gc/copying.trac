@@ -6,7 +6,7 @@ GHC uses copying GC by default, since while it requires more memory than [wiki:C
 
 The basic copying scheme is [http://en.wikipedia.org/wiki/Cheney%27s_algorithm Cheney's Algorithm].  Starting from the [wiki:Commentary/Rts/Storage/GC/Roots roots], we visit each live object:
 
- * The object is ''evacutated'' (copied) to its destination generation.   The destination is given by `bd->dest` pointer in the `bdescr` of the
+ * The object is ''evacuated'' (copied) to its destination generation.   The destination is given by `bd->dest` pointer in the `bdescr` of the
    block in which it lives; typically an object is promoted to the next highest generation, but the basic policy is affected by  [wiki:Commentary/Rts/Storage/GC/Aging aging] and [wiki:Commentary/Rts/Storage/GC/EagerPromotion eager promotion].
 
  * The header word of the original object is replaced by a ''forwarding pointer''.  The forwarding pointer is just the pointer to the new copy, with the least significant bit set to 1 so that forwarding pointers can be distinguished from info table pointers.
