@@ -104,3 +104,11 @@ void setTSOLink (Capability *cap, StgTSO *tso, StgTSO *target);
 there are a few exceptions where `setTSOLink()` does not need to be called; see [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c) for details.
 
 ## Remembered set maintenance during GC
+
+
+During GC, the principle of write barriers is quite similar: whenever we create an old-to-new pointer, we have to record it in the remembered set.  The GC achieves this as follows:
+
+- The GC thread structure has a field `gc_thread->evac_gen` which specifies the desired destination generation.
+- there is a flag `gc_thread->failed_to_evac`, which is set to true by `evacuate` if it did not manage to evacuate
+  the object into the desired generation.
+- after scavenging an object, `scavenge_block` checks the `failed_to_evac` flag, (ToDO: continue)
