@@ -8,6 +8,7 @@ GC concepts:
 - [Roots](commentary/rts/storage/gc/roots)
 - [Eager promotion](commentary/rts/storage/gc/eager-promotion)
 - [Remembered sets](commentary/rts/storage/gc/remembered-sets)
+- [Weak pointers and finalizers](commentary/rts/storage/gc/weak)
 
 
 GC algorithms supported:
