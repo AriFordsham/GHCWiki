@@ -38,14 +38,6 @@ GHC option: `-unreg`
 
 RTS suffix: `u`</td></tr></table>
 
-<table><tr><th>`TICKY`</th>
-<td>
-Ticky-ticky profiling
-
-GHC option: `-ticky`
-
-RTS suffix: `t`</td></tr></table>
-
 
 So for example, `libHSRts_thr_debug.a` is the version of the runtime compiled with `THREADED_RTS` and `DEBUG`, and will be linked in if you use the `-threaded` and `-debug` options to GHC.
 
@@ -72,3 +64,12 @@ Parallel Haskell
 GHC option: `-par`
 
 RTS suffix: `mp, mg`</td></tr></table>
+
+<table><tr><th>`TICKY`</th>
+<td>
+Ticky-ticky profiling used to be a separate "way"; you had to rebuild all the libraries and the RTS for ticky-ticky profiling, 
+just like ordinary time/space profiling.  This isn't the case any more: you can link modules compiled with `-ticky`
+against modules or packages compiled without it.  Since 6.12.1, the `-debug` RTS version also include ticky-ticky
+support, and there is no separate RTS version for ticky.  If you use the `-ticky` flag when linking a program, it implies
+`-debug`.
+</td></tr></table>
