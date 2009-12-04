@@ -6,5 +6,18 @@
  * [wiki:Commentary/Rts/Storage/GC/Parallel Parallel GC]
  * [wiki:Commentary/Rts/Storage/GC/Marking Marking] (for compaction or sweeping)
  * [wiki:Commentary/Rts/Storage/GC/Compaction Compaction]
- * [wiki:Commentary/Rts/Storage/GC/Sweeping (mark-region)]
+ * [wiki:Commentary/Rts/Storage/GC/Sweeping Sweeping] (for mark-region GC)
 
+== GC overview ==
+
+The GC is designed to be flexible, supporting lots of ways to tune its behaviour.  Here's an overview of the techniques we use:
+
+ * Generational GC, with a runtime-selectable number of generations (`+RTS -G<n> -RTS`, where `n >= 1`)
+
+ * The heap grows on demand.  This is straightforwardly implemented by basing the whole storage manager on a [wiki:Commentary/Rts/Storage/BlockAlloc block allocator].
+
+ * Aging: objects can be aged within a generation, to avoid premature promotion.  In GHC 6.12 and earlier this was implemented by having each generation consist of a runtime-tunable number of ''steps'', so objects would be moved through the list of steps before being promoted to the next highest generation.  We found that having 2 steps was almost always the best ''integral'' number of steps, but GHC 6.12 did not support a fractional number of steps.  In GHC 6.13 and later, the concept of steps was removed.  Aging is still supported, by having each block point to the generation to which objects in that block should be promoted; this lets us provide any fractional number of steps between 1 and 2, while eliminating the infrastructural overhead of steps.
+
+ * The heap collection policy is runtime-tunable.  You select how large a generation gets before it is collected using the `+RTS -F<n> -RTS` option, where `<n>` is a factor of the generation's size the last time it was collected.  The default value is 2, that is a generation is allowed to double in size before being collected.
+
+== GC data structures ==
