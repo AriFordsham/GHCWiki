@@ -9,6 +9,7 @@ GC concepts:
  * [wiki:Commentary/Rts/Storage/GC/Roots Roots]
  * [wiki:Commentary/Rts/Storage/GC/EagerPromotion Eager promotion]
  * [wiki:Commentary/Rts/Storage/GC/RememberedSets Remembered sets]
+ * [wiki:Commentary/Rts/Storage/GC/Weak Weak pointers and finalizers]
 
 GC algorithms supported:
 
