@@ -21,6 +21,11 @@ The CPP symbols and their corresponding command-line flags are:
   GHC option: {{{-debug}}}[[br]]
   RTS suffix: {{{debug}}}
 
+ {{{TRACING}}}::
+  Enables RTS tracing and event logging, see [[GhcFile(rts/Trace.c)]].  Implied by `DEBUG`.[[br]]
+  GHC option: {{{-eventlog}}}[[br]]
+  RTS suffix: {{{l}}}
+
  {{{NO_REGS}}}, {{{USE_MINIINTERPRETER}}}::
   Enables "unregisterised" compilation, i.e. via C with no mangler.[[br]]
   GHC option: {{{-unreg}}}[[br]]
