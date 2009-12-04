@@ -1,0 +1,10 @@
+
+
+= The Garbage Collector =
+
+ * [wiki:Commentary/Rts/Storage/GC/Copying Copying GC]
+ * [wiki:Commentary/Rts/Storage/GC/Parallel Parallel GC]
+ * [wiki:Commentary/Rts/Storage/GC/Marking Marking] (for compaction or sweeping)
+ * [wiki:Commentary/Rts/Storage/GC/Compaction Compaction]
+ * [wiki:Commentary/Rts/Storage/GC/Sweeping (mark-region)]
+
