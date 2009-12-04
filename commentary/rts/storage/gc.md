@@ -59,7 +59,7 @@ a list of threads in this generation
 
 <table><tr><th>`mut_list`</th>
 <td>
-the "remembered set", a list of blocks containing pointers to objects in *this* generation that point to objects in *younger* generations
+the [remembered set](commentary/rts/storage/gc/remembered-sets), a list of blocks containing pointers to objects in *this* generation that point to objects in *younger* generations
 </td></tr></table>
 
 

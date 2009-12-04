@@ -50,7 +50,7 @@ The main data structure is `generation`, which contains:
    a list of threads in this generation
 
  `mut_list`::
-   the "remembered set", a list of blocks containing pointers to objects in ''this'' generation that point to objects in ''younger'' generations
+   the [wiki:Commentary/Rts/Storage/GC/RememberedSets remembered set], a list of blocks containing pointers to objects in ''this'' generation that point to objects in ''younger'' generations
 
 and various other administrative fields (see [[GhcFile(includes/rts/storage/GC.h)]] for the details).
 
