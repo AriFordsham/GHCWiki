@@ -11,6 +11,7 @@ This part of the wiki collects all the information related to debugging GHC: tha
  * '''Debugging the runtime system'''.  See [wiki:Debugging/RuntimeSystem]
 
  * '''Performance debugging'''. 
+   * Debugging the performance of the compiler itself.  `GhcProfiled=YES` builds  a profiled stage2.  `GGhcStage2HcOpts += -auto-all`
    * [wiki:Debugging/TickyTicky]: for debugging performance-related issues in compiled code.  Typically for performance debugging of the Simplifier and Core-level optimisations.
    * [wiki:Debugging/LowLevelProfiling]: way to investigate low-level performance, typically for performance debugging of the code generator or RTS.
 
