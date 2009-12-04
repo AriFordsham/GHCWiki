@@ -7,6 +7,7 @@ GC concepts:
 - [Pinned objects](commentary/rts/storage/gc/pinneed)
 - [Roots](commentary/rts/storage/gc/roots)
 - [Eager promotion](commentary/rts/storage/gc/eager-promotion)
+- [Remembered sets](commentary/rts/storage/gc/remembered-sets)
 
 
 GC algorithms supported:
