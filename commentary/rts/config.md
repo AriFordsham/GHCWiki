@@ -30,6 +30,14 @@ GHC option: `-debug`
 
 RTS suffix: `debug`</td></tr></table>
 
+<table><tr><th>`TRACING`</th>
+<td>
+Enables RTS tracing and event logging, see [rts/Trace.c](/trac/ghc/browser/ghc/rts/Trace.c).  Implied by `DEBUG`.
+
+GHC option: `-eventlog`
+
+RTS suffix: `l`</td></tr></table>
+
 <table><tr><th>`NO_REGS`, `USE_MINIINTERPRETER`</th>
 <td>
 Enables "unregisterised" compilation, i.e. via C with no mangler.
