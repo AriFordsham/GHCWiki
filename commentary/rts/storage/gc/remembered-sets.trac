@@ -25,7 +25,17 @@ The remembered set may contain duplicates, or it may contain pointers to objects
 
 == Remembered set maintenance during mutation ==
 
-While the mutator is running, we have to add any old-to-new generation pointers that are created.  Old-to-new pointers are created by mutating (writing to) an object in the old generation, and catching these writes is called a "write barrier".  Here are the cases we need to worry about in GHC:
+While the mutator is running, we have to add any old-to-new generation pointers that are created.  Old-to-new pointers are created by mutating (writing to) an object in the old generation, and catching these writes is called a "write barrier".  
+
+A pointer can be added to a remembered set using 
+
+{{{
+void recordMutableCap (StgClosure *p, Capability *cap, nat gen);
+}}}
+
+This adds the pointer `p` to the remembered set for generation `gen`, using Capability `cap`.  Each Capability has its own remembered set for each generation, so that when running in parallel we can update remembered sets without taking a lock, and also so that we can take advantage of locality in the GC, by traversing a remembered set on the same CPU that created it.
+
+Here are the cases where we need a write barrier in GHC:
 
 === Thunk Updates ===
 
