@@ -58,14 +58,14 @@ extensions (possibly with different syntax):
  * C++-style comments.  These are part of the C99 standard, and we
    prefer to use them whenever possible.
 
-  In addition we use ANSI-C-style function declarations and prototypes
-  exclusively.  Every function should have a prototype; static
-  function prototypes may be placed near the top of the file in which
-  they are declared, and external prototypes are usually placed in a
-  header file with the same basename as the source file (although
-  there are exceptions to this rule, particularly when several source
-  files together implement a subsystem which is described by a single
-  external header file).
+In addition we use ANSI-C-style function declarations and prototypes
+exclusively.  Every function should have a prototype; static
+function prototypes may be placed near the top of the file in which
+they are declared, and external prototypes are usually placed in a
+header file with the same basename as the source file (although
+there are exceptions to this rule, particularly when several source
+files together implement a subsystem which is described by a single
+external header file).
 
  * We use the following GCC extensions, but surround them with {{{#ifdef__GNUC__}}}:
    * Function attributes (mostly just {{{no_return}}} and {{{unused}}})
@@ -287,43 +287,6 @@ typedef enum
    If they're static, we still get multiple copies but at least they
    don't conflict.
 
-  OTOH, the gcc manual says this
-  so maybe we should use extern inline?
-{{{
-   When a function is both inline and `static', if all calls to the
-function are integrated into the caller, and the function's address is
-never used, then the function's own assembler code is never referenced.
-In this case, GNU CC does not actually output assembler code for the
-function, unless you specify the option `-fkeep-inline-functions'.
-Some calls cannot be integrated for various reasons (in particular,
-calls that precede the function's definition cannot be integrated, and
-neither can recursive calls within the definition).  If there is a
-nonintegrated call, then the function is compiled to assembler code as
-usual.  The function must also be compiled as usual if the program
-refers to its address, because that can't be inlined.
-
-   When an inline function is not `static', then the compiler must
-assume that there may be calls from other source files; since a global
-symbol can be defined only once in any program, the function must not
-be defined in the other source files, so the calls therein cannot be
-integrated.  Therefore, a non-`static' inline function is always
-compiled on its own in the usual fashion.
-
-   If you specify both `inline' and `extern' in the function
-definition, then the definition is used only for inlining.  In no case
-is the function compiled on its own, not even if you refer to its
-address explicitly.  Such an address becomes an external reference, as
-if you had only declared the function, and had not defined it.
-
-   This combination of `inline' and `extern' has almost the effect of a
-macro.  The way to use it is to put a function definition in a header
-file with these keywords, and put another copy of the definition
-(lacking `inline' and `extern') in a library file.  The definition in
-the header file will cause most calls to the function to be inlined.
-If any uses of the function remain, they will refer to the single copy
-in the library.
-}}}
-
  * Don't define macros that expand to a list of statements.  You could
    just use braces as in:
 {{{
@@ -431,9 +394,10 @@ int *p, *q;
 
  * We don't care too much about your indentation style but, if you're
    modifying a function, please try to use the same style as the rest
-   of the function (or file).  If you're writing new code, a tab width
-   of 4 is preferred.
+   of the function (or file).  If you're writing new code, an indentation width
+   of 4 is preferred (don't use actual tab characters, use spaces).
 
+ * Please write comments in English.  Especially avoid Klingon.
 
 == Source-control issues ==
 
