@@ -72,7 +72,7 @@ The name of the bug-reporting game is: facts, facts, facts. Don't omit them beca
 
 **The absolutely key thing is that we must be able to reproduce the bug**.  Without this, we are virtually helpless; we know there's a problem but we usually can make no progress with fixing it.  The easiest way to help us reproduce the bug is to provide us with a program that elicits it:
 
-- The smaller the better.  It costs you real work to "boil down" the bug from a big program to a small one, but the plain truth is that the easier the bug is to reproduce, and the smaller the test program (= smaller debug output), the more likely we are to fix it. 
+- The smaller the better.  It costs you real work to "boil down" the bug from a big program to a small one, but the plain truth is that the easier the bug is to reproduce, and the smaller the test program (= smaller debug output), the more likely we are to fix it. Also, as you are familiar with the code, it is generally easier for you to boil it down than for us to.
 - The fewer dependencies the better.  If your program depends on many libraries, it's harder for us to reproduce.  
 
 
