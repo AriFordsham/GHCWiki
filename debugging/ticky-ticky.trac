@@ -20,7 +20,7 @@ It's very low level stuff, but in exchange:
 To ''really'' see everything you need to compile all the libraries with `-ticky`.  To do that in a standard build tree, here are some flag settings in `build.mk` that work:
 {{{
 # Build all libraries with -ticky
-GhcLibOpts += -ticky
+GhcLibHcOpts += -ticky
 
 # Build the RTS in the ticky way
 GhcRTSWays += t
