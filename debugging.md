@@ -3,6 +3,8 @@
 
 This part of the wiki collects all the information related to debugging GHC: that includes debugging the compiler itself, the libraries, the runtime system, the code generator, or the build system.
 
+- **Reproducing the test case**.  You may need to install some packages to reproduce the test case, and that may take a little care: [Debugging/InstallingPackagesInplace](debugging/installing-packages-inplace).
+
 - **Debugging the compiler itself**.  If you're debugging a compiler panic or some problem in GHC itself, then go to [Debugging/Compiler](debugging/compiler)
 
 - **Debugging a compiled program**. If the compiled program crashes or panics, then go to [Debugging/CompiledCode](debugging/compiled-code)
@@ -11,7 +13,7 @@ This part of the wiki collects all the information related to debugging GHC: tha
 
 - **Performance debugging**. 
 
-  - Debugging the performance of the compiler itself.  `GhcProfiled=YES` builds  a profiled stage2.  `GGhcStage2HcOpts += -auto-all`
+  - [Debugging/ProfilingGhc](debugging/profiling-ghc): Profiling the compiler itself.  
   - [Debugging/TickyTicky](debugging/ticky-ticky): for debugging performance-related issues in compiled code.  Typically for performance debugging of the Simplifier and Core-level optimisations.
   - [Debugging/LowLevelProfiling](debugging/low-level-profiling): way to investigate low-level performance, typically for performance debugging of the code generator or RTS.
 
