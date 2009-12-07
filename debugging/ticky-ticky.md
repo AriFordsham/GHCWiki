@@ -24,7 +24,7 @@ To *really* see everything you need to compile all the libraries with `-ticky`. 
 
 ```wiki
 # Build all libraries with -ticky
-GhcLibOpts += -ticky
+GhcLibHcOpts += -ticky
 
 # Build the RTS in the ticky way
 GhcRTSWays += t
