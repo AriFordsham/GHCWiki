@@ -3,6 +3,8 @@
 
 This part of the wiki collects all the information related to debugging GHC: that includes debugging the compiler itself, the libraries, the runtime system, the code generator, or the build system.
 
+- **Reproducing the test case**.  You may need to install some packages to reproduce the test case, and that may take a little care: [Debugging/InstallingPackagesInplace](debugging/installing-packages-inplace).
+
 - **Debugging the compiler itself**.  If you're debugging a compiler panic or some problem in GHC itself, then go to [Debugging/Compiler](debugging/compiler)
 
 - **Debugging a compiled program**. If the compiled program crashes or panics, then go to [Debugging/CompiledCode](debugging/compiled-code)
