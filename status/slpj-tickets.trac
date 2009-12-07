@@ -31,6 +31,7 @@
 
 == New code generator ==
  * [wiki:Commentary/Compiler/NewCodeGen New code generator tickets]
+ * #3458: undesirable allocation of something that is nearly a join point
  * #3462: allocate large objects with `allocateLocal()`
  * #2253: NCG could do better. Look at this when John D’s ncg is working
  * #783: SRTs getting big	
