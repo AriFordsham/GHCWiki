@@ -1,0 +1,18 @@
+# Profiling GHC itself
+
+
+If GHC itself is running too slowly, you can profile the compiler itself.  The way to do this is to add
+
+```wiki
+GhcProfiled=YES 
+```
+
+
+to your `build.mk` file.  This is more robust than trying things like `GhcStage2HcOpts += -prof` because there are several things to do: first we build the ghc library, then we build the ghc program, linked against the library.
+
+
+Once you've done this, you should be able to run GHC to generate time and space profiles. For exmaple:
+
+```wiki
+ghc +RTS -p -RTS
+```
