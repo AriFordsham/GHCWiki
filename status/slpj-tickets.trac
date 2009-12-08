@@ -60,6 +60,13 @@
  * #2346: desugaring let-bindings
  * Use wildcards for dead variables in interface files.
 
+== Tiresome arithmetic things ==
+ * #3065: quot is sub-optimal
+ * #2269: Word type to Double or Float conversions 
+ * #2271: floor, ceiling, round :: Double -> Int are awesomely slow
+ * #1434: slow conversion Double to Int
+ * #2270: gcd specialisation
+ 
 ------------------------
 == Outright bugs ==
 
