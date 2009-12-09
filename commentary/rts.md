@@ -32,7 +32,7 @@ Next, we try to make sense of how it all fits together.
 
 - [RTS Configurations](commentary/rts/config)
 - [The Word](commentary/rts/word)
-- [What the hell is a .cmm file?](commentary/rts/cmm)
+- [What on earth is a .cmm file?](commentary/rts/cmm)
 - [The Storage Manager](commentary/rts/storage)
 - [Sanity Checking](commentary/rts/sanity)
 - [The Haskell Execution model](commentary/rts/haskell-execution)
