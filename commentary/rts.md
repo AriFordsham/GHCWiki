@@ -28,6 +28,8 @@ Next, we try to make sense of how it all fits together.
 
 ## RTS: Contents
 
+- [Coding conventions in the RTS](commentary/rts/conventions)
+
 - [RTS Configurations](commentary/rts/config)
 - [The Word](commentary/rts/word)
 - [What the hell is a .cmm file?](commentary/rts/cmm)
@@ -40,7 +42,6 @@ Next, we try to make sense of how it all fits together.
 - [Asynchronous exceptions](commentary/rts/async-exceptions)
 - [Software Transactional Memory (STM)](commentary/rts/stm)
 - [Weak Pointers and Finalizers](commentary/rts/weak)
-- [Coding conventions in the RTS](commentary/rts/conventions)
 - [How Signals are handled](commentary/rts/signals)
 - [The IO Manager thread](commentary/rts/io-manager)
 - [The HEAP_ALLOCED macro](commentary/heap-alloced)
