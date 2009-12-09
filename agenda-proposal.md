@@ -23,14 +23,13 @@ JB: I suggest the following formats
 <th></th>
 <th></th></tr>
 <tr><th> Thu, early</th>
-<th> T:Jumpstart session: Build setup, Usage, Debugging </th>
-<th> ?Vladimir? 
-</th></tr>
+<th> Individual setup on arrival </th>
+<th></th></tr>
 <tr><th> Thu, noon </th>
 <th> Lunch </th>
 <th></th></tr>
 <tr><th> Thu, 1:30 </th>
-<th> T:repository and build setup, Debugging </th>
+<th> T:Jumpstart session: repository and build setup, Debugging </th>
 <th> ?Vladimir? / Jost 
 </th></tr>
 <tr><th> Thu, 2pm  </th>
@@ -42,7 +41,7 @@ JB: I suggest the following formats
 <th> ?Simon?
 </th></tr>
 <tr><th> Thu, 3pm  </th>
-<th> Pair programming: Tracing, Packing, configure/packaging </th>
+<th> Pair programming: Tracing, Packing, GUM-Eden integration, configure/packaging </th>
 <th> - 
 </th></tr>
 <tr><th> Thu, 5pm  </th>
@@ -53,6 +52,9 @@ JB: I suggest the following formats
 <th> Brainstorm Repository </th>
 <th> Jost/tba 
 </th></tr>
+<tr><th> Thu, dinner </th>
+<th> Pizza </th>
+<th></th></tr>
 <tr><th> Thu, late </th>
 <th> Pair programming II ? </th>
 <th> - 
@@ -104,7 +106,7 @@ JB: I suggest the following formats
 <th> bar tender 
 </th></tr>
 <tr><th> Fri, late </th>
-<th> Pair programming and brainstorm :-P ?  </th>
+<th> Curry and games evening  </th>
 <th> - 
 </th></tr>
 <tr><th></th>
@@ -138,6 +140,9 @@ JB: I suggest the following formats
 <th></th></tr>
 <tr><th> Sat, 5:30 </th>
 <th> Result check-in (repository) and wrap-up </th>
+<th></th></tr>
+<tr><th> Sat, late </th>
+<th> Pub and winding-down </th>
 <th></th></tr>
 <tr><th></th>
 <th></th>

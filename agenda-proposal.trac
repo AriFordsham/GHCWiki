@@ -13,14 +13,15 @@ JB: I suggest the following formats
 || '''Time''' || '''Topic''' || '''Chair/Presenter''' ||
 || || || ||
 || || || ||
-|| Thu, early|| T:Jumpstart session: Build setup, Usage, Debugging || ?Vladimir? ||
+|| Thu, early|| Individual setup on arrival ||  ||
 || Thu, noon || Lunch || ||
-|| Thu, 1:30 || T:repository and build setup, Debugging || ?Vladimir? / Jost ||
+|| Thu, 1:30 || T:Jumpstart session: repository and build setup, Debugging || ?Vladimir? / Jost ||
 || Thu, 2pm  || T:Overview of the Implementation Structure, Eden parts || Jost ||
 || Thu, 2:30 || T:Heap Closures, Pointer tagging for Dummies || ?Simon?||
-|| Thu, 3pm  || Pair programming: Tracing, Packing, configure/packaging || - ||
+|| Thu, 3pm  || Pair programming: Tracing, Packing, GUM-Eden integration, configure/packaging || - ||
 || Thu, 5pm  || Summary snapshots || - ||
 || Thu, 5:30 || Brainstorm Repository || Jost/tba ||
+|| Thu, dinner || Pizza || ||
 || Thu, late || Pair programming II ? || - ||
 || || || ||
 || Fri, 9am   || Breakfast? || ||
@@ -35,7 +36,7 @@ JB: I suggest the following formats
 || Fri, 3:30 || Pair Programming: various test programs, test and repo setup || - ||
 || Fri, 5:30 || Summary snapshots, check-in || ||
 || Fri, 6pm  || Brainstorm (with scotch & malt?) || bar tender ||
-|| Fri, late || Pair programming and brainstorm :-P ?  || - ||
+|| Fri, late || Curry and games evening  || - ||
 || || || ||
 || Sat, 9:30 || Extensions and Future directions || Chair: ||
 || || Globus, GHC-GAP, GHC-SMP, Microkernel, Packing as-a-library || tba ||
@@ -46,4 +47,5 @@ JB: I suggest the following formats
 || Sat, 3pm || Pair programming: Tracing, Packing code, various projects || ||
 || Sat, 5pm  || Summary snapshots || ||
 || Sat, 5:30 || Result check-in (repository) and wrap-up || ||
+|| Sat, late || Pub and winding-down || ||
 || || || ||
