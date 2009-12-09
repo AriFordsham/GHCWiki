@@ -10,3 +10,8 @@ GHC's storage manager is designed to be quite flexible: there are a large number
 - [Slop](commentary/rts/storage/slop)
 - [The Block Allocator](commentary/rts/storage/block-alloc)
 - [The Garbage Collector](commentary/rts/storage/gc)
+
+
+See also:
+
+- [Pointer tagging](commentary/rts/haskell-execution/pointer-tagging)
