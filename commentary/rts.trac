@@ -28,9 +28,11 @@ Next, we try to make sense of how it all fits together.
 
 == RTS: Contents ==
 
+ * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
+
  * [wiki:Commentary/Rts/Config RTS Configurations]
  * [wiki:Commentary/Rts/Word The Word]
- * [wiki:Commentary/Rts/Cmm What the hell is a .cmm file?]
+ * [wiki:Commentary/Rts/Cmm What on earth is a .cmm file?]
  * [wiki:Commentary/Rts/Storage The Storage Manager]
  * [wiki:Commentary/Rts/Sanity Sanity Checking]
  * [wiki:Commentary/Rts/HaskellExecution The Haskell Execution model]
@@ -40,7 +42,6 @@ Next, we try to make sense of how it all fits together.
  * [wiki:Commentary/Rts/AsyncExceptions Asynchronous exceptions]
  * [wiki:Commentary/Rts/STM Software Transactional Memory (STM)]
  * [wiki:Commentary/Rts/Weak Weak Pointers and Finalizers]
- * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
  * [wiki:Commentary/Rts/Signals How Signals are handled]
  * [wiki:Commentary/Rts/IOManager The IO Manager thread]
  * [wiki:Commentary/HeapAlloced The HEAP_ALLOCED macro]
