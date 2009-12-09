@@ -4,7 +4,7 @@
 GC concepts:
 
 - [Aging](commentary/rts/storage/gc/aging)
-- [Pinned objects](commentary/rts/storage/gc/pinneed)
+- [Pinned objects](commentary/rts/storage/gc/pinned)
 - [Roots](commentary/rts/storage/gc/roots)
 - [Eager promotion](commentary/rts/storage/gc/eager-promotion)
 - [Remembered sets](commentary/rts/storage/gc/remembered-sets)
