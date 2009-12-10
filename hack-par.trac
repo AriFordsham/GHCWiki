@@ -107,17 +107,20 @@ We need to find common ways of working to maximise our effort.
 
 darcs for repositories
 
-skype for commication
+skype for communication
 
 do we want dedicated mailing lists/IRC channels?
 
 == Who Does What ==
 
-We agreed to setup teams to work on different issues as follows
+We agreed to setup hacker teams to work on different issues as follows
 
 === Repository: VJ + JB ===
 
-=== GHC/Eden Integration ===
+Set up a common repository to hold GUM and Eden.  Later, we should try to integrate this with the main
+GHC repository.
+
+=== GUM/Eden Integration ===
 
 Integrating basic GUM code into Eden version 6.13: HWL?
 
