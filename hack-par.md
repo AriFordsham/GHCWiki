@@ -69,6 +69,42 @@ An [Agenda Proposal](agenda-proposal) is now on a separate page.
 
 ## Expected Outcomes
 
+
+Concrete Deliverables
+
 - Unified repository, containing Eden and GUM code
 - Common test platform
 - List of people in charge of sub-projects
+- Longer Term: Eden&GUM in GHC HEAD
+
+
+Sub-tasks in Eden/GUM/GHC integration:
+
+- Merge Eden/GUM repository
+- Merge GUM into current Eden version
+- Adapt for per-CPU/Core GC
+- Integrating Vladimirs work (load balancing, migration)
+
+
+Longer term system issues
+
+- Manycore
+- Hierarchies
+- HPC
+- Grid
+- Cloud
+- GPGPUs
+- Artcop
+
+
+Others
+
+- Update plan btw Eden/GUM and GHC-HEAD
+- Community creation
+- PhD Topic for Henrique
+- Benchmarks/Parallel NoFib suite
+- Launch GpH book
+- Long Term: Build Franchise
+- Agree on new Strategies module (rewrite applications)
+- Visualisation tools (which?)
+- Revisit design decisions for Eden/GUM
