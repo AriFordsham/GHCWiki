@@ -39,9 +39,9 @@ Next, we try to make sense of how it all fits together.
 
 == Major subsystems ==
 
- * '''[wiki:Commentary/Rts/Storage The Storage Manager]'''
- * '''[wiki:Commentary/Rts/HaskellExecution The Haskell Execution model]'''
- * '''[wiki:Commentary/Rts/Scheduler The Scheduler]'''
+ * '''[wiki:Commentary/Rts/Storage Storage]''': memory layout and garbage collection
+ * '''[wiki:Commentary/Rts/HaskellExecution Haskell Execution]''': how Haskell code is executed
+ * '''[wiki:Commentary/Rts/Scheduler The Scheduler]''': threads, multi-processor support, FFI
 
 == Other topics ==
 

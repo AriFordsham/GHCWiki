@@ -39,9 +39,9 @@ Next, we try to make sense of how it all fits together.
 
 ## Major subsystems
 
-- **[The Storage Manager](commentary/rts/storage)**
-- **[The Haskell Execution model](commentary/rts/haskell-execution)**
-- **[The Scheduler](commentary/rts/scheduler)**
+- **[Storage](commentary/rts/storage)**: memory layout and garbage collection
+- **[Haskell Execution](commentary/rts/haskell-execution)**: how Haskell code is executed
+- **[The Scheduler](commentary/rts/scheduler)**: threads, multi-processor support, FFI
 
 ## Other topics
 
