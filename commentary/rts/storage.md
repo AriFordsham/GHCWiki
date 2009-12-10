@@ -10,6 +10,7 @@ GHC's storage manager is designed to be quite flexible: there are a large number
 - [Slop](commentary/rts/storage/slop)
 - [The Block Allocator](commentary/rts/storage/block-alloc)
 - [The Garbage Collector](commentary/rts/storage/gc)
+- [The HEAP_ALLOCED() macro](commentary/rts/storage/heap-alloced)
 
 
 See also:
