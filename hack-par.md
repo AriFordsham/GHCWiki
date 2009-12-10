@@ -96,6 +96,7 @@ Longer term system issues
 - Cloud
 - GPGPUs
 - Artcop
+- Revisit design decisions, e.g. cycles at the global level
 
 
 Others
@@ -103,7 +104,7 @@ Others
 - Update plan btw Eden/GUM and GHC-HEAD
 - Community creation
 - PhD Topic for Henrique
-- Benchmarks/Parallel NoFib suite
+- Benchmarks/Parallel NoFib suite - we need to be able to classify expected parallel behaviour as well as detecting e.g. space leaks
 - Launch GpH book
 - Long Term: Build Franchise
 - Agree on new Strategies module (rewrite applications)
@@ -190,4 +191,4 @@ We agreed to hold a discussion on benchmarking on Friday.
 ### Packaging and Builds
 
 
-This is important in the long-term.  For now we left it open until we had made progress on the main system.
+This is important in the long-term.  For now we left it open until we had made progress on an integrated system.
