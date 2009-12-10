@@ -8,14 +8,18 @@ But sometimes a test case will require the installation of some packages from Ha
 
 == Plan A: Cabal is up to date ==
 
-If your installed `cabal` is sufficiently up to date, you can say
+If your installed `cabal` is sufficiently up to date, you can just use [http://hackage.haskell.org/trac/hackage/wiki/CabalInstall cabal install]:
 {{{
 cabal install --with-ghc=<inplace-ghc> --global <package>
 }}}
 where `<inplace ghc>` is the path to your inplace GHC (usually `$(TOP)/inplace/bin/ghc-stage2`), and <package> is the name of the package.
-The `--global` says to register the package in the global database, which for the inplace compiler is something like `$(TOP)/inplace/lib/package.conf.d/`.
 
-But sometimes Cabal changes, so you might get a message like
+Points to note:
+ * This will install the package in your home directory (e.g. somewhere under `~/.cabal/lib` on a Unix system) , so you'll probably want to remove it by hand when you've finished.
+
+ * The `--global` says to register the package in the global database, which for the inplace compiler is something like `$(TOP)/inplace/lib/package.conf.d/`.  The default is `--local` which registers the package in a (compiler-version-specific) directory in your home directly.  The danger is that you you have many builds, the "compiler-version-specific" part might not be enough to keep all your builds separate.
+
+Plan A can fail, because sometimes Cabal changes, so you might get a message like
 {{{
 cabal: failed to parse output of 'ghc-pkg dump'
 }}}
@@ -28,8 +32,19 @@ Go to a directory where you are happy to keep the newly-downloaded code.
 cabal unpack <package>
 cd <package>
 <inplace-ghc> --make Setup.lhs -o Setup
-./Setup configure --with-ghc=<inplace-ghc> --global <package>
+./Setup configure --with-ghc=<inplace-ghc> --global
 ./Setup build
 ./Setup register --inplace
 }}}
-The first step can be done manually, by downloading from Hackage, but it should work even with old versions of Cabal.
+Points to not here:
+ * The first step can be done manually, by downloading a zip file from Hackage, or by doing a darcs get from the appropriate repo.  For example:
+{{{
+darcs get http://darcs.haskell.org/packages/parallel
+}}}
+   Nevertheless, `cabal unpack` should work for any Hackage package, even if Cabal has changed a bit.  (Because fetching and unpacking is one of Cabal's less sophisticated operations.)
+
+ * It is important to compile `Setup.lhs` with your shiny new ''inplace'' GHC, not your installed GHC.  Your inplace GHC has the most up-to-date Cabal library, and that is what you want to link `Setup.lhs` against.
+
+ * The `--global` flag has the same purpose as in Plan A
+ 
+ * The `--inplace` flag to register tells Cabal not to copy the compiled package, but rather to leave it right where it is, and register this location in the package database in your GHC build tree
