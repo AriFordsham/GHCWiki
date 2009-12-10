@@ -528,14 +528,7 @@ These object types are used by [STM](commentary/rts/stm): `TVAR_WAIT_QUEUE`, `TV
 ### Forwarding Pointers
 
 
-The `EVACUATED` object only appears temporarily during GC.  An object which has been copied into to-space (*evacuated*) is replaced by an `EVACUATED` object:
-
-<table><tr><th> Header </th>
-<th> Forwarding pointer 
-</th></tr></table>
-
-
-which points to the new location of the object.
+Forwarding pointers appear temporarily during [garbage collection](commentary/rts/storage/gc).  A forwarding pointer points to the new location for an object that has been moved by the garbage collector.  It is represented by replacing the info pointer for the closure with a pointer to the new location, with the least significant bit set to 1 to distinguish a forwarding pointer from an info pointer.
 
 ## Objects for PAR, GRAN
 
