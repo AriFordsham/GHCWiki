@@ -59,7 +59,7 @@ An [AgendaProposal Agenda Proposal] is now on a separate page.
 Concrete Deliverables
  * Tracing mechanism
  * Unified repository, containing Eden and GUM code
- * Common test platform
+ * Common test platform - we can talk to Bodo Scholz about unibench
  * List of people in charge of sub-projects
  * Longer Term: Eden&GUM in GHC HEAD
 
@@ -80,16 +80,102 @@ Longer term system issues
  * Cloud
  * GPGPUs
  * Artcop
+ * Revisit design decisions, e.g. cycles at the global level
 
 Others
 
  * Update plan btw Eden/GUM and GHC-HEAD
  * Community creation
  * PhD Topic for Henrique
- * Benchmarks/Parallel NoFib suite
+ * Benchmarks/Parallel NoFib suite - we need to be able to classify expected parallel behaviour as well as detecting e.g. space leaks
  * Launch GpH book
  * Long Term: Build Franchise
  * Agree on new Strategies module (rewrite applications)
  * Visualisation tools (which?)
  * Revisit design decisions for Eden/GUM
+
+== Discussions ==
+
+SM introduced pointer tagging; it will be necessary to follow indirections, and maintain tags on
+exported closures  we need to study evac.c looking at UNTAG_CLOSURE.
+
+== Decisions ==
+
+We prioritised setting up a common repository and Eden/GUM integration.  Benchmarking and packaging
+were seen as longer term issues.
+
+We agreed to use the GHC ticketing system, with some specific identification for Eden/GUM issues.
+We agreed to use a common darcs repository for Eden/GUM.
+
+We agreed that VJ's GUM 4.06 changes should be integrated with the combined system.
+The priority is to integrate thread migration.
+
+== Community Building ==
+
+We need to find common ways of working to maximise our effort.
+
+darcs for repositories
+
+skype for communication
+
+do we want dedicated mailing lists/IRC channels?
+
+== Who Does What ==
+
+We agreed to setup hacker teams to work on different issues as follows
+
+=== Repository: VJ + JB ===
+
+Set up a common repository to hold GUM and Eden.  Later, we should try to integrate this with the main
+GHC repository.
+
+=== GUM/Eden Integration ===
+
+ * Integrating basic GUM code into Eden version 6.13: HWL?
+
+
+[IntegratingGUMProgress Progress]
+
+ * Packing code (incl. tags): HWL+ MKA + JB
+
+[PackingProgress Progress]
+
+ * Scheduler: HWL + HF + PM + PWT
+
+[SchedulerProgress Progress]
+
+ * GC Interface + Global Addresses (with tags): HWL + VJ
+
+Do we retain FETCHME closures or e.g. use a table
+
+[GarbageCollectionProgress Progress]
+
+ * Tracing (agree format): KH + JB + MD + TH + HWL
+
+We need to agree a format!  We want tools to work on all formats.  We agreed with SM to extend the threadscope event format,
+adding in new event types for distributed/more detailed events.
+
+
+[TracingProgress Progress]
+
+ * Thread Migration (packing TSOs, dealing with black holes, plus shark etc mechanisms): PWT + VJ
+
+[ThreadMigrationProgress Progress]
+
+=== Visualisation Tools: HF + JB + KH + MKA + PWT ===
+
+The visualisation tools need to work with the agreed format.  We may need more detailed views
+and/or interactive versus publication tools.
+
+=== Benchmarking: HF + MD + JB  + everyone ===
+
+We agreed to hold a discussion on benchmarking on Friday.
+
+
+=== Packaging and Builds ===
+
+This is important in the long-term.  For now we left it open until we had made progress on an integrated system.
+
+We need to consider MPI support.
+
 
