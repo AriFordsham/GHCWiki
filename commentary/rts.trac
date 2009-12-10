@@ -26,26 +26,24 @@ Next, we try to make sense of how it all fits together.
 
 [[Image(rts-overview.png)]]
 
-== RTS: Contents ==
-
-Find your way around the code:
+== Find your way around the code ==
 
  * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
  * [wiki:Commentary/SourceTree/Includes the layout of header files in includes/]
 
-Basics you should know about:
+== Basics you should know about ==
 
  * [wiki:Commentary/Rts/Config RTS Configurations]
  * [wiki:Commentary/Rts/Word The Word]
  * [wiki:Commentary/Rts/Cmm What on earth is a .cmm file?]
 
-Major subsystems:
+== Major subsystems ==
 
- * [wiki:Commentary/Rts/Storage The Storage Manager]
- * [wiki:Commentary/Rts/HaskellExecution The Haskell Execution model]
- * [wiki:Commentary/Rts/Scheduler The Scheduler]
+ * '''[wiki:Commentary/Rts/Storage Storage]''': memory layout and garbage collection
+ * '''[wiki:Commentary/Rts/HaskellExecution Haskell Execution]''': how Haskell code is executed
+ * '''[wiki:Commentary/Rts/Scheduler The Scheduler]''': threads, multi-processor support, FFI
 
-Other topics:
+== Other topics ==
 
  * [wiki:Commentary/Rts/Sanity Sanity Checking]
  * [wiki:Commentary/Rts/FFI So how does foreign import "wrapper" work?]
