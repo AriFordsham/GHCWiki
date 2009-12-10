@@ -44,4 +44,13 @@ cd <package>
 ```
 
 
-The first step can be done manually, by downloading from Hackage, but it should work even with old versions of Cabal.
+Points to not here:
+
+- The first step can be done manually, by downloading a zip file from Hackage, or by doing a darcs get from the appropriate repo.  For example:
+
+  ```wiki
+  darcs get http://darcs.haskell.org/packages/parallel
+  ```
+
+
+Nevertheless, `cabal unpack` should work for any Hackage package, even if Cabal has changed a bit.  (Because fetching and unpacking is one of Cabal's less sophisticated operations.)
