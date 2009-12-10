@@ -74,7 +74,7 @@ Concrete Deliverables
 
 - Tracing mechanism
 - Unified repository, containing Eden and GUM code
-- Common test platform
+- Common test platform - we can talk to Bodo Scholz about unibench
 - List of people in charge of sub-projects
 - Longer Term: Eden&GUM in GHC HEAD
 
