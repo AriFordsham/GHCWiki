@@ -115,6 +115,22 @@ do we want dedicated mailing lists/IRC channels?
 
 We agreed to setup teams to work on different issues as follows
 
-Repository: VJ + JB
+=== Repository: VJ + JB ===
 
-Benchmarking: HF + MD + JB  + everyone
+=== Benchmarking: HF + MD + JB  + everyone (discussion on Friday) ===
+
+=== Visualisation Tools: HF + JB + KH + MKA + PWT ===
+
+=== GHC/Eden Integration ===
+
+Fishing etc - basic code: HWL?
+
+Packing code (incl. tags): HWL+ MKA + JB
+
+Scheduler: HWL + HF + PM + PWT
+
+GC Interface + Global Addresses (with tag) - FETCHME closures or table?: HWL + VJ
+
+Tracing (agree format): KH + JB + MD + TH + HWL
+
+Thread Migration (packing TSOs, dealing with black holes, plus shark etc mechanisms): PWT + VJ
