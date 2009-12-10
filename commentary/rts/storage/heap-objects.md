@@ -353,8 +353,7 @@ Partial applications are tricky beasts.
 
 A partial application, closure type `PAP`, represents a function
 applied to too few arguments.  Partial applications are only built by
-the generic apply?
-functions in AutoApply.cmm.
+the [generic apply functions](commentary/rts/haskell-execution/function-calls#generic-apply) in AutoApply.cmm.
 
 <table><tr><th> Header </th>
 <th> Arity </th>
