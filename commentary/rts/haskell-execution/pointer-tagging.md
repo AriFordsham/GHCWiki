@@ -4,7 +4,7 @@
 Paper: [ Faster laziness using dynamic pointer tagging](http://www.haskell.org/~simonmar/papers/ptr-tagging.pdf)
 
 
-In GHC we "tag" pointers to heap objects with information about the object they point to.  The tag goes in the low 2 bits of the pointer, which would normally be zero since heap objects are always [word](commentary/rts/word)-aligned (3 bits on a 64-bit platform).
+In GHC we "tag" pointers to heap objects with information about the object they point to.  The tag goes in the low 2 bits (3 bits on a 64-bit platform) of the pointer, which would normally be zero since heap objects are always [word](commentary/rts/word)-aligned.
 
 
 The way the tag bits are used depends on the type of object pointed to:
