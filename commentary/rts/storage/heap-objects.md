@@ -82,7 +82,7 @@ Where:
 - The *entry code* for the closure is usually the code that will *evaluate* the closure.  There is one exception:
   for functions, the entry code will apply the function to the arguments given in registers or on the stack, according
   to the calling convention.  The entry code assumes all the arguments are present - to apply a function to fewer arguments
-  or to apply an unknown function, the generic apply functions? must
+  or to apply an unknown function, the [generic apply functions](commentary/rts/haskell-execution/function-calls#generic-apply) must
   be used.
 
 
