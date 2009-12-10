@@ -1,6 +1,6 @@
 **NOTE**: this page now describes the new GHC build system, due to
 be added to GHC in April 2009.  For documentation of the "old" build
-system, see Building/Old/Using?.
+system, see [Attic/Building/Old/Using](attic/building/old/using).
 
 # Using the Build System
 
@@ -676,7 +676,7 @@ Does not build any GHC stages at all.  `stage=0` can be used in combination with
 The [boot libraries](commentary/libraries) are built as part of building GHC; they are built with the stage1 compiler, and imported when the stage2 compiler is compiled with stage1.
 
 
-All other libraries are stand-alone Cabal packages, and the build system knows nothing about them.  Nevertheless, it is common to want to install extra packages for the GHC in your build tree.  Here are instructions for how to do so?.
+All other libraries are stand-alone Cabal packages, and the build system knows nothing about them.  Nevertheless, it is common to want to install extra packages for the GHC in your build tree.  Here are [instructions for how to do so](debugging/installing-packages-inplace).
 
 ## Standard Targets
 
