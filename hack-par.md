@@ -160,14 +160,26 @@ GHC repository.
 
 - Integrating basic GUM code into Eden version 6.13: HWL?
 
+
+\[IntegratingGUMProgress Progress\]
+
 - Packing code (incl. tags): HWL+ MKA + JB
 
+
+\[PackingProgress Progress\]
+
 - Scheduler: HWL + HF + PM + PWT
+
+
+\[SchedulerProgress Progress\]
 
 - GC Interface + Global Addresses (with tags): HWL + VJ
 
 
 Do we retain FETCHME closures or e.g. use a table
+
+
+\[GCProgress Progress\]
 
 - Tracing (agree format): KH + JB + MD + TH + HWL
 
@@ -175,7 +187,13 @@ Do we retain FETCHME closures or e.g. use a table
 We need to agree a format!  We want tools to work on all formats.  We agreed with SM to extend the threadscope event format,
 adding in new event types for distributed/more detailed events.
 
+
+\[TracingProgress Progress\]
+
 - Thread Migration (packing TSOs, dealing with black holes, plus shark etc mechanisms): PWT + VJ
+
+
+\[ThreadMigrationProgress Progress\]
 
 ### Visualisation Tools: HF + JB + KH + MKA + PWT
 
