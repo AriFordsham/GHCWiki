@@ -1,6 +1,6 @@
 **NOTE**: this page now describes the new GHC build system, due to
 be added to GHC in April 2009.  For documentation of the "old" build
-system, see Building/Old/Using?.
+system, see [Attic/Building/Old/Using](attic/building/old/using).
 
 # Using the Build System
 
@@ -676,37 +676,7 @@ Does not build any GHC stages at all.  `stage=0` can be used in combination with
 The [boot libraries](commentary/libraries) are built as part of building GHC; they are built with the stage1 compiler, and imported when the stage2 compiler is compiled with stage1.
 
 
-All other libraries are stand-alone Cabal packages, and the build system knows nothing about them.  Nevertheless, it is common to want to install extra packages for the GHC in your build tree.  Here's how to do it.
-
-
-The easiest way is to just use [ cabal-install](http://hackage.haskell.org/trac/hackage/wiki/CabalInstall):
-
-```wiki
-$ cabal install --with-ghc=$(TOP)/inplace/bin/ghc-stage2 <package>
-```
-
-
-where `$(TOP)` stands for the root directory of your build tree, and `<package>` is the name of the package you want to install.  This will install the package in your home directory (e.g. somewhere under `~/.cabal/lib` on a Unix system) , so you'll probably want to remove it by hand when you've finished.
-
-
-There's also a way to build and register a package with GHC but without actually installing it in your home directory.  For example, if you want to install a package from its darcs repository:
-
-```wiki
-$ cd $(TOP)/libraries
-$ darcs get http://darcs.haskell.org/packages/parallel
-```
-
-
-(You don't have to download the package to `$(TOP)/libraries`; it can go anywhere.)  Now build it using Cabal, telling Cabal to use the GHC from your build tree:
-
-```wiki
-$ runhaskell Setup configure --with-ghc=$(TOP)/inplace/bin/ghc-stage2
-$ runhaskell Setup build
-$ runhaskell Setup register --inplace
-```
-
-
-The `--inplace` flag to `register` tells Cabal not to copy the compiled package, but rather to leave it right where it is, and register this location in the package database in your GHC build tree.
+All other libraries are stand-alone Cabal packages, and the build system knows nothing about them.  Nevertheless, it is common to want to install extra packages for the GHC in your build tree.  Here are [instructions for how to do so](debugging/installing-packages-inplace).
 
 ## Standard Targets
 
