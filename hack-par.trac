@@ -147,7 +147,7 @@ GHC repository.
 
 Do we retain FETCHME closures or e.g. use a table
 
-[GCProgress Progress]
+[GarbageCollectionProgress Progress]
 
  * Tracing (agree format): KH + JB + MD + TH + HWL
 
