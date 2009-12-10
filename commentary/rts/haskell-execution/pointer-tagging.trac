@@ -38,7 +38,7 @@ Pointer-tagging is a fairly significant optimisation: we measured 10-14% dependi
 
 == Garbage collection with tagged pointers ==
 
-The [wiki:Commentary/Rts/Storage/GC garbage collector] maintains tag bits on the pointers it traverses.  This is easier, it turns out, than ''reconstructing'' tag bits.  Reconstructing tag bits would require that the GC knows not only the tag of the constructor (which is in the info table), but also the family size (which is currently not in the info table), since a constructor from a large family should always have tag 1.
+The [wiki:Commentary/Rts/Storage/GC garbage collector] maintains tag bits on the pointers it traverses.  This is easier, it turns out, than ''reconstructing'' tag bits.  Reconstructing tag bits would require that the GC knows not only the tag of the constructor (which is in the info table), but also the family size (which is currently not in the info table), since a constructor from a large family should always have tag 1.  To make this practical we would probably need different closure types for "small family" and "large family" constructors, and we already subdivide the constructor closures types by their layout.
 
 Additionally, when the GC eliminates an indirection it takes the tag bits from the pointer inside the indirection.  Pointers to indirections always have zero tag bits.
 
