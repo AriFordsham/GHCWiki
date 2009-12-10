@@ -6,17 +6,22 @@ Paper: [ Faster laziness using dynamic pointer tagging](http://www.haskell.org/~
 
 In GHC we "tag" pointers to heap objects with information about the object they point to.  The tag goes in the low 2 bits (3 bits on a 64-bit platform) of the pointer, which would normally be zero since heap objects are always [word](commentary/rts/word)-aligned.
 
+## Meaning of the tag bits
+
 
 The way the tag bits are used depends on the type of object pointed to:
 
-- If the object is a constructor, the tag bits contain the *constructor tag*, if the number of
+- If the object is a **constructor**, the tag bits contain the *constructor tag*, if the number of
   constructors in the datatype is less than 4 (less than 8 on a 64-bit platform).  If the number of
-  constructors in the datatype is more than 4 (resp 8), then the tag bits have the value 1.
+  constructors in the datatype is more than 4 (resp 8), then the tag bits have the value 1, and the constructor tag
+  is extracted from the constructor's info table instead.
 
-- If the object is a function, the tag bits contain the *arity* of the function, if the arity fits
+- If the object is a **function**, the tag bits contain the *arity* of the function, if the arity fits
   in the tag bits.
 
 - For a pointer to any other object, the tag bits are always zero.
+
+## Optimisations enabled by tag bits
 
 
 The presence of tag bits enables certain optimisations:
@@ -34,8 +39,13 @@ The presence of tag bits enables certain optimisations:
 
 Pointer-tagging is a fairly significant optimisation: we measured 10-14% depending on platform.  A large proportion of this comes from eliminating the indirect jumps in a case expression, which are hard to predict by branch-prediction.  The paper has full results and analysis.
 
+## Garbage collection with tagged pointers
 
-The [garbage collector](commentary/rts/storage/gc) maintains tag bits on the pointers it traverses; additionally when it eliminates an indirection it takes the tag bits from the pointer inside the indirection.
+
+The [garbage collector](commentary/rts/storage/gc) maintains tag bits on the pointers it traverses.  This is easier, it turns out, than *reconstructing* tag bits.  Reconstructing tag bits would require that the GC knows not only the tag of the constructor (which is in the info table), but also the family size (which is currently not in the info table), since a constructor from a large family should always have tag 1.  To make this practical we would probably need different closure types for "small family" and "large family" constructors, and we already subdivide the constructor closures types by their layout.
+
+
+Additionally, when the GC eliminates an indirection it takes the tag bits from the pointer inside the indirection.  Pointers to indirections always have zero tag bits.
 
 ## Invariants
 
