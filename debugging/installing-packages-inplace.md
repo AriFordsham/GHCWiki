@@ -4,7 +4,7 @@
 You have your compiler built, so you can use the inplace compiler to compile test programs.  This lives in `$(TOP)/inplace/bin/ghc-stage2` (see [Commentary/SourceTree](commentary/source-tree)).  
 
 
-But sometimes a test case will require the installation of some packages from Hackage.  There are two routes.
+Every GHC, including the inplace one, comes with the [boot libraries](commentary/libraries).  But sometimes a test case will require the installation of some packages from Hackage.  There are two routes.
 
 ## Plan A: Cabal is up to date
 
