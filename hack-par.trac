@@ -117,9 +117,6 @@ We agreed to setup teams to work on different issues as follows
 
 === Repository: VJ + JB ===
 
-
-=== Visualisation Tools: HF + JB + KH + MKA + PWT ===
-
 === GHC/Eden Integration ===
 
 Integrating basic GUM code into Eden version 6.13: HWL?
@@ -134,9 +131,17 @@ Do we retain FETCHME closures or e.g. use a table
 
 Tracing (agree format): KH + JB + MD + TH + HWL
 
-We need to agree a format!  We want tools to work on all formats.
+We need to agree a format!  We want tools to work on all formats.  We agreed with SM to extend the threadscope event format,
+adding in new event types for distributed/more detailed events.
 
 Thread Migration (packing TSOs, dealing with black holes, plus shark etc mechanisms): PWT + VJ
 
-=== Benchmarking: HF + MD + JB  + everyone (discussion on Friday) ===
 
+=== Visualisation Tools: HF + JB + KH + MKA + PWT ===
+
+The visualisation tools need to work with the agreed format.  We may need more detailed views
+and/or interactive versus publication tools.
+
+=== Benchmarking: HF + MD + JB  + everyone ===
+
+We agreed to hold a discussion on benchmarking on Friday.
