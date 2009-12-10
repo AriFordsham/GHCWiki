@@ -14,7 +14,10 @@ cabal install --with-ghc=<inplace-ghc> --global <package>
 }}}
 where `<inplace ghc>` is the path to your inplace GHC (usually `$(TOP)/inplace/bin/ghc-stage2`), and <package> is the name of the package.
 
-The `--global` says to register the package in the global database, which for the inplace compiler is something like `$(TOP)/inplace/lib/package.conf.d/`.  The default is `--local` which registers the package in a (compiler-version-specific) directory in your home directly.  The danger is that you you have many builds, the "compiler-version-specific" part might not be enough to keep all your builds separate.
+Points to note:
+ * This will install the package in your home directory (e.g. somewhere under `~/.cabal/lib` on a Unix system) , so you'll probably want to remove it by hand when you've finished.
+
+ * The `--global` says to register the package in the global database, which for the inplace compiler is something like `$(TOP)/inplace/lib/package.conf.d/`.  The default is `--local` which registers the package in a (compiler-version-specific) directory in your home directly.  The danger is that you you have many builds, the "compiler-version-specific" part might not be enough to keep all your builds separate.
 
 Plan A can fail, because sometimes Cabal changes, so you might get a message like
 {{{
