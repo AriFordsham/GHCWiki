@@ -9,7 +9,7 @@ But sometimes a test case will require the installation of some packages from Ha
 ## Plan A: Cabal is up to date
 
 
-If your installed `cabal` is sufficiently up to date, you can say
+If your installed `cabal` is sufficiently up to date, you can just use [ cabal install](http://hackage.haskell.org/trac/hackage/wiki/CabalInstall):
 
 ```wiki
 cabal install --with-ghc=<inplace-ghc> --global <package>
