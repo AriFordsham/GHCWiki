@@ -110,6 +110,12 @@ Others
 - Visualisation tools (which?)
 - Revisit design decisions for Eden/GUM
 
+## Discussions
+
+
+SM introduced pointer tagging; it will be necessary to follow indirections, and maintain tags on
+exported closures  we need to study evac.c looking at UNTAG_CLOSURE.
+
 ## Decisions
 
 
@@ -119,6 +125,10 @@ were seen as longer term issues.
 
 We agreed to use the GHC ticketing system, with some specific identification for Eden/GUM issues.
 We agreed to use a common darcs repository for Eden/GUM.
+
+
+We agreed that VJ's GUM 4.06 changes should be integrated with the combined system.
+The priority is to integrate thread migration.
 
 ## Community Building
 
@@ -182,3 +192,8 @@ and/or interactive versus publication tools.
 
 
 We agreed to hold a discussion on benchmarking on Friday.
+
+### Packaging and Builds
+
+
+This is important in the long-term.  For now we left it open until we had made progress on the main system.
