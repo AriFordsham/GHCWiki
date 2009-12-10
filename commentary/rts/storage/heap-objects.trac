@@ -131,7 +131,7 @@ Objects fall into two categories:
  * ''static'' objects reside in the compiled object code.  They are never moved, because pointers to such objects are
    scattered through the object code, and only the linker knows where.
 
-To find out whether a particular object is dynamic or static, use the {{{HEAP_ALLOCED()}}} macro, from [[GhcFile(rts/MBlock.h)]].  This macro works by consulting a bitmap (or structured bitmap) that tells for each [wiki:Commentary/Rts/Storage#Structureofblocks megablock] of memory whether it is part of the dynamic heap or not.
+To find out whether a particular object is dynamic or static, use the [wiki:Commentary/Rts/Storage/HeapAlloced HEAP_ALLOCED()] macro, from [[GhcFile(rts/sm/MBlock.h)]].  This macro works by consulting a bitmap (or structured bitmap) that tells for each [wiki:Commentary/Rts/Storage#Structureofblocks megablock] of memory whether it is part of the dynamic heap or not.
 
 === Dynamic objects ===
 
@@ -286,8 +286,7 @@ Partial applications are tricky beasts.
 
 A partial application, closure type {{{PAP}}}, represents a function
 applied to too few arguments.  Partial applications are only built by
-the [wiki:Commentary/Rts/HaskellExecution/EvalApply generic apply]
-functions in AutoApply.cmm.
+the [wiki:Commentary/Rts/HaskellExecution/FunctionCalls#Genericapply generic apply functions] in !AutoApply.cmm.
 
 || Header || Arity || No. of words || Function closure || Payload... ||
 
@@ -307,7 +306,7 @@ Where:
  * The payload is the sequence of arguments already applied to
    this function.  The pointerhood of these words are described
    by the function's bitmap (see {{{scavenge_PAP_payload()}}} in 
-   [[GhcFile(rts/GC.c)]] for an example of traversing a PAP).
+   [[GhcFile(rts/sm/GC.c)]] for an example of traversing a PAP).
 
 There is just one standard form of PAP. There is just one info table
 too, called {{{stg_PAP_info}}}.  A PAP should never be entered, so its
@@ -365,7 +364,7 @@ There are several variants of indirection:
    cost center in an indirection, so we can't eliminate the indirection.
  * {{{IND_OLDGEN_PERM}}}: same as above, but for the old generation.
  * {{{IND_STATIC}}}: a static indirection, arises when we update a {{{THUNK_STATIC}}}.  A new {{{IND_STATIC}}}
-   is placed on the mutable list when it is created (see {{{newCaf()}}} in [[GhcFile(rts/Storage.c)]]).
+   is placed on the mutable list when it is created (see {{{newCaf()}}} in [[GhcFile(rts/sm/Storage.c)]]).
 
 === Byte-code objects ===
 
@@ -425,11 +424,7 @@ These object types are used by [wiki:Commentary/Rts/STM STM]: {{{TVAR_WAIT_QUEUE
 
 === Forwarding Pointers ===
 
-The {{{EVACUATED}}} object only appears temporarily during GC.  An object which has been copied into to-space (''evacuated'') is replaced by an {{{EVACUATED}}} object:
-
-|| Header || Forwarding pointer ||
-
-which points to the new location of the object.
+Forwarding pointers appear temporarily during [wiki:Commentary/Rts/Storage/GC garbage collection].  A forwarding pointer points to the new location for an object that has been moved by the garbage collector.  It is represented by replacing the info pointer for the closure with a pointer to the new location, with the least significant bit set to 1 to distinguish a forwarding pointer from an info pointer.
 
 == Objects for PAR, GRAN ==
 

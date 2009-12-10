@@ -154,7 +154,7 @@ Objects fall into two categories:
   scattered through the object code, and only the linker knows where.
 
 
-To find out whether a particular object is dynamic or static, use the `HEAP_ALLOCED()` macro, from [rts/MBlock.h](/trac/ghc/browser/ghc/rts/MBlock.h).  This macro works by consulting a bitmap (or structured bitmap) that tells for each [megablock](commentary/rts/storage#structure-of-blocks) of memory whether it is part of the dynamic heap or not.
+To find out whether a particular object is dynamic or static, use the [HEAP_ALLOCED()](commentary/rts/storage/heap-alloced) macro, from [rts/sm/MBlock.h](/trac/ghc/browser/ghc/rts/sm/MBlock.h).  This macro works by consulting a bitmap (or structured bitmap) that tells for each [megablock](commentary/rts/storage#structure-of-blocks) of memory whether it is part of the dynamic heap or not.
 
 ### Dynamic objects
 
@@ -353,8 +353,7 @@ Partial applications are tricky beasts.
 
 A partial application, closure type `PAP`, represents a function
 applied to too few arguments.  Partial applications are only built by
-the generic apply?
-functions in AutoApply.cmm.
+the [generic apply functions](commentary/rts/haskell-execution/function-calls#generic-apply) in AutoApply.cmm.
 
 <table><tr><th> Header </th>
 <th> Arity </th>
@@ -380,7 +379,7 @@ Where:
 - The payload is the sequence of arguments already applied to
   this function.  The pointerhood of these words are described
   by the function's bitmap (see `scavenge_PAP_payload()` in 
-  [rts/GC.c](/trac/ghc/browser/ghc/rts/GC.c) for an example of traversing a PAP).
+  [rts/sm/GC.c](/trac/ghc/browser/ghc/rts/sm/GC.c) for an example of traversing a PAP).
 
 
 There is just one standard form of PAP. There is just one info table
@@ -459,7 +458,7 @@ There are several variants of indirection:
   cost center in an indirection, so we can't eliminate the indirection.
 - `IND_OLDGEN_PERM`: same as above, but for the old generation.
 - `IND_STATIC`: a static indirection, arises when we update a `THUNK_STATIC`.  A new `IND_STATIC`
-  is placed on the mutable list when it is created (see `newCaf()` in [rts/Storage.c](/trac/ghc/browser/ghc/rts/Storage.c)).
+  is placed on the mutable list when it is created (see `newCaf()` in [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c)).
 
 ### Byte-code objects
 
@@ -529,14 +528,7 @@ These object types are used by [STM](commentary/rts/stm): `TVAR_WAIT_QUEUE`, `TV
 ### Forwarding Pointers
 
 
-The `EVACUATED` object only appears temporarily during GC.  An object which has been copied into to-space (*evacuated*) is replaced by an `EVACUATED` object:
-
-<table><tr><th> Header </th>
-<th> Forwarding pointer 
-</th></tr></table>
-
-
-which points to the new location of the object.
+Forwarding pointers appear temporarily during [garbage collection](commentary/rts/storage/gc).  A forwarding pointer points to the new location for an object that has been moved by the garbage collector.  It is represented by replacing the info pointer for the closure with a pointer to the new location, with the least significant bit set to 1 to distinguish a forwarding pointer from an info pointer.
 
 ## Objects for PAR, GRAN
 
