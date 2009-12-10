@@ -30,6 +30,8 @@ Next, we try to make sense of how it all fits together.
 
  * [wiki:Commentary/Rts/Conventions Coding conventions in the RTS]
 
+ * [wiki/Commentary/SourceTree/Includes the layout of header files in includes/]
+
  * [wiki:Commentary/Rts/Config RTS Configurations]
  * [wiki:Commentary/Rts/Word The Word]
  * [wiki:Commentary/Rts/Cmm What on earth is a .cmm file?]

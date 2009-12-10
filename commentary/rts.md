@@ -30,6 +30,8 @@ Next, we try to make sense of how it all fits together.
 
 - [Coding conventions in the RTS](commentary/rts/conventions)
 
+- \[wiki/Commentary/SourceTree/Includes the layout of header files in includes/\]
+
 - [RTS Configurations](commentary/rts/config)
 - [The Word](commentary/rts/word)
 - [What on earth is a .cmm file?](commentary/rts/cmm)
