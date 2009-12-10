@@ -72,6 +72,7 @@ An [Agenda Proposal](agenda-proposal) is now on a separate page.
 
 Concrete Deliverables
 
+- Tracing mechanism
 - Unified repository, containing Eden and GUM code
 - Common test platform
 - List of people in charge of sub-projects
