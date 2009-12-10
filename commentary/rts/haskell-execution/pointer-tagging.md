@@ -39,8 +39,13 @@ The presence of tag bits enables certain optimisations:
 
 Pointer-tagging is a fairly significant optimisation: we measured 10-14% depending on platform.  A large proportion of this comes from eliminating the indirect jumps in a case expression, which are hard to predict by branch-prediction.  The paper has full results and analysis.
 
+## Garbage collection with tagged pointers
 
-The [garbage collector](commentary/rts/storage/gc) maintains tag bits on the pointers it traverses; additionally when it eliminates an indirection it takes the tag bits from the pointer inside the indirection.
+
+The [garbage collector](commentary/rts/storage/gc) maintains tag bits on the pointers it traverses.  This is easier, it turns out, than *reconstructing* tag bits.  Reconstructing tag bits would require that the GC knows not only the tag of the constructor (which is in the info table), but also the family size (which is currently not in the info table), since a constructor from a large family should always have tag 1.
+
+
+Additionally, when the GC eliminates an indirection it takes the tag bits from the pointer inside the indirection.  Pointers to indirections always have zero tag bits.
 
 ## Invariants
 
