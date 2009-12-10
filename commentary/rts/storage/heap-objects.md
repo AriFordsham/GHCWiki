@@ -379,7 +379,7 @@ Where:
 - The payload is the sequence of arguments already applied to
   this function.  The pointerhood of these words are described
   by the function's bitmap (see `scavenge_PAP_payload()` in 
-  [rts/GC.c](/trac/ghc/browser/ghc/rts/GC.c) for an example of traversing a PAP).
+  [rts/sm/GC.c](/trac/ghc/browser/ghc/rts/sm/GC.c) for an example of traversing a PAP).
 
 
 There is just one standard form of PAP. There is just one info table
@@ -458,7 +458,7 @@ There are several variants of indirection:
   cost center in an indirection, so we can't eliminate the indirection.
 - `IND_OLDGEN_PERM`: same as above, but for the old generation.
 - `IND_STATIC`: a static indirection, arises when we update a `THUNK_STATIC`.  A new `IND_STATIC`
-  is placed on the mutable list when it is created (see `newCaf()` in [rts/Storage.c](/trac/ghc/browser/ghc/rts/Storage.c)).
+  is placed on the mutable list when it is created (see `newCaf()` in [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c)).
 
 ### Byte-code objects
 
