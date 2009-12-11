@@ -67,7 +67,7 @@ JB: I suggest the following formats
 <th></th></tr>
 <tr><th> Fri, 9:30  </th>
 <th> ?T:GUM implementation </th>
-<th> Mustafa? 
+<th> Mustafa 
 </th></tr>
 <tr><th> Fri, 10am  </th>
 <th> ?T:Migration/Load balancing </th>
@@ -76,19 +76,20 @@ JB: I suggest the following formats
 <tr><th> Fri, 10:30 </th>
 <th> Pair Programming: Tracing, Packing, configure/packaging </th>
 <th></th></tr>
-<tr><th></th>
-<th></th>
-<th></th></tr>
 <tr><th> Fri, 1pm  </th>
 <th> Lunch break </th>
 <th></th></tr>
 <tr><th> Fri, 2pm  </th>
 <th> Organising the development, group positioning </th>
-<th> tba 
+<th> HWL  
+</th></tr>
+<tr><th> Fri, 2:15 </th>
+<th> T:Migration/Load balancing </th>
+<th>Vladimir 
 </th></tr>
 <tr><th> Fri, 2:30 </th>
 <th> T:Future GHC directions </th>
-<th> ?Simon? 
+<th> Simon 
 </th></tr>
 <tr><th> Fri, 3pm  </th>
 <th> Brainstorm: Test suite coverage and Setup </th>
