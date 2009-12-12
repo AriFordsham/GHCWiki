@@ -6,7 +6,25 @@ GHC 6.13 includes DTrace probes in the runtime system.  Currently, these probes 
 
 It is straight forward to extend the current implementation with additional probes, and due to the lightweight nature of DTrace, new probes could inspect the runtime system and running Haskell program in an even more fine-grained manner.
 
-## Probes
+## Probe description
+
+
+The following probes are available:
+
+<table><tr><th>`create-thread (capability, tid)`</th>
+<td>
+Triggered when a new runtime thread is created.  Reports the capability on which the thread is created and the new thread's thread id.
+</td></tr>
+<tr><th>`run-thread (capability, tid)`</th>
+<td>
+Indicates that the given thread starts to run on the specified capability.
+</td></tr>
+<tr><th>`stop-thread (capability, tid)`</th>
+<td>
+The identified thread stops execution on the given capability.
+</td></tr></table>
+
+## Probe definition
 
 
 The provider is defined as follows:
