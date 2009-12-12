@@ -25,6 +25,20 @@ The following probes are available:
   The specified capability is about to disappear; its run queue and spare worker lists are already empty.
  `thread-wakeup (cap, tid, other_cap)`::
   We just unblocked the specified thread on capability `other_cap`.  (The capability `cap` is the one which performed the unblocking.)
+ `gc-start (cap)`::
+  The specified capability gets ready for a garbage collection.
+ `gc-end (cap)`::
+  The specified capability completed a garbage collection.
+ `gc-request-seq-gc (cap)`::
+  We are about to perform a single-threaded garbage collection (meaning that we will grab all capabilities, and then, perform the GC on the specified capability).
+ `gc-request-par-gc (cap)`::
+  We are about to perform a parallel garbage collection (this still means all mutator threads need to stop).  We might need to wait for the other capabilities to donate a worker thread each.
+ `create-spark-thread (cap, tid)`::
+  We just turned a spark into the specified thread on the given capability.
+ `startup (num_caps)`::
+  Initialising the runtime system with the given number of capabilities (that's the value passed with `+RTS -N`).
+ `user-msg (cap, msg)`::
+  The given user message (a string that you need to copy with `copyinstr()`) was emitted on the given capability; this happens when a call to `traceEvent` is being made, passing the message as an argument.
 
 == Probe definition ==
 

@@ -46,6 +46,34 @@ The specified capability is about to disappear; its run queue and spare worker l
 <tr><th>`thread-wakeup (cap, tid, other_cap)`</th>
 <td>
 We just unblocked the specified thread on capability `other_cap`.  (The capability `cap` is the one which performed the unblocking.)
+</td></tr>
+<tr><th>`gc-start (cap)`</th>
+<td>
+The specified capability gets ready for a garbage collection.
+</td></tr>
+<tr><th>`gc-end (cap)`</th>
+<td>
+The specified capability completed a garbage collection.
+</td></tr>
+<tr><th>`gc-request-seq-gc (cap)`</th>
+<td>
+We are about to perform a single-threaded garbage collection (meaning that we will grab all capabilities, and then, perform the GC on the specified capability).
+</td></tr>
+<tr><th>`gc-request-par-gc (cap)`</th>
+<td>
+We are about to perform a parallel garbage collection (this still means all mutator threads need to stop).  We might need to wait for the other capabilities to donate a worker thread each.
+</td></tr>
+<tr><th>`create-spark-thread (cap, tid)`</th>
+<td>
+We just turned a spark into the specified thread on the given capability.
+</td></tr>
+<tr><th>`startup (num_caps)`</th>
+<td>
+Initialising the runtime system with the given number of capabilities (that's the value passed with `+RTS -N`).
+</td></tr>
+<tr><th>`user-msg (cap, msg)`</th>
+<td>
+The given user message (a string that you need to copy with `copyinstr()`) was emitted on the given capability; this happens when a call to `traceEvent` is being made, passing the message as an argument.
 </td></tr></table>
 
 ## Probe definition
