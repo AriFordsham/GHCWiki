@@ -29,3 +29,5 @@ selfPe = unsafePerformIO $  do
               n <- peek thisPE
               return (fromIntegral n)
 ```
+
+[--\> back to GpHEden](gp-h-eden)
