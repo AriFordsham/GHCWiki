@@ -17,3 +17,6 @@ A common property of all our parallel variants is, the runtime system starts in 
  * Shutdown is triggered via system message PP_FINISH from node 1 to the others.
 
 In a first version, the empty scheduler instances blocked on a call to MP_recv in `getRemoteWork`. Now, we handle it inside a more complex message processing function, when we have more types of messages between the machines).
+
+
+[wiki:GpHEden --> back to GpHEden]
