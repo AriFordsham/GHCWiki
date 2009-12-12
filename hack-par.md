@@ -11,7 +11,7 @@ Location : St Andrews
 ## Participants
 
 
-Vladimir Janjic (Host), Hans-Wolfgang Loidl, Kevin Hammond, Mustafa Aswad, Henrique Ferreiro, Philip W Trinder, Patrick Maier, Abyd Al Zain, Mischa Dieterle, Thomas Horstmeyer, Jost Berthold, Christoph Herrmann Simon Marlow (virtual),
+Vladimir Janjic (Host), [ Hans-Wolfgang Loidl](http://www.macs.hw.ac.uk/~hwloidl/), [ Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Mustafa Aswad, [ Henrique Ferreiro](http://www.madsgroup.org/staff/henrique/), [ Philip W Trinder](http://www.macs.hw.ac.uk/~trinder/), Patrick Maier, Abyd Al Zain, Mischa Dieterle, Thomas Horstmeyer, [ Jost Berthold](http://www.mathematik.uni-marburg.de/~berthold/), Christoph Herrmann, [ Simon Marlow](http://www.haskell.org/~simonmar/) (virtual),
 
 ## Source code
 
