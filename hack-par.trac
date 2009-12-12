@@ -23,11 +23,11 @@ An [AgendaProposal Agenda Proposal] is now on a separate page.
 ==== Topics to cover in the Hackathon: ====
 
  * Short overview sessions on implementation internals (KH: these should not all be on the first afternoon!):
-  * GUM (Mustafa)
-  * Eden (Jost)
-  * Globus (Abyd)
+  * [http://www.macs.hw.ac.uk/~dsg/gph/ GUM] (Mustafa)
+  * [http://www.mathematik.uni-marburg.de/~eden/ Eden] (Jost)
+  * [http://www.globus.org/ Globus] (Abyd)
   * Migration/Load Balancing (Vladimir)
-  * ghc HEAD developments (Simon)
+  * [http://haskell.org/ghc ghc] HEAD developments (Simon)
   * GUM/Eden Compilation and Debugging (Vladimir?)
  * GUM-6 port
  * Merging GUM and Eden implementations
@@ -46,7 +46,7 @@ An [AgendaProposal Agenda Proposal] is now on a separate page.
   * Integration with GHC/SMP
   * Integrating migration
   * Globus interface
-  * pre-SCSCP GAP interface
+  * pre-SCSCP [http://www.gap-system.org/ GAP] interface
   * Micro-kernel/substrate approach to the RTS
  * Nominating people in charge of sub-projects
   * parallel nofib suite
