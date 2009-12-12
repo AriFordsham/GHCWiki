@@ -245,3 +245,5 @@ Ticketing: use GHC TRAC - HWL to organise
 Communication: skype (share account names), mailing list (common for parallel haskell - Patrick to organise)
 
 ### What we did and what is still to do
+
+[--\> back to GpHEden](gp-h-eden)
