@@ -16,6 +16,13 @@ To make effective use of DTrace probes, we need D scripts and custom instruments
 To trace a Haskell program:
  0. Execute `sudo dtrace -P 'HaskellEvent*' -Z` on the command line
  1. Then, invoke your Haskell program (the terminal running `dtrace` will dump the trace)
+If you only want to be notified of the start and end of garbage collections, invoke dtrace as follows: 
+{{{
+sudo dtrace -n 'HaskellEvent*:::gc-start' -n 'HaskellEvent*:::gc-end' -Z
+}}}
+Further details on the available probes are below.
+
+'''IMPORTANT:''' Do not use `dtrace` with the `-c` option to start and trace a Haskell program in a single invocation.  On Mac OS X, this doesn't seem to work for reasons that I don't understand.  (To be precise, it does seem to work for other programs, but probes in the Haskell runtime appear not to be detected.)
 
 == Probe description ==
 
