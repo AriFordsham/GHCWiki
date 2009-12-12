@@ -34,6 +34,18 @@ The specified thread has just been moved from capability `cap` to `new_cap`, eit
 <tr><th>`run-spark (capability, tid)`</th>
 <td>
 We are about to convert a spark into a new parallel thread.  The capability and thread are those determining the spark and converting it, **not** the thread id of the new spark.
+</td></tr>
+<tr><th>`steal-spark (cap, tid, victim_cap)`</th>
+<td>
+We are about to convert a spark from a different capability, namely `victim_cap`, into a new parallel thread.  Again, the capability and thread are those determining the spark and converting it, **not** the thread id of the new spark.
+</td></tr>
+<tr><th>`shutdown (cap)`</th>
+<td>
+The specified capability is about to disappear; its run queue and spare worker lists are already empty.
+</td></tr>
+<tr><th>`thread-wakeup (cap, tid, other_cap)`</th>
+<td>
+We just unblocked the specified thread on capability `other_cap`.  (The capability `cap` is the one which performed the unblocking.)
 </td></tr></table>
 
 ## Probe definition

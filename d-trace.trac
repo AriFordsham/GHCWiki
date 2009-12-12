@@ -19,6 +19,12 @@ The following probes are available:
   The specified thread has just been moved from capability `cap` to `new_cap`, either because `cap` is sharing its run queue with `new_cap` or because the migration was explicitly requested.
  `run-spark (capability, tid)`::
   We are about to convert a spark into a new parallel thread.  The capability and thread are those determining the spark and converting it, '''not''' the thread id of the new spark.
+ `steal-spark (cap, tid, victim_cap)`::
+  We are about to convert a spark from a different capability, namely `victim_cap`, into a new parallel thread.  Again, the capability and thread are those determining the spark and converting it, '''not''' the thread id of the new spark.
+ `shutdown (cap)`::
+  The specified capability is about to disappear; its run queue and spare worker lists are already empty.
+ `thread-wakeup (cap, tid, other_cap)`::
+  We just unblocked the specified thread on capability `other_cap`.  (The capability `cap` is the one which performed the unblocking.)
 
 == Probe definition ==
 
