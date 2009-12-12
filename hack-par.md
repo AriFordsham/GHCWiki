@@ -221,3 +221,27 @@ We need to consider MPI support.
 
 
 \[PackagingProgress Progress\]
+
+## Taking Things Forward
+
+### Organisation
+
+
+Information: Haskell Wiki, GHC Wiki
+
+
+Meeting: once per year at e.g. IFL in Utrecht + private meeting
+
+
+Repository: where to live?  darcs at Marburg plus bleeding edge on Ladybanks at St Andrews
+
+
+Experimental/Development machines: ladybanks at St Andrews generally open
+
+
+Ticketing: use GHC TRAC - HWL to organise
+
+
+Communication: skype (share account names), mailing list (common for parallel haskell - Patrick to organise)
+
+### What we did and what is still to do
