@@ -6,10 +6,15 @@ GHC 6.13 includes DTrace probes in the runtime system.  Currently, these probes 
 
 It is straight forward to extend the current implementation with additional probes, and due to the lightweight nature of DTrace, new probes could inspect the runtime system and running Haskell program in an even more fine-grained manner.
 
+## About DTrace
+
+
+DTrace and the associated D programming language are described in detail in the [ Solaris Dynamic Tracing Guide](http://wikis.sun.com/display/DTrace/Documentation).  The Mac OS X specific GUI frontend, Instruments, is explained in the [ Instruments User Guide](http://developer.apple.com/mac/library/DOCUMENTATION/DeveloperTools/Conceptual/InstrumentsUserGuide/Introduction/Introduction.html) and the Mac version of the command line tool `dtrace` is documented by the [ Mac OS X dtrace man page](http://developer.apple.com/mac/library/documentation/Darwin/Reference/ManPages/man1/dtrace.1.html).
+
 ## Probe description
 
 
-The following probes are available:
+The following probes are being made available by the `HaskellEvent` provider:
 
 <table><tr><th>`create-thread (capability, tid)`</th>
 <td>
