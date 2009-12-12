@@ -161,7 +161,7 @@ GHC repository.
 - Integrating basic GUM code into Eden version 6.13: HWL?
 
 
-\[IntegratingGUMEdenProgress Progress\]
+\[IntegratingProgress Progress\]
 
 - Packing code (incl. tags): HWL+ MKA + JB
 
@@ -218,3 +218,6 @@ This is important in the long-term.  For now we left it open until we had made p
 
 
 We need to consider MPI support.
+
+
+\[PackagingProgress Progress\]
