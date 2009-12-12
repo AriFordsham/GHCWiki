@@ -74,6 +74,18 @@ Initialising the runtime system with the given number of capabilities (that's th
 <tr><th>`user-msg (cap, msg)`</th>
 <td>
 The given user message (a string that you need to copy with `copyinstr()`) was emitted on the given capability; this happens when a call to `traceEvent` is being made, passing the message as an argument.
+</td></tr>
+<tr><th>`gc-idle (cap)`</th>
+<td>
+The GC worker thread of the specified capability just became idle.
+</td></tr>
+<tr><th>`gc-work (cap)`</th>
+<td>
+The GC worker thread of the specified capability is about to do some GC work.
+</td></tr>
+<tr><th>`gc-done (cap)`</th>
+<td>
+The GC worker thread of the specified capability finished doing GC.
 </td></tr></table>
 
 ## Probe definition

@@ -39,6 +39,12 @@ The following probes are available:
   Initialising the runtime system with the given number of capabilities (that's the value passed with `+RTS -N`).
  `user-msg (cap, msg)`::
   The given user message (a string that you need to copy with `copyinstr()`) was emitted on the given capability; this happens when a call to `traceEvent` is being made, passing the message as an argument.
+ `gc-idle (cap)`::
+  The GC worker thread of the specified capability just became idle.
+ `gc-work (cap)`::
+  The GC worker thread of the specified capability is about to do some GC work.
+ `gc-done (cap)`::
+  The GC worker thread of the specified capability finished doing GC.
 
 == Probe definition ==
 
