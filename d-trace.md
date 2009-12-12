@@ -11,6 +11,20 @@ It is straight forward to extend the current implementation with additional prob
 
 DTrace and the associated D programming language are described in detail in the [ Solaris Dynamic Tracing Guide](http://wikis.sun.com/display/DTrace/Documentation).  The Mac OS X specific GUI frontend, Instruments, is explained in the [ Instruments User Guide](http://developer.apple.com/mac/library/DOCUMENTATION/DeveloperTools/Conceptual/InstrumentsUserGuide/Introduction/Introduction.html) and the Mac version of the command line tool `dtrace` is documented by the [ Mac OS X dtrace man page](http://developer.apple.com/mac/library/documentation/Darwin/Reference/ManPages/man1/dtrace.1.html).
 
+## Using DTrace with GHC
+
+
+To make effective use of DTrace probes, we need D scripts and custom instruments for Instruments app.  Until then, the available probes can be queried as follows:
+
+1. Start `ghci` in a terminal
+1. Invoke the following command at another command line prompt: `sudo dtrace -P 'HaskellEvent*' -l`
+
+
+To trace a Haskell program:
+
+1. Execute `sudo dtrace -P 'HaskellEvent*' -Z` on the command line
+1. Then, invoke your Haskell program (the terminal running `dtrace` will dump the trace)
+
 ## Probe description
 
 
