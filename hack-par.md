@@ -161,7 +161,7 @@ GHC repository.
 - Integrating basic GUM code into Eden version 6.13: HWL?
 
 
-\[IntegratingGUMProgress Progress\]
+\[IntegratingProgress Progress\]
 
 - Packing code (incl. tags): HWL+ MKA + JB
 
@@ -201,10 +201,15 @@ adding in new event types for distributed/more detailed events.
 The visualisation tools need to work with the agreed format.  We may need more detailed views
 and/or interactive versus publication tools.
 
+[Progress](visualisation-progress)
+
 ### Benchmarking: HF + MD + JB  + everyone
 
 
 We agreed to hold a discussion on benchmarking on Friday.
+
+
+\[BenchmarkingProgress Progress\]
 
 ### Packaging and Builds
 
@@ -213,3 +218,6 @@ This is important in the long-term.  For now we left it open until we had made p
 
 
 We need to consider MPI support.
+
+
+\[PackagingProgress Progress\]
