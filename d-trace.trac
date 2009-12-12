@@ -13,6 +13,12 @@ The following probes are available:
   Indicates that the given thread starts to run on the specified capability.
  `stop-thread (capability, tid)`::
   The identified thread stops execution on the given capability.
+ `thread-runnable (capability, tid)`::
+  The given thread has just been appended to the run queue of the specified capability.
+ `migrate-thread (cap, tid, new_cap)`::
+  The specified thread has just been moved from capability `cap` to `new_cap`, either because `cap` is sharing its run queue with `new_cap` or because the migration was explicitly requested.
+ `run-spark (capability, tid)`::
+  We are about to convert a spark into a new parallel thread.  The capability and thread are those determining the spark and converting it, '''not''' the thread id of the new spark.
 
 == Probe definition ==
 

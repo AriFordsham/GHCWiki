@@ -22,6 +22,18 @@ Indicates that the given thread starts to run on the specified capability.
 <tr><th>`stop-thread (capability, tid)`</th>
 <td>
 The identified thread stops execution on the given capability.
+</td></tr>
+<tr><th>`thread-runnable (capability, tid)`</th>
+<td>
+The given thread has just been appended to the run queue of the specified capability.
+</td></tr>
+<tr><th>`migrate-thread (cap, tid, new_cap)`</th>
+<td>
+The specified thread has just been moved from capability `cap` to `new_cap`, either because `cap` is sharing its run queue with `new_cap` or because the migration was explicitly requested.
+</td></tr>
+<tr><th>`run-spark (capability, tid)`</th>
+<td>
+We are about to convert a spark into a new parallel thread.  The capability and thread are those determining the spark and converting it, **not** the thread id of the new spark.
 </td></tr></table>
 
 ## Probe definition
