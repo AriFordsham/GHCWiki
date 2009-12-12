@@ -32,11 +32,11 @@ An [Agenda Proposal](agenda-proposal) is now on a separate page.
 
 - Short overview sessions on implementation internals (KH: these should not all be on the first afternoon!):
 
-  - GUM (Mustafa)
-  - Eden (Jost)
-  - Globus (Abyd)
+  - [ GUM](http://www.macs.hw.ac.uk/~dsg/gph/) (Mustafa)
+  - [ Eden](http://www.mathematik.uni-marburg.de/~eden/) (Jost)
+  - [ Globus](http://www.globus.org/) (Abyd)
   - Migration/Load Balancing (Vladimir)
-  - ghc HEAD developments (Simon)
+  - [ ghc](http://haskell.org/ghc) HEAD developments (Simon)
   - GUM/Eden Compilation and Debugging (Vladimir?)
 - GUM-6 port
 - Merging GUM and Eden implementations
@@ -58,7 +58,7 @@ An [Agenda Proposal](agenda-proposal) is now on a separate page.
   - Integration with GHC/SMP
   - Integrating migration
   - Globus interface
-  - pre-SCSCP GAP interface
+  - pre-SCSCP [ GAP](http://www.gap-system.org/) interface
   - Micro-kernel/substrate approach to the RTS
 - Nominating people in charge of sub-projects
 
