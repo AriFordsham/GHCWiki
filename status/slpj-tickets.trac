@@ -17,6 +17,7 @@
  * #2831: error expressions and arities
 
 === Inlining ===
+ * #3755: idea for "wrapper peeling" for join points.
  * #3586: inlining default methods
  * #3526: Inliner behaviour confusing (waiting on Bryan)
  * #3181: check unboxing regression fixed in Big INLINE Patch
