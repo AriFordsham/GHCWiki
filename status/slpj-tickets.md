@@ -6,10 +6,10 @@
 
 - [\#3698](https://gitlab.haskell.org//ghc/ghc/issues/3698): arity analysis again
 - [\#3697](https://gitlab.haskell.org//ghc/ghc/issues/3697): class method selectors
+- [\#3034](https://gitlab.haskell.org//ghc/ghc/issues/3034): divInt and arity
 - [\#3627](https://gitlab.haskell.org//ghc/ghc/issues/3627): profiling and eta expansion
 - [\#2915](https://gitlab.haskell.org//ghc/ghc/issues/2915): arity too small
 - [\#2762](https://gitlab.haskell.org//ghc/ghc/issues/2762): arity analysis would fix a space leak
-- [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): array indexing, inlining/arity bug        
 - [\#2902](https://gitlab.haskell.org//ghc/ghc/issues/2902): an excellent example of the need for arity analysis
 - [\#2823](https://gitlab.haskell.org//ghc/ghc/issues/2823): another arity expansion bug (related to dictionaries)
 - [\#2440](https://gitlab.haskell.org//ghc/ghc/issues/2440): bad code with type families; I believe this is also arity-related
@@ -19,6 +19,8 @@
 
 ### Inlining
 
+- [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
+- [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): idea for "wrapper peeling" for join points.
 - [\#3586](https://gitlab.haskell.org//ghc/ghc/issues/3586): inlining default methods
 - [\#3526](https://gitlab.haskell.org//ghc/ghc/issues/3526): Inliner behaviour confusing (waiting on Bryan)
 - [\#3181](https://gitlab.haskell.org//ghc/ghc/issues/3181): check unboxing regression fixed in Big INLINE Patch
@@ -34,7 +36,7 @@
 ## New code generator
 
 - [New code generator tickets](commentary/compiler/new-code-gen)
-- [\#3458](https://gitlab.haskell.org//ghc/ghc/issues/3458): undesirable allocation of something that is nearly a join point
+- [\#3458](https://gitlab.haskell.org//ghc/ghc/issues/3458), [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): undesirable allocation of something that is nearly a let-no-escape
 - [\#3462](https://gitlab.haskell.org//ghc/ghc/issues/3462): allocate large objects with `allocateLocal()`
 - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253): NCG could do better. Look at this when John D’s ncg is working
 - [\#783](https://gitlab.haskell.org//ghc/ghc/issues/783): SRTs getting big        
@@ -55,7 +57,7 @@
 - [\#149](https://gitlab.haskell.org//ghc/ghc/issues/149): float-out/CSE        
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387), [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600): nested CPR analysis        
 - [\#2092](https://gitlab.haskell.org//ghc/ghc/issues/2092): Possible quadratic-sized Eq instances. Does it really go quadratic, or does the join-point inlining machinery prevent it?  Still to check: delicacy wrt case-of-case
-- [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#2643](https://gitlab.haskell.org//ghc/ghc/issues/2643): Improve **`SpecConstr`** for free variables, and for join points.
+- [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#3767](https://gitlab.haskell.org//ghc/ghc/issues/3767), [\#2642](https://gitlab.haskell.org//ghc/ghc/issues/2642): Improve **`SpecConstr`** for free variables, and for join points.
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
 - [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065): better code in quot/rem
 
@@ -80,17 +82,21 @@
 
 - [\#1148](https://gitlab.haskell.org//ghc/ghc/issues/1148), [\#2267](https://gitlab.haskell.org//ghc/ghc/issues/2267), [\#1074](https://gitlab.haskell.org//ghc/ghc/issues/1074), [\#2436](https://gitlab.haskell.org//ghc/ghc/issues/2436), [\#1792](https://gitlab.haskell.org//ghc/ghc/issues/1792), (related [\#3082](https://gitlab.haskell.org//ghc/ghc/issues/3082)): “Unused import” warnings should be generated from `RdrNames`
 - [\#2182](https://gitlab.haskell.org//ghc/ghc/issues/2182): GHCi session retains instance after removing a module from scope        
-- [\#2152](https://gitlab.haskell.org//ghc/ghc/issues/2152): Bogus inlining of foregn import.  Arises from seeing through a NOINLINE in `exprIsConApp_maybe`
 - [\#1241](https://gitlab.haskell.org//ghc/ghc/issues/1241): Lifting the Coverage Condition for functional dependencies isn’t the Right Thing        Manuel
-- [\#2256](https://gitlab.haskell.org//ghc/ghc/issues/2256): Incomplete inference due to lack of quantification over implication constraints.  Also, see “BUG WARNING” in `TcSimplify` line 717 or thereabouts.  `fdPredsOfInsts` is returning preds that mention quantified variables, which is quite wrong        Manuel
-- [\#2239](https://gitlab.haskell.org//ghc/ghc/issues/2239): Lack of improvement with type functions        Manuel
 - [\#1954](https://gitlab.haskell.org//ghc/ghc/issues/1954): Incorrect “defined but not used” msg        
 
 ---
 
-## Types and type inference
+## New constraint simplifier
 
 - [TypeFunctionsStatus](type-functions-status)
+- [\#3738](https://gitlab.haskell.org//ghc/ghc/issues/3738): don't float `MethodInsts` out of INLINE right hand sides.
+- [\#2256](https://gitlab.haskell.org//ghc/ghc/issues/2256): Incomplete inference due to lack of quantification over implication constraints.  Also, see “BUG WARNING” in `TcSimplify` line 717 or thereabouts.  `fdPredsOfInsts` is returning preds that mention quantified variables, which is quite wrong        Manuel
+- [\#2239](https://gitlab.haskell.org//ghc/ghc/issues/2239): Lack of improvement with type functions        Manuel
+- [\#700](https://gitlab.haskell.org//ghc/ghc/issues/700): universals in pattern matching
+
+## Types and type inference
+
 - [\#3490](https://gitlab.haskell.org//ghc/ghc/issues/3490): superclasses and ambiguity
 - [\#3638](https://gitlab.haskell.org//ghc/ghc/issues/3638): rules and rigidity for GADTs
 - [\#3632](https://gitlab.haskell.org//ghc/ghc/issues/3632): better update for records with existentials
