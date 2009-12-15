@@ -71,6 +71,19 @@ so we have inductively defined n-tuples of `Int` values to represent shapes. Thi
 is necessary to be able to inductively define operations on `Shape`. It should, however, be hidden from the library
 user in favour of the common tuple representation.
 
+
+The multiparameter type class `Subshape sh sh'` contains all pairs of shapes `sh` and `sh'`, for which the dimensionality of `sh'` is
+less than that of `sh`.  
+{{{
+class (Shape sh, Shape sh') => Subshape sh sh' where
+  addDim     :: sh -> sh' -> sh    
+  modDim     :: sh -> sh' -> sh    
+  inject     :: sh -> sh' -> sh
+}}}
+The method `addDim` adds the sizes of two shapes (or positions of two indices). If `sh'` is a strict subshape of
+`sh`, the fields of `sh` are copied when no corresponding fields of `sh'` exist, accordingly for `modDim`
+
+
 == Operations on Arrays and Delayed Arrays ==
 
 === Array Creation and Conversion ===
