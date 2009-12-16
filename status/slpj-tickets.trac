@@ -81,8 +81,11 @@
  * #1954: Incorrect “defined but not used” msg	
 
 ------------------------
-== Types and type inference ==
+== New constraint simplifier ==
  * [wiki:TypeFunctionsStatus]
+ * #3738: don't float `MethodInsts` out of INLINE right hand sides.
+
+== Types and type inference ==
  * #3490: superclasses and ambiguity
  * #3638: rules and rigidity for GADTs
  * #3632: better update for records with existentials
