@@ -17,6 +17,7 @@
  * #2831: error expressions and arities
 
 === Inlining ===
+ * #3765: CONLIKE things and case expressions (need two unfoldings)
  * #3755: idea for "wrapper peeling" for join points.
  * #3586: inlining default methods
  * #3526: Inliner behaviour confusing (waiting on Bryan)

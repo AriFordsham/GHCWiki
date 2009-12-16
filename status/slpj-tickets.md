@@ -19,6 +19,7 @@
 
 ### Inlining
 
+- [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
 - [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): idea for "wrapper peeling" for join points.
 - [\#3586](https://gitlab.haskell.org//ghc/ghc/issues/3586): inlining default methods
 - [\#3526](https://gitlab.haskell.org//ghc/ghc/issues/3526): Inliner behaviour confusing (waiting on Bryan)
