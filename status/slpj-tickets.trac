@@ -5,6 +5,7 @@
 === Arity ===
  * #3698: arity analysis again
  * #3697: class method selectors
+ * #3034: divInt and arity
  * #3627: profiling and eta expansion
  * #2915: arity too small
  * #2762: arity analysis would fix a space leak
