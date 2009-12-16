@@ -9,7 +9,6 @@
 - [\#3627](https://gitlab.haskell.org//ghc/ghc/issues/3627): profiling and eta expansion
 - [\#2915](https://gitlab.haskell.org//ghc/ghc/issues/2915): arity too small
 - [\#2762](https://gitlab.haskell.org//ghc/ghc/issues/2762): arity analysis would fix a space leak
-- [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): array indexing, inlining/arity bug        
 - [\#2902](https://gitlab.haskell.org//ghc/ghc/issues/2902): an excellent example of the need for arity analysis
 - [\#2823](https://gitlab.haskell.org//ghc/ghc/issues/2823): another arity expansion bug (related to dictionaries)
 - [\#2440](https://gitlab.haskell.org//ghc/ghc/issues/2440): bad code with type families; I believe this is also arity-related
@@ -36,7 +35,7 @@
 ## New code generator
 
 - [New code generator tickets](commentary/compiler/new-code-gen)
-- [\#3458](https://gitlab.haskell.org//ghc/ghc/issues/3458): undesirable allocation of something that is nearly a join point
+- [\#3458](https://gitlab.haskell.org//ghc/ghc/issues/3458), [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): undesirable allocation of something that is nearly a let-no-escape
 - [\#3462](https://gitlab.haskell.org//ghc/ghc/issues/3462): allocate large objects with `allocateLocal()`
 - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253): NCG could do better. Look at this when John D’s ncg is working
 - [\#783](https://gitlab.haskell.org//ghc/ghc/issues/783): SRTs getting big        
