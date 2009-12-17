@@ -123,9 +123,12 @@ The `inplace/` directory is where we "install" stage1 and stage2 compilers, and 
 
   - `ghc-stage1`
   - `ghc-stage2`
+  - `ghc-pkg`
   - `hasktags`
   - `hsc2hs`
   - `haddock`
+  - `count_lines`
+  - `compareSizes`
 
 - **`inplace/lib/`**: suppporting libraries for the executables.
 
