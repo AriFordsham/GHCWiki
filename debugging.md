@@ -7,8 +7,8 @@ This part of the wiki collects all the information related to debugging GHC: tha
 
   - Use the [testsuite](building/running-tests) to test the compiler on thousands of regression tests
   - Use the [nofib suite](building/running-no-fib), and the nofib-analyse tool, to compare performance on 50-odd benchmarks.
-  - Use `count_lines` to count the number of lines of code in the compiler
-  - Use `compareSizes` to compare the sizes of corresponding .o or .hi files in two trees.
+  - Use [count_lines](debugging#) to count the number of lines of code in the compiler
+  - Use [compareSizes](debugging#comparesizes) to compare the sizes of corresponding .o or .hi files in two trees.
 
 - **Reproducing the test case**.  You may need to install some packages to reproduce the test case, and that may take a little care: [Debugging/InstallingPackagesInplace](debugging/installing-packages-inplace).
 
@@ -28,3 +28,68 @@ This part of the wiki collects all the information related to debugging GHC: tha
 
   - [Building/Troubleshooting](building/troubleshooting): Fixing common problems in a GHC build
   - [Building/Modifying](building/modifying#debugging): Debugging the build system
+
+---
+
+## count_lines
+
+
+The `count_lines` script, which is put in `$(TOP)/inplace/bin`, counts source lines and comments. The command-line arguments are the Haskell source files to count.
+
+```wiki
+bash-3.2$ $head/count_lines compiler/*/*hs
+
+                      Code  Comments
+compiler/basicTypes    4565   5092
+compiler/cmm           9685   4703
+...
+compiler/utils         6316   4669
+compiler/vectorise     2608    669
+
+TOTAL:               105893  86247
+
+                      Code  Comments
+Annotations.lhs          57     44
+AsmCodeGen.lhs          591    333
+Bag.lhs                 140     51
+....
+ZipCfgExtras.hs          43     33
+ZipDataflow.hs          779    271
+
+TOTAL:               105893  86247
+```
+
+
+The source for `count_lines` is in `$(TOP)/utils/count_lines`.
+
+## compareSizes
+
+
+The `compareSizes` program compares the sizes of corresponding files in two trees:
+
+```wiki
+$ ./compareSizes --hi ~/ghc/darcs/ghc ~/ghc/6.12-branch/ghc
+        Size | Change | Filename
+      25644 | -0.99% | compiler/stage1/build/Demand.hi
+      21103 | -0.98% | compiler/stage2/build/Demand.hi
+     180044 | -0.98% | libraries/base/dist-install/build/GHC/Classes.hi
+       6415 | -0.58% | .../Data/Array/Parallel/Prelude/Base/Tuple.hi
+       6507 | -0.57% | .../Data/Array/Parallel/Prelude/Base/Tuple.hi
+   [...]
+       3264 |  3.16% | .../Parallel/Unlifted/Sequential/Flat/Enum.hi
+      51389 |  3.30% | .../build/Language/Haskell/Extension.hi
+       1415 | 72.18% | libraries/base/dist-install/build/Data/Tuple.hi
+   28752162 | -0.00% | TOTAL
+```
+
+
+Flags:
+
+- `--o` to compare object files.
+- `--hi` to compare interface files \[DEFAULT\]
+
+
+There's a hack to avoid descending into '\*_split' directories. 
+
+
+The source for `compareSizes` is in `$(TOP)/utils/compare_sizes`.
