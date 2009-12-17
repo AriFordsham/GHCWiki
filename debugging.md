@@ -7,8 +7,8 @@ This part of the wiki collects all the information related to debugging GHC: tha
 
   - Use the [testsuite](building/running-tests) to test the compiler on thousands of regression tests
   - Use the [nofib suite](building/running-no-fib), and the nofib-analyse tool, to compare performance on 50-odd benchmarks.
-  - Use `count_lines` to count the number of lines of code in the compiler
-  - Use `compareSizes` to compare the sizes of corresponding .o or .hi files in two trees.
+  - Use [count_lines](debugging#) to count the number of lines of code in the compiler
+  - Use [compareSizes](debugging#comparesizes) to compare the sizes of corresponding .o or .hi files in two trees.
 
 - **Reproducing the test case**.  You may need to install some packages to reproduce the test case, and that may take a little care: [Debugging/InstallingPackagesInplace](debugging/installing-packages-inplace).
 
