@@ -13,7 +13,6 @@
  * #2823: another arity expansion bug (related to dictionaries)
  * #2440: bad code with type families; I believe this is also arity-related
  * #2762: Arity analysis
- * #2368: ASSERT fails in `CorePrep`.  Seems to be arity-related.
  * #2831: error expressions and arities
 
 === Inlining ===
