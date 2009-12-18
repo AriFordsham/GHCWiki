@@ -14,7 +14,6 @@
 - [\#2823](https://gitlab.haskell.org//ghc/ghc/issues/2823): another arity expansion bug (related to dictionaries)
 - [\#2440](https://gitlab.haskell.org//ghc/ghc/issues/2440): bad code with type families; I believe this is also arity-related
 - [\#2762](https://gitlab.haskell.org//ghc/ghc/issues/2762): Arity analysis
-- [\#2368](https://gitlab.haskell.org//ghc/ghc/issues/2368): ASSERT fails in `CorePrep`.  Seems to be arity-related.
 - [\#2831](https://gitlab.haskell.org//ghc/ghc/issues/2831): error expressions and arities
 
 ### Inlining
@@ -45,8 +44,6 @@
 
 ### Other performance
 
-- [\#3586](https://gitlab.haskell.org//ghc/ghc/issues/3586): slow array code (ST monad)
-- [\#3501](https://gitlab.haskell.org//ghc/ghc/issues/3501): error thunks without "B" strictness
 - [\#3138](https://gitlab.haskell.org//ghc/ghc/issues/3138): returning a known constructor (Lennart's cmonad package)
 - [\#2988](https://gitlab.haskell.org//ghc/ghc/issues/2988): better float-in
 - [\#2940](https://gitlab.haskell.org//ghc/ghc/issues/2940): do CSE after `CorePrep`
@@ -143,11 +140,11 @@
 ## Features
 
 - [\#3701](https://gitlab.haskell.org//ghc/ghc/issues/3701): Implicitly declared existentials: a class as a type
-- [\#3480](https://gitlab.haskell.org//ghc/ghc/issues/3480): Fingerprints in `TypeRep`
+- [\#3480](https://gitlab.haskell.org//ghc/ghc/issues/3480): **Fingerprints in `TypeRep`**
 - [\#3217](https://gitlab.haskell.org//ghc/ghc/issues/3217): better flag handling for GHCi
 - [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788): Class aliases        
 - [\#2806](https://gitlab.haskell.org//ghc/ghc/issues/2806): Require bang patterns on unlifted let-bindings        
-- [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600): Bind type variables in RULES        
+- [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600), [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110): **Bind type variables and constraints in RULES**
 - [\#1930](https://gitlab.haskell.org//ghc/ghc/issues/1930): Infix type operators:  a+b.        
 - [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960): Generate local info for ‘undefined’.  Implicit location parameters in general        
 - [\#2135](https://gitlab.haskell.org//ghc/ghc/issues/2135): Warn when exporting a function whose type mentions a type constructor defined locally but not itself exported        
