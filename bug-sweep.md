@@ -37,7 +37,8 @@ Here are some things to check:
 
   - Check that the bug hasn't already been fixed.
   - Set the new "Type of Failure" field
-  - If the bug has some reproduction instructions, try them out with a recent GHC and see if the bug still happens.  If the results are different, update the ticket to include that information.  
+  - If the bug has some reproduction instructions, try them out with a recent GHC and see if the bug still happens.  If the results are different, update the ticket to include that information.
+  - Add the program to the [testsuite](building/running-tests#adding-a-new-test). 
   - If the bug does not have repro instructions, ask the submitter for more details.
   - Check that there is still value in having the ticket open.  If we cannot make progress without feedback from the submitter, and a long time has elapsed (e.g. 6 months), then we should close the bug.
 
@@ -69,12 +70,6 @@ database and start again.
 
 [ Edit this page](http://hackage.haskell.org/trac/ghc/wiki/BugSweep?action=edit) to remove a ticket from the following list.  You don't have to take the one at the top, but the top is as good a place to start as any:
 
-- [\#459](https://gitlab.haskell.org//ghc/ghc/issues/459)
-- [\#472](https://gitlab.haskell.org//ghc/ghc/issues/472)
-- [\#481](https://gitlab.haskell.org//ghc/ghc/issues/481)
-- [\#485](https://gitlab.haskell.org//ghc/ghc/issues/485)
-- [\#487](https://gitlab.haskell.org//ghc/ghc/issues/487)
-- [\#490](https://gitlab.haskell.org//ghc/ghc/issues/490)
 - [\#552](https://gitlab.haskell.org//ghc/ghc/issues/552)
 - [\#589](https://gitlab.haskell.org//ghc/ghc/issues/589)
 - [\#590](https://gitlab.haskell.org//ghc/ghc/issues/590)

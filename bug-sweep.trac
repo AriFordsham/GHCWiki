@@ -31,7 +31,8 @@ Here are some things to check:
  * '''Bugs''':
    * Check that the bug hasn't already been fixed.
    * Set the new "Type of Failure" field
-   * If the bug has some reproduction instructions, try them out with a recent GHC and see if the bug still happens.  If the results are different, update the ticket to include that information.  
+   * If the bug has some reproduction instructions, try them out with a recent GHC and see if the bug still happens.  If the results are different, update the ticket to include that information.
+   * Add the program to the [wiki:Building/RunningTests#Addinganewtest testsuite]. 
    * If the bug does not have repro instructions, ask the submitter for more details.
    * Check that there is still value in having the ticket open.  If we cannot make progress without feedback from the submitter, and a long time has elapsed (e.g. 6 months), then we should close the bug.
 
@@ -58,12 +59,6 @@ database and start again.
 
 [http://hackage.haskell.org/trac/ghc/wiki/BugSweep?action=edit Edit this page] to remove a ticket from the following list.  You don't have to take the one at the top, but the top is as good a place to start as any:
 
- * #459
- * #472
- * #481
- * #485
- * #487
- * #490
  * #552
  * #589
  * #590
