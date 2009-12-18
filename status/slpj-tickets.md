@@ -144,7 +144,7 @@
 - [\#3217](https://gitlab.haskell.org//ghc/ghc/issues/3217): better flag handling for GHCi
 - [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788): Class aliases        
 - [\#2806](https://gitlab.haskell.org//ghc/ghc/issues/2806): Require bang patterns on unlifted let-bindings        
-- [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600): Bind type variables in RULES        
+- [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600), [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110): Bind type variables and constraints in RULES        
 - [\#1930](https://gitlab.haskell.org//ghc/ghc/issues/1930): Infix type operators:  a+b.        
 - [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960): Generate local info for ‘undefined’.  Implicit location parameters in general        
 - [\#2135](https://gitlab.haskell.org//ghc/ghc/issues/2135): Warn when exporting a function whose type mentions a type constructor defined locally but not itself exported        
