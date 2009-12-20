@@ -15,8 +15,7 @@ This page is very much a draft and may be incorrect in places. Please fix proble
  * Uses eager substitution
  * Homeomorphic embedding for types?  Currently all types are regarded as equal (like literals).  Decision: leave it this way for now.
  * Msg does not respect alpha-equivalence.  If we match lambda against lambdas, and the binders differ, we say "different".  Decision: deal with alpha-equiv in msg when we have the new alg working.
- * Inlining `unsafePerformIO` and other NOINLINE things.
- * Adding constraint info
+  * Adding constraint info
    * case (x>y)of { ....case (x>y) of ... }
    * Extending this to specialised functions themselves.
  * Change representation in rho
