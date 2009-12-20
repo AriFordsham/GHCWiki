@@ -9,6 +9,6 @@ This section describes how to set up your system with all the tools you need to 
 - [Solaris](building/preparation/solaris)
 
 
-Alterantively:
+Alternatively:
 
 - [List of tools needed to build GHC](building/preparation/tools)
