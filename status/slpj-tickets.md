@@ -18,6 +18,7 @@
 
 ### Inlining
 
+- [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781): inlining for local functions: discount for scrutinising free vars
 - [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
 - [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): idea for "wrapper peeling" for join points.
 - [\#3586](https://gitlab.haskell.org//ghc/ghc/issues/3586): inlining default methods
