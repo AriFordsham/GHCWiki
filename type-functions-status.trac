@@ -22,6 +22,7 @@ instance C (G x) where ...   -- Likewise should be illegal
   * Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)  If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
  * Constraint simplification:
+  * #3787: ill-typed program made by typechecker
   * #3651: unreachable branches not discovered
   * #3584: premature commitment to an instance declaration
   * #3554: assertion failure
