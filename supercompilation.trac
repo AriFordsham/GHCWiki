@@ -6,9 +6,7 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
  * Naivrec: Double runtime
  * nbody: unsafe-things, segfault.
- * boyer2: head: empty list; splitTerm
- * Sieve2: run with argument 3. Wrong output.
- * The Simplifier gets confused by the wrong `OccInfo` on things. So run occurrence analysis at the end of supercompilation. The occurrence analyser gets confused by having the wrong Unfoldings for id's though. We currently zap things here and there, but this is not the right way to do it.
+ * boyer2: Hang
 
 == Shortcomings of the prototype == 
 
