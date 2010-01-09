@@ -4,8 +4,7 @@ On 5 May 2008, Isaac Dupree asked
   find) an explanation of what C-- "kinds" are or how they're useful/used? 
 
 Probably not.  GHC Cmm is a sort of pidgin version of C-- 2.0, and
-true C-- kinds are explained in the C-- specification, section 5.1.
-Downloadable from http://tinyurl.com/4sqmq6.
+true C-- kinds are explained in the [http://www.cminusminus.org/code.html C-- specification, section 5.1].
 
   When I was portabilizing that code area a while ago I had ignorantly 
   changed some of the uses of "kind" to "hint" for consistency (both names 
@@ -20,7 +19,7 @@ arguments in floating-point registers).  So we changed the name to
 'kind'.
 
 If you like dense, indigestible academic papers full of formalism,
-there's one I'm quite proud of at http://tinyurl.com/4gwjub.
+there's [http://www.cs.tufts.edu/~nr/pubs/staged-abstract.html one I'm quite proud of].
 It explains in detail how kinds are useful for specifying and
 implementing procedure calling conventions, which is the use to which
 they are put within GHC. 
