@@ -6,7 +6,7 @@ The roadmap provides a view on the [ticket system](trac-tickets) that helps plan
 ## The Roadmap View
 
 
-Basically, the roadmap is just a list of future milestones. You can add a description to milestones (using [WikiFormatting](wiki-formatting)) describing main objectives, for example. In addition, tickets targeted for a milestone are aggregated, and the ratio between active and resolved tickets is displayed as a milestone progress bar.
+Basically, the roadmap is just a list of future milestones. You can add a description to milestones (using [WikiFormatting](wiki-formatting)) describing main objectives, for example. In addition, tickets targeted for a milestone are aggregated, and the ratio between active and resolved tickets is displayed as a milestone progress bar.  It is possible to further customise the ticket grouping? and have multiple ticket statuses shown on the progress bar.
 
 ## The Milestone View
 
@@ -23,7 +23,7 @@ It is possible to add, modify and remove milestones using either [TracAdmin](tra
 ## iCalendar Support
 
 
-The Roadmap supports the [ iCalendar](http://www.ietf.org/rfc/rfc2445.txt) format to keep track of planned milestones and related tickets from your favorite calendar software. Calendar applications supporting the iCalendar specification include [ Apple iCal](http://www.apple.com/ical/) for Mac OS X and the cross-platform [ Mozilla Calendar](http://www.mozilla.org/projects/calendar/). [ Korganiser](http://kdepim.kde.org/components/korganizer.php) (the calendar application of the [ KDE](http://www.kde.org/) project) and [ Evolution](http://www.novell.com/de-de/products/desktop/features/evolution.html) also support iCalendar.
+The Roadmap supports the [ iCalendar](http://www.ietf.org/rfc/rfc2445.txt) format to keep track of planned milestones and related tickets from your favorite calendar software. Calendar applications supporting the iCalendar specification include [ Apple iCal](http://www.apple.com/ical/) for Mac OS X and the cross-platform [ Mozilla Calendar](http://www.mozilla.org/projects/calendar/), and [ Chandler](http://chandlerproject.org). [ Korganizer](http://kontact.kde.org/korganizer/) (the calendar application of the [ KDE](http://www.kde.org/) project) and [ Evolution](http://www.novell.com/de-de/products/desktop/features/evolution.html) also support iCalendar.
 
 
 To subscribe to the roadmap, copy the iCalendar link from the roadmap (found at the bottom of the page) and choose the "Subscribe to remote calendar" action (or similar) of your calendar application, and insert the URL just copied.
@@ -36,4 +36,4 @@ More information about iCalendar can be found at [ Wikipedia](http://en.wikipedi
 ---
 
 
-See also: [TracTickets](trac-tickets), [TracReports](trac-reports), [TracQuery](trac-query), [TracGuide](trac-guide)
+See also: TracRoadmapCustomGroups, [TracTickets](trac-tickets), [TracReports](trac-reports), [TracQuery](trac-query), [TracGuide](trac-guide)
