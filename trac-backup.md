@@ -11,7 +11,9 @@ Since Trac uses a database backend, some extra care is required to safely create
 To create a backup of a live [TracEnvironment](trac-environment), simply run:
 
 ```wiki
+
   $ trac-admin /path/to/projenv hotcopy /path/to/backupdir
+
 ```
 
 [trac-admin](trac-admin) will lock the database while copying.**
@@ -19,17 +21,20 @@ To create a backup of a live [TracEnvironment](trac-environment), simply run:
 
 The resulting backup directory is safe to handle using standard file-based backup tools like `tar` or `dump`/`restore`.
 
+
+Please, note, that hotcopy command does not overwrite target directory and when such exists, hotcopy ends with error: `Command failed: [Errno 17] File exists:` This is discussed in [ \#3198](http://trac.edgewall.org/intertrac/ticket%3A3198).
+
 ### Restoring a Backup
 
 
 Backups are simply a copied snapshot of the entire [project environment](trac-environment) directory, including the SQLite database. 
 
 
-To restore an environment from a backup, simply stop the process running Trac (i.e. the Web server or [tracd](trac-standalone)), restore the directory structure from the backup and restart the service.
+To restore an environment from a backup, stop the process running Trac (i.e. the Web server or [tracd](trac-standalone)), restore the contents of your backup (path/to/backupdir) to your [project environment](trac-environment) directory and restart the service.
 
 > *Note: Automatic backup of environments that don't use SQLite as database backend is not supported at this time. As a workaround, we recommend that you stop the server, copy the environment directory, and make a backup of the database using whatever mechanism is provided by the database system.*
 
 ---
 
 
-See also: [TracAdmin](trac-admin), [TracEnvironment](trac-environment), [TracGuide](trac-guide)
+See also: [TracAdmin](trac-admin), [TracEnvironment](trac-environment), [TracGuide](trac-guide), [ TracMigrate](http://trac.edgewall.org/intertrac/TracMigrate)
