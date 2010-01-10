@@ -3,12 +3,13 @@
 
 Trac has a built-in functionality for visualizing “diffs” - changes to files.
 
-When viewing a repository check-in, such as when following a
-changeset [wiki:TracLinks link] or a changeset event in the 
-[wiki:TracTimeline timeline], Trac will display the exact changes
-made by the check-in.
+There are different kinds of ''change sets''. 
+Some can correspond to revisions made in the repositories,
+others can aggregate changes made in several revisions, 
+but in the end, any kind of differences can be shown.
 
-The changeset view consists of two parts, the ''header'' and the ''diff views''.
+The changeset view consists of two parts, the ''header'' 
+and the ''diff views''.
 
 == Changeset Header ==
 
@@ -19,6 +20,10 @@ Here you will find information such as:
  * Author -- Who commited the changeset
  * Message -- A brief description from the author (the commit log message)
  * Files -- A list of files affected by this changeset
+
+If more than one revision is involved in the set of changes being
+displayed, the ''Timestamp'', ''Author'' and ''Message'' fields 
+won't be shown.
 
 In front of each listed file, you'll find  a colored rectangle. The color
 indicates how the file is affected by the changeset.
@@ -40,7 +45,53 @@ Below the header is the main part of the changeset, the diff view. Each file is 
 
 In addition, various advanced options are available in the preferences form for adjusting the display of the diffs:
  * You can set how many lines are displayed before and after every change
+   (if the value ''all'' is used, then the full file will be shown)
  * You can toggle whether blank lines, case changes and white space changes are ignored, thereby letting you find the functional changes more quickly
+
+
+== The Different Ways to Get a Diff ==
+
+=== Examining a Changeset ===
+
+When viewing a repository check-in, such as when following a
+changeset [wiki:TracLinks link] or a changeset event in the 
+[wiki:TracTimeline timeline], Trac will display the exact changes
+made by the check-in.
+
+There will be also navigation links to the ''Previous Changeset''
+to and ''Next Changeset''.
+
+=== Examining Differences Between Revisions ===
+
+Often you'll want to look at changes made on a file 
+or on a directory spanning multiple revisions. The easiest way
+to get there is from the TracRevisionLog, where you can select
+the ''old'' and the ''new'' revisions of the file or directory, and
+then click the ''View changes'' button.
+
+=== Examining Differences Between Branches ===
+
+One of the core features of version control systems is the possibility
+to work simultaneously on different ''Lines of Developments'', commonly
+called “branches”. Trac enables you to examine the exact differences
+between such branches.
+
+Using the '''View changes ...''' button in the TracBrowser allows you to enter
+''From:'' and ''To:'' path/revision pairs. The resulting set of differences consist
+of the changes that should be applied to the ''From:'' content in order
+to get to the ''To:'' content.
+
+For convenience, it is possible to invert the roles of the ''old'' and the ''new''
+path/revision pairs by clicking the ''Reverse Diff'' link on the changeset page.
+
+=== Checking the Last Change ===
+
+The last possibility for examining changes is to use the ''Last Change''
+link provided by the TracBrowser.
+
+This link will take you to the last change that was made on that path.
+From there, you can use the ''Previous Change'' and ''Next Change'' links
+to traverse the change history of the file or directory.
 
 ----
 See also: TracGuide, TracBrowser
