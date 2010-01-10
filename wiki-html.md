@@ -26,6 +26,53 @@ Results in:
 
 # HTML Test
 
+
+Note that Trac sanitizes your HTML code before displaying it. That means that if you try to use potentially dangerous constructs such as Javascript event handlers, those will be removed from the output. 
+
+
+Since 0.11, the filtering is done by Genshi, and as such, the produced output will be a well-formed fragment of HTML. In other words, this mean that you can no longer use two HTML blocks, one for opening a \<div\>, the second for closing it, in order to wrap arbitrary wiki text.
+The new way to wrap any wiki content inside a \<div\> is to use the *div* Wiki  processor:
+
+```wiki
+{{{
+#!div class=important style="border: 2pt solid; text-align: center"
+This is the ''only'' way to go in Trac 0.11
+}}}
+```
+
+
+Results in:
+
+
+This is the *only* way to go in Trac 0.11
+
+
+Note that if you don't specify a CSS class, the `wikipage` class will be added, so that the special layout of headers is respected in the \<div\>. If you specify explicitly the padding property, you have to take this into account (tip: [ get FireBug](http://getfirebug.com/)!).
+
+
+For spans, you should rather use the Macro call syntax:
+
+```wiki
+ Hello [[span(''WORLD'' (click [#world-anchor here]), style=color: green; font-size: 120%, id=world-anchor)]]!
+```
+
+
+Results in:
+
+>
+> Hello *WORLD* (click [here](wiki-html#))!
+
+## Images
+
+
+If you want display an image inline, append the following: **?format=raw** after the file name.  For example, to display the Trac logo inline, use this syntax:
+
+```wiki
+ <img src="http://www.edgewall.org/gfx/trac_logo.png?format=raw" />
+```
+
+not handled: Image
+
 ## More Information
 
 - [ http://www.w3.org/](http://www.w3.org/) -- World Wide Web Consortium
