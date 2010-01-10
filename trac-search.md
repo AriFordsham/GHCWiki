@@ -4,18 +4,15 @@
 Trac has a built-in search engine to allow finding occurrences of keywords and substrings in wiki pages, tickets and changeset descriptions.
 
 
-Using the Trac search facility is straightforward and its interface should be familiar to most www users.
+Using the Trac search facility is straightforward and its interface should be familiar to most users.
 
 
 Apart from the [Search module](/trac/ghc/search), you will also find a small search field above the navigation bar at all time. It provides convenient access to the search module from all pages.
 
-## Quickjumps
+## "Quickjump" searches
 
 
-For intermediate and advanced use, Trac has a useful way to quickly navigate to a given resource, named **quickjumps**.
-
-
-If you enter a [TracLink](trac-links) in the search field above the navigation bar, Trac will recognize this and assume you know where you're going. 
+For quick access to various project resources, the quick-search field at the top of every page can be used to enter a [wiki link](trac-links), which will take you directly to the resource identified by that link.
 
 
 For example:
@@ -23,13 +20,24 @@ For example:
 - \[42\] -- Opens change set 42
 - \#42 -- Opens ticket number 42
 - {1} -- Opens report 1
+- /trunk -- Opens the browser for the `trunk` directory
 
-**Note:***This is a particularly useful feature to quickly navigate to a specific issue ticket or changeset.*
+## Advanced
 
-### Advanced: Disabling Quickjumps
+### Disabling Quickjumps
 
 
 To disable the quickjump feature for a search keyword - for example when searching for occurences of the literal word TracGuide - begin the query with an exclamation mark (!).
+
+### Search Links
+
+
+From the Wiki, it is possible to link to a specific search, using
+`search:` links:
+
+- `search:?q=crash` will search for the string "crash" 
+- `search:?q=trac+link&wiki=on` will search for "trac" and "link" 
+  in wiki pages only
 
 ---
 
