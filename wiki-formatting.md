@@ -1,7 +1,5 @@
 # [WikiFormatting](wiki-formatting)
 
-[Font Styles](#FontStyles)[Headings](#Headings)[Subheading](#Subheading)[About  this](#Aboutthis)[Paragraphs](#Paragraphs)[Lists](#Lists)[Definition Lists](#DefinitionLists)[Preformatted Text](#PreformattedText)[Blockquotes](#Blockquotes)[Tables](#Tables)[Links](#Links)[Trac Links](#TracLinks)[Escaping Links and WikiPageNames](#EscapingLinksandWikiPageNames)[Images](#Images)[Macros](#Macros)[Processors](#Processors)[Miscellaneous](#Miscellaneous)
-
 
 Wiki markup is a core feature in Trac, tightly integrating all the other parts of Trac into a flexible and powerful whole.
 
@@ -18,7 +16,7 @@ This page demonstrates the formatting syntax available anywhere [WikiFormatting]
 The Trac wiki supports the following font styles:
 
 ```wiki
- * '''bold'''
+ * '''bold''', '''!''' can be bold too''', and '''! '''
  * ''italic''
  * '''''bold italic'''''
  * __underline__
@@ -31,7 +29,7 @@ The Trac wiki supports the following font styles:
 
 Display:
 
-- **bold**
+- **bold**, **''' can be bold too**, and **! **
 - *italic*
 - ***bold italic***
 - underline
@@ -41,7 +39,10 @@ Display:
 - <sub>subscript</sub>
 
 
-Note that the `{{{...}}}` and ``...`` commands not only select a monospace font, but also treat their content as verbatim text, meaning that no further wiki processing is done on this text.
+Notes:
+
+- `{{{...}}}` and ``...`` commands not only select a monospace font, but also treat their content as verbatim text, meaning that no further wiki processing is done on this text.
+- ` ! ` tells wiki parser to not take the following characters as wiki format, so pay attention to put a space after !, e.g. when ending bold.
 
 ## Headings
 
@@ -49,6 +50,7 @@ Note that the `{{{...}}}` and ``...`` commands not only select a monospace font,
 You can create heading by starting a line with one up to five *equal* characters ("=")
 followed by a single space and the headline text. The line should end with a space 
 followed by the same number of *=* characters.
+The heading might optionally be followed by an explicit id. If not, an implicit but nevertheless readable id will be generated.
 
 
 Example:
@@ -57,6 +59,7 @@ Example:
 = Heading =
 == Subheading ==
 === About ''this'' ===
+=== Explicit id === #using-explicit-id-in-heading
 ```
 
 
@@ -67,6 +70,8 @@ Display:
 ## Subheading
 
 ### About *this*
+
+### Explicit id
 
 ## Paragraphs
 
@@ -98,11 +103,20 @@ Example:
 ```wiki
  * Item 1
    * Item 1.1
+      * Item 1.1.1   
+      * Item 1.1.2
+      * Item 1.1.3
+   * Item 1.2
  * Item 2
 
  1. Item 1
-   1. Item 1.1
+   a. Item 1.a
+   a. Item 1.b
+      i. Item 1.b.i
+      i. Item 1.b.ii
  1. Item 2
+And numbered lists can also be given an explicit number:
+ 3. Item 3
 ```
 
 
@@ -111,12 +125,26 @@ Display:
 - Item 1
 
   - Item 1.1
+
+    - Item 1.1.1
+    - Item 1.1.2
+    - Item 1.1.3
+  - Item 1.2
 - Item 2
 
 1. Item 1
 
-  1. Item 1.1
+  1. Item 1.a
+  1. Item 1.b
+
+    1. Item 1.b.i
+    1. Item 1.b.ii
 1. Item 2
+
+
+And numbered lists can also be given an explicit number:
+
+1. Item 3
 
 
 Note that there must be one or more spaces preceding the list item markers, otherwise the list will be treated as a normal paragraph.
@@ -193,6 +221,34 @@ Display:
 >
 > This text is a quote from someone else.
 
+## Discussion Citations
+
+
+To delineate a citation in an ongoing discussion thread, such as the ticket comment area, e-mail-like citation marks ("\>", "\>\>", etc.) may be used.  
+
+
+Example:
+
+```wiki
+>> Someone's original text
+> Someone else's reply text
+My reply text
+```
+
+
+Display:
+
+> >
+> > Someone's original text
+>
+>
+> Someone else's reply text
+
+
+My reply text
+
+*Note: Some [WikiFormatting](wiki-formatting) elements, such as lists and preformatted text, are  lost in the citation area.  Some reformatting may be necessary to create a clear citation.*
+
 ## Tables
 
 
@@ -237,7 +293,7 @@ Display:
 > [TitleIndex](title-index), [ http://www.edgewall.com/](http://www.edgewall.com/), NotAlink
 
 
-Links can be given a more descriptive title by writing the link followed by a space and a title and all this inside square brackets.  If the descriptive title is omitted, then the explicit prefix is disguarded, unless the link is an external link. This can be useful for wiki pages not adhering to the [WikiPageNames](wiki-page-names) convention.
+Links can be given a more descriptive title by writing the link followed by a space and a title and all this inside square brackets.  If the descriptive title is omitted, then the explicit prefix is discarded, unless the link is an external link. This can be useful for wiki pages not adhering to the [WikiPageNames](wiki-page-names) convention.
 
 
 Example:
@@ -255,7 +311,7 @@ Display:
 - [Title Index](title-index)
 - ISO9000?
 
-### Trac Links
+## Trac Links
 
 
 Wiki pages can link directly to other parts of the Trac system. Pages can refer to tickets, reports, changesets, milestones, source files and other Wiki pages using the following notations:
@@ -264,13 +320,7 @@ Wiki pages can link directly to other parts of the Trac system. Pages can refer 
  * Tickets: #1 or ticket:1
  * Reports: {1} or report:1
  * Changesets: r1, [1] or changeset:1
- * Revision Logs: r1:3, [1:3] or log:branches/0.8-stable#1:3
- * Wiki pages: CamelCase or wiki:CamelCase
- * Milestones: milestone:1.0 or milestone:"End-of-days Release"
- * Files: source:trunk/COPYING
- * Attachments: attachment:"file name.doc"
- * A specific file revision: source:/trunk/COPYING#200
- * A filename with embedded space: source:"/trunk/README FIRST"
+ * ...
 ```
 
 
@@ -279,16 +329,10 @@ Display:
 - Tickets: [\#1](https://gitlab.haskell.org//ghc/ghc/issues/1) or [ticket:1](https://gitlab.haskell.org//ghc/ghc/issues/1)
 - Reports: [{1}](/trac/ghc/report/1) or [report:1](/trac/ghc/report/1)
 - Changesets: r1, \[1\] or changeset:1
-- Revision Logs: [r1:3](/trac/ghc/log/ghc/?revs=1%3A3), [\[1:3\]](/trac/ghc/log/ghc/?revs=1%3A3) or [log:branches/0.8-stable\#1:3](/trac/ghc/log/ghc/branches/0.8-stable#1:3)
-- Wiki pages: [CamelCase](camel-case) or [wiki:CamelCase](camel-case)
-- Milestones: milestone:1.0 or milestone:"End-of-days Release"
-- Files: source:trunk/COPYING
-- Attachments: attachment:"file name.doc"
-- A specific file revision: source:/trunk/COPYING\#200
-- A filename with embedded space: source:"/trunk/README FIRST"
+- ... 
 
 
-See [TracLinks](trac-links) for more in-depth information.
+There are many more flavors of Trac links, see [TracLinks](trac-links) for more in-depth information.
 
 ## Escaping Links and [WikiPageNames](wiki-page-names)
 
@@ -313,22 +357,24 @@ Display:
 ## Images
 
 
-Urls ending with `.png`, `.gif` or `.jpg` are automatically interpreted as image links, and converted to `<img>` tags.
+Urls ending with `.png`, `.gif` or `.jpg` are no longer automatically interpreted as image links, and converted to `<img>` tags.
 
 
-Example:
-
-```wiki
-http://www.edgewall.com/gfx/trac_example_image.png
-```
+You now have to use the \[\[Image\]\] macro. The simplest way to include an image is to upload it as attachment to the current page, and put the filename in a macro call like `[[Image(picture.gif)]]`.
 
 
-Display:
+In addition to the current page, it is possible to refer to other resources:
 
-[ http://www.edgewall.com/gfx/trac_example_image.png](http://www.edgewall.com/gfx/trac_example_image.png)
+- `[[Image(wiki:WikiFormatting:picture.gif)]]` (referring to attachment on another page)
+- `[[Image(ticket:1:picture.gif)]]` (file attached to a ticket)
+- `[[Image(htdocs:picture.gif)]]` (referring to a file inside project htdocs)
+- `[[Image(source:/trunk/trac/htdocs/trac_logo_mini.png)]]` (a file in repository)
 
 
-However, this doesn't give much control over the display mode. This way of inserting images is deprecated in favor of the more powerful `Image` macro (see [WikiMacros](wiki-macros)).
+Example display: [](/trac/ghc/chrome/site/../common/trac_logo_mini.png)
+
+
+See [WikiMacros](wiki-macros) for further documentation on the `[[Image()]]` macro.
 
 ## Macros
 
@@ -339,13 +385,20 @@ Macros are *custom functions* to insert dynamic content in a page.
 Example:
 
 ```wiki
- [[Timestamp]]
+ [[RecentChanges(Trac,3)]]
 ```
 
 
 Display:
 
-> Timestamp?
+> ### Jan 4, 2019
+>
+> - [TracWikiMisc](/trac/ghc/wiki/TracWikiMisc)<small> ([diff](/trac/ghc/wiki/TracWikiMisc?action=diff&version=14))</small>
+>
+> ### Feb 12, 2017
+>
+> - [TracSearch](/trac/ghc/wiki/TracSearch)<small> ([diff](/trac/ghc/wiki/TracSearch?action=diff&version=4))</small>
+> - [TracSyntaxColoring](/trac/ghc/wiki/TracSyntaxColoring)<small> ([diff](/trac/ghc/wiki/TracSyntaxColoring?action=diff&version=5))</small>
 
 
 See [WikiMacros](wiki-macros) for more information, and a list of installed macros.
@@ -378,6 +431,7 @@ Example:
 {{{
 #!python
 class Test:
+
     def __init__(self):
         print "Hello World"
 if __name__ == '__main__':
@@ -397,12 +451,23 @@ classTest:def__init__(self):print"Hello World"if__name__=='__main__':
 Perl:
 
 ```
-my($test)=0;if($test>0){
-echo "hello";}
+my($test)=0;if($test>0){print"hello";}
 ```
 
 
 See [WikiProcessors](wiki-processors) for more information.
+
+## Comments
+
+
+Comments can be added to the plain text. These will not be rendered and will not display in any other format than plain text.
+
+```wiki
+{{{
+#!comment
+Your comment here
+}}}
+```
 
 ## Miscellaneous
 
