@@ -1,4 +1,4 @@
-# Wiki Macros
+# Trac Macros
 
 
 Trac macros are plugins to extend the Trac engine with custom 'functions' written in Python. A macro inserts dynamic HTML data in any context supporting [WikiFormatting](wiki-formatting).
@@ -9,27 +9,31 @@ Another kind of macros are [WikiProcessors](wiki-processors). They typically dea
 ## Using Macros
 
 
-Macro calls are enclosed in two *square brackets*. Like python functions, macros can also have arguments, a comma separated list within parentheses. 
+Macro calls are enclosed in two *square brackets*. Like Python functions, macros can also have arguments, a comma separated list within parentheses.
 
-### Examples
+
+Trac macros can also be written as [TracPlugins](trac-plugins). This gives them some capabilities that macros do not have, such as being able to directly access the HTTP request.
+
+### Example
+
+
+A list of 3 most recently changed wiki pages starting with 'Trac':
 
 ```wiki
- [[Timestamp]]
+ [[RecentChanges(Trac,3)]]
 ```
 
 
 Display:
 
-> Timestamp?
-
-```wiki
- [[HelloWorld(Testing)]]
-```
-
-
-Display:
-
-> HelloWorld(Testing)?
+> ### Jan 4, 2019
+>
+> - [TracWikiMisc](/trac/ghc/wiki/TracWikiMisc)<small> ([diff](/trac/ghc/wiki/TracWikiMisc?action=diff&version=14))</small>
+>
+> ### Feb 12, 2017
+>
+> - [TracSearch](/trac/ghc/wiki/TracSearch)<small> ([diff](/trac/ghc/wiki/TracSearch?action=diff&version=4))</small>
+> - [TracSyntaxColoring](/trac/ghc/wiki/TracSyntaxColoring)<small> ([diff](/trac/ghc/wiki/TracSyntaxColoring?action=diff&version=5))</small>
 
 ## Available Macros
 
@@ -762,7 +766,7 @@ in the form "key=value".
 
 
 If the key is the name of a field, the value must use the syntax
-of a filter specifier as defined in [TracQuery\#QueryLanguage](trac-query#).
+of a filter specifier as defined in [TracQuery\#QueryLanguage](trac-query#query-language).
 Note that this is *not* the same as the simplified URL syntax
 used for `query:` links starting with a `?` character. Commas (`,`)
 can be included in field values by escaping them with a backslash (`\`).
@@ -1228,36 +1232,82 @@ Reference section headers in the current page. To refer to the section
 ## Macros from around the world
 
 
-The [ Trac Project](http://projects.edgewall.com/trac/) has a section dedicated to user-contributed macros, [ MacroBazaar](http://projects.edgewall.com/trac/wiki/MacroBazaar). If you're looking for new macros, or have written new ones to share with the world, don't hesitate adding it to the [ MacroBazaar](http://projects.edgewall.com/trac/wiki/MacroBazaar) wiki page.
-
----
+The [ Trac Hacks](http://trac-hacks.org/) site provides a wide collection of macros and other Trac [plugins](trac-plugins) contributed by the Trac community. If you're looking for new macros, or have written one that you'd like to share with the world, please don't hesitate to visit that site.
 
 ## Developing Custom Macros
 
 
-Macros, like Trac itself, are written in the [ Python programming language](http://www.python.org/). They are very simple modules, identified by the filename and should contain a single *entry point* function. Trac will display the returned data inserted into the HTML where the macro was called.
+Macros, like Trac itself, are written in the [ Python programming language](http://python.org/).
 
 
-It's easiest to learn from an example:
+For more information about developing macros, see the [ development resources](http://trac.edgewall.org/intertrac/TracDev) on the main project site.
+
+## Implementation
+
+
+Here are 2 simple examples showing how to create a Macro with Trac 0.11. 
+
+
+Also, have a look at [ Timestamp.py](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.11/sample-plugins/Timestamp.py) for an example that shows the difference between old style and new style macros and at the [ macros/README](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.11/wiki-macros/README) which provides a little more insight about the transition.
+
+### Macro without arguments
+
+
+It should be saved as `TimeStamp.py` (in the [TracEnvironment](trac-environment)'s `plugins/` directory) as Trac will use the module name as the Macro name.
 
 ```
-# MyMacro.py -- The world's simplest macrodefexecute(hdf, args, env):return"Hello World called with args: %s"% args
+fromdatetimeimport datetime
+# Note: since Trac 0.11, datetime objects are used internallyfromgenshi.builderimport tag
+
+fromtrac.util.datefmtimport format_datetime, utc
+fromtrac.wiki.macrosimport WikiMacroBase
+
+classTimeStampMacro(WikiMacroBase):"""Inserts the current time (in seconds) into the wiki page."""
+
+    revision ="$Rev$"
+    url ="$URL$"defexpand_macro(self, formatter, name, args):
+        t = datetime.now(utc)return tag.b(format_datetime(t,'%c'))
 ```
 
+### Macro with arguments
 
-You can also use the environment (`env`) object, for example to access configuration data and the database, for example:
+
+It should be saved as `HelloWorld.py` (in the [TracEnvironment](trac-environment)'s `plugins/` directory) as Trac will use the module name as the Macro name.
 
 ```
-defexecute(hdf, txt, env):return env.get_config('trac','repository_dir')
+fromtrac.wiki.macrosimport WikiMacroBase
+
+classHelloWorldMacro(WikiMacroBase):"""Simple HelloWorld macro.
+
+    Note that the name of the class is meaningful:
+     - it must end with "Macro"
+     - what comes before "Macro" ends up being the macro name
+
+    The documentation of the class (i.e. what you're reading)
+    will become the documentation of the macro, as shown by
+    the !MacroList macro (usually used in the WikiMacros page).
+    """
+
+    revision ="$Rev$"
+    url ="$URL$"defexpand_macro(self, formatter, name, args):"""Return some output that will be displayed in the Wiki content.
+
+        `name` is the actual name of the macro (no surprise, here it'll be
+        `'HelloWorld'`),
+        `args` is the text enclosed in parenthesis at the call of the macro.
+          Note that if there are ''no'' parenthesis (like in, e.g.
+          [[HelloWorld]]), then `args` is `None`.
+        """return'Hello World, args = '+unicode(args)# Note that there's no need to HTML escape the returned data,# as the template engine (Genshi) will do it for us.
 ```
 
+### `expand_macro` details
 
-Note that since version 0.9, wiki macros can also be written as [TracPlugins](trac-plugins). This gives them some capabilities than “classic” macros do not have, such as directly access the HTTP request.
-
-
-For more information about developing macros, see the [ development resources](http://projects.edgewall.com/trac/wiki/TracDev) on the main project site.
-
----
+`expand_macro` should return either a simple Python string which will be interpreted as HTML, or preferably a Markup object (use `from trac.util.html import Markup`).  `Markup(string)` just annotates the string so the renderer will render the HTML string as-is with no escaping. You will also need to import Formatter using `from trac.wiki import Formatter`.
 
 
-See also:  [WikiProcessors](wiki-processors), [WikiFormatting](wiki-formatting), [TracGuide](trac-guide)
+If your macro creates wiki markup instead of HTML, you can convert it to HTML like this:
+
+```
+  text ="whatever wiki markup you want, even containing other macros"# Convert Wiki markup to HTML, new style
+  out = StringIO()
+  Formatter(self.env, formatter.context).format(text, out)return Markup(out.getvalue())
+```
