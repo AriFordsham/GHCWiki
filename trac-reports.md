@@ -10,7 +10,7 @@ Rather than have its own report definition format, [TracReports](trac-reports) r
 
 > **Note:***The report module is being phased out in its current form because it seriously limits the ability of the Trac team to make adjustments to the underlying database schema. We believe that the [query module](trac-query) is a good replacement that provides more flexibility and better usability. While there are certain reports that cannot yet be handled by the query module, we intend to further enhance it so that at some point the reports module can be completely removed. This also means that there will be no major enhancements to the report module anymore.*
 
-> *You can already completely replace the reports module by the query module simply be disabling the former in [trac.ini](trac-ini):*
+> *You can already completely replace the reports module by the query module simply by disabling the former in [trac.ini](trac-ini):*
 >
 > ```wiki
 > [components]
@@ -36,12 +36,44 @@ Simple reports - ungrouped reports to be specific - can be changed to be sorted 
 
 If a column header is a hyperlink (red), click the column you would like to sort by. Clicking the same header again reverses the order.
 
-## Alternate Download Formats
+## Changing Report Numbering
 
 
-Aside from the default HTML view, reports can also be exported in a number of alternate formats.
+There may be instances where you need to change the ID of the report, perhaps to organize the reports better. At present this requires changes to the trac database. The *report* table has the following schema (as of 0.10):
+
+- id integer PRIMARY KEY
+- author text
+- title text
+- query text
+- description text
+
+
+Changing the ID changes the shown order and number in the *Available Reports* list and the report's perma-link. This is done by running something like:
+
+```wiki
+update report set id=5 where id=3;
+```
+
+
+Keep in mind that the integrity has to be maintained (i.e., ID has to be unique, and you don't want to exceed the max, since that's managed by SQLite someplace).
+
+
+You may also need to update or remove the report number stored in the report or query.
+
+## Navigating Tickets
+
+
+Clicking on one of the report results will take you to that ticket. You can navigate through the results by clicking the *Next Ticket* or *Previous Ticket* links just below the main menu bar, or click the *Back to Report* link to return to the report page.
+
+
+You can safely edit any of the tickets and continue to navigate through the results using the Next/Previous/Back to Report links after saving your results, but when you return to the report, there will be no hint about what has changed, as would happen if you were navigating a list of tickets obtained from a query (see [TracQuery\#NavigatingTickets](trac-query#navigating-tickets)). *(since 0.11)*
+
+## Alternative Download Formats
+
+
+Aside from the default HTML view, reports can also be exported in a number of alternative formats.
 At the bottom of the report page, you will find a list of available data formats. Click the desired link to 
-download the alternate report format.
+download the alternative report format.
 
 ### Comma-delimited - CSV (Comma Separated Values)
 
@@ -80,6 +112,7 @@ using the available columns and sorting the way you want it.
 The *ticket* table has the following columns:
 
 - id
+- type
 - time
 - changetime
 - component
@@ -94,6 +127,7 @@ The *ticket* table has the following columns:
 - resolution
 - summary
 - description
+- keywords
 
 
 See [TracTickets](trac-tickets) for a detailed description of the column fields.
@@ -126,17 +160,17 @@ The syntax for dynamic variables is simple, any upper case word beginning with '
 Example:
 
 ```wiki
-SELECT id AS ticket,summary FROM ticket WHERE priority='$PRIORITY'
+SELECT id AS ticket,summary FROM ticket WHERE priority=$PRIORITY
 ```
 
 
-To assign a value to $PRIORITY when viewing the report, you must define it as an argument in the report URL, leaving out the the leading '$'.
+To assign a value to $PRIORITY when viewing the report, you must define it as an argument in the report URL, leaving out the leading '$'.
 
 
 Example:
 
 ```wiki
- http://projects.edgewall.com/trac/reports/14?PRIORITY=high
+ http://trac.edgewall.org/reports/14?PRIORITY=high
 ```
 
 
@@ -146,7 +180,7 @@ To use multiple variables, separate them with an '&'.
 Example:
 
 ```wiki
- http://projects.edgewall.com/trac/reports/14?PRIORITY=high&SEVERITY=critical
+ http://trac.edgewall.org/reports/14?PRIORITY=high&SEVERITY=critical
 ```
 
 ### Special/Constant Variables
@@ -160,7 +194,7 @@ There is one *magic* dynamic variable to allow practical reports, its value auto
 Example (*List all tickets assigned to me*):
 
 ```wiki
-SELECT id AS ticket,summary FROM ticket WHERE owner='$USER'
+SELECT id AS ticket,summary FROM ticket WHERE owner=$USER
 ```
 
 ---
@@ -182,8 +216,9 @@ final report.
 ### Automatically formatted columns
 
 - **ticket** -- Ticket ID number. Becomes a hyperlink to that ticket. 
+- **id** -- same as **ticket** above when **realm** is not set
+- **realm** -- together with **id**, can be used to create links to other resources than tickets (e.g. a realm of *wiki* and an *id* to a page name will create a link to that wiki page)
 - **created, modified, date, time** -- Format cell as a date and/or time.
-
 - **description** -- Ticket description field, parsed through the wiki engine.
 
 **Example:**
@@ -192,16 +227,22 @@ final report.
 SELECT id as ticket, created, status, summary FROM ticket 
 ```
 
+
+Those columns can also be defined but marked as hidden, see [below](trac-reports#).
+
 ### Custom formatting columns
 
 
-Columns whose names begin and end with 2 underscores (Example: **_***'_color_***'_**) are
+Columns whose names begin and end with 2 underscores (Example: **`__color__`**) are
 assumed to be *formatting hints*, affecting the appearance of the row.
  
 
-- **_***'_group_***'_** -- Group results based on values in this column. Each group will have its own header and table.
-- **_***'_color_***'_** -- Should be a numeric value ranging from 1 to 5 to select a pre-defined row color. Typically used to color rows by issue priority.
-- **_***'_style_***'_** -- A custom CSS style expression to use for the current row. 
+- **`__group__`** -- Group results based on values in this column. Each group will have its own header and table.
+- **`__color__`** -- Should be a numeric value ranging from 1 to 5 to select a pre-defined row color. Typically used to color rows by issue priority.
+
+  Defaults:
+  Color 1Color 2Color 3Color 4Color 5
+- **`__style__`** -- A custom CSS style expression to use for the current row. 
 
 **Example:***List active tickets, grouped by milestone, colored by priority*
 
@@ -226,11 +267,12 @@ By default, all columns on each row are display on a single row in the HTML
 report, possibly formatted according to the descriptions above. However, it's
 also possible to create multi-line report entries.
 
-- **column_** -- *Break row after this*. By appending an underscore ('_') to the column name, the remaining columns will be be continued on a second line.
+- **`column_`** -- *Break row after this*. By appending an underscore ('_') to the column name, the remaining columns will be be continued on a second line.
 
-- **_column_** -- *Full row*. By adding an underscore ('_') both at the beginning and the end of a column name, the data will be shown on a separate row.
+- **`_column_`** -- *Full row*. By adding an underscore ('_') both at the beginning and the end of a column name, the data will be shown on a separate row.
 
-- **_column**  --  *Hide data*. Prepending an underscore ('_') to a column name instructs Trac to hide the contents from the HTML output. This is useful for information to be visible only if downloaded in other formats (like CSV or RSS/XML).
+- **`_column`**  --  *Hide data*. Prepending an underscore ('_') to a column name instructs Trac to hide the contents from the HTML output. This is useful for information to be visible only if downloaded in other formats (like CSV or RSS/XML).
+  This can be used to hide any kind of column, even important ones required for identifying the resource, e.g. `id as _id` will hide the **Id** column but the link to the ticket will be present.
 
 **Example:***List active tickets, grouped by milestone, colored by priority, with  description and multi-line layout*
 
@@ -254,12 +296,14 @@ SELECT p.value AS __color__,
 ### Reporting on custom fields
 
 
-If you have added custom fields to your tickets (experimental feature in v0.8, see [TracTicketsCustomFields](trac-tickets-custom-fields)), you can write a SQL query to cover them. You'll need to make a join on the ticket_custom table, but this isn't especially easy.
+If you have added custom fields to your tickets (a feature since v0.8, see [TracTicketsCustomFields](trac-tickets-custom-fields)), you can write a SQL query to cover them. You'll need to make a join on the ticket_custom table, but this isn't especially easy.
 
 
-If you have tickets in the database *before* you declare the extra fields in trac.ini, there will be no associated data in the ticket_custom table. To get around this, use SQL's "LEFT OUTER JOIN" clauses. See TracIniReportCustomFieldSample for some examples.
+If you have tickets in the database *before* you declare the extra fields in trac.ini, there will be no associated data in the ticket_custom table. To get around this, use SQL's "LEFT OUTER JOIN" clauses. See [ TracIniReportCustomFieldSample](http://trac.edgewall.org/intertrac/TracIniReportCustomFieldSample) for some examples.
+
+**Note that you need to set up permissions in order to see the buttons for adding or editing reports.**
 
 ---
 
 
-See also: [TracTickets](trac-tickets), [TracQuery](trac-query), [TracGuide](trac-guide)
+See also: [TracTickets](trac-tickets), [TracQuery](trac-query), [TracGuide](trac-guide), [ Query Language Understood by SQLite](http://www.sqlite.org/lang_expr.html)
