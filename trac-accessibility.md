@@ -6,7 +6,8 @@ Not every user has a graphic environment with a mouse or other pointing device. 
 
 Trac supports accessibility keys for the most common operations. On Windows and Linux platforms, press any of the keys listed below in combination with the `<Alt>` key; on a Mac, use the `<ctrl>` key instead.
 
-*Note that when using Internet Explorer on Windows, you need to hit enter after having used the access key.*
+*Note that when using Internet Explorer on Windows, you need to hit `<Enter>` after having used the access key.*
+*Note that when using Firefox 2.0 on Windows, you need to hit `<Shift> + <Alt> + <Key>`.*
 
 ## Global Access Keys
 
@@ -16,8 +17,10 @@ Trac supports accessibility keys for the most common operations. On Windows and 
 - `4` - [Search](trac-search)
 - `6` - [Trac Guide / Documentation](trac-guide)
 - `7` - [New Ticket](trac-tickets)
-- `9` - About Trac?
+- `9` - [About Trac](/trac/ghc/about)
 - `0` - This page
+- `e` - Edit this page
+- `f` - Search
 
 ---
 
