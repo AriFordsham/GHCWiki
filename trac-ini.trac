@@ -1,101 +1,33 @@
 = The Trac Configuration File =
 [[TracGuideToc]]
 
-Trac configuration is done by editing the '''`trac.ini`''' config file, located in `<projectenv>/conf/trac.ini`.
+Trac configuration is done by editing the '''`trac.ini`''' config file, located in `<projectenv>/conf/trac.ini`.  Changes to the configuration are usually reflected immediately, though changes to the `[components]` or `[logging]` sections will require restarting the web server. You may also need to restart the web server after creating a global configuration file when none was previously present.
+
+The `trac.ini` configuration file should be writable by the web server, as Trac currently relies on the possibility to trigger a complete environment reload to flush its caches.
 
 == Global Configuration ==
 
-Since version 0.9, Trac can also read the configuration from a global `trac.ini` file. These global options will then be merged with the environment-specific options, where local options override global options.
+In versions prior to 0.11, the global configuration was by default located in `$prefix/share/trac/conf/trac.ini` or /etc/trac/trac.ini, depending on the distribution. If you're upgrading, you may want to specify that file to inherit from.  Literally, when you're upgrading to 0.11, you have to add an `[inherit]` section to your project's `trac.ini` file. Additionally, you have to move your customized templates and common images from `$prefix/share/trac/...` to the new location.
 
-The global configuration is by default localted in `$prefix/share/trac/conf/trac.ini`. It can be moved to a different location (for example, `/etc/trac.ini`), but that requires changing the file `trac/siteconfig.py` which gets created when Trac is installed. 
+Global options will be merged with the environment-specific options, where local options override global options. The options file is specified as follows:
+{{{
+[inherit]
+file = /usr/share/trac/conf/trac.ini
+}}}
+
+Note that you can also specify a global option file when creating a new project,  by adding the option `--inherit=/path/to/global/options` to [TracAdmin trac-admin]'s `initenv` command.  If do not do this but nevertheless intend to use a global option file with your new environment, you will have to go through the newly generated conf/trac.ini file and delete the entries that will otherwise override those set in the global file.
+
 
 == Reference ==
 
 This is a brief reference of available configuration options.
 
-== [trac] ==
-|| `database`        || [wiki:TracEnvironment#DatabaseConnectionStrings Database connection string] for this project ||
-|| `default_charset` || Charset used in text files in the subversion repository (default is `iso-8859-15`) ||
-|| `default_handler` || Name of the component that handles requests to the base URL (default is `WikiHandler`) (''since 0.9'') ||
-|| `repository_dir`  || Path to local Subversion repository ||
-|| `authz_file`      || Path to Subversion [http://svnbook.red-bean.com/en/1.1/ch06s04.html#svn-ch-6-sect-4.4.2 authorization (authz) file]. ||
-|| `authz_module_name` || The module prefix used in the `authz_file` (See FineGrainedPermissions)||
-|| `check_auth_ip` || Whether the IP address of the user should be checked for authentication (true, false) (''since 0.9'') ||
-|| `ignore_auth_case` || Whether case should be ignored for login names (true, false) (''since 0.9'') ||
-|| `templates_dir`   || Path to the !ClearSilver templates ||
+ ''Note that the [bitten], [spam-filter] and [vote] sections below are added by plugins enabled on this Trac, and therefore won't be part of a default installation.''
 
-== [project] ==
-|| `name`   || Project name ||
-|| `descr`  || Short project description ||
-|| `url`    || URL to the main project website ||
-|| `icon`   || URL to icon file to use as shortcut icon (favicon) ||
-|| `footer` || Page footer text (right-aligned) ||
+[[TracIni()]]
 
-== [header_logo] ==
-|| `src`    || URL to image to use as header logo ||
-|| `link`   || Destination URL to link to from header logo ||
-|| `alt`    || ''alt'' text for header logo ||
-|| `width`  || Header logo width in pixels ||
-|| `height` || Header logo height in pixels ||
-See also: TracInterfaceCustomization.
 
-== [logging] ==
-|| `log_type`  || Logging facility to use. (none, file, stderr, syslog, winlog) ||
-|| `log_file`  || If ''log_type'' is ''file'', this should be a path to the log-file ||
-|| `log_level` || Level of verbosity in log (CRITICAL, ERROR, WARN, INFO, DEBUG) ||
-See also: TracLogging
-
-== [attachment] ==
-|| `max_size` || Maximum allowed file size for ticket and wiki attachments ||
-
-== [notification] ==
-|| `smtp_enabled`   || Enable SMTP (email) notification (true, false) ||
-|| `smtp_server`    || SMTP server to use for email notifications ||
-|| `smtp_user`      || Username for SMTP server (''since 0.9'') ||
-|| `smtp_password`  || Password for SMTP server (''since 0.9'') ||
-|| `smtp_from`      || Sender address to use in notification emails ||
-|| `smtp_replyto`   || Reply-To address to use in notification emails ||
-|| `smtp_always_cc` || Email address(es) to always send notifications to ||
-|| `always_notify_reporter` || Always send notifications to any address in the ''reporter'' field ||
-|| `always_notify_owner` || Always send notifications to the ticket owner (''since 0.9'') ||
-See also: TracNotification
-
-== [mimeviewer] ==
-|| `enscript_path` || Path to the Enscript program ||
-|| `php_path` || Path to the PHP program ||
-|| `max_preview_size` || Maximum file size for HTML preview (''since 0.9'') ||
-|| `tab_width` || Displayed tab width in file preview (''since 0.9'') ||
-
-== [ticket] ==
-|| `default_version`   || Default version for newly created tickets ||
-|| `default_severity`  || Default severity for newly created tickets ||
-|| `default_priority`  || Default priority for newly created tickets ||
-|| `default_milestone` || Default milestone for newly created tickets ||
-|| `default_component` || Default component for newly created tickets ||
-|| `restrict_owner`    || Make the owner field of tickets use a drop-down menu (''since 0.9'') ||
-
-== [ticket-custom] ==
-Creates [wiki:TracTicketsCustomFields user-defined ticket fields].
-
-== [timeline] ==
-|| `default_daysback` || Default "depth" of the Timeline, in days (''since 0.9'') ||
-|| `changeset_show_files` || Number of files to show (-1 for unlimited, 0 to disable) ||
-|| `ticket_show_details` || Enable the display of all ticket changes in the timeline ||
-
-== [browser] ==
-|| `hide_properties` || List of subversion properties to hide from the repository browser (''since 0.9'') ||
-
-== [wiki] ==
-|| `ignore_missing_pages` || enable/disable highlighting CamelCase links to missing pages (''since 0.9'') ||
-
-== [darcs] ==
-|| `cachedir` || By default the darcs backend keeps a cache of the visited files at various revision inside the repository itself, in `_darcs/trac_cache`, that may be overridden by this option, setting it to the desired directory that needs to be writeable by the trac process. ||
-|| `command` || Name of the external darcs executable, default to `darcs`. This can be used to set up the environment as well, like in "`DARCS_DONT_ESCAPE_ANYTHING=1 /usr/local/bin/darcs`" ||
-|| `dont_escape_8bit` || This is a shortcut for "`command=DARCS_DONT_ESCAPE_8BIT=1 darcs`" (true, false). Default to false. ||
-
-== [components] ==
-(''since 0.9'')
-
+== [components] == #components-section
 This section is used to enable or disable components provided by plugins, as well as by Trac itself. The component to enable/disable is specified via the name of the option. Whether its enabled is determined by the option value; setting the value to `enabled` or `on` will enable the component, any other value (typically `disabled` or `off`) will disable the component.
 
 The option name is either the fully qualified name of the components or the module/package prefix of the component. The former enables/disables a specific component, while the latter enables/disables any component in the specified package/module.
@@ -113,7 +45,79 @@ See the ''Plugins'' page on ''About Trac'' to get the list of active components 
 
 See also: TracPlugins
 
-  ''Note that prior to Trac r2335 (that applies to 0.9b1 and 0.9b2), you would use a `[disabled_components]` section instead. See a [http://projects.edgewall.com/trac/wiki/TracIni?version=42 previous version] of this page for the details.''
+== [ticket-custom] == #ticket-custom-section
+
+In this section, you can define additional fields for tickets. See TracTicketsCustomFields for more details.
+
+== [ticket-workflow] == #ticket-workflow-section
+''(since 0.11)''
+
+The workflow for tickets is controlled by plugins. 
+By default, there's only a `ConfigurableTicketWorkflow` component in charge. 
+That component allows the workflow to be configured via this section in the trac.ini file.
+See TracWorkflow for more details.
+
+== [milestone-groups] == #milestone-groups-section
+''(since 0.11)''
+
+As the workflow for tickets is now configurable, there can be many ticket states,
+and simply displaying closed tickets vs. all the others is maybe not appropriate 
+in all cases. This section enables one to easily create ''groups'' of states 
+that will be shown in different colors in the milestone progress bar.
+
+Example configuration (the default only has closed and active):
+{{{
+closed = closed
+# sequence number in the progress bar
+closed.order = 0
+# optional extra param for the query (two additional columns: created and modified and sort on created)
+group=resolution,order=time,col=id,col=summary,col=owner,col=type,col=priority,col=component,col=severity,col=time,col=changetime
+# indicates groups that count for overall completion 
+closed.overall_completion = truepercentage
+
+new = new
+new.order = 1
+new.css_class = new
+new.label = new
+
+# one catch-all group is allowed
+active = *
+active.order = 2
+# CSS class for this interval
+active.css_class = open
+# Displayed label for this group
+active.label = in progress
+}}}
+
+The definition consists in a comma-separated list of accepted status.
+Also, '*' means any status and could be used to associate all remaining
+states to one catch-all group.
+
+The CSS class can be one of: new (yellow), open (no color) or
+closed (green). New styles can easily be added using the following
+selector:  `table.progress td.<class>`
+
+== [svn:externals] == #svn:externals-section
+''(since 0.11)''
+
+The TracBrowser for Subversion can interpret the `svn:externals` property of folders out of the box.
+However, if those externals are ''not'' using the `http:` or `https:` protocol, or if a link to a different repository browser such as another Trac or [http://www.viewvc.org/ ViewVC] is desired, then Trac needs to be able to map an external prefix to this other URL.
+
+This mapping is done in the `[svn:externals]` section of the TracIni
+
+Example:
+{{{
+[svn:externals]
+1 = svn://server/repos1 http://trac/proj1/browser/$path?rev=$rev
+2 = svn://server/repos2 http://trac/proj2/browser/$path?rev=$rev
+3 = http://theirserver.org/svn/eng-soft       http://ourserver/viewvc/svn/$path/?pathrev=25914
+4 = svn://anotherserver.com/tools_repository  http://ourserver/tracs/tools/browser/$path?rev=$rev
+}}}
+With the above, the `svn://anotherserver.com/tools_repository/tags/1.1/tools` external will be mapped to `http://ourserver/tracs/tools/browser/tags/1.1/tools?rev=` (and `rev` will be set to the appropriate revision number if the external additionally specifies a revision, see the [http://svnbook.red-bean.com/en/1.4/svn.advanced.externals.html SVN Book on externals] for more details).
+
+Note that the number used as a key in the above section is purely used as a place holder, as the URLs themselves can't be used as a key due to various limitations in the configuration file parser.
+
+Finally, the relative URLs introduced in [http://subversion.tigris.org/svn_1.5_releasenotes.html#externals Subversion 1.5] are not yet supported.
 
 ----
 See also: TracGuide, TracAdmin, TracEnvironment
