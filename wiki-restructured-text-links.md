@@ -1,108 +1,78 @@
 # [TracLinks](trac-links) in reStructuredText
 
 
-This document is for testing the ``..trac::`` directive. The page is written like
+This document illustrates how to use the `:trac:` role in reStructuredText. The page is written like:
 
 ```wiki
 {{{
 #!rst 
+Examples:
 
-Examples
-...
-...
+ * Tickets: :trac:`#1` or :trac:`ticket:1`
+ * Ticket comments: :trac:`comment:ticket:1:2`
+ * Reports: :trac:`{1}` or :trac:`report:1`
+ * Changesets: :trac:`r1`, :trac:`[1]` or :trac:`changeset:1`
+ * Revision log: :trac:`r1:3`, :trac:`[1:3]` or :trac:`log:@1:3`, :trac:`log:trunk@1:3`
+ * Diffs (since version 0.10): :trac:`diff:@20:30`, :trac:`diff:tags/trac-0.9.2/wiki-default//tags/trac-0.9.3/wiki-default` or :trac:`diff:trunk/trac@3538//sandbox/vc-refactoring/trac@3539`
+ * Wiki pages: :trac:`CamelCase` or :trac:`wiki:CamelCase`
+ * Milestones: :trac:`milestone:1.0`
+ * Attachment: :trac:`attachment:ticket:944:attachment.1073.diff`
+ * Files: :trac:`source:trunk/COPYING`
+ * A specific file revision: :trac:`source:/trunk/COPYING@200`
+ * A particular line of a specific file revision: :trac:`source:/trunk/COPYING@200#L25`
 
+An explicit label can be specified, separated from the link by a space:
+
+ * See :trac:`#1 ticket 1` and the :trac:`source:trunk/COPYING license`.
 }}}
 ```
 
 
-This is a list of example uses of the *trac* directive, providing use of [TracLinks](trac-links) in [WikiRestructuredText](wiki-restructured-text).
+Provided you have docutils installed, the above block will render as:
 
-# Examples
+---
 
-# trac role
+Examples:
 
-Syntax is \`link\`:trac: or :trac:\`link\`, and could be put anywhere in the text. 'link' has the same format as explain for the `.. trac::` directive below.
+> - Tickets: [\#1](https://gitlab.haskell.org//ghc/ghc/issues/1) or [ticket:1](https://gitlab.haskell.org//ghc/ghc/issues/1)
+> - Ticket comments: comment:ticket:1:2
+> - Reports: [{1}](/trac/ghc/report/1) or [report:1](/trac/ghc/report/1)
+> - Changesets: r1, \[1\] or changeset:1
+> - Revision log: [r1:3](/trac/ghc/log/ghc/?revs=1%3A3), [\[1:3\]](/trac/ghc/log/ghc/?revs=1%3A3) or [log:\@1:3](/trac/ghc/log/ghc/?revs=1%3A3), [log:trunk\@1:3](/trac/ghc/log/ghc/trunk?revs=1%3A3)
+> - Diffs (since version 0.10): [diff:\@20:30](/trac/ghc/changeset?new=30&old=20), [diff:tags/trac-0.9.2/wiki-default//tags/trac-0.9.3/wiki-default](/trac/ghc/changeset?new_path=tags%2Ftrac-0.9.3%2Fwiki-default&old_path=tags%2Ftrac-0.9.2%2Fwiki-default) or [diff:trunk/trac\@3538//sandbox/vc-refactoring/trac\@3539](/trac/ghc/changeset?new=3539&new_path=sandbox%2Fvc-refactoring%2Ftrac&old=3538&old_path=trunk%2Ftrac)
+> - Wiki pages: [CamelCase](/trac/ghc/wiki/CamelCase) or [wiki:CamelCase](/trac/ghc/wiki/CamelCase)
+> - Milestones: milestone:1.0
+> - Attachment: attachment:ticket:944:attachment.1073.diff
+> - Files: source:trunk/COPYING
+> - A specific file revision: source:/trunk/COPYING\@200
+> - A particular line of a specific file revision: source:/trunk/COPYING\@200\#L25
 
-<table><tr><th>`In the middle of my text `WikiFormatting`:trac:see!!!!`</th>
-<td>In the middle of my text [WikiFormatting](/trac/ghc/wiki/WikiFormatting) see!!!!</td></tr></table>
+An explicit label can be specified, separated from the link by a space:
 
-or
-
-<table><tr><th>`In the middle of my text :trac:`WikiFormatting`see!!!!`</th>
-<td>In the middle of my text [WikiFormatting](/trac/ghc/wiki/WikiFormatting) see!!!!</td></tr></table>
-
-# wiki
-
-<table><tr><th>`.. trac:: WikiFormatting`</th>
-<td>[WikiFormatting](/trac/ghc/wiki/WikiFormatting)</td></tr>
-<tr><th>`.. trac:: wiki:WikiFormatting`</th>
-<td>[wiki:WikiFormatting](/trac/ghc/wiki/WikiFormatting)</td></tr>
-<tr><th>`.. trac:: wiki:WikiFormatting WikiFormatting`</th>
-<td>[WikiFormatting](/trac/ghc/wiki/WikiFormatting)</td></tr>
-<tr><th>`.. trac:: wiki:WikiFormatting LinkText`</th>
-<td>[LinkText](/trac/ghc/wiki/WikiFormatting)</td></tr></table>
-
-# tickets
-
-<table><tr><th>`.. trac:: #1`</th>
-<td>[\#1](https://gitlab.haskell.org//ghc/ghc/issues/1)</td></tr>
-<tr><th>`.. trac:: #1 ticket one`</th>
-<td>[ticket one](https://gitlab.haskell.org//ghc/ghc/issues/1)</td></tr>
-<tr><th>`.. trac:: ticket:1`</th>
-<td>[ticket:1](https://gitlab.haskell.org//ghc/ghc/issues/1)</td></tr>
-<tr><th>`.. trac:: ticket:1 ticket one`</th>
-<td>[ticket one](https://gitlab.haskell.org//ghc/ghc/issues/1)</td></tr></table>
-
-# reports
-
-<table><tr><th>`.. trac:: {1}`</th>
-<td>[{1}](/trac/ghc/report/1)</td></tr>
-<tr><th>`.. trac:: {1} report one`</th>
-<td>[report one](/trac/ghc/report/1)</td></tr>
-<tr><th>`.. trac:: report:1`</th>
-<td>[report:1](/trac/ghc/report/1)</td></tr>
-<tr><th>`.. trac:: report:1 report one`</th>
-<td>[report one](/trac/ghc/report/1)</td></tr></table>
-
-# changesets
-
-<table><tr><th>`.. trac:: [42]`</th>
-<td>\[42\]</td></tr>
-<tr><th>`.. trac:: [42] changeset 42`</th>
-<td>changeset 42</td></tr>
-<tr><th>`.. trac:: changeset:42`</th>
-<td>changeset:42</td></tr>
-<tr><th>`.. trac:: changeset:42 changeset 42`</th>
-<td>changeset 42</td></tr>
-<tr><th>`.. trac:: foo`</th>
-<td>foo</td></tr></table>
-
-# files
-
-<table><tr><th>`.. trac:: browser:/trunk/trac`</th>
-<td>browser:/trunk/trac</td></tr></table>
-
-The leading `/` can be omitted...
-
-<table><tr><th>`.. trac:: repos:trunk/trac trunk/trac`</th>
-<td>trunk/trac</td></tr>
-<tr><th>`.. trac:: source:trunk/trac Trac source code`</th>
-<td>Trac source code</td></tr>
-<tr><th>`.. trac:: browser:trunk/README`</th>
-<td>browser:trunk/README</td></tr>
-<tr><th>`.. trac:: repos:trunk/README trunk/README`</th>
-<td>trunk/README</td></tr>
-<tr><th>`.. trac:: source:trunk/README README in trunk`</th>
-<td>README in trunk</td></tr></table>
-
-Note that if `hoo` is a file, the link targets its revision log. In order to see the file's content, you need to specify the revision explicitely, like here:
-
-<table><tr><th>`.. trac:: browser:/trunk/README#latest latest of trunk/README`</th>
-<td>latest of trunk/README</td></tr>
-<tr><th>`.. trac:: repos:trunk/README#42 trunk/README in rev 42`</th>
-<td>trunk/README in rev 42</td></tr></table>
+> - See [ticket 1](https://gitlab.haskell.org//ghc/ghc/issues/1) and the license.
 
 ---
 
 
-See also: [WikiRestructuredTextLinks](wiki-restructured-text-links), [TracLinks](trac-links)
+Note also that any of the above could have been written using substitution references and the `trac::` directive:
+
+```wiki
+{{{
+#!rst
+See |ticket123|.
+
+ .. |ticket123| trac:: ticket:123 this ticket
+}}}
+```
+
+
+This renders as:
+
+---
+
+See [this ticket](https://gitlab.haskell.org//ghc/ghc/issues/123).
+
+---
+
+
+See also: [WikiRestructuredText](wiki-restructured-text), [TracLinks](trac-links)
