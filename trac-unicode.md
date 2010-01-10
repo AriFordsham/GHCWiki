@@ -1,15 +1,29 @@
 # Unicode Support in Trac
 
 
-Trac stores all text using UTF-8 encoding, including text in tickets and wiki pages. 
+Trac stores all text using UTF-8 encoding, including text in tickets and wiki pages. Internal processing of text uses true Unicode representations.
 
 
 As such, it supports most (all?) commonly used character encodings.
 
+
+If your encoding is not UTF-8, you can use [mod_python](trac-mod-python) to handle it.  For example, if your local encoding is gbk, you can set 
+
+>
+> default_charset = gbk
+
+
+in trac.ini.
+
+
+You also must make sure that your [ database backend](http://trac.edgewall.org/intertrac/DatabaseBackend) stores its data in UTF-8; otherwise strange things will happen.
+
+
+To convert your database to UTF-8, the easiest way is to dump the database, convert the dump into UTF-8 and then import the converted dump back into the database.
+
+You can use [ iconv](http://www.gnu.org/software/libiconv/documentation/libiconv/iconv.1.html) to convert the dump.
+
 ## Examples
-
-
-Please keep sorted order when you add an entry.
 
 ### Arabic
 
@@ -29,7 +43,12 @@ Please keep sorted order when you add an entry.
 ### Chinese
 
 
-Traditional: *繁體中文, 許功蓋會育*; Simplified: *简体中文，许功盖会育*
+Traditional: 繁體中文, 漢字測試; Simplified: 简体中文，汉字测试
+
+### Croatian
+
+
+Ako podržava srpski i slovenski mora podržavati i Hrvatski - čćžšđ ČĆŽŠĐ 
 
 ### English
 
@@ -38,12 +57,13 @@ Yes indeed, Trac supports English. Fully.
 
 ### Français
 
-*Il est possible d'écrire en Français : à, ç, û, ...*
+
+Il est possible d'écrire en Français : à, ç, û, ...
 
 ### German
 
 
-Trac-Wiki muß auch deutsche Umlaute richtig anzeigen: ö, ä, ü, ...
+Trac-Wiki muß auch deutsche Umlaute richtig anzeigen: ö, ä, ü, Ä, Ö, Ü; und das scharfe ß
 
 ### Greek
 
@@ -55,28 +75,54 @@ Trac-Wiki muß auch deutsche Umlaute richtig anzeigen: ö, ä, ü, ...
 
 אני יכול לאכול זכוכית וזה לא מזיק לי
 
+### Hindi
+
+
+अब हिन्दी में।
+
+### Hungarian
+
+
+Árvíztűrő tükörfúrógép
+
 ### Icelandic
 
-*Ævar sagði við ömmu sína: Sjáðu hvað ég er stór''
-*
+
+Ævar sagði við ömmu sína: Sjáðu hvað ég er stór!
 
 ### Japanese
 
-*漢字 ひらがな カタカナ ﾊﾝｶｸｶﾅ*
+
+漢字 ひらがな カタカナ ﾊﾝｶｸｶﾅ 日本語試験
 
 ### Korean
 
-*이번에는 한글로 써보겠습니다. 잘 보이나요?*
+
+이번에는 한글로 써보겠습니다. 잘 보이나요? 한글
+
+### Latvian
+
+
+Latviešu valoda arī strādā!
+
+### Lithuanian
+
+
+Sudalyvaukime ir mes. Ar veikia lietuviškos raidės? ąčęėįšųūž ĄČĘĖĮŠŲŪŽ Žinoma, kad veikia :)
+Kas tie mes?
 
 ### Persian (Farsi)
 
 
-این یک متن فارسی است ولی از چپ به راست
+این یک متن فارسی است ولی امکان نوشتن مستقیم فارسی نیست چون حالت متن از راست به چپ و جود ندارد برای فارسی نوشتن باید از HTML استفاده کنید.
+
+
+این نمونه یک متن از راست به چپ فارسی است که در HTML نوشته شده تا اعداد 12345 و حروف لاتین ABCDEF در محل خودشان نمایش داده شوند.
 
 ### Polish
 
 
-Pchnąć w tę łódź jeża lub ośm skrzyń fig
+Pchnąć w tę łódź jeża lub osiem skrzyń fig; Nocna gżegżółka zawsze dzienną przekuka.
 
 ### Portuguese
 
@@ -86,7 +132,7 @@ Pchnąć w tę łódź jeża lub ośm skrzyń fig
 ### Russian
 
 
-Проверка русского языка: кажется работает...
+Проверка русского языка: кажется работает... И буква "ё" есть...
 
 ### Serbian
 
@@ -101,11 +147,12 @@ Ta suhi škafec pušča vodo že od nekdaj!
 ### Spanish
 
 
-Esto es un pequeño texto en Español, ahora una con acentó
+Esto es un pequeño texto en Español, donde el veloz murciélago hindú comía cardlllo y kiwi
 
 ### Swedish
 
-*Räven raskar över isen med luva på.*
+
+Räven raskar över isen med luva på.
 
 ### Thai
 
@@ -116,3 +163,13 @@ Trac แสดงภาษาไทยได้อย่างถูกต้อ
 
 
 Перевірка української мови...
+
+### Urdu
+
+
+ٹریک اردو بھی سپورٹ کرتا ہے۔
+
+### Vietnamese
+
+
+Viết tiếng Việt cũng được.
