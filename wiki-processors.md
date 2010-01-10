@@ -6,12 +6,15 @@ Original source:
 
 ```trac
 = Wiki Processors =
-Processors are WikiMacros designed to provide alternative markup formats for the Trac Wiki engine. Processors can be thought of as ''macro functions to process user-edited text''. 
 
-The wiki engine uses processors to allow using [wiki:WikiRestructuredText Restructured Text] and [wiki:WikiHtml raw HTML] in any wiki text throughout Trac.
+Processors are WikiMacros designed to provide alternative markup formats for the [TracWiki Wiki engine]. Processors can be thought of as ''macro functions to process user-edited text''. 
+
+The Wiki engine uses processors to allow using [wiki:WikiRestructuredText Restructured Text], [wiki:WikiHtml raw HTML] and [http://www.textism.com/tools/textile/ textile] in any Wiki text throughout Trac.
+
 
 == Using Processors ==
-To use a processor on a block of text, use a wiki blockquote, selecting a processor by name using ''shebang notation'' (#!), familiar to most UNIX users from scripts.
+
+To use a processor on a block of text, use a Wiki code block, selecting a processor by name using ''shebang notation'' (#!), familiar to most UNIX users from scripts.
 
 '''Example 1''' (''inserting raw HTML in a wiki text''):
 
@@ -28,6 +31,8 @@ To use a processor on a block of text, use a wiki blockquote, selecting a proces
 #!html
 <h1 style="color: orange">This is raw HTML</h1>
 }}}
+
+Note that since 0.11, such blocks of HTML have to be self-contained, i.e. you can't start an HTML element in one block and close it later in a second block. Use div or span processors for achieving similar effect (see WikiHtml).
 
 ----
 
@@ -84,20 +89,29 @@ int main(int argc, char *argv[])
 == Available Processors ==
 The following processors are included in the Trac distribution:
  * '''html''' -- Insert custom HTML in a wiki page. See WikiHtml.
+ * '''div''' -- Wrap an arbitrary Wiki content in a <div> element (''since 0.11''). See WikiHtml.
+ * '''span''' -- Wrap an arbitrary Wiki content in a <span> element (''since 0.11''). See also WikiHtml.
  * '''rst''' -- Trac support for Restructured Text. See WikiRestructuredText.
- * '''textile''' -- Supported if  [http://dealmeida.net/projects/textile/ Textile] is installed.
+ * '''textile''' -- Supported if [http://cheeseshop.python.org/pypi/textile Textile] is installed. See [http://www.textism.com/tools/textile/ a Textile reference].
+ * '''comment''' -- Do not process the text in this section (i.e. contents exist only in the plain text - not in the rendered page).
+ * '''diff''' -- Pretty print patches and diffs.
 
 === Code Highlighting Support ===
 Trac includes processors to provide inline [wiki:TracSyntaxColoring syntax highlighting] for the following languages:
  * '''c''' -- C
  * '''cpp''' -- C++
+ * '''csharp''' --- C# (''use #!text/x-csharp'')
  * '''python''' -- Python
  * '''perl''' -- Perl
  * '''ruby''' -- Ruby
  * '''php''' -- PHP
- * '''asp''' --- ASP
+ * '''asp''' -- ASP
+ * '''java''' -- Java
+ * '''js''' -- Javascript
  * '''sql''' -- SQL
  * '''xml''' -- XML
+ * '''sh''' -- Bourne/Bash shell
+
 '''Note:''' ''Trac relies on external software packages for syntax coloring. See TracSyntaxColoring for more info.''
 
 By using the MIME type as processor, it is possible to syntax-highlight the same languages that are supported when browsing source code. For example, you can write:
@@ -108,25 +122,24 @@ By using the MIME type as processor, it is possible to syntax-highlight the same
 }}}
 }}}
 
-The result will be syntax highlighted HTML code. The same is valid for all other mime types supported.
+The result will be syntax highlighted HTML code:
+{{{
+#!text/html
+<h1>text</h1>
+}}}
+
+The same is valid for all other mime types supported.
 
 
 For more processor macros developed and/or contributed by users, visit: 
- * [http://projects.edgewall.com/trac/wiki/ProcessorBazaar ProcessorBazaar]
- * [http://projects.edgewall.com/trac/wiki/MacroBazaar MacroBazaar]
+ * [trac:ProcessorBazaar]
+ * [trac:MacroBazaar]
+ * [th:WikiStart Trac Hacks] community site
 
 
 == Advanced Topics: Developing Processor Macros ==
-Developing processors is no different than WikiMacros. In fact they work the same way, only the usage syntax differs. See WikiMacros for more information.
+Developing processors is no different from Wiki macros. In fact they work the same way, only the usage syntax differs. See WikiMacros for more information.
 
-'''Example:''' (''Restructured Text Processor''):
-{{{
-from docutils.core import publish_string
-
-def execute(hdf, text, env):
-    html = publish_string(text, writer_name = 'html')
-    return html[html.find('<body>')+6:html.find('</body>')].strip()
-}}}
 
 ----
 See also: WikiMacros, WikiHtml, WikiRestructuredText, TracSyntaxColoring, WikiFormatting, TracGuide
