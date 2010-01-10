@@ -4,36 +4,33 @@
 Trac supports logging of system messages using the standard [ logging module](http://docs.python.org/lib/module-logging.html) that comes with Python.
 
 
-Logging is configured in the `[logging]` section in [trac.ini](trac-ini).
+Logging is configured in the `[logging]` section in [trac.ini](trac-ini#).
 
 ## Supported Logging Methods
 
 
-The log method is set using the `log_type` configuration option, which takes any of the following values:
+The log method is set using the `log_type` option in [trac.ini](trac-ini#), which takes any of the following values:
 
 <table><tr><th>**none****</th>
 <td>Suppress all log messages.
 </td></tr>
 <tr><th>**file**</th>
-<td>Log messages to a file, specified with the `log_file` option in [trac.ini](trac-ini). 
+<td>Log messages to a file, specified with the `log_file` option in [trac.ini](trac-ini#). 
 </td></tr>
 <tr><th>**stderr**</th>
 <td>Output all log entries to console ([tracd](trac-standalone) only).
 </td></tr>
 <tr><th>**syslog**</th>
-<td>(UNIX) Send messages to local syslogd via named pipe `/dev/log`.
+<td>(UNIX) Send all log messages to the local syslogd via named pipe `/dev/log`. By default, syslog will write them to the file /var/log/messages.
 </td></tr>
 <tr><th>**eventlog**</th>
-<td>(Windows) Use the system's NT eventlog for Trac logging.
+<td>(Windows) Use the system's NT Event Log for Trac logging.
 </td></tr></table>
 
 ## Log Levels
 
 
-The verbosity level of logged messages can be set using the *log_level* directive in [trac.ini](trac-ini). The log level defines the minimum level of urgency required for a message to be logged.
-
-
-The levels are:
+The verbosity level of logged messages can be set using the `log_level` option in [trac.ini](trac-ini#). The log level defines the minimum level of urgency required for a message to be logged, and those levels are:
 
 <table><tr><th>**CRITICAL**</th>
 <td>Log only the most critical (typically fatal) errors.
@@ -50,6 +47,41 @@ The levels are:
 <tr><th>**DEBUG**</th>
 <td>Trace messages, profiling, etc.
 </td></tr></table>
+
+
+Note that starting with Trac 0.11.5 you can in addition enable logging of SQL statements, at debug level. This is turned off by default, as it's very verbose (set `[trac] debug_sql = yes` in [TracIni](trac-ini) to activate).
+
+## Log Format
+
+
+Starting with Trac 0.10.4 (see [ \#2844](http://trac.edgewall.org/intertrac/%232844)), it is possible to set the output format for log entries. This can be done through the `log_format` option in [trac.ini](trac-ini#). The format is a string which can contain any of the [ Python logging Formatter variables](http://docs.python.org/lib/node422.html). Additonally, the following Trac-specific variables can be used:
+
+<table><tr><th>**$(basename)s**</th>
+<td>The last path component of the current environment.
+</td></tr>
+<tr><th>**$(path)s**</th>
+<td>The absolute path for the current environment.
+</td></tr>
+<tr><th>**$(project)s**</th>
+<td>The originating project's name.
+</td></tr></table>
+
+
+Note that variables are identified using a dollar sign (`$(...)s`) instead of percent sign (`%(...)s`).
+
+
+The default format is:
+
+```wiki
+log_format = Trac[$(module)s] $(levelname)s: $(message)s
+```
+
+
+In a multi-project environment where all logs are sent to the same place (e.g. `syslog`), it makes sense to add the project name. In this example we use `basename` since that can generally be used to identify a project:
+
+```wiki
+log_format = Trac[$(basename)s:$(module)s] $(levelname)s: $(message)s
+```
 
 ---
 
