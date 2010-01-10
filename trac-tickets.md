@@ -1,7 +1,7 @@
 # The Trac Ticket System
 
 
-The Trac issue database provides simple but effective tracking of issues and bugs within a project.
+The Trac ticket database provides simple but effective tracking of issues and bugs within a project.
 
 
 As the central project management element of Trac, tickets are used for **project tasks**, **feature requests**, **bug reports** and **software support issues**. 
@@ -12,8 +12,6 @@ As with the [TracWiki](trac-wiki), this subsystem has been designed with the goa
 
 An issue is assigned to a person who must resolve it or reassign the ticket to someone else.
 All tickets can be edited, annotated, assigned, prioritized and discussed at any time.
-
-**Note:** To make full use of the ticket system, use it as an *in bucket* for ideas and tasks for your project, rather than just bug/fault reporting. 
 
 ## Ticket Fields
 
@@ -31,7 +29,7 @@ A  ticket contains the following information attributes:
 - **Priority** - The importance of this issue, ranging from *trivial* to *blocker*.
 - **Milestone** - When this issue should be resolved at the latest.
 - **Assigned to/Owner** - Principal person responsible for handling the issue.
-- **Cc** - A list of other associated people. *Note that this does not imply responsiblity or any other policy.*
+- **Cc** - A comma-separated list of other users or E-Mail addresses to notify. *Note that this does not imply responsiblity or any other policy.*
 
 - **Resolution** - Reason for why a ticket was closed. One of `fixed`, `invalid`, `wontfix`, `duplicate`, `worksforme`.
 - **Status** - What is the current status? One of `new`, `assigned`, `closed`, `reopened`.
@@ -39,6 +37,10 @@ A  ticket contains the following information attributes:
 - **Description** - The body of the ticket. A good description should be specific, descriptive and to the point.
 
 **Note:** Versions of Trac prior to 0.9 did not have the *type* field, but instead provided a *severity* field and different default values for the *priority* field. This change was done to simplify the ticket model by removing the somewhat blurry distinction between *priority* and *severity*. However, the old model is still available if you prefer it: just add/modify the default values of the *priority* and *severity*, and optionally hide the *type* field by removing all the possible values through [trac-admin](trac-admin).
+
+**Note:** the [ type](http://trac.edgewall.org/intertrac/TicketTypes), [ component](http://trac.edgewall.org/intertrac/TicketComponent), version, priority and severity fields can be managed with [trac-admin](trac-admin) or with the [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) plugin.
+
+**Note:** Description of the builtin *priority* values is available at [ TicketTypes](http://trac.edgewall.org/intertrac/TicketTypes%23Whyistheseverityfieldgone)
 
 ## Changing and Commenting Tickets
 
@@ -61,24 +63,23 @@ to understand.
 
 **Note:** See [TracNotification](trac-notification) for how to configure email notifications of ticket changes.
 
-### State Diagram
-
-[ http://projects.edgewall.com/trac/attachment/wiki/TracTickets/Trac%20Ticket%20State%20Chart%2020040607DF.png?format=raw](http://projects.edgewall.com/trac/attachment/wiki/TracTickets/Trac%20Ticket%20State%20Chart%2020040607DF.png?format=raw)
+**Note:** See [TracWorkflow](trac-workflow) for information about the state transitions (ticket lifecycle), and how this workflow can be customized.
 
 ## Default Values for Drop-Down Fields
 
 
 The option selected by default for the various drop-down fields can be set in [trac.ini](trac-ini), in the `[ticket]` section:
 
-- `default_type`: Default ticket type
 - `default_component`: Name of the component selected by default
-- `default_version`: Name of the default version
 - `default_milestone`: Name of the default milestone
 - `default_priority`: Default priority value
 - `default_severity`: Default severity value
+- `default_type`: Default ticket type
+- `default_version`: Name of the default version
+- `default_owner`: Name of the default owner, *if no owner for the component has been set*
 
 
-If any of these options are omitted, the default value will either be the first in the list, or an empty value, depending on whether the field in question is required to be set.
+If any of these options are omitted, the default value will either be the first in the list, or an empty value, depending on whether the field in question is required to be set.  Some of these can be chosen through the [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) plugin in the "Ticket System" section (others in the "trac.ini" section).  The default owner for a ticket will be the component owner, if that is set, or `default_owner`, if not.
 
 ## Hiding Fields and Adding Custom Fields
 
@@ -91,9 +92,16 @@ Trac also lets you add your own custom ticket fields. See [TracTicketsCustomFiel
 ## Assign-to as Drop-Down List
 
 
-If the list of possible ticket owners is finite, you can change the *assign-to* ticket field from a text input to a drop-down list. This is done by setting the `restrict_owner` option of the `[ticket]` section in [trac.ini](trac-ini) to “true”. In that case, Trac will use the list of all users who have logged in and set their email address to populate the drop-down field.
+If the list of possible ticket owners is finite, you can change the *assign-to* ticket field from a text input to a drop-down list. This is done by setting the `restrict_owner` option of the `[ticket]` section in [trac.ini](trac-ini) to “true”. In that case, Trac will use the list of all users who have accessed the project to populate the drop-down field.
 
-*Note that this feature is **still experimental as of version 0.9**. There is no way to only display a subset of all known users as possible ticket owners. Nor is there a convenient way to remove emeritus users short of directly modifying the database.*
+
+To appear in the dropdown list, a user needs be registered with the project, *i.e.* a user session should exist in the database. Such an entry is automatically created in the database the first time the user submits a change in the project, for example when editing the user's details in the *Settings* page, or simply by authenticating if the user has a login. Also, the user must have `TICKET_MODIFY`[permissions](trac-permissions).
+
+**Note:** See [ Populating Assign To Drop Down](http://pacopablo.com/wiki/pacopablo/blog/set-assign-to-drop-down) on how to add user entries at database level
+
+**Note 2:** If you need serious flexibility and aren't afraid of a little plugin coding of your own, see [ FlexibleAssignTo](http://trac-hacks.org/wiki/FlexibleAssignToPlugin) (disclosure: I'm the author)
+
+**Note 3:** Activating this option may cause some performance degradation, read more about this in the [ Trac performance](http://trac.edgewall.org/intertrac/TracPerformance%23Configuration) page.
 
 ## Preset Values for New Tickets
 
@@ -103,6 +111,7 @@ To create a link to the new-ticket form filled with preset values, you need to c
 
 Possible variables are :
 
+- **type** - The type droplist
 - **reporter** - Name or email of the reporter
 - **summary** - Summary line for the ticket
 - **description** - Long description of the ticket
@@ -117,5 +126,7 @@ Possible variables are :
 
 **Example:***/trac/newticket?summary=Compile%20Error&version=1.0&component=gui*
 
+---
 
-See also:  [TracGuide](trac-guide), [TracWiki](trac-wiki), [TracTicketsCustomFields](trac-tickets-custom-fields), [TracNotification](trac-notification)
+
+See also:  [TracGuide](trac-guide), [TracWiki](trac-wiki), [TracTicketsCustomFields](trac-tickets-custom-fields), [TracNotification](trac-notification), [TracReports](trac-reports), [TracQuery](trac-query)
