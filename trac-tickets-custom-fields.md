@@ -26,7 +26,8 @@ The example below should help to explain the syntax.
 
   - label: Descriptive label.
   - value: Default value.
-  - order: Sort order placement. (Determines relative placement in forms.)
+  - order: Sort order placement. (Determines relative placement in forms with respect to other custom fields.)
+  - format: Either `plain` for plain text or `wiki` to interpret the content as [WikiFormatting](wiki-formatting). (*since 0.11.3*)
 - **checkbox**: A boolean value check box.
 
   - label: Descriptive label.
@@ -34,14 +35,15 @@ The example below should help to explain the syntax.
   - order: Sort order placement.
 - **select**: Drop-down select box. Uses a list of values.
 
+  - label: Descriptive label.
   - options: List of values, separated by **\|** (vertical pipe).
-  - value: Default value (Item \#, starting at 0).
+  - value: Default value (one of the values from options).
   - order: Sort order placement.
 - **radio**: Radio buttons. Essentially the same as **select**.
 
   - label: Descriptive label.
   - options: List of values, separated by **\|** (vertical pipe).
-  - value: Default value (Item \#, starting at 0).
+  - value: Default value (one of the values from options).
   - order: Sort order placement.
 - **textarea**: Multi-line text area.
 
@@ -50,6 +52,7 @@ The example below should help to explain the syntax.
   - cols: Width in columns.
   - rows: Height in lines.
   - order: Sort order placement.
+  - format: Either `plain` for plain text or `wiki` to interpret the content as [WikiFormatting](wiki-formatting). (*since 0.11.3*)
 
 ### Sample Config
 
@@ -61,7 +64,8 @@ test_one.label = Just a text box
 
 test_two = text
 test_two.label = Another text-box
-test_two.value = Just a default value
+test_two.value = Default [mailto:joe@nospam.com owner]
+test_two.format = wiki
 
 test_three = checkbox
 test_three.label = Some checkbox
@@ -70,12 +74,12 @@ test_three.value = 1
 test_four = select
 test_four.label = My selectbox
 test_four.options = one|two|third option|four
-test_four.value = 2
+test_four.value = two
 
 test_five = radio
 test_five.label = Radio buttons are fun
 test_five.options = uno|dos|tres|cuatro|cinco
-test_five.value = 1
+test_five.value = dos
 
 test_six = textarea
 test_six.label = This is a large textarea
@@ -84,15 +88,23 @@ test_six.cols = 60
 test_six.rows = 30
 ```
 
-*Note: To make an entering an option for a `select` type field optional, specify a leading `|` in the `fieldname.options` option.*
+*Note: To make entering an option for a `select` type field optional, specify a leading `|` in the `fieldname.options` option.*
 
 ### Reports Involving Custom Fields
 
 
-The SQL required for [TracReports](trac-reports) to include custom ticket fields is relatively hard to get right. You need a `JOIN` with the `ticket_custom` field for every custom field that should be involved.
+Custom ticket fields are stored in the `ticket_custom` table, not in the `ticket` table. So to display the values from custom fields in a report, you will need a join on the 2 tables. Let's use an example with a custom ticket field called `progress`.
+
+```
+SELECT p.value AS __color__,
+   id AS ticket, summary,owner,c.value AS progress
+  FROM ticket t, enum p, ticket_custom cWHERE status IN('assigned')AND t.id =c.ticket ANDc.name ='progress'AND p.name = t.priority AND p.type='priority'ORDERBY p.value
+```
+
+**Note** that this will only show tickets that have progress set in them, which is **not the same as showing all tickets**. If you created this custom ticket field *after* you have already created some tickets, they will not have that field defined, and thus they will never show up on this ticket query. If you go back and modify those tickets, the field will be defined, and they will appear in the query. If that's all you want, you're set.
 
 
-The following example includes a custom ticket field named `progress` in the report:
+However, if you want to show all ticket entries (with progress defined and without), you need to use a `JOIN` for every custom field that is in the query.
 
 ```
 SELECT p.value AS __color__,
@@ -106,6 +118,31 @@ SELECT p.value AS __color__,
 
 
 Note in particular the `LEFT OUTER JOIN` statement here.
+
+### Updating the database
+
+
+As noted above, any tickets created before a custom field has been defined will not have a value for that field. Here's a bit of SQL (tested with SQLite) that you can run directly on the Trac database to set an initial value for custom ticket fields. Inserts the default value of 'None' into a custom field called 'request_source' for all tickets that have no existing value:
+
+```
+INSERTINTO ticket_custom
+   (ticket, name, value)SELECT 
+      id AS ticket,'request_source'AS name,'None'AS value
+   FROM ticket 
+   WHERE id NOTIN(SELECT ticket FROM ticket_custom
+   );
+```
+
+
+If you added multiple custom fields at different points in time, you should be more specific in the subquery on table `ticket` by adding the exact custom field name to the query:
+
+```
+INSERTINTO ticket_custom
+   (ticket, name, value)SELECT 
+      id AS ticket,'request_source'AS name,'None'AS value
+   FROM ticket 
+   WHERE id NOTIN(SELECT ticket FROM ticket_custom WHERE name ='request_source');
+```
 
 ---
 
