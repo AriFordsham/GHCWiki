@@ -84,6 +84,28 @@ The method `addDim` adds the sizes of two shapes (or positions of two indices). 
 `sh`, the fields of `sh` are copied when no corresponding fields of `sh'` exist, accordingly for `modDim`
 
 
+=== Representation, Order of Elements, and Lifted Values === 
+
+As mentioned when introducing the functions `toIndex` and `range`, the following relationship should hold:
+{{{
+map (toIndex sh) (range sh) = [:0..(size sh)-1:]
+}}}
+this means that, for example
+{{{
+range (() :*: 2 :*: 3) =
+   [() :*: 0 :*: 0, () :*: 0 :*: 1,  .....
+}}}
+
+A scalar value `c`is isomorphic to a zero-dimensional array
+{{{
+  DArray () (\_ -> c)
+}}}
+Lifting a scalar value over a shape `dim':
+{{{
+Shape dim => DArray dim (\_ -> c)
+}}}
+
+
 == Operations on Arrays and Delayed Arrays ==
 
 === Array Creation and Conversion ===
@@ -158,45 +180,17 @@ we will see shortly, this can be easily done using other functions in combinatio
 TODO: MISSING: description of mapStencil
 }}}
 
-
-=== Reordering, Shifting, Tiling ===
-
-Backpermute and default backpermute are two very versatile operations which allow 
-the programmer to express all structural operations which reorder or extract
-elements based on their position in the argument array:
-{{{
-backpermute:: (U.Elt e, A.Shape dim, A.Shape dim') =>   
-  DArray dim e -> dim' -> (dim' -> dim) -> DArray dim' e
-backpermuteDft::(U.Elt e, A.Shape dim, A.Shape dim') => 
-  DArray dim e -> e -> dim' -> (dim' -> Maybe dim) -> DArray dim' e
-}}}
-The function `backpermute` gets a source array, the shape of the new array, and
-a function which maps each index of the new array to an index of the source array (and 
-thus indirectly provides a value for each index in the new array). Default backpermute  is
-additionally provided with a default value which is inserted in the array in cases where the
-index function returns `Nothing`. (Remark: should probably be replaced by a default array instead of
-default value for more generality)
-
-`reshape arr newShape` returns a new array with the same value as the argument array, but a new shape. The
-new shape has to have the same size as the original shape.
-{{{
-reshape:: (Shape dim', Shape dim, U.Elt e) => DArray dim e -> dim' -> DArray dim' e
-}}}
-
 === Shape Polymorphic Computations on Arrays ===
 
-The array operations described in this and the following subsection
-are available on both strict and delayed arrays, and yield the same
-result, with the exception that in case of delayed arrays, the result
-is only calculated once its forced by calling `fromDArray` or `forceDArray`. No
-intermediate array structures are ever created.
 
 The library provides a range of operation where the dimensionality of
 the result depends on the dimensionality of the argument in a
 non-trivial manner, which we want to be reflected in the type system. 
 Examples of such functions are generalised selection, which allows for 
 extraction of subarrays of arbitrary dimension, and generalised replicate,
-which allows replication of an array in any dimension (or dimensions). 
+which allows replication of an array in any dimension (or dimensions). For example,
+given a three dimensional matrix, we can use select to extract scalar element values,
+rows, columns, as well as two dimensional matrices along any of the three axes.
 
 For selection, we can informally state the relationship between dimensionality of
 the argument, the selector, and the result as follows:
@@ -204,18 +198,32 @@ the argument, the selector, and the result as follows:
 select:: Array dim e -> <select dim' of dim array> -> Array dim' e
 }}}
 
-To express this relationship, the library provides the index GADT,
-which expresses a relationship between the inital and the projected
-dimensionality. It is defined as follows:
+Another example for such a generalised function would be a generalised
+`map`, which can apply a function to all elements, all rows, all
+columns, or submatrices of different orientation of a multidimensional
+array.
 
+For the former example, we need a way to express the relationship between the
+shape of the argument and the shape and orientation of the result, as well as
+the numerical position of the structure (i.e., first, second, third element). 
+In case of the generalised `map`, we don't need the numerical information, since
+the operation will be applied to all elements, rows, columns etc. 
+
+To express this dependency between input and output shape and orientation,
+as well as possibly a concrete position,  the library provides the `Index` GADT, 
+which expresses a relationship between the source and the projected dimension. 
+It is defined as follows:
 {{{
 data Index a initialDim projectedDim where
-  IndexNil   :: Index a () ()
+  IndexNil   :: Index a initialDim initialDim
   IndexAll   :: (Shape init, Shape proj) =>      
                    Index a init proj -> Index a (init :*: Int) (proj :*: Int)
   IndexFixed :: (Shape init, Shape proj) => a -> 
                    Index a init proj -> Index a (init :*: Int)  proj
-
+}}}
+To refer to a specific element, the type parameter `a` is instantiated with the type `Int`, otherwise
+with the unit type:
+{{{
 type SelectIndex = Index Int
 type MapIndex    = Index ()
 }}}
@@ -225,47 +233,58 @@ select:: (U.Elt e, Shape dim, Shape dim') => Array dim e -> SelectIndex dim dim'
 }}}
 Example:
 {{{
-arr:: Array DIM3 Double
-select arr (IndexFixed 3 (IndexAll (IndexAll IndexNil)))
+arr:: Array (() :*: Int :*: Int :*: Int) Double
+
+arr' :: () :*: Int :*: Int
+arr' = select arr (IndexFixed 3 (IndexAll (IndexAll IndexNil))) 
 }}}
-The index type is also used to express the type of generalised replicate:
+We could generalise this further, to extract from any array `arr` which is at least one dimensional 
+the third element:
+{{{
+arr:: Shape dim => Array (dim :*: Int) Double
+
+arr' :: Array dim Double
+arr' = select arr (IndexFixed 3 IndexNil)
+}}}
+
+
+The index type is also used to express the type of generalised replicate
 {{{
 replicate:: Array dim' e -> SelectIndex dim dim'  -> Array dim e
 }}}
-Even though the index type serves well to express the relationship
+which, given an array, can be used to expand it along any dimension. For example,
+{{{
+simpleReplicate:: (U.Elt e, Shape dim) => Array dim e -> Int -> Array (dim :*: Int) e
+simpleReplicate arr n =
+  replicate arr (IndexFixed n IndexNil)
+}}}
+replicates the argument array (which can of any dimensionality) `n` times and behaves
+thus similarly to list replicate, whereas 
+{{{
+elementwiseReplicate:: (U.Elt e, Shape dim) => 
+  Array (dim :*: Int) e -> Int -> Array (dim :*: Int :*: Int) e
+elementwiseReplicate arr n =
+  replicate arr (IndexAll (IndexFixed n IndexNil))
+}}}
+replicates each element of an array `n` times (similarly to `map (replicate n)` on lists).
+
+
+Even though the index type is well suited to express the relationship
 between the selector/multiplicator and the dimensionality of the
-argument and the result array, it is somehow inconvenient to use, as
-the examples demonstrate. This is therefore another example where we
-need to add another layer to improve the usability of the library. 
+argument and the result array, it is inconvenient to use, as the
+examples demonstrate. We therefore do need to add another layer to
+improve the usability of the library.
 
 Note that the library provides no way to statically check the pre- and
 postconditions on the actual size of arguments and results. This has
 to be done at run time using assertions.
 
-== Array Operations ==
-   
-Backpermute and default backpermute are two general operations which allow 
-the programmer to express all structural operations which reorder or extract
-elements based on their position in the argument array:
-{{{
-backpermute:: (U.Elt e, Shape dim, Shape dim') => 
-  Array dim e -> dim' -> (dim' -> dim) -> Array dim' e
+== Open Questions ==
 
-backpermuteDft::(U.Elt e, Shape dim, Shape dim') => 
-  Array dim e -> e -> dim' -> (dim' -> Maybe dim) -> Array dim' e
-}}}
+=== Do we need array comprehension on DArrays? ===
 
+=== Wave computations ===
 
+=== Generalised Stencil Operation ===
 
-The following operations could be (and in the sequential implementation indeed are)  expressed
-in terms of backpermute and default backpermute. However, a programmer should aim at using more
-specialised functions when provided, as they carry more information about the pattern of reordering. 
-In particular in the parallel case, this could be used to provide significantly more efficient 
-implementation which make use of locality and communication patterns.
-{{{
-shift:: (Shape dim, U.Elt e) => Array dim e -> e -> dim -> Array dim e
-
-rotate:: (Shape dim, U.Elt e) => Array dim e -> e -> dim -> Array dim e
-
-tile::  (Shape dim, U.Elt e) => Array dim e -> dim -> dim -> Array dim e
-}}}
+MapStencil is currently not lifted, and doesn't run in parallel. Need to come up with a generalised version. 
