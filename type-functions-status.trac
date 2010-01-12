@@ -71,7 +71,7 @@ instance C (G x) where ...   -- Likewise should be illegal
 
 '''Additional feature:'''
  * #3699: wildcards in type function LHSs
- * #3491: relax restrictions on superclass contexts
+ * #3490: relax restrictions on superclass contexts
  * #2101
  * Total families
  * Test `DerivingNewType`
