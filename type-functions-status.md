@@ -82,7 +82,7 @@ This section collects notes about the new constraint solver (Dec 2009) that we a
 **Additional feature:**
 
 - [\#3699](https://gitlab.haskell.org//ghc/ghc/issues/3699): wildcards in type function LHSs
-- [\#3491](https://gitlab.haskell.org//ghc/ghc/issues/3491): relax restrictions on superclass contexts
+- [\#3490](https://gitlab.haskell.org//ghc/ghc/issues/3490): relax restrictions on superclass contexts
 - [\#2101](https://gitlab.haskell.org//ghc/ghc/issues/2101)
 - Total families
 - Test `DerivingNewType`
