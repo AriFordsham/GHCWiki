@@ -285,6 +285,6 @@ to be done at run time using assertions.
 
 === Wave computations ===
 
-==== Generalised Stencil Operation ===
+=== Generalised Stencil Operation ===
 
 MapStencil is currently not lifted, and doesn't run in parallel. Need to come up with a generalised version. 
