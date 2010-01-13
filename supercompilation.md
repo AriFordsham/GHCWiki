@@ -7,7 +7,6 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 - Naivrec: Double runtime
 - nbody: unsafe-things, segfault.
-- boyer2: Hang
 
 ## Shortcomings of the prototype
 
