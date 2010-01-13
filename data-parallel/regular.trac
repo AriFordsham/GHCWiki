@@ -84,6 +84,28 @@ The method `addDim` adds the sizes of two shapes (or positions of two indices). 
 `sh`, the fields of `sh` are copied when no corresponding fields of `sh'` exist, accordingly for `modDim`
 
 
+=== Representation, Order of Elements, and Lifted Values === 
+
+As mentioned when introducing the functions `toIndex` and `range`, the following relationship should hold:
+{{{
+map (toIndex sh) (range sh) = [:0..(size sh)-1:]
+}}}
+this means that, for example
+{{{
+range (() :*: 2 :*: 3) =
+   [() :*: 0 :*: 0, () :*: 0 :*: 1,  .....
+}}}
+
+A scalar value `c`is isomorphic to a zero-dimensional array
+{{{
+  DArray () (\_ -> c)
+}}}
+Lifting a scalar value over a shape `dim':
+{{{
+Shape dim => DArray dim (\_ -> c)
+}}}
+
+
 == Operations on Arrays and Delayed Arrays ==
 
 === Array Creation and Conversion ===
@@ -247,7 +269,7 @@ elementwiseReplicate arr n =
 replicates each element of an array `n` times (similarly to `map (replicate n)` on lists).
 
 
-Even though the index type serves well to express the relationship
+Even though the index type is well suited to express the relationship
 between the selector/multiplicator and the dimensionality of the
 argument and the result array, it is inconvenient to use, as the
 examples demonstrate. We therefore do need to add another layer to
@@ -257,28 +279,12 @@ Note that the library provides no way to statically check the pre- and
 postconditions on the actual size of arguments and results. This has
 to be done at run time using assertions.
 
+== Open Questions ==
 
-=== Reordering, Shifting, Tiling ===
+=== Do we need array comprehension on DArrays? ===
 
-Backpermute and default backpermute are two very versatile operations which allow 
-the programmer to express all structural operations which reorder or extract
-elements based on their position in the argument array:
-{{{
-backpermute:: (U.Elt e, A.Shape dim, A.Shape dim') =>   
-  DArray dim e -> dim' -> (dim' -> dim) -> DArray dim' e
-backpermuteDft::(U.Elt e, A.Shape dim, A.Shape dim') => 
-  DArray dim e -> e -> dim' -> (dim' -> Maybe dim) -> DArray dim' e
-}}}
-The function `backpermute` gets a source array, the shape of the new array, and
-a function which maps each index of the new array to an index of the source array (and 
-thus indirectly provides a value for each index in the new array). Default backpermute  is
-additionally provided with a default value which is inserted in the array in cases where the
-index function returns `Nothing`. (Remark: should probably be replaced by a default array instead of
-default value for more generality)
+=== Wave computations ===
 
-`reshape arr newShape` returns a new array with the same value as the argument array, but a new shape. The
-new shape has to have the same size as the original shape.
-{{{
-reshape:: (Shape dim', Shape dim, U.Elt e) => DArray dim e -> dim' -> DArray dim' e
-}}}
+==== Generalised Stencil Operation ===
 
+MapStencil is currently not lifted, and doesn't run in parallel. Need to come up with a generalised version. 
