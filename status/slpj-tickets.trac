@@ -79,6 +79,7 @@
 ------------------------
 == New constraint simplifier ==
  * [wiki:TypeFunctionsStatus]
+ * #3692: bogus error message with constraint after arrow
  * #3742: implication constraints and inference
  * #3731: recursive dictionaries
  * #3738: don't float `MethodInsts` out of INLINE right hand sides.

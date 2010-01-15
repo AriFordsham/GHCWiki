@@ -88,6 +88,7 @@
 ## New constraint simplifier
 
 - [TypeFunctionsStatus](type-functions-status)
+- [\#3692](https://gitlab.haskell.org//ghc/ghc/issues/3692): bogus error message with constraint after arrow
 - [\#3742](https://gitlab.haskell.org//ghc/ghc/issues/3742): implication constraints and inference
 - [\#3731](https://gitlab.haskell.org//ghc/ghc/issues/3731): recursive dictionaries
 - [\#3738](https://gitlab.haskell.org//ghc/ghc/issues/3738): don't float `MethodInsts` out of INLINE right hand sides.
