@@ -27,3 +27,48 @@ Future work
 
 - event logging for parallel Haskell
 - GUM variant of packing code, using global addressing
+
+## People
+
+
+Here is a list of hackers involved in the development of GpH/Eden
+
+- [ Vladimir Janjic (VJ)](http://www.cs.st-andrews.ac.uk/~jv), 
+- [ Hans-Wolfgang Loidl (HWL)](http://www.macs.hw.ac.uk/~hwloidl/)
+- [ Kevin Hammond (KH)](http://www.cs.st-andrews.ac.uk/~kh/)
+- [ Mustafa Aswad (MKA)](http://www.macs.hw.ac.uk/~mka19/)
+- [ Henrique Ferreiro (HE)](http://www.madsgroup.org/staff/henrique/)
+- [ Philip W Trinder (PWT)](http://www.macs.hw.ac.uk/~trinder/)
+- [ Patrick Maier (PM)](http://www.macs.hw.ac.uk/~pm175)
+- [ Abyd Al Zain (AAZ)](http://www.macs.hw.ac.uk/~ceeatia/)
+- [ Mischa Dieterle (MD)](http://www.mathematik.uni-marburg.de/~dieterle)
+- Thomas Horstmeyer (TH) 
+- [ Jost Berthold (JB)](http://www.mathematik.uni-marburg.de/~berthold/)
+- Christoph Herrmann
+- [ Simon Marlow](http://www.haskell.org/~simonmar/)
+
+## Communication
+
+
+ 
+A mailing list for parallel Haskell implementors has been set up at HWU: hackpar
+
+## On-going Tasks
+
+
+This list of tasks is based on the discussion during the parallel hackathon, Dec 2009.
+Each task has a maintainer associated with it, who looks after the software.
+
+- GpH/Eden Code maintenance: (HWL to oversee)
+
+  - Scheduling: Per-PE scheduling and load distribution policies (VJ)
+  - Packing/Serialisation: Turning a graph into a write-/send-able format (JB)
+  - Distributed Shared Memory: Abstraction layer over distribution of heap (HWL)
+  - Communication: Sending and receiving work and data (MKA)
+  - Monitoring/Tracing: MD/TH
+- Visualisation Tools: Visualising parallel execution (MD/TH)
+- Parallel NoFib Suite: Parallel benchmark programs (HE)
+- Testsuite: Programs testing the parallel RTS
+- Packaging and building: ???
+- Darcs repo maintenance: Main repos in Marburg (JB)
+- GpH/Eden tracs ticketing: Bug reports (HWL)
