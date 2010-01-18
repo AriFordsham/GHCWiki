@@ -148,11 +148,10 @@ forceDArray:: (U.Elt e, A.Shape dim) => DArray dim e -> DArray dim e
 === Elementwise Application of Functions ===
 
 The `map` operation takes a function over element types and applies it to every
-data element of the DArray, which can have arbitrary dimensionality. Note that 
-it is not possible to use this function to apply an operation for example to every
-row or column of a matrix. We will discuss how this can be done later on.
-
-{{{map:: (U.Elt a, U.Elt b, A.Shape dim) =>  (a -> b) -> DArray dim a -> DArray dim b}}}
+data element of the DArray, which can have arbitrary dimensionality.
+{{{
+map:: (U.Elt a, U.Elt b, A.Shape dim) =>  (a -> b) -> DArray dim a -> DArray dim b
+}}}
 
 Similarily, `zip` and `zipWith` apply to every data element in the array as well. Both arguments
 have to have the same dimensionality (which is enforced by the type system). If they have a different
@@ -278,6 +277,45 @@ improve the usability of the library.
 Note that the library provides no way to statically check the pre- and
 postconditions on the actual size of arguments and results. This has
 to be done at run time using assertions.
+
+== `Nesting' Array Functions ==
+
+We already introduced the `map` function, which applies a given function to all data elements
+of an array:
+{{{
+map:: (U.Elt a, U.Elt b, A.Shape dim) =>  (a -> b) -> DArray dim a -> DArray dim b
+}}}
+We can't use this function, however, to apply a function to all columns, rows, or other sub-arrays of 
+a multidimensional array, and generalising `map` to be able to handle this wouldn't make sense
+in this framework. Consider, for example, a function `filter`, which takes a one-dimensional 
+array and creates a new array containing only the even elements of the argument array. If we mapped
+this function over all the rows of a two-dimensional array, the resulting structure would, in general,
+not be a two dimensional array anymore, since each row might potentially have a different length. 
+Therefore, we restrict the class of functions that can be mapped over sub-arrays to functions where 
+the shape of the argument determines the shape of the result. All `mappable` functions can be implemented
+such that they abstract over the exact dimensionality of their argument, and have the type
+{{{
+f::(A.Shape dim, U.Elt e, U.Elt e') => DArray (dim :*: Int ..... :*: Int) e ->  DArray (dim :*: Int :*: .... :*: Int) e'
+}}}
+and those functions can be trivially mapped since
+{{{
+ map f = f
+}}}
+So, for example, we can write a mappable function which takes an array and selects every data element with 
+an even index:
+{{{
+  selectEven:: (A.Shape dim, U.Elt e) => DArray (dim :*: Int) e -> DArray (dim :*: Int) e 
+  selectEven (DArray (sh :*: n ) f =
+     DArray (sh :*: n `div` 2) (\(sh :*: n) -> f (sh :*: 2*n)
+}}}
+
+
+
+
+
+
+
+
 
 == Open Questions ==
 
