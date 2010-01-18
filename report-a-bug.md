@@ -8,8 +8,8 @@ To report a bug, either:
 
 - Preferred:
 
-  - [register](/trac/ghc/trac/ghc/register) an account on this Trac
-  - Create a [ new bug](http://hackage.haskell.org/trac/ghc/newticket?type=bug), and enter your bug report. You can also search the bug database here to make sure your bug hasn't already been reported (if it has, it might still help to add information from your experience to the existing report).
+  - [register](/trac/ghc/register) an account on this Trac
+  - Create a [new bug](/trac/ghc/newticket?type=bug), and enter your bug report. You can also search the bug database here to make sure your bug hasn't already been reported (if it has, it might still help to add information from your experience to the existing report).
 - Less preferred:
 
   - To submit an anonymous bug: use login "guest", password "guest"
