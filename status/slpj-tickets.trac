@@ -61,6 +61,7 @@
  * Use wildcards for dead variables in interface files.
 
 == Tiresome arithmetic things ==
+ * #3676: `realToFrac` conversions
  * #3744: comparisons against `minBound` and `maxBound` are not optimised away
  * #3065: quot is sub-optimal
  * #2269: Word type to Double or Float conversions 
