@@ -1,0 +1,30 @@
+= Ambiguity =
+
+The question of ''ambiguity'' in Haskell is a tricky one.  This wiki page is a summary of thoughts and definitions, in the hope of gaining clarity.  I'm using a wiki because it's easy to edit, and many people can contribute, even though you can't typeset nice rules.  
+
+Please edit to improve.  
+
+[Started Jan 2010.]
+
+== Coherence ==
+
+Suppose we have (I conflate classes `Read` and `Show` into one class `Text` for brevity):
+{{{
+class Text a where
+  read :: String -> a
+  show :: a -> String
+
+x :: String
+x = show (read "3.7")
+}}}
+The trouble is that there is a constraint `(Text t)`, where `t` is a type variable that is otherwise unconstrained.  Moreover, the type that we choose for `t` affects the semantics of the program.  For example, if we chose `t = Int` then we might get `x = "3"`, but if we choose `t = Float` we might get `x = "3.7"`.  This is bad: we want our type system to be '''coherent''' in the sense that every well-typed program has but a single value.
+
+In practice, the Haskell Report, and every Haskell implementation, rejects such a program saying something like
+{{{
+Cannot deduce (Text t) from ()
+}}}
+In ''algorithmic'' terms this is very natural: we indeed have a constraint `(Text t)` for some unification variable `t`, and no way to solve it, except by searching for possible instantiations of `t`. So we simply refrain from trying such a search.
+
+But in terms of the type system ''specification'' it is harder.
+
+'''Problem 1''': how can w
