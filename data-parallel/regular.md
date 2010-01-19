@@ -364,7 +364,8 @@ the shape of the argument determines the shape of the result. All `mappable` fun
 such that they abstract over the exact dimensionality of their argument, and have the type
 
 ```wiki
-f::(A.Shape dim, U.Elt e, U.Elt e') => DArray (dim :*: Int ..... :*: Int) e ->  DArray (dim :*: Int :*: .... :*: Int) e'
+f::(A.Shape dim, U.Elt e, U.Elt e') => 
+  DArray (dim :*: Int ..... :*: Int) e ->  DArray (dim :*: Int :*: .... :*: Int) e'
 ```
 
 
@@ -382,6 +383,67 @@ an even index:
   selectEven:: (A.Shape dim, U.Elt e) => DArray (dim :*: Int) e -> DArray (dim :*: Int) e 
   selectEven (DArray (sh :*: n ) f =
      DArray (sh :*: n `div` 2) (\(sh :*: n) -> f (sh :*: 2*n)
+```
+
+## Example 1: Matrix multiplication
+
+
+As a simple example, consider matrix-matrix multiplication. We can either implement it by directly manipulating the array
+function, or use the operations provided by the DArray library. Let as start with the former, which is more fairly similar to
+what we would write using loops over array indices:
+
+```wiki
+mmMult1:: 
+  DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double  
+mmMult1 arr1@(DArray (() :*: m1 :*: n1) _) arr2@(DArray (() :*: m2 :*: n2) _) = 
+  mapFold (+) 0 arrDP
+  where 
+    arrDP = DArray (():*: m1 :*: n2 :*:n1) 
+       (\(() :*: i :*: j :*: k) -> (index arr1 (() :*: i :*: k)) * (index arr2 (() :*: k :*: j)))
+```
+
+
+In the first step, we create the intermediate three dimensional array which contains the products of all 
+sums and rows, and in the second step, we collapse each of the rows to it's sum, to obtain the two dimensional
+result matrix. It is important to note that the elements of `arrDP` are never all in memory (otherwise, the memory
+consumption would be cubic), but each value is consumed immediately by `mapFold`. 
+
+
+This implementation suffers from the same problem a corresponding C implementation would - since we access one
+array row-major, the other column major, the locality is poor. Therefore, first transposing `arr2` and adjusting the
+access will actually improve the performance by approximately 40%: 
+
+```wiki
+mmMult1:: 
+  DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double  
+mmMult1 arr1@(DArray (() :*: m1 :*: n1) _) arr2@(DArray (() :*: m2 :*: n2) _) = 
+  mapFold (+) 0 arrDP
+  where 
+    arr2T = forceDArray $ transpose arr2
+    arrDP = DArray (():*: m1 :*: n2 :*:n1) 
+       (\(() :*: i :*: j :*: k) -> (index arr1 (() :*: i :*: k)) * (index arr2T (() :*: j:*: k)))
+```
+
+
+However, we do need to force the actual creation of the transposed array, otherwise, the change would have no effect at all. We therefore 
+use `forceDArray`, which converts it into an array whose array function is a simple indexing operation (see description of `forceDArray` above). This means that the second version requires more memory, but this is offset by improving the locality for each of the multiplications. 
+
+```wiki
+-- mmMult:: (Array.RepFun dim, Array.InitShape dim, Array.Shape dim) => 
+--   DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double  
+mmMult::
+   DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double  
+mmMult arr1@(DArray (sh :*: m1 :*: n1) fn1) arr2@(DArray (sh' :*: m2 :*: n2) fn2) = 
+  assert ((m1 == n2) && (sh == sh')) $ 
+    mapFold (+) 0 (arr1Ext * arr2Ext)
+--  'fold' doesn't fuse at the moment, so mapFold is significantly faster
+--  fold (+) 0 $ zipWith (*) arr1Ext arr2Ext
+  where
+    arr2T   = forceDArray $ transpose arr2  -- forces evaluation of 'transpose'
+    arr1Ext = replicate arr1 (Array.IndexAll (Array.IndexFixed m2 (Array.IndexAll Array.IndexNil)))
+    arr2Ext = replicate arr2T
+                 (Array.IndexAll (Array.IndexAll (Array.IndexFixed n1 Array.IndexNil)))
+
 ```
 
 ## Open Questions
