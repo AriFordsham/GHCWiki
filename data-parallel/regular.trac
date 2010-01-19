@@ -317,14 +317,14 @@ be any other shape, and thus
 where `selectEvenInd` on the left and right-hand side of the equation are two different instances of the function. Now, lets
 try and write function `selectEvenElems`, which selects all even elements from an array.  To determine the shape of the
 result, it is not sufficient to look  at the shape of the argument. Instead, we have to calculate the new size by counting the
-even elements in the array (1) using `fold`. The function `fold` is mappable, and returns an array. If the argument is a one-dimensional
+even elements in the array  using `fold`. The function `fold` is mappable, and returns an array. If the argument is a one-dimensional
 array, the result is a singular array, which then can be converted to a scalar using `toScalar`.  The necessary application of `toScalar`,
 however, also restricts `sh`, which can now only be unit, and therefore the whole operation `selectEvenElems` is restricted to one-dimensional
 arrays, and not mappable.
 {{{
   selectEvenElems (DArray  (sh :*: n) f) = DArray (sh :*: newSize) <......>
      where
-          newSize = toScalar $ fold (+) 0 $ map (\x -> if (even x) then 1 else 0) arr  -- (1)
+          newSize = toScalar $ fold (+) 0 $ map (\x -> if (even x) then 1 else 0) arr  
 }}}
 
 
