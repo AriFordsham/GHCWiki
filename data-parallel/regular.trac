@@ -142,6 +142,13 @@ of the result values.
 {{{
 forceDArray:: (U.Elt e, A.Shape dim) => DArray dim e -> DArray dim e
 }}}
+Singular (zero-dimensional) arrays are isomorphic to scalar values and can be converted to 
+one using the following function: 
+{{{
+toScalar:: U.Elt e  => DArray () e -> DArray () e
+}}}
+Note that in contrast to all the previous operations, `toScalar` requires the array to be of a particular 
+dimensionality.
 
 == Collection Oriented Operations ==
 
