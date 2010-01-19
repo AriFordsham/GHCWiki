@@ -173,6 +173,18 @@ of the result values.
 forceDArray:: (U.Elt e, A.Shape dim) => DArray dim e -> DArray dim e
 ```
 
+
+Singular (zero-dimensional) arrays are isomorphic to scalar values and can be converted to 
+one using the following function: 
+
+```wiki
+toScalar:: U.Elt e  => DArray () e -> DArray () e
+```
+
+
+Note that in contrast to all the previous operations, `toScalar` requires the array to be of a particular 
+dimensionality.
+
 ## Collection Oriented Operations
 
 ### Elementwise Application of Functions
@@ -360,8 +372,8 @@ array and creates a new array containing only the even elements of the argument 
 this function over all the rows of a two-dimensional array, the resulting structure would, in general,
 not be a two dimensional array anymore, since each row might potentially have a different length. 
 Therefore, we restrict the class of functions that can be mapped over sub-arrays to functions where 
-the shape of the argument determines the shape of the result. All `mappable` functions can be implemented
-such that they abstract over the exact dimensionality of their argument, and have the type
+the shape of the argument determines the shape of the result. All `mappable` (for the lack of a better term) 
+functions can be implemented such that they abstract over the exact dimensionality of their argument, and have the type
 
 ```wiki
 f::(A.Shape dim, U.Elt e, U.Elt e') => 
@@ -380,9 +392,32 @@ So, for example, we can write a mappable function which takes an array and selec
 an even index:
 
 ```wiki
-  selectEven:: (A.Shape dim, U.Elt e) => DArray (dim :*: Int) e -> DArray (dim :*: Int) e 
-  selectEven (DArray (sh :*: n ) f =
+  selectEvenInd:: (A.Shape dim, U.Elt e) => DArray (dim :*: Int) e -> DArray (dim :*: Int) e 
+  selectEvenInd (DArray (sh :*: n ) f =
      DArray (sh :*: n `div` 2) (\(sh :*: n) -> f (sh :*: 2*n)
+```
+
+
+In this case `dim` could simply be unit, if and `selectEven` extracts all elements with an even index, or it could
+be any other shape, and thus
+
+```wiki
+  map selectEvenInd = selectEvenInd
+```
+
+
+where `selectEvenInd` on the left and right-hand side of the equation are two different instances of the function. Now, lets
+try and write function `selectEvenElems`, which selects all even elements from an array.  To determine the shape of the
+result, it is not sufficient to look  at the shape of the argument. Instead, we have to calculate the new size by counting the
+even elements in the array  using `fold`. The function `fold` is mappable, and returns an array. If the argument is a one-dimensional
+array, the result is a singular array, which then can be converted to a scalar using `toScalar`.  The necessary application of `toScalar`,
+however, also restricts `sh`, which can now only be unit, and therefore the whole operation `selectEvenElems` is restricted to one-dimensional
+arrays, and not mappable.
+
+```wiki
+  selectEvenElems (DArray  (sh :*: n) f) = DArray (sh :*: newSize) <......>
+     where
+          newSize = toScalar $ fold (+) 0 $ map (\x -> if (even x) then 1 else 0) arr  
 ```
 
 ## Example 1: Matrix multiplication
@@ -429,16 +464,11 @@ However, we do need to force the actual creation of the transposed array, otherw
 use `forceDArray`, which converts it into an array whose array function is a simple indexing operation (see description of `forceDArray` above). This means that the second version requires more memory, but this is offset by improving the locality for each of the multiplications. 
 
 ```wiki
--- mmMult:: (Array.RepFun dim, Array.InitShape dim, Array.Shape dim) => 
---   DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double  
-mmMult::
-   DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double  
+mmMult:: (Array.RepFun dim, Array.InitShape dim, Array.Shape dim) => 
+    DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double  
 mmMult arr1@(DArray (sh :*: m1 :*: n1) fn1) arr2@(DArray (sh' :*: m2 :*: n2) fn2) = 
-  assert ((m1 == n2) && (sh == sh')) $ 
-    mapFold (+) 0 (arr1Ext * arr2Ext)
---  'fold' doesn't fuse at the moment, so mapFold is significantly faster
---  fold (+) 0 $ zipWith (*) arr1Ext arr2Ext
-  where
+   fold (+) 0 (arr1Ext * arr2Ext)
+ where
     arr2T   = forceDArray $ transpose arr2  -- forces evaluation of 'transpose'
     arr1Ext = replicate arr1 (Array.IndexAll (Array.IndexFixed m2 (Array.IndexAll Array.IndexNil)))
     arr2Ext = replicate arr2T
@@ -452,7 +482,5 @@ mmMult arr1@(DArray (sh :*: m1 :*: n1) fn1) arr2@(DArray (sh' :*: m2 :*: n2) fn2
 
 ### Wave computations
 
-### Generalised Stencil Operation
 
-
-MapStencil is currently not lifted, and doesn't run in parallel. Need to come up with a generalised version. 
+=
