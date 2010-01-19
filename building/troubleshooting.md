@@ -6,6 +6,19 @@ Here we keep track of failures that can occur when building GHC, with solutions.
 
 We don't expect anyone to read this page from beginning to end.  The only way you get here is by searching, so remember when adding a new entry the most important thing to do is to **include the error message verbatim**, so searches will find it.  If a build failure is caused by a bug in GHC or the build system, please link to the ticket number so we can tell when it's safe to remove the entry and keep this page from getting too crufty.
 
+## libraries/ghc-prim/GHC/PrimopWrappers.hs:48:18: Not in scope: \`GHC.Prim.gcdInt\#'
+
+
+If you get this message when the build system runs Haddock
+
+```wiki
+libraries/ghc-prim/GHC/PrimopWrappers.hs:48:18:
+    Not in scope: `GHC.Prim.gcdInt#'
+```
+
+
+it's probably because you have a file `PrimopWrappers.hs` in the source-code directory `libraries/ghc-prim/GHC/`.  It's a derived file, and is now generated into `libraries/ghc-prim/dist-install/build/GHC/`.  Just remove the offending files (probably `PrimopWrappers.hs` and `Prim.hs`) from the source directory and try again.
+
 ## tar: unable to record current working directory: No such file or directory
 
 
