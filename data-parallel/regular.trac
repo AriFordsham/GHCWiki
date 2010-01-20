@@ -311,6 +311,12 @@ and those functions can be trivially mapped since
 {{{
  map f = f
 }}}
+The function `fold`, which we introduced earlier, is an example of a mappable library function. Applied to a matrix, `fold (+) 0` will calculate the sum of all rows. If run in parallel, `fold` itself is run in parallel, and all the rows are processed in parallel. 
+{{{
+fold :: (U.Elt e, A.Shape dim) => 
+ (e -> e-> e) -> e -> DArray (dim :*: Int)  e  -> DArray dim e
+}}}
+
 So, for example, we can write a mappable function which takes an array and selects every data element with 
 an even index:
 {{{
