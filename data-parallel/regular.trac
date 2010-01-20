@@ -355,7 +355,7 @@ consumption would be cubic), but each value is consumed immediately by `mapFold`
 
 This implementation suffers from the same problem a corresponding C implementation would - since we access one
 array row-major, the other column major, the locality is poor. Therefore, first transposing `arr2` and adjusting the
-access will actually improve the performance by approximately 40%: 
+access will actually improve the performance significantly: 
 {{{
 mmMult1:: 
   DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double  
@@ -370,18 +370,24 @@ However, we do need to force the actual creation of the transposed array, otherw
 use `forceDArray`, which converts it into an array whose array function is a simple indexing operation (see description of `forceDArray` above). This means that the second version requires more memory, but this is offset by improving the locality for each of the multiplications. 
 
 
+An alternative way to define matrix-matrix multiplication is in terms of the collective library functions provided. First, we
+expand both arrays and, in case of `arr2` transpose it such that the elements which have to be multiplied match up. Then,
+we calculate the products using `zipWith`, and then use `fold` to compute the sums:
 {{{
-mmMult:: (Array.RepFun dim, Array.InitShape dim, Array.Shape dim) => 
+mmMult2:: (Array.RepFun dim, Array.InitShape dim, Array.Shape dim) => 
     DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double  
-mmMult arr1@(DArray (sh :*: m1 :*: n1) fn1) arr2@(DArray (sh' :*: m2 :*: n2) fn2) = 
+mmMult2 arr1@(DArray (sh :*: m1 :*: n1) fn1) arr2@(DArray (sh' :*: m2 :*: n2) fn2) = 
    fold (+) 0 (arr1Ext * arr2Ext)
  where
-    arr2T   = forceDArray $ transpose arr2  -- forces evaluation of 'transpose'
+    arr2T   = forceDArray $ transpose arr2  
     arr1Ext = replicate arr1 (Array.IndexAll (Array.IndexFixed m2 (Array.IndexAll Array.IndexNil)))
     arr2Ext = replicate arr2T
                  (Array.IndexAll (Array.IndexAll (Array.IndexFixed n1 Array.IndexNil)))
 
 }}}
+In this implementation, `transpose` is necessary to place the elements at the right position for `zipWith`, and we call `forceDArray` for
+the same reason as in the previous implementation, to improve locality. 
+
 
 
 
