@@ -93,17 +93,9 @@ map (toIndex sh) (range sh) = [:0..(size sh)-1:]
 this means that, for example
 {{{
 range (() :*: 2 :*: 3) =
-   [() :*: 0 :*: 0, () :*: 0 :*: 1,  .....
+   [() :*: 0 :*: 0, () :*: 0 :*: 1,  ....., () :*: 0 :*: 2, () :*: 1 :*: 0,....
 }}}
 
-A scalar value `c`is isomorphic to a zero-dimensional array
-{{{
-  DArray () (\_ -> c)
-}}}
-Lifting a scalar value over a shape `dim':
-{{{
-Shape dim => DArray dim (\_ -> c)
-}}}
 
 
 == Operations on Arrays and Delayed Arrays ==
@@ -145,7 +137,7 @@ forceDArray:: (U.Elt e, A.Shape dim) => DArray dim e -> DArray dim e
 Singular (zero-dimensional) arrays are isomorphic to scalar values and can be converted to 
 one using the following function: 
 {{{
-toScalar:: U.Elt e  => DArray () e -> DArray () e
+toScalar:: U.Elt e  => DArray () e -> e
 }}}
 Note that in contrast to all the previous operations, `toScalar` requires the array to be of a particular 
 dimensionality.
@@ -244,8 +236,9 @@ select:: (U.Elt e, Shape dim, Shape dim') => Array dim e -> SelectIndex dim dim'
 Even though the index type is well suited to express the relationship
 between the selector/multiplicator and the dimensionality of the
 argument and the result array, it is inconvenient to use, as the
-examples demonstrate. We therefore do need to add another layer to
-improve the usability of the library. 
+examples demonstrate. We therefore need some syntactic sugar to improve
+the usability of the library.  In the following, the use a SAC-like notation for 
+values of Index-type in comments to improve the readability of the examples.
 
 
 
@@ -254,7 +247,7 @@ Example:
 arr:: Array (() :*: Int :*: Int :*: Int) Double
 
 arr' :: () :*: Int :*: Int
-arr' = select arr (IndexFixed 3 (IndexAll (IndexAll IndexNil))) 
+arr' = select arr (IndexFixed 3 (IndexAll (IndexAll IndexNil))) -- (3,.,.)
 }}}
 We could generalise this further, to extract from any array `arr` which is at least one dimensional 
 the third element:
@@ -262,7 +255,7 @@ the third element:
 arr:: Shape dim => Array (dim :*: Int) Double
 
 arr' :: Array dim Double
-arr' = select arr (IndexFixed 3 IndexNil)
+arr' = select arr (IndexFixed 3 IndexNil)   -- (3,*)
 }}}
 
 
@@ -288,8 +281,8 @@ replicates each element of an array `n` times (similarly to `map (replicate n)` 
 
 
 Note that the library provides no way to statically check the pre- and
-postconditions on the actual size of arguments and results. This has
-to be done at run time using assertions.
+postconditions on the actual size of arguments. This has
+to be done during run time using assertions.
 
 == `Nesting' Array Functions ==
 
@@ -450,6 +443,8 @@ To get an idea about the absolute performance of DArrays, we compared it to two 
   ----------------------------------------------------------------------
 }}}
 
+== Example 2: Red-Black Relaxation ==
+== Example 3: 3D Fast Fourier Transformation ==
 == Open Questions ==
 
 === Do we need array comprehension on DArrays? ===

@@ -111,21 +111,7 @@ this means that, for example
 
 ```wiki
 range (() :*: 2 :*: 3) =
-   [() :*: 0 :*: 0, () :*: 0 :*: 1,  .....
-```
-
-
-A scalar value `c`is isomorphic to a zero-dimensional array
-
-```wiki
-  DArray () (\_ -> c)
-```
-
-
-Lifting a scalar value over a shape \`dim':
-
-```wiki
-Shape dim => DArray dim (\_ -> c)
+   [() :*: 0 :*: 0, () :*: 0 :*: 1,  ....., () :*: 0 :*: 2, () :*: 1 :*: 0,....
 ```
 
 ## Operations on Arrays and Delayed Arrays
@@ -179,7 +165,7 @@ Singular (zero-dimensional) arrays are isomorphic to scalar values and can be co
 one using the following function: 
 
 ```wiki
-toScalar:: U.Elt e  => DArray () e -> DArray () e
+toScalar:: U.Elt e  => DArray () e -> e
 ```
 
 
@@ -296,8 +282,9 @@ select:: (U.Elt e, Shape dim, Shape dim') => Array dim e -> SelectIndex dim dim'
 Even though the index type is well suited to express the relationship
 between the selector/multiplicator and the dimensionality of the
 argument and the result array, it is inconvenient to use, as the
-examples demonstrate. We therefore do need to add another layer to
-improve the usability of the library. 
+examples demonstrate. We therefore need some syntactic sugar to improve
+the usability of the library.  In the following, the use a SAC-like notation for 
+values of Index-type in comments to improve the readability of the examples.
 
 
 Example:
@@ -306,7 +293,7 @@ Example:
 arr:: Array (() :*: Int :*: Int :*: Int) Double
 
 arr' :: () :*: Int :*: Int
-arr' = select arr (IndexFixed 3 (IndexAll (IndexAll IndexNil))) 
+arr' = select arr (IndexFixed 3 (IndexAll (IndexAll IndexNil))) -- (3,.,.)
 ```
 
 
@@ -317,7 +304,7 @@ the third element:
 arr:: Shape dim => Array (dim :*: Int) Double
 
 arr' :: Array dim Double
-arr' = select arr (IndexFixed 3 IndexNil)
+arr' = select arr (IndexFixed 3 IndexNil)   -- (3,*)
 ```
 
 
@@ -352,8 +339,8 @@ replicates each element of an array `n` times (similarly to `map (replicate n)` 
 
 
 Note that the library provides no way to statically check the pre- and
-postconditions on the actual size of arguments and results. This has
-to be done at run time using assertions.
+postconditions on the actual size of arguments. This has
+to be done during run time using assertions.
 
 ## \`Nesting' Array Functions
 
@@ -547,6 +534,10 @@ To get an idea about the absolute performance of DArrays, we compared it to two 
   C (MacOS Accelerated Vector ops)    |        33 |       510 |    6949 |
   ----------------------------------------------------------------------
 ```
+
+## Example 2: Red-Black Relaxation
+
+## Example 3: 3D Fast Fourier Transformation
 
 ## Open Questions
 
