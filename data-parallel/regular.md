@@ -520,8 +520,29 @@ exposes the structure of the communication, whereas the general index calculatio
 
 ### Performance of Matrix-Matrix Multiplication
 
+>
+> 4        34   514        7143
 
-TOOD: benchmarks, description
+
+Accelerated                4        33   510        6949
+
+
+Normalized
+
+```wiki
+size                                                         |  256     |   512   |    1024 | 
+------------------------------------------------------------    
+mmMult1                                               |      675 |   5323 |  42674 |
+------------------------------------------------------------
+mmMult2                                               |      345 |   2683 |  21442 |
+------------------------------------------------------------
+mmMult2 (without forceDArray)        |     974 |    8376 |  73368 |
+------------------------------------------------------------
+C (hand written)                                    |       34 |       514 |   7143  |
+------------------------------------------------------------
+C (MacOS Accelerated Vector ops)    |       33  |       510 |   6949  |
+------------------------------------------------------------
+```
 
 ## Open Questions
 
