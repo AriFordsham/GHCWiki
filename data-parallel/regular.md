@@ -3,11 +3,10 @@
 
 The library provides a layer on top of DPH unlifted arrays to support multi-dimensional arrays, and shape polymorphic 
 operations for fast sequential and parallel execution. The interface for delayed arrays is similar, but in contrast 
-to operations on the former, any operation on a delayed array is not evaluated. To force evaluation, the programmer
-has to explicitly convert them to a strict array. 
+to operations on the former, any operation on a delayed array is only actually evaluated when elements are accessed outside the DArray framework.
 
 
-The current implementation of the library exposes some implementation details the user of the library shouldn't 
+The current implementation of the library exposes some implementation details the user shouldn't 
 have to worry about. Once the design of the library is finalised, most of these will be hidden by distinguishing 
 between internal types and representation types.
 
@@ -294,6 +293,13 @@ select:: (U.Elt e, Shape dim, Shape dim') => Array dim e -> SelectIndex dim dim'
 ```
 
 
+Even though the index type is well suited to express the relationship
+between the selector/multiplicator and the dimensionality of the
+argument and the result array, it is inconvenient to use, as the
+examples demonstrate. We therefore do need to add another layer to
+improve the usability of the library. 
+
+
 Example:
 
 ```wiki
@@ -343,13 +349,6 @@ elementwiseReplicate arr n =
 
 
 replicates each element of an array `n` times (similarly to `map (replicate n)` on lists).
-
-
-Even though the index type is well suited to express the relationship
-between the selector/multiplicator and the dimensionality of the
-argument and the result array, it is inconvenient to use, as the
-examples demonstrate. We therefore do need to add another layer to
-improve the usability of the library.
 
 
 Note that the library provides no way to statically check the pre- and
@@ -554,6 +553,3 @@ To get an idea about the absolute performance of DArrays, we compared it to two 
 ### Do we need array comprehension on DArrays?
 
 ### Wave computations
-
-
-=
