@@ -410,8 +410,10 @@ mmMult2 arr1@(DArray (sh :*: m1 :*: n1) fn1) arr2@(DArray (sh' :*: m2 :*: n2) fn
 In this implementation, `transpose` is necessary to place the elements at the right position for `zipWith`, and we call `forceDArray` for
 the same reason as in the previous implementation, to improve locality. 
 
+=== Performance of Matrix-Matrix Multiplication ===
 
 
+TOOD: benchmarks, description
 
 
 
