@@ -520,6 +520,11 @@ exposes the structure of the communication, whereas the general index calculatio
 
 ### Performance of Matrix-Matrix Multiplication
 
+
+  
+We measured the performance of the two matrix multiplication implementations and compared their
+performance to C. Both matrices contain (size \* size) elements. As we can see, the first version is significantly slower.
+
 ```wiki
   ----------------------------------------------------------------------
   size                                |       256 |       512 |    1024 | 
@@ -528,7 +533,11 @@ exposes the structure of the communication, whereas the general index calculatio
   ----------------------------------------------------------------------
   mmMult2                             |       345 |      2683 |   21442 |
   ----------------------------------------------------------------------
+  mmMult2  (2PE)                      |       190 |      1463 |   11992 |
+  ----------------------------------------------------------------------
   mmMult2 (without forceDArray)       |       974 |      8376 |   73368 |
+  ----------------------------------------------------------------------
+  mmMult2 (without forceDArray, 2PE)  |       508 |      4368 |   37677 |
   ----------------------------------------------------------------------
   C (hand written)                    |        34 |       514 |    7143 |
   ----------------------------------------------------------------------
