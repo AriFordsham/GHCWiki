@@ -538,9 +538,3 @@ To get an idea about the absolute performance of DArrays, we compared it to two 
 ## Example 2: Red-Black Relaxation
 
 ## Example 3: 3D Fast Fourier Transformation
-
-## Open Questions
-
-### Do we need array comprehension on DArrays?
-
-### Wave computations
