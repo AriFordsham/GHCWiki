@@ -470,7 +470,8 @@ we calculate the products using `zipWith`, and then use `fold` to compute the su
 
 ```wiki
 mmMult2:: (Array.RepFun dim, Array.InitShape dim, Array.Shape dim) => 
-    DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double  
+    DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double -> 
+        DArray (dim :*: Int :*: Int)  Double  
 mmMult2 arr1@(DArray (sh :*: m1 :*: n1) fn1) arr2@(DArray (sh' :*: m2 :*: n2) fn2) = 
    fold (+) 0 (arr1Ext * arr2Ext)
  where
