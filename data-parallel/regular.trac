@@ -384,7 +384,7 @@ use `forceDArray`, which converts it into an array whose array function is a sim
 As it is, `mmMult` can only take two-dimensional arrays as arguments, and is not mappable. If we look at the implementation closely, we can see that the restriction to two-dimensional arrays is unnecessary. All we have to do to generalise it is to adjust the type signatures and replace `()` with an arbitrary shape variable:
 {{{
 mmMult1:: Shape dim => 
-  DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double  
+  DArray (dim :*: Int :*: Int)  Double-> DArray (dim :*: Int :*: Int)  Double-> DArray (dim :*: Int :*: Int)  Double  
 mmMult1 arr1@(DArray (sh :*: m1 :*: n1) _) arr2@(DArray (sh' :*: m2 :*: n2) _) = 
   fold (+) 0 arrDP
   where 

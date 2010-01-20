@@ -480,7 +480,7 @@ As it is, `mmMult` can only take two-dimensional arrays as arguments, and is not
 
 ```wiki
 mmMult1:: Shape dim => 
-  DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double  
+  DArray (dim :*: Int :*: Int)  Double-> DArray (dim :*: Int :*: Int)  Double-> DArray (dim :*: Int :*: Int)  Double  
 mmMult1 arr1@(DArray (sh :*: m1 :*: n1) _) arr2@(DArray (sh' :*: m2 :*: n2) _) = 
   fold (+) 0 arrDP
   where 
