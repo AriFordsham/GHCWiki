@@ -320,7 +320,7 @@ which, given an array, can be used to expand it along any dimension. For example
 ```wiki
 simpleReplicate:: (U.Elt e, Shape dim) => Array dim e -> Int -> Array (dim :*: Int) e
 simpleReplicate arr n =
-  replicate arr (IndexFixed n IndexNil)
+  replicate arr (IndexFixed n IndexNil)  -- (*,n)
 ```
 
 
@@ -331,7 +331,7 @@ thus similarly to list replicate, whereas
 elementwiseReplicate:: (U.Elt e, Shape dim) => 
   Array (dim :*: Int) e -> Int -> Array (dim :*: Int :*: Int) e
 elementwiseReplicate arr n =
-  replicate arr (IndexAll (IndexFixed n IndexNil))
+  replicate arr (IndexAll (IndexFixed n IndexNil))    -- (*,n,.)
 ```
 
 
@@ -495,9 +495,9 @@ mmMult2 arr1@(DArray (sh :*: m1 :*: n1) fn1) arr2@(DArray (sh' :*: m2 :*: n2) fn
    fold (+) 0 (arr1Ext * arr2Ext)
  where
     arr2T   = forceDArray $ transpose arr2  
-    arr1Ext = replicate arr1 (Array.IndexAll (Array.IndexFixed m2 (Array.IndexAll Array.IndexNil)))
-    arr2Ext = replicate arr2T
-                 (Array.IndexAll (Array.IndexAll (Array.IndexFixed n1 Array.IndexNil)))
+    arr1Ext = replicate arr1 (Array.IndexAll (Array.IndexFixed m2 (Array.IndexAll Array.IndexNil))) --  (*,.,m2,.)
+    arr2Ext = replicate arr2T               
+                 (Array.IndexAll (Array.IndexAll (Array.IndexFixed n1 Array.IndexNil)))                                 -- (*,n1,.,.)
 
 ```
 
