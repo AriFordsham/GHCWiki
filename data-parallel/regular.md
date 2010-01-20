@@ -222,10 +222,10 @@ fold :: (U.Elt e, A.Shape dim) =>
 Again, it's not possible to use `fold` directly to collapse an array along any other axis, but, as 
 we will see shortly, this can be easily done using other functions in combination with `fold`.
 
-```wiki
+### Support for Parallel Execution
 
-TODO: MISSING: description of mapStencil
-```
+
+Since the implementation of DArrays builds on the DPH library, all the array operations can be executed in parallel. That is, we compiling a DArray program, the compiler generates a sequential as well as a parallel executable. All collective operations, like `map`, `fold`, and so on are executed in parallel. 
 
 ### Shape Polymorphic Computations on Arrays
 
