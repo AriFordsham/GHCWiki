@@ -343,7 +343,7 @@ what we would write using loops over array indices:
 mmMult1:: 
   DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double  
 mmMult1 arr1@(DArray (() :*: m1 :*: n1) _) arr2@(DArray (() :*: m2 :*: n2) _) = 
-  mapFold (+) 0 arrDP
+  fold (+) 0 arrDP
   where 
     arrDP = DArray (():*: m1 :*: n2 :*:n1) 
        (\(() :*: i :*: j :*: k) -> (index arr1 (() :*: i :*: k)) * (index arr2 (() :*: k :*: j)))
@@ -351,7 +351,7 @@ mmMult1 arr1@(DArray (() :*: m1 :*: n1) _) arr2@(DArray (() :*: m2 :*: n2) _) =
 In the first step, we create the intermediate three dimensional array which contains the products of all 
 sums and rows, and in the second step, we collapse each of the rows to it's sum, to obtain the two dimensional
 result matrix. It is important to note that the elements of `arrDP` are never all in memory (otherwise, the memory
-consumption would be cubic), but each value is consumed immediately by `mapFold`. 
+consumption would be cubic), but each value is consumed immediately by `mapfold`. 
 
 This implementation suffers from the same problem a corresponding C implementation would - since we access one
 array row-major, the other column major, the locality is poor. Therefore, first transposing `arr2` and adjusting the
@@ -360,14 +360,35 @@ access will actually improve the performance significantly:
 mmMult1:: 
   DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double  
 mmMult1 arr1@(DArray (() :*: m1 :*: n1) _) arr2@(DArray (() :*: m2 :*: n2) _) = 
-  mapFold (+) 0 arrDP
+  fold (+) 0 arrDP
   where 
     arr2T = forceDArray $ transpose arr2
     arrDP = DArray (():*: m1 :*: n2 :*:n1) 
        (\(() :*: i :*: j :*: k) -> (index arr1 (() :*: i :*: k)) * (index arr2T (() :*: j:*: k)))
+
+transpose:: DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double  
+transpose (DArray (() :*: m :*: n) f) =
+  DArray (() :*: n :*: m) (\(() :*: i :*: j) -> f (() :*: j :*: i))
 }}}
 However, we do need to force the actual creation of the transposed array, otherwise, the change would have no effect at all. We therefore 
 use `forceDArray`, which converts it into an array whose array function is a simple indexing operation (see description of `forceDArray` above). This means that the second version requires more memory, but this is offset by improving the locality for each of the multiplications. 
+
+As it is, `mmMult` can only take two-dimensional arrays as arguments, and is not mappable. If we look at the implementation closely, we can see that the restriction to two-dimensional arrays is unnecessary. All we have to do to generalise it is to adjust the type signatures and replace `()` with an arbitrary shape variable:
+{{{
+mmMult1:: Shape dim => 
+  DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double  
+mmMult1 arr1@(DArray (sh :*: m1 :*: n1) _) arr2@(DArray (sh' :*: m2 :*: n2) _) = 
+  fold (+) 0 arrDP
+  where 
+    arr2T = forceDArray $ transpose arr2
+    arrDP = DArray (sh:*: m1 :*: n2 :*:n1) 
+       (\(sh :*: i :*: j :*: k) -> (index arr1 (sh :*: i :*: k)) * (index arr2T (sh :*: j:*: k)))
+
+transpose:: Shape dim =>
+   DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double  
+transpose (DArray (sh:*: m :*: n) f) =
+  DArray (sh :*: n :*: m) (\(sh :*: i :*: j) -> f (sh :*: j :*: i))
+}}}
 
 
 An alternative way to define matrix-matrix multiplication is in terms of the collective library functions provided. First, we
