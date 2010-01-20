@@ -222,10 +222,10 @@ fold :: (U.Elt e, A.Shape dim) =>
 Again, it's not possible to use `fold` directly to collapse an array along any other axis, but, as 
 we will see shortly, this can be easily done using other functions in combination with `fold`.
 
-```wiki
+### Support for Parallel Execution
 
-TODO: MISSING: description of mapStencil
-```
+
+Since the implementation of DArrays builds on the DPH library, all the array operations can be executed in parallel. That is, we compiling a DArray program, the compiler generates a sequential as well as a parallel executable. All collective operations, like `map`, `fold`, and so on are executed in parallel. 
 
 ### Shape Polymorphic Computations on Arrays
 
@@ -388,6 +388,14 @@ and those functions can be trivially mapped since
 ```
 
 
+The function `fold`, which we introduced earlier, is an example of a mappable library function. Applied to a matrix, `fold (+) 0` will calculate the sum of all rows. If run in parallel, `fold` itself is run in parallel, and all the rows are processed in parallel. 
+
+```wiki
+fold :: (U.Elt e, A.Shape dim) => 
+ (e -> e-> e) -> e -> DArray (dim :*: Int)  e  -> DArray dim e
+```
+
+
 So, for example, we can write a mappable function which takes an array and selects every data element with 
 an even index:
 
@@ -431,7 +439,7 @@ what we would write using loops over array indices:
 mmMult1:: 
   DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double  
 mmMult1 arr1@(DArray (() :*: m1 :*: n1) _) arr2@(DArray (() :*: m2 :*: n2) _) = 
-  mapFold (+) 0 arrDP
+  fold (+) 0 arrDP
   where 
     arrDP = DArray (():*: m1 :*: n2 :*:n1) 
        (\(() :*: i :*: j :*: k) -> (index arr1 (() :*: i :*: k)) * (index arr2 (() :*: k :*: j)))
@@ -441,39 +449,100 @@ mmMult1 arr1@(DArray (() :*: m1 :*: n1) _) arr2@(DArray (() :*: m2 :*: n2) _) =
 In the first step, we create the intermediate three dimensional array which contains the products of all 
 sums and rows, and in the second step, we collapse each of the rows to it's sum, to obtain the two dimensional
 result matrix. It is important to note that the elements of `arrDP` are never all in memory (otherwise, the memory
-consumption would be cubic), but each value is consumed immediately by `mapFold`. 
+consumption would be cubic), but each value is consumed immediately by `mapfold`. 
 
 
 This implementation suffers from the same problem a corresponding C implementation would - since we access one
 array row-major, the other column major, the locality is poor. Therefore, first transposing `arr2` and adjusting the
-access will actually improve the performance by approximately 40%: 
+access will actually improve the performance significantly: 
 
 ```wiki
 mmMult1:: 
   DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double  
 mmMult1 arr1@(DArray (() :*: m1 :*: n1) _) arr2@(DArray (() :*: m2 :*: n2) _) = 
-  mapFold (+) 0 arrDP
+  fold (+) 0 arrDP
   where 
     arr2T = forceDArray $ transpose arr2
     arrDP = DArray (():*: m1 :*: n2 :*:n1) 
        (\(() :*: i :*: j :*: k) -> (index arr1 (() :*: i :*: k)) * (index arr2T (() :*: j:*: k)))
+
+transpose:: DArray (() :*: Int :*: Int)  Double -> DArray (() :*: Int :*: Int)  Double  
+transpose (DArray (() :*: m :*: n) f) =
+  DArray (() :*: n :*: m) (\(() :*: i :*: j) -> f (() :*: j :*: i))
 ```
 
 
 However, we do need to force the actual creation of the transposed array, otherwise, the change would have no effect at all. We therefore 
 use `forceDArray`, which converts it into an array whose array function is a simple indexing operation (see description of `forceDArray` above). This means that the second version requires more memory, but this is offset by improving the locality for each of the multiplications. 
 
+
+As it is, `mmMult` can only take two-dimensional arrays as arguments, and is not mappable. If we look at the implementation closely, we can see that the restriction to two-dimensional arrays is unnecessary. All we have to do to generalise it is to adjust the type signatures and replace `()` with an arbitrary shape variable:
+
 ```wiki
-mmMult:: (Array.RepFun dim, Array.InitShape dim, Array.Shape dim) => 
-    DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double  
-mmMult arr1@(DArray (sh :*: m1 :*: n1) fn1) arr2@(DArray (sh' :*: m2 :*: n2) fn2) = 
+mmMult1:: Shape dim => 
+  DArray (dim :*: Int :*: Int)  Double-> DArray (dim :*: Int :*: Int)  Double-> DArray (dim :*: Int :*: Int)  Double  
+mmMult1 arr1@(DArray (sh :*: m1 :*: n1) _) arr2@(DArray (sh' :*: m2 :*: n2) _) = 
+  fold (+) 0 arrDP
+  where 
+    arr2T = forceDArray $ transpose arr2
+    arrDP = DArray (sh:*: m1 :*: n2 :*:n1) 
+       (\(sh :*: i :*: j :*: k) -> (index arr1 (sh :*: i :*: k)) * (index arr2T (sh :*: j:*: k)))
+
+transpose:: Shape dim =>
+   DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double  
+transpose (DArray (sh:*: m :*: n) f) =
+  DArray (sh :*: n :*: m) (\(sh :*: i :*: j) -> f (sh :*: j :*: i))
+```
+
+
+An alternative way to define matrix-matrix multiplication is in terms of the collective library functions provided. First, we
+expand both arrays and, in case of `arr2` transpose it such that the elements which have to be multiplied match up. Then,
+we calculate the products using `zipWith`, and then use `fold` to compute the sums:
+
+```wiki
+mmMult2:: (Array.RepFun dim, Array.InitShape dim, Array.Shape dim) => 
+    DArray (dim :*: Int :*: Int)  Double -> DArray (dim :*: Int :*: Int)  Double -> 
+        DArray (dim :*: Int :*: Int)  Double  
+mmMult2 arr1@(DArray (sh :*: m1 :*: n1) fn1) arr2@(DArray (sh' :*: m2 :*: n2) fn2) = 
    fold (+) 0 (arr1Ext * arr2Ext)
  where
-    arr2T   = forceDArray $ transpose arr2  -- forces evaluation of 'transpose'
+    arr2T   = forceDArray $ transpose arr2  
     arr1Ext = replicate arr1 (Array.IndexAll (Array.IndexFixed m2 (Array.IndexAll Array.IndexNil)))
     arr2Ext = replicate arr2T
                  (Array.IndexAll (Array.IndexAll (Array.IndexFixed n1 Array.IndexNil)))
 
+```
+
+
+In this implementation, `transpose` is necessary to place the elements at the right position for `zipWith`, and we call `forceDArray` for
+the same reason as in the previous implementation, to improve locality. Also, `mmMult2' outperforms `mmMult1`, as the use of `replicate\`
+exposes the structure of the communication, whereas the general index calculations in `mmMult1` hide this structure, and thus are less efficient.
+
+### Performance of Matrix-Matrix Multiplication
+
+
+  
+We measured the performance of the two matrix multiplication implementations and compared their
+performance to C. Both matrices contain (size \* size) elements. As we can see, the first version is significantly slower.
+
+```wiki
+  ----------------------------------------------------------------------
+  size                                |       256 |       512 |    1024 | 
+  ----------------------------------------------------------------------    
+  mmMult1                             |       675 |      5323 |   42674 |
+  ----------------------------------------------------------------------
+  mmMult2                             |       345 |      2683 |   21442 |
+  ----------------------------------------------------------------------
+  mmMult2  (2PE)                      |       190 |      1463 |   11992 |
+  ----------------------------------------------------------------------
+  mmMult2 (without forceDArray)       |       974 |      8376 |   73368 |
+  ----------------------------------------------------------------------
+  mmMult2 (without forceDArray, 2PE)  |       508 |      4368 |   37677 |
+  ----------------------------------------------------------------------
+  C (hand written)                    |        34 |       514 |    7143 |
+  ----------------------------------------------------------------------
+  C (MacOS Accelerated Vector ops)    |        33 |       510 |    6949 |
+  ----------------------------------------------------------------------
 ```
 
 ## Open Questions
