@@ -1,11 +1,12 @@
+# DArrays - Haskell Support for Array Computations
+
 
 The library provides a layer on top of DPH unlifted arrays to support multi-dimensional arrays, and shape polymorphic 
 operations for fast sequential and parallel execution. The interface for delayed arrays is similar, but in contrast 
-to operations on the former, any operation on a delayed array is not evaluated. To force evaluation, the programmer
-has to explicitly convert them to a strict array. 
+to operations on the former, any operation on a delayed array is only actually evaluated when elements are accessed outside the DArray framework.
 
 
-The current implementation of the library exposes some implementation details the user of the library shouldn't 
+The current implementation of the library exposes some implementation details the user shouldn't 
 have to worry about. Once the design of the library is finalised, most of these will be hidden by distinguishing 
 between internal types and representation types.
 
@@ -110,21 +111,7 @@ this means that, for example
 
 ```wiki
 range (() :*: 2 :*: 3) =
-   [() :*: 0 :*: 0, () :*: 0 :*: 1,  .....
-```
-
-
-A scalar value `c`is isomorphic to a zero-dimensional array
-
-```wiki
-  DArray () (\_ -> c)
-```
-
-
-Lifting a scalar value over a shape \`dim':
-
-```wiki
-Shape dim => DArray dim (\_ -> c)
+   [() :*: 0 :*: 0, () :*: 0 :*: 1,  ....., () :*: 0 :*: 2, () :*: 1 :*: 0,....
 ```
 
 ## Operations on Arrays and Delayed Arrays
@@ -178,7 +165,7 @@ Singular (zero-dimensional) arrays are isomorphic to scalar values and can be co
 one using the following function: 
 
 ```wiki
-toScalar:: U.Elt e  => DArray () e -> DArray () e
+toScalar:: U.Elt e  => DArray () e -> e
 ```
 
 
@@ -292,13 +279,21 @@ select:: (U.Elt e, Shape dim, Shape dim') => Array dim e -> SelectIndex dim dim'
 ```
 
 
+Even though the index type is well suited to express the relationship
+between the selector/multiplicator and the dimensionality of the
+argument and the result array, it is inconvenient to use, as the
+examples demonstrate. We therefore need some syntactic sugar to improve
+the usability of the library.  In the following, the use a SAC-like notation for 
+values of Index-type in comments to improve the readability of the examples.
+
+
 Example:
 
 ```wiki
 arr:: Array (() :*: Int :*: Int :*: Int) Double
 
 arr' :: () :*: Int :*: Int
-arr' = select arr (IndexFixed 3 (IndexAll (IndexAll IndexNil))) 
+arr' = select arr (IndexFixed 3 (IndexAll (IndexAll IndexNil))) -- (3,.,.)
 ```
 
 
@@ -309,7 +304,7 @@ the third element:
 arr:: Shape dim => Array (dim :*: Int) Double
 
 arr' :: Array dim Double
-arr' = select arr (IndexFixed 3 IndexNil)
+arr' = select arr (IndexFixed 3 IndexNil)   -- (3,*)
 ```
 
 
@@ -325,7 +320,7 @@ which, given an array, can be used to expand it along any dimension. For example
 ```wiki
 simpleReplicate:: (U.Elt e, Shape dim) => Array dim e -> Int -> Array (dim :*: Int) e
 simpleReplicate arr n =
-  replicate arr (IndexFixed n IndexNil)
+  replicate arr (IndexFixed n IndexNil)  -- (*,n)
 ```
 
 
@@ -336,23 +331,16 @@ thus similarly to list replicate, whereas
 elementwiseReplicate:: (U.Elt e, Shape dim) => 
   Array (dim :*: Int) e -> Int -> Array (dim :*: Int :*: Int) e
 elementwiseReplicate arr n =
-  replicate arr (IndexAll (IndexFixed n IndexNil))
+  replicate arr (IndexAll (IndexFixed n IndexNil))    -- (*,n,.)
 ```
 
 
 replicates each element of an array `n` times (similarly to `map (replicate n)` on lists).
 
 
-Even though the index type is well suited to express the relationship
-between the selector/multiplicator and the dimensionality of the
-argument and the result array, it is inconvenient to use, as the
-examples demonstrate. We therefore do need to add another layer to
-improve the usability of the library.
-
-
 Note that the library provides no way to statically check the pre- and
-postconditions on the actual size of arguments and results. This has
-to be done at run time using assertions.
+postconditions on the actual size of arguments. This has
+to be done during run time using assertions.
 
 ## \`Nesting' Array Functions
 
@@ -507,9 +495,9 @@ mmMult2 arr1@(DArray (sh :*: m1 :*: n1) fn1) arr2@(DArray (sh' :*: m2 :*: n2) fn
    fold (+) 0 (arr1Ext * arr2Ext)
  where
     arr2T   = forceDArray $ transpose arr2  
-    arr1Ext = replicate arr1 (Array.IndexAll (Array.IndexFixed m2 (Array.IndexAll Array.IndexNil)))
-    arr2Ext = replicate arr2T
-                 (Array.IndexAll (Array.IndexAll (Array.IndexFixed n1 Array.IndexNil)))
+    arr1Ext = replicate arr1 (Array.IndexAll (Array.IndexFixed m2 (Array.IndexAll Array.IndexNil))) --  (*,.,m2,.)
+    arr2Ext = replicate arr2T               
+                 (Array.IndexAll (Array.IndexAll (Array.IndexFixed n1 Array.IndexNil)))                                 -- (*,n1,.,.)
 
 ```
 
@@ -521,9 +509,11 @@ exposes the structure of the communication, whereas the general index calculatio
 ### Performance of Matrix-Matrix Multiplication
 
 
-  
-We measured the performance of the two matrix multiplication implementations and compared their
-performance to C. Both matrices contain (size \* size) elements. As we can see, the first version is significantly slower.
+The following table contains the running times in milliseconds  of `mmMult1` and `mmMult2', applied to two matrices of with `size \* size` elements. As mentioned before, `mmMult2` is faster than `mmMult1`, as `replicate` can be implemented more efficiently than the general permutation which is the result of the element-wise index computation in `mmMult1`. This is the case for most problems: if it is possible to use collection oriented operations, than it will lead to more efficient code. We can also see that using `forceDArray` for improved locality has  a big impact on performance (we have O (size*size*size) memory accesses, and creating the transposed matrix has only a memory overhead of O(size*size)). `mmMult1\` without the
+transposed matrix is about as fast as `mmMult2` without `forceDArray` (times omitted). We can also see that the speedup on two processors is close to the optimal speedup of 2.
+
+
+To get an idea about the absolute performance of DArrays, we compared it to two C implementations. The first (handwritten) is a straight forward C implementation with three nested loops, iterations re-arranged to get better performance, which has a similar effect on the performance than the `forceDArray`/`transpose` step. The second implementation uses the matrix-matrix multiplication operation provided by MacOS accelerate library. We can see that, for reasonably large arrays, DArrays is about a factor of 3 slower than the C implementation if run sequentially. 
 
 ```wiki
   ----------------------------------------------------------------------
@@ -545,11 +535,6 @@ performance to C. Both matrices contain (size \* size) elements. As we can see, 
   ----------------------------------------------------------------------
 ```
 
-## Open Questions
+## Example 2: Red-Black Relaxation
 
-### Do we need array comprehension on DArrays?
-
-### Wave computations
-
-
-=
+## Example 3: 3D Fast Fourier Transformation
