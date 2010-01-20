@@ -97,6 +97,7 @@
 - [\#2256](https://gitlab.haskell.org//ghc/ghc/issues/2256): Incomplete inference due to lack of quantification over implication constraints.  Also, see “BUG WARNING” in `TcSimplify` line 717 or thereabouts.  `fdPredsOfInsts` is returning preds that mention quantified variables, which is quite wrong        Manuel
 - [\#2239](https://gitlab.haskell.org//ghc/ghc/issues/2239): Lack of improvement with type functions        Manuel
 - [\#700](https://gitlab.haskell.org//ghc/ghc/issues/700): universals in pattern matching
+- [\#3696](https://gitlab.haskell.org//ghc/ghc/issues/3696): better error message fr missing signature
 
 ## Types and type inference
 
