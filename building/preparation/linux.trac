@@ -52,6 +52,7 @@ other packages that are useful for development:
  * `happy`
  * `alex`
  * `darcs`
+ * `libffi-dev`
 
 For building the documentataion: (User's Guide and Cabal guide):
 
