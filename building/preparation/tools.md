@@ -159,3 +159,7 @@ If a suitable version of libedit cannot be found, ghc/ghci will still build fine
  If your installation does not have libedit by default, you may either download and build it yourself from the link above, or else install your distro's relevant package (sometimes called "libedit-devel" or "libedit-dev").
 GHC does not use libedit on Windows; instead, it uses the console's default line editor.
 </td></tr></table>
+
+<table><tr><th>[ libffi](http://sourceware.org/libffi/)</th>
+<td>TODO Document this.  I stumbled on this as a new dependency as a user, but I cannot comment further.
+</td></tr></table>
