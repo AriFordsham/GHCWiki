@@ -444,7 +444,80 @@ To get an idea about the absolute performance of DArrays, we compared it to two 
 }}}
 
 == Example 2: Red-Black Relaxation ==
+(example taken from SAC web page)
+{{{
+redBlack:: Array.Shape dim => Double -> Double -> DArray (dim :*: Int :*: Int :*: Int) Double ->
+             DArray  (dim :*: Int :*: Int :*: Int) Double -> DArray (dim :*: Int :*: Int :*: Int) Double
+redBlack factor hsq f arr@(DArray (d :*: l :*: n :*:m) fn)  = 
+  applyFactor $ insert odd arr' $ sumD $ getBlack $ stencil arr'
+
+  where
+    arr' =  applyFactor $ insert even arr $ sumD $ getRed $ stencil arr
+
+    applyFactor = zipWith (\fi -> \si -> factor *  (hsq * fi + si)) f
+    
+    sumD arr = fold (+) 0 arr 
+ 
+    getRed (DArray (sh :*: l :*: m :*: n :*: c) f ) =
+      DArray (sh :*: l-2 :*: m-2 :*: (n-1)`div` 2 :*: c) 
+             (\(sh :*: h :*: i :*: j :*: c) -> f(sh :*: h+1 :*: i+1 :*: 2*j+1 :*: c)) 
+    getBlack (DArray (sh :*: l :*: m :*: n :*: c) f) =
+      DArray (sh :*: l-2 :*: m-2 :*:  (n-2) `div` 2:*: c) 
+             (\(sh :*: h :*: i :*: j:*:c) -> f (sh :*: h+1 :*: i+1 :*: 2*j+2:*:c)) 
+
+    isBorder (d :*: h :*: i :*: j) = ((h * i * j) == 0)  || 
+      (h >= (l-1)) || (i >= (m-1)) || (j >= (n-1))
+
+    insert p (DArray sh f) (DArray sh' f')  =
+      DArray sh (\d@(sh :*: h :*: i :*: j) -> if ((isBorder d) || p j) 
+                                                 then f d 
+                                                 else (f' (sh :*: h-1 :*: i-1 :*: (j-1)`div` 2)))
+
+    stencil (DArray sh  f) = 
+      DArray (sh :*: 6) f' 
+      where
+        f' (sh :*: n :*: m :*: 0) = f (sh :*: n :*: m+1)
+        f' (sh :*: n :*: m :*: 1) = f (sh :*: n :*: m-1)
+        f' (sh :*: n :*: m :*: 2) = f (sh :*: n+1 :*: m)
+        f' (sh :*: n :*: m :*: 3) = f (sh :*: n-1 :*: m)
+        f' (sh :*: k :*: n :*: m :*: 4) = f (sh :*: k+1 :*: n :*: m)
+        f' (sh :*: k :*: n :*: m :*: 5) = f (sh :*: k-1 :*: n :*: m)
+
+}}}
+
 == Example 3: 3D Fast Fourier Transformation ==
+Applied FFT to each vector in a three dimensional matrix, once along each of the three axes, iterate a given number of times (example taken from SAC web page)
 
+{{{
+fft3d:: Int -> DArray Array.DIM3 Complex -> DArray Array.DIM3 Complex -> DArray Array.DIM3 Complex
+fft3d it rofu  m | it < 1    = m
+                | otherwise = fft3d (it-1) rofu $ fftTrans $ fftTrans $ fftTrans m 
+  where
+    fftTrans = forceDArray . (fft rofu) . transpose'
+    transpose' darr@(DArray (() :*: k :*: l :*: m) _) = 
+      backpermute darr (() :*: m :*: k :*: l)
+            (\(() :*: m' :*: k' :*: l') -> (() :*: k' :*: l' :*: m')) 
 
+fft:: Array.Subshape dim  dim => 
+  DArray (dim :*: Int) Complex -> DArray (dim :*: Int) Complex -> DArray (dim :*: Int) Complex 
+fft rofu@(DArray ( _ :*: s) _ )  v@(DArray sh@(_ :*: n) f) 
+  | n > 2     = assert (2 * s == n) $ 
+    append (fft_left + fft_right) (fft_left - fft_right) sh
+  | n == 2    = assert (2 * s == n) $ 
+    DArray sh f'
+  where 
+    f' (sh :*: 0) = f (sh :*: 0) + f (sh :*: 1)
+    f' (sh :*: 1) = f (sh :*: 0) - f (sh :*: 1)
+    f' (sh :*: x) = error ("error in fft - f:" ++ (show x) ++ "/" ++ (show sh))
+
+    rofu'     = split rofu (\(sh :*: i) -> (sh :*: 2*i))
+    fft_left  = forceDArray $ rofu * (fft rofu' (split v (\(sh:*: i) -> (sh :*: 2*i))))
+    fft_right = forceDArray $ fft rofu' (split v (\(sh:*: i) -> (sh :*: 2*i+1))) 
+    
+split:: Array.Shape dim => 
+  DArray (dim :*: Int) Complex -> ((dim :*: Int) -> (dim :*: Int)) -> DArray (dim :*: Int) Complex
+split arr@(DArray (sh :*: n) fn) sel =
+  (DArray (sh :*: (n `div` 2)) (fn . sel)) 
+
+}}}
 
