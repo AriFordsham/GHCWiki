@@ -537,6 +537,9 @@ To get an idea about the absolute performance of DArrays, we compared it to two 
 
 ## Example 2: Red-Black Relaxation
 
+
+(example taken from SAC web page)
+
 ```wiki
 redBlack:: Array.Shape dim => Double -> Double -> DArray (dim :*: Int :*: Int :*: Int) Double ->
              DArray  (dim :*: Int :*: Int :*: Int) Double -> DArray (dim :*: Int :*: Int :*: Int) Double
@@ -580,7 +583,7 @@ redBlack factor hsq f arr@(DArray (d :*: l :*: n :*:m) fn)  =
 ## Example 3: 3D Fast Fourier Transformation
 
 
-Applied FFT to each vector in a three dimensional matrix, once along each of the three axes, iterate a given number of times.
+Applied FFT to each vector in a three dimensional matrix, once along each of the three axes, iterate a given number of times (example taken from SAC web page)
 
 ```wiki
 fft3d:: Int -> DArray Array.DIM3 Complex -> DArray Array.DIM3 Complex -> DArray Array.DIM3 Complex
