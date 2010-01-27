@@ -40,17 +40,23 @@ It is recommended therefore to install another gcc package, either from some Sol
 ### Selecting a good GCC version
 
 
-GCC version 4.1.x and 4.0.x seem to be fine. 4.1.2 is recommended.
+GHC only works with particular GCC versions.
+
+
+For compiling GHC 6.10.1, GCC versions 4.0.4 and 4.1.2 are known to work. Others in the 4.0.x and 4.1.x series may work, but haven't been tested.
+
+
+GCC version 4.3.x produces assembly files that GHC's "evil mangler" does not yet deal with.
+
+
+GCC version 4.2.x works but takes hours and hours to build the large `.hc` files that GHC generates. It is reported ([\#1293](https://gitlab.haskell.org//ghc/ghc/issues/1293), [\#2906](https://gitlab.haskell.org//ghc/ghc/issues/2906)) that particular modules can take upwards of 5 hours and the overall build takes a couple days. This is due to complexity issues with respect to GCC moving to a unit-at-a-time compilation scheme instead of function-at-a-time.
+
+
+GCC version 4.0.2 does not support thread local state (TLS), at least on SPARC.
 
 
 GCC version 3.4.x is reported ([\#951](https://gitlab.haskell.org//ghc/ghc/issues/951)) to mis-compile the runtime system leading to a runtime error `schedule: re-entered unsafely`.
 But such a gcc version is sufficient for most user programs in case you just installed a ghc binary distribution. 
-
-
-GHC has not yet been updated to understand the assembly output of GCC version 4.3.x.
-
-
-GCC version 4.2.x works but takes hours and hours to build the large `.hc` files that GHC generates. It is reported ([\#1293](https://gitlab.haskell.org//ghc/ghc/issues/1293), [\#2906](https://gitlab.haskell.org//ghc/ghc/issues/2906)) that particular modules can take upwards of 5 hours and the overall build takes a couple days.
 
 ## Using GCC from a non-standard location
 
