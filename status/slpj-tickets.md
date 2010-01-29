@@ -146,6 +146,8 @@
 
 ## Features
 
+- [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595): pattern-match overlap checking
+- [\#3843](https://gitlab.haskell.org//ghc/ghc/issues/3843): Add plugins
 - [\#3701](https://gitlab.haskell.org//ghc/ghc/issues/3701): Implicitly declared existentials: a class as a type
 - [\#3480](https://gitlab.haskell.org//ghc/ghc/issues/3480): **Fingerprints in `TypeRep`**
 - [\#3217](https://gitlab.haskell.org//ghc/ghc/issues/3217): better flag handling for GHCi

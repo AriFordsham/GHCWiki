@@ -131,6 +131,8 @@
  * #2340: Better TH error recovery.  Easy to do; change to signature of qRecover.
 
 == Features == 
+ * #595: pattern-match overlap checking
+ * #3843: Add plugins
  * #3701: Implicitly declared existentials: a class as a type
  * #3480: '''Fingerprints in `TypeRep`'''
  * #3217: better flag handling for GHCi
