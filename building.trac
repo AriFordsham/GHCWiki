@@ -36,6 +36,7 @@ More detailed information about using the build system
  * [wiki:Building/Porting Porting GHC to a new platform]
 
  * [wiki:Debugging Debugging and performance-tuning for GHC]
+ * [wiki:Debugging/InstallingPackagesInplace Installing extra packages for your in-place GHC]
 
 More detailed information about how the build system works
  * [wiki:Commentary/SourceTree Overview of files and directories]

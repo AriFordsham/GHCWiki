@@ -38,6 +38,7 @@ More detailed information about using the build system
 - [Porting GHC to a new platform](building/porting)
 
 - [Debugging and performance-tuning for GHC](debugging)
+- [Installing extra packages for your in-place GHC](debugging/installing-packages-inplace)
 
 
 More detailed information about how the build system works
