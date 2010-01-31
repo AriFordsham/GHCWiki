@@ -31,6 +31,7 @@ More detailed information about using the build system
 - [Validating changes](testing-patches)
 - [Running the GHC test framework](building/running-tests)
 - [The NoFib benchmark suite](building/running-no-fib)
+- [Testing GHC against all of Hackage](hackage-testing)
 
 - [Building the documentation](building/docs)
 - [Installing GHC from a build](building/installing)
