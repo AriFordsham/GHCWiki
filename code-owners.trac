@@ -33,7 +33,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
 
  * '''Sparc'''
-   * Solaris: Position open
+   * Solaris: [mailto:benl@ouroborus.net Ben Lippmeier]
    * Linux:   Position open
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/sparc packages: [mailto:kaol@debian.org Kari Pahula]
@@ -103,6 +103,7 @@ and a short description of what they're doing or have done.
  * [mailto:hwloidl@tcs.ifi.lmu.de Hans W. Loidl]
  * [mailto:Ralf.Laemmel@cwi.nl Ralf Laemmel]
  * [mailto:rl@cse.unsw.edu.au Roman Leshchinskiy]
+ * [mailto:benl@ouroboris.net Ben Lippmeier] (SPARC, native code generator, register allocation)
  * [mailto:andres@cs.uu.nl Andres Loeh]
  * [mailto:desrt@desrt.ca Ryan Lortie] (PowerPC Linux port, packages)
  * [mailto:igloo@earth.li Ian Lynagh] (GHC support engineer)

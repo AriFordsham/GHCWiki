@@ -39,7 +39,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
 
 - **Sparc**
 
-  - Solaris: Position open
+  - Solaris: Ben Lippmeier
   - Linux:   Position open
   - Gentoo Linux packages: Gentoo Haskell team
   - Debian GNU/Linux/sparc packages: Kari Pahula
@@ -120,6 +120,7 @@ and a short description of what they're doing or have done.
 - Hans W. Loidl
 - Ralf Laemmel
 - Roman Leshchinskiy
+- Ben Lippmeier (SPARC, native code generator, register allocation)
 - Andres Loeh
 - Ryan Lortie (PowerPC Linux port, packages)
 - Ian Lynagh (GHC support engineer)
