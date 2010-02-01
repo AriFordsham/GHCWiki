@@ -120,6 +120,7 @@ and a short description of what they're doing or have done.
 - Hans W. Loidl
 - Ralf Laemmel
 - Roman Leshchinskiy
+- Ben Lippmeier (SPARC, native code generator, register allocation)
 - Andres Loeh
 - Ryan Lortie (PowerPC Linux port, packages)
 - Ian Lynagh (GHC support engineer)
