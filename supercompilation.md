@@ -18,7 +18,6 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
     - case (x\>y)of { ....case (x\>y) of ... }
     - Extending this to specialised functions themselves.
-- Change representation in rho
 - case var subst
 - strictness annotations
 
