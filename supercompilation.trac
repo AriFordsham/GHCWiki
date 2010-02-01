@@ -5,7 +5,6 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 == Current Bugs ==
 
  * Naivrec: Double runtime
- * nbody: unsafe-things, segfault.
 
 == Shortcomings of the prototype == 
 
