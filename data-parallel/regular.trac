@@ -172,7 +172,12 @@ fold :: (U.Elt e, A.Shape dim) =>
 Again, it's not possible to use `fold` directly to collapse an array along any other axis, but, as 
 we will see shortly, this can be easily done using other functions in combination with `fold`.
 
-
+Related to  `fold`, we have `scan`:
+{{{
+scan :: (U.Elt e, A.Shape dim) => 
+ (e -> e-> e) -> e -> DArray dim   e  -> Array dim e
+}}}
+Note that `scan` returns a value of type `Array`, not `DArray`: this means that, if we apply scan to an array and access one of its elements, the whole array will be created.
 
 
 
