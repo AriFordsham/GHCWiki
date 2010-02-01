@@ -33,7 +33,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
 
  * '''Sparc'''
-   * Solaris: Position open
+   * Solaris: [mailto:benl@ouroborus.net Ben Lippmeier]
    * Linux:   Position open
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/sparc packages: [mailto:kaol@debian.org Kari Pahula]

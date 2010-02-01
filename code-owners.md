@@ -39,7 +39,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
 
 - **Sparc**
 
-  - Solaris: Position open
+  - Solaris: Ben Lippmeier
   - Linux:   Position open
   - Gentoo Linux packages: Gentoo Haskell team
   - Debian GNU/Linux/sparc packages: Kari Pahula
