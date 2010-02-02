@@ -51,7 +51,7 @@
  * #149: float-out/CSE	
  * #2289, #2387, #1600: nested CPR analysis	
  * #2092: Possible quadratic-sized Eq instances. Does it really go quadratic, or does the join-point inlining machinery prevent it?  Still to check: delicacy wrt case-of-case
- * #2255, #3767, #2642: Improve '''`SpecConstr`''' for free variables, and for join points.
+ * #2255, #3767, #2642, #3831: Improve '''`SpecConstr`''' for free variables, and for join points.
  * #2374: SAT and `MutableByteArray`	Max?
  * #3065: better code in quot/rem
 
