@@ -69,3 +69,32 @@ If you run into linker problems then you can try turning it off by adding the fo
 SplitObjs=NO
 }}}
 
+== Test Failures ==
+
+The following regression tests are known to fail on SPARC/Solaris10 with GHC 6.12.1, using the 6.12.1 testsuite. Some of these are not platform specific.
+
+{{{
+Unexpected failures:
+  1861(optc,profc)
+  3171(normal)
+  3586(normal)
+  T3016(hpc,optasm,profasm)
+  T3294(normal)
+  arith011(profc)
+  barton-mangler-bug(profc)
+  break024(ghci)
+  conc012(ghci)
+  concprog001(ghci)
+  concprog002(threaded2)
+  derefnull(profc,profthreaded)
+  divbyzero(profc,profthreaded)
+  hClose002(normal,optc,hpc,optasm,profc,profasm,ghci,threaded1,threaded2,profthreaded)
+  hClose003(normal,optc,hpc,optasm,profc,profasm,ghci,threaded1,threaded2,profthreaded)
+  joao-circular(optc,profc)
+  rtsflags001(normal)
+  seward-space-leak(ghci)
+  signals004(ghci,threaded1,threaded2,profthreaded)
+  space_leak_001(normal,optc,hpc,optasm,ghci)
+  testblockalloc(normal,threaded1)
+  user001(normal,optc,hpc,optasm,profc,profasm,ghci,threaded1,threaded2,profthreaded)
+}}}
