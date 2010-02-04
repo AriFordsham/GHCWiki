@@ -3,7 +3,7 @@
 
 = Building on Solaris =
 
-These instructions have only been checked for GHC 6.12.1 on Solaris 10 on SPARC. It should mostly apply to later versions of GHC, Solaris 8 and later and perhaps Solaris on x86. 
+These instructions have only been checked for GHC 6.12.1 on Solaris 10 on SPARC. They should also apply to later versions of GHC, Solaris 8 and later, and perhaps Solaris on x86. 
 
 GHC versions 6.10.1 and earlier don't have a working SPARC native code generator, and have many small build issues with Solaris. Use GHC 6.12.1 or later.
 
@@ -60,9 +60,11 @@ But such a gcc version is sufficient for most user programs in case you just ins
 
 == Split objects ==
 
-With the right toolchain this can work. It was tested on Solaris 10 with ghc-6.8.3, gcc-4.1.2 and the system (not GNU) binutils (ie as, ld etc from /usr/ccs/bin).
+Split object didn't work in GHC 6.10.x, not sure about GHC 6.12.1.
 
-If you run into problems however turn it off by adding this to your `mk/build.mk`:
+It worked on Solaris 10 with ghc-6.8.3, gcc-4.1.2 and the system (not GNU) binutils (ie as, ld etc from /usr/ccs/bin).
+
+If you run into linker problems then you can try turning it off by adding the following to your `mk/build.mk`:
 {{{
 SplitObjs=NO
 }}}
