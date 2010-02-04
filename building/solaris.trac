@@ -60,7 +60,7 @@ But such a gcc version is sufficient for most user programs in case you just ins
 
 == Split objects ==
 
-Split object didn't work in GHC 6.10.x, not sure about GHC 6.12.1.
+Split objects didn't work in GHC 6.10.x, not sure about GHC 6.12.1.
 
 It worked on Solaris 10 with ghc-6.8.3, gcc-4.1.2 and the system (not GNU) binutils (ie as, ld etc from /usr/ccs/bin).
 
