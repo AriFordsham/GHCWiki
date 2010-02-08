@@ -67,7 +67,15 @@ The rest of this page discusses problems with specific tool versions. If you sti
 - GCC version 4.1.2 is known to work. Use this version if possible.
 
 
-On Solaris 10, `/usr/bin/gcc` is "GCC for Sun Systems (gccfss)". This is a version that uses Sun's code generator backend. This is completely unusable for GHC because GHC has to post-process (mangle) the assembly output of GCC. It expects the format and layout that the normal GCC uses.
+On Solaris 10, `/usr/bin/gcc` is "GCC for Sun Systems (gccfss)". This is a version that uses Sun's code generator backend. This is completely unusable for GHC because GHC has to post-process (mangle) the assembly output of GCC. GHC expects the format and layout that the normal GCC uses. Trying to compile a "hello world" program using gccfss will fail like this:
+
+```wiki
+benl@greyarea:~/tmp$ ghc --make Main.hs
+[1 of 1] Compiling Main             ( Main.hs, Main.o )
+... SUNW0scgfss/4.0.4/prod/bin/fbe: "/tmp/ghc19018_0/ghc19018_0.s", line 242: error: invalid character (0x40)
+... SUNW0scgfss/4.0.4/prod/bin/fbe: "/tmp/ghc19018_0/ghc19018_0.s", line 242: error: quoted-string operand required
+... SUNW0scgfss/4.0.4/prod/bin/fbe: "/tmp/ghc19018_0/ghc19018_0.s", line 242: error: statement syntax
+```
 
 
 The version of `/usr/sfw/bin/gcc` on Solaris 10 is 3.4.x which has problems, see below.
