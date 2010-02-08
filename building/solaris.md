@@ -78,9 +78,6 @@ benl@greyarea:~/tmp$ ghc --make Main.hs
 ```
 
 
-The version of `/usr/sfw/bin/gcc` on Solaris 10 is 3.4.x which has problems, see below.
-
-
 GCC version 4.3.x produces assembly files that GHC's "evil mangler" does not yet deal with.
 
 
