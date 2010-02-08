@@ -54,8 +54,6 @@ benl@greyarea:~/tmp$ ghc --make Main.hs
 /opt/gcc/bin/../../SUNW0scgfss/4.0.4/prod/bin/fbe: "/tmp/ghc19018_0/ghc19018_0.s", line 242: error: statement syntax
 }}}
 
-The version of `/usr/sfw/bin/gcc` on Solaris 10 is 3.4.x which has problems, see below.
-
 GCC version 4.3.x produces assembly files that GHC's "evil mangler" does not yet deal with.
 
 GCC version 4.2.x works but takes hours and hours to build the large `.hc` files that GHC generates. It is reported (#1293, #2906) that particular modules can take upwards of 5 hours and the overall build takes a couple days. This is due to complexity issues with respect to GCC moving to a unit-at-a-time compilation scheme instead of function-at-a-time.
