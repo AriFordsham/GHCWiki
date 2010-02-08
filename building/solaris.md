@@ -72,9 +72,9 @@ On Solaris 10, `/usr/bin/gcc` is "GCC for Sun Systems (gccfss)". This is a versi
 ```wiki
 benl@greyarea:~/tmp$ ghc --make Main.hs
 [1 of 1] Compiling Main             ( Main.hs, Main.o )
-... SUNW0scgfss/4.0.4/prod/bin/fbe: "/tmp/ghc19018_0/ghc19018_0.s", line 242: error: invalid character (0x40)
-... SUNW0scgfss/4.0.4/prod/bin/fbe: "/tmp/ghc19018_0/ghc19018_0.s", line 242: error: quoted-string operand required
-... SUNW0scgfss/4.0.4/prod/bin/fbe: "/tmp/ghc19018_0/ghc19018_0.s", line 242: error: statement syntax
+/opt/gcc/bin/../../SUNW0scgfss/4.0.4/prod/bin/fbe: "/tmp/ghc19018_0/ghc19018_0.s", line 242: error: invalid character (0x40)
+/opt/gcc/bin/../../SUNW0scgfss/4.0.4/prod/bin/fbe: "/tmp/ghc19018_0/ghc19018_0.s", line 242: error: quoted-string operand required
+/opt/gcc/bin/../../SUNW0scgfss/4.0.4/prod/bin/fbe: "/tmp/ghc19018_0/ghc19018_0.s", line 242: error: statement syntax
 ```
 
 
