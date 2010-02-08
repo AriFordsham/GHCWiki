@@ -36,7 +36,7 @@ Criteria for Tier 1 platforms:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No(\*W)            </th>
+<th> Yes(\*W)            </th>
 <th>[WindowsGhc](windows-ghc)</th></tr>
 <tr><th> x86          </th>
 <th> Linux           </th>
@@ -55,7 +55,7 @@ Criteria for Tier 1 platforms:
 <th> Yes                   </th>
 <th> Yes          </th>
 <th> No                </th>
-<th>X86OSXGhc?</th></tr>
+<th>[Attic/X86OSXGhc](attic/x86-osx-ghc)</th></tr>
 <tr><th> x86-64       </th>
 <th> Linux           </th>
 <th> x86_64-unknown-linux    </th>
@@ -124,7 +124,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> DragonFlyBSD    </th>
 <th> i386-unknown-dflybsd    </th>
 <th> Yes          </th>
-<th> No(\*S3) </th>
+<th> No(\*S1) </th>
 <th> Yes    </th>
 <th> Yes          </th>
 <th> No                </th>
@@ -215,16 +215,16 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> sparc-sun-solaris2      </th>
 <th> Yes          </th>
 <th> Yes  </th>
-<th> No(\*S1) </th>
+<th> Yes </th>
 <th> Yes          </th>
 <th> No                </th>
-<th></th></tr>
+<th>[Building/Solaris](building/solaris)</th></tr>
 <tr><th> Sparc        </th>
 <th> Linux           </th>
 <th> sparc-unknown-linux     </th>
 <th> Yes(\*S2)      </th>
 <th> Yes  </th>
-<th> No(\*S1) </th>
+<th> Yes </th>
 <th> Yes          </th>
 <th> No                </th>
 <th></th></tr>
@@ -233,7 +233,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> sparc-unknown-openbsd   </th>
 <th> Yes          </th>
 <th> Yes  </th>
-<th> No(\*S1) </th>
+<th> Yes </th>
 <th> Yes          </th>
 <th> No                </th>
 <th></th></tr>
@@ -319,9 +319,8 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> No                      </th>
 <th></th></tr></table>
 
-**\*S1** Sparc NCG bitrotten, but still in the tree
+**\*S1** Goetz Isenmann [ reports](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-November/017961.html) that GHCi is currently unable to load compiled code that refers to errno.
 **\*S2** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)
-**\*S3** Goetz Isenmann [ reports](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-November/017961.html) that GHCi is currently unable to load compiled code that refers to errno.
 
 
 In most cases, binaries for the tier 2 platforms can be downloaded from the [Distribution Packages](http://www.haskell.org/ghc/distribution_packages.html) page, e.g. you can get binaries for most of the Linux platforms from Debian. In some cases, for example the Solaris platforms, you'll need to go to the [download page](http://www.haskell.org/ghc/download.html) of a particular release to get a bindist.
