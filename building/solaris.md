@@ -90,6 +90,26 @@ GCC version 4.0.2 does not support thread local state (TLS), at least on SPARC.
 GCC version 3.4.x is reported ([\#951](https://gitlab.haskell.org//ghc/ghc/issues/951)) to mis-compile the runtime system leading to a runtime error `schedule: re-entered unsafely`.
 But such a gcc version is sufficient for most user programs in case you just installed a ghc binary distribution. 
 
+## Using the wrong assembler
+
+
+If you fail to install GNU binutils then GHC will try to use the native Sun assembler, and you'll get something like this:
+
+```wiki
+benl@greyarea:~/tmp$ ghc --make Main.hs -fforce-recomp
+[1 of 1] Compiling Main             ( Main.hs, Main.o )
+/usr/ccs/bin/as: "/tmp/ghc19665_0/ghc19665_0.s", line 242: error: invalid character (0x40)
+/usr/ccs/bin/as: "/tmp/ghc19665_0/ghc19665_0.s", line 242: error: quoted-string operand required
+/usr/ccs/bin/as: "/tmp/ghc19665_0/ghc19665_0.s", line 242: error: statement syntax
+```
+
+
+The offending line is:
+
+```wiki
+.section .note.GNU-stack,"",@progbits
+```
+
 ## Split objects
 
 
