@@ -3,7 +3,7 @@
 
 = The (new) GHC Build System =
 
-(this page will eventually replace [wiki:Building/BuildSystem] when the new build system is merged in)
+(this page will eventually replace [wiki:Attic/Building/BuildSystem] when the new build system is merged in)
 
 This section contains everything you need to know in order to
 understand and modify the GHC build system.  The build system is
