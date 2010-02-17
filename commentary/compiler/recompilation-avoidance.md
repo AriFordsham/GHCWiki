@@ -175,13 +175,12 @@ An [interface file](commentary/compiler/iface-files) contains:
     compilations.
   - The *ABI hash*, which depends on everything that the module
     exposes about its implementation: think of this as a hash of
-    *exports* and *decls*.
+    *export-list hash* and *decls*.
   - The *export-list hash*, which depends on the contents of the
-    export list (a hash of *exports*).
+    export list (a hash of *exports*), the *orphan hash* (see [Orphans](commentary/compiler/recompilation-avoidance#orphans)) and the package dependencies (see [Package Version Changes](commentary/compiler/recompilation-avoidance#package-version-changes)).
   - The *orphan hash*, which depends on all the orphan
     instances/rules in the, and the orphan hashes of all orphan
-    modules below this module in the dependency tree (see "Orphans"
-    later).
+    modules below this module in the dependency tree (see [Orphans](commentary/compiler/recompilation-avoidance#orphans)).
 - *exports*: what the module exports
 - *dependencies*: modules and packages that this module depends on
 - *usages*: what specific entities the module depends on
@@ -600,6 +599,16 @@ that package module has changed, then we can trigger a recompilation.
 
 
 (Correctly triggering recompilation when packages change was one of the things we fixed when implementing fingerprints, see [\#1372](https://gitlab.haskell.org//ghc/ghc/issues/1372)).
+
+### Package version changes
+
+
+If the version of a package is bumped, what forces recompilation of
+the things that depend on it?
+
+1. If a module from the package is imported directly, then we will notice that the imported module is not amongst the dependencies of the module when it was compiled last, and force a recompilation (see [Deciding whether to recompile](commentary/compiler/recompilation-avoidance#deciding-whether-to-recompile)).
+
+1. If a module from the old package is imported indirectly, then the old package will be amongst the package dependencies (`dep_pkgs . mi_deps`), so we must recompile otherwise these dependencies will be inconsistent.  The way we handle this case is by including the package dependencies in the *export hash* of a module, so that other modules which import this module will automatically be recompiled when one of the package dependencies changes.  The recompiled module will have new package dependencies, which will force recompilation of its importers, and so on.  Therefore if a package version changes, the change will be propagated throughout the module dependency graph.
 
 ## Interface stability
 
