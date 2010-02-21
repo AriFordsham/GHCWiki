@@ -272,6 +272,9 @@ libffi, and libgmp if necessary:
 ```
 
 
+NOTE: building inplace/bin/ghc-pkg currently fails. This has to be fixed.
+
+
 Don't bother with running `make install` in the newly bootstrapped
 tree; just use the compiler in that tree to build a fresh compiler
 from scratch, this time without booting from C files.  Before doing
