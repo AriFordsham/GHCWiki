@@ -65,6 +65,9 @@ Once GHC is built, you can trigger GHC to use the LLVM back-end with the `-fllvm
 
 `ghc --info` should also now report that it includes the llvm code generator.
 
+
+The [ ghc-core](http://hackage.haskell.org/package/ghc-core) tool also supports the llvm backend, and will display the generated assembly code for your platform.
+
 # Performance
 
 
