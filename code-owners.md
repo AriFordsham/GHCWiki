@@ -90,10 +90,6 @@ For a full description of GHC support for various platforms, see [Platforms](pla
 
   - Debian GNU/Linux/arm packages: Kari Pahula
 
-- **m68k**
-
-  - Debian GNU/Linux/m68k packages: Kari Pahula
-
 ## Current committers (alphabetical order)
 
 

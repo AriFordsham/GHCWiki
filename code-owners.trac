@@ -75,9 +75,6 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
  * '''Arm'''
    * Debian GNU/Linux/arm packages: [mailto:kaol@debian.org Kari Pahula]
 
- * '''m68k'''
-   * Debian GNU/Linux/m68k packages: [mailto:kaol@debian.org Kari Pahula]
-
 == Current committers (alphabetical order) ==
 
 This is a list of the people that currently have commit access to GHC,
