@@ -89,6 +89,7 @@
 ## New constraint simplifier
 
 - [TypeFunctionsStatus](type-functions-status)
+- [\#3851](https://gitlab.haskell.org//ghc/ghc/issues/3851): type family expansion
 - [\#3826](https://gitlab.haskell.org//ghc/ghc/issues/3826): equality reasoning failure
 - [\#3692](https://gitlab.haskell.org//ghc/ghc/issues/3692): bogus error message with constraint after arrow
 - [\#3742](https://gitlab.haskell.org//ghc/ghc/issues/3742): implication constraints and inference

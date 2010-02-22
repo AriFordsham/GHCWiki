@@ -80,6 +80,7 @@
 ------------------------
 == New constraint simplifier ==
  * [wiki:TypeFunctionsStatus]
+ * #3851: type family expansion
  * #3826: equality reasoning failure
  * #3692: bogus error message with constraint after arrow
  * #3742: implication constraints and inference
