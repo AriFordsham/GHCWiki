@@ -1,3 +1,8 @@
+The updated information in this page has been moved to the [wiki:Commentary/Compiler/Backends/LLVM#LLVMBackendDesign Backends/LLVM] page.
+
+----
+'''Original material shown below'''
+----
 = LLVM Back-end Design =
 
 This document aims to describe the current proposed design for a new back-end for GHC that will generate bitcode. This will then be compiled to actual machine code using the LLVM tools. This description is relevant for GHC developers and attempts to address how the back-end will intergrate with the rest of GHC.
