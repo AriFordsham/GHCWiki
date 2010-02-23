@@ -1,3 +1,6 @@
+[[PageOutline]]
+= The LLVM backend =
+
 David Terei wrote a new code generator for GHC which targets the LLVM compiler infrastructure. Most of the work was done as part of an honours thesis at the University of New South Wales under the supervision of Manuel Chakravarty. Its now at a stage where it is under consideration to be merged into GHC mainline.
 
 The patch for the llvm back-end can be found here (should apply cleanly to GHC head):
@@ -89,13 +92,13 @@ Here is a diagram of the pipeline:
 
 This approach was the easiest and thus quickest way to initially implement the LLVM backend. Now that it is working, there is some room for additional optimizations. A potential optimization would be to add a new linker phase for LLVM. Instead of each module just being compiled to native object code ASAP, it would be better to keep them in the LLVM bitcode format and link all the modules together using the LLVM linker. This enable all of LLVM's link time optimisations. All the user program LLVM bitcode will then be compiled to a native object file and linked with the runtime using the native system linker.
 
-== Implementation Issues ==
+= Implementation Issues =
 
-=== Register Pinning ===
+== Register Pinning ==
 
 The new backend supports a custom calling convention to place the STG virtual registers into specific hardware registers. The current approach taken by the C back-end and NCG of having a fixed assignment of STG virtual registers to hardware registers for performance gains not implemented in the LLVM backend. Instead, it uses a custom calling convention to support something semantically equivalent to register pinning. The custom calling convention passes the first N variables in specific hardware registers, thus guaranteeing on all function entries that the STG virtual registers can be found in the expected hardware registers. This approach is hoped to provide better performance than the register pinning used by NCG/C back-ends as it keeps the STG virtual registers mostly in hardware registers but allows the register allocator more flexibility and access to all machine registers.
 
-=== TABLES_NEXT_TO_CODE ===
+== TABLES_NEXT_TO_CODE ==
 
 GHC for heap objects places the info table (meta data) and the code adjacent to each other. That is, in memory, the object firstly has a head structure, which consists of a pointer to an info table and a payload structure. The pointer points to the bottom of the info table and the closures code is placed to be straight after the info table, so to jump to the code we can just jump one past the info table pointer. The other way to do this would be to have the info table contain a pointer to the closure code. However this would then require two jumps to get to the code instead of just one jump in the optimized layout. Achieving this layout can create some difficulty, the current back-ends handle it as follows:
 
@@ -104,7 +107,7 @@ GHC for heap objects places the info table (meta data) and the code adjacent to 
 
 There is a build option in GHC to use the unoptimised layout and instead use a pointer to the code in the info table. This layout can be enabled/disabled by using the compiler def TABLES_NEXT_TO_CODE. As LLVM has no means to achieve the optimised layout and we don't wish to write an LLVM sister for the Evil Mangler, the LLVM backend currently uses the unoptimised layout. This apparently incurs a performance penalty of 5% (source, Making a ''Fast Curry: Push/Enter vs. Eval/Apply for Higher-order Languages'', Simon Marlow and Simon Peyton Jones, 2004).
 
-=== Shared Code with NCG ===
+== Shared Code with NCG ==
 
 It is probable that some of the code needed by the LLVM back-end is already implemented for the NCG back-end. Some examples of this code would be the following two functions in ''compiler/main/AsmCodeGen.lhs'':
 
@@ -113,7 +116,7 @@ It is probable that some of the code needed by the LLVM back-end is already impl
   ''cmmToCmm''::
     Optimises the cmm code, in particular it changes loads from global registers to instead load from the !RegTable.
 
-=== LLVM IR Representation ===
+== LLVM IR Representation ==
 
 The LLVM IR is modeled in GHC using an algebraic data type to represent the first order abstract syntax of the LLVM assembly code. The LLVM representation lives in the 'Llvm' subdirectory and also contains code for pretty printing. This is the same approach taken by [http://www.cs.uu.nl/wiki/Ehc/WebHome EHC]'s LLVM Back-end, and we adapted the [https://subversion.cs.uu.nl/repos/project.UHC.pub/trunk/EHC/src/ehc/LLVM.cag module] developed by them for this purpose.
 
@@ -129,7 +132,7 @@ A quick summary of the results are that for the 'nofib' benchmark suite, the llv
 ||LLVM || 1.14||
 
 
-== Validate ==
+= Validate =
 
 
 I've validated my GHC patch to make sure it won't break anything. This is just compiling and running GHC normally but with the llvm back-end code included. It doesn't actually test the llvm code generator, just makes sure it hasn't broken the NCG or C code generator.
