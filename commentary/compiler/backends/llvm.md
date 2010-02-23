@@ -166,7 +166,7 @@ A quick summary of the results are that for the 'nofib' benchmark suite, the llv
 <th> 1.14
 </th></tr></table>
 
-## Validate
+# Validate
 
 
 I've validated my GHC patch to make sure it won't break anything. This is just compiling and running GHC normally but with the llvm back-end code included. It doesn't actually test the llvm code generator, just makes sure it hasn't broken the NCG or C code generator.
