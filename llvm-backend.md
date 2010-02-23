@@ -1,3 +1,12 @@
+
+The updated information in this page has been moved to the [Backends/LLVM](commentary/compiler/backends/llvm#llvm-back-end-design) page.
+
+---
+
+**Original material shown below**
+
+---
+
 # LLVM Back-end Design
 
 
