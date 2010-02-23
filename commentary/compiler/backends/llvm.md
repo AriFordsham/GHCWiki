@@ -68,6 +68,84 @@ Once GHC is built, you can trigger GHC to use the LLVM back-end with the `-fllvm
 
 The [ ghc-core](http://hackage.haskell.org/package/ghc-core) tool also supports the llvm backend, and will display the generated assembly code for your platform.
 
+# Supported Platforms & Correctness
+
+
+Linux x86-32/x86-64 are currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
+
+
+Mac OS X 10.5 currently has a rather nasty bug with any dynamic lib calls (all libffi stuff) \[due to the stack not being 16byte aligned when the calls are made as required by OSX ABI for the curious\]. Test suite passes except for most the ffi tests.
+
+
+Other platforms haven't been tested at all. As using the back-end with a registered build of GHC requires a modified version of LLVM, people wanting to try it out on those platforms will need to either make the needed changes to LLVM themselves, or use an unregistered build of GHC which will work with a vanilla install of LLVM. (A patch for LLVM for x86 is linked to below.)
+
+# LLVM Backend Design
+
+
+The initial design tries to fit into GHC's current pipeline stages as seamlessly as possible. This allows for quicker development and focus on the core task of LLVM code generation.
+
+
+The LLVM pipeline works as follows:
+
+- New path for LLVM generation, separate from C and NCG. (path forks at compiler/main/CodeOutput.lhs, same place where C and NCG fork).
+- LLVM code generation will output LLVM assembly code.
+- The llvm assembly code is translated to an object file as follows
+
+  - First, there is an 'LlvmAs' phase which generates llvm bitcode from LLVM assembly code (using the `llvm-as` tool). 
+  - The llvm optimizer is run which is a series of bitcode to bitcode optimization passes (using the `llc` tool).
+  - Finally an object file is created from the llvm bitcode (using the `llc` tool)
+
+- This brings the LLVM path back to the other backends.
+- The final state is the Link stage, which uses the system linker as with the other backends.
+
+
+Here is a diagram of the pipeline:
+
+```wiki
+  Cmm -> (codeOutput) --->(ncg) Assembler                -->(mangler, splitter) --> ('As' phase) -----> Object Code --> (link) --> executable
+                          \---> LLVM Assembler           --> LLVM Optimizer     --> ('llc' phase) -----/
+```
+
+
+This approach was the easiest and thus quickest way to initially implement the LLVM backend. Now that it is working, there is some room for additional optimizations. A potential optimization would be to add a new linker phase for LLVM. Instead of each module just being compiled to native object code ASAP, it would be better to keep them in the LLVM bitcode format and link all the modules together using the LLVM linker. This enable all of LLVM's link time optimisations. All the user program LLVM bitcode will then be compiled to a native object file and linked with the runtime using the native system linker.
+
+## Implementation Issues
+
+### Register Pinning
+
+
+The new backend supports a custom calling convention to place the STG virtual registers into specific hardware registers. The current approach taken by the C back-end and NCG of having a fixed assignment of STG virtual registers to hardware registers for performance gains not implemented in the LLVM backend. Instead, it uses a custom calling convention to support something semantically equivalent to register pinning. The custom calling convention passes the first N variables in specific hardware registers, thus guaranteeing on all function entries that the STG virtual registers can be found in the expected hardware registers. This approach is hoped to provide better performance than the register pinning used by NCG/C back-ends as it keeps the STG virtual registers mostly in hardware registers but allows the register allocator more flexibility and access to all machine registers.
+
+### TABLES_NEXT_TO_CODE
+
+
+GHC for heap objects places the info table (meta data) and the code adjacent to each other. That is, in memory, the object firstly has a head structure, which consists of a pointer to an info table and a payload structure. The pointer points to the bottom of the info table and the closures code is placed to be straight after the info table, so to jump to the code we can just jump one past the info table pointer. The other way to do this would be to have the info table contain a pointer to the closure code. However this would then require two jumps to get to the code instead of just one jump in the optimized layout. Achieving this layout can create some difficulty, the current back-ends handle it as follows:
+
+- The NCG can create this layout itself
+- The C code generator can't. So the [Evil Mangler](commentary/evil-mangler) rearranges the GCC assembly code to achieve the layout. 
+
+
+There is a build option in GHC to use the unoptimised layout and instead use a pointer to the code in the info table. This layout can be enabled/disabled by using the compiler def TABLES_NEXT_TO_CODE. As LLVM has no means to achieve the optimised layout and we don't wish to write an LLVM sister for the Evil Mangler, the LLVM backend currently uses the unoptimised layout. This apparently incurs a performance penalty of 5% (source, Making a *Fast Curry: Push/Enter vs. Eval/Apply for Higher-order Languages*, Simon Marlow and Simon Peyton Jones, 2004).
+
+### Shared Code with NCG
+
+
+It is probable that some of the code needed by the LLVM back-end is already implemented for the NCG back-end. Some examples of this code would be the following two functions in *compiler/main/AsmCodeGen.lhs*:
+
+<table><tr><th>*fixAssignsTop*</th>
+<td>
+Changes assignments to global registers to instead assign to the RegTable, used for non-pinned virtual registers.
+</td></tr>
+<tr><th>*cmmToCmm*</th>
+<td>
+Optimises the cmm code, in particular it changes loads from global registers to instead load from the RegTable.
+</td></tr></table>
+
+### LLVM IR Representation
+
+
+The LLVM IR is modeled in GHC using an algebraic data type to represent the first order abstract syntax of the LLVM assembly code. The LLVM representation lives in the 'Llvm' subdirectory and also contains code for pretty printing. This is the same approach taken by [ EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome)'s LLVM Back-end, and we adapted the [ module](https://subversion.cs.uu.nl/repos/project.UHC.pub/trunk/EHC/src/ehc/LLVM.cag) developed by them for this purpose.
+
 # Performance
 
 
@@ -85,17 +163,6 @@ A quick summary of the results are that for the 'nofib' benchmark suite, the llv
 <tr><th>LLVM </th>
 <th> 1.14
 </th></tr></table>
-
-# Supported Platforms & Correctness
-
-
-Linux x86-32/x86-64 are currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
-
-
-Mac OS X 10.5 currently has a rather nasty bug with any dynamic lib calls (all libffi stuff) \[due to the stack not being 16byte aligned when the calls are made as required by OSX ABI for the curious\]. Test suite passes except for most the ffi tests.
-
-
-Other platforms haven't been tested at all. As using the back-end with a registered build of GHC requires a modified version of LLVM, people wanting to try it out on those platforms will need to either make the needed changes to LLVM themselves, or use an unregistered build of GHC which will work with a vanilla install of LLVM. (A patch for LLVM for x86 is linked to below.)
 
 ## Validate
 
@@ -170,3 +237,5 @@ Issues that might need to be resolved before merging the patch:
 1. The back-end has a LLVM binding of sorts, this binding is similar in design to say the Cmm representation used in GHC. It represents the LLVM Assembly language using a collection of data types and can pretty print it out correctly. This binding lives in the 'compiler/llvmGen/Llvm' folder. Should this binding be split out into a separate library?
 
 1. As mentioned above, LLVM needs to be patched to work with a registered build of GHC. If the llvm back-end was merged, how would this be handled? I would suggest simply carrying the patch with some instructions on how to use it in the GHC repo. People using GHC head could be expected to grab the LLVM source code and apply the patch themselves at this stage.
+
+1. Resolve code duplication issues with code shared with NCG (see 'Shared Code with NCG' in LLVM Backend Design section)
