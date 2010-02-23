@@ -5,6 +5,7 @@ After [Cmm](commentary/compiler/cmm-type) has been generated, we have a choice o
 
 - [The C code generator](commentary/compiler/backends/ppr-c)
 - [The native code generator](commentary/compiler/backends/ncg)
+- [The LLVM code generator](commentary/compiler/backends/llvm)
 - Future: a C-- code generator
 
 
