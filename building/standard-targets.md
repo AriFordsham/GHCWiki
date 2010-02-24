@@ -33,6 +33,8 @@ Build documentation below the current directory (if any) in HTML, PDF, or Postsc
 
 To see how these targets are defined: [Building/Architecture/Idiom/StandardTargets](building/architecture/idiom/standard-targets).
 
+## Top level targets
+
 
 The following targets are accepted only by the top-level `Makefile`:
 
@@ -73,4 +75,9 @@ tree for GHC, complete with some extra files included for
 convenience so that the user doesn't need to install `autoconf`,
 `Happy`, or `Alex` in order to build it.  Hence `make sdist` only
 works in a completely built tree.
+</td></tr></table>
+
+<table><tr><th>`tags`</th>
+<td>
+Makes files `TAGS` (for emacs) and `tags` (for vim) in the top-level directory.
 </td></tr></table>
