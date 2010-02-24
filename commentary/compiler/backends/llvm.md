@@ -4,27 +4,22 @@
 David Terei wrote a new code generator for GHC which targets the LLVM compiler infrastructure. Most of the work was done as part of an honours thesis at the University of New South Wales under the supervision of Manuel Chakravarty. Its now at a stage where it is under consideration to be merged into GHC mainline.
 
 
-The patch for the llvm back-end can be found here (should apply cleanly to GHC head):
-
-[ http://www.cse.unsw.edu.au/\~davidt/downloads/ghc-llvmbackend-full.gz](http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvmbackend-full.gz)
-
-
-This is what is under consideration to be merged into GHC head.
-
-
 The thesis paper which offers a detailed performance evaluation, as well as the motivation and design of the back-end can be found at:
 
 [ http://www.cse.unsw.edu.au/\~pls/thesis/davidt-thesis.pdf](http://www.cse.unsw.edu.au/~pls/thesis/davidt-thesis.pdf)
 
 
-Below I'll quickly detail out the important points though. There are also instructions on how to get started with the back-end.
+As the back-end isn't currently in GHC head, you need to follow the steps below to get it up and running.
+
+# Patches
+
+- GHC Patch (applies to GHC): [ http://www.cse.unsw.edu.au/\~davidt/downloads/ghc-llvmbackend-full.gz](http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvmbackend-full.gz)
+- LLVM Patch (applies to LLVM): [ http://www.cse.unsw.edu.au/\~davidt/downloads/llvm-ghc.patch](http://www.cse.unsw.edu.au/~davidt/downloads/llvm-ghc.patch)
 
 
-Finally there are also some issues that I think may need to be sorted out before a merge could be done. They are at the end.
+These are the patches that you should be working with, they are 'stable'. The back-end also lives in a Git repository where the actual development work is done, this can be found at [ https://cgi.cse.unsw.edu.au/\~davidt/cgit/cgit.cgi/Thesis%20GHC%20Dev/](https://cgi.cse.unsw.edu.au/~davidt/cgit/cgit.cgi/Thesis%20GHC%20Dev/)
 
 # Installing
-
-[ http://www.cse.unsw.edu.au/\~davidt/downloads/ghc-llvmbackend-full.gz](http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvmbackend-full.gz)
 
 
 Apply the darcs patch linked above to GHC head. This will make some changes across GHC, with the bulk of the new code ending up in 'compiler/llvmGen'.
@@ -38,12 +33,10 @@ GhcEnableTablesNextToCode = NO
 ```
 
 
-The llvm code generator doesn't support at this time the `TABLES_NEXT_TO_CODE` optimisation due to limitations with LLVM.
+The LLVM code generator doesn't support at this time the `TABLES_NEXT_TO_CODE` optimisation due to limitations with LLVM.
 
 
-You will also need LLVM installed on your computer to use the back-end. Version 2.6 or SVN trunk is supported. If you want to use the back-end in an unregistered ghc build, then you can use a vanilla build of LLVM. However if you want to use a registered ghc build (very likely) then you need to patch LLVM for this to work. The patch for llvm can be found here:
-
-[ http://www.cse.unsw.edu.au/\~davidt/downloads/llvm-ghc.patch](http://www.cse.unsw.edu.au/~davidt/downloads/llvm-ghc.patch)
+You will also need LLVM installed on your computer to use the back-end. Version 2.6 or SVN trunk is supported. If you want to use the back-end in an unregistered ghc build, then you can use a vanilla build of LLVM. However if you want to use a registered GHC build (very likely) then you need to patch LLVM for this to work using the patch provided above.
 
 
 LLVM is very easy to build and install. It can be done as follows:
@@ -63,7 +56,7 @@ Just make sure this modified version of LLVM is on your path and takes precedenc
 # Using
 
 
-Once GHC is built, you can trigger GHC to use the LLVM back-end with the `-fllvm` flag. There is also a new `-ddump-llvm` which will dump out the llvm IR code generated (must be used in combination with the `-fllvm` flag. (or use the `-keep-tmp-files` flag).
+Once GHC is built, you can trigger GHC to use the LLVM back-end with the `-fllvm` flag. There is also a new `-ddump-llvm` which will dump out the LLVM IR code generated (must be used in combination with the `-fllvm` flag. (or use the `-keep-tmp-files` flag).
 
 `ghc --info` should also now report that it includes the llvm code generator.
 
@@ -72,16 +65,34 @@ The [ ghc-core](http://hackage.haskell.org/package/ghc-core) tool also supports 
 
 # Supported Platforms & Correctness
 
+- Linux x86-32/x86-64 are currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
 
-Linux x86-32/x86-64 are currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
+- Mac OS X 10.5 currently has a rather nasty bug with any dynamic lib calls (all libffi stuff) \[due to the stack not being 16byte aligned when the calls are made as required by OSX ABI for the curious\]. Test suite passes except for most the ffi tests.
+
+- Other platforms haven't been tested at all. As using the back-end with a registered build of GHC requires a modified version of LLVM, people wanting to try it out on those platforms will need to either make the needed changes to LLVM themselves, or use an unregistered build of GHC which will work with a vanilla install of LLVM. (A patch for LLVM for x86 is linked to below.)
+
+# Performance
 
 
-Mac OS X 10.5 currently has a rather nasty bug with any dynamic lib calls (all libffi stuff) \[due to the stack not being 16byte aligned when the calls are made as required by OSX ABI for the curious\]. Test suite passes except for most the ffi tests.
+(All done on linux/x86-32)
 
 
-Other platforms haven't been tested at all. As using the back-end with a registered build of GHC requires a modified version of LLVM, people wanting to try it out on those platforms will need to either make the needed changes to LLVM themselves, or use an unregistered build of GHC which will work with a vanilla install of LLVM. (A patch for LLVM for x86 is linked to below.)
+A quick summary of the results are that for the 'nofib' benchmark suite, the LLVM code generator was 3.8% slower than the NCG (the C code generator was 6.9% slower than the NCG). The DPH project includes a benchmark suite which I (David Terei) also ran and for this type of code using the LLVM back-end shortened the runtime by an average of 25% compared to the NCG. Also, while not included in my thesis paper as I ran out of time, I did do some benchmarking with the 'nobench' benchmark suite. It gave performance ratios for the back-ends of around:
 
-# LLVM Backend Design
+<table><tr><th>NCG </th>
+<th> 1.11
+</th></tr>
+<tr><th>C </th>
+<th> 1.05
+</th></tr>
+<tr><th>LLVM </th>
+<th> 1.14
+</th></tr></table>
+
+
+A nice demonstration of the improvements the LLVM back-end can bring to some code though can be see at [ http://donsbot.wordpress.com/2010/02/21/smoking-fast-haskell-code-using-ghcs-new-llvm-codegen/](http://donsbot.wordpress.com/2010/02/21/smoking-fast-haskell-code-using-ghcs-new-llvm-codegen/)
+
+# LLVM Back-end Design
 
 
 The initial design tries to fit into GHC's current pipeline stages as seamlessly as possible. This allows for quicker development and focus on the core task of LLVM code generation.
@@ -91,14 +102,14 @@ The LLVM pipeline works as follows:
 
 - New path for LLVM generation, separate from C and NCG. (path forks at compiler/main/CodeOutput.lhs, same place where C and NCG fork).
 - LLVM code generation will output LLVM assembly code.
-- The llvm assembly code is translated to an object file as follows
+- The LLVM assembly code is translated to an object file as follows
 
-  - First, there is an 'LlvmAs' phase which generates llvm bitcode from LLVM assembly code (using the `llvm-as` tool). 
-  - The llvm optimizer is run which is a series of bitcode to bitcode optimization passes (using the `llc` tool).
-  - Finally an object file is created from the llvm bitcode (using the `llc` tool)
+  - First, there is an 'LlvmAs' phase which generates LLVM bitcode from LLVM assembly code (using the `llvm-as` tool). 
+  - The LLVM optimizer is run which is a series of bitcode to bitcode optimization passes (using the `llc` tool).
+  - Finally an object file is created from the LLVM bitcode (using the `llc` tool)
 
-- This brings the LLVM path back to the other backends.
-- The final state is the Link stage, which uses the system linker as with the other backends.
+- This brings the LLVM path back to the other back-ends.
+- The final state is the Link stage, which uses the system linker as with the other back-ends.
 
 
 Here is a diagram of the pipeline:
@@ -109,25 +120,30 @@ Here is a diagram of the pipeline:
 ```
 
 
-This approach was the easiest and thus quickest way to initially implement the LLVM backend. Now that it is working, there is some room for additional optimizations. A potential optimization would be to add a new linker phase for LLVM. Instead of each module just being compiled to native object code ASAP, it would be better to keep them in the LLVM bitcode format and link all the modules together using the LLVM linker. This enable all of LLVM's link time optimisations. All the user program LLVM bitcode will then be compiled to a native object file and linked with the runtime using the native system linker.
+This approach was the easiest and thus quickest way to initially implement the LLVM back-end. Now that it is working, there is some room for additional optimisations. A potential optimisation would be to add a new linker phase for LLVM. Instead of each module just being compiled to native object code ASAP, it would be better to keep them in the LLVM bitcode format and link all the modules together using the LLVM linker. This enable all of LLVM's link time optimisations. All the user program LLVM bitcode will then be compiled to a native object file and linked with the runtime using the native system linker.
 
 # Implementation Issues
+
+## LLVM Changes
+
+
+The biggest problem is that LLVM doesn't provide all the features we need. The two issues below, 'Register Pinning' and 'TNTC' are the primary examples of this. While there is a patch for LLVM to partially correct fix this, this is a problem in itself as we now must include in GHC our own version of LLVM. Eventually we need to either get the changes we need included in LLVM or improve LLVM so that the features we require could be included dynamically.
 
 ## Register Pinning
 
 
-The new backend supports a custom calling convention to place the STG virtual registers into specific hardware registers. The current approach taken by the C back-end and NCG of having a fixed assignment of STG virtual registers to hardware registers for performance gains not implemented in the LLVM backend. Instead, it uses a custom calling convention to support something semantically equivalent to register pinning. The custom calling convention passes the first N variables in specific hardware registers, thus guaranteeing on all function entries that the STG virtual registers can be found in the expected hardware registers. This approach is hoped to provide better performance than the register pinning used by NCG/C back-ends as it keeps the STG virtual registers mostly in hardware registers but allows the register allocator more flexibility and access to all machine registers.
+The new back-end supports a custom calling convention to place the STG virtual registers into specific hardware registers. The current approach taken by the C back-end and NCG of having a fixed assignment of STG virtual registers to hardware registers for performance gains is not implemented in the LLVM back-end. Instead, it uses a custom calling convention to support something semantically equivalent to register pinning. The custom calling convention passes the first N variables in specific hardware registers, thus guaranteeing on all function entries that the STG virtual registers can be found in the expected hardware registers. This approach is believed to provide better performance than the register pinning used by NCG/C back-ends as it keeps the STG virtual registers mostly in hardware registers but allows the register allocator more flexibility and access to all machine registers.
 
 ## TABLES_NEXT_TO_CODE
 
 
-GHC for heap objects places the info table (meta data) and the code adjacent to each other. That is, in memory, the object firstly has a head structure, which consists of a pointer to an info table and a payload structure. The pointer points to the bottom of the info table and the closures code is placed to be straight after the info table, so to jump to the code we can just jump one past the info table pointer. The other way to do this would be to have the info table contain a pointer to the closure code. However this would then require two jumps to get to the code instead of just one jump in the optimized layout. Achieving this layout can create some difficulty, the current back-ends handle it as follows:
+GHC for heap objects places the info table (meta data) and the code adjacent to each other. That is, in memory, the object firstly has a head structure, which consists of a pointer to an info table and a payload structure. The pointer points to the bottom of the info table and the closures code is placed to be straight after the info table, so to jump to the code we can just jump one past the info table pointer. The other way to do this would be to have the info table contain a pointer to the closure code. However this would then require two jumps to get to the code instead of just one jump in the optimised layout. Achieving this layout can create some difficulty, the current back-ends handle it as follows:
 
 - The NCG can create this layout itself
 - The C code generator can't. So the [Evil Mangler](commentary/evil-mangler) rearranges the GCC assembly code to achieve the layout. 
 
 
-There is a build option in GHC to use the unoptimised layout and instead use a pointer to the code in the info table. This layout can be enabled/disabled by using the compiler def TABLES_NEXT_TO_CODE. As LLVM has no means to achieve the optimised layout and we don't wish to write an LLVM sister for the Evil Mangler, the LLVM backend currently uses the unoptimised layout. This apparently incurs a performance penalty of 5% (source, Making a *Fast Curry: Push/Enter vs. Eval/Apply for Higher-order Languages*, Simon Marlow and Simon Peyton Jones, 2004).
+There is a build option in GHC to use the unoptimised layout and instead use a pointer to the code in the info table. This layout can be enabled/disabled by using the compiler `#def TABLES_NEXT_TO_CODE`. As LLVM has no means to achieve the optimised layout and we don't wish to write an LLVM sister for the Evil Mangler, the LLVM back-end currently uses the unoptimised layout. This apparently incurs a performance penalty of 5% (source, Making a *Fast Curry: Push/Enter vs. Eval/Apply for Higher-order Languages*, Simon Marlow and Simon Peyton Jones, 2004).
 
 ## Shared Code with NCG
 
@@ -148,28 +164,13 @@ Optimises the cmm code, in particular it changes loads from global registers to 
 
 The LLVM IR is modeled in GHC using an algebraic data type to represent the first order abstract syntax of the LLVM assembly code. The LLVM representation lives in the 'Llvm' subdirectory and also contains code for pretty printing. This is the same approach taken by [ EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome)'s LLVM Back-end, and we adapted the [ module](https://subversion.cs.uu.nl/repos/project.UHC.pub/trunk/EHC/src/ehc/LLVM.cag) developed by them for this purpose.
 
-# Performance
 
-
-(All done on linux/x86-32)
-
-
-A quick summary of the results are that for the 'nofib' benchmark suite, the llvm code generator was 3.8% slower than the NCG (the C code generator was 6.9% slower than the NCG). The DPH project includes a benchmark suite which I also ran and for this type of code using the llvm back-end shortened the runtime by an average of 25% compared to the NCG. Also, while not included in my thesis paper as I ran out of time, I did do some benchmarking with the 'nobench' benchmark suite. It gave performance ratios for the back-ends of around:
-
-<table><tr><th>NCG </th>
-<th> 1.11
-</th></tr>
-<tr><th>C </th>
-<th> 1.05
-</th></tr>
-<tr><th>LLVM </th>
-<th> 1.14
-</th></tr></table>
+It is an open question as to if this binding should be split out into its own cabal package. Please contact the GHC mailing list if you think you might be a user of such a package.
 
 # Validate
 
 
-I've validated my GHC patch to make sure it won't break anything. This is just compiling and running GHC normally but with the llvm back-end code included. It doesn't actually test the llvm code generator, just makes sure it hasn't broken the NCG or C code generator.
+The GHC patch has been validated to make sure it won't break anything. This is just compiling and running GHC normally but with the LLVM back-end code included. It doesn't actually test the LLVM code generator, just makes sure it hasn't broken the NCG or C code generator.
 
 **Linux/x86-32:**
 
@@ -227,17 +228,4 @@ ffi005(optc)
 ```
 
 
-All of the test failures fail for me with a unmodified GHC head build as well as when the llvm patch is included, so the llvm patch isn't introducing any new failures.
-
-# Issues
-
-
-Issues that might need to be resolved before merging the patch:
-
-1. Developed in isolation by 1 person with no Haskell knowledge at first. So usual issues with that may apply, misused data structures, bad style... ect. Criticisms of the code are very welcome. There are some specific notes on what I think may be wrong with the code atm in 'compiler/llvmGen/NOTES'.
-
-1. The back-end has a LLVM binding of sorts, this binding is similar in design to say the Cmm representation used in GHC. It represents the LLVM Assembly language using a collection of data types and can pretty print it out correctly. This binding lives in the 'compiler/llvmGen/Llvm' folder. Should this binding be split out into a separate library?
-
-1. As mentioned above, LLVM needs to be patched to work with a registered build of GHC. If the llvm back-end was merged, how would this be handled? I would suggest simply carrying the patch with some instructions on how to use it in the GHC repo. People using GHC head could be expected to grab the LLVM source code and apply the patch themselves at this stage.
-
-1. Resolve code duplication issues with code shared with NCG (see 'Shared Code with NCG' in LLVM Backend Design section)
+All of the test failures fail for me with a unmodified GHC head build as well as when the LLVM patch is included, so the llvm patch isn't introducing any new failures.
