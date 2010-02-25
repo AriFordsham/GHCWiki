@@ -138,7 +138,7 @@ For the moment I've handled it in the first way as I felt my patch had a better 
 
 If a function is initially used as a label (e.g the address of it is taken) then the code generator creates an external reference label for it. Later if that function is called directly as a funciton then as it has previously been defined as a function the code generator gets confused and creates an invalid bitcast. Could either look to redefine the function label when more information is encountered, or just fix up the bitcast.
 
-## Possible Problems
+## Possible Problems (Unconfirmed Bugs)
 
 - See GHC trac ticket [\#1852](https://gitlab.haskell.org//ghc/ghc/issues/1852). Floats are padded to word size (4 extra bytes on a 64 bit machine) by putting an appropriate `CmmLit` before them. On `fasm` this is necessary and forces the NCG to produce correct code. On `fvia-C`, this isn't necessary so it strips this padding out. What approach does LLVM blocks end in a control flow statement which seems pretty useful to me.  need?
 
@@ -150,7 +150,7 @@ If a function is initially used as a label (e.g the address of it is taken) then
 
 - Using hard-coded names for my implementation of STG virtual registers. I think this is fine but should check what are the rules for the unique name generator to make sure it can't conflict. Or perhaps generate unique names for them at the start of each function.
 
-# Todo
+# TODO Items
 
 - look into lto/gold.
 - Use a new Monad instead of passing `LlvmEnv` around everywhere.
