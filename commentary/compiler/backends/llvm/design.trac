@@ -175,7 +175,7 @@ R1   -> %ESI
 
 These are all the available `callee save` registers on x86. `callee save` are used as in ghc generated code now saving and restoring of these registers are needed due to there new special use and because GHC uses continuation passing style, so a `'ret'` statement is never actually generated. And since they are `callee save`, foreign code can also be called without any need to handle the `Cmm` registers.
 
-== `CmmData` ==
+== !CmmData ==
 
 `CmmData` takes the following form:
 
@@ -207,7 +207,7 @@ The code generation for data occurs in two phases, firstly the types and all dat
 
 All `CmmStatic` is translated to LLVM structures.
 
-== `CmmStaticLit` ==
+== !CmmStaticLit ==
 
 These are translated when possible as follows:
   * `CmmInt` -> Reduced to Int and then an appropriate `LMInt` of correct size is created. As LLVM supports any bit size, this is very straight forward.
@@ -218,15 +218,15 @@ These are translated when possible as follows:
   * `CmmBlock` -> `BlockId` is changed to a `CLabel` and then treated as a `CmmLabel` static type.
   * `CmmHighStackMark` -> Panic occurs if this type is encountered.
 
-==== `CmmUninitialised` ====
+==== !CmmUninitialised ====
 
 For this, a zeroed array of `8bit` values is created of correct size.
 
-==== `CmmAlign` & `CmmDataLabel` ====
+==== !CmmAlign & !CmmDataLabel ====
 
 The LLVM back-end can't handle `CmmAlign` or `CmmDataLabel`. A panic occurs if either is encountered. A `CmmDataLabel` is expected at the very start of each list of `CmmStatic`. It is removed and used as the name for the structure and constant instance.
 
-==== `CmmString` ====
+==== !CmmString ====
 
 This is translated into a LLVM string. Ascii characters are used when they are printable, escaped hex values otherwise. A null termination is added.
 
@@ -242,6 +242,6 @@ Now appropriate pointers can be generated using the type information from the ma
 
 Where i32 is the pointer size. (i64 if on 64 bit).
 
-== `CmmProc` ==
+== !CmmProc ==
 
 TODO
