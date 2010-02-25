@@ -1,0 +1,48 @@
+# LlVM Back-end Issues
+
+
+This page list some of the issues and problems with the current implementation of the LLVM back-end. Hopefully they will slowly be resolved.
+
+## LLVM Changes
+
+
+The biggest problem is that LLVM doesn't provide all the features we need. The two issues below, 'Register Pinning' and 'TNTC' are the primary examples of this. While there is a patch for LLVM to partially correct fix this, this is a problem in itself as we now must include in GHC our own version of LLVM. Eventually we need to either get the changes we need included in LLVM or improve LLVM so that the features we require could be included dynamically.
+
+## Register Pinning
+
+
+The new back-end supports a custom calling convention to place the STG virtual registers into specific hardware registers. The current approach taken by the C back-end and NCG of having a fixed assignment of STG virtual registers to hardware registers for performance gains is not implemented in the LLVM back-end. Instead, it uses a custom calling convention to support something semantically equivalent to register pinning. The custom calling convention passes the first N variables in specific hardware registers, thus guaranteeing on all function entries that the STG virtual registers can be found in the expected hardware registers. This approach is believed to provide better performance than the register pinning used by NCG/C back-ends as it keeps the STG virtual registers mostly in hardware registers but allows the register allocator more flexibility and access to all machine registers.
+
+## TABLES_NEXT_TO_CODE
+
+
+GHC for heap objects places the info table (meta data) and the code adjacent to each other. That is, in memory, the object firstly has a head structure, which consists of a pointer to an info table and a payload structure. The pointer points to the bottom of the info table and the closures code is placed to be straight after the info table, so to jump to the code we can just jump one past the info table pointer. The other way to do this would be to have the info table contain a pointer to the closure code. However this would then require two jumps to get to the code instead of just one jump in the optimised layout. Achieving this layout can create some difficulty, the current back-ends handle it as follows:
+
+- The NCG can create this layout itself
+- The C code generator can't. So the [Evil Mangler](commentary/evil-mangler) rearranges the GCC assembly code to achieve the layout. 
+
+
+There is a build option in GHC to use the unoptimised layout and instead use a pointer to the code in the info table. This layout can be enabled/disabled by using the compiler `#def TABLES_NEXT_TO_CODE`. As LLVM has no means to achieve the optimised layout and we don't wish to write an LLVM sister for the Evil Mangler, the LLVM back-end currently uses the unoptimised layout. This apparently incurs a performance penalty of 5% (source, Making a *Fast Curry: Push/Enter vs. Eval/Apply for Higher-order Languages*, Simon Marlow and Simon Peyton Jones, 2004).
+
+## Shared Code with NCG
+
+
+It is probable that some of the code needed by the LLVM back-end is already implemented for the NCG back-end. Some examples of this code would be the following two functions in *compiler/main/AsmCodeGen.lhs*:
+
+<table><tr><th>*fixAssignsTop*</th>
+<td>
+Changes assignments to global registers to instead assign to the RegTable, used for non-pinned virtual registers.
+</td></tr></table>
+
+<table><tr><th>*cmmToCmm*</th>
+<td>
+Optimises the cmm code, in particular it changes loads from global registers to instead load from the RegTable.
+</td></tr></table>
+
+## LLVM IR Representation
+
+
+The LLVM IR is modeled in GHC using an algebraic data type to represent the first order abstract syntax of the LLVM assembly code. The LLVM representation lives in the 'Llvm' subdirectory and also contains code for pretty printing. This is the same approach taken by [ EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome)'s LLVM Back-end, and we adapted the [ module](https://subversion.cs.uu.nl/repos/project.UHC.pub/trunk/EHC/src/ehc/LLVM.cag) developed by them for this purpose.
+
+
+It is an open question as to if this binding should be split out into its own cabal package. Please contact the GHC mailing list if you think you might be a user of such a package.
