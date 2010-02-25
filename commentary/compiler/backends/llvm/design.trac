@@ -1,0 +1,23 @@
+[[PageOutline]]
+= LLVM Back-end Design =
+
+The initial design tries to fit into GHC's current pipeline stages as seamlessly as possible. This allows for quicker development and focus on the core task of LLVM code generation.
+
+The LLVM pipeline works as follows:
+  * New path for LLVM generation, separate from C and NCG. (path forks at compiler/main/CodeOutput.lhs, same place where C and NCG fork).
+  * LLVM code generation will output LLVM assembly code.
+  * The LLVM assembly code is translated to an object file as follows
+     * First, there is an '!LlvmAs' phase which generates LLVM bitcode from LLVM assembly code (using the {{{llvm-as}}} tool). 
+     * The LLVM optimizer is run which is a series of bitcode to bitcode optimization passes (using the {{{llc}}} tool).
+     * Finally an object file is created from the LLVM bitcode (using the {{{llc}}} tool)
+  * This brings the LLVM path back to the other back-ends.
+  * The final state is the Link stage, which uses the system linker as with the other back-ends.
+
+Here is a diagram of the pipeline:
+
+{{{
+  Cmm -> (codeOutput) --->(ncg) Assembler                -->(mangler, splitter) --> ('As' phase) -----> Object Code --> (link) --> executable
+                          \---> LLVM Assembler           --> LLVM Optimizer     --> ('llc' phase) -----/
+}}}
+
+This approach was the easiest and thus quickest way to initially implement the LLVM back-end. Now that it is working, there is some room for additional optimisations. A potential optimisation would be to add a new linker phase for LLVM. Instead of each module just being compiled to native object code ASAP, it would be better to keep them in the LLVM bitcode format and link all the modules together using the LLVM linker. This enable all of LLVM's link time optimisations. All the user program LLVM bitcode will then be compiled to a native object file and linked with the runtime using the native system linker.
