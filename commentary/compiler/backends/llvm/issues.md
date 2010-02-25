@@ -13,6 +13,9 @@ The biggest problem is that LLVM doesn't provide all the features we need. The t
 
 The new back-end supports a custom calling convention to place the STG virtual registers into specific hardware registers. The current approach taken by the C back-end and NCG of having a fixed assignment of STG virtual registers to hardware registers for performance gains is not implemented in the LLVM back-end. Instead, it uses a custom calling convention to support something semantically equivalent to register pinning. The custom calling convention passes the first N variables in specific hardware registers, thus guaranteeing on all function entries that the STG virtual registers can be found in the expected hardware registers. This approach is believed to provide better performance than the register pinning used by NCG/C back-ends as it keeps the STG virtual registers mostly in hardware registers but allows the register allocator more flexibility and access to all machine registers.
 
+
+For some more information about the use of a custom calling convention see [ here (Discussion between Chris Lattner and David Terei)](http://www.nondot.org/sabre/LLVMNotes/GlobalRegisterVariables.txt)
+
 ## TABLES_NEXT_TO_CODE
 
 
