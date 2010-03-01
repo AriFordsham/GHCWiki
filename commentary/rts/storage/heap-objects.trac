@@ -306,7 +306,7 @@ Where:
  * The payload is the sequence of arguments already applied to
    this function.  The pointerhood of these words are described
    by the function's bitmap (see {{{scavenge_PAP_payload()}}} in 
-   [[GhcFile(rts/sm/GC.c)]] for an example of traversing a PAP).
+   [[GhcFile(rts/sm/Scav.c)]] for an example of traversing a PAP).
 
 There is just one standard form of PAP. There is just one info table
 too, called {{{stg_PAP_info}}}.  A PAP should never be entered, so its
