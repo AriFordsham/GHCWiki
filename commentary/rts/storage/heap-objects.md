@@ -379,7 +379,7 @@ Where:
 - The payload is the sequence of arguments already applied to
   this function.  The pointerhood of these words are described
   by the function's bitmap (see `scavenge_PAP_payload()` in 
-  [rts/sm/GC.c](/trac/ghc/browser/ghc/rts/sm/GC.c) for an example of traversing a PAP).
+  [rts/sm/Scav.c](/trac/ghc/browser/ghc/rts/sm/Scav.c) for an example of traversing a PAP).
 
 
 There is just one standard form of PAP. There is just one info table
