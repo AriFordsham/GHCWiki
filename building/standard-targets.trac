@@ -56,5 +56,5 @@ The following targets are accepted only by the top-level `Makefile`:
   `Happy`, or `Alex` in order to build it.  Hence `make sdist` only
   works in a completely built tree.
 
-  `tags`::
+  `TAGS`, `tags`::
   Makes files `TAGS` (for emacs) and `tags` (for vim) in the top-level directory.

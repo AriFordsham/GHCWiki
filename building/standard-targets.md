@@ -77,7 +77,7 @@ convenience so that the user doesn't need to install `autoconf`,
 works in a completely built tree.
 </td></tr></table>
 
-<table><tr><th>`tags`</th>
+<table><tr><th>`TAGS`, `tags`</th>
 <td>
 Makes files `TAGS` (for emacs) and `tags` (for vim) in the top-level directory.
 </td></tr></table>
