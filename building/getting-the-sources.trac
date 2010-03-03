@@ -77,6 +77,19 @@ On MacOS X this can be [wiki:Building/MacOSX#Caseinsensitivity worked around usi
 
 If you omit step (3), then `darcs-all` will pull patches into the GHC repository too. If one of those patches modifies the `darcs-all` script itself, then bizarre things can happen (or at least: in the past, they could happen.) The safe thing to do is to get your main `ghc` repo up to date (step 3) and then run the script.
 
+If you see any of the following error messages on Windows (the filename varies)
+{{{
+Warning: ./compiler/main/DynFlags.hs-0: renameFile: permission denied (Permission denied)
+darcs failed:  Error applying hunk to file ./compiler/main/DynFlags.hs
+Error applying patch to the working directory.
+}}}
+{{{
+darcs failed:  ./ghc.mk-0: renameFile: permission denied (Permission denied)
+Your repository is now in an inconsistent state.
+This must be fixed by running darcs repair.
+}}}
+after doing {{{darcs pull -a}}}, then use newest darcs. Version 2.0.2 is broken, version 2.3.1 works.
+
 == Getting a GHC source tree using git ==
 
 NOTE: This is not yet supported. We currently recommend you use darcs to get a source tree.
