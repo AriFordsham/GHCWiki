@@ -37,7 +37,7 @@ If you only want to download the latest sources and aren't interested in working
   $ chmod +x darcs-all
   $ ./darcs-all --testsuite get
 }}}
-The command `darcs-all` adds the `--partial` flag by default.
+The [wiki:Building/DarcsAll darcs-all script] adds the `--partial` flag by default.
 
 The full list of darcs repositories relating to GHC is at DarcsRepositories.
 
