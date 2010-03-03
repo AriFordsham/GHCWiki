@@ -9,8 +9,7 @@ Everything starts with the main GHC repository (see [Building/GettingTheSources]
 ## Files in `$(TOP)`
 
 <table><tr><th>**`darcs-all`**</th>
-<td>
-This script allows you to get or pull all the additional repositories that you need to build GHC.  The command-line interface is documented in the file itself.
+<td>[This script](building/darcs-all) allows you to get or pull all the additional repositories that you need to build GHC.  The command-line interface is documented in the file itself.
 </td></tr></table>
 
 <table><tr><th>**`packages`**</th>
