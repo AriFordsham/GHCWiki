@@ -10,7 +10,7 @@ Everything starts with the main GHC repository (see [wiki:Building/GettingTheSou
 == Files in `$(TOP)` ==
 
  '''`darcs-all`'''::
-  This script allows you to get or pull all the additional repositories that you need to build GHC.  The command-line interface is documented in the file itself.
+  [wiki:Building/DarcsAll This script] allows you to get or pull all the additional repositories that you need to build GHC.  The command-line interface is documented in the file itself.
 
  '''`packages`'''::
   Lists the packages that `darcs-all` should get or pull.  `packages` is looked at only by `darcs-all`.
