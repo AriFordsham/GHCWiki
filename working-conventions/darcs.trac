@@ -77,7 +77,7 @@ Do not forget to {{{darcs record}}} your changes first!
 
 A GHC tree consists of several repositories (see [wiki:Building/GettingTheSources]).  Sometimes you want to push from them all at the same time, for example after running a validate (see TestingPatches).
 
-It's good practice to have a completely clean set of repositories locally, i.e. a locally cached copy of the main repositories on `darcs.haskell.org`.  This is useful for creating new trees quickly, or comparing your trees to the HEAD.  To see which patches you have in a GHC tree relative to a clean repository, you can use the `push-all` script in the root of the GHC repository:
+It's good practice to have a completely clean set of repositories locally, i.e. a locally cached copy of the main repositories on `darcs.haskell.org`.  This is useful for creating new trees quickly, or comparing your trees to the HEAD.  To see which patches you have in a GHC tree relative to a clean repository, you can use the [wiki:Building/DarcsAll darcs-all script] in the root of the GHC repository:
 
 {{{
   $ ./darcs-all -r ~/ghc-HEAD push --dry-run --no-set-default
