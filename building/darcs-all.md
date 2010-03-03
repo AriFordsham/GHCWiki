@@ -6,6 +6,8 @@ A GHC tree consists of [multiple repositories](darcs-repositories). The `darcs-a
 
 The basic interface to `darcs-all` is described in comments at the top of the [ source file](http://darcs.haskell.org/darcs-all).
 
+**Warning for Windows users**: see [\#3899](https://gitlab.haskell.org//ghc/ghc/issues/3899). The bottom line is: make sure that `$(TOP)/_darcs/prefs/defaultrepos` has an HTTP url like `http://darcs/haskell.org/ghc`, not a SSH address like `darcs.haskell.org:/home/darcs/ghc`.
+
 ## Pulling new patches
 
 
