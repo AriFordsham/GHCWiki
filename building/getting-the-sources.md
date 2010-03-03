@@ -45,7 +45,7 @@ If you only want to download the latest sources and aren't interested in working
 ```
 
 
-The command `darcs-all` adds the `--partial` flag by default.
+The [darcs-all script](building/darcs-all) adds the `--partial` flag by default.
 
 
 The full list of darcs repositories relating to GHC is at [DarcsRepositories](darcs-repositories).
