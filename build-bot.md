@@ -1,4 +1,4 @@
-**Error: Macro BackLinks(None) failed**'Environment' object has no attribute 'get_db_cnx'
+**Error: Macro BackLinks(BuildBot) failed**'Environment' object has no attribute 'get_db_cnx'
 
 # Current status
 
