@@ -64,7 +64,6 @@ The following documentation would need to change:
 - [GettingStarted](getting-started)
 
 - [TestingPatches](testing-patches)
-- [BuildBot](build-bot)
 
 ## Plan for libraries
 
