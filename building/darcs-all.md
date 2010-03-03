@@ -1,8 +1,10 @@
 # darcs-all: operations over all GHC repositories at once
 
 
-A GHC tree consists of [multiple repositories](darcs-repositories). The `darcs-all` script lets you operate over them all at once.
-To update your tree from the master repositories, the quickest way is to use the `darcs-all` script:
+A GHC tree consists of [multiple repositories](darcs-repositories). The `darcs-all` Perl script lets you operate over them all at once.
+
+
+The basic interface to `darcs-all` is described in comments at the top of the [ source file](http://darcs.haskell.org/darcs-all).
 
 ## Pulling new patches
 
