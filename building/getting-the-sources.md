@@ -109,7 +109,7 @@ Warning: ./compiler/main/DynFlags.hs-0: renameFile: permission denied (Permissio
 ```
 
 
-then use newest darcs. Version 2.0.2 is broken, version 2.3.1 works.
+after doing `darcs pull -a`, then use newest darcs. Version 2.0.2 is broken, version 2.3.1 works.
 
 ## Getting a GHC source tree using git
 
