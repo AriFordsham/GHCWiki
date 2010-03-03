@@ -6,6 +6,9 @@ This page lists the active darcs repositories relating to GHC.  For instructions
 ## The HEAD
 
 
+The Master List of repositories is in the file [ $(TOP)/packages](http://darcs.haskell.org/ghc/packages).  It is authoritative.  Everything else in this sub-section may be out of date, although it gives the right general idea.
+
+
 These darcs repositories are the HEAD (main trunk) of GHC development:
 
 <table><tr><th>[ http://darcs.haskell.org/ghc](http://darcs.haskell.org/ghc)</th>
