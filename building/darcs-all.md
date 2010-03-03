@@ -4,7 +4,7 @@
 A GHC tree consists of [multiple repositories](darcs-repositories). The `darcs-all` Perl script lets you operate over them all at once.
 
 
-The basic interface to `darcs-all` is described in comments at the top of the [ source file](http://darcs.haskell.org/darcs-all).
+The basic interface to `darcs-all` is described in comments at the top of the [ source file](http://darcs.haskell.org/ghc/darcs-all).
 
 **Warning for Windows users**: see [\#3899](https://gitlab.haskell.org//ghc/ghc/issues/3899). The bottom line is this
 
