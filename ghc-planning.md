@@ -10,10 +10,6 @@ Ian's projects
 
 - **space-and-time perf sweep of the HEAD** (post 6.6.1)
 
-- **[BuildBot](build-bot)**:
-
-  - Set up unregisterised nightly build?
-
 - **Building libraries using Cabal**: Tidy up patches, do haddocking, test, then push.
   Don't worry about unreg way: we'll probably drop it anyway, and for nightly testing we
   can just do a full unreg build. Can't build the GHC package with --make due to
