@@ -77,3 +77,45 @@ When the runtime is idle, the OS threads will all be waiting inside `yieldCapabi
 
 
 The solution we use, on both Windows and POSIX systems, is to pass all signals that arrive to the [IO Manager](commentary/rts/io-manager) thread.  On POSIX this works by sending the signal number down a pipe, on Windows it works by storing the signal number in a buffer and signaling the IO Manager's `Event` object to wake it up.  The IO Manager thread then wakes up and creates a new thread for the signal handler, before going back to sleep again.
+
+## RTS Alarm Signals and Foreign Libraries
+
+
+When using foreign libraries through the Haskell FFI, it is important
+to ensure that the foreign code is capable of dealing with system call
+interrupts due to alarm signals.  For example, in this `strace` output
+a `select` call is interrupted, but the foreign C code interprets the
+interrupt as an application error and closes a critical file
+descriptor:
+
+```wiki
+[pid 22338] send(7, "\1\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 116, MSG_NOSIGNAL) = 116
+[pid 22338] select(8, [7], NULL, NULL, NULL) = ? ERESTARTNOHAND (To be restarted)
+[pid 22338] --- SIGVTALRM (Virtual timer expired) @ 0 (0) ---
+[pid 22338] sigreturn()                 = ? (mask now [])
+[pid 22338] gettimeofday({1267656511, 467069}, NULL) = 0
+[pid 22338] stat64("/etc/localtime", {st_mode=S_IFREG|0644, st_size=3519, ...}) = 0
+[pid 22338] write(6, "Communication failed in RPC"..., 176) = 176
+[pid 22338] close(7)                    = 0
+```
+
+
+Once the C code was modified to deal with the interrupt properly, it
+proceeded correctly:
+
+```wiki
+[pid 23967] send(7, "\f\0\0\0\244\1\0\0\0\0\0\0B\4\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 536, MSG_NOSIGNAL <unfinished ...>
+[pid 23968] <... select resumed> )      = ? ERESTARTNOHAND (To be restarted)
+[pid 23968] --- SIGVTALRM (Virtual timer expired) @ 0 (0) ---
+[pid 23968] sigreturn()                 = ? (mask now [])
+[pid 23968] futex(0x9b52a88, FUTEX_WAIT_PRIVATE, 7, NULL <unfinished ...>
+[pid 23967] <... send resumed> )        = 536
+[pid 23967] select(8, [7], NULL, NULL, NULL) = ? ERESTARTNOHAND (To be restarted)
+[pid 23967] --- SIGVTALRM (Virtual timer expired) @ 0 (0) ---
+[pid 23967] sigreturn()                 = ? (mask now [])
+[pid 23967] select(8, [7], NULL, NULL, NULL) = ? ERESTARTNOHAND (To be restarted)
+[pid 23967] --- SIGVTALRM (Virtual timer expired) @ 0 (0) ---
+[pid 23967] sigreturn()                 = ? (mask now [])
+[pid 23967] select(8, [7], NULL, NULL, NULL) = 1 (in [7])
+[pid 23967] recv(7, "\7\2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\200\0\0\0\244]\0\0\0\0\0\0\0\0\0\0"..., 116, 0) = 116
+```
