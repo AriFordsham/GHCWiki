@@ -9,12 +9,18 @@ from Heriot-Watt and St Andrews Univ, with others joining in over Skype.
 
 ## Meetings
 
-### March 8th, 2010 ==
+### March 8th, 2010
+
+
+Where: EM 1.58 (Mountbatten building), Heriot-Watt Univ, Edinburgh 
+
+> [ Web Map](http://www.hw.ac.uk/maps/detailed-campus-map.pdf)
+
+
+When:  1:30 - 4:00 pm, March 8th, 2010.
 
 
 Agenda for the GpH/Eden mtg March 8th, 2010.
-
-
 This intentionally gives only a rough structure for the discussions at the mtg:
 
 - Strategic discussion on GpH:
@@ -27,7 +33,6 @@ This intentionally gives only a rough structure for the discussions at the mtg:
     - Pick your top 3 tools etc that would help your research
     - Pick your top 3 challenge applications
     - Pick your top 3 arguments why a Fortran programmer should switch to Haskell
-
 - Technical discussion on GpH:
 
   - Updates on GpH/Eden sub-tasks (see [ GpHEden Wiki](http://hackage.haskell.org/trac/ghc/wiki/GpHEden))
@@ -37,7 +42,6 @@ This intentionally gives only a rough structure for the discussions at the mtg:
     - Application-level abstractions for parallelism
     - Language-level primitives for controlling parallelism
     - RTS-level implementation
-
 - Future directions:
 
   - Next steps in Eden/GUM integration
