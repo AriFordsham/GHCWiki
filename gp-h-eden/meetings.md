@@ -18,8 +18,8 @@ Where: EM 1.58 (Mountbatten building), Heriot-Watt Univ, Edinburgh  [ Web Map](h
 When:  1:30 - 4:00 pm, March 8th, 2010.
 
 
-Agenda for the GpH/Eden mtg March 8th, 2010.
-This intentionally gives only a rough structure for the discussions at the mtg:
+Agenda 
+(this intentionally gives only a rough structure for the discussions at the mtg):
 
 - Strategic discussion on GpH:
 
@@ -29,7 +29,7 @@ This intentionally gives only a rough structure for the discussions at the mtg:
   - Define focus for future developments: 
 
     - Pick your top 3 tools etc that would help your research
-    - Pick your top 3 challenge applications
+    - Pick your top 3 challenge applications [ SICSA Multi-core Challenge](http://www.sicsa.ac.uk/news/sicsa-multicore-challenge)
     - Pick your top 3 arguments why a Fortran programmer should switch to Haskell
 - Technical discussion on GpH:
 
