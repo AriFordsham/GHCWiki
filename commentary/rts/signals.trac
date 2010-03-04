@@ -62,8 +62,7 @@ The solution we use, on both Windows and POSIX systems, is to pass all signals t
 
 When using foreign libraries through the Haskell FFI, it is important
 to ensure that the foreign code is capable of dealing with system call
-interrupts due to alarm signals. Most C libraries we deal with don't install signal handlers, so this is a not an issue. However, if the C library *does* install a signal handler, you'll 
-need to be careful how it interprets the time signal from GHC.
+interrupts due to alarm signals GHC is generating.
 
 For example, in this `strace` output
 a `select` call is interrupted, but the foreign C code interprets the
