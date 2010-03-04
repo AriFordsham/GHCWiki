@@ -12,11 +12,7 @@ from Heriot-Watt and St Andrews Univ, with others joining in over Skype.
 ### March 8th, 2010
 
 
-Where: EM 1.58 (Mountbatten building), Heriot-Watt Univ, Edinburgh 
-
-> [ Web Map](http://www.hw.ac.uk/maps/detailed-campus-map.pdf)
-
-
+Where: EM 1.58 (Mountbatten building), Heriot-Watt Univ, Edinburgh  [ Web Map](http://www.hw.ac.uk/maps/detailed-campus-map.pdf)
 When:  1:30 - 4:00 pm, March 8th, 2010.
 
 
