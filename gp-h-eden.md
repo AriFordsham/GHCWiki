@@ -7,7 +7,7 @@ This page will describe the GpH and Eden parallel variants of GHC.  This is work
 St Andrews has hosted the [HackPar](hack-par) parallel hackathon in December.
 
 
-A series of GpH Meetings? has been launched.
+A series of [Parallel Hacker Meetings](gp-h-eden/meetings) has been launched.
 
 ---
 
