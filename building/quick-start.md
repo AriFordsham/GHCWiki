@@ -21,28 +21,10 @@ $ sh boot
 (this step isn't necessary if you have a source distribution).
 
 
-Windows users:
-
-```wiki
-$ ./configure --host=i386-unknown-mingw32
-      --with-gcc=c:/mingw/bin/gcc
-      --with-ld=c:/mingw/bin/ld.exe
-```
-
-
-where `c:/mingw` should be replaced by the place you installed MinGW, if you installed it somewhere other than the default.
-
-
-Non-Windows users can just say:
+Next:
 
 ```wiki
 $ ./configure
-```
-
-
-Now everybody:
-
-```wiki
 $ make
 $ make install
 ```
