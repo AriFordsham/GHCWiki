@@ -20,7 +20,7 @@ cabal install HsOpenSSL
 ```
 
 
-On Windows: I found I had to add 'ssl2' to 'extra-libraries' in HsOpenSSL.cabal.  So
+On Windows: I found I had to add 'ssl2' after 'eay32' in 'extra-libraries' in HsOpenSSL.cabal.  So
 
 ```wiki
 cabal unpack HsOpenSSL
