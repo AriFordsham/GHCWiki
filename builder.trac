@@ -6,7 +6,7 @@ The GHC builder builds GHC on various platforms in various different ways each n
 == Install OpenSSL ==
 
  * On Windows, install OpenSSL from here (not the Light Version): [http://www.openssl.org/related/binaries.html]
- * On Linux, get OpenSSL from your distro.
+ * On Linux, get OpenSSL from your distro.  E.g. install `openssl-devel` on RedHat-derived distros (e.g. Fedora), or `openssl-dev` on Debian-derived distros (e.g. Ubuntu)
  * Mac OSX: someone please fill this in
  * Solaris: someone please fill this in
 
