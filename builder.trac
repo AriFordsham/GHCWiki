@@ -23,7 +23,7 @@ On Windows: I found I had to add 'ssl2' to 'extra-libraries' in HsOpenSSL.cabal.
 {{{
 cabal unpack HsOpenSSL
 cd HsOpenSSL*
-<edit HsOpenSSL, add ssl2 to extra-libraries>
+<edit HsOpenSSL.cabal, add ssl2 to extra-libraries>
 cabal install --extra-include-dirs="c:/OpenSSL/include" --extra-lib-dirs="c:/OpenSSL"
 }}}
 
