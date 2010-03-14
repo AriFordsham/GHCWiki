@@ -29,7 +29,14 @@ cabal install --extra-include-dirs="c:/OpenSSL/include" --extra-lib-dirs="c:/Ope
 
 == To create a new build slave ==
 
-The code for the builder lives in this darcs repo: http://darcs.haskell.org/builder/
+You can get the code for the builder with
+{{{
+darcs get http://darcs.haskell.org/builder/
+}}}
+or, if you have an account on darcs.haskell.org,
+{{{
+darcs get darcs.haskell.org:/srv/darcs/builder/
+}}}
 
 Once you have built it, pick a username (something fairly unique to you) and password, and send them to igloo@earth.li. Then initialise the client with:
 {{{
