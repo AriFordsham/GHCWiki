@@ -55,3 +55,7 @@ or
 ./client -v
 }}}
 We recommend running in screen for now, as the client doesn't daemonise itself yet. The client will connect to the server, and the server will tell the client how and when to do builds. The client therefore needs to be left running unless you want to stop builds from happening.
+
+== Seeing build results ==
+
+The build results are uploaded to http://darcs.haskell.org/ghcBuilder/builders/
