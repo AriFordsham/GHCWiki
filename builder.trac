@@ -44,7 +44,7 @@ Then initialise the client by creating a new directory, and running:
 {{{
 ./client init username password darcs.haskell.org
 }}}
-in it, where `username` and `password` are your username and password. Then put a copy of http://darcs.haskell.org/ghcBuilder/cert/root.pem in `certs/` so that the client can verify that it is connecting to the right server.
+in it, where `username` and `password` are your username and password. This will create various files and subdirectories that the client will use. Then put a copy of http://darcs.haskell.org/ghcBuilder/cert/root.pem in `certs/` so that the client can verify that it is connecting to the right server.
 
 You can now run the client with:
 {{{
