@@ -46,14 +46,17 @@ darcs get darcs.haskell.org:/srv/darcs/builder/
 ```
 
 
-Once you have built it, pick a username (something fairly unique to you) and password, and send them to igloo@…. Then initialise the client with:
+Once you have built it, pick a username (something fairly unique to you) and password, and send them to igloo@… along with the time you want builds to happen. The username is used so we know which machine the build log came from, and the password is used to verify that the client is who it claims it is.
+
+
+Then initialise the client by creating a new directory, and running:
 
 ```wiki
 ./client init username password darcs.haskell.org
 ```
 
 
-where `username` and `password` are your username and password, and put a copy of [ http://darcs.haskell.org/ghcBuilder/cert/root.pem](http://darcs.haskell.org/ghcBuilder/cert/root.pem) in `certs/`.
+in it, where `username` and `password` are your username and password. Then put a copy of [ http://darcs.haskell.org/ghcBuilder/cert/root.pem](http://darcs.haskell.org/ghcBuilder/cert/root.pem) in `certs/` so that the client can verify that it is connecting to the right server.
 
 
 You can now run the client with:
@@ -70,4 +73,4 @@ or
 ```
 
 
-We recommend running in screen for now, as the client doesn't daemonise itself yet.
+We recommend running in screen for now, as the client doesn't daemonise itself yet. The client will connect to the server, and the server will tell the client how and when to do builds. The client therefore needs to be left running unless you want to stop builds from happening.
