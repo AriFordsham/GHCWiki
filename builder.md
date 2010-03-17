@@ -52,7 +52,7 @@ Once you have built it, pick a username (something fairly unique to you) and pas
 Then initialise the client by creating a new directory, and running:
 
 ```wiki
-./client init username password darcs.haskell.org
+builder-client init username password darcs.haskell.org
 ```
 
 
@@ -62,14 +62,14 @@ in it, where `username` and `password` are your username and password. This will
 You can now run the client with:
 
 ```wiki
-./client
+builder-client
 ```
 
 
 or
 
 ```wiki
-./client -v
+builder-client -v
 ```
 
 

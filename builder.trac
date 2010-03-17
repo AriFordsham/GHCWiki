@@ -42,17 +42,17 @@ Once you have built it, pick a username (something fairly unique to you) and pas
 
 Then initialise the client by creating a new directory, and running:
 {{{
-./client init username password darcs.haskell.org
+builder-client init username password darcs.haskell.org
 }}}
 in it, where `username` and `password` are your username and password. This will create various files and subdirectories that the client will use. Then put a copy of http://darcs.haskell.org/ghcBuilder/cert/root.pem in `certs/` so that the client can verify that it is connecting to the right server.
 
 You can now run the client with:
 {{{
-./client
+builder-client
 }}}
 or
 {{{
-./client -v
+builder-client -v
 }}}
 We recommend running in screen for now, as the client doesn't daemonise itself yet. The client will connect to the server, and the server will tell the client how and when to do builds. The client therefore needs to be left running unless you want to stop builds from happening.
 
