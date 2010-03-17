@@ -1,7 +1,7 @@
 # Work in Progress on the LLVM Backend
 
 
-This page is meant to collect together information about people working on (or interested in working on) LLVM in GHC, and the projects they are looking at.
+This page is meant to collect together information about people working on (or interested in working on) LLVM in GHC, and the projects they are looking at.  See also the [state of play of the whole back end](commentary/compiler/new-code-gen).
 
 - David Terei is going to be at Microsoft Research for an internship to work on LLVM at the end of April
 - There is interest on working on LLVM as part of the Google Summer of Code
