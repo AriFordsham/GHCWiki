@@ -4,8 +4,6 @@
 This page is meant to collect together information about people working on (or interested in working on) LLVM in GHC, and the projects they are looking at.
 
 - David Terei is going to be at Microsoft Research for an internship to work on LLVM at the end of April
-
-  - What is
 - There is interest on working on LLVM as part of the Google Summer of Code
 
   - The GSoC timeline is May 24th - August 9th ([ http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2010/faqs\#timeline](http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2010/faqs#timeline)), so this overlaps with David's internship
