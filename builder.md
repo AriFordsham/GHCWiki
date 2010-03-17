@@ -46,13 +46,16 @@ darcs get darcs.haskell.org:/srv/darcs/builder/
 ```
 
 
+and then build the Cabal package in the `client/` subdirectory.
+
+
 Once you have built it, pick a username (something fairly unique to you) and password, and send them to igloo@… along with the time you want builds to happen. The username is used so we know which machine the build log came from, and the password is used to verify that the client is who it claims it is.
 
 
 Then initialise the client by creating a new directory, and running:
 
 ```wiki
-./client init username password darcs.haskell.org
+builder-client init username password darcs.haskell.org
 ```
 
 
@@ -62,14 +65,14 @@ in it, where `username` and `password` are your username and password. This will
 You can now run the client with:
 
 ```wiki
-./client
+builder-client
 ```
 
 
 or
 
 ```wiki
-./client -v
+builder-client -v
 ```
 
 
