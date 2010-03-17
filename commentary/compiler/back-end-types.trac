@@ -1,4 +1,3 @@
---------------------------------------
 = Types in the back end (aka "The `Rep` swamp") =
 
 I have completed a major representation change, affecting both old and new code generators, of the  various `Rep` types.  It's pervasive in that it touches a lot of files; and in the native code-gen very many lines are changed.  The new situation is much cleaner.
