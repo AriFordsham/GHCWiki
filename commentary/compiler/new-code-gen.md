@@ -1,26 +1,34 @@
 # GHC's glorious new code generator
 
 
-This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.  Our plan is as follows:
-
-- **Step 1**: drain the "Rep swamp".  This is a change of data representation that pervades the compiler, including lots and lots of tiny changes in the existing native code generators.  It's done (see [Commentary/Compiler/BackEndTypes](commentary/compiler/back-end-types)), and tested, but not yet committed to the HEAD.
-
-- **Step 2**: Replace the existing Stg to Cmm code generator (a very complex and inflexible pass) with a new modular pipeline. The output of this pipeline is fed to the existing, un-modified code generators.  The design of the new pipeline is here: [Commentary/Compiler/NewCodeGenPipeline](commentary/compiler/new-code-gen-pipeline).
-
-- **Step 3**: Expand the capability of the new pipeline so that it does native code generation too, and we can ultimately discard the existing code generators.  The design of this stage is here: [Commentary/Compiler/IntegratedCodeGen](commentary/compiler/integrated-code-gen)
+Last updated: **March 2010**.
 
 
-In timescale terms it looks like this:
+This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.  Here is the state of play; see also [work on the LLVM back end](commentary/compiler/backends/llvm/wip).
 
-- GHC 6.10 will have nothing new at all
+- John D has built a complete new codegen pipeline, running alongside the old one, enabled by `-fuse-new-codegen`. It is described here: [Commentary/Compiler/NewCodeGenPipeline](commentary/compiler/new-code-gen-pipeline).  It uses a new representation for `Cmm`, mostly with "Z" in the name.  (Let's call the original Cmm `OldCmm` and this new one `CmmZ`.)  It has a new conversion STG-\>CmmZ, and then sequence of passes that optimise and cps-convert the Cmm.  Finally, it is converted back to the old Cmm so that it can flow to the old code generators.
 
-- Immediately after the code fork for 6.10 we'll commit the new stuff for Step 1 and Step 2 to the HEAD.  
+- Compiling through the new pipeline passes all tests, but some bugs remain; eg you can't bootstrap GHC through this route.
 
-- By the end of 2008 (and probably much earlier) we hope to be using the Step 2 pipeline in anger, and can discard the existing code generator entirely.  To be fair, at this point you probably won't see any performance improvements; indeed compilation could be a bit slower.  But the pipeline will be far more modular and flexible.
+- Separately, we have developed yet another, and still better, Cmm representation, the subject of an upcoming ICFP 2010 submission.  It uses phantom types and GADTs to add very useful open/closed invariants.  This isn't in GHC at all yet.  I'll call it `CmmGADT` for easy reference.
 
-- Work on Step 3 will proceed in 2009, but at a slower pace because John's internship ends in Oct 2008.
 
-- At the same time, others can help!  In particular, Cmm-to-Cmm optimisations will be easy.  And some of them really should yield performance improvements.
+Generally we want to keep old and new pipelines working simultaneously, so that we can swith only when we are sure the new stuff works.  Next steps in this grand plan are:
+
+- Check the impact on compilation time of the new route.
+
+- Finalise `CmmGADT` and make the new pipeline use it.
+
+- Make the Cmm parser (which parses `.cmm` files from the RTS) produce `CmmGADT`, and push that down the new pipeline.
+
+- Implement the many refactorings and improvements to the new pipeline described in [ http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes](http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes).
+
+- Instead of converting new Cmm to old Cmm, make the downstream code generators consume `CmmGADT`, and convert old Cmm to `CmmGADT`.
+
+
+Longer term
+
+- Expand the capability of the new pipeline so that it does native code generation too, and we can ultimately discard the existing code generators.  The design of this stage is here: [Commentary/Compiler/IntegratedCodeGen](commentary/compiler/integrated-code-gen)
 
 ## Bugs
 
@@ -33,6 +41,10 @@ Bug list (code-gen related bugs that we may be able to fix):
 - [\#2249](https://gitlab.haskell.org//ghc/ghc/issues/2249)
 - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253)
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289)
+
+---
+
+**Below here is old stuff, mostly out of date**
 
 ## Loose ends as at October 2008
 
