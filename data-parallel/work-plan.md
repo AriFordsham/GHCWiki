@@ -44,6 +44,7 @@
 
 Category: *Bugs*
 
+- [\#3577](https://gitlab.haskell.org//ghc/ghc/issues/3577)
 - [\#2984](https://gitlab.haskell.org//ghc/ghc/issues/2984)
 
 

@@ -39,6 +39,7 @@
 
 Category: ''Bugs''
 
+ * #3577
  * #2984
 
 Category: ''Efficiency, short term'' (improve scalability and/or baseline performance of generated code):
