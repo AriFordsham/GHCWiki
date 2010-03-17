@@ -4,6 +4,7 @@
 
 ### Arity
 
+- [\#3924](https://gitlab.haskell.org//ghc/ghc/issues/3924): weak arity leads to weak strictness
 - [\#3698](https://gitlab.haskell.org//ghc/ghc/issues/3698): arity analysis again
 - [\#3697](https://gitlab.haskell.org//ghc/ghc/issues/3697): class method selectors
 - [\#3034](https://gitlab.haskell.org//ghc/ghc/issues/3034): divInt and arity
