@@ -1,7 +1,22 @@
 
-= Setting up a nightly build =
+= The GHC Builder =
 
-The GHC builder builds GHC on various platforms in various different ways each night, runs the test suite and performance benchmarks, and mails the results to the `cvs-ghc@haskell.org` mailing list.  We're always keen to add more build slaves to the setup, especially if you have a platform that doesn't already have a build slave, so if you'd like to join the fun, please let us know at [mailto:cvs-ghc@haskell.org].  If a platform is represented in the nightly builds, it's more likely we'll be able to identify and fix problems specific to that platform quickly.
+The '''GHC builder''' is a client/server system that allows us to build and test GHC on lots of different computers scattered around the world (the ''clients'', or ''build slaves''), and aggregate the test results centrally (the ''server'').
+
+Each night we build GHC on each slave, in various different ways, run the test suite and performance benchmarks, and mail the results to the `cvs-ghc@haskell.org` mailing list.  
+
+== Seeing build results ==
+
+The build results are uploaded to http://darcs.haskell.org/ghcBuilder/builders/
+
+== Can you offer a build slave? ==
+
+We're always keen to add more build slaves to the setup. If a platform is represented in the nightly builds, it's we can identify and fix problems specific to that platform much more quickly.  If you'd like to join the fun, please let us know at [mailto:cvs-ghc@haskell.org]. 
+
+
+= How to set up a build slave =
+
+The GHC Builder is written in Haskell as a pair of Cabal packages (one for the clients/slaves, and one for the server).
 
 == Install OpenSSL ==
 
@@ -57,6 +72,4 @@ builder-client -v
 }}}
 We recommend running in screen for now, as the client doesn't daemonise itself yet. The client will connect to the server, and the server will tell the client how and when to do builds. The client therefore needs to be left running unless you want to stop builds from happening.
 
-== Seeing build results ==
 
-The build results are uploaded to http://darcs.haskell.org/ghcBuilder/builders/
