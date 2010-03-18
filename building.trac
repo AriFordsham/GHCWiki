@@ -16,6 +16,7 @@ Building GHC
  * [wiki:Building/GettingTheSources Getting the sources]
  * [wiki:Building/QuickStart Just building and installing GHC]
  * [wiki:Platforms Platforms that GHC currently supports]
+ * [wiki:Builder The GHC Builder, which coordinates distributed nightly builds]
 
 Getting started for developers
 
