@@ -81,6 +81,7 @@
 ------------------------
 == New constraint simplifier ==
  * [wiki:TypeFunctionsStatus]
+ * #3927: overlap warnings with GADTs
  * #3851: type family expansion
  * #3826: equality reasoning failure
  * #3692: bogus error message with constraint after arrow
