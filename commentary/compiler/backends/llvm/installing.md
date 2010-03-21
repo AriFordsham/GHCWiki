@@ -3,7 +3,7 @@
 
 The patches needed can be found at:
 
-- GHC Patch (applies to GHC): [ http://www.cse.unsw.edu.au/\~davidt/downloads/ghc-llvmbackend-full.gz](http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvmbackend-full.gz)
+- GHC Patch (applies to GHC): [ http://www.cse.unsw.edu.au/\~davidt/downloads/ghc-llvmbackend-latest.patch](http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvmbackend-latest.patch)
 
 - LLVM Patch (applies to LLVM): [ http://www.cse.unsw.edu.au/\~davidt/downloads/llvm-ghc.patch](http://www.cse.unsw.edu.au/~davidt/downloads/llvm-ghc.patch)
 
