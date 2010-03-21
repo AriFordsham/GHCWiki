@@ -128,6 +128,11 @@ Caveat 1: LD_LIBRARY_PATH has no runtime impact, but it does impact where the st
 
 Caveat 2: Mac OS X has a set of compiler/linker switches for dealing with Frameworks (packages of shared libraries and include files).  These are installed outside the typical \*nix directory structure.  These switches act like -I (to gcc) and -L (to ld).  If you end up totally confused about where to find something, read up on this.  The OpenGL and OpenAL headers and libraries are in Frameworks, for example.
 
+## On Solaris
+
+
+Build gcc using the Sun Solaris linker /usr/ccs/bin, then export the environment variable LD_OPTIONS to set the RUNPATH in the shared libraries and executables.  For example, to ensure the RUNPATH is set to find libgmp.so.3 in /usr/gnu/lib, export LD_OPTIONS='-L/usr/gnu/lib -R/usr/gnu/lib'.
+
 ## On Windows
 
 
