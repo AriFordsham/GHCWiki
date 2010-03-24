@@ -90,3 +90,4 @@ The back-end needs a fair amount of love and care just to get it into a state wh
 - Has been a report the back-end interacts badly with the '-dynamic' GHC flag.
 - Back-end hasn't been thoroughly tested across the full range of GHC configurations (e.g threaded...)
 - LLVM back-end is out of tree currently.
+- Back-end can be reduced in size and use faster data structures (FastString instead of String, OrdList instead of List, might be able to get rid of the environment used by the back-end as I believe the label naming convention stores may store enough information for the back-ends uses).
