@@ -36,7 +36,7 @@ which stops `llc` producing native code that actually tail calls and thus leads 
 Foreign calls on Mac OS X don't work. Seems to be because LLVM isn't generating correct code. All system calls must be 16 byte aligned in OS X and llvm isn't respecting this. Not sure if its a bug in LLVM or due to my changes to LLVM.
 
 
-Update (20/02/10): I fixed this issue using the inline assembler approach (see below). This reduces the test failures on Mac OSX from 22 to 9. So doesn't fix everything. Still other issues.
+Update (20/02/10): I fixed this issue using the inline assembler approach (see below). This reduces the test failures on Mac OSX from 22 to 9. So doesn't fix everything. Still other issues. Also, I tried using the new stalk alignment feature but that interacts badly with the GHC calling convention, clobbering the Base register.
 
 **Solutions**:
 
