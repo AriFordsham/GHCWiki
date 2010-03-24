@@ -3,10 +3,6 @@
 
 This page list some of the issues and problems with the current implementation of the LLVM back-end. Hopefully they will slowly be resolved.
 
-== LLVM Changes ==
-
-The biggest problem is that LLVM doesn't provide all the features we need. The two issues below, 'Register Pinning' and 'TNTC' are the primary examples of this. While there is a patch for LLVM to partially correct fix this, this is a problem in itself as we now must include in GHC our own version of LLVM. Eventually we need to either get the changes we need included in LLVM or improve LLVM so that the features we require could be included dynamically.
-
 == Register Pinning ==
 
 The new back-end supports a custom calling convention to place the STG virtual registers into specific hardware registers. The current approach taken by the C back-end and NCG of having a fixed assignment of STG virtual registers to hardware registers for performance gains is not implemented in the LLVM back-end. Instead, it uses a custom calling convention to support something semantically equivalent to register pinning. The custom calling convention passes the first N variables in specific hardware registers, thus guaranteeing on all function entries that the STG virtual registers can be found in the expected hardware registers. This approach is believed to provide better performance than the register pinning used by NCG/C back-ends as it keeps the STG virtual registers mostly in hardware registers but allows the register allocator more flexibility and access to all machine registers.
