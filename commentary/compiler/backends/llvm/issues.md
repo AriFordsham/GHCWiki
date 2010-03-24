@@ -3,11 +3,6 @@
 
 This page list some of the issues and problems with the current implementation of the LLVM back-end. Hopefully they will slowly be resolved.
 
-## LLVM Changes
-
-
-The biggest problem is that LLVM doesn't provide all the features we need. The two issues below, 'Register Pinning' and 'TNTC' are the primary examples of this. While there is a patch for LLVM to partially correct fix this, this is a problem in itself as we now must include in GHC our own version of LLVM. Eventually we need to either get the changes we need included in LLVM or improve LLVM so that the features we require could be included dynamically.
-
 ## Register Pinning
 
 
