@@ -8,7 +8,7 @@ The patch needed can be found at:
 
 The back-end also lives in a Git repository where the actual development work is done, this can be found at [ https://cgi.cse.unsw.edu.au/\~davidt/cgit/cgit.cgi/Thesis%20GHC%20Dev/](https://cgi.cse.unsw.edu.au/~davidt/cgit/cgit.cgi/Thesis%20GHC%20Dev/). The Git repository only includes the core back-end, not the changes needed to the rest of GHC.
 
-**Update (24/03/2010)**: The changes required to LLVM for it to work with the back-end have been accepted upstream. You now just need to grab a recent 2.7 (since Pre-release1) build of LLVM or build your own copy from SVN trunk.
+**Update (24/03/2010)**: The changes required to LLVM for it to work with the back-end have been accepted upstream. You now just need to grab a recent 2.7 (since Pre-release1) build of LLVM or build your own copy from SVN.
 
 # Installing
 
