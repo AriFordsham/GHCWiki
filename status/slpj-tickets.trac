@@ -40,6 +40,7 @@
  * #783: SRTs getting big	
  * #2289: cheap check at start of case alternatives
  * #2731: avoiding unnecessary evaluation when unpacking constructors
+ * #3940: propagate fix
 
 === Other performance ===
  * #3138: returning a known constructor (Lennart's cmonad package)

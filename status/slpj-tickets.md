@@ -43,6 +43,7 @@
 - [\#783](https://gitlab.haskell.org//ghc/ghc/issues/783): SRTs getting big        
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): cheap check at start of case alternatives
 - [\#2731](https://gitlab.haskell.org//ghc/ghc/issues/2731): avoiding unnecessary evaluation when unpacking constructors
+- [\#3940](https://gitlab.haskell.org//ghc/ghc/issues/3940): propagate fix
 
 ### Other performance
 
