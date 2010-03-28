@@ -5,9 +5,6 @@ The patch needed can be found at:
 
 - GHC Patch (applies to GHC): [ http://www.cse.unsw.edu.au/\~davidt/downloads/ghc-llvmbackend-full.dpatch](http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvmbackend-full.dpatch)
 
-
-The back-end also lives in a Git repository where the actual development work is done, this can be found at [ https://cgi.cse.unsw.edu.au/\~davidt/cgit/cgit.cgi/Thesis%20GHC%20Dev/](https://cgi.cse.unsw.edu.au/~davidt/cgit/cgit.cgi/Thesis%20GHC%20Dev/). The Git repository only includes the core back-end, not the changes needed to the rest of GHC.
-
 **Update (24/03/2010)**: The changes required to LLVM for it to work with the back-end have been accepted upstream. You now just need to grab a recent 2.7 (since Pre-release1) build of LLVM or build your own copy from SVN.
 
 # Installing
@@ -27,7 +24,7 @@ GhcEnableTablesNextToCode = NO
 The LLVM code generator doesn't support at this time the `TABLES_NEXT_TO_CODE` optimisation due to limitations with LLVM.
 
 
-You will also need LLVM installed on your computer to use the back-end. Version 2.7 or SVN trunk is supported. If you want to use the back-end in an unregistered ghc build, then you can use a vanilla build of LLVM.
+You will also need LLVM installed on your computer to use the back-end. Version **2.7** or later is supported. If you want to use the back-end in an unregistered ghc build, then you can use a vanilla build of LLVM.
 
 
 LLVM is very easy to build and install. It can be done as follows:
