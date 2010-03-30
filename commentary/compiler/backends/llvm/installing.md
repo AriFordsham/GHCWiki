@@ -1,13 +1,11 @@
 # Installing & Using the LLVM Back-end
 
 
-The patch needed can be found at:
+The patch needed for GHC can be found at:
 
-- GHC Patch (applies to GHC): [ http://www.cse.unsw.edu.au/\~davidt/downloads/ghc-llvmbackend-full.dpatch](http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvmbackend-full.dpatch)
+- GHC Patch: [ http://www.cse.unsw.edu.au/\~davidt/downloads/ghc-llvmbackend-full.dpatch](http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvmbackend-full.dpatch)
 
-**Update (24/03/2010)**: The changes required to LLVM for it to work with the back-end have been accepted upstream. You now just need to grab a recent 2.7 (since Pre-release1) build of LLVM or build your own copy from SVN.
-
-# Installing
+## Installing
 
 
 Apply the darcs patch linked above to GHC head. This will make some changes across GHC, with the bulk of the new code ending up in 'compiler/llvmGen'.
@@ -23,7 +21,7 @@ GhcEnableTablesNextToCode = NO
 
 The LLVM code generator doesn't support at this time the `TABLES_NEXT_TO_CODE` optimisation due to limitations with LLVM.
 
-## LLVM =
+### LLVM
 
 
 You will also need LLVM installed on your computer to use the back-end. If you wish to simply use an unregistered build of GHC, then the back-end should work with any standard LLVM version. If you wish to use a registered build of GHC however, then you may need to apply a patch to LLVM and build it yourself:
@@ -51,7 +49,7 @@ $ make
 $ make install
 ```
 
-# Using
+## Using
 
 
 Once GHC is built, you can trigger GHC to use the LLVM back-end with the `-fllvm` flag. There is also a new `-ddump-llvm` which will dump out the LLVM IR code generated (must be used in combination with the `-fllvm` flag. (or use the `-keep-tmp-files` flag).
@@ -61,13 +59,13 @@ Once GHC is built, you can trigger GHC to use the LLVM back-end with the `-fllvm
 
 The [ ghc-core](http://hackage.haskell.org/package/ghc-core) tool also supports the llvm backend, and will display the generated assembly code for your platform.
 
-# Supported Platforms & Correctness
+## Supported Platforms & Correctness
 
 - Linux x86-32/x86-64 are currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
 - Mac OS X 10.5 currently has a rather nasty bug with any dynamic lib calls (all libffi stuff) \[due to the stack not being 16byte aligned when the calls are made as required by OSX ABI for the curious\]. Test suite passes except for most the ffi tests.
 - Other platforms haven't been tested at all. As using the back-end with a registered build of GHC requires a modified version of LLVM, people wanting to try it out on those platforms will need to either make the needed changes to LLVM themselves, or use an unregistered build of GHC which will work with a vanilla install of LLVM. (A patch for LLVM for x86 is linked to below.)
 
-# Performance
+## Performance
 
 
 (All done on linux/x86-32)
@@ -88,7 +86,7 @@ A quick summary of the results are that for the 'nofib' benchmark suite, the LLV
 
 A nice demonstration of the improvements the LLVM back-end can bring to some code though can be see at [ http://donsbot.wordpress.com/2010/02/21/smoking-fast-haskell-code-using-ghcs-new-llvm-codegen/](http://donsbot.wordpress.com/2010/02/21/smoking-fast-haskell-code-using-ghcs-new-llvm-codegen/)
 
-# Validate
+## Validate
 
 
 The GHC patch has been validated to make sure it won't break anything. This is just compiling and running GHC normally but with the LLVM back-end code included. It doesn't actually test the LLVM code generator, just makes sure it hasn't broken the NCG or C code generator.
