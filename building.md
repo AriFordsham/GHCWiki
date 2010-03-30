@@ -34,14 +34,15 @@ More detailed information about using the build system
 - [Running the GHC test framework](building/running-tests)
 - [The NoFib benchmark suite](building/running-no-fib)
 - [Testing GHC against all of Hackage](hackage-testing)
+- [Debugging and performance-tuning for GHC](debugging)
+
+- [Understanding GHC's boot packages](commentary/libraries)
+- [Installing extra packages for your in-place GHC](debugging/installing-packages-inplace)
 
 - [Building the documentation](building/docs)
 - [Installing GHC from a build](building/installing)
 - [Unregisterised builds](building/unregisterised)
 - [Porting GHC to a new platform](building/porting)
-
-- [Debugging and performance-tuning for GHC](debugging)
-- [Installing extra packages for your in-place GHC](debugging/installing-packages-inplace)
 
 
 More detailed information about how the build system works
