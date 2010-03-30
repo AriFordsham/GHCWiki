@@ -20,7 +20,7 @@ GhcEnableTablesNextToCode = NO
 
 The LLVM code generator doesn't support at this time the {{{TABLES_NEXT_TO_CODE}}} optimisation due to limitations with LLVM.
 
-== LLVM ===
+== LLVM ==
 
 You will also need LLVM installed on your computer to use the back-end. If you wish to simply use an unregistered build of GHC, then the back-end should work with any standard LLVM version. If you wish to use a registered build of GHC however, then you may need to apply a patch to LLVM and build it yourself:
 
