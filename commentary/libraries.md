@@ -15,9 +15,10 @@ $ make show VALUE=PACKAGES
 
 
 (The `PACKAGES` variable is set in `$(TOP)/`[ghc.mk](/trac/ghc/browser/ghc/ghc.mk).)
-
-
 You can see exactly which versions of what packages GHC depends on by looking in `$(TOP)/`[compiler/ghc.cabal.in](/trac/ghc/browser/ghc/compiler/ghc.cabal.in).
+
+
+You can make the build system build extra packages, on which GHC doesn't strictly depend, by extending the `EXTRA_PACKAGES` variable. It's not very tidy; see tickets [\#3896](https://gitlab.haskell.org//ghc/ghc/issues/3896) and [\#3882](https://gitlab.haskell.org//ghc/ghc/issues/3882) for more information.
 
 
 Boot packages can be classified in three different ways:
