@@ -20,7 +20,19 @@ GhcEnableTablesNextToCode = NO
 
 The LLVM code generator doesn't support at this time the {{{TABLES_NEXT_TO_CODE}}} optimisation due to limitations with LLVM.
 
-You will also need LLVM installed on your computer to use the back-end. Version '''2.7''' or later is supported. If you want to use the back-end in an unregistered ghc build, then you can use a vanilla build of LLVM.
+== LLVM ===
+
+You will also need LLVM installed on your computer to use the back-end. If you wish to simply use an unregistered build of GHC, then the back-end should work with any standard LLVM version. If you wish to use a registered build of GHC however, then you may need to apply a patch to LLVM and build it yourself:
+
+ * '''Version 2.7''': (or later) natively support GHC, no patch is needed.
+ * '''Version 2.6''': Apply this [http://www.cse.unsw.edu.au/~davidt/downloads/llvm-ghc-callconv-2.6.patch patch] to the source code.
+ * '''Version 2.5''': Apply this [http://www.cse.unsw.edu.au/~davidt/downloads/llvm-ghc-callconv-2.5.patch patch] to the source code.
+
+The patches can be applied with:
+{{{
+$ cd llvm
+$ patch -p0 -i <patch file>
+}}}
 
 LLVM is very easy to build and install. It can be done as follows:
 
