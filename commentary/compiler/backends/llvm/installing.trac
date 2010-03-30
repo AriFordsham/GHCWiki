@@ -1,11 +1,9 @@
 [[PageOutline]]
 = Installing & Using the LLVM Back-end =
 
-The patch needed can be found at:
+The patch needed for GHC can be found at:
 
- * GHC Patch (applies to GHC): http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvmbackend-full.dpatch
-
-'''Update (24/03/2010)''': The changes required to LLVM for it to work with the back-end have been accepted upstream. You now just need to grab a recent 2.7 (since Pre-release1) build of LLVM or build your own copy from SVN.
+ * GHC Patch: http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvmbackend-full.dpatch
 
 == Installing ==
 
