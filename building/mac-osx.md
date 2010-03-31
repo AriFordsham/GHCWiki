@@ -153,3 +153,28 @@ If you have installed `docbook-xsl` using macports then the configure script mig
 ```wiki
 export XML_CATALOG_FILES="/opt/local/etc/xml/catalog"
 ```
+
+
+Further info on building the docs from [\#3768](https://gitlab.haskell.org//ghc/ghc/issues/3768):
+
+
+Some packages needed XCode 3.1, which for OS X 10.5 you can currently only get bundled with the iphone SDK as far as I can tell.
+
+
+Then, to fix:
+
+```wiki
+$ "/opt/local/bin/dblatex"  docs/users_guide/users_guide.xml --ps -o docs/users_guide/users_guide.ps
+Traceback (most recent call last):
+  File "/opt/local/bin/dblatex", line 16, in <module>
+    from dbtexmf.dblatex import dblatex
+ImportError: No module named dbtexmf.dblatex
+```
+
+
+do:
+
+```wiki
+sudo port install python_select
+sudo python_select python26
+```
