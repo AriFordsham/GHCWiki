@@ -16,7 +16,7 @@ GhcWithLlvmCodeGen = YES
 GhcEnableTablesNextToCode = NO
 }}}
 
-The LLVM code generator doesn't support at this time the {{{TABLES_NEXT_TO_CODE}}} optimisation due to limitations with LLVM.
+The LLVM code generator doesn't support at this time the [wiki:Commentary/Rts/Storage/HeapObjects?redirectedfrom=Commentary/Rts/HeapObjects#TABLES_NEXT_TO_CODE TABLES_NEXT_TO_CODE] optimisation due to limitations with LLVM.
 
 === LLVM ===
 
