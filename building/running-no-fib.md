@@ -1,7 +1,21 @@
 # The NoFib Benchmark Suite
 
 
-The NoFib benchmark suite is a collection of (mostly old) Haskell programs that we use for benchmarking GHC.  The NoFib suite is kept in a separate darcs repository (see [DarcsRepositories](darcs-repositories)), and it should be checked out at the top level of a GHC source tree, i.e. at the same level as `compiler` and `libraries`.
+The NoFib benchmark suite is a collection of (mostly old) Haskell programs that we use for benchmarking GHC. 
+
+## Getting nofib
+
+
+The NoFib suite is kept in a separate darcs repository (see [DarcsRepositories](darcs-repositories)), and it should be checked out at the top level of a GHC source tree, i.e. at the same level as `compiler` and `libraries`. From your GHC tree, run:
+
+```wiki
+./darc-all --nofib get
+```
+
+
+It will be pulled into the a "nofib" subdirectory.
+
+## Benchmarking
 
 
 To run the tests:
@@ -41,6 +55,31 @@ you'll need to get hold of Cachegrind, which is part of
 ```wiki
   $ make SRC_RUNTEST_OPTS=-cachegrind
 ```
+
+## Complete recipe
+
+```wiki
+cd nofib
+make clean && make boot && make -k >& log1
+make clean && make boot && make -k EXTRA_HC_OPTS=-fenable-cool-optimisation >& log2
+nofib-analyse/nofib-analyse log1 log2
+```
+
+
+The output of the nofib-analyse tool is quite readable, with two provisios:
+
+- Missing values in the output typically mean that the benchmark crashed and may indicate a problem with your optimisation
+- If a difference between the two modes is displayed as an absolute quantity instead of a percentage, it means that the difference was below the threshold at which the analyser considers it significant
+
+
+If the comparison identifies any particularly bad benchmark results, you can run them individually by changing into their directory and running something like:
+
+```wiki
+EXTRA_HC_OPTS="-fenable-cool-optimisation -ddump-simpl" make
+```
+
+
+You can add whatever dumping flags you need to see the output and understand what is going wrong.
 
 ## Tweaking things
 
