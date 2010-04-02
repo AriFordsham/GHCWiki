@@ -163,3 +163,11 @@ GHC does not use libedit on Windows; instead, it uses the console's default line
 <table><tr><th>[ libffi](http://sourceware.org/libffi/)</th>
 <td>TODO Document this.  I stumbled on this as a new dependency as a user, but I cannot comment further.
 </td></tr></table>
+
+## Nofib
+
+
+To build the nofib suite, you will also need to have installed:
+
+1. The Haskell html and regex-compat packages
+1. The dos2unix tool (sometimes provided by the "tofrodos" package)
