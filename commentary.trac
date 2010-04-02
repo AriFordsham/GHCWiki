@@ -70,7 +70,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
 
  * Other Cross-cutting concerns: topics which span both the compiler and the runtime system
     * How the [wiki:Commentary/Hpc Haskell Program Coverage] option works
-    * [wiki:Nofib]: The nofib benchmark suite
+    * [wiki:Building/RunningNoFib]: The nofib benchmark suite
 
  * Getting to grips with the code base
    * BeginnersNotes: Some notes about getting started hacking GHC and the structure of the compiler (especially types and typecheck)
