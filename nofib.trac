@@ -1,0 +1,22 @@
+
+== Benchmarking an optimisation ==
+
+To test your whizzy new optimisation with nofib, you will want to:
+  1. Build the inplace stage2 compiler with a flag that controls whether it runs or not
+  2. Run the nofib suite with that flag on and then off, and compare the two runs:
+
+{{{
+make -k >& log1
+make -k EXTRA_HC_OPTS=-fenable-cool-optimisation >& log2
+nofib-analyse log1 log2
+}}}
+
+The output of the nofib-analyse tool is quite readable. Be warned: missing values in the output typically mean that the benchmark crashed and may indicate a problem with your optimisation.
+
+If the comparison identifies any particularly bad benchmark results, you can run them individually by changing into their directory and running something like:
+
+{{{
+EXTRA_HC_OPTS="-fenable-cool-optimisation -ddump-simpl" make
+}}}
+
+You can add whatever dumping flags you need to see the output and understand what is going wrong.
