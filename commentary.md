@@ -79,6 +79,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
 - Other Cross-cutting concerns: topics which span both the compiler and the runtime system
 
   - How the [Haskell Program Coverage](commentary/hpc) option works
+  - [Nofib](nofib): The nofib benchmark suite
 
 - Getting to grips with the code base
 
