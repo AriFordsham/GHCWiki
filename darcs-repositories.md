@@ -22,7 +22,7 @@ These darcs repositories are the HEAD (main trunk) of GHC development:
 </th></tr></table>
 
 
-For faster fetching, try the {{{--hashed}} mirrors at [ http://darcs.volkswurst.de/ghc](http://darcs.volkswurst.de/ghc), [ http://darcs.volkswurst.de/testsuite](http://darcs.volkswurst.de/testsuite), etc. (updated every two hours). Note that this only works with darcs2 clients, but contains exactly the same (darcs1) patches as the official repository at the time it was mirrored.
+For faster fetching, try the `--hashed` mirrors at [ http://darcs.volkswurst.de/ghc](http://darcs.volkswurst.de/ghc), [ http://darcs.volkswurst.de/testsuite](http://darcs.volkswurst.de/testsuite), etc. (updated every two hours). Note that this only works with darcs2 clients, but contains exactly the same (darcs1) patches as the official repository at the time it was mirrored. See [ http://darcs.volkswurst.de/about.txt](http://darcs.volkswurst.de/about.txt) for more information.
 
 **Warning.**  Both the `ghc` and `testsuite` repositories tickle a case-sensitivity bug in darcs, so on Windows (only) you can't do a full `darcs get` for `ghc` or `testsuite`.  Instead, either start with a tarball of the repository gotten from somewhere else, or do `darcs get --partial`.  (The repository itself can't be fixed to avoid the bug, without messing up its history.)
 
