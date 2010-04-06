@@ -476,6 +476,13 @@ git reset --hard
 
 **Note**: `git reset` only resets the staged files, i.e., the things added with `git add`.
 
+
+To revert one file back to its original state:
+
+```wiki
+git checkout <thefile>
+```
+
 ## darcs unrecord
 
 

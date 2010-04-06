@@ -359,6 +359,11 @@ git reset --hard
 
 '''Note''': {{{git reset}}} only resets the staged files, i.e., the things added with {{{git add}}}.
 
+To revert one file back to its original state:
+{{{
+git checkout <thefile>
+}}}
+
 == darcs unrecord ==
 
 Not sure if this will unrecord any patches except the most recent???
