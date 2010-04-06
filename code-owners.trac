@@ -16,7 +16,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Windows (targetting [http://www.cygwin.com Cygwin]): Position open; port bitrotted
    * Linux (generic): [mailto:marlowsd@gmail.com Simon Marlow],
      [mailto:simonpj@microsoft.com Simon Peyton Jones]
-   * FreeBSD/i386: [mailto:marlowsd@gmail.com Simon Marlow], [mailto:haskell@FreeBSD.org FreeBSD Haskell Team]
+   * FreeBSD/i386: [mailto:haskell@FreeBSD.org FreeBSD Haskell Team]
    * OpenBSD: [mailto:kili@openbsd.org Matthias Kilian]
    * SuSE Linux/x86 packages: [mailto:sven.panne@aedion.de Sven Panne],[mailto:ralf@informatik.uni-bonn.de Ralf Hinze]
    * Gentoo Linux/x86 packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
