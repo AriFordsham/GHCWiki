@@ -9,7 +9,7 @@ all the default settings.
 
 The following instructions assume that you have [wiki:Building/GettingTheSources got the sources] (note: not just a `darcs get`) and [wiki:Building/Preparation installed the necessary tools].
 
-If you are starting from a {{{darcs}}} checkout(or rebuilding from darcs), then:
+If you are starting from a {{{darcs}}} checkout (or rebuilding from darcs), then:
 
 {{{
 $ sh boot
