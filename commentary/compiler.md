@@ -12,6 +12,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
   - Some details of the [parser](commentary/compiler/parser)
   - Some details of the [renamer](commentary/compiler/renamer)
   - Some details of the [code generator](commentary/compiler/code-gen)
+  - A guide to the [generated assembly code](commentary/compiler/generated-code)
 
 - [Key data types](commentary/compiler/key-data-types)
 
