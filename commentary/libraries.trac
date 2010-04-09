@@ -51,12 +51,16 @@ To find out which packages are currently zero-boot packages, do the following in
 $ make show VALUE=BOOT_PKGS
 }}}
 
-The current Zero-boot packages are:
+Some Zero-boot packages are '''maintained by other people'''. In order to avoid GHC being exposed to day-by-day changes in these packages, we maintain a "lagging" Darcs repository for each that we occasionally sync with the master repository.  We never push patches to lagging repository; rather we push to the master (in discussion with the package maintainer), and pull the patches into the lagging repo.  The current Zero-boot packages of this kind are:
+
  * `Cabal`: we frequently update Cabal and GHC in sync
+ * `binary` (renamed to `ghc-binary` in the 6.12 branch): required by `bin-package-db`.
+
+Other Zero-boot packages are '''maintained by us'''.  There is just one Darcs repo for each, the master.  When we make a GHC release, we simultaneously tag and release each of these packages.  They are:
  * `hpc`
  * `extensible-exceptions`: this is a shim that provides an API to older versions of GHC that is compatible with what the current `base` package now exports.  So, unusually, `extensible-exceptions` is a zero-boot package, but not a boot package.
  * `bin-package-db`: a GHC-specific package that provides binary serialisation of the package database, use by `ghc-pkg` and GHC itself.
- * `binary` (renamed to `ghc-binary` in the 6.12 branch): required by `bin-package-db`.
+
 
 == Installation ==
 
