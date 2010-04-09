@@ -44,6 +44,7 @@
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): cheap check at start of case alternatives
 - [\#2731](https://gitlab.haskell.org//ghc/ghc/issues/2731): avoiding unnecessary evaluation when unpacking constructors
 - [\#3940](https://gitlab.haskell.org//ghc/ghc/issues/3940): propagate fix
+- [\#3969](https://gitlab.haskell.org//ghc/ghc/issues/3969): bad code for tight loop
 
 ### Other performance
 
