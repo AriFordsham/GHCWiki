@@ -26,7 +26,7 @@ View patterns are a convenient way of pattern-matching against values of abstrac
 ```
 
 
-The representation of `Typ` is held abstract, permitting implementations to use a fancy representation (e.g., hash-consing to managage sharing).
+The representation of `Typ` is held abstract, permitting implementations to use a fancy representation (e.g., hash-consing to manage sharing).
 
 
 In current Haskell, using this signature is a little inconvenient:
@@ -562,7 +562,7 @@ delete x s          = s
 
 This requires a new top-leven declaration form `pat`; and I don't think it's nearly 
 as easy to understand as the current proposal.  Notably, in the first equation for
-`delete` it's ahrd to see that the second `x` is a bound occurrence; this somehow
+`delete` it's hard to see that the second `x` is a bound occurrence; this somehow
 follows from the `pat` declaration.
 
 
