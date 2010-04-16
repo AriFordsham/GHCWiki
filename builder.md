@@ -25,7 +25,7 @@ The GHC Builder is written in Haskell as a pair of Cabal packages (one for the c
 
 - On Windows, install OpenSSL from here (not the Light Version): [ http://www.openssl.org/related/binaries.html](http://www.openssl.org/related/binaries.html)
 - On Linux, get OpenSSL from your distro.  E.g. install `openssl-devel` on RedHat-derived distros (e.g. Fedora), or `openssl-dev` on Debian-derived distros (e.g. Ubuntu)
-- On FreeBSD, OpenSSL is included in the base system and it is also available as a [ port](http://www.freshports/security/openssl).
+- On FreeBSD, OpenSSL is included in the base system and it is also available as a [ port](http://www.freshports.org/security/openssl).
 - Mac OSX: someone please fill this in
 - Solaris: someone please fill this in
 
