@@ -6,8 +6,9 @@
 
 == Ongoing work ==
 
-'''Ian''' can you record the number of patches in the 6 months 1 Oct 2009 - 31 March 2010?
-Also perhaps any pretty ticket graphs?
+Meanwhile, in the HEAD, the last 6 months have seen more than 1000 patches pushed from more than a dozen contributors. As the following graph shows, tickets are still being opened faster than we can close them, with the total open tickets growing from around 700 to almost 800. We will be looking in the near future at improving the effectiveness of the way we use the bug tracker.
+
+[[Image(GHC_trac_tickets.png)]]
 
  * Hoopl and the back end (incl LLVM).  '''Simon PJ'''.
  * Containers: '''Simon PJ and Milan'''.
