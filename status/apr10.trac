@@ -2,7 +2,9 @@
 
 == GHC 6.12 ==
 
-''Ian: can you summarise the state of play for the GHC 6.12 release.  Number of bugs fixed between 6.12.1 and 6.12.2; Haskell Platform release.  I anticipate this being only a paragraph or two.''
+By the time you read this, GHC 6.12.2 should have been released. This fixes many bugs relative to 6.12.1, including closing 81 trac tickets. For full release notes, and to download it, see the GHC webpage (http://www.haskell.org/ghc/download_ghc_6_12_2.html).
+
+GHC 6.12.2 will also be included in the upcoming Haskell Platform release (http://hackage.haskell.org/platform/). The Haskell platform is the recommended way for end users to get a Haskell development environment.
 
 == Ongoing work ==
 
