@@ -18,4 +18,11 @@ Also perhaps any pretty ticket graphs?
  * Runtime system, esp message passing changes.  '''Simon M'''.
  * Parallel GC; removing "steps".  '''Simon M'''.
  * Threadscope? '''Simon M'''
- * Haskell builder.  '''Ian'''
+
+=== Nightly builds ===
+
+For some time, it's been clear to us that Buildbot is not the perfect tool for our nightly builds. The main problem is that it is very susceptible to network wibbles, which means that many of our builds fail due to a network issue mid-build. Also, any customisation beyond that anticipated by the configuration options provided requires some messy python coding, poking around inside the buildbot classes. Additionally, we would like to implement a "validate-this" feature, where developers can request that a set of patches is validated on multiple platforms before being pushed. We couldn't see an easy way to do this with buildbot.
+
+When the darcs.haskell.org hardware was upgraded, rather than installing buildbot on the new machine, we made the decision to implement a system that better matched our needs instead. The core implementation is now complete, and we have several machines using it for nightly builds.
+
+We're always keen to add more build slaves; please see http://hackage.haskell.org/trac/ghc/wiki/Builder if you're interested. Likewise, patches for missing features are welcome! The (Haskell) code is available at http://darcs.haskell.org/builder/
