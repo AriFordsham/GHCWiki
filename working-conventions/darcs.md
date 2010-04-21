@@ -35,8 +35,7 @@ We have a simple naming convention for certain kinds of patches:
   `darcs pull -a -p "FIX BUILD"` in order to grab patches that fix it, without grabbing anything else
   that might introduce further breakage.
 
-- If your patch fixes a bug, then begin the patch name with `"FIX #NNNN"`, where `NNNN` is the ticket
-  number. e.g.
+- If your patch fixes a bug, then include the ticket number in the form `#NNNN` in the patch name, e.g.
 
   ```wiki
     FIX #767 (withMVar family have a bug)
