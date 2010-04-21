@@ -15,6 +15,7 @@ Although old code in GHC is not warning-clean, we want new code to be, and we ar
 == Deciding what to work on ==
  * You may have a pet project of your own.  If you are wondering which bits of the compiler would be important for you, start by consulting the [wiki:Commentary]. 
  * Pick an easy [query:?status=new&status=assigned&status=reopened&type=bug&order=priority&group=difficulty  bug report] or [query:?status=new&status=assigned&status=reopened&type=task&order=priority&group=difficulty  task] to work on
+ * Help us with our BugSweep
 
 == Contributing back to GHC ==
 
