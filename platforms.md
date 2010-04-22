@@ -28,6 +28,7 @@ Criteria for Tier 1 platforms:
 <th>**NCG**</th>
 <th>**f.i.**</th>
 <th>**Dyn libs**</th>
+<th>**Sponsor**</th>
 <th>**WikiPage**</th></tr>
 <tr><th> x86          </th>
 <th> Windows (MinGW) </th>
@@ -37,6 +38,7 @@ Criteria for Tier 1 platforms:
 <th> Yes                   </th>
 <th> Yes          </th>
 <th> Yes(\*W)            </th>
+<th></th>
 <th>[WindowsGhc](windows-ghc)</th></tr>
 <tr><th> x86          </th>
 <th> Linux           </th>
@@ -46,6 +48,7 @@ Criteria for Tier 1 platforms:
 <th> Yes                   </th>
 <th> Yes          </th>
 <th> No                </th>
+<th></th>
 <th></th></tr>
 <tr><th> x86          </th>
 <th> MacOS X         </th>
@@ -55,6 +58,7 @@ Criteria for Tier 1 platforms:
 <th> Yes                   </th>
 <th> Yes          </th>
 <th> No                </th>
+<th></th>
 <th>[Attic/X86OSXGhc](attic/x86-osx-ghc)</th></tr>
 <tr><th> x86-64       </th>
 <th> Linux           </th>
@@ -64,6 +68,27 @@ Criteria for Tier 1 platforms:
 <th> Yes                   </th>
 <th> Yes          </th>
 <th> No                </th>
+<th></th>
+<th></th></tr>
+<tr><th> x86          </th>
+<th> FreeBSD         </th>
+<th> i386-unknown-freebsd    </th>
+<th> Yes          </th>
+<th> Yes  </th>
+<th> Yes    </th>
+<th> Yes          </th>
+<th> No                </th>
+<th> Gabor PALI </th>
+<th></th></tr>
+<tr><th> x86-64       </th>
+<th> FreeBSD         </th>
+<th> amd64-unknown-freebsd   </th>
+<th> Yes          </th>
+<th> Yes  </th>
+<th> Yes    </th>
+<th> Yes          </th>
+<th> No                </th>
+<th> Gabor PALI </th>
 <th></th></tr></table>
 
 **\*W** Win32 DLL support bitrotten
@@ -93,15 +118,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th>**f.i.**</th>
 <th>**Dyn libs**</th>
 <th>**WikiPage**</th></tr>
-<tr><th> x86          </th>
-<th> FreeBSD         </th>
-<th> i386-unknown-freebsd    </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
-<th></th></tr>
 <tr><th> x86          </th>
 <th> OpenBSD         </th>
 <th> i386-unknown-openbsd    </th>
@@ -134,15 +150,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> i386-unknown-solaris2   </th>
 <th> Yes          </th>
 <th> No   </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
-<th></th></tr>
-<tr><th> x86-64       </th>
-<th> FreeBSD         </th>
-<th> amd64-unknown-freebsd   </th>
-<th> Yes          </th>
-<th> Yes  </th>
 <th> Yes    </th>
 <th> Yes          </th>
 <th> No                </th>
