@@ -41,6 +41,4 @@ Here are notes about aspects of GHC's design that are up for discussion.  (They 
 
 - [Haskell library organisation](package-reorg)
 - The design for the package system itself?
-- [ book report help](http://essaywritingservices.org/book-report.php)
-- [ certified resume writer](http://cvresumewriters.com/onlineresume.php)
 - [Support for better error reporting](explicit-call-stack); the "head \[\]" problem.

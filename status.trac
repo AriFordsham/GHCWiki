@@ -31,8 +31,6 @@ Here is our [wiki:GhcPlanning current planning document], intended mainly to hel
 
 Here are notes about aspects of GHC's design that are up for discussion.  (They often relate to Haskell generally, rather than just GHC, but it's a convenient place to keep them.)
   * [wiki:PackageReorg Haskell library organisation]
-  * [wiki:GhcPackages The design for the package system itself] 
-  * [http://essaywritingservices.org/book-report.php book report help] 
-  * [http://cvresumewriters.com/onlineresume.php certified resume writer]
+  * [wiki:GhcPackages The design for the package system itself]
   * [wiki:ExplicitCallStack Support for better error reporting]; the "head []" problem.
  
