@@ -3,7 +3,7 @@
 ## GHC 6.12
 
 
-By the time you read this, GHC 6.12.2 should have been released. This fixes many bugs relative to 6.12.1, including closing 81 trac tickets. For full release notes, and to download it, see the GHC webpage ([http://www.haskell.org/ghc/download_ghc_6_12_2.html](http://www.haskell.org/ghc/download_ghc_6_12_2.html)).
+In the past 6 months we have made the first 2 releases from the 6.12 branch. 6.12.1 came out in December, while 6.12.2 was released in April. The 6.12.2 release fixes many bugs relative to 6.12.1, including closing 81 trac tickets. For full release notes, and to download it, see the GHC webpage ([http://www.haskell.org/ghc/download_ghc_6_12_2.html](http://www.haskell.org/ghc/download_ghc_6_12_2.html)). We plan to do one more release from this branch before creating a new 6.14 stable branch.
 
 
 GHC 6.12.2 will also be included in the upcoming Haskell Platform release ([ http://hackage.haskell.org/platform/](http://hackage.haskell.org/platform/)). The Haskell platform is the recommended way for end users to get a Haskell development environment.
