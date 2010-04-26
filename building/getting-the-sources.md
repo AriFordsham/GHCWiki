@@ -11,14 +11,6 @@ There are two ways to get sources to GHC: download a source distribution, or get
 A source distribution is a file like `ghc-6.6-src.tar.bz2`, which contains a complete snapshot of the source tree for a particular version of GHC.  Source distributions for all versions of GHC are available from the [download page](http://www.haskell.org/ghc/download.html).
 
 
-Starting with GHC 6.6, we have split the source distribution in two:
-
-- `ghc-<version>-src.tar.bz2` contains GHC itself and the minimum libraries needed to bootstrap GHC.
-- `ghc-<version>-src-extralibs.tar.bz2` contains a selection of supplemental libraries that can be built
-  and installed at the same time as GHC.  Just unpack this on top of `ghc-<version>-src.tar.bz2`, and
-  the extra libraries will be built automatically.
-
-
 In addition to fixed releases of GHC, source distributions are also made each night from the current source repository, for both the HEAD and STABLE branches.  To download these snapshots, head over to the [download page](http://www.haskell.org/ghc/download.html).
 
 
