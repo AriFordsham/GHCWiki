@@ -22,9 +22,7 @@ These darcs repositories are the HEAD (main trunk) of GHC development:
 </th></tr></table>
 
 
-For faster fetching, try the `--hashed` mirrors at [ http://darcs.volkswurst.de/ghc](http://darcs.volkswurst.de/ghc), [ http://darcs.volkswurst.de/testsuite](http://darcs.volkswurst.de/testsuite), etc. (updated every two hours). Note that this only works with darcs2 clients, but contains exactly the same (darcs1) patches as the official repository at the time it was mirrored. See [ http://darcs.volkswurst.de/about.txt](http://darcs.volkswurst.de/about.txt) for more information.
-
-**Warning.**  Both the `ghc` and `testsuite` repositories tickle a case-sensitivity bug in darcs, so on Windows (only) you can't do a full `darcs get` for `ghc` or `testsuite`.  Instead, either start with a tarball of the repository gotten from somewhere else, or do `darcs get --partial`.  (The repository itself can't be fixed to avoid the bug, without messing up its history.)
+Our repositories are all in the darcs "hashed" format, so you need Darcs verison 2 or later (preferably 2.4 or later) to get them.  Use the `--lazy` option when getting the repository remotely to dramatically speed up the transfer.
 
 
 The following repositories are the "GHC boot" libraries, i.e. the set of libraries that are necessary to build GHC (i.e. they are used when building the stage 2 compiler). They populate the libraries/ directory of a GHC tree.
@@ -60,10 +58,15 @@ Additionally a GHC build needs these two tools:
 
 The following branches are active:
 
+<table><tr><th>**6.12 Branch**</th>
+<td>
+Prepend `ghc-6.12` to the name of the repository to get the 6.12 branch.  For example,
+the 6.12 ghc repository is at [ http://darcs.haskell.org/ghc-6.12/ghc](http://darcs.haskell.org/ghc-6.12/ghc). 
+</td></tr></table>
+
 <table><tr><th>**6.10 Branch**</th>
 <td>
-Prepend `ghc-6.10` to the name of the repository to get the 6.10 branch.  For example,
-the 6.10 ghc repository is at [ http://darcs.haskell.org/ghc-6.10/ghc](http://darcs.haskell.org/ghc-6.10/ghc). 
+As for the 6.12 branch, but use 6.10 as the version number.
 
 Note: only the `ghc` repository and the core libraries were branched for 6.10, the
 extralibs packages were not. However, there are symlinks under `ghc-6.10`.
