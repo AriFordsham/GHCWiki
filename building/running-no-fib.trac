@@ -83,4 +83,11 @@ NoFibWays =
 WithNofibHc = /home/simonpj/builds/HEAD/inplace/bin/ghc-stage1
 }}}
 
+ * Many nofib programs have up to three test data sets. The `mode` variable tells the system which to use, thus:
+{{{
+make -k mode=slow
+make -k mode=norm
+make -k mode=fast
+}}}
+See `mk/opts.mk`. The default is `mode=norm`.
 
