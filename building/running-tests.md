@@ -60,6 +60,13 @@ To run an individual test or tests (eg. tc054):
 'make TEST=tc054' from there, which will save some time).
 
 
+To run several tests, you just space separate them:
+
+```wiki
+        make TEST="tc054 tc053"
+```
+
+
 To run the tests one particular way only (eg. GHCi):
 
 ```wiki
