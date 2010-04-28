@@ -35,27 +35,25 @@ We organise our work (both bug fixing and feature requests) using the Trac bug t
 
 The following are GHC-specific policies regarding the fields of the Trac bug tracking system. (See also [wiki:ReportABug the bug reporting guidelines].)
 
- * '''Type''': When a bug is fixed, but the patch or patches still need to be merged to other branches, then
-   don't close the bug, just change its type from '''bug''' or '''task''' to '''merge'''.  Also add a list of
-   patches to be merged, and which branch to merge to, as a comment.
+ * '''Milestone''': this field is for the GHC development team to indicate by when we intend to fix the bug.  We have a milestone for each planned release (e.g. "6.12.3"), and three special milestones:
+   * An empty milestone field means the bug has not been triaged yet.  We don't yet know if the
+     ticket is a real, unique, issue.  Once this has been established, the ticket will be given
+     a milestone.
+   * '''Not GHC''' is for tickets that are not tied to a GHC release.
+   * '''_|_''' is for tickets that have been triaged, but we don't plan to fix them for a particular
+     release.  This might be because the bug is low priority, or is simply too hard to fix right now.
 
  * '''Severity''': this is set by the submitter of the ticket, and indicates how important the issue is to
    them, i.e. is it preventing them from doing something altogether, or just a minor annoyance.  The
    severity might be reduced if we discover a workaround.
 
- * '''Priority''': this field is for the GHC development team to help us prioritise what we work on.  Bugs
-   that have a high severity will tend to be prioritised higher, as will bugs that are regressions from
-   a previous release.
-
- * '''Milestone''': this field is for the GHC development team to indicate by when we intend to fix the bug.  We have a milestone for each release, and three special milestones:
-   * An empty milestone field means the bug has not been triaged yet.  We don't yet know if the
-     ticket is a real, unique, issue.  Once this has been established, the ticket will be given
-     a milestone.
-   * '''Not GHC''' is for tickets that are not tied to a GHC release, because they are in libraries
-     or other software that is not released with GHC.  Bugs in the "extra libraries" typically fall
-     into this category.
-   * '''_|_''' is for tickets that have been triaged, but we don't plan to fix them for a particular
-     release.  This might be because the bug is low priority, or is simply too hard to fix right now.
+ * '''Priority''': this field is for the GHC development team to help us prioritise what we work on. On a release milestone, the highest priority tickets are blockers for that release, and the high priority tickets are those that we also plan to fix before releasing. We will also try to fix as many of the normal and lower priority tickets as possible.
 
  * '''Test Case''': fill in this field with the name of the test in the test suite.  Typically every bug
    closed should have an appropriate test case added to the test suite.
+
+When a release is made, any open tickets on that release's milestone will be moved to the next release's milestone. However, if they are more than 1 major release old (e.g. opened on the 6.10 branch, and about to be moved to the 6.14.1 milestone), and there is not a reason to keep them in the release milestone (e.g. a patch attached for review, or significant support in the CC field), then they will be moved to the `_|_` milestone instead.
+
+The ticket workflow is illustrated in the following image. Most tickets will start in state "new" and, once fixed, possibly go via state "merge" if they are suitable for merging to the stable branch, before moving to state "closed". They may also go via state "infoneeded" if more information is needed from the submitter, or "patch" if a patch that needs review has been attached to the ticket.
+
+[[Image(workflow.png)]]
