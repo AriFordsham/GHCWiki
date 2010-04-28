@@ -50,7 +50,7 @@ We organise our work (both bug fixing and feature requests) using the Trac bug t
 
 Every ticket has a **status** and a **type**, which appear in the title of the ticket.  Thus "Ticket [\#2762](https://gitlab.haskell.org//ghc/ghc/issues/2762) (new bug)" means status=new, and type=bug.  Here's what they mean:
 
-- **Type** is one of `bug`, `feature request`, `task`, or `proposal`. We don't use `proposal` much.
+- **Type** is one of `bug`, `feature request`, `task`, or `proposal`. The `proposal` type is only for [ library submission](http://www.haskell.org/haskellwiki/Library_submissions) proposals.
 
 - **Status** says what state the ticket is in.  It is one of these:
 
