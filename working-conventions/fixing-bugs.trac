@@ -33,6 +33,6 @@ Many bugs require a bit more work.  Here's how to go about helping with a non-tr
    * Add a comment to the Trac bug report to say what you've done
    * In the 'Action' part of the Trac ticket, select "Please review".  This shifts responsibility to the GHC team to review and commit your patch.
   
-   If you do have commit permission, then commit, update the Trac report, and close the bug.
+ If you do have commit permission, then commit, update the Trac report, and close the bug.
 
 Then have a beer on us.  We are truly grateful.
