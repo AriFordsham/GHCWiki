@@ -47,7 +47,7 @@ The following are GHC-specific policies regarding the fields of the Trac bug tra
    them, i.e. is it preventing them from doing something altogether, or just a minor annoyance.  The
    severity might be reduced if we discover a workaround.
 
- * '''Priority''': this field is for the GHC development team to help us prioritise what we work on. On a branch milestone, the highest priority tickets are blockers for the next release, and the high priority tickets are those that we plan to fix before releasing. We will also try to fix as many of the normal and lower priority tickets as possible.
+ * '''Priority''': this field is for the GHC development team to help us prioritise what we work on. On a branch milestone, the highest priority tickets are blockers for the next release on that branch, and the high priority tickets are those that we also plan to fix before releasing. We will also try to fix as many of the normal and lower priority tickets as possible.
 
  * '''Test Case''': fill in this field with the name of the test in the test suite.  Typically every bug
    closed should have an appropriate test case added to the test suite.
