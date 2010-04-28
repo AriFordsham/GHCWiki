@@ -72,6 +72,8 @@ Each ticket has a bunch of other fields too:
 
  * '''cc''': we pay more attention to tickets with a long cc list, so add yourself to the cc list if you care about the ticket.  Better still, add a comment to explain why you care.
 
+ * '''Owned by''' says who is committed to taking the ticket forward.  We typically leave this field blank until we actively start working on it, lest others feel unable to to work on a ticket because it is apparently owned, even though nothing is happening.
+
 === Releases ===
 When a release is made, any open tickets on that release's milestone will be moved to the next release's milestone. However, if they are more than 1 major release old (e.g. opened on the 6.10 branch, and about to be moved to the 6.14.1 milestone), and there is not a reason to keep them in the release milestone (e.g. a patch attached for review, or significant support in the CC field), then they will be moved to the `_|_` milestone instead.
 
