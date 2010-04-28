@@ -43,7 +43,7 @@ Please feel free to add material to this commentary: don't worry too much about 
 ## Contributed Documentation
 
 
-Please edit and improve the Commentary above, or the Building Guide.  
+Please edit and improve the Commentary above, or the [Building Guide](building).  
 
 
 However sometimes you may want to add new material that doesn't quite fit into the existing structure.  Or perhaps your pages are about work-in-progress, status reports and suchlike, which don't belong in the Commentary per se.  Regardless, you can add your new material here.
