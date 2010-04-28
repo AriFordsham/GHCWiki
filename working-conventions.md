@@ -35,6 +35,8 @@ Before you commit a patch you want to be reasonably sure you haven't broken anyt
 
 Our conventions and some useful tips for using darcs are here: [WorkingConventions/Darcs](working-conventions/darcs).
 
+---
+
 ## The Bug Tracker
 
 
@@ -60,6 +62,9 @@ Every ticket has a **status** and a **type**, which appear in the title of the t
 
 
 The intention is that tickets do not live in the Merge or Patch state for long.
+
+
+You change the status of a ticket using the Action box at the bottom.
 
 ### Other Trac ticket fields
 

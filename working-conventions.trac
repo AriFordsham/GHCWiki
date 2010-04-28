@@ -29,6 +29,7 @@ Before you commit a patch you want to be reasonably sure you haven't broken anyt
 
 Our conventions and some useful tips for using darcs are here: [wiki:WorkingConventions/Darcs].
 
+-------------------------------
 == The Bug Tracker ==
 
 We organise our work (both bug fixing and feature requests) using the Trac bug tracker.   There are links to the bug tracker in the sidebar under "View tickets" and "Create ticket". See also:
@@ -49,6 +50,8 @@ Every ticket has a '''status''' and a '''type''', which appear in the title of t
    * '''Merge''' means that a fix has been committed to the HEAD, but should be propagated to the current release branch.
    * '''Patch''' means that the ticket includes a patch for review.  We love patches!  So we try hard to review patches promptly and either commit them, or start a conversation with the author.
 The intention is that tickets do not live in the Merge or Patch state for long.
+
+You change the status of a ticket using the Action box at the bottom.
 
 === Other Trac ticket fields ===
 
