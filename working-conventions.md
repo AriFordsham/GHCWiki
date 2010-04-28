@@ -54,7 +54,7 @@ Every ticket has a **status** and a **type**, which appear in the title of the t
 
 - **Status** says what state the ticket is in.  It is one of these:
 
-  - **New** is for open bugs that need to be triaged or fixed.
+  - **New** is for open tickets that need to be triaged or fixed.
   - **Infoneeded** means that the ticket is stalled awaiting information from the submitter (or anyone else).
   - **Closed** means what it says.
   - **Merge** means that a fix has been committed to the HEAD, but should be propagated to the current release branch.
