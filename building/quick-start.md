@@ -14,7 +14,7 @@ The following instructions assume that you have [got the sources](building/getti
 If you are starting from a `darcs` checkout (or rebuilding from darcs), then:
 
 ```wiki
-$ sh boot
+$ perl boot
 ```
 
 
