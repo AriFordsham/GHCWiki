@@ -4,7 +4,7 @@
 Last updated: **March 2010**.
 
 
-This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.  Here is the state of play; see also [work on the LLVM back end](commentary/compiler/backends/llvm/wip).
+This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.  Here is the state of play; see also [work on the LLVM back end](commentary/compiler/backends/llvm).
 
 - John D has built a complete new codegen pipeline, running alongside the old one, enabled by `-fuse-new-codegen`. It is described here: [Commentary/Compiler/NewCodeGenPipeline](commentary/compiler/new-code-gen-pipeline).  It uses a new representation for `Cmm`, mostly with "Z" in the name.  (Let's call the original Cmm `OldCmm` and this new one `CmmZ`.)  It has a new conversion STG-\>CmmZ, and then sequence of passes that optimise and cps-convert the Cmm.  Finally, it is converted back to the old Cmm so that it can flow to the old code generators.
 
