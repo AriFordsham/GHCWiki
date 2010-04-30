@@ -14,6 +14,20 @@ You can see exactly which versions of what packages GHC depends on by looking in
 
 You can make the build system build extra packages, on which GHC doesn't strictly depend, by extending the `EXTRA_PACKAGES` variable. It's not very tidy; see tickets #3896 and #3882 for more information.
 
+It should be exceptional, but you can make the build system provide per-package compiler flags, by adding some definitions in `$(TOP)/ghc.mk`, just below the comment
+{{{
+# Per-package compiler flags
+# 
+# If you want to add per-package compiler flags, this 
+# is the place to do it.  Do it like this for package <pkg>
+#   
+#   libraries/<pkg>_dist-boot_HC_OPTS += -Wwarn
+#   libraries/<pkg>_dist-install_HC_OPTS += -Wwarn
+}}}
+
+--------------------------
+= Classifying boot packages =
+
 Boot packages can be classified in three different ways:
   * Independent/Coupled/Specific
   * Zero-boot/not zero-boot
@@ -24,17 +38,18 @@ These distinctions are described in the following sub-sections.
 
 An important classification of the boot packages is as follows:
 
- * '''INDEPENDENT''': Independently maintained (e.g. time, haskeline)
- * '''COUPLED''': Tightly coupled to GHC, but used by others (base)
- * '''SPECIFIC''': Totally specific to GHC (e.g. template-haskell, DPH)
+ * '''SPECIFIC''': Totally specific to GHC.  At the moment these are:
+   * ghc-prim
+   * template-haskell
+   * DPH
+
+ * '''COUPLED''': Tightly coupled to GHC.  At the moment there is just one of these:
+   * base
+
+ * '''INDEPENDENT''': Independently maintained.  There are quite a few of these, such as `containers`, `binary`, `haskeline` and so on.
 
 Most boot libraries are INDEPENDENT.  INDEPENDENT libraries have a
 master repository somewhere separate from the GHC repositories.  Whenever we release GHC, we ensure that the INDEPENDENT boot libraries that come with GHC are precisely sync'd with a particular released version of that library.
-
-The current classification of packages is:
-  * SPECIFIC: `ghc-prim`, `template-haskell`, `DPH`
-  * COUPLED: `base`
-  * INDEPENDENT: all other packages
 
 == Zero-boot packages ==
 
@@ -70,6 +85,7 @@ Alas, since the `ghc` package (implementing the GHC API) is certainly an install
 
 Currently the Boot Packages that are not installed are `haskelline`, `mtl`, and `terminfo`; these are needed to build the GHC front-end, but not to build the `ghc` ''package''.
 
+---------------------------
 = Boot packages dependencies =
 
  * At the root of the hierarchy we have '''`ghc-prim`'''. As the name implies, this package contains the most primitive types and functions. It only contains a handful of modules, including `GHC.Prim` (which contains `Int#`, `+#`, etc) and `GHC.Bool`, containing the `Bool` datatype.
