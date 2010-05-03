@@ -64,7 +64,7 @@ Every ticket has a **status** and a **type**, which appear in the title of the t
 The intention is that tickets do not live in the Merge or Patch state for long.
 
 
-You change the status of a ticket using the Action box at the bottom.
+You change the status of a ticket using the Action box at the bottom.  Particularly, if you add a patch for a ticket, click the "please review" action at the bottom to change its status to "Patch".
 
 ### Other Trac ticket fields
 
