@@ -82,6 +82,7 @@
 
 ------------------------
 == New constraint simplifier ==
+ * #3064: performance of constraint simplifier
  * [wiki:TypeFunctionsStatus]
  * #3927: overlap warnings with GADTs
  * #3851: type family expansion
