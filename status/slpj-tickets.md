@@ -91,6 +91,7 @@
 
 ## New constraint simplifier
 
+- [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): performance of constraint simplifier
 - [TypeFunctionsStatus](type-functions-status)
 - [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927): overlap warnings with GADTs
 - [\#3851](https://gitlab.haskell.org//ghc/ghc/issues/3851): type family expansion
