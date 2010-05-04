@@ -121,15 +121,15 @@ Manuel will fill this in
 
 === Other miscellaneous stuff ===
 
-* GHC makes heavy use of sets and finite maps.  Up till now it has used
-  its own home-grown `UniqFM` and `FiniteMap` modules.  Milan Straka (visiting as
-  an intern from the Czech Republic) has 
-  * Made GHC use the `containers` package instead, which happily makes 
-    compilation go a few percent faster.
-  * Developed some improvments to `containers` that makes it go faster still.
-    So `UniqFM` and `FiniteMap` are finally dead.  Hurrah for Hackage!
+ * GHC makes heavy use of sets and finite maps.  Up till now it has used
+   its own home-grown `UniqFM` and `FiniteMap` modules.  Milan Straka (visiting as
+   an intern from the Czech Republic) has 
+   * Made GHC use the `containers` package instead, which happily makes 
+     compilation go a few percent faster.
+   * Developed some improvments to `containers` that makes it go faster still.
+   So `UniqFM` and `FiniteMap` are finally dead.  Hurrah for Hackage!
 
-* The [http://research.microsoft.com/threadscope Threadscope] tool for visualising parallel execution was released.  The tool is ripe for improvement in many ways, if you're interested in helping let us know
+ * The [http://research.microsoft.com/threadscope Threadscope] tool for visualising parallel execution was released.  The tool is ripe for improvement in many ways, if you're interested in helping let us know
 
 === Nightly builds ===
 
