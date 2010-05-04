@@ -103,10 +103,6 @@ The downside is that the code base is in a state of serious flux:
 
 
 
-= Stuff waiting for other people to fill in =
-
-    * Data parallel Haskell: Manuel
-
 
 
 === Runtime system work (SimonM) ===
@@ -118,6 +114,10 @@ We also fixed another pathalogical performance case: when a large numbers of thr
 At the same time, we rearchitected large parts of the RTS to move from algorithms involving shared data structures and locking to a message-passing style.  As things get more complex in the parallel RTS, using message-passing let us simplify some of the invariants and move towards having less shared state between the CPUs, which will improve scaling in the long run.
 
 The GC has seen some work too: the goal here is to enable each processor ("capability" in the internal terminology) to collect its private heap independently of the other processors.  It turns out that this is quite tricky to achieve in the context of the current architecture, but we have made some progress in this direction by privatising more of the global state and simplifying the GC data structures by removing the concept of "steps", while keeping a simple aging policy which is what steps gave us previously.
+
+=== Data Parallel Haskell ===
+
+Manuel will fill this in
 
 == Other miscellaneous stuff ==
 
