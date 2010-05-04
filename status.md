@@ -16,6 +16,7 @@ Here are details about what [platforms GHC supports](platforms).
 
 Here are biannual GHC status reports, published in the [ Haskell Communities and Activities Report](http://haskell.org/communities/)
 
+- [GHC status April 2010](status/apr10)
 - [GHC status October 2009](status/oct09)
 - [GHC status May 2009](status/may09)
 - [GHC status October 2008](status/october08)
@@ -39,6 +40,6 @@ Here is our [current planning document](ghc-planning), intended mainly to help S
 
 Here are notes about aspects of GHC's design that are up for discussion.  (They often relate to Haskell generally, rather than just GHC, but it's a convenient place to keep them.)
 
-- [Haskell library organisation](package-reorg)
-- The design for the package system itself?
+- [Haskell library organisation](commentary/packages/package-reorg)
+- [The design for the package system itself](commentary/packages/ghc-packages-proposal)
 - [Support for better error reporting](explicit-call-stack); the "head \[\]" problem.
