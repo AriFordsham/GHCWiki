@@ -31,7 +31,7 @@ be in scope) to parse the "...blah..blah..", and return a list of
 Template Haskell declarations, which are then spliced into the program
 in place of the quote. 
 
-== Type system == 
+=== Type system === 
 
 Type families remain the the hottest bit of GHC's type system.  Simon
 PJ has been advertising for some months that he intends to completely
@@ -119,7 +119,7 @@ The GC has seen some work too: the goal here is to enable each processor ("capab
 
 Manuel will fill this in
 
-== Other miscellaneous stuff ==
+=== Other miscellaneous stuff ===
 
 * GHC makes heavy use of sets and finite maps.  Up till now it has used
   its own home-grown `UniqFM` and `FiniteMap` modules.  Milan Straka (visiting as
