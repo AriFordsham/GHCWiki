@@ -41,7 +41,7 @@ be in scope) to parse the "...blah..blah..", and return a list of
 Template Haskell declarations, which are then spliced into the program
 in place of the quote. 
 
-## Type system
+### Type system
 
 
 Type families remain the the hottest bit of GHC's type system.  Simon
@@ -125,10 +125,6 @@ The downside is that the code base is in a state of serious flux:
 - We still have two back-end pipelines, because we don't trust the new one to drop the old one.  See Commentary/Compiler/NewCodeGen NewCodeGen?.
 - We are in the midst of pushing the new Hoopl into GHC.
 
-# Stuff waiting for other people to fill in
-
-- Data parallel Haskell: Manuel
-
 ### Runtime system work (SimonM)
 
 
@@ -143,7 +139,12 @@ At the same time, we rearchitected large parts of the RTS to move from algorithm
 
 The GC has seen some work too: the goal here is to enable each processor ("capability" in the internal terminology) to collect its private heap independently of the other processors.  It turns out that this is quite tricky to achieve in the context of the current architecture, but we have made some progress in this direction by privatising more of the global state and simplifying the GC data structures by removing the concept of "steps", while keeping a simple aging policy which is what steps gave us previously.
 
-## Other miscellaneous stuff
+### Data Parallel Haskell
+
+
+Manuel will fill this in
+
+### Other miscellaneous stuff
 
 - GHC makes heavy use of sets and finite maps.  Up till now it has used
   its own home-grown `UniqFM` and `FiniteMap` modules.  Milan Straka (visiting as
