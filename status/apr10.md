@@ -160,7 +160,7 @@ At the start of the year, Ben Lippmeier has joined the project.  He has started 
   - Developed some improvments to `containers` that makes it go faster still.
     So `UniqFM` and `FiniteMap` are finally dead.  Hurrah for Hackage!
 
-- The [ Threadscope](http://research.microsoft.com/threadscope) tool for visualising parallel execution was released.  The tool is ripe for improvement in many ways, if you're interested in helping let us know
+- The [ http://research.microsoft.com/threadscope Threadscope](http://research.microsoft.com/threadscope Threadscope) tool for visualising parallel execution was released.  The tool is ripe for improvement in many ways, if you're interested in helping let us know
 
 ### Nightly builds
 
@@ -175,8 +175,8 @@ We're always keen to add more build slaves; please see [ http://hackage.haskell.
 
 # Bibliography
 
-- \[Builder\] The GHC builder package
-  [ http://hackage.haskell.org/trac/ghc/wiki/Builder](http://hackage.haskell.org/trac/ghc/wiki/Builder)
+- \[Builder\] The GHC builder package [ http://hackage.haskell.org/trac/ghc/wiki/Builder](http://hackage.haskell.org/trac/ghc/wiki/Builder)
+
 - \[Hoopl\] "Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation", Norman Ramsey, John Dias, and Simon Peyton Jones, submitted to ICFP'10.  [ http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/)
 
 - \[NewCodeGen\] The glorious new code generator [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen)
@@ -190,5 +190,7 @@ We're always keen to add more build slaves; please see [ http://hackage.haskell.
 - \[Repa package\] The Repa Cabal package [ http://hackage.haskell.org/package/repa](http://hackage.haskell.org/package/repa)
 
 - \[Terei\] The LLVM back end for GHC [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM)
+
+- \[Threadscope\] The Threadscope tool [ http://research.microsoft.com/threadscope](http://research.microsoft.com/threadscope)
 
 - \[vector package\] The vector Cabal package [ http://hackage.haskell.org/package/vector-0.6.0.1](http://hackage.haskell.org/package/vector-0.6.0.1)
