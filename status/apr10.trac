@@ -91,7 +91,7 @@ before the rule has a chance to fire.
 
 GHC's back end has been a ferment of activity.  In particular,
 
-  * David Terei made a LLVM back end for GHC [Terei].  It's not part of the HEAD, but we earnestly hope that it will become so.
+  * David Terei made a LLVM back end for GHC [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM Terei]].  It's not part of the HEAD, but we earnestly hope that it will become so.
 
   * John Dias, Norman Ramsey, and Simon PJ made a lot of progress on Hoopl, our new representaion for control flow graphs, and accompanying functions for dataflow analysis and transformation.  There is a paper [[http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/ Hoopl]], and Hoopl itself is now a standalone, re-usable Cabal package, which makes it much easier for others to use.
 
