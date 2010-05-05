@@ -142,7 +142,13 @@ The GC has seen some work too: the goal here is to enable each processor ("capab
 ### Data Parallel Haskell
 
 
-Manuel will fill this in
+In the last months, our focus has been on improving the scalability of the [ Quickhull](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs) benchmark, and this work is still ongoing.  In addition, Roman has invested significant energy into the increasingly popular package [ vector](http://hackage.haskell.org/package/vector-0.6.0.1) and the [ NoSlow](http://hackage.haskell.org/package/NoSlow) array benchmark framework.  Package vector is our next-gen sequential array library, and we will replace the current sequential array component (dph-prim-seq) with package vector sometime in the next few months.
+
+
+We completed a first release of the regular, multi-dimensional array library introduced in the previous status report.  The library is called Repa and is available from Hackage [ Repa package](http://hackage.haskell.org/package/repa). The library supports shape-polymorphism and works with both the sequential and parallel DPH base library.  We discuss the use and implementation of Repa in a draft paper [ Repa](http://www.cse.unsw.edu.au/~chak/papers/KCLPL10.html).  We have shown that Repa can produce efficient and scalable code for FFT and relaxation algorithms and would be very interested to hear from early adopters who are willing to try Repa out in an application they care about.
+
+
+At the start of the year, Ben Lippmeier has joined the project.  He has started to improve our benchmarks infrastructure and worked on Repa.
 
 ### Other miscellaneous stuff
 
@@ -175,3 +181,5 @@ We're always keen to add more build slaves; please see [ http://hackage.haskell.
 - \[Terei\] The LLVM back end for GHC [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM)
 
 - \[NewCodeGen\] The glorious new code generator [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen)
+
+- \[Repa\] "Regular, shape-polymorphic, parallel arrays in Haskell", Gabriele Keller, Manuel M. T. Chakravarty, Roman Leshchinskiy, Simon Peyton Jones, and Ben Lippmeier, submitted to ICFP'10. [ http://www.cse.unsw.edu.au/\~chak/papers/KCLPL10.html](http://www.cse.unsw.edu.au/~chak/papers/KCLPL10.html)
