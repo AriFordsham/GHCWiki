@@ -24,7 +24,7 @@ suggestions from Kathleen Fisher:
 
 - Quasi-quotes can now appear as a top-level declaration, or in a type, as well
   as in a pattern or expression.
-- Quasi-quotes have a less noisy syntax.  
+- Quasi-quotes have a less noisy syntax (no "$").  
 
 
 Here's an example that illustrates both:
@@ -130,7 +130,7 @@ The downside is that the code base is in a state of serious flux:
 There has been a lot of restructuring in the RTS over the past few months, particularly in the area of parallel execution.  The biggest change is to the way "blackholes" work: these arise when one thread is evaluating a lazy computation (a "thunk"), and another thread or threads demands the value of the same thunk.  Previously, all threads waiting for the result of a thunk were kept in a single global queue, which was traversed regularly.  This lead to two performance problems.  Firstly, traversing the queue is O(n) in the number of blocked threads, and we recently encountered some benchmarks in which this was the bottleneck.  Secondly, there could be a delay between completing a computation and waking up the threads that were blocked waiting for it.  Fortunately, we found a design that solves both of these problems, while adding very little overhead.
 
 
-We also fixed another pathalogical performance case: when a large numbers of threads are blocked on an MVar and become unreachable at the same time, reaping all these threads was an O(n<sup>2</sup>) operation.  A new representation for the queue of threads blocked on an MVar solved this problem.
+We also fixed another pathological performance case: when a large numbers of threads are blocked on an MVar and become unreachable at the same time, reaping all these threads was an O(n<sup>2</sup>) operation.  A new representation for the queue of threads blocked on an MVar solved this problem.
 
 
 At the same time, we rearchitected large parts of the RTS to move from algorithms involving shared data structures and locking to a message-passing style.  As things get more complex in the parallel RTS, using message-passing let us simplify some of the invariants and move towards having less shared state between the CPUs, which will improve scaling in the long run.
@@ -141,10 +141,10 @@ The GC has seen some work too: the goal here is to enable each processor ("capab
 ### Data Parallel Haskell
 
 
-In the last months, our focus has been on improving the scalability of the [ Quickhull](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs) benchmark, and this work is still ongoing.  In addition, Roman has invested significant energy into the increasingly popular package [ vector](http://hackage.haskell.org/package/vector-0.6.0.1) and the [ NoSlow](http://hackage.haskell.org/package/NoSlow) array benchmark framework.  Package vector is our next-gen sequential array library, and we will replace the current sequential array component (dph-prim-seq) with package vector sometime in the next few months.
+In the last months, our focus has been on improving the scalability of the [ http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs Quickhull](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs Quickhull) benchmark, and this work is still ongoing.  In addition, Roman has invested significant energy into the increasingly popular [ http://hackage.haskell.org/package/vector-0.6.0.1 vector package](http://hackage.haskell.org/package/vector-0.6.0.1 vector package) and the [ http://hackage.haskell.org/package/NoSlow NoSlow](http://hackage.haskell.org/package/NoSlow NoSlow) array benchmark framework.  Package vector is our next-gen sequential array library, and we will replace the current sequential array component (dph-prim-seq) with package vector sometime in the next few months.
 
 
-We completed a first release of the regular, multi-dimensional array library introduced in the previous status report.  The library is called Repa and is available from Hackage [ Repa package](http://hackage.haskell.org/package/repa). The library supports shape-polymorphism and works with both the sequential and parallel DPH base library.  We discuss the use and implementation of Repa in a draft paper [ Repa](http://www.cse.unsw.edu.au/~chak/papers/KCLPL10.html).  We have shown that Repa can produce efficient and scalable code for FFT and relaxation algorithms and would be very interested to hear from early adopters who are willing to try Repa out in an application they care about.
+We completed a first release of the regular, multi-dimensional array library introduced in the previous status report.  The library is called Repa and is available from Hackage [ http://hackage.haskell.org/package/repa Repa package](http://hackage.haskell.org/package/repa Repa package). The library supports shape-polymorphism and works with both the sequential and parallel DPH base library.  We discuss the use and implementation of Repa in a draft paper [ http://www.cse.unsw.edu.au/\~chak/papers/KCLPL10.html Repa](http://www.cse.unsw.edu.au/~chak/papers/KCLPL10.html Repa).  We have shown that Repa can produce efficient and scalable code for FFT and relaxation algorithms and would be very interested to hear from early adopters who are willing to try Repa out in an application they care about.
 
 
 At the start of the year, Ben Lippmeier has joined the project.  He has started to improve our benchmarks infrastructure and worked on Repa.
@@ -171,14 +171,24 @@ For some time, it's been clear to us that Buildbot is not the perfect tool for o
 When the darcs.haskell.org hardware was upgraded, rather than installing buildbot on the new machine, we made the decision to implement a system that better matched our needs instead. The core implementation is now complete, and we have several machines using it for nightly builds.
 
 
-We're always keen to add more build slaves; please see [ http://hackage.haskell.org/trac/ghc/wiki/Builder](http://hackage.haskell.org/trac/ghc/wiki/Builder) if you're interested. Likewise, patches for missing features are welcome! The (Haskell) code is available at [ http://darcs.haskell.org/builder/](http://darcs.haskell.org/builder/)
+We're always keen to add more build slaves; please see [ http://hackage.haskell.org/trac/ghc/wiki/Builder Builder](http://hackage.haskell.org/trac/ghc/wiki/Builder Builder) if you're interested. Likewise, patches for missing features are welcome! The (Haskell) code is available at [ http://darcs.haskell.org/builder/](http://darcs.haskell.org/builder/)
 
 # Bibliography
 
+- \[Builder\] The GHC builder package
+  [ http://hackage.haskell.org/trac/ghc/wiki/Builder](http://hackage.haskell.org/trac/ghc/wiki/Builder)
 - \[Hoopl\] "Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation", Norman Ramsey, John Dias, and Simon Peyton Jones, submitted to ICFP'10.  [ http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/)
-
-- \[Terei\] The LLVM back end for GHC [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM)
 
 - \[NewCodeGen\] The glorious new code generator [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen)
 
+- \[NoSlow\] The NoSlow array benchmark framework [ NoSlow](http://hackage.haskell.org/package/NoSlow)
+
+- \[Quickhull\] The Quickhull DPH benchmark [ http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs)
+
 - \[Repa\] "Regular, shape-polymorphic, parallel arrays in Haskell", Gabriele Keller, Manuel M. T. Chakravarty, Roman Leshchinskiy, Simon Peyton Jones, and Ben Lippmeier, submitted to ICFP'10. [ http://www.cse.unsw.edu.au/\~chak/papers/KCLPL10.html](http://www.cse.unsw.edu.au/~chak/papers/KCLPL10.html)
+
+- \[Repa package\] The Repa Cabal package [ http://hackage.haskell.org/package/repa](http://hackage.haskell.org/package/repa)
+
+- \[Terei\] The LLVM back end for GHC [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM)
+
+- \[vector package\] The vector Cabal package [ http://hackage.haskell.org/package/vector-0.6.0.1](http://hackage.haskell.org/package/vector-0.6.0.1)
