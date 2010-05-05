@@ -15,9 +15,9 @@ Meanwhile, in the HEAD, the last 6 months have seen more than 1000 patches pushe
 
 === Language changes ===
 
-We have made a few small language improvements.
-
-Kathleen Fisher suggested two improvements to quasi-quotation:
+We have made only a few small language improvements.
+The most significant ones concern quasi-quotations, implementing
+suggestions from Kathleen Fisher:
  * Quasi-quotes can now appear as a top-level declaration, or in a type, as well
    as in a pattern or expression.
  * Quasi-quotes have a less noisy syntax.  
@@ -26,7 +26,7 @@ Here's an example that illustrates both:
 f x = x+1
 [pads| ...blah..blah... |]
 }}}
-The second delaration uses the quasi-quoter called `pads` (which must
+The second declaration uses the quasi-quoter called `pads` (which must
 be in scope) to parse the "...blah..blah..", and return a list of
 Template Haskell declarations, which are then spliced into the program
 in place of the quote. 
@@ -37,15 +37,15 @@ Type families remain the the hottest bit of GHC's type system.  Simon
 PJ has been advertising for some months that he intends to completely
 rewrite the constraint solver, which forms the heart of the type
 inference engine, and that remains the plan although he is being slow
-about it.  (The existing constraint solver works surprisingly
-well, but we have lots of tickets demonstrating bugs in corner cases.)
-An upcoming epic (60-page) JFP paper brings together all the key ideas;
-watch Simon's home page.
+about it.  The existing constraint solver works surprisingly
+well, but we have lots of tickets demonstrating bugs in corner cases.
+An upcoming epic (70-page) JFP paper "Modular type inference with local assumptions" 
+brings together all the key ideas; watch Simon's home page.
 
 === The mighty simplifier ===
 
 One of GHC's most crucial optimisers is the Simplifier, which is
-reponsible for many local transformations, plus applying inlining and
+responsible for many local transformations, plus applying inlining and
 rewrite-rules.  Over time it had become apparent that the
 implementation of INLINE pragmas wasn't very robust: small changes in
 the source code, or small wibbles in earlier optimisations, could mean
@@ -68,7 +68,7 @@ f1 x = \y -> <blah>
 {-# INLINE f2 #-}
 f2 x y = <blah>
 }}}
-  Here `f1` will be inlined when it is applied to one arugment, but `f2` will only be inlined if it appears applied to two arguments.  This turns out to be helpful in reducing gratuitous code bloat.
+  Here `f1` will be inlined when it is applied to one argument, but `f2` will only be inlined if it appears applied to two arguments.  This turns out to be helpful in reducing gratuitous code bloat.
 
 Another important related change is this. Consider
 {{{
@@ -77,7 +77,7 @@ test x = flip y ++ flip y
   where
     y = flop x
 }}}
-GHC will not fire rule "foo" because it is scared about duplicating the redec
+GHC will not fire rule "foo" because it is scared about duplicating the redex
 `(flop x)`.  However, if you declare that `flop` is CONLIKE, thus
 {{{
 {-# NOINLINE [1] CONLIKE flop #-}
