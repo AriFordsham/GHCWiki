@@ -152,7 +152,7 @@ We're always keen to add more build slaves; please see [[http://hackage.haskell.
 
  * [!NewCodeGen] The glorious new code generator [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen]
 
- * [!NoSlow] The !NoSlow array benchmark framework [http://hackage.haskell.org/package/NoSlow NoSlow]
+ * [!NoSlow] The !NoSlow array benchmark framework [http://hackage.haskell.org/package/NoSlow]
 
  * [Quickhull] The Quickhull DPH benchmark [http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs]
 
