@@ -70,7 +70,7 @@ GHC uses the `autoconf` tools in the standard Unixy way, described in more detai
       |             |                      |
       ---------------            maintainer-clean
         |                                  |
-      sh boot (runs autoconf)              | 
+    perl boot (runs autoconf)              | 
         |                                  |
         v                                  |   
       ----------------------------         |
