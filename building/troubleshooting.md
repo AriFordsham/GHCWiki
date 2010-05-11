@@ -6,6 +6,25 @@ Here we keep track of failures that can occur when building GHC, with solutions.
 
 We don't expect anyone to read this page from beginning to end.  The only way you get here is by searching, so remember when adding a new entry the most important thing to do is to **include the error message verbatim**, so searches will find it.  If a build failure is caused by a bug in GHC or the build system, please link to the ticket number so we can tell when it's safe to remove the entry and keep this page from getting too crufty.
 
+## Make has restarted itself 3 times; is there a makefile bug?
+
+
+If you see this when building:
+
+```wiki
+ghc.mk:96: *** Make has restarted itself 3 times; is there a makefile bug?.  Stop.
+```
+
+
+Simon M says: this can happen if you modify something while the build is in progress - I
+see this quite often.  In this case the error is just overly conservative, and restarting is the right workaround.
+
+
+If you encounter this without touching any files after typing 'make',
+then it's probably a bug in the build system.  Though unfortunately it's
+going to be almost impossible to track down unless we can find a way to
+reproduce it.
+
 ## libraries/ghc-prim/GHC/PrimopWrappers.hs:48:18: Not in scope: \`GHC.Prim.gcdInt\#'
 
 
