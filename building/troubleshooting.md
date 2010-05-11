@@ -16,7 +16,7 @@ ghc.mk:96: *** Make has restarted itself 3 times; is there a makefile bug?.  Sto
 ```
 
 
-Simon M says: It can happen if you modify something while the build is in progress - I
+Simon M says: this can happen if you modify something while the build is in progress - I
 see this quite often.  In this case the error is just overly conservative, and restarting is the right workaround.
 
 
