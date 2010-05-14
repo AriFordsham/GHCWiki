@@ -34,6 +34,7 @@
 
 == New code generator ==
  * [wiki:Commentary/Compiler/NewCodeGen New code generator tickets]
+ * #4065: forward propagation
  * #3969: better loops
  * #3458, #1216: undesirable allocation of something that is nearly a let-no-escape
  * #3462: allocate large objects with `allocateLocal()`
