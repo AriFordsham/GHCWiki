@@ -37,7 +37,7 @@ Modify the above according to where you installed things, and change the GHC ver
 ### Disable realtime virus-scanning for your build
 
 
-Realtime virus scanners are prone to causing weird build failures, typically "permission denied" errors that go away when the build is restarted.  The best way to avoid these problems is to exclude the directory containing your GHC build from realtime virus scanning, if your scanner supports excluding particular directories, or else turn off realtime scanning while building GHC.
+Realtime virus scanners are prone to causing weird build failures, typically "permission denied" errors that go away when the build is restarted.  The best way to avoid these problems is to exclude the directory containing your GHC build from realtime virus scanning, if your scanner supports excluding particular directories.  You probably also want to exclude directories in which temporary files are stored, which by default is `C:/Users/<user>/Local Settings/Temp` on Windows Vista and later, `C:/Documents and Settings/<user>/Local Settings/Temp` on Windows XP and older, or `C:/Temp`.
 
 ### Building documentation on Windows
 
