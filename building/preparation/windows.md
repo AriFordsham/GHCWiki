@@ -34,6 +34,11 @@ PATH=/c/mingw/bin:/c/ghc/ghc-6.10.1/bin:/usr/bin:/bin:/c/tools:/c/Python26:/c/wi
 
 Modify the above according to where you installed things, and change the GHC version appropriately.
 
+### Disable realtime virus-scanning for your build
+
+
+Realtime virus scanners are prone to causing weird build failures, typically "permission denied" errors that go away when the build is restarted.  The best way to avoid these problems is to exclude the directory containing your GHC build from realtime virus scanning, if your scanner supports excluding particular directories, or else turn off realtime scanning while building GHC.
+
 ### Building documentation on Windows
 
 
