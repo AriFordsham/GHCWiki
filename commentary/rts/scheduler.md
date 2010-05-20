@@ -39,11 +39,7 @@ OS threads are only used by the runtime for two reasons:
 Haskell threads are much lighter-weight (at least 100x) than OS threads.
 
 
-When running on an SMP, we use a fixed number of OS threads for
-running Haskell code, typically chosen to be the the same as the
-number of CPU cores in the machine.  There may be more than this
-number of OS threads in the runtime, but only this number will be
-executing Haskell code at any one time.
+When running on an SMP, we begin by creating the number of OS threads specified by the `+RTS -N` option, although during the course of running the program more OS threads might be created in order to continue running Haskell code while foreign calls execute.  Spare OS threads are kept in a pool attached to each `Capability` (see [\#Capabilities](commentary/rts/scheduler#capabilities)).
 
 
 The RTS provides a platform-independent abstraction layer for OS
@@ -74,11 +70,14 @@ two kinds of Haskell thread:
 Source files: [rts/Task.h](/trac/ghc/browser/ghc/rts/Task.h), [rts/Task.c](/trac/ghc/browser/ghc/rts/Task.c)
 
 
-A Task is a further layer of abstraction over an OS thread.  One `Task` is created for each OS thread known to the runtime.  To get the `Task` associated with with the current OS thread, use the function `myTask`:
+A Task is a further layer of abstraction over an OS thread.  One `Task` structure is created for each OS thread known to the runtime.  To get the `Task` associated with with the current OS thread, use the function `myTask`:
 
 ```wiki
   Task *myTask (void);
 ```
+
+
+The `myTask` function is implemented using thread-local storage.
 
 
 The Task contains a mutex and a condition variable used when OS threads in the runtime need to synchronise with each other or sleep waiting for a condition to occur.  The `Task` also points to the `Capability` that the `Task` currently owns (`task->cap`), or `NULL` if the `Task` does not currently own a `Capability`.
