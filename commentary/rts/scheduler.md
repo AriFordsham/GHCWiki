@@ -74,45 +74,42 @@ two kinds of Haskell thread:
 Source files: [rts/Task.h](/trac/ghc/browser/ghc/rts/Task.h), [rts/Task.c](/trac/ghc/browser/ghc/rts/Task.c)
 
 
-A Task is a further layer of abstraction over an OS thread.  
-
-
-One Task is created for each *call-in* to the runtime.  When a
-call-in is made, a Task is allocated, a new Haskell thread is created,
-and the two are bound together for the duration of the call:
-`task->tso` points to the TSO, and `tso->bound` points to the
-Task.
-If a thread makes a call-in, followed by a call-out, and another call-in and so on, there could be a whole stack of tasks associated with a single OS thread.
-
-
-Additionally, there is one Task for each worker OS thread in the
-system.  A worker OS thread is used for executing the unbound Haskell
-threads.  `tso->bound` is `NULL` for a worker Task.
-
-
-The function 
+A Task is a further layer of abstraction over an OS thread.  One `Task` is created for each OS thread known to the runtime.  To get the `Task` associated with with the current OS thread, use the function `myTask`:
 
 ```wiki
   Task *myTask (void);
 ```
 
 
-returns the Task associated with the current OS thread.  However,
-there may be multiple Tasks associated with a particular OS thread,
-for example if a call-in executes some code that makes a foreign call,
-and that foreign call makes a further call-in, and so on.  If an OS
-thread has multiple Tasks associated with it, then `myTask`
-returns the topmost, or most recently created, one.  The `myTask`
-function is implemented using OS thread-local state.
+The Task contains a mutex and a condition variable used when OS threads in the runtime need to synchronise with each other or sleep waiting for a condition to occur.  The `Task` also points to the `Capability` that the `Task` currently owns (`task->cap`), or `NULL` if the `Task` does not currently own a `Capability`.
 
 
 The important components of a Task are:
 
 - The OS thread that owns this Task
 - The *Capability* that this Task holds (see below)
-- The TSO that this Task is bound to, if any
+- The current `InCall` for this Task (see below)
 - A condition variable on which this Task can put itself to sleep
 - Some link fields for placing the Task on various queues
+
+## InCalls
+
+
+When an in-call is made, a Task is allocated (unless the current OS thread already has a Task), and an `InCall` structure is allocated for the call.  The `InCall` structure contains
+
+- a pointer to the `Task` that made the in-call
+- a pointer to the `TSO` that is executing the call
+- a slot to save the `TSO` in the event that this `TSO` needs to make a foreign call itself
+- a pointer to the previous `InCall`, if the current `Task` had already made an in-call followed by an out-call that lead to this in-call
+
+
+Each task points to its current `InCall`.  A worker Task (i.e. one that was created by the RTS rather than externally) also has an `InCall` structure, but in that case `incall->tso` is NULL.
+
+
+When a `TSO` makes a foreign call, the current `InCall` is placed on a queue attached to the `Capability`, `cap->suspended_ccalls`, from where the garbage collector can find the `TSO`s involved in foreign calls.  If one of these threads makes another in-call into Haskell, then another `InCall` is allocated, which points back to the original `InCall` via `incall->prev_stack`.  So we have a representation of the out-call/in-call stack for each `Task`, and we can restore the previous `InCall` when an in-call returns.
+
+
+A task has a small cache of spare `InCall` structures so that it can allocate a fresh one quickly and without taking any locks; this is important for in-call performance.
 
 ## Capabilities
 
