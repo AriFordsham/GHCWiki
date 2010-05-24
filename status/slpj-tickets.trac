@@ -44,6 +44,7 @@
  * #2731: avoiding unnecessary evaluation when unpacking constructors
  * #3940: propagate fix
  * #3969: bad code for tight loop
+ * #4090: failed `getRegister` in asm codegen
 
 === Other performance ===
  * #3138: returning a known constructor (Lennart's cmonad package)
@@ -160,3 +161,4 @@
 == Not sure what to do about these ==
  * #2284: the state-hack "optimisation" causes much re-computation
  * #3872: divergence in simplifier
+ * #4005: generational GC pathalogical case
