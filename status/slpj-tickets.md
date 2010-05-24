@@ -47,6 +47,7 @@
 - [\#2731](https://gitlab.haskell.org//ghc/ghc/issues/2731): avoiding unnecessary evaluation when unpacking constructors
 - [\#3940](https://gitlab.haskell.org//ghc/ghc/issues/3940): propagate fix
 - [\#3969](https://gitlab.haskell.org//ghc/ghc/issues/3969): bad code for tight loop
+- [\#4090](https://gitlab.haskell.org//ghc/ghc/issues/4090): failed `getRegister` in asm codegen
 
 ### Other performance
 
