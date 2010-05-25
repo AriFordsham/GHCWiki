@@ -382,11 +382,19 @@ Here is a high level view of what happens when you build GHC:
    `dist-boot`; for example the bootstrap build of Cabal will be in
    `libraries/Cabal/dist-boot`.
 
- * Then we build GHC against these packages, still using your
-   installed GHC.  This is called the "stage 1" compiler (see
-   [wiki:Building/Architecture/Idiom/Stages stages]).  You can run the
-   stage 1 compiler by invoking `inplace/bin/ghc-stage1`.  The stage 1
-   build of GHC happens in `compiler/stage1`.
+ * Then we build package `ghc`, still using the installed GHC.
+   The `ghc` package is a perfectly ordinary package.  The source
+   code for the package is all the files in `compiler/`.
+
+ * Now, still using the installed GHC, we build the `ghc` executable,
+   from source code in `ghc/`.  This source code is just a small Haskell
+   program that depends on package `ghc`. 
+
+ The resulting executable is
+ called the "stage 1" compiler (see
+ [wiki:Building/Architecture/Idiom/Stages stages]).  You can run the
+ stage 1 compiler by invoking `inplace/bin/ghc-stage1`.  The stage 1
+ build of GHC happens in `compiler/stage1`.
 
  * The stage 1 compiler is now used to build all the packages in the
    `libraries` subdirectory, and the runtime system in `rts`.
