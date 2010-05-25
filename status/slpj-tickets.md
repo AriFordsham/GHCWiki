@@ -81,6 +81,10 @@
 - [\#1434](https://gitlab.haskell.org//ghc/ghc/issues/1434): slow conversion Double to Int
 - [\#2270](https://gitlab.haskell.org//ghc/ghc/issues/2270): gcd specialisation
 
+## GHCi
+
+- [\#4017](https://gitlab.haskell.org//ghc/ghc/issues/4017): unhelpful GHCi message
+
 ---
 
 ## Outright bugs
