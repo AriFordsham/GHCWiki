@@ -99,6 +99,7 @@
 ## New constraint simplifier
 
 - [\#4093](https://gitlab.haskell.org//ghc/ghc/issues/4093): constraint simplifier loops
+- [\#4044](https://gitlab.haskell.org//ghc/ghc/issues/4044), [\#4045](https://gitlab.haskell.org//ghc/ghc/issues/4045): these were crashes something to do with type functions when building GHC
 - [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): performance of constraint simplifier
 - [TypeFunctionsStatus](type-functions-status)
 - [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927): overlap warnings with GADTs
