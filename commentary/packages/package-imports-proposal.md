@@ -1,3 +1,9 @@
+> *Apparently, this page is out of date and the issue has been settled in favour of the syntax:*
+>
+> ```wiki
+> import "somepackage" Some.Module
+> ```
+
 # Explicit package imports
 
 
