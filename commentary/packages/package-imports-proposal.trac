@@ -1,3 +1,8 @@
+    ''Apparently, this page is out of date and the issue has been settled in favour of the syntax:''
+    {{{
+    import "somepackage" Some.Module
+    }}}
+
 = Explicit package imports =
 
 This proposal is one possibility for addressing the question of identifying which package is meant in an import declaration.  For the context, read the [wiki:GhcPackages GHC packages summary page] first.
