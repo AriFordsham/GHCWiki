@@ -126,7 +126,7 @@ pre-generated for you.
 Change directory to `$(TOP)` and issue the command
 
 ```wiki
-$ sh boot
+$ perl boot
 ```
 
 

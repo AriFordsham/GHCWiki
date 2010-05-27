@@ -114,7 +114,7 @@ pre-generated for you.
 
 Change directory to `$(TOP)` and issue the command
 {{{
-$ sh boot
+$ perl boot
 }}}
 
 (Note: the `$` is the prompt.  You don't type that bit.)  This runs
