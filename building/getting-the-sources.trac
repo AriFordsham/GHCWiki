@@ -109,7 +109,7 @@ The first thing to do is install [http://darcs.net/ darcs] and [http://git.or.cz
 git clone http://darcs.haskell.org/ghc.git ghc
 cd ghc
 ./sync-all --complete get
-sh boot
+perl boot
 ./configure && make
 }}}
 
