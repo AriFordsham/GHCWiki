@@ -7,7 +7,7 @@ To pull new changes, use the [darcs-all script](building/darcs-all#pulling-new-p
 After pulling changes, the following sequence should be enough to update your build:
 
 ```wiki
-$ sh boot
+$ perl boot
 $ ./configure
 $ make
 ```

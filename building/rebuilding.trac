@@ -7,7 +7,7 @@ To pull new changes, use the [wiki:Building/DarcsAll#Pullingnewpatches darcs-all
 After pulling changes, the following sequence should be enough to update your build:
 
 {{{
-$ sh boot
+$ perl boot
 $ ./configure
 $ make
 }}}

@@ -119,7 +119,7 @@ To have the change propagated to the stage 2 compiler, either go and make stage 
 Adding a new package is quite straightforward:
 
 - To arrange that the package is checked out by `darcs-all`, add an entry to the [packages](/trac/ghc/browser/ghc/packages) file.
-- run `sh boot` to generate the `ghc.mk` and `GNUmakefile` files in your package's build.
+- run `perl boot` to generate the `ghc.mk` and `GNUmakefile` files in your package's build.
 - Add an entry to the `PACKAGES` variable in [ghc.mk](/trac/ghc/browser/ghc/ghc.mk).  The list in `PACKAGES` is kept in dependency order: each package must appear after the packages it depends on.
 
 

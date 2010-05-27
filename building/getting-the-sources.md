@@ -137,7 +137,7 @@ The first thing to do is install [ darcs](http://darcs.net/) and [ git](http://g
 git clone http://darcs.haskell.org/ghc.git ghc
 cd ghc
 ./sync-all --complete get
-sh boot
+perl boot
 ./configure && make
 ```
 

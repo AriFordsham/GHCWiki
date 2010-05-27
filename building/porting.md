@@ -81,7 +81,7 @@ Now begin with:
 
 ```wiki
 <T>$ cp /bin/pwd utils/ghc-pwd/ghc-pwd
-<T>$ sh boot
+<T>$ perl boot
 <T>$ ./configure --enable-hc-boot --build=plat --host=plat --target=plat
 ```
 
@@ -126,7 +126,7 @@ Then:
 Unpack a source tree (exactly the same version as before).  Call this directory `<H>`.
 
 ```wiki
-<H>$ sh boot
+<H>$ perl boot
 <H>$ ./configure --target=plat
 ```
 
@@ -200,7 +200,7 @@ in order to ignore unimportant build failures in the RTS.
 ```
 
 ```wiki
-<T>$ sh boot
+<T>$ perl boot
 <T>$ ./configure --enable-hc-boot --build=plat --host=plat --target=plat
 ```
 

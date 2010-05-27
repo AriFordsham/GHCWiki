@@ -257,7 +257,7 @@ ghc-pkg describe Win32 | sed 's/kernel32//' | ghc-pkg update -
 ### Using autoconf by mistake
 
 
-If you used `autoconf` instead of `sh boot`, you'll get an error when you run `./configure`:
+If you used `autoconf` instead of `perl boot`, you'll get an error when you run `./configure`:
 
 ```wiki
 ...lots of stuff...
@@ -271,7 +271,7 @@ configure: error: ./configure failed for ghc
 
 ### Cannot create configure
 
-`autoreconf` (which gets run by `sh boot`) seems to create the file `configure` read-only.  So if you need to run `sh boot` again (which I sometimes do for safety's sake), you get
+`autoreconf` (which gets run by `perl boot`) seems to create the file `configure` read-only.  So if you need to run `perl boot` again (which I sometimes do for safety's sake), you get
 
 ```wiki
 /usr/bin/autoconf: cannot create configure: permission denied
@@ -423,7 +423,7 @@ make: *** [stage1] Error 1
 ```
 
 **Possible Solution**::
-Be sure you have run `sh darcs-all get` to get all necessary packages. Don't forget to run `sh boot` again after you pull in new packages.
+Be sure you have run `sh darcs-all get` to get all necessary packages. Don't forget to run `perl boot` again after you pull in new packages.
 
 ### xargs: /usr/bin/ar: terminated by signal 11
 
