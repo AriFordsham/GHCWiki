@@ -81,7 +81,7 @@ Now begin with:
 
 ```wiki
 <T>$ cp /bin/pwd utils/ghc-pwd/ghc-pwd
-<T>$ sh boot
+<T>$ perl boot
 <T>$ ./configure --enable-hc-boot --build=plat --host=plat --target=plat
 ```
 
