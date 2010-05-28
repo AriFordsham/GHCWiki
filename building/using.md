@@ -222,9 +222,9 @@ which is usually `c:/mingw/bin/ld`.
 Tells the build system where you would like GHC to be eventually
 installed.  You don't have to install GHC in order to use it: it is
 entirely possible to work on GHC and test it without ever modifying
-anything outside the build tree.  However, if you do with to install
+anything outside the build tree.  However, if you do want to install
 GHC, then the `--prefix` directory is the root of the install tree.
-Typciallly on Unix systems the default for `--prefix` is
+Typically on Unix systems the default for `--prefix` is
 `/usr/local`.  See also [Building/Installing](building/installing) for more details.
 </td></tr></table>
 
