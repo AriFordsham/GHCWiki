@@ -73,6 +73,7 @@
 
 ## Tiresome arithmetic things
 
+- [\#4101](https://gitlab.haskell.org//ghc/ghc/issues/4101): constant folding for `(**)`
 - [\#3676](https://gitlab.haskell.org//ghc/ghc/issues/3676): `realToFrac` conversions
 - [\#3744](https://gitlab.haskell.org//ghc/ghc/issues/3744): comparisons against `minBound` and `maxBound` are not optimised away
 - [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065): quot is sub-optimal
