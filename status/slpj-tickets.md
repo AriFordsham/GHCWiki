@@ -73,6 +73,7 @@
 
 ## Tiresome arithmetic things
 
+- [\#4101](https://gitlab.haskell.org//ghc/ghc/issues/4101): constant folding for `(**)`
 - [\#3676](https://gitlab.haskell.org//ghc/ghc/issues/3676): `realToFrac` conversions
 - [\#3744](https://gitlab.haskell.org//ghc/ghc/issues/3744): comparisons against `minBound` and `maxBound` are not optimised away
 - [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065): quot is sub-optimal
@@ -185,3 +186,4 @@
 - [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284): the state-hack "optimisation" causes much re-computation
 - [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872): divergence in simplifier
 - [\#4005](https://gitlab.haskell.org//ghc/ghc/issues/4005): generational GC pathalogical case
+- [\#1349](https://gitlab.haskell.org//ghc/ghc/issues/1349): strict function argument types
