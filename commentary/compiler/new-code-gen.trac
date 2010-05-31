@@ -35,7 +35,7 @@ We have the following repositories:
 
  * HEAD: the main GHC Darcs repo. `http://darcs.haskell.org/ghc`
 
- * !HooplMaster: the master Hoopl Git repository. [[BR]] '''Location''': `tufts somewhere`
+ * !HooplMaster: the master Hoopl Git repository. [[BR]] '''Location''': `linux.cs.tufts.edu:/r/ghc/www/hoopl/hoopl.git`
 
  * !HooplMirror: a Darcs mirror of the !HooplMaster repo.  Any push 
    to !HooplMaster is automatically mirrored to !HooplMirror.  Do not (ever) 
