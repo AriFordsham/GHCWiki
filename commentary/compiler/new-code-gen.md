@@ -30,6 +30,67 @@ Longer term
 
 - Expand the capability of the new pipeline so that it does native code generation too, and we can ultimately discard the existing code generators.  The design of this stage is here: [Commentary/Compiler/IntegratedCodeGen](commentary/compiler/integrated-code-gen)
 
+## Workflow for the new code generator and Hoopl
+
+
+(May 2010: these workflow notes are written under the assumption that (a) we have created the lagging Darcs repo HooplLag, and (b) that we have merged the current `ghc-cmm` branch with the HEAD.  Both of which I hope David will do shortly.)
+
+
+We have the following repositories:
+
+- HEAD: the main GHC Darcs repo. `http://darcs.haskell.org/ghc`
+
+- HooplMaster: the master Hoopl Git repository. 
+  **Location**: `tufts somewhere`
+
+- HooplMirror: a Darcs mirror of the HooplMaster repo.  Any push 
+  to HooplMaster is automatically mirrored to HooplMirror.  Do not (ever) 
+  push to HooplMirror.
+  **Location**: `linux.cs.tufts.edu:/r/ghc/darcs-mirrors/hoopl`
+
+- HooplLag: a Darcs repo that is guaranteed to work with GHC HEAD.    It is
+  not automatically updated by pushes to HooplMaster.  Instead a manual
+  process (below) updates it; hence "lag".  
+  **Location**: `http://darcs.haskell.org/packages/hoopl`.
+
+
+Normal GHC developers, who are uniniterested in Hoopl, ignore all
+this.  If they download HEAD, and then do `darcs-all get` they'll get
+HooplLag, which is always guaranteed to work with HEAD.
+
+
+Developers who work on GHC and also need to modify Hoopl have a more torrid time.
+
+- Create two trees:
+
+  - Development tree (mixed Darcs and Git): 
+
+    - Download HEAD and `darcs-all get`
+    - Remove `libraries/hoopl` and do a `git clone` of HooplMaster instead. 
+  - Validation tree (pure Darcs):
+
+    - Download HEAD and `darcs-all get`
+
+- Hack away in the development tree.  You can pull freely:
+
+  - Subsequent `darcs-all pull` operations will \[check!\] no-op in the `libraries/hoopl` directory.
+  - For `hoopl` you have to manually do `git pull` in \`libraries/hoopl to pull patches from HooplMaster.
+
+- Record Darcs patches and Hoopl patches.
+
+- Validate changes as follows:
+
+  - Run validate in the development tree
+  - `git push` patches to HooplMaster
+  - Wait for HooplMirror to see these patches
+  - In the validation tree, 
+
+    - `darcs-all pull` patches from the development tree (this will \[check!\] 
+      no-op for `hoopl`, because the dev-tree has a Git repo)
+    - Manually pull patches from HooplMirror
+  - Validate in the validation tree
+  - Push the validation tree to HEAD and the HooplLag Darcs repo
+
 ## Bugs
 
 
