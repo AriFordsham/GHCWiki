@@ -38,20 +38,20 @@ Longer term
 
 We have the following repositories:
 
-- HEAD: the main GHC Darcs repo. 
-   Location: `http://darcs.haskell.org/ghc`
+- HEAD: the main GHC Darcs repo. `http://darcs.haskell.org/ghc`
 
 - HooplMaster: the master Hoopl Git repository. 
-   Location: `tufts somewhere`
+  **Location**: `tufts somewhere`
 
-- HooplMirror: a Darcs mirror of the HooplMaster repo (`tufts somewhere`).  Any push 
+- HooplMirror: a Darcs mirror of the HooplMaster repo.  Any push 
   to HooplMaster is automatically mirrored to HooplMirror.  Do not (ever) 
   push to HooplMirror.
+  **Location**: `linux.cs.tufts.edu:/r/ghc/darcs-mirrors/hoopl`
 
 - HooplLag: a Darcs repo that is guaranteed to work with GHC HEAD.    It is
   not automatically updated by pushes to HooplMaster.  Instead a manual
   process (below) updates it; hence "lag".  
-   Location: `http://darcs.haskell.org/packages/hoopl`.
+  **Location**: `http://darcs.haskell.org/packages/hoopl`.
 
 
 Normal GHC developers, who are uniniterested in Hoopl, ignore all
