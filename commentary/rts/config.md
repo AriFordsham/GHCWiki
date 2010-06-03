@@ -47,7 +47,7 @@ GHC option: `-unreg`
 RTS suffix: `u`</td></tr></table>
 
 
-So for example, `libHSRts_thr_debug.a` is the version of the runtime compiled with `THREADED_RTS` and `DEBUG`, and will be linked in if you use the `-threaded` and `-debug` options to GHC.
+So for example, `libHSrts_thr_debug.a` is the version of the runtime compiled with `THREADED_RTS` and `DEBUG`, and will be linked in if you use the `-threaded` and `-debug` options to GHC.
 
 
 The ways that the RTS is built in are controlled by the `GhcRTSWays` Makefile variable.  
