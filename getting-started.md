@@ -10,11 +10,7 @@ This page tells you how to get started with hacking on GHC.
 
 ## Getting GHC to build on your machine
 
-- [Grab the latest sources](building/getting-the-sources)
-- [Set up your build tree](building/hacking)
-
-
-Although old code in GHC is not warning-clean, we want new code to be, and we are gradually cleaning the old modules.  Here is [how to cooperate with this](commentary/coding-style#warnings).  The rest of the same page describes the coding conventions we encourage you to use.
+- [The Building Guide](building) has all the information you need to set up your system for building GHC, and get a working development build.
 
 ## Deciding what to work on
 
