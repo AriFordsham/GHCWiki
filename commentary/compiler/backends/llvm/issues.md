@@ -3,14 +3,6 @@
 
 This page list some of the issues and problems with the current implementation of the LLVM back-end. Hopefully they will slowly be resolved.
 
-## Register Pinning
-
-
-The new back-end supports a custom calling convention to place the STG virtual registers into specific hardware registers. The current approach taken by the C back-end and NCG of having a fixed assignment of STG virtual registers to hardware registers for performance gains is not implemented in the LLVM back-end. Instead, it uses a custom calling convention to support something semantically equivalent to register pinning. The custom calling convention passes the first N variables in specific hardware registers, thus guaranteeing on all function entries that the STG virtual registers can be found in the expected hardware registers. This approach is believed to provide better performance than the register pinning used by NCG/C back-ends as it keeps the STG virtual registers mostly in hardware registers but allows the register allocator more flexibility and access to all machine registers.
-
-
-For some more information about the use of a custom calling convention see [ here (Discussion between Chris Lattner and David Terei)](http://www.nondot.org/sabre/LLVMNotes/GlobalRegisterVariables.txt)
-
 ## TABLES_NEXT_TO_CODE
 
 
@@ -21,21 +13,6 @@ GHC for heap objects places the info table (meta data) and the code adjacent to 
 
 
 There is a build option in GHC to use the unoptimised layout and instead use a pointer to the code in the info table. This layout can be enabled/disabled by using the compiler `#def TABLES_NEXT_TO_CODE`. As LLVM has no means to achieve the optimised layout and we don't wish to write an LLVM sister for the Evil Mangler, the LLVM back-end currently uses the unoptimised layout. This apparently incurs a performance penalty of 5% (source, Making a *Fast Curry: Push/Enter vs. Eval/Apply for Higher-order Languages*, Simon Marlow and Simon Peyton Jones, 2004).
-
-## Shared Code with NCG
-
-
-It is probable that some of the code needed by the LLVM back-end is already implemented for the NCG back-end. Some examples of this code would be the following two functions in *compiler/main/AsmCodeGen.lhs*:
-
-<table><tr><th>*fixAssignsTop*</th>
-<td>
-Changes assignments to global registers to instead assign to the RegTable, used for non-pinned virtual registers.
-</td></tr></table>
-
-<table><tr><th>*cmmToCmm*</th>
-<td>
-Optimises the cmm code, in particular it changes loads from global registers to instead load from the RegTable.
-</td></tr></table>
 
 ## LLVM IR Representation
 
