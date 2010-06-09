@@ -49,6 +49,12 @@ For LLVM code generation we need a method for representing and generating LLVM c
 
 The approach taken was to use the LLVM module from [http://www.cs.uu.nl/wiki/Ehc/WebHome EHC]. This module contains an abstract syntax representation of LLVM Assembly and the ability to pretty print it. It has been heavily modified to increase its language coverage as it was missing several LLVM constructs which were needed. Ideally we would like to add a second pretty printer which calls into the LLVM C++ API to generate LLVM Bitcode. This should hopefully decrease the compile times and make the back-end more resilient to future changes to LLVM Assembly. The LLVM Haskell binding (first option) wasn't used as it represents LLVM at a very high level, which isn't appropriate for the back-end.
 
+== Register Pinning ==
+
+The new back-end supports a custom calling convention to place the STG virtual registers into specific hardware registers. The current approach taken by the C back-end and NCG of having a fixed assignment of STG virtual registers to hardware registers for performance gains is not implemented in the LLVM back-end. Instead, it uses a custom calling convention to support something semantically equivalent to register pinning. The custom calling convention passes the first N variables in specific hardware registers, thus guaranteeing on all function entries that the STG virtual registers can be found in the expected hardware registers. This approach is believed to provide better performance than the register pinning used by NCG/C back-ends as it keeps the STG virtual registers mostly in hardware registers but allows the register allocator more flexibility and access to all machine registers.
+
+For some more information about the use of a custom calling convention see [http://www.nondot.org/sabre/LLVMNotes/GlobalRegisterVariables.txt here (Discussion between Chris Lattner and David Terei)]
+
 == Code Generation ==
 
 Code generation consists of translating a list of `GenCmmTop` data types to LLVM code. `GenCmmTop` has the following form:
