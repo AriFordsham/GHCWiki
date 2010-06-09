@@ -11,15 +11,14 @@ The patch needed for GHC can be found at:
 Apply the darcs patch linked above to GHC head. This will make some changes across GHC, with the bulk of the new code ending up in 'compiler/llvmGen'.
 
 
-To build GHC you need to add two flags to build.mk, they are:
+To build GHC you need to add one flags to build.mk, it is:
 
 ```wiki
-GhcWithLlvmCodeGen = YES
 GhcEnableTablesNextToCode = NO
 ```
 
 
-The LLVM code generator doesn't support at this time the [TABLES_NEXT_TO_CODE](commentary/rts/storage/heap-objects?redirectedfrom=-commentary/rts/heap-objects#) optimisation due to limitations with LLVM.
+The LLVM code generator doesn't support at this time the [TABLES_NEXT_TO_CODE](commentary/rts/storage/heap-objects?redirectedfrom=-commentary/rts/heap-objects#) optimisation due to limitations with LLVM. As long as its disabled the build system will detect this an automatically add in the LLVM backend.
 
 ### LLVM
 
@@ -27,8 +26,10 @@ The LLVM code generator doesn't support at this time the [TABLES_NEXT_TO_CODE](c
 You will also need LLVM installed on your computer to use the back-end. If you wish to simply use an unregistered build of GHC, then the back-end should work with any standard LLVM version. If you wish to use a registered build of GHC however, then you may need to apply a patch to LLVM and build it yourself:
 
 - **Version 2.7**: (or later) natively support GHC, no patch is needed.
-- **Version 2.6**: Apply this [ patch](http://www.cse.unsw.edu.au/~davidt/downloads/llvm-ghc-callconv-2.6.patch) to the source code.
-- **Version 2.5**: Apply this [ patch](http://www.cse.unsw.edu.au/~davidt/downloads/llvm-ghc-callconv-2.5.patch) to the source code.
+- ~~**Version 2.6**: Apply this [ patch](http://www.cse.unsw.edu.au/~davidt/downloads/llvm-ghc-callconv-2.6.patch) to the source code.~~
+- ~~**Version 2.5**: Apply this [ patch](http://www.cse.unsw.edu.au/~davidt/downloads/llvm-ghc-callconv-2.5.patch) to the source code.~~
+
+**Just use LLVM 2.7. While the above patches do work the LLVM backend now uses the features of 2.7 and higher.**
 
 
 The patches can be applied with:
@@ -63,6 +64,7 @@ The [ ghc-core](http://hackage.haskell.org/package/ghc-core) tool also supports 
 
 - Linux x86-32/x86-64 are currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
 - Mac OS X 10.5 currently has a rather nasty bug with any dynamic lib calls (all libffi stuff) \[due to the stack not being 16byte aligned when the calls are made as required by OSX ABI for the curious\]. Test suite passes except for most the ffi tests.
+- Windows 32bit: The backend works for most things but no extensive testing or support yet.
 - Other platforms haven't been tested at all. As using the back-end with a registered build of GHC requires a modified version of LLVM, people wanting to try it out on those platforms will need to either make the needed changes to LLVM themselves, or use an unregistered build of GHC which will work with a vanilla install of LLVM. (A patch for LLVM for x86 is linked to below.)
 
 ## Performance
