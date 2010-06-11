@@ -14,6 +14,5 @@ As the back-end isn't currently in GHC head, you need to follow the steps below 
 
 - [Installing & Using](commentary/compiler/backends/llvm/installing)
 - [Design & Implementation](commentary/compiler/backends/llvm/design)
-- [Design Issues with the Back-end](commentary/compiler/backends/llvm/issues)
 - [Bugs & Other Problems](commentary/compiler/backends/llvm/development-notes)
 - [Work Currently in Progress](commentary/compiler/backends/llvm/wip)
