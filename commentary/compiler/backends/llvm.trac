@@ -12,7 +12,6 @@ As the back-end isn't currently in GHC head, you need to follow the steps below 
 
  * [wiki:Commentary/Compiler/Backends/LLVM/Installing Installing & Using]
  * [wiki:Commentary/Compiler/Backends/LLVM/Design Design & Implementation]
- * [wiki:Commentary/Compiler/Backends/LLVM/Issues Design Issues with the Back-end]
  * [wiki:Commentary/Compiler/Backends/LLVM/DevelopmentNotes Bugs & Other Problems]
  * [wiki:Commentary/Compiler/Backends/LLVM/WIP Work Currently in Progress]
 
