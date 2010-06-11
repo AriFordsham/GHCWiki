@@ -1,7 +1,4 @@
-# Development Notes & Bugs
-
-
-This page contains information which is of interest to those hacking on the LLVM back-end.
+# Bugs & Other Problems
 
 # LLVM Bugs
 
