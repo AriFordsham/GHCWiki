@@ -9,6 +9,15 @@ This page is meant to collect together information about people working on (or i
    * Max Bolingbroke (http://www.cl.cam.ac.uk/~mb566) has proposed a SoC project to work on LLVM http://hackage.haskell.org/trac/summer-of-code/ticket/1582
    * Alp Mestanogullari (http://alpmestan.wordpress.com/, http://twitter.com/alpmestan) is interested in working on a SoC project on LLVM
 
+== Small Ticket Items ==
+
+ * Use a new Monad instead of passing `LlvmEnv` around everywhere.
+ * Should be able to put all `CmmProc` and `CmmData` labels in environment at start and after that, can print out LLVM IR as I generate it for each data and proc instead of storing.
+ * Look at using LLVM intrinsic functions. There are a few math functions. Also, there is a `smul_overflow` detect function.
+ * Rearrange some functions and files better.
+ * handling of `LlvmVar` or `LlvmType` for function signature isn't nice. Whole function signature handling could be better really. We also don't support parameter attributes which we should enable for better performance.
+ * {{{LlvmCodeGen.CodeGen.genCall}}} code for foreign calls is quite complex, could use a clean-up.
+
 == Big Ticket Items ==
 
 === LLVM IR Representation ===
@@ -36,19 +45,9 @@ For either approach, looking at how LLVM's new metadata feature may assist would
 The LLVM back-end at the moment generally takes the most straight-forward approach to compiling Haskell (Cmm really) to LLVM. LLVM is designed in such a way that this is how things should be by and large done. Its instruction set is designed to be simple and generally have one way to approach a problem (especially when coming from fairly similar Cmm), you are encouraged to rely on the optimisation passes of LLVM to handle fixing things up. However, this doesn't mean there isn't potentially some room for improvement, especially since we simply don't know if there is or isn't. The LLVM back-end is new and experiments and benchmarks need to be done to figure out its limits and places it can be improved. Some quick ideas:
 
  * Update the back-end to use some of the new features of LLVM 2.6 and 2.7. Currently it only uses features of 2.5. (e.g could maybe use the new LLVM integer specific add operation to detect overflow rather then the current custom code to do it). One quick improvement is that as of 2.7 the LLVM assembler ('llvm-as') stage in the LLVM back-end pipeline isn't needed now at the LLVM optimiser tool ('opt') can be directly given LLVM assembly now as well as LLVM bitcode.
+ * All the STG registers are passed around at the moment as just words. Some really should be passed as pointer type (e.g Sp, Hp). We can then use the noalias attribute on them which is useful. Also the nocapture attribute
  * Look into the various [http://llvm.org/docs/LangRef.html#paramattrs parameter attributes] and [http://llvm.org/docs/LangRef.html#fnattrs function attributes] that LLVM supports and how they should be used by the LLVM back-end. (e.g the noalias parameter attribute should probably be used).
  * Look at the various [http://llvm.org/docs/LangRef.html#intrinsics intrinsic functions] supported by LLVM. Some of them could maybe be used to replace existing code in LLVM or calls to the rts. (e.g Cmm expects support of a fair number of basic math operations [e.g sin], for which LLVM intrinsic functions exists. However the back-end currently calls the C library for them).
-
-=== Update the Back-end to use the new Cmm data types / New Code Generator ===
-
-There is ongoing work to produce a new, nicer, more modular code generator for GHC (the slightly confusingly name code generator in GHC refers to the pipeline stage where the Core IR is compiled to the Cmm IR). The LLVM back-end could be updated to make sure it works with the new code generator and does so in an efficient manner.
-
-=== LLVM's Link Time Optimisations ===
-
-One of LLVM's big marketing features is its support for link time optimisation. This does thinks such as in-lining across module boundaries, more aggressive dead code elimination... ect). The LLVM back-end could be updated to make use of this.
-
- * [http://llvm.org/releases/2.6/docs/LinkTimeOptimization.html]
- * [http://llvm.org/docs/GoldPlugin.html]
 
 === Optimise LLVM for the type of Code GHC produces ===
 
@@ -60,12 +59,6 @@ So:
  * Look at any new optimisation passes that could be written for LLVM which would help to improve the code it generates for GHC.
  * Look at general fixes/improvement to LLVM to improve the code it generates for LLVM (e.g at the moment LLVM performs a lot of redundant stack manipulation in the code in generates for GHC, would be good to fix this up).
 
-=== LLVM Cross Compiler / Port ===
-
-This is more of an experimental idea but the LLVM back-end looks like it would make a great choice for Porting LLVM. That is, instead of porting LLVM through the usual route of via-C and then fixing up the NCG, just try to do it all through the LLVM back-end. As LLVM is quite portable and supported on more platforms then GHC, it would be an interesting and valuable experiment to try to port GHC to a new platform by simply getting the LLVM back-end working on it. (The LLVM back-end works in both unregistered and registered mode, another advantage for porting compared to the C and NCG back-ends).
-
-It would also be interesting to looking into improving GHC to support cross compiling and doing this through the LLVM back-end as it should be easier to fix up to support this feature than the C or NCG back-ends.
-
 === Stabilise / Bug Fixing ===
 
 The back-end needs a fair amount of love and care just to get it into a state where it could be used as the default back-end by GHC if desired.
@@ -75,3 +68,20 @@ The back-end needs a fair amount of love and care just to get it into a state wh
  * Back-end hasn't been thoroughly tested across the full range of GHC configurations (e.g threaded...)
  * LLVM back-end is out of tree currently.
  * Back-end can be reduced in size and use faster data structures (FastString instead of String, OrdList instead of List, might be able to get rid of the environment used by the back-end as I believe the label naming convention stores may store enough information for the back-ends uses).
+
+=== Update the Back-end to use the new Cmm data types / New Code Generator ===
+
+There is ongoing work to produce a new, nicer, more modular code generator for GHC (the slightly confusingly name code generator in GHC refers to the pipeline stage where the Core IR is compiled to the Cmm IR). The LLVM back-end could be updated to make sure it works with the new code generator and does so in an efficient manner.
+
+=== LLVM's Link Time Optimisations ===
+
+One of LLVM's big marketing features is its support for link time optimisation. This does thinks such as in-lining across module boundaries, more aggressive dead code elimination... ect). The LLVM back-end could be updated to make use of this. Roman apparently tried to use the new 'gold' linker with GHC and it doesn't support all the needed features.
+
+ * [http://llvm.org/releases/2.6/docs/LinkTimeOptimization.html]
+ * [http://llvm.org/docs/GoldPlugin.html]
+
+=== LLVM Cross Compiler / Port ===
+
+This is more of an experimental idea but the LLVM back-end looks like it would make a great choice for Porting LLVM. That is, instead of porting LLVM through the usual route of via-C and then fixing up the NCG, just try to do it all through the LLVM back-end. As LLVM is quite portable and supported on more platforms then GHC, it would be an interesting and valuable experiment to try to port GHC to a new platform by simply getting the LLVM back-end working on it. (The LLVM back-end works in both unregistered and registered mode, another advantage for porting compared to the C and NCG back-ends).
+
+It would also be interesting to looking into improving GHC to support cross compiling and doing this through the LLVM back-end as it should be easier to fix up to support this feature than the C or NCG back-ends.
