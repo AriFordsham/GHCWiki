@@ -53,15 +53,3 @@ If a function is initially used as a label (e.g the address of it is taken) then
  * {{{SPARC/CodeGen/Gen32.hs}}} seems to have a few special cases for `CmmMachOp`. Perhaps these should also be handled in LLVM to improve performance?
 
  * tail call only supported on `x86`/`x86-64` and `PowerPC`. What about `SPARC`? How will we use the LLVM back-end on SPARC?
-
-
-= TODO Items =
-
- * look into lto/gold.
- * Use a new Monad instead of passing `LlvmEnv` around everywhere.
- * Should be able to put all `CmmProc` and `CmmData` labels in environment at start and after that, can print out LLVM IR as I generate it for each data and proc instead of storing.
- * Look at using LLVM intrinsic functions. There are a few math functions. Also, there is a `smul_overflow` detect function.
- * Improve Type safety of LLVM module (e.g split out pointers to own data type, to limit where they can be used). More type checking in ppr stage.
- * Rearrange some functions and files better.
- * handling of `LlvmVar` or `LlvmType` for function signature isn't nice. Whole function signature handling could be better really.
- * {{{LlvmCodeGen.CodeGen.genCall}}} code for foreign calls is quite complex, could use a clean-up.
