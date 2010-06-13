@@ -26,7 +26,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - Gentoo Linux/x86 packages: Gentoo Haskell team
   - Debian GNU/Linux/x86 packages: Kari Pahula
   - MacOS X: Manuel Chakravarty
-  - Fedora Extras packages: Jens Petersen
+  - Fedora packages: Jens Petersen
 
 - **PowerPC**
 
@@ -35,7 +35,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - Gentoo Linux packages (32 and 64bit): Gentoo Haskell team
   - Debian GNU/Linux/powerpc packages: Kari Pahula
   - MacOS X: Wolfgang Thaller,Thorkil Naur
-  - Fedora Extras packages: Jens Petersen
+  - Fedora packages: Jens Petersen
 
 - **Sparc**
 
@@ -51,7 +51,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - Debian GNU/Linux/amd64 packages: Kari Pahula
   - FreeBSD/amd64: FreeBSD Haskell Team
   - OpenBSD: Matthias Kilian
-  - Fedora Extras packages: Jens Petersen
+  - Fedora packages: Jens Petersen
 
 - **Mips64**
 

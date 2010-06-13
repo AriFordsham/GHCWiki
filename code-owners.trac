@@ -22,7 +22,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Gentoo Linux/x86 packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/x86 packages: [mailto:kaol@debian.org Kari Pahula]
    * MacOS X: [mailto:chak@cse.unsw.edu.au Manuel Chakravarty]
-   * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
+   * Fedora packages: [mailto:petersen@redhat.com Jens Petersen]
 
  * '''PowerPC'''
    * AIX: [mailto:audreyt@audreyt.org Audrey Tang]
@@ -30,7 +30,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Gentoo Linux packages (32 and 64bit): [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/powerpc packages: [mailto:kaol@debian.org Kari Pahula]
    * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller],[mailto:naur@post11.tele.dk Thorkil Naur]
-   * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
+   * Fedora packages: [mailto:petersen@redhat.com Jens Petersen]
 
  * '''Sparc'''
    * Solaris: [mailto:benl@ouroborus.net Ben Lippmeier]
@@ -44,7 +44,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Debian GNU/Linux/amd64 packages: [mailto:kaol@debian.org Kari Pahula]
    * FreeBSD/amd64: [mailto:haskell@FreeBSD.org FreeBSD Haskell Team]
    * OpenBSD: [mailto:kili@openbsd.org Matthias Kilian]
-   * Fedora Extras packages: [mailto:petersen@redhat.com Jens Petersen]
+   * Fedora packages: [mailto:petersen@redhat.com Jens Petersen]
 
  * '''Mips64'''
    * Irix: [mailto:dons@cse.unsw.edu.au Don Stewart]
