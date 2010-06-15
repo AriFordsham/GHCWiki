@@ -78,3 +78,8 @@ If a function is initially used as a label (e.g the address of it is taken) then
 - `SPARC/CodeGen/Gen32.hs` seems to have a few special cases for `CmmMachOp`. Perhaps these should also be handled in LLVM to improve performance?
 
 - tail call only supported on `x86`/`x86-64` and `PowerPC`. What about `SPARC`? How will we use the LLVM back-end on SPARC?
+
+### Repa examples - FFT segfaults
+
+
+If you run the FFT program form [ repa-examples](http://hackage.haskell.org/package/repa-examples), it segfaults under the LLVM backend.
