@@ -81,7 +81,7 @@ particular AMI: `ami-916c81f8`.  This is an EBS-backed image with
 `ubuntu` user has a full set of GHC HEAD repositories, and it mounts an ephemeral disk to use for builds.
 
 This AMI is in the US-East region for now, because that's where I
-found the Ubuntu EBS-backed AMI that I used as a base.  Ubuntu [https://wiki.ubuntu.com/ServerLucidEc2EBSRoot plan to make EBS-backed images] of future releases, so this should get easier.
+found the Ubuntu EBS-backed AMI that I used as a base.  Ubuntu [https://wiki.ubuntu.com/ServerLucidEc2EBSRoot plan to make EBS-backed images] of future releases, so this should get easier.  (see below for more AMIs you can use).
 
 Why EBS-backed? This means the image is backed by a persistent disk,
 so I can update it easily, e.g. to bring the repos up to date, or add
@@ -102,6 +102,14 @@ this is less than half the price of an on-demand (instead of spot)
 instance, but the script is easy to modify to use an on-demand instance if you want.
 
 Don't forget to "ssh ec2 sudo halt" when you've finished.
+
+== AMIs ==
+
+We've prepared the following AMIs for GHC development:
+
+||'''Region'''||'''AMI'''||
+||us-east||ami-916c81f8||Ubuntu 9.10 x86||
+||us-east||ami-6cd13905||Ubuntu 10.04 x86_64||
 
 == Future improvements ==
 

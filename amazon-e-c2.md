@@ -92,7 +92,7 @@ particular AMI: `ami-916c81f8`.  This is an EBS-backed image with
 
 
 This AMI is in the US-East region for now, because that's where I
-found the Ubuntu EBS-backed AMI that I used as a base.  Ubuntu [ plan to make EBS-backed images](https://wiki.ubuntu.com/ServerLucidEc2EBSRoot) of future releases, so this should get easier.
+found the Ubuntu EBS-backed AMI that I used as a base.  Ubuntu [ plan to make EBS-backed images](https://wiki.ubuntu.com/ServerLucidEc2EBSRoot) of future releases, so this should get easier.  (see below for more AMIs you can use).
 
 
 Why EBS-backed? This means the image is backed by a persistent disk,
@@ -117,6 +117,23 @@ instance, but the script is easy to modify to use an on-demand instance if you w
 
 
 Don't forget to "ssh ec2 sudo halt" when you've finished.
+
+## AMIs
+
+
+We've prepared the following AMIs for GHC development:
+
+<table><tr><th>**Region**</th>
+<th>**AMI**</th>
+<th></th></tr>
+<tr><th>us-east</th>
+<th>ami-916c81f8</th>
+<th>Ubuntu 9.10 x86
+</th></tr>
+<tr><th>us-east</th>
+<th>ami-6cd13905</th>
+<th>Ubuntu 10.04 x86_64
+</th></tr></table>
 
 ## Future improvements
 
