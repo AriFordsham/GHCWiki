@@ -1,64 +1,10 @@
 # Installing & Using the LLVM Back-end
 
 
-The patch needed for GHC can be found at:
-
-- GHC Patch: [ http://www.cse.unsw.edu.au/\~davidt/downloads/ghc-llvmbackend-full.dpatch](http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvmbackend-full.dpatch)
-
-## Installing
+The LLVM backend is now included in GHC HEAD. Just grab the darcs HEAD version of GHC and build it. The backend now also supports all modes that GHC can be built in, except perhaps -dynamic which hasn't been tested yet, so you shouldn't need to change your build.mk file either (you used to have disabled an optimisation called tables-next-to-code, but the LLVM backend supports that now).
 
 
-Apply the darcs patch linked above to GHC head. This will make some changes across GHC, with the bulk of the new code ending up in 'compiler/llvmGen'.
-
-
-To build GHC you need to add one flags to build.mk, it is:
-
-```wiki
-GhcEnableTablesNextToCode = NO
-```
-
-
-The LLVM code generator doesn't support at this time the [TABLES_NEXT_TO_CODE](commentary/rts/storage/heap-objects?redirectedfrom=-commentary/rts/heap-objects#) optimisation due to limitations with LLVM. As long as its disabled the build system will detect this an automatically add in the LLVM backend.
-
-### LLVM
-
-
-You will also need LLVM installed on your computer to use the back-end. If you wish to simply use an unregistered build of GHC, then the back-end should work with any standard LLVM version. If you wish to use a registered build of GHC however, then you may need to apply a patch to LLVM and build it yourself:
-
-- **Version 2.7**: (or later) natively support GHC, no patch is needed.
-- ~~**Version 2.6**: Apply this [ patch](http://www.cse.unsw.edu.au/~davidt/downloads/llvm-ghc-callconv-2.6.patch) to the source code.~~
-- ~~**Version 2.5**: Apply this [ patch](http://www.cse.unsw.edu.au/~davidt/downloads/llvm-ghc-callconv-2.5.patch) to the source code.~~
-
-**Just use LLVM 2.7. While the above patches do work the LLVM backend now uses the features of 2.7 and higher.**
-
-
-The patches can be applied with:
-
-```wiki
-$ cd llvm
-$ patch -p0 -i <patch file>
-```
-
-
-LLVM is very easy to build and install. It can be done as follows:
-
-```wiki
-$ svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm
-$ cd llvm
-$ ./configure --enable-optimized # probably also want to set --prefix
-$ make
-$ make install
-```
-
-## Using
-
-
-Once GHC is built, you can trigger GHC to use the LLVM back-end with the `-fllvm` flag. There is also a new `-ddump-llvm` which will dump out the LLVM IR code generated (must be used in combination with the `-fllvm` flag. (or use the `-keep-tmp-files` flag).
-
-`ghc --info` should also now report that it includes the llvm code generator.
-
-
-The [ ghc-core](http://hackage.haskell.org/package/ghc-core) tool also supports the llvm backend, and will display the generated assembly code for your platform.
+For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/wiki/Building)
 
 ## Supported Platforms & Correctness
 
