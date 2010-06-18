@@ -28,17 +28,7 @@ The current design is overly complicated and could be faster. It uses String + s
 
 === TABLES_NEXT_TO_CODE ===
 
-Fix the [wiki:Commentary/Compiler/Backends/LLVM/Issues#TABLES_NEXT_TO_CODE TNTC] issue.
-
-There are two possible approaches:
-  * Add the needed features to LLVM so that it could natively support this feature. This could be quite a difficult and ambitious project as getting the feature into LLVM would mean fixing all the back-ends so that they support the feature. And you would need to convince the LLVM developers that this feature is worth them supporting which might be a hard sell if they think only GHC would use it.
-  * A new ''evil mangler'' to process the assembly produced by LLVM and patch it to support the feature. This wouldn't be so bad if the new ''evil mangler'' was written in Haskell and only did this one fairly simple thing (current ''evil mangler'' is in perl and does a fair few things in addition to TNTC).
-
-For either approach, looking at how LLVM's new metadata feature may assist would be very useful:
-
- * [http://llvm.org/docs/LangRef.html#metadata]
- * [http://nondot.org/sabre/LLVMNotes/ExtensibleMetadata.txt]
- * [http://nondot.org/sabre/LLVMNotes/EmbeddedMetadata.txt]
+We now support [wiki:Commentary/Compiler/Backends/LLVM/Issues#TABLES_NEXT_TO_CODE TNTC] using an approach of gnu as subsections. This seems to work fine but we would like still to move to a pure LLVM solution. Ideally we would implement this in LLVM by allowing a global variable to be associated with a function, so that LLVM is aware that the two will be laid out next to each other and can better optimise (e.g using this approach LLVM should be able to perform constant propagation on info-tables).
 
 === Optimise the output of the LLVM Back-end ===
 
