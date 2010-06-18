@@ -6,8 +6,9 @@ David Terei wrote a new code generator for GHC which targets the LLVM compiler i
 
 Some documentation:
 
-- The thesis paper which offers a detailed performance evaluation, as well as the motivation and design of the back-end can be found at: [ http://www.cse.unsw.edu.au/\~pls/thesis/davidt-thesis.pdf](http://www.cse.unsw.edu.au/~pls/thesis/davidt-thesis.pdf)
-- Blog post [ http://blog.llvm.org/2010/05/glasgow-haskell-compiler-and-llvm.html](http://blog.llvm.org/2010/05/glasgow-haskell-compiler-and-llvm.html)
+- The [ thesis paper](http://www.cse.unsw.edu.au/~pls/thesis/davidt-thesis.pdf) which offers a detailed performance evaluation, as well as the motivation and design of the back-end.
+- [ Blog post](http://blog.llvm.org/2010/05/glasgow-haskell-compiler-and-llvm.html) on the LLVM blog about the backend.
+- A more recent [ paper](http://www.cse.unsw.edu.au/~chak/papers/TC10.html) submitted to the Haskell Symposium '10, gives updated design overview and performance numbers.
 
 
 As the back-end isn't currently in GHC head, you need to follow the steps below to get it up and running.
