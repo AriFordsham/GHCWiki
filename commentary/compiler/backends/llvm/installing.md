@@ -1,10 +1,28 @@
 # Installing & Using the LLVM Back-end
 
+## Installing
+
 
 The LLVM backend is now included in GHC HEAD. Just grab the darcs HEAD version of GHC and build it. The backend now also supports all modes that GHC can be built in, except perhaps -dynamic which hasn't been tested yet, so you shouldn't need to change your build.mk file either (you used to have disabled an optimisation called tables-next-to-code, but the LLVM backend supports that now).
 
 
 For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/wiki/Building)
+
+## Using
+
+
+Once built you can check that you have the LLVM backend GHC will support these extra options:
+
+- *--info* - Now will report that it has the llvm backend
+- *-fllvm* - Compile code using the llvm backend
+- *-ddump-llvm' - Dumps the llvm IR while compiling
+  *
+- *-pgm_la* - The program to use as the llvm assembler
+- *-pgm_lo* - The program to use as the llvm optimiser
+- *-pgm_lc* - The program to use as the llvm compiler
+- *-opt_la* - Extra options to pass to the llvm assembler
+- *-opt_lo* - Extra options to pass to the llvm optimiser
+- *-opt_lc* - Extra options to pass to the llvm compiler
 
 ## Supported Platforms & Correctness
 
