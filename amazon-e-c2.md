@@ -129,3 +129,54 @@ Don't forget to "ssh ec2 sudo halt" when you've finished.
 
 - Make it more suitable for development: e.g. add instructions for
   using a persistent EBS volume for storage.
+
+## Notes on how to create a new EBS image
+
+
+Ubuntu EBS images are listed at [ http://uec-images.ubuntu.com/releases/](http://uec-images.ubuntu.com/releases/).  e.g. for Lucid,  [ http://uec-images.ubuntu.com/releases/10.04/release/](http://uec-images.ubuntu.com/releases/10.04/release/).
+
+
+Start a new instance with the appropriate AMI, and SSH into it.
+
+
+Check that it has an ephemeral disk mounted, `df` should say something like
+
+```wiki
+ubuntu@domU-12-31-38-00-B0-F1:~$ df
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/sda1             15481840    744060  13951348   6% /
+devtmpfs               3813968       112   3813856   1% /dev
+none                   3932272         0   3932272   0% /dev/shm
+none                   3932272        48   3932224   1% /var/run
+none                   3932272         0   3932272   0% /var/lock
+none                   3932272         0   3932272   0% /lib/init/rw
+/dev/sdb             433455904    203016 411234584   1% /mnt
+```
+
+
+So `/mnt` is the ephemeral disk (unbacked-up storage) where we can do builds.
+
+
+Run the following script to get the GHC repo set up:
+
+```wiki
+#!/bin/sh -e
+
+cd $HOME
+
+REPO_TARBALL=ghc-HEAD-2010-05-19-ghc-corelibs-testsuite.tar.bz2
+
+# install required packages
+sudo apt-get install darcs ghc happy alex autoconf automake libtool ncurses-dev zlib1g-dev
+
+# grab the repo tarball
+wget http://darcs.haskell.org/${REPO_TARBALL}
+
+# unpack the repos
+tar xvjf ${REPO_TARBALL}
+
+# update the repos
+cd ghc
+chmod +x ./darcs-all ./validate ./boot
+./darcs-all pull -a
+```
