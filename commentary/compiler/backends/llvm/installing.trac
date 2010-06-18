@@ -12,7 +12,7 @@ Once built you can check that you have the LLVM backend GHC will support these e
 
   * ''--info'' - Now will report that it has the llvm backend
   * ''-fllvm'' - Compile code using the llvm backend
-  * ''-ddump-llvm' - Dumps the llvm IR while compiling
+  * ''-ddump-llvm'' - Dumps the llvm IR while compiling
   * ''-pgm_la'' - The program to use as the llvm assembler
   * ''-pgm_lo'' - The program to use as the llvm optimiser
   * ''-pgm_lc'' - The program to use as the llvm compiler
