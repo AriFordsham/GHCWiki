@@ -1,0 +1,81 @@
+# Linux perf tool
+
+
+Since Linux 2.6.31, linux has had a new performance counter subsystem (initially called "perf counters" and later renamed to "perf events").  The facilities provided by perf events, and the associated tool "perf", are generally a superset of what you can do with [oprofile](debugging/low-level-profiling/oprofile) and [qprof](debugging/low-level-profiling), so it's a good idea to use perf if you can.  It does support fewer processors than the other systems, although more are being added over time.
+
+
+The perf events subsystem is compiled in by default in the kernel shipped with most distros (e.g. Ubuntu) which means there's no fiddling around compiling your own kernel or modules.  However, the "perf" tool needs to be compiled separately - at the time of writing it isn't available in the Ubuntu repositories or anywhere else as a `.deb` that I could find.  But it's straightforward to compile it up:
+
+- `apt-get install binutils-dev libdwarf-dev libelf-dev` (or equivalent on your distro)
+- download a kernel source tree from [ http://kernel.org](http://kernel.org)
+- unpack it
+- `cd tools/perf`
+- `make`
+- if you want, `make install`, or just copy the binary somewhere appropriate
+
+
+Check that it works:
+
+```wiki
+$ perf stat true
+
+ Performance counter stats for 'true':
+
+       3.684489  task-clock-msecs         #      0.410 CPUs 
+              1  context-switches         #      0.000 M/sec
+              0  CPU-migrations           #      0.000 M/sec
+            158  page-faults              #      0.043 M/sec
+        2920646  cycles                   #    792.687 M/sec
+        2962512  instructions             #      1.014 IPC  
+         687407  branches                 #    186.568 M/sec
+          24356  branch-misses            #      3.543 %    
+  <not counted>  cache-references        
+  <not counted>  cache-misses            
+
+    0.008976351  seconds time elapsed
+```
+
+
+if you see some zeroes here it probably means your processor isn't fully supported by the kernel's perf events subsystem.
+
+
+Now to profile a GHC-compiled executable:
+
+```wiki
+$ sudo perf record ./queens
+$ sudo perf report
+```
+
+
+I'm not entirely sure why sudo is required, but apparently it is for record, and then because the log file is owned by root you need sudo for report too.  The output looks something like this:
+
+```wiki
+# Samples: 9161149923
+#
+# Overhead  Command      Shared Object  Symbol
+# ........  .......  .................  ......
+#
+    30.65%   queens  queens             [.] s1ql_info
+    18.67%   queens  queens             [.] s1qj_info
+    12.17%   queens  queens             [.] s1qi_info
+     9.94%   queens  queens             [.] s1o9_info
+     5.85%   queens  queens             [.] r1nI_info
+     5.33%   queens  queens             [.] s1sF_info
+     5.18%   queens  queens             [.] s1sG_info
+     3.69%   queens  queens             [.] s1oP_info
+     1.68%   queens  queens             [.] stg_upd_frame_info
+     0.88%   queens  queens             [.] stg_ap_2_upd_info
+     0.62%   queens  queens             [.] s1sE_info
+     0.56%   queens  [kernel]           [k] read_hpet
+     0.39%   queens  queens             [.] stg_ap_p_info
+     0.35%    :2030             f76beb  [.] 0x00000000f76beb
+     0.31%   queens  queens             [.] s1oD_info
+     0.28%  swapper  [kernel]           [k] mwait_idle_with_hints
+     0.25%   queens  queens             [.] __stg_gc_enter_1
+     0.23%   queens  queens             [.] evacuate
+     0.18%  swapper  [kernel]           [k] read_hpet
+     0.12%   queens  queens             [.] scavenge_block
+```
+
+
+which is great for pointing to the hotspots.  You can also annotate the source code (of the RTS) or the assembly, using `perf annotate`.
