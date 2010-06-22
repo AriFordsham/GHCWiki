@@ -333,14 +333,13 @@ Handling LLVM’s SSA Form One of the main difference between Cmm and LLVM Assem
 === Handling Registered Code ===
 Handling registerised Cmm Code involves handling the pinning of the STG virtual registers and the TABLES_NEXT_TO_CODE optimisation.
 
-To handle the TABLES_NEXT_TO_CODE optimisation, the LLVM back-end simply disables it. This can be done independent of enabling or disabling all of registered mode. This is done through by putting the following in your build.mk:
-{{{
-GhcEnableTablesNextToCode = NO
-}}}
+To handle the TABLES_NEXT_TO_CODE optimisation, the LLVM backend uses a gnu as feature called subsections.
 
-To handle the pinning of the STG registers the LLVM back-end uses a custom calling convention that passes the first n arguments
-of a function call in the specific registers that the STG registers should be pinned to. Then, whenever there is function call, then LLVM back-end generates a call with the correct STG
-virtual registers as the first n arguments to that call. Why does this work? It works as it guarantees that on the entrance to any function, the STG registers are currently stored in the correct hardware registers. It also guarantees this on a function exit since all Cmm functions that GHC generates are exited by tail calls. In the function itself, the STG registers can be treated just like normal variables, read and written to at will.
+http://sourceware.org/binutils/docs-2.20/as/Sub_002dSections.html#Sub_002dSections
+
+The way this works is that you can put stuff into a section like '.text 2', where 2 is a subsection of .text When run, 'as' orders the subsections. So all you need to do is arrange for the info-table to be in section '.text n' and the code in section '.text n+1'. Each info-table and its code goes in its own subsection. The nice thing is, this is purely a gnu as feature. When it compiles the assembly to object code, the subsections aren't present in the object code, so you don't get 100's of sections that take up space and slow down linking.
+
+To handle the pinning of the STG registers the LLVM back-end uses a custom calling convention that passes the first n arguments of a function call in the specific registers that the STG registers should be pinned to. Then, whenever there is function call, then LLVM back-end generates a call with the correct STG virtual registers as the first n arguments to that call. Why does this work? It works as it guarantees that on the entrance to any function, the STG registers are currently stored in the correct hardware registers. It also guarantees this on a function exit since all Cmm functions that GHC generates are exited by tail calls. In the function itself, the STG registers can be treated just like normal variables, read and written to at will.
 
 The new calling convention was included by the LLVM developers in LLVM 2.7. It uses calling convention number 10. At the moment it supports x86-32/64.
 
