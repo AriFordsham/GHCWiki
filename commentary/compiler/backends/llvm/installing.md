@@ -8,6 +8,11 @@ The LLVM backend is now included in GHC HEAD. Just grab the darcs HEAD version o
 
 For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/wiki/Building)
 
+## LLVM Support
+
+
+The LLVM backend only supports LLVM version **2.7** or later. Simply install it and make sure the various llvm tools (opt, llc) are available on your path.
+
 ## Using
 
 
