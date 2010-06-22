@@ -118,6 +118,7 @@ and a short description of what they're doing or have done.
  * [mailto:vs@foldr.org Volker Stolz]
  * [mailto:josefs@cs.chalmers.se Josef Svenningsson]
  * [mailto:audreyt@audreyt.org Audrey Tang] (Perl-related tools (ghc-asm, ghc-split), AIX port)
+ * David Terei (LLVM)
  * [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller] (Darwin/Mac OS X ports, position-independent code generation)
  * [mailto:mthomas@gil.com.au Mike Thomas]
  * [mailto:cdt25@cam.ac.uk Christopher D. Thompson-Walsh]
