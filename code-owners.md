@@ -134,6 +134,7 @@ and a short description of what they're doing or have done.
 - Volker Stolz
 - Josef Svenningsson
 - Audrey Tang (Perl-related tools (ghc-asm, ghc-split), AIX port)
+- David Terei (LLVM)
 - Wolfgang Thaller (Darwin/Mac OS X ports, position-independent code generation)
 - Mike Thomas
 - Christopher D. Thompson-Walsh
