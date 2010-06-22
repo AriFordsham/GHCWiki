@@ -81,29 +81,15 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
 This is a list of the people that currently have commit access to GHC,
 and a short description of what they're doing or have done.
 
- * [mailto:ka2_mail@yahoo.com Krasimir Angelov]
- * [mailto:lennart@augustsson.net Lennart Augustsson]
- * [mailto:jeanphilippe.bernardy@gmail.com Jean-Philippe Bernardy] (Maintenance of Data.*Map/*Set libraries)
- * [http://www.mathematik.uni-marburg.de/~berthold Jost Berthold] (Parallel Haskell: Eden)
- * [mailto:d00bring@dtek.chalmers.se Bjorn Bringert]
  * [mailto:chak@cse.unsw.edu.au Manuel Chakravarty] (FFI, Data Parallel Haskell, associated types & type families, Mac OS X port)
- * [mailto:amc4@doc.ic.ac.uk Andrew Cheadle]
  * [http://catamorphism.org/ Tim Chevalier] (External Core, strictness analysis, ticky-ticky profiling)
  * [mailto:duncan.coutts@worc.ox.ac.uk Duncan Coutts] (Gentoo packages)
  * [http://www.csee.ogi.edu/~diatchki Iavor S Diatchki] ('monadLib' library)
- * [mailto:sof@galois.com Sigbjorn Finne]
  * [mailto:andygill@ku.edu Andy Gill] (Haskell Program Coverage)
- * [mailto:jgoerzen@complete.org John Goerzen]
- * [mailto:tharris@microsoft.com Tim Harris] (Transactional memory, concurrency)
  * [mailto:lemmih@gmail.com David Himmelstrup] (GHC developer)
- * [mailto:mnislaih@gmail.com José Iborra] (GHCi Debugger)
- * [mailto:ijones@syntaxpolice.org Isaac Jones] (Cabal, libraries)
- * [mailto:hwloidl@tcs.ifi.lmu.de Hans W. Loidl]
- * [mailto:Ralf.Laemmel@cwi.nl Ralf Laemmel]
  * [mailto:rl@cse.unsw.edu.au Roman Leshchinskiy]
  * [mailto:benl@ouroboris.net Ben Lippmeier] (SPARC, native code generator, register allocation)
  * [mailto:andres@cs.uu.nl Andres Loeh]
- * [mailto:desrt@desrt.ca Ryan Lortie] (PowerPC Linux port, packages)
  * [mailto:igloo@earth.li Ian Lynagh] (GHC support engineer)
  * [mailto:marlowsd@gmail.com Simon Marlow] (GHC developer, x86_64 port, SMP support)
  * [mailto:john@repetae.net John Meacham]
@@ -111,23 +97,13 @@ and a short description of what they're doing or have done.
  * [mailto:Sven.Panne@aedion.de Sven Panne]
  * [mailto:simonpj@microsoft.com Simon Peyton Jones]
  * [http://www.eecs.harvard.edu/nr Norman Ramsey] (a little refactoring in the back end)
- * [mailto:br276@cl.cam.ac.uk Ben Rudiak-Gould]
- * [mailto:sseefried@cse.unsw.edu.au Sean Seefried] (Plug-in optimisations (in pluggable-branch))
- * [mailto:dominic.steinitz@blueyonder.co.uk Dominic Steinitz] (Cryptographic library)
  * [mailto:dons@cse.unsw.edu.au Don Stewart] (OpenBSD support)
- * [mailto:vs@foldr.org Volker Stolz]
  * [mailto:josefs@cs.chalmers.se Josef Svenningsson]
  * [mailto:audreyt@audreyt.org Audrey Tang] (Perl-related tools (ghc-asm, ghc-split), AIX port)
  * David Terei (LLVM)
  * [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller] (Darwin/Mac OS X ports, position-independent code generation)
- * [mailto:mthomas@gil.com.au Mike Thomas]
- * [mailto:cdt25@cam.ac.uk Christopher D. Thompson-Walsh]
- * [mailto:dpt@exoskeleton.math.harvard.edu Dylan Thurston]
- * [mailto:dinko.tenev@gmail.com Dinko Tenev]
- * [mailto:tullsen@galois.com Mark Tullsen]
  * [mailto:davve@dtek.chalmers.se David Waern] (Haddock comment support)
  * [mailto:Malcolm.Wallace@cs.york.ac.uk Malcolm Wallace]
- * [mailto:nx200@cam.ac.uk N. Xu]
  * [mailto:ashley@semantic.org Ashley Yakeley] (Time library)
 
 == Past contributors ==
@@ -135,12 +111,25 @@ and a short description of what they're doing or have done.
 These people have contributed to GHC in the past, in various
 wonderful ways:
 
+ * [mailto:ka2_mail@yahoo.com Krasimir Angelov]
+ * [mailto:lennart@augustsson.net Lennart Augustsson]
+ * [mailto:jeanphilippe.bernardy@gmail.com Jean-Philippe Bernardy] (Maintenance of Data.*Map/*Set libraries)
+ * [http://www.mathematik.uni-marburg.de/~berthold Jost Berthold] (Parallel Haskell: Eden)
+ * [mailto:d00bring@dtek.chalmers.se Bjorn Bringert]
  * Sebastien Carlier
+ * [mailto:amc4@doc.ic.ac.uk Andrew Cheadle]
+ * [mailto:sof@galois.com Sigbjorn Finne]
  * Kevin Glynn
+ * [mailto:jgoerzen@complete.org John Goerzen]
  * Cordy Hall
  * Kevin Hammond
- * Hans Wolfgang Lloidl
+ * [mailto:tharris@microsoft.com Tim Harris] (Transactional memory, concurrency)
+ * [mailto:mnislaih@gmail.com José Iborra] (GHCi Debugger)
+ * [mailto:ijones@syntaxpolice.org Isaac Jones] (Cabal, libraries)
+ * [mailto:Ralf.Laemmel@cwi.nl Ralf Laemmel]
+ * [mailto:hwloidl@tcs.ifi.lmu.de Hans Wolfgang Loidl]
  * John Launchbury
+ * [mailto:desrt@desrt.ca Ryan Lortie] (PowerPC Linux port, packages)
  * Jim Mattson
  * Darren Moffat
  * [mailto:njn25@cam.ac.uk Nick Nethercote]
@@ -150,11 +139,21 @@ wonderful ways:
  * Will Partain
  * Juan Quintela
  * Alastair Reid
+ * [mailto:br276@cl.cam.ac.uk Ben Rudiak-Gould]
  * Patrick Sansom
  * André Santos
+ * [mailto:sseefried@cse.unsw.edu.au Sean Seefried] (Plug-in optimisations (in pluggable-branch))
  * [mailto:jseward@acm.org Julian Seward]
+ * [mailto:dominic.steinitz@blueyonder.co.uk Dominic Steinitz] (Cryptographic library)
+ * [mailto:vs@foldr.org Volker Stolz]
+ * [mailto:dinko.tenev@gmail.com Dinko Tenev]
+ * [mailto:mthomas@gil.com.au Mike Thomas]
  * Reuben Thomas
+ * [mailto:cdt25@cam.ac.uk Christopher D. Thompson-Walsh]
+ * [mailto:dpt@exoskeleton.math.harvard.edu Dylan Thurston]
  * Phil Trinder
+ * [mailto:tullsen@galois.com Mark Tullsen]
  * David N Turner
  * Philip Wadler
  * Michael Weber
+ * [mailto:nx200@cam.ac.uk N. Xu]
