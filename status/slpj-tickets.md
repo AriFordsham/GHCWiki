@@ -100,10 +100,12 @@
 ## New constraint simplifier
 
 - [\#4093](https://gitlab.haskell.org//ghc/ghc/issues/4093): constraint simplifier loops
+- [\#2296](https://gitlab.haskell.org//ghc/ghc/issues/2296): position info for fundep message
+- [\#2683](https://gitlab.haskell.org//ghc/ghc/issues/2683): muttering about boxy type ASSERT
 - [\#4044](https://gitlab.haskell.org//ghc/ghc/issues/4044), [\#4045](https://gitlab.haskell.org//ghc/ghc/issues/4045): these were crashes something to do with type functions when building GHC
 - [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): performance of constraint simplifier
 - [TypeFunctionsStatus](type-functions-status)
-- [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927): overlap warnings with GADTs
+- [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927), [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139): overlap warnings with GADTs
 - [\#3851](https://gitlab.haskell.org//ghc/ghc/issues/3851): type family expansion
 - [\#3826](https://gitlab.haskell.org//ghc/ghc/issues/3826): equality reasoning failure
 - [\#3692](https://gitlab.haskell.org//ghc/ghc/issues/3692): bogus error message with constraint after arrow

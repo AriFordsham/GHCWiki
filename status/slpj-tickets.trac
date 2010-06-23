@@ -90,10 +90,12 @@
 ------------------------
 == New constraint simplifier ==
  * #4093: constraint simplifier loops
+ * #2296: position info for fundep message
+ * #2683: muttering about boxy type ASSERT
  * #4044, #4045: these were crashes something to do with type functions when building GHC
  * #3064: performance of constraint simplifier
  * [wiki:TypeFunctionsStatus]
- * #3927: overlap warnings with GADTs
+ * #3927, #4139: overlap warnings with GADTs
  * #3851: type family expansion
  * #3826: equality reasoning failure
  * #3692: bogus error message with constraint after arrow
