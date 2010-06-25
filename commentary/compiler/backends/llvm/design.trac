@@ -347,6 +347,5 @@ The new calling convention was included by the LLVM developers in LLVM 2.7. It u
 
 After code generation there are three more stages, they are simply calls to the LLVM tools though:
 
-  * '''LLVM Asssembler''': This is a very simple stage in which the human readable text version of LLVM assembly code is translated to the binary bitcode format. This is done by simply invoking the LLVM llvm-as tool on the stage input file.
-  * '''LLVM Optimisation''': In this section a range of LLVM’s optimisations are applied to the bitcode file, resulting in a new optimised bitcode file. This is done by simply invoking the LLVM opt tool on the stage input file. The optimisations are selected using the standard optimisation groups of ’-O1’, ’-O2’, ’-O3’ provided by opt, depending on the level of optimisation requested by the user when they invoked GHC.
+  * '''LLVM Optimisation''': In this section a range of LLVM’s optimisations are applied to the llvm file, resulting in a new optimised bitcode file. This is done by simply invoking the LLVM opt tool on the stage input file. The optimisations are selected using the standard optimisation groups of '-mem2reg' (O0), '-O1', '-O2' provided by opt, depending on the level of optimisation requested by the user when they invoked GHC. LLVM also supports '-O3' but that needs to be set by the user through -opt-lo-O3.
   * '''LLVM Compiler''': This is the final stage in which the input LLVM bitcode file is compiled to native assembly for the target machine. This is done by simply invoking the LLVM llc tool on the stage input file.
