@@ -90,6 +90,7 @@
 ------------------------
 == New constraint simplifier ==
  * #4093: constraint simplifier loops
+ * #2296: position info for fundep message
  * #2683: muttering about boxy type ASSERT
  * #4044, #4045: these were crashes something to do with type functions when building GHC
  * #3064: performance of constraint simplifier
