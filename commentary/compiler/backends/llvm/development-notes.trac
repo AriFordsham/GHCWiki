@@ -44,10 +44,6 @@ Update (20/02/10): I fixed this issue using the inline assembler approach (see b
  * Can use inline assembler to fix stack alignment.
  * Fix stack calculation in LLVM (my changes must have broken it).
 
-=== Known Function mistaken for Unknown External Label ===
-
-If a function is initially used as a label (e.g the address of it is taken) then the code generator creates an external reference label for it. Later if that function is called directly as a funciton then as it has previously been defined as a function the code generator gets confused and creates an invalid bitcast. Could either look to redefine the function label when more information is encountered, or just fix up the bitcast.
-
 === Segfault running HRay ===
 
 [http://users.elis.ugent.be/~kehoste/Haskell/HRay/ HRay] is a Haskell Ray Tracer. If you download it and build it with the LLVM backend, some scenes (such as trans2, provided example scene) cause it to segfault. If built with NCG instead this doesn't occur.
