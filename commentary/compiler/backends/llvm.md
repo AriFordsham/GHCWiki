@@ -11,7 +11,7 @@ Some documentation:
 - A more recent [ paper](http://www.cse.unsw.edu.au/~chak/papers/TC10.html) submitted to the Haskell Symposium '10, gives updated design overview and performance numbers.
 
 
-As the back-end isn't currently in GHC head, you need to follow the steps below to get it up and running.
+The backend is now included in GHC head, so grabbing and building that will give you it. The following pages have more information though:
 
 - [Installing & Using](commentary/compiler/backends/llvm/installing)
 - [Design & Implementation](commentary/compiler/backends/llvm/design)

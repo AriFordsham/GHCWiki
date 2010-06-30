@@ -8,7 +8,7 @@ Some documentation:
  * [http://blog.llvm.org/2010/05/glasgow-haskell-compiler-and-llvm.html Blog post] on the LLVM blog about the backend.
  * A more recent [http://www.cse.unsw.edu.au/~chak/papers/TC10.html paper] submitted to the Haskell Symposium '10, gives updated design overview and performance numbers.
 
-As the back-end isn't currently in GHC head, you need to follow the steps below to get it up and running.
+The backend is now included in GHC head, so grabbing and building that will give you it. The following pages have more information though:
 
  * [wiki:Commentary/Compiler/Backends/LLVM/Installing Installing & Using]
  * [wiki:Commentary/Compiler/Backends/LLVM/Design Design & Implementation]
