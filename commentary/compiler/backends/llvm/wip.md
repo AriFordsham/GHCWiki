@@ -34,6 +34,8 @@ The current design is overly complicated and could be faster. It uses String + s
 
 We now support [TNTC](commentary/compiler/backends/llvm/issues#) using an approach of gnu as subsections. This seems to work fine but we would like still to move to a pure LLVM solution. Ideally we would implement this in LLVM by allowing a global variable to be associated with a function, so that LLVM is aware that the two will be laid out next to each other and can better optimise (e.g using this approach LLVM should be able to perform constant propagation on info-tables).
 
+**Update (30/06/2010):** The current TNTC solution doesn't work on Mac OS X. So we need to implement an LLVM based solution.
+
 ### Optimise the output of the LLVM Back-end
 
 
