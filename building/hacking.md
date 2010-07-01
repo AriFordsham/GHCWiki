@@ -3,6 +3,46 @@
 
 There is more complete documentation for the build system later on in this guide (see [Building/Using](building/using)), but this page gives a quick overview of how to get around the GHC build system.
 
+## Before starting your build
+
+
+You need to configure your build: which things to build, how much optimisation to use, whether to build profiling libraries, and so on.  If you don't do this, then you get *everything*, and it will be *optimised to the hilt*, which means the build will take a Very Long Time.  This is fine if you wanted to build GHC for installation and use, but not if you're building GHC to do some development work on it.
+
+
+To configure your build, create the file `mk/build.mk` from the sample:
+
+```wiki
+$ cp mk/build.mk.sample mk/build.mk
+```
+
+
+and then edit `mk/build.mk` to select the build you want.  If you're not sure what you
+want, just uncommenting this line
+
+```wiki
+#BuildFlavour = quick
+```
+
+
+is usually a good choice.  For more information on what you can do with `build.mk`, see [Build configuration](building/using#build-configuration).  In particular, you might want to [make GHC build quickly](building/using#how-to-make-ghc-build-quickly).
+
+## Starting the build
+
+
+To build the whole thing (compiler, libraries, compiler again), do this:
+
+```wiki
+$ perl boot
+$ ./configure
+$ make
+```
+
+
+There are more configuration settings that you can use when running the configure script, see [Run the configure script](building/using#run-the-configure-script).
+
+
+assuming everything goes according to plan, this should leave you with a compiler that you can run: `inplace/bin/ghc-stage2`.
+
 ## Building after making changes
 
 
@@ -25,7 +65,7 @@ this should rebuild just the RTS.  If you want to just build the stage 2 compile
 
 ```wiki
 $ cd ghc
-$ make stage=2
+$ make 2
 ```
 
 
@@ -60,15 +100,6 @@ Another way to build GHC is to [run the validate script](testing-patches), which
 
 
 The GHC build system works with make's `-j` flag, which spawns multiple compile processes in parallel.  Even on a single processor machine it's usually worthwhile using at least `make -j2`, because the I/O will be overlapped with compute-intensive compilation.  On a multicore machine, higher `-j` values will speed up the build even more.
-
-## Controlling your build
-
-
-The build is controlled in two ways:
-
-- Flags given to `./configure`.  See [Run the configure script](building/using#run-the-configure-script).
-
-- The file `mk/build.mk`.  This is a file you create yourself, containing various build settings.  There's a sample file in `mk/build.mk.sample` that you can copy to `mk/build.mk` and use as a starting point.  For more information on what you can do with `build.mk`, see [Build configuration](building/using#build-configuration).  In particular, you might want to [make GHC build quickly](building/using#how-to-make-ghc-build-quickly).
 
 ## Running GHC from the build tree
 
