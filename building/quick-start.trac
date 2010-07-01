@@ -5,7 +5,8 @@
   "I just want to build it!"
 
 No problem.  This recipe should build and install a working GHC with
-all the default settings.
+all the default settings.  If you are here because you want to work on GHC, rather than just build and install it,
+then skip this section and go to [wiki:Building/Hacking Getting started with the build system].
 
 The following instructions assume that you have [wiki:Building/GettingTheSources got the sources] (note: not just a `darcs get`) and [wiki:Building/Preparation installed the necessary tools].
 
