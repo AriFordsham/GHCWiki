@@ -116,6 +116,7 @@
 - [\#2239](https://gitlab.haskell.org//ghc/ghc/issues/2239): Lack of improvement with type functions        Manuel
 - [\#700](https://gitlab.haskell.org//ghc/ghc/issues/700): universals in pattern matching
 - [\#3696](https://gitlab.haskell.org//ghc/ghc/issues/3696): better error message fr missing signature
+- [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
 
 ## Types and type inference
 
