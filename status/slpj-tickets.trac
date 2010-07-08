@@ -89,6 +89,7 @@
 
 ------------------------
 == New constraint simplifier ==
+ * #4178: unnecessary skolem escape check
  * #4093: constraint simplifier loops
  * #2296: position info for fundep message
  * #2683: muttering about boxy type ASSERT
@@ -106,6 +107,7 @@
  * #2239: Lack of improvement with type functions	Manuel
  * #700: universals in pattern matching
  * #3696: better error message fr missing signature
+ * #4175: better GHCi info for type-function instances
 
 == Types and type inference ==
  * #3490: superclasses and ambiguity

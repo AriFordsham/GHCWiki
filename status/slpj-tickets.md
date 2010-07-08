@@ -99,6 +99,7 @@
 
 ## New constraint simplifier
 
+- [\#4178](https://gitlab.haskell.org//ghc/ghc/issues/4178): unnecessary skolem escape check
 - [\#4093](https://gitlab.haskell.org//ghc/ghc/issues/4093): constraint simplifier loops
 - [\#2296](https://gitlab.haskell.org//ghc/ghc/issues/2296): position info for fundep message
 - [\#2683](https://gitlab.haskell.org//ghc/ghc/issues/2683): muttering about boxy type ASSERT
@@ -116,6 +117,7 @@
 - [\#2239](https://gitlab.haskell.org//ghc/ghc/issues/2239): Lack of improvement with type functions        Manuel
 - [\#700](https://gitlab.haskell.org//ghc/ghc/issues/700): universals in pattern matching
 - [\#3696](https://gitlab.haskell.org//ghc/ghc/issues/3696): better error message fr missing signature
+- [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
 
 ## Types and type inference
 
