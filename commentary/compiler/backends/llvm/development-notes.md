@@ -10,31 +10,6 @@ This page lists bugs and problems currently known about in the LLVM backend.
 
 Dynamic library support hasn't been tested at all in the LLVM backend. No work has been done on it. Its very unlikely that this feature works in the LLVM backend at the moment.
 
-## LLVM Bugs
-
-### NoReturn
-
-
-Don't use the `NoReturn` function attribute. It causes the LLVM optimiser to produce bad code as it replaces the following sequence of instructions:
-
-```wiki
-tail call fastcc void (i32,i32,i32,i32)* %nnO( i32 %nnP,i32 %nnQ,i32 %nnR,i32 %nnS )
-ret void
-```
-
-
-with:
-
-```wiki
-tail call fastcc void (i32,i32,i32,i32)* %nnO( i32 %nnP,i32 %nnQ,i32 %nnR,i32 %nnS )
-unreachable
-```
-
-
-which stops `llc` producing native code that actually tail calls and thus leads to a runtime segfault.
-
-**TODO**: Need to investigate this further and submit a bug report to LLVM.
-
 ## GHC LLVM Back-end Bugs
 
 ### Foreign Calls on Mac OSX
@@ -50,18 +25,6 @@ Update (20/02/10): I fixed this issue using the inline assembler approach (see b
 - A new function attribute has just landed in SVN which allows stack alignment to be specified when a call is made.
 - Can use inline assembler to fix stack alignment.
 - Fix stack calculation in LLVM (my changes must have broken it).
-
-### Segfault running HRay
-
-[ HRay](http://users.elis.ugent.be/~kehoste/Haskell/HRay/) is a Haskell Ray Tracer. If you download it and build it with the LLVM backend, some scenes (such as trans2, provided example scene) cause it to segfault. If built with NCG instead this doesn't occur.
-
-### Possible Problems (Unconfirmed Bugs)
-
-- See GHC trac ticket [\#1852](https://gitlab.haskell.org//ghc/ghc/issues/1852). Floats are padded to word size (4 extra bytes on a 64 bit machine) by putting an appropriate `CmmLit` before them. On `fasm` this is necessary and forces the NCG to produce correct code. On `fvia-C`, this isn't necessary so it strips this padding out. What approach does LLVM blocks end in a control flow statement which seems pretty useful to me.  need?
-
-- `SPARC/CodeGen/Gen32.hs` seems to have a few special cases for `CmmMachOp`. Perhaps these should also be handled in LLVM to improve performance?
-
-- tail call only supported on `x86`/`x86-64` and `PowerPC`. What about `SPARC`? How will we use the LLVM back-end on SPARC?
 
 ### Repa examples - FFT segfaults
 
