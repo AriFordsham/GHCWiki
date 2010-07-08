@@ -21,7 +21,7 @@ Foreign calls on Mac OS X don't work. Seems to be because LLVM isn't generating 
 Update (20/02/10): I fixed this issue using the inline assembler approach (see below). This reduces the test failures on Mac OSX from 22 to 9. So doesn't fix everything. Still other issues. Also, I tried using the new stalk alignment feature but that interacts badly with the GHC calling convention, clobbering the Base register.
 
 
-Update (07/07/10): I think this issue is probably has probably been fixed by recent changes to fix alignment issues in Linux and Windows but I can't check as I don't have a Mac OS X machine any more.
+Update (07/07/10): Issue still exists.
 
 **Solutions**:
 
