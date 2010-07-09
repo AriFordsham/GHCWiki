@@ -37,10 +37,10 @@ other packages that are useful for development:
 
 ## Debian-based systems (e.g. Debian, Ubuntu)
 
-- `glibc-dev`
+- `libc6-dev`
 - `libedit-dev` (6.10 only)
-- `ncurses-dev`
-- `gmp-dev`
+- `libncurses5-dev`
+- `libgmp3-dev`
 - `autoconf`
 - `automake`
 - `libtool`
@@ -48,7 +48,7 @@ other packages that are useful for development:
 - `make`
 - `perl`
 - `python`
-- `ghc`
+- `ghc6`
 - `happy`
 - `alex`
 - `darcs`
