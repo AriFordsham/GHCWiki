@@ -39,6 +39,7 @@
 - [New code generator tickets](commentary/compiler/new-code-gen)
 - [\#4065](https://gitlab.haskell.org//ghc/ghc/issues/4065): forward propagation
 - [\#3969](https://gitlab.haskell.org//ghc/ghc/issues/3969): better loops
+- [\#3132](https://gitlab.haskell.org//ghc/ghc/issues/3132): fix cgCase of PrimAlts
 - [\#3458](https://gitlab.haskell.org//ghc/ghc/issues/3458), [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): undesirable allocation of something that is nearly a let-no-escape
 - [\#3462](https://gitlab.haskell.org//ghc/ghc/issues/3462): allocate large objects with `allocateLocal()`
 - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253): NCG could do better. Look at this when John D’s ncg is working
