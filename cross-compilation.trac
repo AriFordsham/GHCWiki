@@ -13,7 +13,7 @@ As of this moment (GHC 6.12) GHC does not support cross-compilation.  There are 
 ||               ||Overall build||Stage 1||Compiler RTS||Stage 2||Code RTS||
 ||Build platform ||Build        ||Build  ||(Build)     ||Build  ||(Build) ||
 ||Host platform  ||Host         ||Build  ||Host        ||Host   ||Target  ||
-||Target platform||Target       ||Build  ||            ||Target ||        ||
+||Target platform||Target       ||Host   ||            ||Target ||        ||
 
 == Plan ==
 

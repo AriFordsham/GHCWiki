@@ -34,7 +34,7 @@ As of this moment (GHC 6.12) GHC does not support cross-compilation.  There are 
 </th></tr>
 <tr><th>Target platform</th>
 <th>Target       </th>
-<th>Build  </th>
+<th>Host   </th>
 <th></th>
 <th>Target </th>
 <th></th></tr></table>
