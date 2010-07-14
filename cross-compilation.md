@@ -11,6 +11,96 @@ As of this moment (GHC 6.12) GHC does not support cross-compilation.  There are 
 
 - Other porting tasks might be easier, given a suitable cross-compilation toolchain.
 
+
+In general, we have:
+
+<table><tr><th></th>
+<th>Overall build</th>
+<th>Stage 1</th>
+<th>Compiler RTS</th>
+<th>Stage 2</th>
+<th>Code RTS
+</th></tr>
+<tr><th>Build platform </th>
+<th>Build        </th>
+<th>Build  </th>
+<th>(Build)     </th>
+<th>Build  </th>
+<th>(Build) 
+</th></tr>
+<tr><th>Host platform  </th>
+<th>Host         </th>
+<th>Build  </th>
+<th>Host        </th>
+<th>Host   </th>
+<th>Target  
+</th></tr>
+<tr><th>Target platform</th>
+<th>Target       </th>
+<th>Host   </th>
+<th></th>
+<th>Target </th>
+<th></th></tr></table>
+
+
+In the special case where we are using cross compilation to bootstrap a new platform, we have Host=Target:
+
+<table><tr><th></th>
+<th>Overall build</th>
+<th>Stage 1</th>
+<th>RTS    </th>
+<th>Stage 2
+</th></tr>
+<tr><th>Build platform </th>
+<th>Build        </th>
+<th>Build  </th>
+<th>(Build)</th>
+<th>Build  
+</th></tr>
+<tr><th>Host platform  </th>
+<th>Target       </th>
+<th>Build  </th>
+<th>Target </th>
+<th>Target 
+</th></tr>
+<tr><th>Target platform</th>
+<th>Target       </th>
+<th>Target </th>
+<th></th>
+<th>Target 
+</th></tr></table>
+
+
+In the special case where we are building a cross-compiler running on our current platform, we have Host=Build:
+
+<table><tr><th></th>
+<th>Overall build</th>
+<th>Stage 1</th>
+<th>Compiler RTS</th>
+<th>Stage 2</th>
+<th>Code RTS
+</th></tr>
+<tr><th>Build platform </th>
+<th>Build        </th>
+<th>Build  </th>
+<th>(Build)     </th>
+<th>Build  </th>
+<th>(Build) 
+</th></tr>
+<tr><th>Host platform  </th>
+<th>Build        </th>
+<th>Build  </th>
+<th>Build       </th>
+<th>Build  </th>
+<th>Target  
+</th></tr>
+<tr><th>Target platform</th>
+<th>Target       </th>
+<th>Build  </th>
+<th></th>
+<th>Target </th>
+<th></th></tr></table>
+
 ## Plan
 
 
