@@ -11,6 +11,34 @@ As of this moment (GHC 6.12) GHC does not support cross-compilation.  There are 
 
 - Other porting tasks might be easier, given a suitable cross-compilation toolchain.
 
+<table><tr><th></th>
+<th>Overall build</th>
+<th>Stage 1</th>
+<th>Compiler RTS</th>
+<th>Stage 2</th>
+<th>Code RTS
+</th></tr>
+<tr><th>Build platform </th>
+<th>Build        </th>
+<th>Build  </th>
+<th>(Build)     </th>
+<th>Build  </th>
+<th>(Build) 
+</th></tr>
+<tr><th>Host platform  </th>
+<th>Host         </th>
+<th>Build  </th>
+<th>Host        </th>
+<th>Host   </th>
+<th>Target  
+</th></tr>
+<tr><th>Target platform</th>
+<th>Target       </th>
+<th>Build  </th>
+<th></th>
+<th>Target </th>
+<th></th></tr></table>
+
 ## Plan
 
 
