@@ -100,6 +100,7 @@
 
 ## New constraint simplifier
 
+- [\#4200](https://gitlab.haskell.org//ghc/ghc/issues/4200): don't require `UndecidableInstances` for equality constraints
 - [\#4178](https://gitlab.haskell.org//ghc/ghc/issues/4178): unnecessary skolem escape check
 - [\#4179](https://gitlab.haskell.org//ghc/ghc/issues/4179): loop in type inference
 - [\#4174](https://gitlab.haskell.org//ghc/ghc/issues/4174): bad error message
