@@ -134,6 +134,7 @@ Unpack a source tree (exactly the same version as before).  Call this directory 
 Create `<H>/mk/build.mk`, with the following contents:
 
 ```wiki
+PORTING_HOST = YES
 GhcUnregisterised = YES
 GhcLibHcOpts = -O -fvia-C -keep-hc-files
 GhcRtsHcOpts = -keep-hc-files
