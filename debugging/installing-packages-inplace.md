@@ -50,7 +50,7 @@ cd <package>
 ```
 
 
-Points to not here:
+Points to note here:
 
 - The first step can be done manually, by downloading a zip file from Hackage, or by doing a darcs get from the appropriate repo.  For example:
 
