@@ -31,16 +31,17 @@ In general, we have:
 <tr><th>Host platform  </th>
 <th>Host         </th>
 <th>Build  </th>
-<th>Host        </th>
+<th>(Build)     </th>
 <th>Host   </th>
-<th>Target  
+<th>(Host)  
 </th></tr>
 <tr><th>Target platform</th>
 <th>Target       </th>
 <th>Host   </th>
-<th></th>
+<th>Host        </th>
 <th>Target </th>
-<th></th></tr></table>
+<th>Target  
+</th></tr></table>
 
 
 In the special case where we are using cross compilation to bootstrap a new platform, we have Host=Target:
@@ -60,13 +61,13 @@ In the special case where we are using cross compilation to bootstrap a new plat
 <tr><th>Host platform  </th>
 <th>Target       </th>
 <th>Build  </th>
-<th>Target </th>
+<th>(Build)</th>
 <th>Target 
 </th></tr>
 <tr><th>Target platform</th>
 <th>Target       </th>
 <th>Target </th>
-<th></th>
+<th>Target </th>
 <th>Target 
 </th></tr></table>
 
@@ -90,16 +91,17 @@ In the special case where we are building a cross-compiler running on our curren
 <tr><th>Host platform  </th>
 <th>Build        </th>
 <th>Build  </th>
-<th>Build       </th>
+<th>(Build)     </th>
 <th>Build  </th>
-<th>Target  
+<th>(Build) 
 </th></tr>
 <tr><th>Target platform</th>
 <th>Target       </th>
 <th>Build  </th>
-<th></th>
+<th>Build       </th>
 <th>Target </th>
-<th></th></tr></table>
+<th>Target  
+</th></tr></table>
 
 ## Plan
 

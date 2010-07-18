@@ -14,22 +14,22 @@ In general, we have:
 
 ||               ||Overall build||Stage 1||Compiler RTS||Stage 2||Code RTS||
 ||Build platform ||Build        ||Build  ||(Build)     ||Build  ||(Build) ||
-||Host platform  ||Host         ||Build  ||Host        ||Host   ||Target  ||
-||Target platform||Target       ||Host   ||            ||Target ||        ||
+||Host platform  ||Host         ||Build  ||(Build)     ||Host   ||(Host)  ||
+||Target platform||Target       ||Host   ||Host        ||Target ||Target  ||
 
 In the special case where we are using cross compilation to bootstrap a new platform, we have Host=Target:
 
 ||               ||Overall build||Stage 1||RTS    ||Stage 2||
 ||Build platform ||Build        ||Build  ||(Build)||Build  ||
-||Host platform  ||Target       ||Build  ||Target ||Target ||
-||Target platform||Target       ||Target ||       ||Target ||
+||Host platform  ||Target       ||Build  ||(Build)||Target ||
+||Target platform||Target       ||Target ||Target ||Target ||
 
 In the special case where we are building a cross-compiler running on our current platform, we have Host=Build:
 
 ||               ||Overall build||Stage 1||Compiler RTS||Stage 2||Code RTS||
 ||Build platform ||Build        ||Build  ||(Build)     ||Build  ||(Build) ||
-||Host platform  ||Build        ||Build  ||Build       ||Build  ||Target  ||
-||Target platform||Target       ||Build  ||            ||Target ||        ||
+||Host platform  ||Build        ||Build  ||(Build)     ||Build  ||(Build) ||
+||Target platform||Target       ||Build  ||Build       ||Target ||Target  ||
 
 == Plan ==
 
