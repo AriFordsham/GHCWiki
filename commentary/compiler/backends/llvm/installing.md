@@ -30,10 +30,10 @@ Once built you can check that you have the LLVM backend GHC will support these e
 
 ## Supported Platforms & Correctness
 
-- Linux x86-32/x86-64 are currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
-- Mac OS X 10.5 currently has a rather nasty bug with any dynamic lib calls (all libffi stuff) \[due to the stack not being 16byte aligned when the calls are made as required by OSX ABI for the curious\]. Test suite passes except for most the ffi tests.
-- Windows 32bit: The backend works for most things but no extensive testing or support yet.
-- Other platforms haven't been tested at all. As using the back-end with a registered build of GHC requires a modified version of LLVM, people wanting to try it out on those platforms will need to either make the needed changes to LLVM themselves, or use an unregistered build of GHC which will work with a vanilla install of LLVM. (A patch for LLVM for x86 is linked to below.)
+- Linux x86-32/x86-64: Currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
+- Windows x86-32: Currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
+- Mac OS X 10.5/10.6: Can pass the test suite, so most things should work but there are some programs known to segfault if compiled with the LLVM backend. The cause for this is still being investigated.
+- Other platforms haven't been tested at all.
 
 ## Performance
 
