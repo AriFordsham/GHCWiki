@@ -14,8 +14,8 @@ In general, we have:
 
 ||               ||Overall build||Stage 1||Compiler RTS||Stage 2||Code RTS||
 ||Build platform ||Build        ||Build  ||(Build)     ||Build  ||(Build) ||
-||Host platform  ||Host         ||Build  ||Host        ||Host   ||Target  ||
-||Target platform||Target       ||Host   ||            ||Target ||        ||
+||Host platform  ||Host         ||Build  ||(Build)     ||Host   ||(Host)  ||
+||Target platform||Target       ||Host   ||Host        ||Target ||Target  ||
 
 In the special case where we are using cross compilation to bootstrap a new platform, we have Host=Target:
 

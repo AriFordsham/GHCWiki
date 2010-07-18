@@ -31,16 +31,17 @@ In general, we have:
 <tr><th>Host platform  </th>
 <th>Host         </th>
 <th>Build  </th>
-<th>Host        </th>
+<th>(Build)     </th>
 <th>Host   </th>
-<th>Target  
+<th>(Host)  
 </th></tr>
 <tr><th>Target platform</th>
 <th>Target       </th>
 <th>Host   </th>
-<th></th>
+<th>Host        </th>
 <th>Target </th>
-<th></th></tr></table>
+<th>Target  
+</th></tr></table>
 
 
 In the special case where we are using cross compilation to bootstrap a new platform, we have Host=Target:
