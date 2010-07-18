@@ -35,7 +35,7 @@ So:
  * More benchmarking, particularly finding some bad spots for the LLVM back-end and generating a good picture of the characteristics of the back-end.
  * Look into the LLVM optimiser, e.g perhaps some more work in the style of [http://donsbot.wordpress.com/2010/03/01/evolving-faster-haskell-programs-now-with-llvm/ Don's work]
  * Look at any new optimisation passes that could be written for LLVM which would help to improve the code it generates for GHC.
- * Look at general fixes/improvement to LLVM to improve the code it generates for LLVM (e.g at the moment LLVM performs a lot of redundant stack manipulation in the code in generates for GHC, would be good to fix this up).
+ * Look at general fixes/improvement to LLVM to improve the code it generates for LLVM.
 
 === Update the Back-end to use the new Cmm data types / New Code Generator ===
 
