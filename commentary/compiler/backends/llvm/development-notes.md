@@ -37,11 +37,11 @@ The mangler will change this to:
 
 ```wiki
 _func:
-    subl $12, %esp
+    subl $16, %esp
     ...
     call _sin
     ...
-    addl $12, %esp
+    addl $16, %esp
 ```
 
 
