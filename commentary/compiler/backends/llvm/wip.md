@@ -10,17 +10,6 @@ This page is meant to collect together information about people working on (or i
   - Max Bolingbroke ([ http://www.cl.cam.ac.uk/\~mb566](http://www.cl.cam.ac.uk/~mb566)) has proposed a SoC project to work on LLVM [ http://hackage.haskell.org/trac/summer-of-code/ticket/1582](http://hackage.haskell.org/trac/summer-of-code/ticket/1582)
   - Alp Mestanogullari ([ http://alpmestan.wordpress.com/](http://alpmestan.wordpress.com/), [ http://twitter.com/alpmestan](http://twitter.com/alpmestan)) is interested in working on a SoC project on LLVM
 
-## Small Ticket Items
-
-- Use a new Monad instead of passing `LlvmEnv` around everywhere.
-- Should be able to put all `CmmProc` and `CmmData` labels in environment at start and after that, can print out LLVM IR as I generate it for each data and proc instead of storing.
-- Look at using LLVM intrinsic functions. There are a few math functions. Also, there is a `smul_overflow` detect function.
-- Rearrange some functions and files better.
-- handling of `LlvmVar` or `LlvmType` for function signature isn't nice. Whole function signature handling could be better really. We also don't support parameter attributes which we should enable for better performance.
-- `LlvmCodeGen.CodeGen.genCall` code for foreign calls is quite complex, could use a clean-up.
-
-## Big Ticket Items
-
 ### LLVM IR Representation
 
 
@@ -34,17 +23,7 @@ The current design is overly complicated and could be faster. It uses String + s
 
 We now support [TNTC](commentary/compiler/backends/llvm/issues#) using an approach of gnu as subsections. This seems to work fine but we would like still to move to a pure LLVM solution. Ideally we would implement this in LLVM by allowing a global variable to be associated with a function, so that LLVM is aware that the two will be laid out next to each other and can better optimise (e.g using this approach LLVM should be able to perform constant propagation on info-tables).
 
-**Update (30/06/2010):** The current TNTC solution doesn't work on Mac OS X. So we need to implement an LLVM based solution.
-
-### Optimise the output of the LLVM Back-end
-
-
-The LLVM back-end at the moment generally takes the most straight-forward approach to compiling Haskell (Cmm really) to LLVM. LLVM is designed in such a way that this is how things should be by and large done. Its instruction set is designed to be simple and generally have one way to approach a problem (especially when coming from fairly similar Cmm), you are encouraged to rely on the optimisation passes of LLVM to handle fixing things up. However, this doesn't mean there isn't potentially some room for improvement, especially since we simply don't know if there is or isn't. The LLVM back-end is new and experiments and benchmarks need to be done to figure out its limits and places it can be improved. Some quick ideas:
-
-- Update the back-end to use some of the new features of LLVM 2.6 and 2.7. Currently it only uses features of 2.5. (e.g could maybe use the new LLVM integer specific add operation to detect overflow rather then the current custom code to do it). One quick improvement is that as of 2.7 the LLVM assembler ('llvm-as') stage in the LLVM back-end pipeline isn't needed now at the LLVM optimiser tool ('opt') can be directly given LLVM assembly now as well as LLVM bitcode.
-- All the STG registers are passed around at the moment as just words. Some really should be passed as pointer type (e.g Sp, Hp). We can then use the noalias attribute on them which is useful. Also the nocapture attribute
-- Look into the various [ parameter attributes](http://llvm.org/docs/LangRef.html#paramattrs) and [ function attributes](http://llvm.org/docs/LangRef.html#fnattrs) that LLVM supports and how they should be used by the LLVM back-end. (e.g the noalias parameter attribute should probably be used).
-- Look at the various [ intrinsic functions](http://llvm.org/docs/LangRef.html#intrinsics) supported by LLVM. Some of them could maybe be used to replace existing code in LLVM or calls to the rts. (e.g Cmm expects support of a fair number of basic math operations \[e.g sin\], for which LLVM intrinsic functions exists. However the back-end currently calls the C library for them).
+**Update (30/06/2010):** The current TNTC solution doesn't work on Mac OS X. So we need to implement an LLVM based solution. We currently support OS X by post processing the assembly. Pure LLVM is a nicer way forward.
 
 ### Optimise LLVM for the type of Code GHC produces
 
@@ -57,18 +36,7 @@ So:
 - More benchmarking, particularly finding some bad spots for the LLVM back-end and generating a good picture of the characteristics of the back-end.
 - Look into the LLVM optimiser, e.g perhaps some more work in the style of [ Don's work](http://donsbot.wordpress.com/2010/03/01/evolving-faster-haskell-programs-now-with-llvm/)
 - Look at any new optimisation passes that could be written for LLVM which would help to improve the code it generates for GHC.
-- Look at general fixes/improvement to LLVM to improve the code it generates for LLVM (e.g at the moment LLVM performs a lot of redundant stack manipulation in the code in generates for GHC, would be good to fix this up).
-
-### Stabilise / Bug Fixing
-
-
-The back-end needs a fair amount of love and care just to get it into a state where it could be used as the default back-end by GHC if desired.
-
-- **Platform support**: Only supports x86 Linux. There are a number of serious bugs on Mac OS X. Windows hasn't been tested. SPARC also hasn't been tested and would need to have changes made in LLVM so that the SPARC LLVM back-end supported the GHC calling convention.
-- Has been a report the back-end interacts badly with the '-dynamic' GHC flag.
-- Back-end hasn't been thoroughly tested across the full range of GHC configurations (e.g threaded...)
-- LLVM back-end is out of tree currently.
-- Back-end can be reduced in size and use faster data structures (FastString instead of String, OrdList instead of List, might be able to get rid of the environment used by the back-end as I believe the label naming convention stores may store enough information for the back-ends uses).
+- Look at general fixes/improvement to LLVM to improve the code it generates for LLVM.
 
 ### Update the Back-end to use the new Cmm data types / New Code Generator
 
