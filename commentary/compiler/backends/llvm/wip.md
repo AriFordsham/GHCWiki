@@ -10,12 +10,6 @@ This page is meant to collect together information about people working on (or i
   - Max Bolingbroke ([ http://www.cl.cam.ac.uk/\~mb566](http://www.cl.cam.ac.uk/~mb566)) has proposed a SoC project to work on LLVM [ http://hackage.haskell.org/trac/summer-of-code/ticket/1582](http://hackage.haskell.org/trac/summer-of-code/ticket/1582)
   - Alp Mestanogullari ([ http://alpmestan.wordpress.com/](http://alpmestan.wordpress.com/), [ http://twitter.com/alpmestan](http://twitter.com/alpmestan)) is interested in working on a SoC project on LLVM
 
-## Small Ticket Items
-
-- Use a new Monad instead of passing `LlvmEnv` around everywhere.
-
-## Big Ticket Items
-
 ### LLVM IR Representation
 
 
