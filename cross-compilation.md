@@ -48,7 +48,7 @@ These correspond to CPP symbols that are defined when compiling both Haskell and
 - *xxx*`_TARGET_ARCH`, *xxx*`_TARGET_OS`: the target platform
 
 
-The important thing to realise about the 2-stage bootstrap is that each stage has a different notion of build/host/target: these CPP symbols will map to different things when compiling stage 1 and stage 2.  Furthermore that RTS and libraries also have a notion of build and host (but not target: they don't generate code).
+The important thing to realise about the 2-stage bootstrap is that each stage has a different notion of build/host/target: these CPP symbols will map to different things when compiling stage 1 and stage 2.  Furthermore the RTS and libraries also have a notion of build and host (but not target: they don't generate code).
 
 
 The overall build has a build/host/target, supplied on the `configure` command line:
