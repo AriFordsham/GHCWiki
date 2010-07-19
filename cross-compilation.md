@@ -67,7 +67,7 @@ And here is how we map those platforms onto the platforms used by the different 
 <th>**libs-target**</th></tr>
 <tr><th>**Build platform**</th>
 <th>*build*</th>
-<th>*build*</th>
+<th>--- </th>
 <th>*build*</th>
 <th>*build*</th>
 <th>*build*</th>
