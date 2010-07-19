@@ -10,26 +10,59 @@ As of this moment (GHC 6.12) GHC does not support cross-compilation.  There are 
 
  * Other porting tasks might be easier, given a suitable cross-compilation toolchain.
 
-In general, we have:
+By way of example, let's suppose we have an x86/Linux platform and we want to cross-compile to PPC64/OSX.  Then our build is going to look like this:
 
-||               ||Overall build||Stage 1||Compiler RTS||Stage 2||Code RTS||
-||Build platform ||Build        ||Build  ||(Build)     ||Build  ||(Build) ||
-||Host platform  ||Host         ||Build  ||(Build)     ||Host   ||(Host)  ||
-||Target platform||Target       ||Host   ||Host        ||Target ||Target  ||
+|| '''Compiler'''      || '''Runs on'''    || '''Generates code for''' ||
+|| Stage 0       || x86/Linux  || x86/Linux          ||
+|| Stage 1       || x86/Linux  || PPC64/OSX          ||
+|| Stage 2       || PPC64/OSX  || PPC64/OSX          ||
 
-In the special case where we are using cross compilation to bootstrap a new platform, we have Host=Target:
+Where stage 0 is the bootstrap compiler (the one you specify using `--with-ghc` when configuring the build), and stages 1 and 2 are the compilers being built.
 
-||               ||Overall build||Stage 1||RTS    ||Stage 2||
-||Build platform ||Build        ||Build  ||(Build)||Build  ||
-||Host platform  ||Target       ||Build  ||(Build)||Target ||
-||Target platform||Target       ||Target ||Target ||Target ||
+Now some general nomenclature:
 
-In the special case where we are building a cross-compiler running on our current platform, we have Host=Build:
+ * '''Build platform''': the platform on which the software is being built
+ * '''Host platform''': the platform on which the software will run
+ * '''Target platform''': for a compiler, the platform on which the generated code will run
 
-||               ||Overall build||Stage 1||Compiler RTS||Stage 2||Code RTS||
-||Build platform ||Build        ||Build  ||(Build)     ||Build  ||(Build) ||
-||Host platform  ||Build        ||Build  ||(Build)     ||Build  ||(Build) ||
-||Target platform||Target       ||Build  ||Build       ||Target ||Target  ||
+These correspond to CPP symbols that are defined when compiling both Haskell and C code:
+
+ * ''xxx''`_BUILD_ARCH`, ''xxx''`_BUILD_OS`: the build platform
+ * ''xxx''`_HOST_ARCH`, ''xxx''`_HOST_OS`: the host platform
+ * ''xxx''`_TARGET_ARCH`, ''xxx''`_TARGET_OS`: the target platform
+
+The important thing to realise about the 2-stage bootstrap is that each stage has a different notion of build/host/target: these CPP symbols will map to different things when compiling stage 1 and stage 2.  Furthermore that RTS and libraries also have a notion of build and host (but not target: they don't generate code).
+
+The overall build has a build/host/target, supplied on the `configure` command line:
+
+  `$ ./configure --build=`''build''` --host=`''host''` --target=`''target''
+
+And here is how we map those platforms onto the platforms used by the different stages, and the RTS and libraries:
+
+||                      ||'''Overall build''' ||'''Stage 0''' || '''Stage 1''' || '''Stage 2'''   || '''libs-host''' || '''libs-target''' ||
+||'''Build platform'''  ||''build''       ||''build'' || ''build'' || ''build''   || ''build''   || ''build'' ||
+||'''Host platform'''   ||''host''        ||''build'' || ''build'' || ''host''    || ''host''    || ''target'' ||
+||'''Target platform''' ||''target''      ||''build'' || ''host''  || ''target''  || ---       || --- ||
+
+Where '''libs-host''' refers to the libraries and RTS that we are building to link with the stage 2 compiler, and '''libs-target''' refers to the libraries and RTS that will be linked with binaries built by the stage 2 compiler to run on the target platform.
+
+In the special case where we are using cross compilation to bootstrap a new platform, as in the above example, we have ''host'' == ''target'':
+
+||               ||'''Overall build'''||'''Stage 1'''||'''Stage 2'''||'''libs-host'''||
+||'''Build platform''' ||''build''   ||''build''  ||''build''  ||''build''  ||
+||'''Host platform'''  ||''target''  ||''build''  ||''target'' ||''target'' ||
+||'''Target platform'''||''target''  ||''target'' ||''target'' ||         ||
+
+Note that with ''host'' == ''target'', '''libs-host''' == '''libs-target''', so we only need to build the RTS and libraries once (fortunately, because the GHC build system only supports building them once).
+
+Suppose we wanted to build a cross-compiler to run on the current platform.  Then we could configure with ''build'' == ''host'', but ''target'' is different:
+
+||               ||'''Overall build'''||'''Stage 1'''||'''Stage 2'''||'''libs-host'''||'''libs-target'''
+||'''Build platform''' ||''build''   ||''build''  ||''build''  ||''build'' ||''build'' ||
+||'''Host platform'''  ||''build''   ||''build''  ||''build''  ||''build'' ||''target'' ||
+||'''Target platform'''||''target''  ||''build''  ||''target'' ||          || ||
+
+Note in this configuration that we need both '''libs-host''' and '''libs-target''', so currently the GHC build system does not support building this kind of cross-compiler.  Fortunately, most of the things you would want to do with this kind of cross-compiler are supported by the first kind, the only caveat is that you can't ''install'' a cross-compiler that way.
 
 == Plan ==
 
