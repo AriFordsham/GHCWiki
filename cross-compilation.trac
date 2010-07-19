@@ -40,7 +40,7 @@ The overall build has a build/host/target, supplied on the `configure` command l
 And here is how we map those platforms onto the platforms used by the different stages, and the RTS and libraries:
 
 ||                      ||'''Overall build''' ||'''Stage 0''' || '''Stage 1''' || '''Stage 2'''   || '''libs-host''' || '''libs-target''' ||
-||'''Build platform'''  ||''build''       ||''build'' || ''build'' || ''build''   || ''build''   || ''build'' ||
+||'''Build platform'''  ||''build''       ||--- || ''build'' || ''build''   || ''build''   || ''build'' ||
 ||'''Host platform'''   ||''host''        ||''build'' || ''build'' || ''host''    || ''host''    || ''target'' ||
 ||'''Target platform''' ||''target''      ||''build'' || ''host''  || ''target''  || ---       || --- ||
 
