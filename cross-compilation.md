@@ -55,8 +55,7 @@ The overall build has a build/host/target, supplied on the `configure` command l
 
 > `$ ./configure --build=`*build*` --host=`*host*` --target=`*target*
 
-
-And here is how we map those platforms onto the platforms used by the different stages, and the RTS and libraries:
+**The host and target specified on the configure command line refer to the stage 2 compiler.**  Specifically, here is how we map the platforms from the configure command line onto the platforms used by the different stages, and the RTS and libraries:
 
 <table><tr><th></th>
 <th>**Overall build**</th>
