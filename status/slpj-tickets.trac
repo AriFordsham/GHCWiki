@@ -153,6 +153,7 @@
  * #3507: use "`type T`" instead of {{{''T}}}
  * #1475: Allow TH to generate import declarations	
  * #2340: Better TH error recovery.  Easy to do; change to signature of qRecover.
+ * #4222: design of reification for TH
 
 == Features == 
  * #595: pattern-match overlap checking
@@ -174,6 +175,7 @@
 
 --------------------------
 == Not sure what to do about these ==
+ * #2607: space leak: inlining defeats selector thunk optimisation
  * #2284: the state-hack "optimisation" causes much re-computation
  * #3872: divergence in simplifier
  * #4005: generational GC pathalogical case

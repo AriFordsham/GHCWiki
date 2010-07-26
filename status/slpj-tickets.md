@@ -168,6 +168,7 @@
 - [\#3507](https://gitlab.haskell.org//ghc/ghc/issues/3507): use "`type T`" instead of `''T`
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): Allow TH to generate import declarations        
 - [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.
+- [\#4222](https://gitlab.haskell.org//ghc/ghc/issues/4222): design of reification for TH
 
 ## Features
 
@@ -192,6 +193,7 @@
 
 ## Not sure what to do about these
 
+- [\#2607](https://gitlab.haskell.org//ghc/ghc/issues/2607): space leak: inlining defeats selector thunk optimisation
 - [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284): the state-hack "optimisation" causes much re-computation
 - [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872): divergence in simplifier
 - [\#4005](https://gitlab.haskell.org//ghc/ghc/issues/4005): generational GC pathalogical case
