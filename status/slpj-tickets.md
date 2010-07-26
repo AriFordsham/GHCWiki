@@ -192,6 +192,7 @@
 
 ## Not sure what to do about these
 
+- [\#2607](https://gitlab.haskell.org//ghc/ghc/issues/2607): space leak: inlining defeats selector thunk optimisation
 - [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284): the state-hack "optimisation" causes much re-computation
 - [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872): divergence in simplifier
 - [\#4005](https://gitlab.haskell.org//ghc/ghc/issues/4005): generational GC pathalogical case
