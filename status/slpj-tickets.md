@@ -168,6 +168,7 @@
 - [\#3507](https://gitlab.haskell.org//ghc/ghc/issues/3507): use "`type T`" instead of `''T`
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): Allow TH to generate import declarations        
 - [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.
+- [\#4222](https://gitlab.haskell.org//ghc/ghc/issues/4222): design of reification for TH
 
 ## Features
 
