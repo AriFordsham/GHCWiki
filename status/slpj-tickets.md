@@ -100,6 +100,7 @@
 
 ## New constraint simplifier
 
+- [\#4226](https://gitlab.haskell.org//ghc/ghc/issues/4226): strange implicit-parameter behaviour
 - [\#4160](https://gitlab.haskell.org//ghc/ghc/issues/4160): Type families crash in HEAD
 - [\#4200](https://gitlab.haskell.org//ghc/ghc/issues/4200): don't require `UndecidableInstances` for equality constraints
 - [\#4178](https://gitlab.haskell.org//ghc/ghc/issues/4178): unnecessary skolem escape check
