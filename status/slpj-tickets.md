@@ -19,6 +19,7 @@
 
 ### Inlining
 
+- [\#4227](https://gitlab.haskell.org//ghc/ghc/issues/4227): SPECIALISE pragmas for functions in other modules
 - [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781): inlining for local functions: discount for scrutinising free vars
 - [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
 - [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): idea for "wrapper peeling" for join points.
@@ -100,6 +101,8 @@
 
 ## New constraint simplifier
 
+- [\#3787](https://gitlab.haskell.org//ghc/ghc/issues/3787): bad program produced
+- [\#4226](https://gitlab.haskell.org//ghc/ghc/issues/4226): strange implicit-parameter behaviour
 - [\#4160](https://gitlab.haskell.org//ghc/ghc/issues/4160): Type families crash in HEAD
 - [\#4200](https://gitlab.haskell.org//ghc/ghc/issues/4200): don't require `UndecidableInstances` for equality constraints
 - [\#4178](https://gitlab.haskell.org//ghc/ghc/issues/4178): unnecessary skolem escape check
