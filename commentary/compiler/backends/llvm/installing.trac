@@ -17,10 +17,8 @@ Once built you can check that you have the LLVM backend GHC will support these e
   * ''--info'' - Now will report that it has the llvm backend
   * ''-fllvm'' - Compile code using the llvm backend
   * ''-ddump-llvm'' - Dumps the llvm IR while compiling
-  * ''-pgmla'' - The program to use as the llvm assembler
   * ''-pgmlo'' - The program to use as the llvm optimiser
   * ''-pgmlc'' - The program to use as the llvm compiler
-  * ''-optla'' - Extra options to pass to the llvm assembler
   * ''-optlo'' - Extra options to pass to the llvm optimiser
   * ''-optlc'' - Extra options to pass to the llvm compiler
 
@@ -29,7 +27,7 @@ Once built you can check that you have the LLVM backend GHC will support these e
 
  * Linux x86-32/x86-64: Currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
  * Windows x86-32: Currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
- * Mac OS X 10.5/10.6: Can pass the test suite, so most things should work but there are some programs known to segfault if compiled with the LLVM backend. The cause for this is still being investigated.
+ * Mac OS X 10.5/10.6: Currently well supported. The back-end can pass the test suite. Bootstrapping GHC hasn't been tried yet. OS X has caused a lot more problems then Linux or Windows and does a few things slightly differently then them. It should be fairly stable these days though.
  * Other platforms haven't been tested at all.
 
 == Performance ==
