@@ -1,6 +1,6 @@
 = The LLVM backend =
 
-David Terei wrote a new code generator for GHC which targets the LLVM compiler infrastructure. Most of the work was done as part of an honours thesis at the University of New South Wales under the supervision of Manuel Chakravarty. Its now at a stage where it is under consideration to be merged into GHC mainline.
+David Terei wrote a new code generator for GHC which targets the LLVM compiler infrastructure. Most of the work was done as part of an honours thesis at the University of New South Wales under the supervision of Manuel Chakravarty. It was merged into GHC Head around May of 2010.
 
 Some documentation:
 
