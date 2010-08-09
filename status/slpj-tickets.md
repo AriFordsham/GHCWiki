@@ -101,6 +101,9 @@
 
 ## New constraint simplifier
 
+- [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): error message if associated family has excess parameters
+- [\#3554](https://gitlab.haskell.org//ghc/ghc/issues/3554): assertion failure
+- [\#3330](https://gitlab.haskell.org//ghc/ghc/issues/3330): type checker loops
 - [\#3787](https://gitlab.haskell.org//ghc/ghc/issues/3787): bad program produced
 - [\#4226](https://gitlab.haskell.org//ghc/ghc/issues/4226): strange implicit-parameter behaviour
 - [\#4160](https://gitlab.haskell.org//ghc/ghc/issues/4160): Type families crash in HEAD
