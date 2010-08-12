@@ -40,14 +40,15 @@ We have the following repositories:
 
 - HEAD: the main GHC Darcs repo. `http://darcs.haskell.org/ghc`
 
-- HooplMaster: the master Hoopl Git repository. 
-  **Location**: `linux.cs.tufts.edu:/r/ghc/www/hoopl/hoopl.git`
+- HooplMaster: the master Hoopl Git repository.
+  **Location**: `http://ghc.cs.tufts.edu/hoopl/hoopl.git/`
+   (Physical location: `linux.cs.tufts.edu:/r/ghc/www/hoopl/hoopl.git`)
 
 - HooplMirror: a Darcs mirror of the HooplMaster repo.  Any push 
   to HooplMaster is automatically mirrored to HooplMirror.  Do not (ever) 
   push to HooplMirror.
   **Location**: `http://ghc.cs.tufts.edu/hoopl-mirror/`
-   (Physical location of 'linux.cs.tufts.edu:/r/ghc/darcs-mirrors/hoopl')
+   (Physical location: 'linux.cs.tufts.edu:/r/ghc/darcs-mirrors/hoopl')
 
 - HooplLag: a Darcs repo that is guaranteed to work with GHC HEAD.    It is
   not automatically updated by pushes to HooplMaster.  Instead a manual
