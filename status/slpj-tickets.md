@@ -129,6 +129,7 @@
 - [\#700](https://gitlab.haskell.org//ghc/ghc/issues/700): universals in pattern matching
 - [\#3696](https://gitlab.haskell.org//ghc/ghc/issues/3696): better error message fr missing signature
 - [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
+- [\#4254](https://gitlab.haskell.org//ghc/ghc/issues/4254): fundeps
 
 ## Types and type inference
 
