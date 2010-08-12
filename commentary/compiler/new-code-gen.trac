@@ -40,7 +40,8 @@ We have the following repositories:
  * !HooplMirror: a Darcs mirror of the !HooplMaster repo.  Any push 
    to !HooplMaster is automatically mirrored to !HooplMirror.  Do not (ever) 
    push to !HooplMirror.
-   [[BR]] '''Location''': `linux.cs.tufts.edu:/r/ghc/darcs-mirrors/hoopl`
+   [[BR]] '''Location''': `http://ghc.cs.tufts.edu/hoopl-mirror/` 
+   [[BR]] (Physical location of 'linux.cs.tufts.edu:/r/ghc/darcs-mirrors/hoopl')
 
  * !HooplLag: a Darcs repo that is guaranteed to work with GHC HEAD.    It is
    not automatically updated by pushes to !HooplMaster.  Instead a manual
