@@ -46,7 +46,8 @@ We have the following repositories:
 - HooplMirror: a Darcs mirror of the HooplMaster repo.  Any push 
   to HooplMaster is automatically mirrored to HooplMirror.  Do not (ever) 
   push to HooplMirror.
-  **Location**: `linux.cs.tufts.edu:/r/ghc/darcs-mirrors/hoopl`
+  **Location**: `http://ghc.cs.tufts.edu/hoopl-mirror/`
+   (Physical location of 'linux.cs.tufts.edu:/r/ghc/darcs-mirrors/hoopl')
 
 - HooplLag: a Darcs repo that is guaranteed to work with GHC HEAD.    It is
   not automatically updated by pushes to HooplMaster.  Instead a manual
