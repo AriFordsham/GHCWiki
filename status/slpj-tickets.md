@@ -101,9 +101,11 @@
 
 ## New constraint simplifier
 
+- **[\#4232](https://gitlab.haskell.org//ghc/ghc/issues/4232): main meta-ticket for the new type checker**
 - [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): error message if associated family has excess parameters
 - [\#3554](https://gitlab.haskell.org//ghc/ghc/issues/3554): assertion failure
 - [\#3330](https://gitlab.haskell.org//ghc/ghc/issues/3330): type checker loops
+- [\#3500](https://gitlab.haskell.org//ghc/ghc/issues/3500): recursive dictionaries
 - [\#3787](https://gitlab.haskell.org//ghc/ghc/issues/3787): bad program produced
 - [\#4226](https://gitlab.haskell.org//ghc/ghc/issues/4226): strange implicit-parameter behaviour
 - [\#4160](https://gitlab.haskell.org//ghc/ghc/issues/4160): Type families crash in HEAD
@@ -130,6 +132,8 @@
 - [\#3696](https://gitlab.haskell.org//ghc/ghc/issues/3696): better error message fr missing signature
 - [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
 - [\#4254](https://gitlab.haskell.org//ghc/ghc/issues/4254): fundeps
+- [\#4044](https://gitlab.haskell.org//ghc/ghc/issues/4044), [\#4045](https://gitlab.haskell.org//ghc/ghc/issues/4045): assertion failure when bootstrapping; hard to reproduce
+- [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping instances
 
 ## Types and type inference
 

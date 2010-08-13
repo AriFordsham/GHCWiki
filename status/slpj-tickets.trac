@@ -91,9 +91,11 @@
 
 ------------------------
 == New constraint simplifier ==
+ * '''#4232: main meta-ticket for the new type checker'''
  * #3714: error message if associated family has excess parameters
  * #3554: assertion failure
  * #3330: type checker loops
+ * #3500: recursive dictionaries
  * #3787: bad program produced
  * #4226: strange implicit-parameter behaviour
  * #4160: Type families crash in HEAD
@@ -120,6 +122,8 @@
  * #3696: better error message fr missing signature
  * #4175: better GHCi info for type-function instances
  * #4254: fundeps
+ * #4044, #4045: assertion failure when bootstrapping; hard to reproduce
+ * #4259: overlapping instances
 
 == Types and type inference ==
  * #3490: superclasses and ambiguity
