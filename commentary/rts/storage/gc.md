@@ -19,6 +19,7 @@ GC algorithms supported:
 - Marking? (for compaction or sweeping)
 - Compaction?
 - Sweeping? (for mark-region GC)
+- [Immix](commentary/rts/storage/gc/immix) (not supported yet)
 
 ## GC overview
 
