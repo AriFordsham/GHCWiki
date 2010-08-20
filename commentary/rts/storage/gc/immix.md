@@ -89,6 +89,6 @@ need to use the list of partial blocks.  This is not done yet.
 
 # To do
 
-- Make it faster than the default GC
+- Make it faster and use less memory than the default GC for all benchmarks
 - Correct "Allocate in lines in minor GCs"
 - Implement and bechmark "Remove partial lists"
