@@ -591,3 +591,31 @@ This error occurs when using the new build system with MSYS on Windows.  It is a
 
 
 This happened to me with MSYS on Windows Server 2003.  Exact cause unknown, but it seems that Windows Server 2003 was upset by the `patch.exe.manifest` supplied with MSYS alongside `patch.exe` to work around the installer-detection nonsense on Vista.  Workaround: remove `/usr/bin/patch.exe.manifest`.
+
+## Relocation error when linking the RTS shared library
+
+
+If you use a system with an older GCC (4.1.2 in my case), you may run into the following error:
+
+```wiki
+/usr/bin/ld: rts/dist/build/RtsStartup.dyn_o: relocation R_X86_64_PC32 against `StgRun' can not be used when making a shared object; 
+recompile with -fPIC
+/usr/bin/ld: final link failed: Bad value
+collect2: ld returned 1 exit status
+make[1]: *** [rts/dist/build/libHSrts-ghc6.13.20100816.so] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [all] Error 2
+```
+
+
+The Scientific Linux system I was building on had the following software installed:
+kernel 2.6.18-128.1.1.el5
+gcc version 4.1.2 20080704 (Red Hat 4.1.2-44)
+GNU ld version 2.17.50.0.6-9.el5 20061020 (that's the binutils version afaik)
+Bootstrapping GHC was version 6.12.1.
+
+
+As far as I could tell all .dyn_o files had been built to allow relocation, but StgCRun.c contains some inline assembler code that specifically targets the x86 and x86_64. Upon removal and using the generic version (the part that's protected by the \#ifdef USE_MINIINTERPRETER), the error shifted to another file, so the problem did not seem to be with that specific symbol that was referenced in RtsStartup.c 
+
+
+There was another GCC on the system however (4.3.3). Using that version did allow GHC to build. 
