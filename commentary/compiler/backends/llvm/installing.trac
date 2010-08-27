@@ -2,7 +2,7 @@
 = Installing & Using the LLVM Back-end =
 
 == Installing ==
-The LLVM backend is now included in GHC HEAD. Just grab the darcs HEAD version of GHC and build it. The backend now also supports all modes that GHC can be built in, except perhaps -dynamic which hasn't been tested yet, so you shouldn't need to change your build.mk file either (you used to have disabled an optimisation called tables-next-to-code, but the LLVM backend supports that now).
+The LLVM backend is now included in GHC HEAD. Just grab the darcs HEAD version of GHC and build it. The backend now also supports all modes that GHC can be built in so you shouldn't need to change your build.mk file either.
 
 For instructions on building GHC go [http://hackage.haskell.org/trac/ghc/wiki/Building here]
 
@@ -29,6 +29,10 @@ Once built you can check that you have the LLVM backend GHC will support these e
  * Windows x86-32: Currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
  * Mac OS X 10.5/10.6: Currently well supported. The back-end can pass the test suite. Bootstrapping GHC hasn't been tried yet. OS X has caused a lot more problems then Linux or Windows and does a few things slightly differently then them. It should be fairly stable these days though.
  * Other platforms haven't been tested at all.
+
+== Shared Libraries ==
+
+Shared libraries are supported on Linux x64. They aren't supported on any other platform at the moment.
 
 == Performance ==
 
