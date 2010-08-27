@@ -392,6 +392,9 @@ To handle the TABLES_NEXT_TO_CODE optimisation, the LLVM backend uses a gnu as f
 The way this works is that you can put stuff into a section like '.text 2', where 2 is a subsection of .text When run, 'as' orders the subsections. So all you need to do is arrange for the info-table to be in section '.text n' and the code in section '.text n+1'. Each info-table and its code goes in its own subsection. The nice thing is, this is purely a gnu as feature. When it compiles the assembly to object code, the subsections aren't present in the object code, so you don't get 100's of sections that take up space and slow down linking.
 
 
+This subsection feature is only supported by the GNU assembler. On Linux and Windows this is the assembler used so the above trick is used. On Mac OSX we don't use the GNU assembler, but the Mac OS X BSD based assembler which has no support for subsections. So on OSX we actually use a mangler to fix up the code to support TNTC.
+
+
 To handle the pinning of the STG registers the LLVM back-end uses a custom calling convention that passes the first n arguments of a function call in the specific registers that the STG registers should be pinned to. Then, whenever there is function call, then LLVM back-end generates a call with the correct STG virtual registers as the first n arguments to that call. Why does this work? It works as it guarantees that on the entrance to any function, the STG registers are currently stored in the correct hardware registers. It also guarantees this on a function exit since all Cmm functions that GHC generates are exited by tail calls. In the function itself, the STG registers can be treated just like normal variables, read and written to at will.
 
 
