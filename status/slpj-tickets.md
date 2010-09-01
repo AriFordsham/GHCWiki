@@ -102,6 +102,7 @@
 ## New constraint simplifier
 
 - **[\#4232](https://gitlab.haskell.org//ghc/ghc/issues/4232): main meta-ticket for the new type checker**
+- [\#1823](https://gitlab.haskell.org//ghc/ghc/issues/1823): refinement
 - [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): error message if associated family has excess parameters
 - [\#3554](https://gitlab.haskell.org//ghc/ghc/issues/3554): assertion failure
 - [\#3330](https://gitlab.haskell.org//ghc/ghc/issues/3330): type checker loops
