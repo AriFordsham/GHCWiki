@@ -27,12 +27,12 @@ In addition to the low-level FFI, higher-level libraries and tools may provide m
 == Subtopics ==
 
 We discuss the following subtopics on separate pages:
- * [ObjectiveC/ForeignDeclarations Foreign declarations for Objective-C]
- * [ObjectiveC/Messaging Sending messages]
- * [ObjectiveC/Classes Objective-C classes]
+ * [wiki:ObjectiveC/ForeignDeclarations Foreign declarations for Objective-C]
+ * [wiki:ObjectiveC/Messaging Sending messages]
+ * [wiki:ObjectiveC/Classes Objective-C classes]
  * Categories & protocols
- * [ObjectiveC/Naming Naming conventions] (they are not enforced, but recommended)
- * [ObjectiveC/MemoryManagement Memory management] 
+ * [wiki:ObjectiveC/Naming Naming conventions] (they are not enforced, but recommended)
+ * [wiki:ObjectiveC/MemoryManagement Memory management] 
  * `Foreign.ObjectiveC`
 
 == Background and related work ==
