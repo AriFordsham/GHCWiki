@@ -126,6 +126,10 @@
  * #4044, #4045: assertion failure when bootstrapping; hard to reproduce
  * #4259: overlapping instances
 
+ * #816: needs lazier use of instance declarations
+ * #4296: !SkolemOccurs
+ * #4295: Higher rank and impredicative 
+
 == Types and type inference ==
  * #3490: superclasses and ambiguity
  * #3638: rules and rigidity for GADTs
