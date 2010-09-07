@@ -136,6 +136,7 @@
 - [\#4044](https://gitlab.haskell.org//ghc/ghc/issues/4044), [\#4045](https://gitlab.haskell.org//ghc/ghc/issues/4045): assertion failure when bootstrapping; hard to reproduce
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping instances
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816): needs lazier use of instance declarations
+- [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
 
 ## Types and type inference
 
