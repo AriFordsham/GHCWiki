@@ -1,6 +1,6 @@
 = Using generalized data families for selectors =
 
-A simple way of representing messages that classes respond to is using a GADT data family indexed (as a type function) by the class that responds to the messages and (as a GADT output index) by the function type equivalent to the selector (but maybe we can omit the receiver and treat it implicitly):
+A simple way of representing messages that classes respond to is using a GADT data family indexed (as a type function) by the class that responds to the messages and (as a GADT output index) by the function type equivalent to the selector (but we can omit the receiver):
 
 {{{
 {-# LANGUAGE TypeFamilies, GADTs #-}
