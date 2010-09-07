@@ -8,6 +8,7 @@ A simple way of representing messages that classes respond to is using a GADT da
 
 data family Selector :: * -> * -> *
 
+-- The opposite order of parameters might actually be more useful.
 send :: r -> Selector r f -> f
 send = undefined
 
