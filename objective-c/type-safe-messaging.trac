@@ -19,6 +19,6 @@ data instance Selector NSObject a where
   -- ...
 }}}
 
-In practice, the Selector family might be an associated data type of a typeclass of objects, with send as a method that dispatches those selectors down to the appropriate FFI calls.
+In practice, the `Selector` family might be an associated data type of a typeclass of objects, with `send` as a method that dispatches those selectors down to the appropriate FFI calls.
 
 The question here is what to do about selector overlaps across classes. If we can find a nice solution for subclassing we might not need to think about overlap between methods on superclasses. Maybe wrapping the whole thing in a class would allow us to deal with the overlap, and the methods would also allow us to use camel case on the method names. As all class objects themselves will probably just be newtypes around pointers, maybe GeneralizedNewtypeDeriving can help us avoid too much boilerplate too?
