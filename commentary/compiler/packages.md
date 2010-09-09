@@ -127,11 +127,4 @@ NOTE: packages must be registered in dependency order.  The build system arrange
 ### Refreshing your package databases
 
 
-Sometimes things can get out of sync in your build tree, if a package version was bumped for example.  To start with a clean package database, do this:
-
-```wiki
-  $ (cd driver; make clean; make boot)
-  $ rm {rts,libraries/*}/package.conf.{inplace,installed}
-  $ (cd rts; make boot)
-  $ (cd libraries; make boot)
-```
+Sometimes things can get out of sync in your build tree, if a package version was bumped for example.  If you get into trouble, just `make clean` in your tree.
