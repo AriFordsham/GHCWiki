@@ -78,8 +78,11 @@ Usually you want to do something along these lines:
 
  * Make the crash happen repeatably, if possible.  That means after
    the exact same number of garbage collections and context switches
-   each time. Use {{{+RTS -C0}}} to turn off timer-based context switches.  If
-   you're debugging heap profiling, add {{{-i0}}} too.
+   each time. Use {{{+RTS -C0}}} to turn off timer-based context switches.
+   Setting {{{+RTS -V0}}} disables the RTS timer entirely.  Disabling the RTS
+   timer altogether can make the point at which the program crashes reproducible,
+   and is very helpful when using the "going back in time" method described below.
+   If you're debugging heap profiling, add {{{-i0}}} too.
 
  * If you still haven't figured it out, you probably need to go back in
    time a bit to find out what was happening just before the crash.
