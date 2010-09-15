@@ -4,7 +4,20 @@
 All GHC build trees contain a set of libraries, called the **Boot Packages**.  These are the libraries that GHC's source code imports.  Obviously you need the boot packages to build GHC at all.
 
 
-The Boot Packages, along with the other subcomponents of the GHC build system, are in the file `packages` in a GHC tree. To get a list of them, do the following in a configured GHC build tree:
+The Boot Packages, along with the other subcomponents of the GHC build system, are listed in the file `$(TOP)/packages` in a GHC tree. 
+
+
+All boot packages have a Darcs repo in [ http://darcs.haskell.org/package](http://darcs.haskell.org/package)':
+
+- Having all the repos in one place makes it easy and uniform for GHC developers to get all the packages.
+
+- In a build tree, these packages each occupy a sub-directory of `$(TOP)/libraries`.
+
+- For INDEPENDENT packages (see "Coupling to GHC", below), the Darcs repo in [ http://darcs.haskell.org/packages](http://darcs.haskell.org/packages) is a **lagging repo**. That means
+
+  - Don't push to it.
+  - Update it from the package's master repo at convenient intervals.
+    In this way GHC developers are not exposed to package upgrades, except when we want.
 
 
 To find out which packages are currently zero-boot packages, do the following in a GHC build:
@@ -16,6 +29,8 @@ $ make show VALUE=PACKAGES
 
 (The `PACKAGES` variable is set in `$(TOP)/`[ghc.mk](/trac/ghc/browser/ghc/ghc.mk).)
 You can see exactly which versions of what packages GHC depends on by looking in `$(TOP)/`[compiler/ghc.cabal.in](/trac/ghc/browser/ghc/compiler/ghc.cabal.in).
+
+# Building packages that GHC doesn't depend on
 
 
 You can make the build system build extra packages, on which GHC doesn't strictly depend, by extending the `EXTRA_PACKAGES` variable. It's not very tidy; see tickets [\#3896](https://gitlab.haskell.org//ghc/ghc/issues/3896) and [\#3882](https://gitlab.haskell.org//ghc/ghc/issues/3882) for more information.
@@ -62,10 +77,10 @@ An important classification of the boot packages is as follows:
 
   - base
 
-- **INDEPENDENT**: Independently maintained.  There are quite a few of these, such as `containers`, `binary`, `haskeline` and so on.
+- **INDEPENDENT**: Independently maintained.  There are quite a few of these, such as `containers`, `binary`, `haskeline` and so on.  Indeed most boot libraries are INDEPENDENT.  
 
 
-Most boot libraries are INDEPENDENT.  INDEPENDENT libraries have a
+INDEPENDENT libraries have a
 master repository somewhere separate from the GHC repositories.  Whenever we release GHC, we ensure that the INDEPENDENT boot libraries that come with GHC are precisely sync'd with a particular released version of that library.
 
 ## Zero-boot packages
