@@ -34,14 +34,16 @@ On non-Windows:
 cabal install HsOpenSSL
 }}}
 
-On Windows: I found I had to add 'ssl2' after 'eay32' in 'extra-libraries' in HsOpenSSL.cabal.  So
+On Windows: You might have to add 'ssl32' after 'eay32' in 'extra-libraries' in HsOpenSSL.cabal.  So
 
 {{{
 cabal unpack HsOpenSSL
 cd HsOpenSSL*
-<edit HsOpenSSL.cabal, add ssl2 to extra-libraries>
+<edit HsOpenSSL.cabal, add ssl32 to extra-libraries>
 cabal install --extra-include-dirs="c:/OpenSSL/include" --extra-lib-dirs="c:/OpenSSL"
 }}}
+
+This has been fixed in the Darcs HEAD of HsOpenSSL.
 
 == To create a new build slave ==
 
