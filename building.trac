@@ -34,7 +34,7 @@ More detailed information about using the build system
  * [wiki:HackageTesting Testing GHC against all of Hackage]
  * [wiki:Debugging Debugging and performance-tuning for GHC]
 
- * [wiki:Commentary/Libraries Understanding GHC's boot packages]
+ * [wiki:Commentary/Libraries GHC and the libraries on which it depends]
  * [wiki:Debugging/InstallingPackagesInplace Installing extra packages for your in-place GHC]
 
  * [wiki:Building/Docs Building the documentation]
