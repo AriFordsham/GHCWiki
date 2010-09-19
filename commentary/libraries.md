@@ -7,7 +7,7 @@ All GHC build trees contain a set of libraries, called the **Boot Packages**.  T
 The Boot Packages, along with the other subcomponents of the GHC build system, are listed in the file `$(TOP)/packages` in a GHC tree. 
 
 
-All boot packages have a Darcs repo in [ http://darcs.haskell.org/package](http://darcs.haskell.org/package)':
+All boot packages have a Darcs repo in [ http://darcs.haskell.org/packages](http://darcs.haskell.org/packages):
 
 - Having all the repos in one place makes it easy and uniform for GHC developers to get all the packages.
 
