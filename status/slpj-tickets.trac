@@ -123,7 +123,6 @@
  * #3696: better error message fr missing signature
  * #4175: better GHCi info for type-function instances
  * #4254: fundeps
- * #4044, #4045: assertion failure when bootstrapping; hard to reproduce
  * #4259: overlapping instances
 
  * #816: needs lazier use of instance declarations

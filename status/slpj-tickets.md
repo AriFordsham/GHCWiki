@@ -133,7 +133,6 @@
 - [\#3696](https://gitlab.haskell.org//ghc/ghc/issues/3696): better error message fr missing signature
 - [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
 - [\#4254](https://gitlab.haskell.org//ghc/ghc/issues/4254): fundeps
-- [\#4044](https://gitlab.haskell.org//ghc/ghc/issues/4044), [\#4045](https://gitlab.haskell.org//ghc/ghc/issues/4045): assertion failure when bootstrapping; hard to reproduce
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping instances
 
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816): needs lazier use of instance declarations
