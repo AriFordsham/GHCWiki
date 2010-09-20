@@ -81,9 +81,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
   - How the [Haskell Program Coverage](commentary/hpc) option works
   - [Building/RunningNoFib](building/running-no-fib): The nofib benchmark suite
 
-- Getting to grips with the code base
-
-  - BeginnersNotes: Some notes about getting started hacking GHC and the structure of the compiler (especially types and typecheck)
+- GphEden?: All aspects of the GpH and Eden parallel variants of GHC. (*work in progress*)
 
 - [Hackathon presentations](about-videos) (video)
 
