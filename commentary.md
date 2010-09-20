@@ -81,7 +81,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
   - How the [Haskell Program Coverage](commentary/hpc) option works
   - [Building/RunningNoFib](building/running-no-fib): The nofib benchmark suite
 
-- GphEden?: All aspects of the GpH and Eden parallel variants of GHC. (*work in progress*)
+- [GpHEden](gp-h-eden): All aspects of the GpH and Eden parallel variants of GHC. (*work in progress*)
 
 - [Hackathon presentations](about-videos) (video)
 
