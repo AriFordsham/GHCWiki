@@ -36,10 +36,6 @@ Please feel free to add material to this commentary: don't worry too much about 
 
 - [The Evil Mangler](commentary/evil-mangler)
 
-- Working on GHC
-
-  - [DebuggingGhcCrashes](debugging-ghc-crashes): how to use gdb to debug a crash in GHC-compiled code.
-
 ## Contributed Documentation
 
 
@@ -81,7 +77,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
   - How the [Haskell Program Coverage](commentary/hpc) option works
   - [Building/RunningNoFib](building/running-no-fib): The nofib benchmark suite
 
-- GphEden?: All aspects of the GpH and Eden parallel variants of GHC. (*work in progress*)
+- [GpHEden](gp-h-eden): All aspects of the GpH and Eden parallel variants of GHC. (*work in progress*)
 
 - [Hackathon presentations](about-videos) (video)
 

@@ -28,13 +28,9 @@ Please feel free to add material to this commentary: don't worry too much about 
 
  * [wiki:Commentary/Libraries The Libraries]
 
-  
  * [wiki:Commentary/UserManual The User Manual] (formatting guidelines etc)
 
  * [wiki:Commentary/EvilMangler The Evil Mangler]
-
- * Working on GHC
-    * DebuggingGhcCrashes: how to use gdb to debug a crash in GHC-compiled code.
 
 == Contributed Documentation ==
 
@@ -72,7 +68,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
     * How the [wiki:Commentary/Hpc Haskell Program Coverage] option works
     * [wiki:Building/RunningNoFib]: The nofib benchmark suite
 
- * [wiki:GphEden]: All aspects of the GpH and Eden parallel variants of GHC. (''work in progress'')
+ * [wiki:GpHEden]: All aspects of the GpH and Eden parallel variants of GHC. (''work in progress'')
 
  * [wiki:AboutVideos Hackathon presentations] (video)
 
