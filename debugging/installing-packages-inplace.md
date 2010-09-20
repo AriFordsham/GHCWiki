@@ -6,13 +6,13 @@ You have your compiler built, so you can use the inplace compiler to compile tes
 
 Every GHC, including the inplace one, comes with the [boot libraries](commentary/libraries).  But sometimes a test case will require the installation of some packages from Hackage.  There are two routes.
 
-## Plan A: Cabal is up to date
+## Plan A: use [ cabal install](http://hackage.haskell.org/trac/hackage/wiki/CabalInstall)
 
 
-If your installed `cabal` is sufficiently up to date, you can just use [ cabal install](http://hackage.haskell.org/trac/hackage/wiki/CabalInstall):
+This method is quick and easy, but can fail if your `cabal` program is out of date with respect to the GHC version you are building.  Here's how to install a library against a GHC build tree:
 
 ```wiki
-cabal install --with-ghc=<inplace-ghc> --global <package>
+cabal install --with-ghc=<inplace-ghc> <package>
 ```
 
 
@@ -21,12 +21,10 @@ where `<inplace ghc>` is the path to your inplace GHC (usually `$(TOP)/inplace/b
 
 Points to note:
 
-- This will install the package in your home directory (e.g. somewhere under `~/.cabal/lib` on a Unix system) , so you'll probably want to remove it by hand when you've finished.
-
-- The `--global` says to register the package in the global database, which for the inplace compiler is something like `$(TOP)/inplace/lib/package.conf.d/`.  The default is `--local` which registers the package in a (compiler-version-specific) directory in your home directly.  The danger is that you you have many builds, the "compiler-version-specific" part might not be enough to keep all your builds separate.
+- This will install the package in your home directory (e.g. somewhere under `~/.cabal/lib` on a Unix system), and it will register the package in your private package database, so you'll probably want to remove and unregister it by hand when you've finished.
 
 
-Plan A can fail, because sometimes Cabal changes, so you might get a message like
+Plan A can fail, because sometimes GHC changes require corresponding Cabal changes (this happened in GHC 6.12), so you might get a message like
 
 ```wiki
 cabal: failed to parse output of 'ghc-pkg dump'
@@ -35,7 +33,10 @@ cabal: failed to parse output of 'ghc-pkg dump'
 
 In that case you need to use the Cabal code that comes with the new version of GHC (ie the one in your build tree).  So use Plan B.
 
-## Plan B: Cabal is out of date
+## Plan B: use the Cabal library bundled with GHC
+
+
+This method is slightly more work, but it does have the advantage of not installing anything in your home directory that you have to go and remove later.
 
 
 Go to a directory where you are happy to keep the newly-downloaded code.
@@ -43,7 +44,7 @@ Go to a directory where you are happy to keep the newly-downloaded code.
 ```wiki
 cabal unpack <package>
 cd <package>
-<inplace-ghc> --make Setup.lhs -o Setup
+<inplace-ghc> --make Setup.lhs
 ./Setup configure --with-ghc=<inplace-ghc> --global
 ./Setup build
 ./Setup register --inplace
@@ -62,6 +63,6 @@ Points to note here:
 
 - It is important to compile `Setup.lhs` with your shiny new *inplace* GHC, not your installed GHC.  Your inplace GHC has the most up-to-date Cabal library, and that is what you want to link `Setup.lhs` against.
 
-- The `--global` flag has the same purpose as in Plan A
+- The `--global` flag instructs Cabal to register the package in the database in your build tree, rather than the one in your home directory (`~/.ghc/...`).  In fact, `--global` is actually unnecesary (it's the default), but just in case the default changes in the future it's a good idea to get in the habit of saying whether you want `--global` or `--user`.
 
 - The `--inplace` flag to register tells Cabal not to copy the compiled package, but rather to leave it right where it is, and register this location in the package database in your GHC build tree
