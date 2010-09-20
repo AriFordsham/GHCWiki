@@ -6,6 +6,7 @@ This part of the wiki collects all the information related to debugging GHC: tha
 - **Testing and measuring**
 
   - Use the [testsuite](building/running-tests) to test the compiler on thousands of regression tests
+  - [HackageTesting](hackage-testing): Testing GHC against all of hackage.
   - Use the [nofib suite](building/running-no-fib), and the nofib-analyse tool, to compare performance on 50-odd benchmarks.
   - Use [count_lines](debugging#) to count the number of lines of code in the compiler
   - Use [compareSizes](debugging#comparesizes) to compare the sizes of corresponding .o or .hi files in two trees.
