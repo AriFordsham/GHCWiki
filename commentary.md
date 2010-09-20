@@ -36,10 +36,6 @@ Please feel free to add material to this commentary: don't worry too much about 
 
 - [The Evil Mangler](commentary/evil-mangler)
 
-- Working on GHC
-
-  - [DebuggingGhcCrashes](debugging-ghc-crashes): how to use gdb to debug a crash in GHC-compiled code.
-
 ## Contributed Documentation
 
 
