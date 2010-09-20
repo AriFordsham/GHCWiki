@@ -40,7 +40,7 @@ Here are some things to check:
    * check that it hasn't already been done.
    * link to related feature requests
 
-Here are some [wiki:WorkingConventions#TheBugTracker more details on how we use the bug tracker].
+Here are some [wiki:WorkingConventions/BugTracker more details on how we use the bug tracker].
 
 Note: you don't have to do ''all'' of the things on the list.  Doing ''any'' of them is good.  The main thing is that every ticket gets at least looked at.
 
