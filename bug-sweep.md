@@ -48,7 +48,7 @@ Here are some things to check:
   - link to related feature requests
 
 
-Here are some [more details on how we use the bug tracker](working-conventions#the-bug-tracker).
+Here are some [more details on how we use the bug tracker](working-conventions/bug-tracker).
 
 
 Note: you don't have to do *all* of the things on the list.  Doing *any* of them is good.  The main thing is that every ticket gets at least looked at.
