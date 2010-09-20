@@ -13,7 +13,7 @@ GHC uses [http://darcs.net/ darcs] for revision control.  This page describes va
 
  * If possible, record often.  This helps to avoid conflicts.
 
- * Do not push conflicts (see [wiki:WorkingConventions/Darcs#Conflicts]).
+ * Do not push conflicts, or submit patches with conflicts even if they are resolved (see [wiki:WorkingConventions/Darcs#Conflicts]).
 
  * Every patch must pass at least minimal validation: see TestingPatches.
 
