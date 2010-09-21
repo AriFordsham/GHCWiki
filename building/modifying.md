@@ -21,13 +21,30 @@ the wrong order, or some variable isn't being propagated to the places
 you thought it was.  How do you go about debugging the build system?
 
 
-Debugging techniques can also be a handy way to understand how the build system works.  Want to test your hypothesis about what the variable `rts_C_SRCS` contains?  Just add a `$(warning $(rts_C_SRCS))` somewhere.
-
-
 Here are the techniques that we use.  Note, for many of these diagnosis techniques you may want to invoke
 **make** on `ghc.mk` directly using `make -f ghc.mk`, to bypass the
 [phase ordering](building/architecture/idiom/phase-ordering) machinery of the top-level
 `Makefile`.
+
+<table><tr><th>`$(warning ... message ...)`</th>
+<td>
+equivalent to "printf-debugging\` in a C program: this causes
+**make** to print a message when it reads the `$(warning ..)`
+expression, and the message can include variable references.  Very
+useful for finding out what **make** thinks the value of a
+variable is at a particular point in the `Makefile`, or for finding
+out the parameters for a particular macro call.    Want to test your hypothesis about what the variable `rts_C_SRCS` contains?  Just add a `$(warning $(rts_C_SRCS))` somewhere.
+</td></tr></table>
+
+<table><tr><th>`make show VALUE=VAR`</th>
+<td>
+prints the value of variable `VAR`.  Useful for quick diagnosis.
+</td></tr></table>
+
+<table><tr><th>`make TRACE=1`</th>
+<td>
+prints messages about certain macros that are called and their arguments.  This is basically a system of `$(warning)` calls enabled when the value of `$(TRACE)` is non-empty.  To see how it works, look at the file [rules/trace.mk](/trac/ghc/browser/ghc/rules/trace.mk), and feel free to add trace calls to more places in the build system.
+</td></tr></table>
 
 <table><tr><th>`make --debug=b --debug=m`</th>
 <td>
@@ -42,21 +59,6 @@ dependencies.
 prints out all the generated rules and variables.  The output can be
 huge; so pipe it to a file, and search through it for the bits of
 interest.
-</td></tr></table>
-
-<table><tr><th>`$(warning ... message ...)`</th>
-<td>
-equivalent to "printf-debugging\` in a C program: this causes
-**make** to print a message when it reads the `$(warning ..)`
-expression, and the message can include variable references.  Very
-useful for finding out what **make** thinks the value of a
-variable is at a particular point in the `Makefile`, or for finding
-out the parameters for a particular macro call.
-</td></tr></table>
-
-<table><tr><th>`make show VALUE=VAR`</th>
-<td>
-prints the value of variable `VAR`.  Useful for quick diagnosis.
 </td></tr></table>
 
 ## Scenarios
