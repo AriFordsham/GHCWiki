@@ -171,6 +171,7 @@
  * #4222: design of reification for TH
 
 == Features == 
+ * #4148: improvements to mdo syntax
  * #595: pattern-match overlap checking
  * #3843: Add plugins
  * #3701: Implicitly declared existentials: a class as a type

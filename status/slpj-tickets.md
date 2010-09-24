@@ -187,6 +187,7 @@
 
 ## Features
 
+- [\#4148](https://gitlab.haskell.org//ghc/ghc/issues/4148): improvements to mdo syntax
 - [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595): pattern-match overlap checking
 - [\#3843](https://gitlab.haskell.org//ghc/ghc/issues/3843): Add plugins
 - [\#3701](https://gitlab.haskell.org//ghc/ghc/issues/3701): Implicitly declared existentials: a class as a type
