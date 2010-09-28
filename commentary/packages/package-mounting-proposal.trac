@@ -1,6 +1,6 @@
 === Proposal for Package Mounting ===
 
-It may help to refer to the GhcPackages proposal for an introduction to some of the issues mentioned here.
+It may help to refer to [wiki:Commentary/Packages/GhcPackagesProposal] for an introduction to some of the issues mentioned here.
 
 A message by Frederik Eaton to the Haskell mailing list describing the present proposal is archived: [http://www.haskell.org/pipermail/libraries/2005-June/004009.html]. (Also, see note at the end of this document regarding an earlier proposal by Simon Marlow)
 
@@ -66,17 +66,17 @@ And in the package Cabal file, a new clause to specify the default mount point:
 
 === Evaluation ===
 
-This proposal has several advantages over the PackageImports proposal.
+This proposal has several advantages over the [wiki:Commentary/Packages/PackageImportsProposal] proposal.
 
  * ''No package names in code''. In this proposal, package names would be decoupled from code. This is very important. It should be possible to rename a package (or create a new version of a package with a new name), and use it in a project, without editing every single module of the project and/or package. Even if the edits could be done automatically, they would still cause revision control headaches. Any proposal which puts package names in Haskell source code should be considered unacceptable.
 
- * ''No syntax changes''. The PackageImports proposal requires new syntax, but this proposal does not. Of course, in this proposal it would be slightly more difficult for the programmer to find out which package a module is coming from. He would have to look at the command line that compiles the code he's reading. However, I think that that is appropriate. Provenance should not be specified in code, since it changes all the time. (And there could be a simple debugging option to GHC which outputs a description of the namespace used when compiling each file)
+ * ''No syntax changes''. The [wiki:Commentary/Packages/PackageImportsProposal] proposal requires new syntax, but this proposal does not. Of course, in this proposal it would be slightly more difficult for the programmer to find out which package a module is coming from. He would have to look at the command line that compiles the code he's reading. However, I think that that is appropriate. Provenance should not be specified in code, since it changes all the time. (And there could be a simple debugging option to GHC which outputs a description of the namespace used when compiling each file)
 
- * ''Simpler module names''. This proposal would allow library authors to use simpler module names in their packages, which would in turn make library code more readable, and more portable between projects. For instance, imagine that I wanted to import some of the code from the {{{X11}}} library into my own project. Currently, I would have to delete every occurrence of {{{Graphics.X11}}} in those modules. Merging future changes after such an extensive modification would become difficult. This is a real problem, which I have encountered while using John Meacham's curses library. There are several different versions of that library being used by different people in different projects, and it is difficult to consolidate them because they all have different module names. The reason they have different module names is that package mounting hasn't been implemented yet. The PackageImports proposal would not fix the problem.
+ * ''Simpler module names''. This proposal would allow library authors to use simpler module names in their packages, which would in turn make library code more readable, and more portable between projects. For instance, imagine that I wanted to import some of the code from the {{{X11}}} library into my own project. Currently, I would have to delete every occurrence of {{{Graphics.X11}}} in those modules. Merging future changes after such an extensive modification would become difficult. This is a real problem, which I have encountered while using John Meacham's curses library. There are several different versions of that library being used by different people in different projects, and it is difficult to consolidate them because they all have different module names. The reason they have different module names is that package mounting hasn't been implemented yet. The [wiki:Commentary/Packages/PackageImportsProposal] proposal would not fix the problem.
 
  * ''Development decoupled from naming''. (there is a bit of overlap with previous points here) In the present proposal, programmers would be able to start writing a library before deciding on a name for the library. For instance, every module in the {{{Parsec}}} library contains the prefix {{{Text.ParserCombinators.Parsec}}}. This means that either the author of the library had to choose the name {{{Parsec}}} at the very beginning, or he had to make several changes to the text of each module after deciding on the name. Under the present proposal, he would simply call his modules {{{Char}}}, {{{Combinator}}}, {{{Error}}}, etc.; the {{{Text.ParserCombinators}}} prefix would be specified in the build system, for instance in the Cabal file.
 
-Frederik's mailing list message discusses some other minor advantages, but the above points are the important ones. In summary, it is argued that the above proposal should be preferred to PackageImports because it is both easier to implement (using command line options rather than syntax), and more advantageous for the programmer.
+Frederik's mailing list message discusses some other minor advantages, but the above points are the important ones. In summary, it is argued that the above proposal should be preferred to [wiki:Commentary/Packages/PackageImportsProposal] because it is both easier to implement (using command line options rather than syntax), and more advantageous for the programmer.
 
 === Note on Package Grafting ===
 
