@@ -12,7 +12,7 @@ GHC's implementation of the package system:
 
 Discussion and proposals for managing the module namespace using packages.  None of the following proposals have been implemented at this time (Oct 2007):
 
- * GhcPackages (Simon Peyton Jones and others, July 2006)
+ * [wiki:Commentary/Packages/GhcPackagesProposal] (Simon Peyton Jones and others, July 2006)
  * GhcPackageNamespaces (Malcolm Wallace, July 2006)
  * PackageImports (Simon Peyton Jones, October 2006)
  * PackageMounting (Frederik Eaton, October 2006)
