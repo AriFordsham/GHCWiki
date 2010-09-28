@@ -2,7 +2,7 @@
 
 = Packages in GHC =
 
-This page summarises our current proposal for packages in GHC. (See also [wiki:GhcPackageNamespaces an extended proposal] to make namespaces first-class. The two proposals are mutually exclusive.)
+This page summarises our current proposal for packages in GHC. (See also [wiki:Commentary/Packages/PackageNamespacesProposal an extended proposal] to make namespaces first-class. The two proposals are mutually exclusive.)
 
 == The problem ==
 
