@@ -1,7 +1,7 @@
 ## Alternative Proposal for Packages (with explicit namespaces)
 
 
-This proposal is an alternative to GhcPackages.  Large parts overlap with that
+This proposal is an alternative to [Commentary/Packages/GhcPackagesProposal](commentary/packages/ghc-packages-proposal).  Large parts overlap with that
 proposal.  To motivate this new proposal, let's consider another
 proposed and desirable feature of the import/export language, which may
 interact in interesting ways with packages.
