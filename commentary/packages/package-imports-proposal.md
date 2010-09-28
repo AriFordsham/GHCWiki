@@ -13,7 +13,7 @@
 # Explicit package imports
 
 
-This proposal is one possibility for addressing the question of identifying which package is meant in an import declaration.  For the context, read the GHC packages summary page? first.
+This proposal is one possibility for addressing the question of identifying which package is meant in an import declaration.  For the context, read the [GHC packages summary page](commentary/packages/ghc-packages-proposal) first.
 
 
 The main idea of this proposal is to allow the programmer to specify the source package in the import line, something like this:
