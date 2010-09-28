@@ -1,7 +1,7 @@
 # Packages in GHC
 
 
-This page summarises our current proposal for packages in GHC. (See also [an extended proposal](ghc-package-namespaces) to make namespaces first-class. The two proposals are mutually exclusive.)
+This page summarises our current proposal for packages in GHC. (See also [an extended proposal](commentary/packages/package-namespaces-proposal) to make namespaces first-class. The two proposals are mutually exclusive.)
 
 ## The problem
 
