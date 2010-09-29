@@ -24,7 +24,7 @@ Discussion and proposals for managing the module namespace using packages.  None
 
 Discussion and proposals for how to reorganise the existing packages:
 
-- [PackageReorg](package-reorg)
+- [Commentary/Packages/PackageReorg](commentary/packages/package-reorg)
 - [PackageReorg/Rationale](package-reorg/rationale)
 
 
