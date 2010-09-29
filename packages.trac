@@ -19,7 +19,7 @@ Discussion and proposals for managing the module namespace using packages.  None
 
 Discussion and proposals for how to reorganise the existing packages:
 
- * PackageReorg
+ * [wiki:Commentary/Packages/PackageReorg]
  * PackageReorg/Rationale
 
 Discussion about how best to manage breakage caused by changes to packages:
