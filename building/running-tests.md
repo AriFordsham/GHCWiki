@@ -13,6 +13,11 @@ If you have not checked out the test suite, first run:
 ```
 
 
+You can run the whole test suite with `make test` or `make fulltest` in the root
+of the build tree, but below we will explain how to get finer control of the
+test suite.
+
+
 To run the test suite against a GHC build in the same source tree:
 
 ```wiki
