@@ -13,8 +13,12 @@ If you have not checked out the test suite, first run:
 ```
 
 
-To run the test suite against stage 1 of a GHC build in the same
-source tree:
+You can run the whole test suite with `make test` or `make fulltest` in the root
+of the build tree, but below we will explain how to get finer control of the
+test suite.
+
+
+To run the test suite against a GHC build in the same source tree:
 
 ```wiki
         cd testsuite/tests/ghc-regress
@@ -34,11 +38,11 @@ To run a fast version of the testsuite, which should complete in under
 ```
 
 
-To run the testsuite with the stage2 compiler (this is often what you
-want, because GHCi tests will fail with stage1):
+By default the testsuite uses the stage2 compiler. If you want to use another stage
+(e.g. because your stage2 compiler doesn't work) then:
 
 ```wiki
-        make stage=2
+        make stage=1
 ```
 
 
