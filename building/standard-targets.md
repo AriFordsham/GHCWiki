@@ -60,6 +60,16 @@ The result of `make maintainer-clean` should be a completely clean
 source tree, containing only revision-controlled files.
 </td></tr></table>
 
+<table><tr><th>`test`</th>
+<td>
+Runs the testsuite in fast mode with some sensible default settings.
+</td></tr></table>
+
+<table><tr><th>`fulltest`</th>
+<td>
+Runs the full testsuite with some sensible default settings.
+</td></tr></table>
+
 <table><tr><th>`binary-dist`</th>
 <td>
 Builds a binary distribution.  A binary distribution is a copy of
