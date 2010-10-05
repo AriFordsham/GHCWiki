@@ -32,28 +32,34 @@ We can improve users' code by warning of any boxed types as arguments, or in dat
  * Warning any use of >>= that doesn't inline
  * Warn about lazy state monads
  * Warn about lazy tuples
+ * Warn about unboxed constructor fields that had to be reboxed for passing to a non-strict function
+ * Warn about join points that aren't let-no-escapes
+ * Warn about lazy projections that aren't THUNK_SELECTORs
+ * Warn about possible space leaks due to `-ffull-laziness`
+ * Warn about possible loss of sharing due to `-fstate-hack`
+ * SpecConstr warnings
 
 == Output format ==
 
 We could emit warnings about line / col number of values that "probably should be strict" or "have unnecessary bang patterns".
 
-A more advanced option would be to reuse -fhpc to emit colorized source.
+A more advanced option would be to reuse `-fhpc` to emit colorized source.
 
 == Assertions ==
 
-Once we can spot problems, the user could assert, via ANNOTATIONs, that particular properties must hold. These could trigger -Werrors.
+Once we can spot problems, the user could assert, via ANNOTATIONs, that particular properties must hold. These could trigger `-Werror`s.
 
 == Results ==
 
 Results for quality of the warnings can be measured:
 
- * Apply -fwarn-performance to a program
+ * Apply `-fwarn-performance` to a program
  * Do what it says
  * Measure the speedup.
 
 == Implementation ==
 
-Add a -fwarn-performance flag that does two things:
+Add a `-fwarn-performance` flag that does two things:
   
  * unnec. bang patterns/seq after strictness analysis
  * uses a library of heuristics (programmable?) to lint-check core.
