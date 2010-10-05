@@ -37,6 +37,7 @@ We can improve users' code by warning of any boxed types as arguments, or in dat
  * Warn about lazy projections that aren't THUNK_SELECTORs
  * Warn about possible space leaks due to `-ffull-laziness`
  * Warn about possible loss of sharing due to `-fstate-hack`
+ * SpecConstr warnings
 
 == Output format ==
 
