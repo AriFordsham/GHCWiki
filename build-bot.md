@@ -3,7 +3,7 @@
 # Current status
 
 
-Buildbot is currently down, and we are working on a replacement.  See [Builder](builder) for more details.
+Buildbot is currently [down](status/apr10#nightly-builds), and we are working on a replacement.  See [Builder](builder) for more details.
 
 # Setting up a nightly build
 
