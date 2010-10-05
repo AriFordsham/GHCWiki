@@ -255,7 +255,7 @@ You may also need a set of flags and/or libraries different from -lutil -lrt.
 
 ```wiki
 <T>$ sed -i.bak "s#<H>#<T>#g" inplace/lib/package.conf.d/*.conf */*/package-data.mk */*/*/package-data.mk
-<T>$ touch -r inplace/lib/package.conf.d */*/package-data.mk */*/*/package-data.mk compiler/stage*/build/Config.hs
+<T>$ touch -r inplace/lib/package.conf.d */*/package-data.mk */*/*/package-data.mk compiler/stage*/build/Config.hs compiler/main/Config.hs
 ```
 
 
