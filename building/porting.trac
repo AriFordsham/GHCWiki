@@ -225,7 +225,7 @@ Note that if you need some special arguments to configure on you platform (like 
 You may also need a set of flags and/or libraries different from -lutil -lrt.
 {{{
 <T>$ sed -i.bak "s#<H>#<T>#g" inplace/lib/package.conf.d/*.conf */*/package-data.mk */*/*/package-data.mk
-<T>$ touch -r inplace/lib/package.conf.d */*/package-data.mk */*/*/package-data.mk compiler/stage*/build/Config.hs
+<T>$ touch -r inplace/lib/package.conf.d */*/package-data.mk */*/*/package-data.mk compiler/stage*/build/Config.hs compiler/main/Config.hs
 }}}
 
 Now make bootstrapping files; what we're really doing here is making
