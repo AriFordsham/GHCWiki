@@ -3,7 +3,7 @@
 # Current status
 
 
-Buildbot is currently down, and we are working on a replacement here: [ http://darcs.haskell.org/builder/](http://darcs.haskell.org/builder/)
+Buildbot is currently down, and we are working on a replacement.  See [Builder](builder) for more details.
 
 # Setting up a nightly build
 
