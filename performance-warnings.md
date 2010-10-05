@@ -21,6 +21,10 @@ Users often feel a shotgun approach to strictness is the only way to fix perform
 
 **The compiler should warn about unnecessary uses of bang patterns or seq.**
 
+
+Simon PJ: *Warning about unnecessary bangs or seqs is going to be hard, because the program has been shaken around so much between source and the end of the optimisation pipeline. Even deciding what "unnecessary" means is tricky.. is a bang unnecessary if its absence depends on a subtle
+strictness property of a function that is called in the body?*
+
 ### Heuristics for "Probably a Performance Bug"
 
 
@@ -35,6 +39,10 @@ should almost always be unboxed in users' code. It is exceedingly rare for such 
 
 We can improve users' code by warning of any boxed types as arguments, or in data structures, for these types. Particularly accumulating parameters, or fields in record types. Additionally, if they are strict, but not unboxed, that should also be a warning.
 
+
+Simon PJ: *Warning about every boxed Int might yield a lot of warnings''
+*
+
 ### Other heuristics
 
 - Warning any use of \>\>= that doesn't inline
@@ -46,6 +54,11 @@ We can improve users' code by warning of any boxed types as arguments, or in dat
 - Warn about possible space leaks due to `-ffull-laziness`
 - Warn about possible loss of sharing due to `-fstate-hack`
 - [SpecConstr](spec-constr) warnings
+
+## Issues
+
+- Warning about (\>\>=) not inlined will warn about all monad-overloaded functions.
+- Something simple would still give useful information.
 
 ## Output format
 
