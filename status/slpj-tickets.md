@@ -187,6 +187,8 @@
 
 ## Features
 
+- [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotes
+- [\#4359](https://gitlab.haskell.org//ghc/ghc/issues/4359): lambda case
 - [\#4370](https://gitlab.haskell.org//ghc/ghc/issues/4370): monad comprehensions
 - [\#4148](https://gitlab.haskell.org//ghc/ghc/issues/4148): improvements to mdo syntax
 - [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595): pattern-match overlap checking
