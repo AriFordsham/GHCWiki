@@ -43,6 +43,9 @@ Simon PJ: ''Warning about every boxed Int might yield a lot of warnings!''
  * Warn about possible space leaks due to `-ffull-laziness`
  * Warn about possible loss of sharing due to `-fstate-hack`
  * SpecConstr warnings
+ * INLINE binder is (non-rule) loop breaker
+ * Simplifier still going after N iterations
+ * calling overloaded function with known dictionaries (could be SPECIALIZEd)
 
 == Issues ==
 
