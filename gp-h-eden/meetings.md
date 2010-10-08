@@ -52,7 +52,7 @@ Agenda
 Where: Goldfish Bowl (John Honey building), University of St Andrews [ travel directions](http://hpc.gap-system.org/hpcgap-wiki/index.php/Contacts#Travel_directions).
 
 
-When:  10:00 - 11:00 am 1:30 - 4:00 pm, October 11th, 2010.
+When:  10:00 - 11:00 am, October 11th, 2010.
 
 
 Agenda 
