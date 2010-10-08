@@ -45,3 +45,18 @@ Agenda
   - Next steps in Eden/GUM integration
   - Roadmap towards serialisation integration
   - Future mtgs
+
+### October 11th, 2010
+
+
+Where: Goldfish Bowl (John Honey building), University of St Andrews [ travel directions](http://hpc.gap-system.org/hpcgap-wiki/index.php/Contacts#Travel_directions).
+
+
+When:  10:00 - 11:00 am, October 11th, 2010.
+
+
+Agenda 
+(this will be a short meeting, so we need to focus on a few points):
+
+- Update on individual activities
+- Plans of immediate future work
