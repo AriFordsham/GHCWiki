@@ -85,6 +85,9 @@ Usually you want to do something along these lines:
   and is very helpful when using the "going back in time" method described below.
   If you're debugging heap profiling, add `-i0` too.
 
+- Similarly, if possible, turn off address space layout randomization (ASLR).
+  On Linux you can do this with "echo 0 \> /proc/sys/kernel/randomize_va_space".
+
 - If you still haven't figured it out, you probably need to go back in
   time a bit to find out what was happening just before the crash.
   This is the tricky bit, because going back in time isn't directly
