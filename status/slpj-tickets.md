@@ -178,6 +178,10 @@
 
 ## Template Haskell
 
+- Blog post: [ http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)
+- [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364): type synonym loop
+- [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotation support
+- [\#2041](https://gitlab.haskell.org//ghc/ghc/issues/2041): Splicing in concrete syntax
 - [\#3492](https://gitlab.haskell.org//ghc/ghc/issues/3492): refactor `TyThing` to `HsSyn` code
 - [\#3497](https://gitlab.haskell.org//ghc/ghc/issues/3497): Template Haskell support for GADTs
 - [\#3507](https://gitlab.haskell.org//ghc/ghc/issues/3507): use "`type T`" instead of `''T`
