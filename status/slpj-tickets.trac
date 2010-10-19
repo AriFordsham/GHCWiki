@@ -61,7 +61,6 @@
  * #2092: Possible quadratic-sized Eq instances. Does it really go quadratic, or does the join-point inlining machinery prevent it?  Still to check: delicacy wrt case-of-case
  * #2255, #3767, #2642, #3831: Improve '''`SpecConstr`''' for free variables, and for join points.
  * #2374: SAT and `MutableByteArray`	Max?
- * #3065: better code in quot/rem
 
 === Compiler performance ===
  * #1969: quadratic behaviour in the specialiser
@@ -77,6 +76,7 @@
  * #2271: floor, ceiling, round :: Double -> Int are awesomely slow
  * #1434: slow conversion Double to Int
  * #2270: gcd specialisation
+ * #3065: better code in quot/rem
 
 == GHCi ==
  * #4017: unhelpful GHCi message
@@ -92,6 +92,12 @@
 ------------------------
 == New constraint simplifier ==
  * '''#4232: main meta-ticket for the new type checker'''
+ * #4296: !SkolemOccurs
+ * #4295: Higher rank and impredicative 
+ * #4338: superclass equalities
+ * #4310: deferred equalities and forall types (needs Brent's work)
+
+ * #816. #3108: extreme delicacy in solve order, involving fundeps
  * #1823: refinement
  * #3714: error message if associated family has excess parameters
  * #3554: assertion failure
@@ -117,7 +123,7 @@
  * #3742: implication constraints and inference
  * #3731: recursive dictionaries
  * #3738: don't float `MethodInsts` out of INLINE right hand sides.
- * #2256: Incomplete inference due to lack of quantification over implication constraints.  Also, see “BUG WARNING” in `TcSimplify` line 717 or thereabouts.  `fdPredsOfInsts` is returning preds that mention quantified variables, which is quite wrong	Manuel
+ * #2256: Incomplete inference when generalising
  * #2239: Lack of improvement with type functions	Manuel
  * #700: universals in pattern matching
  * #3696: better error message fr missing signature
@@ -125,9 +131,7 @@
  * #4254: fundeps
  * #4259: overlapping instances
 
- * #816: needs lazier use of instance declarations
- * #4296: !SkolemOccurs
- * #4295: Higher rank and impredicative 
+
 
 == Types and type inference ==
  * #3490: superclasses and ambiguity
@@ -139,7 +143,6 @@
  * #2641: revise what `-XExtendedDefaultRules` does
  * #1634: deep skolemisation; also this one #3592
  * #3018: be lazier about solving class instances
- * #3108: interaction of fundeps and type class solving
  * #2357: '''Implement the Haskell Prime proposal for polymorphic pattern bindings'''
 
 === Impredicativity ===
@@ -163,6 +166,10 @@
 
 ------------------------
 == Template Haskell == 
+ * Blog post: [http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal]
+ * #4364: type synonym loop
+ * #4372: better quasiquotation support
+ * #2041: Splicing in concrete syntax
  * #3492: refactor `TyThing` to `HsSyn` code
  * #3497: Template Haskell support for GADTs
  * #3507: use "`type T`" instead of {{{''T}}}
@@ -171,6 +178,7 @@
  * #4222: design of reification for TH
 
 == Features == 
+ * #4426: simpler rule for implicit quantification
  * #4372: better quasiquotes
  * #4359: lambda case
  * #4370: monad comprehensions

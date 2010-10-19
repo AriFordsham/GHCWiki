@@ -65,7 +65,6 @@
 - [\#2092](https://gitlab.haskell.org//ghc/ghc/issues/2092): Possible quadratic-sized Eq instances. Does it really go quadratic, or does the join-point inlining machinery prevent it?  Still to check: delicacy wrt case-of-case
 - [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#3767](https://gitlab.haskell.org//ghc/ghc/issues/3767), [\#2642](https://gitlab.haskell.org//ghc/ghc/issues/2642), [\#3831](https://gitlab.haskell.org//ghc/ghc/issues/3831): Improve **`SpecConstr`** for free variables, and for join points.
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
-- [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065): better code in quot/rem
 
 ### Compiler performance
 
@@ -83,6 +82,7 @@
 - [\#2271](https://gitlab.haskell.org//ghc/ghc/issues/2271): floor, ceiling, round :: Double -\> Int are awesomely slow
 - [\#1434](https://gitlab.haskell.org//ghc/ghc/issues/1434): slow conversion Double to Int
 - [\#2270](https://gitlab.haskell.org//ghc/ghc/issues/2270): gcd specialisation
+- [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065): better code in quot/rem
 
 ## GHCi
 
@@ -102,6 +102,12 @@
 ## New constraint simplifier
 
 - **[\#4232](https://gitlab.haskell.org//ghc/ghc/issues/4232): main meta-ticket for the new type checker**
+- [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
+- [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): Higher rank and impredicative 
+- [\#4338](https://gitlab.haskell.org//ghc/ghc/issues/4338): superclass equalities
+- [\#4310](https://gitlab.haskell.org//ghc/ghc/issues/4310): deferred equalities and forall types (needs Brent's work)
+
+- [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
 - [\#1823](https://gitlab.haskell.org//ghc/ghc/issues/1823): refinement
 - [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): error message if associated family has excess parameters
 - [\#3554](https://gitlab.haskell.org//ghc/ghc/issues/3554): assertion failure
@@ -127,17 +133,13 @@
 - [\#3742](https://gitlab.haskell.org//ghc/ghc/issues/3742): implication constraints and inference
 - [\#3731](https://gitlab.haskell.org//ghc/ghc/issues/3731): recursive dictionaries
 - [\#3738](https://gitlab.haskell.org//ghc/ghc/issues/3738): don't float `MethodInsts` out of INLINE right hand sides.
-- [\#2256](https://gitlab.haskell.org//ghc/ghc/issues/2256): Incomplete inference due to lack of quantification over implication constraints.  Also, see “BUG WARNING” in `TcSimplify` line 717 or thereabouts.  `fdPredsOfInsts` is returning preds that mention quantified variables, which is quite wrong        Manuel
+- [\#2256](https://gitlab.haskell.org//ghc/ghc/issues/2256): Incomplete inference when generalising
 - [\#2239](https://gitlab.haskell.org//ghc/ghc/issues/2239): Lack of improvement with type functions        Manuel
 - [\#700](https://gitlab.haskell.org//ghc/ghc/issues/700): universals in pattern matching
 - [\#3696](https://gitlab.haskell.org//ghc/ghc/issues/3696): better error message fr missing signature
 - [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
 - [\#4254](https://gitlab.haskell.org//ghc/ghc/issues/4254): fundeps
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping instances
-
-- [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816): needs lazier use of instance declarations
-- [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
-- [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): Higher rank and impredicative 
 
 ## Types and type inference
 
@@ -150,7 +152,6 @@
 - [\#2641](https://gitlab.haskell.org//ghc/ghc/issues/2641): revise what `-XExtendedDefaultRules` does
 - [\#1634](https://gitlab.haskell.org//ghc/ghc/issues/1634): deep skolemisation; also this one [\#3592](https://gitlab.haskell.org//ghc/ghc/issues/3592)
 - [\#3018](https://gitlab.haskell.org//ghc/ghc/issues/3018): be lazier about solving class instances
-- [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): interaction of fundeps and type class solving
 - [\#2357](https://gitlab.haskell.org//ghc/ghc/issues/2357): **Implement the Haskell Prime proposal for polymorphic pattern bindings**
 
 ### Impredicativity
@@ -178,6 +179,10 @@
 
 ## Template Haskell
 
+- Blog post: [ http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)
+- [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364): type synonym loop
+- [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotation support
+- [\#2041](https://gitlab.haskell.org//ghc/ghc/issues/2041): Splicing in concrete syntax
 - [\#3492](https://gitlab.haskell.org//ghc/ghc/issues/3492): refactor `TyThing` to `HsSyn` code
 - [\#3497](https://gitlab.haskell.org//ghc/ghc/issues/3497): Template Haskell support for GADTs
 - [\#3507](https://gitlab.haskell.org//ghc/ghc/issues/3507): use "`type T`" instead of `''T`
@@ -187,6 +192,7 @@
 
 ## Features
 
+- [\#4426](https://gitlab.haskell.org//ghc/ghc/issues/4426): simpler rule for implicit quantification
 - [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotes
 - [\#4359](https://gitlab.haskell.org//ghc/ghc/issues/4359): lambda case
 - [\#4370](https://gitlab.haskell.org//ghc/ghc/issues/4370): monad comprehensions
