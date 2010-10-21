@@ -95,6 +95,7 @@
  * #4296: !SkolemOccurs
  * #4295: Higher rank and impredicative 
  * #4338: superclass equalities
+ * #4310: deferred equalities and forall types (needs Brent's work)
 
  * #816: extreme delicacy in solve order
  * #1823: refinement

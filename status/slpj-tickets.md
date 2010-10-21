@@ -105,6 +105,7 @@
 - [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
 - [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): Higher rank and impredicative 
 - [\#4338](https://gitlab.haskell.org//ghc/ghc/issues/4338): superclass equalities
+- [\#4310](https://gitlab.haskell.org//ghc/ghc/issues/4310): deferred equalities and forall types (needs Brent's work)
 
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816): extreme delicacy in solve order
 - [\#1823](https://gitlab.haskell.org//ghc/ghc/issues/1823): refinement
