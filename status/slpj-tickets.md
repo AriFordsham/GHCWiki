@@ -102,6 +102,11 @@
 ## New constraint simplifier
 
 - **[\#4232](https://gitlab.haskell.org//ghc/ghc/issues/4232): main meta-ticket for the new type checker**
+- [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
+- [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): Higher rank and impredicative 
+- [\#4338](https://gitlab.haskell.org//ghc/ghc/issues/4338): superclass equalities
+
+- [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816): extreme delicacy in solve order
 - [\#1823](https://gitlab.haskell.org//ghc/ghc/issues/1823): refinement
 - [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): error message if associated family has excess parameters
 - [\#3554](https://gitlab.haskell.org//ghc/ghc/issues/3554): assertion failure
@@ -134,10 +139,6 @@
 - [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
 - [\#4254](https://gitlab.haskell.org//ghc/ghc/issues/4254): fundeps
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping instances
-
-- [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816): needs lazier use of instance declarations
-- [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
-- [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): Higher rank and impredicative 
 
 ## Types and type inference
 

@@ -92,6 +92,11 @@
 ------------------------
 == New constraint simplifier ==
  * '''#4232: main meta-ticket for the new type checker'''
+ * #4296: !SkolemOccurs
+ * #4295: Higher rank and impredicative 
+ * #4338: superclass equalities
+
+ * #816: extreme delicacy in solve order
  * #1823: refinement
  * #3714: error message if associated family has excess parameters
  * #3554: assertion failure
@@ -125,9 +130,7 @@
  * #4254: fundeps
  * #4259: overlapping instances
 
- * #816: needs lazier use of instance declarations
- * #4296: !SkolemOccurs
- * #4295: Higher rank and impredicative 
+
 
 == Types and type inference ==
  * #3490: superclasses and ambiguity
