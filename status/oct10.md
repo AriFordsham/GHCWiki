@@ -1,9 +1,9 @@
 # GHC Status October 2010
 
 
-GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.  We have finally bumped the major version number, becuase GHC 7.0 has quite a bit of new stuff
+GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.  We have finally bumped the major version number, because GHC 7.0 has quite a bit of new stuff
 
-- As long promised, Simon PJ and Dimitrios have spent a good chunk of the summer doing a complete rewrite of the constraint solver in the type inference engine.  Because of GHC's myriad type-system extensions, especially GADTs and type famlies, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [ http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn](http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn).  A blog post describes some consequential changes to let generalisation \[LetGen\].
+- As long promised, Simon PJ and Dimitrios have spent a good chunk of the summer doing a complete rewrite of the constraint solver in the type inference engine.  Because of GHC's myriad type-system extensions, especially GADTs and type families, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [ http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn](http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn).  A blog post describes some consequential changes to let generalisation \[LetGen\].
 
 >
 > As a result we have closed dozens of open type inference bugs, especially related to GADTs and type families.
@@ -18,7 +18,7 @@ GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.
   g2 ys = map f ys
   ```
 
-  Here, `f` will be inlined into `g1` as you'd expect, but obviously not into `g2` (since it's not applied to anything).  However `f`'s right hand side will be optimised (sepraately from the copy retained for inlining) so that the call from `g2` runs optimised code.
+  Here, `f` will be inlined into `g1` as you'd expect, but obviously not into `g2` (since it's not applied to anything).  However `f`'s right hand side will be optimised (separately from the copy retained for inlining) so that the call from `g2` runs optimised code.
 
 - David Terei implemented a new back end for GHC using LLVM.  **David: a few sentences more; include a citation.**
 
@@ -28,7 +28,7 @@ GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.
 
 - Simon M did a lot of work on the runtime system.  In particular he substantially improved the way that thunks are handled in a concurrent programs.  **Simon: a little more info?**
 
-- Simon M designed and implmented a new API for asynchronous exceptions.  **Simon: describe**
+- Simon M designed and implemented a new API for asynchronous exceptions.  **Simon: describe**
 
 
 We are fortunate to have a growing team of people willing to roll up their
@@ -50,17 +50,17 @@ do something you have to wait a long time.  So don't wait; join in!
 GHC continues to act as an incubator for interesting new language developments.
 Here's a selection that we know about.
 
-- Pedro Magalhaes is implementing the **derivable type classes** mechanism described in his 2010 Hsakell Symposium paper \[Derivable\].  I plan for this to replace GHC's current derivable-type-class mechanism, which has a poor power-to-weight ratio and is little used.
+- Pedro Magalhaes is implementing the **derivable type classes** mechanism described in his 2010 Haskell Symposium paper \[Derivable\].  I plan for this to replace GHC's current derivable-type-class mechanism, which has a poor power-to-weight ratio and is little used.
 
 - Stephanie Weirich and Steve Zdancewic had a great sabbatical year at Cambridge.  One of the things we worked on, with Brent Yorgey who came as an intern, was to close the embarrassing hole in the type system concerning **newtype deriving** (see Trac bug [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496)).  I have delayed fixing until I could figure out a Decent Solution, but now we know; see our 2011 POPL paper \[Newtype\].  Brent is working on some infrastructal changes to GHC's Core language, and then we'll be ready to tackle the main issue.
 
-- Next after that is a mechanism for **promotimg types to become kinds**, and data constructors to become types, so that you can do *typed* functional programming at the type level.  Conor McBride's SHE prototype is the inspiration here \[SHE\].  Currently it is, embarrassingly, essentially untyped.  
+- Next after that is a mechanism for **promoting types to become kinds**, and data constructors to become types, so that you can do *typed* functional programming at the type level.  Conor McBride's SHE prototype is the inspiration here \[SHE\].  Currently it is, embarrassingly, essentially untyped.  
 
 - **Template Haskell** seems to be increasingly widely used.  Simon PJ has written a proposal for a raft of improvements, which we plan to implement in the new year \[TemplateHaskell\].
 
 - Iavor Diatchki plans to add **numeric types**, so that you can have a type like `Bus 8`, and do simple arithmetic at the type level.  You can encode this stuff, but it's easier to use and more powerful to do it directly.
 
-- David Mazieres at Stanford wants to implement **Safe Haskell**, a flag for GHC that will guarantee that your program does not use `unsafePerformIO`, foreign calls, RULES, and other stuff stuff.  This is part of his projet to ... **David pls fill in**.
+- David Mazieres at Stanford wants to implement **Safe Haskell**, a flag for GHC that will guarantee that your program does not use `unsafePerformIO`, foreign calls, RULES, and other stuff stuff.  This is part of his project to ... **David pls fill in**.
 
 ## Packges and the runtime system
 
