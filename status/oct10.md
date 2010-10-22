@@ -3,7 +3,7 @@
 
 GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.  We have finally bumped the major version number, becuase GHC 7.0 has quite a bit of new stuff
 
-- As long promised, Simon and Dimitrios have spend a good chunk of the summer doing a complete rewrite of the constraint solver in the type inference engine.  Because of GHC's myriad type-system extensions, especially GADTs and type famlies, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [ http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn](http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn).  
+- As long promised, Simon PJ and Dimitrios have spent a good chunk of the summer doing a complete rewrite of the constraint solver in the type inference engine.  Because of GHC's myriad type-system extensions, especially GADTs and type famlies, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [ http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn](http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn).  
 
 >
 > As a result we have closed dozens of open type inference bugs, especially related to GADTs and type families.
@@ -18,8 +18,9 @@ GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.
   g2 ys = map f ys
   ```
 
+  Here, `f` will be inlined into `g1` as you'd expect, but obviously not into `g2` (since it's not applied to anything).
 
-Here, `f` will be inlined into `g1` as you'd expect, but obviously not into `g2` (since it's not applied to anything).
+
 However `f`'s right hand side will be optimised (sepraately from the copy retained for inlining) so that the
 call from `g2` runs optimised code.
 

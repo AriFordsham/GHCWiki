@@ -2,7 +2,7 @@
 
 GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.  We have finally bumped the major version number, becuase GHC 7.0 has quite a bit of new stuff
 
- * As long promised, Simon and Dimitrios have spend a good chunk of the summer doing a complete rewrite of the constraint solver in the type inference engine.  Because of GHC's myriad type-system extensions, especially GADTs and type famlies, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [[http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn]].  
+ * As long promised, Simon PJ and Dimitrios have spent a good chunk of the summer doing a complete rewrite of the constraint solver in the type inference engine.  Because of GHC's myriad type-system extensions, especially GADTs and type famlies, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [[http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn]].  
 
  As a result we have closed dozens of open type inference bugs, especially related to GADTs and type families.
 
@@ -14,7 +14,7 @@ f x = ...blah...
 g1 y = f y + 1
 g2 ys = map f ys
 }}}
-Here, `f` will be inlined into `g1` as you'd expect, but obviously not into `g2` (since it's not applied to anything).
+ Here, `f` will be inlined into `g1` as you'd expect, but obviously not into `g2` (since it's not applied to anything).
 However `f`'s right hand side will be optimised (sepraately from the copy retained for inlining) so that the
 call from `g2` runs optimised code.
 
@@ -47,7 +47,7 @@ Here's a selection that we know about.
 
  * Stephanie Weirich and Steve Zdancewic had a great sabbatical year at Cambridge.  One of the things we worked on, with Brent Yorgey who came as an intern, was to close the embarrassing hole in the type system concerning "newtype deriving" (see Trac bug #1496).  I have delayed fixing until I could figure out a Decent Solution, but now we know; see our 2011 POPL paper [Newtype].  Brent is working on some infrastructal changes to GHC's Core language, and then we'll be ready to tackle the main issue.
 
- * Next after that is a mechanism for promotimg types to become kinds, and data constructors to become types, so that you can do ''typed'' functional programming at the type level.  Conor McBride's SHE prototype is the inspiration here [SHE].  Currently it is, embarrassingly, essentially untyped.  
+ * Next after that is a mechanism for promotimg types to become kinds, and data constructors to become types, so that you can do ''typed'' functional programming at the type level.  Conor !McBride's SHE prototype is the inspiration here [SHE].  Currently it is, embarrassingly, essentially untyped.  
 
  * Iavor Diatchki plans to add numeric types, so that you can have a type like `Bus 8`, and do simple arithmetic at the type level.  You can encode this stuff, but it's easier to use and more powerful to do it directly.
 
