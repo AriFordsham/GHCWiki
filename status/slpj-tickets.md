@@ -107,7 +107,7 @@
 - [\#4338](https://gitlab.haskell.org//ghc/ghc/issues/4338): superclass equalities
 - [\#4310](https://gitlab.haskell.org//ghc/ghc/issues/4310): deferred equalities and forall types (needs Brent's work)
 
-- [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816): extreme delicacy in solve order
+- [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
 - [\#1823](https://gitlab.haskell.org//ghc/ghc/issues/1823): refinement
 - [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): error message if associated family has excess parameters
 - [\#3554](https://gitlab.haskell.org//ghc/ghc/issues/3554): assertion failure
@@ -152,7 +152,6 @@
 - [\#2641](https://gitlab.haskell.org//ghc/ghc/issues/2641): revise what `-XExtendedDefaultRules` does
 - [\#1634](https://gitlab.haskell.org//ghc/ghc/issues/1634): deep skolemisation; also this one [\#3592](https://gitlab.haskell.org//ghc/ghc/issues/3592)
 - [\#3018](https://gitlab.haskell.org//ghc/ghc/issues/3018): be lazier about solving class instances
-- [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): interaction of fundeps and type class solving
 - [\#2357](https://gitlab.haskell.org//ghc/ghc/issues/2357): **Implement the Haskell Prime proposal for polymorphic pattern bindings**
 
 ### Impredicativity
@@ -193,6 +192,7 @@
 
 ## Features
 
+- [\#4426](https://gitlab.haskell.org//ghc/ghc/issues/4426): simpler rule for implicit quantification
 - [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotes
 - [\#4359](https://gitlab.haskell.org//ghc/ghc/issues/4359): lambda case
 - [\#4370](https://gitlab.haskell.org//ghc/ghc/issues/4370): monad comprehensions
