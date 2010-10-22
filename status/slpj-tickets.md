@@ -65,7 +65,6 @@
 - [\#2092](https://gitlab.haskell.org//ghc/ghc/issues/2092): Possible quadratic-sized Eq instances. Does it really go quadratic, or does the join-point inlining machinery prevent it?  Still to check: delicacy wrt case-of-case
 - [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#3767](https://gitlab.haskell.org//ghc/ghc/issues/3767), [\#2642](https://gitlab.haskell.org//ghc/ghc/issues/2642), [\#3831](https://gitlab.haskell.org//ghc/ghc/issues/3831): Improve **`SpecConstr`** for free variables, and for join points.
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
-- [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065): better code in quot/rem
 
 ### Compiler performance
 
@@ -83,6 +82,7 @@
 - [\#2271](https://gitlab.haskell.org//ghc/ghc/issues/2271): floor, ceiling, round :: Double -\> Int are awesomely slow
 - [\#1434](https://gitlab.haskell.org//ghc/ghc/issues/1434): slow conversion Double to Int
 - [\#2270](https://gitlab.haskell.org//ghc/ghc/issues/2270): gcd specialisation
+- [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065): better code in quot/rem
 
 ## GHCi
 
