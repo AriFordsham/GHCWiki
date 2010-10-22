@@ -57,9 +57,9 @@ Here's a selection that we know about.
 
 '''Simon M'''
 
-* Independent parallel garbage collection [Simon M]
-* Better package management (esp wrt profiling)
-* Glorious new back end -fuse-new-codegen
+ * Independent parallel garbage collection [Simon M]
+ * Better package management (esp wrt profiling)
+ * Glorious new back end -fuse-new-codegen
 
 == The Parallel Haskell Project ==
 
