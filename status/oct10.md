@@ -18,11 +18,7 @@ GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.
   g2 ys = map f ys
   ```
 
-  Here, `f` will be inlined into `g1` as you'd expect, but obviously not into `g2` (since it's not applied to anything).
-
-
-However `f`'s right hand side will be optimised (sepraately from the copy retained for inlining) so that the
-call from `g2` runs optimised code.
+  Here, `f` will be inlined into `g1` as you'd expect, but obviously not into `g2` (since it's not applied to anything).  However `f`'s right hand side will be optimised (sepraately from the copy retained for inlining) so that the call from `g2` runs optimised code.
 
 - David Terei implemented a new back end for GHC using LLVM.  **David: a few sentences more; include a citation.**
 
