@@ -32,11 +32,12 @@ GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.
 
 
 We are fortunate to have a growing team of people willing to roll up their
-sleeves and help us with GHC.  Particular thanks to:
+sleeves and help us with GHC.  Amongst those who have got involved recently are:
 
 - Daniel Fischer, who worked on improving the performance of the numeric libraries
 - Milan Straka, for great work improving the performance of the widely-used containers package \[Containers\]
-- Greg Wright is leading a strike team to make GHC work better on Macs.
+- Greg Wright is leading a strike team to make GHC work better on Macs
+- Evan Laforge who has taken on some of the long-standing issues with the Mac installer
 - Sam Anklesaria implemented rebindable syntax for conditionals
 - ..who else..?
 
@@ -62,7 +63,10 @@ Here's a selection that we know about.
 
 - David Mazieres at Stanford wants to implement **Safe Haskell**, a flag for GHC that will guarantee that your program does not use `unsafePerformIO`, foreign calls, RULES, and other stuff stuff.  This is part of his project to ... **David pls fill in**.
 
-## Packges and the runtime system
+
+7.0 also has support for the Haskell 2010 standard, and the libraries that it specifies.
+
+## Packages and the runtime system
 
 **Simon M**
 
@@ -78,9 +82,16 @@ Here's a selection that we know about.
 
 **Manuel to fill in**.  Mention upcoming release.
 
-## Infrastructure and the build system
+## Installers
 
-**Ian: anything to say?**
+
+The GHC installers have also received some attention for this release.
+
+
+The Windows installer includes a much more up-to-date copy of the MinGW system, which in particular fixes a couple of issues on Windows 7. Thanks to Claus Reinke, the installer also allows more control over the registry associations etc.
+
+
+Meanwhile, the Mac OS X installer has received some attention from Evan Laforge. Most notably, it is now possible to install different versions of GHC side-by-side.
 
 ## Bibliography
 
