@@ -54,6 +54,8 @@ Here's a selection that we know about.
 
  * David Mazieres at Stanford wants to implement '''Safe Haskell''', a flag for GHC that will guarantee that your program does not use `unsafePerformIO`, foreign calls, RULES, and other stuff stuff.  This is part of his project to ... '''David pls fill in'''.
 
+7.0 also has support for the Haskell 2010 standard, and the libraries that it specifies.
+
 == Packages and the runtime system ==
 
 '''Simon M'''
