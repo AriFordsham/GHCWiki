@@ -32,11 +32,12 @@ GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.
 
 
 We are fortunate to have a growing team of people willing to roll up their
-sleeves and help us with GHC.  Particular thanks to:
+sleeves and help us with GHC.  Amongst those who have got involved recently are:
 
 - Daniel Fischer, who worked on improving the performance of the numeric libraries
 - Milan Straka, for great work improving the performance of the widely-used containers package \[Containers\]
-- Greg Wright is leading a strike team to make GHC work better on Macs.
+- Greg Wright is leading a strike team to make GHC work better on Macs
+- Evan Laforge who has taken on some of the long-standing issues with the Mac installer
 - Sam Anklesaria implemented rebindable syntax for conditionals
 - ..who else..?
 
