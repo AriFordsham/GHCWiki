@@ -72,9 +72,13 @@ Here's a selection that we know about.
 
 '''Manuel to fill in'''.  Mention upcoming release.
 
-== Infrastructure and the build system ==
+== Installers ==
 
-'''Ian: anything to say?'''
+The GHC installers have also received some attention for this release.
+
+The Windows installer includes a much more up-to-date copy of the MinGW system, which in particular fixes a couple of issues on Windows 7. Thanks to Claus Reinke, the installer also allows more control over the registry associations etc.
+
+Meanwhile, the Mac OS X installer has received some attention from Evan Laforge. Most notably, it is now possible to install different versions of GHC side-by-side.
 
 == Bibliography ==
 
