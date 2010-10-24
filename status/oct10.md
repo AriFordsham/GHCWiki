@@ -22,7 +22,7 @@ GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.
 
 - David Terei implemented a new back end for GHC using LLVM.  **David: a few sentences more; include a citation.**
 
-- Bryan O’Sullivan and Johan Tibell and implemented a new, highly-concurrent IO library. This allows GHC to support thousands of I/O connections, using `epoll`.  **Johan: a few sentences more?**.
+- Bryan O’Sullivan and Johan Tibell and implemented a new, highly-concurrent I/O manager. GHC now supports over a hundred thousand open I/O connections. The new I/O manager defines a separate backend per operating system, using the most efficient system calls for that particular operating system (e.g. `epoll` on Linux.) This means that GHC can now be used to implement servers that make use of e.g. HTTP long polling, where the server needs to handle a large number of open idle connections.
 
 - In joint work with Phil Trinder and his colleagues at Herriot Watt, Simon M designed implemented a new parallel strategies library, described in their 2010 Haskell Symposium paper \[Seq\].
 
