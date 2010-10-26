@@ -16,7 +16,7 @@ g2 ys = map f ys
 }}}
  Here, `f` will be inlined into `g1` as you'd expect, but obviously not into `g2` (since it's not applied to anything).  However `f`'s right hand side will be optimised (separately from the copy retained for inlining) so that the call from `g2` runs optimised code.
 
- * David Terei implemented a new back end for GHC using LLVM.  '''David: a few sentences more; include a citation.'''
+ * David Terei implemented a new back end for GHC using LLVM. In certain situations using the LLVM backend can give fairly substantial performance improvements to your code, particularly if you're using the Vector libraries, DPH or making heavy use of fusion. In the general case it should give as good performance or slightly better than GHC's native code generator and C backend. You can use it through the '-fllvm' compiler flag. More details of the backend can be found in David's and Manuel Chakravarty's Haskell Symposium paper [Llvm].
 
  * Bryan O’Sullivan and Johan Tibell and implemented a new, highly-concurrent I/O manager. GHC now supports over a hundred thousand open I/O connections. The new I/O manager defines a separate backend per operating system, using the most efficient system calls for that particular operating system (e.g. `epoll` on Linux.) This means that GHC can now be used to implement servers that make use of e.g. HTTP long polling, where the server needs to handle a large number of open idle connections.
 
@@ -88,6 +88,8 @@ Meanwhile, the Mac OS X installer has received some attention from Evan Laforge.
 
  * [!LetGen] "Let generalisation in GHC 7.0", Peyton Jones, blog post Sept 2010, http://hackage.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7
  * [Newtype] "Generative Type Abstraction and Type-level Computation", Weirich, Zdancewic, Vytiniotis, and Peyton Jones, POPL 2010, http://www.cis.upenn.edu/~sweirich/newtypes.pdf
+
+ * [Llvm] "An LLVM Backend for GHC", Terei and Chakravarty, Haskell Symposium 2010, http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvm-hs10.pdf
 
  * [Seq] "Seq no more", Marlow, Maier, Trinder, Loidl, and Aswad, Haskell Symposium 2010, http://www.haskell.org/~simonmar/papers/strategies.pdf
 
