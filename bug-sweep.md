@@ -140,7 +140,6 @@ database and start again.
 - [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168)
 - [\#1171](https://gitlab.haskell.org//ghc/ghc/issues/1171)
 - [\#1176](https://gitlab.haskell.org//ghc/ghc/issues/1176)
-- [\#1182](https://gitlab.haskell.org//ghc/ghc/issues/1182)
 - [\#1192](https://gitlab.haskell.org//ghc/ghc/issues/1192)
 - [\#1201](https://gitlab.haskell.org//ghc/ghc/issues/1201)
 - [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216)
