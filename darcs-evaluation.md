@@ -1,3 +1,15 @@
+---
+
+**NOTE** This page was written in 2008 when we were considering switching from darcs to a different version control system.  Much of what it says may be incorrect or out of date.  The current status is that we have no immediate plans to switch from darcs, although we remain open to the possibility of switching in the future. In an informal show of hands at a meeting at ICFP'10 showed that there was roughly a 50/50 split for and against a switch.
+
+
+Darcs has made important improvements over the last couple of years addressing some, but not all, of our concerns, so at least from my (Simon M.) point of view, switching is not as urgent as it was.
+
+
+Switching is also difficult for GHC, because we use several repositories (GHC, packages, haddock, hsc2hs, etc.), some of which are upstream and hence we cannot unilaterally switch them from darcs to something else, but nevertheless we would like a GHC developer to only have to use and learn one VC tool.  We would probably have to mirror these respositories in git or whatever, which would complicate our workflow.
+
+---
+
 # Darcs retrospective, and the future
 
 
@@ -803,7 +815,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=61&format=txt)
+- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=62&format=txt)
 
 ---
 
