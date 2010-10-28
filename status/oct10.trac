@@ -70,7 +70,13 @@ Here's a selection that we know about.
 
 == Data Parallel Haskell ==
 
-'''Manuel to fill in'''.  Mention upcoming release.
+Since the last report, we have continued to improve support for nested parallel divide-and-conquer algorithms.  We started with [[http://darcs.haskell.org/packages/dph/dph-examples/spectral/QuickHull/dph/QuickHullVect.hs QuickHull]] and are now working on an implementation of the [[http://darcs.haskell.org/packages/dph/dph-examples/real/BarnesHut/Solver/NestedBH/Solver.hs Barnes-Hut]] ''n''-body algorithm.  The latter is not only significantly more complex, but also requires the vectorisation of recursive tree data-structures, going well beyond the capabilities of conventional parallel-array languages.  In time for the stable branch of GHC 7.0, we replaced the old, per-core sequential array infrastructure (which was part of the sub-package `dph-prim-seq`) by  the [[http://hackage.haskell.org/package/vector vector package]] — vector started its life as a next-generation spin off of `dph-prim-seq`, but now enjoys significant popularity independent of DPH. 
+
+The new handling of INLINE pragmas as well as other changes to the Simplifier improved the stability of DPH optimisations (and in particular, array stream fusion) substantially.  However, the current candidate for GHC 7.0.1 still contains some performance regressions that affect the DPH and [[http://hackage.haskell.org/package/repa Repa]] libraries and to avoid holding up the 7.0.1 release, we decided to push fixing these regressions to GHC 7.0.2.  More precisely, we are planning a release of DPH and Repa that is suitable for use with GHC 7.0 for the end of the year, to coincide with the release of GHC 7.0.2.  From GHC 7.0 onwards, the library component of DPH will be shipped separately from GHC itself and will be available to download and install from Hackage as for other libraries.
+
+To catch DPH performance regressions more quickly in the future, Ben Lippmeier implemented a performance regression testsuite that we run nightly on the HEAD.  The results can be enjoyed on the GHC developer mailing list.
+
+Sadly, Roman Leshchinskiy has given up his full-time engagement with DPH to advance the use of Haskell in the financial industry.  We are looking forward to collaborating remotely with him.
 
 == Installers ==
 
