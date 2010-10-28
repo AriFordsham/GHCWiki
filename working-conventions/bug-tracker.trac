@@ -46,7 +46,7 @@ Each ticket has a bunch of other fields too:
 
  * '''Owned by''' says who is committed to taking the ticket forward.  We typically leave this field blank until we actively start working on it, lest others feel unable to to work on a ticket because it is apparently owned, even though nothing is happening.
 
-== Remilestoning tickets after a releases ==
+== Remilestoning tickets after a release ==
 
 When a release is made, any open tickets on that release's milestone will be moved to the next release's milestone.
 
