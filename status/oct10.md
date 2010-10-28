@@ -20,11 +20,14 @@ GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.
 
   Here, `f` will be inlined into `g1` as you'd expect, but obviously not into `g2` (since it's not applied to anything).  However `f`'s right hand side will be optimised (separately from the copy retained for inlining) so that the call from `g2` runs optimised code.
 
-- David Terei implemented a new back end for GHC using LLVM. In certain situations using the LLVM backend can give fairly substantial performance improvements to your code, particularly if you're using the Vector libraries, DPH or making heavy use of fusion. In the general case it should give as good performance or slightly better than GHC's native code generator and C backend. You can use it through the '-fllvm' compiler flag. More details of the backend can be found in David's and Manuel Chakravarty's Haskell Symposium paper \[Llvm\].
+>
+> There's a raft of other small changes to the optimisation pipeline too.  The net effect can be dramatic: Bryan O'Sullivan reports some five-fold (!) improvements in his text-equality functions, and concludes "The difference between 6.12 and 7 is so dramatic, there's a strong temptation for me to say 'wait for 7!' to people who report weaker than desired performance." [ http://www.serpentine.com/blog/2010/10/19/a-brief-tale-of-faster-equality/ Bryan](http://www.serpentine.com/blog/2010/10/19/a-brief-tale-of-faster-equality/ Bryan)
+
+- David Terei implemented a new back end for GHC using LLVM. In certain situations using the LLVM backend can give fairly substantial performance improvements to your code, particularly if you're using the Vector libraries, DPH or making heavy use of fusion. In the general case it should give as good performance or slightly better than GHC's native code generator and C backend. You can use it through the '-fllvm' compiler flag. More details of the backend can be found in David's and Manuel Chakravarty's Haskell Symposium paper [ http://www.cse.unsw.edu.au/\~davidt/downloads/ghc-llvm-hs10.pdf Llvm](http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvm-hs10.pdf Llvm).
 
 - Bryan O’Sullivan and Johan Tibell and implemented a new, highly-concurrent I/O manager. GHC now supports over a hundred thousand open I/O connections. The new I/O manager defines a separate backend per operating system, using the most efficient system calls for that particular operating system (e.g. `epoll` on Linux.) This means that GHC can now be used to implement servers that make use of e.g. HTTP long polling, where the server needs to handle a large number of open idle connections.
 
-- In joint work with Phil Trinder and his colleagues at Herriot Watt, Simon M designed implemented a new parallel strategies library, described in their 2010 Haskell Symposium paper \[Seq\].
+- In joint work with Phil Trinder and his colleagues at Herriot Watt, Simon M designed implemented a new parallel strategies library, described in their 2010 Haskell Symposium paper [ http://www.haskell.org/\~simonmar/papers/strategies.pdf Seq](http://www.haskell.org/~simonmar/papers/strategies.pdf Seq).
 
 - Simon M did a lot of work on the runtime system.  In particular he substantially improved the way that thunks are handled in a concurrent programs.  **Simon: a little more info?**
 
@@ -35,7 +38,7 @@ We are fortunate to have a growing team of people willing to roll up their
 sleeves and help us with GHC.  Amongst those who have got involved recently are:
 
 - Daniel Fischer, who worked on improving the performance of the numeric libraries
-- Milan Straka, for great work improving the performance of the widely-used containers package \[Containers\]
+- Milan Straka, for great work improving the performance of the widely-used containers package [ http://research.microsoft.com/\~simonpj/papers/containers/containers.pdf Containers](http://research.microsoft.com/~simonpj/papers/containers/containers.pdf Containers)
 - Greg Wright is leading a strike team to make GHC work better on Macs
 - Evan Laforge who has taken on some of the long-standing issues with the Mac installer
 - Sam Anklesaria implemented rebindable syntax for conditionals
@@ -55,9 +58,9 @@ Here's a selection that we know about.
 
 - Stephanie Weirich and Steve Zdancewic had a great sabbatical year at Cambridge.  One of the things we worked on, with Brent Yorgey who came as an intern, was to close the embarrassing hole in the type system concerning **newtype deriving** (see Trac bug [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496)).  I have delayed fixing until I could figure out a Decent Solution, but now we know; see our 2011 POPL paper \[Newtype\].  Brent is working on some infrastructal changes to GHC's Core language, and then we'll be ready to tackle the main issue.
 
-- Next after that is a mechanism for **promoting types to become kinds**, and data constructors to become types, so that you can do *typed* functional programming at the type level.  Conor McBride's SHE prototype is the inspiration here \[SHE\].  Currently it is, embarrassingly, essentially untyped.  
+- Next after that is a mechanism for **promoting types to become kinds**, and data constructors to become types, so that you can do *typed* functional programming at the type level.  Conor McBride's SHE prototype is the inspiration here [ http://personal.cis.strath.ac.uk/\~conor/pub/she/ SHE](http://personal.cis.strath.ac.uk/~conor/pub/she/ SHE).  Currently it is, embarrassingly, essentially untyped.  
 
-- **Template Haskell** seems to be increasingly widely used.  Simon PJ has written a proposal for a raft of improvements, which we plan to implement in the new year \[TemplateHaskell\].
+- **Template Haskell** seems to be increasingly widely used.  Simon PJ has written a proposal for a raft of improvements, which we plan to implement in the new year [ http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal TemplateHaskell](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal TemplateHaskell).
 
 - Iavor Diatchki plans to add **numeric types**, so that you can have a type like `Bus 8`, and do simple arithmetic at the type level.  You can encode this stuff, but it's easier to use and more powerful to do it directly.
 
@@ -104,6 +107,8 @@ The Windows installer includes a much more up-to-date copy of the MinGW system, 
 Meanwhile, the Mac OS X installer has received some attention from Evan Laforge. Most notably, it is now possible to install different versions of GHC side-by-side.
 
 ## Bibliography
+
+- \[Bryan\] "A brief tale of faster equality", Bryan O'Sullivan blog post, Oct 2010, [ http://www.serpentine.com/blog/2010/10/19/a-brief-tale-of-faster-equality/](http://www.serpentine.com/blog/2010/10/19/a-brief-tale-of-faster-equality/).
 
 - \[Containers\] "The performance of the Haskell containers package", Straka, Haskell Symposium 2010, [ http://research.microsoft.com/\~simonpj/papers/containers/containers.pdf](http://research.microsoft.com/~simonpj/papers/containers/containers.pdf)
 
