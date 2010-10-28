@@ -58,7 +58,7 @@ Here's a selection that we know about.
 
 - Stephanie Weirich and Steve Zdancewic had a great sabbatical year at Cambridge.  One of the things we worked on, with Brent Yorgey who came as an intern, was to close the embarrassing hole in the type system concerning **newtype deriving** (see Trac bug [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496)).  I have delayed fixing until I could figure out a Decent Solution, but now we know; see our 2011 POPL paper \[Newtype\].  Brent is working on some infrastructal changes to GHC's Core language, and then we'll be ready to tackle the main issue.
 
-- Next after that is a mechanism for **promoting types to become kinds**, and data constructors to become types, so that you can do *typed* functional programming at the type level.  Conor McBride's SHE prototype is the inspiration here \[SHE\].  Currently it is, embarrassingly, essentially untyped.  
+- Next after that is a mechanism for **promoting types to become kinds**, and data constructors to become types, so that you can do *typed* functional programming at the type level.  Conor McBride's SHE prototype is the inspiration here [ http://personal.cis.strath.ac.uk/\~conor/pub/she/ SHE](http://personal.cis.strath.ac.uk/~conor/pub/she/ SHE).  Currently it is, embarrassingly, essentially untyped.  
 
 - **Template Haskell** seems to be increasingly widely used.  Simon PJ has written a proposal for a raft of improvements, which we plan to implement in the new year [ http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal TemplateHaskell](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal TemplateHaskell).
 
