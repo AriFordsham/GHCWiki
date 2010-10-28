@@ -54,7 +54,7 @@ do something you have to wait a long time.  So don't wait; join in!
 GHC continues to act as an incubator for interesting new language developments.
 Here's a selection that we know about.
 
-- Pedro Magalhaes is implementing the **derivable type classes** mechanism described in his 2010 Haskell Symposium paper \[Derivable\].  I plan for this to replace GHC's current derivable-type-class mechanism, which has a poor power-to-weight ratio and is little used.
+- Pedro Magalhaes is implementing the **derivable type classes** mechanism described in his 2010 Haskell Symposium paper [ http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf Derivable](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf Derivable).  I plan for this to replace GHC's current derivable-type-class mechanism, which has a poor power-to-weight ratio and is little used.
 
 - Stephanie Weirich and Steve Zdancewic had a great sabbatical year at Cambridge.  One of the things we worked on, with Brent Yorgey who came as an intern, was to close the embarrassing hole in the type system concerning **newtype deriving** (see Trac bug [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496)).  I have delayed fixing until I could figure out a Decent Solution, but now we know; see our 2011 POPL paper \[Newtype\].  Brent is working on some infrastructal changes to GHC's Core language, and then we'll be ready to tackle the main issue.
 
@@ -112,7 +112,7 @@ Meanwhile, the Mac OS X installer has received some attention from Evan Laforge.
 
 - \[Containers\] "The performance of the Haskell containers package", Straka, Haskell Symposium 2010, [ http://research.microsoft.com/\~simonpj/papers/containers/containers.pdf](http://research.microsoft.com/~simonpj/papers/containers/containers.pdf)
 
-- \[Derivable\] "A generic deriving mechanism for Haskell", Magalhães, Dijkstra, Jeuring and Löh, Haskell Symposium 2010, www.dreixel.net/research/pdf/gdmh_nocolor.pdf.
+- \[Derivable\] "A generic deriving mechanism for Haskell", Magalhães, Dijkstra, Jeuring and Löh, Haskell Symposium 2010, [ http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf).
 
 - \[LetGen\] "Let generalisation in GHC 7.0", Peyton Jones, blog post Sept 2010, [ http://hackage.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7](http://hackage.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7)
 - \[Newtype\] "Generative Type Abstraction and Type-level Computation", Weirich, Zdancewic, Vytiniotis, and Peyton Jones, POPL 2010, [ http://www.cis.upenn.edu/\~sweirich/newtypes.pdf](http://www.cis.upenn.edu/~sweirich/newtypes.pdf)
