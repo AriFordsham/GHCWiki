@@ -46,8 +46,21 @@ Each ticket has a bunch of other fields too:
 
  * '''Owned by''' says who is committed to taking the ticket forward.  We typically leave this field blank until we actively start working on it, lest others feel unable to to work on a ticket because it is apparently owned, even though nothing is happening.
 
-== Releases ==
-When a release is made, any open tickets on that release's milestone will be moved to the next release's milestone. However, if they are more than 1 major release old (e.g. opened on the 6.10 branch, and about to be moved to the 6.14.1 milestone), and there is not a reason to keep them in the release milestone (e.g. a patch attached for review, or significant support in the CC field), then they will be moved to the `_|_` milestone instead.
+== Remilestoning tickets after a release ==
+
+When a release is made, any open tickets on that release's milestone will be moved to the next release's milestone.
+
+However, when moving onto a milestone for a later major release, the priority is dropped one level (or moved to `_|_` if it is already lowest) - unless one of these is true:
+ * priority > normal
+ * contains a patch for review
+ * significant support in the CC field
+
+For example, let us follow a ticket about a bug in 7.0.x that doesn't get fixed.
+ * Created in a 7.2.x milestone, priority normal
+ * When 7.2 branch is closed, moved to a 7.4.x milestone, priority low
+ * When 7.4 branch is closed, moved to a 7.6.x milestone, priority lowest
+ * When 7.6 branch is closed, moved to a `_|_` milestone, priority normal
+If it were initially filed in a 7.0.x milestone then it would remain priority normal when moved to 7.2.x.
 
 == Workflow ==
 The ticket workflow is illustrated in the following image. Most tickets will start in state "new" and, once fixed, possibly go via state "merge" if they are suitable for merging to the stable branch, before moving to state "closed". They may also go via state "infoneeded" if more information is needed from the submitter, or "patch" if a patch that needs review has been attached to the ticket.
