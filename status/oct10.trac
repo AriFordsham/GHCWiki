@@ -70,7 +70,9 @@ Here's a selection that we know about.
 
 == Data Parallel Haskell ==
 
-'''Manuel to fill in'''.  Mention upcoming release.
+Since the last report, we have continued to improve support for nested parallel divide-and-conquer algorithms.  We started with [[http://darcs.haskell.org/packages/dph/dph-examples/spectral/QuickHull/dph/QuickHullVect.hs QuickHull]] and are now working on an implementation of the [[http://darcs.haskell.org/packages/dph/dph-examples/real/BarnesHut/Solver/NestedBH/Solver.hs Barnes-Hut]] ''n''-body algorithm.  The latter is not only significantly more complex, but also requires the vectorisation of recursive tree data-structures, going well beyond the capabilities of conventional parallel-array languages.  In time for the stable branch of GHC 7.0, we replaced the old, per-core sequential array infrastructure (which was part of the sub-package `dph-prim-seq`) by  the '''vector''' package — '''vector''' started its life as a next-generation spin off of `dph-prim-seq`, but now enjoys significant popularity independent of DPH. 
+
+Mention upcoming release.
 
 == Installers ==
 
