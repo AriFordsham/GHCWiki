@@ -19,5 +19,15 @@ This mechanism replaces the [previous generic classes implementation](http://www
 ## To do
 
 - Generate meta-information empty datatypes and instances (`Datatype`, `Constructor`, and `Selector` instances)
+
 - Generate `Representable1` instances
+
 - Generic instances
+
+  - Add `deriving` as a keyword. This replaces the `DERIVABLE` pragma from the UHC implementation, and is attached to a default method on a class declaration.
+  - Change the `Class` definition to allow for generic defaults (in addition to standard defaults).
+  - Generate default instances for representable types which derive generic classes.
+
+## Current problems
+
+- When representations are generated for more than one datatype, assembler errors appear: `symbol `ghczmprim_GHCziGenerics_Representable0_closure' is already defined`
