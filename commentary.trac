@@ -39,6 +39,7 @@ Please edit and improve the Commentary above, or the [wiki:Building Building Gui
 However sometimes you may want to add new material that doesn't quite fit into the existing structure.  Or perhaps your pages are about work-in-progress, status reports and suchlike, which don't belong in the Commentary per se.  Regardless, you can add your new material here.
 
  * The Compiler
+   * [wiki:Commentary/Compiler/GenericDeriving The new deriving mechanism]
    * [wiki:Commentary/Compiler/TemplateHaskell Notes about Template Haskell]
    * [wiki:Commentary/Compiler/NewCodeGen Notes about the new code generator]
    * [wiki:TypeFunctions Type families/type functions]: Notes concerning the implementation of type families, associated types, and equality constraints as well as the extension of the type checker with a contraint solver for equality constraints.
