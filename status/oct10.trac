@@ -16,6 +16,8 @@ g2 ys = map f ys
 }}}
  Here, `f` will be inlined into `g1` as you'd expect, but obviously not into `g2` (since it's not applied to anything).  However `f`'s right hand side will be optimised (separately from the copy retained for inlining) so that the call from `g2` runs optimised code.
 
+ There's a raft of other small changes to the optimisation pipeline too.  The net effect can be dramatic: Bryan O'Sullivan reports some five-fold (!) improvements in his text-equality functions, and concludes "The difference between 6.12 and 7 is so dramatic, there's a strong temptation for me to say 'wait for 7!' to people who report weaker than desired performance." [[http://www.serpentine.com/blog/2010/10/19/a-brief-tale-of-faster-equality/ Bryan]]
+
  * David Terei implemented a new back end for GHC using LLVM. In certain situations using the LLVM backend can give fairly substantial performance improvements to your code, particularly if you're using the Vector libraries, DPH or making heavy use of fusion. In the general case it should give as good performance or slightly better than GHC's native code generator and C backend. You can use it through the '-fllvm' compiler flag. More details of the backend can be found in David's and Manuel Chakravarty's Haskell Symposium paper [Llvm].
 
  * Bryan O’Sullivan and Johan Tibell and implemented a new, highly-concurrent I/O manager. GHC now supports over a hundred thousand open I/O connections. The new I/O manager defines a separate backend per operating system, using the most efficient system calls for that particular operating system (e.g. `epoll` on Linux.) This means that GHC can now be used to implement servers that make use of e.g. HTTP long polling, where the server needs to handle a large number of open idle connections.
@@ -87,6 +89,8 @@ The Windows installer includes a much more up-to-date copy of the MinGW system, 
 Meanwhile, the Mac OS X installer has received some attention from Evan Laforge. Most notably, it is now possible to install different versions of GHC side-by-side.
 
 == Bibliography ==
+
+ * [Bryan] "A brief tale of faster equality", Bryan O'Sullivan blog post, Oct 2010, http://www.serpentine.com/blog/2010/10/19/a-brief-tale-of-faster-equality/.
 
  * [Containers] "The performance of the Haskell containers package", Straka, Haskell Symposium 2010, http://research.microsoft.com/~simonpj/papers/containers/containers.pdf
 
