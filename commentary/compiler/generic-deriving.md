@@ -8,6 +8,16 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 ## Main components
 
-- `TcDeriv.tcDeriving` generates an `InstInfo` for each data type that **fill in**
+- `TcDeriv.tcDeriving` generates an `InstInfo` for each data type that fulfills the `isRep0` predicate. This `InstInfo` is the `Representable0` instance for that type, allowing it to be handled generically (by kind-`*` generic functions).
 
-- **Say which library modules, in which packages, contain which data types and classes**.
+- The representation types and core functionality of the library live on `GHC.Generics` (on the `ghc-prim` package).
+
+- Many names have been added as known in `prelude/PrelNames`
+
+- Most of the code generation is handled by `types/Generics`
+
+## To do
+
+- Generate meta-information empty datatypes and instances (`Datatype`, `Constructor`, and `Selector` instances)
+- Generate `Representable1` instances
+- Generic instances
