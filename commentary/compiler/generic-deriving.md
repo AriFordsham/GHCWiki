@@ -32,4 +32,6 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 - When representations are generated for more than one datatype, assembler errors appear: `symbol `ghczmprim_GHCziGenerics_Representable0_closure' is already defined`
 
+- For meta-information, we need to generate a bunch of empty datatypes per user datatype declaration. Where can/should we do this? `TcDeriv` seems to be "too late", since we can only add instances or top-level value bindings (as the old generic mechanism did)...
+
 - Currently, in `TcDeriv.genGenericRepBind` we generate instances using `mkLocalInstance`. Is this right, or should we use `mkImportedInstance` instead?
