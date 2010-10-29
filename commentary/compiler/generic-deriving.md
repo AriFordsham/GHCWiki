@@ -34,4 +34,4 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 - For meta-information, we need to generate a bunch of empty datatypes per user datatype declaration. Where can/should we do this? `TcDeriv` seems to be "too late", since we can only add instances or top-level value bindings (as the old generic mechanism did)...
 
-- Currently, in `TcDeriv.genGenericRepBind` we generate instances using `mkLocalInstance`. Is this right, or should we use `mkImportedInstance` instead?
+- Currently, in `TcDeriv.genGenericRepBind` we generate instances using `mkLocalInstance`. Is this right, or should we use `mkImportedInstance` instead?  SLPJ: mkLocalInstance: it's as if the instance declaration was in this module, right?
