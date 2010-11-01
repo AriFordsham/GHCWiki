@@ -2,7 +2,7 @@
 
 GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.  We have finally bumped the major version number, because GHC 7.0 has quite a bit of new stuff
 
- * As long promised, Simon PJ and Dimitrios have spent a good chunk of the summer doing a complete rewrite of the constraint solver in the type inference engine.  Because of GHC's myriad type-system extensions, especially GADTs and type families, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [[http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn]].  A blog post describes some consequential changes to let generalisation [!LetGen].
+ * As long promised, Simon PJ and Dimitrios have spent a good chunk of the summer doing a complete rewrite of the constraint solver in the type inference engine.  Because of GHC's myriad type-system extensions, especially GADTs and type families, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [[http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn]].  A blog post describes some consequential changes to let generalisation [[http://hackage.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7 LetGen]].
 
  As a result we have closed dozens of open type inference bugs, especially related to GADTs and type families.
 
@@ -46,7 +46,7 @@ Here's a selection that we know about.
 
  * Pedro Magalhaes is implementing the '''derivable type classes''' mechanism described in his 2010 Haskell Symposium paper [[http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf Derivable]].  I plan for this to replace GHC's current derivable-type-class mechanism, which has a poor power-to-weight ratio and is little used.
 
- * Stephanie Weirich and Steve Zdancewic had a great sabbatical year at Cambridge.  One of the things we worked on, with Brent Yorgey who came as an intern, was to close the embarrassing hole in the type system concerning '''newtype deriving''' (see Trac bug #1496).  I have delayed fixing until I could figure out a Decent Solution, but now we know; see our 2011 POPL paper [Newtype].  Brent is working on some infrastructal changes to GHC's Core language, and then we'll be ready to tackle the main issue.
+ * Stephanie Weirich and Steve Zdancewic had a great sabbatical year at Cambridge.  One of the things we worked on, with Brent Yorgey who came as an intern, was to close the embarrassing hole in the type system concerning '''newtype deriving''' (see Trac bug #1496).  I have delayed fixing until I could figure out a Decent Solution, but now we know; see our 2011 POPL paper [[http://www.cis.upenn.edu/~sweirich/newtypes.pdf Newtype]].  Brent is working on some infrastructal changes to GHC's Core language, and then we'll be ready to tackle the main issue.
 
  * Next after that is a mechanism for '''promoting types to become kinds''', and data constructors to become types, so that you can do ''typed'' functional programming at the type level.  Conor !McBride's SHE prototype is the inspiration here [[http://personal.cis.strath.ac.uk/~conor/pub/she/ SHE]].  Currently it is, embarrassingly, essentially untyped.  
 
@@ -62,8 +62,7 @@ Here's a selection that we know about.
 
  * Simon Marlow is working on a new garbage collector that is designed to improve scaling of parallel programs beyond small numbers of cores, by allowing each processor core to collect its own local heap independently of the other cores.  Some encouraging preliminary results were reported in a [http://hackage.haskell.org/trac/ghc/blog/2010/9#new-gc-preview blog post].  Work on this continues; the complexity of the system and the number of interacting design choices means that achieving an implementation that works well in a broad variety of situations is proving to be quite a challenge.
 
- * The "new back end" is still under construction.  This is a rewrite of the part of GHC that turns STG syntax into C--, i.e. the bit between the Core optimisation passes and the native code generator.  The rewrite is based on 
-[Hoopl], a data-flow optimisation framework.  Ultimately this rewrite should enable better code generation.  The new code generator is already in GHC, but turned off by default; you get it with the flag `-fuse-new-codegen`.  Don't expect to get better code with this flag yet!
+ * The "new back end" is still under construction.  This is a rewrite of the part of GHC that turns STG syntax into C--, i.e. the bit between the Core optimisation passes and the native code generator.  The rewrite is based on [[http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf Hoopl]], a data-flow optimisation framework.  Ultimately this rewrite should enable better code generation.  The new code generator is already in GHC, but turned off by default; you get it with the flag `-fuse-new-codegen`.  Don't expect to get better code with this flag yet!
 
 == The Parallel Haskell Project ==
 
@@ -96,6 +95,7 @@ Meanwhile, the Mac OS X installer has received some attention from Evan Laforge.
  * [Derivable] "A generic deriving mechanism for Haskell", Magalhães, Dijkstra, Jeuring and Löh, Haskell Symposium 2010, http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf.
 
  * [!LetGen] "Let generalisation in GHC 7.0", Peyton Jones, blog post Sept 2010, http://hackage.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7
+
  * [Newtype] "Generative Type Abstraction and Type-level Computation", Weirich, Zdancewic, Vytiniotis, and Peyton Jones, POPL 2010, http://www.cis.upenn.edu/~sweirich/newtypes.pdf
 
  * [Llvm] "An LLVM Backend for GHC", Terei and Chakravarty, Haskell Symposium 2010, http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvm-hs10.pdf
@@ -106,5 +106,4 @@ Meanwhile, the Mac OS X installer has received some attention from Evan Laforge.
 
  * [!TemplateHaskell] New directions for Template Haskell, Peyton Jones, blog post October 2010, http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal
 
- * [Hoopl] Hoopl: A Modular, Reusable Library for
-Dataflow Analysis and Transformation, http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf 
+ * [Hoopl] Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation, http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf 
