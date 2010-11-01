@@ -2,7 +2,7 @@
 
 GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.  We have finally bumped the major version number, because GHC 7.0 has quite a bit of new stuff
 
- * As long promised, Simon PJ and Dimitrios have spent a good chunk of the summer doing a complete rewrite of the constraint solver in the type inference engine.  Because of GHC's myriad type-system extensions, especially GADTs and type families, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [[http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn]].  A blog post describes some consequential changes to let generalisation [!LetGen].
+ * As long promised, Simon PJ and Dimitrios have spent a good chunk of the summer doing a complete rewrite of the constraint solver in the type inference engine.  Because of GHC's myriad type-system extensions, especially GADTs and type families, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [[http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn]].  A blog post describes some consequential changes to let generalisation [[http://hackage.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7 LetGen]].
 
  As a result we have closed dozens of open type inference bugs, especially related to GADTs and type families.
 
@@ -95,6 +95,7 @@ Meanwhile, the Mac OS X installer has received some attention from Evan Laforge.
  * [Derivable] "A generic deriving mechanism for Haskell", Magalhães, Dijkstra, Jeuring and Löh, Haskell Symposium 2010, http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf.
 
  * [!LetGen] "Let generalisation in GHC 7.0", Peyton Jones, blog post Sept 2010, http://hackage.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7
+
  * [Newtype] "Generative Type Abstraction and Type-level Computation", Weirich, Zdancewic, Vytiniotis, and Peyton Jones, POPL 2010, http://www.cis.upenn.edu/~sweirich/newtypes.pdf
 
  * [Llvm] "An LLVM Backend for GHC", Terei and Chakravarty, Haskell Symposium 2010, http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvm-hs10.pdf
