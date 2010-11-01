@@ -29,9 +29,9 @@ GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.
 
 - In joint work with Phil Trinder and his colleagues at Herriot Watt, Simon M designed implemented a new parallel strategies library, described in their 2010 Haskell Symposium paper [ http://www.haskell.org/\~simonmar/papers/strategies.pdf Seq](http://www.haskell.org/~simonmar/papers/strategies.pdf Seq).
 
-- Simon M did a lot of work on the runtime system.  In particular he substantially improved the way that thunks are handled in a concurrent programs.  **Simon: a little more info?**
+- As reported in the previous status update, the runtime system has undergone substantial changes to the implementation of lazy evaluation in parallel, particularly in the way that threads block and wake up again.  Certain benchmarks show significant improvements, and some cases of wildly unpredictable behaviour when using large numbers of threads are now much more consistent.
 
-- Simon M designed and implemented a new API for asynchronous exceptions.  **Simon: describe**
+- The API for asynchronous exceptions has had a redesign.  Previously the combinators `block` and `unblock` were used to prevent asynchronous exceptions from striking during critical sections, but these had some serious disadvantages, particularly a lack of modularity where a library function could unblock asynchronous exceptions despite a prevailing `block`.  The new API closes this loophole, and also changes the terminology: preventing asynchronous exceptions is now called "masking", and the new combinator is `mask`.  See the documentation for the new API in `Control.Exception` for more details.
 
 
 We are fortunate to have a growing team of people willing to roll up their
@@ -39,7 +39,7 @@ sleeves and help us with GHC.  Amongst those who have got involved recently are:
 
 - Daniel Fischer, who worked on improving the performance of the numeric libraries
 - Milan Straka, for great work improving the performance of the widely-used containers package [ http://research.microsoft.com/\~simonpj/papers/containers/containers.pdf Containers](http://research.microsoft.com/~simonpj/papers/containers/containers.pdf Containers)
-- Greg Wright is leading a strike team to make GHC work better on Macs
+- Greg Wright is leading a strike team to make GHC work better on Macs, and has fixed the RTS linker so that GHCi will now work in 64-bit mode on OS X.
 - Evan Laforge who has taken on some of the long-standing issues with the Mac installer
 - Sam Anklesaria implemented rebindable syntax for conditionals
 - ..who else..?
@@ -71,11 +71,12 @@ Here's a selection that we know about.
 
 ## Packages and the runtime system
 
-**Simon M**
+- Simon Marlow is working on a new garbage collector that is designed to improve scaling of parallel programs beyond small numbers of cores, by allowing each processor core to collect its own local heap independently of the other cores.  Some encouraging preliminary results were reported in a [ blog post](http://hackage.haskell.org/trac/ghc/blog/2010/9#new-gc-preview).  Work on this continues; the complexity of the system and the number of interacting design choices means that achieving an implementation that works well in a broad variety of situations is proving to be quite a challenge.
 
-- Independent parallel garbage collection \[Simon M\]
-- Better package management (esp wrt profiling)
-- Glorious new back end -fuse-new-codegen
+- The "new back end" is still under construction.  This is a rewrite of the part of GHC that turns STG syntax into C--, i.e. the bit between the Core optimisation passes and the native code generator.  The rewrite is based on 
+
+
+\[Hoopl\], a data-flow optimisation framework.  Ultimately this rewrite should enable better code generation.  The new code generator is already in GHC, but turned off by default; you get it with the flag `-fuse-new-codegen`.  Don't expect to get better code with this flag yet!
 
 ## The Parallel Haskell Project
 
@@ -124,3 +125,8 @@ Meanwhile, the Mac OS X installer has received some attention from Evan Laforge.
 - \[SHE\] The Strathclyde Haskell Enhancement, Conor McBride, 2010, [ http://personal.cis.strath.ac.uk/\~conor/pub/she/](http://personal.cis.strath.ac.uk/~conor/pub/she/)
 
 - \[TemplateHaskell\] New directions for Template Haskell, Peyton Jones, blog post October 2010, [ http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)
+
+- \[Hoopl\] Hoopl: A Modular, Reusable Library for
+
+
+Dataflow Analysis and Transformation, [ http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf)
