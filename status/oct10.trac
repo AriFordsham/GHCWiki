@@ -34,8 +34,16 @@ sleeves and help us with GHC.  Amongst those who have got involved recently are:
  * Milan Straka, for great work improving the performance of the widely-used containers package [[http://research.microsoft.com/~simonpj/papers/containers/containers.pdf Containers]]
  * Greg Wright is leading a strike team to make GHC work better on Macs, and has fixed the RTS linker so that GHCi will now work in 64-bit mode on OS X.
  * Evan Laforge who has taken on some of the long-standing issues with the Mac installer
- * Sam Anklesaria implemented rebindable syntax for conditionals
- * ..who else..?
+ * Sam Anklesaria implemented full import syntax for GHCi, and rebindable syntax for conditionals
+ * PHO, who improved the OS X support
+ * Sergei Trofimovich, who has fixed GHC on some less common Linux platforms
+ * Marco Túlio Gontijo e Silva, who has been working on the RTS
+ * Matthias Kilian, who has been working on *BSD support
+ * Dave Peixotto, who has improved the PAPI support
+ * Edward Z. Yang, who has implemented interruptible FFI calls
+ * Reiner Pope, who added view patterns to Template Haskell
+ * Gabor Pali, who added thread affinity support for FreeBSD
+ * Bas van Dijk has been improving the exceptions API
 At GHC HQ we are having way too much fun; if you wait for us to
 do something you have to wait a long time.  So don't wait; join in!  
 
@@ -66,9 +74,9 @@ Here's a selection that we know about.
 
 == The Parallel Haskell Project ==
 
-MSR is funding a 2-year project to push the real-world use of parallel Haskell. The project has recently kicked off with four industrial partners and with consulting and engineering support from Well-Typed. Each organisation is working on its own particular project making use of parallel Haskell. The overall goal is to demonstrate successful serious use of parallel Haskell and along the way to apply engineering effort to any problems with the tools that the organisations might run into.
+MSR is funding a 2-year project to push the real-world use of parallel Haskell. The project has recently kicked off with four industrial partners, with consulting and engineering support from Well-Typed. Each organisation is working on its own particular project making use of parallel Haskell. The overall goal is to demonstrate successful serious use of parallel Haskell, and along the way to apply engineering effort to any problems with the tools that the organisations might run into.
 
-We will shortly be announcing more details about the partner organisations and their projects. For the most part the projects are scientific and focus on single-node SMP systems, though we have one partner working on network servers and a partner very interested in clusters. In collaboration with Bernie Pope, the first tangible results from the project will be a new MPI binding.
+We will shortly be announcing more details about the partner organisations and their projects. For the most part the projects are scientific and focus on single-node SMP systems, though one of the partners is working on network servers and another partner is very interested in clusters. In collaboration with Bernie Pope, the first tangible results from the project will be a new MPI binding, which will appear on hackage shortly.
 
 Progress on the project will be reported to the community. Since there are now multiple groups in the community that are working on parallelism, the plan is to establish a parallel Haskell website and mailing list to provide visibility into the various efforts and to encourage collaboration.
 
