@@ -66,7 +66,11 @@ Here's a selection that we know about.
 
 == The Parallel Haskell Project ==
 
-'''Duncan to write'''
+MSR is funding a 2-year project to push the real-world use of parallel Haskell. The project has recently kicked off with four industrial partners and with consulting and engineering support from Well-Typed. Each organisation is working on its own particular project making use of parallel Haskell. The overall goal is to demonstrate successful serious use of parallel Haskell and along the way to apply engineering effort to any problems with the tools that the organisations might run into.
+
+We will shortly be announcing more details about the partner organisations and their projects. For the most part the projects are scientific and focus on single-node SMP systems, though we have one partner working on network servers and a partner very interested in clusters. In collaboration with Bernie Pope, the first tangible results from the project will be a new MPI binding.
+
+Progress on the project will be reported to the community. Since there are now multiple groups in the community that are working on parallelism, the plan is to establish a parallel Haskell website and mailing list to provide visibility into the various efforts and to encourage collaboration.
 
 == Data Parallel Haskell ==
 
