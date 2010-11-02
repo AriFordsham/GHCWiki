@@ -62,7 +62,7 @@ Here's a selection that we know about.
 
  * Iavor Diatchki plans to add '''numeric types''', so that you can have a type like `Bus 8`, and do simple arithmetic at the type level.  You can encode this stuff, but it's easier to use and more powerful to do it directly.
 
- * David Mazieres at Stanford wants to implement '''Safe Haskell''', a flag for GHC that will guarantee that your program does not use `unsafePerformIO`, foreign calls, RULES, and other stuff stuff.  This is part of his project to ... '''David pls fill in'''.
+ * David Mazieres at Stanford wants to implement '''Safe Haskell''', a flag for GHC that will guarantee that your program does not use `unsafePerformIO`, foreign calls, RULES, and other stuff stuff.  
 
 7.0 also has support for the Haskell 2010 standard, and the libraries that it specifies.
 
