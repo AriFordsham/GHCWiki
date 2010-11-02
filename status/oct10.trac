@@ -34,8 +34,15 @@ sleeves and help us with GHC.  Amongst those who have got involved recently are:
  * Milan Straka, for great work improving the performance of the widely-used containers package [[http://research.microsoft.com/~simonpj/papers/containers/containers.pdf Containers]]
  * Greg Wright is leading a strike team to make GHC work better on Macs, and has fixed the RTS linker so that GHCi will now work in 64-bit mode on OS X.
  * Evan Laforge who has taken on some of the long-standing issues with the Mac installer
- * Sam Anklesaria implemented rebindable syntax for conditionals
- * ..who else..?
+ * Sam Anklesaria implemented full import syntax for GHCi, and rebindable syntax for conditionals
+ * PHO, who improved the OS X support
+ * Sergei Trofimovich, who has fixed GHC on some less common Linux platforms
+ * Marco Túlio Gontijo e Silva, who has been working on the RTS
+ * Matthias Kilian, who has been working on *BSD support
+ * Dave Peixotto, who has improved the PAPI support
+ * Edward Z. Yang, who has implemented interruptible FFI calls
+ * Reiner Pope, who added view patterns to Template Haskell
+ * Gabor Pali, who added thread affinity support for FreeBSD
 At GHC HQ we are having way too much fun; if you wait for us to
 do something you have to wait a long time.  So don't wait; join in!  
 
