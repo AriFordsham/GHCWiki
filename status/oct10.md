@@ -50,6 +50,7 @@ sleeves and help us with GHC.  Amongst those who have got involved recently are:
 - Edward Z. Yang, who has implemented interruptible FFI calls
 - Reiner Pope, who added view patterns to Template Haskell
 - Gabor Pali, who added thread affinity support for FreeBSD
+- Bas van Dijk has been improving the exceptions API
 
 
 At GHC HQ we are having way too much fun; if you wait for us to
