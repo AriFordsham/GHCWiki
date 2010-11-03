@@ -50,6 +50,7 @@
  * #4090: failed `getRegister` in asm codegen
 
 === Other performance ===
+ * #4470: merge identical counters
  * #2439: Strict dictionaries
  * #3138: returning a known constructor (Lennart's cmonad package)
  * #2988: better float-in
@@ -136,6 +137,7 @@
 
 
 == Types and type inference ==
+ * #4466: explicit type application
  * #3490: superclasses and ambiguity
  * #3638: rules and rigidity for GADTs
  * #3632: better update for records with existentials
