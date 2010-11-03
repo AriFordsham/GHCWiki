@@ -177,5 +177,5 @@ No doubt we'll also need to specify some additional configuration parameters to 
 ## Things that probably need fixing
 
 - The configure script doesn't let you specify different `build`, `host`, and `target` right now
-- The build systme has no distinction between the gcc used to compile from build-\>build and build-\>host.
+- The build system has no distinction between the gcc used to compile from build-\>build and build-\>host.
 - We can't build anything with stage2 when cross-compiling, e.g. Haddock and DPH must be disabled.
