@@ -28,7 +28,7 @@ This mechanism replaces the [previous generic classes implementation](http://www
   - Change the `Class` definition to allow for generic defaults (in addition to standard defaults).
   - Generate default instances for representable types which derive generic classes.
 
-## To do
+## Testing
 
 - For temporary testing, a file test/Main.hs is available with sample datatypes.
 

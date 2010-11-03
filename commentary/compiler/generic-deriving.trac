@@ -25,7 +25,7 @@ This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_g
   * Change the `Class` definition to allow for generic defaults (in addition to standard defaults).
   * Generate default instances for representable types which derive generic classes.
 
-== To do ==
+== Testing ==
 
  * For temporary testing, a file test/Main.hs is available with sample datatypes.
 
