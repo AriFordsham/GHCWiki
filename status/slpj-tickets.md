@@ -54,6 +54,7 @@
 
 ### Other performance
 
+- [\#4470](https://gitlab.haskell.org//ghc/ghc/issues/4470): merge identical counters
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries
 - [\#3138](https://gitlab.haskell.org//ghc/ghc/issues/3138): returning a known constructor (Lennart's cmonad package)
 - [\#2988](https://gitlab.haskell.org//ghc/ghc/issues/2988): better float-in
