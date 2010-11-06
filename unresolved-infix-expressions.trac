@@ -1,0 +1,114 @@
+This page outlines a design for the "unresolved infix expressions" feature requested in #4430. Parts of this page are copied from the ticket.
+
+== Motivation ==
+Consider writing a quasiquoter to parse haskell (for example, the {{{parseHaskell}}} quasiquoter mentioned in Part D of Simon's [http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal New directions for Template Haskell]).
+
+How is the quasiquoter supposed to handle infix expressions, such as
+{{{
+foo = [parseHaskell| 3 * 5 + 4 |]
+}}}
+
+In order to parse this expression properly, the quasiquoter needs to know the fixities of the operators mentioned, and this information is only available at the call site. 
+
+The solution proposed in this page is to extend the TH syntax datatypes to support "unresolved infix expressions" -- so that a quasiquoter can essentially say, "I have done as much parsing as possible, but you (GHC) will have to handle the fixities".
+
+== The API change ==
+We add the following constructor (or similar) to template haskell's {{{Exp}}} datatype:
+
+{{{
+data Exp = 
+     ...
+     | UnresolvedInfixE [(Exp, Exp)] Exp Section
+     ...
+}}}
+and we add the following datatype:
+{{{
+data Section = NoSection
+             | LeftSection Exp
+             | RightSection Exp
+}}}
+
+with the understanding that {{{UnresolvedInfixE [("a","+"), ("b", "*")] "c" NoSection}}} (here, and later, I write strings in place of syntax trees) denote the (unparenthesised) expression {{{ a + b * c }}} with the expectation that GHC will apply the correct fixities when splicing (this will be explained in more detail later). The analogous interpretations for other values of the {{{Section}}} field are:
+{{{
+ UnresolvedInfixE [(e1,op1),(e2,op2),...,(en,opn)] efinal (LeftSection op)  ~~~ op e1 op1 e2 op2 ... en opn efinal
+ UnresolvedInfixE [(e1,op1),(e2,op2),...,(en,opn)] efinal (RightSection op) ~~~ e1 op1 e2 op2 ... en opn efinal op
+}}}
+
+== The meaning of splices containing {{{UnresolvedInfixE}}} ==
+Suppose we have a splice containing an {{{UnresolvedInfixE}}}, such as
+
+{{{
+foo = $( ... (UnresolvedInfixE exprs expr) ... )
+}}}
+
+As with all splices, GHC will evaluate the TH syntax tree and then convert this to the type of syntax tree that GHC uses internally. When GHC comes across a constructor 
+{{{
+UnresolvedInfixE [(e1,op1),(e2,op2),...,(en,opn)] efinal section
+}}}
+we use the following procedure:
+
+ 1. First, look up the operators {{{op1,...,opn}}} (and the operator in {{{section}}} if it exists) '''in the context where the {{{UnresolvedInfixE}}} occurs''', and find out their fixities.
+ 1. Now look at the "expression" 
+{{{
+    e1 op1 e2 op2 e3 op3 ... en opn efinal         (if section = NoSection)
+ op e1 op1 e2 op2 e3 op3 ... en opn efinal         (if section = LeftSection op)
+    e1 op1 e2 op2 e3 op3 ... en opn efinal op      (if section = RightSection op)
+}}}
+ and disambiguate it using the fixities of the {{{op1,...,opn,op}}} (following the Haskell rules for parsing unparenthesised infix expressions). The result will be a parenthesised (unambiguous) tree of infix expressions, for example any of the following:
+{{{
+ e1 op1 (e2 op2 (e3 op3 ... (en opn efinal)...)) -- if all operators were right-associative of equal precedence
+ (...((e1 op1 e2) op2 e3) ... en) opn efinal     -- if all operators were left-associative of equal precedence
+}}}
+   This is the syntax tree that results.
+
+Some special cases are worth pointing out.
+
+ * The bold phrase, above, "in the context where the {{{UnresolvedInfixE}}} occurs" simply means that the operators are looked up by following all the lexical scoping rules, so that the correct fixities are found even in the presence of name shadowing. So, our hypothetical {{{parseHaskell}}} quasiquoter would behave as expected on
+{{{
+ [parseHaskell| let (++) = ... in x ++ y ++ z |]
+}}}
+ in the sense that the infix expression {{{x ++ y ++ z}}} is resolved using the fixity of the locally-defined {{{(++)}}} operator, rather than the fixity of {{{(Prelude.++)}}}
+ * There is no special treatment of trees of {{{UnresolvedInfixE}}}. For example, the tree
+{{{
+ UnresolvedInfixE
+  (UnresolvedInfixE e1 op1 e2)
+    op2
+  (UnresolveInfixE e3 op3 e4)
+}}}
+  will resolve to
+{{{
+ (e1 op1 e2) op2 (e3 op3 e4)
+}}}
+  no matter what the fixities of the operators are. In particular, this means that the tree just listed above behaves differently from the tree
+{{{
+ UnresolvedInfixE e1 op1 e2 op2 e3 op3 e4
+}}}
+   It is crucial that these two trees are treated differently, because the {{{parseHaskell}}} quasiquoter needs to distinguish between the following two expressions:
+{{{
+ [parseHaskell| (a + b) + (c + d) |]
+ [parseHaskell| a + b + c + d     |]
+}}}
+  In the first expression, we do not want the compiler to reassociate the infix expression (because it is already parenthesised), but in the second expression, we do.
+ * We have the following equivalences of syntax trees, as far as they are treated when splicing:
+{{{ 
+ InfixE (Just e1) op (Just e2)    <--->    UnresolvedInfixE [(e1,op)] e2 NoSection
+ InfixE Nothing   op (Just e2)    <--->    UnresolvedInfixE []        e2 (LeftSection op)
+ InfixE (Just e1) op Nothing      <--->    UnresolvedInfixE []        e1 (RightSection op)
+ InfixE Nothing   op Nothing   <------------ this will be rejected when splicing.
+}}}
+  In view of the previous dot point, we see that there is also no special treatment for trees of {{{InfixE}}} and {{{UnresolvedInfixE}}} constructors.
+ * The following two syntax trees:
+{{{
+ UnresolvedInfixE [(e1,op1)] e2 (RightSection op)               say, generated by [parseHaskell| (2 + 3 +) |]
+}}}
+  and 
+{{{
+ InfixE                                                             
+   (Just $ UnresolvedInfixE [(e1,op1)] e2 NoSection)           say, generated by [parseHaskell| ((2 + 3) +) |]
+   op                                                               
+   Nothing                                                          
+}}}
+  are treated ''differently'' when splicing. If {{{(+)}}} is left-associative, then they will resolve the same way; if {{{(+)}}} is right-associative, then the first syntax tree will result in an error, whereas the second syntax tree will not.
+  [[BR]][[BR]]
+  This demonstrates that it is necessary to include sectioning information in the {{{UnresolvedInfixE}}} constructor, as we do not want to silently convert illegal section expressions (such as {{{(2 + 3 +)}}} when {{{(+)}}} is right-associative) into legal, but different, section expressions (say {{{((2 + 3) +)}}}).
+
