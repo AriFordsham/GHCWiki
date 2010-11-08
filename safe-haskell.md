@@ -1,4 +1,86 @@
 # Safe Haskell
 
 
-David: fill in here!
+This is a proposal for a Haskell extension through which people can safely execute untrusted Haskell code, much the way web browsers currently run untrusted Java and JavaScript, or the way the Spin and Singularity operating systems ran untrusted Modula-3 and C\#/Sing\#. The assumption is that untrusted Haskell code will be distributed in source form.  The party running the code will compile it using this proposed extension, and the extension will cause GHC to reject the code if importing it and evaluating its functions could cause unsafe effects.
+
+
+More specifically, there are two parts to this proposed extension:
+
+1. An option to GHC (`-XSafe`) that causes it to reject any source code that might produce unsafe effects.
+
+1. An option to GHC (`-XTrusted`) indicating that, even though a module might invoke unsafe functions internally, the set of exported symbols cannot be used in an unsafe way.
+
+## Safety Goal
+
+
+As long as no module compiled with `-XTrusted` contains a vulnerability, the goal of `-XSafe` is to guarantee the following properties:
+
+- **Referential transparency.**  Functions in a module compiled `-XSafe` must be deterministic.  Moreover, evaluating them should have no side effects, and should not halt the program (except by throwing uncaught exceptions or looping forever).
+
+- **Constructor access control.**  Code in a module compiled `-XSafe` must not be able to examine or synthesize data values using constructors the module cannot import.
+
+
+Note that `-XSafe` should not prevent use of the symbol `IO`.  Authors of normal (trusted) code may wish to use ` {-# LANGUAGE Safe #-} ` as a means of ensuring they do not accidentally invoke unsafe actions.  Applications incorporating untrusted code therefore bear responsibility for ensuring they do not execute `IO` actions from untrusted code.  (Untrusted code must be invoked by evaluating pure functions or executing computations in some monad that provides only restricted access to IO.)
+
+## Threats
+
+
+The following aspects of Haskell can be used to violate the safety goal, and thus would need to be disallowed when `-XSafe` is in effect.  *Please add more examples to this list, as some are likely missing.*
+
+- Some symbols in `GHC.Prim` can be used to do very unsafe things.  At least one of these symbols, `realWorld#`, is magically exported by `GHC.Prim` even though it doesn't appear in the `GHC.Prim` module export list.  *Are there other such magic symbols in this or other modules?*
+
+- A number of functions can be used to violate safety.  Many of these have names prefixed with `unsafe` (e.g., `unsafePerformIO`, `unsafeIterleaveIO`, `unsafeCoerce``unsafeSTToIO`, ...).  However, not all unsafe functions fit this pattern.  For instance, `inlinePerformIO` and `fromForeignPtr` from the `bytestring` package are unsafe.
+
+- Code that defines hand-crafted instances of `Typeable` can violate safety by causing `typeOf` to return identical results on two distinct types, then using `cast` to coerce between the two unsafely.  *Are there other classes?  Perhaps `Data` should also be restricted?  Simon says `Ix` doesn't need to be protected any more.*
+
+- Certain exposed constructors of otherwise mostly safe data types allow unsafe actions.  For instance, the `PS` constructor of `Data.ByteString.ByteString` contains a pointer, offset, and length.  Code that can see the pointer value can act in a non-deterministic way by depending on the address rather than value of a `ByteString`.  Worse, code that can use `PS` to construct `ByteString`s can include bad lengths that will lead to stray pointer references.
+
+- The `FFI` extension is inherently unsafe.
+
+- `TemplateHaskell` is also particularly dangerous, as it can cause side effects even at compilation time.
+
+- The `OverlappingInstances` extension may allow unsafe actions, because untrusted code can potentially redefine a type instance (by containing a more specific instance definition) in a way that changes the behavior of code importing the untrusted module.
+
+- Likewise, `RULES` and `SPECIALIZE` pragmas can change the behavior of trusted code in unanticipated ways.
+
+- `OPTIONS_GHC` is probably dangerous in unfiltered form, as it could potentially expose packages with trusted but not trustworthy modules.
+
+- The `StandaloneDeriving` extension can be used to violate constructor access control by defining instances of `Read` and `Show` to examine and construct data values with inaccessible constructors.
+
+- Similarly, `GeneralizedNewtypeDeriving` can also violate constructor access control, by allowing untrusted code to manipulate protected data types in ways the data type author did not intend.
+
+## Implementation details
+
+
+An interface file should record whether a module is safe.  When the module is safe, the interface file should additionally include a set of trusted modules on which the module depends.
+
+
+A module compiled with `-XTrusted` should be marked safe; its set of trusted modules should contain itself and only itself.
+
+
+A module compiled with `-XSafe` should only be able to import modules that are marked safe.  Its set of trusted modules should be the union of the trusted sets of all the modules it imports.
+
+
+Either `-XSafe` should disallow ` {-# LANGUAGE MagicHash #-} ` pragmas, or the `GHC.Prim` module might need to be split into two modules, `GHC.Prim.Unsafe` and `GHC.Prim`, where only the latter is safe.
+
+`-XSafe` should disallow the `FFI`, `TemplateHaskell`, `OverlappingInstances`, `StandaloneDeriving`, `GeneralizedNewtypeDeriving`, and `CPP` language extensions, as well as `RULES` and `SPECIALIZE` pragmas.
+
+`OPTIONS_GHC` pragmas will have to be filtered.  Some options, (e.g., -fno-warn-unused-do-bind) are totally fine, but many others are likely problematic (e.g., `-cpp`, which provides access to the local file system at compilation time, or `-F` which allows an arbitrary file to be executed, possibly even one named `/afs/`... and hence entirely under an attacker's control).
+
+
+Libraries will progressively need to be updated to export safe interfaces, which may require moving unsafe functions into separate modules, or adding new ` {-# LANGUAGE Safe #-} ` modules that re-export a safe subset of symbols.  Ideally, most modules in widely-used libraries would eventually contain either ` {-# LANGUAGE Safe -#} ` or ` {-# LANGUAGE Trusted -#} ` pragmas, except for internal modules or a few modules exporting unsafe symbols.  Maybe haddock could add some indicator to make it obvious which modules are safe.
+
+
+The `-XTrusted` command-line option and corresponding pragma do not increase what a module can do--the only effect is to mark the module's interface file as safe.  In particular, if both `-XTrusted` and `-XSafe` are supplied, then any unsafe actions will still cause a compilation error.  A plausible use for both pragmas simultaneously is to prune the list of trusted modules--for instance if a module imports a bunch of trusted modules but does not use any of their trusted features, or only uses those features in a very limited way.  If the code happens also to be safe, the programmer may want to add `-XSafe` to catch accidental unsafe actions.
+
+
+It might be nice to add a third option, ` {-# LANGUAGE Unsafe -#} `, which prevents a module from compiling with `-XSafe` and disables the `-XTrusted` option so that the interface file is guaranteed not to be marked safe.  This option could be used in seemingly safe modules that export constructors that would cause other modules to do unsafe things.  (The `PS` constructor discussed above is an example of a dangerous constructor that could potentially be defined in a module that happily compiles with `-XSafe`.)  This isn't strictly necessary, since one could always just enable another extension such as `FFI`, but having a specific `Unsafe` language option seems cleaner.
+
+## References
+
+
+The following links are to discussions of similar topics:
+
+- [ http://hackage.haskell.org/trac/ghc/ticket/1380](http://hackage.haskell.org/trac/ghc/ticket/1380)
+
+- [ http://hackage.haskell.org/trac/ghc/ticket/1338\#comment:29](http://hackage.haskell.org/trac/ghc/ticket/1338#comment:29)
