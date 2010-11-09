@@ -196,6 +196,7 @@
 
 ## Features
 
+- [\#4479](https://gitlab.haskell.org//ghc/ghc/issues/4479): type directed name resolution (TDNR)
 - [\#4426](https://gitlab.haskell.org//ghc/ghc/issues/4426): simpler rule for implicit quantification
 - [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotes
 - [\#4359](https://gitlab.haskell.org//ghc/ghc/issues/4359): lambda case
