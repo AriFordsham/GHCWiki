@@ -182,6 +182,7 @@
  * #4222: design of reification for TH
 
 == Features == 
+ * #4479: type directed name resolution (TDNR)
  * #4426: simpler rule for implicit quantification
  * #4372: better quasiquotes
  * #4359: lambda case
