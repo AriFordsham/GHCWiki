@@ -9,6 +9,10 @@ Safe Haskell assumes the following setup.
  * Clients X may send untrusted Haskell code to S ''in source form''
  * The server compiles this untrusted code, with the `-XSafe` flag.
  * If compilation succeeds, S can safely run the code, knowing that it cannot cause unsafe effects.
+ * The server S trusts 
+   * GHC, its supporting tools
+   * Any Haskell modules that S chooses to compile without `-XSafe`
+ * The server S does not trust client code. That is why it compiles it with `-XSafe`.
 
 More specifically, there are two parts to this proposed extension:
 
