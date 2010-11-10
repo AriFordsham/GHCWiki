@@ -26,7 +26,9 @@ As long as no module compiled with {{{-XTrusted}}} contains a vulnerability, the
 
  * '''Constructor access control.'''  Code in a module compiled {{{-XSafe}}} must not be able to examine or synthesize data values using constructors the module cannot import.
 
-Note that {{{-XSafe}}} should not prevent use of the symbol {{{IO}}}.  Authors of normal (trusted) code may wish to use {{{ {-# LANGUAGE Safe #-} }}} as a means of ensuring they do not accidentally invoke unsafe actions, directly or indirectly.  Applications incorporating untrusted code therefore bear responsibility for ensuring they do not execute {{{IO}}} actions from untrusted code.  (Untrusted code must be invoked by evaluating pure functions or executing computations in some monad that provides only restricted access to IO.)
+Note that {{{-XSafe}}} should not prevent use of the symbol {{{IO}}}.  Authors of normal (trusted) code may wish to use {{{ {-# LANGUAGE Safe #-} }}} as a means of ensuring they do not accidentally invoke unsafe actions, directly or indirectly.  
+
+Applications incorporating untrusted code therefore bear responsibility for ensuring they do not execute {{{IO}}} actions from untrusted code.  (Untrusted code must be invoked by evaluating pure functions or executing computations in some monad that provides only restricted access to IO.) '''SLPJ: I don't understand this para, esp the parenthesis.  Clarify?'''
 
 == Threats ==
 
