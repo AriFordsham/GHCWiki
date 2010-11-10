@@ -42,7 +42,7 @@ The following aspects of Haskell can be used to violate the safety goal, and thu
 
  * Certain exposed constructors of otherwise mostly safe data types allow unsafe actions.  For instance, the {{{PS}}} constructor of {{{Data.ByteString.ByteString}}} contains a pointer, offset, and length.  Code that can see the pointer value can act in a non-deterministic way by depending on the address rather than value of a {{{ByteString}}}.  Worse, code that can use {{{PS}}} to construct {{{ByteString}}}s can include bad lengths that will lead to stray pointer references.
 
- * The {{{FFI}}} extension is inherently unsafe.
+ * The {{{ForeignFunctionInterface}}} extension is mostly safe, but `foreign import` declarations that import a function with a non-`IO` type must be disallowed.
 
  * {{{TemplateHaskell}}} is also particularly dangerous, as it can cause side effects even at compilation time.
 
