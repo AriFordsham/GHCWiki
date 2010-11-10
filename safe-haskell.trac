@@ -1,12 +1,22 @@
 = Safe Haskell =
 
-This is a proposal for a Haskell extension through which people can safely execute untrusted Haskell code, much the way web browsers currently run untrusted Java and JavaScript, or the way the Spin and Singularity operating systems ran untrusted Modula-3 and C#/Sing#. The assumption is that untrusted Haskell code will be distributed in source form.  The party running the code will compile it using this proposed extension, and the extension will cause GHC to reject the code if importing it and evaluating its functions could cause unsafe effects.
+This is a proposal for a Haskell extension through which people can safely execute untrusted Haskell code, much the way web browsers currently run untrusted Java and !JavaScript, or the way the Spin and Singularity operating systems ran untrusted Modula-3 and C#/Sing#. 
+
+== Setup ==
+
+Safe Haskell assumes the following setup.
+ * A server S wants to run code provided by untrusted (and perhaps malicious) clients X.
+ * Clients X may send untrusted Haskell code to S ''in source form''
+ * The server compiles this untrusted code, with the `-XSafe` flag.
+ * If compilation succeeds, S can safely run the code, knowing that it cannot cause unsafe effects.
 
 More specifically, there are two parts to this proposed extension:
 
  1. An option to GHC ({{{-XSafe}}}) that causes it to reject any source code that might produce unsafe effects.
 
  2. An option to GHC ({{{-XTrusted}}}) indicating that, even though a module might invoke unsafe functions internally, the set of exported symbols cannot be used in an unsafe way.
+
+A module compiled with `-XSafe` can only import modules compiled with `-XTrusted` or `-XSafe`.
 
 == Safety Goal ==
 
