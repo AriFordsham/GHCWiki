@@ -28,7 +28,7 @@ As long as no module compiled with {{{-XTrusted}}} contains a vulnerability, the
 
 Note that {{{-XSafe}}} should not prevent use of the symbol {{{IO}}}.  Authors of normal (trusted) code may wish to use {{{ {-# LANGUAGE Safe #-} }}} as a means of ensuring they do not accidentally invoke unsafe actions, directly or indirectly.  
 
-Applications incorporating untrusted code therefore bear responsibility for ensuring they do not execute {{{IO}}} actions from untrusted code.  (Untrusted code must be invoked by evaluating pure functions or executing computations in some monad that provides only restricted access to IO.) '''SLPJ: I don't understand this para, esp the parenthesis.  Clarify?'''
+Of course, if an untrusted module exports an {{{IO}}} action, that action may have arbitrary side effects.  Compiling the module with {{{-XSafe}}} does not meaningfully restrict the effects of exported {{{IO}}} actions.  Hence, an application importing an untrusted but safe module may safely invoke pure functions from the untrusted module, but must avoid executing {{{IO}}} actions from the module.
 
 == Threats ==
 
@@ -50,7 +50,7 @@ The following aspects of Haskell can be used to violate the safety goal, and thu
 
  * Likewise, {{{RULES}}} and {{{SPECIALIZE}}} pragmas can change the behavior of trusted code in unanticipated ways. '''SLPJ: same question'''
 
- * {{{OPTIONS_GHC}}} is probably dangerous in unfiltered form, as it could potentially expose packages with trusted but not trustworthy modules. '''SLPJ: in general we must ensure that `-XSafe` is applied last, and overides everything else.  I don't think we need disable options entirely'''
+ * {{{OPTIONS_GHC}}} is dangerous in unfiltered form, as it could potentially expose packages with trusted but not trustworthy modules. {{{-XSafe}}} must be processed last after all other options.  If previous options conflict with {{{-XSafe}}}, they must be overrided or compilation must fail.
 
  * The {{{StandaloneDeriving}}} extension can be used to violate constructor access control by defining instances of {{{Read}}} and {{{Show}}} to examine and construct data values with inaccessible constructors.
 
@@ -58,13 +58,13 @@ The following aspects of Haskell can be used to violate the safety goal, and thu
 
 == Implementation details ==
 
- * An interface file should record whether a module is safe.  When the module is safe, the interface file should additionally include a set of trusted modules on which the module depends.  '''SLPJ:what is the function of the "set of trusted modules on which it depends"?'''
+ * An interface file should record whether a module is safe.  When the module is safe, the interface file should additionally include a set of trusted modules on which the module depends.  '''SLPJ:what is the function of the "set of trusted modules on which it depends"?''' There could be some option like {{{--trust-only}}} that restricts the set of packages from which trusted modules may be imported.  Thus one could restrict what modules safe code imports in a way that is independent of whatever happens to be installed in a user's {{{~/.cabal}}} directory.
 
  * A module compiled with {{{-XTrusted}}} should be marked safe; its set of trusted modules should contain itself and only itself.
 
  * A module compiled with {{{-XSafe}}} should only be able to import modules that are marked safe.  Its set of trusted modules should be the union of the trusted sets of all the modules it imports.
 
- * Either {{{-XSafe}}} should disallow {{{ {-# LANGUAGE MagicHash #-} }}} pragmas, or the {{{GHC.Prim}}} module might need to be split into two modules, {{{GHC.Prim.Unsafe}}} and {{{GHC.Prim}}}, where only the latter is safe. '''SLPJ: why?  Surely we just make GHC.Prim unsafe?  So you can't import it.'''
+ * {{{GHC.Prim}}} will need to be made (or just kept) unsafe.
 
  * {{{-XSafe}}} should disallow the {{{FFI}}}, {{{TemplateHaskell}}}, {{{OverlappingInstances}}}, {{{StandaloneDeriving}}}, {{{GeneralizedNewtypeDeriving}}}, and {{{CPP}}} language extensions, as well as {{{RULES}}} and {{{SPECIALIZE}}} pragmas.
 
