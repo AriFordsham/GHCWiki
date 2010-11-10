@@ -46,11 +46,11 @@ The following aspects of Haskell can be used to violate the safety goal, and thu
 
  * {{{TemplateHaskell}}} is also particularly dangerous, as it can cause side effects even at compilation time.
 
- * The {{{OverlappingInstances}}} extension may allow unsafe actions, because untrusted code can potentially redefine a type instance (by containing a more specific instance definition) in a way that changes the behavior of code importing the untrusted module.
+ * The {{{OverlappingInstances}}} extension may allow unsafe actions, because untrusted code can potentially redefine a type instance (by containing a more specific instance definition) in a way that changes the behavior of code importing the untrusted module. '''SLPJ: this may be undesirable, but does it violate the Safety Goal?'''
 
- * Likewise, {{{RULES}}} and {{{SPECIALIZE}}} pragmas can change the behavior of trusted code in unanticipated ways.
+ * Likewise, {{{RULES}}} and {{{SPECIALIZE}}} pragmas can change the behavior of trusted code in unanticipated ways. '''SLPJ: same question'''
 
- * {{{OPTIONS_GHC}}} is probably dangerous in unfiltered form, as it could potentially expose packages with trusted but not trustworthy modules.
+ * {{{OPTIONS_GHC}}} is probably dangerous in unfiltered form, as it could potentially expose packages with trusted but not trustworthy modules. '''SLPJ: in general we must ensure that `-XSafe` is applied last, and overides everything else.  I don't think we need disable options entirely'''
 
  * The {{{StandaloneDeriving}}} extension can be used to violate constructor access control by defining instances of {{{Read}}} and {{{Show}}} to examine and construct data values with inaccessible constructors.
 
