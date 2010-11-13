@@ -5,7 +5,7 @@ Haskell compiler. It defines how the Haskell evaluation model
 should be efficiently implemented on standard hardware. Despite
 this key role, it is generally poorly understood amongst GHC users.
 This document aims to provide an overview of the STG machine in
-it's modern, eval/apply-based, pointer-tagged incarnation by a
+its modern, eval/apply-based, pointer-tagged incarnation by a
 series of simple examples showing how Haskell source code is
 compiled.
 
@@ -645,7 +645,7 @@ overwrites the old pointer to a closure of type ()):
 
 }}}
 
-Because `known_fun_2` is of arity 2, when we jump to it's entry
+Because `known_fun_2` is of arity 2, when we jump to its entry
 code, it will only consume the top two arguments from the stack:
 i.e. the two pointers to `base_GHCziBase_id_closure`. It will then
 evaluate to some sort of value and transfer control to the entry
@@ -1050,7 +1050,7 @@ as the `Nothing` or as the `Just` branch of the case:
 }}}
 
 As we saw earlier, any time that the STG machine decides that it
-has a value in it's hand, it will continue evaluation by
+has a value in its hand, it will continue evaluation by
 tail-calling the entry code found by dereferencing the info-table
 pointer at the top of the stack. So by putting the address of our
 continuation in here, we ensure that the entry code for `scj_info`
