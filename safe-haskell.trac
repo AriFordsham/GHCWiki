@@ -50,7 +50,7 @@ The following aspects of Haskell can be used to violate the safety goal, and thu
 
  * {{{TemplateHaskell}}} is also particularly dangerous, as it can cause side effects even at compilation time.
 
- * The {{{OverlappingInstances}}} extension may allow unsafe actions, because untrusted code can potentially redefine a type instance (by containing a more specific instance definition) in a way that changes the behavior of code importing the untrusted module. '''SLPJ: this may be undesirable, but does it violate the Safety Goal?'''
+ * The {{{OverlappingInstances}}} extension may allow unsafe actions, because untrusted code can potentially redefine a type instance (by containing a more specific instance definition) in a way that changes the behaviour of code importing the untrusted module. To avoid that, overlapping instances declarations must come only from modules compiled with {{{-XTrusted}}} or modules compiled with {{{-XSafe}}}. It is not safe to allow an overlapping instance declaration for a given class in a modules compiled with {{{-XTrusted}}} and another overlapping instance declaration for the same class in a module compiled with {{{-XSafe}}}. It is also not safe to allow overlapping instances placed in different modules compiled with {{{-XSafe}}}. '''SLPJ: this may be undesirable, but does it violate the Safety Goal?'''
 
  * Likewise, {{{RULES}}} and {{{SPECIALIZE}}} pragmas can change the behavior of trusted code in unanticipated ways. '''SLPJ: same question'''
 
