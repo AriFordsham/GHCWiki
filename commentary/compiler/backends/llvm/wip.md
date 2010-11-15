@@ -1,7 +1,7 @@
 # Work in Progress on the LLVM Backend
 
 
-This page is meant to collect together information about people working on (or interested in working on) LLVM in GHC, and the projects they are looking at.  See also the [state of play of the whole back end](commentary/compiler/new-code-gen).
+This page is meant to collect together information about people working on (or interested in working on) LLVM in GHC, and the projects they are looking at.  See also the [state of play of the whole back end](commentary/compiler/new-code-gen). This is more a page of ideas for improvements to the LLVM backend and less so an indication of actual work going on.
 
 ### LLVM IR Representation
 
@@ -51,3 +51,16 @@ This is more of an experimental idea but the LLVM back-end looks like it would m
 
 
 It would also be interesting to looking into improving GHC to support cross compiling and doing this through the LLVM back-end as it should be easier to fix up to support this feature than the C or NCG back-ends.
+
+### Get rid of Proc Point Splitting
+
+
+When Cmm code is first generated a single Haskell function will be mostly compiled to one Cmm function. This Cmm function isn't passed to the backends though as the CPS style used in it requires that the backends be able to take the address of labels in a function since they're used as return points. The C backend can't support this. While there is a GNU C extension allowing the address of a label to be taken, the address can only be used locally (in the same function). So what proc point splitting does is cut a single Cmm function into multiple top level Cmm functions so that instead of needing to take the address of a label, we now take the address of a function.
+
+
+It would be nice to get rid of proc point splitting. This is one of the goals for the new code generator. This will give us much bigger Cmm functions which should give more room for LLVM to optimise. There is an issue though that LLVM doesn't support taking the address of a local label either. So will need to add support to LLVM for taking label addresses or convert CPS style into something more direct if thats possible.
+
+### Don't Pass Around Dead STG Registers
+
+
+At the moment in the LLVM backend we always pass around the pinned STG registers as arguments for every Cmm function. A huge amount of the time though we aren't storing anything in the STG registers, they are dead really. If we can treat the correctly as dead then LLVM will have more free registers and the allocator should do a better job. We need to change the STG -\> Cmm code generator to attach register liveness information at function exit points (e.g calls, jumps, returns).
