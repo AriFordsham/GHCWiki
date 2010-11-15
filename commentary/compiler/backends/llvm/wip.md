@@ -30,6 +30,7 @@ So:
 - Look into the LLVM optimiser, e.g perhaps some more work in the style of [ Don's work](http://donsbot.wordpress.com/2010/03/01/evolving-faster-haskell-programs-now-with-llvm/)
 - Look at any new optimisation passes that could be written for LLVM which would help to improve the code it generates for GHC.
 - Look at general fixes/improvement to LLVM to improve the code it generates for LLVM.
+- Sometimes there is a benefit from running the LLVM optimiser twice of the code (e.g opt -O3 \| opt -O3 ...). We should add a command line flag that allows you to specify the number of iterations you want the LLVM optimiser to do.
 
 ### Update the Back-end to use the new Cmm data types / New Code Generator
 
