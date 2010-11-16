@@ -61,3 +61,5 @@ These new operations require a new register size (128 bit), both in Cmm and in t
 
 - Not all processors provide these machine operations on packed datatypes and not all x86 processors provide all the SSE extensions.  I propose to add capability tests (`sse, sse2` etc.) to `System.Info` for the programmer to be able to determine whether to use these packed primOps.  Thus if Haskell code uses primOps which the CPU does not support, there will be a compile-time error.
 - It would be possible to add a Cmm pass that converts operations on packed datatypes to operations on a set of scalar types, however, it is cleaner and more efficient to not use packed datatypes on machines that do not provide those SIMD instructions.
+- On the x86_64 architecture, there are 4 Float registers and 2 Double registers.  These actually use the `xmm` registers, so there are only two left to use as packed registers.  My current solution is to reduce the Float registers to 3 so that there are 3 `xmm` registers.
+- SSE4 capable CPUs have 16 `xmm` registers, but I am unsure as to how to approach checking for these extra registers, since the registers to use are hard coded in C.
