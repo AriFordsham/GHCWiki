@@ -65,6 +65,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
   - [HaddockComments](haddock-comments): Some notes about how the Haddock comment support is implemented.
   - [ExplicitCallStack](explicit-call-stack): Notes about maintaining an explicit call stack, to support error attribution and profiling.
   - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
+  - [SIMD](simd): Notes on adding SIMD instructions and primOps to GHC
 
 - The Runtime System
 
