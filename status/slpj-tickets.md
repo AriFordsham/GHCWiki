@@ -97,6 +97,7 @@
 ## Outright bugs
 
 - [\#1148](https://gitlab.haskell.org//ghc/ghc/issues/1148), [\#2267](https://gitlab.haskell.org//ghc/ghc/issues/2267), [\#1074](https://gitlab.haskell.org//ghc/ghc/issues/1074), [\#2436](https://gitlab.haskell.org//ghc/ghc/issues/2436), [\#1792](https://gitlab.haskell.org//ghc/ghc/issues/1792), (related [\#3082](https://gitlab.haskell.org//ghc/ghc/issues/3082)): “Unused import” warnings should be generated from `RdrNames`
+- [\#4404](https://gitlab.haskell.org//ghc/ghc/issues/4404): wrong "defined but not used" message with `RecordWildCards`
 - [\#2182](https://gitlab.haskell.org//ghc/ghc/issues/2182): GHCi session retains instance after removing a module from scope        
 - [\#1241](https://gitlab.haskell.org//ghc/ghc/issues/1241): Lifting the Coverage Condition for functional dependencies isn’t the Right Thing        Manuel
 - [\#1954](https://gitlab.haskell.org//ghc/ghc/issues/1954): Incorrect “defined but not used” msg        
