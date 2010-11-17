@@ -81,6 +81,48 @@ dIB
 
 == Main proposal ==
 
+Recall our basic types
+{{{
+type Id    = Var   -- in Var.lhs
+type TyVar = Var
+
+data CoreExpr      -- in CoreSyn.lhs
+  = Var Var 
+  | Lit Lit
+  | Type Type
+  | Coercion Coercion
+  | App CoreExpr CoreExpr
+  | Lam Var CoreExpr
+  | Cast CoreExpr Coercion
+  | Let CoreBind CoreExpr
+  | Case... | Note ...
+
+
+data CoreBind = NonRec Var CoreExpr
+              | Rec [(Id,CoreExpr)]
+
+
+
+data Type          -- in TypeRep.lhs
+  = TyVar TyVar
+  | AppTy Type Type
+  | FunTy Type Type
+  | ForAllTy Var Type
+  | PredTy PredType
+  | TyConApp TyCon [Type]
+
+data PredType
+  = EqPred Type Type
+  | ClassP Class [Type]
+  | IParam Name Type 
+}}}
+Note that
+ * `Var` can be a type variable, coercion variable, or term variable.  You can tell which with a dynamic test (e.g. `isId :: Var -> Bool`).
+ * `Lam` is used for type abstractions, coercion abstractions, and value abstractions.  The `Var` can tell you which.
+ * Type applications (in a term) look like `(App f (Type t))`.  The `(Type t)` part must literally appear there,  with no intervening junk.  This is not statically enforced, but it turns out to be much more convenient than having a constructor `TyApp CoreExpr Type`.
+
+
  * Treat equality evidence just like any other sort of evidence.
    * A coercion variable is an `Id`, not a `TyVar`.
-   * 
+   * A coercion is an `CoreExpr` whose type is `(s ~ t)` or
+   * A function can reu
