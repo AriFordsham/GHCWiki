@@ -54,6 +54,7 @@
 
 ### Other performance
 
+- [\#2607](https://gitlab.haskell.org//ghc/ghc/issues/2607): space leak: inlining defeats selector thunk optimisation
 - [\#4470](https://gitlab.haskell.org//ghc/ghc/issues/4470): merge identical counters
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries
 - [\#3138](https://gitlab.haskell.org//ghc/ghc/issues/3138): returning a known constructor (Lennart's cmonad package)
@@ -223,7 +224,6 @@
 
 ## Not sure what to do about these
 
-- [\#2607](https://gitlab.haskell.org//ghc/ghc/issues/2607): space leak: inlining defeats selector thunk optimisation
 - [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284): the state-hack "optimisation" causes much re-computation
 - [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872): divergence in simplifier
 - [\#4005](https://gitlab.haskell.org//ghc/ghc/issues/4005): generational GC pathalogical case
