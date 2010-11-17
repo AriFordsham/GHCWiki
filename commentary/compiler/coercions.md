@@ -110,3 +110,13 @@ dIB :: C Int Bool
 dIB
   g Int Bool d
 ```
+
+
+...unfinished...
+
+## Main proposal
+
+- Treat equality evidence just like any other sort of evidence.
+
+  - A coercion variable is an `Id`, not a `TyVar`.
+  - 
