@@ -1,0 +1,78 @@
+= Coercions in GHC's core language =
+
+Ever since coercions were introduced into GHC's Core language
+I have treated
+ * Coercions like types
+ * Coercion variables like type variables
+In particular, casts, coercion applications, and coercion 
+abstractoins are all erased before we generate code.
+
+I now think that this is the wrong approach.  This note describes why.
+
+== Difficulties with the current approach ==
+
+Ther are two problems with the current approach
+
+ * Equality evidence variables ("type variables") are treated differently to dictionary evidence variables ("term varaibles"). This leads to lots of tiresome non-uniformities.
+ * In an abstraction `/\a\x:a.e` the type variable `a` can appear in the type of a term-variable binder `x`.  In contrast `x` can't appear in the type of another binder.  Coercion binders behave exactly like term binders in this way, and quite unlike type binders.
+ * More seeriously, we don't have a decent way to handle superclass equalities.
+
+The last problem is the one that triggered this note, and needs a bit more explanation.  Consider
+{{{
+class (F a ~ b, Eq a) => C a b where
+  op :: a -> b
+}}}
+The dictionary for C looks like this:
+{{{
+data C a b where
+  MkC :: (F a ~ b, Num a) => (a->b) -> C a b
+}}}
+Now imagine typechecking a function like this
+{{{
+f :: C a b => a -> a 
+f x = x + 1
+}}}
+The Core program we generate looks something like this:
+{{{
+f = /\a b. \(d:C a b).
+    let (nd : Num a) = case d of { MkC _ d _ -> d }
+    in (+) nd x (fromInteger nd 1)
+}}}
+The `nd` binding extracts the `Num` superclass dictionary from the
+`C` dictionary; the case expression is called a ''superclass selector''.
+
+Now suppose that we needed to use the equality superclass rather than
+the `Num` superclass:
+{{{
+g :: C a b => [F a] -> [b]
+g xs = xs
+}}}
+The obvious translation would look like this:
+{{{
+g = /\ab. \(d:C a b).
+    let (eq : F a ~ b) = case d of { MkC eq _ _ -> eq }
+    in xs |> [eq]
+}}}
+But Core doesn't (currently) have a let-binding form that binds a coercion 
+variable, and whose right-hand side is a term (in this example, a case expression)
+rather than a literal coercion!  So the current plan is to generate this 
+instead:
+{{{
+g = /\ab. \(d:C a b).
+    case d of { MkC eq _ _ -> 
+    in xs |> [eq] }
+}}}
+This non-uniformity of equality and dictionary evidence 
+is extremely awkward in the desugarer. Moreover, it means that we can't abstract
+the superclass selector; we'd really like to have:
+{{{
+g = /\ab. \(d:C a b).
+    let (eq : F a ~ b) = sc_sel1 d
+    in xs |> [eq]
+}}}
+And it interacts poorly with the class-op rules that GHC uses to simplify
+dictinary selectors.  Imagine the call
+{{{
+dIB :: C Int Bool
+dIB
+  g Int Bool d
