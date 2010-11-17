@@ -176,14 +176,13 @@ OK now the new proposal is to *treat equality evidence just like any other sort 
   c :: x~Int
   ```
 
+  Then the term `(f x (id (x~Int) c))` would be fine. Notice that the coercion argument is an appplication of the identity function.  (Yes it's a bit contrived.)  In `CoreExpr` form it would look like:
 
-Then the term `(f x (id (x~Int) c))` would be fine. Notice that the coercion argument is an appplication of the identity function.  (Yes it's a bit contrived.)  In `CoreExpr` form it would look like:
-
-```wiki
-  App (App (Var f) (Type x))
-      (App (App (Var id) (Type (PredTy (EqPred x Int))))
-           (Var c))
-```
+  ```wiki
+    App (App (Var f) (Type x))
+        (App (App (Var id) (Type (PredTy (EqPred x Int))))
+             (Var c))
+  ```
 
 - Similarly a let-binding can bind a coercion
 

@@ -132,7 +132,7 @@ f :: forall a. (a~Int) => a -> Int
 id :: forall b. b->b
 c :: x~Int
 }}}
-Then the term `(f x (id (x~Int) c))` would be fine. Notice that the coercion argument is an appplication of the identity function.  (Yes it's a bit contrived.)  In `CoreExpr` form it would look like:
+   Then the term `(f x (id (x~Int) c))` would be fine. Notice that the coercion argument is an appplication of the identity function.  (Yes it's a bit contrived.)  In `CoreExpr` form it would look like:
 {{{ 
   App (App (Var f) (Type x))
       (App (App (Var id) (Type (PredTy (EqPred x Int))))
