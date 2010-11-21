@@ -14,3 +14,5 @@ GHC does not support GPUs so far.
 == See also ==
 
 * [http://perilsofparallel.blogspot.com/2008/09/larrabee-vs-nvidia-mimd-vs-simd.html The Perils of parallel: Larrabee vs. Nvidia, MIMD vs. SIMD]
+
+* [http://hackage.haskell.org/trac/ghc/wiki/VectorComputing VectorComputing]  The page for discussion of the SIMD feature addition to GHC.
