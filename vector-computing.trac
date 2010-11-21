@@ -2,6 +2,20 @@
 
 This page is to collect notes about adding vector instructions to GHC.
 
+In contrast to pure SIMD (single instruction multiple data) parallel computing as found in GPUs,
+vector processing includes permutation of vector elements which
+allows for certain efficient algorithms
+(see Guy Blelloch: [http://www.cs.cmu.edu/afs/cs.cmu.edu/project/scandal/public/papers/CMU-CS-90-190.html Prefix Sums and Their Applications])
+that reduce computation from n scalar operations to log n vector operations using vectors of size n.
+Example: Compute the cumulative sum of a 4-element vector using a shift operation
+that shifts elements and clears unused elements:
+
+{{{
+v0 = [x0, x1, x2, x3]
+v1 = v0 + shiftr 1 v0  -- v1 = [x0, x0+x1, x1+x2, x2+x3]
+v2 = v1 + shiftr 2 v1  -- v2 = [x0, x0+x1, x0+x1+x2, x0+x1+x2+x3]
+}}}
+
 A number of processors support vector operations.
 These are operations that apply (arithmetic) operations on elements of fixed sized arrays simultaneously.
 The X86 instructions are provided by SSE (streaming SIMD extension), SSE2, SSE3, SSE4.1, and SSE4.2.
