@@ -52,11 +52,11 @@ We therefore extend the interface file format to record for each module M whethe
 
  * ''If a module is compiled with `-XTrustworthy`'', then its trust dependencies always include itself, plus the union of trust dependencies of all modules imported with the `safe` keyword.
 
- * ''If a module is compiled with `-XSafe` but not `-XTrustworthy`'', then its trust dependencies are the union trust dependencies of all modules it imports.
+ * ''If a module is compiled with `-XSafe` but not `-XTrustworthy`'', then its trust dependencies are the union of trust dependencies of all modules it imports.
 
  * If a module was compiled with neither `-XSafe` nor `-XTrustworthy`, or, regardless of these options, if a module contains a `{-# LANGUAGE Untrustworthy #-}` pragma, then the interface file marks the module as not trustable, so there are no trust dependencies.
 
-Currently, in any given run of the compiler, GHC classifies each package as either exposed or hidden.  To incorporate trust, we add a second bit specifying whether each package is trusted or untrusted.  This bit will be controllable by two new options to `ghc-pkg`, `trust` and `distrust`, which are analogous to `expose` and `hide`.  (The trust bit is meaningless while a package is hidden, but will stay in the package database for when the package is exposed.)
+Currently, in any given run of the compiler, GHC classifies each package as either exposed or hidden.  To incorporate trust, we add a second bit specifying whether each package is trusted or untrusted.  This bit will be controllable by two new options to `ghc-pkg`, `trust` and `distrust`, which are analogous to `expose` and `hide`.
 
 On the command line, several new options control which packages are trusted:
 
@@ -64,9 +64,9 @@ On the command line, several new options control which packages are trusted:
 
  * `-distrust` __P__ - exposes package __P__ (if it was hidden), and considers it an untrusted package, regardless of the contents of the package database.
 
- * `-distrust-all-packages` - considers all packages untrusted unless they are explicitly trusted by subsequent command-line options.
+ * `-distrust-all-packages` - considers all packages untrusted unless they are explicitly trusted by subsequent command-line options.  (This option does not change the exposed/hidden status of packages, so is not equivalent to applying `-distrust` to all packages on the system.)
 
- * A convenience option `-ultrasafe` is equivalent to {{{-distrust-all-packages -XSafe -XNoForeignFunctionInterface -XNoImplicitPrelude}}}.
+ * A convenience option `-ultrasafe` is equivalent to {{{-distrust-all-packages -XNoForeignFunctionInterface -XNoImplicitPrelude -XSafe}}}.
 
 None of these options can be specified or overwritten by `OPTIONS_GHC` pragmas in the Safe dialect.
 
