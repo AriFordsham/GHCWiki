@@ -124,7 +124,7 @@ Over-reliance on magic functions such as `unsafePerformIO` or magic symbols such
 
 === Restricted IO monads ===
 
-When defining interfaces for possibly malicious plugin modules, the interface can require the plugin to provide a computation in a monad that allows only restricted IO actions.  For instance, consider defining an interface for a module `Danger` provided by an untrusted programmer.  `Danger` should be allowed to read and write particular files (by name), but should not be able do any other form of IO, even though we don't trust it's author not to try.
+When defining interfaces for possibly malicious plugin modules, the interface can require the plugin to provide a computation in a monad that allows only restricted IO actions.  For instance, consider defining an interface for a module `Danger` provided by an untrusted programmer.  `Danger` should be allowed to read and write particular files (by name), but should not be able do any other form of IO, even though we don't trust its author not to try.
 
 We define the plugin interface so that it requires `Danger` to export a single computation, `Danger.runMe`, of type {{{RIO ()}}}, where `RIO` is a new monad defined as follows:
 
