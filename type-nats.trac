@@ -1,0 +1,10 @@
+This page collects information on how to work with type-level natural numbers, as implemented in the Haskell compiler GHC (ticket #4385).
+
+  * [wiki:TypeNats/Basics           Type-Level Naturals Basics]
+  * [wiki:TypeNats/BasicExamples    Simple Examples of Using GHC.TypeNats]
+  * [wiki:TypeNats/Implementation   Implementation of GHC.TypeNats]
+  * [wiki:TypeNats/ImplicitExplicit Design Notes about Nat vs. TypeNat]
+
+External links:
+  * [http://code.galois.com/darcs/type-naturals/ Source repos]  
+  * More advanced example: https://github.com/yav/memory-arrays/tree/master
