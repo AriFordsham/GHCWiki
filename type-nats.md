@@ -10,4 +10,4 @@ This page collects information on how to work with type-level natural numbers, a
 External links:
 
 - [ Source repos](http://code.galois.com/darcs/type-naturals/)
-- More advanced example: [ https://github.com/yav/memory-arrays/tree/maste](https://github.com/yav/memory-arrays/tree/maste)
+- More advanced example: [ https://github.com/yav/memory-arrays/tree/master](https://github.com/yav/memory-arrays/tree/master)
