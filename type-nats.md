@@ -1,3 +1,5 @@
+# Type Level Naturals
+
 
 This page collects information on how to work with type-level natural numbers, as implemented in the Haskell compiler GHC (ticket [\#4385](https://gitlab.haskell.org//ghc/ghc/issues/4385)).
 
