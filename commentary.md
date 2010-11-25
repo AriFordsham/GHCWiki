@@ -46,6 +46,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
 
 - The Compiler
 
+  - [Type level naturals](type-nats)
   - [The new deriving mechanism](commentary/compiler/generic-deriving)
   - Notes about Template Haskell?
   - [Notes about the new code generator](commentary/compiler/new-code-gen)
