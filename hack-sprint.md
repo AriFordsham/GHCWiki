@@ -12,11 +12,11 @@ Location : Heriot-Watt
 
 
 So far:
-[ Hans-Wolfgang Loidl](http://www.macs.hw.ac.uk/~hwloidl/), Mischa Dieterle, Thomas Horstmeyer, [ Jost Berthold](http://www.mathematik.uni-marburg.de/~berthold/), [ Henrique Ferreiro](http://www.madsgroup.org/staff/henrique/), David Castro Pérez
+[ Hans-Wolfgang Loidl](http://www.macs.hw.ac.uk/~hwloidl/) (Host), Mischa Dieterle, Thomas Horstmeyer, [ Jost Berthold](http://www.mathematik.uni-marburg.de/~berthold/), [ Henrique Ferreiro](http://www.madsgroup.org/staff/henrique/), David Castro Pérez
 
 
 To be confirmed:
-Vladimir Janjic (Host), [ Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Mustafa Aswad, Malak Aljabri, [ Philip W Trinder](http://www.macs.hw.ac.uk/~trinder/), Patrick Maier, Robert Stewart
+Vladimir Janjic, [ Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Chris Brown, Mustafa Aswad, Malak Aljabri, [ Philip W Trinder](http://www.macs.hw.ac.uk/~trinder/), Patrick Maier, Robert Stewart
 
 ## Agenda
 
