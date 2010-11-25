@@ -1,3 +1,8 @@
+## Template Haskell design
+
+
+See [Template%20Haskell%20Proposal](/trac/ghc/blog/Template%2520Haskell%2520Proposal)
+
 ## Template Haskell Conversions
 
 
