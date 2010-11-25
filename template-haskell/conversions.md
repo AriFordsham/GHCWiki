@@ -1,3 +1,8 @@
+## Template Haskell design
+
+
+See [ New directions for Template Haskell](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)
+
 ## Template Haskell Conversions
 
 

@@ -1,3 +1,7 @@
+== Template Haskell design ==
+
+See [http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal New directions for Template Haskell]
+
 == Template Haskell Conversions ==
 
 There are various conversions between datatypes involved in the Template Haskell implementation.  The following diagram summarises the operations and how they compose, and proposes a refactoring.
