@@ -4,7 +4,10 @@
 This page will describe the GpH and Eden parallel variants of GHC.  This is work in progress.
 
 
-St Andrews has hosted the [HackPar](hack-par) parallel hackathon in December.
+St Andrews has hosted the [HackPar](hack-par) parallel hackathon in December 2009.
+
+
+Heriot-Watt will host a [HackSprint](hack-sprint) meeting 12-14th December 2010. 
 
 
 A series of [Parallel Hacker Meetings](gp-h-eden/meetings) has been launched.
