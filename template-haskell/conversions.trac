@@ -1,6 +1,6 @@
 == Template Haskell design ==
 
-See [blog:Template%20Haskell%20Proposal]
+See [http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal New directions for Template Haskell]
 
 == Template Haskell Conversions ==
 
