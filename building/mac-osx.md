@@ -178,6 +178,3 @@ do:
 sudo port install python_select
 sudo python_select python26
 ```
-
-[ data recovery mac](http://www.stellarinfo.com/mac-data-recovery.htm) \|
-[ mac recovery](http://mackeeper.zeobit.com/mac-data-recovery)
