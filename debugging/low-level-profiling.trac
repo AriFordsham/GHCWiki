@@ -13,6 +13,7 @@ Linux tools:
  * '''PAPI''': [wiki:Debugging/LowLevelProfiling/PAPI]
  * '''oprofile''' [wiki:Debugging/LowLevelProfiling/oprofile]
  * '''qprof''' [wiki:Debugging/LowLevelProfiling/QProf]
+ * '''mutrace''': pthread mutex profiling [wiki:Debugging/LowLevelProfiling/mutrace]
 
 Mac & BSD tools:
 
