@@ -8,12 +8,14 @@ These axioms are used by GHC's solver to construct proofs/evidence for various p
 The actual algorithm for constructing the evidence is described as set of rules (interactions) which are described separately.
 
 
+The "\*Def" axioms bellow look a bit odd but all they are saying is that the predicates which are being defined behave like their corresponding mathematical operations.
+
+
 Notation:
 
 ```wiki
-m,n:    literals of kind Nat
+k,m,n:  literals of kind Nat
 r,s,t:  arbitrary terms of kind Nat
-{expr}: 
 ```
 
 
@@ -30,7 +32,7 @@ leqTrans:    (r <= s, s <= t) => r <= t
 Addition:
 
 ```wiki
-addDef:      m + n ~ {m + n}
+addDef:      m + n ~ k     -- if "m + n == k"
 addUnit:     0 + t ~ t
 addAssoc:    (r + s) + t ~ r + (s + t)
 addCommutes: t + s ~ s + t
@@ -41,7 +43,7 @@ addCancel:   (r + s ~ r + t) => s ~ t
 Multiplication:
 
 ```wiki
-mulDef:      m * n ~ {m * n}
+mulDef:      m * n ~ k   -- if "m * n == k"
 mulUnit:     1 * t ~ t
 mulAssoc:    (r * s) * t ~ r * (s * t)
 mulCommutes: t * s ~ s * t
