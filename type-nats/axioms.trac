@@ -2,7 +2,7 @@
 
 These axioms are used by GHC's solver to construct proofs/evidence for various predicates involving type-level naturals.
 
-The actual algorithm for constructing the evidence is described as set of rules (interactions) which are described separately.
+The actual algorithm for constructing the evidence is implemented as set of rules (interactions) which are described separately.
 
 The "*Def" axioms bellow look a bit odd but all they are saying is that the predicates which are being defined behave like their corresponding mathematical operations.
 
