@@ -7,6 +7,7 @@ This page collects information on how to work with type-level natural numbers, a
 - [Simple Examples of Using GHC.TypeNats](type-nats/basic-examples)
 - [Implementation of GHC.TypeNats](type-nats/implementation)
 - [Design Notes about Nat vs. TypeNat](type-nats/implicit-explicit)
+- [Axioms for Natural Number Operators](type-nats/axioms)
 
 
 External links:
