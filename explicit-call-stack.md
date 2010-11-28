@@ -566,3 +566,4 @@ And we have these instances:
 
 
 We might like to trace the wibbit function, but only for the `MyType` instance, and not the existing instances. The problem is that we only want the `MyType` version to receive a stack argument, whereas we don't want to give a stack argument to the other versions of wibbit. Because wibbit is overloaded we run into trouble, since all instances of wibbit must have the same type scheme (if one instance needs a stack argument, then they all need a stack argument).
+[ inteligator review](http://www.articlesbase.com/criminal-articles/inteligator-review-3700882.html)
