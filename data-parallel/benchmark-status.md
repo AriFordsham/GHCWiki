@@ -36,15 +36,18 @@ Matrix-Matrix multiplication. Size=1024x1024.
 > <table><tr><th>**name**</th>
 > <th>**runtime**</th>
 > <th>**speedup**</th>
+> <th>**efficiency**</th>
 > <th>**notes**</th></tr>
 > <tr><th> repa.mmult.c.seq </th>
 > <th>  3.792s </th>
+> <th> 1 </th>
 > <th> 1 </th>
 > <th> A 
 > </th></tr>
 > <tr><th> repa.mmult.par.N4 </th>
 > <th> 2.147s </th>
 > <th> 1.77 </th>
+> <th> 0.44 </th>
 > <th></th></tr></table>
 >
 >
@@ -61,15 +64,18 @@ Solves the Laplace equation in the 2D plane. Size=400x400.
 > <table><tr><th>**name**</th>
 > <th>**runtime**</th>
 > <th>**speedup**</th>
+> <th>**efficiency**</th>
 > <th>**notes**</th></tr>
 > <tr><th> repa.laplace.c.seq </th>
 > <th>  1.299s </th>
+> <th> 1 </th>
 > <th> 1 </th>
 > <th> A 
 > </th></tr>
 > <tr><th> repa.laplace.par.N4 </th>
 > <th> 2.521s </th>
 > <th> 0.51 </th>
+> <th> 0.13 </th>
 > <th></th></tr></table>
 >
 >
@@ -112,26 +118,32 @@ Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 > <table><tr><th>**name**</th>
 > <th>**runtime**</th>
 > <th>**speedup**</th>
+> <th>**efficiency**</th>
 > <th>**notes**</th></tr>
 > <tr><th> dph.sumsq.vector.seq.N4 </th>
 > <th>  404ms </th>
+> <th> 1 </th>
 > <th> 1 </th>
 > <th></th></tr>
 > <tr><th> dph.sumsq.vectorised.seq.N4 </th>
 > <th> 434ms </th>
 > <th> 0.93 </th>
+> <th></th>
 > <th></th></tr>
 > <tr><th> dph.sumsq.vectorised.par.N1 </th>
 > <th> 443ms </th>
+> <th> 0.91 </th>
 > <th> 0.91 </th>
 > <th></th></tr>
 > <tr><th> dph.sumsq.vectorised.par.N2 </th>
 > <th> 222ms </th>
 > <th> 1.82 </th>
+> <th> 0.91 </th>
 > <th></th></tr>
 > <tr><th> dph.sumsq.vectorised.par.N4 </th>
 > <th> 111ms </th>
 > <th> 3.63 </th>
+> <th> 0.91 </th>
 > <th></th></tr></table>
 
 > **Status**: fine
@@ -145,27 +157,33 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 > <table><tr><th>**name**</th>
 > <th>**runtime**</th>
 > <th>**speedup**</th>
+> <th>**efficiency**</th>
 > <th>**notes**</th></tr>
 > <tr><th> dph.dotp.vector.seq.N4 </th>
 > <th>  68ms </th>
+> <th> 1 </th>
 > <th> 1 </th>
 > <th></th></tr>
 > <tr><th> dph.dotp.vectorised.seq.N4 </th>
 > <th> 58ms </th>
 > <th> 1.17 </th>
+> <th></th>
 > <th> A 
 > </th></tr>
 > <tr><th> dph.dotp.vectorised.par.N1 </th>
 > <th> 55ms </th>
 > <th> 1.24 </th>
+> <th> 1.24 </th>
 > <th></th></tr>
 > <tr><th> dph.dotp.vectorised.par.N2 </th>
 > <th> 33ms </th>
 > <th> 2.06 </th>
+> <th> 1.03 </th>
 > <th></th></tr>
 > <tr><th> dph.dotp.vectorised.par.N4 </th>
 > <th> 25ms </th>
 > <th> 2.72 </th>
+> <th> 0.68 </th>
 > <th></th></tr></table>
 
 >
@@ -182,22 +200,27 @@ Takes the even valued `Int`s from a vector. N=10M.
 > <table><tr><th>**name**</th>
 > <th>**runtime**</th>
 > <th>**speedup**</th>
+> <th>**efficiency**</th>
 > <th>**notes**</th></tr>
 > <tr><th> dph.evens.vectorised.seq.N4 </th>
 > <th> 1.075s </th>
+> <th> 1 </th>
 > <th> 1 </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N1 </th>
 > <th> 736ms </th>
 > <th>  1.46 </th>
+> <th> 1.46 </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N2 </th>
 > <th> 768ms </th>
 > <th>  1.40 </th>
+> <th> 0.70 </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N4 </th>
 > <th> 859ms </th>
 > <th>  1.25 </th>
+> <th> 0.31 </th>
 > <th></th></tr></table>
 
 > **Status**: Benchmark runs slower when number of threads increases. This benchmark invokes `packByTag` due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. 
@@ -229,18 +252,22 @@ Sort a vector of doubles by recursively splitting it and sorting the two halves.
 > <table><tr><th>**name**</th>
 > <th>**runtime**</th>
 > <th>**speedup**</th>
+> <th>**efficiency**</th>
 > <th>**notes**</th></tr>
 > <tr><th> dph.quicksort.vectorised.par.N1 </th>
 > <th> 428ms </th>
 > <th>  1 </th>
+> <th> 1 </th>
 > <th></th></tr>
 > <tr><th> dph.quicksort.vectorised.par.N2 </th>
 > <th> 400ms </th>
 > <th>  1.07 </th>
+> <th> 0.54 </th>
 > <th></th></tr>
 > <tr><th> dph.quicksort.vectorised.par.N4 </th>
 > <th> 392ms </th>
 > <th>  1.09 </th>
+> <th> 0.27 </th>
 > <th></th></tr></table>
 
 > **Status**: Sequential vectorised version does not compile due to a blowup in SpecConstr.
@@ -253,42 +280,51 @@ Given a set of points in the plane, compute the sequence of points that encloses
 > <table><tr><th>**name**</th>
 > <th>**runtime**</th>
 > <th>**speedup**</th>
+> <th>**efficiency**</th>
 > <th>**notes**</th></tr>
 > <tr><th> dph.quickhull.vector-immutable.seq.N4 </th>
 > <th> 0.166s </th>
+> <th> 1 </th>
 > <th> 1 </th>
 > <th></th></tr>
 > <tr><th> dph.quickhull.vectorised.seq.N4 </th>
 > <th> 0.677s </th>
 > <th>  0.24 </th>
+> <th></th>
 > <th> 4x slower 
 > </th></tr>
 > <tr><th> dph.quickhull.vectorised.par.N1 </th>
 > <th> 1.059s </th>
 > <th>  0.15 </th>
+> <th> 0.15 </th>
 > <th> 6x slower
 > </th></tr>
 > <tr><th> dph.quickhull.vectorised.par.N2 </th>
 > <th> 0.809s </th>
 > <th>  0.21 </th>
+> <th> 0.11 </th>
 > <th></th></tr>
 > <tr><th> dph.quickhull.vectorised.par.N4 </th>
 > <th> 0.686s </th>
 > <th>  0.24 </th>
+> <th> 0.06 </th>
 > <th></th></tr>
 > <tr><th> dph.quickhull.vector-mutable.seq.N4 </th>
 > <th> 0.086s </th>
 > <th>  1.93 </th>
+> <th></th>
 > <th> A 
 > </th></tr>
 > <tr><th> dph.quickhull.vector-forkIO.par.N4 </th>
 > <th> 0.064s </th>
 > <th>  2.59 </th>
+> <th> 0.65 </th>
 > <th> B 
 > </th></tr>
 > <tr><th> dph.quickhull.c.seq </th>
 > <th> 0.044s </th>
 > <th> 3.77 </th>
+> <th></th>
 > <th> C 
 > </th></tr></table>
 
@@ -343,6 +379,19 @@ Parallelism
 - Whether a benchmark is natively parallel or sequential. 
 - Parallel versions are also run single threaded (with -N1) and sequential versions are also run with (-N4) so we get the parallel GC.
 - Parallel versions with -N1 will tend to be slower than natively sequential versions due to overheads for supporting parallelism.
+
+
+Speedup
+
+- Runtime of reference / runtime of benchmark.
+- Measures how much faster a benchmark is relative to the reference.
+
+
+Relative Efficiency. 
+
+- Speedup / number of threads.
+- Indicates the communication overhead involved with running something in parallel.
+- Can be \> 1 if the parallel version running with a single thread is faster than the sequential reference version.
 
 
 Status

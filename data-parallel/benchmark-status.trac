@@ -28,9 +28,9 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
   [http://code.haskell.org/repa/repa-head/repa-examples/MMult/ MMult]::
    Matrix-Matrix multiplication. Size=1024x1024.
 
-  || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
-  || repa.mmult.c.seq ||  3.792s || 1 || A ||
-  || repa.mmult.par.N4 || 2.147s || 1.77 || ||
+  || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes'''
+  || repa.mmult.c.seq ||  3.792s || 1 || 1 || A ||
+  || repa.mmult.par.N4 || 2.147s || 1.77 || 0.44 || ||
   A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
   '''Status:''' Ok, but about 20% slower than in 6.13.[[br]]
@@ -40,9 +40,9 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
   [http://code.haskell.org/repa/repa-head/repa-examples/Laplace/ Laplace] '''(SLOWLORIS)'''::
    Solves the Laplace equation in the 2D plane. Size=400x400.
 
-  || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
-  || repa.laplace.c.seq ||  1.299s || 1 || A ||
-  || repa.laplace.par.N4 || 2.521s || 0.51 || ||
+  || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
+  || repa.laplace.c.seq ||  1.299s || 1 || 1 || A ||
+  || repa.laplace.par.N4 || 2.521s || 0.51 || 0.13 || ||
   A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
   '''Status:''' Ok, but about 25% slower than in 6.13.[[br]]
@@ -76,12 +76,12 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
  [http://darcs.haskell.org/packages/dph/dph-examples/imaginary/SumSquares/ SumSquares]::
   Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 
-  || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
-  || dph.sumsq.vector.seq.N4 ||  404ms || 1 || ||
-  || dph.sumsq.vectorised.seq.N4 || 434ms || 0.93 || ||
-  || dph.sumsq.vectorised.par.N1 || 443ms || 0.91 || ||
-  || dph.sumsq.vectorised.par.N2 || 222ms || 1.82 || ||
-  || dph.sumsq.vectorised.par.N4 || 111ms || 3.63 || ||
+  || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes'''
+  || dph.sumsq.vector.seq.N4 ||  404ms || 1 || 1 || ||
+  || dph.sumsq.vectorised.seq.N4 || 434ms || 0.93 ||  || ||
+  || dph.sumsq.vectorised.par.N1 || 443ms || 0.91 || 0.91 || ||
+  || dph.sumsq.vectorised.par.N2 || 222ms || 1.82 || 0.91 || ||
+  || dph.sumsq.vectorised.par.N4 || 111ms || 3.63 || 0.91 || ||
 
   '''Status''': fine[[br]]
   '''Todo''': Add a sequential C version.
@@ -90,12 +90,12 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
  [http://darcs.haskell.org/packages/dph/dph-examples/imaginary/DotProduct DotProduct]::
   Computes the dot product of two vectors of `Double`s. N=10M.
 
-  || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
-  || dph.dotp.vector.seq.N4 ||  68ms || 1 || ||
-  || dph.dotp.vectorised.seq.N4 || 58ms || 1.17 || A ||
-  || dph.dotp.vectorised.par.N1 || 55ms || 1.24 || ||
-  || dph.dotp.vectorised.par.N2 || 33ms || 2.06 || ||
-  || dph.dotp.vectorised.par.N4 || 25ms || 2.72 || ||
+  || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
+  || dph.dotp.vector.seq.N4 ||  68ms || 1 || 1 || ||
+  || dph.dotp.vectorised.seq.N4 || 58ms || 1.17 || || A ||
+  || dph.dotp.vectorised.par.N1 || 55ms || 1.24 || 1.24 || ||
+  || dph.dotp.vectorised.par.N2 || 33ms || 2.06 || 1.03 || ||
+  || dph.dotp.vectorised.par.N4 || 25ms || 2.72 || 0.68 || ||
  
   A: The sequential vectorised version is faster than with Data.Vector. Why was this?
 
@@ -106,11 +106,11 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/ Evens] '''(SLOWDOWN)'''::
    Takes the even valued `Int`s from a vector. N=10M.
 
-  || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
-  || dph.evens.vectorised.seq.N4 || 1.075s || 1 || ||
-  || dph.evens.vectorised.par.N1 || 736ms ||  1.46 || ||
-  || dph.evens.vectorised.par.N2 || 768ms ||  1.40 || ||
-  || dph.evens.vectorised.par.N4 || 859ms ||  1.25 || ||
+  || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
+  || dph.evens.vectorised.seq.N4 || 1.075s || 1 || 1 || ||
+  || dph.evens.vectorised.par.N1 || 736ms ||  1.46 || 1.46 || ||
+  || dph.evens.vectorised.par.N2 || 768ms ||  1.40 || 0.70 || ||
+  || dph.evens.vectorised.par.N4 || 859ms ||  1.25 || 0.31 || ||
 
   '''Status''': Benchmark runs slower when number of threads increases. This benchmark invokes {{{packByTag}}} due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. [[br]] 
   '''Todo''': Fix slowdown. Add a sequential C version and Data.Vector versions.
@@ -134,10 +134,10 @@ Dynamically nested programs have a recursive structure where each level of the r
  [http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/ QuickSort] '''(BROKEN)'''::
   Sort a vector of doubles by recursively splitting it and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
 
-  || '''name''' || '''runtime''' || '''speedup''' || '''notes''' ||
-  || dph.quicksort.vectorised.par.N1 || 428ms ||  1 || ||
-  || dph.quicksort.vectorised.par.N2 || 400ms ||  1.07 || ||
-  || dph.quicksort.vectorised.par.N4 || 392ms ||  1.09 || ||
+  || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
+  || dph.quicksort.vectorised.par.N1 || 428ms ||  1 || 1 || ||
+  || dph.quicksort.vectorised.par.N2 || 400ms ||  1.07 || 0.54 || ||
+  || dph.quicksort.vectorised.par.N4 || 392ms ||  1.09 || 0.27 || ||
 
   '''Status''': Sequential vectorised version does not compile due to a blowup in !SpecConstr.
 
@@ -146,15 +146,15 @@ Dynamically nested programs have a recursive structure where each level of the r
   Given a set of points in the plane, compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism. N=1M.
 
 
-  || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
-  || dph.quickhull.vector-immutable.seq.N4 || 0.166s || 1 || ||
-  || dph.quickhull.vectorised.seq.N4 || 0.677s ||  0.24 || 4x slower ||
-  || dph.quickhull.vectorised.par.N1 || 1.059s ||  0.15 || 6x slower||
-  || dph.quickhull.vectorised.par.N2 || 0.809s ||  0.21 || ||
-  || dph.quickhull.vectorised.par.N4 || 0.686s ||  0.24 || ||
-  || dph.quickhull.vector-mutable.seq.N4 || 0.086s ||  1.93 || A ||
-  || dph.quickhull.vector-forkIO.par.N4 || 0.064s ||  2.59 || B ||
-  || dph.quickhull.c.seq || 0.044s || 3.77 || C ||
+  || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
+  || dph.quickhull.vector-immutable.seq.N4 || 0.166s || 1 || 1 || ||
+  || dph.quickhull.vectorised.seq.N4 || 0.677s ||  0.24 ||  || 4x slower ||
+  || dph.quickhull.vectorised.par.N1 || 1.059s ||  0.15 || 0.15 || 6x slower||
+  || dph.quickhull.vectorised.par.N2 || 0.809s ||  0.21 || 0.11 || ||
+  || dph.quickhull.vectorised.par.N4 || 0.686s ||  0.24 || 0.06 || ||
+  || dph.quickhull.vector-mutable.seq.N4 || 0.086s ||  1.93 || || A ||
+  || dph.quickhull.vector-forkIO.par.N4 || 0.064s ||  2.59 || 0.65 || B ||
+  || dph.quickhull.c.seq || 0.044s || 3.77 || || C ||
 
  A: Uses mutable Data.Vectors for intermediate buffers.[[br]]
  B: Uses mutable Data.Vectors, forkIO and atomicModifyIORef. Concurrent threads fill a shared output vector. Code is uglier than the C version.[[br]]
@@ -192,6 +192,15 @@ Parallelism
  * Whether a benchmark is natively parallel or sequential. 
  * Parallel versions are also run single threaded (with -N1) and sequential versions are also run with (-N4) so we get the parallel GC.
  * Parallel versions with -N1 will tend to be slower than natively sequential versions due to overheads for supporting parallelism.
+
+Speedup
+ * Runtime of reference / runtime of benchmark.
+ * Measures how much faster a benchmark is relative to the reference.
+
+Relative Efficiency. 
+ * Speedup / number of threads.
+ * Indicates the communication overhead involved with running something in parallel.
+ * Can be > 1 if the parallel version running with a single thread is faster than the sequential reference version.
 
 Status
  * '''BROKEN''': Benchmark doesn't compile, or crashes when run.
