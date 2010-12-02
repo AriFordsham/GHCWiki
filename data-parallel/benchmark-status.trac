@@ -26,7 +26,7 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
 
 [[br]]
   [http://code.haskell.org/repa/repa-head/repa-examples/MMult/ MMult]::
-   Matrix-Matrix multiplication.
+   Matrix-Matrix multiplication. Size=1024x1024.
 
   || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
   || repa.mmult.c.seq ||  3.792s || 1 || A ||
@@ -38,7 +38,7 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
 
 [[br]]
   [http://code.haskell.org/repa/repa-head/repa-examples/Laplace/ Laplace] '''(SLOWLORIS)'''::
-   Solves the Laplace equation in the 2D plane.
+   Solves the Laplace equation in the 2D plane. Size=400x400.
 
   || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
   || repa.laplace.c.seq ||  1.299s || 1 || A ||
@@ -51,14 +51,14 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
 
 [[br]]
   [http://code.haskell.org/repa/repa-head/repa-examples/Blur/ Blur]::
-  Applies a Gaussian blur filter to a 2D image.
+  Applies a Gaussian blur filter to a 2D image. Size=512x512.
 
   '''ToDo:''' Runs ok, but need to add other versions for comparison.
 
 
 [[br]]
   [http://code.haskell.org/repa/repa-head/repa-examples/EdgeDetect/ EdgeDetect]::
-  Performs Canny edge detection to a 2D image.
+  Performs Canny edge detection to a 2D image. Size=512x512.
 
   '''ToDo:''' Runs ok, but need to add other versions for comparison.
 
@@ -132,7 +132,7 @@ Dynamically nested programs have a recursive structure where each level of the r
 
 [[br]]
  [http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/ QuickSort] '''(BROKEN)'''::
-  Sort a vector of doubles by recursively splitting the vector and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements.
+  Sort a vector of doubles by recursively splitting the vector and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
 
   || '''name''' || '''runtime''' || '''speedup''' || '''notes''' ||
   || dph.quicksort.vectorised.par.N1 || 428ms ||  1 || ||
@@ -143,7 +143,7 @@ Dynamically nested programs have a recursive structure where each level of the r
 
 [[br]]
  [http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickHull/ Quickhull] '''(SLOWLORIS)'''::
-  Given a set of points in the plane, compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism.
+  Given a set of points in the plane, compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism. N=1M.
 
 
   || '''name''' || '''runtime''' || '''speedup''' || '''notes'''

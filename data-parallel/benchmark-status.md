@@ -30,7 +30,7 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
 
 <table><tr><th>[ MMult](http://code.haskell.org/repa/repa-head/repa-examples/MMult/)</th>
 <td>
-Matrix-Matrix multiplication.
+Matrix-Matrix multiplication. Size=1024x1024.
 </td></tr></table>
 
 > <table><tr><th>**name**</th>
@@ -55,7 +55,7 @@ Matrix-Matrix multiplication.
 
 <table><tr><th>[ Laplace](http://code.haskell.org/repa/repa-head/repa-examples/Laplace/)**(SLOWLORIS)**</th>
 <td>
-Solves the Laplace equation in the 2D plane.
+Solves the Laplace equation in the 2D plane. Size=400x400.
 </td></tr></table>
 
 > <table><tr><th>**name**</th>
@@ -80,14 +80,14 @@ Solves the Laplace equation in the 2D plane.
 
 <table><tr><th>[ Blur](http://code.haskell.org/repa/repa-head/repa-examples/Blur/)</th>
 <td>
-Applies a Gaussian blur filter to a 2D image.
+Applies a Gaussian blur filter to a 2D image. Size=512x512.
 </td></tr></table>
 
 > **ToDo:** Runs ok, but need to add other versions for comparison.
 
 <table><tr><th>[ EdgeDetect](http://code.haskell.org/repa/repa-head/repa-examples/EdgeDetect/)</th>
 <td>
-Performs Canny edge detection to a 2D image.
+Performs Canny edge detection to a 2D image. Size=512x512.
 </td></tr></table>
 
 > **ToDo:** Runs ok, but need to add other versions for comparison.
@@ -223,7 +223,7 @@ The Sieve of Eratosthenes using parallel writes into a sieve structure represent
 
 <table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN)**</th>
 <td>
-Sort a vector of doubles by recursively splitting the vector and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements.
+Sort a vector of doubles by recursively splitting the vector and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
 </td></tr></table>
 
 > <table><tr><th>**name**</th>
@@ -247,7 +247,7 @@ Sort a vector of doubles by recursively splitting the vector and sorting the two
 
 <table><tr><th>[ Quickhull](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickHull/)**(SLOWLORIS)**</th>
 <td>
-Given a set of points in the plane, compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism.
+Given a set of points in the plane, compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism. N=1M.
 </td></tr></table>
 
 > <table><tr><th>**name**</th>
