@@ -9,7 +9,7 @@ The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/pa
 ## Key
 
 
-\<project\>.\<benchmark-name\>.\<version\>.\<parallelism\>.\<threads\>
+\<project\>.\<benchmark\>.\<version\>.\<parallelism\>.\<threads\>
 
 
 Project
@@ -38,7 +38,7 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
 
 <table><tr><th>[ SumSquares](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/SumSquares/)</th>
 <td>
-Computes the sum of the squares from 1 to N using `Int`.  N = 10M.
+Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 </td></tr></table>
 
 > <table><tr><th>**name**</th>
@@ -66,17 +66,51 @@ Computes the sum of the squares from 1 to N using `Int`.  N = 10M.
 > <th> 3.63 </th>
 > <th></th></tr></table>
 
-> **Summary**: fine, though we should run a sequential C version as well.
+> **Summary**: fine
+> **Todo**: Add the sequential C version.
 
-<table><tr><th>[ DotP](http://darcs.haskell.org/packages/dph/examples/dotp/)</th>
+<table><tr><th>[ DotProduct](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/DotProduct)</th>
 <td>
-Computes the dot product of two vectors of `Double`s.  There are two variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  In addition to these two DPH variants of the dot product, we also have two non-DPH reference implementations: (a) "ref Haskell" is a Haskell program using imperative, unboxed arrays and and (b) "ref C" is a C implementation using pthreads.
+Computes the dot product of two vectors of `Double`s. N=10M.
 </td></tr></table>
+
+> <table><tr><th>**name**</th>
+> <th>**runtime**</th>
+> <th>**speedup**</th>
+> <th>**notes**</th></tr>
+> <tr><th> dph.sumsq.vector.seq.N4 </th>
+> <th>  68ms </th>
+> <th> 1 </th>
+> <th></th></tr>
+> <tr><th> dph.sumsq.vectorised.seq.N4 </th>
+> <th> 58ms </th>
+> <th> 1.17 </th>
+> <th> A 
+> </th></tr>
+> <tr><th> dph.sumsq.vectorised.par.N1 </th>
+> <th> 55ms </th>
+> <th> 1.24 </th>
+> <th></th></tr>
+> <tr><th> dph.sumsq.vectorised.par.N2 </th>
+> <th> 33ms </th>
+> <th> 2.06 </th>
+> <th></th></tr>
+> <tr><th> dph.sumsq.vectorised.par.N4 </th>
+> <th> 25ms </th>
+> <th> 2.72 </th>
+> <th></th></tr></table>
+
+>
+> A: The vectorised version is faster than with Data.Vector. Why was this?
+
+> **Summary**: fine.
+> **Todo**: Add the sequential C version.
 
 <table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)</th>
 <td>
-Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*  There are three variants of this program: (1) "primitives" is directly coded against the array primitives from package dph and (2) "vectorised" is a high-level DPH program transformed by GHC's vectoriser.  As a reference implementation, we have a sequential C program denoted by "ref C".
-</td></tr></table>
+Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*</td></tr></table>
+
+> **Todo**: Add this to the nightly run.
 
 ### Dynamically Nested
 
