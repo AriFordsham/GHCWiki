@@ -20,14 +20,58 @@ The benchmarks are run each night by [http://darcs.haskell.org/packages/dph/dph-
 
 [[br]]
 ----
+----
 = Flat Parallelism =
+Flat parallel programs are ones in which parallel computations do not invoke further parallel computations. For Repa programs this means that the value of each element in a given array can be computed independently of the others. These should run as fast as equivalent programs using immutable Data.Vector. We'd also hope to get close to the performance of C programs using equivalent algorithms, though this is a harder comparison due to differences in the back-end code generator.
 
-Todo: add Repa benchmarks.
+[[br]]
+  [http://code.haskell.org/repa/repa-head/repa-examples/MMult/ MMult]::
+   Matrix-Matrix multiplication.
 
- 
+  || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
+  || repa.mmult.c.seq ||  3.792s || 1 || A ||
+  || repa.mmult.par.N4 || 2.147s || 1.77 || ||
+  A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
+
+  '''Status:''' Ok, but about 20% slower than in 6.13.[[br]]
+  '''ToDo:''' Run with LLVM and without bounds checking.
+
+[[br]]
+  [http://code.haskell.org/repa/repa-head/repa-examples/Laplace/ Laplace] '''(SLOWLORIS)'''::
+   Solves the Laplace equation in the 2D plane.
+
+  || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
+  || repa.laplace.c.seq ||  1.299s || 1 || A ||
+  || repa.laplace.par.N4 || 2.521s || 0.51 || ||
+  A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
+
+  '''Status:''' Ok, but about 25% slower than in 6.13.[[br]]
+  '''ToDo:''' Run with LLVM and without bounds checking. Run with more threads to see if we can get to the C version's run time.
+
+
+[[br]]
+  [http://code.haskell.org/repa/repa-head/repa-examples/Blur/ Blur]::
+  Applies a Gaussian blur filter to a 2D image.
+
+  '''ToDo:''' Runs ok, but need to add other versions for comparison.
+
+
+[[br]]
+  [http://code.haskell.org/repa/repa-head/repa-examples/EdgeDetect/ EdgeDetect]::
+  Performs Canny edge detection to a 2D image.
+
+  '''ToDo:''' Runs ok, but need to add other versions for comparison.
+
+[[br]]
+  [http://code.haskell.org/repa/repa-head/repa-examples/FFT/ FFT]::
+  Performs high-pass filtering using 2D and 3D FFTs. These are naive benchmarks used for regression testing only. They divide right down to two-point vectors and construct the result using copying append. Using an inplace algorithm (like with FFTW) would be significantly faster.
+
+  '''ToDo:''' Runs ok, but need to add other versions for comparison.
+
+
 [[br]]
 = Statically Nested Parallelism =
-Statically nested parallelism is where the parallelism has a fixed, finite depth. For example ``mapP f (filterP g xs)``. Statically nested programs are easier to vectorize than dynamically nested programs. At present, single threaded statically nested programs should run as fast as equivalent Data.Vector programs. Parallel versions should display a good speedup.
+Statically nested parallelism is where the parallelism has a fixed, finite depth. For example ``mapP f (filterP g xs)``. Statically nested programs are easier to vectorise than dynamically nested programs. At present, single threaded statically nested programs should run as fast as equivalent Data.Vector programs. Parallel versions should display a good speedup.
 
  [http://darcs.haskell.org/packages/dph/dph-examples/imaginary/SumSquares/ SumSquares]::
   Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
@@ -88,7 +132,7 @@ Dynamically nested programs have a recursive structure where each level of the r
 
 [[br]]
  [http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/ QuickSort] '''(BROKEN)'''::
-  Sort a vector of doubles by recursively splitting the vector and sorting the two halves. This is a "fake" benchmark because we divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements.
+  Sort a vector of doubles by recursively splitting the vector and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements.
 
   || '''name''' || '''runtime''' || '''speedup''' || '''notes''' ||
   || dph.quicksort.vectorised.par.N1 || 428ms ||  1 || ||
@@ -151,7 +195,7 @@ Parallelism
 Status
  * '''BROKEN''': Benchmark doesn't compile, or crashes when run.
  * '''SLOWDOWN''': Benchmark gets slower as number of threads increases. 
- * '''SLOWLORIS''': Benchmark scales as the number of threads increases, but the absolute performance is not acceptable compared with equivalent versions using immutable Data.Vectors.
+ * '''SLOWLORIS''': Benchmark scales as the number of threads increases, but the absolute performance is not acceptable compared with equivalent versions using immutable Data.Vectors. We do not have a setup in which the parallel version runs faster than the sequential reference version. Increasing the number of threads makes it faster, but not fast enough.
 
 [[br]]
 = Benchmark machine  =

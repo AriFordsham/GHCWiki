@@ -21,15 +21,88 @@ The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/pa
 
 ---
 
+---
+
 # Flat Parallelism
 
 
-Todo: add Repa benchmarks.
+Flat parallel programs are ones in which parallel computations do not invoke further parallel computations. For Repa programs this means that the value of each element in a given array can be computed independently of the others. These should run as fast as equivalent programs using immutable Data.Vector. We'd also hope to get close to the performance of C programs using equivalent algorithms, though this is a harder comparison due to differences in the back-end code generator.
+
+<table><tr><th>[ MMult](http://code.haskell.org/repa/repa-head/repa-examples/MMult/)</th>
+<td>
+Matrix-Matrix multiplication.
+</td></tr></table>
+
+> <table><tr><th>**name**</th>
+> <th>**runtime**</th>
+> <th>**speedup**</th>
+> <th>**notes**</th></tr>
+> <tr><th> repa.mmult.c.seq </th>
+> <th>  3.792s </th>
+> <th> 1 </th>
+> <th> A 
+> </th></tr>
+> <tr><th> repa.mmult.par.N4 </th>
+> <th> 2.147s </th>
+> <th> 1.77 </th>
+> <th></th></tr></table>
+>
+>
+> A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
+
+> **Status:** Ok, but about 20% slower than in 6.13.
+> **ToDo:** Run with LLVM and without bounds checking.
+
+<table><tr><th>[ Laplace](http://code.haskell.org/repa/repa-head/repa-examples/Laplace/)**(SLOWLORIS)**</th>
+<td>
+Solves the Laplace equation in the 2D plane.
+</td></tr></table>
+
+> <table><tr><th>**name**</th>
+> <th>**runtime**</th>
+> <th>**speedup**</th>
+> <th>**notes**</th></tr>
+> <tr><th> repa.laplace.c.seq </th>
+> <th>  1.299s </th>
+> <th> 1 </th>
+> <th> A 
+> </th></tr>
+> <tr><th> repa.laplace.par.N4 </th>
+> <th> 2.521s </th>
+> <th> 0.51 </th>
+> <th></th></tr></table>
+>
+>
+> A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
+
+> **Status:** Ok, but about 25% slower than in 6.13.
+> **ToDo:** Run with LLVM and without bounds checking. Run with more threads to see if we can get to the C version's run time.
+
+<table><tr><th>[ Blur](http://code.haskell.org/repa/repa-head/repa-examples/Blur/)</th>
+<td>
+Applies a Gaussian blur filter to a 2D image.
+</td></tr></table>
+
+> **ToDo:** Runs ok, but need to add other versions for comparison.
+
+<table><tr><th>[ EdgeDetect](http://code.haskell.org/repa/repa-head/repa-examples/EdgeDetect/)</th>
+<td>
+Performs Canny edge detection to a 2D image.
+</td></tr></table>
+
+> **ToDo:** Runs ok, but need to add other versions for comparison.
+
+<table><tr><th>[ FFT](http://code.haskell.org/repa/repa-head/repa-examples/FFT/)</th>
+<td>
+Performs high-pass filtering using 2D and 3D FFTs. These are naive benchmarks used for regression testing only. They divide right down to two-point vectors and construct the result using copying append. Using an inplace algorithm (like with FFTW) would be significantly faster.
+</td></tr></table>
+
+> **ToDo:** Runs ok, but need to add other versions for comparison.
 
 # Statically Nested Parallelism
 
 
-Statically nested parallelism is where the parallelism has a fixed, finite depth. For example ``mapP f (filterP g xs)``. Statically nested programs are easier to vectorize than dynamically nested programs. At present, single threaded statically nested programs should run as fast as equivalent Data.Vector programs. Parallel versions should display a good speedup.
+Statically nested parallelism is where the parallelism has a fixed, finite depth. For example ``mapP f (filterP g xs)``. Statically nested programs are easier to vectorise than dynamically nested programs. At present, single threaded statically nested programs should run as fast as equivalent Data.Vector programs. Parallel versions should display a good speedup.
 
 <table><tr><th>[ SumSquares](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/SumSquares/)</th>
 <td>
@@ -150,7 +223,7 @@ The Sieve of Eratosthenes using parallel writes into a sieve structure represent
 
 <table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN)**</th>
 <td>
-Sort a vector of doubles by recursively splitting the vector and sorting the two halves. This is a "fake" benchmark because we divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements.
+Sort a vector of doubles by recursively splitting the vector and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements.
 </td></tr></table>
 
 > <table><tr><th>**name**</th>
@@ -274,7 +347,7 @@ Status
 
 - **BROKEN**: Benchmark doesn't compile, or crashes when run.
 - **SLOWDOWN**: Benchmark gets slower as number of threads increases. 
-- **SLOWLORIS**: Benchmark scales as the number of threads increases, but the absolute performance is not acceptable compared with equivalent versions using immutable Data.Vectors.
+- **SLOWLORIS**: Benchmark scales as the number of threads increases, but the absolute performance is not acceptable compared with equivalent versions using immutable Data.Vectors. We do not have a setup in which the parallel version runs faster than the sequential reference version. Increasing the number of threads makes it faster, but not fast enough.
 
 # Benchmark machine
 
