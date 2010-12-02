@@ -356,45 +356,42 @@ This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem
 # Key
 
 
-dph.\<benchmark\>.\<version\>.\<parallelism\>.\[threads\]
+dph.\<*benchmark*\>.\<*version*\>.\<*parallelism*\>.\[*threads*\]
 
-repa.\<benchmark\>.\[version\].\[threads\]
+repa.\<*benchmark*\>.\[*version*\].\[*threads*\]
 
-
-Project
-
-- Either *dph* or *repa*. Repa programs use the same parallel array library as DPH, but do not go through the vectorising transform.
-
-
-Version
+*version*
 
 - *vectorised* means it's been through the DPH vectorising transform. 
 - *vector* is a hand written version using immutable Data.Vectors
 - *vector-mutable* is a hand written version using mutable Data.Vectors.
 - *vector-immutable* means the same as *vector* and is used when there is also an mutable version.
 
-
-Parallelism 
+*parallelism*
 
 - Whether a benchmark is natively parallel or sequential. 
 - Parallel versions are also run single threaded (with -N1) and sequential versions are also run with (-N4) so we get the parallel GC.
 - Parallel versions with -N1 will tend to be slower than natively sequential versions due to overheads for supporting parallelism.
 
+*threads*
 
-Speedup
+- Value passed to Haskell Runtime with -N threads flag.
+- Number of Haskell Execution Contexts (HECs) used when running the benchmark. 
+- Can be less than the number of hardware threads / cores in the physical machine.
+
+**speedup**
 
 - Runtime of reference / runtime of benchmark.
 - Measures how much faster a benchmark is relative to the reference.
 
 
-Relative Efficiency. 
+(relative) **efficiency**
 
 - Speedup / number of threads.
 - Indicates the communication overhead involved with running something in parallel.
 - Can be \> 1 if the parallel version running with a single thread is faster than the sequential reference version.
 
-
-Status
+**Status:**
 
 - **BROKEN**: Benchmark doesn't compile, or crashes when run.
 - **SLOWDOWN**: Benchmark gets slower as number of threads increases. 

@@ -176,33 +176,35 @@ These programs also use user defined algebraic data types. Vectorization of thes
 ----
 ----
 = Key =
-dph.<benchmark>.<version>.<parallelism>.[threads][[br]]
-repa.<benchmark>.[version].[threads][[br]]
+dph.<''benchmark''>.<''version''>.<''parallelism''>.[''threads''][[br]]
+repa.<''benchmark''>.[''version''].[''threads''][[br]]
 
-Project
- * Either ''dph'' or ''repa''. Repa programs use the same parallel array library as DPH, but do not go through the vectorising transform.
-
-Version
+''version''
  * ''vectorised'' means it's been through the DPH vectorising transform. 
  * ''vector'' is a hand written version using immutable Data.Vectors
  * ''vector-mutable'' is a hand written version using mutable Data.Vectors.
  * ''vector-immutable'' means the same as ''vector'' and is used when there is also an mutable version.
 
-Parallelism 
+''parallelism''
  * Whether a benchmark is natively parallel or sequential. 
  * Parallel versions are also run single threaded (with -N1) and sequential versions are also run with (-N4) so we get the parallel GC.
  * Parallel versions with -N1 will tend to be slower than natively sequential versions due to overheads for supporting parallelism.
 
-Speedup
+''threads''
+ * Value passed to Haskell Runtime with -N threads flag.
+ * Number of Haskell Execution Contexts (HECs) used when running the benchmark. 
+ * Can be less than the number of hardware threads / cores in the physical machine.
+
+'''speedup'''
  * Runtime of reference / runtime of benchmark.
  * Measures how much faster a benchmark is relative to the reference.
 
-Relative Efficiency. 
+(relative) '''efficiency'''
  * Speedup / number of threads.
  * Indicates the communication overhead involved with running something in parallel.
  * Can be > 1 if the parallel version running with a single thread is faster than the sequential reference version.
 
-Status
+'''Status:'''
  * '''BROKEN''': Benchmark doesn't compile, or crashes when run.
  * '''SLOWDOWN''': Benchmark gets slower as number of threads increases. 
  * '''SLOWLORIS''': Benchmark scales as the number of threads increases, but the absolute performance is not acceptable compared with equivalent versions using immutable Data.Vectors. We do not have a setup in which the parallel version runs faster than the sequential reference version. Cute, but too slow to be useful.
