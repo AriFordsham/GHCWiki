@@ -50,7 +50,7 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
   || repa.laplace.par.N8 || 2.124s || 0.61 || 0.08 || ||
   A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
-  '''Status:''' Too slow. We should check this again on the SPARC machine.[[br]]
+  '''Status:''' Too slow. We should check this again with LLVM.[[br]]
   '''ToDo:''' Run with LLVM and without bounds checking. Run with more threads to see if we can get back to the C version's run time.
 
 

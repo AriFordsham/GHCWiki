@@ -101,7 +101,7 @@ Solves the Laplace equation in the 2D plane. Size=400x400.
 >
 > A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
-> **Status:** Too slow. We should check this again on the SPARC machine.
+> **Status:** Too slow. We should check this again with LLVM.
 > **ToDo:** Run with LLVM and without bounds checking. Run with more threads to see if we can get back to the C version's run time.
 
 <table><tr><th>[ Blur](http://code.haskell.org/repa/repa-head/repa-examples/Blur/)</th>
