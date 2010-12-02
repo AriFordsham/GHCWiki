@@ -2,7 +2,7 @@
 
 == Status of DPH Benchmarks ==
 
-This page gives an overview of how well the benchmarks in the [http://darcs.haskell.org/packages/dph/examples/ examples/] directory of package dph are currently working.
+This page gives an overview of how well the benchmarks in the [http://darcs.haskell.org/packages/dph/dph-examples dph-examples/] directory of package dph are currently working.
 
 === Overview over the benchmark programs ===
 
@@ -27,87 +27,3 @@ This page gives an overview of how well the benchmarks in the [http://darcs.hask
 === Execution on !LimitingFactor (2x Quad-Core Xeon) ===
 
 Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2 FB-DIMM; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
-
-Software spec: GHC 6.11 (from first week of Mar 09); gcc 4.0.1
-
-|| '''Program''' || '''Problem size''' || '''sequential''' || '''P=1''' || '''P=2''' || '''P=4''' || '''P=8''' ||
-|| !SumSq, primitives || 10M || 22 || 40 || 20 || 10 || 5 ||
-|| !SumSq, vectorised || 10M || 22 || 40 || 20 || 10 || 5 ||
-|| !SumSq, ref C ||10M || 9 || – || – || – || – ||
-|| DotP, primitives || 100M elements || 823/823/824 || 812/813/815 || 408/408/409 || 220/223/227 || 210/214/221 ||
-|| DotP, vectorised || 100M elements || 823/824/824 || 814/816/818 || 412/417/421 || 222/225/227 || 227/232/238 ||
-|| DotP, ref Haskell || 100M elements || – || 810 || 437 || 221 || 209 ||
-|| DotP, ref C || 100M elements || – || 458 || 235 || 210 || 210 ||
-|| SMVM, primitives || 10kx10k @ density 0.1 || 119/119 || 111/111 || 78/78 || 36/36 || 21/21 ||
-|| SMVM, vectorised || 10kx10k @ density 0.1 || 175/175 || 137/137 || 74/74 || 47/47 || 23/23 ||
-|| SMVM, ref C || 10kx10k @ density 0.1 ||  35 || – || – || – || – ||
-|| SMVM, primitives || 100kx100k @ density 0.001 || 132/132 || 135/135 || 81/81 || 91/91 || 48/48 ||
-|| SMVM, vectorised || 100kx100k @ density 0.001 || 182/182 || 171/171 || 93/93 || 89/89 || 53/53 ||
-|| SMVM, ref C || 100kx100k @ density 0.001 ||  46 || – || – || – || – ||
-
-All results are in milliseconds, and the triples report best/average/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
-
-==== Comments regarding !SumSq ====
-
-The versions compiled against `dph-par` are by factor of two slower than the ones linked against `dph-seq`.  
-
-However, found a number of general problems when working on this example:
- * We need an extra -funfolding-use-threshold.  We don't really want users having to worry about that.
- * `enumFromTo` doesn't fuse due to excessive dictionaries in the unfolding of `zipWithUP`.
- * `mapP (\x -> x * x) xs` essentially turns into `zipWithU (*) xs xs`, which doesn't fuse with `enumFromTo` anymore.  We have a rewrite rule in the library to fix that, but that's not general enough.  We really would rather not vectorise the lambda abstraction at all.
- * Finally, to achieve the current result, we needed an analysis that avoids vectorising subcomputations that don't to be vectorised, and worse, that fusion has to turn back into their original form.  In this case, the lambda abstraction `\x -> x * x`.  This is currently implemented in a rather limited and ad-hoc way.  We should implement this on the basis of a more general analysis.
-
-==== Comments regarding DotP ====
-
-Performance is memory bound, and hence, the benchmark stops scaling once the memory bus saturated.  As a consequence, the wall-clock execution time of the Haskell programs and the C reference implementation are the same when all available parallelism is exploited.  The parallel DPH library delivers the same single core performance as the sequential one in this benchmark.
-
-==== Comments regarding smvm ====
-
-"SMVM, vectorised" needs a lot of tinkering in the form of special rules at the moment and forcing particular inlines.  We need more expressive rewrite rules; in particular, we need these more expressive rules to express important rewrites for the replicate combinator in its various forms and to optimise shape computations that enable other optimisations.
-
-Moreover, "SMVM, primitives" & "SMVM, vectorised" exhibit a strange behaviour from 2 to 4 threads with the matrix of density 0.001.  This might be a scheduling problem.
-
-=== Execution on greyarea (1x UltraSPARC T2) ===
-
-Hardware spec: 1x 1.4GHz UltraSPARC T2; 8 cores/processors with 8 hardware threads/core; 4MB on-die L2 cache per processor; FB-DIMM; Solaris 5.10
-
-Software spec: GHC 6.11 (from first week of Mar 09) with gcc 4.1.2 for Haskell code; gccfss 4.0.4 (gcc front-end with Sun compiler backend) for C code (as it generates code that is more than twice as fast for numeric computations than vanilla gcc)
-
-|| '''Program''' || '''Problem size''' || '''sequential''' || '''P=1''' || '''P=2''' || '''P=4''' || '''P=8''' || '''P=16''' || '''P=32''' || '''P=64''' ||
-|| !SumSq, primitives || 10M || 212/212 || 254/254 || 127/127 || 64/64 || 36/36 || 25/25 || 17/17 || 10/10 ||
-|| !SumSq, vectorised || 10M || 212/212 || 254/254 || 128/128 || 64/64 || 32/32 || 25/25 || 17/17 || 10/10 ||
-|| !SumSq, ref C ||10M || 120 || – || – || – || – || – || – || – ||
-|| DotP, primitives || 100M elements || 937/937 || 934/934 || 474/474 || 238/238 || 120/120 || 65/65 || 38/38 || 28/28 ||
-|| DotP, vectorised || 100M elements || 937/937 || 942/942 || 471/471 || 240/240 || 118/118 || 65/65 || 43/43 || 29/29 || 
-|| DotP, ref Haskell || 100M elements || – || 934 || 467 || 238 || 117 || 61 || 65 || 36 ||
-|| DotP, ref C || 100M elements || – || 554 || 277 || 142 || 72 || 37 || 22 || 20 ||
-|| SMVM, primitives || 10kx10k @ density 0.1 || 1102/1102 || 1112/1112 || 561/561 || 285/285 || 150/150 || 82/82 || 63/70 || 54/100 ||
-|| SMVM, vectorised || 10kx10k @ density 0.1 || 1784/1784 || 1810/1810 || 910/910 || 466/466 || 237/237 || 131/131 || 96/96 || 87/87 ||
-|| SMVM, ref C || 10kx10k @ density 0.1 || 580 || – || – || – || – || – || – || – ||
-|| SMVM, primitives || 100kx100k @ density 0.001 || 1112/1112 || 1299/1299 || 684/684 || 653/653 || 368/368 || 294/294 || 197/197 || 160/160 ||
-|| SMVM, vectorised || 100kx100k @ density 0.001 || 1824/1824 || 2008/2008 || 1048/1048 || 1010/1010 || 545/545 || 426/426 || 269/269 || 258/258 ||
-|| SMVM, ref C || 100kx100k @ density 0.001 || 600 || – || – || – || – || – || – || – ||
-
-All results are in milliseconds, and the triples report best/worst execution time (wall clock) of three runs.  The column marked "sequential" reports times when linked against `dph-seq` and the columns marked "P=n" report times when linked against `dph-par` and run in parallel using the specified number of parallel OS threads.
-
-==== Comments regarding !SumSq ====
-
-As on !LimitingFactor.
-
-==== Comments regarding DotP ====
-
-The benchmark scales nicely up to the maximum number of hardware threads.  Memory latency is largely covered by excess parallelism.  It is unclear why the Haskell reference implementation "ref Haskell" falls of at 32 and 64 threads.  See also [http://justtesting.org/post/83014052/this-is-the-performance-of-a-dot-product-of-two a comparison graph between LimitingFactor and greyarea].
-
-==== Comments regarding smvm ====
-
-As on !LimitingFactor, but it scales much more nicely and improves until using four threads per core.  This suggets that memory bandwidth is again a critical factor in this benchmark (this fits well with earlier observations on other architectures).
-
-On this machine, "SMVM primitives" & "SMVM, vectorised" also have a quirk from 2 to 4 threads.  This re-enforces the suspicion that this is a scheduling problem.
-
-=== Summary ===
-
-The speedup relative to a sequential C program for !SumSq, DotP, and SMVM on both architectures is illustrated by [http://justtesting.org/post/85103645/these-graphs-summarise-the-performance-of-data two summary graphs.]  In all cases, the data parallel Haskell program outperforms the sequential C program by a large margin on 8 cores.  The gray curve is a parallel C program computing the dot product using pthreads.  It clearly shows that the two Quad-Core Xeon with 8x1 threads are memory-limited for this benchmark, and the C code is barely any faster on 8 cores than the Haskell code.
-
-=== Regular, multidimensional arrays ===
-
-First benchmark results for the multiplication of two dense matrices using `dph-seq` are summarised in [http://www.scribd.com/doc/22091707/Delayed-Regular-Arrays-Sep09 comparison graph].
