@@ -46,7 +46,7 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
   A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
   '''Status:''' Ok, but about 25% slower than in 6.13.[[br]]
-  '''ToDo:''' Run with LLVM and without bounds checking. Run with more threads to see if we can get to the C version's run time.
+  '''ToDo:''' Run with LLVM and without bounds checking. Run with more threads to see if we can get back to the C version's run time.
 
 
 [[br]]
