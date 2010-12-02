@@ -22,7 +22,7 @@ The benchmarks are run each night by [http://darcs.haskell.org/packages/dph/dph-
 ----
 ----
 = Flat Parallelism =
-Flat parallel programs are ones in which parallel computations do not invoke further parallel computations. For Repa programs this means that the value of each element in a given array can be computed independently of the others. These should run as fast as equivalent programs using immutable Data.Vector. We'd also hope to get close to the performance of C programs using equivalent algorithms, though this is a harder comparison due to differences in the back-end code generator.
+Flat parallel programs are ones in which parallel computations do not invoke further parallel computations. For Repa, this means that the value of each element in a given array can be computed independently of the others. These should run as fast as equivalent programs using immutable Data.Vector. We'd also hope to get close to the performance of C programs using equivalent algorithms, though this is a harder comparison due to differences in the back-end code generator.
 
 [[br]]
   [http://code.haskell.org/repa/repa-head/repa-examples/MMult/ MMult]::
