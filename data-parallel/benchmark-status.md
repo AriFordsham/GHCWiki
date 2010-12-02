@@ -13,7 +13,7 @@ The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/pa
 - Evens: gets slower as the number of threads increases, probably because it's using a filtering operation.
 - QuickHull: vectorised.par.N1 version is 6x slower than the immutable Data.Vector version in absolute terms. This may be related to the problem with Evens.
 - QuickSort: vectorised.seq version doesn't compile due to a blow-up in SpecConstr.
-- NBody: has a core-lint error due to a bug in the rule matcher. If you turn off -dcore-lint it segfaults when run. Before recent GHC changes it compiled (with core-lint error), but vectorised.par Barnes-Hut algorithm was 50x slower than the version using immutable Data.Vector.
+- BarnesHut: has a core-lint error due to a bug in the rule matcher. If you turn off -dcore-lint it segfaults when run. Before recent GHC changes it compiled (with core-lint error), but vectorised.par Barnes-Hut algorithm was 50x slower than the version using immutable Data.Vector.
 
 # ToDo
 
@@ -233,9 +233,12 @@ Given a set of points in the plane, compute the sequence of points that encloses
 
 These programs also use user defined algebraic data types. Vectorization of these programs is still a work in progress.
 
-<table><tr><th>[ BarnesHut](http://darcs.haskell.org/packages/dph/dph-examples/barnesHut/)</th>
+<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(BROKEN)**</th>
 <td>
-This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions.  **Currently won't compile with vectorisation due to excessive inlining of dictionaries.**</td></tr></table>
+This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions. There is a naive O(n<sup>2</sup>) version in the same package.
+</td></tr></table>
+
+> **Status**: Core-lint error due to bug in GHC's rule matcher. If we compile without -dcore-lint it segfaults when run.
 
 ---
 

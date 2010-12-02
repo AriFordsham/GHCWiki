@@ -13,7 +13,7 @@ The benchmarks are run each night by [http://darcs.haskell.org/packages/dph/dph-
  * Evens: gets slower as the number of threads increases, probably because it's using a filtering operation.
  * !QuickHull: vectorised.par.N1 version is 6x slower than the immutable Data.Vector version in absolute terms. This may be related to the problem with Evens.
  * !QuickSort: vectorised.seq version doesn't compile due to a blow-up in !SpecConstr.
- * NBody: has a core-lint error due to a bug in the rule matcher. If you turn off -dcore-lint it segfaults when run. Before recent GHC changes it compiled (with core-lint error), but vectorised.par Barnes-Hut algorithm was 50x slower than the version using immutable Data.Vector.
+ * !BarnesHut: has a core-lint error due to a bug in the rule matcher. If you turn off -dcore-lint it segfaults when run. Before recent GHC changes it compiled (with core-lint error), but vectorised.par Barnes-Hut algorithm was 50x slower than the version using immutable Data.Vector.
 
 = !ToDo =
  * Benchmarks are currently being run with -fasm, and not via the LLVM backend. This will affect comparisons with C, but not with Data.Vector as it uses the same backend.
@@ -123,8 +123,10 @@ Dynamically nested programs have a recursive structure where each level of the r
 = Dynamically Nested Parallelism with Algebraic Data Types =
 These programs also use user defined algebraic data types. Vectorization of these programs is still a work in progress.
 
- [http://darcs.haskell.org/packages/dph/dph-examples/barnesHut/ BarnesHut]::
-  This benchmark implements the Barnes-Hut algorithm to solve the ''n''-body problem in two dimensions.  '''Currently won't compile with vectorisation due to excessive inlining of dictionaries.'''
+ [http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/ BarnesHut] '''(BROKEN)'''::
+  This benchmark implements the Barnes-Hut algorithm to solve the ''n''-body problem in two dimensions. There is a naive O(n^2^) version in the same package.
+
+  '''Status''': Core-lint error due to bug in GHC's rule matcher. If we compile without -dcore-lint it segfaults when run.
 
 [[br]]
 ----
