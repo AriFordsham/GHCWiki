@@ -60,7 +60,7 @@ Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 > <th> 3.63 </th>
 > <th></th></tr></table>
 
-> **Summary**: fine
+> **Status**: fine
 > **Todo**: Add a sequential C version.
 
 <table><tr><th>[ DotProduct](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/DotProduct)</th>
@@ -97,7 +97,7 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 >
 > A: The sequential vectorised version is faster than with Data.Vector. Why was this?
 
-> **Summary**: fine.
+> **Status**: fine
 > **Todo**: Add a sequential C version.
 
 <table><tr><th>[ Evens](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/)**(SLOWDOWN)**</th>
@@ -126,7 +126,7 @@ Takes the even valued `Int`s from a vector. N=10M.
 > <th>  1.25 </th>
 > <th></th></tr></table>
 
-> **Summary**: Benchmark runs slower when number of threads increases. This benchmark invokes `packByTag` due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. 
+> **Status**: Benchmark runs slower when number of threads increases. This benchmark invokes `packByTag` due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. 
 > **Todo**: Fix slowdown. Add a sequential C version. 
 
 <table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)</th>
@@ -147,9 +147,33 @@ The Sieve of Eratosthenes using parallel writes into a sieve structure represent
 
 > **Todo**: We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes. Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).
 
+<table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN)**</th>
+<td>
+Sort a vector of doubles by recursively splitting the vector and sorting the two halves. This is a "fake" benchmark because we divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements.
+</td></tr></table>
+
+> <table><tr><th>**name**</th>
+> <th>**runtime**</th>
+> <th>**speedup**</th>
+> <th>**notes**</th></tr>
+> <tr><th> dph.quicksort.vectorised.par.N1 </th>
+> <th> 428ms </th>
+> <th>  1 </th>
+> <th></th></tr>
+> <tr><th> dph.quicksort.vectorised.par.N2 </th>
+> <th> 400ms </th>
+> <th>  1.07 </th>
+> <th></th></tr>
+> <tr><th> dph.quicksort.vectorised.par.N4 </th>
+> <th> 392ms </th>
+> <th>  1.09 </th>
+> <th></th></tr></table>
+
+> **Status**: Sequential vectorised version does not compile due to a blowup in SpecConstr.
+
 <table><tr><th>[ Quickhull](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickHull/)**(SLOWLORIS)**</th>
 <td>
-Given a set of points (in a plane), compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism.
+Given a set of points in the plane, compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism.
 </td></tr></table>
 
 > <table><tr><th>**name**</th>
@@ -191,10 +215,7 @@ Given a set of points (in a plane), compute the sequence of points that encloses
 > <th> 3.77 </th>
 > <th></th></tr></table>
 
-> **Status**: Benchmark scales but is 4x slower than version using immutable Data.Vectors. This benchmark is based around filtering operations, so the fact that Evens is also slow is probably related.
-
-<table><tr><th>[ Quicksort](http://darcs.haskell.org/packages/dph/examples/qsort/)</th>
-<td>FIXME</td></tr></table>
+> **Status**: Benchmark scales but is 4x slower than version using immutable Data.Vectors. QuickHull is based around filtering operations, so the fact that Evens is also slow is probably related.
 
 # Dynamically Nested Parallelism with Algebraic Data Types
 
