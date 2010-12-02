@@ -433,8 +433,17 @@ removes an existing instance, if the instance is relevant to a module
 then it will affect the fingerprint of something that the module
 depends on, and hence will trigger recompilation.
 
-This is perfectly safe, but implementing it exactly as described above
-would lead to unnecessary recompilation.  For example
+In fact, we don't need to include the instance itself when fingerprinting C or T, it is enough to include the DFun (dictionary function) Id, since the type of this Id includes the form of the instance.  Furthermore, we ''must'' include the DFun anway, because we must have a dependency on the dictionary and its methods, just in case they are inlined in a client module.  A DFun looks something like this:
+
+{{{
+c3e94597bf9a532e094067b08c216493
+  $fEqBool :: GHC.Base.Eq GHC.Bool.Bool
+    {- HasNoCafRefs Strictness: m
+       Unfolding: (GHC.Base.:DEq @ GHC.Bool.Bool GHC.Base.==2
+       GHC.Base.$s$dm/=1)
+}}}
+
+Making a type or class depend on its instances can cause a lot of recompilation when an instance changes.  For example:
 
 {{{
 module A (T) where
@@ -443,45 +452,9 @@ data T = ...
 instance C t where ...
 }}}
 
-now the instance `C T` will be attached to `T`.  But we really don't
-want to include `C`'s fingerprint in `T`'s fingerprint, because that would
-register an unnecessary dependency of `T` on `C`: every time `C`
-changed, we'd recompile anything that depended on `T`.  The dependency
-is unnecessary, because we know anything that needs the instance will
-already depend on both `C` and `T`.
+now the DFun for the instance `C T` will be attached to `T`, and so `T`'s fingerprint will change when anything about the instance changes, including `C` itself.  So there is now have a dependency of `T` on `C`, which can cause a lot of recompilation whenever `C` changes.  Modules using `T` who do not care about `C` will still be recompiled.
 
-So instead of creating a fingerprint that depends on the instance
-declaration and everything it mentions, we fingerprint ''just the
-declaration itself''.  This works by fingerprinting each name in the
-declaration as its literal string, rather than the fingerprint of the
-name.
-
-But what about the ''contents'' of the instance declaration?  With
-optimisation on, the compiler may inline instances and their methods,
-so if an instance changes we need to trigger recompilation for any
-module that actually used the previous version of the instance.  This
-works as follows.  An instance declaration looks like this
-
-{{{
-instance GHC.Base.Eq [GHC.Bool.Bool] = GHC.Base.$f10
-}}}
-
-Here `GHC.Base.$f10` is the "dictionary function", i.e. the value
-representing this dictionary.  `GHC.Base.$f10` has a declaration of
-its own, in the same interface, complete with a fingerprint.
-
-{{{
-c3e94597bf9a532e094067b08c216493
-  $f10 :: GHC.Base.Eq GHC.Bool.Bool
-    {- HasNoCafRefs Strictness: m
-       Unfolding: (GHC.Base.:DEq @ GHC.Bool.Bool GHC.Base.==2
-       GHC.Base.$s$dm/=1)
-}}}
-
-So we ensure that any module that used this instance registers the
-fingerprint of `GHC.Base.$f10` in its usages (this is the single
-exception to the rule that the usages only contains names that are
-explicitly mentioned in the source file).
+This seems like it would cause a lot of unnecessary recompilation.  Indeed, in GHC 7.0.1 and earlier we tried to optimise this case, by breaking the dependency of `T` on `C` and tracking usages of DFuns directly - whenever a DFun was used, the typechecker would record the fact, and a usage on the DFun would be recorded in the interface file.  Unfortunately, there's a bug in this plan (see #4469).  When we're using `make`, we only recompile a module when any of the interfaces that it directly imports have changed; but a DFun dependency can refer to any module, not just the directly imported ones.  Instead, we have to ensure that if an instance related to a particular type or class has changed, then the fingerprint on either the type or class changes, which is what the current plan does.  It would be nice to optimise this in a safe way, and maybe in the future we will be able to do that.
 
 === Orphans ===
 
