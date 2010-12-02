@@ -1,12 +1,16 @@
 
 
-== Status of DPH Benchmarks ==
+= Status of DPH Benchmarks =
+
+'''Last updated''': 2nd December 2010.
 
 This page gives an overview of how well the benchmarks in the [http://darcs.haskell.org/packages/dph/dph-examples dph-examples/] directory of package dph are currently working.
 
 The benchmarks are run each night by [http://darcs.haskell.org/packages/dph/dph-buildbot DPH BuildBot]. The results are posted to cvs-ghc and uploaded to [http://log.ouroborus.net/limitingfactor/dph/]. Check there for the latest numbers.
 
-== Key ==
+!ToDo: Benchmarks are currently being run with -fasm, and not via the LLVM backend. This will affect comparisons with C, but not with Data.Vector as it uses the same backend.
+
+= Key =
 <project>.<benchmark>.<version>.<parallelism>.<threads>
 
 Project
@@ -23,8 +27,14 @@ Parallelism
  * Parallel versions are also run single threaded (with -N1) and sequential versions are also run with (-N4) so we get the parallel GC.
  * Parallel versions with -N1 will tend to be slower than natively sequential versions due to overheads for supporting parallelism.
 
+Status
+ * '''BROKEN''': Benchmark doesn't compile, or crashes when run.
+ * '''SLOWDOWN''': Benchmark gets slower as number of threads increases. 
+ * '''SLOWLORIS''': Benchmark scales as the number of threads increases, but the absolute performance is not acceptable compared with equivalent versions using immutable Data.Vectors.
+
+ 
 [[br]]
-== Statically Nested ==
+= Statically Nested =
 Statically nested parallelism is where the parallelism has a fixed, finite depth. For example ``mapP f (filterP g xs)``. Statically nested programs are easier to vectorize than dynamically nested programs. At present, single threaded statically nested programs should run as fast as equivalent Data.Vector programs. Parallel versions should display a good speedup.
 
  [http://darcs.haskell.org/packages/dph/dph-examples/imaginary/SumSquares/ SumSquares]::
@@ -38,50 +48,84 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   || dph.sumsq.vectorised.par.N4 || 111ms || 3.63 || ||
 
   '''Summary''': fine[[br]]
-  '''Todo''': Add the sequential C version.
+  '''Todo''': Add a sequential C version.
 
-
+[[br]]
  [http://darcs.haskell.org/packages/dph/dph-examples/imaginary/DotProduct DotProduct]::
   Computes the dot product of two vectors of `Double`s. N=10M.
 
   || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
-  || dph.sumsq.vector.seq.N4 ||  68ms || 1 || ||
-  || dph.sumsq.vectorised.seq.N4 || 58ms || 1.17 || A ||
-  || dph.sumsq.vectorised.par.N1 || 55ms || 1.24 || ||
-  || dph.sumsq.vectorised.par.N2 || 33ms || 2.06 || ||
-  || dph.sumsq.vectorised.par.N4 || 25ms || 2.72 || ||
+  || dph.dotp.vector.seq.N4 ||  68ms || 1 || ||
+  || dph.dotp.vectorised.seq.N4 || 58ms || 1.17 || A ||
+  || dph.dotp.vectorised.par.N1 || 55ms || 1.24 || ||
+  || dph.dotp.vectorised.par.N2 || 33ms || 2.06 || ||
+  || dph.dotp.vectorised.par.N4 || 25ms || 2.72 || ||
  
-  A: The vectorised version is faster than with Data.Vector. Why was this?
+  A: The sequential vectorised version is faster than with Data.Vector. Why was this?
 
   '''Summary''': fine.[[br]]
-  '''Todo''': Add the sequential C version.
+  '''Todo''': Add a sequential C version.
 
+[[br]]
+  [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/ Evens] '''(SLOWDOWN)'''::
+   Takes the even valued `Int`s from a vector. N=10M.
+
+  || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
+  || dph.evens.vectorised.seq.N4 || 1.075s || 1 || ||
+  || dph.evens.vectorised.par.N1 || 736ms ||  1.46 || ||
+  || dph.evens.vectorised.par.N2 || 768ms ||  1.40 || ||
+  || dph.evens.vectorised.par.N4 || 859ms ||  1.25 || ||
+
+  '''Summary''': Benchmark runs slower when number of threads increases. This benchmark invokes {{{packByTag}}} due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. [[br]] 
+  '''Todo''': Fix slowdown. Add a sequential C version. 
+
+ [[br]]
  [http://darcs.haskell.org/packages/dph/examples/smvm/ SMVM]::
-  Multiplies a dense vector with a sparse matrix represented in the ''compressed sparse row format (CSR).''  
+ Multiplies a dense vector with a sparse matrix represented in the ''compressed sparse row format (CSR).''  
 
   '''Todo''': Add this to the nightly run.
 
 [[br]]
-=== Dynamically Nested ===
+= Dynamically Nested =
 Dynamically nested programs have a recursive structure where each level of the recursion invokes more parallel computations. This is common for benchmarks that use divide-and-conquer style algorithms.
 
  [http://darcs.haskell.org/packages/dph/examples/primes/ Primes]::
-  The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes.  '''Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).'''
+  The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  
 
- [http://darcs.haskell.org/packages/dph/examples/quickhull/ Quickhull]::
-  Given a set of points (in a plane), compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism.  We have only a "vectorised" version of this benchmark and a sequential Haskell reference implementation, "ref Haskell", using vanilla lists.
+  '''Todo''': We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes. Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).
+
+[[br]]
+ [http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickHull/ Quickhull] '''(SLOWLORIS)'''::
+  Given a set of points (in a plane), compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism.
+
+
+  || '''name''' || '''runtime''' || '''speedup''' || '''notes'''
+  || dph.quickhull.vector-immutable.seq.N4 || 0.166s || 1 || ||
+  || dph.quickhull.vectorised.seq.N4 || 0.677s ||  0.24 || 4x slower ||
+  || dph.quickhull.vectorised.par.N1 || 1.059s ||  0.15 || 6x slower||
+  || dph.quickhull.vectorised.par.N2 || 0.809s ||  0.21 || ||
+  || dph.quickhull.vectorised.par.N4 || 0.686s ||  0.24 || ||
+  || dph.quickhull.vector-mutable.seq.N4 || 0.086s ||  1.93 || ||
+  || dph.quickhull.vector-forkIO.par.N4 || 0.064s ||  2.59 || ||
+  || dph.quickhull.c.seq || 0.044s || 3.77 || ||
+
+  '''Status''': Benchmark scales but is 4x slower than version using immutable Data.Vectors. This benchmark is based around filtering operations, so the fact that Evens is also slow is probably related.
 
  [http://darcs.haskell.org/packages/dph/examples/qsort/ Quicksort]::
   FIXME
 
 [[br]]
-=== Dynamically Nested with Algebraic Data Types ===
+= Dynamically Nested with Algebraic Data Types =
 These programs also use user defined algebraic data types. Vectorization of these programs is still a work in progress.
 
  [http://darcs.haskell.org/packages/dph/dph-examples/barnesHut/ BarnesHut]::
   This benchmark implements the Barnes-Hut algorithm to solve the ''n''-body problem in two dimensions.  '''Currently won't compile with vectorisation due to excessive inlining of dictionaries.'''
 
-
-=== Execution on !LimitingFactor (2x Quad-Core Xeon) ===
-
-Hardware spec: 2x 3.0GHz Quad-Core Intel Xeon 5400; 12MB (2x6MB) on-die L2 cache per processor; independent 1.6GHz frontside bus per processor; 800MHz DDR2 FB-DIMM; 256-bit-wide memory architecture; Mac OS X Server 10.5.6
+[[br]]
+= Benchmark machine  =
+ * 2x 3.0GHz Quad-Core Intel Xeon 5400
+ * 12MB (2x6MB) on-die L2 cache per processor
+ * independent 1.6GHz frontside bus per processor
+ * 800MHz DDR2 FB-DIMM
+ * 256-bit-wide memory architecture
+ * Mac OS X Server 10.5.6
