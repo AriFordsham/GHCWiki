@@ -113,7 +113,7 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   || dph.evens.vectorised.par.N4 || 859ms ||  1.25 || ||
 
   '''Status''': Benchmark runs slower when number of threads increases. This benchmark invokes {{{packByTag}}} due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. [[br]] 
-  '''Todo''': Fix slowdown. Add a sequential C version. 
+  '''Todo''': Fix slowdown. Add a sequential C version and Data.Vector versions.
 
  [[br]]
  [http://darcs.haskell.org/packages/dph/examples/smvm/ SMVM]::

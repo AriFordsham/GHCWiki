@@ -201,7 +201,7 @@ Takes the even valued `Int`s from a vector. N=10M.
 > <th></th></tr></table>
 
 > **Status**: Benchmark runs slower when number of threads increases. This benchmark invokes `packByTag` due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. 
-> **Todo**: Fix slowdown. Add a sequential C version. 
+> **Todo**: Fix slowdown. Add a sequential C version and Data.Vector versions.
 
 <table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)</th>
 <td>
