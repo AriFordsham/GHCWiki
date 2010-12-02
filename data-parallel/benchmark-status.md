@@ -120,7 +120,7 @@ Performs Canny edge detection to a 2D image. Size=512x512.
 
 <table><tr><th>[ FFT](http://code.haskell.org/repa/repa-head/repa-examples/FFT/)</th>
 <td>
-Performs high-pass filtering using 2D and 3D FFTs. These are naive benchmarks used for regression testing only. They divide right down to two-point vectors and construct the result using copying append. Using an inplace algorithm (like with FFTW) would be significantly faster.
+Performs high-pass filtering using 2D and 3D FFTs. These are naive benchmarks used for regression testing only. They divide right down to (rank generalise) two-point vectors and construct the result using copying append. Using an inplace algorithm (like with FFTW) would be significantly faster.
 </td></tr></table>
 
 > **ToDo:** Runs ok, but need to add other versions for comparison.
