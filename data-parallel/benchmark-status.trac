@@ -30,7 +30,10 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
 
   || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes'''
   || repa.mmult.c.seq ||  3.792s || 1 || 1 || A ||
+  || repa.mmult.par.N1 || 8.484s || 0.45 || 0.45 || ||
   || repa.mmult.par.N4 || 2.147s || 1.77 || 0.44 || ||
+  || repa.mmult.par.N8 || 1.097s || 3.46 || 0.43 || ||
+
   A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
   '''Status:''' Ok, but about 20% slower than in 6.13.[[br]]
@@ -42,7 +45,9 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
 
   || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
   || repa.laplace.c.seq ||  1.299s || 1 || 1 || A ||
+  || repa.laplace.par.N1 || 9.405s || 0.14 || 0.14 || ||
   || repa.laplace.par.N4 || 2.521s || 0.51 || 0.13 || ||
+  || repa.laplace.par.N8 || 2.124s || 0.61 || 0.08 || ||
   A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
   '''Status:''' Ok, but about 25% slower than in 6.13.[[br]]

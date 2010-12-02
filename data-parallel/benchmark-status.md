@@ -44,12 +44,22 @@ Matrix-Matrix multiplication. Size=1024x1024.
 > <th> 1 </th>
 > <th> A 
 > </th></tr>
+> <tr><th> repa.mmult.par.N1 </th>
+> <th> 8.484s </th>
+> <th> 0.45 </th>
+> <th> 0.45 </th>
+> <th></th></tr>
 > <tr><th> repa.mmult.par.N4 </th>
 > <th> 2.147s </th>
 > <th> 1.77 </th>
 > <th> 0.44 </th>
+> <th></th></tr>
+> <tr><th> repa.mmult.par.N8 </th>
+> <th> 1.097s </th>
+> <th> 3.46 </th>
+> <th> 0.43 </th>
 > <th></th></tr></table>
->
+
 >
 > A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
@@ -72,10 +82,20 @@ Solves the Laplace equation in the 2D plane. Size=400x400.
 > <th> 1 </th>
 > <th> A 
 > </th></tr>
+> <tr><th> repa.laplace.par.N1 </th>
+> <th> 9.405s </th>
+> <th> 0.14 </th>
+> <th> 0.14 </th>
+> <th></th></tr>
 > <tr><th> repa.laplace.par.N4 </th>
 > <th> 2.521s </th>
 > <th> 0.51 </th>
 > <th> 0.13 </th>
+> <th></th></tr>
+> <tr><th> repa.laplace.par.N8 </th>
+> <th> 2.124s </th>
+> <th> 0.61 </th>
+> <th> 0.08 </th>
 > <th></th></tr></table>
 >
 >
