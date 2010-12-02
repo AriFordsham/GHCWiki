@@ -10,13 +10,14 @@ The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/pa
 
 # Summary
 
-- Evens gets slower as number of threads increases, probably because it's using a filtering operation.
-- QuickHull is 4x slower than the immutable Data.Vector version in absolute terms. This may be related to the problem with Evens.
-- Vectorised sequential QuickSort doesn't compile due to a blow-up in SpecConstr.
-- Vectorised NBody has a core-lint error due to a bug in the rule matcher. If you turn off -dcore-lint it segfaults when run.
+- Evens: gets slower as the number of threads increases, probably because it's using a filtering operation.
+- QuickHull: vectorised.par.N1 version is 6x slower than the immutable Data.Vector version in absolute terms. This may be related to the problem with Evens.
+- QuickSort: vectorised.seq version doesn't compile due to a blow-up in SpecConstr.
+- NBody: has a core-lint error due to a bug in the rule matcher. If you turn off -dcore-lint it segfaults when run. Before recent GHC changes it compiled (with core-lint error), but vectorised.par Barnes-Hut algorithm was 50x slower than the version using immutable Data.Vector.
 
+# ToDo
 
-ToDo: Benchmarks are currently being run with -fasm, and not via the LLVM backend. This will affect comparisons with C, but not with Data.Vector as it uses the same backend.
+- Benchmarks are currently being run with -fasm, and not via the LLVM backend. This will affect comparisons with C, but not with Data.Vector as it uses the same backend.
 
 ---
 
@@ -205,24 +206,27 @@ Given a set of points in the plane, compute the sequence of points that encloses
 > <tr><th> dph.quickhull.vector-mutable.seq.N4 </th>
 > <th> 0.086s </th>
 > <th>  1.93 </th>
-> <th></th></tr>
+> <th> A 
+> </th></tr>
 > <tr><th> dph.quickhull.vector-forkIO.par.N4 </th>
 > <th> 0.064s </th>
 > <th>  2.59 </th>
-> <th> A 
+> <th> B 
 > </th></tr>
 > <tr><th> dph.quickhull.c.seq </th>
 > <th> 0.044s </th>
 > <th> 3.77 </th>
-> <th> B 
+> <th> C 
 > </th></tr></table>
 
 >
-> A: Uses mutable Data.Vectors, unsafe operations, forkIO and atomicModifyIORef. Code is uglier than the C version.
+> A: Uses mutable Data.Vectors for intermediate buffers.
 >
-> B: Sequential C version with pre-allocated mutable intermediate buffers.
+> B: Uses mutable Data.Vectors, forkIO and atomicModifyIORef. Concurrent threads fill a shared output vector. Code is uglier than the C version.
+>
+> C: Sequential C version with pre-allocated mutable intermediate buffers.
 
-> **Status**: Benchmark scales but is 4x slower than version using immutable Data.Vectors. QuickHull is based around filtering operations, so the fact that Evens is also slow is probably related.
+> **Status**: Benchmark scales but single threaded vectorised.par version is 6x slower than slower than version using immutable Data.Vectors. QuickHull is based around filtering operations, so the fact that Evens is also slow is probably related.
 
 # Dynamically Nested Parallelism with Algebraic Data Types
 
