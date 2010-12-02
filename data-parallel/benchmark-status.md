@@ -320,7 +320,9 @@ This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem
 # Key
 
 
-\<project\>.\<benchmark\>.\<version\>.\<parallelism\>.\<threads\>
+dph.\<benchmark\>.\<version\>.\<parallelism\>.\[threads\]
+
+repa.\<benchmark\>.\[version\].\[threads\]
 
 
 Project

@@ -176,7 +176,8 @@ These programs also use user defined algebraic data types. Vectorization of thes
 ----
 ----
 = Key =
-<project>.<benchmark>.<version>.<parallelism>.<threads>
+dph.<benchmark>.<version>.<parallelism>.[threads][[br]]
+repa.<benchmark>.[version].[threads][[br]]
 
 Project
  * Either ''dph'' or ''repa''. Repa programs use the same parallel array library as DPH, but do not go through the vectorising transform.
