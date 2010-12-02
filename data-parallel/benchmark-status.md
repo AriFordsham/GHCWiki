@@ -209,11 +209,18 @@ Given a set of points in the plane, compute the sequence of points that encloses
 > <tr><th> dph.quickhull.vector-forkIO.par.N4 </th>
 > <th> 0.064s </th>
 > <th>  2.59 </th>
-> <th></th></tr>
+> <th> A 
+> </th></tr>
 > <tr><th> dph.quickhull.c.seq </th>
 > <th> 0.044s </th>
 > <th> 3.77 </th>
-> <th></th></tr></table>
+> <th> B 
+> </th></tr></table>
+
+>
+> A: Uses mutable Data.Vectors, unsafe operations, forkIO and atomicModifyIORef. Code is uglier than the C version.
+>
+> B: Sequential C version with pre-allocated mutable intermediate buffers.
 
 > **Status**: Benchmark scales but is 4x slower than version using immutable Data.Vectors. QuickHull is based around filtering operations, so the fact that Evens is also slow is probably related.
 
