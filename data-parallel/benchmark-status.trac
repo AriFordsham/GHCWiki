@@ -196,7 +196,7 @@ Parallelism
 Status
  * '''BROKEN''': Benchmark doesn't compile, or crashes when run.
  * '''SLOWDOWN''': Benchmark gets slower as number of threads increases. 
- * '''SLOWLORIS''': Benchmark scales as the number of threads increases, but the absolute performance is not acceptable compared with equivalent versions using immutable Data.Vectors. We do not have a setup in which the parallel version runs faster than the sequential reference version. Increasing the number of threads makes it faster, but not fast enough.
+ * '''SLOWLORIS''': Benchmark scales as the number of threads increases, but the absolute performance is not acceptable compared with equivalent versions using immutable Data.Vectors. We do not have a setup in which the parallel version runs faster than the sequential reference version. Increasing the number of threads makes it faster, but not fast enough. Cute, but too slow to be useful.
 
 [[br]]
 = Benchmark machine  =
