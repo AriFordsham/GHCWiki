@@ -8,42 +8,24 @@ This page gives an overview of how well the benchmarks in the [ dph-examples/](h
 
 The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/packages/dph/dph-buildbot). The results are posted to cvs-ghc and uploaded to [ http://log.ouroborus.net/limitingfactor/dph/](http://log.ouroborus.net/limitingfactor/dph/). Check there for the latest numbers.
 
+# Summary
+
+- Evens gets slower as number of threads increases, probably because it's using a filtering operation.
+- QuickHull is 4x slower than the immutable Data.Vector version in absolute terms. This may be related to the problem with Evens.
+- Vectorised sequential QuickSort doesn't compile due to a blow-up in SpecConstr.
+- Vectorised NBody has a core-lint error due to a bug in the rule matcher. If you turn off -dcore-lint it segfaults when run.
+
 
 ToDo: Benchmarks are currently being run with -fasm, and not via the LLVM backend. This will affect comparisons with C, but not with Data.Vector as it uses the same backend.
 
-# Key
+---
+
+# Flat Parallelism
 
 
-\<project\>.\<benchmark\>.\<version\>.\<parallelism\>.\<threads\>
+Todo: add Repa benchmarks.
 
-
-Project
-
-- Either *dph* or *repa*. Repa programs use the same parallel array library as DPH, but do not go through the vectorising transform.
-
-
-Version
-
-- *vectorised* means it's been through the DPH vectorising transform. 
-- *vector* is a hand written version using immutable Data.Vectors
-- *vector-mutable* is a hand written version using mutable Data.Vectors.
-- *vector-immutable* means the same as *vector* and is used when there is also an mutable version.
-
-
-Parallelism 
-
-- Whether a benchmark is natively parallel or sequential. 
-- Parallel versions are also run single threaded (with -N1) and sequential versions are also run with (-N4) so we get the parallel GC.
-- Parallel versions with -N1 will tend to be slower than natively sequential versions due to overheads for supporting parallelism.
-
-
-Status
-
-- **BROKEN**: Benchmark doesn't compile, or crashes when run.
-- **SLOWDOWN**: Benchmark gets slower as number of threads increases. 
-- **SLOWLORIS**: Benchmark scales as the number of threads increases, but the absolute performance is not acceptable compared with equivalent versions using immutable Data.Vectors.
-
-# Statically Nested
+# Statically Nested Parallelism
 
 
 Statically nested parallelism is where the parallelism has a fixed, finite depth. For example ``mapP f (filterP g xs)``. Statically nested programs are easier to vectorize than dynamically nested programs. At present, single threaded statically nested programs should run as fast as equivalent Data.Vector programs. Parallel versions should display a good speedup.
@@ -153,7 +135,7 @@ Multiplies a dense vector with a sparse matrix represented in the *compressed sp
 
 > > **Todo**: Add this to the nightly run.
 
-# Dynamically Nested
+# Dynamically Nested Parallelism
 
 
 Dynamically nested programs have a recursive structure where each level of the recursion invokes more parallel computations. This is common for benchmarks that use divide-and-conquer style algorithms.
@@ -214,7 +196,7 @@ Given a set of points (in a plane), compute the sequence of points that encloses
 <table><tr><th>[ Quicksort](http://darcs.haskell.org/packages/dph/examples/qsort/)</th>
 <td>FIXME</td></tr></table>
 
-# Dynamically Nested with Algebraic Data Types
+# Dynamically Nested Parallelism with Algebraic Data Types
 
 
 These programs also use user defined algebraic data types. Vectorization of these programs is still a work in progress.
@@ -222,6 +204,42 @@ These programs also use user defined algebraic data types. Vectorization of thes
 <table><tr><th>[ BarnesHut](http://darcs.haskell.org/packages/dph/dph-examples/barnesHut/)</th>
 <td>
 This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions.  **Currently won't compile with vectorisation due to excessive inlining of dictionaries.**</td></tr></table>
+
+---
+
+---
+
+# Key
+
+
+\<project\>.\<benchmark\>.\<version\>.\<parallelism\>.\<threads\>
+
+
+Project
+
+- Either *dph* or *repa*. Repa programs use the same parallel array library as DPH, but do not go through the vectorising transform.
+
+
+Version
+
+- *vectorised* means it's been through the DPH vectorising transform. 
+- *vector* is a hand written version using immutable Data.Vectors
+- *vector-mutable* is a hand written version using mutable Data.Vectors.
+- *vector-immutable* means the same as *vector* and is used when there is also an mutable version.
+
+
+Parallelism 
+
+- Whether a benchmark is natively parallel or sequential. 
+- Parallel versions are also run single threaded (with -N1) and sequential versions are also run with (-N4) so we get the parallel GC.
+- Parallel versions with -N1 will tend to be slower than natively sequential versions due to overheads for supporting parallelism.
+
+
+Status
+
+- **BROKEN**: Benchmark doesn't compile, or crashes when run.
+- **SLOWDOWN**: Benchmark gets slower as number of threads increases. 
+- **SLOWLORIS**: Benchmark scales as the number of threads increases, but the absolute performance is not acceptable compared with equivalent versions using immutable Data.Vectors.
 
 # Benchmark machine
 
