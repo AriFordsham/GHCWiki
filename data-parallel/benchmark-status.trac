@@ -132,7 +132,7 @@ Dynamically nested programs have a recursive structure where each level of the r
 
 [[br]]
  [http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/ QuickSort] '''(BROKEN)'''::
-  Sort a vector of doubles by recursively splitting the vector and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
+  Sort a vector of doubles by recursively splitting it and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
 
   || '''name''' || '''runtime''' || '''speedup''' || '''notes''' ||
   || dph.quicksort.vectorised.par.N1 || 428ms ||  1 || ||

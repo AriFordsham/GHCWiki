@@ -223,7 +223,7 @@ The Sieve of Eratosthenes using parallel writes into a sieve structure represent
 
 <table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN)**</th>
 <td>
-Sort a vector of doubles by recursively splitting the vector and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
+Sort a vector of doubles by recursively splitting it and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
 </td></tr></table>
 
 > <table><tr><th>**name**</th>
