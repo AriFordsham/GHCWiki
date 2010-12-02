@@ -10,25 +10,125 @@ The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/pa
 
 # Summary
 
-- Evens gets slower as number of threads increases, probably because it's using a filtering operation.
-- QuickHull is 4x slower than the immutable Data.Vector version in absolute terms. This may be related to the problem with Evens.
-- Vectorised sequential QuickSort doesn't compile due to a blow-up in SpecConstr.
-- Vectorised NBody has a core-lint error due to a bug in the rule matcher. If you turn off -dcore-lint it segfaults when run.
+- Evens: gets slower as the number of threads increases, probably because it's using a filtering operation.
+- QuickHull: vectorised.par.N1 version is 6x slower than the immutable Data.Vector version in absolute terms. This may be related to the problem with Evens.
+- QuickSort: vectorised.seq version doesn't compile due to a blow-up in SpecConstr.
+- BarnesHut: has a core-lint error due to a bug in the rule matcher. If you turn off -dcore-lint it segfaults when run. Before recent GHC changes it compiled (with core-lint error), but vectorised.par Barnes-Hut algorithm was 50x slower than the version using immutable Data.Vector.
 
+# ToDo
 
-ToDo: Benchmarks are currently being run with -fasm, and not via the LLVM backend. This will affect comparisons with C, but not with Data.Vector as it uses the same backend.
+- Benchmarks are currently being run with -fasm, and not via the LLVM backend. This will affect comparisons with C, but not with Data.Vector as it uses the same backend.
+
+---
 
 ---
 
 # Flat Parallelism
 
 
-Todo: add Repa benchmarks.
+Flat parallel programs are ones in which parallel computations do not invoke further parallel computations. For Repa, this means that the value of each element in a given array can be computed independently of the others. These should run as fast as equivalent programs using immutable Data.Vector. We'd also hope to get close to the performance of C programs using equivalent algorithms, though this is a harder comparison due to differences in the back-end code generator.
+
+<table><tr><th>[ MMult](http://code.haskell.org/repa/repa-head/repa-examples/MMult/)</th>
+<td>
+Matrix-Matrix multiplication. Size=1024x1024.
+</td></tr></table>
+
+> <table><tr><th>**name**</th>
+> <th>**runtime**</th>
+> <th>**speedup**</th>
+> <th>**efficiency**</th>
+> <th>**notes**</th></tr>
+> <tr><th> repa.mmult.c.seq </th>
+> <th>  3.792s </th>
+> <th> 1 </th>
+> <th> 1 </th>
+> <th> A 
+> </th></tr>
+> <tr><th> repa.mmult.par.N1 </th>
+> <th> 8.484s </th>
+> <th> 0.45 </th>
+> <th> 0.45 </th>
+> <th></th></tr>
+> <tr><th> repa.mmult.par.N4 </th>
+> <th> 2.147s </th>
+> <th> 1.77 </th>
+> <th> 0.44 </th>
+> <th></th></tr>
+> <tr><th> repa.mmult.par.N8 </th>
+> <th> 1.097s </th>
+> <th> 3.46 </th>
+> <th> 0.43 </th>
+> <th></th></tr></table>
+
+>
+> A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
+
+> **Status:** Ok, but about 20% slower than in 6.13.
+> **ToDo:** Run with LLVM and without bounds checking.
+
+<table><tr><th>[ Laplace](http://code.haskell.org/repa/repa-head/repa-examples/Laplace/)**(SLOWLORIS)**</th>
+<td>
+Solves the Laplace equation in the 2D plane. Size=400x400.
+</td></tr></table>
+
+> <table><tr><th>**name**</th>
+> <th>**runtime**</th>
+> <th>**speedup**</th>
+> <th>**efficiency**</th>
+> <th>**notes**</th></tr>
+> <tr><th> repa.laplace.c.seq </th>
+> <th>  1.299s </th>
+> <th> 1 </th>
+> <th> 1 </th>
+> <th> A 
+> </th></tr>
+> <tr><th> repa.laplace.par.N1 </th>
+> <th> 9.405s </th>
+> <th> 0.14 </th>
+> <th> 0.14 </th>
+> <th></th></tr>
+> <tr><th> repa.laplace.par.N4 </th>
+> <th> 2.521s </th>
+> <th> 0.51 </th>
+> <th> 0.13 </th>
+> <th></th></tr>
+> <tr><th> repa.laplace.par.N8 </th>
+> <th> 2.124s </th>
+> <th> 0.61 </th>
+> <th> 0.08 </th>
+> <th></th></tr></table>
+>
+>
+> A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
+
+> **Status:** Too slow. We should check this again with LLVM.
+> **ToDo:** Run with LLVM and without bounds checking. Run with more threads to see if we can get back to the C version's run time.
+
+<table><tr><th>[ Blur](http://code.haskell.org/repa/repa-head/repa-examples/Blur/)</th>
+<td>
+Applies a Gaussian blur filter to a 2D image. Size=512x512.
+</td></tr></table>
+
+> **ToDo:** Runs ok, but need to add other versions for comparison.
+
+<table><tr><th>[ EdgeDetect](http://code.haskell.org/repa/repa-head/repa-examples/EdgeDetect/)</th>
+<td>
+Performs Canny edge detection to a 2D image. Size=512x512.
+</td></tr></table>
+
+> **ToDo:** Runs ok, but need to add other versions for comparison.
+
+<table><tr><th>[ FFT](http://code.haskell.org/repa/repa-head/repa-examples/FFT/)</th>
+<td>
+Performs high-pass filtering using 2D and 3D FFTs. These are naive benchmarks used for regression testing only. They divide right down to (rank generalise) two-point vectors and construct the result using copying append. Using an inplace algorithm (like with FFTW) would be significantly faster.
+</td></tr></table>
+
+> **ToDo:** Runs ok, but need to add other versions for comparison.
 
 # Statically Nested Parallelism
 
 
-Statically nested parallelism is where the parallelism has a fixed, finite depth. For example ``mapP f (filterP g xs)``. Statically nested programs are easier to vectorize than dynamically nested programs. At present, single threaded statically nested programs should run as fast as equivalent Data.Vector programs. Parallel versions should display a good speedup.
+Statically nested parallelism is where the parallelism has a fixed, finite depth. For example ``mapP f (filterP g xs)``. Statically nested programs are easier to vectorise than dynamically nested programs. At present, single threaded statically nested programs should run as fast as equivalent Data.Vector programs. Parallel versions should display a good speedup.
 
 <table><tr><th>[ SumSquares](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/SumSquares/)</th>
 <td>
@@ -38,26 +138,32 @@ Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 > <table><tr><th>**name**</th>
 > <th>**runtime**</th>
 > <th>**speedup**</th>
+> <th>**efficiency**</th>
 > <th>**notes**</th></tr>
 > <tr><th> dph.sumsq.vector.seq.N4 </th>
 > <th>  404ms </th>
+> <th> 1 </th>
 > <th> 1 </th>
 > <th></th></tr>
 > <tr><th> dph.sumsq.vectorised.seq.N4 </th>
 > <th> 434ms </th>
 > <th> 0.93 </th>
+> <th></th>
 > <th></th></tr>
 > <tr><th> dph.sumsq.vectorised.par.N1 </th>
 > <th> 443ms </th>
+> <th> 0.91 </th>
 > <th> 0.91 </th>
 > <th></th></tr>
 > <tr><th> dph.sumsq.vectorised.par.N2 </th>
 > <th> 222ms </th>
 > <th> 1.82 </th>
+> <th> 0.91 </th>
 > <th></th></tr>
 > <tr><th> dph.sumsq.vectorised.par.N4 </th>
 > <th> 111ms </th>
 > <th> 3.63 </th>
+> <th> 0.91 </th>
 > <th></th></tr></table>
 
 > **Status**: fine
@@ -71,27 +177,33 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 > <table><tr><th>**name**</th>
 > <th>**runtime**</th>
 > <th>**speedup**</th>
+> <th>**efficiency**</th>
 > <th>**notes**</th></tr>
 > <tr><th> dph.dotp.vector.seq.N4 </th>
 > <th>  68ms </th>
+> <th> 1 </th>
 > <th> 1 </th>
 > <th></th></tr>
 > <tr><th> dph.dotp.vectorised.seq.N4 </th>
 > <th> 58ms </th>
 > <th> 1.17 </th>
+> <th></th>
 > <th> A 
 > </th></tr>
 > <tr><th> dph.dotp.vectorised.par.N1 </th>
 > <th> 55ms </th>
 > <th> 1.24 </th>
+> <th> 1.24 </th>
 > <th></th></tr>
 > <tr><th> dph.dotp.vectorised.par.N2 </th>
 > <th> 33ms </th>
 > <th> 2.06 </th>
+> <th> 1.03 </th>
 > <th></th></tr>
 > <tr><th> dph.dotp.vectorised.par.N4 </th>
 > <th> 25ms </th>
 > <th> 2.72 </th>
+> <th> 0.68 </th>
 > <th></th></tr></table>
 
 >
@@ -108,26 +220,31 @@ Takes the even valued `Int`s from a vector. N=10M.
 > <table><tr><th>**name**</th>
 > <th>**runtime**</th>
 > <th>**speedup**</th>
+> <th>**efficiency**</th>
 > <th>**notes**</th></tr>
 > <tr><th> dph.evens.vectorised.seq.N4 </th>
 > <th> 1.075s </th>
+> <th> 1 </th>
 > <th> 1 </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N1 </th>
 > <th> 736ms </th>
 > <th>  1.46 </th>
+> <th> 1.46 </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N2 </th>
 > <th> 768ms </th>
 > <th>  1.40 </th>
+> <th> 0.70 </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N4 </th>
 > <th> 859ms </th>
 > <th>  1.25 </th>
+> <th> 0.31 </th>
 > <th></th></tr></table>
 
 > **Status**: Benchmark runs slower when number of threads increases. This benchmark invokes `packByTag` due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. 
-> **Todo**: Fix slowdown. Add a sequential C version. 
+> **Todo**: Fix slowdown. Add a sequential C version and Data.Vector versions.
 
 <table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)</th>
 <td>
@@ -149,89 +266,108 @@ The Sieve of Eratosthenes using parallel writes into a sieve structure represent
 
 <table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN)**</th>
 <td>
-Sort a vector of doubles by recursively splitting the vector and sorting the two halves. This is a "fake" benchmark because we divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements.
+Sort a vector of doubles by recursively splitting it and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
 </td></tr></table>
 
 > <table><tr><th>**name**</th>
 > <th>**runtime**</th>
 > <th>**speedup**</th>
+> <th>**efficiency**</th>
 > <th>**notes**</th></tr>
 > <tr><th> dph.quicksort.vectorised.par.N1 </th>
 > <th> 428ms </th>
 > <th>  1 </th>
+> <th> 1 </th>
 > <th></th></tr>
 > <tr><th> dph.quicksort.vectorised.par.N2 </th>
 > <th> 400ms </th>
 > <th>  1.07 </th>
+> <th> 0.54 </th>
 > <th></th></tr>
 > <tr><th> dph.quicksort.vectorised.par.N4 </th>
 > <th> 392ms </th>
 > <th>  1.09 </th>
+> <th> 0.27 </th>
 > <th></th></tr></table>
 
 > **Status**: Sequential vectorised version does not compile due to a blowup in SpecConstr.
 
 <table><tr><th>[ Quickhull](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickHull/)**(SLOWLORIS)**</th>
 <td>
-Given a set of points in the plane, compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism.
+Given a set of points in the plane, compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism. N=1M.
 </td></tr></table>
 
 > <table><tr><th>**name**</th>
 > <th>**runtime**</th>
 > <th>**speedup**</th>
+> <th>**efficiency**</th>
 > <th>**notes**</th></tr>
 > <tr><th> dph.quickhull.vector-immutable.seq.N4 </th>
 > <th> 0.166s </th>
+> <th> 1 </th>
 > <th> 1 </th>
 > <th></th></tr>
 > <tr><th> dph.quickhull.vectorised.seq.N4 </th>
 > <th> 0.677s </th>
 > <th>  0.24 </th>
+> <th></th>
 > <th> 4x slower 
 > </th></tr>
 > <tr><th> dph.quickhull.vectorised.par.N1 </th>
 > <th> 1.059s </th>
 > <th>  0.15 </th>
+> <th> 0.15 </th>
 > <th> 6x slower
 > </th></tr>
 > <tr><th> dph.quickhull.vectorised.par.N2 </th>
 > <th> 0.809s </th>
 > <th>  0.21 </th>
+> <th> 0.11 </th>
 > <th></th></tr>
 > <tr><th> dph.quickhull.vectorised.par.N4 </th>
 > <th> 0.686s </th>
 > <th>  0.24 </th>
+> <th> 0.06 </th>
 > <th></th></tr>
 > <tr><th> dph.quickhull.vector-mutable.seq.N4 </th>
 > <th> 0.086s </th>
 > <th>  1.93 </th>
-> <th></th></tr>
+> <th></th>
+> <th> A 
+> </th></tr>
 > <tr><th> dph.quickhull.vector-forkIO.par.N4 </th>
 > <th> 0.064s </th>
 > <th>  2.59 </th>
-> <th> A 
+> <th> 0.65 </th>
+> <th> B 
 > </th></tr>
 > <tr><th> dph.quickhull.c.seq </th>
 > <th> 0.044s </th>
 > <th> 3.77 </th>
-> <th> B 
+> <th></th>
+> <th> C 
 > </th></tr></table>
 
 >
-> A: Uses mutable Data.Vectors, unsafe operations, forkIO and atomicModifyIORef. Code is uglier than the C version.
+> A: Uses mutable Data.Vectors for intermediate buffers.
 >
-> B: Sequential C version with pre-allocated mutable intermediate buffers.
+> B: Uses mutable Data.Vectors, forkIO and atomicModifyIORef. Concurrent threads fill a shared output vector. Code is uglier than the C version.
+>
+> C: Sequential C version with pre-allocated mutable intermediate buffers.
 
-> **Status**: Benchmark scales but is 4x slower than version using immutable Data.Vectors. QuickHull is based around filtering operations, so the fact that Evens is also slow is probably related.
+> **Status**: Benchmark scales but single threaded vectorised.par version is 6x slower than slower than version using immutable Data.Vectors. QuickHull is based around filtering operations, so the fact that Evens is also slow is probably related.
 
 # Dynamically Nested Parallelism with Algebraic Data Types
 
 
 These programs also use user defined algebraic data types. Vectorization of these programs is still a work in progress.
 
-<table><tr><th>[ BarnesHut](http://darcs.haskell.org/packages/dph/dph-examples/barnesHut/)</th>
+<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(BROKEN)**</th>
 <td>
-This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions.  **Currently won't compile with vectorisation due to excessive inlining of dictionaries.**</td></tr></table>
+This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions. There is a naive O(n<sup>2</sup>) version in the same package.
+</td></tr></table>
+
+> **Status**: Core-lint error due to bug in GHC's rule matcher. If we compile without -dcore-lint it segfaults when run.
 
 ---
 
@@ -240,34 +376,46 @@ This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem
 # Key
 
 
-\<project\>.\<benchmark\>.\<version\>.\<parallelism\>.\<threads\>
+dph.\<*benchmark*\>.\<*version*\>.\<*parallelism*\>.\[*threads*\]
 
+repa.\<*benchmark*\>.\[*version*\].\[*threads*\]
 
-Project
-
-- Either *dph* or *repa*. Repa programs use the same parallel array library as DPH, but do not go through the vectorising transform.
-
-
-Version
+*version*
 
 - *vectorised* means it's been through the DPH vectorising transform. 
 - *vector* is a hand written version using immutable Data.Vectors
 - *vector-mutable* is a hand written version using mutable Data.Vectors.
 - *vector-immutable* means the same as *vector* and is used when there is also an mutable version.
 
-
-Parallelism 
+*parallelism*
 
 - Whether a benchmark is natively parallel or sequential. 
 - Parallel versions are also run single threaded (with -N1) and sequential versions are also run with (-N4) so we get the parallel GC.
 - Parallel versions with -N1 will tend to be slower than natively sequential versions due to overheads for supporting parallelism.
 
+*threads*
 
-Status
+- Value passed to Haskell Runtime with -N threads flag.
+- Number of Haskell Execution Contexts (HECs) used when running the benchmark. 
+- Can be less than the number of hardware threads / cores in the physical machine.
+
+**speedup**
+
+- Runtime of reference / runtime of benchmark.
+- Measures how much faster a benchmark is relative to the reference.
+
+
+(relative) **efficiency**
+
+- Speedup / number of threads.
+- Indicates the communication overhead involved with running something in parallel.
+- Can be \> 1 if the parallel version running with a single thread is faster than the sequential reference version.
+
+**Status:**
 
 - **BROKEN**: Benchmark doesn't compile, or crashes when run.
 - **SLOWDOWN**: Benchmark gets slower as number of threads increases. 
-- **SLOWLORIS**: Benchmark scales as the number of threads increases, but the absolute performance is not acceptable compared with equivalent versions using immutable Data.Vectors.
+- **SLOWLORIS**: Benchmark scales as the number of threads increases, but the absolute performance is not acceptable compared with equivalent versions using immutable Data.Vectors. We do not have a setup in which the parallel version runs faster than the sequential reference version. Cute, but too slow to be useful.
 
 # Benchmark machine
 
