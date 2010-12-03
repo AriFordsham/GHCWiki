@@ -144,13 +144,13 @@ Dynamically nested programs have a recursive structure where each level of the r
   '''Todo''': We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes. Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).
 
 [[br]]
- [http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/ QuickSort] '''(BROKEN)'''::
+ [http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/ QuickSort] '''(BROKEN) (SLOWDOWN)'''::
   Sort a vector of doubles by recursively splitting it and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
 
   || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
   || dph.quicksort.vectorised.par.N1 || 428ms ||  1 || 1 || ||
-  || dph.quicksort.vectorised.par.N2 || 400ms ||  1.07 || 0.54 || ||
-  || dph.quicksort.vectorised.par.N4 || 392ms ||  1.09 || 0.27 || ||
+  || dph.quicksort.vectorised.par.N2 || 417ms ||  1.02 || || ||
+  || dph.quicksort.vectorised.par.N4 || 422ms ||  1.01 || || ||
 
   '''Status''': Sequential vectorised version does not compile due to a blowup in !SpecConstr.
 
@@ -162,9 +162,9 @@ Dynamically nested programs have a recursive structure where each level of the r
   || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
   || dph.quickhull.vector-immutable.seq.N4 || 0.166s || 1 || 1 || ||
   || dph.quickhull.vectorised.seq.N4 || 0.677s ||  0.24 ||  || 4x slower ||
-  || dph.quickhull.vectorised.par.N1 || 1.059s ||  0.15 || 0.15 || 6x slower||
-  || dph.quickhull.vectorised.par.N2 || 0.809s ||  0.21 || 0.11 || ||
-  || dph.quickhull.vectorised.par.N4 || 0.686s ||  0.24 || 0.06 || ||
+  || dph.quickhull.vectorised.par.N1 || 1.033s ||  0.16 || 0.16 || 6x slower||
+  || dph.quickhull.vectorised.par.N2 || 0.686s ||  0.24 || 0.12 || ||
+  || dph.quickhull.vectorised.par.N4 || 0.571s ||  0.29 || 0.07 || ||
   || dph.quickhull.vector-mutable.seq.N4 || 0.086s ||  1.93 || || A ||
   || dph.quickhull.vector-forkIO.par.N4 || 0.064s ||  2.59 || 0.65 || B ||
   || dph.quickhull.c.seq || 0.044s || 3.77 || || C ||

@@ -312,7 +312,7 @@ The Sieve of Eratosthenes using parallel writes into a sieve structure represent
 
 > **Todo**: We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes. Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).
 
-<table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN)**</th>
+<table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN) (SLOWDOWN)**</th>
 <td>
 Sort a vector of doubles by recursively splitting it and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
 </td></tr></table>
@@ -328,14 +328,14 @@ Sort a vector of doubles by recursively splitting it and sorting the two halves.
 > <th> 1 </th>
 > <th></th></tr>
 > <tr><th> dph.quicksort.vectorised.par.N2 </th>
-> <th> 400ms </th>
-> <th>  1.07 </th>
-> <th> 0.54 </th>
+> <th> 417ms </th>
+> <th>  1.02 </th>
+> <th></th>
 > <th></th></tr>
 > <tr><th> dph.quicksort.vectorised.par.N4 </th>
-> <th> 392ms </th>
-> <th>  1.09 </th>
-> <th> 0.27 </th>
+> <th> 422ms </th>
+> <th>  1.01 </th>
+> <th></th>
 > <th></th></tr></table>
 
 > **Status**: Sequential vectorised version does not compile due to a blowup in SpecConstr.
@@ -362,20 +362,20 @@ Given a set of points in the plane, compute the sequence of points that encloses
 > <th> 4x slower 
 > </th></tr>
 > <tr><th> dph.quickhull.vectorised.par.N1 </th>
-> <th> 1.059s </th>
-> <th>  0.15 </th>
-> <th> 0.15 </th>
+> <th> 1.033s </th>
+> <th>  0.16 </th>
+> <th> 0.16 </th>
 > <th> 6x slower
 > </th></tr>
 > <tr><th> dph.quickhull.vectorised.par.N2 </th>
-> <th> 0.809s </th>
-> <th>  0.21 </th>
-> <th> 0.11 </th>
-> <th></th></tr>
-> <tr><th> dph.quickhull.vectorised.par.N4 </th>
 > <th> 0.686s </th>
 > <th>  0.24 </th>
-> <th> 0.06 </th>
+> <th> 0.12 </th>
+> <th></th></tr>
+> <tr><th> dph.quickhull.vectorised.par.N4 </th>
+> <th> 0.571s </th>
+> <th>  0.29 </th>
+> <th> 0.07 </th>
 > <th></th></tr>
 > <tr><th> dph.quickhull.vector-mutable.seq.N4 </th>
 > <th> 0.086s </th>
