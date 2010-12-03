@@ -99,7 +99,6 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   || dph.sumsq.vectorised.par.N4 || 111ms || 3.63 || 0.91 || ||
 
   '''Status''': fine[[br]]
-  '''Todo''': Add a sequential C version.
 
 [[br]]
  [http://darcs.haskell.org/packages/dph/dph-examples/imaginary/DotProduct DotProduct]::
@@ -115,21 +114,20 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   A: The sequential vectorised version is faster than with Data.Vector. Why was this?
 
   '''Status''': fine[[br]]
-  '''Todo''': Add a sequential C version.
 
 [[br]]
-  [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/ Evens] '''(SLOWDOWN)'''::
+  [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/ Evens]::
    Takes the even valued `Int`s from a vector. N=10M.
 
   || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
-  || dph.evens.vectorised.seq.N4 || 1.075s || 1 || - || ||
-  || dph.evens.vectorised.par.N1 || 736ms ||  1.46 || - || ||
-  || dph.evens.vectorised.par.N2 || 768ms ||  1.40 || - || ||
-  || dph.evens.vectorised.par.N4 || 859ms ||  1.25 || - || ||
-
-  '''Status''': Benchmark runs slower when number of threads increases. This benchmark invokes {{{packByTag}}} due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. [[br]] 
-  '''Todo''': Fix slowdown. Add a sequential C version and Data.Vector versions.
-
+  || dph.evens.vector.seq.N4 || 98ms || 1 || 1 || ||
+  || dph.evens.vectorised.seq.N4 || 174ms || 0.56 ||  || ||
+  || dph.evens.vectorised.par.N1 || 182ms ||  0.53 || 0.56 || ||
+  || dph.evens.vectorised.par.N2 || 106ms ||  0.92 || 0.46 || ||
+  || dph.evens.vectorised.par.N4 ||  80ms ||  1.23 || 0.30 || A ||
+  A : Benchmark is totally memory bound, so we're not expecting to see much speedup. [[br]] 
+   
+  '''Status''': fine. 
  [[br]]
  [http://darcs.haskell.org/packages/dph/examples/smvm/ SMVM]::
  Multiplies a dense vector with a sparse matrix represented in the ''compressed sparse row format (CSR).''  

@@ -209,7 +209,6 @@ Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 > <th></th></tr></table>
 
 > **Status**: fine
-> **Todo**: Add a sequential C version.
 
 <table><tr><th>[ DotProduct](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/DotProduct)</th>
 <td>
@@ -252,9 +251,8 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 > A: The sequential vectorised version is faster than with Data.Vector. Why was this?
 
 > **Status**: fine
-> **Todo**: Add a sequential C version.
 
-<table><tr><th>[ Evens](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/)**(SLOWDOWN)**</th>
+<table><tr><th>[ Evens](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/)</th>
 <td>
 Takes the even valued `Int`s from a vector. N=10M.
 </td></tr></table>
@@ -264,29 +262,37 @@ Takes the even valued `Int`s from a vector. N=10M.
 > <th>**speedup**</th>
 > <th>**efficiency**</th>
 > <th>**notes**</th></tr>
-> <tr><th> dph.evens.vectorised.seq.N4 </th>
-> <th> 1.075s </th>
+> <tr><th> dph.evens.vector.seq.N4 </th>
+> <th> 98ms </th>
 > <th> 1 </th>
-> <th> - </th>
+> <th> 1 </th>
+> <th></th></tr>
+> <tr><th> dph.evens.vectorised.seq.N4 </th>
+> <th> 174ms </th>
+> <th> 0.56 </th>
+> <th></th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N1 </th>
-> <th> 736ms </th>
-> <th>  1.46 </th>
-> <th> - </th>
+> <th> 182ms </th>
+> <th>  0.53 </th>
+> <th> 0.56 </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N2 </th>
-> <th> 768ms </th>
-> <th>  1.40 </th>
-> <th> - </th>
+> <th> 106ms </th>
+> <th>  0.92 </th>
+> <th> 0.46 </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N4 </th>
-> <th> 859ms </th>
-> <th>  1.25 </th>
-> <th> - </th>
-> <th></th></tr></table>
+> <th>  80ms </th>
+> <th>  1.23 </th>
+> <th> 0.30 </th>
+> <th> A 
+> </th></tr></table>
+>
+>
+> A : Benchmark is totally memory bound, so we're not expecting to see much speedup. 
 
-> **Status**: Benchmark runs slower when number of threads increases. This benchmark invokes `packByTag` due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. 
-> **Todo**: Fix slowdown. Add a sequential C version and Data.Vector versions.
+> **Status**: fine. 
 
 <table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)</th>
 <td>
