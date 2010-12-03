@@ -58,20 +58,30 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
   [http://code.haskell.org/repa/repa-head/repa-examples/Blur/ Blur]::
   Applies a Gaussian blur filter to a 2D image. Size=512x512.
 
-  '''ToDo:''' Runs ok, but need to add other versions for comparison.
+  || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
+  || repa.blur.par.N1 || 2.620s || 1 || - || ||
+  || repa.blur.par.N4 || 0.717s || 3.65 || - || ||
+  || repa.blur.par.N8 || 0.414s || 6.33 || - || ||
+
+  '''ToDo:''' Runs ok, but need other versions for comparison.
 
 
 [[br]]
   [http://code.haskell.org/repa/repa-head/repa-examples/EdgeDetect/ EdgeDetect]::
   Performs Canny edge detection to a 2D image. Size=512x512.
 
-  '''ToDo:''' Runs ok, but need to add other versions for comparison.
+  || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
+  || repa.edgedetect.par.N1 || 206ms || 1 || - || ||
+  || repa.edgedetect.par.N4 || 79ms || 2.6 || - || ||
+  || repa.edgedetect.par.N8 || 55ms || 3.75 || - || ||
+
+  '''ToDo:''' Runs ok, but need other versions for comparison.
 
 [[br]]
   [http://code.haskell.org/repa/repa-head/repa-examples/FFT/ FFT]::
   Performs high-pass filtering using 2D and 3D FFTs. These are naive benchmarks used for regression testing only. They divide right down to (rank generalise) two-point vectors and construct the result using copying append. Using an inplace algorithm (like with FFTW) would be significantly faster.
 
-  '''ToDo:''' Runs ok, but need to add other versions for comparison.
+  '''ToDo:''' Runs ok, but need other versions for comparison.
 
 
 [[br]]
@@ -112,10 +122,10 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
    Takes the even valued `Int`s from a vector. N=10M.
 
   || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
-  || dph.evens.vectorised.seq.N4 || 1.075s || 1 || 1 || ||
-  || dph.evens.vectorised.par.N1 || 736ms ||  1.46 || 1.46 || ||
-  || dph.evens.vectorised.par.N2 || 768ms ||  1.40 || 0.70 || ||
-  || dph.evens.vectorised.par.N4 || 859ms ||  1.25 || 0.31 || ||
+  || dph.evens.vectorised.seq.N4 || 1.075s || 1 || - || ||
+  || dph.evens.vectorised.par.N1 || 736ms ||  1.46 || - || ||
+  || dph.evens.vectorised.par.N2 || 768ms ||  1.40 || - || ||
+  || dph.evens.vectorised.par.N4 || 859ms ||  1.25 || - || ||
 
   '''Status''': Benchmark runs slower when number of threads increases. This benchmark invokes {{{packByTag}}} due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. [[br]] 
   '''Todo''': Fix slowdown. Add a sequential C version and Data.Vector versions.

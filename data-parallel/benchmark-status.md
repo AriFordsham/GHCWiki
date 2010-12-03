@@ -109,21 +109,63 @@ Solves the Laplace equation in the 2D plane. Size=400x400.
 Applies a Gaussian blur filter to a 2D image. Size=512x512.
 </td></tr></table>
 
-> **ToDo:** Runs ok, but need to add other versions for comparison.
+> <table><tr><th>**name**</th>
+> <th>**runtime**</th>
+> <th>**speedup**</th>
+> <th>**efficiency**</th>
+> <th>**notes**</th></tr>
+> <tr><th> repa.blur.par.N1 </th>
+> <th> 2.620s </th>
+> <th> 1 </th>
+> <th> - </th>
+> <th></th></tr>
+> <tr><th> repa.blur.par.N4 </th>
+> <th> 0.717s </th>
+> <th> 3.65 </th>
+> <th> - </th>
+> <th></th></tr>
+> <tr><th> repa.blur.par.N8 </th>
+> <th> 0.414s </th>
+> <th> 6.33 </th>
+> <th> - </th>
+> <th></th></tr></table>
+
+> **ToDo:** Runs ok, but need other versions for comparison.
 
 <table><tr><th>[ EdgeDetect](http://code.haskell.org/repa/repa-head/repa-examples/EdgeDetect/)</th>
 <td>
 Performs Canny edge detection to a 2D image. Size=512x512.
 </td></tr></table>
 
-> **ToDo:** Runs ok, but need to add other versions for comparison.
+> <table><tr><th>**name**</th>
+> <th>**runtime**</th>
+> <th>**speedup**</th>
+> <th>**efficiency**</th>
+> <th>**notes**</th></tr>
+> <tr><th> repa.edgedetect.par.N1 </th>
+> <th> 206ms </th>
+> <th> 1 </th>
+> <th> - </th>
+> <th></th></tr>
+> <tr><th> repa.edgedetect.par.N4 </th>
+> <th> 79ms </th>
+> <th> 2.6 </th>
+> <th> - </th>
+> <th></th></tr>
+> <tr><th> repa.edgedetect.par.N8 </th>
+> <th> 55ms </th>
+> <th> 3.75 </th>
+> <th> - </th>
+> <th></th></tr></table>
+
+> **ToDo:** Runs ok, but need other versions for comparison.
 
 <table><tr><th>[ FFT](http://code.haskell.org/repa/repa-head/repa-examples/FFT/)</th>
 <td>
 Performs high-pass filtering using 2D and 3D FFTs. These are naive benchmarks used for regression testing only. They divide right down to (rank generalise) two-point vectors and construct the result using copying append. Using an inplace algorithm (like with FFTW) would be significantly faster.
 </td></tr></table>
 
-> **ToDo:** Runs ok, but need to add other versions for comparison.
+> **ToDo:** Runs ok, but need other versions for comparison.
 
 # Statically Nested Parallelism
 
@@ -225,22 +267,22 @@ Takes the even valued `Int`s from a vector. N=10M.
 > <tr><th> dph.evens.vectorised.seq.N4 </th>
 > <th> 1.075s </th>
 > <th> 1 </th>
-> <th> 1 </th>
+> <th> - </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N1 </th>
 > <th> 736ms </th>
 > <th>  1.46 </th>
-> <th> 1.46 </th>
+> <th> - </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N2 </th>
 > <th> 768ms </th>
 > <th>  1.40 </th>
-> <th> 0.70 </th>
+> <th> - </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N4 </th>
 > <th> 859ms </th>
 > <th>  1.25 </th>
-> <th> 0.31 </th>
+> <th> - </th>
 > <th></th></tr></table>
 
 > **Status**: Benchmark runs slower when number of threads increases. This benchmark invokes `packByTag` due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. 
