@@ -410,12 +410,38 @@ Given a set of points in the plane, compute the sequence of points that encloses
 
 These programs also use user defined algebraic data types. Vectorization of these programs is still a work in progress.
 
-<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(BROKEN)**</th>
+<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(SLOWLORIS)**</th>
 <td>
 This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions. There is a naive O(n<sup>2</sup>) version in the same package.
 </td></tr></table>
 
-> **Status**: Core-lint error due to bug in GHC's rule matcher. If we compile without -dcore-lint it segfaults when run.
+> <table><tr><th>**name**</th>
+> <th>**runtime**</th>
+> <th>**speedup**</th>
+> <th>**efficiency**</th>
+> <th>**notes**</th></tr>
+> <tr><th> dph.nbody.vector.seq.N4 </th>
+> <th> 100ms </th>
+> <th> 1 </th>
+> <th></th>
+> <th> A 
+> </th></tr>
+> <tr><th> dph.nbody.vectorised.seq.N4 </th>
+> <th> 4681ms </th>
+> <th> \~50x slower   </th>
+> <th></th>
+> <th></th></tr>
+> <tr><th> dph.nbody.vectorised.par.N1 </th>
+> <th> 2381ms </th>
+> <th>  \~25x slower </th>
+> <th></th>
+> <th></th></tr></table>
+>
+>
+> A : Time stated is end-to-end, not just for the kernel.
+
+> **Status**:  Compiles, but fusion hasn't worked so is very slow. 
+> **ToDo**: Make the vectorised way give the same output as the vector way. The benchmark setup is a bit different. Fixing this won't cause a 50x speed difference though.
 
 ---
 
