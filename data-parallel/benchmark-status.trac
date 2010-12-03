@@ -173,17 +173,18 @@ Dynamically nested programs have a recursive structure where each level of the r
  B: Uses mutable Data.Vectors, forkIO and atomicModifyIORef. Concurrent threads fill a shared output vector. Code is uglier than the C version.[[br]]
  C: Sequential C version with pre-allocated mutable intermediate buffers.[[br]]
 
- '''Status''': Benchmark scales but single threaded vectorised.par version is 6x slower than slower than version using immutable Data.Vectors. !QuickHull is based around filtering operations, so the fact that Evens is also slow is probably related.
+ '''Status''': Benchmark scales but single threaded vectorised.par version is 6x slower than version using immutable Data.Vectors. !QuickHull is based around filtering operations, so the fact that Evens is also slow is probably related.
 
 
 [[br]]
 = Dynamically Nested Parallelism with Algebraic Data Types =
 These programs also use user defined algebraic data types. Vectorization of these programs is still a work in progress.
 
- [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Words/ Words]::
+ [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Words/ Words] '''(BROKEN)'''::
   Counts the number of words in a string. This is a naive divide-and-conquer benchmark that divides right down to a single character. A production program would switch to a simple sequential algorithm once the string chunks were small enough. It's a good stress test for the vectoriser though.
 
- '''Status''': Runs, but we need to generate some larger test data. Right now it's just got a small test string baked into the program.
+ '''Status''': Sequential vectorised version does not compile due to blowup in SpecConstr.
+ '''Todo''': Generate some larger test data. Right now it's just got a small test string baked into the program.
 
 [[br]]
  [http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/ BarnesHut] '''(SLOWLORIS)'''::
