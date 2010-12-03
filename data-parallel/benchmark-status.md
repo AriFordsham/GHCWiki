@@ -404,7 +404,7 @@ Given a set of points in the plane, compute the sequence of points that encloses
 >
 > C: Sequential C version with pre-allocated mutable intermediate buffers.
 
-> **Status**: Benchmark scales but single threaded vectorised.par version is 6x slower than slower than version using immutable Data.Vectors. QuickHull is based around filtering operations, so the fact that Evens is also slow is probably related.
+> **Status**: Benchmark scales but single threaded vectorised.par version is 6x slower than version using immutable Data.Vectors. QuickHull is based around filtering operations, so the fact that Evens is also slow is probably related.
 
 # Dynamically Nested Parallelism with Algebraic Data Types
 

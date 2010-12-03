@@ -173,7 +173,7 @@ Dynamically nested programs have a recursive structure where each level of the r
  B: Uses mutable Data.Vectors, forkIO and atomicModifyIORef. Concurrent threads fill a shared output vector. Code is uglier than the C version.[[br]]
  C: Sequential C version with pre-allocated mutable intermediate buffers.[[br]]
 
- '''Status''': Benchmark scales but single threaded vectorised.par version is 6x slower than slower than version using immutable Data.Vectors. !QuickHull is based around filtering operations, so the fact that Evens is also slow is probably related.
+ '''Status''': Benchmark scales but single threaded vectorised.par version is 6x slower than version using immutable Data.Vectors. !QuickHull is based around filtering operations, so the fact that Evens is also slow is probably related.
 
 
 [[br]]
