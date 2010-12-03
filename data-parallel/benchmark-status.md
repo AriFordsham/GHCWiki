@@ -411,6 +411,13 @@ Given a set of points in the plane, compute the sequence of points that encloses
 
 These programs also use user defined algebraic data types. Vectorization of these programs is still a work in progress.
 
+<table><tr><th>[ Words](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Words/)</th>
+<td>
+Counts the number of words in a string. This is a naive divide-and-conquer benchmark that divides right down to a single character. A production program would switch to a simple sequential algorithm once the string chunks were small enough. It's a good stress test for the vectoriser though.
+</td></tr></table>
+
+> **Status**: Runs, but we need to generate some larger test data. Right now it's just got a small test string baked into the program.
+
 <table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(SLOWLORIS)**</th>
 <td>
 This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions. There is a naive O(n<sup>2</sup>) version in the same package.
