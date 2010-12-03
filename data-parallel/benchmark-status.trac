@@ -180,6 +180,12 @@ Dynamically nested programs have a recursive structure where each level of the r
 = Dynamically Nested Parallelism with Algebraic Data Types =
 These programs also use user defined algebraic data types. Vectorization of these programs is still a work in progress.
 
+ [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Words/ Words]::
+  Counts the number of words in a string. This is a naive divide-and-conquer benchmark that divides right down to a single character. A production program would switch to a simple sequential algorithm once the string chunks were small enough. It's a good stress test for the vectoriser though.
+
+ '''Status''': Runs, but we need to generate some larger test data. Right now it's just got a small test string baked into the program.
+
+[[br]]
  [http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/ BarnesHut] '''(SLOWLORIS)'''::
   This benchmark implements the Barnes-Hut algorithm to solve the ''n''-body problem in two dimensions. There is a naive O(n^2^) version in the same package.
 
