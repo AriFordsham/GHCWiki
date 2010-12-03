@@ -1,6 +1,6 @@
 # Status of DPH Benchmarks
 
-**Last updated**: 2nd December 2010.
+**Last updated**: 3nd December 2010.
 
 
 This page gives an overview of how well the benchmarks in the [ dph-examples/](http://darcs.haskell.org/packages/dph/dph-examples) directory of package dph are currently working.
@@ -10,10 +10,10 @@ The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/pa
 
 # Summary
 
-- Evens: gets slower as the number of threads increases, probably because it's using a filtering operation.
-- QuickHull: vectorised.par.N1 version is 6x slower than the immutable Data.Vector version in absolute terms. This may be related to the problem with Evens.
+- QuickHull: vectorised.par.N1 version is 6x slower than the immutable Data.Vector version in absolute terms.
 - QuickSort: vectorised.seq version doesn't compile due to a blow-up in SpecConstr.
-- BarnesHut: has a core-lint error due to a bug in the rule matcher. If you turn off -dcore-lint it segfaults when run. Before recent GHC changes it compiled (with core-lint error), but vectorised.par Barnes-Hut algorithm was 50x slower than the version using immutable Data.Vector.
+- SMVM: appears to have rotted since the change to Data.Vector. Doesn't appear to read the input files properly.
+- BarnesHut: builds but runs very slowly. The immediate problem is that some dictionaries are recursive, their methods don't inlined, so fusion doesn't work.
 
 # ToDo
 
@@ -109,21 +109,63 @@ Solves the Laplace equation in the 2D plane. Size=400x400.
 Applies a Gaussian blur filter to a 2D image. Size=512x512.
 </td></tr></table>
 
-> **ToDo:** Runs ok, but need to add other versions for comparison.
+> <table><tr><th>**name**</th>
+> <th>**runtime**</th>
+> <th>**speedup**</th>
+> <th>**efficiency**</th>
+> <th>**notes**</th></tr>
+> <tr><th> repa.blur.par.N1 </th>
+> <th> 2.620s </th>
+> <th> 1 </th>
+> <th> - </th>
+> <th></th></tr>
+> <tr><th> repa.blur.par.N4 </th>
+> <th> 0.717s </th>
+> <th> 3.65 </th>
+> <th> - </th>
+> <th></th></tr>
+> <tr><th> repa.blur.par.N8 </th>
+> <th> 0.414s </th>
+> <th> 6.33 </th>
+> <th> - </th>
+> <th></th></tr></table>
+
+> **ToDo:** Runs ok, but need other versions for comparison.
 
 <table><tr><th>[ EdgeDetect](http://code.haskell.org/repa/repa-head/repa-examples/EdgeDetect/)</th>
 <td>
 Performs Canny edge detection to a 2D image. Size=512x512.
 </td></tr></table>
 
-> **ToDo:** Runs ok, but need to add other versions for comparison.
+> <table><tr><th>**name**</th>
+> <th>**runtime**</th>
+> <th>**speedup**</th>
+> <th>**efficiency**</th>
+> <th>**notes**</th></tr>
+> <tr><th> repa.edgedetect.par.N1 </th>
+> <th> 206ms </th>
+> <th> 1 </th>
+> <th> - </th>
+> <th></th></tr>
+> <tr><th> repa.edgedetect.par.N4 </th>
+> <th> 79ms </th>
+> <th> 2.6 </th>
+> <th> - </th>
+> <th></th></tr>
+> <tr><th> repa.edgedetect.par.N8 </th>
+> <th> 55ms </th>
+> <th> 3.75 </th>
+> <th> - </th>
+> <th></th></tr></table>
+
+> **ToDo:** Runs ok, but need other versions for comparison.
 
 <table><tr><th>[ FFT](http://code.haskell.org/repa/repa-head/repa-examples/FFT/)</th>
 <td>
 Performs high-pass filtering using 2D and 3D FFTs. These are naive benchmarks used for regression testing only. They divide right down to (rank generalise) two-point vectors and construct the result using copying append. Using an inplace algorithm (like with FFTW) would be significantly faster.
 </td></tr></table>
 
-> **ToDo:** Runs ok, but need to add other versions for comparison.
+> **ToDo:** Runs ok, but need other versions for comparison.
 
 # Statically Nested Parallelism
 
@@ -167,7 +209,6 @@ Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 > <th></th></tr></table>
 
 > **Status**: fine
-> **Todo**: Add a sequential C version.
 
 <table><tr><th>[ DotProduct](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/DotProduct)</th>
 <td>
@@ -210,9 +251,8 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 > A: The sequential vectorised version is faster than with Data.Vector. Why was this?
 
 > **Status**: fine
-> **Todo**: Add a sequential C version.
 
-<table><tr><th>[ Evens](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/)**(SLOWDOWN)**</th>
+<table><tr><th>[ Evens](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/)</th>
 <td>
 Takes the even valued `Int`s from a vector. N=10M.
 </td></tr></table>
@@ -222,35 +262,44 @@ Takes the even valued `Int`s from a vector. N=10M.
 > <th>**speedup**</th>
 > <th>**efficiency**</th>
 > <th>**notes**</th></tr>
+> <tr><th> dph.evens.vector.seq.N4 </th>
+> <th> 98ms </th>
+> <th> 1 </th>
+> <th> 1 </th>
+> <th></th></tr>
 > <tr><th> dph.evens.vectorised.seq.N4 </th>
-> <th> 1.075s </th>
-> <th> 1 </th>
-> <th> 1 </th>
+> <th> 174ms </th>
+> <th> 0.56 </th>
+> <th></th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N1 </th>
-> <th> 736ms </th>
-> <th>  1.46 </th>
-> <th> 1.46 </th>
+> <th> 182ms </th>
+> <th>  0.53 </th>
+> <th> 0.56 </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N2 </th>
-> <th> 768ms </th>
-> <th>  1.40 </th>
-> <th> 0.70 </th>
+> <th> 106ms </th>
+> <th>  0.92 </th>
+> <th> 0.46 </th>
 > <th></th></tr>
 > <tr><th> dph.evens.vectorised.par.N4 </th>
-> <th> 859ms </th>
-> <th>  1.25 </th>
-> <th> 0.31 </th>
-> <th></th></tr></table>
+> <th>  80ms </th>
+> <th>  1.23 </th>
+> <th> 0.30 </th>
+> <th> A 
+> </th></tr></table>
+>
+>
+> A : Benchmark is totally memory bound, so we're not expecting to see much speedup. 
 
-> **Status**: Benchmark runs slower when number of threads increases. This benchmark invokes `packByTag` due to the filtering operation. This is probably affecting Quickhull as it also uses filtering. 
-> **Todo**: Fix slowdown. Add a sequential C version and Data.Vector versions.
+> **Status**: fine. 
 
-<table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)</th>
+<table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)**(BROKEN)**</th>
 <td>
-Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*</td></tr></table>
+Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*
+</td></tr></table>
 
-> > **Todo**: Add this to the nightly run.
+> **Status:** Builds but thinks the input file contains 0 columns. It's probably rotted since the move to Data.Vector for the underlying libraries. The C version segfaults if given no arguments.
 
 # Dynamically Nested Parallelism
 
@@ -264,7 +313,7 @@ The Sieve of Eratosthenes using parallel writes into a sieve structure represent
 
 > **Todo**: We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes. Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).
 
-<table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN)**</th>
+<table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN) (SLOWDOWN)**</th>
 <td>
 Sort a vector of doubles by recursively splitting it and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
 </td></tr></table>
@@ -280,14 +329,14 @@ Sort a vector of doubles by recursively splitting it and sorting the two halves.
 > <th> 1 </th>
 > <th></th></tr>
 > <tr><th> dph.quicksort.vectorised.par.N2 </th>
-> <th> 400ms </th>
-> <th>  1.07 </th>
-> <th> 0.54 </th>
+> <th> 417ms </th>
+> <th>  1.02 </th>
+> <th></th>
 > <th></th></tr>
 > <tr><th> dph.quicksort.vectorised.par.N4 </th>
-> <th> 392ms </th>
-> <th>  1.09 </th>
-> <th> 0.27 </th>
+> <th> 422ms </th>
+> <th>  1.01 </th>
+> <th></th>
 > <th></th></tr></table>
 
 > **Status**: Sequential vectorised version does not compile due to a blowup in SpecConstr.
@@ -314,20 +363,20 @@ Given a set of points in the plane, compute the sequence of points that encloses
 > <th> 4x slower 
 > </th></tr>
 > <tr><th> dph.quickhull.vectorised.par.N1 </th>
-> <th> 1.059s </th>
-> <th>  0.15 </th>
-> <th> 0.15 </th>
+> <th> 1.033s </th>
+> <th>  0.16 </th>
+> <th> 0.16 </th>
 > <th> 6x slower
 > </th></tr>
 > <tr><th> dph.quickhull.vectorised.par.N2 </th>
-> <th> 0.809s </th>
-> <th>  0.21 </th>
-> <th> 0.11 </th>
-> <th></th></tr>
-> <tr><th> dph.quickhull.vectorised.par.N4 </th>
 > <th> 0.686s </th>
 > <th>  0.24 </th>
-> <th> 0.06 </th>
+> <th> 0.12 </th>
+> <th></th></tr>
+> <tr><th> dph.quickhull.vectorised.par.N4 </th>
+> <th> 0.571s </th>
+> <th>  0.29 </th>
+> <th> 0.07 </th>
 > <th></th></tr>
 > <tr><th> dph.quickhull.vector-mutable.seq.N4 </th>
 > <th> 0.086s </th>
@@ -362,12 +411,38 @@ Given a set of points in the plane, compute the sequence of points that encloses
 
 These programs also use user defined algebraic data types. Vectorization of these programs is still a work in progress.
 
-<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(BROKEN)**</th>
+<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(SLOWLORIS)**</th>
 <td>
 This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions. There is a naive O(n<sup>2</sup>) version in the same package.
 </td></tr></table>
 
-> **Status**: Core-lint error due to bug in GHC's rule matcher. If we compile without -dcore-lint it segfaults when run.
+> <table><tr><th>**name**</th>
+> <th>**runtime**</th>
+> <th>**speedup**</th>
+> <th>**efficiency**</th>
+> <th>**notes**</th></tr>
+> <tr><th> dph.nbody.vector.seq.N4 </th>
+> <th> 100ms </th>
+> <th> 1 </th>
+> <th></th>
+> <th> A 
+> </th></tr>
+> <tr><th> dph.nbody.vectorised.seq.N4 </th>
+> <th> 4681ms </th>
+> <th> \~50x slower   </th>
+> <th></th>
+> <th></th></tr>
+> <tr><th> dph.nbody.vectorised.par.N1 </th>
+> <th> 2381ms </th>
+> <th>  \~25x slower </th>
+> <th></th>
+> <th></th></tr></table>
+>
+>
+> A : Time stated is end-to-end, not just for the kernel.
+
+> **Status**:  Compiles, but fusion doesn't work so it's very slow. 
+> **ToDo**: Make the vectorised version give the same output as the vector version. The benchmark setup is a bit different. Fixing this won't cause a 50x speed difference though.
 
 ---
 
