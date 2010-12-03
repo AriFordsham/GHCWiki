@@ -1,6 +1,6 @@
 # Status of DPH Benchmarks
 
-**Last updated**: 2nd December 2010.
+**Last updated**: 3nd December 2010.
 
 
 This page gives an overview of how well the benchmarks in the [ dph-examples/](http://darcs.haskell.org/packages/dph/dph-examples) directory of package dph are currently working.
@@ -10,10 +10,10 @@ The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/pa
 
 # Summary
 
-- Evens: gets slower as the number of threads increases, probably because it's using a filtering operation.
-- QuickHull: vectorised.par.N1 version is 6x slower than the immutable Data.Vector version in absolute terms. This may be related to the problem with Evens.
+- QuickHull: vectorised.par.N1 version is 6x slower than the immutable Data.Vector version in absolute terms.
 - QuickSort: vectorised.seq version doesn't compile due to a blow-up in SpecConstr.
-- BarnesHut: has a core-lint error due to a bug in the rule matcher. If you turn off -dcore-lint it segfaults when run. Before recent GHC changes it compiled (with core-lint error), but vectorised.par Barnes-Hut algorithm was 50x slower than the version using immutable Data.Vector.
+- !SMVM: appears to have rotted since the change to Data.Vector. Doesn't appear to read the input files properly.
+- BarnesHut: builds but runs very slowly. The immediate problem is that some dictionaries are recursive, their methods don't inlined, so fusion doesn't work.
 
 # ToDo
 
