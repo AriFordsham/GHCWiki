@@ -294,11 +294,12 @@ Takes the even valued `Int`s from a vector. N=10M.
 
 > **Status**: fine. 
 
-<table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)</th>
+<table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)**(BROKEN)**</th>
 <td>
-Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*</td></tr></table>
+Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*
+</td></tr></table>
 
-> > **Todo**: Add this to the nightly run.
+> **Status:** Builds but thinks the input file contains 0 columns. It's probably rotted since the move to Data.Vector for the underlying libraries. The C version segfaults if given no arguments.
 
 # Dynamically Nested Parallelism
 
