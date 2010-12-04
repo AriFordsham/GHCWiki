@@ -37,6 +37,12 @@ other packages that are useful for development:
 
 == Debian-based systems (e.g. Debian, Ubuntu) ==
 
+You can make sure you have all dependencies by
+
+    `apt-get build-dep ghc6`
+
+But this might install some packages you do not use in your system (e.g. lintian).
+
  * `libc6-dev`
  * `libedit-dev` (6.10 only)
  * `libncurses5-dev`
