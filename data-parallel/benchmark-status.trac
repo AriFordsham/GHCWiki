@@ -107,13 +107,15 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
   || dph.dotp.vector.seq.N4 ||  68ms || 1 || 1 || ||
   || dph.dotp.vectorised.seq.N4 || 58ms || 1.17 || || A ||
-  || dph.dotp.vectorised.par.N1 || 55ms || 1.24 || 1.24 || ||
+  || dph.dotp.vectorised.par.N1 || 55ms || 1.24 || 1.24 || B ||
   || dph.dotp.vectorised.par.N2 || 33ms || 2.06 || 1.03 || ||
   || dph.dotp.vectorised.par.N4 || 25ms || 2.72 || 0.68 || ||
  
-  A: The sequential vectorised version is faster than with Data.Vector. Why was this?
+  A: The core for the vectorised.seq version is equivalent to the vector version. We expect the backend has compiled it differently. Check this again with LLVM.
+  B: The vectorised.par version runs faster than vectorised.seq because the latter has a duplicate loop counter in the inner loop. We need a duplicate-loop-counter removal optimisation.
 
   '''Status''': fine[[br]]
+  '''Todo''': Check again with LLVM.
 
 [[br]]
   [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/ Evens]::
