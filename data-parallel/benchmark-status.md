@@ -250,6 +250,7 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 
 >
 > A: The core for the vectorised.seq version is equivalent to the vector version. We expect the backend has compiled it differently. Check this again with LLVM.
+>
 > B: The vectorised.par version runs faster than vectorised.seq because the latter has a duplicate loop counter in the inner loop. We need a duplicate-loop-counter removal optimisation.
 
 > **Status**: fine
