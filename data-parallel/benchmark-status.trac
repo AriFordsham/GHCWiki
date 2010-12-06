@@ -107,13 +107,15 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||
   || dph.dotp.vector.seq.N4 ||  68ms || 1 || 1 || ||
   || dph.dotp.vectorised.seq.N4 || 58ms || 1.17 || || A ||
-  || dph.dotp.vectorised.par.N1 || 55ms || 1.24 || 1.24 || ||
+  || dph.dotp.vectorised.par.N1 || 55ms || 1.24 || 1.24 || B ||
   || dph.dotp.vectorised.par.N2 || 33ms || 2.06 || 1.03 || ||
   || dph.dotp.vectorised.par.N4 || 25ms || 2.72 || 0.68 || ||
  
-  A: The sequential vectorised version is faster than with Data.Vector. Why was this?
+  A: The core for the vectorised.seq version is equivalent to the vector version. We expect the backend has compiled it differently. Check this again with LLVM.[[br]]
+  B: The vectorised.par version runs faster than vectorised.seq because the latter has a duplicate counter in the inner loop. We need a duplicate-loop-counter removal optimisation.
 
   '''Status''': fine[[br]]
+  '''Todo''': Check again with LLVM.
 
 [[br]]
   [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/ Evens]::
@@ -141,7 +143,7 @@ Dynamically nested programs have a recursive structure where each level of the r
  [http://darcs.haskell.org/packages/dph/examples/primes/ Primes]::
   The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  
 
-  '''Todo''': We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes. Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).
+  '''Todo''': We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  This needs a parallel update operation, but we currently can't guarantee atomic updates of compound types such as tuples.
 
 [[br]]
  [http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/ QuickSort] '''(BROKEN) (SLOWDOWN)'''::
@@ -183,7 +185,7 @@ These programs also use user defined algebraic data types. Vectorization of thes
  [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Words/ Words] '''(BROKEN)'''::
   Counts the number of words in a string. This is a naive divide-and-conquer benchmark that divides right down to a single character. A production program would switch to a simple sequential algorithm once the string chunks were small enough. It's a good stress test for the vectoriser though.
 
- '''Status''': Sequential vectorised version does not compile due to blowup in SpecConstr.
+ '''Status''': Sequential vectorised version does not compile due to blowup in SpecConstr.[[br]]
  '''Todo''': Generate some larger test data. Right now it's just got a small test string baked into the program.
 
 [[br]]

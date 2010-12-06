@@ -235,7 +235,8 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 > <th> 55ms </th>
 > <th> 1.24 </th>
 > <th> 1.24 </th>
-> <th></th></tr>
+> <th> B 
+> </th></tr>
 > <tr><th> dph.dotp.vectorised.par.N2 </th>
 > <th> 33ms </th>
 > <th> 2.06 </th>
@@ -248,9 +249,12 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 > <th></th></tr></table>
 
 >
-> A: The sequential vectorised version is faster than with Data.Vector. Why was this?
+> A: The core for the vectorised.seq version is equivalent to the vector version. We expect the backend has compiled it differently. Check this again with LLVM.
+>
+> B: The vectorised.par version runs faster than vectorised.seq because the latter has a duplicate counter in the inner loop. We need a duplicate-loop-counter removal optimisation.
 
 > **Status**: fine
+> **Todo**: Check again with LLVM.
 
 <table><tr><th>[ Evens](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/)</th>
 <td>
@@ -311,7 +315,7 @@ Dynamically nested programs have a recursive structure where each level of the r
 The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  
 </td></tr></table>
 
-> **Todo**: We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  The problem is that we need to make the representation of parallel arrays of `Bool` dependent on whether the hardware supports atomic writes of bytes. Investigate whether any of the architectures relevant for DPH actually do have trouble with atomic writes of bytes (aka `Word8`).
+> **Todo**: We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  This needs a parallel update operation, but we currently can't guarantee atomic updates of compound types such as tuples.
 
 <table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN) (SLOWDOWN)**</th>
 <td>
