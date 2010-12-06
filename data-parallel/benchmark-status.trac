@@ -183,7 +183,7 @@ These programs also use user defined algebraic data types. Vectorization of thes
  [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Words/ Words] '''(BROKEN)'''::
   Counts the number of words in a string. This is a naive divide-and-conquer benchmark that divides right down to a single character. A production program would switch to a simple sequential algorithm once the string chunks were small enough. It's a good stress test for the vectoriser though.
 
- '''Status''': Sequential vectorised version does not compile due to blowup in SpecConstr.
+ '''Status''': Sequential vectorised version does not compile due to blowup in SpecConstr.[[br]]
  '''Todo''': Generate some larger test data. Right now it's just got a small test string baked into the program.
 
 [[br]]
