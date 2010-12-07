@@ -1,8 +1,9 @@
 
 
+
 = Status of DPH Benchmarks =
 
-'''Last updated''': 3nd December 2010.
+'''Benchmarking results last updated on''': 3nd December 2010.
 
 This page gives an overview of how well the benchmarks in the [http://darcs.haskell.org/packages/dph/dph-examples dph-examples/] directory of package dph are currently working.
 
@@ -10,9 +11,10 @@ The benchmarks are run each night by [http://darcs.haskell.org/packages/dph/dph-
 
 [[br]]
 = Summary =
+ * Running debug threaded programs with heap profiling triggers an assertion in the RTS. Running them without debugging is a segfault.
  * !QuickHull: vectorised.par.N1 version is 6x slower than the immutable Data.Vector version in absolute terms.
  * !QuickSort: vectorised.seq version doesn't compile due to a blow-up in !SpecConstr.
- * SMVM: appears to have rotted since the change to Data.Vector. Doesn't appear to read the input files properly.
+ * SMVM: runs 1000x slower than the C program with small matrix sizes. For 1000x1000 with 10% fill ratio it takes about 1s and allocates 400M memory, while the C program is instantaneous. For larger sizes it dies with OOM.
  * !BarnesHut: builds but runs very slowly. The immediate problem is that some dictionaries are recursive, their methods don't inlined, so fusion doesn't work.
 
 = !ToDo =
@@ -97,6 +99,7 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   || dph.sumsq.vectorised.par.N1 || 443ms || 0.91 || 0.91 || ||
   || dph.sumsq.vectorised.par.N2 || 222ms || 1.82 || 0.91 || ||
   || dph.sumsq.vectorised.par.N4 || 111ms || 3.63 || 0.91 || ||
+  || dph.sumsq.c.seq || 116ms || 3.48 || || ||
 
   '''Status''': fine[[br]]
 
@@ -110,12 +113,12 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   || dph.dotp.vectorised.par.N1 || 55ms || 1.24 || 1.24 || B ||
   || dph.dotp.vectorised.par.N2 || 33ms || 2.06 || 1.03 || ||
   || dph.dotp.vectorised.par.N4 || 25ms || 2.72 || 0.68 || ||
+  || dph.dotp.c.seq || 45ms || 1.35 || || ||
  
   A: The core for the vectorised.seq version is equivalent to the vector version. We expect the backend has compiled it differently. Check this again with LLVM.[[br]]
   B: The vectorised.par version runs faster than vectorised.seq because the latter has a duplicate counter in the inner loop. We need a duplicate-loop-counter removal optimisation.
 
   '''Status''': fine[[br]]
-  '''Todo''': Check again with LLVM.
 
 [[br]]
   [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/ Evens]::
@@ -127,14 +130,17 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   || dph.evens.vectorised.par.N1 || 182ms ||  0.53 || 0.56 || ||
   || dph.evens.vectorised.par.N2 || 106ms ||  0.92 || 0.46 || ||
   || dph.evens.vectorised.par.N4 ||  80ms ||  1.23 || 0.30 || A ||
+  || dph.evens.c.seq || 31ms || 3.16 || || || 
+
   A : Benchmark is totally memory bound, so we're not expecting to see much speedup. [[br]] 
    
-  '''Status''': fine. 
+  '''Status''': ok, but run again with LLVM to see if that fixes the slowdown wrt C.
  [[br]]
  [http://darcs.haskell.org/packages/dph/examples/smvm/ SMVM] '''(BROKEN)'''::
  Multiplies a dense vector with a sparse matrix represented in the ''compressed sparse row format (CSR).'' [[br]]
 
- '''Status:''' Builds but thinks the input file contains 0 columns. It's probably rotted since the move to Data.Vector for the underlying libraries. The C version segfaults if given no arguments.
+ '''Status:''' Runs on 1000x1000 matrices with 10% fill ratio, but about 1000x slower than the C program. Dies with OOM for 2000x2000. Segfaults with 10000x10000.
+
 
 [[br]]
 = Dynamically Nested Parallelism =

@@ -1,6 +1,6 @@
 # Status of DPH Benchmarks
 
-**Last updated**: 3nd December 2010.
+**Benchmarking results last updated on**: 3nd December 2010.
 
 
 This page gives an overview of how well the benchmarks in the [ dph-examples/](http://darcs.haskell.org/packages/dph/dph-examples) directory of package dph are currently working.
@@ -10,9 +10,10 @@ The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/pa
 
 # Summary
 
+- Running debug threaded programs with heap profiling triggers an assertion in the RTS. Running them without debugging is a segfault.
 - QuickHull: vectorised.par.N1 version is 6x slower than the immutable Data.Vector version in absolute terms.
 - QuickSort: vectorised.seq version doesn't compile due to a blow-up in SpecConstr.
-- SMVM: appears to have rotted since the change to Data.Vector. Doesn't appear to read the input files properly.
+- SMVM: runs 1000x slower than the C program with small matrix sizes. For 1000x1000 with 10% fill ratio it takes about 1s and allocates 400M memory, while the C program is instantaneous. For larger sizes it dies with OOM.
 - BarnesHut: builds but runs very slowly. The immediate problem is that some dictionaries are recursive, their methods don't inlined, so fusion doesn't work.
 
 # ToDo
@@ -206,6 +207,11 @@ Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 > <th> 111ms </th>
 > <th> 3.63 </th>
 > <th> 0.91 </th>
+> <th></th></tr>
+> <tr><th> dph.sumsq.c.seq </th>
+> <th> 116ms </th>
+> <th> 3.48 </th>
+> <th></th>
 > <th></th></tr></table>
 
 > **Status**: fine
@@ -246,6 +252,11 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 > <th> 25ms </th>
 > <th> 2.72 </th>
 > <th> 0.68 </th>
+> <th></th></tr>
+> <tr><th> dph.dotp.c.seq </th>
+> <th> 45ms </th>
+> <th> 1.35 </th>
+> <th></th>
 > <th></th></tr></table>
 
 >
@@ -254,7 +265,6 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 > B: The vectorised.par version runs faster than vectorised.seq because the latter has a duplicate counter in the inner loop. We need a duplicate-loop-counter removal optimisation.
 
 > **Status**: fine
-> **Todo**: Check again with LLVM.
 
 <table><tr><th>[ Evens](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/)</th>
 <td>
@@ -291,19 +301,24 @@ Takes the even valued `Int`s from a vector. N=10M.
 > <th>  1.23 </th>
 > <th> 0.30 </th>
 > <th> A 
-> </th></tr></table>
->
+> </th></tr>
+> <tr><th> dph.evens.c.seq </th>
+> <th> 31ms </th>
+> <th> 3.16 </th>
+> <th></th>
+> <th></th></tr></table>
+
 >
 > A : Benchmark is totally memory bound, so we're not expecting to see much speedup. 
 
-> **Status**: fine. 
+> **Status**: ok, but run again with LLVM to see if that fixes the slowdown wrt C.
 
 <table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)**(BROKEN)**</th>
 <td>
 Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*
 </td></tr></table>
 
-> **Status:** Builds but thinks the input file contains 0 columns. It's probably rotted since the move to Data.Vector for the underlying libraries. The C version segfaults if given no arguments.
+> **Status:** Runs on 1000x1000 matrices with 10% fill ratio, but about 1000x slower than the C program. Dies with OOM for 2000x2000. Segfaults with 10000x10000.
 
 # Dynamically Nested Parallelism
 
