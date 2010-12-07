@@ -303,7 +303,7 @@ Takes the even valued `Int`s from a vector. N=10M.
 Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*
 </td></tr></table>
 
-> **Status:** Builds but thinks the input file contains 0 columns. It's probably rotted since the move to Data.Vector for the underlying libraries. The C version segfaults if given no arguments.
+> **Status:** Runs on 1000x1000 matrices with 1% fill ratio, but about 1000x slower than the C program. Dies with OOM for 2000x2000. Segfaults with 10000x10000.
 
 # Dynamically Nested Parallelism
 
