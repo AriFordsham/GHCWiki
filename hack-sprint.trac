@@ -14,11 +14,22 @@ To be confirmed:
 Vladimir Janjic, [http://www.cs.st-andrews.ac.uk/~kh/ Kevin Hammond], Chris Brown, Mustafa Aswad, Malak Aljabri, [http://www.macs.hw.ac.uk/~trinder/ Philip W Trinder], Patrick Maier, Robert Stewart
 
 == Agenda ==
- * Reports on Recent software releases
+ * Reports on recent software releases
  * Updates on work at each of the sites
- * Roadmap on integrating branches (migration, tracing, bounded pars etc)
+ * Tests & benchmarks
+  * Repo
+  * System-tests
+  * Benchmarks
+  * Larger applications
  * Interfaces to on-going projects (SCIEnce, HPC-GAP)
- * Testsuite & automatic tests
+  * CASH
+  * SC skeletons
+  * fault-tolerance
+ * Roadmap on integrating branches 
+  * migration, 
+  * tracing, 
+  * data locality
+  * ...
  * Packaging
  * Planned extensions and applications
   * Integration with GHC/SMP
