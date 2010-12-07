@@ -1,6 +1,6 @@
 # Status of DPH Benchmarks
 
-**Last updated**: 3nd December 2010.
+**Benchmarking results last updated on**: 3nd December 2010.
 
 
 This page gives an overview of how well the benchmarks in the [ dph-examples/](http://darcs.haskell.org/packages/dph/dph-examples) directory of package dph are currently working.
