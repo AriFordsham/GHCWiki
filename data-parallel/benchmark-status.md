@@ -207,6 +207,11 @@ Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 > <th> 111ms </th>
 > <th> 3.63 </th>
 > <th> 0.91 </th>
+> <th></th></tr>
+> <tr><th> dph.sumsq.c.seq </th>
+> <th> 116ms </th>
+> <th> 3.48 </th>
+> <th></th>
 > <th></th></tr></table>
 
 > **Status**: ok, but need other versions for comparison
