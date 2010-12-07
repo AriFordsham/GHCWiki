@@ -247,6 +247,11 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 > <th> 25ms </th>
 > <th> 2.72 </th>
 > <th> 0.68 </th>
+> <th></th></tr>
+> <tr><th> dph.dotp.c.seq </th>
+> <th> 45ms </th>
+> <th> 1.35 </th>
+> <th></th>
 > <th></th></tr></table>
 
 >

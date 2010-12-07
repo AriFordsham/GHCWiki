@@ -1,5 +1,6 @@
 
 
+
 = Status of DPH Benchmarks =
 
 '''Benchmarking results last updated on''': 3nd December 2010.
@@ -111,6 +112,7 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   || dph.dotp.vectorised.par.N1 || 55ms || 1.24 || 1.24 || B ||
   || dph.dotp.vectorised.par.N2 || 33ms || 2.06 || 1.03 || ||
   || dph.dotp.vectorised.par.N4 || 25ms || 2.72 || 0.68 || ||
+  || dph.dotp.c.seq || 45ms || 1.35 || || ||
  
   A: The core for the vectorised.seq version is equivalent to the vector version. We expect the backend has compiled it differently. Check this again with LLVM.[[br]]
   B: The vectorised.par version runs faster than vectorised.seq because the latter has a duplicate counter in the inner loop. We need a duplicate-loop-counter removal optimisation.
