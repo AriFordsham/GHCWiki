@@ -208,7 +208,7 @@ Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 > <th> 0.91 </th>
 > <th></th></tr></table>
 
-> **Status**: fine
+> **Status**: ok, but need other versions for comparison
 
 <table><tr><th>[ DotProduct](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/DotProduct)</th>
 <td>
@@ -253,7 +253,7 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 >
 > B: The vectorised.par version runs faster than vectorised.seq because the latter has a duplicate counter in the inner loop. We need a duplicate-loop-counter removal optimisation.
 
-> **Status**: fine
+> **Status**: ok, but need other versions for comparison
 > **Todo**: Check again with LLVM.
 
 <table><tr><th>[ Evens](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/)</th>
@@ -296,7 +296,7 @@ Takes the even valued `Int`s from a vector. N=10M.
 >
 > A : Benchmark is totally memory bound, so we're not expecting to see much speedup. 
 
-> **Status**: fine. 
+> **Status**: ok, but need other versions for comparison.
 
 <table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)**(BROKEN)**</th>
 <td>
