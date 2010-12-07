@@ -101,7 +101,7 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   || dph.sumsq.vectorised.par.N4 || 111ms || 3.63 || 0.91 || ||
   || dph.sumsq.c.seq || 116ms || 3.48 || || ||
 
-  '''Status''': ok, but run again with LLVM to see if that fixes the slowdown wrt C[[br]]
+  '''Status''': fine[[br]]
 
 [[br]]
  [http://darcs.haskell.org/packages/dph/dph-examples/imaginary/DotProduct DotProduct]::
@@ -118,8 +118,7 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   A: The core for the vectorised.seq version is equivalent to the vector version. We expect the backend has compiled it differently. Check this again with LLVM.[[br]]
   B: The vectorised.par version runs faster than vectorised.seq because the latter has a duplicate counter in the inner loop. We need a duplicate-loop-counter removal optimisation.
 
-  '''Status''': ok, but need other versions for comparison[[br]]
-  '''Todo''': Check again with LLVM.
+  '''Status''': fine[[br]]
 
 [[br]]
   [http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/ Evens]::
@@ -135,7 +134,7 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
 
   A : Benchmark is totally memory bound, so we're not expecting to see much speedup. [[br]] 
    
-  '''Status''': ok, but need other versions for comparison.
+  '''Status''': ok, but run again with LLVM to see if that fixes the slowdown wrt C.
  [[br]]
  [http://darcs.haskell.org/packages/dph/examples/smvm/ SMVM] '''(BROKEN)'''::
  Multiplies a dense vector with a sparse matrix represented in the ''compressed sparse row format (CSR).'' [[br]]
