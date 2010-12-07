@@ -214,7 +214,7 @@ Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 > <th></th>
 > <th></th></tr></table>
 
-> **Status**: ok, but need other versions for comparison
+> **Status**: ok, but run again with LLVM to see if that fixes the slowdown wrt C
 
 <table><tr><th>[ DotProduct](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/DotProduct)</th>
 <td>
