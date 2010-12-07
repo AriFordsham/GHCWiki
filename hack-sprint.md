@@ -20,11 +20,25 @@ Vladimir Janjic, [ Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Chris Br
 
 ## Agenda
 
-- Reports on Recent software releases
+- Reports on recent software releases
 - Updates on work at each of the sites
-- Roadmap on integrating branches (migration, tracing, bounded pars etc)
+- Tests & benchmarks
+
+  - Repo
+  - System-tests
+  - Benchmarks
+  - Larger applications
 - Interfaces to on-going projects (SCIEnce, HPC-GAP)
-- Testsuite & automatic tests
+
+  - CASH
+  - SC skeletons
+  - fault-tolerance
+- Roadmap on integrating branches 
+
+  - migration, 
+  - tracing, 
+  - data locality
+  - ...
 - Packaging
 - Planned extensions and applications
 
