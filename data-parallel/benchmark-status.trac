@@ -10,9 +10,10 @@ The benchmarks are run each night by [http://darcs.haskell.org/packages/dph/dph-
 
 [[br]]
 = Summary =
+ * Running debug threaded programs with heap profiling triggers an assertion in the RTS. Running them without debugging is a segfault.
  * !QuickHull: vectorised.par.N1 version is 6x slower than the immutable Data.Vector version in absolute terms.
  * !QuickSort: vectorised.seq version doesn't compile due to a blow-up in !SpecConstr.
- * SMVM: appears to have rotted since the change to Data.Vector. Doesn't appear to read the input files properly.
+ * SMVM: runs 1000x slower than the C program with small matrix sizes. For 1000x1000 with 10% fill ratio it takes about 1s and allocates 400M memory, while the C program is instantaneous. For larger sizes it dies with OOM.
  * !BarnesHut: builds but runs very slowly. The immediate problem is that some dictionaries are recursive, their methods don't inlined, so fusion doesn't work.
 
 = !ToDo =
@@ -134,7 +135,7 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
  [http://darcs.haskell.org/packages/dph/examples/smvm/ SMVM] '''(BROKEN)'''::
  Multiplies a dense vector with a sparse matrix represented in the ''compressed sparse row format (CSR).'' [[br]]
 
- '''Status:''' Runs on 1000x1000 matrices with 1% fill ratio, but about 1000x slower than the C program. Dies with OOM for 2000x2000. Segfaults with 10000x10000.
+ '''Status:''' Runs on 1000x1000 matrices with 10% fill ratio, but about 1000x slower than the C program. Dies with OOM for 2000x2000. Segfaults with 10000x10000.
 
 
 [[br]]
