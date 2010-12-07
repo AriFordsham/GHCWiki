@@ -302,8 +302,13 @@ Takes the even valued `Int`s from a vector. N=10M.
 > <th>  1.23 </th>
 > <th> 0.30 </th>
 > <th> A 
-> </th></tr></table>
->
+> </th></tr>
+> <tr><th> dph.evens.c.seq </th>
+> <th> 31ms </th>
+> <th> 3.16 </th>
+> <th></th>
+> <th></th></tr></table>
+
 >
 > A : Benchmark is totally memory bound, so we're not expecting to see much speedup. 
 
