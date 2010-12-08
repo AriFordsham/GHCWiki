@@ -56,7 +56,7 @@ Performance goals:
 
   - SumSquares \[FINE\]
   - Dot product \[FINE\]
-  - Evens **\[OK, but scales badly\]****\[ROMAN (might affect Quickhull due to packByTags\]**
+  - Evens **\[OK, but more than 3 times slower than C\]****\[ROMAN (might affect Quickhull due to packByTags\]**
   - SMVM **\[SLOW (lack of fusion)\]****\[BEN & ROMAN\]**
 - Dynamically-nested DPH programs without user-defined datatypes should run correctly, but not necessarily fast
 
