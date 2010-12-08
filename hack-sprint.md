@@ -33,17 +33,20 @@ Vladimir Janjic, [ Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Chris Br
   - CASH
   - SC skeletons
   - fault-tolerance
-- Roadmap on integrating branches 
-
-  - migration, 
-  - tracing, 
-  - data locality
-  - ...
 - Packaging
-- Planned extensions and applications
+- Roadmap for future development
 
-  - Integration with GHC/SMP
-  - Integrating migration
-  - Globus interface
-  - pre-SCSCP [ GAP](http://www.gap-system.org/) interface
-  - Micro-kernel/substrate approach to the RTS
+  - Following [ ghc HEAD](http://james.mathematik.uni-marburg.de:8080/darcs/darcsweb.cgi??r=ghc-HEAD): status report, coordination and planning
+  - Status of/ Plans for existing branches 
+
+    - migration, 
+    - tracing, 
+    - data locality
+    - ...
+  - Planned extensions and applications
+
+    - Integration with GHC/SMP
+    - Integrating migration
+    - Globus interface
+    - pre-SCSCP [ GAP](http://www.gap-system.org/) interface
+    - Micro-kernel/substrate approach to the RTS
