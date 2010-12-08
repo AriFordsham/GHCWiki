@@ -26,7 +26,7 @@ API adaptation: APIs of vector, Repa, and Accelerate should be unified as far as
 
 Changes:
 
-- -fdph-seq should be the default **\[MANUEL\]**
+- -fdph-par should be the default **\[MANUEL\]**
 - -fvectorise should imply -Odph (if omitted, we get fatal errors) **\[MANUEL\]**
 
 
