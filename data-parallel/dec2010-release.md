@@ -30,9 +30,9 @@ Changes:
 - -fvectorise should imply -Odph (if omitted, we get fatal errors) **\[MANUEL\]**
 
   - rl notes, "We shouldn't! -fvectorise -O0 should work, I'll take a look. I should change -Odph to reflect what we currently need, though. Basically, it should be equivalent ot -O2 -fsimplifier-phases=3 -fsimplifier-iterations=20."
+- Move GHC.PArr into  the DPH libs.  (Needed for Haddock.) **\[MANUEL\]**
 
 
- 
 Bug fixes:
 
 - Repa edge-detection is deadlocking with more than 2 threads \[DONE\]
@@ -61,7 +61,7 @@ Performance goals:
 - Dynamically-nested DPH programs without user-defined datatypes should run correctly, but not necessarily fast
 
   - Quicksort **\[BROKEN ([SpecConstr](spec-constr)) & SLOW\]****\[SIMON & BEN\]**
-  - Quickhull \[OK\]
+  - Quickhull **\[OK, but has  a [SpecConstr](spec-constr) problem that we want to fix\]****\[ROMAN\]**
 - Dynamically-nested DPH programs with user-defined datatypes should run correctly, but not necessarily fast
 
   - Words **\[BROKEN ([SpecConstr](spec-constr))\]****\[SIMON\]**
