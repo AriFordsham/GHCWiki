@@ -1,0 +1,56 @@
+
+== Plan for the December 2010 Release ==
+
+=== To be released components === 
+
+ * GHC 7.0.2
+ * DPH packages
+ * Repa packages
+(No release of vector should be necessary, as 0.7.01 should work fine.)
+
+=== Before the release we must achieve the following ===
+
+Documentation:
+ * Haddock documentation of Data.Array.Parallel '''[???]'''
+ * !HowTo and examples on !HaWiki [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell] '''[MANUEL]'''
+
+API adaptation: APIs of vector, Repa, and Accelerate should be unified as far as possible
+ * Repa's current 'replicate' should be renamed and a new 'replicate' that turns a scalar into an array should be introduced '''[???]'''
+ * Check similarity of singleton/unit between all three libraries '''[???]'''
+
+Changes:
+ * -fdph-seq should be the default '''[MANUEL]'''
+ * -fvectorise should imply -Odph (if omitted, we get fatal errors) '''[MANUEL]'''
+ 
+Bug fixes:
+ * Repa edge-detection is deadlocking with more than 2 threads [DONE]
+ * Fix the BH seg fault in DPH. Roman has found the problem [DONE]
+ * LLVM back end not working with DPH '''[BEN]'''
+
+Performance goals:
+ * Vector works fast, sequentially, compared to C, Haskell mutable-array version [FINE]
+  * Benchmarks: NoSlow, vector versions of Repa benchmarks
+ * Repa works fast in parallel
+  * MMult [OK, but about 20% slower than in 6.13; try with LLVM and w/o bounds checks] [BEN]
+  * Laplace '''[SLOW & DOESN'T SCALE]''' '''[BEN]'''
+  * Blur [OK]
+  * EdgeDetect [OK]
+  * FFT [OK]
+* Statically-nested DPH programs should work fast, in parallel
+  * SumSquares [FINE]
+  * Dot product [FINE]
+  * Evens '''[OK, but scales badly]''' '''[ROMAN (might affect Quickhull due to packByTags]'''
+  * SMVM '''[SLOW (lack of fusion)]''' '''[BEN & ROMAN]'''
+* Dynamically-nested DPH programs without user-defined datatypes should run correctly, but not necessarily fast
+  * QuickSort '''[BROKEN (SpecConstr) & SLOW]''' '''[SIMON & BEN]'''
+  * Quickhull [OK]
+* Dynamically-nested DPH programs with user-defined datatypes should run correctly, but not necessarily fast
+  * Words '''[BROKEN (SpecConstr)]''' '''[SIMON]'''
+  * BarnesHut [OK]
+
+Legend
+ [FINE]    works well
+ [OK]       fine for the release, but could be better
+ [SLOW] not usable
+
+More benchmarks details at [wiki:DataParallel/BenchmarkStatus]
