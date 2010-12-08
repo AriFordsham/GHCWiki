@@ -1,4 +1,4 @@
-## Work plan for implementing Data Parallel Haskell \[OUT OF DATA\]
+## Work plan for implementing Data Parallel Haskell \[OUT OF DATE\]
 
 ### Issues that need discussion and planning
 
