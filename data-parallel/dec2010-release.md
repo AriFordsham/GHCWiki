@@ -29,6 +29,8 @@ Changes:
 - -fdph-par should be the default **\[MANUEL\]**
 - -fvectorise should imply -Odph (if omitted, we get fatal errors) **\[MANUEL\]**
 
+  - rl notes, "We shouldn't! -fvectorise -O0 should work, I'll take a look. I should change -Odph to reflect what we currently need, though. Basically, it should be equivalent ot -O2 -fsimplifier-phases=3 -fsimplifier-iterations=20."
+
 
  
 Bug fixes:
