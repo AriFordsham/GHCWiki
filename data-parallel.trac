@@ -21,7 +21,8 @@ Detailed information on how to use the current implementation is at the [http://
 
  * DPH [wiki:DataParallel/Repositories repositories & developer builds]
  * Current [wiki:DataParallel/BenchmarkStatus benchmark status]
- * Our [wiki:DataParallel/WorkPlan work plan]
+ * Release plan [wiki:DataParallel/Dec2010Release]
+ * Our [wiki:DataParallel/WorkPlan work plan] [OUT OF DATE]
  * Some early [wiki:DataParallel/Benchmarks benchmarks] from 2007
 
 == Old material ==
