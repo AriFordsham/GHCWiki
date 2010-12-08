@@ -50,7 +50,6 @@ Performance goals:
   - Blur \[OK\]
   - EdgeDetect \[OK\]
   - FFT \[OK\]
-
 - Statically-nested DPH programs should work fast, in parallel
 
   - SumSquares \[FINE\]
@@ -59,7 +58,7 @@ Performance goals:
   - SMVM **\[SLOW (lack of fusion)\]****\[BEN & ROMAN\]**
 - Dynamically-nested DPH programs without user-defined datatypes should run correctly, but not necessarily fast
 
-  - QuickSort **\[BROKEN ([SpecConstr](spec-constr)) & SLOW\]****\[SIMON & BEN\]**
+  - Quicksort **\[BROKEN ([SpecConstr](spec-constr)) & SLOW\]****\[SIMON & BEN\]**
   - Quickhull \[OK\]
 - Dynamically-nested DPH programs with user-defined datatypes should run correctly, but not necessarily fast
 
@@ -69,10 +68,21 @@ Performance goals:
 
 Legend
 
->
-> \[FINE\]    works well
-> \[OK\]       fine for the release, but could be better
-> \[SLOW\] not usable
+<table><tr><th>\[FINE\]</th>
+<td>
+Works well
+</td></tr>
+<tr><th>\[OK\]</th>
+<td>
+Fine for the release, but could be better
+</td></tr>
+<tr><th>\[SLOW\]</th>
+<td>
+Not usable
+</td></tr></table>
+
+
+Tags in **bold** require attention before the release.
 
 
 More benchmarks details at [DataParallel/BenchmarkStatus](data-parallel/benchmark-status)

@@ -29,28 +29,32 @@ Bug fixes:
 
 Performance goals:
  * Vector works fast, sequentially, compared to C, Haskell mutable-array version [FINE]
-  * Benchmarks: NoSlow, vector versions of Repa benchmarks
+  * Benchmarks: !NoSlow, vector versions of Repa benchmarks
  * Repa works fast in parallel
   * MMult [OK, but about 20% slower than in 6.13; try with LLVM and w/o bounds checks] [BEN]
   * Laplace '''[SLOW & DOESN'T SCALE]''' '''[BEN]'''
   * Blur [OK]
-  * EdgeDetect [OK]
+  * !EdgeDetect [OK]
   * FFT [OK]
-* Statically-nested DPH programs should work fast, in parallel
-  * SumSquares [FINE]
+ * Statically-nested DPH programs should work fast, in parallel
+  * !SumSquares [FINE]
   * Dot product [FINE]
   * Evens '''[OK, but scales badly]''' '''[ROMAN (might affect Quickhull due to packByTags]'''
   * SMVM '''[SLOW (lack of fusion)]''' '''[BEN & ROMAN]'''
-* Dynamically-nested DPH programs without user-defined datatypes should run correctly, but not necessarily fast
-  * QuickSort '''[BROKEN (SpecConstr) & SLOW]''' '''[SIMON & BEN]'''
+ * Dynamically-nested DPH programs without user-defined datatypes should run correctly, but not necessarily fast
+  * Quicksort '''[BROKEN (SpecConstr) & SLOW]''' '''[SIMON & BEN]'''
   * Quickhull [OK]
-* Dynamically-nested DPH programs with user-defined datatypes should run correctly, but not necessarily fast
+ * Dynamically-nested DPH programs with user-defined datatypes should run correctly, but not necessarily fast
   * Words '''[BROKEN (SpecConstr)]''' '''[SIMON]'''
-  * BarnesHut [OK]
+  * !BarnesHut [OK]
 
 Legend
- [FINE]    works well
- [OK]       fine for the release, but could be better
- [SLOW] not usable
+  [FINE]::
+    Works well
+  [OK]::
+   Fine for the release, but could be better
+  [SLOW]::
+   Not usable
+Tags in '''bold''' require attention before the release.
 
 More benchmarks details at [wiki:DataParallel/BenchmarkStatus]
