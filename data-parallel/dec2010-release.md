@@ -57,12 +57,16 @@ Performance goals:
 
   - SumSquares \[FINE\]
   - Dot product \[FINE\]
-  - Evens **\[OK, but more than 3 times slower than C\]****\[ROMAN (might affect Quickhull due to packByTags\]**
+  - Evens '\[OK (but more than 3 times slower than C)\]'
+
+    - rl reckons this is due to GHC compiling modulo of powers of two inefficiently; c.f., [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065) (in `packByTags`)
   - SMVM **\[SLOW (lack of fusion)\]****\[BEN & ROMAN\]**
 - Dynamically-nested DPH programs without user-defined datatypes should run correctly, but not necessarily fast
 
   - Quicksort **\[BROKEN ([SpecConstr](spec-constr)) & SLOW\]****\[SIMON & BEN\]**
   - Quickhull **\[OK, but has  a [SpecConstr](spec-constr) problem that we want to fix\]****\[ROMAN\]**
+
+    - Probably affected by the same optimisation issue with the compilation of modulo operations as Evens
 - Dynamically-nested DPH programs with user-defined datatypes should run correctly, but not necessarily fast
 
   - Words **\[BROKEN ([SpecConstr](spec-constr))\]****\[SIMON\]**
