@@ -80,7 +80,6 @@
  * #2271: floor, ceiling, round :: Double -> Int are awesomely slow
  * #1434: slow conversion Double to Int
  * #2270: gcd specialisation
- * #3065: better code in quot/rem
 
 == GHCi ==
  * #4017: unhelpful GHCi message

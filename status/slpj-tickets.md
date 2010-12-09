@@ -86,7 +86,6 @@
 - [\#2271](https://gitlab.haskell.org//ghc/ghc/issues/2271): floor, ceiling, round :: Double -\> Int are awesomely slow
 - [\#1434](https://gitlab.haskell.org//ghc/ghc/issues/1434): slow conversion Double to Int
 - [\#2270](https://gitlab.haskell.org//ghc/ghc/issues/2270): gcd specialisation
-- [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065): better code in quot/rem
 
 ## GHCi
 
