@@ -135,6 +135,8 @@ Statically nested parallelism is where the parallelism has a fixed, finite depth
   A : Benchmark is totally memory bound, so we're not expecting to see much speedup. [[br]] 
    
   '''Status''': ok, but run again with LLVM to see if that fixes the slowdown wrt C.
+  [[br]]- rl reckons the slowdown is due to GHC compiling modulo of powers of two inefficiently; c.f., #3065 (in `packByTags`)
+
  [[br]]
  [http://darcs.haskell.org/packages/dph/examples/smvm/ SMVM] '''(BROKEN)'''::
  Multiplies a dense vector with a sparse matrix represented in the ''compressed sparse row format (CSR).'' [[br]]

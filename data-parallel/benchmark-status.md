@@ -312,6 +312,7 @@ Takes the even valued `Int`s from a vector. N=10M.
 > A : Benchmark is totally memory bound, so we're not expecting to see much speedup. 
 
 > **Status**: ok, but run again with LLVM to see if that fixes the slowdown wrt C.
+> - rl reckons the slowdown is due to GHC compiling modulo of powers of two inefficiently; c.f., [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065) (in `packByTags`)
 
 <table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)**(BROKEN)**</th>
 <td>
