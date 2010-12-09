@@ -57,7 +57,7 @@ Performance goals:
 
   - SumSquares \[FINE\]
   - Dot product \[FINE\]
-  - Evens '\[OK (but more than 3 times slower than C)\]'
+  - Evens \[OK (but more than 3 times slower than C)\]
 
     - rl reckons this is due to GHC compiling modulo of powers of two inefficiently; c.f., [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065) (in `packByTags`)
   - SMVM **\[SLOW (lack of fusion)\]****\[BEN & ROMAN\]**
