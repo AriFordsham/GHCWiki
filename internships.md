@@ -2,9 +2,6 @@
 
 [ Microsoft Research Cambridge](http://research.microsoft.com/aboutmsr/labs/cambridge/) now runs a year-round [ internship programme](http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx).  You can apply for an internship slot in any area covered by the lab, but Simon and I are of course keen to attract strong applications from people interested in functional programming, Haskell, and GHC.
 
-
-The next available slots will be for January 2009 or thereabouts.  We'll consider applications for January in the summer of 2008.
-
 ## What is an internship?
 
 
@@ -32,6 +29,7 @@ Internship projects should have some research content, and ideally lead to a pap
 
 To give you some idea, here are some past projects (in approximate date order):
 
+- \[2010\] David Terei worked on the LLVM back end
 - \[2008\] Jost Berthold worked on parallel evaluation
 - \[2007\] Dan Licata implemented [view patterns](view-patterns)
 - \[2007\] Peng Li worked on a [ new concurrency substrate](http://research.microsoft.com/%7Esimonpj/papers/lw-conc/index.htm) for GHC
