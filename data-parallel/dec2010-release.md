@@ -71,7 +71,7 @@ Performance goals:
     - [\#4830](https://gitlab.haskell.org//ghc/ghc/issues/4830) (fix incoming)
 - Dynamically-nested DPH programs with user-defined datatypes should run correctly, but not necessarily fast
 
-  - Words **\[BROKEN ([SpecConstr](spec-constr))\]****\[SIMON\]**
+  - Words **\[BROKEN ([SpecConstr](spec-constr))\]****\[ROMAN & SIMON\]**
 
     - [\#4831](https://gitlab.haskell.org//ghc/ghc/issues/4831)
   - BarnesHut \[OK\]
