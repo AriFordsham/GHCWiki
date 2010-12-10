@@ -6,7 +6,7 @@
  * GHC 7.0.2
  * DPH packages
  * Repa packages
-(No release of vector should be necessary, as 0.7.01 should work fine.)
+(No release of vector should be necessary, as 0.7.0.1 should work fine.)
 
 === Before the release we must achieve the following ===
 
@@ -30,6 +30,12 @@ Bug fixes:
  * Repa edge-detection is deadlocking with more than 2 threads [DONE]
  * Fix the BH seg fault in DPH. Roman has found the problem [DONE]
  * LLVM back end not working with DPH '''[BEN]'''
+ * Trying to vectorise the `DotP` example from the tutorial on the Haskell Wiki, `-fdph-seq` fails with (`-fdph-par` works fine)
+{{{
+*** Vectorisation error ***
+    Tycon not vectorised:  Data.Array.Parallel.Lifted.PArray.PArray
+}}}
+
 
 Performance goals:
  * Vector works fast, sequentially, compared to C, Haskell mutable-array version [FINE]
