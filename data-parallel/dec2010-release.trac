@@ -13,6 +13,7 @@
 Documentation:
  * Haddock documentation of Data.Array.Parallel '''[???]'''
  * !HowTo and examples on !HaWiki [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell] '''[MANUEL]'''
+ * Replace `-XPArr` by `-XParallelArrays` in the Users Guide, also add `-fvectorise`
 
 API adaptation: APIs of vector, Repa, and Accelerate should be unified as far as possible
  * Repa's current 'replicate' should be renamed and a new 'replicate' that turns a scalar into an array should be introduced '''[???]'''
