@@ -6,13 +6,14 @@
  * GHC 7.0.2
  * DPH packages
  * Repa packages
-(No release of vector should be necessary, as 0.7.01 should work fine.)
+(No release of vector should be necessary, as 0.7.0.1 should work fine.)
 
 === Before the release we must achieve the following ===
 
 Documentation:
  * Haddock documentation of Data.Array.Parallel '''[???]'''
  * !HowTo and examples on !HaWiki [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell] '''[MANUEL]'''
+ * Replace `-XPArr` by `-XParallelArrays` in the Users Guide, also add `-fvectorise`
 
 API adaptation: APIs of vector, Repa, and Accelerate should be unified as far as possible
  * Repa's current 'replicate' should be renamed and a new 'replicate' that turns a scalar into an array should be introduced '''[???]'''
@@ -29,6 +30,12 @@ Bug fixes:
  * Repa edge-detection is deadlocking with more than 2 threads [DONE]
  * Fix the BH seg fault in DPH. Roman has found the problem [DONE]
  * LLVM back end not working with DPH '''[BEN]'''
+ * Trying to vectorise the `DotP` example from the tutorial on the Haskell Wiki, `-fdph-seq` fails with (`-fdph-par` works fine)
+{{{
+*** Vectorisation error ***
+    Tycon not vectorised:  Data.Array.Parallel.Lifted.PArray.PArray
+}}}
+
 
 Performance goals:
  * Vector works fast, sequentially, compared to C, Haskell mutable-array version [FINE]
@@ -49,8 +56,10 @@ Performance goals:
   * Quicksort '''[BROKEN (SpecConstr) & SLOW]''' '''[SIMON & BEN]'''
   * Quickhull '''[OK, but has  a SpecConstr problem that we want to fix]''' '''[ROMAN]'''
     * Probably affected by the same optimisation issue with the compilation of modulo operations as Evens
+    * #4830 (fix incoming)
  * Dynamically-nested DPH programs with user-defined datatypes should run correctly, but not necessarily fast
-  * Words '''[BROKEN (SpecConstr)]''' '''[SIMON]'''
+  * Words '''[BROKEN (SpecConstr)]''' '''[ROMAN & SIMON]'''
+    * #4831
   * !BarnesHut [OK]
 
 Legend
