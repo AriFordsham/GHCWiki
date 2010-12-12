@@ -58,7 +58,7 @@ Sunday sessions:
 
 - Tracing: 
 
-  - overview, 
-  - integration into GUM build
-- Test programs: systemtests
-- MultiCore Challenge application in GpH and Eden
+  - overview (TH,MD)
+  - integration into GUM build (MKA,MD)
+- Test programs: systemtests (HWL)
+- MultiCore Challenge application in GpH and Eden (TH,MSA)
