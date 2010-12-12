@@ -56,6 +56,9 @@ Vladimir Janjic, [ Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Chris Br
 
 Sunday sessions:
 
-- Tracing: overview, integration into GUM build
-- Test programs
+- Tracing: 
+
+  - overview, 
+  - integration into GUM build
+- Test programs: systemtests
 - MultiCore Challenge application in GpH and Eden

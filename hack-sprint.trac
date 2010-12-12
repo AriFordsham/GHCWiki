@@ -43,6 +43,8 @@ Vladimir Janjic, [http://www.cs.st-andrews.ac.uk/~kh/ Kevin Hammond], Chris Brow
 == Eventlog ==
 
 Sunday sessions:
-* Tracing: overview, integration into GUM build
-* Test programs
-* MultiCore Challenge application in GpH and Eden
+ * Tracing: 
+  * overview, 
+  * integration into GUM build
+ * Test programs: systemtests
+ * MultiCore Challenge application in GpH and Eden
