@@ -50,3 +50,12 @@ Vladimir Janjic, [ Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Chris Br
     - Globus interface
     - pre-SCSCP [ GAP](http://www.gap-system.org/) interface
     - Micro-kernel/substrate approach to the RTS
+
+## Eventlog
+
+
+Sunday sessions:
+
+- Tracing: overview, integration into GUM build
+- Test programs
+- MultiCore Challenge application in GpH and Eden
