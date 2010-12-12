@@ -62,3 +62,10 @@ Sunday sessions:
   - integration into GUM build (MKA,MD)
 - Test programs: systemtests (HWL)
 - MultiCore Challenge application in GpH and Eden (TH,MSA)
+
+
+Monday session:
+
+- Reports and updates on activities
+- Test programs: systemtests (HWL,JB)
+- Benchmarks
