@@ -469,7 +469,7 @@ This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem
 >
 > A : Time stated is end-to-end, not just for the kernel.
 
-> **Status**:  Compiles, but fusion doesn't work so it's very slow. LLVM version takes 30min to compile. 
+> **Status**:  -fasm vesions compile but fusion doesn't work so it's very slow. LLVM versions take 30min to compile. 
 > **ToDo**: Make the vectorised version give the same output as the vector version. The benchmark setup is a bit different. Fixing this won't cause a 50x speed difference though.
 
 ---
