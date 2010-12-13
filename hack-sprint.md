@@ -64,9 +64,9 @@ Sunday sessions:
 - MultiCore Challenge application in GpH and Eden (TH,MSA)
 
 
-Monday/Tuesday session:
+Tuesday session:
 
 - Reports and updates on activities
 - Plans on ghc-HEAD integration
-- Test programs: systemtests (HWL,JB)
+- Test programs: systemtests
 - Benchmarks
