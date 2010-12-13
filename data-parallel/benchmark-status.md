@@ -13,8 +13,8 @@ The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/pa
 - Running debug threaded programs with heap profiling triggers an assertion in the RTS. Running them without debugging is a segfault.
 - QuickHull: vectorised.par.N1 version is 6x slower than the immutable Data.Vector version in absolute terms.
 - QuickSort: vectorised.seq version doesn't compile due to a blow-up in SpecConstr.
-- SMVM: runs 1000x slower than the C program with small matrix sizes. For 1000x1000 with 10% fill ratio it takes about 1s and allocates 400M memory, while the C program is instantaneous. For larger sizes it dies with OOM.
-- BarnesHut: builds but runs very slowly. The immediate problem is that some dictionaries are recursive, their methods don't inlined, so fusion doesn't work.
+- SMVM: Fusion doesn't work. Vectorised program 1000x slower than the C version with small matrix sizes. For 1000x1000 with 10% fill ratio it takes about 1s and allocates 400M memory, while the C program is instantaneous. For larger sizes it dies with OOM.
+- BarnesHut: Builds but runs very slowly. The immediate problem is that some dictionaries are recursive, their methods don't inlined, so fusion doesn't work. Version with -fllvm takes 30 min to compile, suspect complexity problems in LLVM mangler.
 
 # ToDo
 
@@ -65,7 +65,7 @@ Matrix-Matrix multiplication. Size=1024x1024.
 > A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
 > **Status:** Ok, but about 20% slower than in 6.13.
-> **ToDo:** Run with LLVM and without bounds checking.
+> **ToDo:** Run without bounds checking.
 
 <table><tr><th>[ Laplace](http://code.haskell.org/repa/repa-head/repa-examples/Laplace/)**(SLOWLORIS)**</th>
 <td>
@@ -103,7 +103,7 @@ Solves the Laplace equation in the 2D plane. Size=400x400.
 > A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
 > **Status:** Too slow. We should check this again with LLVM.
-> **ToDo:** Run with LLVM and without bounds checking. Run with more threads to see if we can get back to the C version's run time.
+> **ToDo:** Run without bounds checking. Run with more threads to see if we can get back to the C version's run time.
 
 <table><tr><th>[ Blur](http://code.haskell.org/repa/repa-head/repa-examples/Blur/)</th>
 <td>
@@ -319,7 +319,7 @@ Takes the even valued `Int`s from a vector. N=10M.
 Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*
 </td></tr></table>
 
-> **Status:** Runs on 1000x1000 matrices with 10% fill ratio, but about 1000x slower than the C program. Dies with OOM for 2000x2000. Segfaults with 10000x10000.
+> **Status:** Fusion doesn't work. Runs on 1000x1000 matrices with 10% fill ratio, but about 1000x slower than the C program. Dies with OOM for 2000x2000. Segfaults with 10000x10000.
 
 # Dynamically Nested Parallelism
 
@@ -359,7 +359,7 @@ Sort a vector of doubles by recursively splitting it and sorting the two halves.
 > <th></th>
 > <th></th></tr></table>
 
-> **Status**: Sequential vectorised version does not compile due to a blowup in SpecConstr.
+> **Status**: Sequential vectorised version does not compile due to a loop in SpecConstr ([\#4831](https://gitlab.haskell.org//ghc/ghc/issues/4831)).
 
 <table><tr><th>[ Quickhull](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickHull/)**(SLOWLORIS)**</th>
 <td>
@@ -436,10 +436,10 @@ These programs also use user defined algebraic data types. Vectorization of thes
 Counts the number of words in a string. This is a naive divide-and-conquer benchmark that divides right down to a single character. A production program would switch to a simple sequential algorithm once the string chunks were small enough. It's a good stress test for the vectoriser though.
 </td></tr></table>
 
-> **Status**: Sequential vectorised version does not compile due to blowup in [SpecConstr](spec-constr).
+> **Status**: Sequential vectorised version does not compile due to loop in SpecConstr ([\#4831](https://gitlab.haskell.org//ghc/ghc/issues/4831)). LLVM versions take \>10 min to compile ([\#4838](https://gitlab.haskell.org//ghc/ghc/issues/4838))
 > **Todo**: Generate some larger test data. Right now it's just got a small test string baked into the program.
 
-<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(SLOWLORIS)**</th>
+<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(BROKEN)****(SLOWLORIS)**</th>
 <td>
 This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions. There is a naive O(n<sup>2</sup>) version in the same package.
 </td></tr></table>
@@ -469,7 +469,7 @@ This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem
 >
 > A : Time stated is end-to-end, not just for the kernel.
 
-> **Status**:  Compiles, but fusion doesn't work so it's very slow. 
+> **Status**:  -fasm vesions compile but fusion doesn't work so it's very slow. LLVM versions take 30min to compile ([\#4838](https://gitlab.haskell.org//ghc/ghc/issues/4838)) 
 > **ToDo**: Make the vectorised version give the same output as the vector version. The benchmark setup is a bit different. Fixing this won't cause a 50x speed difference though.
 
 ---
