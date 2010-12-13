@@ -39,7 +39,7 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
   A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
   '''Status:''' Ok, but about 20% slower than in 6.13.[[br]]
-  '''ToDo:''' Run with LLVM and without bounds checking.
+  '''ToDo:''' Run without bounds checking.
 
 [[br]]
   [http://code.haskell.org/repa/repa-head/repa-examples/Laplace/ Laplace] '''(SLOWLORIS)'''::
@@ -53,7 +53,7 @@ Flat parallel programs are ones in which parallel computations do not invoke fur
   A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
   '''Status:''' Too slow. We should check this again with LLVM.[[br]]
-  '''ToDo:''' Run with LLVM and without bounds checking. Run with more threads to see if we can get back to the C version's run time.
+  '''ToDo:''' Run without bounds checking. Run with more threads to see if we can get back to the C version's run time.
 
 
 [[br]]

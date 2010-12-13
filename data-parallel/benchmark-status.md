@@ -65,7 +65,7 @@ Matrix-Matrix multiplication. Size=1024x1024.
 > A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
 > **Status:** Ok, but about 20% slower than in 6.13.
-> **ToDo:** Run with LLVM and without bounds checking.
+> **ToDo:** Run without bounds checking.
 
 <table><tr><th>[ Laplace](http://code.haskell.org/repa/repa-head/repa-examples/Laplace/)**(SLOWLORIS)**</th>
 <td>
@@ -103,7 +103,7 @@ Solves the Laplace equation in the 2D plane. Size=400x400.
 > A: Straightforward C program using triple nested loops. A cache-friendly block-based version would be faster.
 
 > **Status:** Too slow. We should check this again with LLVM.
-> **ToDo:** Run with LLVM and without bounds checking. Run with more threads to see if we can get back to the C version's run time.
+> **ToDo:** Run without bounds checking. Run with more threads to see if we can get back to the C version's run time.
 
 <table><tr><th>[ Blur](http://code.haskell.org/repa/repa-head/repa-examples/Blur/)</th>
 <td>
