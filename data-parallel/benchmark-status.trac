@@ -197,7 +197,7 @@ These programs also use user defined algebraic data types. Vectorization of thes
  '''Todo''': Generate some larger test data. Right now it's just got a small test string baked into the program.
 
 [[br]]
- [http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/ BarnesHut] '''(BROKEN - LLVM)''' '''(SLOWLORIS)'''::
+ [http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/ BarnesHut] '''(BROKEN -fllvm)''' '''(SLOWLORIS)'''::
   This benchmark implements the Barnes-Hut algorithm to solve the ''n''-body problem in two dimensions. There is a naive O(n^2^) version in the same package.
 
   || '''name''' || '''runtime''' || '''speedup''' || '''efficiency''' || '''notes''' ||

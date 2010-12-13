@@ -439,7 +439,7 @@ Counts the number of words in a string. This is a naive divide-and-conquer bench
 > **Status**: Sequential vectorised version does not compile due to blowup in [SpecConstr](spec-constr).
 > **Todo**: Generate some larger test data. Right now it's just got a small test string baked into the program.
 
-<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(BROKEN - LLVM)****(SLOWLORIS)**</th>
+<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(BROKEN -fllvm)****(SLOWLORIS)**</th>
 <td>
 This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions. There is a naive O(n<sup>2</sup>) version in the same package.
 </td></tr></table>
