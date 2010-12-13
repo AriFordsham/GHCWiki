@@ -314,7 +314,7 @@ Takes the even valued `Int`s from a vector. N=10M.
 > **Status**: ok, but run again with LLVM to see if that fixes the slowdown wrt C.
 > - rl reckons the slowdown is due to GHC compiling modulo of powers of two inefficiently; c.f., [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065) (in `packByTags`)
 
-<table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)**(BROKEN - Fusion)**</th>
+<table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)**(BROKEN)**</th>
 <td>
 Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*
 </td></tr></table>
@@ -333,7 +333,7 @@ The Sieve of Eratosthenes using parallel writes into a sieve structure represent
 
 > **Todo**: We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  This needs a parallel update operation, but we currently can't guarantee atomic updates of compound types such as tuples.
 
-<table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN - [SpecConstr](spec-constr)) (SLOWDOWN)**</th>
+<table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN) (SLOWDOWN)**</th>
 <td>
 Sort a vector of doubles by recursively splitting it and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
 </td></tr></table>
@@ -359,7 +359,7 @@ Sort a vector of doubles by recursively splitting it and sorting the two halves.
 > <th></th>
 > <th></th></tr></table>
 
-> **Status**: Sequential vectorised version does not compile due to a blowup in SpecConstr.
+> **Status**: Sequential vectorised version does not compile due to a loop in SpecConstr ([\#4831](https://gitlab.haskell.org//ghc/ghc/issues/4831)).
 
 <table><tr><th>[ Quickhull](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickHull/)**(SLOWLORIS)**</th>
 <td>
@@ -431,15 +431,15 @@ Given a set of points in the plane, compute the sequence of points that encloses
 
 These programs also use user defined algebraic data types. Vectorization of these programs is still a work in progress.
 
-<table><tr><th>[ Words](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Words/)**(BROKEN - [SpecConstr](spec-constr))**</th>
+<table><tr><th>[ Words](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Words/)**(BROKEN)**</th>
 <td>
 Counts the number of words in a string. This is a naive divide-and-conquer benchmark that divides right down to a single character. A production program would switch to a simple sequential algorithm once the string chunks were small enough. It's a good stress test for the vectoriser though.
 </td></tr></table>
 
-> **Status**: Sequential vectorised version does not compile due to blowup in [SpecConstr](spec-constr).
+> **Status**: Sequential vectorised version does not compile due to loop in SpecConstr ([\#4831](https://gitlab.haskell.org//ghc/ghc/issues/4831)). LLVM versions take \>10 min to compile ([\#4838](https://gitlab.haskell.org//ghc/ghc/issues/4838))
 > **Todo**: Generate some larger test data. Right now it's just got a small test string baked into the program.
 
-<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(BROKEN -fllvm)****(SLOWLORIS)**</th>
+<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(BROKEN)****(SLOWLORIS)**</th>
 <td>
 This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions. There is a naive O(n<sup>2</sup>) version in the same package.
 </td></tr></table>
@@ -469,7 +469,7 @@ This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem
 >
 > A : Time stated is end-to-end, not just for the kernel.
 
-> **Status**:  -fasm vesions compile but fusion doesn't work so it's very slow. LLVM versions take 30min to compile. 
+> **Status**:  -fasm vesions compile but fusion doesn't work so it's very slow. LLVM versions take 30min to compile ([\#4838](https://gitlab.haskell.org//ghc/ghc/issues/4838)) 
 > **ToDo**: Make the vectorised version give the same output as the vector version. The benchmark setup is a bit different. Fixing this won't cause a 50x speed difference though.
 
 ---
