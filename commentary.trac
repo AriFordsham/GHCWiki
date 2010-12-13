@@ -60,6 +60,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
    * [wiki:ExplicitCallStack]: Notes about maintaining an explicit call stack, to support error attribution and profiling.
    * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
    * [wiki:SIMD SIMD]: Notes on adding SIMD instructions and primOps to GHC
+   * [http://http://sourceforge.net/apps/mediawiki/developers/index.php?title=ScrapYourBoilerplate Scrap your boilerplate page] written by Ralf Lammel.
 
  * The Runtime System
    * [wiki:GarbageCollectorNotes] Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
