@@ -55,6 +55,8 @@ Tuesday session:
   * CAF bug fixed in eden-6.12 (MD,TH)
   * problem in ghc-HEAD (JB)
   * systemtests on GUM build (HWL)
+   * systemtests for GPH
+   * Tests Eden for Eden
   * changes in packing code (HWL,JB) 
  * Eden usage for Symb Comp (CB,JB)
   * CASH
@@ -67,12 +69,25 @@ Tuesday session:
    * data locality (MKA)
  * Strategic issues
   * Plans on ghc-HEAD integration
+   * Milestones: ghc-6.12-eden-gum
+   * Longer term: 
+    * scans of ghc-HEAD changes
+    * 
+   * Marburg Wiki for main tech info exchange
+   * Skype calls (1-to-1)
+   * regular annual meetings (Challenge)
   * Usage in projects
-  * Pri for new developments
+   * SGP   (CA interfacing)
+    * minor release soon, with separate Eden modules
+    * next year major release, using Eden package
+   * SGPII (fault tolerance, GdH)
+    * look at Edi.hs
+  * Priorities for new developments
  * Benchmarks:
    * nofib/parallel
-   * Strategies examples
-   * Other new programs (karatsuba)
+   * nofib/parallel-eden
+   * Strategies examples: push to nofib/parallel
+   * Other new programs (karatsuba): put to parfib/
  
 [http://james.mathematik.uni-marburg.de:8080/EdenWiki/BlackholingAndParallelRTS Docu on latest problems running ghc-HEAD]
 
