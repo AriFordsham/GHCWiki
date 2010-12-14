@@ -21,20 +21,21 @@ API adaptation: APIs of vector, Repa, and Accelerate should be unified as far as
 
 Changes:
  * -fdph-par should be the default (and sensible error message if the dph package is not available) '''[MANUEL]'''
- * -fvectorise should imply -Odph (if omitted, we get fatal errors) '''[MANUEL]'''
-   * rl notes, "We shouldn't! -fvectorise -O0 should work, I'll take a look. I should change -Odph to reflect what we currently need, though. Basically, it should be equivalent ot -O2 -fsimplifier-phases=3 -fsimplifier-iterations=20."
+ * -Odph should be equivalent to '-O2 -fsimplifier-phases=3 -fsimplifier-iterations=20' '''[MANUEL]'''
  * Move GHC.PArr into  the DPH libs.  (Needed for Haddock.) '''[MANUEL]'''
  * Find out if we still need the `NoSpecConstr` annotation and remove it if not '''[ROMAN]'''
 
 Bug fixes:
- * Repa edge-detection is deadlocking with more than 2 threads [DONE]
- * Fix the BH seg fault in DPH. Roman has found the problem [DONE]
- * LLVM back end not working with DPH '''[BEN]'''
+ * Vectoriser needs to be adapted to Simon's recursive superclasses patch '''[ROMAN]'''
+ * The combination '-fvectorise -O0' should work '''[ROMAN]'''
  * Trying to vectorise the `DotP` example from the tutorial on the Haskell Wiki, `-fdph-seq` fails with (`-fdph-par` works fine)
 {{{
 *** Vectorisation error ***
     Tycon not vectorised:  Data.Array.Parallel.Lifted.PArray.PArray
 }}}
+ * LLVM back end not working with DPH (held up due to LLVM backend problems in the HEAD) '''[BEN]'''
+ * Repa edge-detection is deadlocking with more than 2 threads [DONE]
+ * Fix the BH seg fault in DPH. Roman has found the problem [DONE]
 
 
 Performance goals:
@@ -42,7 +43,7 @@ Performance goals:
   * Benchmarks: !NoSlow, vector versions of Repa benchmarks
  * Repa works fast in parallel
   * MMult [OK, but about 20% slower than in 6.13; try with LLVM and w/o bounds checks] [BEN]
-  * Laplace '''[SLOW & DOESN'T SCALE]''' '''[BEN]'''
+  * Laplace (blocked on LLVM backend problems) '''[SLOW & DOESN'T SCALE]''' '''[BEN]'''
   * Blur [OK]
   * !EdgeDetect [OK]
   * FFT [OK]
@@ -51,7 +52,7 @@ Performance goals:
   * Dot product [FINE]
   * Evens [OK (but more than 3 times slower than C)]
     * rl reckons this is due to GHC compiling modulo of powers of two inefficiently; c.f., #3065 (in `packByTags`)
-  * SMVM '''[SLOW (lack of fusion)]''' '''[BEN & ROMAN]'''
+  * SMVM (blocked on optimisation of lifted indexing) '''[BROKEN]''' '''[BEN & ROMAN]'''
  * Dynamically-nested DPH programs without user-defined datatypes should run correctly, but not necessarily fast
   * Quicksort '''[BROKEN (SpecConstr) & SLOW]''' '''[SIMON & BEN]'''
   * Quickhull '''[OK, but has  a SpecConstr problem that we want to fix]''' '''[ROMAN]'''
