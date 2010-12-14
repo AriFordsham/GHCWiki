@@ -67,6 +67,35 @@ Sunday sessions:
 Tuesday session:
 
 - Reports and updates on activities
-- Plans on ghc-HEAD integration
-- Test programs: systemtests
-- Benchmarks
+- Hacking Activities
+
+  - CAF bug fixed in eden-6.12 (MD,TH)
+  - problem in ghc-HEAD (JB)
+  - systemtests on GUM build (HWL)
+  - changes in packing code (HWL,JB) 
+- Eden usage for Symb Comp (CB,JB)
+
+  - CASH
+  - SC skeletons 
+- Packaging 
+
+  - configure script for CASH; TODO for edenmodules
+- Integration
+
+  - migration, (VJ)
+  - tracing, (MKA)
+  - data locality (MKA)
+- Strategic issues
+
+  - Plans on ghc-HEAD integration
+  - Usage in projects
+  - Pri for new developments
+- Benchmarks:
+
+  - nofib/parallel
+  - Strategies examples
+  - Other new programs (karatsuba)
+
+[ Docu on latest problems running ghc-HEAD](http://james.mathematik.uni-marburg.de:8080/EdenWiki/BlackholingAndParallelRTS)
+
+[ Marburg Wiki for tech info exchange, up-to-date info with ghc-HEAD and the like](http://james.mathematik.uni-marburg.de:8080/EdenWiki/CategoryTechDocs)
