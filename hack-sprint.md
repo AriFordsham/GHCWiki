@@ -77,6 +77,9 @@ Tuesday session:
 
   - CASH
   - SC skeletons 
+- Packaging 
+
+  - configure script for CASH; TODO for edenmodules
 - Integration
 
   - migration, (VJ)

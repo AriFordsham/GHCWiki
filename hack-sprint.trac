@@ -59,6 +59,8 @@ Tuesday session:
  * Eden usage for Symb Comp (CB,JB)
   * CASH
   * SC skeletons 
+ * Packaging 
+  * configure script for CASH; TODO: for edenmodules
  * Integration
    * migration, (VJ)
    * tracing, (MKA)
@@ -71,4 +73,4 @@ Tuesday session:
    * nofib/parallel
    * Strategies examples
    * Other new programs (karatsuba)
-
+ 
