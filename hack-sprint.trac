@@ -51,6 +51,14 @@ Sunday sessions:
 
 Tuesday session:
  * Reports and updates on activities
+ * Integration
+   * migration, 
+   * tracing, 
+   * data locality
  * Plans on ghc-HEAD integration
  * Test programs: systemtests
- * Benchmarks
+ * Benchmarks:
+   * nofib/parallel
+   * Strategies examples
+   * Other new programs (karatsuba)
+
