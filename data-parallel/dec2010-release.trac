@@ -33,7 +33,7 @@ Bug fixes:
 *** Vectorisation error ***
     Tycon not vectorised:  Data.Array.Parallel.Lifted.PArray.PArray
 }}}
- * LLVM back end not working with DPH (held up due to LLVM backend problems in the HEAD) '''[BEN]'''
+ * LLVM back end not working with DPH (held up due to LLVM backend problems in the HEAD #4438) '''[BEN]'''
  * Repa edge-detection is deadlocking with more than 2 threads [DONE]
  * Fix the BH seg fault in DPH. Roman has found the problem [DONE]
 
