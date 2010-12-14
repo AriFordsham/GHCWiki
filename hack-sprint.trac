@@ -82,12 +82,12 @@ Tuesday session:
     * next year major release, using Eden package
    * SGPII (fault tolerance, GdH)
     * look at Edi.hs
-  * Pri for new developments
+  * Priorities for new developments
  * Benchmarks:
    * nofib/parallel
    * nofib/parallel-eden
-   * Strategies examples
-   * Other new programs (karatsuba)
+   * Strategies examples: push to nofib/parallel
+   * Other new programs (karatsuba): put to parfib/
  
 [http://james.mathematik.uni-marburg.de:8080/EdenWiki/BlackholingAndParallelRTS Docu on latest problems running ghc-HEAD]
 

@@ -109,13 +109,13 @@ Tuesday session:
     - SGPII (fault tolerance, GdH)
 
       - look at Edi.hs
-  - Pri for new developments
+  - Priorities for new developments
 - Benchmarks:
 
   - nofib/parallel
   - nofib/parallel-eden
-  - Strategies examples
-  - Other new programs (karatsuba)
+  - Strategies examples: push to nofib/parallel
+  - Other new programs (karatsuba): put to parfib/
 
 [ Docu on latest problems running ghc-HEAD](http://james.mathematik.uni-marburg.de:8080/EdenWiki/BlackholingAndParallelRTS)
 
