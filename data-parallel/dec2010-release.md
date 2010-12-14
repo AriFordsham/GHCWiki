@@ -74,7 +74,7 @@ Performance goals:
   - Quickhull **\[OK, but has a [SpecConstr](spec-constr) problem that we want to fix\]****\[ROMAN\]**
 
     - Probably affected by the same optimisation issue with the compilation of modulo operations as Evens
-    - [\#4830](https://gitlab.haskell.org//ghc/ghc/issues/4830): this fix wasn't sufficient, still doesn't optimise properly
+    - [\#4830](https://gitlab.haskell.org//ghc/ghc/issues/4830): this fix wasn't sufficient, still doesn't optimise properly **\[ROMAN\]**
 - Dynamically-nested DPH programs with user-defined datatypes should run correctly, but not necessarily fast
 
   - Words **\[BROKEN ([SpecConstr](spec-constr) when using `-dph-seq`)\]****\[ROMAN & SIMON\]**
