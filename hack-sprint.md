@@ -95,3 +95,5 @@ Tuesday session:
   - nofib/parallel
   - Strategies examples
   - Other new programs (karatsuba)
+
+[ Docu on latest problems running ghc-HEAD](http://james.mathematik.uni-marburg.de:8080/EdenWiki/BlackholingAndParallelRTS)
