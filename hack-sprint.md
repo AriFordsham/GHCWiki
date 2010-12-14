@@ -88,7 +88,19 @@ Tuesday session:
 - Strategic issues
 
   - Plans on ghc-HEAD integration
+
+    - Milestones: ghc-6.12-eden-gum
+    - Longer term: 
+
+      - scans of ghc-HEAD changes
+      - 
+    - Marburg Wiki for main tech info exchange
+    - Skype calls (1-to-1)
+    - regular annual meetings (Challenge)
   - Usage in projects
+
+    - SGP   (CA interfacing)
+    - SGPII (fault tolerance, GdH)
   - Pri for new developments
 - Benchmarks:
 
