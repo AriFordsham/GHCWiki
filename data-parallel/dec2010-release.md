@@ -56,7 +56,7 @@ Performance goals:
 - Repa works fast in parallel
 
   - MMult \[OK, but about 20% slower than in 6.13; try with LLVM and w/o bounds checks\] \[BEN\]
-  - Laplace (blocked on LLVM backend problems) **\[SLOW & DOESN'T SCALE\]****\[BEN\]**
+  - Laplace **\[SLOW & DOESN'T SCALE\]****\[BEN\]**
   - Blur \[OK\]
   - EdgeDetect \[OK\]
   - FFT \[OK\]
