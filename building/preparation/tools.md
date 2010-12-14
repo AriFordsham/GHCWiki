@@ -16,7 +16,7 @@ supported method, and you may encounter difficulties.  Full
 instructions are in [Porting GHC](building/porting).
 
 GHC can be built using either an earlier released
-version of GHC (currently 6.6 and later are supported), or
+version of GHC, or
 bootstrapped using a GHC built from exactly the same
 sources.  Note that this means you cannot in general build
 GHC using an arbitrary development snapshot, or a build from

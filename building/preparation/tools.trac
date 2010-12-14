@@ -15,7 +15,7 @@ In most cases the `configure` script will tell you if you are missing something.
   instructions are in [wiki:Building/Porting Porting GHC].
   [[br]][[br]]
   GHC can be built using either an earlier released
-  version of GHC (currently 6.6 and later are supported), or
+  version of GHC, or
   bootstrapped using a GHC built from exactly the same
   sources.  Note that this means you cannot in general build
   GHC using an arbitrary development snapshot, or a build from
