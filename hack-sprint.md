@@ -72,6 +72,9 @@ Tuesday session:
   - CAF bug fixed in eden-6.12 (MD,TH)
   - problem in ghc-HEAD (JB)
   - systemtests on GUM build (HWL)
+
+    - systemtests for GPH
+    - Tests Eden for Eden
   - changes in packing code (HWL,JB) 
 - Eden usage for Symb Comp (CB,JB)
 
@@ -110,6 +113,7 @@ Tuesday session:
 - Benchmarks:
 
   - nofib/parallel
+  - nofib/parallel-eden
   - Strategies examples
   - Other new programs (karatsuba)
 
