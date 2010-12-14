@@ -25,7 +25,7 @@ In most cases the `configure` script will tell you if you are missing something.
   GHC.
   [[br]][[br]]
   In general, we support building with the previous 2
-  major releases, so:
+  major releases, e.g.:
   * To build 6.8.* you need GHC >= 6.4
   * To build 6.10.* you need GHC >= 6.6
 

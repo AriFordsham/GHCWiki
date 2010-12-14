@@ -26,7 +26,7 @@ build using the most recently released stable version of
 GHC.
 
 In general, we support building with the previous 2
-major releases, so:
+major releases, e.g.:
 
 - To build 6.8.\* you need GHC \>= 6.4
 - To build 6.10.\* you need GHC \>= 6.6
