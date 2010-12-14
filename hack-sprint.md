@@ -97,3 +97,5 @@ Tuesday session:
   - Other new programs (karatsuba)
 
 [ Docu on latest problems running ghc-HEAD](http://james.mathematik.uni-marburg.de:8080/EdenWiki/BlackholingAndParallelRTS)
+
+[ Marburg Wiki for tech info exchange, up-to-date info with ghc-HEAD and the like](http://james.mathematik.uni-marburg.de:8080/EdenWiki/CategoryTechDocs)
