@@ -100,7 +100,12 @@ Tuesday session:
   - Usage in projects
 
     - SGP   (CA interfacing)
+
+      - minor release soon, with separate Eden modules
+      - next year major release, using Eden package
     - SGPII (fault tolerance, GdH)
+
+      - look at Edi.hs
   - Pri for new developments
 - Benchmarks:
 
