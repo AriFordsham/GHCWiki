@@ -82,7 +82,11 @@ Tuesday session:
   - migration, (VJ)
   - tracing, (MKA)
   - data locality (MKA)
-- Plans on ghc-HEAD integration
+- Strategic issues
+
+  - Plans on ghc-HEAD integration
+  - Usage in projects
+  - Pri for new developments
 - Benchmarks:
 
   - nofib/parallel
