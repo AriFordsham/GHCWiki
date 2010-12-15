@@ -7,7 +7,23 @@ a,b,c:  types of kind Nat
 ```
 
 
-Top-level interaction for +.
+Top-level interactions for `TypeNat`:
+
+```wiki
+TypeNat m
+```
+
+
+Top-level interactions for \<=
+
+```wiki
+m <= n   <=> {m <= n} = True
+0 <= a   <=> True
+a <= 0   <=> a ~ 0
+```
+
+
+Top-level interactions for +.
 
 ```wiki
 (m + n ~ k) <=> {m + n} = k
@@ -19,4 +35,30 @@ Top-level interaction for +.
 (a + b ~ a) <=> (b ~ 0)
 (a + b ~ b) <=> (a ~ 0)
 (a + a ~ b) <=> (2 * a ~ b)
+```
+
+
+Top-level interactions for \*.
+
+```wiki
+(m * n ~ k) <=> {m * n} = k
+(m * a ~ n) <=> a ~ {n / m}     -- m `divides` n
+(a * m ~ n) <=> a ~ {n / m}     -- m `divides` n
+(0 * a ~ b) <=> b ~ 0
+(a * 0 ~ b) <=> b ~ 0
+(1 * a ~ b) <=> a ~ b
+(a * 1 ~ b) <=> a ~ b
+(a * b ~ 1) <=> (a ~ 1, b ~ 1)
+(a + a ~ b) <=> 2 ^ a ~ b
+```
+
+
+Top-level interactions for <sup></sup>
+
+```wiki
+(m ^ n ~ k) <=> {m ^ n} = k
+(m ^ a ~ n) <=> a ~ {log m n}   -- log (base m) of n exists
+(a ^ m ~ n) <=> a ~ {root m n}  -- m-th root of n exists
+(a ^ 0 ~ b) <=> b ~ 1
+(1 ^ a ~ b) <=> b ~ 1 
 ```
