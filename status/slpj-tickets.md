@@ -105,22 +105,14 @@
 
 ## New constraint simplifier
 
-- **[\#4232](https://gitlab.haskell.org//ghc/ghc/issues/4232): main meta-ticket for the new type checker**
+- [TypeFunctionsStatus](type-functions-status)
 - [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
 - [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): Higher rank and impredicative 
 - [\#4338](https://gitlab.haskell.org//ghc/ghc/issues/4338): superclass equalities
 - [\#4310](https://gitlab.haskell.org//ghc/ghc/issues/4310): deferred equalities and forall types (needs Brent's work)
-
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
-
-- [TypeFunctionsStatus](type-functions-status)
 - [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927): overlap warnings with GADTs
-- [\#2256](https://gitlab.haskell.org//ghc/ghc/issues/2256): Incomplete inference when generalising
-- [\#2239](https://gitlab.haskell.org//ghc/ghc/issues/2239): Lack of improvement with type functions        Manuel
-- [\#700](https://gitlab.haskell.org//ghc/ghc/issues/700): universals in pattern matching
-- [\#3696](https://gitlab.haskell.org//ghc/ghc/issues/3696): better error message fr missing signature
 - [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
-- [\#4254](https://gitlab.haskell.org//ghc/ghc/issues/4254): fundeps
 
 ## Types and type inference
 
