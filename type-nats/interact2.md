@@ -1,0 +1,14 @@
+```wiki
+a + b ~ c
+  a + b ~ d <=> c ~ d
+  b + a ~ d <=> c ~ d
+
+  a + d ~ c <=> b ~ d
+  d + a ~ c <=> b ~ d
+  d + b ~ c <=> a ~ d
+  b + d ~ c <=> a ~ d
+
+m + b ~ c
+  n + d ~ c <=> d ~ {m - n} + b   -- m >= n
+  n + d ~ c <=> b ~ {n - m} + d   -- n >= m
+```
