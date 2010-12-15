@@ -17,7 +17,7 @@ TypeNat m
 Top-level interactions for \<=
 
 ```wiki
-m <= n   <=> {m <= n} = True
+m <= n   <=> {m <= n}
 0 <= a   <=> True
 a <= 0   <=> a ~ 0
 ```
@@ -26,7 +26,7 @@ a <= 0   <=> a ~ 0
 Top-level interactions for +.
 
 ```wiki
-(m + n ~ k) <=> {m + n} = k
+(m + n ~ k) <=> {m + n} == k
 (m + a ~ n) <=> a ~ {n - m}    -- n >= m
 (a + m ~ n) <=> a ~ {n - m}    -- n >= m
 (0 + a ~ b) <=> a ~ b
@@ -41,7 +41,7 @@ Top-level interactions for +.
 Top-level interactions for \*.
 
 ```wiki
-(m * n ~ k) <=> {m * n} = k
+(m * n ~ k) <=> {m * n} == k
 (m * a ~ n) <=> a ~ {n / m}     -- m `divides` n
 (a * m ~ n) <=> a ~ {n / m}     -- m `divides` n
 (0 * a ~ b) <=> b ~ 0
@@ -56,7 +56,7 @@ Top-level interactions for \*.
 Top-level interactions for `^`
 
 ```wiki
-(m ^ n ~ k) <=> {m ^ n} = k
+(m ^ n ~ k) <=> {m ^ n} == k
 (m ^ a ~ n) <=> a ~ {log m n}   -- log (base m) of n exists
 (a ^ m ~ n) <=> a ~ {root m n}  -- m-th root of n exists
 (a ^ 0 ~ b) <=> b ~ 1
