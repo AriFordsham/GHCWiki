@@ -114,13 +114,7 @@
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
 
 - [TypeFunctionsStatus](type-functions-status)
-- [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927), [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139): overlap warnings with GADTs
-- [\#3851](https://gitlab.haskell.org//ghc/ghc/issues/3851): type family expansion
-- [\#3826](https://gitlab.haskell.org//ghc/ghc/issues/3826): equality reasoning failure
-- [\#3692](https://gitlab.haskell.org//ghc/ghc/issues/3692): bogus error message with constraint after arrow
-- [\#3742](https://gitlab.haskell.org//ghc/ghc/issues/3742): implication constraints and inference
-- [\#3731](https://gitlab.haskell.org//ghc/ghc/issues/3731): recursive dictionaries
-- [\#3738](https://gitlab.haskell.org//ghc/ghc/issues/3738): don't float `MethodInsts` out of INLINE right hand sides.
+- [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927): overlap warnings with GADTs
 - [\#2256](https://gitlab.haskell.org//ghc/ghc/issues/2256): Incomplete inference when generalising
 - [\#2239](https://gitlab.haskell.org//ghc/ghc/issues/2239): Lack of improvement with type functions        Manuel
 - [\#700](https://gitlab.haskell.org//ghc/ghc/issues/700): universals in pattern matching
