@@ -112,23 +112,7 @@
 - [\#4310](https://gitlab.haskell.org//ghc/ghc/issues/4310): deferred equalities and forall types (needs Brent's work)
 
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
-- [\#1823](https://gitlab.haskell.org//ghc/ghc/issues/1823): refinement
 
-- [\#3554](https://gitlab.haskell.org//ghc/ghc/issues/3554): assertion failure
-- [\#3330](https://gitlab.haskell.org//ghc/ghc/issues/3330): type checker loops
-- [\#3500](https://gitlab.haskell.org//ghc/ghc/issues/3500): recursive dictionaries
-- [\#3787](https://gitlab.haskell.org//ghc/ghc/issues/3787): bad program produced
-- [\#4226](https://gitlab.haskell.org//ghc/ghc/issues/4226): strange implicit-parameter behaviour
-- [\#4160](https://gitlab.haskell.org//ghc/ghc/issues/4160): Type families crash in HEAD
-- [\#4200](https://gitlab.haskell.org//ghc/ghc/issues/4200): don't require `UndecidableInstances` for equality constraints
-- [\#4178](https://gitlab.haskell.org//ghc/ghc/issues/4178): unnecessary skolem escape check
-- [\#4179](https://gitlab.haskell.org//ghc/ghc/issues/4179): loop in type inference
-- [\#4174](https://gitlab.haskell.org//ghc/ghc/issues/4174): bad error message
-- [\#4093](https://gitlab.haskell.org//ghc/ghc/issues/4093): constraint simplifier loops
-- [\#2296](https://gitlab.haskell.org//ghc/ghc/issues/2296): position info for fundep message
-- [\#2683](https://gitlab.haskell.org//ghc/ghc/issues/2683): muttering about boxy type ASSERT
-- [\#4044](https://gitlab.haskell.org//ghc/ghc/issues/4044), [\#4045](https://gitlab.haskell.org//ghc/ghc/issues/4045): these were crashes something to do with type functions when building GHC
-- [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): performance of constraint simplifier
 - [TypeFunctionsStatus](type-functions-status)
 - [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927), [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139): overlap warnings with GADTs
 - [\#3851](https://gitlab.haskell.org//ghc/ghc/issues/3851): type family expansion

@@ -102,23 +102,7 @@
  * #4310: deferred equalities and forall types (needs Brent's work)
 
  * #816. #3108: extreme delicacy in solve order, involving fundeps
- * #1823: refinement
 
- * #3554: assertion failure
- * #3330: type checker loops
- * #3500: recursive dictionaries
- * #3787: bad program produced
- * #4226: strange implicit-parameter behaviour
- * #4160: Type families crash in HEAD
- * #4200: don't require `UndecidableInstances` for equality constraints
- * #4178: unnecessary skolem escape check
- * #4179: loop in type inference
- * #4174: bad error message
- * #4093: constraint simplifier loops
- * #2296: position info for fundep message
- * #2683: muttering about boxy type ASSERT
- * #4044, #4045: these were crashes something to do with type functions when building GHC
- * #3064: performance of constraint simplifier
  * [wiki:TypeFunctionsStatus]
  * #3927, #4139: overlap warnings with GADTs
  * #3851: type family expansion
