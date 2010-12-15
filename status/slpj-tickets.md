@@ -113,7 +113,7 @@
 
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
 - [\#1823](https://gitlab.haskell.org//ghc/ghc/issues/1823): refinement
-- [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): error message if associated family has excess parameters
+
 - [\#3554](https://gitlab.haskell.org//ghc/ghc/issues/3554): assertion failure
 - [\#3330](https://gitlab.haskell.org//ghc/ghc/issues/3330): type checker loops
 - [\#3500](https://gitlab.haskell.org//ghc/ghc/issues/3500): recursive dictionaries
@@ -143,10 +143,11 @@
 - [\#3696](https://gitlab.haskell.org//ghc/ghc/issues/3696): better error message fr missing signature
 - [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
 - [\#4254](https://gitlab.haskell.org//ghc/ghc/issues/4254): fundeps
-- [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping type family instances
 
 ## Types and type inference
 
+- [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): distinguish type parameters from indices
+- [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping type family instances
 - [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466): explicit type application
 - [\#3490](https://gitlab.haskell.org//ghc/ghc/issues/3490): superclasses and ambiguity
 - [\#3638](https://gitlab.haskell.org//ghc/ghc/issues/3638): rules and rigidity for GADTs
