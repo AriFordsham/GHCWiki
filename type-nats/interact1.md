@@ -53,7 +53,7 @@ Top-level interactions for \*.
 ```
 
 
-Top-level interactions for <sup></sup>
+Top-level interactions for `^`
 
 ```wiki
 (m ^ n ~ k) <=> {m ^ n} = k
