@@ -108,7 +108,7 @@
 - [TypeFunctionsStatus](type-functions-status)
 - [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
 - [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): Higher rank and impredicative 
-- [\#4338](https://gitlab.haskell.org//ghc/ghc/issues/4338): superclass equalities
+- [\#4338](https://gitlab.haskell.org//ghc/ghc/issues/4338), [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102), [\#2715](https://gitlab.haskell.org//ghc/ghc/issues/2715): superclass equalities
 - [\#4310](https://gitlab.haskell.org//ghc/ghc/issues/4310): deferred equalities and forall types (needs Brent's work)
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
 - [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927): overlap warnings with GADTs
