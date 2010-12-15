@@ -7,6 +7,7 @@ This page collects information on how to work with type-level natural numbers, a
   * [wiki:TypeNats/Implementation   Implementation of GHC.TypeNats]
   * [wiki:TypeNats/ImplicitExplicit Design Notes about Nat vs. TypeNat]
   * [wiki:TypeNats/Axioms           Axioms for Natural Number Operators]
+  * [wiki:TypeNats/Rules            GHC Interaction Rules]
 
 External links:
   * [http://code.galois.com/darcs/type-naturals/ Source repos]  
