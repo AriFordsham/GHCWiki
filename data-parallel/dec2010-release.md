@@ -1,8 +1,8 @@
-## Plan for the December 2010 Release
+## Plan for the December 2010 Release (moved to early 2011)
 
 ### To be released components
 
-- GHC 7.0.2
+- GHC ~~7.0.2~~ 7.0.3
 - DPH packages
 - Repa packages
 
@@ -43,7 +43,7 @@ Bug fixes:
   *** Vectorisation error ***
       Tycon not vectorised:  Data.Array.Parallel.Lifted.PArray.PArray
   ```
-- LLVM back end not working with DPH (held up due to LLVM backend problems in the HEAD [\#4438](https://gitlab.haskell.org//ghc/ghc/issues/4438)) **\[BEN\]**
+- LLVM back end not working with DPH (held up due to LLVM backend problems in the HEAD [\#4838](https://gitlab.haskell.org//ghc/ghc/issues/4838)) **\[BEN\]**
 - Repa edge-detection is deadlocking with more than 2 threads \[DONE\]
 - Fix the BH seg fault in DPH. Roman has found the problem \[DONE\]
 
@@ -68,7 +68,7 @@ Performance goals:
 
     - rl reckons this is due to GHC compiling modulo of powers of two inefficiently; c.f., [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065) (in `packByTags`)
   - SMVM (blocked on optimisation of lifted indexing) **\[BROKEN\]****\[BEN & ROMAN\]**
-- Dynamically-nested DPH programs without user-defined datatypes should run correctly, but not necessarily fast
+- Dynamically-nested DPH programs without user-defined datatypes should run correctly and scale, but absolute performance may be lacking
 
   - Quicksort **\[BROKEN ([SpecConstr](spec-constr)) & SLOW\]****\[SIMON & BEN\]**
   - Quickhull **\[OK, but has a [SpecConstr](spec-constr) problem that we want to fix\]****\[ROMAN\]**
