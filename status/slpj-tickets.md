@@ -105,48 +105,19 @@
 
 ## New constraint simplifier
 
-- **[\#4232](https://gitlab.haskell.org//ghc/ghc/issues/4232): main meta-ticket for the new type checker**
+- [TypeFunctionsStatus](type-functions-status)
 - [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
 - [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): Higher rank and impredicative 
-- [\#4338](https://gitlab.haskell.org//ghc/ghc/issues/4338): superclass equalities
+- [\#4338](https://gitlab.haskell.org//ghc/ghc/issues/4338), [\#2102](https://gitlab.haskell.org//ghc/ghc/issues/2102), [\#2715](https://gitlab.haskell.org//ghc/ghc/issues/2715): superclass equalities
 - [\#4310](https://gitlab.haskell.org//ghc/ghc/issues/4310): deferred equalities and forall types (needs Brent's work)
-
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
-- [\#1823](https://gitlab.haskell.org//ghc/ghc/issues/1823): refinement
-- [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): error message if associated family has excess parameters
-- [\#3554](https://gitlab.haskell.org//ghc/ghc/issues/3554): assertion failure
-- [\#3330](https://gitlab.haskell.org//ghc/ghc/issues/3330): type checker loops
-- [\#3500](https://gitlab.haskell.org//ghc/ghc/issues/3500): recursive dictionaries
-- [\#3787](https://gitlab.haskell.org//ghc/ghc/issues/3787): bad program produced
-- [\#4226](https://gitlab.haskell.org//ghc/ghc/issues/4226): strange implicit-parameter behaviour
-- [\#4160](https://gitlab.haskell.org//ghc/ghc/issues/4160): Type families crash in HEAD
-- [\#4200](https://gitlab.haskell.org//ghc/ghc/issues/4200): don't require `UndecidableInstances` for equality constraints
-- [\#4178](https://gitlab.haskell.org//ghc/ghc/issues/4178): unnecessary skolem escape check
-- [\#4179](https://gitlab.haskell.org//ghc/ghc/issues/4179): loop in type inference
-- [\#4174](https://gitlab.haskell.org//ghc/ghc/issues/4174): bad error message
-- [\#4093](https://gitlab.haskell.org//ghc/ghc/issues/4093): constraint simplifier loops
-- [\#2296](https://gitlab.haskell.org//ghc/ghc/issues/2296): position info for fundep message
-- [\#2683](https://gitlab.haskell.org//ghc/ghc/issues/2683): muttering about boxy type ASSERT
-- [\#4044](https://gitlab.haskell.org//ghc/ghc/issues/4044), [\#4045](https://gitlab.haskell.org//ghc/ghc/issues/4045): these were crashes something to do with type functions when building GHC
-- [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064): performance of constraint simplifier
-- [TypeFunctionsStatus](type-functions-status)
-- [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927), [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139): overlap warnings with GADTs
-- [\#3851](https://gitlab.haskell.org//ghc/ghc/issues/3851): type family expansion
-- [\#3826](https://gitlab.haskell.org//ghc/ghc/issues/3826): equality reasoning failure
-- [\#3692](https://gitlab.haskell.org//ghc/ghc/issues/3692): bogus error message with constraint after arrow
-- [\#3742](https://gitlab.haskell.org//ghc/ghc/issues/3742): implication constraints and inference
-- [\#3731](https://gitlab.haskell.org//ghc/ghc/issues/3731): recursive dictionaries
-- [\#3738](https://gitlab.haskell.org//ghc/ghc/issues/3738): don't float `MethodInsts` out of INLINE right hand sides.
-- [\#2256](https://gitlab.haskell.org//ghc/ghc/issues/2256): Incomplete inference when generalising
-- [\#2239](https://gitlab.haskell.org//ghc/ghc/issues/2239): Lack of improvement with type functions        Manuel
-- [\#700](https://gitlab.haskell.org//ghc/ghc/issues/700): universals in pattern matching
-- [\#3696](https://gitlab.haskell.org//ghc/ghc/issues/3696): better error message fr missing signature
+- [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927): overlap warnings with GADTs
 - [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
-- [\#4254](https://gitlab.haskell.org//ghc/ghc/issues/4254): fundeps
-- [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping type family instances
 
 ## Types and type inference
 
+- [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): distinguish type parameters from indices
+- [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping type family instances
 - [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466): explicit type application
 - [\#3490](https://gitlab.haskell.org//ghc/ghc/issues/3490): superclasses and ambiguity
 - [\#3638](https://gitlab.haskell.org//ghc/ghc/issues/3638): rules and rigidity for GADTs
