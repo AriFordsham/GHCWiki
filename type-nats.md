@@ -10,7 +10,7 @@ This page collects information on how to work with type-level natural numbers, a
 - [Axioms for Natural Number Operators](type-nats/axioms)
 - GHC Interaction Rules  
 
-  - [Top-level interactions](type-nats/rules)
+  - [Top-level interactions](type-nats/interact1)
 
 
 External links:
