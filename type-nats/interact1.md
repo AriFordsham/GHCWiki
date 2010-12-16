@@ -7,7 +7,7 @@ a,b,c:  types of kind Nat
 ```
 
 
-When overlapping, earlier rules take precedence (as in Haskell multi-equation defitions).
+When overlapping, earlier rules take precedence (as in Haskell multi-equation definitions).
 
 
 Top-level interactions for `TypeNat`:
