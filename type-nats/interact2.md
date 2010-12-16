@@ -1,4 +1,9 @@
 ```wiki
+a <= b
+  (b <= a) <=> a ~ b
+```
+
+```wiki
 a + b ~ c
   a + b ~ d <=> c ~ d
   b + a ~ d <=> c ~ d
