@@ -7,6 +7,9 @@ a,b,c:  types of kind Nat
 ```
 
 
+When overlapping, earlier rules take precedence (as in Haskell multi-equation definitions).
+
+
 Top-level interactions for `TypeNat`:
 
 ```wiki
@@ -35,6 +38,7 @@ Top-level interactions for +.
 (a + b ~ a) <=> (b ~ 0)
 (a + b ~ b) <=> (a ~ 0)
 (a + a ~ b) <=> (2 * a ~ b)
+(a + m ~ b) <=> (m + a ~ b)    -- simple normalization cuts down on some rules
 ```
 
 
