@@ -1,4 +1,9 @@
 ```wiki
+a <= b
+  (b <= a) <=> a ~ b
+```
+
+```wiki
 a + b ~ c
   a + b ~ d <=> c ~ d
   b + a ~ d <=> c ~ d
@@ -9,6 +14,20 @@ a + b ~ c
   b + d ~ c <=> a ~ d
 
 m + b ~ c
-  n + d ~ c <=> d ~ {m - n} + b   -- m >= n
-  n + d ~ c <=> b ~ {n - m} + d   -- n >= m
+  n + d ~ c <=> {m - n} + b ~ d  -- n <= m
+  n + d ~ c <=> {n - m} + d ~ b  -- m >=m
+```
+
+```wiki
+a * b ~ c
+  a * b ~ d <=> c ~ d
+  b * a ~ d <=> c ~ d
+
+m * b ~ c
+  n * b ~ c <=> (b ~ 0, c ~ 0)    -- m /= n
+  n * d ~ c <=> {m / n} * b ~ d   -- n `divides` m
+  n * d ~ c <=> {n / m} * d ~ b   -- m `divides` n
+
+  b + c ~ d <=> {m + 1} * b ~ d
+  c + b ~ d <=> {m + 1} * b ~ d
 ```
