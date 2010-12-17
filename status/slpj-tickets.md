@@ -113,6 +113,7 @@
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
 - [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927): overlap warnings with GADTs
 - [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
+- [\#4809](https://gitlab.haskell.org//ghc/ghc/issues/4809), [\#4370](https://gitlab.haskell.org//ghc/ghc/issues/4370), [\#3731](https://gitlab.haskell.org//ghc/ghc/issues/3731): loopy superclass behaviour; make sure all these work!
 
 ## Types and type inference
 
@@ -130,14 +131,9 @@
 - [\#3018](https://gitlab.haskell.org//ghc/ghc/issues/3018): be lazier about solving class instances
 - [\#2357](https://gitlab.haskell.org//ghc/ghc/issues/2357): **Implement the Haskell Prime proposal for polymorphic pattern bindings**
 
-### Impredicativity
-
-- [\#2846](https://gitlab.haskell.org//ghc/ghc/issues/2846): polymorphism leaking into constraints
-- [\#2193](https://gitlab.haskell.org//ghc/ghc/issues/2193): Bad error message with impredicative types
-- [\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330): another bad error message (Church2)
-
 ### Better error messages
 
+- [\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330): another bad error message (Church2)
 - [\#3440](https://gitlab.haskell.org//ghc/ghc/issues/3440): type families and GADT error message
 - [\#3169](https://gitlab.haskell.org//ghc/ghc/issues/3169): better occurs-check error message
 - [\#2648](https://gitlab.haskell.org//ghc/ghc/issues/2648): Report out of date interface files robustly        
