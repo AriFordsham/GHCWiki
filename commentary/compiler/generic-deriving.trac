@@ -15,8 +15,9 @@ This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_g
  * Most of the code generation is handled by `types/Generics`
 
 == To do ==
+ * Remove all of the old deriving mechanism stuff
 
- * Generate meta-information empty datatypes and instances (`Datatype`, `Constructor`, and `Selector` instances)
+ * Properly deal with fixity and isTuple information for constructors
 
  * Generate `Representable1` instances
 

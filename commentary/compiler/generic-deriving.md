@@ -18,7 +18,9 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 ## To do
 
-- Generate meta-information empty datatypes and instances (`Datatype`, `Constructor`, and `Selector` instances)
+- Remove all of the old deriving mechanism stuff
+
+- Properly deal with fixity and isTuple information for constructors
 
 - Generate `Representable1` instances
 
