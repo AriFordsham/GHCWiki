@@ -122,7 +122,7 @@
 - [\#3490](https://gitlab.haskell.org//ghc/ghc/issues/3490): superclasses and ambiguity
 - [\#3638](https://gitlab.haskell.org//ghc/ghc/issues/3638): rules and rigidity for GADTs
 - [\#3632](https://gitlab.haskell.org//ghc/ghc/issues/3632): better update for records with existentials
-- [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496): Newtype deriving and type families type soundness problem
+- [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496), [\#4846](https://gitlab.haskell.org//ghc/ghc/issues/4846): Newtype deriving and type families type soundness problem
 - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): **Ambiguity: don't infer a type that can't be checked if the type is given as a signature** (this one is important).  See SPJ's mailbox: Haskell type system/Ambiguity.
 - [\#2859](https://gitlab.haskell.org//ghc/ghc/issues/2859): optimise coercion terms
 - [\#2641](https://gitlab.haskell.org//ghc/ghc/issues/2641): revise what `-XExtendedDefaultRules` does
