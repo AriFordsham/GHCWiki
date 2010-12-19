@@ -20,9 +20,7 @@ Top-level interactions for +.
 ```wiki
 (m + n ~ k) <=> {m + n == k}
 (m + a ~ n) <=> a ~ {n - m}    -- n >= m
-(a + m ~ n) <=> a ~ {n - m}    -- n >= m
 (0 + a ~ b) <=> a ~ b
-(a + 0 ~ b) <=> a ~ b
 (a + b ~ 0) <=> (a ~ 0, b ~ 0)
 (a + b ~ a) <=> (b ~ 0)
 (a + b ~ b) <=> (a ~ 0)
@@ -35,15 +33,16 @@ Top-level interactions for \*.
 
 ```wiki
 (m * n ~ k) <=> {m * n == k}
-(m * a ~ n) <=> a ~ {n / m}     -- m `divides` n
-(a * m ~ n) <=> a ~ {n / m}     -- m `divides` n
+(m * a ~ n) <=> {m / g} * a ~ {n / g}     -- g = gcd m n, 2 <= g
+
 (0 * a ~ b) <=> b ~ 0
-(a * 0 ~ b) <=> b ~ 0
 (1 * a ~ b) <=> a ~ b
-(a * 1 ~ b) <=> a ~ b
+(m * a ~ a) <=> a ~ 0                     -- 2 <= m
+
 (a * b ~ 1) <=> (a ~ 1, b ~ 1)
 (a * a ~ b) <=> a ^ 2 ~ b
-(m * a ~ a) <=> a ~ 0            -- 2 <= m
+
+(a * m ~ b) <=> (m * a ~ b)      -- simple normalization cuts down on some rules
 ```
 
 
