@@ -19,12 +19,16 @@ Top-level interactions for +.
 
 ```wiki
 (m + n ~ k) <=> {m + n == k}
+
 (m + a ~ n) <=> a ~ {n - m}    -- n >= m
 (0 + a ~ b) <=> a ~ b
-(a + b ~ 0) <=> (a ~ 0, b ~ 0) -- XXX: Drop this, follows from <= rules?
+
 (a + b ~ a) <=> (b ~ 0)
 (a + b ~ b) <=> (a ~ 0)
+
 (a + a ~ b) <=> (2 * a ~ b)
+(a + b ~ 0) <=> (a ~ 0, b ~ 0) -- XXX: Drop this, follows from <= rules?
+
 (a + m ~ b) <=> (m + a ~ b)    -- simple normalization cuts down on some rules
 ```
 
