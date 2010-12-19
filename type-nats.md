@@ -12,6 +12,7 @@ This page collects information on how to work with type-level natural numbers, a
 
   - [Top-Level Interactions](type-nats/interact1)
   - [Simple Inert Interactions](type-nats/interact2)
+  - \[[wiki:TypeNats/LEQ](type-nats/leq)            Solving `<=` Predicates
 
 
 External links:
