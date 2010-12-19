@@ -61,7 +61,7 @@ Top-level interactions for \*.
 Top-level interactions for `^`
 
 ```wiki
-(m ^ n ~ k) <=> {m ^ n} == k
+(m ^ n ~ k) <=> {m ^ n == k}
 (m ^ a ~ n) <=> a ~ {log m n}   -- log (base m) of n exists
 (a ^ m ~ n) <=> a ~ {root m n}  -- m-th root of n exists
 (a ^ 0 ~ b) <=> b ~ 1
