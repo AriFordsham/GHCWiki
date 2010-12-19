@@ -1,4 +1,4 @@
-(NOTE: The rule involving constants but no computation could be generalized
+(NOTE: The rules involving constants but no computation could be generalized
 to work for variables as well, as long as we know that the variables
 are in the acceptable ranges.  Such information could be computed
 from the <= model, perhaps.)
