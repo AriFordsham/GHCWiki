@@ -7,7 +7,7 @@ This page collects information on how to work with type-level natural numbers, a
   * [wiki:TypeNats/Implementation   Implementation of GHC.TypeNats]
   * [wiki:TypeNats/ImplicitExplicit Design Notes about Nat vs. TypeNat]
   * [wiki:TypeNats/Axioms           Axioms for Natural Number Operators]
-  * GHC Interaction Rules  
+  * GHC Interaction Rules ([wiki:TypeNats/RuleNotation Notational Conventions])
     * [wiki:TypeNats/Interact1      Top-Level Interactions]
     * [wiki:TypeNats/Interact2      Simple Inert Interactions]
     * [wiki:TypeNats/LEQ            Solving (<=) Predicates]
