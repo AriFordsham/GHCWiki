@@ -18,6 +18,7 @@
  * #1547: profiling and arity
 
 === Inlining ===
+ * #4833: finding the right loop breaker
  * #4227: SPECIALISE pragmas for functions in other modules
  * #3781: inlining for local functions: discount for scrutinising free vars
  * #3765: CONLIKE things and case expressions (need two unfoldings)
@@ -150,6 +151,7 @@
  * #4222: design of reification for TH
 
 == Features == 
+ * #4823: strength reduction for array indexing
  * #4479: type directed name resolution (TDNR)
  * #4426: simpler rule for implicit quantification
  * #4372: better quasiquotes
