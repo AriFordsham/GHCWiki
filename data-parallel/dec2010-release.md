@@ -71,7 +71,7 @@ Performance goals:
 - Dynamically-nested DPH programs without user-defined datatypes should run correctly and scale, but absolute performance may be lacking
 
   - Quicksort **\[BROKEN ([SpecConstr](spec-constr) loop) & SLOW\]****\[SIMON & BEN\]**
-  - Quickhull **\[OK, but has a [SpecConstr](spec-constr) problem that we want to fix\]****\[ROMAN\]**
+  - Quickhull **\[OK, but has a [SpecConstr](spec-constr) problem that we want to fix; pair not being inlined\]****\[ROMAN\]**
 
     - Probably affected by the same optimisation issue with the compilation of modulo operations as Evens
     - [\#4830](https://gitlab.haskell.org//ghc/ghc/issues/4830): this fix wasn't sufficient, still doesn't optimise properly **\[ROMAN\]**

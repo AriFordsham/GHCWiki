@@ -55,7 +55,7 @@ Performance goals:
   * SMVM (blocked on optimisation of lifted indexing) '''[BROKEN]''' '''[BEN & ROMAN]'''
  * Dynamically-nested DPH programs without user-defined datatypes should run correctly and scale, but absolute performance may be lacking
   * Quicksort '''[BROKEN (SpecConstr loop) & SLOW]''' '''[SIMON & BEN]'''
-  * Quickhull '''[OK, but has a SpecConstr problem that we want to fix]''' '''[ROMAN]'''
+  * Quickhull '''[OK, but has a SpecConstr problem that we want to fix; pair not being inlined]''' '''[ROMAN]'''
     * Probably affected by the same optimisation issue with the compilation of modulo operations as Evens
     * #4830: this fix wasn't sufficient, still doesn't optimise properly '''[ROMAN]'''
  * Dynamically-nested DPH programs with user-defined datatypes should run correctly, but not necessarily fast
