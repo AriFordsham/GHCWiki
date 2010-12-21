@@ -61,7 +61,7 @@ Performance goals:
  * Dynamically-nested DPH programs with user-defined datatypes should run correctly, but not necessarily fast
   * Words '''[BROKEN (SpecConstr loop again, when using `-dph-seq`; same as Quicksort)]''' '''[ROMAN & SIMON]'''
     * #4831
-  * !BarnesHut [OK]
+  * !BarnesHut. '''[ROMAN]'''
 
 Legend
   [FINE]::

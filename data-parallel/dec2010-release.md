@@ -80,7 +80,7 @@ Performance goals:
   - Words **\[BROKEN ([SpecConstr](spec-constr) loop again, when using `-dph-seq`; same as Quicksort)\]****\[ROMAN & SIMON\]**
 
     - [\#4831](https://gitlab.haskell.org//ghc/ghc/issues/4831)
-  - BarnesHut \[OK\]
+  - BarnesHut. **\[ROMAN\]**
 
 
 Legend
