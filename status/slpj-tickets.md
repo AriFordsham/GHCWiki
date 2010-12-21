@@ -20,6 +20,7 @@
 
 ### Inlining
 
+- [\#4833](https://gitlab.haskell.org//ghc/ghc/issues/4833): finding the right loop breaker
 - [\#4227](https://gitlab.haskell.org//ghc/ghc/issues/4227): SPECIALISE pragmas for functions in other modules
 - [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781): inlining for local functions: discount for scrutinising free vars
 - [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
