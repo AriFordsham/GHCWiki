@@ -164,6 +164,7 @@
 
 ## Features
 
+- [\#4823](https://gitlab.haskell.org//ghc/ghc/issues/4823): strength reduction for array indexing
 - [\#4479](https://gitlab.haskell.org//ghc/ghc/issues/4479): type directed name resolution (TDNR)
 - [\#4426](https://gitlab.haskell.org//ghc/ghc/issues/4426): simpler rule for implicit quantification
 - [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotes
