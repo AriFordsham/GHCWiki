@@ -26,6 +26,7 @@ leqDef:      m <= n    -- if "m <= n"
 leqLeast:    0 <= t
 leqRefl:     t <= t
 leqTrans:    (r <= s, s <= t) => r <= t
+leqAntiSym:  (s <= t, t <= s) => s ~ t
 ```
 
 
