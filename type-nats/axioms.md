@@ -52,6 +52,19 @@ mulCancel:   (r * s ~ r * t, 1 <= r) => s ~ t
 ```
 
 
+Exponentiation:
+
+```wiki
+expDef:      m ^ n ~ k    -- {m ^ n == k}
+exp0:        a ^ 0 ~ 1
+exp1:        a ^ 1 ~ a
+log1:        1 ^ a ~ 1
+
+(m ^ a ~ a) <=> False           -- m /= 1
+(a ^ m ~ a) <=> (a <= 1)        -- 2 <= m
+```
+
+
 Interactions:
 
 ```wiki
