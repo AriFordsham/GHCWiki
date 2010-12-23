@@ -47,6 +47,7 @@ exp0:        a ^ 0 ~ 1
 exp1:        a ^ 1 ~ a
 log1:        1 ^ a ~ 1
 
+XXX:
 m ^ a ~ a => m ~ 1
 a ^ m ~ a => a <= 1        -- 2 <= m
 }}}
