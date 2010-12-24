@@ -50,6 +50,7 @@ log1:        1 ^ a ~ 1
 XXX:
 m ^ a ~ a => m ~ 1
 a ^ m ~ a => a <= 1        -- 2 <= m
+0 ^ a ~ b => b <= 1
 }}}
 
 Interactions:
