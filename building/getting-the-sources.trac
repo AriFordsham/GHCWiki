@@ -68,7 +68,8 @@ Each of these is a subset of the previous one; pick the smallest one that has wh
 
 Here's how to use the bundles:
 
- 1. Unpack the bundle, which will create a directory called `ghc`.  You can rename this directory freely. 0. Change into the new directory, and pull patches from the main GHC repository:
+ 1. Unpack the bundle, which will create a directory called `ghc`.  You can rename this directory freely. 
+ 0. Change into the new directory, and pull patches from the main GHC repository:
 {{{
    $ cd ghc
    $ darcs pull -a
