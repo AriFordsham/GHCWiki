@@ -35,9 +35,9 @@ Addition:
 ```wiki
 addDef:      m + n ~ k     -- if "m + n == k"
 addUnit:     0 + t ~ t
-addAssoc:    (r + s) + t ~ r + (s + t)
-addCommutes: t + s ~ s + t
-addCancel:   (r + s ~ r + t) => s ~ t
+addAssoc:    (r + s) + t ~ r + (s + t)                   | (r + s = u, s + t = v, r + v = w1, u + t = w2) => w1 ~ w2
+addCommutes: t + s ~ s + t                               | (r + s ~ t) => (s + r ~ t)
+addCancel:   (r + s ~ r + t) => s ~ t                    | (r + s ~ u, r + t = u) => s ~ t
 ```
 
 
