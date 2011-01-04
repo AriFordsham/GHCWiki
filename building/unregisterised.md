@@ -7,8 +7,8 @@ Normally GHC will try to do a so-called registerised build, where it uses variou
 To do an unregisterised build, add the following to your `mk/build.mk` file:
 
 ```wiki
-GhcUnregisterised=YES                                                     
-GhcWithNativeCodeGen=NO                                                   
+GhcUnregisterised=YES
+GhcWithNativeCodeGen=NO
 SplitObjs=NO
 ```
 
