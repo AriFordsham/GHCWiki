@@ -252,7 +252,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> No     </th>
 <th> No           </th>
 <th> No                </th>
-<th></th></tr>
+<th>[Building/IA64Linux](building/i-a64-linux)</th></tr>
 <tr><th> Alpha        </th>
 <th> Linux           </th>
 <th> alpha-unknown-linux     </th>
