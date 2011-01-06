@@ -16,6 +16,10 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 - Most of the code generation is handled by `types/Generics`
 
+## What already works
+
+- Representable0 instances are automatically generated when -XGenerics is enabled.
+
 ## To do
 
 - Remove all of the old deriving mechanism stuff
@@ -23,6 +27,8 @@ This mechanism replaces the [previous generic classes implementation](http://www
 - Properly deal with fixity and isTuple information for constructors
 
 - Generate `Representable1` instances
+
+- What about base types like \[\], Maybe, etc.?
 
 - Generic instances
 
