@@ -18,7 +18,7 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 ## What already works
 
-- Representable0 instances are automatically generated when -XGenerics is enabled.
+- `Representable0` instances are automatically generated when `-XGenerics` is enabled.
 
 ## To do
 
@@ -28,7 +28,7 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 - Generate `Representable1` instances
 
-- What about base types like \[\], Maybe, etc.?
+- What about base types like `[]`, `Maybe`, etc.?
 
 - Generic instances
 

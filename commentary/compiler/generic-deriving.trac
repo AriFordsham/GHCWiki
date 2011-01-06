@@ -16,7 +16,7 @@ This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_g
 
 == What already works ==
 
- * Representable0 instances are automatically generated when -XGenerics is enabled.
+ * `Representable0` instances are automatically generated when `-XGenerics` is enabled.
 
 == To do ==
  * Remove all of the old deriving mechanism stuff
@@ -25,7 +25,7 @@ This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_g
 
  * Generate `Representable1` instances
 
- * What about base types like [], Maybe, etc.?
+ * What about base types like `[]`, `Maybe`, etc.?
 
  * Generic instances
   * Add `deriving` as a keyword. This replaces the `DERIVABLE` pragma from the UHC implementation, and is attached to a default method on a class declaration.
