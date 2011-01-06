@@ -5,11 +5,6 @@ Installing the following will get you a working build environment with MSYS (alt
 
 - First install a recent stable version of [GHC](http://www.haskell.org/ghc/download.html).
 
-- Install MinGW:
-
-  - [http://www.haskell.org/ghc/tools/Win32/MinGW-5.1.4.exe](http://www.haskell.org/ghc/tools/Win32/MinGW-5.1.4.exe) (or see [ http://sourceforge.net/projects/mingw/files/](http://sourceforge.net/projects/mingw/files/))
-    (in fact this step should no longer be necessary since GHC 6.12, as the source tree includes MinGW and the build should never use the installed one.  If you're brave you might want to try not installing MinGW at all.)
-
 - Install MSYS: 
 
   - [http://www.haskell.org/ghc/tools/Win32/MSYS-1.0.11.exe](http://www.haskell.org/ghc/tools/Win32/MSYS-1.0.11.exe) (originally from [ http://sourceforge.net/projects/mingw/files/](http://sourceforge.net/projects/mingw/files/) under "MSYS Base System")
