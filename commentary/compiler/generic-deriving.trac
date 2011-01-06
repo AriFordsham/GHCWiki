@@ -2,7 +2,7 @@
 
 GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in [http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf A generic deriving mechanism for Haskell], by Magalhães, Dijkstra, Jeuring and Löh.  This page sketches the specifics of the implementation; we assume you have read the paper.
 
-This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html previous generic classes implementation].
+This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html previous generic classes implementation]. The code is in a branch of GHC; you can get it with `darcs get http://darcs.haskell.org/ghc-generic-11Oct10/ghc`.
 
 == Main components ==
 
@@ -14,12 +14,18 @@ This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_g
 
  * Most of the code generation is handled by `types/Generics`
 
+== What already works ==
+
+ * `Representable0` instances are automatically generated when `-XGenerics` is enabled.
+
 == To do ==
  * Remove all of the old deriving mechanism stuff
 
  * Properly deal with fixity and isTuple information for constructors
 
  * Generate `Representable1` instances
+
+ * What about base types like `[]`, `Maybe`, etc.?
 
  * Generic instances
   * Add `deriving` as a keyword. This replaces the `DERIVABLE` pragma from the UHC implementation, and is attached to a default method on a class declaration.
