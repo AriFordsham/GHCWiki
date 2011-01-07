@@ -15,7 +15,7 @@ a + b ~ c
 
 m + b ~ c
   n + d ~ c <=> {m - n} + b ~ d  -- n <= m
-  n + d ~ c <=> {n - m} + d ~ b  -- m >=m
+  n + d ~ c <=> {n - m} + d ~ b  -- n >= m
 ```
 
 ```wiki
