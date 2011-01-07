@@ -165,6 +165,8 @@
 
 ## Features
 
+- [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788), [\#2895](https://gitlab.haskell.org//ghc/ghc/issues/2895): Class aliases 
+- [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595): record updates
 - [\#4823](https://gitlab.haskell.org//ghc/ghc/issues/4823): strength reduction for array indexing
 - [\#4479](https://gitlab.haskell.org//ghc/ghc/issues/4479): type directed name resolution (TDNR)
 - [\#4426](https://gitlab.haskell.org//ghc/ghc/issues/4426): simpler rule for implicit quantification
@@ -177,7 +179,6 @@
 - [\#3701](https://gitlab.haskell.org//ghc/ghc/issues/3701): Implicitly declared existentials: a class as a type
 - [\#3480](https://gitlab.haskell.org//ghc/ghc/issues/3480): **Fingerprints in `TypeRep`**
 - [\#3217](https://gitlab.haskell.org//ghc/ghc/issues/3217): better flag handling for GHCi
-- [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788): Class aliases        
 - [\#2806](https://gitlab.haskell.org//ghc/ghc/issues/2806): Require bang patterns on unlifted let-bindings        
 - [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600), [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110): **Bind type variables and constraints in RULES**
 - [\#1930](https://gitlab.haskell.org//ghc/ghc/issues/1930): Infix type operators:  a+b.        
