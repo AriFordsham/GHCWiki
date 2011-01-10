@@ -60,7 +60,10 @@ class Serialisable a where
 
 
 Using typed channels is different to Erlang, where messages are send
-to the process.
+to the process. Note that while Send elements can be serialized 
+and transmitted elsewhere, but Recv elements cannot. Thus the message
+queue represented by the channel lives on the node on which newChan
+is called.
 
 ## Monitoring processes
 
