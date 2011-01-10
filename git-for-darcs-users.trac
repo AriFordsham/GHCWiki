@@ -22,9 +22,9 @@ After commit "A" two developers (or the same developer in different branches) pe
 A '''branch''' in Git is now merely ''a pointer to a commit''.  For example, a typical situation is this:
 {{{  
                 o---o---o <-- feature1
-;
+               /
           o---o <-- develop  
-;
+         /
 o---o---A---o---o---o <-- master
 }}}
 Here we have three branches "feature1", "develop", and "master".  "master" is the default branch that is created automatically, when you initialise a new Git repository.  Some commands also default to the master branch for certain actions, but otherwise it is not special in any way.
@@ -37,7 +37,7 @@ $ git checkout develop   # switch to develop branch
 $ git merge feature1     # merge feature1 into current branch
 
           o---o---o---o---o <-- develop, feature1  
-;
+         /
 o---o---A---o---o---o <-- master
 }}}
 The above merge is actually a '''fast-forward''', meaning that no new commit is necessary, since "develop" didn't contain any other changes--the pointer for the "develop" branch is merely set to point to the same commit that feature1 pointed to.  On the other hand, if we now merge "devel" into "master" we get a now commit:
@@ -60,19 +60,19 @@ First of all, {{{git rebase}}} is a very dangerous feature, ''it should never be
 {{{git rebase}}} is a way to "rewrite history".  You can use this to remove bad patches or to move a branch. For example, consider the following history:
 {{{
       A---B---C---D <-- feature1
-;
+     /
 o---o---o---o---o <-- master
 }}}
 Now, it turns out that {{{B}}} was not a good patch.  With {{{git rebase}}}, you can choose to just remove {{{B}}} completely (similar to {{{darcs unpull}}})
 {{{
       A---C'---D' <-- feature1
-;
+     /
 o---o---o---o---o <-- master
 }}}
 or you could edit {{{B}}} and replace it with another change {{{B'}}} (similar to {{{darcs amend-record}}}).
 {{{
       A---B'---C'---D' <-- feature1
-;
+     /
 o---o---o---o---o <-- master
 }}}
 The easiest way is to use {{{rebase}}} for these use cases is via {{{git rebase -i}}} (see its documentation).
@@ -84,7 +84,7 @@ Therefore: '''Never rebase a published branch'''.
 Another use case is to move a branch.  In the above example we can rebase {{{feature1}}} onto {{{master}}}, resulting in this history:
 {{{
                   A'---B'---C'---D' <-- feature1
-;
+                 /
 o---o---o---o---o <-- master
 }}}
 You can do this if the changes in the feature branch semantically aren't really a branch, but make equally sense on top of the master's history.  In the above example, merging {{{feature1}}} into {{{master}}} will now be a simple fast-forward and will not introduce a merge commit.
@@ -92,16 +92,16 @@ You can do this if the changes in the feature branch semantically aren't really 
 Finally, {{{rebase}}} can be used to move a feature branch onto another branch.  For example, say we have a big feature and we want to implement a smaller feature:
 {{{
                 o---o---o <-- small_feature
-;
+               /
           o---o <-- big_feature  
-;
+         /
 o---o---A---o---o---o <-- master
 }}}
 Now we realise that {{{small_feature}}} is already useful and want to merge it into master without the commits that were made on the {{{big_feature}}} branch.  We can therefore rebase {{{small_feature}}} onto master:
 {{{
 $ git rebase --onto master big_feature small_feature
           o---o <-- big_feature
-;
+         /
         |             o'--o'--o' <-- small_feature
         |            / 
 o---o---A---o---o---o <-- master
@@ -120,15 +120,15 @@ Two Options:
 Suppose we started with this repository state
 {{{
       A---B---C---D <-- feature1
-;
+     /
 o---o---o---o---o <-- master
 }}}
 and decided to remove {{{B}}} from our history.  The actual repository now looks like this:
 {{{
         C'--D' <-- feature1
-;
+       /
       A---B---C---D
-;
+     /
 o---o---o---o---o <-- master
 }}}
 If you happen to have the commit id of {{{D}}} (maybe in your console backlog) you can create a branch {{{feature1_old}}} that points to {{{D}}} via

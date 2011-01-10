@@ -30,9 +30,9 @@ A **branch** in Git is now merely *a pointer to a commit*.  For example, a typic
 
 ```wiki
                 o---o---o <-- feature1
-;
+               /
           o---o <-- develop  
-;
+         /
 o---o---A---o---o---o <-- master
 ```
 
@@ -50,7 +50,7 @@ $ git checkout develop   # switch to develop branch
 $ git merge feature1     # merge feature1 into current branch
 
           o---o---o---o---o <-- develop, feature1  
-;
+         /
 o---o---A---o---o---o <-- master
 ```
 
@@ -79,7 +79,7 @@ First of all, `git rebase` is a very dangerous feature, *it should never be done
 
 ```wiki
       A---B---C---D <-- feature1
-;
+     /
 o---o---o---o---o <-- master
 ```
 
@@ -88,7 +88,7 @@ Now, it turns out that `B` was not a good patch.  With `git rebase`, you can cho
 
 ```wiki
       A---C'---D' <-- feature1
-;
+     /
 o---o---o---o---o <-- master
 ```
 
@@ -97,7 +97,7 @@ or you could edit `B` and replace it with another change `B'` (similar to `darcs
 
 ```wiki
       A---B'---C'---D' <-- feature1
-;
+     /
 o---o---o---o---o <-- master
 ```
 
@@ -115,7 +115,7 @@ Another use case is to move a branch.  In the above example we can rebase `featu
 
 ```wiki
                   A'---B'---C'---D' <-- feature1
-;
+                 /
 o---o---o---o---o <-- master
 ```
 
@@ -127,9 +127,9 @@ Finally, `rebase` can be used to move a feature branch onto another branch.  For
 
 ```wiki
                 o---o---o <-- small_feature
-;
+               /
           o---o <-- big_feature  
-;
+         /
 o---o---A---o---o---o <-- master
 ```
 
@@ -139,7 +139,7 @@ Now we realise that `small_feature` is already useful and want to merge it into 
 ```wiki
 $ git rebase --onto master big_feature small_feature
           o---o <-- big_feature
-;
+         /
         |             o'--o'--o' <-- small_feature
         |            / 
 o---o---A---o---o---o <-- master
@@ -162,7 +162,7 @@ Suppose we started with this repository state
 
 ```wiki
       A---B---C---D <-- feature1
-;
+     /
 o---o---o---o---o <-- master
 ```
 
@@ -171,9 +171,9 @@ and decided to remove `B` from our history.  The actual repository now looks lik
 
 ```wiki
         C'--D' <-- feature1
-;
+       /
       A---B---C---D
-;
+     /
 o---o---o---o---o <-- master
 ```
 
