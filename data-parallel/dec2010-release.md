@@ -35,7 +35,7 @@ Changes:
 
 Bug fixes:
 
-- Vectoriser needs to be adapted to Simon's recursive superclasses patch **\[ROMAN\]**
+- Vectoriser needs to be adapted to Simon's recursive superclasses patch; partially done, but recursive data types don't work yet **\[ROMAN\]**
 - The combination '-fvectorise -O0' should work **\[ROMAN\]**
 - Trying to vectorise the `DotP` example from the tutorial on the Haskell Wiki, `-fdph-seq` fails with (`-fdph-par` works fine)
 
@@ -43,7 +43,7 @@ Bug fixes:
   *** Vectorisation error ***
       Tycon not vectorised:  Data.Array.Parallel.Lifted.PArray.PArray
   ```
-- LLVM back end not working with DPH (held up due to LLVM backend problems in the HEAD [\#4838](https://gitlab.haskell.org//ghc/ghc/issues/4838)) **\[BEN\]**
+- LLVM back end only partially working with DPH (held up due to LLVM backend problems in the HEAD [\#4838](https://gitlab.haskell.org//ghc/ghc/issues/4838)); only affects BarnesHut \[BEN\]
 - Repa edge-detection is deadlocking with more than 2 threads \[DONE\]
 - Fix the BH seg fault in DPH. Roman has found the problem \[DONE\]
 
@@ -70,17 +70,17 @@ Performance goals:
   - SMVM (blocked on optimisation of lifted indexing) **\[BROKEN\]****\[BEN & ROMAN\]**  Roman is thinking about this over Xmas.
 - Dynamically-nested DPH programs without user-defined datatypes should run correctly and scale, but absolute performance may be lacking
 
-  - Quicksort **\[BROKEN ([SpecConstr](spec-constr) loop when using `-dph-seq`) & SLOW\]****\[SIMON & BEN\]**
-  - Quickhull **\[OK, but has a [SpecConstr](spec-constr) problem that we want to fix; pair not being inlined\]****\[ROMAN\]**
+  - Quicksort \[BROKEN ([SpecConstr](spec-constr) loop when using `-dph-seq`) & SLOW\] \[SIMON & BEN\]
+  - Quickhull **\[OK, but has a [SpecConstr](spec-constr) problem that we want to fix; pair not being inlined\]** (should be fixed now, needs to be checked) **\[ROMAN\]**
 
     - Probably affected by the same optimisation issue with the compilation of modulo operations as Evens
     - [\#4830](https://gitlab.haskell.org//ghc/ghc/issues/4830): this fix wasn't sufficient, still doesn't optimise properly **\[ROMAN\]**
 - Dynamically-nested DPH programs with user-defined datatypes should run correctly, but not necessarily fast
 
-  - Words **\[BROKEN ([SpecConstr](spec-constr) loop again, when using `-dph-seq`; same as Quicksort)\]****\[ROMAN & SIMON\]**
+  - Words \[BROKEN ([SpecConstr](spec-constr) loop again, when using `-dph-seq`; same as Quicksort)\] \[ROMAN & SIMON\]
 
     - [\#4831](https://gitlab.haskell.org//ghc/ghc/issues/4831)
-  - BarnesHut. **\[ROMAN\]**
+  - BarnesHut. \[ROMAN\]
 
 
 Legend
