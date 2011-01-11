@@ -248,11 +248,17 @@ git pull origin
 }}}
 where {{{origin}}} is the name of your default remote branch.  (You can name it as you like, but certain Git commands will use {{{origin}}} as the default if no argument is specified.)
 
-XXX: will this pull into the current branch, or always into master?  (Websites suggest always into master, so you likely need to follow {{{git pull}}} with {{{git rebase <branch-name>}}})
+Git allows you to create symbolic references to multiple remote branches.  You can also associate a remote branch with a specific local branch.  For more info see [http://book.git-scm.com/3_distributed_workflows.html Distributed Workflows] and [http://book.git-scm.com/4_tracking_branches.html Tracking Branches].
 
-Like in Darcs, you may get conflicts.  To resolve conflicts, edit the conflicting file, {{{git add}}} it, and {{{git commit}}} it.
+Note, that {{{git pull}}} is actually a shortcut for:
+{{{
+git fetch   # download data from remote branches
+# for each remote branch:
+git merge <remote/branch> <my-local-branch>
+}}}
+To find out which branch merges into which local branch see the output of {{{get remote show <remote-name>}}}.
 
-If you want to see whether you get conflicts before pulling {{{git pull}}} is actually ... XXX
+Like in Darcs, you may get conflicts.  To resolve conflicts, edit the conflicting file, {{{git add}}} it, and {{{git commit}}} it.  Alternatively, you can use {{{git fetch}}} and then manually {{{git merge}}}.
 
 == darcs push ==
 
