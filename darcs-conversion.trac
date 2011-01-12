@@ -97,7 +97,11 @@ Gotchas:
  * have to push to submodules before pushing GHC, otherwise other users will not be able to do `git submodule update`.
  * every submodule commit needs to be accompanied by a GHC commit (not clear if this is really a disadvantage, but it's more work and there will be many more commits).
 
-'''Older comments''':
+=== Google repo ===
+
+Google has a tool called [https://sites.google.com/a/android.com/opensource/download/using-repo repo], which is basically the same as our `darcs-all` script but is much much larger (it probably does a bit more, to be fair).  It is written in Python and the list of git repositories is kept in an XML file.
+
+=== Older comments === 
 
 Submodules do not really seem to be designed for what we want to do (work on a cohesive set of components that are developed together): they seem more suited to tracking upstream branches that you do not modify locally.
 
