@@ -99,7 +99,7 @@ Gotchas:
 
 === Google repo ===
 
-Google has a tool called [https://sites.google.com/a/android.com/opensource/download/using-repo repo], which is basically the same as our `darcs-all` script but is much much larger (it probably does a bit more, to be fair).  It is written in Python and the list of git repositories is kept in an XML file.
+Google has a tool called [https://sites.google.com/a/android.com/opensource/download/using-repo repo] that they use for managing the Android repositories, which is basically the same as our `darcs-all` script but is much much larger (it probably does a bit more, to be fair).  It is written in Python and the list of git repositories is kept in an XML file.
 
 === Older comments === 
 
