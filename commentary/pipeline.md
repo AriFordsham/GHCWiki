@@ -1,6 +1,55 @@
 
 Video: [ Compilation Pipeline](http://video.google.com/videoplay?docid=-4326420154219711812) and interface files (17'30")
 
+# Overview
+
+
+GHC is structured into two parts:
+
+- The `ghc` package (in subdirectory `compiler`), which implements almost all GHC's functionality. It is an ordinary Haskell library, and can be imported into a Haskell program by saying `import GHC`.
+- The `ghc` binary (in subdirectory `ghc`) which implements imports the `ghc` package, and implements the I/O for the `ghci` interactive loop.
+
+
+Here's an overview of the module structure of the top levels of GHC library.   (Note: more precisly, this is the plan. Currently the module `Make` below is glommed into the giant module `GHC`.)
+
+```wiki
+          |---------------------------------|
+          |              GHC                |
+          | The root module for the GHC API |
+          | Very little code;               |
+          | just simple wrappers            |
+          |---------------------------------|
+                     /                \
+                    /                  \
+                   /                    \
+ |------------------------|    |------------------------|
+ |        Make            |    |    InteractiveEval     |
+ | Implements --make      |    | Stuff to support the   |
+ | Deals with compiling   |    | GHCi interactive envt  |
+ |    multiple modules    |    |                        |
+ |------------------------|    |------------------------|
+           |                             |
+           |                             |
+ |-------------------------|             |
+ |   DriverPipeline        |             |
+ | Deals with compiling    |             |
+ |  *a single module*      |             |
+ | through all its stages  |             |
+ | (cpp, unlit, compile,   |             |
+ |  assemble, link etc)    |             |
+ |-------------------------|             |
+              \                          |
+               \                         |
+                \                        |
+         |----------------------------------------------|
+         |                    HscMain                   |
+         | Compiling a single module (or expression or  |
+         | stmt) to bytecode, or to a M.hc or M.s file  |
+         |----------------------------------------------|
+              |      |       |         |       |
+            Parse Rename Typecheck Optimise CodeGen
+```
+
 # The compilation pipeline
 
 
