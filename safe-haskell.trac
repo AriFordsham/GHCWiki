@@ -16,7 +16,7 @@ The proposal addresses security in the following scenario.
 
 More specifically, there are two parts to the proposed extension:
 
- 1. A new GHC option (`-XSafe`) enabling a "Safe" dialect of Haskell in which GHC rejects any source code that might produce unsafe effects or otherwise subvert the type system.
+ 1. A new GHC option (`-XSafe`) enabling a "Safe" dialect of Haskell  in which GHC rejects any source code that might produce unsafe effects or otherwise subvert the type system.
 
  2. Another new GHC option (`-XTrustworthy`) indicating that, though a module may invoke unsafe functions internally, the set of exported symbols cannot be used in an unsafe way.  The `-XTrustworthy` option makes a small extension to the syntax of import statements, adding a `safe` keyword:
   
@@ -26,7 +26,7 @@ Roughly speaking, import declarations are either safe or unsafe, while modules a
 
 == Safety Goal ==
 
-As long as no module compiled with `-XTrustworthy` contains a vulnerability, the Safe dialect's goal is to guarantee the following properties:
+As long as no module compiled with `-XTrustworthy` contains a vulnerability, the goal of the Safe dialect (ie code compiled with `-XSafe`) is to guarantee the following properties:
 
  * '''Referential transparency.'''  Functions in the Safe dialect must be deterministic.  Moreover, evaluating them should have no side effects, and should not halt the program (except by throwing uncaught exceptions or looping forever).
 
@@ -36,9 +36,50 @@ As long as no module compiled with `-XTrustworthy` contains a vulnerability, the
 
 The Safe dialect is intended to be of use for both normal (trusted) and untrusted code.  Authors of trusted modules may wish to include `{-# LANGUAGE Safe #-}` pragmas to ensure they do not accidentally invoke unsafe actions (directly or indirectly), or to allow other Safe code to import their modules.
 
-The safe dialect does not prevent use of the symbol `IO`. If an untrusted module exports an `IO` action, that action may have arbitrary side effects, regardless of the `-XSafe` option.  Hence, while an application A importing a safe but possibly malicious module M may safely invoke pure functions from M, it must avoid executing `IO` actions exported by M unless some other mechanism ensures those actions conform to A's security goal. (See `-ultrasafe` below for one such mechanism.)
+== Ultra-safety ==
+
+'''SLPJ note'''. This entire subsection is new. See if you agree with it.  If you do, there'd be some knock-on effects.  Notably an ultra-safe module should have only ultrasafe imports.  And some of the later stuff about RIO would need adjusting.  '''End of SLPJ note'''.
+
+The safe dialect does not prevent use of the symbol `IO`. Nor does it prevent use of `foreign import`.  So this module is OK:
+{{{
+{-# LANGUAGE Safe #-}
+module Bad( deleteAllFiles ) where
+  foreign import "deleteAllFiles" :: IO ()
+}}}
+Hence, while an application A importing a safe but possibly malicious module M may safely invoke pure functions from M, it must avoid executing `IO` actions construted inside M unless some other mechanism ensures those actions conform to A's security goal.  Such actions may be hidden inside data structures:
+{{{
+{-# LANGUAGE Safe #-}
+module Bad( RM(..), rm ) where
+  foreign import "deleteAllFiles" :: IO ()
+  data RM = RM (IO ())
+  rm :: RM
+  rm = RM deleteAllFiles
+}}}
+The flag (and LANGUAGE pragma) `UltraSafe` is just like `Safe` except that it also disables `foreign import`.  This strengtens the safety guarantee, by esuring that a `UltraSafe` module can construct IO actions only by composing together IO actions that it imports from trusted modules.  Note that `UltraSafe` does not disable the use of IO itself. For example this is fine:
+{{{
+{-# LANGUAGE UltraSafe #-}
+module OK( print2 ) where
+  import IO( print )
+  print2 :: Int -> IO ()
+  print2 x = do { print x; print x }
+}}}
+
 
 == Module trust ==
+
+---------------
+'''SLPJ comment.'''  This section seems over-complicated.  For one thing it appears to define two terms: "trustable" and "trusted", and I can't tell if they are the same or not.  Second, the definitions seem over complicated. MOreover it mixes specification and implementation. Here's an alternative attempt:
+
+ * A module is '''trusted''' iff it was compiled with `-XSafe` or `-XTrustworthy`.
+ * A '''trusted package''' is one that is declared trusted by command-line flags (using the rules you give below).  But a module in an untrusted package can still be a trusted module (see above).
+ * A '''safe import declaration''' is one that 
+   * Imports a '''trusted module''' module, or
+   * Imports a module from a '''trusted package'''
+ * In a module compiled with `-XSafe`, you may use only '''safe import declarations'''
+ * In module compiled with `-XTrustworthy`, any import declaration marked "`safe`" must be a '''safe import declaration'''.
+
+'''End of SLPJ comment'''
+-------------------
 
 Recall that a safe import of a module M fails unless M is trusted.  M is trusted when two conditions hold:
 
@@ -66,7 +107,7 @@ On the command line, several new options control which packages are trusted:
 
  * `-distrust-all-packages` - considers all packages untrusted unless they are explicitly trusted by subsequent command-line options.  (This option does not change the exposed/hidden status of packages, so is not equivalent to applying `-distrust` to all packages on the system.)
 
- * A convenience option `-ultrasafe` is equivalent to {{{-distrust-all-packages -XNoForeignFunctionInterface -XNoImplicitPrelude -XSafe}}}.
+ * A convenience option `-ultrasafe` is equivalent to {{{-distrust-all-packages -XNoForeignFunctionInterface -XNoImplicitPrelude -XSafe}}}.  '''SLPJ note''' I don't agree.  An ultrasafe module should be able to import trusted packages, otherwise how could it do any IO?  It's just that an ultrasafe module should not do foreign-import.  '''End of SLPJ note'''.
 
 None of these options can be specified or overwritten by `OPTIONS_GHC` pragmas in the Safe dialect.
 
