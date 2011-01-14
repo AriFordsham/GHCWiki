@@ -53,7 +53,7 @@ module Bad( RM(..), rm ) where
   rm :: RM
   rm = RM deleteAllFiles
 }}}
- (See `-ultrasafe` below for one such mechanism.)
+The flag (and LANGUAGE pragma) `UltraSafe` is just like `Safe` except that it also disables `foreign import`.  This strengtens the safety guarantee, by esuring that a `UltraSafe` module can construct IO actions only by composing together IO actions that it imports from trusted modules.
 
 == Module trust ==
 
