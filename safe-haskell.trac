@@ -38,6 +38,8 @@ The Safe dialect is intended to be of use for both normal (trusted) and untruste
 
 == Ultra-safety ==
 
+'''SLPJ note'''. This entire subsection is new. See if you agree with it.  If you do, there'd be some knock-on effects.  Notably an ultra-safe module should have only ultrasafe imports.  And some of the later stuff about RIO would need adjusting.  '''End of SLPJ note'''.
+
 The safe dialect does not prevent use of the symbol `IO`. Nor does it prevent use of `foreign import`.  So this module is OK:
 {{{
 {-# LANGUAGE Safe #-}
@@ -53,7 +55,15 @@ module Bad( RM(..), rm ) where
   rm :: RM
   rm = RM deleteAllFiles
 }}}
-The flag (and LANGUAGE pragma) `UltraSafe` is just like `Safe` except that it also disables `foreign import`.  This strengtens the safety guarantee, by esuring that a `UltraSafe` module can construct IO actions only by composing together IO actions that it imports from trusted modules.
+The flag (and LANGUAGE pragma) `UltraSafe` is just like `Safe` except that it also disables `foreign import`.  This strengtens the safety guarantee, by esuring that a `UltraSafe` module can construct IO actions only by composing together IO actions that it imports from trusted modules.  Note that `UltraSafe` does not disable the use of IO itself. For example this is fine:
+{{{
+{-# LANGUAGE UltraSafe #-}
+module OK( print2 ) where
+  import IO( print )
+  print2 :: Int -> IO ()
+  print2 x = do { print x; print x }
+}}}
+
 
 == Module trust ==
 
@@ -97,7 +107,7 @@ On the command line, several new options control which packages are trusted:
 
  * `-distrust-all-packages` - considers all packages untrusted unless they are explicitly trusted by subsequent command-line options.  (This option does not change the exposed/hidden status of packages, so is not equivalent to applying `-distrust` to all packages on the system.)
 
- * A convenience option `-ultrasafe` is equivalent to {{{-distrust-all-packages -XNoForeignFunctionInterface -XNoImplicitPrelude -XSafe}}}.
+ * A convenience option `-ultrasafe` is equivalent to {{{-distrust-all-packages -XNoForeignFunctionInterface -XNoImplicitPrelude -XSafe}}}.  '''SLPJ note''' I don't agree.  An ultrasafe module should be able to import trusted packages, otherwise how could it do any IO?  It's just that an ultrasafe module should not do foreign-import.  '''End of SLPJ note'''.
 
 None of these options can be specified or overwritten by `OPTIONS_GHC` pragmas in the Safe dialect.
 
