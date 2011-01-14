@@ -40,6 +40,20 @@ The safe dialect does not prevent use of the symbol `IO`. If an untrusted module
 
 == Module trust ==
 
+---------------
+'''SLPJ comment.'''  This section seems over-complicated.  For one thing it appears to define two terms: "trustable" and "trusted", and I can't tell if they are the same or not.  Second, the definitions seem over complicated. MOreover it mixes specification and implementation. Here's an alternative attempt:
+
+ * A module is '''trusted''' iff it was compiled with `-XSafe` or `-XTrustworthy`.
+ * A '''trusted package''' is one that is declared trusted by command-line flags (using the rules you give below).  But a module in an untrusted package can still be a trusted module (see above).
+ * A '''safe import declaration''' is one that 
+   * Imports a '''trusted module''' module, or
+   * Imports a module from a '''trusted package'''
+ * In a module compiled with `-XSafe`, you may use only '''safe import declarations'''
+ * In module compiled with `-XTrustworthy`, any import declaration marked "`safe`" must be a '''safe import declaration'''.
+
+'''End of SLPJ comment'''
+-------------------
+
 Recall that a safe import of a module M fails unless M is trusted.  M is trusted when two conditions hold:
 
  1. M was compiled with `-XSafe` or `-XTrustWorthy`, in which case we say M is ''trustable'', and
