@@ -5,6 +5,10 @@ Certain abbreviations are used pervasively throughout the GHC source code.  A fe
 
 - "Rn" means "Renamer"
 
-- "Rdr" means ???
+- "Rdr" means ??? (help, somebody fill this in, I still have no idea what it stands for)
 
 - "Tc" means "TypeCheck{ing,er}"
+
+- "Lcl" means "Local"
+
+- "Gbl" means "Global"
