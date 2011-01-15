@@ -85,6 +85,8 @@ However sometimes you may want to add new material that doesn't quite fit into t
 
 - [Hackathon presentations](about-videos) (video)
 
+- [Commentary/Abbreviations](commentary/abbreviations): abbreviations used in the GHC code
+
 ## Old but useful
 
 
