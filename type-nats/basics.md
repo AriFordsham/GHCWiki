@@ -22,6 +22,7 @@ We relate type-level natural numbers to run-time values via a family of singleto
 
 ```wiki
 data Nat (n :: Nat)
+
 nat          :: NatI n => Nat n
 natToInteger :: Nat n -> Integer
 ```
