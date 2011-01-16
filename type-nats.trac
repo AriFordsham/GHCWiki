@@ -2,10 +2,17 @@
 
 This page collects information on how to work with type-level natural numbers, as implemented in the Haskell compiler GHC (ticket #4385).
 
+== User's Guide ==
+
   * [wiki:TypeNats/Basics           Type-Level Naturals Basics]
   * [wiki:TypeNats/BasicExamples    Simple Examples of Using GHC.TypeNats]
-  * [wiki:TypeNats/Implementation   Implementation of GHC.TypeNats]
   * [wiki:TypeNats/ImplicitExplicit Design Notes about Nat vs. TypeNat]
+
+
+== Implementation and Design Issues ==
+
+  * [wiki:TypeNats/Implementation   Implementation of {{{GHC.TypeNats}}}]
+
   * [wiki:TypeNats/Axioms           Axioms for Natural Number Operators]
   * GHC Interaction Rules ([wiki:TypeNats/RuleNotation Notational Conventions])
     * [wiki:TypeNats/Interact1      Top-Level Interactions]
@@ -13,6 +20,7 @@ This page collects information on how to work with type-level natural numbers, a
     * [wiki:TypeNats/LEQ            Solving (<=) Predicates]
     
 
-External links:
+== External links ==
+
   * [http://code.galois.com/darcs/type-naturals/ Source repos]  
   * More advanced example: https://github.com/yav/memory-arrays/tree/master
