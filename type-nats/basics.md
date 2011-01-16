@@ -15,7 +15,7 @@ These types are linked to the value world by a small library with the following 
 module GHC.TypeNats where
 ```
 
-## Basic Operations
+## Singleton Types
 
 ```wiki
 data Nat n
