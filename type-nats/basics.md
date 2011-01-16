@@ -29,9 +29,16 @@ natToInteger :: Nat n -> Integer
 
 
 The only "interesting" value of type *Nat n* is the number *n*.  Technically, there is also an undefined element.
+The value of a singleton type may be named using *nat*, which is a bit like a "smart" constructor for *Nat n*.
+Note that because *nat* is polymorphic, we may have to use a type signature to specify which singleton we mean.  For example:
+
+```wiki
+> natToInteger (nat :: Nat 3)
+3
+```
 
 
-One may think of the smart constructor *nat* as being a method of a special built-in class:
+One may think of the smart constructor *nat* as being a method of a special built-in class, *NatI*:
 
 ```wiki
 class NatI n where
@@ -42,6 +49,12 @@ instance NatI 1 where nat = "singleton 1 value"
 instance NatI 2 where nat = "singleton 2 value"
 etc.
 ```
+
+
+The name *NatI* is a mnemonic for the different uses of the class:
+
+- It is the *introduction* construct for 'Nat' values,
+- It is an *implicit* parameter of kind 'Nat' (link)
 
 ## Type-Level Operations
 
