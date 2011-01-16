@@ -12,10 +12,14 @@ module GHC.TypeNats where
 
 == Singleton Types ==
 
+We relate type-level natural numbers to run-time values via a family of singleton types:
 {{{
-data Nat n
+data Nat (n :: Nat)
+}}}
+The only value of type {{{Nat n}}} is the number {{{n}}}.  (Technically, there is also an undefined element.)
 
-class TypeNat n where
+{{{
+class NatI n where
   nat :: Nat n
 
 natToInteger :: Nat n -> Integer

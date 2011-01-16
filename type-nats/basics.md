@@ -17,10 +17,18 @@ module GHC.TypeNats where
 
 ## Singleton Types
 
-```wiki
-data Nat n
 
-class TypeNat n where
+We relate type-level natural numbers to run-time values via a family of singleton types:
+
+```wiki
+data Nat (n :: Nat)
+```
+
+
+The only value of type `Nat n` is the number `n`.  (Technically, there is also an undefined element.)
+
+```wiki
+class NatI n where
   nat :: Nat n
 
 natToInteger :: Nat n -> Integer
