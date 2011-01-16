@@ -22,6 +22,8 @@ We relate type-level natural numbers to run-time values via a family of singleto
 
 ```wiki
 data Nat (n :: Nat)
+nat          :: NatI n => Nat n
+natToInteger :: Nat n -> Integer
 ```
 
 
@@ -31,7 +33,10 @@ The only value of type `Nat n` is the number `n`.  (Technically, there is also a
 class NatI n where
   nat :: Nat n
 
-natToInteger :: Nat n -> Integer
+instance NatI 0 where nat = "0"
+instance NatI 1 where nat = "1"
+instance NatI 2 where nat = "2"
+etc.
 ```
 
 ## Type-Level Operations
