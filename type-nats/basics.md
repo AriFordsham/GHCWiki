@@ -61,7 +61,7 @@ The name *NatI* is a mnemonic for the different uses of the class:
 ## Examples
 
 
-Here is how we can use this API to define a `Show` instance for singleton types:
+Here is how we can use the basic primitives to define a `Show` instance for singleton types:
 
 ```wiki
 instance Show (Nat n) where
@@ -72,7 +72,7 @@ instance Show (Nat n) where
 A more interesting example is to define a function which maps integers into singleton types:
 
 ```wiki
-integerToMaybeNat :: TypeNat n => Integer -> Maybe (Nat n)
+integerToMaybeNat :: NatI n => Integer -> Maybe (Nat n)
 integerToMaybeNat x = check nat
   where check y = if x == natToInteger y then Just y else Nothing
 ```
@@ -88,7 +88,7 @@ and providing explicit type signatures.
 Now, we can use `integerToNat` to provide a `Read` instance for singleton types:
 
 ```wiki
-instance TypeNat n => Read (Nat n) where
+instance NatI n => Read (Nat n) where
   readsPrec p x       = do (x,xs) <- readsPrec p x
                            case integerToMaybeNat x of
                              Just n  -> [(n,xs)]
