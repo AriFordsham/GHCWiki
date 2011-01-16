@@ -1,5 +1,5 @@
 
-There are two different styles of writing functions which need the integer corresponding to a type level naturals.
+There are two different styles of writing functions which need the integer corresponding to a type level natural.
 
 
 The one approach is to use an explicit parameter of type `Nat n`.  For example:
