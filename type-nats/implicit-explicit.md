@@ -1,8 +1,8 @@
 
-There are two different styles of writing functions which need the integer corresponding to a type level naturals.
+There are two different styles of writing functions which need the integer corresponding to a type level natural.
 
 
-The one approach is to use an explicit parameter of type `Nat n`.  For example:
+One approach is to use an explicit parameter of type `Nat n`.  For example:
 
 ```wiki
 memset :: Storable a => ArrPtr n a -> a -> Nat n -> IO ()
@@ -15,7 +15,7 @@ Callers of this function have to pass the size of the array explicitly, and the 
 When defining `memset` we can just use `natToInteger` on the `Nat n` parameter to get the actual value of the array size.
 
 
-The other approach is to use an implicit parameter by using the class `TypeNat`.  For example:
+Another approach is to let the system infer the parameter by using the class `TypeNat`.  For example:
 
 ```wiki
 memsetAuto :: (Storable a, TypeNat n) => ArrPtr n a -> a -> IO ()
