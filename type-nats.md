@@ -11,6 +11,8 @@ This page collects information on how to work with type-level natural numbers, a
 
 ## Implementation and Design Issues
 
+- [Alternative Design For Singletons](type-ntas/alternative-singletins)
+
 - [Implementation of {{{GHC.TypeNats}}}](type-nats/implementation)
 
 - [Axioms for Natural Number Operators](type-nats/axioms)
