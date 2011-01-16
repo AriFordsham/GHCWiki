@@ -54,7 +54,7 @@ etc.
 The name *NatI* is a mnemonic for the different uses of the class:
 
 - It is the *introduction* construct for 'Nat' values,
-- It is an *implicit* parameter of kind 'Nat' (this is discussed in more detail in ExplicitImplicit)
+- It is an *implicit* parameter of kind 'Nat' (this is discussed in more detail in [a separate section](type-nats/implicit-explicit))
 
 ## Type-Level Operations
 
