@@ -1,3 +1,5 @@
+## Type-Level Naturals
+
 
 There is a new kind, `Nat`.  It is completely separate from GHC's hierarchy of sub-kinds, so `Nat` is only a sub-kind of itself.
 
