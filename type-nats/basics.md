@@ -135,12 +135,3 @@ An easy way to avoid such problems is to implement the implicit style functions 
 ```wiki
 memsetAuto arr val = memset arr val nat
 ```
-
-## Type-Level Operations
-
-```wiki
-type family m ^ n :: Nat
-type family m * n :: Nat
-type family m + n :: Nat
-class m <= n
-```
