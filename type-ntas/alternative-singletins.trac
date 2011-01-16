@@ -1,0 +1,31 @@
+We use a family of singleton types to related type-level naturals to runtime values.
+
+In our design, we chose to provide an overloaded "smart" constructor and a polymorphic elimination construct:
+{{{
+newtype Nat (n :: Nat) = Nat Integer
+
+class NatI n where
+  nat :: NatI n
+
+instance NatI 0 where nat = Nat 0
+instance NatI 1 where nat = Nat 1
+...
+
+natToInteger :: Nat n -> Integer
+natToInteger (Nat n) n = n
+}}}
+
+It is also possible to make the dual choice, where we provide a polymorphic constructor and an overloaded elimination construct:
+{{{
+data Nat (n :: Nat) = Nat
+
+class NatE n where
+  natToInteger :: Nat n -> Integer
+
+instance NatE 0 where natToInteger Nat = 0
+instance NatE 1 where natToInteger Nat = 1
+...
+}}}
+
+
+
