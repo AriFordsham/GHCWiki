@@ -13,19 +13,38 @@ These types are linked to the value world by a small library with the following 
 
 ```wiki
 module GHC.TypeNats where
+```
 
-data Nat (n :: Nat)                                     -- Abstract "singleton" types.
+## Basic Operations
 
-natToInteger :: Nat n -> Integer                        -- Convert a singleton to an integer.
-integerToNat :: Integer -> (forall n. Nat n -> a) -> a  -- Convert an integer into a singleton.
+```wiki
+data Nat n
 
 class TypeNat n where
-  nat :: Nat n                                          -- A value in a "singleton" type.
+  nat :: Nat n
 
- instance TypeNat 0
- instance TypeNat 1
- instance TypeNat 2
- ...
+natToInteger :: Nat n -> Integer
+```
 
--- property:  natToInteger (nat :: Nat n) == n
+## Type-Level Operations
+
+```wiki
+type family m ^ n :: Nat
+type family m * n :: Nat
+type family m + n :: Nat
+class m <= n
+```
+
+## Natural Numbers
+
+```wiki
+data Natural = forall n . Natural !(Nat n)
+
+data NaturalInteger
+  = Negative Natural
+  | NonNegative Natural
+
+toNaturalInteger :: Integer -> NaturalInteger
+
+subNatural :: Natural -> Natural -> NaturalInteger
 ```
