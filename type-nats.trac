@@ -11,10 +11,10 @@ This page collects information on how to work with type-level natural numbers, a
 
 == Implementation and Design Issues ==
 
+  * [wiki:TypeNats/Implementation   Implementation of GHC.TypeNats]
   * [wiki:TypeNats/AlternativeSingletons Alternative Design For Singletons]
-  * [wiki:TypeNtas/AlternativeSingletins Alternative Design For Singletons]
 
-  * [wiki:TypeNats/Implementation   Implementation of {{{GHC.TypeNats}}}]
+
 
   * [wiki:TypeNats/Axioms           Axioms for Natural Number Operators]
   * GHC Interaction Rules ([wiki:TypeNats/RuleNotation Notational Conventions])
