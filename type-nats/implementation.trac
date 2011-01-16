@@ -4,9 +4,6 @@ newtype Nat (n :: Nat) = Nat Integer
 
 natToInteger :: Nat n -> Integer
 natToInteger (Nat n) = n
-
-integerToNat :: Integer -> (forall n. Nat n -> a) -> a
-integerToNat n k = k (Nat n)
 }}}
 
 So, now we just need instances like these:
