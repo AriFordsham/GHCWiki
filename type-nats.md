@@ -6,8 +6,8 @@ This page collects information on how to work with type-level natural numbers, a
 ## User's Guide
 
 - [Type-Level Naturals Basics](type-nats/basics)
-- [Simple Examples of Using GHC.TypeNats](type-nats/basic-examples)
-- [Design Notes about Nat vs. TypeNat](type-nats/implicit-explicit)
+- [Natural Numbers: From Values to Types](type-nats/naturals)
+- [Type-Level Operations](type-nats/operations)
 
 ## Implementation and Design Issues
 

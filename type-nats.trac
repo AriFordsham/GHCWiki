@@ -5,8 +5,8 @@ This page collects information on how to work with type-level natural numbers, a
 == User's Guide ==
 
   * [wiki:TypeNats/Basics           Type-Level Naturals Basics]
-  * [wiki:TypeNats/BasicExamples    Simple Examples of Using GHC.TypeNats]
-  * [wiki:TypeNats/ImplicitExplicit Design Notes about Nat vs. TypeNat]
+  * [wiki:TypeNats/Naturals         Natural Numbers: From Values to Types]
+  * [wiki:TypeNats/Operations       Type-Level Operations]
 
 
 == Implementation and Design Issues ==
