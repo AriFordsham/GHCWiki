@@ -15,7 +15,7 @@ Callers of this function have to pass the size of the array explicitly, and the 
 When defining `memset` we can just use `natToInteger` on the `Nat n` parameter to get the actual value of the array size.
 
 
-Another approach is to use an implicit parameter by using the class `TypeNat`.  For example:
+Another approach is to let the system infer the parameter by using the class `TypeNat`.  For example:
 
 ```wiki
 memsetAuto :: (Storable a, TypeNat n) => ArrPtr n a -> a -> IO ()

@@ -10,7 +10,7 @@ This style is, basically, a more typed version of what is found in many standard
 Callers of this function have to pass the size of the array explicitly, and the type system checks that the size matches that of the array.
 When defining `memset` we can just use `natToInteger` on the `Nat n` parameter to get the actual value of the array size.
 
-Another approach is to use an implicit parameter by using the class `TypeNat`.  For example:
+Another approach is to let the system infer the parameter by using the class `TypeNat`.  For example:
 {{{
 memsetAuto :: (Storable a, TypeNat n) => ArrPtr n a -> a -> IO ()
 }}}
