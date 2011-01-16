@@ -24,8 +24,6 @@ class TypeNat n where
   nat :: Nat n
 
 natToInteger :: Nat n -> Integer
-
-checkNat :: TypeNat n => (Integer -> Bool) -> Maybe (Nat n)
 ```
 
 ## Type-Level Operations
