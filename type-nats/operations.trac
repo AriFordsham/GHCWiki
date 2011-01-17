@@ -1,8 +1,48 @@
 == Type-Level Operations ==
 
+Currently, we provide the following type-level operations on natural numbers:
+
 {{{
-type family m ^ n :: Nat
-type family m * n :: Nat
-type family m + n :: Nat
-class m <= n
+(<=) :: Nat -> Nat -> Prop    -- Comparison
+(+)  :: Nat -> Nat -> Nat     -- Addition
+(*)  :: Nat -> Nat -> Nat     -- Multiplication
+(^)  :: Nat -> Nat -> Nat     -- Exponentiation
 }}}
+Notes:
+  * {{{(<=)}}} is a 2-parameter class (that's what we mean by the "kind" Prop),
+  * {{{(+)}}}, {{{(*)}}}, and {{{(^)}}} are type functions.
+  * Programmers may not provide custom instances of these classes/type-families.
+
+The operations correspond to the usual operations on natural numbers.
+
+
+== Inverse Operations ==
+
+Using the basic operations and GHC's equality constraints it is also possible to express
+some additional constraints, corresponding to the inverses (when defined) of the above functions:
+{{{
+Constraint     | Alternative Interpretation    | Example (x "input", y "output")
+---------------+-------------------------------+--------------------------------
+(a + b) ~ c    | Subtraction: (c - b) ~ a      | Decrement by 8: x ~ (y + 8)
+(a * b) ~ c    | Division:    (c / b) ~ a      | Divide by 8:    x ~ (y * 8)
+(a ^ b) ~ c    | Log at base: Log  a c ~ b     | Log base 2:     x ~ (2 ^ y)
+(a ^ b) ~ c    | Nth-root:    Root b c ~ a     | Square root:    x ~ (y ^ 2)
+}}}
+
+Note that we need some form of relational notation to capture the partiality of the
+inverses.  In GHC, using (~) seems like a natural choice.  If we'd introduced (-)
+as another type function, we have a few choices, none of which seem particularly attractive:
+  * accept some ill defined "types" like (1 - 2),
+  * come up with a "completion" for the type function (e.g., by defining (1 - 2) ~ 0),
+  * automatically generate additional constraints which would ensure that types are well-defined, somehow.
+
+While the relational notation may look a bit verbose, in practice we can often completely avoid it.
+For example, consider that we are writing which needs to split an array of bytes into an array of
+words.  We might give the function the following type:
+{{{
+bytesToWords :: Array (8 * w) Word8 -> Array w Word64
+}}}
+So, in effect, we perform a "division" by multiplying the argument.
+
+
+== Solving Constraints ==
