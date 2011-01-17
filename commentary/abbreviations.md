@@ -17,3 +17,5 @@ See also: [ A similar list on the Haskell wiki](http://www.haskell.org/haskellwi
 - "Lcl" means "Local"
 
 - "Gbl" means "Global"
+
+- "Loc" means "Location", as in SrcLoc
