@@ -3,6 +3,8 @@ Certain abbreviations are used pervasively throughout the GHC source code.  A fe
 
 - "Occ" means "Occurrence"
 
+  - However, in the context of [ OccName](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/RdrNameType#TheOccNametype), "occurrence" actually means "unqualified"
+
 - "Rn" means "Renamer"
 
 - "Rdr" means ??? (help, somebody fill this in, I still have no idea what it stands for)
