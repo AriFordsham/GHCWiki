@@ -170,4 +170,4 @@ Modifications to compiler pipeline:
     invoke the normal pipeline, otherwise call our own backend and exit then.
 - Modify `compiler/main/CodeOutput.lhs` to invoke the plugin callback.
 
-  - Plugin-based backends should automatically prioritize over built-in backends?
+  - Plugin-based backends should automatically prioritize over built-in backends (i.e., if it gets loaded through `-fplugin`, it is gettin' used no question?)
