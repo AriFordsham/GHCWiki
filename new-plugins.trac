@@ -86,14 +86,14 @@ The [wiki:Commentary/Compiler/NewCodeGen new code generator] (more precisely, th
 
  * New code generator is based on several phases:
   * Conversion from STG to Cmm
-  * Basic optimisations
+  * Basic optimisations (basic block elim., liveness analysis, etc)
   * CPS Conversion
   * More basic optimisations on CPS form
   * Conversion to old Cmm representation, then passed to backend code generator.
 
- * We need some sort of interface to describe how to insert it into the pipeline - is the Core approach best here?
+ * We need some sort of interface to describe how to insert it into the pipeline - is the Core approach best here, that is, an installation function that just inserts itself into a list?
 
- * Add new interface to `Plugin` next to `installCoreToDos` i.e. `installCmmPass`, that installs a pass of type `CmmGraph -> CmmGraph` into the optimization pipeline somehow.
+ * Add new interface to `Plugin` next to `installCoreToDos` i.e. `installCmmPass`, that installs a pass of type `CmmGraph -> CmmGraph` into the optimization pipeline somehow?
 
 
 == New Backends ==
