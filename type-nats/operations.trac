@@ -1,8 +1,34 @@
 == Type-Level Operations ==
 
+Currently, we provide the following type-level operations on natural numbers:
+
 {{{
-type family m ^ n :: Nat
-type family m * n :: Nat
-type family m + n :: Nat
-class m <= n
+(<=) :: Nat -> Nat -> Prop    -- Comparison
+(+)  :: Nat -> Nat -> Nat     -- Addition
+(*)  :: Nat -> Nat -> Nat     -- Multiplication
+(^)  :: Nat -> Nat -> Nat     -- Exponentiation
 }}}
+Notes:
+  * {{{(<=)}}} is a 2-parameter class (that's what we mean by the "kind" Prop),
+  * {{{(+)}}}, {{{(*)}}}, and {{{(^)}}} are type functions.
+  * Programmers may not provide custom instances of these classes/type-families.
+
+The operations correspond to the usual operations on natural numbers.
+
+
+== Inverse Operations ==
+
+Using the basic operations and GHC's equality constraints it is also possible to express
+some additional constraints, corresponding to the inverses (when defined) of the above functions:
+{{{
+Constraint     | Alternative Interpretation    | Example (x "input", y "output")
+---------------+-------------------------------+--------------------------------
+(a + b) ~ c    | Subtraction: (c - b) ~ a      | Decrement by 8: x ~ (y + 8)
+(a * b) ~ c    | Division:    (c / b) ~ a      | Divide by 8:    x ~ (y * 8)
+(a ^ b) ~ c    | Log at base: Log  a c ~ b     | Log base 2:     x ~ (2 ^ y)
+(a ^ b) ~ c    | Nth-root:    Root b c ~ a     | Square root:    x ~ (y ^ 2)
+}}}
+
+
+
+
