@@ -99,25 +99,82 @@ The [new code generator](commentary/compiler/new-code-gen) (more precisely, the 
 - New code generator is based on several phases:
 
   - Conversion from STG to Cmm
-  - Basic optimisations
+  - Basic optimisations (basic block elim., liveness analysis, etc)
   - CPS Conversion
   - More basic optimisations on CPS form
   - Conversion to old Cmm representation, then passed to backend code generator.
 
-- We need some sort of interface to describe how to insert it into the pipeline - is the Core approach best here?
+- We need some sort of interface to describe how to insert it into the pipeline - is the Core approach best here, that is, an installation function that just inserts itself into a list?
 
-- Add new interface to `Plugin` next to `installCoreToDos` i.e. `installCmmPass`, that installs a pass of type `CmmGraph -> CmmGraph` into the optimization pipeline somehow.
+- Add new interface to `Plugin` next to `installCoreToDos` i.e. `installCmmPass`, that installs a pass of type `CmmGraph -> CmmGraph` into the optimization pipeline somehow?
 
 ## New Backends
 
 
-Backends could be written using plugins as well. This would make it possible to pull the LLVM code generator out of GHC, and into a `cabal` package using the [ llvm](http://hackage.haskell.org/package/llvm) bindings on hackage, among other crazy things.
+Backends could be written using plugins as well. This would make it possible to, for example pull the LLVM code generator out of GHC, and into a `cabal` package using the [ llvm](http://hackage.haskell.org/package/llvm) bindings on hackage (like the dragonegg plugin for GCC) among other crazy things.
 
-- New interface to `Plugin` that is used by `CodeOutput` for custom (named) backends?
+- New interface to `Plugin` that is used by `CodeOutput` for custom backends?
 
-  - TODOFIXME current assumptions about output files/etc that would make this infeasible? Not sure where e.g. the linker is finally invoked in case you even wanted to write a backend that did something super-fancy involving duping it (LTO?)
-
-- Names would be needed since we cannot arbitrarily extend `HscTarget` - we would need some new case such as `HscPluginBackend String`, but this is sort of ugly.
+  - TODOFIXME any assumptions about the backend that would invalidate this general idea?
 
 
 Currently the new code generator converts the new Cmm based on Hoopl to the old Cmm representation when in use, so it can be passed onto the current native code generators. So adding this part of the API is rather independent of the current status of the new backend - the backend API just has to use the old CMM representation for conversion.
+
+
+All backends are given the final Cmm programs in the form of the `RawCmm` datatype.
+
+
+Possible interface: extend `Plugin` with a new field on the constructor, which can have a Cmm backend (TODO should `DynFlags` argument to plugin be replaced with type `[CommandLineOption]` that is already in use?)
+
+```wiki
+type CmmBackend = DynFlags -> FilePath -> [RawCmm] -> IO ()
+type CmmBackendPlugin = Maybe (String, CmmBackend)
+
+data Plugin = Plugin {
+  ...
+  installCmmBackend :: CmmBackendPlugin
+  ...
+}
+
+defaultPlugin = Plugin {
+  ...
+  installCmmBackend = Nothing
+}
+
+```
+
+
+Then, to use:
+
+```wiki
+module Some.Cmm.Plugin (plugin) where
+import GHCPlugins
+
+plugin :: Plugin
+plugin = defaultPlugin {
+  installCmmBackend = Just ("Wharble code generator backend", backend)
+}
+
+backend :: DynFlags -> FilePath -> [RawCmm] -> IO ()
+backend dflags filenm flat_absC = do
+  ...
+```
+
+`backend` is expected, roughly, to produce some intermediate code of some sort (like .S files for GNU as or .bc for LLVM.)
+
+
+Modifications to compiler pipeline:
+
+- Dynamic code loading can be provided by the same code that works for Core plugins, so this is DONE
+- Extending `HscTarget` to recognize the new compilation output case
+
+  - Might not be necessary. We can load plugins whenever, and scrutinize the 'installCmmBackend' field to see if there is `Nothing` and if there is,
+    invoke the normal pipeline, otherwise call our own backend and exit then.
+- Modify `compiler/main/CodeOutput.lhs` to invoke the plugin callback.
+
+  - Should Plugin-based backends should automatically prioritize over built-in backends (i.e., if it gets loaded through `-fplugin`, it is gettin' used no question?)
+- `DriverPipeline` needs to be aware of how to integrate a new backend into the overall compilation phase - for example, see `compiler/main/DriverPipeline.hs`, specifically 
+  `runPhase` which does things like running the LLVM optimizer, compiler and LLVM mangler when the LLVM backend is invoked. Afterwords, the assembler is invoked on the 
+  resultant asm files, followed by linking.
+
+  - Even though normally the backends are responsible for the code generation up to but not including linking, the Cmm backends need to have some concept of how to link together the final resultant program, and GHC needs to give it the necessary information - the plugin could very well want to do its own linking/final compilation steps for good reasons.
