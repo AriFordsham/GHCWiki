@@ -146,7 +146,7 @@ Modifications to compiler pipeline:
 
  * Dynamic code loading can be provided by the same code that works for Core plugins, so this is DONE
  * Extending `HscTarget` to recognize the new compilation output case
-  * Might not be necessary. We can load plugins whenever, and scrutinize the 'installCmmField' to see if there is `Nothing` and if there is,
-    invoke the normal pipeline, otherwise call our own backend and exit.
+  * Might not be necessary. We can load plugins whenever, and scrutinize the 'installCmmBackend' field to see if there is `Nothing` and if there is,
+    invoke the normal pipeline, otherwise call our own backend and exit then.
  * Modify `compiler/main/CodeOutput.lhs` to invoke the plugin callback.
   * Plugin-based backends should automatically prioritize over built-in backends?
