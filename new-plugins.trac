@@ -98,7 +98,7 @@ The [wiki:Commentary/Compiler/NewCodeGen new code generator] (more precisely, th
 
 == New Backends ==
 
-Backends could be written using plugins as well. This would make it possible to pull the LLVM code generator out of GHC, and into a `cabal` package using the [http://hackage.haskell.org/package/llvm llvm] bindings on hackage, among other crazy things.
+Backends could be written using plugins as well. This would make it possible to, for example pull the LLVM code generator out of GHC, and into a `cabal` package using the [http://hackage.haskell.org/package/llvm llvm] bindings on hackage (like the dragonegg plugin for GCC) among other crazy things.
 
  * New interface to `Plugin` that is used by `CodeOutput` for custom backends?
   * TODO FIXME: any assumptions about the backend that would invalidate this general idea?
