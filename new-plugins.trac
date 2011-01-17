@@ -26,7 +26,55 @@ https://github.com/thoughtpolice/cse-ghc-plugin
 
 === Basic overview of the plugins API for Core ===
 
-TODO
+Modules can be loaded by GHC as compiler plugins by exposing a declaration called 'plugin' of type 'GHCPlugins.Plugin', which is an ADT containing a function that installs a pass into the Core pipeline.
+
+{{{
+module Some.Plugin.Module (plugin) where
+import GHCPlugins
+
+plugin :: Plugin
+plugin = defaultPlugin {
+  installCoreToDos = install
+}
+
+
+-- type CommandLineOption = String
+
+install :: [CommandLineOption] -> [CoreToDo] -> CoreM [CoreToDo]
+install _options passes = do
+  ...
+
+
+}}}
+
+We can think of `CoreToDo` as being a type synonym for `(Core -> Core)` - that is, an installation function inserts a pass into the list of core passes by just inserting itself into the list and returning it. For example, the CSE pass actually couples a simplification pass, followed by CSE into the front of the compilation pipeline:
+
+{{{
+module CSE.Plugin where
+
+...
+
+install :: [CommandLineOption] -> [CoreToDo] -> CoreM [CoreToDo]
+install _options todos = do
+    -- You should probably run this with -fno-cse !
+    return $ CoreDoPasses [defaultGentleSimplToDo, cse_pass] : todos
+
+cse_pass = CoreDoPluginPass "Plugged-in common sub-expression" (BindsToBindsPluginPass cseProgram)
+}}}
+
+More specifically, a `CoreToDo` describes some sort of particular pass over a Core program that can be invoked as many times as you like. For reference, `defaultGentlSimplToDo` is constructed using `CoreDoSimplify`. In this case, we construct a `CoreDoPluginsPass`, which takes a name and a `PluginPass` which looks like the following:
+
+{{{
+data PluginPass = BindsToBindsPluginPass ([CoreBind] -> CoreM [CoreBind]) -- ^ Simple pass just mutating the Core bindings
+                | ModGutsToBindsPluginPass (ModGuts -> CoreM [CoreBind])  -- ^ Pass that has access to the information from a 'ModGuts'
+                                                                          -- from which to generate it's bindings
+                | ModGutsToModGutsPluginPass (ModGuts -> CoreM ModGuts)   -- ^ Pass that can change everything about the module being compiled.
+                                                                          -- Do not change any field other than 'HscTypes.mg_binds' unless you
+                                                                          -- know what you're doing! Plugins using this are unlikely to be stable
+                                                                          -- between GHC versions
+}}}
+
+Most people will be using the first case - that is, writing a `BindsToBindsPluginPass` that just manipulates every individual Core binding.
 
 = The Future =
 
