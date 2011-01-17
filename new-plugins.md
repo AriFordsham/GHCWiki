@@ -1,0 +1,123 @@
+# New Plugins work
+
+
+Max originally did the work on [GHC plugins](plugins) in his GSoC 2008 hacking sprint. It involved the implementation of [annotations](plugins/annotations) as well as a dynamic loading aspect to GHC. While the annotations work was included into GHC HEAD, the loading infrastructure was not. This document describes the current work (as of 2011) to get it integrated into GHC HEAD so you can write core plugins, and future extensions to the interface, primarily writing C-- passes, and new backends.
+
+
+1/17/11: I (Austin Seipp) am working on getting the patch cleaned up a little more and tidying it up before it gets integrated. Still need testsuite patches.
+
+
+NB. Ridiculously incomplete writing/documentation.
+
+## Current overview
+
+
+Get GHC from its HEAD repository, and apply this patch:
+
+[ http://hackage.haskell.org/trac/ghc/raw-attachment/ticket/3843/ghc_plugins_support_2010_11_19.2.dpatch](http://hackage.haskell.org/trac/ghc/raw-attachment/ticket/3843/ghc_plugins_support_2010_11_19.2.dpatch)
+
+
+Then build GHC like normal.
+
+
+Now GHC understands the `-fplugin` and `-fplugin-arg` options. You essentially install plugins for GHC by `cabal install`ing them, and then calling GHC in the form of:
+
+```wiki
+$ ghc -fplugin=Some.Plugin.Module -fplugin-arg=Some.Plugin.Module:no-fizzbuzz a.hs
+```
+
+`Some.Plugin.Module` should export a symbol named 'plugin' - see the following repository for an example that does Common Subexpression Elimination:
+
+[ https://github.com/thoughtpolice/cse-ghc-plugin](https://github.com/thoughtpolice/cse-ghc-plugin)
+
+### Basic overview of the plugins API for Core
+
+
+Modules can be loaded by GHC as compiler plugins by exposing a declaration called 'plugin' of type 'GHCPlugins.Plugin', which is an ADT containing a function that installs a pass into the Core pipeline.
+
+```wiki
+module Some.Plugin.Module (plugin) where
+import GHCPlugins
+
+plugin :: Plugin
+plugin = defaultPlugin {
+  installCoreToDos = install
+}
+
+
+-- type CommandLineOption = String
+
+install :: [CommandLineOption] -> [CoreToDo] -> CoreM [CoreToDo]
+install _options passes = do
+  ...
+
+
+```
+
+
+We can think of `CoreToDo` as being a type synonym for `(Core -> Core)` - that is, an installation function inserts a pass into the list of core passes by just inserting itself into the list and returning it. For example, the CSE pass actually couples a simplification pass, followed by CSE into the front of the compilation pipeline:
+
+```wiki
+module CSE.Plugin where
+
+...
+
+install :: [CommandLineOption] -> [CoreToDo] -> CoreM [CoreToDo]
+install _options todos = do
+    -- You should probably run this with -fno-cse !
+    return $ CoreDoPasses [defaultGentleSimplToDo, cse_pass] : todos
+
+cse_pass = CoreDoPluginPass "Plugged-in common sub-expression" (BindsToBindsPluginPass cseProgram)
+```
+
+
+More specifically, a `CoreToDo` describes some sort of particular pass over a Core program that can be invoked as many times as you like. For reference, `defaultGentlSimplToDo` is constructed using `CoreDoSimplify`. In this case, we construct a `CoreDoPluginsPass`, which takes a name and a `PluginPass` which looks like the following:
+
+```wiki
+data PluginPass = BindsToBindsPluginPass ([CoreBind] -> CoreM [CoreBind]) -- ^ Simple pass just mutating the Core bindings
+                | ModGutsToBindsPluginPass (ModGuts -> CoreM [CoreBind])  -- ^ Pass that has access to the information from a 'ModGuts'
+                                                                          -- from which to generate it's bindings
+                | ModGutsToModGutsPluginPass (ModGuts -> CoreM ModGuts)   -- ^ Pass that can change everything about the module being compiled.
+                                                                          -- Do not change any field other than 'HscTypes.mg_binds' unless you
+                                                                          -- know what you're doing! Plugins using this are unlikely to be stable
+                                                                          -- between GHC versions
+```
+
+
+Most people will be using the first case - that is, writing a `BindsToBindsPluginPass` that just manipulates every individual Core binding.
+
+# The Future
+
+## Plugins for Cmm
+
+
+Aside from manipulating the core language, we would also like to manipulate the C-- representation GHC generates for modules too.
+
+
+The [new code generator](commentary/compiler/new-code-gen) (more precisely, the optimizing conversion from STG to Cmm part of GHC) based on hoopl for dataflow analysis is going to be merged into HEAD Real Soon Now. It would be best perhaps to leave this part of the interface alone until it is merged - clients of the interface could then use hoopl to write dataflow passes for Cmm.
+
+- New code generator is based on several phases:
+
+  - Conversion from STG to Cmm
+  - Basic optimisations
+  - CPS Conversion
+  - More basic optimisations on CPS form
+  - Conversion to old Cmm representation, then passed to backend code generator.
+
+- We need some sort of interface to describe how to insert it into the pipeline - is the Core approach best here?
+
+- Add new interface to `Plugin` next to `installCoreToDos` i.e. `installCmmPass`, that installs a pass of type `CmmGraph -> CmmGraph` into the optimization pipeline somehow.
+
+## New Backends
+
+
+Backends could be written using plugins as well. This would make it possible to pull the LLVM code generator out of GHC, and into a `cabal` package using the [ llvm](http://hackage.haskell.org/package/llvm) bindings on hackage, among other crazy things.
+
+- New interface to `Plugin` that is used by `CodeOutput` for custom (named) backends?
+
+  - TODOFIXME current assumptions about output files/etc that would make this infeasible? Not sure where e.g. the linker is finally invoked in case you even wanted to write a backend that did something super-fancy involving duping it (LTO?)
+
+- Names would be needed since we cannot arbitrarily extend `HscTarget` - we would need some new case such as `HscPluginBackend String`, but this is sort of ugly.
+
+
+Currently the new code generator converts the new Cmm based on Hoopl to the old Cmm representation when in use, so it can be passed onto the current native code generators. So adding this part of the API is rather independent of the current status of the new backend - the backend API just has to use the old CMM representation for conversion.
