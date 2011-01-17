@@ -154,5 +154,5 @@ Modifications to compiler pipeline:
   * Should Plugin-based backends should automatically prioritize over built-in backends (i.e., if it gets loaded through `-fplugin`, it is gettin' used no question?)
  * `DriverPipeline` needs to be aware of how to integrate a new backend into the overall compilation phase - for example, see `compiler/main/DriverPipeline.hs`, specifically 
    `runPhase` which does things like running the LLVM optimizer, compiler and LLVM mangler when the LLVM backend is invoked. Afterwords, the assembler is invoked on the 
-   resultant object files.
+   resultant asm files, followed by linking.
   * Even though normally the backends are responsible for the code generation up to but not including linking, the Cmm backends need to have some concept of how to link together the final resultant program, and GHC needs to give it the necessary information - the plugin could very well want to do its own linking/final compilation steps for good reasons.
