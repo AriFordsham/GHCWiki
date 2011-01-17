@@ -110,7 +110,8 @@ All backends are given the final Cmm programs in the form of the `RawCmm` dataty
 Possible interface: extend `Plugin` with a new field on the constructor, which can have a Cmm backend (TODO: should `DynFlags` argument to plugin be replaced with type `[CommandLineOption]` that is already in use?)
 
 {{{
-type CmmBackendPlugin = Maybe (String,(DynFlags -> FilePath -> [RawCmm] -> IO ()))
+type CmmBackend = DynFlags -> FilePath -> [RawCmm] -> IO ()
+type CmmBackendPlugin = Maybe (String, CmmBackend)
 
 data Plugin = Plugin {
   ...
