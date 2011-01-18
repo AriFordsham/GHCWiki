@@ -16,3 +16,5 @@ See also: [http://www.haskell.org/haskellwiki/GHC/List_of_abbreviations A simila
 * "Gbl" means "Global"
 
 * "Loc" means "Location", as in SrcLoc
+
+* "Hs" means "Haskell Syntax" (generally as opposed to Core -- for example, Expr vs HsExpr)

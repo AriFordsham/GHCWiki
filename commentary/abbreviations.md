@@ -19,3 +19,5 @@ See also: [ A similar list on the Haskell wiki](http://www.haskell.org/haskellwi
 - "Gbl" means "Global"
 
 - "Loc" means "Location", as in SrcLoc
+
+- "Hs" means "Haskell Syntax" (generally as opposed to Core -- for example, Expr vs HsExpr)
