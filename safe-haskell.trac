@@ -18,15 +18,13 @@ More specifically, there are two parts to the proposed extension:
 
  1. A new GHC option (`-XSafe`) enabling a "Safe" dialect of Haskell in which GHC rejects any source code that might produce unsafe effects or otherwise subvert the type system.
 
- 2. Another new GHC option (`-XTrustworthy`) indicating that, though a module may invoke unsafe functions internally, the module's author claims the set of exported symbols cannot be used in an unsafe way.
+ 2. Another new GHC option (`-XTrustworthy`) indicating that, though a module may invoke unsafe functions internally, the module's author claims the set of exported symbols cannot be used in an unsafe way.  (There is a corresponding `-XUntrustworthy` option to enable the language extension but negate `-XTrustworthy`.)
 
-The presence of either the `-XSafe` or `-XTrustworthy` option introduces a small extension to the syntax of import statements, adding a `safe` keyword:
+The presence of any of the `-XSafe`, `-XTrustworthy`, or `-XUntrustworthy` options introduces a small extension to the syntax of import statements, adding a `safe` keyword:
   
   impdecl -> `import` [`safe`] [`qualified`] modid [`as` modid] [impspec]
 
-Import declarations are either safe or unsafe, while modules are classified as either trusted or untrusted.  A safe import declaration causes compilation to fail if the imported module is not trusted.
-
-In the Safe dialect, all import declarations are implicitly safe, regardless of the presence of the `safe` keyword.  When compiling with `-XTrustworthy` but not `-XSafe`, import declarations with the `safe` keyword are safe, while those without the keyword are unsafe.  A module can be trusted only if it was compiled with `-XSafe` or `-XTrustworthy`, but there is an additional restriction detailed below under '''Trusted modules''':  roughly speaking, for a module M to be trusted, any modules reachable from M and compiled with `-XTrustworthy` must reside in packages trusted by the user invoking the compiler.
+Import declarations are either safe or unsafe, while modules are classified as either trusted or untrusted.  An `import safe` declaration declares that the author of a module does not assume responsibility for the imported module's safety.  `import safe` causes compilation to fail if the imported module is not trusted.  Additionally, in the Safe dialect, ''all'' import declarations of untrusted modules cause compilation to fail, regardless of the presence of the `safe` keyword.
 
 == Safety Goal ==
 
@@ -71,19 +69,18 @@ module OK( print2 ) where
 
 == Trusted modules ==
 
------------------------
-'''SLPJ/SDM note'''.  This is an attempt to define what it means for a module, or a package, to be "trusted", and what consequences that trust has.  If successful it would replace the material that follows
+To determine what imports are allowed, we define what it means for a module, or a package, to be "trusted", and what consequences that trust has.
 
  * A '''client''' is someone running GHC, typically the person compiling the application.
 
- * A '''package P is trusted by a client C''' iff one of these conditions hold
-     * C's package database records that P is trusted  
-     * C's command-line flags say to trust it regardless (see `-trust`, `-distrust` below)[[BR]]
+ * A '''package P is trusted by a client C''' iff one of these conditions holds
+     * C's package database records that P is trusted (and command-line arguments do not override the database)
+     * C's command-line flags say to trust it regardless of the database (see `-trust`, `-distrust` below)[[BR]]
  It is up to C to decide what packages to trust; it is not a property of P.
 
  * A '''module M from package P is trusted by a client C''' iff 
-   * Either all of these hold:
-     * The module was compiled with `-XSafe`
+   * Either both of these hold:
+     * The module was compiled with `-XSafe` and without `-XUntrustworthy`
      * All of M's direct `imports` are trusted by C
    * Or all of these hold:
      * The module was compiled with `-XTrustworthy`
@@ -92,7 +89,7 @@ module OK( print2 ) where
 
  * When a client C compiles a module M with
    * `-XSafe`: all M's `imports` must be trusted by C
-   * `-XTrustworthy`: all M's `safe imports` must be trusted by C[[BR]]
+   * `-XTrustworthy` or `-XUntrustworthy`, but not `-XSafe`: all M's `safe imports` must be trusted by C[[BR]]
  Otherwise the module is rejected.
 
 The intuition is this:
@@ -100,7 +97,7 @@ The intuition is this:
    * When the author of code marks it `-XSafe`, he asks the compiler to check that it is indeed safe.  He takes on no responsibility.  Although he must trust imported packages in order to compile his package, he takes not responsibility for them.
    * When the author of code marks it `-XTrustworthy` he takes on responsibility for the stafety of that code, ''under the assumption'' that `safe imports` are indeed safe.
 
- * When client C trusts package P, he expresses trust in the author of that code.  But since the author makes no guarantees about `safe imports`, C may need ot chase dependencies to decide which modules in P should be trusted by C.
+ * When client C trusts package P, he expresses trust in the author of that code.  But since the author makes no guarantees about `safe imports`, C may need to chase dependencies to decide which modules in P should be trusted by C.
 
 For example, suppose we have this setup:
 {{{
@@ -118,32 +115,9 @@ Package P:
 }}}
 Suppose client C decides to trust P.  Then does C trust M?  Well, M has a `safe` import, so P's author takes no responsibility.  So C must check whether `Buggle` is trusted by C.  Is it?  Well, it is compiled with `-XSafe`, so the code in `Buggle` is machine-checked to be OK, but again the author takes no responsibility for `Prelude`.  Ah, but `Prelude` comes from `base`, which C trusts, and is (let's say) compiled with `-XTrustworthy`.
 
-What about the import of `System.IO.Unsafe`.  C trust's P's author, and P's author takes responsibility for that import.  So C trusts M.
+What about the import of `System.IO.Unsafe`?  C trust's P's author, and P's author takes responsibility for that import.  So C trusts M.
 
-Notice that C didn't need to trust package `Wuggle`; the machine checking is enough.  C only needs to trust packages that have `-XTrustworthy` packages in them.
-
-'''End of SLPJ/SDM note'''
-------------------------
-
-Recall that a safe import of a module M fails unless M is trusted. Whether or not M is trusted depends on the following factors:
-
- - Which packages the user invoking the compiler trusts,
-
- - What modules M depends on, and
-
- - How M was compiled.
-
-To capture the intentions of a user compiling potentially untrusted code, we introduce a notion of '''trusted package'''.  A trusted package is one that is declared trusted by command-line flags to the compiler.  The user must manually ensure that code in trusted packages does not violate the safety goal; the compiler assumes that responsibility for the rest of the program.
-
-Next, we define a notion of a module's '''trust dependency set'''. The trust dependency set of module M consists of either a) the names and packages of all the modules that the user must manually verify to ensure M satisfies the safety goal, or b) the singleton set containing pseudo-module name `untrusted` in pseudo-package `_untrusted`. (`_untrusted` is never a trusted package, regardless of command-line options.)  More specifically, the trust dependency set of module M is computed as follows:
-
- * If M was compiled with neither `-XSafe` nor `-XTrustworthy`, or, regardless of these options, if M contains the `{-# LANGUAGE Untrustworthy #-}` pragma, then M's trust dependency set consists solely of the `untrusted` pseudo-module.
-
- * ''If M was compiled with `-XTrustworthy`'', then its trust dependency set includes M plus the union of the trust dependency sets of all modules M imports with the `safe` keyword.
-
- * ''If M was compiled with `-XSafe` but not `-XTrustworthy`'', then its trust dependency set is the union of the trust dependency sets of all modules M imports.
-
-Finally, we say an imported module M is '''trusted''' when every module in M's trust dependency set resides in a trusted package.  A safe import of module M fails unless M is trusted by this definition.
+Notice that C didn't need to trust package `Wuggle`; the machine checking is enough.  C only needs to trust packages that have `-XTrustworthy` modules in them.
 
 === Implementation details ===
 
