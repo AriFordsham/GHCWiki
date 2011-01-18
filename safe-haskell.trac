@@ -71,6 +71,30 @@ module OK( print2 ) where
 
 == Trusted modules ==
 
+-----------------------
+'''SLPJ/SDM note'''.  This is an attempt to define what it means for a module, or a package, to be "trusted", and what consequences that trust has.  If successful it would replace the material that follows
+
+ * A '''client''' is someone running GHC, typically the person compiling the application.
+
+ * A '''package P is trusted by a client C''' iff one of these conditions hold
+     * C's package database records that P is trusted  
+     * C's command-line flags say to trust it regardless (see `-trust`, `-distrust` below)[[BR]]
+ It is up to C to decide what packages to trust; it is not a property of P.
+
+ * A '''module M from package P is trusted by a client C''' iff
+   * Package P is trusted by C
+   * One of the following holds:
+     * The module was compiled with `-XSafe` and all of M's direct `imports` are trusted by C
+     * The module was compiled with `-XTrustworthy` and all of M's direct `safe imports` are trusted by C
+
+ * When a client C compiles a module M with
+   * `-XSafe`: all M's `imports` must be trusted by C
+   * `-XTrustworthy`: all M's `safe imports` must be trusted by C[[BR]]
+ Otherwise the module is rejected.
+
+'''End of SLPJ/SDM note'''
+------------------------
+
 Recall that a safe import of a module M fails unless M is trusted. Whether or not M is trusted depends on the following factors:
 
  - Which packages the user invoking the compiler trusts,
