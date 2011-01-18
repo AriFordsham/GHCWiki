@@ -104,13 +104,17 @@ module OK( print2 ) where
 >
 > It is up to C to decide what packages to trust; it is not a property of P.
 
-- A **module M from package P is trusted by a client C** iff
+- A **module M from package P is trusted by a client C** iff 
 
-  - Package P is trusted by C
-  - One of the following holds:
+  - Either all of these hold:
 
-    - The module was compiled with `-XSafe` and all of M's direct `imports` are trusted by C
-    - The module was compiled with `-XTrustworthy` and all of M's direct `safe imports` are trusted by C
+    - The module was compiled with `-XSafe`
+    - All of M's direct `imports` are trusted by C
+  - Or all of these hold:
+
+    - The module was compiled with `-XTrustworthy`
+    - All of M's direct `safe imports` are trusted by C
+    - Package P is trusted by C
 
 - When a client C compiles a module M with
 
@@ -119,6 +123,42 @@ module OK( print2 ) where
 
 >
 > Otherwise the module is rejected.
+
+
+The intuition is this:
+
+- Here are the obligations of the author of a package:
+
+  - When the author of code marks it `-XSafe`, he asks the compiler to check that it is indeed safe.  He takes on no responsibility.  Although he must trust imported packages in order to compile his package, he takes not responsibility for them.
+  - When the author of code marks it `-XTrustworthy` he takes on responsibility for the stafety of that code, *under the assumption* that `safe imports` are indeed safe.
+
+- When client C trusts package P, he expresses trust in the author of that code.  But since the author makes no guarantees about `safe imports`, C may need ot chase dependencies to decide which modules in P should be trusted by C.
+
+
+For example, suppose we have this setup:
+
+```wiki
+Package Wuggle:
+   {-# LANGUAGE Safe #-}
+   module Buggle where
+     import Prelude
+     f x = ...blah...
+     
+Package P:
+   {-# LANGUAGE Trustworthy #-}
+   module M where
+     import System.IO.Unsafe
+     import safe Buggle
+```
+
+
+Suppose client C decides to trust P.  Then does C trust M?  Well, M has a `safe` import, so P's author takes no responsibility.  So C must check whether `Buggle` is trusted by C.  Is it?  Well, it is compiled with `-XSafe`, so the code in `Buggle` is machine-checked to be OK, but again the author takes no responsibility for `Prelude`.  Ah, but `Prelude` comes from `base`, which C trusts, and is (let's say) compiled with `-XTrustworthy`.
+
+
+What about the import of `System.IO.Unsafe`.  C trust's P's author, and P's author takes responsibility for that import.  So C trusts M.
+
+
+Notice that C didn't need to trust package `Wuggle`; the machine checking is enough.  C only needs to trust packages that have `-XTrustworthy` packages in them.
 
 **End of SLPJ/SDM note**
 
