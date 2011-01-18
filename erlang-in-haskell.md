@@ -19,6 +19,11 @@ of circumstances.  Which leads to the following question: could
 we take the best of Erlang and embed it as a DSL into Haskell?
 This page summarises a possible design.
 
+## Implementation
+
+
+I'm currently working on an implementation of the following ideas. The implementation is a work in progress and its interface differs somewhat from the following sketch. The actual interface is described here: [ http://www.cl.cam.ac.uk/\~jee36/remote/](http://www.cl.cam.ac.uk/~jee36/remote/)
+
 ## Processes
 
 
