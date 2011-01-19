@@ -26,34 +26,6 @@ As long as no module compiled with `-XTrustworthy` contains a vulnerability, the
 
 The Safe dialect is intended to be of use for both normal (trusted) and untrusted code.  Authors of trusted modules may wish to include `{-# LANGUAGE Safe #-}` pragmas to ensure they do not accidentally invoke unsafe actions (directly or indirectly), or to allow other Safe code to import their modules.
 
-== Ultra-safety ==
-
-'''SLPJ note'''. This entire subsection is new. See if you agree with it.  If you do, there'd be some knock-on effects.  Notably an ultra-safe module should have only ultrasafe imports.  And some of the later stuff about RIO would need adjusting.  '''End of SLPJ note'''.
-
-The safe dialect does not prevent use of the symbol `IO`. Nor does it prevent use of `foreign import`.  So this module is OK:
-{{{
-{-# LANGUAGE Safe #-}
-module Bad( deleteAllFiles ) where
-  foreign import "deleteAllFiles" :: IO ()
-}}}
-Hence, while an application A importing a safe but possibly malicious module M may safely invoke pure functions from M, it must avoid executing `IO` actions construted inside M unless some other mechanism ensures those actions conform to A's security goal.  Such actions may be hidden inside data structures:
-{{{
-{-# LANGUAGE Safe #-}
-module Bad( RM(..), rm ) where
-  foreign import "deleteAllFiles" :: IO ()
-  data RM = RM (IO ())
-  rm :: RM
-  rm = RM deleteAllFiles
-}}}
-The flag (and LANGUAGE pragma) `UltraSafe` is just like `Safe` except that it also disables `foreign import`.  This strengtens the safety guarantee, by esuring that an `UltraSafe` module can construct IO actions only by composing together IO actions that it imports from trusted modules.  Note that `UltraSafe` does not disable the use of IO itself. For example this is fine:
-{{{
-{-# LANGUAGE UltraSafe #-}
-module OK( print2 ) where
-  import IO( print )
-  print2 :: Int -> IO ()
-  print2 x = do { print x; print x }
-}}}
-
 
 == Language extension ==
 
@@ -282,6 +254,35 @@ rioWriteFile file contents = do
 }}}
 
 In this case, the type of `Danger.runMe` will be `IO ()`.  However, because `-ultrasafe` implies `-distrust-all-packages`, the only modules `Danger` can import are trustable modules whose entire trust dependency set lies in the current package.  Let's say that `SafeIO` and `Danger` are the only two such modules.  We then know that the only IO actions `Danger.runMe` can directly execute are `rioReadFile` and `rioWriteFile`.
+
+== Ultra-safety ==
+
+'''Note'''. This section concerns a possible extension/variant.  
+
+The safe dialect does not prevent use of the symbol `IO`. Nor does it prevent use of `foreign import`.  So this module is OK:
+{{{
+{-# LANGUAGE Safe #-}
+module Bad( deleteAllFiles ) where
+  foreign import "deleteAllFiles" :: IO ()
+}}}
+Hence, while an application A importing a safe but possibly malicious module M may safely invoke pure functions from M, it must avoid executing `IO` actions construted inside M unless some other mechanism ensures those actions conform to A's security goal.  Such actions may be hidden inside data structures:
+{{{
+{-# LANGUAGE Safe #-}
+module Bad( RM(..), rm ) where
+  foreign import "deleteAllFiles" :: IO ()
+  data RM = RM (IO ())
+  rm :: RM
+  rm = RM deleteAllFiles
+}}}
+The flag (and LANGUAGE pragma) `UltraSafe` is just like `Safe` except that it also disables `foreign import`.  This strengtens the safety guarantee, by esuring that an `UltraSafe` module can construct IO actions only by composing together IO actions that it imports from trusted modules.  Note that `UltraSafe` does not disable the use of IO itself. For example this is fine:
+{{{
+{-# LANGUAGE UltraSafe #-}
+module OK( print2 ) where
+  import IO( print )
+  print2 :: Int -> IO ()
+  print2 x = do { print x; print x }
+}}}
+
 
 == References ==
 
