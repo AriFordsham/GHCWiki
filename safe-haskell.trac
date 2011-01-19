@@ -14,18 +14,6 @@ The proposal addresses security in the following scenario.
    * Any Haskell modules of A compiled without `-XSafe`.
  * The user does not trust M, which is why he or she compiles M with `-XSafe`.
 
-More specifically, there are two parts to the proposed extension:
-
- 1. A new GHC option (`-XSafe`) enabling a "Safe" dialect of Haskell in which GHC rejects any source code that might produce unsafe effects or otherwise subvert the type system.
-
- 2. Another new GHC option (`-XTrustworthy`) indicating that, though a module may invoke unsafe functions internally, the module's author claims the set of exported symbols cannot be used in an unsafe way.  (There is a corresponding `-XUntrustworthy` option to enable the language extension but negate `-XTrustworthy`.)
-
-The presence of any of the `-XSafe`, `-XTrustworthy`, or `-XUntrustworthy` options introduces a small extension to the syntax of import statements, adding a `safe` keyword:
-  
-  impdecl -> `import` [`safe`] [`qualified`] modid [`as` modid] [impspec]
-
-Import declarations are either safe or unsafe, while modules are classified as either trusted or untrusted.  An `import safe` declaration declares that the author of a module does not assume responsibility for the imported module's safety.  `import safe` causes compilation to fail if the imported module is not trusted.  Additionally, in the Safe dialect, ''all'' import declarations of untrusted modules cause compilation to fail, regardless of the presence of the `safe` keyword.
-
 == Safety Goal ==
 
 As long as no module compiled with `-XTrustworthy` contains a vulnerability, the goal of the Safe dialect (i.e., code compiled with `-XSafe`) is to guarantee the following properties:
@@ -67,9 +55,25 @@ module OK( print2 ) where
 }}}
 
 
-== Trusted modules ==
+== Language extension ==
 
-To determine what imports are allowed, we define what it means for a module, or a package, to be "trusted", and what consequences that trust has.
+There are two parts to the proposed extension:
+
+ 1. Two new GHC LANGUAGE options, `-XSafe` and `-XTrustworthy`.  Intuitively
+    * `-XSafe` enables a "Safe" dialect of Haskell in which GHC rejects any source code that might produce unsafe effects or otherwise subvert the type system.
+    * `-XTrustworhty` means that, though a module may invoke unsafe functions internally, the module's author claims the set of exported symbols cannot be used in an unsafe way.  (There is a corresponding `-XUntrustworthy` option to enable the language extension but negate `-XTrustworthy`.)
+
+ 2. A small extension to the syntax of import statements (enabled by `-XSafe` or `-XTrustworhty`), adding a `safe` keyword:
+  
+  impdecl -> `import` [`safe`] [`qualified`] modid [`as` modid] [impspec]
+
+The LANGUAGE extensions have the following effect.  When a client C compiles a module M
+   * Under `-XSafe` several potentially-unsafe language features, listed under "Threats" below, are disabled.
+   * Under `-XSafe`, all M's `imports` must be trusted by C
+   * Under `-XTrustworthy` or `-XUntrustworthy` (but not `-XSafe`) all M's `safe imports` must be trusted by C
+Otherwise the module is rejected.  
+
+What does it mena for a module to be "trusted by C"?  Here is the definition:
 
  * A '''client''' is someone running GHC, typically the person compiling the application.
 
@@ -87,10 +91,7 @@ To determine what imports are allowed, we define what it means for a module, or 
      * All of M's direct `safe imports` are trusted by C
      * Package P is trusted by C
 
- * When a client C compiles a module M with
-   * `-XSafe`: all M's `imports` must be trusted by C
-   * `-XTrustworthy` or `-XUntrustworthy`, but not `-XSafe`: all M's `safe imports` must be trusted by C[[BR]]
- Otherwise the module is rejected.
+
 
 The intuition is this.  The '''author''' of a package undertakes the following obligations:
    * When the author of code compiles it with `-XSafe`, he asks the compiler to check that it is indeed safe.  He takes on no responsibility himself.  Although he must trust imported packages in order to compile his package, he takes not responsibility for them.
