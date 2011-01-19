@@ -283,6 +283,17 @@ module OK( print2 ) where
   print2 x = do { print x; print x }
 }}}
 
+Do we really want ultra-safety.  As shown above, we can get some of the benefit by sandboxing with a RIO-like mechanism.  But there is no machine check that you've done it right. What I'd like is a machine check:
+ * when I compile untrusted module `Ba`d with `-XUltraSafe` I get the guarantee that any I/O actions accessible through U's exports are obtained by composing I/O actions from modules that I trust
+	
+I think that's a valuable guarantee.  Simon M points out that if I want to freely call I/O actions exported by an untrusted `-XUltraSafe` module, then I must be careful to trust only packages whose I/O actions are pretty restricted.  In practice, I'll make a sandbox library, and trust only that; now the untrusted module can only to those restricted IO actions. And now we are back to something RIO like.  
+
+Well, yes, but I want a stronger static guarantee.  As things stand the untrusted module U might export `removeFiles`, and I might accidentally call it. (After all, I have to call some IO actions!)  I want a static check that I'm not calling IO actions contructed by a bad guy.
+
+An alternative way to achieve this would be to have a machine check that none of `Bad`'s exports mention IO, even hidden inside a data type, but I don't really know how to do that.  For example, if the RIO sandbox accidentally exposed the IO-to-RIO constructor, we'd be dead, and that's nothing to do with U's exports.
+
+In short, I still think there is a useful extra static guarantee that we could get, but at the cost of some additional complexity (an extra flag, and its consequences).
+
 
 == References ==
 
