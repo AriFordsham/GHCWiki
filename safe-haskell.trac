@@ -79,10 +79,10 @@ To determine what imports are allowed, we define what it means for a module, or 
  It is up to C to decide what packages to trust; it is not a property of P.
 
  * A '''module M from package P is trusted by a client C''' iff 
-   * Either both of these hold:
+   * Both of these hold:
      * The module was compiled with `-XSafe` and without `-XUntrustworthy`
      * All of M's direct `imports` are trusted by C
-   * Or all of these hold:
+   * OR all of these hold:
      * The module was compiled with `-XTrustworthy`
      * All of M's direct `safe imports` are trusted by C
      * Package P is trusted by C
@@ -113,7 +113,7 @@ Package P:
      import safe Buggle
 }}}
 Suppose client C decides to trust package P.  Then does C trust module M?  To decide, C must check M's imports:
- * M imports `System.IO.Unsafe`?  C trusts P's author, and M was compiled with `-XTrustworthy` so P's author takes responsibility for that import.  So C trusts M.
+ * M imports `System.IO.Unsafe`.   M was compiled with `-XTrustworthy`, so P's author takes responsibility for that import.  C trusts P's author, so C trusts M.
  * M has a `safe` import of `Buggle`, so P's author takes no responsibility for the safety or otherwise of `Buggle`.  So C must check whether `Buggle` is trusted by C.  Is it?  Well, it is compiled with `-XSafe`, so the code in `Buggle` itself is machine-checked to be OK, but again under the assumption that `Buggle`'s imports are trusted by C.  Ah, but `Prelude` comes from `base`, which C trusts, and is (let's say) compiled with `-XTrustworthy`.
 
 Notice that C didn't need to trust package `Wuggle`; the machine checking is enough.  C only needs to trust packages that have `-XTrustworthy` modules in them.
