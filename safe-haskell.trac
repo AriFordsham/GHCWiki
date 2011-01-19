@@ -61,19 +61,18 @@ There are two parts to the proposed extension:
 
  1. Two new GHC LANGUAGE options, `-XSafe` and `-XTrustworthy`.  Intuitively
     * `-XSafe` enables a "Safe" dialect of Haskell in which GHC rejects any source code that might produce unsafe effects or otherwise subvert the type system.
-    * `-XTrustworhty` means that, though a module may invoke unsafe functions internally, the module's author claims the set of exported symbols cannot be used in an unsafe way.  (There is a corresponding `-XUntrustworthy` option to enable the language extension but negate `-XTrustworthy`.)
+    * `-XTrustworthy` means that, though a module may invoke unsafe functions internally, the module's author claims that the set of exported symbols cannot be used in an unsafe way.  (There is a corresponding `-XUntrustworthy` option to enable the language extension but negate `-XTrustworthy`.  '''SLPJ: don't understand''')
 
  2. A small extension to the syntax of import statements (enabled by `-XSafe` or `-XTrustworhty`), adding a `safe` keyword:
   
   impdecl -> `import` [`safe`] [`qualified`] modid [`as` modid] [impspec]
 
-The LANGUAGE extensions have the following effect.  When a client C compiles a module M
+The LANGUAGE extensions have the following effect.  When a client C compiles a module M:
    * Under `-XSafe` several potentially-unsafe language features, listed under "Threats" below, are disabled.
    * Under `-XSafe`, all M's `imports` must be trusted by C
    * Under `-XTrustworthy` or `-XUntrustworthy` (but not `-XSafe`) all M's `safe imports` must be trusted by C
-Otherwise the module is rejected.  
 
-What does it mena for a module to be "trusted by C"?  Here is the definition:
+What does it mean for a module to be "trusted by C"?  Here is the definition:
 
  * A '''client''' is someone running GHC, typically the person compiling the application.
 
@@ -119,13 +118,7 @@ Suppose client C decides to trust package P.  Then does C trust module M?  To de
 
 Notice that C didn't need to trust package `Wuggle`; the machine checking is enough.  C only needs to trust packages that have `-XTrustworthy` modules in them.
 
-=== Implementation details ===
-
-Determining trust requires two modifications to the way GHC manages modules.  First, the interface file format must change to record each module's trust dependency set.  Second, we need compiler options to specify which packages are trusted by an application.
-
-We therefore extend the interface file format to record the trust dependency set of each module.  The set is represented as a list of ''trust dependencies'', each of which is a (package, module) pair.
-
-Currently, in any given run of the compiler, GHC classifies each package as either exposed or hidden.  To incorporate trust, we add a second bit specifying whether each package is trusted or untrusted. This bit will be controllable by two new options to `ghc-pkg`, `trust` and `distrust`, which are analogous to `expose` and `hide`.
+=== Command line options ===
 
 On the command line, several new options control which packages are trusted:
 
@@ -158,6 +151,8 @@ Note that `-ultrasafe` only enables Safe mode at the end of the command-line.  T
 
 == Threats ==
 
+'''SLPJ note''': we should enumerate precisely what is and is not allowed with `-XSafe`.  '''End of note'''
+
 The following aspects of Haskell can be used to violate the safety goal, and thus need to be disallowed or modified for the Safe dialect. ''Please add more issues to this list, as some are likely missing.''
 
  * Some symbols in {{{GHC.Prim}}} can be used to do very unsafe things.  At least one of these symbols, {{{realWorld#}}}, is magically exported by {{{GHC.Prim}}} even though it doesn't appear in the {{{GHC.Prim}}} module export list.  ''Are there other such magic symbols in this or other modules?''
@@ -183,6 +178,17 @@ The following aspects of Haskell can be used to violate the safety goal, and thu
  * Similarly, {{{GeneralizedNewtypeDeriving}}} can violate constructor access control, by allowing untrusted code to manipulate protected data types in ways the data type author did not intend.
 
 == Implementation details ==
+
+--------------
+'''SLPJ note''' I am uncertain whether these implementation notes are correct. We need to revisit them in the light of our new definitions.
+
+Determining trust requires two modifications to the way GHC manages modules.  First, the interface file format must change to record each module's trust dependency set.  Second, we need compiler options to specify which packages are trusted by an application.
+
+We therefore extend the interface file format to record the trust dependency set of each module.  The set is represented as a list of ''trust dependencies'', each of which is a (package, module) pair.
+
+Currently, in any given run of the compiler, GHC classifies each package as either exposed or hidden.  To incorporate trust, we add a second bit specifying whether each package is trusted or untrusted. This bit will be controllable by two new options to `ghc-pkg`, `trust` and `distrust`, which are analogous to `expose` and `hide`.
+
+--------------
 
  * {{{GHC.Prim}}} will need to be made (or just kept) unsafe.
 
