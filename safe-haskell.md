@@ -66,10 +66,9 @@ Trust can be thought of simply as a boolean property that applies both to packag
 
 - A **module M is trusted by the client C** if either:
 
-  1. M is guaranteed by the compiler (ghc) to be `safe`.
+  1. M is guaranteed by the compiler (ghc) to be `safe`, and all of M's direct imports are trusted by C
 
     - (This is done by using the safe language extension for M without any compromises).
-    - All of M's direct dependencies must be trusted (all imports are safe imports).
     - M can reside in any package P, regardless of if P is trusted or not.
   1. **OR**: M is specified by the client C to be `safe`.
 

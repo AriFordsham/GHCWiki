@@ -58,9 +58,8 @@ Trust can be thought of simply as a boolean property that applies both to packag
  * A '''package P is trusted by the client C''' if decided so by the C.
 
  * A '''module M is trusted by the client C''' if either:
-   1. M is guaranteed by the compiler (ghc) to be `safe`.
+   1. M is guaranteed by the compiler (ghc) to be `safe`, and all of M's direct imports are trusted by C
       * (This is done by using the safe language extension for M without any compromises).
-      * All of M's direct dependencies must be trusted (all imports are safe imports).
       * M can reside in any package P, regardless of if P is trusted or not.
    2. '''OR''': M is specified by the client C to be `safe`.
       * M can use all of Haskell.
