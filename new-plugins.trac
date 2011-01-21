@@ -180,5 +180,5 @@ Modifications to compiler pipeline:
 = References =
 
  * [1] "Scala Compiler Phase and Plug-In Initialization for Scala 2.8" (PDF) - http://www.scala-lang.org/sites/default/files/sids/nielsen/Thu,%202009-05-28,%2008:13/compiler-phases-sid.pdf
-
  * [2] "Writing Scala Compiler Plugins" http://www.scala-lang.org/node/140
+ * [3] "Composing dataflow analysis and transformation" (PDF) - http://cseweb.ucsd.edu/~lerner/UW-CSE-01-11-01.pdf
