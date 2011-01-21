@@ -2,6 +2,7 @@
 
 This is a proposal for a Haskell extension through which people can safely execute untrusted Haskell code, much the way web browsers currently run untrusted Java and !JavaScript, or the way the Spin and Singularity operating systems ran untrusted Modula-3 and C#/Sing#.
 
+
 == Setup ==
 
 The proposal addresses security in the following scenario.
@@ -14,9 +15,19 @@ The proposal addresses security in the following scenario.
    * Any Haskell modules of A compiled without `-XSafe`.
  * The user does not trust M, which is why he or she compiles M with `-XSafe`.
 
-== Safety Goal ==
 
-As long as no module compiled with `-XTrustworthy` contains a vulnerability, the goal of the Safe dialect (i.e., code compiled with `-XSafe`) is to guarantee the following properties:
+== Design ==
+
+The design of Safe Haskell involves the following aspects:
+
+ * A safe language dialect of Haskell (as an extension) that provides certain guarantees about the code. Mainly it allows the types to be trusted.
+ * A new "safe import" extension to Haskell that specifies the module being imported must be trusted.
+ * A definition of "trust" and how it operates, as well as ways of defining and changing the trust of modules and packages.
+
+
+== Safe Language ==
+
+The goal of the Safe dialect is to guarantee the following properties:
 
  * '''Referential transparency.'''  Functions in the Safe dialect must be deterministic.  Moreover, evaluating them should have no side effects, and should not halt the program (except by throwing uncaught exceptions or looping forever).
 
@@ -24,73 +35,66 @@ As long as no module compiled with `-XTrustworthy` contains a vulnerability, the
 
  * '''Semantic consistency.'''  Any expression that compiles both with and without the import of a Safe module must have the same meaning in both cases.  (E.g., {{{1 + 1 == 3}}} must remain `False` when you add the import of a Safe module.)
 
-The Safe dialect is intended to be of use for both normal (trusted) and untrusted code.  Authors of trusted modules may wish to include `{-# LANGUAGE Safe #-}` pragmas to ensure they do not accidentally invoke unsafe actions (directly or indirectly), or to allow other Safe code to import their modules.
+The Safe dialect is intended to be of use for both trusted and untrusted code. It can be used for trusted code as a way to enforce good programming style. It is also useful on untrusted code to allow that code to be trusted. Please keep in mind though that the issue of trust is at a higher level than the safe dialect. Using the safe dialect doesn't automatically imply trust, trust is defined separately below.
+
+The safe dialect basically disallows some dangerous features in Haskell to guarantee the above property, as well as checking that the direct dependencies of a module are trusted.
 
 
-== Language extension ==
+== Safe Imports ==
 
-There are two parts to the proposed extension:
+A small extension to the syntax of import statements, adding a `safe` keyword:
 
- 1. Two new GHC LANGUAGE options, `-XSafe` and `-XTrustworthy`.  Intuitively
-    * `-XSafe` enables a "Safe" dialect of Haskell in which GHC rejects any source code that might produce unsafe effects or otherwise subvert the type system.
-    * `-XTrustworthy` means that, though a module may invoke unsafe functions internally, the module's author claims that the set of exported symbols cannot be used in an unsafe way.  (There is a corresponding `-XUntrustworthy` option to enable the language extension but negate `-XTrustworthy`.  '''SLPJ: don't understand''')
+impdecl -> `import` [`safe`] [`qualified`] modid [`as` modid] [impspec]
 
- 2. A small extension to the syntax of import statements (enabled by `-XSafe` or `-XTrustworhty`), adding a `safe` keyword:
-  
-  impdecl -> `import` [`safe`] [`qualified`] modid [`as` modid] [impspec]
+When enabled, a module imported with the safe keyword must be a trusted module, otherwise a compilation error will result. Safe imports can be enabled by themselves but are automatically enabled as part of the safe language dialect where all imports are considered safe imports.
 
-The LANGUAGE extensions have the following effect.  When a client C compiles a module M:
-   * Under `-XSafe` several potentially-unsafe language features, listed under "Threats" below, are disabled.
-   * Under `-XSafe`, all M's `imports` must be trusted by C
-   * Under `-XTrustworthy` or `-XUntrustworthy` (but not `-XSafe`) all M's `safe imports` must be trusted by C
 
-What does it mean for a module to be "trusted by C"?  Here is the definition:
+== Trust ==
+
+Trust can be thought of simply as a boolean property that applies both to packages and to modules, it is defined as:
 
  * A '''client''' is someone running GHC, typically the person compiling the application.
 
- * A '''package P is trusted by a client C''' iff one of these conditions holds
-     * C's package database records that P is trusted (and command-line arguments do not override the database)
-     * C's command-line flags say to trust it regardless of the database (see `-trust`, `-distrust` below)[[BR]]
- It is up to C to decide what packages to trust; it is not a property of P.
+ * A '''package P is trusted by the client C''' if decided so by the C.
 
- * A '''module M from package P is trusted by a client C''' iff 
-   * Both of these hold:
-     * The module was compiled with `-XSafe` and without `-XUntrustworthy`
-     * All of M's direct `imports` are trusted by C
-   * OR all of these hold:
-     * The module was compiled with `-XTrustworthy`
-     * All of M's direct `safe imports` are trusted by C
-     * Package P is trusted by C
+ * A '''module M is trusted by the client C''' if either:
+   1. M is guaranteed by the compiler (ghc) to be `safe`.
+      * (This is done by using the safe language extension for M without any compromises).
+      * All of M's direct dependencies must be trusted (all imports are safe imports).
+      * M can reside in any package P, regardless of if P is trusted or not.
+   2. '''OR''': M is specified by the client C to be `safe`.
+      * M can use all of Haskell.
+      * Only M's direct dependencies imported with the safe keyword need to be trusted.
+      * M must reside in a trusted package P
+
+The difference is basically for trust type 1, the trust is provided by ghc while for trust type 2 the trust is provided by the client C. Trust 1 should be used for code that C doesn't trust (e.g provided by unknown 3rd party) while type 2 should only be used for code C does trust (his/her own code or code provided by known, trusted 3rd party).
 
 
+== User Interface for Safe Haskell ==
 
-The intuition is this.  The '''author''' of a package undertakes the following obligations:
-   * When the author of code compiles it with `-XSafe`, he asks the compiler to check that it is indeed safe.  He takes on no responsibility himself.  Although he must trust imported packages in order to compile his package, he takes not responsibility for them.
-   * When the author of code compiles it with `-XTrustworthy` he takes on responsibility for the stafety of that code, ''under the assumption'' that `safe imports` are indeed safe.
+Now that the high level goals and definitions have been established we discuss how these are exposed to the Haskell user.
 
-When a '''client''' C trusts package P, he expresses trust in the author of that code.  But since the author makes no guarantees about `safe imports`, C may need to chase dependencies to decide which modules in P should be trusted by C.
 
-For example, suppose we have this setup:
-{{{
-Package Wuggle:
-   {-# LANGUAGE Safe #-}
-   module Buggle where
-     import Prelude
-     f x = ...blah...
-     
-Package P:
-   {-# LANGUAGE Trustworthy #-}
-   module M where
-     import System.IO.Unsafe
-     import safe Buggle
-}}}
-Suppose client C decides to trust package P.  Then does C trust module M?  To decide, C must check M's imports:
- * M imports `System.IO.Unsafe`.   M was compiled with `-XTrustworthy`, so P's author takes responsibility for that import.  C trusts P's author, so C trusts M.
- * M has a `safe` import of `Buggle`, so P's author takes no responsibility for the safety or otherwise of `Buggle`.  So C must check whether `Buggle` is trusted by C.  Is it?  Well, it is compiled with `-XSafe`, so the code in `Buggle` itself is machine-checked to be OK, but again under the assumption that `Buggle`'s imports are trusted by C.  Ah, but `Prelude` comes from `base`, which C trusts, and is (let's say) compiled with `-XTrustworthy`.
+=== Safe Language & Imports (Module Trust) ===
 
-Notice that C didn't need to trust package `Wuggle`; the machine checking is enough.  C only needs to trust packages that have `-XTrustworthy` modules in them.
+We propose two new GHC Options that can be set in the usual way either as a `{-# LANGUAGE #-}` pragma or on the command line.
 
-=== Command line options ===
+ * `-XSafe` enables the safe dialect of Haskell and ask ghc to guarantee safety. If a module M using `-XSafe` compiles successfully then it is trustable. This corresponds to trust type 1.
+ * `-XTrustworthy` enables only the safe import extension and requires the client C guarantee safety. If a module using '-XTrustworthy' compiles successfully then it is trustable. This corresponds to trust type 2.
+
+We also want to be able to enable the safe dialect and safe import extensions without any corresponding trust assertion for the code:
+
+ * `-XSafeImports` ('''previously''' `-XUntrustworthy`) enables the safe import extension. Module M is left untrusted though.
+ * `-XSafeLanguage` ('''previously''' `-XUntrustworthy` `-XSafe`) enables the safe language (and therefore safe imports). Module M is left untrusted though.
+
+We see these being used both for good coding style and more flexibility during development of trusted code. We have this relation between the flags:
+
+ * `-XSafeLanguage` implies `-XSafeImports`.
+ * `-XTrustworthy` implies `-XSafeImports` and establishes Trust guaranteed by client C.
+ * `-XSafe` implies `-XSafeLanguage` and establishes Trust guaranteed by GHC.
+
+
+=== Specifying Package Trust  ===
 
 On the command line, several new options control which packages are trusted:
 
@@ -102,26 +106,27 @@ On the command line, several new options control which packages are trusted:
 
  * A convenience option `-ultrasafe` which is equivalent to specifying {{{-distrust-all-packages -XNoForeignFunctionInterface -XNoImplicitPrelude}}} at the point of the `-ultrasafe` option, and `-XSafe` at the end of the command line.
 
+
 === Order of options ===
 
-Safety-critical options must not be specified or overwritten by `LANGUAGE` and `OPTIONS_GHC` pragmas in the Safe dialect.  To avoid such surprises, certain options and pragmas are '''restricted''', meaning they can only be supplied before the safe dialect is enabled. The order of options is considered to be:  first, all command-line options in the order they appear on the command line, second, all `LANGUAGE` and `OPTIONS_GHC` pragmas, in the order they appear in the module source.  Thus, the `-XSafe` command-line option disallows all restricted pragmas, but, in the absence of `-XSafe` on the command line, `{-# LANGUAGE Safe #-}` may appear below restricted pragmas in the source, just not above them.
+We must decide on if and how the order of various `LANGUAGE` and `OPTIONS_GHC` pragmas interact with `-XSafe`, `-XTrustworthy`, `-XSafeImports` and `-XSafeLanguage`. The order of options is considered to be:  first, all command-line options in the order they appear on the command line, second, all `LANGUAGE` and `OPTIONS_GHC` pragmas, in the order they appear in the module source. We are only really concerned with dynamic options here as static options are under the complete control of the client C.
 
-At least the following options (and their pragma equivalents) are restricted:
+ * '''`-XSafe`''' disables some options and extensions completely while for others it restricts them to appearing before `-XSafe` does. ('''Note:''' Incomplete)
+   * '''Must appear before''': `TemplateHaskell`, `-cpp`, `-pgm{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-opt{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-F`, `-l''lib''`, `-framework`, `-L''dir''`, `-framework-path''dir''`, `-main-is`, `-package-name`
+   * '''Can't appear''': `StandaloneDeriving`, `GeneralizedNewtypeDeriving`, {{{RULES}}}, {{{SPECIALIZE}}}, `-fglasgow-exts` (or should we allow but just not have it enabled restricted options?), `OverlappingInstances` (restricted anyway, see threats below), `
+   * '''Doesn't matter''': `-v`, `-vn`, `-fasm`, `-fllvm`, `-fvia-C`, `-fno-code`, `-fobject-code`, `-fbyte-code`, `-c`, `-split-objs`, `-shared`, `-hcsuf`, `-hidir`, `-o`, `-odir`, `-ohi`, `-osuf`, `-stubdir`, `-outputdir`, `-keep-*`, `-tmpdir`, `-ddump-*`, `-fforce-recomp`, `-no-auto-link-packages`
+   * '''Not Sure''': `-D''symbol''`, `-U''symbol''`, `-I''dir''`, 
 
- - `-XTrustworthy` - Rationale:  Trusted packages may wish to include untrusted code compiled with `-XSafe`.  Yet once `-XSafe` is applied, the module must not be able to prune its trust dependency set, which it could with `{-# Trustworthy #-}`.
- - `-XUntrustworthy` - Rationale: Unless -XUntrustworthy is applied first, if compilation does not fail, then `-XSafe` should produce code that can be trusted with the specified set of trusted packages.
- - `-XForeignFunctionInterface` - Rationale: Trustworthy code in the Safe dialect may wish to have foreign import declarations, but modules from untrusted sources do not need this feature.  Thus, `-XSafe` on the command line should disable `{-# ForeignFunctionInterface #-}` pragmas.
- - `-trust` - it is not safe to increase the set of trusted packages.
- - `-package`, `-package-id`, `-package-conf`, `-no-user-package-conf` - untrusted code should not have access to explicitly hidden packages.
- - `-package-name` - package name should be set only by trusted user
- - `-F`, `-cpp`, `-XCPP` - these options allow access to the local file system.
- - All of the linking options should be restricted (`-main-is`, `-l`__lib__, `-L`__dir__, `-framework`, etc.)
- - Several other options discussed below: `-XTemplateHaskell`, `-XStandaloneDeriving`, `-XGeneralizedNewtypeDeriving`.
- - The `RULES` and `SPECIALIZE` pragmas are also restricted and cannot appear below `{-# LANGUAGE Safe #-}` or when the `-XSafe` option has been specified on the command line.
+ * '''`-XTrustworthy`''' is incompatible with `-XSafe` since both are about different trust types. If both appear then it is considered an error. Otherwise `-XTrustworthy` has no special interactions.
+   * If `-XSafeImports` appears nothing changes since `-XTrustworthy` implies `-XSafeImports`.
+   * If `-XSafeLanguage` appears then the module is restricted to the safe language dialect but trust is still guaranteed by the client C and all imports aren't required to be safe.
 
-Note that `-ultrasafe` only enables Safe mode at the end of the command-line.  Thus, one can supply one or more `-trust` options after `-ultrasafe` to allow ultrasafe code to do I/O.
+ * '''`-XSafeImports`''' has no special interactions. `-XSafe`, `-XTrustworthy` and `-XSafeLanguage` are all compatible with it as they all imply `-XSafeImports` anyway.
 
-== Threats ==
+ * '''`-XSafeLanguage`''' not sure yet. Do we want `-XSafeLanguage` to be as restrictive as `-XSafe` or should it allow {{{RULES}}} and `StandaloneDeriving`? I would lean towards it being as restrictive as `-XSafe` to limit the complexity of the overall !SafeHaskell proposal.
+
+
+== Safe Language Threats ==
 
 '''SLPJ note''': we should enumerate precisely what is and is not allowed with `-XSafe`.  '''End of note'''
 
@@ -149,22 +154,25 @@ The following aspects of Haskell can be used to violate the safety goal, and thu
 
  * Similarly, {{{GeneralizedNewtypeDeriving}}} can violate constructor access control, by allowing untrusted code to manipulate protected data types in ways the data type author did not intend.
 
+
 == Implementation details ==
 
---------------
-'''SLPJ note''' I am uncertain whether these implementation notes are correct. We need to revisit them in the light of our new definitions.
-
-Determining trust requires two modifications to the way GHC manages modules.  First, the interface file format must change to record each module's trust dependency set.  Second, we need compiler options to specify which packages are trusted by an application.
-
-We therefore extend the interface file format to record the trust dependency set of each module.  The set is represented as a list of ''trust dependencies'', each of which is a (package, module) pair.
+Determining trust requires two modifications to the way GHC manages modules.  First, the interface file format must change to record each module's trust type (Safe, Trustworthy, Untrusted).  Second, we need compiler options to specify which packages are trusted by an application.
 
 Currently, in any given run of the compiler, GHC classifies each package as either exposed or hidden.  To incorporate trust, we add a second bit specifying whether each package is trusted or untrusted. This bit will be controllable by two new options to `ghc-pkg`, `trust` and `distrust`, which are analogous to `expose` and `hide`.
 
---------------
+ * We want to be able to change a package P from trusted to untrusted and then have compilation of code that directly or transversely depends on it to fail accordingly if it relies on that package being trusted. That is trust should be checked recursively at link time and not just for code being compiled. Having the interface file format record each modules trust type should be enough for this.
+   * If a module M is Untrusted then no further processing needs to be done.
+   * If a module M is Safe then we know all imports must be safe or trustworthy so we must check them.
+   * If a module M is Trustworthy then we handle it differently when linking than compiling:
+     * At both link time and compile time M itself must be in a trusted package.
+     * At compile time we check each of M's safe imports are indeed safe or trustworthy.
+     * At link time we don't check that M's safe imports are still considered safe or trustworthy. The reasoning behind this is that at compile time we had a guarantee that any modules marked Trustworthy did indeed reside in a package P that was trusted. If at link time some of M's safe imports that are marked Trustworthy now reside in a package marked untrusted this is because the client C changed the package trust. Since C is the one guaranteeing trustworthy modules we believe its fine to not fail.
+     * Guaranteeing trustworthy at link time wouldn't be too hard, it would just require we also record in the interface file format for modules marked as trustworthy, which of their dependencies were safe imports.
 
  * {{{GHC.Prim}}} will need to be made (or just kept) unsafe.
 
- * {{{-XSafe}}} should disallow the {{{TemplateHaskell}}}, {{{StandaloneDeriving}}}, {{{GeneralizedNewtypeDeriving}}}, and {{{CPP}}} language extensions, as well as the {{{RULES}}} and {{{SPECIALIZE}}} pragmas.
+ * {{{-XSafe}}} should disallow the {{{TemplateHaskell}}}, {{{StandaloneDeriving}}}, {{{GeneralizedNewtypeDeriving}}}, and {{{CPP}}} language extensions, as well as the {{{RULES}}} and {{{SPECIALIZE}}} pragmas. (See [#Order Of Options] above for details).
 
  * Overlapping instance declarations must either all reside in modules compiled without `-XSafe`, or else all reside in the same module.  It violates semantic consistency to allow Safe code to change the instance definition associated with a particular type.
 
@@ -172,17 +180,18 @@ Currently, in any given run of the compiler, GHC classifies each package as eith
 
  * Libraries will progressively need to be updated to export trustable interfaces, which may require moving unsafe functions into separate modules, or adding new `{-# LANGUAGE Trustworthy #-}` modules that re-export a safe subset of symbols.  Ideally, most modules in widely-used libraries will eventually contain either `{-# LANGUAGE Safe -#}` or `{-# LANGUAGE Trustworthy -#}` pragmas, except for internal modules or a few modules exporting unsafe symbols.  Maybe haddock can add some indicator to make it obvious which modules are trustable and show the trust dependencies.
 
- * When `-XTrustworthy` and `-XSafe` are used together, the language is restricted to the Safe dialect.  The effect of `-XTrustworthy` is to change the trust dependency set.  Specifically, the trust dependency set will include the module itself.  However, rather than include the union of trust dependency sets of all imported modules, only dependencies of modules imported with the `safe` keyword are added to the current module's set.  A plausible use for both pragmas simultaneously is to prune the list of trusted modules--for instance, if a module imports a bunch of trusted modules but does not use any of their trusted features, or only uses those features in a very limited way.  If the code happens also to be safe, the programmer may want to add `-XSafe` to catch accidental unsafe actions.
+ * When `-XTrustworthy` and `-XSafeLanguage` are used together, the language is restricted to the Safe dialect and the module is marked as trusted.  Unlike `-XSafe` though all imports aren't forced to be safe imports and so trust is provided by the client C, not ghc.  A plausible use for this is to prune the list of trusted modules -- for instance, if a module imports a bunch of trusted modules but does not use any of their trusted features, or only uses those features in a very limited way.  If the code happens also to be safe, the programmer may want to add `-XSafeLanguage` to catch accidental unsafe actions.
 
- * The option `{-# LANGUAGE Untrustworthy -#}` is also not incompatible with `{-# LANGUAGE Safe -#}`.  The former causes the interface file to be marked not trustable, while the latter causes the source code to be confined to the Safe dialect.  `Untrustworthy` should be used in seemingly safe modules that export constructors that would allow other modules to do unsafe things.  (The `PS` constructor discussed above is an example of a dangerous constructor that could potentially be defined in a module that happily compiles with `-XSafe`.)
 
 == Intended uses ==
 
 We anticipate the Safe dialect and corresponding options being used in several ways.
 
+
 === Enforcing good programming style ===
 
 Over-reliance on magic functions such as `unsafePerformIO` or magic symbols such as `#realWorld` can lead to less elegant Haskell code. The Safe dialect formalizes this notion of magic and prohibits its use.  Thus, people may encourage their collaborators to use the Safe dialect, except when truly necessary, so as to promote better programming style.
+
 
 === Restricted IO monads ===
 
@@ -226,6 +235,7 @@ The main application then imports both `RIO` and `Danger`.  To run the plugin, i
 
 [Note that as shown, RIO could fall victim to TOCTTOU bugs or symbolic links, but the same approach applies to more secure monads.]
 
+
 === Restricted `IO` imports ===
 
 An alternate approach to sandboxing possibly malicious plugins is to allow the code to execute `IO` actions, but to limit the primitive `IO` actions such code can import.  In this case, the plugin module `Danger` must be compiled with `-ultrasafe`.  Moreover, it will import a module such as the following:
@@ -255,17 +265,21 @@ rioWriteFile file contents = do
 
 In this case, the type of `Danger.runMe` will be `IO ()`.  However, because `-ultrasafe` implies `-distrust-all-packages`, the only modules `Danger` can import are trustable modules whose entire trust dependency set lies in the current package.  Let's say that `SafeIO` and `Danger` are the only two such modules.  We then know that the only IO actions `Danger.runMe` can directly execute are `rioReadFile` and `rioWriteFile`.
 
+
 == Ultra-safety ==
 
 '''Note'''. This section concerns a possible extension/variant.  
 
 The safe dialect does not prevent use of the symbol `IO`. Nor does it prevent use of `foreign import`.  So this module is OK:
+
 {{{
 {-# LANGUAGE Safe #-}
 module Bad( deleteAllFiles ) where
   foreign import "deleteAllFiles" :: IO ()
 }}}
+
 Hence, while an application A importing a safe but possibly malicious module M may safely invoke pure functions from M, it must avoid executing `IO` actions construted inside M unless some other mechanism ensures those actions conform to A's security goal.  Such actions may be hidden inside data structures:
+
 {{{
 {-# LANGUAGE Safe #-}
 module Bad( RM(..), rm ) where
@@ -274,7 +288,9 @@ module Bad( RM(..), rm ) where
   rm :: RM
   rm = RM deleteAllFiles
 }}}
-The flag (and LANGUAGE pragma) `UltraSafe` is just like `Safe` except that it also disables `foreign import`.  This strengtens the safety guarantee, by esuring that an `UltraSafe` module can construct IO actions only by composing together IO actions that it imports from trusted modules.  Note that `UltraSafe` does not disable the use of IO itself. For example this is fine:
+
+The flag (and LANGUAGE pragma) `UltraSafe` is just like `Safe` except that it also disables `foreign import`.  This strengthens the safety guarantee, by ensuring that an `UltraSafe` module can construct IO actions only by composing together IO actions that it imports from trusted modules.  Note that `UltraSafe` does not disable the use of IO itself. For example this is fine:
+
 {{{
 {-# LANGUAGE UltraSafe #-}
 module OK( print2 ) where
@@ -284,11 +300,11 @@ module OK( print2 ) where
 }}}
 
 Do we really want ultra-safety.  As shown above, we can get some of the benefit by sandboxing with a RIO-like mechanism.  But there is no machine check that you've done it right. What I'd like is a machine check:
- * when I compile untrusted module `Ba`d with `-XUltraSafe` I get the guarantee that any I/O actions accessible through U's exports are obtained by composing I/O actions from modules that I trust
-	
-I think that's a valuable guarantee.  Simon M points out that if I want to freely call I/O actions exported by an untrusted `-XUltraSafe` module, then I must be careful to trust only packages whose I/O actions are pretty restricted.  In practice, I'll make a sandbox library, and trust only that; now the untrusted module can only to those restricted IO actions. And now we are back to something RIO like.  
+ * when I compile untrusted module `Bad` with `-XUltraSafe` I get the guarantee that any I/O actions accessible through U's exports are obtained by composing I/O actions from modules that I trust
 
-Well, yes, but I want a stronger static guarantee.  As things stand the untrusted module U might export `removeFiles`, and I might accidentally call it. (After all, I have to call some IO actions!)  I want a static check that I'm not calling IO actions contructed by a bad guy.
+I think that's a valuable guarantee.  Simon M points out that if I want to freely call I/O actions exported by an untrusted `-XUltraSafe` module, then I must be careful to trust only packages whose I/O actions are pretty restricted.  In practice, I'll make a sandbox library, and trust only that; now the untrusted module can only call to those restricted IO actions. And now we are back to something RIO like.  
+
+Well, yes, but I want a stronger static guarantee.  As things stand the untrusted module U might export `removeFiles`, and I might accidentally call it. (After all, I have to call some IO actions!)  I want a static check that I'm not calling IO actions constructed by a bad guy.
 
 An alternative way to achieve this would be to have a machine check that none of `Bad`'s exports mention IO, even hidden inside a data type, but I don't really know how to do that.  For example, if the RIO sandbox accidentally exposed the IO-to-RIO constructor, we'd be dead, and that's nothing to do with U's exports.
 
@@ -302,3 +318,5 @@ The following links are to discussions of similar topics:
  * [http://hackage.haskell.org/trac/ghc/ticket/1380]
 
  * [http://hackage.haskell.org/trac/ghc/ticket/1338#comment:29]
+
+
