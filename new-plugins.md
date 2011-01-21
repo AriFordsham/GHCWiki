@@ -96,10 +96,11 @@ Most people will be using the first case - that is, writing a `BindsToBindsPlugi
 ### Reflections on the current API for Core passes
 
 
-Scala's compiler has a plugin API described by \[1\], with examples at \[2\]. Scala is a bit of a different beast, but the compiler fully supports compilation plugins in the same manner we would like GHC to - more to the point, we want to make sure we have a **good API for specifying when plugins are used and executed**. This is a part of the API that is currently rather simplistic and ad-hoc: we just modify the entire list of compiler passes and return a new one for the optimizer to run. GHC constantly implements new optimizations and tweaks old ones, so we want to make sure that authors of plugins have a good means of conveying when their work should occur.
+Scala's compiler has a plugin API described by \[1\], with examples at \[2\]. Scala is a bit of a different beast, but the compiler fully supports compilation plugins in the same manner we would like GHC to - more to the point, we want to make sure we have a *good API for specifying when plugins are used and executed**. This is a part of the API that is currently rather simplistic and ad-hoc: we just modify the entire list of compiler passes and return a new one for the optimizer to run. GHC constantly implements new optimizations and tweaks old ones, so we want to make sure that authors of plugins have a good means of conveying when their work should occur. Of course, GHC is changing all the time - authors of plugins should be ready to deal with differences and changes, but by providing a public API for writing plugins, we need to make sure it's sensible and usable for the future to come.
+***
 
 
-Part of the purpose of the plugins work (in my vision) is to help lower the barrier to working with and on GHC, as well as piggyback off the work it's done. So we want to make sure plugins 
+Part of the purpose of the plugins work (in my vision) is to help lower the barrier to working with and on GHC, as well as piggyback off the work it's done. So we want to make sure plugins are done right, and look at what others have done right (and wrong.)
 
 TODO expand on this bit and scala's compiler plugin design
 
@@ -128,7 +129,7 @@ The [new code generator](commentary/compiler/new-code-gen) (more precisely, the 
 ## New Backends
 
 
-1/21/2011: So half-baked, but still thinking of ideas.
+1/21/2011: So half-baked it's not funny, but still thinking of ideas after reading `./compiler/main` for an hour or so.
 
 
 Backends could be written using plugins as well. This would make it possible to, for example pull the LLVM code generator out of GHC, and into a `cabal` package using the [ llvm](http://hackage.haskell.org/package/llvm) bindings on hackage (like the dragonegg plugin for GCC) among other crazy things.
