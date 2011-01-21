@@ -4,6 +4,9 @@
 Max originally did the work on [GHC plugins](plugins) in his GSoC 2008 hacking sprint. It involved the implementation of [annotations](plugins/annotations) as well as a dynamic loading aspect to GHC. While the annotations work was included into GHC HEAD, the loading infrastructure was not. This document describes the current work (as of 2011) to get it integrated into GHC HEAD so you can write core plugins, and future extensions to the interface, primarily writing C-- passes, and new backends.
 
 
+This page explains what the plug-in mechanism does, how to use it, and a little about the implementation.  For discussion, and the current state of play, see the ticket: [\#3843](https://gitlab.haskell.org//ghc/ghc/issues/3843).
+
+
 1/17/11: I (Austin Seipp) am working on getting the patch cleaned up a little more and tidying it up before it gets integrated. Still need testsuite patches.
 
 
