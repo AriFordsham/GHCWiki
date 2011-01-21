@@ -131,6 +131,11 @@ The [new code generator](commentary/compiler/new-code-gen) (more precisely, the 
 
 [ Hoopl](http://hackage.haskell.org/package/hoopl) is the main workhorse behind the new GHC code generator - it is a sophisticated, higher order and highly polymorphic library for writing optimization and dataflow passes over imperative code graphs. It is based on the work of Lerner, Grove and Chambers \[3\], and one of the nice properties of the design is that it makes it easy to compose independent dataflow analysis to create a super-analysis that is more powerful than either analysis on its own, without the tedium of having to manually write such a super-analysis.
 
+
+The question here is: how can users specify in what ways their plugin pass composes with other passes? This is one of the very tantalizing things about hoopl: independent writers of optimization passes can piggyback off each other and combine separate passes to create a powerful super-analysis.
+
+TODO fixme
+
 ## New Backends
 
 
