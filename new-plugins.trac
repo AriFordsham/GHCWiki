@@ -126,7 +126,7 @@ TODO: fixme. check and explain current Hoopl combinators for deep/shallow passes
 
 == New Backends ==
 
-1/21/2011: So half-baked it's not funny, but still thinking of ideas after reading `./compiler/main` for an hour or so.
+1/21/2011: So half-baked it's not funny, but still thinking of ideas after reading `./compiler/main` for an hour or so. Most of this is probably stupid - I'm open to ideas on a mammoth project like this.
 
 Backends could be written using plugins as well. This would make it possible to, for example pull the LLVM code generator out of GHC, and into a `cabal` package using the [http://hackage.haskell.org/package/llvm llvm] bindings on hackage (like the dragonegg plugin for GCC) among other crazy things.
 
