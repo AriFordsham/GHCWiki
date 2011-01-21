@@ -127,6 +127,11 @@ The [new code generator](commentary/compiler/new-code-gen) (more precisely, the 
 
 ### Rough API possibilities
 
+
+NB. This section is based mostly on the upcoming NCG mega-patch, which re-engineers the C-- implementation to use Hoopl. If you want to follow along, you'll need the patch, which can be seen and downloaded here:
+
+[ http://www.haskell.org/pipermail/cvs-ghc/2011-January/059015.html](http://www.haskell.org/pipermail/cvs-ghc/2011-January/059015.html)
+
 ### The Hoopl story - analysis and transformation composition
 
 [ Hoopl](http://hackage.haskell.org/package/hoopl) is the main workhorse behind the new GHC code generator - it is a sophisticated, higher order and highly polymorphic library for writing optimization and dataflow passes over imperative code graphs. It is based on the work of Lerner, Grove and Chambers \[3\], and one of the nice properties of the design is that it makes it easy to compose independent dataflow analysis to create a super-analysis that is more powerful than either analysis on its own, without the tedium of having to manually write such a super-analysis.
