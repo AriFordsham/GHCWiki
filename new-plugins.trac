@@ -82,9 +82,9 @@ data PluginPass = BindsToBindsPluginPass ([CoreBind] -> CoreM [CoreBind]) -- ^ S
 
 Most people will be using the first case - that is, writing a `BindsToBindsPluginPass` that just manipulates every individual Core binding.
 
-=== Reflections on the current API ===
+=== Reflections on the current API for Core passes ===
 
-Scala's compiler has a plugin API described by [1]. Scala is a bit of a different beast, but the compiler fully supports compilation plugins in the same manner we would like GHC to - that is, it specifies at which phase we want the plugins to run.
+Scala's compiler has a plugin API described by [1], with examples at [2]. Scala is a bit of a different beast, but the compiler fully supports compilation plugins in the same manner we would like GHC to - that is, it specifies at which phase we want the plugins to run.
 
 TODO: expand on this bit
 
@@ -171,3 +171,4 @@ Modifications to compiler pipeline:
 = References =
 
 [1] "Scala Compiler Phase and Plug-In Initialization for Scala 2.8" (PDF) - http://www.scala-lang.org/sites/default/files/sids/nielsen/Thu,%202009-05-28,%2008:13/compiler-phases-sid.pdf
+[2] "Writing Scala Compiler Plugins" http://www.scala-lang.org/node/140
