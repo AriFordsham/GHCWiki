@@ -84,11 +84,13 @@ Most people will be using the first case - that is, writing a `BindsToBindsPlugi
 
 === Reflections on the current API for Core passes ===
 
-Scala's compiler has a plugin API described by [1], with examples at [2]. Scala is a bit of a different beast, but the compiler fully supports compilation plugins in the same manner we would like GHC to - more to the point, we want to make sure we have a '''good API for specifying when plugins are used and executed'''. This is a part of the API that is currently rather simplistic and ad-hoc: we just modify the entire list of compiler passes and return a new one for the optimizer to run. GHC constantly implements new optimizations and tweaks old ones, so we want to make sure that authors of plugins have a good means of conveying when their work should occur. Of course, GHC is changing all the time - authors of plugins should be ready to deal with differences and changes in versions (e.g. Core can change, don't doubt it for a second,) but if we will be providing a public API for writing plugins, we need to make sure it's sensible and usable for the future to come.
+Scala's compiler has a plugin API described by [1], with examples at [2]. Scala is a bit of a different beast, but the compiler fully supports compilation plugins in the same manner we would like GHC to - more to the point, we want to make sure we have a '''good API for specifying when plugins are used and executed'''. This is a part of the API that is currently rather simplistic and ad-hoc: we just modify the entire list of compiler passes and return a new one for the optimizer to run. GHC constantly implements new optimizations and tweaks old ones, so we want to make sure that authors of plugins have a good means of conveying when their work should occur. When the work happens is just as important as how it happens.
+
+Of course, GHC is changing all the time - authors of plugins should be ready to deal with differences and changes in versions (e.g. Core can change, don't doubt it for a second,) but if we will be providing a public API for writing plugins, we need to make sure it's sensible and usable for the future to come.
 
 Part of the purpose of the plugins work (in my vision) is to help lower the barrier to working with and on GHC, as well as piggyback off the work it's done. So we want to make sure plugins are done right, and look at what others have done right (and wrong.)
 
-TODO: expand on this bit and scala's compiler plugin design, primarily its `runsBefore` and `runsAfter` constraints, and by extension on a better method of controlling when GHC plugin passes are run, instead of just relying on a weak (and, I personally think somewhat fragile) installation function.
+TODO: expand on this bit and scala's compiler plugin design, primarily its `runsBefore` and `runsAfter` constraints, the old design Max had, and, by extension, on a better method of controlling when plugin passes are run, instead of just relying on a weak (and, I personally think somewhat fragile) installation function.
 
 = The Future =
 == Plugins for Cmm ==
