@@ -82,8 +82,13 @@ data PluginPass = BindsToBindsPluginPass ([CoreBind] -> CoreM [CoreBind]) -- ^ S
 
 Most people will be using the first case - that is, writing a `BindsToBindsPluginPass` that just manipulates every individual Core binding.
 
-= The Future =
+=== Reflections on the current API ===
 
+Scala's compiler has a plugin API described by [1]. Scala is a bit of a different beast, but the compiler fully supports compilation plugins in the same manner we would like GHC to - that is, it specifies at which phase we want the plugins to run.
+
+TODO: expand on this bit
+
+= The Future =
 == Plugins for Cmm ==
 
 Aside from manipulating the core language, we would also like to manipulate the C-- representation GHC generates for modules too.
@@ -162,3 +167,7 @@ Modifications to compiler pipeline:
    `runPhase` which does things like running the LLVM optimizer, compiler and LLVM mangler when the LLVM backend is invoked. Afterwords, the assembler is invoked on the 
    resultant asm files, followed by linking.
   * Even though normally the backends are responsible for the code generation up to but not including linking, the Cmm backends need to have some concept of how to link together the final resultant program, and GHC needs to give it the necessary information - the plugin could very well want to do its own linking/final compilation steps for good reasons.
+
+= References =
+
+[1] "Scala Compiler Phase and Plug-In Initialization for Scala 2.8" (PDF) - http://www.scala-lang.org/sites/default/files/sids/nielsen/Thu,%202009-05-28,%2008:13/compiler-phases-sid.pdf
