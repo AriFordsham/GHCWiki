@@ -62,9 +62,13 @@ install _options todos = do
     return $ CoreDoPasses [defaultGentleSimplToDo, cse_pass] : todos
 
 cse_pass = CoreDoPluginPass "Plugged-in common sub-expression" (BindsToBindsPluginPass cseProgram)
+
+cseProgram :: [CoreBind] -> CoreM [CoreBind]
+cseProgram binds = do
+  ...
 }}}
 
-More specifically, a `CoreToDo` describes some sort of particular pass over a Core program that can be invoked as many times as you like. For reference, `defaultGentlSimplToDo` is constructed using `CoreDoSimplify`. In this case, we construct a `CoreDoPluginsPass`, which takes a name and a `PluginPass` which looks like the following:
+More specifically, a `CoreToDo` describes some sort of particular pass over a Core program that can be invoked as many times as you like. For reference, `defaultGentlSimplToDo` is constructed using `CoreDoSimplify`. We use `CoreDoPasses` to just make it easy to run two passes together (it would be equivalent to just use `cse_pass` and preceed it with `defaultGentleSimplToDo` in the pipeline.) In this case, `cse_pass` is constructed using `CoreDoPluginsPass`, which takes a name and a `PluginPass` which looks like the following:
 
 {{{
 data PluginPass = BindsToBindsPluginPass ([CoreBind] -> CoreM [CoreBind]) -- ^ Simple pass just mutating the Core bindings
