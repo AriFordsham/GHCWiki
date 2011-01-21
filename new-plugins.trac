@@ -131,7 +131,7 @@ Currently the new code generator converts the new Cmm based on Hoopl to the old 
 
 All backends are given the final Cmm programs in the form of the `RawCmm` datatype.
 
-Possible interface: extend `Plugin` with a new field on the constructor, which can have a Cmm backend (TODO: should `DynFlags` argument to plugin be replaced with type `[CommandLineOption]` that is already in use?)
+Possible (and obviously crappy rough draft) interface: extend `Plugin` with a new field on the constructor, which can have a Cmm backend (TODO: should `DynFlags` argument to plugin be replaced with type `[CommandLineOption]` that is already in use?)
 
 {{{
 type CmmBackend = DynFlags -> FilePath -> [RawCmm] -> IO ()
