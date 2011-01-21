@@ -88,7 +88,7 @@ Scala's compiler has a plugin API described by [1], with examples at [2]. Scala 
 
 Part of the purpose of the plugins work (in my vision) is to help lower the barrier to working with and on GHC, as well as piggyback off the work it's done. So we want to make sure plugins are done right, and look at what others have done right (and wrong.)
 
-TODO: expand on this bit and scala's compiler plugin design
+TODO: expand on this bit and scala's compiler plugin design, primarily its `runsBefore` and `runsAfter` constraints, and by extension on a better method of controlling when GHC plugin passes are run, instead of just relying on a weak (and, I personally think somewhat fragile) installation function.
 
 = The Future =
 == Plugins for Cmm ==
