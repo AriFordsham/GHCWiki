@@ -95,8 +95,8 @@ We propose two new GHC Options that can be set in the usual way either as a `{-#
 
 We also want to be able to enable the safe dialect and safe import extensions without any corresponding trust assertion for the code:
 
-- `-XSafeImports` (**previously**`-XUntrustworthy`) enables the safe import extension. Module M is left untrusted though.
-- `-XSafeLanguage` (**previously**`-XUntrustworthy``-XSafe`) enables the safe language (and therefore safe imports). Module M is left untrusted though.
+- `-XSafeImports` (**previously**`-XUntrustworthy`) enables the safe import extension. Module M is left untrusted though. (See [use cases](safe-haskell#use-cases-for-safeimports))
+- `-XSafeLanguage` (**previously**`-XUntrustworthy``-XSafe`) enables the safe language (and therefore safe imports). Module M is left untrusted though. (See [use cases](safe-haskell#use-cases-for-safelanguage))
 
 
 We see these being used both for good coding style and more flexibility during development of trusted code. We have this relation between the flags:
@@ -286,6 +286,36 @@ rioWriteFile file contents = do
 
 
 In this case, the type of `Danger.runMe` will be `IO ()`.  However, because `-ultrasafe` implies `-distrust-all-packages`, the only modules `Danger` can import are trustable modules whose entire trust dependency set lies in the current package.  Let's say that `SafeIO` and `Danger` are the only two such modules.  We then know that the only IO actions `Danger.runMe` can directly execute are `rioReadFile` and `rioWriteFile`.
+
+## Use cases for `SafeImports`
+
+
+Say I'm in module Main or some other unsafe place, and I want to
+import a module from an untrusted author.  I'd like to say:
+
+```wiki
+   import safe Untrusted.Module
+```
+
+
+Unfortunately, safe is not a Haskell98 keyword, so this fails.  There
+are several other ways of enabling the safe keyword, namely the
+`LANGUAGE Safe`, `SafeLanguage`, and `Trustworthy` pragmas, but these all do
+more than just enable the safe keyword--they restrict the language
+and/or mark the module as trusted.  I don't want any of these things.
+I just want to make module Main fail to compile should
+Untrusted.Module be importing trustworthy modules from untrusted
+packages, nothing more.
+
+## Use cases for `SafeLanguage`
+
+
+Here again the idea is that I want to create an untrusted module that
+exports unsafe constructors, but I want to use the Safe dialect,
+because it enforces good programming style.  An example would be the
+`RIO` module, if it wanted to export `UnsafeRIO`.  There's no reason RIO
+itself can't be implemented in the Safe dialect, we just need to make
+sure that only Trustworthy modules can import `RIO`.
 
 ## Ultra-safety
 
