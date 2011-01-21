@@ -125,6 +125,12 @@ The [new code generator](commentary/compiler/new-code-gen) (more precisely, the 
 
 - Add new interface to `Plugin` next to `installCoreToDos` i.e. `installCmmPass`, that installs a pass of type `CmmGraph -> CmmGraph` into the optimization pipeline somehow?
 
+### Rough API possibilities
+
+### The Hoopl story - analysis and transformation composition
+
+[ Hoopl](http://hackage.haskell.org/package/hoopl) is the main workhorse behind the new GHC code generator - it is a sophisticated, higher order and highly polymorphic library for writing optimization and dataflow passes over imperative code graphs. It is based on the work of Lerner, Grove and Chambers \[3\], and one of the nice properties of the design is that it makes it easy to compose independent dataflow analysis to create a super-analysis that is more powerful than either analysis on its own, without the tedium of having to manually write such a super-analysis.
+
 ## New Backends
 
 
