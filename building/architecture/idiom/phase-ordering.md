@@ -137,3 +137,21 @@ comments in the top-level `ghc.mk` for details.
 This approach is not at all pretty, and
 re-invoking **make** every time is slow, but we don't know of a better
 workaround for this problem.
+
+## GHC's phases
+
+
+In the GHC build system, we have 3 phases. Each phase is in two halves: some things are built while make is rebuilding makefiles (the "includes" half), and some things are built as they are the target we ask make to build (the "builds" half).
+
+- Phase 0
+
+  - Includes: `package-data.mk` files for things built by the bootstrapping compiler.
+  - Builds: the dependency files for `hsc2hs` and `genprimopcode`. We need to do this now, as `hsc2hs` needs to be buildable in phase 1's includes (so that we can make the `hpc` library's `.hs` source files, which in turn is necessary for making its dependency files), and `genprimopcode` needs to be buildable in phase 1's includes (so that we can make the `primop-*.hs-incl` files, which are sources for the stage1 compiler library, and thus necessary for making its dependency files).
+- Phase 1
+
+  - Includes: dependency files for things built by the bootstrapping compiler.
+  - Builds: `package-data.mk` files for everything else. Note that this requires configuring the packages, which means telling cabal which ghc to use, and thus the stage1 compiler gets built during this phase.
+- Phase ""
+
+  - Includes: dependency files for everything else.
+  - Builds: Everything else.
