@@ -181,7 +181,7 @@ The `-XSafe`, `-XTrustworthy`, `-XSafeLanguage` and `-XSafeImport` GHC LANGUAGE 
 
 
   * '''`-XTrustworthy`''' mostly has no special interactions, except for
-    * If `-XSafeLanguage`: See summary of !SafeHaskell options at bottom of [#SafeLanguage&Imports(WithoutTrust) Safe Language & Imports (Without Trust)]
+    * If `-XSafeLanguage`: See summary of !SafeHaskell options at bottom of [#SafeLanguageImportsWithoutTrust Safe Language & Imports (Without Trust)]
 
   * '''`-XSafeImports`''' has no special interactions. `-XSafe`, `-XTrustworthy` and `-XSafeLanguage` are all compatible with it as they all imply `-XSafeImports` anyway.
   

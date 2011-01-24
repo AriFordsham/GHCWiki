@@ -220,7 +220,7 @@ The `-XSafe`, `-XTrustworthy`, `-XSafeLanguage` and `-XSafeImport` GHC LANGUAGE 
 
 - **`-XTrustworthy`** mostly has no special interactions, except for
 
-  - If `-XSafeLanguage`: See summary of SafeHaskell options at bottom of [Safe Language & Imports (Without Trust)](safe-haskell#)
+  - If `-XSafeLanguage`: See summary of SafeHaskell options at bottom of [Safe Language & Imports (Without Trust)](safe-haskell#safe-language-&-imports-(without-trust))
 
 - **`-XSafeImports`** has no special interactions. `-XSafe`, `-XTrustworthy` and `-XSafeLanguage` are all compatible with it as they all imply `-XSafeImports` anyway.
 
