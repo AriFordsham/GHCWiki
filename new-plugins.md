@@ -137,12 +137,12 @@ NB. This section is based mostly on the upcoming NCG mega-patch, which re-engine
 
 TODO fixme
 
-#### The Hoopl story - analysis and transformation composition
+#### Composing a hoopl analysis
 
 [ Hoopl](http://hackage.haskell.org/package/hoopl) is the main workhorse behind the new GHC code generator - it is a sophisticated, higher order and highly polymorphic library for writing optimization and dataflow passes over imperative code graphs. It is based on the work of Lerner, Grove and Chambers \[3\], and one of the nice properties of the design is that it makes it easy to compose independent dataflow analysis to create a super-analysis that is more powerful than either analysis on its own, without the tedium of having to manually write such a super-analysis.
 
 
-The question here is: how can users specify in what ways their plugin pass composes with other passes? This is one of the very tantalizing things about hoopl: independent writers of optimization passes can piggyback off each other and combine separate passes to create a much more powerful optimization pass. Part of the question for the API is - how should/could plugin writers compose their own transformation with the transformations offered by another plugin, or by GHC itself?
+API question here: how should we compose analysis that plugins provide with ones that GHC provides?
 
 TODO fixme. check and explain current Hoopl combinators for deep/shallow passes (deepFwdRw and deepBwdRw,) as well as composing them (thenFwdRw and thenBwdRw) and how they should fit into this part of the API
 
