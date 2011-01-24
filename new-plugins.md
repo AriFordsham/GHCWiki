@@ -1,7 +1,7 @@
 # New Plugins work
 
 
-Max originally did the work on [GHC plugins](plugins) in his GSoC 2008 hacking sprint. It involved the implementation of [annotations](plugins/annotations) as well as a dynamic loading aspect to GHC. While the annotations work was included into GHC HEAD, the loading infrastructure was not. This document describes the current work (as of 2011) to get it integrated into GHC HEAD so you can write core plugins, and future extensions to the interface, primarily writing C-- passes, and new backends.
+Max originally did the work on [GHC plugins](plugins) in his GSoC 2008 hacking sprint. It involved the implementation of [annotations](plugins/annotations) as well as a dynamic loading aspect to GHC. While the annotations work was included into GHC HEAD, the loading infrastructure was not. This document describes the current work (as of 2011) to get it integrated into GHC HEAD so you can write core plugins, and future extensions to the interface, primarily writing C-- passes.
 
 
 This page explains what the plug-in mechanism does, how to use it, and a little about the implementation.  For discussion, and the current state of play, see the ticket: [\#3843](https://gitlab.haskell.org//ghc/ghc/issues/3843). If you're interested in writing plugins for GHC, **please comment and give feedback, we want to do it right**!
@@ -145,80 +145,6 @@ TODO fixme
 The question here is: how can users specify in what ways their plugin pass composes with other passes? This is one of the very tantalizing things about hoopl: independent writers of optimization passes can piggyback off each other and combine separate passes to create a much more powerful optimization pass. Part of the question for the API is - how should/could plugin writers compose their own transformation with the transformations offered by another plugin, or by GHC itself?
 
 TODO fixme. check and explain current Hoopl combinators for deep/shallow passes (deepFwdRw and deepBwdRw,) as well as composing them (thenFwdRw and thenBwdRw) and how they should fit into this part of the API
-
-## New Backends
-
-
-1/21/2011: So half-baked it's not funny, but still thinking of ideas after reading `./compiler/main` for an hour or so. Most of this is probably stupid - I'm open to ideas on a mammoth project like this.
-
-
-Backends could be written using plugins as well. This would make it possible to, for example pull the LLVM code generator out of GHC, and into a `cabal` package using the [ llvm](http://hackage.haskell.org/package/llvm) bindings on hackage (like the dragonegg plugin for GCC) among other crazy things.
-
-- New interface to `Plugin` that is used by `CodeOutput` for custom backends?
-
-  - TODOFIXME any assumptions about the backend that would invalidate this general idea?
-
-
-Currently the new code generator converts the new Cmm based on Hoopl to the old Cmm representation when in use, so it can be passed onto the current native code generators. So adding this part of the API is rather independent of the current status of the new backend - the backend API just has to use the old CMM representation for conversion.
-
-
-All backends are given the final Cmm programs in the form of the `RawCmm` datatype.
-
-
-Possible (and obviously crappy rough draft) interface: extend `Plugin` with a new field on the constructor, which can have a Cmm backend (TODO should `DynFlags` argument to plugin be replaced with type `[CommandLineOption]` that is already in use?)
-
-```wiki
-type CmmBackend = DynFlags -> FilePath -> [RawCmm] -> IO ()
-type CmmBackendPlugin = Maybe (String, CmmBackend)
-
-data Plugin = Plugin {
-  ...
-  installCmmBackend :: CmmBackendPlugin
-  ...
-}
-
-defaultPlugin = Plugin {
-  ...
-  installCmmBackend = Nothing
-}
-
-```
-
-
-Then, to use:
-
-```wiki
-module Some.Cmm.Plugin (plugin) where
-import GHCPlugins
-
-plugin :: Plugin
-plugin = defaultPlugin {
-  installCmmBackend = Just ("Wharble code generator backend", backend)
-}
-
-backend :: DynFlags -> FilePath -> [RawCmm] -> IO ()
-backend dflags filenm flat_absC = do
-  ...
-```
-
-`backend` is expected, roughly, to produce some intermediate code of some sort (like .S files for GNU as or .bc for LLVM.)
-
-
-Modifications to compiler pipeline:
-
-- Dynamic code loading can be provided by the same code that works for Core plugins, so this is DONE
-- Extending `HscTarget` to recognize the new compilation output case
-
-  - Might not be necessary. We can load plugins whenever, and scrutinize the 'installCmmBackend' field to see if there is `Nothing` and if there is,
-    invoke the normal pipeline, otherwise call our own backend and exit then.
-- Modify `compiler/main/CodeOutput.lhs` to invoke the plugin callback.
-
-  - Should Plugin-based backends should automatically prioritize over built-in backends (i.e., if it gets loaded through `-fplugin`, it is gettin' used no question?)
-- `DriverPipeline` needs to be aware of how to integrate a new backend into the overall compilation phase - for example, see `compiler/main/DriverPipeline.hs`, specifically 
-  `runPhase` which does things like running the LLVM optimizer, compiler and LLVM mangler when the LLVM backend is invoked. Afterwords, the assembler is invoked on the 
-  resultant asm files, followed by linking.
-
-  - Even though normally the backends are responsible for the code generation up to but not including linking, the Cmm backends need to have some concept of how to link together the final resultant program, and GHC needs to give it the necessary information - the plugin could very well want to do its own linking/final compilation steps for good reasons.
 
 # References
 
