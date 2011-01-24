@@ -2,7 +2,7 @@
 
 ### To be released components
 
-- GHC ~~7.0.2~~ 7.0.3
+- GHC ~~7.0.2~~ 7.2
 - DPH packages
 - Repa packages
 
@@ -27,10 +27,10 @@ API adaptation: APIs of vector, Repa, and Accelerate should be unified as far as
 
 Changes:
 
-- -fdph-par should be the default (and sensible error message if the dph package is not available) (done, but need to still sort out a build problem) **\[MANUEL\]**
-- -Odph should be equivalent to '-O2 -fsimplifier-phases=3 -fsimplifier-iterations=20' (done, not pushed yet) **\[MANUEL\]**
+- -fdph-par should be the default (and sensible error message if the dph package is not available) (still needs to be passed explicitly) \[DONE\]
+- -Odph should be equivalent to '-O2 -fsimplifier-phases=3 -fsimplifier-iterations=20' \[DONE\]
 - Move GHC.PArr into  the DPH libs.  (Needed for Haddock.) **\[MANUEL\]**
-- Find out if we still need the `NoSpecConstr` annotation and remove it if not **\[ROMAN\]**
+- Find out if we still need the `NoSpecConstr` annotation and remove it if not \[ROMAN\]
 
 
 Bug fixes:
@@ -56,7 +56,7 @@ Performance goals:
 - Repa works fast in parallel
 
   - MMult \[OK, but about 20% slower than in 6.13; try with LLVM and w/o bounds checks\] \[BEN\]
-  - Laplace **\[SLOW & DOESN'T SCALE\]****\[BEN\]**  One reason: bounds checks.  Another: bindings used once not inlined.
+  - Laplace (new stencil implementation) \[BEN\]
   - Blur \[OK\]
   - EdgeDetect \[OK\]
   - FFT \[OK\]
