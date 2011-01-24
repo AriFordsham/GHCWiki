@@ -2,7 +2,7 @@
 
 ### To be released components
 
-- GHC ~~7.0.2~~ 7.0.3
+- GHC ~~7.0.2~~ 7.2
 - DPH packages
 - Repa packages
 
