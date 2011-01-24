@@ -66,18 +66,18 @@ Trust can be thought of simply as a boolean property that applies both to packag
 
 - A **module M is trusted by the client C** if either:
 
-  1. M is guaranteed by the compiler (ghc) to be `safe`, and all of M's direct imports are trusted by C
+  1. M is guaranteed by the compiler (ghc) to be `safe`, and all of M's direct imports are trusted by C (**AND**)
 
     - (This is done by using the safe language extension for M without any compromises).
     - M can reside in any package P, regardless of if P is trusted or not.
-  1. **OR**: M is specified by the client C to be `safe`.
+  1. **OR**: M's author asserts M to be `safe`. (**AND**)
 
     - M can use all of Haskell.
     - Only M's direct dependencies imported with the safe keyword need to be trusted.
     - M must reside in a trusted package P
 
 
-The difference is basically for trust type 1, the trust is provided by ghc while for trust type 2 the trust is provided by the client C. Trust 1 should be used for code that C doesn't trust (e.g provided by unknown 3rd party) while type 2 should only be used for code C does trust (his/her own code or code provided by known, trusted 3rd party).
+The difference is basically for trust type 1, the trust is provided by ghc while for trust type 2 the trust is provided by the modules author, which the client must trust. Trust 1 should be used for code that C doesn't trust (e.g provided by unknown 3rd party) while type 2 should only be used for code C does trust (his/her own code or code provided by known, trusted 3rd party).
 
 ## User Interface for Safe Haskell
 
@@ -126,7 +126,7 @@ We must decide on if and how the order of various `LANGUAGE` and `OPTIONS_GHC` p
 - **`-XSafe`** disables some options and extensions completely while for others it restricts them to appearing before `-XSafe` does. (**Note:** Incomplete)
 
   - **Must appear before**: `TemplateHaskell`, `-cpp`, `-pgm{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-opt{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-F`, `-l''lib''`, `-framework`, `-L''dir''`, `-framework-path''dir''`, `-main-is`, `-package-name`
-  - **Can't appear**: `StandaloneDeriving`, `GeneralizedNewtypeDeriving`, `RULES`, `SPECIALIZE`, `-fglasgow-exts` (or should we allow but just not have it enabled restricted options?), `OverlappingInstances` (restricted anyway, see threats below), \`
+  - **Can't appear**: `StandaloneDeriving`, `GeneralizedNewtypeDeriving`, `RULES`, `SPECIALIZE`, `-fglasgow-exts` (or should we allow but just not have it enabled restricted options?), `OverlappingInstances` (restricted anyway, see threats below), `-XSafeLanguage`
   - **Doesn't matter**: `-v`, `-vn`, `-fasm`, `-fllvm`, `-fvia-C`, `-fno-code`, `-fobject-code`, `-fbyte-code`, `-c`, `-split-objs`, `-shared`, `-hcsuf`, `-hidir`, `-o`, `-odir`, `-ohi`, `-osuf`, `-stubdir`, `-outputdir`, `-keep-*`, `-tmpdir`, `-ddump-*`, `-fforce-recomp`, `-no-auto-link-packages`
   - **Not Sure**: `-D''symbol''`, `-U''symbol''`, `-I''dir''`, 
 
@@ -158,7 +158,7 @@ The following aspects of Haskell can be used to violate the safety goal, and thu
 
 - `TemplateHaskell` is also particularly dangerous, as it can cause side effects even at compilation time.
 
-- The `OverlappingInstances` extension can be used to violate semantic consistency, because malicious code could redefine a type instance (by containing a more specific instance definition) in a way that changes the behaviour of code importing the untrusted module.
+- The `OverlappingInstances` extension can be used to violate semantic consistency, because malicious code could redefine a type instance (by containing a more specific instance definition) in a way that changes the behaviour of code importing the untrusted module. The extension is not disabled under `-XSafe` or `-XSafeLanguage`, instead it just requires that Overlapping instance declarations must either all reside in modules compiled without -XSafe, or else all reside in the same module.
 
 - Likewise, `RULES` and `SPECIALIZE` pragmas can change the behavior of trusted code in unanticipated ways, violating semantic consistency.
 
@@ -183,7 +183,7 @@ Currently, in any given run of the compiler, GHC classifies each package as eith
   - If a module M is Trustworthy then we handle it differently when linking than compiling:
 
     - At both link time and compile time M itself must be in a trusted package.
-    - At compile time we check each of M's safe imports are indeed safe or trustworthy.
+    - At compile time we check each of M's safe imports are indeed safe or trustworthy and that all trustworthy imports reside in the current set of trusted packages.
     - At link time we don't check that M's safe imports are still considered safe or trustworthy. The reasoning behind this is that at compile time we had a guarantee that any modules marked Trustworthy did indeed reside in a package P that was trusted. If at link time some of M's safe imports that are marked Trustworthy now reside in a package marked untrusted this is because the client C changed the package trust. Since C is the one guaranteeing trustworthy modules we believe its fine to not fail.
     - Guaranteeing trustworthy at link time wouldn't be too hard, it would just require we also record in the interface file format for modules marked as trustworthy, which of their dependencies were safe imports.
 
