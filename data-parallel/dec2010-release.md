@@ -56,7 +56,7 @@ Performance goals:
 - Repa works fast in parallel
 
   - MMult \[OK, but about 20% slower than in 6.13; try with LLVM and w/o bounds checks\] \[BEN\]
-  - Laplace **\[SLOW & DOESN'T SCALE\]****\[BEN\]**  One reason: bounds checks.  Another: bindings used once not inlined.
+  - Laplace (new stencil implementation) \[BEN\]
   - Blur \[OK\]
   - EdgeDetect \[OK\]
   - FFT \[OK\]
