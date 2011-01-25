@@ -23,7 +23,7 @@ Here's an overview of the module structure of the top levels of GHC library.   (
                     /                  \
                    /                    \
  |------------------------|    |------------------------|
- |        Make            |    |    InteractiveEval     |
+ |        GhcMake         |    |    InteractiveEval     |
  | Implements --make      |    | Stuff to support the   |
  | Deals with compiling   |    | GHCi interactive envt  |
  |    multiple modules    |    |                        |
