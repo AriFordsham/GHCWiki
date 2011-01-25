@@ -59,48 +59,51 @@ When enabled, a module imported with the safe keyword must be a trusted module, 
 
 The SafeHaskell project will introduce two new GHC LANGUAGE options. Intuitively:
 
-- `-XSafe`: enables the Safe Language dialect of Haskell in which GHC rejects any module that might produce unsafe effects or otherwise subvert the type system. Also sets the module to be trusted.
-- `-XTrustworthy`: means that, though a module may invoke unsafe functions internally, the module's author claims that the set of exported symbols cannot be used in an unsafe way. Also sets the module to trusted.
+- `-XSafe`: enables the Safe Language dialect of Haskell in which GHC rejects any module that might produce unsafe effects or otherwise subvert the type system.
+- `-XTrustworthy`: means that, though a module may invoke unsafe functions internally, the module's author claims that the set of exported symbols cannot be used in an unsafe way.
+
+
+A **client** (C) is someone compiling a source module with GHC.
 
 
 The LANGUAGE extensions have the following effect. When a client C compiles a module M: 
 
 - Under `-XSafe` the Safe Language dialect is enabled where several potentially-unsafe language features, listed under "Threats" below, are disabled. 
-- Under `-XSafe`, all M's imports must be trusted by C 
-- Under `-XTrustworthy` all M's safe imports must be trusted by C
+- Under `-XSafe`, all M's imports must be trusted by C (defined below), or the module will be rejected
+- Under `-XTrustworthy` all M's `safe` imports must be trusted by C, or the module will be rejected
 
 
-What does it mean for a module to be "trusted by C"? Here is the definition:
- 
+A **package P is trusted by a client C** iff one of these conditions holds
 
-- A **client** is someone running GHC, typically the person compiling the application.
+- C's package database records that P is trusted (and command-line arguments do not override the database)
+- C's command-line flags say to trust it regardless of the database (see -trust, -distrust below)
 
-- A **package P is trusted by a client C** iff one of these conditions holds
 
-  - C's package database records that P is trusted (and command-line arguments do not override the database)
-  - C's command-line flags say to trust it regardless of the database (see -trust, -distrust below)
-- It is up to C to decide what packages to trust; it is not a property of P.
+It is up to C to decide what packages to trust; it is not a property of P.
 
-- A **module M from package P is trusted by a client C** iff
 
-  - Both of these hold:
+A **module M from package P is trusted by a client C** iff
 
-    - The module was compiled with `-XSafe`
-    - All of M's direct imports are trusted by C
-  - OR all of these hold:
+- Both of these hold:
 
-    - The module was compiled with `-XTrustworthy`
-    - All of M's direct safe imports are trusted by C
-    - Package P is trusted by C
+  - The module was compiled with `-XSafe`
+  - All of M's direct imports are trusted by C
+- OR all of these hold:
+
+  - The module was compiled with `-XTrustworthy`
+  - All of M's direct safe imports are trusted by C
+  - Package P is trusted by C
+
+
+When required we will differentiate between `-XSafe` and `-XTrustworthy` using **safe** and **trustworthy** respectively.
+
+### Intuition
 
 
 The intuition is this. The **author** of a package undertakes the following obligations:
 
 - When the author of code compiles it with -XSafe, he asks the compiler to check that it is indeed safe. He takes on no responsibility himself. Although he must trust imported packages in order to compile his package, he takes not responsibility for them.
 - When the author of code compiles it with -XTrustworthy he takes on responsibility for the stafety of that code, under the assumption that safe imports are indeed safe.
-
-
-We will refer to a module M compiled successfully with either `-XSafe` or `-XTrustworthy` as **trusted**. When required we will differentiate between `-XSafe` and `-XTrustworthy` using **safe** and **trustworthy** respectively.
 
 
 When a **client** C trusts package P, he expresses trust in the author of that code. But since the author makes no guarantees about safe imports, C may need to chase dependencies to decide which modules in P should be trusted by C. 
