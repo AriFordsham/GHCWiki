@@ -21,8 +21,8 @@ Documentation:
 
 API adaptation: APIs of vector, Repa, and Accelerate should be unified as far as possible
 
-- Repa's current 'replicate' should be renamed and a new 'replicate' that turns a scalar into an array should be introduced **[???](data-parallel/dec2010-release?)**
-- Check similarity of singleton/unit between all three libraries **[???](data-parallel/dec2010-release?)**
+- Repa's current 'replicate' should be renamed and a new 'replicate' that turns a scalar into an array should be introduced [???](data-parallel/dec2010-release?)
+- Check similarity of singleton/unit between all three libraries [???](data-parallel/dec2010-release?)
 
 
 Changes:
