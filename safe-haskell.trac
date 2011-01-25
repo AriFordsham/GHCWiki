@@ -226,10 +226,11 @@ Currently, in any given run of the compiler, GHC classifies each package as eith
 
  * We want to be able to change a package P from trusted to untrusted and then have compilation of code that directly or transversely depends on it to fail accordingly if it relies on that package being trusted. That is trust should be checked recursively at link time and not just for code being compiled. Having the interface file format record each modules trust type should be enough for this.
    * If a module M is Untrusted then no further processing needs to be done.
-   * If a module M is Safe then we know all imports must be safe or trustworthy so we must check them.
+   * If a module M is Safe then
+     * At compile time we check each of M's imports are trusted
    * If a module M is Trustworthy then we handle it differently when linking than compiling:
      * At both link time and compile time M itself must be in a trusted package.
-     * At compile time we check each of M's safe imports are trusted and that all trustworthy imports reside in the current set of trusted packages.
+     * At compile time we check each of M's safe imports are trusted
      * At link time we don't check that M's safe imports are still considered trusted. The reasoning behind this is that at compile time we had a guarantee that any modules marked Trustworthy did indeed reside in a package P that was trusted. If at link time some of M's safe imports that are marked Trustworthy now reside in a package marked untrusted this is because the client C changed the package trust. Since C is the one guaranteeing trustworthy modules we believe its fine to not fail.
      * Guaranteeing trustworthy at link time wouldn't be too hard, it would just require we also record in the interface file format for modules marked as trustworthy, which of their dependencies were safe imports.
 
