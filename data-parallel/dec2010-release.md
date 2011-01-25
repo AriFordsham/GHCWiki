@@ -14,7 +14,7 @@
 
 Documentation:
 
-- Haddock documentation of Data.Array.Parallel **[???](data-parallel/dec2010-release?)**
+- Haddock documentation of Data.Array.Parallel **\[MANUEL\]**
 - Replace `-XPArr` by `-XParallelArrays` in the Users Guide, also add `-fvectorise`
 - HowTo and examples on HaWiki [ http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell) \[DONE\]
 
@@ -30,7 +30,7 @@ Changes:
 - -fdph-par should be the default (and sensible error message if the dph package is not available) (still needs to be passed explicitly) \[DONE\]
 - -Odph should be equivalent to '-O2 -fsimplifier-phases=3 -fsimplifier-iterations=20' \[DONE\]
 - Move GHC.PArr into  the DPH libs.  (Needed for Haddock.) **\[MANUEL\]**
-- Find out if we still need the `NoSpecConstr` annotation and remove it if not \[ROMAN\]
+- Find out if we still need the `NoSpecConstr` annotation and remove it if not **\[ROMAN\]**
 
 
 Bug fixes:
