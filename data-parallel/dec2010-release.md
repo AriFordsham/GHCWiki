@@ -15,8 +15,8 @@
 Documentation:
 
 - Haddock documentation of Data.Array.Parallel **[???](data-parallel/dec2010-release?)**
-- HowTo and examples on HaWiki [ http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)**\[MANUEL\]**
 - Replace `-XPArr` by `-XParallelArrays` in the Users Guide, also add `-fvectorise`
+- HowTo and examples on HaWiki [ http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell) \[DONE\]
 
 
 API adaptation: APIs of vector, Repa, and Accelerate should be unified as far as possible
