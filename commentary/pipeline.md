@@ -23,24 +23,29 @@ Here's an overview of the module structure of the top levels of GHC library.   (
                     /                  \
                    /                    \
  |------------------------|    |------------------------|
- |        Make            |    |    InteractiveEval     |
+ |        GhcMake         |    |    InteractiveEval     |
  | Implements --make      |    | Stuff to support the   |
  | Deals with compiling   |    | GHCi interactive envt  |
  |    multiple modules    |    |                        |
  |------------------------|    |------------------------|
-           |                             |
-           |                             |
- |-------------------------|             |
- |   DriverPipeline        |             |
- | Deals with compiling    |             |
- |  *a single module*      |             |
- | through all its stages  |             |
- | (cpp, unlit, compile,   |             |
- |  assemble, link etc)    |             |
- |-------------------------|             |
-              \                          |
-               \                         |
-                \                        |
+           |                                |
+           |                                |
+           |      --------------------      |
+- - - - - -| - - -|     GhcMonad     |- - - | - - - - - - - -
+           |      --------------------      |
+           |                                |
+           |                                |
+ |-------------------------|                |
+ |   DriverPipeline        |                |
+ | Deals with compiling    |                |
+ |  *a single module*      |                |
+ | through all its stages  |                |
+ | (cpp, unlit, compile,   |                |
+ |  assemble, link etc)    |                |
+ |-------------------------|                |
+              \                             |
+               \                            |
+                \                           |  
          |----------------------------------------------|
          |                    HscMain                   |
          | Compiling a single module (or expression or  |
