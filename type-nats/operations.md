@@ -23,37 +23,52 @@ The operations correspond to the usual operations on natural numbers.
 ## Inverse Operations
 
 
-Using the basic operations and GHC's equality constraints it is also possible to express
-some additional constraints, corresponding to the inverses (when defined) of the above functions:
-
-```wiki
-Constraint     | Alternative Interpretation    | Example (x "input", y "output")
----------------+-------------------------------+--------------------------------
-(a + b) ~ c    | Subtraction: (c - b) ~ a      | Decrement by 8: x ~ (y + 8)
-(a * b) ~ c    | Division:    (c / b) ~ a      | Divide by 8:    x ~ (y * 8)
-(a ^ b) ~ c    | Log at base: Log  a c ~ b     | Log base 2:     x ~ (2 ^ y)
-(a ^ b) ~ c    | Nth-root:    Root b c ~ a     | Square root:    x ~ (y ^ 2)
-```
-
-
-Note that we need some form of relational notation to capture the partiality of the
-inverses.  In GHC, using (\~) seems like a natural choice.  If we'd introduced (-)
-as another type function, we have a few choices, none of which seem particularly attractive:
-
-- accept some ill defined "types" like (1 - 2),
-- come up with a "completion" for the type function (e.g., by defining (1 - 2) \~ 0),
-- automatically generate additional constraints which would ensure that types are well-defined, somehow.
-
-
-While the relational notation may look a bit verbose, in practice we can often completely avoid it.
-For example, consider that we are writing which needs to split an array of bytes into an array of
-words.  We might give the function the following type:
+Our system does not have explicit functions for subtraction, division, logs, or roots.  However, we can get essentially the same functionality by combining the existing type functions with (implicit or explicit) equality constraints.  Consider, for example, the following type:
 
 ```wiki
 bytesToWords :: Array (8 * w) Word8 -> Array w Word64
 ```
 
 
-So, in effect, we perform a "division" by multiplying the argument.
+In this type we are basically dividing the size of the input array by 8.  Note, however, that we have expressed this by specifying that the array has to be a multiple of 8, which avoids the need for partiality.
 
 ## Solving Constraints
+
+
+There is a set of built-in instances, defining the behavior of each the type-level operations.  These instances are consistent with the theory of arithmetic on natural numbers but they are not complete (i.e., GHC is not perfect at math).  This means that GHC might reject some programs
+because it cannot solve all the necessary constraints, even though the constraint can be solved in the general theory of natural numbers.  The most common cause of this is when a programmer writes down a type signature, but GHC infers a slightly different type for the implementation.  Now, GHC needs to check that the specified type is compatible with the implementation.  If it fails do this, then the program will be rejected.  The usual work-around in such situations is to modify the type signature so that it lists explicitly the constraints that GHC could not solve.  If you encounter the same problem often, please consider sending an e-mail to the GHC mailing list to let us know.  We might be able to teach GHC some more math!
+
+
+Basic rules:
+
+```wiki
+instance m <= n                          -- for concrete numbers m, n with m <= n
+instance a <= a
+instance 0 <= a
+instance (a <= b, b <= c) => (a <= c)    -- (under construction)
+instance (a <= a + b)
+instance (b <= a + b)
+instance (1 <= b) => (a <= a * b)
+
+
+type instance m + n = mn                 -- for concrete numbers m, n, mn, with m + n = mn
+type instance 0 + a = a
+type instance a + a = 2 * a
+type instance a + m = m + a              -- for a concrete number m
+
+
+type instance m + n = mn                 -- for concrete numbers m, n, mn, with m * n = mn
+type instance 0 * a = a                   
+type instance 1 * a = a
+type instance a * a = a ^ 2
+type instance m * a = a * m              -- for concrete numbers m
+
+type instance m + n = mn                 -- for concrete numbers m, n, mn, with m ^ n = mn
+type instance 1 ^ a = 1
+type instance a ^ 0 = 1
+type instance a ^ 1 = a
+-- type instance a ^ m = a  simplifies to a <= 1
+
+... (there are more) ...
+
+```
