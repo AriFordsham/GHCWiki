@@ -6,7 +6,7 @@ These are the inverses of the functions that we already have.  The problem with 
 
 None of these options seem particularly attractive.
 
-Furthermore, we can already express basically the same functionality by using (implicit or explicit equalities).
+Furthermore, we can already express basically the same functionality by using (implicit or explicit) equalities.
 {{{
 f :: Array n Byte -> Array (n / 8) Word64           -- using division.
 
