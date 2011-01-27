@@ -24,6 +24,9 @@ This page collects information on how to work with type-level natural numbers, a
   - [Top-Level Interactions](type-nats/interact1)
   - [Simple Inert Interactions](type-nats/interact2)
   - [Solving (\<=) Predicates](type-nats/leq)
+  - XXX: Write the new rules
+- Translation to FC
+- Precedences for infix predicates such as \~ and \<=
 
 ## External links
 

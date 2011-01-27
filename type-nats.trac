@@ -23,6 +23,9 @@ This page collects information on how to work with type-level natural numbers, a
     * [wiki:TypeNats/Interact1      Top-Level Interactions]
     * [wiki:TypeNats/Interact2      Simple Inert Interactions]
     * [wiki:TypeNats/LEQ            Solving (<=) Predicates]
+    * XXX: Write the new rules
+  * Translation to FC
+  * Precedences for infix predicates such as ~ and <=
 
 
 
