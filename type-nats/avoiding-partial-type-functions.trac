@@ -14,3 +14,5 @@ f :: Array (8 * n) Byte -> Array n Word64           -- using multiplication and 
 
 f :: (m ~ 8 * n) => Array m Byte -> Array n Word64  -- using an explicit equality constraint.
 }}}
+
+Subjectively, the second form is the most readable.  The third form shows that we are essentially using a qualified type to restrict the valid instantiation of the function.
