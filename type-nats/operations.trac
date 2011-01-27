@@ -25,3 +25,13 @@ bytesToWords :: Array (8 * w) Word8 -> Array w Word64
 In this type we are basically dividing the size of the input array by 8.  Note, however, that we have expressed this by specifying that the array has to be a multiple of 8, which avoids the need for partiality.
 
 == Solving Constraints ==
+
+Comparison rules:
+{{{
+instance m <= n                          -- for concrete numbers m, n with m <= n
+instance a <= a
+instance 0 <= a
+instance (a <= b, b <= c) => (a <= c)    -- (under construction)
+
+
+}}}
