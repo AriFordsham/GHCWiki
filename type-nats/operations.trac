@@ -48,11 +48,11 @@ type instance 1 * a = a
 type instance a * a = a ^ 2
 type instance m * a = a * m              -- for concrete numbers m
 
-type instance m + n = mn                 -- for conrete numbers m, n, mn, with m ^ n = mn
+type instance m + n = mn                 -- for concrete numbers m, n, mn, with m ^ n = mn
 type instance 1 ^ a = 1
 type instance a ^ 0 = 1
 type instance a ^ 1 = a
--- type instance a ^ m = a  simplified to a <= 1
+-- type instance a ^ m = a  simplifies to a <= 1
 }}}
 
 
