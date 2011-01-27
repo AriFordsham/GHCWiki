@@ -24,13 +24,16 @@ This page collects information on how to work with type-level natural numbers, a
   - [Top-Level Interactions](type-nats/interact1)
   - [Simple Inert Interactions](type-nats/interact2)
   - [Solving (\<=) Predicates](type-nats/leq)
+  - XXX: Write the new rules
+- Translation to FC
+- Precedences for infix predicates such as \~ and \<=
 
 ## External links
 
 - The implementation resides in several repositories:
 
-  - (GIT) Changes to GHC are on branch type-nats in: [ git://code.galois.com/type-naturals/ghc.git](git://code.galois.com/type-naturals/ghc.git)
-  - (DARCS) Changes to the base library are at [ http://code.galois.com/darcs/type-naturals/09-Jan-2011/base/](http://code.galois.com/darcs/type-naturals/09-Jan-2011/base/)
-  - (DARCS) Changes to the template-haskell library are at [ http://code.galois.com/darcs/type-naturals/09-Jan-2011/template-haskell/](http://code.galois.com/darcs/type-naturals/09-Jan-2011/template-haskell/)
+  - (git) Changes to GHC are on branch type-nats in: [ git://code.galois.com/type-naturals/ghc.git](git://code.galois.com/type-naturals/ghc.git)
+  - (darcs) Changes to the base library are at [ http://code.galois.com/darcs/type-naturals/09-Jan-2011/base/](http://code.galois.com/darcs/type-naturals/09-Jan-2011/base/)
+  - (darcs) Changes to the template-haskell library are at [ http://code.galois.com/darcs/type-naturals/09-Jan-2011/template-haskell/](http://code.galois.com/darcs/type-naturals/09-Jan-2011/template-haskell/)
 
 - More advanced example: [ https://github.com/yav/memory-arrays/tree/master](https://github.com/yav/memory-arrays/tree/master)

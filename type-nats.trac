@@ -23,15 +23,18 @@ This page collects information on how to work with type-level natural numbers, a
     * [wiki:TypeNats/Interact1      Top-Level Interactions]
     * [wiki:TypeNats/Interact2      Simple Inert Interactions]
     * [wiki:TypeNats/LEQ            Solving (<=) Predicates]
+    * XXX: Write the new rules
+  * Translation to FC
+  * Precedences for infix predicates such as ~ and <=
 
 
 
 == External links ==
 
   * The implementation resides in several repositories:
-    * (GIT) Changes to GHC are on branch type-nats in: [git://code.galois.com/type-naturals/ghc.git]
-    * (DARCS) Changes to the base library are at [http://code.galois.com/darcs/type-naturals/09-Jan-2011/base/]
-    * (DARCS) Changes to the template-haskell library are at [http://code.galois.com/darcs/type-naturals/09-Jan-2011/template-haskell/]
+    * (git) Changes to GHC are on branch type-nats in: [git://code.galois.com/type-naturals/ghc.git]
+    * (darcs) Changes to the base library are at [http://code.galois.com/darcs/type-naturals/09-Jan-2011/base/]
+    * (darcs) Changes to the template-haskell library are at [http://code.galois.com/darcs/type-naturals/09-Jan-2011/template-haskell/]
 
 
   * More advanced example: https://github.com/yav/memory-arrays/tree/master
