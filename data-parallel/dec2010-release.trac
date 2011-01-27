@@ -26,7 +26,7 @@ Changes:
  * Find out if we still need the `NoSpecConstr` annotation and remove it if not '''[ROMAN]'''
 
 Bug fixes:
- * Vectoriser needs to be adapted to Simon's recursive superclasses patch; partially done, but recursive data types don't work yet '''[ROMAN]'''
+ * Vectoriser needs to be adapted to Simon's recursive superclasses patch; partially done, but recursive data types don't work yet [DONE]
  * The combination '-fvectorise -O0' should work '''[ROMAN]'''
  * Trying to vectorise the `DotP` example from the tutorial on the Haskell Wiki, `-fdph-seq` fails with (`-fdph-par` works fine)
 {{{
@@ -39,6 +39,7 @@ Bug fixes:
 
 
 Performance goals:
+ * rl wrote "Alas, I just noticed that with -fdph-par, some of the examples seem to trigger !LiberateCase a lot, resulting in absolutely ridiculous code blow-up. This is probably just a missing seq somewhere which I'll have to find. It's strange that I didn't notice this before, perhaps it's a new problem." '''[ROMAN]'''
  * Vector works fast, sequentially, compared to C, Haskell mutable-array version [FINE]
   * Benchmarks: !NoSlow, vector versions of Repa benchmarks
  * Repa works fast in parallel
