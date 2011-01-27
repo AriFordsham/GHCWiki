@@ -26,7 +26,7 @@ Changes:
  * Find out if we still need the `NoSpecConstr` annotation and remove it if not '''[ROMAN]'''
 
 Bug fixes:
- * Vectoriser needs to be adapted to Simon's recursive superclasses patch; partially done, but recursive data types don't work yet '''[ROMAN]'''
+ * Vectoriser needs to be adapted to Simon's recursive superclasses patch; partially done, but recursive data types don't work yet [DONE]
  * The combination '-fvectorise -O0' should work '''[ROMAN]'''
  * Trying to vectorise the `DotP` example from the tutorial on the Haskell Wiki, `-fdph-seq` fails with (`-fdph-par` works fine)
 {{{
