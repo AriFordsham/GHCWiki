@@ -9,18 +9,29 @@ This page collects information on how to work with type-level natural numbers, a
   * [wiki:TypeNats/Operations       Type-Level Operations]
 
 
-== Implementation and Design Issues ==
+== Notes on Design ==
+
+  * [wiki:TypeNats/AlternativeSingletons Alternative Design For Singletons]
+  * [wiki:TypeNats/AvoidingPartialTypeFunctions Avoiding Partial Type Functions]
+  * Naturals or Integers?
+    
+== Notes on the Implementation ==
 
   * [wiki:TypeNats/Implementation   Implementation of GHC.TypeNats]
-  * [wiki:TypeNats/AlternativeSingletons Alternative Design For Singletons]
   * [wiki:TypeNats/Axioms           Axioms for Natural Number Operators]
   * GHC Interaction Rules ([wiki:TypeNats/RuleNotation Notational Conventions])
     * [wiki:TypeNats/Interact1      Top-Level Interactions]
     * [wiki:TypeNats/Interact2      Simple Inert Interactions]
     * [wiki:TypeNats/LEQ            Solving (<=) Predicates]
-    
+
+
 
 == External links ==
 
-  * [http://code.galois.com/darcs/type-naturals/ Source repos]  
+  * The implementation resides in several repositories:
+    * (GIT) Changes to GHC are on branch type-nats in: [git://code.galois.com/type-naturals/ghc.git]
+    * (DARCS) Changes to the base library are at [http://code.galois.com/darcs/type-naturals/09-Jan-2011/base/]
+    * (DARCS) Changes to the template-haskell library are at [http://code.galois.com/darcs/type-naturals/09-Jan-2011/template-haskell/]
+
+
   * More advanced example: https://github.com/yav/memory-arrays/tree/master
