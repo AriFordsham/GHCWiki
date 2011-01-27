@@ -36,11 +36,16 @@ instance m <= n                          -- for concrete numbers m, n with m <= 
 instance a <= a
 instance 0 <= a
 instance (a <= b, b <= c) => (a <= c)    -- (under construction)
+instance (a <= a + b)
+instance (b <= a + b)
+instance (1 <= b) => (a <= a * b)
+
 
 type instance m + n = mn                 -- for concrete numbers m, n, mn, with m + n = mn
 type instance 0 + a = a
 type instance a + a = 2 * a
 type instance a + m = m + a              -- for a concrete number m
+
 
 type instance m + n = mn                 -- for concrete numbers m, n, mn, with m * n = mn
 type instance 0 * a = a                   
@@ -53,7 +58,9 @@ type instance 1 ^ a = 1
 type instance a ^ 0 = 1
 type instance a ^ 1 = a
 -- type instance a ^ m = a  simplifies to a <= 1
-}}}
 
+... (there are more) ...
+
+}}}
 
 
