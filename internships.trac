@@ -23,7 +23,9 @@ Internship projects should have some research content, and ideally lead to a pap
 
 To give you some idea, here are some past projects (in approximate date order):
   * [2010] David Terei worked on the LLVM back end
+  * [2008] Thomas Schilling worked on the GHC API, and Scion
   * [2008] Jost Berthold worked on parallel evaluation
+  * [2007] Roshan James worked on Parallel GC
   * [2007] Dan Licata implemented [wiki:ViewPatterns view patterns]
   * [2007] Peng Li worked on a [http://research.microsoft.com/%7Esimonpj/papers/lw-conc/index.htm new concurrency substrate] for GHC
   * [2007] Michael Adams worked on refactoring the code generator, and [2008] John Dias took the same ideas much further.
