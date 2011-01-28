@@ -28,10 +28,6 @@ Here are some suggestions for projects related to GHC that could be undertaken b
 Projects aimed at making GHC into a user-extensible plug-in platform, and less of a monolithic compiler.
   * '''Allow much finer and more modular control over the way in which rewrite rules and inlining directives are ordered'''.  See this [http://www.haskell.org/pipermail/haskell-cafe/2008-January/038196.html email thread]
   
-  * '''Support dynamically-linked Core-to-Core plug-ins''', so that people can add passes simply by writing a Core-to-Core function, and dynamically linking it to GHC.  This would need to be supported by an extensible mechanism like ``attributes`` in mainstream OO languages, so that programmers can add declarative information to the source program that guides the transformation pass.  Likewise the pass might want to construct information that is accessible later.  This mechanism could obviously be used for optimisations, but also for program verifiers, and perhaps also for domain-specific code generation (the pass generates a GPU file, say, replacing the Core code with a foreign call to the GPU program). See [wiki:Plugins] for some early thoughts on this.
-
-    * '''Improve the GHC API''', whereby you can import GHC as a library.  We make improvements now and then, but it would benefit from some sustained attention.  A particular project would be to port the Haskell refactorer [http://www.cs.kent.ac.uk/projects/refactor-fp/hare.html HaRE] to use the GHC API.
-
 === Types ===
 
  * '''Allow unboxed tuples as function arguments'''.   Currently unboxed tuples are second class; fixing this would be a nice simplification.
@@ -44,10 +40,17 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
 
  * [[TicketQuery(id=1872|0)]]
 
-=== Parallel stuff ===
+=== Runtime system ===
 
-  * Experiment with multiprocessor Haskell and/or STM by building and measuring applications, investigate improvements
-  * Continue work on parallel GC: particularly independent minor-generation collections.
+  * Incremental or concurrent GC, for reducing pause-times.  Perhaps via implementing mark-region GC in the old generation.
+
+  * Improvements to [http://research.microsoft.com/en-us/projects/threadscope/ ThreadScope]: incorporate performance-counter events, visualise more runtime events, include source-code information in the profile.
+
+=== Packages ===
+
+  * A package API tool.
+
+  * fixed package ABIs for binary-upgradable packages.
 
 -------------
 
