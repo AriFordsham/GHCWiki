@@ -29,18 +29,19 @@ Internship projects should have some research content, and ideally lead to a pap
 
 To give you some idea, here are some past projects (in approximate date order):
 
-- \[2010\] David Terei worked on the LLVM back end
-- \[2008\] Jost Berthold worked on parallel evaluation
-- \[2007\] Dan Licata implemented [view patterns](view-patterns)
-- \[2007\] Peng Li worked on a [ new concurrency substrate](http://research.microsoft.com/%7Esimonpj/papers/lw-conc/index.htm) for GHC
-- \[2007\] Michael Adams worked on refactoring the code generator, and \[2008\] John Dias took the same ideas much further.
-- \[2007\] Bernie Pope implemented the GHCi debugger
-- \[2006\] Kevin Donnelly changed GHC's intermediate language to support equality constraints
-- Ben Lippmeier implemented a new register allocator
+- 2010: David Terei worked on the LLVM back end
+- 2008: Thomas Schilling worked on the GHC API, and Scion
+- 2008: Jost Berthold worked on parallel evaluation
+- 2007: Dan Licata implemented [view patterns](view-patterns)
+- 2007: Peng Li worked on a [ new concurrency substrate](http://research.microsoft.com/%7Esimonpj/papers/lw-conc/index.htm) for GHC
+- 2007: Michael Adams worked on refactoring the code generator, and \[2008\] John Dias took the same ideas much further.
+- 2007: Bernie Pope implemented the GHCi debugger
+- 2007: Ben Lippmeier implemented a new register allocator
+- 2006: Roshan James wrote a parallel garbage collector
+- 2006: Kevin Donnelly changed GHC's intermediate language to support equality constraints
 - Geoff Washburn made the first implementation of GADTs in GHC
 - Dimitrios Vitytonis worked on type inference for impredicative polymorphism
 - Krasimir Angelov completed and released Visual Haskell
-- Roshan James wrote a parallel garbage collector
 
 
 Here a [bunch of suggestions](project-suggestions).
