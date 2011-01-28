@@ -18,7 +18,7 @@ Here are some suggestions for projects related to GHC that could be undertaken b
 
 - **Improve parallel profiling tools**.  Starting with [ ThreadScope](http://research.microsoft.com/en-us/projects/threadscope/), incorporate performance-counter events, visualise more runtime events, include source-code information in the profile.
 
-- **Implement some low-level C-- optimisations**.  During 2009 we expect to have the new C-- code generation route in place, and that will open up new opportunities for doing classic compiler-course optimisations on the imperative C-- code.  There is more than routine stuff here, because we can use our [ generic dataflow framework](http://research.microsoft.com/~simonpj/papers/c--) to do the heavy lifting.  Here are some [particular ideas for optimisations](back-end-notes) we'd like to implement.
+- **Implement some low-level C-- optimisations**.  During 2011 we expect to have the new C-- code generation route in place, and that will open up new opportunities for doing classic compiler-course optimisations on the imperative C-- code.  There is more than routine stuff here, because we can use our [ generic dataflow framework](http://research.microsoft.com/~simonpj/papers/c--) to do the heavy lifting.  Here are some [particular ideas for optimisations](back-end-notes) we'd like to implement.
 
 ---
 
@@ -57,7 +57,7 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
   Whole-program overloading elimination (with `--make`).
   Evolve a better ordering for the optimisation passes using [ Acovea](http://www.coyotegulch.com/products/acovea/).
   [\#1341](https://gitlab.haskell.org//ghc/ghc/issues/1341)allow loading partially correct modules[\#2979](https://gitlab.haskell.org//ghc/ghc/issues/2979)better support for FFI C wrappers for macros in system headers[\#1884](https://gitlab.haskell.org//ghc/ghc/issues/1884)Win64 PortBuild system[\#989](https://gitlab.haskell.org//ghc/ghc/issues/989)Build GHC on Windows using Microsoft toolchainRuntime system[\#599](https://gitlab.haskell.org//ghc/ghc/issues/599)The Front Panel[\#603](https://gitlab.haskell.org//ghc/ghc/issues/603)GC-spy connectionToolsUpdate/improve [ Visual Haskell](http://www.haskell.org/visualhaskell) to use the (free) [ Visual Studio Shell](http://msdn2.microsoft.com/en-us/vsx2008/products/bb933751.aspx).
-  Download in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=18&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+  Download in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=19&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)

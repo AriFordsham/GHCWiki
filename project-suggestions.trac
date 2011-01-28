@@ -14,7 +14,7 @@ Here are some suggestions for projects related to GHC that could be undertaken b
 
   * '''Improve parallel profiling tools'''.  Starting with [http://research.microsoft.com/en-us/projects/threadscope/ ThreadScope], incorporate performance-counter events, visualise more runtime events, include source-code information in the profile.
 
-  * '''Implement some low-level C-- optimisations'''.  During 2009 we expect to have the new C-- code generation route in place, and that will open up new opportunities for doing classic compiler-course optimisations on the imperative C-- code.  There is more than routine stuff here, because we can use our [http://research.microsoft.com/~simonpj/papers/c-- generic dataflow framework] to do the heavy lifting.  Here are some [wiki:BackEndNotes particular ideas for optimisations] we'd like to implement.
+  * '''Implement some low-level C-- optimisations'''.  During 2011 we expect to have the new C-- code generation route in place, and that will open up new opportunities for doing classic compiler-course optimisations on the imperative C-- code.  There is more than routine stuff here, because we can use our [http://research.microsoft.com/~simonpj/papers/c-- generic dataflow framework] to do the heavy lifting.  Here are some [wiki:BackEndNotes particular ideas for optimisations] we'd like to implement.
 
 -------------
 == More ambitious or less-well-defined projects (PhD students / Interns) ==
