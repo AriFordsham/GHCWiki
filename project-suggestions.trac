@@ -65,14 +65,11 @@ Projects for people who want a decent-sized hacking project, with less research 
  * Whole-program overloading elimination (with {{{--make}}}).
  * Evolve a better ordering for the optimisation passes using [http://www.coyotegulch.com/products/acovea/ Acovea].
  * [[TicketQuery(id=1341|0)]]
- * [[TicketQuery(id=2362|0)]]
  * [[TicketQuery(id=2979|0)]]
- * [[TicketQuery(id=594|0)]]
 
 == Build system ==
 
  * [[TicketQuery(id=989|0)]]
- * [[TicketQuery(id=1876|0)]]
 
 == Runtime system ==
 
