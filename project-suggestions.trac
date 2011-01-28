@@ -12,9 +12,9 @@ Here are some suggestions for projects related to GHC that could be undertaken b
     * [http://www.cs.cmu.edu/~neelk/pattern-popl09.pdf Focusing on pattern matching] by Neelakantan Krishnaswami (POPL 2009)
     * [http://pauillac.inria.fr/~maranget/papers/ml05e-maranget.pdf Compiling pattern matching to good decision trees] by Luc Maranget, ML Workshop 2008
 
-  * '''Improve parallel profiling tools'''.  Satnam Singh and Simon Marlow have made a start on some tools for visualising the behaviour of parallel programs, but there is much more to do here, and it'll be eagerly adopted by users.
+  * '''Improve parallel profiling tools'''.  Starting with [http://research.microsoft.com/en-us/projects/threadscope/ ThreadScope], incorporate performance-counter events, visualise more runtime events, include source-code information in the profile.
 
-  * '''Implement some low-level C-- optimisations'''.  During 2009 we expect to have the new C-- code generation route in place, and that will open up new opportunities for doing classic compiler-course optimisations on the imperative C-- code.  There is more than routine stuff here, because we can use our [http://research.microsoft.com/~simonpj/papers/c-- generic dataflow framework] to do the heavy lifting.  Here are some [wiki:BackEndNotes particular ideas for optimisations] we'd like to implement.
+  * '''Implement some low-level C-- optimisations'''.  During 2011 we expect to have the new C-- code generation route in place, and that will open up new opportunities for doing classic compiler-course optimisations on the imperative C-- code.  There is more than routine stuff here, because we can use our [http://research.microsoft.com/~simonpj/papers/c-- generic dataflow framework] to do the heavy lifting.  Here are some [wiki:BackEndNotes particular ideas for optimisations] we'd like to implement.
 
 -------------
 == More ambitious or less-well-defined projects (PhD students / Interns) ==
@@ -28,10 +28,6 @@ Here are some suggestions for projects related to GHC that could be undertaken b
 Projects aimed at making GHC into a user-extensible plug-in platform, and less of a monolithic compiler.
   * '''Allow much finer and more modular control over the way in which rewrite rules and inlining directives are ordered'''.  See this [http://www.haskell.org/pipermail/haskell-cafe/2008-January/038196.html email thread]
   
-  * '''Support dynamically-linked Core-to-Core plug-ins''', so that people can add passes simply by writing a Core-to-Core function, and dynamically linking it to GHC.  This would need to be supported by an extensible mechanism like ``attributes`` in mainstream OO languages, so that programmers can add declarative information to the source program that guides the transformation pass.  Likewise the pass might want to construct information that is accessible later.  This mechanism could obviously be used for optimisations, but also for program verifiers, and perhaps also for domain-specific code generation (the pass generates a GPU file, say, replacing the Core code with a foreign call to the GPU program). See [wiki:Plugins] for some early thoughts on this.
-
-    * '''Improve the GHC API''', whereby you can import GHC as a library.  We make improvements now and then, but it would benefit from some sustained attention.  A particular project would be to port the Haskell refactorer [http://www.cs.kent.ac.uk/projects/refactor-fp/hare.html HaRE] to use the GHC API.
-
 === Types ===
 
  * '''Allow unboxed tuples as function arguments'''.   Currently unboxed tuples are second class; fixing this would be a nice simplification.
@@ -44,10 +40,15 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
 
  * [[TicketQuery(id=1872|0)]]
 
-=== Parallel stuff ===
+=== Runtime system ===
 
-  * Experiment with multiprocessor Haskell and/or STM by building and measuring applications, investigate improvements
-  * Continue work on parallel GC: particularly independent minor-generation collections.
+  * Incremental or concurrent GC, for reducing pause-times.  Perhaps via implementing mark-region GC in the old generation.
+
+=== Packages ===
+
+  * A package API tool.
+
+  * fixed package ABIs for binary-upgradable packages.
 
 -------------
 
@@ -62,14 +63,14 @@ Projects for people who want a decent-sized hacking project, with less research 
  * Whole-program overloading elimination (with {{{--make}}}).
  * Evolve a better ordering for the optimisation passes using [http://www.coyotegulch.com/products/acovea/ Acovea].
  * [[TicketQuery(id=1341|0)]]
- * [[TicketQuery(id=2362|0)]]
  * [[TicketQuery(id=2979|0)]]
- * [[TicketQuery(id=594|0)]]
+ * [[TicketQuery(id=1884|0)]]
+ * [[TicketQuery(id=910|0)]]
+ * [[TicketQuery(id=4929|0)]]
 
 == Build system ==
 
  * [[TicketQuery(id=989|0)]]
- * [[TicketQuery(id=1876|0)]]
 
 == Runtime system ==
 
