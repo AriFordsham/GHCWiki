@@ -50,7 +50,10 @@ Bug fixes:
 
 Performance goals:
 
-- rl wrote "Alas, I just noticed that with -fdph-par, some of the examples seem to trigger LiberateCase a lot, resulting in absolutely ridiculous code blow-up. This is probably just a missing seq somewhere which I'll have to find. It's strange that I didn't notice this before, perhaps it's a new problem." **\[ROMAN\]**
+- rl wrote "Alas, I just noticed that with -fdph-par, some of the examples seem to trigger LiberateCase a lot, resulting in absolutely ridiculous code blow-up."
+
+  - rl fixed bounds checking related issues and needs to release a new vector (which needs to be pulled into the GHC vector repo) **\[ROMAN\]**
+  - In addition, there is a problem with join points in the presence of errors (diverging computations) **\[ROMAN, SIMON\]**
 - Vector works fast, sequentially, compared to C, Haskell mutable-array version \[FINE\]
 
   - Benchmarks: NoSlow, vector versions of Repa benchmarks
