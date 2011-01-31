@@ -35,7 +35,7 @@ Basic rules:
 instance m <= n                          -- for concrete numbers m, n with m <= n
 instance a <= a
 instance 0 <= a
-instance (a <= b, b <= c) => (a <= c)    -- (under construction)
+instance (a <= b, b <= c) => (a <= c)
 instance (a <= a + b)
 instance (b <= a + b)
 instance (1 <= b) => (a <= a * b)
