@@ -78,11 +78,21 @@ integerToMaybeNat x = check nat
 ```
 
 
+It checks that the value argument `x`, passed at runtime, matches the statically-expected value, returning `Nothing` if not, and a typed singleton if so.
+
+
 The implementation of `integerToMaybeNat` is a little subtle: by using
 the helper function `check`, we ensure that the two occurrences of
 `nat` (aka `y`) both have the same type, namely `Nat n`.  There are other
 ways to achieve the same, for example, by using scoped type variables,
-and providing explicit type signatures.
+thus:
+
+```wiki
+integerToMaybeNat :: forall n. NatI n => Integer -> Maybe (Nat n)
+integerToMaybeNat x 
+  | x == natToInteger (nat :: Nat n) = Just nat 
+  | otherwise                        = Nothing
+```
 
 
 Now, we can use `integerToNat` to provide a `Read` instance for singleton types:
