@@ -78,11 +78,21 @@ integerToMaybeNat x = check nat
 ```
 
 
+It checks that the value argument `x`, passed at runtime, matches the statically-expected value, returning `Nothing` if not, and a typed singleton if so.
+
+
 The implementation of `integerToMaybeNat` is a little subtle: by using
 the helper function `check`, we ensure that the two occurrences of
 `nat` (aka `y`) both have the same type, namely `Nat n`.  There are other
 ways to achieve the same, for example, by using scoped type variables,
-and providing explicit type signatures.
+thus:
+
+```wiki
+integerToMaybeNat :: forall n. NatI n => Integer -> Maybe (Nat n)
+integerToMaybeNat x 
+  | x == natToInteger (nat :: Nat n) = Just nat 
+  | otherwise                        = Nothing
+```
 
 
 Now, we can use `integerToNat` to provide a `Read` instance for singleton types:
@@ -117,11 +127,11 @@ When defining `memset` we can just use `natToInteger` on the `Nat n` parameter t
 Another approach is to let the system infer the parameter by using the class `TypeNat`.  For example:
 
 ```wiki
-memsetAuto :: (Storable a, TypeNat n) => ArrPtr n a -> a -> IO ()
+memsetAuto :: (Storable a, NatI n) => ArrPtr n a -> a -> IO ()
 ```
 
 
-In this style, the caller of the function does not need to provide the type of the array explicitly.
+In this style, the caller of the function does not need to provide the size of the array explicitly.
 Instead, it is computed automatically from the type of the array.
 When defining `memsetAuto` we can use `nat`, the method of `TypeNat`, to get access to the value corresponding to the type level natural.
 
