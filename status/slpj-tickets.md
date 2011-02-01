@@ -55,6 +55,7 @@
 
 ### Other performance
 
+- [\#605](https://gitlab.haskell.org//ghc/ghc/issues/605): strict/unboxed enumerations
 - [\#2607](https://gitlab.haskell.org//ghc/ghc/issues/2607): space leak: inlining defeats selector thunk optimisation
 - [\#4470](https://gitlab.haskell.org//ghc/ghc/issues/4470): merge identical counters
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries
