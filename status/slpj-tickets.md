@@ -135,6 +135,7 @@
 
 ### Better error messages
 
+- [\#4921](https://gitlab.haskell.org//ghc/ghc/issues/4921): ambiguous type variables
 - [\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330): another bad error message (Church2)
 - [\#3440](https://gitlab.haskell.org//ghc/ghc/issues/3440): type families and GADT error message
 - [\#3169](https://gitlab.haskell.org//ghc/ghc/issues/3169): better occurs-check error message
