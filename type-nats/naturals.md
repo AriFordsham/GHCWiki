@@ -24,7 +24,7 @@ Note, however, that some of the operations are partial.
 For example, subtracting a larger number from a smaller one results in the undefined value of type *Natural*.
 
 
-We also provide some functions for converting *Interger* values into their corresponding *Natural* ones.
+We also provide some functions for converting *Integer* values into their corresponding *Natural* ones.
 We do this by using an intermediate representation for integers in terms of naturals, *NaturalInteger*.  This type
 is intended to be used only for the conversion.  While, in principle, we could provide numeric instances for the type,
 we chose not to, because we would be duplicating functionality provided by the type *Integer*.
