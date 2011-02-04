@@ -29,26 +29,23 @@ Use a comma or space (but not semicolon) to separate your email address from the
 
 The Trac bug report system has various fields. Here's how to fill them in:
 
- * '''CC'''.  If you are only logged in as ''guest'' then please consider including your email address (using a comma or space as separator, not a semicolon). That way we can ask you questions, and you'll get email from Trac when something happens to your bug.
-
- * '''Short summary'''.  This is what appears in one-bug-per line lists, so try to make it as informative as you can.
+ * '''Short summary'''.  This is what appears in one-bug-per line lists, so try to make it as informative as you can. A snippet of the error message, if there is one, usually makes a good summary.
 
  * '''Type''' says what kind of Trac ticket this is:
    * '''bug''': incorrect behaviour by GHC
    * '''feature request''': something you would like GHC to do
    * '''proposal''': reserved for use with the [http://www.haskell.org/haskellwiki/Library_submissions Library submissions] process
    * '''task''' (for use by GHC developers only): something we intend to do sometime
-   * '''merge''' (for use by GHC developers only): job done, but must be merged to stable branch
  
- * '''Severity'''.  How much this bug matters to you.
+ * '''Type of failure''': the nature of the failure (compile-time crash, incorrect result, etc.).  This allows us to prioritize important bugs.
 
  * '''Full description'''.  This is where you describe your bug in details.  See "What information to provide" below.  Use the [wiki:TracWikiMisc wiki markup] in your description, especially `{{{` ... `}}}` brackets to mark up literal code.
 
+ * '''CC'''.  If you are only logged in as ''guest'' then please consider including your email address (using a comma or space as separator, not a semicolon). That way we can ask you questions, and you'll get email from Trac when something happens to your bug.
+
  * '''Component''', '''Version''', '''Operating system''', '''Architecture''' all help to describe the setup that failed. Please pay particular attention to '''version''', which is the version of GHC that you are running.
 
- * '''Priority''' and '''Milestone'''.  Please do  not fill in these fields.   We use them to organise our priorities.  The '''severity''' field lets you say how important the bug is to you.
-
-  * '''Assign to''', '''Difficulty''', '''Test case'''.  For use by GHC developers; please don't fill these in.
+  * '''Priority''', '''Milestone''', '''Assign to''', '''Difficulty''', '''Test case''', '''Blocking''', '''Blocked by''':  these are all for use by GHC developers; please don't fill these in.
 
 See also [wiki:WorkingConventions GHC working conventions].
  
