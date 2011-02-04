@@ -1,0 +1,37 @@
+
+= lun =
+
+lun is a vm, running on lambda. It runs the community services.
+
+== VM ==
+
+The config is in `lambda:/etc/libvirt/qemu/community.xml`, and the disk image
+`/srv/community/vdisk.img`.
+
+It's controlled by `virsh`, e.g.:
+{{{
+lambda$ sudo virsh list --all
+ Id Name                 State
+----------------------------------
+  - community            shut off
+
+lambda$ sudo virsh start community
+Domain community started
+
+lambda$ sudo virsh list --all
+ Id Name                 State
+----------------------------------
+  2 community            running
+}}}
+
+To start it with a console, use:
+{{{
+lambda$ sudo virsh start community --console
+}}}
+or to connect to the console if it's already running:
+{{{
+lambda$ sudo virsh console community
+}}}
+and `Ctrl+]` to exit the console.
+
+See the `virsh` manpage for more information.
