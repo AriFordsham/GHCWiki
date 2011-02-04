@@ -35,3 +35,23 @@ lambda$ sudo virsh console community
 and `Ctrl+]` to exit the console.
 
 See the `virsh` manpage for more information.
+
+== exim ==
+
+The config is in `/etc/exim4/exim4.conf.template` with local changes delimited by:
+{{{
+# start lun local
+...
+# end lun local
+}}}
+
+After changing, run `/usr/sbin/update-exim4.conf` then `/etc/init.d/exim4 reload`.
+
+== apache ==
+
+The various sites are configured in `/etc/apache2/sites-available/*`. Symlinks in
+`/etc/apache2/sites-enabled/` enable them.
+
+Modules are similarly enabled by symlinks in `/etc/apache2/mods-enabled/`.
+
+After changing anything, run `/etc/init.d/apache2 reload`.
