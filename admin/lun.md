@@ -72,3 +72,13 @@ Modules are similarly enabled by symlinks in `/etc/apache2/mods-enabled/`.
 
 
 After changing anything, run `/etc/init.d/apache2 reload`.
+
+## data
+
+
+User data for service `foo` is generally in `/srv/foo`.
+
+## mrtg
+
+
+The mrtg config is in `/etc/mrtg.cfg`, some helpers are in `/srv/local/mrtg/`, and the output goes to `/var/www/mrtg`. The URL for it is [ http://lun.haskell.org/mrtg/](http://lun.haskell.org/mrtg/)
