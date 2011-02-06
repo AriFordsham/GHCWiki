@@ -1,4 +1,4 @@
-# GHC Darcs Repositories
+# GHC Repositories
 
 
 This page lists the active repositories relating to GHC.  For instructions on actually getting a GHC source tree, see [Building/GettingTheSources](building/getting-the-sources).
