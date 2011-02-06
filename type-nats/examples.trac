@@ -1,3 +1,5 @@
+== Type-Naturals and GADTs ==
+
 {{{
 {-# LANGUAGE TypeNaturals, GADTs #-}
 
