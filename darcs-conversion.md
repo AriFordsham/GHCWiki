@@ -12,6 +12,7 @@ Done:
 - [Building/QuickStart](building/quick-start)
 - [Building/Rebuilding](building/rebuilding)
 - [Building/RunningNoFib](building/running-no-fib)
+- [DarcsRepositories](darcs-repositories) (inc. the sidebar)
 
 
 Pending:
@@ -23,7 +24,6 @@ Pending:
 - Start a git server on darcs.haskell.org?
 - `README`
 - [Building/Windows](building/windows)
-- [DarcsRepositories](darcs-repositories) (inc. the sidebar)
 - [WorkingConventions](working-conventions)
 - [WorkingConventions/Darcs](working-conventions/darcs)
 - [WorkingConventions/FixingBugs](working-conventions/fixing-bugs)

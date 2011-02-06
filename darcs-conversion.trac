@@ -11,6 +11,7 @@ Done:
  * [wiki:Building/QuickStart]
  * [wiki:Building/Rebuilding]
  * [wiki:Building/RunningNoFib]
+ * [wiki:DarcsRepositories] (inc. the sidebar)
 
 Pending:
  * The buildbot scripts
@@ -20,7 +21,6 @@ Pending:
  * Start a git server on darcs.haskell.org?
  * `README`
  * [wiki:Building/Windows]
- * [wiki:DarcsRepositories] (inc. the sidebar)
  * [wiki:WorkingConventions]
  * [wiki:WorkingConventions/Darcs]
  * [wiki:WorkingConventions/FixingBugs]
