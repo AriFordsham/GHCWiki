@@ -18,7 +18,6 @@ data UNat :: Nat -> * where
   Succ :: UNat n -> UNat (n + 1)
 
 split :: UNat m -> Vec (m + n) a -> (Vec m a, Vec n a)
-split _ Nil   = (Nil,Nil)
 split Zero xs = (Nil, xs)
 split (Succ n) (Cons x xs)  = case split n xs of
                                 (as,bs) -> (Cons x as, bs)
