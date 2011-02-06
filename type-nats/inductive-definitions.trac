@@ -5,7 +5,7 @@ import GHC.TypeNats
 import Unsafe.Coerce
 
 --------------------------------------------------------------------------------
--- Extending GHC.TypeNats with these two function allows us to
+-- Extending GHC.TypeNats with these two declarations allows us to
 -- write inductive definitions.
 
 data UNat :: Nat -> * where
@@ -43,4 +43,7 @@ vecLen _ = nat
 autoSplit :: NatI m => Vec (m + n) a -> (Vec m a, Vec n a)
 autoSplit xs = res
   where res@(as,_) = split len xs
-}}}                                                              45,3          Top
+        len        = toUNat (vecLen as)
+}}}               
+
+
