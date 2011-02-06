@@ -11,9 +11,9 @@ If you are here because you want to '''work on GHC''', then skip this section an
 No problem.  This recipe should build and install a working GHC with
 all the default settings.
 
-The following instructions assume that you have [wiki:Building/GettingTheSources got the sources] (note: not just a `darcs get`) and [wiki:Building/Preparation installed the necessary tools].
+The following instructions assume that you have [wiki:Building/GettingTheSources got the sources] (note: not just a `git clone`) and [wiki:Building/Preparation installed the necessary tools].
 
-If you are starting from a {{{darcs}}} checkout (or rebuilding from darcs), then:
+If you are starting from a `git` checkout (or rebuilding from `git`), then:
 
 {{{
 $ perl boot
