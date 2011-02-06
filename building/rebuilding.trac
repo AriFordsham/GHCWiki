@@ -2,7 +2,7 @@
 
 = How do I rebuild GHC after updating or changing it? =
 
-To pull new changes, use the [wiki:Building/DarcsAll#Pullingnewpatches darcs-all script].
+To pull new changes, use the [wiki:Building/SyncAll#Pullingnewpatches sync-all script].
 
 After pulling changes, the following sequence should be enough to update your build:
 
