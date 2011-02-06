@@ -9,6 +9,7 @@ Done:
 - `darcs-all`, `push-all` -\> `sync-all`
 - `aclocal.m4`
 - [Building/GettingTheSources](building/getting-the-sources) -\> [DarcsConversion/Building/GettingTheSources](darcs-conversion/building/getting-the-sources) (not yet applied)
+- [Building/QuickStart](building/quick-start)
 
 
 Pending:
@@ -20,7 +21,6 @@ Pending:
 - Start a git server on darcs.haskell.org?
 - `README`
 - [Building/Windows](building/windows)
-- [Building/QuickStart](building/quick-start)
 - [Building/Rebuilding](building/rebuilding)
 - [Building/RunningNoFib](building/running-no-fib)
 - [DarcsRepositories](darcs-repositories) (inc. the sidebar)
