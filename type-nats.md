@@ -8,6 +8,7 @@ This page collects information on how to work with type-level natural numbers, a
 - [Type-Level Naturals Basics](type-nats/basics)
 - [Natural Numbers: From Values to Types](type-nats/naturals)
 - [Type-Level Operations](type-nats/operations)
+- [Examples](type-nats/examples)
 
 ## Notes on Design
 
