@@ -15,6 +15,7 @@ This page collects information on how to work with type-level natural numbers, a
 - [Alternative Design For Singletons](type-nats/alternative-singletons)
 - [Avoiding Partial Type Functions](type-nats/avoiding-partial-type-functions)
 - Naturals or Integers?
+- [Inductive definitions](type-nats/inductive-definitions)
 
 ## Notes on the Implementation
 
