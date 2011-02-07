@@ -12,6 +12,7 @@ Done:
  * [wiki:Building/Rebuilding]
  * [wiki:Building/RunningNoFib]
  * [wiki:DarcsRepositories] (inc. the sidebar)
+ * [wiki:GettingStarted]
 
 Pending:
  * The buildbot scripts
@@ -25,7 +26,6 @@ Pending:
  * [wiki:WorkingConventions/Darcs]
  * [wiki:WorkingConventions/FixingBugs]
  * [wiki:WorkingConventions/AddingFeatures]
- * [wiki:GettingStarted]
 
 == Dependencies on darcs ==
 

@@ -13,6 +13,7 @@ Done:
 - [Building/Rebuilding](building/rebuilding)
 - [Building/RunningNoFib](building/running-no-fib)
 - [DarcsRepositories](darcs-repositories) (inc. the sidebar)
+- [GettingStarted](getting-started)
 
 
 Pending:
@@ -28,7 +29,6 @@ Pending:
 - [WorkingConventions/Darcs](working-conventions/darcs)
 - [WorkingConventions/FixingBugs](working-conventions/fixing-bugs)
 - [WorkingConventions/AddingFeatures](working-conventions/adding-features)
-- [GettingStarted](getting-started)
 
 ## Dependencies on darcs
 
