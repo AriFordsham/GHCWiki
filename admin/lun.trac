@@ -63,3 +63,55 @@ User data for service `foo` is generally in `/srv/foo`.
 == mrtg ==
 
 The mrtg config is in `/etc/mrtg.cfg`, some helpers are in `/srv/local/mrtg/`, and the output goes to `/var/www/mrtg`. The URL for it is http://lun.haskell.org/mrtg/
+
+== Mailman ==
+
+To restart the Mailman daemons:
+
+{{{
+/etc/init.d/mailman restart
+}}}
+
+The data is stored in `/var/lib/mailman`, and Mailman itself is in `/usr/lib/mailman`.
+
+=== Web interface ===
+
+The top-level list-of-lists is here: [http://projects.haskell.org/cgi-bin/mailman/listinfo].
+
+The web interface is configured via `/etc/apache2/sites-available/projects`, and is currently
+
+{{{
+    Alias /pipermail/ /var/lib/mailman/archives/public/
+    <Directory /var/lib/mailman/archives/public>
+      Options +FollowSymLinks
+    </Directory>
+
+    ScriptAlias /cgi-bin/mailman/ /usr/lib/cgi-bin/mailman/
+    <Directory "/usr/lib/cgi-bin/mailman">
+        AllowOverride None
+        Options ExecCGI -MultiViews +SymLinksIfOwnerMatch
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    Alias /images/mailman/ /usr/share/images/mailman/
+    <Directory "/usr/share/images/mailman">
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+    </Directory>
+}}}
+
+sample configuration is in `/etc/mailman/apache.conf`.
+
+=== Adding a new list ===
+
+Use the `newlist` command (see `man newlist`).
+
+=== Email aliases ===
+
+Where are these configured for exim?
+
+=== Archives ===
+
+Archives are stored in `/var/lib/mailman/archives`.
