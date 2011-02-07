@@ -18,8 +18,4 @@ This page tells you how to get started with hacking on GHC.
 
 == Contributing back to GHC ==
 
-The following pages describe the process of making a change to GHC and contributing it back.  For small changes you can just `darcs send`, but for larger changes it helps a great deal if the patch is in a form that we can review quickly and use without too much extra work.
-
- * [wiki:WorkingConventions Working on GHC]
-
-Note that, largely due to performance issues in darcs, we currently avoid applying patches with conflicts to the GHC repositories. If you find that you have a conflict in a patch that you want to send or apply, please first unrecord and re-record (or amend-record) it so that the conflict is removed.
+For a description of the process of making a change to GHC and contributing it back, see [wiki:WorkingConventions working conventions].
