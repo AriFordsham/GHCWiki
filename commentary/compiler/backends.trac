@@ -7,7 +7,6 @@ After [wiki:Commentary/Compiler/CmmType Cmm] has been generated, we have a choic
  * [wiki:Commentary/Compiler/Backends/PprC The C code generator]
  * [wiki:Commentary/Compiler/Backends/NCG  The native code generator]
  * [wiki:Commentary/Compiler/Backends/LLVM The LLVM code generator]
- * Future: a C-- code generator
 
 These backends are completely interchangeable.  Our preferred route is the native code generator, because the C code generator relies on some serious hackery, namely the [wiki:Commentary/EvilMangler Evil Mangler], to get fast tail-calls and other performance tricks.  The Evil Mangler is slated for removal as soon as possible, which would leave us with just the native code generator for optimised compilation, and the C code generator for portable, non-optimised, or unregisterised compilation.
 
