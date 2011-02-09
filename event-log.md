@@ -1,11 +1,12 @@
 ## Summary
 
-> [EventLog](event-log) is a fast, extensible event logging framework in the GHC run-time system (RTS) to support profiling of GHC run-time events. 
+>
+> EventLog is a fast, extensible event logging framework in the GHC run-time system (RTS) to support profiling of GHC run-time events. 
 
 ## Design
 
-- [EventLog](event-log) framework is located in ghc_root/rts/eventlog/
-- Library to parse [EventLog](event-log) files for any visualizer, which relies upon the Data.Binary library: ghc-events.
+- EventLog framework is located in ghc_root/rts/eventlog/
+- A [ ghc-events](http://hackage.haskell.org/package/ghc-events) library to parse EventLog files for any visualizer, which relies upon the Data.Binary library.
 - Visualizer: [ ThreadScope](http://raintown.org/?page_id=132)
 
 ## Code repository
