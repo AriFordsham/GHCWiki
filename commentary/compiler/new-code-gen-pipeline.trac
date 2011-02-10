@@ -35,8 +35,10 @@ The first two steps are described in more detail here:
     * The transformation inserts a function prologue at the start of each proc-point, and a function epilogue just before each branch to a proc-point.
 
  * '''Add spill/reload''', implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The spill and reload instructions are simply memory stores and loads respectively, using symbolic stack offsets (see [wiki:Commentary/Compiler/StackAreas#Layingoutthestack stack layout]).  For example, a spill of variable 'x' would look like `Ptr32[SS(x)] = x`.  There are three stages:
-   * Insert spills at definitions and reloads at return points
-   * Duplicate reloads just before uses
+   * `dualLivenessWithInsertion` does two things:
+     * Spills at the definition of any variable that is subequently live across a call (uses a backward analysis)
+     * Adds a reload at each return (or proc) point
+   * `insertLateReloads`: Duplicate reloads just before uses, if every path to the use defines the variable by a reload (uses a forward analysis)
    * Remove redundant reloads
 
  * '''Figure out the stack layout''', implemented in `CmmStackLayout`.
