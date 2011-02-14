@@ -11,7 +11,7 @@ The stack-layout phase decides where to spill variables. The important goals are
 For each stack slot, we introduce a new name, then treat the name as the addressing expression for the slot. At the end of the pipeline, we choose a stack layout, then replace each stack slot with its offset from the stack pointer. The benefit is that we break the phase-ordering problem: any phase of the compiler can name a stack slot.
 
 
-For example, for a variable `x`, the expression `SS(x)` is the address of the stack slot where we can spill `x`. The stack is assumed to grow down, and we assume that the address `SS(x)` points to the old end of the slot. Therefore, to address the low address of a 4-byte slot, we would use the expression `SS(x + 4)`. And we would spill `x` using the following instruction:
+For example, for a variable `x`, the expression `SS(x)` is the address of the stack slot where we can spill `x`. (I don't think we output any C-- that uses SS anymore, but the new code generator marks its stack slots prior to layout with `young<k> + 4`, etc. -- Edward) The stack is assumed to grow down, and we assume that the address `SS(x)` points to the old end of the slot. Therefore, to address the low address of a 4-byte slot, we would use the expression `SS(x + 4)`. And we would spill `x` using the following instruction:
 
 ```wiki
 m[SS(x + 4)] := x;
@@ -48,7 +48,12 @@ We use the following types to represent stack slots and parameter-passing areas:
 ```wiki
 data Area
   = RegSlot  LocalReg
-  | CallArea BlockId
+  | CallArea AreaId
+  deriving (Eq, Ord)
+
+data AreaId
+  = Old
+  | Young BlockId
   deriving (Eq, Ord)
 
 data CmmExpr
@@ -59,7 +64,7 @@ data CmmExpr
 ```
 
 
-An `Area` represents space on the stack; it may use either the `RegSlot` constructor to represent a single stack slot for a register or the `CallArea` constructor to represent parameters passed to/from a function call/return. In a `CallArea`, the `BlockId` is the label of the function call's continuation. Each `Area` grows down, with offset 0 pointing to the old end of the `Area`.
+An `Area` represents space on the stack; it may use either the `RegSlot` constructor to represent a single stack slot for a register or the `CallArea` constructor to represent parameters passed to/from a function call/return. In a young `CallArea`, the `BlockId` is the label of the function call's continuation. Each `Area` grows down, with offset 0 pointing to the old end of the `Area`. (TODO Explain the old area.)
 
 
 To name a specific location on the stack, we represent its address with a new kind of `CmmExpr`: the `CmmStackSlot`.
