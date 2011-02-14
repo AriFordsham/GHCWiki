@@ -15,7 +15,7 @@ Ther are two problems with the current approach
 
  * Equality evidence variables ("type variables") are treated differently to dictionary evidence variables ("term varaibles"). This leads to lots of tiresome non-uniformities.
  * In an abstraction `/\a\x:a.e` the type variable `a` can appear in the type of a term-variable binder `x`.  In contrast `x` can't appear in the type of another binder.  Coercion binders behave exactly like term binders in this way, and quite unlike type binders.
- * More seeriously, we don't have a decent way to handle superclass equalities.
+ * More seriously, we don't have a decent way to handle superclass equalities.
 
 The last problem is the one that triggered this note, and needs a bit more explanation.  Consider
 {{{
