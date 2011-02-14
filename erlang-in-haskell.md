@@ -98,7 +98,7 @@ Here's the procedure, step by step.
 
 1. Copy the compiled executable `Pi6` to some location on each of the three hosts.
 
-1. For each node, we need to create a configuration file. This is plain text file, usually named `config` and usually placed in the same directory with the executable. There are many possible settings that can be set in the configuration file, but only a few are necessary for this example; the rest have sensible defaults. On `masterhost`, create a file named `config` with the following content:
+1. For each node, we need to create a configuration file. This is plain text file, usually named `config` and is expected to be in the current directory. There are many possible settings that can be set in the configuration file, but only a few are necessary for this example; the rest have sensible defaults. On `masterhost`, create a file named `config` with the following content:
 
   ```wiki
   cfgRole MASTER
