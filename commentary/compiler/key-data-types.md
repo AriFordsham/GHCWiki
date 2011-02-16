@@ -11,6 +11,6 @@ The key to understanding GHC is to understand its key data types.  There are pag
 - [The core language](commentary/compiler/core-syn-type)
 - [The STG language](commentary/compiler/stg-syn-type)
 - [The Cmm language](commentary/compiler/cmm-type)
-- ModIface, ModDetails, ModGuts
+- [ModIface, ModDetails, ModGuts](commentary/compiler/module-types)
 
 [](/trac/ghc/attachment/wiki/Commentary/Compiler/KeyDataTypes/types.png)
