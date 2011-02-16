@@ -1,6 +1,3 @@
-
-\[ Up: [Commentary/Compiler](commentary/compiler) \]
-
 # General overview
 
 

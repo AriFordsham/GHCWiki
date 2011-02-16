@@ -1,5 +1,3 @@
-[ Up: [wiki:Commentary/Compiler] ]
-
 = General overview =
 
 GHC's approach to strictness analysis is that of "demand analysis", a backwards analysis in which strictness analysis and absence analysis are done in a single pass. In the future, analysis to perform unboxing, as well as other analyses, may be implemented within this framework as well.
