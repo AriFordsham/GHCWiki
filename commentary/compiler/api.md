@@ -97,12 +97,7 @@ The process in principle is fairly simple:
 The process is made more tricky in practice for two reasons:
 
 - We might not need to compile certain modules, if none of their dependencies have changed.  GHC's 
-  recompilation checker? determines whether a module really needs
+  [recompilation checker](commentary/compiler/recompilation-avoidance) determines whether a module really needs
   to be compiled or not.
 - In GHCi, we might just be reloading the program after making some changes, so we don't even want to re-link
   modules for which no dependencies have changed.
-
-## Stable Modules
-
-
-ToDo.
