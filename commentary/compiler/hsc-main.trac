@@ -7,7 +7,7 @@ Video: [http://video.google.com/videoplay?docid=5254545394467397086 Compiler Pip
 Here we are going to look at the compilation of a single module.
 There is a picture that goes with this description, which appears at the bottom of this page, but you'll probably find it easier to open [wiki:Commentary/Compiler/HscPipe this link] in another window, so you can see it at the same time as reading the text.
 
-Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called !HscMain (in [[GhcFile(compiler/main/HscMain.lhs)]]).  Each data type's representation can be dumped for further inspection using a `-ddump-*` flag.  Here are the steps it goes through:
+Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called !HscMain ([[GhcFile(compiler/main/HscMain.lhs)]]).  Each data type's representation can be dumped for further inspection using a `-ddump-*` flag.  Here are the steps it goes through:
 
  * The '''Front End''' processes the program in the [wiki:Commentary/Compiler/HsSynType big HsSyn type]. {{{HsSyn}}} is parameterised over the types of the term variables it contains.  The first three passes (the front end) of the compiler work like this:[[BR]][[BR]]
    * The '''Parser''' produces {{{HsSyn}}} parameterised by '''[wiki:Commentary/Compiler/RdrNameType RdrName]'''.  To a first approximation, a {{{RdrName}}} is just a string. (`-ddump-parsed`) [[BR]][[BR]]
@@ -44,17 +44,18 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
   * The same, tidied Core program is now fed to the Back End.  First there is a two-stage conversion from {{{CoreSyn}}} to [wiki:Commentary/Compiler/StgSynType GHC's intermediate language, StgSyn].
     * The first step is called '''!CorePrep''', a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually `CorePrep` does quite a bit more: there is a detailed list at the top of the file [[GhcFile(compiler/coreSyn/CorePrep.lhs)]].
-    * The second step, '''!CoreToStg''', moves to the {{{StgSyn}}} data type (the code is in [[[GhcFile(compiler/stgSyn/CoreToStg.lhs)]]].  The output of !CorePrep is carefully arranged to exactly match what {{{StgSyn}}} allows (notably ANF), so there is very little work to do. However, {{{StgSyn}}} is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by {{{CoreToStg}}}.
+    * The second step, '''!CoreToStg''', moves to the {{{StgSyn}}} data type ([[[GhcFile(compiler/stgSyn/CoreToStg.lhs)]]].  The output of !CorePrep is carefully arranged to exactly match what {{{StgSyn}}} allows (notably ANF), so there is very little work to do. However, {{{StgSyn}}} is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by {{{CoreToStg}}}.
 
   * Next, the '''[wiki:Commentary/Compiler/CodeGen Code Generator]''' converts the STG program to a {{{C--}}} program.  The code generator is a Big Mother, and lives in directory [[GhcFile(compiler/codeGen)]]  
 
   * Now the path forks again:
     * If we are generating GHC's stylised C code, we can just pretty-print the {{{C--}}} code as stylised C ([[GhcFile(compiler/cmm/PprC.hs)]])
-    * If we are generating native code, we invoke the native code generator.  This is another Big Mother, and lives in [[GhcFile(compiler/nativeGen)]].
-    * If we are generating LLVM code, we invoke the LLVM code generator. This is a reasonably simple code generator and lives in [[GhcFile(compiler/llvmGen)]].
+    * If we are generating native code, we invoke the native code generator.  This is another Big Mother ([[GhcFile(compiler/nativeGen)]]).
+    * If we are generating LLVM code, we invoke the LLVM code generator. This is a reasonably simple code generator ([[GhcFile(compiler/llvmGen)]]).
 
 = The Diagram =
 
 This diagram is also located [wiki:Commentary/Compiler/HscPipe here], so that you can open it in a separate window.
 
 [[Image(Commentary/Compiler/HscPipe:HscPipe.png)]]
+

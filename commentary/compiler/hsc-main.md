@@ -8,7 +8,7 @@ Here we are going to look at the compilation of a single module.
 There is a picture that goes with this description, which appears at the bottom of this page, but you'll probably find it easier to open [this link](commentary/compiler/hsc-pipe) in another window, so you can see it at the same time as reading the text.
 
 
-Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called HscMain (in [compiler/main/HscMain.lhs](/trac/ghc/browser/ghc/compiler/main/HscMain.lhs)).  Each data type's representation can be dumped for further inspection using a `-ddump-*` flag.  Here are the steps it goes through:
+Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called HscMain ([compiler/main/HscMain.lhs](/trac/ghc/browser/ghc/compiler/main/HscMain.lhs)).  Each data type's representation can be dumped for further inspection using a `-ddump-*` flag.  Here are the steps it goes through:
 
 - The **Front End** processes the program in the [big HsSyn type](commentary/compiler/hs-syn-type). `HsSyn` is parameterised over the types of the term variables it contains.  The first three passes (the front end) of the compiler work like this:
 
@@ -56,15 +56,15 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 - The same, tidied Core program is now fed to the Back End.  First there is a two-stage conversion from `CoreSyn` to [GHC's intermediate language, StgSyn](commentary/compiler/stg-syn-type).
 
   - The first step is called **CorePrep**, a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually `CorePrep` does quite a bit more: there is a detailed list at the top of the file [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs).
-  - The second step, **CoreToStg**, moves to the `StgSyn` data type (the code is in \[GhcFile(compiler/stgSyn/CoreToStg.lhs)?\].  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
+  - The second step, **CoreToStg**, moves to the `StgSyn` data type (\[GhcFile(compiler/stgSyn/CoreToStg.lhs)?\].  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
 
 - Next, the **[Code Generator](commentary/compiler/code-gen)** converts the STG program to a `C--` program.  The code generator is a Big Mother, and lives in directory [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen)
 
 - Now the path forks again:
 
   - If we are generating GHC's stylised C code, we can just pretty-print the `C--` code as stylised C ([compiler/cmm/PprC.hs](/trac/ghc/browser/ghc/compiler/cmm/PprC.hs))
-  - If we are generating native code, we invoke the native code generator.  This is another Big Mother, and lives in [compiler/nativeGen](/trac/ghc/browser/ghc/compiler/nativeGen).
-  - If we are generating LLVM code, we invoke the LLVM code generator. This is a reasonably simple code generator and lives in [compiler/llvmGen](/trac/ghc/browser/ghc/compiler/llvmGen).
+  - If we are generating native code, we invoke the native code generator.  This is another Big Mother ([compiler/nativeGen](/trac/ghc/browser/ghc/compiler/nativeGen)).
+  - If we are generating LLVM code, we invoke the LLVM code generator. This is a reasonably simple code generator ([compiler/llvmGen](/trac/ghc/browser/ghc/compiler/llvmGen)).
 
 # The Diagram
 
