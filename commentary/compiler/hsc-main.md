@@ -64,6 +64,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
   - If we are generating GHC's stylised C code, we can just pretty-print the `C--` code as stylised C ([compiler/cmm/PprC.hs](/trac/ghc/browser/ghc/compiler/cmm/PprC.hs))
   - If we are generating native code, we invoke the native code generator.  This is another Big Mother, and lives in [compiler/nativeGen](/trac/ghc/browser/ghc/compiler/nativeGen).
+  - If we are generating LLVM code, we invoke the LLVM code generator. This is a reasonably simple code generator and lives in [compiler/llvmGen](/trac/ghc/browser/ghc/compiler/llvmGen).
 
 # The Diagram
 
