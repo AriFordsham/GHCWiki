@@ -21,8 +21,8 @@ Here are some of the things stored in an interface file `M.hi`
 
 - A list of what `M` exports.
 - The types of exported functions, definition of exported types, and so on.
-- Version information, used to drive the [smart recompilation checker](commentary/compiler/recompilation-avoidance).
+- Version information, used to drive the [recompilation checker](commentary/compiler/recompilation-avoidance).
 - The strictness, arity, and unfolding of exported functions.  This is crucial for cross-module optimisation; but it is only included when you compile with `-O`.
 
 
-The contents of an interface file is the result of serialising the **`IfaceSyn`** family of data types.  The data types are in [compiler/iface/IfaceSyn.lhs](/trac/ghc/browser/ghc/compiler/iface/IfaceSyn.lhs) and [compiler/iface/IfaceType.lhs](/trac/ghc/browser/ghc/compiler/iface/IfaceType.lhs); the binary serialisation code is in [compiler/iface/BinIface.hs](/trac/ghc/browser/ghc/compiler/iface/BinIface.hs).
+The contents of an interface file is the result of serialising the **`IfaceSyn`** family of data types.  The data types are in [compiler/iface/IfaceSyn.lhs](/trac/ghc/browser/ghc/compiler/iface/IfaceSyn.lhs) and [compiler/iface/IfaceType.lhs](/trac/ghc/browser/ghc/compiler/iface/IfaceType.lhs); the binary serialisation code is in [compiler/iface/BinIface.hs](/trac/ghc/browser/ghc/compiler/iface/BinIface.hs). The definition of a module interface is the **`ModIface`** data type in [compiler/main/HscTypes.lhs](/trac/ghc/browser/ghc/compiler/main/HscTypes.lhs).
