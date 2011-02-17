@@ -5,13 +5,13 @@ The key to understanding GHC is to understand its key data types.  There are pag
 
 - [The source language: HsSyn](commentary/compiler/hs-syn-type)
 - [RdrNames, Modules, and OccNames](commentary/compiler/rdr-name-type)
+- [ModIface, ModDetails, ModGuts](commentary/compiler/module-types)
 - [Names](commentary/compiler/name-type)
 - [Entities](commentary/compiler/entity-types): variables, type constructors, data constructors, and classes.
 - Types: [Type and Kind](commentary/compiler/type-type), [equality types and coercions](commentary/compiler/fc)
 - [The core language](commentary/compiler/core-syn-type)
 - [The STG language](commentary/compiler/stg-syn-type)
 - [The Cmm language](commentary/compiler/cmm-type)
-- [ModIface, ModDetails, ModGuts](commentary/compiler/module-types)
 - [Back end types](commentary/compiler/back-end-types)
 
 [](/trac/ghc/attachment/wiki/Commentary/Compiler/KeyDataTypes/types.png)
