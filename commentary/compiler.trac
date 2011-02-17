@@ -17,6 +17,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
  * [wiki:Commentary/Compiler/KeyDataTypes Key data types]
    * [wiki:Commentary/Compiler/HsSynType The source language: HsSyn] 
    * [wiki:Commentary/Compiler/RdrNameType RdrNames, Modules, and OccNames]
+   * [wiki:Commentary/Compiler/ModuleTypes ModIface, ModDetails, ModGuts]
    * [wiki:Commentary/Compiler/NameType Names]
    * [wiki:Commentary/Compiler/EntityTypes Entities]: variables, type constructors, data constructors, and classes.
    * Types: [wiki:Commentary/Compiler/TypeType Type and Kind], [wiki:Commentary/Compiler/FC equality types and coercions]
