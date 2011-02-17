@@ -1,7 +1,7 @@
 = Native Code Generator (NCG) =
 
 For other information related to this page, see:
- * [http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/the-beast/ncg.html the Old GHC Commentary: Native Code Generator] page (comments regarding Maximal Munch and register allocation optimisations are mostly still valid)
+ * [http://darcs.haskell.org/ghc/docs/comm/the-beast/ncg.html the Old GHC Commentary: Native Code Generator] page (comments regarding Maximal Munch and register allocation optimisations are mostly still valid)
  * [wiki:BackEndNotes] for optimisation ideas regarding the current NCG
  * The New GHC Commentary Cmm page: [wiki:Commentary/Compiler/CmmType The Cmm language] (the NCG code works from Haskell's implementation of C-- and many optimisations in the NCG relate to Cmm)
  * [wiki:Commentary/Compiler/Backends/NCG/RegisterAllocator The register allocator].

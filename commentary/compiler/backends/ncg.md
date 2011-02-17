@@ -3,7 +3,7 @@
 
 For other information related to this page, see:
 
-- [ the Old GHC Commentary: Native Code Generator](http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/the-beast/ncg.html) page (comments regarding Maximal Munch and register allocation optimisations are mostly still valid)
+- [ the Old GHC Commentary: Native Code Generator](http://darcs.haskell.org/ghc/docs/comm/the-beast/ncg.html) page (comments regarding Maximal Munch and register allocation optimisations are mostly still valid)
 - [BackEndNotes](back-end-notes) for optimisation ideas regarding the current NCG
 - The New GHC Commentary Cmm page: [The Cmm language](commentary/compiler/cmm-type) (the NCG code works from Haskell's implementation of C-- and many optimisations in the NCG relate to Cmm)
 - [The register allocator](commentary/compiler/backends/ncg/register-allocator).
