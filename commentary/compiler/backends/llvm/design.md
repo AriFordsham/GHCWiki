@@ -10,7 +10,6 @@ The LLVM pipeline works as follows:
 - LLVM code generation will output LLVM assembly code.
 - The LLVM assembly code is translated to an object file as follows
 
-  - First, there is an 'LlvmAs' phase which generates LLVM bitcode from LLVM assembly code (using the `llvm-as` tool). 
   - The LLVM optimizer is run which is a series of bitcode to bitcode optimization passes (using the `llc` tool).
   - Finally an object file is created from the LLVM bitcode (using the `llc` tool)
 - This brings the LLVM path back to the other back-ends.
@@ -21,7 +20,7 @@ Here is a diagram of the pipeline:
 
 ```wiki
 Cmm -> (codeOutput) --->(ncg) Assembler      -->(mangler, splitter) --> ('As' phase) -----> Object Code --> (link) --> executable
-                        \---> LLVM Assembler --> LLVM Optimizer     --> ('llc' phase) -----/
+                        \---> (llvm) LLVM IR --> LLVM Optimizer     --> ('llc' phase) -----/
 ```
 
 
@@ -31,7 +30,7 @@ This approach was the easiest and thus quickest way to initially implement the L
 
 ## Framework
 
-- New -fllvm code generation pipeline, involved modifying:
+- New **-fllvm** code generation pipeline, involved modifying:
 
   - `main/CodeOutput.lhs` - Selects appropriate back-end for code generation (C, NCG, LLVM).
   - `main/DynFlags.hs` - Stores GHC configuration (command line options, compile time options... ect). Added `HscLlvm` target type.

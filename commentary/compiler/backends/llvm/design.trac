@@ -7,7 +7,6 @@ The LLVM pipeline works as follows:
   * New path for LLVM generation, separate from C and NCG. (path forks at compiler/main/CodeOutput.lhs, same place where C and NCG fork).
   * LLVM code generation will output LLVM assembly code.
   * The LLVM assembly code is translated to an object file as follows
-     * First, there is an '!LlvmAs' phase which generates LLVM bitcode from LLVM assembly code (using the {{{llvm-as}}} tool). 
      * The LLVM optimizer is run which is a series of bitcode to bitcode optimization passes (using the {{{llc}}} tool).
      * Finally an object file is created from the LLVM bitcode (using the {{{llc}}} tool)
   * This brings the LLVM path back to the other back-ends.
@@ -17,7 +16,7 @@ Here is a diagram of the pipeline:
 
 {{{
 Cmm -> (codeOutput) --->(ncg) Assembler      -->(mangler, splitter) --> ('As' phase) -----> Object Code --> (link) --> executable
-                        \---> LLVM Assembler --> LLVM Optimizer     --> ('llc' phase) -----/
+                        \---> (llvm) LLVM IR --> LLVM Optimizer     --> ('llc' phase) -----/
 }}}
 
 This approach was the easiest and thus quickest way to initially implement the LLVM back-end. Now that it is working, there is some room for additional optimisations. A potential optimisation would be to add a new linker phase for LLVM. Instead of each module just being compiled to native object code ASAP, it would be better to keep them in the LLVM bitcode format and link all the modules together using the LLVM linker. This enable all of LLVM's link time optimisations. All the user program LLVM bitcode will then be compiled to a native object file and linked with the runtime using the native system linker.
@@ -26,7 +25,7 @@ This approach was the easiest and thus quickest way to initially implement the L
 
 == Framework ==
 
-  * New -fllvm code generation pipeline, involved modifying:
+  * New '''-fllvm''' code generation pipeline, involved modifying:
     * {{{main/CodeOutput.lhs}}} - Selects appropriate back-end for code generation (C, NCG, LLVM).
     * {{{main/DynFlags.hs}}} - Stores GHC configuration (command line options, compile time options... ect). Added `HscLlvm` target type.
     * {{{ghc.cabal.in}}} - Stores modules/files to compile for ghc. Added new LLVM files and directory stored under `llvmGen`, and new CPP flag to enable the LLVM code generator (`-DLLVM`).
