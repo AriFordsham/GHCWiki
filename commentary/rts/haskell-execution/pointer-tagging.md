@@ -70,7 +70,7 @@ This means that everywhere that enters either a case continuation or a non-top-l
 
 For a non-top-level function, the cases are:
 
-- unknown function application goes via `stg_ap_XXX` (see [Generic Apply](commentary/rts/haskell-execution/function-calls#)).  
+- unknown function application goes via `stg_ap_XXX` (see [Generic Apply](commentary/rts/haskell-execution/function-calls#generic-apply)).  
   The generic apply functions must therefore arrange to correctly tag R1 before entering the function.
 - A known function can be entered directly, if the call is made with exactly the right number of arguments.
 - If a function fails its heap check and returns to the runtime to garbage collect, on re-entry the closure
