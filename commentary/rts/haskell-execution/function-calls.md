@@ -20,7 +20,7 @@ First, we need some terminology:
 
   Here, `f` has arity 1, even though its type suggests it takes two arguments.  The point is that the compiled code for `f` will expect to be passed just one argument, `x`.
 
-- The **entry point** (sometimes called the **fast entry point**) of a function of arity N expects its first N  arguments to be passed in accordance with the standard **[Entry convention](commentary/rts/haskell-execution#)**.
+- The **entry point** (sometimes called the **fast entry point**) of a function of arity N expects its first N  arguments to be passed in accordance with the standard [calling conventions](commentary/rts/haskell-execution/calling-convention).
 
 - A **known call** is a call of a function whose binding site is statically visible:
 
@@ -31,7 +31,7 @@ First, we need some terminology:
 
 When compiling a call, there are several cases to consider, which are treated separately.  
 
-- **Unknown function**;  a call in which we do not statically know what the function is.  In that case we must do a "generic apply".  This is so exciting that it deserves its [own section](commentary/rts/haskell-execution#generic-apply).
+- **Unknown function**;  a call in which we do not statically know what the function is.  In that case we must do a "generic apply".  This is so exciting that it deserves its [own section](commentary/rts/haskell-execution/function-calls#generic-apply).
 
 - **Known function, saturated call**.   The function is applied to exactly the right number of arguments to satisfy its arity.  In that case, we simply load the arguments according to the standard entry convention, and tail-call (jump to) the function's entry point.  On average, about 80% of all calls fall into this category (see the eval/apply paper for measurements).
 
