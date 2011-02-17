@@ -7,7 +7,7 @@ Source files: [[GhcFile(includes/Regs.h)]], [[GhcFile(includes/MachRegs.h)]]
 During execution of Haskell code the following (virtual) registers are always valid:
  * `Hp` points to the byte before the first free byte in the (contiguous) allocation space.
 
- * `HpLim` points to the last available byte in the current chunk of allocation space (see [[ref(Heap/Stack check failures)]]).
+ * `HpLim` points to the last available byte in the current chunk of allocation space.
 
  * `Sp` points to the youngest allocated byte of stack.  The stack grows downwards.  Why?  Because that means a return address is at a lower address than the stack frame it "knows about", and that in turn means that we can treat a stack frame very like a heap object, with an info pointer (return address) as its first word.
 
