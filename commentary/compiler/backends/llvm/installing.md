@@ -18,13 +18,13 @@ The LLVM backend only supports LLVM version **2.7** or later. Simply install it 
 
 Once built you can check that you have the LLVM backend GHC will support these extra options:
 
-- *--info* - Now will report that it has the llvm backend
 - *-fllvm* - Compile code using the llvm backend
-- *-ddump-llvm* - Dumps the llvm IR while compiling
 - *-pgmlo* - The program to use as the llvm optimiser
 - *-pgmlc* - The program to use as the llvm compiler
 - *-optlo* - Extra options to pass to the llvm optimiser
 - *-optlc* - Extra options to pass to the llvm compiler
+- *-ddump-llvm* - Dumps the llvm IR while compiling
+- *-keep-llvm-files* - Keep a copy of the llvm intermediate file around
 
 ## Supported Platforms & Correctness
 
