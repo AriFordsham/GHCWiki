@@ -20,7 +20,7 @@ First, we need some terminology:
 
   Here, `f` has arity 1, even though its type suggests it takes two arguments.  The point is that the compiled code for `f` will expect to be passed just one argument, `x`.
 
-- The **entry point** (sometimes called the **fast entry point**) of a function of arity N expects its first N  arguments to be passed in accordance with the standard **[Entry convention](commentary/rts/haskell-execution#)**.
+- The **entry point** (sometimes called the **fast entry point**) of a function of arity N expects its first N  arguments to be passed in accordance with the standard [calling conventions](commentary/rts/haskell-execution/calling-convention).
 
 - A **known call** is a call of a function whose binding site is statically visible:
 

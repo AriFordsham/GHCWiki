@@ -17,7 +17,7 @@ f = \x -> case x of
 }}}
     Here, `f` has arity 1, even though its type suggests it takes two arguments.  The point is that the compiled code for `f` will expect to be passed just one argument, `x`.
 
-  * The '''entry point''' (sometimes called the '''fast entry point''') of a function of arity N expects its first N  arguments to be passed in accordance with the standard '''[wiki:Commentary/Rts/HaskellExecution#Entryconvention Entry convention]'''.
+  * The '''entry point''' (sometimes called the '''fast entry point''') of a function of arity N expects its first N  arguments to be passed in accordance with the standard [wiki:Commentary/Rts/HaskellExecution/CallingConvention calling conventions].
 
   * A '''known call''' is a call of a function whose binding site is statically visible:
     * The function is bound at top level in this module; or,
