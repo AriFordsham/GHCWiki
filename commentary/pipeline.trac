@@ -63,10 +63,10 @@ We start with {{{Foo.hs}}} or {{{Foo.lhs}}}, the "l" specifing whether literate 
 
  * Run the '''C preprocessor''', `cpp`, (if {{{-cpp}}} is specified), generating {{{Foo.hspp}}}.
 
- * Run '''the compiler itself'''. This does not start a separate process; it's just a call to a Haskell function.  This step always generates an [wiki:Commentary/Compiler/IfaceFiles '''interface file'''] {{{Foo.hi}}}, and depending on what flags you give, it also generates a compiled file:
-   * Assembly code: flag {{{-S}}}, file {{{Foo.s}}}
-   * C code: flag {{{-fvia-C}}}, file {{{Foo.hc}}}
-   * C-- mode: flag {{{-fcmm}}}, file {{{Foo.cmm}}}, believed not to work
+ * Run '''the compiler itself'''. This does not start a separate process; it's just a call to a Haskell function.  This step always generates an [wiki:Commentary/Compiler/IfaceFiles '''interface file'''] {{{Foo.hi}}}, and depending on what flags you give, it also generates a compiled file. As GHC supports three backend code generators currently (a native code generator, a c code generator and an llvm code generator) the possible range of outputs depends on the backend used. All three support assembly output:
+   * Object code: no flags required, file {{{Foo.o}}} (supported by all three backends)
+   * Assembly code: flag {{{-S}}}, file {{{Foo.s}}} (supported by all three backends)
+   * C code: flags {{{-C}}}, file {{{Foo.hc}}} (only supported by C backend)
 
   * In the {{{-fvia-C}}} case:
     * Run the '''C compiler''' on `Foo.hc`, to generate `Foo.raw_s`.
