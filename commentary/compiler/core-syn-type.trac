@@ -48,6 +48,8 @@ That's it.  All of Haskell gets compiled through this tiny core.
 {{{Expr}}} is parameterised over the type of its ''binders'', {{{b}}}.  This facility is used only rarely, and always temporarily; for example, the let-floater {{{SetLevels}}} pass attaches a binding level to every binder.  By far the most important type is {{{CoreExpr}}}, which is {{{Expr}}} with {{{Var}}} binders.
 
 Here are some notes about the individual constructors of {{{Expr}}}.
+ * {{{Var}}} represents variables.  The {{{Id}}} it contains is essentially an [wiki:Commentary/Compiler/RdrNameType#TheOccNametype OccName] plus a {{{Type}}}; however, equality {{{(==)}}} on {{{Id}}}s is based only on their {{{OccName}}}'s, so ''two {{{Var}}}s with different types may be {{{(==)}}}-equal''.
+
  * {{{Lam}}} is used for both term and type abstraction (small and big lambdas).
 
  * {{{Type}}} appears only in type-argument positions (e.g. {{{App (Var f) (Type ty)}}}).  To emphasise this, the type synonym {{{Arg}}} is used as documentation when we expect that a {{{Type}}} constructor may show up.  Anything not called {{{Arg}}} should not use a {{{Type}}} constructor.
