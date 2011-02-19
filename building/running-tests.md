@@ -13,9 +13,26 @@ If you have not checked out the test suite, first run:
 ```
 
 
-You can run the whole test suite with `make test` or `make fulltest` in the root
-of the build tree, but below we will explain how to get finer control of the
-test suite.
+If you just want to run the whole test suite, then in the root of the tree running
+
+```wiki
+make test
+```
+
+
+will do a run in "fast" mode (which gives an idea whether there are major problems), or
+
+```wiki
+make fulltest
+```
+
+
+will do a full testsuite run (more thorough, but takes a lot longer).
+
+
+Below we will explain how to get finer control of the test suite.
+
+## Detail
 
 
 To run the test suite against a GHC build in the same source tree:
