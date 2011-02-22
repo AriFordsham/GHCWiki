@@ -55,7 +55,7 @@ Performance goals:
   * Dot product [FINE]
   * Evens [OK (but more than 3 times slower than C; any improvement since #4830 was fixed?)]
     * rl reckons this is due to GHC compiling modulo of powers of two inefficiently; c.f., #3065 (in `packByTags`)
-  * SMVM (blocked on optimisation of lifted indexing) '''[BROKEN]''' '''[BEN & ROMAN]'''  Roman is thinking about this over Xmas.
+  * SMVM (blocked on optimisation of lifted indexing) '''[BROKEN]''' '''[BEN & ROMAN]'''  Roman thinks he knows how to solve this, by changing our array representation to allow replicate in constant time/space.
  * Dynamically-nested DPH programs without user-defined datatypes should run correctly and scale, but absolute performance may be lacking
   * Quicksort [BROKEN (SpecConstr loop when using `-dph-seq`) & SLOW] [SIMON & BEN]
   * Quickhull '''[OK, but has a SpecConstr problem that we want to fix; pair not being inlined]''' (should be fixed now, needs to be checked) '''[ROMAN]'''
