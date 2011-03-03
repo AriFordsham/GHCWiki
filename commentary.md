@@ -68,6 +68,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
   - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
   - [SIMD](simd): Notes on adding SIMD instructions and primOps to GHC
   - [ Scrap your boilerplate page](http://sourceforge.net/apps/mediawiki/developers/index.php?title=ScrapYourBoilerplate) written by Ralf Lammel.
+  - [GHC Source Abbreviations](commentary/abbreviations): Abbreviations used in the GHC code
 
 - The Runtime System
 
@@ -84,8 +85,6 @@ However sometimes you may want to add new material that doesn't quite fit into t
 - [Parallel Haskell Variants](gp-h-eden): All aspects of the GpH and Eden parallel variants of GHC. (*work in progress*)
 
 - [Hackathon presentations](about-videos) (video)
-
-- [Commentary/Abbreviations](commentary/abbreviations): Abbreviations used in the GHC code
 
 ## Old but useful
 
