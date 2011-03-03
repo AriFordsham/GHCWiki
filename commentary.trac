@@ -45,45 +45,41 @@ However sometimes you may want to add new material that doesn't quite fit into t
    * [wiki:Commentary/Compiler/TemplateHaskell Notes about Template Haskell]
    * [wiki:Commentary/Compiler/NewCodeGen Notes about the new code generator]
    * [wiki:TypeFunctions Type families/type functions]: Notes concerning the implementation of type families, associated types, and equality constraints as well as the extension of the type checker with a contraint solver for equality constraints.
-   * [wiki:IntermediateTypes]: Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)
-   * [wiki:DataParallel]: Notes about the implementation of Data Parallel Haskell
-   * [wiki:RewriteRules]: Notes about the implementation of RULEs in GHC
-   * [wiki:BackEndNotes]: Some ideas and notes about the back end.
-   * [wiki:Commentary/Compiler/Backends/LLVM LLVM Back-end]: Some notes about the new LLVM back-end for GHC
+   * [wiki:IntermediateTypes Intermediate Types]: Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)
+   * [wiki:DataParallel DPH]: Notes about the implementation of Data Parallel Haskell
+   * [wiki:RewriteRules Rewrite Rules]: Notes about the implementation of RULEs in GHC
+   * [wiki:BackEndNotes Backend Ideas]: Some ideas and notes about the back end.
    * [wiki:Commentary/CmmExceptions Cmm: Implementing Exception Handling]: Implementing exception handling for primitive operations in Cmm
    * [wiki:Commentary/CmmKinds Cmm: Using Kinds to implement calling conventions]: Pointers to explanations of what a {{{CmmKind}}} is and why you might find one useful.
-   * [wiki:GhciDebugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
-   * [wiki:NewGhciDebugger]: The new GHCi debugger.
-   * AddingNewPrimitiveOperations: How to add new primitive operations to GHC Haskell.
+   * [wiki:GhciDebugger GHCi Debugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
+   * [wiki:NewGhciDebugger New GHCi Debugger]: The new GHCi debugger.
+   * [wiki:AddingNewPrimitiveOperations New Prim Ops]: How to add new primitive operations to GHC Haskell.
    * [wiki:ReplacingGMPNotes Replacing GMP]: Notes from an effort to replace GMP with another Bignum library.
-   * [wiki:ExternalCore]: Describes the process of bringing External Core up to speed. Once finished, this will simply describe what External Core is, and how it works. 
-   * [wiki:HaddockComments]: Some notes about how the Haddock comment support is implemented.
-   * [wiki:ExplicitCallStack]: Notes about maintaining an explicit call stack, to support error attribution and profiling.
+   * [wiki:ExternalCore External Core]: Describes the process of bringing External Core up to speed. Once finished, this will simply describe what External Core is, and how it works. 
+   * [wiki:HaddockComments Haddock]: Some notes about how the Haddock comment support is implemented.
+   * [wiki:ExplicitCallStack Explicit Call Stack]: Notes about maintaining an explicit call stack, to support error attribution and profiling.
    * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
    * [wiki:SIMD SIMD]: Notes on adding SIMD instructions and primOps to GHC
    * [http://sourceforge.net/apps/mediawiki/developers/index.php?title=ScrapYourBoilerplate Scrap your boilerplate page] written by Ralf Lammel.
+   * [wiki:Commentary/Abbreviations GHC Source Abbreviations]: Abbreviations used in the GHC code
+   * [wiki:SafeHaskell Safe Haskell]: The design of an extension to Haskell around 'Safe' code.
 
  * The Runtime System
-   * [wiki:GarbageCollectorNotes] Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
-   * [wiki:GMPMemoryManagement] Describes how the garbage collector cooperates with GMP for Integer.
+   * [wiki:GarbageCollectorNotes Garbage Collector]: Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
+   * [wiki:GMPMemoryManagement GMP Memory Managment]: Describes how the garbage collector cooperates with GMP for Integer.
    * [wiki:SemiTagging]: Describes how the semi-tagging optimisation will be implemented.
-   * [wiki:PAPI]: Measurement of program performance usign CPU events (cache misses, branch mispredictions).
+   * [wiki:PAPI]: Measurement of program performance using CPU events (cache misses, branch mis-predictions).
 
  * Other Cross-cutting concerns: topics which span both the compiler and the runtime system
-    * How the [wiki:Commentary/Hpc Haskell Program Coverage] option works
-    * [wiki:Building/RunningNoFib]: The nofib benchmark suite
+    * [wiki:Commentary/Hpc Haskell Program Coverage]: How HPC works
+    * [wiki:Building/RunningNoFib Benchmarking]: The nofib benchmark suite
 
- * [wiki:GpHEden]: All aspects of the GpH and Eden parallel variants of GHC. (''work in progress'')
+ * [wiki:GpHEden Parallel Haskell Variants]: All aspects of the GpH and Eden parallel variants of GHC. (''work in progress'')
 
  * [wiki:AboutVideos Hackathon presentations] (video)
-
- * [wiki:Commentary/Abbreviations]: abbreviations used in the GHC code
  
 == Old but useful ==
 
 Finally, here are some generally-useful, but now somewhat-out-of-date resources:
  * [http://darcs.haskell.org/ghc/docs/comm/ The old GHC Commentary]: Information on the internals of GHC, in various states of up-to-dateness.  We are keen to move this stuff out of its current location and onto this Wiki.  If anyone is willing to help do that, even for just a part in which you are interested, we would be delighted.
- * GhcPapers: papers and pointers to other documents that relate to the inner workings of GHC.
-
-
-Convert type diagram to SVG? Upload graphviz source?
+ * [wiki:GhcPapers GHC Papers]: Papers and pointers to other documents that relate to the inner workings of GHC.
