@@ -93,8 +93,8 @@ Here's a tentative plan:
 
 - Of the rest, base is somewhat special, because this alone often needs to be modified at the same time as GHC.  We propose migrating base to a git repository, along with other libraries that are maintained mostly by the GHC team:
 
-  - libraries/base
   - utils/hsc2hs
+  - libraries/base
   - libraries/array
   - libraries/containers
   - libraries/directory
