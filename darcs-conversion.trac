@@ -82,22 +82,13 @@ Here's a tentative plan:
    * libraries/vector
    * libraries/dph
 
- * Of the rest, base is somewhat special, because this alone often needs to be modified at the same time as GHC.  We propose migrating base to a git repository.
+ * Of the rest, base is somewhat special, because this alone often needs to be modified at the same time as GHC.  We propose migrating base to a git repository, along with other libraries that are maintained mostly by the GHC team:
    * libraries/base
-
- * For the rest of the repos, GHC is just a client, and we don't expect to be modifying these libraries
-   often. Where the upstream repos are not git repos, we will make our own automated "upstream" git mirror,
-   and periodically manually pull from all the git upstreams into ghc-specific git repos.
    * utils/hsc2hs
-   * utils/haddock
    * libraries/array
-   * libraries/binary
-   * libraries/bytestring
-   * libraries/Cabal
    * libraries/containers
    * libraries/directory
    * libraries/filepath
-   * libraries/haskeline
    * libraries/haskell98
    * libraries/haskell2010
    * libraries/mtl
@@ -106,14 +97,22 @@ Here's a tentative plan:
    * libraries/pretty
    * libraries/process
    * libraries/random
-   * libraries/terminfo
    * libraries/unix
-   * libraries/utf8-string
    * libraries/Win32
-   * libraries/xhtml
- * and likewise extralibs:
    * libraries/deepseq
    * libraries/parallel
+
+ * For the rest of the repos, GHC is just a client, and we don't expect to be modifying these libraries
+   often. Where the upstream repos are not git repos, we will make our own automated "upstream" git mirror,
+   and periodically manually pull from all the git upstreams into ghc-specific git repos.
+   * utils/haddock
+   * libraries/binary
+   * libraries/bytestring
+   * libraries/Cabal
+   * libraries/haskeline
+   * libraries/terminfo
+   * libraries/utf8-string
+   * libraries/xhtml
 
 == The perspective on submodules ==
 
