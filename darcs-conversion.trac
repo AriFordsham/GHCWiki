@@ -86,9 +86,8 @@ Here's a tentative plan:
    * libraries/base
 
  * For the rest of the repos, GHC is just a client, and we don't expect to be modifying these libraries
-   often.  Hence we can just copy the libraries wholesale into the GHC git repository, and update the copies
-   occasionally when a new version of the library is released.  We can provide a way to update the GHC copy from
-   the official darcs repository easily.  The local copy would be read-only, except when updating from the master copy.
+   often. Where the upstream repos are not git repos, we will make our own automated "upstream" git mirror,
+   and periodically manually pull from all the git upstreams into ghc-specific git repos.
    * utils/hsc2hs
    * utils/haddock
    * libraries/array
