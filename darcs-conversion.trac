@@ -65,16 +65,55 @@ The remaining question is what to do about the library repositories.  It is poss
 
 Here's a tentative plan:
 
- * Some libraries belong to GHC (template-haskell, ghc-prim, integer-gmp, hpc), and for these we can convert
-   the repos to git and keep them as subrepos.  (alterantively we could just import them into the main
-   git repository for convenience).
+ * Some repos belong to GHC, and for these we can convert
+   the repos to git and keep them as subrepos.
+   * ghc-tarballs
+   * libraries/extensible-exceptions
+   * libraries/ghc-prim
+   * libraries/hoopl
+   * libraries/hpc
+   * libraries/integer-gmp
+   * libraries/integer-simple
+   * libraries/template-haskell
+   * testsuite
+   * nofib
+   * libraries/stm
+   * libraries/primitive
+   * libraries/vector
+   * libraries/dph
 
  * Of the rest, base is somewhat special, because this alone often needs to be modified at the same time as GHC.  We propose migrating base to a git repository.
+   * libraries/base
 
- * For the rest of libraries (e.g. filepath, containers, bytestring, editline), GHC is just a client, and we don't expect to be modifying these libraries
-   often.  Hence we can just copy the libraries wholesale into the GHC git repository, and update the copies
-   occasionally when a new version of the library is released.  We can provide a way to update the GHC copy from
-   the official darcs repository easily.  The local copy would be read-only, except when updating from the master copy.
+ * For the rest of the repos, GHC is just a client, and we don't expect to be modifying these libraries
+   often. Where the upstream repos are not git repos, we will make our own automated "upstream" git mirror,
+   and periodically manually pull from all the git upstreams into ghc-specific git repos.
+   * utils/hsc2hs
+   * utils/haddock
+   * libraries/array
+   * libraries/binary
+   * libraries/bytestring
+   * libraries/Cabal
+   * libraries/containers
+   * libraries/directory
+   * libraries/filepath
+   * libraries/haskeline
+   * libraries/haskell98
+   * libraries/haskell2010
+   * libraries/mtl
+   * libraries/old-locale
+   * libraries/old-time
+   * libraries/pretty
+   * libraries/process
+   * libraries/random
+   * libraries/terminfo
+   * libraries/unix
+   * libraries/utf8-string
+   * libraries/Win32
+   * libraries/xhtml
+ * and likewise extralibs:
+   * libraries/deepseq
+   * libraries/parallel
 
 == The perspective on submodules ==
 
