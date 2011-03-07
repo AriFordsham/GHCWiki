@@ -87,8 +87,6 @@ Here's a tentative plan:
   - testsuite
   - nofib
   - libraries/stm
-  - libraries/primitive
-  - libraries/vector
   - libraries/dph
 
 - Of the rest, base is somewhat special, because this alone often needs to be modified at the same time as GHC.  We propose migrating base to a git repository, along with other libraries that are maintained mostly by the GHC team:
@@ -124,6 +122,8 @@ Here's a tentative plan:
   - libraries/terminfo
   - libraries/utf8-string
   - libraries/xhtml
+  - libraries/primitive
+  - libraries/vector
 
 ## The perspective on submodules
 
