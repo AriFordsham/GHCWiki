@@ -6,6 +6,7 @@ Concretely, the proposal is to
 
   * add a kind {{{Fact}}} for constraints, so that, e.g. {{{Monad :: (* -> *) -> Fact}}};
   * close {{{Fact}}} under tuples, so {{{(F1, .. Fn) :: Fact}}} iff each {{{Fi :: Fact}}};
+  * allow nested tuple constraints, with componentwise unpacking and inference, so if {{{Stringy x = (Read x, Show x)}}}, then {{{(Stringy x, Eq x)}}} is a valid constraint without flattening it to {{{(Read x, Show x, Eq x)}}};
   * allow (rather, neglect to forbid) the use of {{{type}}} to introduce synonyms for Fact(-constructing) things;
   * retain the policy of defaulting to kind {{{*}}} in ambiguous inference problems -- notably {{{()}}} is the unit type and the trivial constraint -- except where overridden by kind signatures.
 
