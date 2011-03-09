@@ -10,7 +10,7 @@ See also: [ A similar list on the GHC Users' wiki](http://www.haskell.org/haskel
 
 - "Rn" means "Renamer"
 
-- "Rdr" means ??? (help, somebody fill this in, I still have no idea what it stands for)
+- "Rdr" means "Parser" (do not ask me why, I don't know)
 
 - "Tc" means "TypeCheck{ing,er}"
 
