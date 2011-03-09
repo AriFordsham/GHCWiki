@@ -48,6 +48,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
 
   - [Compiler plug-ins](new-plugins)
   - [Type level naturals](type-nats)
+  - [Proposal to add a kind for facts, e.g. class constraints](kind-fact)
   - [The new deriving mechanism](commentary/compiler/generic-deriving)
   - Notes about Template Haskell?
   - [Notes about the new code generator](commentary/compiler/new-code-gen)
