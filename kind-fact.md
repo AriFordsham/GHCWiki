@@ -1,0 +1,47 @@
+
+Proposal: extend the kind system with a kind **Fact** to cover constraints as well as types, in order to reuse existing abstraction mechanisms, notably **type synonyms**, in the constraint language.
+
+
+Much of the motivation for this proposal can be found in [ Haskell Type Constraints Unleashed](http://www.cs.kuleuven.be/%7Etoms/Research/papers/constraint_families.pdf) which identifies the shortage of abstraction mechanisms for constraints relative to types. See ticket [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788) for the resulting **constraint synonym** proposal, which seeks to fill some of the gaps with new declaration forms. Here, however, the plan is to extend the kind system, empowering the existing mechanisms to work with constraints. [ Max Bolingbroke](http://blog.omega-prime.co.uk/?p=61), commenting on context aliases? makes a similar suggestion, remarking that a new kind would probably help. The claim here is that the new kind obviates the need for other new syntax.
+
+
+Concretely, the proposal is to
+
+- add a kind `Fact` for constraints, so that, e.g. `Monad :: (* -> *) -> Fact`;
+- close `Fact` under tuples, so `(F1, .. Fn) :: Fact` iff each `Fi :: Fact`;
+- allow (rather, neglect to forbid) the use of `type` to introduce synonyms for Fact(-constructing) things;
+- retain the policy of defaulting to kind `*` in ambiguous inference problems -- notably `()` is the unit type and the trivial constraint -- except where overridden by kind signatures.
+
+
+Examples:
+
+```wiki
+type Stringy x = (Read x, Show x)
+type Transposable f = (Traversable f, Applicative f)
+type Reduce m x = (Monad m, Monoid (m x))
+type MyUnit = () -- gives the unit type by default
+type MyTrue = () :: Fact  -- needs the kind signature to override the default
+```
+
+
+One might consider a syntax for giving fully explicit kinds to type synonyms, like this:
+
+```wiki
+type Reduce :: (* -> *) -> * -> Fact where
+  Reduce m x = (Monad m, Monoid (m x))
+```
+
+
+We should also find that the **type family** mechanism extends to the new kinds, pretty much straight out of the box. For example:
+
+```wiki
+type family   HasDerivatives n     f :: Fact
+type instance HasDerivatives Z     f  = ()
+type instance HasDerivatives (S n) f  = (Differentiable f, HasDerivatives n (D f))
+```
+
+
+where `Differentiable` is the class of differentiable functors and `D f` is the associated derivative functor.
+
+
+Bikeshed: `Fact` is the working name for the new kind. `Constraint` is an obvious contender, but long. `Prop` should *not* be used, as any analogy to Prop in the Calculus of Constructions would be bogus: proofs of a Prop are computationally irrelevant and discarded by program extraction, but witnesses to a Fact are material and computationally crucial. Another thought: 'Constraint' sounds more like a requirement than a guarantee, whereas 'Fact' is neutral. On the other hand, the kinding `F :: Fact` might be misleadingly suggestive of `F`'s truth, over and above its well-formedness.
