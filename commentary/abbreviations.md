@@ -6,7 +6,7 @@ See also: [ A similar list on the GHC Users' wiki](http://www.haskell.org/haskel
 
 - "Occ" means "Occurrence"
 
-  - However, in the context of [ OccName](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/RdrNameType#TheOccNametype), "occurrence" actually means "unqualified"
+  - However, in the context of [ OccName](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/RdrNameType#TheOccNametype), "occurrence" actually means "unqualified and not resolved, but has been classified (i.e. as a type name, value name, etc)"
 
 - "Rn" means "Renamer"
 
