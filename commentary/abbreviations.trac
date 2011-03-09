@@ -13,6 +13,8 @@ See also: [http://www.haskell.org/haskellwiki/GHC/List_of_abbreviations A simila
 
 * "Tc" means "TypeCheck{ing,er}"
 
+* "Ty" means "Type"
+
 * "Lcl" means "Local"
 
 * "Gbl" means "Global"

@@ -16,6 +16,8 @@ See also: [ A similar list on the GHC Users' wiki](http://www.haskell.org/haskel
 
 - "Tc" means "TypeCheck{ing,er}"
 
+- "Ty" means "Type"
+
 - "Lcl" means "Local"
 
 - "Gbl" means "Global"
