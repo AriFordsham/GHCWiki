@@ -3,13 +3,17 @@ Certain abbreviations are used pervasively throughout the GHC source code.  A fe
 See also: [http://www.haskell.org/haskellwiki/GHC/List_of_abbreviations A similar list on the GHC Users' wiki].
 
 * "Occ" means "Occurrence"
-  * However, in the context of [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/RdrNameType#TheOccNametype OccName], "occurrence" actually means "unqualified"
+  * However, in the context of [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/RdrNameType#TheOccNametype OccName], "occurrence" actually means "classified (i.e. as a type name, value name, etc) but not qualified and not yet resolved"
 
 * "Rn" means "Renamer"
 
 * "Rdr" means "Parser" (do not ask me why, I don't know)
 
+* "Ds" means "Desugarer"
+
 * "Tc" means "TypeCheck{ing,er}"
+
+* "Ty" means "Type"
 
 * "Lcl" means "Local"
 

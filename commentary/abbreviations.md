@@ -6,13 +6,17 @@ See also: [ A similar list on the GHC Users' wiki](http://www.haskell.org/haskel
 
 - "Occ" means "Occurrence"
 
-  - However, in the context of [ OccName](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/RdrNameType#TheOccNametype), "occurrence" actually means "unqualified"
+  - However, in the context of [ OccName](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/RdrNameType#TheOccNametype), "occurrence" actually means "classified (i.e. as a type name, value name, etc) but not qualified and not yet resolved"
 
 - "Rn" means "Renamer"
 
 - "Rdr" means "Parser" (do not ask me why, I don't know)
 
+- "Ds" means "Desugarer"
+
 - "Tc" means "TypeCheck{ing,er}"
+
+- "Ty" means "Type"
 
 - "Lcl" means "Local"
 
