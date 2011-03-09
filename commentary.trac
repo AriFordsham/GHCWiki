@@ -42,6 +42,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
    * [wiki:NewPlugins Compiler plug-ins]
    * [wiki:TypeNats Type level naturals]
    * [wiki:KindFact Proposal to add a kind for facts, e.g. class constraints]
+   * [wiki:DefaultSuperclassInstances Proposal to allow classes to give default implementations for their superclasses]
    * [wiki:Commentary/Compiler/GenericDeriving The new deriving mechanism]
    * [wiki:Commentary/Compiler/TemplateHaskell Notes about Template Haskell]
    * [wiki:Commentary/Compiler/NewCodeGen Notes about the new code generator]
