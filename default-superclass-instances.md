@@ -69,3 +69,27 @@ and acquire the Monad instance, along with fully formed Applicative and Functor 
 
 
 we override the default (\>\>) but keep the (\<\*\>) in the spawned Applicative instance.
+
+- to inhibit default-spawning with the syntax
+
+  ```wiki
+      instance Sub x where
+        ...
+        hiding instance Super
+  ```
+
+
+which acts to prevent the generation of instances for Super and all of Super's intrinsic superclasses in turn. We need this, so that we can write
+
+```wiki
+    instance Monad Blah where
+      return x = ...
+      ba >>= bf = ...
+      hiding instance Functor
+
+    instance Traversable Blah where
+      traverse f bx = ...  -- inducing a default implementation of Functor
+```
+
+
+or indeed to turn off all the defaults and provide a standalone Functor instance.
