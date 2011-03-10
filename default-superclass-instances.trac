@@ -10,27 +10,41 @@ We may distinguish two uses of superclasses (not necessarily exclusive).
 
 == The proposal ==
 
-Concretely, the proposal is to
+Concretely, the proposal is as follows.
 
-  * Allow class declarations to include '''default superclass instance delcaration''' for some, none, or all of their given superclass constraints, provided all such instances have distinct classes. We say that superclasses with default implementations are '''intrinsic''' superclasses. "Yes" to
+First, we allow a class declaration to include a '''default superclass instance delcaration''' for some, none, or all of its superclass constraints. We say that superclasses with default implementations are '''intrinsic''' superclasses. Example:
 {{{
     class Functor f => Applicative f where
       return :: x -> f x
       (<*>) :: f (s -> t) -> f s -> f t
+
       (>>) :: f s -> f t -> f t
       fs >> ft = return (flip const) <*> fs <*> ft
+
       instance Functor f where
         fmap = (<*>) . return
+}}}
+Note the `instance` declaration nested inside the `class` declaration. This is the default superclass instance declaration, and `Functor` thereby becomes an intrisic superclass of `Applicative`.  Moreover, note that the definition of `fmap` uses the `<*>` operation of `Applicative`; that is the whole point!
 
+Here is another example:
+{{{
     class Applicative f => Monad f where
       (>>=) :: f a -> (a -> f b) -> f b
       instance Applicative f where
         ff <*> fs = ff >>= \ f -> fs >>= \ s -> return (f s)
 }}}
-  but "no" to
+Here,  and `Applicative` is an intrinsic superclass of `Monad`.
+
+Each default superclass instance declaration in a `class` declaration must be for
+a distinct class.  So one of these is OK and the other is not:
 {{{
+    -- This is ILLEGAL
     class (Tweedle dum, Tweedle dee) => Rum dum dee where
       instance Tweedle dum where ...
+      instance Tweedle dee where ...
+
+    -- But this is OK 
+    class (Tweedle dum, Tweedle dee) => Rum dum dee where
       instance Tweedle dee where ...
 }}}
 
