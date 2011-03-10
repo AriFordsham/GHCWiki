@@ -1,6 +1,12 @@
+= Default superclass instances =
+
 A matter of much consternation, here is a proposal to allow type class declarations to include default instance declarations for their superclasses. It's based on [http://www.haskell.org//pipermail/haskell-prime/2006-August/001587.html Jón Fairbairn's proposal], but it has a more explicit 'off switch' and the policy on corner-cases is rejection. Credit is due also to the [http://www.haskell.org/haskellwiki/Class_system_extension_proposal class system extension proposal] and its ancestors, in particular, John Meacham's [http://repetae.net/recent/out/classalias.html class alias] proposal.
 
-We may distinguish two uses of superclasses (not necessarily exclusive). A class can ''widen'' its superclass, extending its interface with new functionality (e.g., adding an inverse to a monoid to obtain a group -- inversion seldom provides an implementation of composition). A class can ''deepen'' its superclass (e.g., an implementation of Traversable f delivers at least enough technology to deliver Foldable f and Functor f). This proposal concerns the latter phenomenon, which is currently such a nuisance that Functor and Applicative are not superclasses of Monad. Nobody wants to be forced to write Functor and Applicative instances, just to access the Monad interface. Moreover, any proposal to refine the library by splitting a type class into depth-layers is (rightly!) greeted with howls of protest as an absence of superclass instances gives rise to breakage of the existing codebase.
+We may distinguish two uses of superclasses (not necessarily exclusive). 
+ * A class can ''widen'' its superclass, extending its interface with new functionality (e.g., adding an inverse to a monoid to obtain a group -- inversion seldom provides an implementation of composition). 
+ * A class can ''deepen'' its superclass (e.g., an implementation of Traversable f delivers at least enough technology to deliver Foldable f and Functor f). 
+
+('''SLPJ''' I don't understand this distinction clearly.) This proposal concerns the latter phenomenon, which is currently such a nuisance that Functor and Applicative are not superclasses of Monad. Nobody wants to be forced to write Functor and Applicative instances, just to access the Monad interface. Moreover, any proposal to refine the library by splitting a type class into depth-layers is (rightly!) greeted with howls of protest as an absence of superclass instances gives rise to breakage of the existing codebase.
 
 Concretely, the proposal is to
 
