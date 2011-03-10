@@ -4,7 +4,7 @@ We may distinguish two uses of superclasses (not necessarily exclusive). A class
 
 Concretely, the proposal is to
 
-  * allow class declarations to embed instance declarations for some, none, or all of their given superclass constraints, provided all such instances have distinct classes. We say that superclasses with default implementations are '''intrinsic''' superclasses. Yes to
+  * Allow class declarations to include '''default superclass instance delcaration''' for some, none, or all of their given superclass constraints, provided all such instances have distinct classes. We say that superclasses with default implementations are '''intrinsic''' superclasses. Yes to
 {{{
     class Functor f => Applicative f where
       return :: x -> f x
