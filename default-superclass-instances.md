@@ -12,10 +12,12 @@ We may distinguish two uses of superclasses (not necessarily exclusive).
 
 (**SLPJ** I don't understand this distinction clearly.) This proposal concerns the latter phenomenon, which is currently such a nuisance that Functor and Applicative are not superclasses of Monad. Nobody wants to be forced to write Functor and Applicative instances, just to access the Monad interface. Moreover, any proposal to refine the library by splitting a type class into depth-layers is (rightly!) greeted with howls of protest as an absence of superclass instances gives rise to breakage of the existing codebase.
 
+## The proposal
+
 
 Concretely, the proposal is to
 
-- Allow class declarations to include **default superclass instance delcaration** for some, none, or all of their given superclass constraints, provided all such instances have distinct classes. We say that superclasses with default implementations are **intrinsic** superclasses. Yes to
+- Allow class declarations to include **default superclass instance delcaration** for some, none, or all of their given superclass constraints, provided all such instances have distinct classes. We say that superclasses with default implementations are **intrinsic** superclasses. "Yes" to
 
   ```wiki
       class Functor f => Applicative f where
@@ -32,16 +34,15 @@ Concretely, the proposal is to
           ff <*> fs = ff >>= \ f -> fs >>= \ s -> return (f s)
   ```
 
+  but "no" to
 
-but no to
+  ```wiki
+      class (Tweedle dum, Tweedle dee) => Rum dum dee where
+        instance Tweedle dum where ...
+        instance Tweedle dee where ...
+  ```
 
-```wiki
-    class (Tweedle dum, Tweedle dee) => Rum dum dee where
-      instance Tweedle dum where ...
-      instance Tweedle dee where ...
-```
-
-- let subclass instance declarations spawn intrinsic superclass instances by default -- if we have
+- Let subclass instance declarations spawn intrinsic superclass instances by default -- if we have
 
   ```wiki
       class Bar t[x] => Foo x where
@@ -50,14 +51,13 @@ but no to
       instance C => Foo s where ...
   ```
 
+  we automatically acquire a default superclass instance
 
-we automatically acquire a default superclass instance
+  ```wiki
+      instance C => Bar t[s] where ...
+  ```
 
-```wiki
-    instance C => Bar t[s] where ...
-```
-
-- let subclass instance declarations provide and override the methods of their intrinsic superclasses with no extra delimitation; so we may write
+- Let subclass instance declarations provide and override the methods of their intrinsic superclasses with no extra delimitation; so we may write
 
   ```wiki
       instance Monad Blah where
@@ -65,20 +65,18 @@ we automatically acquire a default superclass instance
         ba >>= bf = ...
   ```
 
+  and acquire the Monad instance, along with fully formed Applicative and Functor instances. By requiring that intrinsic superclasses be class-distinct, we ensure that the distribution of methods to spawned instances is unambiguous. Moreover, local overrides beat the default. If we write
 
-and acquire the Monad instance, along with fully formed Applicative and Functor instances. By requiring that intrinsic superclasses be class-distinct, we ensure that the distribution of methods to spawned instances is unambiguous. Moreover, local overrides beat the default. If we write
+  ```wiki
+      instance Monad Blah where
+        return x = ...
+        ba >>= bf = ...
+        bs >> bt = ...
+  ```
 
-```wiki
-    instance Monad Blah where
-      return x = ...
-      ba >>= bf = ...
-      bs >> bt = ...
-```
+  we override the default (\>\>) but keep the (\<\*\>) in the spawned Applicative instance.
 
-
-we override the default (\>\>) but keep the (\<\*\>) in the spawned Applicative instance.
-
-- to inhibit default-spawning with the syntax
+- To inhibit default-spawning with the syntax
 
   ```wiki
       instance Sub x where
@@ -86,23 +84,21 @@ we override the default (\>\>) but keep the (\<\*\>) in the spawned Applicative 
         hiding instance Super
   ```
 
+  which acts to prevent the generation of instances for Super and all of Super's intrinsic superclasses in turn. We need this, so that we can write
 
-which acts to prevent the generation of instances for Super and all of Super's intrinsic superclasses in turn. We need this, so that we can write
+  ```wiki
+      instance Monad Blah where
+        return x = ...
+        ba >>= bf = ...
+        hiding instance Functor
 
-```wiki
-    instance Monad Blah where
-      return x = ...
-      ba >>= bf = ...
-      hiding instance Functor
+      instance Traversable Blah where
+        traverse f bx = ...  -- inducing a default implementation of Functor
+  ```
 
-    instance Traversable Blah where
-      traverse f bx = ...  -- inducing a default implementation of Functor
-```
+  or indeed to turn off all the defaults and provide a standalone Functor instance.
 
-
-or indeed to turn off all the defaults and provide a standalone Functor instance.
-
-- while we're about it, to allow multi-headed instance declarations for class-disjoint conjunctions, with the same semantics for constraint duplication and method distribution as for the defaults, so
+- While we're about it, to allow multi-headed instance declarations for class-disjoint conjunctions, with the same semantics for constraint duplication and method distribution as for the defaults, so
 
   ```wiki
       instance S => (C x, C' x) where
@@ -110,15 +106,14 @@ or indeed to turn off all the defaults and provide a standalone Functor instance
         methodOfC' = ...
   ```
 
+  is short for
 
-is short for
-
-```wiki
-    instance S => C x where
-      methodOfC  = ...
-    instance S => C' x where
-      methodOfC' = ...
-```
+  ```wiki
+      instance S => C x where
+        methodOfC  = ...
+      instance S => C' x where
+        methodOfC' = ...
+  ```
 
 
 This proposal fits handily with the [kind Fact proposal](kind-fact), which allows multiple constraints to be abbreviated by ordinary type synonyms.
