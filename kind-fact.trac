@@ -12,22 +12,34 @@ Much of the motivation for this proposal can be found in [http://www.cs.kuleuven
 
   * Allow (rather, neglect to forbid) the use of {{{type}}} to introduce synonyms for Fact(-constructing) things.  Thus one might say
 {{{ 
+type Transposable f = (Traversable f, Applicative f)
+type Reduce m x = (Monad m, Monoid (m x))
 type Stringy x = (Read x, Show x)
+}}}
+
+  * Allow these synonym facts to appear wherever a class constraint can appear.  For example
+{{{
+class Stringy a => C a where ....
+f :: Reduce m x => x -> m x
 }}}
 
   * Allow nested tuple constraints, with componentwise unpacking and inference, so that {{{(Stringy x, Eq x)}}} is a valid constraint without flattening it to {{{(Read x, Show x, Eq x)}}}.
 
-  * Retain the policy of defaulting to kind {{{*}}} in ambiguous inference problems -- notably {{{()}}} is the unit type and the trivial constraint -- except where overridden by kind signatures.
-
-Examples:
-
+  * Retain the policy of defaulting to kind {{{*}}} in ambiguous inference problems -- notably {{{()}}} is the unit type and the trivial constraint -- except where overridden by kind signatures.  For example:
 {{{
-type Stringy x = (Read x, Show x)
-type Transposable f = (Traversable f, Applicative f)
-type Reduce m x = (Monad m, Monoid (m x))
 type MyUnit = () -- gives the unit type by default
 type MyTrue = () :: Fact  -- needs the kind signature to override the default
 }}}
+
+  * Allow the '''type family''' mechanism to extend to the new kinds, pretty much straight out of the box. For example:
+{{{
+type family   HasDerivatives n     f :: Fact
+type instance HasDerivatives Z     f  = ()
+type instance HasDerivatives (S n) f  = (Differentiable f, HasDerivatives n (D f))
+}}}
+  where {{{Differentiable}}} is the class of differentiable functors and {{{D f}}} is the associated derivative functor.
+
+== More syntax ==
 
 One might consider a syntax for giving fully explicit kinds to type synonyms, like this:
 {{{
@@ -35,14 +47,8 @@ type Reduce :: (* -> *) -> * -> Fact where
   Reduce m x = (Monad m, Monoid (m x))
 }}}
 
-We should also find that the '''type family''' mechanism extends to the new kinds, pretty much straight out of the box. For example:
-{{{
-type family   HasDerivatives n     f :: Fact
-type instance HasDerivatives Z     f  = ()
-type instance HasDerivatives (S n) f  = (Differentiable f, HasDerivatives n (D f))
-}}}
-where {{{Differentiable}}} is the class of differentiable functors and {{{D f}}} is the associated derivative functor.
+
 
 == Bikeshed discussion of nomenclature ==
 
- {{{Fact}}} is the working name for the new kind. {{{Constraint}}} is an obvious contender, but long. {{{Prop}}} should ''not'' be used, as any analogy to Prop in the Calculus of Constructions would be bogus: proofs of a Prop are computationally irrelevant and discarded by program extraction, but witnesses to a Fact are material and computationally crucial. Another thought: 'Constraint' sounds more like a requirement than a guarantee, whereas 'Fact' is neutral. On the other hand, the kinding {{{F :: Fact}}} might be misleadingly suggestive of {{{F}}}'s truth, over and above its well-formedness.
+{{{Fact}}} is the working name for the new kind. {{{Constraint}}} is an obvious contender, but long. {{{Prop}}} should ''not'' be used, as any analogy to Prop in the Calculus of Constructions would be bogus: proofs of a Prop are computationally irrelevant and discarded by program extraction, but witnesses to a Fact are material and computationally crucial. Another thought: 'Constraint' sounds more like a requirement than a guarantee, whereas 'Fact' is neutral. On the other hand, the kinding {{{F :: Fact}}} might be misleadingly suggestive of {{{F}}}'s truth, over and above its well-formedness.
