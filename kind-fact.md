@@ -1,17 +1,18 @@
+# Adding Kind Fact
+
 
 Proposal: extend the kind system with a kind **Fact** to cover constraints as well as types, in order to reuse existing abstraction mechanisms, notably **type synonyms**, in the constraint language.
 
 
 Much of the motivation for this proposal can be found in [ Haskell Type Constraints Unleashed](http://www.cs.kuleuven.be/%7Etoms/Research/papers/constraint_families.pdf) which identifies the shortage of abstraction mechanisms for constraints relative to types. See ticket [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788) for the resulting **constraint synonym** proposal, which seeks to fill some of the gaps with new declaration forms. Here, however, the plan is to extend the kind system, empowering the existing mechanisms to work with constraints. [ Max Bolingbroke](http://blog.omega-prime.co.uk/?p=61), commenting on [ context aliases](http://www.haskell.org/haskellwiki/Context_alias) (in turn based on John Meacham's [ class alias](http://repetae.net/recent/out/classalias.html) proposal) makes a similar suggestion, remarking that a new kind would probably help. The claim here is that the new kind obviates the need for other new syntax.
 
+## The proposal
 
-Concretely, the proposal is to
-
-- add a kind `Fact` for constraints, so that, e.g. `Monad :: (* -> *) -> Fact`;
-- close `Fact` under tuples, so `(F1, .. Fn) :: Fact` iff each `Fi :: Fact`;
-- allow nested tuple constraints, with componentwise unpacking and inference, so if `Stringy x = (Read x, Show x)`, then `(Stringy x, Eq x)` is a valid constraint without flattening it to `(Read x, Show x, Eq x)`;
-- allow (rather, neglect to forbid) the use of `type` to introduce synonyms for Fact(-constructing) things;
-- retain the policy of defaulting to kind `*` in ambiguous inference problems -- notably `()` is the unit type and the trivial constraint -- except where overridden by kind signatures.
+- Add a kind `Fact` for constraints, so that, e.g. `Monad :: (* -> *) -> Fact`;
+- Close `Fact` under tuples, so `(F1, .. Fn) :: Fact` iff each `Fi :: Fact`;
+- Allow nested tuple constraints, with componentwise unpacking and inference, so if `Stringy x = (Read x, Show x)`, then `(Stringy x, Eq x)` is a valid constraint without flattening it to `(Read x, Show x, Eq x)`;
+- Allow (rather, neglect to forbid) the use of `type` to introduce synonyms for Fact(-constructing) things;
+- Retain the policy of defaulting to kind `*` in ambiguous inference problems -- notably `()` is the unit type and the trivial constraint -- except where overridden by kind signatures.
 
 
 Examples:
