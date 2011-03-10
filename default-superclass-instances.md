@@ -1,5 +1,5 @@
 
-A matter of much consternation, here is a proposal to allow type class declarations to include default instance declarations for their superclasses. It's based on [ Jón Fairbairn's proposal](http://www.haskell.org//pipermail/haskell-prime/2006-August/001587.html), but it has a more explicit 'off switch' and the policy on corner-cases is rejection.
+A matter of much consternation, here is a proposal to allow type class declarations to include default instance declarations for their superclasses. It's based on [ Jón Fairbairn's proposal](http://www.haskell.org//pipermail/haskell-prime/2006-August/001587.html), but it has a more explicit 'off switch' and the policy on corner-cases is rejection. Credit is due also to the [ class system extension proposal](http://www.haskell.org/haskellwiki/Class_system_extension_proposal) and its ancestors, in particular, John Meacham's [ class alias](http://repetae.net/recent/out/classalias.html) proposal.
 
 
 We may distinguish two uses of superclasses (not necessarily exclusive). A class can *widen* its superclass, extending its interface with new functionality (e.g., adding an inverse to a monoid to obtain a group -- inversion seldom provides an implementation of composition). A class can *deepen* its superclass (e.g., an implementation of Traversable f delivers at least enough technology to deliver Foldable f and Functor f). This proposal concerns the latter phenomenon, which is currently such a nuisance that Functor and Applicative are not superclasses of Monad. Nobody wants to be forced to write Functor and Applicative instances, just to access the Monad interface. Moreover, any proposal to refine the library by splitting a type class into depth-layers is (rightly!) greeted with howls of protest as an absence of superclass instances gives rise to breakage of the existing codebase.
@@ -93,3 +93,27 @@ which acts to prevent the generation of instances for Super and all of Super's i
 
 
 or indeed to turn off all the defaults and provide a standalone Functor instance.
+
+- while we're about it, to allow multi-headed instance declarations for class-disjoint conjunctions, with the same semantics for constraint duplication and method distribution as for the defaults, so
+
+  ```wiki
+      instance S => (C x, C' x) where
+        methodOfC  = ...
+        methodOfC' = ...
+  ```
+
+
+is short for
+
+```wiki
+    instance S => C x where
+      methodOfC  = ...
+    instance S => C' x where
+      methodOfC' = ...
+```
+
+
+This proposal fits handily with the [kind Fact proposal](kind-fact), which allows multiple constraints to be abbreviated by ordinary type synonyms.
+
+
+Default superclass instances are implemented in the [ Strathclyde Haskell Enhancement](http://personal.cis.strath.ac.uk/~conor/pub/she/superclass.html). They should enable some tidying of the library, with relatively few tears. Moreover, they should allow us to deepen type class hierarchies as we learn.
