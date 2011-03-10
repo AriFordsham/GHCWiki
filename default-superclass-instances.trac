@@ -98,3 +98,11 @@ thus preventing us adding the more general
     instance Applicative m => Applicative (ReaderT r m) where ...
 }}}
 The opt-out is crucial, but relatively cheap.
+
+Jón's proposal had a more subtle opt-out policy, namely that an intrinsic superclass can be quietly pre-empted by an instance for the superclass from a prior or the present module. Note that to declare an instance of the subclass, one must produce an instance of the superclass by the same module at the latest. This quiet exclusion policy is not enough to handle the case of multiple candidate instances arising from multiple intrinsic superclasses (e.g., Traversable and Monad giving competing Functor instances), so some explicit form is required. The question for us, then, is what should happen if an intrinsic superclass not explicitly hidden were to clash with an explicit instance from the same or a prior module. We could
+
+  1. reject this as a duplicate instance declaration, which indeed it is, or
+  2. allow the explicit to supersede the intrinsic default, but issue a warning suggesting to either remove the explicit instance or add an explicit opt-out, or
+  3. allow the explicit to supersede the intrinsic default silently.
+
+As it stands, we propose option 1 as somehow the principled thing to do. We acknowledge that it creates an issue with legacy code, precisely because there are plenty of places where we have written the full stack of instances, often just doing the obvious default thing: these should be cleaned up, sooner or later. Option 3 avoids that problem but risks perplexity: if I make use of some cool package which introduces some {{{Foo :: * -> *}}}, I might notice that {{{Foo}}} is a monad and add a {{{Monad Foo}}} instance in my own code, expecting the {{{Applicative Foo}}} instance to be generated in concert; to my horror, I find my code has subtle bugs because the package introduced a different, non-monadic, {{{Applicative Foo}}} instance which I'm accidentally using instead. Option 2 is certainly worth considering as a pragmatic transitional compromise, although the 'transitional' has a dangerous tendency to be permanent.
