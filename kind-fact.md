@@ -56,6 +56,44 @@ type Reduce :: (* -> *) -> * -> Fact where
   Reduce m x = (Monad m, Monoid (m x))
 ```
 
+## Discussion
+
+`Fact` synonyms appear to overlap with superclases.  For example one could say
+
+```wiki
+class (Read x, Show x) => Stringy x where {}
+```
+
+
+But there are significant differences
+
+- Using the class mechanism forces you to give an `instance` declaration too.  Perhaps something like
+
+  ```wiki
+  instance (Read x, Show x) => Stringy x where {}
+  ```
+
+  This is painful duplication, and (worse) there is little to stop you writing an overlapping instance later.  At least, looking at the instance doesn't tell you that no overlapping instance is intended.
+
+- The type family mechamism gives new power.  For example, consider the celebrated collection example:
+
+  ```wiki
+  class Collection c where
+    type family X c :: * -> Fact
+    empty :: c a
+    insert :: (X c) => c a -> a -> c a
+
+  instance Collection [] where
+    type instance X [] a = Eq a
+    insert xs x = ...
+
+  instance Collection Data.Set where
+    type instance X Data.Set a = Ord a
+    insert s x = ...
+  ```
+
+  See [ Bulk types with class](http://research.microsoft.com/en-us/um/people/simonpj/papers/collections.ps.gz).
+
 ## Bikeshed discussion of nomenclature
 
 `Fact` is the working name for the new kind. `Constraint` is an obvious contender, but long. `Prop` should *not* be used, as any analogy to Prop in the Calculus of Constructions would be bogus: proofs of a Prop are computationally irrelevant and discarded by program extraction, but witnesses to a Fact are material and computationally crucial. Another thought: 'Constraint' sounds more like a requirement than a guarantee, whereas 'Fact' is neutral. On the other hand, the kinding `F :: Fact` might be misleadingly suggestive of `F`'s truth, over and above its well-formedness.

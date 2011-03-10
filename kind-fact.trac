@@ -47,7 +47,35 @@ type Reduce :: (* -> *) -> * -> Fact where
   Reduce m x = (Monad m, Monoid (m x))
 }}}
 
+== Discussion ==
 
+`Fact` synonyms appear to overlap with superclases.  For example one could say
+{{{
+class (Read x, Show x) => Stringy x where {}
+}}}
+But there are significant differences
+ * Using the class mechanism forces you to give an `instance` declaration too.  Perhaps something like
+{{{
+instance (Read x, Show x) => Stringy x where {}
+}}}
+ This is painful duplication, and (worse) there is little to stop you writing an overlapping instance later.  At least, looking at the instance doesn't tell you that no overlapping instance is intended.
+
+ * The type family mechamism gives new power.  For example, consider the celebrated collection example:
+{{{
+class Collection c where
+  type family X c :: * -> Fact
+  empty :: c a
+  insert :: (X c) => c a -> a -> c a
+
+instance Collection [] where
+  type instance X [] a = Eq a
+  insert xs x = ...
+
+instance Collection Data.Set where
+  type instance X Data.Set a = Ord a
+  insert s x = ...
+}}}
+  See [http://research.microsoft.com/en-us/um/people/simonpj/papers/collections.ps.gz Bulk types with class].
 
 == Bikeshed discussion of nomenclature ==
 
