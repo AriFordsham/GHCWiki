@@ -111,6 +111,8 @@ This proposal fits handily with the [wiki:KindFact kind Fact proposal], which al
 
 Default superclass instances are implemented in the [http://personal.cis.strath.ac.uk/~conor/pub/she/superclass.html Strathclyde Haskell Enhancement]. They should enable some tidying of the library, with relatively few tears. Moreover, they should allow us to deepen type class hierarchies as we learn. Retaining backward compatibility in relative silence is the motivation for an opt-in default.
 
+== Discussion ==
+
 Oleg and others note: just because you can make default instances, they are not always the instances you want. A key example is
 {{{
     instance Monad m => Monad (ReaderT r m) where ...
