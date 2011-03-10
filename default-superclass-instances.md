@@ -116,4 +116,28 @@ is short for
 This proposal fits handily with the [kind Fact proposal](kind-fact), which allows multiple constraints to be abbreviated by ordinary type synonyms.
 
 
-Default superclass instances are implemented in the [ Strathclyde Haskell Enhancement](http://personal.cis.strath.ac.uk/~conor/pub/she/superclass.html). They should enable some tidying of the library, with relatively few tears. Moreover, they should allow us to deepen type class hierarchies as we learn.
+Default superclass instances are implemented in the [ Strathclyde Haskell Enhancement](http://personal.cis.strath.ac.uk/~conor/pub/she/superclass.html). They should enable some tidying of the library, with relatively few tears. Moreover, they should allow us to deepen type class hierarchies as we learn. Retaining backward compatibility in relative silence is the motivation for an opt-in default.
+
+
+Oleg and others note: just because you can make default instances, they are not always the instances you want. A key example is
+
+```wiki
+    instance Monad m => Monad (ReaderT r m) where ...
+```
+
+
+which would give us by default
+
+```wiki
+    instance Monad m => Applicative (ReaderT r m) where ...
+```
+
+
+thus preventing us adding the more general
+
+```wiki
+    instance Applicative m => Applicative (ReaderT r m) where ...
+```
+
+
+The opt-out is crucial, but relatively cheap.
