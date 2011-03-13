@@ -6,8 +6,8 @@ A matter of much consternation, here is a proposal to allow type class declarati
 
 We may distinguish two uses of superclasses (not necessarily exclusive). 
 
-- A class can *widen* its superclass, extending its interface with new functionality (e.g., adding an inverse to a monoid to obtain a group -- inversion seldom provides an implementation of composition). 
-- A class can *deepen* its superclass (e.g., an implementation of Traversable f delivers at least enough technology to deliver Foldable f and Functor f). 
+- A class can *widen* its superclass, extending its interface with new functionality (e.g., adding an inverse to a monoid to obtain a group -- inversion seldom provides an implementation of composition). The subclass methods provide extra functionality, but do not induce a standard implementation of the superclass. Num provides arithmetic operations, widening Eq, but does not induce an implementation of `(==)`.
+- A class can *deepen* its superclass, providing methods at least as expressive, admitting a default implementation of superclass functionality (e.g., the `compare` function from an Ord instance can be used to give an Eq instance; `traverse` from Traversable f can be instantiated to `foldMapDefault` for Foldable f and `fmapDefault` for Functor f). 
 
 
 (**SLPJ** I don't understand this distinction clearly.) 
