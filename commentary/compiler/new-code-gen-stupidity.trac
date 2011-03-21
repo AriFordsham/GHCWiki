@@ -1,0 +1,70 @@
+= Stupidity in the New Code Generator =
+
+Presently compiling using the new code generator results in a fairly sizable performance hit, because the new code generator produces sub-optimal (and sometimes absolutely terrible code.) There are [http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes a lot of ideas for how to make things better]; the idea for this wiki page is to document all of the stupid things the new code generator is doing, to later be correlated with specific refactorings and fixes that will hopefully eliminate classes of these stupid things. The hope here is to develop a sense for what the most endemic problems with the newly generated code is.
+
+== Cosmetic issues ==
+
+The new code generator tends to generate C-- in the following style (which should be optimized away by the backends but can increase "line-noise"):
+
+* Lots of temporary variables (these can tickle other issues when the temporaries are long-lived, but otherwise would be optimized away)
+
+== Rewriting stacks ==
+
+`3586.hs` emits the following code:
+
+{{{
+ Main.$wa_entry()
+         { [const Main.$wa_slow-Main.$wa_info;, const 3591;, const 0;,
+    const 458752;, const 0;, const 15;]
+         }
+     c17W:
+         _s16B::F64 = F64[Sp + 20];
+         F64[Sp - 8] = _s16B::F64;
+         _s16h::I32 = I32[Sp + 16];
+         _s16j::I32 = I32[Sp + 12];
+         _s16y::I32 = I32[Sp + 8];
+         _s16x::I32 = I32[Sp + 4];
+         _s16w::I32 = I32[Sp + 0];
+         if (Sp - 12 < SpLim) goto u1bR;
+         Sp = Sp + 32;
+// [SNIP]
+         // directEntry else
+         // emitCall: Sequel: Return
+         F64[Sp - 12] = _s17a::F64;
+         I32[Sp - 16] = _s17b::I32;
+         I32[Sp - 20] = _s16j::I32;
+         I32[Sp - 24] = _s16y::I32;
+         I32[Sp - 28] = _s16x::I32;
+         I32[Sp - 32] = _s16w::I32;
+         Sp = Sp - 32;
+         jump Main.$wa_info ();
+     u1bR:
+         Sp = Sp + 32;
+         // outOfLine here
+         R1 = Main.$wa_closure;
+         F64[Sp - 12] = _s16B::F64;
+         I32[Sp - 16] = _s16h::I32;
+         I32[Sp - 20] = _s16j::I32;
+         I32[Sp - 24] = _s16y::I32;
+         I32[Sp - 28] = _s16x::I32;
+         I32[Sp - 32] = _s16w::I32;
+         Sp = Sp - 32;
+         jump stg_gc_fun ();
+}}}
+
+We see that these temporary variables are being repeatedly rewritten to the stack, even when there are no changes.
+
+== Spilling Hp/Sp ==
+
+
+`3586.hs` emits the following code:
+
+{{{
+     _c1ao::I32 = Hp - 4;
+     I32[Sp - 20] = _c1ao::I32;
+     foreign "ccall"
+       newCAF((BaseReg, PtrHint), (R1, PtrHint))[_unsafe_call_];
+     _c1ao::I32 = I32[Sp - 20];
+}}}
+
+We see `Hp - 4` being allocated to a temp, and then consequently being spilled to the stack even though `newCAF` definitely will not change `Hp`, so we could have floated the expression down.
