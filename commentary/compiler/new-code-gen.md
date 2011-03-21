@@ -21,7 +21,7 @@ Generally we want to keep old and new pipelines working simultaneously, so that 
 
 - Make the Cmm parser (which parses `.cmm` files from the RTS) produce `CmmGADT`, and push that down the new pipeline.
 
-- Implement the many refactorings and improvements to the new pipeline described in [ http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes](http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes).
+- Implement the many refactorings and improvements to the new pipeline described in [ http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes](http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes). See also: [Commentary/Compiler/NewCodeGenStupidity](commentary/compiler/new-code-gen-stupidity)
 
 - Instead of converting new Cmm to old Cmm, make the downstream code generators consume `CmmGADT`, and convert old Cmm to `CmmGADT`.
 
