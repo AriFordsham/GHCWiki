@@ -151,7 +151,7 @@ In the GHC build system, we have 3 phases. Each phase is in two halves: some thi
 
   - Includes: dependency files for things built by the bootstrapping compiler.
   - Builds: `package-data.mk` files for everything else. Note that this requires configuring the packages, which means telling cabal which ghc to use, and thus the stage1 compiler gets built during this phase.
-- Phase ""
+- Phase "final"
 
   - Includes: dependency files for everything else.
   - Builds: Everything else.
