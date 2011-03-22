@@ -71,3 +71,17 @@ We see that these temporary variables are being repeatedly rewritten to the stac
 
 
 We see `Hp - 4` being allocated to a temp, and then consequently being spilled to the stack even though `newCAF` definitely will not change `Hp`, so we could have floated the expression down.
+
+## Up and Down
+
+
+A frequent pattern is the stack pointer being bumped up and then back down again, for no particular reason. 
+
+```wiki
+         Sp = Sp + 4;
+         Sp = Sp - 4;
+         jump block_c7xh_entry ();
+```
+
+
+This is mentioned at the very top of `cmm-notes`.
