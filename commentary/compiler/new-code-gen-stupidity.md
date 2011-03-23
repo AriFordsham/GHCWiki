@@ -78,6 +78,22 @@ We see `Hp - 4` being allocated to a temp, and then consequently being spilled t
 
 This seems to happen whenever there's a `newCAF` ccall.
 
+
+We also seem to reload these values multiple times.
+
+```wiki
+        _c7Yt::I32 = Hp - 4;
+        I32[Sp - 28] = _c7Yt::I32;
+        foreign "ccall"
+          newCAF((BaseReg, PtrHint), (R1, PtrHint))[_unsafe_call_];
+        _c7Yt::I32 = I32[Sp - 28];
+        I32[R1 + 4] = _c7Yt::I32;
+        I32[R1] = stg_IND_STATIC_info;
+        _c7Yt::I32 = I32[Sp - 28];  <--- totally unnecessary
+        I32[Sp - 8] = _c7Yt::I32;
+        I32[Sp - 12] = stg_upd_frame_info;
+```
+
 ## Up and Down
 
 
