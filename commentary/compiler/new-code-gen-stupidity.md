@@ -9,7 +9,7 @@ Presently compiling using the new code generator results in a fairly sizable per
 Lots of temporary variables (these can tickle other issues when the temporaries are long-lived, but otherwise would be optimized away). You can at least eliminate some of them by looking at the output of `-ddump-opt-cmm`, which utilizes some basic temporary inlining when used with the native backend `-fasm`, but this doesn't currently apply to the GCC or LLVM backends.
 
 
-At least one major culprit for this is `allocDynClosure`, described in Note `Return a LocalReg`; this pins down the value of the `CmmExpr` to be something for one particular time, but for a vast majority of use-cases the expression is used immediately afterwards. Actually, this is mostly my patches fault, because the extra rewrite means that the inline pass is broken.
+\<s\>At least one major culprit for this is `allocDynClosure`, described in Note `Return a LocalReg`; this pins down the value of the `CmmExpr` to be something for one particular time, but for a vast majority of use-cases the expression is used immediately afterwards. Actually, this is mostly my patches fault, because the extra rewrite means that the inline pass is broken.\</s\> Fixed in latest version of the pass; we don't quite manage to inline enough but there's only one extra temporary.
 
 ## Rewriting stacks
 
@@ -106,8 +106,7 @@ Main.D:Arbitrary_entry()
         I32[Hp - 8] = Main.D:Arbitrary_con_info;
         I32[Hp - 4] = _B2::I32;
         I32[Hp + 0] = _B1::I32;
-        _c7J4::I32 = Hp - 8;
-        _c7J4::I32 = _c7J4::I32 + 1;
+        _c7J4::I32 = Hp - 7;
         R1 = _c7J4::I32;
         Sp = Sp - 4;
         jump (I32[Sp + 0]) ();
@@ -154,5 +153,4 @@ There are a lot of things wrong
 
 - We do an unnecessary stack check on entry to this function
 - Sp should be bumped before the stack check (but we need this fishy code due to ncg spilling before the check)
-- The `R1` assignment is silly (although that's my fault; I should probably fix up the offending patch)
 - Sp is getting bumped too much, and then being adjusted back down again
