@@ -156,3 +156,6 @@ There are a lot of things wrong
 - We do an unnecessary stack check on entry to this function
 - Sp should be bumped before the stack check (but we need this fishy code due to ncg spilling before the check)
 - Sp is getting bumped too much, and then being adjusted back down again
+
+
+This pattern essentially happens for every function, since we always assign incoming parameters to temporary variables before doing anything.
