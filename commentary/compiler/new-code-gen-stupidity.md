@@ -8,8 +8,10 @@ Presently compiling using the new code generator results in a fairly sizable per
 
 Lots of temporary variables (these can tickle other issues when the temporaries are long-lived, but otherwise would be optimized away). You can at least eliminate some of them by looking at the output of `-ddump-opt-cmm`, which utilizes some basic temporary inlining when used with the native backend `-fasm`, but this doesn't currently apply to the GCC or LLVM backends.
 
+~~At least one major culprit for this is `allocDynClosure`, described in Note `Return a LocalReg`; this pins down the value of the `CmmExpr` to be something for one particular time, but for a vast majority of use-cases the expression is used immediately afterwards. Actually, this is mostly my patches fault, because the extra rewrite means that the inline pass is broken.~~ Fixed in latest version of the pass; we don't quite manage to inline enough but there's only one extra temporary.
 
-\<s\>At least one major culprit for this is `allocDynClosure`, described in Note `Return a LocalReg`; this pins down the value of the `CmmExpr` to be something for one particular time, but for a vast majority of use-cases the expression is used immediately afterwards. Actually, this is mostly my patches fault, because the extra rewrite means that the inline pass is broken.\</s\> Fixed in latest version of the pass; we don't quite manage to inline enough but there's only one extra temporary.
+
+Another cause of all of these temporary variables is that the new code generator immediately assigns any variables that were on the stack to temporaries immediately upon entry to a function.
 
 ## Rewriting stacks
 
