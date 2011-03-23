@@ -80,3 +80,70 @@ A frequent pattern is the stack pointer being bumped up and then back down again
 }}}
 
 This is mentioned at the very top of `cmm-notes`.
+
+== Sp is generally stupid ==
+
+Here is an optimized C-- sample from `arr016.hs`.
+
+{{{
+Main.D:Arbitrary_entry()
+        { [const 131084;, const 0;, const 15;]
+        }
+    c7J5:
+        _B1::I32 = I32[Sp + 4];
+        _B2::I32 = I32[Sp + 0];
+        if ((Sp + 0) < I32[BaseReg + 84]) goto u7Jf;
+        Sp = Sp + 12;
+        Hp = Hp + 12;
+        if (Hp > I32[BaseReg + 92]) goto c7Jc;
+        I32[Hp - 8] = Main.D:Arbitrary_con_info;
+        I32[Hp - 4] = _B2::I32;
+        I32[Hp + 0] = _B1::I32;
+        _c7J4::I32 = Hp - 8;
+        _c7J4::I32 = _c7J4::I32 + 1;
+        R1 = _c7J4::I32;
+        Sp = Sp - 4;
+        jump (I32[Sp + 0]) ();
+    u7Jf:
+        Sp = Sp + 12;
+        goto c7Jd;
+    c7Jc:
+        I32[BaseReg + 112] = 12;
+        goto c7Jd;
+    c7Jd:
+        R1 = Main.D:Arbitrary_closure;
+        Sp = Sp - 12;
+        jump (I32[BaseReg - 4]) ();
+}
+}}}
+
+Compare with the old code:
+
+{{{
+Main.D:Arbitrary_entry()
+        { [const 131084;, const 0;, const 15;]
+        }
+    c4pX:
+        Hp = Hp + 12;
+        if (Hp > I32[BaseReg + 92]) goto c4pU;
+        I32[Hp - 8] = Main.D:Arbitrary_con_info;
+        I32[Hp - 4] = I32[Sp + 0];
+        I32[Hp + 0] = I32[Sp + 4];
+        R1 = Hp - 7;
+        Sp = Sp + 8;
+        jump (I32[Sp + 0]) ();
+    c4pV:
+        R1 = Main.D:Arbitrary_closure;
+        jump (I32[BaseReg - 4]) ();
+    c4pU:
+        I32[BaseReg + 112] = 12;
+        goto c4pV;
+}
+}}}
+
+There are a lot of things wrong
+
+ - We do an unnecessary stack check on entry to this function
+ - Sp should be bumped before the stack check (but we need this fishy code due to ncg spilling before the check)
+ - The `R1` assignment is silly (although that's my fault; I should probably fix up the offending patch)
+ - Sp is getting bumped too much, and then being adjusted back down again
