@@ -75,6 +75,9 @@ We see that these temporary variables are being repeatedly rewritten to the stac
 
 We see `Hp - 4` being allocated to a temp, and then consequently being spilled to the stack even though `newCAF` definitely will not change `Hp`, so we could have floated the expression down.
 
+
+This seems to happen whenever there's a `newCAF` ccall.
+
 ## Up and Down
 
 
