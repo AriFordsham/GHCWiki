@@ -179,3 +179,57 @@ No doubt we'll also need to specify some additional configuration parameters to 
 - The configure script doesn't let you specify different `build`, `host`, and `target` right now
 - The build system has no distinction between the gcc used to compile from build-\>build and build-\>host.
 - We can't build anything with stage2 when cross-compiling, e.g. Haddock and DPH must be disabled.
+
+---
+
+*This is a collection of information from Mark Lentczner's work on cross-compilation. Once things are settled, this information should be merged with the above.*
+
+## General Problem
+
+
+The most general case is a user on build platform B, wishing to build a GHC that runs on host platform H which produces code that runs on target platform T. But, we need not handle such a general case, it seems reasonable to limit ourselves to the case where (from the users' perspective) B = H, and H ≠ T. That is, the user things "I want to build a GHC on my current system, that runs on my current system, and which produces code for some other, target system".
+
+## High Level Approach
+
+
+In this scenario, we have two choices:
+1) Build a stage1 compiler that runs on and compiles for B/H, then use that to build a stage2 compiler that runs on B/H and compiles for T. In this case, the libraries rts built by stage1 compiler will be incompatible with the stage2 compiler - and so the libraries and rts for distribution would have to be built again.
+--or--
+2) Build a stage1 compiler that runs on B/H and compiles for T. Then the rts and library built by the stage1 compiler, are compatible with it, and together (stage1 compiler & libs/rts built by it) form the cross-compiler.
+
+
+Approach 2 is more in-line with the rest of the build system. Further, if the users's stage0 GHC is the same as the tree they are building in, it is arguable that the extra compiler build of option 1 is redundant (since the stage1 build in that option should be identical to the stage0 they started with!).
+
+## Tool-chains
+
+
+When building a cross compiler, we will need two tool-chains: One that runs on B/H, and compiles for B/H, the "host-tool-chain" or HT, and one that runs on B/H, but compiles for T, the "cross-tool-chain" or XT. The tool-chains include many programs needed: gcc, ld, nm, ar, as, ranlib, strip, and even ghc! The stage0 GHC is effectively part of the HT, and the stage1 we are building is going to become part of the XT. The tool-chain also includes a raft of information about the tools: does ar need ranlib, which extra ld flags need to be passed, etc.
+
+
+Even in a non-cross build, the current build system takes some care to achieve a limited form of tool-chain separation. In particular, when using the stage0 GHC, the build should be using the tool chain that that compiler is designed to work with -- which may not be the tool chain specified on the ./configure command line. This is only partially fulfilled. For example, while the build uses the stage0 GHC to compile C sources, so that the stage0 compatible gcc will be used, the build also other various tools ferreted out by ./configure (ar and ranlib for example).
+
+## Autoconf
+
+
+Autoconf offers only limited support for cross compiling. While it professes to know about three platforms, base, host, and target; it knows only about one tool-chain. It uses that tool-chain to determine two classes of information: Information about how to use the tool-chain itself, and information about the target of that tool-chain. Hence, in the cross-compilation case, it makes sense for ./configure to be told about XT.
+
+
+Autoconf's concept and variable $cross_compiling only gets set if B ≠ H. This is correct from the standpoint of compiling a simple program (for which T is irrelevant). From the user's perspective, B = H, so we need to augment the logic of autoconf here.
+
+
+This leaves us with the issue of how to tell it about parts of HT it can't infer from the stage0 compiler. We need a new set of variables that are how to compile, link and run things on the host, which if cross compiling need to be different. There needs to be some way to pass those on the configure line. 
+A tricky aspect is that some properities of the tool chain are probed by Autoconf ("is cc gcc?", "does ar need ranlib?"). These probes technically should be performed for each tool-chain.
+
+
+Both ./configure, cabal configure, and hsc2hs desire to run things built for T. If the XT contains an emulator, than this is possible. Two approaches need to be taken here: 1) Autoconf can now descern many values without running code and configure.ac / aclocal.m4 scripts can be changed to avoid running in many cases. (For example in libraries/base I rewrote things to use AC_COMPUTE_INT rather than AC_RUN_IFELSE to find the sizes of htypes.) 2) Plumb the need to call the emulator to run in the right places. An alternative is to use an alternate linker command that inserts the emulator into those build executables (but this is tricky as you don't want to use that link when building for the real target...)
+
+## Status
+
+
+I actually have much of this working. At this point I can build and link and run a stage1 cross-compiler. I have plumbed two tool-chains through the top level ./configure and make, and have gotten through configuring several libraries with the in-place cabal.
+
+
+In general, the problems have all been in plumbing the concepts of XT vs. HT around the build system. While I've been able to fudge it for most of the components that use autoconf, I'm currently having trouble getting things right for "cabal configure" to work on the libs, as configured for the dist-install build phase. I'm worried that this might be hopeless without diving into cabal and teaching it about this kind of situation.
+
+
+A Wholly different approach might be to instead mirror the two tree style that porting uses. This, however, will still run into similar issues, since "target" tree still wouldn't really be running on the target.
