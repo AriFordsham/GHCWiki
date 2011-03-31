@@ -6,10 +6,6 @@ A GHC tree consists of [multiple repositories](repositories). The `sync-all` Per
 
 The basic interface to `sync-all` is described in comments at the top of the [ source file](http://darcs.haskell.org/ghc/sync-all).
 
-**Warning for Windows users**: see [\#3899](https://gitlab.haskell.org//ghc/ghc/issues/3899). The bottom line is this
-
-- Make sure that `$(TOP)/_darcs/prefs/defaultrepos` contains an HTTP url like `http://darcs/haskell.org/ghc.git`, not a SSH address like `darcs.haskell.org:/home/darcs/ghc.git`.
-
 ## Pulling new patches
 
 
