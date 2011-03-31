@@ -3,7 +3,7 @@
 # Getting the GHC Sources
 
 
-There are two ways to get sources to GHC: download a source distribution, or get the sources directly from our repository using [ darcs](http://darcs.net/).
+There are two ways to get sources to GHC: download a source distribution, or get the sources directly from our repository using [ git](http://git-scm.com/).
 
 ## Source distributions
 
@@ -16,131 +16,54 @@ In addition to fixed releases of GHC, source distributions are also made each ni
 
 Source distributions are easier to build, because we also include the output from running certain external tools like [ Happy](http://haskell.org/happy), so you don't need to install these tools.  See [Building/Preparation](building/preparation) for details.
 
-## Getting a GHC repository using darcs
+## Getting a GHC repository using git
 
 
-The first thing to do is install [ darcs](http://darcs.net/).
+The first thing to do is install [ git](http://git-scm.com/).
 
 
-A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate darcs repositories (the full list of darcs repositories relating to GHC is at [DarcsRepositories](darcs-repositories)).  To get a complete repository tree using darcs:
+A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate git repositories (the full list of git repositories relating to GHC is at [Repositories](repositories)).  To get a complete repository tree using git:
 
 ```wiki
-  $ darcs get --lazy http://darcs.haskell.org/ghc
+  $ git clone http://darcs.haskell.org/ghc-git/ghc.git/
   $ cd ghc
-  $ chmod +x darcs-all
-  $ ./darcs-all --testsuite get
+  $ chmod +x sync-all
+  $ ./sync-all --testsuite get
 ```
 
-
-Note that we use the `--lazy` flag: this tells darcs not to download the entire repository history, which can take rather a long time, but to download it on demand if you later use a darcs command that needs access to the history, such as `darcs changes`.  The [darcs-all script](building/darcs-all) adds the `--lazy` flag by default when getting the other repositories.
-
-
-Darcs has a sophisticated system of caching, which means that if you have already downloaded a GHC repository in the past, then most of the contents will probably be cached locally, so darcs won't have to download so much.  Furthermore, all the history and content will be shared with your other local repositories, saving disk space.
-
-## Making a local branch
+## Making a local clone
 
 
-Branches in darcs are just separate repositories, although internally they share most of their files so are cheap to make.  Once you have a local GHC repository, branching it is easy: just
+You can make a local clone of a GHC tree with
 
 ```wiki
- $ darcs get --lazy ~/ghc ~/ghc-branch
+ $ git clone ~/ghc ~/ghc-branch
 ```
 
 
-where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where you want to put the branch.  Then use `darcs-all` as before to branch the rest of the repositories.  You can then use `darcs-all -r <path>` to push and pull patches between your two local repository trees.
+where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where you want to put the branch.  Then use `sync-all` as before to branch the rest of the repositories.  You can then use `sync-all -r <path>` to push and pull patches between your two local repository trees.
 
 ## Getting a branch
 
 
-The above instructions will get the HEAD - the main trunk of GHC development.  There are also branches, from which stable releases are made.  The active branches are listed on [DarcsRepositories](darcs-repositories).
+The above instructions will get the HEAD - the main trunk of GHC development.  There are also branches, from which stable releases are made.  The active branches are listed on [Repositories](repositories).
 
 
-To get a branch, add the branch name after [ http://darcs.haskell.org/](http://darcs.haskell.org/).  For example, to get the `ghc-6.12` branch, you would first say 
+To get a branch, add the branch name after [ http://darcs.haskell.org/](http://darcs.haskell.org/).  For example, to get the `ghc-7.2` branch, you would first say 
 
 ```wiki
-  $ darcs get --lazy http://darcs.haskell.org/ghc-6.12/ghc
+  $ git clone http://darcs.haskell.org/ghc-7.2/ghc.git
 ```
 
 
-and then use `darcs-all` as above to get the rest of the respositories.
+and then use `sync-all` as above to get the rest of the repositories.
 
 ## Pulling new patches
 
 
-The [darcs-all](building/darcs-all) script makes it easy to pull new patches.  For example, `darcs-all pull -a` will pull all new patches from the original repository into the repository tree in the current directory.
+The [sync-all](building/sync-all) script makes it easy to pull new patches.  For example, `sync-all pull` will pull all new patches from the original repository into the repository tree in the current directory.
 
-## Getting a complete repository tarball
-
-
-Sometimes it's easier to download the entire set of repositories, complete with history, as a tarball and unpack it onto your system.  These bundles are on [ http://darcs.haskell.org/](http://darcs.haskell.org/) usually in three files of the form 
-
-- `ghc-HEAD-2007-08-29-ghc-corelibs-testsuite.tar.bz2` (100Mbytes)
-- `ghc-HEAD-2007-08-29-ghc-corelibs.tar.bz2` (90 Mbytes)
-- `ghc-HEAD-2007-08-29-ghc.tar.bz2` (60 Mbytes)
-
-
-Each of these is a subset of the previous one; pick the smallest one that has what you need.  Of course, the dates may vary.  
-
-
-Here's how to use the bundles:
-
-1. Unpack the bundle, which will create a directory called `ghc`.  You can rename this directory freely. 
-1. Change into the new directory, and pull patches from the main GHC repository:
-
-  ```wiki
-     $ cd ghc
-     $ darcs pull -a
-  ```
-1. Some core libraries might have been added to HEAD which were not in the last tarball. This means that after doing the last pull (which updates the list of core libraries) we need to do this to get any new libraries:
-
-  ```wiki
-     $ chmod +x darcs-all
-     $ ./darcs-all get
-  ```
-1. Now use the `darcs-all` script to pull patches from all the library repositories that came in the tarball, and the testsuite repository:
-
-  ```wiki
-     $ ./darcs-all pull -a
-  ```
-
-  The command `darcs-all` automates the fetching of the repositories for the libraries.
-
-
-If you omit step (3), then `darcs-all` will pull patches into the GHC repository too. If one of those patches modifies the `darcs-all` script itself, then bizarre things can happen (or at least: in the past, they could happen.) The safe thing to do is to get your main `ghc` repo up to date (step 3) and then run the script.
-
-
-If you see any of the following error messages on Windows (the filename varies)
-
-```wiki
-Warning: ./compiler/main/DynFlags.hs-0: renameFile: permission denied (Permission denied)
-darcs failed:  Error applying hunk to file ./compiler/main/DynFlags.hs
-Error applying patch to the working directory.
-```
-
-```wiki
-darcs failed:  ./ghc.mk-0: renameFile: permission denied (Permission denied)
-Your repository is now in an inconsistent state.
-This must be fixed by running darcs repair.
-```
-
-
-after doing `darcs pull -a`, then use newest darcs. Version 2.0.2 is broken, version 2.3.1 works.
-
-## Getting a GHC source tree using git
-
-
-NOTE: This is not yet supported. We currently recommend you use darcs to get a source tree.
-
-
-The first thing to do is install [ darcs](http://darcs.net/) and [ git](http://git.or.cz/).
-
-```wiki
-git clone http://darcs.haskell.org/ghc.git ghc
-cd ghc
-./sync-all --complete get
-perl boot
-./configure && make
-```
+## Windows
 
 
 Note, on Windows you may have to change git's line-ending behaviour first:
