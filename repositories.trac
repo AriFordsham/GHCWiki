@@ -49,7 +49,7 @@ The following branches are active:
 
  '''7.2 Branch'''::
   Prepend `ghc-7.2` to the name of the repository to get the 7.2 branch.  For example,
-  the 7.2 ghc repository is at [http://darcs.haskell.org/ghc-6.12/ghc]. 
+  the 7.2 ghc repository is at [http://darcs.haskell.org/ghc-7.2/ghc.git]. 
   Note: only the `ghc` repository, the core libraries and the testsuite were branched for 7.2; the
   other repos were not. However, there are symlinks under `ghc-7.2` for the other repos.
   The `sync-all` script knows
