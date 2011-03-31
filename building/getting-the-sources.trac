@@ -33,26 +33,26 @@ A source tree consists of more than one repository: at the top level there is th
 Branches in darcs are just separate repositories, although internally they share most of their files so are cheap to make.  Once you have a local GHC repository, branching it is easy: just
 
 {{{
- $ darcs get --lazy ~/ghc ~/ghc-branch
+ $ git clone ~/ghc ~/ghc-branch
 }}}
 
-where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where you want to put the branch.  Then use `darcs-all` as before to branch the rest of the repositories.  You can then use `darcs-all -r <path>` to push and pull patches between your two local repository trees.
+where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where you want to put the branch.  Then use `sync-all` as before to branch the rest of the repositories.  You can then use `sync-all -r <path>` to push and pull patches between your two local repository trees.
 
 == Getting a branch ==
 
-The above instructions will get the HEAD - the main trunk of GHC development.  There are also branches, from which stable releases are made.  The active branches are listed on DarcsRepositories.
+The above instructions will get the HEAD - the main trunk of GHC development.  There are also branches, from which stable releases are made.  The active branches are listed on [wiki:Repositories].
 
-To get a branch, add the branch name after http://darcs.haskell.org/.  For example, to get the `ghc-6.12` branch, you would first say 
+To get a branch, add the branch name after http://darcs.haskell.org/.  For example, to get the `ghc-7.2` branch, you would first say 
 
 {{{
-  $ darcs get --lazy http://darcs.haskell.org/ghc-6.12/ghc
+  $ git clone http://darcs.haskell.org/ghc-7.2/ghc.git
 }}}
 
-and then use `darcs-all` as above to get the rest of the respositories.
+and then use `sync-all` as above to get the rest of the repositories.
 
 == Pulling new patches ==
 
-The [wiki:Building/DarcsAll darcs-all] script makes it easy to pull new patches.  For example, `darcs-all pull -a` will pull all new patches from the original repository into the repository tree in the current directory.
+The [wiki:Building/SyncAll sync-all] script makes it easy to pull new patches.  For example, `sync-all pull` will pull all new patches from the original repository into the repository tree in the current directory.
 
 
 == Getting a complete repository tarball ==
