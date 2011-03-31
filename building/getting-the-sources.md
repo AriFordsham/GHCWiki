@@ -1,6 +1,3 @@
-
-NOTE: The below is not fully updated yet.
-
 [ Video: Getting and Building](http://video.google.com/videoplay?docid=7166458546326012899), layout of the source tree, how to set up build.mk (23'43")
 
 # Getting the GHC Sources
@@ -25,7 +22,7 @@ Source distributions are easier to build, because we also include the output fro
 The first thing to do is install [ git](http://git-scm.com/).
 
 
-A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate git repositories (the full list of git repositories relating to GHC is at [Repositories](repositories)).  To get a complete repository tree using darcs:
+A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate git repositories (the full list of git repositories relating to GHC is at [Repositories](repositories)).  To get a complete repository tree using git:
 
 ```wiki
   $ git clone http://darcs.haskell.org/ghc-git/ghc.git/
@@ -34,10 +31,10 @@ A source tree consists of more than one repository: at the top level there is th
   $ ./sync-all --testsuite get
 ```
 
-## Making a local branch
+## Making a local clone
 
 
-Branches in darcs are just separate repositories, although internally they share most of their files so are cheap to make.  Once you have a local GHC repository, branching it is easy: just
+You can make a local clone of a GHC tree with
 
 ```wiki
  $ git clone ~/ghc ~/ghc-branch
