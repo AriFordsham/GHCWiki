@@ -14,10 +14,10 @@ These repositories are the HEAD (main trunk) of GHC development:
 <table><tr><th>[ http://darcs.haskell.org/ghc.git](http://darcs.haskell.org/ghc.git)</th>
 <th>The main GHC repository
 </th></tr>
-<tr><th>[ http://darcs.haskell.org/testsuite](http://darcs.haskell.org/testsuite)</th>
+<tr><th>[ http://darcs.haskell.org/testsuite.git](http://darcs.haskell.org/testsuite.git)</th>
 <th>The test suite (requires python 2.4+) 
 </th></tr>
-<tr><th>[ http://darcs.haskell.org/nofib](http://darcs.haskell.org/nofib)</th>
+<tr><th>[ http://darcs.haskell.org/nofib.git](http://darcs.haskell.org/nofib.git)</th>
 <th>The benchmark suite
 </th></tr></table>
 
@@ -27,31 +27,31 @@ Our repositories are either git repo, or darcs "hashed" format repos. You need D
 
 The following repositories are the "GHC boot" libraries, i.e. the set of libraries that are necessary to build GHC (i.e. they are used when building the stage 2 compiler). They populate the libraries/ directory of a GHC tree.
 
-<table><tr><th>[ http://darcs.haskell.org/packages/array](http://darcs.haskell.org/packages/array)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/base](http://darcs.haskell.org/packages/base)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/bytestring](http://darcs.haskell.org/packages/bytestring)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/Cabal](http://darcs.haskell.org/packages/Cabal)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/containers](http://darcs.haskell.org/packages/containers)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/directory](http://darcs.haskell.org/packages/directory)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/filepath](http://darcs.haskell.org/packages/filepath)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/haskell98](http://darcs.haskell.org/packages/haskell98)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/old-locale](http://darcs.haskell.org/packages/old-locale)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/old-time](http://darcs.haskell.org/packages/old-time)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/packedstring](http://darcs.haskell.org/packages/packedstring)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/pretty](http://darcs.haskell.org/packages/pretty)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/process](http://darcs.haskell.org/packages/process)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/random](http://darcs.haskell.org/packages/random)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/readline](http://darcs.haskell.org/packages/readline)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/template-haskell](http://darcs.haskell.org/packages/template-haskell)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/unix](http://darcs.haskell.org/packages/unix)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/Win32](http://darcs.haskell.org/packages/Win32)</th></tr>
-<tr><th>[ http://darcs.haskell.org/packages/hpc](http://darcs.haskell.org/packages/hpc)</th></tr></table>
+<table><tr><th>[ http://darcs.haskell.org/packages/array.git](http://darcs.haskell.org/packages/array.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/base.git](http://darcs.haskell.org/packages/base.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/bytestring.git](http://darcs.haskell.org/packages/bytestring.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/Cabal.git](http://darcs.haskell.org/packages/Cabal.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/containers.git](http://darcs.haskell.org/packages/containers.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/directory.git](http://darcs.haskell.org/packages/directory.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/filepath.git](http://darcs.haskell.org/packages/filepath.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/haskell98.git](http://darcs.haskell.org/packages/haskell98.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/old-locale.git](http://darcs.haskell.org/packages/old-locale.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/old-time.git](http://darcs.haskell.org/packages/old-time.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/packedstring.git](http://darcs.haskell.org/packages/packedstring.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/pretty.git](http://darcs.haskell.org/packages/pretty.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/process.git](http://darcs.haskell.org/packages/process.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/random.git](http://darcs.haskell.org/packages/random.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/readline.git](http://darcs.haskell.org/packages/readline.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/template-haskell.git](http://darcs.haskell.org/packages/template-haskell.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/unix.git](http://darcs.haskell.org/packages/unix.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/Win32.git](http://darcs.haskell.org/packages/Win32.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/packages/hpc.git](http://darcs.haskell.org/packages/hpc.git)</th></tr></table>
 
 
 Additionally a GHC build needs these two tools:
 
-<table><tr><th>[ http://darcs.haskell.org/hsc2hs](http://darcs.haskell.org/hsc2hs)</th></tr>
-<tr><th>[ http://darcs.haskell.org/haddock2](http://darcs.haskell.org/haddock2)</th></tr></table>
+<table><tr><th>[ http://darcs.haskell.org/hsc2hs.git](http://darcs.haskell.org/hsc2hs.git)</th></tr>
+<tr><th>[ http://darcs.haskell.org/haddock2.git](http://darcs.haskell.org/haddock2.git)</th></tr></table>
 
 ## Branches
 
@@ -60,11 +60,5 @@ The following branches are active:
 
 <table><tr><th>**7.2 Branch**</th>
 <td>
-Prepend `ghc-7.2` to the name of the repository to get the 7.2 branch.  For example,
-the 7.2 ghc repository is at [ http://darcs.haskell.org/ghc-7.2/ghc.git](http://darcs.haskell.org/ghc-7.2/ghc.git). 
-Note: only the `ghc` repository, the core libraries and the testsuite were branched for 7.2; the
-other repos were not. However, there are symlinks under `ghc-7.2` for the other repos.
-The `sync-all` script knows
-where to get everything, so you don't have to worry about this, just follow the
-instructions in [Building/GettingTheSources](building/getting-the-sources).
+\[TODO!\]
 </td></tr></table>
