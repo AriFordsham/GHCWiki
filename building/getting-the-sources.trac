@@ -20,9 +20,8 @@ The first thing to do is install [http://git-scm.com/ git].
 A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate git repositories (the full list of git repositories relating to GHC is at [wiki:Repositories]).  To get a complete repository tree using git:
 
 {{{
-  $ git clone http://darcs.haskell.org/ghc-git/ghc.git/
+  $ git clone http://darcs.haskell.org/ghc.git/
   $ cd ghc
-  $ chmod +x sync-all
   $ ./sync-all --testsuite get
 }}}
 
@@ -40,13 +39,7 @@ where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where y
 
 The above instructions will get the HEAD - the main trunk of GHC development.  There are also branches, from which stable releases are made.  The active branches are listed on [wiki:Repositories].
 
-To get a branch, add the branch name after http://darcs.haskell.org/.  For example, to get the `ghc-7.2` branch, you would first say 
-
-{{{
-  $ git clone http://darcs.haskell.org/ghc-7.2/ghc.git
-}}}
-
-and then use `sync-all` as above to get the rest of the repositories.
+To get a branch, [TODO!]
 
 == Pulling new patches ==
 
