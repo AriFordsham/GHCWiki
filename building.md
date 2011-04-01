@@ -43,6 +43,7 @@ More detailed information about using the build system
 - [Installing GHC from a build](building/installing)
 - [Unregisterised builds](building/unregisterised)
 - [Porting GHC to a new platform](building/porting)
+- [Cross-compilation](cross-compilation)
 
 
 More detailed information about how the build system works
