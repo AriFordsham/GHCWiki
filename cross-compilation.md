@@ -1,7 +1,7 @@
 # Cross Compiling GHC
 
 
-As of this moment (GHC 7.0) GHC does not support cross-compilation. This page is to gather information and plans it.
+As of this moment (GHC 7.0) GHC does not support cross-compilation. This page is to gather information and plans it.  See also [Building/Porting](building/porting).
 
 ## General Problem
 
