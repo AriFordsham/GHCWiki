@@ -23,7 +23,27 @@ Now make sure `ghc/darcs` is fully up-to-date:
 ```wiki
 cd ghc/darcs
 ./darcs-all pull -a
+cd ../..
 ```
 
 
 Next we checkout the git repo as it was at the darcs branch point:
+
+```wiki
+git clone ghc/git ghc/migrate
+cd ghc/migrate
+git checkout -b "some-descriptive-name" ghc-darcs-git-switchover
+cd ../..
+```
+
+
+Now we put the git meta-data into our darcs repo, record the changes with git and push them back to our git repo:
+
+```wiki
+cd ghc/darcs
+mv ../migrate/.git .
+git commit -a
+git checkout master
+git merge "some-descriptive-name"
+git push ../../ghc/git
+```
