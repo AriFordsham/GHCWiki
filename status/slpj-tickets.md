@@ -167,6 +167,7 @@
 
 ## Features
 
+- [\#5073](https://gitlab.haskell.org//ghc/ghc/issues/5073): `blockST` and friends
 - [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788), [\#2895](https://gitlab.haskell.org//ghc/ghc/issues/2895): Class aliases 
 - [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595): record updates
 - [\#4823](https://gitlab.haskell.org//ghc/ghc/issues/4823): strength reduction for array indexing
