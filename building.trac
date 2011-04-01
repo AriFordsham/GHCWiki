@@ -41,6 +41,7 @@ More detailed information about using the build system
  * [wiki:Building/Installing Installing GHC from a build]
  * [wiki:Building/Unregisterised Unregisterised builds]
  * [wiki:Building/Porting Porting GHC to a new platform]
+ * [wiki:CrossCompilation Cross-compilation]
 
 More detailed information about how the build system works
  * [wiki:Commentary/SourceTree Overview of files and directories]
