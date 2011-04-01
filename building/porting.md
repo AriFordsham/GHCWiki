@@ -1,6 +1,9 @@
 # Porting GHC to a new platform
 
 
+(See also [CrossCompilation](cross-compilation))
+
+
 This section describes how to port GHC to a currently
 unsupported platform.  To avoid confusion, when we say
 "architecture" we are referring to the processor, and
