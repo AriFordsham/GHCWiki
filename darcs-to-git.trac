@@ -1,6 +1,4 @@
 
-WORK IN PROGRESS!!!
-
 = Migrating patches from darcs to git =
 
 Suppose `ghc/darcs` is a darcs GHC tree containing patches that need to be migrated to git, and `ghc/git` is a git GHC tree.
@@ -28,12 +26,20 @@ git checkout -b "some-descriptive-name" ghc-darcs-git-switchover
 cd ../..
 }}}
 
-Now we put the git meta-data into our darcs repo, record the changes with git and push them back to our git repo:
+Now we put the git meta-data into our darcs repo, record the changes with git and merge them back to master:
 {{{
 cd ghc/darcs
 mv ../migrate/.git .
 git commit -a
 git checkout master
 git merge "some-descriptive-name"
-git push ../../ghc/git
+cd ../..
 }}}
+
+Finally, we pull the changes into our real git repo:
+{{{
+cd ghc/git
+git pull ../../ghc/darcs master
+}}}
+
+The `ghc/migrate` directory is no longer needed and can be removed.

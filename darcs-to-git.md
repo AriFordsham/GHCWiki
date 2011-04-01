@@ -1,6 +1,3 @@
-
-WORK IN PROGRESS!!!
-
 # Migrating patches from darcs to git
 
 
@@ -37,7 +34,7 @@ cd ../..
 ```
 
 
-Now we put the git meta-data into our darcs repo, record the changes with git and push them back to our git repo:
+Now we put the git meta-data into our darcs repo, record the changes with git and merge them back to master:
 
 ```wiki
 cd ghc/darcs
@@ -45,5 +42,16 @@ mv ../migrate/.git .
 git commit -a
 git checkout master
 git merge "some-descriptive-name"
-git push ../../ghc/git
+cd ../..
 ```
+
+
+Finally, we pull the changes into our real git repo:
+
+```wiki
+cd ghc/git
+git pull ../../ghc/darcs master
+```
+
+
+The `ghc/migrate` directory is no longer needed and can be removed.
