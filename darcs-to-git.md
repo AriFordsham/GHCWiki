@@ -34,7 +34,7 @@ cd baseline-git
 git checkout -b "some-descriptive-name" ghc-darcs-git-switchover
 ```
 
-
+**SLPJ: the clone command should mention the actual URL, not assuming you have a current copy**.
 This gets a Git copy of the repo, precisely at the point of switchover (that's what the `ghc-darcs-git-switchover` tag does).  At this moment all the source files in `migrate` and `baseline-git` should be bit-for-bit identical.  Check this.
 
 **Step 3**: make `migrate/` into a Git repo too!  All we need do is to copy over Git's meta-data.
@@ -44,7 +44,7 @@ cd $root/migrate
 mv ../baeline-git/.git .
 ```
 
-**Step 3**: transfer patches.  For each patch (or group thereof) you want to transfer, do this:
+**Step 4**: transfer patches.  For each patch (or group thereof) you want to transfer, do this:
 
 - Pull the patch into `tmp-git`:
 
@@ -60,6 +60,8 @@ mv ../baeline-git/.git .
   git checkout master
   git merge "some-descriptive-name"
   ```
+
+**SLPJ: is this commit/checkout/merge thing right?  Do you need to switch back to a branch for the next pull?  Do you get to write a commit message?**
 
 **Step 4**: validate and push to Git.
 
