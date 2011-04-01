@@ -34,7 +34,7 @@ cd $root/migrate
 mv ../baeline-git/.git .
 }}}
 
-'''Step 3''': transfer patches.  For each patch (or group thereof) you want to transfer, do this:
+'''Step 4''': transfer patches.  For each patch (or group thereof) you want to transfer, do this:
  * Pull the patch into `tmp-git`:
 {{{
 cd $root/migrate
