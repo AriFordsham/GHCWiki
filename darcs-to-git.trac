@@ -1,0 +1,24 @@
+
+WORK IN PROGRESS!!!
+
+= Migrating patches from darcs to git =
+
+Suppose `ghc/darcs` is a darcs GHC tree containing patches that need to be migrated to git, and `ghc/git` is a git GHC tree.
+We're not going to try to preserve the history; just get the code into the repo.
+
+This assumes that all your changes are in the ghc repo itself. Otherwise, if you have made changes to other repos (e.g. `libraries/base`) you'll need to do a similar procedure for those repos too.
+
+First, make a backup of the darcs repo in case something goes wrong:
+{{{
+cp -a ghc/darcs ghc/backup-darcs
+}}}
+
+Now make sure `ghc/darcs` is fully up-to-date:
+{{{
+cd ghc/darcs
+./darcs-all pull -a
+}}}
+
+Next we checkout the git repo as it was at the darcs branch point:
+{{{
+}}}
