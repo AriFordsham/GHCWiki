@@ -31,7 +31,7 @@ Here we have three branches "feature1", "develop", and "master".  "master" is th
 
 Note that Git branches all exist in the same repository.  You can have several physical clones of the same repository like in Darcs, but it is often more convenient to work with multiple branches in the same directory.  The most important commands for working with branch are {{{git checkout}}} and {{{git branch}}}, see below.
 
-The typical Git workflow is to use one branch per feature and merge into their original branch once they are considered ready.  For example, if we think ready that "feature1" is ready, we can {{{git merge}}} it into master:
+The typical Git workflow is to use one branch per feature and merge into their original branch once they are considered ready.  For example, if we think that "feature1" is ready, we can {{{git merge}}} it into master:
 {{{
 $ git checkout develop   # switch to develop branch
 $ git merge feature1     # merge feature1 into current branch
