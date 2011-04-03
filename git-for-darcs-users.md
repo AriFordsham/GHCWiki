@@ -148,44 +148,193 @@ o---o---A---o---o---o <-- master
 
 See `git rebase --help` for more usage information and more examples.
 
-### Uh-oh, I trashed my repo with a rebase, what do I do?
+### Uh-oh, I trashed my repo with a rebase! What do I do?
 
 
-Two Options:
+Your repository's old state is almost certainly still present, and you have two ways of getting it back. To motivate the easier approach, we'll first consider the more meticulous.
 
-1. Recover from the backup copy (you *did* make backup copy before the rebase, didn't you?)
-
-1. In case you were in a hurry and option 1 is not an option for you, there may be some hope.  Git actually has a bit of a functional philosophy in that it doesn't immediately throw away the orignal commits.  Git uses garbage collection for this, which is called automatically every once in a while.
+#### The hard way
 
 
-Suppose we started with this repository state
+Git actually has a bit of a functional philosophy. Objects in git are *immutable*. Although rebase appears to be a destructive update, it creates new commits and leaves the original ones to be cleaned up later by the garbage collector. Destroying work after you've committed it to git requires deliberate effort. Even if you forget to do it the easy way, which you'll see in just a moment, [ git means never having to say “you should have …”](http://tomayko.com/writings/the-thing-about-git)
+
+
+Say you began work on a new feature three days ago. In the meantime, other commits have gone into `master`, producing a history whose structure is
 
 ```wiki
       A---B---C---D <-- feature1
      /
-o---o---o---o---o <-- master
+V---W---X---Y---Z <-- master
 ```
 
 
-and decided to remove `B` from our history.  The actual repository now looks like this:
+That is, you've made four commits (referred to as `A` through `D` above) toward `feature1`, and `master` has added three commits since (`X`, `Y`, and `Z`). We can use [ Scott Chacon's handy git lol alias](http://blog.kfish.org/2010/04/git-lola.html) to have git draw the history. Assuming `feature1` is our current branch
+
+```wiki
+$ git lol --after=3.days.ago HEAD master
+* b0f2a28 (HEAD, feature1) D
+* 68f87b0 C
+* d311c65 B
+* a092126 A
+| * 83052e6 (origin/master, master) Z
+| * 90c3d28 Y
+| * 4165a42 X
+| * 37844cb W
+|/
+* f8ba9ea V
+```
+
+**N.B.** The commits above have single-letter commit messages for expository benefit. You'd never want to do this in a real repo.
+
+
+The initial bright idea (that we'll regret later) is to remove `B` from our history.
+
+```wiki
+$ git rebase --onto feature1~3 feature1~2 feature1
+```
+
+
+(If this command seems opaque, you can achieve the same effect with [ interactive rebase](http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html#_interactive_mode).)
+
+
+Now the repository looks like this:
 
 ```wiki
         C'--D' <-- feature1
        /
       A---B---C---D
      /
-o---o---o---o---o <-- master
+V---W---X---Y---Z <-- master
 ```
 
 
-If you happen to have the commit id of `D` (maybe in your console backlog) you can create a branch `feature1_old` that points to `D` via
+Notice that no branch head points to the old `feature1` branch and that `feature1` contains commits resembling `C` and `D` but distinct from them because they have different histories. We can see this with `git lol`:
 
 ```wiki
-$ git checkout -b feature1_old <commit-id-of-D>
+$ git lol --after=3.days.ago HEAD master
+* 32ee6f7 (HEAD, feature1) D
+* a62b28d C
+* a092126 A
+| * 83052e6 (origin/master, master) Z
+| * 90c3d28 Y
+| * 4165a42 X
+| * 37844cb W
+|/
+* f8ba9ea V
 ```
 
 
-Now you have a handle to both `D'` and `D`.
+We see here that `A` has the same commit id or SHA1 as in the earlier `git lol` output, but `C`'s and `D`'s SHA1s are different.
+
+**Oh no! ** It turns out we really *did* need `B` and would like to get it back without having to reimplement the change.
+
+
+The old branch is still in the repository as unreferenced garbage, but we can dig it out via the reflog, which git updates each time it updates the tip of any branch.
+
+```wiki
+$ git reflog --after=3.days.ago
+32ee6f7 HEAD@{0}: rebase: D
+a62b28d HEAD@{1}: rebase: C
+a092126 HEAD@{2}: checkout: moving from feature1 to a092126e339d4c7b9a3c9afb5d456cc1ddf4be4a^0
+b0f2a28 HEAD@{3}: checkout: moving from master to feature1
+83052e6 HEAD@{4}: pull : Fast-forward
+f8ba9ea HEAD@{5}: checkout: moving from feature1 to master
+b0f2a28 HEAD@{6}: commit: D
+68f87b0 HEAD@{7}: commit: C
+d311c65 HEAD@{8}: commit: B
+a092126 HEAD@{9}: commit: A
+f8ba9ea HEAD@{10}: checkout: moving from master to feature1
+```
+
+
+Reading bottom-to-top, these artifacts tell the repository's recent history:
+
+1. created `feature1` branch
+1. did some hacking
+1. switched to `master` and pulled updates
+1. performed surgery back on `feature1` (`a092...` is the full 160-bit SHA1 of commit `A`)
+
+
+The old `D` (`b0f2a28`) is still around, and we can see it too:
+
+```wiki
+$ git lol --after=3.days.ago HEAD master b0f2a28
+* 32ee6f7 (HEAD, feature1) D
+* a62b28d C
+| * b0f2a28 D
+| * 68f87b0 C
+| * d311c65 B
+|/
+* a092126 A
+| * 83052e6 (origin/master, master) Z
+| * 90c3d28 Y
+| * 4165a42 X
+| * 37844cb W
+|/
+* f8ba9ea V
+```
+
+
+If for some reason you'd like to keep both of the feature branches (i.e., `D` and `D'`), create a new branch that points at `D`.
+
+```wiki
+$ git branch old-feature1 b0f2a28
+```
+
+
+This produces the following history.
+
+```wiki
+$ git lol --after=3.days.ago HEAD master
+* eeb9cdb (HEAD, feature1) D
+* e7e613e C
+| * b0f2a28 (old-feature1) D
+| * 68f87b0 C
+| * d311c65 B
+|/  
+* a092126 A
+| * 83052e6 (origin/master, master) Z
+| * 90c3d28 Y
+| * 4165a42 X
+| * 37844cb W
+|/  
+* f8ba9ea V
+```
+
+
+To instead discard the botched rebase and try again, use `git reset` while still on the `feature1` branch:
+
+```wiki
+$ git reset --hard b0f2a28
+```
+
+
+Beware that hard reset is a sharp tool. Like `rm -rf` it has its uses, but, “measure twice; cut once,” as carpenters say.
+
+
+See also the [ Data Recovery section](http://progit.org/book/ch9-7.html#data_recovery) of *Pro Git* by Scott Chacon.
+
+#### The easy way
+
+
+By this point, you've probably figured out how to avoid all this fuss. If you're not sure about a complex rebase (or merge), give yourself an easy mulligan by creating a new branch to act as a checkpoint. Then proceed boldly!
+
+1. Create a temporary branch that points to the `HEAD` of the current branch, assumed to be our feature branch.
+
+  ```wiki
+  $ git branch tmp
+  ```
+1. Run `git rebase` with the appropriate arguments.
+1. If you're happy with the result, delete the temporary branch.
+
+  ```wiki
+  $ git branch -D tmp
+  ```
+1. Otherwise, rewind and try again.
+
+  ```wiki
+  $ git reset --hard tmp
+  ```
 
 # General Settings
 
