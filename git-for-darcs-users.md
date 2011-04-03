@@ -611,6 +611,7 @@ This will fail if the tag already exists.  If you want to move an existing tag u
 
 ```wiki
 git status
+git diff
 ```
 
 ## darcs diff
