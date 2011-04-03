@@ -55,7 +55,7 @@ o---o---A---o---o---o <-- master
 ```
 
 
-The above merge is actually a **fast-forward**, meaning that no new commit is necessary, since "develop" didn't contain any other changes--the pointer for the "develop" branch is merely set to point to the same commit that feature1 pointed to.  On the other hand, if we now merge "devel" into "master" we get a now commit:
+The above merge is actually a **fast-forward**, meaning that no new commit is necessary, since "develop" didn't contain any other changes--the pointer for the "develop" branch is merely set to point to the same commit that feature1 pointed to.  On the other hand, if we now merge "devel" into "master" we get a new commit:
 
 ```wiki
 $ git checkout master
