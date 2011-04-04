@@ -32,3 +32,11 @@ GHC's support for Unicode is not as good as it could be. This page collects rele
 == Misc ==
 
   * #2507: quotation characters in error messages
+
+  * #5088: TextEncoding iconv instances are shared between threads
+
+== Interesting links ==
+
+  * Markus Kuhn's message about [http://hyperreal.org/~est/utf-8b/releases/utf-8b-20060413043934/kuhn-utf-8b.html UTF-8b]
+ 
+  * Python's [http://www.python.org/dev/peps/pep-0383/ PEP-383]

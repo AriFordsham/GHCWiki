@@ -32,3 +32,11 @@ GHC's support for Unicode is not as good as it could be. This page collects rele
 ## Misc
 
 - [\#2507](https://gitlab.haskell.org//ghc/ghc/issues/2507): quotation characters in error messages
+
+- [\#5088](https://gitlab.haskell.org//ghc/ghc/issues/5088): TextEncoding iconv instances are shared between threads
+
+## Interesting links
+
+- Markus Kuhn's message about [ UTF-8b](http://hyperreal.org/~est/utf-8b/releases/utf-8b-20060413043934/kuhn-utf-8b.html)
+
+- Python's [ PEP-383](http://www.python.org/dev/peps/pep-0383/)
