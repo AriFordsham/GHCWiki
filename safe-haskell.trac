@@ -177,7 +177,9 @@ The `-XSafe`, `-XTrustworthy`, `-XSafeLanguage` and `-XSafeImport` GHC LANGUAGE 
   * '''`-XSafe`''':
     * '''Disallowed completely''': `StandaloneDeriving`, `GeneralizedNewtypeDeriving`, {{{RULES}}}, {{{SPECIALIZE}}}, `-fglasgow-exts`, `-XSafeLanguage`
     * '''Only allowed on command line''': `TemplateHaskell`, `-cpp`, `-pgm{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-opt{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-F`, `-l''lib''`, `-framework`, `-L''dir''`, `-framework-path''dir''`, `-main-is`, `-package-name`, `-D''symbol''`, `-U''symbol''`, `-I''dir''`
-    * '''Restricted functionality''': `OverlappingInstances` (requires that Overlapping instance declarations must either all reside in modules compiled without -XSafe, or else all reside in the same module.)
+    * '''Restricted functionality''': 
+      * `OverlappingInstances` (requires that Overlapping instance declarations must either all reside in modules compiled without -XSafe, or else all reside in the same module.)
+      * `ForeignFunctionInterface` (foreign imports must have an `IO` return type)
     * '''Doesn't Matter''': `-v`, `-vn`, `-fasm`, `-fllvm`, `-fvia-C`, `-fno-code`, `-fobject-code`, `-fbyte-code`, `-c`, `-split-objs`, `-shared`, `-hcsuf`, `-hidir`, `-o`, `-odir`, `-ohi`, `-osuf`, `-stubdir`, `-outputdir`, `-keep-*`, `-tmpdir`, `-ddump-*`, `-fforce-recomp`, `-no-auto-link-packages`, `-XSafeImports`
 
 
