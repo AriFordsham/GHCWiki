@@ -39,7 +39,12 @@ instance Encode [a] -- works if there is an instance Representable0 [a]
 
  * `Representable0` instances are automatically generated when `-XGenerics` is enabled.
 
+ * There is a new `generic` keyword to be used for generic default method signatures.
+
+ * Generic defaults are properly instantiated when giving an instance without defining the generic default method.
+
 == To do ==
+
  * Remove all of the old deriving mechanism stuff
 
  * Properly deal with isTuple information for constructors
@@ -53,5 +58,3 @@ instance Encode [a] -- works if there is an instance Representable0 [a]
  * For temporary testing, a file test/Main.hs is available with sample datatypes.
 
 == Problems/questions ==
-
- * Currently, in `TcDeriv.genGenericRepBind` we generate instances using `mkLocalInstance`. Is this right, or should we use `mkImportedInstance` instead?  SLPJ: mkLocalInstance: it's as if the instance declaration was in this module, right?
