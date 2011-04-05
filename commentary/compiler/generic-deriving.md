@@ -48,17 +48,11 @@ In the paper we describe the implementation in [ UHC](http://www.cs.uu.nl/wiki/U
 
 - Remove all of the old deriving mechanism stuff
 
-- Properly deal with fixity and isTuple information for constructors
+- Properly deal with isTuple information for constructors
 
 - Generate `Representable1` instances
 
 - What about base types like `[]`, `Maybe`, etc.?
-
-- Generic instances
-
-  - Add `deriving` as a keyword. This replaces the `DERIVABLE` pragma from the UHC implementation, and is attached to a default method on a class declaration.
-  - Change the `Class` definition to allow for generic defaults (in addition to standard defaults).
-  - Generate default instances for representable types which derive generic classes.
 
 ## Testing
 
