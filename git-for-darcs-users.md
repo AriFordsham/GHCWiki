@@ -645,11 +645,21 @@ git checkout <thefile>
 ## darcs unrecord
 
 
-Not sure if this will unrecord any patches except the most recent???
+To unrecord the most recent patch:
 
 ```wiki
 git reset --soft HEAD^
 ```
+
+
+To unrecord a patch other than the most recent one, first you need to re-order patches so that the one you want to unrecord is at the top:
+
+```wiki
+git rebase -i <commit>
+```
+
+
+where `<commit>` is the hash of the commit you want to unrecord.  This pops up an editor with the list of patches since `<commit>`, and you can re-order them, squash them together, or remove some altogether.  (Note dangers of rebase, see above).
 
 ## darcs unpull
 
