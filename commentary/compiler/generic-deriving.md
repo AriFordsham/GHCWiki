@@ -4,7 +4,31 @@
 GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in [ A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf), by Magalhães, Dijkstra, Jeuring and Löh.  This page sketches the specifics of the implementation; we assume you have read the paper.
 
 
-This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). The code is in a branch of GHC; you can get it with `darcs get http://darcs.haskell.org/ghc-generic-11Oct10/ghc`.
+This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). The code is in a branch of GHC; you can get it with `darcs get http://darcs.haskell.org/ghc-generic-15Feb11/ghc`.
+
+## Changes from the paper
+
+
+In the paper we describe the implementation in [ UHC](http://www.cs.uu.nl/wiki/UHC). The implementation in GHC is slightly different:
+
+- We are using type families, so the Representable0 and Representable1 type classes have only one type argument. So, in GHC the classes look like what we describe in "Avoiding extensions" part of Section 2.3 of the paper. This change affects only a generic function writer, and not a generic function user.
+
+- Default definitions (Section 3.3) work differently. In GHC we don't use a `DERIVABLE` pragma; instead, a type class can declare a *generic default method*, which is akin to a standard default method, but includes a generic type signature. For example, the `Encode` class of Section 3.1 is now:
+
+  ```wiki
+  class Encode a where
+    encode :: a -> [Bit]
+    generic encode :: (Representable0 a, Encode1 (Rep a)) => a -> [Bit]
+    encode = encode1 . from0
+  ```
+
+  This removes the need for a separate default definition and a pragma.
+
+- To derive generic functionality to a user type, the user no longer uses ``deriving instance`` (Section 4.6.1). Instead, the user gives an instance without defining the method; GHC then uses the generic default. For instance:
+
+  ```wiki
+  instance Encode [a] -- works if there is an instance Representable0 [a]
+  ```
 
 ## Main components
 
@@ -20,26 +44,22 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 - `Representable0` instances are automatically generated when `-XGenerics` is enabled.
 
+- There is a new `generic` keyword to be used for generic default method signatures.
+
+- Generic defaults are properly instantiated when giving an instance without defining the generic default method.
+
 ## To do
 
 - Remove all of the old deriving mechanism stuff
 
-- Properly deal with fixity and isTuple information for constructors
+- Properly deal with isTuple information for constructors
 
 - Generate `Representable1` instances
 
 - What about base types like `[]`, `Maybe`, etc.?
-
-- Generic instances
-
-  - Add `deriving` as a keyword. This replaces the `DERIVABLE` pragma from the UHC implementation, and is attached to a default method on a class declaration.
-  - Change the `Class` definition to allow for generic defaults (in addition to standard defaults).
-  - Generate default instances for representable types which derive generic classes.
 
 ## Testing
 
 - For temporary testing, a file test/Main.hs is available with sample datatypes.
 
 ## Problems/questions
-
-- Currently, in `TcDeriv.genGenericRepBind` we generate instances using `mkLocalInstance`. Is this right, or should we use `mkImportedInstance` instead?  SLPJ: mkLocalInstance: it's as if the instance declaration was in this module, right?
