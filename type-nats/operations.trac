@@ -48,7 +48,7 @@ type instance a + m = m + a              -- for a concrete number m
 
 
 type instance m * n = mn                 -- for concrete numbers m, n, mn, with m * n = mn
-type instance 0 * a = a                   
+type instance 0 * a = 0                   
 type instance 1 * a = a
 type instance a * a = a ^ 2
 type instance m * a = a * m              -- for concrete numbers m
