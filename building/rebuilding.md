@@ -16,7 +16,7 @@ $ make
 Don't forget to add any necessary flags to `./configure` if you need them.
 
 
-If you're hacking on GHC, see [Building/Using](building/using#developing-in-a-ghc-build-tree) for ways of only rebuilding parts of GHC. In particular, running `make 2` in the `compiler` or `ghc` directory is quite handy.
+If you're hacking on GHC, see [Developing in a GHC build tree](building/using#developing-in-a-ghc-build-tree) for ways of only rebuilding parts of GHC. In particular, running `make 2` in the `compiler` or `ghc` directory is quite handy.
 
 ## Things that might go wrong
 
