@@ -352,6 +352,12 @@ git commit -a
 }}}
 This will add and commit all (not ignored) files.  It will ''not'' add newly created files. (To do this call {{{git add .}}} before in the repo root directory.)
 
+== darcs apply ==
+
+{{{
+git am
+}}}
+
 == darcs pull ==
 
 There is no direct mapping for the interactive {{{darcs pull}}}.  Cherry-picking is not as streamlined as in Darcs.
