@@ -1,5 +1,5 @@
 
-We use a family of singleton types to related type-level naturals to runtime values.
+We use a family of singleton types to relate type-level naturals to runtime values.
 
 
 In our design, we chose to provide as primitive an overloaded "smart" constructor and a polymorphic elimination construct:
@@ -8,14 +8,14 @@ In our design, we chose to provide as primitive an overloaded "smart" constructo
 newtype Nat (n :: Nat) = Nat Integer
 
 class NatI n where
-  nat :: NatI n
+  nat :: Nat n
 
 instance NatI 0 where nat = Nat 0
 instance NatI 1 where nat = Nat 1
 ...
 
 natToInteger :: Nat n -> Integer
-natToInteger (Nat n) n = n
+natToInteger (Nat n) = n
 ```
 
 
