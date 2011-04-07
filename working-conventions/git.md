@@ -97,19 +97,5 @@ to push.
 
 ## The stable branch
 
-## Committing changes
 
-
-where `~/ghc-HEAD` is my vanilla HEAD, with all the sub-repositories checked out using `git-all`.  This command tells me all the patches in the local repository tree relative to `~/ghc-HEAD`. 
-
-**Tip**: add `pull --no-set-default` and `push --no-set-default` to your `~/.git/defaults` file, to avoid having to give `--no-set-default` in commands like the above.
-
-
-To actually push to the HEAD, you can do this:
-
-```wiki
-  $ ./git-all -r simonmar@git.haskell.org:/home/git push --no-set-default
-```
-
-
-it'll use SSH for the push, but continue to use HTTP for pulling, which is what you want (HTTP is much faster than SSH for git operations, but for pushing we can only use SSH).
+(ToDo)
