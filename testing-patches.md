@@ -54,14 +54,14 @@ You may want to validate a different configuration, e.g. with `GhcLibWays = p`. 
 In order to find unrecorded changes run:
 
 ```wiki
-./darcs-all what -l
+./sync-all status
 ```
 
 
 from the root of your tree. To find unpushed patches, run:
 
 ```wiki
-./darcs-all send --dry-run
+./sync-all new
 ```
 
 
