@@ -19,7 +19,11 @@ In order to test your patches:
 - Depending on the nature of the changes, more testing might be sensible. e.g. if possible, build system changes should be tested on Linux, Mac OS X and Windows machines.  Look at the full documentation for the [test suite](building/running-tests).
 
 
-The validate script should take around 20mins on a fast, dual core machine.
+The validate script should take around 40mins on a fast, dual core machine.  If you have more cores, you can use them like this:
+
+```wiki
+CPUS=8 sh validate
+```
 
 
 Assuming all is well, go ahead and commit your changes! If you have commit access then just push as normal. If not, use "darcs send --edit-description" and add a note to say what testing you have done, and on which operating system/architecture.
@@ -50,14 +54,14 @@ You may want to validate a different configuration, e.g. with `GhcLibWays = p`. 
 In order to find unrecorded changes run:
 
 ```wiki
-./darcs-all what -l
+./sync-all status
 ```
 
 
 from the root of your tree. To find unpushed patches, run:
 
 ```wiki
-./darcs-all send --dry-run
+./sync-all new
 ```
 
 
