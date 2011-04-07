@@ -80,7 +80,7 @@ Then merge changes from `working` into the `master` branch of `ghc-validate` as 
 ```
 
 
-To get changes from upstream, merging if necessary.  At this point you can check what changes are new in your tree relative to upstreadm:
+To get changes from upstream, merging if necessary.  At this point you can check what changes are new in your tree relative to upstream:
 
 ```wiki
 ./sync-all new
