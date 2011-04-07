@@ -463,6 +463,12 @@ git commit -a
 
 This will add and commit all (not ignored) files.  It will *not* add newly created files. (To do this call `git add .` before in the repo root directory.)
 
+## darcs apply
+
+```wiki
+git am
+```
+
 ## darcs pull
 
 
