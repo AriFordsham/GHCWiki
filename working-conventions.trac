@@ -14,7 +14,9 @@ These pages guide you step-by-step through making a contribution:
 
 == Conventions ==
 
- * '''Using Darcs''': Our conventions and some useful tips for using darcs are here: [wiki:WorkingConventions/Darcs].
+ * '''Using Git''': Our conventions and some useful tips for using git are here: [wiki:WorkingConventions/Git].
+
+ * OLD: '''Using Darcs''': Our conventions and some useful tips for using darcs are here: [wiki:WorkingConventions/Darcs].
 
  * '''Using the Bug Tracker''': see [wiki:WorkingConventions/BugTracker]
 
