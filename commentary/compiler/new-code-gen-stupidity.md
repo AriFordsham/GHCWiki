@@ -94,6 +94,9 @@ We also seem to reload these values multiple times.
         I32[Sp - 12] = stg_upd_frame_info;
 ```
 
+
+We need to not spill across certain foreign calls, but for which calls this is OK for is unclear.
+
 ## Up and Down
 
 

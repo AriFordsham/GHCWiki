@@ -88,6 +88,8 @@ We also seem to reload these values multiple times.
         I32[Sp - 12] = stg_upd_frame_info;
 }}}
 
+We need to not spill across certain foreign calls, but for which calls this is OK for is unclear.
+
 == Up and Down ==
 
 A frequent pattern is the stack pointer being bumped up and then back down again, for no particular reason. 
@@ -166,3 +168,4 @@ There are a lot of things wrong
  - Sp is getting bumped too much, and then being adjusted back down again
 
 This pattern essentially happens for every function, since we always assign incoming parameters to temporary variables before doing anything.
+
