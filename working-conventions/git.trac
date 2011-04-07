@@ -55,7 +55,7 @@ $ ./sync-all -r <account>@darcs.haskell.org:/home/darcs remote set-url --push or
 
 Now you have `ghc-working` and `ghc-validate` repos, and additionally the `ghc-validate` repo tree is set up with a remote `working` pointing to the `ghc-working` tree, and pushing from `ghc-validate` will push changes via SSH to `darcs.haskell.org`.
 
-To pull from working into the `ghc-valdate` tree:
+To pull from working into the `ghc-validate` tree:
 
 {{{
 cd ghc-validate
