@@ -51,7 +51,7 @@ $ ./sync-all -r `pwd`/../ghc-working remote add working
 $ ./sync-all -r <account>@darcs.haskell.org:/home/darcs remote set-url --push origin
 }}}
 
-(where `<account>` is your account on `darcs.haskell.org`; omit this step if you don't have one, you can still submit patches via the mailing list or send a pull request to get your changes in GHC).
+(where `<account>` is your account on `darcs.haskell.org`; omit this step if you don't have one, you can still submit patches via the mailing list (using `git format-patch` will help you with this) or send a pull request to get your changes in GHC).
 
 Now you have `ghc-working` and `ghc-validate` repos, and additionally the `ghc-validate` repo tree is set up with a remote `working` pointing to the `ghc-working` tree, and pushing from `ghc-validate` will push changes via SSH to `darcs.haskell.org`.
 
