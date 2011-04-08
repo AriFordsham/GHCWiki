@@ -60,6 +60,9 @@ Another cause of all of these temporary variables is that the new code generator
 
 We see that these temporary variables are being repeatedly rewritten to the stack, even when there are no changes.
 
+
+Since these areas on the stack are all old call areas, one way to fix this is to inline all of the memory references. However, this has certain undesirable properties for other code, so we need to be a little more clever. The key thing to notice is that these accesses are only used once per control flow path, in which case sinking the loads down and then inlining them should be OK (it will increase code size but not execution time.) However, the other difficulty is that the CmmOpt inliner, as it stands, won't inline things that look like this because although the variable is only used once in different branches, the same name is used, so it can't distinguish between the temporaries with mutually exclusive live ranges. Building a more clever inliner with Hoopl is also a bit tricky, because inlining is a forward analysis/transformation, but usage counting is a backwards analysis.
+
 ## Spilling Hp/Sp
 
 `3586.hs` emits the following code:
