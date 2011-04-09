@@ -598,3 +598,4 @@ For recompilation avoidance to be really effective, we need to ensure that finge
   - CSE can give different results depending on the order in which the bindings are considered, and since the ordering is
     non-deterministic, the result of CSE is also non-deterministic.  e.g. in `x = z; y = z; z = 3`, where `y` and `x` are 
     exported, we can end up with either `x = y; y = 3` or `y = x; x = 3`.
+  - There seems to be something unpredictable about the order of arguments to [SpecConstr](spec-constr)-generated specialisations, see [ http://www.haskell.org/pipermail/glasgow-haskell-users/2011-April/020287.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2011-April/020287.html)
