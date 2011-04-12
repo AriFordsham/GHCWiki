@@ -17,7 +17,7 @@ We'll assume the following directory setup, where `$root` is some directory in y
 
 ```wiki
 cd $root
-darcs get http:://darcs.haskell.org/ghc
+darcs get http://darcs.haskell.org/ghc
 mv ghc migrate
 ```
 
