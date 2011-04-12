@@ -13,7 +13,7 @@ We'll assume the following directory setup, where `$root` is some directory in y
 '''Step 1''': create `migrate`:
 {{{
 cd $root
-darcs get http:://darcs.haskell.org/ghc
+darcs get http://darcs.haskell.org/ghc
 mv ghc migrate
 }}}
 This gets a Darcs copy of the repo, precisely at the switchover point.  (We don't need a tag, because the Darcs repos were frozen precisely at switchover, so the HEAD will do.)
