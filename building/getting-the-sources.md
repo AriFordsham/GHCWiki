@@ -22,6 +22,13 @@ Source distributions are easier to build, because we also include the output fro
 The first thing to do is install [ git](http://git-scm.com/).
 
 
+Then, if you are on Windows, ensure that git handles line-endings sanely by running:
+
+```wiki
+git config --global core.autocrlf false
+```
+
+
 A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate git repositories (the full list of git repositories relating to GHC is at [Repositories](repositories)).  To get a complete repository tree using git:
 
 ```wiki
@@ -54,15 +61,3 @@ To get a branch, \[TODO!\]
 
 
 The [sync-all](building/sync-all) script makes it easy to pull new patches.  For example, `sync-all pull` will pull all new patches from the original repository into the repository tree in the current directory.
-
-## Windows
-
-
-Note, on Windows you may have to change git's line-ending behaviour first:
-
-```wiki
-git config --global core.autocrlf false
-```
-
-
-since this is a global setting, you probably want to change it back after cloning ghc, and then set it locally for the GHC repo(s).
