@@ -234,7 +234,7 @@ Currently, in any given run of the compiler, GHC classifies each package as eith
 
  * {{{GHC.Prim}}} will need to be made (or just kept) unsafe.
 
- * {{{-XSafe}}} should disallow the {{{TemplateHaskell}}}, {{{GeneralizedNewtypeDeriving}}}, and {{{CPP}}} language extensions, as well as the {{{RULES}}} and {{{SPECIALIZE}}} pragmas. (See [#Order Of Options] above for details).
+ * {{{-XSafe}}} should disallow the {{{TemplateHaskell}}}, {{{GeneralizedNewtypeDeriving}}}, and {{{CPP}}} language extensions, as well as the {{{RULES}}} and {{{SPECIALIZE}}} pragmas. (See [#InteractionofOptions Interaction of Options] above for details).
 
  * Overlapping instance declarations must either all reside in modules compiled without `-XSafe`, or else all reside in the same module.  It violates semantic consistency to allow Safe code to change the instance definition associated with a particular type.
 
