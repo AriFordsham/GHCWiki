@@ -1,10 +1,6 @@
 
 [[PageOutline]]
 
-'''NOTE''': this page now describes the ''current'' GHC build system.  
-For documentation of the "old" build
-system, see [wiki:Attic/Building/Old/Using].
-
 = Using the Build System =
     
 This part of the guide is about ''using'' the build system, that is,
