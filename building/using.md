@@ -1,7 +1,3 @@
-**NOTE**: this page now describes the *current* GHC build system.  
-For documentation of the "old" build
-system, see [Attic/Building/Old/Using](attic/building/old/using).
-
 # Using the Build System
 
 
