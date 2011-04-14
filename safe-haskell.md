@@ -214,8 +214,8 @@ The `-XSafe`, `-XTrustworthy`, `-XSafeLanguage` and `-XSafeImport` GHC LANGUAGE 
 
 - **`-XSafe`**:
 
-  - **Disallowed completely**: `GeneralizedNewtypeDeriving`, `RULES`, `SPECIALIZE`, `-XSafeLanguage`
-  - **Only allowed on command line**: `TemplateHaskell`, `-cpp`, `-pgm{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-opt{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-F`, `-l''lib''`, `-framework`, `-L''dir''`, `-framework-path''dir''`, `-main-is`, `-package-name`, `-D''symbol''`, `-U''symbol''`, `-I''dir''`, `-with-rts-opts`, `-dylib-install-name`, `-hcsuf`, `-hidir`, `-hisuf`, `-o`, `-odir`, `-ohi`, `-osuf`, `-stubdir`, `-outputdir`, `-tmpdir`
+  - **Disallowed completely**: `GeneralizedNewtypeDeriving`, `TemplateHaskell`, `RULES`, `SPECIALIZE`, `-XSafeLanguage`
+  - **Only allowed on command line**: `-cpp`, `-pgm{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-opt{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-F`, `-l''lib''`, `-framework`, `-L''dir''`, `-framework-path''dir''`, `-main-is`, `-package-name`, `-D''symbol''`, `-U''symbol''`, `-I''dir''`, `-with-rts-opts`, `-dylib-install-name`, `-hcsuf`, `-hidir`, `-hisuf`, `-o`, `-odir`, `-ohi`, `-osuf`, `-stubdir`, `-outputdir`, `-tmpdir`
   - **Restricted functionality**: 
 
     - `OverlappingInstances` (requires that Overlapping instance declarations must either all reside in modules compiled without -XSafe, or else all reside in the same module.)
