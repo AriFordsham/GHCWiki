@@ -102,6 +102,9 @@ We also seem to reload these values multiple times.
 
 ~~We need to not spill across certain foreign calls, but for which calls this is OK for is unclear.~~ Variables stay live across all unsafe foreign calls (foreign calls in the middle), except for the obvious cases (the return registers), so no spilling should happen at all. The liveness analysis is too conservative.
 
+
+This is fixed in the April 14 version of the patch.
+
 ## Up and Down
 
 
