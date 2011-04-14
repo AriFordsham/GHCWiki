@@ -209,22 +209,20 @@ On the command line, several new options control which packages are trusted:
 
 ### Interaction of Options
 
-**Note:** Incomplete
 
-
-The `-XSafe`, `-XTrustworthy`, `-XSafeLanguage` and `-XSafeImport` GHC LANGUAGE options are all order independent. When they are used they disable certain other GHC LANGUAGE and OPTIONS_GHC options. There are some options though that while disabled for source file pragmas are allowed when used on the command line. The idea behind this is that in source pragmas are generally specified by the module author, who is untrusted, while command line options are specified by the client since they are compiling the module, who has to be trusted. Below follow the new SafeHaskell options and what they disallow:
+The `-XSafe`, `-XTrustworthy`, `-XSafeLanguage` and `-XSafeImport` GHC LANGUAGE options are all order independent. When they are used they disable certain other GHC LANGUAGE and OPTIONS_GHC options. There are some options though that while disabled for source file pragmas are allowed when used on the command line. The idea behind this is that in source pragmas are generally specified by the module author, who is untrusted, while command line options are specified by the client since they are compiling the module, who has to be trusted. In the case of Cabal files, while they are specified by the untrusted module author, since it is a single source file it is easy to validate by hand. Below follow the new SafeHaskell options and what they disallow:
 
 - **`-XSafe`**:
 
-  - **Disallowed completely**: `StandaloneDeriving`, `GeneralizedNewtypeDeriving`, `RULES`, `SPECIALIZE`, `-fglasgow-exts`, `-XSafeLanguage`
-  - **Only allowed on command line**: `TemplateHaskell`, `-cpp`, `-pgm{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-opt{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-F`, `-l''lib''`, `-framework`, `-L''dir''`, `-framework-path''dir''`, `-main-is`, `-package-name`, `-D''symbol''`, `-U''symbol''`, `-I''dir''`
+  - **Disallowed completely**: `GeneralizedNewtypeDeriving`, `RULES`, `SPECIALIZE`, `-XSafeLanguage`
+  - **Only allowed on command line**: `TemplateHaskell`, `-cpp`, `-pgm{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-opt{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-F`, `-l''lib''`, `-framework`, `-L''dir''`, `-framework-path''dir''`, `-main-is`, `-package-name`, `-D''symbol''`, `-U''symbol''`, `-I''dir''`, `-with-rts-opts`, `-dylib-install-name`, `-hcsuf`, `-hidir`, `-hisuf`, `-o`, `-odir`, `-ohi`, `-osuf`, `-stubdir`, `-outputdir`, `-tmpdir`
   - **Restricted functionality**: 
 
     - `OverlappingInstances` (requires that Overlapping instance declarations must either all reside in modules compiled without -XSafe, or else all reside in the same module.)
     - `ForeignFunctionInterface` (foreign imports must have an `IO` return type)
-  - **Doesn't Matter**: `-v`, `-vn`, `-fasm`, `-fllvm`, `-fvia-C`, `-fno-code`, `-fobject-code`, `-fbyte-code`, `-c`, `-split-objs`, `-shared`, `-hcsuf`, `-hidir`, `-o`, `-odir`, `-ohi`, `-osuf`, `-stubdir`, `-outputdir`, `-keep-*`, `-tmpdir`, `-ddump-*`, `-fforce-recomp`, `-no-auto-link-packages`, `-XSafeImports`
+  - **Doesn't Matter**: all remaining flags.
 
-- **`-XTrustworthy`** mostly has no special interactions, except for
+- **`-XTrustworthy`** has no special interactions, except for
 
   - If `-XSafeLanguage`: See summary of SafeHaskell options at bottom of [Safe Language & Imports (Without Trust)](safe-haskell#safe-language-&-imports-(without-trust))
 
@@ -257,8 +255,6 @@ The following aspects of Haskell can be used to violate the safety goal, and thu
 
 - `OPTIONS_GHC` is dangerous in unfiltered form.  Among other things, it could use `-trust` to trust packages the invoking user doesn't in fact trust.
 
-- The `StandaloneDeriving` extension can be used to violate constructor access control by defining instances of `Read` and `Show` to examine and construct data values with inaccessible constructors.
-
 - Similarly, `GeneralizedNewtypeDeriving` can violate constructor access control, by allowing untrusted code to manipulate protected data types in ways the data type author did not intend.
 
 ## Implementation details
@@ -284,7 +280,7 @@ Currently, in any given run of the compiler, GHC classifies each package as eith
 
 - `GHC.Prim` will need to be made (or just kept) unsafe.
 
-- `-XSafe` should disallow the `TemplateHaskell`, `StandaloneDeriving`, `GeneralizedNewtypeDeriving`, and `CPP` language extensions, as well as the `RULES` and `SPECIALIZE` pragmas. (See [Of Options](safe-haskell#) above for details).
+- `-XSafe` should disallow the `TemplateHaskell`, `GeneralizedNewtypeDeriving`, and `CPP` language extensions, as well as the `RULES` and `SPECIALIZE` pragmas. (See [Of Options](safe-haskell#) above for details).
 
 - Overlapping instance declarations must either all reside in modules compiled without `-XSafe`, or else all reside in the same module.  It violates semantic consistency to allow Safe code to change the instance definition associated with a particular type.
 
