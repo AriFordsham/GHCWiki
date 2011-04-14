@@ -186,3 +186,19 @@ There are a lot of things wrong
 
 
 This pattern essentially happens for every function, since we always assign incoming parameters to temporary variables before doing anything.
+
+## Instruction reordering
+
+
+We should be able to reorder instructions in order to decrease register pressure. Here's an example from 3586.hs
+
+```wiki
+        _cPY::I32 = I32[Sp - 24];
+        I32[R1 + 4] = _cPY::I32;
+        I32[R1] = stg_IND_STATIC_info;
+        I32[Sp - 8] = _cPY::I32;
+        I32[Sp - 12] = stg_upd_frame_info;
+```
+
+
+R1 and Sp probably don't clobber each other, so we ought to use _cPY twice in quick succession. Fortunately stg_IND_STATIC_info is a constant so in this case the optimization doesn't help to much, but in other cases it might make sense. TODO Find better example
