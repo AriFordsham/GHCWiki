@@ -214,7 +214,7 @@ The `-XSafe`, `-XTrustworthy`, `-XSafeLanguage` and `-XSafeImport` GHC LANGUAGE 
 
 - **`-XSafe`**:
 
-  - **Disallowed completely**: `GeneralizedNewtypeDeriving`, `TemplateHaskell`, `RULES`, `SPECIALIZE`, `-XSafeLanguage`
+  - **Disallowed completely**: `GeneralizedNewtypeDeriving`, `TemplateHaskell`, `RULES`, `-XSafeLanguage`
   - **Only allowed on command line**: `-cpp`, `-pgm{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-opt{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-F`, `-l''lib''`, `-framework`, `-L''dir''`, `-framework-path''dir''`, `-main-is`, `-package-name`, `-D''symbol''`, `-U''symbol''`, `-I''dir''`, `-with-rts-opts`, `-dylib-install-name`, `-hcsuf`, `-hidir`, `-hisuf`, `-o`, `-odir`, `-ohi`, `-osuf`, `-stubdir`, `-outputdir`, `-tmpdir`
   - **Restricted functionality**: 
 
@@ -251,7 +251,7 @@ The following aspects of Haskell can be used to violate the safety goal, and thu
 
 - The `OverlappingInstances` extension can be used to violate semantic consistency, because malicious code could redefine a type instance (by containing a more specific instance definition) in a way that changes the behaviour of code importing the untrusted module. The extension is not disabled under `-XSafe` or `-XSafeLanguage`, instead it just requires that Overlapping instance declarations must either all reside in modules compiled without -XSafe, or else all reside in the same module.
 
-- Likewise, `RULES` and `SPECIALIZE` pragmas can change the behavior of trusted code in unanticipated ways, violating semantic consistency.
+- Likewise, the `RULES` pragma can change the behavior of trusted code in unanticipated ways, violating semantic consistency.
 
 - `OPTIONS_GHC` is dangerous in unfiltered form.  Among other things, it could use `-trust` to trust packages the invoking user doesn't in fact trust.
 
@@ -280,7 +280,7 @@ Currently, in any given run of the compiler, GHC classifies each package as eith
 
 - `GHC.Prim` will need to be made (or just kept) unsafe.
 
-- `-XSafe` should disallow the `TemplateHaskell`, `GeneralizedNewtypeDeriving`, and `CPP` language extensions, as well as the `RULES` and `SPECIALIZE` pragmas. (See [Interaction of Options](safe-haskell#interaction-of-options) above for details).
+- `-XSafe` should disallow the `TemplateHaskell`, `GeneralizedNewtypeDeriving`, and `CPP` language extensions, as well as the `RULES` pragma. (See [Interaction of Options](safe-haskell#interaction-of-options) above for details).
 
 - Overlapping instance declarations must either all reside in modules compiled without `-XSafe`, or else all reside in the same module.  It violates semantic consistency to allow Safe code to change the instance definition associated with a particular type.
 
