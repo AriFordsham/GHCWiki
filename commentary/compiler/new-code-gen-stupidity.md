@@ -11,7 +11,7 @@ Lots of temporary variables (these can tickle other issues when the temporaries 
 ~~At least one major culprit for this is `allocDynClosure`, described in Note `Return a LocalReg`; this pins down the value of the `CmmExpr` to be something for one particular time, but for a vast majority of use-cases the expression is used immediately afterwards. Actually, this is mostly my patches fault, because the extra rewrite means that the inline pass is broken.~~ Fixed in latest version of the pass; we don't quite manage to inline enough but there's only one extra temporary.
 
 
-Another cause of all of these temporary variables is that the new code generator immediately assigns any variables that were on the stack to temporaries immediately upon entry to a function.
+Another cause of all of these temporary variables is that the new code generator immediately assigns any variables that were on the stack to temporaries immediately upon entry to a function. This is on purpose. The idea is we optimize these temporary variables away.
 
 ## Rewriting stacks
 
@@ -117,7 +117,7 @@ A frequent pattern is the stack pointer being bumped up and then back down again
 ```
 
 
-This is mentioned at the very top of `cmm-notes`.
+This is mentioned at the very top of `cmm-notes`. This was a bug in the stack layout code that I have fixed.
 
 ## Sp is generally stupid
 
@@ -181,11 +181,7 @@ Main.D:Arbitrary_entry()
 ```
 
 
-There are a lot of things wrong
-
-- We do an unnecessary stack check on entry to this function
-- Sp should be bumped before the stack check (but we need this fishy code due to ncg spilling before the check)
-- Sp is getting bumped too much, and then being adjusted back down again
+The unfixed problem is this (some of the other problems were already addressed): we do an unnecessary stack check on entry to this function. We should eliminate the stack check (and by dead code analysis, the GC call) in such cases.
 
 
 This pattern essentially happens for every function, since we always assign incoming parameters to temporary variables before doing anything.
@@ -205,3 +201,45 @@ We should be able to reorder instructions in order to decrease register pressure
 
 
 R1 and Sp probably don't clobber each other, so we ought to use _cPY twice in quick succession. Fortunately stg_IND_STATIC_info is a constant so in this case the optimization doesn't help to much, but in other cases it might make sense. TODO Find better example
+
+## Stack space overuse
+
+`T1969.hs` demonstrates this:
+
+```wiki
+ Simp.c_entry()
+         { update_frame: <none>
+           has static closure: True type: 0
+           desc: 0
+           tag: 15
+           ptrs: 0
+           nptrs: 0
+           srt: (srt_Sc2_srt,0,3)
+           fun_type: 5
+           arity: 1
+           slow: Simp.c_slow
+         }
+     cbG:
+         _sbe::I32 = I32[Sp + 0];
+         if (Sp - 4 < SpLim) goto cbN;
+         // outOfLine should follow:
+         if (_sbe::I32 & 3 != 0) goto cbP;
+         // emitCall: Sequel: Assign
+         R1 = _sbe::I32;
+         I32[Sp - 4] = block_cbA_info;
+         Sp = Sp - 4;
+         jump I32[_sbe::I32] ();
+     cbN:
+         // outOfLine here
+         R1 = Simp.c_closure;
+         jump stg_gc_fun ();
+     cbP:
+         // emitReturn: Sequel: Assign
+         _sbg::I32 = _sbe::I32;
+         Sp = Sp + 4;
+         jump block_cbR_entry ();
+ }
+```
+
+
+The call area for the jump in cbG is using an extra word on the stack, but in fact Sp + 0 at the entry of the function immediately becomes dead after the assignment, so we ought to be able to save some space in our layout. Simon Marlow suggests we distinguish between the return address and the old call area; need to talk to SPJ about fixing this.
