@@ -4,7 +4,7 @@ Presently compiling using the new code generator results in a fairly sizable per
 
 == Lots of temporary variables ==
 
-Lots of temporary variables (these can tickle other issues when the temporaries are long-lived, but otherwise would be optimized away). You can at least eliminate some of them by looking at the output of `-ddump-opt-cmm`, which utilizes some basic temporary inlining when used with the native backend `-fasm`, but this doesn't currently apply to the GCC or LLVM backends.
+WONTFIX. Lots of temporary variables (these can tickle other issues when the temporaries are long-lived, but otherwise would be optimized away). You can at least eliminate some of them by looking at the output of `-ddump-opt-cmm`, which utilizes some basic temporary inlining when used with the native backend `-fasm`, but this doesn't currently apply to the GCC or LLVM backends.
 
 ~~At least one major culprit for this is `allocDynClosure`, described in Note `Return a LocalReg`; this pins down the value of the `CmmExpr` to be something for one particular time, but for a vast majority of use-cases the expression is used immediately afterwards. Actually, this is mostly my patches fault, because the extra rewrite means that the inline pass is broken.~~ Fixed in latest version of the pass; we don't quite manage to inline enough but there's only one extra temporary.
 
@@ -12,7 +12,7 @@ Another cause of all of these temporary variables is that the new code generator
 
 == Rewriting stacks ==
 
-`3586.hs` emits the following code:
+FIXED. `3586.hs` emits the following code:
 
 {{{
  Main.$wa_entry()
@@ -58,12 +58,11 @@ We see that these temporary variables are being repeatedly rewritten to the stac
 
 Since these areas on the stack are all old call areas, one way to fix this is to inline all of the memory references. However, this has certain undesirable properties for other code, so we need to be a little more clever. The key thing to notice is that these accesses are only used once per control flow path, in which case sinking the loads down and then inlining them should be OK (it will increase code size but not execution time.) However, the other difficulty is that the CmmOpt inliner, as it stands, won't inline things that look like this because although the variable is only used once in different branches, the same name is used, so it can't distinguish between the temporaries with mutually exclusive live ranges. Building a more clever inliner with Hoopl is also a bit tricky, because inlining is a forward analysis/transformation, but usage counting is a backwards analysis.
 
-This looks fixed with the patch from April 14, though there are still other problems with this file.
+This looks fixed with the patch from April 14.
 
 == Spilling Hp/Sp ==
 
-
-`3586.hs` emits the following code:
+FIXED. `3586.hs` emits the following code:
 
 {{{
      _c1ao::I32 = Hp - 4;
@@ -94,11 +93,11 @@ We also seem to reload these values multiple times.
 
 ~~We need to not spill across certain foreign calls, but for which calls this is OK for is unclear.~~ Variables stay live across all unsafe foreign calls (foreign calls in the middle), except for the obvious cases (the return registers), so no spilling should happen at all. The liveness analysis is too conservative.
 
-This is not fixed in the April 14 version of the patch... we still need to fix the liveness analysis? I thought I fixed that... that's because the transform did extra spilling for CmmUnsafeForeignCalls. Removed that code, and now it's fixed. Testing changes.
+This is not fixed in the April 14 version of the patch... we still need to fix the liveness analysis? I thought I fixed that... that's because the transform did extra spilling for CmmUnsafeForeignCalls. Removed that code, and now it's fixed.
 
 == Up and Down ==
 
-A frequent pattern is the stack pointer being bumped up and then back down again, for no particular reason. 
+FIXD. A frequent pattern is the stack pointer being bumped up and then back down again, for no particular reason. 
 
 {{{
          Sp = Sp + 4;
@@ -110,7 +109,7 @@ This is mentioned at the very top of `cmm-notes`. This was a bug in the stack la
 
 == Sp is generally stupid ==
 
-Here is an optimized C-- sample from `arr016.hs`.
+CONFIRMED. Here is an optimized C-- sample from `arr016.hs`.
 
 {{{
 Main.D:Arbitrary_entry()
@@ -167,13 +166,13 @@ Main.D:Arbitrary_entry()
 }
 }}}
 
-The unfixed problem is this (some of the other problems were already addressed): we do an unnecessary stack check on entry to this function. We should eliminate the stack check (and by dead code analysis, the GC call) in such cases.
+You can see the up and down behavior here, but that's been fixed, so ignore it for now. (Update the C--!) The unfixed problem is this (some of the other problems were already addressed): we do an unnecessary stack check on entry to this function. We should eliminate the stack check (and by dead code analysis, the GC call) in such cases.
 
 This pattern essentially happens for every function, since we always assign incoming parameters to temporary variables before doing anything.
 
 == Instruction reordering ==
 
-We should be able to reorder instructions in order to decrease register pressure. Here's an example from 3586.hs
+NEW. We should be able to reorder instructions in order to decrease register pressure. Here's an example from 3586.hs
 
 {{{
         _cPY::I32 = I32[Sp - 24];
@@ -187,7 +186,7 @@ R1 and Sp probably don't clobber each other, so we ought to use _cPY twice in qu
 
 == Stack space overuse ==
 
-`T1969.hs` demonstrates this:
+CONFIRMED. `T1969.hs` demonstrates this:
 
 {{{
  Simp.c_entry()
