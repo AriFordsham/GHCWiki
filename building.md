@@ -8,7 +8,7 @@ want.  It also describes the inner workings of the build system, so you
 can extend it, modify it, and use it to build your code.
 
 
-See also our working conventions [WorkingConventions](working-conventions).
+See also our working conventions [WorkingConventions](working-conventions), covering Git, bug tracker, coding conventions etc.
 
 ## Contents
 
