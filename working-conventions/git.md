@@ -96,6 +96,18 @@ Then run `sh validate`, and if all is well:
 
 to push.
 
+## Contributing patches
+
+
+ToDo: extend the following.
+
+```wiki
+git send-email --to=cvs-ghc@haskell.org <hash-id> -1
+```
+
+
+where `<hash-id>` is the hash of the commit to send.
+
 ## The stable branch
 
 
