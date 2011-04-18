@@ -108,6 +108,12 @@ git send-email --to=cvs-ghc@haskell.org <hash-id> -1
 
 where `<hash-id>` is the hash of the commit to send.
 
+## Applying patches from email
+
+```wiki
+git am -3 <email>
+```
+
 ## The stable branch
 
 
