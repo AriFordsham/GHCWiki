@@ -107,8 +107,7 @@ This is not fixed in the April 14 version of the patch... we still need to fix t
 
 ## Up and Down
 
-
-FIXD. A frequent pattern is the stack pointer being bumped up and then back down again, for no particular reason. 
+FIXED. A frequent pattern is the stack pointer being bumped up and then back down again, for no particular reason. 
 
 ```wiki
          Sp = Sp + 4;
@@ -121,8 +120,7 @@ This is mentioned at the very top of `cmm-notes`. This was a bug in the stack la
 
 ## Sp is generally stupid
 
-
-CONFIRMED. Here is an optimized C-- sample from `arr016.hs`.
+FIXED. Here is an optimized C-- sample from `arr016.hs`.
 
 ```wiki
 Main.D:Arbitrary_entry()
