@@ -1,6 +1,6 @@
 = Linux perf tool =
 
-Since Linux 2.6.31, linux has had a new performance counter subsystem (initially called "perf counters" and later renamed to "perf events").  The facilities provided by perf events, and the associated tool "perf", are generally a superset of what you can do with [wiki:Debugging/LowLevelProfiling/oprofile oprofile] and [wiki:Debugging/LowLevelProfiling qprof], so it's a good idea to use perf if you can.  It does support fewer processors than the other systems, although more are being added over time.
+Since Linux 2.6.31, linux has had a new [https://perf.wiki.kernel.org/index.php/Main_Page performance counter subsystem] (initially called "perf counters" and later renamed to "perf events").  The facilities provided by perf events, and the associated tool "perf", are generally a superset of what you can do with [wiki:Debugging/LowLevelProfiling/oprofile oprofile] and [wiki:Debugging/LowLevelProfiling qprof], so it's a good idea to use perf if you can.  It does support fewer processors than the other systems, although more are being added over time.
 
 The perf events subsystem is compiled in by default in the kernel shipped with most distros (e.g. Ubuntu) which means there's no fiddling around compiling your own kernel or modules.
 
