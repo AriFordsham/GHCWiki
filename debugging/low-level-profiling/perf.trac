@@ -4,7 +4,9 @@ Since Linux 2.6.31, linux has had a new performance counter subsystem (initially
 
 The perf events subsystem is compiled in by default in the kernel shipped with most distros (e.g. Ubuntu) which means there's no fiddling around compiling your own kernel or modules.  On Debian and Ubuntu you can install "perf" by installing the `linux-tools-<kernel version>` package:
 
-    sudo apt-get install linux-tools-<kernel version>
+{{{
+$ sudo apt-get install linux-tools-<kernel version>
+}}}
 
 If your distro doesn't include "perf" as a package you can build it manually like so:
 
