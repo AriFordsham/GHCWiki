@@ -1,13 +1,23 @@
 # Linux perf tool
 
 
-Since Linux 2.6.31, linux has had a new performance counter subsystem (initially called "perf counters" and later renamed to "perf events").  The facilities provided by perf events, and the associated tool "perf", are generally a superset of what you can do with [oprofile](debugging/low-level-profiling/oprofile) and [qprof](debugging/low-level-profiling), so it's a good idea to use perf if you can.  It does support fewer processors than the other systems, although more are being added over time.
+Since Linux 2.6.31, linux has had a new [ performance counter subsystem](https://perf.wiki.kernel.org/index.php/Main_Page) (initially called "perf counters" and later renamed to "perf events").  The facilities provided by perf events, and the associated tool "perf", are generally a superset of what you can do with [oprofile](debugging/low-level-profiling/oprofile) and [qprof](debugging/low-level-profiling), so it's a good idea to use perf if you can.  It does support fewer processors than the other systems, although more are being added over time.
 
 
-The perf events subsystem is compiled in by default in the kernel shipped with most distros (e.g. Ubuntu) which means there's no fiddling around compiling your own kernel or modules.  On Debian and Ubuntu you can install "perf" by installing the `linux-tools-<kernel version>` package:
+The perf events subsystem is compiled in by default in the kernel shipped with most distros (e.g. Ubuntu) which means there's no fiddling around compiling your own kernel or modules.
 
->
-> sudo apt-get install linux-tools-\<kernel version\>
+## Installation
+
+## Debian/Ubuntu
+
+
+On Debian and Ubuntu you can install "perf" by installing the `linux-tools-<kernel version>` package:
+
+```wiki
+$ sudo apt-get install linux-tools-<kernel version>
+```
+
+## Compiling from source
 
 
 If your distro doesn't include "perf" as a package you can build it manually like so:
@@ -18,6 +28,8 @@ If your distro doesn't include "perf" as a package you can build it manually lik
 - `cd tools/perf`
 - `make`
 - if you want, `make install`, or just copy the binary somewhere appropriate
+
+## Usage
 
 
 Check that it works:
