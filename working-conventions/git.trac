@@ -2,7 +2,7 @@
 
 GHC uses [http://git-scm.com/ git] for revision control.  This page describes various GHC-specific conventions for using git, together with some suggestions and tips for using git effectively.  
 
-For Darcs-related stuff see also [wiki:DarcsToGit] and [wiki:GitForDarcsUsers].
+Existing darcs users see: [wiki:GitForDarcsUsers].  If you have an existing source tree in darcs and need to convert patches, see [wiki:DarcsToGit].
 
 == General Guidelines ==
 
