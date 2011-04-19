@@ -60,12 +60,12 @@ if you see some zeroes here it probably means your processor isn't fully support
 Now to profile a GHC-compiled executable:
 
 ```wiki
-$ sudo perf record ./queens
-$ sudo perf report
+$ perf record ./queens
+$ perf report
 ```
 
 
-I'm not entirely sure why sudo is required, but apparently it is for record, and then because the log file is owned by root you need sudo for report too.  The output looks something like this:
+The output looks something like this:
 
 ```wiki
 # Samples: 9161149923
