@@ -11,6 +11,7 @@ Here are details about what [wiki:Platforms platforms GHC supports].
 == Biannual status reports ==
 
 Here are biannual GHC status reports, published in the [http://haskell.org/communities/ Haskell Communities and Activities Report]
+  * [wiki:Status/May11 GHC status May 2011]
   * [wiki:Status/Oct10 GHC status October 2010]
   * [wiki:Status/Apr10 GHC status April 2010]
   * [wiki:Status/Oct09 GHC status October 2009]
