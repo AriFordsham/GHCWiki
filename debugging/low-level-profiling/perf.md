@@ -4,7 +4,13 @@
 Since Linux 2.6.31, linux has had a new performance counter subsystem (initially called "perf counters" and later renamed to "perf events").  The facilities provided by perf events, and the associated tool "perf", are generally a superset of what you can do with [oprofile](debugging/low-level-profiling/oprofile) and [qprof](debugging/low-level-profiling), so it's a good idea to use perf if you can.  It does support fewer processors than the other systems, although more are being added over time.
 
 
-The perf events subsystem is compiled in by default in the kernel shipped with most distros (e.g. Ubuntu) which means there's no fiddling around compiling your own kernel or modules.  However, the "perf" tool needs to be compiled separately - at the time of writing it isn't available in the Ubuntu repositories or anywhere else as a `.deb` that I could find.  But it's straightforward to compile it up:
+The perf events subsystem is compiled in by default in the kernel shipped with most distros (e.g. Ubuntu) which means there's no fiddling around compiling your own kernel or modules.  On Debian and Ubuntu you can install "perf" by installing the `linux-tools-<kernel version>` package:
+
+>
+> sudo apt-get install linux-tools-\<kernel version\>
+
+
+If your distro doesn't include "perf" as a package you can build it manually like so:
 
 - `apt-get install binutils-dev libdwarf-dev libelf-dev` (or equivalent on your distro)
 - download a kernel source tree from [ http://kernel.org](http://kernel.org)
