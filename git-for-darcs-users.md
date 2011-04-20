@@ -539,6 +539,16 @@ git push [<repo-url-or-alias>]
 
 Without argument this will push to your `origin`.
 
+## darcs send
+
+```wiki
+git send-email
+```
+
+```wiki
+git format-patch
+```
+
 ## darcs changes
 
 ```wiki
