@@ -409,7 +409,7 @@ Without argument this will push to your {{{origin}}}.
 == darcs send ==
 
 {{{
-git send-email
+git send-email --to=cvs-ghc@haskell.org hash-id -1
 }}}
 {{{
 git format-patch
