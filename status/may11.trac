@@ -19,7 +19,6 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
 
 We are fortunate to have a growing team of people willing to roll up their
 sleeves and help us with GHC.  Amongst those who have been active recently are:
-  '''Ian:''' (The cross-compilation crew springs to mind. And some OS X / FBSD / Solaris / etc activity recently)
  * Mark Lentczner and Dan Knapp have been working on cross-compilation support
  * Various improvements and build fixes for OS X, from PHO, Greg Wright, Thorkil Naur and William Knop
  * Solaris fixes from Karel Gardas and Christian Maeder
