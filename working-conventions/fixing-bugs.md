@@ -12,7 +12,7 @@ There are two ways to help: the Quick Fix and the True Way.
 Some bugs are easy to fix: improvements to documentation, misleading comments, poorly-worded error messages, or egregious little bugs.  In these cases, please just
 
 - Fix the code
-- Use `darcs send`, or just mail a patch to cvs-ghc@….  Make sure you include in the patch description a summary of what the problem is, and the nature of your fix.
+- Use `git send-email`, or just mail a patch to cvs-ghc@….  Make sure you include in the patch description a summary of what the problem is, and the nature of your fix.
 
 
 This route is easy for you, but more work for us; we have to [test your fix](testing-patches).  But it's a low-overhead route for easy fixes.
@@ -37,7 +37,7 @@ Many bugs require a bit more work.  Here's how to go about helping with a non-tr
 1. **Test your patch** using the [validation script](testing-patches), before you submit it.  (If you have write permission to the repository, then you **must** validate before pushing the patch.)
 1. **Submit your patch**.  If you don't have commit permission for the repository, 
 
-  - Use 'darcs send -o filename' to create a patch bundle
+  - Use 'darcs format-patch' to create a patch bundle
   - Attach the patch bundle to the Trac bug report
   - Add a comment to the Trac bug report to say what you've done
   - In the 'Action' part of the Trac ticket, select "Please review".  This shifts responsibility to the GHC team to review and commit your patch.
