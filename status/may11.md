@@ -51,9 +51,10 @@ Here's a selection that we know about.
 
 ## Packages and the runtime system
 
-- Simon Marlow is working on a new garbage collector that is designed to improve scaling of parallel programs beyond small numbers of cores, by allowing each processor core to collect its own local heap independently of the other cores.  Some encouraging preliminary results were reported in a [ blog post](http://hackage.haskell.org/trac/ghc/blog/2010/9#new-gc-preview).  Work on this continues; the complexity of the system and the number of interacting design choices means that achieving an implementation that works well in a broad variety of situations is proving to be quite a challenge.
+> **Simon Marlow: any update?** Previous entry: *Simon Marlow is working on a new garbage collector that is designed to improve scaling of parallel programs beyond small numbers of cores, by allowing each processor core to collect its own local heap independently of the other cores.  Some encouraging preliminary results were reported in a [ blog post](http://hackage.haskell.org/trac/ghc/blog/2010/9#new-gc-preview).  Work on this continues; the complexity of the system and the number of interacting design choices means that achieving an implementation that works well in a broad variety of situations is proving to be quite a challenge.*
 
-- The "new back end" is still under construction.  This is a rewrite of the part of GHC that turns STG syntax into C--, i.e. the bit between the Core optimisation passes and the native code generator.  The rewrite is based on [ http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf Hoopl](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf Hoopl), a data-flow optimisation framework.  Ultimately this rewrite should enable better code generation.  The new code generator is already in GHC, but turned off by default; you get it with the flag `-fuse-new-codegen`.  Don't expect to get better code with this flag yet!
+> **ezyang: any update?** Previous entry: *The "new back end" is still under construction.  This is a rewrite of the part of GHC that turns STG syntax into C--, i.e. the bit between the Core optimisation passes and the native code generator.  The rewrite is based on [ http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf Hoopl](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf Hoopl), a data-flow optimisation framework.  Ultimately this rewrite should enable better code generation.  The new code generator is already in GHC, but turned off by default; you get it with the flag `-fuse-new-codegen`.  Don't expect to get better code with this flag yet''
+> *
 
 ## The Parallel GHC Project
 
@@ -82,17 +83,6 @@ For more details, see the **link:**parallel GHC project entry.
 > *To catch DPH performance regressions more quickly in the future, Ben Lippmeier implemented a performance regression testsuite that we run nightly on the HEAD.  The results can be enjoyed on the GHC developer mailing list.*
 
 > *Sadly, Roman Leshchinskiy has given up his full-time engagement with DPH to advance the use of Haskell in the financial industry.  We are looking forward to collaborating remotely with him.*
-
-## Installers
-
-
-The GHC installers have also received some attention for this release.
-
-
-The Windows installer includes a much more up-to-date copy of the MinGW system, which in particular fixes a couple of issues on Windows 7. Thanks to Claus Reinke, the installer also allows more control over the registry associations etc.
-
-
-Meanwhile, the Mac OS X installer has received some attention from Evan Laforge. Most notably, it is now possible to install different versions of GHC side-by-side.
 
 ## Bibliography
 
