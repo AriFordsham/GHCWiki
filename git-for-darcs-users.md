@@ -542,7 +542,7 @@ Without argument this will push to your `origin`.
 ## darcs send
 
 ```wiki
-git send-email
+git send-email --to=cvs-ghc@haskell.org hash-id -1
 ```
 
 ```wiki
