@@ -17,13 +17,13 @@ On Debian and Ubuntu you can install "perf" by installing the `linux-tools-<kern
 $ sudo apt-get install linux-tools-<kernel version>
 ```
 
-## Compiling from source
+## From source
 
 
 If your distro doesn't include "perf" as a package you can build it manually like so:
 
 - `apt-get install binutils-dev libdwarf-dev libelf-dev` (or equivalent on your distro)
-- download a kernel source tree from [ http://kernel.org](http://kernel.org)
+- download a kernel source tree, matching your kernel version, from [ http://kernel.org](http://kernel.org)
 - unpack it
 - `cd tools/perf`
 - `make`
