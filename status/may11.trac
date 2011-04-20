@@ -18,8 +18,23 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
  * '''Simon Marlow: Any update?''' Previous entry: ''In joint work with Phil Trinder and his colleagues at Herriot Watt, Simon M designed implemented a new '''parallel strategies library''', described in their 2010 Haskell Symposium paper [[http://www.haskell.org/~simonmar/papers/strategies.pdf Seq]].''
 
 We are fortunate to have a growing team of people willing to roll up their
-sleeves and help us with GHC.  Amongst those who have got involved recently are:
+sleeves and help us with GHC.  Amongst those who have been active recently are:
   '''Ian:''' (The cross-compilation crew springs to mind. And some OS X / FBSD / Solaris / etc activity recently)
+ * Mark Lentczner and Dan Knapp have been working on cross-compilation support
+ * Various improvements and build fixes for OS X, from PHO, Greg Wright, Thorkil Naur and William Knop
+ * Solaris fixes from Karel Gardas and Christian Maeder
+ * Gentoo fixes (for SE Linux and x86 FreeBSD support) from Sergei Trofimovich
+ * Other FreeBSD fixes from Marco Silva
+ * Linux PowerPC fixes from Erik de Castro Lopo
+ * Objective C support has been added by Austin Seipp
+ * Documentation updates from Orphi
+ * Various improvements from Michal Terepeta
+ * General tidyups from Matthias Kilian
+ * Primop improvements from Daniel Peebles
+ * Some GHCi improvements from Vivian McPhail and Boris Lykah
+ * More GHCi debugger fixes from Pepe Iborra
+ * LLVM development continues with David Terei
+ * Many people have given git help to those of us new to git
 At GHC HQ we are having way too much fun; if you wait for us to
 do something you have to wait a long time.  So don't wait; join in!
 
