@@ -43,7 +43,7 @@ do something you have to wait a long time.  So don't wait; join in!
 
 ## Language developments, especially types
 
-**Any updates on the below?**
+**Simon PJ: Any updates on the below?**
 
 
 GHC continues to act as an incubator for interesting new language developments.
