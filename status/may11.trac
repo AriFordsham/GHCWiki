@@ -3,7 +3,11 @@
 
 = GHC Status May 2011 =
 
-GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that the branch has been closed we have finally made the long-planned switch from darcs to git. Meanwhile, we are busily working towards the 7.2 branch, and hope to make the 7.2.1 release in June.
+GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that the branch has been closed we have finally made the long-planned switch from darcs to git. Meanwhile, we are busily working towards the 7.2 branch, and hope to make the 7.2.1 release in June. Some of the forthcoming highlights are:
+
+ * '''Simon PJ: New coercions'''
+
+ * '''Simon PJ: generics'''
 
  * '''Simon PJ: Any update? Any regressions remaining?''' Previous entry: ''As long promised, Simon PJ and Dimitrios have spent a good chunk of the summer doing a '''complete rewrite of the constraint solver in the type inference engine'''.  Because of GHC's myriad type-system extensions, especially GADTs and type families, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [[http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn]].  A blog post describes some consequential changes to let generalisation [[http://hackage.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7 LetGen]].''
 
@@ -13,19 +17,11 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
 
  * '''Simon Marlow: Any update?''' Previous entry: ''In joint work with Phil Trinder and his colleagues at Herriot Watt, Simon M designed implemented a new '''parallel strategies library''', described in their 2010 Haskell Symposium paper [[http://www.haskell.org/~simonmar/papers/strategies.pdf Seq]].''
 
-
-
-
-
-
-
 We are fortunate to have a growing team of people willing to roll up their
 sleeves and help us with GHC.  Amongst those who have got involved recently are:
   (The cross-compilation crew springs to mind. And some OS X / FBSD / Solaris / etc activity recently)
 At GHC HQ we are having way too much fun; if you wait for us to
 do something you have to wait a long time.  So don't wait; join in!
-
-Release status: 7.0 closed, 7.2 imminent, 7.4 coming soon
 
 == Language developments, especially types ==
 
