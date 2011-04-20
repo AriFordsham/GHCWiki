@@ -19,13 +19,13 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
 
 We are fortunate to have a growing team of people willing to roll up their
 sleeves and help us with GHC.  Amongst those who have got involved recently are:
-  (The cross-compilation crew springs to mind. And some OS X / FBSD / Solaris / etc activity recently)
+  '''Ian:''' (The cross-compilation crew springs to mind. And some OS X / FBSD / Solaris / etc activity recently)
 At GHC HQ we are having way too much fun; if you wait for us to
 do something you have to wait a long time.  So don't wait; join in!
 
 == Language developments, especially types ==
 
-Any updates on the below?
+'''Any updates on the below?'''
 
 GHC continues to act as an incubator for interesting new language developments.
 Here's a selection that we know about.
@@ -41,8 +41,6 @@ Here's a selection that we know about.
  * Iavor Diatchki plans to add '''numeric types''', so that you can have a type like `Bus 8`, and do simple arithmetic at the type level.  You can encode this stuff, but it's easier to use and more powerful to do it directly.
 
  * David Mazieres at Stanford wants to implement '''Safe Haskell''', a flag for GHC that will guarantee that your program does not use `unsafePerformIO`, foreign calls, RULES, and other stuff stuff.  
-
-7.0 also has support for the Haskell 2010 standard, and the libraries that it specifies.
 
 == Packages and the runtime system ==
 
