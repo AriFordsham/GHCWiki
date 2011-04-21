@@ -13,8 +13,6 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
 
 > *As a result we have closed dozens of open type inference bugs, especially related to GADTs and type families.*
 
-- **David Terei: Any update on LLVM?** Previous entry: *David Terei implemented a new **back end for GHC using LLVM**. In certain situations using the LLVM backend can give fairly substantial performance improvements to your code, particularly if you're using the Vector libraries, DPH or making heavy use of fusion. In the general case it should give as good performance or slightly better than GHC's native code generator and C backend. You can use it through the '-fllvm' compiler flag. More details of the backend can be found in David's and Manuel Chakravarty's Haskell Symposium paper [ http://www.cse.unsw.edu.au/\~davidt/downloads/ghc-llvm-hs10.pdf Llvm](http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvm-hs10.pdf Llvm).*
-
 - **Simon Marlow: Any update?** Previous entry: *In joint work with Phil Trinder and his colleagues at Herriot Watt, Simon M designed implemented a new **parallel strategies library**, described in their 2010 Haskell Symposium paper [ http://www.haskell.org/\~simonmar/papers/strategies.pdf Seq](http://www.haskell.org/~simonmar/papers/strategies.pdf Seq).*
 
 
