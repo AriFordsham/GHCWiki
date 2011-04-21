@@ -39,6 +39,7 @@ Please edit and improve the Commentary above, or the [wiki:Building Building Gui
 However sometimes you may want to add new material that doesn't quite fit into the existing structure.  Or perhaps your pages are about work-in-progress, status reports and suchlike, which don't belong in the Commentary per se.  Regardless, you can add your new material here.
 
  * The Compiler
+   * Edward Yang's blog post about [http://blog.ezyang.com/2011/04/tracing-the-compilation-of-hello-factorial/ the entire complilation pipeline for `factorial`]
    * [wiki:NewPlugins Compiler plug-ins]
    * [wiki:TypeNats Type level naturals]
    * [wiki:KindFact Proposal to add a kind for facts, e.g. class constraints]
