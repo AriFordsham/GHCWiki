@@ -500,6 +500,8 @@ $ cd ghc
 $ make stage=2
 }}}
 
+Note that the first command above takes you to the {{{ghc}}} subdirectory of the source tree, not into the source tree (which is also named {{{ghc}}} if you did a {{{git clone}}}).  So if you did a {{{git clone}}} from your home directory, you'll be in {{{~/ghc/ghc/}}}, not {{{~/ghc/}}}.  Many of the compiler-building {{{make}}} invocations must be performed from this subdirectory, not from the root of the source tree.
+
 This will bring the stage 2 compiler up to date only.  Setting `stage=2` has the effect of disabling all the
 rules that build the stage 1 compiler, so the build system will ignore the fact that the stage 1 compiler is also out of date, and hence all the libraries are also potentially out of date.  If you did `make`
 from the top-level, all of these dependencies would be taken into
