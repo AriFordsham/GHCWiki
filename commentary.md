@@ -95,5 +95,5 @@ However sometimes you may want to add new material that doesn't quite fit into t
 
 Finally, here are some generally-useful, but now somewhat-out-of-date resources:
 
-- [ The old GHC Commentary](http://darcs.haskell.org/ghc/docs/comm/): Information on the internals of GHC, in various states of up-to-dateness.  We are keen to move this stuff out of its current location and onto this Wiki.  If anyone is willing to help do that, even for just a part in which you are interested, we would be delighted.
+- [ The old GHC Commentary](http://darcs.haskell.org/ghc/docs/comm/): Information on the internals of GHC, in various states of up-to-dateness.  We are keen to move this stuff out of its current location and onto this Wiki.  If anyone is willing to help do that, even for just a part in which you are interested, we would be delighted.  There is a [page](commentary/migrating-old-commentary) which tracks the progress of migrating information from the old commentary to this wiki.
 - [GHC Papers](ghc-papers): Papers and pointers to other documents that relate to the inner workings of GHC.
