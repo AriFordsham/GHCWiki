@@ -16,7 +16,7 @@ that section of the old commentary, and that there is no longer any reason for p
 <table><tr><th>Outline of the Genesis</th>
 <th>**done**</th></tr>
 <tr><th>Mindboggling Makefiles</th>
-<th>*unknown*</th></tr>
+<th>**done**</th></tr>
 <tr><th>GHC's Marvellous Module Structure</th>
 <th>*unknown*</th></tr></table>
 
