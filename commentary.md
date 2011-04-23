@@ -11,10 +11,13 @@ Please feel free to add material to this commentary: don't worry too much about 
 
 ## Contents
 
-- [Source Tree Roadmap](commentary/source-tree)
-- [The compilation pipeline](commentary/pipeline)
+- [Getting Started](commentary/getting-started)
+
+  - [Source Tree Roadmap](commentary/source-tree)
 
 - [The Compiler](commentary/compiler)
+
+  - [The compilation pipeline](commentary/pipeline)
 
 - [The Runtime System](commentary/rts)
   In addition to the usual runtime support contains information on:
