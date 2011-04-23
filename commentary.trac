@@ -9,11 +9,12 @@ Please feel free to add material to this commentary: don't worry too much about 
 
 == Contents ==
 
- * [wiki:Commentary/SourceTree Source Tree Roadmap]
- * [wiki:Commentary/Pipeline The compilation pipeline]
+ * [wiki:Commentary/GettingStarted Getting Started]
+   * [wiki:Commentary/SourceTree Source Tree Roadmap]
 
  * [wiki:Commentary/Compiler The Compiler]
-  
+   * [wiki:Commentary/Pipeline The compilation pipeline]
+
  * [wiki:Commentary/Rts The Runtime System]
    In addition to the usual runtime support contains information on:
     * [wiki:Commentary/Rts/HaskellExecution The Haskell Execution Model]
