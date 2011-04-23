@@ -7,9 +7,9 @@ that section of the old commentary, and that there is no longer any reason for p
 ### Before the Show Begins
 
 <table><tr><th>Feedback</th>
-<th>*unknown*</th></tr>
+<th>**done**</th></tr>
 <tr><th>Other Sources of Wisdom</th>
-<th>*unknown*</th></tr></table>
+<th>**done**</th></tr></table>
 
 ### Genesis
 
