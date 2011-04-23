@@ -12,7 +12,6 @@ Please feel free to add material to this commentary: don't worry too much about 
 ## Contents
 
 - [Source Tree Roadmap](commentary/source-tree)
-- [Coding style guidelines](working-conventions)
 - [The compilation pipeline](commentary/pipeline)
 
 - [The Compiler](commentary/compiler)
@@ -27,7 +26,6 @@ Please feel free to add material to this commentary: don't worry too much about 
 
   - [Profiling](commentary/profiling)
   - [Primitive Operations (PrimOps)](commentary/prim-ops); see also [Wired-in and known-key things](commentary/compiler/wired-in)
-  - [Support for shared libraries](shared-libraries)
   - [The Package System](commentary/packages)
 
 - [The Libraries](commentary/libraries)

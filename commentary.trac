@@ -10,7 +10,6 @@ Please feel free to add material to this commentary: don't worry too much about 
 == Contents ==
 
  * [wiki:Commentary/SourceTree Source Tree Roadmap]
- * [wiki:WorkingConventions Coding style guidelines]
  * [wiki:Commentary/Pipeline The compilation pipeline]
 
  * [wiki:Commentary/Compiler The Compiler]
@@ -23,7 +22,6 @@ Please feel free to add material to this commentary: don't worry too much about 
  * Cross-cutting concerns: topics which span both the compiler and the runtime system
     * [wiki:Commentary/Profiling Profiling]
     * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]; see also [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
-    * [wiki:SharedLibraries Support for shared libraries]
     * [wiki:Commentary/Packages The Package System]
 
  * [wiki:Commentary/Libraries The Libraries]
