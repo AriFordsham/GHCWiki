@@ -1,6 +1,5 @@
 
-Below you will find a table with a line for each section of the old
-commentary.  Please replace *unknown* with **done** if you believe
+Below you will find a table with a line for each section of the [ old commentary](http://darcs.haskell.org/ghc/docs/comm/).  Please replace *unknown* with **done** if you believe
 that the wiki commentary completely captures *all* of the information in
 that section of the old commentary, and that there is no longer any reason for people to read that section of the commentary.
 
@@ -18,7 +17,7 @@ that section of the old commentary, and that there is no longer any reason for p
 <tr><th>Mindboggling Makefiles</th>
 <th>**done**</th></tr>
 <tr><th>GHC's Marvellous Module Structure</th>
-<th>*unknown*</th></tr></table>
+<th>**done**</th></tr></table>
 
 ### The Beast Dissected
 
