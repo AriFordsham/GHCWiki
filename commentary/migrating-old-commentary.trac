@@ -1,6 +1,5 @@
 
-Below you will find a table with a line for each section of the old
-commentary.  Please replace ''unknown'' with '''done''' if you believe
+Below you will find a table with a line for each section of the [http://darcs.haskell.org/ghc/docs/comm/ old commentary].  Please replace ''unknown'' with '''done''' if you believe
 that the wiki commentary completely captures ''all'' of the information in
 that section of the old commentary, and that there is no longer any reason for people to read that section of the commentary.
 
@@ -13,7 +12,7 @@ that section of the old commentary, and that there is no longer any reason for p
 
 ||Outline of the Genesis||'''done'''||
 ||Mindboggling Makefiles||'''done'''||
-||GHC's Marvellous Module Structure||''unknown''||
+||GHC's Marvellous Module Structure||'''done'''||
 
 === The Beast Dissected ===
 
