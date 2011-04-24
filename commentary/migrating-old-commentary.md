@@ -67,7 +67,7 @@ that section of the old commentary, and that there is no longer any reason for p
 ### RTS & Libraries
 
 <table><tr><th>Coding Style Guidelines</th>
-<th>*unknown*</th></tr>
+<th>**done**</th></tr>
 <tr><th>Spineless Tagless C</th>
 <th>*unknown*</th></tr>
 <tr><th>Primitives</th>
