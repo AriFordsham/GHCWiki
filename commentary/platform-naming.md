@@ -1,7 +1,7 @@
 # Platforms
 
->
-> There are three platforms of interest to GHC: 
+
+There are three platforms of interest to GHC: 
 
 - **The Build platform**: This is the platform on which we are building GHC. 
 - **The Host platform**: This is the platform on which we are going to run this GHC binary, and associated tools. 
@@ -15,16 +15,16 @@
 
 At the moment, there is very limited support for having different values for build, host, and target. In particular:
 
->
-> The build platform is currently always the same as the host platform. The build process needs to use some of the tools in the source tree, for example ghc-pkg and hsc2hs. 
 
->
-> If the target platform differs from the host platform, then this is generally for the purpose of building .hc files from Haskell source for porting GHC to the target platform. Full cross-compilation isn't supported (yet). 
+The build platform is currently always the same as the host platform. The build process needs to use some of the tools in the source tree, for example ghc-pkg and hsc2hs. 
+
+
+If the target platform differs from the host platform, then this is generally for the purpose of building .hc files from Haskell source for porting GHC to the target platform. Full cross-compilation isn't supported (yet). 
 
 ## Macros
 
->
-> In the compiler's source code, you may make use of the following CPP symbols:
+
+In the compiler's source code, you may make use of the following CPP symbols:
 
 ```wiki
 xxx_TARGET_ARCH 
@@ -35,5 +35,5 @@ xxx_HOST_VENDOR
 xxx_HOST_OS 
 ```
 
->
-> where xxx is the appropriate value: eg. i386_TARGET_ARCH. 
+
+where xxx is the appropriate value: eg. i386_TARGET_ARCH. 
