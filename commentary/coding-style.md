@@ -49,7 +49,7 @@ Notice that
 - **Detached from the code** is the linked comment, starting with the same string `Note [Float coercions]`.  It can be long, and often includes examples.
 
 
-The standard format "`Note [Float coercions]`" serves like URL, to point to an out-of-line comment.  Usually the target is in the same module, but not always.  Sometimes we say
+The standard format "`Note [Float coercions]`" serves like an URL, to point to an out-of-line comment.  Usually the target is in the same module, but not always.  Sometimes we say
 
 ```wiki
     -- See Note [Float coercions] in SpecConstr.lhs
