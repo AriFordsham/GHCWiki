@@ -23,7 +23,7 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
  * [wiki:Commentary/Compiler The Compiler]
    * [wiki:Commentary/Pipeline The compilation pipeline]
 
- * [wiki:Commentary/Rts The Runtime System]
+ * [wiki:Commentary/Rts The Runtime System] (Rts)
     * [wiki:Commentary/Rts/Conventions Rts Coding Conventions]
     * [wiki:Commentary/Rts/HaskellExecution The Haskell Execution Model]
     * [wiki:Commentary/Rts/Storage The memory layout of heap and stack objects]
