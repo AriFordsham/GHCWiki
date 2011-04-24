@@ -3,8 +3,16 @@
 
 This is a rough description of some of the coding practices and style that we use for Haskell code inside `compiler`.  For run-time system code see the [Coding Style Guidelines for RTS C code](commentary/rts/conventions).  Also see the wiki page on [Working Conventions](working-conventions) for issues related to version control, workflow, testing, bug tracking and other miscellany.
 
+## General Style
+
 
 The general rule is to stick to the same coding style as is already used in the file you're editing. If you must make stylistic changes, commit them separately from functional changes, so that someone looking back through the change logs can easily distinguish them. 
+
+
+It's much better to write code that is transparent than to write code that is short.
+
+
+Often it's better to write out the code longhand than to reuse a generic abstraction (not always, of course).  Sometimes it's better to duplicate some similar code than to try to construct an elaborate generalisation with only two instances.  Remember: other people have to be able to quickly understand what you've done, and overuse of abstractions just serves to obscure the *really* tricky stuff, and there's no shortage of that in GHC.
 
 ## Comments
 
@@ -126,6 +134,70 @@ Currently we are some way from our goal, so many modules have a
 
 pragma; you are encouraged to remove this pragma and fix any warnings when working on a module.
 
+## Exports and Imports
+
+### Exports
+
+```wiki
+module Foo (
+   T(..),
+   foo,	     -- :: T -> T
+ ) where
+```
+
+
+We usually (99% of the time) include an export list. The only exceptions are perhaps where the export list would list absolutely everything in the module, and even then sometimes we do it anyway. 
+
+
+It's helpful to give type signatures inside comments in the export list, but hard to keep them consistent, so we don't always do that. 
+
+### Imports
+
+
+List imports in the following order: 
+
+- Local to this subsystem (or directory) first 
+- Compiler imports, generally ordered from specific to generic (ie. modules from utils/ and basicTypes/ usually come last) 
+- Library imports 
+- Standard Haskell 98 imports last 
+
+  ```wiki
+  -- friends
+  import SimplMonad
+
+  -- GHC
+  import CoreSyn
+  import Id
+  import BasicTypes
+
+  -- libraries
+  import Data.IORef
+
+  -- std
+  import Data.List
+  import Data.Maybe
+  ```
+
+
+Import library modules from the boot packages only (boot packages are listed in [libraries/boot-packages](/trac/ghc/browser/ghc/libraries/boot-packages)). Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
+
+**Do not use explicit import lists**, except to resolve name clashes.  There are several reasons for this:
+
+- They slow down development: almost every change is accompanied by an import list change.
+
+- They cause spurious conflicts between developers.
+
+- They lead to useless warnings about unused imports, and time wasted trying to
+  keep the import declarations "minimal".
+
+- GHC's warnings are useful for detecting unnecessary imports: see `-fwarn-unused-imports`.
+
+- TAGS is a good way to find out where an identifier is defined (use `make tags` in `ghc/compiler`,
+  and hit `M-.` in emacs).
+
+
+If the module can be compiled multiple ways (eg. GHCI vs. non-GHCI), make sure the imports are properly `#ifdefed` too, so as to avoid spurious unused import warnings. 
+
 ## Literate Haskell
 
 
@@ -182,11 +254,6 @@ To maintain compatibility, use [HsVersions.h](commentary/coding-style#) (see bel
 
 Also, it is necessary to avoid certain language extensions.  In particular, the `ScopedTypeVariables` extension must not be used.
 
-## Walk-through of a sample source file
-
-
-We now describe a typical source file, annotating stylistic choices as we go. 
-
 ### The OPTIONS pragma
 
 
@@ -199,21 +266,6 @@ An `{-# OPTIONS_GHC ... #-`} pragma is optional, but if present it should go rig
 
 Don't bother putting `-cpp` or `-fglasgow-exts` in the `OPTIONS` pragma; these are already added to the command line by the build system. 
 
-### Exports
-
-```wiki
-module Foo (
-   T(..),
-   foo,	     -- :: T -> T
- ) where
-```
-
-
-We usually (99% of the time) include an export list. The only exceptions are perhaps where the export list would list absolutely everything in the module, and even then sometimes we do it anyway. 
-
-
-It's helpful to give type signatures inside comments in the export list, but hard to keep them consistent, so we don't always do that. 
-
 ### `HsVersions.h`
 
 `HsVersions.h` is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look [compiler/HsVersions.h](/trac/ghc/browser/ghc/compiler/HsVersions.h).
@@ -221,58 +273,3 @@ It's helpful to give type signatures inside comments in the export list, but har
 ```wiki
 #include "HsVersions.h"
 ```
-
-### Imports
-
-
-List imports in the following order: 
-
-- Local to this subsystem (or directory) first 
-- Compiler imports, generally ordered from specific to generic (ie. modules from utils/ and basicTypes/ usually come last) 
-- Library imports 
-- Standard Haskell 98 imports last 
-
-  ```wiki
-  -- friends
-  import SimplMonad
-
-  -- GHC
-  import CoreSyn
-  import Id
-  import BasicTypes
-
-  -- libraries
-  import Data.IORef
-
-  -- std
-  import Data.List
-  import Data.Maybe
-  ```
-
-
-Import library modules from the boot packages only (boot packages are listed in [libraries/boot-packages](/trac/ghc/browser/ghc/libraries/boot-packages)). Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
-
-**Do not use explicit import lists**, except to resolve name clashes.  There are several reasons for this:
-
-- They slow down development: almost every change is accompanied by an import list change.
-
-- They cause spurious conflicts between developers.
-
-- They lead to useless warnings about unused imports, and time wasted trying to
-  keep the import declarations "minimal".
-
-- GHC's warnings are useful for detecting unnecessary imports: see `-fwarn-unused-imports`.
-
-- TAGS is a good way to find out where an identifier is defined (use `make tags` in `ghc/compiler`,
-  and hit `M-.` in emacs).
-
-
-If the module can be compiled multiple ways (eg. GHCI vs. non-GHCI), make sure the imports are properly `#ifdefed` too, so as to avoid spurious unused import warnings. 
-
-### General Style
-
-
-It's much better to write code that is transparent than to write code that is short.
-
-
-Often it's better to write out the code longhand than to reuse a generic abstraction (not always, of course).  Sometimes it's better to duplicate some similar code than to try to construct an elaborate generalisation with only two instances.  Remember: other people have to be able to quickly understand what you've done, and overuse of abstractions just serves to obscure the *really* tricky stuff, and there's no shortage of that in GHC.
