@@ -31,8 +31,8 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
   - [The compilation pipeline](commentary/pipeline)
 
 - [The Runtime System](commentary/rts)
-  In addition to the usual runtime support contains information on:
 
+  - [Rts Coding Conventions](commentary/rts/conventions)
   - [The Haskell Execution Model](commentary/rts/haskell-execution)
   - [The memory layout of heap and stack objects](commentary/rts/storage)
 
