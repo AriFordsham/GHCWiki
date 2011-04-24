@@ -625,6 +625,9 @@ This is like `make stage=2`, except that it omits the dependency-building phase 
 
 to make the stage 1 and stage 3 compilers respectively.  These targets work in both the `ghc` and `compiler` subdirectories ([Commentary/SourceTree](commentary/source-tree)).
 
+
+Note that if you’ve never built stage3 before, you will need to create dependencies for it using `make stage=3`. This is because a normal build will skip building the stage3 compiler. You will then be able to run `make 3` as usual.
+
 ### Building a single file
 
 
