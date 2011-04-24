@@ -16,6 +16,7 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
 
  * [wiki:Commentary/GettingStarted Getting Started]
    * [wiki:Commentary/SourceTree Source Tree Roadmap]
+   * [wiki:Commentary/ModuleStructure Module Structure]
 
  * [wiki:Commentary/Compiler The Compiler]
    * [wiki:Commentary/Pipeline The compilation pipeline]
