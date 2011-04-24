@@ -24,6 +24,7 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
   - [Source Tree Roadmap](commentary/source-tree)
   - [Module Structure](commentary/module-structure)
   - [Coding Style](commentary/coding-style)
+  - [Platforms and their Naming Convention](commentary/platform-naming)
 
 - [The Compiler](commentary/compiler)
 
