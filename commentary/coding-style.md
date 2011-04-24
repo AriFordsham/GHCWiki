@@ -6,7 +6,9 @@ This is a rough description of some of the coding practices and style that we us
 
 The general rule is to stick to the same coding style as is already used in the file you're editing. If you must make stylistic changes, commit them separately from functional changes, so that someone looking back through the change logs can easily distinguish them. 
 
-## Comments and commit messages
+## Comments
+
+### Comments and commit messages
 
 
 Commenting is good but
@@ -64,7 +66,7 @@ Please do not put comments like these in commit messages instead, *even if the p
 
 (Commit messages can nevertheless contain substantial information, but it is usually of a global nature.  E.g. "This patch modifies 20 files to implement a new form of inlining pragma".)
 
-## Comments and examples
+### Comments and examples
 
 
 When writing a comment to explain a subtle point, consider including an example code
@@ -94,7 +96,7 @@ concrete way.  Other ways of making the comment concrete are:
 - Cite a particular Trac ticket that this bit of code deals with
 - Cite a test case in the test suite that illustrates it
 
-## Longer comments or architectural commentary
+### Longer comments or architectural commentary
 
 
 Comments with a broad scope, describing the architecture or workings of more than one module, belong here in the commentary rather than in the code.  Put the URL for the relevant commentary page in a comment in the code itself, and also put URLs for all relevant commentary pages in a comment at the top of each module.
@@ -124,12 +126,12 @@ Currently we are some way from our goal, so many modules have a
 
 pragma; you are encouraged to remove this pragma and fix any warnings when working on a module.
 
-## To literate or not to literate?
+## Literate Haskell
 
 
 In GHC we use a mixture of literate (`.lhs`) and non-literate (`.hs`) source. I (Simon M.) prefer to use non-literate style, because I think the `\begin{code}..\end{code`} clutter up the source too much, and I like to use Haddock-style comments (we haven't tried processing the whole of GHC with Haddock yet, though). 
 
-## To CPP or not to CPP?
+## The C Preprocessor (CPP)
 
 
 Currently we pass all the compiler sources through CPP. The -cpp flag is always added by the build system. 
@@ -180,7 +182,7 @@ To maintain compatibility, use [HsVersions.h](commentary/coding-style#) (see bel
 
 Also, it is necessary to avoid certain language extensions.  In particular, the `ScopedTypeVariables` extension must not be used.
 
-## The source file
+## Walk-through of a sample source file
 
 
 We now describe a typical source file, annotating stylistic choices as we go. 
