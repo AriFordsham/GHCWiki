@@ -198,12 +198,43 @@ Import library modules from the boot packages only (boot packages are listed in 
 
 If the module can be compiled multiple ways (eg. GHCI vs. non-GHCI), make sure the imports are properly `#ifdefed` too, so as to avoid spurious unused import warnings. 
 
-## Literate Haskell
+## Compiler versions and language extensions
+
+
+GHC must be compilable by the previous two major releases, and itself. It isn't necessary for it to be compilable by every intermediate development version (that includes last week's darcs sources). 
+
+
+To maintain compatibility, use [HsVersions.h](commentary/coding-style#) (see below) where possible, and try to avoid using \#ifdef in the source itself. 
+
+
+Also, it is necessary to avoid certain language extensions.  In particular, the `ScopedTypeVariables` extension must not be used.
+
+### The OPTIONS pragma
+
+
+An `{-# OPTIONS_GHC ... #-`} pragma is optional, but if present it should go right at the top of the file. Things you might want to put in OPTIONS include: 
+
+- `#include` options to bring into scope prototypes for FFI declarations 
+- `-fvia-C` if you know that this module won't compile with the native code generator.  (deprecated:
+  everything should compile with the NCG nowadays, but that wasn't always the case).
+
+
+Don't bother putting `-cpp` or `-fglasgow-exts` in the `OPTIONS` pragma; these are already added to the command line by the build system. 
+
+### `HsVersions.h`
+
+`HsVersions.h` is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look [compiler/HsVersions.h](/trac/ghc/browser/ghc/compiler/HsVersions.h).
+
+```wiki
+#include "HsVersions.h"
+```
+
+### Literate Haskell
 
 
 In GHC we use a mixture of literate (`.lhs`) and non-literate (`.hs`) source. I (Simon M.) prefer to use non-literate style, because I think the `\begin{code}..\end{code`} clutter up the source too much, and I like to use Haddock-style comments (we haven't tried processing the whole of GHC with Haddock yet, though). 
 
-## The C Preprocessor (CPP)
+### The C Preprocessor (CPP)
 
 
 Currently we pass all the compiler sources through CPP. The -cpp flag is always added by the build system. 
@@ -242,34 +273,3 @@ Now you can Google for this error message :-)
 <td>
 Enables GHCi support, including the byte code generator and interactive user interface. This isn't the default, because the compiler needs to be bootstrapped with itself in order for GHCi to work properly. The reason is that the byte-code compiler and linker are quite closely tied to the runtime system, so it is essential that GHCi is linked with the most up-to-date RTS. Another reason is that the representation of certain datatypes must be consistent between GHCi and its libraries, and if these were inconsistent then disaster could follow. 
 </td></tr></table>
-
-## Compiler versions and language extensions
-
-
-GHC must be compilable by the previous two major releases, and itself. It isn't necessary for it to be compilable by every intermediate development version (that includes last week's darcs sources). 
-
-
-To maintain compatibility, use [HsVersions.h](commentary/coding-style#) (see below) where possible, and try to avoid using \#ifdef in the source itself. 
-
-
-Also, it is necessary to avoid certain language extensions.  In particular, the `ScopedTypeVariables` extension must not be used.
-
-### The OPTIONS pragma
-
-
-An `{-# OPTIONS_GHC ... #-`} pragma is optional, but if present it should go right at the top of the file. Things you might want to put in OPTIONS include: 
-
-- `#include` options to bring into scope prototypes for FFI declarations 
-- `-fvia-C` if you know that this module won't compile with the native code generator.  (deprecated:
-  everything should compile with the NCG nowadays, but that wasn't always the case).
-
-
-Don't bother putting `-cpp` or `-fglasgow-exts` in the `OPTIONS` pragma; these are already added to the command line by the build system. 
-
-### `HsVersions.h`
-
-`HsVersions.h` is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look [compiler/HsVersions.h](/trac/ghc/browser/ghc/compiler/HsVersions.h).
-
-```wiki
-#include "HsVersions.h"
-```
