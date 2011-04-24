@@ -518,6 +518,8 @@ This is like `make stage=2`, except that it omits the dependency-building phase 
  * `make 3` 
 to make the stage 1 and stage 3 compilers respectively.  These targets work in both the `ghc` and `compiler` subdirectories ([wiki:Commentary/SourceTree]).
 
+Note that if you’ve never built stage3 before, you will need to create dependencies for it using `make stage=3`. This is because a normal build will skip building the stage3 compiler. You will then be able to run `make 3` as usual.
+
 === Building a single file ===
 
 It's possible to tell make to build a single file, from any subdirectory in the tree.  For example, suppose I want to build just the module `Control.Monad` in the `base` package, I can do it like this:
