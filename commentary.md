@@ -21,6 +21,7 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
 
 - [Getting Started](commentary/getting-started)
 
+  - [Abbreviations](commentary/abbreviations) used pervasively in the source code
   - [Source Tree Roadmap](commentary/source-tree)
   - [Module Structure](commentary/module-structure)
   - [Coding Style](commentary/coding-style)

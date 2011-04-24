@@ -15,6 +15,7 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
 == Contents ==
 
  * [wiki:Commentary/GettingStarted Getting Started]
+   * [wiki:Commentary/Abbreviations Abbreviations] used pervasively in the source code
    * [wiki:Commentary/SourceTree Source Tree Roadmap]
    * [wiki:Commentary/ModuleStructure Module Structure]
    * [wiki:Commentary/CodingStyle Coding Style]
