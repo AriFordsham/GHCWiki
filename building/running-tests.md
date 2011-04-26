@@ -155,7 +155,7 @@ The following variables may be set on the make command line:
 ```
 
 
-The following ways are defined (for GHC, also see the file config/ghc):
+The following ways are defined (for GHC, see the file config/ghc for the complete list):
 
 ```wiki
         normal                  -- no special options
@@ -169,6 +169,7 @@ The following ways are defined (for GHC, also see the file config/ghc):
         threaded1               -- -threaded -debug
         threaded2               -- -threaded -O, and +RTS -N2 at run-time
         hpc                     -- -fhpc
+        dyn                     -- -O -dynamic
 ```
 
 
