@@ -298,9 +298,6 @@ many temps and they're going to have to get spilled to the stack anyway.
 IS THAT TRUE?  For comparison's sake, the old codegen doesn't appear to
 do any rewriting, because it just reuses the call area.
 
-
-Actually, I think this is a case of spill/reload silliness.
-
 ## Stupid spills
 
 
@@ -410,6 +407,9 @@ smz_ret()
         goto cqB;
 }
 ```
+
+
+The trouble is that the spiller doesn't know that the old call area is also valid game for locations that variables can live in. I thought maybe we could have the stack layout engine coalesce these, but them we need to know about when memory changes (since the old area will get written over.) This will also interact in strange ways with when we try to overlap areas.
 
 ## Noppy proc-points
 
