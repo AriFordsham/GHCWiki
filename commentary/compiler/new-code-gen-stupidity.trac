@@ -252,7 +252,7 @@ don't.  But is this true in general?
         F64[Hp - 4] = _s15m::F64;
 }}}
 
-== Double temp-use ==
+== Double temp-use means no inlinining? ==
 
 
 CONFIRMED. Here's a curious piece of code that fails to get inlined (from `cc004`):
@@ -278,3 +278,54 @@ IS THAT TRUE?  For comparison's sake, the old codegen doesn't appear to
 do any rewriting, because it just reuses the call area.
 
 Actually, I think this is a case of spill/reload silliness.
+
+== Stupid spills ==
+
+If something is already in memory, why do we have to spill it again? Well, it's because the spiller isn't clever enough:
+
+{{{
+  cs3:
+      _smw::I32 = I32[(old + 8)];
+      I32[(slot<_smw::I32> + 4)] = _smw::I32;
+      _smv::I32 = I32[(old + 12)];
+      I32[(slot<_smv::I32> + 4)] = _smv::I32;
+      _smu::I32 = I32[(old + 16)];
+      I32[(slot<_smu::I32> + 4)] = _smu::I32;
+      _smt::I32 = I32[(old + 20)];
+      I32[(slot<_smt::I32> + 4)] = _smt::I32;
+      _sms::I32 = I32[(old + 24)];
+      I32[(slot<_sms::I32> + 4)] = _sms::I32;
+      _smr::I32 = I32[(old + 28)];
+      I32[(slot<_smr::I32> + 4)] = _smr::I32;
+      _smq::I32 = I32[(old + 32)];
+      I32[(slot<_smq::I32> + 4)] = _smq::I32;
+      _smn::I32 = I32[(old + 36)];
+      I32[(slot<_smn::I32> + 4)] = _smn::I32;
+      _smm::I32 = I32[(old + 40)];
+      I32[(slot<_smm::I32> + 4)] = _smm::I32;
+      if (Sp - <highSp> < SpLim) goto cs9; else goto cs5;
+  cs5:
+      // outOfLine should follow:
+      // directEntry else
+      // emitCall: Sequel: Assign
+      I32[(young<crz> + 8)] = _smn::I32;
+      I32[(young<crz> + 12)] = _smm::I32;
+      I32[(young<crz> + 4)] = crz;
+      call Foo.baz_info(...) returns to Just crz (12) (4) with update frame 4;
+  crz:
+      _smm::I32 = I32[(slot<_smm::I32> + 4)];
+      _smn::I32 = I32[(slot<_smn::I32> + 4)];
+      _smq::I32 = I32[(slot<_smq::I32> + 4)];
+      _smr::I32 = I32[(slot<_smr::I32> + 4)];
+      _sms::I32 = I32[(slot<_sms::I32> + 4)];
+      _smt::I32 = I32[(slot<_smt::I32> + 4)];
+      _smu::I32 = I32[(slot<_smu::I32> + 4)];
+      _smv::I32 = I32[(slot<_smv::I32> + 4)];
+      _smw::I32 = I32[(slot<_smw::I32> + 4)];
+      _smx::I32 = R1;
+      I32[(slot<_smx::I32> + 4)] = _smx::I32;
+      _csp::I32 = _smx::I32 & 3;
+      if (_csp::I32 >= 2) goto csk; else goto usu;
+}}}
+
+Ick!
