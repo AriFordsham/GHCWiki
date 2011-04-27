@@ -250,25 +250,26 @@ CONFIRMED. Values on the heap and values from R1 don't necessarily clobber
 each other.  allocDynClosure seems like a pretty safe bet they
 don't.  But is this true in general?
 
->
-> _s14Y::F64 = F64\[_s1uN::I32 + 8\];
-> _s152::F64 = F64\[_s1uN::I32 + 16\];
-> _s156::F64 = F64\[_s1uN::I32 + 24\];
-> _s15a::F64 = F64\[_s1uN::I32 + 32\];
-> _s15e::F64 = F64\[_s1uN::I32 + 40\];
-> _s15i::F64 = F64\[_s1uN::I32 + 48\];
-> _s15m::F64 = F64\[_s1uN::I32 + 56\];
-> _c39O::I32 = Hp - 60;
-> * calling allocDynClosure
-> * allocDynClosure
-> I32\[Hp - 60\] = sat_s1uQ_info;
-> F64\[Hp - 52\] = _s14Y::F64;
-> F64\[Hp - 44\] = _s152::F64;
-> F64\[Hp - 36\] = _s156::F64;
-> F64\[Hp - 28\] = _s15a::F64;
-> F64\[Hp - 20\] = _s15e::F64;
-> F64\[Hp - 12\] = _s15i::F64;
-> F64\[Hp - 4\] = _s15m::F64;
+```wiki
+        _s14Y::F64 = F64[_s1uN::I32 + 8];
+        _s152::F64 = F64[_s1uN::I32 + 16];
+        _s156::F64 = F64[_s1uN::I32 + 24];
+        _s15a::F64 = F64[_s1uN::I32 + 32];
+        _s15e::F64 = F64[_s1uN::I32 + 40];
+        _s15i::F64 = F64[_s1uN::I32 + 48];
+        _s15m::F64 = F64[_s1uN::I32 + 56];
+        _c39O::I32 = Hp - 60;
+        // calling allocDynClosure
+        // allocDynClosure
+        I32[Hp - 60] = sat_s1uQ_info;
+        F64[Hp - 52] = _s14Y::F64;
+        F64[Hp - 44] = _s152::F64;
+        F64[Hp - 36] = _s156::F64;
+        F64[Hp - 28] = _s15a::F64;
+        F64[Hp - 20] = _s15e::F64;
+        F64[Hp - 12] = _s15i::F64;
+        F64[Hp - 4] = _s15m::F64;
+```
 
 ## Double temp-use
 
