@@ -281,7 +281,21 @@ Actually, I think this is a case of spill/reload silliness.
 
 == Stupid spills ==
 
-If something is already in memory, why do we have to spill it again? Well, it's because the spiller isn't clever enough:
+If something is already in memory, why do we have to spill it again?
+
+{{{
+module Foo where
+foo a b c d e f g h
+    = case baz a of
+        True -> bar a b c d e f g h
+        False -> 0
+
+baz 3 = True
+baz _ = False
+bar a b c d e f g h = a * b + c * d + e * f * g * h
+}}}
+
+Well, it's because the spiller isn't clever enough:
 
 {{{
   cs3:
@@ -328,4 +342,46 @@ If something is already in memory, why do we have to spill it again? Well, it's 
       if (_csp::I32 >= 2) goto csk; else goto usu;
 }}}
 
-Ick!
+Ick! The old codegen was much better...
+
+{{{
+Foo.foo_entry()
+        { [const Foo.foo_slow-Foo.foo_info;, const 9;,
+       const Foo.foo_srt-Foo.foo_info;, const 589824;, const 0;,
+const 196623;]
+        }
+    cqM:
+        if ((Sp + -12) < I32[BaseReg + 84]) goto cqO;
+        I32[Sp - 8] = I32[Sp + 4];
+        I32[Sp - 12] = I32[Sp + 0];
+        I32[Sp - 4] = smz_info;
+        Sp = Sp - 12;
+        jump Foo.baz_info ();
+    cqO:
+        R1 = Foo.foo_closure;
+        Sp = Sp + 0;
+        jump (I32[BaseReg - 4]) ();
+}
+
+smz_ret()
+        { [const Foo.foo_srt-smz_info;, const 9;, const 65568;]
+        }
+    cqx:
+        if (R1 & 3 >= 2) goto cqC;
+        Hp = Hp + 8;
+        if (Hp > I32[BaseReg + 92]) goto cqA;
+        I32[Hp - 4] = sat_smA_info;
+        I32[Sp + 36] = Hp - 4;
+        I32[Sp + 32] = stg_ap_p_info;
+        I32[Sp + 28] = I32[Sp + 4];
+        Sp = Sp + 28;
+        jump GHC.Num.fromInteger_info ();
+    cqC:
+        Sp = Sp + 4;
+        jump Foo.bar_info ();
+    cqB: jump (I32[BaseReg - 8]) ();
+    cqA:
+        I32[BaseReg + 112] = 8;
+        goto cqB;
+}
+}}}
