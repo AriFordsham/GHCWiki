@@ -44,7 +44,10 @@ where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where y
 
 The above instructions will get the HEAD - the main trunk of GHC development.  There are also branches, from which stable releases are made.  The active branches are listed on [wiki:Repositories].
 
-To get a branch, [TODO!]
+To get a branch, first get a ghc tree as normal. You must get it from a repo that contains the branch; in particular, local clones of the central repo will normally not include the branches that are in the central repo. Then run
+{{{
+./sync-all checkout branch-name
+}}}
 
 == Pulling new patches ==
 
