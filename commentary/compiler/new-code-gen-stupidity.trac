@@ -385,3 +385,43 @@ smz_ret()
         goto cqB;
 }
 }}}
+
+== Noppy proc-points ==
+
+Consider
+
+{{{
+f :: Int -> Int -> Int -> Int
+f a b c
+    = let x = a + b
+          y = b + c
+          z = a + c
+      in x `seq` case g x y z of
+            True  -> x
+            False -> 0
+
+{-# NOINLINE g #-}
+g :: Int -> Int -> Int -> Bool
+g x y 0 = x == y
+g _ _ _ = False
+}}}
+
+{{{
+      cnm:
+          // directEntry else
+          // emitCall: Sequel: Assign
+          I32[(young<cmM> + 8)] = base_GHCziNum_zdfNumInt_closure;
+          I32[(young<cmM> + 4)] = cmM;
+          call base_GHCziNum_zp_info(...) returns to Just cmM (8) (4) with update frame 4;
+      cmM:
+          _cmN::I32 = R1;
+          // slow_call for _cmN::I32 with pat stg_ap_pp
+          R1 = _cmN::I32;
+          // emitCall: Sequel: Assign
+          I32[(young<cmP> + 8)] = _skO::I32;
+          I32[(young<cmP> + 12)] = _skN::I32;
+          I32[(young<cmP> + 4)] = cmP;
+          call stg_ap_pp_fast(...) returns to Just cmP (12) (4) with update frame 4;
+}}}
+
+We generate an extra proc-point for ``cmM``, where in theory we ought to be able to stick the subsequent ``stg_ap_pp_fast`` onto the stack as another return point.
