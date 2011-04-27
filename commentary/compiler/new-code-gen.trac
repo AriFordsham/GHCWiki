@@ -83,6 +83,15 @@ Developers who work on GHC and also need to modify Hoopl have a more torrid time
 
 
 
+== Status report April 2011 ==
+
+Term’s starting up for me again, and as a result, I will have less time to throw at the new code generator. As such, here is the state of play, as of April 2011.
+
+We currently have a code generator that is correct, but slow and stupid. The primary optimization problem that I was tackling at the end of Spring Break was the following: newly compiled programs used a lot more stack space than their old equivalents, due to poor usage of call areas for register reloading and an over-conservative stack layout algorithm. Our new plan is to overhaul the spiller and the stack layout engine in the following manner:
+
+1. We teach the register spiller about another location: a value may be in a register, on the stack in a register slot, OR (and this is the new bit) inside a call area. If it’s in a call area, reload from that instead of of its slot location. This might require borrowing some code from the code motion improvements in my private branch (http://github.com/ezyang/ghc).
+
+2. We change the stack layout code to perform interference on a per-word, rather than per-area level. Because this may cause a very huge interference graph, we bound the number of conflicts we remember; instead of recording every slot a slot may conflict with, we remember some number, and if there are more, we just say it conflicts with everything. (There is some potential for statistics and tuning parameters here.)
 
 
 
