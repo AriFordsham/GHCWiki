@@ -25,10 +25,30 @@ the remote copy into your local copy.
 git config --global branch.autosetupmerge true
 ```
 
+---
+
 ## Looking at the current state of affairs
 
-- `git diff --stat` gives you a one-line-per-file summary of diffs.
-- \`git-merge 
+
+Show a one-line-per-file summary of diffs between working files and the local repo:
+
+```wiki
+git diff --stat
+```
+
+---
+
+
+Show the commits that are on branch `my-test` but not on the main trunk:
+
+```wiki
+git log `git merge-base master my-test`..my-test
+```
+
+
+The `git merge-base b1 b2` thing returns the name of the commit that is the common ancestor of branches `b1` and `b2`.
+
+---
 
 ## `git gui` on Windows
 
