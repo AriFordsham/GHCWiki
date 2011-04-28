@@ -39,22 +39,18 @@ instance Encode [a] -- works if there is an instance Representable0 [a]
 
  * `Representable0` instances are automatically generated when `-XGenerics` is enabled.
 
- * There is a new `generic` keyword to be used for generic default method signatures.
+ * The `default` keyword can now be used for generic default method signatures.
 
  * Generic defaults are properly instantiated when giving an instance without defining the generic default method.
 
 == To do ==
 
- * Remove all of the old deriving mechanism stuff
-
- * Properly deal with isTuple information for constructors
-
  * Generate `Representable1` instances
 
- * What about base types like `[]`, `Maybe`, etc.?
+ * What about base types like `[]`, `Maybe`, tuples, etc.?
 
 == Testing ==
 
- * For temporary testing, a file test/Main.hs is available with sample datatypes.
+ * Tests are available under the `generics` directory of the testsuite.
 
 == Problems/questions ==
