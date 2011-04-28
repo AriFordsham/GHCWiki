@@ -3,7 +3,11 @@
 
 Here are notes about using Git that Simon PJ has found useful.
 
+---
+
 ## Configuration
+
+### Push only the current branch
 
 
 When you say `git push` (with no arguments), push only only patches on
@@ -13,7 +17,7 @@ the *current branch*.  If you have un-pushed commits on other branches, leave th
 git config --global remote.origin.push HEAD
 ```
 
----
+### Creating tracking branches
 
 
 Suppose you create a new branch on your local machine. Now you want to push
@@ -29,6 +33,8 @@ git config --global branch.autosetupmerge true
 
 ## Looking at the current state of affairs
 
+### Show one-line-per-file diff summary
+
 
 Show a one-line-per-file summary of diffs between working files and the local repo:
 
@@ -36,7 +42,7 @@ Show a one-line-per-file summary of diffs between working files and the local re
 git diff --stat
 ```
 
----
+### Show delta between branch and trunk
 
 
 Show the commits that are on branch `my-test` but not on the main trunk:
@@ -47,6 +53,22 @@ git log `git merge-base master my-test`..my-test
 
 
 The `git merge-base b1 b2` thing returns the name of the commit that is the common ancestor of branches `b1` and `b2`.
+
+---
+
+## Doing useful things
+
+### Create a branch after doing some edits
+
+
+You are sitting on a branch (say master), and do some edits. Now you decide it wasn't as simple as you thought so you want to create a branch to keep your edits safe while you do something else. 
+
+```wiki
+git checkout -b <new-branch-name>
+```
+
+
+This creates the new branch and switches to it, but **does not change your working files**.  Now you can safely commit on the branch. [ Stackoverflow link](http://stackoverflow.com/questions/2569459/git-create-a-branch-from-unstagged-uncommited-changes-on-master)
 
 ---
 
