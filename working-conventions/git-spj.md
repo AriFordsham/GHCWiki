@@ -3,6 +3,8 @@
 
 Here are notes about using Git that Simon PJ has found useful.
 
+---
+
 ## Configuration
 
 ### Push only the current branch
@@ -31,6 +33,8 @@ git config --global branch.autosetupmerge true
 
 ## Looking at the current state of affairs
 
+### Show one-line-per-file diff summary
+
 
 Show a one-line-per-file summary of diffs between working files and the local repo:
 
@@ -38,7 +42,7 @@ Show a one-line-per-file summary of diffs between working files and the local re
 git diff --stat
 ```
 
----
+### Show delta between branch and trunk
 
 
 Show the commits that are on branch `my-test` but not on the main trunk:
@@ -53,6 +57,8 @@ The `git merge-base b1 b2` thing returns the name of the commit that is the comm
 ---
 
 ## Doing useful things
+
+### Create a branch after doing some edits
 
 
 You are sitting on a branch (say master), and do some edits. Now you decide it wasn't as simple as you thought so you want to create a branch to keep your edits safe while you do something else. 
