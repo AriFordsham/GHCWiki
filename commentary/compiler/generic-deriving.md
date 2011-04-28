@@ -4,7 +4,7 @@
 GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in [ A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf), by Magalhães, Dijkstra, Jeuring and Löh.  This page sketches the specifics of the implementation; we assume you have read the paper.
 
 
-This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). The code is in the `ghc-generics` branch of the GHC, base, ghc-prim, and testsuite repos.
+This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). The code is in the `ghc-generics` branch of the [ ghc](https://github.com/ghc/ghc/tree/ghc-generics), [ base](https://github.com/ghc/packages-base/commits/ghc-generics), [ ghc-prim](https://github.com/ghc/packages-ghc-prim/commits/ghc-generics), and [ testsuite](https://github.com/ghc/testsuite/commits/ghc-generics) repos.
 
 ## Changes from the paper
 
