@@ -18,7 +18,7 @@ In the paper we describe the implementation in [ UHC](http://www.cs.uu.nl/wiki/U
   ```wiki
   class Encode a where
     encode :: a -> [Bit]
-    generic encode :: (Representable0 a, Encode1 (Rep a)) => a -> [Bit]
+    default encode :: (Representable0 a, Encode1 (Rep a)) => a -> [Bit]
     encode = encode1 . from0
   ```
 

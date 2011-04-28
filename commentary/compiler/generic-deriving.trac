@@ -14,7 +14,7 @@ In the paper we describe the implementation in [http://www.cs.uu.nl/wiki/UHC UHC
 {{{
 class Encode a where
   encode :: a -> [Bit]
-  generic encode :: (Representable0 a, Encode1 (Rep a)) => a -> [Bit]
+  default encode :: (Representable0 a, Encode1 (Rep a)) => a -> [Bit]
   encode = encode1 . from0
 }}}
    This removes the need for a separate default definition and a pragma.
