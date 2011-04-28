@@ -34,7 +34,7 @@ Longer term
 
 We have the following repositories:
 
-- HEAD: the main GHC git repo. `http://darcs.haskell.org/ghc`
+- HEAD: the main GHC git repo. `http://darcs.haskell.org/ghc.git`
 
 - HooplMaster: the master Hoopl Git repository.
   **Location**: `http://ghc.cs.tufts.edu/hoopl/hoopl.git/`
