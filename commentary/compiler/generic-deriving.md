@@ -54,8 +54,8 @@ In the paper we describe the implementation in [ UHC](http://www.cs.uu.nl/wiki/U
 
 - What about base types like `[]`, `Maybe`, tuples, etc.?
 
+- `Show`, etc. instances for `Associativity`, `Fixity`, and `Arity` in `GHC.Generics`
+
 ## Testing
 
 - Tests are available under the `generics` directory of the testsuite.
-
-## Problems/questions
