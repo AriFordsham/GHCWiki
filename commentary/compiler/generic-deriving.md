@@ -4,7 +4,7 @@
 GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in [ A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf), by Magalhães, Dijkstra, Jeuring and Löh.  This page sketches the specifics of the implementation; we assume you have read the paper.
 
 
-This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). The code is in a branch of GHC; you can get it with `darcs get http://darcs.haskell.org/ghc-generic-15Feb11/ghc`.
+This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). The code is in the `ghc-generics` branch of the [ ghc](https://github.com/ghc/ghc/commits/ghc-generics), [ base](https://github.com/ghc/packages-base/commits/ghc-generics), [ ghc-prim](https://github.com/ghc/packages-ghc-prim/commits/ghc-generics), and [ testsuite](https://github.com/ghc/testsuite/commits/ghc-generics) repos.
 
 ## Changes from the paper
 
@@ -18,7 +18,7 @@ In the paper we describe the implementation in [ UHC](http://www.cs.uu.nl/wiki/U
   ```wiki
   class Encode a where
     encode :: a -> [Bit]
-    generic encode :: (Representable0 a, Encode1 (Rep a)) => a -> [Bit]
+    default encode :: (Representable0 a, Encode1 (Rep a)) => a -> [Bit]
     encode = encode1 . from0
   ```
 
@@ -44,22 +44,18 @@ In the paper we describe the implementation in [ UHC](http://www.cs.uu.nl/wiki/U
 
 - `Representable0` instances are automatically generated when `-XGenerics` is enabled.
 
-- There is a new `generic` keyword to be used for generic default method signatures.
+- The `default` keyword can now be used for generic default method signatures.
 
 - Generic defaults are properly instantiated when giving an instance without defining the generic default method.
 
 ## To do
 
-- Remove all of the old deriving mechanism stuff
-
-- Properly deal with isTuple information for constructors
-
 - Generate `Representable1` instances
 
-- What about base types like `[]`, `Maybe`, etc.?
+- What about base types like `[]`, `Maybe`, tuples, etc.?
+
+- `Show`, etc. instances for `Associativity`, `Fixity`, and `Arity` in `GHC.Generics`
 
 ## Testing
 
-- For temporary testing, a file test/Main.hs is available with sample datatypes.
-
-## Problems/questions
+- Tests are available under the `generics` directory of the testsuite.
