@@ -73,15 +73,9 @@ For more details, see the '''link:'''parallel GHC project entry.
 
 == Data Parallel Haskell ==
 
-'''Manuel: Any status update? Previous entry below'''
+The main user-visible development concerning data-parallel programming with GHC since the last status report is the release of our library for regular, multi-dimensional, shape-polymorphic arrays: [[http://hackage.haskell.org/package/repa Repa]].  The current release on Hackage performs well with GHC 7.0.3 and already includes Ben's recent work on high-performance stencil-based convolutions — see also the draft paper [http://www.cse.unsw.edu.au/~benl/papers/stencil/stencil-icfp2011-sub.pdf Stencil] and Ben's screencast [[http://code.ouroborus.net/beholder/video/Edge480.mov EdgeDetect]] of a real-time edge detection application, written in Objective-C and Haskell, using the new Repa library.
 
-  ''Since the last report, we have continued to improve support for nested parallel divide-and-conquer algorithms.  We started with [[http://darcs.haskell.org/packages/dph/dph-examples/spectral/QuickHull/dph/QuickHullVect.hs QuickHull]] and are now working on an implementation of the [[http://darcs.haskell.org/packages/dph/dph-examples/real/BarnesHut/Solver/NestedBH/Solver.hs Barnes-Hut]] ''n''-body algorithm.  The latter is not only significantly more complex, but also requires the vectorisation of recursive tree data-structures, going well beyond the capabilities of conventional parallel-array languages.  In time for the stable branch of GHC 7.0, we replaced the old, per-core sequential array infrastructure (which was part of the sub-package `dph-prim-seq`) by  the [[http://hackage.haskell.org/package/vector vector package]] — vector started its life as a next-generation spin off of `dph-prim-seq`, but now enjoys significant popularity independent of DPH.''
-
-  ''The new handling of INLINE pragmas as well as other changes to the Simplifier improved the stability of DPH optimisations (and in particular, array stream fusion) substantially.  However, the current candidate for GHC 7.0.1 still contains some performance regressions that affect the DPH and [[http://hackage.haskell.org/package/repa Repa]] libraries and to avoid holding up the 7.0.1 release, we decided to push fixing these regressions to GHC 7.0.2.  More precisely, we are planning a release of DPH and Repa that is suitable for use with GHC 7.0 for the end of the year, to coincide with the release of GHC 7.0.2.  From GHC 7.0 onwards, the library component of DPH will be shipped separately from GHC itself and will be available to download and install from Hackage as for other libraries.''
-
-  ''To catch DPH performance regressions more quickly in the future, Ben Lippmeier implemented a performance regression testsuite that we run nightly on the HEAD.  The results can be enjoyed on the GHC developer mailing list.''
-
-  ''Sadly, Roman Leshchinskiy has given up his full-time engagement with DPH to advance the use of Haskell in the financial industry.  We are looking forward to collaborating remotely with him.''
+We have pushed back the release of a stable version of the main DPH libraries again.  They are now scheduled to be released with the forthcoming GHC 7.2.
 
 
 == Bibliography ==
@@ -107,3 +101,7 @@ For more details, see the '''link:'''parallel GHC project entry.
  * [!TemplateHaskell] New directions for Template Haskell, Peyton Jones, blog post October 2010, http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal
 
  * [Hoopl] Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation, http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf 
+
+ * [Stencil] Efficient Parallel Stencil Convolution in Haskell, Lippmeier et al., http://www.cse.unsw.edu.au/~benl/papers/stencil/stencil-icfp2011-sub.pdf
+
+ * [!EdgeDetect] http://code.ouroborus.net/beholder/video/Edge480.mov
