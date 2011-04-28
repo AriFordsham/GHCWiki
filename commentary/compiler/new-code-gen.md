@@ -57,7 +57,9 @@ Developers who work on GHC and also need to modify Hoopl need to ensure their ch
 - Hack away in the development tree.
 - Record Hoopl commits.
 - Run validate in the development tree
-- Push the commits in hoopl to the HooplMaster Git repo and the HooplLag Git repo
+- Push the commits in hoopl to the HooplMaster Git repo
+- Wait for the mirrors to update (the impatient can run `/srv/darcs/do_mirrors` on darcs.haskell.org)
+- Push the commits in hoopl to the HooplLag Git repo (probably the origin remote)
 
 ## Status report April 2011
 
