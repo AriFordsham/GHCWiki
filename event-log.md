@@ -1,7 +1,7 @@
 ## Summary
 
->
-> EventLog is a fast, extensible event logging framework in the GHC run-time system (RTS) to support profiling of GHC run-time events. The [GHC User's Guide](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/runtime-control.html#rts-eventlog) describes how to enable event logging, after the program is linked with `eventlog`
+
+EventLog is a fast, extensible event logging framework in the GHC run-time system (RTS) to support profiling of GHC run-time events. The [GHC User's Guide](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/runtime-control.html#rts-eventlog) describes how to enable event logging, after the program is linked with `eventlog`
 
 ```wiki
 +RTS -l
