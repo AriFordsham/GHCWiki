@@ -31,53 +31,28 @@ Longer term
 
 We have the following repositories:
 
- * HEAD: the main GHC Darcs repo. `http://darcs.haskell.org/ghc`
+ * HEAD: the main GHC git repo. `http://darcs.haskell.org/ghc`
 
  * !HooplMaster: the master Hoopl Git repository.
    [[BR]] '''Location''': `http://ghc.cs.tufts.edu/hoopl/hoopl.git/`
    [[BR]] (Physical location: `linux.cs.tufts.edu:/r/ghc/www/hoopl/hoopl.git`)
 
- * !HooplMirror: a Darcs mirror of the !HooplMaster repo.  Any push 
-   to !HooplMaster is automatically mirrored to !HooplMirror.  Do not (ever) 
-   push to !HooplMirror.
-   [[BR]] '''Location''': `http://ghc.cs.tufts.edu/hoopl-mirror/` 
-   [[BR]] (Physical location: 'linux.cs.tufts.edu:/r/ghc/darcs-mirrors/hoopl')
-
- * !HooplLag: a Darcs repo that is guaranteed to work with GHC HEAD.    It is
+ * !HooplLag: a Git repo that is guaranteed to work with GHC HEAD.    It is
    not automatically updated by pushes to !HooplMaster.  Instead a manual
-   process (below) updates it; hence "lag".  
-   [[BR]] '''Location''': `http://darcs.haskell.org/packages/hoopl`.
-
+   process (below) updates it; hence "lag".
+   [[BR]] '''Location''': `http://darcs.haskell.org/packages/hoopl.git`.
 
 Normal GHC developers, who are uninterested in Hoopl, ignore all
-this.  If they download HEAD, and then do `darcs-all get` they'll get
+this.  If they download HEAD, and then do `./sync-all get` they'll get
 !HooplLag, which is always guaranteed to work with HEAD.
 
-Developers who work on GHC and also need to modify Hoopl have a more torrid time.
+Developers who work on GHC and also need to modify Hoopl need to ensure their changes end up in both repositories.
 
- * Create two trees:
-   * Development tree (mixed Darcs and Git): 
-     * Download HEAD and `darcs-all get`  
-     * Remove `libraries/hoopl` and do a `git clone` of !HooplMaster instead. 
-   * Validation tree (pure Darcs):
-     * Download HEAD and `darcs-all get`  
-
- * Hack away in the development tree.  You can pull freely:
-     * Subsequent `darcs-all pull` operations will [check!] no-op in the `libraries/hoopl` directory.
-     * For `hoopl` you have to manually do `git pull` in `libraries/hoopl to pull patches from !HooplMaster.
-
- * Record Darcs patches and Hoopl patches.
-
- * Validate changes as follows:
-   * Run validate in the development tree
-   * `git push` patches to !HooplMaster
-   * Wait for !HooplMirror to see these patches
-   * In the validation tree, 
-       * `darcs-all pull` patches from the development tree (this will [check!] 
-         no-op for `hoopl`, because the dev-tree has a Git repo)
-       * Manually pull patches from !HooplMirror
-   * Validate in the validation tree
-   * Push the validation tree to HEAD and the !HooplLag Darcs repo
+ * In your hoopl directory in your development tree, add !HooplMaster as a remote and update your reference there. 
+ * Hack away in the development tree.
+ * Record Hoopl commits.
+ * Run validate in the development tree
+ * Push the commits in hoopl to the !HooplMaster Git repo and the !HooplLag Git repo
 
 
 
