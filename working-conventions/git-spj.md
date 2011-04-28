@@ -5,6 +5,8 @@ Here are notes about using Git that Simon PJ has found useful.
 
 ## Configuration
 
+### Push only the current branch
+
 
 When you say `git push` (with no arguments), push only only patches on
 the *current branch*.  If you have un-pushed commits on other branches, leave them be.
@@ -13,7 +15,7 @@ the *current branch*.  If you have un-pushed commits on other branches, leave th
 git config --global remote.origin.push HEAD
 ```
 
----
+### Creating tracking branches
 
 
 Suppose you create a new branch on your local machine. Now you want to push
@@ -60,7 +62,7 @@ git checkout -b <new-branch-name>
 ```
 
 
-This creates the new branch and switches to it, but **does not change your working files**.  Now you can safely commit on the branch. 
+This creates the new branch and switches to it, but **does not change your working files**.  Now you can safely commit on the branch. [ Stackoverflow link](http://stackoverflow.com/questions/2569459/git-create-a-branch-from-unstagged-uncommited-changes-on-master)
 
 ---
 
