@@ -50,6 +50,20 @@ The `git merge-base b1 b2` thing returns the name of the commit that is the comm
 
 ---
 
+## Doing useful things
+
+
+You are sitting on a branch (say master), and do some edits. Now you decide it wasn't as simple as you thought so you want to create a branch to keep your edits safe while you do something else. 
+
+```wiki
+git checkout -b <new-branch-name>
+```
+
+
+This creates the new branch and switches to it, but **does not change your working files**.  Now you can safely commit on the branch. 
+
+---
+
 ## `git gui` on Windows
 
 
