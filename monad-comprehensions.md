@@ -1,5 +1,8 @@
 # Monad comprehensions
 
+
+Monad comprehensions are currently in development. See ticket [\#4370](https://gitlab.haskell.org//ghc/ghc/issues/4370).
+
 ## Translation rules
 
 ```wiki
