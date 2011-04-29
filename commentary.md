@@ -86,6 +86,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
   - [ Scrap your boilerplate page](http://sourceforge.net/apps/mediawiki/developers/index.php?title=ScrapYourBoilerplate) written by Ralf Lammel.
   - [GHC Source Abbreviations](commentary/abbreviations): Abbreviations used in the GHC code
   - [Safe Haskell](safe-haskell): The design of an extension to Haskell around 'Safe' code.
+  - [Monad Comprehensions](monad-comprehensions): Translation rules and some implementation details
 
 - The Runtime System
 
