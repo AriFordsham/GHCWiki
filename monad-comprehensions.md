@@ -2,4 +2,54 @@
 
 ## Translation rules
 
+```wiki
+Variables    : x and y
+Expressions  : e, f and g
+Patterns     : w
+Qualifiers   : p, q and r
+```
+
+
+The main translation rule for monad comprehensions.
+
+```wiki
+[ e | q ] = [| q |] >>= (return . (\q_v -> e))
+```
+
+`(.)_v` rules. Note that `_v` is a postfix rule application.
+
+```wiki
+(w <- e)_v = w
+(let w = d)_v = w
+(g)_v = ()
+(p , q)_v = (p_v,q_v)
+(p | v)_v = (p_v,q_v)
+(q, then f)_v = q_v
+(q, then f by e)_v = q_v
+(q, then group by e using f)_v = q_v
+(q, then group using f)_v = q_v
+```
+
+`[|.|]` rules.
+
+```wiki
+[| w <- e |] = e
+[| let w = d |] = return d
+[| g |] = guard g
+[| p, q |] = ([| p |] >>= (return . (\p_v ->  [| q |] >>= (return . (\q_v -> (p_v,q_v)))))) >>= id
+[| p | q |] = mzip [| p |] [| q |]
+[| q, then f |] = f [| q |]
+[| q, then f by e |] = f (\q_v -> e) [| q |]
+[| q, then group by e using f |] = (f (\q_v -> e) [| q |]) >>= (return . (unzip q_v))
+[| q, then group using f |] = (f [| q |]) >>= (return . (unzip q_v))
+```
+
+`unzip (.)` rules. Note that `unzip` is a desugaring rule (i.e., not a function to be included in the generated code).
+
+```wiki
+unzip () = id
+unzip x  = id
+unzip (w1,w2) = \e -> ((unzip w1) (e >>= (return .(\(x,y) -> x))), (unzip w2) (e >>= (return . (\(x,y) -> y))))
+```
+
 ## Implementation details
