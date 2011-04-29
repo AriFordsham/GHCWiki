@@ -96,7 +96,7 @@ Here's a selection that we know about.
 
 - *David Mazieres at Stanford wants to implement **Safe Haskell**, a flag for GHC that will guarantee that your program does not use `unsafePerformIO`, foreign calls, RULES, and other stuff stuff.*
 
-- **Ranjit Jhala** at UC San Diego is working on implementing Liquid Types [ http://goto.ucsd.edu/\~rjhala/liquid](http://goto.ucsd.edu/~rjhala/liquid) within GHC. The goal is to allow programmers to use lightweight refinement types to specify key invariants which can then be verified through a combination of type inference and SMT solving.
+- **Ranjit Jhala** at UC San Diego is working on implementing Liquid Types [ http://goto.ucsd.edu/\~rjhala/liquid Liquid](http://goto.ucsd.edu/~rjhala/liquid Liquid) within GHC. The goal is to allow programmers to use lightweight refinement types to specify key invariants which can then be verified through a combination of type inference and SMT solving.
 
 ## The Parallel GHC Project
 
@@ -135,6 +135,8 @@ We have pushed back the release of a stable version of the main DPH libraries ag
 - \[Hoopl\] "A modular, reusable library for dataflow analysis and transformation", Dias, Ramsey, and Peyton Jones, Haskell Symposium 2010, [ http://research.microsoft.com/\~simonpj/papers/c--/](http://research.microsoft.com/~simonpj/papers/c--/)
 
 - \[ImprovingSupercompilation\] "Improving supercompilation: tag-bags, rollback, speculation, normalisation, and generalisation", Bolingbroke and Peyton Jones, submitted to ICFP 2011, [ http://research.microsoft.com/\~simonpj/papers/supercompilation/](http://research.microsoft.com/~simonpj/papers/supercompilation/)
+
+- \[Liquid\] Liquid types, Ranjit Jhala, [ http://goto.ucsd.edu/\~rjhala/liquid](http://goto.ucsd.edu/~rjhala/liquid) Liquid
 
 - \[NewFC\] "Practical aspects of evidence-based compilation in System FC", Vytiniotis and Peyton Jones, submitted to ICFP 2011, [ http://research.microsoft.com/\~simonpj/papers/ext-f/](http://research.microsoft.com/~simonpj/papers/ext-f/)
 
