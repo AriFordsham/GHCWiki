@@ -6,7 +6,7 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
 
  * In the autumn, Dimitrios and Simon PJ implemented a completely
    new constraint solver for the type checker; we also complete an
-   epic JFP paper describing how it works [[http://research.microsoft.com/en-us/um/people/simonpj/papers/constraints/ OutsideIn]].  The new
+   epic JFP paper describing how it works [[http://research.microsoft.com/~simonpj/papers/constraints/ OutsideIn]].  The new
    solver is far more tractable and maintainable than the old type
    checker, and has fixed many outstanding problems.  We are still
    shaking out the last bugs, and we have some nifty ideas for improving
@@ -27,14 +27,14 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
  With the advent of GADTs and type families, the type system of the
  Core had to grow a little.  For a few
  years we have been using an extension of System F, called System
- FC, as described in our 2007 paper [[http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/ FC]].  However, the way that System FC
+ FC, as described in our 2007 paper [[http://research.microsoft.com/~simonpj/papers/ext-f/ FC]].  However, the way that System FC
  was actually ''implemented'' in GHC's Core language was a bit unsatisfactory
  so, with help from '''Brent Yorgey''', Simon PJ is busy re-engineering it. 
  In particular, FC has ''coercion terms'', and these will now 
  be represented by their own data type `Coercion`, rather than being
  squeezed into `Type`.  Moreover, these coercion terms can get big, 
  so there's a new "coercion optimiser" to replace big coercions by
- equivalent smaller ones. All this is described in our new paper [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/ NewFC].
+ equivalent smaller ones. All this is described in our new paper [http://research.microsoft.com/~simonpj/papers/ext-f/ NewFC].
  These changes will (finally) complete the type-family story by
  making so-called "equality superclasses" work for the first time in GHC 7.2.
 
@@ -45,7 +45,7 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
  * '''Edward Yang''' has spearheaded a flurry of work on the new
    code generation backend (`-fuse-new-codegen`, the rewrite of
    the part of GHC that turns STG syntax into C--).  Hoopl is now
-   fully part of GHC [[http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/ Hoopl]], and the new path uses it extensively; we’ve
+   fully part of GHC [[http://research.microsoft.com/~simonpj/papers/c--/ Hoopl]], and the new path uses it extensively; we’ve
    ironed out most of the bugs in the backend; and now we’re
    working on new optimization passes and fixing inefficiencies to
    get the generated code as good (or better) than the old code
@@ -53,7 +53,7 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
    generator will generate better code, but we’re pretty close!
    Stay tuned.
 
- * Simon Marlow and '''Ryan Newton''' have developed a neat new library for deterministic parallel progarmming in Haskell; read their ICFP submission [[http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/ DetPar]]. The model is monadic and has explicit control over granularity, but allows dynamic construction of dataflow networks that are scheduled at runtime, while remaining deterministic and pure.
+ * Simon Marlow and '''Ryan Newton''' have developed a neat new library for deterministic parallel progarmming in Haskell; read their ICFP submission [[http://research.microsoft.com/~simonpj/papers/parallel/ DetPar]]. The model is monadic and has explicit control over granularity, but allows dynamic construction of dataflow networks that are scheduled at runtime, while remaining deterministic and pure.
 
  * '''Simon Marlow: any update?''' Previous entry: ''Simon Marlow is working on a new garbage collector that is designed to improve scaling of parallel programs beyond small numbers of cores, by allowing each processor core to collect its own local heap independently of the other cores.  Some encouraging preliminary results were reported in a [http://hackage.haskell.org/trac/ghc/blog/2010/9#new-gc-preview blog post].  Work on this continues; the complexity of the system and the number of interacting design choices means that achieving an implementation that works well in a broad variety of situations is proving to be quite a challenge.''
 
@@ -84,9 +84,9 @@ do something you have to wait a long time.  So don't wait; join in!
 GHC continues to act as an incubator for interesting new language developments.
 Here's a selection that we know about.
 
- * '''Jeff Epstein''', in collaboration with Andrew Black, has implemented a library that brings Erlang's programming model to Haskell programmers.  In particular, you can write a Haskell program that runs on a cluster of machines that do not share memory.  It is all based on a modest but powerful language extension that makes it possible for a programmer to work with "static" functions; that is, ones consisting of pure code with no free variables.  The paper that describes all this is called "Haskell for the cloud" [[http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/ Cloud]].
+ * '''Jeff Epstein''', in collaboration with Andrew Black, has implemented a library that brings Erlang's programming model to Haskell programmers.  In particular, you can write a Haskell program that runs on a cluster of machines that do not share memory.  It is all based on a modest but powerful language extension that makes it possible for a programmer to work with "static" functions; that is, ones consisting of pure code with no free variables.  The paper that describes all this is called "Haskell for the cloud" [[http://research.microsoft.com/~simonpj/papers/parallel/ Cloud]].
 
- * '''Max Bolingbroke''' continues his !PhD work on supercompilation, with a nice new paper [[http://research.microsoft.com/en-us/um/people/simonpj/papers/supercompilation/ ImprovingSupercompilation]].  The plan is to make his supercompiler part of GHC, over the next year or so.
+ * '''Max Bolingbroke''' continues his !PhD work on supercompilation, with a nice new paper [[http://research.microsoft.com/~simonpj/papers/supercompilation/ ImprovingSupercompilation]].  The plan is to make his supercompiler part of GHC, over the next year or so.
  
  * ''David Mazieres at Stanford wants to implement '''Safe Haskell''', a flag for GHC that will guarantee that your program does not use `unsafePerformIO`, foreign calls, RULES, and other stuff stuff.''
 
@@ -112,25 +112,25 @@ We have pushed back the release of a stable version of the main DPH libraries ag
 
 == Bibliography ==
 
- * [Cloud] "Haskell for the cloud", Epstein, Black, Peyton Jones, submitted to ICFP 2011, http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/
+ * [Cloud] "Haskell for the cloud", Epstein, Black, Peyton Jones, submitted to ICFP 2011, http://research.microsoft.com/~simonpj/papers/parallel/
 
  * [Derivable] "A generic deriving mechanism for Haskell", Magalhães, Dijkstra, Jeuring and Löh, Haskell Symposium 2010, http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf.
 
- * [!DetPar] "A monad for deterministic parallelism", Marlow, Newton, and Peyton Jones, submitted to ICFP 2011, http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/
+ * [!DetPar] "A monad for deterministic parallelism", Marlow, Newton, and Peyton Jones, submitted to ICFP 2011, http://research.microsoft.com/~simonpj/papers/parallel/
 
- * [FC] "System F with type equality coercions", Sulzmann, Chakravarty, Peyton Jones, TLDI 2007, http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/
+ * [FC] "System F with type equality coercions", Sulzmann, Chakravarty, Peyton Jones, TLDI 2007, http://research.microsoft.com/~simonpj/papers/ext-f/
 
- * [Hoopl] "A modular, reusable library for dataflow analysis and transformation", Dias, Ramsey, and Peyton Jones, Haskell Symposium 2010, http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/
+ * [Hoopl] "A modular, reusable library for dataflow analysis and transformation", Dias, Ramsey, and Peyton Jones, Haskell Symposium 2010, http://research.microsoft.com/~simonpj/papers/c--/
 
- * [!ImprovingSupercompilation] "Improving supercompilation: tag-bags, rollback, speculation, normalisation, and generalisation", Bolingbroke and Peyton Jones, submitted to ICFP 2011, http://research.microsoft.com/en-us/um/people/simonpj/papers/supercompilation/
+ * [!ImprovingSupercompilation] "Improving supercompilation: tag-bags, rollback, speculation, normalisation, and generalisation", Bolingbroke and Peyton Jones, submitted to ICFP 2011, http://research.microsoft.com/~simonpj/papers/supercompilation/
 
- * [NewFC] "Practical aspects of evidence-based compilation in System FC", Vytiniotis and Peyton Jones, submitted to ICFP 2011, http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/
+ * [NewFC] "Practical aspects of evidence-based compilation in System FC", Vytiniotis and Peyton Jones, submitted to ICFP 2011, http://research.microsoft.com/~simonpj/papers/ext-f/
 
- * [!OutsideIn] "Modular type inference iwth local assumptions", Vytiniotis, Peyton Jones, Schrijvers, and Sulzmann, Journal of Functional Programming (to appear), http://research.microsoft.com/en-us/um/people/simonpj/papers/constraints/
+ * [!OutsideIn] "Modular type inference iwth local assumptions", Vytiniotis, Peyton Jones, Schrijvers, and Sulzmann, Journal of Functional Programming (to appear), http://research.microsoft.com/~simonpj/papers/constraints/
 
  * [!ParallelGhcProject] "The Parallel GHC Project home page", http://www.haskell.org/haskellwiki/Parallel_GHC_Project
 
- * [Repa] "Regular, shape-polymorphic parallel arrays in Haskell", Keller, Chakravarty, Leshchinskiy, Peyton Jones, and Lippmeier, ICFP 2010.  Paper: http://research.microsoft.com/en-us/um/people/simonpj/papers/ndp/, Hackage package: http://hackage.haskell.org/package/repa
+ * [Repa] "Regular, shape-polymorphic parallel arrays in Haskell", Keller, Chakravarty, Leshchinskiy, Peyton Jones, and Lippmeier, ICFP 2010.  Paper: http://research.microsoft.com/~simonpj/papers/ndp/, Hackage package: http://hackage.haskell.org/package/repa
 
  * [SHE] The Strathclyde Haskell Enhancement, Conor !McBride, 2010, http://personal.cis.strath.ac.uk/~conor/pub/she/
 
