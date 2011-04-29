@@ -5,13 +5,54 @@
 
 GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that the branch has been closed we have finally made the long-planned switch from darcs to git. Meanwhile, we are busily working towards the 7.2 branch, and hope to make the 7.2.1 release in June. Some of the forthcoming highlights are:
 
- * '''Simon PJ: New coercions'''
+ * GHC's intermediate language (which we call "Core") is a simple,
+   explicitly-typed lambda in the style of System F.  Core is far,
+   far simpler than Haskell (`CoreExpr` has only eight data
+   constructors), so GHC can type-check Core very fast and reliably.
+   In theory, such a typecheck is redundant (since the original
+   Haskell program was typechecked), but in practice, typechecking
+   Core is a very powerful internal consistency check on GHC itself:
+   many compiler bugs generate type-incorrect Core. This consistency
+   check is run by `-dcore-lint`.
 
- * '''Simon PJ: generics'''
+ With the advent of GADTs and type families, the type system of the
+ Core necessarily has to become a bit more complicated.  For a few
+ years wa have been using an extension of System F, called System
+ FC, as described in our paper [FC}.  However, the way that System FC
+ was actually ''implemented'' in GHC's Core language was a bit unsatisfactory
+ so, with help from Brent Yorgey, Simon PJ is busy re-engineering it. 
+ In particular, FC has ''coercion terms'', and these will now 
+ be represented by their own data type `Coercion`, rather than being
+ squeezed into `Type`.  Moreover, these coercion terms can get big, 
+ so there's a new "coercion optimiser" to replace big coercions by
+ equivalent smaller ones. All this is described in our new paper [New FC].
+ These changes will (finally) complete the type-family story by
+ making so-called "equality superclasses" work for the first time.
+
+ * In the autumn, Dimitrios and Simon PJ implemented a completely
+   new constraint solver for the type checker; we also complete an
+   epic JFP paper describing how it works [OutsideIn].  The new
+   solver is far more tractable and maintainable than the old type
+   checker, and has fixed many outstanding problems.  We are still
+   shaking out the last bugs, and we have some ideas for improving
+   performance.  Based on this new foundation, we are planning to
+   develop the type system further, notably by adding a richer kind
+   system along the lines of Conor McBride's SHE system [SHE].
+
+ * Pedro Magalhaes has nearly completed his implementation of the
+   '''derivable type classes''' mechanism described in his 2010
+   Haskell Symposium paper [Derivable].  It will be in GHC 7.2.
+
+ * Edward Yang has done a lot of work on the long-promised new
+   code-generation path.  Hoopl is now fully part of GHC, and
+   the new path uses it extensively.  We are now working on making
+   the new pipeline generate better code than the old one.  Stay
+   tuned. * '''Simon PJ: New coercions'''
+
+
 
  * '''Simon PJ: Any update? Any regressions remaining?''' Previous entry: ''As long promised, Simon PJ and Dimitrios have spent a good chunk of the summer doing a '''complete rewrite of the constraint solver in the type inference engine'''.  Because of GHC's myriad type-system extensions, especially GADTs and type families, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [[http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn]].  A blog post describes some consequential changes to let generalisation [[http://hackage.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7 LetGen]].''
 
- ''As a result we have closed dozens of open type inference bugs, especially related to GADTs and type families.''
 
  * '''Simon Marlow: Any update?''' Previous entry: ''In joint work with Phil Trinder and his colleagues at Herriot Watt, Simon M designed implemented a new '''parallel strategies library''', described in their 2010 Haskell Symposium paper [[http://www.haskell.org/~simonmar/papers/strategies.pdf Seq]].''
 
