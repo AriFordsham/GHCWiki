@@ -85,7 +85,7 @@ Here's a selection that we know about.
 
  * '''Jeff Epstein''', in collaboration with Andrew Black, has implemented a library that brings Erlang's programming model to Haskell programmers.  In particular, you can write a Haskell program that runs on a cluster of machines that do not share memory.  It is all based on a modest but powerful language extension that makes it possible for a programmer to work with "static" functions; that is, ones consisting of pure code with no free variables.  The paper that describes all this is called "Haskell for the cloud" [[http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/ Cloud]].
 
- * '''Max Bolingbroke''' continues his !PhD work on supercompilation, with a nice new paper [[ImprovingSupercompilation]].  The plan is to make his supercompiler part of GHC, over the next year or so.
+ * '''Max Bolingbroke''' continues his !PhD work on supercompilation, with a nice new paper [[http://research.microsoft.com/en-us/um/people/simonpj/papers/supercompilation/ ImprovingSupercompilation]].  The plan is to make his supercompiler part of GHC, over the next year or so.
  
  * ''David Mazieres at Stanford wants to implement '''Safe Haskell''', a flag for GHC that will guarantee that your program does not use `unsafePerformIO`, foreign calls, RULES, and other stuff stuff.''
 
