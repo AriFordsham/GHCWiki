@@ -90,7 +90,9 @@ Here's a selection that we know about.
  
  * ''David Mazieres at Stanford wants to implement '''Safe Haskell''', a flag for GHC that will guarantee that your program does not use `unsafePerformIO`, foreign calls, RULES, and other stuff stuff.''
 
- * '''Ranjit: would you like to add a para?'''
+ * '''Ranjit Jhala''' at UC San Diego is working on implementing Liquid Types [[http://goto.ucsd.edu/~rjhala/liquid]] within GHC. The goal is to allow programmers to use lightweight refinement types to specify key invariants which can then be verified through a combination of type inference and SMT solving.
+
+
 
 == The Parallel GHC Project ==
 
