@@ -70,6 +70,18 @@ git checkout -b <new-branch-name>
 
 This creates the new branch and switches to it, but **does not change your working files**.  Now you can safely commit on the branch. [ Stackoverflow link](http://stackoverflow.com/questions/2569459/git-create-a-branch-from-unstagged-uncommited-changes-on-master)
 
+### Work on a branch gotten from the main repo
+
+
+You have done a `git fetch` to get the upstream repo, which has a branch `origin/experiment`.  You want a local `experiment` branch which tracks `origin/experiment`:
+
+```wiki
+git branch --track experiment origin/experiment
+```
+
+
+Now you can `git checkout experiment` to move onto your local `experiment` branch.
+
 ---
 
 ## `git gui` on Windows
