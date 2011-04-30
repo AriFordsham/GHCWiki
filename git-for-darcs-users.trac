@@ -547,6 +547,23 @@ git commit --amend
 
 If the patch is not the last commit you can also use {{{git rebase -i}}} as above, but instead of deleting the line, change {{{pick}}} to {{{edit}}}.  Rebase will then stop and let you edit the files.  Then do your edits, {{{git commit --amend}}}, then continue the rebase with {{{git rebase --continue}}}.
 
+Here's a walkthrough for amending changes you have already made into the second-to-last patch:
+{{{
+# Put the local changes out of the way
+git stash
+# We want to swap the order of HEAD~0 and HEAD~1 (the two most recent patches)
+# We therefore rebase from HEAD~2
+git rebase --interactive HEAD~2
+# You'll get 2 lines like
+# pick 2a37b86 Some commit message
+# pick 4aaaded Another commit message
+<Swap their order, save and quit>
+# Now get our changes back
+git stash pop
+# and amend the commit
+git commit --amend -a
+}}}
+
 You can do a lot more things with {{{git rebase -i}}}, like reordering changes or joining or splitting patches.  See the "Interactive Mode" section of {{{git rebase --help}}} for more information.
 
 TODO: add note for merge commits
