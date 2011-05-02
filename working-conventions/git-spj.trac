@@ -64,7 +64,11 @@ You have done a `git fetch` to get the upstream repo, which has a branch `origin
 {{{
 git checkout --track origin/experiment
 }}}
-This creates a local branch `experiment`, set up to track `origin/experiment`, and checks it out. 
+This 
+ * creates a local branch `experiment`, 
+ * sets it up to track `origin/experiment`, and 
+ * checks it out
+It will fail if local branch `experiment` already exists -- in that case you may want to do the `--set-upstream` thing (see next item). 
 
 === Connect up a local branch with its remote counterpart ===
 
