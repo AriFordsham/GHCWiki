@@ -68,7 +68,14 @@ git checkout -b <new-branch-name>
 ```
 
 
-This creates the new branch and switches to it, but **does not change your working files**.  Now you can safely commit on the branch. [ Stackoverflow link](http://stackoverflow.com/questions/2569459/git-create-a-branch-from-unstagged-uncommited-changes-on-master)
+This creates the new branch and switches to it, but **does not change your working files**.  Now you can safely commit on the branch [ Stackoverflow link](http://stackoverflow.com/questions/2569459/git-create-a-branch-from-unstagged-uncommited-changes-on-master).  Then to push to the master repo:
+
+```wiki
+git push origin <new-branch-name>
+```
+
+
+That will create `<new-branch-name>` in the master repo if it does not already exist.
 
 ### Work on a branch gotten from the main repo
 
