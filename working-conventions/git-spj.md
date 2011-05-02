@@ -96,6 +96,17 @@ This
 
 It will fail if local branch `experiment` already exists -- in that case you may want to do the `--set-upstream` thing (see next item). 
 
+
+If git doesn't know that `origin/experiment` is a branch, it outputs the strange message
+
+```wiki
+fatal: git checkout: updating paths is incompatible with switching branches.
+Did you intend to checkout 'origin/experiment' which can not be resolved as commit?
+```
+
+
+You probably want to do a `git fetch`, then `git branch -r` to see what remote branches there are.
+
 ### Connect up a local branch with its remote counterpart
 
 
