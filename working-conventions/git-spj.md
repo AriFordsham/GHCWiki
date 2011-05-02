@@ -56,7 +56,7 @@ The `git merge-base b1 b2` thing returns the name of the commit that is the comm
 
 ---
 
-## Doing useful things
+## Working with branches
 
 ### Create a branch after doing some edits
 
@@ -83,11 +83,29 @@ That will create `<new-branch-name>` in the master repo if it does not already e
 You have done a `git fetch` to get the upstream repo, which has a branch `origin/experiment`.  You want a local `experiment` branch which tracks `origin/experiment`:
 
 ```wiki
-git branch --track experiment origin/experiment
+git checkout --track origin/experiment
 ```
 
 
-Now you can `git checkout experiment` to move onto your local `experiment` branch.
+This 
+
+- creates a local branch `experiment`, 
+- sets it up to track `origin/experiment`, and 
+- checks it out
+
+
+It will fail if local branch `experiment` already exists -- in that case you may want to do the `--set-upstream` thing (see next item). 
+
+
+If git doesn't know that `origin/experiment` is a branch, the `git checkout` command interprets `origin/experiment` as a filename, and outputs the confusing message
+
+```wiki
+fatal: git checkout: updating paths is incompatible with switching branches.
+Did you intend to checkout 'origin/experiment' which can not be resolved as commit?
+```
+
+
+You probably want to do a `git fetch`, then `git branch -r` to see what remote branches there are.
 
 ### Connect up a local branch with its remote counterpart
 
