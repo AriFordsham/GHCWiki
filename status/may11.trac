@@ -40,7 +40,7 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
 
  * '''Pedro Magalhães''' has nearly completed his implementation of the
    '''derivable type classes''' mechanism described in his 2010
-   Haskell Symposium paper [[http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf Derivable]].  It will be in GHC 7.2.
+   Haskell Symposium paper [[http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf Derivable]] and elsewhere in the HCAR '''link'''.  It will be in GHC 7.2.
 
  * '''Edward Yang''' has spearheaded a flurry of work on the new
    code generation backend (`-fuse-new-codegen`, the rewrite of
