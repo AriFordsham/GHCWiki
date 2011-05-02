@@ -68,7 +68,14 @@ git checkout -b <new-branch-name>
 ```
 
 
-This creates the new branch and switches to it, but **does not change your working files**.  Now you can safely commit on the branch. [ Stackoverflow link](http://stackoverflow.com/questions/2569459/git-create-a-branch-from-unstagged-uncommited-changes-on-master)
+This creates the new branch and switches to it, but **does not change your working files**.  Now you can safely commit on the branch [ Stackoverflow link](http://stackoverflow.com/questions/2569459/git-create-a-branch-from-unstagged-uncommited-changes-on-master).  Then to push to the master repo:
+
+```wiki
+git push origin <new-branch-name>
+```
+
+
+That will create `<new-branch-name>` in the master repo if it does not already exist.
 
 ### Work on a branch gotten from the main repo
 
@@ -81,6 +88,24 @@ git branch --track experiment origin/experiment
 
 
 Now you can `git checkout experiment` to move onto your local `experiment` branch.
+
+### Connect up a local branch with its remote counterpart
+
+
+You are on local branch `experiment` and do `git pull` to pull down changes from `origin/experiment`, but you get this:
+
+```wiki
+You asked me to pull without telling me which branch you
+want to merge with, and 'branch.experiment.merge' in
+your configuration file does not tell me, either. Please
+```
+
+
+Somehow you in a state where `experiment` isn't tracking `origin/experiment`.  To make it tracking, use `--set-upstream`:
+
+```wiki
+git branch --set-upstream experiment origin/experiment
+```
 
 ---
 
