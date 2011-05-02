@@ -70,7 +70,7 @@ This
  * checks it out
 It will fail if local branch `experiment` already exists -- in that case you may want to do the `--set-upstream` thing (see next item). 
 
-If git doesn't know that `origin/experiment` is a branch, the above `git checkout` command interprets `origin/experiment` as a file name, and outputs the strange message
+If git doesn't know that `origin/experiment` is a branch, the `git checkout` command interprets `origin/experiment` as a filename, and outputs the confusing message
 {{{
 fatal: git checkout: updating paths is incompatible with switching branches.
 Did you intend to checkout 'origin/experiment' which can not be resolved as commit?
