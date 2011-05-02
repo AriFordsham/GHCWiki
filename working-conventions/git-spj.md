@@ -97,7 +97,7 @@ This
 It will fail if local branch `experiment` already exists -- in that case you may want to do the `--set-upstream` thing (see next item). 
 
 
-If git doesn't know that `origin/experiment` is a branch, it outputs the strange message
+If git doesn't know that `origin/experiment` is a branch, the above `git checkout` command outputs the strange message
 
 ```wiki
 fatal: git checkout: updating paths is incompatible with switching branches.
