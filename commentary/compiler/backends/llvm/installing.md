@@ -11,7 +11,7 @@ For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/
 ## LLVM Support
 
 
-The LLVM backend only supports LLVM version **2.7** or later. Simply install it and make sure the various llvm tools (opt, llc) are available on your path.
+The LLVM backend only supports LLVM version **2.7** or later. Problems with LLVM \>= 2.9 and GHC 7.0.3 currently exist (see bug [\#5103](https://gitlab.haskell.org//ghc/ghc/issues/5103)). Simply install it and make sure the various llvm tools (opt, llc) are available on your path.
 
 ## Using
 
