@@ -56,7 +56,7 @@ The `git merge-base b1 b2` thing returns the name of the commit that is the comm
 
 ---
 
-## Doing useful things
+## Working with branches
 
 ### Create a branch after doing some edits
 

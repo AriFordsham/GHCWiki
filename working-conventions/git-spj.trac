@@ -44,7 +44,7 @@ git log `git merge-base master my-test`..my-test
 The `git merge-base b1 b2` thing returns the name of the commit that is the common ancestor of branches `b1` and `b2`.
 
 --------------
-== Doing useful things ==
+== Working with branches ==
 
 === Create a branch after doing some edits ===
 
