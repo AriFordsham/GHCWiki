@@ -125,6 +125,21 @@ Somehow you in a state where `experiment` isn't tracking `origin/experiment`.  T
 git branch --set-upstream experiment origin/experiment
 ```
 
+### Undoing a commit you wish you hadn't made
+
+
+If you have not yet pushed, you can just back up the head pointer one step:
+
+- `git reset --soft HEAD^`
+
+
+If you have pushed, you make a commit that exactly undoes what you did, and push that:
+
+- `git revert HEAD`
+
+
+See [ the Git manual](http://www.kernel.org/pub/software/scm/git/docs/user-manual.html#fixing-mistakes) and [ the Git Book](http://book.git-scm.com/4_undoing_in_git_-_reset,_checkout_and_revert.html) on this topic.
+
 ---
 
 ## `git gui` on Windows
