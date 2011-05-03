@@ -48,13 +48,15 @@ In the paper we describe the implementation in [ UHC](http://www.cs.uu.nl/wiki/U
 
 - Generic defaults are properly instantiated when giving an instance without defining the generic default method.
 
+- Base types like `[]`, `Maybe`, tuples, come with Representable0 instances.
+
 ## To do
 
 - Generate `Representable1` instances
 
-- What about base types like `[]`, `Maybe`, tuples, etc.?
-
 - Print also the Rep0 type instance when -ddump-deriving is on
+
+- Give better error messages when we cannot derive Representable0 (currently we say only `Cannot derive Representable`)
 
 ## Testing
 
