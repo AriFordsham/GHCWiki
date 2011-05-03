@@ -55,6 +55,8 @@ instance Encode [a] -- works if there is an instance Representable0 [a]
 
  * Register the `DeriveRepresentable` extension with Cabal.
 
+ * Do we want `Show`, etc. instances for types like `U1`, `:+:`, ...?
+
 == Testing ==
 
  * Tests are available under the `generics` directory of the testsuite.
