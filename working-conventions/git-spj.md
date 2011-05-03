@@ -138,7 +138,7 @@ If you have pushed, you make a commit that exactly undoes what you did, and push
 - `git revert HEAD`
 
 
-See [ http://www.kernel.org/pub/software/scm/git/docs/user-manual.html\#fixing-mistakes](http://www.kernel.org/pub/software/scm/git/docs/user-manual.html#fixing-mistakes)
+See [ the Git manual](http://www.kernel.org/pub/software/scm/git/docs/user-manual.html#fixing-mistakes) and [ the Git Book](http://book.git-scm.com/4_undoing_in_git_-_reset,_checkout_and_revert.html) on this topic.
 
 ---
 
