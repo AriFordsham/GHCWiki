@@ -58,6 +58,8 @@ In the paper we describe the implementation in [ UHC](http://www.cs.uu.nl/wiki/U
 
 - Give better error messages when we cannot derive Representable0 (currently we say only `Cannot derive Representable`)
 
+- Register the `DeriveRepresentable` extension with Cabal.
+
 ## Testing
 
 - Tests are available under the `generics` directory of the testsuite.
