@@ -53,7 +53,7 @@ cd <package>
 
 Points to note here:
 
-- The first step can be done manually, by downloading a zip file from Hackage, or by doing a darcs get from the appropriate repo.  For example:
+- The first step can be done manually, by downloading a zip file from Hackage, or by doing grabbing the source from the appropriate repository.  For example:
 
   ```wiki
   darcs get http://darcs.haskell.org/packages/parallel
