@@ -8,13 +8,13 @@ Everything starts with the main GHC repository (see [Building/GettingTheSources]
 
 ## Files in `$(TOP)`
 
-<table><tr><th>**`darcs-all`**</th>
-<td>[This script](building/darcs-all) allows you to get or pull all the additional repositories that you need to build GHC.  The command-line interface is documented in the file itself.
+<table><tr><th>**`sync-all`**</th>
+<td>[This script](building/sync-all) allows you to get or pull all the additional repositories that you need to build GHC.  The command-line interface is documented in the file itself.
 </td></tr></table>
 
 <table><tr><th>**`packages`**</th>
 <td>
-Lists the packages that `darcs-all` should get or pull.  `packages` is looked at only by `darcs-all`.
+Lists the packages that `sync-all` should get or pull.  `packages` is looked at only by `sync-all`.
 </td></tr></table>
 
 <table><tr><th>**`validate`**</th>
@@ -78,7 +78,7 @@ Header files for the runtime system; see [Commentary/SourceTree/Includes](commen
 ## `utils/`, `libffi/`
 
 
-The `utils` directory contains support utilities that GHC uses.  Some of these are themselves separate repositories that `darcs-all` pulls; others are part of the main GHC repository. 
+The `utils` directory contains support utilities that GHC uses.  Some of these are themselves separate repositories that `sync-all` pulls; others are part of the main GHC repository. 
 
 
 These utils may be built with the bootstrapping compiler, for use during the build, or with the stage1 or stage2 compiler, for installing. Some of them are built with both; we can't install the utils built with the bootstrapping compiler as they may use different versions of C libraries. The reason we use sometimes use stage2 rather than stage1 is that some utils, e.g. haddock, need the GHC API package.
@@ -92,7 +92,7 @@ These utils may be built with the bootstrapping compiler, for use during the bui
 ## `testsuite/`, `nofib/`
 
 
-The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.  Each is a separate repository, which can be gotten with `darcs-all`.   More info on each is at:
+The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.  Each is a separate repository, which can be gotten with `sync-all`.   More info on each is at:
 
 - [Building/RunningTests](building/running-tests)
 - [Building/RunningNoFib](building/running-no-fib)
