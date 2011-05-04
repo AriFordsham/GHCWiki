@@ -114,7 +114,7 @@ following sections.
 
 
 NOTE: if you're starting from a source distribution that you
-downloaded from the GHC web site, rather than darcs sources, you can
+downloaded from the GHC web site, rather than git sources, you can
 skip this step.  Source distributions come with configure scripts
 pre-generated for you.
 
