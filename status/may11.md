@@ -61,8 +61,6 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
 
 - **Simon Marlow** has implemented a chunked stack representation, which should improve the performance of programs that need large stacks.  See the [ http://hackage.haskell.org/trac/ghc/blog/stack-chunks ChunkedStack](http://hackage.haskell.org/trac/ghc/blog/stack-chunks ChunkedStack).  This is already in the mainline and will be in the 7.2.1 release.
 
-- **David Terei** has fixed a number of bugs in the LLVM backend, particularly on Mac OSX. OSX 64bit and LLVM 2.9 are now supported in HEAD and will be included in the next GHC release.
-
 
 We are fortunate to have a growing team of people willing to roll up their
 sleeves and help us with GHC.  Amongst those who have been active recently are:
