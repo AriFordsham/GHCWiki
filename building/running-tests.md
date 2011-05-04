@@ -9,7 +9,7 @@ to use the testsuite. If you want to run the testsuite in parallel then you need
 If you have not checked out the test suite, first run:
 
 ```wiki
-       ./sync-all --testsuite get
+./sync-all --testsuite get
 ```
 
 
