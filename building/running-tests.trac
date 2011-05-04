@@ -7,7 +7,7 @@ to use the testsuite. If you want to run the testsuite in parallel then you need
 
 If you have not checked out the test suite, first run:
 {{{
-       ./darcs-all --testsuite get
+       ./sync-all --testsuite get
 }}}
 
 If you just want to run the whole test suite, then in the root of the tree running
@@ -110,8 +110,10 @@ The following variables may be set on the make command line:
 The following ways are defined (for GHC, see the file config/ghc for the complete list):
 {{{
         normal                  -- no special options
+        llvm                    -- -fllvm
         optc                    -- -O -fvia-C
         optasm                  -- -O -fasm
+        optllvm                 -- -O -fllvm
         profc                   -- -O -prof -auto-all -fvia-C
         profasm                 -- -O -prof -auto-all -fasm
         ghci                    -- (run only, not compile) run test under GHCi
