@@ -4,13 +4,13 @@ All GHC build trees contain a set of libraries, called the '''Boot Packages'''. 
 
 The Boot Packages, along with the other subcomponents of the GHC build system, are listed in the file `$(TOP)/packages` in a GHC tree. 
 
-All boot packages have a Darcs repo in http://darcs.haskell.org/packages:
+All boot packages have a Git repo in http://darcs.haskell.org/packages:
 
  * Having all the repos in one place makes it easy and uniform for GHC developers to get all the packages.
 
  * In a build tree, these packages each occupy a sub-directory of `$(TOP)/libraries`.
 
- * For INDEPENDENT packages (see "Coupling to GHC", below), the Darcs repo in http://darcs.haskell.org/packages is a '''lagging repo'''. That means
+ * For INDEPENDENT packages (see "Coupling to GHC", below), the Git repo in http://darcs.haskell.org/packages is a '''lagging repo'''. That means
    * Don't push to it.
    * Update it from the package's master repo at convenient intervals.
    In this way GHC developers are not exposed to package upgrades, except when we want.
@@ -78,12 +78,12 @@ To find out which packages are currently zero-boot packages, do the following in
 $ make show VALUE=BOOT_PKGS
 }}}
 
-Some Zero-boot packages are '''maintained by other people'''. In order to avoid GHC being exposed to day-by-day changes in these packages, we maintain a "lagging" Darcs repository for each that we occasionally sync with the master repository.  We never push patches to lagging repository; rather we push to the master (in discussion with the package maintainer), and pull the patches into the lagging repo.  The current Zero-boot packages of this kind are:
+Some Zero-boot packages are '''maintained by other people'''. In order to avoid GHC being exposed to day-by-day changes in these packages, we maintain a "lagging" Git repository for each that we occasionally sync with the master repository.  We never push patches to lagging repository; rather we push to the master (in discussion with the package maintainer), and pull the patches into the lagging repo.  The current Zero-boot packages of this kind are:
 
  * `Cabal`: we frequently update Cabal and GHC in sync
  * `binary` (renamed to `ghc-binary` in the 6.12 branch): required by `bin-package-db`.
 
-Other Zero-boot packages are '''maintained by us'''.  There is just one Darcs repo for each, the master.  When we make a GHC release, we simultaneously tag and release each of these packages.  They are:
+Other Zero-boot packages are '''maintained by us'''.  There is just one Git repo for each, the master.  When we make a GHC release, we simultaneously tag and release each of these packages.  They are:
  * `hpc`
  * `extensible-exceptions`: this is a shim that provides an API to older versions of GHC that is compatible with what the current `base` package now exports.  So, unusually, `extensible-exceptions` is a zero-boot package, but not a boot package.
  * `bin-package-db`: a GHC-specific package that provides binary serialisation of the package database, use by `ghc-pkg` and GHC itself.
