@@ -1,6 +1,3 @@
-
-\[ Up: [Commentary/Compiler/HscMain](commentary/compiler/hsc-main) \]
-
 # The renamer
 
 
