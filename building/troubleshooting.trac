@@ -61,7 +61,7 @@ Simon and/or Ian plan to investigate; is MSYS 1.0.10 really so broken?
 
 On MSYS I got this:
 {{{
-bash$ ./darcs-all get
+bash$ ./sync-all get
      ....snip...
 == Syncing tarballs
 == running  wget http://darcs.haskell.org/ghc-tarballs/binutils-2.19.1-mingw32-
@@ -70,39 +70,6 @@ wget: missing URL
 Usage: wget [OPTION]... [URL]...
 }}}
 This happened to me with an old version of the shell (say "sh --version").  I think perhaps the path-mangling is different.  With the MSYS recommended [wiki:Building/Preparation/Windows here], all is well.  The shell there is version 3.1.0(1).
-
-== Pulling from "simonpj@darcs.haskell.org;c:\\msys\\1.0\\home\\darcs\\ghc" ==
-
-On Windows under MSYS, suppose your `_darcs/pref/defaultrepo` contains `simonpj@darcs.haskell.org:/home/darcs/ghc` (i.e. you are using an SSH connection). Then `darcs_all` will screw up: 
-{{{
-bash-3.1$ ./darcs-all pull
-== running darcs pull --repodir . simonpj@darcs.haskell.org:/home/darcs/ghc
-No remote changes to pull in!
-== running darcs pull --repodir utils/hsc2hs simonpj@darcs.haskell.org:/home/darcs/hsc2hs
-Reading inventory of repository c:/code/HEAD/utils/hsc2hs inventory
-No remote changes to pull in!
-...
-}}}
-Looks ok, but look at the defaultrepo:
-{{{
-bash-3.1$ cat _darcs/prefs/defaultrepo
-simonpj@darcs.haskell.org;c:\msys\1.0\home\darcs\ghc/ghc
-}}}
-Glarp!  And indeed if you re-try the pull, bad things happen:
-{{{
-./darcs-all pull
-== running darcs pull --repodir . simonpj@darcs.haskell.org;c:\msys\1.0\home\darcs\ghc/ghc
-No remote changes to pull in!
-== running darcs pull --repodir utils/hsc2hs simonpj@darcs.haskell.org;c:\msys\1.0\home\darcs\ghc/hsc2hs
-...
-}}}
-Since defaultrepo is hosed, plain darcs fails too:
-{{{
-bash-3.1$ darcs pull
-Pulling from "simonpj@darcs.haskell.org;c:\\msys\\1.0\\home\\darcs\\ghc"...
-No remote changes to pull in!
-}}}
-This problem seems hard to fix, because it's a bug in MSYS's perl.  See #3499 for a workaround.
 
 == configure: error: C++ preprocessor "/lib/cpp" fails sanity check ==
 
@@ -220,22 +187,6 @@ configure: error: ./configure failed for ghc
 }}}
 Solution: delete {{{configure}}} first.
 
-=== Configure can't find darcs version ===
-
-When you run your configure script, it falls over with 
-{{{
-sh-2.04$ ./configure --with-gcc=c:/mingw/bin/gcc --with-ld=c:/mingw/bin/ld.exe --host=i386-unknown-mingw32
-configure: WARNING: If you wanted to set the --build type, don't use --host.
-    If a cross compiler is detected then cross compile mode will be used.
-checking for GHC version date... -nThe system cannot find the file specified.
-configure: error: failed to detect version date: check that darcs is in your path
-}}}
-This error is nothing to do with `darcs`!  The darcs-version test in `configure` uses `sort`, and it is picking up the Windows sort (in `c:\windows\system32`) instead of the MSYS or Cygwin sort.  
-
-Solution: either hack the configure script by hand, or (better) make sure that MSYS/Cygwin are in your PATH before Windows. Since `c:\windows\system32` is, by default, in the System Environment Variable called PATH, and System Variables come first when searching for paths, you'll have to put MSYS/Cygwin bin directory in the System PATH, before `c:\windows\system32`.
-
-(Incidentally, `find` is another program that Windows has too, with different functionality to Unix.)
-
 === Argument list too long ===
 
 You may find this towards the end of compiling the base library:
@@ -328,7 +279,7 @@ make[1]: *** [depend] Error 1
 make: *** [stage1] Error 1
   }}}
 '''Possible Solution'''::
-Be sure you have run {{{sh darcs-all get}}} to get all necessary packages. Don't forget to run {{{perl boot}}} again after you pull in new packages.
+Be sure you have run {{{./sync-all get}}} to get all necessary packages. Don't forget to run {{{./boot}}} again after you pull in new packages.
 
 === xargs: /usr/bin/ar: terminated by signal 11 ===
 
@@ -436,27 +387,6 @@ make[1]: *** [all] Error 1
 make[1]: Leaving directory `/cygdrive/e/ghc-stage1/ghc'
 make: *** [all] Error 1
 }}}
-
-=== getCurrentDirectory: resource exhausted (Too many open files) ===
-
-By default, Mac OS X limits the number of open files to 256.  This may cause problems when applying patches in step 3 of ''Getting a GHC source tree using darcs'' with darcs 1.0.9.
-
-{{{
-$ darcs pull -a
-Pulling from "http://darcs.haskell.org/ghc"...
-This is the GHC darcs repository (HEAD branch)
-
-For more information, visit the GHC developer wiki at
-  http://hackage.haskell.org/trac/ghc
-**********************
-darcs: getCurrentDirectory: resource exhausted (Too many open files)
-}}}
-
-If this happens, try increasing the number of open files allowed by typing in {{{$ ulimit -n unlimited}}} and try pulling again.  If this fails, close all terminal windows, restart Terminal.app, and try again.
-
-If this still doesn't work, try pulling 100 patches at a time using the {{{darcs pull}}} command (notice the lack of the {{{-a}}} flag).  Hold down 'y' until 100 or so patches are accepted, then hit 'd' to skip the rest; repeat until all patches are applied.  If this fails, try with less than 100 patches at a time (e.g., 50).
-
-This issue has been reported as [http://bugs.darcs.net/issue560 issue 560] in the darcs bug tracking system.
 
 === Ubuntu: {{{dash}}} vs {{{bash}}} ===
 In Ubuntu 6.10 the default system shell {{{/bin/sh}}} was changed to {{{dash}}} (The Debian Almquist Shell) instead of {{{bash}}}, see [http://wiki.ubuntu.com/DashAsBinSh DashAsBinSh]. This has been reported to break the GHC build. Until the GHC scripts are updated, the easiest way to fix this problem is to (as {{{root}}}) change the {{{/bin/sh}}} link back to {{{/bin/bash}}}. There should be minimal effect on the rest of the system, bar a small speed penalty for script heavy processes due to {{{bash}}} slowness.
