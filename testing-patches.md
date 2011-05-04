@@ -26,7 +26,7 @@ CPUS=8 sh validate
 ```
 
 
-Assuming all is well, go ahead and commit your changes! If you have commit access then just push as normal. If not, use "darcs send --edit-description" and add a note to say what testing you have done, and on which operating system/architecture.
+Assuming all is well, go ahead and commit your changes! If you have commit access then just push as normal. If not, use "git send-email" and add a note to say what testing you have done, and on which operating system/architecture. Or send a normal email with a pull request to the ghc mailing list.
 
 ## More details on validation
 
