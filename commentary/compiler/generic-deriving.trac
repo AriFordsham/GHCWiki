@@ -57,7 +57,7 @@ instance Encode [a] -- works if there is an instance Representable0 [a]
 
  * Do we want `Show`, etc. instances for types like `U1`, `:+:`, ...?
 
- * Can `HsNumTy` go?
+ * Can `HsNumTy` and `TypePat` go?
 
 == Testing ==
 
