@@ -62,6 +62,8 @@ In the paper we describe the implementation in [ UHC](http://www.cs.uu.nl/wiki/U
 
 - Do we want `Show`, etc. instances for types like `U1`, `:+:`, ...?
 
+- Can `HsNumTy` go?
+
 ## Testing
 
 - Tests are available under the `generics` directory of the testsuite.
