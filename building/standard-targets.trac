@@ -18,9 +18,6 @@ The following targets work both at the top level, and in any subdirectory of the
   created by `make`.  Don't delete the files that record the
   configuration.
 
- `html`, `pdf`, `ps`::
-  Build documentation below the current directory (if any) in HTML, PDF, or Postscript format respectively.
-
 To see how these targets are defined: [wiki:Building/Architecture/Idiom/StandardTargets].
 
 == Top level targets ==
