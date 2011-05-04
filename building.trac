@@ -1,5 +1,3 @@
-
-
 = Building and Porting GHC =
 
 This Guide is primarily aimed at those who want to build and/or
@@ -56,13 +54,9 @@ Platform-specific building instructions:
  * [wiki:Building/MacOSX Building under MacOS X]
  * [wiki:Building/Solaris Building under Solaris]
 
-
-
-
 == Contributed documentation ==
 
 Please feel free to add pages here.  In due course, information can be incorporated into the main documentation above.
 
- * [wiki:ProblemsCompilingGhc]: Hints about building GHC on Windows platforms (somewhat obsolete)
  * [wiki:SonyPS3] : Hints for building on the Sony PS3
  * [wiki:GhcCoverage Code coverage of our testsuite]
