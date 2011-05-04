@@ -9,7 +9,7 @@ to use the testsuite. If you want to run the testsuite in parallel then you need
 If you have not checked out the test suite, first run:
 
 ```wiki
-       ./darcs-all --testsuite get
+       ./sync-all --testsuite get
 ```
 
 
@@ -159,8 +159,10 @@ The following ways are defined (for GHC, see the file config/ghc for the complet
 
 ```wiki
         normal                  -- no special options
+        llvm                    -- -fllvm
         optc                    -- -O -fvia-C
         optasm                  -- -O -fasm
+        optllvm                 -- -O -fllvm
         profc                   -- -O -prof -auto-all -fvia-C
         profasm                 -- -O -prof -auto-all -fasm
         ghci                    -- (run only, not compile) run test under GHCi
