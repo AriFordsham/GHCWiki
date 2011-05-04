@@ -1,6 +1,3 @@
-
-Video: [ Compiler Pipeline II](http://video.google.com/videoplay?docid=5254545394467397086) (10'16")
-
 # Compiling one module: HscMain
 
 
@@ -8,7 +5,10 @@ Here we are going to look at the compilation of a single module.
 There is a picture that goes with this description, which appears at the bottom of this page, but you'll probably find it easier to open [this link](commentary/compiler/hsc-pipe) in another window, so you can see it at the same time as reading the text.
 
 
-Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called HscMain ([compiler/main/HscMain.lhs](/trac/ghc/browser/ghc/compiler/main/HscMain.lhs)).  Each data type's representation can be dumped for further inspection using a `-ddump-*` flag.  Here are the steps it goes through:
+You can also watch a **video** of Simon Peyton-Jones explaining the compilation pipeline here: [ Compiler Pipeline II](http://video.google.com/videoplay?docid=5254545394467397086) (10'16")
+
+
+Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called HscMain ([compiler/main/HscMain](/trac/ghc/browser/ghc/compiler/main/HscMain)).  Each data type's representation can be dumped for further inspection using a `-ddump-*` flag.  Here are the steps it goes through:
 
 - The **Front End** processes the program in the [big HsSyn type](commentary/compiler/hs-syn-type). `HsSyn` is parameterised over the types of the term variables it contains.  The first three passes (the front end) of the compiler work like this:
 
