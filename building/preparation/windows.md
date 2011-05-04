@@ -18,7 +18,7 @@ The next three are just zip files, you can unpack them wherever you like, but yo
 
 - Install Happy: [http://www.haskell.org/ghc/tools/Win32/happy-1.17.zip](http://www.haskell.org/ghc/tools/Win32/happy-1.17.zip)
 - Install Alex: [http://www.haskell.org/ghc/tools/Win32/alex-2.2.zip](http://www.haskell.org/ghc/tools/Win32/alex-2.2.zip)
-- Install Darcs: [http://www.haskell.org/ghc/tools/Win32/darcs.zip](http://www.haskell.org/ghc/tools/Win32/darcs.zip) (or you may fare better with a newer release from [ http://wiki.darcs.net/Binaries](http://wiki.darcs.net/Binaries))
+- Install Git: [ http://git-scm.com/](http://git-scm.com/)
 
 
 Now set your `PATH`.  We recommend doing this by creating a file `.profile` in your home directory (by default `c:/msys/1.0/home/<username>`).  The contents of your `.profile` should be something like this:
