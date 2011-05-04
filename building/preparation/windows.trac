@@ -1,5 +1,3 @@
-
-
 = Setting up a Windows system for building GHC =
 
 Installing the following will get you a working build environment with MSYS (alternatively, [wiki:Building/Windows/Cygwin install Cygwin]).  For your convenience we've cached a working set of build tools that you can download.  Note: we recommend not installing anything in a directory that contains spaces.
@@ -17,7 +15,7 @@ The next three are just zip files, you can unpack them wherever you like, but yo
 
  * Install Happy: [http://www.haskell.org/ghc/tools/Win32/happy-1.17.zip]
  * Install Alex: [http://www.haskell.org/ghc/tools/Win32/alex-2.2.zip]
- * Install Darcs: [http://www.haskell.org/ghc/tools/Win32/darcs.zip] (or you may fare better with a newer release from http://wiki.darcs.net/Binaries)
+ * Install Git: [http://git-scm.com/]
 
 Now set your `PATH`.  We recommend doing this by creating a file `.profile` in your home directory (by default `c:/msys/1.0/home/<username>`).  The contents of your `.profile` should be something like this:
 
