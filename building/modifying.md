@@ -1,5 +1,3 @@
-**NOTE**: this page relates to the new GHC build system, which was added to GHC in April 2009. For documentation of the "old" build system, see [Attic/Building/Old/Using](attic/building/old/using) and [Attic/Building/BuildSystem](attic/building/build-system).
-
 # Modifying the build system
 
 
@@ -88,7 +86,7 @@ To add a module to the `ghc` package:
 
 To retire a GHC source file that is no longer needed:
 
-- Remove the working copy of the file (darcs will notice it is gone; if you are using git use `git rm`.
+- Remove the working copy of the file (git will notice it is gone), or use `git rm`.
 - Remove the module from the list of modules in [compiler/ghc.cabal.in](/trac/ghc/browser/ghc/compiler/ghc.cabal.in).
 - To remove all mention of the file from derived dependency files, it is necessary to do something on the order of
 
@@ -120,7 +118,7 @@ To have the change propagated to the stage 2 compiler, either go and make stage 
 
 Adding a new package is quite straightforward:
 
-- To arrange that the package is checked out by `darcs-all`, add an entry to the [packages](/trac/ghc/browser/ghc/packages) file.
+- To arrange that the package is checked out by `sync-all`, add an entry to the [packages](/trac/ghc/browser/ghc/packages) file.
 - run `perl boot` to generate the `ghc.mk` and `GNUmakefile` files in your package's build.
 - Add an entry to the `PACKAGES` variable in [ghc.mk](/trac/ghc/browser/ghc/ghc.mk).  The list in `PACKAGES` is kept in dependency order: each package must appear after the packages it depends on.
 
