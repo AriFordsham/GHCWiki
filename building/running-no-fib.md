@@ -6,7 +6,7 @@ The NoFib benchmark suite is a collection of (mostly old) Haskell programs that 
 ## Getting nofib
 
 
-The NoFib suite is kept in a separate darcs repository (see [Repositories](repositories)), and it should be checked out at the top level of a GHC source tree, i.e. at the same level as `compiler` and `libraries`. From your GHC tree, run:
+The NoFib suite is kept in a separate git repository (see [Repositories](repositories)), and it should be checked out at the top level of a GHC source tree, i.e. at the same level as `compiler` and `libraries`. From your GHC tree, run:
 
 ```wiki
 ./sync-all --nofib get
