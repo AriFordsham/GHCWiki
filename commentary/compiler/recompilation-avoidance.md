@@ -177,7 +177,12 @@ An [interface file](commentary/compiler/iface-files) contains:
     exposes about its implementation: think of this as a hash of
     *export-list hash* and *decls*.
   - The *export-list hash*, which depends on the contents of the
-    export list (a hash of *exports*), the *orphan hash* (see [Orphans](commentary/compiler/recompilation-avoidance#orphans)) and the package dependencies (see [Package Version Changes](commentary/compiler/recompilation-avoidance#package-version-changes)).
+    export list (a hash of *exports*), the *orphan hash* (see [Orphans](commentary/compiler/recompilation-avoidance#orphans)) 
+    and the package dependencies (see [Package Version Changes](commentary/compiler/recompilation-avoidance#package-version-changes)).
+    The export-list hash only depends on the names of the exports for the modules. The
+    types of these exports are ignored in calculating the hash. Only a change of name
+    or removal or addition of an export will change the hash. Not a type change of
+    definition change.
   - The *orphan hash*, which depends on all the orphan
     instances/rules in the, and the orphan hashes of all orphan
     modules below this module in the dependency tree (see [Orphans](commentary/compiler/recompilation-avoidance#orphans)).
@@ -401,7 +406,9 @@ The fingerprint for `D.h` has changed, because we changed its
 definition.  The fingerprint for `D.f` has also changed, because it
 depends on `D.h`.  And consequently, the ABI hash has changed, and so
 has the interface hash (although the export hash and orphan hash are
-still the same).
+still the same). Note that it is significant that we used '-O' here.
+If we hadn't used '-O' then a change of a definition doesn't change
+any of the hashes because of the lack of inlining.
 
 
 Why did the fingerprint for `D.f` have to change?  This is vital,
