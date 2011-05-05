@@ -66,7 +66,7 @@ We are fortunate to have a growing team of people willing to roll up their
 sleeves and help us with GHC.  Amongst those who have been active recently are:
 
 - Mark Lentczner and Dan Knapp have been working on cross-compilation support
-- Continued work on the new I/O manager by Johan Tibbe.
+- Continued work on the new I/O manager by Johan Tibell.
 - Various improvements and build fixes for OS X, from PHO, Greg Wright, Thorkil Naur and William Knop
 - Solaris fixes from Karel Gardas and Christian Maeder
 - Gentoo fixes (for SE Linux and x86 FreeBSD support) from Sergei Trofimovich
