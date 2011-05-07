@@ -1,6 +1,4 @@
 
-'''WARNING: This information is currently copied verbatim from the old commentary. It has not yet been sanity checked.'''
-
 = The GHC Commentary: GHCi =
 
 This isn't a coherent description of how GHCi works, sorry. What it is (currently) is a dumping ground for various bits of info pertaining to GHCi, which ought to be recorded somewhere.

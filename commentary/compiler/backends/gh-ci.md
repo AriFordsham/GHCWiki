@@ -1,5 +1,3 @@
-**WARNING: This information is currently copied verbatim from the old commentary. It has not yet been sanity checked.**
-
 # The GHC Commentary: GHCi
 
 
