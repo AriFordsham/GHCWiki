@@ -82,7 +82,7 @@ Space in info tables is a premium: adding a word to the standard info table stru
 
 === {{{TABLES_NEXT_TO_CODE}}} ===
 
-Note that the info table is followed immediately by the entry code, rather than the code being at the end of an indirect pointer.  This both reduces the size of the info table and eliminates one indirection when jumping to the entry code; however, arranging to generate code like this presents some difficulties when compiling via C, see [wiki:Commentary/EvilMangler].  
+Note that the info table is followed immediately by the entry code, rather than the code being at the end of an indirect pointer.  This both reduces the size of the info table and eliminates one indirection when jumping to the entry code.  
 
 GHC can generate code that uses the indirect pointer instead; the {{{TABLES_NEXT_TO_CODE}}} turns on the optimised layout.  Generally {{{TABLES_NEXT_TO_CODE}}} is turned off when compiling unregisterised.
 
