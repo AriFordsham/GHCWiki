@@ -55,16 +55,6 @@ The code generation scheme is straightforward (naive, in fact). `-ddump-bcos` pr
 
  * `case`s as usual, become: push the return continuation, enter the scrutinee. There is some magic to make all combinations of compiled/interpreted calls and returns work, described below. In the interpreted case, all `case` alts are compiled into a single big return BCO, which commences with instructions implementing a switch tree. 
 
-=== ARGCHECK magic ===
-
-You may find ARGCHECK instructions at the start of BCOs which don't appear to need them; case continuations in particular. These play an important role: they force objects which should evaluated to BCOs to actually be BCOs.
-
-Typically, there may be an application node somewhere in the heap. This is a thunk which when leant on turns into a BCO for a return continuation. The thunk may get entered with an update frame on top of the stack. This is legitimate since from one viewpoint this is an AP which simply reduces to a data object, so does not have functional type. However, once the AP turns itself into a BCO (so to speak) we cannot simply enter the BCO, because that expects to see args on top of the stack, not an update frame. Therefore any BCO which expects something on the stack above an update frame, even non-function BCOs, start with an ARGCHECK. In this case it fails, the update is done, the update frame is removed, and the BCO re-entered. Subsequent entries of the BCO of course go unhindered.
-
-The optimised (#undef REFERENCE_INTERPRETER) handles this case specially, so that a trip through the scheduler is avoided. When reading traces from +RTS -D2 -RTS, you may see BCOs which appear to execute their initial ARGCHECK insn twice. The first time it fails; the interpreter does the update immediately and re-enters with no further comment.
-
-This is all a bit ugly, and, as SimonM correctly points out, it would have been cleaner to make BCOs unpointed (unthunkable) objects, so that a pointer to something :: BCO# really points directly at a BCO.
-
 === Stack management ===
 
 There isn't any attempt to stub the stack, minimise its growth, or generally remove unused pointers ahead of time. This is really due to lazyness on my part, although it does have the minor advantage that doing something cleverer would almost certainly increase the number of bytecodes that would have to be executed. Of course we SLIDE out redundant stuff, to get the stack back to the sequel depth, before returning a HNF, but that's all. As usual this is probably a cause of major space leaks.
