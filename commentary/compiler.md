@@ -11,6 +11,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
   - [Overview](commentary/compiler/hsc-main) gives the big picture. 
   - Some details of the [parser](commentary/compiler/parser)
   - Some details of the [renamer](commentary/compiler/renamer)
+  - Some details of the [typechecker](commentary/compiler/type-checker)
   - Some details of the [code generator](commentary/compiler/code-gen)
   - A guide to the [generated assembly code](commentary/compiler/generated-code)
 
