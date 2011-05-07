@@ -57,23 +57,19 @@ The code generation scheme is straightforward (naive, in fact). `-ddump-bcos` pr
 
 === Stack management ===
 
-There isn't any attempt to stub the stack, minimise its growth, or generally remove unused pointers ahead of time. This is really due to lazyness on my part, although it does have the minor advantage that doing something cleverer would almost certainly increase the number of bytecodes that would have to be executed. Of course we SLIDE out redundant stuff, to get the stack back to the sequel depth, before returning a HNF, but that's all. As usual this is probably a cause of major space leaks.
+There isn't any attempt to stub the stack, minimise its growth, or generally remove unused pointers ahead of time. This is really due to laziness on my part, although it does have the minor advantage that doing something cleverer would almost certainly increase the number of bytecodes that would have to be executed. Of course we `SLIDE` out redundant stuff, to get the stack back to the sequel depth, before returning a HNF, but that's all. As usual this is probably a cause of major space leaks.
 
 === Building constructors ===
 
-Constructors are built on the stack and then dumped into the heap with a single PACK instruction, which simply copies the top N words of the stack verbatim into the heap, adds an info table, and zaps N words from the stack. The constructor args are pushed onto the stack one at a time. One upshot of this is that unboxed values get pushed untaggedly onto the stack (via PUSH_UBX), because that's how they will be in the heap. That in turn means that the stack is not always walkable at arbitrary points in BCO execution, although naturally it is whenever GC might occur.
+Constructors are built on the stack and then dumped into the heap with a single `PACK` instruction, which simply copies the top N words of the stack verbatim into the heap, adds an info table, and zaps N words from the stack. The constructor args are pushed onto the stack one at a time. One upshot of this is that unboxed values get pushed untaggedly onto the stack (via `PUSH_UBX`), because that's how they will be in the heap. That in turn means that the stack is not always walkable at arbitrary points in BCO execution, although naturally it is whenever GC might occur.
 
 Function closures created by the interpreter use the AP-node (tagged) format, so although their fields are similarly constructed on the stack, there is never a stack walkability problem.
-
-=== Unpacking constructors ===
-
-At the start of a case continuation, the returned constructor is unpacked onto the stack, which means that unboxed fields have to be tagged. Rather than burdening all such continuations with a complex, general mechanism, I split it into two. The allegedly-common all-pointers case uses a single UNPACK insn to fish out all fields with no further ado. The slow case uses a sequence of more complex UPK_TAG insns, one for each field (I think). This seemed like a good compromise to me.
 
 === Perspective ===
 
 I designed the bytecode mechanism with the experience of both STG hugs and Classic Hugs in mind. The latter has an small set of bytecodes, a small interpreter loop, and runs amazingly fast considering the cruddy code it has to interpret. The former had a large interpretative loop with many different opcodes, including multiple minor variants of the same thing, which made it difficult to optimise and maintain, yet it performed more or less comparably with Classic Hugs.
 
-My design aims were therefore to minimise the interpreter's complexity whilst maximising performance. This means reducing the number of opcodes implemented, whilst reducing the number of insns despatched. In particular there are only two opcodes, PUSH_UBX and UPK_TAG, which deal with tags. STG Hugs had dozens of opcodes for dealing with tagged data. In cases where the common all-pointers case is significantly simpler (UNPACK) I deal with it specially. Finally, the number of insns executed is reduced a little by merging multiple pushes, giving PUSH_LL and PUSH_LLL. These opcode pairings were determined by using the opcode-pair frequency profiling stuff which is ifdef-d out in Interpreter.c. These significantly improve performance without having much effect on the uglyness or complexity of the interpreter.
+My design aims were therefore to minimise the interpreter's complexity whilst maximising performance. This means reducing the number of opcodes implemented, whilst reducing the number of insns despatched. In particular, very few (TODO: How many? Which?) opcodes which deal with tags. STG Hugs had dozens of opcodes for dealing with tagged data. Finally, the number of insns executed is reduced a little by merging multiple pushes, giving `PUSH_LL` and `PUSH_LLL`. These opcode pairings were determined by using the opcode-pair frequency profiling stuff which is ifdef-d out in Interpreter.c. These significantly improve performance without having much effect on the ugliness or complexity of the interpreter.
 
 Overall, the interpreter design is something which turned out well, and I was pleased with it. Unfortunately I cannot say the same of the bytecode generator.
 
