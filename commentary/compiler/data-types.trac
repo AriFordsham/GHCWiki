@@ -20,7 +20,7 @@ GHC now generates three unique `Name`s for each data constructor:
                                String  Name space     Used for
 ---------------------------------------------------------------------------
 The "source data con"            MkT    DataName      The DataCon itself
-The "worker data con"	           MkT    VarName       Its worker Id
+The "worker data con"            MkT    VarName       Its worker Id
   aka "representation data con"
 The "wrapper data con"           $WMkT  VarName       Its wrapper Id (optional)
 }}}
