@@ -1,5 +1,3 @@
-**WARNING: This information is currently copied verbatim from the old commentary. It has not yet been sanity checked.**
-
 # The GHC Commentary: GHCi
 
 
@@ -18,11 +16,11 @@ Here are some tips for tracking down interactive nonsense:
 
 - Find the smallest source fragment which causes the problem.
 
-- Using an RTS compiled with -DDEBUG (nb, that means the RTS from the previous stage!), run with +RTS -D2 to get a listing in great detail from the interpreter. Note that the listing is so voluminous that this is impractical unless you have been diligent in the previous step.
+- Using an RTS compiled with `-DDEBUG`, run with `+RTS -Di` to get a listing in great detail from the interpreter. Note that the listing is so voluminous that this is impractical unless you have been diligent in the previous step.
 
-- At least in principle, using the trace and a bit of GDB poking around at the time of death, you can figure out what the problem is. In practice you quickly get depressed at the hopelessness of ever making sense of the mass of details. Well, I do, anyway.
+- At least in principle, using the trace and a bit of GDB poking around at the time of death (See also [Debugging](debugging)), you can figure out what the problem is. In practice you quickly get depressed at the hopelessness of ever making sense of the mass of details. Well, I do, anyway.
 
-- +RTS -D2 tries hard to print useful descriptions of what's on the stack, and often succeeds. However, it has no way to map addresses to names in code/data loaded by our runtime linker. So the C function ghci_enquire is provided. Given an address, it searches the loaded symbol tables for symbols close to that address. You can run it from inside GDB:
+- `+RTS -Di` tries hard to print useful descriptions of what's on the stack, and often succeeds. However, it has no way to map addresses to names in code/data loaded by our runtime linker. So the C function `ghci_enquire` is provided. Given an address, it searches the loaded symbol tables for symbols close to that address. You can run it from inside GDB:
 
 ```wiki
 (gdb) p ghci_enquire ( 0x50a406f0 )
@@ -41,62 +39,38 @@ $1 = void
 ```
 
 >
-> In this case the enquired-about address is PrelBase_ZMZN_static_entry. If no symbols are close to the given addr, nothing is printed. Not a great mechanism, but better than nothing.
+> In this case the enquired-about address is `PrelBase_ZMZN_static_entry`. If no symbols are close to the given addr, nothing is printed. Not a great mechanism, but better than nothing.
 
-- We have had various problems in the past due to the bytecode generator (compiler/ghci/ByteCodeGen.lhs) being confused about the true set of free variables of an expression. The compilation scheme for lets applies the BCO for the RHS of the let to its free variables, so if the free-var annotation is wrong or misleading, you end up with code which has wrong stack offsets, which is usually fatal.
-
-- The baseline behaviour of the interpreter is to interpret BCOs, and hand all other closures back to the scheduler for evaluation. However, this causes a huge number of expensive context switches, so the interpreter knows how to enter the most common non-BCO closure types by itself.
-
->
-> These optimisations complicate the interpreter. If you think you have an interpreter problem, re-enable the define REFERENCE_INTERPRETER in ghc/rts/Interpreter.c. All optimisations are thereby disabled, giving the baseline I-only-know-how-to-enter-BCOs behaviour.
+- We have had various problems in the past due to the bytecode generator (compiler/ghci/ByteCodeGen.lhs) being confused about the true set of free variables of an expression. The compilation scheme for `let`s applies the BCO for the RHS of the `let` to its free variables, so if the free-var annotation is wrong or misleading, you end up with code which has wrong stack offsets, which is usually fatal.
 
 - Following the traces is often problematic because execution hops back and forth between the interpreter, which is traced, and compiled code, which you can't see. Particularly annoying is when the stack looks OK in the interpreter, then compiled code runs for a while, and later we arrive back in the interpreter, with the stack corrupted, and usually in a completely different place from where we left off.
 
 >
-> If this is biting you baaaad, it may be worth copying sources for the compiled functions causing the problem, into your interpreted module, in the hope that you stay in the interpreter more of the time. Of course this doesn't work very well if you've defined REFERENCE_INTERPRETER in ghc/rts/Interpreter.c.
+> If this is biting you baaaad, it may be worth copying sources for the compiled functions causing the problem, into your interpreted module, in the hope that you stay in the interpreter more of the time.
 
-- There are various commented-out pieces of code in Interpreter.c which can be used to get the stack sanity-checked after every entry, and even after after every bytecode instruction executed. Note that some bytecodes (PUSH_UBX) leave the stack in an unwalkable state, so the do_print_stack local variable is used to suppress the stack walk after them. 
+- There are various commented-out pieces of code in Interpreter.c which can be used to get the stack sanity-checked after every entry, and even after after every bytecode instruction executed. Note that some bytecodes (`PUSH_UBX`) leave the stack in an unwalkable state, so the `do_print_stack` local variable is used to suppress the stack walk after them. 
 
 ## Useful stuff to know about the interpreter
 
 
-The code generation scheme is straightforward (naive, in fact). -ddump-bcos prints each BCO along with the Core it was generated from, which is very handy.
+The code generation scheme is straightforward (naive, in fact). `-ddump-bcos` prints each BCO along with the Core it was generated from, which is very handy.
 
-- Simple lets are compiled in-line. For the general case, let v = E in ..., E is compiled into a new BCO which takes as args its free variables, and v is bound to AP(the new BCO, free vars of E).
+- Simple `let`s are compiled in-line. For the general case, `let v = E in ...`, the expression `E` is compiled into a new BCO which takes as args its free variables, and `v` is bound to `AP(the new BCO, free vars of E)`.
 
-- cases as usual, become: push the return continuation, enter the scrutinee. There is some magic to make all combinations of compiled/interpreted calls and returns work, described below. In the interpreted case, all case alts are compiled into a single big return BCO, which commences with instructions implementing a switch tree. 
-
-### ARGCHECK magic
-
-
-You may find ARGCHECK instructions at the start of BCOs which don't appear to need them; case continuations in particular. These play an important role: they force objects which should evaluated to BCOs to actually be BCOs.
-
-
-Typically, there may be an application node somewhere in the heap. This is a thunk which when leant on turns into a BCO for a return continuation. The thunk may get entered with an update frame on top of the stack. This is legitimate since from one viewpoint this is an AP which simply reduces to a data object, so does not have functional type. However, once the AP turns itself into a BCO (so to speak) we cannot simply enter the BCO, because that expects to see args on top of the stack, not an update frame. Therefore any BCO which expects something on the stack above an update frame, even non-function BCOs, start with an ARGCHECK. In this case it fails, the update is done, the update frame is removed, and the BCO re-entered. Subsequent entries of the BCO of course go unhindered.
-
-
-The optimised (\#undef REFERENCE_INTERPRETER) handles this case specially, so that a trip through the scheduler is avoided. When reading traces from +RTS -D2 -RTS, you may see BCOs which appear to execute their initial ARGCHECK insn twice. The first time it fails; the interpreter does the update immediately and re-enters with no further comment.
-
-
-This is all a bit ugly, and, as SimonM correctly points out, it would have been cleaner to make BCOs unpointed (unthunkable) objects, so that a pointer to something :: BCO\# really points directly at a BCO.
+- `case`s as usual, become: push the return continuation, enter the scrutinee. There is some magic to make all combinations of compiled/interpreted calls and returns work, described below. In the interpreted case, all `case` alts are compiled into a single big return BCO, which commences with instructions implementing a switch tree. 
 
 ### Stack management
 
 
-There isn't any attempt to stub the stack, minimise its growth, or generally remove unused pointers ahead of time. This is really due to lazyness on my part, although it does have the minor advantage that doing something cleverer would almost certainly increase the number of bytecodes that would have to be executed. Of course we SLIDE out redundant stuff, to get the stack back to the sequel depth, before returning a HNF, but that's all. As usual this is probably a cause of major space leaks.
+There isn't any attempt to stub the stack, minimise its growth, or generally remove unused pointers ahead of time. This is really due to laziness on my part, although it does have the minor advantage that doing something cleverer would almost certainly increase the number of bytecodes that would have to be executed. Of course we `SLIDE` out redundant stuff, to get the stack back to the sequel depth, before returning a HNF, but that's all. As usual this is probably a cause of major space leaks.
 
 ### Building constructors
 
 
-Constructors are built on the stack and then dumped into the heap with a single PACK instruction, which simply copies the top N words of the stack verbatim into the heap, adds an info table, and zaps N words from the stack. The constructor args are pushed onto the stack one at a time. One upshot of this is that unboxed values get pushed untaggedly onto the stack (via PUSH_UBX), because that's how they will be in the heap. That in turn means that the stack is not always walkable at arbitrary points in BCO execution, although naturally it is whenever GC might occur.
+Constructors are built on the stack and then dumped into the heap with a single `PACK` instruction, which simply copies the top N words of the stack verbatim into the heap, adds an info table, and zaps N words from the stack. The constructor args are pushed onto the stack one at a time. One upshot of this is that unboxed values get pushed untaggedly onto the stack (via `PUSH_UBX`), because that's how they will be in the heap. That in turn means that the stack is not always walkable at arbitrary points in BCO execution, although naturally it is whenever GC might occur.
 
 
 Function closures created by the interpreter use the AP-node (tagged) format, so although their fields are similarly constructed on the stack, there is never a stack walkability problem.
-
-### Unpacking constructors
-
-
-At the start of a case continuation, the returned constructor is unpacked onto the stack, which means that unboxed fields have to be tagged. Rather than burdening all such continuations with a complex, general mechanism, I split it into two. The allegedly-common all-pointers case uses a single UNPACK insn to fish out all fields with no further ado. The slow case uses a sequence of more complex UPK_TAG insns, one for each field (I think). This seemed like a good compromise to me.
 
 ### Perspective
 
@@ -104,7 +78,7 @@ At the start of a case continuation, the returned constructor is unpacked onto t
 I designed the bytecode mechanism with the experience of both STG hugs and Classic Hugs in mind. The latter has an small set of bytecodes, a small interpreter loop, and runs amazingly fast considering the cruddy code it has to interpret. The former had a large interpretative loop with many different opcodes, including multiple minor variants of the same thing, which made it difficult to optimise and maintain, yet it performed more or less comparably with Classic Hugs.
 
 
-My design aims were therefore to minimise the interpreter's complexity whilst maximising performance. This means reducing the number of opcodes implemented, whilst reducing the number of insns despatched. In particular there are only two opcodes, PUSH_UBX and UPK_TAG, which deal with tags. STG Hugs had dozens of opcodes for dealing with tagged data. In cases where the common all-pointers case is significantly simpler (UNPACK) I deal with it specially. Finally, the number of insns executed is reduced a little by merging multiple pushes, giving PUSH_LL and PUSH_LLL. These opcode pairings were determined by using the opcode-pair frequency profiling stuff which is ifdef-d out in Interpreter.c. These significantly improve performance without having much effect on the uglyness or complexity of the interpreter.
+My design aims were therefore to minimise the interpreter's complexity whilst maximising performance. This means reducing the number of opcodes implemented, whilst reducing the number of insns despatched. In particular, very few (TODO How many? Which?) opcodes which deal with tags. STG Hugs had dozens of opcodes for dealing with tagged data. Finally, the number of insns executed is reduced a little by merging multiple pushes, giving `PUSH_LL` and `PUSH_LLL`. These opcode pairings were determined by using the opcode-pair frequency profiling stuff which is ifdef-d out in Interpreter.c. These significantly improve performance without having much effect on the ugliness or complexity of the interpreter.
 
 
 Overall, the interpreter design is something which turned out well, and I was pleased with it. Unfortunately I cannot say the same of the bytecode generator.
