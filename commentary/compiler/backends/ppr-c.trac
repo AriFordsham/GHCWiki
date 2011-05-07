@@ -6,14 +6,6 @@ Source: [[GhcFile(compiler/cmm/PprC.hs)]]
 
 This phase takes [wiki:Commentary/Compiler/CmmType Cmm] and generates plain C code.  The C code generator is very simple these days, in fact it can almost be considered pretty-printing.
 
-There are some slight subtleties:
-
- * [wiki:Commentary/Rts/HeapObjects#InfoTables info tables], which are expressed in Cmm as being laid out before the entry code for a
-   closure, are compiled into separate top-level structures in the generated C, because C has no support for laying out data
-   next to functions.  The desired layout is reconstructed in the assembly file by the [wiki:Commentary/EvilMangler Evil Mangler],
-   or not if we're compiling unregisterised (see [wiki:Commentary/Rts/HeapObjects#TABLES_NEXT_TO_CODE TABLES_NEXT_TO_CODE]).
-
-
 == Header files ==
 
 GHC was changed (from version 6.10) so that the C backend no longer uses header files specified by the user in any way.  The `c-includes` field of a `.cabal` file is ignored, as is the `-#include` flag on the command-line.  There were several reasons for making this change:
