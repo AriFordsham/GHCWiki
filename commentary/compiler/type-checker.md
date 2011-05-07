@@ -1,0 +1,111 @@
+# The GHC Commentary: Checking Types
+
+
+Probably the most important phase in the frontend is the type checker, which is located at [compiler/typecheck/](/trac/ghc/browser/ghc/compiler/typecheck/). GHC type checks programs in their original Haskell form before the desugarer converts them into Core code. This complicates the type checker as it has to handle the much more verbose Haskell AST, but it improves error messages, as those message are based on the same structure that the user sees.
+
+
+GHC defines the abstract syntax of Haskell programs in [HsSyn](/trac/ghc/browser/ghc/compiler/hsSyn/HsSyn.lhs) using a structure that abstracts over the concrete representation of bound occurences of identifiers and patterns. The module [TcHsSyn](/trac/ghc/browser/ghc/compiler/typecheck/TcHsSyn.lhs) defines a number of helper function required by the type checker. Note that the type [TcRnTypes](/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.lhs).`TcId` used to represent identifiers in some signatures during type checking is, in fact, nothing but a synonym for a [ plain Id](http://darcs.haskell.org/ghc/docs/comm/the-beast/vars.html) (TODO Point at new commentary equivalent).
+
+
+It is also noteworthy, that the representations of types changes during type checking from `HsType` to `TypeRep.Type`. The latter is a [ hybrid type](http://darcs.haskell.org/ghc/docs/comm/the-beast/types.html) (TODO Point at new commentary equivalent) representation that is used to type Core, but still contains sufficient information to recover source types. In particular, the type checker maintains and compares types in their `Type` form.
+
+## The Overall Flow of Things
+
+### Entry Points Into the Type Checker
+
+
+The interface of the type checker (and [ renamer](http://darcs.haskell.org/ghc/docs/comm/the-beast/renamer.html) (TODO Point at new commentary equivalent)) to the rest of the compiler is provided by [TcRnDriver](/trac/ghc/browser/ghc/compiler/typecheck/TcRnDriver.lhs). Entire modules are processed by calling `tcRnModule` and GHCi uses `tcRnStmt`, `tcRnExpr`, and `tcRnType` to typecheck statements and expressions, and to kind check types, respectively. Moreover, `tcRnExtCore` is provided to typecheck external Core code. Moreover, `tcTopSrcDecls` is used by Template Haskell - more specifically by `TcSplice.tc_bracket` - to type check the contents of declaration brackets.
+
+### Renaming and Type Checking a Module
+
+
+The function `tcRnModule` controls the complete static analysis of a Haskell module. It sets up the combined renamer and type checker monad, resolves all import statements, initiates the actual renaming and type checking process, and finally, wraps off by processing the export list.
+
+
+The actual type checking and renaming process is initiated via `TcRnDriver.tcRnSrcDecls`, which uses a helper called `tc_rn_src_decls` to implement the iterative renaming and type checking process required by [ Template Haskell](http://darcs.haskell.org/ghc/docs/comm/exts/th.html) (TODO Point at new commentary equivalent). However, before it invokes `tc_rn_src_decls`, it takes care of hi-boot files; afterwards, it simplifies type constraints and zonking (see below regarding the later).
+
+
+The function `tc_rn_src_decls` partitions static analysis of a whole module into multiple rounds, where the initial round is followed by an additional one for each toplevel splice. It collects all declarations up to the next splice into an `HsDecl.HsGroup` to rename and type check that declaration group by calling `TcRnDriver.tcRnGroup`. Afterwards, it executes the splice (if there are any left) and proceeds to the next group, which includes the declarations produced by the splice.
+
+
+The function `tcRnGroup`, finally, gets down to invoke the actual renaming and type checking via `TcRnDriver.rnTopSrcDecls` and `TcRnDriver.tcTopSrcDecls`, respectively. The renamer, apart from renaming, computes the global type checking environment, of type `TcRnTypes.TcGblEnv`, which is stored in the type checking monad before type checking commences.
+
+## Type Checking a Declaration Group
+
+
+The type checking of a declaration group, performed by `tcTopSrcDecls` starts by processing of the type and class declarations of the current module, using the function `TcTyClsDecls.tcTyAndClassDecls`. This is followed by a first round over instance declarations using `TcInstDcls.tcInstDecls1`, which in particular generates all additional bindings due to the deriving process. Then come foreign import declarations (`TcForeign.tcForeignImports`) and default declarations (`TcDefaults.tcDefaults`).
+
+
+Now, finally, toplevel value declarations (including derived ones) are type checked using `TcBinds.tcTopBinds`. Afterwards, `TcInstDcls.tcInstDecls2` traverses instances for the second time. Type checking concludes with processing foreign exports (`TcForeign.tcForeignExports`) and rewrite rules (`TcRules.tcRules`). Finally, the global environment is extended with the new bindings.
+
+## Type checking Type and Class Declarations
+
+
+Type and class declarations are type checked in a couple of phases that contain recursive dependencies - aka *knots*. The first knot encompasses almost the whole type checking of these declarations and forms the main piece of `TcTyClsDecls.tcTyAndClassDecls`.
+
+
+Inside this big knot, the first main operation is kind checking, which again involves a knot. It is implemented by `kcTyClDecls`, which performs kind checking of potentially recursively-dependent type and class declarations using kind variables for initially unknown kinds. During processing the individual declarations some of these variables will be instantiated depending on the context; the rest gets by default kind \* (during *zonking* of the kind signatures). Type synonyms are treated specially in this process, because they can have an unboxed type, but they cannot be recursive. Hence, their kinds are inferred in dependency order. Moreover, in contrast to class declarations and other type declarations, synonyms are not entered into the global environment as a global `TyThing`. (`TypeRep.TyThing` is a sum type that combines the various flavours of typish entities, such that they can be stuck into type environments and similar.)
+
+## More Details
+
+### Types Variables and Zonking
+
+
+During type checking type variables are represented by mutable variables - cf. the [ variable story](http://darcs.haskell.org/ghc/docs/comm/the-beast/vars.html#TyVar) (TODO Point at new commentary equivalent). Consequently, unification can instantiate type variables by updating those mutable variables. This process of instantiation is (for reasons that elude me) called [ zonking](http://dictionary.reference.com/browse/zonk) in GHC's sources. The zonking routines for the various forms of Haskell constructs are responsible for most of the code in the module [TcHsSyn](/trac/ghc/browser/ghc/compiler/typecheck/TcHsSyn.lhs), whereas the routines that actually operate on mutable types are defined in [TcMType](/trac/ghc/browser/ghc/compiler/typecheck/TcMType.lhs); this includes the zonking of type variables and type terms, routines to create mutable structures and update them as well as routines that check constraints, such as that type variables in function signatures have not been instantiated during type checking. The actual type unification routine is `uTys` in the module [TcUnify](/trac/ghc/browser/ghc/compiler/typecheck/TcUnify.lhs).
+
+
+All type variables that may be instantiated (those in signatures may not), but haven't been instantiated during type checking, are zonked to `()`, so that after type checking all mutable variables have been eliminated.
+
+### Type Representation
+
+
+The representation of types is fixed in the module [TcRep](/trac/ghc/browser/ghc/compiler/typecheck/TcRep.lhs) and exported as the data type `Type`. As explained in [TcType](/trac/ghc/browser/ghc/compiler/typecheck/TcType.lhs), GHC supports rank-N types, but, in the type checker, maintains the restriction that type variables cannot be instantiated to quantified types (i.e., the type system is predicative). The type checker floats universal quantifiers outside and maintains types in prenex form. (However, quantifiers can, of course, not float out of negative positions.) Overall, we have
+
+```wiki
+sigma -> forall tyvars. phi
+phi   -> theta => rho
+rho   -> sigma -> rho
+       | tau
+tau   -> tyvar
+       | tycon tau_1 .. tau_n
+       | tau_1 tau_2
+       | tau_1 -> tau_2
+```
+
+
+where `sigma` is in prenex form; i.e., there is never a forall to the right of an arrow in a `phi` type. Moreover, a type of the form `tau` never contains a quantifier (which includes arguments to type constructors).
+
+
+Of particular interest are the variants `SourceTy` and `NoteTy` of [TypeRep](/trac/ghc/browser/ghc/compiler/typecheck/TypeRep.lhs).Type. The constructor `SourceTy :: SourceType -> Type` represents a type constraint; that is, a predicate over types represented by a dictionary. The type checker treats a `SourceTy` as opaque, but during the translation to core it will be expanded into its concrete representation (i.e., a dictionary type) by the function `[[GhcModule(compiler/types/Type.lhs])).sourceTypeRep`. Note that newtypes are not covered by `SourceTypes` anymore, even if some comments in GHC still suggest this. Instead, all newtype applications are initially represented as a `NewTcApp`, until they are eliminated by calls to `[[GhcModule(compiler/types/Type.lhs])).newTypeRep`.
+
+
+The `NoteTy` constructor is used to add non-essential information to a type term. Such information has the type `TypeRep.TyNote` and is either the set of free type variables of the annotated expression or the unexpanded version of a type synonym. Free variables sets are cached as notes to save the overhead of repeatedly computing the same set for a given term. Unexpanded type synonyms are useful for generating comprehensible error messages, but have no influence on the process of type checking.
+
+### Type Checking Environment
+
+
+During type checking, GHC maintains a *type environment* whose type definitions are fixed in the module [TcRnTypes](/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.lhs) with the operations defined in [TcEnv](/trac/ghc/browser/ghc/compiler/typecheck/TcEnv.lhs). Among other things, the environment contains all imported and local instances as well as a list of *global* entities (imported and local types and classes together with imported identifiers) and *local* entities (locally defined identifiers). This environment is threaded through the type checking monad, whose support functions including initialisation can be found in the module [TcRnMonad](/trac/ghc/browser/ghc/compiler/typecheck/TcRnMonad.lhs).
+
+### Expressions
+
+
+Expressions are type checked by [compiler/typecheck/TcExpr](/trac/ghc/browser/ghc/compiler/typecheck/TcExpr).
+
+
+Usage occurences of identifiers are processed by the function tcId whose main purpose is to [ instantiate overloaded identifiers](http://darcs.haskell.org/ghc/docs/comm/the-beast/typecheck.html#inst) (TODO Point at new commentary equivalent). It essentially calls `TcInst.instOverloadedFun` once for each universally quantified set of type constraints. It should be noted that overloaded identifiers are replaced by new names that are first defined in the LIE (Local Instance Environment?) and later promoted into top-level bindings.
+
+### Handling of Dictionaries and Method Instances
+
+
+GHC implements overloading using so-called *dictionaries*. A dictionary is a tuple of functions -- one function for each method in the class of which the dictionary implements an instance. During type checking, GHC replaces each type constraint of a function with one additional argument. At runtime, the extended function gets passed a matching class dictionary by way of these additional arguments. Whenever the function needs to call a method of such a class, it simply extracts it from the dictionary.
+
+
+This sounds simple enough; however, the actual implementation is a bit more tricky as it wants to keep track of all the instances at which overloaded functions are used in a module. This information is useful to optimise the code. The implementation is the module [Inst](/trac/ghc/browser/ghc/compiler/typecheck/Inst.lhs).
+
+
+The function `instOverloadedFun` is invoked for each overloaded usage occurrence of an identifier, where overloaded means that the type of the identifier contains a non-trivial type constraint. It proceeds in two steps: (1) Allocation of a method instance (`newMethodWithGivenTy`) and (2) instantiation of functional dependencies. The former implies allocating a new unique identifier, which replaces the original (overloaded) identifier at the currently type-checked usage occurrence.
+
+
+The new identifier (after being threaded through the LIE) eventually will be bound by a top-level binding whose rhs contains a partial application of the original overloaded identifier. This papp applies the overloaded function to the dictionaries needed for the current instance. In GHC lingo, this is called a *method*. Before becoming a top-level binding, the method is first represented as a value of type Inst.Inst, which makes it easy to fold multiple instances of the same identifier at the same types into one global definition. (And probably other things, too, which I haven't investigated yet.)
+
+**Note:** As of 13 January 2001 (wrt. to the code in the CVS HEAD), the above mechanism interferes badly with RULES pragmas defined over overloaded functions. During instantiation, a new name is created for an overloaded function partially applied to the dictionaries needed in a usage position of that function. As the rewrite rule, however, mentions the original overloaded name, it won't fire anymore -- unless later phases remove the intermediate definition again. The latest CVS version of GHC has an option '-fno-method-sharing', which avoids sharing instantiation stubs. This is usually/often/sometimes sufficient to make the rules fire again.
