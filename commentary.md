@@ -47,8 +47,6 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
 
 - [The User Manual](commentary/user-manual) (formatting guidelines etc)
 
-- [The Evil Mangler](commentary/evil-mangler)
-
 ## Contributed Documentation
 
 

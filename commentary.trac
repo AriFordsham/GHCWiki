@@ -38,8 +38,6 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
 
  * [wiki:Commentary/UserManual The User Manual] (formatting guidelines etc)
 
- * [wiki:Commentary/EvilMangler The Evil Mangler]
-
 == Contributed Documentation ==
 
 Please edit and improve the Commentary above, or the [wiki:Building Building Guide].  
