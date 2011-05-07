@@ -19,6 +19,8 @@ This part of the wiki collects all the information related to debugging GHC: tha
 
 - **Debugging the runtime system**.  See [Debugging/RuntimeSystem](debugging/runtime-system)
 
+- **Debugging when running under GHCi**.  See [Commentary/Compiler/Backends/GHCi](commentary/compiler/backends/gh-ci)
+
 - **Performance debugging**. 
 
   - [Debugging/ProfilingGhc](debugging/profiling-ghc): Profiling the compiler itself.  

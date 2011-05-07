@@ -19,6 +19,8 @@ This part of the wiki collects all the information related to debugging GHC: tha
 
  * '''Debugging the runtime system'''.  See [wiki:Debugging/RuntimeSystem]
 
+ * '''Debugging when running under GHCi'''.  See [wiki:Commentary/Compiler/Backends/GHCi]
+
  * '''Performance debugging'''. 
    * [wiki:Debugging/ProfilingGhc]: Profiling the compiler itself.  
    * [wiki:Debugging/TickyTicky]: for debugging performance-related issues in compiled code.  Typically for performance debugging of the Simplifier and Core-level optimisations.
