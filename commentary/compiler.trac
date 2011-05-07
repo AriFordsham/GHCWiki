@@ -36,6 +36,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
    * [wiki:Commentary/Compiler/Backends/PprC C code generator]
    * [wiki:Commentary/Compiler/Backends/NCG Native code generator]
    * [wiki:Commentary/Compiler/Backends/LLVM LLVM backend]
+   * [wiki:Commentary/Compiler/Backends/GHCi GHCi backend]
 
 == Overall Structure ==
 
