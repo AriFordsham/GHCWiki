@@ -172,11 +172,7 @@ Also, it is necessary to avoid certain language extensions.  In particular, the 
 
 ===  The OPTIONS pragma ===
 
-An {{{{-# OPTIONS_GHC ... #-}}}} pragma is optional, but if present it should go right at the top of the file. Things you might want to put in OPTIONS include: 
-
- * {{{#include}}} options to bring into scope prototypes for FFI declarations 
- * {{{-fvia-C}}} if you know that this module won't compile with the native code generator.  (deprecated:
-   everything should compile with the NCG nowadays, but that wasn't always the case).
+An {{{{-# OPTIONS_GHC ... #-}}}} pragma is optional, but if present it should go right at the top of the file.
 
 Don't bother putting `-cpp` or `-fglasgow-exts` in the `OPTIONS` pragma; these are already added to the command line by the build system. 
 
