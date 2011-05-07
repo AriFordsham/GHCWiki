@@ -4,7 +4,7 @@
 
 Source: [[GhcFile(compiler/cmm/PprC.hs)]]
 
-This phase takes [wiki:Commentary/Compiler/CmmType Cmm] and generates plain C code.  The C code generator is very simple these days, in fact it can almost be considered pretty-printing.
+This phase takes [wiki:Commentary/Compiler/CmmType Cmm] and generates plain C code. The C code generator is very simple these days, in fact it can almost be considered pretty-printing. It is only used for unregisterised compilers.
 
 == Header files ==
 
@@ -12,8 +12,8 @@ GHC was changed (from version 6.10) so that the C backend no longer uses header 
 
 This has several advantages:
   
- * `-fvia-C` is consistent with `-fasm` with respect to FFI declarations:
-   both bind to the ABI, not the API.
+ * Via C compilation is consistent with the other backend with respect to FFI declarations:
+   all bind to the ABI, not the API.
   
  * foreign calls can now be inlined freely across module boundaries, since
    a header file is not required when compiling the call.
