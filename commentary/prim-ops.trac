@@ -114,7 +114,7 @@ default = False
 default = False
 
 Set to True if there is a function in !PrimOps.cmm. This also changes to code generator to push the continuation
-of any followon code onto the stack.
+of any follow on code onto the stack.
 
 === commutable ===
 
