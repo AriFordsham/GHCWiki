@@ -20,7 +20,7 @@ The code generator needs to know the layout of heap objects, because it generate
 
 Currently we solve the problem this way:
 
-- C types representing heap objects are defined in the C header files, see for example [includes/Closures.h](/trac/ghc/browser/ghc/includes/Closures.h).
+- C types representing heap objects are defined in the C header files, see for example [includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h).
 
 - A C program, [includes/mkDerivedConstants.c](/trac/ghc/browser/ghc/includes/mkDerivedConstants.c),  `#includes` the runtime headers.
   This program is built and run when you type `make` or `make boot` in `includes/`.  It is
@@ -155,7 +155,7 @@ If the module has already been initialized,
 the initialization function just returns.
 
 
-The Ghc.TopHandler and Ghc.Prim modules get special treatment.
+The `Ghc.TopHandler` and `Ghc.Prim` modules get special treatment.
 
 `cgTopBinding` is a small wrapper around `cgTopRhs`
 which in turn disptaches to:
