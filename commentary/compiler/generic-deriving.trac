@@ -2,7 +2,7 @@
 
 GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in [http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf A generic deriving mechanism for Haskell], by Magalhães, Dijkstra, Jeuring and Löh.  This page sketches the specifics of the implementation; we assume you have read the paper. The [http://www.haskell.org/haskellwiki/Generics HaskellWiki page] gives a more general overview.
 
-This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html previous generic classes implementation]. The code is in the `ghc-generics` branch of the [https://github.com/ghc/ghc/commits/ghc-generics ghc], [https://github.com/ghc/packages-base/commits/ghc-generics base], [https://github.com/ghc/packages-ghc-prim/commits/ghc-generics ghc-prim], and [https://github.com/ghc/testsuite/commits/ghc-generics testsuite] repos.
+This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html previous generic classes implementation]. The code is in the `ghc-generics` branch of the [https://github.com/ghc/ghc/commits/ghc-generics ghc], [https://github.com/ghc/packages-base/commits/ghc-generics base], [https://github.com/ghc/packages-ghc-prim/commits/ghc-generics ghc-prim], [https://github.com/ghc/haddock2/commits/ghc-generics haddock2], and [https://github.com/ghc/testsuite/commits/ghc-generics testsuite] repos.
 
 == Main components ==
 
