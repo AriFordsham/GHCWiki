@@ -3,7 +3,8 @@
 
 PrimOps are functions that cannot be implemented in Haskell, and are provided natively by GHC.  For example, adding two `Int#` values is provided as the PrimOp `+#`, and allocating a new mutable array is the PrimOp `newArray#`.
 
-[PrimOps](commentary/prim-ops) are made available to Haskell code through the virtual module `GHC.Prim`.  This module has no implementation, and its interface never resides on disk: if `GHC.Prim` is imported, we use a built-in `ModIface` value - see `ghcPrimIface` in [compiler/iface/LoadIface.lhs](/trac/ghc/browser/ghc/compiler/iface/LoadIface.lhs).
+
+PrimOps are made available to Haskell code through the virtual module `GHC.Prim`.  This module has no implementation, and its interface never resides on disk: if `GHC.Prim` is imported, we use a built-in `ModIface` value - see `ghcPrimIface` in [compiler/iface/LoadIface.lhs](/trac/ghc/browser/ghc/compiler/iface/LoadIface.lhs).
 
 ## The primops.txt.pp file
 
@@ -12,7 +13,7 @@ The file [compiler/prelude/primops.txt.pp](/trac/ghc/browser/ghc/compiler/prelud
 
 - Its name, as it appears in Haskell code (eg. int2Integer\#)
 - Its type
-- The name of its constructor in GHC's `PrimOp` data type.
+- The name of its constructor in GHC's `!PrimOp` data type.
 - Various properties, such as whether the operation is commutable, or has side effects.
 
 
@@ -129,8 +130,8 @@ default = False
 default = False
 
 
-Set to True if there is a function in [PrimOps](commentary/prim-ops).cmm. This also changes to code generator to push the continuation
-of any followon code onto the stack.
+Set to True if there is a function in PrimOps.cmm. This also changes to code generator to push the continuation
+of any follow on code onto the stack.
 
 ### commutable
 

@@ -5,7 +5,7 @@
 
 !PrimOps are functions that cannot be implemented in Haskell, and are provided natively by GHC.  For example, adding two {{{Int#}}} values is provided as the !PrimOp {{{+#}}}, and allocating a new mutable array is the !PrimOp {{{newArray#}}}.
 
-PrimOps are made available to Haskell code through the virtual module {{{GHC.Prim}}}.  This module has no implementation, and its interface never resides on disk: if {{{GHC.Prim}}} is imported, we use a built-in {{{ModIface}}} value - see {{{ghcPrimIface}}} in [[GhcFile(compiler/iface/LoadIface.lhs)]].
+!PrimOps are made available to Haskell code through the virtual module {{{GHC.Prim}}}.  This module has no implementation, and its interface never resides on disk: if {{{GHC.Prim}}} is imported, we use a built-in {{{ModIface}}} value - see {{{ghcPrimIface}}} in [[GhcFile(compiler/iface/LoadIface.lhs)]].
 
 == The primops.txt.pp file ==
 
@@ -13,7 +13,7 @@ The file [[GhcFile(compiler/prelude/primops.txt.pp)]] includes all the informati
 
  * Its name, as it appears in Haskell code (eg. int2Integer#)
  * Its type
- * The name of its constructor in GHC's {{{PrimOp}}} data type.
+ * The name of its constructor in GHC's {{{!PrimOp}}} data type.
  * Various properties, such as whether the operation is commutable, or has side effects.
 
 For example, here's the integer multiplication !PrimOp:
@@ -101,9 +101,7 @@ To add a new primop, you currently need to update the following files:
 
 See also AddingNewPrimitiveOperations, a blow-by-blow description of the process for adding a new out-of-line primop from someone who went through the process.
 
-
 == Explanation of attributes ==
-
 
 `TBV` (To be verified)
 
@@ -115,13 +113,12 @@ default = False
 
 default = False
 
-Set to True if there is a function in PrimOps.cmm. This also changes to code generator to push the continuation
-of any followon code onto the stack.
+Set to True if there is a function in !PrimOps.cmm. This also changes to code generator to push the continuation
+of any follow on code onto the stack.
 
 === commutable ===
 
 default = False
-
 
 === needs_wrapper ===
 
@@ -129,17 +126,10 @@ default = False
 
 === strictness ===
 
-default = [lazyDmd, ... ] TopRes
+default = [lazyDmd, ... ] !TopRes
 
-This is the strictness of the PrimOp. Unboxed things should be marked as lazyDmd. (Someone explain why?).
+This is the strictness of the !PrimOp. Unboxed things should be marked as lazyDmd. (Someone explain why?).
 
 === usage ===
 
 default = nomangle other
-
-
-
-
-
-
-
