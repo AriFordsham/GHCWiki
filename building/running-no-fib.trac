@@ -27,7 +27,7 @@ To run the tests:
 will put the results in the file `nofib-log`.
 
 To compare the results of multiple runs, use the program
-[[GhcFile(nofib/nofib-analyse/nofib-analyse)]].  Something like this:
+[http://darcs.haskell.org/nofib/nofib-analyse/ nofib/nofib-analyse].  Something like this:
 
 {{{
   $ nofib-analyse nofib-log-6.4.2 nofib-log-6.6
