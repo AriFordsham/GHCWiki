@@ -65,7 +65,7 @@ The `downsweep` function takes the targets and returns a list of `ModSummary` co
 ## The ModSummary type
 
 
-A `ModSummary` (defined in [compiler/main/HscTypes.h](/trac/ghc/browser/ghc/compiler/main/HscTypes.h)) contains various information about a module:
+A `ModSummary` (defined in [compiler/main/HscTypes.lhs](/trac/ghc/browser/ghc/compiler/main/HscTypes.lhs)) contains various information about a module:
 
 - Its `Module`, which includes the package that it belongs to
 - Its `ModLocation`, which lists the pathnames of all the files associated with the module
