@@ -1,38 +1,14 @@
 # The new Generic Deriving mechanism (ongoing work)
 
 
-GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in [ A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf), by Magalhães, Dijkstra, Jeuring and Löh.  This page sketches the specifics of the implementation; we assume you have read the paper.
+GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in [ A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf), by Magalhães, Dijkstra, Jeuring and Löh.  This page sketches the specifics of the implementation; we assume you have read the paper. The [ HaskellWiki page](http://www.haskell.org/haskellwiki/Generics) gives a more general overview.
 
 
-This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). The code is in the `ghc-generics` branch of the [ ghc](https://github.com/ghc/ghc/commits/ghc-generics), [ base](https://github.com/ghc/packages-base/commits/ghc-generics), [ ghc-prim](https://github.com/ghc/packages-ghc-prim/commits/ghc-generics), and [ testsuite](https://github.com/ghc/testsuite/commits/ghc-generics) repos.
-
-## Changes from the paper
-
-
-In the paper we describe the implementation in [ UHC](http://www.cs.uu.nl/wiki/UHC). The implementation in GHC is slightly different:
-
-- We are using type families, so the Representable0 and Representable1 type classes have only one type argument. So, in GHC the classes look like what we describe in "Avoiding extensions" part of Section 2.3 of the paper. This change affects only a generic function writer, and not a generic function user.
-
-- Default definitions (Section 3.3) work differently. In GHC we don't use a `DERIVABLE` pragma; instead, a type class can declare a *generic default method*, which is akin to a standard default method, but includes a generic type signature. For example, the `Encode` class of Section 3.1 is now:
-
-  ```wiki
-  class Encode a where
-    encode :: a -> [Bit]
-    default encode :: (Representable0 a, Encode1 (Rep a)) => a -> [Bit]
-    encode = encode1 . from0
-  ```
-
-  This removes the need for a separate default definition and a pragma.
-
-- To derive generic functionality to a user type, the user no longer uses ``deriving instance`` (Section 4.6.1). Instead, the user gives an instance without defining the method; GHC then uses the generic default. For instance:
-
-  ```wiki
-  instance Encode [a] -- works if there is an instance Representable0 [a]
-  ```
+This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). The code is in the `ghc-generics` branch of the [ ghc](https://github.com/ghc/ghc/commits/ghc-generics), [ base](https://github.com/ghc/packages-base/commits/ghc-generics), [ ghc-prim](https://github.com/ghc/packages-ghc-prim/commits/ghc-generics), [ haddock2](https://github.com/ghc/haddock2/commits/ghc-generics), and [ testsuite](https://github.com/ghc/testsuite/commits/ghc-generics) repos.
 
 ## Main components
 
-- `TcDeriv.tcDeriving` generates an `InstInfo` for each data type that fulfills the `isRep0` predicate. This `InstInfo` is the `Representable0` instance for that type, allowing it to be handled generically (by kind-`*` generic functions).
+- `TcDeriv.tcDeriving` now allows deriving `Generic` instances.
 
 - The representation types and core functionality of the library live on `GHC.Generics` (on the `ghc-prim` package).
 
@@ -40,25 +16,33 @@ In the paper we describe the implementation in [ UHC](http://www.cs.uu.nl/wiki/U
 
 - Most of the code generation is handled by `types/Generics`
 
+## Things that have been removed
+
+- All of the [generic classes stuff](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). In particular, the following have been removed:
+
+  - `hasGenerics` field from `TyCon`;
+  - `HsNumTy` constructor from `HsType`;
+  - `TypePat` constructor from `Pat`.
+
+- The `-XGenerics` flag is now deprecated.
+
 ## What already works
 
-- `Representable0` instances are automatically generated when `-XGenerics` is enabled.
+- `Generic` instances can be derived when `-XDeriveGeneric` is enabled.
 
-- The `default` keyword can now be used for generic default method signatures.
+- The `default` keyword can used for generic default method signatures when `-XDefaultSignatures` is enabled.
 
 - Generic defaults are properly instantiated when giving an instance without defining the generic default method.
 
-- Base types like `[]`, `Maybe`, tuples, come with Representable0 instances.
+- Base types like `[]`, `Maybe`, tuples, come with Generic instances.
 
 ## To do
 
-- Generate `Representable1` instances
+- Generate `Generic1` instances
 
-- Print also the Rep0 type instance when -ddump-deriving is on
+- Print also the `Rep` type instance when -ddump-deriving is on
 
-- Give better error messages when we cannot derive Representable0 (currently we say only `Cannot derive Representable`)
-
-- Register the `DeriveRepresentable` and `DefaultSignatures` extensions with Cabal.
+- Register the `DeriveGeneric` and `DefaultSignatures` extensions with Cabal.
 
 - Do we want `Show`, etc. instances for types like `U1`, `:+:`, ...?
 
