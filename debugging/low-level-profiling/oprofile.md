@@ -4,7 +4,7 @@
 OProfile does a system-wide profile using performance counters.  It can also generate annotated source/assembly just like VTune.  Unfortunately, because GHC can't export source-level debugging symbols, OProfile cannot do source-level annotation of GHC programs.
 
 
-It can be installed from a package on Ubuntu, which is cool.  But beware: Ubuntu bug 172495: [ https://bugs.launchpad.net/ubuntu/+source/oprofile/+bug/172495/](https://bugs.launchpad.net/ubuntu/+source/oprofile/+bug/172495/) : change the `/bin/sh` to `/bin/bash` at the top of `/usr/bin/opcontrol`.
+It can be installed from a package on Ubuntu, which is cool.
 
 
 There seems to be a problem with the counters just stopping arbitrarily, requiring a restart of the daemon.
