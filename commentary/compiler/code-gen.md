@@ -155,7 +155,7 @@ If the module has already been initialized,
 the initialization function just returns.
 
 
-The Ghc.TopHandler and Ghc.Prim modules get special treatment.
+The `Ghc.TopHandler` and `Ghc.Prim` modules get special treatment.
 
 `cgTopBinding` is a small wrapper around `cgTopRhs`
 which in turn disptaches to:
