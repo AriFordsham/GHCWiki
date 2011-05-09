@@ -15,7 +15,7 @@ Please feel free to add material to the rest of the wiki: don't worry too much a
 Please feel free to add material to the commentary after you've given some thought to where in the commentary it belongs.  The old commentary read like a single coherent narrative, made sure to define terms before using them, and introduced concepts in the order which made them easiest to understand.  Please do try to preserve those properties in this wiki commentary.  If you're unsure or in a hurry, consider creating a wiki page outside the commentary and linking to it from the commentary (or the "contributed documentation" section below).
 
 
-Try to link to source files as much as possible by using this macro: `[[GhcFile(compiler/Makefile)]]` (the usual Trac `source:` macro doesn't work here because the GHC darcs repository isn't integrated into this Trac).  Also try to add appropriate links to other parts of the commentary.
+Try to link to source files as much as possible by using this macro: `[[GhcFile(compiler/Makefile)]]`. Also try to add appropriate links to other parts of the commentary.
 
 ## Contents
 
