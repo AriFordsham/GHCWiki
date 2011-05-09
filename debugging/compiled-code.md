@@ -147,7 +147,7 @@ Usually you want to do something along these lines:
 
 
 Symbols in GHC are encoded using something called the Z-encoding (see
-[compiler/utils/Encoding.hs](/trac/ghc/browser/ghc/compiler/utils/Encoding.hs).  Basically special symbols are replaced by sequences
+[compiler/utils/Encoding.hs](/trac/ghc/browser/ghc/compiler/utils/Encoding.hs)).  Basically special symbols are replaced by sequences
 beginning with `z` or `Z`.  eg. `state#` becomes
 `statezh`.  The letter `z` itself is replaced by `zz`.
 
@@ -219,7 +219,7 @@ nicer output:
 the bottom.  In this case I'm displaying memory pointed to by the
 register `rbx`, which corresponds to the STG register `R1` on
 a recent x86_64 build.  Check
-[ MachRegs.h](http://darcs.haskell.org/ghc/includes/stg/MachRegs.h) to
+[includes/stg/MachRegs.h](/trac/ghc/browser/ghc/includes/stg/MachRegs.h) to
 see which machine registers correspond to which STG registers on your
 platform.
 
@@ -229,7 +229,7 @@ closure for the `Int` value 5.  Closures always consist of an info
 pointer (`GHCziBase_Izh_con_info` in this case, the `I#`
 constructor), followed by any number of payload words (just one word
 containing the value 5, here).  Full details on closure layouts are in
-[ Closures.h](http://darcs.haskell.org/ghc/includes/rts/storage/Closures.h).
+[includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h).
 
 
 It looks like the next word contains garbage, probably because it is
