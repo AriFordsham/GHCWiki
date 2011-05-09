@@ -266,7 +266,7 @@ before calling out to their main worker function.
 - `StgPrimOp` that returns an enumeration type
 
 
-(It appears that non-foreign-call, inline [PrimOps](commentary/prim-ops) are not allowed to return complex data types (e.g. a \|Maybe\|), but this fact needs to be verified.)
+(It appears that non-foreign-call, inline PrimOps? are not allowed to return complex data types (e.g. a \|Maybe\|), but this fact needs to be verified.)
 
 
 Each of these cases centers around one of these three core calls:
