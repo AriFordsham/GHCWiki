@@ -40,7 +40,7 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 - Generate `Generic1` instances
 
-- Print also the Rep type instance when -ddump-deriving is on
+- Print also the `Rep` type instance when -ddump-deriving is on
 
 - Give better error messages when we cannot derive Generic (currently we say only `Cannot derive Generic`)
 

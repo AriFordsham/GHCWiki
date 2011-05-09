@@ -37,7 +37,7 @@ This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_g
 
  * Generate `Generic1` instances
 
- * Print also the Rep type instance when -ddump-deriving is on
+ * Print also the `Rep` type instance when -ddump-deriving is on
 
  * Give better error messages when we cannot derive Generic (currently we say only `Cannot derive Generic`)
 
