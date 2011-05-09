@@ -8,7 +8,7 @@ There is a picture that goes with this description, which appears at the bottom 
 You can also watch a **video** of Simon Peyton-Jones explaining the compilation pipeline here: [ Compiler Pipeline II](http://video.google.com/videoplay?docid=5254545394467397086) (10'16")
 
 
-Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called HscMain ([compiler/main/HscMain](/trac/ghc/browser/ghc/compiler/main/HscMain)).  Each data type's representation can be dumped for further inspection using a `-ddump-*` flag.  Here are the steps it goes through:
+Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called HscMain ([compiler/main/HscMain.lhs](/trac/ghc/browser/ghc/compiler/main/HscMain.lhs)).  Each data type's representation can be dumped for further inspection using a `-ddump-*` flag.  Here are the steps it goes through:
 
 - The **Front End** processes the program in the [big HsSyn type](commentary/compiler/hs-syn-type). `HsSyn` is parameterised over the types of the term variables it contains.  The first three passes (the front end) of the compiler work like this:
 
@@ -19,16 +19,16 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 >
 > These three passes can all discover programmer errors, which are sorted and reported to the user.
 
-- The **Desugarer** ([compiler/deSugar/Desugar](/trac/ghc/browser/ghc/compiler/deSugar/Desugar)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.) (`-ddump-ds`)
+- The **Desugarer** ([compiler/deSugar/Desugar.lhs](/trac/ghc/browser/ghc/compiler/deSugar/Desugar.lhs)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.) (`-ddump-ds`)
 
-  Generally speaking, the desugarer produces few user errors or warnings. But it does produce *some*.  In particular, (a) pattern-match overlap warnings are produced here; and (b) when desugaring Template Haskell code quotations, the desugarer may find that `THSyntax` is not expressive enough.  In that case, we must produce an error ([compiler/deSugar/DsMeta](/trac/ghc/browser/ghc/compiler/deSugar/DsMeta)).
+  Generally speaking, the desugarer produces few user errors or warnings. But it does produce *some*.  In particular, (a) pattern-match overlap warnings are produced here; and (b) when desugaring Template Haskell code quotations, the desugarer may find that `THSyntax` is not expressive enough.  In that case, we must produce an error ([compiler/deSugar/DsMeta.hs](/trac/ghc/browser/ghc/compiler/deSugar/DsMeta.hs)).
 
   This late desugaring is somewhat unusual.  It is much more common to desugar the program before typechecking, or renaming, because that presents the renamer and typechecker with a much smaller language to deal with.  However, GHC's organisation means that
 
   - error messages can display precisely the syntax that the user wrote; and 
   - desugaring is not required to preserve type-inference properties.
 
-- The **SimplCore** pass ([simplCore/SimplCore.lhs](/trac/ghc/browser/ghc/simplCore/SimplCore.lhs)) is a bunch of Core-to-Core passes that optimise the program; see [ A transformation-based optimiser for Haskell (SCP'98)](http://research.microsoft.com/%7Esimonpj/Papers/comp-by-trans-scp.ps.gz) for a more-or-less accurate overview.  The main passes are:
+- The **SimplCore** pass ([compiler/simplCore/SimplCore.lhs](/trac/ghc/browser/ghc/compiler/simplCore/SimplCore.lhs)) is a bunch of Core-to-Core passes that optimise the program; see [ A transformation-based optimiser for Haskell (SCP'98)](http://research.microsoft.com/%7Esimonpj/Papers/comp-by-trans-scp.ps.gz) for a more-or-less accurate overview.  The main passes are:
 
   - The **Simplifier**, which applies lots of small, local optimisations to the program.  The simplifier is big and complicated, because it implements a *lot* of transformations; and tries to make them cascade nicely.  The transformation-based optimiser paper gives lots of details, but two other papers are particularly relevant: [ Secrets of the Glasgow Haskell Compiler inliner (JFP'02)](http://research.microsoft.com/%7Esimonpj/Papers/inlining/index.htm) and [ Playing by the rules: rewriting as a practical optimisation technique in GHC (Haskell workshop 2001)](http://research.microsoft.com/%7Esimonpj/Papers/rules.htm).  (`-ddump-simpl`)
   - The **float-out** and **float-in** transformations, which move let-bindings outwards and inwards respectively.  See [ Let-floating: moving bindings to give faster programs (ICFP '96)](http://research.microsoft.com/%7Esimonpj/papers/float.ps.gz).
@@ -48,7 +48,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 - At this point, the data flow forks.  First, the tidied program is dumped into an interface file.  This part happens in two stages:
 
   - It is **converted to `IfaceSyn`** (defined in [compiler/iface/IfaceSyn.lhs](/trac/ghc/browser/ghc/compiler/iface/IfaceSyn.lhs) and [compiler/iface/IfaceType.lhs](/trac/ghc/browser/ghc/compiler/iface/IfaceType.lhs)).
-  - The `IfaceSyn` is **serialised into a binary output file** ([compiler/iface/BinIface.lhs](/trac/ghc/browser/ghc/compiler/iface/BinIface.lhs)).
+  - The `IfaceSyn` is **serialised into a binary output file** ([compiler/iface/BinIface.hs](/trac/ghc/browser/ghc/compiler/iface/BinIface.hs)).
 
 > >
 > > The serialisation does (pretty much) nothing except serialise.  All the intelligence is in the `Core`-to-`IfaceSyn` conversion; or, rather, in the reverse of that step.
@@ -56,7 +56,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 - The same, tidied Core program is now fed to the Back End.  First there is a two-stage conversion from `CoreSyn` to [GHC's intermediate language, StgSyn](commentary/compiler/stg-syn-type).
 
   - The first step is called **CorePrep**, a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually `CorePrep` does quite a bit more: there is a detailed list at the top of the file [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs).
-  - The second step, **CoreToStg**, moves to the `StgSyn` data type (\[GhcFile(compiler/stgSyn/CoreToStg.lhs)?\].  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
+  - The second step, **CoreToStg**, moves to the `StgSyn` data type ([compiler/stgSyn/CoreToStg.lhs](/trac/ghc/browser/ghc/compiler/stgSyn/CoreToStg.lhs)).  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
 
 - Next, the **[Code Generator](commentary/compiler/code-gen)** converts the STG program to a `C--` program.  The code generator is a Big Mother, and lives in directory [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen)
 
