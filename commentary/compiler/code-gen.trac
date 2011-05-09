@@ -176,7 +176,7 @@ before calling out to their main worker function.
  * {{{StgPrimOp}}} that returns an unboxed tuple
  * {{{StgPrimOp}}} that returns an enumeration type
 
-(It appears that non-foreign-call, inline [wiki:commentary/PrimOps PrimOps] are not allowed to return complex data types (e.g. a |Maybe|), but this fact needs to be verified.)
+(It appears that non-foreign-call, inline [wiki:Commentary/PrimOps PrimOps] are not allowed to return complex data types (e.g. a |Maybe|), but this fact needs to be verified.)
 
 Each of these cases centers around one of these three core calls:
  * {{{emitForeignCall}}} in {{{CgForeignCall}}}
@@ -252,7 +252,7 @@ needed for those code generation cases.
    and information used to build the info table ({{{ClosureInfo}}}).
  {{{SMRep}}}::
    Storage manager representation of closures.
-   Part of ClosureInfo but kept separate to "keep nhc happy."
+   Part of !ClosureInfo but kept separate to "keep nhc happy."
  {{{CgUtils}}}:: TODO
  {{{CgInfoTbls}}}:: TODO
 
@@ -261,5 +261,5 @@ needed for those code generation cases.
  {{{CgProf}}}:: Cost-centre profiling
  {{{CgHpc}}}:: Support for the Haskell Program Coverage (hpc) toolkit, inside GHC.
  {{{CgParallel}}}::
-   Code generation for GranSim (GRAN) and parallel (PAR).
+   Code generation for !GranSim (GRAN) and parallel (PAR).
    All the functions are dead stubs except {{{granYield}}} and {{{granFetchAndReschedule}}}.
