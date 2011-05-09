@@ -1,34 +1,10 @@
 # The new Generic Deriving mechanism (ongoing work)
 
 
-GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in [ A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf), by Magalhães, Dijkstra, Jeuring and Löh.  This page sketches the specifics of the implementation; we assume you have read the paper.
+GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in [ A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf), by Magalhães, Dijkstra, Jeuring and Löh.  This page sketches the specifics of the implementation; we assume you have read the paper. The [ HaskellWiki page](http://www.haskell.org/haskellwiki/Generics) gives a more general overview.
 
 
 This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). The code is in the `ghc-generics` branch of the [ ghc](https://github.com/ghc/ghc/commits/ghc-generics), [ base](https://github.com/ghc/packages-base/commits/ghc-generics), [ ghc-prim](https://github.com/ghc/packages-ghc-prim/commits/ghc-generics), and [ testsuite](https://github.com/ghc/testsuite/commits/ghc-generics) repos.
-
-## Changes from the paper
-
-
-In the paper we describe the implementation in [ UHC](http://www.cs.uu.nl/wiki/UHC). The implementation in GHC is slightly different:
-
-- We are using type families, so the Representable0 and Representable1 type classes have only one type argument. So, in GHC the classes look like what we describe in "Avoiding extensions" part of Section 2.3 of the paper. This change affects only a generic function writer, and not a generic function user.
-
-- Default definitions (Section 3.3) work differently. In GHC we don't use a `DERIVABLE` pragma; instead, a type class can declare a *generic default method*, which is akin to a standard default method, but includes a generic type signature. For example, the `Encode` class of Section 3.1 is now:
-
-  ```wiki
-  class Encode a where
-    encode :: a -> [Bit]
-    default encode :: (Representable0 a, Encode1 (Rep a)) => a -> [Bit]
-    encode = encode1 . from0
-  ```
-
-  This removes the need for a separate default definition and a pragma.
-
-- To derive generic functionality to a user type, the user no longer uses ``deriving instance`` (Section 4.6.1). Instead, the user gives an instance without defining the method; GHC then uses the generic default. For instance:
-
-  ```wiki
-  instance Encode [a] -- works if there is an instance Representable0 [a]
-  ```
 
 ## Main components
 
