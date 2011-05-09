@@ -1,6 +1,15 @@
 # This page collects tickets that Simon PJ is interested in, so that he remembers them
 
-## Performance
+## New typechecker things to fix (with Dimitrios)
+
+- [\#4856](https://gitlab.haskell.org//ghc/ghc/issues/4856): slow typechecking (regression)
+- [\#5051](https://gitlab.haskell.org//ghc/ghc/issues/5051): typechecker behaviour change
+- [\#5030](https://gitlab.haskell.org//ghc/ghc/issues/5030): slow typechecking
+- [\#5002](https://gitlab.haskell.org//ghc/ghc/issues/5002): context ignored
+- [\#4981](https://gitlab.haskell.org//ghc/ghc/issues/4981): inconsistent class reqts
+- [\#2021](https://gitlab.haskell.org//ghc/ghc/issues/2021): equality superclasses (when we have the new coercion rep)
+
+- [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347): rigid type signatures for impredicativity
 
 ### Arity
 
