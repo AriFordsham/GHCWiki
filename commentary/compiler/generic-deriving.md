@@ -42,8 +42,6 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 - Print also the `Rep` type instance when -ddump-deriving is on
 
-- Give better error messages when we cannot derive Generic (currently we say only `Cannot derive Generic`)
-
 - Register the `DeriveGeneric` and `DefaultSignatures` extensions with Cabal.
 
 - Do we want `Show`, etc. instances for types like `U1`, `:+:`, ...?
