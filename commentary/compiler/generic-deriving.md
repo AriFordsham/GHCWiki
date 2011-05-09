@@ -18,9 +18,11 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 ## Things that have been removed
 
-- All of the [generic classes stuff](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). In particular:
-  ** Bla 
-  **
+- All of the [generic classes stuff](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). In particular, the following have been removed:
+
+  - `hasGenerics` field from `TyCon`;
+  - `HsNumTy` constructor from `HsType`;
+  - `TypePat` constructor from `Pat`.
 
 ## What already works
 

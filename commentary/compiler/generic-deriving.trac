@@ -16,8 +16,10 @@ This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_g
 
 == Things that have been removed ==
 
- * All of the [http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html generic classes stuff]. In particular:
- ** Bla 
+ * All of the [http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html generic classes stuff]. In particular, the following have been removed:
+   * `hasGenerics` field from `TyCon`;
+   * `HsNumTy` constructor from `HsType`;
+   * `TypePat` constructor from `Pat`.
 
 == What already works ==
 
