@@ -124,7 +124,7 @@ newLocalsRn     :: [Located RdrName] -> RnM [Name]
 ```
 
 
-The two functions introduces new toplevel and new local names, respectively, where the first two arguments to newTopSrcBinder determine the currently compiled module and the parent construct of the newly defined name. Both functions create new names only for RdrNames that are neither exact nor original. 
+The two functions introduces new toplevel and new local names, respectively, where the first two arguments to newTopSrcBinder determine the currently compiled module and the parent construct of the newly defined name. Both functions create new names only for [RdrNames](commentary/compiler/rdr-name-type) that are neither exact nor original. 
 
 ## Rebindable syntax
 
