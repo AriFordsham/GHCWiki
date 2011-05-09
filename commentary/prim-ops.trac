@@ -101,9 +101,7 @@ To add a new primop, you currently need to update the following files:
 
 See also AddingNewPrimitiveOperations, a blow-by-blow description of the process for adding a new out-of-line primop from someone who went through the process.
 
-
 == Explanation of attributes ==
-
 
 `TBV` (To be verified)
 
@@ -122,14 +120,13 @@ of any followon code onto the stack.
 
 default = False
 
-
 === needs_wrapper ===
 
 default = False
 
 === strictness ===
 
-default = [lazyDmd, ... ] TopRes
+default = [lazyDmd, ... ] !TopRes
 
 This is the strictness of the !PrimOp. Unboxed things should be marked as lazyDmd. (Someone explain why?).
 
