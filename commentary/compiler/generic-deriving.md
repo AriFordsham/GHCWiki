@@ -8,7 +8,7 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 ## Main components
 
-- `TcDeriv.tcDeriving` generates an `InstInfo` for each data type that fulfills the `isRep0` predicate. This `InstInfo` is the `Generic` instance for that type, allowing it to be handled generically (by kind-`*` generic functions).
+- `TcDeriv.tcDeriving` now allows deriving `Generic` instances.
 
 - The representation types and core functionality of the library live on `GHC.Generics` (on the `ghc-prim` package).
 
@@ -23,6 +23,8 @@ This mechanism replaces the [previous generic classes implementation](http://www
   - `hasGenerics` field from `TyCon`;
   - `HsNumTy` constructor from `HsType`;
   - `TypePat` constructor from `Pat`.
+
+- The `-XGenerics` flag is now deprecated.
 
 ## What already works
 
