@@ -52,10 +52,10 @@ Here is a block diagram of its top-level structure:
 
 The part called [HscMain](commentary/compiler/hsc-main) deals with compiling a single module.  On top of this is built the **compilation manager** (in blue) that manages the compilation of multiple modules.  It exports an interface called the **GHC API**.  On top of this API are four small front ends:
 
-- GHCi, the interactive environment, is implemented in [compiler/ghci/InteractiveUI.hs](/trac/ghc/browser/ghc/compiler/ghci/InteractiveUI.hs) and sits squarely on top of the GHC
+- GHCi, the interactive environment, is implemented in [compiler/main/InteractiveEval.hs](/trac/ghc/browser/ghc/compiler/main/InteractiveEval.hs) and sits squarely on top of the GHC
   API.
 
-- `--make` is almost a trivial client of the GHC API, and is implemented in [compiler/main/Main.hs](/trac/ghc/browser/ghc/compiler/main/Main.hs). 
+- `--make` is almost a trivial client of the GHC API, and is implemented in [compiler/main/GhcMake.hs](/trac/ghc/browser/ghc/compiler/main/GhcMake.hs). 
 
 - `-M`, the Makefile dependency generator, is also a client of the GHC API and is implemented in
   [compiler/main/DriverMkDepend.hs](/trac/ghc/browser/ghc/compiler/main/DriverMkDepend.hs). 
@@ -68,4 +68,4 @@ The part called [HscMain](commentary/compiler/hsc-main) deals with compiling a s
 GHC is packaged as a single binary in which all of these front-ends are present, selected by the command-line flags indicated above.  There is a single command-line interface implemented in [compiler/main/Main.hs](/trac/ghc/browser/ghc/compiler/main/Main.hs).
 
 
-In adition, GHC is compiled, without its front ends, as a *library* which can be imported by any Haskell program; see [the GHC API](commentary/compiler/api).
+In addition, GHC is compiled, without its front ends, as a *library* which can be imported by any Haskell program; see [the GHC API](commentary/compiler/api).
