@@ -16,6 +16,12 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 - Most of the code generation is handled by `types/Generics`
 
+## Things that have been removed
+
+- All of the [generic classes stuff](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). In particular:
+  ** Bla 
+  **
+
 ## What already works
 
 - `Generic` instances can be derived when `-XDeriveGeneric` is enabled.
