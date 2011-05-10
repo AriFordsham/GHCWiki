@@ -6,8 +6,8 @@ Max originally did the work on [GHC plugins](plugins) in his GSoC 2008 hacking s
 
 This page explains what the plug-in mechanism does, how to use it, and a little about the implementation.  For discussion, and the current state of play, see the ticket: [\#3843](https://gitlab.haskell.org//ghc/ghc/issues/3843). If you're interested in writing plugins for GHC, **please comment and give feedback, we want to do it right**!
 
-
-1/17/11: I (Austin Seipp) am working on getting the patch cleaned up a little more and tidying it up before it gets integrated. Still need testsuite patches.
+- 1/17/11: I (Austin Seipp) am working on getting the patch cleaned up a little more and tidying it up before it gets integrated. Still need testsuite patches.
+- 5/10/11: I have been busy, but there's a new git repository!
 
 
 NB. Ridiculously incomplete writing/documentation.
@@ -15,12 +15,21 @@ NB. Ridiculously incomplete writing/documentation.
 ## Current overview
 
 
-Get GHC from its HEAD repository, and apply this patch:
+I currently have a branch of GHC with plugins support, that is occasionally (once a week or so) merged with master for the latest fixes/updates. You can find it here:
 
-[ http://hackage.haskell.org/trac/ghc/raw-attachment/ticket/3843/ghc_plugins_support_2010_11_19.2.dpatch](http://hackage.haskell.org/trac/ghc/raw-attachment/ticket/3843/ghc_plugins_support_2010_11_19.2.dpatch)
+[ https://github.com/thoughtpolice/ghc/tree/plugins](https://github.com/thoughtpolice/ghc/tree/plugins)
 
 
-Then build GHC like normal.
+so just run:
+
+```wiki
+$ git remote add aseipp git@github.com:thoughtpolice/ghc.git
+$ git pull --all
+$ git checkout -b plugins_temp aseipp/plugins
+```
+
+
+Then build GHC like normal. You don't need to check out branches of any libraries, because the compiler work only touches the code under `./compiler`.
 
 
 Now GHC understands the `-fplugin` and `-fplugin-arg` options. You essentially install plugins for GHC by `cabal install`ing them, and then calling GHC in the form of:
@@ -96,15 +105,10 @@ Most people will be using the first case - that is, writing a `BindsToBindsPlugi
 ### Reflections on the current API for Core passes
 
 
-Scala's compiler has a plugin API described by \[1\], with examples at \[2\]. Scala is a bit of a different beast, but the compiler fully supports compilation plugins in the same manner we would like GHC to - more to the point, we want to make sure we have a **good API for specifying when plugins are used and executed**. This is a part of the API that is currently rather simplistic and ad-hoc: we just modify the entire list of compiler passes and return a new one for the optimizer to run. We would like a better mechanism for controlling when plugin passes happen.
+Scala's compiler has a plugin API described by \[1\], with examples at \[2\]. Scala's compiler supports insertion of a plugin at almost any stage in the compiler, internal or external (so you can for example, write a 'check for division by zero' plugin that runs right after the parser/typechecker.) Furthermore, the Scala design actually involves annotating your plugin with a set of 'runsBefore' or 'runsAfter' constraints, which specify which other internal phases your plugin occurs before or after. After all plugins are loaded, internal and external (plugin-made) phases are constructed into a dependency graph and ordered using the constraints, to yield a sorted list of the final phases to run.
 
 
-Of course, GHC is changing all the time - authors of plugins should be ready to deal with differences and changes in versions (e.g. Core can change, don't doubt it for a second,) but if we will be providing a public API for writing plugins, we need to make sure it's sensible and usable for the future to come.
-
-
-Part of the purpose of the plugins work (in my vision) is to help lower the barrier to working with and on GHC, as well as piggyback off the work it's done. So we want to make sure plugins are done right, and look at what others have done right (and wrong.)
-
-TODO expand on this bit and scala's compiler plugin design, primarily its `runsBefore` and `runsAfter` constraints, the old design Max had, and, by extension, on a better method of controlling when plugin passes are run, instead of just relying on a weak (and, I personally think somewhat fragile) installation function.
+Barring the feature to let you insert a compiler plugin just \*anywhere\* (we only care about intermediate representations,) it would be nice to adopt this dependency-graph based interface. Mostly, because it saves us a little headache in having to potentially sift through the list of core passes to install ourselves. Furthermore resolving the dependencies and finalizing the list of plugins ends a question about 'which plugin loaded and installed itself first' (intuitively we would like to say left-to-right on the command line, but that's a little fragile to depend on.) It also makes it easier to have passes which may run before a pass that occurs multiple times, etc. And we can still compose `CoreToDo`s using `CoreDoPasses`.
 
 # The Future
 
@@ -113,41 +117,15 @@ TODO expand on this bit and scala's compiler plugin design, primarily its `runsB
 
 Aside from manipulating the core language, we would also like to manipulate the C-- representation GHC generates for modules too.
 
-
-The [new code generator](commentary/compiler/new-code-gen) (more precisely, the optimizing conversion from STG to Cmm part of GHC) based on hoopl for dataflow analysis is going to be merged into HEAD Real Soon Now. It would be best perhaps to leave this part of the interface alone until it is merged - clients of the interface could then use hoopl to write dataflow passes for Cmm.
-
-- New code generator is based on several phases:
-
-  - Conversion from STG to Cmm
-  - Basic optimisations (basic block elim., liveness analysis, etc)
-  - CPS Conversion
-  - More basic optimisations on CPS form
-  - Conversion to old Cmm representation, then passed to backend code generator.
-
-- We need some sort of interface to describe how to insert it into the pipeline - is the Core approach best here, that is, an installation function that just inserts itself into a list?
-
-- Add new interface to `Plugin` next to `installCoreToDos` i.e. `installCmmPass`, that installs a pass of type `CmmGraph -> CmmGraph` into the optimization pipeline somehow?
+TODO fixme
 
 ### Rough API possibilities
-
-
-NB. This section is based mostly on the upcoming NCG mega-patch, which re-engineers the C-- implementation to use Hoopl. If you want to follow along, you'll need the patch, which can be seen and downloaded here:
-
-[ http://www.haskell.org/pipermail/cvs-ghc/2011-January/059015.html](http://www.haskell.org/pipermail/cvs-ghc/2011-January/059015.html)
 
 TODO fixme
 
 #### Composing a hoopl analysis
 
-[ Hoopl](http://hackage.haskell.org/package/hoopl) is the main workhorse behind the new GHC code generator - it is a sophisticated, higher order and highly polymorphic library for writing optimization and dataflow passes over imperative code graphs. It is based on the work of Lerner, Grove and Chambers \[3\], and one of the nice properties of the design is that it makes it easy to compose independent dataflow analysis to create a super-analysis that is more powerful than either analysis on its own, without the tedium of having to manually write such a super-analysis.
-
-
-API question here: how should we compose analysis that plugins provide with ones that GHC provides?
-
-TODO fixme. check and explain current Hoopl combinators for deep/shallow passes (deepFwdRw and deepBwdRw,) as well as composing them (thenFwdRw and thenBwdRw) and how they should fit into this part of the API
-
 # References
 
 - \[1\] "Scala Compiler Phase and Plug-In Initialization for Scala 2.8" (PDF) - [ http://www.scala-lang.org/sites/default/files/sids/nielsen/Thu,%202009-05-28,%2008:13/compiler-phases-sid.pdf](http://www.scala-lang.org/sites/default/files/sids/nielsen/Thu,%202009-05-28,%2008:13/compiler-phases-sid.pdf)
 - \[2\] "Writing Scala Compiler Plugins" [ http://www.scala-lang.org/node/140](http://www.scala-lang.org/node/140)
-- \[3\] "Composing dataflow analysis and transformation" (PDF) - [ http://cseweb.ucsd.edu/\~lerner/UW-CSE-01-11-01.pdf](http://cseweb.ucsd.edu/~lerner/UW-CSE-01-11-01.pdf)
