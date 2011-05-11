@@ -312,7 +312,7 @@ because the types do change).
 ## Useful flags
 
 
-See `-ddump-stg, -ddump-simpl, -ddump-cmm, -dppr-debug`.
+See `-ddump-stg, -ddump-simpl, -ddump-cmm, -dppr-debug`.  For a really close correspondence to the assembly, see `-ddump-opt-cmm`.  If you’re working on the new code generator, use `-ddump-cmmz` instead of `-ddump-cmm`.  You can also use `-ddump-to-file` to have this output be put into a file rather than to standard output.
 
 ## Useful hints
 
