@@ -11,6 +11,8 @@
 
 - [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347): rigid type signatures for impredicativity
 
+- [\#1999](https://gitlab.haskell.org//ghc/ghc/issues/1999): this relates to decomposition of type application in GADTs etc, which we no longer support.  We could start supporting it again, but the question is whether it's worth the extra complexity.
+
 ### Arity
 
 - [\#3924](https://gitlab.haskell.org//ghc/ghc/issues/3924): weak arity leads to weak strictness
