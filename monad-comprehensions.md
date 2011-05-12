@@ -58,13 +58,12 @@ unzip (w1,w2) = \e -> ((unzip w1) (e >>= (return .(\(x,y) -> x))), (unzip w2) (e
 ### Examples
 
 
-Some translation examples (using the do notation):
+Some translation examples using the do notation to avoid things like pattern matching failures are:
 
 ```wiki
 [ x+y | x <- Just 1, y <- Just 2 ]
 
-=>
-
+-- translates to:
 do x <- Just 1
    y <- Just 2
    return (x+y)
@@ -76,8 +75,7 @@ Transform statements:
 ```wiki
 [ x | x <- [1..], then take 10 ]
 
-=>
-
+-- translates to:
 take 10 (do
   x <- [1..]
   return x)
@@ -88,6 +86,10 @@ Grouping statements (note the change of types):
 
 ```wiki
 [ (x :: [Int]) | x <- [1,2,1,2], then group by x ] :: [[Int]]
+
+-- translates to:
+do x <- mgroupWith (\x -> x) [1,2,1,2]
+   return x
 ```
 
 
@@ -97,10 +99,21 @@ Parallel statements:
 [ x+y | x <- [1,2,3]
       | y <- [4,5,6] ]
 
-=>
-
+-- translates to:
 do (x,y) <- mzip [1,2,3] [4,5,6]
    return (x+y)
 ```
 
+
+Note that the actual implementation is **not** using the \*do\*-Notation
+
 ## Implementation details
+
+
+Monad comprehensions had to change the `StmtLR` data type in the `hsSyn/HsExpr.lhs` file in order to be able to lookup and store all functions required to desugare monad comprehensions correctly (e.g. `return`, `(>>=)`, `guard` etc). Renaming is done in `rename/RnExpr.lhs` and typechecking in `typecheck/TcMatches.lhs`. The main desugaring is done in `deSugar/DsListComp.lhs`. If you want to start hacking on monad comprehensions I'd look at those files first.
+
+
+Some things you might want to be aware of:
+
+
+\[todo\]
