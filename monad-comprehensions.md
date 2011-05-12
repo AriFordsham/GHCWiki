@@ -105,7 +105,7 @@ do (x,y) <- mzip [1,2,3] [4,5,6]
 ```
 
 
-Note that the actual implementation is **not** using the \*do\*-Notation
+Note that the actual implementation is **not** using the `do`-Notation, it's only used here to give a basic overview about how the translation works.
 
 ## Implementation details
 
