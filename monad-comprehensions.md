@@ -55,4 +55,52 @@ unzip x  = id
 unzip (w1,w2) = \e -> ((unzip w1) (e >>= (return .(\(x,y) -> x))), (unzip w2) (e >>= (return . (\(x,y) -> y))))
 ```
 
+### Examples
+
+
+Some translation examples (using the do notation):
+
+```wiki
+[ x+y | x <- Just 1, y <- Just 2 ]
+
+=>
+
+do x <- Just 1
+   y <- Just 2
+   return (x+y)
+```
+
+
+Transform statements:
+
+```wiki
+[ x | x <- [1..], then take 10 ]
+
+=>
+
+take 10 (do
+  x <- [1..]
+  return x)
+```
+
+
+Grouping statements (note the change of types):
+
+```wiki
+[ (x :: [Int]) | x <- [1,2,1,2], then group by x ] :: [[Int]]
+```
+
+
+Parallel statements:
+
+```wiki
+[ x+y | x <- [1,2,3]
+      | y <- [4,5,6] ]
+
+=>
+
+do (x,y) <- mzip [1,2,3] [4,5,6]
+   return (x+y)
+```
+
 ## Implementation details
