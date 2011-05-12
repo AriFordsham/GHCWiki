@@ -1,7 +1,7 @@
 # Monad comprehensions
 
 
-Monad comprehensions are currently in development. See ticket [\#4370](https://gitlab.haskell.org//ghc/ghc/issues/4370).
+Monad comprehensions were added to the main GHC repository on the 4th May 2011. See ticket [\#4370](https://gitlab.haskell.org//ghc/ghc/issues/4370).
 
 ## Translation rules
 
