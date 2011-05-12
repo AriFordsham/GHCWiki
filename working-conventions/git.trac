@@ -19,20 +19,29 @@ Existing darcs users see: [wiki:GitForDarcsUsers].  If you have an existing sour
 
  * Discuss anything you think might be controversial before pushing it.
 
-== Patch naming ==
-
-We have a simple naming convention for certain kinds of patches:
-
- * If your patch fixes breakage in the build, then begin the patch name with `"FIX BUILD"`. e.g.
+ * We have a simple naming convention for certain kinds of patches:
+   * If your patch fixes breakage in the build, then begin the patch name with `"FIX BUILD"`. e.g.
 {{{
   FIX BUILD Use the right find on Windows systems; fixes bindist creation
 }}}
-
- * If your patch fixes a bug, then include the ticket number in the form `#NNNN` in the patch name, e.g.
+   * If your patch fixes a bug, then include the ticket number in the form `#NNNN` in the patch name, e.g.
 {{{
   withMVar family have a bug (fixes #767)
 }}}
-  Trac will then create a link from the commit to the ticket, making navigation easier.
+     Trac will then create a link from the commit to the ticket, making navigation easier.
+
+== Line endings ==
+
+Files in GHC repos should use Unix conventions for line endings.
+If you are on Windows, ensure that git handles line-endings sanely by running:
+{{{
+git config --global core.autocrlf false
+}}}
+To find out what files in your tree have windows (CRLF) line endings,  use
+{{{
+find . -name '*hs' | xargs file | grep CRLF
+}}}
+Do this before you commit them!
 
 == Normal workflow ==
 
