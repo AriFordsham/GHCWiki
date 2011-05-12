@@ -500,3 +500,11 @@ The following links are to discussions of similar topics:
 - [ http://hackage.haskell.org/trac/ghc/ticket/1380](http://hackage.haskell.org/trac/ghc/ticket/1380)
 
 - [ http://hackage.haskell.org/trac/ghc/ticket/1338\#comment:29](http://hackage.haskell.org/trac/ghc/ticket/1338#comment:29)
+
+## Comments
+
+
+Can `Data.Data` be trusted?  The derived Data instances allows bad access to constructors.
+
+
+If pointers, peek, and poke are allowed you can craft something that modifies existing heap data and, say, change constructors in existing heap data.
