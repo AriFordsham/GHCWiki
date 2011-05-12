@@ -1,7 +1,7 @@
 # Monad comprehensions
 
 
-Monad comprehensions are currently in development. See ticket [\#4370](https://gitlab.haskell.org//ghc/ghc/issues/4370).
+Monad comprehensions were added to the main GHC repository on the 4th May 2011. See ticket [\#4370](https://gitlab.haskell.org//ghc/ghc/issues/4370).
 
 ## Translation rules
 
@@ -105,7 +105,7 @@ do (x,y) <- mzip [1,2,3] [4,5,6]
 ```
 
 
-Note that the actual implementation is **not** using the \*do\*-Notation
+Note that the actual implementation is **not** using the `do`-Notation, it's only used here to give a basic overview about how the translation works.
 
 ## Implementation details
 
