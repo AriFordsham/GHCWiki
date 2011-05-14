@@ -223,13 +223,16 @@ CONFIRMED. `T1969.hs` demonstrates this:
  }
 }}}
 
-The call area for the jump in cbG is using an extra word on the stack, but in fact Sp + 0 at the entry of the function immediately becomes dead after the assignment, so we ought to be able to save some space in our layout. Simon Marlow suggests we distinguish between the return address and the old call area; need to talk to SPJ about fixing this.
+The call area for the jump in cbG is using an extra word on the stack, but in fact Sp + 0 at the entry of the function immediately becomes dead after the assignment, so we ought to be able to save some space in our layout. Simon Marlow suggests we distinguish between the return address and the old call area; however, since this can also happen for the return parameters from call areas, we need a more general scheme.
+
+After I discussed this with SPJ, we've decided that we need to teach the stack layout how to handle partial conflicts. There is a complication here, in that if we do this naively, the interference graph will blow up (since, rather than conflicting call areas, we now have conflicting words of call areas.) Simon suggested that we bound the amount of conflicts we track: either up to 3 or conflict with everything (in which case we just place the area as far down as necessary rather than try to be clever.) I plan on doing this once I understand the current layout code...
 
 == Heap and R1 aliasing ==
 
-CONFIRMED. Values on the heap and values from R1 don't necessarily clobber
+FIXED. Values on the heap and values from R1 don't necessarily clobber
 each other.  allocDynClosure seems like a pretty safe bet they
-don't.  But is this true in general?
+don't.  But is this true in general? ANSWER: Memory writes with
+Hp are always new allocations, so they don't clobber anything.
 
 {{{
         _s14Y::F64 = F64[_s1uN::I32 + 8];
@@ -279,7 +282,7 @@ do any rewriting, because it just reuses the call area.
 
 == Stupid spills ==
 
-If something is already in memory, why do we have to spill it again?
+CONFIRMED. If something is already in memory, why do we have to spill it again?
 
 {{{
 module Foo where
@@ -384,11 +387,11 @@ smz_ret()
 }
 }}}
 
-The trouble is that the spiller doesn't know that the old call area is also valid game for locations that variables can live in. I thought maybe we could have the stack layout engine coalesce these, but them we need to know about when memory changes (since the old area will get written over.) This will also interact in strange ways with when we try to overlap areas.
+The trouble is that the spiller doesn't know that the old call area is also valid game for locations that variables can live in. So, the solution is to rewrite the spiller to know about existing incoming memory locations. Make sure that this information gets to the stack layout engine when we do partial layouts (it should automatically notice, but double check!)
 
 == Noppy proc-points ==
 
-Consider
+CONFIRMED. Consider
 
 {{{
 f :: Int -> Int -> Int -> Int
