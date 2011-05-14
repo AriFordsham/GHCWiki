@@ -360,6 +360,17 @@ find it - but you first have to find which module it comes from, and
 the best way to do that is to grep for `s28a` in all the modules
 of your program.
 
+## Setting up gdbinit
+
+
+As GHC's allocation of registers will vary depending on what architecture
+you're building for, you'll need to modify some values in your gdbinit to
+make things work for you.  In particular, you need to know what values
+BaseReg and Sp are.  You can find them out by looking at
+`includes/stg/MachRegs.h` (as well as all of the other registers.)
+In particular, on x86-32, BaseReg is in ebx and Sp is in ebp, while on
+x84-64, BaseReg is in r13 and Sp is in rbp.
+
 ## When you've found & fixed it
 
 - Tell someone, they'll probably be impressed :-)
