@@ -70,7 +70,7 @@ To find out what the current package is, grab the field `thisPackage` from `DynF
 ## Special packages
 
 
-Certain packages are special, in the sense that GHC knows about their existence and something about their contents.  Any [Name](commentary/compiler/name-type) that is wired-in? (see [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs)) must by definition contain a `Module`, and that module must therefore contain a `PackageId`.  But the `PackageId` is a full package name, including the version, so does this mean we have to somehow find out the version of the `base` package (for example) and bake it into the GHC binary?
+Certain packages are special, in the sense that GHC knows about their existence and something about their contents.  Any [Name](commentary/compiler/name-type) that is [wired-in](commentary/compiler/wired-in) (see [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs)) must by definition contain a `Module`, and that module must therefore contain a `PackageId`.  But the `PackageId` is a full package name, including the version, so does this mean we have to somehow find out the version of the `base` package (for example) and bake it into the GHC binary?
 
 
 We took the view that it should be possible to upgrade these packages independently of GHC, so long as you don't change any of the information that GHC knows about the package (eg. the type of `fromIntegral` or what module things come from).  Therefore we shouldn't bake in the version of any packages.  So the `PackageId` for the `base` package inside GHC is simply `base`: we explicitly strip off the version number for special packages wherever they occur.  
