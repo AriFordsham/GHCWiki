@@ -1,7 +1,7 @@
 # Commentary: The Package System
 
 
-See also: [Commentary/Compiler/Packages](commentary/compiler/packages), where we describe how this is implemented in GHC.
+See also: [Packages](commentary/compiler/packages), where we describe how this is implemented in GHC.
 
 ## Architecture
 

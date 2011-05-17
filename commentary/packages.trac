@@ -2,7 +2,7 @@
 
 = Commentary: The Package System =
 
-See also: [wiki:Commentary/Compiler/Packages], where we describe how this is implemented in GHC.
+See also: [wiki:Commentary/Compiler/Packages Packages], where we describe how this is implemented in GHC.
 
 == Architecture ==
 
