@@ -1,7 +1,7 @@
 # Commentary: The Package System
 
 
-See also: [Commentary/Compiler/Packages](commentary/compiler/packages), where we describe how this is implemented in GHC.
+See also: [Packages](commentary/compiler/packages), where we describe how this is implemented in GHC.
 
 ## Architecture
 
@@ -13,7 +13,7 @@ There are four main components of the package system:
 
 <table><tr><th>Cabal</th>
 <td>
-Cabal is a Haskell library, which provides basic datatypes for the package system, and support for building,
+Cabal is a Haskell library, which provides basic data types for the package system, and support for building,
 configuring, and installing packages.
 </td></tr></table>
 
@@ -78,7 +78,7 @@ even when the module names overlap.
 
 ## Design constraints
 
-1. We want [Commentary/Compiler/RecompilationAvoidance](commentary/compiler/recompilation-avoidance) to work.  This means that symbol names should not contain any information that varies too often, such as the ABI hash of the module or package.  The ABI of an entity should depend only on its definition, and the definitons of the things it depends on.
+1. We want [recompilation avoidance](commentary/compiler/recompilation-avoidance) to work.  This means that symbol names should not contain any information that varies too often, such as the ABI hash of the module or package.  The ABI of an entity should depend only on its definition, and the definitions of the things it depends on.
 
 1. We want to be able to detect ABI incompatibility.  If a package is recompiled and installed over the top of the old one, and the new version is ABI-incompatible with the old one, then packages that depended on the old version should be detectably broken using the tools.
 
@@ -91,7 +91,7 @@ even when the module names overlap.
     on it, by ensuring that the replacement is ABI-compatible.
   - Shared library upgrades.  We want to be able to substitute a new ABI-compatible shared library for an old one, and all the existing binaries linked against the old version continue to work.
   - ABI compatibility is dependent on GHC too; changes to the compiler and RTS can introduce ABI incompatibilities.  We
-    guarantee to only make ABI incompatible changes in a major release of GHC.  Between major releases, ABI compatibilty
+    guarantee to only make ABI incompatible changes in a major release of GHC.  Between major releases, ABI compatibility
     is ensured; so for example it should be possible to use GHC 6.12.2 with the packages that came with GHC 6.12.1.
 
 
@@ -117,7 +117,7 @@ We need to talk about some more package Ids:
   `InstalledPackageId`, so that packages that depend on the old P-1.0 will now be detectably broken.
 
 - `PackageSymbolId`: We do not use the `InstalledPackageId` as the symbol prefix in the compiled code, because 
-  that interacts badly with [Commentary/Compiler/RecompilationAvoidance](commentary/compiler/recompilation-avoidance).  Every time we pick a
+  that interacts badly with [recompilation avoidance](commentary/compiler/recompilation-avoidance).  Every time we pick a
   new unique `InstalledPackageId` (e.g. when reconfiguring the package), we would have to recompile
   the entire package.  Hence, the `PackageSymbolId` is picked deterministically for the package, e.g.
   it can be the `PackageIdentifier`.
