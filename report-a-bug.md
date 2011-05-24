@@ -20,19 +20,23 @@ To report a bug, either:
 
 Take a look at the [ FAQ](http://haskell.org/haskellwiki/GHC/FAQ) and [Chapter 9, What to do when something goes wrong](http://www.haskell.org/ghc/docs/latest/html/users_guide/wrong.html), which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
 
+**If you encounter a crash from the runtime system**, which usually manifest as one of the following error messages:
 
-If it is a bug, then it might have been reported before: try searching on the [ bug tracker](http://hackage.haskell.org/trac/ghc), and failing that, try [ Google](http://www.google.com/).
-
-
-If in doubt, just report it.
-
-## If already reported, vote for it!
-
-
-If someone else has already reported the bug you've found, then add yourself to the CC list for the bug. We will try to prioritise bugs that affect a lot of people, and the length of the CC list is how we are currently determining this.
+```wiki
+internal error: evacuate: strange closure type ...
+internal error: scavenge: unimplemented/strange closure type ...
+internal error: update_fwd: unknown/strange object ...
+```
 
 
-Use a comma or space (but not semicolon) to separate your email address from the next one.
+then don't bother searching for existing tickets - **just create a new ticket**.  These indicate a general RTS failure of some kind, and can arise due to a wide range of causes, so it is easier for us to track each failure in a separate ticket.
+
+
+Otherwise, try searching for existing tickets on the [ bug tracker](http://hackage.haskell.org/trac/ghc) or [ Google](http://www.google.com/?q=site:hackage.haskell.org/trac/ghc/ticket%20).
+
+**If you find an existing ticket** that seems to describe the same problem, then **add yourself to the CC list** for the bug. We will try to prioritise bugs that affect a lot of people, and the length of the CC list is how we are currently determining this.  Use a comma or space (but not semicolon) to separate your email address from the next one.
+
+**If in doubt, just report your bug**.
 
 ## What to put in a bug report
 
