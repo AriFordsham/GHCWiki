@@ -149,3 +149,61 @@ f (J# _ _) (S# _) = ...
 f (S# _) (J# _ _) = ...
 f (J# _ _) (J# _ _) = ...
 }}}
+
+= Repository locations =
+
+{{{
+#!html
+
+<p>This table shows, for each repository in a GHC tree, where the <span style="color: green;">central repository</span> is, and what mirrors there are. The situation with haddock is currently complex, as the upstream repo tracks the most recent GHC stable branch, not the HEAD.</p>
+
+<table border="2">
+<tr><td colspan="2">darcs</td><td colspan="4">git</td><td></td></tr>
+<tr><td>darcs upstream</td><td>darcs mirror</td><td>git upstream</td><td>git mirror</td><td>ghc (validated) repo</td><td>in-tree</td><td></td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/ghc.git/</td><td></td><td>http://darcs.haskell.org/ghc.git/</td><td>.</td><td rowspan="33">ghc</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/ghc-tarballs.git/</td><td></td><td>http://darcs.haskell.org/ghc-tarballs.git/</td><td>ghc-tarballs</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/utils/hsc2hs.git/</td><td></td><td>http://darcs.haskell.org/utils/hsc2hs.git/</td><td>utils/hsc2hs</td></tr>
+<tr><td style="color: purple;">http://code.haskell.org/haddock/</td><td></td><td style="color: purple;">http://darcs.haskell.org/haddock2.git</td><td></td><td>http://darcs.haskell.org/haddock2.git</td><td>utils/haddock</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/array.git/</td><td></td><td>http://darcs.haskell.org/packages/array.git/</td><td>libraries/array</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/base.git/</td><td></td><td>http://darcs.haskell.org/packages/base.git/</td><td>libraries/base</td></tr>
+<tr><td style="color: green;">http://code.haskell.org/binary/</td><td>http://darcs.haskell.org/darcs-mirrors/binary/</td><td></td><td>http://darcs.haskell.org/git-mirrors/binary/binary.git/</td><td>http://darcs.haskell.org/packages/.git/</td><td>libraries/binary</td></tr>
+<tr><td style="color: green;">http://code.haskell.org/bytestring/</td><td></td><td></td><td>http://darcs.haskell.org/git-mirrors/bytestring/.git/</td><td>http://darcs.haskell.org/packages/bytestring.git/</td><td>libraries/bytestring</td></tr>
+<tr><td style="color: green;">http://code.haskell.org/Cabal/</td><td></td><td></td><td>http://darcs.haskell.org/git-mirrors/Cabal/.git/</td><td>http://darcs.haskell.org/packages/Cabal.git/</td><td>libraries/Cabal</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/containers.git/</td><td></td><td>http://darcs.haskell.org/packages/containers.git/</td><td>libraries/containers</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/directory.git/</td><td></td><td>http://darcs.haskell.org/packages/directory.git/</td><td>libraries/directory</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/extensible-exceptions.git/</td><td></td><td>http://darcs.haskell.org/packages/extensible-exceptions.git/</td><td>libraries/extensible-exceptions</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/filepath.git/</td><td></td><td>http://darcs.haskell.org/packages/filepath.git/</td><td>libraries/filepath</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/ghc-prim.git/</td><td></td><td>http://darcs.haskell.org/packages/ghc-prim.git/</td><td>libraries/ghc-prim</td></tr>
+<tr><td style="color: green;">http://code.haskell.org/haskeline/</td><td>http://darcs.haskell.org/darcs-mirrors/haskeline/</td><td></td><td>http://darcs.haskell.org/git-mirrors/haskeline/.git/</td><td>http://darcs.haskell.org/packages/haskeline.git/</td><td>libraries/haskeline</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/haskell98.git/</td><td></td><td>http://darcs.haskell.org/packages/haskell98.git/</td><td>libraries/haskell98</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/haskell2010.git/</td><td></td><td>http://darcs.haskell.org/packages/haskell2010.git/</td><td>libraries/haskell2010</td></tr>
+<tr><td></td><td></td><td style="color: green;">git://code.eecs.tufts.edu/hoopl/hoopl.git</td><td>http://darcs.haskell.org/git-mirrors/hoopl/</td><td>http://darcs.haskell.org/packages/hoopl.git/</td><td>libraries/hoopl</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/hpc.git/</td><td></td><td>http://darcs.haskell.org/packages/hpc.git/</td><td>libraries/hpc</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/integer-gmp.git/</td><td></td><td>http://darcs.haskell.org/packages/integer-gmp.git/</td><td>libraries/integer-gmp</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/integer-simple.git/</td><td></td><td>http://darcs.haskell.org/packages/integer-simple.git/</td><td>libraries/integer-simple</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/mtl.git/</td><td></td><td>http://darcs.haskell.org/packages/mtl.git/</td><td>libraries/mtl</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/old-locale.git/</td><td></td><td>http://darcs.haskell.org/packages/old-locale.git/</td><td>libraries/old-locale</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/old-time.git/</td><td></td><td>http://darcs.haskell.org/packages/old-time.git/</td><td>libraries/old-time</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/pretty.git/</td><td></td><td>http://darcs.haskell.org/packages/pretty.git/</td><td>libraries/pretty</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/process.git/</td><td></td><td>http://darcs.haskell.org/packages/process.git/</td><td>libraries/process</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/random.git/</td><td></td><td>http://darcs.haskell.org/packages/random.git/</td><td>libraries/random</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/template-haskell.git/</td><td></td><td>http://darcs.haskell.org/packages/template-haskell.git/</td><td>libraries/template-haskell</td></tr>
+<tr><td style="color: green;">http://code.haskell.org/terminfo/</td><td>http://darcs.haskell.org/darcs-mirrors/terminfo/</td><td></td><td>http://darcs.haskell.org/git-mirrors/terminfo/.git/</td><td>http://darcs.haskell.org/packages/terminfo.git/</td><td>libraries/terminfo</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/unix.git/</td><td></td><td>http://darcs.haskell.org/packages/unix.git/</td><td>libraries/unix</td></tr>
+<tr><td></td><td></td><td style="color: green;">https://github.com/glguy/utf8-string.git</td><td></td><td>http://darcs.haskell.org/packages/utf8-string.git/</td><td>libraries/utf8-string</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/Win32.git/</td><td></td><td>http://darcs.haskell.org/packages/Win32.git/</td><td>libraries/Win32</td></tr>
+<tr><td style="color: green;">http://darcs.haskell.org/packages/xhtml/</td><td>http://darcs.haskell.org/darcs-mirrors/xhtml/</td><td></td><td>http://darcs.haskell.org/git-mirrors/xhtml/.git/</td><td>http://darcs.haskell.org/packages/xhtml.git/</td><td>libraries/xhtml</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/testsuite.git/</td><td></td><td>http://darcs.haskell.org/testsuite.git/</td><td>testsuite</td><td>testsuite</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/nofib.git</td><td></td><td>http://darcs.haskell.org/nofib.git</td><td>nofib</td><td>nofib</td></tr>
+<tr><td style="color: green;">http://code.haskell.org/primitive/</td><td>http://darcs.haskell.org/darcs-mirrors/primitive/</td><td></td><td>http://darcs.haskell.org/git-mirrors/primitive/.git/</td><td>http://darcs.haskell.org/packages/primitive.git/</td><td>libraries/primitive</td><td rowspan="3">dph</td></tr>
+<tr><td style="color: green;">http://code.haskell.org/vector/</td><td>http://darcs.haskell.org/darcs-mirrors/vector/</td><td></td><td>http://darcs.haskell.org/git-mirrors/vector/.git/</td><td>http://darcs.haskell.org/packages/vector.git/</td><td>libraries/vector</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/dph.git/</td><td></td><td>http://darcs.haskell.org/packages/dph.git/</td><td>libraries/dph</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/deepseq.git/</td><td></td><td>http://darcs.haskell.org/packages/deepseq.git/</td><td>libraries/deepseq</td><td rowspan="3">extra</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/parallel.git/</td><td></td><td>http://darcs.haskell.org/packages/parallel.git/</td><td>libraries/parallel</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/stm.git/</td><td></td><td>http://darcs.haskell.org/packages/stm.git/</td><td>libraries/stm</td></tr>
+</table>
+}}}
+
+This diagram shows how changes migrate from one repo to another:
+
+[[Image(repos.png)]]
