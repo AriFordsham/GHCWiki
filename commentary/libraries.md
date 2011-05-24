@@ -491,3 +491,8 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/packages/stm.git/</th>
 <th>libraries/stm</th>
 <th></th></tr></table>
+
+
+This diagram shows how changes migrate from one repo to another:
+
+[](/trac/ghc/attachment/wiki/Commentary/Libraries/repos.png)

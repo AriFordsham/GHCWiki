@@ -203,3 +203,7 @@ f (J# _ _) (J# _ _) = ...
 <tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/stm.git/</td><td></td><td>http://darcs.haskell.org/packages/stm.git/</td><td>libraries/stm</td></tr>
 </table>
 }}}
+
+This diagram shows how changes migrate from one repo to another:
+
+[[Image(repos.png)]]
