@@ -402,6 +402,10 @@ Below is the breakdown for just the GHC modules in base:
 <th></th>
 <th></th>
 <th></th></tr>
+<tr><th>Prim            </th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Read           </th>
 <th></th>
 <th></th>
@@ -499,6 +503,8 @@ only be dereferenced in the IO monad we should be OK though.
 
 (Foreign.ForeignPtr - as above)
 (Foreign.Ptr         - as above)
+
+**GHC.IO.Encoding.CodePage.Table**: Exports raw **Addr\#** arrays. Also pretty specific code so doesn't seem that useful outside of the base package.
 
 **GHC.IOBase:**
 keeping unsafe and no safe version as depreciated module.

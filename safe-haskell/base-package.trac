@@ -91,6 +91,7 @@ Below is the breakdown for just the GHC modules in base:
 <tr> <td bgcolor=blue>PArr           </td><td>                        </td><td>                              </td><td>                                  </td> </tr>
 <tr> <td bgcolor=red>Pack            </td><td>                        </td><td>                              </td><td>                                  </td> </tr>
 <tr> <td bgcolor=yellow>Ptr          </td><td>                        </td><td>                              </td><td>                                  </td> </tr>
+<tr> <td bgcolor=red>Prim            </td><td>                        </td><td>                              </td><td>                                  </td> </tr>
 <tr> <td bgcolor=blue>Read           </td><td>                        </td><td>                              </td><td>                                  </td> </tr>
 <tr> <td bgcolor=blue>Real           </td><td>                        </td><td>                              </td><td>                                  </td> </tr>
 <tr> <td bgcolor=yellow>ST           </td><td>                        </td><td>                              </td><td>                                  </td> </tr>
@@ -151,6 +152,8 @@ only be dereferenced in the IO monad we should be OK though.
 
 (Foreign.!ForeignPtr - as above)
 (Foreign.Ptr         - as above)
+
+'''GHC.IO.Encoding.CodePage.Table''': Exports raw '''Addr#''' arrays. Also pretty specific code so doesn't seem that useful outside of the base package.
 
 '''GHC.IOBase:'''
 keeping unsafe and no safe version as depreciated module.
