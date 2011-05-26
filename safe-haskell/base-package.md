@@ -14,6 +14,11 @@ Most blue squares are blue because they import GHC.Base which is currently unsaf
 
 For splitting modules that contain both Safe and Unsafe Symbols, I've moved the entire definition to a new module called say GHC.Arr.Imp. Then added two new module, GHC.Arr.Safe, GHC.Arr.Unsafe. Then changed GHC.Arr to import the Safe and Unsafe modules and either just export the Safe API or export both Safe and Unsafe depending on a CPP flag. This allows us to choose at compile time if we want the base package to be safe by default or not. I could have used a simpler approach like having the entire module defined in GHC.Arr.Unsafe and not have a Imp module but I preferred the Safe and Unsafe modules having disjoint API's rather than Safe being a subset.
 
+## General Decisions
+
+- Keep in mind that anything in the IO monad is basically 'safe'. So Ptr, ForeignPtr are very dangerous but as long as we only allows use of these in the IO monad its not really in the domain of Safe Haskell to guarantee any safety.
+- I've taken the approach for the low level primitives (Int\#, Addr\#, ByteArray\#) of being fairly heavy handed about keeping them unsafe. It gets tricky and hard to keep track of what operations are available at these low levels at time and if GHC will catch exceptions generated using them (i.e div by zero...).
+
 ## Base Package
 
 <table><tr><th>**Top Level**</th>
@@ -402,6 +407,10 @@ Below is the breakdown for just the GHC modules in base:
 <th></th>
 <th></th>
 <th></th></tr>
+<tr><th>Prim            </th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Read           </th>
 <th></th>
 <th></th>
@@ -499,6 +508,8 @@ only be dereferenced in the IO monad we should be OK though.
 
 (Foreign.ForeignPtr - as above)
 (Foreign.Ptr         - as above)
+
+**GHC.IO.Encoding.CodePage.Table**: Exports raw **Addr\#** arrays. Also pretty specific code so doesn't seem that useful outside of the base package.
 
 **GHC.IOBase:**
 keeping unsafe and no safe version as depreciated module.
