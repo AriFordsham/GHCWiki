@@ -80,7 +80,7 @@ $ ./utils/fingerprint.py restore -l builder.log
 This command will read the fingerprint and perform a checkout of the appropriate commit for each repository found in the fingerprint. By default, the `restore` command will create a new branch in the top level ghc repository and add an entry to git config that sets the new branch's remote to `origin`. The config options are added so that future `sync-all` commands will work as expected. Passing the `-n` flag will cause the fingerprint script not to create a new branch. To "unrestore" a fingerprint, simply use `sync-all` to checkout the `master` branch in each repository
 
 {{{
-$ ./syncall checkout master
+$ ./sync-all checkout master
 }}}
 
 To make the best use of fingerprinting, you need to collect fingerprints for the states you may wish to restore. To ease the automatic collection of fingerprints, the `fingerprint.py` script allows a `-d DIR` option that will output a fingerprint to the directory `DIR` with the current time stamp as a file name. The `-g DIR` option tells the script to run in the ghc repository pointed to by `DIR`. These options can be useful for collecting fingerprints as a cron job or on a post-commit hook.
