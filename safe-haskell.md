@@ -3,8 +3,11 @@
 
 This is a proposal for a Haskell extension through which people can safely execute untrusted Haskell code, much the way web browsers currently run untrusted Java and JavaScript, or the way the Spin and Singularity operating systems ran untrusted Modula-3 and C\#/Sing\#.
 
+## Outline
 
-See this [page](safe-haskell/base-package) the safety status of the **Base package**.
+- This page details the SafeHaskell extension
+- See this [page](safe-haskell/base-package) the safety status of the **Base package**.
+- See this [page](safe-haskell/safe-compilation) for the safe compilation extension.
 
 ## Setup
 
