@@ -13,8 +13,8 @@ For splitting modules that contain both Safe and Unsafe Symbols, I've moved the 
 
 == General Decisions ==
 
- * Keep in mind that anything in the IO monad is basically 'safe'. So Ptr, ForeignPtr are very dangerous but as long as we only allows use of these in the IO monad its not really in the domain of Safe Haskell to guarantee any safety.
- * I've taken the approach for the low level primitives (Int#, Addr#, ByteArray#) of being fairly heavy handed about keeping them unsafe. It gets tricky and hard to keep track of what operations are available at these low levels at time and if GHC will catch exceptions generated using them (i.e div by zero...).
+ * Keep in mind that anything in the IO monad is basically 'safe'. So Ptr, !ForeignPtr are very dangerous but as long as we only allows use of these in the IO monad its not really in the domain of Safe Haskell to guarantee any safety.
+ * I've taken the approach for the low level primitives (Int#, Addr#, !ByteArray#) of being fairly heavy handed about keeping them unsafe. It gets tricky and hard to keep track of what operations are available at these low levels at time and if GHC will catch exceptions generated using them (i.e div by zero...).
 
 == Base Package ==
 
@@ -158,7 +158,7 @@ only be dereferenced in the IO monad we should be OK though.
 (Foreign.!ForeignPtr - as above)
 (Foreign.Ptr         - as above)
 
-'''GHC.IO.Encoding.CodePage.Table''': Exports raw '''Addr#''' arrays. Also pretty specific code so doesn't seem that useful outside of the base package.
+'''GHC.IO.Encoding.!CodePage.Table''': Exports raw '''Addr#''' arrays. Also pretty specific code so doesn't seem that useful outside of the base package.
 
 '''GHC.IOBase:'''
 keeping unsafe and no safe version as depreciated module.
