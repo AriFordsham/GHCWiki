@@ -23,10 +23,11 @@ GHC flags currently come from three sources:
   - **OR** More likely it is a build tool such as Cabal or Make calling GHC.
 
 
-For the implementation of **--safe-compile** it must be decided how to filter each of these three sources. (Not that in the third case, a build tool, the flags come from two sources, those set statically in the .cabal or make file and those set by the user invoking cabal or make on the command line. However GHC can't differentiate between them so we treat them the same). The first two cases are easy, default flags will need to be checked and changed accordingly. Currently we believe the defaults are safe though. PRAGMA flags should be filtered and unsafe flags disallowed. The third case has two possibilities though:
+For the implementation of **--safe-compile** it must be decided how to filter each of these three sources. (Note that in the third case, a build tool, the flags come from two sources, those set statically in the .cabal or make file and those set by the user invoking cabal or make on the command line. However GHC can't differentiate between them so we treat them the same). The first two cases are easy, default flags will need to be checked and changed accordingly. Currently we believe the defaults are safe though. PRAGMA flags should be filtered and unsafe flags disallowed. The third case has two possibilities though:
 
 >
-> 1) We treat arguments to GHC the same as PRAGMA flags and simply disallow unsafe flags.
+> 1) We treat arguments to GHC the same as PRAGMA flags and simply disallow unsafe flags. 
+>
 > 2) We allow all flags still as arguments to GHC.
 
 
