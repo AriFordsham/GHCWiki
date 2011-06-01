@@ -303,12 +303,13 @@ See {{{-ddump-stg, -ddump-simpl, -ddump-cmm, -dppr-debug}}}.  For a really close
 (gdb) 
 }}}
    Also note that an empty gdb request repeats the previous command, in this case {{{si}}}.
- * Sometimes you need to look and step through the compiled code of Haskell libraries. I find it useful to change the lines 43 and 48 of file {{{mk/suffix.mk}}} as follows:
+ * Sometimes you need to look and step through the compiled code of Haskell libraries. (!ToDo: the following is out of date, and refers to the old build system.  We should now use `-ddump-to-file`.)  I find it useful to change the lines 43 and 48 of file {{{mk/suffix.mk}}} as follows:
 {{{
 43:  $(HC) $(HC_OPTS) -c $< -o $@  -ohi $(basename $@).$(way_)hi -ddump-simpl -ddump-cmm -ddump-stg > $@.output
 48:  $(HC) $(HC_OPTS) -c $< -o $@  -ohi $(basename $@).$(way_)hi -ddump-simpl -ddump-cmm -ddump-stg > $@.output
 }}}
    Now, I can use file {{{libraries/base/GHC/TopHandler.o.output}}} to make sense of what is going on in {{{TopHandler.o}}}.
+
 
 == Mapping back to the STG code ==
 
