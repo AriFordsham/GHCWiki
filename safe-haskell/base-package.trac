@@ -170,6 +170,9 @@ Made safe version due to access to IORef constructor
 keeping unsafe and no safe version.
 unpackCString# Among others seem quite unsafe.
 
+'''GHC.ST'''
+Export STRep type and runSTrep in safe version. Is this OK?
+
 '''GHC.Weak:'''
 *Made a Safe version but I had to leave GHC.Weak alone. When I tried to move GHC.Weak to GHC.Weak.Imp I would constantly get link errors when linking the libRts library. I changed the values in compiler/prelude/PrelNames.hs for GHC.Weak but this didn't seem to work. So there is GHC.Weak.Safe and GHC.Weak.Unsafe but no GHC.Weak.Imp and GHC.Weak has to be unsafe.
 
