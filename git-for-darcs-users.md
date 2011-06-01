@@ -75,7 +75,44 @@ XXX: talk about `remote/origin/master`, `fetch`, and how it's mostly just alread
 
 First of all, `git rebase` is a very dangerous feature, *it should never be done in shared repositories* (this is like `darcs amend-record` and `darcs unpull`, but even harder to fix.)
 
-`git rebase` is a way to "rewrite history".  You can use this to remove bad patches or to move a branch. For example, consider the following history:
+`git rebase` is a way to "rewrite history". For example, if you have developed feature1 in its own branch:
+
+```wiki
+      x---x---x---x <-- feature1
+     /
+o---o---o---o---o <-- master
+```
+
+
+then you can run
+
+```wiki
+git checkout feature1
+git rebase master
+```
+
+
+to end up with
+
+```wiki
+                   /- master
+o---o---o---o---o---x---x---x---x <-- feature1
+```
+
+
+To include the patches in master:
+
+```wiki
+git checkout master
+git reset --hard feature1
+```
+
+```wiki
+o---o---o---o---o---x---x---x---x <-- {master, feature1}
+```
+
+
+You can also use this to remove bad patches or to move a branch. For example, consider the following history:
 
 ```wiki
       A---B---C---D <-- feature1
