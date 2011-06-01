@@ -333,7 +333,7 @@ See `-ddump-stg, -ddump-simpl, -ddump-cmm, -dppr-debug`.  For a really close cor
   ```
 
   Also note that an empty gdb request repeats the previous command, in this case `si`.
-- Sometimes you need to look and step through the compiled code of Haskell libraries. I find it useful to change the lines 43 and 48 of file `mk/suffix.mk` as follows:
+- Sometimes you need to look and step through the compiled code of Haskell libraries. (ToDo: the following is out of date, and refers to the old build system.  We should now use `-ddump-to-file`.)  I find it useful to change the lines 43 and 48 of file `mk/suffix.mk` as follows:
 
   ```wiki
   43:  $(HC) $(HC_OPTS) -c $< -o $@  -ohi $(basename $@).$(way_)hi -ddump-simpl -ddump-cmm -ddump-stg > $@.output
