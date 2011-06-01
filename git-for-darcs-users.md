@@ -95,7 +95,20 @@ git rebase master
 to end up with
 
 ```wiki
-o---o---o---o---o---x---x---x---x <-- master
+                   /- master
+o---o---o---o---o---x---x---x---x <-- feature1
+```
+
+
+To include the patches in master:
+
+```wiki
+git checkout master
+git reset --hard feature1
+```
+
+```wiki
+o---o---o---o---o---x---x---x---x <-- {master, feature1}
 ```
 
 

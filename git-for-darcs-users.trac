@@ -70,7 +70,16 @@ git rebase master
 }}}
 to end up with
 {{{
-o---o---o---o---o---x---x---x---x <-- master
+                   /- master
+o---o---o---o---o---x---x---x---x <-- feature1
+}}}
+To include the patches in master:
+{{{
+git checkout master
+git reset --hard feature1
+}}}
+{{{
+o---o---o---o---o---x---x---x---x <-- {master, feature1}
 }}}
 
 You can also use this to remove bad patches or to move a branch. For example, consider the following history:
