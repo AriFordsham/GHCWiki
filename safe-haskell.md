@@ -370,7 +370,7 @@ Some points:
 There are a few advantages to having this design over no symbol level safety:
 
 - Easier to use SafeHaskell with existing libraries as they don't need to split code into multiple modules now, simply change the export list.
-- Easier to use libraries that use [SafeHaskell](safe-haskell) as now import declaration don't necessarily need to be changed. Just import the library module as a safe import and any unsafe symbols will be hidden.
+- Easier to use libraries that use SafeHaskell as now import declaration don't necessarily need to be changed. Just import the library module as a safe import and any unsafe symbols will be hidden.
 - We can also generate better error messages. If a code using a safe import of module A tries to call function 'e', then in the current design since 'e' is in a separate module that can't be imported we complain 'e' is unknown. With symbol level safety we would be able to fail instead saying that 'e' is an unsafe function that can't be used.
 - Symbol level design feels overall a little more elegant than the module level design. Especially when in some case module A would need to be split into 3 modules, module A.Imp that contains the whole implementation of A, module A that exports just the safe symbols, and module A.Unsafe that exports the unsafe symbols.
 
