@@ -327,6 +327,65 @@ Currently, in any given run of the compiler, GHC classifies each package as eith
 
 - Would be worthwhile modifying Hackage and Haddock to display Safe Haskell information.
 
+## Symbol Level Safety
+
+
+The current design of SafeHaskell only allows for safety to be specified at the module level. It may be worth while allowing safety to be specified at the symbol level. Such a design would probably look like this:
+
+```wiki
+{-# LANGUAGE Trustworthy #-}
+module A where (
+        safe: a,b,c,d
+        unsafe: e,f,g
+    )
+
+[...]
+```
+
+
+In the current module level safety design we would have to design module A as follows:
+
+```wiki
+{-# LANGUAGE Safe #-}
+module A where (
+        a,b,c,d
+    )
+
+[...]
+
+module A.Unsafe where (
+        e,f,g
+    )
+
+[...]
+```
+
+
+Some points:
+
+- Safety would be specified in the export list. This is in keeping with Haskell design, adding a safe or unsafe keyword (al la Java style) wouldn't.
+- These safe and unsafe keywords in an export list would only be allowed for modules marked as Trustworthy. Safe modules exporting unsafe functions don't make much sense.
+
+
+There are a few advantages to having this design over no symbol level safety:
+
+- Easier to use SafeHaskell with existing libraries as they don't need to split code into multiple modules now, simply change the export list.
+- Easier to use libraries that use [SafeHaskell](safe-haskell) as now import declaration don't necessarily need to be changed. Just import the library module as a safe import and any unsafe symbols will be hidden.
+- We can also generate better error messages. If a code using a safe import of module A tries to call function 'e', then in the current design since 'e' is in a separate module that can't be imported we complain 'e' is unknown. With symbol level safety we would be able to fail instead saying that 'e' is an unsafe function that can't be used.
+- Symbol level design feels overall a little more elegant than the module level design. Especially when in some case module A would need to be split into 3 modules, module A.Imp that contains the whole implementation of A, module A that exports just the safe symbols, and module A.Unsafe that exports the unsafe symbols.
+
+
+There are some disadvantages though:
+
+- More complex implementation.
+- More invasive language change. The current module level design for example is backwards compatible and compatible with other Haskell compilers as they will/can simply ignore the Safe and Trustworthy pragmas. Symbol level safety would break this. (OR actually we would need to change the above symbol design to have the safe and unsafe keywords in module export lists to be inside comments as pragmas... this makes them a little less elegant).
+- Easier to use can be thought of as a disadvantage as well. Modules are being split up due to their export of unsafe operations. Do we want to make it easier for unsafe operations to be used and exported?
+- Current module level design follows an establish idiom in the Haskell community and formalizes it.
+- Easier to visually audit code using the module level design.
+
+
+For the moment we are sticking with the module level design. Symbol level is a forward compatible extension to the module level design so we can revisit in the future.
+
 ## Intended uses
 
 
