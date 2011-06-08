@@ -93,6 +93,13 @@ Usually you want to do something along these lines:
    supported by gdb, we need to find a way to hit a breakpoint a short
    time before the crash happened.  See "going back in time", below.
 
+== Debugging stack overflows ==
+
+ * Set a breakpoint on `threadStackOverflow`, and when it gets hit
+   `p *tso.stackobj` will tell you the stack pointer, e.g.
+   `sp = 0x7ffff69fe228`. Then `pmem 0x7ffff69fe228 64` will show you
+   what's at the top of the stack.
+
 == Going back in time ==
 
  * Set a breakpoint on a code fragment that is regularly executed.
