@@ -921,7 +921,7 @@ Primitive Operations generally involve more than one machine instruction and may
 ```
 
 
-For an example, the floating point sine function, `sinFloat#` in [compiler/prelude/primops.txt.pp](/trac/ghc/browser/ghc/compiler/prelude/primops.txt.pp) is piped through the `callishOp` function in [compiler/codegen/CgPrimOp.hs](/trac/ghc/browser/ghc/compiler/codegen/CgPrimOp.hs) to become `Just MO_F32_Sin`.  The `CallishMachOp` constructor `MO_F32_Sin` is piped through [compiler/nativeGen/MachCodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachCodeGen.hs), where the function `genCCall` will (for most architectures) call `outOfLineFloatOp` to issue a call to a C function such as `sin`.
+For an example, the floating point sine function, `sinFloat#` in [compiler/prelude/primops.txt.pp](/trac/ghc/browser/ghc/compiler/prelude/primops.txt.pp) is piped through the `callishOp` function in [compiler/codeGen/CgPrimOp.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgPrimOp.hs) to become `Just MO_F32_Sin`.  The `CallishMachOp` constructor `MO_F32_Sin` is piped through a platform specific function such as [compiler/nativeGen/X86/CodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/X86/CodeGen.hs) on X86, where the function `genCCall` will call `outOfLineFloatOp` to issue a call to a C function such as `sin`.
 
 ## Cmm Design: Observations and Areas for Potential Improvement
 
