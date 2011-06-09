@@ -176,6 +176,7 @@
 
 ## Features
 
+- [\#5248](https://gitlab.haskell.org//ghc/ghc/issues/5248): Infer context in type signatures
 - [\#5144](https://gitlab.haskell.org//ghc/ghc/issues/5144): pattern synonyms
 - [\#5073](https://gitlab.haskell.org//ghc/ghc/issues/5073): `blockST` and friends
 - [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788), [\#2895](https://gitlab.haskell.org//ghc/ghc/issues/2895): Class aliases 
