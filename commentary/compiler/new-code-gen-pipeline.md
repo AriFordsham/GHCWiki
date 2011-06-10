@@ -24,16 +24,23 @@ The first two steps are described in more detail here:
 
 - **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`). 
 
-  - Parameter passing is made explicit.  Parameters are passed in virtual registers R1, R2 etc. Overflow parameters are passed on the stack using explicit memory stores, to locations described abstractly using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas).   
-  - That includes a store of the return address, which is stored explicitly on the stack in the same way as overflow parameters.
-  - No `CopyIn`, `CopyOut` nodes any more; instead "smart constructors" lower the calling convention to loads/stores/register transfers, using stack area abstraction.
-  - But we still have `LastCall`, `LastReturn`, `LastBranch`, `LastJump` as `Last` nodes.
+  - `Cmm.CmmGraph` is pretty much a Hoopl graph of `CmmNode.CmmNode` nodes. Control transfer instructions are always the last node of a basic block.
+  - Parameter passing is made explicit; the calling convention depends on the target architecture.  The key function is `CmmCallConv.assignArgumentsPos`. 
 
-- **Simple control flow optimisation**, implemented in `CmmContFlowOpt`, called from `HscMain` (weirdly).  It's called both at the beginning and end of the pipeline.
+    - Parameters are passed in virtual registers R1, R2 etc. \[These map 1-1 to real registers.\] 
+    - Overflow parameters are passed on the stack using explicit memory stores, to locations described abstractly using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas).   
+  - Making the calling convention explicit includes an explicit store instruction of the return address, which is stored explicitly on the stack in the same way as overflow parameters. This is done (obscurely) in `MkGraph.mkCall`.
+
+- **Simple control flow optimisation**, implemented in `CmmContFlowOpt`, called from `HscMain.tryNewCodeGen` (weirdly).  It's called both at the beginning and end of the pipeline.
 
   - Branch chain elimination.
   - Remove unreachable blocks.
   - Block concatenation.  branch to K; and this is the only use of K.  
+
+- AT THIS POINT CONTROL MOVES TO `CmmCps.cpsTop` for the rest of the pipeline
+
+- **More control flow optimisations** in `CmmCps.cpsTop`.
+
   - Common Block Elimination (like CSE). This essentially implements the Adams optimisation, we believe.
   - Consider (sometime): block duplication.  branch to K; and K is a short block.  Branch chain elimination is just a special case of this.
 
@@ -70,6 +77,8 @@ The first two steps are described in more detail here:
 
   - Find each safe `MidForeignCall` node, "lowers" it into the suspend/call/resume sequence (see `Note [Foreign calls]` in `CmmNode.hs`.), and build an info table for them.
   - Convert the `CmmInfo` for each `CmmProc` into a `[CmmStatic]`, using the live variable information computed just before "Figure out stack layout".  
+
+- AT THIS POINT CONTROL MOVES BACK TO `HscMain.tryNewCodeGen` where a final control-flow optimisation pass takes place.
 
 ### Branches to continuations and the "Adams optimisation"
 
