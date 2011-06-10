@@ -29,7 +29,7 @@ The first two steps are described in more detail here:
 
     - Parameters are passed in virtual registers R1, R2 etc. \[These map 1-1 to real registers.\] 
     - Overflow parameters are passed on the stack using explicit memory stores, to locations described abstractly using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas).   
-  - Making the calling convention explicit includes an explicit store instruction of the return address, which is stored explicitly on the stack in the same way as overflow parameters. This is done (obscurely) in `MkGraph.mkCall`.
+    - Making the calling convention explicit includes an explicit store instruction of the return address, which is stored explicitly on the stack in the same way as overflow parameters. This is done (obscurely) in `MkGraph.mkCall`.
 
 - **Simple control flow optimisation**, implemented in `CmmContFlowOpt`, called from `HscMain.tryNewCodeGen` (weirdly).  It's called both at the beginning and end of the pipeline.
 
@@ -49,14 +49,21 @@ The first two steps are described in more detail here:
   - The analysis produces a set of `BlockId` that should become proc-points
   - The transformation inserts a function prologue at the start of each proc-point, and a function epilogue just before each branch to a proc-point.
 
-- **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The spill and reload instructions are simply memory stores and loads respectively, using symbolic stack offsets (see [stack layout](commentary/compiler/stack-areas#laying-out-the-stack)).  For example, a spill of variable 'x' would look like `Ptr32[SS(x)] = x`.  There are three stages:
+- **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The spill and reload instructions are simply memory stores and loads respectively, using symbolic stack offsets (see [stack layout](commentary/compiler/stack-areas#laying-out-the-stack)).  For example, a spill of variable 'x' would look like `Ptr32[SS(x)] = x`.
 
   - `dualLivenessWithInsertion` does two things:
 
     - Spills at the definition of any variable that is subequently live across a call (uses a backward analysis)
     - Adds a reload at each return (or proc) point
-  - `insertLateReloads`: Duplicate reloads just before uses, if every path to the use defines the variable by a reload (uses a forward analysis)
-  - Remove redundant reloads
+
+    At this point, no (`LocalReg`) variables are live across a call.
+  - TODO avoid  `f();g()` turning into `spill x; f(); reload x; spill x; g(); reload x`.
+  - (TODO delete the "Remove redundant reloads")
+
+- **Rewrite assignments** (assignments to local regs, that is, not stores). 
+
+  - Convert graph to annotated graph whose nodes are `CmmSpillReload.WithRegUsage`.  Specifically, `CmmAssign` is decorated with a flag `RegUsage` saying whether it is used once or many times.
+  - Sink or inline assignments nearer their use points
 
 - **Figure out the stack layout**, implemented in `CmmStackLayout`.
 
