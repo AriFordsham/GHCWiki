@@ -15,7 +15,7 @@ Here is a simple representation of types
 
 
 Using this representations the arrow type looks like `App "->" [t1, t2]`.
-Here is a function to collect are all argument types of nested arrow:
+Here are functions to collect are all argument types of nested arrows and recognizing the `Int` type:
 
 ```wiki
    collectArgs :: Type -> [Type]
@@ -56,3 +56,55 @@ Furthermore, the pattern synonym can also be used in expressions, e.g.,
 arrows :: [Type] -> Type -> Type
 arrows = foldr Arrow
 ```
+
+## Simple pattern synonyms
+
+
+The simplest form of pattern synonyms is the one from the examples above.  The grammar rule is simply:
+
+`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`=`*patexp*
+
+
+where *patexp* is simply the intersection of the grammars for patterns and expression, i.e., those terms that are valid both as a pattern and as an expressions.
+Each of the variables on the left hand side must occur exactly one on the right hand side, and these are the only variables that can be mention on the right hand side.  The semantics is simply given by expansions of the synonym.
+Pattern synonyms are not allowed to be recursive.  Cf. type synonyms.
+
+
+Pattern synonyms can be exported and imported by mentioning the *conid* in the export/import list.  Note that this suffers from the same constructor vs type confusion that already exists in `hiding` list, i.e., given the mention of a *conid* you cannot tell if it refers to a constructor or a type.
+
+## Pattern only synonyms
+
+
+The simple patterns synonyms are restricted to having a right hand side that is also a valid expression.
+The pattern only synonyms can have any pattern on the right hand side, but may only be used in patterns.
+
+`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`~`*pat*
+
+
+Note the use of `~` instead of `=` as the equality symbol.  This serves as a syntactic cue that this is a pattern only synonym.
+Again, each of the variables on the left hand side must be mentioned exactly once of the right hand side, but the right hand side can mention other variables as well.  These variables will not be bound by using the pattern synonyms.
+
+
+Examples:
+
+```wiki
+   pattern ThirdElem x ~ _:_:x:_
+   pattern LazySecond a b ~ (a, ~b)
+
+   third (ThirdElem a) = a
+   third _ = error "No third"
+   fcn :: (Int, (Int, Int))
+   fcn (LazySecond x (y, z)) = if x == 0 then 0 else y+z
+```
+
+
+And their expansions
+
+```wiki
+   third (_:_:a:_) = a
+   third _ = error "No third"
+   fcn :: (Int, (Int, Int))
+   fcn (x ~(y, z)) = if x == 0 then 0 else y+z
+```
+
+## Bidirectional synonyms
