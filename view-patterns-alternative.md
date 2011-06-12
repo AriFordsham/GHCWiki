@@ -48,7 +48,7 @@ View patterns permit calling the view function inside the pattern and matching a
 That is, we add a new form of pattern, written 
 
 ```wiki
-   pattern | qual,,1,, , ..., qual,,n,,
+   pattern | qual1 , ..., qualn
 ```
 
 
@@ -69,7 +69,7 @@ However, sometimes modest syntactic sugar can have profound consequences. In thi
 
 ### Semantics
 
-**Scoping** for *pat `|` quals*:
+**Scoping** for *pat*`|`*quals*:
 
 - The variables bound by the view pattern are the variables bound by *pat* and *quals*.
 - Variables bound by patterns to the left of a view pattern expression are in scope.  For example:
@@ -88,7 +88,7 @@ However, sometimes modest syntactic sugar can have profound consequences. In thi
     ```
 
 **Typing**
-If *pat `|` quals* has same type as *pat*, and the "quals" must be well typed in the same way as for pattern guards.
+If *pat*`|`*quals* has same type as *pat*, and the "quals" must be well typed in the same way as for pattern guards.
 
 **Evaluation**
 To match a value *v* against a pattern (*pat*`|`*quals*), match "v" against *pat* and then match the *quals*.
@@ -278,7 +278,7 @@ View patterns can be used to pattern match against named constants:
 ```wiki
     errorVal :: Int -> Bool
     errorVal = (== 4)
-    f (x | errorVar x) =  ...
+    f (x | errorVal x) =  ...
 ```
 
 #### Both patterns
@@ -300,4 +300,22 @@ There are straightforward translations between old and new style view patterns:
 *pat*`<-`*exp*
 
 translates to
-*x `|` pat `<-` exp x*  where *x* is a fresh variable.
+*x*`|`*pat*`<-`*exp x*
+
+where *x* is a fresh variable.
+
+
+And in the other direction
+*pat*`|`*quals*
+
+translates to
+`Just`*vs*`<- let`*f**pat*`|`*quals*`= Just`*vs*`;`*f*`_ = Nothing in`*f*
+
+where *vs* are all the variables bound in *pat* and *quals* and *f* is fresh.
+
+
+Notable differences:
+
+- The new style is a straightforward extension of existing syntax (pattern guards).
+- The new style allows more powerful matching without introducing an auxiliary type (typically a `Maybe`).  This leads to a more straightforward translation of pattern matching and better efficiency without sophisticated transformations.
+- The new style often has to introduce an extra variable to match the entire expression; a variable that is not needed on the right hand side.  This small pollution of the namespace can be avoided if the [PatternSynonyms](pattern-synonyms) proposal is also implemented.
