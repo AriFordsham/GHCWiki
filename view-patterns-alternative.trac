@@ -1,0 +1,51 @@
+= Alternative view patterns: lightweight views for Haskell =
+This is a copy of the ViewPatterns page, but with a different syntax.
+
+
+== Basic view patterns == 
+
+View patterns are a convenient way of pattern-matching against values of abstract types.  For example, in a programming language implementation, we might represent the syntax of the types of the language as follows:
+
+{{{
+   type Typ
+ 
+   data TypView = Unit
+                | Arrow Typ Typ
+
+   view :: Typ -> TypView
+
+   -- additional operations for constructing Typ's ...
+}}}
+
+The representation of `Typ` is held abstract, permitting implementations to use a fancy representation (e.g., hash-consing to manage sharing).
+
+In current Haskell, using this signature is a little inconvenient:
+{{{
+   size :: Typ -> Integer
+   size t = case view t of
+     Unit -> 1
+     Arrow t1 t2 -> size t1 + size t2
+}}}
+It is necessary to iterate the case, rather than using an equational function definition.  And the situation is even worse when the matching against `t` is buried deep inside another pattern.
+In response, programmers sometimes eschew type abstraction in favor of revealing a concrete datatype that is easy to pattern-match against.
+
+View patterns permit calling the view function inside the pattern and matching against the result:
+{{{
+   size (x | Unit <- x) = 1
+   size (x | Arrow t1 t2 <- ) = size t1 + size t2
+}}}
+
+That is, we add a new form of pattern, written 
+{{{
+   pattern | qual1, ..., qualn
+}}}
+This has the same meaning as pattern guard at the top level, but here they are allowed to be part of a pattern, and thus nested inside other patterns.
+So first the pattern is matched, then the qualifiers are matched in order.  An expression qualifier has to evaluate to `True`, and for a "pat `<-` exp" the pattern must match the expression.
+
+The key feature of this proposal is its modesty, rather than its ambition:
+  * There is no new form of declaration (e.g. 'view' or 'pattern synonym').  
+  * No new syntax, the existing pattern guard syntax is simply generalized to be allowed inside patterns.
+  * No changes are needed to import or export mechanisms.
+  * Both static and dynamic semantics are extremely simple.
+It is essentially some simple syntactic sugar for patterns.
+However, sometimes modest syntactic sugar can have profound consequences. In this case, it's possible that people would start routinely hiding the data representation and exporting view functions instead, which would be an excellent thing.
