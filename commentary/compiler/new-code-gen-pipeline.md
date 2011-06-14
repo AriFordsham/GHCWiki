@@ -11,7 +11,7 @@ Code generation now has three stages:
 
 1. Convert STG to Cmm, with implicit stack implicit, and native Cmm calls.
 1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls.
-  This part of the pipeline is stitched together in `cmm/CmmCPSZ.hs`.
+  This part of the pipeline is stitched together in `cmm/CmmPipeline.hs`.
 1. Feed the CPS-converted Cmm to the existing, unmodified native code generators.
 
 
@@ -31,20 +31,18 @@ The first two steps are described in more detail here:
     - Overflow parameters are passed on the stack using explicit memory stores, to locations described abstractly using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas).   
     - Making the calling convention explicit includes an explicit store instruction of the return address, which is stored explicitly on the stack in the same way as overflow parameters. This is done (obscurely) in `MkGraph.mkCall`.
 
-- **Simple control flow optimisation**, implemented in `CmmContFlowOpt`, called from `HscMain.tryNewCodeGen` (weirdly).  It's called both at the beginning and end of the pipeline.
+- **Simple control flow optimisation**, implemented in `CmmContFlowOpt`.  It's called both at the beginning and end of the pipeline.
 
   - Branch chain elimination.
   - Remove unreachable blocks.
   - Block concatenation.  branch to K; and this is the only use of K.  
 
-- AT THIS POINT CONTROL MOVES TO `CmmCps.cpsTop` for the rest of the pipeline
-
-- **More control flow optimisations** in `CmmCps.cpsTop`.
+- **More control flow optimisations**.
 
   - Common Block Elimination (like CSE). This essentially implements the Adams optimisation, we believe.
   - Consider (sometime): block duplication.  branch to K; and K is a short block.  Branch chain elimination is just a special case of this.
 
-- **Proc-point analysis** and **transformation**, implemented in `CmmProcPointZ`.  (Adams version is `CmmProcPoint`.) The transformation part adds a function prologue to the front of each proc-point, following a standard entry convention.
+- **Proc-point analysis** and **transformation**, implemented in `CmmProcPoint`. The transformation part adds a function prologue to the front of each proc-point, following a standard entry convention.
 
   - The analysis produces a set of `BlockId` that should become proc-points
   - The transformation inserts a function prologue at the start of each proc-point, and a function epilogue just before each branch to a proc-point.
@@ -62,7 +60,7 @@ The first two steps are described in more detail here:
 
 - **Rewrite assignments** (assignments to local regs, that is, not stores). 
 
-  - Convert graph to annotated graph whose nodes are `CmmSpillReload.WithRegUsage`.  Specifically, `CmmAssign` is decorated with a flag `RegUsage` saying whether it is used once or many times.
+  - Convert graph to annotated graph whose nodes are `CmmRewriteAssignments.WithRegUsage`.  Specifically, `CmmAssign` is decorated with a flag `RegUsage` saying whether it is used once or many times.
   - Sink or inline assignments nearer their use points
 
 - **Figure out the stack layout**, implemented in `CmmStackLayout`.
@@ -84,8 +82,6 @@ The first two steps are described in more detail here:
 
   - Find each safe `MidForeignCall` node, "lowers" it into the suspend/call/resume sequence (see `Note [Foreign calls]` in `CmmNode.hs`.), and build an info table for them.
   - Convert the `CmmInfo` for each `CmmProc` into a `[CmmStatic]`, using the live variable information computed just before "Figure out stack layout".  
-
-- AT THIS POINT CONTROL MOVES BACK TO `HscMain.tryNewCodeGen` where a final control-flow optimisation pass takes place.
 
 ### Branches to continuations and the "Adams optimisation"
 
