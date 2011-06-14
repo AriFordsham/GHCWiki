@@ -19,4 +19,13 @@ The unrolled primitive uses the widest possible move instruction available on th
 
 == User API ==
 
-These primitives are exposed to the user as a set of primitive operations on boxed arrays: `copyArray#`, `copyMutableArray#`, `cloneArray#`, `cloneMutableArray#`, `freezeArray#`, and `thawArray#`. The latter four allow the user to efficiently clone an array without first setting all elements to some dummy element, which would be required to e.g. implement `cloneArray#` in terms of `newArray#` and `copyArray#`. The implementation of these primitive operations are in `compiler/cmm/CgPrimOps.hs` (old code generator) and `compiler/codeGen/StgCmmPrim.hs` (new code generator)
+These primitives are exposed to the user as a set of primitive operations on boxed arrays:
+
+ * `copyArray#`
+ * `copyMutableArray#`
+ * `cloneArray#`
+ * `cloneMutableArray#`
+ * `freezeArray#`
+ * `thawArray#`
+
+The latter four allow the user to efficiently clone an array without first setting all elements to some dummy element, which would be required to e.g. implement `cloneArray#` in terms of `newArray#` and `copyArray#`. The implementation of these primitive operations are in `compiler/cmm/CgPrimOps.hs` (old code generator) and `compiler/codeGen/StgCmmPrim.hs` (new code generator)
