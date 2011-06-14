@@ -57,6 +57,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
 
 - The Compiler
 
+  - [memcpy/memmove/memset optimizations](memcpy-optimizations)
   - Edward Yang's blog post about [ the entire complilation pipeline for \`factorial\`](http://blog.ezyang.com/2011/04/tracing-the-compilation-of-hello-factorial/)
   - [Compiler plug-ins](new-plugins)
   - [Type level naturals](type-nats)
