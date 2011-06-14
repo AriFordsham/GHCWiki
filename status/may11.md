@@ -1,5 +1,3 @@
-**WORK IN PROGRESS**
-
 # GHC Status May 2011
 
 
