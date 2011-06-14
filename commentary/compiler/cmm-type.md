@@ -917,7 +917,7 @@ Each `MachOp` generally corresponds to a machine instruction but may have its va
 Primitive Operations generally involve more than one machine instruction and may not always be inlined.  
 
 ```
--- These MachOps tend to be implemented by foreign calls in some backends,-- so we separate them out.  In Cmm, these can only occur in a-- statement position, in contrast to an ordinary MachOp which can occur-- anywhere in an expression.dataCallishMachOp=MO_F64_Pwr|MO_F64_Sin|MO_F64_Cos|MO_F64_Tan|MO_F64_Sinh|MO_F64_Cosh|MO_F64_Tanh|MO_F64_Asin|MO_F64_Acos|MO_F64_Atan|MO_F64_Log|MO_F64_Exp|MO_F64_Sqrt|MO_F32_Pwr|MO_F32_Sin|MO_F32_Cos|MO_F32_Tan|MO_F32_Sinh|MO_F32_Cosh|MO_F32_Tanh|MO_F32_Asin|MO_F32_Acos|MO_F32_Atan|MO_F32_Log|MO_F32_Exp|MO_F32_Sqrt|MO_WriteBarrier
+-- These MachOps tend to be implemented by foreign calls in some backends,-- so we separate them out.  In Cmm, these can only occur in a-- statement position, in contrast to an ordinary MachOp which can occur-- anywhere in an expression.dataCallishMachOp=MO_F64_Pwr|MO_F64_Sin|MO_F64_Cos|MO_F64_Tan|MO_F64_Sinh|MO_F64_Cosh|MO_F64_Tanh|MO_F64_Asin|MO_F64_Acos|MO_F64_Atan|MO_F64_Log|MO_F64_Exp|MO_F64_Sqrt|MO_F32_Pwr|MO_F32_Sin|MO_F32_Cos|MO_F32_Tan|MO_F32_Sinh|MO_F32_Cosh|MO_F32_Tanh|MO_F32_Asin|MO_F32_Acos|MO_F32_Atan|MO_F32_Log|MO_F32_Exp|MO_F32_Sqrt|MO_WriteBarrier|MO_Touch-- Keep variables live (when using interior pointers)-- Note that these three MachOps all take 1 extra parameter than the-- standard C lib versions. The extra (last) parameter contains-- alignment of the pointers. Used for optimisation in backends.|MO_Memcpy|MO_Memset|MO_Memmove
 ```
 
 

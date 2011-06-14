@@ -973,6 +973,14 @@ Primitive Operations generally involve more than one machine instruction and may
   <font color=Blue>|</font> <font color=Green>MO_F32_Exp</font>
   <font color=Blue>|</font> <font color=Green>MO_F32_Sqrt</font>
   <font color=Blue>|</font> <font color=Green>MO_WriteBarrier</font>
+  <font color=Blue>|</font> <font color=Green>MO_Touch</font>         <font color=Crimson>-- Keep variables live (when using interior pointers)</font>
+  
+  <font color=Crimson>-- Note that these three MachOps all take 1 extra parameter than the</font>
+  <font color=Crimson>-- standard C lib versions. The extra (last) parameter contains</font>
+  <font color=Crimson>-- alignment of the pointers. Used for optimisation in backends.</font>
+  <font color=Blue>|</font> <font color=Green>MO_Memcpy</font>
+  <font color=Blue>|</font> <font color=Green>MO_Memset</font>
+  <font color=Blue>|</font> <font color=Green>MO_Memmove</font>
 </pre>
 }}}
 For an example, the floating point sine function, `sinFloat#` in [[GhcFile(compiler/prelude/primops.txt.pp)]] is piped through the `callishOp` function in [[GhcFile(compiler/codeGen/CgPrimOp.hs)]] to become `Just MO_F32_Sin`.  The `CallishMachOp` constructor `MO_F32_Sin` is piped through a platform specific function such as [[GhcFile(compiler/nativeGen/X86/CodeGen.hs)]] on X86, where the function `genCCall` will call `outOfLineFloatOp` to issue a call to a C function such as `sin`.
