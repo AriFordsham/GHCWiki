@@ -40,4 +40,4 @@ The latter four allow the user to efficiently clone an array without first setti
 ## Test API
 
 
-The main test for this feature of GHC is `cgrun069`, located at `testsuite/tests/ghc-regress/codeGen/should_run/`.
+The main test for this feature of GHC is `cgrun069`, located at `testsuite/tests/ghc-regress/codeGen/should_run/`. The user facing API is tested by `cgrun064` and `cgrun068`.
