@@ -8,9 +8,8 @@ Most of the material describing our approach is partitioned into a set of subpag
  * [wiki:DataParallel/SMP Data parallelism on shared-memory machines]
  * [wiki:DataParallel/Design High-level design of adding NDP to GHC]
  * [wiki:DataParallel/Library Design of the DPH packages]
- * [wiki:DataParallel/ClosureConversion Details of the implementation of closure conversion]
- * [wiki:DataParallel/Vectorisation Our plan for implementing vectorisation on top of closure conversion]
  * [wiki:DataParallel/Desugaring Desugaring of array comprehensions]
+ * [wiki:DataParallel/Replicate Preventing space blow-up due to replicate]
  * [wiki:DataParallel/Related Other nested data parallel work]
 
 == Status and work plan ==
@@ -28,4 +27,6 @@ Detailed information on how to use the current implementation is at the [http://
 Pages that have fallen out of use (and contain out dated information):
 
  * [wiki:DataParallel/Regular Our approach to integrating an optimised treatment of multi-dimensional regular arrays]
+ * [wiki:DataParallel/ClosureConversion Details of the implementation of closure conversion]
+ * [wiki:DataParallel/Vectorisation Our plan for implementing vectorisation on top of closure conversion]
  * [wiki:DataParallel/Optimisation Optimisation, and problems therewith]
