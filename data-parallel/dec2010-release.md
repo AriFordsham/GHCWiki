@@ -1,4 +1,4 @@
-## Plan for the December 2010 Release (moved to early 2011)
+## Plan for the December 2010 Release (moved to mid 2011)
 
 ### To be released components
 
@@ -7,7 +7,7 @@
 - Repa packages
 
 
-(No release of vector should be necessary, as 0.7.0.1 should work fine.)
+(New release of vector is also planned.)
 
 ### Before the release we must achieve the following
 
@@ -71,7 +71,7 @@ Performance goals:
   - Evens \[OK (but more than 3 times slower than C; any improvement since [\#4830](https://gitlab.haskell.org//ghc/ghc/issues/4830) was fixed?)\]
 
     - rl reckons this is due to GHC compiling modulo of powers of two inefficiently; c.f., [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065) (in `packByTags`)
-  - SMVM (blocked on optimisation of lifted indexing) **\[BROKEN\]****\[BEN & ROMAN\]**  Roman thinks he knows how to solve this, by changing our array representation to allow replicate in constant time/space.
+  - SMVM (blocked on optimisation of lifted indexing) \[Done\]
 - Dynamically-nested DPH programs without user-defined datatypes should run correctly and scale, but absolute performance may be lacking
 
   - Quicksort \[BROKEN ([SpecConstr](spec-constr) loop when using `-dph-seq`) & SLOW\] \[SIMON & BEN\]
