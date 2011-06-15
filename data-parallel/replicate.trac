@@ -17,9 +17,17 @@ treeLookup table xx
   = [: table !: (xx !: 0) :]
   | otherwise
   = let len     = lengthP xx
-          half    = len `div` 2
-          s1      = sliceP 0    half xx
-          s2      = sliceP half half  xx           
+        half    = len `div` 2
+        s1      = sliceP 0    half xx
+        s2      = sliceP half half  xx           
       in concatP (mapP (treeLookup table) [: s1, s2 :])
 }}}
 Here `table` is constant in `mapP (treeLookup table) [: s1, s2 :]`; hence, the entire `table` gets duplicated on each level of the recursion, leading to space consumption that is exponential in the depth of the recursion.
+
+
+== What's happening here? ==
+
+Replication of scalars and arrays is always a waste of time and space.  However, it is particularly problematic if the replicated structure is consumed by an indexing operation as it can change the asymptotic work complexity of the vectorised program.  This holds not only for indexing, but for any operation that consumes only a small part of its input array(s).  In other words, if a replicated structure is consumed in its entirety (for example by a fold), the asymptotic work complexity of replication matches that of consuming the structure.  For operations that only consume a small part of their input, that is not the case.  Hence, lifting, which introduces the replication, does increase asymptotic work.
+
+
+== A plan to fix the problem ==
