@@ -1,4 +1,4 @@
-## Plan for the December 2010 Release (moved to early 2011)
+## Plan for the December 2010 Release (moved to mid 2011)
 
 ### To be released components
 
@@ -7,7 +7,7 @@
 - Repa packages
 
 
-(No release of vector should be necessary, as 0.7.0.1 should work fine.)
+(New release of vector is also planned.)
 
 ### Before the release we must achieve the following
 
