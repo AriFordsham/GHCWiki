@@ -31,3 +31,8 @@ Replication of scalars and arrays is always a waste of time and space.  However,
 
 
 == A plan to fix the problem ==
+
+TODO: 
+ * Special representation for replicated arrays
+ * Avoiding out of bounds indices
+ * Mention need to be careful with length

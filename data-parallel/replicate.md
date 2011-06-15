@@ -38,3 +38,9 @@ Here `table` is constant in `mapP (treeLookup table) [: s1, s2 :]`; hence, the e
 Replication of scalars and arrays is always a waste of time and space.  However, it is particularly problematic if the replicated structure is consumed by an indexing operation as it can change the asymptotic work complexity of the vectorised program.  This holds not only for indexing, but for any operation that consumes only a small part of its input array(s).  In other words, if a replicated structure is consumed in its entirety (for example by a fold), the asymptotic work complexity of replication matches that of consuming the structure.  For operations that only consume a small part of their input, that is not the case.  Hence, lifting, which introduces the replication, does increase asymptotic work.
 
 ## A plan to fix the problem
+
+TODO
+
+- Special representation for replicated arrays
+- Avoiding out of bounds indices
+- Mention need to be careful with length
