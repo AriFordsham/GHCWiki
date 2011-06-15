@@ -1,0 +1,38 @@
+= Preventing space blow-up due to replicate =
+
+== The problem ==
+
+The vectorisation transformation lifts scalar computations into vector space.  In the course of this lifting, scalar constants are duplicated to fill an array, using the function 'replicateP'.  Array computations are lifted in a similar manner, which leads to array constants being replicated to form arrays of arrays, which are represented as a segmented arrays.  A simple example is our  'smvm' example code:
+{{{
+smvm :: [:[: (Int, Double) :]:] -> [:Double:] -> [:Double:]
+smvm m v = [: sumP [: x * (v !: i) | (i,x) <- row :] | row <- m :]
+}}}
+Here the variable 'v' is constant in the array comprehensions and will be replicated while lifting the expression `v !: i`.   In other words, for every single element in a `row`, lifting implies the allocation of a separate copy of of the entire array `v` — and this only to perform a single indexing operation on that copy of `v`.  More precisely, in the lifted code, lifted indexing (which we usually denote by `(!^)` is applied to a nested array consisting of multiple copies of `v`; i.e., it is applied to the result of `replicateP (length row) v`.  
+
+This is clearly wasted effort and space.  However, the situation is even worse in Ben's pathological example:
+{{{
+treeLookup :: [:Int:] -> [:Int:] -> [:Int:]
+treeLookup table xx
+  | lengthP xx == 1
+  = [: table !: (xx !: 0) :]
+  | otherwise
+  = let len     = lengthP xx
+        half    = len `div` 2
+        s1      = sliceP 0    half xx
+        s2      = sliceP half half  xx           
+      in concatP (mapP (treeLookup table) [: s1, s2 :])
+}}}
+Here `table` is constant in `mapP (treeLookup table) [: s1, s2 :]`; hence, the entire `table` gets duplicated on each level of the recursion, leading to space consumption that is exponential in the depth of the recursion.
+
+
+== What's happening here? ==
+
+Replication of scalars and arrays is always a waste of time and space.  However, it is particularly problematic if the replicated structure is consumed by an indexing operation as it can change the asymptotic work complexity of the vectorised program.  This holds not only for indexing, but for any operation that consumes only a small part of its input array(s).  In other words, if a replicated structure is consumed in its entirety (for example by a fold), the asymptotic work complexity of replication matches that of consuming the structure.  For operations that only consume a small part of their input, that is not the case.  Hence, lifting, which introduces the replication, does increase asymptotic work.
+
+
+== A plan to fix the problem ==
+
+TODO: 
+ * Special representation for replicated arrays
+ * Avoiding out of bounds indices
+ * Mention need to be careful with length
