@@ -13,9 +13,7 @@ Most of the material describing our approach is partitioned into a set of subpag
 - [Details of the implementation of closure conversion](data-parallel/closure-conversion)
 - [Our plan for implementing vectorisation on top of closure conversion](data-parallel/vectorisation)
 - [Desugaring of array comprehensions](data-parallel/desugaring)
-- [Our approach to integrating an optimised treatment of multi-dimensional regular arrays](data-parallel/regular)
 - [Other nested data parallel work](data-parallel/related)
-- [Design work for data parallelism over regular arrays](data-parallel/regular)
 
 ## Status and work plan
 
@@ -33,4 +31,5 @@ Detailed information on how to use the current implementation is at the [ user-l
 
 Pages that have fallen out of use (and contain out dated information):
 
+- [Our approach to integrating an optimised treatment of multi-dimensional regular arrays](data-parallel/regular)
 - [Optimisation, and problems therewith](data-parallel/optimisation)
