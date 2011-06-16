@@ -1,0 +1,125 @@
+= Seq magic =
+
+The innocent-looking `seq` operator causes all manner of mayhem in GHC. This page summarises the issues.
+
+== The baseline position ==
+
+Our initial story was that `(seq e1 e2)` meant precisely
+{{{
+   case e1 of { _ -> e2 }
+}}}
+Indeed this was `seq`'s inlining.  This translation validates some important rules
+{{{
+ * `seq` is strict in both its arguments
+ * (e1 `seq` e2) e3            ===>   e1 `seq` (e2 e3)
+ * case (e1 `seq` e2) of alts  ===>   e1 `seq` (case e2 of alts)
+ * value `seq` e               ===>   e
+}}}
+
+== Problems ==
+
+Here are some of the problems that showed up.  See `Note [Deguaring seq]` in `DsUtils`.
+
+
+Trac #1031.  Consider
+{{{
+   f x y = x `seq` (y `seq` (# x,y #))
+}}}
+The `[CoreSyn let/app invariant]` means that, other things being equal, because 
+the argument to the outer `seq` has an unlifted type, we'll use call-by-value thus:
+
+   f x y = case (y `seq` (# x,y #)) of v -> x `seq` v
+
+But that is bad for two reasons: 
+  (a) we now evaluate y before x, and 
+  (b) we can't bind v to an unboxed pair
+
+Seq is very, very special!  So we recognise it right here, and desugar to
+{{{
+        case x of _ -> case y of _ -> (# x,y #)
+}}}
+Note [Desugaring seq (2)]  cf Trac #2273
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Consider
+   let chp = case b of { True -> fst x; False -> 0 }
+   in chp `seq` ...chp...
+Here the seq is designed to plug the space leak of retaining (snd x)
+for too long.
+
+If we rely on the ordinary inlining of seq, we'll get
+   let chp = case b of { True -> fst x; False -> 0 }
+   case chp of _ { I# -> ...chp... }
+
+But since chp is cheap, and the case is an alluring contet, we'll
+inline chp into the case scrutinee.  Now there is only one use of chp,
+so we'll inline a second copy.  Alas, we've now ruined the purpose of
+the seq, by re-introducing the space leak:
+    case (case b of {True -> fst x; False -> 0}) of
+      I# _ -> ...case b of {True -> fst x; False -> 0}...
+
+We can try to avoid doing this by ensuring that the binder-swap in the
+case happens, so we get his at an early stage:
+   case chp of chp2 { I# -> ...chp2... }
+But this is fragile.  The real culprit is the source program.  Perhaps we
+should have said explicitly
+   let !chp2 = chp in ...chp2...
+
+But that's painful.  So the code here does a little hack to make seq
+more robust: a saturated application of 'seq' is turned *directly* into
+the case expression, thus:
+   x  `seq` e2 ==> case x of x -> e2    -- Note shadowing!
+   e1 `seq` e2 ==> case x of _ -> e2
+
+So we desugar our example to:
+   let chp = case b of { True -> fst x; False -> 0 }
+   case chp of chp { I# -> ...chp... }
+And now all is well.
+
+The reason it's a hack is because if you define mySeq=seq, the hack
+won't work on mySeq.  
+
+Note [Desugaring seq (3)] cf Trac #2409
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The isLocalId ensures that we don't turn 
+        True `seq` e
+into
+        case True of True { ... }
+which stupidly tries to bind the datacon 'True'. 
+
+=== The need for special rules ===
+
+Roman found situations where he had
+{{{
+      case (f n) of _ -> e
+}}}
+where he knew that `f` (which was strict in `n`) would terminate if n did.
+Notice that the result of `(f n)` is discarded. So it makes sense to
+transform to
+{{{
+      case n of _ -> e
+}}}
+Rather than attempt some general analysis to support this, I've added
+enough support that you can do this using a rewrite rule:
+{{{
+  RULE "f/seq" forall n.  seq (f n) e = seq n e
+}}}
+You write that rule.  When GHC sees a case expression that discards
+its result, it mentally transforms it to a call to `seq` and looks for
+a RULE.  (This is done in `Simplify.rebuildCase`.)  As usual, the
+correctness of the rule is up to you.
+
+To make this work, we need to be careful that `seq` is '''not''' desguared
+into a case expression on the LHS of a rule.
+
+To increase applicability of these user-defined rules, we also have the following built-in rule for `seq`
+{{{
+  seq (x |> co) y = seq x y
+}}}
+This eliminates unnecessary casts and also allows other seq rules to
+match more often.  Notably,     
+{{{
+   seq (f x |> co) y  -->  seq (f x) y
+  }}}
+and now a user-defined rule for `seq` may fire.
+
+
