@@ -56,12 +56,13 @@ The first two steps are described in more detail here:
 
     At this point, no (`LocalReg`) variables are live across a call.
   - TODO avoid  `f();g()` turning into `spill x; f(); reload x; spill x; g(); reload x`.
-  - (TODO delete the "Remove redundant reloads")
 
 - **Rewrite assignments** (assignments to local regs, that is, not stores). 
 
   - Convert graph to annotated graph whose nodes are `CmmRewriteAssignments.WithRegUsage`.  Specifically, `CmmAssign` is decorated with a flag `RegUsage` saying whether it is used once or many times.
   - Sink or inline assignments nearer their use points
+
+- **Remove redundant and dead assignments and stores**, implemented in `CmmSpillReload`, removes assignments to dead variables and things like ``a = a`` or ``I32\[Hp\] = I32\[Hp\]``.
 
 - **Figure out the stack layout**, implemented in `CmmStackLayout`.
 
