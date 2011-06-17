@@ -1,7 +1,7 @@
 # Seq magic
 
 
-The innocent-looking `seq` operator causes all manner of mayhem in GHC. This page summarises the issues.
+The innocent-looking `seq` operator causes all manner of mayhem in GHC. This page summarises the issues.  See also discussion in Trac [\#5129](https://gitlab.haskell.org//ghc/ghc/issues/5129).
 
 ## The baseline position
 
@@ -22,125 +22,166 @@ Indeed this was `seq`'s inlining.  This translation validates some important rul
  * value `seq` e               ===>   e
 ```
 
-## Problems
+
+But this approach has problems; see `Note [Deguaring seq]` in `DsUtils`.
+
+### Problem 1 (Trac [\#1031](https://gitlab.haskell.org//ghc/ghc/issues/1031))
 
 
-Here are some of the problems that showed up.  See `Note [Deguaring seq]` in `DsUtils`.
-
-
-Trac [\#1031](https://gitlab.haskell.org//ghc/ghc/issues/1031).  Consider
+Consider
 
 ```wiki
    f x y = x `seq` (y `seq` (# x,y #))
 ```
 
 
-The `[CoreSyn let/app invariant]` means that, other things being equal, because 
+The `[CoreSyn let/app invariant]` (see `CoreSyn`) means that, other things being equal, because 
 the argument to the outer `seq` has an unlifted type, we'll use call-by-value thus:
 
->
-> f x y = case (y `seq` (\# x,y \#)) of v -\> x `seq` v
+```wiki
+   f x y = case (y `seq` (# x,y #)) of v -> x `seq` v
+```
 
 
 But that is bad for two reasons: 
 
->
-> (a) we now evaluate y before x, and 
-> (b) we can't bind v to an unboxed pair
+- we now evaluate `y` before `x`, and 
+- we can't bind `v` to an unboxed pair
 
 
-Seq is very, very special!  So we recognise it right here, and desugar to
+Seq is very, very special!  Treating it as a two-argument function, strict in
+both arguments, doesn't work. We "fixed" this by treating `seq` as a language
+construct, desugared by the desugarer, rather than as a function that may (or
+may not) be inlined by the simplifier.  So the above term is desugared to:
 
 ```wiki
         case x of _ -> case y of _ -> (# x,y #)
 ```
 
+### Problem 2 (Trac [\#2273](https://gitlab.haskell.org//ghc/ghc/issues/2273))
 
-Note \[Desugaring seq (2)\]  cf Trac [\#2273](https://gitlab.haskell.org//ghc/ghc/issues/2273)~~~~~~~~~~~~~~~~~~~~~~~~\~
+
 Consider
 
->
-> let chp = case b of { True -\> fst x; False -\> 0 }
-> in chp `seq` ...chp...
+```wiki
+   let chp = case b of { True -> fst x; False -> 0 }
+   in chp `seq` ...chp...
+```
 
 
-Here the seq is designed to plug the space leak of retaining (snd x)
+Here the `seq` is designed to plug the space leak of retaining `(snd x)`
 for too long.
 
 
-If we rely on the ordinary inlining of seq, we'll get
+If we rely on the ordinary inlining of `seq`, we'll get
 
->
-> let chp = case b of { True -\> fst x; False -\> 0 }
-> case chp of _ { I\# -\> ...chp... }
+```wiki
+   let chp = case b of { True -> fst x; False -> 0 }
+   case chp of _ { I# -> ...chp... }
+```
 
 
-But since chp is cheap, and the case is an alluring contet, we'll
-inline chp into the case scrutinee.  Now there is only one use of chp,
+But since `chp` is cheap, and the case is an alluring contet, we'll
+inline `chp` into the case scrutinee.  Now there is only one use of `chp`,
 so we'll inline a second copy.  Alas, we've now ruined the purpose of
 the seq, by re-introducing the space leak:
 
->
-> case (case b of {True -\> fst x; False -\> 0}) of
->
-> >
-> > I\# _ -\> ...case b of {True -\> fst x; False -\> 0}...
+```wiki
+    case (case b of {True -> fst x; False -> 0}) of
+      I# _ -> ...case b of {True -> fst x; False -> 0}...
+```
 
 
 We can try to avoid doing this by ensuring that the binder-swap in the
 case happens, so we get his at an early stage:
 
->
-> case chp of chp2 { I\# -\> ...chp2... }
+```wiki
+   case chp of chp2 { I# -> ...chp2... }
+```
 
 
 But this is fragile.  The real culprit is the source program.  Perhaps we
 should have said explicitly
 
->
-> let !chp2 = chp in ...chp2...
+```wiki
+   let !chp2 = chp in ...chp2...
+```
 
 
-But that's painful.  So the code here does a little hack to make seq
-more robust: a saturated application of 'seq' is turned \*directly\* into
+But that's painful.  So the desugarer does a little hack to make `seq`
+more robust: a saturated application of `seq` is turned **directly** into
 the case expression, thus:
 
->
-> x  `seq` e2 ==\> case x of x -\> e2    -- Note shadowing!
-> e1 `seq` e2 ==\> case x of _ -\> e2
+```wiki
+   x  `seq` e2 ==> case x of x -> e2    -- Note shadowing!
+   e1 `seq` e2 ==> case x of _ -> e2
+```
 
 
 So we desugar our example to:
 
->
-> let chp = case b of { True -\> fst x; False -\> 0 }
-> case chp of chp { I\# -\> ...chp... }
+```wiki
+   let chp = case b of { True -> fst x; False -> 0 }
+   case chp of chp { I# -> ...chp... }
+```
 
 
 And now all is well.
 
 
-The reason it's a hack is because if you define mySeq=seq, the hack
-won't work on mySeq.  
+Be careful not to desugar
+
+```wiki
+   True `seq` e  ==> case True of True { ... }
+```
 
 
-Note \[Desugaring seq (3)\] cf Trac [\#2409](https://gitlab.haskell.org//ghc/ghc/issues/2409)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\~
-The isLocalId ensures that we don't turn 
-~~
-
->
-> True `seq` e
+which stupidly tries to bind the datacon 'True'. This is easily avoided.
 
 
-into
+The whole thing is a hack though; if you define `mySeq=seq`, the hack
+won't work on `mySeq`.  
 
->
-> case True of True { ... }
+### Problem 3 (Trac [\#5262](https://gitlab.haskell.org//ghc/ghc/issues/5262))
 
 
-which stupidly tries to bind the datacon 'True'. 
+Consider
 
-### The need for special rules
+```wiki
+  f x = x `seq` (\y.y)
+```
+
+
+With the above desugaring we get
+
+```wiki
+  f x = case x of x { _ -> \y.y }
+```
+
+
+and now ete expansion gives
+
+```wiki
+  f x y = case x of x { _ -> y }
+```
+
+
+Now suppose that we have
+
+```wiki
+       f (length xs) `seq` 3
+```
+
+
+Plainly `(length xs)` should be evaluated... but it isn't because `f` has arity 2.
+(Without -O this doesn't happen.)
+
+### Problem 4: seq in the IO monad ==
+
+
+See the extensive discussion in Trac [\#5129](https://gitlab.haskell.org//ghc/ghc/issues/5129).
+
+### Problem 5: the need for special rules
 
 
 Roman found situations where he had
@@ -163,7 +204,7 @@ Rather than attempt some general analysis to support this, I've added
 enough support that you can do this using a rewrite rule:
 
 ```wiki
-  RULE "f/seq" forall n.  seq (f n) e = seq n e
+  RULE "f/seq" forall n e.  seq (f n) e = seq n e
 ```
 
 
@@ -177,7 +218,8 @@ To make this work, we need to be careful that `seq` is **not** desguared
 into a case expression on the LHS of a rule.
 
 
-To increase applicability of these user-defined rules, we also have the following built-in rule for `seq`
+To increase applicability of these user-defined rules, we also
+have the following built-in rule for `seq`
 
 ```wiki
   seq (x |> co) y = seq x y
@@ -193,3 +235,33 @@ match more often.  Notably,
 
 
 and now a user-defined rule for `seq` may fire.
+
+# A better way
+
+
+Here's our new plan. 
+
+- Introduce a new primop `seq# :: a -> State# s -> (# a, State# s #)`
+- An application of the primop is not considered cheap.
+- Desugar `seq` thus:
+
+  ```wiki
+     x  `seq` e2 ==> case seq# x RW of (# x, _ #) -> e2    -- Note shadowing!
+     e1 `seq` e2 ==> case seq# x RW of (# _, _ #) -> e2
+  ```
+- Define `evaluate` thus
+
+  ```wiki
+    evaluate :: a -> IO ()
+    evaluate x = IO (\s -> case seq# x s of
+                             (# _, s' #) -> (# (), s' #)
+  ```
+
+
+All the same equations hold as with the old defn for `seq`, but the problems
+go away:
+
+- Problem 1: (seq x y) is elaborated in the desugarer
+- Problem 2: problem largely unaffected
+- Problem 3: if we regard `(seq# a b)` as expensive, we won't eta expand.
+- Problem 4: unchanged
