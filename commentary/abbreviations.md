@@ -27,3 +27,5 @@ See also: [ A similar list on the GHC Users' wiki](http://www.haskell.org/haskel
 - "Loc" means "Location", as in SrcLoc
 
 - "Hs" means "Haskell Syntax" (generally as opposed to Core -- for example, Expr vs HsExpr)
+
+- "Hsc" means "GHC" ("hsc" used to be the name of the compiler binary, when there was a separate driver and compiler)
