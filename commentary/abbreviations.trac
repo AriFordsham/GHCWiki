@@ -25,4 +25,4 @@ See also: [http://www.haskell.org/haskellwiki/GHC/List_of_abbreviations A simila
 
 * "Hs" means "Haskell Syntax" (generally as opposed to Core -- for example, Expr vs HsExpr)
 
-* "Hsc" means "GHC" ("hsc" used to be the name of the compiler binary, when there was a separate driver and compiler)
+* "Hsc" means "deals with compiling a single module and no more"
