@@ -4,7 +4,7 @@
 
 = Getting the GHC Sources =
 
-There are two ways to get sources to GHC: get the sources directly from our repository using [http://darcs.net/ darcs] and [http://git.or.cz/ git] (reccomended) or download a source distribution.
+There are two ways to get sources to GHC: get the sources directly from our repository using [http://darcs.net/ darcs] and [http://git-scm.com/ git] (reccomended) or download a source distribution.
 
 == Source distributions ==
 
