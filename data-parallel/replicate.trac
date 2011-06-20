@@ -32,7 +32,10 @@ Replication of scalars and arrays is always a waste of time and space.  However,
 
 == A plan to fix the problem ==
 
+Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  So, instead of having `replicateP` allocate and fill a new array with multiple copies of the same data, we use a special array representation that stores the data (once!) together with the replication count.  This is surely the most space efficient representation for a replicated array.
+
+The downside of a special representation is that we now also need to modify all consumers of replicated arrays to accept this new representation and to handle it specially.  This leads to some code blow up (each array consumer needs to be able to dynamically decide between two input array representations), and we need to be careful not to disturb fusion.
+
 TODO: 
- * Special representation for replicated arrays
  * Avoiding out of bounds indices
  * Mention need to be careful with length
