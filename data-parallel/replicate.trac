@@ -50,3 +50,8 @@ Note how the `xx_i` are unchanged.  It is only ''in the implementation of `(!^)`
 === Never take the length of a replicated array ===
 
 Unfortunately, not only indices blow out, the length of replicated arrays may also overflow 64bit integers.  Hence, the consuming code must carefully avoid to take the length of such arrays.  This is only the case for `replicateP`s introduced by the vectoriser.  It is the responsibility of the DPH user to ensure that `replicateP`s that are explicit in the user code do not blow out.  (We may want to switch to 64bit indices —at least on 64bit builds— anyway.)
+
+== Related work ==
+
+ * The work-efficient vectorisation paper by Prins et al.  Their approach only works in a first-order language.
+ * Blelloch's work on the space-behaviour of data-parallel programs.
