@@ -39,8 +39,33 @@ Replication of scalars and arrays is always a waste of time and space.  However,
 
 ## A plan to fix the problem
 
-TODO
 
-- Special representation for replicated arrays
-- Avoiding out of bounds indices
-- Mention need to be careful with length
+Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  So, instead of having `replicateP` allocate and fill a new array with multiple copies of the same data, we use a special array representation that stores the data (once!) together with the replication count.  This is surely the most space efficient representation for a replicated array.
+
+
+The downside of a special representation is that we now also need to modify all consumers of replicated arrays to accept this new representation and to handle it specially.  This leads to some code blow up (each array consumer needs to be able to dynamically decide between two input array representations), and we need to be careful not to disturb fusion.
+
+### The trouble with indices
+
+
+Although, a replicated array stores its replicated payload only once, it needs to be handled with care. When indexing into a replicated array, we still use the same indices as if the array data would have been copied multiple times.  That can be a problem in examples, such as `treeLookup` above where the replicated array iteration-space grows exponentially — even 64bit indices will eventually overflow.  However, we can circumvent that problem by taking care in code that consumes replicated arrays.
+
+
+In the `treeLookup` example, the `table` is replicated and grows exponentially.  But it is a segmented structure (one segment per copy of the original array) and it is accessed in the base case by a lifted index operation.  When you look at the input to that application of lifted indexing, its first argument is huge (the replicated `table`), but the second argument contains the same *data* as the original value of `xx`, albeit segmented into an array with one segment per element.  So we have effectively got
+
+```wiki
+ [:table, table, ...., table:] !^ [:[:xx_1:], [:xx_2:], ..., [:xx_n:]:]
+```
+
+
+Note how the `xx_i` are unchanged.  It is only *in the implementation of `(!^)`* that the `xx_i` are blown up to index into the data vector of `[:table, table, ...., table:]` (which is `concatP [:table, table, ...., table:]`).  It is that multiplication of the `xx_i` with the prescaned segment descriptor of `[:table, table, ...., table:]` that will overflow.  Notice how that is internal to the implementation of `(!^)`.  If the first argument of `(!^)` is a replicated structure, there is no need whatsoever to perform that multiplication (and subsequent division) and the indices never overflow!
+
+### Never take the length of a replicated array
+
+
+Unfortunately, not only indices blow out, the length of replicated arrays may also overflow 64bit integers.  Hence, the consuming code must carefully avoid to take the length of such arrays.  This is only the case for `replicateP`s introduced by the vectoriser.  It is the responsibility of the DPH user to ensure that `replicateP`s that are explicit in the user code do not blow out.  (We may want to switch to 64bit indices —at least on 64bit builds— anyway.)
+
+## Related work
+
+- The work-efficient vectorisation paper by Prins et al.  Their approach only works in a first-order language.
+- Blelloch's work on the space-behaviour of data-parallel programs.
