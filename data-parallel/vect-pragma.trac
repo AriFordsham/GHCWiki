@@ -12,3 +12,16 @@ However, if a function `f` is accompanied by a pragma of the form
 {-# VECTORISE f = e #-}
 }}}
 then the vectoriser defines `f_v = e` and refrains from rebinding `f`.  This implies that for `f :: t`, `e`'s type is the `t` vectorised (in particular), `e`'s type uses the array closure type `(:->)` instead of the vanilla function space `(->)`.
+
+
+== The NOVECTORISE pragma ==
+
+If a function `f` is accompanied by a pragma
+{{{
+{-# NOVECTORISE f #-}
+}}}
+then it is ignored by the vectoriser — i.e., no function `f_v` is generated and `f` is left untouched.
+
+'''Caveat:''' If `f`'s definition contains bindings that are being floated to the toplevel, those bindings will still be vectorised.
+
+== VECTORISE SCALAR ==
