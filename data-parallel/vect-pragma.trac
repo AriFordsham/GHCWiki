@@ -15,7 +15,7 @@ then the vectoriser defines `f_v = e` and refrains from rebinding `f`.  This imp
 
 '''Caveat:''' Currently, the type is indeed checked by the vectoriser by comparing Core types.  It would be better to perform that check in the type checker to instantiate the type of `f_v` appropriately if it is overly general.  At the moment, the vectorised version of `t` and the inferred type of `e` need to exactly match up (including all dictionaries ''and their order'').
 
-== The NOVECTORISE pragma ==
+== The NOVECTORISE pragma for values ==
 
 If a variable `f` is accompanied by a pragma
 {{{
@@ -26,7 +26,7 @@ then it is ignored by the vectoriser — i.e., no function `f_v` is generated an
 '''Caveat:''' If `f`'s definition contains bindings that are being floated to the toplevel, those bindings will still be vectorised.
 
 
-== The VECTORISE SCALAR pragma ==
+== The VECTORISE SCALAR pragma for functions ==
 
 Functions that contain no array computations, especially if they are cheap (such as `(+)`), should not be vectorised, but applied by simply mapping them over an array.  This could be achieved by using the `VECTORISE` pragma with an appropriate right-hand side, but leads to repetitive code that we rather like the compiler to generate.
 
