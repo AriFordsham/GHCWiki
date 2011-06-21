@@ -16,7 +16,9 @@ However, if a variable `f` is accompanied by a pragma of the form
 ```
 
 
-then the vectoriser defines `f_v = e` and refrains from rebinding `f`.  This implies that for `f :: t`, `e`'s type is the `t` vectorised (in particular), `e`'s type uses the array closure type `(:->)` instead of the vanilla function space `(->)`.
+then the vectoriser defines `f_v = e` and refrains from rebinding `f`.  This implies that for `f :: t`, `e`'s type is the `t` vectorised (in particular), `e`'s type uses the array closure type `(:->)` instead of the vanilla function space `(->)`.  The vectoriser checks that `e` has the appropriate type.
+
+**Caveat:** Currently, the type is indeed checked by the vectoriser by comparing Core types.  It would be better to perform that check in the type checker to instantiate the type of `f_v` appropriately if it is overly general.  At the moment, the vectorised version of `t` and the inferred type of `e` need to exactly match up (including all dictionaries *and their order*).
 
 ## The NOVECTORISE pragma
 
