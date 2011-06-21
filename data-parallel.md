@@ -11,6 +11,7 @@ Most of the material describing our approach is partitioned into a set of subpag
 - [High-level design of adding NDP to GHC](data-parallel/design)
 - [Design of the DPH packages](data-parallel/library)
 - [Desugaring of array comprehensions](data-parallel/desugaring)
+- [The VECTORISE pragma](data-parallel/vect-pragma)
 - [Preventing space blow-up due to replicate](data-parallel/replicate)
 - [Other nested data parallel work](data-parallel/related)
 
