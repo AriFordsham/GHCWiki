@@ -188,6 +188,18 @@ f (J# _ _) (J# _ _) = ...
 
 # Repository locations
 
+
+Many of the libraries in a GHC tree are actually maintained by someone else. They therefore have a separate upstream repository, from which we need to pull. That repository may be either a darcs or a git repository; in the darcs case, we also need to convert to a git repository for use in a GHC tree. This diagram shows how changes migrate from one repo to another:
+
+[](/trac/ghc/attachment/wiki/Commentary/Libraries/repos.png)
+
+
+This means that when making changes needed in GHC to one of these libraries, we first need to put the changes in the upstream repository. For example, to make a change to Cabal:
+
+- First push the change as a darcs patch to the upstream Cabal repository, [ http://code.haskell.org/Cabal/](http://code.haskell.org/Cabal/)
+- The patch will be mirrored and converted to git by the mirror script, in the repo [ http://darcs.haskell.org/git-mirrors/Cabal/.git/](http://darcs.haskell.org/git-mirrors/Cabal/.git/)
+- You then need to pull from [ http://darcs.haskell.org/git-mirrors/Cabal/.git/](http://darcs.haskell.org/git-mirrors/Cabal/.git/) into `libraries/Cabal` in a regular GHC tree, validate, and push to the GHC Cabal repo, [ http://darcs.haskell.org/packages/Cabal.git/](http://darcs.haskell.org/packages/Cabal.git/)
+
 This table shows, for each repository in a GHC tree, where the central repository is, and what mirrors there are.
 
 <table><tr><th>darcs</th>
@@ -491,8 +503,3 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/packages/stm.git/</th>
 <th>libraries/stm</th>
 <th></th></tr></table>
-
-
-This diagram shows how changes migrate from one repo to another:
-
-[](/trac/ghc/attachment/wiki/Commentary/Libraries/repos.png)
