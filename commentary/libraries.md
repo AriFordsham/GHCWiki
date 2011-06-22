@@ -258,9 +258,9 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/packages/base.git/</th>
 <th>libraries/base</th>
 <th></th></tr>
-<tr><th>http://code.haskell.org/binary/</th>
-<th>http://darcs.haskell.org/darcs-mirrors/binary/</th>
+<tr><th></th>
 <th></th>
+<th>git://github.com/kolmodin/binary.git</th>
 <th>http://darcs.haskell.org/git-mirrors/binary/binary.git/</th>
 <th>http://darcs.haskell.org/packages/.git/</th>
 <th>libraries/binary</th>
