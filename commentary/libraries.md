@@ -188,7 +188,7 @@ f (J# _ _) (J# _ _) = ...
 
 # Repository locations
 
-This table shows, for each repository in a GHC tree, where the central repository is, and what mirrors there are. The situation with haddock is currently complex, as the upstream repo tracks the most recent GHC stable branch, not the HEAD.
+This table shows, for each repository in a GHC tree, where the central repository is, and what mirrors there are.
 
 <table><tr><th>darcs</th>
 <th>git</th>
@@ -225,11 +225,11 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/utils/hsc2hs.git/</th>
 <th>utils/hsc2hs</th>
 <th></th></tr>
-<tr><th>http://code.haskell.org/haddock/</th>
+<tr><th></th>
 <th></th>
-<th>http://darcs.haskell.org/haddock2.git</th>
+<th>http://darcs.haskell.org/haddock.git</th>
 <th></th>
-<th>http://darcs.haskell.org/haddock2.git</th>
+<th>http://darcs.haskell.org/haddock.git</th>
 <th>utils/haddock</th>
 <th></th></tr>
 <tr><th></th>

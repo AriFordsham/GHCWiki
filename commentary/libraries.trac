@@ -155,7 +155,7 @@ f (J# _ _) (J# _ _) = ...
 {{{
 #!html
 
-<p>This table shows, for each repository in a GHC tree, where the <span style="color: green;">central repository</span> is, and what mirrors there are. The situation with haddock is currently complex, as the upstream repo tracks the most recent GHC stable branch, not the HEAD.</p>
+<p>This table shows, for each repository in a GHC tree, where the <span style="color: green;">central repository</span> is, and what mirrors there are.</p>
 
 <table border="2">
 <tr><td colspan="2">darcs</td><td colspan="4">git</td><td></td></tr>
@@ -163,7 +163,7 @@ f (J# _ _) (J# _ _) = ...
 <tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/ghc.git/</td><td></td><td>http://darcs.haskell.org/ghc.git/</td><td>.</td><td rowspan="33">ghc</td></tr>
 <tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/ghc-tarballs.git/</td><td></td><td>http://darcs.haskell.org/ghc-tarballs.git/</td><td>ghc-tarballs</td></tr>
 <tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/utils/hsc2hs.git/</td><td></td><td>http://darcs.haskell.org/utils/hsc2hs.git/</td><td>utils/hsc2hs</td></tr>
-<tr><td style="color: purple;">http://code.haskell.org/haddock/</td><td></td><td style="color: purple;">http://darcs.haskell.org/haddock2.git</td><td></td><td>http://darcs.haskell.org/haddock2.git</td><td>utils/haddock</td></tr>
+<tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/haddock.git</td><td></td><td>http://darcs.haskell.org/haddock.git</td><td>utils/haddock</td></tr>
 <tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/array.git/</td><td></td><td>http://darcs.haskell.org/packages/array.git/</td><td>libraries/array</td></tr>
 <tr><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/base.git/</td><td></td><td>http://darcs.haskell.org/packages/base.git/</td><td>libraries/base</td></tr>
 <tr><td style="color: green;">http://code.haskell.org/binary/</td><td>http://darcs.haskell.org/darcs-mirrors/binary/</td><td></td><td>http://darcs.haskell.org/git-mirrors/binary/binary.git/</td><td>http://darcs.haskell.org/packages/.git/</td><td>libraries/binary</td></tr>
