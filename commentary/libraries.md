@@ -188,7 +188,19 @@ f (J# _ _) (J# _ _) = ...
 
 # Repository locations
 
-This table shows, for each repository in a GHC tree, where the central repository is, and what mirrors there are. The situation with haddock is currently complex, as the upstream repo tracks the most recent GHC stable branch, not the HEAD.
+
+Many of the libraries in a GHC tree are actually maintained by someone else. They therefore have a separate upstream repository, from which we need to pull. That repository may be either a darcs or a git repository; in the darcs case, we also need to convert to a git repository for use in a GHC tree. This diagram shows how changes migrate from one repo to another:
+
+[](/trac/ghc/attachment/wiki/Commentary/Libraries/repos.png)
+
+
+This means that when making changes needed in GHC to one of these libraries, we first need to put the changes in the upstream repository. For example, to make a change to Cabal:
+
+- First push the change as a darcs patch to the upstream Cabal repository, [ http://code.haskell.org/Cabal/](http://code.haskell.org/Cabal/)
+- The patch will be mirrored and converted to git by the mirror script, in the repo [ http://darcs.haskell.org/git-mirrors/Cabal/.git/](http://darcs.haskell.org/git-mirrors/Cabal/.git/)
+- You then need to pull from [ http://darcs.haskell.org/git-mirrors/Cabal/.git/](http://darcs.haskell.org/git-mirrors/Cabal/.git/) into `libraries/Cabal` in a regular GHC tree, validate, and push to the GHC Cabal repo, [ http://darcs.haskell.org/packages/Cabal.git/](http://darcs.haskell.org/packages/Cabal.git/)
+
+This table shows, for each repository in a GHC tree, where the central repository is, and what mirrors there are.
 
 <table><tr><th>darcs</th>
 <th>git</th>
@@ -225,11 +237,11 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/utils/hsc2hs.git/</th>
 <th>utils/hsc2hs</th>
 <th></th></tr>
-<tr><th>http://code.haskell.org/haddock/</th>
+<tr><th></th>
 <th></th>
-<th>http://darcs.haskell.org/haddock2.git</th>
+<th>http://darcs.haskell.org/haddock.git</th>
 <th></th>
-<th>http://darcs.haskell.org/haddock2.git</th>
+<th>http://darcs.haskell.org/haddock.git</th>
 <th>utils/haddock</th>
 <th></th></tr>
 <tr><th></th>
@@ -246,9 +258,9 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/packages/base.git/</th>
 <th>libraries/base</th>
 <th></th></tr>
-<tr><th>http://code.haskell.org/binary/</th>
-<th>http://darcs.haskell.org/darcs-mirrors/binary/</th>
+<tr><th></th>
 <th></th>
+<th>git://github.com/kolmodin/binary.git</th>
 <th>http://darcs.haskell.org/git-mirrors/binary/binary.git/</th>
 <th>http://darcs.haskell.org/packages/.git/</th>
 <th>libraries/binary</th>
@@ -269,8 +281,8 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th></th></tr>
 <tr><th></th>
 <th></th>
-<th>http://darcs.haskell.org/packages/containers.git/</th>
-<th></th>
+<th>git://github.com/haskell/containers.git</th>
+<th>http://darcs.haskell.org/git-mirrors/containers/.git/</th>
 <th>http://darcs.haskell.org/packages/containers.git/</th>
 <th>libraries/containers</th>
 <th></th></tr>
@@ -491,8 +503,3 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/packages/stm.git/</th>
 <th>libraries/stm</th>
 <th></th></tr></table>
-
-
-This diagram shows how changes migrate from one repo to another:
-
-[](/trac/ghc/attachment/wiki/Commentary/Libraries/repos.png)
