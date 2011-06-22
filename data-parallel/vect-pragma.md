@@ -72,3 +72,18 @@ f_v = closure3 f (scalar_zipWith3 f)
 
 
 and so on.  (The variable `f` must have a proper function type.)
+
+## The basic VECTORISE pragma for type constructors
+
+```wiki
+{-# VECTORISE type T = ty #-}
+```
+
+## The VECTORISE SCALAR pragma for type constructors
+
+```wiki
+{-# VECTORISE SCALAR T #-}
+```
+
+
+The type constructor `T` must be in scope, but may be imported.
