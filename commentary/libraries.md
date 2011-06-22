@@ -281,8 +281,8 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th></th></tr>
 <tr><th></th>
 <th></th>
-<th>http://darcs.haskell.org/packages/containers.git/</th>
-<th></th>
+<th>git://github.com/haskell/containers.git</th>
+<th>http://darcs.haskell.org/git-mirrors/containers/.git/</th>
 <th>http://darcs.haskell.org/packages/containers.git/</th>
 <th>libraries/containers</th>
 <th></th></tr>
