@@ -1,17 +1,10 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
 == New typechecker things to fix (with Dimitrios) ==
- * #4856: slow typechecking (regression)
- * #5051: typechecker behaviour change
  * #5030: slow typechecking
- * #5002: context ignored
- * #4981: inconsistent class reqts
- * #2021: equality superclasses (when we have the new coercion rep)
-
-
  * #4347: rigid type signatures for impredicativity
- 
- * #1999: this relates to decomposition of type application in GADTs etc, which we no longer support.  We could start supporting it again, but the question is whether it's worth the extra complexity.
+ * #4310: deferred equalities and forall types (needs Brent's work) 
+
 
 === Arity ===
  * #3924: weak arity leads to weak strictness
@@ -20,12 +13,8 @@
  * #3034: divInt and arity
  * #3627: profiling and eta expansion
  * #2915: arity too small
- * #2762: arity analysis would fix a space leak
- * #2902: an excellent example of the need for arity analysis
  * #2823: another arity expansion bug (related to dictionaries)
  * #2440: bad code with type families; I believe this is also arity-related
- * #2762: Arity analysis
- * #2831: error expressions and arities
  * #1547: profiling and arity
 
 === Inlining ===
@@ -34,14 +23,10 @@
  * #3781: inlining for local functions: discount for scrutinising free vars
  * #3765: CONLIKE things and case expressions (need two unfoldings)
  * #3755: idea for "wrapper peeling" for join points.
- * #3586: inlining default methods
  * #3526: Inliner behaviour confusing (waiting on Bryan)
- * #3181: check unboxing regression fixed in Big INLINE Patch
  * #3073 and [wiki:Commentary/Compiler/DesugaringInstances]: better desugaring for instances
- * #2422: interaction of inlining and specialisation
  * #2396: default class method not inlined
  * #2354: NOINLINE pragma ignored
- * #2353: GHC inliner doesn't inline (with follow-up from Ross)
  * #2078: INLINing improvement; ask Christian.Maeder@dfki.de to see if it improves CASL
  * #2840: top level unlifted string literals
  * #3123: feature request: recursive inlining and peeling
@@ -49,7 +34,6 @@
 == New code generator ==
  * [wiki:Commentary/Compiler/NewCodeGen New code generator tickets]
  * #4065: forward propagation
- * #3969: better loops
  * #3132: fix cgCase of !PrimAlts
  * #3458, #1216: undesirable allocation of something that is nearly a let-no-escape
  * #3462: allocate large objects with `allocateLocal()`
@@ -62,7 +46,6 @@
  * #4090: failed `getRegister` in asm codegen
 
 === Other performance ===
- * #5028: extra `let x=y` binding left around after `CorePrep`
  * #605: strict/unboxed enumerations
  * #2607: space leak: inlining defeats selector thunk optimisation
  * #4470: merge identical counters
@@ -88,9 +71,6 @@
  * #3744: comparisons against `minBound` and `maxBound` are not optimised away
  * #3065: quot is sub-optimal
  * #2269: Word type to Double or Float conversions 
- * #2271: floor, ceiling, round :: Double -> Int are awesomely slow
- * #1434: slow conversion Double to Int
- * #2270: gcd specialisation
 
 == GHCi ==
  * #4017: unhelpful GHCi message
@@ -98,11 +78,8 @@
 ------------------------
 == Outright bugs ==
 
- * #1148, #2267, #1074, #2436, #1792, (related #3082): “Unused import” warnings should be generated from `RdrNames`
- * #4404: wrong "defined but not used" message with `RecordWildCards`
  * #2182: GHCi session retains instance after removing a module from scope	
  * #1241: Lifting the Coverage Condition for functional dependencies isn’t the Right Thing	Manuel
- * #1954: Incorrect “defined but not used” msg	
 
 ------------------------
 == New constraint simplifier ==
@@ -110,23 +87,18 @@
  * [wiki:TypeFunctionsStatus]
  * #4296: !SkolemOccurs
  * #4295: Higher rank and impredicative 
- * #4338, #2102, #2715: superclass equalities
- * #4310: deferred equalities and forall types (needs Brent's work)
  * #816. #3108: extreme delicacy in solve order, involving fundeps
  * #3927: overlap warnings with GADTs
  * #4175: better GHCi info for type-function instances
- * #4809, #4370, #3731: loopy superclass behaviour; make sure all these work!
 
 == Types and type inference ==
  * #3714: distinguish type parameters from indices
  * #4259: overlapping type family instances
  * #4466: explicit type application
  * #3490: superclasses and ambiguity
- * #3638: rules and rigidity for GADTs
  * #3632: better update for records with existentials
  * #1496, #4846: Newtype deriving and type families type soundness problem
  * #1897: '''Ambiguity: don't infer a type that can't be checked if the type is given as a signature''' (this one is important).  See SPJ's mailbox: Haskell type system/Ambiguity.
- * #2859: optimise coercion terms
  * #2641: revise what `-XExtendedDefaultRules` does
  * #1634: deep skolemisation; also this one #3592
  * #3018: be lazier about solving class instances
@@ -135,18 +107,13 @@
 === Better error messages ===
  * #4921: ambiguous type variables
  * #1330: another bad error message (Church2)
- * #3440: type families and GADT error message
  * #3169: better occurs-check error message
  * #2648: Report out of date interface files robustly	
- * #2599: Better error message for non-rigid types	
  * #2588: Better error message about ‘forall’	
  * #2360: Better location info in occurs-check message.	
- * #1856: Better error message for mutually recursive modules	
  * #1928: Confusing type error message (Claus makes suggestions)	
  * #2534: Another confusing type error message	
- * #2442: Better error message heuristics for “not in scope”	Max B’s patch
  * #2900: Improve decomposition of function types
- * #3023: Apply fundeps before printing error
 
 ------------------------
 == Template Haskell == 
@@ -154,8 +121,6 @@
  * #4364: type synonym loop
  * #4372: better quasiquotation support
  * #2041: Splicing in concrete syntax
- * #3492: refactor `TyThing` to `HsSyn` code
- * #3497: Template Haskell support for GADTs
  * #3507: use "`type T`" instead of {{{''T}}}
  * #1475: Allow TH to generate import declarations	
  * #2340: Better TH error recovery.  Easy to do; change to signature of qRecover.
@@ -172,21 +137,18 @@
  * #4426: simpler rule for implicit quantification
  * #4372: better quasiquotes
  * #4359: lambda case
- * #4370: monad comprehensions
  * #4148: improvements to mdo syntax
  * #595: pattern-match overlap checking
  * #3843: Add plugins
  * #3701: Implicitly declared existentials: a class as a type
  * #3480: '''Fingerprints in `TypeRep`'''
  * #3217: better flag handling for GHCi
- * #2806: Require bang patterns on unlifted let-bindings	
  * #2600, #2110: '''Bind type variables and constraints in RULES'''
  * #1930: Infix type operators:  a+b.	
  * #960: Generate local info for ‘undefined’.  Implicit location parameters in general	
  * #2135: Warn when exporting a function whose type mentions a type constructor defined locally but not itself exported	
  * #2526: Add -fwarn-missing-export-signatures	
  * #2119: Explicitly importing deprecated symbols should generate deprecation warnings	
- * #2116: GHCi should load as much of the module as it can	
  * #2207: Load interfaces for GHC.* even without -O	
  * #1231: Better deprecations	
 
