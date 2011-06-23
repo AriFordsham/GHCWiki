@@ -97,3 +97,7 @@ indicates that the type is scalar; i.e., it has no embedded arrays.  Note that t
 
 
 The type constructor `T` must be in scope, but it may be imported.
+
+**TODO**
+
+- For type constructors identified with this pragma, can we generate an `instance` of the `Scalar` type class automatically (instead of relying on it being in the library)?
