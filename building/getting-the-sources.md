@@ -72,7 +72,7 @@ The [sync-all](building/sync-all) script makes it easy to pull new patches.  For
 The full state of a GHC repository includes the current state of the repositories for all of the GHC boot libraries that are used to to build GHC (see [Repositories](repositories) for a list of the boot libraries). The repositories for these libraries are fetched and updated by the `sync-all` script. To recored the full repository state (including boot libraries), git submodules could be used, but they are not currently in favor (see [The perspective on submodules](darcs-conversion#the-perspective-on-submodules) for some reasons why).
 
 
-As an alternative to git submodules, the `fingerprint.py` script in `utils/fingerprint` can create a "fingerprint" to uniquely identify a GHC repository state by recording the current commits of the GHC and boot library repositories. This fingerprint can be used later to restore the state of all repositories to the state captured by the fingerprint. 
+As an alternative to git submodules, the `fingerprint.py` script in `utils/fingerprint/` can create a "fingerprint" to uniquely identify a GHC repository state by recording the current commits of the GHC and boot library repositories. This fingerprint can be used later to restore the state of all repositories to the state captured by the fingerprint. 
 
 
 A fingerprint is created by parsing the output of the `sync-all` command: `./sync-all log HEAD^.. --pretty=oneline`. This command will list each repository along with its commit hash. The fingerprint can be saved for later use. Alternatively, the fingerprint can be created from a [Builder](builder) log that includes the output of the `sync-all` command above.
@@ -81,8 +81,8 @@ A fingerprint is created by parsing the output of the `sync-all` command: `./syn
 To create a new fingerprint, run the `create` command in the top level ghc repo. The fingerprint can also be created from a [Builder](builder) log that contains the appropriate output from the `sync-all` command by passing the log file to the create command with the `-l` flag.
 
 ```wiki
-$ ./utils/fingerprint.py create
-$ ./utils/fingerprint.py create -l builder.log
+$ ./utils/fingerprint/fingerprint.py create
+$ ./utils/fingerprint/fingerprint.py create -l builder.log
 ```
 
 
@@ -92,8 +92,8 @@ This command will create a new fingerprint, which is just pairs of repositories 
 To restore a fingerprint use the `restore` command and pass either a fingerprint file with the `-f` flag or a builder log file with the `-l` flag.
 
 ```wiki
-$ ./utils/fingerprint.py restore -f 2011-05-23.fp
-$ ./utils/fingerprint.py restore -l builder.log
+$ ./utils/fingerprint/fingerprint.py restore -f 2011-05-23.fp
+$ ./utils/fingerprint/fingerprint.py restore -l builder.log
 ```
 
 
