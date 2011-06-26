@@ -37,6 +37,13 @@ A source tree consists of more than one repository: at the top level there is th
   $ ./sync-all --testsuite get
 ```
 
+
+If you have commit access then you will need to also set the push URL:
+
+```wiki
+  $ ./sync-all -r darcs.haskell.org:/srv/darcs/ remote set-url --push origin
+```
+
 ## Making a local clone
 
 
