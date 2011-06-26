@@ -401,7 +401,7 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <tr><th></th>
 <th></th>
 <th>git://github.com/rrnewton/haskell_stdlib_random.git</th>
-<th></th>
+<th>http://darcs.haskell.org/git-mirrors/random/</th>
 <th>http://darcs.haskell.org/packages/random.git/</th>
 <th>libraries/random</th>
 <th></th></tr>
