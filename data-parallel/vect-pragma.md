@@ -81,6 +81,7 @@ and so on.  (The variable `f` must have a proper function type.)
 
 **TODO**
 
+- This isn' fully implemented yet.
 - Maybe don't have a rhs, but make this pragma mean that `T` should be vectorised as if the module containing `T` would have been vectorised.  (Post-hoc vectorisation of a data type.)
 
 ## The VECTORISE SCALAR pragma for type constructors
@@ -96,7 +97,7 @@ For a type constructor `T`, the pragma
 indicates that the type is scalar; i.e., it has no embedded arrays.  Note that the type cannot be parameterised (as we could not rule out that any of the type parameters at a usage site is an array type.)
 
 
-The type constructor `T` must be in scope, but it may be imported.
+The type constructor `T` must be in scope, but it may be imported.  The `PData` and `PRepr` instances for `T` need to be manually defined.  (For types that the vectorised automatically determines that they don't need a vectorised version instances for `PData` and `PRepr` are still generated automatically.)
 
 **TODO**
 
