@@ -149,7 +149,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Solaris         </th>
 <th> i386-unknown-solaris2   </th>
 <th> Yes          </th>
-<th> No   </th>
+<th> Yes  </th>
 <th> Yes    </th>
 <th> Yes          </th>
 <th> No                </th>
