@@ -59,7 +59,7 @@ and so on.  (The variable `f` must have a proper function type.)
 }}}
 
 '''TODO:'''
- * This isn' fully implemented yet.
+ * This isn' fully implemented yet.  (Implemented up to and including desugaring and being put into `ModGuts`, but not used in the vectoriser.)
  * We probably want two variants: one which just gives a tycon to vectorise and one also giving the vectorised tycon/type.  The first variant matches the default behaviour for locally defined data types, but enables to vectorise imported data types in subsequent modules.  (Eg, to vectorise data types from the Prelude without changing —or vectorising— the Prelude itself.)
  * Maybe don't have a rhs, but make this pragma mean that `T` should be vectorised as if the module containing `T` would have been vectorised.  (Post-hoc vectorisation of a data type.)
 
