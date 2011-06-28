@@ -1,4 +1,4 @@
-### Porting GHC using LLVM backend
+# Porting GHC using LLVM backend
 
 
 This document is kind of short porting roadmap which serves as a high-level overview for porters of GHC who decided to use LLVM instead of implementing new NCG for their target platform. Please have [Design & Implementation](commentary/compiler/backends/llvm/design) at hand since this contains more in-depth information.
