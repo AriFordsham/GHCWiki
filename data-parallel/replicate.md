@@ -65,6 +65,19 @@ Note how the `xx_i` are unchanged.  It is only *in the implementation of `(!^)`*
 
 Unfortunately, not only indices blow out, the length of replicated arrays may also overflow 64bit integers.  Hence, the consuming code must carefully avoid to take the length of such arrays.  This is only the case for `replicateP`s introduced by the vectoriser.  It is the responsibility of the DPH user to ensure that `replicateP`s that are explicit in the user code do not blow out.  (We may want to switch to 64bit indices —at least on 64bit builds— anyway.)
 
+## Concrete implementation of replicated arrays
+
+
+The DPH library is built on the [ http://hackage.haskell.org/package/vector\|vector](http://hackage.haskell.org/package/vector|vector) package (that provides high-performance sequential arrays).  This package heavily relies on a cheap representation of sliced arrays — i.e., arrays of which a subarray is extracted.  Such array slices are not copied, but represented by a reference to the original array together with markers for the start and end of the slice.
+
+### Replicating and slicing
+
+
+When implementing replicated arrays, we need to take into account that (1) a replicated may be a sliced vector and (b) that the partitioning of a parallel array across multiple threads requires to slice that parallel array.
+
+****\******* Is this really an issue?  After all, we don't replicated thread-local slices of parallel arrays (which in turn may be sliced vectors), but replicate parallel arrays (which are already distributed over multiple threads).
+**
+
 ## Related work
 
 - The work-efficient vectorisation paper by Prins et al.  Their approach only works in a first-order language.
