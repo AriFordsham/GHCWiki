@@ -14,6 +14,7 @@ The list of steps needed for new GHC/LLVM port is:
 
 '''(6)''' Once '''(5)''' is working you have it all running except TABLES_NEXT_TO_CODE. So change that to Yes in your build.mk and get that working. This will probably involve changing the mangler used by LLVM to work on the platform you are targeting.
 
+== Registerised Mode ==
 
 Here is an expanded version of what needs to be done in step 5 and 6 to get a registerised port of LLVM working:
 
