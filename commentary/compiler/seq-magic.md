@@ -176,7 +176,7 @@ Now suppose that we have
 Plainly `(length xs)` should be evaluated... but it isn't because `f` has arity 2.
 (Without -O this doesn't happen.)
 
-### Problem 4: seq in the IO monad ==
+### Problem 4: seq in the IO monad
 
 
 See the extensive discussion in Trac [\#5129](https://gitlab.haskell.org//ghc/ghc/issues/5129).
@@ -241,27 +241,54 @@ and now a user-defined rule for `seq` may fire.
 
 Here's our new plan. 
 
-- Introduce a new primop `seq# :: a -> State# s -> (# a, State# s #)`
-- An application of the primop is not considered cheap.
-- Desugar `seq` thus:
-
-  ```wiki
-     x  `seq` e2 ==> case seq# x RW of (# x, _ #) -> e2    -- Note shadowing!
-     e1 `seq` e2 ==> case seq# x RW of (# _, _ #) -> e2
-  ```
+- Introduce a new primop `seq# :: a -> State# s -> (# a, State# s #)` (see [be5441799b7d94646dcd4bfea15407883537eaaa](/trac/ghc/changeset/be5441799b7d94646dcd4bfea15407883537eaaa/ghc))
+- Implement `seq#` by turning it into the obvious eval in the backend.  In fact, since the return convention for `(# State# s, a #)` is exactly the same as for `a`, we can implement `seq# s a` by `a` (even when it appears as a case scrutinee).
 - Define `evaluate` thus
 
   ```wiki
-    evaluate :: a -> IO ()
-    evaluate x = IO (\s -> case seq# x s of
-                             (# _, s' #) -> (# (), s' #)
+    evaluate :: a -> IO a
+    evaluate x = IO $ \s -> seq# x s
   ```
 
 
-All the same equations hold as with the old defn for `seq`, but the problems
-go away:
+That fixes problem 4.
 
-- Problem 1: (seq x y) is elaborated in the desugarer
-- Problem 2: problem largely unaffected
-- Problem 3: if we regard `(seq# a b)` as expensive, we won't eta expand.
-- Problem 4: unchanged
+
+We could go on and desugar `seq` thus:
+
+```wiki
+   x  `seq` e2 ==> case seq# x RW of (# x, _ #) -> e2    -- Note shadowing!
+   e1 `seq` e2 ==> case seq# x RW of (# _, _ #) -> e2
+```
+
+
+and if we consider `seq#` to be expensive, then we won't eta-expand around it, and that would fix problem 3.
+
+
+However, there is a concern that this might lead to performance regressions in examples like this:
+
+```wiki
+f :: Int -> Int -> IO Int
+f x y | x `seq` False = undefined
+f x 3 = do
+  ... some IO monad code here ...
+```
+
+
+so `f` turns into
+
+```wiki
+f = \x . \y . case seq# x RW of (# _, x #) -> case y of 3 -> \s . some IO monad code
+```
+
+
+and we won't get to eta-expand the `\s` as we would normally do (this is pretty important for getting good performance from IO and ST monad code).
+
+
+Arguably `f` should be rewritten with a bang pattern, and we should treat bang patterns as the eta-expandable seq and translate them directly into `case`, not `seq#`.  But this would be a subtle difference between `seq` and bang patterns.
+
+
+Furthermore, we already have `pseq`, which is supposed to be a "strictly ordered seq", that is it preserves evaluation order.  So perhaps `pseq` should be the one that more accurately implements the programmer's intentions, leaving `seq` as it currently is.
+
+
+We are currently pondering what to do here.
