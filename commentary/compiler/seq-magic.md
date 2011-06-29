@@ -176,7 +176,7 @@ Now suppose that we have
 Plainly `(length xs)` should be evaluated... but it isn't because `f` has arity 2.
 (Without -O this doesn't happen.)
 
-### Problem 4: seq in the IO monad ==
+### Problem 4: seq in the IO monad
 
 
 See the extensive discussion in Trac [\#5129](https://gitlab.haskell.org//ghc/ghc/issues/5129).
