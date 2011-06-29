@@ -53,7 +53,7 @@ This section of the commentary documents the subtlest part of the module depende
    * !MkId (!CoreUnfold.mkUnfolding, Subst, Rules.addRule)
    * !PrelInfo (!MkId), !HscTypes ( Rules.!RuleBase ) 
 
- * That is the end of the infrastructure. Now we get the main layer of mdoules that perform useful work.
+ * That is the end of the infrastructure. Now we get the main layer of modules that perform useful work.
    * !CoreTidy (!HscTypes.!PersistentCompilerState) 
 
 == !HsSyn stuff ==
