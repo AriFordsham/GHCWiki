@@ -3,7 +3,7 @@
 ## Installing
 
 
-The LLVM backend is now included in GHC HEAD. Just grab the darcs HEAD version of GHC and build it. The backend now also supports all modes that GHC can be built in so you shouldn't need to change your build.mk file either.
+The LLVM backend is now included in GHC HEAD. Just grab the git HEAD version of GHC and build it. The backend now also supports all modes that GHC can be built in so you shouldn't need to change your build.mk file either.
 
 
 For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/wiki/Building)
@@ -11,7 +11,10 @@ For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/
 ## LLVM Support
 
 
-The LLVM backend only supports LLVM version **2.7** or later. Problems with LLVM \>= 2.9 and GHC 7.0.3 currently exist (see bug [\#5103](https://gitlab.haskell.org//ghc/ghc/issues/5103)). Simply install it and make sure the various llvm tools (opt, llc) are available on your path.
+The LLVM backend only supports LLVM version **2.7** or later. Problems with LLVM \>= 2.9 and GHC 7.0.3 currently exist (see bug [\#5103](https://gitlab.haskell.org//ghc/ghc/issues/5103)). GHC 7.2 and later works fine with LLVM \>= 2.9.
+
+
+Simply install GHC and make sure the various llvm tools (opt, llc) are available on your path.
 
 ## Using
 
@@ -30,13 +33,14 @@ Once built you can check that you have the LLVM backend GHC will support these e
 
 - Linux x86-32/x86-64: Currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
 - Windows x86-32: Currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
-- Mac OS X 10.5/10.6: Currently well supported. The back-end can pass the test suite. Bootstrapping GHC hasn't been tried yet. OS X has caused a lot more problems then Linux or Windows and does a few things slightly differently then them. It should be fairly stable these days though.
+- Mac OS X 10.5/10.6 (x86-32/x86-64): Currently well supported. The back-end can pass the test suite and bootstrap GHC. OS X has caused a lot more problems then Linux or Windows and does a few things slightly differently then them. It is quite stable these days though.
+- ARM: Some work has been done testing GHC in unregisterised mode with LLVM on ARM. You can see a blog with info about this [ here](http://ghcarm.wordpress.com/).
 - Other platforms haven't been tested at all.
 
 ## Shared Libraries
 
 
-Shared libraries are supported on Linux x64. They aren't supported on any other platform at the moment.
+Shared libraries are supported on Linux x64. They aren't supported on any other platform at the moment. Mac OS x64 may also work though.
 
 ## Performance
 
