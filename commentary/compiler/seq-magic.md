@@ -1,7 +1,7 @@
 # Seq magic
 
 
-The innocent-looking `seq` operator causes all manner of mayhem in GHC. This page summarises the issues.  See also discussion in Trac [\#5129](https://gitlab.haskell.org//ghc/ghc/issues/5129).
+The innocent-looking `seq` operator causes all manner of mayhem in GHC. This page summarises the issues.  See also discussion in Trac [\#5129](https://gitlab.haskell.org//ghc/ghc/issues/5129), [\#5262](https://gitlab.haskell.org//ghc/ghc/issues/5262)
 
 ## The baseline position
 
