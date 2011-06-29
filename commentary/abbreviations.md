@@ -12,7 +12,7 @@ See also: [ A similar list on the GHC Users' wiki](http://www.haskell.org/haskel
 
 - "Rts" means "Run Time System"
 
-- "Rdr" means "Parser" (do not ask me why, I don't know)
+- "Rdr" means "Parser" (or reader)
 
 - "Ds" means "Desugarer"
 
