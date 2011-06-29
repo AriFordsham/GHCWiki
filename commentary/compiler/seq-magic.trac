@@ -163,7 +163,7 @@ and now a user-defined rule for `seq` may fire.
 
 Here's our new plan. 
  * Introduce a new primop `seq# :: a -> State# s -> (# a, State# s #)` (see be5441799b7d94646dcd4bfea15407883537eaaa)
- * Implement `seq#` by turning it into the obvious eval in the backend.  In fact, since the return convention for `(# State# s, a #)` is exactly the same as for `a`, we can implement `seq# s a` by `a` (even when it appears as a case scrutinee).  Currenntly 
+ * Implement `seq#` by turning it into the obvious eval in the backend.  In fact, since the return convention for `(# State# s, a #)` is exactly the same as for `a`, we can implement `seq# s a` by `a` (even when it appears as a case scrutinee).
  * Define `evaluate` thus
 {{{
   evaluate :: a -> IO a
