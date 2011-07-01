@@ -87,6 +87,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
   - [GHC Source Abbreviations](commentary/abbreviations): Abbreviations used in the GHC code
   - [Safe Haskell](safe-haskell): The design of an extension to Haskell around 'Safe' code.
   - [Monad Comprehensions](monad-comprehensions): Translation rules and some implementation details
+  - [Polymorphic Dynamic](polymorphic-dynamic): Notes on adding ad-hoc polymorphic dynamic types
 
 - The Runtime System
 

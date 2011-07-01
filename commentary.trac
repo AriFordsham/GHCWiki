@@ -75,6 +75,7 @@ However sometimes you may want to add new material that doesn't quite fit into t
    * [wiki:Commentary/Abbreviations GHC Source Abbreviations]: Abbreviations used in the GHC code
    * [wiki:SafeHaskell Safe Haskell]: The design of an extension to Haskell around 'Safe' code.
    * [wiki:MonadComprehensions Monad Comprehensions]: Translation rules and some implementation details
+   * [wiki:PolymorphicDynamic Polymorphic Dynamic]: Notes on adding ad-hoc polymorphic dynamic types
 
  * The Runtime System
    * [wiki:GarbageCollectorNotes Garbage Collector]: Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
