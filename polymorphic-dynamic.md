@@ -63,6 +63,9 @@ transform _                     = []
 
 (From the Clean 1.0 Reference Manual)          
 
+
+Here [Runtime Data Loading](run-time-data) is a use case that would be solved by this feature.
+
 ## Design
 
 

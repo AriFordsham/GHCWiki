@@ -49,6 +49,8 @@ transform _                     = []
 }}}
 (From the Clean 1.0 Reference Manual)          
 
+Here [wiki:RunTimeData Runtime Data Loading] is a use case that would be solved by this feature.
+
 == Design ==
 
 The Dyn monad is a newtype wrapper around the GHC monad.
