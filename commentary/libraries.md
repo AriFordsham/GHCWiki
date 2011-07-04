@@ -265,7 +265,7 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/packages/.git/</th>
 <th>libraries/binary</th>
 <th></th></tr>
-<tr><th>http://code.haskell.org/bytestring/</th>
+<tr><th>http://darcs.haskell.org/bytestring/</th>
 <th></th>
 <th></th>
 <th>http://darcs.haskell.org/git-mirrors/bytestring/.git/</th>
