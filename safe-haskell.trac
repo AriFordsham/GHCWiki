@@ -216,15 +216,13 @@ The `-XSafe`, `-XTrustworthy`, `-XSafeLanguage` and `-XSafeImport` GHC LANGUAGE 
 
 == Safe Language ==
 
-The Safe Language restricts things in three different ways:
+The Safe Language restricts things in two different ways:
 
-  1. Certain GHC OPTIONS and LANGUAGE extensions are only allowed on the command line and not in source PRAGMAS.
-  2. Certain GHC LANGUAGE extensions are disallowed completely.
-  3. Certain GHC LANGUAGE extensions are restricted in functionality.
+  1. Certain GHC LANGUAGE extensions are disallowed completely.
+  2. Certain GHC LANGUAGE extensions are restricted in functionality.
 
-The idea behind this divide is that source pragmas are generally specified by the module author, who is untrusted, while command line options are specified by the client since they are compiling the module, who has to be trusted. In the case of Cabal files, while they are specified by the untrusted module author, since it is a single source file it is easy to validate by hand. Below is precisely what flags and extensions fall into each category:
+Below is precisely what flags and extensions fall into each category:
 
-    * '''Only allowed on command line''': `-cpp` and `-XCPP`, `-pgm{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-opt{L,P,lo,lc,m,s,a,l,dll,F,windres}`, `-F`, `-l''lib''`, `-framework`, `-L''dir''`, `-framework-path''dir''`, `-main-is`, `-package-name`, `-D''symbol''`, `-U''symbol''`, `-I''dir''`, `-with-rts-opts`, `-rts-opts=`, `-dylib-install-name`, `-hcsuf`, `-hidir`, `-hisuf`, `-o`, `-odir`, `-ohi`, `-osuf`, `-stubdir`, `-outputdir`, `-tmpdir`, `-trust`, `-distrust`, `-distrust-all-packages`
     * '''Disallowed completely''': `GeneralizedNewtypeDeriving`, `TemplateHaskell`, `-XSafeLanguage`
     * '''Restricted functionality''': `OverlappingInstances`, `ForeignFunctionInterface`, {{{RULES}}}
       * See [#RestrictedandDisabledGHCHaskellFeatures Restricted Features below]
