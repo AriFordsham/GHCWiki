@@ -583,7 +583,7 @@ git send-email --to=cvs-ghc@haskell.org hash-id -1
 ```
 
 ```wiki
-git format-patch
+git format-patch origin
 ```
 
 ## darcs changes
