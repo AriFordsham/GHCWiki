@@ -1,22 +1,6 @@
 # Adding new test cases
 
 
-This section gives an overview of how to add new test cases to the testsuite. First we give an overview of how the testsuite is designed.
-
-## Testsuite Design Overview
-
-
-The testsuite is designed largely as follows, where we take the root of the testsuite to be `testsuite/`. Firstly we have the individual test cases to run. Each test case though can be run in multiple ways. These different ways (which are simply called ```ways```) correspond to things like different optimisation levels, using the threaded RTS or not... ect. Some test cases can be run in any way while others are specific to certain ways. The general layout of the testsuite is this:
-
-- `config`: Contains the definition of the different ways supported. The only file of relevance here is `ghc`. No other Haskell compiler is actually supported by the testsuite.
-- `driver`: Contains the python source code that forms the testsuite framework.
-- `mk`: Contains the make source code that forms the testsuite framework. The make part is mostly concerned with invoking the python component, which does the actual work.
-- `tests`: Contains the actual test cases to run.
-- `timeout`: Contains a Haskell program that kills a running test case after a certain amount of time. Used by the testsuite framework.
-
-## Adding a test case
-
-
 For adding any test case, follow these guide lines and then refer to the more specific examples below for a single module test case and a multiple module test case. All test cases should reside under the \`testsuite/tests/ghc-regress/' directory. From now on we assume that directory as our root.
 
 1. Find the appropriate place for the test case. The GHC regression suite
@@ -107,7 +91,7 @@ For adding any test case, follow these guide lines and then refer to the more sp
 >
 > Below we will look at some of the more common test case setups.
 
-### A single module test case
+## A single module test case
 
 
 A single module test case is very easy. Simply name the Haskell source files the same as your test
@@ -137,7 +121,7 @@ test('drvfail001', normal, compile_fail, [''])
 
 For more detailed control of a test case, see below. \\REF
 
-### A multiple module test case
+## A multiple module test case
 
 
 A multiple module test case is slightly more complex then a single module one. Firstly we a concerned with how to handle the simplest form of a multiple module test case, that is one where the whole test case can be built in one go using the `--make` command of GHC. If you have more complex needs (like compiling source files that `--make` can't handle, and/or need to compile different modules with different GHC arguments, then see below \\REF)
@@ -176,7 +160,7 @@ test('Over',
      ['OverD', '-no-hs-main -c -v0'])
 ```
 
-### Advanced multiple module test cases
+## Advanced multiple module test cases
 
 
 If you have a test case that can't be built with the simpler two methods described above then you should try one of the methods described below. The build method below allows you to explicitly provide a list of source files that GHC should try to build. They are also built in the order you specify. This is useful for test cases say that use a .cmm source file or .c source file, these are files that GHC can build but aren't picked up by `--make`.
