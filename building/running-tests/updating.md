@@ -1,0 +1,22 @@
+# Updating test cases when the output changes
+
+
+If the output of a test has changed, but the new output is still
+correct, you can automatically update the sample output to match the
+new output like so:
+
+```wiki
+$ make accept TEST=<test-name>
+```
+
+
+where \<test-name\> is the name of the test. 
+
+
+If you want to update a whole directory of tests to accept the
+new output, simply call `make accept` in that directory:
+
+```wiki
+$ cd array/should_run
+$ make accept
+```
