@@ -22,6 +22,9 @@ $ make WAY=optasm TEST=tc053
 ```
 
 
+The testsuite also has a concept called, *ways*. These refer to different settings in which a test case can be compiled and/or run. They correspond to things such as checking a test passes both when the native code generator is used and when the LLVM code generator is used.
+
+
 The following ways are defined (see the file config/ghc for the complete list):
 
 ```wiki
