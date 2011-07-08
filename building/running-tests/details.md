@@ -1,6 +1,17 @@
 # Testsuite Details
 
 
+The testsuite is designed largely as follows, where we take the root of the testsuite to be `testsuite/`. Firstly we have the individual test cases to run. Each test case though can be run in multiple ways. These different ways (which are simply called ```ways```) correspond to things like different optimisation levels, using the threaded RTS or not... ect. Some test cases can be run in any way while others are specific to certain ways. The general layout of the testsuite is this:
+
+- `config`: Contains the definition of the different ways supported. The only file of relevance here is `ghc`. No other Haskell compiler is actually supported by the testsuite.
+- `driver`: Contains the python source code that forms the testsuite framework.
+- `mk`: Contains the make source code that forms the testsuite framework. The make part is mostly concerned with invoking the python component, which does the actual work.
+- `tests`: Contains the actual test cases to run.
+- `timeout`: Contains a Haskell program that kills a running test case after a certain amount of time. Used by the testsuite framework.
+
+## Testsuite Implementation details
+
+
 The testsuite driver is just a set of Python scripts, as are all of
 the .T files in the testsuite.  The driver (driver/runtests.py) first
 searches for all the .T files it can find, and then proceeds to
