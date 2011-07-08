@@ -36,6 +36,7 @@ will do a full testsuite run (more thorough, but takes a lot longer). You should
 - [Testsuite Settings and WAYS](building/running-tests/settings)
 - [Updating test case results](building/running-tests/updating)
 - [Adding new test cases](building/running-tests/adding)
+- [Testsuite implementation details](building/running-tests/details)
 
 ## Problems running the testsuite
 

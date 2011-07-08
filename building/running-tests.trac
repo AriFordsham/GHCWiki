@@ -25,6 +25,7 @@ will do a full testsuite run (more thorough, but takes a lot longer). You should
  * [wiki:Building/RunningTests/Settings Testsuite Settings and WAYS]
  * [wiki:Building/RunningTests/Updating Updating test case results]
  * [wiki:Building/RunningTests/Adding Adding new test cases]
+ * [wiki:Building/RunningTests/Details Testsuite implementation details]
 
 == Problems running the testsuite ==
 
