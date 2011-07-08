@@ -99,3 +99,8 @@ $ make THREADS=4
 
 
 This can be a huge time saver these days with the number of cores most people have.
+
+## Problems running the testsuite
+
+
+If the testsuite fails mysteriously, make sure that the timeout utility is working properly. This Haskell utility is compiled with the stage 1 compiler and invoked by the python driver, which does not print a nice error report if the utility fails. This can happen if, for example, the compiler produces bogus binaries. A workaround is to compile timeout with a stable ghc.
