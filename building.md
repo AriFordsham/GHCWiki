@@ -68,4 +68,3 @@ Platform-specific building instructions:
 Please feel free to add pages here.  In due course, information can be incorporated into the main documentation above.
 
 - [SonyPS3](sony-p-s3) : Hints for building on the Sony PS3
-- [Code coverage of our testsuite](ghc-coverage)
