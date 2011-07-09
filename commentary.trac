@@ -38,9 +38,7 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
 
 == Contributed Documentation ==
 
-Please edit and improve the Commentary above, or the [wiki:Building Building Guide].  
-
-However sometimes you may want to add new material that doesn't quite fit into the existing structure.  Or perhaps your pages are about work-in-progress, status reports and suchlike, which don't belong in the Commentary per se.  Regardless, you can add your new material here.
+The above commentary covers the source code of GHC. For material that doesn't concern this topic (such as proposals, work-in-progress and status reports) or that don't fit into the existing structure, you will find them below. Feel free to add new material here but please categorise it correctly.
 
  * General Notes on the GHC compiler
    * Edward Yang's blog post about [http://blog.ezyang.com/2011/04/tracing-the-compilation-of-hello-factorial/ the entire complilation pipeline for `factorial`]
