@@ -6,16 +6,14 @@ For the dedicated, there are [wiki:AboutVideos videos of Simon and Simon giving 
 
 == Editing the Commentary ==
 
-Please feel free to add material to the rest of the wiki: don't worry too much about accuracy (in due course someone will edit your contribution).  
-
-Please feel free to add material to the commentary after you've given some thought to where in the commentary it belongs.  The old commentary read like a single coherent narrative, made sure to define terms before using them, and introduced concepts in the order which made them easiest to understand.  Please do try to preserve those properties in this wiki commentary.  If you're unsure or in a hurry, consider creating a wiki page outside the commentary and linking to it from the commentary (or the "contributed documentation" section below).
+Please feel free to add material to the rest of the wiki: don't worry too much about accuracy (in due course someone will edit your contribution). When unsure though please indicate this in the wiki and its best to ask on the GHC mailing list so you can correct the commentary. Please give some though to where in the commentary your contribution belongs. GHC has an older commentary (non wiki based) that read like a single coherent narrative, made sure to define terms before using them, and introduced concepts in the order which made them easiest to understand.  Please do try to preserve those properties in this wiki commentary. If you're unsure or in a hurry, consider creating a wiki page outside the commentary and linking to it from the commentary (or the "contributed documentation" section below).
 
 Try to link to source files as much as possible by using this macro: {{{[[GhcFile(compiler/Makefile)]]}}}. Also try to add appropriate links to other parts of the commentary.
 
 == Contents ==
 
  * [wiki:Commentary/GettingStarted Getting Started]
-   * [wiki:Commentary/Abbreviations Abbreviations] used pervasively in the source code
+   * [wiki:Commentary/Abbreviations Abbreviations in GHC]
    * [wiki:Commentary/SourceTree Source Tree Roadmap]
    * [wiki:Commentary/ModuleStructure Module Structure]
    * [wiki:Commentary/CodingStyle Coding Style]
@@ -24,8 +22,8 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
  * [wiki:Commentary/Compiler The Compiler]
    * [wiki:Commentary/Pipeline The compilation pipeline]
 
- * [wiki:Commentary/Rts The Runtime System] (Rts)
-    * [wiki:Commentary/Rts/Conventions Rts Coding Conventions]
+ * [wiki:Commentary/Rts The Runtime System (RTS)]
+    * [wiki:Commentary/Rts/Conventions RTS Coding Conventions]
     * [wiki:Commentary/Rts/HaskellExecution The Haskell Execution Model]
     * [wiki:Commentary/Rts/Storage The memory layout of heap and stack objects]
  
@@ -40,42 +38,45 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
 
 == Contributed Documentation ==
 
-Please edit and improve the Commentary above, or the [wiki:Building Building Guide].  
+The above commentary covers the source code of GHC. For material that doesn't concern this topic (such as proposals, work-in-progress and status reports) or that don't fit into the existing structure, you will find them below. Feel free to add new material here but please categorise it correctly.
 
-However sometimes you may want to add new material that doesn't quite fit into the existing structure.  Or perhaps your pages are about work-in-progress, status reports and suchlike, which don't belong in the Commentary per se.  Regardless, you can add your new material here.
-
- * The Compiler
-   * [wiki:Commentary/Compiler/SeqMagic Magic to do with `seq` and friends]
-   * [wiki:MemcpyOptimizations memcpy/memmove/memset optimizations]
+ * General Notes on the GHC compiler
    * Edward Yang's blog post about [http://blog.ezyang.com/2011/04/tracing-the-compilation-of-hello-factorial/ the entire complilation pipeline for `factorial`]
-   * [wiki:NewPlugins Compiler plug-ins]
-   * [wiki:TypeNats Type level naturals]
-   * [wiki:KindFact Proposal to add a kind for facts, e.g. class constraints]
-   * [wiki:DefaultSuperclassInstances Proposal to allow classes to give default implementations for their superclasses]
-   * [wiki:Commentary/Compiler/GenericDeriving The new deriving mechanism]
-   * [wiki:Commentary/Compiler/TemplateHaskell Notes about Template Haskell]
-   * [wiki:Commentary/Compiler/NewCodeGen Notes about the new code generator]
-   * [wiki:TypeFunctions Type families/type functions]: Notes concerning the implementation of type families, associated types, and equality constraints as well as the extension of the type checker with a contraint solver for equality constraints.
-   * [wiki:IntermediateTypes Intermediate Types]: Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)
-   * [wiki:DataParallel DPH]: Notes about the implementation of Data Parallel Haskell
-   * [wiki:RewriteRules Rewrite Rules]: Notes about the implementation of RULEs in GHC
-   * [wiki:BackEndNotes Backend Ideas]: Some ideas and notes about the back end.
-   * [wiki:Commentary/CmmExceptions Cmm: Implementing Exception Handling]: Implementing exception handling for primitive operations in Cmm
-   * [wiki:Commentary/CmmKinds Cmm: Using Kinds to implement calling conventions]: Pointers to explanations of what a {{{CmmKind}}} is and why you might find one useful.
-   * [wiki:GhciDebugger GHCi Debugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
-   * [wiki:NewGhciDebugger New GHCi Debugger]: The new GHCi debugger.
    * [wiki:AddingNewPrimitiveOperations New Prim Ops]: How to add new primitive operations to GHC Haskell.
    * [wiki:ReplacingGMPNotes Replacing GMP]: Notes from an effort to replace GMP with another Bignum library.
    * [wiki:ExternalCore External Core]: Describes the process of bringing External Core up to speed. Once finished, this will simply describe what External Core is, and how it works. 
-   * [wiki:HaddockComments Haddock]: Some notes about how the Haddock comment support is implemented.
-   * [wiki:ExplicitCallStack Explicit Call Stack]: Notes about maintaining an explicit call stack, to support error attribution and profiling.
+   * [http://sourceforge.net/apps/mediawiki/developers/index.php?title=ScrapYourBoilerplate The Scrap your boilerplate homepage].
+
+ * Notes on implemented GHC features:
+   * [wiki:Commentary/Compiler/GenericDeriving The new deriving mechanism]
+   * [wiki:Commentary/Compiler/TemplateHaskell Notes about Template Haskell]
+   * [wiki:RewriteRules Rewrite Rules]: Notes about the implementation of RULEs in GHC
+   * [wiki:MonadComprehensions Monad Comprehensions]: Translation rules and some implementation details 
+   * [wiki:HaddockComments Haddock]: Some notes about how the Haddock comment support is implemented.  
+   * [wiki:IntermediateTypes Intermediate Types]: Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)  
+   * [wiki:TypeFunctions Type families/type functions]: Notes concerning the implementation of type families, associated types, and equality constraints as well as the extension of the type checker with a contraint solver for equality constraints.
+   * [wiki:Commentary/Compiler/SeqMagic Magic to do with `seq` and friends]
+   * [wiki:NewPlugins Compiler plug-ins]
+   * [wiki:MemcpyOptimizations memcpy/memmove/memset optimizations]  
+   * [wiki:BackEndNotes Backend Ideas]: Some ideas and notes about the back end.
+   * [wiki:Commentary/Compiler/NewCodeGen Notes about the new code generator]
+   * [wiki:DataParallel DPH]: Notes about the implementation of Data Parallel Haskell
+   * [wiki:SafeHaskell Safe Haskell]: The design of the GHC Safe Haskell extension
+   
+ * Notes on proposed or in progress (but out of tree) GHC compiler features:
    * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
-   * [wiki:SIMD SIMD]: Notes on adding SIMD instructions and primOps to GHC
-   * [http://sourceforge.net/apps/mediawiki/developers/index.php?title=ScrapYourBoilerplate Scrap your boilerplate page] written by Ralf Lammel.
-   * [wiki:Commentary/Abbreviations GHC Source Abbreviations]: Abbreviations used in the GHC code
-   * [wiki:SafeHaskell Safe Haskell]: The design of an extension to Haskell around 'Safe' code.
-   * [wiki:MonadComprehensions Monad Comprehensions]: Translation rules and some implementation details
+   * [wiki:TypeNats Type level naturals]
+   * [wiki:KindFact Proposal to add a kind for facts, e.g. class constraints]
    * [wiki:PolymorphicDynamic Polymorphic Dynamic]: Notes on adding ad-hoc polymorphic dynamic types
+   * [wiki:DefaultSuperclassInstances Proposal to allow classes to give default implementations for their superclasses]
+   * [wiki:Commentary/CmmExceptions Cmm: Implementing Exception Handling]: Implementing exception handling for primitive operations in Cmm
+   * [wiki:Commentary/CmmKinds Cmm: Using Kinds to implement calling conventions]: Pointers to explanations of what a {{{CmmKind}}} is and why you might find one useful.
+   * [wiki:SIMD SIMD]: Notes on adding SIMD instructions and primOps to GHC
+   * [wiki:ExplicitCallStack Explicit Call Stack]: Notes about maintaining an explicit call stack, to support error attribution and profiling.
+
+ * GHCi Debuger
+   * [wiki:GhciDebugger GHCi Debugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
+   * [wiki:NewGhciDebugger New GHCi Debugger]: The new GHCi debugger.
 
  * The Runtime System
    * [wiki:GarbageCollectorNotes Garbage Collector]: Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
@@ -87,12 +88,10 @@ However sometimes you may want to add new material that doesn't quite fit into t
     * [wiki:Commentary/Hpc Haskell Program Coverage]: How HPC works
     * [wiki:Building/RunningNoFib Benchmarking]: The nofib benchmark suite
 
- * [wiki:GpHEden Parallel Haskell Variants]: All aspects of the GpH and Eden parallel variants of GHC. (''work in progress'')
-
- * [wiki:AboutVideos Hackathon presentations] (video)
+ * [wiki:GpHEden Parallel Haskell Variants]: All aspects of the GpH and Eden parallel variants of GHC.
  
-== Old but useful ==
+== Old Documentation ==
 
-Finally, here are some generally-useful, but now somewhat-out-of-date resources:
+Here are some useful, but somewhat-out-of-date resources:
  * [http://darcs.haskell.org/ghc/docs/comm/ The old GHC Commentary]: Information on the internals of GHC, in various states of up-to-dateness.  We are keen to move this stuff out of its current location and onto this Wiki.  If anyone is willing to help do that, even for just a part in which you are interested, we would be delighted.  There is a [wiki:Commentary/MigratingOldCommentary page] which tracks the progress of migrating information from the old commentary to this wiki.
  * [wiki:GhcPapers GHC Papers]: Papers and pointers to other documents that relate to the inner workings of GHC.
