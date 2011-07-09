@@ -12,7 +12,7 @@ Certain abbreviations are used pervasively throughout the GHC source code. This 
 
 * '''!CoreFV''': Free variables in core
 
-* '''!CoreLint: Type and sanity-checking of core. (Lint: Jargon for a program analysis that looks for bug-suspicious code.)
+* '''!CoreLint''': Type and sanity-checking of core. (Lint: Jargon for a program analysis that looks for bug-suspicious code.)
 
 * '''!CoreSubst''': Substitution in core
 
