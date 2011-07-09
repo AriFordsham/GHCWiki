@@ -15,7 +15,7 @@ See also: [http://www.haskell.org/haskellwiki/GHC/List_of_abbreviations A simila
 
 * "Ds" means "Desugarer"
 
-* "Tc" means "TypeCheck{ing,er}"
+* "Tc" means "!TypeCheck{ing,er}"
 
 * "Ty" means "Type"
 
