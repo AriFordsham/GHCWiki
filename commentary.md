@@ -18,7 +18,7 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
 
 - [Getting Started](commentary/getting-started)
 
-  - [Abbreviations](commentary/abbreviations) used pervasively in the source code
+  - [Abbreviations in GHC](commentary/abbreviations)
   - [Source Tree Roadmap](commentary/source-tree)
   - [Module Structure](commentary/module-structure)
   - [Coding Style](commentary/coding-style)
@@ -28,9 +28,9 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
 
   - [The compilation pipeline](commentary/pipeline)
 
-- [The Runtime System](commentary/rts) (Rts)
+- [The Runtime System (RTS)](commentary/rts)
 
-  - [Rts Coding Conventions](commentary/rts/conventions)
+  - [RTS Coding Conventions](commentary/rts/conventions)
   - [The Haskell Execution Model](commentary/rts/haskell-execution)
   - [The memory layout of heap and stack objects](commentary/rts/storage)
 
@@ -62,19 +62,20 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [The new deriving mechanism](commentary/compiler/generic-deriving)
   - Notes about Template Haskell?
   - [Rewrite Rules](rewrite-rules): Notes about the implementation of RULEs in GHC
+  - [Monad Comprehensions](monad-comprehensions): Translation rules and some implementation details 
+  - [Haddock](haddock-comments): Some notes about how the Haddock comment support is implemented.  
+  - [Intermediate Types](intermediate-types): Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)  
   - [Type families/type functions](type-functions): Notes concerning the implementation of type families, associated types, and equality constraints as well as the extension of the type checker with a contraint solver for equality constraints.
   - [Magic to do with \`seq\` and friends](commentary/compiler/seq-magic)
   - [Compiler plug-ins](new-plugins)
   - [memcpy/memmove/memset optimizations](memcpy-optimizations)
   - [Backend Ideas](back-end-notes): Some ideas and notes about the back end.
   - [Notes about the new code generator](commentary/compiler/new-code-gen)
-  - [Monad Comprehensions](monad-comprehensions): Translation rules and some implementation details
-  - [Intermediate Types](intermediate-types): Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)
   - [DPH](data-parallel): Notes about the implementation of Data Parallel Haskell
-  - [Haddock](haddock-comments): Some notes about how the Haddock comment support is implemented.
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
+  - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
   - [Type level naturals](type-nats)
   - [Proposal to add a kind for facts, e.g. class constraints](kind-fact)
   - [Polymorphic Dynamic](polymorphic-dynamic): Notes on adding ad-hoc polymorphic dynamic types
@@ -83,7 +84,6 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Cmm: Using Kinds to implement calling conventions](commentary/cmm-kinds): Pointers to explanations of what a `CmmKind` is and why you might find one useful.
   - [SIMD](simd): Notes on adding SIMD instructions and primOps to GHC
   - [Explicit Call Stack](explicit-call-stack): Notes about maintaining an explicit call stack, to support error attribution and profiling.
-  - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
 
 - GHCi Debuger
 
@@ -102,7 +102,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Haskell Program Coverage](commentary/hpc): How HPC works
   - [Benchmarking](building/running-no-fib): The nofib benchmark suite
 
-- [Parallel Haskell Variants](gp-h-eden): All aspects of the GpH and Eden parallel variants of GHC. (*work in progress*)
+- [Parallel Haskell Variants](gp-h-eden): All aspects of the GpH and Eden parallel variants of GHC.
 
 ## Old Documentation
 

@@ -13,7 +13,7 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
 == Contents ==
 
  * [wiki:Commentary/GettingStarted Getting Started]
-   * [wiki:Commentary/Abbreviations Abbreviations] used pervasively in the source code
+   * [wiki:Commentary/Abbreviations Abbreviations in GHC]
    * [wiki:Commentary/SourceTree Source Tree Roadmap]
    * [wiki:Commentary/ModuleStructure Module Structure]
    * [wiki:Commentary/CodingStyle Coding Style]
@@ -22,8 +22,8 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
  * [wiki:Commentary/Compiler The Compiler]
    * [wiki:Commentary/Pipeline The compilation pipeline]
 
- * [wiki:Commentary/Rts The Runtime System] (Rts)
-    * [wiki:Commentary/Rts/Conventions Rts Coding Conventions]
+ * [wiki:Commentary/Rts The Runtime System (RTS)]
+    * [wiki:Commentary/Rts/Conventions RTS Coding Conventions]
     * [wiki:Commentary/Rts/HaskellExecution The Haskell Execution Model]
     * [wiki:Commentary/Rts/Storage The memory layout of heap and stack objects]
  
@@ -51,18 +51,19 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:Commentary/Compiler/GenericDeriving The new deriving mechanism]
    * [wiki:Commentary/Compiler/TemplateHaskell Notes about Template Haskell]
    * [wiki:RewriteRules Rewrite Rules]: Notes about the implementation of RULEs in GHC
+   * [wiki:MonadComprehensions Monad Comprehensions]: Translation rules and some implementation details 
+   * [wiki:HaddockComments Haddock]: Some notes about how the Haddock comment support is implemented.  
+   * [wiki:IntermediateTypes Intermediate Types]: Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)  
    * [wiki:TypeFunctions Type families/type functions]: Notes concerning the implementation of type families, associated types, and equality constraints as well as the extension of the type checker with a contraint solver for equality constraints.
    * [wiki:Commentary/Compiler/SeqMagic Magic to do with `seq` and friends]
    * [wiki:NewPlugins Compiler plug-ins]
    * [wiki:MemcpyOptimizations memcpy/memmove/memset optimizations]  
    * [wiki:BackEndNotes Backend Ideas]: Some ideas and notes about the back end.
    * [wiki:Commentary/Compiler/NewCodeGen Notes about the new code generator]
-   * [wiki:MonadComprehensions Monad Comprehensions]: Translation rules and some implementation details
-   * [wiki:IntermediateTypes Intermediate Types]: Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)
    * [wiki:DataParallel DPH]: Notes about the implementation of Data Parallel Haskell
-   * [wiki:HaddockComments Haddock]: Some notes about how the Haddock comment support is implemented.
-
+   
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
+   * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
    * [wiki:TypeNats Type level naturals]
    * [wiki:KindFact Proposal to add a kind for facts, e.g. class constraints]
    * [wiki:PolymorphicDynamic Polymorphic Dynamic]: Notes on adding ad-hoc polymorphic dynamic types
@@ -71,7 +72,6 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:Commentary/CmmKinds Cmm: Using Kinds to implement calling conventions]: Pointers to explanations of what a {{{CmmKind}}} is and why you might find one useful.
    * [wiki:SIMD SIMD]: Notes on adding SIMD instructions and primOps to GHC
    * [wiki:ExplicitCallStack Explicit Call Stack]: Notes about maintaining an explicit call stack, to support error attribution and profiling.
-   * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
 
  * GHCi Debuger
    * [wiki:GhciDebugger GHCi Debugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
@@ -87,7 +87,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
     * [wiki:Commentary/Hpc Haskell Program Coverage]: How HPC works
     * [wiki:Building/RunningNoFib Benchmarking]: The nofib benchmark suite
 
- * [wiki:GpHEden Parallel Haskell Variants]: All aspects of the GpH and Eden parallel variants of GHC. (''work in progress'')
+ * [wiki:GpHEden Parallel Haskell Variants]: All aspects of the GpH and Eden parallel variants of GHC.
  
 == Old Documentation ==
 
