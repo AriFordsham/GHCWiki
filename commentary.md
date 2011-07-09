@@ -9,7 +9,7 @@ For the dedicated, there are [videos of Simon and Simon giving an overview of GH
 ## Editing the Commentary
 
 
-Please feel free to add material to the rest of the wiki: don't worry too much about accuracy (in due course someone will edit your contribution). When unsure though please indicate this in the wiki and its best to ask on the GHC mailing list so you can correct the commentary. Please give some though to where in the commentary your contribution belongs. GHC has an older commentary (non wiki based) that read like a single coherent narrative, made sure to define terms before using them, and introduced concepts in the order which made them easiest to understand.  Please do try to preserve those properties in this wiki commentary. If you're unsure or in a hurry, consider creating a wiki page outside the commentary and linking to it from the commentary (or the "contributed documentation" section below).
+Please feel free to add material to the rest of the wiki: don't worry too much about accuracy (in due course someone will edit your contribution). When unsure though please indicate this and its best to ask on the GHC mailing list so you can correct the commentary. Please give some though to where in the commentary your contribution belongs. GHC has an older commentary (non wiki based) that read like a single coherent narrative, made sure to define terms before using them, and introduced concepts in the order which made them easiest to understand.  Please do try to preserve those properties in this wiki commentary. If you're unsure or in a hurry, consider creating a wiki page outside the commentary and linking to it from the commentary (or the "contributed documentation" section below).
 
 
 Try to link to source files as much as possible by using this macro: `[[GhcFile(compiler/Makefile)]]`. Also try to add appropriate links to other parts of the commentary.
@@ -37,7 +37,8 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
 - Cross-cutting concerns: topics which span both the compiler and the runtime system
 
   - [Profiling](commentary/profiling)
-  - [Primitive Operations (PrimOps)](commentary/prim-ops); see also [Wired-in and known-key things](commentary/compiler/wired-in)
+  - [Wired-in and known-key things](commentary/compiler/wired-in)
+  - [Primitive Operations (PrimOps)](commentary/prim-ops)
   - [The Package System](commentary/packages)
 
 - [The Libraries](commentary/libraries)
