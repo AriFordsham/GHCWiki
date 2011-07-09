@@ -18,10 +18,10 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
 
 - [Getting Started](commentary/getting-started)
 
-  - [Abbreviations in GHC](commentary/abbreviations)
   - [Source Tree Roadmap](commentary/source-tree)
   - [Module Structure](commentary/module-structure)
   - [Coding Style](commentary/coding-style)
+  - [Abbreviations in GHC](commentary/abbreviations)
   - [Platforms and their Naming Convention](commentary/platform-naming)
 
 - [The Compiler](commentary/compiler)
