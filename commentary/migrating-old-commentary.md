@@ -1,16 +1,18 @@
+# Migrating Old Commentary
+
 
 Below you will find a table with a line for each section of the [ old commentary](http://darcs.haskell.org/ghc/docs/comm/).  Please replace *unknown* with **done** if you believe
 that the wiki commentary completely captures *all* of the information in
 that section of the old commentary, and that there is no longer any reason for people to read that section of the commentary.
 
-### Before the Show Begins
+## Before the Show Begins
 
 <table><tr><th>Feedback</th>
 <th>**done**</th></tr>
 <tr><th>Other Sources of Wisdom</th>
 <th>**done**</th></tr></table>
 
-### Genesis
+## Genesis
 
 <table><tr><th>Outline of the Genesis</th>
 <th>**done**</th></tr>
@@ -19,7 +21,7 @@ that section of the old commentary, and that there is no longer any reason for p
 <tr><th>GHC's Marvellous Module Structure</th>
 <th>**done**</th></tr></table>
 
-### The Beast Dissected
+## The Beast Dissected
 
 <table><tr><th>Coding style used in the compiler</th>
 <th>**done**</th></tr>
@@ -50,7 +52,7 @@ that section of the old commentary, and that there is no longer any reason for p
 <tr><th>The Mighty Simplifier</th>
 <th>*unknown*</th></tr>
 <tr><th>The Evil Mangler</th>
-<th>*unknown*</th></tr>
+<th>**done**</th></tr>
 <tr><th>Alien Functions</th>
 <th>*unknown*</th></tr>
 <tr><th>You Got Control: The STG-language</th>
@@ -64,7 +66,7 @@ that section of the old commentary, and that there is no longer any reason for p
 <tr><th>Compiling and running the Main module</th>
 <th>*unknown*</th></tr></table>
 
-### RTS & Libraries
+## RTS & Libraries
 
 <table><tr><th>Coding Style Guidelines</th>
 <th>**done**</th></tr>
@@ -83,7 +85,7 @@ that section of the old commentary, and that there is no longer any reason for p
 <tr><th>Supporting multi-threaded interoperation</th>
 <th>*unknown*</th></tr></table>
 
-### Extensions, or Making a Complicated System More Complicated
+## Extensions, or Making a Complicated System More Complicated
 
 <table><tr><th>Template Haskell</th>
 <th>*unknown*</th></tr>

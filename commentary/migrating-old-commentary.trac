@@ -1,20 +1,21 @@
+= Migrating Old Commentary =
 
 Below you will find a table with a line for each section of the [http://darcs.haskell.org/ghc/docs/comm/ old commentary].  Please replace ''unknown'' with '''done''' if you believe
 that the wiki commentary completely captures ''all'' of the information in
 that section of the old commentary, and that there is no longer any reason for people to read that section of the commentary.
 
-=== Before the Show Begins ===
+== Before the Show Begins ==
 
 ||Feedback||'''done'''||
 ||Other Sources of Wisdom||'''done'''||
 
-=== Genesis ===
+== Genesis ==
 
 ||Outline of the Genesis||'''done'''||
 ||Mindboggling Makefiles||'''done'''||
 ||GHC's Marvellous Module Structure||'''done'''||
 
-=== The Beast Dissected ===
+== The Beast Dissected ==
 
 ||Coding style used in the compiler||'''done'''||
 ||The Glorious Driver||''unknown''||
@@ -30,7 +31,7 @@ that section of the old commentary, and that there is no longer any reason for p
 ||Checking Types||''unknown''||
 ||Sugar Free: From Haskell To Core||''unknown''||
 ||The Mighty Simplifier||''unknown''||
-||The Evil Mangler||''unknown''||
+||The Evil Mangler||'''done'''||
 ||Alien Functions||''unknown''||
 ||You Got Control: The STG-language||''unknown''||
 ||The Native Code Generator||''unknown''||
@@ -38,7 +39,7 @@ that section of the old commentary, and that there is no longer any reason for p
 ||Implementation of foreign export||''unknown''||
 ||Compiling and running the Main module||''unknown''||
 
-=== RTS & Libraries ===
+== RTS & Libraries ==
 
 ||Coding Style Guidelines||'''done'''||
 ||Spineless Tagless C||''unknown''||
@@ -49,7 +50,7 @@ that section of the old commentary, and that there is no longer any reason for p
 ||Non-blocking I/O for Win32||''unknown''||
 ||Supporting multi-threaded interoperation||''unknown''||
 
-=== Extensions, or Making a Complicated System More Complicated ===
+== Extensions, or Making a Complicated System More Complicated ==
 
 ||Template Haskell||''unknown''||
 ||Parallel Arrays||''unknown''||
