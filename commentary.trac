@@ -85,9 +85,8 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:SemiTagging]: Describes how the semi-tagging optimisation will be implemented.
    * [wiki:PAPI]: Measurement of program performance using CPU events (cache misses, branch mis-predictions).
 
- * Other Cross-cutting concerns: topics which span both the compiler and the runtime system
+ * Cross-cutting concerns: topics which span both the compiler and the runtime system
     * [wiki:Commentary/Hpc Haskell Program Coverage]: How HPC works
-    * [wiki:Building/RunningNoFib Benchmarking]: The nofib benchmark suite
 
  * [wiki:GpHEden Parallel Haskell Variants]: All aspects of the GpH and Eden parallel variants of GHC.
  
