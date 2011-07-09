@@ -1,7 +1,6 @@
-
 [[PageOutline]]
 
- = The GHC Commentary - Coding Style Guidelines for the compiler = 
+= The GHC Commentary - Coding Style Guidelines for the compiler = 
 
 This is a rough description of some of the coding practices and style that we use for Haskell code inside {{{compiler}}}.  For run-time system code see the [wiki:Commentary/Rts/Conventions Coding Style Guidelines for RTS C code].  Also see the wiki page on [wiki:WorkingConventions Working Conventions] for issues related to version control, workflow, testing, bug tracking and other miscellany.
 
@@ -14,6 +13,7 @@ It's much better to write code that is transparent than to write code that is sh
 Often it's better to write out the code longhand than to reuse a generic abstraction (not always, of course).  Sometimes it's better to duplicate some similar code than to try to construct an elaborate generalisation with only two instances.  Remember: other people have to be able to quickly understand what you've done, and overuse of abstractions just serves to obscure the ''really'' tricky stuff, and there's no shortage of that in GHC.
 
 == Comments ==
+
 === Comments and commit messages ===
 
 Commenting is good but
@@ -177,17 +177,15 @@ An {{{{-# OPTIONS_GHC ... #-}}}} pragma is optional, but if present it should go
 Don't bother putting `-cpp` or `-fglasgow-exts` in the `OPTIONS` pragma; these are already added to the command line by the build system. 
 
 === {{{HsVersions.h}}} ===
+
 {{{HsVersions.h}}} is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look [[GhcFile(compiler/HsVersions.h)]].
 {{{
 #include "HsVersions.h"
 }}}
 
-
-
 === Literate Haskell ===
 
 In GHC we use a mixture of literate ({{{.lhs}}}) and non-literate ({{{.hs}}}) source. I (Simon M.) prefer to use non-literate style, because I think the {{{\begin{code}..\end{code}}}} clutter up the source too much, and I like to use Haddock-style comments (we haven't tried processing the whole of GHC with Haddock yet, though). 
-
 === The C Preprocessor (CPP) ===
 
 Currently we pass all the compiler sources through CPP. The -cpp flag is always added by the build system. 
@@ -212,7 +210,31 @@ Not in scope: data constructor `ASSERT'
 }}}
 Now you can Google for this error message :-)
 
-
  '''GHCI''':: 
   Enables GHCi support, including the byte code generator and interactive user interface. This isn't the default, because the compiler needs to be bootstrapped with itself in order for GHCi to work properly. The reason is that the byte-code compiler and linker are quite closely tied to the runtime system, so it is essential that GHCi is linked with the most up-to-date RTS. Another reason is that the representation of certain datatypes must be consistent between GHCi and its libraries, and if these were inconsistent then disaster could follow. 
 
+=== Platform tests ===
+
+There are three platforms of interest to GHC:
+ 
+ * The '''Build''' platform. This is the platform on which we are building GHC.
+ * The '''Host''' platform. This is the platform on which we are going to run this GHC binary, and associated tools.
+ * The '''Target''' platform. This is the platform for which this GHC binary will generate code.
+
+At the moment, there is very limited support for having different values for buil, host, and target.  In particular:
+
+ * The build platform is currently always the same as the host platform.  The build process needs to use some of the tools in
+the source tree, for example `ghc-pkg` and `hsc2hs`
+
+ * If the target platform differs from the host platform, then this is generally for the purpose of building `.hc` files from Haskell source for porting GHC to the target platform. Full cross-compilation isn't supported (yet).
+
+In the compiler's source code, you may make use of the following CPP symbols:
+
+ * ''xxx''`_TARGET_ARCH`
+ * ''xxx''`_TARGET_VENDOR`
+ * ''xxx''`_TARGET_OS`
+ * ''xxx''`_HOST_ARCH`
+ * ''xxx''`_HOST_VENDOR`
+ * ''xxx''`_HOST_OS`
+
+where ''xxx'' is the appropriate value: eg. `i386_TARGET_ARCH`.

@@ -269,3 +269,36 @@ Now you can Google for this error message :-)
 <td>
 Enables GHCi support, including the byte code generator and interactive user interface. This isn't the default, because the compiler needs to be bootstrapped with itself in order for GHCi to work properly. The reason is that the byte-code compiler and linker are quite closely tied to the runtime system, so it is essential that GHCi is linked with the most up-to-date RTS. Another reason is that the representation of certain datatypes must be consistent between GHCi and its libraries, and if these were inconsistent then disaster could follow. 
 </td></tr></table>
+
+### Platform tests
+
+
+There are three platforms of interest to GHC:
+ 
+
+- The **Build** platform. This is the platform on which we are building GHC.
+- The **Host** platform. This is the platform on which we are going to run this GHC binary, and associated tools.
+- The **Target** platform. This is the platform for which this GHC binary will generate code.
+
+
+At the moment, there is very limited support for having different values for buil, host, and target.  In particular:
+
+- The build platform is currently always the same as the host platform.  The build process needs to use some of the tools in
+
+
+the source tree, for example `ghc-pkg` and `hsc2hs`
+
+- If the target platform differs from the host platform, then this is generally for the purpose of building `.hc` files from Haskell source for porting GHC to the target platform. Full cross-compilation isn't supported (yet).
+
+
+In the compiler's source code, you may make use of the following CPP symbols:
+
+- *xxx*`_TARGET_ARCH`
+- *xxx*`_TARGET_VENDOR`
+- *xxx*`_TARGET_OS`
+- *xxx*`_HOST_ARCH`
+- *xxx*`_HOST_VENDOR`
+- *xxx*`_HOST_OS`
+
+
+where *xxx* is the appropriate value: eg. `i386_TARGET_ARCH`.
