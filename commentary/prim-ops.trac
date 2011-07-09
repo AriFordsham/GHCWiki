@@ -1,4 +1,3 @@
-
 [[PageOutline]]
 
 = Primitive Operations (!PrimOps) =
@@ -6,6 +5,8 @@
 !PrimOps are functions that cannot be implemented in Haskell, and are provided natively by GHC.  For example, adding two {{{Int#}}} values is provided as the !PrimOp {{{+#}}}, and allocating a new mutable array is the !PrimOp {{{newArray#}}}.
 
 !PrimOps are made available to Haskell code through the virtual module {{{GHC.Prim}}}.  This module has no implementation, and its interface never resides on disk: if {{{GHC.Prim}}} is imported, we use a built-in {{{ModIface}}} value - see {{{ghcPrimIface}}} in [[GhcFile(compiler/iface/LoadIface.lhs)]].
+
+It would also be useful to look at the [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things] wiki page to understand this topic.
 
 == The primops.txt.pp file ==
 
