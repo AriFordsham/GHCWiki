@@ -37,7 +37,8 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
 - Cross-cutting concerns: topics which span both the compiler and the runtime system
 
   - [Profiling](commentary/profiling)
-  - [Primitive Operations (PrimOps)](commentary/prim-ops); see also [Wired-in and known-key things](commentary/compiler/wired-in)
+  - [Wired-in and known-key things](commentary/compiler/wired-in)
+  - [Primitive Operations (PrimOps)](commentary/prim-ops)
   - [The Package System](commentary/packages)
 
 - [The Libraries](commentary/libraries)

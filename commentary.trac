@@ -29,7 +29,8 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
  
  * Cross-cutting concerns: topics which span both the compiler and the runtime system
     * [wiki:Commentary/Profiling Profiling]
-    * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]; see also [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
+    * [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
+    * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
     * [wiki:Commentary/Packages The Package System]
 
  * [wiki:Commentary/Libraries The Libraries]
