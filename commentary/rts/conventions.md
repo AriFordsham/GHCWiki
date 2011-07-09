@@ -7,13 +7,11 @@ These coding style guidelines are mainly intended for use in
 `rts/` and `includes/`.  See [Coding Style Guidelines](commentary/coding-style) for code in `compiler/`.
 
 
-NB. This page is pretty old.
-
-
-NB. These are just suggestions.  They're not set in stone.  Some of
+These are just suggestions.  They're not set in stone.  Some of
 them are probably misguided.  If you disagree with them, feel free to
 modify this document (and make your commit message reasonably
-informative) or mail someone (eg. The GHC mailing list)
+informative) or mail someone
+(eg. The GHC mailing list)
 
 ## References
 
@@ -23,9 +21,9 @@ Where they conflict with our suggestions, they're probably right.
 
 - The C99 standard.  One reasonable reference is [ here](http://home.tiscalinet.ch/t_wolf/tw/c/c9x_changes.html).
 
-- Writing Solid Code, Microsoft Press.  (Highly recommended.)
+- Writing Solid Code, Microsoft Press. (Highly recommended.)
 
-- Autoconf documentation.  See also
+- Autoconf documentation. See also
   [ The autoconf macro archive](http://peti.gmd.de/autoconf-archive/)
   and [ Cyclic Software's description](http://www.cyclic.com/cyclic-pages/autoconf.html).
 
@@ -447,12 +445,12 @@ Particular guidelines for writing robust code:
 
 ## Source-control issues
 
-- Don't be tempted to reindent or reorganise large chunks of code -
+- Don't be tempted to re-indent or re-organise large chunks of code -
   it generates large diffs in which it's hard to see whether anything
   else was changed, and causes extra conflicts when moving patches to
   another branch.
 
 > >
-> > If you must reindent or reorganise, don't include any functional
+> > If you must re-indent or re-organise, don't include any functional
 > > changes that commit and give advance warning that you're about to do
 > > it in case anyone else is changing that file.
