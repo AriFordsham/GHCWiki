@@ -72,6 +72,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Backend Ideas](back-end-notes): Some ideas and notes about the back end.
   - [Notes about the new code generator](commentary/compiler/new-code-gen)
   - [DPH](data-parallel): Notes about the implementation of Data Parallel Haskell
+  - [Safe Haskell](safe-haskell): The design of the GHC Safe Haskell extension
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 

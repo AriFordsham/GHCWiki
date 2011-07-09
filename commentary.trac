@@ -61,6 +61,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:BackEndNotes Backend Ideas]: Some ideas and notes about the back end.
    * [wiki:Commentary/Compiler/NewCodeGen Notes about the new code generator]
    * [wiki:DataParallel DPH]: Notes about the implementation of Data Parallel Haskell
+   * [wiki:SafeHaskell Safe Haskell]: The design of the GHC Safe Haskell extension
    
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
    * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
