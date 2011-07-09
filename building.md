@@ -26,27 +26,31 @@ Getting started for developers
 
 - [Getting started with the build system](building/hacking)
 - [How do I re-build after updating or changing GHC?](building/rebuilding)
-- FAQ: [Solving common problems with building GHC](building/troubleshooting). If anything goes wrong, look here first.
+- [FAQ: Solving common problems with building GHC](building/troubleshooting)
 
 
 More detailed information about using the build system
 
 - [Using the build system](building/using)
 - [Standard targets](building/standard-targets)
-- [Validating changes](testing-patches)
-- [Running the GHC test framework](building/running-tests)
-- [The NoFib benchmark suite](building/running-no-fib)
-- [Testing GHC against all of Hackage](hackage-testing)
-- [Debugging and performance-tuning for GHC](debugging)
-
-- [GHC and the libraries on which it depends](commentary/libraries)
-- [Installing extra packages for your in-place GHC](debugging/installing-packages-inplace)
 
 - [Building the documentation](building/docs)
 - [Installing GHC from a build](building/installing)
 - [Unregisterised builds](building/unregisterised)
 - [Porting GHC to a new platform](building/porting)
 - [Cross-compilation](cross-compilation)
+
+- [GHC and the libraries on which it depends](commentary/libraries)
+
+
+How to test and benchmark changes to GHC:
+
+- [Validating changes](testing-patches)
+- [Running the GHC test framework](building/running-tests)
+- [The NoFib benchmark suite](building/running-no-fib)
+- [Testing GHC against all of Hackage](hackage-testing)
+- [Debugging and performance-tuning for GHC](debugging)
+- [Installing extra packages for your in-place GHC](debugging/installing-packages-inplace)
 
 
 More detailed information about how the build system works
