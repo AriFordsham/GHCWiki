@@ -1,28 +1,78 @@
-Certain abbreviations are used pervasively throughout the GHC source code.  A few, like "Tc", are easy to figure out.  Others, like "Occ", are more challenging (in case you were wondering, none of GHC's code is [http://en.wikipedia.org/wiki/Occult Occult], except perhaps in the Latin sense)
+= GHC Source Code Abbreviations =
 
-See also: [http://www.haskell.org/haskellwiki/GHC/List_of_abbreviations A similar list on the GHC Users' wiki].
+Certain abbreviations are used pervasively throughout the GHC source code. This page gives a partial list of them and their expansion:
 
-* "Occ" means "Occurrence"
+* '''ANF''': A-normal form
+
+* '''Class''': Type Class
+
+* '''Cmm''': The final IR used in GHC, based on the C-- language
+
+* '''Core''': GHC core language. Based on System FC (variant of System F). Represents a type-checked and desugared program in some (out of several) intermediate compilation step
+
+* '''!CoreFV''': Free variables in core
+
+* '''!CoreLint''': Type and sanity-checking of core. (Lint: Jargon for a program analysis that looks for bug-suspicious code.)
+
+* '''!CoreSubst''': Substitution in core
+
+* '''!CoreSyn''': Core abstract syntax
+
+* '''!DataCon''': Data constructor
+
+* '''Ds''': Desugarer
+
+* '''Gbl''': Global
+
+* '''Hs''': Haskell Syntax (generally as opposed to Core, for example, Expr vs !HsExpr)
+
+* '''Hsc''': Haskell compiler. Means it Deals with compiling a single module and no more.
+
+* '''!HsSyn''': Haskell abstract syntax
+
+* '''Id''': Synonym for Var, but indicating a term variable
+
+* '''Iface''': Interface, as in Haskell interface (.hi) files
+
+* '''!IfaceSyn''': Interface abstract syntax
+
+* '''LHs''': Located Haskell something
+
+* '''Loc''': Location, as in !SrcLoc
+
+* '''Located''': Something annotated with a !SrcSpan
+
+* '''Lcl''': Local
+
+* '''!nativeGen''': Native code generator (generates assembly from Cmm)
+
+* '''Occ''': Occurrence
   * However, in the context of [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/RdrNameType#TheOccNametype OccName], "occurrence" actually means "classified (i.e. as a type name, value name, etc) but not qualified and not yet resolved"
 
-* "Rn" means "Renamer"
+* '''PId''': Package ID
 
-* "Rts" means "Run Time System"
+* '''!PprCore''': Pretty-printing core
 
-* "Rdr" means "Parser" (or reader)
+* '''Rdr''': Parser (or reader)
 
-* "Ds" means "Desugarer"
+* '''Rn''': Rename or Renamer
 
-* "Tc" means "TypeCheck{ing,er}"
+* '''Rts''': Run Time System
 
-* "Ty" means "Type"
+* '''!SimplCore''': Simplify core (the so-called simplifier belongs to this, as does the strictness analyser)
 
-* "Lcl" means "Local"
+* '''!SrcLoc''': Source location (filename, line number, character position)
 
-* "Gbl" means "Global"
+* '''!SrcSpan''': Source location span (filename, start line number and character position, end line number and character position)
 
-* "Loc" means "Location", as in SrcLoc
+* '''Tc''': !TypeCheck{ing,er}
 
-* "Hs" means "Haskell Syntax" (generally as opposed to Core -- for example, Expr vs HsExpr)
+* '''!TyCon''': Type constructor
 
-* "Hsc" means "deals with compiling a single module and no more"
+* '''!TyThing''': Something that is type-checkable
+
+* '''Ty''': Type
+
+* '''!TyVar''': Synonym for Var, but indicating a type variable
+
+* '''Var''': A variable with some information about its type (or kind)
