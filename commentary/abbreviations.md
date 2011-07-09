@@ -1,5 +1,7 @@
+# GHC Source Code Abbreviations
 
-Certain abbreviations are used pervasively throughout the GHC source code.  A few, like "Tc", are easy to figure out.  Others, like "Occ", are more challenging (in case you were wondering, none of GHC's code is [ Occult](http://en.wikipedia.org/wiki/Occult), except perhaps in the Latin sense)
+
+Certain abbreviations are used pervasively throughout the GHC source code. This page gives a partial list of them and their expansion:
 
 
 See also: [ A similar list on the GHC Users' wiki](http://www.haskell.org/haskellwiki/GHC/List_of_abbreviations).
@@ -26,6 +28,6 @@ See also: [ A similar list on the GHC Users' wiki](http://www.haskell.org/haskel
 
 - "Loc" means "Location", as in SrcLoc
 
-- "Hs" means "Haskell Syntax" (generally as opposed to Core -- for example, Expr vs HsExpr)
+- "Hs" means "Haskell Syntax" (generally as opposed to Core, for example, Expr vs HsExpr)
 
 - "Hsc" means "deals with compiling a single module and no more"
