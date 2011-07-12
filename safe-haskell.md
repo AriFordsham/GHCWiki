@@ -29,14 +29,14 @@ The proposal addresses security in the following scenario.
 
 The design of Safe Haskell involves the following aspects:
 
-- A safe language dialect of Haskell (as an extension) that provides certain guarantees about the code. Mainly it allows the types to be trusted.
+- A safe language dialect of Haskell that provides certain guarantees about the code. Mainly it allows the types to be trusted.
 - A new "safe import" extension to Haskell that specifies the module being imported must be trusted.
 - A definition of "trust" and how it operates, as well as ways of defining and changing the trust of modules and packages.
 
 ## Safe Language Overview
 
 
-As long as no module compiled with -XTrustworthy contains a vulnerability, the goal of the Safe dialect (used through either `-XSafe` or `-XSafeLanguage`) is to guarantee the following properties:
+As long as no module compiled with -XTrustworthy contains a vulnerability, the goal of the Safe dialect (used through `-XSafe`) is to guarantee the following properties:
 
 - **Referential transparency.**  Functions in the Safe dialect must be deterministic.  Moreover, evaluating them should have no side effects, and should not halt the program (except by throwing uncaught exceptions or looping forever).
 
@@ -45,7 +45,7 @@ As long as no module compiled with -XTrustworthy contains a vulnerability, the g
 - **Semantic consistency.**  Any expression that compiles both with and without the import of a Safe module must have the same meaning in both cases.  (E.g., `1 + 1 == 3` must remain `False` when you add the import of a Safe module.) Safe Haskell reduces the scope of compilable Haskell code but it shouldn't change its meaning.
 
 
-The Safe dialect is intended to be of use for both trusted and untrusted code. It can be used for trusted code as a way to enforce good programming style (through `-XSafeLanguage`). It is also useful on untrusted code to allow that code to be trusted (through `-XSafe`). Please keep in mind though that the issue of trust is at a higher level than the safe dialect. Using the safe dialect doesn't automatically imply trust, trust is defined separately below.
+The Safe dialect is intended to be used on untrusted code to allow that code to be trusted. Please keep in mind though that the issue of trust is at a higher level than the safe dialect. Using the safe dialect doesn't automatically imply trust, trust is defined separately below.
 
 
 The safe dialect basically disallows some dangerous features in Haskell to guarantee the above property, as well as checking that the direct dependencies of a module are trusted.
@@ -58,7 +58,7 @@ A small extension to the syntax of import statements, adding a `safe` keyword:
 > `impdecl -> `import` [`safe`] [`qualified`] modid [`as` modid] [impspec]`
 
 
-When enabled, a module imported with the safe keyword must be a trusted module, otherwise a compilation error will result. Safe imports can be enabled by themselves but are automatically enabled as part of the safe language dialect where all imports are considered safe imports. Safe imports are enabled through either `-XSafe`, `-XSafeLanguage`, `-XTrustworthy`or `-XSafeImports`.
+When enabled, a module imported with the safe keyword must be a trusted module, otherwise a compilation error will result. Safe imports can be enabled by themselves but are automatically enabled as part of the safe language dialect where all imports are considered safe imports. Safe imports are enabled through either `-XSafe`, `-XTrustworthy`or `-XSafeImports`.
 
 ## Trust
 
@@ -140,20 +140,18 @@ Suppose client C decides to trust package P. Then does C trust module M? To deci
 
 Notice that C didn't need to trust package Wuggle; the machine checking is enough. C only needs to trust packages that have `-XTrustworthy` modules in them.
 
-### Safe Language & Imports Without Trust
+### Imports Without Trust
 
 
-We also want to be able to enable the safe dialect and safe import extensions without any corresponding trust assertion for the code:
+We also want to be able to enable the safe import extensions without any corresponding trust assertion for the code:
 
 - `-XSafeImports` enables the safe import extension. Module M is left untrusted though. (See [use cases](safe-haskell#use-cases-for-safeimports))
-- `-XSafeLanguage` enables the safe language (and therefore safe imports). Module M is left untrusted though. (See [use cases](safe-haskell#use-cases-for-safelanguage))
 
 
-We see these being used both for good coding style and more flexibility during development of trusted code. We have this relation between the flags:
+We see these being used for more flexibility during development of trusted code. We have this relation between the flags:
 
-- `-XSafeLanguage` implies `-XSafeImports`.
 - `-XTrustworthy` implies `-XSafeImports` and establishes Trust guaranteed by client C.
-- `-XSafe` implies `-XSafeLanguage` and establishes Trust guaranteed by GHC.
+- `-XSafe` implies `-XSafeImports`, enables the Safe dialect and establishes Trust guaranteed by GHC.
 
 
 In Summary we have the following LANGUAGE options and affects:
@@ -172,19 +170,6 @@ In Summary we have the following LANGUAGE options and affects:
 > > **Haskell Language**: Restricted to Safe Language 
 > > **Imported Modules**: All forced to be safe imports, all must be trusted. 
 
-- **`-XSafeLanguage`**:
-
-> >
-> > The module is never trusted, because the author does not claim
-> > it is trustworthy.  As long as the module compiles both ways,
-> > the result is identical whether or not the `-XSafeLanguage` flag
-> > is supplied.  As with `-XSafe`, the "safe" import keyword is
-> > allowed but meaningless--all imports must be safe.
-
-> > **Module Trusted**: No 
-> > **Haskell Language**: Restricted to Safe Language 
-> > **Imported Modules**: All forced to be safe imports, all must be trusted. 
-
 - **`-XTrustworthy`**:
 
 > >
@@ -197,20 +182,6 @@ In Summary we have the following LANGUAGE options and affects:
 
 > > **Module Trusted**: Yes but only if Package the module resides in is also trusted. 
 > > **Haskell Language**: Unrestricted 
-> > **Imported Modules**: Under control of module author which ones must be trusted. 
-
-- **`-XSafeLanguage -XTrustworthy`**:
-
-> >
-> > For the trust property this has the same effect as '-XTrustworthy'
-> > by itself. However unlike `-XTrustworthy` it also restricts the
-> > range of acceptable Haskell programs to the Safe language. The
-> > difference from this and using `-XSafe` is the different trust
-> > type and that not all imports are forced to be safe imports, they
-> > are instead optionally specified by the module author.
-
-> > **Module Trusted**: Yes but only if Package the module resides in is also trusted. 
-> > **Haskell Language**: Restricted to Safe Language 
 > > **Imported Modules**: Under control of module author which ones must be trusted. 
 
 - **`-XSafeImport`**:
@@ -239,24 +210,20 @@ On the command line, several new options control which packages are trusted:
 ### Interaction of Options
 
 
-The `-XSafe`, `-XTrustworthy`, `-XSafeLanguage` and `-XSafeImport` GHC LANGUAGE options are all order independent. When they are used they disable certain other GHC LANGUAGE and OPTIONS_GHC options.
+The `-XSafe`, `-XTrustworthy`, and `-XSafeImport` GHC LANGUAGE options are all order independent. When they are used they disable certain other GHC LANGUAGE and OPTIONS_GHC options.
 
 - **`-XSafe`**:
 
   - Enables the Safe Language dialect which disallows the use of some LANGUAGE and OPTIONS, as well as restricting how certain Haskell language features operate. See [\#SafeLanguage](safe-haskell#safe-language) below for details.
 
-- **`-XTrustworthy`** has no special interactions, except for
+- **`-XTrustworthy`** has no special interactions.
 
-  - If `-XSafeLanguage`: See summary of SafeHaskell options at bottom of [Safe Language & Imports (Without Trust)](safe-haskell#safe-language-&-imports-without-trust)
-
-- **`-XSafeLanguage`** has the exact same restrictions as `-XSafe`. `-XSafe` and `-XSafeLanguage` can't be used together though simply as it is most likely a mistake by the module author of client if they do.
-
-- **`-XSafeImports`** has no special interactions. `-XSafe`, `-XTrustworthy` and `-XSafeLanguage` are all compatible with it as they all imply `-XSafeImports` anyway.
+- **`-XSafeImports`** has no special interactions. `-XSafe`, `-XTrustworthy` are both compatible with it as they all imply `-XSafeImports` anyway.
 
 ## Safe Language
 
 
-The Safe Language restricts things in two different ways:
+The Safe Language (enabled through `-XSafe`) restricts things in two different ways:
 
 1. Certain GHC LANGUAGE extensions are disallowed completely.
 1. Certain GHC LANGUAGE extensions are restricted in functionality.
@@ -264,7 +231,7 @@ The Safe Language restricts things in two different ways:
 
 Below is precisely what flags and extensions fall into each category:
 
-- **Disallowed completely**: `GeneralizedNewtypeDeriving`, `TemplateHaskell`, `-XSafeLanguage`
+- **Disallowed completely**: `GeneralizedNewtypeDeriving`, `TemplateHaskell`
 - **Restricted functionality**: `OverlappingInstances`, `ForeignFunctionInterface`, `RULES`
 
   - See [Restricted Features below](safe-haskell#restricted-and-disabled-ghc-haskell-features)
@@ -277,9 +244,9 @@ In the Safe language dialect we restrict the following Haskell language features
 
 - `ForeignFunctionInterface`: This is mostly safe, but `foreign import` declarations that import a function with a non-`IO` type are be disallowed. All FFI imports must reside in the IO Monad.
 
-- `RULES`: As they can change the behaviour of trusted code in unanticipated ways, violating semantic consistency they are restricted in function. Specifically any `RULES` defined in a module M compiled with `-XSafe` or `-XSafeLanguage` are dropped. `RULES` defined in trustworthy modules that M imports are still valid and will fire as usual.
+- `RULES`: As they can change the behaviour of trusted code in unanticipated ways, violating semantic consistency they are restricted in function. Specifically any `RULES` defined in a module M compiled with `-XSafe` are dropped. `RULES` defined in trustworthy modules that M imports are still valid and will fire as usual.
 
-- `OverlappingInstances`: This extension can be used to violate semantic consistency, because malicious code could redefine a type instance (by containing a more specific instance definition) in a way that changes the behaviour of code importing the untrusted module. The extension is not disabled for a module M compiled with `-XSafe` or `-XSafeLanguage` but restricted. While M can defined overlapping instance declarations, they can only be used in M. If in a module N that imports M, at a call site that uses a type-class function there is a choice of which instance to use (i.e overlapping) and the most specific choice is from M (or any other Safe compiled module), then compilation will fail. It is irrelevant if module N is considered Safe, or Trustworthy or neither.
+- `OverlappingInstances`: This extension can be used to violate semantic consistency, because malicious code could redefine a type instance (by containing a more specific instance definition) in a way that changes the behaviour of code importing the untrusted module. The extension is not disabled for a module M compiled with `-XSafe` but restricted. While M can defined overlapping instance declarations, they can only be used in M. If in a module N that imports M, at a call site that uses a type-class function there is a choice of which instance to use (i.e overlapping) and the most specific choice is from M (or any other Safe compiled module), then compilation will fail. It is irrelevant if module N is considered Safe, or Trustworthy or neither.
 
 
 In the Safe language dialect we disable completely the following Haskell language features:
@@ -485,22 +452,12 @@ import a module from an untrusted author.  I'd like to say:
 
 Unfortunately, safe is not a Haskell98 keyword, so this fails.  There
 are several other ways of enabling the safe keyword, namely the
-`LANGUAGE Safe`, `SafeLanguage`, and `Trustworthy` pragmas, but these all do
+`LANGUAGE Safe`, and `Trustworthy` pragmas, but these all do
 more than just enable the safe keyword--they restrict the language
 and/or mark the module as trusted.  I don't want any of these things.
 I just want to make module Main fail to compile should
 Untrusted.Module be importing trustworthy modules from untrusted
 packages, nothing more.
-
-## Use cases for `SafeLanguage`
-
-
-Here again the idea is that I want to create an untrusted module that
-exports unsafe constructors, but I want to use the Safe dialect,
-because it enforces good programming style.  An example would be the
-`RIO` module, if it wanted to export `UnsafeRIO`.  There's no reason RIO
-itself can't be implemented in the Safe dialect, we just need to make
-sure that only Trustworthy modules can import `RIO`.
 
 ## Ultra-safety
 
