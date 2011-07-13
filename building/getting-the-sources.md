@@ -80,6 +80,17 @@ If you already have a GHC tree, then you can switch to another branch with
   $ ./sync-all checkout branch-name
 ```
 
+## Getting a GHC repository from GitHub.com
+
+
+To get GHC repository from the GitHub.com we recommend to just get GHC source code itself from GitHub and combine this with packages from [ http://darcs.haskell.org](http://darcs.haskell.org). This is easy since sync-all script supports it well.
+
+```wiki
+  $ git clone <your preferred github.com GHC fork URL> ghc
+  $ cd ghc
+  $ ./sync-all -r http://darcs.haskell.org/ get
+```
+
 ## Pulling new patches
 
 
