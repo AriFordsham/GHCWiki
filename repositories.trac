@@ -4,7 +4,7 @@
 
 This page lists the active repositories relating to GHC.  For instructions on actually getting a GHC source tree, see [wiki:Building/GettingTheSources].
 
-GHC's repos use Git; see [wiki:WorkingConventions/Git].  For Darcs-related stuff see also [wiki:DarcsToGit] and [wiki:GitForDarcsUsers].  
+GHC's repos use Git; see [wiki:WorkingConventions/Git].  For Darcs-related stuff see also [wiki:DarcsToGit] and [wiki:GitForDarcsUsers].  For instructions for building from GitHub sources, see [wiki:GitHubGHC].
 
 == The HEAD ==
 
