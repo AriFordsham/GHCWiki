@@ -13,6 +13,11 @@ First, go to the GHC repo and create a fork for your account. Then,
 $ git clone git@github.com:<username>/ghc.git
 $ cd ghc
 $ ./sync-all -r http://darcs.haskell.org/ get
+```
+
+### Building GHC
+
+```wiki
 $ ./boot
 $ autoconf
 $ ./configure <flags>
