@@ -14,3 +14,16 @@ $ git clone git@github.com:<username>/ghc.git
 $ cd ghc
 $ ./sync-all -r http://darcs.haskell.org/ get
 ```
+
+### Building GHC
+
+```wiki
+$ ./boot
+$ autoconf
+$ ./configure <flags>
+$ make
+$ make install
+```
+
+
+Make sure to read the config log to check for warnings before building. Use `./configure --help` for options.
