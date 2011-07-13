@@ -26,4 +26,4 @@ $ make install
 ```
 
 
-Make sure to read the config log before building to check for warnings. Use `./configure --help` for options.
+Make sure to read the config log to check for warnings before building. Use `./configure --help` for options.
