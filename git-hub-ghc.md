@@ -18,8 +18,7 @@ $ ./sync-all -r http://darcs.haskell.org/ get
 ### Building GHC
 
 ```wiki
-$ ./boot
-$ autoconf
+$ perl boot
 $ ./configure <flags>
 $ make
 $ make install
