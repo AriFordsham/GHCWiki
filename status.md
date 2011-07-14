@@ -39,4 +39,3 @@ Here are notes about aspects of GHC's design that are up for discussion.  (They 
 
 - [Haskell library organisation](commentary/packages/package-reorg)
 - [The design for the package system itself](commentary/packages/ghc-packages-proposal)
-- [Support for better error reporting](explicit-call-stack); the "head \[\]" problem.
