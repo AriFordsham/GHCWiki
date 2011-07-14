@@ -10,6 +10,7 @@ This section documents how GHC implements packages.  You should also look at
  * Various {{{Distribution.*}}} modules in the Cabal package, eg.   
    [http://www.haskell.org/ghc/docs/latest/html/libraries/Cabal/Distribution-Package.html Distribution.Package].
  * [wiki:Commentary/Compiler/ModuleTypes ModIface, ModDetails, ModGuts]: Details of some of the types involve in ghc's handling of modules and packages.
+ * [wiki:Commentary/Packages Packages]: A commentary on packages at a slightly higher level, user orientated view.
 
 == Overview ==
 
