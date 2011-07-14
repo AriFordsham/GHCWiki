@@ -31,11 +31,3 @@ Here are details about what [platforms GHC supports](platforms).
 
 
 Here is our [current planning document](ghc-planning), intended mainly to help Simon, Simon, and Ian coordinate with each other.
-
-## Design notes
-
-
-Here are notes about aspects of GHC's design that are up for discussion.  (They often relate to Haskell generally, rather than just GHC, but it's a convenient place to keep them.)
-
-- [Haskell library organisation](commentary/packages/package-reorg)
-- [The design for the package system itself](commentary/packages/ghc-packages-proposal)
