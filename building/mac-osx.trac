@@ -89,29 +89,58 @@ This creates a file with a {{{.sparseimage}}} extension (e.g., {{{GHC Disk.spars
 
 == Building the documentation ==
 
-If you have installed {{{docbook-xsl}}} using macports then the configure script might still tell you that you are unable to build the HTML documentation due to missing stylesheets. This is because it is using the {{{xsltproc}}} supplied with OS X rather than the one MacPorts installs, but you can work around it by adding the following to your {{{.bash_profile}}}:
+For some reason, convincing dblatex ti build the docs can be tricky. This worked for me:
 
+From http://www.tug.org/mactex/ downloaded and installed
+    http://mirror.ctan.org/systems/mac/mactex/MacTeX.mpkg.zip
+
+From http://dblatex.sourceforge.net/ downloaded and built
+    http://prdownloads.sourceforge.net/dblatex/dblatex-0.3.tar.bz2?download
+
+Now building users_guide.pdf will fail, as we generate things like:
 {{{
-export XML_CATALOG_FILES="/opt/local/etc/xml/catalog"
+    ?t\nolinkurl{?uC:\Documents?u}\texttt{\ }\nolin[...]
 }}}
-
-Further info on building the docs from #3768:
-
-Some packages needed XCode 3.1, which for OS X 10.5 you can currently only get bundled with the iphone SDK as far as I can tell.
-
-Then, to fix:
-
+rather than:
 {{{
-$ "/opt/local/bin/dblatex"  docs/users_guide/users_guide.xml --ps -o docs/users_guide/users_guide.ps
-Traceback (most recent call last):
-  File "/opt/local/bin/dblatex", line 16, in <module>
-    from dbtexmf.dblatex import dblatex
-ImportError: No module named dbtexmf.dblatex
+    ?t\nolinkurl{?uC:\\Documents?u}\texttt{\ }\nolin[...]
 }}}
-
-do:
-
+(note number of backslashes). To fix this, patch param.xsl:
 {{{
-sudo port install python_select
-sudo python_select python26
+--- param.xsl   2011-03-18 18:10:23.000000000 +0000
++++ /usr/share/dblatex/xsl/param.xsl    2010-10-27 08:56:16.000000000 +0100
+@@ -16,7 +16,7 @@
+ <xsl:param name="latex.class.article">article</xsl:param>
+ <xsl:param name="latex.class.book">report</xsl:param>
+ <xsl:param name="latex.unicode.use">0</xsl:param>
+-<xsl:param name="texlive.version">2010</xsl:param>
++<xsl:param name="texlive.version">2009</xsl:param>
 }}}
+This is a little odd. The Debian package has this patch applied, and on
+Debian:
+{{{
+$ latex --version
+pdfTeX 3.1415926-1.40.10-2.2 (TeX Live 2009/Debian)
+[...]
+}}}
+but on OS X:
+{{{
+$ latex --version
+pdfTeX 3.1415926-1.40.11-2.2 (TeX Live 2010)
+[...]
+}}}
+so it doesn't seem like it should be needed. But anyway...
+
+Now the PDF will fail to build with:
+{{{
+makeindex: Not writing to /private/tmp/tmpw4xTzV/users_guide.ind (openout_any = p).
+Can't create output index file /private/tmp/tmpw4xTzV/users_guide.ind.
+}}}
+So we put
+{{{
+openout_any = r
+}}}
+in `/usr/local/texlive/2010/texmf.cnf`
+
+And the docs will finally build!
+
