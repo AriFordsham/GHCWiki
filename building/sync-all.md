@@ -4,7 +4,7 @@
 A GHC tree consists of [multiple repositories](repositories). The `sync-all` Perl script lets you operate over them all at once.
 
 
-The basic interface to `sync-all` is described in comments at the top of the [ source file](http://darcs.haskell.org/ghc/sync-all).
+The basic interface to `sync-all` is described in comments at the top of the source file: source:sync-all.
 
 ## Pulling new patches
 
