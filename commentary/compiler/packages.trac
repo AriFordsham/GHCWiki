@@ -1,4 +1,3 @@
-
 [[PageOutline]]
 
 = GHC Commentary: Packages =
@@ -11,6 +10,8 @@ This section documents how GHC implements packages.  You should also look at
    [http://www.haskell.org/ghc/docs/latest/html/libraries/Cabal/Distribution-Package.html Distribution.Package].
  * [wiki:Commentary/Compiler/ModuleTypes ModIface, ModDetails, ModGuts]: Details of some of the types involve in ghc's handling of modules and packages.
  * [wiki:Commentary/Packages Packages]: A commentary on packages at a slightly higher level, user orientated view.
+ * [wiki:Commentary/Packages/PackageReorg Package Reorganisation]: Some rough notes (old) on reorganising the package systems and those included by default with GHC.
+ * [wiki:Commentary/Packages/GhcPackagesProposal Package Proposal]: More rough notes (old) on changing the package system in GHC.
 
 == Overview ==
 

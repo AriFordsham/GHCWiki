@@ -9,6 +9,8 @@ This section documents how GHC implements packages.  You should also look at
   [Distribution.Package](http://www.haskell.org/ghc/docs/latest/html/libraries/Cabal/Distribution-Package.html).
 - [ModIface, ModDetails, ModGuts](commentary/compiler/module-types): Details of some of the types involve in ghc's handling of modules and packages.
 - [Packages](commentary/packages): A commentary on packages at a slightly higher level, user orientated view.
+- [Package Reorganisation](commentary/packages/package-reorg): Some rough notes (old) on reorganising the package systems and those included by default with GHC.
+- [Package Proposal](commentary/packages/ghc-packages-proposal): More rough notes (old) on changing the package system in GHC.
 
 ## Overview
 
