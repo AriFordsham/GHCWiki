@@ -1,9 +1,12 @@
 # Building on MacOS X
 
+
+These instructions were last updated for GHC 7.2.
+
 ## Get the latest development tools
 
 
-Certain versions of Apple's Xcode tools are known to cause problems when building some versions of GHC. You should download the latest Xcode (currently 3.1) from the [ Apple Developer Connection](http://developer.apple.com/tools/xcode) website. Downloading requires that you sign up for a free membership in the Apple Developer Connection.
+Get the most recent version of Apple's Xcode tools that you can. Your OS X CD has a version on. You may be able to download a newer version from the [ Apple Developer Connection](http://developer.apple.com/tools/xcode) website. You may need to sign up for a free membership in the Apple Developer Connection, and downloading may still cost a little money.
 
 
 Once upon a time Apple distributed updates to Xcode by using their Software Update service but not anymore. You must download the development tools manually.
@@ -11,87 +14,54 @@ Once upon a time Apple distributed updates to Xcode by using their Software Upda
 
 Successful builds of older GHC sources have been reported using Xcode 3.0, 2.4 and 2.4.1 on Intel Macs. Xcode 2.2.1 is known *not* to work out of the box on Intel Macs, and Xcode 3.0 is known *not* to work out of the box on PowerPC Macs ([\#2887](https://gitlab.haskell.org//ghc/ghc/issues/2887)). Versions prior to 3.1 may build GHC successfully, but choke on certain libraries.
 
+## Building the distribution
+
+
+Install a binary GHC distribution: either from a bindist (.tar.bz2) or from an installer (.pkg).
+
+
+Download the source tarball from [ http://haskell.org/ghc/download.html](http://haskell.org/ghc/download.html)
+
+
+Untar it and change into the directory it unpacks into. Then run
+
+```wiki
+./configure
+make
+```
+
+
+to build it.
+
+
+You can then either install it, with
+
+```wiki
+make install
+```
+
+
+or make a binary distribution with
+
+```wiki
+make binary-dist
+```
+
 ## Building installer packages
 
 
-After running `./configure`, you can create a Mac installer package (.pkg) fully automatically by issuing
+After making the binary-dist, you can create a Mac installer package (.pkg) by running
 
 ```wiki
-make framework-pkg
+cd distrib/MacOS
+sh mkinstaller ../../ghc*.tar.bz2
 ```
 
 
-The result will be a file `GHC-<version>-<arch>.pkg`, where `<version>` is the full version string and `<arch>` is `i386` or `ppc`.  The build process uses `xcodebuild` and `packagemaker` and has only been tested with Xcode 3.0.
+The result will be a file `GHC-<version>-<arch>.pkg`, where `<version>` is the full version string and `<arch>` is `x86_64`, `i386` or `ppc`. The build process uses `xcodebuild` and `packagemaker`.
 
 
-More details about [building installer packages](building/mac-osx/installer) are available, this includes how to specify non-standard library locations (.e.g, for readline) and information about the build process.
-
-## Getting Readline to work
-
-**With recent versions of GHC (6.10 and above) it is no longer necessary to take any
-special steps to get readline features in GHCi -- GHC now uses editline.**
-
-
-Thanks to Paul R Brown for the following [ instructions](http://mult.ifario.us/articles/2006/10/17/ghc-6-6-and-mac-os-x-readline-quick-fix).
-
-
-Building GHC 6.6 out of the box on MacOS X will leave you with a GHCi binary that has no readline support.  This is because MacOS X comes NetBSD's libedit and Apple has made /usr/lib/libreadline.dylib a symlink to libedit. libedit does not support all of the libreadline API that GHC requires, so the GHC configure script decides not to use it.
-
-
-To get readline working, you first need to install GNU readline:
-
-```wiki
-cd ~/work
-mkdir gnu-readline
-cd !$
-curl -O ftp://ftp.cwru.edu/pub/bash/readline-5.2.tar.gz
-tar xzvf readline-5.2.tar.gz
-cd readline-5.2
-./configure
-make && sudo make install
-```
-
-
-Now you have to tell the GHC build about readline:
-
-```wiki
-cd ~/work
-mkdir ghc
-cd !$
-curl -O http://www.haskell.org/ghc/dist/6.6/ghc-6.6-src.tar.bz2
-curl -O http://www.haskell.org/ghc/dist/6.6/ghc-6.6-src-extralibs.tar.bz2
-tar xjvf ghc-6.6-src.tar.bz2
-tar xjvf ghc-6.6-src-extralibs.tar.bz2
-cd ghc-6.6
-./configure --with-readline-includes=/usr/local/include \
-            --with-readline-libraries=/usr/local/lib
-make -j && sudo make install
-```
-
-
-(`-j` tells make to spawn lots of processes building in parallel, it will probably save some time especially if you have a multi-core machine).
-
-## Building the distrbution
-
-
-The following instructions are from Audrey Tang
-
-
-Install the 6.4.1 bindist, download both source
-tarballs from [ http://haskell.org/ghc/download_ghc_66.html](http://haskell.org/ghc/download_ghc_66.html)
-and extract both; 
-
-
-cd into ghc-6.6; sh configure; make; make install.
-
-
-Then create mk/build.mk with one line:
-
-
-BIN_DIST=1
-
-
-then "make binary-dist", and tar the ghc-6.6/ directory produced.
+More details about [building installer packages](building/mac-osx/installer) are available.
 
 ## Building using MacPorts
 
@@ -148,33 +118,85 @@ This creates a file with a `.sparseimage` extension (e.g., `GHC Disk.sparseimage
 ## Building the documentation
 
 
-If you have installed `docbook-xsl` using macports then the configure script might still tell you that you are unable to build the HTML documentation due to missing stylesheets. This is because it is using the `xsltproc` supplied with OS X rather than the one MacPorts installs, but you can work around it by adding the following to your `.bash_profile`:
+For some reason, convincing dblatex ti build the docs can be tricky. This worked for me:
+
+
+From [ http://www.tug.org/mactex/](http://www.tug.org/mactex/) downloaded and installed
+
+> [ http://mirror.ctan.org/systems/mac/mactex/MacTeX.mpkg.zip](http://mirror.ctan.org/systems/mac/mactex/MacTeX.mpkg.zip)
+
+
+From [ http://dblatex.sourceforge.net/](http://dblatex.sourceforge.net/) downloaded and built
+
+> [ http://prdownloads.sourceforge.net/dblatex/dblatex-0.3.tar.bz2?download](http://prdownloads.sourceforge.net/dblatex/dblatex-0.3.tar.bz2?download)
+
+
+Now building users_guide.pdf will fail, as we generate things like:
 
 ```wiki
-export XML_CATALOG_FILES="/opt/local/etc/xml/catalog"
+?t\nolinkurl{?uC:\Documents?u}\texttt{\ }\nolin[...]
 ```
 
 
-Further info on building the docs from [\#3768](https://gitlab.haskell.org//ghc/ghc/issues/3768):
-
-
-Some packages needed XCode 3.1, which for OS X 10.5 you can currently only get bundled with the iphone SDK as far as I can tell.
-
-
-Then, to fix:
+rather than:
 
 ```wiki
-$ "/opt/local/bin/dblatex"  docs/users_guide/users_guide.xml --ps -o docs/users_guide/users_guide.ps
-Traceback (most recent call last):
-  File "/opt/local/bin/dblatex", line 16, in <module>
-    from dbtexmf.dblatex import dblatex
-ImportError: No module named dbtexmf.dblatex
+?t\nolinkurl{?uC:\\Documents?u}\texttt{\ }\nolin[...]
 ```
 
 
-do:
+(note number of backslashes). To fix this, patch param.xsl:
 
 ```wiki
-sudo port install python_select
-sudo python_select python26
+--- param.xsl   2011-03-18 18:10:23.000000000 +0000
++++ /usr/share/dblatex/xsl/param.xsl    2010-10-27 08:56:16.000000000 +0100
+@@ -16,7 +16,7 @@
+ <xsl:param name="latex.class.article">article</xsl:param>
+ <xsl:param name="latex.class.book">report</xsl:param>
+ <xsl:param name="latex.unicode.use">0</xsl:param>
+-<xsl:param name="texlive.version">2010</xsl:param>
++<xsl:param name="texlive.version">2009</xsl:param>
 ```
+
+
+This is a little odd. The Debian package has this patch applied, and on
+Debian:
+
+```wiki
+$ latex --version
+pdfTeX 3.1415926-1.40.10-2.2 (TeX Live 2009/Debian)
+[...]
+```
+
+
+but on OS X:
+
+```wiki
+$ latex --version
+pdfTeX 3.1415926-1.40.11-2.2 (TeX Live 2010)
+[...]
+```
+
+
+so it doesn't seem like it should be needed. But anyway...
+
+
+Now the PDF will fail to build with:
+
+```wiki
+makeindex: Not writing to /private/tmp/tmpw4xTzV/users_guide.ind (openout_any = p).
+Can't create output index file /private/tmp/tmpw4xTzV/users_guide.ind.
+```
+
+
+So we put
+
+```wiki
+openout_any = r
+```
+
+
+in `/usr/local/texlive/2010/texmf.cnf`
+
+
+And the docs will finally build!
