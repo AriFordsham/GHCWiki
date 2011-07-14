@@ -1,13 +1,5 @@
 = GHC Status =
 
-== Releases ==
-
-Here are our release plans for 
-  * [wiki:Status/Releases The next GHC release (6.12)]
-  * [wiki:Status/GHC-6.10 GHC 6.10 (outdated)]
-
-Here are details about what [wiki:Platforms platforms GHC supports].
-
 == Biannual status reports ==
 
 Here are biannual GHC status reports, published in the [http://haskell.org/communities/ Haskell Communities and Activities Report]
@@ -22,9 +14,13 @@ Here are biannual GHC status reports, published in the [http://haskell.org/commu
   * [wiki:Status/April07 GHC status April 2007]
   * [wiki:Status/October06 GHC status October 2006]
 
-== Performance ==
+== Releases ==
 
-Here are the [http://www.cse.unsw.edu.au/~dons/nobench/i686/results.html results of the nobench suite], showing how GHC performs relative to various versions of itself, and other Haskell compilers.
+Here are our release plans for 
+  * [wiki:Status/Releases GHC 6.12 (outdated)]
+  * [wiki:Status/GHC-6.10 GHC 6.10 (outdated)]
+
+Here are details about what [wiki:Platforms platforms GHC supports].
 
 == Planning notes ==
 
