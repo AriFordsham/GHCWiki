@@ -1,5 +1,8 @@
 # Building on MacOS X
 
+
+These instructions were last updated for GHC 7.2.
+
 ## Get the latest development tools
 
 
@@ -14,24 +17,35 @@ Successful builds of older GHC sources have been reported using Xcode 3.0, 2.4 a
 ## Building the distribution
 
 
-The following instructions are from Audrey Tang
+Install a binary GHC distribution: either from a bindist (.tar.bz2) or from an installer (.pkg).
 
 
-Install the 6.4.1 bindist, download both source
-tarballs from [ http://haskell.org/ghc/download_ghc_66.html](http://haskell.org/ghc/download_ghc_66.html)
-and extract both; 
+Download the source tarball from [ http://haskell.org/ghc/download.html](http://haskell.org/ghc/download.html)
 
 
-cd into ghc-6.6; sh configure; make; make install.
+Untar it and change into the directory it unpacks into. Then run
+
+```wiki
+./configure
+make
+```
 
 
-Then create mk/build.mk with one line:
+to build it.
 
 
-BIN_DIST=1
+You can then either install it, with
+
+```wiki
+make install
+```
 
 
-then "make binary-dist", and tar the ghc-6.6/ directory produced.
+or make a binary distribution with
+
+```wiki
+make binary-dist
+```
 
 ## Building installer packages
 
