@@ -134,14 +134,14 @@ From [ http://dblatex.sourceforge.net/](http://dblatex.sourceforge.net/) downloa
 Now building users_guide.pdf will fail, as we generate things like:
 
 ```wiki
-    ?t\nolinkurl{?uC:\Documents?u}\texttt{\ }\nolin[...]
+?t\nolinkurl{?uC:\Documents?u}\texttt{\ }\nolin[...]
 ```
 
 
 rather than:
 
 ```wiki
-    ?t\nolinkurl{?uC:\\Documents?u}\texttt{\ }\nolin[...]
+?t\nolinkurl{?uC:\\Documents?u}\texttt{\ }\nolin[...]
 ```
 
 

@@ -99,11 +99,11 @@ From http://dblatex.sourceforge.net/ downloaded and built
 
 Now building users_guide.pdf will fail, as we generate things like:
 {{{
-    ?t\nolinkurl{?uC:\Documents?u}\texttt{\ }\nolin[...]
+?t\nolinkurl{?uC:\Documents?u}\texttt{\ }\nolin[...]
 }}}
 rather than:
 {{{
-    ?t\nolinkurl{?uC:\\Documents?u}\texttt{\ }\nolin[...]
+?t\nolinkurl{?uC:\\Documents?u}\texttt{\ }\nolin[...]
 }}}
 (note number of backslashes). To fix this, patch param.xsl:
 {{{
