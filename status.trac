@@ -20,8 +20,6 @@ Here are our release plans for
   * [wiki:Status/Releases GHC 6.12 (outdated)]
   * [wiki:Status/GHC-6.10 GHC 6.10 (outdated)]
 
-Here are details about what [wiki:Platforms platforms GHC supports].
-
 == Planning notes ==
 
 Here is our [wiki:GhcPlanning current planning document], intended mainly to help Simon, Simon, and Ian coordinate with each other.

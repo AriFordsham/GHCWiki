@@ -24,9 +24,6 @@ Here are our release plans for
 - GHC 6.12 (outdated)?
 - [GHC 6.10 (outdated)](status/ghc-6.10)
 
-
-Here are details about what [platforms GHC supports](platforms).
-
 ## Planning notes
 
 
