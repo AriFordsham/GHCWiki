@@ -44,23 +44,14 @@ All type variables that may be instantiated (those in signatures may not), but h
 
 === Type Representation ===
 
-The representation of types is fixed in the module [[GhcModule(compiler/typecheck/TcRep.lhs)]] and exported as the data type `Type`. As explained in [[GhcModule(compiler/typecheck/TcType.lhs)]], GHC supports rank-N types, but, in the type checker, maintains the restriction that type variables cannot be instantiated to quantified types (i.e., the type system is predicative). The type checker floats universal quantifiers outside and maintains types in prenex form. (However, quantifiers can, of course, not float out of negative positions.) Overall, we have
-{{{
-sigma -> forall tyvars. phi
-phi   -> theta => rho
-rho   -> sigma -> rho
-       | tau
-tau   -> tyvar
-       | tycon tau_1 .. tau_n
-       | tau_1 tau_2
-       | tau_1 -> tau_2
-}}}
+The representation of types is fixed in the module [[GhcModule(compiler/types/TypeRep.lhs)]] and exported as the data type `Type`. Read the comments in the `TypeRep` module!  A couple of points:
 
-where `sigma` is in prenex form; i.e., there is never a forall to the right of an arrow in a `phi` type. Moreover, a type of the form `tau` never contains a quantifier (which includes arguments to type constructors).
+ * Type synonym applications are represented as a `TyConApp` with a `TyCon` that contains the expansion.  The expansion is done on-demand by `Type.coreView` and `Type.tcView`.  Unexpanded type synonyms are useful for generating comprehensible error messages.
 
-Of particular interest are the variants `SourceTy` and `NoteTy` of [[GhcModule(compiler/typecheck/TypeRep.lhs)]].Type. The constructor `SourceTy :: SourceType -> Type` represents a type constraint; that is, a predicate over types represented by a dictionary. The type checker treats a `SourceTy` as opaque, but during the translation to core it will be expanded into its concrete representation (i.e., a dictionary type) by the function `[[GhcModule(compiler/types/Type.lhs])).sourceTypeRep`. Note that newtypes are not covered by `SourceTypes` anymore, even if some comments in GHC still suggest this. Instead, all newtype applications are initially represented as a `NewTcApp`, until they are eliminated by calls to `[[GhcModule(compiler/types/Type.lhs])).newTypeRep`.
+ * The `PredTy` constructor wraps a type constraint argument (dictionary, implicit parameter, or equality).  They are expanded on-demand by `coreView`, but not by `tcView`.
 
-The `NoteTy` constructor is used to add non-essential information to a type term. Such information has the type `TypeRep.TyNote` and is either the set of free type variables of the annotated expression or the unexpanded version of a type synonym. Free variables sets are cached as notes to save the overhead of repeatedly computing the same set for a given term. Unexpanded type synonyms are useful for generating comprehensible error messages, but have no influence on the process of type checking.
+As explained in [[GhcModule(compiler/typecheck/TcType.lhs)]], GHC supports rank-N types, but during type inference maintains the restriction that type variables cannot be instantiated to quantified types (i.e., the type system is predicative).  However the type system of Core is fully impredicative.
+
 
 === Type Checking Environment ===
 
