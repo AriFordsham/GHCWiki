@@ -19,7 +19,10 @@ Existing darcs users see: [wiki:GitForDarcsUsers].  If you have an existing sour
 
  * Discuss anything you think might be controversial before pushing it.
 
- * We have a simple naming convention for certain kinds of patches:
+== Commit messages ==
+
+We have a simple convention for commit log messages:
+
    * If your patch fixes breakage in the build, then begin the patch name with `"FIX BUILD"`. e.g.
 {{{
   FIX BUILD Use the right find on Windows systems; fixes bindist creation
@@ -28,7 +31,7 @@ Existing darcs users see: [wiki:GitForDarcsUsers].  If you have an existing sour
 {{{
   withMVar family have a bug (fixes #767)
 }}}
-     Trac will then create a link from the commit to the ticket, making navigation easier.
+     '''Trac will then create a link from the commit to the ticket''', making navigation easier.
 
 == Line endings ==
 

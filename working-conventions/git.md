@@ -21,20 +21,23 @@ Existing darcs users see: [GitForDarcsUsers](git-for-darcs-users).  If you have 
 
 - Discuss anything you think might be controversial before pushing it.
 
-- We have a simple naming convention for certain kinds of patches:
+## Commit messages
 
-  - If your patch fixes breakage in the build, then begin the patch name with `"FIX BUILD"`. e.g.
 
-    ```wiki
-      FIX BUILD Use the right find on Windows systems; fixes bindist creation
-    ```
-  - If your patch fixes a bug, then include the ticket number in the form `#NNNN` in the patch name, e.g.
+We have a simple convention for commit log messages:
 
-    ```wiki
-      withMVar family have a bug (fixes #767)
-    ```
+- If your patch fixes breakage in the build, then begin the patch name with `"FIX BUILD"`. e.g.
 
-    Trac will then create a link from the commit to the ticket, making navigation easier.
+  ```wiki
+    FIX BUILD Use the right find on Windows systems; fixes bindist creation
+  ```
+- If your patch fixes a bug, then include the ticket number in the form `#NNNN` in the patch name, e.g.
+
+  ```wiki
+    withMVar family have a bug (fixes #767)
+  ```
+
+  **Trac will then create a link from the commit to the ticket**, making navigation easier.
 
 ## Line endings
 
