@@ -386,8 +386,8 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th></th></tr>
 <tr><th></th>
 <th></th>
-<th></th>
-<th></th>
+<th>git://github.com/haskell/pretty.git</th>
+<th>http://darcs.haskell.org/git-mirrors/pretty/</th>
 <th>http://darcs.haskell.org/packages/pretty.git/</th>
 <th>libraries/pretty</th>
 <th></th></tr>

@@ -194,7 +194,7 @@ This means that when making changes needed in GHC to one of these libraries, we 
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/mtl.git/</td><td>libraries/mtl</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/old-locale.git/</td><td>libraries/old-locale</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/old-time.git/</td><td>libraries/old-time</td></tr>
-<tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/pretty.git/</td><td>libraries/pretty</td></tr>
+<tr><td></td><td></td><td style="color: green;">git://github.com/haskell/pretty.git</td><td>http://darcs.haskell.org/git-mirrors/pretty/</td><td>http://darcs.haskell.org/packages/pretty.git/</td><td>libraries/pretty</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/process.git/</td><td>libraries/process</td></tr>
 <tr><td></td><td></td><td style="color: green;">git://github.com/rrnewton/haskell_stdlib_random.git</td><td>http://darcs.haskell.org/git-mirrors/random/</td><td>http://darcs.haskell.org/packages/random.git/</td><td>libraries/random</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/template-haskell.git/</td><td>libraries/template-haskell</td></tr>
