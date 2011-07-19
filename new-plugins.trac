@@ -1,47 +1,28 @@
 = New Plugins work =
 
-Max originally did the work on [wiki:Plugins GHC plugins] in his GSoC 2008 hacking sprint. It involved the implementation of [wiki:Plugins/Annotations annotations] as well as a dynamic loading aspect to GHC. While the annotations work was included into GHC HEAD, the loading infrastructure was not. This document describes the current work (as of 2011) to get it integrated into GHC HEAD so you can write core plugins, and future extensions to the interface, primarily writing C-- passes.
+Plugins are a new feature in GHC 7.2.1 that will allow users to write compiler passes (for things like optimizations) over GHC's internal intermediate language, [wiki:Commentary/Compiler/CoreSynType Core].
 
-This page explains what the plug-in mechanism does, how to use it, and a little about the implementation.  For discussion, and the current state of play, see the ticket: #3843. If you're interested in writing plugins for GHC, '''please comment and give feedback, we want to do it right'''!
-
- * 1/17/11: I (Austin Seipp) am working on getting the patch cleaned up a little more and tidying it up before it gets integrated. Still need testsuite patches.
- * 5/10/11: I have been busy, but there's a new git repository!
-
-NB. Ridiculously incomplete writing/documentation.
-
-== Current overview ==
-
-I currently have a branch of GHC with plugins support, that is occasionally (once a week or so) merged with master for the latest fixes/updates. You can find it here:
-
-https://github.com/thoughtpolice/ghc/tree/plugins
-
-so just run:
+GHC understands the `-fplugin` and `-fplugin-arg` options. You essentially install plugins for GHC by `cabal install`ing them, as they expose a module implementing an interface, and then calling GHC in the form of:
 
 {{{
-$ git remote add aseipp git@github.com:thoughtpolice/ghc.git
-$ git pull --all
-$ git checkout -b plugins_temp aseipp/plugins
+$ ghc -fplugin=Some.Plugin.Module -fplugin-opt=Some.Plugin.Module:no-fizzbuzz a.hs
 }}}
 
-Then build GHC like normal. You don't need to check out branches of any libraries, because the compiler work only touches the code under `./compiler`.
-
-Now GHC understands the `-fplugin` and `-fplugin-arg` options. You essentially install plugins for GHC by `cabal install`ing them, and then calling GHC in the form of:
-
-{{{
-$ ghc -fplugin=Some.Plugin.Module -fplugin-arg=Some.Plugin.Module:no-fizzbuzz a.hs
-}}}
-
-`Some.Plugin.Module` should export a symbol named 'plugin' - see the following repository for an example that does Common Subexpression Elimination:
+`Some.Plugin.Module` should export a symbol named 'plugin' - see the following repositories for examples that do Common Subexpression Elimination, turn Haskell into a strict language, and implement a loop unroller:
 
 https://github.com/thoughtpolice/cse-ghc-plugin
 
+https://github.com/thoughtpolice/strict-ghc-plugin
+
+https://github.com/thoughtpolice/unroll-ghc-plugin
+
 === Basic overview of the plugins API for Core ===
 
-Modules can be loaded by GHC as compiler plugins by exposing a declaration called 'plugin' of type 'GHCPlugins.Plugin', which is an ADT containing a function that installs a pass into the Core pipeline.
+Modules can be loaded by GHC as compiler plugins by exposing a declaration called 'plugin' of type 'GhcPlugins.Plugin', which is an ADT containing a function that installs a pass into the Core pipeline.
 
 {{{
 module Some.Plugin.Module (plugin) where
-import GHCPlugins
+import GhcPlugins
 
 plugin :: Plugin
 plugin = defaultPlugin {
@@ -58,7 +39,7 @@ install _options passes = do
 
 }}}
 
-We can think of `CoreToDo` as being a type synonym for `(Core -> Core)` - that is, an installation function inserts a pass into the list of core passes by just inserting itself into the list and returning it. For example, the CSE pass actually couples a simplification pass, followed by CSE into the front of the compilation pipeline:
+We can think of `CoreToDo` as being a type synonym for `(Core -> Core)` - that is, the `install` function just inserts its own `CoreToDo` into the list of compiler passes. For example, the CSE pass actually couples a simplification pass, followed by CSE itself into the front of the compilation pipeline:
 
 {{{
 module CSE.Plugin where
@@ -66,36 +47,19 @@ module CSE.Plugin where
 ...
 
 install :: [CommandLineOption] -> [CoreToDo] -> CoreM [CoreToDo]
-install _options todos = do
-    -- You should probably run this with -fno-cse !
-    return $ CoreDoPasses [defaultGentleSimplToDo, cse_pass] : todos
-
-cse_pass = CoreDoPluginPass "Plugged-in common sub-expression" (BindsToBindsPluginPass cseProgram)
+install _ xs = return $ CoreDoPasses [defaultGentleSimplToDo, cse] : xs
+  where cse = CoreDoPluginPass "Common Subexpression Elimination" (bindsOnlyPass cseProgram)
 
 cseProgram :: [CoreBind] -> CoreM [CoreBind]
 cseProgram binds = do
   ...
 }}}
 
-More specifically, a `CoreToDo` describes some sort of particular pass over a Core program that can be invoked as many times as you like. For reference, `defaultGentlSimplToDo` is constructed using `CoreDoSimplify`. We use `CoreDoPasses` to just make it easy to run multiple `CoreToDo`'s together (it would be equivalent to just use `cse_pass` and preceed it with `defaultGentleSimplToDo` in the pipeline directly.) In this case, `cse_pass` is constructed using `CoreDoPluginsPass`, which takes a name and a `PluginPass` which looks like the following:
+More specifically, a `CoreToDo` describes some sort of particular pass over a Core program that can be invoked as many times as you like. For reference, `defaultGentlSimplToDo` is constructed using `CoreDoSimplify`. In this case, `cse_pass` is constructed using `CoreDoPluginsPass`, which takes a name and a function of type `ModGuts -> CoreM ModGuts` - `ModGuts` is a type that represents the 1 module GHC is compiling at any time. You normally want to manipulate the field `mg_binds` of a `ModGuts`, which contains all the top-level bindings for the module.
 
-{{{
-data PluginPass = BindsToBindsPluginPass ([CoreBind] -> CoreM [CoreBind]) -- ^ Simple pass just mutating the Core bindings
-                | ModGutsToBindsPluginPass (ModGuts -> CoreM [CoreBind])  -- ^ Pass that has access to the information from a 'ModGuts'
-                                                                          -- from which to generate it's bindings
-                | ModGutsToModGutsPluginPass (ModGuts -> CoreM ModGuts)   -- ^ Pass that can change everything about the module being compiled.
-                                                                          -- Do not change any field other than 'HscTypes.mg_binds' unless you
-                                                                          -- know what you're doing! Plugins using this are unlikely to be stable
-                                                                          -- between GHC versions
-}}}
+`bindsOnlyPass` is a function that merely lifts a function over binders to a function over ModGuts. It's the simple case where nothing else from the `ModGuts` is needed.
 
-Most people will be using the first case - that is, writing a `BindsToBindsPluginPass` that just manipulates every individual Core binding.
-
-=== Reflections on the current API for Core passes ===
-
-Scala's compiler has a plugin API described by [1], with examples at [2]. Scala's compiler supports insertion of a plugin at almost any stage in the compiler, internal or external (so you can for example, write a 'check for division by zero' plugin that runs right after the parser/typechecker.) Furthermore, the Scala design actually involves annotating your plugin with a set of 'runsBefore' or 'runsAfter' constraints, which specify which other internal phases your plugin occurs before or after. After all plugins are loaded, internal and external (plugin-made) phases are constructed into a dependency graph and ordered using the constraints, to yield a sorted list of the final phases to run.
-
-Barring the feature to let you insert a compiler plugin just *anywhere* (we only care about intermediate representations,) it would be nice to adopt this dependency-graph based interface. Mostly, because it saves us a little headache in having to potentially sift through the list of core passes to install ourselves. Furthermore resolving the dependencies and finalizing the list of plugins ends a question about 'which plugin loaded and installed itself first' (intuitively we would like to say left-to-right on the command line, but that's a little fragile to depend on.) It also makes it easier to have passes which may run before a pass that occurs multiple times, etc. And we can still compose `CoreToDo`s using `CoreDoPasses`.
+More details on plugins for end-users can be found in the users guide.
 
 = The Future =
 == Plugins for Cmm ==
@@ -107,11 +71,3 @@ TODO: fixme
 === Rough API possibilities ===
 
 TODO: fixme
-
-==== Composing a hoopl analysis ==== 
-
-
-= References =
-
- * [1] "Scala Compiler Phase and Plug-In Initialization for Scala 2.8" (PDF) - http://www.scala-lang.org/sites/default/files/sids/nielsen/Thu,%202009-05-28,%2008:13/compiler-phases-sid.pdf
- * [2] "Writing Scala Compiler Plugins" http://www.scala-lang.org/node/140
