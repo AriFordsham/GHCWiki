@@ -7,7 +7,7 @@ This section gives information on how to use the testsuite.
 Firstly, change from the root of the GHC source tree to:
 
 ```wiki
-$ cd testsuite/tests/ghc-regress
+$ cd testsuite/tests
 ```
 
 
