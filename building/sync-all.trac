@@ -2,7 +2,13 @@
 
 A GHC tree consists of [wiki:Repositories multiple repositories]. The `sync-all` Perl script lets you operate over them all at once.
 
-The basic interface to `sync-all` is described in comments at the top of the source file: source:sync-all.
+The full documentation for `sync-all` is found by using the `--help` option:
+
+{{{
+  $ ./sync-all --help
+}}}
+
+(you can also find it by looking in source:sync-all)
 
 == Pulling new patches ==
 
@@ -16,10 +22,11 @@ The second step is required in the event that new packages or repositories have 
 
 See [wiki:Building/Rebuilding] for how to update your build after pulling patches.
 
-You can also pull patches from another tree:
+You can also pull patches from another tree, by registering the other tree as a remote, and giving it a name (here `anotherghc`):
 
 {{{
-  $ ./sync-all -r /another/ghc pull
+  $ ./sync-all -r /another/ghc remote add anotherghc
+  $ ./sync-all pull anotherghc
 }}}
 
 where `/another/ghc` is a path to another local GHC repository.  You can specify a remote repository here too, e.g. `-r http://darcs.haskell.org/ghc-7.2` (remember to omit the final "ghc.git" when using a remote repo).
@@ -27,8 +34,8 @@ where `/another/ghc` is a path to another local GHC repository.  You can specify
 The `sync-all` command is useful for finding out what patches you have relative to another repository:
 
 {{{
-  $ ./sync-all -r /another/ghc push --dry-run
+  $ ./sync-all fetch anotherghc
+  $ ./sync-all new anotherghc
 }}}
 
 this tells you which patches there are in your local repository tree relative to the tree over in `/another/ghc`.
-
