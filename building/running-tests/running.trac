@@ -4,7 +4,7 @@ This section gives information on how to use the testsuite.
 
 Firstly, change from the root of the GHC source tree to:
 {{{
-$ cd testsuite/tests/ghc-regress
+$ cd testsuite/tests
 }}}
 This is the root of the actual tests cases in the GHC testsuite. The directories above this one hold the actual testsuite framework for running the tests. All the commands below assume you are in this directory before running them.
 
