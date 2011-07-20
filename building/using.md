@@ -602,11 +602,11 @@ $ make stage=2
 ```
 
 
-Note that the first command above takes you to the `ghc` subdirectory of the source tree, not into the source tree (which is also named `ghc` if you did a `git clone`).  So if you did a `git clone` from your home directory, you'll be in `~/ghc/ghc/`, not `~/ghc/`.  Many of the compiler-building `make` invocations must be performed from this subdirectory, not from the root of the source tree.
+Note that the first command above takes you to the `ghc` subdirectory of the source tree, not into the source tree (which is also named `ghc` if you did a `git clone`).  So if you did a `git clone` from your home directory, you'll be in `~/ghc/ghc/`, not `~/ghc/`.  Many of the compiler-building `make` commands must be performed from this subdirectory, not from the root of the source tree.
 
 
 This will bring the stage 2 compiler up to date only.  Setting `stage=2` has the effect of disabling all the
-rules that build the stage 1 compiler, so the build system will ignore the fact that the stage 1 compiler is also out of date, and hence all the libraries are also potentially out of date.  If you did `make`
+rules that build the stage 1 compiler, so the build system will ignore the fact that the stage 1 compiler is also out of date, and hence all the libraries are also potentially out of date.  If you just did `make`
 from the top-level, all of these dependencies would be taken into
 account, and a lot of rebuilding would probably ensue.  There's another target
 that takes an even quicker shortcut:
@@ -627,6 +627,18 @@ to make the stage 1 and stage 3 compilers respectively.  These targets work in b
 
 
 Note that if you’ve never built stage3 before, you will need to create dependencies for it using `make stage=3`. This is because a normal build will skip building the stage3 compiler. You will then be able to run `make 3` as usual.
+
+### Freezing stage 1
+
+
+Often when working on GHC we find ourselves doing `make 2` a lot.  If we accidentally say `make` at some point, that will start building stage 1 (because presumably something in the GHC source code has changed), which has many knock-on effects: all the libraries will be reconfigured, rebuilt, and then stage 2 will be completely rebuilt.  To prevent this from happening, we can "freeze" stage 1 by adding a line to `mk/build.mk`:
+
+```wiki
+stage = 2
+```
+
+
+this prevents stage 1 from being rebuilt until this line is removed or commented-out again.  It's a handy trick when you're working on GHC.
 
 ### Building a single file
 
