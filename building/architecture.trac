@@ -47,7 +47,7 @@ The following are a few of the most important files in the build system.  For a 
   expression.  For example, the `build-package` macro is in
   `rules/build-package.mk`.
 
- [http://darcs.haskell.org/ghc/mk/config.mk.in config.mk.in]::
+ [http://darcs.haskell.org/ghc/mk/config.mk.in mk/config.mk.in]::
   The configuration information for the build system, processed by
   `configure` to produce `mk/config.mk`.  Settings can be overriden by
   creating a local file `mk/build.mk` (see

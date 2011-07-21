@@ -54,7 +54,7 @@ expression.  For example, the `build-package` macro is in
 `rules/build-package.mk`.
 </td></tr></table>
 
-<table><tr><th>[ config.mk.in](http://darcs.haskell.org/ghc/mk/config.mk.in)</th>
+<table><tr><th>[ mk/config.mk.in](http://darcs.haskell.org/ghc/mk/config.mk.in)</th>
 <td>
 The configuration information for the build system, processed by
 `configure` to produce `mk/config.mk`.  Settings can be overriden by
