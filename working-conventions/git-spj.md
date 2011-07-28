@@ -20,6 +20,9 @@ git config --global remote.origin.push HEAD
 ### Creating tracking branches
 
 
+Here is very useful [ info on tracking branches](http://book.git-scm.com/4_tracking_branches.html).
+
+
 Suppose you create a new branch on your local machine. Now you want to push
 it up to the global repo.  You almost certainly want your local branch to become
 a tracking option of the remote one, so that `git pull` will merge changes to
