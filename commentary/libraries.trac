@@ -214,3 +214,6 @@ This means that when making changes needed in GHC to one of these libraries, we 
 </table>
 }}}
 
+= Mirroring new packages to !GitHub =
+
+Currently, all our repositories are being mirrored to !GitHub by !GitHub themselves. If you wish to add/remove a repository you need to email !GitHub support at support@github.com and ask them to do it. Currently there is no way to administer this ourselves.

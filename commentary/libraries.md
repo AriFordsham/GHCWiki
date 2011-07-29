@@ -503,3 +503,8 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/packages/stm.git/</th>
 <th>libraries/stm</th>
 <th></th></tr></table>
+
+# Mirroring new packages to GitHub
+
+
+Currently, all our repositories are being mirrored to GitHub by GitHub themselves. If you wish to add/remove a repository you need to email GitHub support at support@… and ask them to do it. Currently there is no way to administer this ourselves.
