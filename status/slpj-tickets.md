@@ -22,9 +22,8 @@
 
 - [\#4833](https://gitlab.haskell.org//ghc/ghc/issues/4833): finding the right loop breaker
 - [\#4227](https://gitlab.haskell.org//ghc/ghc/issues/4227): SPECIALISE pragmas for functions in other modules
-- [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781): inlining for local functions: discount for scrutinising free vars
+- [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781), [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): inlining for local functions: discount for scrutinising free vars
 - [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
-- [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): idea for "wrapper peeling" for join points.
 - [\#3526](https://gitlab.haskell.org//ghc/ghc/issues/3526): Inliner behaviour confusing (waiting on Bryan)
 - [\#3073](https://gitlab.haskell.org//ghc/ghc/issues/3073) and [Commentary/Compiler/DesugaringInstances](commentary/compiler/desugaring-instances): better desugaring for instances
 - [\#2396](https://gitlab.haskell.org//ghc/ghc/issues/2396): default class method not inlined

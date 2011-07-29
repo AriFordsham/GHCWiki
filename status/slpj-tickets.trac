@@ -20,9 +20,8 @@
 === Inlining ===
  * #4833: finding the right loop breaker
  * #4227: SPECIALISE pragmas for functions in other modules
- * #3781: inlining for local functions: discount for scrutinising free vars
+ * #3781, #3755: inlining for local functions: discount for scrutinising free vars
  * #3765: CONLIKE things and case expressions (need two unfoldings)
- * #3755: idea for "wrapper peeling" for join points.
  * #3526: Inliner behaviour confusing (waiting on Bryan)
  * #3073 and [wiki:Commentary/Compiler/DesugaringInstances]: better desugaring for instances
  * #2396: default class method not inlined
