@@ -67,7 +67,7 @@ and so on.  (The variable `f` must have a proper function type.)
 
 For a type constructor `T`, the pragma
 {{{
-{-# VECTORISE SCALAR T #-}
+{-# VECTORISE SCALAR type T #-}
 }}}
 indicates that the type is scalar; i.e., it has no embedded arrays.  Note that the type cannot be parameterised (as we could not rule out that any of the type parameters at a usage site is an array type.)
 

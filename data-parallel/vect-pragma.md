@@ -91,7 +91,7 @@ and so on.  (The variable `f` must have a proper function type.)
 For a type constructor `T`, the pragma
 
 ```wiki
-{-# VECTORISE SCALAR T #-}
+{-# VECTORISE SCALAR type T #-}
 ```
 
 
