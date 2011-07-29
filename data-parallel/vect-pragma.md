@@ -91,14 +91,14 @@ and so on.  (The variable `f` must have a proper function type.)
 For a type constructor `T`, the pragma
 
 ```wiki
-{-# VECTORISE SCALAR T #-}
+{-# VECTORISE SCALAR type T #-}
 ```
 
 
 indicates that the type is scalar; i.e., it has no embedded arrays.  Note that the type cannot be parameterised (as we could not rule out that any of the type parameters at a usage site is an array type.)
 
 
-The type constructor `T` must be in scope, but it may be imported.  The `PData` and `PRepr` instances for `T` need to be manually defined.  (For types that the vectorised automatically determines that they don't need a vectorised version instances for `PData` and `PRepr` are still generated automatically.)
+The type constructor `T` must be in scope, but it may be imported.  The `PData` and `PRepr` instances for `T` need to be manually defined.  (For types that the vectoriser automatically determines that they don't need a vectorised version, instances for `PData` and `PRepr` are still generated automatically.)
 
 **TODO**
 
