@@ -67,6 +67,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
    * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
    * [wiki:TypeNats Type level naturals]
+   * [wiki:GhcKinds Kind level]: Notes on the theory, design and implementation of a kind level by promotion of data types.
    * [wiki:KindFact Proposal to add a kind for facts, e.g. class constraints]
    * [wiki:PolymorphicDynamic Polymorphic Dynamic]: Notes on adding ad-hoc polymorphic dynamic types
    * [wiki:DefaultSuperclassInstances Proposal to allow classes to give default implementations for their superclasses]
