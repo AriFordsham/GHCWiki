@@ -22,6 +22,8 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
  * [wiki:Commentary/Compiler The Compiler]
    * [wiki:Commentary/Pipeline The compilation pipeline]
 
+ * [wiki:Commentary/Libraries The Libraries on which GHC depends]
+
  * [wiki:Commentary/Rts The Runtime System (RTS)]
     * [wiki:Commentary/Rts/Conventions RTS Coding Conventions]
     * [wiki:Commentary/Rts/HaskellExecution The Haskell Execution Model]
@@ -32,9 +34,7 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
     * [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
     * [wiki:Commentary/PrimOps Primitive Operations (PrimOps)]
     * [wiki:Commentary/Packages The Package System]
-
- * [wiki:Commentary/Libraries The Libraries]
-
+ 
  * [wiki:Commentary/UserManual The User Manual] (formatting guidelines etc)
 
 == Contributed Documentation ==
