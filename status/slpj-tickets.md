@@ -2,9 +2,10 @@
 
 ## New typechecker things to fix (with Dimitrios)
 
-- [\#5030](https://gitlab.haskell.org//ghc/ghc/issues/5030): slow typechecking
+- [\#5321](https://gitlab.haskell.org//ghc/ghc/issues/5321): slow constraint solving
 - [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347): rigid type signatures for impredicativity
 - [\#4310](https://gitlab.haskell.org//ghc/ghc/issues/4310): deferred equalities and forall types (needs Brent's work) 
+- [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320): overlap delicacy
 
 ### Arity
 
@@ -102,9 +103,9 @@
 
 ## Types and type inference
 
+- [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466), [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296): explicit type application
 - [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): distinguish type parameters from indices
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping type family instances
-- [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466): explicit type application
 - [\#3490](https://gitlab.haskell.org//ghc/ghc/issues/3490): superclasses and ambiguity
 - [\#3632](https://gitlab.haskell.org//ghc/ghc/issues/3632): better update for records with existentials
 - [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496), [\#4846](https://gitlab.haskell.org//ghc/ghc/issues/4846): Newtype deriving and type families type soundness problem
