@@ -92,9 +92,9 @@
  * #4175: better GHCi info for type-function instances
 
 == Types and type inference ==
+ * #4466, #5296: explicit type application
  * #3714: distinguish type parameters from indices
  * #4259: overlapping type family instances
- * #4466: explicit type application
  * #3490: superclasses and ambiguity
  * #3632: better update for records with existentials
  * #1496, #4846: Newtype deriving and type families type soundness problem
