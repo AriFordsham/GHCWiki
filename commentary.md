@@ -28,6 +28,8 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
 
   - [The compilation pipeline](commentary/pipeline)
 
+- [The Libraries on which GHC depends](commentary/libraries)
+
 - [The Runtime System (RTS)](commentary/rts)
 
   - [RTS Coding Conventions](commentary/rts/conventions)
@@ -40,8 +42,6 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
   - [Wired-in and known-key things](commentary/compiler/wired-in)
   - [Primitive Operations (PrimOps)](commentary/prim-ops)
   - [The Package System](commentary/packages)
-
-- [The Libraries](commentary/libraries)
 
 - [The User Manual](commentary/user-manual) (formatting guidelines etc)
 
