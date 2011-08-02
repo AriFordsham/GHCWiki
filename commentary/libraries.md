@@ -131,9 +131,18 @@ Currently the Boot Packages that are not installed are `haskelline`, `mtl`, and 
 
 # Boot packages dependencies
 
-- At the root of the hierarchy we have **`ghc-prim`**. As the name implies, this package contains the most primitive types and functions. It only contains a handful of modules, including `GHC.Prim` (which contains `Int#`, `+#`, etc) and `GHC.Bool`, containing the `Bool` datatype.
+- At the root of the hierarchy we have **`ghc-prim`**. As the name implies, this package contains the most primitive types and functions. It only contains a handful of modules, including `GHC.Prim` (which contains `Int#`, `+#`, etc) and `GHC.Bool`, containing the `Bool` datatype.  See "WARNING: pattern matching" below.
 
-- Above `ghc-prim` is the **`integer-impl`** package, where `impl` is one of `gmp` and `simple`, which provides a definition of the `Integer` type (on top of the C `gmp` library, or in plain Haskell, respectively). Which functionality is provided in `ghc-prim` is mostly driven by what functionality the `integer-impl` packages need. By default `integer-gmp` is used; to use `integer-simple` define `INTEGER_LIBRARY=integer-simple` in `mk/build.mk`.
+- Above `ghc-prim` are the packages
+
+  - `integer-gmp`
+  - `integer-simple`
+
+>
+> The two have the same interface, and only one of the two is used. (When we want to be vague about which one, we call it `integer-impl`.)  They provide a definition of the `Integer` type (on top of the C `gmp` library, or in plain Haskell, respectively). Which functionality is provided in `ghc-prim` is mostly driven by what functionality the `integer-impl` packages need. By default `integer-gmp` is used; to use `integer-simple` define `INTEGER_LIBRARY=integer-simple` in `mk/build.mk`.
+
+> >
+> > See "WARNING: pattern matching" below.
 
 - Next is the **`base`** package. This contains a large number of modules, many of which are in one big cyclic import knot, mostly due to the `Exception` type.
 
@@ -166,6 +175,8 @@ Currently the Boot Packages that are not installed are `haskelline`, `mtl`, and 
 
 The `haskell98`, `old-time` and `random` packages are mostly only needed for Haskell 98 support, although `dph` currently uses `random` too.
 
+## WARNING: Pattern matching in `ghc-prim`, `integer-simpl`, and `integer-gmp`
+
 
 Note that `ghc-prim` and `integer-impl` are below the dependency chain from Exception (in `base`), which means they must not raise generate code to raise an exception (it's not enough that this code will never run). One particularly subtle case of GHC exception-raising code is in the case of (complete!) pattern matches. Consider the unboxed form of Integers, which has the constructor S\# or J\#.
 
@@ -177,7 +188,16 @@ f (J# _ _) (J# _ _) = ...
 ```
 
 
-GHC will incorrectly generate core that pattern matches against the second argument twice, the second match being a partial one with (dead) exception raising code. When compiled with optimizations, the dead code is eliminated. However, this breaks with -O0, so the fix was to explicitly spell out the constructor in the second and third line:
+GHC will incorrectly generate core that pattern matches against the second argument twice, the second match being a partial one with (dead) exception raising code. When compiled with optimizations, the dead code is eliminated. However, this breaks with -O0, thus:
+
+```wiki
+Loading package integer-simple ... linking ... 
+ghc: /usr/local/ghc/7.2.0.20110728/lib/ghc-7.2.0.20110728/integer-simple-0.1.0.0/HSinteger-simple-0.1.0.0.o: 
+unknown symbol `base_ControlziExceptionziBase_patError_info'
+```
+
+
+The fix is to explicitly spell out the constructor in the second and third line, so that GHC does not generate calls to `patError`:
 
 ```wiki
 f (S# _) (S# _) = ...
@@ -185,6 +205,8 @@ f (J# _ _) (S# _) = ...
 f (S# _) (J# _ _) = ...
 f (J# _ _) (J# _ _) = ...
 ```
+
+---
 
 # Repository locations
 
