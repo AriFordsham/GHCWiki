@@ -31,6 +31,8 @@ Getting started for developers
 
 More detailed information about using the build system
 
+- [The libraries on which GHC depends](commentary/libraries)
+
 - [Using the build system](building/using)
 - [Standard targets](building/standard-targets)
 
@@ -39,8 +41,6 @@ More detailed information about using the build system
 - [Unregisterised builds](building/unregisterised)
 - [Porting GHC to a new platform](building/porting)
 - [Cross-compilation](cross-compilation)
-
-- [GHC and the libraries on which it depends](commentary/libraries)
 
 
 How to test and benchmark changes to GHC:
