@@ -1,3 +1,5 @@
+[[PageOutline]]
+
 = GHC Commentary: Libraries =
 
 All GHC build trees contain a set of libraries, called the '''Boot Packages'''.  These are the libraries that GHC's source code imports.  Obviously you need the boot packages to build GHC at all.
@@ -150,6 +152,7 @@ f (S# _) (J# _ _) = ...
 f (J# _ _) (J# _ _) = ...
 }}}
 
+----------------------------------
 = Repository locations =
 
 Many of the libraries in a GHC tree are actually maintained by someone else. They therefore have a separate upstream repository, from which we need to pull. That repository may be either a darcs or a git repository; in the darcs case, we also need to convert to a git repository for use in a GHC tree. However, if the darcs repository is on another server, then we first need to mirror it for the conversion program to use. This diagram shows how changes migrate from one repo to another:
