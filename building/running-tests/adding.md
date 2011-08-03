@@ -388,8 +388,8 @@ file. The possible test functions are:
 - **run_command**
   Just run an arbitrary command.  The output is checked
   against `T.stdout` and `T.stderr` (unless `ignore_output`
-  is used), and the stdin and expected exit code can be
-  changed in the same way as for compile_and_run.  NB: run_command only works 
+  is used).  The expected exit code can be
+  changed using exit_code(N).  NB: run_command only works 
   in the **normal** way, so don't use **only_ways** with it.
 
 - **ghci_script**
