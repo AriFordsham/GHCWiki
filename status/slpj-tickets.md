@@ -22,13 +22,10 @@
 ### Inlining
 
 - [\#4833](https://gitlab.haskell.org//ghc/ghc/issues/4833): finding the right loop breaker
-- [\#4227](https://gitlab.haskell.org//ghc/ghc/issues/4227): SPECIALISE pragmas for functions in other modules
 - [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781), [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): inlining for local functions: discount for scrutinising free vars
 - [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
-- [\#3526](https://gitlab.haskell.org//ghc/ghc/issues/3526): Inliner behaviour confusing (waiting on Bryan)
 - [\#3073](https://gitlab.haskell.org//ghc/ghc/issues/3073) and [Commentary/Compiler/DesugaringInstances](commentary/compiler/desugaring-instances): better desugaring for instances
 - [\#2396](https://gitlab.haskell.org//ghc/ghc/issues/2396): default class method not inlined
-- [\#2354](https://gitlab.haskell.org//ghc/ghc/issues/2354): NOINLINE pragma ignored
 - [\#2078](https://gitlab.haskell.org//ghc/ghc/issues/2078): INLINing improvement; ask Christian.Maeder@… to see if it improves CASL
 - [\#2840](https://gitlab.haskell.org//ghc/ghc/issues/2840): top level unlifted string literals
 - [\#3123](https://gitlab.haskell.org//ghc/ghc/issues/3123): feature request: recursive inlining and peeling
@@ -45,11 +42,10 @@
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): cheap check at start of case alternatives
 - [\#2731](https://gitlab.haskell.org//ghc/ghc/issues/2731): avoiding unnecessary evaluation when unpacking constructors
 - [\#3940](https://gitlab.haskell.org//ghc/ghc/issues/3940): propagate fix
-- [\#3969](https://gitlab.haskell.org//ghc/ghc/issues/3969): bad code for tight loop
-- [\#4090](https://gitlab.haskell.org//ghc/ghc/issues/4090): failed `getRegister` in asm codegen
 
-### Other performance
+### Optimiser
 
+- [\#5262](https://gitlab.haskell.org//ghc/ghc/issues/5262): seq magic
 - [\#605](https://gitlab.haskell.org//ghc/ghc/issues/605): strict/unboxed enumerations
 - [\#2607](https://gitlab.haskell.org//ghc/ghc/issues/2607): space leak: inlining defeats selector thunk optimisation
 - [\#4470](https://gitlab.haskell.org//ghc/ghc/issues/4470): merge identical counters
@@ -62,10 +58,10 @@
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387), [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600): nested CPR analysis        
 - [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#3767](https://gitlab.haskell.org//ghc/ghc/issues/3767), [\#2642](https://gitlab.haskell.org//ghc/ghc/issues/2642), [\#3831](https://gitlab.haskell.org//ghc/ghc/issues/3831), [\#4941](https://gitlab.haskell.org//ghc/ghc/issues/4941): Improve **`SpecConstr`** for free variables, and for join points.
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
+- [\#5363](https://gitlab.haskell.org//ghc/ghc/issues/5363): profiling worsens space behaviour
 
 ### Compiler performance
 
-- [\#1969](https://gitlab.haskell.org//ghc/ghc/issues/1969): quadratic behaviour in the specialiser
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
 - Use wildcards for dead variables in interface files.
 
@@ -111,15 +107,13 @@
 - [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496), [\#4846](https://gitlab.haskell.org//ghc/ghc/issues/4846): Newtype deriving and type families type soundness problem
 - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): **Ambiguity: don't infer a type that can't be checked if the type is given as a signature** (this one is important).  See SPJ's mailbox: Haskell type system/Ambiguity.
 - [\#2641](https://gitlab.haskell.org//ghc/ghc/issues/2641): revise what `-XExtendedDefaultRules` does
-- [\#1634](https://gitlab.haskell.org//ghc/ghc/issues/1634): deep skolemisation; also this one [\#3592](https://gitlab.haskell.org//ghc/ghc/issues/3592)
-- [\#3018](https://gitlab.haskell.org//ghc/ghc/issues/3018): be lazier about solving class instances
+- [\#3592](https://gitlab.haskell.org//ghc/ghc/issues/3592): deep skolemisation
 - [\#2357](https://gitlab.haskell.org//ghc/ghc/issues/2357): **Implement the Haskell Prime proposal for polymorphic pattern bindings**
 
 ### Better error messages
 
 - [\#4921](https://gitlab.haskell.org//ghc/ghc/issues/4921): ambiguous type variables
 - [\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330): another bad error message (Church2)
-- [\#3169](https://gitlab.haskell.org//ghc/ghc/issues/3169): better occurs-check error message
 - [\#2648](https://gitlab.haskell.org//ghc/ghc/issues/2648): Report out of date interface files robustly        
 - [\#2588](https://gitlab.haskell.org//ghc/ghc/issues/2588): Better error message about ‘forall’        
 - [\#2360](https://gitlab.haskell.org//ghc/ghc/issues/2360): Better location info in occurs-check message.        
@@ -156,7 +150,6 @@
 - [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595): pattern-match overlap checking
 - [\#3843](https://gitlab.haskell.org//ghc/ghc/issues/3843): Add plugins
 - [\#3701](https://gitlab.haskell.org//ghc/ghc/issues/3701): Implicitly declared existentials: a class as a type
-- [\#3480](https://gitlab.haskell.org//ghc/ghc/issues/3480): **Fingerprints in `TypeRep`**
 - [\#3217](https://gitlab.haskell.org//ghc/ghc/issues/3217): better flag handling for GHCi
 - [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600), [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110): **Bind type variables and constraints in RULES**
 - [\#1930](https://gitlab.haskell.org//ghc/ghc/issues/1930): Infix type operators:  a+b.        
