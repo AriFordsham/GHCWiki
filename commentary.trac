@@ -65,6 +65,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:SafeHaskell Safe Haskell]: The design of the GHC Safe Haskell extension
    
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
+   * [wiki:PatternSynonyms Pattern synonyms]
    * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
    * [wiki:TypeNats Type level naturals]
    * [wiki:GhcKinds Kind level]: Notes on the theory, design and implementation of a kind level by promotion of data types.
