@@ -1,6 +1,6 @@
 = GHC Kind level =
 
-This page gives the theory and implementation overview and details about GHC's kind level.  This work is related to [http://personal.cis.strath.ac.uk/~conor/pub/she/ Conor's SHE system] and will be related to Iavor's work on [wiki:TypeNats] to deal with primitive types (promoted {{{Int}}} and {{{Char}}}).
+This page gives the theory, implementation overview and details about GHC's kind level.  This work is related to [http://personal.cis.strath.ac.uk/~conor/pub/she/ Conor's SHE system] and will be related to Iavor's work on [wiki:TypeNats] to deal with primitive types (promoted {{{Int}}} and {{{Char}}}).
 
 == Theory ==
 
