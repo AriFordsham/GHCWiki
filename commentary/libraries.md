@@ -20,7 +20,7 @@ All boot packages have a Git repo in [ http://darcs.haskell.org/packages](http:/
     In this way GHC developers are not exposed to package upgrades, except when we want.
 
 
-To find out which packages are currently zero-boot packages, do the following in a GHC build:
+To find out which packages are currently boot packages, do the following in a GHC build:
 
 ```wiki
 $ make show VALUE=PACKAGES
