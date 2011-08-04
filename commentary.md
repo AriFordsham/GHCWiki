@@ -77,6 +77,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
+  - [Pattern synonyms](pattern-synonyms)
   - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
   - [Type level naturals](type-nats)
   - [Kind level](ghc-kinds): Notes on the theory, design and implementation of a kind level by promotion of data types.
