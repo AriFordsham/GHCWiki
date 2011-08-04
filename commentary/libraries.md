@@ -1,34 +1,13 @@
 # GHC Commentary: Libraries
 
 
-All GHC build trees contain a set of libraries, called the **Boot Packages**.  These are the libraries that GHC's source code imports.  Obviously you need the boot packages to build GHC at all.
+All GHC build trees contain a set of libraries, called the **Boot Packages**.  These are the libraries that GHC's source code imports.  Obviously you need the boot packages to build GHC at all.  The boot packages are those packages in the file [source:packages](/trac/ghc/browser/packages)[](/trac/ghc/export/HEAD/ghc/packages) that have a `-` in the "tag" column.
 
 
-The Boot Packages, along with the other subcomponents of the GHC build system, are listed in the file `$(TOP)/packages` in a GHC tree. 
+The repository structure of a GHC source tree is described in [Repositories](repositories).
 
 
-All boot packages have a Git repo in [ http://darcs.haskell.org/packages](http://darcs.haskell.org/packages):
-
-- Having all the repos in one place makes it easy and uniform for GHC developers to get all the packages.
-
-- In a build tree, these packages each occupy a sub-directory of `$(TOP)/libraries`.
-
-- For INDEPENDENT packages (see "Coupling to GHC", below), the Git repo in [ http://darcs.haskell.org/packages](http://darcs.haskell.org/packages) is a **lagging repo**. That means
-
-  - Don't push to it.
-  - Update it from the package's master repo at convenient intervals.
-    In this way GHC developers are not exposed to package upgrades, except when we want.
-
-
-To find out which packages are currently boot packages, do the following in a GHC build:
-
-```wiki
-$ make show VALUE=PACKAGES
-```
-
-
-(The `PACKAGES` variable is set in `$(TOP)/`[ghc.mk](/trac/ghc/browser/ghc/ghc.mk).)
-You can see exactly which versions of what packages GHC depends on by looking in `$(TOP)/`[compiler/ghc.cabal.in](/trac/ghc/browser/ghc/compiler/ghc.cabal.in).
+You can see exactly which versions of what packages GHC depends on by looking in [source:compiler/ghc.cabal.in](/trac/ghc/browser/compiler/ghc.cabal.in)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.cabal.in).
 
 # Building packages that GHC doesn't depend on
 
@@ -146,34 +125,10 @@ Currently the Boot Packages that are not installed are `haskelline`, `mtl`, and 
 
 - Next is the **`base`** package. This contains a large number of modules, many of which are in one big cyclic import knot, mostly due to the `Exception` type.
 
-- On top of base are a number of other, more specialised packages, whose purpose is generally clear from their name. If not, you can get more detail from the descriptions in their Cabal files.  Currently these packages are are:
-
-  - `array`
-  - `bytestring`
-  - `Cabal`
-  - `containers`
-  - `directory`
-  - `extensible-exceptions`
-  - `filepath`
-  - `haskeline`
-  - `haskell98`
-  - `hpc`
-  - `mtl`
-  - `old-locale`
-  - `old-time`
-  - `packedstring`
-  - `pretty`
-  - `process`
-  - `random`
-  - `syb`
-  - `template-haskell`
-  - `terminfo`
-  - `unix`
-  - `utf8-string`
-  - `Win32`
+- On top of base are a number of other, more specialised packages, whose purpose is generally clear from their name. If not, you can get more detail from the descriptions in their Cabal files.  The up-to-date list of packages can be found in the file [source:packages](/trac/ghc/browser/packages)[](/trac/ghc/export/HEAD/ghc/packages).
 
 
-The `haskell98`, `old-time` and `random` packages are mostly only needed for Haskell 98 support, although `dph` currently uses `random` too.
+The `haskell98`, `old-time`, `old-locale` and `random` packages are mostly only needed for Haskell 98 support, although `dph` currently uses `random` too.
 
 ## WARNING: Pattern matching in `ghc-prim`, `integer-simpl`, and `integer-gmp`
 
