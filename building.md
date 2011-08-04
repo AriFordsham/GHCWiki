@@ -31,8 +31,6 @@ Getting started for developers
 
 More detailed information about using the build system
 
-- [The libraries on which GHC depends](commentary/libraries)
-
 - [Using the build system](building/using)
 - [Standard targets](building/standard-targets)
 
@@ -58,6 +56,7 @@ More detailed information about how the build system works
 - [Overview of files and directories](commentary/source-tree)
 - [Architecture of the build system](building/architecture)
 - [Modifying the build system](building/modifying)
+- [The libraries on which GHC depends](commentary/libraries)
 
 
 Platform-specific building instructions:

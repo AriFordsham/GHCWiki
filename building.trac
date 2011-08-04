@@ -26,8 +26,6 @@ Getting started for developers
 
 More detailed information about using the build system
 
- * [wiki:Commentary/Libraries The libraries on which GHC depends]
-
  * [wiki:Building/Using Using the build system]
  * [wiki:Building/StandardTargets Standard targets]
 
@@ -49,6 +47,7 @@ More detailed information about how the build system works
  * [wiki:Commentary/SourceTree Overview of files and directories]
  * [wiki:Building/Architecture Architecture of the build system]
  * [wiki:Building/Modifying Modifying the build system]
+ * [wiki:Commentary/Libraries The libraries on which GHC depends]
 
 Platform-specific building instructions:
 
