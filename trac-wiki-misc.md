@@ -16,6 +16,11 @@ When writing Wiki pages you need to know the markup conventions:
 
 The notes on the rest of this page are the GHC team's observations and/or clarifications.
 
+## Pointing to source files
+
+
+Use the syntax `source:<file>`, e.g. source:README to point to source files in the GHC repository.  We can't currently point directly to source files in other repositories this way, although when we upgrade Trac to 0.12 the multi-repository support should enable us to do this.
+
 ## Formatting list items with multiple paragraphs
 
 [TracWiki](trac-wiki) recognizes list items by their indentation and the asterisk preceding the first line. However if a second paragraph is started after an empty line, [TracWiki](trac-wiki) will not consider it part of the list item despite the use of indentation. The "proper" way to do it is to separate the second and subsequent paragraphs by line break macros. For example:
