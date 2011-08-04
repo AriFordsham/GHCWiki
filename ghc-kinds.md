@@ -41,4 +41,23 @@ The branch is called `ghc-kinds`.  Its current state is:
 <th></th></tr></table>
 
 
+Promotion-related changelog:
+
+- Change the kind representation in `HsSyn` from `Kind` to `LHsKind name` adding some `PostTcKind` when necessary.
+
+  - Rename `rnHsType` into `rnHsTyKi` and parametrize with a boolean to know if we are renaming a type or a kind.
+- Allow promoted data and type constructors:
+
+  - Extend the parser to allow ticked names like `'Zero` or `'Nat.Succ` as atoms in types.
+  - Extend the parser to allow *optionally* ticked names like `Nat` or `'Bool` as atoms in kinds.
+  - Extend `HsType name` with `HsPromotedConTy name` to represent ticked names.
+  - Extend `TyCon` with `PromotedDataTyCon` to represent promoted data constructors.
+- Rename `KindVar` which is used during type checking into `MetaKindVar`, since we will add kind variables later.
+
+
+Not promotion-related changelog:
+
+- Use `HsDocContext` instead of `SDoc` to track renaming context.
+
+
 The stage1 compiler does not work, since there is some `undefined`s in the typechecker.  So you won't be able to build a stage2 or even run validate.  This is the first priority.
