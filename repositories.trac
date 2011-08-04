@@ -3,6 +3,7 @@
 = GHC Repositories =
 
 This page lists the active repositories relating to GHC.  For instructions on actually getting a GHC source tree, see [wiki:Building/GettingTheSources].
+For read-only browsing, you can use the [http://hackage.haskell.org/trac/ghc/browser Trac source browser], or the [http://github.com/ghc/ghc GitHub mirror].
 
 GHC's repos use Git; see [wiki:WorkingConventions/Git].  For Darcs-related stuff see also [wiki:DarcsToGit] and [wiki:GitForDarcsUsers].  For instructions for building from !GitHub sources, see [wiki:GitHubGHC].
 
