@@ -19,26 +19,17 @@ Examples of reimplementation of existing Haskell librairies can be found in [ th
 ## Implementation
 
 
-The branch is called `ghc-kinds`.  Its current state is:
+The GHC branch is called `ghc-kinds`.  There is also a Haddock branch with the same name.
 
-<table><tr><th></th>
-<th> ADT promotion </th>
-<th> Primitives </th>
-<th> Kind polymorphism 
-</th></tr>
-<tr><th> Parser      </th>
-<th>      Yes      </th>
-<th>    Yes     </th>
-<th>       Yes         
-</th></tr>
-<tr><th> Renamer     </th>
-<th>  In progress  </th>
-<th>    Yes     </th>
-<th></th></tr>
-<tr><th> Typechecker </th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+
+The implementation will follow these steps (in bold is the first phase (parser, renamer, type checker, ...) that does not work):
+
+1. **\[Type checker\]** Promotion of Haskell98 data types of kind star: `*`.
+1. Kind polymorphism in Core.
+1. Promotion of Haskell98 data types of first order kind: `* -> .. * -> *`.
+1. Kind polymorphic data types, type families, and type classes.
+1. Singleton types.
+1. Built-in types.
 
 
 Promotion-related changelog:
@@ -51,6 +42,7 @@ Promotion-related changelog:
   - Extend the parser to allow ticked names like `'Zero` or `'Nat.Succ` as atoms in types.
   - Extend the parser to allow *optionally* ticked names like `Nat` or `'Bool` as atoms in kinds.
   - Extend `HsType name` with `HsPromotedConTy name` to represent ticked names.
+  - Extend the renamer to handle implicit promotion.
   - Extend `TyCon` with `PromotedDataTyCon` to represent promoted data constructors.
 - Rename `KindVar` which is used during type checking into `MetaKindVar`, since we will add kind variables later.
 
@@ -58,6 +50,3 @@ Promotion-related changelog:
 Not promotion-related changelog:
 
 - Use `HsDocContext` instead of `SDoc` to track renaming context.
-
-
-The stage1 compiler does not work, since there is some `undefined`s in the typechecker.  So you won't be able to build a stage2 or even run validate.  This is the first priority.
