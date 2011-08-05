@@ -99,6 +99,7 @@
 
 ## Types and type inference
 
+- [\#5224](https://gitlab.haskell.org//ghc/ghc/issues/5224): make it cheaper to check for inconsistent type family instances
 - [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466), [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296): explicit type application
 - [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): distinguish type parameters from indices
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping type family instances
