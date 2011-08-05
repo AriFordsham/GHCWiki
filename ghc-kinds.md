@@ -6,7 +6,7 @@ This page gives the theory, implementation overview and details about GHC's kind
 ## Theory
 
 
-We use the mechanism of promotion to lift a data type to the kind level.  This gives access at the type level to the data constructors, and at the kind level to the type constructor.  All data types cannot be promoted.  For examples GADTs or data types with higher-order kinds.  We add kind polymorphism to allow promotion of polymorphic data constructors (like `Nil` or `Cons`).
+We use the mechanism of promotion to lift a data type to the kind level.  This gives access at the type level to the data constructors, and at the kind level to the type constructor.  Not all data types can be promoted; for example, GADTs or data types with higher-order kinds cannot be promoted.  We add kind polymorphism to allow promotion of polymorphic data constructors (like `Nil` or `Cons`).
 
 
 More details can be found in [ this theory pdf](http://gallium.inria.fr/~jcretin/ghc/theory.pdf).
