@@ -51,16 +51,11 @@ The above instructions will get the HEAD - the main trunk of GHC development.  T
 
 To get a branch, you need to get from a repo that contains the branch; in particular, local clones of the central repo will normally not include the branches that are in the central repo.
 
-There are two ways of getting a branch. To get one from scratch, run
+To get one, run
 {{{
   $ git clone -b branch-name http://darcs.haskell.org/ghc.git/
   $ cd ghc
   $ ./sync-all --testsuite get -b branch-name
-}}}
-
-If you already have a GHC tree, then you can switch to another branch with
-{{{
-  $ ./sync-all checkout branch-name
 }}}
 
 == Getting a GHC repository from !GitHub.com ==
