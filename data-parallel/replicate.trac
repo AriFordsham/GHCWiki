@@ -7,7 +7,7 @@ The vectorisation transformation lifts scalar computations into vector space.  I
 smvm :: [:[: (Int, Double) :]:] -> [:Double:] -> [:Double:]
 smvm m v = [: sumP [: x * (v !: i) | (i,x) <- row :] | row <- m :]
 }}}
-Here the variable 'v' is constant in the array comprehensions and will be replicated while lifting the expression `v !: i`.   In other words, for every single element in a `row`, lifting implies the allocation of a separate copy of of the entire array `v` — and this only to perform a single indexing operation on that copy of `v`.  More precisely, in the lifted code, lifted indexing (which we usually denote by `(!:^)` is applied to a nested array consisting of multiple copies of `v`; i.e., it is applied to the result of `replicateP (length row) v`.  
+Here the variable 'v' is constant in the array comprehensions and will be replicated while lifting the expression `v !: i`.   In other words, for every single element in a `row`, lifting implies the allocation of a separate copy of of the entire array `v` — and this only to perform a single indexing operation on that copy of `v`.  More precisely, in the lifted code, lifted indexing (which we usually denote by `(!:^)` is applied to a nested array consisting of multiple copies of `v`; i.e., it is applied to the result of `replicatePA (lengthPA row) v`.  
 
 This is clearly wasted effort and space.  However, the situation is even worse in Ben's pathological example:
 {{{
@@ -75,14 +75,14 @@ As multiple segments overlap in arrays with repeated segments, array consumers n
 
 In the `smvm` example, a replicated array is consumed by lifted indexing to extract matching elements of the vector for all non-zero elements of the matrix.  Using just an length array as a segment descriptor without overlapping segments, lifted indexing might be implemented as follows:
 {{{
-(as_len, as_data) !:^ is = bpermute as_data ((prescan (+) 0 as_len) +^ is)
+(as_len, as_data) !:^ is = bpermutePA as_data ((prescanPA (+) 0 as_len) +^ is)
 }}}
 
 With overlapping segments, we have
 {{{
-(as_start, as_len, as_data) !:^ is = bpermute as_data (as_start +^ is)
+(as_start, as_len, as_data) !:^ is = bpermutePA as_data (as_start +^ is)
 }}}
-In the case of `smvm`, where the first argument is produced by `replicateP (length row) v`, we have `as_start = replicate (length row) 0` and `as-data = v`.  In other words, lifted indexing draws from a single copy of `v`, which is what we wanted.
+In the case of `smvm`, where the first argument is produced by `replicatePA (lengthPA row) v`, we have `as_start = replicatePA (lengthPA row) 0` and `as-data = v`.  In other words, lifted indexing draws from a single copy of `v`, which is what we wanted.
 
 === Reduction ===
 
