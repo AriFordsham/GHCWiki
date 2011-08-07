@@ -21,6 +21,7 @@ treeLookup table xx
         s1      = sliceP 0    half xx
         s2      = sliceP half half  xx           
       in concatP (mapP (treeLookup table) [:s1, s2:])
+      -- or better: concatP (mapP (treeLookup table) (segmentP [:half, len - half:] xx))
 }}}
 Here `table` is constant in `mapP (treeLookup table) [:s1, s2:]`; hence, the entire `table` gets duplicated on each level of the recursion, leading to space consumption that is exponential in the depth of the recursion.
 
@@ -89,9 +90,15 @@ In the case of `smvm`, where the first argument is produced by `replicatePA (len
 
 === Reduction ===
 
- TODO: rl's exmaple
+ TODO: rl's example
 
-=== Multiple levels of nesting ===
+=== Splitting and combining ===
+
+Due to lifted conditionals (or, generally, case constructs), arrays with repeated segments may be split (packed) and combined.  Arrays with repeated segments can be split (or packed) by including a repeated segment in the result exactly if one of its repetitions is included.  This can be determined by disjunctively combining all flags for one sequence of repeated segments.
+
+Arrays with repeated segments can not always be combined without duplicating the data corresponding to repeated segments (after all, a disjoint segment may be inserted into a sequence of repeated segments).  For simplicity, we may want to expand all repeated segments in `combinePA`.  (It seems that this should not lead to unexpected blow-ups as the repeated data now is part of a functions result and should be accounted for in its complexity estimate.)
+
+=== Multiple levels of nesting (unconcat and concat) ===
 
 TODO: What if we have segment descriptors on top of one with repeated segments?
 
