@@ -20,9 +20,9 @@ treeLookup table xx
         half    = len `div` 2
         s1      = sliceP 0    half xx
         s2      = sliceP half half  xx           
-      in concatP (mapP (treeLookup table) [: s1, s2 :])
+      in concatP (mapP (treeLookup table) [:s1, s2:])
 }}}
-Here `table` is constant in `mapP (treeLookup table) [: s1, s2 :]`; hence, the entire `table` gets duplicated on each level of the recursion, leading to space consumption that is exponential in the depth of the recursion.
+Here `table` is constant in `mapP (treeLookup table) [:s1, s2:]`; hence, the entire `table` gets duplicated on each level of the recursion, leading to space consumption that is exponential in the depth of the recursion.
 
 
 == What's happening here? ==
