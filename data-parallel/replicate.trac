@@ -92,11 +92,17 @@ In the case of `smvm`, where the first argument is produced by `replicatePA (len
 
  TODO: rl's example
 
-=== Splitting and combining ===
+=== Splitting and combining (for lifted conditions) ===
 
 Due to lifted conditionals (or, generally, case constructs), arrays with repeated segments may be split (packed) and combined.  Arrays with repeated segments can be split (or packed) by including a repeated segment in the result exactly if one of its repetitions is included.  This can be determined by disjunctively combining all flags for one sequence of repeated segments.
 
 Arrays with repeated segments can not always be combined without duplicating the data corresponding to repeated segments (after all, a disjoint segment may be inserted into a sequence of repeated segments).  For simplicity, we may want to expand all repeated segments in `combinePA`.  (It seems that this should not lead to unexpected blow-ups as the repeated data now is part of a functions result and should be accounted for in its complexity estimate.)
+
+=== Splitting and joining (for distribution across threads ===
+
+Our idea is to continue to split the '''data''' array evenly across threads.  That may spread out the segments descriptor (length and starts arrays) very unevenly as repeated segments have an entry for each repetition in the segmentation information, but not in the data.
+
+TODO: Roman believes splitting arrays with repeated segments is a problem.  To me it doesn't seem to be that much of a problem.  (Keep in mind that we only need a restricted number of operations on arrays with repeated segments — all their consumers are homomorphisms as discussed in Plan B.
 
 === Multiple levels of nesting (unconcat and concat) ===
 
