@@ -122,6 +122,12 @@ In the case of `smvm`, where the first argument is produced by `replicatePA (len
 ### Reduction
 
 > TODO rl's example
+>
+> ```wiki
+> f xs is = mapP f is
+>  where
+>    f i = sumP xs + i
+> ```
 
 ### Splitting and combining (for lifted conditions)
 
