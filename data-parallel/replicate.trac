@@ -84,6 +84,14 @@ With overlapping segments, we have
 }}}
 In the case of `smvm`, where the first argument is produced by `replicateP (length row) v`, we have `as_start = replicate (length row) 0` and `as-data = v`.  In other words, lifted indexing draws from a single copy of `v`, which is what we wanted.
 
+=== Reduction ===
+
+ TODO: rl's exmaple
+
+=== Multiple levels of nesting ===
+
+TODO: What if we have segment descriptors on top of one with repeated segments?
+
 == Related work ==
 
  * The work-efficient vectorisation paper by Prins et al.  Their approach only works in a first-order language.
