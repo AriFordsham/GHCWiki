@@ -129,6 +129,9 @@ In the case of `smvm`, where the first argument is produced by `replicatePA (len
 >    f i = sumP xs + i
 > ```
 
+
+IDEA: Work on the data array of the segmented array with repeated segments (but without repeated data), then copy the segment results according to the repetition information.  This avoids reducing the same data multiple times.  We do something similar for scans, but don't dopy the results, but keep them in a segmented array with the same **repeated** segment information.
+
 ### Splitting and combining (for lifted conditions)
 
 
