@@ -31,6 +31,39 @@ Replication of scalars and arrays is always a waste of time and space.  However,
 
 == A plan to fix the problem ==
 
+Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  To keep it simple, we are for the moment focusing on avoiding replicating arrays, as this is were our practical problems are coming from at the moment.  (Some cases of replicated scalars are also eliminated by fusion.)
+
+=== Repeated segments ===
+
+A replicated array results is always represented by a segmented array; more precisely, by a segmented array where a contiguous sequence of segments contains the same data.  For example, we have
+{{{
+replicateP 3 [:1, 2, 3:] = [:[:1, 2, 3:], [:1, 2, 3:], [:1, 2, 3:]:]
+  where
+    [:[:1, 2, 3:], [:1, 2, 3:], [:1, 2, 3:]:] = ([:3, 3, 3:], [:1, 2, 3, 1, 2, 3, 1, 2, 3:])
+}}}
+and
+{{{
+replicateP^ [:2, 3:] [:[:1, 2:], [:3:]:] = [:[:1, 2:], [:1, 2:], [:3:], [:3:], [:3:]:]
+  where
+    [:[:1, 2:], [:1, 2:], [:3:], [:3:], [:3:]:] = ([:2, 2, 1, 1, 1:], [:1, 2, 1, 2, 3, 3, 3:])
+}}}
+
+=== Collapse repeated segments ===
+
+In practice, segments descriptors store more information than just the segment length.  They at least additionally store the start position of each segment in the data array.  In the conventional representation, an invariant is that the start positions are such that the segments don't overlap.  To represent arrays with repeated segments more efficiently, we propose to relax that invariant.  Specifically, all start positions of a contiguous sequence of repeated segments are the same; i.e., the segment data is stored only once per sequence of repeated segments.
+
+== Related work ==
+
+ * The work-efficient vectorisation paper by Prins et al.  Their approach only works in a first-order language.
+ * Blelloch's work on the space-behaviour of data-parallel programs.
+
+----
+
+= OLD MATERIAL =
+
+
+== A plan to fix the problem ==
+
 Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  So, instead of having `replicateP` allocate and fill a new array with multiple copies of the same data, we use a special array representation that stores the data (once!) together with the replication count.  This is surely the most space efficient representation for a replicated array.
 
 The downside of a special representation is that we now also need to modify all consumers of replicated arrays to accept this new representation and to handle it specially.  This leads to some code blow up (each array consumer needs to be able to dynamically decide between two input array representations), and we need to be careful not to disturb fusion.
@@ -61,8 +94,3 @@ The DPH library is built on the [http://hackage.haskell.org/package/vector vecto
 When implementing replicated arrays, we need to take into account that (1) a replicated may be a sliced vector and (b) that the partitioning of a parallel array across multiple threads requires to slice that parallel array.
 
 '''***''' Is this really an issue?  After all, we don't replicated thread-local slices of parallel arrays (which in turn may be sliced vectors), but replicate parallel arrays (which are already distributed over multiple threads).
-
-== Related work ==
-
- * The work-efficient vectorisation paper by Prins et al.  Their approach only works in a first-order language.
- * Blelloch's work on the space-behaviour of data-parallel programs.
