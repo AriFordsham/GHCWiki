@@ -99,14 +99,14 @@ As multiple segments overlap in arrays with repeated segments, array consumers n
 In the `smvm` example, a replicated array is consumed by lifted indexing to extract matching elements of the vector for all non-zero elements of the matrix.  Using just an length array as a segment descriptor without overlapping segments, lifted indexing might be implemented as follows:
 
 ```wiki
-(as_len, as_data) !:^ is = bpermute ((prescan (+) 0 as_len) +^ is) as_data
+(as_len, as_data) !:^ is = bpermute as_data ((prescan (+) 0 as_len) +^ is)
 ```
 
 
 With overlapping segments, we have
 
 ```wiki
-(as_start, as_len, as_data) !:^ is = bpermute (as_start +^ is) as_data
+(as_start, as_len, as_data) !:^ is = bpermute as_data (as_start +^ is)
 ```
 
 
