@@ -7,7 +7,7 @@ The vectorisation transformation lifts scalar computations into vector space.  I
 smvm :: [:[: (Int, Double) :]:] -> [:Double:] -> [:Double:]
 smvm m v = [: sumP [: x * (v !: i) | (i,x) <- row :] | row <- m :]
 }}}
-Here the variable 'v' is constant in the array comprehensions and will be replicated while lifting the expression `v !: i`.   In other words, for every single element in a `row`, lifting implies the allocation of a separate copy of of the entire array `v` — and this only to perform a single indexing operation on that copy of `v`.  More precisely, in the lifted code, lifted indexing (which we usually denote by `(!^)` is applied to a nested array consisting of multiple copies of `v`; i.e., it is applied to the result of `replicateP (length row) v`.  
+Here the variable 'v' is constant in the array comprehensions and will be replicated while lifting the expression `v !: i`.   In other words, for every single element in a `row`, lifting implies the allocation of a separate copy of of the entire array `v` — and this only to perform a single indexing operation on that copy of `v`.  More precisely, in the lifted code, lifted indexing (which we usually denote by `(!:^)` is applied to a nested array consisting of multiple copies of `v`; i.e., it is applied to the result of `replicateP (length row) v`.  
 
 This is clearly wasted effort and space.  However, the situation is even worse in Ben's pathological example:
 {{{
@@ -51,6 +51,38 @@ replicateP^ [:2, 3:] [:[:1, 2:], [:3:]:] = [:[:1, 2:], [:1, 2:], [:3:], [:3:], [
 === Collapse repeated segments ===
 
 In practice, segments descriptors store more information than just the segment length.  They at least additionally store the start position of each segment in the data array.  In the conventional representation, an invariant is that the start positions are such that the segments don't overlap.  To represent arrays with repeated segments more efficiently, we propose to relax that invariant.  Specifically, all start positions of a contiguous sequence of repeated segments are the same; i.e., the segment data is stored only once per sequence of repeated segments.
+
+Then, we have for `[:[:1, 2, 3:], [:1, 2, 3:], [:1, 2, 3:]:]`,
+{{{
+start: [:0, 0, 0:]
+len:   [:3, 3, 3:]
+data:  [:1, 2, 3:])
+}}}
+and for `[:[:1, 2:], [:1, 2:], [:3:], [:3:], [:3:]:]`,
+{{{
+start: [:0, 0, 2, 2, 2:]
+len:   [:2, 2, 1, 1, 1:]
+data:  [:1, 2, 3:])
+}}}
+
+This is merely a change in the array representation that does not affect vectorisation.
+
+== Operations on arrays with repeated segments ==
+
+As multiple segments overlap in arrays with repeated segments, array consumers need to be adapted to work correctly in this situation.
+
+=== Lifted indexing ===
+
+In the `smvm` example, a replicated array is consumed by lifted indexing to extract matching elements of the vector for all non-zero elements of the matrix.  Using just an length array as a segment descriptor without overlapping segments, lifted indexing might be implemented as follows:
+{{{
+(as_len, as_data) !:^ is = bpermute ((prescan (+) 0 as_len) +^ is) as_data
+}}}
+
+With overlapping segments, we have
+{{{
+(as_start, as_len, as_data) !:^ is = bpermute (as_start +^ is) as_data
+}}}
+In the case of `smvm`, where the first argument is produced by `replicateP (length row) v`, we have `as_start = replicate (length row) 0` and `as-data = v`.  In other words, lifted indexing draws from a single copy of `v`, which is what we wanted.
 
 == Related work ==
 
