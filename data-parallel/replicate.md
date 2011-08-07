@@ -142,7 +142,7 @@ mapP_L (AClo env _ fl) xss
 ```
 
 
-In both cases, we replicate the environment of a closure before we apply the lifted version of the function represented by the closure.
+In both cases, we replicate the environment of a closure before we apply the lifted version of the function represented by the closure.  This is important as it guarantees that the consumer of these occurrences of `replicatePA` and `expandPA` process (topmost) segment structure in a homomorphic manner (after all, we are implementing a `map` function here)!
 
 
 The idea behind Plan A is that `replicatePA` and `expandPA` produce a segmented array that encodes the replication without unnecessarily copying data and that the consumer —the lifted function `fl`— processes segmented arrays with encoded replication in a special manner.
