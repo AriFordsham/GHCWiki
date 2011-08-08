@@ -109,7 +109,7 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/packages/bytestring.git/</th>
 <th>libraries/bytestring</th>
 <th></th></tr>
-<tr><th>http://code.haskell.org/Cabal/</th>
+<tr><th>http://darcs.haskell.org/Cabal/</th>
 <th></th>
 <th></th>
 <th>http://darcs.haskell.org/git-mirrors/Cabal/.git/</th>
@@ -237,7 +237,7 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th></th></tr>
 <tr><th></th>
 <th></th>
-<th>git://github.com/rrnewton/haskell_stdlib_random.git</th>
+<th>git://github.com/haskell/random.git</th>
 <th>http://darcs.haskell.org/git-mirrors/random/</th>
 <th>http://darcs.haskell.org/packages/random.git/</th>
 <th>libraries/random</th>
