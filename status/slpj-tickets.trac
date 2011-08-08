@@ -122,6 +122,7 @@
  * #4222: design of reification for TH
 
 == Features == 
+ * #5391: better deriving Typeable
  * #5248: Infer context in type signatures
  * #5144: pattern synonyms
  * #5073: `blockST` and friends
