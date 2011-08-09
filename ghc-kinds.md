@@ -19,7 +19,7 @@ Examples of reimplementation of existing Haskell librairies can be found in [ th
 ## Implementation
 
 
-The GHC branch is called `ghc-kinds`.  There is also a Haddock branch with the same name.  Hoopl needs a kind annotation available on a branch in [ http://darcs.haskell.org/packages/hoopl.git/](http://darcs.haskell.org/packages/hoopl.git/).
+The GHC branch is called `ghc-kinds`.  There is also a Haddock branch with the same name.  Hoopl needs a kind annotation available on a branch in [ http://darcs.haskell.org/git-mirrors/hoopl/](http://darcs.haskell.org/git-mirrors/hoopl/).
 
 
 The implementation will follow these steps (in bold is the first phase (parser, renamer, type checker, ...) that does not work):
