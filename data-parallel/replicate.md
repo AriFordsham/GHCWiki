@@ -3,7 +3,7 @@
 ## The problem
 
 
-The vectorisation transformation lifts scalar computations into vector space.  In the course of this lifting, scalar constants are duplicated to fill an array, using the function 'replicateP'.  Array computations are lifted in a similar manner, which leads to array constants being replicated to form arrays of arrays, which are represented as a segmented arrays.  A simple example is our  'smvm' example code:
+The vectorisation transformation lifts scalar computations into vector space.  In the course of this lifting, scalar constants are duplicated to fill an array, using the function `replicateP`.  Array computations are lifted in a similar manner, which leads to array constants being replicated to form arrays of arrays, which are represented as a segmented arrays.  A simple example is our  'smvm' example code:
 
 ```wiki
 smvm :: [:[: (Int, Double) :]:] -> [:Double:] -> [:Double:]
@@ -41,7 +41,19 @@ Replication of scalars and arrays is always a waste of time and space.  However,
 ## Fixing the problem: Plan A (Repeated Segments)
 
 
-Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  To keep it simple, we are for the moment focusing on avoiding replicating arrays, as this is were our practical problems are coming from at the moment.  (Some cases of replicated scalars are also eliminated by fusion.)
+Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  To keep it simple, we are for the moment focusing on avoiding replicating arrays, as this is were our practical problems are coming from at the moment.  (Independently of our current plans, some cases of replicated scalars are eliminated by fusion.)
+
+
+To clarify the scope of the present work:
+
+*Goals*
+
+- Avoid physically creating multiple copies of the same array due to `replicateP` and `replicateP^`**introduced by vectorisation.**
+
+*Non-goals* (they may be worthwhile goals, but we don't attempt them here)
+
+- Avoid physically creating multiple copies of scalars due to `replicateP` (this includes large scalars, such as list or trees).
+- Avoid deep traversals of arrays of trees for `packP` and similar.
 
 
 NB: We will have to revisit replication of scalar structures as such scalar structures may be large trees.
@@ -95,6 +107,48 @@ data:  [:1, 2, 3:])
 
 This is merely a change in the array representation that does not affect vectorisation.
 
+### Segment descriptor representation
+
+
+Instead, of repeating the start indices in a segment descriptor, we alternatively might want to represent a segmented array with repeated segments by distinguishing its *physical* from its *logical* (or *virtual*) representation.  Specifically, instead of representing `[:[:1, 2, 3:], [:1, 2, 3:], [:1, 2, 3:]:]` as
+
+```wiki
+start: [:0, 0, 0:]
+len:   [:3, 3, 3:]
+data:  [:1, 2, 3:])
+```
+
+
+we might instead represent it as
+
+```wiki
+vsegs: [:0, 0, 0:]
+pstart: [:0:]
+plen:   [ 3:]
+data:  [:1, 2, 3:])
+```
+
+
+where `pstart`, `plen`, and `data` represent the underlying segmented array (with non-overlapping segments) and `vsegs` specifies the logical segments of the array, where physical segments may occur not at all, once, or multiple times.  In this example, the only physical segment is repeated three times.
+
+
+Our second example, `[:[:1, 2:], [:1, 2:], [:3:], [:3:], [:3:]:]`, which we previously represented as
+
+```wiki
+start: [:0, 0, 2, 2, 2:]
+len:   [:2, 2, 1, 1, 1:]
+data:  [:1, 2, 3:])
+```
+
+
+will now be
+
+```wiki
+start: [:0, 0, 1, 1, 1:]
+len:   [:2, 1:]
+data:  [:1, 2, 3:])
+```
+
 ## Operations on arrays with repeated segments
 
 
@@ -140,7 +194,7 @@ Due to lifted conditionals (or, generally, case constructs), arrays with repeate
 
 Arrays with repeated segments can not always be combined without duplicating the data corresponding to repeated segments (after all, a disjoint segment may be inserted into a sequence of repeated segments).  For simplicity, we may want to expand all repeated segments in `combinePA`.  (It seems that this should not lead to unexpected blow-ups as the repeated data now is part of a functions result and should be accounted for in its complexity estimate.)
 
-### Splitting and joining (for distribution across threads
+### Splitting and joining (for distribution across threads)
 
 
 Our idea is to continue to split the **data** array evenly across threads.  That may spread out the segments descriptor (length and starts arrays) very unevenly as repeated segments have an entry for each repetition in the segmentation information, but not in the data.
