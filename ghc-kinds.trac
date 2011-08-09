@@ -10,7 +10,7 @@ More details can be found in [http://gallium.inria.fr/~jcretin/ghc/theory.pdf th
 
 == Examples ==
 
-Examples of reimplementation of existing Haskell librairies can be found in [http://gallium.inria.fr/~jcretin/ghc/examples.pdf this examples pdf].
+Examples of reimplementation of existing Haskell librairies can be found in [http://gallium.inria.fr/~jcretin/ghc/examples.pdf this examples pdf].  I use a repository for what works and what does not [https://github.com/ia0/GhcKindsExamples].
 
 == Implementation ==
 
