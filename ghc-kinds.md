@@ -19,13 +19,13 @@ Examples of reimplementation of existing Haskell librairies can be found in [ th
 ## Implementation
 
 
-The GHC branch is called `ghc-kinds`.  There is also a Haddock branch with the same name.
+The GHC branch is called `ghc-kinds`.  There is also a Haddock branch with the same name.  Hoopl needs a kind annotation available on a branch in [ http://darcs.haskell.org/packages/hoopl.git/](http://darcs.haskell.org/packages/hoopl.git/).
 
 
 The implementation will follow these steps (in bold is the first phase (parser, renamer, type checker, ...) that does not work):
 
-1. **\[Type checker\]** Promotion of Haskell98 data types of kind star: `*`.
-1. Kind polymorphism in Core.
+1. Promotion of Haskell98 data types of kind star: `*`.
+1. **\[\]** Kind polymorphism in Core.
 1. Promotion of Haskell98 data types of first order kind: `* -> .. * -> *`.
 1. Kind polymorphic data types, type families, and type classes.
 1. Singleton types.
@@ -39,11 +39,11 @@ Promotion-related changelog:
   - Rename `rnHsType` into `rnHsTyKi` and parametrize with a boolean to know if we are renaming a type or a kind.
 - Allow promoted data and type constructors:
 
-  - Extend the parser to allow ticked names like `'Zero` or `'Nat.Succ` as atoms in types.
-  - Extend the parser to allow *optionally* ticked names like `Nat` or `'Bool` as atoms in kinds.
+  - Extend the parser to allow optionally ticked names as atoms in types and kinds.
   - Extend `HsType name` with `HsPromotedConTy name` to represent ticked names.
   - Extend the renamer to handle implicit promotion.
-  - Extend `TyCon` with `PromotedDataTyCon` to represent promoted data constructors.
+  - Extend `TyCon` with `PromotedDataTyCon` and `PromotedTypeTyCon` to represent promoted data and type constructors.
+  - Extend the type checker accordingly.
 - Rename `KindVar` which is used during type checking into `MetaKindVar`, since we will add kind variables later.
 
 
