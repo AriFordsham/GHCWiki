@@ -95,6 +95,48 @@ data:  [:1, 2, 3:])
 
 This is merely a change in the array representation that does not affect vectorisation.
 
+### Segment descriptor representation
+
+
+Instead, of repeating the start indices in a segment descriptor, we alternatively might want to represent a segmented array with repeated segments by distinguishing its *physical* from its *logical* (or *virtual*) representation.  Specifically, instead of representing `[:[:1, 2, 3:], [:1, 2, 3:], [:1, 2, 3:]:]` as
+
+```wiki
+start: [:0, 0, 0:]
+len:   [:3, 3, 3:]
+data:  [:1, 2, 3:])
+```
+
+
+we might instead represent it as
+
+```wiki
+vsegs: [:0, 0, 0:]
+pstart: [:0:]
+plen:   [ 3:]
+data:  [:1, 2, 3:])
+```
+
+
+where `pstart`, `plen`, and `data` represent the underlying segmented array (with non-overlapping segments) and `vsegs` specifies the logical segments of the array, where physical segments may occur not at all, once, or multiple times.  In this example, the only physical segment is repeated three times.
+
+
+Our second example, `[:[:1, 2:], [:1, 2:], [:3:], [:3:], [:3:]:]`, which we previously represented as
+
+```wiki
+start: [:0, 0, 2, 2, 2:]
+len:   [:2, 2, 1, 1, 1:]
+data:  [:1, 2, 3:])
+```
+
+
+will now be
+
+```wiki
+start: [:0, 0, 1, 1, 1:]
+len:   [:2, 1:]
+data:  [:1, 2, 3:])
+```
+
 ## Operations on arrays with repeated segments
 
 
