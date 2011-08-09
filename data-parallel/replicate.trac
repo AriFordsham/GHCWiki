@@ -134,7 +134,7 @@ Due to lifted conditionals (or, generally, case constructs), arrays with repeate
 
 Arrays with repeated segments can not always be combined without duplicating the data corresponding to repeated segments (after all, a disjoint segment may be inserted into a sequence of repeated segments).  For simplicity, we may want to expand all repeated segments in `combinePA`.  (It seems that this should not lead to unexpected blow-ups as the repeated data now is part of a functions result and should be accounted for in its complexity estimate.)
 
-=== Splitting and joining (for distribution across threads ===
+=== Splitting and joining (for distribution across threads) ===
 
 Our idea is to continue to split the '''data''' array evenly across threads.  That may spread out the segments descriptor (length and starts arrays) very unevenly as repeated segments have an entry for each repetition in the segmentation information, but not in the data.
 
