@@ -32,7 +32,16 @@ Replication of scalars and arrays is always a waste of time and space.  However,
 
 == Fixing the problem: Plan A (Repeated Segments) ==
 
-Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  To keep it simple, we are for the moment focusing on avoiding replicating arrays, as this is were our practical problems are coming from at the moment.  (Some cases of replicated scalars are also eliminated by fusion.)
+Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  To keep it simple, we are for the moment focusing on avoiding replicating arrays, as this is were our practical problems are coming from at the moment.  (Independently of our current plans, some cases of replicated scalars are eliminated by fusion.)
+
+To clarify the scope of the present work:
+
+''Goals''
+ * Avoid physically creating multiple copies of the same array due to `replicateP` and `replicateP^` '''introduced by vectorisation.'''
+
+''Non-goals'' (they may be worthwhile goals, but we don't attempt them here)
+ * Avoid physically creating multiple copies of scalars due to `replicateP` (this includes large scalars, such as list or trees).
+ * Avoid deep traversals of arrays of trees for `packP` and similar.
 
 NB: We will have to revisit replication of scalar structures as such scalar structures may be large trees.
 
