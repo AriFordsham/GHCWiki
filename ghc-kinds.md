@@ -14,7 +14,7 @@ More details can be found in [ this theory pdf](http://gallium.inria.fr/~jcretin
 ## Examples
 
 
-Examples of reimplementation of existing Haskell librairies can be found in [ this examples pdf](http://gallium.inria.fr/~jcretin/ghc/examples.pdf).
+Examples of reimplementation of existing Haskell librairies can be found in [ this examples pdf](http://gallium.inria.fr/~jcretin/ghc/examples.pdf).  I use a repository for what works and what does not [ https://github.com/ia0/GhcKindsExamples](https://github.com/ia0/GhcKindsExamples).
 
 ## Implementation
 
