@@ -18,8 +18,7 @@ The GHC branch is called {{{ghc-kinds}}}.  There is also a Haddock branch with t
 
 The implementation will follow these steps (in bold is the first phase (parser, renamer, type checker, ...) that does not work):
   1. Promotion of Haskell98 data types of kind star: {{{*}}}.
-  1. '''[]''' Kind polymorphism in Core.
-  1. Promotion of Haskell98 data types of first order kind: {{{* -> .. * -> *}}}.
+  1. '''[parser]''' Promotion of Haskell98 data types of first order kind: {{{* -> .. * -> *}}}. It involves kind polymorphism.
   1. Kind polymorphic data types, type families, and type classes.
   1. Singleton types.
   1. Built-in types.
