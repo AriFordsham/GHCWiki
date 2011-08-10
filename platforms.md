@@ -319,12 +319,12 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <tr><th> ARM          </th>
 <th> Debian armel    </th>
 <th> arm-linux-gnueabi       </th>
-<th> No           </th>
+<th> Yes          </th>
 <th> No   </th>
 <th> No     </th>
 <th> No           </th>
 <th> No                      </th>
-<th></th></tr></table>
+<th>[Building/ARMLinuxGnuEABI](building/arm-linux-gnu-eabi)</th></tr></table>
 
 **\*S1** Goetz Isenmann [ reports](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-November/017961.html) that GHCi is currently unable to load compiled code that refers to errno.
 **\*S2** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)
