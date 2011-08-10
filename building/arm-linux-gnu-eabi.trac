@@ -1,0 +1,21 @@
+As of August 10 2011, GHC HEAD supports registerised build on ARM when using LLVM backend. For this to work, you will need to have LLVM HEAD as of July 12 2011 with the patch from here: http://www.gardas.roznovan.cz/llvm/llvm-2011-07-12.patch applied.
+
+You can do this this way:
+{{{
+$ svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm-ghc-arm-2011-07-12
+$ wget http://www.gardas.roznovan.cz/llvm/llvm-2011-07-12.patch
+$ cd llvm-ghc-arm-2011-07-12
+$ svn up -r "{2011-07-12}"
+$ patch -p1 < ../llvm-2011-07-12.patch
+}}}
+
+for compilation on native ARM Linux system, you will need to use -O1 optimization level as higher levels produces more buggy LLVM. Configuration and compilation of LLVM might be done in this way:
+
+{{{
+$ mkdir obj
+$ cd obj
+$ ../llvm-ghc-arm-2011-07-12/configure --enable-optimized
+$ make ENABLE_OPTIMIZED=1 OPTIMIZE_OPTION=-O1
+}}}
+
+You don't need to install compiled LLVM, but you will just need to set your PATH to contain llvm-ghc-arm-2011-07-12/Release+Asserts/bin/ path.
