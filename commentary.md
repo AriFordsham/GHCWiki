@@ -88,6 +88,8 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Cmm: Using Kinds to implement calling conventions](commentary/cmm-kinds): Pointers to explanations of what a `CmmKind` is and why you might find one useful.
   - [SIMD](simd): Notes on adding SIMD instructions and primOps to GHC
   - [Explicit Call Stack](explicit-call-stack): Notes about maintaining an explicit call stack, to support error attribution and profiling.
+  - [Objective-C FFI](objective-c): Haskell FFI support for Objective-C
+  - [C Blocks](block-objects): Haskell FFI support for block objects (closures) in C
 
 - GHCi Debuger
 
