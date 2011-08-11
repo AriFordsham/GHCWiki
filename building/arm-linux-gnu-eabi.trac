@@ -1,3 +1,5 @@
+= LLVM backend support for ARM =
+
 As of August 10 2011, GHC HEAD supports registerised build on ARM when using LLVM backend. For this to work, you will need to have LLVM HEAD as of July 12 2011 with the patch from here: http://www.gardas.roznovan.cz/llvm/llvm-2011-07-12.patch applied.
 
 You can do this this way:
@@ -19,3 +21,10 @@ $ make ENABLE_OPTIMIZED=1 OPTIMIZE_OPTION=-O1
 }}}
 
 You don't need to install compiled LLVM, but you will just need to set your PATH to contain llvm-ghc-arm-2011-07-12/Release+Asserts/bin/ path.
+
+== Known issues ==
+
+The following issues will be addressed in future work:
+ * The backend currently breaks with LLVM 2011-08-08 (ghc-stage2 segfaults).  This needs to be investigated.  (Does the LLVM backend work on i386 and x86_64 with LLVM 2011-08-08 — i.e., is this ARM specific?)
+ * Use `-optlc=-mattr=+a9,+vfp3` after extending the properly `DriverPipeline` with a specification of the ARM ISA and ISA extensions (instead of using CPP).
+ * The above patch to LLVM needs to be submitted upstream, but only after we have decided on the final register use.
