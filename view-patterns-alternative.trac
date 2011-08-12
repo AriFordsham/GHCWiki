@@ -32,7 +32,7 @@ In response, programmers sometimes eschew type abstraction in favor of revealing
 View patterns permit calling the view function inside the pattern and matching against the result:
 {{{
    size (x | Unit <- x) = 1
-   size (x | Arrow t1 t2 <- ) = size t1 + size t2
+   size (x | Arrow t1 t2 <- x) = size t1 + size t2
 }}}
 
 That is, we add a new form of pattern, written 

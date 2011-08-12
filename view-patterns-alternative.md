@@ -41,7 +41,7 @@ View patterns permit calling the view function inside the pattern and matching a
 
 ```wiki
    size (x | Unit <- x) = 1
-   size (x | Arrow t1 t2 <- ) = size t1 + size t2
+   size (x | Arrow t1 t2 <- x) = size t1 + size t2
 ```
 
 
