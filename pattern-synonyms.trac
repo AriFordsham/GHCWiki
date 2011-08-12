@@ -46,8 +46,9 @@ The simplest form of pattern synonyms is the one from the examples above.  The g
 `pattern` ''conid'' ''varid,,1,,'' ... ''varid,,n,,'' `=` ''patexp''
 
 where ''patexp'' is simply the intersection of the grammars for patterns and expression, i.e., those terms that are valid both as a pattern and as an expressions.
-Each of the variables on the left hand side must occur exactly one on the right hand side, and these are the only variables that can be mention on the right hand side.  The semantics is simply given by expansions of the synonym.
-Pattern synonyms are not allowed to be recursive.  Cf. type synonyms.
+ * Each of the variables on the left hand side must occur exactly one on the right hand side, and these are the only variables that can be mention on the right hand side.  
+ * Pattern synonyms are not allowed to be recursive.  Cf. type synonyms.
+ * The semantics is simply given by expansion of the synonym.
 
 Pattern synonyms can be exported and imported by mentioning the ''conid'' in the export/import list.  Note that this suffers from the same constructor vs type confusion that already exists in `hiding` list, i.e., given the mention of a ''conid'' you cannot tell if it refers to a constructor or a type.
 
@@ -120,3 +121,5 @@ The first part as is before and describes the expansion of the synonym in patter
    fac 0 = 0
    fac (Plus1 n) = Plus1 n * fac n 
 }}}
+
+
