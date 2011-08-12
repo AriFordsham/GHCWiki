@@ -2,7 +2,7 @@
 
 Apple recently [http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1370.pdf proposed] the inclusion of lambda abstractions (closures) into C/C++/Objective-C and facilitated an implementation in the `clang` compiler framework.  They called this language extension ''blocks'' (or ''block objects'').  It is widely used in the APIs of OS X 10.6 (Snow Leopard) and 10.7 (Lion).  This page is about extending the Haskell 2010 FFI to directly support blocks — i.e., to enable Haskell functions to be marshalled as blocks to C and to enable C blocks to be marshalled as Haskell functions to Haskell land.  This extension will be enabled by the language option `BlockObjects`.
 
-== Example: calling a higher-order C function ==
+== Example: passing a Haskell functions as an argument ==
 
 As an example, consider the library function [http://developer.apple.com/library/mac/#documentation/darwin/reference/manpages/man3/qsort_b.3.html qsort_b]:
 {{{
@@ -37,6 +37,8 @@ fromOrdering LT = -1
 fromOrdering EQ = 0
 fromOrdering GT = 1
 }}}
+
+== Example: returning a C block ==
 
 == Background ==
 
