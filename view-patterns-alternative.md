@@ -41,7 +41,7 @@ View patterns permit calling the view function inside the pattern and matching a
 
 ```wiki
    size (x | Unit <- x) = 1
-   size (x | Arrow t1 t2 <- ) = size t1 + size t2
+   size (x | Arrow t1 t2 <- x) = size t1 + size t2
 ```
 
 
@@ -86,6 +86,16 @@ However, sometimes modest syntactic sugar can have profound consequences. In thi
        example :: ((String -> Integer,Integer), String) -> Bool
        example ((f,_), x | f x == 4) = True
     ```
+
+
+There is no way to *localise* how many variables are brought into scope.  For example, consider
+
+```wiki
+  f (x | x>=k, let y = x-k) = rhs
+```
+
+
+Here, both `x` and `y` are in scope in `rhs`; and there is no way to say "only bind `y` in this pattern".
 
 **Typing**
 If *pat*`|`*quals* has same type as *pat*, and the "quals" must be well typed in the same way as for pattern guards.
