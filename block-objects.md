@@ -52,6 +52,26 @@ fromOrdering GT = 1
 
 ## Example: returning a C block
 
+
+Conversely, a C block object can be used as a function in Haskell.  Assume the declaration
+
+```wiki
+foreign import ccall get_callback :: IO (Handle -> IO ())
+```
+
+```wiki
+use it
+```
+
+## The gory details
+
+
+The following subpages provide details on implementing this functionality.
+
+- [BlockObjects/Specification](block-objects/specification) (pure versus impure; corner cases `void (^foo) (void)` in the pure cases)
+- [BlockObjects/FakingIt](block-objects/faking-it)
+- [BlockObjects/ExtendingGHC](block-objects/extending-ghc)
+
 ## Background
 
 - [ Blocks Programming Topics (Apple)](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html)
