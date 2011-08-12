@@ -17,7 +17,7 @@ qsort_b(void *base, size_t nel, size_t width, int (^compar)(const void *, const 
 In C, we might use this function as described in Apple's introduction to block: [ Using a Block Directly](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/Blocks/Articles/bxGettingStarted.html#//apple_ref/doc/uid/TP40007502-CH7-SW2).  We would like to be able to do the same in Haskell by writing:
 
 ```wiki
-foreign import ccall qsort_b "#include <stdlib.h>" :: 
+foreign import ccall qsort_b "stdlib.h" :: Ptr a -> CSize -> CSize -> (Ptr a -> Ptr a -> Int) -> IO ()
 ```
 
 ## Background
