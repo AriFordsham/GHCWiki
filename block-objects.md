@@ -90,10 +90,9 @@ When we marshal a C block object into a Haskell function, we need to ensure that
 ## The gory details
 
 
-The following subpages provide details on implementing this functionality.  **(The following three subpages are forthcoming.)
-**
+The following subpages provide details on implementing this functionality.
 
-- [BlockObjects/Specification](block-objects/specification) (pure versus impure; corner cases `void (^foo) (void)` in the pure cases)
+- [Detailed specification of the language extension](block-objects/specification)
 - [BlockObjects/FakingIt](block-objects/faking-it)
 - [BlockObjects/ExtendingGHC](block-objects/extending-ghc)
 
