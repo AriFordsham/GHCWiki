@@ -63,7 +63,7 @@ do
 
 '''TODO:''' How do we recover a Haskell function's storage once it has been turned into a block object and passed to a C function?  (NB: the environment of the function may hold on to large data structures, which will only be freed once the function is freed.)
 
-When we marshal a C block object into a Haskell function, we need to ensure that the Haskell storage manager releases the block object once the Haskell land function becomes unreachable in the Haskell heap.
+When we marshal a C block object into a Haskell function, we need to ensure that the Haskell storage manager releases the block object (with `Block_release()`) once the Haskell land function becomes unreachable in the Haskell heap.
 
 == The gory details ==
 
