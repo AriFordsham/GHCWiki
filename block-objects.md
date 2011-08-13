@@ -53,22 +53,46 @@ fromOrdering GT = 1
 ## Example: returning a C block
 
 
-Conversely, a C block object can be used as a function in Haskell.  Assume the declaration
+Conversely, a C block object can be used as a function in Haskell.  Given the following C prototype
 
 ```wiki
-foreign import ccall get_callback :: IO (Handle -> IO ())
+typedef void (^callback_t)(int);
+
+callback_t 
+get_callback (void);
 ```
 
+
+assume the FFI declaration
+
 ```wiki
-use it
+foreign import ccall get_callback :: IO (CInt -> IO ())
 ```
+
+
+We might use the imported C function as follows:
+
+```wiki
+do
+  callback <- get_callback
+  callback 42
+```
+
+**TODO** Is there a better example? Something from an official API?
+
+## Storage management
+
+**TODO** How do we recover a Haskell function's storage once the function has been turned into a block object and passed to a C function?  (NB: the environment of the function may hold on to large data structures, which will only be freed once the function is freed.)
+
+
+When we marshal a C block object into a Haskell function, we need to ensure that the Haskell storage manager releases the block object (with `Block_release()`) once the Haskell land function becomes unreachable in the Haskell heap.
 
 ## The gory details
 
 
 The following subpages provide details on implementing this functionality.
 
-- [BlockObjects/Specification](block-objects/specification) (pure versus impure; corner cases `void (^foo) (void)` in the pure cases)
+- [Detailed specification of the language extension](block-objects/specification)
 - [BlockObjects/FakingIt](block-objects/faking-it)
 - [BlockObjects/ExtendingGHC](block-objects/extending-ghc)
 
