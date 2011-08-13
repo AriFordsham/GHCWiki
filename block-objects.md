@@ -56,7 +56,7 @@ fromOrdering GT = 1
 Conversely, a C block object can be used as a function in Haskell.  Given the following C prototype
 
 ```wiki
-typedef void (^callback_t)(handle);
+typedef void (^callback_t)(int);
 
 callback_t 
 get_callback (void);
@@ -66,8 +66,7 @@ get_callback (void);
 assume the FFI declaration
 
 ```wiki
-foreign import ccall get_callback :: IO (Handle -> IO ())
-  -- where 'Handle' is a new type of some C pointer type
+foreign import ccall get_callback :: IO (CInt -> IO ())
 ```
 
 
@@ -76,7 +75,7 @@ We might use the imported C function as follows:
 ```wiki
 do
   callback <- get_callback
-  callback myHandle
+  callback 42
 ```
 
 **TODO** Is there a better example? Something from an official API?
