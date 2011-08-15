@@ -1,7 +1,7 @@
 # Default superclass instances
 
 
-A matter of much consternation, here is a proposal to allow type class declarations to include default instance declarations for their superclasses. It's based on [ Jón Fairbairn's proposal](http://www.haskell.org//pipermail/haskell-prime/2006-August/001587.html), but it has a more explicit 'off switch' and the policy on corner-cases is rejection. Credit is due also to the [ class system extension proposal](http://www.haskell.org/haskellwiki/Class_system_extension_proposal) and its ancestors, in particular, John Meacham's [ class alias](http://repetae.net/recent/out/classalias.html) proposal.
+A matter of much consternation, here is a proposal to allow type class declarations to include default instance declarations for their superclasses. It's based on [ Jón Fairbairn's proposal](http://www.haskell.org//pipermail/haskell-prime/2006-August/001587.html), but it has a more explicit 'off switch' and the policy on corner-cases is rejection. Credit is due also to the [ superclass defaults proposal](http://www.haskell.org/haskellwiki/Superclass_defaults),  [ class system extension proposal](http://www.haskell.org/haskellwiki/Class_system_extension_proposal) and its ancestors, in particular, John Meacham's [ class alias](http://repetae.net/recent/out/classalias.html) proposal.
 
 
 We may distinguish two uses of superclasses (not necessarily exclusive). 
@@ -31,6 +31,49 @@ to deepen type class hierarchies as we learn. Retaining backward
 compatibility in relative silence is the motivation for an opt-in
 default.
 
+## Design goals
+
+
+The major design goal is this:
+
+- **Design goal 1: a class C can be re-factored into a class C with a superclass S, without disturbing any clients.**
+
+
+The difficulty is that if you start with
+
+```wiki
+class C a where
+   f :: ...
+   g :: ...
+```
+
+
+and lots of clients write instances of `C` and functions that use it:
+
+```wiki
+instance C ClientType
+  f = ...blah...
+  g = ...blah...
+
+foo :: C a => ...
+foo = ...
+```
+
+
+Now you want to refactor `C` thus:
+
+```wiki
+class S a where
+  f :: ...
+class S a => C a where
+  g :: ...
+```
+
+
+Design goal 1 is that this change should not force clients to change their code.  Haskell 98 does not satisfy this goal.  In Haskell 98 the client function `foo` is fine unmodified, but the instance declaration would have to be split into two.
+
+**SLPJ**: are there any other design goals?
+
 ## The proposal
 
 
@@ -39,7 +82,7 @@ Concretely, the proposal is as follows.
 ### Default superclass instances
 
 
-First, we allow a class declaration to include a **default superclass instance delcaration** for some, none, or all of its superclass constraints. We say that superclasses with default implementations are **intrinsic** superclasses. Example:
+First, we allow a class declaration to include a **default superclass instance declaration** for some, none, or all of its superclass constraints. We say that superclasses with default implementations are **intrinsic** superclasses. Example:
 
 ```wiki
     class Functor f => Applicative f where
@@ -54,7 +97,7 @@ First, we allow a class declaration to include a **default superclass instance d
 ```
 
 
-Note the `instance` declaration nested inside the `class` declaration. This is the default superclass instance declaration, and `Functor` thereby becomes an intrisic superclass of `Applicative`.  Moreover, note that the definition of `fmap` uses the `<*>` operation of `Applicative`; that is the whole point!
+Note the `instance` declaration nested inside the `class` declaration. This is the default superclass instance declaration, and `Functor` thereby becomes an intrinsic superclass of `Applicative`.  Moreover, note that the definition of `fmap` uses the `<*>` operation of `Applicative`; that is the whole point!
 
 
 Here is another example:
@@ -144,7 +187,7 @@ generates an intrinsic instance for `Functor`:
 ## The opt-out mechanism
 
 
-Just because you can make default instances, they are not always the instances you want. A key example is
+Just because you *can* make default instances, they are not always the instances you *want*. A key example is
 
 ```wiki
     instance Monad m => Monad (ReaderT r m) where ...
@@ -239,6 +282,20 @@ a different, non-monadic, `Applicative Foo` instance which I'm
 accidentally using instead. Option 2 is certainly worth considering as
 a pragmatic transitional compromise, although the 'transitional' has a
 dangerous tendency to be permanent.
+
+## Other designs
+
+
+The \[ [ http://www.haskell.org/haskellwiki/Superclass_defaults](http://www.haskell.org/haskellwiki/Superclass_defaults) superclass default proposal\] deals with the question of opt-outs by intead requiring you to opt *in*.  A `Monad` instance would look like
+
+```wiki
+  instance (Applicative m, Monad m) where
+    (>>=) = ...blah...
+    (<*)  = ...bleh...
+```
+
+
+where we explicitly ask the compiler to generate an instance of `Applicative`.   The disadvantage is that you have to know to do so, which contracts Design Goal 1.
 
 ## Multi-headed instance declarations
 
