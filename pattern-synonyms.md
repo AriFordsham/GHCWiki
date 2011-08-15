@@ -186,4 +186,8 @@ Example:
       pattern Nil = []
       pattern Cons x xs = x:xs
       append = (++)
+
+headOf :: (ListLike l) => l a -> Maybe a
+headOf Nil = Nothing
+headOf (Const x _) = Just x
 ```
