@@ -39,7 +39,7 @@ Concretely, the proposal is as follows.
 ### Default superclass instances
 
 
-First, we allow a class declaration to include a **default superclass instance delcaration** for some, none, or all of its superclass constraints. We say that superclasses with default implementations are **intrinsic** superclasses. Example:
+First, we allow a class declaration to include a **default superclass instance declaration** for some, none, or all of its superclass constraints. We say that superclasses with default implementations are **intrinsic** superclasses. Example:
 
 ```wiki
     class Functor f => Applicative f where
@@ -54,7 +54,7 @@ First, we allow a class declaration to include a **default superclass instance d
 ```
 
 
-Note the `instance` declaration nested inside the `class` declaration. This is the default superclass instance declaration, and `Functor` thereby becomes an intrisic superclass of `Applicative`.  Moreover, note that the definition of `fmap` uses the `<*>` operation of `Applicative`; that is the whole point!
+Note the `instance` declaration nested inside the `class` declaration. This is the default superclass instance declaration, and `Functor` thereby becomes an intrinsic superclass of `Applicative`.  Moreover, note that the definition of `fmap` uses the `<*>` operation of `Applicative`; that is the whole point!
 
 
 Here is another example:
