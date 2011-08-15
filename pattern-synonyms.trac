@@ -66,14 +66,13 @@ E.g.
 The simple patterns synonyms are restricted to having a right hand side that is also a valid expression.
 The pattern only synonyms can have any pattern on the right hand side, but may only be used in patterns.
 
-`pattern` ''conid'' ''varid,,1,,'' ... ''varid,,n,,'' `~` ''pat''
+`pattern` ''conid'' ''varid,,1,,'' ... ''varid,,n,,'' `=` ''pat''
 
-Note the use of `~` instead of `=` as the equality symbol.  This serves as a syntactic cue that this is a pattern only synonym.
 Again, each of the variables on the left hand side must be mentioned exactly once of the right hand side, but the right hand side can mention other variables as well.  These variables will not be bound by using the pattern synonyms.
 
 Examples:
 {{{
-   pattern ThirdElem x ~ _:_:x:_
+   pattern ThirdElem x = _:_:x:_
    pattern LazySecond a b ~ (a, ~b)
 
    third (ThirdElem a) = a
@@ -93,7 +92,7 @@ And their expansions
 
 Together with ViewPatternsAlternative we can now create patterns that look like regular patterns to match on existing (perhaps abstract) types in new ways.
 {{{
-   pattern Plus1 n ~ n1 | let n = n1-1, n >= 0
+   pattern Plus1 n = n1 | let n = n1-1, n >= 0
 
    fac 0 = 0
    fac (Plus1 n) = (n+1) * fac n 
@@ -106,13 +105,13 @@ It's clearly impossible since its expansion is a pattern that has no meaning as 
 Nevertheless, if we want to make what looks like constructors for a type we will often want to use them in both patterns and expressions.
 This is the rational for the most complicated synonyms, the bidirectional ones.  They provide two expansions, one for patterns and one for expressions.
 
-`pattern` ''conid'' ''varid,,1,,'' ... ''varid,,n,,'' `~` ''pat'' `where` ''cfunlhs'' ''rhs''
+`pattern` ''conid'' ''varid,,1,,'' ... ''varid,,n,,'' `=` ''pat'' `where` ''cfunlhs'' ''rhs''
 
 where ''cfunlhs'' is like ''funlhs'', except that the functions symbol is a ''conid'' instead of a ''varid''.
 
 Example:
 {{{
-   pattern Plus1 n ~ n1 | let n = n1-1, n >= 0 where
+   pattern Plus1 n = n1 | let n = n1-1, n >= 0 where
       Plus1 n = n + 1
 }}}
 The first part as is before and describes the expansion of the synonym in patterns, whereas the second describes the expansion in expressions.
@@ -122,4 +121,21 @@ The first part as is before and describes the expansion of the synonym in patter
    fac (Plus1 n) = Plus1 n * fac n 
 }}}
 
+== Associated Patterns Synonyms ==
+Just like data types and type synonyms can be part of a class declaration, it would be possible to have pattern synonyms as well.
 
+Example:
+{{{
+   class ListLike l where
+      pattern Nil :: l a
+      pattern Cons :: a -> l a -> a
+      isNil :: l a -> Bool
+      isNil Nil = True
+      isNil (Cons _ _) = False
+      append :: l a -> l a -> l a
+
+   instance ListLike [] where
+      pattern Nil = []
+      pattern Cons x xs = x:xs
+      append = (++)
+}}}
