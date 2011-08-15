@@ -1,7 +1,7 @@
 # Default superclass instances
 
 
-A matter of much consternation, here is a proposal to allow type class declarations to include default instance declarations for their superclasses. It's based on [ Jón Fairbairn's proposal](http://www.haskell.org//pipermail/haskell-prime/2006-August/001587.html), but it has a more explicit 'off switch' and the policy on corner-cases is rejection. Credit is due also to the [ class system extension proposal](http://www.haskell.org/haskellwiki/Class_system_extension_proposal) and its ancestors, in particular, John Meacham's [ class alias](http://repetae.net/recent/out/classalias.html) proposal.
+A matter of much consternation, here is a proposal to allow type class declarations to include default instance declarations for their superclasses. It's based on [ Jón Fairbairn's proposal](http://www.haskell.org//pipermail/haskell-prime/2006-August/001587.html), but it has a more explicit 'off switch' and the policy on corner-cases is rejection. Credit is due also to the [ superclass defaults proposal](http://www.haskell.org/haskellwiki/Superclass_defaults),  [ class system extension proposal](http://www.haskell.org/haskellwiki/Class_system_extension_proposal) and its ancestors, in particular, John Meacham's [ class alias](http://repetae.net/recent/out/classalias.html) proposal.
 
 
 We may distinguish two uses of superclasses (not necessarily exclusive). 
