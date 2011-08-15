@@ -53,8 +53,8 @@ And now we can write
 Furthermore, the pattern synonym can also be used in expressions, e.g.,
 
 ```wiki
-arrows :: [Type] -> Type -> Type
-arrows = foldr Arrow
+   arrows :: [Type] -> Type -> Type
+   arrows = foldr Arrow
 ```
 
 ## Simple pattern synonyms
@@ -186,4 +186,8 @@ Example:
       pattern Nil = []
       pattern Cons x xs = x:xs
       append = (++)
+
+   headOf :: (ListLike l) => l a -> Maybe a
+   headOf Nil = Nothing
+   headOf (Cons x _) = Just x
 ```
