@@ -25,6 +25,36 @@ to deepen type class hierarchies as we learn. Retaining backward
 compatibility in relative silence is the motivation for an opt-in
 default.
 
+== Design goals ==
+
+A major design goal is this:
+
+ * '''Design goal 1''': a class C can be re-factored into a class C with a superclass S, without disturbing any clients.
+
+The difficulty is that if you start with
+{{{
+class X a where
+   f :: ...
+   g :: ...
+}}}
+and lots of clients write instances of `X` and functions that use it:
+{{{
+instance X ClientType
+  f = ...blah...
+  g = ...blah...
+
+foo :: X a => ...
+foo = ...
+}}}
+Now you want to refactor `X` thus:
+{{{
+class Y a where
+  f :: ...
+class Y a => X a where
+  g :: ...
+}}}
+Design goal 1 is that this change should not force clients to change their code.  Haskell 98 does not satisfy this goal.  In Haskell 98 the client function `foo` is fine unmodified, but the instance declaration would have to be split into two.
+
 == The proposal ==
 
 Concretely, the proposal is as follows.
@@ -185,6 +215,16 @@ a different, non-monadic, {{{Applicative Foo}}} instance which I'm
 accidentally using instead. Option 2 is certainly worth considering as
 a pragmatic transitional compromise, although the 'transitional' has a
 dangerous tendency to be permanent.
+
+== Other designs ==
+
+The [ http://www.haskell.org/haskellwiki/Superclass_defaults superclass default proposal] deals with the question of opt-outs by intead requiring you to opt ''in''.  A `Monad` instance would look like
+{{{
+  instance (Applicative m, Monad m) where
+    (>>=) = ...blah...
+    (<*)  = ...bleh...
+}}}
+where we explicitly ask the compiler to generate an instance of `Applicative`.   The disadvantage is that you have to know to do so, which contracts Design Goal 1.
 
 == Multi-headed instance declarations ==
 
