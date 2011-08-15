@@ -144,7 +144,7 @@ generates an intrinsic instance for `Functor`:
 ## The opt-out mechanism
 
 
-Just because you can make default instances, they are not always the instances you want. A key example is
+Just because you *can* make default instances, they are not always the instances you *want*. A key example is
 
 ```wiki
     instance Monad m => Monad (ReaderT r m) where ...
