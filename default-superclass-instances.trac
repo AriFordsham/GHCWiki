@@ -27,33 +27,35 @@ default.
 
 == Design goals ==
 
-A major design goal is this:
+The major design goal is this:
 
- * '''Design goal 1''': a class C can be re-factored into a class C with a superclass S, without disturbing any clients.
+ * '''Design goal 1: a class C can be re-factored into a class C with a superclass S, without disturbing any clients.'''
 
 The difficulty is that if you start with
 {{{
-class X a where
+class C a where
    f :: ...
    g :: ...
 }}}
-and lots of clients write instances of `X` and functions that use it:
+and lots of clients write instances of `C` and functions that use it:
 {{{
-instance X ClientType
+instance C ClientType
   f = ...blah...
   g = ...blah...
 
-foo :: X a => ...
+foo :: C a => ...
 foo = ...
 }}}
-Now you want to refactor `X` thus:
+Now you want to refactor `C` thus:
 {{{
-class Y a where
+class S a where
   f :: ...
-class Y a => X a where
+class S a => C a where
   g :: ...
 }}}
 Design goal 1 is that this change should not force clients to change their code.  Haskell 98 does not satisfy this goal.  In Haskell 98 the client function `foo` is fine unmodified, but the instance declaration would have to be split into two.
+
+'''SLPJ''': are there any other design goals?
 
 == The proposal ==
 
