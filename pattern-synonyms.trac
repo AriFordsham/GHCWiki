@@ -141,5 +141,5 @@ Example:
 
    headOf :: (ListLike l) => l a -> Maybe a
    headOf Nil = Nothing
-   headOf (Const x _) = Just x
+   headOf (Cons x _) = Just x
 }}}
