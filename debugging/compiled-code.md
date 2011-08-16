@@ -43,7 +43,7 @@ Usually you want to do something along these lines:
 
 - Compile with `-debug`!  This links the program with a debugging
   version of the runtime, that includes extra assertions, debugging
-  code, and debugging info for gdb.
+  code, and debugging info for gdb (if you compile using cabal, use the unstripped binary from dist/build/).
 
 - Don't compile with `-threaded` (assuming the bug still happens
   with the non-threaded runtime).
