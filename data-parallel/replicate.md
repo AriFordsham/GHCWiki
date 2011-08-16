@@ -49,7 +49,7 @@ To clarify the scope of the present work:
 *Goals*
 
 - Avoid physically creating multiple copies of the same array due to `replicateP` and `replicateP^`**introduced by vectorisation.**
-- Ensure that consumers of replicated arrays only perform in proportion to the size of the arrays before replication.
+- Ensure that consumers of replicated arrays only perform work in proportion to the size of the arrays before replication.
 
 *Non-goals* (they are worthwhile goals, but we don't attempt them at the moment)
 
