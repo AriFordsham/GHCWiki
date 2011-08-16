@@ -113,6 +113,7 @@
 ------------------------
 == Template Haskell == 
  * Blog post: [http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal]
+ * #5416: local modules
  * #4364: type synonym loop
  * #4372: better quasiquotation support
  * #2041: Splicing in concrete syntax
