@@ -44,7 +44,7 @@ To clarify the scope of the present work:
  * Avoid physically creating multiple copies of scalars due to `replicateP` (this includes large scalars, such as list or trees).
  * Avoid deep traversals of arrays of trees for `packP` and similar.
 
-The main difference to Roman's original approach was that he included the above non-goals as goals.  We agreed to leave them as non-goals for the time being and return to them, once we are confident that we eliminated the main space blow-up.
+The main difference to Roman's original approach was that he included the above non-goals as goals.  We agreed to leave them as non-goals for the time being and return to them, once we are confident that we eliminated the main space blow-up. Although, Roman pointed out that it might be easier to prove that the new approach preserves work complexity through vectorisation — something, which we eventually will have to show.
 
 NB: We will have to revisit replication of scalar structures as such scalar structures may be large trees.
 
