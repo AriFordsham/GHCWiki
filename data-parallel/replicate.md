@@ -38,10 +38,10 @@ Here `table` is constant in `mapP (treeLookup table) [:s1, s2:]`; hence, the ent
 
 Replication of scalars and arrays is always a waste of time and space.  However, it is particularly problematic if the replicated structure is consumed by an indexing operation as it can change the asymptotic work complexity of the vectorised program.  This holds not only for indexing, but for any operation that consumes only a small part of its input array(s).  In other words, if a replicated structure is consumed in its entirety (for example by a fold), the asymptotic work complexity of replication matches that of consuming the structure.  For operations that only consume a small part of their input, that is not the case.  Hence, lifting, which introduces the replication, does increase asymptotic work.
 
-## Fixing the problem: Plan A (Repeated Segments)
+## Our goal
 
 
-Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  To keep it simple, we are for the moment focusing on avoiding replicating arrays, as this is were our practical problems are coming from at the moment.  (Independently of our current plans, some cases of replicated scalars are eliminated by fusion.)
+Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  To keep it simple, we are for the moment focusing on avoiding replicating arrays, as this is were our current practical problems are coming from.  (Independently of our current plans, some cases of replicated scalars are eliminated by fusion.)
 
 
 To clarify the scope of the present work:
@@ -49,14 +49,41 @@ To clarify the scope of the present work:
 *Goals*
 
 - Avoid physically creating multiple copies of the same array due to `replicateP` and `replicateP^`**introduced by vectorisation.**
+- Ensure that consumers of replicated arrays only perform work in proportion to the size of the arrays before replication.
 
-*Non-goals* (they may be worthwhile goals, but we don't attempt them here)
+*Non-goals* (they are worthwhile goals, but we don't attempt them at the moment)
 
 - Avoid physically creating multiple copies of scalars due to `replicateP` (this includes large scalars, such as list or trees).
 - Avoid deep traversals of arrays of trees for `packP` and similar.
 
 
+The main difference to Roman's original approach was that he included the above non-goals as goals.  We agreed to leave them as non-goals for the time being and return to them, once we are confident that we eliminated the main space blow-up. Although, Roman pointed out that it might be easier to prove that the new approach preserves work complexity through vectorisation — something, which we eventually will have to show.
+
+
 NB: We will have to revisit replication of scalar structures as such scalar structures may be large trees.
+
+## Where does the problematic replication originate?
+
+
+The applications of `replicatePA` and `expandPA` that introduce the problematic replication of arrays are in the definition of `mapP`, specifically `replicatePA` is used in `mapP_S` and `expandPA` in `mapP_L` (see Page 403 of HtM):
+
+```wiki
+mapP_S :: (a :-> b) -> PA a :-> PA b
+mapP_S (Clo env _ fl) xss
+  = fl (replicatePA (lengthPA xss) env) xss
+
+mapP_L :: PA (a :-> b) -> PA (PA a) -> PA (PA b)
+mapP_L (AClo env _ fl) xss
+  = unconcatPA xss (fl (expandPA xss env) (concatPA xss))
+```
+
+
+In both cases, we replicate the environment of a closure before we apply the lifted version of the function represented by the closure.  This is important as it guarantees that the consumer of these occurrences of `replicatePA` and `expandPA` process (topmost) segment structure in a homomorphic manner (after all, we are implementing a `map` function here)!
+
+
+Our basic plan to avoid array duplication is to change `replicatePA` and `expandPA` such that they produce a segmented array that encodes the replication without unnecessarily copying data and that the consumer —the lifted function `fl`— processes segmented arrays with encoded replication in a special manner.  As we will see, that also leads to the requirement that index transformations on replicated arrays, such as `packP`, need to preserve the compact encoding.
+
+## Fixing the problem: avoid to repeat segments
 
 ### Repeated segments
 
@@ -84,7 +111,7 @@ NB: `expandPA` is lifted replication; `expandPA` is the name we used in HtM.
 ### Collapse repeated segments
 
 
-In practice, segments descriptors store more information than just the segment length.  They at least additionally store the start position of each segment in the data array.  In the conventional representation, an invariant is that the start positions are such that the segments don't overlap.  To represent arrays with repeated segments more efficiently, we propose to relax that invariant.  Specifically, all start positions of a contiguous sequence of repeated segments are the same; i.e., the segment data is stored only once per sequence of repeated segments.
+In practice, segments descriptors store more information than just the segment length.  They at least additionally store the start position of each segment in the data array.  In the conventional representation, an invariant is that the start positions are such that the segments don't overlap.  To represent arrays with repeated segments more efficiently, we might relax that invariant.  Specifically, all start positions of a contiguous sequence of repeated segments may be the same; i.e., the segment data is stored only once per sequence of repeated segments.
 
 
 Then, we have for `[:[:1, 2, 3:], [:1, 2, 3:], [:1, 2, 3:]:]`,
@@ -107,7 +134,9 @@ data:  [:1, 2, 3:])
 
 This is merely a change in the array representation that does not affect vectorisation.
 
-### Segment descriptor representation
+**TODO** I am not sure whether we want to talk about this representation at all.  Maybe just go to the one with virtual segments straight away.  I suspect the latter will be less confusing in the paper.
+
+### Segment descriptor representation with virtual segments
 
 
 Instead, of repeating the start indices in a segment descriptor, we alternatively might want to represent a segmented array with repeated segments by distinguishing its *physical* from its *logical* (or *virtual*) representation.  Specifically, instead of representing `[:[:1, 2, 3:], [:1, 2, 3:], [:1, 2, 3:]:]` as
@@ -124,7 +153,7 @@ we might instead represent it as
 ```wiki
 vsegs: [:0, 0, 0:]
 pstart: [:0:]
-plen:   [ 3:]
+plen:   [:3:]
 data:  [:1, 2, 3:])
 ```
 
@@ -144,20 +173,28 @@ data:  [:1, 2, 3:])
 will now be
 
 ```wiki
-start: [:0, 0, 1, 1, 1:]
-len:   [:2, 1:]
+vsegs: [:0, 0, 1, 1, 1:]
+pstart: [0, 2:]
+plen:  [:2, 1:]
 data:  [:1, 2, 3:])
 ```
 
-## Operations on arrays with repeated segments
+
+We choose the representation with virtual segments over the one with repeated start indicies for the following reasons:
+
+- `packP` on a nested array that arose from replication only needs to operate on the virtual segments.
+- Clean separation between the physical representation and the logical.
+- Probably easier to subsequentyly move to Roman's proposal that moves replication information to the top of the representation.
+
+## Operations on arrays with virtual segments
 
 
-As multiple segments overlap in arrays with repeated segments, array consumers need to be adapted to work correctly in this situation.
+Array consumers need to be adapted to work correctly on virtual segments and we need to be careful to make sure that although index space transformations introduced by vectorisation, such as `packP`, operate with a work complexity in proportion to the number of virtual segments (and not the size of the virtual number of elements).  Moreover, other consumers, such as folds, must operate in work complexity in proportion to the physical size of the segmented array (and not in proportion to the virtual size.)
 
 ### Lifted indexing
 
 
-In the `smvm` example, a replicated array is consumed by lifted indexing to extract matching elements of the vector for all non-zero elements of the matrix.  Using just an length array as a segment descriptor without overlapping segments, lifted indexing might be implemented as follows:
+In the `smvm` example, a replicated array is consumed by lifted indexing to extract matching elements of the vector for all non-zero elements of the matrix.  Using just an length array as a segment descriptor without virtual segments, lifted indexing might be implemented as follows:
 
 ```wiki
 (as_len, as_data) !:^ is = bpermutePA as_data ((prescanPA (+) 0 as_len) +^ is)
@@ -167,11 +204,11 @@ In the `smvm` example, a replicated array is consumed by lifted indexing to extr
 With overlapping segments, we have
 
 ```wiki
-(as_start, as_len, as_data) !:^ is = bpermutePA as_data (as_start +^ is)
+(as_vsegs, as_pstart, as_plen, as_data) !:^ is = bpermutePA as_data (bpermutePA as_start as_vsegs +^ is)
 ```
 
 
-In the case of `smvm`, where the first argument is produced by `replicatePA (lengthPA row) v`, we have `as_start = replicatePA (lengthPA row) 0` and `as-data = v`.  In other words, lifted indexing draws from a single copy of `v`, which is what we wanted.
+In the case of `smvm`, where the first argument is produced by `replicatePA (lengthPA row) v`, we have `as_vsegs = replicatePA (lengthPA row) 0` and `as-data = v`.  In other words, lifted indexing draws from a single copy of `v`, which is what we wanted.
 
 ### Reduction
 
@@ -205,26 +242,23 @@ TODO Roman believes splitting arrays with repeated segments is a problem.  To me
 
 TODO What if we have segment descriptors on top of one with repeated segments?
 
-## Fixing the problem: Plan B (Lifted Application)
+## The bigger picture
 
 
-The applications of `replicatePA` and `expandPA` that introduce segmented arrays with repeated segments in Plan A are in the definition of `mapP`, specifically `replicatePA` is used in `mapP_S` and `expandPA` in `mapP_L` (see Page 403 of HtM):
-
-```wiki
-mapP_S :: (a :-> b) -> PA a :-> PA b
-mapP_S (Clo env _ fl) xss
-  = fl (replicatePA (lengthPA xss) env) xss
-
-mapP_L :: PA (a :-> b) -> PA (PA a) -> PA (PA b)
-mapP_L (AClo env _ fl) xss
-  = unconcatPA xss (fl (expandPA xss env) (concatPA xss))
-```
+It makes sense to see this work and the concepts behind the Repa library as part of a bigger picture.  In both cases, we want to avoid the overhead of *index space transformations*.  In Repa, we use *delayed* arrays —i.e., arrays represented as functionals— to delay the execution of index transformations (as well as maps) and to fuse them into consumers.  In Repa, we do that for index transformations explicitly specified by the programmer and we rely on the programmer to be aware of situations, where delayed arrays need to be `forced` into *manifest* form before they are consumed by an array operation that cannot be represented in delayed form — e.g., in matrix-matrix multiplication, we need to `force` the transposed array to improve cache behaviour.
 
 
-In both cases, we replicate the environment of a closure before we apply the lifted version of the function represented by the closure.  This is important as it guarantees that the consumer of these occurrences of `replicatePA` and `expandPA` process (topmost) segment structure in a homomorphic manner (after all, we are implementing a `map` function here)!
+In DPH, we are first of all concerned about chains of index transformations that begin with a lifted replicate as these lead to an asymptotic increase of work complexity as discussed above.  However, other index transformations, such as non-lifted replicate, are of concern as well, and will need to be addressed eventually.
 
 
-The idea behind Plan A is that `replicatePA` and `expandPA` produce a segmented array that encodes the replication without unnecessarily copying data and that the consumer —the lifted function `fl`— processes segmented arrays with encoded replication in a special manner.
+Despite the conceptual similarity, there are two big differences between the situation in Repa and DPH:
+
+1. In Repa, arbitrary user-specified index transformations are being delayed and we rely on the programmer to `force` these explicitly where necessary — i.e., a user needs to be aware of this whole mechanism.  In contrast, in DPH, we aim at eliminating the index transformations introduced by the vectoriser (of which many programmers will not be aware); hence, the elimination also needs to be without user intervention.
+1. In Repa, we have no segmented arrays; hence, functions are sufficient to represent delayed arrays.  In contrast, in DPH, segmented arrays are central and we need auxiliary data structures —such as virtual segment descriptors— to delay index transformations efficiently.
+
+
+ 
+A question for the future is whether we can find a uniform framework that works for both Repa's regular arrays and DPH's nested arrays. This would provide a key to an integrated system.
 
 ## Related work
 
