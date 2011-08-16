@@ -158,13 +158,17 @@ In the case of `smvm`, where the first argument is produced by `replicatePA (len
 
 === Reduction ===
 
- TODO: rl's example
+We need to be careful when reducing an array with virtual segments, as we want the work complexity to be in proportion of the physical and not in proportion of the virtual segments.  Consider
 {{{
 f xs is = mapP f is
  where
    f i = sumP xs + i
 }}}
-IDEA: Work on the data array of the segmented array with repeated segments (but without repeated data), then copy the segment results according to the repetition information.  This avoids reducing the same data multiple times.  We do something similar for scans, but don't dopy the results, but keep them in a segmented array with the same '''repeated''' segment information.
+As `xs` is free in `f` it will be in the environment of the array closure constructed by the vectorised code.  Hence, given the implementation of `mapP` discussed earlier, `xs` will be replicated `length is` times.  However, we want to work complexity of `sumP xs` be in proportion of `length xs` and not of `length xs * length is`.
+
+To this end, `sumP^` performs a reduction on the physical segments only.  Afterwards, the per-segment results are distributed over a vector of the length of the `vsegs` descriptor using `bpermutePA`.
+
+As we will see in the next subsection, some physical segments may not appear as virtual segments at all (if a replicated array shrunk by applying a pack operation).  Hence, we need to be careful that `sumP^` only reduces those physical segments of the array that are used by one or more virtual segments.
 
 === Splitting and combining (for lifted conditions) ===
 
