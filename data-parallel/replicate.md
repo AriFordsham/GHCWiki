@@ -153,7 +153,7 @@ we might instead represent it as
 ```wiki
 vsegs: [:0, 0, 0:]
 pstart: [:0:]
-plen:   [ 3:]
+plen:   [:3:]
 data:  [:1, 2, 3:])
 ```
 
@@ -173,8 +173,9 @@ data:  [:1, 2, 3:])
 will now be
 
 ```wiki
-start: [:0, 0, 1, 1, 1:]
-len:   [:2, 1:]
+vsegs: [:0, 0, 1, 1, 1:]
+pstart: [0, 2:]
+plen:  [:2, 1:]
 data:  [:1, 2, 3:])
 ```
 
@@ -203,11 +204,11 @@ In the `smvm` example, a replicated array is consumed by lifted indexing to extr
 With overlapping segments, we have
 
 ```wiki
-(as_start, as_len, as_data) !:^ is = bpermutePA as_data (as_start +^ is)
+(as_vsegs, as_pstart, as_plen, as_data) !:^ is = bpermutePA as_data (bpermutePA as_start as_vsegs +^ is)
 ```
 
 
-In the case of `smvm`, where the first argument is produced by `replicatePA (lengthPA row) v`, we have `as_start = replicatePA (lengthPA row) 0` and `as-data = v`.  In other words, lifted indexing draws from a single copy of `v`, which is what we wanted.
+In the case of `smvm`, where the first argument is produced by `replicatePA (lengthPA row) v`, we have `as_vsegs = replicatePA (lengthPA row) 0` and `as-data = v`.  In other words, lifted indexing draws from a single copy of `v`, which is what we wanted.
 
 ### Reduction
 
