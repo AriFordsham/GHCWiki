@@ -84,7 +84,7 @@ NB: `expandPA` is lifted replication; `expandPA` is the name we used in HtM.
 
 === Collapse repeated segments ===
 
-In practice, segments descriptors store more information than just the segment length.  They at least additionally store the start position of each segment in the data array.  In the conventional representation, an invariant is that the start positions are such that the segments don't overlap.  To represent arrays with repeated segments more efficiently, we propose to relax that invariant.  Specifically, all start positions of a contiguous sequence of repeated segments are the same; i.e., the segment data is stored only once per sequence of repeated segments.
+In practice, segments descriptors store more information than just the segment length.  They at least additionally store the start position of each segment in the data array.  In the conventional representation, an invariant is that the start positions are such that the segments don't overlap.  To represent arrays with repeated segments more efficiently, we might relax that invariant.  Specifically, all start positions of a contiguous sequence of repeated segments may be the same; i.e., the segment data is stored only once per sequence of repeated segments.
 
 Then, we have for `[:[:1, 2, 3:], [:1, 2, 3:], [:1, 2, 3:]:]`,
 {{{
@@ -101,7 +101,9 @@ data:  [:1, 2, 3:])
 
 This is merely a change in the array representation that does not affect vectorisation.
 
-=== Segment descriptor representation ===
+'''TODO:''' I am not sure whether we want to talk about this representation at all.  Maybe just go to the one with virtual segments straight away.  I suspect the latter will be less confusing in the paper.
+
+=== Segment descriptor representation with virtual segments ===
 
 Instead, of repeating the start indices in a segment descriptor, we alternatively might want to represent a segmented array with repeated segments by distinguishing its ''physical'' from its ''logical'' (or ''virtual'') representation.  Specifically, instead of representing `[:[:1, 2, 3:], [:1, 2, 3:], [:1, 2, 3:]:]` as
 {{{
@@ -131,13 +133,18 @@ len:   [:2, 1:]
 data:  [:1, 2, 3:])
 }}}
 
-== Operations on arrays with repeated segments ==
+We choose the representation with virtual segments over the one with repeated start indicies for the following reasons:
+ * `packP` on a nested array that arose from replication only needs to operate on the virtual segments.
+ * Clean separation between the physical representation and the logical.
+ * Probably easier to subsequentyly move to Roman's proposal that moves replication information to the top of the representation.
 
-As multiple segments overlap in arrays with repeated segments, array consumers need to be adapted to work correctly in this situation.
+== Operations on arrays with virtual segments ==
+
+Array consumers need to be adapted to work correctly on virtual segments and we need to be careful to make sure that although index space transformations introduced by vectorisation, such as `packP`, operate with a work complexity in proportion to the number of virtual segments (and not the size of the virtual number of elements).  Moreover, other consumers, such as folds, must operate in work complexity in proportion to the physical size of the segmented array (and not in proportion to the virtual size.)
 
 === Lifted indexing ===
 
-In the `smvm` example, a replicated array is consumed by lifted indexing to extract matching elements of the vector for all non-zero elements of the matrix.  Using just an length array as a segment descriptor without overlapping segments, lifted indexing might be implemented as follows:
+In the `smvm` example, a replicated array is consumed by lifted indexing to extract matching elements of the vector for all non-zero elements of the matrix.  Using just an length array as a segment descriptor without virtual segments, lifted indexing might be implemented as follows:
 {{{
 (as_len, as_data) !:^ is = bpermutePA as_data ((prescanPA (+) 0 as_len) +^ is)
 }}}
