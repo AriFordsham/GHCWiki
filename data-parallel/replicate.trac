@@ -156,21 +156,25 @@ With overlapping segments, we have
 }}}
 In the case of `smvm`, where the first argument is produced by `replicatePA (lengthPA row) v`, we have `as_vsegs = replicatePA (lengthPA row) 0` and `as-data = v`.  In other words, lifted indexing draws from a single copy of `v`, which is what we wanted.
 
+=== Splitting and combining (for lifted conditions) ===
+
+Due to lifted conditionals (or, generally, case constructs), arrays with virtual segments may be split (packed) and combined.  Arrays with virtual segments can be split (or packed) by merely packing the virtual segment descriptor.  Hence, some physical segments may not appear as virtual segments at all.  This ensures good asymptotical complexity for packing, but also means that subsequent operations need to be careful to avoid operating on physical segments that do not appear as virtual segments, as this would be wasted work.
+
+Arrays with virtual segments can not always be combined without duplicating the data corresponding to repeated segments (after all, a disjoint segment may be inserted into a sequence of repeated segments).  For simplicity, we may want to expand all repeated segments and remove all not used physical segments in `combinePA`.  (It seems that this should not lead to unexpected blow-ups as the repeated data now is part of a functions result and should be accounted for in its complexity estimate.)
+
 === Reduction ===
 
- TODO: rl's example
+We need to be careful when reducing an array with virtual segments, as we want the work complexity to be in proportion of the physical and not in proportion of the virtual segments.  Consider
 {{{
 f xs is = mapP f is
  where
    f i = sumP xs + i
 }}}
-IDEA: Work on the data array of the segmented array with repeated segments (but without repeated data), then copy the segment results according to the repetition information.  This avoids reducing the same data multiple times.  We do something similar for scans, but don't dopy the results, but keep them in a segmented array with the same '''repeated''' segment information.
+As `xs` is free in `f` it will be in the environment of the array closure constructed by the vectorised code.  Hence, given the implementation of `mapP` discussed earlier, `xs` will be replicated `length is` times.  However, we want to work complexity of `sumP xs` be in proportion of `length xs` and not of `length xs * length is`.
 
-=== Splitting and combining (for lifted conditions) ===
+To this end, `sumP^` performs a reduction on the physical segments only.  Afterwards, the per-segment results are distributed over a vector of the length of the `vsegs` descriptor using `bpermutePA`.
 
-Due to lifted conditionals (or, generally, case constructs), arrays with repeated segments may be split (packed) and combined.  Arrays with repeated segments can be split (or packed) by including a repeated segment in the result exactly if one of its repetitions is included.  This can be determined by disjunctively combining all flags for one sequence of repeated segments.
-
-Arrays with repeated segments can not always be combined without duplicating the data corresponding to repeated segments (after all, a disjoint segment may be inserted into a sequence of repeated segments).  For simplicity, we may want to expand all repeated segments in `combinePA`.  (It seems that this should not lead to unexpected blow-ups as the repeated data now is part of a functions result and should be accounted for in its complexity estimate.)
+As we saw in the previous subsection, some physical segments may not appear as virtual segments at all (if a replicated array shrunk by applying a pack operation).  Hence, we need to be careful that `sumP^` only reduces those physical segments of the array that are used by one or more virtual segments.
 
 === Splitting and joining (for distribution across threads) ===
 
