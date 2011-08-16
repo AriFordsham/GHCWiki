@@ -38,8 +38,9 @@ To clarify the scope of the present work:
 
 ''Goals''
  * Avoid physically creating multiple copies of the same array due to `replicateP` and `replicateP^` '''introduced by vectorisation.'''
+ * Ensure that consumers of replicated arrays only perform in proportion to the size of the arrays before replication.
 
-''Non-goals'' (they may be worthwhile goals, but we don't attempt them here)
+''Non-goals'' (they are worthwhile goals, but we don't attempt them at the moment)
  * Avoid physically creating multiple copies of scalars due to `replicateP` (this includes large scalars, such as list or trees).
  * Avoid deep traversals of arrays of trees for `packP` and similar.
 
