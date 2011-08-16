@@ -30,9 +30,9 @@ Here `table` is constant in `mapP (treeLookup table) [:s1, s2:]`; hence, the ent
 
 Replication of scalars and arrays is always a waste of time and space.  However, it is particularly problematic if the replicated structure is consumed by an indexing operation as it can change the asymptotic work complexity of the vectorised program.  This holds not only for indexing, but for any operation that consumes only a small part of its input array(s).  In other words, if a replicated structure is consumed in its entirety (for example by a fold), the asymptotic work complexity of replication matches that of consuming the structure.  For operations that only consume a small part of their input, that is not the case.  Hence, lifting, which introduces the replication, does increase asymptotic work.
 
-== Fixing the problem: Plan A (Repeated Segments) ==
+== Our goal ==
 
-Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  To keep it simple, we are for the moment focusing on avoiding replicating arrays, as this is were our practical problems are coming from at the moment.  (Independently of our current plans, some cases of replicated scalars are eliminated by fusion.)
+Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  To keep it simple, we are for the moment focusing on avoiding replicating arrays, as this is were our current practical problems are coming from.  (Independently of our current plans, some cases of replicated scalars are eliminated by fusion.)
 
 To clarify the scope of the present work:
 
@@ -45,6 +45,24 @@ To clarify the scope of the present work:
  * Avoid deep traversals of arrays of trees for `packP` and similar.
 
 NB: We will have to revisit replication of scalar structures as such scalar structures may be large trees.
+
+== Where does the problematic replication originate? ==
+
+The applications of `replicatePA` and `expandPA` that introduce the problematic replication of arrays are in the definition of `mapP`, specifically `replicatePA` is used in `mapP_S` and `expandPA` in `mapP_L` (see Page 403 of HtM):
+{{{
+mapP_S :: (a :-> b) -> PA a :-> PA b
+mapP_S (Clo env _ fl) xss
+  = fl (replicatePA (lengthPA xss) env) xss
+
+mapP_L :: PA (a :-> b) -> PA (PA a) -> PA (PA b)
+mapP_L (AClo env _ fl) xss
+  = unconcatPA xss (fl (expandPA xss env) (concatPA xss))
+}}}
+In both cases, we replicate the environment of a closure before we apply the lifted version of the function represented by the closure.  This is important as it guarantees that the consumer of these occurrences of `replicatePA` and `expandPA` process (topmost) segment structure in a homomorphic manner (after all, we are implementing a `map` function here)!
+
+Our basic plan to avoid array duplication is to change `replicatePA` and `expandPA` such that they produce a segmented array that encodes the replication without unnecessarily copying data and that the consumer —the lifted function `fl`— processes segmented arrays with encoded replication in a special manner.  As we will see, that also leads to the requirement that index transformations on replicated arrays, such as `packP`, need to preserve the compact encoding.
+
+== Fixing the problem: avoid to repeat segments ==
 
 === Repeated segments ===
 
@@ -153,22 +171,6 @@ TODO: Roman believes splitting arrays with repeated segments is a problem.  To m
 === Multiple levels of nesting (unconcat and concat) ===
 
 TODO: What if we have segment descriptors on top of one with repeated segments?
-
-== Fixing the problem: Plan B (Lifted Application) ==
-
-The applications of `replicatePA` and `expandPA` that introduce segmented arrays with repeated segments in Plan A are in the definition of `mapP`, specifically `replicatePA` is used in `mapP_S` and `expandPA` in `mapP_L` (see Page 403 of HtM):
-{{{
-mapP_S :: (a :-> b) -> PA a :-> PA b
-mapP_S (Clo env _ fl) xss
-  = fl (replicatePA (lengthPA xss) env) xss
-
-mapP_L :: PA (a :-> b) -> PA (PA a) -> PA (PA b)
-mapP_L (AClo env _ fl) xss
-  = unconcatPA xss (fl (expandPA xss env) (concatPA xss))
-}}}
-In both cases, we replicate the environment of a closure before we apply the lifted version of the function represented by the closure.  This is important as it guarantees that the consumer of these occurrences of `replicatePA` and `expandPA` process (topmost) segment structure in a homomorphic manner (after all, we are implementing a `map` function here)!
-
-The idea behind Plan A is that `replicatePA` and `expandPA` produce a segmented array that encodes the replication without unnecessarily copying data and that the consumer —the lifted function `fl`— processes segmented arrays with encoded replication in a special manner.
 
 == The bigger picture ==
 
