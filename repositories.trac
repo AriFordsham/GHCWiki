@@ -13,12 +13,13 @@ A GHC source tree is made of a collection of repositories.  The script [wiki:Bui
 
 The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories.  The Master List of repositories is in the file source:packages, and this is where the `sync-all` script finds out about which repositories make up the complete tree.
 
-Some repositories are optional:
+The "`tag`" in the master table in source:packages has the following significance:
 
- * The `testsuite` is not necessary for a build, but is necessary if you're working on GHC
- * The `nofib` repository is for benchmarking
- * The `dph` repositories provide packages for Data Parallel Haskell, which is not shipped with GHC but we test all changes to GHC against these repositories so they are usually included in a checked-out source tree.
- * The `extra` repositories are some extra packages you might want to include in a build (the `parallel` package, for example), but aren't necessary to get a working GHC.
+ * '''"`-`"''': [wiki:Commentary/Libraries boot libraries], necessary to build GHC
+ * '''"`testsuite`"''': GHC's [wiki:Building/RunningTests regression tests], necessary for a build, but is necessary if you're working on GHC
+ * '''"`nofib`"''': GHC's [wiki:Building/RunningNoFib nofib benchmark suite]
+ * '''"`dph`"''': packages for [wiki:DataParallel Data Parallel Haskell], which is not shipped with GHC but we test all changes to GHC against these repositories so they are usually included in a checked-out source tree.
+ * '''"`extra`"''': extra packages you might want to include in a build (the `parallel` package, for example), but aren't necessary to get a working GHC.
 
 == Repository locations ==
 
@@ -57,7 +58,7 @@ This means that when making changes needed in GHC to one of these libraries, we 
 <tr><td style="color: green;">http://code.haskell.org/haskeline/</td><td>http://darcs.haskell.org/darcs-mirrors/haskeline/</td><td></td><td>http://darcs.haskell.org/git-mirrors/haskeline/.git/</td><td>http://darcs.haskell.org/packages/haskeline.git/</td><td>libraries/haskeline</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/haskell98.git/</td><td>libraries/haskell98</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/haskell2010.git/</td><td>libraries/haskell2010</td></tr>
-<tr><td></td><td></td><td style="color: green;">git://code.eecs.tufts.edu/hoopl/hoopl.git</td><td>http://darcs.haskell.org/git-mirrors/hoopl/</td><td>http://darcs.haskell.org/packages/hoopl.git/</td><td>libraries/hoopl</td></tr>
+<tr><td></td><td></td><td style="color: green;">(pull) git://code.eecs.tufts.edu/hoopl/hoopl.git, (push) linux.cs.tufts.edu:/r/c--/papers/dfopt.git</td><td>http://darcs.haskell.org/git-mirrors/hoopl/</td><td>http://darcs.haskell.org/packages/hoopl.git/</td><td>libraries/hoopl</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/hpc.git/</td><td>libraries/hpc</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/integer-gmp.git/</td><td>libraries/integer-gmp</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/integer-simple.git/</td><td>libraries/integer-simple</td></tr>

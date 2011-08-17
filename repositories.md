@@ -16,12 +16,13 @@ A GHC source tree is made of a collection of repositories.  The script [sync-all
 The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories.  The Master List of repositories is in the file [source:packages](/trac/ghc/browser/packages)[](/trac/ghc/export/HEAD/ghc/packages), and this is where the `sync-all` script finds out about which repositories make up the complete tree.
 
 
-Some repositories are optional:
+The "`tag`" in the master table in [source:packages](/trac/ghc/browser/packages)[](/trac/ghc/export/HEAD/ghc/packages) has the following significance:
 
-- The `testsuite` is not necessary for a build, but is necessary if you're working on GHC
-- The `nofib` repository is for benchmarking
-- The `dph` repositories provide packages for Data Parallel Haskell, which is not shipped with GHC but we test all changes to GHC against these repositories so they are usually included in a checked-out source tree.
-- The `extra` repositories are some extra packages you might want to include in a build (the `parallel` package, for example), but aren't necessary to get a working GHC.
+- **"`-`"**: [boot libraries](commentary/libraries), necessary to build GHC
+- **"`testsuite`"**: GHC's [regression tests](building/running-tests), necessary for a build, but is necessary if you're working on GHC
+- **"`nofib`"**: GHC's [nofib benchmark suite](building/running-no-fib)
+- **"`dph`"**: packages for [Data Parallel Haskell](data-parallel), which is not shipped with GHC but we test all changes to GHC against these repositories so they are usually included in a checked-out source tree.
+- **"`extra`"**: extra packages you might want to include in a build (the `parallel` package, for example), but aren't necessary to get a working GHC.
 
 ## Repository locations
 
@@ -174,7 +175,7 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th></th></tr>
 <tr><th></th>
 <th></th>
-<th>git://code.eecs.tufts.edu/hoopl/hoopl.git</th>
+<th>(pull) git://code.eecs.tufts.edu/hoopl/hoopl.git, (push) linux.cs.tufts.edu:/r/c--/papers/dfopt.git</th>
 <th>http://darcs.haskell.org/git-mirrors/hoopl/</th>
 <th>http://darcs.haskell.org/packages/hoopl.git/</th>
 <th>libraries/hoopl</th>
