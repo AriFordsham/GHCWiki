@@ -91,3 +91,11 @@ The type constructor `T` must be in scope, but it may be imported.  The `PData` 
 
 '''TODO:'''
  * For type constructors identified with this pragma, can we generate an `instance` of the `Scalar` type class automatically (instead of relying on it being in the library)?
+
+== Cross-module functionality ==
+
+The various `VECTORISE` pragmas can be applied to imported variables and types.  (For variables still needs to be implemented.)  The vectorisation mappings will only be exported if the variable or type to which a pragma is applied is also exported.  In other words, if we have
+{{{
+{-# VECTORISE SCALAR type Int #-}
+}}}
+where `Int` is imported from the standard Prelude and we want clients to treat `Int` as a scalar vectorised type, then `Int` needs to be re-exported.  The re-export, effectively exports the pragma.
