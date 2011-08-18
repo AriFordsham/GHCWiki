@@ -18,7 +18,7 @@ However, if a variable `f` is accompanied by a pragma of the form
 
 then the vectoriser defines `f_v = e` and refrains from rebinding `f`.  This implies that for `f :: t`, `e`'s type is the `t` vectorised (in particular), `e`'s type uses the array closure type `(:->)` instead of the vanilla function space `(->)`.  The vectoriser checks that `e` has the appropriate type.
 
-**Caveat:** Currently, the type is indeed checked by the vectoriser by comparing Core types.  It would be better to perform that check in the type checker to instantiate the type of `f_v` appropriately if it is overly general.  At the moment, the vectorised version of `t` and the inferred type of `e` need to exactly match up (including all dictionaries *and their order*).
+**IMPLEMENTATION RESTRICTION:** Currently the right-hand side of the equation —i.e., `e`— may only be a simple identifier **and** it must be at the correct type instance.  More precisely, the Core type of the right-hand side must be identical to the vectorised version of `t`.
 
 ## The NOVECTORISE pragma for values
 
@@ -128,3 +128,15 @@ The type constructor `T` must be in scope, but it may be imported.  The `PData` 
 **TODO**
 
 - For type constructors identified with this pragma, can we generate an `instance` of the `Scalar` type class automatically (instead of relying on it being in the library)?
+
+## Cross-module functionality
+
+
+The various `VECTORISE` pragmas can be applied to imported variables and types.  (For variables still needs to be implemented.)  The vectorisation mappings will only be exported if the variable or type to which a pragma is applied is also exported.  In other words, if we have
+
+```wiki
+{-# VECTORISE SCALAR type Int #-}
+```
+
+
+where `Int` is imported from the standard Prelude and we want clients to treat `Int` as a scalar vectorised type, then `Int` needs to be re-exported.  The re-export, effectively exports the pragma.
