@@ -80,3 +80,9 @@ instance Collection Data.Set where
 == Bikeshed discussion of nomenclature ==
 
 {{{Fact}}} is the working name for the new kind. {{{Constraint}}} is an obvious contender, but long. {{{Prop}}} should ''not'' be used, as any analogy to Prop in the Calculus of Constructions would be bogus: proofs of a Prop are computationally irrelevant and discarded by program extraction, but witnesses to a Fact are material and computationally crucial. Another thought: 'Constraint' sounds more like a requirement than a guarantee, whereas 'Fact' is neutral. On the other hand, the kinding {{{F :: Fact}}} might be misleadingly suggestive of {{{F}}}'s truth, over and above its well-formedness.
+
+[illissius] I checked thesaurus.com for (even remotely) plausible names, and this is what I found:
+ * Fact, Knowledge, Information, Data, Evidence, Proof
+ * Requirement, Constraint, Guarantee, Promise, Contract
+ * Characteristic, Attribute, Property, Trait, Capability
+ * Axiom, Lemma, Theorem, Proposition, Postulate, Premise, Claim, Posit
