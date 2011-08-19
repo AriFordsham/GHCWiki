@@ -61,7 +61,7 @@ Generations are kept in the array `generations[]`, indexed by the generation num
 
 === nursery ===
 
-A `nursery` is a list of blocks into which the mutator allocates new (small) objects.  For resaons of locality, we want to re-use the list of blocks for the nursery after each GC, so we keep the nursery blocks rather than freeing and re-allocating a new nursery after GC.
+A `nursery` is a list of blocks into which the mutator allocates new (small) objects.  For reasons of locality, we want to re-use the list of blocks for the nursery after each GC, so we keep the nursery blocks rather than freeing and re-allocating a new nursery after GC.
 
 The struct `nursery` contains only two fields
 
