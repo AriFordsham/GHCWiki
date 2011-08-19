@@ -11,7 +11,10 @@ We use the mechanism of promotion to lift a data type to the kind level.  This g
 
 More details can be found in [ this theory pdf](http://gallium.inria.fr/~jcretin/ghc/theory.pdf).
 
-## Examples
+## User's Guide and Examples
+
+
+There is a [ user guide](http://haskell.org/haskellwiki/GHC/Kinds) available on the haskellwiki explaining how to build the compiler and how to use the extension.
 
 
 Examples of reimplementation of existing Haskell librairies can be found in [ this examples pdf](http://gallium.inria.fr/~jcretin/ghc/examples.pdf).  I use a repository for what works and what does not [ https://github.com/ia0/GhcKindsExamples](https://github.com/ia0/GhcKindsExamples).
