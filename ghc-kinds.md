@@ -42,7 +42,7 @@ Promotion-related changelog:
 - Allow promoted data and type constructors:
 
   - Extend `TyCon` with `PromotedDataTyCon` to have data constructors in type constructors.
-  - Extend the parser, renamer, and type and kind checker accordingly.
+  - Extend the parser, renamer, type and kind checker, and core-lint accordingly.
 - Rename `KindVar` which is used during type checking into `MetaKindVar`.
 
 
