@@ -267,14 +267,14 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <tr><th></th>
 <th></th>
 <th>https://github.com/glguy/utf8-string.git</th>
-<th></th>
+<th>http://darcs.haskell.org/git-mirrors/utf8-string/</th>
 <th>http://darcs.haskell.org/packages/utf8-string.git/</th>
 <th>libraries/utf8-string</th>
 <th></th></tr>
 <tr><th></th>
 <th></th>
-<th></th>
-<th></th>
+<th>git://github.com/haskell/win32.git</th>
+<th>http://darcs.haskell.org/git-mirrors/Win32/</th>
 <th>http://darcs.haskell.org/packages/Win32.git/</th>
 <th>libraries/Win32</th>
 <th></th></tr>

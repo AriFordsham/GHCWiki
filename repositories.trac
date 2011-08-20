@@ -71,8 +71,8 @@ This means that when making changes needed in GHC to one of these libraries, we 
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/template-haskell.git/</td><td>libraries/template-haskell</td></tr>
 <tr><td style="color: green;">http://code.haskell.org/terminfo/</td><td>http://darcs.haskell.org/darcs-mirrors/terminfo/</td><td></td><td>http://darcs.haskell.org/git-mirrors/terminfo/.git/</td><td>http://darcs.haskell.org/packages/terminfo.git/</td><td>libraries/terminfo</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/unix.git/</td><td>libraries/unix</td></tr>
-<tr><td></td><td></td><td style="color: green;">https://github.com/glguy/utf8-string.git</td><td></td><td>http://darcs.haskell.org/packages/utf8-string.git/</td><td>libraries/utf8-string</td></tr>
-<tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/Win32.git/</td><td>libraries/Win32</td></tr>
+<tr><td></td><td></td><td style="color: green;">https://github.com/glguy/utf8-string.git</td><td>http://darcs.haskell.org/git-mirrors/utf8-string/</td><td>http://darcs.haskell.org/packages/utf8-string.git/</td><td>libraries/utf8-string</td></tr>
+<tr><td></td><td></td><td style="color: green;">git://github.com/haskell/win32.git</td><td>http://darcs.haskell.org/git-mirrors/Win32/</td><td>http://darcs.haskell.org/packages/Win32.git/</td><td>libraries/Win32</td></tr>
 <tr><td style="color: green;">http://darcs.haskell.org/packages/xhtml/</td><td>http://darcs.haskell.org/darcs-mirrors/xhtml/</td><td></td><td>http://darcs.haskell.org/git-mirrors/xhtml/.git/</td><td>http://darcs.haskell.org/packages/xhtml.git/</td><td>libraries/xhtml</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/testsuite.git/</td><td>testsuite</td><td>testsuite</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/nofib.git</td><td>nofib</td><td>nofib</td></tr>
