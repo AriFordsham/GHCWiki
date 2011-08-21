@@ -32,6 +32,9 @@ If a variable `f` is accompanied by a pragma
 
 then it is ignored by the vectoriser — i.e., no function `f_v` is generated and `f` is left untouched.
 
+
+This pragma can only be used for bindings in the current module (exactly like an `INLINE` pragma).
+
 **Caveat:** If `f`'s definition contains bindings that are being floated to the toplevel, those bindings will still be vectorised.
 
 ## The VECTORISE SCALAR pragma for functions
