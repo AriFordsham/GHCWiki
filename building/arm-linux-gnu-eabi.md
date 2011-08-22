@@ -33,5 +33,5 @@ You don't need to install compiled LLVM, but you will just need to set your PATH
 The following issues will be addressed in future work:
 
 - The backend currently breaks with LLVM 2011-08-08 (ghc-stage2 segfaults).  This needs to be investigated.  (Does the LLVM backend work on i386 and x86_64 with LLVM 2011-08-08 — i.e., is this ARM specific?)
-- Use `-optlc=-mattr=+a9,+vfp3` after extending the properly `DriverPipeline` with a specification of the ARM ISA and ISA extensions (instead of using CPP).
+- ~~Use `-optlc=-mattr=+a9,+vfp3` after extending the properly `DriverPipeline` with a specification of the ARM ISA and ISA extensions (instead of using CPP).~~ -- fixed in GHC HEAD as of August 22 2011
 - The above patch to LLVM needs to be submitted upstream, but only after we have decided on the final register use.
