@@ -74,6 +74,8 @@ Design goal 1 is that this change should not force clients to change their code.
 
 **SLPJ**: are there any other design goals?
 
+---
+
 ## The proposal
 
 
@@ -244,10 +246,78 @@ from an instance declaration.  For example, we might write
 Note that `Functor` is only an indirect intrinsic superclass of `Monad`, via `Applicative`.
 So the above instance would generate an intrinsic instance for `Applicative` but not for `Functor`.
 
+### Details
+
+
+Each default superclass instance declaration in a `class` declaration must be for
+a distinct class.  So one of these is OK and the other is not:
+
+```wiki
+    -- This is ILLEGAL
+    class (Tweedle dum, Tweedle dee) => Rum dum dee where
+      instance Tweedle dum where ...
+      instance Tweedle dee where ...
+
+    -- But this is OK 
+    class (Tweedle dum, Tweedle dee) => Rum dum dee where
+      instance Tweedle dee where ...
+```
+
+
+By requiring that intrinsic superclasses be class-distinct, we ensure that the distribution of methods to spawned instances is unambiguous. 
+
+### Flags
+
+
+The declaration of a class with a default superclass instance would require a language extension flag; but the *instances* of such a class would not.  Again Design Goal 1 means that we want to impact client code as little as possible.
+
+---
+
+## Possible variations
+
+### The design of the opt-out mechanism
+
+
+The \[ [ http://www.haskell.org/haskellwiki/Superclass_defaults](http://www.haskell.org/haskellwiki/Superclass_defaults) superclass default proposal\] deals with the question of opt-outs by intead requiring you to opt *in*.  A `Monad` instance would look like
+
+```wiki
+  instance (Functor T, Applicative T, Monad T) where
+    (>>=) = ...blah...
+    return = ...bleh...
+```
+
+
+where we explicitly ask the compiler to generate an instance of `Applicative T` and `Functor T`.   The disadvantage is that you have to know to do so, which contradicts Design Goal 1.
+
 
 Jón's proposal had a more subtle opt-out policy, namely that an
 intrinsic superclass can be quietly pre-empted by an instance for the
-superclass from a prior or the present module. Note that to declare an
+superclass from a prior or the present module. 
+For example, instead of 
+
+```wiki
+  instance Functor T where ...
+
+  instance Monad T where
+    return x = ...
+    ba >>= bf = ...
+    hiding instance Functor
+```
+
+
+you would simply say
+
+```wiki
+  instance Functor T where ...
+
+  instance Monad T where
+    return x = ...
+    ba >>= bf = ...
+```
+
+
+Of course, the instance of `Functor T` might be in a different module entirely.
+Note that to declare an
 instance of the subclass, one must produce an instance of the
 superclass by the same module at the latest. 
 
@@ -282,20 +352,6 @@ a different, non-monadic, `Applicative Foo` instance which I'm
 accidentally using instead. Option 2 is certainly worth considering as
 a pragmatic transitional compromise, although the 'transitional' has a
 dangerous tendency to be permanent.
-
-## Other designs
-
-
-The \[ [ http://www.haskell.org/haskellwiki/Superclass_defaults](http://www.haskell.org/haskellwiki/Superclass_defaults) superclass default proposal\] deals with the question of opt-outs by intead requiring you to opt *in*.  A `Monad` instance would look like
-
-```wiki
-  instance (Applicative m, Monad m) where
-    (>>=) = ...blah...
-    (<*)  = ...bleh...
-```
-
-
-where we explicitly ask the compiler to generate an instance of `Applicative`.   The disadvantage is that you have to know to do so, which contracts Design Goal 1.
 
 ## Multi-headed instance declarations
 
@@ -334,23 +390,3 @@ ordinary type synonyms.  So we might write
 The common factor is that one instance declaration is expanded into
 several with the method definitions distributed appropriately among
 them.
-
-## Details
-
-
-Each default superclass instance declaration in a `class` declaration must be for
-a distinct class.  So one of these is OK and the other is not:
-
-```wiki
-    -- This is ILLEGAL
-    class (Tweedle dum, Tweedle dee) => Rum dum dee where
-      instance Tweedle dum where ...
-      instance Tweedle dee where ...
-
-    -- But this is OK 
-    class (Tweedle dum, Tweedle dee) => Rum dum dee where
-      instance Tweedle dee where ...
-```
-
-
-By requiring that intrinsic superclasses be class-distinct, we ensure that the distribution of methods to spawned instances is unambiguous. 
