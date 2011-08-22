@@ -13,7 +13,10 @@ However, if a variable `f` is accompanied by a pragma of the form
 }}}
 then the vectoriser defines `f_v = e` and refrains from rebinding `f`.  This implies that for `f :: t`, `e`'s type is the `t` vectorised (in particular), `e`'s type uses the array closure type `(:->)` instead of the vanilla function space `(->)`.  The vectoriser checks that `e` has the appropriate type.
 
+This pragma can also be used for imported functions `f`.  In this case, `f_v` and a suitable vectorisation mapping of `f` to `f_v` is exported implicitly — just like `RULES` applied to imported identifiers.  By vectorising imported functions, we can vectorise functions of modules that have not been compiled with `-fvectorise`.  This is crucial to using the standard `Prelude` in vectorised code.
+
 '''IMPLEMENTATION RESTRICTION:''' Currently the right-hand side of the equation —i.e., `e`— may only be a simple identifier '''and''' it must be at the correct type instance.  More precisely, the Core type of the right-hand side must be identical to the vectorised version of `t`.
+
 
 == The NOVECTORISE pragma for values ==
 
@@ -51,6 +54,8 @@ for a tertiary function, it generates
 f_v = closure3 f (scalar_zipWith3 f)
 }}}
 and so on.  (The variable `f` must have a proper function type.)
+
+This pragma can also be used on imported functions `f`, in the same manner as the plain `VECTORISE` pragma.
 
 
 == The basic VECTORISE pragma for type constructors ==
@@ -96,8 +101,4 @@ The type constructor `T` must be in scope, but it may be imported.  The `PData` 
 
 == Cross-module functionality ==
 
-The various `VECTORISE` pragmas can be applied to imported variables and types.  (For variables still needs to be implemented.)  The vectorisation mappings will only be exported if the variable or type to which a pragma is applied is also exported.  In other words, if we have
-{{{
-{-# VECTORISE SCALAR type Int #-}
-}}}
-where `Int` is imported from the standard Prelude and we want clients to treat `Int` as a scalar vectorised type, then `Int` needs to be re-exported.  The re-export, effectively exports the pragma.
+The various `VECTORISE` pragmas can be applied to imported identifiers (both variables and types).  The resulting vectorisation mappings and the vectorised version of the identifier will will be implicitly exported — much like it is the case for `RULES` defined on imported identifiers.
