@@ -184,7 +184,95 @@ TODO: Roman believes splitting arrays with repeated segments is a problem.  To m
 
 === Multiple levels of nesting (unconcat and concat) ===
 
-TODO: What if we have segment descriptors on top of one with repeated segments?
+{{{
+*Test> :type arrM6
+arrM6 :: PArray (PArray (PArray Int))
+
+-- This array has a complex representation that includes multiple flat vectors (the PInt vectors).
+-- This is because it has been created by appending several other arrays together.
+
+*Test> pprv arrM6
+[[[7,8,9,10,11,12,13],[0],[1,2,3],[0]],[[0],[1,2,3]],[[0],[1,2,3],[5,6,7,8,9]],[[5,6,7,8,9]],[[1,2,3,4,5],[1,2,3],[7,8,9,10,11,12,13],[1,2,3]],[[5,6,7,8,9]]]
+
+*Test> pprp arrM6
+PArray  6
+   PNested
+       vsegids:    [0,1,2,3,4,5]
+       pseglens:   [4,2,3,1,4,1]
+       psegstarts: [0,4,6,9,10,14]
+       psegsrcs:   [0,0,0,0,0,0]
+       PNested
+           vsegids:    [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+           pseglens:   [7,1,3,1,1,3,1,3,5,5,5,3,7,3,5]
+           psegstarts: [0,7,8,11,0,1,0,1,4,0,0,5,8,15,0]
+           psegsrcs:   [0,0,0,0,1,1,2,2,2,3,4,4,4,4,5]
+           PInt [7,8,9,10,11,12,13,0,1,2,3,0]
+           PInt [0,1,2,3]
+           PInt [0,1,2,3,5,6,7,8,9]
+           PInt [5,6,7,8,9]
+           PInt [1,2,3,4,5,1,2,3,7,8,9,10,11,12,13,1,2,3]
+           PInt [5,6,7,8,9]
+
+
+-- To pack the array we pack the vsegs, then drop the psegs that aren't referenced
+-- from any vseg. The pack operation only operates on the outer-most layer,
+-- so the inner segmentation isn't touched.
+
+*Test> pprv $ packByTagPA' arrM6 [1, 0, 1, 1, 0, 0] 1
+[[[7,8,9,10,11,12,13],[0],[1,2,3],[0]], [[0],[1,2,3],[5,6,7,8,9]], [[5,6,7,8,9]]]
+
+*Test> pprp $ packByTagPA' arrM6 [1, 0, 1, 1, 0, 0] 1
+PArray  0
+   PNested
+       vsegids:    [0,1,2]
+       pseglens:   [4,3,1]
+       psegstarts: [0,6,9]
+       psegsrcs:   [0,0,0]
+       PNested
+           vsegids:    [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+           pseglens:   [7,1,3,1,1,3,1,3,5,5,5,3,7,3,5]
+           psegstarts: [0,7,8,11,0,1,0,1,4,0,0,5,8,15,0]
+           psegsrcs:   [0,0,0,0,1,1,2,2,2,3,4,4,4,4,5]
+           PInt [7,8,9,10,11,12,13,0,1,2,3,0]
+           PInt [0,1,2,3]
+           PInt [0,1,2,3,5,6,7,8,9]
+           PInt [5,6,7,8,9]
+           PInt [1,2,3,4,5,1,2,3,7,8,9,10,11,12,13,1,2,3]
+           PInt [5,6,7,8,9]
+
+
+-- Applying concat merges the two outer-most layers. For replicated arrays, this
+-- has the potential to copy data, but only at the outer-most level.
+
+*Test> pprv $ concatPA $ packByTagPA' arrM6 [1, 0, 1, 1, 0, 0] 1
+[[7,8,9,10,11,12,13],[0],[1,2,3],[0],[0],[1,2,3],[5,6,7,8,9],[5,6,7,8,9]]
+
+*Test> pprp $ concatPA $ packByTagPA' arrM6 [1, 0, 1, 1, 0, 0] 1
+PArray  8
+   PNested
+       vsegids:    [0,1,2,3,4,5,6,7]
+       pseglens:   [7,1,3,1,1,3,5,5]
+       psegstarts: [0,7,8,11,0,1,4,0]
+       psegsrcs:   [0,0,0,0,2,2,2,3]
+       PInt [7,8,9,10,11,12,13,0,1,2,3,0]
+       PInt [0,1,2,3]
+       PInt [0,1,2,3,5,6,7,8,9]
+       PInt [5,6,7,8,9]
+       PInt [1,2,3,4,5,1,2,3,7,8,9,10,11,12,13,1,2,3]
+       PInt [5,6,7,8,9]
+
+
+-- Concatenating the above array merges the segmentation with the flat arrays, 
+-- producing a flat array. To put this another way, concat performs a 'gather'
+-- operation which forces out segmentation information by copying data. 
+
+*Test> pprv $ concatPA $ concatPA $ packByTagPA' arrM6 [1, 0, 1, 1, 0, 0] 1
+[7,8,9,10,11,12,13,0,1,2,3,0,0,1,2,3,5,6,7,8,9,5,6,7,8,9]
+
+*Test> pprp $ concatPA $ concatPA $ packByTagPA' arrM6 [1, 0, 1, 1, 0, 0] 1
+PArray  26
+   PInt [7,8,9,10,11,12,13,0,1,2,3,0,0,1,2,3,5,6,7,8,9,5,6,7,8,9]
+}}}
 
 == The bigger picture ==
 
