@@ -162,6 +162,70 @@ Due to lifted conditionals (or, generally, case constructs), arrays with virtual
 
 Arrays with virtual segments can not always be combined without duplicating the data corresponding to repeated segments (after all, a disjoint segment may be inserted into a sequence of repeated segments).  For simplicity, we may want to expand all repeated segments and remove all not used physical segments in `combinePA`.  (It seems that this should not lead to unexpected blow-ups as the repeated data now is part of a functions result and should be accounted for in its complexity estimate.)
 
+Some examples:
+{{{
+desire:dph-common-vseg benl$ ghc --interactive examples/Test.hs -package dph-par -package dph-prim-par -Iinclude
+
+
+-- pprv : pretty print virtual array
+*Test> pprv arrN3
+[[0],[1,2,3],[5,6,7,8,9]]
+
+
+-- pprp : pretty print physical array
+*Test> pprp arrN3
+PArray  3
+   PNested
+       vsegids:    [0,1,2]
+       pseglens:   [1,3,5]
+       psegstarts: [0,1,4]
+       psegsrcs:   [0,0,0]
+       PInt [0,1,2,3,5,6,7,8,9]
+
+
+-- With segmented replicate we only replicate the vsegs fields
+--  The functions ending PA' take lists for some arguments, and are just for experimentation.
+--  Functions ending in plain PA take real arrays.
+
+*Test> pprv $ replicatesPA' [2, 4, 3] arrN3
+[[0],[0],[1,2,3],[1,2,3],[1,2,3],[1,2,3],[5,6,7,8,9],[5,6,7,8,9],[5,6,7,8,9]]
+
+*Test> pprp $ replicatesPA' [2, 4, 3] arrN3
+PArray  9
+   PNested
+       vsegids:    [0,0,1,1,1,1,2,2,2]
+       pseglens:   [1,3,5]
+       psegstarts: [0,1,4]
+       psegsrcs:   [0,0,0]
+       PInt [0,1,2,3,5,6,7,8,9]
+
+
+-- To pack an array, we pack the vsegs then drop out the psegs that 
+-- aren't referenced by any vseg.
+
+*Test> pprv $ packByTagPA' (replicatesPA' [2, 4, 3] arrN3) [1, 0, 0, 0, 0, 0, 1, 0, 1] 1
+[[0],[5,6,7,8,9],[5,6,7,8,9]]
+
+*Test> pprp $ packByTagPA' (replicatesPA' [2, 4, 3] arrN3) [1, 0, 0, 0, 0, 0, 1, 0, 1] 1
+PArray  0
+   PNested
+       vsegids:    [0,1,1]
+       pseglens:   [1,5]
+       psegstarts: [0,4]
+       psegsrcs:   [0,0]
+       PInt [0,1,2,3,5,6,7,8,9]
+
+
+-- Applying concatPA merges the two outermost layers.
+
+*Test> pprv $ concatPA $ packByTagPA' (replicatesPA' [2, 4, 3] arrN3) [1, 0, 0, 0, 0, 0, 1, 0, 1] 1
+[0,5,6,7,8,9,5,6,7,8,9]
+
+*Test> pprp $ concatPA $ packByTagPA' (replicatesPA' [2, 4, 3] arrN3) [1, 0, 0, 0, 0, 0, 1, 0, 1] 1
+PArray  11
+   PInt [0,5,6,7,8,9,5,6,7,8,9]
+}}}
+
 === Reduction ===
 
 We need to be careful when reducing an array with virtual segments, as we want the work complexity to be in proportion of the physical and not in proportion of the virtual segments.  Consider
@@ -176,6 +240,58 @@ To this end, `sumP^` performs a reduction on the physical segments only.  Afterw
 
 As we saw in the previous subsection, some physical segments may not appear as virtual segments at all (if a replicated array shrunk by applying a pack operation).  Hence, we need to be careful that `sumP^` only reduces those physical segments of the array that are used by one or more virtual segments.
 
+=== Append ===
+
+{{{
+*Test> :type arrN3
+arrN3 :: PArray (PArray Int)
+
+*Test> pprv arrN3
+[[0],[1,2,3],[5,6,7,8,9]]
+
+*Test> pprp arrN3
+PArray  3
+   PNested
+       vsegids:    [0,1,2]
+       pseglens:   [1,3,5]
+       psegstarts: [0,1,4]
+       psegsrcs:   [0,0,0]
+       PInt [0,1,2,3,5,6,7,8,9]
+
+
+*Test> pprv arrN4
+[[7,8,9,10,11,12,13],[0],[1,2,3],[0]]
+
+*Test> pprp arrN4
+PArray  4
+   PNested
+       vsegids:    [0,1,2,3]
+       pseglens:   [7,1,3,1]
+       psegstarts: [0,7,8,11]
+       psegsrcs:   [0,0,0,0]
+       PInt [7,8,9,10,11,12,13,0,1,2,3,0]
+
+
+-- Append is also an index space transform. When we append two arrays
+-- we append the segmentation information, but just put both flat arrays
+-- into the result, without copying their data. Note how the result
+-- contains both PInt arrays from the source.
+
+*Test> pprv $ arrN3 `appPA` arrN4
+[[0],[1,2,3],[5,6,7,8,9],[7,8,9,10,11,12,13],[0],[1,2,3],[0]]
+
+
+*Test> pprp $ arrN3 `appPA` arrN4
+PArray  7
+   PNested
+       vsegids:    [0,1,2,3,4,5,6]
+       pseglens:   [1,3,5,7,1,3,1]
+       psegstarts: [0,1,4,0,7,8,11]
+       psegsrcs:   [0,0,0,1,1,1,1]
+       PInt [0,1,2,3,5,6,7,8,9]
+       PInt [7,8,9,10,11,12,13,0,1,2,3,0]
+}}}
+
 === Splitting and joining (for distribution across threads) ===
 
 Our idea is to continue to split the '''data''' array evenly across threads.  That may spread out the segments descriptor (length and starts arrays) very unevenly as repeated segments have an entry for each repetition in the segmentation information, but not in the data.
@@ -184,7 +300,95 @@ TODO: Roman believes splitting arrays with repeated segments is a problem.  To m
 
 === Multiple levels of nesting (unconcat and concat) ===
 
-TODO: What if we have segment descriptors on top of one with repeated segments?
+{{{
+*Test> :type arrM6
+arrM6 :: PArray (PArray (PArray Int))
+
+-- This array has a complex representation that includes multiple flat vectors (the PInt vectors).
+-- This is because it has been created by appending several other arrays together.
+
+*Test> pprv arrM6
+[[[7,8,9,10,11,12,13],[0],[1,2,3],[0]],[[0],[1,2,3]],[[0],[1,2,3],[5,6,7,8,9]],[[5,6,7,8,9]],[[1,2,3,4,5],[1,2,3],[7,8,9,10,11,12,13],[1,2,3]],[[5,6,7,8,9]]]
+
+*Test> pprp arrM6
+PArray  6
+   PNested
+       vsegids:    [0,1,2,3,4,5]
+       pseglens:   [4,2,3,1,4,1]
+       psegstarts: [0,4,6,9,10,14]
+       psegsrcs:   [0,0,0,0,0,0]
+       PNested
+           vsegids:    [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+           pseglens:   [7,1,3,1,1,3,1,3,5,5,5,3,7,3,5]
+           psegstarts: [0,7,8,11,0,1,0,1,4,0,0,5,8,15,0]
+           psegsrcs:   [0,0,0,0,1,1,2,2,2,3,4,4,4,4,5]
+           PInt [7,8,9,10,11,12,13,0,1,2,3,0]
+           PInt [0,1,2,3]
+           PInt [0,1,2,3,5,6,7,8,9]
+           PInt [5,6,7,8,9]
+           PInt [1,2,3,4,5,1,2,3,7,8,9,10,11,12,13,1,2,3]
+           PInt [5,6,7,8,9]
+
+
+-- To pack the array we pack the vsegs, then drop the psegs that aren't referenced
+-- from any vseg. The pack operation only operates on the outer-most layer,
+-- so the inner segmentation isn't touched.
+
+*Test> pprv $ packByTagPA' arrM6 [1, 0, 1, 1, 0, 0] 1
+[[[7,8,9,10,11,12,13],[0],[1,2,3],[0]], [[0],[1,2,3],[5,6,7,8,9]], [[5,6,7,8,9]]]
+
+*Test> pprp $ packByTagPA' arrM6 [1, 0, 1, 1, 0, 0] 1
+PArray  0
+   PNested
+       vsegids:    [0,1,2]
+       pseglens:   [4,3,1]
+       psegstarts: [0,6,9]
+       psegsrcs:   [0,0,0]
+       PNested
+           vsegids:    [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+           pseglens:   [7,1,3,1,1,3,1,3,5,5,5,3,7,3,5]
+           psegstarts: [0,7,8,11,0,1,0,1,4,0,0,5,8,15,0]
+           psegsrcs:   [0,0,0,0,1,1,2,2,2,3,4,4,4,4,5]
+           PInt [7,8,9,10,11,12,13,0,1,2,3,0]
+           PInt [0,1,2,3]
+           PInt [0,1,2,3,5,6,7,8,9]
+           PInt [5,6,7,8,9]
+           PInt [1,2,3,4,5,1,2,3,7,8,9,10,11,12,13,1,2,3]
+           PInt [5,6,7,8,9]
+
+
+-- Applying concat merges the two outer-most layers. For replicated arrays, this
+-- has the potential to copy data, but only at the outer-most level.
+
+*Test> pprv $ concatPA $ packByTagPA' arrM6 [1, 0, 1, 1, 0, 0] 1
+[[7,8,9,10,11,12,13],[0],[1,2,3],[0],[0],[1,2,3],[5,6,7,8,9],[5,6,7,8,9]]
+
+*Test> pprp $ concatPA $ packByTagPA' arrM6 [1, 0, 1, 1, 0, 0] 1
+PArray  8
+   PNested
+       vsegids:    [0,1,2,3,4,5,6,7]
+       pseglens:   [7,1,3,1,1,3,5,5]
+       psegstarts: [0,7,8,11,0,1,4,0]
+       psegsrcs:   [0,0,0,0,2,2,2,3]
+       PInt [7,8,9,10,11,12,13,0,1,2,3,0]
+       PInt [0,1,2,3]
+       PInt [0,1,2,3,5,6,7,8,9]
+       PInt [5,6,7,8,9]
+       PInt [1,2,3,4,5,1,2,3,7,8,9,10,11,12,13,1,2,3]
+       PInt [5,6,7,8,9]
+
+
+-- Concatenating the above array merges the segmentation with the flat arrays, 
+-- producing a flat array. To put this another way, concat performs a 'gather'
+-- operation which forces out segmentation information by copying data. 
+
+*Test> pprv $ concatPA $ concatPA $ packByTagPA' arrM6 [1, 0, 1, 1, 0, 0] 1
+[7,8,9,10,11,12,13,0,1,2,3,0,0,1,2,3,5,6,7,8,9,5,6,7,8,9]
+
+*Test> pprp $ concatPA $ concatPA $ packByTagPA' arrM6 [1, 0, 1, 1, 0, 0] 1
+PArray  26
+   PInt [7,8,9,10,11,12,13,0,1,2,3,0,0,1,2,3,5,6,7,8,9,5,6,7,8,9]
+}}}
 
 == The bigger picture ==
 
