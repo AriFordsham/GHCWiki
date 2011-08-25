@@ -22,7 +22,7 @@ do
   myCharactersArray <- newArray $ mapM newStablePtr myCharacters
  
    -- get the size in bytes of a stable pointer to a Haskell string
-  let elemSize = fromInteger $ sizeof (undefined :: StablePtr String)
+  let elemSize = fromInteger $ sizeOf (undefined :: StablePtr String)
 
     -- invoke C land 'qsort_b' with a Haskell comparison function passed as a block object; mutates 'myCharactersArray'
   qsort_b myCharactersArray (length myCharacters) elemSize (\l r -> fromOrdering (l `compare` r))
