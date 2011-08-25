@@ -71,6 +71,7 @@ The following subpages provide details on implementing this functionality.  '''(
  * [wiki:BlockObjects/Specification Detailed specification of the language extension] 
  * [wiki:BlockObjects/FakingIt Explicitly marshalling block objects between C and Haskell land]
  * [wiki:BlockObjects/ExtendingGHC Extending GHC]
+ * [wiki:BlockObjects/UsingXPC An extended example: Using XPC]
 
 == Background ==
 
