@@ -38,6 +38,9 @@ This means that when making changes needed in GHC to one of these libraries, we 
 - The patch will be mirrored and converted to git by the mirror script, in the repo [ http://darcs.haskell.org/git-mirrors/Cabal/.git/](http://darcs.haskell.org/git-mirrors/Cabal/.git/)
 - You then need to pull from [ http://darcs.haskell.org/git-mirrors/Cabal/.git/](http://darcs.haskell.org/git-mirrors/Cabal/.git/) into `libraries/Cabal` in a regular GHC tree, validate, and push to the GHC Cabal repo, [ http://darcs.haskell.org/packages/Cabal.git/](http://darcs.haskell.org/packages/Cabal.git/)
 
+
+Note that a git hook prevents you from pushing patches to the ghc repos until they are already in the git mirror repos, so that we cannot forget to send changes upstream.
+
 This table shows, for each repository in a GHC tree, where the central repository is, and what mirrors there are.
 
 <table><tr><th>darcs</th>
