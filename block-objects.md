@@ -90,7 +90,7 @@ When we marshal a C block object into a Haskell function, we need to ensure that
 ## The gory details
 
 
-The following subpages provide details on implementing this functionality.  **(The following three subpages are still stubs.)**
+The following subpages provide details on implementing this functionality.  **(The following four subpages are still stubs.)**
 
 - [Detailed specification of the language extension](block-objects/specification)
 - [Explicitly marshalling block objects between C and Haskell land](block-objects/faking-it)
