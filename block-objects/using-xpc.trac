@@ -1,0 +1,6 @@
+= An extended example: Using XPC =
+
+== Background ==
+
+ * [http://developer.apple.com/library/mac/#documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/Introduction.html Daemons and Services Programming Guide]
+ * [http://developer.apple.com/library/mac/#documentation/System/Reference/XPCServicesFW/xpc_h/ xpc.h documentation]
