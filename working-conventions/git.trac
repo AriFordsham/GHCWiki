@@ -1,3 +1,4 @@
+[[PageOutline]]
 = Guidelines for using git with GHC =
 
 GHC uses [http://git-scm.com/ git] for revision control.  This page describes various GHC-specific conventions for using git, together with some suggestions and tips for using git effectively.  
@@ -46,16 +47,29 @@ find . -name '*hs' | xargs file | grep CRLF
 }}}
 Do this before you commit them!
 
-== Normal workflow ==
+== Workflow with validate ==
 
-Typical workflow for developing GHC is to have two trees, one called `ghc-working` and one called `ghc-validate`.  The idea is that you develop in the `ghc-working` tree, and when you're ready to push, [wiki:TestingPatches test the changes] in the `ghc-validate` tree before pushing up to the main GHC repo (or submitting patches, or sending a pull request).
+All changes to GHC and the libraries need to be [wiki:TestingPatches validated] before they can be pushed to the main repositories.  Validation can take a while - 30 minutes on a 4-core machine is typical - so ideally you want to be validating changes while you are working in a separate tree.  Furthermore, validation uses build settings that are different to the ones you would normally use while developing: it adds more libraries (DPH) and builds extra ways (dynamic libraries), so you don't want to use the same build for validation and ordinary development.
+
+So for this we normally use two entirely separate trees, one for developing and one for validating.  The development tree uses build settings optimised for development: `-O0 -DDEBUG` for the compiler, minimal libraries and ways so that rebuilding is fast.  The validate tree is for validating only.
+
+The typical workflow is to work in the development tree, pull into the validate tree, validate, and then push from the validate tree.  But what if validate fails?  There are two options:
+
+ 1. discard the patch in the validate tree (using some instance of `git reset`) and go back to the working tree to fix it
+ 2. or, add a new patch in the validate tree to fix the problem and re-validate
+
+(1) is more for "back to the drawing board" kinds of failure, whereas (2) is for cases where you just need to fix a warning or some other minor error exposed by validate.
+
+=== Setting up the trees ===
+
+Let's call the two trees `ghc-working` and `ghc-validate`.
 
 Set up your repos like this:
 
 {{{
 $ git clone http://darcs.haskell.org/ghc.git ghc-working
 $ cd ghc-working
-$ ./sync-all --testsuite get
+$ ./sync-all --testsuite --no-dph get
 $ cd ..
 $ git clone ghc-working ghc-validate
 $ cd ghc-validate
@@ -69,32 +83,24 @@ $ ./sync-all -r <account>@darcs.haskell.org:/home/darcs remote set-url --push or
 
 Now you have `ghc-working` and `ghc-validate` repos, and additionally the `ghc-validate` repo tree is set up with a remote `working` pointing to the `ghc-working` tree, and pushing from `ghc-validate` will push changes via SSH to `darcs.haskell.org`.
 
-To pull from working into the `ghc-validate` tree:
+=== The rebase workflow ===
+
+How do we move patches from `ghc-working` and `ghc-validate`?  There are several options here.  One is to just use `sync-all pull working` and do merging as usual.  This works fine, but results in extra "merge commits" that aren't particularly helpful and clutter the commit logs and the mailing list.  A better approach is to rebase patches before committing.  This is done as follows:
+
+  1. fetch patches from `ghc-working` into `ghc-validate`: `./sync-all fetch working`
+  2. merge from working: `./sync-all merge working`
+  3. rebase onto master: `./sync-all pull --rebase`
+  4. validate, push
+
+Now, the patches pushed this way are different (have different hashes) from the patches that you originally committed in `ghc-working`, and if you try to pull these patches in `ghc-working` again, confusion and conflicts will ensue.  Fortunately there's an easy solution: just rebase again in `ghc-working`, and git will notice that your patches are already upstream and will discard the old versions.  It's as simple as
 
 {{{
-cd ghc-validate
-./sync-all fetch working
+ $ cd ghc-working
+ $ ./sync-all pull --rebase
 }}}
 
-Then merge changes from `working` into the `master` branch of `ghc-validate` as appropriate.  Then:
+If rebase encounters a conflict at any point, it will tell you what to do.  After fixing the conflict and completing the rebase manually, you can then resume the pull with `./sync-all --resume pull --rebase`.
 
-{{{
-./sync-all pull
-}}}
-
-To get changes from upstream, merging if necessary.  At this point you can check what changes are new in your tree relative to upstream:
-
-{{{
-./sync-all new
-}}}
-
-Then run `sh validate`, and if all is well:
-
-{{{
-./sync-all push
-}}}
-
-to push.
 
 == Contributing patches ==
 
