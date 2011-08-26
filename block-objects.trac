@@ -94,4 +94,5 @@ The following subpages provide details on implementing this functionality.  '''(
  * [http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html Blocks Programming Topics (Apple)]
  * [http://clang.llvm.org/docs/Block-ABI-Apple.txt Block Implementation Specification (Apple via clang)]
  * [http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1370.pdf N1370: Apple’s Extensions to C]
+ * [http://cocoawithlove.com/2009/10/how-blocks-are-implemented-and.html Some background on the implementation of blocks]
  * [http://www.friday.com/bbum/2011/03/17/ios-4-3-imp_implementationwithblock/ Dynamic generation of method implementations with blocks]
