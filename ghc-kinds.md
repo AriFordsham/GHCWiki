@@ -22,31 +22,26 @@ Examples of reimplementation of existing Haskell librairies can be found in [ th
 ## Implementation
 
 
-The GHC branch is called `ghc-kinds`.  There is also a Haddock branch with the same name.  Hoopl needs a kind annotation available on a branch in [ http://darcs.haskell.org/git-mirrors/hoopl/](http://darcs.haskell.org/git-mirrors/hoopl/).
-
-
-The implementation will follow these steps (in bold is the first phase (parser, renamer, type checker, ...) that does not work):
+The GHC branch is called `ghc-kinds`.  There is also a branch with the same name for haddock and the testsuite. The implementation will follow these steps (in bold is the first phase (parser, renamer, type checker, ...) that does not work):
 
 1. Promotion of Haskell98 data types of kind star: `*`.
 1. Promotion of Haskell98 data types of first order kind: `* -> .. * -> *`. It involves kind polymorphism.
-1. **\[\*\]** Kind polymorphic data types, type families, and type classes.
+1. **\[theory design\]** Kind polymorphic data types, type families, and type classes.
 1. Singleton types.
 1. Built-in types.
 
 
 Promotion-related changelog:
 
-- Change the kind representation in `HsSyn` from `Kind` to `LHsKind name` adding some `PostTcKind` when necessary.
-
-  - Rename `rnHsType` into `rnHsTyKi` and parametrize with a boolean to know if we are renaming a type or a kind.
-- Allow promoted data and type constructors:
-
-  - Extend `TyCon` with `PromotedDataTyCon` to have data constructors in type constructors.
-  - Extend the parser, renamer, type and kind checker, and core-lint accordingly.
-- Rename `KindVar` which is used during type checking into `MetaKindVar`.
+- Extend `TyCon` with `PromotedDataTyCon` to have data constructors in type constructors.
+- Extend the parser, renamer, type and kind checker, and core-lint accordingly.
 
 
 Not promotion-related changelog:
 
+- Change the kind representation in `HsSyn` from `Kind` to `LHsKind name` adding some `PostTcKind` when necessary.
+
+  - Rename `rnHsType` into `rnHsTyKi` and parametrize with a boolean to know if we are renaming a type or a kind.
 - Use `HsDocContext` instead of `SDoc` to track renaming context.
 - Kind check and type check by strongly connected components, instead of kind checking the whole module, and then type checking it.  This implies that some modules now need additional kind annotations (since each strongly component gets zonkTcKindToKind before going to the next one).
+- Rename `KindVar` which is used during type checking into `MetaKindVar`.
