@@ -1,6 +1,83 @@
 = Block Objects: Marshalling Them Explicitly =
 
+In the following, we use the standard Haskell 2010 FFI to explicitly marshal Haskell functions to C blocks and vice versa.
 
+== The qsort_b example using a foreign wrapper ==
+
+The most straight-forward approach is to use the existing FFI support for turning Haskell functions into C function pointers by way of a foreign import wrapper declaration.  We can then embed these C function pointers in block literals without the need for a explicit environment on the C side.
+
+=== Block literals ===
+
+Blocks are by default allocated on the stack in C and only promoted to the heap using an explicity `Block_copy()` function.  In Haskell, we always allocate them on the heap, which is indicated by the pointer being placed in a block literals `isa` field:
+{{{
+foreign import ccall "& _NSConcreteGlobalBlock" nsConcreteGlobalBlock :: Ptr ()
+}}}
+
+A block literal with an empty environment has the following layout:
+{{{
+-- Layout of the block literal (64-bit runtime)
+--
+-- .quad	__NSConcreteGlobalBlock           # void *isa;
+-- .long	1342177280                        # int  flags = 0x50000000;
+-- .long	0                                 # int  reserved;
+-- .quad	___block_invoke                   # void (*invoke)(void *, ...);
+-- .quad	___block_descriptor               # struct Block_descriptor *descriptor;
+
+long, quad :: Int
+long = 4  -- long word = 32 bit
+quad = 8  -- quad word = 64 bit
+
+isaOffset, flagsOffset, invokeOffset, descriptorOffset, blockLiteralSize :: Int
+isaOffset        = 0
+flagsOffset      = isaOffset        + quad
+invokeOffset     = flagsOffset      + long + long
+descriptorOffset = invokeOffset     + quad
+blockLiteralSize = descriptorOffset + quad
+}}}
+
+In Haskell, we represent block literals as opaque pointers:
+{{{
+newtype Block a = Block (Ptr (Block a))
+}}}
+
+
+When turning a Haskell function into a C function pointer to be included in a block literal as the `invoke` function, we need to take care to add a pointer to the block literal itself as a new first argument:
+{{{
+mkBlock :: ((Block f -> f) -> IO (FunPtr (Block f -> f))) -> f -> IO (Block f)
+mkBlock mkWrapper f
+  = do { fPtr     <- mkWrapper (const f)
+       ; blockPtr <- mallocBytes blockLiteralSize
+       ; poke (blockPtr `plusPtr` isaOffset)        nsConcreteGlobalBlock
+       ; poke (blockPtr `plusPtr` flagsOffset)      (0x50000000 :: Word32)
+       ; poke (blockPtr `plusPtr` invokeOffset)     fPtr
+       ; poke (blockPtr `plusPtr` descriptorOffset) descriptorPtr
+       ; return $ Block blockPtr
+       }
+}}}
+
+The block descriptor is static, except for the signature that we omit for the moment.
+{{{
+-- Block descriptor structure shared between all blocks.
+--
+-- .quad	0                                 # unsigned long int reserved;
+-- .quad	32                                # unsigned long int size = blockLiteralSize;
+-- .quad	signature_str                     # const char *signature;
+-- .quad	0                                 # <undocumented>
+
+descriptorPtr :: Ptr ()
+descriptorPtr
+  = unsafePerformIO $ 
+    do { descPtr <- mallocBytes (4 * quad)
+       ; poke (descPtr `plusPtr` (0 * quad)) (0 :: Word64)
+       ; poke (descPtr `plusPtr` (1 * quad)) blockLiteralSizeWord64
+       ; poke (descPtr `plusPtr` (2 * quad)) nullPtr    -- gcc puts a NULL in; should be ok for now
+       ; poke (descPtr `plusPtr` (3 * quad)) (0 :: Word64)
+       ; return descPtr
+       }
+  where
+    blockLiteralSizeWord64 :: Word64
+    blockLiteralSizeWord64 = fromIntegral blockLiteralSize
+}}}
 
 
 '''TODO:'''
