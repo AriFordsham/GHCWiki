@@ -38,6 +38,30 @@ DPH is split into the following packages:
 
 The DPH libraries use Template Haskell, so they can only be compiled with a stage2 compiler.
 
+```wiki
+             vectorised code
+                   ^ 
+                   | used-by
+                   |
+  dph-seq  =  dph-common  = dph-par      (nested array API)
+    .              ^             ^
+    . link         | used-by     . link
+    .              |             .
+    .      dph-prim-interface    .       (flat array API)
+    .        ^            ^      .        defined by dph-prim-interface
+    .        |  provides  |      .       provided by dph-prim-seq 
+    .        |            |      .               and dph-prim-par
+    dph-prim-seq  --->  dph-prim-par
+                used-by
+             
+             
+                dph-base                 (debugging and tracing utils)
+                                           used by all packages
+
+             dph-common-vseg             (new version of dph-common)
+                                          still under development
+```
+
 ## How the DPH packages are coupled to GHC
 
 
