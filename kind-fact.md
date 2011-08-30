@@ -105,3 +105,6 @@ But there are significant differences
 - Requirement, Constraint, Guarantee, Promise, Contract
 - Characteristic, Attribute, Property, Trait, Capability
 - Axiom, Lemma, Theorem, Proposition, Postulate, Premise, Claim, Posit
+
+
+\[JonasDuregard\] What about Context? That is after all the "official" name for the collections of constraints that appear in type signatures.
