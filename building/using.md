@@ -333,6 +333,16 @@ into the final application, which makes smaller binaries.  It takes
 longer to build libraries this way, though.
 </td></tr></table>
 
+<table><tr><th>`LAX_DEPENDENCIES`</th>
+<td>
+(default: `NO`)
+
+When set to `YES`, dependencies on the ghc executable will be turned into
+order-only dependencies. What this means in practice is that less needless
+recompilation will be done while you are making changes to ghc's sources,
+but for certain types of changes it means the build will fail.
+</td></tr></table>
+
 <table><tr><th>`BUILD_DOCBOOK_HTML`</th>
 <td></td></tr>
 <tr><th>`BUILD_DOCBOOK_PS`</th>
