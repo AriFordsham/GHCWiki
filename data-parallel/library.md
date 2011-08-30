@@ -9,7 +9,7 @@ This page describes the packages (aka libraries) that form part of DPH, enumerat
 DPH is split into the following packages:
 
 - `dph-base`
-   Contains shared debugging and tracing functions. Particularly, options for enabling extended sanity checking are hard-codede in the `Config.hs` module.
+   Contains shared debugging and tracing functions. Particularly, the flags for enabling extended sanity checking are hard-coded in the `Config.hs` module.
 
 - `dph-prim-seq`
    Flat arrays, and sequential operators on them. Most sequential operators that we used are supplied by `Data.Vector`, but `dph-prim-seq` adds segmented operators that are only useful in the context of nested data parallelism. This package also defines the segment descriptor types, that are also used to implement nested arrays. Flat arrays are also referred to as "unlifted arrays", so this library is also called the "unlifted primitive library".
@@ -43,12 +43,6 @@ The DPH libraries use Template Haskell, so they can only be compiled with a stag
 
 GHC knows about DPH as follows.
 
-- The flags `-fdph-seq` and `-fdph-par` add `-package dph-seq` and `-package-dph-par`, respectively, so that the user can `import Data.Array.Parallel` and friends.  And so that the right package gets linked in the link step.
+- The flags `-fdph-seq` and `-fdph-par` add `-package dph-seq` and `-package dph-par`. These packages contain the types and functions that vectorised code uses. They are produced by compiling `dph-common` against either the `dph-prim-seq` or `dph-prim-par` packages respectively. They also contain the array functions visible to used code via `import Data.Array.Parallel`.
 
-- The flag `-fvectorise` runs a special pass called the **vectoriser**. 
-
-  - The vectoriser generates code that mentions (by Original Name) various functions defined in `dph-prim-seq` or `dph-prim-par` (depending on the compiler flag used).  So if you change where a function is defined in `dph-prim-*`, or the name of the function, you have to make a corresponding change in GHC.
-  - The vectoriser knows quite a lot about the internal working of the library. For instance, it knows about the array representation.
-  - Parts of the library are vectorised and since these are low-level parts, they rely on being vectorised in particular ways. This means that a particular version of the library will only work correctly with a particular version of the vectoriser and vice versa.  **SLPJ: can you be more precise here?  Which packages are vectorised?  What do you meean by "particular ways"?**
-
-**SLPJ: is it correct that GHC only generates Names in dph-prim?  If not, could it be made true?**
+- The vectoriser only generates names exported by dph-common (via either dph-par or dph-seq). It does not use the `dph-prim-interface` API directly.
