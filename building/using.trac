@@ -269,6 +269,13 @@ take a look in [[GhcFile(mk/config.mk.in)]].
   into the final application, which makes smaller binaries.  It takes
   longer to build libraries this way, though.
 
+ `LAX_DEPENDENCIES`::
+  (default: `NO`)[[br]]
+  When set to `YES`, dependencies on the ghc executable will be turned into
+  order-only dependencies. What this means in practice is that less needless
+  recompilation will be done while you are making changes to ghc's sources,
+  but for certain types of changes it means the build will fail.
+
  `BUILD_DOCBOOK_HTML`::
  `BUILD_DOCBOOK_PS`::
  `BUILD_DOCBOOK_PDF`::
