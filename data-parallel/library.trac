@@ -4,19 +4,27 @@ This page describes the packages (aka libraries) that form part of DPH, enumerat
 
 == What packages there are ==
 
-DPH comes with the following blobs of source code:
+DPH is split into the following packages:
 
-  * `dph/dph-prim-seq` implements the DPH Primitive Interface for sequential machines.  Compiling it yields package `dph-prim-seq`.  It depends on the packages `vector` and `primitive`.
+  * `dph-base`[[br]] Contains shared debugging and tracing functions. Particularly, options for enabling extended sanity checking are hard-codede in the `Config.hs` module.
 
-  * `dph/dph-prim-par` implements the DPH Primitive Interface for parallel machines.  Compiling it yields package `dph-prim-seq`.
+  * `dph-prim-seq`[[br]] Flat arrays, and sequential operators on them. Most sequential operators that we used are supplied by `Data.Vector`, but `dph-prim-seq` adds segmented operators that are only useful in the context of nested data parallelism. This package also defines the segment descriptor types, that are also used to implement nested arrays. Flat arrays are also referred to as "unlifted arrays", so this library is also called the "unlifted primitive library".
 
-  * `dph/dph-base` implements the DPH User Interface, by importing the DPH Primitive Interface. The same source code can be compiled in two ways: 
-     * Importing `dph-prim-seq`, generating package `dph-base-seq`
-     * Importing `dph-prim-seq`, generating package `dph-base-seq`
+  * `dph-prim-par`[[br]] Flat arrays, and parallel operators on them. This package exports exactly the same types and functions as `dph-prim-seq`, except that they run in parallel. 
 
-'''SLPJ: what is dph-common?'''
+  * `dph-prim-interface`[[br]] Defines the common interface exposed by `dph-prim-seq` and `dph-prim-par`. The interface is defined by the `DPH_Header.h` and `DPH_Interface.h` header files, which provide the module signature and type sigs respectively. These header files are `#include`d into `dph-prim-seq` and `dph-prim-par` to ensure they really do have the same interface.
 
-The DPH libraries (in particular `dph-base`) use Template Haskell, so they can only be compiled with a stage2 compiler.
+  * `dph-common`[[br]]  Nested parallel arrays. This module defines the `PArray` type, and the functions used by vectorised code. The code in this package uses the interface defined by `dph-prim-interface`. This means it can be compiled against either the `dph-prim-seq` or `dph-prim-par` packages. Doing this results in the `dph-seq` and `dph-par` packages.
+
+ * `dph-seq` and `dph-par`[[br]] These packages are produced by compiling `dph-common` against either the `dph-prim-seq` or `dph-prim-par` packages.
+
+ * `dph-common-vseg`[[br]] Nested parallel arrays with virtual segment descriptors. This is a new version of `dph-common` currently under development. It extends the old library with a new form of segment descriptor. The new segment descriptor allows us to avoid physically replicating data in vectorised code.
+
+ * `dph-test`[[br]] Quick check properties for the other dph packages.
+
+ * `dph-examples`[[br]] Example programs using Data Parallel Haskell.
+
+The DPH libraries use Template Haskell, so they can only be compiled with a stage2 compiler.
 
 == How the DPH packages are coupled to GHC ==
 
