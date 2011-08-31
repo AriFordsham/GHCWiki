@@ -324,27 +324,11 @@ The question for us, then, is what should
 happen if an intrinsic superclass not explicitly hidden were to clash
 with an explicit instance from the same or a prior module. We could
 
-1. **Reject this as a duplicate instance declaration**, which indeed it is.
-1. **Allow the explicit to supersede the intrinsic default, but issue a warning** suggesting to either remove the explicit instance or add an explicit opt-out, or
-1. **Allow the explicit to supersede the intrinsic default silently**.
+1. **Reject this as a duplicate instance declaration**, which indeed it is.  We acknowledge that it creates an issue with legacy code --- that is, it contradicts Design Goal 1 --- precisely because there are plenty of places where we have written the full stack of instances, often just doing the obvious default thing.
 
+1. **Allow the explicit to supersede the intrinsic default, but issue a warning** suggesting to either remove the explicit instance or add an explicit opt-out.
 
-As it stands, we propose option 1 as somehow the principled thing to
-do. We acknowledge that it creates an issue with legacy code --- that is, it contradicts
-Design Goal 1 ---
-precisely because there are plenty of places where we have written the
-full stack of instances, often just doing the obvious default thing:
-these should be cleaned up, sooner or later. 
-
-
-Option 3 avoids that
-problem but risks perplexity: if I make use of some cool package which
-introduces some `Foo :: * -> *`, I might notice that `Foo` is
-a monad and add a `Monad Foo` instance in my own code, expecting
-the `Applicative Foo` instance to be generated in concert; to my
-horror, I find my code has subtle bugs because the package introduced
-a different, non-monadic, `Applicative Foo` instance which I'm
-accidentally using instead. 
+1. **Allow the explicit to supersede the intrinsic default silently**. This fits with Design Goal 1, but risks perplexity: if I make use of some cool package which introduces some `Foo :: * -> *`, I might notice that `Foo` is a monad and add a `Monad Foo` instance in my own code, expecting the `Applicative Foo` instance to be generated in concert; to my horror, I find my code has subtle bugs because the package introduced a different, non-monadic, `Applicative Foo` instance which I'm accidentally using instead. 
 
 
 There is considerable support in the [ email discussion thread](http://www.haskell.org/pipermail/glasgow-haskell-users/2011-August/020730.html) for Option 2 or 3, on the grounds that Option 1 contradicts Design Goal 1.  
