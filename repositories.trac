@@ -15,9 +15,9 @@ GHC's repos use git; see [wiki:WorkingConventions/Git]. For darcs-related stuff 
 
 A GHC source tree is made of a collection of repositories. The script [wiki:Building/SyncAll sync-all] knows how to apply git commands to the whole collection of repositories at once, for example to pull changes from the upstream repositories.
 
-The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories. The master list of repositories is in the file source:packages, and this is where the `sync-all` script finds out about which repositories make up the complete tree.
+The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories. The master list of repositories is in the file [[GhcFile(packages)]], and this is where the `sync-all` script finds out about which repositories make up the complete tree.
 
-The "`tag`" in the master table in source:packages has the following significance:
+The "`tag`" in the master table in packages has the following significance:
 
  * '''"`-`"''': [wiki:Commentary/Libraries boot libraries], necessary to build GHC
  * '''"`testsuite`"''': GHC's [wiki:Building/RunningTests regression tests], necessary for a build, but is necessary if you're working on GHC
@@ -100,4 +100,8 @@ Currently, all our repositories are being mirrored to !GitHub by !GitHub themsel
 The following branches are active:
 
  '''7.2 Branch'''::
- [TODO!]
+ To switch to this branch run:
+ {{{ 
+ $ git checkout -b ghc-7.2 origin/ghc-7.2
+ $ ./sync-all checkout ghc-7.2
+ }}}
