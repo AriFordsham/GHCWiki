@@ -363,5 +363,11 @@ The following branches are active:
 
 <table><tr><th>**7.2 Branch**</th>
 <td>
-\[TODO!\]
+To switch to this branch run:
+
+```wiki
+$ git checkout -b ghc-7.2 origin/ghc-7.2
+$ ./sync-all checkout ghc-7.2
+```
+
 </td></tr></table>

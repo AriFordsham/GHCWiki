@@ -100,4 +100,8 @@ Currently, all our repositories are being mirrored to !GitHub by !GitHub themsel
 The following branches are active:
 
  '''7.2 Branch'''::
- [TODO!]
+ To switch to this branch run:
+ {{{ 
+ $ git checkout -b ghc-7.2 origin/ghc-7.2
+ $ ./sync-all checkout ghc-7.2
+ }}}
