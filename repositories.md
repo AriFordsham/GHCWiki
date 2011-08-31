@@ -287,10 +287,10 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/packages/Win32.git/</th>
 <th>libraries/Win32</th>
 <th></th></tr>
-<tr><th>http://darcs.haskell.org/packages/xhtml/</th>
-<th>http://darcs.haskell.org/darcs-mirrors/xhtml/</th>
+<tr><th></th>
 <th></th>
-<th>http://darcs.haskell.org/git-mirrors/xhtml/.git/</th>
+<th>git://github.com/haskell/xhtml.git</th>
+<th>http://darcs.haskell.org/git-mirrors/xhtml/</th>
 <th>http://darcs.haskell.org/packages/xhtml.git/</th>
 <th>libraries/xhtml</th>
 <th></th></tr>
