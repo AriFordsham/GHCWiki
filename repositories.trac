@@ -2,16 +2,20 @@
 
 = GHC Repositories =
 
-This page lists the active repositories relating to GHC.  For instructions on actually getting a GHC source tree, see [wiki:Building/GettingTheSources].
-For read-only browsing, you can use the [http://hackage.haskell.org/trac/ghc/browser Trac source browser], or the [http://github.com/ghc/ghc GitHub mirror].
+This page lists the active repositories relating to GHC. For instructions on actually getting a GHC source tree, see [wiki:Building/GettingTheSources].
 
-GHC's repos use Git; see [wiki:WorkingConventions/Git].  For Darcs-related stuff see also [wiki:DarcsToGit] and [wiki:GitForDarcsUsers].  For instructions for building from !GitHub sources, see [wiki:GitHubGHC].
+For read-only browsing, you can use the:
+ * [http://hackage.haskell.org/trac/ghc/browser Trac source browser]
+ * [http://github.com/ghc/ghc GitHub GHC mirror]
+ * [http://darcs.haskell.org/cgi-bin/gitweb.cgi GitWeb GHC browser]
+
+GHC's repos use git; see [wiki:WorkingConventions/Git]. For darcs-related stuff see [wiki:DarcsToGit] and [wiki:GitForDarcsUsers].
 
 == Overview ==
 
-A GHC source tree is made of a collection of repositories.  The script [wiki:Building/SyncAll sync-all] knows how to apply git commands to the whole collection of repositories at once, for example to pull changes from the upstream repositories.
+A GHC source tree is made of a collection of repositories. The script [wiki:Building/SyncAll sync-all] knows how to apply git commands to the whole collection of repositories at once, for example to pull changes from the upstream repositories.
 
-The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories.  The Master List of repositories is in the file source:packages, and this is where the `sync-all` script finds out about which repositories make up the complete tree.
+The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories. The master list of repositories is in the file source:packages, and this is where the `sync-all` script finds out about which repositories make up the complete tree.
 
 The "`tag`" in the master table in source:packages has the following significance:
 
