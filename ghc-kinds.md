@@ -27,6 +27,7 @@ The GHC branch is called `ghc-kinds`.  There is also a branch with the same name
 1. Promotion of Haskell98 data types of kind star: `*`.
 1. Promotion of Haskell98 data types of first order kind: `* -> .. * -> *`. It involves kind polymorphism.
 1. **\[theory design\]** Kind polymorphic data types, type families, and type classes.
+  This step needs some design choices about [kind polymorphism](ghc-kinds/kind-polymorphism).
 1. Singleton types.
 1. Built-in types.
 
