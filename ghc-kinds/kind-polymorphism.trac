@@ -1,0 +1,43 @@
+== Design of Kind Polymorphism ==
+
+Implicit foralls are added by the renamer. Kind generalization (adding more kind foralls) is done by the type checker.
+
+=== In types ===
+
+Rules:
+  * When there is an explicit forall, we don't add any foralls, which means:
+    * no implicit foralls even for kind variables
+    * no kind generalization, which means defaulting flexi meta kind variables to `*`
+  * When there is no explicit foralls, we add an implicit forall for not-in-scope ''type'' variables in the renamer and we kind generalize in the type checker
+  * In the context of a function signature, an explicit forall binds its variables (type or kind) in the function equations (as it is currently the case for type variables).
+
+{{{
+-- For the following examples, no type or kind variables are in scope
+
+f1 :: f a -> Int                       -- forall k (f :: k -> *) (a :: k). f a -> Int
+
+f2 :: f (a :: k) -> Int                -- Not in scope: kind variable `k'
+
+f3 :: forall a. f a -> Int             -- Not in scope: type variable `f'
+
+f4 :: forall f a. f a -> Int           -- forall (f :: * -> *) (a :: *). f a -> Int
+
+f5 :: forall f (a :: k). f a -> Int    -- Not in scope: kind variable `k'
+
+f6 :: forall k f a. f a -> Int         -- Warning: Unused quantified type variable `k'
+                                       -- forall k (f :: * -> *) (a :: *). f a -> Int
+
+f7 :: forall k f (a :: k). f a -> Int  -- forall k (f :: k -> *) (a :: k). f a -> Int
+
+
+g1 :: (f a -> Int) -> Int                      -- forall (f :: k -> *) (a :: k). (f a -> Int) -> Int
+
+g2 :: (forall f a. f a -> Int) -> Int          -- forall k. (forall (f :: k -> *) (a :: k). f a -> Int) -> Int
+
+g3 :: (forall a. f a -> Int) -> Int            -- forall k (f :: k -> *). (forall (a :: k). f a -> Int) -> Int
+ 
+g4 :: forall f. (forall a. f a -> Int) -> Int  -- forall (f :: * -> *). (forall (a :: *). f a -> Int) -> Int
+ 
+g5 :: (forall f (a :: k). f a -> Int) -> Int   -- Not in scope: kind variable `k'
+
+}}}
