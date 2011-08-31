@@ -22,7 +22,7 @@ A GHC source tree is made of a collection of repositories. The script [sync-all]
 The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories. The master list of repositories is in the file [packages](/trac/ghc/browser/ghc/packages), and this is where the `sync-all` script finds out about which repositories make up the complete tree.
 
 
-The "`tag`" in the master table in [source:packages](/trac/ghc/browser/packages)[](/trac/ghc/export/HEAD/ghc/packages) has the following significance:
+The "`tag`" in the master table in packages has the following significance:
 
 - **"`-`"**: [boot libraries](commentary/libraries), necessary to build GHC
 - **"`testsuite`"**: GHC's [regression tests](building/running-tests), necessary for a build, but is necessary if you're working on GHC
