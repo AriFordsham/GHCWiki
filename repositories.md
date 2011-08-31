@@ -19,7 +19,7 @@ GHC's repos use git; see [WorkingConventions/Git](working-conventions/git). For 
 A GHC source tree is made of a collection of repositories. The script [sync-all](building/sync-all) knows how to apply git commands to the whole collection of repositories at once, for example to pull changes from the upstream repositories.
 
 
-The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories. The master list of repositories is in the file [source:packages](/trac/ghc/browser/packages)[](/trac/ghc/export/HEAD/ghc/packages), and this is where the `sync-all` script finds out about which repositories make up the complete tree.
+The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories. The master list of repositories is in the file [packages](/trac/ghc/browser/ghc/packages), and this is where the `sync-all` script finds out about which repositories make up the complete tree.
 
 
 The "`tag`" in the master table in [source:packages](/trac/ghc/browser/packages)[](/trac/ghc/export/HEAD/ghc/packages) has the following significance:
