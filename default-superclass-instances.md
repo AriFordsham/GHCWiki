@@ -246,6 +246,9 @@ from an instance declaration.  For example, we might write
 Note that `Functor` is only an indirect intrinsic superclass of `Monad`, via `Applicative`.
 So the above instance would generate an intrinsic instance for `Applicative` but not for `Functor`.
 
+
+See below for more about the opt-out mechanism.
+
 ### Details
 
 
@@ -278,20 +281,8 @@ The declaration of a class with a default superclass instance would require a la
 ### The design of the opt-out mechanism
 
 
-The \[ [ http://www.haskell.org/haskellwiki/Superclass_defaults](http://www.haskell.org/haskellwiki/Superclass_defaults) superclass default proposal\] deals with the question of opt-outs by intead requiring you to opt *in*.  A `Monad` instance would look like
-
-```wiki
-  instance (Functor T, Applicative T, Monad T) where
-    (>>=) = ...blah...
-    return = ...bleh...
-```
-
-
-where we explicitly ask the compiler to generate an instance of `Applicative T` and `Functor T`.   The disadvantage is that you have to know to do so, which contradicts Design Goal 1.
-
-
 Jón's proposal had a more subtle opt-out policy, namely that an
-intrinsic superclass can be quietly pre-empted by an instance for the
+intrinsic superclass can be **silently pre-empted** by an instance for the
 superclass from a prior or the present module. 
 For example, instead of 
 
@@ -326,32 +317,38 @@ This quiet exclusion
 policy is not enough to handle the case of multiple candidate
 intrinsic instances arising from multiple intrinsic superclasses (e.g.,
 `Traversable` and `Monad` giving competing `Functor` instances), so some
-explicit form is required. The question for us, then, is what should
+explicit `hiding` form is required even under the "silent pre-emption" plan. 
+
+
+The question for us, then, is what should
 happen if an intrinsic superclass not explicitly hidden were to clash
 with an explicit instance from the same or a prior module. We could
 
-1. Reject this as a duplicate instance declaration, which indeed it is.
-1. Allow the explicit to supersede the intrinsic default, but issue a warning suggesting to either remove the explicit instance or add an explicit opt-out, or
-1. Allow the explicit to supersede the intrinsic default silently.
+1. **Reject this as a duplicate instance declaration**, which indeed it is.  We acknowledge that it creates an issue with legacy code --- that is, it contradicts Design Goal 1 --- precisely because there are plenty of places where we have written the full stack of instances, often just doing the obvious default thing.
+
+1. **Allow the explicit to supersede the intrinsic default, but issue a warning** suggesting to either remove the explicit instance or add an explicit opt-out.
+
+1. **Allow the explicit to supersede the intrinsic default silently**. This fits with Design Goal 1, but risks perplexity: if I make use of some cool package which introduces some `Foo :: * -> *`, I might notice that `Foo` is a monad and add a `Monad Foo` instance in my own code, expecting the `Applicative Foo` instance to be generated in concert; to my horror, I find my code has subtle bugs because the package introduced a different, non-monadic, `Applicative Foo` instance which I'm accidentally using instead. 
 
 
-As it stands, we propose option 1 as somehow the principled thing to
-do. We acknowledge that it creates an issue with legacy code,
-precisely because there are plenty of places where we have written the
-full stack of instances, often just doing the obvious default thing:
-these should be cleaned up, sooner or later. 
+There is considerable support in the [ email discussion thread](http://www.haskell.org/pipermail/glasgow-haskell-users/2011-August/020730.html) for Option 2 or 3, on the grounds that Option 1 contradicts Design Goal 1.  
 
 
-Option 3 avoids that
-problem but risks perplexity: if I make use of some cool package which
-introduces some `Foo :: * -> *`, I might notice that `Foo` is
-a monad and add a `Monad Foo` instance in my own code, expecting
-the `Applicative Foo` instance to be generated in concert; to my
-horror, I find my code has subtle bugs because the package introduced
-a different, non-monadic, `Applicative Foo` instance which I'm
-accidentally using instead. Option 2 is certainly worth considering as
-a pragmatic transitional compromise, although the 'transitional' has a
-dangerous tendency to be permanent.
+Perhaps Option 2 is the pragmatic choice.
+
+### Opting in rather than out
+
+
+The \[ [ http://www.haskell.org/haskellwiki/Superclass_defaults](http://www.haskell.org/haskellwiki/Superclass_defaults) superclass default proposal\] deals with the question of opt-outs by intead requiring you to opt *in*.  A `Monad` instance would look like
+
+```wiki
+  instance (Functor T, Applicative T, Monad T) where
+    (>>=) = ...blah...
+    return = ...bleh...
+```
+
+
+where we explicitly ask the compiler to generate an instance of `Applicative T` and `Functor T`.   The disadvantage is that you have to know to do so, which contradicts Design Goal 1.
 
 ## Multi-headed instance declarations
 
