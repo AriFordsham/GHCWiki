@@ -49,16 +49,16 @@ h x = ...k...f a...  -- k, f, and a are in scope
 
 === In kinds ===
 
-The story is more complicated since we have several ways of talking about kinds: data types, type classes, type families, and type synonyms.
+Rules:
+  * Any explicit kind variables are generalized over
+  * Defaulting for flexi meta kind variables
 
-We need a notion of large scoping, which means that a variable in the signature can bind in the where clause.
+We need a notion of large scoping, which means that a variable in the signature can bind in the where clause. Only type classes have large scoping.
 
 ==== Type classes ====
 
-Rules:
+Additionnal rules:
   * Large scoping: any type or kind variables appearing on left or right side of a `::` in the signature is brought into scope
-  * Any explicit kind variables are generalized over
-  * Defaulting for flexi meta kind variables
 
 {{{
 class C1 (f :: k1 -> *) (g :: k2 -> k1) where  -- forall k1 k2. (k1 -> *) -> (k2 -> k1) -> Constraint
@@ -74,16 +74,42 @@ class C3 (f :: k1 -> *) g where                -- forall k1. (k1 -> *) -> (* -> 
 
 ==== Data types ====
 
-Rules:
-  * No large scoping
-  * Any explicit kind variables are generalized over
-  * Defaulting for flexi meta kind variables
-
 {{{
 data T1 s as where                         -- (* -> *) -> [*] -> *
   Foo :: s a -> T1 s as -> T1 s (a ': as)  -- forall (s :: * -> *) (a :: *) (as :: [*]). the same
 
 data T1 s (as :: [k]) where                -- forall k. (k -> *) -> [k] -> *
   Foo : s a -> T1 s as -> T1 s (a ': as)   -- forall k (s :: k -> *) (a :: k) (as :: [k]). the same where `T1' becomes `T1 k'
+}}}
+
+==== Type families ====
+
+Last rule becomes: Any missing kind signature defaults to `*`
+
+{{{
+-- Note (nothing to do with kind polymorphism): we might want to say that only the Bool is an index.
+type family F1 (b :: Bool) (true :: k) (false :: k) :: k  -- F1 :: forall k. Bool -> k -> k -> k
+
+type family F2 b true false                               -- F2 :: * -> * -> * -> *
+
+type family F3 b (true :: k) false                        -- F3 :: forall k. * -> k -> * -> *
+}}}
+
+For type families it just doesn't make any sense to not write the whole kind signature, since there is no inference at all.
+
+==== Type synonyms ====
+
+{{{
+type S1 f g                             -- (* -> *) -> (* -> *) -> *
+  = forall a. f (g a)                   -- = forall (a :: *). f (g a)
+
+type S2 (f :: k1 -> *) g                -- forall k1. (k1 -> *) -> (* -> k1) -> *
+  = forall a. f (g a)                   -- = forall (a :: *). f (g a)
+
+type S3 (f :: k1 -> *) (g :: k2 -> k1)  -- forall k1 k2. (k1 -> *) -> (k2 -> k1) -> *
+  = forall a. f (g a)                   -- = forall (a :: k2). f (g a)
+
+type S4 f (g :: k2 -> k1)               -- forall k1 k2. (k1 -> *) -> (k2 -> k1) -> *
+  = forall a. f (g a)                   -- = forall (a :: k2). f (g a)
 }}}
 
