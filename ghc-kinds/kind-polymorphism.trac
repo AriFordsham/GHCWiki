@@ -10,8 +10,8 @@ Rules:
   * When there is an explicit forall, we don't add any foralls, which means:
     * no implicit foralls even for kind variables
     * no kind generalization, which means defaulting flexi meta kind variables to `*`
-  * When there is no explicit `forall`, we add an implicit forall for not-in-scope ''type'' variables in the renamer and we kind generalize in the type checker
-  * Kind variable mentioned in types must always be bound by an explicit `forall`, unlike type variables for which Haskell adds an implicit `forall`.
+  * A kind variable mentioned explicitly in a type must always be bound by an explicit `forall`, unlike type variables for which Haskell adds an implicit `forall`.
+  * When there is no explicit `forall`, we add an implicit forall for not-in-scope ''type'' variables in the renamer, and we kind generalize in the type checker.
   * In the context of a function signature, an explicit forall binds its variables (type or kind) in the function equations (as it is currently the case for type variables).
 
 {{{
