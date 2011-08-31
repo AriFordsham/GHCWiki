@@ -1,5 +1,7 @@
 == Design of Kind Polymorphism ==
 
+This is a simple proposal, that would allow us to do better later, but still allow us to go on step 3.
+
 Implicit foralls are added by the renamer. Kind generalization (adding more kind foralls) is done by the type checker.
 
 === In types ===
@@ -40,4 +42,48 @@ g4 :: forall f. (forall a. f a -> Int) -> Int  -- forall (f :: * -> *). (forall 
  
 g5 :: (forall f (a :: k). f a -> Int) -> Int   -- Not in scope: kind variable `k'
 
+
+h :: forall k f (a :: k). f a -> Int
+h x = ...k...f a...  -- k, f, and a are in scope
 }}}
+
+=== In kinds ===
+
+The story is more complicated since we have several ways of talking about kinds: data types, type classes, type families, and type synonyms.
+
+We need a notion of large scoping, which means that a variable in the signature can bind in the where clause.
+
+==== Type classes ====
+
+Rules:
+  * Large scoping: any type or kind variables appearing on left or right side of a `::` in the signature is brought into scope
+  * Any explicit kind variables are generalized over
+  * Defaulting for flexi meta kind variables
+
+{{{
+class C1 (f :: k1 -> *) (g :: k2 -> k1) where  -- forall k1 k2. (k1 -> *) -> (k2 -> k1) -> Constraint
+  foo :: f (g a) -> f b                        -- forall (a :: k2) (b :: k1). f (g a) -> f b
+
+-- C2 looks much easier with defaulting
+class C2 f g where                             -- (* -> *) -> (* -> *) -> Constraint
+  foo :: f (g a) -> f b                        -- forall (a :: *) (b :: *). f (g a) -> f b
+
+class C3 (f :: k1 -> *) g where                -- forall k1. (k1 -> *) -> (* -> k1) -> Constraint
+  foo :: f (g a) -> f b                        -- forall (a :: k1) (b :: *) -> f (g a) -> f b
+}}}
+
+==== Data types ====
+
+Rules:
+  * No large scoping
+  * Any explicit kind variables are generalized over
+  * Defaulting for flexi meta kind variables
+
+{{{
+data T1 s as where                         -- (* -> *) -> [*] -> *
+  Foo :: s a -> T1 s as -> T1 s (a ': as)  -- forall (s :: * -> *) (a :: *) (as :: [*]). the same
+
+data T1 s (as :: [k]) where                -- forall k. (k -> *) -> [k] -> *
+  Foo : s a -> T1 s as -> T1 s (a ': as)   -- forall k (s :: k -> *) (a :: k) (as :: [k]). the same where `T1' becomes `T1 k'
+}}}
+
