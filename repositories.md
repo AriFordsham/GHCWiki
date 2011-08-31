@@ -1,19 +1,25 @@
 # GHC Repositories
 
 
-This page lists the active repositories relating to GHC.  For instructions on actually getting a GHC source tree, see [Building/GettingTheSources](building/getting-the-sources).
-For read-only browsing, you can use the [ Trac source browser](http://hackage.haskell.org/trac/ghc/browser), or the [ GitHub mirror](http://github.com/ghc/ghc).
+This page lists the active repositories relating to GHC. For instructions on actually getting a GHC source tree, see [Building/GettingTheSources](building/getting-the-sources).
 
 
-GHC's repos use Git; see [WorkingConventions/Git](working-conventions/git).  For Darcs-related stuff see also [DarcsToGit](darcs-to-git) and [GitForDarcsUsers](git-for-darcs-users).  For instructions for building from GitHub sources, see [GitHubGHC](git-hub-ghc).
+For read-only browsing, you can use the:
+
+- [ Trac source browser](http://hackage.haskell.org/trac/ghc/browser)
+- [ GitHub GHC mirror](http://github.com/ghc/ghc)
+- [ GitWeb GHC browser](http://darcs.haskell.org/cgi-bin/gitweb.cgi)
+
+
+GHC's repos use git; see [WorkingConventions/Git](working-conventions/git). For darcs-related stuff see [DarcsToGit](darcs-to-git) and [GitForDarcsUsers](git-for-darcs-users).
 
 ## Overview
 
 
-A GHC source tree is made of a collection of repositories.  The script [sync-all](building/sync-all) knows how to apply git commands to the whole collection of repositories at once, for example to pull changes from the upstream repositories.
+A GHC source tree is made of a collection of repositories. The script [sync-all](building/sync-all) knows how to apply git commands to the whole collection of repositories at once, for example to pull changes from the upstream repositories.
 
 
-The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories.  The Master List of repositories is in the file [source:packages](/trac/ghc/browser/packages)[](/trac/ghc/export/HEAD/ghc/packages), and this is where the `sync-all` script finds out about which repositories make up the complete tree.
+The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories. The master list of repositories is in the file [source:packages](/trac/ghc/browser/packages)[](/trac/ghc/export/HEAD/ghc/packages), and this is where the `sync-all` script finds out about which repositories make up the complete tree.
 
 
 The "`tag`" in the master table in [source:packages](/trac/ghc/browser/packages)[](/trac/ghc/export/HEAD/ghc/packages) has the following significance:
