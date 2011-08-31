@@ -25,12 +25,14 @@ f3 :: forall a. f a -> Int             -- Not in scope: type variable `f'
 f4 :: forall f a. f a -> Int           -- forall (f :: * -> *) (a :: *). f a -> Int
 
 f5 :: forall f (a :: k). f a -> Int    -- Not in scope: kind variable `k'
+                                       -- We are a little unsure about this. Mabye we
+                                       -- should kind-generalise
 
 f6 :: forall k f a. f a -> Int         -- Warning: Unused quantified type variable `k'
                                        -- forall k (f :: * -> *) (a :: *). f a -> Int
 
-f7 :: forall k f (a :: k). f a -> Int  -- forall k (f :: k -> *) (a :: k). f a -> Int
-
+f7 :: forall k f (a :: k). f a -> Int           -- forall k (f :: k -> *) (a :: k). f a -> Int
+f8 :: forall k. forall f (a :: k). f a -> Int  -- forall k (f :: k -> *) (a :: k). f a -> Int
 
 g1 :: (f a -> Int) -> Int                      -- forall (f :: k -> *) (a :: k). (f a -> Int) -> Int
 
