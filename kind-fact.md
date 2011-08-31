@@ -108,3 +108,6 @@ But there are significant differences
 
 
 \[JonasDuregard\] What about Context? That is after all the "official" name for the collections of constraints that appear in type signatures.
+
+>
+> \[illissius\] I like it.
