@@ -15,7 +15,8 @@ Rules:
 
   - no implicit foralls even for kind variables
   - no kind generalization, which means defaulting flexi meta kind variables to `*`
-- When there is no explicit foralls, we add an implicit forall for not-in-scope *type* variables in the renamer and we kind generalize in the type checker
+- A kind variable mentioned explicitly in a type must always be bound by an explicit `forall`, unlike type variables for which Haskell adds an implicit `forall`.
+- When there is no explicit `forall`, we add an implicit forall for not-in-scope *type* variables in the renamer, and we kind generalize in the type checker.
 - In the context of a function signature, an explicit forall binds its variables (type or kind) in the function equations (as it is currently the case for type variables).
 
 ```wiki
@@ -30,12 +31,14 @@ f3 :: forall a. f a -> Int             -- Not in scope: type variable `f'
 f4 :: forall f a. f a -> Int           -- forall (f :: * -> *) (a :: *). f a -> Int
 
 f5 :: forall f (a :: k). f a -> Int    -- Not in scope: kind variable `k'
+                                       -- We are a little unsure about this. Mabye we
+                                       -- should kind-generalise
 
 f6 :: forall k f a. f a -> Int         -- Warning: Unused quantified type variable `k'
                                        -- forall k (f :: * -> *) (a :: *). f a -> Int
 
-f7 :: forall k f (a :: k). f a -> Int  -- forall k (f :: k -> *) (a :: k). f a -> Int
-
+f7 :: forall k f (a :: k). f a -> Int           -- forall k (f :: k -> *) (a :: k). f a -> Int
+f8 :: forall k. forall f (a :: k). f a -> Int  -- forall k (f :: k -> *) (a :: k). f a -> Int
 
 g1 :: (f a -> Int) -> Int                      -- forall (f :: k -> *) (a :: k). (f a -> Int) -> Int
 
@@ -72,7 +75,9 @@ Additionnal rules:
 
 ```wiki
 class C1 (f :: k1 -> *) (g :: k2 -> k1) where  -- forall k1 k2. (k1 -> *) -> (k2 -> k1) -> Constraint
-  foo :: f (g a) -> f b                        -- forall (a :: k2) (b :: k1). f (g a) -> f b
+  foo :: f (g a) -> (f :: k1 -> *) b           -- forall (a :: k2) (b :: k1). f (g a) -> f b
+          -- Note that k1 and k2 scope over the type signatures
+          -- just as f and g do.
 
 -- C2 looks much easier with defaulting
 class C2 f g where                             -- (* -> *) -> (* -> *) -> Constraint
@@ -85,11 +90,14 @@ class C3 (f :: k1 -> *) g where                -- forall k1. (k1 -> *) -> (* -> 
 #### Data types
 
 ```wiki
-data T1 s as where                         -- (* -> *) -> [*] -> *
-  Foo :: s a -> T1 s as -> T1 s (a ': as)  -- forall (s :: * -> *) (a :: *) (as :: [*]). the same
+data T1 s as where                          -- forall k. (k -> *) -> [k] -> *
+  Foo1 :: s a -> T1 s as -> T1 s (a ': as)  -- forall k (s :: k -> *) (a :: k) (as :: [k]). 
+                                            --   s a -> T1 k s as -> T1 k s ((':) k a as)
+    -- Note that s,a do not scope over the declaration of Foo
 
-data T1 s (as :: [k]) where                -- forall k. (k -> *) -> [k] -> *
-  Foo : s a -> T1 s as -> T1 s (a ': as)   -- forall k (s :: k -> *) (a :: k) (as :: [k]). the same where `T1' becomes `T1 k'
+data T2 s (as :: [k]) where                 -- Same as T1
+  Foo2 : s a -> T1 s as -> T1 s (a ': as)   -- Same as Foo1
+    -- Note that s,as,k do not scope over the declaration of Foo
 ```
 
 #### Type families
