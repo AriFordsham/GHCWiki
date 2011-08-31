@@ -1,6 +1,3 @@
-
-[http://video.google.com/videoplay?docid=7166458546326012899  Video: Getting and Building], layout of the source tree, how to set up build.mk (23'43")
-
 = Getting the GHC Sources =
 
 There are two ways to get sources to GHC: download a source distribution, or get the sources directly from our repository using [http://git-scm.com/ git].
