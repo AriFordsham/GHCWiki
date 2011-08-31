@@ -65,7 +65,9 @@ Additionnal rules:
 
 {{{
 class C1 (f :: k1 -> *) (g :: k2 -> k1) where  -- forall k1 k2. (k1 -> *) -> (k2 -> k1) -> Constraint
-  foo :: f (g a) -> f b                        -- forall (a :: k2) (b :: k1). f (g a) -> f b
+  foo :: f (g a) -> (f :: k1 -> *) b           -- forall (a :: k2) (b :: k1). f (g a) -> f b
+          -- Note that k1 and k2 scope over the type signatures
+          -- just as f and g do.
 
 -- C2 looks much easier with defaulting
 class C2 f g where                             -- (* -> *) -> (* -> *) -> Constraint
