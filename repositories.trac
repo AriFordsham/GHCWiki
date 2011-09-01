@@ -33,6 +33,8 @@ Many of the libraries and tools in a GHC tree are actually maintained by someone
 
 This means that when making changes needed in GHC to one of these libraries, we first need to put the changes in the upstream repository. Note that a git hook prevents you from pushing patches to the ghc repos until they are already in the git mirror repos, so that we cannot forget to send changes upstream.
 
+The mirrors are updated automatically each night, but you can force an immediate update by running `/srv/darcs/do_mirrors` on `darcs.haskell.org`.
+
 == When the master repo is in Git ==
 
 If the master (upstream) repo is in Git (eg `containers`), you can use the following workflow:
@@ -41,7 +43,7 @@ If the master (upstream) repo is in Git (eg `containers`), you can use the follo
 
 In other words, you don't need to interact with the git mirror on `darcs.haskell.org`. It is ''only'' there so that in step (2), the push script can check that the patch you are pushing is in the mirror, thereby ensuring that we always lag the master repo.  (For some reason this is hard to do directly on the master.)
 
-So step 2 may fail until the mirror has been updated, which may take overnight.  I believe there is a way to kick the mirror into action earlier, but I don't know what it is. (Ian?)
+Note step 2 will fail until the mirror has been updated.
 
 == When the master repo is in Darcs == 
 
