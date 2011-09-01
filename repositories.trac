@@ -25,20 +25,33 @@ The "`tag`" in the master table in packages has the following significance:
  * '''"`dph`"''': packages for [wiki:DataParallel Data Parallel Haskell], which is not shipped with GHC but we test all changes to GHC against these repositories so they are usually included in a checked-out source tree.
  * '''"`extra`"''': extra packages you might want to include in a build (the `parallel` package, for example), but aren't necessary to get a working GHC.
 
-== Repository locations ==
+== Repository and mirrors ==
 
 Many of the libraries and tools in a GHC tree are actually maintained by someone else. They therefore have a separate upstream repository, from which we need to pull. That repository may be either a darcs or a git repository; in the darcs case, we also need to convert to a git repository for use in a GHC tree. However, if the darcs repository is on another server, then we first need to mirror it for the conversion program to use. This diagram shows how changes migrate from one repo to another:
 
 [[Image(repos.png)]]
 
-This means that when making changes needed in GHC to one of these libraries, we first need to put the changes in the upstream repository. For example, to make a change to Cabal:
+This means that when making changes needed in GHC to one of these libraries, we first need to put the changes in the upstream repository. Note that a git hook prevents you from pushing patches to the ghc repos until they are already in the git mirror repos, so that we cannot forget to send changes upstream.
 
- * First push the change as a darcs patch to the upstream Cabal repository, http://code.haskell.org/Cabal/
- * The patch will be mirrored and converted to git by the mirror script, in the repo http://darcs.haskell.org/git-mirrors/Cabal/.git/
- * You then need to pull from http://darcs.haskell.org/git-mirrors/Cabal/.git/ into `libraries/Cabal` in a regular GHC tree, validate, and push to the GHC Cabal repo, http://darcs.haskell.org/packages/Cabal.git/
+== When the master repo is in Git ==
 
-Note that a git hook prevents you from pushing patches to the ghc repos until they are already in the git mirror repos, so that we cannot forget to send changes upstream.
+If the master (upstream) repo is in Git (eg `containers`), you can use the following workflow:
+ 1. Push the change to the upstream repo `//github.com/haskell/containers.git`
+ 2. Push the change to the validated GHC repo for `containers`, namely [http://darcs.haskell.org/packages/containers.git]
 
+In other words, you don't need to interact with the git mirror on `darcs.haskell.org`. It is ''only'' there so that in step (2), the push script can check that the patch you are pushing is in the mirror, thereby ensuring that we always lag the master repo.  (For some reason this is hard to do directly on the master.)
+
+So step 2 may fail until the mirror has been updated, which may take overnight.  I believe there is a way to kick the mirror into action earlier, but I don't know what it is. (Ian?)
+
+== When the master repo is in Darcs == 
+
+Things are a bit more complicated when the master repo is in Darcs.  For example, to make a change to Cabal:
+
+ 1. First push the change as a darcs patch to the upstream Cabal repository, http://code.haskell.org/Cabal/
+ 2. The patch will be mirrored and converted to git by the mirror script, in the repo http://darcs.haskell.org/git-mirrors/Cabal/.git/
+ 3. You then need to pull from http://darcs.haskell.org/git-mirrors/Cabal/.git/ into `libraries/Cabal` in a regular GHC tree, validate, and push to the GHC Cabal repo, http://darcs.haskell.org/packages/Cabal.git/
+
+== Repository locations == 
 {{{
 #!html
 
