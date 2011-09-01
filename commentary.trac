@@ -65,6 +65,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:SafeHaskell Safe Haskell]: The design of the GHC Safe Haskell extension
    
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
+   * [wiki:PackageLanguage A modular package language for Haskell] Scott Kilpatrick and Derek Dreyer are designing a new “package language” for Haskell in the style of the ML module system.
    * [wiki:PatternSynonyms Pattern synonyms]
    * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
    * [wiki:TypeNats Type level naturals]
