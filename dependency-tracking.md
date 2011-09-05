@@ -1,4 +1,4 @@
-# Improved dependency tracking for --make
+# Improved dependency tracking for GHC
 
 
 Many packages these days are using Template Haskell to grab information from the filesystem at compile time. I'll use Hamlet as a motivating example, though this applies to others as well.
