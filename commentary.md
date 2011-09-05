@@ -91,7 +91,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Explicit Call Stack](explicit-call-stack): Notes about maintaining an explicit call stack, to support error attribution and profiling.
   - [Objective-C FFI](objective-c): Haskell FFI support for Objective-C
   - [C Blocks](block-objects): Haskell FFI support for block objects (closures) in C
-  - Haskell Dependency Tracking?
+  - Improved dependency tracking?
 
 - GHCi Debuger
 
