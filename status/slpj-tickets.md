@@ -169,6 +169,6 @@
 ## Not sure what to do about these
 
 - [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284): the state-hack "optimisation" causes much re-computation
-- [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872),[\#5400](https://gitlab.haskell.org//ghc/ghc/issues/5400): divergence in simplifier
+- [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872),[\#5400](https://gitlab.haskell.org//ghc/ghc/issues/5400): loop in simplifier inliner
 - [\#4005](https://gitlab.haskell.org//ghc/ghc/issues/4005): generational GC pathalogical case
 - [\#1349](https://gitlab.haskell.org//ghc/ghc/issues/1349): strict function argument types
