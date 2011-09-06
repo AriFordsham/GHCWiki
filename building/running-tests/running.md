@@ -91,6 +91,13 @@ $ make CLEANUP=1
 ```
 
 
+To just clean all the tests, without running any:
+
+```wiki
+$ make CLEANUP=1 CLEAN_ONLY=YES
+```
+
+
 If you have python 2.5.2 or later then you can ```run the testsuite in parallel```:
 
 ```wiki
