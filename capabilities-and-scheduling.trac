@@ -41,9 +41,9 @@ In schedule() is a pretty classical scheduler loop. I have stripped away several
     }
 }}}
 
-The scheduler picks up a thread off the run queand decides what to do with it. If it is runnable, then it calles the function StgRun() to run it. At the end of the code block, the variable “ret” is set to indicate why the the thread stopped. 
+The scheduler picks up a thread off the run queue and decides what to do with it. If it is runnable, then it calles the function StgRun() to run it. At the end of the code block, the variable “ret” is set to indicate why the the thread stopped. 
 
-Haskell threads are not time-sliced via a timer (potentially a time rinterrupt) the way OS threads are [cross check if there is some time sliced mechanism]. Instead they are interreupted by certain commonly occuring events. Due to the lazy nature of Haskell thunks need to be created and values need to be computed very often. Hence the execution of a thread entails lots of of memory allocation. One of the ways the execution of a thread is interrupted is when a thread has run out of space in its current block - it then returns control back to the scheduler. 
+Haskell threads are not time-sliced via a timer (potentially a timer interrupt) the way OS threads are [cross check if there is some time sliced mechanism]. Instead they are interrupted by certain commonly occuring events. Due to the lazy nature of Haskell, thunks need to be created and values need to be computed very often. Hence the execution of a thread entails lots of of memory allocation. One of the ways the execution of a thread is interrupted is when a thread has run out of space in its current block - it then returns control back to the scheduler. 
 
   I stand corrected about the above - ''We do have a time-slice mechanism: the timer interrupt (see Timer.c) sets the context_switch flag, which causes the running thread to return to the scheduler the next time a heap check fails (at the end of the current nursery block). When a heap check fails, the thread doesn't necessarily always return to the scheduler: as long as the context_switch flag isn't set, and there is another block in the nursery, it resets Hp and HpLim to point to the new block, and continues.''
 
@@ -88,7 +88,7 @@ The scheduleHandleHeapOverflow(cap,t) call decides to give the thread another bl
 
 == More about Capabilities == 
 
-It is useful to understand capabilities well because it is closely tied to the maintenance of the program roots and multithreading in Haskell - all of which the GC has to be aware of. If however you are readin this the first time, you may want to skip this section and come back to it later. 
+It is useful to understand capabilities well because it is closely tied to the maintenance of the program roots and multithreading in Haskell - all of which the GC has to be aware of. If however you are reading this the first time, you may want to skip this section and come back to it later. 
 
 Capabilities are defined in capability.h. The file OSThreads.h provide an platform neutral absraction for OS level threads used by Haskell. 
 
@@ -166,7 +166,7 @@ struct Capability_ {
 
   Question - if a capability can consist of multiple OS threads then in THREADED_RTS, where is the list of current threads in execution? 
 
-Here are some important observations about a capability: it consists of essentially a collection of OS threads, a register set and a set of TSOs. The resister set is the member of type 'r'. Real hardware may or may not provide mappings of these to actual registers. [Anything else to add here?].
+Here are some important observations about a capability: it consists of essentially a collection of OS threads, a register set and a set of TSOs. The register set is the member of type 'r'. Real hardware may or may not provide mappings of these to actual registers. [Anything else to add here?].
 
 == TSO ==
 
@@ -215,7 +215,7 @@ typedef struct StgTSO_ {
 } StgTSO;
 }}}
 
-Probabky the single most important part of a TSo from the perspectice of the GC is the stack that it contains. This stack is essentially the 'roots of the program'.
+Probably the single most important part of a TSO from the perspective of the GC is the stack that it contains. This stack is essentially the 'roots of the program'.
 
 A TSO is treated like any other object by the GC and it resides in the program heap. A TSO is always part of its mut list. A TSO is considered "clean" if it does not contain pointers to previous generations. This happens in the case where a TSO went through a GC and the objects it refers to got promoted. It then didn't allocate any memory since (maybe it didn't get scheduled) till the next GC. In that case it is considered "clean" - being clean is indicated by its dirty bit (tso->flags & TSO_DIRTY) not being set. 
 
