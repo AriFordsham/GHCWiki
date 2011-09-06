@@ -2,7 +2,7 @@
 
 = Haskell Excecution: Registers =
 
-Source files: [[GhcFile(includes/Regs.h)]], [[GhcFile(includes/MachRegs.h)]]
+Source files: [[GhcFile(includes/stg/Regs.h)]], [[GhcFile(includes/stg/MachRegs.h)]]
 
 During execution of Haskell code the following (virtual) registers are always valid:
  * `Hp` points to the byte before the first free byte in the (contiguous) allocation space.
