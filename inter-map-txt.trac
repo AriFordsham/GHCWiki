@@ -56,6 +56,10 @@ peak        http://peak.telecommunity.com/DevCenter/ # $1 in Python Enterprise A
 MODPYTHON   http://issues.apache.org/jira/browse/MODPYTHON- # Issue $1 in mod_python's JIRA instance
 SvnWiki     http://www.orcaware.com/svn/wiki/ # Subversion Wiki
 
+# Haskell specific
+hackage     http://hackage.haskell.org/package/$1 # Haskell Package $1 from the HackageDB
+
+
 #
 # A arbitrary pick of InterWiki prefixes...
 #
