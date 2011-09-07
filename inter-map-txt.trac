@@ -57,7 +57,7 @@ MODPYTHON   http://issues.apache.org/jira/browse/MODPYTHON- # Issue $1 in mod_py
 SvnWiki     http://www.orcaware.com/svn/wiki/ # Subversion Wiki
 
 # Haskell specific
-hackage     http://hackage.haskell.org/package/$1 # Haskell Package $1 from the HackageDB
+hackagedb   http://hackage.haskell.org/package/$1 # Haskell Package $1 from the HackageDB
 
 
 #
