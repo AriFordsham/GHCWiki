@@ -58,15 +58,16 @@ A small extension to the syntax of import statements, adding a `safe` keyword:
 > `impdecl -> `import` [`safe`] [`qualified`] modid [`as` modid] [impspec]`
 
 
-When enabled, a module imported with the safe keyword must be a trusted module, otherwise a compilation error will result. Safe imports can be enabled by themselves but are automatically enabled as part of the safe language dialect where all imports are considered safe imports. Safe imports are enabled through either `-XSafe`, `-XTrustworthy`or `-XSafeImports`.
+When enabled, a module imported with the safe keyword must be a trusted module, otherwise a compilation error will result. Safe imports can be enabled by themselves but are automatically enabled as part of the safe language dialect where all imports are considered safe imports. Safe imports are enabled through either `-XSafe`, `-XTrustworthy`, `-XUnsafe` or `-XSafeImports`.
 
 ## Trust
 
 
-The SafeHaskell project will introduce two new GHC LANGUAGE options. Intuitively:
+The SafeHaskell project will introduce three new GHC LANGUAGE options. Intuitively:
 
 - `-XSafe`: enables the Safe Language dialect of Haskell in which GHC rejects any module that might produce unsafe effects or otherwise subvert the type system.
 - `-XTrustworthy`: means that, though a module may invoke unsafe functions internally, the module's author claims that the exported API cannot be used in an unsafe way.
+- `-XUnsafe`: means that GHC should always regard this module as untrusted. This is needed as without any flags GHC will try to infer safety.
 
 
 A **client** (C) is someone compiling a source module with GHC.
@@ -77,6 +78,25 @@ The LANGUAGE extensions have the following effect. When a client C compiles a mo
 - Under `-XSafe` the Safe Language dialect is enabled where several potentially-unsafe language features, listed under "Threats" below, are disabled. 
 - Under `-XSafe`, all M's imports must be trusted by C (defined below), or the module will be rejected
 - Under `-XTrustworthy` all M's `safe` imports must be trusted by C, or the module will be rejected
+- Under `-XUnsafe` all M's `safe` imports must be trusted by C, or the module will be rejected
+
+
+A **module M from package P is trusted by a client C** iff
+
+- Both of these hold:
+
+  - The module was compiled with `-XSafe`
+  - All of M's direct imports are trusted by C
+- OR both of these hold:
+
+  - The module was compiled with `-XTrustworthy`
+  - All of M's direct safe imports are trusted by C
+
+
+When required we will differentiate between `-XSafe` and `-XTrustworthy` using **safe** and **trustworthy** respectively.
+
+
+The above definition of trust has an issue though. Any module can be compiled with `-XTrustworthy` and it will be trusted regardless of what it does. To control this there is an additional definition of **package trust** (enabled with the `-XPackageTrust` flag). The point of package trusts is to require that the client C explicitly say which packages are allowed to contain trustworthy modules. That is, C establishes that it trusts a package P and its author and so trust the modules in P that use `-XTrustworthy`. When package trust is enabled, any modules that are considered trustworthy but reside in a package that isn't trusted are **not** considered trusted. In a more formal definition we have:
 
 
 A **package P is trusted by a client C** iff one of these conditions holds
@@ -88,28 +108,32 @@ A **package P is trusted by a client C** iff one of these conditions holds
 It is up to C to decide what packages to trust; it is not a property of P.
 
 
-A **module M from package P is trusted by a client C** iff
+When the `-XPackageTrust` flag is used a **module M from package P is trusted by a client C** iff
 
 - Both of these hold:
 
   - The module was compiled with `-XSafe`
   - All of M's direct imports are trusted by C
-- OR all of these hold:
+- OR both of these hold:
 
   - The module was compiled with `-XTrustworthy`
   - All of M's direct safe imports are trusted by C
   - Package P is trusted by C
 
 
-When required we will differentiate between `-XSafe` and `-XTrustworthy` using **safe** and **trustworthy** respectively.
+While the mechanism to check if a `-XSafe` compiled module appears to be the same both when `-XPackageTrust` is and isn't used this is not strictly the case. The definition of trust is transitive, so when `-XPackageTrust` is in use importing a safe compiled module can still impose a requirement that a certain package P be trusted if there is a module M in the transitive closure of dependent modules, where M is trustworthy and resides in P.
+
+
+Previously the design of Safe Haskell didn't have the `-XPackageTrust` flag. Instead package trust checking was always done. This check was moved into an optional flag as otherwise it causes Safe Haskell to affect users of Haskell who have no interest in Safe Haskell and makes doing safety inference a more complicated story. Please see below for information on Safe Haskell inference.
 
 ### Intuition
 
 
 The intuition is this. The **author** of a package undertakes the following obligations:
 
-- When the author of code compiles it with -XSafe, he asks the compiler to check that it is indeed safe. He takes on no responsibility himself. Although he must trust imported packages in order to compile his package, he takes not responsibility for them.
-- When the author of code compiles it with -XTrustworthy he takes on responsibility for the safety of that code, under the assumption that safe imports are indeed safe.
+- When the author of code compiles it with `-XSafe`, he asks the compiler to check that it is indeed safe. He takes on no responsibility himself. Although he must trust imported packages in order to compile his package, he takes no responsibility for them.
+- When the author of code compiles it with `-XTrustworthy` he takes on responsibility for the safety of that code, under the assumption that safe imports are indeed safe.
+- When the author of code compiles it with `-XUnsafe` he explicitly declares the module untrusted.
 
 
 When a **client** C trusts package P, he expresses trust in the author of that code. But since the author makes no guarantees about safe imports, C may need to chase dependencies to decide which modules in P should be trusted by C. 
@@ -140,6 +164,20 @@ Suppose client C decides to trust package P. Then does C trust module M? To deci
 
 Notice that C didn't need to trust package Wuggle; the machine checking is enough. C only needs to trust packages that have `-XTrustworthy` modules in them.
 
+### Safety Inference
+
+
+In the case where a module is compiled without one of `-XSafe`, `-XTrustworthy` or `-XUnsafe` being used, GHC will try to figure out itself if the module can be considered safe or not. This safety inference will never mark a module as trustworthy, only as either unsafe or as safe. GHC uses a simply method to determine this for a module M:
+
+- If M would compile without error under the `-XSafe` flag, then the module is marked as safe.
+- If M would fail to compile under the `-XSafe` flag, then the module is marked as unsafe.
+
+
+When should you use Safe Haskell inference and when should you use an explicit `-XSafe` flag? The later case should be used when you have a hard requirement that the module be safe. That is, the use cases outlined on this page and the purpose for which Safe Haskell is intended: compiling untrusted code. Safe inference is meant to be used by ordinary Haskell programmers. Users who probably don't care about Safe Haskell.
+
+
+Say you are writing a Haskell library. Then you probably just want to use Safe inference. Assuming you avoid any unsafe features of the language then your modules will be marked safe. This is a benefit as now a user of your library who may want to use it as part of an API exposed to untrusted code can use the library without any changes. If there wasn't safety inference then either the writer of the library would have to explicitly use Safe Haskell, which is an unreasonable expectation of the whole Haskell community. Or the user of the library would have to wrap it in a shim that simply re-exported your API through a trustworthy module, an annoying practice.
+
 ### Imports Without Trust
 
 
@@ -150,8 +188,9 @@ We also want to be able to enable the safe import extensions without any corresp
 
 We see these being used for more flexibility during development of trusted code. We have this relation between the flags:
 
-- `-XTrustworthy` implies `-XSafeImports` and establishes Trust guaranteed by client C.
 - `-XSafe` implies `-XSafeImports`, enables the Safe dialect and establishes Trust guaranteed by GHC.
+- `-XTrustworthy` implies `-XSafeImports` and establishes Trust guaranteed by client C.
+- `-XUnsafe` implies `-XSafeImports` and marks a module as Untrusted.
 
 
 In Summary we have the following LANGUAGE options and affects:
@@ -168,7 +207,7 @@ In Summary we have the following LANGUAGE options and affects:
 
 > > **Module Trusted**: Yes 
 > > **Haskell Language**: Restricted to Safe Language 
-> > **Imported Modules**: All forced to be safe imports, all must be trusted. 
+> > **Imported Modules**: All forced to be safe imports, all must be trusted 
 
 - **`-XTrustworthy`**:
 
@@ -180,9 +219,21 @@ In Summary we have the following LANGUAGE options and affects:
 > > no effect on the accepted range of Haskell programs or their
 > > semantics.
 
-> > **Module Trusted**: Yes but only if Package the module resides in is also trusted. 
+> > **Module Trusted**: Yes 
 > > **Haskell Language**: Unrestricted 
-> > **Imported Modules**: Under control of module author which ones must be trusted. 
+> > **Imported Modules**: Under control of module author which ones must be trusted 
+
+- **`-XUnsafe`**:
+
+> >
+> > Explicitly mark the module as unsafe. Don't allow the Safe Haskell inference mechanism to
+> >
+> > >
+> > > record it as safe. This flag implies `-XSafeImports`, so safe imports can be used.
+
+> > **Module Trusted**: No 
+> > **Haskell Language**: Unrestricted 
+> > **Imported Modules**: Under control of module author which ones must be trusted 
 
 - **`-XSafeImport`**:
 
@@ -190,9 +241,40 @@ In Summary we have the following LANGUAGE options and affects:
 > > Enable the Safe Import extension so that a module can require
 > > a dependency to be trusted without asserting any trust about itself.
 
+> > **Module Trusted**: Determined by GHC 
+> > **Haskell Language**: Unrestricted 
+> > **Imported Modules**: Under control of module author which ones must be trusted 
+
+
+All of the above flags can also be combined with the `-XPackageTrust` flag, resulting in: 
+
+- **`-XPackageTrust -XSafe`**'
+  Enable package trust checking plus restrictions normally enabled by `-XSafe` on its own.
+
+> > **Module Trusted**: Yes 
+> > **Haskell Language**: Restricted to Safe Language 
+> > **Imported Modules**: All forced to be safe imports, all must be trusted 
+
+- **`-XPackageTrust -XTrustworthy`**
+  Enable package trust checking and marks a module as trustworthy.
+
+> > **Module Trusted**: Yes if the package it resides in is trusted 
+> > **Haskell Language**: Unrestricted 
+> > **Imported Modules**: Under control of module author which ones must be trusted 
+
+- **`-XPackageTrust -XUnsafe`**
+  Enable package trust checking and mark the module as unsafe.
+
 > > **Module Trusted**: No 
 > > **Haskell Language**: Unrestricted 
-> > **Imported Modules**: Under control of module author which ones must be trusted. 
+> > **Imported Modules**: Under control of module author which ones must be trusted 
+
+- **`-XPackageTrust -XSafeImport`**
+  Enable package trust checking and safe imports.
+
+> > **Module Trusted**: Determined by GHC. 
+> > **Haskell Language**: Unrestricted 
+> > **Imported Modules**: Under control of module author which ones must be trusted 
 
 ### Specifying Package Trust
 
@@ -210,15 +292,26 @@ On the command line, several new options control which packages are trusted:
 ### Interaction of Options
 
 
-The `-XSafe`, `-XTrustworthy`, and `-XSafeImport` GHC LANGUAGE options are all order independent. When they are used they disable certain other GHC LANGUAGE and OPTIONS_GHC options.
+The `-XSafe`, `-XTrustworthy`, `-XUnsafe`, `-XPackageTrust` and `-XSafeImport` GHC LANGUAGE options are all order independent. When they are used they disable certain other GHC LANGUAGE and OPTIONS_GHC options.
 
 - **`-XSafe`**:
 
   - Enables the Safe Language dialect which disallows the use of some LANGUAGE and OPTIONS, as well as restricting how certain Haskell language features operate. See [\#SafeLanguage](safe-haskell#safe-language) below for details.
 
-- **`-XTrustworthy`** has no special interactions.
+    - Can't be used when `-XTrustworthy` or `-XUnsafe` is used.
 
-- **`-XSafeImports`** has no special interactions. `-XSafe`, `-XTrustworthy` are both compatible with it as they all imply `-XSafeImports` anyway.
+- **`-XTrustworthy`** has no special interactions except that it can't be used when `-XSafe` or `-XUnsafe` is used.
+
+- **`-XUnsafe`** has no special interactions except that it can't be used when `-XSafe` or `-XTrustworthy` is used.
+
+- **`-XPackageTrust`** turns on package trust checking. Has no special interactions, can be used with `-XSafe`, `-XTrustworthy`, `-XUnsafe` and `-XSafeImports`.
+
+- **`-XSafeImports`**:
+
+  - Has no special interactions.
+
+    - `-XSafe`, `-XTrustworthy` are both compatible with it as they all imply `-XSafeImports` anyway.
+    - Compatible with `-XUnsafe` and with `-XPackageTrust`.
 
 ## Safe Language
 
