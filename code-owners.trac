@@ -100,7 +100,7 @@ and a short description of what they're doing or have done.
  * [mailto:dons@cse.unsw.edu.au Don Stewart] (OpenBSD support)
  * [mailto:josefs@cs.chalmers.se Josef Svenningsson]
  * [mailto:audreyt@audreyt.org Audrey Tang] (Perl-related tools (ghc-asm, ghc-split), AIX port)
- * David Terei (LLVM)
+ * [mailto:dave.terei@gmail.com David Terei] (LLVM, Safe Haskell)
  * [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller] (Darwin/Mac OS X ports, position-independent code generation)
  * [mailto:davve@dtek.chalmers.se David Waern] (Haddock comment support)
  * [mailto:Malcolm.Wallace@cs.york.ac.uk Malcolm Wallace]

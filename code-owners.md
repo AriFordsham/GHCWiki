@@ -116,7 +116,7 @@ and a short description of what they're doing or have done.
 - Don Stewart (OpenBSD support)
 - Josef Svenningsson
 - Audrey Tang (Perl-related tools (ghc-asm, ghc-split), AIX port)
-- David Terei (LLVM)
+- David Terei (LLVM, Safe Haskell)
 - Wolfgang Thaller (Darwin/Mac OS X ports, position-independent code generation)
 - David Waern (Haddock comment support)
 - Malcolm Wallace
