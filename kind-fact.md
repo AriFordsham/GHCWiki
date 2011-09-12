@@ -1,18 +1,24 @@
-# Adding Kind Fact
+# Adding kind `Constraint`
 
 
-Proposal: extend the kind system with a kind **Fact** to cover constraints as well as types, in order to reuse existing abstraction mechanisms, notably **type synonyms**, in the constraint language.
+This page describes an extension to kind system that supporsts a
+kind **Constraint** to cover constraints as well as types, in
+order to reuse existing abstraction mechanisms, notably **type
+synonyms**, in the constraint language.
 
 
-Much of the motivation for this proposal can be found in [ Haskell Type Constraints Unleashed](http://www.cs.kuleuven.be/%7Etoms/Research/papers/constraint_families.pdf) which identifies the shortage of abstraction mechanisms for constraints relative to types. See ticket [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788) for the resulting **constraint synonym** proposal, which seeks to fill some of the gaps with new declaration forms. Here, however, the plan is to extend the kind system, empowering the existing mechanisms to work with constraints. [ Max Bolingbroke](http://blog.omega-prime.co.uk/?p=61), commenting on [ context aliases](http://www.haskell.org/haskellwiki/Context_alias) (in turn based on John Meacham's [ class alias](http://repetae.net/recent/out/classalias.html) proposal) makes a similar suggestion, remarking that a new kind would probably help. The claim here is that the new kind obviates the need for other new syntax.
+Much of the motivation for this proposal can be found in [ Haskell Type Constraints Unleashed](http://www.cs.kuleuven.be/%7Etoms/Research/papers/constraint_families.pdf) which identifies the shortage of abstraction mechanisms for constraints relative to types. See ticket [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788) for the resulting **constraint synonym** proposal, which seeks to fill some of the gaps with new declaration forms. Here, however, the plan is to extend the kind system, empowering the existing mechanisms to work with constraints. [ Max Bolingbroke](http://blog.omega-prime.co.uk/?p=61), commenting on [ context aliases](http://www.haskell.org/haskellwiki/Context_alias) (in turn based on John Meacham's [ class alias](http://repetae.net/recent/out/classalias.html) proposal) makes a similar suggestion, remarking that a new kind would probably help. The final design is largely the work of Conor McBride.
 
-## The proposal
 
-- Add a kind `Fact` for constraints, so that, e.g. `Monad :: (* -> *) -> Fact`.
+The new design has now been implemented by Max Bolingbroke.  It's in HEAD and upcoming GHC 7.4, and is described in [ Max's Sept 2011 blog post](http://blog.omega-prime.co.uk/?p=127).
 
-- Close `Fact` under tuples, so `(F1, .. Fn) :: Fact` iff each `Fi :: Fact`.
+## The design: user's eye view
 
-- Allow (rather, neglect to forbid) the use of `type` to introduce synonyms for Fact(-constructing) things.  Thus one might say
+- Add a kind `Constraint` for constraints, so that, e.g. `Monad :: (* -> *) -> Constraint`.
+
+- Close `Constraint` under tuples, so `(F1, .. Fn) :: Constraint` iff each `Fi :: Constraint`.
+
+- Allow (rather, neglect to forbid) the use of `type` to introduce synonyms for Constraint(-constructing) things.  Thus one might say
 
   ```wiki
   type Transposable f = (Traversable f, Applicative f)
@@ -33,32 +39,49 @@ Much of the motivation for this proposal can be found in [ Haskell Type Constrai
 
   ```wiki
   type MyUnit = () -- gives the unit type by default
-  type MyTrue = () :: Fact  -- needs the kind signature to override the default
+  type MyTrue = () :: Constraint  -- needs the kind signature to override the default
   ```
 
 - Allow the **type family** mechanism to extend to the new kinds, pretty much straight out of the box. For example:
 
   ```wiki
-  type family   HasDerivatives n     f :: Fact
+  type family   HasDerivatives n     f :: Constraint
   type instance HasDerivatives Z     f  = ()
   type instance HasDerivatives (S n) f  = (Differentiable f, HasDerivatives n (D f))
   ```
 
   where `Differentiable` is the class of differentiable functors and `D f` is the associated derivative functor.
 
-## More syntax
+- You can abtract over type variables of kind `Constraint`. Here is a contrived example:
+
+  ```wiki
+  data T a where     -- Notice a :: Constraint
+    MkT :: a => T a  -- Note the cool type:  a => blah
+
+  f :: T (Ord x) -> x -> Bool
+  f MkT x = x > x
+
+  g :: T (Ord Int)
+  g = MkT
+
+  main = print (f g 4)   -- Computes 4>4 = False
+  ```
+
+  We could do with some convincing examples of why this is a good thing, but it simply falls out.
+
+### More syntax
 
 
 One might consider a syntax for giving fully explicit kinds to type synonyms, like this:
 
 ```wiki
-type Reduce :: (* -> *) -> * -> Fact where
+type Reduce :: (* -> *) -> * -> Constraint where
   Reduce m x = (Monad m, Monoid (m x))
 ```
 
-## Discussion
+### Discussion
 
-`Fact` synonyms appear to overlap with superclases.  For example one could say
+`Constraint` synonyms appear to overlap with superclases.  For example one could say
 
 ```wiki
 class (Read x, Show x) => Stringy x where {}
@@ -79,7 +102,7 @@ But there are significant differences
 
   ```wiki
   class Collection c where
-    type family X c :: * -> Fact
+    type family X c :: * -> Constraint
     empty :: c a
     insert :: (X c) => c a -> a -> c a
 
@@ -94,20 +117,41 @@ But there are significant differences
 
   See [ Bulk types with class](http://research.microsoft.com/en-us/um/people/simonpj/papers/collections.ps.gz).
 
-## Bikeshed discussion of nomenclature
+---
 
-`Fact` is the working name for the new kind. `Constraint` is an obvious contender, but long. `Prop` should *not* be used, as any analogy to Prop in the Calculus of Constructions would be bogus: proofs of a Prop are computationally irrelevant and discarded by program extraction, but witnesses to a Fact are material and computationally crucial. Another thought: 'Constraint' sounds more like a requirement than a guarantee, whereas 'Fact' is neutral. On the other hand, the kinding `F :: Fact` might be misleadingly suggestive of `F`'s truth, over and above its well-formedness.
-
-
-\[illissius\] I checked thesaurus.com for (even remotely) plausible names, and this is what I found:
-
-- Fact, Knowledge, Information, Data, Evidence, Proof
-- Requirement, Constraint, Guarantee, Promise, Contract
-- Characteristic, Attribute, Property, Trait, Capability
-- Axiom, Lemma, Theorem, Proposition, Postulate, Premise, Claim, Posit
+## The design: implementation
 
 
-\[JonasDuregard\] What about Context? That is after all the "official" name for the collections of constraints that appear in type signatures.
+These notes about the implementation are intended for GHC hackers, and logically form part of the GHC Commentary.
 
->
-> \[illissius\] I like it.
+- A major change is that the data type `Type` (in module `TypeRep`) no longer has a `PredTy` construct.  Instead, we have just `Type`.  In a function type `t1 -> t2`, the arguent `t1` is a *constraint argument* iff `t1 :: Constraint`.
+
+- Constraint arguments are pretty-printed before a double arrow "`=>`" when displaying types.  Moreover they are passed implicitly in source code; for example if `f :: ty1 => ty2 -> ty3` then the Haskell programmer writes a call `(f e2)`, where `e2 :: ty2`, and the compiler fills in the first argument of type `ty1`.
+
+- A constraint type (of kind `Constraint`) can take one of these forms
+
+  - **Equality constraint**: `TyConApp eqTyCon [ty1, ty2]`
+  - **Class constraint**: `TyConApp tc [ty1, ty2]`, where `tc` is a `TyCon` whose `classTyCon_maybe` is `Just cls`.
+  - **Implicit parameter**: `TyConApp tc [ty1]`, where `tc` is a `TyCon` whose `tyConIP_maybe` is `Just ip`.
+  - **Tuple constraint**: `TyConApp tup_tc [ty1, ..., tyn]`, where `tup_tc` is a constraint tuple `TyCon`.  
+  - **Constraint variable**: `TyVarTy tv` where `tv` has kind `Constraint`.
+
+- Constraint types (ie types with kind `Constraint`) are always boxed. The constraint solver in the type checker deals solely in terms of boxed constraints.
+
+- **Implicit parameters** have a type written `?x::Int`, say.  Concretely, this is represented as `TyConApp ?x [intTy]`, where `intTy` is the representation of the type for `Int`, and `?x` is a `TyCon` of kind `(* -> *)`.  There is an infinite family of such implicit-parameter `TyCon`s; see data constructor `IPTyCon` in data type `TyConParent` in `TyCon`.
+
+- **Equality constraints**.  Constraint types are always boxed, including equality constraints.  So `(a ~ b)` is a *boxed* value.   We also have a primtive type of *unboxed* equality constraints, written `(a ~# b)`.  Roughly the former is declared thus:
+
+  ```wiki
+  data a ~ b = Eq# (a ~# b)
+  ```
+
+  where `Eq#` is a data constructor with a single, unboxed, zero-width field of type `(a ~# b)`.  See `TysWiredIn.eqTyCon`.
+
+- **Constraint tuples** are needed for situations like
+
+  ```wiki
+  types X a = (Show a, Ix a)
+  ```
+
+  Although we use standard tuple syntax, internally we use a separate infinite family of tuple `TyCon`s, just as we separate the boxed and unboxed type families.  See `BasicTypes.TupleSort`.
