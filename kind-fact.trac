@@ -98,7 +98,7 @@ instance Collection Data.Set where
   See [http://research.microsoft.com/en-us/um/people/simonpj/papers/collections.ps.gz Bulk types with class].
 
 --------------------------
-== The design: implementation ==
+== Implementation ==
 
 These notes about the implementation are intended for GHC hackers, and logically form part of the GHC Commentary.
 
@@ -113,17 +113,23 @@ a `PredTy` construct.  Instead, we have just `Type`:
    * '''Equality constraint''': `TyConApp eqTyCon [ty1, ty2]` 
    * '''Class constraint''': `TyConApp tc [ty1, ty2]`, where `tc` is a `TyCon` whose `classTyCon_maybe` is `Just cls`.
    * '''Implicit parameter''': `TyConApp tc [ty1]`, where `tc` is a `TyCon` whose `tyConIP_maybe` is `Just ip`.
-   * '''Constraint variable''': `TyVarTy tv` where `tv` has kind `Constraint`.
    * '''Tuple constraint''': `TyConApp tup_tc [ty1, ..., tyn]`, where `tup_tc` is a constraint tuple `TyCon`.  
+   * '''Constraint variable''': `TyVarTy tv` where `tv` has kind `Constraint`.
 
- * Implicit parameters have a type written `?x::Int`, say.  Concretely, this is represented as `TyConApp ?x [intTy]`, where `intTy` is the representation of the type for `Int`, and `?x` is a `TyCon` of kind `(* -> *)`.  There is an infinite family of such implicit-parameter `TyCon`s; see data constructor `IPTyCon` in data type `TyConParent` in `TyCon`.
+ * Constraint types (ie types with kind `Constraint`) are always boxed. The constraint solver in the type checker deals solely in terms of boxed constraints.
 
- * Constraint types (ie types with kind `Constraint`) are always boxed, including equality constraints.  So `(a ~ b)` is a ''boxed'' value.   We also have a primtive type of ''unboxed'' equality constraints, written `(a ~# b)`.  Roughly the former is declared thus:
+ * '''Implicit parameters''' have a type written `?x::Int`, say.  Concretely, this is represented as `TyConApp ?x [intTy]`, where `intTy` is the representation of the type for `Int`, and `?x` is a `TyCon` of kind `(* -> *)`.  There is an infinite family of such implicit-parameter `TyCon`s; see data constructor `IPTyCon` in data type `TyConParent` in `TyCon`.
+
+ * '''Equality constraints'''.  Constraint types are always boxed, including equality constraints.  So `(a ~ b)` is a ''boxed'' value.   We also have a primtive type of ''unboxed'' equality constraints, written `(a ~# b)`.  Roughly the former is declared thus:
 {{{
 data a ~ b = Eq# (a ~# b)
 }}}
  where `Eq#` is a data constructor with a single, unboxed, zero-width field of type `(a ~# b)`.  See `TysWiredIn.eqTyCon`.
 
- * The constraint solver in the type checker deals solely in terms of boxed constraints.
+  * '''Constraint tuples'' are needed for situations like
+{{{
+types X a = (Show a, Ix a)
+}}}
+  Although we use standard tuple syntax, internally we use a separate infinite family of tuple `TyCon`s, just as we separate the boxed and unboxed type families.  See `BasicTypes.TupleSort`.
 
-  * Constraint tup
+
