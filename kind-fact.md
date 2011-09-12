@@ -1,4 +1,4 @@
-# Adding Kind `Constraint`
+# Adding kind `Constraint`
 
 
 This page describes an extension to kind system that supporsts a
@@ -119,18 +119,14 @@ But there are significant differences
 
 ---
 
-## Implementation
+## The design: implementation
 
 
 These notes about the implementation are intended for GHC hackers, and logically form part of the GHC Commentary.
 
+- A major change is that the data type `Type` (in module `TypeRep`) no longer has a `PredTy` construct.  Instead, we have just `Type`.  In a function type `t1 -> t2`, the arguent `t1` is a *constraint argument* iff `t1 :: Constraint`.
 
-A major change is that the data type `Type` (in module `TypeRep`) no longer has
-a `PredTy` construct.  Instead, we have just `Type`:
-
-- In a function type `t1 -> t2`, the arguent `t1` is a *constraint argument* iff `t1 :: Constraint`.
-
-- Constraint arguments are pretty-printed before a double arrow "`=>`" when displaying types.  Moreover they are passed implicitly in source code; for exmaple if `f :: ty1 => ty2 -> ty3` then the Haskell programmer writes a call `(f e2)`, where `e2 :: ty2`, and the compiler fills in the first argument of type `ty1`.
+- Constraint arguments are pretty-printed before a double arrow "`=>`" when displaying types.  Moreover they are passed implicitly in source code; for example if `f :: ty1 => ty2 -> ty3` then the Haskell programmer writes a call `(f e2)`, where `e2 :: ty2`, and the compiler fills in the first argument of type `ty1`.
 
 - A constraint type (of kind `Constraint`) can take one of these forms
 
@@ -152,8 +148,7 @@ a `PredTy` construct.  Instead, we have just `Type`:
 
   where `Eq#` is a data constructor with a single, unboxed, zero-width field of type `(a ~# b)`.  See `TysWiredIn.eqTyCon`.
 
-- **Constraint tuples* are needed for situations like
-  ***
+- **Constraint tuples** are needed for situations like
 
   ```wiki
   types X a = (Show a, Ix a)
