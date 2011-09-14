@@ -121,7 +121,14 @@ These notes about the implementation are intended for GHC hackers, and logically
 {{{
 data a ~ b = Eq# (a ~# b)
 }}}
- where `Eq#` is a data constructor with a single, unboxed, zero-width field of type `(a ~# b)`.  See `TysWiredIn.eqTyCon`.
+ where `Eq#` is a data constructor with a single, unboxed, zero-width field of type `(a ~# b)`.  See `TysWiredIn.eqTyCon`. [[BR]][[BR]]
+ The reason we have both boxed and unboxed forms of equality constraint is that 
+   * Boxed equality constraints `(a~b)` can be treated uniformly with all other constraints.  This is a big win in the type checker and, more particularly, in sitautions like
+{{{
+  type Bla a b = (Eq a, a~b)
+}}}
+     We have no way to deal with a tuple with some boxed and some unboxed constraints.[[BR]][[BR]]
+   * Unboxed equality constraints `(a~#b)` can be implemented much more efficiently at runtime; they take no space, and are passed in zero-width registers (of which we have many!).
 
   * '''Constraint tuples''' are needed for situations like
 {{{
