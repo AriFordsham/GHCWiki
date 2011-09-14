@@ -190,7 +190,7 @@ In summary we have the following LANGUAGE options and effects:
 
 All of the above flags can also be combined with the `-fpackage-trust` flag, resulting in: [[BR]]
 
-  * '''`-fpackage-trust -XSafe`''''
+  * '''`-fpackage-trust -XSafe`'''
     Enable package trust checking plus restrictions normally enabled by `-XSafe` on its own.
 
      '''Module Trusted''': Yes [[BR]]
