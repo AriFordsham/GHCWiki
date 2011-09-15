@@ -50,7 +50,7 @@ I know of two sorts of solutions:
 1. Better name spacing
 1. Type directed name resolution
 
-**Are there any approaches?**
+**Are there any other approaches?**
 
 ---
 
