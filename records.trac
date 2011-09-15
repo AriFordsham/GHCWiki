@@ -42,7 +42,7 @@ I know of two sorts of solutions:
 
 In Haskell, you can look at an occurrence of any identifier `f` or `M.f` and decide where it is bound without thinking about types at all.  Broadly speaking it works like this:
  * For qualified names, `M.f`, find an import that binds `M.f`.
- * For unqualified names, `f`, find the innermost binding of `f`; or, if that takes you to top level, look for top level binging of `f` or an import that binds `f`.
+ * For unqualified names, `f`, find the innermost binding of `f`; or, if that takes you to top level, look for top level binding of `f` or an import that binds `f`.
 If there is ambiguity (eg two imports both import something called `f`) then an error is reported.  And that's what happens for the `Record` and `RecordClash` example above.
 
 So one solution for record field names is to specify more precisely which one you mean.  There are two schools of thought:
