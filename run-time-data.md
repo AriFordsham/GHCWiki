@@ -69,13 +69,13 @@ instance Binary a => Binary (Image2 a) where
 
 instance Show a => Renderable (Image1 a) where
     render (Image1 zs) (R r) = do
-                               putStrLn $ show zs
+                               print zs
                                let (e,_) = r (RS 0)
                                return e
 
 instance Show a => Renderable (Image2 a) where
     render (Image2 xs ys) (R r) = do
-                                  putStrLn $ show $ zip xs ys
+                                  print $ zip xs ys
                                   let (e,_) = r (RS 0)
                                   return e
     
@@ -108,8 +108,5 @@ loadFileAndRender fn r = do
 main = do
        a <- getArgs
        e <- loadFileAndRender (head a) (R (\s -> (0,s)))
-       when (e /= 0) $ do
-                       exitWith $ ExitFailure e
-                       return ()
-       return ()
+       when (e /= 0) $ exitWith $ ExitFailure e
 ```
