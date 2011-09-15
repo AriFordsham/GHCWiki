@@ -68,7 +68,7 @@ If there is ambiguity (eg two imports both import something called `f`) then an 
 
 So one solution for record field names is to specify more precisely which one you mean.  There are two schools of thought:
 
-- Optionally use the type name.  So you could say `Record.a` or `RecordClash.a` rather than `a`, to specify which field selector you mean.  Apart from verbosity the difficulty here is that it's hard to know whether you are writing `<module-name>.f` or `<type-name>.f`.  That is, is `Record` the name of a type or of a module.  (Currently it legally could be both.)
+- Optionally use the type name.  So you could say `Record.a` or `RecordClash.a` rather than `a`, to specify which field selector you mean.  Apart from verbosity the difficulty here is that it's hard to know whether you are writing `<module-name>.f` or `<type-name>.f`.  That is, is `Record` the name of a type or of a module?  (Currently it legally could be both.)
 
 - Use the module name space mechanism; after all that's what it's for.  But putting each record definition in its own module is a bit heavyweight. So maybe we need local modules (just for name space control) and local import declarations.  Details are unclear.
 
