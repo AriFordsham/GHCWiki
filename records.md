@@ -49,6 +49,7 @@ I know of two sorts of solutions:
 
 1. Better name spacing
 1. Type directed name resolution
+1. Nonextensible records with polymorphic selection & update
 
 **Are there any other approaches?**
 
@@ -83,3 +84,78 @@ All of the name-space mechanisms require some level of user-supplied disambiguat
 
 
 One particular way of integrating this idea into Haskell is called [ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR).  Proposed a couple of years ago, the Haskell community didn't like it much.  (But I still do; SLPJ.)
+
+---
+
+### Nonextensible records with polymorphic selection & update
+
+
+The ideas in "first class record types" still work in the case of nonextensible records. Using a simplified version of Labels [\#2104](https://gitlab.haskell.org//ghc/ghc/issues/2104) we can implement truly polymorphic selection and update, which would be more expressive than TDNR and wouldn't need a whole new type resolution mechanism. Here is a concrete proposal:
+
+1. Introduce a built-in class `Label`, whose members are strings at the type level. We need a notation for them; I will use double single quotes, so `''string''` is treated as if it was defined by
+
+  ```wiki
+  data ''string''
+
+  instance Label ''string''
+  ```
+
+
+This has global scope, so `''string''` is the same type in all modules. You can't define other instances of `Label`.
+
+1. Define a class (in a library somewhere)
+
+  ```wiki
+  class Label n => Contains r n where
+  	type Field r n :: *
+  	select :: r -> n -> Field r n
+  	update :: r -> n -> Field r n -> r
+  ```
+1. Declarations with field labels such as
+
+  ```wiki
+  data C = F {l1 :: t1, l2 :: t2} | G {l2 :: t2}
+  ```
+
+
+are syntactic sugar for
+
+```wiki
+data C = F t1 t2 | G t2
+
+instance Contains C ''l1'' where
+	Field C ''l1'' = t1
+	select (F x y) _ = x
+	update (F x y) _ x' = F x' y
+
+instance Contains C ''l2'' where
+	Field C ''l2'' = t2
+	select (F x y) _ = y
+	select (G y) _ = y
+	update (F x y) _ y' = F x y'
+	update (G y) _ y' = G y'
+```
+
+1. Selector functions only need to be defined once, however many types they are used in
+
+  ```wiki
+  l1 :: Contains r ''l1'' => r -> Field r ''l1''
+  l1 = select r (undefined ::''l1'')
+
+  l2 :: Contains r ''l2'' => r -> Field r ''l2''
+  l2 = select r (undefined ::''l2'')
+  ```
+1. Constructors are exactly as they are currently. I can't see any use for polymorphic constructors when records are nonextensible.
+
+1. Updates such as
+
+  ```wiki
+  r {l1 = x}
+  ```
+
+
+are syntactic sugar for
+
+```wiki
+update r (undefined::''l1'') x
+```
