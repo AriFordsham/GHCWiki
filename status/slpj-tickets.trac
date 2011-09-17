@@ -60,7 +60,7 @@
  * Use wildcards for dead variables in interface files.
 
 == Tiresome arithmetic things ==
- * #5327: x squared is too slow
+ * #5237: x squared is too slow
  * #2281: properFraction implemented with modf primitive?
  * #4101: constant folding for `(**)`
  * #3676: `realToFrac` conversions

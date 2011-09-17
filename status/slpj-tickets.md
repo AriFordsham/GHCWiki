@@ -67,7 +67,7 @@
 
 ## Tiresome arithmetic things
 
-- [\#5327](https://gitlab.haskell.org//ghc/ghc/issues/5327): x squared is too slow
+- [\#5237](https://gitlab.haskell.org//ghc/ghc/issues/5237): x squared is too slow
 - [\#2281](https://gitlab.haskell.org//ghc/ghc/issues/2281): properFraction implemented with modf primitive?
 - [\#4101](https://gitlab.haskell.org//ghc/ghc/issues/4101): constant folding for `(**)`
 - [\#3676](https://gitlab.haskell.org//ghc/ghc/issues/3676): `realToFrac` conversions
