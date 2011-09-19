@@ -7,7 +7,7 @@ There are two rather different sets of issues:
 
  * The broad issue: '''first class record types'''.  In Haskell there is no "record type" per se. Rather, you can simply give names to the fields of a constructor.  Records are not extensible and here is no polymorphism on records. 
 
-This page focues exclusively on the first, narrow issue of dismbiguating record field names.  We have a separate Wiki page, [wiki:ExtensibleRecords], on the broad issue of first class record types.
+This page focuses exclusively on the first, narrow issue of disambiguating record field names.  We have a separate Wiki page, [wiki:ExtensibleRecords], on the broad issue of first class record types.
 
 On this page I'd like to summarise the problem, and specify alternative designs.  So far it is mostly a skeleton: please fill it out.  The idea is to hold a discussion by email (ghc-users?) but to collect results (alternative designs, trade-offs, pros and cons) here, because email threads quickly get lost.  Simon PJ.
 
