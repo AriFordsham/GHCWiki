@@ -104,7 +104,22 @@ Note that the representation of the constructor `C` does not actually contain th
 ## Construction
 
 
-ToDo
+(ToDo: we have no idea what to do here... yet)
+
+```wiki
+prim :: Int# -> a -> UnpackedArray# a
+
+C a ...
+```
+
+```wiki
+newInteriorArrayContainer# :: Addr# -- info pointer
+                           -> a     -- initial element to fill the array with
+                           -> InteriorArray# a
+```
+
+
+This would make a constructor with the given info table.  The primop can tell how big the constructor is by looking at the info table.
 
 ## GC things
 
