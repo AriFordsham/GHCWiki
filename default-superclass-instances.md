@@ -387,3 +387,9 @@ ordinary type synonyms.  So we might write
 The common factor is that one instance declaration is expanded into
 several with the method definitions distributed appropriately among
 them.
+
+---
+
+# Applications
+
+*If you want superclass instances, add yourself below with a quick sketch of what your application is*
