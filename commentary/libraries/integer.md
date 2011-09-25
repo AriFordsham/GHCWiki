@@ -29,3 +29,6 @@ All of the types and functions in the `Integer` interface have built-in names, e
 
 
 We keep the `LitInteger` representation as late as possible; in particular, it's important that this representation is used in unfoldings in interface files, so that constant folding can happen on expressions that get inlined. We only convert it to a proper core representation of Integer in [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs), where we normally use the Id for `mkInteger` (which we are carrying around in the `LitInteger` constructor) to build an expression like `mkInteger True [123, 456]` (where the `Bool` represents the sign, and the list of `Int`s are 31 bit chunks of the absolute value from lowest to highest).
+
+
+However, there is a special case for `Integer`s that are within the range of `Int` when the `integer-gmp` implementation is being used; in that case, we use the `S#` constructor (via `integerGmpSDataCon` in [compiler/prelude/TysWiredIn.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.lhs)) to break teh abstraction and directly create the datastructure.
