@@ -537,6 +537,8 @@ The following links are to discussions of similar topics:
 
 - [ http://hackage.haskell.org/trac/ghc/ticket/1338\#comment:29](http://hackage.haskell.org/trac/ghc/ticket/1338#comment:29)
 
+- [ http://hackage.haskell.org/package/jail](http://hackage.haskell.org/package/jail)
+
 ## Comments
 
 
