@@ -118,7 +118,7 @@ This creates a file with a `.sparseimage` extension (e.g., `GHC Disk.sparseimage
 ## Building the documentation
 
 
-For some reason, convincing dblatex ti build the docs can be tricky. This worked for me:
+For some reason, convincing dblatex to build the docs can be tricky. This worked for me:
 
 
 From [ http://www.tug.org/mactex/](http://www.tug.org/mactex/) downloaded and installed
