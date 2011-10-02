@@ -45,7 +45,7 @@ There is ongoing work to produce a new, nicer, more modular code generator for G
 ### LLVM's Link Time Optimisations
 
 
-One of LLVM's big marketing features is its support for link time optimisation. This does thinks such as in-lining across module boundaries, more aggressive dead code elimination... ect). The LLVM back-end could be updated to make use of this. Roman apparently tried to use the new 'gold' linker with GHC and it doesn't support all the needed features.
+One of LLVM's big marketing features is its support for link time optimisation. This does things such as in-lining across module boundaries, more aggressive dead code elimination... etc). The LLVM back-end could be updated to make use of this. Roman apparently tried to use the new 'gold' linker with GHC and it doesn't support all the needed features.
 
 - [ http://llvm.org/releases/2.6/docs/LinkTimeOptimization.html](http://llvm.org/releases/2.6/docs/LinkTimeOptimization.html)
 - [ http://llvm.org/docs/GoldPlugin.html](http://llvm.org/docs/GoldPlugin.html)
