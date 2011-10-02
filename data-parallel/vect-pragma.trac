@@ -66,7 +66,7 @@ For a type constructor `T`, the pragma
 {{{
 {-# VECTORISE type T #-}
 }}}
-indicates that the type `T` should be vectorised and embeds no parallel arrays.  This is similar to where the vectoriser automatically decides to vectorise a type, but no special vectorised representation needs to be generated as the type embeds no arrays.
+indicates that the type `T` should be vectorised and embeds no parallel arrays.  This is the same as where the vectoriser automatically decides to vectorise a type, but no special vectorised representation needs to be generated as the type embeds no arrays.  The purpose of this pragma is to enable the vectorisation of imported types from modules that where not compiled with vectorisation enabled.
 
 The data type constructor `T` that together with its constructors `Cn` may be used in vectorised code, where `T` and the `Cn` represent themselves in vectorised code. An example is the treatment of 'Bool'.  'Bool' together with 'False' and 'True' may appear in vectorised code and they remain unchanged by vectorisation.  (There is no need for a special representation as the values cannot embed any arrays.)
 
