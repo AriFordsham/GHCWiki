@@ -31,7 +31,7 @@ described in the next section.
 
 The following are a few of the most important files in the build system.  For a more complete overview of the source-tree layout, see [Commentary/SourceTree](commentary/source-tree).
 
-<table><tr><th>[ ghc.mk](http://darcs.haskell.org/ghc/ghc.mk)</th>
+<table><tr><th>[ghc.mk](/trac/ghc/browser/ghc/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk)</th>
 <td>
 This is where you should start reading: `ghc.mk` is the main file in
 the build system which ties together all the other build-system
@@ -40,7 +40,7 @@ files in `mk/*.mk`, `rules/*.mk`, and all the other `ghc.mk` files
 elsewhere in the tree.
 </td></tr></table>
 
-<table><tr><th>[ Makefile](http://darcs.haskell.org/ghc/Makefile)</th>
+<table><tr><th>[Makefile](/trac/ghc/browser/ghc/Makefile)[](/trac/ghc/export/HEAD/ghc/Makefile)</th>
 <td>
 The top-level `Makefile`, recursively invokes `make` on `ghc.mk`
 according to the [phase ordering idiom](building/architecture/idiom/phase-ordering).
@@ -54,7 +54,7 @@ expression.  For example, the `build-package` macro is in
 `rules/build-package.mk`.
 </td></tr></table>
 
-<table><tr><th>[ mk/config.mk.in](http://darcs.haskell.org/ghc/mk/config.mk.in)</th>
+<table><tr><th>[mk/config.mk.in](/trac/ghc/browser/mk/config.mk.in)[](/trac/ghc/export/HEAD/ghc/mk/config.mk.in)</th>
 <td>
 The configuration information for the build system, processed by
 `configure` to produce `mk/config.mk`.  Settings can be overriden by
@@ -62,7 +62,7 @@ creating a local file `mk/build.mk` (see
 [Build configuration](building/using#build-configuration)).
 </td></tr></table>
 
-<table><tr><th>[ compiler/ghc.mk](http://darcs.haskell.org/ghc/compiler/ghc.mk), [ rts/ghc.mk](http://darcs.haskell.org/ghc/rts/ghc.mk), etc.</th>
+<table><tr><th>[compiler/ghc.mk](/trac/ghc/browser/compiler/ghc.mk)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.mk), [rts/ghc.mk](/trac/ghc/browser/rts/ghc.mk)[](/trac/ghc/export/HEAD/ghc/rts/ghc.mk), etc.</th>
 <td>
 Most subdirectories of the source tree have a `ghc.mk` file which
 contains the instructions for building the components in that

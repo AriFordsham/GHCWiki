@@ -30,14 +30,14 @@ described in the next section.
 
 The following are a few of the most important files in the build system.  For a more complete overview of the source-tree layout, see [wiki:Commentary/SourceTree].
 
- [http://darcs.haskell.org/ghc/ghc.mk ghc.mk]::
+ [source:ghc/ghc.mk ghc.mk]::
   This is where you should start reading: `ghc.mk` is the main file in
   the build system which ties together all the other build-system
   files.  It uses '''make''''s `include` directive to include all the
   files in `mk/*.mk`, `rules/*.mk`, and all the other `ghc.mk` files
   elsewhere in the tree.
 
- [http://darcs.haskell.org/ghc/Makefile Makefile]::
+ [source:ghc/Makefile Makefile]::
   The top-level `Makefile`, recursively invokes `make` on `ghc.mk`
   according to the [wiki:Building/Architecture/Idiom/PhaseOrdering phase ordering idiom].
 
@@ -47,13 +47,13 @@ The following are a few of the most important files in the build system.  For a 
   expression.  For example, the `build-package` macro is in
   `rules/build-package.mk`.
 
- [http://darcs.haskell.org/ghc/mk/config.mk.in mk/config.mk.in]::
+ [source:mk/config.mk.in mk/config.mk.in]::
   The configuration information for the build system, processed by
   `configure` to produce `mk/config.mk`.  Settings can be overriden by
   creating a local file `mk/build.mk` (see
   [wiki:Building/Using#Buildconfiguration Build configuration]).
 
- [http://darcs.haskell.org/ghc/compiler/ghc.mk compiler/ghc.mk], [http://darcs.haskell.org/ghc/rts/ghc.mk rts/ghc.mk], etc.::
+ [source:compiler/ghc.mk compiler/ghc.mk], [source:rts/ghc.mk rts/ghc.mk], etc.::
   Most subdirectories of the source tree have a `ghc.mk` file which
   contains the instructions for building the components in that
   directory.  Note: these `ghc.mk` files cannot be invoked
