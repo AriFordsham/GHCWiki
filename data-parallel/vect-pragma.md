@@ -111,7 +111,7 @@ The type constructor `T` must be in scope, but it may be imported.  'PData' and 
 ### With right-hand side
 
 ```wiki
-{-# VECTORISE type T = ty #-}
+{-# VECTORISE type T = T' #-}
 ```
 
 **TODO**
@@ -141,6 +141,7 @@ NB: The crucial difference between `{-# VECTORISE type T1 #-}` and `{-# VECTORIS
 
 **TODO**
 
+- **Maybe**`{-# VECTORISE SCALAR type T = T' #-}` can be useful for, e.g., mapping `(->)` to `(:->)`???
 - For type constructors identified with this pragma, can we generate an `instance` of the `Scalar` type class automatically (instead of relying on it being in the library)?
 
 ## Cross-module functionality
