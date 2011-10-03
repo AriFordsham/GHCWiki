@@ -80,7 +80,7 @@ The type constructor `T` must be in scope, but it may be imported.  'PData' and 
 === With right-hand side ===
 
 {{{
-{-# VECTORISE type T = ty #-}
+{-# VECTORISE type T = T' #-}
 }}}
 
 '''TODO:'''
@@ -101,6 +101,7 @@ The type constructor `T` must be in scope, but it may be imported.  The `PData` 
 NB: The crucial difference between `{-# VECTORISE type T1 #-}` and `{-# VECTORISE SCALAR type T2 #-}` is that the *representation* (i.e., the constructors) of the latter can only be used in scalar code. However, the representation of both `T1` and `T2` does not get vectorised — so, both types are suitable for code that does not get vectorised due to vectorisation avoidance.
 
 '''TODO:'''
+ * '''Maybe''' `{-# VECTORISE SCALAR type T = T' #-}` can be useful for, e.g., mapping `(->)` to `(:->)`???
  * For type constructors identified with this pragma, can we generate an `instance` of the `Scalar` type class automatically (instead of relying on it being in the library)?
 
 == Cross-module functionality ==
