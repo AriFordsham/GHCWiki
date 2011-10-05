@@ -4,19 +4,29 @@ The LLVM compiler tools targeted by GHC's [wiki:Commentary/Compiler/Backends/LLV
 
 The SIMD vector extension to GHC proposed here maps to LLVM's vector type in a straight forward manner, which in turn enables us to target a wide range of hardware capabilities. However, GHC's native code generator will simply map SIMD vector operations to ordinary scalar code (in order to avoid having to deal with the complexities of SSE, AVX, NEON, etc).
 
+
 == Variations in the most widely used SIMD extensions ==
 
 Intel and AMD CPUs use the [http://en.wikipedia.org/wiki/Streaming_SIMD_Extensions SSE family] of extensions and, more recently (since Q1 2011), the [http://en.wikipedia.org/wiki/Advanced_Vector_Extensions AVX] extensions.  ARM CPUs (Cortex A series) use the [http://www.arm.com/products/processors/technologies/neon.php NEON] extensions. Variations between different families of SIMD extensions and between different family members in one family of extensions include the following:
 
  '''Register width'''::
-  SSE registers are 128 bits, whereas AVX registers are 256 bits. NEON registers can be used as 64-bit or 128-bit register.
+  SSE registers are 128 bits, whereas AVX registers are 256 bits, but they can also still be used as 128 bit registers with old SSE instructions. NEON registers can be used as 64-bit or 128-bit register.
  '''Register number'''::
   SSE sports 8 SIMD registers in the 32-bit i386 instruction set and 16 SIMD registers in the 64-bit x84_64 instruction set. (AVX still has 16 SIMD registers.) NEON's SIMD registers can be used as 32 64-bit registers or 16 128-bit registers.
  '''Register types'''::
-  In the original SSE extension, SIMD registers could only hold 32-bit single-precision floats, whereas SSE2 extend that to include 64-bit double precision floats as well as 8 to 64 bit integral types. The extension from 128 bits to 256 bits in register size only applies to floating-point types in AVX. This is expected to be extended to integer types in AVX2. NEON registers can hold 8 to 64 bit integral types and 32-bit single-precision floats.
+  In the original SSE extension, SIMD registers could only hold 32-bit single-precision floats, whereas SSE2 extend that to include 64-bit double precision floats as well as 8 to 64 bit integral types. The extension from 128 bits to 256 bits in register size only applies to floating-point types in AVX. This is expected to be extended to integer types in AVX2, but in AVX, SIMD operations on integral types can only use the lower 128 bits of the SIMD registers. NEON registers can hold 8 to 64 bit integral types and 32-bit single-precision floats.
  '''Alignment requirements'''::
-  ???
+  SSE requires alignment on 16 byte boundaries. With AVX, it seems that operations on 128 bit SIMD vectors may be unaligned, but operations on 256 bit SIMD vectors needs to be aligned to 32 byte boundaries. NEON suggests to align SIMD vectors with ''n''-bit elements to ''n''-bit boundaries.
+
+=== Consequences ===
 
 While LLVM mostly shields us from these differences, we need to implement traversals of unboxed Haskell arrays as strided loops, where the stride corresponds to the SIMD vector length. LLVM enables us to use a stride that is not the same as that of the SIMD register width of the target architecture, it makes sense to use the target vector width already in the Haskell code. Why? If the Haskell stride is smaller than the SIMD registers, we do not fully exploit all available parallelism. And if the Haskell stride is longer than the SIMD registers, we produce less efficient code for the excess portion at the end of an array whose length is not a multiple of the stride length and force LLVM to expand individual vector operations to multiple target instructions.
 
-== Type-dependent vector sizes ==
+=== Type-dependent vector sizes ===
+
+From the above comparison of the capabilities of the various SIMD extensions, it follows that for every scalar data type and for each target architecture, there is a maximum SIMD vector length supported for that data type. Moreover, it appears reasonable to always use the longest vector size that is supported. (Programming guides often recommend to use smaller SIMD vectors if the code cannot guarantee that the data is properly aligned without possibly having to re-align data. This is no issue for us as we can impose suitable alignment constraints on Haskell arrays that we want to process with SIMD instructions.)
+
+As a consequence, we will support exactly one vector length for each scalar data type and this vector length is dependent on the target architecture. Hence, it is sufficient to have one vector type for each scalar data type (that we want to process with SIMD instructions). Concretely, for types, such as `Int16#`, `Float#`, and so on, we will provide SIMD vector types `VecInt16#`, `VecFloat#`, etc. In addition, we have query functions `vecInt16Len`, `vecFloatLen`, and so on that yield the number of `Int16#` in a `VecInt16#` and the number of `Float#` in a `VecFloat#`, respectively.
+
+== Using SIMD instructions in DPH ==
+
