@@ -4,7 +4,7 @@ The LLVM compiler tools targeted by GHC's [wiki:Commentary/Compiler/Backends/LLV
 
 The SIMD vector extension to GHC proposed here maps to LLVM's vector type in a straight forward manner, which in turn enables us to target a wide range of hardware capabilities. However, GHC's native code generator will simply map SIMD vector operations to ordinary scalar code (in order to avoid having to deal with the complexities of SSE, AVX, NEON, etc).
 
-== Summary of the most widely used SIMD extensions ==
+== Variations in the most widely used SIMD extensions ==
 
 Intel and AMD CPUs use the [http://en.wikipedia.org/wiki/Streaming_SIMD_Extensions SSE family] of extensions and, more recently (since Q1 2011), the [http://en.wikipedia.org/wiki/Advanced_Vector_Extensions AVX] extensions.  ARM CPUs (Cortex A series) use the [http://www.arm.com/products/processors/technologies/neon.php NEON] extensions. Variations between different families of SIMD extensions and between different family members in one family of extensions include the following:
 
@@ -16,3 +16,7 @@ Intel and AMD CPUs use the [http://en.wikipedia.org/wiki/Streaming_SIMD_Extensio
   In the original SSE extension, SIMD registers could only hold 32-bit single-precision floats, whereas SSE2 extend that to include 64-bit double precision floats as well as 8 to 64 bit integral types. The extension from 128 bits to 256 bits in register size only applies to floating-point types in AVX. This is expected to be extended to integer types in AVX2. NEON registers can hold 8 to 64 bit integral types and 32-bit single-precision floats.
  '''Alignment requirements'''::
   ???
+
+While LLVM mostly shields us from these differences, we need to implement traversals of unboxed Haskell arrays as strided loops, where the stride corresponds to the SIMD vector length. LLVM enables us to use a stride that is not the same as that of the SIMD register width of the target architecture, it makes sense to use the target vector width already in the Haskell code. Why? If the Haskell stride is smaller than the SIMD registers, we do not fully exploit all available parallelism. And if the Haskell stride is longer than the SIMD registers, we produce less efficient code for the excess portion at the end of an array whose length is not a multiple of the stride length and force LLVM to expand individual vector operations to multiple target instructions.
+
+== Type-dependent vector sizes ==
