@@ -101,7 +101,7 @@ Arithmetic and logic operations:
 
 ```wiki
 -- the following on all vector types
-addIntVec#, subIntVec#, mulIntVec#, quotIntVec#, remIntVec# :: IntVec# -> IntVec# -> IntVec#
+plusIntVec#, minusIntVec#, timesIntVec#, quotIntVec#, remIntVec# :: IntVec# -> IntVec# -> IntVec#
 negateIntVec# :: IntVec# -> IntVec#
 
 -- the following on IntVec#, Int8Vec#, Int16Vec#, Int32Vec#, and Int64Vec#
@@ -111,6 +111,12 @@ uncheckedIntVecShiftL#, uncheckedIntVecShiftRA#, uncheckedIntVecShiftRL# :: IntV
 andWordVec#, orWordVec#, xorWordVec# :: Word# -> Word# -> Word#
 notWord# :: WordVec# -> WordVec#
 uncheckedWordVecShiftL#, uncheckedWordVecShiftRL# :: WordVec# -> Int# -> WordVec#
+
+-- the following on FloatVec# and DoubleVec#
+expFloatVec#, logFloatVec#, sqrtFloatVec#,
+  sinFloatVec#, cosFloatVec#, tanFloatVec#,
+  asinFloatVec#, acosFloatVec#, atanFloatVec#,
+  sinhFloatVec#, coshFloatVec#, tanhFloatVec# :: DoubleVec# -> DoubleVec#
 ```
 
 
