@@ -26,14 +26,22 @@ While LLVM mostly shields us from these differences, we need to implement traver
 
 From the above comparison of the capabilities of the various SIMD extensions, it follows that for every scalar data type and for each target architecture, there is a maximum SIMD vector length supported for that data type. Moreover, it appears reasonable to always use the longest vector size that is supported. (Programming guides often recommend to use smaller SIMD vectors if the code cannot guarantee that the data is properly aligned without possibly having to re-align data. This is no issue for us as we can impose suitable alignment constraints on Haskell arrays that we want to process with SIMD instructions.)
 
-As a consequence, we will support exactly one vector length for each scalar data type and this vector length is dependent on the target architecture. Hence, it is sufficient to have one vector type for each scalar data type (that we want to process with SIMD instructions). Concretely, for types, such as `Int16#`, `Float#`, and so on, we will provide SIMD vector types `Int16Vec#`, `FloatVec#`, etc. In addition, we have query functions `int16VecLen`, `floatVecLen`, and so on that yield the number of `Int16#` in a `Int16Vec#` and the number of `Float#` in a `FloatVec#`, respectively.
+As a consequence, we will support exactly one vector length for each scalar data type and this vector length is dependent on the target architecture. Hence, it is sufficient to have one vector type for each scalar data type (that we want to process with SIMD instructions). Concretely, for types, such as `Int#`, `Float#`, and so on, we will provide SIMD vector types `IntVec#`, `FloatVec#`, etc. In addition, we have constants `intVecLen`, `floatVecLen`, and so on that determine the number of `Int#` in a `IntVec#` and the number of `Float#` in a `FloatVec#`, respectively.
 
 === Native code generator ===
 
-As we do not want to support SIMD instructions in the native code generator, we set the query functions for vector lengths (`int16VecLen`, `floatVecLen`, and so on) to be 1 for all vector types when we compile with the native code generator.  Then, all vector types and operations on vector types can be trivially implemented with conventional instructions. (We use the same approach to handle scalar data types that are not supported by SIMD instructions on a particular architecture.)
+As we do not want to support SIMD instructions in the native code generator, we set the vector lengths (`intVecLen`, `floatVecLen`, and so on) to be 1 for all vector types when we compile with the native code generator.  Then, all vector types and operations on vector types can be trivially implemented with conventional instructions. (We use the same approach to handle scalar data types that are not supported by SIMD instructions on a particular architecture.)
 
 
 == API ==
+
+We use the following API extension for `GHC.Prim`.  Due to the odd manner in which sized integral types are implemented in `primops.txt.pp` (see heading "The word size story."), we need to introduce vector type for scalar types that do not exist as unboxed types in `GHC.Prim`. We obviously can't use "[t]he word size story" for SIMD vectors as they are packed, unboxed data types.
+
+=== Types ===
+
+SIMD vector types: `IntVec#`, `Int8Vec#`, `Int16Vec#`, `Int32Vec#`, `Int64Vec#`, `WordVec#`, `Word8Vec#`, `Word16Vec#`, `Word32Vec#`, `Word64Vec#`, `FloatVec#`, and `DoubleVec#`.
+
+Vector length constants: `intVecLen`, `intVec8Len`, `intVec16Len`, `intVec32Len`, `intVec64Len`, `wordVecLen`, `wordVec8Len`, `wordVec16Len`, `wordVec32Len`, `wordVec64Len`, `floatVecLen`, and `doubleVecLen`.  Each of these constants is of type `Int#`.
 
 
 == Using SIMD instructions in DPH ==
