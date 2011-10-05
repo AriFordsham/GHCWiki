@@ -17,3 +17,5 @@ however support for vectors is planned.
 * [http://perilsofparallel.blogspot.com/2008/09/larrabee-vs-nvidia-mimd-vs-simd.html The Perils of parallel: Larrabee vs. Nvidia, MIMD vs. SIMD]
 
 * [wiki:VectorComputing VectorComputing]  The page for discussion of the Vector unit support in GHC.
+
+* [wiki:SimdLlvm SIMD LLVM] Using SIMD instructions via the LLVM backend
