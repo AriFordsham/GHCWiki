@@ -45,20 +45,34 @@ Vector length constants: `intVecLen`, `intVec8Len`, `intVec16Len`, `intVec32Len`
 
 LLVM's [http://llvm.org/docs/LangRef.html#vectorops vector operations:] (`INT32`, `INT64`, `WORD32`, and `WORD64` are defined as `primops.txt.pp`)
 {{{
-extractIntVec    :: IntVec# -> Int# -> Int#
-extractInt8Vec   :: Int8Vec# -> Int# -> Int#
-extractInt16Vec  :: Int16Vec# -> Int# -> Int#
-extractInt32Vec  :: Int32Vec# -> Int# -> INT32
-extractInt64Vec  :: Int64Vec# -> Int# -> INT64
-extractWordVec   :: WordVec# -> Int# -> Int#
-extractWord8Vec  :: Word8Vec# -> Int# -> Word#
+extractIntVec    :: IntVec#    -> Int# -> Int#
+extractInt8Vec   :: Int8Vec#   -> Int# -> Int#
+extractInt16Vec  :: Int16Vec#  -> Int# -> Int#
+extractInt32Vec  :: Int32Vec#  -> Int# -> INT32
+extractInt64Vec  :: Int64Vec#  -> Int# -> INT64
+extractWordVec   :: WordVec#   -> Int# -> Int#
+extractWord8Vec  :: Word8Vec#  -> Int# -> Word#
 extractWord16Vec :: Word16Vec# -> Int# -> Word#
 extractWord32Vec :: Word32Vec# -> Int# -> WORD32
 extractWord64Vec :: Word32Vec# -> Int# -> WORD64
-extractFloatVec  :: FloatVec# -> Int# -> Float#
+extractFloatVec  :: FloatVec#  -> Int# -> Float#
 extractDoubleVec :: DoubleVec# -> Int# -> Double#
+
+insertIntVec    :: IntVec#    -> Int# -> Int#    -> IntVec#   
+insertInt8Vec   :: Int8Vec#   -> Int# -> Int#    -> Int8Vec#  
+insertInt16Vec  :: Int16Vec#  -> Int# -> Int#    -> Int16Vec# 
+insertInt32Vec  :: Int32Vec#  -> Int# -> INT32   -> Int32Vec# 
+insertInt64Vec  :: Int64Vec#  -> Int# -> INT64   -> Int64Vec# 
+insertWordVec   :: WordVec#   -> Int# -> Int#    -> WordVec#  
+insertWord8Vec  :: Word8Vec#  -> Int# -> Word#   -> Word8Vec# 
+insertWord16Vec :: Word16Vec# -> Int# -> Word#   -> Word16Vec#
+insertWord32Vec :: Word32Vec# -> Int# -> WORD32  -> Word32Vec#
+insertWord64Vec :: Word32Vec# -> Int# -> WORD64  -> Word32Vec#
+insertFloatVec  :: FloatVec#  -> Int# -> Float#  -> FloatVec#
+insertDoubleVec :: DoubleVec# -> Int# -> Double# -> DoubleVec#
 }}}
 
+NB: The order of the second and third argument differs from the LLVM operations to be more in line to what we usually use in Haskell.
 
 == Using SIMD instructions in DPH ==
 
