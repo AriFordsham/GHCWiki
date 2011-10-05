@@ -72,7 +72,9 @@ insertFloatVec  :: FloatVec#  -> Int# -> Float#  -> FloatVec#
 insertDoubleVec :: DoubleVec# -> Int# -> Double# -> DoubleVec#
 }}}
 
-NB: The order of the second and third argument differs from the LLVM operations to be more in line to what we usually use in Haskell.
+Notes:
+ * The order of the second and third argument of the insert family differs from the LLVM operations to be more in line to what we usually use in Haskell.
+ * We should support LLVM's `shufflevector` operation as a shuffle family, much like the extract and insert families if this operation turns out to be useful in library or user code.
 
 == Using SIMD instructions in DPH ==
 
