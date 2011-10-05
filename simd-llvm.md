@@ -14,9 +14,16 @@ Intel and AMD CPUs use the [ SSE family](http://en.wikipedia.org/wiki/Streaming_
 <table><tr><th>**Register width**</th>
 <td>
 SSE registers are 128 bits, whereas AVX registers are 256 bits. NEON registers can be used as 64-bit or 128-bit register.
+</td></tr>
+<tr><th>**Register number**</th>
+<td>
+SSE sports 8 SIMD registers in the 32-bit i386 instruction set and 16 SIMD registers in the 64-bit x84_64 instruction set. (AVX still has 16 SIMD registers.) NEON's SIMD registers can be used as 32 64-bit registers or 16 128-bit registers.
+</td></tr>
+<tr><th>**Register types**</th>
+<td>
+In the original SSE extension, SIMD registers could only hold 32-bit single-precision floats, whereas SSE2 extend that to include 64-bit double precision floats as well as 8 to 64 bit integral types. The extension from 128 bits to 256 bits in register size only applies to floating-point types in AVX. This is expected to be extended to integer types in AVX2. NEON registers can hold 8 to 64 bit integral types and 32-bit single-precision floats.
+</td></tr>
+<tr><th>**Alignment requirements**</th>
+<td>
+???
 </td></tr></table>
-
-> **Register number**:
->
-> >
-> > SSE sports 8 SIMD registers in the 32-bit i386 instruction set and 16 SIMD registers in the 64-bit x84_64 instruction set. (AVX still has 16 SIMD registers.) NEON's SIMD registers can be used as 32 64-bit registers or 16 128-bit registers.
