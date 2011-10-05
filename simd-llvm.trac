@@ -35,13 +35,29 @@ As we do not want to support SIMD instructions in the native code generator, we 
 
 == API ==
 
-We use the following API extension for `GHC.Prim`.  Due to the odd manner in which sized integral types are implemented in `primops.txt.pp` (see heading "The word size story."), we need to introduce vector type for scalar types that do not exist as unboxed types in `GHC.Prim`. We obviously can't use "[t]he word size story" for SIMD vectors as they are packed, unboxed data types.
+We use the following API extension for `GHC.Prim`.  Due to the odd manner in which sized integral types are implemented in `primops.txt.pp` (see heading "The word size story."), we need to introduce vector types for scalar types that do not exist as unboxed types in `GHC.Prim`. We obviously can't use "[t]he word size story" for SIMD vectors as they are packed, unboxed data types.
 
 === Types ===
 
 SIMD vector types: `IntVec#`, `Int8Vec#`, `Int16Vec#`, `Int32Vec#`, `Int64Vec#`, `WordVec#`, `Word8Vec#`, `Word16Vec#`, `Word32Vec#`, `Word64Vec#`, `FloatVec#`, and `DoubleVec#`.
 
 Vector length constants: `intVecLen`, `intVec8Len`, `intVec16Len`, `intVec32Len`, `intVec64Len`, `wordVecLen`, `wordVec8Len`, `wordVec16Len`, `wordVec32Len`, `wordVec64Len`, `floatVecLen`, and `doubleVecLen`.  Each of these constants is of type `Int#`.
+
+LLVM's [http://llvm.org/docs/LangRef.html#vectorops vector operations:] (`INT32`, `INT64`, `WORD32`, and `WORD64` are defined as `primops.txt.pp`)
+{{{
+extractIntVec    :: IntVec# -> Int# -> Int#
+extractInt8Vec   :: Int8Vec# -> Int# -> Int#
+extractInt16Vec  :: Int16Vec# -> Int# -> Int#
+extractInt32Vec  :: Int32Vec# -> Int# -> INT32
+extractInt64Vec  :: Int64Vec# -> Int# -> INT64
+extractWordVec   :: WordVec# -> Int# -> Int#
+extractWord8Vec  :: Word8Vec# -> Int# -> Word#
+extractWord16Vec :: Word16Vec# -> Int# -> Word#
+extractWord32Vec :: Word32Vec# -> Int# -> WORD32
+extractWord64Vec :: Word32Vec# -> Int# -> WORD64
+extractFloatVec  :: FloatVec# -> Int# -> Float#
+extractDoubleVec :: DoubleVec# -> Int# -> Double#
+}}}
 
 
 == Using SIMD instructions in DPH ==
