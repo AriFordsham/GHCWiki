@@ -5,3 +5,18 @@ The LLVM compiler tools targeted by GHC's [LLVM backend](commentary/compiler/bac
 
 
 The SIMD vector extension to GHC proposed here maps to LLVM's vector type in a straight forward manner, which in turn enables us to target a wide range of hardware capabilities. However, GHC's native code generator will simply map SIMD vector operations to ordinary scalar code (in order to avoid having to deal with the complexities of SSE, AVX, NEON, etc).
+
+## Summary of the most widely used SIMD extensions
+
+
+Intel and AMD CPUs use the [ SSE family](http://en.wikipedia.org/wiki/Streaming_SIMD_Extensions) of extensions and, more recently (since Q1 2011), the [ AVX](http://en.wikipedia.org/wiki/Advanced_Vector_Extensions) extensions.  ARM CPUs (Cortex A series) use the [ NEON](http://www.arm.com/products/processors/technologies/neon.php) extensions. Variations between different families of SIMD extensions and between different family members in one family of extensions include the following:
+
+<table><tr><th>**Register width**</th>
+<td>
+SSE registers are 128 bits, whereas AVX registers are 256 bits. NEON registers can be used as 64-bit or 128-bit register.
+</td></tr></table>
+
+> **Register number**:
+>
+> >
+> > SSE sports 8 SIMD registers in the 32-bit i386 instruction set and 16 SIMD registers in the 64-bit x84_64 instruction set. (AVX still has 16 SIMD registers.) NEON's SIMD registers can be used as 32 64-bit registers or 16 128-bit registers.

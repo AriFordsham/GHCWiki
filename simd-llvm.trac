@@ -3,3 +3,13 @@
 The LLVM compiler tools targeted by GHC's [wiki:Commentary/Compiler/Backends/LLVM LLVM backend] support a generic [http://llvm.org/docs/LangRef.html#t_vector vector type] of arbitrary, but fixed length whose elements may be any LLVM scalar type. In addition to three [http://llvm.org/docs/LangRef.html#vectorops vector operations], LLVM's operations on scalars are overloaded to work on vector types as well. LLVM compiles operations on vector types to target-specific SIMD instructions, such as those of the SSE, AVX, and NEON instruction set extensions. As the capabilities of the various versions of SSE, AVX, and NEON vary widely, LLVM's code generator maps operations on LLVM's generic vector type to the more limited capabilities of the various hardware targets.
 
 The SIMD vector extension to GHC proposed here maps to LLVM's vector type in a straight forward manner, which in turn enables us to target a wide range of hardware capabilities. However, GHC's native code generator will simply map SIMD vector operations to ordinary scalar code (in order to avoid having to deal with the complexities of SSE, AVX, NEON, etc).
+
+== Summary of the most widely used SIMD extensions ==
+
+Intel and AMD CPUs use the [http://en.wikipedia.org/wiki/Streaming_SIMD_Extensions SSE family] of extensions and, more recently (since Q1 2011), the [http://en.wikipedia.org/wiki/Advanced_Vector_Extensions AVX] extensions.  ARM CPUs (Cortex A series) use the [http://www.arm.com/products/processors/technologies/neon.php NEON] extensions. Variations between different families of SIMD extensions and between different family members in one family of extensions include the following:
+
+ '''Register width'''::
+  SSE registers are 128 bits, whereas AVX registers are 256 bits. NEON registers can be used as 64-bit or 128-bit register.
+
+ '''Register number''':
+  SSE sports 8 SIMD registers in the 32-bit i386 instruction set and 16 SIMD registers in the 64-bit x84_64 instruction set. (AVX still has 16 SIMD registers.) NEON's SIMD registers can be used as 32 64-bit registers or 16 128-bit registers.
