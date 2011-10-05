@@ -122,7 +122,7 @@ expFloatVec#, logFloatVec#, sqrtFloatVec#,
 
 NB: The [ LLVM reference](http://llvm.org/docs/LangRef.html) states that LLVM doesn't currently support comparisons on vector types. Once that becomes available, we may want to support it as well.
 
-## Using SIMD instructions in DPH
+## Using SIMD instructions in Data Parallel Haskell ([ DPH](http://www.haskell.org/haskellwiki/GHC/Data_Parallel_Haskell))
 
 
 In DPH, we will use the new SIMD instructions by suitably modifying the definition of the lifted versions of arithmetic and other operations that we would like to accelerate. These lifted operations are defined in the `dph-common` package and made accessible to the vectoriser via [VECTORISE pragmas](data-parallel/vect-pragma). Many of them currently use `VECTORISE SCALAR` pragmas, such as
