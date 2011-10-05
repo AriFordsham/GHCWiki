@@ -28,5 +28,9 @@ From the above comparison of the capabilities of the various SIMD extensions, it
 
 As a consequence, we will support exactly one vector length for each scalar data type and this vector length is dependent on the target architecture. Hence, it is sufficient to have one vector type for each scalar data type (that we want to process with SIMD instructions). Concretely, for types, such as `Int16#`, `Float#`, and so on, we will provide SIMD vector types `VecInt16#`, `VecFloat#`, etc. In addition, we have query functions `vecInt16Len`, `vecFloatLen`, and so on that yield the number of `Int16#` in a `VecInt16#` and the number of `Float#` in a `VecFloat#`, respectively.
 
+=== Native code generator ===
+
+As we do not want to support SIMD instructions in the native code generator, we set the query functions for vector lengths (`vecInt16Len`, `vecFloatLen`, and so on) to be 1 for all vector types when we compile with the native code generator.  Then, all vector types and operations on vector types can be trivially implemented with conventional instructions. (We use the same approach to handle scalar data types that are not supported by SIMD instructions on a particular architecture.)
+
 == Using SIMD instructions in DPH ==
 
