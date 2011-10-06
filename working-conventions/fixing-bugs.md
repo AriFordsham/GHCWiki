@@ -33,7 +33,7 @@ Many bugs require a bit more work.  Here's how to go about helping with a non-tr
   - If your proposed fix has non-local consequences, please consult us (on cvs-ghc@…) before investing too much of your time.
   - Please follow our [coding conventions](working-conventions#)
   - Comment your fix in the source code, and include a reference to the bug ticket number, e.g. "`#1466`" (this helps when grepping for the fix later).  It is often helpful to give a small example code fragment that demonstrates the need for your fix.  This isn't always relevant; sometimes you are fixing a plain error, but often it's more subtle than that.
-1. **Record a patch** that embodies your fix.  Please follow our convention for naming patches: [WorkingConventions/Git](working-conventions/git#).
+1. **Record a patch** that embodies your fix.  Please follow our convention for naming patches: [WorkingConventions/Git](working-conventions/git#commit-messages).
 1. **Test your patch** using the [validation script](testing-patches), before you submit it.  (If you have write permission to the repository, then you **must** validate before pushing the patch.)
 1. **Submit your patch**.  If you don't have commit permission for the repository, 
 
