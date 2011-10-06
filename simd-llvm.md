@@ -72,7 +72,7 @@ extractWordVec#   :: WordVec#   -> Int# -> Int#
 extractWord8Vec#  :: Word8Vec#  -> Int# -> Word#
 extractWord16Vec# :: Word16Vec# -> Int# -> Word#
 extractWord32Vec# :: Word32Vec# -> Int# -> WORD32
-extractWord64Vec# :: Word32Vec# -> Int# -> WORD64
+extractWord64Vec# :: Word64Vec# -> Int# -> WORD64
 extractFloatVec#  :: FloatVec#  -> Int# -> Float#
 extractDoubleVec# :: DoubleVec# -> Int# -> Double#
 
@@ -85,7 +85,7 @@ insertWordVec#   :: WordVec#   -> Int# -> Int#    -> WordVec#
 insertWord8Vec#  :: Word8Vec#  -> Int# -> Word#   -> Word8Vec# 
 insertWord16Vec# :: Word16Vec# -> Int# -> Word#   -> Word16Vec#
 insertWord32Vec# :: Word32Vec# -> Int# -> WORD32  -> Word32Vec#
-insertWord64Vec# :: Word32Vec# -> Int# -> WORD64  -> Word32Vec#
+insertWord64Vec# :: Word64Vec# -> Int# -> WORD64  -> Word64Vec#
 insertFloatVec#  :: FloatVec#  -> Int# -> Float#  -> FloatVec#
 insertDoubleVec# :: DoubleVec# -> Int# -> Double# -> DoubleVec#
 ```
