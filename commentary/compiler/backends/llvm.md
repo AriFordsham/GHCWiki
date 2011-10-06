@@ -11,6 +11,7 @@ Documentation:
 - [Bugs & Other Problems](commentary/compiler/backends/llvm/development-notes)
 - [Work Currently in Progress](commentary/compiler/backends/llvm/wip)
 - [Porting GHC/LLVM to another platform](commentary/compiler/backends/llvm/ghc-llvm-porting)
+- [SIMD instructions and LLVM](simd-llvm)
 
 
 Other information:
