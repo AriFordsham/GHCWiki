@@ -12,6 +12,7 @@ Documentation:
 - [Work Currently in Progress](commentary/compiler/backends/llvm/wip)
 - [Porting GHC/LLVM to another platform](commentary/compiler/backends/llvm/ghc-llvm-porting)
 - [SIMD instructions and LLVM](simd-llvm) see also [VectorComputing](vector-computing)
+- [ David Terei blog post of LLVM-related projects](http://dterei.blogspot.com/2011/09/ghc-project-for-all.html)
 
 
 Other information:
