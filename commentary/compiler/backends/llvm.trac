@@ -8,6 +8,7 @@ Documentation:
  * [wiki:Commentary/Compiler/Backends/LLVM/DevelopmentNotes Bugs & Other Problems]
  * [wiki:Commentary/Compiler/Backends/LLVM/WIP Work Currently in Progress]
  * [wiki:Commentary/Compiler/Backends/LLVM/GHC_LLVMPorting Porting GHC/LLVM to another platform]
+ * [wiki:SimdLlvm SIMD instructions and LLVM]
 
 Other information:
 
