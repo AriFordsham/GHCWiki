@@ -49,6 +49,8 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [http://sourceforge.net/apps/mediawiki/developers/index.php?title=ScrapYourBoilerplate The Scrap your boilerplate homepage].
 
  * Notes on implemented GHC features:
+   * [wiki:Commentary/Compiler/Backends/LLVM LLVM back end]
+   * [wiki:SimdLlvm adding SIMD instructions]
    * [wiki:Commentary/Compiler/GenericDeriving The new deriving mechanism]
    * [wiki:Commentary/Compiler/TemplateHaskell Notes about Template Haskell]
    * [wiki:RewriteRules Rewrite Rules]: Notes about the implementation of RULEs in GHC
