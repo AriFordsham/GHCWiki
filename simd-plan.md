@@ -30,7 +30,10 @@ Introduction of SIMD support to GHC will occur in stages to demonstrate the enti
 
 ## Current Open Questions
 
-- Should the existing pure Vector libraries be modified to use the vectorized code as a first priority, wait until DPH is modified, or leave as is?
+
+These clearly won't be all of the questions I have, there is a substantial amount of work that goes through the entire GHC compiler stack before reaching the LLVM instructions.
+
+- Should the existing pure Vector libraries (/libraries/vector/Data/\*) be modified to use the vectorized code as a first priority, wait until DPH (/libraries/dph/) is modified, or leave the Vector library as is?
 - How does one create one of the new Vector Types in a Haskell program (direct PrimOp, for testing ... let x = ????)
 - One discussion point was that the "Vector Lengths" should be "Set to 1" for non LLVM code generation, where does this happen?  On my first survey of the code, it seems that the code generators are partitioned from the main body of code, implying that each of the code generators will have to be modified to account for the new Cmm MachOps and properly translate them to non-vectorized instructions.
 - Can we re-use any of the existing MachOps when adding to Cmm?
@@ -90,7 +93,7 @@ The steps to be undertaken are:
 1. Modify ./compiler/codeGen/CgPrimOp.hs, code for each primop (above) must be added to complete the primop addition.
 
   1. The code, basically, links the primops to the Cmm MachOps (that, in turn, are read by the code generators)
-  1. It looks like some Cmm extensions will have to be added to ensure alignment and pass vectorization information onto the back ends, the necessary MachOps will be determined after the first vertical stack is completed (using the "Double" as a model).  There may be some reuse from the existing MachOps.
+  1. It looks like some Cmm extensions will have to be added to ensure alignment and pass vectorization information onto the back ends, the necessary MachOps will be determined after the first vertical stack is completed (using the "Double" as a model).  There may be some reuse from the existing MachOps.  There is some discussion to these extensions (or similar ones) on the original [ Patch 3557 Documentation](http://hackage.haskell.org/trac/ghc/ticket/3557)
 
 ## Add new MachOps to Cmm code
 
@@ -148,15 +151,16 @@ The above can be repeated with any of the common operations (multiplication, div
 ## Modify Vector Libraries and Pragmas
 
 
-The compiler/vectorise code contains the implementation details for the VECTORISE pragma.
+The compiler/vectorise code contains the implementation details for the [ VECTORISE pragma](http://hackage.haskell.org/trac/ghc/wiki/DataParallel/VectPragma).
 
 - /compiler/vectorise/Vectorise.hs
 - /compiler/vectorise/Vectorise/Env.hs
 - /compiler/vectorise/Vectorise/Type/Env.hs
 
 
-What needs to be done here?
-Modify the Vector Libraries
+These may need to be modified to add options to the VECTORISE pragma, this is not determined at the moment.
+
+## Modify the Vector Libraries
 
 
 The /libraries/vector/Data/Vector/\* should be modified to take advantage of the new PrimOps.  Here we replace loops with strided loops.  
