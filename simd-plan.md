@@ -1,0 +1,182 @@
+## Introduction
+
+
+This text documents the implementation stages / components for adding SIMD support to GHC for the LLVM Back-end.  The overriding requirements and architecture for the project are located here:
+
+
+Based on that design, the high-level tasks that must be accomplished include the following:
+
+1. Add new PrimOps to allow Haskell to make use of Vectors
+1. Add new MachOps to Cmm to communicate use of Vectors
+1. Modify the LLVM Code Generator to translate Cmm to LLVM vector instructions
+1. Demonstrate use of PrimOps from Haskell program
+1. Modify Vector Library
+1. Modify DPH Libraries
+1. Arrange that the other Code Generators continue to generate non SIMD code
+
+
+Introduction of SIMD support to GHC will occur in stages to demonstrate the entire “vertical” stack is functional:
+
+1. Introduce “Double” PrimOps (as necessary to run an example showing SIMD usage in the LLVM)
+1. Add appropriate Cmm support for the Double primtype / primop subset
+1. Modify the LLVM Code Generator to support the Double vectorization
+1. Demonstrate the PrimOps and do limited performance testing to ensure SIMD is functional
+1. Modify Vector Libraries to make use of new PrimOps
+1. Modify the DPH Libraries
+1. Higher level examples using the above libraries
+1. Build out the remaining PrimOps
+1. Demonstrate full stack
+1. Test remaining code generators
+
+## Current Open Questions
+
+
+These clearly won't be all of the questions I have, there is a substantial amount of work that goes through the entire GHC compiler stack before reaching the LLVM instructions.
+
+- Should the existing pure Vector libraries (/libraries/vector/Data/\*) be modified to use the vectorized code as a first priority, wait until DPH (/libraries/dph/) is modified, or leave the Vector library as is?
+- How does one create one of the new Vector Types in a Haskell program (direct PrimOp, for testing ... let x = ????), See the Example Section Below
+- One discussion point was that the "Vector Lengths" should be "Set to 1" for non LLVM code generation, where does this happen?  On my first survey of the code, it seems that the code generators are partitioned from the main body of code, implying that each of the code generators will have to be modified to account for the new Cmm MachOps and properly translate them to non-vectorized instructions.
+- Can we re-use any of the existing MachOps when adding to Cmm?
+
+## Add new PrimOps
+
+
+Adding the new PrimOps is relatively straight-forward, but a  substantial number of LOC will be added to achieve it.  Most of this code is cut/paste "like" with minor type modifications.
+
+
+Background: The following articles can aid in getting the work done:
+
+- [ Primitive Operations (PrimOps)](http://hackage.haskell.org/trac/ghc/wiki/Commentary/PrimOps)
+- [ Adding new primitive operations to GHC Haskell](http://hackage.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations)
+
+
+The steps to be undertaken are:
+
+1. Modify ./compiler/prelude/primops.txt.pp
+
+  1. Add the following vector length constants as Int\# types
+
+    - intVecLen, intVec8Len, intVec16Len, intVec32Len, intVec64Len, wordVecLen, wordVec8Len, wordVec16Len, wordVec32Len, wordVec64Len, floatVecLen, and doubleVecLen, 
+  1. Then add the following primtypes:
+
+    - Int : IntVec\#, Int8Vec\#, Int16Vec\#, Int32Vec\#, Int64Vec\#
+    - Word : WordVec\#, Word8Vec\#, Word16Vec\#, Word32Vec\#, Word64Vec\#
+    - Float : FloatVec\#
+    - Double : DoubleVec\#
+  1. Add the following primops associated with the above primtypes.   The ops come in groups associated with the types above, for example for IntVec\#’s we get the following family for the “plus” operation alone:
+
+    - plusInt8Vec\# :: Int8Vec\# -\> Int8Vec\# -\> Int8Vec\#
+    - plusInt16Vec\# :: Int16Vec\# -\> Int16Vec\# -\> Int16Vec\#
+    - plusInt32Vec\# :: Int32Vec\# -\> Int32Vec\# -\> Int32Vec\#
+    - plusInt64Vec\# :: Int64Vec\# -\> Int64Vec\# -\> Int64Vec\#
+  1. Repeat this for the following set of operations on IntVec\#’s of various lengths, note that the signatures are summarized informally in parentheses behind the operation:        
+
+    - plusIntVec\#, (signature :: Int8Vec\# -\> Int8Vec\# -\> Int8Vec\#)
+    - minusIntVec\#, 
+    - timesIntVec\#, 
+    - quotIntVec\#, 
+    - remIntVec\#
+    - negateIntVec\# (signature :: IntVec\# -\> IntVec\#)
+    - uncheckedIntVecShiftL\# (signature :: IntVec\# -\> Int\# -\> IntVec\#)
+    - uncheckedIntVecShiftRA\#, 
+    - uncheckedIntVecShiftRL\# 
+  1. For the Word vectors we similarly introduce:
+
+    - plusWordVec\#, minusWordVec\#, timesWordVec\#, quotWordVec\#, remWordVec\#, negateWordVec\#, andWordVec\#, orWordVec\#, xorWordVec\#, notWord\#, uncheckedWordVecShiftL\#, uncheckedWordVecShiftRL\#
+  1. Float
+
+    - plusFloatVec\#, minusFloatVec\#, timesFloatVec\#, quotFloatVec\#, remFloatVec\#, negateFloatVec\#, expFloatVec\#, logFloatVec\#, sqrtFloatVec\#<sub> sinFloatVec\#, cosFloatVec\#, tanFloatVec\#, asinFloatVec\#, acosFloatVec\#, atanFloatVec\#, sinhFloatVec\#, coshFloatVec\#, tanhFloatVec\#
+      </sub>
+  1. Double
+
+    - plusDoubleVec\#, minusDoubleVec\#, timesDoubleVec\#, quotDoubleVec\#, remDoubleVec\#, negateDoubleVec\#, expDoubleVec\#, logDoubleVec\#, sqrtDoubleVec\#, sinDoubleVec\#, cosDoubleVec\#, tanDoubleVec\#, asinDoubleVec\#, acosDoubleVec\#, atanDoubleVec\#, sinhDoubleVec\#, coshDoubleVec\#, tanhDoubleVec\#
+1. Modify ./compiler/codeGen/CgPrimOp.hs, code for each primop (above) must be added to complete the primop addition.
+
+  1. The code, basically, links the primops to the Cmm MachOps (that, in turn, are read by the code generators)
+  1. It looks like some Cmm extensions will have to be added to ensure alignment and pass vectorization information onto the back ends, the necessary MachOps will be determined after the first vertical stack is completed (using the "Double" as a model).  There may be some reuse from the existing MachOps.  There is some discussion to these extensions (or similar ones) on the original [ Patch 3557 Documentation](http://hackage.haskell.org/trac/ghc/ticket/3557)
+
+## Add new MachOps to Cmm code
+
+
+It may make more sense to add the MachOps to Cmm prior to implementing the PrimOps (or at least before adding the code to the CgPrimOp.hs file).  The primary files that are involved in adding Cmm instructions are:
+
+1. Modify CmmExpr.hs
+
+## Modify LLVM Code Generator
+
+
+Take the MachOps in the Cmm definition and translate correctly to the corresponding LLVM instructions.  LLVM code generation is in the /compiler/llvmGen directory.  The following will have to be modified (at a minimum):
+
+- /compiler/llvmGen/Llvm/Types.hs - add the MachOps from Cmm and how they bridge to the LLVM vector operations
+- /compiler/llvmGen/LlvmCodeGen/CodeGen.hs - This is the heart of the translation from MachOps to LLVM code.   Possibly significant changes will have to be added.
+
+- Remaining /compiler/llvmGen/\* - Supporting changes
+
+
+Once the LLVM Code Generator is modified to support Double instructions, tests can be run to ensure the “bottom half” of the stack works.
+
+## Example: Demonstrate SIMD Operation
+
+
+Once the Code Generator, PrimOps and Cmm are modified, we should be able to demonstrate performance scenarios.  The simplest example to use for demonstrating performance is to time vector additions and multiplications using the new vectorized instruction set against a similar addition or multiplication using another PrimOp.
+
+
+The following two simple programs should demonstrate the difference in performance.  The program using the PrimOps *should* improve performance approaching 2x (Doubles are 64bit and SSE provides two 64bit registers).
+
+
+Simple usage of the new instructions to add to vectors of doubles:
+**Question:**  How does one create one of the new PrimOp types
+
+```wiki
+	let x = ????
+	let y = ???
+	plusDoubleVec# x y
+```
+
+
+Using simple lists to achieve the same operation:
+
+```wiki
+	let x = [1,2,3,4]
+	let y = [2,3,4,5]
+	zipWith (+) x y
+```
+
+
+The above can be repeated with any of the common operations (multiplication, division, subtraction).  This should be sufficient with large sized vectors / lists to illustrate speedup.
+
+
+(Note that over time and several generations of the integration, one would hope that the latter path would be “optimized” into SIMD instructions)
+
+## Modify Vector Libraries and Pragmas
+
+
+The compiler/vectorise code contains the implementation details for the [ VECTORISE pragma](http://hackage.haskell.org/trac/ghc/wiki/DataParallel/VectPragma).
+
+- /compiler/vectorise/Vectorise.hs
+- /compiler/vectorise/Vectorise/Env.hs
+- /compiler/vectorise/Vectorise/Type/Env.hs
+
+
+These may need to be modified to add options to the VECTORISE pragma, this is not determined at the moment.
+
+## Modify the Vector Libraries
+
+
+The /libraries/vector/Data/Vector/\* should be modified to take advantage of the new PrimOps.  Here we replace loops with strided loops.  
+
+**Question:** do we skip this and only do it for lifted operations in DPH?
+
+**TODO** Insert example.
+
+## Modify DPH Libraries
+
+1. Primary changes are in /libraries/dph/dph-common/Data/Array/Parallel/Lifted/\*
+1. VECTOR SCALAR is also heavily used in /libraries/dph/dph-common/Data/Array/Parallel/Prelude, these should be inspected for update as well (Double.hs, Float.hs, Int.hs, Word8.hs)
+1. Modify pragmas as necessary based on changes made above
+
+**Note to Self:** Clarify WHAT needs to be done here as we progress, there may not need to be any changes to the vectorize pragmas
+
+## Modify Remaining Code Generators
+
+**Question:** we need to set the vector lengths (intVecLen, floatVecLen, and so on) to 1 for other backends.  Where do we do this?
