@@ -27,7 +27,7 @@ Introduction of SIMD support to GHC will occur in stages to demonstrate the enti
 These clearly won't be all of the questions I have, there is a substantial amount of work that goes through the entire GHC compiler stack before reaching the LLVM instructions.
 
  * Should the existing pure Vector libraries (/libraries/vector/Data/*) be modified to use the vectorized code as a first priority, wait until DPH (/libraries/dph/) is modified, or leave the Vector library as is?
- * How does one create one of the new Vector Types in a Haskell program (direct PrimOp, for testing ... let x = ????)
+ * How does one create one of the new Vector Types in a Haskell program (direct PrimOp, for testing ... let x = ????), See the Example Section Below
  * One discussion point was that the "Vector Lengths" should be "Set to 1" for non LLVM code generation, where does this happen?  On my first survey of the code, it seems that the code generators are partitioned from the main body of code, implying that each of the code generators will have to be modified to account for the new Cmm MachOps and properly translate them to non-vectorized instructions.
  * Can we re-use any of the existing MachOps when adding to Cmm?
 
