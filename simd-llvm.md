@@ -140,3 +140,8 @@ In DPH, we will use the new SIMD instructions by suitably modifying the definiti
 We could define them more verbosely using a plain `VECTORISE` pragma, but might instead like to extend `VECTORISE SCALAR` or introduce a variant.
 
 **NB:** The use of SIMD instructions interferes with vectorisation avoidance for scalar subcomputations. Code that avoids vectorisation also avoids the use of SIMD instructions. We would like to use SIMD instructions, but still avoid full-scale vectorisation. This should be possible, but it is not immediately clear how to realise it (elegantly).
+
+## Implementation Details and Plan
+
+
+For implementation details and a plan, refer to the [SIMD Implementation Details and Plan](simd-plan) Page
