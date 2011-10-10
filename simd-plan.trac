@@ -1,6 +1,6 @@
 
 == Introduction ==
-This text documents the implementation stages / components for adding SIMD support to GHC for the LLVM Back-end.  The overriding requirements and architecture for the project are located here:
+This text documents the implementation stages / components for adding SIMD support to GHC for the LLVM Back-end.  The overriding requirements and architecture for the project are located back at the [http://hackage.haskell.org/trac/ghc/wiki/SimdLlvm SIMD LLVM Page].
 
 Based on that design, the high-level tasks that must be accomplished include the following:
  1. Add new PrimOps to allow Haskell to make use of Vectors
