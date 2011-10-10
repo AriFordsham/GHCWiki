@@ -1,7 +1,7 @@
 ## Introduction
 
 
-This text documents the implementation stages / components for adding SIMD support to GHC for the LLVM Back-end.  The overriding requirements and architecture for the project are located here:
+This text documents the implementation stages / components for adding SIMD support to GHC for the LLVM Back-end.  The overriding requirements and architecture for the project are located back at the [ SIMD LLVM Page](http://hackage.haskell.org/trac/ghc/wiki/SimdLlvm).
 
 
 Based on that design, the high-level tasks that must be accomplished include the following:
@@ -32,11 +32,6 @@ Introduction of SIMD support to GHC will occur in stages to demonstrate the enti
 
 
 These clearly won't be all of the questions I have, there is a substantial amount of work that goes through the entire GHC compiler stack before reaching the LLVM instructions.
-
-- Should the existing pure Vector libraries (/libraries/vector/Data/\*) be modified to use the vectorized code as a first priority, wait until DPH (/libraries/dph/) is modified, or leave the Vector library as is?
-- How does one create one of the new Vector Types in a Haskell program (direct PrimOp, for testing ... let x = ????), See the Example Section Below
-- One discussion point was that the "Vector Lengths" should be "Set to 1" for non LLVM code generation, where does this happen?  On my first survey of the code, it seems that the code generators are partitioned from the main body of code, implying that each of the code generators will have to be modified to account for the new Cmm MachOps and properly translate them to non-vectorized instructions.
-- Can we re-use any of the existing MachOps when adding to Cmm?
 
 ## Add new PrimOps
 
@@ -98,9 +93,15 @@ The steps to be undertaken are:
 ## Add new MachOps to Cmm code
 
 
-It may make more sense to add the MachOps to Cmm prior to implementing the PrimOps (or at least before adding the code to the CgPrimOp.hs file).  The primary files that are involved in adding Cmm instructions are:
+It may make more sense to add the MachOps to Cmm prior to implementing the PrimOps (or at least before adding the code to the CgPrimOp.hs file).  There is a useful [ Cmm Wiki Page](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/CmmType#AdditionsinCmm) available to aid in the definition of the new Cmm operations.
+
+
+The primary files that are involved in adding Cmm instructions are:
 
 1. Modify CmmExpr.hs
+
+
+Some existing Cmm instructions may be able to be reused, but there will have to be additional instructions added to account for vectorization primitives.  I'm still a little curious why these new instructions should not be built as out-of-line PrimOps.  It should be noted that the reference for adding primops appears to be wildly out of data for adding out-of-line primops.
 
 ## Modify LLVM Code Generator
 
@@ -125,7 +126,8 @@ The following two simple programs should demonstrate the difference in performan
 
 
 Simple usage of the new instructions to add to vectors of doubles:
-**Question:**  How does one create one of the new PrimOp types
+
+**Question:**  How does one create one of the new PrimOp types to test prior to testing the vector add operations?  This is going to have to be looked at a little ... the code should basically create a vector and then insertDoubleVec\# repeatedly to populate the vector.  Without the subsequent steps done, this will have to be "hand" done without additional operations defined.  Here is the response from Manuel to expand on this:  I am not quite sure what the best approach is. The intention in LLVM is clearly to populate vectors using the 'insertIntVec\#' etc functions. However, in LLVM you can just use an uninitialised register and insert elements into a vector successively. We could provide a vector "0" value in Haskell and insert into that. Any other ideas?
 
 ```wiki
 	let x = ????
@@ -148,35 +150,77 @@ The above can be repeated with any of the common operations (multiplication, div
 
 (Note that over time and several generations of the integration, one would hope that the latter path would be “optimized” into SIMD instructions)
 
-## Modify Vector Libraries and Pragmas
+## Modify Vector Libraries and Vector Compiler Optimization (Pragmas and such)
 
 
-The compiler/vectorise code contains the implementation details for the [ VECTORISE pragma](http://hackage.haskell.org/trac/ghc/wiki/DataParallel/VectPragma).
+Once we've shown there is speed-up for the lower portions of the compiler and have quantified it, the upper half of the stack should be optimized to take advantage of the vectorization code that was added to the PrimOps and Cmm.  There are two primary locations this is handled, in the compiler (compile/vectorize) code that vectorizes modules post-desugar process.  This location handles the VECTORISE pragmas as well as implicit vectorization of code.  The other location that requires modification is the Vector library itself.
 
-- /compiler/vectorise/Vectorise.hs
-- /compiler/vectorise/Vectorise/Env.hs
-- /compiler/vectorise/Vectorise/Type/Env.hs
+1. Modify the Vector library /libraries/vector/Data to make use of PrimOps where possible and adjust VECTORISE pragmas if necessary
+
+  - Modify the existing Vector code
+  - We will likely also need vector versions of array read/write/indexing to process Haskell arrays with vector operations (this may need to go into compiler/vectorise)
+  - Use the /libraries/vector/benchmarks to test updated code, look for
+
+    - slowdowns - vector operations that cannot benefit from SIMD should not show slowdown
+    - speedup - all performance tests that make use of maps for the common operators (+, -, \*, etc..) should benefit from the SIMD speedup
+1. Modify the compiler/vectorise code to adjust pragmas and vectorization post-desugar process.  These modifications may not need to be made on the first pass through the code, more evaluation is necessary.
+
+  - /compiler/vectorise/Vectorise.hs
+  - /compiler/vectorise/Vectorise/Env.hs
+  - /compiler/vectorise/Vectorise/Type/Env.hs
 
 
-These may need to be modified to add options to the VECTORISE pragma, this is not determined at the moment.
-
-## Modify the Vector Libraries
-
-
-The /libraries/vector/Data/Vector/\* should be modified to take advantage of the new PrimOps.  Here we replace loops with strided loops.  
-
-**Question:** do we skip this and only do it for lifted operations in DPH?
-
-**TODO** Insert example.
+Once the benchmarks show measurable, reproducible behavior, move onto the DPH libraries.  Note that a closer inspection of the benchmarks in the /libraries/vector/benchmarks directory is necessary to ensure they reflect code that will be optimized with the use of SIMD instructions.  If they are not appropriate, add code that demonstrates SIMD speed-up appropriately.
 
 ## Modify DPH Libraries
 
-1. Primary changes are in /libraries/dph/dph-common/Data/Array/Parallel/Lifted/\*
+
+The DPH libraries have heavy dependencies on the previous vectorization modification step (modifying the Vector libraries and the compiler vector options and post-desugar vectorization steps).  The DPH steps should not be undertaken without significant performance improvements illustrated in the previous steps.
+
+1. The primary changes for DPH are in /libraries/dph/dph-common/Data/Array/Parallel/Lifted/\*
 1. VECTOR SCALAR is also heavily used in /libraries/dph/dph-common/Data/Array/Parallel/Prelude, these should be inspected for update as well (Double.hs, Float.hs, Int.hs, Word8.hs)
 1. Modify pragmas as necessary based on changes made above
 
-**Note to Self:** Clarify WHAT needs to be done here as we progress, there may not need to be any changes to the vectorize pragmas
+**Note to Self:** Determine if the VECTORISE pragmas need adjustment or enhancement (based on previous steps)
 
-## Modify Remaining Code Generators
+## Ensure Remaining Code Generators Function Properly
 
-**Question:** we need to set the vector lengths (intVecLen, floatVecLen, and so on) to 1 for other backends.  Where do we do this?
+
+There are really two options on the remaining code generators:
+
+- Modify each code generator to understand the new Cmm instructions and restore them to non-vectorized instructions
+- Add a compiler step that that does a pre-pass and replaces all "length = 1" vectors and operations on them by the corresponding scalar type and operations
+
+
+The latter makes sense in that it is effective on all code generators, including the LLVM code generator.  Vectors of length = 1 should not be put through SIMD instructions to begin with (as they will incur substantial overhead for no return).
+
+
+To make this work, a ghc compiler flag must be added that forces all vector lengths to 1 (this will be required in conjunction with any non-LLVM code generator).  A user can also use this option to turn off SIMD optimization for LLVM.
+
+- Add the ghc compiler option: --vector-length=1
+- Modify compiler/vectorise to recognize the new option or add this compiler pass as appropriate
+
+## Reference Discussion Threads
+
+```wiki
+From: Manual Chakravarty
+Q: Should the existing pure Vector libraries (/libraries/vector/Data/*) be modified to use the vectorized code as a first priority, wait until DPH (/libraries/dph/) is modified, or leave the Vector library as is?
+
+A: The DPH libraries ('dph-*') are based on the 'vector' library — i.e., for DPH to use SIMD instruction, we must modify 'vector' first.
+
+Q: How does one create one of the new Vector Types in a Haskell program (direct PrimOp?, for testing ... let x = ????)
+
+A: I am not quite sure what the best approach is. The intention in LLVM is clearly to populate vectors using the 'insertIntVec#' etc functions. However, in LLVM you can just use an uninitialised register and insert elements into a vector successively. We could provide a vector "0" value in Haskell and insert into that. Any other ideas?
+
+A: I just realised that we need vector version of the array read/write/indexing operations as well to process Haskell arrays with vector operations.
+
+Q: One discussion point was that the "Vector Lengths" should be "Set to 1" for non LLVM code generation, where does this happen? On my first survey of the code, it seems that the code generators are partitioned from the main body of code, implying that each of the code generators will have to be modified to account for the new Cmm MachOps? and properly translate them to non-vectorized instructions.
+
+A: Instead of doing the translation for every native code generator separately, we could have a pre-pass that replaces all length = 1 vectors and operations on them by the corresponding scalar type and operation.  Then, the actual native code generators wouldn't need to be changed.
+
+A: The setting of the vector length to 1 needs to happen in dependence on the command line options passed to GHC — i.e., if a non-LLVM backend is selected.
+
+Q: Can we re-use any of the existing MachOps? when adding to Cmm?
+
+A: I am not sure.
+```
