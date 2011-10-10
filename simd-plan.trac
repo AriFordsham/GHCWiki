@@ -69,10 +69,12 @@ The steps to be undertaken are:
   a. It looks like some Cmm extensions will have to be added to ensure alignment and pass vectorization information onto the back ends, the necessary MachOps will be determined after the first vertical stack is completed (using the "Double" as a model).  There may be some reuse from the existing MachOps.  There is some discussion to these extensions (or similar ones) on the original [http://hackage.haskell.org/trac/ghc/ticket/3557 Patch 3557 Documentation]
 
 == Add new MachOps to Cmm code ==
-It may make more sense to add the MachOps to Cmm prior to implementing the PrimOps (or at least before adding the code to the CgPrimOp.hs file).  The primary files that are involved in adding Cmm instructions are:
+It may make more sense to add the MachOps to Cmm prior to implementing the PrimOps (or at least before adding the code to the CgPrimOp.hs file).  There is a useful [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/CmmType#AdditionsinCmm Cmm Wiki Page] available to aid in the definition of the new Cmm operations.
+
+The primary files that are involved in adding Cmm instructions are:
  1. Modify CmmExpr.hs
 
-Some existing Cmm instructions may be able to be reused, but there will have to be additional instructions added to account for vectorization primitives.
+Some existing Cmm instructions may be able to be reused, but there will have to be additional instructions added to account for vectorization primitives.  I'm still a little curious why these new instructions should not be built as out-of-line PrimOps.  It should be noted that the reference for adding primops appears to be wildly out of data for adding out-of-line primops.
 
 == Modify LLVM Code Generator ==
 
