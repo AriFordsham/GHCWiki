@@ -4,7 +4,7 @@ The LLVM compiler tools targeted by GHC's [wiki:Commentary/Compiler/Backends/LLV
 
 The SIMD vector extension to GHC proposed here maps to LLVM's vector type in a straight forward manner, which in turn enables us to target a wide range of hardware capabilities. However, GHC's native code generator will simply map SIMD vector operations to ordinary scalar code (in order to avoid having to deal with the complexities of SSE, AVX, NEON, etc).
 
-See also [wiki:VectorComputing]
+(There is also also the outdated [wiki:VectorComputing].)
 
 
 == Variations in the most widely used SIMD extensions ==
