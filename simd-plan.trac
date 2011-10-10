@@ -26,9 +26,6 @@ Introduction of SIMD support to GHC will occur in stages to demonstrate the enti
 == Current Open Questions ==
 These clearly won't be all of the questions I have, there is a substantial amount of work that goes through the entire GHC compiler stack before reaching the LLVM instructions.
 
- * How does one create one of the new Vector Types in a Haskell program (direct PrimOp, for testing ... let x = ????), See the Example Section Below
- * One discussion point was that the "Vector Lengths" should be "Set to 1" for non LLVM code generation, where does this happen?  On my first survey of the code, it seems that the code generators are partitioned from the main body of code, implying that each of the code generators will have to be modified to account for the new Cmm MachOps and properly translate them to non-vectorized instructions.
- * Can we re-use any of the existing MachOps when adding to Cmm?
 
 == Add new PrimOps ==
 Adding the new PrimOps is relatively straight-forward, but a  substantial number of LOC will be added to achieve it.  Most of this code is cut/paste "like" with minor type modifications.
@@ -74,6 +71,8 @@ The steps to be undertaken are:
 == Add new MachOps to Cmm code ==
 It may make more sense to add the MachOps to Cmm prior to implementing the PrimOps (or at least before adding the code to the CgPrimOp.hs file).  The primary files that are involved in adding Cmm instructions are:
  1. Modify CmmExpr.hs
+
+Some existing Cmm instructions may be able to be reused, but there will have to be additional instructions added to account for vectorization primitives.
 
 == Modify LLVM Code Generator ==
 
