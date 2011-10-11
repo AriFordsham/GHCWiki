@@ -79,6 +79,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
+  - [ Cloud Haskell](http://haskell.org/haskellwiki/GHC/CouldAndHPCHaskell)
   - [A modular package language for Haskell](package-language) Scott Kilpatrick and Derek Dreyer are designing a new “package language” for Haskell in the style of the ML module system.
   - [Pattern synonyms](pattern-synonyms)
   - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on the ongoing implementation of SPJs "Comprehensive Comprehensions".
