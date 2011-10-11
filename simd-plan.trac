@@ -33,7 +33,6 @@ Adding the new PrimOps is relatively straight-forward, but a  substantial number
 Background: The following articles can aid in getting the work done:
  * [http://hackage.haskell.org/trac/ghc/wiki/Commentary/PrimOps Primitive Operations (PrimOps)]
  * [http://hackage.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations Adding new primitive operations to GHC Haskell]
- * [wiki:Adding a New primtype] to primops.txt.pp
 
 The steps to be undertaken are:
  1. Modify ./compiler/prelude/primops.txt.pp
