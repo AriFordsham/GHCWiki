@@ -43,6 +43,7 @@ Background: The following articles can aid in getting the work done:
 
 - [ Primitive Operations (PrimOps)](http://hackage.haskell.org/trac/ghc/wiki/Commentary/PrimOps)
 - [ Adding new primitive operations to GHC Haskell](http://hackage.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations)
+- Some guidelines for addition?, at least until I find something on the Wiki
 
 
 The steps to be undertaken are:
