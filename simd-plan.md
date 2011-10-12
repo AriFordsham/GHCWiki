@@ -92,6 +92,17 @@ The steps to be undertaken are:
   1. The code, basically, links the primops to the Cmm MachOps (that, in turn, are read by the code generators)
   1. It looks like some Cmm extensions will have to be added to ensure alignment and pass vectorization information onto the back ends, the necessary MachOps will be determined after the first vertical stack is completed (using the "Double" as a model).  There may be some reuse from the existing MachOps.  There is some discussion to these extensions (or similar ones) on the original [ Patch 3557 Documentation](http://hackage.haskell.org/trac/ghc/ticket/3557)
 
+
+Example of modification to ./compiler/primop-data-decl.hs-incl to add the SIMD Integer Operations to PrimOp.lhs:
+
+```wiki
+   | VIntAddOp
+   | VIntSubOp
+   | VIntMulOp
+   | VIntQuotOp
+   | VIntNegOp
+```
+
 ## Add new MachOps to Cmm code
 
 
@@ -120,8 +131,16 @@ data CmmCat     -- "Category" (not exported)
 Modify compiler/cmm/CmmMachOp.hs, this will add the necessary MachOps for use from the PrimOps modifications to support SIMD.  Here is an example of adding a SIMD version of the MO_F_Add MachOp:
 
 ```wiki
+  -- Integer SIMD arithmetic
+  | MO_V_Add  Width Int
+  | MO_V_Sub  Width Int
+  | MO_V_Neg  Width Int         -- unary -
+  | MO_V_Mul  Width Int
+  | MO_V_Quot Width Int
+
   -- Floating point arithmetic
   MO_VF_Add Width Int   -- MO_VF_Add W64 4   Add 4-vector of 64-bit floats
+  ...
 ```
 
 
