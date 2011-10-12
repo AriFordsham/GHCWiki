@@ -48,7 +48,7 @@ Background: The following articles can aid in getting the work done:
 
 The steps to be undertaken are:
 
-1. Modify ./compiler/prelude/primops.txt.pp
+1. Modify ./compiler/prelude/primops.txt.pp (the following instructions may be changed a bit based on the direction)
 
   1. Add the following vector length constants as Int\# types
 
@@ -86,10 +86,40 @@ The steps to be undertaken are:
   1. Double
 
     - plusDoubleVec\#, minusDoubleVec\#, timesDoubleVec\#, quotDoubleVec\#, remDoubleVec\#, negateDoubleVec\#, expDoubleVec\#, logDoubleVec\#, sqrtDoubleVec\#, sinDoubleVec\#, cosDoubleVec\#, tanDoubleVec\#, asinDoubleVec\#, acosDoubleVec\#, atanDoubleVec\#, sinhDoubleVec\#, coshDoubleVec\#, tanhDoubleVec\#
+1. Do NOT Modify ./compiler/prelude/PrimOp.lhs (actually, ./compiler/primop-data-decl.hs-incl) to add the new PrimOps (VIntQuotOp, etc...), this will be generated based on the primops.txt.pp modifications
 1. Modify ./compiler/codeGen/CgPrimOp.hs, code for each primop (above) must be added to complete the primop addition.
 
   1. The code, basically, links the primops to the Cmm MachOps (that, in turn, are read by the code generators)
   1. It looks like some Cmm extensions will have to be added to ensure alignment and pass vectorization information onto the back ends, the necessary MachOps will be determined after the first vertical stack is completed (using the "Double" as a model).  There may be some reuse from the existing MachOps.  There is some discussion to these extensions (or similar ones) on the original [ Patch 3557 Documentation](http://hackage.haskell.org/trac/ghc/ticket/3557)
+
+
+Example of modification to ./compiler/prelude/primops.txt.pp to add one of the additional Float operations:
+
+```wiki
+------------------------------------------------------------------------
+section "SIMDFloat"
+	{Float operations that can take advantage of vectorization.}
+------------------------------------------------------------------------
+
+primop   FloatVectorAddOp   "plusFloatVec#"      Dyadic            
+   Float# -> Float# -> Float#
+   with can_fail = True
+```
+
+
+Here is an example of the update to ./compiler/codeGen/CgPrimOp.hs
+
+```wiki
+-- SIMD Float Ops
+translateOp FloatVectorAddOp	= Just (MO_VF_Add W32 4)
+```
+
+
+The above, after compilation, adds the following to the ./compiler/prelude/PrimOp.lhs file:
+
+```wiki
+   | FloatVectorAddOp
+```
 
 ## Add new MachOps to Cmm code
 
@@ -97,12 +127,42 @@ The steps to be undertaken are:
 It may make more sense to add the MachOps to Cmm prior to implementing the PrimOps (or at least before adding the code to the CgPrimOp.hs file).  There is a useful [ Cmm Wiki Page](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/CmmType#AdditionsinCmm) available to aid in the definition of the new Cmm operations.
 
 
-The primary files that are involved in adding Cmm instructions are:
+Modify compiler/cmm/CmmType.hs to add new required vector types and such, here is a basic outline of what needs to be done:
 
-1. Modify CmmExpr.hs
+```wiki
+data CmmType    -- The important one!
+  = CmmType CmmCat Width
+ 
+type Multiplicty = Int
+ 
+data CmmCat     -- "Category" (not exported)
+   = GcPtrCat   -- GC pointer
+   | BitsCat   -- Non-pointer
+   | FloatCat   -- Float
+   | VBitsCat  Multiplicity   -- Non-pointer
+   | VFloatCat Multiplicity  -- Float
+   deriving( Eq )
+        -- See Note [Signed vs unsigned] at the end
+```
 
 
-Some existing Cmm instructions may be able to be reused, but there will have to be additional instructions added to account for vectorization primitives.  I'm still a little curious why these new instructions should not be built as out-of-line PrimOps.  It should be noted that the reference for adding primops appears to be wildly out of data for adding out-of-line primops.
+Modify compiler/cmm/CmmMachOp.hs, this will add the necessary MachOps for use from the PrimOps modifications to support SIMD.  Here is an example of adding a SIMD version of the MO_F_Add MachOp:
+
+```wiki
+  -- Integer SIMD arithmetic
+  | MO_V_Add  Width Int
+  | MO_V_Sub  Width Int
+  | MO_V_Neg  Width Int         -- unary -
+  | MO_V_Mul  Width Int
+  | MO_V_Quot Width Int
+
+  -- Floating point arithmetic
+  MO_VF_Add Width Int   -- MO_VF_Add W64 4   Add 4-vector of 64-bit floats
+  ...
+```
+
+
+Some existing Cmm instructions may be able to be reused, but there will have to be additional instructions added to account for vectorization primitives.  This will help keep the SIMD / non-SIMD code generation separate for the time being until we have it working.
 
 ## Modify LLVM Code Generator
 
