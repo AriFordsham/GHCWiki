@@ -36,7 +36,8 @@ Background: The following articles can aid in getting the work done:
  * Some guidelines for [wiki:primtype addition], at least until I find something on the Wiki
 
 The steps to be undertaken are:
- 1. Modify ./compiler/prelude/primops.txt.pp
+ 1. Modify ./compiler/prelude/PrimOp.lhs (actually, ./compiler/primop-primop-info.hs-incl) to add the new PrimOps (VIntQuotOp, etc...)
+ 1. Modify ./compiler/prelude/primops.txt.pp (the following instructions may be changed a bit based on the direction)
   a. Add the following vector length constants as Int# types
    * intVecLen, intVec8Len, intVec16Len, intVec32Len, intVec64Len, wordVecLen, wordVec8Len, wordVec16Len, wordVec32Len, wordVec64Len, floatVecLen, and doubleVecLen, 
   a. Then add the following primtypes:
@@ -72,10 +73,30 @@ The steps to be undertaken are:
 == Add new MachOps to Cmm code ==
 It may make more sense to add the MachOps to Cmm prior to implementing the PrimOps (or at least before adding the code to the CgPrimOp.hs file).  There is a useful [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/CmmType#AdditionsinCmm Cmm Wiki Page] available to aid in the definition of the new Cmm operations.
 
-The primary files that are involved in adding Cmm instructions are:
- 1. Modify CmmExpr.hs
+Modify compiler/cmm/CmmType.hs to add new required vector types and such, here is a basic outline of what needs to be done:
+{{{
+data CmmType    -- The important one!
+  = CmmType CmmCat Width
+ 
+type Multiplicty = Int
+ 
+data CmmCat     -- "Category" (not exported)
+   = GcPtrCat   -- GC pointer
+   | BitsCat   -- Non-pointer
+   | FloatCat   -- Float
+   | VBitsCat  Multiplicity   -- Non-pointer
+   | VFloatCat Multiplicity  -- Float
+   deriving( Eq )
+        -- See Note [Signed vs unsigned] at the end
+}}}
 
-Some existing Cmm instructions may be able to be reused, but there will have to be additional instructions added to account for vectorization primitives.  I'm still a little curious why these new instructions should not be built as out-of-line PrimOps.  It should be noted that the reference for adding primops appears to be wildly out of data for adding out-of-line primops.
+Modify compiler/cmm/CmmMachOp.hs, this will add the necessary MachOps for use from the PrimOps modifications to support SIMD.  Here is an example of adding a SIMD version of the MO_F_Add MachOp:
+{{{
+  -- Floating point arithmetic
+  MO_VF_Add Width Int   -- MO_VF_Add W64 4   Add 4-vector of 64-bit floats
+}}}
+
+Some existing Cmm instructions may be able to be reused, but there will have to be additional instructions added to account for vectorization primitives.  This will help keep the SIMD / non-SIMD code generation separate for the time being until we have it working.
 
 == Modify LLVM Code Generator ==
 
