@@ -48,7 +48,6 @@ Background: The following articles can aid in getting the work done:
 
 The steps to be undertaken are:
 
-1. Modify ./compiler/prelude/PrimOp.lhs (actually, ./compiler/primop-data-decl.hs-incl) to add the new PrimOps (VIntQuotOp, etc...)
 1. Modify ./compiler/prelude/primops.txt.pp (the following instructions may be changed a bit based on the direction)
 
   1. Add the following vector length constants as Int\# types
@@ -87,20 +86,39 @@ The steps to be undertaken are:
   1. Double
 
     - plusDoubleVec\#, minusDoubleVec\#, timesDoubleVec\#, quotDoubleVec\#, remDoubleVec\#, negateDoubleVec\#, expDoubleVec\#, logDoubleVec\#, sqrtDoubleVec\#, sinDoubleVec\#, cosDoubleVec\#, tanDoubleVec\#, asinDoubleVec\#, acosDoubleVec\#, atanDoubleVec\#, sinhDoubleVec\#, coshDoubleVec\#, tanhDoubleVec\#
+1. Do NOT Modify ./compiler/prelude/PrimOp.lhs (actually, ./compiler/primop-data-decl.hs-incl) to add the new PrimOps (VIntQuotOp, etc...), this will be generated based on the primops.txt.pp modifications
 1. Modify ./compiler/codeGen/CgPrimOp.hs, code for each primop (above) must be added to complete the primop addition.
 
   1. The code, basically, links the primops to the Cmm MachOps (that, in turn, are read by the code generators)
   1. It looks like some Cmm extensions will have to be added to ensure alignment and pass vectorization information onto the back ends, the necessary MachOps will be determined after the first vertical stack is completed (using the "Double" as a model).  There may be some reuse from the existing MachOps.  There is some discussion to these extensions (or similar ones) on the original [ Patch 3557 Documentation](http://hackage.haskell.org/trac/ghc/ticket/3557)
 
 
-Example of modification to ./compiler/primop-data-decl.hs-incl to add the SIMD Integer Operations to PrimOp.lhs:
+Example of modification to ./compiler/prelude/primops.txt.pp to add one of the additional Float operations:
 
 ```wiki
-   | VIntAddOp
-   | VIntSubOp
-   | VIntMulOp
-   | VIntQuotOp
-   | VIntNegOp
+------------------------------------------------------------------------
+section "SIMDFloat"
+	{Float operations that can take advantage of vectorization.}
+------------------------------------------------------------------------
+
+primop   FloatVectorAddOp   "plusFloatVec#"      Dyadic            
+   Float# -> Float# -> Float#
+   with can_fail = True
+```
+
+
+Here is an example of the update to ./compiler/codeGen/CgPrimOp.hs
+
+```wiki
+-- SIMD Float Ops
+translateOp FloatVectorAddOp	= Just (MO_VF_Add W32 4)
+```
+
+
+The above, after compilation, adds the following to the ./compiler/prelude/PrimOp.lhs file:
+
+```wiki
+   | FloatVectorAddOp
 ```
 
 ## Add new MachOps to Cmm code
