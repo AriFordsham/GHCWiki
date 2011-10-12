@@ -48,7 +48,7 @@ Background: The following articles can aid in getting the work done:
 
 The steps to be undertaken are:
 
-1. Modify ./compiler/prelude/PrimOp.lhs (actually, ./compiler/primop-primop-info.hs-incl) to add the new PrimOps (VIntQuotOp, etc...)
+1. Modify ./compiler/prelude/PrimOp.lhs (actually, ./compiler/primop-data-decl.hs-incl) to add the new PrimOps (VIntQuotOp, etc...)
 1. Modify ./compiler/prelude/primops.txt.pp (the following instructions may be changed a bit based on the direction)
 
   1. Add the following vector length constants as Int\# types
