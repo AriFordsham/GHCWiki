@@ -32,7 +32,7 @@
 
 ## New code generator
 
-- [New code generator tickets](commentary/compiler/new-code-gen)
+- Summary ticket: [\#4258](https://gitlab.haskell.org//ghc/ghc/issues/4258), and [wiki page](commentary/compiler/new-code-gen)
 - [\#4065](https://gitlab.haskell.org//ghc/ghc/issues/4065): forward propagation
 - [\#3132](https://gitlab.haskell.org//ghc/ghc/issues/3132): fix cgCase of PrimAlts
 - [\#3458](https://gitlab.haskell.org//ghc/ghc/issues/3458), [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): undesirable allocation of something that is nearly a let-no-escape
