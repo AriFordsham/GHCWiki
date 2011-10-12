@@ -28,7 +28,7 @@
  * #3123: feature request: recursive inlining and peeling
 
 == New code generator ==
- * [wiki:Commentary/Compiler/NewCodeGen New code generator tickets]
+ * Summary ticket: #4258, and [wiki:Commentary/Compiler/NewCodeGen wiki page]
  * #4065: forward propagation
  * #3132: fix cgCase of !PrimAlts
  * #3458, #1216: undesirable allocation of something that is nearly a let-no-escape
