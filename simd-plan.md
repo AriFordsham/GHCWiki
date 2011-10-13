@@ -74,7 +74,11 @@ has_sse=yes
 has_sse=no
 ]
 )
-AC_MSG_RESULT($has_sse)  
+AC_MSG_RESULT($has_sse)
+
+if test "$has_sse" = yes; then
+  AC_DEFINE([_USE_SSE], 1, [Enable SSE support])
+fi
 ```
 
 
