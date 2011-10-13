@@ -123,7 +123,7 @@ Modify compiler/cmm/CmmMachOp.hs, this will add the necessary MachOps for use fr
   | MO_V_Quot Width Int
 
   -- Floating point arithmetic
-  MO_VF_Add Width Int   -- MO_VF_Add W64 4   Add 4-vector of 64-bit floats
+  | MO_VF_Add Width Int   -- MO_VF_Add W64 4   Add 4-vector of 64-bit floats
   ...
 }}}
 
