@@ -146,7 +146,7 @@ NB: The crucial difference between `{-# VECTORISE SCALAR type T1 #-}` and `{-# V
 - **Maybe**`{-# VECTORISE SCALAR type T = T' #-}` can be useful for, e.g., mapping `(->)` to `(:->)`???
 - For type constructors identified with this pragma, can we generate an `instance` of the `Scalar` type class automatically (instead of relying on it being in the library)?
 
-## Cross-module functionality
+## Vectorising imported definitions
 
 
 The various `VECTORISE` pragmas can be applied to imported identifiers (both variables and types).  The resulting vectorisation mappings and the vectorised version of the identifier will be implicitly exported — much like it is the case for `RULES` defined on imported identifiers.
