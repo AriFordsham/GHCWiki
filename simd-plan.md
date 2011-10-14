@@ -235,6 +235,22 @@ Take the MachOps in the Cmm definition and translate correctly to the correspond
 
 Once the LLVM Code Generator is modified to support Double instructions, tests can be run to ensure the “bottom half” of the stack works.
 
+## Modify Remaining Code Generators
+
+
+Until a compiler step is available that removes the new MachOps for other code generators, or a switch is a available that completely turns off other code generators, the native (and probably C) code generators will have to be modified to accept the new MachOps and convert them to equivalent supported MachOps.  Without the modifications, the compile will not complete successfully.
+
+
+For x86 Native Code Generation, locate the ./compiler/nativeGen/X86/CodeGen.hs file and modify it appropriately.  For the example above, simply adding a conversion from MO_VF_Add to the equivalent non-vector add is sufficient.
+
+```wiki
+      MO_VF_Add w i | sse2      -> trivialFCode_sse2 w ADD  x y
+                    | otherwise -> trivialFCode_x87    GADD x y   
+```
+
+
+Changes for the remaining new MachOps may be much larger.
+
 ## Example: Demonstrate SIMD Operation
 
 
