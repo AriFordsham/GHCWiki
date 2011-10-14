@@ -245,6 +245,10 @@ To make this work, a ghc compiler flag must be added that forces all vector leng
  * Add the ghc compiler option: --vector-length=1
  * Modify compiler/vectorise to recognize the new option or add this compiler pass as appropriate
 
+== Reference Documentation ==
+ * [https://wiki.aalto.fi/display/t1065450/LLVM+vectorization LLVM Vectorization]
+ * [http://llvm.org/docs/LangRef.html#t_vector LLVM Vector Type]
+
 == Reference Discussion Threads ==
 {{{
 From: Manual Chakravarty
