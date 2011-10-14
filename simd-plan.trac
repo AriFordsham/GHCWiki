@@ -64,6 +64,7 @@ AC_MSG_RESULT($has_sse)
 
 if test "$has_sse" = yes; then
   AC_DEFINE([_USE_SSE], 1, [Enable SSE support])
+  AC_DEFINE([_VECTOR_SIZE], 128, [Default Vector Size for Optimization])
 fi
 }}}
 
