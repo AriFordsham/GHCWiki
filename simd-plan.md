@@ -82,6 +82,9 @@ fi
 ```
 
 
+Once the mk/config.h is modified with the above, the includes/ghcautoconf.h is modified during the first stage of the GHC build process.  Once includes/ghcautoconf.h is modified, the _USE_SSE constant is available in the Cmm definitions (next section).
+
+
 There are more detailed explanations of how to use cpuid to determine the supported SSE instruction set available on the web as well.  cpuid may be more appropriate but are also much more complex.  Details for using cpuid are available at [ http://software.intel.com/en-us/articles/using-cpuid-to-detect-the-presence-of-sse-41-and-sse-42-instruction-sets/](http://software.intel.com/en-us/articles/using-cpuid-to-detect-the-presence-of-sse-41-and-sse-42-instruction-sets/).
 
 
