@@ -1,15 +1,15 @@
 # Layout of important files and directories
 
 
-This page summarises the overall file and directory structure of GHC.  We include both source files and generated files; the latter are always identified "build-tree only".
+This page summarises the overall file and directory structure of GHC. We include both source files and generated files; the latter are always identified "build-tree only".
 
 
-Everything starts with the main GHC repository (see [Building/GettingTheSources](building/getting-the-sources)).   The build system calls that directory `$(TOP)`.  All the paths below are relative to `$(TOP)`.
+Everything starts with the main GHC repository (see [Building/GettingTheSources](building/getting-the-sources)). The build system calls that directory `$(TOP)`. All the paths below are relative to `$(TOP)`.
 
 ## Files in `$(TOP)`
 
 <table><tr><th>**`sync-all`**</th>
-<td>[This script](building/sync-all) allows you to get or pull all the additional repositories that you need to build GHC.  The command-line interface is documented in the file itself.
+<td>[This script](building/sync-all) allows you to get or pull all the additional repositories that you need to build GHC. The command-line interface is documented in the file itself.
 </td></tr></table>
 
 <table><tr><th>**`packages`**</th>
@@ -17,29 +17,37 @@ Everything starts with the main GHC repository (see [Building/GettingTheSources]
 Lists the packages that `sync-all` should get or pull.  `packages` is looked at only by `sync-all`.
 </td></tr></table>
 
+<table><tr><th>**`tarballs`**</th>
+<td>
+Lists the various tarballs (binary packages) that ghc relies on and where to unpack them during a build.
+</td></tr></table>
+
 <table><tr><th>**`validate`**</th>
-<td>Run `validate` (a shell script) before committing (see [TestingPatches](testing-patches)).  The script is documented in the file itself.
+<td>Run `validate` (a shell script) before committing (see [TestingPatches](testing-patches)). The script is documented in the file itself.
 </td></tr></table>
 
 <table><tr><th>**Documentation files**</th>
-<td>`README`, `ANNOUNCE`, `HACKING`, `LICENSE`</td></tr></table>
+<td>`README`, `ANNOUNCE`, `HACKING`, `LICENSE`, `new_tc_notes`</td></tr></table>
 
 <table><tr><th>**GNU autoconf machinery**</th>
-<td>`aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`, `config.mk.in`</td></tr></table>
+<td>`aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`, `config.mk.in`, `settings.in`</td></tr></table>
 
 <table><tr><th>**`ghc.spec.in`**</th>
 <td>the RPM spec file
 </td></tr></table>
 
-<table><tr><th>**`ghc.mk`**, **`Makefile`**</th>
+<table><tr><th>**`Makefile`**</th>
 <td>The top-level `Makefile`: see [GHC Build System Architecture](building/architecture). GHC requires
 [ GNU make](http://www.gnu.org/software/make/).
 </td></tr></table>
 
+<table><tr><th>**Make system files**</th>
+<td>`ghc.mk`, `MAKEHELP`, `SUBMAKEHELP`</td></tr></table>
+
 ## `libraries/`
 
 
-The `libraries/` directory contains all the packages that GHC needs to build.  It has one sub-directory for each package repository (e.g. `base`, `haskell98`, `random`). Usually each such repository builds just one package, but there is more than one in `dph`.
+The `libraries/` directory contains all the packages that GHC needs to build. It has one sub-directory for each package repository (e.g. `base`, `haskell98`, `random`). Usually each such repository builds just one package, but there is more than one in `dph`.
 
 
 GHC's libraries are described in more detail on the [libraries page](commentary/libraries).
@@ -54,12 +62,12 @@ into an executable in the `ghc/` directory.
 
 There is [documentation of the intended module dependency structure](module-dependencies) of the `compiler/` directory.
 
-- **`compiler/ghc.cabal.in`**: the Cabal file for GHC is generated from this.  If you add a module to GHC's source code, you must add it in the `ghc.cabal.in` file too, else you'll get link errors.
+- **`compiler/ghc.cabal.in`**: the Cabal file for GHC is generated from this. If you add a module to GHC's source code, you must add it in the `ghc.cabal.in` file too, else you'll get link errors.
 
 
 The following directories appear only in the build tree:
 
-- **`compiler/stage1`**: generated files for the stage1 build of GHC.  There are a handful of files (`ghc_boot_platform.h` etc), and a directory `compiler/stage1/build/` that contains all the `.o` and `.hi` files for the compiler.
+- **`compiler/stage1`**: generated files for the stage1 build of GHC. There are a handful of files (`ghc_boot_platform.h` etc), and a directory `compiler/stage1/build/` that contains all the `.o` and `.hi` files for the compiler.
 - **`compiler/stage2`**: similarly stage2.
 
 
@@ -85,9 +93,17 @@ These utils may be built with the bootstrapping compiler, for use during the bui
 
 - **`utils/ghc-pwd`** is a little program we use for getting the current directory. We use this, rather than `pwd`, as the latter may give reults that we can't use on Windows.
 - **`utils/ghc-cabal`** is a little program we use for building the libraries. It's similar to cabal-install, but without the dependencies on `http` etc.
-- **`utils/count_lines`** is a program that counts the number of source-code lines in GHC's code-base.  It distinguishes comments from non-comments.
+- **`utils/count_lines`** is a program that counts the number of source-code lines in GHC's code-base. It distinguishes comments from non-comments.
 
-*Why isn't libffi in utils/?*
+## `driver/`
+
+
+This contains some simple wrapper programs that are only used on windows. They invoke the various GHC binaries correctly such as `ghc`, `ghci`, `haddock` and `gcc`.
+
+## `ghc-tarballs/`
+
+
+This contains some tarball files (binary packages) that GHC relies upon. Used for easier development / deployment on windows.
 
 ## `testsuite/`, `nofib/`
 
@@ -109,7 +125,7 @@ The `mk/` and `rules.mk` directories contains all the build system Makefile boil
 ## `distrib/`
 
 
-Micellaneous files for building distributions.
+Miscellaneous files for building distributions.
 
 ## Stuff that appears only in a build tree
 
