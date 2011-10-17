@@ -71,6 +71,10 @@ These utils may be built with the bootstrapping compiler, for use during the bui
  * '''`utils/ghc-cabal`''' is a little program we use for building the libraries. It's similar to cabal-install, but without the dependencies on `http` etc.
  * '''`utils/count_lines`''' is a program that counts the number of source-code lines in GHC's code-base. It distinguishes comments from non-comments.
 
+== `driver/` ==
+
+This contains some simple wrapper programs that are only used on windows. They invoke the various GHC binaries correctly such as `ghc`, `ghci`, `haddock` and `gcc`.
+
 == `ghc-tarballs/` ==
 
 This contains some tarball files (binary packages) that GHC relies upon. Used for easier development / deployment on windows.
