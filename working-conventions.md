@@ -16,11 +16,11 @@ These pages guide you step-by-step through making a contribution:
 
 ## Conventions
 
-- **Using Git**: Our conventions and some useful tips for using git are here: [WorkingConventions/Git](working-conventions/git).
+- **Using Git**: Our conventions and some useful tips for using git are here: [Using Git](working-conventions/git).
 
-- OLD: **Using Darcs**: Our conventions and some useful tips for using darcs are here: [WorkingConventions/Darcs](working-conventions/darcs).
+- OLD: **Using Darcs**: Our conventions and some useful tips for using darcs are here: [Using Darcs](working-conventions/darcs).
 
-- **Using the Bug Tracker**: see [WorkingConventions/BugTracker](working-conventions/bug-tracker)
+- **Using the Bug Tracker**: see [Using the Bug Tracker](working-conventions/bug-tracker)
 
 - **Coding style**: When you are editing GHC's source code, please follow our coding guidelines:
 
@@ -29,5 +29,5 @@ These pages guide you step-by-step through making a contribution:
 
 - **Testing**: all patches that go into GHC must first pass *validation*, which ensures that a basic build works and the *regression test suite* passes.
 
-  - The policy on validating patches, and how to perform validation, is at: [TestingPatches](testing-patches).
-  - Details about the regression test suite, and how to use it are at: [Building/RunningTests](building/running-tests)
+  - The policy on validating patches, and how to perform validation, is at: [Testing Patches](testing-patches).
+  - Details about the regression test suite, and how to use it are at: [Running Tests](building/running-tests).

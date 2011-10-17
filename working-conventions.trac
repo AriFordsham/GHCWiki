@@ -1,4 +1,3 @@
-[[PageOutline]]
 = Working conventions for working on GHC =
 
 GHC is a BSD-licensed open-source project, and we welcome your help in making it better.
@@ -14,17 +13,16 @@ These pages guide you step-by-step through making a contribution:
 
 == Conventions ==
 
- * '''Using Git''': Our conventions and some useful tips for using git are here: [wiki:WorkingConventions/Git].
+ * '''Using Git''': Our conventions and some useful tips for using git are here: [wiki:WorkingConventions/Git Using Git].
 
- * OLD: '''Using Darcs''': Our conventions and some useful tips for using darcs are here: [wiki:WorkingConventions/Darcs].
+ * OLD: '''Using Darcs''': Our conventions and some useful tips for using darcs are here: [wiki:WorkingConventions/Darcs Using Darcs].
 
- * '''Using the Bug Tracker''': see [wiki:WorkingConventions/BugTracker]
+ * '''Using the Bug Tracker''': see [wiki:WorkingConventions/BugTracker Using the Bug Tracker]
 
  * '''Coding style''': When you are editing GHC's source code, please follow our coding guidelines:
    * [wiki:Commentary/CodingStyle Coding style in the compiler]
    * [wiki:Commentary/Rts/Conventions Coding style in the runtime system]
 
  * '''Testing''': all patches that go into GHC must first pass ''validation'', which ensures that a basic build works and the ''regression test suite'' passes.
-   * The policy on validating patches, and how to perform validation, is at: [wiki:TestingPatches].
-   * Details about the regression test suite, and how to use it are at: [wiki:Building/RunningTests]
-
+   * The policy on validating patches, and how to perform validation, is at: [wiki:TestingPatches Testing Patches].
+   * Details about the regression test suite, and how to use it are at: [wiki:Building/RunningTests Running Tests].
