@@ -45,7 +45,7 @@ Certain abbreviations are used pervasively throughout the GHC source code. This 
 
 - **Lcl**: Local
 
-- **!nativeGen**: Native code generator (generates assembly from Cmm)
+- **nativeGen**: Native code generator (generates assembly from Cmm)
 
 - **Occ**: Occurrence
 

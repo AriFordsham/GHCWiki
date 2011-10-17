@@ -44,7 +44,7 @@ Certain abbreviations are used pervasively throughout the GHC source code. This 
 
 * '''Lcl''': Local
 
-* '''!nativeGen''': Native code generator (generates assembly from Cmm)
+* '''nativeGen''': Native code generator (generates assembly from Cmm)
 
 * '''Occ''': Occurrence
   * However, in the context of [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/RdrNameType#TheOccNametype OccName], "occurrence" actually means "classified (i.e. as a type name, value name, etc) but not qualified and not yet resolved"
