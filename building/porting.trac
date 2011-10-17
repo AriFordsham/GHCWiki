@@ -301,19 +301,6 @@ build:
   need to tweak the call to {{{mmap()}}} for
   your OS.
 
-== The mangler ==
-
-The mangler is an evil Perl-script
-([[GhcFile(driver/mangler/ghc-asm.lprl)]]) that rearranges the assembly
-code output from gcc.  To understand what the manger does and how it works, see
-[wiki:Commentary/EvilMangler].
-
-The mangler is abstracted to a certain extent over some
-architecture-specific things such as the particular assembler
-directives used to herald symbols.  Take a look at the definitions for
-other architectures and use these as a starting point for porting it to
-your platform.
-
 == The splitter ==
 
 The splitter is another evil Perl script
