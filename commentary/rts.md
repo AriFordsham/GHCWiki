@@ -52,7 +52,6 @@ Next, we try to make sense of how it all fits together.
 - [Software Transactional Memory (STM)](commentary/rts/stm)
 - [Weak Pointers and Finalizers](commentary/rts/weak)
 - [How Signals are handled](commentary/rts/signals)
-- [The IO Manager thread](commentary/rts/io-manager)
 - [The HEAP_ALLOCED macro](commentary/heap-alloced)
 
 
