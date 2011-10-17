@@ -1,6 +1,3 @@
-
-Video: [ Compilation Pipeline](http://video.google.com/videoplay?docid=-4326420154219711812) and interface files (17'30")
-
 # Overview
 
 
@@ -76,8 +73,7 @@ We start with `Foo.hs` or `Foo.lhs`, the "l" specifing whether literate style is
 
 - In the `-fvia-C` case:
 
-  - Run the **C compiler** on `Foo.hc`, to generate `Foo.raw_s`.
-  - Run the [Evil Mangler](commentary/evil-mangler), generating `Foo.s`
+  - Run the **C compiler** on `Foo.hc`, to generate `Foo.s`.
 
 - If `-split-objs` is in force, run the **splitter** on `Foo.s`.  This splits `Foo.s` into lots of small files.  The idea is that the static linker will thereby avoid linking dead code.
 
@@ -87,3 +83,8 @@ We start with `Foo.hs` or `Foo.lhs`, the "l" specifing whether literate style is
 
 
 The **compiler itself**, independent of the external tools, is also structured as a pipeline.  For details (and a diagram), see [Commentary/Compiler/HscMain](commentary/compiler/hsc-main)
+
+# Video
+
+
+Video of compilation pipeline explanation from 2006: [ Compilation Pipeline](http://video.google.com/videoplay?docid=-4326420154219711812) and interface files (17'30")
