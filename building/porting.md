@@ -351,10 +351,9 @@ your OS.
 
 
 The splitter is another evil Perl script
-([driver/split/ghc-split.lprl](/trac/ghc/browser/ghc/driver/split/ghc-split.lprl)).  It cooperates with the
-mangler to support object splitting.  Object splitting is what happens
+([driver/split/ghc-split.lprl](/trac/ghc/browser/ghc/driver/split/ghc-split.lprl)). Object splitting is what happens
 when the `-split-objs` option is passed to GHC: the object file is
-split into many smaller objects.  This feature is used when building
+split into many smaller objects. This feature is used when building
 libraries, so that a program statically linked against the library
 will pull in less of the library.
 
