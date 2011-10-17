@@ -2,8 +2,7 @@
 
 - **See also: [Proposal for hierarchical module structure](module-dependencies/hierarchical)**
 
-
-(possibly outdated, please fix anything that is wrong)
+- **NOTE:** Possibly outdated.
 
 
 GHC is built out of about 245 Haskell modules. It can be quite tricky to figure out what the module dependency graph looks like. It can be important, too, because loops in the module dependency graph need to be broken carefully using .hi-boot interface files.
