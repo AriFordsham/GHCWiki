@@ -317,8 +317,7 @@ plenty of useful comments in this file.
 
 <table><tr><th>`includes/TailCalls.h`</th>
 <td>
-Macros that cooperate with the mangler (see [The mangler](#Themangler))
-to make proper tail-calls work.
+Macros that make proper tail-calls work.
 </td></tr></table>
 
 <table><tr><th>`rts/Adjustor.c`</th>

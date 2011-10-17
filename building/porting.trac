@@ -278,8 +278,7 @@ build:
   plenty of useful comments in this file.
 
  {{{includes/TailCalls.h}}}::
-  Macros that cooperate with the mangler (see [[ref(The mangler)]])
-  to make proper tail-calls work.
+  Macros that make proper tail-calls work.
 
  {{{rts/Adjustor.c}}}::
   Support for {{{foreign import "wrapper"}}}.
