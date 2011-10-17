@@ -11,13 +11,8 @@ Detailed information about the build system may be found [here](building); what 
 
 Most projects keep the parts of their build machinery in files called `Makefile` found in many/most subdirectories of the source tree.  GHC uses the filename `ghc.mk` instead; you'll find a file with this name in quite a number of subdirectories.
 
-*The following two paragraphs were copied verbatim from the old commentary and may be slightly innaccurate (please delete this message if not)*
-
 
 There are subdirectories of name `mk/` at various levels that contain rules, targets, and so on specific to a project - or, in the case of the toplevel, the default rules for the whole system. Each `mk/` directory contains a file `boilerplate.mk` that ties the various other makefiles together. Files called `target.mk`, `paths.mk`, and `suffix.mk` contain make targets, definitions of variables containing paths, and suffix rules, respectively.
-
-
-One particularly nasty trick used in this hierarchy of makefiles is the way in which the variable `$(TOP)` is used. AFAIK, `$(TOP)` always points to a directory containing an `mk/` subdirectory; however, it not necessarily points to the toplevel `fptools/` directory. For example, within the GHC subtree, `$(TOP)` points to `fptools/ghc/`. However, some of the makefiles in `fptools/ghc/mk/` will then temporarily redefine `$(TOP)` to point a level higher (i.e., to `fptools/`) while they are including the toplevel boilerplate. After that `$(TOP)` is redefined to whatever value it had before including makefiles from higher up in the hierarchy.
 
 ## Coding Style
 
