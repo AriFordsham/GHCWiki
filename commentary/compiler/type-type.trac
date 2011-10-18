@@ -46,10 +46,10 @@ Notice that in the `NoteTy` case, `coreView` does not call itself.  Now, clients
   splitFunTy_maybe (FunTy t1 t2) = Just (t1,t2)
   splitFunTy_maybe other         = Nothing
 }}}
-Notice the first line, which uses the view, and recurses when the view 'fires'.  Since `coreView` is non-recursive, GHC will inline it, and the optimiser will ultimately produce somethign like:
+Notice the first line, which uses the view, and recurses when the view 'fires'.  Since `coreView` is non-recursive, GHC will inline it, and the optimiser will ultimately produce something like:
 {{{
   splitFunTy_maybe :: Type -> Maybe (Type,Type)
-  splitFunTy_maybe (PredTy p) = splitFunTy_maybe (predTypeRep p)
+  splitFunTy_maybe (PredTy p)    = splitFunTy_maybe (predTypeRep p)
   splitFunTy_maybe (NoteTy _ ty) = splitFunTy_maybe ty
   splitFunTy_maybe (FunTy t1 t2) = Just (t1,t2)
   splitFunTy_maybe other         = Nothing
