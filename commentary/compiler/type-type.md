@@ -145,7 +145,7 @@ represented by `PredTy (EqPred T1 T2)`.
 [](https://docs.google.com/drawings/pub?id=1M5yBP8iAWTgqdI3oG1UNnYihVlipnvvk2vLInAFxtNM&w=359&h=229)
 
 
-(You can edit this picture [ here](https://docs.google.com/drawings/d/1M5yBP8iAWTgqdI3oG1UNnYihVlipnvvk2vLInAFxtNM/edit?hl=en_GB).)
+(You can edit this picture [ here](https://docs.google.com/drawings/d/1M5yBP8iAWTgqdI3oG1UNnYihVlipnvvk2vLInAFxtNM/edit?hl=en_GB). TODO describe each of the symbols.)
 
 ## Type variables
 
