@@ -374,6 +374,8 @@ to gain access to our power modulo operation.
 
 ## "Make" the changes
 
+**First: make clean! ** GHC doesn't correctly track changes to the `GHC.Prim`, so it won't recompile enough things if you just type `make`, so you need to `make clean` first.  (strictly speaking you don't need to clean the stage 1 compiler, so if you know what you're doing you might want to try cleaning just the right bits).
+
 
 Then we `make all` in the top-level directory. The error message that
 we get is
