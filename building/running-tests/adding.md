@@ -124,7 +124,7 @@ For more detailed control of a test case, see below. \\REF
 ## A multiple module test case
 
 
-A multiple module test case is slightly more complex then a single module one. Firstly we a concerned with how to handle the simplest form of a multiple module test case, that is one where the whole test case can be built in one go using the `--make` command of GHC. If you have more complex needs (like compiling source files that `--make` can't handle, and/or need to compile different modules with different GHC arguments, then see below \\REF)
+A multiple module test case is slightly more complex then a single module one. Firstly we a concerned with how to handle the simplest form of a multiple module test case, that is one where the whole test case can be built in one go using the `--make` command of GHC. If you have more complex needs (like compiling source files that `--make` can't handle, and/or need to compile different modules with different GHC arguments, then see below)
 
 
 Then for a test case that should compile and run fine we would put this line in all.T:
