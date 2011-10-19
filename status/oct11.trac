@@ -20,3 +20,12 @@ Prelude> case D 5 of D x -> print x
    This has already been merged, so will definitely be in 7.4.
 
  * '''profiling and hpc overhaul''' Simon Marlow ... '''TODO''' '''Is this in already?'''
+
+We continue to receive some fantastic help from a number of members from the Haskell community. Amongst those who have rolled up their sleeves recently are:
+
+'''Ian to make a list'''
+
+As ever, there is a lot still to do, and if you wait for us to do something then you may have to wait a long time. So don't wait; join in!
+
+'''"Other things" we mentioned last time: Cloud Haskell, supercompilation, liquid types, parallel project, DPH'''
+
