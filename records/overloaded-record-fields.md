@@ -3,7 +3,7 @@
 
 This page summarises a possible design that would allow
 different records to share a single field label.  Although it's a simple enough
-idea, there are numerous ramifications.  Records are a swamp!
+idea (summarised under "Nonextensible records with polymorphic selection & update" on at [Records](records))there are numerous ramifications.  Records are a swamp!
 
 
 The **base design** has the folllowing distinct components:
@@ -424,7 +424,7 @@ Of course this isn't very satisfactory either
 # Relationship to Type Directed Name Resolution
 
 
-This proposal is quite closely related to the Type Directed Name Resolution? idea, becuase TDNR 
+This proposal is quite closely related to the [ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) idea, becuase TDNR 
 would internally generate `Has` constraints exactly as described above.  The difference is
 that TDNR wasn't intended to support *abstraction* over the constraint, and was explained
 rather differently.
