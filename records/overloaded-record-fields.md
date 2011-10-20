@@ -3,7 +3,7 @@
 
 This page summarises a possible design that would allow
 different records to share a single field label.  Although it's a simple enough
-idea, there are numerous ramifications.  Records are a swamp!
+idea (summarised under "Nonextensible records with polymorphic selection & update" on at [Records](records))there are numerous ramifications.  Records are a swamp!
 
 
 The **base design** has the folllowing distinct components:
