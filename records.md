@@ -48,7 +48,7 @@ The verbose name-spacing required is an in-your-face, glaring weakness telling y
 I know of three sorts of solutions:
 
 1. Better name spacing; see below
-1. Type directed name resolution; see below and TypeDirectedNameResolution?
+1. Type directed name resolution; see below and [ http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution)
 1. Nonextensible records with polymorphic selection & update; see below and [Records/OverloadedRecordFields](records/overloaded-record-fields)
 
 **Are there any other approaches?**
