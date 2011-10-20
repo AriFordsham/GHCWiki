@@ -301,7 +301,7 @@ I'm not very happy with any of this.  Faced with these difficulties,
 another alternative is to stick with the status quo for record
 updates; that is, not to support any sort of overloading.  But even
 ''that'' is problemantic: what does `e { x = True }` mean if there are lots of "x" fields
-in scope (which is precisely what we want to allow). Hsakell's current record-update
+in scope (which is precisely what we want to allow). Haskell's current record-update
 syntax really relies on learning which type is involved, from the record selector; but if
 there are many x's, it can't figure it out.  Insisting that only one "x" selector must
 be in scope puts us back to square one.  I think the only decent solution is to 
