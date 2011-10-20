@@ -31,10 +31,10 @@ The verbose name-spacing required is an in-your-face, glaring weakness telling y
 
 == Solutions == 
 
-I know of two sorts of solutions:
- 1. Better name spacing
- 2. Type directed name resolution
- 3. Nonextensible records with polymorphic selection & update
+I know of three sorts of solutions:
+ 1. Better name spacing; see below
+ 2. Type directed name resolution; see below and [http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution TDNR]
+ 3. Nonextensible records with polymorphic selection & update; see below and [wiki:Records/OverloadedRecordFields]
 
 '''Are there any other approaches?'''
 
@@ -63,7 +63,7 @@ One particular way of integrating this idea into Haskell is called [http://hacka
 ---------------------------
 === Nonextensible records with polymorphic selection & update ===
 
-The ideas in "first class record types" still work in the case of nonextensible records. Using a simplified version of Labels #2104 we can implement truly polymorphic selection and update, which would be more expressive than TDNR and wouldn't need a whole new type resolution mechanism. Here is a concrete proposal:
+The ideas in "first class record types" still work in the case of nonextensible records. Using a simplified version of Labels #2104 we can implement truly polymorphic selection and update, which would be more expressive than TDNR and wouldn't need a whole new type resolution mechanism.  Here is a concrete proposal (Barney Hilken); see also [wiki:Records/OverloadedRecordFields]:
 
 1. Introduce a built-in class `Label`, whose members are strings at the type level. We need a notation for them; I will use double single quotes, so `''string''` is treated as if it was defined by
 {{{
