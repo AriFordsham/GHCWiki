@@ -1,13 +1,9 @@
 # Ordering the compiler's passes
 
+
+This page has notes about the ordering of optimisation phases.
+
 **NOTE:** This is old documentation and may not be very relevant any more!
-
-## Change notes
-
-- **1  Nov 94:** if float-out is done after strictness, remember to switch off demandedness flags on floated bindings!
-- **13 Oct 94:** Run Float Inwards once more after strictness-simplify \[andre\]
-- **4 Oct 94:** Do simplification between float-in and strictness \[andre\], Ignore-inline-pragmas flag for final simplification \[andre\]
-- **Aug 94:**        Original: Simon, Andy, Andre
 
 ## This ordering obeys all the constraints except (5)
 
@@ -23,57 +19,41 @@
 
 ## Constraints
 
-1. float-in before strictness.
+### 1. float-in before strictness
 
 
 Reason: floating inwards moves definitions inwards to a site at which
 the binding might well be strict.
 
-
-Example                let x = ... in
-
->
-> y = x+1
-
->
-> in 
-> ...
-
-
-===\>
-
->
-> let y = let x = ... in x+1
-> in ...
+```wiki
+Example		let x = ... in
+		    y = x+1
+		in 
+		...
+===>
+		let y = let x = ... in x+1
+		in ...
+```
 
 
 The strictness analyser will do a better job of the latter
 than the former.
 
-1. Don't simplify between float-in and strictness,
+### 2. Don't simplify between float-in and strictness
 
 
-unless you disable float-let-out-of-let, otherwise
+...unless you disable float-let-out-of-let, otherwise
 the simiplifier's local floating might undo some 
 useful floating-in.
 
-
-Example                let f = let y = .. in \\x-\> x+y
-
->
-> in ...
-
-
-===\>
-
->
-> let y = ... 
->
-> >
-> > f = \\x -\> x+y
->
->
-> in ...
+```wiki
+Example		let f = let y = .. in \x-> x+y
+		in ...
+===>
+		let y = ... 
+		    f = \x -> x+y
+		in ...
+```
 
 
 This is a bad move, because now y isn't strict.
@@ -81,157 +61,116 @@ In the pre-float case, the binding for y is strict.
 Mind you, this isn't a very common case, and
 it's easy to disable float-let-from-let.
 
-1. Want full-laziness before foldr/build.  
+### 3. Want full-laziness before foldr/build
 
 
 Reason: Give priority to sharing rather than deforestation.
 
-
-Example                \\z -\> let xs = build g 
-
->
-> in foldr k z xs
-
-
-===\>
-
->
-> let xs = build g
-> in \\x -\> foldr k z xs
+```wiki
+Example		\z -> let xs = build g 
+		      in foldr k z xs
+===>
+		let xs = build g
+		in \x -> foldr k z xs
+```
 
 
 In the post-full-laziness case, xs is shared between all
 applications of the function.   If we did foldr/build
 first, we'd have got 
 
->
-> \\z -\> g k z
+```wiki
+		\z -> g k z
+```
 
 
 and now we can't share xs.
 
-1.  Want strictness after foldr/build.
+### 4.  Want strictness after foldr/build
 
 
 Reason: foldr/build makes new function definitions which
 can benefit from strictness analysis.
 
-
-Example:        sum \[1..10\]
-===\> (f/b)
-
->
-> let g x a \| x \> 10    = a
->
-> >
-> > \| otherwise = g (x+1) (a+x)
+```wiki
+Example:	sum [1..10]
+===> (f/b)
+		let g x a | x > 10    = a
+		          | otherwise = g (x+1) (a+x)
+```
 
 
 Here we clearly want to get strictness analysis on g.
 
-1.  Want full laziness after strictness
+### 5.  Want full laziness after strictness
 
 
 Reason: absence may allow something to be floated out
 which would not otherwise be.
 
-
-Example                \\z -\> let x = f (a,z) in ...
-===\> (absence anal + inline wrapper of f)
-
->
-> \\z -\> let x = f.wrk a in ...
-
-
-===\> (full laziness)
-
->
-> let x= f.wrk a in  \\z -\> ...
+```wiki
+Example		\z -> let x = f (a,z) in ...
+===> (absence anal + inline wrapper of f)
+		\z -> let x = f.wrk a in ...
+===> (full laziness)
+		let x= f.wrk a in  \z -> ...
+```
 
 
 TOO BAD.  This doesn't look a common case to me.
 
-1. Want float-in after foldr/build.
+### 6. Want float-in after foldr/build
 
 
 Reason: Desugaring list comprehensions + foldr/build
 gives rise to new float-in opportunities.
 
-
-Example                ...some list comp...
-==\> (foldr/build)
-
->
-> let v = h xs in
-> case ... of
->
-> >
-> > \[\]     -\> v
-> > (y:ys) -\> ...(t v)...
-
-
-==\> (simplifier)
-
->
-> let v = h xs in
-> case ... of
->
-> >
-> > \[\] -\> h xs
-> > (y:ys) -\> ...(t v)...
+```wiki
+Example		...some list comp...
+==> (foldr/build)
+		let v = h xs in
+		case ... of
+		  []     -> v
+		  (y:ys) -> ...(t v)...
+==> (simplifier)
+		let v = h xs in
+		case ... of
+		  [] -> h xs
+		  (y:ys) -> ...(t v)...
+```
 
 
 Now v could usefully be floated into the second branch.
 
-1. Want simplify after float-inwards.
+### 7. Want simplify after float-inwards
 
 
-\[Occurred in the prelude, compiling ITup2.hs, function dfun.Ord.(\*,\*)\]
+(Occurred in the prelude, compiling `ITup2.hs`, function `dfun.Ord.(*,*)`)
 This is due to the following (that happens with dictionaries):
 
-
-let a1 = case v of (a,b) -\> a
-in let m1 = \\ c -\> case c of I\# c\# -\> case c\# of 1 -\> a1 5
-
->
-> 2 -\> 6
-
-
-in let m2 = \\ c -\> case c of I\# c\# -\> 
-
->
-> case c\# +\# 1\# of cc\# -\> let cc = I\# cc\#
->
-> >
-> > in m1 cc 
-
->
-> in (m1,m2)
+```wiki
+let a1 = case v of (a,b) -> a
+in let m1 = \ c -> case c of I# c# -> case c# of 1 -> a1 5
+                                                 2 -> 6
+in let m2 = \ c -> case c of I# c# -> 
+                     case c# +# 1# of cc# -> let cc = I# cc#
+                                             in m1 cc 
+   in (m1,m2)
+```
 
 
 floating inwards will push the definition of a1 into m1 (supposing
 it is only used there):
 
-
-in let m1 = let a1 = case v of (a,b) -\> a
-
->
-> in \\ c -\> case c of I\# c\# -\> case c\# of 1 -\> a1 5
->
-> >
-> > 2 -\> 6
-
-
-in let m2 = \\ c -\> case c of I\# c\# -\> 
-
->
-> case c\# +\# 1\# of cc\# -\> let cc = I\# cc\#
->
-> >
-> > in m1 cc 
-
->
-> in (m1,m2)
+```wiki
+in let m1 = let a1 = case v of (a,b) -> a
+            in \ c -> case c of I# c# -> case c# of 1 -> a1 5
+                                		    2 -> 6
+in let m2 = \ c -> case c of I# c# -> 
+                     case c# +# 1# of cc# -> let cc = I# cc#
+                                             in m1 cc 
+   in (m1,m2)
+```
 
 
 if we do strictness analysis now we will not get a worker-wrapper
@@ -260,38 +199,29 @@ after the floating inwards.
 The only way of having the best of both is if we have the worker/wrapper
 pass explicitly called, and then we could do with 
 
-
-float-in
-strictness analysis
-simplify
-strictness analysis
-worker-wrapper generation
+- float-in
+- strictness analysis
+- simplify
+- strictness analysis
+- worker-wrapper generation
 
 
 as we would 
-a) be able to detect the strictness of m1 after the
 
->
-> first call to the strictness analyser, and exploit it with the simplifier
-> (in case it was strict).
-
-
-b) after the call to the simplifier (if m1 was not demanded) 
-
->
-> it would be floated out just like we currently do, before stricness
-> analysis II and worker/wrapperisation.
+- be able to detect the strictness of m1 after the first call to the strictness analyser, and exploit it with the simplifier (in case it was strict).
+- after the call to the simplifier (if m1 was not demanded) it would be floated out just like we currently do, before stricness analysis II and worker/wrapperisation.
 
 
 The reason to not do worker/wrapperisation twice is to avoid 
 generating wrappers for wrappers which could happen.
 
-1.  If full laziness is ever done after strictness, remember to switch off
+### 8.  If full laziness is ever done after strictness
 
 
+...remember to switch off
 demandedness flags on floated bindings!  This isn't done at the moment.
 
-## Ignore-inline-pragmas flag for final simplification
+### 9. Ignore-inline-pragmas flag for final simplification
 
 
 \[Occurred in the prelude, compiling ITup2.hs, function dfun.Ord.(\*,\*)\]
@@ -299,15 +229,12 @@ Sometimes (e.g. in dictionary methods) we generate
 worker/wrappers for functions but the wrappers are never
 inlined. In dictionaries we often have 
 
-
+```wiki
 dict = let f1 = ...
-
->
-> f2 = ...
-> ...
-
->
-> in (f1,f2,...)
+           f2 = ...
+           ...
+       in (f1,f2,...)
+```
 
 
 and if we create worker/wrappers for f1,...,fn the wrappers will not
@@ -326,52 +253,34 @@ as normal definitions. This will allow a worker to be inlined into
 the wrapper if it satisfies all the criteria for inlining (e.g. it is
 the only occurrence of the worker etc.).
 
-## Run Float Inwards once more after strictness-simplify
+### 10. Run Float Inwards once more after strictness-simplify
 
 
-\[Occurred in the prelude, compiling IInt.hs, function const.Int.index.wrk\]
+\[Occurred in the prelude, compiling `IInt.hs`, function `const.Int.index.wrk`\]
 When workers are generated after strictness analysis (worker/wrapper),
 we generate them with "reboxing" lets, that simply reboxes the unboxed
 arguments, as it may be the case that the worker will need the 
 original boxed value: 
 
-
+```wiki
 f x y = case x of 
+          (a,b) -> case y of 
+                     (c,d) -> case a == c of
+                                True -> (x,x)
+                                False -> ((1,1),(2,2))
 
->
-> (a,b) -\> case y of 
->
-> >
-> > (c,d) -\> case a == c of
-> >
-> > >
-> > > True -\> (x,x)
-> > > False -\> ((1,1),(2,2))
-
-
-==\> (worker/wrapper)
-
+==> (worker/wrapper)
 
 f_wrapper x y = case x of
-
->
-> (a,b) -\> case y of 
->
-> >
-> > (c,d) -\> f_worker a b c d 
-
+                  (a,b) -> case y of 
+                             (c,d) -> f_worker a b c d 
 
 f_worker a b c d = let x = (a,b)
-
->
-> y = (c,d)
-
->
-> in case a == c of
->
-> >
-> > True -\> (x,x)
-> > False -\> ((1,1),(2,2))
+                       y = (c,d)
+                   in case a == c of
+                        True -> (x,x)
+                        False -> ((1,1),(2,2))
+```
 
 
 in this case the simplifier will remove the binding for y as it is not
