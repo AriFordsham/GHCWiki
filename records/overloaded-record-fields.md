@@ -424,7 +424,7 @@ Of course this isn't very satisfactory either
 # Relationship to Type Directed Name Resolution
 
 
-This proposal is quite closely related to the Type Directed Name Resolution? idea, becuase TDNR 
+This proposal is quite closely related to the [ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) idea, becuase TDNR 
 would internally generate `Has` constraints exactly as described above.  The difference is
 that TDNR wasn't intended to support *abstraction* over the constraint, and was explained
 rather differently.
