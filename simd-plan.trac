@@ -159,21 +159,90 @@ Example of modification to ./compiler/prelude/primops.txt.pp to add one of the a
 section "SIMDFloat"
 	{Float operations that can take advantage of vectorization.}
 ------------------------------------------------------------------------
+primtype FloatVec# a
 
 primop   FloatVectorAddOp   "plusFloatVec#"      Dyadic            
-   Float# -> Float# -> Float#
+   FloatVec# -> FloatVec# -> FloatVec#
+   with can_fail = True
+
+primop   FloatVectorAddOp   "plusFloatVec#"      Dyadic            
+   FloatVec# -> FloatVec# -> FloatVec#
    with can_fail = True
 }}}
 
-Here is an example of the update to ./compiler/codeGen/CgPrimOp.hs
+Here is an example of the update to ./compiler/codeGen/CgPrimOp.hs that generates Machine Ops based on the new PrimOps.
 {{{
 -- SIMD Float Ops
 translateOp FloatVectorAddOp	= Just (MO_VF_Add W32 4)
+translateOp FloatVectorMultOp	= Just (MO_VF_Mult W32 4)
+}}}
+
+The new primtype also needs to be weaved through the code generation path, but it is slightly different then primops.  To complete the primtype definition, the following files need to be modified.
+
+./utils/genprimopcode/Main.hs needs to have an association added between the FloatVec# type added above and a Type that is used for representation elsewhere:
+{{{
+ppType (TyApp "FloatVec#"   []) = "floatVecPrimTy"
+}}}
+
+By adding the floatVecPrimTy, several additional relationships and constructs need to be created as well.
+
+./compiler/prelude/TysPrim.lhs, wires the new type into Prelude:
+{{{
+module TysPrim(
+....
+-- Added
+	floatVecPrimTyCon,	floatVecPrimTy,
+...
+
+primTyCons 
+  = [ addrPrimTyCon
+...
+-- Added
+    , floatVecPrimTyCon
+
+...
+floatVecPrimTyConName		  = mkPrimTc (fsLit "FloatVec#") floatVecPrimTyConKey floatVecPrimTyCon
+
+...
+-- Add a new subsection for primitive types (others will be added here as well)
+%************************************************************************
+%*									*
+\subsection[TysPrim-SIMDvectors]{The primitive SIMD vector types}
+%*									*
+%************************************************************************
+
+\begin{code}
+floatVecPrimTyCon :: TyCon
+floatVecPrimTyCon		  = pcPrimTyCon  floatVecPrimTyConName	       1 PtrRep
+
+floatVecPrimTy :: Type
+floatVecPrimTy	    	    = mkTyConTy floatVecPrimTyCon
+\end{code}
+}}}
+
+./compiler/prelude/PrelNames.lhs gives keys for each of the primtypes
+{{{
+\subsection[Uniques-prelude-TyCons] ...
+...
+floatVecPrimTyConKey	= mkPreludeTyConUnique 38
+}}}
+
+./compiler/ghci/ByteCodeGen.lhs
+{{{
+}}}
+
+./compiler/ghci/RtClosureInspect.hs
+{{{
+repPrim t = rep where 
+...
+-- Added
+    | t == floatVecPrimTyCon  = "<floatvec>"
 }}}
 
 The above, after compilation, adds the following to the ./compiler/prelude/PrimOp.lhs file:
 {{{
    | FloatVectorAddOp
+   | FloatVectorMultOp
 }}}
 
 == Modify LLVM Code Generator ==
@@ -192,8 +261,11 @@ Unfortunately, the native code generator will also have to be recompiled.  The G
 For x86 Native Code Generation, locate the ./compiler/nativeGen/X86/CodeGen.hs file and modify it appropriately.  For the example above, simply adding a conversion from MO_VF_Add to the equivalent non-vector add is sufficient.
 
 {{{
+	  -- SIMD Vector Instruction in Native Revert to Simple Instructions
       MO_VF_Add w i | sse2      -> trivialFCode_sse2 w ADD  x y
-                    | otherwise -> trivialFCode_x87    GADD x y   
+                  | otherwise -> trivialFCode_x87    GADD x y
+      MO_VF_Mul w i | sse2      -> trivialFCode_sse2 w MUL x y
+                  | otherwise -> trivialFCode_x87    GMUL x y	
 }}}
 
 Changes for the remaining new MachOps may be much larger.
