@@ -5,6 +5,7 @@
 
 Here are biannual GHC status reports, published in the [ Haskell Communities and Activities Report](http://haskell.org/communities/)
 
+- [GHC status October 2011](status/oct11)
 - [GHC status May 2011](status/may11)
 - [GHC status October 2010](status/oct10)
 - [GHC status April 2010](status/apr10)
