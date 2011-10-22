@@ -20,8 +20,25 @@ Significant changes planned for the 7.4 branch are:
 
 - **kind polymorphism** (is this Dimitrios Vytiniotis?) **TODO****Is this in already?**
 
-- **constraint kind** Max Bolingbroke has **TODO**
-  This has already been merged, so will definitely be in 7.4.
+- **constraint kinds** Max Bolingbroke has implemented a language extension, ConstraintKinds, which allows the use of more expressive constraints. One thing this can be used for is constraint synonyms:
+
+  ```wiki
+  type Stringy a = (Show a, Read a)
+  f :: Stringy a => a -> a
+  f = read . show
+  ```
+
+  For more information see his [ blog post](http://blog.omega-prime.co.uk/?p=127). This has been merged and will be in 7.4.
+
+- **associated type synonym defaults** Max Bolingbroke has implemented this, which allow the class defining an associated type to also give a default to be used if the instance doesn't declare its own associated type instances:
+
+  ```wiki
+  class C a where
+    type T a
+    type T a = [a]
+  ```
+
+  This has been merged and will be in 7.4.
 
 - **profiling and hpc overhaul** Simon Marlow ... **TODO****Is this in already?**
 
