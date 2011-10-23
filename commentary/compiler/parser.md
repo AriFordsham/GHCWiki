@@ -15,7 +15,7 @@ The parser is written using
 
 Making a parser parse *precisely* the right language is hard.  So GHC's parser follows the following principle:
 
-- **We often parser "over-generously", and filter out the bad cases later.**
+- **We often parse "over-generously", and filter out the bad cases later.**
 
 
 Here are some examples:

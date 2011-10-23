@@ -13,7 +13,7 @@ The parser is written using
 == Principles ==
 
 Making a parser parse ''precisely'' the right language is hard.  So GHC's parser follows the following principle:
- * '''We often parser "over-generously", and filter out the bad cases later.'''
+ * '''We often parse "over-generously", and filter out the bad cases later.'''
 
 Here are some examples:
  * Patterns are parsed as expressions, and transformed from `HsExpr.HsExp` into `HsPat.HsPat` in `RdrHsSyn.checkPattern`.  An expression like `[x | x<-xs]` that doesn't look like a pattern is rejected by `checkPattern`.
