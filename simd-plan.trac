@@ -27,6 +27,10 @@ Introduction of SIMD support to GHC will occur in stages to demonstrate the enti
 == Current Open Questions ==
 These clearly won't be all of the questions I have, there is a substantial amount of work that goes through the entire GHC compiler stack before reaching the LLVM instructions.
 
+== Adding a primtype / primop Outline ==
+
+ 
+
 == Modify autoconf ==
 Determining if a particular hardware architecture has SIMD instructions, the version of the instructions available (SSE, SSE2, SSE3, SSE4 or an iteration of one of those), and consequently the size of vectors that are supported occurs during the configuration step on the architecture that the build will occur on.  This is the same time that the sizes of Ints are calculated, alignment constants, and other pieces that are critical to GHC.
 
