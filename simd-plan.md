@@ -34,6 +34,69 @@ Introduction of SIMD support to GHC will occur in stages to demonstrate the enti
 
 These clearly won't be all of the questions I have, there is a substantial amount of work that goes through the entire GHC compiler stack before reaching the LLVM instructions.
 
+## Adding a primtype / primop Outline
+
+
+When going through this outline, it is helpful to have the [ Compiler Pipeline](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/HscMain) explanation available as well as the explanation of the source code tree (that includes nested explanations of important directories and files) available [ here](http://hackage.haskell.org/trac/ghc/wiki/Commentary/SourceTree).
+
+
+Addition of Types for use by Haskell
+./compiler/types/TyCon.lhs
+
+- TyCons represent type constructors.  There are \@data declarations, \@type synonyms, \@newtypes and class declarations (\@class).  We will need to modify this to add a proper type constructor.
+- Prelude uses this type constructor in ./compiler/prelude/TysPrim.lhs
+
+
+Modifications to add primtype / primop to Prelude
+./compiler/prelude/PrelNames.lhs
+./compiler/prelude/TysPrim.lhs
+./compiler/prelude/primops.txt.pp
+
+- Defines the primops that are associated with the types that are previously defined
+
+
+./compiler/codeGen/CgCallConv.hs
+./compiler/codeGen/CgPrimOp.hs
+./compiler/codeGen/CgUtils.hs
+./compiler/codeGen/SMRep.lhs
+./compiler/codeGen/StgCmmLayout.hs
+./compiler/codeGen/StgCmmPrim.hs
+
+
+Modifications to the STG Code Generation
+./includes/stg/MachRegs.h
+./includes/stg/Regs.h
+./includes/stg/Types.h
+
+
+Modifications to the Cmm stage
+
+
+Modifications to the LLVM code generator
+
+
+./compiler/cmm/CmmExpr.hs
+./compiler/cmm/CmmType.hs
+./compiler/cmm/CmmUtils.hs
+./compiler/cmm/OldCmm.hs
+./compiler/cmm/StackColor.hs
+
+
+./compiler/nativeGen/Size.hs
+./compiler/nativeGen/X86/CodeGen.hs
+./compiler/nativeGen/X86/Ppr.hs
+
+
+./includes/HaskellConstants.hs
+./includes/mkDerivedConstants.c
+
+
+./includes/rts/storage/FunTypes.h
+
+
+./utils/genapply/GenApply.hs
+./utils/genprimopcode/Main.hs
+
 ## Modify autoconf
 
 
