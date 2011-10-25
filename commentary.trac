@@ -51,7 +51,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
  * Notes on implemented GHC features:
    * [wiki:Commentary/Compiler/Backends/LLVM LLVM back end]
-   * Vector instructions: [wiki:SimdLlvm Adding SIMD instructions], [wiki:VectorComputing]
+   * Vector instructions: [wiki:SimdLlvm Adding SIMD instructions], [wiki:SIMDPlan Implementation plan], [wiki:VectorComputing]
    * [wiki:Commentary/Compiler/GenericDeriving The new deriving mechanism]
    * [wiki:Commentary/Compiler/TemplateHaskell Notes about Template Haskell]
    * [wiki:RewriteRules Rewrite Rules]: Notes about the implementation of RULEs in GHC
