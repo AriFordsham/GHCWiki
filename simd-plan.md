@@ -41,50 +41,55 @@ When going through this outline, it is helpful to have the [ Compiler Pipeline](
 
 
 Addition of Types for use by Haskell
-./compiler/types/TyCon.lhs
 
-- TyCons represent type constructors.  There are \@data declarations, \@type synonyms, \@newtypes and class declarations (\@class).  We will need to modify this to add a proper type constructor.
-- Prelude uses this type constructor in ./compiler/prelude/TysPrim.lhs
+- ./compiler/types/TyCon.lhs
 
-
-Modifications to add primtype / primop to Prelude
-./compiler/prelude/PrelNames.lhs
-./compiler/prelude/TysPrim.lhs
-./compiler/prelude/primops.txt.pp
-
-- Defines the primops that are associated with the types that are previously defined
+  - TyCons represent type constructors.  There are \@data declarations, \@type synonyms, \@newtypes and class declarations (\@class).  We will need to modify this to add a proper type constructor.
+  - Prelude uses this type constructor in ./compiler/prelude/TysPrim.lhs
 
 
-./compiler/codeGen/CgCallConv.hs
-./compiler/codeGen/CgPrimOp.hs
-./compiler/codeGen/CgUtils.hs
-./compiler/codeGen/SMRep.lhs
-./compiler/codeGen/StgCmmLayout.hs
-./compiler/codeGen/StgCmmPrim.hs
+Modifications to the compiler to add primtype / primop to Prelude
+
+- ./compiler/prelude/PrelNames.lhs
+- ./compiler/prelude/TysPrim.lhs
+- ./compiler/prelude/primops.txt.pp
+
+  - Addition of a type here (primtype) to operate on
+  - Defines the primops that are associated with the types that are defined
+  - For primops defined here that are inline, modify compiler/codeGen/CgPrimOp.hs
 
 
-Modifications to the STG Code Generation
-./includes/stg/MachRegs.h
-./includes/stg/Regs.h
-./includes/stg/Types.h
+Modifications to add support to the compiler for the new types.  Look to individual files for the portion of the compiler that is being modified.  The binaries generated out of this branch are called from the ghc/ binaries.
+
+- ./compiler/codeGen/CgCallConv.hs
+- ./compiler/codeGen/CgPrimOp.hs
+- ./compiler/codeGen/CgUtils.hs
+- ./compiler/codeGen/SMRep.lhs
+- ./compiler/codeGen/StgCmmLayout.hs
+- ./compiler/codeGen/StgCmmPrim.hs
 
 
-Modifications to the Cmm stage
+More modifications to the Cmm portion of the compiler chain.
+
+- ./compiler/cmm contains the code that inputs STG and outputs Cmm
+- ./compiler/cmm/CmmExpr.hs
+- ./compiler/cmm/CmmType.hs
+- ./compiler/cmm/CmmUtils.hs
+- ./compiler/cmm/OldCmm.hs
+- ./compiler/cmm/StackColor.hs
 
 
 Modifications to the LLVM code generator
 
-
-./compiler/cmm/CmmExpr.hs
-./compiler/cmm/CmmType.hs
-./compiler/cmm/CmmUtils.hs
-./compiler/cmm/OldCmm.hs
-./compiler/cmm/StackColor.hs
+- Generating the human readable LLVM code (.ll) occurs in the compiler/llvmGen code.  It receives Cmm and turns it around to LLVM bytecodes through human readable LLVM code.  A "simple" use of LLVM vector instructions using floats is shown at the [SIMD Vector Example In LLVM](simd-vector-example-in-llvm) page
+- ./compiler/llvmGen, contains the code generation that takes Cmm as input and outputs LLVM targeted code
 
 
-./compiler/nativeGen/Size.hs
-./compiler/nativeGen/X86/CodeGen.hs
-./compiler/nativeGen/X86/Ppr.hs
+Modifications to the STG Code Generation
+
+- ./includes/stg/MachRegs.h
+- ./includes/stg/Regs.h
+- ./includes/stg/Types.h
 
 
 ./includes/HaskellConstants.hs
