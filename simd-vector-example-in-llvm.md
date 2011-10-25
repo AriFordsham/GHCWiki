@@ -120,6 +120,12 @@ declare i32 @printf(i8*, ...)
 
 This is easy enough to run using the JIT compiler:  lli add_floats.ll
 
+```wiki
+[root@pg155-n19 pgms]# lli add_floats.ll 
+11.000000 22.000000 33.000000 44.000000
+[root@pg155-n19 pgms]# 
+```
+
 
 The core of the instructions can be replaced with vectorization (obviously, optimizing this program will result in very little code and vectorization is not necessary, but this is an exercise.
 
@@ -194,4 +200,12 @@ define i32 @main() nounwind {
 }
 
 declare i32 @printf(i8*, ...)
+```
+
+
+Rerunning the program above yields the same results as the original, non-vectorized LLVM program.
+
+```wiki
+[root@pg155-n19 pgms]# lli add_floats_vec.ll 
+11.000000 22.000000 33.000000 44.000000
 ```
