@@ -1,0 +1,21 @@
+It is useful to see the vector instructions "in action" in LLVM human readable form (a ".ll" file) prior to implementing the Cmm -> LLVM backend (within the ./compiler/llvmGen section of the code).  LLVM code is somewhere between Java byte code authoring and direct assembly language authoring.  Here is the process:
+
+ - Generate or Create a human readable file (a ".ll" file), for example, create "add_floats.ll"
+ - Compile this file to byte code using the LLVM compiler:  llvm-as add_floats.ll.  This generates a ".bc" file, in this case, add_floats.bc.  The byte code is unreadable.
+ - Now there are a few options once byte code is available
+   - Generate native machine code:  llc add_floats.bc will create a native assembler instruction set in a ".s" file (add_floats.s)
+   - Run the byte codes on the JIT compiler:  lli add_floats.bc should run the instructions and produce the result
+
+To demonstrate the vector instructions, let's start with a basic LLVM program that adds 4 floats (Single Instruction, Multiple Data (SIMD) will let us add up to 4 floats together in a single instruction).  Doing this without vectorization, the program looks like this:
+{{{
+
+
+}}}
+
+Now, we can rearrange the code to make use of the SIMD instructions.  To do this, each of the floats must be packed into the data register, then the instruction is executed, and the results are removed and displayed.  Really, on the core of the above program is altered.
+
+{{{
+
+}}}
+
+
