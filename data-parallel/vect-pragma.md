@@ -146,6 +146,55 @@ NB: The crucial difference between `{-# VECTORISE SCALAR type T1 #-}` and `{-# V
 - **Maybe**`{-# VECTORISE SCALAR type T = T' #-}` can be useful for, e.g., mapping `(->)` to `(:->)`???
 - For type constructors identified with this pragma, can we generate an `instance` of the `Scalar` type class automatically (instead of relying on it being in the library)?
 
+## The VECTORISE pragma for type classes
+
+
+For a type class `C`, the pragma
+
+```wiki
+{-# VECTORISE class C #-}
+```
+
+
+indicates that the class `C` should be automatically vectorised, even if it is imported.  This is the default for all classes declared in the current module.
+
+
+The class `C` must be in scope, but it may be imported.  'PData' and 'PRepr' instances are generally not used for type classes and their dictionary representations.
+
+
+An example is the handling of `Num`.
+
+## The VECTORISE pragma for class instances
+
+
+For a class instance `C t`, the pragma
+
+```wiki
+{-# VECTORISE instance C t #-}
+```
+
+
+indicates that the class instance `C t` should be automatically vectorised, even if it is imported.  This implies that all class methods making up the instance dfun are vectorised separately to combine into a vectorised diun.  This is the default for all class instances declared in the current module.
+
+`C t` must exactly match a single instance declaration provided for `C`.
+
+## The VECTORISE SCALAR pragma for class instances
+
+
+For a class instance `C t`, the pragma
+
+```wiki
+{-# VECTORISE SCALAR instance C t #-}
+```
+
+
+indicates that the instance dfun `C t` should vectorised by proceeding as for `VECTORISE SCALAR` on each individual class method of `C`.
+
+`C t` must exactly match a single instance declaration provided for `C`.
+
+
+An example is `{-# VECTORISE SCALAR instance Num Int #-}`.
+
 ## Vectorising imported definitions
 
 
