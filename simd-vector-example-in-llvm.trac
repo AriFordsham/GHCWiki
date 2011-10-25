@@ -325,6 +325,11 @@ Instead of hand-optimizing the entire sequence, the exercise will merely convert
 
 }}}
 
-Timing the execution of the bytecodes yields:
+Timing the execution of the optimized vs. non-optimized bytecodes yields:
+
+Finally, a note on converting from arrays to vectors and subsequently optimizing to use vector adds.  The simplest way to do this was to:
+- convert the code to multiply 4 of the array values at a time
+ - convert the array types to vector ([4000 x float] becomes <4000 x float>), the program will work AS-IS with this simple conversion
+ - work through the loop again to move to a load of the proper location in the vector to a packed vector, then do the fadd of the vectors
 
 
