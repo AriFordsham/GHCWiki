@@ -8,58 +8,86 @@ It is useful to see the vector instructions "in action" in LLVM human readable f
 
 To demonstrate the vector instructions, we can start with a basic C program (just to illustrate ... remember, LLVM is not functional so starting in an imperative language makes a lot of sense):
 {{{
-#include <stdio.h>
-#include <stdlib.h>
+int main()
+{
+   float x[4], y[4], z[4];
+   x[0] = 1.0;
+   x[1] = 2.0;
+   x[2] = 3.0;
+   x[3] = 4.0;
+   y[0] = 10.0;
+   y[1] = 20.0;
+   y[2] = 30.0;
+   y[3] = 40.0;
 
-int main() {
- float x1, x2, x3, x4, result;
- x1 = 1.0;
- x2 = 2.0;
- x3 = 3.0;
- x4 = 4.0;
- result = x1 + x2 + x3 + x4;
- printf("result = %f\n", result);
-}
+   z[0] = x[0] + y[0]; 
+   z[1] = x[1] + y[1]; 
+   z[2] = x[2] + y[2]; 
+   z[3] = x[3] + y[3]; 
+} 
 }}}
 
 Compiling and running this in C is easy and left to the user.
 
 This converts easily to LLVM human readable format (use the [http://llvm.org/demo/index.cgi online generator] if you'd like):
 {{{
-; ModuleID = '/tmp/webcompile/_14760_0.bc'
+; ModuleID = '/tmp/webcompile/_20751_0.bc'
 target datalayout = "e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v64:64:64-v128:128:128-a0:0:64-s0:64:64-f80:128:128-n8:16:32:64"
 target triple = "x86_64-unknown-linux-gnu"
 
-@.str = private unnamed_addr constant [13 x i8] c"result = %f\0A\00"
-
 define i32 @main() nounwind {
   %1 = alloca i32, align 4
-  %x1 = alloca float, align 4
-  %x2 = alloca float, align 4
-  %x3 = alloca float, align 4
-  %x4 = alloca float, align 4
-  %result = alloca float, align 4
+  %x = alloca [4 x float], align 16
+  %y = alloca [4 x float], align 16
+  %z = alloca [4 x float], align 16
   store i32 0, i32* %1
-  store float 1.000000e+00, float* %x1, align 4
-  store float 2.000000e+00, float* %x2, align 4
-  store float 3.000000e+00, float* %x3, align 4
-  store float 4.000000e+00, float* %x4, align 4
-  %2 = load float* %x1, align 4
-  %3 = load float* %x2, align 4
-  %4 = fadd float %2, %3
-  %5 = load float* %x3, align 4
-  %6 = fadd float %4, %5
-  %7 = load float* %x4, align 4
-  %8 = fadd float %6, %7
-  store float %8, float* %result, align 4
-  %9 = load float* %result, align 4
-  %10 = fpext float %9 to double
-  %11 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([13 x i8]* @.str, i32 0, i32 0), double %10)
-  %12 = load i32* %1
-  ret i32 %12
+  %2 = getelementptr inbounds [4 x float]* %x, i32 0, i64 0
+  store float 1.000000e+00, float* %2
+  %3 = getelementptr inbounds [4 x float]* %x, i32 0, i64 1
+  store float 2.000000e+00, float* %3
+  %4 = getelementptr inbounds [4 x float]* %x, i32 0, i64 2
+  store float 3.000000e+00, float* %4
+  %5 = getelementptr inbounds [4 x float]* %x, i32 0, i64 3
+  store float 4.000000e+00, float* %5
+  %6 = getelementptr inbounds [4 x float]* %y, i32 0, i64 0
+  store float 1.000000e+01, float* %6
+  %7 = getelementptr inbounds [4 x float]* %y, i32 0, i64 1
+  store float 2.000000e+01, float* %7
+  %8 = getelementptr inbounds [4 x float]* %y, i32 0, i64 2
+  store float 3.000000e+01, float* %8
+  %9 = getelementptr inbounds [4 x float]* %y, i32 0, i64 3
+  store float 4.000000e+01, float* %9
+  %10 = getelementptr inbounds [4 x float]* %x, i32 0, i64 0
+  %11 = load float* %10
+  %12 = getelementptr inbounds [4 x float]* %y, i32 0, i64 0
+  %13 = load float* %12
+  %14 = fadd float %11, %13
+  %15 = getelementptr inbounds [4 x float]* %z, i32 0, i64 0
+  store float %14, float* %15
+  %16 = getelementptr inbounds [4 x float]* %x, i32 0, i64 1
+  %17 = load float* %16
+  %18 = getelementptr inbounds [4 x float]* %y, i32 0, i64 1
+  %19 = load float* %18
+  %20 = fadd float %17, %19
+  %21 = getelementptr inbounds [4 x float]* %z, i32 0, i64 1
+  store float %20, float* %21
+  %22 = getelementptr inbounds [4 x float]* %x, i32 0, i64 2
+  %23 = load float* %22
+  %24 = getelementptr inbounds [4 x float]* %y, i32 0, i64 2
+  %25 = load float* %24
+  %26 = fadd float %23, %25
+  %27 = getelementptr inbounds [4 x float]* %z, i32 0, i64 2
+  store float %26, float* %27
+  %28 = getelementptr inbounds [4 x float]* %x, i32 0, i64 3
+  %29 = load float* %28
+  %30 = getelementptr inbounds [4 x float]* %y, i32 0, i64 3
+  %31 = load float* %30
+  %32 = fadd float %29, %31
+  %33 = getelementptr inbounds [4 x float]* %z, i32 0, i64 3
+  store float %32, float* %33
+  %34 = load i32* %1
+  ret i32 %34
 }
-
-declare i32 @printf(i8*, ...)
 }}}
 
 This is easy enough to run using the JIT compiler:  lli add_floats.ll
