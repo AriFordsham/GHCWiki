@@ -1,6 +1,3 @@
-
-\[PageOutline\]
-
 # Using SIMD Instructions via the LLVM Backend
 
 
