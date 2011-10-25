@@ -1,6 +1,6 @@
 == Vector computing ==
 
-This page is to collect notes about adding vector instructions to GHC.
+This page is to collect notes about adding vector instructions to GHC.  '''It's probably largely out of date, so proceed with caution.  Preferably merge any useful info and delete this page.'''  See [wiki:SimdLlvm the master page].
 
 In contrast to pure SIMD (single instruction multiple data) parallel computing as found in GPUs,
 vector processing includes permutation of vector elements which

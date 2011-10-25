@@ -1,7 +1,7 @@
 ## Vector computing
 
 
-This page is to collect notes about adding vector instructions to GHC.
+This page is to collect notes about adding vector instructions to GHC.  **It's probably largely out of date, so proceed with caution.  Preferably merge any useful info and delete this page.**  See [the master page](simd-llvm).
 
 
 In contrast to pure SIMD (single instruction multiple data) parallel computing as found in GPUs,
