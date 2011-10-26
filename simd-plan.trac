@@ -62,7 +62,14 @@ More modifications to the Cmm portion of the compiler chain.
 
 Modifications to the LLVM code generator
  - Generating the human readable LLVM code (.ll) occurs in the compiler/llvmGen code.  It receives Cmm and turns it around to LLVM bytecodes through human readable LLVM code.  A "simple" use of LLVM vector instructions using floats is shown at the [wiki:SIMDVectorExampleInLLVM SIMD Vector Example In LLVM] page
- - ./compiler/llvmGen, contains the code generation that takes Cmm as input and outputs LLVM targeted code
+  - compiler/llvmGen/Llvm/AbsSyn.hs - no changes, describes the abstract structure of an LLVM program
+  - compiler/llvmGen/Llvm/PpLlvm.hs - no changes, this is the module that does a Pretty Print of LLVM I(ntermediate) R(epresentation), it still uses generic constructs described in Llvm.AbsSyn (where no changes are necessary), Llvm.Types (where changes are needed)
+  - compiler/llvmGen/Llvm/Types.hs - Describes the LLVM Basic Types and Variables.  Changes are necessary to add Vectors.  LMVector Int LlvmType will be added (eventually constraints on the width may need to be added.  "fadd" is already present, as is "add" and other operations.  Most likely, additional operations will have to be added as the code generated is slightly different for, say, a float vector since a series of instructions have to be executed for each "add", even though the basic "fadd" structure remains the same.
+  - compiler/llvmGen/LlvmCodeGen/Base.hs, no changes appear necessary here.  These seem to be primarily various Label and Environment handling items ... primarily structural.
+  - compiler/llvmGen/LlvmCodeGen/CodeGen.hs, changes will most likely be necessary here for various operators.  This is the primary location where Cmm is converted to LLVM operators ... for example, MO_F_Add with a parameter is converted to LM_MO_FAdd here:  MO_F_Add  _ -> genBinMach LM_MO_FAdd).  In the event that additional operators are added (MO_VF_Add for example), this will definitely have to be modified.
+  - compiler/llvmGen/LlvmCodeGen/Data.hs. converts static data types from Cmm (CmmData) to LLVM structures, no changes are likely necessary here
+  - compiler/llvmGen/LlvmCodeGen/Ppr.hs, the pretty print helpers for the LLVM Code Generator ... dependent on other files
+  - compiler/llvmGen/LlvmCodeGen/Regs.hs, no additional registers necessary (??), no changes
 
 Modifications to the STG Code Generation
  - ./includes/stg/MachRegs.h
