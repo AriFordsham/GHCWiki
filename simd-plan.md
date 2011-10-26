@@ -387,7 +387,39 @@ Take the MachOps in the Cmm definition and translate correctly to the correspond
 - Remaining /compiler/llvmGen/\* - Supporting changes
 
 
-Once the LLVM Code Generator is modified to support Double instructions, tests can be run to ensure the “bottom half” of the stack works.
+At this point, CodeGen is not modified, though it will likely have to be eventually.  Types.hs has a new LMVector type added to support vectors.  As the operations on vectors are the same as all LLVM types (for float vectors use fadd, etc...), I have not made changes to the operators yet (though I'm guessing I will have to eventually).  Here is the diff of changes to Types.hs:
+
+```wiki
+[paul.monday@pg155-n19 Llvm]$ git diff Types.hs
+diff --git a/compiler/llvmGen/Llvm/Types.hs b/compiler/llvmGen/Llvm/Types.hs
+index 1013426..1133d37 100644
+--- a/compiler/llvmGen/Llvm/Types.hs
++++ b/compiler/llvmGen/Llvm/Types.hs
+@@ -38,6 +38,7 @@ data LlvmType
+   | LMFloat128           -- ^ 128 bit floating point
+   | LMPointer LlvmType   -- ^ A pointer to a 'LlvmType'
+   | LMArray Int LlvmType -- ^ An array of 'LlvmType'
++  | LMVector Int LlvmType -- ^ A vector of 'LlvmType'
+   | LMLabel              -- ^ A 'LlvmVar' can represent a label (address)
+   | LMVoid               -- ^ Void type
+   | LMStruct [LlvmType]  -- ^ Structure type
+@@ -55,6 +56,7 @@ instance Show LlvmType where
+   show (LMFloat128    ) = "fp128"
+   show (LMPointer x   ) = show x ++ "*"
+   show (LMArray nr tp ) = "[" ++ show nr ++ " x " ++ show tp ++ "]"
++  show (LMVector nr tp ) = "<" ++ show nr ++ " x " ++ show tp ++ ">"  
+   show (LMLabel       ) = "label"
+   show (LMVoid        ) = "void"
+   show (LMStruct tys  ) = "<{" ++ (commaCat tys) ++ "}>"
+@@ -295,6 +297,7 @@ llvmWidthInBits (LMFloat128)    = 128
+ -- it points to. We will go with the former for now.
+ llvmWidthInBits (LMPointer _)   = llvmWidthInBits llvmWord
+ llvmWidthInBits (LMArray _ _)   = llvmWidthInBits llvmWord
++llvmWidthInBits (LMVector _ _)   = llvmWidthInBits llvmWord
+ llvmWidthInBits LMLabel         = 0
+ llvmWidthInBits LMVoid          = 0
+ llvmWidthInBits (LMStruct tys)  = sum $ map llvmWidthInBits tys
+```
 
 ## Modify Native Code Generator
 
