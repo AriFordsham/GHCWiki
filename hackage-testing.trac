@@ -9,9 +9,6 @@ darcs get http://darcs.haskell.org/hackage-test/
 
 '''Caution:''' This program can cause arbitrary code to run on your machine. For example, if any modules use TH, then the TH will be executed. `configure` scripts will be run. Custom `Setup.hs` programs will be run.
 
-In order to use it, you need cabal-install with the build-dep patch applied:
-http://www.haskell.org/pipermail/cabal-devel/2010-January/006030.html
-
 == Example of usage ==
 
 Here's a run with the HEAD, no special options:
