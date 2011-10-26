@@ -406,8 +406,10 @@ declare i32 @puts(i8* nocapture) nounwind
 Timing the execution of the optimized vs. non-optimized bytecodes yields:
 
 Finally, a note on converting from arrays to vectors and subsequently optimizing to use vector adds.  The simplest way to do this was to:
-- convert the code to multiply 4 of the array values at a time
- - convert the array types to vector ([4000 x float] becomes <4000 x float>), the program will work AS-IS with this simple conversion
+- convert the code to multiply 4 of the array values at a time (depends on the register sizes, data sizes, etc...)
+ - convert the array types to vector ([128 x float] becomes <128 x float>), the program will work AS-IS with this simple conversion
  - work through the loop again to move to a load of the proper location in the vector to a packed vector, then do the fadd of the vectors
+ - vector sizes MUST be the size of a power of 2 (1, 2, 4, 8, 16, ....)
+ - vector sizes seem to be limited, 32768 definitely did NOT work, 128 is working
 
 
