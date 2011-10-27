@@ -223,7 +223,7 @@ GHCs source code is indented with a mixture of tabs and spaces, and is standardi
 
 Most of the Haskell source code in GHC is free of tabs. We'd like to move away from tabs in the long term, and so a git hook on darcs.haskell.org will reject series of commits that add tabs to a file that is currently tab-free. (Note that there are no restrictions on adding tabs to a file already containing them.)
 
-In order to avoid angering this git hook, it is probably convenient to set your editor to indent using spaces rather than tabs:
+In order to avoid angering this git hook, you should set your editor to indent using spaces rather than tabs:
 
   * In Emacs, add `(setq-default indent-tabs-mode nil)` to your `.emacs` file ([http://cscs.umich.edu/~rlr/Misc/emacs_tabs.htm more discussion])
   * In Sublime Text, save the following to files at `Packages/User/Haskell.sublime-settings` and `Packages/User/Literate Haskell.sublime-settings`:
@@ -235,7 +235,11 @@ In order to avoid angering this git hook, it is probably convenient to set your 
 }
 }}}
 
-  * In TextMate, open the Bundle Editor and add a new Preference called Indentation to the bundle editor. Give it the following contents:
+  * In !TextMate, in the tabs pop-up menu at the bottom of the window, select "Soft Tabs", as show in the following screenshot where the blue rectangle is:
+
+  [[Image(TextMate-tabs-menu.png)]]  
+
+ Alternatively, open the Bundle Editor and add a new Preference called Indentation to the bundle editor. Give it the following contents:
 
 {{{
 {	shellVariables = (
