@@ -296,7 +296,7 @@ In order to avoid angering this git hook, it is probably convenient to set your 
 }
 ```
 
-- In TextMate, open the Bundle Editor and add a new Preference called Indentation to the bundle editor. Give it the following contents:
+- In TextMate, in the tabs pop-up menu at the bottom of the window, select "Soft Tabs", where the blue rectangle is in the following screenshot: [](/trac/ghc/attachment/wiki/Commentary/CodingStyle/TextMate-tabs-menu.png)  Alternatively, open the Bundle Editor and add a new Preference called Indentation to the bundle editor. Give it the following contents:
 
 ```wiki
 {	shellVariables = (
