@@ -454,18 +454,49 @@ Simple usage of the new instructions to add to vectors of doubles:
 **Question:**  How does one create one of the new PrimOp types to test prior to testing the vector add operations?  This is going to have to be looked at a little ... the code should basically create a vector and then insertDoubleVec\# repeatedly to populate the vector.  Without the subsequent steps done, this will have to be "hand" done without additional operations defined.  Here is the response from Manuel to expand on this:  I am not quite sure what the best approach is. The intention in LLVM is clearly to populate vectors using the 'insertIntVec\#' etc functions. However, in LLVM you can just use an uninitialised register and insert elements into a vector successively. We could provide a vector "0" value in Haskell and insert into that. Any other ideas?
 
 ```wiki
-	let x = ????
-	let y = ???
-	plusDoubleVec# x y
+{-# LANGUAGE MagicHash #-}
+import GHC.Prim
+import GHC.Exts
+
+getPrimFloat :: Float -> Float#
+getPrimFloat f = case f of { F# f -> f }
+
+main = do
+    numberString <- getLine
+    let num = read numberString
+    let value = getPrimFloat num
+    numberString2 <- getLine
+    let num2 = read numberString2
+    let value2 = getPrimFloat num2
+    
+    let packedVector1 = pack4FloatOp# value value value value
+    let packedVector2 = pack4FloatOp# value2 value2 value2 value2
+
+    let resultVector = multFloatVec4# packedVector1 packedVector2
+    
+    let result = extractFloatVec# resultVector 1
+
+    let resultFloat = F# result
+    print resultFloat
 ```
 
 
-Using simple lists to achieve the same operation:
+        
+Using simple lists to achieve the same operation (note that the below is Integer only, I have to modify it to read floats off the command line otherwise a parse error occurs after the reads).
 
 ```wiki
-	let x = [1,2,3,4]
-	let y = [2,3,4,5]
-	zipWith (+) x y
+main = do
+    numberString <- getLine
+    let value = read numberString
+    numberString2 <- getLine
+    let value2 = read numberString2
+
+    let list1 = [value,value,value,value]
+    let list2 = [value2,value2,value2,value2]
+
+    let result = zipWith (*) list1 list2 
+
+    print (result !! 1)
 ```
 
 
