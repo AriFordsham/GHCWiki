@@ -38,7 +38,7 @@ Significant changes planned for the 7.4 branch are:
 > >
 > > These new kind-system developents are described in "Giving Haskell a promotion" [ http://research.microsoft.com/\~simonpj/papers/ext-f/ KindPolymorphism](http://research.microsoft.com/~simonpj/papers/ext-f/ KindPolymorphism).  Julien Cretin and Pedro Magalhães have done all the implementation.
 
-- **Constraint kinds.** Max Bolingbroke has implemented another extension to GHC's kind system, by adding the kind `Constraint` that classifies type constraints.  This turns out to be a rather neat way to implement all the joy of Tom Schrijver and Dominic Orchard's paper "Haskell type constraints unleashed" [ http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html Unleashed](http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html Unleashed).  For example, you can now say
+- **Constraint kinds.** Max Bolingbroke has implemented another extension to GHC's kind system, by adding the kind `Constraint` that classifies type constraints.  This turns out to be a rather neat way to implement all the joy of Tom Schrijvers and Dominic Orchard's paper "Haskell type constraints unleashed" [ http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html Unleashed](http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html Unleashed).  For example, you can now say
 
   ```wiki
   type Stringy a = (Show a, Read a)
@@ -143,7 +143,7 @@ Work continues on improving GHC in various directions. Active projects we know a
 
 - \[MonadComp\] *Bringing back monad comprehenions*, George Giorgidze, Torsten Grust, Nils Schweinsberg, and Jeroen Weijers, Haskell Symposium 2011, [ http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf](http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf)
 
-- \[NewFC\] *Practical aspects of evidence-based compilation in System FC*, Vytiniotis and Peyton Jones, rejected by to ICFP 2011, [ http://research.microsoft.com/\~simonpj/papers/ext-f/](http://research.microsoft.com/~simonpj/papers/ext-f/)
+- \[!NewFC\] *Practical aspects of evidence-based compilation in System FC*, Vytiniotis and Peyton Jones, rejected by to ICFP 2011, [ http://research.microsoft.com/\~simonpj/papers/ext-f/](http://research.microsoft.com/~simonpj/papers/ext-f/)
 
 - \[ParallelGhcProject\] *The Parallel GHC Project home page*, [ http://www.haskell.org/haskellwiki/Parallel_GHC_Project](http://www.haskell.org/haskellwiki/Parallel_GHC_Project)
 
