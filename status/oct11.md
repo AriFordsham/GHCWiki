@@ -134,6 +134,7 @@ Also on the go, but not yet fully baked, are:
 
 - Work on adding contracts to Hsakell, along the lines of Dana Xu's these, but using a first order logic theorem prover to check contract satisfaction (with Koen Claessen, Dimitrios Vytiniotis, Charles-Pierre Astolfi, and Nathan Collins).
 - Extending the code generator to exploid vector instructions (with Peter Braam, Paul Monday, Duncan Coutts). 
+- A modular package language for Haskell (with Derek Dreyer and Scott Kilpatrick) [ http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage Packages](http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage Packages).
 
 ## Bibliography
 
@@ -152,6 +153,8 @@ Also on the go, but not yet fully baked, are:
 - \[MonadComp\] *Bringing back monad comprehenions*, George Giorgidze, Torsten Grust, Nils Schweinsberg, and Jeroen Weijers, Haskell Symposium 2011, [ http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf](http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf)
 
 - \[!NewFC\] *Practical aspects of evidence-based compilation in System FC*, Vytiniotis and Peyton Jones, rejected by to ICFP 2011, [ http://research.microsoft.com/\~simonpj/papers/ext-f/](http://research.microsoft.com/~simonpj/papers/ext-f/)
+
+- \[Packages\] *A package language for Haskell*, GHC wiki page, [ http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage](http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage)
 
 - \[ParallelGhcProject\] *The Parallel GHC Project home page*, [ http://www.haskell.org/haskellwiki/Parallel_GHC_Project](http://www.haskell.org/haskellwiki/Parallel_GHC_Project)
 
