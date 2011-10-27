@@ -60,6 +60,8 @@ instance C Int
 }}}
   Since we do not give a definition for `T` in the `instance` declaration, it filled in with the default given in the `class` declaration, just as if you had written `type T Int = [Int]`.
 
+ * '''Monad comprehensions.'''  After a long absence, monad comprehensions are back, thanks to George Giorgidze and his colleagues.  With `{-# LANGUAGE MonadComprehensions #-}` the comprehension `[ f x | x <- xs, x>4 ]` is intrepeted in an arbitrary monad, rather than being restricted to lists.  Not only that, but it generalises nicely for `then` and `group` forms too, and fully supports rebindable syntax.  See their paper "Bringing back monad comprehensions" [[http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf MonadComp]] at the 2012 Haskell Symposium.
+
  * '''Improvements to the implementation of type constraints.'''  Over the last six months, Dimitrios and Simon PJ (with Stephanie Weirich and Brent Yorgey) have figured out several improvements to the GHC's type constraint solver and its strongly-typed Core language.  The changes to the constraint solver eliminate hundreds of lines of code, and make it more efficient as well.  The changes to the Core language make it treat equality constraints uniformly with other type constraints; this makes the internals vastly more uniform.  These changes are mostly invisible to programmers, but the changes to Core allow us to support equality superclasses for the first time.  Details in our paper "Practical aspects of evidence-based compilation in System FC" [[http://research.microsoft.com/~simonpj/papers/ext-f/ NewFC]]
 
  * '''Profiling and hpc overhaul.''' GHC currently has three different ways of tracking which pieces of code are executed: const-centre profiling, HPC coverage, and GHCi debugger breakpoints.  Each is implemented a different, anf somewhat ''ad hoc'' way.  Simon Marlow has overhauled the whole system, unifiying the three mechanisms into one.  On the way he has improved the semantics of cost centre stacks, which should lead to more useful time and space profiles.
@@ -123,6 +125,8 @@ Work continues on improving GHC in various directions. Active projects we know a
  * [KindPolymorphism] "Giving Hasell a promotion", Brent Yorgey, Stephanie Weirich, Julien Cretin, Dimitrios Vytiniotis, and SimonPeyton Jones, submitted to TLDI'12, http://research.microsoft.com/~simonpj/papers/ext-f/
  
  * [Cloud] ''Haskell for the cloud'', Epstein, Black, Peyton Jones, ICFP 2011, http://research.microsoft.com/~simonpj/papers/parallel/
+
+ * [!MonadComp] ''Bringing back monad comprehenions'', George Giorgidze, Torsten Grust, Nils Schweinsberg, and Jeroen Weijers, Haskell Symposium 2011, http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf
 
  * [NewFC] ''Practical aspects of evidence-based compilation in System FC'', Vytiniotis and Peyton Jones, rejected by to ICFP 2011, http://research.microsoft.com/~simonpj/papers/ext-f/
 
