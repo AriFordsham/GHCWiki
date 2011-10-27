@@ -133,7 +133,8 @@ Work continues on improving GHC in various directions. Active projects we know a
 Also on the go, but not yet fully baked, are:
 
 - Work on adding contracts to Hsakell, along the lines of Dana Xu's these, but using a first order logic theorem prover to check contract satisfaction (with Koen Claessen, Dimitrios Vytiniotis, Charles-Pierre Astolfi, and Nathan Collins).
-- Extending the code generator to exploid vector instructions (with Peter Braam, Paul Monday, Duncan Coutts). 
+- Extending the code generator to exploit vector instructions (with Peter Braam, Paul Monday, Duncan Coutts)  VectorInstructions?.
+
 - A modular package language for Haskell (with Derek Dreyer and Scott Kilpatrick) [ http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage Packages](http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage Packages).
 
 ## Bibliography
@@ -159,3 +160,5 @@ Also on the go, but not yet fully baked, are:
 - \[ParallelGhcProject\] *The Parallel GHC Project home page*, [ http://www.haskell.org/haskellwiki/Parallel_GHC_Project](http://www.haskell.org/haskellwiki/Parallel_GHC_Project)
 
 - \[SHE\] *The Strathclyde Haskell Enhancement*, Conor McBride, 2010, [ http://personal.cis.strath.ac.uk/\~conor/pub/she/](http://personal.cis.strath.ac.uk/~conor/pub/she/)
+
+- \[VectorInstructions\] *Using SIMD instructions via the LLVM back end*, GHC wiki page, [ http://hackage.haskell.org/trac/ghc/wiki/SimdLlvm](http://hackage.haskell.org/trac/ghc/wiki/SimdLlvm)
