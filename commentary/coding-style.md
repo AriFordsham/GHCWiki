@@ -274,3 +274,35 @@ Enables GHCi support, including the byte code generator and interactive user int
 
 
 Please refer to [Platforms and Conventions](commentary/platform-naming) wiki page for an overview of how to handle target specific code in GHC.
+
+## Tabs vs Spaces
+
+
+GHCs source code is indented with a mixture of tabs and spaces, and is standardised on a tabstop of 8.
+
+
+Most of the Haskell source code in GHC is free of tabs. We'd like to move away from tabs in the long term, and so a git hook on darcs.haskell.org will reject series of commits that add tabs to a file that is currently tab-free. (Note that there are no restrictions on adding tabs to a file already containing them.)
+
+
+In order to avoid angering this git hook, it is probably convenient to set your editor to indent using spaces rather than tabs:
+
+- In Emacs, add `(setq-default indent-tabs-mode nil)` to your `.emacs` file ([ more discussion](http://cscs.umich.edu/~rlr/Misc/emacs_tabs.htm))
+- In Sublime Text, save the following to files at `Packages/User/Haskell.sublime-settings` and `Packages/User/Literate Haskell.sublime-settings`:
+
+```wiki
+{
+	"tab_size": 8,
+	"translate_tabs_to_spaces": true
+}
+```
+
+- In TextMate, open the Bundle Editor and add a new Preference called Indentation to the bundle editor. Give it the following contents:
+
+```wiki
+{	shellVariables = (
+		{	name = 'TM_SOFT_TABS';
+			value = 'YES';
+		},
+	);
+}
+```
