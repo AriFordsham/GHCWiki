@@ -127,6 +127,14 @@ Work continues on improving GHC in various directions. Active projects we know a
 
 **Manuel**
 
+## The glorious future
+
+
+Also on the go, but not yet fully baked, are:
+
+- Work on adding contracts to Hsakell, along the lines of Dana Xu's these, but using a first order logic theorem prover to check contract satisfaction (with Koen Claessen, Dimitrios Vytiniotis, Charles-Pierre Astolfi, and Nathan Collins).
+- Extending the code generator to exploid vector instructions (with Peter Braam, Paul Monday, Duncan Coutts). 
+
 ## Bibliography
 
 - \[ConstraintFamilies\] *Constraint families*, Max Bolingbroke blog post, [ http://blog.omega-prime.co.uk/?p=61](http://blog.omega-prime.co.uk/?p=61)
@@ -137,7 +145,7 @@ Work continues on improving GHC in various directions. Active projects we know a
 
 - \[Unleashed\] "Haskell type constraints unleashed", Tom Schrijvers and Dominic Orchard, FLOPS 2010, [ http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html](http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html)
 
-- \[KindPolymorphism\] "Giving Hasell a promotion", Brent Yorgey, Stephanie Weirich, Julien Cretin, Dimitrios Vytiniotis, and SimonPeyton Jones, submitted to TLDI'12, [ http://research.microsoft.com/\~simonpj/papers/ext-f/](http://research.microsoft.com/~simonpj/papers/ext-f/)
+- \[KindPolymorphism\] *Giving Hasell a promotion*, Brent Yorgey, Stephanie Weirich, Julien Cretin, Dimitrios Vytiniotis, and Simon Peyton Jones, submitted to TLDI'12, [ http://research.microsoft.com/\~simonpj/papers/ext-f/](http://research.microsoft.com/~simonpj/papers/ext-f/)
 
 - \[Cloud\] *Haskell for the cloud*, Epstein, Black, Peyton Jones, ICFP 2011, [ http://research.microsoft.com/\~simonpj/papers/parallel/](http://research.microsoft.com/~simonpj/papers/parallel/)
 
