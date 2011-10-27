@@ -14,7 +14,7 @@ Annotations are useful for both [wiki:Plugins Plugins] and for users that would 
 
 == State Of Play ==
 
-An annotations system was implemented as part of the Compiler Plugins Summer of Code project (Summer 08). It has been submitted to the HEAD, and will appear in GHC 6.12 and later.  Documentation will be available at http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html when that is released.
+An annotations system was implemented as part of the Compiler Plugins Summer of Code project (Summer 08). It has been submitted to the HEAD, and will appear in GHC 6.12 and later.  Documentation is available at http://www.haskell.org/ghc/docs/latest/html/users_guide/extending-ghc.html#annotation-pragmas.
 
 The annotation system committed in the end is very simple. Basically, you can write things like this:
 
