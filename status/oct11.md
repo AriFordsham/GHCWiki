@@ -113,7 +113,8 @@ Work continues on improving GHC in various directions. Active projects we know a
 
 ### Cloud Haskell
 
-**Jeff**
+
+The first version of Cloud Haskell has been released, aiming to bring Erlang-style distributed actors to Haskell [ http://hackage.haskell.org/package/remote](http://hackage.haskell.org/package/remote). See also the paper at Haskell Symposium 2011 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf CloudHaskell](http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf CloudHaskell). Next, we're working on expanding the backend to work with HPC environments.
 
 ### Liquid types
 
@@ -139,6 +140,8 @@ Also on the go, but not yet fully baked, are:
 - A modular package language for Haskell (with Derek Dreyer and Scott Kilpatrick) [ http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage Packages](http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage Packages).
 
 ## Bibliography
+
+- \[CloudHaskell\] *Towards Haskell in the Cloud*, Jeff Epstein, Andrew P. Black, and Simon Peyton Jones, Haskell Symposium 2011, [ http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf)
 
 - \[ConstraintFamilies\] *Constraint families*, Max Bolingbroke blog post, [ http://blog.omega-prime.co.uk/?p=61](http://blog.omega-prime.co.uk/?p=61)
 
