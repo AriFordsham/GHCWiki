@@ -64,7 +64,7 @@ instance C Int
 
  Rebindable syntax is fully supported for standard monad comprehensions with generators and filters. We also plan to allow rebinding of the parallel/zip and SQL-like monad comprehension notations.
 
- For further details and usage examples, see the paper "Bringing back monad comprehensions" [[http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf MonadComp]] at the 2012 Haskell Symposium.
+ For further details and usage examples, see the paper "Bringing back monad comprehensions" [[http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf MonadComp]] at the 2011 Haskell Symposium.
 
 
  * '''Improvements to the implementation of type constraints.'''  Over the last six months, Dimitrios and Simon PJ (with Stephanie Weirich and Brent Yorgey) have figured out several improvements to the GHC's type constraint solver and its strongly-typed Core language.  The changes to the constraint solver eliminate hundreds of lines of code, and make it more efficient as well.  The changes to the Core language make it treat equality constraints uniformly with other type constraints; this makes the internals vastly more uniform.  These changes are mostly invisible to programmers, but the changes to Core allow us to support equality superclasses for the first time.  Details in our paper "Practical aspects of evidence-based compilation in System FC" [[http://research.microsoft.com/~simonpj/papers/ext-f/ NewFC]]
@@ -138,7 +138,7 @@ Also on the go, but not yet fully baked, are:
  
  * [Cloud] ''Haskell for the cloud'', Epstein, Black, Peyton Jones, ICFP 2011, http://research.microsoft.com/~simonpj/papers/parallel/
 
- * [!MonadComp] ''Bringing back monad comprehenions'', George Giorgidze, Torsten Grust, Nils Schweinsberg, and Jeroen Weijers, Haskell Symposium 2011, http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf
+ * [!MonadComp] ''Bringing back monad comprehensions'', George Giorgidze, Torsten Grust, Nils Schweinsberg, and Jeroen Weijers, Haskell Symposium 2011, http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf
 
  * [!NewFC] ''Practical aspects of evidence-based compilation in System FC'', Vytiniotis and Peyton Jones, rejected by to ICFP 2011, http://research.microsoft.com/~simonpj/papers/ext-f/
 
