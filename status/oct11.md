@@ -75,7 +75,13 @@ Significant changes planned for the 7.4 branch are:
 
   Since we do not give a definition for `T` in the `instance` declaration, it filled in with the default given in the `class` declaration, just as if you had written `type T Int = [Int]`.
 
-- **Monad comprehensions.**  After a long absence, monad comprehensions are back, thanks to George Giorgidze and his colleagues.  With `{-# LANGUAGE MonadComprehensions #-}` the comprehension `[ f x | x <- xs, x>4 ]` is intrepeted in an arbitrary monad, rather than being restricted to lists.  Not only that, but it generalises nicely for `then` and `group` forms too, and fully supports rebindable syntax.  See their paper "Bringing back monad comprehensions" [ http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf MonadComp](http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf MonadComp) at the 2012 Haskell Symposium.
+- **Monad comprehensions.**  After a long absence, monad comprehensions are back, thanks to George Giorgidze and his colleagues.  With `{-# LANGUAGE MonadComprehensions #-}` the comprehension `[ f x | x <- xs, x>4 ]` is interpreted in an arbitrary monad, rather than being restricted to lists.  Not only that, it also generalises nicely for parallel/zip and SQL-like comprehensions. The aforementioned generalisations can be turned on by enabling the `MonadComprehensions` extension in conjunction with the `ParallelListComp` and `TransformListComp` extensions.
+
+>
+> Rebindable syntax is fully supported for standard monad comprehensions with generators and filters. We also plan to allow rebinding of the parallel/zip and SQL-like monad comprehension notations.
+
+>
+> For further details and usage examples, see the paper "Bringing back monad comprehensions" [ http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf MonadComp](http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf MonadComp) at the 2012 Haskell Symposium.
 
 - **Improvements to the implementation of type constraints.**  Over the last six months, Dimitrios and Simon PJ (with Stephanie Weirich and Brent Yorgey) have figured out several improvements to the GHC's type constraint solver and its strongly-typed Core language.  The changes to the constraint solver eliminate hundreds of lines of code, and make it more efficient as well.  The changes to the Core language make it treat equality constraints uniformly with other type constraints; this makes the internals vastly more uniform.  These changes are mostly invisible to programmers, but the changes to Core allow us to support equality superclasses for the first time.  Details in our paper "Practical aspects of evidence-based compilation in System FC" [ http://research.microsoft.com/\~simonpj/papers/ext-f/ NewFC](http://research.microsoft.com/~simonpj/papers/ext-f/ NewFC)
 
