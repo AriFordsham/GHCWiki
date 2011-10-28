@@ -138,7 +138,7 @@ Also on the go, but not yet fully baked, are:
  
  * [Cloud] ''Haskell for the cloud'', Epstein, Black, Peyton Jones, ICFP 2011, http://research.microsoft.com/~simonpj/papers/parallel/
 
- * [!MonadComp] ''Bringing back monad comprehenions'', George Giorgidze, Torsten Grust, Nils Schweinsberg, and Jeroen Weijers, Haskell Symposium 2011, http://www.pathfinder-xquery.org/files/giorgidze/haskell2011.pdf
+ * [!MonadComp] ''Bringing back monad comprehenions'', George Giorgidze, Torsten Grust, Nils Schweinsberg, and Jeroen Weijers, Haskell Symposium 2011, http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf
 
  * [!NewFC] ''Practical aspects of evidence-based compilation in System FC'', Vytiniotis and Peyton Jones, rejected by to ICFP 2011, http://research.microsoft.com/~simonpj/papers/ext-f/
 
