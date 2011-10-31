@@ -11,7 +11,7 @@ For read-only browsing, you can use the:
 - [ GitWeb GHC browser](http://darcs.haskell.org/cgi-bin/gitweb.cgi)
 
 
-GHC's repos use git; see [WorkingConventions/Git](working-conventions/git). For darcs-related stuff see [DarcsToGit](darcs-to-git) and [GitForDarcsUsers](git-for-darcs-users).
+GHC's repos use git; see [Git Working Conventions](working-conventions/git). For darcs-related stuff see [Darcs To Git](darcs-to-git) and [Git For Darcs Users](git-for-darcs-users).
 
 ## Overview
 
