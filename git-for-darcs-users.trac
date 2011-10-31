@@ -1,9 +1,9 @@
 [[PageOutline]]
 = Git for Darcs Users =
 
-Just like Darcs, every Git command comes with a {{{--help}}} option.  For example {{{git add --help}}}.  You can also check out the [http://git.or.cz/gitwiki/GitDocumentation official Git documentation].
+Just like Darcs, every Git command comes with a {{{--help}}} option. For example {{{git add --help}}}, or even better {{{git help add}}}.
 
-Also see "General Notes" below for features present in Git but not in Darcs.
+Please also read the [wiki:WorkingConventions/Git Git Working Conventions] wiki page. You should also check out the [http://git.or.cz/gitwiki/GitDocumentation official Git documentation]. Also see "General Notes" below for features present in Git but not in Darcs.
 
 = Git Concepts =
 
