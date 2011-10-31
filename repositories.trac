@@ -2,14 +2,14 @@
 
 = GHC Repositories =
 
-This page lists the active repositories relating to GHC. For instructions on actually getting a GHC source tree, see [wiki:Building/GettingTheSources].
+This page lists the active repositories relating to GHC. For instructions on actually getting a GHC source tree, see [wiki:Building/GettingTheSources Getting The Sources].
 
 For read-only browsing, you can use the:
  * [http://hackage.haskell.org/trac/ghc/browser Trac source browser]
  * [http://github.com/ghc/ghc GitHub GHC mirror]
  * [http://darcs.haskell.org/cgi-bin/gitweb.cgi GitWeb GHC browser]
 
-GHC's repos use git; see [wiki:WorkingConventions/Git]. For darcs-related stuff see [wiki:DarcsToGit] and [wiki:GitForDarcsUsers].
+GHC's repos use git; see [wiki:WorkingConventions/Git Git Working Conventions]. For darcs-related stuff see [wiki:DarcsToGit Darcs To Git] and [wiki:GitForDarcsUsers Git For Darcs Users].
 
 == Overview ==
 
