@@ -1,7 +1,7 @@
 # GHC Repositories
 
 
-This page lists the active repositories relating to GHC. For instructions on actually getting a GHC source tree, see [Building/GettingTheSources](building/getting-the-sources).
+This page lists the active repositories relating to GHC. For instructions on actually getting a GHC source tree, see [Getting The Sources](building/getting-the-sources).
 
 
 For read-only browsing, you can use the:
