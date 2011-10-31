@@ -21,6 +21,19 @@ Existing darcs users see: [GitForDarcsUsers](git-for-darcs-users).  If you have 
 
 - Discuss anything you think might be controversial before pushing it.
 
+## Author
+
+
+Please make sure you have setup git to use the correct name and email for your commits. Use the same name and email on all machines you may push from.
+
+```wiki
+$ git config --global user.name "Firstname Lastname"Sets the name of the user for all git instances on the system
+$ git config --global user.email "your_email@youremail.com"
+```
+
+
+This will set your name and email globally. To set it for just the GHC repo, remove the `--global` flag. Also, the environment variables `GIT_COMMITTER_NAME`, `GIT_COMMITTER_EMAIL`, `GIT_AUTHOR_NAME` and `GIT_AUTHOR_EMAIL` will override git-config settings if they are defined.
+
 ## Commit messages
 
 
@@ -135,14 +148,21 @@ There is a slight tweak to this workflow that you might find more convenient: do
 ## Contributing patches
 
 
-ToDo: extend the following.
+Please write your patch and then rebase to the latest version of GHC HEAD before sending to us. You can use the following command to send patches via email:
 
 ```wiki
 git send-email --to=cvs-ghc@haskell.org <hash-id> -1
 ```
 
 
-where `<hash-id>` is the hash of the commit to send.
+where `<hash-id>` is the hash of the commit to send. If you'd prefer to create patch files and send them via email another way (or attach them to trac tickets) then you can use this command:
+
+```wiki
+git format-patch [-o <outputdir>] <revision range>
+```
+
+
+Where `<revision range>` specifies the commit that git should stop at when going from HEAD backwards, creating a patch for each commit in the range \<revision range\>..HEAD.
 
 ## Applying patches from email
 
