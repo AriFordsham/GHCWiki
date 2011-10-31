@@ -87,7 +87,7 @@ Significant changes planned for the 7.4 branch are:
 
 - **Profiling and hpc overhaul.** GHC currently has three different ways of tracking which pieces of code are executed: const-centre profiling, HPC coverage, and GHCi debugger breakpoints.  Each is implemented in a different, and somewhat *ad hoc* way.  Simon Marlow has overhauled the whole system, unifiying the three mechanisms into one.  On the way he has improved the semantics of cost centre stacks, which should lead to more useful time and space profiles.
 
-- **Changes to the way Safe Haskell works** David Terei has improved the design of Safe Haskell since the 7.2.1 release. In particular, it will no longer cause build failures for users who do not explicitly enable it. *David to fill in*.
+- **Changes to the way Safe Haskell works** David Terei has improved the design of Safe Haskell since the 7.2.1 release. In particular, it will no longer cause build failures for users who do not explicitly enable it. ***David** to fill in*.
 
 ## Joining in
 
