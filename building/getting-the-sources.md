@@ -17,7 +17,10 @@ Source distributions are easier to build, because we also include the output fro
 ## Getting a GHC repository using git
 
 
-The first thing to do is install [ git](http://git-scm.com/). Please make sure that you have the correct name and email address set for Git that you want your commits to be recorded as. Make sure you use the same name and email on all your machines so we can easily track a single author. This can be done in Git by running:
+The first thing to do is install [ git](http://git-scm.com/). And then read [Git Working Conventions](working-conventions/git) for instructions on how to use Git with GHC development.
+
+
+Please make sure that you have the correct name and email address set for Git that you want your commits to be recorded as. Make sure you use the same name and email on all your machines so we can easily track a single author. This can be done in Git by running:
 
 ```wiki
 $ git config --global user.name "Firstname Lastname"
