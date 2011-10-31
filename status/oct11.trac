@@ -35,7 +35,7 @@ type Stringy a = (Show a, Read a)
 f :: Stringy a => a -> a
 f = read . show
 }}}
-  Here, the constraint `(Stringy a)` is a synonym for `(Show a, Read a)`.  More importantly, by combining with assocaited types, we can write some fundamentally new kinds of programs:
+  Here, the constraint `(Stringy a)` is a synonym for `(Show a, Read a)`.  More importantly, by combining with associated types, we can write some fundamentally new kinds of programs:
 {{{
 class Coll c where
   type X a :: Constraint

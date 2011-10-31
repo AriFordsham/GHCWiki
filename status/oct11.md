@@ -46,7 +46,7 @@ Significant changes planned for the 7.4 branch are:
   f = read . show
   ```
 
-  Here, the constraint `(Stringy a)` is a synonym for `(Show a, Read a)`.  More importantly, by combining with assocaited types, we can write some fundamentally new kinds of programs:
+  Here, the constraint `(Stringy a)` is a synonym for `(Show a, Read a)`.  More importantly, by combining with associated types, we can write some fundamentally new kinds of programs:
 
   ```wiki
   class Coll c where
