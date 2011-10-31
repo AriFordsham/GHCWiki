@@ -1,10 +1,10 @@
 # Git for Darcs Users
 
 
-Just like Darcs, every Git command comes with a `--help` option.  For example `git add --help`.  You can also check out the [ official Git documentation](http://git.or.cz/gitwiki/GitDocumentation).
+Just like Darcs, every Git command comes with a `--help` option. For example `git add --help`, or even better `git help add`.
 
 
-Also see "General Notes" below for features present in Git but not in Darcs.
+Please also read the [Git Working Conventions](working-conventions/git) wiki page. You should also check out the [ official Git documentation](http://git.or.cz/gitwiki/GitDocumentation). Also see "General Notes" below for features present in Git but not in Darcs.
 
 # Git Concepts
 
