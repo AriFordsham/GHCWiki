@@ -87,7 +87,7 @@ Significant changes planned for the 7.4 branch are:
 
 - **Profiling and hpc overhaul.** GHC currently has three different ways of tracking which pieces of code are executed: const-centre profiling, HPC coverage, and GHCi debugger breakpoints.  Each is implemented in a different, and somewhat *ad hoc* way.  Simon Marlow has overhauled the whole system, unifiying the three mechanisms into one.  On the way he has improved the semantics of cost centre stacks, which should lead to more useful time and space profiles.
 
-- **Changes to the way Safe Haskell works** David Terei has improved the design of Safe Haskell since the 7.2.1 release. In particular, it will no longer cause build failures for users who do not explicitly enable it. The checking that a package is trusted will only be done now if the `-fpackage-trust` flag is present. This allows package authors to use the `Trustworthy` pragma as they please and not worry that a users local package configuration will cause build failures. Users who are explicitly using Safe Haskell to construct secure systems should make use of the `-fpackage-trust` flag to maintain the security of the old design. Also since the 7.2.1 release, the safe status of a module will now be automatically inferred by Safe Haskell. These two changes make Safe Haskell easier to use and push it behind the scenes where it mostly belongs.
+- **Changes to the way Safe Haskell works**[ http://www.scs.stanford.edu/\~davidt/safehaskell.html SafeHaskell](http://www.scs.stanford.edu/~davidt/safehaskell.html SafeHaskell). David Terei has improved the design of Safe Haskell since the 7.2.1 release. In particular, it will no longer cause build failures for users who do not explicitly enable it. The checking that a package is trusted will only be done now if the `-fpackage-trust` flag is present. This allows package authors to use the `Trustworthy` pragma as they please and not worry that a users local package configuration will cause build failures. Users who are explicitly using Safe Haskell to construct secure systems should make use of the `-fpackage-trust` flag to maintain the security of the old design. Also since the 7.2.1 release, the safe status of a module will now be automatically inferred by Safe Haskell. These two changes make Safe Haskell easier to use and push it behind the scenes where it mostly belongs.
 
 ## Joining in
 
@@ -168,6 +168,8 @@ Also on the go, but not yet fully baked, are:
 - \[Packages\] *A package language for Haskell*, GHC wiki page, [ http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage](http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage)
 
 - \[ParallelGhcProject\] *The Parallel GHC Project home page*, [ http://www.haskell.org/haskellwiki/Parallel_GHC_Project](http://www.haskell.org/haskellwiki/Parallel_GHC_Project)
+
+- \[SafeHaskell\] *The Safe Haskell home page*, David Terei, [ http://www.scs.stanford.edu/\~davidt/safehaskell.html](http://www.scs.stanford.edu/~davidt/safehaskell.html)
 
 - \[SHE\] *The Strathclyde Haskell Enhancement*, Conor McBride, 2010, [ http://personal.cis.strath.ac.uk/\~conor/pub/she/](http://personal.cis.strath.ac.uk/~conor/pub/she/)
 
