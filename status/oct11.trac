@@ -69,14 +69,14 @@ instance C Int
 
  * '''Improvements to the implementation of type constraints.'''  Over the last six months, Dimitrios and Simon PJ (with Stephanie Weirich and Brent Yorgey) have figured out several improvements to the GHC's type constraint solver and its strongly-typed Core language.  The changes to the constraint solver eliminate hundreds of lines of code, and make it more efficient as well.  The changes to the Core language make it treat equality constraints uniformly with other type constraints; this makes the internals vastly more uniform.  These changes are mostly invisible to programmers, but the changes to Core allow us to support equality superclasses for the first time.  Details in our paper "Practical aspects of evidence-based compilation in System FC" [[http://research.microsoft.com/~simonpj/papers/ext-f/ NewFC]]
 
- * '''Profiling and hpc overhaul.''' GHC currently has three different ways of tracking which pieces of code are executed: const-centre profiling, HPC coverage, and GHCi debugger breakpoints.  Each is implemented a different, anf somewhat ''ad hoc'' way.  Simon Marlow has overhauled the whole system, unifiying the three mechanisms into one.  On the way he has improved the semantics of cost centre stacks, which should lead to more useful time and space profiles.
+ * '''Profiling and hpc overhaul.''' GHC currently has three different ways of tracking which pieces of code are executed: const-centre profiling, HPC coverage, and GHCi debugger breakpoints.  Each is implemented in a different, and somewhat ''ad hoc'' way.  Simon Marlow has overhauled the whole system, unifiying the three mechanisms into one.  On the way he has improved the semantics of cost centre stacks, which should lead to more useful time and space profiles.
 
  * '''Changes to the way Safe Haskell works''' David Terei has improved the design of Safe Haskell since the 7.2.1 release. In particular, it will no longer cause build failures for users who do not explicitly enable it. ''David to fill in''.
 
 == Joining in == 
 We continue to receive some fantastic help from a number of members from the Haskell community. Amongst those who have rolled up their sleeves recently are:
 
- * Ben Gamari, Karel Gardas and Stephen Blackheath have been working towards getting a registerised Arm port working
+ * Ben Gamari, Karel Gardas and Stephen Blackheath have been working towards getting a registerised ARM port working
  * Many people, including Sergei Trofimovich, Erik de Castro Lopo, Joachim Breitner, Thorkil Naur, David M Peixotto and Ben Lippmeier, have contributed platform specific fixes for other platforms
  * Reiner Pope added Template Haskell support for unresolved infix expressions and patterns
  * Jose Pedro Magalhaes has replaced the old generics support with a new design
