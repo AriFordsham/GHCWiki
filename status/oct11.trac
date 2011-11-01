@@ -103,7 +103,14 @@ The first version of Cloud Haskell has been released, aiming to bring Erlang-sty
 
 === Liquid types ===
 
-'''Ranjit'''
+We are working on adding liquid types: a form of (dependent) refinement types that use SMT
+solvers to carry out type inference. A prototype has been built that works for a subset of the
+language (without typeclasses). Some examples include refinement types that track invariants of 
+a lambda-calculus evaluator [[http://goto.ucsd.edu/~rjhala/Liquid/lambdaEval.hs.html]], 
+a toy "map-reduce" [[http://goto.ucsd.edu/~rjhala/Liquid/mapreduce.hs.html]] and 
+the obligatory list-length examples [[http://goto.ucsd.edu/~rjhala/Liquid/meas5.hs.html]]
+Hover the mouse over identifiers to see inferred types. Currently, we are working on restricted
+ways of handling at the basic typeclasses (Ord, Num etc.), and building a web-interface.
 
 === Parallel project ===
 
