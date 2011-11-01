@@ -34,6 +34,11 @@ Introduction of SIMD support to GHC will occur in stages to demonstrate the enti
 
 These clearly won't be all of the questions I have, there is a substantial amount of work that goes through the entire GHC compiler stack before reaching the LLVM instructions.
 
+## Location of SIMD branch
+
+
+The SIMD branch of GHC is named, appropriately, `simd`.
+
 ## Adding a primtype / primop Outline
 
 
