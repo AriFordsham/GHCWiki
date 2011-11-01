@@ -4,7 +4,7 @@
 
 - [\#5321](https://gitlab.haskell.org//ghc/ghc/issues/5321): slow constraint solving
 - [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347): rigid type signatures for impredicativity
-- [\#4310](https://gitlab.haskell.org//ghc/ghc/issues/4310): deferred equalities and forall types (needs Brent's work) 
+- [\#4310](https://gitlab.haskell.org//ghc/ghc/issues/4310), [\#5595](https://gitlab.haskell.org//ghc/ghc/issues/5595): deferred equalities and forall types (needs Brent's work) 
 - [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320): overlap delicacy
 
 ### Arity
