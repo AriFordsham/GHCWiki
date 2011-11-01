@@ -27,6 +27,10 @@ Introduction of SIMD support to GHC will occur in stages to demonstrate the enti
 == Current Open Questions ==
 These clearly won't be all of the questions I have, there is a substantial amount of work that goes through the entire GHC compiler stack before reaching the LLVM instructions.
 
+== Location of SIMD branch ==
+
+The SIMD branch of GHC is named, appropriately, `simd`.
+
 == Adding a primtype / primop Outline ==
 
 When going through this outline, it is helpful to have the [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/HscMain Compiler Pipeline] explanation available as well as the explanation of the source code tree (that includes nested explanations of important directories and files) available [http://hackage.haskell.org/trac/ghc/wiki/Commentary/SourceTree here].
