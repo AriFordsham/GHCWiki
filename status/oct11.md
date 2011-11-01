@@ -125,9 +125,7 @@ The first version of Cloud Haskell has been released, aiming to bring Erlang-sty
 ### Liquid types
 
 
-We are working on adding liquid types to GHC. Liquid Types are a form of (dependent) refinement
-types that use predicate abstraction and SMT solvers to carry out type inference. A prototype has 
-been built that works for a subset of the language (without typeclasses) [ http://goto.ucsd.edu/\~rjhala/liquid](http://goto.ucsd.edu/~rjhala/liquid). 
+Ranjit Jhala is working on adding liquid types to GHC. Liquid Types are a form of (dependent) refinement types that use predicate abstraction and SMT solvers to carry out type inference. A prototype has been built that works for a subset of the language (without typeclasses) [ http://goto.ucsd.edu/\~rjhala/liquid Liquid](http://goto.ucsd.edu/~rjhala/liquid Liquid). 
 Currently, we are working on ways of handling at the basic typeclasses (Ord, Num etc.), and building 
 a web-interface.
 
@@ -152,19 +150,15 @@ Also on the go, but not yet fully baked, are:
 
 ## Bibliography
 
-- \[CloudHaskell\] *Towards Haskell in the Cloud*, Jeff Epstein, Andrew P. Black, and Simon Peyton Jones, Haskell Symposium 2011, [ http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf)
+- \[CloudHaskell\] *Towards Haskell in the Cloud*, Jeff Epstein, Andrew P. Black, and Simon Peyton Jones, Haskell Symposium 2011, [ http://research.microsoft.com/\~simonpj/papers/parallel/remote.pdf](http://research.microsoft.com/~simonpj/papers/parallel/remote.pdf)
 
 - \[ConstraintFamilies\] *Constraint families*, Max Bolingbroke blog post, [ http://blog.omega-prime.co.uk/?p=61](http://blog.omega-prime.co.uk/?p=61)
 
 - \[ConstraintKind\] "Constraint kinds for GHC", Max Bolingbroke blog post, [ http://blog.omega-prime.co.uk/?p=127](http://blog.omega-prime.co.uk/?p=127)
 
-- \[WikiConstraint\] *Adding kind Constraint*, GHC wiki page, [ http://hackage.haskell.org/trac/ghc/wiki/KindFact](http://hackage.haskell.org/trac/ghc/wiki/KindFact)
-
-- \[Unleashed\] "Haskell type constraints unleashed", Tom Schrijvers and Dominic Orchard, FLOPS 2010, [ http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html](http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html)
-
 - \[KindPolymorphism\] *Giving Hasell a promotion*, Brent Yorgey, Stephanie Weirich, Julien Cretin, Dimitrios Vytiniotis, and Simon Peyton Jones, submitted to TLDI'12, [ http://research.microsoft.com/\~simonpj/papers/ext-f/](http://research.microsoft.com/~simonpj/papers/ext-f/)
 
-- \[Cloud\] *Haskell for the cloud*, Epstein, Black, Peyton Jones, ICFP 2011, [ http://research.microsoft.com/\~simonpj/papers/parallel/](http://research.microsoft.com/~simonpj/papers/parallel/)
+- \[Liquid\] *Liquid types home page*, Ranjit Jhala, [ http://goto.ucsd.edu/\~rjhala/liquid](http://goto.ucsd.edu/~rjhala/liquid)
 
 - \[MonadComp\] *Bringing back monad comprehensions*, George Giorgidze, Torsten Grust, Nils Schweinsberg, and Jeroen Weijers, Haskell Symposium 2011, [ http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf](http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf)
 
@@ -178,4 +172,8 @@ Also on the go, but not yet fully baked, are:
 
 - \[SHE\] *The Strathclyde Haskell Enhancement*, Conor McBride, 2010, [ http://personal.cis.strath.ac.uk/\~conor/pub/she/](http://personal.cis.strath.ac.uk/~conor/pub/she/)
 
+- \[Unleashed\] "Haskell type constraints unleashed", Tom Schrijvers and Dominic Orchard, FLOPS 2010, [ http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html](http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html)
+
 - \[VectorInstructions\] *Using SIMD instructions via the LLVM back end*, GHC wiki page, [ http://hackage.haskell.org/trac/ghc/wiki/SimdLlvm](http://hackage.haskell.org/trac/ghc/wiki/SimdLlvm)
+
+- \[WikiConstraint\] *Adding kind Constraint*, GHC wiki page, [ http://hackage.haskell.org/trac/ghc/wiki/KindFact](http://hackage.haskell.org/trac/ghc/wiki/KindFact)
