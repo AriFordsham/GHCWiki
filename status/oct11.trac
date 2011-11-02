@@ -122,7 +122,7 @@ Moreover, we are working at the third revision of the regular parallel array lib
 == The glorious future ==
 
 Also on the go, but not yet fully baked, are:
- * Work on adding contracts to Hsakell, along the lines of Dana Xu's these, but using a first order logic theorem prover to check contract satisfaction (with Koen Claessen, Dimitrios Vytiniotis, Charles-Pierre Astolfi, and Nathan Collins).
+ * Work on adding contracts to Haskell, along the lines of Dana Xu's these, but using a first order logic theorem prover to check contract satisfaction (with Koen Claessen, Dimitrios Vytiniotis, Charles-Pierre Astolfi, and Nathan Collins).
 
  * Extending the code generator to exploit vector instructions (with Peter Braam, Paul Monday, Duncan Coutts) [[http://hackage.haskell.org/trac/ghc/wiki/SimdLlvm VectorInstructions]].
 
