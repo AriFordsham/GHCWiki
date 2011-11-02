@@ -113,7 +113,7 @@ a web-interface.
 
 === Data Parallel Haskell ===
 
-GHC 7.2 includes rudimentary support for Data Parallel Haskell — just enough for a little experimentation and to run simple benchmarks. We are working on significantly improving this for GHC 7.4. In particular, we aim to support the use of basic types and classes from the standard Prelude (replacing the minimalistic mock Prelude that DPH programs had to use so far) and we are working on drastically improved space and time complexity for shared data structures in nested parallel programs, such as the Barnes-Hut n-body algorithm.
+GHC 7.2 includes rudimentary support for Data Parallel Haskell — just enough for a little experimentation and to run simple benchmarks. We are working on significantly improving this for GHC 7.4. In particular, we aim to support the use of basic types and classes from the standard Prelude (replacing the minimalistic mock Prelude that DPH programs had to use so far), and we are working on drastically improved space and time complexity for shared data structures in nested parallel programs, such as the Barnes-Hut n-body algorithm.
 
 Binary distributions of GHC 7.x require the installation of separate Data Parallel Haskell libraries from Hackage — follow the instructions in the wiki documentation [[http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell DPH]].
 
