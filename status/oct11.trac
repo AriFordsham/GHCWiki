@@ -111,9 +111,13 @@ a web-interface.
 
 '''Duncan'''
 
-=== DPH ===
+=== Data Parallel Haskell ===
 
-'''Manuel'''
+GHC 7.2 includes rudimentary support for Data Parallel Haskell — just enough for a little experimentation and to run simple benchmarks. We are working on significantly improving this for GHC 7.4. In particular, we aim to support the use of basic types and classes from the standard Prelude (replacing the minimalistic mock Prelude that DPH programs had to use so far), and we are working on drastically improved space and time complexity for shared data structures in nested parallel programs, such as the Barnes-Hut n-body algorithm.
+
+Binary distributions of GHC 7.x require the installation of separate Data Parallel Haskell libraries from Hackage — follow the instructions in the wiki documentation [[http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell DPH]].
+
+Moreover, we are working at the third revision of the regular parallel array library [[http://hackage.haskell.org/package/repa Repa]]. It uses indexed types to distinguish multiple array representations, which helps to guide users to write high-performance code.  To see it in action, check out Ben Lippmeier's recent demo [[http://youtu.be/v_0Yyl19fiI Quasicrystals]].
 
 == The glorious future ==
 
@@ -132,17 +136,23 @@ Also on the go, but not yet fully baked, are:
 
  * [!ConstraintKind] "Constraint kinds for GHC", Max Bolingbroke blog post, http://blog.omega-prime.co.uk/?p=127
 
+ * [DPH] Data Parallel Haskell documentation, DPH Team, http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell
+
  * [!KindPolymorphism] ''Giving Hasell a promotion'', Brent Yorgey, Stephanie Weirich, Julien Cretin, Dimitrios Vytiniotis, and Simon Peyton Jones, submitted to TLDI'12, http://research.microsoft.com/~simonpj/papers/ext-f/
  
  * [Liquid] ''Liquid types home page'', Ranjit Jhala, http://goto.ucsd.edu/~rjhala/liquid
 
  * [!MonadComp] ''Bringing back monad comprehensions'', George Giorgidze, Torsten Grust, Nils Schweinsberg, and Jeroen Weijers, Haskell Symposium 2011, http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf
 
- * [!NewFC] ''Practical aspects of evidence-based compilation in System FC'', Vytiniotis and Peyton Jones, rejected by to ICFP 2011, http://research.microsoft.com/~simonpj/papers/ext-f/
+ * [NewFC] ''Practical aspects of evidence-based compilation in System FC'', Vytiniotis and Peyton Jones, rejected by to ICFP 2011, http://research.microsoft.com/~simonpj/papers/ext-f/
 
  * [Packages] ''A package language for Haskell'', GHC wiki page, http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage
 
  * [!ParallelGhcProject] ''The Parallel GHC Project home page'', http://www.haskell.org/haskellwiki/Parallel_GHC_Project
+
+ * [Quasicrystals] Quasicrystals Demo, Ben Lippmeier, http://youtu.be/v_0Yyl19fiI 
+
+ * [Repa] Repa: Regular, shape-polymorphic parallel arrays in Haskell, http://hackage.haskell.org/package/repa
 
  * [!SafeHaskell] ''The Safe Haskell home page'', David Terei, http://www.scs.stanford.edu/~davidt/safehaskell.html
 
