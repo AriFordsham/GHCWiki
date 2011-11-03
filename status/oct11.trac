@@ -27,7 +27,7 @@ data T f a = MkT (f a)
 }}}
    GHC will now infer the polymorphic kind signature above, rather that "defaulting" to `T :: (*->*) -> * -> *` as Haskell98 does.
 
-   These new kind-system developents are described in "Giving Haskell a promotion" [[http://research.microsoft.com/~simonpj/papers/ext-f/ KindPolymorphism]].  Julien Cretin and Pedro Magalhães have done all the implementation.
+ These new kind-system developents are described in "Giving Haskell a promotion" [[http://research.microsoft.com/~simonpj/papers/ext-f/ KindPolymorphism]].  Julien Cretin and Pedro Magalhães have done all the implementation.
 
  * '''Constraint kinds.''' Max Bolingbroke has implemented another extension to GHC's kind system, by adding the kind `Constraint` that classifies type constraints.  This turns out to be a rather neat way to implement all the joy of Tom Schrijvers and Dominic Orchard's paper "Haskell type constraints unleashed" [[http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html Unleashed]].  For example, you can now say
 {{{
