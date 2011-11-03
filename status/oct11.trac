@@ -14,7 +14,7 @@ Prelude> case D 5 of D x -> print x
    This has already been merged, so will definitely be in 7.4.
 
  * '''Data type promotion and kind polymorphism.'''  As we do more and more type-level programming, the lack of a decent kind system (to make sure that your type-level programs make sense) has become an increasingly pressing issue.  If all goes well, GHC 7.4 will take a substantial step forward:
-   * First, all simple data types (including lists and tuples) will automatically be "promoted" to be kinds as well, a design inspired by Conor McBride's Strachclyde Haskell Extension [[http://personal.cis.strath.ac.uk/~conor/pub/she/ SHE]].  For example:
+   * First, all simple data types (including lists and tuples) will automatically be "promoted" to be kinds as well, a design inspired by Conor !McBride's Strachclyde Haskell Extension [[http://personal.cis.strath.ac.uk/~conor/pub/she/ SHE]].  For example:
 {{{
 type family F :: Bool -> *
 type instance F True  = Int
@@ -27,7 +27,7 @@ data T f a = MkT (f a)
 }}}
    GHC will now infer the polymorphic kind signature above, rather that "defaulting" to `T :: (*->*) -> * -> *` as Haskell98 does.
 
-   These new kind-system developents are described in "Giving Haskell a promotion" [[http://research.microsoft.com/~simonpj/papers/ext-f/ KindPolymorphism]].  Julien Cretin and Pedro Magalhães have done all the implementation.
+ These new kind-system developents are described in "Giving Haskell a promotion" [[http://research.microsoft.com/~simonpj/papers/ext-f/ KindPolymorphism]].  Julien Cretin and Pedro Magalhães have done all the implementation.
 
  * '''Constraint kinds.''' Max Bolingbroke has implemented another extension to GHC's kind system, by adding the kind `Constraint` that classifies type constraints.  This turns out to be a rather neat way to implement all the joy of Tom Schrijvers and Dominic Orchard's paper "Haskell type constraints unleashed" [[http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html Unleashed]].  For example, you can now say
 {{{
@@ -99,7 +99,7 @@ Work continues on improving GHC in various directions. Active projects we know a
 
  * '''Cloud Haskell'''. The first version of Cloud Haskell has been released, aiming to bring Erlang-style distributed actors to Haskell [[http://hackage.haskell.org/package/remote]]. See also the paper at Haskell Symposium 2011 [[http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf CloudHaskell]]. Next, we're working on expanding the backend to work with HPC environments.
 
- * '''Parallel GHC project''':  Microsoft Research is funding a 2-year project to push the real-world use of parallel Haskell. We are now into the second year of the project and have some promising results from the project partners. We have also taken on two new commercial partner organisations which are interested in using Cloud Haskell. In addition to helping the project partners we have been working on parallel profiling tools: we made a release of [[http://www.haskell.org/haskellwiki/HaskellImplementorsWorkshop/2011/Coutts ThreadScope with new features for profiling programs that use par sparks]]. For more details, see the '''link:'''parallel GHC project entry, and the project home page [[http://www.haskell.org/haskellwiki/Parallel_GHC_Project ParallelGhcProject]]
+ * '''Parallel GHC project''':  Microsoft Research is funding a 2-year project to push the real-world use of parallel Haskell. We are now into the second year of the project and have some promising results from the project partners. We have also taken on two new commercial partner organisations which are interested in using Cloud Haskell. In addition to helping the project partners we have been working on parallel profiling tools: we made a release of [[http://www.haskell.org/haskellwiki/HaskellImplementorsWorkshop/2011/Coutts ThreadScope]] with new features for profiling programs that use par sparks. For more details, see the HCAR Parallel GHC project entry, and the project home page [[http://www.haskell.org/haskellwiki/Parallel_GHC_Project ParallelGhcProject]]
 
  * '''Data Parallel Haskell'''. GHC 7.2 includes rudimentary support for Data Parallel Haskell — just enough for a little experimentation and to run simple benchmarks. We are working on significantly improving this for GHC 7.4. In particular, we aim to support the use of basic types and classes from the standard Prelude (replacing the minimalistic mock Prelude that DPH programs had to use so far), and we are working on drastically improved space and time complexity for shared data structures in nested parallel programs, such as the Barnes-Hut n-body algorithm.
 
@@ -145,6 +145,8 @@ Work continues on improving GHC in various directions. Active projects we know a
  * [!SafeHaskell] ''The Safe Haskell home page'', David Terei, http://www.scs.stanford.edu/~davidt/safehaskell.html
 
  * [SHE] ''The Strathclyde Haskell Enhancement'', Conor !McBride, 2010, http://personal.cis.strath.ac.uk/~conor/pub/she/
+
+ * [!ThreadScope] ''Spark Visualization in ThreadScope'', Duncan Coutts, Haskell Implementors workshop 2011, http://www.haskell.org/haskellwiki/HaskellImplementorsWorkshop/2011/Coutts
 
  * [Unleashed] "Haskell type constraints unleashed", Tom Schrijvers and Dominic Orchard, FLOPS 2010, http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html
 
