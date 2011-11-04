@@ -15,6 +15,11 @@ Most of the material describing our approach is partitioned into a set of subpag
 - [Preventing space blow-up due to replicate](data-parallel/replicate)
 - [Other nested data parallel work](data-parallel/related)
 
+
+See also
+
+- [ The Repa home page](http://repa.ouroborus.net)
+
 ## Status and work plan
 
 
