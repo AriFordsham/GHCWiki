@@ -116,6 +116,10 @@ An example is the handling of `Num`.
 
 == The VECTORISE pragma for class instances ==
 
+'''TODO:'''
+ * This version is nonsense (only with `SCALAR`, it makes sense).
+ * But we probably want something like `{-# VECTORISE instance C t = ?? #-}`, but probably on a per class basis.
+
 For a class instance `C t`, the pragma
 {{{
 {-# VECTORISE instance C t #-}
