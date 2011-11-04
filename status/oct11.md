@@ -55,8 +55,8 @@ Significant changes planned for the 7.4 branch are:
   instance Coll [] where
     type X a = Eq a
     insert x []  = [x]
-    insert x (y:ys) | x==y      = ys 
-                    | otherwise = y : insert x ys 
+    insert x ys0@(y:ys) | x==y      = ys0
+                        | otherwise = y : insert x ys 
   ```
 
   Here `X` is an associated constraint synonym of the class `Coll`. The key point is that differnet instances can give different definitions to `X`.  The GHC wiki page describes the design [ http://hackage.haskell.org/trac/ghc/wiki/KindFact WikiConstraint](http://hackage.haskell.org/trac/ghc/wiki/KindFact WikiConstraint), and Max's blog posts give more examples [ http://blog.omega-prime.co.uk/?p=61 ConstraintFamlies\], \[http://blog.omega-prime.co.uk/?p=127 ConstraintKind](http://blog.omega-prime.co.uk/?p=61 ConstraintFamlies], [http://blog.omega-prime.co.uk/?p=127 ConstraintKind).
