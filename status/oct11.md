@@ -59,7 +59,7 @@ Significant changes planned for the 7.4 branch are:
                         | otherwise = y : insert x ys 
   ```
 
-  Here `X` is an associated constraint synonym of the class `Coll`. The key point is that differnet instances can give different definitions to `X`.  The GHC wiki page describes the design [ http://hackage.haskell.org/trac/ghc/wiki/KindFact WikiConstraint](http://hackage.haskell.org/trac/ghc/wiki/KindFact WikiConstraint), and Max's blog posts give more examples [ http://blog.omega-prime.co.uk/?p=61 ConstraintFamlies\], \[http://blog.omega-prime.co.uk/?p=127 ConstraintKind](http://blog.omega-prime.co.uk/?p=61 ConstraintFamlies], [http://blog.omega-prime.co.uk/?p=127 ConstraintKind).
+  Here `X` is an associated constraint synonym of the class `Coll`. The key point is that different instances can give different definitions to `X`.  The GHC wiki page describes the design [ http://hackage.haskell.org/trac/ghc/wiki/KindFact WikiConstraint](http://hackage.haskell.org/trac/ghc/wiki/KindFact WikiConstraint), and Max's blog posts give more examples [ http://blog.omega-prime.co.uk/?p=61 ConstraintFamlies\], \[http://blog.omega-prime.co.uk/?p=127 ConstraintKind](http://blog.omega-prime.co.uk/?p=61 ConstraintFamlies], [http://blog.omega-prime.co.uk/?p=127 ConstraintKind).
 
 - **Associated type synonym defaults.**  Haskell lets you give a *default method* for the operations of a class.
   Associated type synonym defaults let you declare a *default type instance* for the associated type synonyms of a class. This feature, implemented by Max Bolingbroke, nicely fills out missing design corner.  For example
