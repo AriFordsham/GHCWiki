@@ -3,7 +3,12 @@
 
 This page summarises a possible design that would allow
 different records to share a single field label.  Although it's a simple enough
-idea (summarised under "Nonextensible records with polymorphic selection & update" on at [Records](records))there are numerous ramifications.  Records are a swamp!
+idea there are numerous ramifications.  Records are a swamp!
+
+
+See also a similar [ 2003 proposal by Simon PJ and Greg Morrisset](http://research.microsoft.com/en-us/um/people/simonpj/Haskell/records.html).  It is essentially the same as the proposal below, but (a) has less detail and (b) adds anonymous reccord types.   Anonymous type could be an add-on feature to the design described here.
+
+# The base design
 
 
 The **base design** has the folllowing distinct components:
