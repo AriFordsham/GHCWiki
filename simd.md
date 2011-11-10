@@ -13,7 +13,7 @@ This page describes the issues involved and a design for implementing SIMD vecto
 We are interested in the SIMD vector instructions on current and future generations of CPUs. This includes SSE and AVX on x86/x86-64 and NEON on ARM chips (targets like GPUs or FPGAs are out of scope for this project). These SIMD vector instruction sets are broadly similar in the sense of having relatively short vector registers and operations for various sizes of integer and/or floating point operation. In the details however they have different capabilities and different vector register sizes.
 
 
-We therefore want a design for SIMD support in GHC that will let us efficiently exploit current vector instructions but a design that is not tied too tightly to one CPU architecture or generation. In particular, it should be possible to write portable Haskell programs that use SIMD vectors. This implies that we need fallbacks for cases where certain types or operations are not supported directly in hardware.
+We therefore want a design for SIMD support in GHC that will let us efficiently exploit current vector instructions but a design that is not tied too tightly to one CPU architecture or generation. In particular, it should be possible to write portable Haskell programs that use SIMD vectors.
 
 
 On the other hand, we want to be able to write programs for maximum efficiency that exploit the native vector sizes, preferably while remaining portable. For example, algorithms on large variable length vectors are in principle agnostic about the size of the primitive vector operations.
@@ -64,18 +64,71 @@ We need to implement support for vectors in several layers of GHC + Libraries, f
 - Haskell/Core primops
 - Some strategy for making use of vector primops, e.g. DPH or Vector lib
 
+### Vector types
+
+
+We intend to provide vectors of the following basic types:
+
+> <table><tr><th> Int8  </th>
+> <th> Int16  </th>
+> <th> Int32  </th>
+> <th> Int64  
+> </th></tr>
+> <tr><th> Word8 </th>
+> <th> Word16 </th>
+> <th> Word32 </th>
+> <th> Word64 
+> </th></tr>
+> <tr><th></th>
+> <th></th>
+> <th> Float  </th>
+> <th> Double 
+> </th></tr></table>
+
 ### Fixed and variable sized vectors
 
 
-The hardware supports only small fixed sized vectors. High level libraries would like to be able to use arbitrary sized vectors. Similar to the design in GCC and LLVM we provide primitive Haskell types and operations for fixed-size vectors. The task of implementing variable sized vectors in terms of fixed-size vector types and primops is left to the next layer up (DPH, vector lib).
+The hardware supports only small fixed sized vectors. High level libraries would like to be able to use arbitrary sized vectors. Similar to the design in GCC and LLVM we will provide primitive Haskell types and operations for fixed-size vectors. The task of implementing variable sized vectors in terms of fixed-size vector types and primops is left to the next layer up (DPH, vector lib).
 
 
-That is, in the core primop layer and down, vector support is only for fixed-size vectors. The fixed sizes will be only powers of 2 and only up to some maximum size. The choice of maximum size should reflect the largest vector size supported by the current range of CPUs (e.g. 256bit with AVX).
+That is, in the core primop layer and down, vector support is only for fixed-size vectors. The fixed sizes will be only powers of 2 and only up to some maximum size. The choice of maximum size should reflect the largest vector size supported by the current range of CPUs (256bit with AVX):
 
-### Fallbacks
+> <table><tr><th> types </th>
+> <th></th>
+> <th></th>
+> <th> vector sizes    
+> </th></tr>
+> <tr><th> Int8  </th>
+> <th> Word8  </th>
+> <th></th>
+> <th> 2, 4, 8, 16, 32 
+> </th></tr>
+> <tr><th> Int16 </th>
+> <th> Word16 </th>
+> <th></th>
+> <th> 2, 4, 8, 16     
+> </th></tr>
+> <tr><th> Int32 </th>
+> <th> Word32 </th>
+> <th> Float  </th>
+> <th> 2, 4, 8         
+> </th></tr>
+> <tr><th> Int64 </th>
+> <th> Word64 </th>
+> <th> Double </th>
+> <th> 2, 4            
+> </th></tr></table>
 
 
-The portabilty strategy relies on fallbacks so that we can implement large vectors on machines with only small vector registers, or no vector support at all (either none at all, or none for that type, e.g. only support for integer vectors not floating point, or only 32bit floats not doubles).
+We could choose to support larger fixed sizes, or the same maximum size for all types, but there is no strict need to do so.
+
+### Portability and fallbacks
+
+
+To enable portable Haskell code we will to provide the same set of vector types and operations on all architectures. Again this follows the approach taken by GCC and LLVM.
+
+
+We will rely on fallbacks for the cases where certain types or operations are not supported directly in hardware. In particular we can implement large vectors on machines with only small vector registers. Where there is no vector hardware support at all for a type (e.g. arch with no vectors or 64bit doubles on ARM's NEON) we can implement it using scalar code.
 
 
 The obvious approach is a transformation to synthesize larger vector types and operations using smaller vector operations or scalar operations. This synthesisation could plausible be done at the core, Cmm or code generator layers, however the most natural choice would be as a Cmm -\> Cmm transformation. This approach would reduce or eliminate the burden on code generators by allowing them to support only their architecture's native vector sizes and types, or none at all.
@@ -83,16 +136,16 @@ The obvious approach is a transformation to synthesize larger vector types and o
 
 Using fallbacks does pose some challenges for a stable/portable ABI, in particular how vector registers should be used in the GHC calling convention. This is discussed in a later section.
 
-### Code generators
+## Code generators
 
 
-We would not extend the portable C backend to emit vector instructions. It would rely on the higher layers transforming vector operations into scalar operations. The portable C backend is not ABI compatible with the other code generators so there is no concern about vector registers in the calling convention.
+We will not extend the portable C backend to emit vector instructions. It will rely on the higher layers transforming vector operations into scalar operations. The portable C backend is not ABI compatible with the other code generators so there is no concern about vector registers in the calling convention.
 
 
-The LLVM C library supports vector types and instructions directly. The GHC LLVM backend could be extended to translate vector ops at the CMM level into LLVM vector ops.
+The LLVM C library supports vector types and instructions directly. The GHC LLVM backend could be extended to translate vector ops at the Cmm level into LLVM vector ops.
 
 
-The NCG (native code generator) may need at least minimal support for vector types if vector registers are to be used in the calling convention. This would be necessary if ABI compatibility is to be preserved with the LLVM backend. It is optional whether vector instructions are used to improve performance.
+The NCG (native code generator) may need at least minimal support for vector types if vector registers are to be used in the calling convention (see below). If we choose a common calling convention where vectors are passed in registers rather than on the stack then minimal support in the NCG would be necessary if ABI compatibility is to be preserved with the LLVM backend. It is optional whether vector instructions are used to improve performance.
 
 ## Cmm layer
 
@@ -112,7 +165,7 @@ data CmmCat     -- "Category" (not exported)
 ```
 
 
-The current code distinguishes floats, pointer and non-pointer data. These are distinguished primarily either because they need to be tracked separately (GC pointers) or because they live in special registers on many architectures (floats).
+The current code distinguishes floats, pointer and non-pointer data. These are distinguished primarily because either they need to be tracked separately (GC pointers) or because they live in special registers on many architectures (floats).
 
 
 For vectors we add two new categories
@@ -125,7 +178,7 @@ type Multiplicty = Int
 ```
 
 
-We keep vector types separate from scalars, rather than representing scalars as having multiplicty 1. This is to limit distruption to existing code paths and also because it is expected that vectors will often need to be treated differently from scalars. Again we distinguish float from integral types as these may use different classes of registers.
+We keep vector types separate from scalars, rather than representing scalars as having multiplicty 1. This is to limit distruption to existing code paths and also because it is expected that vectors will often need to be treated differently from scalars. Again we distinguish float from integral types as these may use different classes of registers. There is no need to support vectors of GC pointers.
 
 
 Vector operations on these machine vector types will be added to the Cmm `MachOp` type, e.g.
@@ -148,44 +201,54 @@ We need Haskell data types and Haskell primitive operations for fixed size vecto
 Our design is to provide a family of fixed size vector types and primitive operations, but not to provide any facility to parametrise this family on the vector length.
 
 
+for width {w} in 8, 16, 32, 64 and "", (empty for native Int\#/Word\# width)
+
+for multiplicity {m} in 2, 4, 8, 16, 32
+
+`type Int`*{w}*`Vec`*{m}*`#`
+`type Word`*{w}*`Vec`*{m}*`#`
+`type FloatVec`*{m}*`#`
+`type DoubleVec`*{m}*`#`
+
+
 Syntax note: here {m} is meta-syntax, not concrete syntax
 
 
-for width {w} in 8, 16, 32, 64 and "" -- empty for native Int\#/Word\# width
-for multiplicity {m} in 2, 4, 8, 16, 32
+Hence we have individual type names with the following naming convention:
 
-```wiki
-type Int{w}Vec{m}#
-type Word{w}Vec{m}#
-type FloatVec{m}#
-type DoubleVec{m}#
-```
+> <table><tr><th></th>
+> <th> length 2     </th>
+> <th> length 4     </th>
+> <th> length 8     </th>
+> <th> etc 
+> </th></tr>
+> <tr><th> native `Int`</th>
+> <th>`IntVec2#`</th>
+> <th>`IntVec4#`</th>
+> <th>`IntVec8#`</th>
+> <th> ... 
+> </th></tr>
+> <tr><th>`Int8`</th>
+> <th>`Int8Vec2#`</th>
+> <th>`Int8Vec4#`</th>
+> <th>`Int8Vec8#`</th>
+> <th> ... 
+> </th></tr>
+> <tr><th>`Int16`</th>
+> <th>`Int16Vec2#`</th>
+> <th>`Int16Vec4#`</th>
+> <th>`Int16Vec8#`</th>
+> <th> ... 
+> </th></tr>
+> <tr><th> etc          </th>
+> <th> ...          </th>
+> <th> ...          </th>
+> <th> ...          </th>
+> <th> ... 
+> </th></tr></table>
 
 
-It has not yet been decided if we will use a name convention such as:
-
-```wiki
-IntVec2#    IntVec4#  IntVec8# ...
-Int8Vec2#   ...
-Int16Vec2#
-...
-```
-
-
-Or if we will add a new concrete syntax to suggest a paramater, but have it really still part of the name, such as:
-
-
-Syntax note: here \<2\> is concrete syntax
-
-```wiki
-IntVec<2>#    IntVec<4>#  IntVec<8># ...
-Int8Vec<2>#   ...
-Int16Vec<2>#
-..
-```
-
-
-Similarly there would be families of primops:
+Similarly there will be families of primops:
 
 ```wiki
 extractInt{w}Vec{m}#  :: Int{w}Vec{m}# -> Int# -> Int{w}#
@@ -193,27 +256,73 @@ addInt{w}Vec{m}#      :: Int{w}Vec{m}# -> Int{w}Vec{m}# -> Int{w}Vec{m}#
 ```
 
 
-From the point of view of the Haskell namespace for values and types, each member of each of these families is distinct. It is just a naming convention that suggests the relationship (with or without the addition of some concrete syntax to support the convention).
+From the point of view of the Haskell namespace for values and types, each member of each of these families is distinct. It is just a naming convention that suggests the relationship.
+
+### Optional extension: extra syntax
+
+
+We could add a new concrete syntax using `<...>` to suggest a paramater, but have it really still part of the name:
+
+> <table><tr><th></th>
+> <th> length 2       </th>
+> <th> length 4       </th>
+> <th> length 8       </th>
+> <th> etc 
+> </th></tr>
+> <tr><th> native `Int`</th>
+> <th>`IntVec<2>#`</th>
+> <th>`IntVec<4>#`</th>
+> <th>`IntVec<8>#`</th>
+> <th> ... 
+> </th></tr>
+> <tr><th>`Int8`</th>
+> <th>`Int8Vec<2>#`</th>
+> <th>`Int8Vec<4>#`</th>
+> <th>`Int8Vec<8>#`</th>
+> <th> ... 
+> </th></tr>
+> <tr><th>`Int16`</th>
+> <th>`Int16Vec<2>#`</th>
+> <th>`Int16Vec<4>#`</th>
+> <th>`Int16Vec<8>#`</th>
+> <th> ... 
+> </th></tr>
+> <tr><th> etc          </th>
+> <th> ...            </th>
+> <th> ...            </th>
+> <th> ...            </th>
+> <th> ... 
+> </th></tr></table>
 
 ### Primop generation and representation
 
 
-Internally in GHC we can take advantage of the obvious parametrisation within the families of primitive types and operations. In particular we extend GHC's primop.txt.pp machinery to enable us to describe the family as a whole and to generate the members.
+Internally in GHC we can take advantage of the obvious parametrisation within the families of primitive types and operations. In particular we extend GHC's `primop.txt.pp` machinery to enable us to describe the family as a whole and to generate the members.
 
 
-For example:
+For example, here is some plausible concrete syntax for `primop.txt.pp`:
 
 ```wiki
-paramater <w> Width 8,16,32,64
-paramater <m> Multiplicity 2,4,8,16,32
-
-primop VIntAddOp <w> <m> "addInt<w>Vec<m>#" Dyadic
-  Int{w}Vec{m}# -> Int{w}Vec{m}# -> Int{w}Vec{m}#
-  {doc comments}
+parameter <w, m> Width Multiplicity
+  with <w, m> in <8, 2>,<8, 4>,<8, 8>,<8, 16>,<8, 32>,
+                 <16,2>,<16,4>,<16,8>,<16,16>,
+                 <32,2>,<32,4>,<32,8>,
+                 <64,2>,<64,4>
 ```
 
 
-This would generate a family of primops, and an internal representation using the obvious parameters:
+Note that we allow non-rectangular combinations of values for the parameters. We declare the range of values along with the parameter so that we do not have to repeat it for every primtype and primop.
+
+```wiki
+primtype <w,m> Int<w>Vec<m>#
+
+primop VIntAddOp <w,m> "addInt<w>Vec<m>#" Dyadic
+  Int<w>Vec<m># -> Int<w>Vec<m># -> Int<w>Vec<m>#
+  {Vector addition}
+```
+
+
+This would generate a family of primops, and an internal representation using the type names declared for the parameters:
 
 ```wiki
 data PrimOp = ...
@@ -221,10 +330,22 @@ data PrimOp = ...
    | VIntQuotOp Width Multiplicity
 ```
 
-### Optional: primitive int sizes
+
+It is not yet clear what syntax to achieve the names of the native sized types `Int` and `Word`. Perhaps we should use "", e.g.
+
+```wiki
+parameter <w, m> Width Multiplicity
+  with <w, m> in <8, 2>,<8, 4>,<8, 8>,<8, 16>,<8, 32>,
+                 <16,2>,<16,4>,<16,8>,<16,16>,
+                 <32,2>,<32,4>,<32,8>,
+                 <64,2>,<64,4>
+                 <"",2>,<"",4> 
+```
+
+### Optional extension: primitive int sizes
 
 
-The same mechanism could be used to handle parametrisation between Int8\#, Int16\# etc. Currently these do not exist as primitive types. The types Int8, Int16 etc are implemented as a boxed native-sized Int\# plus narrowing.
+The above mechanism could be used to handle parametrisation between Int8\#, Int16\# etc. Currently these do not exist as primitive types. The types Int8, Int16 etc are implemented as a boxed native-sized Int\# plus narrowing.
 
 
 Note that while this change is possible and would make things more uniform it is not essential for vector support.
@@ -233,10 +354,13 @@ Note that while this change is possible and would make things more uniform it is
 That is we might have:
 
 ```wiki
+parameter <w> Width
+  with <w> in <8>, <16>, <32>, <64>, <"">
+
 primtype Int<w>#
 
 primop   IntAddOp <w>    "addInt<w>#"    Dyadic
-   Int# -> Int# -> Int#
+   Int<w># -> Int<w># -> Int<w>#
    with commutable = True
 ```
 
@@ -249,26 +373,7 @@ data PrimOp = ...
 ```
 
 
-We might want to specify the values \<w\> and \<m\> range over in each operation rather than globally, or override it locally. For example we might want to support Int8 vectors up to size 32 but Double vectors only up to size 8. Or we might want to distinguish the native size or treat it uniformly, e.g.:
-
-```wiki
-primtype Int#
-
-primop   IntAddOp    "+#"    Dyadic
-   Int# -> Int# -> Int#
-   with commutable = True
-
-primtype Int<w>#
-  with w = 8,16,32,64
-
-primop   IntAddOp <w>    "addInt<w>#"    Dyadic
-   Int# -> Int# -> Int#
-   with commutable = True
-        w = 8,16,32,64
-```
-
-
-Or we might want some other solution so we can use `+#` as well as `addInt<8>#` since `+<8>#` as an infix operator is more than a bit obscure!
+We might want some other solution so we can use `+#` as well as `addInt#` since `+8#` as an infix operator doesn't really work.
 
 ## Sub-architecture challenges
 
@@ -284,10 +389,13 @@ Decision:
 ## Native vector sizes
 
 
-In addition to various portable fixed size vector types, we would like to have a portable vector type that matches the native register size. This is analogous to the existing integer types that GHC supports. We have Int8, Int16, Int32 etc and in addition we have Int, the size of which is machine dependent (either 32 or 64bit).
+In addition to various portable fixed size vector types, we will have a portable vector type that is tuned for the hardware vector register size. This is analogous to the existing integer types that GHC supports. We have Int8, Int16, Int32 etc and in addition we have Int, the size of which is machine dependent (either 32 or 64bit).
 
 
-As with Int, the rationale is efficiency. For algorithms that could work with a variety of primitive vector sizes it will almost always be fastest to use the vector size that matches the hardware vector register size. Clearly it is suboptimal to use a vector size that is smaller than the native size. Using a larger vector is not nearly as bad as using as smaller one: though it does contribute to register pressure. There is also the difficulty of picking a fixed register size that is always at least as big as the native size on all platforms that are likely to be used and doing so makes less sense as vector sizes on some architectures increases.
+As with Int, the rationale is efficiency. For algorithms that could work with a variety of primitive vector sizes it will almost always be fastest to use the vector size that matches the hardware vector register size. Clearly it is suboptimal to use a vector size that is smaller than the native size. Using a larger vector is not nearly as bad as using as smaller one, though it does contribute to register pressure.
+
+
+Without a native sized vector, libraries would be forced to use CPP to pick a good vector size based on the architecture, or to pick a fixed register size that is always at least as big as the native size on all platforms that are likely to be used. The former is annoying and the latter makes less sense as vector sizes on some architectures increase.
 
 
 Note that the actual size of the native vector size will be fixed per architecture and will not vary based on "sub-architecture" features like SSE vs AVX. We will pick the size to be the maximum of all the sub-architectures. That is we would pick the AVX size for x86-64. The rationale for this is ABI compatibility which is discussed below. In this respect, the IntVec\# is like Int\#, the size of both is crucial for the ABI and is determined by the target platform/architecture.
@@ -295,18 +403,50 @@ Note that the actual size of the native vector size will be fixed per architectu
 
 So we extend our family of vector types with:
 
-```wiki
-IntVec#   IntVec2#    IntVec4#  IntVec8# ...
-Int8Vec#  Int8Vec2#   ...
-Int16Vec# Int16Vec2#
-...
-```
+> <table><tr><th></th>
+> <th> native length </th>
+> <th> length 2     </th>
+> <th> length 4     </th>
+> <th> length 8     </th>
+> <th> etc 
+> </th></tr>
+> <tr><th> native `Int`</th>
+> <th>`IntVec#`</th>
+> <th>`IntVec2#`</th>
+> <th>`IntVec4#`</th>
+> <th>`IntVec8#`</th>
+> <th> ... 
+> </th></tr>
+> <tr><th>`Int8`</th>
+> <th>`Int8Vec#`</th>
+> <th>`Int8Vec2#`</th>
+> <th>`Int8Vec4#`</th>
+> <th>`Int8Vec8#`</th>
+> <th> ... 
+> </th></tr>
+> <tr><th>`Int16`</th>
+> <th>`Int16Vec#`</th>
+> <th>`Int16Vec2#`</th>
+> <th>`Int16Vec4#`</th>
+> <th>`Int16Vec8#`</th>
+> <th> ... 
+> </th></tr>
+> <tr><th> etc          </th>
+> <th> ...           </th>
+> <th> ...          </th>
+> <th> ...          </th>
+> <th> ...          </th>
+> <th> ... 
+> </th></tr></table>
 
 
 and there are some top level constants describing the vector size so as to enable their portable use
 
 ```wiki
 intVecSize :: Int
+wordVecSize :: Int
+floatVecSize :: Int
+doubleVecSize :: Int
 ```
 
 
@@ -321,7 +461,7 @@ For each CPU architecture GHC has a calling convention that it uses for all Hask
 The calling convention needs to be extended to take into account the primitive vector types. We have to decide if vectors should be passed in registers or on the stack and how to handle vectors that do not match the native vector register size.
 
 
-For efficiency it is desirable to make use of vector registers in the calling convention. This can be significantly quicker than copying vectors to and from the stack.
+For efficiency it is highly desirable to make use of vector registers in the calling convention. This can be significantly quicker than copying vectors to and from the stack.
 
 
 Within the same overall CPU architecture, there are several sub-architectures with different vector capabilities and in particular different vector sizes. The x86-64 architecture supports SSE2 vectors as a baseline which includes pairs of doubles, but the AVX extension doubles the size of the vector registers. Ideally when compiling for AVX we would make use of the larger AVX vectors, including passing the larger vectors in registers.
@@ -329,14 +469,18 @@ Within the same overall CPU architecture, there are several sub-architectures wi
 
 This poses a major challenge: we want to make use of large vectors when possible but we would also like to maintain some degree of ABI compatibility.
 
+### Alternative design: separate ABIs
 
-It is worth briefly exploring the option of abandoning ABI compatibility. We could declare that we have two ABIs on x86-64, the baseline SSE ABI and the AVX ABI. We would further declare To generate AVX code you must build all of your libraries using AVX. Essentially this would mean having two complete sets of libraries, or perhaps simply two instances of GHC, each with their own libraries. While this would work and may be satisfactory when speed is all that matters, it would not encourage use of vectors more generally. In practice haskell.org and linux distributions would have to distribute the more compatible SSE build so that in many cases even users with AVX hardware would be using GHC installations that make no use of AVX code. On x86 the situation could be even worse since the baseline x86 sub-architecture used by many linux distributions does not include even SSE2. In addition it is wasteful to have two instances of libraries when most libraries do not use vectors at all.
+
+It is worth briefly exploring the option of abandoning ABI compatibility. We could declare that we have two ABIs on x86-64, the baseline SSE ABI and the AVX ABI. We would further declare that to generate AVX code you must build all of your libraries using AVX. Essentially this would mean having two complete sets of libraries, or perhaps simply two instances of GHC, each with their own libraries. While this would work and may be satisfactory when speed is all that matters, it would not encourage use of vectors more generally. In practice haskell.org and linux distributions would have to distribute the more compatible SSE build so that in many cases even users with AVX hardware would be using GHC installations that make no use of AVX code. On x86 the situation could be even worse since the baseline x86 sub-architecture used by many linux distributions does not include even SSE2. In addition it is wasteful to have two instances of libraries when most libraries do not use vectors at all.
+
+### Selected design: mixed ABIs using worker/wrapper
 
 
 It it worth exploring options for making use of AVX without having to force all code to be recompiled. Ideally the base package would not need to be recompiled at all and perhaps only have packages like vector recompiled to take advantage of AVX.
 
 
-Consider the situation where we have two modules Lib.hs and App.hs where App imports Lib The Lib module exports:
+Consider the situation where we have two modules `Lib.hs` and `App.hs` where `App` imports `Lib`. The `Lib` module exports:
 
 ```wiki
 f :: DoubleVec4# -> Int
@@ -358,15 +502,13 @@ There are two cases to consider:
 - alternatively we are dealing with object code for the function which follows a certain ABI
 
 
-Notice that not only do we need to be careful to call 'f' and 'g' using the right calling convention, but in the case of 'g', the function that we pass as its argument must also follow the calling convention that 'g' will call it with.
+Notice that not only do we need to be careful to call `f` and `g` using the right calling convention, but in the case of `g`, the function that we pass as its argument must also follow the calling convention that `g` will call it with.
 
 
-One idea is to take a worker/wrapper approach. We would split each function into a wrapper that uses some lowest common denominator calling convention and a worker that uses the best calling convention for the target sub-architecture. For example, the lowest common denominator calling convention might be to pass all vectors on the stack, while the worker convention would use SSE2 or AVX registers.
+Our solution is to take a worker/wrapper approach. We will split each function into a wrapper that uses a lowest common denominator calling convention and a worker that uses the best calling convention for the target sub-architecture. The simplest lowest common denominator calling convention is to pass all vectors on the stack, while the worker convention will use SSE2 or AVX registers.
 
 
-For App calling Lib.f we start with a call to the wrapper, this can be inlined to a call to the worker at which point we discover that the calling convention will use SSE2 registers. For App calling Lib.g with a locally defined 'h', we would pass the wrapper for 'h' to 'g' and since we assume we have no unfolding for 'g' then this is how it remains: at runtime 'g' will call 'h' through the wrapper for 'h' and so will use the lowest common denominator calling convention.
-
-#### SSE2 code calling AVX code
+For `App` calling `Lib.f` we start with a call to the wrapper, this can be inlined to a call to the worker at which point we discover that the calling convention will use SSE2 registers. For `App` calling `Lib.g` with a locally defined `h`, we would pass the wrapper for `h` to `g` and since we assume we have no unfolding for `g` then this is how it remains: at runtime `g` will call `h` through the wrapper for `h` and so will use the lowest common denominator calling convention.
 
 
 We might be concerned with the reverse situation where we have A and B, with A importing B:
@@ -378,6 +520,8 @@ ghc -msse2 A.hs
 
 
 That is, a module compiled with SSE2 that imports a module that was compiled with AVX. How can we call functions using AVX registers if we are only targeting SSE2? One option is to note that since we will be using AVX instructions at runtime when we call the functions in B, and hence it is legitimate to use AVX instructions in A also, at least for the calling convention. There may however be some technical restriction to using AVX instructions in A, for example if we decided that we would implement AVX support only in the LLVM backend and not the NCG backend and we chose to compile B using LLVM and A using the NCG. In that case we would have to avoid inlining the wrapper an exposing the worker that uses the AVX calling convention. There are already several conditions that are checked prior to inlining (e.g. phase checks), this would add an additional architecture check.
+
+
 It may well be simpler however to just implement minimal SSE2 and AVX support in the NCG, even if it is not used for vector operations and simply for the calling convention.
 
 ### Types for calling conventions
