@@ -6,6 +6,7 @@
 
 This page describes the issues involved and a design for implementing SIMD vector support in GHC.
 
+[[PageOutline]]
 
 == Introduction ==
 
