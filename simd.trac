@@ -334,9 +334,6 @@ We would add machine flags such as `-msse2` and `-mavx`. These tell GHC that it 
 
 For compatibility, the default will remain targeting the base instruction set of the architecture. This is the behaviour of most other compilers. We may also want to add a `-mnative` / `-mdetect` flag that is equivalent to the `-m` flag corresponding to the host machine.
 
-GHC does not support GPUs (and thus SIMD) so far,
-however support for vectors is planned.
-
 == See also ==
 
  * [wiki:SimdLlvm SIMD LLVM] A previous (LLVM-specific) iteration of this SIMD proposal.
