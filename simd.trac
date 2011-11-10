@@ -12,7 +12,7 @@ This page describes the issues involved and a design for implementing SIMD vecto
 
 We are interested in the SIMD vector instructions on current and future generations of CPUs. This includes SSE and AVX on x86/x86-64 and NEON on ARM chips (targets like GPUs or FPGAs are out of scope for this project). These SIMD vector instruction sets are broadly similar in the sense of having relatively short vector registers and operations for various sizes of integer and/or floating point operation. In the details however they have different capabilities and different vector register sizes.
 
-We therefore want a design for SIMD support in GHC that will let us efficiently exploit current vector instructions but a design that is not tied too tightly to one CPU architecture or generation. In particular, it should be possible to write portable Haskell programs that use SIMD vectors. This implies that we need fallbacks for cases where certain types or operations are not supported directly in hardware.
+We therefore want a design for SIMD support in GHC that will let us efficiently exploit current vector instructions but a design that is not tied too tightly to one CPU architecture or generation. In particular, it should be possible to write portable Haskell programs that use SIMD vectors.
 
 On the other hand, we want to be able to write programs for maximum efficiency that exploit the native vector sizes, preferably while remaining portable. For example, algorithms on large variable length vectors are in principle agnostic about the size of the primitive vector operations.
 
@@ -47,27 +47,45 @@ We need to implement support for vectors in several layers of GHC + Libraries, f
  * Haskell/Core primops
  * Some strategy for making use of vector primops, e.g. DPH or Vector lib
 
+=== Vector types ===
+
+We intend to provide vectors of the following basic types:
+
+ || Int8  || Int16  || Int32  || Int64  ||
+ || Word8 || Word16 || Word32 || Word64 ||
+ ||       ||        || Float  || Double ||
+
 === Fixed and variable sized vectors ===
 
-The hardware supports only small fixed sized vectors. High level libraries would like to be able to use arbitrary sized vectors. Similar to the design in GCC and LLVM we provide primitive Haskell types and operations for fixed-size vectors. The task of implementing variable sized vectors in terms of fixed-size vector types and primops is left to the next layer up (DPH, vector lib).
+The hardware supports only small fixed sized vectors. High level libraries would like to be able to use arbitrary sized vectors. Similar to the design in GCC and LLVM we will provide primitive Haskell types and operations for fixed-size vectors. The task of implementing variable sized vectors in terms of fixed-size vector types and primops is left to the next layer up (DPH, vector lib).
 
-That is, in the core primop layer and down, vector support is only for fixed-size vectors. The fixed sizes will be only powers of 2 and only up to some maximum size. The choice of maximum size should reflect the largest vector size supported by the current range of CPUs (e.g. 256bit with AVX).
+That is, in the core primop layer and down, vector support is only for fixed-size vectors. The fixed sizes will be only powers of 2 and only up to some maximum size. The choice of maximum size should reflect the largest vector size supported by the current range of CPUs (256bit with AVX):
 
-=== Fallbacks ===
+ || types ||        ||        || vector sizes    ||
+ || Int8  || Word8  ||        || 2, 4, 8, 16, 32 ||
+ || Int16 || Word16 ||        || 2, 4, 8, 16     ||
+ || Int32 || Word32 || Float  || 2, 4, 8         ||
+ || Int64 || Word64 || Double || 2, 4            ||
 
-The portabilty strategy relies on fallbacks so that we can implement large vectors on machines with only small vector registers, or no vector support at all (either none at all, or none for that type, e.g. only support for integer vectors not floating point, or only 32bit floats not doubles).
+We could choose to support larger fixed sizes, or the same maximum size for all types, but there is no strict need to do so.
+
+=== Portability and fallbacks ===
+
+To enable portable Haskell code we will to provide the same set of vector types and operations on all architectures. Again this follows the approach taken by GCC and LLVM.
+
+We will rely on fallbacks for the cases where certain types or operations are not supported directly in hardware. In particular we can implement large vectors on machines with only small vector registers. Where there is no vector hardware support at all for a type (e.g. arch with no vectors or 64bit doubles on ARM's NEON) we can implement it using scalar code.
 
 The obvious approach is a transformation to synthesize larger vector types and operations using smaller vector operations or scalar operations. This synthesisation could plausible be done at the core, Cmm or code generator layers, however the most natural choice would be as a Cmm -> Cmm transformation. This approach would reduce or eliminate the burden on code generators by allowing them to support only their architecture's native vector sizes and types, or none at all.
 
 Using fallbacks does pose some challenges for a stable/portable ABI, in particular how vector registers should be used in the GHC calling convention. This is discussed in a later section.
 
-=== Code generators ===
+== Code generators ==
 
-We would not extend the portable C backend to emit vector instructions. It would rely on the higher layers transforming vector operations into scalar operations. The portable C backend is not ABI compatible with the other code generators so there is no concern about vector registers in the calling convention.
+We will not extend the portable C backend to emit vector instructions. It will rely on the higher layers transforming vector operations into scalar operations. The portable C backend is not ABI compatible with the other code generators so there is no concern about vector registers in the calling convention.
 
-The LLVM C library supports vector types and instructions directly. The GHC LLVM backend could be extended to translate vector ops at the CMM level into LLVM vector ops.
+The LLVM C library supports vector types and instructions directly. The GHC LLVM backend could be extended to translate vector ops at the Cmm level into LLVM vector ops.
 
-The NCG (native code generator) may need at least minimal support for vector types if vector registers are to be used in the calling convention. This would be necessary if ABI compatibility is to be preserved with the LLVM backend. It is optional whether vector instructions are used to improve performance.
+The NCG (native code generator) may need at least minimal support for vector types if vector registers are to be used in the calling convention (see below). If we choose a common calling convention where vectors are passed in registers rather than on the stack then minimal support in the NCG would be necessary if ABI compatibility is to be preserved with the LLVM backend. It is optional whether vector instructions are used to improve performance.
 
 == Cmm layer ==
 
@@ -84,7 +102,7 @@ data CmmCat     -- "Category" (not exported)
    | FloatCat   -- Float
 }}}
 
-The current code distinguishes floats, pointer and non-pointer data. These are distinguished primarily either because they need to be tracked separately (GC pointers) or because they live in special registers on many architectures (floats).
+The current code distinguishes floats, pointer and non-pointer data. These are distinguished primarily because either they need to be tracked separately (GC pointers) or because they live in special registers on many architectures (floats).
 
 For vectors we add two new categories
 {{{
@@ -93,7 +111,7 @@ For vectors we add two new categories
 
 type Multiplicty = Int
 }}}
-We keep vector types separate from scalars, rather than representing scalars as having multiplicty 1. This is to limit distruption to existing code paths and also because it is expected that vectors will often need to be treated differently from scalars. Again we distinguish float from integral types as these may use different classes of registers.
+We keep vector types separate from scalars, rather than representing scalars as having multiplicty 1. This is to limit distruption to existing code paths and also because it is expected that vectors will often need to be treated differently from scalars. Again we distinguish float from integral types as these may use different classes of registers. There is no need to support vectors of GC pointers.
 
 Vector operations on these machine vector types will be added to the Cmm `MachOp` type, e.g.
 {{{
@@ -109,71 +127,93 @@ We need Haskell data types and Haskell primitive operations for fixed size vecto
 
 Our design is to provide a family of fixed size vector types and primitive operations, but not to provide any facility to parametrise this family on the vector length.
 
+for width {w} in 8, 16, 32, 64 and "", (empty for native Int#/Word# width)[[BR]]
+for multiplicity {m} in 2, 4, 8, 16, 32
+
+`type Int`''{w}''`Vec`''{m}''`#`[[BR]]
+`type Word`''{w}''`Vec`''{m}''`#`[[BR]]
+`type FloatVec`''{m}''`#`[[BR]]
+`type DoubleVec`''{m}''`#`[[BR]]
+
 Syntax note: here {m} is meta-syntax, not concrete syntax
 
-for width {w} in 8, 16, 32, 64 and "" -- empty for native Int#/Word# width
-for multiplicity {m} in 2, 4, 8, 16, 32
-{{{
-type Int{w}Vec{m}#
-type Word{w}Vec{m}#
-type FloatVec{m}#
-type DoubleVec{m}#
-}}}
-It has not yet been decided if we will use a name convention such as:
-{{{
-IntVec2#    IntVec4#  IntVec8# ...
-Int8Vec2#   ...
-Int16Vec2#
-...
-}}}
-Or if we will add a new concrete syntax to suggest a paramater, but have it really still part of the name, such as:
+Hence we have individual type names with the following naming convention:
 
-Syntax note: here <2> is concrete syntax
-{{{
-IntVec<2>#    IntVec<4>#  IntVec<8># ...
-Int8Vec<2>#   ...
-Int16Vec<2>#
-..
-}}}
-Similarly there would be families of primops:
+ ||              || length 2     || length 4     || length 8     || etc ||
+ || native `Int` || `IntVec2#`   || `IntVec4#`   || `IntVec8#`   || ... ||
+ || `Int8`       || `Int8Vec2#`  || `Int8Vec4#`  || `Int8Vec8#`  || ... ||
+ || `Int16`      || `Int16Vec2#` || `Int16Vec4#` || `Int16Vec8#` || ... ||
+ || etc          || ...          || ...          || ...          || ... ||
+
+Similarly there will be families of primops:
 {{{
 extractInt{w}Vec{m}#  :: Int{w}Vec{m}# -> Int# -> Int{w}#
 addInt{w}Vec{m}#      :: Int{w}Vec{m}# -> Int{w}Vec{m}# -> Int{w}Vec{m}#
 }}}
-From the point of view of the Haskell namespace for values and types, each member of each of these families is distinct. It is just a naming convention that suggests the relationship (with or without the addition of some concrete syntax to support the convention).
+From the point of view of the Haskell namespace for values and types, each member of each of these families is distinct. It is just a naming convention that suggests the relationship.
+
+=== Optional extension: extra syntax ===
+
+We could add a new concrete syntax using `<...>` to suggest a paramater, but have it really still part of the name:
+
+ ||              || length 2       || length 4       || length 8       || etc ||
+ || native `Int` || `IntVec<2>#`   || `IntVec<4>#`   || `IntVec<8>#`   || ... ||
+ || `Int8`       || `Int8Vec<2>#`  || `Int8Vec<4>#`  || `Int8Vec<8>#`  || ... ||
+ || `Int16`      || `Int16Vec<2>#` || `Int16Vec<4>#` || `Int16Vec<8>#` || ... ||
+ || etc          || ...            || ...            || ...            || ... ||
 
 === Primop generation and representation ===
 
-Internally in GHC we can take advantage of the obvious parametrisation within the families of primitive types and operations. In particular we extend GHC's primop.txt.pp machinery to enable us to describe the family as a whole and to generate the members.
+Internally in GHC we can take advantage of the obvious parametrisation within the families of primitive types and operations. In particular we extend GHC's `primop.txt.pp` machinery to enable us to describe the family as a whole and to generate the members.
 
-For example:
+For example, here is some plausible concrete syntax for `primop.txt.pp`:
 {{{
-paramater <w> Width 8,16,32,64
-paramater <m> Multiplicity 2,4,8,16,32
-
-primop VIntAddOp <w> <m> "addInt<w>Vec<m>#" Dyadic
-  Int{w}Vec{m}# -> Int{w}Vec{m}# -> Int{w}Vec{m}#
-  {doc comments}
+parameter <w, m> Width Multiplicity
+  with <w, m> in <8, 2>,<8, 4>,<8, 8>,<8, 16>,<8, 32>,
+                 <16,2>,<16,4>,<16,8>,<16,16>,
+                 <32,2>,<32,4>,<32,8>,
+                 <64,2>,<64,4>
 }}}
-This would generate a family of primops, and an internal representation using the obvious parameters:
+Note that we allow non-rectangular combinations of values for the parameters. We declare the range of values along with the parameter so that we do not have to repeat it for every primtype and primop.
+{{{
+primtype <w,m> Int<w>Vec<m>#
+
+primop VIntAddOp <w,m> "addInt<w>Vec<m>#" Dyadic
+  Int<w>Vec<m># -> Int<w>Vec<m># -> Int<w>Vec<m>#
+  {Vector addition}
+}}}
+
+This would generate a family of primops, and an internal representation using the type names declared for the parameters:
 {{{
 data PrimOp = ...
    | IntAddOp
    | VIntQuotOp Width Multiplicity
 }}}
+It is not yet clear what syntax to achieve the names of the native sized types `Int` and `Word`. Perhaps we should use "", e.g.
+{{{
+parameter <w, m> Width Multiplicity
+  with <w, m> in <8, 2>,<8, 4>,<8, 8>,<8, 16>,<8, 32>,
+                 <16,2>,<16,4>,<16,8>,<16,16>,
+                 <32,2>,<32,4>,<32,8>,
+                 <64,2>,<64,4>
+                 <"",2>,<"",4> 
+}}}
 
-=== Optional: primitive int sizes ===
+=== Optional extension: primitive int sizes ===
 
-The same mechanism could be used to handle parametrisation between Int8#, Int16# etc. Currently these do not exist as primitive types. The types Int8, Int16 etc are implemented as a boxed native-sized Int# plus narrowing.
+The above mechanism could be used to handle parametrisation between Int8#, Int16# etc. Currently these do not exist as primitive types. The types Int8, Int16 etc are implemented as a boxed native-sized Int# plus narrowing.
 
 Note that while this change is possible and would make things more uniform it is not essential for vector support.
 
 That is we might have:
 {{{
+parameter <w> Width
+  with <w> in <8>, <16>, <32>, <64>, <"">
+
 primtype Int<w>#
 
 primop   IntAddOp <w>    "addInt<w>#"    Dyadic
-   Int# -> Int# -> Int#
+   Int<w># -> Int<w># -> Int<w>#
    with commutable = True
 }}}
 generating
@@ -181,23 +221,7 @@ generating
 data PrimOp = ...
    | IntAddOp Width
 }}}
-We might want to specify the values <w> and <m> range over in each operation rather than globally, or override it locally. For example we might want to support Int8 vectors up to size 32 but Double vectors only up to size 8. Or we might want to distinguish the native size or treat it uniformly, e.g.:
-{{{
-primtype Int#
-
-primop   IntAddOp    "+#"    Dyadic
-   Int# -> Int# -> Int#
-   with commutable = True
-
-primtype Int<w>#
-  with w = 8,16,32,64
-
-primop   IntAddOp <w>    "addInt<w>#"    Dyadic
-   Int# -> Int# -> Int#
-   with commutable = True
-        w = 8,16,32,64
-}}}
-Or we might want some other solution so we can use `+#` as well as `addInt<8>#` since `+<8>#` as an infix operator is more than a bit obscure!
+We might want some other solution so we can use `+#` as well as `addInt#` since `+8#` as an infix operator doesn't really work.
 
 
 == Sub-architecture challenges ==
