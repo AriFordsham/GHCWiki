@@ -1,7 +1,7 @@
 ## Introduction
 
 
-This text documents the implementation stages / components for adding SIMD support to GHC for the LLVM Back-end.  The overriding requirements and architecture for the project are located back at the [ SIMD LLVM Page](http://hackage.haskell.org/trac/ghc/wiki/SimdLlvm).
+This text documents the implementation stages / components for adding SIMD support to GHC.  The overriding requirements and architecture for the project are located back at the [SIMD](simd) Page.
 
 
 Based on that design, the high-level tasks that must be accomplished include the following:
