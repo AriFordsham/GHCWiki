@@ -462,10 +462,10 @@ doubleVecSize :: Int
 
 The native-sized vector types are distinct types from the explicit-sized vector types, not type aliases for the corresponding explicit-sized vector. This is to support and encourage portable code.
 
-## Data Parallel Haskell ([ DPH](http://www.haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)) layer
+## Data Parallel Haskell layer
 
 
-In DPH, we will use the new SIMD instructions by suitably modifying the definition of the lifted versions of arithmetic and other operations that we would like to accelerate. These lifted operations are defined in the `dph-common` package and made accessible to the vectoriser via [VECTORISE pragmas](data-parallel/vect-pragma). Many of them currently use `VECTORISE SCALAR` pragmas, such as
+In [ DPH](http://www.haskell.org/haskellwiki/GHC/Data_Parallel_Haskell), we will use the new SIMD instructions by suitably modifying the definition of the lifted versions of arithmetic and other operations that we would like to accelerate. These lifted operations are defined in the `dph-common` package and made accessible to the vectoriser via [VECTORISE pragmas](data-parallel/vect-pragma). Many of them currently use `VECTORISE SCALAR` pragmas, such as
 
 ```wiki
 (+) :: Int -> Int -> Int
