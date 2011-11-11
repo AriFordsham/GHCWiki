@@ -388,17 +388,6 @@ data PrimOp = ...
 
 We might want some other solution so we can use `+#` as well as `addInt#` since `+8#` as an infix operator doesn't really work.
 
-## Sub-architecture challenges
-
-TODO make sure we've made clear our proposed design:
-
-
-Decision:
-
-- fixed native size vector per arch, not sub-arch, picked as max
-- instruction selection is per-module via -msse -mavx
-- worker/wrapper with common and specialised ABI including rationale for why this should perform well enough vs compiling everything with one ABI
-
 ## Native vector sizes
 
 
@@ -464,6 +453,22 @@ doubleVecSize :: Int
 
 
 The native-sized vector types are distinct types from the explicit-sized vector types, not type aliases for the corresponding explicit-sized vector. This is to support and encourage portable code.
+
+## Data Parallel Haskell ([ DPH](http://www.haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)) layer
+
+
+In DPH, we will use the new SIMD instructions by suitably modifying the definition of the lifted versions of arithmetic and other operations that we would like to accelerate. These lifted operations are defined in the `dph-common` package and made accessible to the vectoriser via [VECTORISE pragmas](data-parallel/vect-pragma). Many of them currently use `VECTORISE SCALAR` pragmas, such as
+
+```wiki
+(+) :: Int -> Int -> Int
+(+) = (P.+)
+{-# VECTORISE SCALAR (+) #-}
+```
+
+
+We could define them more verbosely using a plain `VECTORISE` pragma, but might instead like to extend `VECTORISE SCALAR` or introduce a variant.
+
+**NB:** The use of SIMD instructions interferes with vectorisation avoidance for scalar subcomputations. Code that avoids vectorisation also avoids the use of SIMD instructions. We would like to use SIMD instructions, but still avoid full-scale vectorisation. This should be possible, but it is not immediately clear how to realise it (elegantly).
 
 ## ABIs and calling conventions
 
