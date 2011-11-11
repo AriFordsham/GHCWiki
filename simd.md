@@ -453,11 +453,13 @@ So we extend our family of vector types with:
 and there are some top level constants describing the vector size so as to enable their portable use
 
 ```wiki
-intVecSize :: Int
-wordVecSize :: Int
-floatVecSize :: Int
-doubleVecSize :: Int
+intVecSize, int8VecSize, int16VecSize, int32VecSize, int64VecSize :: Int
+wordVecSize, word8VecSize, word16VecSize, word32VecSize, word64VecSize :: Int
+floatVecSize, doubleVecSize :: Int
 ```
+
+
+Note that these constants are of type Int since top level values of type Int\# are not currently supported. This should not be a problem as they should always get inlined and unboxed where it matters.
 
 
 The native-sized vector types are distinct types from the explicit-sized vector types, not type aliases for the corresponding explicit-sized vector. This is to support and encourage portable code.
