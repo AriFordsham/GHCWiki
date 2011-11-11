@@ -122,7 +122,15 @@ That is, in the core primop layer and down, vector support is only for fixed-siz
 > <th> Word64 </th>
 > <th> Double </th>
 > <th> 2, 4            
+> </th></tr>
+> <tr><th> Int   </th>
+> <th> Word   </th>
+> <th></th>
+> <th> 2, 4            
 > </th></tr></table>
+
+
+In addition, we will support vector types with fixed but architecture-dependent sizes (see below).
 
 
 We could choose to support larger fixed sizes, or the same maximum size for all types, but there is no strict need to do so.
