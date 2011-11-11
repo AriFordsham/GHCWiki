@@ -489,7 +489,7 @@ But it would be plausible to say that types like `DoubleVec4#` are ephemeral, ha
 
 === Memory alignment for vectors ===
 
-Many CPUs that support vectors have strict alignment requirements, e.g. that 16 byte vectors must be aligned on 16byte boundaries. On some architectures the requirements are not strict but there may be a performance penalty, or alternative instruction may be required to load unaligned vectors.
+Many CPUs that support vectors have strict alignment requirements, e.g. that 16 byte vectors must be aligned on 16byte boundaries. On some architectures the requirements are not strict but there may be a performance penalty, or alternative instruction may be required to load unaligned vectors. For example AVX has special instructions for unaligned loads and stores but Intel estimates a [http://software.intel.com/en-us/articles/practical-intel-avx-optimization-on-2nd-generation-intel-core-processors/ 20% performance loss].
 
 Note that the alignment of vectors like `DoubleVec4#` has to be picked to fit the maximum required alignment of any sub-architecture. For example while `DoubleVec4#` might be synthesized using operations on `DoubleSseVec2#` when targeting SSE, the alignment must be picked such that we can use `DoubleAvxVec4#` operations.
 
