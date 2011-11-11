@@ -549,6 +549,7 @@ Should also consider:
 
 - vector constants, at least at Cmm level
 - replicating a scalar to a vector
+- FMA: fused multiply add, this is supported by NEON and AVX however software fallback may not be possible with the same precision. Tricky.
 - AVX also suppports a bunch of interesting things:
 
   - permute, shuffle, "blend", masked moves.
