@@ -8,9 +8,9 @@
 This page describes the issues involved and a design for implementing SIMD vector support in GHC.
 
 
-Related pages
+Related pages:
 
-- [Notes on the current implementation plan](simd-plan)
+- Notes on the [current implementation plan](simd-plan)
 
 ## Introduction
 
@@ -140,6 +140,14 @@ The obvious approach is a transformation to synthesize larger vector types and o
 
 
 Using fallbacks does pose some challenges for a stable/portable ABI, in particular how vector registers should be used in the GHC calling convention. This is discussed in a later section.
+
+### GHC command line flags
+
+
+We will add machine flags such as `-msse2` and `-mavx`. These tell GHC that it is allowed to make use of the corresponding instruction sets.
+
+
+For compatibility, the default will remain targeting the base instruction set of the architecture. This is the behaviour of most other compilers. We may also want to add a `-mnative` / `-mdetect` flag that is equivalent to the `-m` flag corresponding to the host machine.
 
 ## Code generators
 
@@ -503,14 +511,14 @@ ghc -mavx  App.hs.
 
 There are two cases to consider:
 
-- if the function being called has an unfolding exported from Lib then that unfolding can be compiled in the context of App and can make use of AVX instructions
+- if the function being called has an unfolding exported from `Lib` then that unfolding can be compiled in the context of App and can make use of AVX instructions
 - alternatively we are dealing with object code for the function which follows a certain ABI
 
 
 Notice that not only do we need to be careful to call `f` and `g` using the right calling convention, but in the case of `g`, the function that we pass as its argument must also follow the calling convention that `g` will call it with.
 
 
-Our solution is to take a worker/wrapper approach. We will split each function into a wrapper that uses a lowest common denominator calling convention and a worker that uses the best calling convention for the target sub-architecture. The simplest lowest common denominator calling convention is to pass all vectors on the stack, while the worker convention will use SSE2 or AVX registers.
+Our solution is to take a worker/wrapper approach. We will split each function into a wrapper that uses a lowest common denominator calling convention and a worker that uses the best calling convention for the target sub-architecture. The simplest lowest common denominator calling convention is to pass all vectors on the stack, while the fast calling convention will use SSE2 or AVX registers.
 
 
 For `App` calling `Lib.f` we start with a call to the wrapper, this can be inlined to a call to the worker at which point we discover that the calling convention will use SSE2 registers. For `App` calling `Lib.g` with a locally defined `h`, we would pass the wrapper for `h` to `g` and since we assume we have no unfolding for `g` then this is how it remains: at runtime `g` will call `h` through the wrapper for `h` and so will use the lowest common denominator calling convention.
@@ -524,10 +532,27 @@ ghc -msse2 A.hs
 ```
 
 
-That is, a module compiled with SSE2 that imports a module that was compiled with AVX. How can we call functions using AVX registers if we are only targeting SSE2? One option is to note that since we will be using AVX instructions at runtime when we call the functions in B, and hence it is legitimate to use AVX instructions in A also, at least for the calling convention. There may however be some technical restriction to using AVX instructions in A, for example if we decided that we would implement AVX support only in the LLVM backend and not the NCG backend and we chose to compile B using LLVM and A using the NCG. In that case we would have to avoid inlining the wrapper an exposing the worker that uses the AVX calling convention. There are already several conditions that are checked prior to inlining (e.g. phase checks), this would add an additional architecture check.
+That is, a module compiled with SSE2 that imports a module that was compiled with AVX. How can we call functions using AVX registers if we are only targeting SSE2? There are two design options:
+
+- One option is to note that since we will be using AVX instructions at runtime when we call the functions in B, and hence it is legitimate to use AVX instructions in A also, at least for the calling convention.
+- The other is to avoid generating AVX instructions at all, even for the calling convention, in which case it is essential to avoid inlining the wrapper function since this exposes the worker that uses the AVX calling convention.
 
 
-It may well be simpler however to just implement minimal SSE2 and AVX support in the NCG, even if it is not used for vector operations and simply for the calling convention.
+While the first option is in some ways simpler, it also implies that all ABI-compatible code generators can produce at least some vector instructions. In particular it requires data-movement instructions to be supported. If however we wish to completely avoid implementing any vector support in the NCG backend then we must take the second approach.
+
+
+For the second approach we would need to add an extra architecture flag and check to inlining annotations. There are already several conditions that are checked prior to inlining (e.g. phase checks), this would add an additional check.
+
+### Optional extension: compiling code for multiple sub-architectures
+
+
+If we have support for arch-conditional inlining, we in future may want to extend the idea to allow inlining to one of a number of arch-specific implementations.
+
+
+Consider a hypothetical function in a core library that uses vectors but that is too large to be a candidate for inlining. We have to ship core libraries compiled for the base architecture. Hence the function from the core lib will not be compiled to use AVX. Another possibility is to generate several copies of the function worker, compiled for different sub-archtectires. Then when the function is called in another module compiled with -mavx we would like to call the AVX worker. This could be achieved by arch-conditional inlining or rules.
+
+
+This option should only be considered if we expect to have functions in core libs that are above the inlining threshold. This would probably not be the case for ghc-prim and base. It may however make sense for the vector library should that become part of the standard platform and hence typically shipped to users as a pre-compiled binary.
 
 ### Types for calling conventions
 
@@ -535,7 +560,7 @@ It may well be simpler however to just implement minimal SSE2 and AVX support in
 One of GHC's clever design tricks is that the type of a function in core determines its calling convention. A function in core that accepts an Int is different to one that accepts an Int\#. The use of two different types, Int and Int\# let us talk about the transformation and lets us write code in core for the wrapper function that converts from Int to Int\#.
 
 
-If we are to take a worker wrapper approach with calling conventions for vectors then we would do well to use types to distinguish the common and special calling conventions. For example, we could define types:
+If we are to take a worker wrapper approach with calling conventions for vectors then we would do well to use types to distinguish the common and special calling conventions. For example, we could define sub-architecture specific types:
 
 ```wiki
 FloatSseVec4#
@@ -543,6 +568,15 @@ DoubleSseVec2#
 
 FloatAvxVec8#
 DoubleAvxVec4#
+```
+
+
+We would also need some suitable primitive conversion operations
+
+```wiki
+toSseVec4#   :: FloatVec4# -> FloatSseVec4#
+fromSseVec4# :: FloatSseVec4# -> FloatVec4#
+etc
 ```
 
 
@@ -577,17 +611,35 @@ f :: DoubleVec4# -> Int
 ```
 
 
-We have said that this is the lowest common denominator calling convention. This might be passing vectors on the stack. But on x86-64 we know we always have SSE2 available, so we might want to use that in our lowest common denominator calling convention. In that case, would it make sense to say that in fact the wrapper 'f' has type:
+We have said that this is the lowest common denominator calling convention. The simplest is passing vectors on the stack. This has the advantage of not requiring vector support in the NCG.
+
+### Calling convention and performance
+
+
+The mixed ABI approach using worker/wrapper trades off some performance for convenience and compatibility. Why do we think the tradeoff is reasonable?
+
+
+In the case of ordinary unboxed types, Int/Int\# etc, this approach is very effective. It is only when calling unknown functions, e.g. higher order functions that are not inlined that we would be calling the wrapper and using the slower calling convention. This is unlikely for high performance numeric code.
+
+### Optional extension: faster common calling convention
+
+
+On x86-64 we know we always have SSE2 available, so we might want to use that in our lowest common denominator calling convention. It would of course require support for vector data movement instructions in the NCG.
+
+### Alternative design: only machine-specific ABI types
+
+
+With the above extension to use vectors registers in the common calling convention, it would make sense to say that in fact the wrapper `f` has type:
 
 ```wiki
 f :: (# DoubleSseVec2#, DoubleSseVec2# #) -> Int
 ```
 
 
-This is a plausible design, but it is not necessary to go this way. We can simply declare types like DoubleVec4\# to have a particular calling convention without forcing it to be rewritten in terms of machine-specific types in core.
+This is a plausible design, but it is not necessary to go this way. We can simply declare types like `DoubleVec4#` to have a particular calling convention without forcing it to be rewritten in terms of machine-specific types in core.
 
 
-But it would be plausible to say that types like DoubleVec4\# are ephemeral, having no ABI and must be rewritten by a core -\> core pass to use machine-specific types with an associated ABI.
+But it would be plausible to say that types like `DoubleVec4#` are ephemeral, having no ABI and must be rewritten by a core -\> core pass to use machine-specific types with an associated ABI.
 
 ### Memory alignment for vectors
 
@@ -595,10 +647,10 @@ But it would be plausible to say that types like DoubleVec4\# are ephemeral, hav
 Many CPUs that support vectors have strict alignment requirements, e.g. that 16 byte vectors must be aligned on 16byte boundaries. On some architectures the requirements are not strict but there may be a performance penalty, or alternative instruction may be required to load unaligned vectors.
 
 
-Note that the alignment of vectors like DoubleVec4\# has to be picked to fit the maximum required alignment of any sub-architecture. For example while DoubleVec4\# might be synthesized using operations on DoubleSseVec2\# when targeting SSE, the alignment must be picked such that we can use `DoubleAvxVec4#` operations.
+Note that the alignment of vectors like `DoubleVec4#` has to be picked to fit the maximum required alignment of any sub-architecture. For example while `DoubleVec4#` might be synthesized using operations on `DoubleSseVec2#` when targeting SSE, the alignment must be picked such that we can use `DoubleAvxVec4#` operations.
 
 
-It is relatively straightforward to ensure alignment for vectors in large packed arrays. It is also not too great a burden to ensure stack alignment.
+It is relatively straightforward to ensure alignment for vectors in large packed arrays. It is also not too great a burden to ensure stack alignment. Alignment of arrays passed in from foreign code is the programmer's responsibility.
 
 
 A somewhat more tricky problem is alignment of vectors within heap objects, both data constructors and closures. While it is plausible to ban putting vectors in data constructors, it does not seem possible to avoid function closures with vectors saved in the closure's environment record.
@@ -609,13 +661,25 @@ We would wish to avoid forcing all heap object to have a stricter alignment sinc
 
 For functions allocating heap objects with stricter alignment, upon entry along with the usual heap overflow check, it would be necessary to test the heap pointer and if necessary to bump it up to achieve the required alignment. Subsequent allocations within that code block would be able to proceed without further checks as any additional padding between allocations would be known statically. The heap overflow check would also have to take into account the possibility of the extra bump.
 
-### GHC command line flags
+### ABI summary
 
 
-We would add machine flags such as `-msse2` and `-mavx`. These tell GHC that it is allowed to make use of the corresponding instructions.
+The size of the native-sized vectors `IntVec#`, `DoubleVec#` etc correspond to the maximum size for any sub-architecture, e.g. AVX on x86-64.
 
 
-For compatibility, the default will remain targeting the base instruction set of the architecture. This is the behaviour of most other compilers. We may also want to add a `-mnative` / `-mdetect` flag that is equivalent to the `-m` flag corresponding to the host machine.
+The ordinary `IntVec#`, `Int32Vec4#` etc types correspond to the slow compatible calling convention which passes all vectors on the stack. These vectors must all have their obvious strict alignment. For example `Int32Vec4#` is 16 bytes large and has 16 byte alignment.
+
+
+Extra machine-specific types `DoubleSseVec2#`, `FloatAvxVec8#`, `FloatNeonVec4#` etc correspond to the fast calling convention which use the corresponding vector registers. These have the alignment requirements imposed by the hardware. The machine-specific types need not be exposed but it is also plausible to do so.
+
+
+We will use worker/wrapper to convert between the common types and the machine-specific types.
+
+
+Initially, to avoid implementing vector data-movement instructions in the NCG, we will add arch-conditional inlining of the wrapper functions.
+
+
+If later on we add vector data-movement instructions to the NCG, then the arch-conditional inlining of the wrapper functions can be discarded and the compatible calling convention could be changed to make use of any vector registers in the base architecture (e.g. SSE2 on x86-64).
 
 ## See also
 
