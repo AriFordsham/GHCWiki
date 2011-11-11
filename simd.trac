@@ -263,6 +263,98 @@ Note that these constants are of type Int since top level values of type Int# ar
 
 The native-sized vector types are distinct types from the explicit-sized vector types, not type aliases for the corresponding explicit-sized vector. This is to support and encourage portable code.
 
+== Vector operations ==
+
+The following operations on vectors will be supported. They will need to be implemented at the Haskell/core primop layer, Cmm MachOp layer and optional support in the code generators.
+
+Extracting and inserting vector elements:
+{{{
+extractInt<w>Vec<m>#   :: Int<w>Vec<m>#  -> Int# -> Int#
+extractWord<w>Vec<m>#  :: Word<w>Vec<m># -> Int# -> Word#
+extractFloatVec#       :: FloatVec<m>#   -> Int# -> Float#
+extractDoubleVec#      :: DoubleVec<m>#  -> Int# -> Double#
+}}}
+{{{
+insertInt<w>Vec<m>#   :: Int<w>Vec<m>#  -> Int# -> Int#    -> Int<w>Vec<m>#
+insertWord<w>Vec<m>#  :: Word<w>Vec<m># -> Int# -> Word#   -> Word<w>Vec<m>#
+insertFloatVec#       :: FloatVec<m>#   -> Int# -> Float#  -> FloatVec<m>#
+insertDoubleVec#      :: DoubleVec<m>#  -> Int# -> Double# -> DoubleVec<m>#
+}}}
+Vector shuffle:
+{{{
+shuffleInt<w>Vec<m>ToVec<m'>  :: Int<w>Vec<m>#  -> Int32Vec<m'>#    -> Int<w>Vec<m'>#
+}}}
+For the fixed size vectors (not native size) we may also want to add pack/unpack functions like:
+{{{
+unpackInt<w>Vec4# :: Int<w>Vec4# -> (# Int#, Int#, Int#, Int# #)
+packInt<w>Vec4#   :: (# Int#, Int#, Int#, Int# #) -> Int<w>Vec4#
+}}}
+
+In the following, `<t>` ranges over `Int<w>`, `Word<w>`, `Float`, `Double`.
+
+Arithmetic operations:
+{{{
+plus<t>Vec<m>#, minus<t>Vec<m>#,
+times<t>Vec<m>#, quot<t>Vec<m>#, rem<t>Vec<m># :: <t>Vec<m># -> <t>Vec<m># -> <t>Vec<m>#
+
+negate<t>Vec<m># :: <t>Vec<m># -> <t>Vec<m>#
+}}}
+Logic operations:
+{{{
+andInt<w>Vec<m>#, orInt<w>Vec<m>#, xorInt<w>Vec<m>#    :: Int<w>Vec<m>#  -> Int<w>Vec<m>#  -> Int<w>Vec<m>#
+andWord<w>Vec<m>#, orWord<w>Vec<m>#, xorWord<w>Vec<m># :: Word<w>Vec<m># -> Word<w>Vec<m># -> Word<w>Vec<m>#
+
+notInt<w>Vec<m>#  :: Int<w>Vec<m>#  -> Int<w>Vec<m>#
+notWord<w>Vec<m># :: Word<w>Vec<m># -> Word<w>Vec<m>#
+
+shiftLInt<w>Vec<m>#,  shiftRAInt<w>Vec<m>#  :: Int<w>Vec<m>#  -> Word# -> Int<w>Vec<m>#
+ShiftLWord<w>Vec<m>#, ShiftRLWord<w>Vec<m># :: Word<w>Vec<m># -> Word# -> Word<w>Vec<m>#
+}}}
+Comparison:
+{{{
+cmp<eq,ne,gt,gt,lt,le>Int<w>Vec<m>#  :: Int<w>Vec<m>#  -> Int<w>Vec<m>#  -> Word<w>Vec<m>#
+cmp<eq,ne,gt,gt,lt,le>Word<w>Vec<m># :: Word<w>Vec<m># -> Word<w>Vec<m># -> Word<w>Vec<m>#
+}}}
+Note that LLVM does not yet support the comparison operations.
+
+TODO:
+ * conversion sign/width operations, e.g. Word <-> Int, Word8 <-> Word16 etc.
+ * conversion fp operations, e.g. Float <-> Int
+Should also consider:
+ * vector constants, at least at Cmm level
+ * replicating a scalar to a vector
+ * AVX also suppports a bunch of interesting things:
+   * permute, shuffle, "blend", masked moves.
+   * min, max within a vector
+   * average
+   * horizontal add/sub
+   * shift whole vector left/right by n bytes
+   * gather (but not scatter) of 32, 64bit int and fp from memory (base + vector of offsets)
+
+=== Int/Word size wrinkle ===
+
+Note that there is a wrinkle with the 32 and 64 bit int and word types. For example, the types for the extract functions should be:
+{{{
+extractInt32Vec<m>#  :: Int32Vec#  -> Int# -> INT32
+extractInt64Vec<m>#  :: Int64Vec#  -> Int# -> INT64
+extractWord32Vec<m># :: Word32Vec# -> Int# -> WORD32
+extractWord64Vec<m># :: Word64Vec# -> Int# -> WORD64
+}}}
+where `INT32`, `INT64`, `INT64`, `WORD64` are CPP macros that expand in a arch-dependent way to the types Int#/Int64# and Word#/Word64#.
+
+To describe this in the primop definition we might want something like:
+{{{
+primop   IntAddOp <w,m,t>    "extractWord<w>Vec<m>#"    Dyadic
+  Word<w>Vec<m># -> Int# -> <t>
+  with <w, m, t> in <8, 2,Word#>,<8, 4,Word#>,<8, 8,Word#>,<8, 16,Word#>,<8, 32,Word#>,
+                    <16,2,Word#>,<16,4,Word#>,<16,8,Word#>,<16,16,Word#>,
+                    <32,2,WORD32>,<32,4,WORD32>,<32,8,WORD32>,
+                    <64,2,WORD64>,<64,4,WORD64>
+                    <"",2,WORD>,<"",4,WORD> 
+}}}
+
+To iron out this wrinkle we would need the whole family of primitve types: Int8#, Int16#, Int32# etc whereas currently only the native register sized Int# type is provided, plus a primitive Int64# type is provided on 32bit systems.
+
 == Data Parallel Haskell layer ==
 
 In [http://www.haskell.org/haskellwiki/GHC/Data_Parallel_Haskell DPH], we will use the new SIMD instructions by suitably modifying the definition of the lifted versions of arithmetic and other operations that we would like to accelerate. These lifted operations are defined in the `dph-common` package and made accessible to the vectoriser via [wiki:DataParallel/VectPragma VECTORISE pragmas]. Many of them currently use `VECTORISE SCALAR` pragmas, such as
