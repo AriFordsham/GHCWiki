@@ -69,6 +69,9 @@ That is, in the core primop layer and down, vector support is only for fixed-siz
  || Int16 || Word16 ||        || 2, 4, 8, 16     ||
  || Int32 || Word32 || Float  || 2, 4, 8         ||
  || Int64 || Word64 || Double || 2, 4            ||
+ || Int   || Word   ||        || 2, 4            ||
+
+In addition, we will support vector types with fixed but architecture-dependent sizes (see below).
 
 We could choose to support larger fixed sizes, or the same maximum size for all types, but there is no strict need to do so.
 
