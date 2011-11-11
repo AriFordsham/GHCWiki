@@ -235,22 +235,28 @@ Decision:
 
 == Native vector sizes ==
 
-In addition to various portable fixed size vector types, we would like to have a portable vector type that matches the native register size. This is analogous to the existing integer types that GHC supports. We have Int8, Int16, Int32 etc and in addition we have Int, the size of which is machine dependent (either 32 or 64bit).
+In addition to various portable fixed size vector types, we will have a portable vector type that is tuned for the hardware vector register size. This is analogous to the existing integer types that GHC supports. We have Int8, Int16, Int32 etc and in addition we have Int, the size of which is machine dependent (either 32 or 64bit).
 
-As with Int, the rationale is efficiency. For algorithms that could work with a variety of primitive vector sizes it will almost always be fastest to use the vector size that matches the hardware vector register size. Clearly it is suboptimal to use a vector size that is smaller than the native size. Using a larger vector is not nearly as bad as using as smaller one: though it does contribute to register pressure. There is also the difficulty of picking a fixed register size that is always at least as big as the native size on all platforms that are likely to be used and doing so makes less sense as vector sizes on some architectures increases.
+As with Int, the rationale is efficiency. For algorithms that could work with a variety of primitive vector sizes it will almost always be fastest to use the vector size that matches the hardware vector register size. Clearly it is suboptimal to use a vector size that is smaller than the native size. Using a larger vector is not nearly as bad as using as smaller one, though it does contribute to register pressure.
+
+Without a native sized vector, libraries would be forced to use CPP to pick a good vector size based on the architecture, or to pick a fixed register size that is always at least as big as the native size on all platforms that are likely to be used. The former is annoying and the latter makes less sense as vector sizes on some architectures increase.
 
 Note that the actual size of the native vector size will be fixed per architecture and will not vary based on "sub-architecture" features like SSE vs AVX. We will pick the size to be the maximum of all the sub-architectures. That is we would pick the AVX size for x86-64. The rationale for this is ABI compatibility which is discussed below. In this respect, the IntVec# is like Int#, the size of both is crucial for the ABI and is determined by the target platform/architecture.
 
 So we extend our family of vector types with:
-{{{
-IntVec#   IntVec2#    IntVec4#  IntVec8# ...
-Int8Vec#  Int8Vec2#   ...
-Int16Vec# Int16Vec2#
-...
-}}}
+
+ ||              || native length || length 2     || length 4     || length 8     || etc ||
+ || native `Int` || `IntVec#`     || `IntVec2#`   || `IntVec4#`   || `IntVec8#`   || ... ||
+ || `Int8`       || `Int8Vec#`    || `Int8Vec2#`  || `Int8Vec4#`  || `Int8Vec8#`  || ... ||
+ || `Int16`      || `Int16Vec#`   || `Int16Vec2#` || `Int16Vec4#` || `Int16Vec8#` || ... ||
+ || etc          || ...           || ...          || ...          || ...          || ... ||
+
 and there are some top level constants describing the vector size so as to enable their portable use
 {{{
 intVecSize :: Int
+wordVecSize :: Int
+floatVecSize :: Int
+doubleVecSize :: Int
 }}}
 The native-sized vector types are distinct types from the explicit-sized vector types, not type aliases for the corresponding explicit-sized vector. This is to support and encourage portable code.
 
@@ -261,17 +267,21 @@ For each CPU architecture GHC has a calling convention that it uses for all Hask
 
 The calling convention needs to be extended to take into account the primitive vector types. We have to decide if vectors should be passed in registers or on the stack and how to handle vectors that do not match the native vector register size.
 
-For efficiency it is desirable to make use of vector registers in the calling convention. This can be significantly quicker than copying vectors to and from the stack.
+For efficiency it is highly desirable to make use of vector registers in the calling convention. This can be significantly quicker than copying vectors to and from the stack.
 
 Within the same overall CPU architecture, there are several sub-architectures with different vector capabilities and in particular different vector sizes. The x86-64 architecture supports SSE2 vectors as a baseline which includes pairs of doubles, but the AVX extension doubles the size of the vector registers. Ideally when compiling for AVX we would make use of the larger AVX vectors, including passing the larger vectors in registers.
 
 This poses a major challenge: we want to make use of large vectors when possible but we would also like to maintain some degree of ABI compatibility.
 
-It is worth briefly exploring the option of abandoning ABI compatibility. We could declare that we have two ABIs on x86-64, the baseline SSE ABI and the AVX ABI. We would further declare To generate AVX code you must build all of your libraries using AVX. Essentially this would mean having two complete sets of libraries, or perhaps simply two instances of GHC, each with their own libraries. While this would work and may be satisfactory when speed is all that matters, it would not encourage use of vectors more generally. In practice haskell.org and linux distributions would have to distribute the more compatible SSE build so that in many cases even users with AVX hardware would be using GHC installations that make no use of AVX code. On x86 the situation could be even worse since the baseline x86 sub-architecture used by many linux distributions does not include even SSE2. In addition it is wasteful to have two instances of libraries when most libraries do not use vectors at all.
+=== Alternative design: separate ABIs ===
+
+It is worth briefly exploring the option of abandoning ABI compatibility. We could declare that we have two ABIs on x86-64, the baseline SSE ABI and the AVX ABI. We would further declare that to generate AVX code you must build all of your libraries using AVX. Essentially this would mean having two complete sets of libraries, or perhaps simply two instances of GHC, each with their own libraries. While this would work and may be satisfactory when speed is all that matters, it would not encourage use of vectors more generally. In practice haskell.org and linux distributions would have to distribute the more compatible SSE build so that in many cases even users with AVX hardware would be using GHC installations that make no use of AVX code. On x86 the situation could be even worse since the baseline x86 sub-architecture used by many linux distributions does not include even SSE2. In addition it is wasteful to have two instances of libraries when most libraries do not use vectors at all.
+
+=== Selected design: mixed ABIs using worker/wrapper ===
 
 It it worth exploring options for making use of AVX without having to force all code to be recompiled. Ideally the base package would not need to be recompiled at all and perhaps only have packages like vector recompiled to take advantage of AVX.
 
-Consider the situation where we have two modules Lib.hs and App.hs where App imports Lib The Lib module exports:
+Consider the situation where we have two modules `Lib.hs` and `App.hs` where `App` imports `Lib`. The `Lib` module exports:
 {{{
 f :: DoubleVec4# -> Int
 g :: (DoubleVec4# -> a) -> a
@@ -285,13 +295,11 @@ There are two cases to consider:
  * if the function being called has an unfolding exported from Lib then that unfolding can be compiled in the context of App and can make use of AVX instructions
  * alternatively we are dealing with object code for the function which follows a certain ABI
 
-Notice that not only do we need to be careful to call 'f' and 'g' using the right calling convention, but in the case of 'g', the function that we pass as its argument must also follow the calling convention that 'g' will call it with.
+Notice that not only do we need to be careful to call `f` and `g` using the right calling convention, but in the case of `g`, the function that we pass as its argument must also follow the calling convention that `g` will call it with.
 
-One idea is to take a worker/wrapper approach. We would split each function into a wrapper that uses some lowest common denominator calling convention and a worker that uses the best calling convention for the target sub-architecture. For example, the lowest common denominator calling convention might be to pass all vectors on the stack, while the worker convention would use SSE2 or AVX registers.
+Our solution is to take a worker/wrapper approach. We will split each function into a wrapper that uses a lowest common denominator calling convention and a worker that uses the best calling convention for the target sub-architecture. The simplest lowest common denominator calling convention is to pass all vectors on the stack, while the worker convention will use SSE2 or AVX registers.
 
-For App calling Lib.f we start with a call to the wrapper, this can be inlined to a call to the worker at which point we discover that the calling convention will use SSE2 registers. For App calling Lib.g with a locally defined 'h', we would pass the wrapper for 'h' to 'g' and since we assume we have no unfolding for 'g' then this is how it remains: at runtime 'g' will call 'h' through the wrapper for 'h' and so will use the lowest common denominator calling convention.
-
-==== SSE2 code calling AVX code ====
+For `App` calling `Lib.f` we start with a call to the wrapper, this can be inlined to a call to the worker at which point we discover that the calling convention will use SSE2 registers. For `App` calling `Lib.g` with a locally defined `h`, we would pass the wrapper for `h` to `g` and since we assume we have no unfolding for `g` then this is how it remains: at runtime `g` will call `h` through the wrapper for `h` and so will use the lowest common denominator calling convention.
 
 We might be concerned with the reverse situation where we have A and B, with A importing B:
 {{{
@@ -299,6 +307,7 @@ ghc -mavx  B.hs.
 ghc -msse2 A.hs
 }}}
 That is, a module compiled with SSE2 that imports a module that was compiled with AVX. How can we call functions using AVX registers if we are only targeting SSE2? One option is to note that since we will be using AVX instructions at runtime when we call the functions in B, and hence it is legitimate to use AVX instructions in A also, at least for the calling convention. There may however be some technical restriction to using AVX instructions in A, for example if we decided that we would implement AVX support only in the LLVM backend and not the NCG backend and we chose to compile B using LLVM and A using the NCG. In that case we would have to avoid inlining the wrapper an exposing the worker that uses the AVX calling convention. There are already several conditions that are checked prior to inlining (e.g. phase checks), this would add an additional architecture check.
+
 It may well be simpler however to just implement minimal SSE2 and AVX support in the NCG, even if it is not used for vector operations and simply for the calling convention.
 
 === Types for calling conventions ===
