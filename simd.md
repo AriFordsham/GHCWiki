@@ -7,6 +7,11 @@
 
 This page describes the issues involved and a design for implementing SIMD vector support in GHC.
 
+
+Related pages
+
+- [Notes on the current implementation plan](simd-plan)
+
 ## Introduction
 
 
@@ -614,6 +619,6 @@ For compatibility, the default will remain targeting the base instruction set of
 
 ## See also
 
+- [ Blog article about Larrabee and Nvidia, MIMD vs. SIMD](http://perilsofparallel.blogspot.com/2008/09/larrabee-vs-nvidia-mimd-vs-simd.html)
 - [SIMD LLVM](simd-llvm) A previous (LLVM-specific) iteration of this SIMD proposal.
 - [VectorComputing](vector-computing)  A previous proposal to make use of x86 SSE in GHC.
-- [ Blog article about Larrabee and Nvidia, MIMD vs. SIMD](http://perilsofparallel.blogspot.com/2008/09/larrabee-vs-nvidia-mimd-vs-simd.html)
