@@ -8,6 +8,9 @@
 
 This page describes the issues involved and a design for implementing SIMD vector support in GHC.
 
+Related pages
+ * [wiki:SIMDPlan Notes on the current implementation plan]
+
 == Introduction ==
 
 We are interested in the SIMD vector instructions on current and future generations of CPUs. This includes SSE and AVX on x86/x86-64 and NEON on ARM chips (targets like GPUs or FPGAs are out of scope for this project). These SIMD vector instruction sets are broadly similar in the sense of having relatively short vector registers and operations for various sizes of integer and/or floating point operation. In the details however they have different capabilities and different vector register sizes.
@@ -370,6 +373,6 @@ For compatibility, the default will remain targeting the base instruction set of
 
 == See also ==
 
+ * [http://perilsofparallel.blogspot.com/2008/09/larrabee-vs-nvidia-mimd-vs-simd.html Blog article about Larrabee and Nvidia, MIMD vs. SIMD]
  * [wiki:SimdLlvm SIMD LLVM] A previous (LLVM-specific) iteration of this SIMD proposal.
  * [wiki:VectorComputing VectorComputing]  A previous proposal to make use of x86 SSE in GHC.
- * [http://perilsofparallel.blogspot.com/2008/09/larrabee-vs-nvidia-mimd-vs-simd.html Blog article about Larrabee and Nvidia, MIMD vs. SIMD]
