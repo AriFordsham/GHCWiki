@@ -414,8 +414,8 @@ ghc -mavx  B.hs.
 ghc -msse2 A.hs
 }}}
 That is, a module compiled with SSE2 that imports a module that was compiled with AVX. How can we call functions using AVX registers if we are only targeting SSE2? There are two design options:
-* One option is to note that since we will be using AVX instructions at runtime when we call the functions in B, and hence it is legitimate to use AVX instructions in A also, at least for the calling convention.
-* The other is to avoid generating AVX instructions at all, even for the calling convention, in which case it is essential to avoid inlining the wrapper function since this exposes the worker that uses the AVX calling convention.
+ * One option is to note that since we will be using AVX instructions at runtime when we call the functions in B, and hence it is legitimate to use AVX instructions in A also, at least for the calling convention.
+ * The other is to avoid generating AVX instructions at all, even for the calling convention, in which case it is essential to avoid inlining the wrapper function since this exposes the worker that uses the AVX calling convention.
 
 While the first option is in some ways simpler, it also implies that all ABI-compatible code generators can produce at least some vector instructions. In particular it requires data-movement instructions to be supported. If however we wish to completely avoid implementing any vector support in the NCG backend then we must take the second approach.
 
