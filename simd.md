@@ -484,28 +484,33 @@ The following operations on vectors will be supported. They will need to be impl
 In the following, `<t>` ranges over `Int<w>`, `Word<w>`, `Float`, `Double`.
 
 
-Loading and storing vectors in arrays, ByteArray\# and raw Addr\#
+Loading and storing vectors in arrays, `ByteArray#` and raw `Addr#`
 
 ```wiki
-readInt<w>Vec<m>Array#  :: MutableByteArray# d -> Int# -> Int#    -> State# d -> State# d
-readWord<w>Vec<m>Array# :: MutableByteArray# d -> Int# -> Word#   -> State# d -> State# d
-readFloatVec<m>Array#   :: MutableByteArray# d -> Int# -> Float#  -> State# d -> State# d
-readDoubleVec<m>Array#  :: MutableByteArray# d -> Int# -> Double# -> State# d -> State# d
+indexInt<w>Vec<m>Array#  :: ByteArray# -> Int# -> Int<w>Vec<m>#
+indexWord<w>Vec<m>Array# :: ByteArray# -> Int# -> Word<w>Vec<m>#
+indexFloatVec<m>Array#   :: ByteArray# -> Int# -> FloatVec<m>#
+indexDoubleVec<m>Array#  :: ByteArray# -> Int# -> DoubleVec<m>#
 
-writeInt<w>Vec<m>Array#  :: MutableByteArray# d -> Int# -> Int#    -> State# d -> State# d
-writeWord<w>Vec<m>Array# :: MutableByteArray# d -> Int# -> Word#   -> State# d -> State# d
-writeFloatVec<m>Array#   :: MutableByteArray# d -> Int# -> Float#  -> State# d -> State# d
-writeDoubleVec<m>Array#  :: MutableByteArray# d -> Int# -> Double# -> State# d -> State# d
+readInt<w>Vec<m>Array#  :: MutableByteArray# d -> Int# -> State# d -> (# State# d, Int<w>Vec<m>#  #)
+readWord<w>Vec<m>Array# :: MutableByteArray# d -> Int# -> State# d -> (# State# d, Word<w>Vec<m># #)
+readFloatVec<m>Array#   :: MutableByteArray# d -> Int# -> State# d -> (# State# d, FloatVec<m>#   #)
+readDoubleVec<m>Array#  :: MutableByteArray# d -> Int# -> State# d -> (# State# d, DoubleVec<m>#  #)
 
-readInt<w>Vec<m>OffAddr#  :: Addr# -> Int# -> Int#    -> State# d -> State# d
-readWord<w>Vec<m>OffAddr# :: Addr# -> Int# -> Word#   -> State# d -> State# d
-readFloatVec<m>OffAddr#   :: Addr# -> Int# -> Float#  -> State# d -> State# d
-readDoubleVec<m>OffAddr#  :: Addr# -> Int# -> Double# -> State# d -> State# d
+writeInt<w>Vec<m>Array#  :: MutableByteArray# d -> Int# -> Int<w>Vec<m>#  -> State# d -> State# d
+writeWord<w>Vec<m>Array# :: MutableByteArray# d -> Int# -> Word<w>Vec<m># -> State# d -> State# d
+writeFloatVec<m>Array#   :: MutableByteArray# d -> Int# -> FloatVec<m>#   -> State# d -> State# d
+writeDoubleVec<m>Array#  :: MutableByteArray# d -> Int# -> DoubleVec<m>#  -> State# d -> State# d
 
-writeInt<w>Vec<m>OffAddr#  :: Addr# -> Int# -> Int#    -> State# d -> State# d
-writeWord<w>Vec<m>OffAddr# :: Addr# -> Int# -> Word#   -> State# d -> State# d
-writeFloatVec<m>OffAddr#   :: Addr# -> Int# -> Float#  -> State# d -> State# d
-writeDoubleVec<m>OffAddr#  :: Addr# -> Int# -> Double# -> State# d -> State# d
+readInt<w>Vec<m>OffAddr#  :: Addr# -> Int# -> State# d -> (# State# d, Int<w>Vec<m># #)
+readWord<w>Vec<m>OffAddr# :: Addr# -> Int# -> State# d -> (# State# d, Word<w>Vec<m># #)
+readFloatVec<m>OffAddr#   :: Addr# -> Int# -> State# d -> (# State# d, FloatVec<m># #)
+readDoubleVec<m>OffAddr#  :: Addr# -> Int# -> State# d -> (# State# d, DoubleVec<m># #)
+
+writeInt<w>Vec<m>OffAddr#  :: Addr# -> Int# -> Int<w>Vec<m>#  -> State# d -> State# d
+writeWord<w>Vec<m>OffAddr# :: Addr# -> Int# -> Word<w>Vec<m># -> State# d -> State# d
+writeFloatVec<m>OffAddr#   :: Addr# -> Int# -> FloatVec<m>#   -> State# d -> State# d
+writeDoubleVec<m>OffAddr#  :: Addr# -> Int# -> DoubleVec<m>#  -> State# d -> State# d
 ```
 
 
