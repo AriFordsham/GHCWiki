@@ -123,7 +123,7 @@ For vectors we add two new categories
 
 type Multiplicty = Int
 }}}
-We keep vector types separate from scalars, rather than representing scalars as having multiplicty 1. This is to limit distruption to existing code paths and also because it is expected that vectors will often need to be treated differently from scalars. Again we distinguish float from integral types as these may use different classes of registers. There is no need to support vectors of GC pointers.
+We keep vector types separate from scalars, rather than representing scalars as having multiplicty 1. This is to limit disruption to existing code paths and also because it is expected that vectors will often need to be treated differently from scalars. Again we distinguish float from integral types as these may use different classes of registers. There is no need to support vectors of GC pointers.
 
 Vector operations on these machine vector types will be added to the Cmm `MachOp` type, e.g.
 {{{
