@@ -77,11 +77,11 @@ We could choose to support larger fixed sizes, or the same maximum size for all 
 
 === Portability and fallbacks ===
 
-To enable portable Haskell code we will to provide the same set of vector types and operations on all architectures. Again this follows the approach taken by GCC and LLVM.
+To enable portable Haskell code we will provide the same set of vector types and operations on all architectures. Again this follows the approach taken by GCC and LLVM.
 
 We will rely on fallbacks for the cases where certain types or operations are not supported directly in hardware. In particular we can implement large vectors on machines with only small vector registers. Where there is no vector hardware support at all for a type (e.g. arch with no vectors or 64bit doubles on ARM's NEON) we can implement it using scalar code.
 
-The obvious approach is a transformation to synthesize larger vector types and operations using smaller vector operations or scalar operations. This synthesisation could plausible be done at the core, Cmm or code generator layers, however the most natural choice would be as a Cmm -> Cmm transformation. This approach would reduce or eliminate the burden on code generators by allowing them to support only their architecture's native vector sizes and types, or none at all.
+The obvious approach is a transformation to synthesize larger vector types and operations using smaller vector operations or scalar operations. This synthesisation could plausibly be done at the core, Cmm or code generator layers, however the most natural choice would be as a Cmm -> Cmm transformation. This approach would reduce or eliminate the burden on code generators by allowing them to support only their architecture's native vector sizes and types, or none at all.
 
 Using fallbacks does pose some challenges for a stable/portable ABI, in particular how vector registers should be used in the GHC calling convention. This is discussed in a later section.
 
@@ -123,7 +123,7 @@ For vectors we add two new categories
 
 type Multiplicty = Int
 }}}
-We keep vector types separate from scalars, rather than representing scalars as having multiplicty 1. This is to limit distruption to existing code paths and also because it is expected that vectors will often need to be treated differently from scalars. Again we distinguish float from integral types as these may use different classes of registers. There is no need to support vectors of GC pointers.
+We keep vector types separate from scalars, rather than representing scalars as having multiplicty 1. This is to limit disruption to existing code paths and also because it is expected that vectors will often need to be treated differently from scalars. Again we distinguish float from integral types as these may use different classes of registers. There is no need to support vectors of GC pointers.
 
 Vector operations on these machine vector types will be added to the Cmm `MachOp` type, e.g.
 {{{
@@ -243,7 +243,7 @@ As with Int, the rationale is efficiency. For algorithms that could work with a 
 
 Without a native sized vector, libraries would be forced to use CPP to pick a good vector size based on the architecture, or to pick a fixed register size that is always at least as big as the native size on all platforms that are likely to be used. The former is annoying and the latter makes less sense as vector sizes on some architectures increase.
 
-Note that the actual size of the native vector size will be fixed per architecture and will not vary based on "sub-architecture" features like SSE vs AVX. We will pick the size to be the maximum of all the sub-architectures. That is we would pick the AVX size for x86-64. The rationale for this is ABI compatibility which is discussed below. In this respect, the IntVec# is like Int#, the size of both is crucial for the ABI and is determined by the target platform/architecture.
+Note that the actual size of the native vector size will be fixed per architecture and will not vary based on "sub-architecture" features like SSE vs AVX. We will pick the size to be the maximum of all the sub-architectures. That is we would pick the AVX size for x86-64. The rationale for this is ABI compatibility which is discussed below. In this respect, the !IntVec# is like Int#, the size of both is crucial for the ABI and is determined by the target platform/architecture.
 
 So we extend our family of vector types with:
 
@@ -414,8 +414,8 @@ ghc -mavx  B.hs.
 ghc -msse2 A.hs
 }}}
 That is, a module compiled with SSE2 that imports a module that was compiled with AVX. How can we call functions using AVX registers if we are only targeting SSE2? There are two design options:
-* One option is to note that since we will be using AVX instructions at runtime when we call the functions in B, and hence it is legitimate to use AVX instructions in A also, at least for the calling convention.
-* The other is to avoid generating AVX instructions at all, even for the calling convention, in which case it is essential to avoid inlining the wrapper function since this exposes the worker that uses the AVX calling convention.
+ * One option is to note that since we will be using AVX instructions at runtime when we call the functions in B, and hence it is legitimate to use AVX instructions in A also, at least for the calling convention.
+ * The other is to avoid generating AVX instructions at all, even for the calling convention, in which case it is essential to avoid inlining the wrapper function since this exposes the worker that uses the AVX calling convention.
 
 While the first option is in some ways simpler, it also implies that all ABI-compatible code generators can produce at least some vector instructions. In particular it requires data-movement instructions to be supported. If however we wish to completely avoid implementing any vector support in the NCG backend then we must take the second approach.
 

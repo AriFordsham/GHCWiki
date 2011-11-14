@@ -138,13 +138,13 @@ We could choose to support larger fixed sizes, or the same maximum size for all 
 ### Portability and fallbacks
 
 
-To enable portable Haskell code we will to provide the same set of vector types and operations on all architectures. Again this follows the approach taken by GCC and LLVM.
+To enable portable Haskell code we will provide the same set of vector types and operations on all architectures. Again this follows the approach taken by GCC and LLVM.
 
 
 We will rely on fallbacks for the cases where certain types or operations are not supported directly in hardware. In particular we can implement large vectors on machines with only small vector registers. Where there is no vector hardware support at all for a type (e.g. arch with no vectors or 64bit doubles on ARM's NEON) we can implement it using scalar code.
 
 
-The obvious approach is a transformation to synthesize larger vector types and operations using smaller vector operations or scalar operations. This synthesisation could plausible be done at the core, Cmm or code generator layers, however the most natural choice would be as a Cmm -\> Cmm transformation. This approach would reduce or eliminate the burden on code generators by allowing them to support only their architecture's native vector sizes and types, or none at all.
+The obvious approach is a transformation to synthesize larger vector types and operations using smaller vector operations or scalar operations. This synthesisation could plausibly be done at the core, Cmm or code generator layers, however the most natural choice would be as a Cmm -\> Cmm transformation. This approach would reduce or eliminate the burden on code generators by allowing them to support only their architecture's native vector sizes and types, or none at all.
 
 
 Using fallbacks does pose some challenges for a stable/portable ABI, in particular how vector registers should be used in the GHC calling convention. This is discussed in a later section.
@@ -199,7 +199,7 @@ type Multiplicty = Int
 ```
 
 
-We keep vector types separate from scalars, rather than representing scalars as having multiplicty 1. This is to limit distruption to existing code paths and also because it is expected that vectors will often need to be treated differently from scalars. Again we distinguish float from integral types as these may use different classes of registers. There is no need to support vectors of GC pointers.
+We keep vector types separate from scalars, rather than representing scalars as having multiplicty 1. This is to limit disruption to existing code paths and also because it is expected that vectors will often need to be treated differently from scalars. Again we distinguish float from integral types as these may use different classes of registers. There is no need to support vectors of GC pointers.
 
 
 Vector operations on these machine vector types will be added to the Cmm `MachOp` type, e.g.
