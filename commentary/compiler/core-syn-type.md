@@ -153,3 +153,18 @@ Case expressions have several invariants
   ```
 
   The inner case does not need a `Red` alternative, because x can't be `Red` at that program point. Furthermore, GADT type-refinement might mean that some alternatives are not reachable, and hence can be discarded.  
+
+## Shadowing
+
+
+One of the important things when working with Core is that variable shadowing is
+allowed. In other words, it is possible to come across a definition of a
+variable that has the same name (`realUnique`) as some other one that is
+already in scope. One of the possible ways to deal with that is to
+use `Subst` (substitution environment from
+[compiler/coreSyn/CoreSubst.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreSubst.lhs)), which maintains the list of
+variables in scope and makes it possible to clone (i.e. rename) only the
+variables that actually capture names of some earlier ones. For some more
+explanations about this approach see 
+[ Secrets of the Glasgow Haskell Compiler inliner (JFP'02)](http://research.microsoft.com/%7Esimonpj/Papers/inlining/index.htm)
+(section 4 on name capture).
