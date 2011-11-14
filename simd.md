@@ -788,19 +788,17 @@ But it would be plausible to say that types like `DoubleVec4#` are ephemeral, ha
 Many CPUs that support vectors have strict alignment requirements, e.g. that 16 byte vectors must be aligned on 16byte boundaries. On some architectures the requirements are not strict but there may be a performance penalty, or alternative instruction may be required to load unaligned vectors. For example AVX has special instructions for unaligned loads and stores but Intel estimates a [ 20% performance loss](http://software.intel.com/en-us/articles/practical-intel-avx-optimization-on-2nd-generation-intel-core-processors/).
 
 
-Note that the alignment of vectors like `DoubleVec4#` has to be picked to fit the maximum required alignment of any sub-architecture. For example while `DoubleVec4#` might be synthesized using operations on `DoubleSseVec2#` when targeting SSE, the alignment must be picked such that we can use `DoubleAvxVec4#` operations.
+LLVM has primitives that can load and store vectors from unaligned memory locations, which (presumably) compile to either aligned vector instructions if the architecture has them, or non-vector instructions if not.  So alignment of vectors in memory is optional, and we can make an independent choice about whether we align stored vectors
 
+- on the stack
+- in a heap closure
+- in an array
 
-It is relatively straightforward to ensure alignment for vectors in large packed arrays. It is also not too great a burden to ensure stack alignment. Alignment of arrays passed in from foreign code is the programmer's responsibility.
+**Alignment in arrays.** Arrays of vectors are clearly the most important case, so we must support allocation of aligned unboxed arrays.  Indeed GHC already does support *pinned* arrays of unboxed data, and any array larger than about 3k is implicitly pinned. Supporting unpinned arrays would be somewhat more difficult, requiring some GC support to keep the objects aligned when copying them, and requiring that the "slop" be filled in some cases, but it could be done.
 
+**Alignment on the stack.** Aligning the stack could be done either by ensuring that all stack allocation is a multiple of the alignment (thus possibly wasting a lot of stack space), or by adding extra frames to fill the slop when allocating a frame that needs alignment.  Neither option is particularly attractive.  We propose to use unaligned access to vectors stored on the stack for the time being, and revisit this decision if it is found to be a performance bottleneck later.
 
-A somewhat more tricky problem is alignment of vectors within heap objects, both data constructors and closures. While it is plausible to ban putting vectors in data constructors, it does not seem possible to avoid function closures with vectors saved in the closure's environment record.
-
-
-We would wish to avoid forcing all heap object to have a stricter alignment since this could waste enormous amounts of memory to padding. We would wish to align only those data constructors and closures that have stricter alignment requirements. This would require runtime fixups for functions allocating heap objects with stricter alignment, and changes to the GC to preserve the alignment when moving heap objects around.
-
-
-For functions allocating heap objects with stricter alignment, upon entry along with the usual heap overflow check, it would be necessary to test the heap pointer and if necessary to bump it up to achieve the required alignment. Subsequent allocations within that code block would be able to proceed without further checks as any additional padding between allocations would be known statically. The heap overflow check would also have to take into account the possibility of the extra bump.
+**Alignment in the heap.**  Again, while we could arrange the correct alignment for vectors stored in heap objects, it would be painful to do so, requiring code generator support and GC support.  We propose not to do this, at least for the time being, and to use unaligned loads and stores for vectors in heap objects.
 
 ### ABI summary
 
