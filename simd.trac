@@ -21,6 +21,14 @@ On the other hand, we want to be able to write programs for maximum efficiency t
 
 Finally, we want a design that is not too difficult or time consuming to implement.
 
+=== Use cases ===
+
+We are mainly interested in scientific / numerical use cases with large arrays / vectors. These are the kinds of use cases that DPH already targets.
+
+In the interests of limiting implementation difficulty, we are prepared initially to sacrifice performance in use cases with small vectors. Examples with lots of small vectors include 3D work where there are lots of 4-element vectors and 4x4 matrices. These tradeoffs show up in our choices about calling conventions and vector memory alignment which are discussed below.
+
+Note: we will need to be clear with users that initially this SIMD work is not suitable for small vectors, just big arrays.
+
 === Existing SIMD instruction sets ===
 
 Intel and AMD CPUs use the [http://en.wikipedia.org/wiki/Streaming_SIMD_Extensions SSE family] of extensions and, more recently (since Q1 2011), the [http://en.wikipedia.org/wiki/Advanced_Vector_Extensions AVX] extensions.  ARM CPUs (Cortex A series) use the [http://www.arm.com/products/processors/technologies/neon.php NEON] extensions. PowerPC and SPARC have similar vector extensions. Variations between different families of SIMD extensions and between different family members in one family of extensions include the following:
