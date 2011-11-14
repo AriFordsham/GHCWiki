@@ -478,7 +478,35 @@ The native-sized vector types are distinct types from the explicit-sized vector 
 ## Vector operations
 
 
-The following operations on vectors will be supported. They will need to be implemented at the Haskell/core primop layer, Cmm MachOp layer and optional support in the code generators.
+The following operations on vectors will be supported. They will need to be implemented at the Haskell/core primop layer, Cmm `MachOp` layer and optional support in the code generators.
+
+
+In the following, `<t>` ranges over `Int<w>`, `Word<w>`, `Float`, `Double`.
+
+
+Loading and storing vectors in arrays, ByteArray\# and raw Addr\#
+
+```wiki
+readInt<w>Vec<m>Array#  :: MutableByteArray# d -> Int# -> Int#    -> State# d -> State# d
+readWord<w>Vec<m>Array# :: MutableByteArray# d -> Int# -> Word#   -> State# d -> State# d
+readFloatVec<m>Array#   :: MutableByteArray# d -> Int# -> Float#  -> State# d -> State# d
+readDoubleVec<m>Array#  :: MutableByteArray# d -> Int# -> Double# -> State# d -> State# d
+
+writeInt<w>Vec<m>Array#  :: MutableByteArray# d -> Int# -> Int#    -> State# d -> State# d
+writeWord<w>Vec<m>Array# :: MutableByteArray# d -> Int# -> Word#   -> State# d -> State# d
+writeFloatVec<m>Array#   :: MutableByteArray# d -> Int# -> Float#  -> State# d -> State# d
+writeDoubleVec<m>Array#  :: MutableByteArray# d -> Int# -> Double# -> State# d -> State# d
+
+readInt<w>Vec<m>OffAddr#  :: Addr# -> Int# -> Int#    -> State# d -> State# d
+readWord<w>Vec<m>OffAddr# :: Addr# -> Int# -> Word#   -> State# d -> State# d
+readFloatVec<m>OffAddr#   :: Addr# -> Int# -> Float#  -> State# d -> State# d
+readDoubleVec<m>OffAddr#  :: Addr# -> Int# -> Double# -> State# d -> State# d
+
+writeInt<w>Vec<m>OffAddr#  :: Addr# -> Int# -> Int#    -> State# d -> State# d
+writeWord<w>Vec<m>OffAddr# :: Addr# -> Int# -> Word#   -> State# d -> State# d
+writeFloatVec<m>OffAddr#   :: Addr# -> Int# -> Float#  -> State# d -> State# d
+writeDoubleVec<m>OffAddr#  :: Addr# -> Int# -> Double# -> State# d -> State# d
+```
 
 
 Extracting and inserting vector elements:
@@ -486,8 +514,8 @@ Extracting and inserting vector elements:
 ```wiki
 extractInt<w>Vec<m>#   :: Int<w>Vec<m>#  -> Int# -> Int#
 extractWord<w>Vec<m>#  :: Word<w>Vec<m># -> Int# -> Word#
-extractFloatVec#       :: FloatVec<m>#   -> Int# -> Float#
-extractDoubleVec#      :: DoubleVec<m>#  -> Int# -> Double#
+extractFloatVec<m>#    :: FloatVec<m>#   -> Int# -> Float#
+extractDoubleVec<m>#   :: DoubleVec<m>#  -> Int# -> Double#
 ```
 
 ```wiki
@@ -498,10 +526,20 @@ insertDoubleVec#      :: DoubleVec<m>#  -> Int# -> Double# -> DoubleVec<m>#
 ```
 
 
+Duplicating a scalar to a vector:
+
+```wiki
+replicateToInt<w>Vec<m>#  :: Int<w>Vec<m>#  -> Int#    -> Int<w>Vec<m>#
+replicateToWord<w>Vec<m># :: Word<w>Vec<m># -> Word#   -> Word<w>Vec<m>#
+replicateToFloatVec#      :: FloatVec<m>#   -> Float#  -> FloatVec<m>#
+replicateToDoubleVec#     :: DoubleVec<m>#  -> Double# -> DoubleVec<m>#
+```
+
+
 Vector shuffle:
 
 ```wiki
-shuffleInt<w>Vec<m>ToVec<m'>  :: Int<w>Vec<m>#  -> Int32Vec<m'>#    -> Int<w>Vec<m'>#
+shuffle<t>Vec<m>ToVec<m'> :: <t>Vec<m># -> Int32Vec<m'># -> <t>Vec<m'>#
 ```
 
 
@@ -511,9 +549,6 @@ For the fixed size vectors (not native size) we may also want to add pack/unpack
 unpackInt<w>Vec4# :: Int<w>Vec4# -> (# Int#, Int#, Int#, Int# #)
 packInt<w>Vec4#   :: (# Int#, Int#, Int#, Int# #) -> Int<w>Vec4#
 ```
-
-
-In the following, `<t>` ranges over `Int<w>`, `Word<w>`, `Float`, `Double`.
 
 
 Arithmetic operations:
@@ -550,24 +585,59 @@ cmp<eq,ne,gt,gt,lt,le>Word<w>Vec<m># :: Word<w>Vec<m># -> Word<w>Vec<m># -> Word
 
 Note that LLVM does not yet support the comparison operations.
 
-TODO
 
-- conversion sign/width operations, e.g. Word \<-\> Int, Word8 \<-\> Word16 etc.
-- conversion fp operations, e.g. Float \<-\> Int
+Integer width narrow/widen operations:
+
+```wiki
+narrowInt<w>To<w'>Vec<m>#  :: Int<w>Vec<m># -> Int<w'>Vec<m>#     -- for w' < w
+narrowWord<w>To<w'>Vec<m># :: Word<w>Vec<m># -> Word<w'>Vec<m>#   -- for w' < w
+
+widenInt<w>To<w'>Vec<m>#   :: Int<w>Vec<m># -> Int<w'>Vec<m>#     -- for w' > w
+widenWord<w>To<w'>Vec<m>#  :: Word<w>Vec<m># -> Word<w'>Vec<m>#   -- for w' > w
+```
 
 
-Should also consider:
+Note: LLVM calls these truncate and extend (signed extend or unsigned extend)
+
+
+Floating point conversion:
+
+```wiki
+narrowDoubleToFloatVec<m>#  :: DoubleVec<m># -> FloatVec<m>#
+widenFloatToDoubleVec<m>#   :: FloatVec<m>#  -> DoubleVec<m>#
+
+roundFloatToInt32Vec<m>     :: FloatVec<m>#  -> Int32Vec<m>#
+roundFloatToInt64Vec<m>     :: FloatVec<m>#  -> Int64Vec<m>#
+roundDoubleToInt32Vec<m>    :: DoubleVec<m># -> Int32Vec<m>#
+roundDoubleToInt64Vec<m>    :: DoubleVec<m># -> Int64Vec<m>#
+
+truncateFloatToInt32Vec<m>  :: FloatVec<m>#  -> Int32Vec<m>#
+truncateFloatToInt64Vec<m>  :: FloatVec<m>#  -> Int64Vec<m>#
+truncateDoubleToInt32Vec<m> :: DoubleVec<m># -> Int32Vec<m>#
+truncateDoubleToInt64Vec<m> :: DoubleVec<m># -> Int64Vec<m>#
+
+promoteInt32ToFloatVec<m>   :: Int32Vec<m># -> FloatVec<m>#
+promoteInt64ToFloatVec<m>   :: Int64Vec<m># -> FloatVec<m>#
+promoteInt32ToDoubleVec<m>  :: Int32Vec<m># -> DoubleVec<m>#
+promoteInt64ToDoubleVec<m>  :: Int64Vec<m># -> DoubleVec<m>#
+```
+
+TODO Should consider:
 
 - vector constants, at least at Cmm level
 - replicating a scalar to a vector
 - FMA: fused multiply add, this is supported by NEON and AVX however software fallback may not be possible with the same precision. Tricky.
-- AVX also suppports a bunch of interesting things:
+- SSE/AVX also suppports a bunch of interesting things:
 
+  - add/sub/mul/div of vector by a scalar
+  - reciprocal, square root, reciprocal of square root
   - permute, shuffle, "blend", masked moves.
+  - abs
   - min, max within a vector
   - average
   - horizontal add/sub
   - shift whole vector left/right by n bytes
+  - and not logical op
   - gather (but not scatter) of 32, 64bit int and fp from memory (base + vector of offsets)
 
 ### Int/Word size wrinkle
