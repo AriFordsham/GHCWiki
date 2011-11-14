@@ -243,7 +243,7 @@ As with Int, the rationale is efficiency. For algorithms that could work with a 
 
 Without a native sized vector, libraries would be forced to use CPP to pick a good vector size based on the architecture, or to pick a fixed register size that is always at least as big as the native size on all platforms that are likely to be used. The former is annoying and the latter makes less sense as vector sizes on some architectures increase.
 
-Note that the actual size of the native vector size will be fixed per architecture and will not vary based on "sub-architecture" features like SSE vs AVX. We will pick the size to be the maximum of all the sub-architectures. That is we would pick the AVX size for x86-64. The rationale for this is ABI compatibility which is discussed below. In this respect, the IntVec# is like Int#, the size of both is crucial for the ABI and is determined by the target platform/architecture.
+Note that the actual size of the native vector size will be fixed per architecture and will not vary based on "sub-architecture" features like SSE vs AVX. We will pick the size to be the maximum of all the sub-architectures. That is we would pick the AVX size for x86-64. The rationale for this is ABI compatibility which is discussed below. In this respect, the !IntVec# is like Int#, the size of both is crucial for the ABI and is determined by the target platform/architecture.
 
 So we extend our family of vector types with:
 
