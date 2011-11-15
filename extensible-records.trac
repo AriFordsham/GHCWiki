@@ -6,6 +6,7 @@ The purpose of this page is to collect and discuss proposals for adding extensib
 
 = Proposals =
 
+ * [http://www.informatik.tu-cottbus.de/~jeltsch/research/ppdp-2010-paper.pdf Wolfgang Jeltsch's records library] This implements records as a library rather than as a language extension.
  * [http://research.microsoft.com/~simonpj/Haskell/records.html A proposal for records in Haskell] (wherein [http://cvs.haskell.org/Hugs/pages/hugsman/exts.html#sect7.2 TRex] is rejected as having a high implementation cost)
  * [http://web.cecs.pdx.edu/~mpj/pubs/polyrec.html A Polymorphic Type System for Extensible Records and Variants]
  * [http://www.cs.uu.nl/~daan/download/papers/scopedlabels.pdf Scoped Labels]
