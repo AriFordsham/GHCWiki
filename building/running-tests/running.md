@@ -107,6 +107,23 @@ $ make THREADS=4
 
 This can be a huge time saver these days with the number of cores most people have.
 
+## Additional Packages
+
+
+Some of the tests in the testsuite rely on packages that aren't part of the standard libraries included with GHC. These tests will be skipped then unless you install the required packages for them.
+
+
+The extra packages are:
+
+- syb
+- packedstring
+- lang
+- QuickCheck
+- regex-posix
+- regex-compat
+- parsec
+- hmatrix
+
 ## Problems running the testsuite
 
 
