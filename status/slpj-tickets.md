@@ -138,6 +138,7 @@
 
 ## Features
 
+- [\#5630](https://gitlab.haskell.org//ghc/ghc/issues/5630): External core needs love
 - [\#5429](https://gitlab.haskell.org//ghc/ghc/issues/5429): docase and joinads
 - [\#5391](https://gitlab.haskell.org//ghc/ghc/issues/5391): better deriving Typeable
 - [\#5248](https://gitlab.haskell.org//ghc/ghc/issues/5248): Infer context in type signatures
