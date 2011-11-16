@@ -911,3 +911,56 @@ If later on we add vector data-movement instructions to the NCG, then the arch-c
 - [ Blog article about Larrabee and Nvidia, MIMD vs. SIMD](http://perilsofparallel.blogspot.com/2008/09/larrabee-vs-nvidia-mimd-vs-simd.html)
 - [SIMD LLVM](simd-llvm) A previous (LLVM-specific) iteration of this SIMD proposal.
 - [VectorComputing](vector-computing)  A previous proposal to make use of x86 SSE in GHC.
+
+# Current Implementation Status
+
+
+The prototype implementation of the above specification is vailable as the `simd` branch of GHC.
+
+## General plan
+
+### Vector types
+
+
+Vectors of the following types are implemented: `Int32`, `Int64`, `Float`, and `Double`.
+
+### Fixed and variable sized vectors
+
+
+For each type, currently only one vector width is implemented, namely the width that is appropriate for SSE2. This means that vectors are currently all 16 bytes in size.
+
+## Code generators
+
+
+Only the LLVM code generator is supported.
+
+## Cmm layer
+
+
+Our `CmmType` representation for vectors differs slightly from the proposal. See [cmm/CmmType.hs](/trac/ghc/browser/compiler/cmm/CmmType.hs?rev=e42746d07239888c74e937046fadf93655b44b65#L42)[](/trac/ghc/export/HEAD/ghc/compiler/cmm/CmmType.hs#L42).
+
+
+See [cmm/CmmMachOp.hs](/trac/ghc/browser/compiler/cmm/CmmMachOp.hs?rev=e42746d07239888c74e937046fadf93655b44b65#L106)[](/trac/ghc/export/HEAD/ghc/compiler/cmm/CmmMachOp.hs#L106) for the new vector MachOps.
+
+## Core layer
+
+
+The implementation differs from the proposal in its naming scheme. We wanted to avoid overloading the term "vector," so, e.g., a 4-wide SIMD vector of `Float#`s is a `FloatX4#`.
+
+
+See [compiler/prelude/primops.txt.pp](/trac/ghc/browser/compiler/prelude/primops.txt.pp?rev=e42746d07239888c74e937046fadf93655b44b65#L1935)[](/trac/ghc/export/HEAD/ghc/compiler/prelude/primops.txt.pp#L1935) for the new primops. Not everything in the proposal is implemented, but we do have a useful subset.
+
+## Native vector sizes
+
+
+This is unimplemented. Instead we define a higher-level `Multi` data family whose instance is platform-dependent. For example, a `Multi Int` is represented using an `Int32X4#` on a 32-bit platform, and by a `Int64X2#` on a 64-bit platform.
+
+## ABIs and calling conventions
+
+
+Integrating variable-sized vectors with GHC's calling convention is a challenge. How many new registers do we add? Do we add registers for each vector type? The correct approach is unclear, so the current implementation passes all SIMD vectors on the stack.
+
+### Memory alignment for vectors
+
+
+The implementation does not attempt to align memory containing SIMD vectors. SIMD vector loads and stores do not assume alignment.
