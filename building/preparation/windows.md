@@ -16,7 +16,7 @@ Installing the following will get you a working build environment with MSYS. The
 - [ MinGW with MSYS](http://www.mingw.org/)
 
 
-MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is a little confusing, go to the [ getting started](http://www.mingw.org/wiki/Getting_Started) page and follow the download instructions for the 'mingw-get-inst' installer. This is an easy to use single executable for installing both MinGW and MSYS, make sure when you run it that you select to install MSYS and the MSYS Dev Kit.
+MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is a little confusing, go to the [ getting started](http://www.mingw.org/wiki/Getting_Started) page and follow the download instructions for the 'mingw-get-inst' installer. This is an easy to use single executable for installing both MinGW and MSYS, make sure when you run it that you select to install g++, MSYS and the MSYS Dev Kit.
 
 1. Launch the shell by starting the 'MinGW Shell' which should be in your start menu.
 
