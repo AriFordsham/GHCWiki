@@ -40,6 +40,6 @@ Cygwin, MSYS, and the underlying Windows file system all understand file paths o
     {{{
 foogle -B/c/tmp/baz
 }}}
-    the MSYS shell will actually call {{{foogle}}} with argument {{{-Bc:/tmp/baz}}}.
+ the MSYS shell will actually call {{{foogle}}} with argument {{{-Bc:/tmp/baz}}}.
  * Cygwin programs have a more complicated mount table, and map the lettered drives as {{{/cygdrive/c/tmp/foo}}}. The Cygwin shell does no argument processing when invoking non-Cygwin programs.
 
