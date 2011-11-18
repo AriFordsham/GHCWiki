@@ -1,9 +1,16 @@
 # Setting up a Windows system for building GHC
 
 
-Installing the following will get you a working build environment with MSYS. The instructions are current for GHC 7.2. An alternatively method for windows is to build GHC, [using Cygwin](building/windows/cygwin)).  Using MSYS is the preferred approach though.
+Installing the following will get you a working build environment with MSYS. The instructions are current for GHC 7.2.
 
-1. If you don't know what MinGW, MSYS and Cygwin are, then please read some background info on the [here](building/platforms/windows).
+
+Other documentation for Windows includes:
+
+- [Using Cygwin](building/windows/cygwin) to build GHC. Using MSYS is the preferred approach though.
+- [MinGW/MSYS/Cgwin](building/platforms/windows) information for people new to using UNIX tools on Windows.
+- [Using SSH](building/windows/ssh) on Windows.
+
+## Setting up Windows
 
 1. We don't recommend installing anything into a directory path that contains spaces.
 
