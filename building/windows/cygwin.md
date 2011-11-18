@@ -1,4 +1,4 @@
-# Installing and configuring Cygwin
+# Setting Up Cygwin for building GHC
 
 1. Install [ Cygwin](http://www.cygwin.com/)
 
