@@ -51,7 +51,7 @@ More detailed information about how the build system works
 
 Platform-specific building instructions:
 
- * [wiki:Building/Windows Building under Windows]
+ * [wiki:Building/Preparation/Windows Building under Windows]
  * [wiki:Building/MacOSX Building under MacOS X]
  * [wiki:Building/Solaris Building under Solaris]
 
