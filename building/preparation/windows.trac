@@ -2,6 +2,8 @@
 
 Installing the following will get you a working build environment with MSYS. The instructions are current for GHC 7.2. An alternatively method for windows is to build GHC, [wiki:Building/Windows/Cygwin using Cygwin]).  Using MSYS is the preferred approach though.
 
+0. If you don't know what MinGW, MSYS and Cygwin are, then please read some background info on the [wiki:Building/Platforms/Windows here].
+
 1. We don't recommend installing anything into a directory path that contains spaces.
 
 2. You will need to install the following tools:
