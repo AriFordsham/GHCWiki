@@ -48,16 +48,17 @@ Cygwin, MSYS, and the underlying Windows file system all understand file paths o
 
 - MSYS programs understand `/bin`, `/usr/bin`, and map Windows's lettered drives as `/c/tmp/foo` etc.  The exact mount table is given in the doc subdirectory of the MSYS distribution.
 
->
-> When it invokes a command, the MSYS shell sees whether the invoked binary lives in the MSYS `/bin` directory.  If so, it just invokes it.  If not, it assumes the program is no an MSYS program, and walks over the command-line arguments changing MSYS paths into native-compatible paths. It does this inside sub-arguments and inside quotes. For example, if you invoke
->
-> ```wiki
-> foogle -B/c/tmp/baz
-> ```
->
->
-> the MSYS shell will actually call `foogle` with argument `-Bc:/tmp/baz`.
+> >
+> > When it invokes a command, the MSYS shell sees whether the invoked binary lives in the MSYS `/bin` directory.  If so, it just invokes it.  If not, it assumes the program is no an MSYS program, and walks over the command-line arguments changing MSYS paths into native-compatible paths. It does this inside sub-arguments and inside quotes. For example, if you invoke
+> >
+> > ```wiki
+> > foogle -B/c/tmp/baz
+> > ```
+> >
+> >
+> > the MSYS shell will actually call `foogle` with argument `-Bc:/tmp/baz`.
 
 - Cygwin programs have a more complicated mount table, and map the lettered drives as `/cygdrive/c/tmp/foo`.
 
-  The Cygwin shell does no argument processing when invoking non-Cygwin programs.
+> >
+> > The Cygwin shell does no argument processing when invoking non-Cygwin programs.
