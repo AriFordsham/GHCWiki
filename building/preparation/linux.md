@@ -6,7 +6,6 @@ If you're on a recent Linux system, then you should be able to get a working bui
 ## Fedora
 
 - `glibc-devel`
-- `libedit-devel` (6.10 only)
 - `ncurses-devel`
 - `gmp-devel`
 - `autoconf`
@@ -19,7 +18,7 @@ If you're on a recent Linux system, then you should be able to get a working bui
 - `ghc`
 - `happy`
 - `alex`
-- `darcs`
+- `git`
 
 
 For building the documentation: (User's Guide and Cabal guide):
@@ -33,7 +32,6 @@ other packages that are useful for development:
 
 - `strace`
 - `patch`
-- `libcurl-devel` and `zlib-devel` (for building darcs)
 
 ## Debian-based systems (e.g. Debian, Ubuntu)
 
@@ -46,7 +44,6 @@ You can make sure you have all dependencies by
 But this might install some packages you do not use in your system (e.g. lintian).
 
 - `libc6-dev`
-- `libedit-dev` (6.10 only)
 - `libncurses5-dev`
 - `libgmp3-dev`
 - `autoconf`
@@ -59,7 +56,7 @@ But this might install some packages you do not use in your system (e.g. lintian
 - `ghc6`
 - `happy`
 - `alex`
-- `darcs`
+- `git`
 - `libffi-dev`
 
 
@@ -74,4 +71,3 @@ other packages that are useful for development:
 
 - `strace`
 - `patch`
-- `libcurl-dev` and `zlib-dev` (for building darcs)
