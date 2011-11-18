@@ -1,42 +1,22 @@
 # Installing and configuring Cygwin
 
+1. Install [ Cygwin](http://www.cygwin.com/)
 
-Install Cygwin from [ http://www.cygwin.com/](http://www.cygwin.com/).
-The installation process is straightforward; we install it in
-`c:/cygwin`.
+1. You must install enough Cygwin *packages* to support building GHC.  If you miss out any of these, strange things will happen to you.   There are two ways to do this:
 
+  - The direct, but laborious way is to select all of the following packages in the installation dialogue:
+    `cvs`, 
+    `openssh`,
+    `autoconf`,
+    `binutils`,
+    `gcc`,
+    `flex`,
+    `make`.
+    To see these packages, click on the "View" button in the "Select Packages" stage of Cygwin's installation dialogue, until the view says "Full". 
+  - The clever way is to point the Cygwin installer at the
+    `ghc-depends` package, which is kept at [ http://haskell.org/ghc/cygwin](http://haskell.org/ghc/cygwin). When the Cygwin installer asks you to "Choose a Download Site", choose one of the offered mirror sites; and then type "[ http://haskell.org/ghc/cygwin](http://haskell.org/ghc/cygwin)" into the "User URL" box and click "Add"; now two sites are selected. (The Cygwin installer remembers this for next time.) Click "Next".
 
-You must install enough Cygwin *packages* to support
-building GHC.  If you miss out any of these, strange things will happen to you.   There are two ways to do this:
-
-- The direct, but laborious way is to 
-  select all of the following packages in the installation dialogue:
-  `cvs`, 
-  `openssh`,
-  `autoconf`,
-  `binutils` (includes ld and (I think) ar),
-  `gcc`,
-  `flex`,
-  `make`.
-  To see these packages, 
-  click on the "View" button in the "Select Packages" 
-  stage of Cygwin's installation dialogue, until the view says "Full".  The default view, which is
-  "Category" isn't very helpful, and the "View" button is rather unobtrousive.
-- The clever way is to point the Cygwin installer at the
-  `ghc-depends` package, which is kept at
-  [ http://haskell.org/ghc/cygwin](http://haskell.org/ghc/cygwin).
-  When the Cygwin installer asks you to "Choose a Download Site", choose one of
-  the
-  offered mirror sites; and then type "[ http://haskell.org/ghc/cygwin](http://haskell.org/ghc/cygwin)" into the
-  "User URL" box and click "Add"; now two sites are selected. (The Cygwin
-  installer remembers this for next time.)
-  Click "Next".
-
-  In the "Select Packages" dialogue box that follows, click the "+" sign by
-  "Devel", scroll down to the end of the "Devel" packages, and choose
-  `ghc-depends`.
-  The package `ghc-depends` will not actually install anything itself, 
-  but forces additional packages to be added by the Cygwin installer.
+    In the "Select Packages" dialogue box that follows, click the "+" sign by "Devel", scroll down to the end of the "Devel" packages, and choose `ghc-depends`.
 
 
 Now set the following user environment variables:
