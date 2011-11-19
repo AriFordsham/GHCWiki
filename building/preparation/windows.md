@@ -19,6 +19,7 @@ Other documentation for Windows includes:
 - [ Haskell Platform](http://hackage.haskell.org/platform/)
 - [ Git](http://git-scm.com/)
 - [ Python](http://python.org/) (Version 2.7 is a good choice, we don't support version 3.x at this time)
+- [ LLVM](http://www.llvm.org/releases/download.html) (Optional, for using GHC's LLVM backend, grab the file called 'LLVM Binaries for Mingw32/x86')
 
 1. You will need to install the MinGW and MSYS tools:
 
@@ -29,11 +30,14 @@ MinGW provides a windows version of GCC while MSYS provides a minimal UNIX envir
 
 1. Launch the shell by starting the 'MinGW Shell' which should be in your start menu.
 
-1. Set your `PATH`.  We recommend doing this by creating a file `.profile` in your home directory (by default `c:/MinGW/msys/1.0/home/<username>`).  The contents of your `.profile` should be something like this:
+1. Set your `PATH`.  We recommend doing this by creating a file `.profile` in your home directory (by default `c:/MinGW/msys/1.0/home/<username>`). The contents of your `.profile` should be something like this:
 
 ```wiki
 # Add Git and Python to path
 export PATH=${PATH}:/c/Git/bin:/c/Python27
+
+# If you also grabbed LLVM
+export PATH=${PATH}:/c/dev/llvm/bin
 ```
 
 
