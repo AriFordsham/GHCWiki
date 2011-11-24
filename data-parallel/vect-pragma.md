@@ -122,6 +122,8 @@ An example is the handling of `Bool`, where we represent `Bool` by itself in vec
 
 ## The VECTORISE SCALAR pragma for type constructors
 
+### Without right-hand side
+
 
 For a type constructor `T`, the pragma
 
@@ -130,7 +132,7 @@ For a type constructor `T`, the pragma
 ```
 
 
-indicates that the type is scalar; i.e., it has no embedded arrays and its constructors can \*only\* be used in scalar code.  Note that the type cannot be parameterised (as we would not be able to rule out that a type parameter is instantiated with an array type at a usage site.)
+indicates that the type is scalar; i.e., it has no embedded arrays and its constructors can **only** be used in scalar code.  Note that the type cannot be parameterised (as we would not be able to rule out that a type parameter is instantiated with an array type at a usage site.)
 
 
 Due to this pragma declaration, `T` that may be used in vectorised code, where `T` represents itself.  However, the representation of `T` is opaque in vectorised code. An example is the treatment of `Int`.  `Int`s can be used in vectorised code and remain unchanged by vectorisation.  However, the representation of `Int` by the `I#` data constructor wrapping an `Int#` is not exposed in vectorised code.  Instead, computations involving the representation need to be confined to scalar code.
@@ -143,8 +145,29 @@ NB: The crucial difference between `{-# VECTORISE SCALAR type T1 #-}` and `{-# V
 
 **TODO**
 
-- **Maybe**`{-# VECTORISE SCALAR type T = T' #-}` can be useful for, e.g., mapping `(->)` to `(:->)`???
 - For type constructors identified with this pragma, can we generate an `instance` of the `Scalar` type class automatically (instead of relying on it being in the library)?
+
+### With right-hand side
+
+
+For a type constructor `T`, the pragma
+
+```wiki
+{-# VECTORISE SCALAR type T = T' #-}
+```
+
+
+directs the vectoriser to replace `T` by `T'` in vectorised code, but its constructors can **only** be used in scalar code.
+
+
+The type constructor `T` must be in scope, but it may be imported.  The `PData` and `PRepr` instances for `T` need to be manually defined. 
+
+
+An example is the handling of `[::]`, which the vectoriser maps to `PArray`, but it never looks at the implementation of `[::]`.
+
+**TODO**
+
+- Maybe `VECTORISE ABSTRACT` would be a better name as it doesn't guarantee that the type constructor can be used in scalar code that doesn't need to be vectorised. It just means that the data constructors can **only** be used in scalar code — i.e., the vectoriser treats it as an abstract type.
 
 ## The VECTORISE pragma for type classes
 
@@ -162,26 +185,11 @@ indicates that the class `C` should be automatically vectorised, even if it is i
 The class `C` must be in scope, but it may be imported.  'PData' and 'PRepr' instances are generally not used for type classes and their dictionary representations.
 
 
-An example is the handling of `Num`.
-
-## The VECTORISE pragma for class instances
+An example is the handling of `Eq`.
 
 **TODO**
 
-- This version is nonsense (only with `SCALAR`, it makes sense).
-- But we probably want something like `{-# VECTORISE instance C t = ?? #-}`, but probably on a per class basis.
-
-
-For a class instance `C t`, the pragma
-
-```wiki
-{-# VECTORISE instance C t #-}
-```
-
-
-indicates that the class instance `C t` should be automatically vectorised, even if it is imported.  This implies that all class methods making up the instance dfun are vectorised separately to combine into a vectorised diun.  This is the default for all class instances declared in the current module.
-
-`C t` must exactly match a single instance declaration provided for `C`.
+- We want something like `{-# VECTORISE class C = C' #-}` (but what about the instances?)
 
 ## The VECTORISE SCALAR pragma for class instances
 
