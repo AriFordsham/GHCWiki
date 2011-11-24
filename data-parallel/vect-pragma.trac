@@ -86,11 +86,13 @@ An example is the handling of `Bool`, where we represent `Bool` by itself in vec
 
 == The VECTORISE SCALAR pragma for type constructors ==
 
+=== Without right-hand side ===
+
 For a type constructor `T`, the pragma
 {{{
 {-# VECTORISE SCALAR type T #-}
 }}}
-indicates that the type is scalar; i.e., it has no embedded arrays and its constructors can *only* be used in scalar code.  Note that the type cannot be parameterised (as we would not be able to rule out that a type parameter is instantiated with an array type at a usage site.)
+indicates that the type is scalar; i.e., it has no embedded arrays and its constructors can '''only''' be used in scalar code.  Note that the type cannot be parameterised (as we would not be able to rule out that a type parameter is instantiated with an array type at a usage site.)
 
 Due to this pragma declaration, `T` that may be used in vectorised code, where `T` represents itself.  However, the representation of `T` is opaque in vectorised code. An example is the treatment of `Int`.  `Int`s can be used in vectorised code and remain unchanged by vectorisation.  However, the representation of `Int` by the `I#` data constructor wrapping an `Int#` is not exposed in vectorised code.  Instead, computations involving the representation need to be confined to scalar code.
 
@@ -98,9 +100,21 @@ The type constructor `T` must be in scope, but it may be imported.  The `PData` 
 
 NB: The crucial difference between `{-# VECTORISE SCALAR type T1 #-}` and `{-# VECTORISE type T2 #-}`, where `T2` embeds no parallel arrays, is that the *representation* (i.e., the constructors) of the former can only be used in scalar code. However, neither the representation of `T1` nor `T2` does get vectorised — so, both types are suitable for code that does not get vectorised due to vectorisation avoidance.
 
+=== With right-hand side ===
+
+For a type constructor `T`, the pragma
+{{{
+{-# VECTORISE SCALAR type T = T' #-}
+}}}
+directs the vectoriser to replace `T` by `T'` in vectorised code, but its constructors can '''only''' be used in scalar code.
+
+The type constructor `T` must be in scope, but it may be imported.  The `PData` and `PRepr` instances for `T` need to be manually defined. 
+
+An example is the handling of `[::]`, which the vectoriser maps to `PArray`, but it never looks at the implementation of `[::]`.
+
 '''TODO:'''
- * '''Maybe''' `{-# VECTORISE SCALAR type T = T' #-}` can be useful for, e.g., mapping `(->)` to `(:->)`???
  * For type constructors identified with this pragma, can we generate an `instance` of the `Scalar` type class automatically (instead of relying on it being in the library)?
+ * Maybe `VECTORISE ABSTRACT` would be a better name as it doesn't guarantee that the type constructor can be used in scalar code that doesn't need to be vectorised. It just means that the data constructors can '''only''' be used in scalar code — i.e., the vectoriser treats it as an abstract type.
 
 == The VECTORISE pragma for type classes ==
 
