@@ -128,21 +128,10 @@ indicates that the class `C` should be automatically vectorised, even if it is i
 
 The class `C` must be in scope, but it may be imported.  'PData' and 'PRepr' instances are generally not used for type classes and their dictionary representations.
 
-An example is the handling of `Num`.
-
-== The VECTORISE pragma for class instances ==
+An example is the handling of `Eq`.
 
 '''TODO:'''
- * This version is nonsense (only with `SCALAR`, it makes sense).
- * But we probably want something like `{-# VECTORISE instance C t = ?? #-}`, but probably on a per class basis.
-
-For a class instance `C t`, the pragma
-{{{
-{-# VECTORISE instance C t #-}
-}}}
-indicates that the class instance `C t` should be automatically vectorised, even if it is imported.  This implies that all class methods making up the instance dfun are vectorised separately to combine into a vectorised diun.  This is the default for all class instances declared in the current module.
-
-`C t` must exactly match a single instance declaration provided for `C`.
+ * We want something like `{-# VECTORISE class C = C' #-}` (but what about the instances?)
 
 == The VECTORISE SCALAR pragma for class instances ==
 
