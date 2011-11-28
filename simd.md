@@ -588,7 +588,7 @@ cmp<eq,ne,gt,gt,lt,le>Word<w>Vec<m># :: Word<w>Vec<m># -> Word<w>Vec<m># -> Word
 ```
 
 
-Note that LLVM does not yet support the comparison operations.
+Note that LLVM does not yet support the comparison operations (See the comment at the end of the documentation for the [ icmp](http://llvm.org/docs/LangRef.html#i_icmp) instruction, for example).
 
 
 Integer width narrow/widen operations:

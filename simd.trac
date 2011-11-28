@@ -360,7 +360,7 @@ Comparison:
 cmp<eq,ne,gt,gt,lt,le>Int<w>Vec<m>#  :: Int<w>Vec<m>#  -> Int<w>Vec<m>#  -> Word<w>Vec<m>#
 cmp<eq,ne,gt,gt,lt,le>Word<w>Vec<m># :: Word<w>Vec<m># -> Word<w>Vec<m># -> Word<w>Vec<m>#
 }}}
-Note that LLVM does not yet support the comparison operations.
+Note that LLVM does not yet support the comparison operations (See the comment at the end of the documentation for the [http://llvm.org/docs/LangRef.html#i_icmp icmp] instruction, for example).
 
 Integer width narrow/widen operations:
 {{{
