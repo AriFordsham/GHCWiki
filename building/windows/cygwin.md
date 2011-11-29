@@ -3,13 +3,12 @@
 1. Install [ Cygwin](http://www.cygwin.com/)
 
 1. You must install enough Cygwin *packages* to support building GHC. This means selecting at least the following packages in the installation dialogue:
-  `git`, 
   `openssh`,
   `autoconf`,
   `binutils`,
   `gcc`,
   `make`.
-  To see these packages, click on the "View" button in the "Select Packages" stage of Cygwin's installation dialogue, until the view says "Full". 
+  To see these packages, click on the "View" button in the "Select Packages" stage of Cygwin's installation dialogue, until the view says "Full". Note: Don't use the cygwin git (you'll get various failures, e.g. fork failures, with Windows Vista or Windows 7). Use [ http://code.google.com/p/msysgit/](http://code.google.com/p/msysgit/) instead.
 
 1. Now set the following user environment variables:
 
