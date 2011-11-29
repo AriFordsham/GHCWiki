@@ -2,19 +2,13 @@
 
 1. Install [ Cygwin](http://www.cygwin.com/)
 
-1. You must install enough Cygwin *packages* to support building GHC.  If you miss out any of these, strange things will happen to you.   There are two ways to do this:
-
-  - The direct, but laborious way is to select all of the following packages in the installation dialogue:
-    `cvs`, 
-    `openssh`,
-    `autoconf`,
-    `binutils`,
-    `gcc`,
-    `flex`,
-    `make`.
-    To see these packages, click on the "View" button in the "Select Packages" stage of Cygwin's installation dialogue, until the view says "Full". 
-  - The clever way is to point the Cygwin installer at the
-    `ghc-depends` package, which is kept at [ http://haskell.org/ghc/cygwin](http://haskell.org/ghc/cygwin). When the Cygwin installer asks you to "Choose a Download Site", choose one of the offered mirror sites; and then type "[ http://haskell.org/ghc/cygwin](http://haskell.org/ghc/cygwin)" into the "User URL" box and click "Add"; now two sites are selected. (The Cygwin installer remembers this for next time.) Click "Next". In the "Select Packages" dialogue box that follows, click the "+" sign by "Devel", scroll down to the end of the "Devel" packages, and choose `ghc-depends`.
+1. You must install enough Cygwin *packages* to support building GHC. This means selecting at least the following packages in the installation dialogue:
+  `openssh`,
+  `autoconf`,
+  `binutils`,
+  `gcc`,
+  `make`.
+  To see these packages, click on the "View" button in the "Select Packages" stage of Cygwin's installation dialogue, until the view says "Full". Note: Don't use the cygwin git (you'll get various failures, e.g. fork failures, with Windows Vista or Windows 7). Use [ http://code.google.com/p/msysgit/](http://code.google.com/p/msysgit/) instead.
 
 1. Now set the following user environment variables:
 
