@@ -98,7 +98,7 @@ These utils may be built with the bootstrapping compiler, for use during the bui
 ## `driver/`
 
 
-This contains some simple wrapper programs that are only used on windows. They invoke the various GHC binaries correctly such as `ghc`, `ghci`, `haddock` and `gcc`.
+This contains some simple wrapper programs and scripts, for example the `ghci` wrapper that invokes the `ghc` binary with the `--interactive` flag.  These wrappers tend to be executable programs on Windows and scripts on Unix systems.
 
 ## `ghc-tarballs/`
 
