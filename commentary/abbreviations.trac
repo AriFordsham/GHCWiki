@@ -10,7 +10,7 @@ Certain abbreviations are used pervasively throughout the GHC source code. This 
 
 * '''Core''': GHC core language. Based on System FC (variant of System F). Represents a type-checked and desugared program in some (out of several) intermediate compilation step
 
-* '''!CoreFV''': Free variables in core
+* '''CoreFV''': Free variables in core
 
 * '''!CoreLint''': Type and sanity-checking of core. (Lint: Jargon for a program analysis that looks for bug-suspicious code.)
 
