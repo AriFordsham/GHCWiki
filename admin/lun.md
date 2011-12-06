@@ -3,6 +3,14 @@
 
 lun is a vm, running on lambda. It runs the community services.
 
+## Accounts, Projects, etc.
+
+
+See [ http://community.haskell.org/admin/procedures/](http://community.haskell.org/admin/procedures/)
+
+
+The tools mentioned there are in a darcs repository, which appears to be in various admin's home directories (try `locate create_account.sh`).  **ToDo: put this somewhere! **
+
 ## VM
 
 
