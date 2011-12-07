@@ -9,7 +9,7 @@ The most general case is a developer on build platform (B), wishing to build a G
    * runs on Mac OS X, but targets iOS
    * runs on x86_64 linux, but targets i386
    * runs on some existing GHC supported platform, but targets a smaller embedded platform
- * '''Cross-building''' a normal compiler: Build on one platform a compiler that that runs on, and targets another.  Examples:
+ * '''Cross-building''' a normal compiler: Build on one platform a compiler that runs on, and targets another.  Examples:
    * [http://takeoffgw.sourceforge.net/ TakeoffGW] is a distribution of Unix tools for Windows, built by cross-compiling on a Linux machine.  They would like to be able to build and distribute GHC this way.  It might be useful for us to be able to cross-compile a Windows GHC from Linux too.
    * build a 64-bit GHC on OS X, by cross-compiling using the 32-bit version.
    * We could port to Win64 (#1884) by cross-compiling using a 32-bit Windows GHC.
