@@ -52,7 +52,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
  * Notes on implemented GHC features:
    * [wiki:Commentary/Compiler/Backends/LLVM LLVM back end]
    * Vector instructions: [wiki:SimdLlvm Adding SIMD instructions], [wiki:SIMDPlan Implementation plan], [wiki:VectorComputing]
-   * [wiki:Commentary/Compiler/GenericDeriving The new deriving mechanism]
+   * [wiki:Commentary/Compiler/GenericDeriving Support for generic programming]
    * [wiki:Commentary/Compiler/TemplateHaskell Notes about Template Haskell]
    * [wiki:RewriteRules Rewrite Rules]: Notes about the implementation of RULEs in GHC
    * [wiki:MonadComprehensions Monad Comprehensions]: Translation rules and some implementation details 
@@ -84,7 +84,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:ExplicitCallStack Explicit Call Stack]: Notes about maintaining an explicit call stack, to support error attribution and profiling.
    * [wiki:ObjectiveC Objective-C FFI]: Haskell FFI support for Objective-C
    * [wiki:BlockObjects C Blocks]: Haskell FFI support for block objects (closures) in C
-   * [wiki:DependencyTracking Improved dependency tracking]
+   * [wiki:ExplicitTypeApplication Syntax for explicit type application and scoped type variables]
 
  * GHCi Debuger
    * [wiki:GhciDebugger GHCi Debugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
