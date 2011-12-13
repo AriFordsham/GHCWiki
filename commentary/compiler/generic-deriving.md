@@ -1,10 +1,10 @@
-# The new Generic Deriving mechanism (ongoing work)
+# Support for generic programming
 
 
-GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in [ A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf), by Magalhães, Dijkstra, Jeuring and Löh.  This page sketches the specifics of the implementation; we assume you have read the paper. The [ HaskellWiki page](http://www.haskell.org/haskellwiki/Generics) gives a more general overview.
+GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in paper [ A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf). This page sketches the specifics of the implementation; we assume you have read the paper. The [ HaskellWiki page](http://www.haskell.org/haskellwiki/Generics) gives a more general overview.
 
 
-This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). The code is in the `ghc-generics` branch of the [ ghc](https://github.com/ghc/ghc/commits/ghc-generics), [ base](https://github.com/ghc/packages-base/commits/ghc-generics), [ ghc-prim](https://github.com/ghc/packages-ghc-prim/commits/ghc-generics), [ haddock2](https://github.com/ghc/haddock2/commits/ghc-generics), and [ testsuite](https://github.com/ghc/testsuite/commits/ghc-generics) repos.
+This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). What we describe until the "Kind polymorphic overhaul" section is implemented and released in GHC 7.0.1.
 
 ## Main components
 
@@ -36,16 +36,11 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 - Base types like `[]`, `Maybe`, tuples, come with Generic instances.
 
-## To do
-
-- Generate `Generic1` instances
-
-- Print also the `Rep` type instance when -ddump-deriving is on
-
-- Register the `DeriveGeneric` and `DefaultSignatures` extensions with Cabal.
-
-- Do we want `Show`, etc. instances for types like `U1`, `:+:`, ...?
-
 ## Testing
 
 - Tests are available under the `generics` directory of the testsuite.
+
+# Kind polymorphic overhaul
+
+
+Work in progress.
