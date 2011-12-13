@@ -1,4 +1,4 @@
-# The new Generic Deriving mechanism (ongoing work)
+# Support for generic programming
 
 
 GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in paper [ A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf). This page sketches the specifics of the implementation; we assume you have read the paper. The [ HaskellWiki page](http://www.haskell.org/haskellwiki/Generics) gives a more general overview.
