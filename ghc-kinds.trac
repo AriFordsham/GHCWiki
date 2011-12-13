@@ -1,38 +1,13 @@
-= GHC Kind level =
+= Kind polymorphism and datatype promotion =
 
-This page gives the theory, implementation overview and details about GHC's kind level.  This work is related to [http://personal.cis.strath.ac.uk/~conor/pub/she/ Conor's SHE system] and will be related to Iavor's work on [wiki:TypeNats] to deal with primitive types (promoted {{{Int}}} and {{{Char}}}).
+This page gives additional implementation details for the `-XPolyKinds` flag. The grand design is described in the paper [http://dreixel.net/research/pdf/ghp.pdf Giving Haskell a Promotion]. Most of the work has been done and merged into GHC 7.4.1. The relevant user documentation is in [the user's guide (add link when it's up)] and on the [http://haskell.org/haskellwiki/GHC/Kinds Haskell wiki page]. What still doesn't work, or doesn't work correctly, is described here.
 
-== Theory ==
+= Explicit kind variables =
 
-We use the mechanism of promotion to lift a data type to the kind level.  This gives access at the type level to the data constructors, and at the kind level to the type constructor.  Not all data types can be promoted; for example, GADTs or data types with higher-order kinds cannot be promoted.  We add kind polymorphism to allow promotion of polymorphic data constructors (like {{{Nil}}} or {{{Cons}}}).
+= Kind defaulting in type families =
 
-More details can be found in [http://gallium.inria.fr/~jcretin/ghc/theory.pdf this theory pdf].
+= [http://hackage.haskell.org/trac/ghc/ticket/5682 #5682] (proper handling of infix promoted constructors) =
 
-== User's Guide and Examples ==
+= Kind synonyms (from type synonym promotion) =
 
-There is a [http://haskell.org/haskellwiki/GHC/Kinds user guide] available on the haskellwiki explaining how to build the compiler and how to use the extension.
-
-Examples of reimplementation of existing Haskell librairies can be found in [http://gallium.inria.fr/~jcretin/ghc/examples.pdf this examples pdf].  I use a repository for what works and what does not [https://github.com/ia0/GhcKindsExamples].
-
-== Implementation ==
-
-The GHC branch is called {{{ghc-kinds}}}.  There is also a branch with the same name for haddock and the testsuite. The implementation will follow these steps (in bold is the first phase (parser, renamer, type checker, ...) that does not work):
-  1. Promotion of Haskell98 data types of kind star: {{{*}}}.
-  1. Promotion of Haskell98 data types of first order kind: {{{* -> .. * -> *}}}. It involves kind polymorphism.
-  1. '''[theory design]''' Kind polymorphic data types, type families, and type classes.
-     This step needs some design choices about [wiki:GhcKinds/KindPolymorphism kind polymorphism].
-  1. Singleton types.
-  1. Built-in types.
-
-Promotion-related changelog:
-  * Extend {{{TyCon}}} with {{{PromotedDataTyCon}}} to have data constructors in type constructors.
-  * Extend the parser, renamer, type and kind checker, and core-lint accordingly.
-
-
-Not promotion-related changelog:
-  * Change the kind representation in {{{HsSyn}}} from {{{Kind}}} to {{{LHsKind name}}} adding some {{{PostTcKind}}} when necessary.
-    * Rename {{{rnHsType}}} into {{{rnHsTyKi}}} and parametrize with a boolean to know if we are renaming a type or a kind.
-  * Use {{{HsDocContext}}} instead of {{{SDoc}}} to track renaming context.
-  * Kind check and type check by strongly connected components, instead of kind checking the whole module, and then type checking it.  This implies that some modules now need additional kind annotations (since each strongly component gets zonkTcKindToKind before going to the next one).
-  * Rename {{{KindVar}}} which is used during type checking into {{{MetaKindVar}}}.
-
+= Generalized Algebraic Data Kinds (GADKs) =
