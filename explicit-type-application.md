@@ -7,16 +7,25 @@ example:
 
 ```wiki
 case x of
+  (C @a y z) -> ....
+```
+
+
+On the right-hand side we would have the type variable `a` in scope.
+
+
+Note how the use of the symbol `@` is (in this case) unproblematic, since we can
+use the fact that constructors always start with an uppercase letter to distinguish
+whether the `@` refers to an "as pattern" or to a type application:
+
+```wiki
+case x of
   p@(C @a y z) -> ....
 ```
 
 
-On the right-hand side we would have the type variable `a` in scope. Note how
-the use of `@` is (in this case) unproblematic, since we can use the fact that
-constructors always start with an uppercase letter to distinguish whether the
-`@` refers to an "as pattern" or to a type application. This cannot be used
-to pattern-match on specific types: the only thing that we can match on are
-variables.
+Also note that this would not allow you to to pattern-match on specific types:
+the only thing that we can match on are type or kind variables.
 
 ## How many arguments, and their order
 
