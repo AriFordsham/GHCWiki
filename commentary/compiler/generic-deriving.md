@@ -43,4 +43,18 @@ This mechanism replaces the [previous generic classes implementation](http://www
 # Kind polymorphic overhaul
 
 
-Work in progress.
+The current implementation supports defining both functions over types of kind `*` (such as `show`) and functions over types of kind `* -> *` (such as `fmap`). Although care has been taken to reduce code duplication, we still need two generic classes, one for each kind (`Generic` and `Generic1`).
+
+
+With the new `-XPolyKinds` functionality, we can make the support for generic programming better typed and more general. The basic idea is to define the universe codes (`M1`, `:+:`, etc.) as constructors of a datatype. Promotion then lifts these constructors to types, which we can use as before, only that now we have them all classified under a new kind:
+
+```wiki
+data Universe x = U
+                | K x
+                | P Nat
+                | Universe x :+: Universe x
+                | Universe x :*: Universe x
+                | M MetaData (Universe x)
+
+data MetaData = C | D | S
+```
