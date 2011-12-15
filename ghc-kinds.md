@@ -11,4 +11,198 @@ This page gives additional implementation details for the `-XPolyKinds` flag. Th
 
 # Kind synonyms (from type synonym promotion)
 
+
+At the moment we are not promoting type synonyms, i.e. the following is invalid:
+
+```wiki
+data Nat = Ze | Su Nat
+type Nat2 = Nat
+
+type family Add (m :: Nat2) (n :: Nat2) :: Nat2
+```
+
+**Future work:** promote type synonyms to kind synonyms.
+
+# Kind-polymorphic `Typeable`
+
+
+The paper describes an improved implementation of `Typeable` (section 2.5). This has not
+yet been implemented; the current `Typeable` class is:
+
+```wiki
+class Typeable (a :: *) where
+  typeOf :: a -> TypeRep
+```
+
+
+The new proposal makes it into:
+
+```wiki
+data Proxy a = Proxy
+
+class Typeable a where
+  typeRep :: Proxy a -> TypeRep
+```
+
+
+Note that `Proxy` is kind polymorphic, and so is the new `Typeable`: its type argument
+`a` can have any kind `k`. The paper goes on to describe how we can then give
+kind-specific instances:
+
+```wiki
+instance Typeable Int where typeRep _ = ...
+
+instance Typeable []  where typeRep _ = ...
+```
+
+
+The following changes need to done in the compiler:
+
+- Update `Data.Typeable` in `base` (mostly deleting classes and adding `Proxy`).
+
+- Rewrite the `deriving Typeable` mechanism in `TcGenDeriv`.
+
+
+From the user's perspective nothing has to change. We can make the new implementation
+backwards-compatible by:
+
+- Calling the method of `Typeable``typeRep`, and not `typeOf`
+- Defining `typeOf`, `typeOf1`, ..., separately
+
+
+Concretely, the new `Data.Typeable` will look something like this:
+
+```wiki
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE PolyKinds           #-}
+
+-- Type representation: unchanged
+data TypeRep = ...
+
+-- Kind-polymorphic proxy
+data Proxy t = Proxy
+
+-- Kind-polymorphic Typeable
+class Typeable a where
+  typeRep :: Proxy a -> TypeRep
+
+-- Instances for base types
+instance Typeable Char   where ...
+instance Typeable []     where ...
+instance Typeable Either where ...
+
+-- Old methods for backwards compatibility  
+typeOf :: forall a. Typeable a => a -> TypeRep
+typeOf x = typeRep (getType x) where
+  getType :: a -> Proxy a
+  getType _ = Proxy
+
+typeOf1 :: forall t (a :: *). Typeable t => t a -> TypeRep
+typeOf1 x = typeRep (getType1 x) where
+  getType1 :: t a -> Proxy t
+  getType1 _ = Proxy
+```
+
+
+This is nearly enough; remember that currently we can do things like this:
+
+```wiki
+typeOf  "p"
+typeOf1 "p"
+```
+
+
+And they mean different things: the first is the representation of `[Char]`,
+whereas the second is the representation of `[]`. In particular, 
+`typeOf1 "p" == typeOf1 [()]`, for instance. To keep this behavior we have
+to guarantee that a datatype `T` with type parameters `a1` through `an` gets instances:
+
+```wiki
+data T a1 ... an
+
+instance Typeable T
+instance (Typeable a1) => Typeable (T a1)
+...
+instance (Typeable a1, ..., Typeable an) => Typeable (T a1 ... an)
+```
+
+
+We can do this as before, by defining the arity `n-1` instance from the
+arity `n` instance:
+
+```wiki
+instance (Typeable t, Typeable (a :: *)) => Typeable (t a)
+instance (Typeable t, Typeable (a :: *), Typeable (b :: *)) => Typeable (t a b)
+```
+
+
+If we're willing to use `-XUndecidableInstances`, we can even do this with
+a single instance, relying on `-XPolyKinds`:
+
+```wiki
+instance (Typeable t, Typeable a) => Typeable (t a)
+```
+
+
+In this instance, `t` has kind `k -> *` and `a` has kind `k`.
+
 # Generalized Algebraic Data Kinds (GADKs)
+
+**Future work:** this section deals with a proposal to collapse kinds and sorts into a single system
+so as to allow Generalised Algebraic DataKinds (GADKs). The sort `BOX` should
+become a kind, whose *kind* is again `BOX`. Kinds would no longer be classified by sorts;
+they would be classified by kinds.
+
+
+(As an aside, sets containing themselves result in an inconsistent system; see, for instance,
+[ this example](http://www.cs.nott.ac.uk/~txa/g53cfr/l20.agda). This is not of practical
+concern for Haskell.)
+
+
+Collapsing kinds and sorts would allow some form of indexing on kinds. Consider the
+following two types, currently not promotable in FC-pro:
+
+```wiki
+data Proxy a = Proxy
+
+data Ind (n :: Nat) :: * where ...
+```
+
+
+In `Proxy`, `a` has kind `forall k. k`. This type is not promotable because
+`a` does not have kind `*`. This is unfortunate, since a new feature (kind
+polymorphism) is getting on the way of another new feature (promoting
+datatypes). As for `Ind`, it takes an argument of kind (promoted) `Nat`,
+which renders it non-promotable. Why is this? Well, promoted `Proxy` and `Ind`
+would have sorts:
+
+```wiki
+Proxy  :: forall s. s -> BOX
+
+Ind    :: 'Nat -> BOX
+```
+
+
+But `s` is a sort variable, and `'Nat` is the sort arising from promoting
+the kind `Nat` (which itself arose from promoting a datatype). FC-pro has
+neither sort variables nor promoted sorts. However, if there are no sorts, and
+`BOX` is the **kind** of all kinds, the "sorts" ("kinds", now) of promoted `Proxy`
+and `Ind` become:
+
+```wiki
+Proxy  :: forall k. k  -> BOX
+
+Ind    :: Nat          -> BOX
+```
+
+
+Now instead of sort variables we have kind variables, and we do not need to promote
+`Nat` again.
+
+
+Kind indexing alone should not require kind equality constraints; we always
+require type/kind signatures for kind polymorphic stuff, so then
+[ wobbly types](http://research.microsoft.com/en-us/um/people/simonpj/papers/gadt/gadt-rigid-contexts.pdf)
+can be used to type check generalised algebraic kinds, avoiding the need for
+coercions. While this would still require some implementation effort, it
+should be "doable".
