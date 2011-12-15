@@ -11,10 +11,11 @@ case x of
 ```
 
 
-On the right-hand side we would have the type variable `a` in scope.
+On the right-hand side we would have the type variable `a` in scope for use on 
+any type signatures.
 
 
-Note how the use of the symbol `@` is (in this case) unproblematic, since we can
+Note how the use of the symbol `@` is (in this case) unproblematic; we can
 use the fact that constructors always start with an uppercase letter to distinguish
 whether the `@` refers to an "as pattern" or to a type application:
 
@@ -24,8 +25,21 @@ case x of
 ```
 
 
-Also note that this would not allow you to to pattern-match on specific types:
-the only thing that we can match on are type or kind variables.
+Unfortunately this is not always the case; see below.
+
+
+Note that this proposal would not allow pattern matching on specific types:
+the only thing that we can match on are type or kind variables. However, it
+does allow for specifying what type to apply:
+
+```wiki
+id @Int 2
+```
+
+
+The idea is to provide more access to the explicit types in the core language
+(system [ FC-pro](http://dreixel.net/research/pdf/ghp.pdf))
+directly from the source language syntax.
 
 ## How many arguments, and their order
 
