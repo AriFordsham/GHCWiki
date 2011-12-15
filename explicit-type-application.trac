@@ -43,9 +43,10 @@ If the user gave a type signature for the binding, it is very easy to see
 which type patterns relate to which variables in the signature. In the absence
 of a signature, though, there are two possible choices:
 
-* Reject matching on type variables altogether.
+  * Reject matching on type variables altogether.
 
-* Take the inferred signature, look at the introduced variables
+  * Take the inferred signature, look at the introduced variables
+
 syntactically from left to right, and use that order. This approach
 does not require tracking which bindings were given type
 signatures or not.
