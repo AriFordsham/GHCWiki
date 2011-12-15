@@ -22,8 +22,8 @@ type family Add (m :: Nat2) (n :: Nat2) :: Nat2
 
 = Generalized Algebraic Data Kinds (GADKs) =
 
-This section deals with a proposal to collapse kinds and sorts into a single system
-so as to allow Generalised Algebraic DataKinds (GADKs). The sort `BOX` should
+'''Future work:''' this section deals with a proposal to collapse kinds and sorts into a single system
+so as to allow Generalised Algebraic !DataKinds (GADKs). The sort `BOX` should
 become a kind, whose ''kind'' is again `BOX`. Kinds would no longer be classified by sorts;
 they would be classified by kinds.
 
