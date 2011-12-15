@@ -51,6 +51,7 @@ of a signature, though, there are two possible choices:
 
 A problem with taking the inferred signature is that it is tied to
 many assumptions, including that of principal types.
+[Dimitrios: Can you expand on this?]
 
 
 == Parsing matters ==
