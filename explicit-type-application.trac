@@ -45,11 +45,9 @@ of a signature, though, there are two possible choices:
 
   * Reject matching on type variables altogether.
 
-  * Take the inferred signature, look at the introduced variables
-
-syntactically from left to right, and use that order. This approach
-does not require tracking which bindings were given type
-signatures or not.
+  * Take the inferred signature, look at the introduced variables syntactically
+    from left to right, and use that order. This approach does not require tracking
+    which bindings were given type signatures or not.
 
 A problem with taking the inferred signature is that it is tied to
 many assumptions, including that of principal types.
