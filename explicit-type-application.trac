@@ -82,7 +82,7 @@ f :: forall (a : k). ....
 ... = ... f @'Nat @Nat ...
 }}}
 Since now it is not clear from the context anymore if we are expecting a kind
-or a type (since we use |@| both for kind and type application), we need to be
+or a type (since we want to use `@` both for kind and type application), we need to be
 able to disambiguate between datatypes and their corresponding promoted kinds.
 At the moment this ambiguity does not arise, so we do not allow prefixing
 kinds with `'`, but it seems natural to lift this restriction, and use the
@@ -90,12 +90,14 @@ same notation as for promoted data constructors.
 
 == More examples ==
 === Impredicative instantiation ===
-`Cons @(forall a. a -> a)` should mean the constructor of type
+This extension also allows for clear impredicative instantiation. For instance,
+the application of the list constructor `(:) @(forall a. a -> a)` means
+the constructor of type
 `(forall a. a -> a) -> [forall a. a -> a] -> [forall a. a -> a]`.
 
 === Type/kind instantiation in classes ===
 With the new kind-polymorphic `Typeable` class, we can recover the old
-kind-specific classes by saying, for instance:
+kind-specific classes by writing, for example:
 {{{
 type Typeable1 = Typeable @(* -> *)
 }}}
