@@ -20,6 +20,8 @@ type family Add (m :: Nat2) (n :: Nat2) :: Nat2
 
 '''Future work:''' promote type synonyms to kind synonyms.
 
+= Kind-polymorphic `Typeable` =
+
 = Generalized Algebraic Data Kinds (GADKs) =
 
 '''Future work:''' this section deals with a proposal to collapse kinds and sorts into a single system
