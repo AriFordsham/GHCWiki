@@ -37,15 +37,15 @@ id @Int 2
 ```
 
 
-The idea is to provide more access to the explicit types in the core language
+The idea is to provide access to the explicit types in the core language
 (system [ FC-pro](http://dreixel.net/research/pdf/ghp.pdf))
 directly from the source language syntax.
 
 ## How many arguments, and their order
 
 
-When we have multiple variables, we can use as many as we need, and also use
-underscores:
+When we have multiple variables we can pattern match on as many as we need,
+and also use underscores:
 
 ```wiki
 f (C @_ @b x ) = ...
@@ -81,7 +81,7 @@ f n @a = ....
 
 
 In this case it is really ambiguous what the pattern means. For these
-cases we have the following workaround:
+cases we suggest the following workaround:
 
 ```wiki
 f :: Int -> forall a. a
@@ -95,8 +95,9 @@ actually need to use it.
 ### Syntax for promoted datatypes
 
 
-It also introduces the need to disambiguate between a datatype and its promoted
-kind. Consider the example:
+With `-XPolyKinds` on, we can also match/apply kind arguments. This introduces the
+need to disambiguate between a datatype and the promoted kind it introduces.
+Consider the example:
 
 ```wiki
 data X = X
@@ -109,6 +110,9 @@ f :: forall (a : k). ....
 Since now it is not clear from the context anymore if we are expecting a kind
 or a type (since we use \|@\| both for kind and type application), we need to be
 able to disambiguate between datatypes and their corresponding promoted kinds.
+At the moment this ambiguity does not arise, so we do not allow prefixing
+kinds with `'`, but it seems natural to lift this restriction, and use the
+same notation as for promoted data constructors.
 
 ## More examples
 
