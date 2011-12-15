@@ -1,9 +1,9 @@
 # Syntax for explicit type and kind application
 
 
-We propose a replacement for [lexically-scoped type variables](http://www.haskell.org/ghc/docs/latest/html/users_guide/other-type-extensions.html#scoped-type-variables) (and pattern signatures) that is
-more clear and direct by introducing syntax for explicit type (and kind)
-application. The proposed concrete syntax is `@ tyvar`, like in the following example:
+We propose a replacement and generalisation of [lexically-scoped type variables](http://www.haskell.org/ghc/docs/latest/html/users_guide/other-type-extensions.html#scoped-type-variables) (and pattern signatures) that is
+more clear and direct by allowing explicit type (and kind) application.
+We propose the concrete syntax `@ tyvar`, like in the following example:
 
 ```wiki
 case x of
