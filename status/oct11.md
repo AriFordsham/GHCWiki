@@ -19,7 +19,7 @@ Significant changes planned for the 7.4 branch are:
 
 - **Data type promotion and kind polymorphism.**  As we do more and more type-level programming, the lack of a decent kind system (to make sure that your type-level programs make sense) has become an increasingly pressing issue.  If all goes well, GHC 7.4 will take a substantial step forward:
 
-  - First, all simple data types (including lists and tuples) will automatically be "promoted" to be kinds as well, a design inspired by Conor McBride's Strachclyde Haskell Extension [ http://personal.cis.strath.ac.uk/\~conor/pub/she/ SHE](http://personal.cis.strath.ac.uk/~conor/pub/she/ SHE).  For example:
+  - First, all simple data types (including lists and tuples) will automatically be "promoted" to be kinds as well, a design inspired by Conor McBride's Strathclyde Haskell Extension [ http://personal.cis.strath.ac.uk/\~conor/pub/she/ SHE](http://personal.cis.strath.ac.uk/~conor/pub/she/ SHE).  For example:
 
     ```wiki
     type family F :: Bool -> *
