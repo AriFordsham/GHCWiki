@@ -82,6 +82,8 @@ and so on.  (The variable `f` must have a proper function type.)
 
 This pragma can also be used on imported functions `f`, in the same manner as the plain `VECTORISE` pragma.
 
+**RESTRICTION:** Functions vectorised with this pragma can not be mutually recursive. (They may be recursive.)
+
 ## The basic VECTORISE pragma for type constructors
 
 ### Without right-hand side
@@ -207,6 +209,8 @@ indicates that the instance dfun `C t` should vectorised by proceeding as for `V
 
 
 An example is `{-# VECTORISE SCALAR instance Num Int #-}`.
+
+**RESTRICTION:** Instance dictionaries vectorised with this pragma can not be mutually recursive. (They may be recursive.)
 
 ## Vectorising imported definitions
 
