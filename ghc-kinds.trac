@@ -4,6 +4,17 @@ This page gives additional implementation details for the `-XPolyKinds` flag. Th
 
 = Explicit kind variables =
 
+Currently we do not handle kind variables in the source language. So the following is invalid, for instance:
+{{{
+type family Apply (f :: k1 -> k2) (a :: k1)
+}}}
+
+Naturally we want to allow this. The syntax we propose is the one above, as described in the paper.
+(At least until ExplicitTypeApplication gets implemented.)
+
+'''Future work:''' allow kind variable annotation.
+Since the core language has all the support for kind variables, this shouldn't be too hard.
+
 = Kind defaulting in type families =
 
 = [http://hackage.haskell.org/trac/ghc/ticket/5682 #5682] (proper handling of infix promoted constructors) =
