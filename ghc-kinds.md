@@ -58,6 +58,12 @@ When you turn `-XPolyKinds` on, however, we currently give `F` the kind
 
 # [ \#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) (proper handling of infix promoted constructors)
 
+
+Bug report [ \#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) shows a
+problem in parsing promoted infix datatypes.
+
+**Future work:** handle kind operators properly in the parser.
+
 # Kind synonyms (from type synonym promotion)
 
 
