@@ -47,24 +47,7 @@ This mechanism replaces the [previous generic classes implementation](http://www
 # Kind polymorphic overhaul
 
 
-With the new `-XPolyKinds` functionality we can make the support for generic programming better typed. The basic idea is to define the universe codes (`M1`, `:+:`, etc.) as constructors of a datatype. Promotion then lifts these constructors to types, which we can use as before, only that now we have them all classified under a new kind:
-
-```wiki
-{-# LANGUAGE TypeOperators              #-}
-{-# LANGUAGE GADTs                      #-}
-{-# LANGUAGE TypeFamilies               #-}
-{-# LANGUAGE ScopedTypeVariables        #-}
-{-# LANGUAGE FlexibleContexts           #-}
-{-# LANGUAGE FlexibleInstances          #-}
-{-# LANGUAGE PolyKinds                  #-}
-{-# LANGUAGE DefaultSignatures          #-}
-{-# LANGUAGE NoImplicitPrelude          #-}
-
-module GHC.NewGenerics where
-
-import Prelude hiding (Functor(..), Show(..)) -- we'll redefine them
-import qualified Prelude as P (Show(..))
-```
+With the new `-XPolyKinds` functionality we can make the support for generic programming better typed. The basic idea is to define the universe codes (`M1`, `:+:`, etc.) as constructors of a datatype. Promotion then lifts these constructors to types, which we can use as before, only that now we have them all classified under a new kind. The overhaul of the main module is explained below; for easier comparison with the current approach, names are kept the same whenever possible.
 
 ## Generic representation universe
 
@@ -182,7 +165,7 @@ This is a slight annoyance of automatic promotion: when you define a "singleton 
 data Proxy d = Proxy -- kind polymorphic
 
 -- Meta data classes
-class Datatype d where
+class Datatype d where -- kind polymorphic
   -- The name of the datatype, fully qualified
   datatypeName :: Proxy d -> String
 ```
@@ -191,6 +174,9 @@ class Datatype d where
 There's more of these, but they don't add any new concerns.
 
 ## Conversion between user datatypes and generic representation
+
+
+We now get a more precise kind for `Rep`:
 
 ```wiki
 -- Representable types of kind *
@@ -250,6 +236,11 @@ instance (GFunctor f, GFunctor g) => GFunctor (f :**: g) where
 instance (Functor f, GFunctor g) => GFunctor (f :..: g) where
   gfmap f (Comp1 x) = Comp1 (fmap (gfmap f) x)
 ```
+
+
+Note that previously `Functor` and `GFunctor` had exactly the same types.
+Now we can make clear what the difference between them is.
+  
 
 ## Example generic function: `show` (kind `*`, uses metadata)
 
