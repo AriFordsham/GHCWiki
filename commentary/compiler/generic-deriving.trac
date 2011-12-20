@@ -1,4 +1,5 @@
 = Support for generic programming =
+[[PageOutline]]
 
 GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in paper [http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf A generic deriving mechanism for Haskell]. This page sketches the specifics of the implementation; we assume you have read the paper. The [http://www.haskell.org/haskellwiki/Generics HaskellWiki page] gives a more general overview.
 
