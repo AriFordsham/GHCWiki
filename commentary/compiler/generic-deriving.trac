@@ -156,6 +156,19 @@ data Interprt :: Universe (* -> *) * m -> * -> * where
   Comp1  :: f (Interprt g r) -> Interprt (f :..: g) r
 }}}
 
+=== Names ===
+
+As an aside, note that we have to come up with names like `UU` and `KK` for the `Universe`
+even though we really just wanted to use `U1` and `K1`, like before. Then we would have
+a type and a constructor with the same name, but that's ok. However, `Universe` defines
+both a type (with constructors) and a kind (with types). So if we were to use `U1` in the
+`Universe` constructors, then we could no longer use that name in the `Interprt`
+constructors. It's a bit annoying, because we are never really interested in the type
+`Universe` and its constructors: we're only interested in its promoted variant.
+This is a slight annoyance of automatic promotion: when you define a "singleton type"
+(like our GADT `Interprt` for `Universe`) you cannot reuse the constructor names.
+Oh well.
+
 == Metadata representation ==
 {{{
 data Proxy d = Proxy -- kind polymorphic
