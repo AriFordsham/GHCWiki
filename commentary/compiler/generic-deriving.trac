@@ -167,7 +167,7 @@ constructors. It's a bit annoying, because we are never really interested in the
 `Universe` and its constructors: we're only interested in its promoted variant.
 This is a slight annoyance of automatic promotion: when you define a "singleton type"
 (like our GADT `Interprt` for `Universe`) you cannot reuse the constructor names.
-Oh well.
+
 
 == Metadata representation ==
 {{{
