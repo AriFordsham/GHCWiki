@@ -21,7 +21,48 @@ Since the core language has all the support for kind variables, this shouldn't b
 
 # Kind defaulting in type families
 
+
+At the moment, when you define a type family without `-XPolyKinds` like this:
+
+```wiki
+type family F a
+```
+
+
+it gets kind `* -> *`. There are no constraints on the kind of `a`, so we
+default it to `*`. We also default the return kind of `F` to `*`.
+The same happens for data families, and also for plain datatypes with phantom
+types.
+
+
+When you turn `-XPolyKinds` on, however, we currently give `F` the kind
+`forall (k :: BOX). k -> *`. This is unsatisfactory for two reasons:
+
+1. The behaviour of kind generalisation changes when we turn `-XPolyKinds` on,
+  even though it doesn't really have to. We could still default to `*` unless
+  you give a kind signature. So if you want `F` to be kind polymorphic, you
+  should write `type family F (a :: k)`. This, of course, requires supporting
+  [explicit kind variables](ghc-kinds#explicit-kind-variables).
+
+1. Unlike the parameters, however, the return kind of `F` is defaulted to `*`.
+  This seems rather arbitrary. We should either generalise both arguments and
+  return kind, or default both. In case we choose to default, the more
+  general kind can be obtained by giving a signature:
+
+  ```wiki
+  type family F (a :: k1) :: k2
+  ```
+
+**Future work:** do more consistent kind defaulting.
+ 
+
 # [ \#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) (proper handling of infix promoted constructors)
+
+
+Bug report [ \#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) shows a
+problem in parsing promoted infix datatypes.
+
+**Future work:** handle kind operators properly in the parser.
 
 # Kind synonyms (from type synonym promotion)
 
@@ -36,6 +77,13 @@ type family Add (m :: Nat2) (n :: Nat2) :: Nat2
 ```
 
 **Future work:** promote type synonyms to kind synonyms.
+
+# Better support for kinds in Template Haskell
+
+
+Currently there is no support for promoted datatypes, or the kind `Constraint`, in Template Haskell.
+
+**Future work:** address [ \#5612](http://hackage.haskell.org/trac/ghc/ticket/5612), designing and implementing a way for Template Haskell to reify the new kinds.
 
 # Kind-polymorphic `Typeable`
 
@@ -220,10 +268,3 @@ require type/kind signatures for kind polymorphic stuff, so then
 can be used to type check generalised algebraic kinds, avoiding the need for
 coercions. While this would still require some implementation effort, it
 should be "doable".
-
-# Better support for kinds in Template Haskell
-
-
-Currently there is no support for promoted datatypes, or the kind `Constraint`, in Template Haskell.
-
-**Future work:** address [ \#5612](http://hackage.haskell.org/trac/ghc/ticket/5612), designing and implementing a way for Template Haskell to reify the new kinds.
