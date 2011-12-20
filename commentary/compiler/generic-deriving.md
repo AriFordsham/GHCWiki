@@ -61,10 +61,10 @@ will introduce a new metadata kind.
 
 ```wiki
 data Universe f x m = 
-    -- Void (used for datatypes without constructors)
+  -- Void (used for datatypes without constructors)
     VV
     
-    -- Unit
+  -- Unit
   | UU
   
   -- The parameter

@@ -56,10 +56,10 @@ and we really want to be polymorphic over that, since each user datatype
 will introduce a new metadata kind.
 {{{
 data Universe f x m = 
-    -- Void (used for datatypes without constructors)
+  -- Void (used for datatypes without constructors)
     VV
     
-    -- Unit
+  -- Unit
   | UU
   
   -- The parameter
