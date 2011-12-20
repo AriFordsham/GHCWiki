@@ -303,10 +303,10 @@ split the `MM` case.
 instance Datatype DList where datatypeName _ = "[]"
 ```
 
+### Digression
 
-  
-  
-Note: even better would be to index the metadata representation types over
+
+Even better would be to index the metadata representation types over
 the type they refer to. Something like:
 
 ```wiki
