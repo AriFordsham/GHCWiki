@@ -79,6 +79,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Safe Haskell](safe-haskell): The design of the GHC Safe Haskell extension
   - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on SPJs "Comprehensive Comprehensions" (TransformComprehensions)
   - [A kind for facts (e.g. class constraints). Implemented as ConstraintKinds](kind-fact)
+  - [Kind level](ghc-kinds): Notes on `-XPolyKinds`
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
@@ -87,7 +88,6 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [A modular package language for Haskell](package-language) Scott Kilpatrick and Derek Dreyer are designing a new “package language” for Haskell in the style of the ML module system.
   - [Pattern synonyms](pattern-synonyms)
   - [Type level naturals](type-nats)
-  - [Kind level](ghc-kinds): Notes on the theory, design and implementation of a kind level by promotion of data types.
   - [Polymorphic Dynamic](polymorphic-dynamic): Notes on adding ad-hoc polymorphic dynamic types
   - [Proposal to allow classes to give default implementations for their superclasses](default-superclass-instances)
   - [Cmm: Implementing Exception Handling](commentary/cmm-exceptions): Implementing exception handling for primitive operations in Cmm
@@ -97,6 +97,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Objective-C FFI](objective-c): Haskell FFI support for Objective-C
   - [C Blocks](block-objects): Haskell FFI support for block objects (closures) in C
   - [Syntax for explicit type application and scoped type variables](explicit-type-application)
+  - [Deferring compilation type errors to runtime (\`-fwarn-type-errors\`)](defer-errors-to-runtime)
 
 - GHCi Debuger
 

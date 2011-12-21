@@ -68,6 +68,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:SafeHaskell Safe Haskell]: The design of the GHC Safe Haskell extension
    * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on SPJs "Comprehensive Comprehensions" (TransformComprehensions)
    * [wiki:KindFact A kind for facts (e.g. class constraints). Implemented as ConstraintKinds]
+   * [wiki:GhcKinds Kind level]: Notes on `-XPolyKinds`
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
    * [wiki:Records Simple records]
@@ -75,7 +76,6 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:PackageLanguage A modular package language for Haskell] Scott Kilpatrick and Derek Dreyer are designing a new “package language” for Haskell in the style of the ML module system.
    * [wiki:PatternSynonyms Pattern synonyms]
    * [wiki:TypeNats Type level naturals]
-   * [wiki:GhcKinds Kind level]: Notes on the theory, design and implementation of a kind level by promotion of data types.
    * [wiki:PolymorphicDynamic Polymorphic Dynamic]: Notes on adding ad-hoc polymorphic dynamic types
    * [wiki:DefaultSuperclassInstances Proposal to allow classes to give default implementations for their superclasses]
    * [wiki:Commentary/CmmExceptions Cmm: Implementing Exception Handling]: Implementing exception handling for primitive operations in Cmm
@@ -85,6 +85,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:ObjectiveC Objective-C FFI]: Haskell FFI support for Objective-C
    * [wiki:BlockObjects C Blocks]: Haskell FFI support for block objects (closures) in C
    * [wiki:ExplicitTypeApplication Syntax for explicit type application and scoped type variables]
+   * [wiki:DeferErrorsToRuntime Deferring compilation type errors to runtime (`-fwarn-type-errors`)]
 
  * GHCi Debuger
    * [wiki:GhciDebugger GHCi Debugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
