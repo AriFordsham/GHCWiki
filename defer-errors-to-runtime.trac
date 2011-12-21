@@ -37,4 +37,27 @@ the way".
 
 == Implementation details ==
 
-To do.
+The first step is to make sure that `TcUnify` does not ever fail with a type
+error; instead, we call `uType_defer` to defer the unification to the constraint
+solver.
+
+In the constraint solver, we call `reportUnsolved` with any remaining unsolved
+constraints. At this stage, if we are not deferring errors, we simply make the
+errors for each unsolved constraint and throw them. If we are deferring errors,
+we make the errors for each constraint and then set the evidence binder of each
+unsolved constraint to be a runtime error that emits the type error message we
+just created. This is done by `reportTidyWanteds` and `deferCt` in
+`typecheck/TcErrors`. Note that `reportTidyWanteds` has some shuffling to do,
+because when we are not deferring errors we group certain errors, or we don't
+report all the errors. But when we are deferring we really want to have
+(at least) one error for every coercion.
+
+=== Error messages ===
+
+For simplicity, we defer errors from `TcUnify` to the constraint solver even
+if `-fwarn-type-errors` is not on; in that case, we will simply fail in the
+constraint solver, rather than directly in the unifier.
+
+This means that some type error messages change, even without `-fwarn-type-errors`.
+In particular, many tests from the testsuite need to have their output adapted.
+
