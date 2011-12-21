@@ -62,3 +62,8 @@ constraint solver, rather than directly in the unifier.
 This means that some type error messages change, even without `-fwarn-type-errors`.
 In particular, many tests from the testsuite need to have their output adapted.
 
+== Kind errors ==
+
+Currently we cannot defer kind errors because we do not create coercions for
+kind equalities. This might change in the near future, though, in which case
+we could use the same strategy to defer kind errors to runtime.
