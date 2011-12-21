@@ -387,8 +387,16 @@ The following branches are active:
 To switch to this branch run:
 
 ```wiki
-$ git checkout -b ghc-7.2 origin/ghc-7.2
 $ ./sync-all checkout ghc-7.2
 ```
 
 </td></tr></table>
+
+**7.4 Branch**::
+
+>
+> To switch to this branch run:
+>
+> ```wiki
+> $ ./sync-all checkout ghc-7.4
+> ```
