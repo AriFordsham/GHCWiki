@@ -7,12 +7,12 @@ This page describes the `-fwarn-type-errors` flag, currently implemented in the 
 While developing, sometimes it is desirable to allow compilation to succeed even
 if there are type errors in the code. Consider the following case:
 {{{
-  module Main where
+module Main where
 
-  a :: Int
-  a = 'a'
+a :: Int
+a = 'a'
 
-  main = print "b"
+main = print "b"
 }}}
 Even though `a` is ill-typed, it is not used in the end, so if all that we're
 interested in is `main` it is handy to be able to ignore the problems in `a`.
@@ -22,11 +22,11 @@ we run into a type mismatch in TcUnify, we would normally just emit an error. Bu
 is always safe to defer the mismatch to the main constraint solver. If we do
 that, `a` will get transformed into
 {{{
-  $co :: Int ~# Char
-  $co = ...
+$co :: Int ~# Char
+$co = ...
 
-  a :: Int
-  a = 'a' `cast` $co
+a :: Int
+a = 'a' `cast` $co
 }}}
 The constraint solver would realize that `co` is an insoluble constraint, and
 emit an error. But we can also replace the right-hand side

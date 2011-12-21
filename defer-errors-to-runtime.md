@@ -10,12 +10,12 @@ While developing, sometimes it is desirable to allow compilation to succeed even
 if there are type errors in the code. Consider the following case:
 
 ```wiki
-  module Main where
+module Main where
 
-  a :: Int
-  a = 'a'
+a :: Int
+a = 'a'
 
-  main = print "b"
+main = print "b"
 ```
 
 
@@ -29,11 +29,11 @@ is always safe to defer the mismatch to the main constraint solver. If we do
 that, `a` will get transformed into
 
 ```wiki
-  $co :: Int ~# Char
-  $co = ...
+$co :: Int ~# Char
+$co = ...
 
-  a :: Int
-  a = 'a' `cast` $co
+a :: Int
+a = 'a' `cast` $co
 ```
 
 
