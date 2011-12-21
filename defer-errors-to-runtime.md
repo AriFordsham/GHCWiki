@@ -2,6 +2,7 @@
 
 
 This page describes the `-fwarn-type-errors` flag, currently implemented in the ghc branch `ghc-defer`.
+Ticket [\#5624](https://gitlab.haskell.org//ghc/ghc/issues/5624) tracks this feature request.
 
 ## Overview
 
