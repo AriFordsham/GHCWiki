@@ -100,7 +100,7 @@ Both ./configure, cabal configure, and hsc2hs desire to run things built for T. 
 
 == Make Files ==
 
-The over all build sequencing needs to recognize the cross compilation configuration, and adjust build targets and final packaging to match.
+The overall build sequencing needs to recognize the cross compilation configuration, and adjust build targets and final packaging to match.
 
 There are few other places where the make system needs to get fixed up to use the correct tool-chain at the right time ''(partial patche pending)''.
 
