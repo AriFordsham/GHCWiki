@@ -79,7 +79,7 @@ Even in a non-cross build, the current build system takes some care to achieve a
 
 Autoconf offers only limited support for cross compiling. While it professes to know about three platforms, base, host, and target; it knows only about one tool-chain. It uses that tool-chain to determine two classes of information: Information about how to use the tool-chain itself, and information about the target of that tool-chain. Hence, in the cross-compilation case, it makes sense for ./configure to be told about XT.
 
-Autoconf's concept and variable $cross_compiling only gets set if B ≠ H. This is correct from the standpoint of compiling a simple program (for which T is irrelevant). In our normalized version of B/H/T, B = H, so the logic of autoconf needs to be ammended ''(patch pending)''.
+Autoconf's concept and variable $cross_compiling only gets set if B ≠ H. This is correct from the standpoint of compiling a simple program (for which T is irrelevant). In our normalized version of B/H/T, B = H, so the logic of autoconf needs to be amended ''(patch pending)''.
 
 This leaves us with the issue of how to tell it about parts of HT it can't infer from the stage0 compiler. We need a new set of variables that are how to compile, link and run things on the host, which if cross compiling need to be different. There needs to be some way to pass those on the configure line. Perhaps something like:
 
