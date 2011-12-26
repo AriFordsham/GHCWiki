@@ -71,6 +71,55 @@ class Has_x (r :: *) (t :: *) where
 
 This seems clunky to me, and I don't really want to deal with this infinite family of classes (eg how are the brought into scope).  I see no disadvantages to a `String` parameter, which will form part of GHC's new kind system.
 
+## Scope control by generalising the `String` type in `Has`
+
+
+The proposal above doesn't allow label names to be scoped: if one module internally uses `"field"` as a label name then another module can break the abstraction by using the same string `"field"`.
+
+
+We can fix this by instead of having
+
+```wiki
+class Has (r :: *) (f :: String)       (t :: *) where
+```
+
+
+having something like
+
+```wiki
+class Has (r :: *) (ft :: *) (f :: ft) (t :: *) where
+```
+
+
+(where `ft` stands for field type).
+
+
+The expression
+
+```wiki
+foo.field
+```
+
+
+(starting with a lowercase letter) would behave as described above, with `ft ~ String`.
+
+
+But
+
+```wiki
+foo.Field
+```
+
+
+(starting with an uppercase letter) would use the Field constructor that is in scope, e.g. if we had
+
+```wiki
+data FieldT = Field
+```
+
+
+then `ft ~ FieldT`. Then we can choose whether or not to export `FieldT(Field)`.
+
 ## Should `get` have a proxy argument?
 
 
