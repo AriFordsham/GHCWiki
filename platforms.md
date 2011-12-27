@@ -47,7 +47,7 @@ Criteria for Tier 1 platforms:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No                </th>
+<th> Yes               </th>
 <th></th>
 <th></th></tr>
 <tr><th> x86          </th>
@@ -67,7 +67,7 @@ Criteria for Tier 1 platforms:
 <th> Yes  </th>
 <th> Yes                   </th>
 <th> Yes          </th>
-<th> No                </th>
+<th> Yes               </th>
 <th></th>
 <th></th></tr>
 <tr><th> x86          </th>
