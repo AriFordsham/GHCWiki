@@ -50,16 +50,6 @@ Criteria for Tier 1 platforms:
 <th> Yes               </th>
 <th></th>
 <th></th></tr>
-<tr><th> x86          </th>
-<th> MacOS X         </th>
-<th> i386-apple-darwin       </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes                   </th>
-<th> Yes          </th>
-<th> No                </th>
-<th></th>
-<th>[Attic/X86OSXGhc](attic/x86-osx-ghc)</th></tr>
 <tr><th> x86-64       </th>
 <th> Linux           </th>
 <th> x86_64-unknown-linux    </th>
@@ -70,6 +60,16 @@ Criteria for Tier 1 platforms:
 <th> Yes               </th>
 <th></th>
 <th></th></tr>
+<tr><th> x86          </th>
+<th> MacOS X         </th>
+<th> i386-apple-darwin       </th>
+<th> Yes          </th>
+<th> Yes  </th>
+<th> Yes                   </th>
+<th> Yes          </th>
+<th> No                </th>
+<th></th>
+<th>[Attic/X86OSXGhc](attic/x86-osx-ghc)</th></tr>
 <tr><th> x86          </th>
 <th> FreeBSD         </th>
 <th> i386-unknown-freebsd    </th>
