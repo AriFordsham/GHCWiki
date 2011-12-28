@@ -18,6 +18,7 @@
  * #1547: profiling and arity
 
 === Inlining ===
+ * #3872, #5400, #5448, #5722: contravariant data type loop in simplifier inliner
  * #4833: finding the right loop breaker
  * #3781, #3755: inlining for local functions: discount for scrutinising free vars
  * #3765: CONLIKE things and case expressions (need two unfoldings)
@@ -153,6 +154,5 @@
 --------------------------
 == Not sure what to do about these ==
  * #2284: the state-hack "optimisation" causes much re-computation
- * #3872,#5400: loop in simplifier inliner
  * #4005: generational GC pathalogical case
  * #1349: strict function argument types
