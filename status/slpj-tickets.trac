@@ -18,7 +18,7 @@
  * #1547: profiling and arity
 
 === Inlining ===
- * #3872,#5400, #5448, #5722: contravariant data type loop in simplifier inliner
+ * #3872, #5400, #5448, #5722: contravariant data type loop in simplifier inliner
  * #4833: finding the right loop breaker
  * #3781, #3755: inlining for local functions: discount for scrutinising free vars
  * #3765: CONLIKE things and case expressions (need two unfoldings)
