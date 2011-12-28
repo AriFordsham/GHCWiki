@@ -47,9 +47,11 @@ In Haskell, you can look at an occurrence of any identifier `f` or `M.f` and dec
 If there is ambiguity (eg two imports both import something called `f`) then an error is reported.  And that's what happens for the `Record` and `RecordClash` example above.
 
 So one solution for record field names is to specify more precisely which one you mean.  There are two schools of thought:
- * Optionally use the type name.  So you could say `Record.a` or `RecordClash.a` rather than `a`, to specify which field selector you mean.  Apart from verbosity the difficulty here is that it's hard to know whether you are writing `<module-name>.f` or `<type-name>.f`.  That is, is `Record` the name of a type or of a module?  (Currently it legally could be both.)
+ * '''Optionally use the type name'''.  So you could say `Record.a` or `RecordClash.a` rather than `a`, to specify which field selector you mean.  Apart from verbosity the difficulty here is that it's hard to know whether you are writing `<module-name>.f` or `<type-name>.f`.  That is, is `Record` the name of a type or of a module?  (Currently it legally could be both.)  
 
- * Use the module name space mechanism; after all that's what it's for.  But putting each record definition in its own module is a bit heavyweight. So maybe we need local modules (just for name space control) and local import declarations.  Details are unclear. (This was proposed in 2008 in [http://www.haskell.org/pipermail/haskell-cafe/2008-August/046494.html this discussion] on the Haskell cafe mailing list and in #2551. - Yitz)
+ [http://code.google.com/p/frege/ Frege] takes this approach; see Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [http://code.google.com/p/frege/downloads/detail?name=Language-202.pdf Frege user manual].
+
+ * '''Use the module name space mechanism'''; after all that's what it's for.  But putting each record definition in its own module is a bit heavyweight. So maybe we need local modules (just for name space control) and local import declarations.  Details are unclear. (This was proposed in 2008 in [http://www.haskell.org/pipermail/haskell-cafe/2008-August/046494.html this discussion] on the Haskell cafe mailing list and in #2551. - Yitz)
 
 '''Anyone who likes these designs, please fill out a detailed design, either here or on another page'''.
 
