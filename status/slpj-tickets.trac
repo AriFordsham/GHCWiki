@@ -2,7 +2,7 @@
 
 == New typechecker things to fix (with Dimitrios) ==
  * #5321: slow constraint solving
- * #4347: rigid type signatures for impredicativity
+ * #4347, #4295: impredicativity
  * #5320: overlap delicacy
 
 === Arity ===
@@ -76,7 +76,6 @@
 
  * [wiki:TypeFunctionsStatus]
  * #4296: !SkolemOccurs
- * #4295: Higher rank and impredicative 
  * #816. #3108: extreme delicacy in solve order, involving fundeps
  * #3927: overlap warnings with GADTs
  * #4175: better GHCi info for type-function instances

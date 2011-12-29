@@ -3,7 +3,7 @@
 ## New typechecker things to fix (with Dimitrios)
 
 - [\#5321](https://gitlab.haskell.org//ghc/ghc/issues/5321): slow constraint solving
-- [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347): rigid type signatures for impredicativity
+- [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): impredicativity
 - [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320): overlap delicacy
 
 ### Arity
@@ -86,7 +86,6 @@
 
 - [TypeFunctionsStatus](type-functions-status)
 - [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
-- [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): Higher rank and impredicative 
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
 - [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927): overlap warnings with GADTs
 - [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
