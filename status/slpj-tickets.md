@@ -100,6 +100,7 @@
 
 ## Types and type inference
 
+- [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965): make existentials have a really cheap implementation
 - [\#5224](https://gitlab.haskell.org//ghc/ghc/issues/5224): make it cheaper to check for inconsistent type family instances
 - [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466), [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296): explicit type application
 - [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): distinguish type parameters from indices
@@ -150,11 +151,9 @@
 - [\#4823](https://gitlab.haskell.org//ghc/ghc/issues/4823): strength reduction for array indexing
 - [\#4479](https://gitlab.haskell.org//ghc/ghc/issues/4479): type directed name resolution (TDNR)
 - [\#4426](https://gitlab.haskell.org//ghc/ghc/issues/4426): simpler rule for implicit quantification
-- [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotes
 - [\#4359](https://gitlab.haskell.org//ghc/ghc/issues/4359): lambda case
 - [\#4148](https://gitlab.haskell.org//ghc/ghc/issues/4148): improvements to mdo syntax
 - [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595): pattern-match overlap checking
-- [\#3843](https://gitlab.haskell.org//ghc/ghc/issues/3843): Add plugins
 - [\#3701](https://gitlab.haskell.org//ghc/ghc/issues/3701): Implicitly declared existentials: a class as a type
 - [\#3217](https://gitlab.haskell.org//ghc/ghc/issues/3217): better flag handling for GHCi
 - [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600), [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110): **Bind type variables and constraints in RULES**
