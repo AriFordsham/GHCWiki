@@ -56,6 +56,7 @@
  * Use wildcards for dead variables in interface files.
 
 == Tiresome arithmetic things ==
+ * #5615: poor code for div with powers of 2
  * #4101: constant folding for `(**)`
  * #3676: `realToFrac` conversions
  * #3744: comparisons against `minBound` and `maxBound` are not optimised away
