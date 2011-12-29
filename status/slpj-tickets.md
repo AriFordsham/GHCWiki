@@ -3,8 +3,7 @@
 ## New typechecker things to fix (with Dimitrios)
 
 - [\#5321](https://gitlab.haskell.org//ghc/ghc/issues/5321): slow constraint solving
-- [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347): rigid type signatures for impredicativity
-- [\#4310](https://gitlab.haskell.org//ghc/ghc/issues/4310), [\#5595](https://gitlab.haskell.org//ghc/ghc/issues/5595): deferred equalities and forall types (needs Brent's work) 
+- [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): impredicativity
 - [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320): overlap delicacy
 
 ### Arity
@@ -13,7 +12,6 @@
 - [\#3698](https://gitlab.haskell.org//ghc/ghc/issues/3698): arity analysis again
 - [\#3697](https://gitlab.haskell.org//ghc/ghc/issues/3697): class method selectors
 - [\#3034](https://gitlab.haskell.org//ghc/ghc/issues/3034): divInt and arity
-- [\#3627](https://gitlab.haskell.org//ghc/ghc/issues/3627): profiling and eta expansion
 - [\#2915](https://gitlab.haskell.org//ghc/ghc/issues/2915): arity too small
 - [\#2823](https://gitlab.haskell.org//ghc/ghc/issues/2823): another arity expansion bug (related to dictionaries)
 - [\#2440](https://gitlab.haskell.org//ghc/ghc/issues/2440): bad code with type families; I believe this is also arity-related
@@ -26,7 +24,6 @@
 - [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781), [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): inlining for local functions: discount for scrutinising free vars
 - [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
 - [\#3073](https://gitlab.haskell.org//ghc/ghc/issues/3073) and [Commentary/Compiler/DesugaringInstances](commentary/compiler/desugaring-instances): better desugaring for instances
-- [\#2396](https://gitlab.haskell.org//ghc/ghc/issues/2396): default class method not inlined
 - [\#2078](https://gitlab.haskell.org//ghc/ghc/issues/2078): INLINing improvement; ask Christian.Maeder@… to see if it improves CASL
 - [\#2840](https://gitlab.haskell.org//ghc/ghc/issues/2840): top level unlifted string literals
 - [\#3123](https://gitlab.haskell.org//ghc/ghc/issues/3123): feature request: recursive inlining and peeling
@@ -39,7 +36,6 @@
 - [\#3458](https://gitlab.haskell.org//ghc/ghc/issues/3458), [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): undesirable allocation of something that is nearly a let-no-escape
 - [\#3462](https://gitlab.haskell.org//ghc/ghc/issues/3462): allocate large objects with `allocateLocal()`
 - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253): NCG could do better. Look at this when John D’s ncg is working
-- [\#783](https://gitlab.haskell.org//ghc/ghc/issues/783): SRTs getting big        
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): cheap check at start of case alternatives
 - [\#2731](https://gitlab.haskell.org//ghc/ghc/issues/2731): avoiding unnecessary evaluation when unpacking constructors
 - [\#3940](https://gitlab.haskell.org//ghc/ghc/issues/3940): propagate fix
@@ -59,7 +55,6 @@
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387), [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600): nested CPR analysis        
 - [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#3767](https://gitlab.haskell.org//ghc/ghc/issues/3767), [\#2642](https://gitlab.haskell.org//ghc/ghc/issues/2642), [\#3831](https://gitlab.haskell.org//ghc/ghc/issues/3831), [\#4941](https://gitlab.haskell.org//ghc/ghc/issues/4941): Improve **`SpecConstr`** for free variables, and for join points.
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
-- [\#5363](https://gitlab.haskell.org//ghc/ghc/issues/5363): profiling worsens space behaviour
 
 ### Compiler performance
 
@@ -68,8 +63,7 @@
 
 ## Tiresome arithmetic things
 
-- [\#5237](https://gitlab.haskell.org//ghc/ghc/issues/5237): x squared is too slow
-- [\#2281](https://gitlab.haskell.org//ghc/ghc/issues/2281): properFraction implemented with modf primitive?
+- [\#5615](https://gitlab.haskell.org//ghc/ghc/issues/5615): poor code for div with powers of 2
 - [\#4101](https://gitlab.haskell.org//ghc/ghc/issues/4101): constant folding for `(**)`
 - [\#3676](https://gitlab.haskell.org//ghc/ghc/issues/3676): `realToFrac` conversions
 - [\#3744](https://gitlab.haskell.org//ghc/ghc/issues/3744): comparisons against `minBound` and `maxBound` are not optimised away
@@ -93,13 +87,13 @@
 
 - [TypeFunctionsStatus](type-functions-status)
 - [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
-- [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): Higher rank and impredicative 
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
 - [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927): overlap warnings with GADTs
 - [\#4175](https://gitlab.haskell.org//ghc/ghc/issues/4175): better GHCi info for type-function instances
 
 ## Types and type inference
 
+- [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965): make existentials have a really cheap implementation
 - [\#5224](https://gitlab.haskell.org//ghc/ghc/issues/5224): make it cheaper to check for inconsistent type family instances
 - [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466), [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296): explicit type application
 - [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): distinguish type parameters from indices
@@ -107,10 +101,7 @@
 - [\#3490](https://gitlab.haskell.org//ghc/ghc/issues/3490): superclasses and ambiguity
 - [\#3632](https://gitlab.haskell.org//ghc/ghc/issues/3632): better update for records with existentials
 - [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496), [\#4846](https://gitlab.haskell.org//ghc/ghc/issues/4846): Newtype deriving and type families type soundness problem
-- [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): **Ambiguity: don't infer a type that can't be checked if the type is given as a signature** (this one is important).  See SPJ's mailbox: Haskell type system/Ambiguity.
 - [\#2641](https://gitlab.haskell.org//ghc/ghc/issues/2641): revise what `-XExtendedDefaultRules` does
-- [\#3592](https://gitlab.haskell.org//ghc/ghc/issues/3592): deep skolemisation
-- [\#2357](https://gitlab.haskell.org//ghc/ghc/issues/2357): **Implement the Haskell Prime proposal for polymorphic pattern bindings**
 
 ### Better error messages
 
@@ -118,7 +109,6 @@
 - [\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330): another bad error message (Church2)
 - [\#2648](https://gitlab.haskell.org//ghc/ghc/issues/2648): Report out of date interface files robustly        
 - [\#2588](https://gitlab.haskell.org//ghc/ghc/issues/2588): Better error message about ‘forall’        
-- [\#2360](https://gitlab.haskell.org//ghc/ghc/issues/2360): Better location info in occurs-check message.        
 - [\#1928](https://gitlab.haskell.org//ghc/ghc/issues/1928): Confusing type error message (Claus makes suggestions)        
 - [\#2534](https://gitlab.haskell.org//ghc/ghc/issues/2534): Another confusing type error message        
 - [\#2900](https://gitlab.haskell.org//ghc/ghc/issues/2900): Improve decomposition of function types
@@ -132,7 +122,6 @@
 - [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364): type synonym loop
 - [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotation support
 - [\#2041](https://gitlab.haskell.org//ghc/ghc/issues/2041): Splicing in concrete syntax
-- [\#3507](https://gitlab.haskell.org//ghc/ghc/issues/3507): use "`type T`" instead of `''T`
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): Allow TH to generate import declarations        
 - [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.
 - [\#4222](https://gitlab.haskell.org//ghc/ghc/issues/4222): design of reification for TH
@@ -150,11 +139,9 @@
 - [\#4823](https://gitlab.haskell.org//ghc/ghc/issues/4823): strength reduction for array indexing
 - [\#4479](https://gitlab.haskell.org//ghc/ghc/issues/4479): type directed name resolution (TDNR)
 - [\#4426](https://gitlab.haskell.org//ghc/ghc/issues/4426): simpler rule for implicit quantification
-- [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotes
 - [\#4359](https://gitlab.haskell.org//ghc/ghc/issues/4359): lambda case
 - [\#4148](https://gitlab.haskell.org//ghc/ghc/issues/4148): improvements to mdo syntax
-- [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595): pattern-match overlap checking
-- [\#3843](https://gitlab.haskell.org//ghc/ghc/issues/3843): Add plugins
+- [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595), [\#5728](https://gitlab.haskell.org//ghc/ghc/issues/5728): pattern-match overlap checking
 - [\#3701](https://gitlab.haskell.org//ghc/ghc/issues/3701): Implicitly declared existentials: a class as a type
 - [\#3217](https://gitlab.haskell.org//ghc/ghc/issues/3217): better flag handling for GHCi
 - [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600), [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110): **Bind type variables and constraints in RULES**
