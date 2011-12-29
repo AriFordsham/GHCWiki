@@ -6,12 +6,12 @@ different records to share a single field label.  Although it's a simple enough
 idea there are numerous ramifications.  Records are a swamp!
 
 
-See also a similar [ 2003 proposal by Simon PJ and Greg Morrisset](http://research.microsoft.com/en-us/um/people/simonpj/Haskell/records.html).  It is essentially the same as the proposal below, but (a) has less detail and (b) adds anonymous reccord types.   Anonymous type could be an add-on feature to the design described here.
+See also a similar [ 2003 proposal by Simon PJ and Greg Morrisset](http://research.microsoft.com/en-us/um/people/simonpj/Haskell/records.html).  It is essentially the same as the proposal below, but (a) has less detail and (b) adds anonymous record types.   Anonymous type could be an add-on feature to the design described here.
 
 # The base design
 
 
-The **base design** has the folllowing distinct components:
+The **base design** has the following distinct components:
 
 - A library class
 
@@ -436,7 +436,7 @@ There are three problems:
   will be rejected because `rv` is not polymorphic.  Again, this is **not** easy to fix.   
 
 >
-> This problem seems to be a killer: if record-update syntax is interprested as a call to `set`, we cannot, ever, use record-update syntax to update a record with a polymorphic field. (We could use alternative notation; instead of `r { rev = reverse }` we could say
+> This problem seems to be a killer: if record-update syntax is interpreted as a call to `set`, we cannot, ever, use record-update syntax to update a record with a polymorphic field. (We could use alternative notation; instead of `r { rev = reverse }` we could say
 >
 > ```wiki
 >   case r of { HR { .. } -> HR { rev = reverse, .. } }
@@ -449,7 +449,7 @@ There are three problems:
 I'm not very happy with any of this.  Faced with these difficulties,
 another alternative is to stick with the status quo for record
 updates; that is, not to support any sort of overloading.  But even
-*that* is problemantic: what does `e { x = True }` mean if there are lots of "x" fields
+*that* is problematic: what does `e { x = True }` mean if there are lots of "x" fields
 in scope (which is precisely what we want to allow). Haskell's current record-update
 syntax really relies on learning which type is involved, from the record selector; but if
 there are many x's, it can't figure it out.  Insisting that only one "x" selector must
