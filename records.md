@@ -76,7 +76,13 @@ So one solution for record field names is to specify more precisely which one yo
 
 The module/record ambiguity is dealt with in Frege by preferring modules and requiring a module prefix for the record if there is ambiguity. So if your record named Record was inside a module named Record you would need `Record.Record.a`. I think for the most part programmers will structure their programs to avoid this situation.
 
-- **Use the module name space mechanism**; after all that's what it's for.  But putting each record definition in its own module is a bit heavyweight. So maybe we need local modules (just for name space control) and local import declarations.  Details are unclear. (This was proposed in 2008 in [ this discussion](http://www.haskell.org/pipermail/haskell-cafe/2008-August/046494.html) on the Haskell cafe mailing list and in [\#2551](https://gitlab.haskell.org//ghc/ghc/issues/2551). - Yitz)
+
+Verbosity is solved in Frege by using the TDNR concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`.
+
+- **Use the module name space mechanism**; after all that's what it's for.  But putting each record definition in its own module is a bit heavyweight. So maybe we need local modules (just for name space control) and local import declarations.  Details are unclear. (This was proposed in 2008 in [ this discussion](http://www.haskell.org/pipermail/haskell-cafe/2008-August/046494.html) on the Haskell cafe mailing list and in [\#2551](https://gitlab.haskell.org//ghc/ghc/issues/2551). - Yitz).
+
+
+Rather than strictly re-use modules it would make more sense to have a name-spacing construct that is shared between both records and modules - hopefully this would make implementation easier.
 
 **Anyone who likes these designs, please fill out a detailed design, either here or on another page**.
 
