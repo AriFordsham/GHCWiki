@@ -98,3 +98,6 @@ All of the name-space mechanisms require some level of user-supplied disambiguat
 
 
 One particular way of integrating this idea into Haskell is called [ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR).  Proposed a couple of years ago, the Haskell community didn't like it much.  (But I still do; SLPJ.)
+
+
+I believe the community rejected TDNR because they wanted extensible records. I think it is a shame that the desire for \*extensible\* records is holding us back from getting anything done now, but I do think that the current TDNR proposal seems a little weak for some reasons pointed out in the proposal itself, but also because it proposes not to solve name-spacing record updates. Note that the Frege proposal incorporates the TDNR concept purely as sugar, and it has a solution for record updates (that hopefully somehow is easier than the original thoughts of TDNR update being difficult to implement). -- GregWeber
