@@ -199,4 +199,12 @@ I actually have much of the above working. At this point I can build and link an
 
 
 In general, the problems have all been in plumbing the concepts of XT vs. HT around the build system. While I've been able to fudge it for most of the components though there are places where my work around is forced.
- 
+
+---
+
+## Questions
+
+### Jan 2012: Gabor Greif
+
+- The [build stages](building/architecture/idiom/stages) page says that Template Haskell is disabled in stage1 compilers. This would mean that a cross-compiler is devoid of an important feature. Any tweak possible to fix this?
+- Did any of the TODOs and pending patches make it into the GHC 7.4/HEAD repositories?
