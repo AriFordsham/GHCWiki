@@ -54,13 +54,11 @@ But this works out just fine for the two use cases we've identified:
 The build plan becomes:
 
  * '''Cross-compiler'''
-   * Developer configures with B = H, and H ≠ T:
-       `$ ./configure --target=`''other-platform''
+   * Developer configures with B = H, and H ≠ T:[[BR]]`$ ./configure --target=`''other-platform''
    * Build though Stage 1 and libs install
    * Package Stage 1 GHC and libs install as the desired cross-compiler
  * '''Cross-build'''
-   * Developer configures with B ≠ H, and H = T
-       `$ ./configure --host=`''other-platform''` --target=`''other-platform''
+   * Developer configures with B ≠ H, and H = T:[[BR]]`$ ./configure --host=`''other-platform''` --target=`''other-platform''
    * Internally, set H to B, so that we have B = H, and H ≠ T as required
    * Build through libs install and Stage 2
    * Package Stage 2 GHC and libs install as the desired cross-compiler
