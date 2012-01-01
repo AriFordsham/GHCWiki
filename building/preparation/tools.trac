@@ -97,7 +97,7 @@ In most cases the `configure` script will tell you if you are missing something.
 
  {{{autoconf}}} and {{{automake}}}::
   These are needed if you intend to build from the
-  darcs sources, they are ''not'' needed if you
+  darcs/git sources, they are ''not'' needed if you
   just intend to build a standard source distribution.
   [[br]][[br]]
   Version 2.52 or later of the autoconf package is required.
