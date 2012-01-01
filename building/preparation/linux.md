@@ -60,7 +60,7 @@ But this might install some packages you do not use in your system (e.g. lintian
 - `libffi-dev`
 
 
-For building the documentataion: (User's Guide and Cabal guide):
+For building the documentation: (User's Guide and Cabal guide):
 
 - `docbook-utils`
 - `docbook-utils-pdf`
