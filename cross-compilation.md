@@ -108,21 +108,16 @@ The build plan becomes:
 - **Cross-compiler**
 
   - Developer configures with B = H, and H ≠ T:
-
-> > > `$ ./configure --target=`*other-platform*
-
-- Build though Stage 1 and libs install
-- Package Stage 1 GHC and libs install as the desired cross-compiler
-
+    `$ ./configure --target=`*other-platform*
+  - Build though Stage 1 and libs install
+  - Package Stage 1 GHC and libs install as the desired cross-compiler
 - **Cross-build**
 
-  - Developer configures with B ≠ H, and H = T
-
-> > > `$ ./configure --host=`*other-platform*` --target=`*other-platform*
-
-- Internally, set H to B, so that we have B = H, and H ≠ T as required
-- Build through libs install and Stage 2
-- Package Stage 2 GHC and libs install as the desired cross-compiler
+  - Developer configures with B ≠ H, and H = T:
+    `$ ./configure --host=`*other-platform*` --target=`*other-platform*
+  - Internally, set H to B, so that we have B = H, and H ≠ T as required
+  - Build through libs install and Stage 2
+  - Package Stage 2 GHC and libs install as the desired cross-compiler
 
 
 Thus, as far as the mechanics of the build are concerned, the two use cases are actually handled the same once the B/H/T variables are normalized. The only real difference is when to stop (before or after Stage 2), and which compiler gets bundled as the installed compiler (Stage 1 or Stage 2).
