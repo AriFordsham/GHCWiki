@@ -114,7 +114,7 @@ For GHC 6.8 and older you need a 0.\* version of haddock; 2.\* versions won't wo
 <table><tr><th>`autoconf` and `automake`</th>
 <td>
 These are needed if you intend to build from the
-darcs sources, they are *not* needed if you
+darcs/git sources, they are *not* needed if you
 just intend to build a standard source distribution.
 
 Version 2.52 or later of the autoconf package is required.
