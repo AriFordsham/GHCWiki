@@ -139,7 +139,7 @@ Even in a non-cross build, the current build system takes some care to achieve a
 Autoconf offers only limited support for cross compiling. While it professes to know about three platforms, base, host, and target; it knows only about one tool-chain. It uses that tool-chain to determine two classes of information: Information about how to use the tool-chain itself, and information about the target of that tool-chain. Hence, in the cross-compilation case, it makes sense for ./configure to be told about XT.
 
 
-Autoconf's concept and variable $cross_compiling only gets set if B ≠ H. This is correct from the standpoint of compiling a simple program (for which T is irrelevant). In our normalized version of B/H/T, B = H, so the logic of autoconf needs to be amended *(patch pending)*.
+Autoconf's concept and variable $cross_compiling only gets set if B ≠ H. This is correct from the standpoint of compiling a simple program (for which T is irrelevant). In our normalized version of B/H/T, B = H, so the logic of autoconf needs to be amended.
 
 
 This leaves us with the issue of how to tell it about parts of HT it can't infer from the stage0 compiler. We need a new set of variables that are how to compile, link and run things on the host, which if cross compiling need to be different. There needs to be some way to pass those on the configure line. Perhaps something like:
@@ -153,12 +153,12 @@ This leaves us with the issue of how to tell it about parts of HT it can't infer
 ```
 
 
-A tricky aspect is that some properities of the tool chain are probed by Autoconf ("is cc gcc?", "does ar need ranlib?"). These probes technically should be performed for each tool-chain. *(partial patch pending)*
+A tricky aspect is that some properities of the tool chain are probed by Autoconf ("is cc gcc?", "does ar need ranlib?"). These probes technically should be performed for each tool-chain.
 
 
 Both ./configure, cabal configure, and hsc2hs desire to run things built for T. If the XT contains an emulator, than this is possible. Two approaches need to be supported here:
 
-1. Autoconf can now descern many values without running code and configure.ac / aclocal.m4 scripts can be changed to avoid running in many cases. (For example in libraries/base I rewrote things to use AC_COMPUTE_INT rather than AC_RUN_IFELSE to find the sizes of htypes.)  *(patch pending)*
+1. Autoconf can now descern many values without running code and configure.ac / aclocal.m4 scripts can be changed to avoid running in many cases. (For example in libraries/base I rewrote things to use AC_COMPUTE_INT rather than AC_RUN_IFELSE to find the sizes of htypes.)
 1. Plumb the need to call the emulator to run in the right places. An alternative is to use an alternate linker command that inserts the emulator into those build executables (but this is tricky as you don't want to use that link when building for the real target...)
 
 ## Make Files
@@ -167,7 +167,7 @@ Both ./configure, cabal configure, and hsc2hs desire to run things built for T. 
 The overall build sequencing needs to recognize the cross compilation configuration, and adjust build targets and final packaging to match.
 
 
-There are few other places where the make system needs to get fixed up to use the correct tool-chain at the right time *(partial patche pending)*.
+There are few other places where the make system needs to get fixed up to use the correct tool-chain at the right time.
 
 
 There are a set of CPP symbols that are defined when compiling both Haskell and C code:
@@ -195,6 +195,16 @@ I actually have much of the above working. At this point I can build and link an
 
 In general, the problems have all been in plumbing the concepts of XT vs. HT around the build system. While I've been able to fudge it for most of the components though there are places where my work around is forced.
 
+### Jan 2012: Gabor Greif
+
+
+Looks like Marks has submitted patches and
+[ they have been integrated by Ian](http://www.haskell.org/pipermail/cvs-ghc/2011-April/061685.html)
+into the main repository. This means GHC v7.4.1 \*should\* be ready for the procedures outlined above.
+
+
+I am about to test whether the theory matches practice and report back here.
+
 ---
 
 ## Questions
@@ -202,4 +212,3 @@ In general, the problems have all been in plumbing the concepts of XT vs. HT aro
 ### Jan 2012: Gabor Greif
 
 - The [build stages](building/architecture/idiom/stages) page says that Template Haskell is disabled in stage1 compilers. This would mean that a cross-compiler is devoid of an important feature. Any tweak possible to fix this?
-- Did any of the TODOs and pending patches make it into the GHC 7.4/HEAD repositories?
