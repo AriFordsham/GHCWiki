@@ -193,7 +193,7 @@ This compiler will be used for compiling GHC-specific code (eg. GHC
 itself).  This option *cannot* be specified using `build.mk`
 (see later), because `configure` needs to auto-detect the
 version of GHC you're using.  The default is to look for a compiler
-named `ghc` in your path.
+named `ghc` in your `$PATH`.
 </td></tr></table>
 
 <table><tr><th>`--with-gcc=<path>`</th>
