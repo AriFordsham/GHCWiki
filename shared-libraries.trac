@@ -53,7 +53,7 @@ There are several reasons we care.
 
 The greatest advantage is that it enables us to make plugins for other programs. There are loads of examples of this, think of plugins for things like vim, gimp, postgres, apache. On Windows if you want to make a COM or .NET component then it usually has to be as a shared library (a .dll file).
 
-Similar to plugins, shared libraries have become a common way of composing large systems. Each shared library can be written in a different language. Compared to static libraries, shared libraries are typically more self-contained. The ability to produce nice self-contained shared libraries from Haskell code would simply the integration of Haskell code into larger existing systems.
+Similar to plugins, shared libraries have become a common way of composing large systems. Each shared library can be written in a different language. Compared to static libraries, shared libraries are typically more self-contained. The ability to produce nice self-contained shared libraries from Haskell code would simplify the integration of Haskell code into larger existing systems.
 
 A somewhat superficial reason is that it makes your “Hello World” program much smaller because it doesn’t have to include a complete copy of the runtime system and half of the base library. It’s true that in most circumstances disk space is cheap, but if you’ve got some corporate shared storage that’s replicated and meticulously backed-up and if each of your 100 “small” Haskell plugins is actually 10MB big, then the disk space does not look quite so cheap.
 
