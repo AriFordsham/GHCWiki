@@ -358,7 +358,7 @@ users guide) as HTML, PS and PDF respectively.
 <table><tr><th>`INTEGER_LIBRARY`</th>
 <td>
 By default this is set to `integer-gmp`, which means Integer is implemented
-on top of the C GMP library. If you set it to `integer-simple` than a
+on top of the C GMP library. If you set it to `integer-simple` then a
 simple, BSD-licensed Haskell implementation will be used instead.
 </td></tr></table>
 
@@ -498,7 +498,7 @@ Here is a high level view of what happens when you build GHC:
 
 - Finally, the stage 1 compiler is used to build GHC itself again,
   this time against the libraries we just built.  This GHC is called
-  stage 2, and can be invokes as `inplace/bin/ghc-stage2`.
+  stage 2, and can be invoked as `inplace/bin/ghc-stage2`.
 
 
 There's an optional final stage, using the stage 2 compiler to build a
