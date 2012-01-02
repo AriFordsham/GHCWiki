@@ -125,7 +125,7 @@ I actually have much of the above working. At this point I can build and link an
 In general, the problems have all been in plumbing the concepts of XT vs. HT around the build system. While I've been able to fudge it for most of the components though there are places where my work around is forced.
 
 ===  Jan 2012: Gabor Greif ===
-Looks like Marks has submitted patches and
+Looks like Mark has submitted patches and
 [http://www.haskell.org/pipermail/cvs-ghc/2011-April/061685.html they have been integrated by Ian]
 into the main repository. This means GHC v7.4.1 *should* be ready for the procedures outlined above.
 
@@ -136,5 +136,6 @@ I am about to test whether the theory matches practice and report back here.
 
 ===  Jan 2012: Gabor Greif ===
  * The [wiki:Building/Architecture/Idiom/Stages build stages] page says that Template Haskell is disabled in stage1 compilers. This would mean that a cross-compiler is devoid of an important feature. Any tweak possible to fix this?
+ * It is unclear from the above how we specify a target C compiler. `--with-gcc` does not seem to cut it.
 
  
