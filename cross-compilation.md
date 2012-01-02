@@ -198,7 +198,7 @@ In general, the problems have all been in plumbing the concepts of XT vs. HT aro
 ### Jan 2012: Gabor Greif
 
 
-Looks like Marks has submitted patches and
+Looks like Mark has submitted patches and
 [ they have been integrated by Ian](http://www.haskell.org/pipermail/cvs-ghc/2011-April/061685.html)
 into the main repository. This means GHC v7.4.1 \*should\* be ready for the procedures outlined above.
 
@@ -212,3 +212,4 @@ I am about to test whether the theory matches practice and report back here.
 ### Jan 2012: Gabor Greif
 
 - The [build stages](building/architecture/idiom/stages) page says that Template Haskell is disabled in stage1 compilers. This would mean that a cross-compiler is devoid of an important feature. Any tweak possible to fix this?
+- It is unclear from the above how we specify a target C compiler. `--with-gcc` does not seem to cut it.
