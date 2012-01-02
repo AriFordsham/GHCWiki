@@ -358,7 +358,7 @@ users guide) as HTML, PS and PDF respectively.
 <table><tr><th>`INTEGER_LIBRARY`</th>
 <td>
 By default this is set to `integer-gmp`, which means Integer is implemented
-on top of the C GMP library. If you set it to `integer-simple` than a
+on top of the C GMP library. If you set it to `integer-simple` then a
 simple, BSD-licensed Haskell implementation will be used instead.
 </td></tr></table>
 
