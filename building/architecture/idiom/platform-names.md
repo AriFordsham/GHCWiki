@@ -37,4 +37,4 @@ will be built as HC files for the target system (see [Porting GHC](building/port
 
 
 More details on when to use BUILD, HOST or TARGET can be found in
-the comments in [ project.mk.in](http://darcs.haskell.org/mk/project.mk.in).
+the comments in [ project.mk.in](http://darcs.haskell.org/ghc/mk/project.mk.in).
