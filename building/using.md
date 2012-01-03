@@ -424,7 +424,7 @@ the compiler about 30% slower.
 <td>
 You almost certainly want optimisation *on* when building
 libraries, otherwise the code you build with this compiler
-goes really slowly.  `-XGenerics` add generics support to the
+goes really slowly.  `-XGenerics` adds generics support to the
 libraries - you can turn this off if you like (it'll make the
 libraries a bit smaller), but you won't be able to use Generics in
 the code you build against these libraries.
