@@ -1,1 +1,29 @@
 # Improving LLVM Alias Analysis
+
+
+This page tracks the information and progress relevant to improving the alias analysis pass for the LLVM backend of GHC.
+
+## Max's Work
+
+
+Max had a crack at writing a custom alias analysis pass for LLVM, relevant links are:
+
+- [ Email to LLVM dev](http://lists.cs.uiuc.edu/pipermail/llvmdev/2011-September/043603.html)
+- [ Blog post about results](http://blog.omega-prime.co.uk/?p=135)
+
+## TBAA
+
+
+LLVM as of version 2.9 includes Type Based Alias Analysis. This mean using metadata you can specify a type hierarchy (with alias properties between types) and annotate your code with these types to improve the alias information. This should allow us to improve the alias analysis without any changes to LLVM itself like Max made.
+
+- [ LLVM TBBA Doc](http://llvm.org/docs/LangRef.html#tbaa)
+
+## STG / Cmm Alias Properties
+
+
+_ToDo_: Document the alias properties of Cmm code given to LLVM backend.
+
+## Progress
+
+
+David and Johan plan to have a crack at this at the start of 2012.
