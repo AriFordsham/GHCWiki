@@ -30,4 +30,4 @@ architecture for bootstrapping.  The libraries and stage 2 compiler
 will be built as HC files for the target system (see [wiki:Building/Porting Porting GHC] for details).
 
 More details on when to use BUILD, HOST or TARGET can be found in
-the comments in [http://darcs.haskell.org/mk/project.mk.in project.mk.in].
+the comments in [http://darcs.haskell.org/ghc/mk/project.mk.in project.mk.in].
