@@ -146,7 +146,7 @@ In the GHC build system, we have 3 phases. Each phase is in two halves: some thi
 - Phase 0
 
   - Includes: `package-data.mk` files for things built by the bootstrapping compiler.
-  - Builds: the dependency files for `hsc2hs` and `genprimopcode`. We need to do this now, as `hsc2hs` needs to be buildable in phase 1's includes (so that we can make the `hpc` library's `.hs` source files, which in turn is necessary for making its dependency files), and `genprimopcode` needs to be buildable in phase 1's includes (so that we can make the `primop-*.hs-incl` files, which are sources for the stage1 compiler library, and thus necessary for making its dependency files).
+  - Builds: the dependency files for `hsc2hs` and `genprimopcode`. We need to do this now, as `hsc2hs` needs to be buildable in phase 1's includes (so that we can make the `hpc` library's `.hs` source files, which in turn are necessary for making its dependency files), and `genprimopcode` needs to be buildable in phase 1's includes (so that we can make the `primop-*.hs-incl` files, which are sources for the stage1 compiler library, and thus necessary for making its dependency files).
 - Phase 1
 
   - Includes: dependency files for things built by the bootstrapping compiler.
