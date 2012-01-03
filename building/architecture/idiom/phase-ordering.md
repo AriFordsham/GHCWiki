@@ -13,8 +13,8 @@ of our build system fall into two main categories:
   C files.  The dependencies are normally generated into a file
   `.depend`, which is included as normal.
 
-- Makefile binding generated from `.cabal` package descriptions.  See
-  "Idiom: interaction with Cabal".
+- Makefile binding generated from `%.cabal` package descriptions.  See
+  [Idiom: interaction with Cabal](building/architecture/idiom/cabal).
 
 
 Now, we also want to be able to use `make` to build these files, since
