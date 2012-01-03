@@ -29,11 +29,10 @@ the build process creates binaries that are both run during the build,
 and also installed.
 
 
-If host and target are different, then we are building a
-cross-compiler.  For GHC, this means a compiler
-which will generate intermediate .hc files to port to the target
-architecture for bootstrapping.  The libraries and stage 2 compiler
-will be built as HC files for the target system (see [Porting GHC](building/porting) for details).
+If host and target are different, then we are building a cross-compiler. See [CrossCompilation](cross-compilation) for the work-in-progress toolset.
+
+
+There is another option, which is similar in essence, namely creating a portable compiler. For GHC, this means a compiler which will generate intermediate `.hc` files to port to the target architecture for bootstrapping.  The libraries and stage 2 compiler will be built as `.hc` files for the target system (see [Porting GHC](building/porting) for details).
 
 
 More details on when to use BUILD, HOST or TARGET can be found in
