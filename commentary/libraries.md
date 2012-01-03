@@ -130,7 +130,7 @@ Currently the Boot Packages that are not installed are `haskelline`, `mtl`, and 
 
 The `haskell98`, `old-time`, `old-locale` and `random` packages are mostly only needed for Haskell 98 support, although `dph` currently uses `random` too.
 
-## WARNING: Pattern matching in `ghc-prim`, `integer-simpl`, and `integer-gmp`
+## WARNING: Pattern matching in `ghc-prim`, `integer-simple`, and `integer-gmp`
 
 
 Note that `ghc-prim` and `integer-impl` are below the dependency chain from Exception (in `base`), which means they must not raise generate code to raise an exception (it's not enough that this code will never run). One particularly subtle case of GHC exception-raising code is in the case of (complete!) pattern matches. Consider the unboxed form of Integers, which has the constructor S\# or J\#.
