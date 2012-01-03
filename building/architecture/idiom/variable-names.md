@@ -13,3 +13,6 @@ the directory name and the distdir to the variable.  So for example the list of
 Haskell sources in the directory `utils/hsc2hs` would be in the
 variable `utils/hsc2hs_dist_HS_SRCS` (**make** doesn't mind slashes in variable
 names).  The pattern is: *directory*_*distdir*_*variable*.
+
+
+See also [Idiom: macros](building/architecture/idiom/macros) where many applications of this naming idiom are necessary.
