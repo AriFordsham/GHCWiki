@@ -81,7 +81,7 @@ make all_compiler_stage1
 
 === Adding a source file to the RTS ===
 
-The RTS picks up source files automatically, using '''make''''s `$(wildcard)` function.  So to add files to the RTS, just put your source file in `rts`, and
+The RTS picks up source files automatically, using '''make''''s `$(wildcard ...)` function.  So to add files to the RTS, just put your source file in `rts`, and
 
 {{{
 $ cd rts; make
