@@ -105,7 +105,7 @@ To retire a GHC source file that is no longer needed:
 ### Adding a source file to the RTS
 
 
-The RTS picks up source files automatically, using **make**'s `$(wildcard)` function.  So to add files to the RTS, just put your source file in `rts`, and
+The RTS picks up source files automatically, using **make**'s `$(wildcard ...)` function.  So to add files to the RTS, just put your source file in `rts`, and
 
 ```wiki
 $ cd rts; make
