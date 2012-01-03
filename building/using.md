@@ -62,7 +62,7 @@ GHC uses the `autoconf` tools in the standard Unixy way, described in more detai
 ```wiki
       ---------------
       |             |
-      | Source code | <---------------------
+      | Source code | <--------------------\
       |             |                      |
       ---------------            maintainer-clean
         |                                  |
@@ -70,28 +70,28 @@ GHC uses the `autoconf` tools in the standard Unixy way, described in more detai
         |                                  |
         v                                  |   
       ----------------------------         |
-      | Source tar-ball          |>--------|
+      | Source tar-ball          |>-------/|
       |  ./configure             |         |
       |  libraries/*/GNUmakefile |         |
-      |  libraries/*/ghc.mk      |<--      |
+      |  libraries/*/ghc.mk      |<-\      |
       ----------------------------  |      |
         |                           |      |
       ./configure               distclean  |
         |                           |      |
         v                           |      |
       ------------------            |      |         
-      | Configured     |>------------      |
+      | Configured     |>----------/|      |
       |   mk/config.mk |            |      |
-      |                |>-------------------
+      |                |>-----------------/|
       ------------------            |      |
         |                           |      |
        make                         |      |
         |                           |      |
         v                           |      |
       ------------------            |      |
-      | Built          |>------------      |
+      | Built          |>-----------/      |
       |                |                   |
-      |                |>-------------------
+      |                |>------------------/
       ------------------
 ```
 
