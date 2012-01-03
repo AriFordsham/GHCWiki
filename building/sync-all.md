@@ -11,7 +11,7 @@ The full documentation for `sync-all` is found by using the `--help` option:
 ```
 
 
-(you can also find it by looking in source:sync-all)
+(you can also find it by looking in sync-all)
 
 ## Pulling new patches
 
