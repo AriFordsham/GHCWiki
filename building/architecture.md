@@ -17,8 +17,8 @@ It's difficult to document a system that is full of details and subject to const
   documentation is more likely to stay up to date.
 
 **Historical note**: this is the third major revision of the GHC build
-system.  The first incarnation was based on "jmake", a derivative of
-X11's "imake", which is based on using the C preprocessor to add macro
+system.  The first incarnation was based on `jmake`, a derivative of
+X11's own `imake`, which is based on using the C preprocessor to add macro
 capabilities and `#include` to plain **make**.  The second incarnation
 used GNU **make**'s extensions for including makefiles (but lost the
 ability to use macros, since at the time GNU **make** didn't have support
