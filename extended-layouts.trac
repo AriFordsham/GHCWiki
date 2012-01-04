@@ -20,7 +20,7 @@ The monoid layout offers whitespace notation for monoids. It is intended to offe
 
 These examples usually have a "dead" type variable which is used exclusively for defining the monad instance and is later set to `()` for all functions using this type. To build up the desired data type either `mappend` or a variation (e.g. `Append` for blaze-html) is used. This so called "Monad" is therefor actually a hidden monoid with the clear intention to abuse the current `do`-notation. With this extension the correct `Monoid` instance can be used instead.
 
-The proposed keyword for the beginning of a monoid layout is `be`.
+The proposed keyword for the beginning of a monoid layout is `be` (as in "don't `do` anything").
 
 '''Translation rules'''
 
