@@ -1,6 +1,12 @@
 = Monad comprehensions =
 
-Monad comprehensions were added to the main GHC repository on the 4th May 2011. See ticket #4370.
+After a long absence, monad comprehensions are back, thanks to George Giorgidze and his colleagues.  With `{-# LANGUAGE MonadComprehensions #-}` the comprehension `[ f x | x <- xs, x>4 ]` is interpreted in an arbitrary monad, rather than being restricted to lists.  Not only that, it also generalises nicely for parallel/zip and SQL-like comprehensions. The aforementioned generalisations can be turned on by enabling the `MonadComprehensions` extension in conjunction with the `ParallelListComp` and `TransformListComp` extensions.
+
+Rebindable syntax is fully supported for standard monad comprehensions with generators and filters. We also plan to allow rebinding of the parallel/zip and SQL-like monad comprehension notations.
+
+For further details and usage examples, see the paper "Bringing back monad comprehensions" [[http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf MonadComp]] at the 2011 Haskell Symposium.
+
+See ticket #4370.
 
 == Translation rules ==
 
