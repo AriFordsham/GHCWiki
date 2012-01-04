@@ -10,6 +10,9 @@ Binders:    b
 Types:      t a
 ```
 
+
+Note that `{ ; }` is **either** exactly what it is **or** the whitespace notation where those tokens are filled in automatically by the lexer. It's why you would only have to explain `do { .. ; .. }` to give a complete understanding of how the `do`-notation works.
+
 ## The Monoid Layout
 
 
