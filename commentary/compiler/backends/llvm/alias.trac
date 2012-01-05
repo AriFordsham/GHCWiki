@@ -21,6 +21,28 @@ LLVM as of version 2.9 includes Type Based Alias Analysis. This mean using metad
 
 '''Answer''' (Simon Marlow): Sp[] and Hp[] never alias, R[] never aliases with Sp[], and that's about it.
 
+== LLVM type system ==
+
+The above aliasing information can be encoded as follows:
+
+{{{
+!0 = metadata !{ metadata !"top" }
+!1 = metadata !{ metadata !"heap", metadata !0 }
+!2 = metadata !{ metadata !"stack", metadata !0 }
+}}}
+
+The fact that `R[]` never aliases with `Sp[]` is never used as the one way relation isn't expressible in LLVM.
+
+Stores/loads needs to be annotated with `!tbaa` and one of the above three types e.g.
+
+{{{
+%ln1NH1 = load i64* %Sp_Arg, align 8, !tbaa !2
+}}}
+
+'''Question''' (Johan Tibell): Which instructions need to be instrumented? Just loads and stores, or also getelementptr?
+
+'''Question''' (Johan Tibell): Should all loads and stores that are not annotated as "stack" be allocated as "heap", or is there a third class (e.g. unknown)? 
+
 == Progress ==
 
 David and Johan plan to have a crack at this at the start of 2012.
