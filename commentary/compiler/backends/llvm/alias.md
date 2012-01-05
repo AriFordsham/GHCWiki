@@ -3,6 +3,17 @@
 
 This page tracks the information and progress relevant to improving the alias analysis pass for the LLVM backend of GHC.
 
+## LLVM Alias Analysis Infrastructure
+
+
+Some links to the various documentation on LLVM's AA support:
+
+- [ LLVM Alias Analysis Infrastructure](http://llvm.org/docs/AliasAnalysis.html)
+- [ LLVM's Analysis and Transform Passes](http://llvm.org/docs/Passes.html)
+- [ The Often Misunderstood GEP Instruction](http://llvm.org/docs/GetElementPtr.html)
+- [ LLVM Language Reference](http://llvm.org/docs/LangRef.html)
+- [ LLVM Dev List: Comparison of Alias Analysis in LLVM](http://groups.google.com/group/llvm-dev/browse_thread/thread/2a5944692508bcc2/363c96bb1c6a506d?show_docid=363c96bb1c6a506d&pli=1)
+
 ## Max's Work
 
 
@@ -33,13 +44,14 @@ The above aliasing information can be encoded as follows:
 !0 = metadata !{ metadata !"top" }
 !1 = metadata !{ metadata !"heap", metadata !0 }
 !2 = metadata !{ metadata !"stack", metadata !0 }
+!3 = metadata !{ metadata !"rx", metadata !2 }
 ```
 
 
 The fact that `R[]` never aliases with `Sp[]` is never used as the one way relation isn't expressible in LLVM.
 
 
-Stores/loads needs to be annotated with `!tbaa` and one of the above three types e.g.
+Stores/loads needs to be annotated with `!tbaa` and one of the above four types e.g.
 
 ```wiki
 %ln1NH1 = load i64* %Sp_Arg, align 8, !tbaa !2
