@@ -27,7 +27,7 @@ Existing darcs users see: [Git For Darcs Users](git-for-darcs-users). If you hav
 Please make sure you have setup git to use the correct name and email for your commits. Use the same name and email on all machines you may push from.
 
 ```wiki
-$ git config --global user.name "Firstname Lastname"Sets the name of the user for all git instances on the system
+$ git config --global user.name "Firstname Lastname" # Sets the name of the user for all git instances on the system
 $ git config --global user.email "your_email@youremail.com"
 ```
 
