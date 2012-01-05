@@ -2,6 +2,16 @@
 
 This page tracks the information and progress relevant to improving the alias analysis pass for the LLVM backend of GHC.
 
+== LLVM Alias Analysis Infrastructure ==
+
+Some links to the various documentation on LLVM's AA support:
+
+ * [http://llvm.org/docs/AliasAnalysis.html LLVM Alias Analysis Infrastructure]
+ * [http://llvm.org/docs/Passes.html LLVM's Analysis and Transform Passes]
+ * [http://llvm.org/docs/GetElementPtr.html The Often Misunderstood GEP Instruction]
+ * [http://llvm.org/docs/LangRef.html LLVM Language Reference]
+ * [http://groups.google.com/group/llvm-dev/browse_thread/thread/2a5944692508bcc2/363c96bb1c6a506d?show_docid=363c96bb1c6a506d&pli=1 LLVM Dev List: Comparison of Alias Analysis in LLVM]
+
 == Max's Work ==
 
 Max had a crack at writing a custom alias analysis pass for LLVM, relevant links are:
