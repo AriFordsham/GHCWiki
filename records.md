@@ -49,11 +49,7 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 
 1. Overloading: polymorphic selection & update; see [Records/OverloadedRecordFields](records/overloaded-record-fields)
 1. Namespacing: simple name-spacing & type resolution; see [Records/NameSpacing](records/name-spacing)
-
-**Are there any other approaches?**
-
-
-The discussion has many similarities with the original Type directed name resolution proposal: the question seems to be largely about nailing down a concrete implementation; see below and [ TDNR](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution). The original TDNR proposal had Overloading in mind, but Namespacing ends up having similarities.
+1. **Are there any other approaches?**
 
 
 The benefit of Overloading over Namespacing is being able to write code that works against any Record with a given field. So I can have a function:
@@ -70,42 +66,10 @@ With Namespacing this will fail to type check unless the compiler can determine 
 - it turned out that errors stemming from mistyping a field name often could not be diagnosed at the point where they were committed, but led to inferred types with crazy signatures and an incomprehensible type error at the use side of the function that contained the error.
 - the extra constraints complicated the type checker and did not play well with higher kinded type variables (at least in the code I had then, I do not claim that this is nessecarily so).
 
-### Better name spacing & simple type resolution
-
-
-Note that the name-spacing and simple type resolution approach is an attempt to port the records solution in [ Frege](http://code.google.com/p/frege/), a haskell-like language on the JVM. See Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [ Frege user manual](http://code.google.com/p/frege/downloads/detail?name=Language-202.pdf)
-
-
-In Haskell, you can look at an occurrence of any identifier `f` or `M.f` and decide where it is bound without thinking about types at all.  Broadly speaking it works like this:
-
-- For qualified names, `M.f`, find an import that binds `M.f`.
-- For unqualified names, `f`, find the innermost binding of `f`; or, if that takes you to top level, look for top level binding of `f` or an import that binds `f`.
-
-
-If there is ambiguity (eg two imports both import something called `f`) then an error is reported.  And that's what happens for the `Record` and `RecordClash` example above.
-
-
-So one solution for record field names is to specify more precisely which one you mean.  There are two schools of thought:
-
-- **Optionally use the type name**.  So you could say `Record.a` or `RecordClash.a` rather than `a`, to specify which field selector you mean.  Apart from verbosity the difficulty here is that it's hard to know whether you are writing `<module-name>.f` or `<type-name>.f`.  That is, is `Record` the name of a type or of a module?  (Currently it legally could be both.)
-
->
-> The module/record ambiguity is dealt with in Frege by preferring modules and requiring a module prefix for the record if there is ambiguity. So if your record named Record was inside a module named Record you would need `Record.Record.a`. Programmers will avoid this by doing what they do now: structuring their programs to avoid this situation. We can try and give the greater assistance in this regard by providing simpler ways for them to alter the names of import types.
-
->
-> Verbosity is solved in Frege by using the TDNR concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`. See the simple type resolution discussion below.
-
-- **Use the module name space mechanism**; after all that's what it's for.  But putting each record definition in its own module is a bit heavyweight. So maybe we need local modules (just for name space control) and local import declarations.  Details are unclear. (This was proposed in 2008 in [ this discussion](http://www.haskell.org/pipermail/haskell-cafe/2008-August/046494.html) on the Haskell cafe mailing list and in [\#2551](https://gitlab.haskell.org//ghc/ghc/issues/2551). - Yitz).
-
->
-> Rather than strictly re-use modules it may make more sense to have a name-spacing implementation construct that is shared between both records and modules - hopefully this would make implementation easier and unify behavior. In the Frege approach, each data declaration is its own namespace - if we were to go this far (instead of stopping purely at records) there may be much less need for local namespaces. Overall this seems to be more of an implementation detail that may have a side effect of making local modules easier to implement than a concrete design proposal relating to records. -- Greg Weber.
-
-### Simple type resolution
-
->
-> Frege has a detailed explanation of the semantics of its record implementation, and the language is \*very\* similar to Haskell. After reading the Frege manual sections, one is still left wondering: how does Frege implement type resolution for its TDNR syntax. The answer is fairly simple: overloaded record fields are not allowed (you can't write code that works against multiple record types). Frege uses fairly normal type resolution, and it won't always be able to resolve the type (currently 1/3 or sparsely annotated code will need more type annotations, but we should be able to improve this). I will put down some more details here...
-
 ### Type directed name resolution
+
+
+The discussion has many similarities with the original Type directed name resolution proposal: the question seems to be largely about nailing down a concrete implementation; see below and [ TDNR](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution). The original TDNR proposal had Overloading in mind, but Namespacing ends up having similarities. -- GregWeber
 
 
 All of the name-space mechanisms require some level of user-supplied disambiguation: if there are two fields `a` in scope, you must use a qualified name to disambiguate them.  What is tantalising about this is that the *type* of the argument immediately specifies which one you mean. There is really no ambiguity at all, so it is frustrating to have to type qualified names to redundantly specify that information.  Object-oriented languages take for granted this form of type-directed disambiguation.
