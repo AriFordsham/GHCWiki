@@ -31,10 +31,16 @@ The verbose name-spacing required is an in-your-face, glaring weakness telling y
 
 == Solutions == 
 
-I know of three sorts of solutions:
- 1. Better name spacing; see below
- 2. Nonextensible records with polymorphic selection & update; see below and [wiki:Records/OverloadedRecordFields]
- 3. Type directed name resolution; see [http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution TDNR]
+As part of improving records, we may need or want to improve name-spacing, possibly giving each record (or any data declaration) its own name-space. See below for more discussion.
+
+The main question is: how can we have multiple record field selectors in scope and correctly resolve the type of the record?
+
+ 1. Nonextensible records with polymorphic selection & update; see [wiki:Records/OverloadedRecordFields]
+ 2. Nonextensible records with simple type resolution; see below
+
+The discussion here has many similarities with the original Type directed name resolution proposal: the question seems to be largely about nailing down a concrete implementation; see below and [http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution TDNR]
+
+Note that the name-spacing and simple type resolution approach is an attempt to port the records solution in [http://code.google.com/p/frege/ Frege], a haskell-like language on the JVM. See Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [http://code.google.com/p/frege/downloads/detail?name=Language-202.pdf Frege user manual]
 
 '''Are there any other approaches?'''
 
@@ -49,27 +55,25 @@ If there is ambiguity (eg two imports both import something called `f`) then an 
 So one solution for record field names is to specify more precisely which one you mean.  There are two schools of thought:
  * '''Optionally use the type name'''.  So you could say `Record.a` or `RecordClash.a` rather than `a`, to specify which field selector you mean.  Apart from verbosity the difficulty here is that it's hard to know whether you are writing `<module-name>.f` or `<type-name>.f`.  That is, is `Record` the name of a type or of a module?  (Currently it legally could be both.)
 
- [http://code.google.com/p/frege/ Frege] takes this approach; see Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [http://code.google.com/p/frege/downloads/detail?name=Language-202.pdf Frege user manual].
+ The module/record ambiguity is dealt with in Frege by preferring modules and requiring a module prefix for the record if there is ambiguity. So if your record named Record was inside a module named Record you would need `Record.Record.a`. Programmers will avoid this by doing what they do now: structuring their programs to avoid this situation. We can try and give the greater assistance in this regard by providing simpler ways for them to alter the names of import types.
 
- The module/record ambiguity is dealt with in Frege by preferring modules and requiring a module prefix for the record if there is ambiguity. So if your record named Record was inside a module named Record you would need `Record.Record.a`. I think for the most part programmers will structure their programs to avoid this situation.
-
- Verbosity is solved in Frege by using the TDNR concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`.
-
- Frege has a detailed explanation of the semantics of its record implementation, and the language is *very* similar to Haskell. Lets just start by using Frege's document as the proposal. We can start a new wiki page as discussions are needed.
+ Verbosity is solved in Frege by using the TDNR concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`. See the simple type resolution discussion below.
 
  * '''Use the module name space mechanism'''; after all that's what it's for.  But putting each record definition in its own module is a bit heavyweight. So maybe we need local modules (just for name space control) and local import declarations.  Details are unclear. (This was proposed in 2008 in [http://www.haskell.org/pipermail/haskell-cafe/2008-August/046494.html this discussion] on the Haskell cafe mailing list and in #2551. - Yitz).
 
  Rather than strictly re-use modules it would make more sense to have a name-spacing construct that is shared between both records and modules - hopefully this would make implementation easier. Overall this seems to be more of an implementation detail that may have a side effect of making local modules easier to implement than a concrete design proposal relating to records. -- Greg Weber.
 
-'''Anyone who likes these designs, please help fill out a more detailed design discussion, either here or on another page'''.
 
---------------------------
+=== Simple type resolution ===
+
+ Frege has a detailed explanation of the semantics of its record implementation, and the language is *very* similar to Haskell. After reading the Frege manual sections, one is still left wondering: how does Frege implement type resolution for its TDNR syntax. The answer is fairly simple: overloaded record fields are not allowed (you can't write code that works against multiple record types). Frege uses fairly normal type resolution, and it won't always be able to resolve the type (currently 1/3 or sparsely annotated code will need more type annotations, but we should be able to improve this). I will put down some more details here...
+
 === Type directed name resolution ===
 
 All of the name-space mechanisms require some level of user-supplied disambiguation: if there are two fields `a` in scope, you must use a qualified name to disambiguate them.  What is tantalising about this is that the ''type'' of the argument immediately specifies which one you mean. There is really no ambiguity at all, so it is frustrating to have to type qualified names to redundantly specify that information.  Object-oriented languages take for granted this form of type-directed disambiguation.
 
-One particular way of integrating this idea into Haskell is called [http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution Type Directed Name Resolution] (TDNR).  Proposed a couple of years ago, the Haskell community didn't like it much.  (But I still do; SLPJ.)
+One particular way of integrating this idea into Haskell is called [http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution Type Directed Name Resolution] (TDNR). Proposed a couple of years ago, the Haskell community didn't like it much.  (But I still do; SLPJ.)
 
-I believe the community rejected TDNR because they wanted extensible records. I think it is a shame that the desire for *extensible* records is holding us back from getting anything done now, but I do think that the current TDNR proposal seems a little weak for some reasons pointed out in the proposal itself, but also because it proposes not to solve name-spacing record updates. Note that the Frege proposal incorporates the TDNR concept purely as sugar, and it has a solution for record updates (that hopefully somehow is easier than the original thoughts of TDNR update being difficult to implement). -- Greg Weber
+I believe the community rejected TDNR because they wanted extensible records. I think it is a shame that the desire for *extensible* records is holding us back from getting anything done now, but I do think that the current TDNR proposal seems a little weak for some reasons pointed out in the proposal itself, but also because it proposes not to solve name-spacing record updates. Note that the Frege proposal incorporates the TDNR syntax, and it tackles record updates. -- Greg Weber
 
 
