@@ -22,18 +22,39 @@ If there is ambiguity (eg two imports both import something called `f`) then an 
 So the proposed solution for record field names is to specify more precisely which one you mean by using the type name. Note that a data declaration now creates a module-like namespace, so we aren't so much using the type name as using the data type namespace in the same way we use a module namespace.
 
 
-So you could say `Record.a` or `RecordClash.a` rather than `a`, to specify which field selector you mean.  Apart from verbosity the difficulty here is that it's hard to know whether you are writing `<module-name>.f` or `<type-name>.f`.  That is, is `Record` the name of a type or of a module? (Currently it legally could be both.)
+So you could say `Record.a` or `RecordClash.a` rather than `a`, to specify which field selector you mean.  The difficulty here is that it's hard to know whether you are writing `<module-name>.f` or `<record-name>.f`.  That is, is `Record` the name of a type or of a module? (Currently it legally could be both.)
 
 >
-> The module/record ambiguity is dealt with in Frege by preferring modules and requiring a module prefix for the record if there is ambiguity. So if your record named Record was inside a module named Record you would need `Record.Record.a`. Programmers will avoid this by doing what they do now: structuring their programs to avoid this situation. We can try and give the greater assistance in this regard by providing simpler ways for them to alter the names of import types.
+> The module/record ambiguity is dealt with in Frege by preferring modules and requiring a module prefix for the record if there is ambiguity. So if your record named Record was inside a module named Record you would need `Record.Record.a`. I think we could improve upon this case to prefer a record rather than the name of the existing module, which should not need to be referenced. So just `Record.a`.
 
->
-> Verbosity is solved in Frege by using the TDNR syntax concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`. See the simple type resolution discussion below.
 
-- **Use the module name space mechanism**; after all that's what it's for.  But putting each record definition in its own module is a bit heavyweight. So maybe we need local modules (just for name space control) and local import declarations.  Details are unclear. (This was proposed in 2008 in [ this discussion](http://www.haskell.org/pipermail/haskell-cafe/2008-August/046494.html) on the Haskell cafe mailing list and in [\#2551](https://gitlab.haskell.org//ghc/ghc/issues/2551). - Yitz).
+However, we still have the case of conflicting imports between the names of modules and records. We have the choice of either requiring a module prefix or making this a compilation error. Generally, programmers will avoid this situation by doing what they do now: structuring their programs to avoid name collisions. We can try and give the greater assistance in this regard by providing simpler ways for them to alter the names of import types.
+
+
+One way to avoid the Module.Record.x problem is to use type alias names, for example:
+
+```wiki
+data InconvenientName = X { f :: Int }
+type IN = InconvenientName
+-- IN.f is the same as InconvenientName.f 
+```
+
+### Alternative name-spacing techiniques
+
+**Use the module name space mechanism**.
+But putting each record definition in its own module is a bit heavyweight. So maybe we need local modules (just for name space control) and local import declarations.  Details are unclear. (This was proposed in 2008 in [ this discussion](http://www.haskell.org/pipermail/haskell-cafe/2008-August/046494.html) on the Haskell cafe mailing list and in [\#2551](https://gitlab.haskell.org//ghc/ghc/issues/2551). - Yitz).
 
 >
 > Rather than strictly re-use modules it may make more sense to have a name-spacing implementation construct that is shared between both records and modules - hopefully this would make implementation easier and unify behavior. In the Frege approach, each data declaration is its own namespace - if we were to go this far (instead of stopping purely at records) there may be much less need for local namespaces. Overall this seems to be more of an interesting implementation detail than a concrete design proposal relating to records. -- Greg Weber.
+
+## Getting rid of the Verbosity
+
+
+We have name-spaces, but the equivalent is already being accomplished by adding prefixes to record fields: `data Record = Record { recordA :: String }`
+
+
+Verbosity is solved in Frege by using the TDNR syntax concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`.
+See below for how we resolve the type of this code.
 
 ## Simple type resolution
 
