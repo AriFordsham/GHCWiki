@@ -1,12 +1,12 @@
 
-See [Records](records) for the bigger picture. This is a proposal to solve the records name-spacing issue with simple name-spacing and simple type resolution. 
+See [Records](records) for the bigger picture. This is a proposal to solve the records name-spacing issue with simple name-spacing and simple type resolution.
 
 
 This approach is an attempt to port the records solution in [ Frege](http://code.google.com/p/frege/), a haskell-like language on the JVM. Please read Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [ Frege user manual](http://code.google.com/p/frege/downloads/detail?name=Language-411.pdf)
 Many thanks to the Frege author, Ingo Wechsung for explaining his implementation and exploring this implementation territory for us.
 
 
-The DDC language (again, very much like Haskell, but focused on better performance and predictability) puts forth a similar solution. See the [ thesis](http://www.cse.unsw.edu.au/~benl/papers/thesis/lippmeier-impure-world.pdf) section 2.7 - 2.7.4 pages 115 - 119
+The DDC language (again, very much like Haskell, but focused on better and more predictable performance) puts forth a similar solution. See the [ thesis](http://www.cse.unsw.edu.au/~benl/papers/thesis/lippmeier-impure-world.pdf) section 2.7 - 2.7.4 pages 115 - 119
 
 ## Better name spacing
 
@@ -37,7 +37,7 @@ One way to avoid the Module.Record.x problem is to use type alias names, for exa
 ```wiki
 data InconvenientName = X { f :: Int }
 type IN = InconvenientName
--- IN.f is the same as InconvenientName.f 
+-- IN.f is the same as InconvenientName.f
 ```
 
 ### Alternative name-spacing techiniques
@@ -54,7 +54,7 @@ But putting each record definition in its own module is a bit heavyweight. So ma
 We have name-spaces, but the equivalent is already being accomplished by adding prefixes to record fields: `data Record = Record { recordA :: String }`
 
 
-Verbosity is solved in Frege by using the TDNR syntax concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`.
+Verbosity is solved in Frege by using the dot syntax concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`.
 See below for how we resolve the type of this code.
 
 ### Specifics on the dot
@@ -65,7 +65,10 @@ This proposal requires the current Haskell function composition dot operator to 
 ## Simple type resolution
 
 
-Frege has a detailed explanation of the semantics of its record implementation, and the language is \*very\* similar to Haskell. After reading the Frege manual sections, one is still left wondering: how does Frege implement type resolution for its TDNR syntax. The answer is fairly simple: overloaded record fields are not allowed. So you can't write code that works against multiple record types. Please see the comparison with Overloading in \[wiki Records\], which includes a discussion of the relative merits. Back to simple type resolution. From the Frege Author:
+Frege has a detailed explanation of the semantics of its record implementation, and the language is \*very\* similar to Haskell. After reading the Frege manual sections, one is still left wondering: how does Frege implement type resolution for its dot syntax. The answer is fairly simple: overloaded record fields are not allowed. So you can't write code that works against multiple record types. Please see the comparison with Overloading in \[wiki Records\], which includes a discussion of the relative merits. Note that the DDC thesis takes the same approach.
+
+
+Back to simple type resolution. From the Frege Author:
 
 - Expressions of the form T.n are trivial, just look up n in the namespace T.
 - Expressions of the form x.n: first infer the type of x. If this is just an unbound type variable (i.e. the type is unknown yet), then check if n is an overloaded name (i.e. a class operation). If this is not the case, then x.n is not typeable. OTOH, if the type of x can be inferred, find the type constructor and look up n in the associated name space.
@@ -140,17 +143,76 @@ I estimate that in 2/3 of all cases one does not need to write `T.e x` in sparse
 - If `a::T` then `a.{x=}` and `a.{x=42}` are valid
 - the function that changes field x of a T by applying some function to it is `T.{x <-}`
 
+
+The function update syntax is a new addition to Haskell that we do not need to immediately implement.
+Any thoughts on the Frege field update syntax vs. the current Haskell syntax?
+
+## Interaction with Typeclasses
+
+
+In the Frege system, the record's namespace is closed where it is defined.
+However, making a record an instance of a class puts the class functions in the record name-space.
+
+```wiki
+module RExtension where
+
+import original.M(R)    -- access the R record defined in module original.M
+
+class Rextension1 r where
+      f :: .....
+      g :: .....
+
+instance Rextension1 R where
+     -- implementation for new functions
+
+And now, in another module one could
+
+import RExtension()      -- equivalent to qualified import in Haskell
+```
+
+
+the new functions `f` and `g` are accessible (only) through R.
+So we have a technique for lifting new functions into the Record namespace.
+For the initial records implementaion we probably want to maintain `f` and `g` at both the top-level and through the name-space.
+See below for a discussion of future directions.
+
 ## Compatibility with existing records
 
 
-Seems like it should be OK to use old records in the new system playing by the new rules, although those records likely already include some type of prefixing and would be verbose.
+Seems like it should be OK to use old records in the new system playing by the new rules, although those records likely already include some type of prefixing and would be quite verbose.
 There is a chance for deeper though on this issue.
 
-## Extending data name-spacing and TDNR syntax
+## Extending data name-spacing and dot syntax
 
 
 This is mostly just something interesting to contemplate.
-TDNR syntax does not have to be limited to records (although it probably should be for the initial implementation until this new record system is vetted). I think it is a bad idea to attempt to accomplish general function chaining through extending TDNR. However, we can extent the function name-spaced to a data type concept to any data type (as it is in Frege), and use TDNR syntax for that. This way the dot (without spaces) \*always\* means tapping into a namespace (and simple type resolution).
 
 
-Placing functions within a data name-space can make for nicer data-structure oriented code where the intent is clearer. It can help to achieve the data-oriented goal of OO without the entanglement of state. Is it possible to create "virtual" record field setters and getters that can be accessed through TDNR syntax and to control exactly what parts of the data namespace are accessible?
+Dot syntax does not have to be limited to records (although it probably should be for the initial implementation until this new record system is vetted). I think it is a bad idea to attempt to attempt to extend the dot syntax to accomplish general function chaining through extending the dot syntax. However, it is consistent to extend the function name-spaced to a record data type concept to any data type (as it is in Frege), and use dot syntax for that. The dot (without spaces) \*always\* means tapping into a namespace (and simple type resolution).
+
+
+Placing functions within a data name-space can make for nicer data-structure oriented code where the intent is clearer. It can help to achieve the data-oriented goal of OO (without the entanglement of state). With control over how the data namespace is exported (similar to controlling module namesapces), it is possible to create virtual record field setters and getters that can be accessed through dot syntax. 
+
+
+In this brave new world (see above where typeclass functions are also placed under the namespace of the data), there are few functions that \*absolutlely must\* be at the top level of a module. Although a library author might take attempt the approach of no top-level functions, obviously it will still be most convenient for users to define functions at the top level of modules rather than have to lift them into data structures.
+
+## Partial application
+
+
+Fill this out by first looking at TDNR
+`(.a) r == r.a`
+
+## Potential Downside: mixing of 2 styles of code
+
+```wiki
+data Record = Record { a::String }
+b :: Record -> String
+
+let r = Record "a" in b r.a 
+```
+
+
+It bothers some that the code does not look like the previous `b a r` - chiefly that the record is now in the middle. Is it possible we can have an equivalent of the dot that changes the ordering? `b a.r` is theoretically possible, but probably extraordinarily confusing. Perhaps a new operator like: `b a <. r`
+
+
+Partial application provides a potential solution: `b (.a) r`
