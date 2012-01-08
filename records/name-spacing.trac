@@ -1,6 +1,6 @@
 See [wiki:Records] for the bigger picture. This is a proposal to solve the records name-spacing issue with simple name-spacing and simple type resolution. 
 
-This approach is an attempt to port the records solution in [http://code.google.com/p/frege/ Frege], a haskell-like language on the JVM. See Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [http://code.google.com/p/frege/downloads/detail?name=Language-202.pdf Frege user manual]
+This approach is an attempt to port the records solution in [http://code.google.com/p/frege/ Frege], a haskell-like language on the JVM. Please read Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [http://code.google.com/p/frege/downloads/detail?name=Language-202.pdf Frege user manual]
 
 Many thanks to the Frege author, Ingo Wechsung for explaining his implementation and exploring this implementation territory for us.
 
@@ -77,14 +77,14 @@ The record namespace is searched only in 3 cases:
 
 This is the only real downside of the proposal. The Frege author says:
 
-I estimate that in 2/3 of all cases one does not need to write (T.e x) in sparsely type annotated code, despite the fact that the frege type checker has a left to right bias and does not yet attempt to find the type of x in the code that "follows" the x.e construct (after let unrolling etc.) I think one could do better and guarantee that, if the type of x is inferrable at all, then so will be x.e (Still, it must be more than just a type variable.)
+I estimate that in 2/3 of all cases one does not need to write `T.e x` in sparsely type annotated code, despite the fact that the frege type checker has a left to right bias and does not yet attempt to find the type of `x` in the code that "follows" the `x.e` construct (after let unrolling etc.) I think one could do better and guarantee that, if the type of `x` is inferrable at all, then so will be `x.e` (Still, it must be more than just a type variable.)
 
 == Syntax for updates (in the Frege manual) ==
 
-  * the function that updates field x of data type T is T.{x=}
-  * the function that sets field x in a T to 42 is T.{x=42}
-  * If a::T then a.{x=} and a.{x=42} are valid
-  * the function that changes field x of a T by applying some function to it is T.{x <-}
+  * the function that updates field `x` of data type `T` is `T.{x=}`
+  * the function that sets field x in a `T` to `42` is `T.{x=42}`
+  * If `a::T` then `a.{x=}` and `a.{x=42}` are valid
+  * the function that changes field x of a T by applying some function to it is `T.{x <-}`
 
 == Compatibility with existing records ==
 
