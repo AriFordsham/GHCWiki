@@ -3,9 +3,10 @@ See [Records](records) for the bigger picture. This is a proposal to solve the r
 
 
 This approach is an attempt to port the records solution in [ Frege](http://code.google.com/p/frege/), a haskell-like language on the JVM. Please read Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [ Frege user manual](http://code.google.com/p/frege/downloads/detail?name=Language-411.pdf)
-
-
 Many thanks to the Frege author, Ingo Wechsung for explaining his implementation and exploring this implementation territory for us.
+
+
+The DDC language (again, very much like Haskell, but focused on better performance and predictability) puts forth a similar solution. See the [ thesis](http://www.cse.unsw.edu.au/~benl/papers/thesis/lippmeier-impure-world.pdf) section 2.7 - 2.7.4 pages 115 - 119
 
 ## Better name spacing
 
@@ -47,7 +48,7 @@ But putting each record definition in its own module is a bit heavyweight. So ma
 >
 > Rather than strictly re-use modules it may make more sense to have a name-spacing implementation construct that is shared between both records and modules - hopefully this would make implementation easier and unify behavior. In the Frege approach, each data declaration is its own namespace - if we were to go this far (instead of stopping purely at records) there may be much less need for local namespaces. Overall this seems to be more of an interesting implementation detail than a concrete design proposal relating to records. -- Greg Weber.
 
-## Getting rid of the Verbosity
+## Getting rid of the Verbosity with the dot operator
 
 
 We have name-spaces, but the equivalent is already being accomplished by adding prefixes to record fields: `data Record = Record { recordA :: String }`
@@ -55,6 +56,11 @@ We have name-spaces, but the equivalent is already being accomplished by adding 
 
 Verbosity is solved in Frege by using the TDNR syntax concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`.
 See below for how we resolve the type of this code.
+
+### Specifics on the dot
+
+
+This proposal requires the current Haskell function composition dot operator to have spaces (at least on the left side). No spaces around the dot are reserved for name-spacing: this use and the current module namespace use. The dot operator should bind as tightly as possible.
 
 ## Simple type resolution
 
