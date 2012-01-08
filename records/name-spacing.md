@@ -1,7 +1,10 @@
-### Better name spacing & simple type resolution
+
+See \[wiki Records\] for the bigger picture. This is a proposal to solve the records name-spacing issue with simple name-spacing and simple type resolution. 
 
 
-Note that the name-spacing and simple type resolution approach is an attempt to port the records solution in [ Frege](http://code.google.com/p/frege/), a haskell-like language on the JVM. See Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [ Frege user manual](http://code.google.com/p/frege/downloads/detail?name=Language-202.pdf)
+This approach is an attempt to port the records solution in [ Frege](http://code.google.com/p/frege/), a haskell-like language on the JVM. See Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [ Frege user manual](http://code.google.com/p/frege/downloads/detail?name=Language-202.pdf)
+
+### Better name spacing
 
 
 In Haskell, you can look at an occurrence of any identifier `f` or `M.f` and decide where it is bound without thinking about types at all.  Broadly speaking it works like this:
@@ -21,7 +24,7 @@ So one solution for record field names is to specify more precisely which one yo
 > The module/record ambiguity is dealt with in Frege by preferring modules and requiring a module prefix for the record if there is ambiguity. So if your record named Record was inside a module named Record you would need `Record.Record.a`. Programmers will avoid this by doing what they do now: structuring their programs to avoid this situation. We can try and give the greater assistance in this regard by providing simpler ways for them to alter the names of import types.
 
 >
-> Verbosity is solved in Frege by using the TDNR concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`. See the simple type resolution discussion below.
+> Verbosity is solved in Frege by using the TDNR syntax concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`. See the simple type resolution discussion below.
 
 - **Use the module name space mechanism**; after all that's what it's for.  But putting each record definition in its own module is a bit heavyweight. So maybe we need local modules (just for name space control) and local import declarations.  Details are unclear. (This was proposed in 2008 in [ this discussion](http://www.haskell.org/pipermail/haskell-cafe/2008-August/046494.html) on the Haskell cafe mailing list and in [\#2551](https://gitlab.haskell.org//ghc/ghc/issues/2551). - Yitz).
 
@@ -30,5 +33,69 @@ So one solution for record field names is to specify more precisely which one yo
 
 ### Simple type resolution
 
+
+Frege has a detailed explanation of the semantics of its record implementation, and the language is \*very\* similar to Haskell. After reading the Frege manual sections, one is still left wondering: how does Frege implement type resolution for its TDNR syntax. The answer is fairly simple: overloaded record fields are not allowed. So you can't write code that works against multiple record types. Please see the comparison with Overloading in \[wiki Records\], which includes a discussion of the relative merits. Back to simple type resolution. From the Frege Author:
+
+- Expressions of the form T.n are trivial, just look up n in the namespace T.
+- Expressions of the form x.n: first infer the type of x. If this is just an unbound type variable (i.e. the type is unknown yet), then check if n is an overloaded name (i.e. a class operation). If this is not the case, then x.n is not typeable. OTOH, if the type of x can be inferred, find the type constructor and look up n in the associated name space.
+
+
+Under no circumstances, however, will the notation x.n contribute in any way in inferring the type of x, except for the case when n is a class operation, where an appropriate class constraint is generated.
+
+
+Note that this means it is possible to improve upon Frege in the number of cases where the type can be inferred - we could look to see if there is only one record namespace containing n, and if that is the case infer the type of x -- Greg Weber
+
+
+So lets see examples behavior from the Frege Author:
+
+
+For example, lets say we have:
+
+
+data R = R { f :: Int }
+
+
+bar R{f=42} = true
+bar R{} = false
+
+<table><tr><td>foo r = bar r </td>
+<th> r.f==43
+</th></tr>
+<tr><td>baz r = r.f==47 </td>
+<th> bar r
+</th></tr></table>
+
+
+foobaz r = r.f
+
+
+Function bar has no difficulties, after desugaring of the record patterns it's just plain old pattern matching.
+
+
+Function foo is also ok, because through the application of r to bar the type checker knows already that r must be an R when it arrives at r.f
+
+
+Function baz is ok as long as the type checker does not have a left to right bias (Frege currently does have this bias, but will hopefully be improved).
+
+
+The last function foobaz gives a type error too, as there is no way to find out the type of r.
+
+
+Hence, the records in Frege are a very conservative extension to plain old algebraic data types, actually all record constructs will be desugared and reduced to non-record form in the way I have described in the language reference. For example, the data R above will become:
+
+
+data R = R Int where
+
 >
-> Frege has a detailed explanation of the semantics of its record implementation, and the language is \*very\* similar to Haskell. After reading the Frege manual sections, one is still left wondering: how does Frege implement type resolution for its TDNR syntax. The answer is fairly simple: overloaded record fields are not allowed (you can't write code that works against multiple record types). Frege uses fairly normal type resolution, and it won't always be able to resolve the type (currently 1/3 or sparsely annotated code will need more type annotations, but we should be able to improve this). I will put down some more details here...
+> f (R x) = x
+> ...
+
+
+To be sure, the where clause is the crucial point here. It puts f in the name space R. The global scope is not affected, there is nothing named f outside the R namespace.
+
+
+The record namespace is searched only in 3 cases:
+
+- when some name is explicitly qualifed with R:   R.f
+- when the type checker sees x.f and knows that x::R
+- In code that lives itself in the namespace R, here even an unqualified f will resolve to R.f (unless, of course, if there is a local binding for f)
