@@ -115,7 +115,7 @@ I estimate that in 2/3 of all cases one does not need to write `T.e x` in sparse
 ## Compatibility with existing records
 
 
-Seems like it should be OK to use old records in the new system.
+Seems like it should be OK to use old records in the new system playing by the new rules, although those records likely already include some type of prefixing and would be verbose.
 There is a chance for deeper though on this issue.
 
 ## Extending data name-spacing and TDNR syntax
