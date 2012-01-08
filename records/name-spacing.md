@@ -51,22 +51,17 @@ So lets see examples behavior from the Frege Author:
 
 For example, lets say we have:
 
-
+```wiki
 data R = R { f :: Int }
-
 
 bar R{f=42} = true
 bar R{} = false
 
-<table><tr><td>foo r = bar r </td>
-<th> r.f==43
-</th></tr>
-<tr><td>baz r = r.f==47 </td>
-<th> bar r
-</th></tr></table>
-
+foo r = bar r || r.f==43
+baz r = r.f==47 || bar r
 
 foobaz r = r.f
+```
 
 
 Function bar has no difficulties, after desugaring of the record patterns it's just plain old pattern matching.
@@ -83,12 +78,11 @@ The last function foobaz gives a type error too, as there is no way to find out 
 
 Hence, the records in Frege are a very conservative extension to plain old algebraic data types, actually all record constructs will be desugared and reduced to non-record form in the way I have described in the language reference. For example, the data R above will become:
 
-
+```wiki
 data R = R Int where
-
->
-> f (R x) = x
-> ...
+    f (R x) = x
+    ...
+```
 
 
 To be sure, the where clause is the crucial point here. It puts f in the name space R. The global scope is not affected, there is nothing named f outside the R namespace.
