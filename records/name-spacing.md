@@ -144,5 +144,7 @@ There is a chance for deeper though on this issue.
 
 
 This is mostly just something interesting to contemplate.
-TDNR syntax does not have to be limited to records (although it probably should be for the initial implementation until this new record system is vetted).
+TDNR syntax does not have to be limited to records (although it probably should be for the initial implementation until this new record system is vetted). I think it is a bad idea to attempt to accomplish general function chaining through extending TDNR. However, we can extent the function name-spaced to a data type concept to any data type (as it is in Frege), and use TDNR syntax for that. This way the dot (without spaces) \*always\* means tapping into a namespace (and simple type resolution).
+
+
 Placing functions within a data name-space can make for nicer data-structure oriented code where the intent is clearer. It can help to achieve the data-oriented goal of OO without the entanglement of state. Is it possible to create "virtual" record field setters and getters that can be accessed through TDNR syntax and to control exactly what parts of the data namespace are accessible?
