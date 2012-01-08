@@ -4,7 +4,10 @@ See \[wiki Records\] for the bigger picture. This is a proposal to solve the rec
 
 This approach is an attempt to port the records solution in [ Frege](http://code.google.com/p/frege/), a haskell-like language on the JVM. See Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [ Frege user manual](http://code.google.com/p/frege/downloads/detail?name=Language-202.pdf)
 
-### Better name spacing
+
+Many thanks to the Frege author, Ingo Wechsung for explaining his implementation and exploring this implementation territory for us.
+
+## Better name spacing
 
 
 In Haskell, you can look at an occurrence of any identifier `f` or `M.f` and decide where it is bound without thinking about types at all.  Broadly speaking it works like this:
@@ -31,7 +34,7 @@ So one solution for record field names is to specify more precisely which one yo
 >
 > Rather than strictly re-use modules it may make more sense to have a name-spacing implementation construct that is shared between both records and modules - hopefully this would make implementation easier and unify behavior. In the Frege approach, each data declaration is its own namespace - if we were to go this far (instead of stopping purely at records) there may be much less need for local namespaces. Overall this seems to be more of an implementation detail that may have a side effect of making local modules easier to implement than a concrete design proposal relating to records. -- Greg Weber.
 
-### Simple type resolution
+## Simple type resolution
 
 
 Frege has a detailed explanation of the semantics of its record implementation, and the language is \*very\* similar to Haskell. After reading the Frege manual sections, one is still left wondering: how does Frege implement type resolution for its TDNR syntax. The answer is fairly simple: overloaded record fields are not allowed. So you can't write code that works against multiple record types. Please see the comparison with Overloading in \[wiki Records\], which includes a discussion of the relative merits. Back to simple type resolution. From the Frege Author:
@@ -93,3 +96,31 @@ The record namespace is searched only in 3 cases:
 - when some name is explicitly qualifed with `R`:   `R.f`
 - when the type checker sees `x.f` and knows that `x::R`
 - In code that lives itself in the namespace `R`, here even an unqualified `f` will resolve to `R.f` (unless, of course, if there is a local binding for `f`)
+
+### Increased need for type annotation
+
+
+This is the only real downside of the proposal. The Frege author says:
+
+
+I estimate that in 2/3 of all cases one does not need to write (T.e x) in sparsely type annotated code, despite the fact that the frege type checker has a left to right bias and does not yet attempt to find the type of x in the code that "follows" the x.e construct (after let unrolling etc.) I think one could do better and guarantee that, if the type of x is inferrable at all, then so will be x.e (Still, it must be more than just a type variable.)
+
+## Syntax for updates (in the Frege manual)
+
+- the function that updates field x of data type T is T.{x=}
+- the function that sets field x in a T to 42 is T.{x=42}
+- If a::T then a.{x=} and a.{x=42} are valid
+- the function that changes field x of a T by applying some function to it is T.{x \<-}
+
+## Compatibility with existing records
+
+
+Seems like it should be OK to use old records in the new system.
+There is a chance for deeper though on this issue.
+
+## Extending data name-spacing and TDNR syntax
+
+
+This is mostly just something interesting to contemplate.
+TDNR syntax does not have to be limited to records (although it probably should be for the initial implementation until this new record system is vetted).
+Placing functions within a data name-space can make for nicer data-structure oriented code where the intent is clearer. It can help to achieve the data-oriented goal of OO without the entanglement of state. Is it possible to create "virtual" record field setters and getters that can be accessed through TDNR syntax and to control exactly what parts of the data namespace are accessible?
