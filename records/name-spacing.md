@@ -2,7 +2,7 @@
 See [Records](records) for the bigger picture. This is a proposal to solve the records name-spacing issue with simple name-spacing and simple type resolution. 
 
 
-This approach is an attempt to port the records solution in [ Frege](http://code.google.com/p/frege/), a haskell-like language on the JVM. Please read Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [ Frege user manual](http://code.google.com/p/frege/downloads/detail?name=Language-202.pdf)
+This approach is an attempt to port the records solution in [ Frege](http://code.google.com/p/frege/), a haskell-like language on the JVM. Please read Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [ Frege user manual](http://code.google.com/p/frege/downloads/detail?name=Language-411.pdf)
 
 
 Many thanks to the Frege author, Ingo Wechsung for explaining his implementation and exploring this implementation territory for us.
