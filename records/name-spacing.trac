@@ -50,11 +50,11 @@ foobaz r = r.f
 
 Function bar has no difficulties, after desugaring of the record patterns it's just plain old pattern matching.
 
-Function foo is also ok, because through the application of r to bar the type checker knows already that r must be an R when it arrives at r.f
+Function foo is also ok, because through the application of `r` to bar the type checker knows already that r must be an R when it arrives at `r.f`
 
 Function baz is ok as long as the type checker does not have a left to right bias (Frege currently does have this bias, but will hopefully be improved).
 
-The last function foobaz gives a type error too, as there is no way to find out the type of r.
+The last function foobaz gives a type error too, as there is no way to find out the type of `r`.
 
 Hence, the records in Frege are a very conservative extension to plain old algebraic data types, actually all record constructs will be desugared and reduced to non-record form in the way I have described in the language reference. For example, the data R above will become:
 
@@ -67,6 +67,6 @@ data R = R Int where
 To be sure, the where clause is the crucial point here. It puts f in the name space R. The global scope is not affected, there is nothing named f outside the R namespace.
 
 The record namespace is searched only in 3 cases:
- * when some name is explicitly qualifed with R:   R.f
- * when the type checker sees x.f and knows that x::R
- * In code that lives itself in the namespace R, here even an unqualified f will resolve to R.f (unless, of course, if there is a local binding for f)
+ * when some name is explicitly qualifed with `R`:   `R.f`
+ * when the type checker sees `x.f` and knows that `x::R`
+ * In code that lives itself in the namespace `R`, here even an unqualified `f` will resolve to `R.f` (unless, of course, if there is a local binding for `f`)
