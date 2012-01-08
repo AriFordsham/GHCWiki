@@ -11,8 +11,9 @@ In Haskell, you can look at an occurrence of any identifier `f` or `M.f` and dec
  * For unqualified names, `f`, find the innermost binding of `f`; or, if that takes you to top level, look for top level binding of `f` or an import that binds `f`.
 If there is ambiguity (eg two imports both import something called `f`) then an error is reported.  And that's what happens for the `Record` and `RecordClash` example above.
 
-So one solution for record field names is to specify more precisely which one you mean.  There are two schools of thought:
- * '''Optionally use the type name'''.  So you could say `Record.a` or `RecordClash.a` rather than `a`, to specify which field selector you mean.  Apart from verbosity the difficulty here is that it's hard to know whether you are writing `<module-name>.f` or `<type-name>.f`.  That is, is `Record` the name of a type or of a module?  (Currently it legally could be both.)
+So the proposed solution for record field names is to specify more precisely which one you mean by using the type name. Note that a data declaration now creates a module-like namespace, so we aren't so much using the type name as using the data type namespace in the same way we use a module namespace.
+
+So you could say `Record.a` or `RecordClash.a` rather than `a`, to specify which field selector you mean.  Apart from verbosity the difficulty here is that it's hard to know whether you are writing `<module-name>.f` or `<type-name>.f`.  That is, is `Record` the name of a type or of a module? (Currently it legally could be both.)
 
  The module/record ambiguity is dealt with in Frege by preferring modules and requiring a module prefix for the record if there is ambiguity. So if your record named Record was inside a module named Record you would need `Record.Record.a`. Programmers will avoid this by doing what they do now: structuring their programs to avoid this situation. We can try and give the greater assistance in this regard by providing simpler ways for them to alter the names of import types.
 
@@ -20,7 +21,7 @@ So one solution for record field names is to specify more precisely which one yo
 
  * '''Use the module name space mechanism'''; after all that's what it's for.  But putting each record definition in its own module is a bit heavyweight. So maybe we need local modules (just for name space control) and local import declarations.  Details are unclear. (This was proposed in 2008 in [http://www.haskell.org/pipermail/haskell-cafe/2008-August/046494.html this discussion] on the Haskell cafe mailing list and in #2551. - Yitz).
 
- Rather than strictly re-use modules it may make more sense to have a name-spacing implementation construct that is shared between both records and modules - hopefully this would make implementation easier and unify behavior. In the Frege approach, each data declaration is its own namespace - if we were to go this far (instead of stopping purely at records) there may be much less need for local namespaces. Overall this seems to be more of an implementation detail that may have a side effect of making local modules easier to implement than a concrete design proposal relating to records. -- Greg Weber.
+ Rather than strictly re-use modules it may make more sense to have a name-spacing implementation construct that is shared between both records and modules - hopefully this would make implementation easier and unify behavior. In the Frege approach, each data declaration is its own namespace - if we were to go this far (instead of stopping purely at records) there may be much less need for local namespaces. Overall this seems to be more of an interesting implementation detail than a concrete design proposal relating to records. -- Greg Weber.
 
 
 == Simple type resolution ==
