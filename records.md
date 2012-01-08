@@ -59,7 +59,7 @@ getA = r.a
 ```
 
 
-and that can work for both Record and `RecordClash` because they both have a field `a`.
+and that can work for both `Record` and `RecordClash` because they both have a field `a`.
 With Namespacing this will fail to type check unless the compiler can determine the type of r. The advantage of Namespacing is that the implementation is clear, straightforward, and has already been done (in the Frege language, whereas there are still questions as to the feasibility of Overloading). Overloading has seen other downsides in practice. In the words of the Frege author, who abandoned Overloading:
 
 - only very inefficient code could be generated, if you have to access or update a field of some unknown record. In the end, every record type was basically a map.
@@ -78,4 +78,4 @@ All of the name-space mechanisms require some level of user-supplied disambiguat
 One particular way of integrating this idea into Haskell is called [ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR). Proposed a couple of years ago, the Haskell community didn't like it much.  (But I still do; SLPJ.)
 
 
-I believe the community rejected TDNR because they wanted extensible records. I think it is a shame that the desire for \*extensible\* records is holding us back from getting anything done now, but I do think that the current TDNR proposal seems a little weak for some reasons pointed out in the proposal itself, but also because it proposes not to solve name-spacing record updates. Note that the Frege proposal incorporates the TDNR syntax, and it tackles record updates. -- Greg Weber
+I believe the community rejected TDNR because they wanted extensible records. I think it is a shame that the debate over \*extensible\* records has resulted in holding back any form of progress , but I do think that the TDNR proposal seems a little weak for some reasons pointed out in the proposal itself, but also because it proposes not to solve name-spacing record updates. Note that the Frege proposal incorporates the TDNR syntax, and it tackles record updates. -- Greg Weber
