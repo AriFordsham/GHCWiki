@@ -57,10 +57,31 @@ We have name-spaces, but the equivalent is already being accomplished by adding 
 Verbosity is solved in Frege by using the dot syntax concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`.
 See below for how we resolve the type of this code.
 
-### Specifics on the dot
+### Details on the dot
 
 
-This proposal requires the current Haskell function composition dot operator to have spaces (at least on the left side). No spaces around the dot are reserved for name-spacing: this use and the current module namespace use. The dot operator should bind as tightly as possible.
+This proposal requires the current Haskell function composition dot operator to have spaces on both sides. No spaces around the dot are reserved for name-spacing: this use and the current module namespace use. No space to the right would be partial application (see TDNR?. The dot operator should bind as tightly as possible.
+
+
+Given the dot's expanded use here, plus its common use in custom operators, it is possible to end up with dot-heavy code.
+
+```wiki
+quux (y . (foo>.<  bar).baz (f . g)) moo
+```
+
+
+It's not that easy to distinguish from
+
+```wiki
+quux (y . (foo>.<  bar) . baz (f . g)) moo
+```
+
+
+What then is the future of the dot if this proposal is accepted? I think the community need to chose among 2 alternatives:
+
+
+1) discourage the use of dot in custom operators: `>.<` is bad, use a different character or none: `><`
+2) discourage the use of dot for function composition - use a different operator for that task. Indeed, Frege users have the choice between `<~` or the proper unicode dot.
 
 ## Simple type resolution
 
@@ -201,20 +222,6 @@ See below for a discussion of future directions.
 Seems like it should be OK to use old records in the new system playing by the new rules, although those records likely already include some type of prefixing and would be quite verbose.
 There is a chance for deeper though on this issue.
 
-## Extending data name-spacing and dot syntax
-
-
-This is mostly just something interesting to contemplate.
-
-
-Dot syntax does not have to be limited to records (although it probably should be for the initial implementation until this new record system is vetted). I think it is a bad idea to attempt to attempt to extend the dot syntax to accomplish general function chaining through extending the dot syntax. However, it is consistent to extend the function name-spaced to a record data type concept to any data type (as it is in Frege), and use dot syntax for that. The dot (without spaces) \*always\* means tapping into a namespace (and simple type resolution).
-
-
-Placing functions within a data name-space can make for nicer data-structure oriented code where the intent is clearer. It can help to achieve the data-oriented goal of OO (without the entanglement of state). With control over how the data namespace is exported (similar to controlling module namesapces), it is possible to create virtual record field setters and getters that can be accessed through dot syntax. 
-
-
-In this brave new world (see above where typeclass functions are also placed under the namespace of the data), there are few functions that \*absolutlely must\* be at the top level of a module. Although a library author might take attempt the approach of no top-level functions, obviously it will still be most convenient for users to define functions at the top level of modules rather than have to lift them into data structures.
-
 ## Partial application
 
 
@@ -231,7 +238,10 @@ let r = Record "a" in b r.a
 ```
 
 
-It bothers some that the code does not look like the previous `b a r` - chiefly that the record is now in the middle. Is it possible we can have an equivalent of the dot that changes the ordering? `b a.@r` is possible, but requires an operator that binds to the right.
+It bothers some that the code does not look like the previous `b a r` - chiefly that the record is now in the middle. Chaining can make this perception even worse: `e d r.a.b.c`
+
+
+Is it possible we can have an equivalent of the dot that changes the ordering? `b a.@r` is possible, but requires an operator that binds tightly to the right.
 
 ### Partial Application
 
@@ -240,3 +250,35 @@ Partial application provides a potential solution: `b . .a $ r`
 
 
 So if we have a function `f r = b r.a` then one can write it points-free: `b . .a`
+
+
+Our longer example from above: `e d . .c . .b . .a`
+
+
+At first glance it may look odd, but it is starting to grow on me. Also let us consider real use with longer names:
+
+```wiki
+echo delta . .charlie . .beta . .alpha
+```
+
+
+Is there are more convenient syntax for this? `b <.a`
+Note that a move to a different operator for function composition would make things much clearer: `b <~ .a`, where the unicode dot might be even nicer
+
+## Extending data name-spacing and dot syntax
+
+
+This is mostly just something interesting to contemplate.
+
+
+Dot syntax does not have to be limited to records (although it probably should be for the initial implementation until this new record system is vetted). I think it is a bad idea to attempt to attempt to extend the dot syntax to accomplish general function chaining through extending the dot syntax. However, it is consistent to extend the function name-spaced to a record data type concept to any data type (as it is in Frege), and use dot syntax for that. The dot (without spaces) \*always\* means tapping into a namespace (and simple type resolution).
+
+
+Placing functions within a data name-space can make for nicer data-structure oriented code where the intent is clearer. It can help to achieve the data-oriented goal of OO (without the entanglement of state). With control over how the data namespace is exported (similar to controlling module namesapces), it is possible to create virtual record field setters and getters that can be accessed through dot syntax.
+
+
+Both Frege and the DDC thesis take this approach.
+
+
+In this brave new world (see above where typeclass functions are also placed under the namespace of the data), there are few functions that \*absolutlely must\* be at the top level of a module. Although a library author might take attempt the approach of no top-level functions, obviously it will still be most convenient for users to define functions at the top level of modules rather than have to lift them into data structures.
+                                                                                                                 
