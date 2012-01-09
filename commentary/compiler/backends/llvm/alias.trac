@@ -50,10 +50,6 @@ Stores/loads needs to be annotated with `!tbaa` and one of the above four types 
 %ln1NH1 = load i64* %Sp_Arg, align 8, !tbaa !2
 }}}
 
-'''Question''' (Johan Tibell): Which instructions need to be instrumented? Just loads and stores, or also getelementptr?
-
-'''Question''' (Johan Tibell): Should all loads and stores that are not annotated as "stack" be allocated as "heap", or is there a third class (e.g. unknown)? 
-
 == Progress ==
 
 David and Johan plan to have a crack at this at the start of 2012.
