@@ -199,8 +199,8 @@ In this brave new world (see above where typeclass functions are also placed und
 ## Partial application
 
 
-Fill this out by first looking at TDNR
-`(.a) r == r.a`
+see TDNR? syntax discusion.
+`.a r == r.a`
 
 ## Potential Downside: mixing of 2 styles of code
 
@@ -212,7 +212,8 @@ let r = Record "a" in b r.a
 ```
 
 
-It bothers some that the code does not look like the previous `b a r` - chiefly that the record is now in the middle. Is it possible we can have an equivalent of the dot that changes the ordering? `b a.r` is theoretically possible, but probably extraordinarily confusing. Perhaps a new operator like: `b a <. r`
+It bothers some that the code does not look like the previous `b a r` - chiefly that the record is now in the middle. Is it possible we can have an equivalent of the dot that changes the ordering? `b a.r` is theoretically possible, but probably extraordinarily confusing. Perhaps a new operator like: `b <. a $ r`
 
 
-Partial application provides a potential solution: `b (.a) r`
+Partial application provides a potential solution: `b . .a $ r`
+So if we have a function `f r = b r.a`  then one can write it points-free: `b . .a`
