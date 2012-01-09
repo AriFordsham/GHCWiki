@@ -239,7 +239,7 @@ let r = Record "a" in b r.a
 ```
 
 
-It bothers some that the code does not look like the previous `b a r` - chiefly that the record is now in the middle. Chaining can make this perception even worse: `e d r.a.b.c`
+It bothers some that the code does not look like the previous `b a r` - chiefly that the record is now in the middle. Chaining can make this perception even worse: `(e . d) r.a.b.c`
 
 
 Is it possible we can have an equivalent of the dot that changes the ordering? `b a.@r` is possible, but requires an operator that binds tightly to the right.
@@ -253,13 +253,13 @@ Partial application provides a potential solution: `b . .a $ r`
 So if we have a function `f r = b r.a` then one can write it points-free: `b . .a`
 
 
-Our longer example from above: `e d . .c . .b . .a`
+Our longer example from above: `e . d . .c . .b . .a`
 
 
 At first glance it may look odd, but it is starting to grow on me. Also let us consider real use with longer names:
 
 ```wiki
-echo delta . .charlie . .beta . .alpha
+echo . delta . .charlie . .beta . .alpha
 ```
 
 
