@@ -15,11 +15,17 @@ If there is ambiguity (eg two imports both import something called `f`) then an 
 
 So the proposed solution for record field names is to specify more precisely which one you mean by using the type name. Note that a data declaration now creates a module-like namespace, so we aren't so much using the type name as using the data type namespace in the same way we use a module namespace.
 
-So you could say `Record.a` or `RecordClash.a` rather than `a`, to specify which field selector you mean.  The difficulty here is that it's hard to know whether you are writing `<module-name>.f` or `<record-name>.f`.  That is, is `Record` the name of a type or of a module? (Currently it legally could be both.)
+So you could say `Record.a` or `RecordClash.a` rather than `a`, to specify which field selector you mean.  This creates a potential ambiguity: did you mean `<module-name>.f` or `<record-name>.f`.  `Record` could be the name of a type or of a module.
 
- The module/record ambiguity is dealt with in Frege by preferring modules and requiring a module prefix for the record if there is ambiguity. So if your record named Record was inside a module named Record you would need `Record.Record.a`. I think we could improve upon this case to prefer a record rather than the name of the existing module, which should not need to be referenced. So just `Record.a`.
+There are 2 cases to consider:
+1) inside module M naming a record M, and also importing both that module and record
+2) importing 2 different modules, M1 and M2, where M2 defines a record named M1.
 
-However, we still have the case of conflicting imports between the names of modules and records. We have the choice of either requiring a module prefix or making this a compilation error. Generally, programmers will avoid this situation by doing what they do now: structuring their programs to avoid name collisions. We can try and give the greater assistance in this regard by providing simpler ways for them to alter the names of import types.
+The module/record ambiguity is dealt with in Frege by preferring modules and requiring a module prefix for the record if there is ambiguity. So for 1) you need M.M.field. For 2) you need M2.M1.field.
+
+We could instead prefer a record rather than a module - this would normally be the desired behavior, but then we must figure out how to still be able to access the module. This is particularly the case for modules not marked as qualified - generally all modules are under a verbose namespace and the Module.identifier syntax is only used if the module is first qualified.
+
+Generally, programmers will avoid this situation by doing what they do now: structuring their programs to avoid name collisions. We can try and give the greater assistance in this regard by providing simpler ways for them to alter the names of import types.
 
 One way to avoid the Module.Record.x problem is to use type alias names, for example:
 
@@ -31,41 +37,14 @@ type IN = InconvenientName
 
 
 
-=== Alternative name-spacing techiniques ===
-
-'''Use the module name space mechanism'''.
-But putting each record definition in its own module is a bit heavyweight. So maybe we need local modules (just for name space control) and local import declarations.  Details are unclear. (This was proposed in 2008 in [http://www.haskell.org/pipermail/haskell-cafe/2008-August/046494.html this discussion] on the Haskell cafe mailing list and in #2551. - Yitz).
-
- Rather than strictly re-use modules it may make more sense to have a name-spacing implementation construct that is shared between both records and modules - hopefully this would make implementation easier and unify behavior. In the Frege approach, each data declaration is its own namespace - if we were to go this far (instead of stopping purely at records) there may be much less need for local namespaces. Overall this seems to be more of an interesting implementation detail than a concrete design proposal relating to records. -- Greg Weber.
-
 == Getting rid of the Verbosity with the dot operator ==
 
-We have name-spaces, but the equivalent is already being accomplished by adding prefixes to record fields: `data Record = Record { recordA :: String }`
+We have name-spaces, but it is hard to see how this is better than the current practice of adding prefixes to record fields: `data Record = Record { recordA :: String }`
 
-Verbosity is solved in Frege by using the dot syntax concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`.
-See below for how we resolve the type of this code.
+Verbosity is solved in Frege and DDC by using the dot syntax concept. In `data Record = Record {a::String};r = Record "A"; r.a` The final `r.a` resolves to `Record.a r`.
 
-=== Details on the dot ===
-
-This proposal requires the current Haskell function composition dot operator to have spaces on both sides. No spaces around the dot are reserved for name-spacing: this use and the current module namespace use. No space to the right would be partial application (see 
-[http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution TDNR]. The dot operator should bind as tightly as possible.
-
-Given the dot's expanded use here, plus its common use in custom operators, it is possible to end up with dot-heavy code.
-
-{{{
-quux (y . (foo>.<  bar).baz (f . g)) moo
-}}}
-
-It's not that easy to distinguish from
-
-{{{
-quux (y . (foo>.<  bar) . baz (f . g)) moo
-}}}
-
-What then is the future of the dot if this proposal is accepted? I think the community need to chose among 2 alternatives:
-
-1) discourage the use of dot in custom operators: `>.<` is bad, use a different character or none: `><`
-2) discourage the use of dot for function composition - use a different operator for that task. Indeed, Frege users have the choice between `<~` or the proper unicode dot.
+This is the TDNR syntax concept. See 'Simple Type Resolution' for how we resolve the type of this code.
+Also see 'Details on the dot' for a lengthy discussion of the dot.
 
 
 == Simple type resolution ==
@@ -122,7 +101,7 @@ The record namespace is searched only in 3 cases:
 
 === Increased need for type annotation ===
 
-This is the only real downside of the proposal. The Frege author says:
+This is the only real downside of *this* proposal (most downsides discussed here are inherent to any records proposal). The Frege author says:
 
 I estimate that in 2/3 of all cases one does not need to write `T.e x` in sparsely type annotated code, despite the fact that the frege type checker has a left to right bias and does not yet attempt to find the type of `x` in the code that "follows" the `x.e` construct (after let unrolling etc.) I think one could do better and guarantee that, if the type of `x` is inferrable at all, then so will be `x.e` (Still, it must be more than just a type variable.)
 
@@ -131,7 +110,7 @@ I estimate that in 2/3 of all cases one does not need to write `T.e x` in sparse
 
   * the function that updates field `x` of data type `T` is `T.{x=}`
   * the function that sets field x in a `T` to `42` is `T.{x=42}`
-  * If `a::T` then `a.{x=}` and `a.{x=42}` are valid
+  * If `a::T` then `a.{x=}` and `a.{x=42}` are equivalent to `T.{x=} a` and `T.{x=42} a`
   * the function that changes field x of a T by applying some function to it is `T.{x <-}`
 
 The function update syntax is a new addition to Haskell that we do not need to immediately implement.
@@ -176,22 +155,86 @@ import RExtension()      -- equivalent to qualified import in Haskell
 
 the new functions `f` and `g` are accessible (only) through R.
 So we have a technique for lifting new functions into the Record namespace.
-For the initial records implementaion we probably want to maintain `f` and `g` at both the top-level and through the name-space.
-See below for a discussion of future directions.
+For the initial records implementaion we definitely want to maintain `f` and `g` at the top-level, but should consider also adding through the record name-space. See related discussion below on future directions.
 
 == Compatibility with existing records ==
+
+The new record system can be enabled with `-XNAMESPACEDATA`
 
 Seems like it should be OK to use old records in the new system playing by the new rules, although those records likely already include some type of prefixing and would be quite verbose.
 There is a chance for deeper though on this issue.
 
 
-== Partial application ==
+                                                                                
+== Details on the dot ==
 
-see [http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution TDNR] syntax discusion.
-`.a r == r.a`
+This proposal requires the current Haskell function composition dot operator to have spaces on both sides. No spaces around the dot are reserved for name-spacing: this use and the current module namespace use. No space to the right would be partial application (see 
+[http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution TDNR]. The dot operator should bind as tightly as possible.
+
+=== Partial application ===
+
+see [http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution TDNR] syntax discusion for an explanation.
+{{{
+(.a) r == r.a
+}}}
+
+.x (no space after the dot), for any identifier x, is a postfix operator that binds more tightly than function application, so that parentheses are not usually required.
+{{{
+.a r == r.a
+}}}
+
+When there are multiple operators, they chain left to right
+{{{
+(r.a.b.c) == (.c $ .b $ .a r)
+}}}
+
+See below for how partial application can allow for different code styles.
+
+Question: does this now hold?
+{{{
+r.a == r.(Record.a) == r.Record.a
+}}}
 
 
-== Potential Downside: mixing of 2 styles of code ==
+
+=== Dealing with dot-heavy code ===
+
+==== Identifying the difference between a name-space dot and function composition ====
+
+Given the dot's expanded use here, plus its common use in custom operators, it is possible to end up with dot-heavy code.
+
+{{{
+quux (y . (foo>.<  bar).baz (f . g)) moo
+}}}
+
+It's not that easy to distinguish from
+
+{{{
+quux (y . (foo>.<  bar) . baz (f . g)) moo
+}}}
+
+What then is the future of the dot if this proposal is accepted? The community needs to consider ways to reduce the dot:
+
+1) discourage the use of dot in custom operators: `>.<` could be discouraged, use a different character or none: `><`
+In most cases the dot in custom operators has little to no inherent meaning. Instead it is just the character available for custom operators that takes up the least real-estate. This makes it the best choice for implementing a custom operator modeled after an existing Haskell operator: `.==` or `.<` is normably preferable to `@==` and `@<`.
+
+2) discourage the use of dot for function composition - use a different operator for that task. Indeed, Frege users have the choice between `<~` or the proper unicode dot.
+
+Discouraging the use of the dot in custom operators makes the example code only slightly better. With the second we now have:
+
+{{
+quux (y <~ (foo>.<  bar).baz (f <~ g)) moo
+}}}
+
+Very easy to distinguish from
+
+{{{
+quux (y <~ (foo>.<  bar) <~ baz (f <~ g)) moo
+}}}
+
+If you are disgusted by `<~` than you can use the very pretty unicode dot.
+
+==== Downside: mixing of 2 styles of code ====
 
 {{{
 data Record = Record { a::String }
@@ -200,11 +243,9 @@ b :: Record -> String
 let r = Record "a" in b r.a 
 }}}
 
-It bothers some that the code does not look like the previous `b a r` - chiefly that the record is now in the middle. Chaining can make this perception even worse: `(e . d) r.a.b.c`
+It bothers some that the code does not read strictly left to right as in: `b . a . r`. Chaining can make this even worse: `(e . d) r.a.b.c`
 
-Is it possible we can have an equivalent of the dot that changes the ordering? `b a.@r` is possible, but requires an operator that binds tightly to the right.
-
-=== Partial Application ===
+===== Solution: Partial Application =====
 
 Partial application provides a potential solution: `b . .a $ r`
 
@@ -212,24 +253,49 @@ So if we have a function `f r = b r.a` then one can write it points-free: `b . .
 
 Our longer example from above: `e . d . .c . .b . .a`
 
-At first glance it may look odd, but it is starting to grow on me. Also let us consider real use with longer names:
+Let us consider real use with longer names:
 {{{
 echo . delta . .charlie . .beta . .alpha
 }}}
 
-Is there are more convenient syntax for this? `b <.a`
-Note that a move to a different operator for function composition (see brief discussion of the dot operator above) would make things much clearer: `b <~ .a`, where the unicode dot might be even nicer
+Note that a move to a different operator for function composition (see discussion above) would make things much nicer:
+{{{
+echo <~ delta <~ .charlie <~ .beta <~ .alpha
+}}}
 
 
-== Extending data name-spacing and dot syntax ==
+===== Solution: Field selector to the left of the record =====
+
+We could have an equivalent of the dot where the field is to the left of the record: `b a@r`
+Could this also be used in a partial syntax?
+
+{{{
+echo . delta . charlie@ . beta@ . alpha@
+}}}
+
+Can this be shortened to:
+
+{{{
+echo . delta . charlie@beta@alpha@
+}}}
+
+Or would this syntax alway need to be applied?
+
+{{{
+echo . delta $ charlie@beta@alpha@r
+}}}
+
+
+
+
+== Extending data name-spacing ==
 
 This is mostly just something interesting to contemplate.
 
-Dot syntax does not have to be limited to records (although it probably should be for the initial implementation until this new record system is vetted). I think it is a bad idea to attempt to attempt to extend the dot syntax to accomplish general function chaining through extending the dot syntax. However, it is consistent to extend the function name-spaced to a record data type concept to any data type (as it is in Frege), and use dot syntax for that. The dot (without spaces) *always* means tapping into a namespace (and simple type resolution).
+Dot syntax does not have to be limited to records (although it probably should be for the initial implementation until this new record system is vetted). I think it is a bad idea to attempt to attempt to extend the dot syntax to accomplish general function chaining through extending the dot syntax - we are simply asking too much of the dot right now. However, it is consistent to extend the function name-spaced to a record data type concept to any data type (as it is in Frege), and use dot syntax for that. The dot (without spaces) then *always* means tapping into a namespace (and simple type resolution).
 
 Placing functions within a data name-space can make for nicer data-structure oriented code where the intent is clearer. It can help to achieve the data-oriented goal of OO (without the entanglement of state). With control over how the data namespace is exported (similar to controlling module namesapces), it is possible to create virtual record field setters and getters that can be accessed through dot syntax.
 
 Both Frege and the DDC thesis take this approach.
 
-In this brave new world (see above where typeclass functions are also placed under the namespace of the data), there are few functions that *absolutlely must* be at the top level of a module. Although a library author might take attempt the approach of no top-level functions, obviously it will still be most convenient for users to define functions at the top level of modules rather than have to lift them into data structures.
-                                                                                                                 
+In this brave new world (see above where typeclass functions are also placed under the namespace of the data), there are few functions that *absolutlely must* be at the top level of a module. Although a library author might take attempt the approach of no top-level functions, obviously it will still be most convenient for users to define functions at the top level of modules rather than have to lift them into data structure namespaces.
