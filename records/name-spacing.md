@@ -252,9 +252,9 @@ Question: does this now hold?
 r.a == r.(Record.a) == r.Record.a
 ```
 
-### Dealing with dot-heavy code
+## Dealing with dot-heavy code
 
-#### Identifying the difference between a name-space dot and function composition
+### Identifying the difference between a name-space dot and function composition
 
 
 Given the dot's expanded use here, plus its common use in custom operators, it is possible to end up with dot-heavy code.
@@ -283,10 +283,9 @@ In most cases the dot in custom operators has little to no inherent meaning. Ins
 
 Discouraging the use of the dot in custom operators makes the example code only slightly better. With the second we now have:
 
-
-{{
-quux (y \<\~ (foo\>.\<  bar).baz (f \<\~ g)) moo
-}}}
+```wiki
+quux (y <~ (foo>.<  bar).baz (f <~ g)) moo
+```
 
 
 Very easy to distinguish from
@@ -298,7 +297,7 @@ quux (y <~ (foo>.<  bar) <~ baz (f <~ g)) moo
 
 If you are disgusted by `<~` than you can use the very pretty unicode dot.
 
-#### Downside: mixing of 2 styles of code
+### Downside: mixing of 2 styles of code
 
 ```wiki
 data Record = Record { a::String }
@@ -310,7 +309,7 @@ let r = Record "a" in b r.a
 
 It bothers some that the code does not read strictly left to right as in: `b . a . r`. Chaining can make this even worse: `(e . d) r.a.b.c`
 
-##### Solution: Partial Application
+#### Solution: Partial Application
 
 
 Partial application provides a potential solution: `b . .a $ r`
@@ -335,7 +334,7 @@ Note that a move to a different operator for function composition (see discussio
 echo <~ delta <~ .charlie <~ .beta <~ .alpha
 ```
 
-##### Solution: Field selector to the left of the record
+#### Solution: Field selector to the left of the record
 
 
 We could have an equivalent of the dot where the field is to the left of the record: `b a@r`
@@ -374,4 +373,4 @@ Placing functions within a data name-space can make for nicer data-structure ori
 Both Frege and the DDC thesis take this approach.
 
 
-In this brave new world (see above where typeclass functions are also placed under the namespace of the data), there are few functions that \*absolutlely must\* be at the top level of a module. Although a library author might take attempt the approach of no top-level functions, obviously it will still be most convenient for users to define functions at the top level of modules rather than have to lift them into data structure namespaces.
+In this brave new world (see above where typeclass functions are also placed under the namespace of the data), there are few functions that absolutlely must be at the top level of a module. Although a library author might take attempt the approach of no top-level functions, obviously it will still be most convenient for users to define functions at the top level of modules rather than have to lift them into data structure namespaces.
