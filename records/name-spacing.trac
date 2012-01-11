@@ -159,12 +159,12 @@ For the initial records implementaion we definitely want to maintain `f` and `g`
 
 == Compatibility with existing records ==
 
-The new record system could be enabled with `-XNAMESPACEDATA`.
+The new record system would be enabled with `-XNAMESPACEDATA`.
+Records from modules without this extension by default should still pollute the global namespace, even in a module using this extension. To make old records use the new style, one should add `-XNOGLOBALRECORDFIELDS`
 
-* Should new modules be infectious? That is, if I turn the extension on for my module and export a record, does a user that wants to import the record also have to use the extension?
+Until this is a Haskell standard, we should try to avoid this being infectious. If I turn the extension on for my module and export a record, a user that wants to import the record should be able to use the old style. This would be the default if there is no `-XNAMESPACEDATA`, or should the user have to specify a different pragma and the default would be a compilation error forcing them to specify one or the other?
 
-* Records from modules without this extension can be imported into a module using it.
-Ideally the old record fields would now only be accessed through a namespace. Also, we would ideally be able to strip any now useless field prefixes.
+Ideally, with `-XNOGLOBALRECORDFIELDS` we would also be able to strip any now useless field prefixes.
 
 {{{
 module OldModule ( Record(..) ) where data Prefix = Prefix { prefixA :: String }
