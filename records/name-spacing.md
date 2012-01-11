@@ -144,7 +144,7 @@ I estimate that in 2/3 of all cases one does not need to write `T.e x` in sparse
 
 The function update syntax is a new addition to Haskell that we do not need to immediately implement.
 
-### Alternative approach: using tuple selectors
+### Alternative update syntax: using tuple selectors
 
 ```wiki
 let { r.x = x'; r.y = y'; r.z = z'; } in r
@@ -195,11 +195,23 @@ For the initial records implementaion we definitely want to maintain `f` and `g`
 ## Compatibility with existing records
 
 
-The new record system can be enabled with `-XNAMESPACEDATA`
+The new record system is enabled with `-XNAMESPACEDATA`.
+
+- Should new modules be infectious? That is, if I turn the extension on for my module and export a record, does a user that wants to import the record also have to use the extension?
+
+- Records from modules without this extension can be imported into a module using it.
 
 
-Seems like it should be OK to use old records in the new system playing by the new rules, although those records likely already include some type of prefixing and would be quite verbose.
-There is a chance for deeper though on this issue.
+Ideally the old record fields would now only be accessed through a namespace. Also, we would ideally be able to strip any now useless field prefixes.
+
+```wiki
+module OldModule ( Record(..) ) where data Prefix = Prefix { prefixA :: String }
+
+module NewModule where
+import OldModule ( Prefix(..) strip prefix )
+
+aFunc = let r = Prefix "A" in r.a
+```
 
 ## Details on the dot
 
