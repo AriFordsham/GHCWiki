@@ -63,7 +63,7 @@ Also see 'Details on the dot' for a lengthy discussion of the dot.
 ## Simple type resolution
 
 
-Frege has a detailed explanation of the semantics of its record implementation, and the language is \*very\* similar to Haskell. After reading the Frege manual sections, one is still left wondering: how does Frege implement type resolution for its dot syntax. The answer is fairly simple: overloaded record fields are not allowed. So you can't write code that works against multiple record types. Please see the comparison with Overloading in \[wiki Records\], which includes a discussion of the relative merits. Note that the DDC thesis takes the same approach.
+Frege has a detailed explanation of the semantics of its record implementation, and the language is \*very\* similar to Haskell. After reading the Frege manual sections, one is still left wondering: how does Frege implement type resolution for its dot syntax. The answer is fairly simple: overloaded record fields are not allowed. So you can't write code that works against multiple record types. Please see the comparison with Overloading in [Records](records), which includes a discussion of the relative merits. Note that the DDC thesis takes the same approach.
 
 
 Back to simple type resolution. From the Frege Author:
