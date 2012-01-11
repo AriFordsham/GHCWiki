@@ -101,7 +101,7 @@ The record namespace is searched only in 3 cases:
 
 === Increased need for type annotation ===
 
-This is the only real downside of *this* proposal (most downsides discussed here are inherent to any records proposal). The Frege author says:
+This is the only real downside of this proposal - most downsides discussed here are inherent to any records proposal. The Frege author says:
 
 I estimate that in 2/3 of all cases one does not need to write `T.e x` in sparsely type annotated code, despite the fact that the frege type checker has a left to right bias and does not yet attempt to find the type of `x` in the code that "follows" the `x.e` construct (after let unrolling etc.) I think one could do better and guarantee that, if the type of `x` is inferrable at all, then so will be `x.e` (Still, it must be more than just a type variable.)
 
@@ -159,7 +159,7 @@ For the initial records implementaion we definitely want to maintain `f` and `g`
 
 == Compatibility with existing records ==
 
-The new record system is enabled with `-XNAMESPACEDATA`.
+The new record system could be enabled with `-XNAMESPACEDATA`.
 
 * Should new modules be infectious? That is, if I turn the extension on for my module and export a record, does a user that wants to import the record also have to use the extension?
 
