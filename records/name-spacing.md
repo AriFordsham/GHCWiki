@@ -302,7 +302,7 @@ In most cases the dot in custom operators has little to no inherent meaning. Ins
 Haskell also has `Control.Category.<<<`
 
 
-Discouraging the use of the dot in custom operators makes the example code only slightly better. With the second we now have:
+Discouraging the use of the dot in custom operators makes the example code only slightly better. With using a different operator we now have:
 
 ```wiki
 quux (y <~ (foo>.<  bar).baz (f <~ g)) moo
@@ -316,7 +316,7 @@ quux (y <~ (foo>.<  bar) <~ baz (f <~ g)) moo
 ```
 
 
-If you are disgusted by `<~` than you can use the very pretty unicode dot. Or we can stick with the category operator instead of `<~`
+If you are disgusted by `<~` than you can use the very pretty unicode dot. Or we can stick with the category operator `<<<` instead of `<~`:
 
 ```wiki
 quux (y <<< (foo>.<  bar).baz (f <<< g)) moo
