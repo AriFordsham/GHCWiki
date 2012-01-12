@@ -143,6 +143,8 @@ Thus the language would be simpler (little/no new syntax to define),
 and it would keep to the principle of Least Surprise (little/no new
 syntax to learn).
 
+I don't prefer this syntax because 1) I actually think is more surprising because it is very different from the current record syntax and 2) the updated value is not right next to the field, so it requires some mental translation. -- Greg Weber
+
 == Interaction with Typeclasses ==
 
 In the Frege system, the record's namespace is closed where it is defined.
