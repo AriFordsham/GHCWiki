@@ -144,14 +144,26 @@ I estimate that in 2/3 of all cases one does not need to write `T.e x` in sparse
 
 The function update syntax is a new addition to Haskell that we do not need to immediately implement.
 
-### Alternative update syntax: using tuple selectors
+### Alternative update syntax: let syntax
+
+
+As an example, we define a record type and value:
+
+```wiki
+data R = R { ..., w :: W, x :: X, y :: Y, z :: Z, a :: A, ... }
+
+r = R { ..., x = undefined, y = undefined, z = undefined, ... }
+```
+
+
+Then to change x, y, z, we write
 
 ```wiki
 let { r.x = x'; r.y = y'; r.z = z'; } in r
 ```
 
 
-If we allow tuples of selectors:
+For brevity, if we allow tuples of selectors:
 
 ```wiki
 r.(x, y, z) = (r.x, r.y, r.z)
@@ -163,6 +175,11 @@ then one can simply write
 ```wiki
 let r.(x, y, z) = (x', y', z') in r   
 ```
+
+
+Thus the language would be simpler (little/no new syntax to define),
+and it would keep to the principle of Least Surprise (little/no new
+syntax to learn).
 
 ## Interaction with Typeclasses
 
