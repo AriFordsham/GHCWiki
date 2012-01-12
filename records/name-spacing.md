@@ -279,6 +279,7 @@ In most cases the dot in custom operators has little to no inherent meaning. Ins
 
 
 2) discourage the use of dot for function composition - use a different operator for that task. Indeed, Frege users have the choice between `<~` or the proper unicode dot.
+Haskell also has `Control.Category.<<<`
 
 
 Discouraging the use of the dot in custom operators makes the example code only slightly better. With the second we now have:
@@ -295,7 +296,11 @@ quux (y <~ (foo>.<  bar) <~ baz (f <~ g)) moo
 ```
 
 
-If you are disgusted by `<~` than you can use the very pretty unicode dot.
+If you are disgusted by `<~` than you can use the very pretty unicode dot. Or we can stick with the category operator instead of `<~`
+
+```wiki
+quux (y <<< (foo>.<  bar).baz (f <<< g)) moo
+```
 
 ### Downside: mixing of 2 styles of code
 
