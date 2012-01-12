@@ -48,6 +48,7 @@ The above aliasing information can be encoded as follows:
 !1 = metadata !{ metadata !"heap", metadata !0 }
 !2 = metadata !{ metadata !"stack", metadata !0 }
 !3 = metadata !{ metadata !"rx", metadata !1 }
+!4 = metadata !{ metadata !"base", metadata !0 }
 ```
 
 

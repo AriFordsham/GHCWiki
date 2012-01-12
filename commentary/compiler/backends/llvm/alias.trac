@@ -42,6 +42,7 @@ The above aliasing information can be encoded as follows:
 !1 = metadata !{ metadata !"heap", metadata !0 }
 !2 = metadata !{ metadata !"stack", metadata !0 }
 !3 = metadata !{ metadata !"rx", metadata !1 }
+!4 = metadata !{ metadata !"base", metadata !0 }
 }}}
 
 The fact that `R[]` never aliases with `Sp[]` is never used as the one way relation isn't expressible in LLVM.
@@ -55,4 +56,3 @@ Stores/loads needs to be annotated with `!tbaa` and one of the above four types 
 == Progress ==
 
 David and Johan plan to have a crack at this at the start of 2012.
-
