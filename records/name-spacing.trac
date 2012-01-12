@@ -315,4 +315,4 @@ Placing functions within a data name-space can make for nicer data-structure ori
 
 Both Frege and the DDC thesis take this approach.
 
-In this brave new world (see above where typeclass functions are also placed under the namespace of the data), there are few functions that absolutlely must be at the top level of a module. Although a library author might take attempt the approach of no top-level functions, obviously it will still be most convenient for users to define functions at the top level of modules rather than have to lift them into data structure namespaces.
+In this brave new world (see above where typeclass functions are also placed under the namespace of the data), there are few functions that absolutlely must be at the top level of a module. Although a library author might take attempt the approach of no top-level functions, most library users will likely find it more convenient to define functions at the top level of modules rather than to always lift them into data structure name-spaces with typeclasses.
