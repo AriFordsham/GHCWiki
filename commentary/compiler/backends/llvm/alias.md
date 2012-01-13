@@ -49,6 +49,7 @@ The above aliasing information can be encoded as follows:
 !2 = metadata !{ metadata !"stack", metadata !0 }
 !3 = metadata !{ metadata !"rx", metadata !1 }
 !4 = metadata !{ metadata !"base", metadata !0 }
+!5 = metadata !{ metadata !"other", metadata !0 }
 ```
 
 
@@ -64,4 +65,4 @@ Stores/loads needs to be annotated with `!tbaa` and one of the above four types 
 ## Progress
 
 
-David and Johan plan to have a crack at this at the start of 2012.
+Some patches have been pushed that implement TBAA and significantly improve the Alias Analysis story. See ticket [\#5567](https://gitlab.haskell.org//ghc/ghc/issues/5567) for more information.
