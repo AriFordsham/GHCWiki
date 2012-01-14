@@ -9,7 +9,7 @@ This page is a stub.
 
 - *Note that the new code generator appears about 10x slower than the old.  Slowdown attributed to Hoopl dataflow.*   See [ Google Plus post by Simon Marlow](https://plus.google.com/107890464054636586545/posts/dBbewpRfw6R).
 
-- Fixed-point algorithm rewritten to reduce duplicate computation.  (Simon Marlow in late 2011.  Also Edward Yang \[circa Summer 2011?\].  There is still some work to be done here (easily seen if you try tracing some of the simple examples in the Hoopl repository) but a more clever iterative sweeping algorithm languishing in my repository suffers from a subtle bug that surfaces when tested on GHC. -- ezyang
+- Fixed-point algorithm rewritten to reduce duplicate computation.  (Simon Marlow in late 2011.  Also Edward Yang in spring 2011.) Is there any more? I suggest looking at traces in the simple cases.
 
 - Change in representation of blocks, Simon Marlow, late 2011.  (Details?)  Performance difference almost too small to be measurable, but Simon M likes the new rep anyway.
 
