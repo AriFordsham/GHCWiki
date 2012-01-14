@@ -8,7 +8,7 @@ This page is a stub.
 
 * ''Note that the new code generator appears about 10x slower than the old.  Slowdown attributed to Hoopl dataflow.''   See [https://plus.google.com/107890464054636586545/posts/dBbewpRfw6R Google Plus post by Simon Marlow].
 
-* Fixed-point algorithm rewritten to reduce (eliminate?) duplicate computation.  (Simon Marlow in late 2011.  Also Edward Yang [circa Summer 2011?].  Is there duplicate work here.
+* Fixed-point algorithm rewritten to reduce duplicate computation.  (Simon Marlow in late 2011.  Also Edward Yang [circa Summer 2011?].  There is still some work to be done here (easily seen if you try tracing some of the simple examples in the Hoopl repository) but a more clever iterative sweeping algorithm languishing in my repository suffers from a subtle bug that surfaces when tested on GHC. -- ezyang
 
 * Change in representation of blocks, Simon Marlow, late 2011.  (Details?)  Performance difference almost too small to be measurable, but Simon M likes the new rep anyway.
 
@@ -23,6 +23,6 @@ This page is a stub.
 
 * Norman has always been uneasy about the dictionaries passed to the {{{block}}} function.  He conjectures that most blocks have a small number of outedges, and probably not that many inedges either (case expressions and the Adams optimisation notwithstanding).  He wonders if instead of some kind of trie structure with worst-case logarithmic performance, we might not be better off with a simple association list---especially because it is common to simply join ''all'' facts flowing into a block.   '''Query: Is there a way to measure the costs of using dictionaries in this fashion?  Cost centers, perhaps?'''
 
-* There was a Google Plus thread in which CPS was criticized (by Jan Maessen, I think).  The original authors had many big fights, and one of them was about CPS.  At some point Norman drafted a dataflow analyser that was very aggressively CPS.  Simon PJ found the extensive CPS difficult to read.  Norman doesn't remember the eventual outcome.   Is it possible that the CPS is causing the allocation of too many function closures?   Could the CPS be rewritten, perhaps by a different way of nesting functions, to eliminate the need to allocate closures in the inner loop?
+* There was a Google Plus thread in which CPS was criticized (by Jan Maessen, I think).  The original authors had many big fights, and one of them was about CPS.  At some point Norman drafted a dataflow analyser that was very aggressively CPS.  Simon PJ found the extensive CPS difficult to read.  Norman doesn't remember the eventual outcome.   Is it possible that the CPS is causing the allocation of too many function closures?   Could the CPS be rewritten, perhaps by a different way of nesting functions, to eliminate the need to allocate closures in the inner loop?  Johan Tibell tried optimizing postorder_dfs, but was put off by the CPS style of code. (We speculate that caching the result of toposort may help.)
 
 == Record of performance improvements made to the Hoopl library starting January 2012 ==
