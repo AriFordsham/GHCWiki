@@ -1,0 +1,28 @@
+
+This page is a stub.
+
+## Change History
+
+- *History of when Hoopl was integrated into a GHC back end*
+
+- After the publication of the Hoopl paper, a contributor (sorry I have forgotten who) did quite a bit to integrate the supply of `Uniq`s into Hoopl.  (Time? Person?)
+
+- *Note that the new code generator appears about 3x slower than the old.  Slowdown attributed to Hoopl dataflow.*
+
+- Fixed-point algorithm rewritten to reduce (eliminate?) duplicate computation.  (Simon Marlow in late 2011.  Also Edward Yang \[circa Summer 2011?\].  Is there duplicate work here.
+
+- Change in representation of blocks, Simon Marlow, late 2011.  (Details?)  Performance difference almost too small to be measurable, but Simon M likes the new rep anyway.
+
+## Speculation and Commentary
+
+- Simon PJ had questions about "optimization fuel" from the beginning.  Norman maintains that optimization fuel is an invaluable debugging aid, but that in a production compiler, one would like it to be turned off.   At some point we had abstracted over the `FuelMonad` so that we could make a "zero" fuel monad that did nothing and cost nothing.  As of January 2012, Norman doesn't know what the state of that plan is or whether GHC's optmiser can actually eliminate the overheads.
+
+- Unlike Fuel, a supply of `Uniq`s was believed to be an absolute necessity: an optimiser must be able to rewrite blocks, and in the general case, it must be able to introduce new blocks.  It was believed that the only way to do this consistent with GHC was to plumb in a Uniq supply.   *Query*: was this integrated with Fuel somehow?
+
+- The published version of Hoopl passes an explicit dictionary that contains all the dataflow facts for all the labels.   Earlier versions of Hoopl kept this information in a monad.  It's not known whether the change has implications for performance, but it is probably easier to manage the speculative rewriting without a monad.
+
+- Norman has always been uneasy about the dictionaries passed to the `block` function.  He conjectures that most blocks have a small number of outedges, and probably not that many inedges either (case expressions and the Adams optimisation notwithstanding).  He wonders if instead of some kind of trie structure with worst-case logarithmic performance, we might not be better off with a simple association list---especially because it is common to simply join *all* facts flowing into a block.   **Query: Is there a way to measure the costs of using dictionaries in this fashion?  Cost centers, perhaps?**
+
+- There was a Google Plus thread in which CPS was criticized (by Jan Maessen, I think).  The original authors had many big fights, and one of them was about CPS.  At some point Norman drafted a dataflow analyser that was very aggressively CPS.  Simon PJ found the extensive CPS difficult to read.  Norman doesn't remember the eventual outcome.   Is it possible that the CPS is causing the allocation of too many function closures?   Could the CPS be rewritten, perhaps by a different way of nesting functions, to eliminate the need to allocate closures in the inner loop?
+
+## Record of performance improvements made to the Hoopl library starting January 2012
