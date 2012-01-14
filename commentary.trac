@@ -64,6 +64,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:MemcpyOptimizations memcpy/memmove/memset optimizations]  
    * [wiki:BackEndNotes Backend Ideas]: Some ideas and notes about the back end.
    * [wiki:Commentary/Compiler/NewCodeGen Notes about the new code generator]
+   * [wiki:Commentary/Compiler/HooplPerformance A record of improvements made to the performance of the Hoopl library for dataflow optimisation]
    * [wiki:DataParallel DPH]: Notes about the implementation of Data Parallel Haskell
    * [wiki:SafeHaskell Safe Haskell]: The design of the GHC Safe Haskell extension
    * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on SPJs "Comprehensive Comprehensions" (TransformComprehensions)
