@@ -303,7 +303,7 @@ I can think of three solutions, all unsatisfactory in one way or another:
 
 - An instance `(Has T "x" ty)` is exported only if the record selector for
   T is exported.  Again, this doesn't work for virtual record selectors;
-  and it would require a new implementation mechansim to record exactly
+  and it would require a new implementation mechanism to record exactly
   which instances were exported from a module.
 
 - An instance `(Has T "x" ty)` is ignored unless the record selector
