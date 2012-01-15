@@ -480,6 +480,28 @@ Of course this isn't very satisfactory either
 - New syntax required
 - Not overloaded, so you can't abstract over it.
 
+## Alternative Proposal
+
+```wiki
+class Has r k v where select :: r -> k -> v;
+class Quasifunctor r s k u v where qfmap :: k -> (u -> v) -> r -> s;
+```
+
+
+Then, for example:
+
+```wiki
+data R a = R { x :: a };
+
+-- automatically-generated instances
+instance Has (R a) "x" a where ...
+instance Quasifunctor (R a) (R b) "x" a b where ...
+
+r = R { x = 256 };
+-- assign string value to r.x
+let s = qfmap (undefined :: "x") (const "Hello, world!") r in ...
+```
+
 ---
 
 # Relationship to Type Directed Name Resolution
