@@ -321,6 +321,8 @@ I can think of three solutions, all unsatisfactory in one way or another:
   However it comes with a reasonable story: the instances are simply
   a way to choose among the many in-scope "x"'s.
 
+- Use the "Scope control by generalising the `String` type in `Has`" proposal above
+
 
 Solving this issue is important.
 
