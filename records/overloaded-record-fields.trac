@@ -84,6 +84,10 @@ data FieldT = Field
 }}}
 then `ft ~ FieldT`. Then we can choose whether or not to export `FieldT(Field)`.
 
+In my opinion, this is ugly, since the selector can be either a type name or a label and the semantics are nonsame.
+Rather, we need scoped instances.
+–strake888
+
 == Should `get` have a proxy argument? ==
 
 The type of `get` is very odd:
