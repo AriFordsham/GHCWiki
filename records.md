@@ -45,11 +45,14 @@ The verbose name-spacing required is an in-your-face, glaring weakness telling y
 ## Solutions
 
 
-So we have decided to avoid the extensible record debate, but how can we have multiple record field selectors in scope and correctly resolve the type of the record?
+So we have decided to avoid the extensible record debate, but how can we have multiple record field selectors in scope and correctly resolve the type of the record?  There are two main mechanisms on offer:
 
-1. Simple Overloaded Record Fields (SORF); see [Records/OverloadedRecordFields](records/overloaded-record-fields)
-1. Frege-derived Records (FDR): simple name-spacing & plus type resolution; see [Records/NameSpacing](records/name-spacing)
-1. Type Directed Name Resolution (TDNR): like FDR, but without the name-spacing part; see [ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution).
+- **Plan A**: Name spacing.  This uses qualified names to disambiguate record field names.
+- **Plan B**: Types.  This uses types to disambiguage record field names.
+
+1. **[Simple Overloaded Record Fields](records/overloaded-record-fields) (SORF)**.  Pure (Plan B).
+1. **[Frege-derived Records](records/name-spacing) (FDR)**.  Uses (Plan A) + (Plan B).
+1. **[ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR)**.  Pure (Plan B), but without abstraction.
 1. **Are there any other approaches?**
 
 
