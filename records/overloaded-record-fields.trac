@@ -373,12 +373,25 @@ Of course this isn't very satisfactory either
 
 == Alternative Proposal ==
 
+First, we define a class for types with a member at 'k':
+
 {{{
 class Has r k v where select :: r -> k -> v;
+}}}
+
+Next, we define a class for types with a mutable member of certain type:
+
+{{{
 class Quasifunctor r s k u v where qfmap :: k -> (u -> v) -> r -> s;
 }}}
 
-Then, for example:
+`Quasifunctor r s k u v` means that `r` and `s` have members of types `u` and `v`, in turn, both with selector `k`; thus, one can mutate the member at 'k' with an arbitrary function of type `u -> v`, and the overall function is of type `r -> s`; i.e. one can lift a function of type `u -> v` to a function of type `r -> s`. This is the record update.
+
+`qfmap` is the lifter function. The first argument serves to specify which member is meant.
+
+This ought to allow polymorphic mutation; to set member at "x" to value `x` is simply `qfmap (undefined :: "x") (const x)`, though this mechanism is of course more general; one could `qfmap` any arbitrary function, not just a constant function.
+
+For example:
 {{{
 data R a = R { x :: a };
 
