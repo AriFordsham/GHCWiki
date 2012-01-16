@@ -45,10 +45,14 @@ The verbose name-spacing required is an in-your-face, glaring weakness telling y
 ## Solutions
 
 
-So we have decided to avoid the extensible record debate, but how can we have multiple record field selectors in scope and correctly resolve the type of the record?
+So we have decided to avoid the extensible record debate, but how can we have multiple record field selectors in scope and correctly resolve the type of the record?  There are two main mechanisms on offer:
 
-1. Overloading: polymorphic selection & update; see [Records/OverloadedRecordFields](records/overloaded-record-fields)
-1. Namespacing: simple name-spacing & type resolution; see [Records/NameSpacing](records/name-spacing)
+- **Plan A**: Name spacing.  This uses qualified names to disambiguate record field names.
+- **Plan B**: Types.  This uses types to disambiguage record field names.
+
+1. **[Simple Overloaded Record Fields](records/overloaded-record-fields) (SORF)**.  Pure (Plan B).
+1. **[Frege-derived Records](records/name-spacing) (FDR)**.  Uses (Plan A) + (Plan B).
+1. **[ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR)**.  Pure (Plan B), but without abstraction.
 1. **Are there any other approaches?**
 
 
@@ -75,7 +79,7 @@ The discussion has many similarities with the original Type directed name resolu
 All of the name-space mechanisms require some level of user-supplied disambiguation: if there are two fields `a` in scope, you must use a qualified name to disambiguate them.  What is tantalising about this is that the *type* of the argument immediately specifies which one you mean. There is really no ambiguity at all, so it is frustrating to have to type qualified names to redundantly specify that information.  Object-oriented languages take for granted this form of type-directed disambiguation.
 
 
-One particular way of integrating this idea into Haskell is called [ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR). Proposed a couple of years ago, the Haskell community didn't like it much.  (But I still do; SLPJ.)
+One particular way of integrating this idea into Haskell is called  (TDNR). Proposed a couple of years ago, the Haskell community didn't like it much.  (But I still do; SLPJ.)
 
 
 I believe the community rejected TDNR because they wanted extensible records. I think it is a shame that the debate over \*extensible\* records has resulted in holding back any form of progress , but I do think that the TDNR proposal seems a little weak for some reasons pointed out in the proposal itself, but also because it proposes not to solve name-spacing record updates. Note that the Frege proposal incorporates the TDNR syntax, and it tackles record updates. -- Greg Weber
