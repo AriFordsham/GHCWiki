@@ -87,6 +87,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:BlockObjects C Blocks]: Haskell FFI support for block objects (closures) in C
    * [wiki:ExplicitTypeApplication Syntax for explicit type application and scoped type variables]
    * [wiki:DeferErrorsToRuntime Deferring compilation type errors to runtime (`-fwarn-type-errors`)]
+   * [wiki:NewAxioms New coercion axioms design]
 
  * GHCi Debuger
    * [wiki:GhciDebugger GHCi Debugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
