@@ -84,7 +84,8 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
-  - [Simple records](records)
+  - [Records](records)
+  - [New coercion axioms design](new-axioms)
   - [ Cloud Haskell](http://haskell.org/haskellwiki/GHC/CouldAndHPCHaskell)
   - [A modular package language for Haskell](package-language) Scott Kilpatrick and Derek Dreyer are designing a new “package language” for Haskell in the style of the ML module system.
   - [Pattern synonyms](pattern-synonyms)
@@ -99,7 +100,6 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [C Blocks](block-objects): Haskell FFI support for block objects (closures) in C
   - [Syntax for explicit type application and scoped type variables](explicit-type-application)
   - [Deferring compilation type errors to runtime (\`-fwarn-type-errors\`)](defer-errors-to-runtime)
-  - [New coercion axioms design](new-axioms)
 
 - GHCi Debuger
 
