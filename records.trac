@@ -35,7 +35,7 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 
  1. Simple Overloaded Record Fields (SORF); see [wiki:Records/OverloadedRecordFields]
  2. Frege-derived Records (FDR): simple name-spacing & plus type resolution; see [wiki:Records/NameSpacing]
- 3. Type Directed Name Resolution (TDNR): like FDR, but without the name-spacing part; see [wiki:TypeDirectedNameResolution Type Directed Name Resolution].
+ 3. Type Directed Name Resolution (TDNR): like FDR, but without the name-spacing part; see [http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution Type Directed Name Resolution].
  3. '''Are there any other approaches?'''
 
 
