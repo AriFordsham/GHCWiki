@@ -1,4 +1,4 @@
-# Overloaded record fields: a design proposal
+# Simple Overloaded Record Fields (SORF)
 
 
 This page summarises a possible design that would allow
@@ -259,6 +259,28 @@ I see no reason to prohibit virtual record selectors; indeed
 we would have to go to extra trouble to do so.  
 On the contrary, one might want a pragma to generate the 
 two lines of boilerplate.
+
+## Unboxed fields
+
+
+The mechanism does not work at all for records with unboxed fields:
+
+```wiki
+data T = MkT { x :: Int# }
+```
+
+
+Reason: type-class constraints can only be instantiate with lifted types.  There is a good reason for this restriction, because unboxed types can have varying widths, so you can't generate code that works uniformly for boxed and unboxed types.
+
+
+This is a real problem, but it is one that we might be willing to live with.  In particular, it's fine to have UNPACKed fields:
+
+```wiki
+data T = MkT { x :: {-# UNPACK #-} Int }
+```
+
+
+So you can have efficiently-represented records without having to expose the unboxed types.
 
 ## Selectors as functions
 
