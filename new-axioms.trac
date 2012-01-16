@@ -3,7 +3,7 @@
 == Background == 
 One might imagine that it would be a simple matter to have a type-level function
 {{{
-type family :: Equal a b :: Bool
+type family Equal a b :: Bool
 }}}
 so that `(Equal t1 t2)` was `True` if `t1`=`t2` and `False` otherwise.  But it isn't.  You can do  it for a fixed collection of types thus:
 {{{

@@ -6,7 +6,7 @@
 One might imagine that it would be a simple matter to have a type-level function
 
 ```wiki
-type family :: Equal a b :: Bool
+type family Equal a b :: Bool
 ```
 
 
