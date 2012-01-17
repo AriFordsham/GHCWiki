@@ -1,5 +1,3 @@
-
-
 = GHC Commentary: Backends =
 
 After [wiki:Commentary/Compiler/CmmType Cmm] has been generated, we have a choice of targets to compile to:
