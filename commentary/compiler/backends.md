@@ -10,6 +10,3 @@ After [Cmm](commentary/compiler/cmm-type) has been generated, we have a choice o
 
 
 These backends are completely interchangeable.  Our preferred route is the native code generator.  The C code generator is used for portable, non-optimised, or unregisterised compilation.
-
-
-It is likely that only the native code generator will be able to generate position independent code (PIC) which is necessary for dynamic libraries, so once we're doing this the C code generator will be even more deprecated.
