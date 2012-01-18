@@ -76,6 +76,11 @@ quux (y <<< (foo>.<  bar).baz (f <<< g)) moo
 }}}
 
 
+=== Editor mappings ===
+
+Users can attempt to always save their code with ascii symbols, but use an editor mapping to display unicode symbols. This is a nice tool to have available, but personally I found the available vim mapper for Haskell to be slightly buggy, and we cannot expect every one to use mappings (but we can expect them to use utf8 aware editors).
+
+
 === Downside: mixing of 2 styles of code ===
 
 {{{
