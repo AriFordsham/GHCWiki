@@ -69,6 +69,7 @@ Also see 'Details on the dot' for a lengthy discussion of the dot.
 
 Here's a complex example:
 
+{{{
   type family F a b
   data instance F Int [a] = Mk { f :: Int }
 
@@ -76,6 +77,7 @@ Here's a complex example:
   h :: F a [Bool] -> ()
 
   k x = (g x, x.f, h x)
+}}}
 
 Consider type inference on k.  Initially we know nothing about the
 type of x.
@@ -105,12 +107,16 @@ http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn
 The trick is to *defer* all these decisions by generating *type constraints*
 and solving them later.  We express it like this:
 
+{{{
   G, r:t1  |-  r.f : t2,  (Has t1 "f" t2)
+}}}
 
 This says that if r is in scope with type t1, then (r.f) has type t2,
 plus the constraint (Has t1 "f" t2), which we read as saying
 
+{{{
   Type t1 must have a field "f" of type t2
+}}}
 
 We gather up all the constraints and solve them.  In solving them
 we may figure out t1 from some *other* constraint (to the left or
