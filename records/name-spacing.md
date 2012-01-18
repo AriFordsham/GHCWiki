@@ -8,6 +8,12 @@ Many thanks to the Frege author, Ingo Wechsung for explaining his implementation
 
 The DDC language (again, very much like Haskell, but focused on effect tracking and an overall different conceptual approach to purity) puts forth a similar solution. See the [ thesis](http://www.cse.unsw.edu.au/~benl/papers/thesis/lippmeier-impure-world.pdf) section 2.7 - 2.7.4 pages 115 - 119
 
+
+The Opa language (functional, focused on web development) states that its modules are a special case of records.
+
+
+The Agda language [ generates a module (name space) for each record and also allows a record, like any module to be placed into the global scope by the programmer (opened in Agada terms)](http://wiki.portal.chalmers.se/agda/pmwiki.php?n=ReferenceManual.Records).
+
 ## Better name spacing
 
 
@@ -70,6 +76,9 @@ record name (e.g. 'recordA') or some abbreviation thereof (e.g.
 
 The main argument for this approach is its simplicity; it's simple to
 understand for users and (hopefully) simple to implement.
+
+
+The Agda language [ generates a module (name space) for each record and also allows a record, like any module to be placed into the global scope by the programmer (opened in Agada terms)](http://wiki.portal.chalmers.se/agda/pmwiki.php?n=ReferenceManual.Records).
 
 ## Getting rid of the Verbosity with the dot operator
 
