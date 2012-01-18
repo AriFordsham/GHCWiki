@@ -83,7 +83,94 @@ Verbosity is solved in Frege and DDC by using the dot syntax concept. In `data R
 This is the TDNR syntax concept. See 'Simple Type Resolution' for how we resolve the type of this code.
 Also see 'Details on the dot' for a lengthy discussion of the dot.
 
-## Simple type resolution
+## Type resolution
+
+
+Here's a complex example:
+
+>
+> type family F a b
+> data instance F Int \[a\] = Mk { f :: Int }
+
+<table><tr><th>g</th>
+<td>F Int b  -\> ()
+</td></tr>
+<tr><th>h</th>
+<td>F a \[Bool\] -\> ()
+</td></tr></table>
+
+>
+> k x = (g x, x.f, h x)
+
+
+Consider type inference on k.  Initially we know nothing about the
+type of x.
+
+- From the application (g x) we learn that x's type has
+  shape (F Int \<something\>).
+- From the application (h x) we learn that x's type has
+  shape (F \<something else\> \[Bool\])
+- Hence x's type must be (F Int \[Bool\])
+- And hence, using the data family we can see which field
+  f is intended.
+
+
+Notice that
+
+>
+> a) Neither left to right nor right to left would suffice
+> b) There is significant interaction with type/data families
+>
+> >
+> > (and I can give you more examples with classes and GADTs)
+>
+>
+> c) In passing we note that it is totally unclear how (Plan A)
+>
+> >
+> > would deal with data families
+
+
+This looks like a swamp.  In a simple Hindley-Milner typed language
+you might get away with some informal heuristics, but Haskell is far
+too complicated.
+
+
+Fortunately we know exactly what to do; it is described in some detail
+in our paper "Modular type inference with local assumptions"
+[ http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn](http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn)
+
+
+The trick is to \*defer\* all these decisions by generating \*type constraints\*
+and solving them later.  We express it like this:
+
+> <table><tr><td>G, r:t1r.f : t2,  (Has t1 "f" t2)
+> </td></tr></table>
+
+
+This says that if r is in scope with type t1, then (r.f) has type t2,
+plus the constraint (Has t1 "f" t2), which we read as saying
+
+>
+> Type t1 must have a field "f" of type t2
+
+
+We gather up all the constraints and solve them.  In solving them
+we may figure out t1 from some \*other\* constraint (to the left or
+right, it's immaterial. That allow us to solve \*this\* constraint.
+
+
+So it's all quite simple, uniform, and beautiful.  It'll fit right
+into GHC's type-constraint solver.
+
+
+But note what has happened: we have simply re-invented SORF.  So the
+conclusion is this: the only sensible way to implement FDR is using SORF.
+
+### Frege solution: simple type resolution
+
+
+This is overly-simplistic for Haskell (see above)
 
 
 Frege has a detailed explanation of the semantics of its record implementation, and the language is \*very\* similar to Haskell. After reading the Frege manual sections, one is still left wondering: how does Frege implement type resolution for its dot syntax. The answer is fairly simple: overloaded record fields are not allowed. So you can't write code that works against multiple record types. Please see the comparison with Overloading in [Records](records), which includes a discussion of the relative merits. Note that the DDC thesis takes the same approach.
