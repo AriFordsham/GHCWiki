@@ -48,6 +48,29 @@ type IN = InconvenientName
 -- IN.f is the same as InconvenientName.f
 ```
 
+## A case for why name-spacing alone is a decent solution
+
+- You can use a type synonym to abbreviate the namespace part (as
+
+
+shown above.)
+
+- If there's no ambiguity you don't need to use a namespace (e.g. you
+
+
+can use 'a' instead of 'Record.a').
+
+- The namespace name is predictable (e.g. \<Typename\>.\<fieldname\>)
+
+
+while ad-hoc prefixes tend to use different conventions e.g. the whole
+record name (e.g. 'recordA') or some abbreviation thereof (e.g.
+'rcrdA'.)
+
+
+The main argument for this approach is its simplicity; it's simple to
+understand for users and (hopefully) simple to implement.
+
 ## Getting rid of the Verbosity with the dot operator
 
 
