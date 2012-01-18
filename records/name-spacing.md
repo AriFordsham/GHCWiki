@@ -188,10 +188,10 @@ I don't prefer this syntax because 1) I actually think is more surprising becaus
 
 
 In the Frege system, the record's namespace is closed where it is defined.
-However, making a record an instance of a class puts the class functions in the record name-space.
+However, making a record an instance of a type class lifts the class functions into the record name-space.
 
 ```wiki
-module RExtension where
+module RecordExtension where
 
 import original.M(R)    -- access the R record defined in module original.M
 
@@ -201,16 +201,12 @@ class Rextension1 r where
 
 instance Rextension1 R where
      -- implementation for new functions
-
-And now, in another module one could
-
-import RExtension()      -- equivalent to qualified import in Haskell
 ```
 
 
 the new functions `f` and `g` are accessible (only) through R.
 So we have a technique for lifting new functions into the Record namespace.
-For the initial records implementaion we definitely want to maintain `f` and `g` at the top-level, but should consider also adding through the record name-space. See related discussion below on future directions.
+For the initial records implementaion we would want to maintain `f` and `g` at the top-level, but should consider also adding through the record name-space. See related discussion below on future directions.
 
 ## Compatibility with existing records
 
