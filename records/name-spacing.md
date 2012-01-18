@@ -97,19 +97,15 @@ Also see 'Details on the dot' for a lengthy discussion of the dot.
 
 Here's a complex example:
 
->
-> type family F a b
-> data instance F Int \[a\] = Mk { f :: Int }
+```wiki
+  type family F a b
+  data instance F Int [a] = Mk { f :: Int }
 
-<table><tr><th>g</th>
-<td>F Int b  -\> ()
-</td></tr>
-<tr><th>h</th>
-<td>F a \[Bool\] -\> ()
-</td></tr></table>
+  g :: F Int b  -> ()
+  h :: F a [Bool] -> ()
 
->
-> k x = (g x, x.f, h x)
+  k x = (g x, x.f, h x)
+```
 
 
 Consider type inference on k.  Initially we know nothing about the
@@ -153,15 +149,17 @@ in our paper "Modular type inference with local assumptions"
 The trick is to \*defer\* all these decisions by generating \*type constraints\*
 and solving them later.  We express it like this:
 
-> <table><tr><td>G, r:t1r.f : t2,  (Has t1 "f" t2)
-> </td></tr></table>
+```wiki
+  G, r:t1  |-  r.f : t2,  (Has t1 "f" t2)
+```
 
 
 This says that if r is in scope with type t1, then (r.f) has type t2,
 plus the constraint (Has t1 "f" t2), which we read as saying
 
->
-> Type t1 must have a field "f" of type t2
+```wiki
+  Type t1 must have a field "f" of type t2
+```
 
 
 We gather up all the constraints and solve them.  In solving them
