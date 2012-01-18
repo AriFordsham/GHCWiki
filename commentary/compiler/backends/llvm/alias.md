@@ -38,6 +38,51 @@ LLVM as of version 2.9 includes Type Based Alias Analysis. This mean using metad
 
 **Answer** (Simon Marlow): Sp\[\] and Hp\[\] never alias, R\[\] never aliases with Sp\[\], and that's about it.
 
+```wiki
+I64[ Sp + n ] = "stack"
+
+I64[ Base + n ] = "base"
+
+I64[ Hp + n ] = "heap"
+I64[ R1 + n ] = "heap"
+
+I64[ I64[Sp + n]  ] = "heap"
+I64[ I64[Sp + n] + m  ] = "heap"
+
+I64[ I64[R1 + n] ] = "heap"
+I64[ I64[R1 + n] + m ] = "heap"
+I64[ I64[Sp + n] +  I64 [R1 + n] ] = "heap"
+```
+
+** Simon**: As long as it propagates properly, such that every F(Sp) is a stack pointer, where F() is any expression context except a dereference.  That is, we better be sure that
+
+```wiki
+I64[Sp + R1[n]]
+```
+
+
+is "stack", not "heap".
+
+## How to Track TBAA information
+
+
+Really to be sound and support Cmm in full we would need to track and propagate TBAA information. It's Types after all! At the moment we don't. We simply rely on the fact that the Cmm code generated for loads and stores is nearly always in the form of:
+
+```wiki
+I64[ Sp ... ] = ...
+```
+
+
+That is to say, it has the values it depends on for the pointer derivation in-lined in the load or store expression. It is very rarely of the form:
+
+```wiki
+x = Sp + 8
+I64[x] = ...
+```
+
+
+And when it is, 'it is' (unconfirmed) always deriving a "heap" pointer, "stack" pointers are always of the in-line variety. This assumption if true allows us to look at just a store or load in isolation to properly Type it.
+
 ## LLVM type system
 
 
