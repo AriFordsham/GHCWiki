@@ -55,6 +55,13 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 1. **[ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR)**.  Pure (Plan B), but without abstraction.
 1. **Are there any other approaches?**
 
+### Similarities
+
+
+All records solutions are planning on using the dot operator for normal record field selection. We need to consider the [future usage of the dot, particularly as a function composition operator](records/dot-operator).
+
+### Comparisons
+
 
 The benefit of Overloading over Namespacing is being able to write code that works against any Record with a given field. So I can have a function:
 

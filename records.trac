@@ -25,6 +25,7 @@ record.hs:2:34:
     Declared at: record.hs:1:24
                  record.hs:2:34
 }}}
+
 In the Persistent data store library, Yesod works around the issue by having the standard of prefixing every record field with the record name (`recordA` and `recordClashA`). But besides being extremely verbose, it also limits us from experimenting with more advanced features like a partial record projection or an unsaved and saved record type.
 
 The verbose name-spacing required is an in-your-face, glaring weakness telling you there is something wrong with Haskell. This issue has been solved in almost every modern programming languages, and there are plenty of possible solutions available to Haskell.
@@ -41,6 +42,13 @@ So we have decided to avoid the extensible record debate, but how can we have mu
  3. '''Are there any other approaches?'''
 
 
+=== Similarities ===
+
+All records solutions are planning on using the dot operator for normal record field selection. We need to consider the [wiki:Records/DotOperator future usage of the dot, particularly as a function composition operator].
+
+
+=== Comparisons ===
+
 The benefit of Overloading over Namespacing is being able to write code that works against any Record with a given field. So I can have a function:
 
 {{{
@@ -53,6 +61,7 @@ With Namespacing this will fail to type check unless the compiler can determine 
     * only very inefficient code could be generated, if you have to access or update a field of some unknown record. In the end, every record type was basically a map.
     * it turned out that errors stemming from mistyping a field name often could not be diagnosed at the point where they were committed, but led to inferred types with crazy signatures and an incomprehensible type error at the use side of the function that contained the error.
     * the extra constraints complicated the type checker and did not play well with higher kinded type variables (at least in the code I had then, I do not claim that this is nessecarily so).
+
 
 
 === Type directed name resolution ===
