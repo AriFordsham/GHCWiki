@@ -51,8 +51,10 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 - **Plan B**: Types.  This uses types to disambiguage record field names.
 
 1. **[Simple Overloaded Record Fields](records/overloaded-record-fields) (SORF)**.  Pure (Plan B).
+1. **[ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR)**.  Pure (Plan B), but without abstraction over fields of the same name.
+1. **[Agda style Records](records/name-spacing) (FDR)** Pure (Plan A)
 1. **[Frege-derived Records](records/name-spacing) (FDR)**.  Uses (Plan A) + (Plan B).
-1. **[ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR)**.  Pure (Plan B), but without abstraction.
+
 1. **Are there any other approaches?**
 
 ### Similarities
@@ -63,7 +65,7 @@ All records solutions are planning on using the dot operator for normal record f
 ### Comparisons
 
 
-The benefit of Overloading over Namespacing is being able to write code that works against any Record with a given field. So I can have a function:
+The benefit of abstracting over field names in Overloading is being able to write code that works against any Record with a given field. So I can have a function:
 
 ```wiki
 getA = r.a
@@ -71,7 +73,10 @@ getA = r.a
 
 
 and that can work for both `Record` and `RecordClash` because they both have a field `a`.
-With Namespacing this will fail to type check unless the compiler can determine the type of r is either `Record` or `RecordClash`. The advantage of Namespacing is that the implementation is clear, straightforward, and has already been done (in the Frege language, whereas there are still questions as to the feasibility of Overloading). Overloading has seen other downsides in practice. In the words of the Frege author, who abandoned Overloading:
+With other approaches (including TDNR) this will fail to type check unless the compiler can determine the type of r is either `Record` or `RecordClash`.
+
+
+The advantage of Namespacing is that the implementation is clear, straightforward, and has already been done in Agda and Frege. We can either stop with name-spacing (Agda) or continue on with automatically resolving the field when the dot operator is used. Overloading has seen downsides in practice. In the words of the Frege author, who abandoned Overloading:
 
 - only very inefficient code could be generated, if you have to access or update a field of some unknown record. In the end, every record type was basically a map.
 - it turned out that errors stemming from mistyping a field name often could not be diagnosed at the point where they were committed, but led to inferred types with crazy signatures and an incomprehensible type error at the use side of the function that contained the error.
@@ -87,6 +92,3 @@ All of the name-space mechanisms require some level of user-supplied disambiguat
 
 
 One particular way of integrating this idea into Haskell is called  (TDNR). Proposed a couple of years ago, the Haskell community didn't like it much.  (But I still do; SLPJ.)
-
-
-I believe the community rejected TDNR because they wanted extensible records. I think it is a shame that the debate over \*extensible\* records has resulted in holding back any form of progress , but I do think that the TDNR proposal seems a little weak for some reasons pointed out in the proposal itself, but also because it proposes not to solve name-spacing record updates. Note that the Frege proposal incorporates the TDNR syntax, and it tackles record updates. -- Greg Weber
