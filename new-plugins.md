@@ -1,3 +1,6 @@
+
+See also the section on [Compiler Plugins in GHC's User's Guide](http://www.haskell.org/ghc/docs/7.2.1/html/users_guide/compiler-plugins.html).
+
 # New Plugins work
 
 
