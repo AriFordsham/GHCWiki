@@ -72,8 +72,8 @@ getA = r.a
 ```
 
 
-and that can work for both `Record` and `RecordClash` because they both have a field `a`.
-With other approaches (including TDNR) this will fail to type check unless the compiler can determine the type of r is either `Record` or `RecordClash`.
+and that can work for both `Record` and `RecordClash` if they are defined in the same module because they both have a field `a`.
+With other approaches (including TDNR) this will fail to type check unless the compiler can determine the type of r is either `Record` or `RecordClash`. Note that we already can accomplish this on an opt-in basis with Type Classes: making this automatic is not required and could give the unwary user weakly-typed code.
 
 
 The advantage of Namespacing is that the implementation is clear, straightforward, and has already been done in Agda and Frege. We can either stop with name-spacing (Agda) or continue on with automatically resolving the field when the dot operator is used. Overloading has seen downsides in practice. In the words of the Frege author, who abandoned Overloading:
