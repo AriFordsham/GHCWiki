@@ -1,3 +1,4 @@
+See also the section on [http://www.haskell.org/ghc/docs/7.2.1/html/users_guide/compiler-plugins.html Compiler Plugins in GHC's User's Guide].
 = New Plugins work =
 
 Plugins are a new feature in GHC 7.2.1 that allows users to write compiler passes (for things like optimizations) over GHC's internal intermediate language, [wiki:Commentary/Compiler/CoreSynType Core].
