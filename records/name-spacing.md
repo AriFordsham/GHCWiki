@@ -1,5 +1,5 @@
 
-See [Records](records) for the bigger picture. This is a proposal to solve the records name-spacing issue with simple name-spacing and simple type resolution.
+See [Records](records) for the bigger picture. This is a proposal to solve the records name-spacing issue with name-spacing and how to expand on that to make record access more convenient.
 
 
 This approach is an attempt to port the records solution in [ Frege](http://code.google.com/p/frege/), a haskell-like language on the JVM. Please read Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [ Frege user manual](http://code.google.com/p/frege/downloads/detail?name=Language-411.pdf)
@@ -54,7 +54,7 @@ type IN = InconvenientName
 -- IN.f is the same as InconvenientName.f
 ```
 
-## A case for why name-spacing alone is a decent solution
+## Agda: A case for why name-spacing alone is a good enough solution
 
 - You can use a type synonym to abbreviate the namespace part (as
 
@@ -80,7 +80,29 @@ understand for users and (hopefully) simple to implement.
 
 The Agda language [ generates a module (name space) for each record and also allows a record, like any module to be placed into the global scope by the programmer (opened in Agada terms)](http://wiki.portal.chalmers.se/agda/pmwiki.php?n=ReferenceManual.Records).
 
-## Getting rid of the Verbosity with the dot operator
+
+The downside of the pure module system is needing to always prefix the field: `Record.a r`. In Agda, a record is a module, and a module can be opened up. The "Record opening example" from the Agda page is transferred to a Haskell-like syntax here:
+
+```wiki
+  data Record = Record { a :: String }
+  r = Record "A"
+
+  module Open where
+    open Record
+
+    -- record is in scope
+    aOK :: String
+    aOK = a r
+
+  -- alternative Agda syntax
+  again : String
+  again = a r where open Record
+```
+
+
+This works better in Agda which can have multiple modules per file, but could be very useful in Haskell even without local modules.
+
+## Frege: Getting rid of the Verbosity with the dot operator
 
 
 We have name-spaces, but it is hard to see how this is better than the current practice of adding prefixes to record fields: `data Record = Record { recordA :: String }`
@@ -180,10 +202,7 @@ conclusion is this: the only sensible way to implement FDR is using SORF.
 This is overly-simplistic for Haskell (see above)
 
 
-Frege has a detailed explanation of the semantics of its record implementation, and the language is \*very\* similar to Haskell. After reading the Frege manual sections, one is still left wondering: how does Frege implement type resolution for its dot syntax. The answer is fairly simple: overloaded record fields are not allowed. So you can't write code that works against multiple record types. Please see the comparison with Overloading in [Records](records), which includes a discussion of the relative merits. Note that the DDC thesis takes the same approach.
-
-
-Back to simple type resolution. From the Frege Author:
+From the Frege Author:
 
 - Expressions of the form T.n are trivial, just look up n in the namespace T.
 - Expressions of the form x.n: first infer the type of x. If this is just an unbound type variable (i.e. the type is unknown yet), then check if n is an overloaded name (i.e. a class operation). If this is not the case, then x.n is not typeable. OTOH, if the type of x can be inferred, find the type constructor and look up n in the associated name space.
@@ -193,9 +212,6 @@ Under no circumstances, however, will the notation x.n contribute in any way in 
 
 
 Note that this means it is possible to improve upon Frege in the number of cases where the type can be inferred - we could look to see if there is only one record namespace containing n, and if that is the case infer the type of x -- Greg Weber
-
-
-So lets see examples behavior from the Frege Author:
 
 
 For example, lets say we have:
@@ -317,11 +333,11 @@ class Rextension1 r where
       g :: .....
 
 instance Rextension1 R where
-     -- implementation for new functions
+     -- implementation for f and g
 ```
 
 
-the new functions `f` and `g` are accessible (only) through R.
+the new functions `f` and `g` are accessible (only) through R: `r.f, r.g`.
 So we have a technique for lifting new functions into the Record namespace.
 For the initial records implementaion we would want to maintain `f` and `g` at the top-level, but should consider also adding through the record name-space. See related discussion below on future directions.
 
