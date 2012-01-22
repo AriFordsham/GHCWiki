@@ -62,7 +62,7 @@ cseProgram binds = do
 
 More specifically, a `CoreToDo` describes some sort of particular pass over a Core program that can be invoked as many times as you like. For reference, `defaultGentlSimplToDo` is constructed using `CoreDoSimplify`. In this case, `cse_pass` is constructed using `CoreDoPluginsPass`, which takes a name and a function of type `ModGuts -> CoreM ModGuts` - `ModGuts` is a type that represents the 1 module GHC is compiling at any time. You normally want to manipulate the field `mg_binds` of a `ModGuts`, which contains all the top-level bindings for the module.
 
-`bindsOnlyPass` is a function that merely lifts a function over binders to a function over ModGuts. It's the simple case where nothing else from the `ModGuts` is needed.
+`bindsOnlyPass` is a function that merely lifts a function over binders to a function over [ModGuts](http://www.haskell.org/ghc/docs/latest/html/libraries/ghc-7.2.2/HscTypes.html#t:ModGuts). It's the simple case where nothing else from the `ModGuts` is needed.
 
 
 More details on plugins for end-users can be found in the users guide.
