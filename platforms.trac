@@ -21,6 +21,7 @@ Criteria for Tier 1 platforms:
 || x86          || Linux           || i386-unknown-{linux,gnu} || Yes          || Yes  || Yes                   || Yes          || Yes               || || ||
 || x86-64       || Linux           || x86_64-unknown-linux    || Yes          || Yes  || Yes                   || Yes          || Yes               || || ||
 || x86          || MacOS X         || i386-apple-darwin       || Yes          || Yes  || Yes                   || Yes          || No                || || [wiki:Attic/X86OSXGhc] ||
+|| x86-64       || MacOS X         || x86_64-apple-darwin     || Yes          || Yes  || Yes    || Yes          || Yes               || || ||
 || x86          || FreeBSD         || i386-unknown-freebsd    || Yes          || Yes  || Yes    || Yes          || No                || Gabor PALI || ||
 || x86-64       || FreeBSD         || amd64-unknown-freebsd   || Yes          || Yes  || Yes    || Yes          || No                || Gabor PALI || ||
 
@@ -46,7 +47,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 || x86          || Solaris         || i386-unknown-solaris2   || Yes          || Yes  || Yes    || Yes          || No                || ||
 || x86-64       || OpenBSD         || amd64-unknown-openbsd   || Yes          || Yes  || Yes    || Yes          || No                || ||
 || x86-64       || NetBSD          || amd64-unknown-netbsd    || Yes          || Yes  || Yes    || Yes          || No                || ||
-|| x86-64       || MacOS X         || x86_64-apple-darwin     || No           || Yes  || Yes    || Yes          || No                || #2965 #3400 ||
 || PowerPC      || AIX             || powerpc-ibm-aix         || Yes          ||      || Yes    || Yes          || No                || ||
 || PowerPC      || Linux           || powerpc-unknown-linux   || Yes          || Yes  || Yes    || Yes          || No                || ||
 || PowerPC      || MacOS X         || powerpc-apple-darwin    || Yes          || Yes  || Yes    || Yes          || Yes               || ||
