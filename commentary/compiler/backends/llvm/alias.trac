@@ -97,6 +97,19 @@ Stores/loads needs to be annotated with `!tbaa` and one of the above four types 
 
 == Problems / Optmisations to Solve ==
 
+=== LLVM Optimisations ===
+
+Roman reported that running 'opt -std-compile-opts' gives much better code than running 'opt -O3'.
+
+'''Following is from Roman Leschinskiy'''
+
+'-O2 -std-compile-opts' does the trick but it's obviously overkill because
+it essentially executes the whole optimisation pipeline twice. The crucial
+passes seem to be loop rotation and loop invariant code motion. These are
+already executed twice by -O2 but it seems that they don't have enough
+information then and that something interesting happens in later passes
+which allows them to work much better the third time.
+
 === Safe Loads (speculative load) ===
 
 We want to allow LLVM to speculatively hoist loads out of conditional blocks. Relevant LLVM source code is here:
