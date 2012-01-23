@@ -101,9 +101,9 @@ Stores/loads needs to be annotated with `!tbaa` and one of the above four types 
 
 We want to allow LLVM to speculatively hoist loads out of conditional blocks. Relevant LLVM source code is here:
 
-* [http://llvm.org/docs/doxygen/html/SimplifyCFG_8cpp_source.html SimplifyCFG Source Code]
-* [http://llvm.org/docs/doxygen/html/namespacellvm.html#a4899ff634bf732c16dd22ecfdafdea7d llvm::isSafeToSpeculativelyExecute]
-* [http://lists.cs.uiuc.edu/pipermail/llvmdev/2012-January/046958.html LLVM Mailing List Discussion about 'Safe loads']
+ * [http://llvm.org/docs/doxygen/html/SimplifyCFG_8cpp_source.html SimplifyCFG Source Code]
+ * [http://llvm.org/docs/doxygen/html/namespacellvm.html#a4899ff634bf732c16dd22ecfdafdea7d llvm::isSafeToSpeculativelyExecute]
+ * [http://lists.cs.uiuc.edu/pipermail/llvmdev/2012-January/046958.html LLVM Mailing List Discussion about 'Safe loads']
 
 '''Following is from Roman Leshchinskiy'''
 
