@@ -70,6 +70,16 @@ Criteria for Tier 1 platforms:
 <th> No                </th>
 <th></th>
 <th>[Attic/X86OSXGhc](attic/x86-osx-ghc)</th></tr>
+<tr><th> x86-64       </th>
+<th> MacOS X         </th>
+<th> x86_64-apple-darwin     </th>
+<th> Yes          </th>
+<th> Yes  </th>
+<th> Yes    </th>
+<th> Yes          </th>
+<th> Yes               </th>
+<th></th>
+<th></th></tr>
 <tr><th> x86          </th>
 <th> FreeBSD         </th>
 <th> i386-unknown-freebsd    </th>
@@ -172,15 +182,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes          </th>
 <th> No                </th>
 <th></th></tr>
-<tr><th> x86-64       </th>
-<th> MacOS X         </th>
-<th> x86_64-apple-darwin     </th>
-<th> No           </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
-<th>[\#2965](https://gitlab.haskell.org//ghc/ghc/issues/2965)[\#3400](https://gitlab.haskell.org//ghc/ghc/issues/3400)</th></tr>
 <tr><th> PowerPC      </th>
 <th> AIX             </th>
 <th> powerpc-ibm-aix         </th>
