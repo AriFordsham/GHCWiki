@@ -153,6 +153,8 @@ As a quick experiment, I hacked LLVM to accept "safe" annotations on loads and t
 
 === GHC Heap Check (case merging) ===
 
+See bug #1498
+
 '''Following is from Roman Leshchinskiy'''
 
 I investigated heap check a bit more and it seems to me that it's largely

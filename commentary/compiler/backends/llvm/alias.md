@@ -172,6 +172,9 @@ As a quick experiment, I hacked LLVM to accept "safe" annotations on loads and t
 
 ### GHC Heap Check (case merging)
 
+
+See bug [\#1498](https://gitlab.haskell.org//ghc/ghc/issues/1498)
+
 **Following is from Roman Leshchinskiy**
 
 
