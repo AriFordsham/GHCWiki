@@ -34,7 +34,7 @@ where
 
 This doesn't quite work today because `loc` has type `Language.Haskell.TH.Syntax.Loc`, a record of location information, and that isn't an instance of `Lift` (yet).  But the idea is basically fine: TH gives you access to the current source location.
 
-1.  But that doesn't help with 'head'.  We want to pass head's *call site* to head. That's what jhc does when you give 'head' the a magic [ SRCLOC_ANNOTATE pragma](http://repetae.net/john/computer/jhc/jhc.html):
+1.  But that doesn't help with 'head'.  We want to pass head's *call site* to head. That's what jhc does when you give 'head' the a magic [ SRCLOC_ANNOTATE pragma](http://repetae.net/computer/jhc/jhc.shtml):
 
   - every call to `head` gets replaced with `head_check $currentLocation`
   - in jhc, you get to write `head_check` yourself, with type
