@@ -38,6 +38,62 @@ Both `cbE` and `cbW` are going to become proc points.
 
 To avoid it we should generate code that re-uses `cbE` as the destination for the first `if`; that is, we need to load up the registers as if we were returning from the call.  This needs some refactoring in the code generator.
 
+== Cantankerous Comparisons ==
+
+In `cgrun065` we have
+
+{{{
+test_sizeofArray :: [Int]
+test_sizeofArray = runST $ ST $ \ s# -> go 0# [] s#
+  where
+    go i acc s#
+        | i <# 1000# = case newArray# i 0 s# of
+            (# s2#, marr# #) -> go (i +# 1#) ((I# 1#):acc) s2#
+        | otherwise = (# s#, acc #)
+}}}
+
+Which compiles to the nice STG code
+
+{{{
+                let-no-escape {
+                    go_sew =
+                        sat-only \r srt:SRT:[] [i_seo acc_ser s#1_seq]
+                            case <# [i_seo 1000] of wild_seN {
+                              GHC.Types.False -> (#,#) [s#1_seq acc_ser];
+                              GHC.Types.True ->
+                                  let { sat_seJ = NO_CCS GHC.Integer.Type.S#! [0];
+                                  } in 
+}}}
+
+But the comparison is compiled into stupid code:
+
+{{{
+  cg0:
+      // outOfLine should follow:
+      _cgm::I64 = %MO_S_Lt_W64(_seo::I64, 1000);
+      // emitReturn: Sequel: Assign
+      _seN::I64 = I64[GHC.Types.Bool_closure_tbl + (_cgm::I64 << 3)];
+      _cgn::I64 = _seN::I64 & 7;
+      if (_cgn::I64 >= 2) goto cgc; else goto cg5;
+  cgc:
+}}}
+
+etc.
+
+We're actually converting to a `Bool` and then doing an algebraic case!  This is a StgCmm issue, not a pipeline issue.
+
+== Dead stack/heap checks ==
+
+See in `cgrun065`
+
+{{{
+     cgr:
+         if (0) goto cgx;
+         R1 = R2;
+         jump stg_ap_0_fast ();
+     cgx: jump stg_gc_fun ();
+}}}
+
 == Instruction reordering ==
 
 NEW. We should be able to reorder instructions in order to decrease register pressure. Here's an example from 3586.hs
