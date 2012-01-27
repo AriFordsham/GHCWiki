@@ -92,6 +92,16 @@ etc.
 
 We're actually converting to a `Bool` and then doing an algebraic case!  This is a StgCmm issue, not a pipeline issue.
 
+## Dead stack/heap checks
+
+```wiki
+     cgr:
+         if (0) goto cgx;
+         R1 = R2;
+         jump stg_ap_0_fast ();
+     cgx: jump stg_gc_fun ();
+```
+
 ## Instruction reordering
 
 
