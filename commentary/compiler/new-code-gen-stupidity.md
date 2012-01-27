@@ -94,6 +94,9 @@ We're actually converting to a `Bool` and then doing an algebraic case!  This is
 
 ## Dead stack/heap checks
 
+
+See in `cgrun065`
+
 ```wiki
      cgr:
          if (0) goto cgx;
