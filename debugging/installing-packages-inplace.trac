@@ -11,7 +11,7 @@ Every GHC, including the inplace one, comes with the [wiki:Commentary/Libraries 
 This method is quick and easy, but can fail if your `cabal` program is out of date with respect to the GHC version you are building.  Here's how to install a library against a GHC build tree:
 
 {{{
-cabal install --with-ghc=<inplace-ghc> <package>
+cabal install --with-compiler=<inplace-ghc> <package>
 }}}
 where `<inplace ghc>` is the path to your inplace GHC (usually `$(TOP)/inplace/bin/ghc-stage2`), and <package> is the name of the package.
 
