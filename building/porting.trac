@@ -55,6 +55,8 @@ bootstrap the compiler on the ''target'' machine. We'll assume that you
 are porting to platform ''plat'', e.g. ''plat'' may be
 `x86_64-unknown-linux`.
 
+'''NOTE''': the path on the host and the target should be the same.
+
 '''On the target machine'''
 
 Unpack a source tree (preferably a released
@@ -151,6 +153,11 @@ Now build the compiler:
 {{{
 <H>$ make
 }}}
+
+'''NOTE''': ./libraries/unix/dist-install/build/System/Posix/Files.hs
+gets filled with struct stat offsets and size for the host, not the
+target. This needs to be fixed by hand after make, and then run make
+again to generate Files.hc'''
 
 You may need to work around problems that occur due to differences
 between the host and target platforms. You may also need to use `make -k`
