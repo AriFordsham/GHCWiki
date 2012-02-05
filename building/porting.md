@@ -206,15 +206,6 @@ in order to ignore unimportant build failures in the RTS.
 
 **On the target machine**
 
-```wiki
-<T>$ cp /bin/pwd utils/ghc-pwd/ghc-pwd
-```
-
-```wiki
-<T>$ perl boot
-<T>$ ./configure --enable-hc-boot --build=plat --host=plat --target=plat
-```
-
 
 Unpack `<H>/boot.tar.gz` to `<T>/`.
 
