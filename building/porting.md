@@ -176,10 +176,10 @@ Now build the compiler:
 <H>$ make
 ```
 
-**NOTE**: ./libraries/unix/dist-install/build/System/Posix/Files.hs
-gets filled with struct stat offsets and size for the host, not the
-target. This needs to be fixed by hand after make, and then run make
-again to generate Files.hc****
+**NOTE**: ./libraries/unix/dist-install/build/System/Posix/\*.hs gets
+filled with offsets, sizes, etc. for the host, not the target. This
+needs to be fixed by hand after make (marked by "LINE"), and then run
+make again to generate \*.hc****
 
 
 You may need to work around problems that occur due to differences
