@@ -14,6 +14,7 @@ Most of the material describing our approach is partitioned into a set of subpag
 - [The VECTORISE pragma](data-parallel/vect-pragma)
 - [Preventing space blow-up due to replicate](data-parallel/replicate)
 - [Other nested data parallel work](data-parallel/related)
+- [Live Fusion: An alternative runtime fusion system (WIP)](data-parallel/live-fusion)
 
 
 See also
