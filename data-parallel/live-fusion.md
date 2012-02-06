@@ -16,8 +16,8 @@ This page presents a fresh approach to array fusion in DPH. It discusses the nee
 
 Although only the section on the *Live Fusion* presents the new and unpublished material, two other fusion systems are described first. There are several reasons for this:
 
-1. to justify the needs for the research by showing the limitations of the current system
-1. to compare the designs of the new and old systems
+1. to justify the needs for the research by showing the limitations of the current system,
+1. to compare the designs of the new and the existing systems,
 1. to give credit to the existing systems for the borrowed design decisions.
 
 ---
@@ -29,7 +29,7 @@ Although only the section on the *Live Fusion* presents the new and unpublished 
 ### Programming Model
 
 
-Stream Fusion framework introduces two data types: a *stream* and a *stepper*.
+Stream Fusion framework is useful for fusing collective operations that traverse data structures in some uniform fashion. Such data structures are viewed as a continuous stream of values of some type. Both lists and arrays can be presented in such manner, thus the framework is suitable for use in DPH. Stream Fusion introduces two data types: a `Stream` and a `Step`per. 
 
 ```wiki
 data Stream a = forall s. Stream (s -> Step s a) s
@@ -44,11 +44,10 @@ data Step s a = Yield a s
               | Done
 ```
 
+`Done` flags the end of the stream, while a `Yield` contains an element and the next seed. If the stream is converted back into the original form of a list of an array, the yielded element will appear in the appropriate position. On the other hand, if a stream `Skip`s the current step does not contain an element (e.g. when a `filter`'s precondition returns false).
 
-A `Done` would flag the end of the stream, while a `Yield` would contain an element and the next seed. If the stream `Skip`'s that would meant that the current step does not contain an element (e.g. when a `filter`'s precondition returned false).
 
-
-Arrays or lists can be convected to and from streams. To save space we will only present a straight forward streaming function for lists.
+Arrays or lists can be converted to and from streams. To save space we will only present a straight forward streaming function for lists.
 
 ```wiki
 stream :: [a] -> Stream a
@@ -76,7 +75,7 @@ map f xs = unstream (mapS f (stream xs))
 ```
 
 
-To see how a `Skip` step might be used it may be worthwhile to look at the definition of the `filter` function:
+To see how a `Skip` step might be used it might be worthwhile to look at the definition of the `filter` function:
 
 ```wiki
 filterS :: (a -> Bool) -> Stream a -> Stream a
@@ -92,9 +91,11 @@ filter p xs = unstream (filterS p (stream xs))
 ```
 
 
-The fusion opportunity such as `(map f . filter p` may now be exploited with the following rewrite rule:
+The fusion opportunity such as `(map f . filter p)` may now be exploited with the following rewrite rule:
 
 `<stream/unstream fusion> forall stream (unstream s) +-> s`
+
+
 (TODO ppr from latex
 
 1. \\mathmf{(map\\, f\\cdot filter\\, p)}
@@ -106,15 +107,17 @@ The fusion opportunity such as `(map f . filter p` may now be exploited with the
 ### Generated Code
 
 
-In order to completely remove all traces of the helper data structures Stream Fusion relies on several general purpose compiler optimisations. They are discussed in the respective papers referenced at the beginning of this page. The program `TODO` can be desugared and inlned to give
+In order to completely remove all traces of the helper data structures Stream Fusion relies on several general purpose compiler optimisations. They are discussed in the respective papers referenced at the beginning of this page. The program `TODO: insert program code here` can be desugared and inlined to give
 
 ```wiki
+TODO: present the program in the desugared/inlined form
 ```
 
 
 which can be automatically transformed to a highly efficient:
 
 ```wiki
+TODO: present the fully optimised program
 ```
 
 
@@ -325,7 +328,6 @@ scan f z (Array arrh) = Array loopH
         mf z x = (Just z, z `f` x)
 
 enumFromStepLen :: Int -> Int -> Int -> Array Int
-{-# INLINE enumFromStepLen #-}
 enumFromStepLen start step len = Array loopH
   where loopH = LoopH mf start (ReplicateH len ())
         mf curr _ = let next = curr + step
