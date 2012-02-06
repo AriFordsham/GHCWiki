@@ -12,6 +12,7 @@ Most of the material describing our approach is partitioned into a set of subpag
  * [wiki:DataParallel/VectPragma The VECTORISE pragma]
  * [wiki:DataParallel/Replicate Preventing space blow-up due to replicate]
  * [wiki:DataParallel/Related Other nested data parallel work]
+ * [wiki:DataParallel/LiveFusion Live Fusion: An alternative runtime fusion system (WIP)]
 
 See also
  * [http://repa.ouroborus.net The Repa home page]
