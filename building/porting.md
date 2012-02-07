@@ -162,8 +162,8 @@ Edit `<H>/mk/project.mk`:
 
 
 Copy `<T>/includes/ghcautoconf.h`,
-`<T>/includes/DerivedConstants.h`, and
-`<T>/includes/GHCConstants.h` to `<H>/includes`.
+`<T>/includes/dist-derivedconstants`, and
+`<T>/includes/dist-ghcconstants` to `<H>/includes`.
 Note that we are building on the host machine, using the
 target machine's configuration files.  This
 is so that the intermediate C files generated here will
@@ -218,7 +218,10 @@ Unpack `<H>/boot.tar.gz` to `<T>/`.
 Put this in `<T>/mk/build.mk`:
 
 ```wiki
+OMIT_PHASE_0 = YES
+OMIT_PHASE_1 = YES
 GHC = false
+GHC_STAGE1 =
 GHC_PKG_INPLACE =
 GHC_CABAL_INPLACE =
 DUMMY_GHC_INPLACE =
@@ -255,8 +258,8 @@ Note that if you need some special arguments to configure on you platform (like 
 You may also need a set of flags and/or libraries different from -lutil -lrt.
 
 ```wiki
-<T>$ sed -i.bak "s#<H>#<T>#g" inplace/lib/package.conf.d/*.conf */*/package-data.mk */*/*/package-data.mk
-<T>$ touch -r inplace/lib/package.conf.d */*/package-data.mk */*/*/package-data.mk compiler/stage*/build/Config.hs compiler/main/Config.hs
+<T>$ sed -i.bak "s#<H>#<T>#g" inplace/lib/package.conf.d/*.conf */*/package-data.mk */*/*/package-data.mk */*/*/*/package-data.mk
+<T>$ touch -r inplace/lib/package.conf.d */*/package-data.mk */*/*/package-data.mk */*/*/*/package-data.mk compiler/stage*/build/Config.hs
 ```
 
 
