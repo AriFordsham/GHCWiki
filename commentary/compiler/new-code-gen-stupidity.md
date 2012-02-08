@@ -3,46 +3,6 @@
 
 Presently compiling using the new code generator results in a fairly sizable performance hit, because the new code generator produces sub-optimal (and sometimes absolutely terrible code.) There are [ a lot of ideas for how to make things better](http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes); the idea for this wiki page is to document all of the stupid things the new code generator is doing, to later be correlated with specific refactorings and fixes that will hopefully eliminate classes of these stupid things. The hope here is to develop a sense for what the most endemic problems with the newly generated code is.
 
-## Double proc points
-
-
-Given a simple case expression
-
-```wiki
-f x = case x of
-         I# y -> y
-```
-
-
-we generate \*two\* proc points, not one.
-
-```wiki
-  cbR:
-      if (_sbl::I64 & 7 != 0) goto cbU; else goto cbV;
-  cbU:
-      _sbp::I64 = _sbl::I64;
-      goto cbW;
-  cbV:
-      R1 = _sbl::I64;
-      I64[(young<cbE> + 8)] = cbE;
-      call (I64[_sbl::I64])(...) returns to Just cbE (8) (8) with update frame 8;
-  cbE:
-      _sbp::I64 = R1;
-      goto cbW;
-  cbW:
-      _sbo::I64 = I64[_sbp::I64 + 7];
-      _cbJ::I64 = _sbo::I64 + 1;
-      // emitReturn: Sequel: Return
-      R1 = _cbJ::I64;
-      call (I64[(old + 8)])(...) returns to Nothing (8) (0) with update frame 8;
-```
-
-
-Both `cbE` and `cbW` are going to become proc points.
-
-
-To avoid it we should generate code that re-uses `cbE` as the destination for the first `if`; that is, we need to load up the registers as if we were returning from the call.  This needs some refactoring in the code generator.
-
 ## Cantankerous Comparisons
 
 
@@ -122,6 +82,8 @@ NEW. We should be able to reorder instructions in order to decrease register pre
 R1 and Sp probably don't clobber each other, so we ought to use _cPY twice in quick succession. Fortunately stg_IND_STATIC_info is a constant so in this case the optimization doesn't help to much, but in other cases it might make sense. TODO Find better example
 
 ## Stack space overuse
+
+FIXED in the newcg branch.  (stack layout algorithm redesigned)
 
 
 CONFIRMED. `T1969.hs` demonstrates this:
@@ -358,6 +320,48 @@ WONTFIX. Lots of temporary variables (these can tickle other issues when the tem
 
 
 Another cause of all of these temporary variables is that the new code generator immediately assigns any variables that were on the stack to temporaries immediately upon entry to a function. This is on purpose. The idea is we optimize these temporary variables away.
+
+## Double proc points
+
+FIXED in newcg branch.
+
+
+Given a simple case expression
+
+```wiki
+f x = case x of
+         I# y -> y
+```
+
+
+we generate \*two\* proc points, not one.
+
+```wiki
+  cbR:
+      if (_sbl::I64 & 7 != 0) goto cbU; else goto cbV;
+  cbU:
+      _sbp::I64 = _sbl::I64;
+      goto cbW;
+  cbV:
+      R1 = _sbl::I64;
+      I64[(young<cbE> + 8)] = cbE;
+      call (I64[_sbl::I64])(...) returns to Just cbE (8) (8) with update frame 8;
+  cbE:
+      _sbp::I64 = R1;
+      goto cbW;
+  cbW:
+      _sbo::I64 = I64[_sbp::I64 + 7];
+      _cbJ::I64 = _sbo::I64 + 1;
+      // emitReturn: Sequel: Return
+      R1 = _cbJ::I64;
+      call (I64[(old + 8)])(...) returns to Nothing (8) (0) with update frame 8;
+```
+
+
+Both `cbE` and `cbW` are going to become proc points.
+
+
+To avoid it we should generate code that re-uses `cbE` as the destination for the first `if`; that is, we need to load up the registers as if we were returning from the call.  This needs some refactoring in the code generator.
 
 ## Rewriting stacks
 
