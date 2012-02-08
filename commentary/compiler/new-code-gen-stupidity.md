@@ -83,6 +83,8 @@ R1 and Sp probably don't clobber each other, so we ought to use _cPY twice in qu
 
 ## Stack space overuse
 
+FIXED in the newcg branch.  (stack layout algorithm redesigned)
+
 
 CONFIRMED. `T1969.hs` demonstrates this:
 
