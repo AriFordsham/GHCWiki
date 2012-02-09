@@ -359,7 +359,7 @@ This syntax works very nicely with partial views:
 #### Implicit Tupling
 
 
-A further syntactic extension would be to have implcit Maybes with implicit tupling: multiple patterns after the `=>` are implicitly tupled.  Then you could write:
+A further syntactic extension would be to have implicit Maybes with implicit tupling: multiple patterns after the `=>` are implicitly tupled.  Then you could write:
 
 ```wiki
    size (outArrow => t1 t2) = size t1 + size t2
