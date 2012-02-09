@@ -127,7 +127,7 @@ Example:
 
 ```wiki
 test :: [Bool]
-test = __ : __ : []
+test = __ : (__ ++ [])
 ```
 
 
@@ -137,7 +137,7 @@ Theoretical output:
 > :l test.hs
 [1 of 1] Compiling Main             ( test.hs, interpreted )
 Found a hole at test.hs:2:6-7: Bool
-Found a hole at test.hs:2:11-12: Bool
+Found a hole at test.hs:2:12-13: [Bool]
 > 
 ```
 
@@ -151,9 +151,9 @@ For example:
 
 ```wiki
 test :: [Bool]
-test = _a : _b : []
+test = _a : (_b ++ [])
 
-test2 = (_a, _b)
+test2 = _c ++ _b
 ```
 
 
@@ -163,7 +163,8 @@ Theoretical output:
 > :l test.hs
 [1 of 1] Compiling Main             ( test.hs, interpreted )
 Found a hole _a: Bool
-Found a hole _b: Bool
+Found a hole _b: [Bool]
+Found a hole _c: [Bool]
 > 
 ```
 
@@ -173,4 +174,25 @@ These could either be made shared within a module, or not (so not the confusing 
 ### Not holes, ranges
 
 
-Holes can be useful for finding the type of something that still needs to be written, but it's also possible one might want to figure out the type of a part of an existing expression. For example, a user could be trying to understand a big, complicated function he didn't write himself, and trying to figure out what the types are of certain parts of that function could involve a lot of looking up of other functions.
+Holes can be useful for finding the type of something that still needs to be written, but a more general way of looking at it is this: it is currently quite easy to typecheck a complete expression, for example with `:t`, in GHCi. However, finding the type of a part of an expression within a module is hard. In a large, complicated function it could be useful to ask the compiler for the types subexpressions. `:t` does not help here, as the function's parameters and where/let/lambda-bound terms are not in scope. It would be useful if it were possible to annotate code to ask the compiler to give you the type found for it.
+
+
+Simple example (let `{_ _`} denote a request for the type here):
+
+```wiki
+test :: [Bool]
+test = {_ undefined _} : ({_ undefined ++ [] _})
+```
+
+
+Could result in:
+
+```wiki
+> :l test.hs
+[1 of 1] Compiling Main             ( test.hs, interpreted )
+Found type of undefined (test.hs:2:11-19): Bool
+Found type of undefined ++ [] (test.hs:2:30-38): [Bool]
+```
+
+
+The same effect of holes can then be achieved by using ` {_ undefined _} `.
