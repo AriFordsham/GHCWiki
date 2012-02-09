@@ -18,7 +18,7 @@ The Agda language [ generates a module (name space) for each record and also all
 Other FP languages where I looked for a record implementation but it appeared they have no solution for records with the same fields (my information could be wrong/out-dated) ocaml, oz.
 
 
-I couldn't find great specific information on record implementation ML variants. Best I can tell, SML allows records in the same module with the same field. Records from other modules require name-spacing or must be opened up similar to Agda. SML\# supports [ record field polymorphism](http://www.pllab.riec.tohoku.ac.jp/smlsharp/?FeatureRecordPolymorphism) as per the overloaded records implementation.
+I couldn't find great specific information on record implementation ML variants. Best I can tell, SML does not allow records in the same module with the same field. Records from other modules require name-spacing or must be opened up similar to Agda. SML\# supports [ record field polymorphism](http://www.pllab.riec.tohoku.ac.jp/smlsharp/?FeatureRecordPolymorphism) as per the overloaded records implementation.
 
 
 \[Roy\]([ http://roy.brianmckenna.org/](http://roy.brianmckenna.org/)), a functional language that targets javascript, does have record field polymorphism (which makes a lot of sense in that context).
