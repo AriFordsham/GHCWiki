@@ -51,7 +51,7 @@ The same example:
 
 ```wiki
 test :: [Bool]
-test = undefined : undefined : []
+test = undefined : (undefined ++ [])
 ```
 
 
@@ -66,48 +66,51 @@ The GHC extension [Implicit Parameters](http://www.haskell.org/ghc/docs/latest/h
 Same example:
 
 ```wiki
-test = ?a : ?b : []
+test = ?a : (?b ++ [])
 ```
 
 
 Inspecting the type of `test` when defined in GHCi now shows the types of the (unbound) implicit parameters:
 
 ```wiki
-> :t let test = ?a : ?b : [] in test :: [Bool]
-let test = ?a : ?b : [] in test :: [Bool]
-  :: (?a::Bool, ?b::Bool) => [Bool]
+> :t let test = ?a : (?b ++ []) in test :: [Bool]
+let test = ?a : (?b ++ []) in test :: [Bool]
+  :: (?a::Bool, ?b::[Bool]) => [Bool]
 ```
 
 
 However, defining `test` like this in a module gives the following error:
 
 ```wiki
-test.hs:5:8:
+test.hs:4:8:
     Unbound implicit parameter (?a::Bool)
       arising from a use of implicit parameter `?a'
     In the first argument of `(:)', namely `?a'
-    In the expression: ?a : ?b : []
-    In an equation for `test': test = ?a : ?b : []
+    In the expression: ?a : (?b ++ [])
+    In an equation for `test': test = ?a : (?b ++ [])
 
-test.hs:5:13:
-    Unbound implicit parameter (?b::Bool)
+test.hs:4:14:
+    Unbound implicit parameter (?b::[Bool])
       arising from a use of implicit parameter `?b'
-    In the first argument of `(:)', namely `?b'
-    In the second argument of `(:)', namely `?b : []'
-    In the expression: ?a : ?b : []
+    In the first argument of `(++)', namely `?b'
+    In the second argument of `(:)', namely `(?b ++ [])'
+    In the expression: ?a : (?b ++ [])
 Failed, modules loaded: none.
 ```
 
 
-This will show you the type, however, it does consider it an error and fails, so there may be other problems you don't get to see because of it. It also will refuse to load and compile the module, so it's impossible to run the parts of it that are finished. So to correctly use it here, the function would have to be written as:
+This will show you the type, however, it does consider it an error and fails, so there may be other problems you don't get to see because of it. It also will refuse to load and compile the module, so it's impossible to run the parts of it that are finished.
+
+
+The reason is that the hole becomes a part of the type signature, as a constraint. So to correctly use it here, the function would have to be written as:
 
 ```wiki
-test :: (?a::Bool, ?b::Bool) => [Bool]
-test = ?a : ?b : []
+test :: (?a::Bool, ?b::[Bool]) => [Bool]
+test = ?a : (?b ++ [])
 ```
 
 
-This makes it very impractical to use them as holes, as you have to update this yourself to let the typechecker continue. If this wasn't bad enough, implicit parameters propagate upwards: if another function were to call `test`, it would show the same implicit parameters (and therefore, all of their type signatures have to be updated if you introduce a new hole). Another tricky problem with implicit parameters is that implicit parameters with the same name in different functions are not assumed to be the same parameter (i.e., required to be unifiable), *except* if some function has both implicit parameters in its constraints (so calls them both, possibly indirectly). Lastly, it's impossible to run code with unbound implicit parameters, even if the parameters are never actually used.
+This makes it very impractical to use them as holes, as all type signatures have to be updated to let the typechecker continue. Not only in the functions that use the implicit parameter itself, but they propagate upwards, just like class constraints: if another function were to call `test`, it would have the same implicit parameters (and therefore, all of these type signatures would have to be updated when a new hole is added). Another tricky problem with implicit parameters is that implicit parameters with the same name in different functions are not assumed to be the same parameter (i.e., required to be unifiable), *except* if some function has both implicit parameters in its constraints. Lastly, it's impossible to run code with unbound implicit parameters, even if the parameters are never actually used.
 
 ---
 
