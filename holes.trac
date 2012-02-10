@@ -35,7 +35,7 @@ GHC does not support holes in the way Agda does. It is possible to insert {{{und
 First, two existing features that can be used as holes.
 
 === {{{undefined}}} ===
-As stated before, {{{undefined}}} typechecks just like a hole: it has type {{{a}}}, so it can be used anywhere. However, it is not very easy to use in this way: it is impossible to find out what type the compiler found for the hole, and it's impossible to get a list of all the holes used in your source file(s).
+As stated before, {{{undefined}}} typechecks just like a hole: it has type {{{forall a.a}}}, so it can be used anywhere. However, it is not very easy to use in this way: it is impossible to find out what type the compiler found for the hole, and it's impossible to get a list of all the holes used in your source file(s).
 
 A similar example:
 {{{
