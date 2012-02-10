@@ -225,3 +225,24 @@ Found type of undefined ++ [] (test.hs:2:30-38): [Bool]
 
 
 The same effect of holes can then be achieved by using ` {_ undefined _} `. To return to the conciseness of holes, `__` could be syntactic sugar for `{_ undefined _`}. (Note that defining `__ = {_ undefined _`} in Haskell would not do this. The type would be `forall a. a`.)
+
+## Not ranges, but types
+
+
+A variation of the previous proposal that is a bit more powerful and less syntactically intrusive is to implement this in the type language. So giving an expression (or even a pattern) a type of {{}} would leave this type arbitrary and make GHC print the type. This subsumes the previous proposals, e.g. 
+
+```wiki
+test :: [Bool]
+test = (undefined::__) : (undefined ++ [] ::__)
+```
+
+
+and again a `__` on the term level could be syntactic sugar for `(undefined::__)`.
+
+
+The benefit from this variant is that `__` could occur as parts of types as well, e.g. 
+
+```wiki
+test :: [__]
+test = (undefined::__) : (undefined ++ [True] ::__)
+```
