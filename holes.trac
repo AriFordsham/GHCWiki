@@ -174,4 +174,4 @@ Found type of undefined (test.hs:2:11-19): Bool
 Found type of undefined ++ [] (test.hs:2:30-38): [Bool]
 }}}
 
-The same effect of holes can then be achieved by using {{{ {_ undefined _} }}}.
+The same effect of holes can then be achieved by using {{{ {_ undefined _} }}}. To return to the conciseness of holes, {{{__}}} could be syntactic sugar for {{{{_ undefined _}}}}. (Note that defining {{{__ = {_ undefined _}}}} in Haskell would not do this. The type would be {{{forall a. a}}}.)
