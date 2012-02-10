@@ -1,4 +1,4 @@
-This page describes the design and potential implementation of "holes" in GHC.
+This page describes the design and potential implementation of "holes" in GHC. The intention of holes is to support debugging types in Haskell programs. We have observed that programmers often want to find the type of an expression somewhere in the depths of a program. There are ways of doing this now, but none of them are satisfactory.
 
 = Goals in Agda =
 
