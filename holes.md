@@ -1,3 +1,6 @@
+
+This page describes the design and potential implementation of "holes" in GHC.
+
 # Goals in Agda
 
 

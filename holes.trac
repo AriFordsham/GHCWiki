@@ -1,3 +1,5 @@
+This page describes the design and potential implementation of "holes" in GHC.
+
 = Goals in Agda =
 
 One of the features of the Emacs mode for [http://wiki.portal.chalmers.se/agda/pmwiki.php Agda] is the ability to add goals, as a placeholder for code that is yet to be written. By inserting a {{{?}}} in an expression, the compiler will introduce a goal. After loading the file (which typechecks it), Agda gives an overview of the goals in the file and their types.
