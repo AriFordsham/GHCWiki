@@ -207,7 +207,7 @@ The record namespace is searched only in 3 cases:
 
 === Increased need for type annotation ===
 
-This is the only real downside of this proposal - most downsides discussed here are inherent to any records proposal. The Frege author says:
+Note that the Frege type system is less complex: to the extent that records are being used in code with simpler types this may hold. The Frege author says:
 
 I estimate that in 2/3 of all cases one does not need to write `T.e x` in sparsely type annotated code, despite the fact that the frege type checker has a left to right bias and does not yet attempt to find the type of `x` in the code that "follows" the `x.e` construct (after let unrolling etc.) I think one could do better and guarantee that, if the type of `x` is inferrable at all, then so will be `x.e` (Still, it must be more than just a type variable.)
 
