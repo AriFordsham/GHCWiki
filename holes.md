@@ -229,7 +229,7 @@ The same effect of holes can then be achieved by using ` {_ undefined _} `. To r
 ## Not ranges, but types
 
 
-A variation of the previous proposal that is a bit more powerful and less syntactically intrusive is to implement this in the type language. So giving an expression (or even a pattern) a type of {{}} would leave this type arbitrary and make GHC print the type. This subsumes the previous proposals, e.g. 
+A variation of the previous proposal that is a bit more powerful and less syntactically intrusive is to implement this in the type language. So giving an expression (or even a pattern) a type of `__` would leave this type arbitrary and make GHC print the type. This subsumes the previous proposals, e.g. 
 
 ```wiki
 test :: [Bool]
