@@ -549,9 +549,4 @@ For recompilation avoidance to be really effective, we need to ensure that finge
    [[BR]][[BR]]
    In GHC 6.12 we changed this so that compiler-generated bindings are given names of the form `f_x`, where `f` is the name of the exported Id that refers to the binding.  If there are multiple `f_x`s, then they are disambiguated with an integer suffix, but the numbers are assigned deterministically, by traversing the definition of `f` in depth-first left-to-right order to find references.  See `TidyPgm.chooseExternalIds`.
 
- * There are still some cases where an interface can change without changing the source code.  Here are the ones I know about
-   * The `spec_ids` (specialised Ids) attached to an Id have a non-deterministic ordering
-   * CSE can give different results depending on the order in which the bindings are considered, and since the ordering is
-     non-deterministic, the result of CSE is also non-deterministic.  e.g. in `x = z; y = z; z = 3`, where `y` and `x` are 
-     exported, we can end up with either `x = y; y = 3` or `y = x; x = 3`.
-   * There seems to be something unpredictable about the order of arguments to SpecConstr-generated specialisations, see [http://www.haskell.org/pipermail/glasgow-haskell-users/2011-April/020287.html]
+ * There are still some cases where an interface can change without changing the source code.  The ones we know about are listed in #4012
