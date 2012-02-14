@@ -70,15 +70,11 @@ i.e. an instance of `T` itself, not applied to anything.
 
  * Include in `Data.Typeable` old methods for backward compatibility, but deprecate them:
 {{{
-typeOf :: forall a. Typeable a => a -> TypeRep
-typeOf x = typeRep (getType x) where
-  getType :: a -> Proxy a
-  getType _ = Proxy
+ttypeOf :: forall a. Typeable a => a -> TypeRep
+typeOf = typeRep (Proxy :: Proxy a)
 
 typeOf1 :: forall t (a :: *). Typeable t => t a -> TypeRep
-typeOf1 x = typeRep (getType1 x) where
-  getType1 :: t a -> Proxy t
-  getType1 _ = Proxy
+typeOf1 x = typeRep (Proxy :: Proxy t)
 }}}
 
  * Make `deriving( Typeable )` work with whatever `Typeable` class is in scope.  So what it does will be determined by whether you say `import Data.Typeable` or `import Data.OldTypeable`.
