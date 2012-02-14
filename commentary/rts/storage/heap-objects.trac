@@ -23,11 +23,11 @@ Unlifted types cannot currently be used to represent terminating functions: an u
 
 == Heap Objects ==
 
-All heap objects have the same basic layout, embodied by the type {{{StgClosure}}} in [http://darcs.haskell.org/ghc/includes/rts/storage/Closures.h Closures.h].  The diagram below shows the layout of a heap object:
+All heap objects have the same basic layout, embodied by the type {{{StgClosure}}} in [[GhcFile(includes/rts/storage/Closures.h)]].  The diagram below shows the layout of a heap object:
 
 [[Image(heap-object.png)]]
 
-A heap object always begins with a ''header'', defined by {{{StgHeader}}} in [http://darcs.haskell.org/ghc/includes/rts/storage/Closures.h Closures.h]:
+A heap object always begins with a ''header'', defined by {{{StgHeader}}} in [[GhcFile(includes/rts/storage/Closures.h)]]:
 
 {{{
 typedef struct {
