@@ -5,6 +5,8 @@ Presently compiling using the new code generator results in a fairly sizable per
 
 == Cantankerous Comparisons ==
 
+FIXED in newcg branch, 15/2/2012
+
 In `cgrun065` we have
 
 {{{
