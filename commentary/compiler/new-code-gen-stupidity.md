@@ -5,6 +5,8 @@ Presently compiling using the new code generator results in a fairly sizable per
 
 ## Cantankerous Comparisons
 
+FIXED in newcg branch, 15/2/2012
+
 
 In `cgrun065` we have
 
@@ -53,6 +55,8 @@ etc.
 We're actually converting to a `Bool` and then doing an algebraic case!  This is a StgCmm issue, not a pipeline issue.
 
 ## Dead stack/heap checks
+
+FIXED in newcg branch, but in an ad-hoc way (the stack allocator does it).  We probably want to do this as part of a more general optimisation pass.
 
 
 See in `cgrun065`
