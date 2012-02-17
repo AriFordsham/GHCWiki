@@ -68,7 +68,7 @@ Using the sugar in the surface syntax (representation) allows for some freedom i
 I've used a phantom/proxy type (in GHC v 7.2.1) to drive type instancing for `Has`.
 
 
-SORF uses a String Kind (which is only partially available with GHC v 7.4.1), with implicit type application (so `get` does not have a proxy argument).
+SORF uses a `String` Kind (which is only partially available with GHC v 7.4.1), with implicit type application (so `get` does not have a proxy argument).
 I'll leave it to the implementors to determine which works best.
 
 `get` is a method of the `Has` class:
@@ -184,7 +184,7 @@ There has been some feedback that there are legitimate use-cases for type-changi
 This proposal does support type changing, but at cost of considerable extra complexity.
 
 
-So the earlier definitions of Has/get/set have been "economical with the truth". Instead:
+So the earlier definitions of `Has/get/set` have been "economical with the truth". Instead:
 
 ```wiki
     class Has r fld t	where
@@ -202,16 +202,16 @@ The type functions are to handle the possibly-changing types:
 ```
 
 
-For monomorphic (non-changing) fields, `GetResult returns``t` and `SetResult` returns `r`, so this amounts to the simpler definitions for Has/get/set given earlier.
+For monomorphic (non-changing) fields, `GetResult` returns `t` and `SetResult` returns `r`, so this amounts to the simpler definitions for `Has/get/set` given earlier.
 
 
 These are type families, not associated types, because in many cases, the result from `get` depends only on `fld`, and the result from `set` depends only on the record type `r`. In a few cases, the type function must be sensitive to the combination of field type and record type.
 
 
-The extra `Has` constraint on set's result is to 'improve' `t` by gathering constraints from the type of `set`'s resulting record type.
+The extra `Has` constraint on `set`'s result is to 'improve' `t` by gathering constraints from the type of `set`'s resulting record type.
 
 
-Note that the field value's type `t` is the type to-be in the result, _not_ the type as-was in the record being updated.
+Note that the field value's type `t` is the type to-be in the result, not the type as-was in the record being updated.
 So the result from set has that type \`inserted'.
 
 
@@ -285,7 +285,7 @@ Is it a requirement to be able to update polymorphic fields? Is it sufficient to
 ### Representation hiding/import/export
 
 
-See the discussion under \<Application Programmer's view\> and \<No Mono Record Fields\>. When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desuggarred to use it.)
+See the discussion under \<Application Programmer's view\> and [ http://hackage.haskell.org/trac/ghc/wiki/Records/DeclaredOverloadedRecordFields/NoMonoRecordFields](http://hackage.haskell.org/trac/ghc/wiki/Records/DeclaredOverloadedRecordFields/NoMonoRecordFields). When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desuggarred to use it.)
 
 ### Should application programmers declare instances for \`Has'/set?
 
