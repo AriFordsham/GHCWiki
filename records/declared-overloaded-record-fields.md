@@ -5,52 +5,9 @@ Explained in 5 wiki pages (these proposals are linked but somewhat orthogonal):
 
 - **[No Mono Record Fields](records/declared-overloaded-record-fields/no-mono-record-fields)**   (precursor to DORF)
 - ** DORF -- Application Programmer's view **     (this page)
-- ** DORF -- Implementor's view **
+- **[DORF -- Implementor's view](records/declared-overloaded-record-fields/implementors-view)**
 - ** DORF -- Comparison to SORF **
 - ** Dot as Postfix Funcion Apply **   (optional syntactic sugar)
-
-## No Mono Record Fields
-
-
-This proposal is a precursor to overloaded record fields.
-
-
-There is to be a compiler flag **-XNoMonoRecordFields**. (Default value **‑XMonoRecordFields**, to give H98 behaviour.)
-
-
--XNoMonoRecordFields suppresses creating the field selector function from the field name in a record-style data declaration.
-
-
-Suppressing the function frees up the namespace, to be able to experiment with various record/field approaches -- including the 'cottage industry' of Template Haskell solutions.
-
-
--XNoMonoRecordFields implies -XDisambiguateRecordFields -- otherwise the only way to access record fields is positionally. It also implies ‑XNamedFieldPuns and ‑XRecordWildCards to support field access and update. (IMHO, suppressing the field selector function should always have been part of -XDisambiguateRecordFields. I'm by no means the first to make that observation.) 
-
-
-Note that the field name is still valid within the scope of a pattern match, or record update inside the {...} constructor syntax.
-
-### Import/Export and Representation hiding
-
-
-Since there is no field selector function created, it can't be exported or imported.
-
-
-If you say:
-
-```wiki
-{-# OPTIONS_GHC -XNoMonoRecordFields                      #-}
-module M( T( x ) )       where
-    data T = MkT { x, y :: Int }
-```
-
-
-then the existence of field `y` is hidden;
-type `T` and field label `x` are exported, but not data constructor `MkT`, so `x` is unusable.
-
-
-(Without the ‑XNoMonoRecordFields flag, field selector function `x` would be exported.)
-
-## Declared Overloaded Record Fields (DORF)
 
 ## Application Programmer's view
 
@@ -77,7 +34,9 @@ Currently in Haskell two records in the same module can't share a field name. Th
 - rather, we have one field name, and we lack the syntax/semantics for sharing it between different records.
 
 
-An example: let's say I have a database application with a field (meaning type) customer_id. Then it appears in records for name and address, pricing, order entry, etc. This is not a name 'clash', it's 'intended sharing'. (It really galls me to even put it that way for explanatory purposes. Really it's the **same** customer_id.)
+An example: let's say I have a database application with a field (meaning type) `customer_id`. Then it appears in records for name and address, pricing, order entry, etc. This is not a name 'clash', it's 'intended sharing'. (It really galls me to even put it that way for explanatory purposes. Really it's the **same**`customer_id`.)
+
+
 In data model design you'd typically go about identifying all the fields (types aka attributes) and putting them in a data dictionary. Then you'd construct your records from them. You might (possibly) put the data dictionary in a distinct module, for easy maintenance. But you'd certainly want all the customer-related records in the same module. So a data decl:
 
 ```wiki
@@ -85,8 +44,8 @@ In data model design you'd typically go about identifying all the fields (types 
 ```
 
 
-is _not_ declaring customer_id, it's _using_ (or instancing) an already-declared field for customer_id.
-Similarly, if I have a family of objects, all with a `reset' method, that's not umpteen methods with a 'clash' of names, it's one method with umpteen instances. (And I might create a family of record structures to describe each object, and store the `reset' method within it.)
+is not declaring `customer_id`, it's using (or instancing) an already-declared field for `customer_id`.
+Similarly, if I have a family of objects, all with a `rese`' method, that's not umpteen methods with a 'clash' of names, it's one method with umpteen instances. (And I might create a family of record structures to describe each object, and store the `reset` method within it.)
 
 
 What's more, the Haskell 98 field selector (auto-created from the data decl) is half-way to what we want. It's a function:
@@ -98,126 +57,119 @@ What's more, the Haskell 98 field selector (auto-created from the data decl) is 
 
 The DORF proposal generalises that signature: if you want to share a field across different records, its selector function needs to be overloaded to this type:
 
-<table><tr><th>customer_id</th>
-<td>r{ customer_id :: Int } =\> r -\> Int
-</td></tr></table>
+```wiki
+    customer_id :: r{ customer_id :: Int } => r -> Int
+```
 
 
-The 'r{ ... }' is syntactic sugar for the constraint meaning "record r has field customer_id at type Int".
+The `r{ ... }` is syntactic sugar for the constraint meaning "record `r` has field `customer_id` at type `Int`".
 
 
 We need a way to declare that a name is available as an overloadable field name (roughly speaking, a class/method definition), proposed syntax:
 
-<table><tr><th>fieldLabel customer_id</th>
-<td>r -\> Int
-</td></tr></table>
+```wiki
+    fieldLabel customer_id :: r -> Int
+```
 
 
-(The r{ ... } is added by the desugarer.)
+(The `r{ ... }` is added by the desugarer.)
 
 
-The \`-\> Int' means the field's domain (type) is Int -- it's just a type.
+The `-> Int` means the field's domain (type) is `Int` -- it's just a type.
 We might also want to constrain the record -- for example to be sure it is savable to persistent storage:
 
-<table><tr><th>fieldLabel unitPrice</th>
-<td>(Save r, Num t) =\> r -\> t
-</td></tr></table>
+```wiki
+    fieldLabel unitPrice :: (Save r, Num t) => r -> t
+```
 
 
-(Again the r{ ... } gets added as a further constraint.)
+(Again the `r{ ... }` gets added as a further constraint.)
 
 
 Now we can use the field in a record, and that in effect declares an instance for the field/record. All these definitions are in the same module:
 
->
-> data Customer_NameAddress = ... (as above)
-> data Customer_Price a = Num a =\> Cust_Price {
-
-<table><tr><th>customer_id</th>
-<td>Int,
-</td></tr>
-<tr><th>product_id</th>
-<td>Int,
-</td></tr>
-<tr><th>unit_Price</th>
-<td>a,
-... }
-data Customer_Order = Cust_Order { customer_id :: Int, ... }
-</td></tr></table>
+```wiki
+    data Customer_NameAddress = ... (as above)
+    data Customer_Price a = Num a => Cust_Price {
+                                       customer_id :: Int,
+                                       product_id  :: Int,
+                                       unit_Price  :: a,
+                                       ... }
+    data Customer_Order = Cust_Order { customer_id :: Int, ... }
+```
 
 
 Then a field selection expression like:
 
->
-> ... (customer_id r) ...          -- H98 style field application
+> `... (customer_id r) ...`          -- H98 style field application
 
 
-uses familiar type instance resolution to figure out from record type \`r' how to extract the customer_id.
+uses familiar type instance resolution to figure out from record type `r` how to extract the `customer_id`.
 
 
 \[Possibly that expression could be:
 
->
-> ... r.customer_id ...
+> `... r.customer_id ...`
 
 
 See \<Dot as Postfix Func Apply\> for that dot notation, but note that nothing in this proposal assumes dot notation will be needed.\]
 
 
-From here upwards, the r{ ... } constraint is just a constraint, and gets merged with other constraints. For example, you could define a function:
+From here upwards, the `r{ ... }` constraint is just a constraint, and gets merged with other constraints. For example, you could define a function:
 
->
-> fullName r = (firstName r) ++ " " ++ (lastName r)  -- per SPJ
+```wiki
+    fullName r = (firstName r) ++ " " ++ (lastName r)  -- per SPJ
+```
 
 
 The type inferred would be:
 
-<table><tr><th>fullName</th>
-<td>r{ firstName, lastName :: String} =\> r -\> String
-</td></tr></table>
+```wiki
+    fullName :: r{ firstName, lastName :: String} => r -> String
+```
 
 
 which is eliding:
 
-<table><tr><th>fullName</th>
-<td>(r{ firstName :: String}, r{ lastName :: String })
-=\> r -\> String
-</td></tr></table>
+```wiki
+    fullName :: (r{ firstName :: String}, r{ lastName :: String })
+                 => r -> String
+```
 
 
 And if you think that's very close to the type of a field selector function, you'd be right. Here's some more examples of pseudo- or 'virtual' fields, using dot notation:
 
->
-> customer.fullName
-> shape.area
-> date.dayOfWeek        -- not a field: calculated from the date
-> name.middleInitial    -- extract from the name field
-> tuple.fst             -- Prelude functions
-> list.head
-> list.length
+```wiki
+    customer.fullName
+    shape.area
+    date.dayOfWeek        -- not a field: calculated from the date
+    name.middleInitial    -- extract from the name field
+    tuple.fst             -- Prelude functions
+    list.head
+    list.length
+```
 
 
 \[Since they're just functions, they can use dot notation -- or not: personal preference.\]
 
-
-Modules and qualified names for records
+### Modules and qualified names for records
 
 
 Do these field selector functions have a special scope in some way? No! They're just functions. They can be exported/imported.
 
 
-We can't stop some other developer creating an application/package with a field customer_id which is incompatible with ours. (Say a Sales Order entry application where customer_id is a String, to merge with our Accounts Receivable.) So do we have a problem if someone wants to import both?
+We can't stop some other developer creating an application/package with a field `customer_id` which is incompatible with ours. (Say a Sales Order entry application where `customer_id` is a `String`, to merge with our Accounts Receivable.) So do we have a problem if someone wants to import both?
 
 
 No! This is regular business-as-usual familiar name clash, and it's what the module system is designed to handle. The field selectors are just functions, we can use them qualified:
 
->
-> (My.customer_id myCust)        \<===\> myCust.My.customer_id
-> (Their.customer_id theirCust)  \<===\> theirCust.Their.customer_id
-> (My.customer_id r)       -- fails if r is from the 'other' module
+```wiki
+    (My.customer_id myCust)        <===> myCust.My.customer_id
+    (Their.customer_id theirCust)  <===> theirCust.Their.customer_id
+    (My.customer_id r)       -- fails if r is from the 'other' module
+```
 
-
-Import/Export and Representation hiding
+### Import/Export and Representation hiding
 
 
 \[See \<No Mono Record Fields\>, which is implied by DORF.\]
@@ -228,61 +180,50 @@ Since there is only a single (overloaded) field selector function created, we ei
 
 The field selector function is separately declared vs. the records and their fields, so must be exported separately. For example:
 
-
-{-\# OPTIONS_GHC -XDeclaredOverloadedRecordFields             \#-}
+```wiki
+{-# OPTIONS_GHC -XDeclaredOverloadedRecordFields             #-}
 module M( x )       where
-
-<table><tr><th>fieldLabel x,y</th>
-<td>r -\> Int
-data T = MkT { x, y :: Int }
-</td></tr></table>
+    fieldLabel x,y :: r -> Int
+    data T = MkT { x, y :: Int }
+```
 
 
-Here only the field selector function `x' is exported. The representation is abstract, the client can't construct or dismantle a record type `T'; field \`y' is hidden altogether.
+Here only the field selector function `x` is exported. The representation is abstract, the client can't construct or dismantle a record type `T`;
+
+>
+> field `y` is hidden altogether.
 
 
 If you say:
 
-
-{-\# OPTIONS_GHC -XDeclaredOverloadedRecordFields
-
->
-> -XNoMonoRecordFields                   \#-}
-
-
+```wiki
+{-# OPTIONS_GHC -XDeclaredOverloadedRecordFields
+                -XNoMonoRecordFields                   #-}
 module M( T( x ) )       where
-
-<table><tr><th>fieldLabel x,y</th>
-<td>r -\> Int
-data T = MkT { x, y :: Int }
-</td></tr></table>
+    fieldLabel x,y :: r -> Int
+    data T = MkT { x, y :: Int }
+```
 
 
-then you are exporting the x field within record type T, but _not_ the field selector x (nor the generated type 'peg' Proxy_x).
+then you are exporting the `x` field within record type `T`, but _not_ the field selector `x` (nor the generated type 'peg' `Proxy_x`).
 
 
-Type T and field label `x' are exported, but not data constructor MkT, so `x' is unusable.
+Type `T` and field label `x` are exported, but not data constructor `MkT`, so `x` is unusable.
 
 
-The existence of field \`y' is hidden altogether.
+The existence of field `y` is hidden altogether.
 
-
-Field Update for Overloadable Record Fields
+### Field Update for Overloadable Record Fields
 
 
 You can (continue to) use pattern matching and data constructor tagging for record update:
 
->
-> case r of {
->
-> >
-> > Cust_Price {unit_Price, ..}
-> >
-> > >
-> > > -\> Cust_Price {unit_Price = unit_Price \* 1.05, .. }
->
->
-> }         -- increases Price by 5%
+```wiki
+    case r of {
+     Cust_Price {unit_Price, ..}
+          -> Cust_Price {unit_Price = unit_Price * 1.05, .. }
+    }         -- increases Price by 5%
+```
 
 
 (This uses ‑XDisambiguateRecordFields, -XRecordWildCards and ‑XNamedFieldPuns -- all mature GHC extensions.)
@@ -290,331 +231,49 @@ You can (continue to) use pattern matching and data constructor tagging for reco
 
 The new part is polymorphic record update:
 
->
-> myPrice{ unit_Price = 72 :: Int }
+```wiki
+    myPrice{ unit_Price = 72 :: Int }
+```
 
 
-Returns a record with same fields as myPrice, except a different unit_Price. Note that the update can change the type of a field (if the record declaration is polymorphic).
+Returns a record with same fields as `myPrice`, except a different `unit_Price`. Note that the update can change the type of a field (if the record declaration is polymorphic).
 
 
-Note that upon first encountering that expression, we don't know the record types (because unit_Price is overloaded). So the types initially inferred are:
+Note that upon first encountering that expression, we don't know the record types (because `unit_Price` is overloaded). So the types initially inferred are:
 
-<table><tr><th>\<expr\></th>
-<td>r { unit_Price :: Int } =\> r
-</td></tr>
-<tr><th>myPrice</th>
-<td>_r{ unit_Price :: t }   =\> _r
-</td></tr></table>
+```wiki
+    <expr>  :: r { unit_Price :: Int } => r
+    myPrice :: _r{ unit_Price :: t }   => _r
+```
 
 
 That is, the update might be changing the record type as well as the field type -- in case that the record type is parametric over the field type.
 
 
-Behind the scenes, the update syntax with an expression prefix to the { ... } is syntactic sugar for a call to the polymorphic record update method \`set':
+Behind the scenes, the update syntax with an expression prefix to the `{ ... }` is syntactic sugar for a call to the polymorphic record update method `set`:
 
-<table><tr><th>set (undefined</th>
-<td>Proxy_unit_Price) (72 :: Int) myPrice
-</td></tr></table>
+```wiki
+    set (undefined :: Proxy_unit_Price) (72 :: Int) myPrice
+```
 
 
 \[See \<DORF -- Implementor's view\> for what the Proxy is doing.\]
 
 
-Normal type inference/instance resolution will find the record type for myPrice, and therefore the correct instance to apply the update.
+Normal type inference/instance resolution will find the record type for `myPrice`, and therefore the correct instance to apply the update.
 
 
 You can update multiple fields at the same time:
 
->
-> myCustNA { firstName = "Fred", lastName = "Dagg" }
+```wiki
+    myCustNA { firstName = "Fred", lastName = "Dagg" }
+```
 
 
-\[There's a poor story to tell here in implementation terms: we split into two calls to \`set', one nested inside the other. It's wasteful to build the intermediate record. Worse, the two fields' types might be parametric in the record type or polymorphically related (perhaps one is a method to apply to the other), then we get a type failure on the intermediate record.\]
+\[There's a poor story to tell here in implementation terms: we split into two calls to `set`, one nested inside the other. It's wasteful to build the intermediate record. Worse, the two fields' types might be parametric in the record type or polymorphically related (perhaps one is a method to apply to the other), then we get a type failure on the intermediate record.\]
 
 
-Some discussion threads have argued that Haskell's current record update syntax is awkward. The DORF proposal is to implement field update using a polymorphic function. Once this is implemented, alternative syntax could be explored, providing it desugars to a call to \`set'.
-
----
-
-
-The implementation has been prototyped in GHC 7.2.1, see
-[ http://www.haskell.org/pipermail/glasgow-haskell-users/2011-December/021298.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2011-December/021298.html), and SPJ's observations/possible improvements and caveats
-[ http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021744.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021744.html)
-
-
-The fact that DORF has been 'faked' in existing GHC is good evidence that it's a modest change. Furthermore, we can implement H98-style records/fields using the same mechanism.
-
-
-DORF is to be enabled by a compiler flag ‑XDeclaredOverloadedRecordFields, which implies flag ‑XNoMonoRecordFields, which in turn implies ‑XDisambiguateRecordFields and -XNamedFieldPuns with ‑XRecordWildCards.
-
-
-Note we do _not_ assume flag ‑XDotPostfixFuncApply; dot notation is not needed by DORF, it's purely syntactic sugar to suit the taste of the programmer.
-
-
-DORF is implemented through a class `Has' with methods `get' and `set'. (Very similar in principle to SORF.) There's an instance of `Has' for each record/field combination, with the instance generated from the record declaration.
-
-
-Within each instance, get/set are defined in terms of the record's data constructors, using ‑XDisambiguateRecordFields and friends.
-
-
-fieldLabel declaration (data dictionary)
-
-
-There is to be a new declaration type, examples:
-
-<table><tr><th>fieldLabel customer_id</th>
-<td>r -\> Int
-</td></tr>
-<tr><th>fieldLabel unitPrice</th>
-<td>(Save r, Num t) =\> r -\> t
-</td></tr>
-<tr><th>fieldLabel monoField</th>
-<td>Rec -\> String   -- equiv to H98 
-</td></tr></table>
-
-
-\[\`fieldLabel' is rather long as reserved words go. I'm guessing that field or label would already be heavily used in existing code. Suggestions welcome!\]
-
-
-The fieldLabel declaration desugars to:
-
->
-> data Proxy_customer_id                  -- phantom, a type 'peg'
-
-<table><tr><th>customer_id</th>
-<td>r{ customer_id :: Int } =\> r -\> Int
-</td></tr>
-<tr><th>customer_id r = get r (undefined</th>
-<td>Proxy_customer_id)
-</td></tr></table>
-
-<table><tr><th>unit_Price</th>
-<td>(r{ unit_Price :: t}, Save r, Num t) =\> r -\> t
-</td></tr></table>
-
-
-That is: the r{ ... } constraint is added by the desugarer (and will be further desugarred to a \`Has' constraint):
-
-
-Syntactic sugar for \`Has'
-
-
-DORF steals from SORF:
-
->
-> r{ fld :: t }  \<===\> Has r Proxy_fld t
-
-
-Using the sugar in the surface syntax (representation) allows for some freedom in the design space 'behind the scenes'.
-
-
-Should \`get' have a Proxy argument?
-I've used a phantom/proxy type (in GHC v 7.2.1) to drive type instancing for \`Has'.
-SORF uses a String Kind (which is only partially available with GHC v 7.4.1), with implicit type application (so \`get' does not have a proxy argument).
-I'll leave it to the implementors to determine which works best.
-
-`get' is a method of the `Has' class:
-
-<table><tr><th>get</th>
-<td>(Has r fld t) =\> r -\> fld -\> t
-</td></tr></table>
-
-
-Record declaration
-
->
-> data Customer_NameAddress = Cust_NA { customer_id :: Int, ... } 
-
-
-Does _not_ create a field selector function customer_id. Instead it creates a \`Has' instance:
-
->
-> instance (t \~ Int) 
->
-> >
-> > =\> Has Customer_NameAddress Proxy_customer_id t where
-> >
-> > >
-> > > get Cust_NA{customer_id} = customer_id
-
-
-Note the bare \`t' with type equality constraint. This is unashamedly stolen from SORF's "functional-dependency-like mechanism (but using equalities) for the result type". So type inference binds to this instance based only on the record type and field (type 'peg'), then 'improves' the type of the result.
-The definition of \`get' uses ‑XDisambiguateRecordFields style (with ‑XNamedFieldPuns).
-\[It's a wart that in the record declaration, we've had to repeat the type of customer_id when the fieldLabel decl has already stipulated Int. It is legal syntax to omit the type in the record decl, but that currently has a different effect:
-data ... = Cust_NA { customer_id, custName :: String, ... }
-currently means customer_id is to be same type as custName.
-Opportunity for improvement! \]
-
-
-Record/field update
-Update uses method `set' from the `Has' class:
-
-<table><tr><th>set</th>
-<td>(Has r fld t) =\> fld -\> t -\> r -\> r
-</td></tr></table>
-
-
-\`set's instances are defined using explicit data constructor:
-
->
-> instance (t \~ String) =\>
->
-> >
-> > Has Customer_NameAddress Proxy_firstName t where
-> >
-> > >
-> > > set _ x (Cust_NA{..}) = Cust_NA{firstName = x, ..}
-
-
-The definition of \`set' uses ‑XDisambiguateRecordFields style (with ‑XNamedFieldPuns and ‑XRecordWildCards to fill in the un-named fields).
-Haskell's existing update syntax is desugarred to a call to \`set':
-
->
-> myCustNA{ firstName = "John" }
-
-
-===\>  set (undefined :: Proxy_firstName) "John" myCustNA
-(That is, with a name or expression preceeding the { ... }. A data constructor prefix continues to use -XDisambiguateRecordFields.)
-It is crucial to this proposal that we can implement a polymorphic field update function (\`set'). There's a number of tricky requirements considered below.
-In amongst the discussion of dot notation for field selection, there have been aspersions cast on Haskell's current record update syntax.
-[ http://www.haskell.org/pipermail/haskell-cafe/2012-February/099314.html](http://www.haskell.org/pipermail/haskell-cafe/2012-February/099314.html)
-If we can support update as just a function, there's a chance we can then turn to the syntactic sugar. (For example, the application programmer can develop update idioms to suit their purpose, as just overloaded functions.)
-
-
-Updating multiple fields
-The syntax already supports updating multiple fields:
-
->
-> myCustNA { firstName = "Fred", lastName = "Dagg" }
-
-
-The simplest implementation is to turn this into two (nested) updates, but that makes it inefficient generating then discarding the interim result. It may also block updates of linked fields that share a type parametric in the record type.
-The prototype for this proposal has explored updating with a type instance pairing the two fields:
-
->
-> instance (t \~ (String, String)) =\>
->
-> >
-> > Has Customer_NameAddress
-> >
-> > >
-> > > (Proxy_firstName, Proxy_lastName) t     where ...
-
-
-but in general, this would need instances for each perm/comb of fields.
-Type-changing update
-Haskell 98's record update can change the type of the record, by changing the type of a field that is parametric in the record's type.
-There has been some feedback that there are legitimate use-cases for type-changing update -- for example traversing a record structure applying some type-changing transformation.
-This proposal does support type changing, but at cost of considerable extra complexity.
-So the earlier definitions of Has/get/set have been "economical with the truth". Instead:
-
->
-> class Has r fld t        where
-
-<table><tr><th>get</th>
-<td>r -\> fld -\> GetResult r fld t
-</td></tr>
-<tr><th>set</th>
-<td>(Has (SetResult r fld t) fld t) =\>
-fld -\> t -\> r -\> SetResult r fld t
-</td></tr></table>
-
-
-The type functions are to handle the possibly-changing types:
-
-<table><tr><th>type family GetResult  r fld t</th>
-<td>\*  -- result from get
-</td></tr>
-<tr><th>type family SetResult  r fld t</th>
-<td>\*  -- result from set
-</td></tr></table>
-
-
-For monomorphic (non-changing) fields, GetResult returns t and SetResult returns r, so this amounts to the simpler definitions for Has/get/set given earlier.
-These are type families, not associated types, because in many cases, the result from get depends only on `fld', and the result from set depends only on the record type `r'. In a few cases, the type function must be sensitive to the combination of field type and record type.
-The extra Has constraint on set's result is to 'improve' \`t' by gathering constraints from the type of set's resulting record type.
-Note that the field value's type \`t' is the type to-be in the result, _not_ the type as-was in the record being updated.
-So the result from set has that type \`inserted'.
-Example, based on field unit_Price:
-
->
-> data Customer_Price a = Num a =\> Cust_Price {
->
-> >
-> > ...,
-
-<table><tr><th>unit_Price</th>
-<td>a,
-... }
-type instance GetResult (Customer_Price a) Proxy_unit_Price t
-</td></tr></table>
-
-# a           -- type as is
-
->
-> type instance SetResult (Customer_Price _a) Proxy_unit_Price t
-
-# Customer_Price t      -- set record type per arg to set
-
->
-> instance (Num t) =\>
->
-> >
-> > Has (Customer_Price a) Proxy_unitPrice t        where
-> >
-> > >
-> > > get Cust_Price{unit_Price} _ = unit_Price
-> > > set _ x Cust_Price{..} = Cust_Price{ unit_Price = x, .. }
-
-
-(The method definitions are 'uninteresting', compared to the drama to get the types right.)
-The extra complexity to support changing type could be somewhat reduced using a separate \`Set' class with four type parameters, including both as-was and resulting record types, and equality constraints to improve them -- rather than type family SetResult.
-This would mean, though, that the type sugar for Has constraints would not be adequate. Since that sugar is to be visible but the instance definitions are to be 'internal', this proposal prefers to support the sugar.
-
-
-Selecting polymorphic/higher-ranked fields
-Note that initialising records with polymorphic fields (using record constructor syntax) is not affected. This proposal implements selecting/applying those fields in polymorphic contexts. This includes fields with class-constrained types 'sealed' within the record.
-To support higher-ranked fields, this proposal follows SORF's approach (with three parameters to Has) to obtain a polymorphic type:
-
->
-> data HR        = HR {rev :: forall a_. \[a_\] -\> \[a_\]}   -- per SPJ
-
-<table><tr><th>fieldLabel rev</th>
-<td>r -\> (forall a_. \[a_\] -\> \[a_\])
-===\>
-data Proxy_rev
-</td></tr>
-<tr><th>rev</th>
-<td>Has r Proxy_rev t =\> r -\> t
-</td></tr>
-<tr><th>rev r = get r (undefined</th>
-<td>Proxy_rev)
-type instance GetResult r Proxy_rev t = t     -- plain t
--- field's type is whatever's there (it's opaque)
--- improved by the instance constraint
-type instance SetResult HR Proxy_rev t = HR
--- the H-R type is hidded inside HR
-instance (t \~ (\[a_\] -\> \[a_\])) =\>              -- same as SORF
-Has HR Proxy_rev t    where
-get HR{rev} _ = rev
-</td></tr></table>
-
-
-Updating polymorphic/higher-ranked fields
-The prototype for this proposal does include a method of updating Higher-ranked fields. SPJ has quickly reviewed the prototype:
-"Your trick with SetTy to support update of polymorphic fields is, I belive, an (ingenious) hack that does not scale. I think it works only for fields that are quantified over one type variable with no constraints.
-So, I think that update of polymorphic fields remains problematic. "
-Note that the "(ingenious)" and unscalable "hack" appears only in compiler-generated code.
-Is it a requirement to be able to update polymorphic fields? Is it sufficient to be able to update other (monomorphic) fields in records that also contain poly fields?
-
-
-Representation hiding/import/export
-See the discussion under \<Application Programmer's view\> and \<No Mono Record Fields\>. When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desuggarred to use it.)
-
-
-Should application programmers declare instances for \`Has'/set?
-Nothing so far suggests they should. (And there's obvious dangers in allowing it.)
-But updating through virtual fields might need it. See \<DORF -- comparison to SORF\>\#\<Virtual record selectors\>.
+Some discussion threads have argued that Haskell's current record update syntax is awkward. The DORF proposal is to implement field update using a polymorphic function. Once this is implemented, alternative syntax could be explored, providing it desugars to a call to `set`.
 
 ---
 
