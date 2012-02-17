@@ -5,6 +5,8 @@ The implementation has been prototyped in GHC 7.2.1, see
 http://www.haskell.org/pipermail/glasgow-haskell-users/2011-December/021298.html, and SPJ's observations/possible improvements and caveats
 http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021744.html
 
+A cut-down prototype is attached to this page. (The ugliest hacks removed.)
+
 The fact that DORF has been 'faked' in existing GHC is good evidence that it's a modest change. Furthermore, we can implement H98-style records/fields using the same mechanism.
 
 DORF is to be enabled by a compiler flag ‑XDeclaredOverloadedRecordFields, which implies flag ‑XNoMonoRecordFields, which in turn implies ‑XDisambiguateRecordFields and -XNamedFieldPuns with ‑XRecordWildCards.
@@ -197,7 +199,7 @@ To support higher-ranked fields, this proposal follows SORF's approach (with thr
 === Updating polymorphic/higher-ranked fields ===
 
 The prototype for this proposal does include a method of updating Higher-ranked fields. SPJ has quickly reviewed the prototype:
-  "Your trick with SetTy to support update of polymorphic fields is, I belive, an (ingenious) hack that does not scale. I think it works only for fields that are quantified over one type variable with no constraints.[[BR]]
+  "Your trick with `SetTy` to support update of polymorphic fields is, I belive, an (ingenious) hack that does not scale. I think it works only for fields that are quantified over one type variable with no constraints.[[BR]]
   So, I think that update of polymorphic fields remains problematic. "
 
 Note that the "(ingenious)" and unscalable "hack" appears only in compiler-generated code.
