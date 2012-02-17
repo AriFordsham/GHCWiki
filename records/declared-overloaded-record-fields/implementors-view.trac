@@ -11,14 +11,14 @@ The fact that DORF has been 'faked' in existing GHC is good evidence that it's a
 
 DORF is to be enabled by a compiler flag '''‑XDeclaredOverloadedRecordFields''', which implies flag '''‑XNoMonoRecordFields''', which in turn implies ‑XDisambiguateRecordFields and -XNamedFieldPuns with ‑XRecordWildCards.
 
-Note we do _not_ assume flag ‑XDotPostfixFuncApply; dot notation is not needed by DORF, it's purely syntactic sugar to suit the taste of the programmer.
+Note we do __not__ assume flag ‑XDotPostfixFuncApply; dot notation is not needed by DORF, it's purely syntactic sugar to suit the taste of the programmer.
 
-DORF is implemented through a class `Has' with methods `get' and `set'. (Very similar in principle to SORF.) There's an instance of `Has' for each record/field combination, with the instance generated from the record declaration.
+DORF is implemented through a class `Has` with methods `get` and `set`. (Very similar in principle to SORF.) There's an instance of `Has` for each record/field combination, with the instance generated from the record declaration.
 
-Within each instance, get/set are defined in terms of the record's data constructors, using ‑XDisambiguateRecordFields and friends.
+Within each instance, `get/set` are defined in terms of the record's data constructors, using ‑XDisambiguateRecordFields and friends.
 
 
-fieldLabel declaration (data dictionary)
+=== fieldLabel declaration (data dictionary) ===
 
 There is to be a new declaration type, examples:
 {{{
@@ -28,7 +28,7 @@ There is to be a new declaration type, examples:
 }}}
 [`fieldLabel` is rather long as reserved words go. I'm guessing that field or label would already be heavily used in existing code. Suggestions welcome!]
 
-The `fieldLabel` declaration desugars to:
+`fieldLabel` is __not__ some new ontology in Haskell, it's only sugar. The `fieldLabel` declaration desugars to:
 {{{
     data Proxy_customer_id                  -- phantom, a type 'peg'
     customer_id :: r{ customer_id :: Int } => r -> Int
