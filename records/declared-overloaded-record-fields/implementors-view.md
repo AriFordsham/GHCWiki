@@ -205,86 +205,91 @@ For monomorphic (non-changing) fields, `GetResult returns``t` and `SetResult` re
 
 
 These are type families, not associated types, because in many cases, the result from `get` depends only on `fld`, and the result from `set` depends only on the record type `r`. In a few cases, the type function must be sensitive to the combination of field type and record type.
-The extra Has constraint on set's result is to 'improve' \`t' by gathering constraints from the type of set's resulting record type.
-Note that the field value's type \`t' is the type to-be in the result, _not_ the type as-was in the record being updated.
+
+
+The extra `Has` constraint on set's result is to 'improve' `t` by gathering constraints from the type of `set`'s resulting record type.
+
+
+Note that the field value's type `t` is the type to-be in the result, _not_ the type as-was in the record being updated.
 So the result from set has that type \`inserted'.
-Example, based on field unit_Price:
 
->
-> data Customer_Price a = Num a =\> Cust_Price {
->
-> >
-> > ...,
 
-<table><tr><th>unit_Price</th>
-<td>a,
-... }
-type instance GetResult (Customer_Price a) Proxy_unit_Price t
-</td></tr></table>
+Example, based on field `unit_Price`:
 
-# a           -- type as is
-
->
-> type instance SetResult (Customer_Price _a) Proxy_unit_Price t
-
-# Customer_Price t      -- set record type per arg to set
-
->
-> instance (Num t) =\>
->
-> >
-> > Has (Customer_Price a) Proxy_unitPrice t        where
-> >
-> > >
-> > > get Cust_Price{unit_Price} _ = unit_Price
-> > > set _ x Cust_Price{..} = Cust_Price{ unit_Price = x, .. }
+```wiki
+    data Customer_Price a = Num a => Cust_Price {
+                                       ...,
+                                       unit_Price  :: a,
+                                       ... }
+    type instance GetResult (Customer_Price a) Proxy_unit_Price t
+           = a           -- type as is
+    type instance SetResult (Customer_Price _a) Proxy_unit_Price t
+           = Customer_Price t      -- set record type per arg to set
+    instance (Num t) =>
+        Has (Customer_Price a) Proxy_unitPrice t        where
+            get Cust_Price{unit_Price} _ = unit_Price
+            set _ x Cust_Price{..} = Cust_Price{ unit_Price = x, .. }
+```
 
 
 (The method definitions are 'uninteresting', compared to the drama to get the types right.)
-The extra complexity to support changing type could be somewhat reduced using a separate \`Set' class with four type parameters, including both as-was and resulting record types, and equality constraints to improve them -- rather than type family SetResult.
-This would mean, though, that the type sugar for Has constraints would not be adequate. Since that sugar is to be visible but the instance definitions are to be 'internal', this proposal prefers to support the sugar.
 
 
-Selecting polymorphic/higher-ranked fields
+The extra complexity to support changing type could be somewhat reduced using a separate `Set` class with four type parameters, including both as-was and resulting record types, and equality constraints to improve them -- rather than type family `SetResult`.
+
+
+This would mean, though, that the type sugar for `Has` constraints would not be adequate. Since that sugar is to be visible but the instance definitions are to be 'internal', this proposal prefers to support the sugar.
+
+### Selecting polymorphic/higher-ranked fields
+
+
 Note that initialising records with polymorphic fields (using record constructor syntax) is not affected. This proposal implements selecting/applying those fields in polymorphic contexts. This includes fields with class-constrained types 'sealed' within the record.
+
+
 To support higher-ranked fields, this proposal follows SORF's approach (with three parameters to Has) to obtain a polymorphic type:
 
->
-> data HR        = HR {rev :: forall a_. \[a_\] -\> \[a_\]}   -- per SPJ
+```wiki
+    data HR	= HR {rev :: forall a_. [a_] -> [a_]}   -- per SPJ
+    fieldLabel rev :: r -> (forall a_. [a_] -> [a_])
+    ===>
+    data Proxy_rev
+    rev :: Has r Proxy_rev t => r -> t
+    rev r = get r (undefined :: Proxy_rev)
+    type instance GetResult r Proxy_rev t = t     -- plain t
+                   -- field's type is whatever's there (it's opaque)
+                   -- improved by the instance constraint
+    type instance SetResult HR Proxy_rev t = HR
+                   -- the H-R type is hidded inside HR
+    instance (t ~ ([a_] -> [a_])) =>              -- same as SORF
+        Has HR Proxy_rev t    where
+            get HR{rev} _ = rev
+```
 
-<table><tr><th>fieldLabel rev</th>
-<td>r -\> (forall a_. \[a_\] -\> \[a_\])
-===\>
-data Proxy_rev
-</td></tr>
-<tr><th>rev</th>
-<td>Has r Proxy_rev t =\> r -\> t
-</td></tr>
-<tr><th>rev r = get r (undefined</th>
-<td>Proxy_rev)
-type instance GetResult r Proxy_rev t = t     -- plain t
--- field's type is whatever's there (it's opaque)
--- improved by the instance constraint
-type instance SetResult HR Proxy_rev t = HR
--- the H-R type is hidded inside HR
-instance (t \~ (\[a_\] -\> \[a_\])) =\>              -- same as SORF
-Has HR Proxy_rev t    where
-get HR{rev} _ = rev
-</td></tr></table>
+### Updating polymorphic/higher-ranked fields
 
 
-Updating polymorphic/higher-ranked fields
 The prototype for this proposal does include a method of updating Higher-ranked fields. SPJ has quickly reviewed the prototype:
-"Your trick with SetTy to support update of polymorphic fields is, I belive, an (ingenious) hack that does not scale. I think it works only for fields that are quantified over one type variable with no constraints.
-So, I think that update of polymorphic fields remains problematic. "
+
+>
+> "Your trick with SetTy to support update of polymorphic fields is, I belive, an (ingenious) hack that does not scale. I think it works only for fields that are quantified over one type variable with no constraints.
+>
+> So, I think that update of polymorphic fields remains problematic. "
+
+
 Note that the "(ingenious)" and unscalable "hack" appears only in compiler-generated code.
+
+
 Is it a requirement to be able to update polymorphic fields? Is it sufficient to be able to update other (monomorphic) fields in records that also contain poly fields?
 
+### Representation hiding/import/export
 
-Representation hiding/import/export
+
 See the discussion under \<Application Programmer's view\> and \<No Mono Record Fields\>. When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desuggarred to use it.)
 
+### Should application programmers declare instances for \`Has'/set?
 
-Should application programmers declare instances for \`Has'/set?
+
 Nothing so far suggests they should. (And there's obvious dangers in allowing it.)
+
+
 But updating through virtual fields might need it. See \<DORF -- comparison to SORF\>\#\<Virtual record selectors\>.
