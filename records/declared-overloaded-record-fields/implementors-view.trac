@@ -9,7 +9,7 @@ A cut-down prototype is attached to this page. (The ugliest hacks removed.)
 
 The fact that DORF has been 'faked' in existing GHC is good evidence that it's a modest change. Furthermore, we can implement H98-style records/fields using the same mechanism.
 
-DORF is to be enabled by a compiler flag ‑XDeclaredOverloadedRecordFields, which implies flag ‑XNoMonoRecordFields, which in turn implies ‑XDisambiguateRecordFields and -XNamedFieldPuns with ‑XRecordWildCards.
+DORF is to be enabled by a compiler flag '''‑XDeclaredOverloadedRecordFields''', which implies flag '''‑XNoMonoRecordFields''', which in turn implies ‑XDisambiguateRecordFields and -XNamedFieldPuns with ‑XRecordWildCards.
 
 Note we do _not_ assume flag ‑XDotPostfixFuncApply; dot notation is not needed by DORF, it's purely syntactic sugar to suit the taste of the programmer.
 
