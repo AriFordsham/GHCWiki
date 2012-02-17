@@ -6,22 +6,24 @@ The implementation has been prototyped in GHC 7.2.1, see
 [ http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021744.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021744.html)
 
 
+A cut-down prototype is attached to this page. (The ugliest hacks removed.)
+
+
 The fact that DORF has been 'faked' in existing GHC is good evidence that it's a modest change. Furthermore, we can implement H98-style records/fields using the same mechanism.
 
 
-DORF is to be enabled by a compiler flag ‑XDeclaredOverloadedRecordFields, which implies flag ‑XNoMonoRecordFields, which in turn implies ‑XDisambiguateRecordFields and -XNamedFieldPuns with ‑XRecordWildCards.
+DORF is to be enabled by a compiler flag **‑XDeclaredOverloadedRecordFields**, which implies flag **‑XNoMonoRecordFields**, which in turn implies ‑XDisambiguateRecordFields and -XNamedFieldPuns with ‑XRecordWildCards.
 
 
-Note we do _not_ assume flag ‑XDotPostfixFuncApply; dot notation is not needed by DORF, it's purely syntactic sugar to suit the taste of the programmer.
+Note we do not assume flag ‑XDotPostfixFuncApply; dot notation is not needed by DORF, it's purely syntactic sugar to suit the taste of the programmer.
 
 
-DORF is implemented through a class `Has' with methods `get' and `set'. (Very similar in principle to SORF.) There's an instance of `Has' for each record/field combination, with the instance generated from the record declaration.
+DORF is implemented through a class `Has` with methods `get` and `set`. (Very similar in principle to SORF.) There's an instance of `Has` for each record/field combination, with the instance generated from the record declaration.
 
 
-Within each instance, get/set are defined in terms of the record's data constructors, using ‑XDisambiguateRecordFields and friends.
+Within each instance, `get/set` are defined in terms of the record's data constructors, using ‑XDisambiguateRecordFields and friends.
 
-
-fieldLabel declaration (data dictionary)
+### fieldLabel declaration (data dictionary)
 
 
 There is to be a new declaration type, examples:
@@ -35,8 +37,7 @@ There is to be a new declaration type, examples:
 
 \[`fieldLabel` is rather long as reserved words go. I'm guessing that field or label would already be heavily used in existing code. Suggestions welcome!\]
 
-
-The `fieldLabel` declaration desugars to:
+`fieldLabel` is not some new ontology in Haskell, it's only sugar. The `fieldLabel` declaration desugars to:
 
 ```wiki
     data Proxy_customer_id                  -- phantom, a type 'peg'
@@ -67,10 +68,10 @@ Using the sugar in the surface syntax (representation) allows for some freedom i
 I've used a phantom/proxy type (in GHC v 7.2.1) to drive type instancing for `Has`.
 
 
-SORF uses a String Kind (which is only partially available with GHC v 7.4.1), with implicit type application (so `get` does not have a proxy argument).
+SORF uses a `String` Kind (which is only partially available with GHC v 7.4.1), with implicit type application (so `get` does not have a proxy argument).
 I'll leave it to the implementors to determine which works best.
 
-`get` is a method of the \`Has' class:
+`get` is a method of the `Has` class:
 
 ```wiki
     get :: (Has r fld t) => r -> fld -> t
@@ -183,7 +184,7 @@ There has been some feedback that there are legitimate use-cases for type-changi
 This proposal does support type changing, but at cost of considerable extra complexity.
 
 
-So the earlier definitions of Has/get/set have been "economical with the truth". Instead:
+So the earlier definitions of `Has/get/set` have been "economical with the truth". Instead:
 
 ```wiki
     class Has r fld t	where
@@ -201,16 +202,16 @@ The type functions are to handle the possibly-changing types:
 ```
 
 
-For monomorphic (non-changing) fields, `GetResult returns``t` and `SetResult` returns `r`, so this amounts to the simpler definitions for Has/get/set given earlier.
+For monomorphic (non-changing) fields, `GetResult` returns `t` and `SetResult` returns `r`, so this amounts to the simpler definitions for `Has/get/set` given earlier.
 
 
 These are type families, not associated types, because in many cases, the result from `get` depends only on `fld`, and the result from `set` depends only on the record type `r`. In a few cases, the type function must be sensitive to the combination of field type and record type.
 
 
-The extra `Has` constraint on set's result is to 'improve' `t` by gathering constraints from the type of `set`'s resulting record type.
+The extra `Has` constraint on `set`'s result is to 'improve' `t` by gathering constraints from the type of `set`'s resulting record type.
 
 
-Note that the field value's type `t` is the type to-be in the result, _not_ the type as-was in the record being updated.
+Note that the field value's type `t` is the type to-be in the result, not the type as-was in the record being updated.
 So the result from set has that type \`inserted'.
 
 
@@ -271,7 +272,7 @@ To support higher-ranked fields, this proposal follows SORF's approach (with thr
 The prototype for this proposal does include a method of updating Higher-ranked fields. SPJ has quickly reviewed the prototype:
 
 >
-> "Your trick with SetTy to support update of polymorphic fields is, I belive, an (ingenious) hack that does not scale. I think it works only for fields that are quantified over one type variable with no constraints.
+> "Your trick with `SetTy` to support update of polymorphic fields is, I belive, an (ingenious) hack that does not scale. I think it works only for fields that are quantified over one type variable with no constraints.
 >
 > So, I think that update of polymorphic fields remains problematic. "
 
@@ -284,7 +285,7 @@ Is it a requirement to be able to update polymorphic fields? Is it sufficient to
 ### Representation hiding/import/export
 
 
-See the discussion under \<Application Programmer's view\> and \<No Mono Record Fields\>. When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desuggarred to use it.)
+See the discussion under \<Application Programmer's view\> and [ http://hackage.haskell.org/trac/ghc/wiki/Records/DeclaredOverloadedRecordFields/NoMonoRecordFields](http://hackage.haskell.org/trac/ghc/wiki/Records/DeclaredOverloadedRecordFields/NoMonoRecordFields). When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desuggarred to use it.)
 
 ### Should application programmers declare instances for \`Has'/set?
 
