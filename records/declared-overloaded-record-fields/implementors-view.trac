@@ -53,7 +53,7 @@ I've used a phantom/proxy type (in GHC v 7.2.1) to drive type instancing for `Ha
 SORF uses a String Kind (which is only partially available with GHC v 7.4.1), with implicit type application (so `get` does not have a proxy argument).
 I'll leave it to the implementors to determine which works best.
 
-`get` is a method of the `Has' class:
+`get` is a method of the `Has` class:
 {{{
     get :: (Has r fld t) => r -> fld -> t
 }}}
