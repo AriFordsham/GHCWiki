@@ -1,14 +1,15 @@
-** Declared Overloaded Record Fields (DORF) **
+# Declared Overloaded Record Fields (DORF)
 
 
 Explained in 5 wiki pages (these proposals are linked but somewhat orthogonal):
-No Mono Record Fields
-DORF -- Application Programmer's view
-DORF -- Implementor's view
-DORF -- Comparison to SORF
-Dot as Postfix Funcion Apply
 
----
+- **[No Mono Record Fields](records/declared-overloaded-record-fields/no-mono-record-fields)**   (precursor to DORF)
+- ** DORF -- Application Programmer's view **     (this page)
+- ** DORF -- Implementor's view **
+- ** DORF -- Comparison to SORF **
+- ** Dot as Postfix Funcion Apply **   (optional syntactic sugar)
+
+## No Mono Record Fields
 
 
 This proposal is a precursor to overloaded record fields.
@@ -28,8 +29,7 @@ Suppressing the function frees up the namespace, to be able to experiment with v
 
 Note that the field name is still valid within the scope of a pattern match, or record update inside the {...} constructor syntax.
 
-
-Import/Export and Representation hiding
+### Import/Export and Representation hiding
 
 
 Since there is no field selector function created, it can't be exported or imported.
@@ -44,15 +44,15 @@ module M( T( x ) )       where
 ```
 
 
-then the existence of field \`y' is hidden;
-type T and field label `x' are exported, but not data constructor MkT, so `x' is unusable.
+then the existence of field `y` is hidden;
+type `T` and field label `x` are exported, but not data constructor `MkT`, so `x` is unusable.
 
 
-(Without the ‑XNoMonoRecordFields flag, field selector function x would be exported.)
+(Without the ‑XNoMonoRecordFields flag, field selector function `x` would be exported.)
 
----
+## Declared Overloaded Record Fields (DORF)
 
----
+## Application Programmer's view
 
 
 This proposal is addressing the "narrow issue" of namespacing for record field names.
@@ -71,19 +71,18 @@ I'm not saying anything about field selection via pattern matching or record con
 
 Currently in Haskell two records in the same module can't share a field name. This is because declaring a field name within a data decl creates a monomorphic selector function; and if it's monomorphic, we can only have one. I think the wiki is characterising the problem incorrectly:
 
-- it's _not_ that the field name appearing in different record decls
-  is ambiguous between the two record types and we need some
-  (syntactical) way of choosing between the different definitions;
+- it's not that the field name appearing in different record decls is ambiguous between the two record types
+  so we need some (syntactical) way of choosing between the different definitions;
 
-- rather, we have one field name, and we lack the syntax/semantics for
-  sharing it between different records.
+- rather, we have one field name, and we lack the syntax/semantics for sharing it between different records.
 
 
 An example: let's say I have a database application with a field (meaning type) customer_id. Then it appears in records for name and address, pricing, order entry, etc. This is not a name 'clash', it's 'intended sharing'. (It really galls me to even put it that way for explanatory purposes. Really it's the **same** customer_id.)
 In data model design you'd typically go about identifying all the fields (types aka attributes) and putting them in a data dictionary. Then you'd construct your records from them. You might (possibly) put the data dictionary in a distinct module, for easy maintenance. But you'd certainly want all the customer-related records in the same module. So a data decl:
 
->
-> data Customer_NameAddress = Cust_NA { customer_id :: Int, ... } 
+```wiki
+    data Customer_NameAddress = Cust_NA { customer_id :: Int, ... } 
+```
 
 
 is _not_ declaring customer_id, it's _using_ (or instancing) an already-declared field for customer_id.
@@ -92,9 +91,9 @@ Similarly, if I have a family of objects, all with a `reset' method, that's not 
 
 What's more, the Haskell 98 field selector (auto-created from the data decl) is half-way to what we want. It's a function:
 
-<table><tr><th>customer_id</th>
-<td>Customer_NameAddress -\> Int
-</td></tr></table>
+```wiki
+    customer_id :: Customer_NameAddress -> Int
+```
 
 
 The DORF proposal generalises that signature: if you want to share a field across different records, its selector function needs to be overloaded to this type:
@@ -104,7 +103,7 @@ The DORF proposal generalises that signature: if you want to share a field acros
 </td></tr></table>
 
 
-The r{ ... } is syntactic sugar for the constraint meaning "record r has field customer_id at type Int".
+The 'r{ ... }' is syntactic sugar for the constraint meaning "record r has field customer_id at type Int".
 
 
 We need a way to declare that a name is available as an overloadable field name (roughly speaking, a class/method definition), proposed syntax:
