@@ -3,11 +3,11 @@
 
 Explained in 5 wiki pages (these proposals are linked but somewhat orthogonal):
 
- * No Mono Record Fields   (precursor to DORF)
- * DORF -- Application Programmer's view
- * DORF -- Implementor's view
- * DORF -- Comparison to SORF
- * Dot as Postfix Funcion Apply   (optional syntactic sugar)
+ * ''' [wiki:Records/DeclaredOverloadedRecordFields/NoMonoRecordFields No Mono Record Fields] '''   (precursor to DORF)
+ * ''' DORF -- Application Programmer's view '''     (this page)
+ * ''' DORF -- Implementor's view '''
+ * ''' DORF -- Comparison to SORF '''
+ * ''' Dot as Postfix Funcion Apply '''   (optional syntactic sugar)
 
 
 
@@ -28,7 +28,7 @@ Suppressing the function frees up the namespace, to be able to experiment with v
 Note that the field name is still valid within the scope of a pattern match, or record update inside the {...} constructor syntax.
 
 
-Import/Export and Representation hiding
+=== Import/Export and Representation hiding ===
 
 Since there is no field selector function created, it can't be exported or imported.
 
