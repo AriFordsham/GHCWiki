@@ -62,6 +62,8 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 
 
 All records solutions are planning on using the dot operator for normal record field selection. We need to consider the [future usage of the dot, particularly as a function composition operator](records/dot-operator).
+
+
 (DORF doesn't insist on dot notation: it's to be syntactic sugar for reverse function application.)
 
 ### Comparisons
