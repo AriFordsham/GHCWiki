@@ -193,9 +193,6 @@ You can update multiple fields at the same time:
 
 Some discussion threads have argued that Haskell's current record update syntax is awkward. The DORF proposal is to implement field update using a polymorphic function. Once this is implemented, alternative syntax could be explored, providing it desugars to a call to `set`.
 
-
-POsted 18-Feb-2012, Anthony Clayden. [Apologies for my wiki formatting and cross-linking -- in haste! and a novice to trac.]
-
-
+Posted 18-Feb-2012, Anthony Clayden. [Apologies for my wiki formatting and cross-linking -- in haste! and a novice to trac.] 
 
 
