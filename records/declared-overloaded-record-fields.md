@@ -7,7 +7,7 @@ Explained in 5 wiki pages (these proposals are linked but somewhat orthogonal):
 - ** DORF -- Application Programmer's view **     (this page)
 - **[DORF -- Implementor's view](records/declared-overloaded-record-fields/implementors-view)**
 - **[DORF -- Comparison to SORF](records/declared-overloaded-record-fields/c-ompare-sorf)**
-- **[Dot as Postfix Funcion Apply](records/declared-overloaded-record-fields/dot-postfix)**   (***optional*** syntactic sugar)
+- **[Dot as Postfix Function Apply](records/declared-overloaded-record-fields/dot-postfix)**   (***optional*** syntactic sugar)
 
 ## Application Programmer's view
 
@@ -19,8 +19,7 @@ This proposal is addressing the "narrow issue" of namespacing for record field n
 I'm avoiding giving implementation details here -- see:
 
 >
-> \<DORF -- Implementor's view\>; and
-> \<DORF -- comparison to SORF\>
+> The Implementor's view and Comparison to SORF   (links above)
 
 
 I'm not saying anything about field selection via pattern matching or record construction using explicit data constructors -- those are to behave as currently (using the approach per ‑XDisambiguateRecordFields and friends).
@@ -45,7 +44,7 @@ In data model design you'd typically go about identifying all the fields (types 
 
 
 is not declaring `customer_id`, it's using (or instancing) an already-declared field for `customer_id`.
-Similarly, if I have a family of objects, all with a `rese`' method, that's not umpteen methods with a 'clash' of names, it's one method with umpteen instances. (And I might create a family of record structures to describe each object, and store the `reset` method within it.)
+Similarly, if I have a family of objects, all with a `reset` method, that's not umpteen methods with a 'clash' of names, it's one method with umpteen instances. (And I might create a family of record structures to describe each object, and store the `reset` method within it.)
 
 
 What's more, the Haskell 98 field selector (auto-created from the data decl) is half-way to what we want. It's a function:
@@ -205,7 +204,7 @@ module M( T( x ) )       where
 ```
 
 
-then you are exporting the `x` field within record type `T`, but _not_ the field selector `x` (nor the generated type 'peg' `Proxy_x`).
+then you are exporting the `x` field within record type `T`, but not the field selector `x` (nor the generated type 'peg' `Proxy_x`).
 
 
 Type `T` and field label `x` are exported, but not data constructor `MkT`, so `x` is unusable.
@@ -274,3 +273,6 @@ You can update multiple fields at the same time:
 
 
 Some discussion threads have argued that Haskell's current record update syntax is awkward. The DORF proposal is to implement field update using a polymorphic function. Once this is implemented, alternative syntax could be explored, providing it desugars to a call to `set`.
+
+
+Posted 18-Feb-2012, Anthony Clayden. \[Apologies for my wiki formatting and cross-linking -- in haste! and a novice to trac.\] 
