@@ -8,6 +8,8 @@ Explained in 5 wiki pages (these proposals are linked but somewhat orthogonal):
  * ''' [wiki:Records/DeclaredOverloadedRecordFields/ImplementorsView DORF -- Implementor's view] '''
  * ''' [wiki:Records/DeclaredOverloadedRecordFields/COmpareSORF DORF -- Comparison to SORF] '''
  * ''' [wiki:Records/DeclaredOverloadedRecordFields/DotPostfix Dot as Postfix Function Apply] '''   ('''''optional''''' syntactic sugar)
+ * ''' [wiki:Records/DeclaredOverloadedRecordFields/PolyRecordPattern Polymorphic Record Patterns] '''   ('''''speculative''''' future)
+
 
 
 

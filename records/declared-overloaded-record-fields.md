@@ -8,6 +8,7 @@ Explained in 5 wiki pages (these proposals are linked but somewhat orthogonal):
 - **[DORF -- Implementor's view](records/declared-overloaded-record-fields/implementors-view)**
 - **[DORF -- Comparison to SORF](records/declared-overloaded-record-fields/c-ompare-sorf)**
 - **[Dot as Postfix Function Apply](records/declared-overloaded-record-fields/dot-postfix)**   (***optional*** syntactic sugar)
+- **[Polymorphic Record Patterns](records/declared-overloaded-record-fields/poly-record-pattern)**   (***speculative*** future)
 
 ## Application Programmer's view
 
