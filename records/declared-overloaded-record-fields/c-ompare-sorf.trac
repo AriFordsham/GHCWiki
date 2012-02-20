@@ -1,5 +1,5 @@
 
-= DORF -- comparison to SORF =
+= DORF -- comparison to SORF (and to TDNR) =
 
 This is a brief point-by-point comparison to
 http://hackage.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields
@@ -18,7 +18,16 @@ The module namespacing in DORF is deliberate, and for exactly the same reason as
 
 In contrast: "The [SORF] proposal ... doesn't allow label names to be scoped: if one module internally uses "field" as a label name then another module can break the abstraction by using the same string "field"." SPJ goes on to discuss a work-round which he sees as "ugly", and concludes "we need scoped instances". DORF does not need any innovations around instances or type inference.
 
-=== Should `get` have a Proxy argument? ===
+'''Wild afterthought:''' 
+ * DORF __does__ need to apply module control/representation hiding to the field selector function.
+ * But if that's controlled, perhaps it doesn't need to control the Proxy type(?)
+ * (In fact, the Proxy type is a bit of an annoyance, with a shadowy existence just out of sight from the application programmer, except for the need to export/import it.)
+ * Perhaps we could use Kinds instead, and take advantage of the inability to control their scope:
+   * Kinds could be just used, not declared.
+   * They could be `String` Kinds or some more abstract/compact/hidden representation.
+
+
+=== Should `get` have a Proxy argument? (and should `set` ?) ===
 
 "This choice does not make a major difference either way." [SPJ]. DORF likewise doesn't care. The prototype does use a Proxy argument, because it's implemented using types not Kinds, and GHC doesn't (yet) have type application.
 
