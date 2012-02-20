@@ -113,7 +113,7 @@ or earlier still (if we implement DORF using proxies):
 ### Updating polymorphic/higher-ranked fields
 
 
-The prototype for this proposal does include a method of updating Higher-ranked fields.
+The prototype for this proposal originally included a method of updating Higher-ranked fields.
 
 
 It used an extra type function `SetTy`, with an extra type argument bound from the definition of method `set`:
@@ -136,11 +136,11 @@ It used an extra type function `SetTy`, with an extra type argument bound from t
 > >
 > > So, I think that update of polymorphic fields remains problematic. "
 
+- We could scale up the hack by providing arbitrarily many forall-bound type variables to `SetTy` (`_a _b _c ...`). How many is more than enough?)
 
-(We could scale up the hack by providing arbitrarily many forall-bound type arguments to `SetTy` (`_a _b _c ...`). How many is more than enough?)
+- But we can't support constraints over the type variables. (Because constraints can't appear on the RHS of a type function instance. Perhaps this could be hacked using Constraints Kinds when they mature? They'd have to be declared on the method `set` within `Has`.)
 
-
-Note that the "(ingenious)" and unscalable "hack" appears only in compiler-generated code.
+- Note that the "(ingenious)" and unscalable "hack" appears only in compiler-generated code.
 
 
 Is it a requirement to be able to update polymorphic fields? Is it sufficient to be able to update other (monomorphic) fields in records that also contain poly fields?
