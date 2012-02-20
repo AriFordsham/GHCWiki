@@ -80,6 +80,33 @@ or earlier still (if we implement DORF using proxies):
     no type Proxy_fullName
 }}}
 
+=== Updating polymorphic/higher-ranked fields ===
+
+The prototype for this proposal does include a method of updating Higher-ranked fields.
+
+It used an extra type function `SetTy`, with an extra type argument bound from the definition of method `set`:
+{{{
+    type family SetTy r fld t _a :: *        -- type of the argument to set into the record
+        ...
+        set :: fld -> (forall _a. SetTy r fld t _a) -> r -> SetResult r fld t
+        ...
+    type instance SetTy HR Proxy_rev t _a = [_a] -> [_a]
+        ...
+        set _ fn HR{..} = HR{rev = fn}        -- now works
+}}}
+
+ SPJ has quickly reviewed the prototype:
+  "Your trick with `SetTy` to support update of polymorphic fields is, I belive, an (ingenious) hack that does not scale. I think it works only for fields that are quantified over one type variable with no constraints.[[BR]]
+  So, I think that update of polymorphic fields remains problematic. "
+
+(We could scale up the hack by providing arbitrarily many forall-bound type arguments to `SetTy` (`_a _b _c ...`). How many is more than enough?)
+
+Note that the "(ingenious)" and unscalable "hack" appears only in compiler-generated code.
+
+Is it a requirement to be able to update polymorphic fields? Is it sufficient to be able to update other (monomorphic) fields in records that also contain poly fields?
+
+
+
 === Relationship to Type Directed Name Resolution [TDNR] ===
 
 DORF is in some ways a reversion to something closer to TDNR (especially dot notation "works with any function"). DORF, SORF and TDNR all use a `Has` constraint, generated from the record/field declaration.
