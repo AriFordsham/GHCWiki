@@ -62,11 +62,11 @@ I'll leave it to the implementors to determine which works best.
 {{{
     data Customer_NameAddress = Cust_NA { customer_id :: Int, ... } 
 }}}
-Does _not_ create a field selector function `customer_id`. Instead it creates a `Has` instance:
+Does __not__ create a field selector function `customer_id`. Instead it creates a `Has` instance:
 {{{
     instance (t ~ Int) 
        => Has Customer_NameAddress Proxy_customer_id t where
-               get Cust_NA{customer_id} = customer_id
+               get Cust_NA{customer_id} _ = customer_id
 }}}
 Note the bare `t` with type equality constraint. This is unashamedly stolen from SORF's "functional-dependency-like mechanism (but using equalities) for the result type". So type inference binds to this instance based only on the record type and field (type 'peg'), then 'improves' the type of the result.
 The definition of `get` uses ‑XDisambiguateRecordFields style (with ‑XNamedFieldPuns).
@@ -84,7 +84,7 @@ Update uses method `set` from the `Has` class:
 {{{
         set :: (Has r fld t) => fld -> t -> r -> r
 }}}
-`set`s instances are defined using explicit data constructor:
+`set`'s instances are defined using explicit data constructor:
 {{{
     instance (t ~ String) =>
         Has Customer_NameAddress Proxy_firstName t where
