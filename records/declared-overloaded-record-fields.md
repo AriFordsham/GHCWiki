@@ -67,23 +67,33 @@ The `r{ ... }` is syntactic sugar for the constraint meaning "record `r` has fie
 
 We need a way to declare that a name is available as an overloadable field name (roughly speaking, a class/method definition), proposed syntax:
 
+**Option One: new `fieldLabel` style of declaration:**
+
 ```wiki
     fieldLabel customer_id :: r -> Int
 ```
 
+>
+> (The `r{ ... }` is added by the desugarer.)
 
-(The `r{ ... }` is added by the desugarer.)
+**Option Two: explicit record constraint on the function:**
+
+```wiki
+    customer_id :: r{ customer_id :: Int} => r -> Int          -- field name same as the declared function
+```
+
+>
+> (See discussion at [Wild afterthought](records/declared-overloaded-record-fields/c-ompare-sorf#the-string-type-parameter-to-has-,-and-scope-control).)
 
 
 The `-> Int` means the field's domain (type) is `Int` -- it's just a type.
 We might also want to constrain the record -- for example to be sure it is savable to persistent storage:
 
 ```wiki
-    fieldLabel unitPrice :: (Save r, Num t) => r -> t
+    fieldLabel unitPrice :: (Save r, Num t) => r -> t    -- again the `r{ ... }` gets added as a further constraint
+-- or
+    unitPrice :: (r{ unitPrice :: t}, Save r, Num t) => r -> t     -- again repeated field name
 ```
-
-
-(Again the `r{ ... }` gets added as a further constraint.)
 
 
 Now we can use the field in a record, and that in effect declares an instance for the field/record. All these definitions are in the same module:
@@ -98,8 +108,10 @@ Now we can use the field in a record, and that in effect declares an instance fo
     data Customer_Order = Cust_Order { customer_id :: Int, ... }
 ```
 
+### Field Selection
 
-Then a field selection expression like:
+
+With those records declared, a field selection expression like:
 
 > `... (customer_id r) ...`          -- H98 style field application
 
@@ -125,7 +137,9 @@ From here upwards, the `r{ ... }` constraint is just a constraint, and gets merg
 The type inferred would be:
 
 ```wiki
-    fullName :: r{ firstName, lastName :: String} => r -> String
+    fullName :: r{ firstName, lastName :: String} => r -> String               -- could declare this for yourself
+                                                 -- note this is __not__ like a field label decl (Option Two)
+                                                 -- because the function's name is different to the field(s)
 ```
 
 
@@ -137,7 +151,7 @@ which is eliding:
 ```
 
 
-And if you think that's very close to the type of a field selector function, you'd be right. Here's some more examples of pseudo- or 'virtual' fields, using dot notation:
+And if you think that's very close to the type of a field selector function, you'd be right. Here's some more examples of field selection using **pseudo-** or** 'virtual' **fields, with dot notation:
 
 ```wiki
     customer.fullName
