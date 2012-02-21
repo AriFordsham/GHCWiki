@@ -6,7 +6,7 @@ Explained in 5 wiki pages (these proposals are linked but somewhat orthogonal):
 - **[No Mono Record Fields](records/declared-overloaded-record-fields/no-mono-record-fields)**   (precursor to DORF)
 - ** DORF -- Application Programmer's view **     (this page)
 - **[DORF -- Implementor's view](records/declared-overloaded-record-fields/implementors-view)**
-- **[DORF -- Comparison to SORF](records/declared-overloaded-record-fields/c-ompare-sorf)**
+- **[DORF -- Comparison to SORF (and TDNR)](records/declared-overloaded-record-fields/c-ompare-sorf)**
 - **[Dot as Postfix Function Apply](records/declared-overloaded-record-fields/dot-postfix)**   (***optional*** syntactic sugar)
 - **[Polymorphic Record Patterns](records/declared-overloaded-record-fields/poly-record-pattern)**   (***speculative*** future)
 
@@ -14,13 +14,13 @@ Explained in 5 wiki pages (these proposals are linked but somewhat orthogonal):
 
 
 This proposal is addressing the "narrow issue" of namespacing for record field names.
-[ http://hackage.haskell.org/trac/ghc/wiki/Records](http://hackage.haskell.org/trac/ghc/wiki/Records)
+[Records](records)
 
 
 I'm avoiding giving implementation details here -- see:
 
 >
-> The Implementor's view and Comparison to SORF   (links above)
+> The Implementor's view; and Comparison to SORF   (links above)
 
 
 I'm not saying anything about field selection via pattern matching or record construction using explicit data constructors -- those are to behave as currently (using the approach per ‑XDisambiguateRecordFields and friends).
@@ -172,10 +172,13 @@ No! This is regular business-as-usual familiar name clash, and it's what the mod
 ### Import/Export and Representation hiding
 
 
-\[See \<No Mono Record Fields\>, which is implied by DORF.\]
+\[See [No Mono Record Fields](records/declared-overloaded-record-fields/no-mono-record-fields), which is implied by DORF.\]
 
 
 Since there is only a single (overloaded) field selector function created, we either have to export it always, or hide it always (that is, we can't control which record instances get exported).
+
+
+But we can control at a record and field level how much of the representation gets revealed.
 
 
 The field selector function is separately declared vs. the records and their fields, so must be exported separately. For example:
@@ -191,7 +194,7 @@ module M( x )       where
 Here only the field selector function `x` is exported. The representation is abstract, the client can't construct or dismantle a record type `T`;
 
 >
-> field `y` is hidden altogether.
+> The existence of field `y` is hidden altogether.
 
 
 If you say:
@@ -208,10 +211,10 @@ module M( T( x ) )       where
 then you are exporting the `x` field within record type `T`, but not the field selector `x` (nor the generated type 'peg' `Proxy_x`).
 
 
-Type `T` and field label `x` are exported, but not data constructor `MkT`, so `x` is unusable.
+Type `T` and field label `x` are exported, but not data constructor `MkT`, so `x` is (almost) unusable. (It can be used to update an existing record (without changing its record constructor) using syntax: `r{ x = 57 }`.)
 
-
-The existence of field `y` is hidden altogether.
+>
+> The existence of field `y` is hidden altogether.
 
 ### Field Update for Overloadable Record Fields
 
@@ -220,9 +223,8 @@ You can (continue to) use pattern matching and data constructor tagging for reco
 
 ```wiki
     case r of {
-     Cust_Price {unit_Price, ..}
-          -> Cust_Price {unit_Price = unit_Price * 1.05, .. }
-    }         -- increases Price by 5%
+      Cust_Price {unit_Price, ..}    -> Cust_Price {unit_Price = unit_Price * 1.05, .. }
+      }                                          -- increases Price by 5%
 ```
 
 
@@ -257,7 +259,7 @@ Behind the scenes, the update syntax with an expression prefix to the `{ ... }`
 ```
 
 
-\[See \<DORF -- Implementor's view\> for what the Proxy is doing.\]
+\[See [DORF -- Implementor's view](records/declared-overloaded-record-fields/implementors-view) for what the Proxy is doing.\]
 
 
 Normal type inference/instance resolution will find the record type for `myPrice`, and therefore the correct instance to apply the update.
@@ -269,8 +271,8 @@ You can update multiple fields at the same time:
     myCustNA { firstName = "Fred", lastName = "Dagg" }
 ```
 
-
-\[There's a poor story to tell here in implementation terms: we split into two calls to `set`, one nested inside the other. It's wasteful to build the intermediate record. Worse, the two fields' types might be parametric in the record type or polymorphically related (perhaps one is a method to apply to the other), then we get a type failure on the intermediate record.\]
+>
+> \[There's a poor story to tell here in implementation terms: we split into two calls to `set`, one nested inside the other. It's wasteful to build the intermediate record. Worse, the two fields' types might be parametric in the record type or polymorphically related (perhaps one is a method to apply to the other), then we get a type failure on the intermediate record.\]
 
 
 Some discussion threads have argued that Haskell's current record update syntax is awkward. The DORF proposal is to implement field update using a polymorphic function. Once this is implemented, alternative syntax could be explored, providing it desugars to a call to `set`.
