@@ -75,7 +75,7 @@ Perhaps then we could avoid the need for the new `fieldLabel`, instead this decl
 Did that just re-open the back door to the abstraction?
 
 ```wiki
-       e { x = True } ===> set (undefined ::: "x") True e       -- desugarred
+       e{ x = True } ===> set (undefined ::: "x") True e       -- desugarred
 ```
 
 >
@@ -85,7 +85,7 @@ Did that just re-open the back door to the abstraction?
 > So I can break the abstraction by updating a record/field I can't even `get` ??
 
 >
-> Also, without the signature for `customer_id`, I don't know its result type. So I can't efficitently generate type instances for `GetResult`. (That is, I'd generate a type instance for each record type it appears in, with every one returning result `Int`.)
+> Also, without the signature for `customer_id`, I don't know its result type. So I can't cleanly generate type instances for `GetResult`. (That is, I'd generate a type instance for each record type it appears in, with every one returning result `Int`.)
 
 ### Should `get` have a Proxy argument? (and should `set` ?)
 
