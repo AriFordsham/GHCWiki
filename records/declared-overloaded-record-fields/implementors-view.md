@@ -96,18 +96,18 @@ Does not create a field selector function `customer_id`. Instead it creates a `H
 Note the bare `t` with type equality constraint. This is unashamedly stolen from SORF's "functional-dependency-like mechanism (but using equalities) for the result type". So type inference binds to this instance based only on the record type and field (type 'peg'), then 'improves' the type of the result.
 The definition of `get` uses ‑XDisambiguateRecordFields style (with ‑XNamedFieldPuns).
 
+>
+> \[It's a wart that in the record declaration, we've had to repeat the type of `customer_id` when the `fieldLabel` decl has already stipulated `Int`. It is legal syntax to omit the type in the record decl, but that currently has a different effect:
+>
+> ```wiki
+>         data ... = Cust_NA { customer_id, custName :: String, ... }
+> ```
+>
+>
+> currently means `customer_id` is to be same type as `custName`.
 
-\[It's a wart that in the record declaration, we've had to repeat the type of `customer_id` when the `fieldLabel` decl has already stipulated `Int`. It is legal syntax to omit the type in the record decl, but that currently has a different effect:
-
-```wiki
-    data ... = Cust_NA { customer_id, custName :: String, ... }
-```
-
-
-currently means `customer_id` is to be same type as `custName`.
-
-
-Opportunity for improvement! \]
+>
+> Opportunity for improvement! \]
 
 ### Record/field update
 
