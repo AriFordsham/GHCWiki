@@ -43,23 +43,45 @@ Perhaps then we could avoid the need for the new `fieldLabel`, instead this decl
                                                                  -- field type same as the function's result
 ```
 
-
-makes customer_id available as a field label. (That is, the record constraint is not added by the compiler.)
+>
+> makes customer_id available as a field label. (That is, the record constraint is not added by the compiler, you must put it explicitly.)
 
 >
-> (The compiler still needs to generate the binding for `customer_id = get` -- assuming proxy argument not needed.)
+> (The compiler still needs to generate the binding for `customer_id = Library.Has.get` -- eta-reduced, because I'm assuming the proxy/Kind argument is not needed.)
 
 >
 > \[Phew! avoided a reserved word.\]
 
 >
-> Note that declaration is different to something like:
+> \[I'm liking this, it's getting more minimal: If you don't want field selector functions, don't declare them. The instances for `Has/get/set` (generated from the record decl) don't need them, only the 'peg' provided by the Kind. Occam's razor rules!
+
+>
+> Perhaps we then provide something like [Polymorphic Record Pattern](records/declared-overloaded-record-fields/poly-record-pattern) as an alternative record access mechanism??\]
+
+>
+> Note that declaration for customer_id is different to something like:
 >
 > ```wiki
 >         fullName :: r{ firstName, lastName :: String } => r -> String   -- yes, an explicit record constraint,
 >                                                                  -- but: field name(s) different to the declared function
 >                                                                  -- field type not nec. same as the function's result
 > ```
+>
+>
+> The program must provide a binding.
+
+**Except ... (sober reflection):** 
+Did that just re-open the back door to the abstraction?
+
+```wiki
+       e { x = True } ===> set (undefined ::: "x") True e       -- desugarred
+```
+
+>
+> ?I didn't need `e`'s record type in scope nor its field `x` to call `set`.
+
+>
+> So I can break the abstraction by updating a record/field I can't even `get` ??
 
 ### Should `get` have a Proxy argument? (and should `set` ?)
 
@@ -69,7 +91,7 @@ makes customer_id available as a field label. (That is, the record constraint is
 ### Higher Rank Types and Type Functions
 
 
-DORF follows SORF in using a "functional-dependency-like mechanism (but using equalities) " to manage the type inference for Has/get/set.
+DORF follows SORF in using a "functional-dependency-like mechanism (but using equalities) " to manage the type inference for `Has/get/set`.
 
 ### Virtual record selectors
 
@@ -117,6 +139,7 @@ To answer SPJ's question "what does `e { x = True }` mean if there are lots of "
 
 ```wiki
    e { x = True } :: r{ x :: Bool} => r
+   e { x = True } ===> set (undefined :: Proxy_x) True e            -- desugarred call
 ```
 
 

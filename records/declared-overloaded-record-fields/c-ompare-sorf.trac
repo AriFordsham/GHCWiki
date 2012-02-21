@@ -18,8 +18,8 @@ The module namespacing in DORF is deliberate, and for exactly the same reason as
 In contrast: "The [SORF] proposal ... doesn't allow label names to be scoped: if one module internally uses "field" as a label name then another module can break the abstraction by using the same string "field"." SPJ goes on to discuss a work-round which he sees as "ugly", and concludes "we need scoped instances". DORF does not need any innovations around instances or type inference.
 
 '''Wild afterthought:''' 
- * DORF __does__ need to apply module control/representation hiding to the field selector function.
- * But if that's controlled, perhaps it doesn't need to control the Proxy type(?)
+ * DORF __does__ need to apply module control/representation hiding to the __field selector function__.
+ * But if that's controlled, perhaps it __doesn't__ need to control the Proxy type(?)
  * (In fact, the Proxy type is a bit of an annoyance, with a shadowy existence just out of sight from the application programmer, except for the need to export/import it.)
  * Perhaps we could use Kinds instead, and ''take advantage of'' the __in__ability to control their scope:
    * Kinds could be just used, not declared.
@@ -33,19 +33,32 @@ Perhaps then we could avoid the need for the new `fieldLabel`, instead this decl
                                                                  -- field name same as the declared function
                                                                  -- field type same as the function's result
 }}}
-makes customer_id available as a field label. (That is, the record constraint is __not__ added by the compiler.)
+    makes customer_id available as a field label. (That is, the record constraint is __not__ added by the compiler, you must put it explicitly.)
 
-    (The compiler still needs to generate the binding for `customer_id = get` -- assuming proxy argument not needed.)
+    (The compiler still needs to generate the binding for `customer_id = Library.Has.get` -- eta-reduced, because I'm assuming the proxy/Kind argument is not needed.)
 
     [Phew! avoided a reserved word.]
 
-    Note that declaration is different to something like:
+    [I'm liking this, it's getting more minimal: If you don't want field selector functions, don't declare them. The instances for `Has/get/set` (generated from the record decl) don't need them, only the 'peg' provided by the Kind. Occam's razor rules!
+
+    Perhaps we then provide something like [wiki:Records/DeclaredOverloadedRecordFields/PolyRecordPattern Polymorphic Record Pattern] as an alternative record access mechanism??]
+
+    Note that declaration for customer_id is different to something like:
 {{{
         fullName :: r{ firstName, lastName :: String } => r -> String   -- yes, an explicit record constraint,
                                                                  -- but: field name(s) different to the declared function
                                                                  -- field type not nec. same as the function's result
 }}}
+    The program must provide a binding.
 
+'''Except ... (sober reflection):''' 
+Did that just re-open the back door to the abstraction?
+{{{
+       e { x = True } ===> set (undefined ::: "x") True e       -- desugarred
+}}}
+    ?I didn't need `e`'s record type in scope nor its field `x` to call `set`.
+
+    So I can break the abstraction by updating a record/field I can't even `get` ??
 
 
 === Should `get` have a Proxy argument? (and should `set` ?) ===
@@ -55,7 +68,7 @@ makes customer_id available as a field label. (That is, the record constraint is
 
 === Higher Rank Types and Type Functions ===
 
-DORF follows SORF in using a "functional-dependency-like mechanism (but using equalities) " to manage the type inference for Has/get/set.
+DORF follows SORF in using a "functional-dependency-like mechanism (but using equalities) " to manage the type inference for `Has/get/set`.
 
 === Virtual record selectors ===
 
@@ -91,6 +104,7 @@ SPJ is "not very happy with any of this" (that is, any of the SORF approach to f
 To answer SPJ's question "what does `e { x = True }` mean if there are lots of "`x`" fields in scope? ": Under DORF, there is only a single "`x`" in scope(overloaded to appear in many record types). So
 {{{
    e { x = True } :: r{ x :: Bool} => r
+   e { x = True } ===> set (undefined :: Proxy_x) True e            -- desugarred call
 }}}
 
 [**] changing the type of records fields at update seems to be a required feature. DORF has implemented it to be compatible with H98, but this adds considerable complexity. We avoid the question of whether it's desirable.
