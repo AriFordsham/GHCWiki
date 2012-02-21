@@ -9,9 +9,9 @@ A cut-down prototype is attached to this page. (The ugliest hacks removed.)
 
 The fact that DORF has been 'faked' in existing GHC is good evidence that it's a modest change. Furthermore, we can implement H98-style records/fields using the same mechanism.
 
-DORF is to be enabled by a compiler flag '''‑XDeclaredOverloadedRecordFields''', which implies flag '''‑XNoMonoRecordFields''', which in turn implies ‑XDisambiguateRecordFields and -XNamedFieldPuns with ‑XRecordWildCards.
+DORF is to be enabled by a compiler flag '''‑XDeclaredOverloadedRecordFields''', which implies flag '''[wiki:Records/DeclaredOverloadedRecordFields/NoMonoRecordFields ‑XNoMonoRecordFields]''', which in turn implies ‑XDisambiguateRecordFields and -XNamedFieldPuns with ‑XRecordWildCards.
 
-Note we do __not__ assume flag ‑XDotPostfixFuncApply; dot notation is not needed by DORF, it's purely syntactic sugar to suit the taste of the programmer.
+Note we do __not__ assume flag '''[wiki:Records/DeclaredOverloadedRecordFields/DotPostfix ‑XDotPostfixFuncApply]'''; dot notation is not needed by DORF, it's purely syntactic sugar to suit the taste of the programmer.
 
 DORF is implemented through a class `Has` with methods `get` and `set`. (Very similar in principle to SORF.) There's an instance of `Has` for each record/field combination, with the instance generated from the record declaration.
 
@@ -208,11 +208,11 @@ Is it a requirement to be able to update polymorphic fields? Is it sufficient to
 
 === Representation hiding/import/export ===
 
-See the discussion under <Application Programmer's view> and http://hackage.haskell.org/trac/ghc/wiki/Records/DeclaredOverloadedRecordFields/NoMonoRecordFields. When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desuggarred to use it.)
+See the discussion under [wiki:Records/DeclaredOverloadedRecordFields#ApplicationProgrammersview Application Programmer's view] and [wiki:Records/DeclaredOverloadedRecordFields/NoMonoRecordFields No Mono Record Fields]. When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desuggarred to use it.)
 
 === Should application programmers declare instances for `Has/set`? === 
 
 Nothing so far suggests they should. (And there's obvious dangers in allowing it.)
 
-But updating through virtual fields might need it. See <DORF -- comparison to SORF>#<Virtual record selectors>.
+But updating through virtual fields might need it. See [wiki:Records/DeclaredOverloadedRecordFields/COmpareSORF#Virtualrecordselectors Virtual Record selectors].
 
