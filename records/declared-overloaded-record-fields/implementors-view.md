@@ -48,7 +48,10 @@ There is to be a new declaration type, examples:
 ```
 
 
-That is: the `r{ ... }` constraint is added by the desugarer (and will be further desugarred to a `Has` constraint):
+That is: the `r{ ... }` constraint is added by the desugarer (and will be further desugarred to a `Has` constraint).
+
+>
+> \[Or perhaps the new `fieldLabel` declaration isn't needed. See a *very speculative* discussion at [Wilder aftererthought](records/declared-overloaded-record-fields/c-ompare-sorf#the-string-type-parameter-to-has-,-and-scope-control) \]
 
 ### Syntactic sugar for `Has`
 

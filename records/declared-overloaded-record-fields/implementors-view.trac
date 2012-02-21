@@ -36,7 +36,9 @@ There is to be a new declaration type, examples:
 
     unit_Price :: (r{ unit_Price :: t}, Save r, Num t) => r -> t
 }}}
-That is: the `r{ ... }` constraint is added by the desugarer (and will be further desugarred to a `Has` constraint):
+That is: the `r{ ... }` constraint is added by the desugarer (and will be further desugarred to a `Has` constraint).
+
+    [Or perhaps the new `fieldLabel` declaration isn't needed. See a ''__very__ speculative'' discussion at [wiki:Records/DeclaredOverloadedRecordFields/COmpareSORF#TheStringtypeparametertoHasandScopecontrol Wilder aftererthought] ]
 
 === Syntactic sugar for `Has` ===
 
