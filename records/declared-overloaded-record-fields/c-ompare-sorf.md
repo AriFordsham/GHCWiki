@@ -68,7 +68,20 @@ Perhaps then we could avoid the need for the new `fieldLabel`, instead this decl
 > ```
 >
 >
-> The programmer must provide a binding.
+> The program must provide a binding.
+
+**Except ... (sober reflection):** 
+Did that just re-open the back door to the abstraction?
+
+```wiki
+       e { x = True } ===> set (undefined ::: "x") True e       -- desugarred
+```
+
+>
+> ?I didn't need `e`'s record type in scope nor its field `x` to call `set`.
+
+>
+> So I can break the abstraction by updating a record/field I can't even `get` ??
 
 ### Should `get` have a Proxy argument? (and should `set` ?)
 
