@@ -59,7 +59,13 @@ Did that just re-open the back door to the abstraction?
 }}}
     ?I didn't need `e`'s record type in scope nor its field `x` to call `set`.
 
-    So I can break the abstraction by updating a record/field I can't even `get` ??
+    So I can break the abstraction by updating a record/field I can't even `get` ?? Perhaps the desugarring should be:
+{{{
+                ===> set (undefined ::: "x") (True `asTypeOf` x (set (undefined ::: "x") True e)) e
+                                                   --         ^^^ make sure the selector function is in scope
+                                                   --         (and with the right types inferencable)
+                                                   --         yeuch!! with bells on 
+}}}
 
     Also, without the signature for `customer_id`, I don't know its result type. So I can't cleanly generate type instances for `GetResult`. (That is, I'd generate a type instance for each record type it appears in, with every one returning result `Int`.)
 
