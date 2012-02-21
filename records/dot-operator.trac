@@ -131,3 +131,6 @@ Or would this syntax alway need to be applied?
 {{{
 echo . delta $ charlie@beta@alpha@r
 }}}
+
+
+'''See also:''' [wiki:Records/DeclaredOverloadedRecordFields/DotPostfix Dot as Postfix Function Apply], part of the Declared Overloaded Record Fields proposal, where a record selector is just a function (overloaded). So dot notation is just postfix (reverse) function application (tight-binding), and can be used for any function. -- AntC 22-Feb-2012
