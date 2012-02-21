@@ -177,7 +177,7 @@ Type `T` and field label `x` are exported, but not data constructor `MkT`, so `x
 You can (continue to) use pattern matching and data constructor tagging for record update:
 {{{
     case r of {
-      Cust_Price {unit_Price, ..}    -> Cust_Price {unit_Price = unit_Price * 1.05, .. }
+      Cust_Price{ unit_Price, .. }    -> Cust_Price{ unit_Price = unit_Price * 1.05, .. }
       }                                          -- increases Price by 5%
 }}}
 (This uses ‑XDisambiguateRecordFields, -XRecordWildCards and ‑XNamedFieldPuns -- all mature GHC extensions.)
@@ -188,14 +188,14 @@ The new part is polymorphic record update:
 }}}
 Returns a record with same fields as `myPrice`, except a different `unit_Price`. Note that the update can change the type of a field (if the record declaration is polymorphic).
 
-Note that upon first encountering that expression, we don't know the record types (because `unit_Price` is overloaded). So the types initially inferred are:
+Upon first encountering that expression, we don't know the record types (because `unit_Price` is overloaded). So the types initially inferred are:
 {{{
     <expr>  :: r { unit_Price :: Int } => r
     myPrice :: _r{ unit_Price :: t }   => _r
 }}}
 That is, the update might be changing the record type as well as the field type -- in case that the record type is parametric over the field type.
 
-Behind the scenes, the update syntax with an expression prefix to the `{ ... }` is syntactic sugar for a call to the polymorphic record update method `set`:
+Behind the scenes, the update syntax with an expression prefix `e{ ... }` (as opposed to a data constructor `MkT{ .. }`) is syntactic sugar for a call to the polymorphic record update method `set`:
 {{{
     set (undefined :: Proxy_unit_Price) (72 :: Int) myPrice
 }}}
@@ -205,7 +205,7 @@ Normal type inference/instance resolution will find the record type for `myPrice
 
 You can update multiple fields at the same time:
 {{{
-    myCustNA { firstName = "Fred", lastName = "Dagg" }
+    myCustNA{ firstName = "Fred", lastName = "Dagg" }
 }}}
     [There's a poor story to tell here in implementation terms: we split into two calls to `set`, one nested inside the other. It's wasteful to build the intermediate record. Worse, the two fields' types might be parametric in the record type or polymorphically related (perhaps one is a method to apply to the other), then we get a type failure on the intermediate record.]
 

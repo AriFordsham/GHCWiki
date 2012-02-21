@@ -237,7 +237,7 @@ You can (continue to) use pattern matching and data constructor tagging for reco
 
 ```wiki
     case r of {
-      Cust_Price {unit_Price, ..}    -> Cust_Price {unit_Price = unit_Price * 1.05, .. }
+      Cust_Price{ unit_Price, .. }    -> Cust_Price{ unit_Price = unit_Price * 1.05, .. }
       }                                          -- increases Price by 5%
 ```
 
@@ -255,7 +255,7 @@ The new part is polymorphic record update:
 Returns a record with same fields as `myPrice`, except a different `unit_Price`. Note that the update can change the type of a field (if the record declaration is polymorphic).
 
 
-Note that upon first encountering that expression, we don't know the record types (because `unit_Price` is overloaded). So the types initially inferred are:
+Upon first encountering that expression, we don't know the record types (because `unit_Price` is overloaded). So the types initially inferred are:
 
 ```wiki
     <expr>  :: r { unit_Price :: Int } => r
@@ -266,7 +266,7 @@ Note that upon first encountering that expression, we don't know the record type
 That is, the update might be changing the record type as well as the field type -- in case that the record type is parametric over the field type.
 
 
-Behind the scenes, the update syntax with an expression prefix to the `{ ... }` is syntactic sugar for a call to the polymorphic record update method `set`:
+Behind the scenes, the update syntax with an expression prefix `e{ ... }` (as opposed to a data constructor `MkT{ .. }`) is syntactic sugar for a call to the polymorphic record update method `set`:
 
 ```wiki
     set (undefined :: Proxy_unit_Price) (72 :: Int) myPrice
@@ -282,7 +282,7 @@ Normal type inference/instance resolution will find the record type for `myPrice
 You can update multiple fields at the same time:
 
 ```wiki
-    myCustNA { firstName = "Fred", lastName = "Dagg" }
+    myCustNA{ firstName = "Fred", lastName = "Dagg" }
 ```
 
 >
