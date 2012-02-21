@@ -124,7 +124,7 @@ uses familiar type instance resolution to figure out from record type `r` how to
 > `... r.customer_id ...`
 
 
-See \<Dot as Postfix Func Apply\> for that dot notation, but note that nothing in this proposal assumes dot notation will be needed.\]
+See [Dot as Postfix Function Apply](records/declared-overloaded-record-fields/dot-postfix) for that dot notation, but note that nothing in this proposal assumes dot notation will be needed.\]
 
 
 From here upwards, the `r{ ... }` constraint is just a constraint, and gets merged with other constraints. For example, you could define a function:
