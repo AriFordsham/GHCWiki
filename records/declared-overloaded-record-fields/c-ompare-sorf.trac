@@ -95,6 +95,7 @@ SPJ is "not very happy with any of this" (that is, any of the SORF approach to f
 To answer SPJ's question "what does `e { x = True }` mean if there are lots of "`x`" fields in scope? ": Under DORF, there is only a single "`x`" in scope(overloaded to appear in many record types). So
 {{{
    e { x = True } :: r{ x :: Bool} => r
+   e { x = True } ===> set (undefined :: Proxy_x) True e            -- desugarred call
 }}}
 
 [**] changing the type of records fields at update seems to be a required feature. DORF has implemented it to be compatible with H98, but this adds considerable complexity. We avoid the question of whether it's desirable.

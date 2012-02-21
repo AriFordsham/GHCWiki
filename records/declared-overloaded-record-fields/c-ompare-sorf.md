@@ -126,6 +126,7 @@ To answer SPJ's question "what does `e { x = True }` mean if there are lots of "
 
 ```wiki
    e { x = True } :: r{ x :: Bool} => r
+   e { x = True } ===> set (undefined :: Proxy_x) True e            -- desugarred call
 ```
 
 
