@@ -40,6 +40,7 @@ Perhaps then we could avoid the need for the new `fieldLabel`, instead this decl
 ```wiki
     customer_id :: r{ customer_id :: Int } => r -> Int           -- explicit record constraint
                                                                  -- field name same as the declared function
+                                                                 -- record type same as the function's argument
                                                                  -- field type same as the function's result
 ```
 
