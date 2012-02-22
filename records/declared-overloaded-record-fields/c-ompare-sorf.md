@@ -45,7 +45,7 @@ Perhaps then we could avoid the need for the new `fieldLabel`, instead this decl
 ```
 
 >
-> makes customer_id available as a field label. (That is, the record constraint is not added by the compiler, you must put it explicitly.)
+> makes `customer_id` available as a field label. (That is, the record constraint is not added by the compiler, you must put it explicitly.)
 
 >
 > (The compiler still needs to generate the binding for `customer_id = Library.Has.get` -- eta-reduced, because I'm assuming the proxy/Kind argument is not needed.)
@@ -75,7 +75,7 @@ Perhaps then we could avoid the need for the new `fieldLabel`, instead this decl
 Did that just re-open the back door to the abstraction?
 
 ```wiki
-       e{ x = True } ===> set (undefined ::: "x") True e       -- desugarred
+       e{ x = True } ===> set (undefined ::: "x") True e       -- desugarred to use a String Kind
 ```
 
 >

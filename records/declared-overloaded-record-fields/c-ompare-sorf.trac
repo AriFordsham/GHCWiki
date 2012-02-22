@@ -34,7 +34,7 @@ Perhaps then we could avoid the need for the new `fieldLabel`, instead this decl
                                                                  -- record type same as the function's argument
                                                                  -- field type same as the function's result
 }}}
-    makes customer_id available as a field label. (That is, the record constraint is __not__ added by the compiler, you must put it explicitly.)
+    makes `customer_id` available as a field label. (That is, the record constraint is __not__ added by the compiler, you must put it explicitly.)
 
     (The compiler still needs to generate the binding for `customer_id = Library.Has.get` -- eta-reduced, because I'm assuming the proxy/Kind argument is not needed.)
 
@@ -55,7 +55,7 @@ Perhaps then we could avoid the need for the new `fieldLabel`, instead this decl
 '''Except ... (sober reflection):''' 
 Did that just re-open the back door to the abstraction?
 {{{
-       e{ x = True } ===> set (undefined ::: "x") True e       -- desugarred
+       e{ x = True } ===> set (undefined ::: "x") True e       -- desugarred to use a String Kind
 }}}
     ?I didn't need `e`'s record type in scope nor its field `x` to call `set`.
 
