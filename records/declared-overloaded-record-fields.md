@@ -40,7 +40,7 @@ An example: let's say I have a database application with a field (meaning type) 
 In data model design you'd typically go about identifying all the fields (types aka attributes) and putting them in a data dictionary. Then you'd construct your records from them. You might (possibly) put the data dictionary in a distinct module, for easy maintenance. But you'd certainly want all the customer-related records in the same module. So a data decl:
 
 ```wiki
-    data Customer_NameAddress = Cust_NA { customer_id :: Int, ... } 
+    data Customer_NameAddress = Cust_NA{ customer_id :: Int, ... } 
 ```
 
 
@@ -287,6 +287,16 @@ You can update multiple fields at the same time:
 
 >
 > \[There's a poor story to tell here in implementation terms: we split into two calls to `set`, one nested inside the other. It's wasteful to build the intermediate record. Worse, the two fields' types might be parametric in the record type or polymorphically related (perhaps one is a method to apply to the other), then we get a type failure on the intermediate record.\]
+
+
+Note that where there is a genuine business-as-usual name clash you'd need qualified names in polymorphic update syntax, as currently:
+
+```wiki
+    someCust2 = someCust{ My.customer_id = 57, ... }
+```
+
+
+That is, there'd be no inference from the type of `someCust` to figure out which field label you're using. (That's because in general we can't infer the type of the expression prefixing the `{ ... }` update.)
 
 
 Some discussion threads have argued that Haskell's current record update syntax is awkward. The DORF proposal is to implement field update using a polymorphic function. Once this is implemented, alternative syntax could be explored, providing it desugars to a call to `set`.
