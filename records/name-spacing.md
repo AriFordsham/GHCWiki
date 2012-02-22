@@ -222,6 +222,9 @@ Under no circumstances, however, will the notation x.n contribute in any way in 
 Note that this means it is possible to improve upon Frege in the number of cases where the type can be inferred - we could look to see if there is only one record namespace containing n, and if that is the case infer the type of x -- Greg Weber
 
 
+Greg, that's dangerous territory: in general Haskell requires evidence for inferrence, rather than defaulting. Suppose we add an import. Then suddenly code that was working fine fails to compile. (Or worse: it compiles but gives different results because it's inferring a different record type.) Compare the experience with overlapping instances. -- AntC
+
+
 For example, lets say we have:
 
 ```wiki
@@ -275,6 +278,9 @@ Note that the Frege type system is less complex: to the extent that records are 
 
 I estimate that in 2/3 of all cases one does not need to write `T.e x` in sparsely type annotated code, despite the fact that the frege type checker has a left to right bias and does not yet attempt to find the type of `x` in the code that "follows" the `x.e` construct (after let unrolling etc.) I think one could do better and guarantee that, if the type of `x` is inferrable at all, then so will be `x.e` (Still, it must be more than just a type variable.)
 
+
+Does Frege have record fields with higher-ranked types? (As are needed to simulate object-oriented behaviour using records.) Does it cope with extracting a h-r field and applying it to different argument types? See the discussion under SORF, and SPJ's 'trick' using equality constraints on the `Has` class instance. -- AntC
+
 ## Syntax for updates (in the Frege manual)
 
 - the function that updates field `x` of data type `T` is `T.{x=}`
@@ -289,7 +295,7 @@ The function update syntax is a new addition to Haskell that we do not need to i
 > Does this cope with the tricky cases discussed in the SORF proposal? -- AntC
 
 - An update to an existing record that changes the type of a field.
-- An update to an existing record that changes the type of the record
+- An update to an existing record that changes the type of the record.
    (Such as where it's parametric in the type of a field.)
 - An update to a higher-ranked field.
 - An update to a higher-ranked field with constraints.
