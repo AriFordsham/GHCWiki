@@ -85,10 +85,10 @@ Did that just re-open the back door to the abstraction?
 > So I can break the abstraction by updating a record/field I can't even `get` ?? Perhaps the desugarring should be:
 >
 > ```wiki
->                 ===> set (undefined ::: "x") (True `asTypeOf` x (set (undefined ::: "x") True e)) e
->                                                    --         ^^^ make sure the selector function is in scope
->                                                    --         (and with the right types inferencable)
->                                                    --         yeuch!! with bells on 
+>                 ===> set (undefined ::: "x")
+>                          (True `asTypeOf` x (set (undefined ::: "x") True e))
+>                                       -- ^^^ make sure the selector function is in scope (and with the right types inferencable)
+>                          e                                     --         yeuch!! hack with bells on 
 > ```
 
 >
@@ -187,7 +187,7 @@ or earlier still (if we implement DORF using proxies):
 The prototype for this proposal originally included a method of updating Higher-ranked fields.
 
 
-It used an extra type function `SetTy`, with an extra type argument bound from the definition of method `set`:
+It used an extra type function `SetTy`, with an extra forall'd type argument bound from the definition of method `set`:
 
 ```wiki
     type family SetTy r fld t _a :: *        -- type of the argument to set into the record
@@ -207,11 +207,27 @@ It used an extra type function `SetTy`, with an extra type argument bound from t
 > >
 > > So, I think that update of polymorphic fields remains problematic. "
 
+- Note that the "(ingenious)" and unscalable "hack" appears only in compiler-generated code.
+
 - We could scale up the hack by providing arbitrarily many forall-bound type variables to `SetTy` (`_a _b _c ...`). How many is more than enough?)
 
-- But we can't support constraints over the type variables. (Because constraints can't appear on the RHS of a type function instance. Perhaps this could be hacked using Constraints Kinds when they mature? They'd have to be declared on the method `set` within `Has`.)
+- But we can't support constraints over the type variables. (Because constraints can't appear on the RHS of a type function instance.) Perhaps this could be hacked using Constraints Kinds when they mature? They'd have to be declared on the method `set` within `Has`. Something like:
 
-- Note that the "(ingenious)" and unscalable "hack" appears only in compiler-generated code.
+  ```wiki
+        type family SetTy r fld t _a _b _c :: *        -- type of the argument to set into the record
+                                                       -- up to 3 forall'd typevars (could easily be more!)
+            ...
+        type family SetConstr r fld t _a _b _c :: Constraint  -- constraint(s) on the forall'd typevars
+            ...
+            set :: fld
+                -> (forall _a _b _c. (SetConstr r fld t _a _b _c) => SetTy r fld t _a _b _c)
+                -> r
+                -> SetResult r fld t
+            ...
+  ```
+
+> >
+> > \[I suspect this'll score no more merits for "ingenious", and a great many more demerits for "hack".\]
 
 
 Is it a requirement to be able to update polymorphic fields? Is it sufficient to be able to update other (monomorphic) fields in records that also contain poly fields?
