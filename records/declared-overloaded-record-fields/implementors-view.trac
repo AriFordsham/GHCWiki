@@ -138,6 +138,28 @@ The prototype for this proposal has explored updating with a type instance pairi
 
 but in general, this would need instances for each perm/comb of fields.
 
+
+=== Changing the record constructor ===
+
+The `set` method continues with the as-is record constructor, with no attempt to figure out the 'appropriate' constructor for the fields names presented. This follows H98 behaviour.
+
+So if in update syntax you present field names which are not in the current constructor (but are in other constructors for the same type), you'll get pattern match failure (`Non-exhaustive patterns in record update`). For example:
+{{{
+    data Txyz	=   Txyz { x :: Int, y :: String, z :: Bool }
+		  | Tyx  { y :: String, x :: Int }  
+             deriving (Show, Read, Eq)
+
+    tyx  = Tyx{ y = "hello", x = 72 }
+
+    txyz = tyx{ z = False }                              -- run-time fail: Non-exhaustive patterns in record update
+                                                         -- no attempt to change to constructor Txyz
+}}}
+
+To achieve this, you'd need to put an explicit data constructor (presumably using punning/wildcards):
+{{{
+    case tyx of { Tyx{..} -> Txyz{ z = False, .. } }
+}}}
+
 === Type-changing update ===
 
 Haskell 98's record update can change the type of the record, by changing the type of a field that is parametric in the record's type.
