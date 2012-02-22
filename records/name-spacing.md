@@ -285,6 +285,15 @@ I estimate that in 2/3 of all cases one does not need to write `T.e x` in sparse
 
 The function update syntax is a new addition to Haskell that we do not need to immediately implement.
 
+>
+> Does this cope with the tricky cases discussed in the SORF proposal? -- AntC
+
+- An update to an existing record that changes the type of a field.
+- An update to an existing record that changes the type of the record
+   (Such as where it's parametric in the type of a field.)
+- An update to a higher-ranked field.
+- An update to a higher-ranked field with constraints.
+
 ### Alternative update syntax: let syntax
 
 
