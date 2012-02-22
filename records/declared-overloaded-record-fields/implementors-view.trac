@@ -18,7 +18,7 @@ DORF is implemented through a class `Has` with methods `get` and `set`. (Very si
 Within each instance, `get/set` are defined in terms of the record's data constructors, using ‑XDisambiguateRecordFields and friends.
 
 
-=== fieldLabel declaration (data dictionary) ===
+=== Option One: fieldLabel declaration (data dictionary) ===
 
 There is to be a new declaration type, examples:
 {{{
@@ -38,7 +38,22 @@ There is to be a new declaration type, examples:
 }}}
 That is: the `r{ ... }` constraint is added by the desugarer (and will be further desugarred to a `Has` constraint).
 
+=== Option Two: explicit record constraint ===
+
     [Or perhaps the new `fieldLabel` declaration isn't needed. See a ''__very__ speculative'' discussion at [wiki:Records/DeclaredOverloadedRecordFields/COmpareSORF#TheStringtypeparametertoHasandScopecontrol Wilder aftererthought] ]
+
+    Declaring:
+{{{
+        customer_id :: r{ customer_id :: Int } => r -> Int     -- explicit record constraint
+                                                               -- field name same as the function name
+}}}
+    Desugars to the same as for `fieldLabel`. That is the proxy type and the binding:
+{{{
+        data Proxy_customer_id
+        customer_id r = get r (undefined :: Proxy_customer_id)
+}}}
+    '''Note:''' the desugarring only applies where the field and function are the same name (and record type argument and result type). Otherwise this syntax is declaring a regular function with a record constraint (could be a 'virtual' field).
+
 
 === Syntactic sugar for `Has` ===
 
