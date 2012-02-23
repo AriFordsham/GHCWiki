@@ -117,6 +117,8 @@ Haskell already has a (tried and tested) mechanism to disambiguate where "the *t
 
 If you know of other relevant language implementations, please add them!
 
+
+The DDC language (very similar to Haskell) puts forth a similar solution to Frege. See the
 [ thesis](http://www.cse.unsw.edu.au/~benl/papers/thesis/lippmeier-impure-world.pdf) section 2.7 - 2.7.4 pages 115 - 119
 
 
@@ -132,3 +134,6 @@ Other FP languages where I looked for a record implementation but it appeared th
 I couldn't find great specific information on record implementation ML variants. Best I can tell, SML does not allow records in the same module with the same field. Records from other modules require name-spacing or must be opened up similar to Agda. SML\# supports [ abstraction over fields](http://www.pllab.riec.tohoku.ac.jp/smlsharp/?FeatureRecordPolymorphism) as per the overloaded records implementation.
 
 [ Roy](http://roy.brianmckenna.org/), a functional language that targets only javascript, also has structural typing which prevents clashes and allows abstraction over fields.
+
+
+Ur/Web has a [ very advanced records system](http://www.impredicative.com/ur/tutorial/tlc.html). If someone could explain how it works that would be very helpful!
