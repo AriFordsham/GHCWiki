@@ -64,9 +64,8 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 
 1. **[Simple Overloaded Record Fields](records/overloaded-record-fields) (SORF)**.  Pure (Plan B).
 1. **[ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR)**.  Pure (Plan B), but without abstraction over fields of the same name.
-1. **[Agda-derived Records](records/name-spacing) (ADR)** Pure (Plan A)
-1. **[Frege-derived Records](records/name-spacing) (FDR)**.  Uses (Plan A) + (Plan B).
-  -- errm as at 22-Feb-2012 3. and 4. point to the same page. Confused? I was -- AntC
+1. **[Agda-derived Records](records/name-spacing) (ADR)** Pure (Plan A). Explained on below FDR page.
+1. **[Frege-derived Records](records/name-spacing) (FDR)**. Uses (Plan A) + (Plan B).
 1. **[Declared Overloaded Record Fields](records/declared-overloaded-record-fields) (DORF)**. Tweak to SORF. (Plan B)
 
 1. **Are there any other approaches?**
