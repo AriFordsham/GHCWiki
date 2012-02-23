@@ -92,11 +92,14 @@ and that can work for both `Record` and `RecordClash` if they are defined in the
 With other approaches (including TDNR) this will fail to type check unless the compiler can determine the type of r is either `Record` or `RecordClash`. Note that we already can accomplish this on an opt-in basis with Type Classes: making this automatic is not required and could give the unwary user weakly-typed code.
 
 
-The advantage of Namespacing is that the implementation is clear, straightforward, and has already been done in Agda and Frege. We can either stop with name-spacing (Agda) or continue on with automatically resolving the field when the dot operator is used. Overloading has seen downsides in practice. In the words of the Frege author, who abandoned Overloading:
+The advantage of Namespacing is that the implementation is clear, straightforward, and has already been done in Agda and Frege. We can either stop with name-spacing (Agda) or continue on with automatically resolving the field when the dot operator is used. Overloading has seen downsides in practice. In the words of the Frege author, who abandoned Overloading with abstraction over field names:
 
 - only very inefficient code could be generated, if you have to access or update a field of some unknown record. In the end, every record type was basically a map.
 - it turned out that errors stemming from mistyping a field name often could not be diagnosed at the point where they were committed, but led to inferred types with crazy signatures and an incomprehensible type error at the use side of the function that contained the error.
 - the extra constraints complicated the type checker and did not play well with higher kinded type variables (at least in the code I had then, I do not claim that this is nessecarily so).
+
+
+Overloading without abstraction over fields may be able to avoid some of these potential downsides, and a judicious (no virtual fields, etc) implementation of either could look very similar to the programmer.
 
 ### Type directed name resolution
 
