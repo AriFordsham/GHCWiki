@@ -111,3 +111,24 @@ The discussion has many similarities with the original Type directed name resolu
 
 
 Haskell already has a (tried and tested) mechanism to disambiguate where "the *type* of the argument immediately specifies which one you mean" -- namely class/method/instance resolution. The DORF proposal uses this mechanism (and this mechanism alone: no funny-hand-shake syntax) -- AntC 21-Feb-2012
+
+### Other (FP) languages
+
+
+If you know of other relevant language implementations, please add them!
+
+[ thesis](http://www.cse.unsw.edu.au/~benl/papers/thesis/lippmeier-impure-world.pdf) section 2.7 - 2.7.4 pages 115 - 119
+
+
+The Opa language (functional, focused on web development) states that its modules are a special case of records.
+
+
+The Agda language [ generates a module (name space) for each record and also allows a record, like any module to be placed into the global scope by the programmer (opened in Agada terms)](http://wiki.portal.chalmers.se/agda/pmwiki.php?n=ReferenceManual.Records).
+
+
+Other FP languages where I looked for a record implementation but it appeared they have no solution for records with the same fields (my information could be wrong/out-dated) ocaml, oz. However, the O in OCaml is for objects, and objects have structural typing that supports abstraction over fields.
+
+
+I couldn't find great specific information on record implementation ML variants. Best I can tell, SML does not allow records in the same module with the same field. Records from other modules require name-spacing or must be opened up similar to Agda. SML\# supports [ abstraction over fields](http://www.pllab.riec.tohoku.ac.jp/smlsharp/?FeatureRecordPolymorphism) as per the overloaded records implementation.
+
+[ Roy](http://roy.brianmckenna.org/), a functional language that targets only javascript, also has structural typing which prevents clashes and allows abstraction over fields.
