@@ -101,13 +101,10 @@ The advantage of Namespacing is that the implementation is clear, straightforwar
 ### Type directed name resolution
 
 
-The discussion has many similarities with the original Type directed name resolution proposal: the question seems to be largely about nailing down a concrete implementation. The original TDNR proposal had Overloading in mind, but Namespacing ends up having similarities. -- Greg Weber
+One particular way of integrating this idea into Haskell is called (TDNR). All of the name-space mechanisms require some level of user-supplied disambiguation: if there are two fields `a` in scope, you must use a qualified name to disambiguate them.  What is tantalising about this is that the *type* of the argument immediately specifies which one you mean. There is really no ambiguity at all, so it is frustrating to have to type qualified names to redundantly specify that information.  Object-oriented languages take for granted this form of type-directed disambiguation. Proposed a couple of years ago, the Haskell community didn't like it much.  (But I still do; SLPJ.)
 
 
-All of the name-space mechanisms require some level of user-supplied disambiguation: if there are two fields `a` in scope, you must use a qualified name to disambiguate them.  What is tantalising about this is that the *type* of the argument immediately specifies which one you mean. There is really no ambiguity at all, so it is frustrating to have to type qualified names to redundantly specify that information.  Object-oriented languages take for granted this form of type-directed disambiguation.
+The discussion has many similarities with the original Type directed name resolution proposal: the question seems to be largely about nailing down a concrete implementation. The original TDNR proposal had internal Overloading in mind, but Namespacing ends up having similarities.
 
 
 Haskell already has a (tried and tested) mechanism to disambiguate where "the *type* of the argument immediately specifies which one you mean" -- namely class/method/instance resolution. The DORF proposal uses this mechanism (and this mechanism alone: no funny-hand-shake syntax) -- AntC 21-Feb-2012
-
-
-One particular way of integrating this idea into Haskell is called  (TDNR). Proposed a couple of years ago, the Haskell community didn't like it much.  (But I still do; SLPJ.)
