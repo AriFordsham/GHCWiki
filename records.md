@@ -40,6 +40,9 @@ record.hs:2:34:
 In the Persistent data store library, Yesod works around the issue by having the standard of prefixing every record field with the record name (`recordA` and `recordClashA`). But besides being extremely verbose, it also limits us from experimenting with more advanced features like a partial record projection or an unsaved and saved record type.
 
 
+The verbose name-spacing required is an in-your-face, glaring weakness telling you there is something wrong with Haskell. This issue has been solved in almost every modern programming languages, and there are plenty of possible solutions available to Haskell.
+
+
 Never mind experimental/advanced features, it gets in the way of doing utterly dull things like:
 
 - look up an entity by name (such as a customer or dictionary entry)
@@ -50,9 +53,6 @@ Never mind experimental/advanced features, it gets in the way of doing utterly d
 
 And inhibits doing relatively low-level generic/polymorphic stuff like standard print-formatting for any records with lastName and firstName fields.
 -- added by AntC 21-Feb-2012
-
-
-The verbose name-spacing required is an in-your-face, glaring weakness telling you there is something wrong with Haskell. This issue has been solved in almost every modern programming languages, and there are plenty of possible solutions available to Haskell.
 
 ## Solutions
 
