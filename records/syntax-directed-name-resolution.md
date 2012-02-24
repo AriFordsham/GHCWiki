@@ -1,0 +1,61 @@
+
+The idea is a \# prefix for identifiers.  `#f` is a "type directed function".  It
+requires the type of its argument to be monomorphic, and is desugared to `M.f`,
+where `M` is the module defining the type of `f`s argument.
+
+
+Everything else remains the same.  Records wishing the same name must live in
+separate modules, but field access looks like: `(#a . #b) record`
+
+
+This works to set fields of a record as well.  Let M.f be a function from
+a record to a lens focused on a certain field of that record.  Now you can
+write:
+
+```wiki
+M.a :: M.Record -> Lens M.Record M.A
+set :: Lens record field -> record -> record
+val = set (#a 42) record
+```
+
+
+which becomes: `set (M.a record) 42`
+
+
+Or composed `set ((#a.#b) record) 42` becomes `set ((M.a . N.b) record) 42`
+
+
+Of course you can define operators for update if you like that kind of thing.
+
+
+As long as the compiler can figure out a monomorphic type expected by the input
+of \#a then it shouldn't need type annotations.
+
+## pros
+
+1. No effect on (.) operator, which is composition as always.  No "binds tighter than functions" or left-to-right vs. right-to-left controversy, and partial application works as it always did.
+1. Record declaration syntax remains exactly the same.
+1. Works on any function, so it doesn't tie you to the implementation of a record, you can remove a field and add a compatibility shim.  So no tension between directly exposing the record implementation vs. writing a bunch of set/modify boilerplate.
+1. Module export list controls access over record fields as always.
+1. The problem of field access and update is not built in to the language but relegated to a library.
+1. Orthogonal to records: any function can be addressed.
+
+## cons
+
+1. Still can't have two records with the same field name in the same module since it relies on modules for namespacing.  Would need nested modules to put multiple 
+1. Lenses can't handle updates that change the type, e.g. from `Rec a` to `Rec b`.  If the `set` function is `Lens rec field -> field -> rec -> rec` then you can't change the type of `rec`.  Not sure if this is solvable without the set being builtin syntax, or a fancier lens implementation could admit `Lens rec1 rec2 field -> field -> rec1 -> rec2`.
+1. It's another way to resolve a name to a different function body that's not typeclasses.  One way should be enough.  But typeclasses are fundamentally global.
+1. The function to resolve must be monomorphic, so there is no "structural polymorphism" e.g. `getName :: (Has Name a) => a -> String`
+1. Still have to use TH to derive the lenses.
+
+
+From my point of view (elaforge), the pros are very compelling, especially how record fields aren't a built-in concept but are just normal haskell identifiers.
+
+
+My spin on the cons:
+
+1. I don't mind.  To my mind, modules are there for namespace control and so two things shouldn't be able to have the same name in one module by definition.  Nested modules might be a more orthogonal way to approach namespacing flexibility than coming up with some non-module non-typeclass way to distinguish names.
+1. It's not too satisfying, but you can fall back to `rec { field = ... }`.  In practice I'd define a type specific update function as I do now, to avoid being tied `field` always existing in the record.
+1. The global-ness of typeclass seems hard to reconcile with the idea of wanting to control export of record fields, so maybe this is unavoidable.
+1. I'm not real kind of structural polymorphism anyway, I believe parametric and typeclass polymorphism are more principled.
+1. Ya ok, but this can be spun as a pro: the fact that field update is in a library and not built-in means we can wait until the lens libraries settle down before hardcoding something into the language.  A record implementation that wants syntactic support for field updates will have to build in something anyway, so this is just flexibility to delay that building-in.
