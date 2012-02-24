@@ -51,16 +51,18 @@ So we have decided to avoid the extensible record debate, but how can we have mu
  3. '''[wiki:Records/NameSpacing Agda-derived Records] (ADR)''' Pure (Plan A). Explained on below FDR page.
  4. '''[wiki:Records/NameSpacing Frege-derived Records] (FDR)'''. Uses (Plan A) + (Plan B).
  5. '''[wiki:Records/DeclaredOverloadedRecordFields Declared Overloaded Record Fields] (DORF)'''. Tweak to SORF. (Plan B)
-
- 6. '''Are there any other approaches?'''
-
+ 6. '''[wiki:Records/SyntaxDirectedNameResolution Syntax Directed Name Resolution]'''. Alternative that relies on syntactic rewriting and lenses.
+ 7. '''Are there any other approaches?'''
 
 === Similarities ===
 
-All records solutions are planning on using the dot operator for normal record field selection. We need to consider the [wiki:Records/DotOperator future usage of the dot, particularly as a function composition operator].
+Some records solutions are planning on using the dot operator for normal record field selection. We need to consider the [wiki:Records/DotOperator future usage of the dot, particularly as a function composition operator].
 
-(DORF doesn't insist on dot notation: it's to be syntactic sugar for reverse function application.)
+Except:
 
+DORF doesn't insist on dot notation: it's to be syntactic sugar for reverse function application.
+
+Syntax directed name resolution doesn't use dots at all, the dot remains function composition as always.
 
 === Comparisons ===
 
