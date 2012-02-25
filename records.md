@@ -175,3 +175,14 @@ It also demonstrated, to me, that qualified imports are horrible when used on a 
 
 
 I also have 21 Enum types which often conflict. I end up having to include the name of the type in the constructor, or rewording it awkwardly. I guess I should put these all in separate modules and import qualified, too. Tedious, though. At least in this case languages like C\# and Java also require that you type EnumName.EnumValue, so c‘est la vie.
+
+### counterpoint to the above
+
+
+I (elaforge) have a project with 314 .hs files, containing 224 `^data .*=` lines, of which 104 define named record fields.  They do tend to collect in large central modules: the largest one has 800 lines and 13 records defined in it.  I have often wished for shorter record names, but I have never wished for two records in the same module with the same field name.  Probably this is a result of the specific application, the example above looks like a database-style app that has lots of IDs instead of directly containing e.g. a Submission or a Conference.  But still, a module per type is overstated, it is one module per type with fields of the same name, and the likelihood of that varies per application.
+
+
+I also use qualified imports exclusively, and my conclusion is the opposite of yours: on a large scale they are more important than ever.  Importing is not tedious for me because I use a program to manage imports automatically, which was easy to write only because of qualified imports.
+
+
+Anyway, I believe you that there are kinds of applications that naturally wind up with lots of records in the same module that want to share a name.  But I want to point out that this is not universal, and for it to be compelling evidence rather than anecdote, we'd need a notion of what percentage of programs tend to be this way.
