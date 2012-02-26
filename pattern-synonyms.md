@@ -15,7 +15,7 @@ Here is a simple representation of types
 
 
 Using this representations the arrow type looks like `App "->" [t1, t2]`.
-Here are functions to collect are all argument types of nested arrows and recognizing the `Int` type:
+Here are functions that collect all argument types of nested arrows and recognize the `Int` type:
 
 ```wiki
    collectArgs :: Type -> [Type]
@@ -27,10 +27,10 @@ Here are functions to collect are all argument types of nested arrows and recogn
 ```
 
 
-Matching on the arrow type is both hard to read and error prone to write.
+Matching on `App` directly is both hard to read and error prone to write.
 
 
-The proposal is to introduce a way to give pattern names:
+The proposal is to introduce a way to give patterns names:
 
 ```wiki
    pattern Arrow t1 t2 = App "->" [t1, t2]
@@ -50,7 +50,7 @@ And now we can write
 ```
 
 
-Furthermore, the pattern synonym can also be used in expressions, e.g.,
+Furthermore, pattern synonyms can also be used in expressions, e.g.,
 
 ```wiki
    arrows :: [Type] -> Type -> Type
@@ -60,19 +60,19 @@ Furthermore, the pattern synonym can also be used in expressions, e.g.,
 ## Simple pattern synonyms
 
 
-The simplest form of pattern synonyms is the one from the examples above.  The grammar rule is simply:
+The simplest form of pattern synonyms is the one from the examples above.  The grammar rule is:
 
 `pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`=`*patexp*
 
 
-where *patexp* is simply the intersection of the grammars for patterns and expression, i.e., those terms that are valid both as a pattern and as an expressions.
+where *patexp* is the intersection of the grammars for patterns and expression, i.e., those terms that are valid both as a pattern and as an expression.
 
-- Each of the variables on the left hand side must occur exactly one on the right hand side, and these are the only variables that can be mention on the right hand side.  
+- Each of the variables on the left hand side must occur exactly once on the right hand side, and these are the only variables that can occur on the right hand side.  
 - Pattern synonyms are not allowed to be recursive.  Cf. type synonyms.
-- The semantics is simply given by expansion of the synonym.
+- The semantics is simply expansion of the synonym.
 
 
-Pattern synonyms can be exported and imported by mentioning the *conid* in the export/import list.  Note that this suffers from the same constructor vs type confusion that already exists in `hiding` list, i.e., given the mention of a *conid* you cannot tell if it refers to a constructor or a type.
+Pattern synonyms can be exported and imported by mentioning the *conid* in the export/import list.  Note that this suffers from the same constructor vs type confusion that already exists in a `hiding` list, i.e., given the mention of a *conid* you cannot tell if it refers to a constructor or a type.
 
 
 You may also give a type signature for a pattern, but as with most other type signatures in Haskell it is optional:
@@ -90,13 +90,13 @@ E.g.
 ## Pattern only synonyms
 
 
-The simple patterns synonyms are restricted to having a right hand side that is also a valid expression.
-The pattern only synonyms can have any pattern on the right hand side, but may only be used in patterns.
+Simple patterns synonyms are restricted to having a right hand side that is also a valid expression.
+Pattern only synonyms can have any pattern on the right hand side, but may only be used in patterns.
 
 `pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`=`*pat*
 
 
-Again, each of the variables on the left hand side must be mentioned exactly once of the right hand side, but the right hand side can mention other variables as well.  These variables will not be bound by using the pattern synonyms.
+Again, each of the variables on the left hand side must be mentioned exactly once on the right hand side, but now the right hand side can mention other variables as well.  These variables will not be bound when using the pattern synonym.
 
 
 Examples:
@@ -139,10 +139,10 @@ Note that the right hand side of `Plus1` binds `n1` and `n`, but since only `n` 
 ## Bidirectional pattern synonyms
 
 
-What if you want to use `Plus1` from the earlier example in an expression.
+What if you want to use `Plus1` from the earlier example in an expression?
 It's clearly impossible since its expansion is a pattern that has no meaning as an expression.
-Nevertheless, if we want to make what looks like constructors for a type we will often want to use them in both patterns and expressions.
-This is the rational for the most complicated synonyms, the bidirectional ones.  They provide two expansions, one for patterns and one for expressions.
+Nevertheless, if we want to make what looks like a constructor for a type we will often want to use it in both patterns and expressions.
+This is the rationale for the most complicated synonyms, the bidirectional ones.  They provide two expansions, one for patterns and one for expressions.
 
 `pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`=`*pat*`where`*cfunlhs**rhs*
 
@@ -158,7 +158,7 @@ Example:
 ```
 
 
-The first part as is before and describes the expansion of the synonym in patterns, whereas the second describes the expansion in expressions.
+The first part as is before and describes the expansion of the synonym in patterns. The second part describes the expansion in expressions.
 
 ```wiki
    fac 0 = 0
