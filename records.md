@@ -145,7 +145,7 @@ SML\# supports [ abstraction over fields](http://www.pllab.riec.tohoku.ac.jp/sml
 [ Roy](http://roy.brianmckenna.org/), a functional language that targets only javascript, also has structural typing which prevents clashes and allows abstraction over fields.
 
 
-Ur/Web has a [ very advanced records system](http://www.impredicative.com/ur/tutorial/tlc.html). If someone could explain how it works that would be very helpful!
+\[Ur/Web has a http://www.impredicative.com/ur/tutorial/tlc.html very advanced records system\]. If someone could look at [ the UR implementation paper](http://adam.chlipala.net/papers/UrPLDI10/UrPLDI10.pdf) and attempt to distill a records explanation to a Haskell point of view that would be very helpful!
 
 
 Other FP languages where I looked for a record implementation but it appeared they have no solution for records with the same fields (my information could be wrong/out-dated) ocaml, oz. However, the O in OCaml is for objects, and objects have structural typing that supports abstraction over fields.
