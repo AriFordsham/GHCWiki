@@ -106,7 +106,7 @@ To add a new primop, you currently need to update the following files:
 
 - for an out-of-line primop:
 
-  - [includes/Stg/MiscClosures.h](/trac/ghc/browser/ghc/includes/Stg/MiscClosures.h) (just add the declaration),
+  - [includes/stg/MiscClosures.h](/trac/ghc/browser/ghc/includes/stg/MiscClosures.h) (just add the declaration),
   - [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm) (implement it here)
   - [rts/Linker.c](/trac/ghc/browser/ghc/rts/Linker.c) (declare the symbol for GHCi)
 
