@@ -116,6 +116,15 @@ To add a new primop, you currently need to update the following files:
   - `yourpackage/TheCode.hs`: use `foreign import prim` to import the primops.
 
 
+In addition, if new primtypes are being added, the following files need to be updated:
+
+- [utils/genprimopcode/Main.hs](/trac/ghc/browser/ghc/utils/genprimopcode/Main.hs) -- extend ppType :: Type -\> String function
+
+- [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs) -- add a new unique id using mkPreludeTyConUnique
+
+- [compiler/prelude/TysPrim.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysPrim.lhs) -- TODO
+
+
 See also [AddingNewPrimitiveOperations](adding-new-primitive-operations), a blow-by-blow description of the process for adding a new out-of-line primop from someone who went through the process.
 
 ## Explanation of attributes

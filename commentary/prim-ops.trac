@@ -100,6 +100,13 @@ To add a new primop, you currently need to update the following files:
    * `yourpackage/cbits/primops.cmm`: implement your primops here. You have to arrange for the .cmm file to be compiled and linked into the package. The GHC build system has support for this. Cabal does not yet.
    * `yourpackage/TheCode.hs`: use `foreign import prim` to import the primops.
 
+In addition, if new primtypes are being added, the following files need to be updated:
+  * [[GhcFile(utils/genprimopcode/Main.hs)]] -- extend ppType :: Type -> String function
+  
+  * [[GhcFile(compiler/prelude/PrelNames.lhs)]] -- add a new unique id using mkPreludeTyConUnique
+
+  * [[GhcFile(compiler/prelude/TysPrim.lhs)]] -- TODO
+
 See also AddingNewPrimitiveOperations, a blow-by-blow description of the process for adding a new out-of-line primop from someone who went through the process.
 
 == Explanation of attributes ==
