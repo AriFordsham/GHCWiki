@@ -1,3 +1,5 @@
+# Syntax Directed Name Resolution
+
 
 The idea is a \# prefix for identifiers.  `#f` is a "type directed function".  It
 requires the type of its argument to be monomorphic, and is desugared to `M.f`,
