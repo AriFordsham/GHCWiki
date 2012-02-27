@@ -101,7 +101,7 @@ Also, composed set will run into problems.  So lets build lenses into the
 language.  Two changes: as a convenience, `deriving (Lens)` will generate
 lenses for the fields instead of get functions.  And, the # reduction will
 treat an argument type of `Lens a b` specially, requiring that the type of `a`
-being known, and looking in its module:
+being known, and looking in its module.
 
 M.hs:
 {{{
@@ -166,6 +166,18 @@ Inner.b :: Lens Inner.Inner Int
 -- result is
 val = set (Inner.b ! Outer.a) 42 record
 }}}
+
+For those unfamiliar with lenses, all `deriving (Lens)` would do is:
+
+{{{
+data Record = Record { a :: A, b :: B } deriving (Lens)
+-- becomes
+data Record = Record { a_ :: A, b_ :: B } -- or a_, b_ could be gensyms
+a = lens a_ (\rec a -> rec { a_ = a })
+b = lens b_ (\rec b -> rec { b_ = b })
+}}}
+
+This is the same as TH macros for existing lens libraries.
 
 Note that there must be a known monomorphic type for the #a so this may require
 some type declarations:
