@@ -92,7 +92,7 @@ To add a new primop, you currently need to update the following files:
    the primop into {{{Cmm}}}.
 		
  * for an out-of-line primop:
-   * [[GhcFile(includes/StgMiscClosures.h)]] (just add the declaration),
+   * [[GhcFile(includes/stg/MiscClosures.h)]] (just add the declaration),
    * [[GhcFile(rts/PrimOps.cmm)]] (implement it here)
    * [[GhcFile(rts/Linker.c)]] (declare the symbol for GHCi)
 
