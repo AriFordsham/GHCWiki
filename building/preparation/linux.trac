@@ -39,22 +39,20 @@ You can make sure you have all dependencies by
 
     `apt-get build-dep ghc6`
 
-But this might install some packages you do not use in your system (e.g. lintian).
+But this might install some packages you do not use in your system (e.g. lintian).  Alternatively install the following:
+
+ * `haskell-platform`
+ * `git`
+ * `autoconf`
+ * `libtool`
+ * `make`
 
  * `libc6-dev`
  * `libncurses5-dev`
  * `libgmp3-dev`
- * `autoconf`
  * `automake`
- * `libtool`
- * `gcc`
- * `make`
  * `perl`
  * `python`
- * `ghc6`
- * `happy`
- * `alex`
- * `git`
  * `libffi-dev`
 
 For building the documentation: (User's Guide and Cabal guide):
@@ -67,3 +65,4 @@ other packages that are useful for development:
 
  * `strace`
  * `patch`
+ * `linux-tools-<version>` (includes `perf`, see [wiki:Debugging/LowLevelProfiling/Perf])
