@@ -36,38 +36,35 @@ other packages that are useful for development:
 ## Debian-based systems (e.g. Debian, Ubuntu)
 
 
+(tested on Ubuntu 11.10)
+
+
 You can make sure you have all dependencies by
 
-> `apt-get build-dep ghc6`
+```wiki
+   sudo apt-get build-dep ghc6
+```
 
 
-But this might install some packages you do not use in your system (e.g. lintian).
+But this might install some packages you do not use in your system (e.g. lintian).  Alternatively install the following:
 
-- `libc6-dev`
-- `libncurses5-dev`
-- `libgmp3-dev`
-- `autoconf`
-- `automake`
-- `libtool`
-- `gcc`
-- `make`
-- `perl`
-- `python`
-- `ghc6`
-- `happy`
-- `alex`
-- `git`
-- `libffi-dev`
+```wiki
+   sudo apt-get install haskell-platform git autoconf libtool make libncurses5-dev
+```
 
 
-For building the documentation: (User's Guide and Cabal guide):
+For building the documentation (User's Guide):
 
-- `docbook-utils`
-- `docbook-utils-pdf`
-- `docbook-style-xsl`
+```wiki
+   sudo apt-get install dblatex docbook-xsl docbook-utils
+```
 
 
 other packages that are useful for development:
 
-- `strace`
-- `patch`
+```wiki
+   sudo apt-get install linux-tools
+```
+
+
+(includes `perf`, see [Debugging/LowLevelProfiling/Perf](debugging/low-level-profiling/perf))
