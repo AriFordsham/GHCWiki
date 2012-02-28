@@ -116,18 +116,9 @@ language.  Let's alter \# resolution so it expects a type `Lens a b` where
 looking examples, I'll also assume we can write `deriving (Lens)` to
 make ghc generate lenses for the fields instead of get functions.
 
-
-M.hs:
-
-```wiki
-data M.Record = Record { a :: Int } deriving (Lens)
-```
-
-
-Main.hs:
-
 ```wiki
 import qualified M
+-- In M.hs: data Record = Record { a :: Int } deriving (Lens)
 
 get :: Lens record field -> record -> field
 val = get #a (M.Record 42)
@@ -145,24 +136,12 @@ Let's try with composed lenses.
 
 `set ((#b.#a) record) 42` should become `set ((Inner.b . Outer.a) record) 42`
 
-
-Outer.hs:
-
 ```wiki
-data Outer = Outer { a :: Inner.Inner } deriving (Lens)
-```
+import qualified Outer
+-- Outer.hs: data Outer = Outer { a :: Inner.Inner } deriving (Lens)
+import qualified Inner
+-- Inner.hs: data Inner = Inner { b :: Int } deriving (Lens)
 
-
-Inner.hs:
-
-```wiki
-data Inner = Inner { b :: Int } deriving (Lens)
-```
-
-
-Main.hs:
-
-```wiki
 -- A lens composition operator.  Most lens libraries overload (.) with this,
 -- so we'd either need to make a new operator or move Control.Category into
 -- the Prelude.  Let's go with a new operator:
