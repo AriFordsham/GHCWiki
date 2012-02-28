@@ -209,11 +209,12 @@ An example of an advantage of using lens libraries: fclabels has a notion of "pa
  4. It's not just record types, any lens can go in the lens composition, e.g. one for Data.Map.  So you can translate imperative `record.a.b[c].d = 42` to `set (#d . Map.lens c . #b . #a) 42 record`.  Make a new operator `(.>) = flip (.)` if you like left to right.
  5. Module export list controls access over record fields as always.
  6. Orthogonal to records: any function can be addressed.
+ 7. "Support" for polymorphic and higher-ranked fields, via existing record update syntax.  It's a cheat because it's also con #2, but I think it's a valid design to build on top of the existing syntax instead of replacing it.  Maybe it can be extended to support fancy stuff later, but meanwhile it solves the simple case while not precluding the complicated one.
 
 == cons ==
 
  1. Still can't have two records with the same field name in the same module since it relies on modules for namespacing.
- 2. Lenses can't handle updates that change the type, e.g. from `Rec a` to `Rec b`.  If the `set` function is `Lens rec field -> field -> rec -> rec` then you can't change the type of `rec`.  I'm sure if this is solvable without the set being builtin syntax, or a fancier lens implementation could admit `Lens rec1 rec2 field -> field -> rec1 -> rec2`.
+ 2. Lenses can't handle updates that change the type, e.g. from `Rec a` to `Rec b`.  If the `set` function is `Lens rec field -> field -> rec -> rec` then you can't change the type of `rec`.  I'm sure if this is solvable without the set being builtin syntax, or if a fancier lens implementation could admit `Lens rec1 rec2 field -> field -> rec1 -> rec2`.
  3. It's another way to resolve a name to a different function body that's not typeclasses.  One way should be enough.  But typeclasses are fundamentally global.
  4. The function to resolve must be monomorphic, so there is no "structural polymorphism" e.g. `getName :: (Has Name a) => a -> String`
 
