@@ -103,10 +103,10 @@ like `#a_ record`.  But that's ugly and unsatisfying, and you can't pass
 around the getter and setter as one unit.
 
 Also, composed set will run into problems.  So lets build lenses into the
-language.  Two changes: as a convenience, `deriving (Lens)` will generate
-lenses for the fields instead of get functions.  And, the # reduction will
-treat an argument type of `Lens a b` specially, requiring that the type of `a`
-being known, and looking in its module.
+language.  Let's alter # resolution so it expects a type `Lens a b` where
+`a` is known, and looks in the module that defines `a`.  To make nicer
+looking examples, I'll also assume we can write `deriving (Lens)` to
+make ghc generate lenses for the fields instead of get functions.
 
 M.hs:
 {{{
