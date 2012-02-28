@@ -36,27 +36,35 @@ other packages that are useful for development:
 ## Debian-based systems (e.g. Debian, Ubuntu)
 
 
+(tested on Ubuntu 11.10)
+
+
 You can make sure you have all dependencies by
 
-> `apt-get build-dep ghc6`
+```wiki
+   sudo apt-get build-dep ghc6
+```
 
 
 But this might install some packages you do not use in your system (e.g. lintian).  Alternatively install the following:
 
-- `haskell-platform`
-- `git`
-- `autoconf`
-- `libtool`
-- `make`
+```wiki
+   sudo apt-get install haskell-platform git autoconf libtool make
+```
 
 
 For building the documentation: (User's Guide and Cabal guide):
 
-- `dblatex`
-- `docbook-xsl`
-- `docbook-utils`
+```wiki
+   sudo apt-get install dblatex docbook-xsl docbook-utils
+```
 
 
 other packages that are useful for development:
 
-- `linux-tools-<version>` (includes `perf`, see [Debugging/LowLevelProfiling/Perf](debugging/low-level-profiling/perf))
+```wiki
+   sudo apt-get install linux-tools
+```
+
+
+(includes `perf`, see [Debugging/LowLevelProfiling/Perf](debugging/low-level-profiling/perf))
