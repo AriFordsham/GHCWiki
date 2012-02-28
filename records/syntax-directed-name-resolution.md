@@ -123,6 +123,9 @@ M.hs:
 data M.Record = Record { a :: Int } deriving (Lens)
 ```
 
+
+Main.hs:
+
 ```wiki
 import qualified M
 
