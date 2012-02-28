@@ -48,12 +48,12 @@ val = (#b.#a) record
 
 -- Type of 'record' must already be known:
 (#b.#a) :: Outer.Outer -> Int
--- Due to the definition of (.) and its return type being known:
+-- Due to the definition of (.) and its 2nd argument type being known:
 #a :: Outer.Outer -> b
 -- New "# Resolution" rule: The first argument is in module Outer, so
 -- resolve to Outer.a, and now we know the full type of Outer.a:
 Outer.a :: Outer.Outer -> Inner.Inner
--- Due to the definition of (.) and its return type being known:
+-- Due to the definition of (.) and its 1st argument type being known:
 #b :: Inner.Inner -> c
 -- # Resolution:
 Outer.b :: Inner.Inner -> Int
