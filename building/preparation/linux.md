@@ -53,7 +53,7 @@ But this might install some packages you do not use in your system (e.g. lintian
 ```
 
 
-For building the documentation: (User's Guide and Cabal guide):
+For building the documentation (User's Guide):
 
 ```wiki
    sudo apt-get install dblatex docbook-xsl docbook-utils

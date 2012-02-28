@@ -49,7 +49,7 @@ But this might install some packages you do not use in your system (e.g. lintian
    sudo apt-get install haskell-platform git autoconf libtool make
 }}}
 
-For building the documentation: (User's Guide and Cabal guide):
+For building the documentation (User's Guide):
 
 {{{
    sudo apt-get install dblatex docbook-xsl docbook-utils
