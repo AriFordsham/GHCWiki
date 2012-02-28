@@ -206,7 +206,7 @@ An example of an advantage of using lens libraries: fclabels has a notion of "pa
  1. No effect on (.) operator, which is composition as always.  No "binds tighter than functions" or left-to-right vs. right-to-left controversy, and partial application works as it always did.
  2. Record declaration syntax remains exactly the same.  Totally backward compatible, we can gradually convert existing programs.  Even convert an existing record field by field, no need for a single giant patch to update everything at once.
  3. Works on any function, so it doesn't tie you to the implementation of a record, you can remove a field and add a compatibility shim.  So no tension between directly exposing the record implementation vs. writing a bunch of set/modify boilerplate.
-  4. It's not just record types, any lens can go in the lens composition, e.g. one for Data.Map.  So you can translate imperative `record.a.b[c].d = 42` to `set (#d . Map.lens c . #b . #a) 42 record`.  Make a new operator `(.>) = flip (.)` if you like left to right.
+ 4. It's not just record types, any lens can go in the lens composition, e.g. one for Data.Map.  So you can translate imperative `record.a.b[c].d = 42` to `set (#d . Map.lens c . #b . #a) 42 record`.  Make a new operator `(.>) = flip (.)` if you like left to right.
  5. Module export list controls access over record fields as always.
  6. Orthogonal to records: any function can be addressed.
 
