@@ -47,13 +47,9 @@ But this might install some packages you do not use in your system (e.g. lintian
  * `libtool`
  * `make`
 
- * `libc6-dev`
- * `libncurses5-dev`
- * `libgmp3-dev`
  * `automake`
  * `perl`
  * `python`
- * `libffi-dev`
 
 For building the documentation: (User's Guide and Cabal guide):
 
