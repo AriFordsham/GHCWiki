@@ -305,7 +305,7 @@ To support higher-ranked fields, this proposal follows SORF's approach (with thr
                    -- field's type is whatever's there (it's opaque)
                    -- improved by the instance constraint
     type instance SetResult HR Proxy_rev t = HR
-                   -- the higer-ranked type is hidded inside HR
+                   -- the higer-ranked type is hidden inside HR
     instance (t ~ ([a_] -> [a_])) =>              -- same as SORF
         Has HR Proxy_rev t    where
             get HR{rev} _ = rev
@@ -331,7 +331,7 @@ Is it a requirement to be able to update polymorphic fields? Is it sufficient to
 ### Representation hiding/import/export
 
 
-See the discussion under [Application Programmer's view Import/Export](records/declared-overloaded-record-fields#import/export-and-representation-hiding)  and [No Mono Record Fields](records/declared-overloaded-record-fields/no-mono-record-fields). When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desuggarred to use it.)
+See the discussion under [Application Programmer's view Import/Export](records/declared-overloaded-record-fields#import/export-and-representation-hiding)  and [No Mono Record Fields](records/declared-overloaded-record-fields/no-mono-record-fields). When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desugarred to use it.)
 
 
 See also the attached `DORF Prototype Importing 29Feb2012.lhs`, which selectively imports some fieldLabels, and declares local versions of others. This shows that within a single record decl:
