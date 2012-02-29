@@ -331,7 +331,24 @@ Is it a requirement to be able to update polymorphic fields? Is it sufficient to
 ### Representation hiding/import/export
 
 
-See the discussion under [Application Programmer's view](records/declared-overloaded-record-fields#application-programmer's-view) and [No Mono Record Fields](records/declared-overloaded-record-fields/no-mono-record-fields). When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desuggarred to use it.)
+See the discussion under [Application Programmer's view Import/Export](records/declared-overloaded-record-fields#import/export-and-representation-hiding)  and [No Mono Record Fields](records/declared-overloaded-record-fields/no-mono-record-fields). When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desuggarred to use it.)
+
+
+See also the attached `DORF Prototype Importing 29Feb2012.lhs`, which selectively imports some fieldLabels, and declares local versions of others. This shows that within a single record decl:
+
+1. You can create fields that share Labels with imports.
+1. You can create fields that don't share, even with the same Label name.
+
+> >
+> > (That is, the module system continues to control the namespace.)
+
+1. You can prevent using the wrong field selector with the wrong record type,
+
+> >
+> > even if they have the same Label name.
+
+
+(Apologies for labouring the point: it seems to be widely mis-understood, and it's a point of difference compared to SORF.)
 
 ### Should application programmers declare instances for `Has/set`?
 
