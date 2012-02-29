@@ -230,6 +230,61 @@ Type `T` and field label `x` are exported, but not data constructor `MkT`, so `x
 >
 > The existence of field `y` is hidden altogether.
 
+
+With:
+
+```wiki
+module CRM               where
+    import CUST hiding (firstName, lastName)          -- note import is __not__ qualified
+
+    fieldLabel firstName :: r -> String
+    fieldLabel lastName :: r -> String
+
+    data Customer_Contact = Cust_Cont { customer_id :: Int, firstName, lastName :: String }
+
+```
+
+
+We're sharing fieldLabel `customer_id`, but we've got local fieldLabels for the names. There is no name clash! If you want to use the imported name labels, you have to qualify as `CUST.lastName`.
+
+
+Then this works:
+
+```wiki
+    contact1 :: Customer_Contact
+    custAddr1 :: Customer_NameAddress
+    ...
+    ... contact1.customer_id ...                         -- shared fieldLabel
+    ... custAddr1.customer_id ...                        --
+    ...
+    ... contact1.firstName ...                           -- local fieldLabel
+    ... custAddr1.CUST.firstName ...                     -- imported fieldLabel used qualified
+    ... 
+    ...
+    localfullName r = r.firstName ++ " " r.lastName
+```
+
+
+This doesn't:
+
+```wiki
+    ... custAddr1.firstName ... -- ==> No instance for (Has Customer_Contact Proxy_firstName t0)
+                                --     tried to use the local fieldLabel against an imported record type
+    ... contact1.fullName ...   -- ==> No instances for (Has Customer_Contact CUST.Proxy_firstName t0,
+                                --                       Has Customer_Contact CUST.Proxy_lastName t10)
+                                --        arising from a use of `fullName'
+                                --     tried to use an imported virtual field (used unqualified) against a local record type
+```
+
+
+because `fullName` is overloaded against the fieldLabel in module `CUST`, not the local module.
+
+
+Absolutely nothing magical going on here: all standard module/namespace control. Move along please.
+
+
+\[There's a working example of all this importing, as an attachment to the implementor's page.\]
+
 ### Field Update for Overloadable Record Fields
 
 
