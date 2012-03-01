@@ -331,7 +331,33 @@ Is it a requirement to be able to update polymorphic fields? Is it sufficient to
 ### Representation hiding/import/export
 
 
-See the discussion under [Application Programmer's view Import/Export](records/declared-overloaded-record-fields#import/export-and-representation-hiding)  and [No Mono Record Fields](records/declared-overloaded-record-fields/no-mono-record-fields). When import/exporting do we need to also export the Proxy_type? If not exported, update syntax cannot be desugarred to use it.)
+See the discussion under [Application Programmer's view Import/Export](records/declared-overloaded-record-fields#import/export-and-representation-hiding)  and [No Mono Record Fields](records/declared-overloaded-record-fields/no-mono-record-fields). 
+
+>
+> \[The following re the Proxy_type changed/added 1st March.\]
+
+
+When import/exporting we need to separately control exporting the Proxy_type:
+
+- If not exported, update syntax cannot be desugarred to use it, so this hides the representation.
+
+> >
+> > (So any records become in effect read-only, using the exported field selector function.)
+
+- Furthermore, it prevents the client declaring records to 'share' the fieldLabel.
+
+> >
+> > (Because the `Has` instance generated will try to use the Proxy_type.)
+
+
+Drat! I was trying to keep the Proxy_type hidden from the programmer.
+
+
+It's possible we might want to prevent the latter, but allow the former??
+
+>
+> \[Using a `String Kind` a la SORF would not help: can't control sharing nor hide the representation.
+>  End of Proxy_type addition.\]
 
 
 See also the attached `DORF Prototype Importing 29Feb2012.lhs`, which selectively imports some fieldLabels, and declares local versions of others. This shows that within a single record decl:
