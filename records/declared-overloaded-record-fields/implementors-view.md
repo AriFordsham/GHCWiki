@@ -339,6 +339,14 @@ See the discussion under [Application Programmer's view Import/Export](records/d
 
 When import/exporting we need to separately control exporting the Proxy_type:
 
+- The original plan was to control import/export shadowing the field selector function.
+
+> >
+> > (As an afterthought: this would treat the function differently to usual functions.
+> >
+> > >
+> > > On the other hand, no more special than exporting the function along with the H98 record label.)
+
 - If not exported, update syntax cannot be desugarred to use it, so this hides the representation.
 
 > >
@@ -353,7 +361,7 @@ When import/exporting we need to separately control exporting the Proxy_type:
 Drat! I was trying to keep the Proxy_type hidden from the programmer.
 
 
-It's possible we might want to prevent the latter, but allow the former??
+It's possible we might want to hide the representation (prevent update), but allow sharing with a locally-declared record type/field??
 
 >
 > \[Using a `String Kind` a la SORF would not help: can't control sharing nor hide the representation.
