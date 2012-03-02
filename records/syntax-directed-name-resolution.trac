@@ -2,10 +2,12 @@
 
 The idea is a # prefix for identifiers.  `#a` is a "type directed function".
 It requires the type of its argument to be monomorphic.  An application
-`#a :: forall x. M.X -> x` is desugared to `M.a :: M.X -> Y` where `Y` depends
-on the concrete type of `M.a`.  All it does is strip the module part off off
-the argument type, and look for the symbol `a` in that module.  The module
-must be imported qualified for the resolution to happen, so compiling a
+`#field :: f a b -> c` must have a known type for `a`, and is desugared to `M.field` where `M`
+is the module that the type of `a` is defined in.  Note that (->) is a special
+case of the binary type constructor `f`, so `#field :: M.Rec -> a` is desugared
+to `M.field`.
+
+The module must be imported qualified for the resolution to happen, so compiling a
 certain module only needs to look at its direct dependents.  As a degenerate case,
 if the argument type is defined in the current module then typing `#a` will resolve to just
 `a`.  This is nice because if you define a bunch of code in the same module as
@@ -13,7 +15,7 @@ the record you can then copy-paste it into a new module without having to update
 every single reference, as long as you used `#` consistently.
 
 Everything else remains the same.  Records wishing the same name must live in
-separate modules, but field access looks like: `(#b . #a) record`.  People
+separate modules, but field access doesn't have to mention the module names: `(#b . #a) record`.  People
 who like unqualified imports can still use them, since `import A.B.C` will
 bring `A.B.C.a` into scope as well as `a`.  If there are two `a`s from
 separate modules, an unqualified `a` will give an ambiguous error as always,
@@ -22,15 +24,9 @@ module.  Since `#a` is desugared to `A.B.C.a` it's a separate symbol from `a`
 and they can both exist in the same module provided, of course, that you
 imported `A.B.C` qualified.
 
-This is enough for field access, but to support convenient modification, some
-notion of lenses has to be built in and the rule has to be modified, from
-`#a :: forall x. M.X -> x` ==> `M.a :: M.X -> Y` to look at the first argument
-of a `Lens` class:
-`#a :: forall x. Lens M.X x` ==> `M.a :: Lens M.X Y`.  Effectively this is
-just substituting `Lens` for `(->)`.  Maybe it could be extended to look at
-the first argument of any type constructor `forall m x. m M.X x`, that way
-the syntax can be used to resolve not just record fields, but any function,
-or any member of Category, or whatever.
+This is enough for field access, but to support convenient modification we
+can use lenses.  If we substitute `Lens` for `f` instead of (->), then
+we can write `#field :: Lens M.Rec a -> b` and still have it resolve to `M.field`.
 
 Here's an example using plain function "# resolution":
 
