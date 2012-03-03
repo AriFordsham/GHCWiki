@@ -130,6 +130,9 @@ The definition of `get` uses ‑XDisambiguateRecordFields style (with ‑XNamedF
 > currently means `customer_id` is to be same type as `custName`.
 
 >
+> On the other hand, the advantage of repeating the type (from an implementation point of view) is that the desugarrer doesn't have to look for the `fieldLabel` to generate the `Has` instance.
+
+>
 > Opportunity for improvement! \]
 
 ### Record/field update
