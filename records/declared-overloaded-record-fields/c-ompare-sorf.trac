@@ -15,7 +15,7 @@ There is, however, a significant difference on scoping/namespacing: the Proxy ty
 
 The module namespacing in DORF is deliberate, and for exactly the same reason as namespacing in general: a different developer in a different module might 'accidentally' create a clashing name which is unrelated (that is, a name for a field or a record or both). As far as DORF is concerned, these are different names, so need the module name qualification.
 
-In contrast: "The [SORF] proposal ... doesn't allow label names to be scoped: if one module internally uses "field" as a label name then another module can break the abstraction by using the same string "field"." SPJ goes on to discuss a work-round which he sees as "ugly", and concludes "we need scoped instances". DORF does not need any innovations around instances or type inference.
+In contrast: "The [SORF] proposal ... doesn't allow label names to be scoped: if one module internally uses "field" as a label name then another module can break the abstraction by using the same string "field".". DORF does not need any innovations around instances or type inference.
 
 '''Wild afterthought:''' 
  * DORF __does__ need to apply module control/representation hiding to the __field selector function__.
