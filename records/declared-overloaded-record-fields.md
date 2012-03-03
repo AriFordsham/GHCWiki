@@ -88,18 +88,31 @@ We need a way to declare that a name is available as an overloadable field name 
 **Option Three: Mixed In-situ and Declared ORF:**
 
 >
-> \[Added 3-March in response to concerns at the extra effort for a `fieldLabel` for all fields, not just the shared ones.\]
+> \[Added 3-March in response to concerns at the extra effort needed to declare a `fieldLabel` for every field, not just the shared ones.\]
 
 
-Support 'flagging' in the record declaration whether field names are intended to be shared. Possible syntax:
+Provide a way of 'flagging' in the record declaration whether field names are intended to be shared. Possible syntax:
 
 ```wiki
     data Cust_AdHoc = CustAH{ customer_id :: Int, x, y :: String } sharing (customer_id) deriving (...)
 ```
 
-- Fields listed as sharing must have the `fieldLabel` (per Option One or Two).
-- Fields not sharing will get a fieldLabel declared for them,
+- Fields listed as `sharing` must have the `fieldLabel` declared separately (per Option One or Two).
+- Fields not `sharing` will get a fieldLabel declared for them,
    and it will be monomorphic (bound to a single record type).
+
+
+Or perhaps:
+
+```wiki
+    data Customer_Order = Cust_Order { customer_id :: Int, order_num :: Int, ... }
+                          sharing (customer_id) share (order_num) deriving (...)
+```
+
+
+That is:
+
+- for `share` fields, this is declaring them as sharable.
 
 > >
 > > \[End of 3-March addition.\]
