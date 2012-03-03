@@ -1,0 +1,14 @@
+Proposal for new Haskell record system. Record selection is simple operator. Keys are arbitrary types.
+
+= Basics =
+Type classes for types with member at 'k'
+{{{
+class Has k v r where (.) :: r -> k -> v;
+}}}
+which means that r has member of type v with key type k, and for types with mutable member at 'k'
+{{{
+class (Has k u r, Has k v s) => Quasifunctor r s k u v where qfmap :: k -> (u -> v) -> r -> s;
+}}}
+which means that r and s have members of types u and v, in turn, both with selector k; thus, one can mutate the member at 'k' with an arbitrary function of type u -> v, and the overall function is of type r -> s; i.e. one can lift a function of type u -> v to a function of type r -> s.
+
+More to follow.
