@@ -86,7 +86,7 @@ data Cust_AdHoc = CustAH{ customer_id :: Int, x, y :: String } sharing (customer
 ```
 
 
-For the non-shared x and y, saves the burden of a `fieldLabel`, by declaring it for you:
+For the non-`shareing``x` and `y`, saves the burden of a `fieldLabel`, by declaring it for you:
 
 ```wiki
         data Proxy_x
@@ -95,7 +95,44 @@ For the non-shared x and y, saves the burden of a `fieldLabel`, by declaring it 
 ```
 
 
-So field selector function x has the same type (in effect) as would have the H98 field selector.
+So field selector function `x` has the same type (in effect) as would have the H98 field selector.
+
+
+For this variation:
+
+```wiki
+        data Customer_Order = Cust_Order { customer_id :: Int, order_num :: Int, ... }
+                          sharing (customer_id) share (order_num) deriving (...)
+```
+
+
+The `share` fields are declared at this point -- generate the Proxy and the (overloadable) field selector.
+
+
+Pros, compared with Option One or Two:
+
+- No extra declaration style; nor innocuous-looking declaration with unobvious effects
+
+
+Cons:
+
+- This obscures the approach of declaring a data dictionary first.
+- May lead to 'dependency hell' between record types.
+- Prevents putting class constraints on the record type argument to the selector function.
+- Prevents putting class constraints on the field type result from the function.
+
+
+Perhaps the data dictionary/dependency hell could be avoided with a dummy record type to declare all the shared fields:
+
+```wiki
+        data Customer_fieldLabels = Cust_fLabs{ customer_id :: Int, lastName, firstName :: String,
+                                                product_id :: Int, ...
+                                                order_num :: Int, ...
+                                              }                          share (All)
+```
+
+
+(This was a typical kludge on the System/38.)
 
 ### Syntactic sugar for `Has`
 
