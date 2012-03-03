@@ -68,6 +68,7 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 1. **[Frege-derived Records](records/name-spacing) (FDR)**. Uses (Plan A) + (Plan B).
 1. **[Declared Overloaded Record Fields](records/declared-overloaded-record-fields) (DORF)**. Tweak to SORF. (Plan B)
 1. **[Syntax Directed Name Resolution](records/syntax-directed-name-resolution)**. Alternative that relies on syntactic rewriting and lenses.
+1. **[Records/TypeIndexedRecords](records/type-indexed-records)**. (Plan B)
 1. **Are there any other approaches?**
 
 ### Similarities
