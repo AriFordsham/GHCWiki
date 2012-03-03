@@ -1,3 +1,5 @@
+# Type-Indexed Records
+
 
 Proposal for new Haskell record system. Record selection is simple operator. Keys are arbitrary types. Scope is controlled as scope of key types.
 
