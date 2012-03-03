@@ -85,8 +85,27 @@ We need a way to declare that a name is available as an overloadable field name 
 >
 > (See discussion at [Wild afterthought](records/declared-overloaded-record-fields/c-ompare-sorf#the-string-type-parameter-to-has-,-and-scope-control).)
 
+**Option Three: Mixed In-situ and Declared ORF:**
 
-The `-> Int` means the field's domain (type) is `Int` -- it's just a type.
+>
+> \[Added 3-March in response to concerns at the extra effort for a `fieldLabel` for all fields, not just the shared ones.\]
+
+
+Support 'flagging' in the record declaration whether field names are intended to be shared. Possible syntax:
+
+```wiki
+    data Cust_AdHoc = CustAH{ customer_id :: Int, x, y :: String } sharing (customer_id) deriving (...)
+```
+
+- Fields listed as sharing must have the `fieldLabel` (per Option One or Two).
+- Fields not sharing will get a fieldLabel declared for them,
+   and it will be monomorphic (bound to a single record type).
+
+> >
+> > \[End of 3-March addition.\]
+
+
+The field selectors result type `-> Int` means the field's domain (type) is `Int` -- it's just a type.
 We might also want to constrain the record -- for example to be sure it is savable to persistent storage:
 
 ```wiki
