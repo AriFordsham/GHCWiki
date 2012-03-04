@@ -97,6 +97,7 @@ Perhaps the data dictionary/dependency hell could be avoided with a dummy record
 
 (This was a typical kludge on the System/38.)
 
+=== [wiki:Records/DeclaredOverloadedRecordFields/OptionFourTypePunning Option Four: Type Punning on the `fieldLabel`] === q.v.
 
 === Syntactic sugar for `Has` ===
 
