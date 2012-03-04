@@ -101,7 +101,7 @@ For the implementors' benefit the desugar is:
 newtype CommentId = CommentId Int                                 -- fieldLabel commentId
 newtype ContentSource a = (Contentful a) => CommentSource a       -- contentSource
 
-instance (Contenful a, t ~ ContentSource a, a ~ a_) => 
+instance (Contenful a, t ~ ContentSource a_, a ~ a_) => 
           Has (Comment a) (ContentSource a_) t           where ...
 }}}
 (Note the `a`, `a_` and type equality constraint: this is again using the functional-dependency-like mechanism.)
