@@ -85,6 +85,8 @@ Or perhaps:
 That is:
  * for `share` fields, this is declaring them as sharable.
 
+''' [wiki:Records/DeclaredOverloadedRecordFields/OptionFourTypePunning Option Four: Type Punning on the `fieldLabel`] ''' q.v.
+
     [End of 3-March addition.]
 
 The field selector's result type `-> Int` means the field's domain (type) is `Int` -- it's just a type.
