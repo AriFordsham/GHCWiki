@@ -114,8 +114,10 @@ That is:
 
 - for `share` fields, this is declaring them as sharable.
 
-> >
-> > \[End of 3-March addition.\]
+**[Option Four: Type Punning on the \`fieldLabel\`](records/declared-overloaded-record-fields/option-four-type-punning)** q.v.
+
+>
+> \[End of 3-March addition.\]
 
 
 The field selector's result type `-> Int` means the field's domain (type) is `Int` -- it's just a type.
