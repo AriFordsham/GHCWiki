@@ -134,6 +134,8 @@ Perhaps the data dictionary/dependency hell could be avoided with a dummy record
 
 (This was a typical kludge on the System/38.)
 
+### [Option Four: Type Punning on the \`fieldLabel\`](records/declared-overloaded-record-fields/option-four-type-punning) === q.v.
+
 ### Syntactic sugar for `Has`
 
 
