@@ -1,6 +1,6 @@
 = Declared Overloaded Record Fields (DORF) =
 
-== Thumbnal Sketch ==
+== Thumbnail Sketch ==
 
 This proposal is addressing the narrow issue of '''namespacing for record field names''' by allowing more than one record in the same module to share a field name. Specifically the record field name is overloaded so that:
  * __Within the same module__, many record types can be declared to share the field name.
@@ -91,7 +91,7 @@ This proposal is addressing the "narrow issue" of namespacing for record field n
 [wiki:Records]
 
 I'm avoiding giving implementation details here -- see:
-    The Implementor's view; and Comparison to SORF   (links above)
+    The Implementer's view; and Comparison to SORF   (links above)
 
 I'm not saying anything about field selection via pattern matching or record construction using explicit data constructors -- those are to behave as currently (using the approach per ‑XDisambiguateRecordFields and friends).
 
