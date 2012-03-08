@@ -3,18 +3,18 @@
 ## Thumbnail Sketch
 
 
-This proposal is addressing the narrow issue of **namespacing for record field names** by allowing more than one record in the same module to share a field name. Specifically the record field name is overloaded so that:
+This proposal is addressing the narrow issue of **namespacing for record field names** by allowing more than one record in the same module to share a field name. Specifically each field name is overloaded so that:
 
 - Within the same module, many record types can be declared to share the field name.
 - The field name can be exported so that records in other modules can share it.
 - Furthermore, other modules can create records using that field name, and share it.
 
 
-The export/import is under usual H98 namespace and module/qualification control, so that when exporting a record type:
+The export/import is under usual H98 namespace and module/qualification control, so that for the record type in an importing module:
 
-- Some fields can be both read and updated;
-- Some can be read-only;
-- Some can be completely hidden.
+- Some fields are both readable and updatable;
+- Some are read-only;
+- Some are completely hidden.
 
 
 In case of 'unintended' clash (another module using the same name 'by accident'), usual H98 controls apply to protect encapsulation and representation hiding.
@@ -25,10 +25,10 @@ This proposal introduces several new elements of syntax, all of which desugar to
 - The field name overloading is implemented through usual class and instance mechanisms.
 - Field selectors are ordinary functions named for the field (but overloaded rather than H98's monomorphic), so field selection is regular function application. (There is no need for syntactically-based disambiguation at point of use.)
 
-### Implementation: the `Has` class, and methods `get` and `set`
+### Implementation: the `Has` class, with methods `get` and `set`
 
 
-Record declarations generate a `Has` instance for each record type/field combination. As well as type arguments for the record and field, there is a third argument for the field's type, which is set at the instance level using equality constraints in a functional-dependencies style. Here is the `Has` class (`r` is the record, `fld` is the proxy type for the field, `t` is the fields type), an example declaration, its `Has` instance, and examples of use:
+Record declarations generate a `Has` instance for each record type/field combination. As well as type arguments for the record and field, there is a third argument for the field's resulting type. This is set at the instance level using equality constraints in a functional-dependencies style. Here is the `Has` class (`r` is the record, `fld` is the proxy type for the field, `t` is the fields type), with an example record declaration, its `Has` instance, and examples of use:
 
 ```wiki
     class Has r fld t                                             where
@@ -36,13 +36,14 @@ Record declarations generate a `Has` instance for each record type/field combina
         set :: fld -> t -> r -> r                                       -- where not changing record's type
 
     data Customer = Cust{ customer_id :: Int, ... }                     -- declaration syntax same as H98
+
     instance (t ~ Int) => Has Customer Proxy_customer_id t        where -- Has instance generated, with ~ constraint
-        get Cust{ customer_id } _ = customer_id                         -- DisambiguateRecordFields style
+        get Cust{ customer_id } _ = customer_id                         -- DisambiguateRecordFields pattern
         set _ x Cust{ .. }        = Cust{ customer_id = x, .. }         -- RecordWildCards and NamedFieldPuns
 
     myCust :: Customer                                                  -- usual record decl
     ... myCust{ customer_id = 27 }                                      -- polymorphic record update
-    ... (customer_id myCust) ...                                        -- field selection is func apply
+    ... (customer_id myCust) ...                                        -- field selection is func apply, or:
     ... myCust.customer_id ...                                          -- dot notation is sugar for reverse func apply
 ```
 
@@ -50,10 +51,10 @@ Record declarations generate a `Has` instance for each record type/field combina
 Note that the**`Has` mechanism** uses a Proxy as the type 'peg' for a field (this is the wildcard argument to `get` and `set`):
 
 - The Proxy must be declared once, and is then under regular name control.
-- The field selector function also must be declared once, using the Proxy.
+- The field selector function also must be declared once, defined using the Proxy.
 
 ```wiki
-    -- fieldLabel customer_id :: r -> Int                               -- new declaration, desugars to Proxy and func
+    fieldLabel customer_id :: r -> Int                                  -- new declaration, desugars to Proxy and func:
     data Proxy_customer_id                                              -- phantom
     customer_id :: r{ customer_id :: Int } => r -> Int                  -- r{ ... } is sugar for Has constraint
     customer_id r = get r (undefined :: Proxy_customer_id)
@@ -79,7 +80,7 @@ Note that the**`Has` mechanism** uses a Proxy as the type 'peg' for a field (thi
   Uses equality constraints on the instance to 'improve' types.
 - `Has` uses type family functions to manage type-changing update, which adds complexity -- see Implementer's view.
 - Multiple fields can be updated in a single expression (using familiar H98 syntax), but this desugars to nested updates, which is inefficient.
-- Pattern matching and record creation using data constructor prefix to { ... } work as per H98 (using DisambiguateRecordFields and friends).
+- Pattern matching and record creation using the data constructor prefixed to { ... } work as per H98 (using DisambiguateRecordFields and friends).
 
 
 .
