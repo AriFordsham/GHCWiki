@@ -7,10 +7,10 @@ This proposal is addressing the narrow issue of '''namespacing for record field 
  * The field name can be exported so that records __in other modules__ can share it.
  * Furthermore, other modules __can create records__ using that field name, and share it.
 
-The export/import is under usual H98 namespace and module/qualification control, so that when exporting a record type:
- * Some fields can be both read and updated;
- * Some can be read-only;
- * Some can be completely hidden.
+The export/import is under usual H98 namespace and module/qualification control, so that for the record type in an importing module:
+ * Some fields are both `get`able and `set`able;
+ * Some are read-only;
+ * Some are completely hidden.
 
 In case of 'unintended' clash (another module using the same name 'by accident'), usual H98 controls apply to protect encapsulation and representation hiding.
 

@@ -10,11 +10,11 @@ This proposal is addressing the narrow issue of **namespacing for record field n
 - Furthermore, other modules can create records using that field name, and share it.
 
 
-The export/import is under usual H98 namespace and module/qualification control, so that when exporting a record type:
+The export/import is under usual H98 namespace and module/qualification control, so that for the record type in an importing module:
 
-- Some fields can be both read and updated;
-- Some can be read-only;
-- Some can be completely hidden.
+- Some fields are both `get`able and `set`able;
+- Some are read-only;
+- Some are completely hidden.
 
 
 In case of 'unintended' clash (another module using the same name 'by accident'), usual H98 controls apply to protect encapsulation and representation hiding.
