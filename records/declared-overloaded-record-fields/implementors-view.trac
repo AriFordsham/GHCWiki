@@ -1,5 +1,5 @@
 
-= DORF -- Implementor's view =
+= DORF -- Implementer's view =
 
 The implementation has been prototyped in GHC 7.2.1, see
 http://www.haskell.org/pipermail/glasgow-haskell-users/2011-December/021298.html, and SPJ's observations/possible improvements and caveats
