@@ -1,4 +1,4 @@
-# DORF -- Implementor's view
+# DORF -- Implementer's view
 
 
 The implementation has been prototyped in GHC 7.2.1, see
