@@ -1,54 +1,81 @@
 = Declared Overloaded Record Fields (DORF) =
 
-== Thumbnal Sketch ==
+== Thumbnail Sketch ==
 
 This proposal is addressing the narrow issue of '''namespacing for record field names''' by allowing more than one record in the same module to share a field name. Specifically the record field name is overloaded so that:
- * Many record types can be declared in the same module to share the field name.
- * The field name can be exported so that records in other modules can share it.
+ * __Within the same module__, many record types can be declared to share the field name.
+ * The field name can be exported so that records __in other modules__ can share it.
+ * Furthermore, other modules __can create records__ using that field name, and share it.
+
 The export/import is under usual H98 namespace and module/qualification control, so that when exporting a record type:
  * Some fields can be both read and updated;
  * Some can be read-only;
  * Some can be completely hidden.
 
-This proposal introduces several new elements of syntax, all of which desugar to use well-established extensions to ghc. The approach has been proptotyped in ghc v 7.2.1. In particular:
+In case of 'unintended' clash (another module using the same name 'by accident'), usual H98 controls apply to protect encapsulation and representation hiding.
+
+This proposal introduces several new elements of syntax, all of which desugar to use well-established extensions of ghc. The approach has been prototyped in ghc v 7.2.1. In particular:
  * The field name overloading is implemented through usual class and instance mechanisms.
- * Field selectors are ordinary functions named for the field (but overloaded rather than H98's monomorphic), so field selection is regular function application.
+ * Field selectors are ordinary functions named for the field (but overloaded rather than H98's monomorphic), so field selection is regular function application. (There is no need for syntactically-based disambiguation at point of use.)
 
 === Implementation: the `Has` class, and methods `get` and `set` ===
 
-Record declarations, instead of generating a (monomorphic) selector function named for the field, generate a `Has` instance for each record type/field combination. A data declaration, its `Has` instance, and examples of use:
+Record declarations generate a `Has` instance for each record type/field combination. As well as type arguments for the record and field, there is a third argument for the field's type, which is set at the instance level using equality constraints in a functional-dependencies style. Here is the `Has` class (`r` is the record, `fld` is the proxy type for the field, `t` is the fields type), an example declaration, its `Has` instance, and examples of use:
 {{{
-    data Customer = Cust{ customer_id :: Int, ... }
-    instance (t ~ Int) => Has Customer Proxy_customer_id t        where
+    class Has r fld t                                             where
+        get :: r -> fld -> t                                            -- simplified form
+        set :: fld -> t -> r -> r                                       -- where not changing record's type
+
+    data Customer = Cust{ customer_id :: Int, ... }                     -- declaration syntax same as H98
+    instance (t ~ Int) => Has Customer Proxy_customer_id t        where -- Has instance generated, with ~ constraint
         get Cust{ customer_id } _ = customer_id                         -- DisambiguateRecordFields style
         set _ x Cust{ .. }        = Cust{ customer_id = x, .. }         -- RecordWildCards and NamedFieldPuns
 
-    myCust :: Customer
-    ... (customer_id myCust) ...                                        -- field selection is func apply
+    myCust :: Customer                                                  -- usual record decl
     ... myCust{ customer_id = 27 }                                      -- polymorphic record update
+    ... (customer_id myCust) ...                                        -- field selection is func apply
+    ... myCust.customer_id ...                                          -- dot notation is sugar for reverse func apply
 }}}
 
-Note that the mechanism uses a Proxy as the type 'peg' for a field (this is the wildcard argument to `get` and `set`):
+Note that the''' `Has` mechanism''' uses a Proxy as the type 'peg' for a field (this is the wildcard argument to `get` and `set`):
  * The Proxy must be declared once, and is then under regular name control.
  * The field selector function also must be declared once, using the Proxy.
 
 {{{
+    -- fieldLabel customer_id :: r -> Int                               -- new declaration, desugars to Proxy and func
     data Proxy_customer_id                                              -- phantom
-    customer_id :: r{ customer_id :: Int }
+    customer_id :: r{ customer_id :: Int } => r -> Int                  -- r{ ... } is sugar for Has constraint
     customer_id r = get r (undefined :: Proxy_customer_id)
 
-    set Proxy_customer_id 27 myCust
+    set (undefined :: Proxy_customer_id) 27 myCust                      -- record update desugarred from above
 }}}
- * The field selector function is an (overloaded) call to the `get` function, it's type is a function from a record to 
 
+'''Virtual''' or '''pseudo-''' fields are easy to create and use, because field selection is merely function application. Virtual fields look like ordinary fields (but can't be updated, because there is no `Has` instance):
+{{{
+    fullName r = r.firstName ++ " " ++ map toUpper r.lastName           -- example adapted from SPJ
+                                                                        -- dot notation binds tighter than func apply
+    fullName :: r{ firstName :: String, lastName :: String} => r -> String
+                                                                        -- type inferred for fullName
+                                                                        -- the Has constraints use elided syntax
+}}}
 
+'''Technical capabilities''' and limitations for the `Has` class:
+ * Monomorphic fields can be `get` and `set`.
+ * Parametric polymorphic fields can be applied in polymorphic contexts, and can be `set` including changing the type of the record.
+ * Higher-ranked polymorphic fields can be applied in polymorphic contexts, but cannot be set.[[BR]]Uses equality constraints on the instance to 'improve' types.
+ * `Has` uses type family functions to manage type-changing update, which adds complexity -- see Implementer's view.
+ * Multiple fields can be updated in a single expression (using familiar H98 syntax), but this desugars to nested updates, which is inefficient.
+ * Pattern matching and record creation using data constructor prefix to { ... } work as per H98 (using DisambiguateRecordFields and friends).
 
+.
+
+== DORF Full motivation and examples ==
 
 Explained in 5 wiki pages (these proposals are linked but somewhat orthogonal):
 
  * ''' [wiki:Records/DeclaredOverloadedRecordFields/NoMonoRecordFields No Mono Record Fields] '''   (precursor to DORF)
  * ''' DORF -- Application Programmer's view '''     (this page)
- * ''' [wiki:Records/DeclaredOverloadedRecordFields/ImplementorsView DORF -- Implementor's view] '''
+ * ''' [wiki:Records/DeclaredOverloadedRecordFields/ImplementorsView DORF -- Implementer's view] '''
  * ''' [wiki:Records/DeclaredOverloadedRecordFields/COmpareSORF DORF -- Comparison to SORF (and TDNR)] '''
  * ''' [wiki:Records/DeclaredOverloadedRecordFields/DotPostfix Dot as Postfix Function Apply] '''   ('''''optional''''' syntactic sugar)
  * ''' [wiki:Records/DeclaredOverloadedRecordFields/PolyRecordPattern Polymorphic Record Patterns] '''   ('''''speculative''''' future)
@@ -64,7 +91,7 @@ This proposal is addressing the "narrow issue" of namespacing for record field n
 [wiki:Records]
 
 I'm avoiding giving implementation details here -- see:
-    The Implementor's view; and Comparison to SORF   (links above)
+    The Implementer's view; and Comparison to SORF   (links above)
 
 I'm not saying anything about field selection via pattern matching or record construction using explicit data constructors -- those are to behave as currently (using the approach per ‑XDisambiguateRecordFields and friends).
 
