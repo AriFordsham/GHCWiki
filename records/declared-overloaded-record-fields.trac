@@ -28,7 +28,7 @@ Record declarations generate a `Has` instance for each record type/field combina
 
     data Customer = Cust{ customer_id :: Int, ... }                     -- declaration syntax same as H98
     instance (t ~ Int) => Has Customer Proxy_customer_id t        where -- Has instance generated, with ~ constraint
-        get Cust{ customer_id } _ = customer_id                         -- DisambiguateRecordFields style
+        get Cust{ customer_id } _ = customer_id                         -- DisambiguateRecordFields pattern
         set _ x Cust{ .. }        = Cust{ customer_id = x, .. }         -- RecordWildCards and NamedFieldPuns
 
     myCust :: Customer                                                  -- usual record decl
