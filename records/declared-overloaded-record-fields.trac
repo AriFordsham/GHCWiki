@@ -39,17 +39,23 @@ Record declarations generate a `Has` instance for each record type/field combina
 }}}
 
 Note that the''' `Has` mechanism''' uses a Proxy as the type 'peg' for a field (this is the wildcard argument to `get` and `set`):
- * The Proxy must be declared once, and is then under regular name control.
+ * There must be a Proxy_type declared for each distinct field name.
+ * The Proxy must be declared once, and the Proxy is then under regular name control.
  * The field selector function also must be declared once, defined using the Proxy.
 
+    It is an error to declare a record field without there being a Proxy in scope. The desugar for the data decl would create the instance to use the Proxy, but then the instance would fail.
+
+To generate the correct declarations, there is to be a new `fieldLabel` sugar:
 {{{
     fieldLabel customer_id :: r -> Int                                  -- new declaration, desugars to Proxy and func:
     data Proxy_customer_id                                              -- phantom
     customer_id :: r{ customer_id :: Int } => r -> Int                  -- r{ ... } is sugar for Has constraint
     customer_id r = get r (undefined :: Proxy_customer_id)
 
-    set (undefined :: Proxy_customer_id) 27 myCust                      -- record update desugarred from above
+    set (undefined :: Proxy_customer_id) 27 myCust                      -- record update desugarred from above example
 }}}
+
+ * (Admittedly, this could get onerous to declare a `fieldLabel` for every field, even the ones that appear in a single record type. See "Option Three: Mixed In-situ and DeclaredORF: " further down this page for a suggestion of using the DORF mechanism to generate one-off H98-style fields.)
 
 '''Virtual''' or '''pseudo-''' fields are easy to create and use, because field selection is merely function application. Virtual fields look like ordinary fields (but can't be updated, because there is no `Has` instance):
 {{{
@@ -63,7 +69,7 @@ Note that the''' `Has` mechanism''' uses a Proxy as the type 'peg' for a field (
 '''Technical capabilities''' and limitations for the `Has` class:
  * Monomorphic fields can be `get` and `set`.
  * Parametric polymorphic fields can be applied in polymorphic contexts, and can be `set` including changing the type of the record.
- * Higher-ranked polymorphic fields can be applied in polymorphic contexts, but cannot be set.[[BR]]Uses equality constraints on the instance to 'improve' types.
+ * Higher-ranked polymorphic fields can be applied in polymorphic contexts, but cannot be set -- for the same reasons as under SORF.[[BR]]The instances use equality constraints to 'improve' types up to polymorphic.
  * `Has` uses type family functions to manage type-changing update, which adds complexity -- see Implementer's view.
  * Multiple fields can be updated in a single expression (using familiar H98 syntax), but this desugars to nested updates, which is inefficient.
  * Pattern matching and record creation using the data constructor prefixed to { ... } work as per H98 (using DisambiguateRecordFields and friends).
