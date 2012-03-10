@@ -13,7 +13,7 @@ This method is quick and easy, but can fail if your `cabal` program is out of da
 {{{
 cabal install --with-compiler=<inplace-ghc> <package>
 }}}
-where `<inplace ghc>` is the path to your inplace GHC (usually `$(TOP)/inplace/bin/ghc-stage2`), and <package> is the name of the package.
+where `<inplace ghc>` is the path to your inplace GHC (usually `$(TOP)/inplace/bin/ghc-stage2`; make sure it's absolute), and <package> is the name of the package.
 
 Points to note:
  * This will install the package in your home directory (e.g. somewhere under `~/.cabal/lib` on a Unix system), and it will register the package in your private package database, so you'll probably want to remove and unregister it by hand when you've finished.
