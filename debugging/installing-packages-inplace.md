@@ -16,7 +16,7 @@ cabal install --with-compiler=<inplace-ghc> <package>
 ```
 
 
-where `<inplace ghc>` is the path to your inplace GHC (usually `$(TOP)/inplace/bin/ghc-stage2`), and \<package\> is the name of the package.
+where `<inplace ghc>` is the path to your inplace GHC (usually `$(TOP)/inplace/bin/ghc-stage2`; make sure it's absolute), and \<package\> is the name of the package.
 
 
 Points to note:
