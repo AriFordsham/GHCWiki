@@ -99,7 +99,7 @@ and a short description of what they're doing or have done.
 
 - Manuel Chakravarty (FFI, Data Parallel Haskell, associated types & type families, Mac OS X port)
 - [ Tim Chevalier](http://catamorphism.org/) (External Core, strictness analysis, ticky-ticky profiling)
-- Duncan Coutts (Gentoo packages)
+- Duncan Coutts (parallel profiling, package system)
 - [ Iavor S Diatchki](http://www.csee.ogi.edu/~diatchki) ('monadLib' library)
 - Andy Gill (Haskell Program Coverage)
 - David Himmelstrup (GHC developer)
