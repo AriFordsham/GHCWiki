@@ -53,7 +53,8 @@ So we have decided to avoid the extensible record debate, but how can we have mu
  5. '''[wiki:Records/DeclaredOverloadedRecordFields Declared Overloaded Record Fields] (DORF)'''. Tweak to SORF. (Plan B)
  6. '''[wiki:Records/SyntaxDirectedNameResolution Syntax Directed Name Resolution]'''. Alternative that relies on syntactic rewriting and lenses.
  7. '''[wiki:Records/TypeIndexedRecords Type Indexed Records]'''. (Plan B)
- 8. '''Are there any other approaches?'''
+ 8. '''[wiki:Records/TypePunningDeclaredOverloadedRecordFields Type-Punning Declared Overloaded Record Fields] (TPDORF)'''. In the DORF stable. (Plan B)
+ 9. '''Are there any other approaches?'''
 
 === Similarities ===
 
