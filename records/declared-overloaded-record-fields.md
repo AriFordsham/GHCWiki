@@ -28,7 +28,7 @@ This proposal introduces several new elements of syntax, all of which desugar to
 ### Implementation: the `Has` class, with methods `get` and `set`
 
 
-Record declarations generate a `Has` instance for each record type/field combination. As well as type arguments for the record and field, there is a third argument for the field's resulting type. This is set at the instance level using equality constraints in a functional-dependencies style. Here is the `Has` class (`r` is the record, `fld` is the proxy type for the field, `t` is the fields type), with an example record declaration, its `Has` instance, and examples of use:
+Record declarations generate a `Has` instance for each record type/field combination. As well as type arguments for the record and field, there is a third argument for the field's resulting type. This is set at the instance level using equality constraints in a functional-dependencies style. Here is the `Has` class (`r` is the record, `fld` is the proxy type for the field, `t` is the field's type), with an example record declaration, its `Has` instance, and examples of use:
 
 ```wiki
     class Has r fld t                                             where
@@ -89,7 +89,7 @@ To generate the correct declarations, there is to be a new `fieldLabel` sugar:
   The instances use equality constraints to 'improve' types up to polymorphic.
 - `Has` uses type family functions to manage type-changing update, which adds complexity -- see Implementer's view.
 - Multiple fields can be updated in a single expression (using familiar H98 syntax), but this desugars to nested updates, which is inefficient.
-- Pattern matching and record creation using the data constructor prefixed to { ... } work as per H98 (using DisambiguateRecordFields and friends).
+- Pattern matching and record creation using the data constructor prefixed to { ... } work as per H98 (using `DisambiguateRecordFields` and friends).
 
 
 .
