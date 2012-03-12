@@ -57,7 +57,7 @@ Here is the `Has` class with instances for the above Customer record, and exampl
 
 ```wiki
     class Has r t                                           where
-        get :: r -> t -> GetResult r t                                  -- see instances below
+        get :: r -> t -> GetResult r t                                  -- see type instances below
         set :: t -> r -> SetResult r t                                  -- use where changing the record's type
 
     type family GetResult r t :: *
@@ -81,14 +81,14 @@ Here is the `Has` class with instances for the above Customer record, and exampl
 
     instance Has Customer FirstName                         where       -- Has instance generated
         get Customer{ firstName = (FirstName x) } = x                   -- DisambiguateRecordFields pattern
-        set x Customer{ .. }    = Customer{ firstName = (FirstName x), .. }   -- RecordWildCards and NamedFieldPuns
+        set x Customer{ .. }    = Customer{ firstName = x, .. }         -- RecordWildCards and NamedFieldPuns
 
     type instance GetResult Customer FirstName     = String             -- specific to this record/field
     -- type instance SetResult Customer FirstName  = Customer           -- not needed/already declared above
 
 
     myCust :: Customer                                                  -- usual record decl
-    ... myCust{ customer_id = 27, firstName = Fred }                    -- **polymorphic** record update, no data constr
+    ... myCust{ customer_id = 27, firstName = "Fred" }                  -- **polymorphic** record update, no data constr
     ... (customer_id myCust) ...                                        -- field selection is func apply, or:
     ... myCust.customer_id ...                                          -- dot notation is sugar for reverse func apply
 ```
@@ -99,6 +99,10 @@ Note that the**`Has` mechanism** uses **the field's type itself** to locate the 
 - Each field must be a distinct type.
 - The Type must be declared once (within the scope), and is then under regular name control.
   (Probably you're doing this already for critical fields to share.)
+- The type functions are not associated types, because:
+
+  - GetResult for shared fields depends only on the Field's type (per Customer_id above);
+  - SetResult for non-parametric record types does not change the record type.
 - The field selector function also must be declared once, defined punning on the field's type.
   (See below for syntactic sugar to declare these.)
 
@@ -111,16 +115,20 @@ To generate the correct field selector function, there is to be a new deriving c
 ```wiki
     newtype Customer_id = Customer_id Int                               -- newtype or data decl, same name type and constr
                                            deriving (Has, ...)          -- generates customer_id function, per above
+
+    data Customer = Customer { :: Customer_id, ... }                    -- auto-gen field label pun on type name
+                             sharing (Customer_id, ...)
 ```
 
 
-Polymorphic record updates:
+Polymorphic record updates, alternative syntax (note, no data constructor for the record):
 
 ```wiki
     set (Customer_id 27) (                                              -- record update desugarred from above example
                set (FirstName "Fred") myCust  )                         -- note nested
 
-    ... myCust{ cust_id, FirstName "Fred" }                             -- equiv syntax (assuming cust_id :: Customer_id)
+    ... myCust{ cust_id, FirstName "Fred" }                             -- equiv syntax **only** for polymorphic updates
+                                                                        -- (assuming cust_id :: Customer_id)
 ```
 
 **Virtual** or **pseudo-** fields are easy to create and use, because field selection is merely function application (plus unwrapping for non-shared H98-style fields). Virtual fields look like ordinary fields (but can't be updated, because there is no `Has` instance):
@@ -140,7 +148,16 @@ Polymorphic record updates:
   (This uses the SetResult type function.)
 - Multiple fields can be updated in a single expression (using familiar H98 syntax), but this desugars to nested updates, which is inefficient.
 - Pattern matching and record creation using the data constructor prefixed to { ... } work as per H98 (using `DisambiguateRecordFields` and friends).
-- Higher-ranked polymorphic fields (including class-constrained) can be applied in polymorphic contexts, and can be set -- providing they are wrapped in a newtype.
+- Higher-ranked polymorphic fields (including class-constrained) can be applied in polymorphic contexts, and can be set -- providing they are wrapped in a newtype. Here is SPJ's example:
+
+```wiki
+    newtype Rev = Rev (forall a. [a] -> [a])        deriving (Has)
+    newtype OrdRev = OrdRev (Ord a => [a] -> [a])   deriving (Has)
+
+    data HR = HR{ rev :: Rev, ordRev :: OrdRev } sharing (Rev, OrdRev)
+```
+
+- Note that to get/set those h-r fields needs them to be un/wrapped within the user code.
 
 
 .
