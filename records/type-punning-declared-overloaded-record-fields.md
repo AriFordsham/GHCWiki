@@ -101,10 +101,11 @@ Note that the**`Has` mechanism** uses **the field's type itself** to locate the 
   (Probably you're doing this already for critical fields to share.)
 - The type functions are not associated types, because:
 
-  - GetResult for shared fields depends only on the Field's type (per Customer_id above);
-  - SetResult for non-parametric record types does not change the record type.
+  - `GetResult` for shared fields depends only on the Field's type (per Customer_id above);
+  - `SetResult` for non-parametric record types continues the same record type.
 - The field selector function also must be declared once, defined punning on the field's type.
   (See below for syntactic sugar to declare these.)
+- Possible **downside:** for non-`sharing` fields, what's the risk there's already a Type with the same name (upshifted) and that the name is an 'accidental' clash?
 
 > >
 > > It is an error to be `sharing` a record field without there being a same-named type in scope. The desugar for the data decl would create the instance to use the Type, but then the instance would fail.
@@ -146,8 +147,12 @@ Polymorphic record updates, alternative syntax (note, no data constructor for th
 - Monomorphic fields can be `get` and `set`.
 - Parametric polymorphic fields can be applied in polymorphic contexts, and can be `set` including changing the type of the record.
   (This uses the SetResult type function.)
+  To do: provide example with desugarring.
 - Multiple fields can be updated in a single expression (using familiar H98 syntax), but this desugars to nested updates, which is inefficient.
 - Pattern matching and record creation using the data constructor prefixed to { ... } work as per H98 (using `DisambiguateRecordFields` and friends).
+- But the types are subtlely different vs. polymorphic update: you must explicitly wrap the types.
+  (So this is not backwards compatible. Can we do this?:
+  In `Constr{ fld = e }`, if `e` not type `Fld`, enwrap it with a `Fld` constructor.)
 - Higher-ranked polymorphic fields (including class-constrained) can be applied in polymorphic contexts, and can be set -- providing they are wrapped in a newtype. Here is SPJ's example:
 
 ```wiki
@@ -165,8 +170,12 @@ Polymorphic record updates, alternative syntax (note, no data constructor for th
 
     type instance GetResult HR Rev     = (forall a. [a] -> [a])         -- no can do! not allowed forall's on RHS
                                                                         -- (and can't do equality constraints on type instances)
+    {- ??can we do better -- perhaps an eq constraint on the Has instance:
+                 (GetResult HR Rev ~ ([a] -> [a])) => Has ...
+       plus a non-commital result for getResult
+    -}
 
-{- instead, do explicit newtype wrapping for higher-rank types   -}
+{- instead, do explicit newtype wrapping for higher-rank types:   -}
 
     newtype Rev = Rev (forall a. [a] -> [a])        deriving (Has)
     newtype OrdRev = OrdRev (Ord a => [a] -> [a])   deriving (Has)      -- class constrained
