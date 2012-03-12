@@ -3,7 +3,10 @@
 ## Thumbnail Sketch
 
 
-This proposal is addressing the narrow issue of **namespacing for record field names** by allowing more than one record in the same module to share a field name. Furthermore, it is aiming at a more structured approach to higher-ranked type fields, so that they can be updated using the same surface syntax as for other fields. This actually means a less complex implementation (compared to DORF or SORF). Specifically each field name is overloaded, and there is a Type with the same name (upshifted) so that:
+This proposal is addressing the narrow issue of **namespacing for record field names** by allowing more than one record in the same module to share a field name. Furthermore, it is aiming at a more structured approach to higher-ranked type fields, so that they can be updated using the same surface syntax as for other fields. This actually means a less complex implementation (compared to DORF or SORF). This proposal is in the DORF 'stable', but sufficiently different it is worth making it a separate proposal.
+
+
+Specifically each sharing field name is overloaded, and there is a Type with the same name (upshifted) so that:
 
 - Within the same module, many record types can be declared to share the field name.
 - The field name can be exported so that records in other modules can share it.
@@ -20,7 +23,7 @@ The export/import of both the field name and its punned Type is under usual H98 
 In case of 'unintended' clash (another module using the same name 'by accident'), usual H98 controls apply to protect encapsulation and representation hiding.
 
 
-This proposal introduces several new elements of syntax, all of which desugar to use well-established extensions of ghc. The approach is yet to be prototyped, but I expect that to be possible in ghc v 7.2.1. In particular:
+This proposal introduces several new elements of syntax (including some shorthands), all of which desugar to use well-established extensions of ghc. The approach is yet to be prototyped, but I expect that to be possible in ghc v 7.2.1. In particular:
 
 - The field name overloading is implemented through usual class and instance mechanisms.
 - Field selectors are ordinary functions named for the field (but overloaded rather than H98's monomorphic), so field selection is regular function application. (There is no need for syntactically-based disambiguation at point of use.)
@@ -50,7 +53,7 @@ TPDORF approaches h-r fields in a different way, which supports both setting and
 ```
 
 
-TPDORF makes a virtue of this punning. (So extend's H98's and `NamedFieldPuns` punning on the field name.) This allows for some syntactic shortcuts, but still supporting H98-style declaring field names within the record decl for backwards compatibility.
+TPDORF makes a virtue of this punning. (So extend's H98's and `NamedFieldPuns` punning on the field name.) This allows for some syntactic shorthands, but still supporting H98-style declaring field names within the record decl for backwards compatibility.
 
 
 Here is the `Has` class with instances for the above Customer record, and examples of use:
@@ -85,10 +88,10 @@ Here is the `Has` class with instances for the above Customer record, and exampl
 
     type instance GetResult Customer FirstName     = String             -- specific to this record/field
     -- type instance SetResult Customer FirstName  = Customer           -- not needed/already declared above
-
+                                                                        -- (but OK because overlaps and same result)
 
     myCust :: Customer                                                  -- usual record decl
-    ... myCust{ customer_id = 27, firstName = "Fred" }                  -- **polymorphic** record update, no data constr
+    ... myCust{ customer_id = 27, firstName = "Fred" } ...              -- **polymorphic** record update, no data constr
     ... (customer_id myCust) ...                                        -- field selection is func apply, or:
     ... myCust.customer_id ...                                          -- dot notation is sugar for reverse func apply
 ```
@@ -108,7 +111,7 @@ Note that the**`Has` mechanism** uses **the field's type itself** to locate the 
 - Possible **downside:** for non-`sharing` fields, what's the risk there's already a Type with the same name (upshifted) and that the name is an 'accidental' clash?
 
 > >
-> > It is an error to be `sharing` a record field without there being a same-named type in scope. The desugar for the data decl would create the instance to use the Type, but then the instance would fail.
+> > It is an error to be `sharing` a record field without there being a same-named Type in scope. The desugar for the data decl would create the instance to use the Type, but then the instance would fail.
 
 
 To generate the correct field selector function, there is to be a new deriving class; and for record decls a shorthand:
