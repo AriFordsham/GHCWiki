@@ -26,6 +26,8 @@ Note that SORF introduces a third argument for the field's resulting type. (This
 
 TPDORF approaches h-r fields in a different way, which supports __both__ setting and getting those fields. (I'm not claiming this is a ''solution'', more a well-principled work-round. And not a hack.)
 
+'''The main insight''' is that to manage large-scale data models (in which namespacing becomes onerous
+
 , there is a third argument for the field's resulting type. This is set at the instance level using equality constraints in a functional-dependencies style. Here is the `Has` class (`r` is the record, `fld` is the proxy type for the field, `t` is the field's type), with an example record declaration, its `Has` instance, and examples of use:
 {{{
     class Has r fld t                                             where
