@@ -24,7 +24,7 @@ Record declarations generate a `Has` instance for each record type/field combina
 
 Note that SORF introduces a third argument for the field's resulting type. (This is specifically to support higher-rank typed fields; but despite the complexity it introduces, SORF has no mechanism to __update__ h-r fields.)
 
-TPDORF approaches h-r fields in a different way, which supports __both__ setting and getting those fields. (I'm not claiming this is a ''solution'', more a well-principled work-round. And not a hack.)
+TPDORF approaches h-r fields in a different way, which supports __both__ setting and getting those fields. (I'm not claiming this is a ''solution'', more a well-principled work-round. And not a hack. It is both scalable, and supports class-constrained higher-rank types.)
 
 '''The main insight''' is that to manage large-scale data models (in which namespacing becomes onerous, and name sharing would be most beneficial), there are typically strong naming conventions and representation hiding for critical fields. For example:
 {{{
@@ -35,10 +35,10 @@ TPDORF approaches h-r fields in a different way, which supports __both__ setting
        , firstName   :: String                                          -- not a critical/shared field
        , lastName    :: String
        , ...   
-       }       sharing (customer_id, ...)  deriving (...)               -- new sharing syntax
+       }       sharing (Customer_id, ...)  deriving (...)               -- new sharing syntax
 }}}
 
-TPDORF makes a virtue of this punning. (So extend's H98's and NamedFieldPuns punning on the field name.) This allows for some syntactic shortcuts, but still supporting H98-style declaring field names within the record decl for backwards compatibility.
+TPDORF makes a virtue of this punning. (So extend's H98's and `NamedFieldPuns` punning on the field name.) This allows for some syntactic shortcuts, but still supporting H98-style declaring field names within the record decl for backwards compatibility.
 
 Here is the `Has` class with instances for the above Customer record, and examples of use:
 {{{
@@ -65,33 +65,34 @@ Here is the `Has` class with instances for the above Customer record, and exampl
     -- type instance SetResult Customer FirstName  = Customer           -- not needed/already declared above
 
    customer_id r = get r :: Customer_id                                 -- we can auto-decl this, see below
+   customer_id :: r{ customer_id :: Customer_id } => r -> Customer_id   -- type inferred for the function
 
     myCust :: Customer                                                  -- usual record decl
-    ... myCust{ customer_id = 27 }                                      -- polymorphic record update
+    ... myCust{ customer_id = 27, firstName = Fred }                    -- **polymorphic** record update, no data constr
     ... (customer_id myCust) ...                                        -- field selection is func apply, or:
     ... myCust.customer_id ...                                          -- dot notation is sugar for reverse func apply
 }}}
 
 Note that the''' `Has` mechanism''' uses '''the field's type itself''' to locate the field within the record:
  * Each field must be a distinct type.
- * The Type must be declared once (within the scope), and is then under regular name control.[[BR]](Probably you're doing this already for critical fields.)
- * The field selector function also must be declared once, defined punning on the field's type.
+ * The Type must be declared once (within the scope), and is then under regular name control.[[BR]](Probably you're doing this already for critical fields to share.)
+ * The field selector function also must be declared once, defined punning on the field's type.[[BR]](See below for syntactic sugar to declare these.)
 
     It is an error to be `sharing` a record field without there being a same-named type in scope. The desugar for the data decl would create the instance to use the Type, but then the instance would fail.
 
-To generate the correct declarations, there is to be a new `fieldLabel` sugar:
+To generate the correct field selector function, there is to be a new deriving class:
 {{{
-    fieldLabel customer_id :: r -> Int                                  -- new declaration, desugars to Proxy and func:
-    data Proxy_customer_id                                              -- phantom
-    customer_id :: r{ customer_id :: Int } => r -> Int                  -- r{ ... } is sugar for Has constraint
-    customer_id r = get r (undefined :: Proxy_customer_id)
+    newtype Customer_id = Customer_id Int                               -- newtype or data decl, same name type and constr
+                                           deriving (Has, ...)          -- generates customer_id function, per above
 
-    set (undefined :: Proxy_customer_id) 27 myCust                      -- record update desugarred from above example
+    set (Customer_id 27) (                                              -- record update desugarred from above example
+               set (FirstName "Fred") myCust  )                         -- note nested
+
+    ... myCust{ cust_id, FirstName "Fred" }                             -- equiv syntax (assuming cust_id :: Customer_id)
 }}}
 
- * (Admittedly, this could get onerous to declare a `fieldLabel` for every field, even the ones that appear in a single record type. See "Option Three: Mixed In-situ and DeclaredORF: " further down this page for a suggestion of using the DORF mechanism to generate one-off H98-style fields.)
 
-'''Virtual''' or '''pseudo-''' fields are easy to create and use, because field selection is merely function application. Virtual fields look like ordinary fields (but can't be updated, because there is no `Has` instance):
+'''Virtual''' or '''pseudo-''' fields are easy to create and use, because field selection is merely function application (plus unwrapping for non-shared H98-style fields). Virtual fields look like ordinary fields (but can't be updated, because there is no `Has` instance):
 {{{
     fullName r = r.firstName ++ " " ++ map toUpper r.lastName           -- example adapted from SPJ
                                                                         -- dot notation binds tighter than func apply
@@ -102,10 +103,9 @@ To generate the correct declarations, there is to be a new `fieldLabel` sugar:
 
 '''Technical capabilities''' and limitations for the `Has` class:
  * Monomorphic fields can be `get` and `set`.
- * Parametric polymorphic fields can be applied in polymorphic contexts, and can be `set` including changing the type of the record.
- * Higher-ranked polymorphic fields can be applied in polymorphic contexts, but cannot be set -- for the same reasons as under SORF.[[BR]]The instances use equality constraints to 'improve' types up to polymorphic.
- * `Has` uses type family functions to manage type-changing update, which adds complexity -- see Implementer's view.
+ * Parametric polymorphic fields can be applied in polymorphic contexts, and can be `set` including changing the type of the record.[[BR]](This uses the SetResult type function.)
  * Multiple fields can be updated in a single expression (using familiar H98 syntax), but this desugars to nested updates, which is inefficient.
  * Pattern matching and record creation using the data constructor prefixed to { ... } work as per H98 (using `DisambiguateRecordFields` and friends).
+ * Higher-ranked polymorphic fields (including class-constrained) can be applied in polymorphic contexts, and can be set -- __providing__ they are wrapped in a newtype.
 
 .
