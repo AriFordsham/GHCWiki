@@ -17,20 +17,24 @@ the record you can then copy-paste it into a new module without having to update
 every single reference, as long as you used `#` consistently.
 
 
-Everything else remains the same.  Records wishing the same name must live in
-separate modules, but field access doesn't have to mention the module names: `(#b . #a) record`.  People
-who like unqualified imports can still use them, since `import A.B.C` will
-bring `A.B.C.a` into scope as well as `a`.  If there are two `a`s from
-separate modules, an unqualified `a` will give an ambiguous error as always,
-but `#a` will use its argument type to automatically qualifiy it to the right
-module.  Since `#a` is desugared to `A.B.C.a` it's a separate symbol from `a`
-and they can both exist in the same module provided, of course, that you
-imported `A.B.C` qualified.
+Everything else remains the same.  Field access doesn't have to mention the
+module names: `(#b . #a) record`.  People who like unqualified imports can
+still use them, since `import A.B.C` will bring `A.B.C.a` into scope as well
+as `a`.  If there are two `a`s from separate modules, an unqualified `a` will
+give an ambiguous error as always, but `#a` will use its argument type to
+automatically qualifiy it to the right module.  Since `#a` is desugared to
+`A.B.C.a` it's a separate symbol from `a` and they can both exist in the same
+module provided.  This means you can type `let field = #field record`, which
+is a pretty common thing to want to do (think of all the `thing = obj.thing`
+stuff that shows up in OO languages).
 
 
 This is enough for field access, but to support convenient modification we
-can use lenses.  If we substitute `Lens` for `f` instead of (-\>), then
+can use lenses.  If we substitute `Lens` for the `f` in the first paragraph
+instead of (-\>), then
 we can write `#field :: Lens M.Rec a -> b` and still have it resolve to `M.field`.
+
+## examples
 
 
 Here's an example using plain function "\# resolution":
@@ -215,18 +219,18 @@ An example of an advantage of using lens libraries: fclabels has a notion of "pa
 
 ## pros
 
-1. No effect on (.) operator, which is composition as always.  No "binds tighter than functions" or left-to-right vs. right-to-left controversy, and partial application works as it always did.
-1. Record declaration syntax remains exactly the same.  Totally backward compatible, we can gradually convert existing programs.  Even convert an existing record field by field, no need for a single giant patch to update everything at once.
-1. Works on any function, so it doesn't tie you to the implementation of a record, you can remove a field and add a compatibility shim.  So no tension between directly exposing the record implementation vs. writing a bunch of set/modify boilerplate.
-1. It's not just record types, any lens can go in the lens composition, e.g. one for Data.Map.  So you can translate imperative `record.a.b[c].d = 42` to `set (#d . Map.lens c . #b . #a) 42 record`.  Make a new operator `(.>) = flip (.)` if you like left to right.
+1. No effect on (.) operator, which is composition as always.  No "binds tighter than functions" or left-to-right vs. right-to-left controversy, and partial application works as it always did.  To compose lenses either hide the Prelude `(.)` and import the Category one, or just write your own lens composition operator and avoid all the `import hiding`.
+1. Record declaration syntax remains exactly the same.  It's totally backward compatible and you can gradually convert existing programs.  Even convert an existing record field by field, there's no need for a single giant patch to update everything at once.
+1. Works on any function, so it doesn't tie you to the implementation of a record.  You can remove or change the type of a field and add a compatibility shim.  So there's no tension between directly exposing the record implementation vs. writing a bunch of set/modify boilerplate.
+1. It's not just record types, any lens can go in the lens composition, e.g. one for Data.Map.  So you can translate imperative `record.a.b[c].d = 42` to `set (#d . Map.lens c . #b . #a) 42 record`.  Make a new operators if you like left to right or want infix modification.
 1. Module export list controls access over record fields as always.
 1. Orthogonal to records: any function can be addressed.
 1. "Support" for polymorphic and higher-ranked fields, via existing record update syntax.  It's a cheat because it's also con [\#2](https://gitlab.haskell.org//ghc/ghc/issues/2), but I think it's a valid design to build on top of the existing syntax instead of replacing it.  Maybe it can be extended to support fancy stuff later, but meanwhile it solves the simple case while not precluding the complicated one.
 
 ## cons
 
-1. Still can't have two records with the same field name in the same module since it relies on modules for namespacing.
 1. Lenses can't handle updates that change the type, e.g. from `Rec a` to `Rec b`.  If the `set` function is `Lens rec field -> field -> rec -> rec` then you can't change the type of `rec`.  I'm sure if this is solvable without the set being builtin syntax, or if a fancier lens implementation could admit `Lens rec1 rec2 field -> field -> rec1 -> rec2`.
+1. Can't update more than one field at once.  Traditional record syntax is there for this case.  You need it to initialize new records anyway.
 1. It's another way to resolve a name to a different function body that's not typeclasses.  One way should be enough.  But typeclasses are fundamentally global.
 1. The function to resolve must be monomorphic, so there is no "structural polymorphism" e.g. `getName :: (Has Name a) => a -> String`
 
@@ -238,10 +242,18 @@ identifiers.
 
 My spin on the cons:
 
-1. I don't mind.  To my mind, modules are there for namespace control and so two things shouldn't be able to have the same name in one module by definition.  I have very few records that really want to have the same field name \*and\* live in the same module, but for those who have more of those, nested modules would be an orthogonal feature that would satisfy them. You could argue that this is a necessary development, because modules are \*the\* user-controlled namespace and access control mechanism (typeclasses are always global and hence not that controlled), then the solution must be modules.  Any other solution is either going to be unsatisfactory because you can't control the scope of the names, or unsatisfactory because it's a non-module way of namespacing.
-
-1. It's not too satisfying, but you can fall back to `rec { field = ... }`.  In practice I'd define a type specific update function as I do now, to avoid being tied `field` always existing in the record.  Still, it's worth thinking about whether this proposal could later be extended to support type-changing updates if there were further language support.
-
+1. You can fall back to `rec { field = ... }`.  In practice I'd define a type specific update function as I do now, to avoid being tied `field` always existing in the record.  Still, it's worth thinking about whether this proposal could later be extended to support type-changing updates if there were further language support.
+1. Same as 1.
 1. The global-ness of typeclass seems hard to reconcile with the idea of wanting to control export of record fields, so maybe this is unavoidable.
-
 1. I'm not real fond of structural polymorphism anyway, I believe parametric and typeclass polymorphism are more principled.
+
+
+Advocacy for modules being the clash-prevention mechanism, rather than
+typeclasses:
+
+
+Modules are \*the\* user-controlled namespace and access control mechanism.
+Typeclasses are always global and hence cannot naturally admit access control.  Any other
+solution is either going to be unsatisfactory because you can't control the
+scope of the names, or unsatisfactory because it's invented a new way of namespacing
+that's not modules.
