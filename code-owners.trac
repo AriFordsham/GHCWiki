@@ -83,7 +83,7 @@ and a short description of what they're doing or have done.
 
  * [mailto:chak@cse.unsw.edu.au Manuel Chakravarty] (FFI, Data Parallel Haskell, associated types & type families, Mac OS X port)
  * [http://catamorphism.org/ Tim Chevalier] (External Core, strictness analysis, ticky-ticky profiling)
- * [mailto:duncan.coutts@worc.ox.ac.uk Duncan Coutts] (Gentoo packages)
+ * [mailto:duncan.coutts@well-typed.com Duncan Coutts] (parallel profiling, package system)
  * [http://www.csee.ogi.edu/~diatchki Iavor S Diatchki] ('monadLib' library)
  * [mailto:andygill@ku.edu Andy Gill] (Haskell Program Coverage)
  * [mailto:lemmih@gmail.com David Himmelstrup] (GHC developer)
