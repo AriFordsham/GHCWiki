@@ -125,11 +125,29 @@ Polymorphic record updates, alternative syntax (note, no data constructor for th
  * Higher-ranked polymorphic fields (including class-constrained) can be applied in polymorphic contexts, and can be set -- __providing__ they are wrapped in a newtype. Here is SPJ's example:
 
 {{{
-    newtype Rev = Rev (forall a. [a] -> [a])        deriving (Has)
-    newtype OrdRev = OrdRev (Ord a => [a] -> [a])   deriving (Has)
+    data HR = HR { rev :: (forall a. [a] -> [a]) }                      -- would generate:
 
-    data HR = HR{ rev :: Rev, ordRev :: OrdRev } sharing (Rev, OrdRev)
+    type instance SetResult HR t  = HR                                  -- HR is not parametric
+
+    newtype Rev = Rev (forall a. [a] -> [a])
+    rev :: HR -> Rev -> (forall a. [a] -> [a])                          -- generated selector is monomorphic
+    rev r = get r (undefined :: Rev)
+
+    instance Has HR Rev                         where                   -- Has instance generated
+        get HR{ rev = (Rev x) } = x                                     -- looks OK, but see GetResult
+        set x HR{ .. }    = HR{ rev = x, .. }                           -- note x is already wrapped
+
+    type instance GetResult HR Rev     = (forall a. [a] -> [a])         -- no can do! not allowed forall's on RHS
+                                                                        -- (and can't do equality constraints on type instances)
+
+{- instead, do explicit newtype wrapping for higher-rank types   -}
+
+    newtype Rev = Rev (forall a. [a] -> [a])        deriving (Has)
+    newtype OrdRev = OrdRev (Ord a => [a] -> [a])   deriving (Has)      -- class constrained
+
+    data HRW = HRW{ rev :: Rev, ordRev :: OrdRev } sharing (Rev, OrdRev)
 }}}
- * Note that to get/set those h-r fields needs them to be un/wrapped within the user code.
+ * Now we can now apply the wrapped function polymorphically (after unwrapping within the user code.
+
 
 .
