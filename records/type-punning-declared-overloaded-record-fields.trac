@@ -42,15 +42,29 @@ TPDORF makes a virtue of this punning. (So extend's H98's and NamedFieldPuns pun
 
 Here is the `Has` class with instances for the above Customer record, and examples of use:
 {{{
-    class Has r fld t                                             where
-        get :: r -> fld -> t                                            -- simplified form
-        set :: fld -> t -> r -> r                                       -- where not changing record's type
+    class Has r t                                           where
+        get :: r -> t -> GetResult r t                                  -- see instances below
+        set :: t -> r -> SetResult r t                                  -- use where changing the record's type
 
-    data Customer = Cust{ customer_id :: Int, ... }                     -- declaration syntax same as H98
+    type family GetResult r t :: *
+    type family SetResult r t :: *
 
-    instance (t ~ Int) => Has Customer Proxy_customer_id t        where -- Has instance generated, with ~ constraint
-        get Cust{ customer_id } _ = customer_id                         -- DisambiguateRecordFields pattern
-        set _ x Cust{ .. }        = Cust{ customer_id = x, .. }         -- RecordWildCards and NamedFieldPuns
+    instance Has Customer Customer_id                       where       -- Has instance generated for sharing field
+        get Customer{ customer_id } = customer_id                       -- DisambiguateRecordFields pattern
+        set x Customer{ .. }        = Customer{ customer_id = x, .. }   -- RecordWildCards and NamedFieldPuns
+
+    type instance GetResult r Customer_id = Customer_id                 -- same result all record types
+    type instance SetResult Customer t    = Customer                    -- record type is not parametric, so doesn't change
+
+    newtype FirstName = FirstName String                                -- newtype generated for non-sharing field
+    instance Has Customer FirstName                         where       -- Has instance generated
+        get Customer{ firstName = (FirstName x) } = x                   -- DisambiguateRecordFields pattern
+        set x Customer{ .. }    = Customer{ firstName = (FirstName x), .. }   -- RecordWildCards and NamedFieldPuns
+
+    type instance GetResult Customer FirstName     = String             -- specific to this record/field
+    -- type instance SetResult Customer FirstName  = Customer           -- not needed/already declared above
+
+   customer_id r = get r :: Customer_id                                 -- we can auto-decl this, see below
 
     myCust :: Customer                                                  -- usual record decl
     ... myCust{ customer_id = 27 }                                      -- polymorphic record update
@@ -58,12 +72,12 @@ Here is the `Has` class with instances for the above Customer record, and exampl
     ... myCust.customer_id ...                                          -- dot notation is sugar for reverse func apply
 }}}
 
-Note that the''' `Has` mechanism''' uses a Proxy as the type 'peg' for a field (this is the wildcard argument to `get` and `set`):
- * There must be a Proxy_type declared for each distinct field name.
- * The Proxy must be declared once, and the Proxy is then under regular name control.
- * The field selector function also must be declared once, defined using the Proxy.
+Note that the''' `Has` mechanism''' uses '''the field's type itself''' to locate the field within the record:
+ * Each field must be a distinct type.
+ * The Type must be declared once (within the scope), and is then under regular name control.[[BR]](Probably you're doing this already for critical fields.)
+ * The field selector function also must be declared once, defined punning on the field's type.
 
-    It is an error to declare a record field without there being a Proxy in scope. The desugar for the data decl would create the instance to use the Proxy, but then the instance would fail.
+    It is an error to be `sharing` a record field without there being a same-named type in scope. The desugar for the data decl would create the instance to use the Type, but then the instance would fail.
 
 To generate the correct declarations, there is to be a new `fieldLabel` sugar:
 {{{
