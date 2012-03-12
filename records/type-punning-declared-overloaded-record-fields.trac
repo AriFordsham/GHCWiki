@@ -1,0 +1,83 @@
+= Type-Punning Declared Overloaded Record Fields (TPDORF) =
+
+== Thumbnail Sketch ==
+
+This proposal is addressing the narrow issue of '''namespacing for record field names''' by allowing more than one record in the same module to share a field name. Furthermore, it is aiming at a more structured approach to higher-ranked type fields, so that they can be updated using the same surface syntax as for other fields. This actually means a less complex implementation (compared to DORF or SORF). Specifically each field name is overloaded, and there is a Type with the same name (upshifted) so that:
+ * __Within the same module__, many record types can be declared to share the field name.
+ * The field name can be exported so that records __in other modules__ can share it.
+ * Furthermore, other modules __can create records__ using that field name, and share it.
+
+The export/import of both the field name and its punned Type is under usual H98 namespace and module/qualification control, so that for the record type in an importing module:
+ * Some fields are both readable and updatable;
+ * Some are read-only;
+ * Some are completely hidden.
+
+In case of 'unintended' clash (another module using the same name 'by accident'), usual H98 controls apply to protect encapsulation and representation hiding.
+
+This proposal introduces several new elements of syntax, all of which desugar to use well-established extensions of ghc. The approach is yet to be prototyped, but I expect that to be possible in ghc v 7.2.1. In particular:
+ * The field name overloading is implemented through usual class and instance mechanisms.
+ * Field selectors are ordinary functions named for the field (but overloaded rather than H98's monomorphic), so field selection is regular function application. (There is no need for syntactically-based disambiguation at point of use.)
+
+=== Implementation: the `Has` class, with methods `get` and `set`, and punned Types ===
+
+Record declarations generate a `Has` instance for each record type/field combination. There is a type argument for the record and the field.
+
+Note that SORF introduces a third argument for the field's resulting type. (This is specifically to support higher-rank typed fields; but despite the complexity it introduces, SORF has no mechanism to __update__ h-r fields.)
+
+TPDORF approaches h-r fields in a different way, which supports __both__ setting and getting those fields. (I'm not claiming this is a ''solution'', more a well-principled work-round. And not a hack.)
+
+, there is a third argument for the field's resulting type. This is set at the instance level using equality constraints in a functional-dependencies style. Here is the `Has` class (`r` is the record, `fld` is the proxy type for the field, `t` is the field's type), with an example record declaration, its `Has` instance, and examples of use:
+{{{
+    class Has r fld t                                             where
+        get :: r -> fld -> t                                            -- simplified form
+        set :: fld -> t -> r -> r                                       -- where not changing record's type
+
+    data Customer = Cust{ customer_id :: Int, ... }                     -- declaration syntax same as H98
+
+    instance (t ~ Int) => Has Customer Proxy_customer_id t        where -- Has instance generated, with ~ constraint
+        get Cust{ customer_id } _ = customer_id                         -- DisambiguateRecordFields pattern
+        set _ x Cust{ .. }        = Cust{ customer_id = x, .. }         -- RecordWildCards and NamedFieldPuns
+
+    myCust :: Customer                                                  -- usual record decl
+    ... myCust{ customer_id = 27 }                                      -- polymorphic record update
+    ... (customer_id myCust) ...                                        -- field selection is func apply, or:
+    ... myCust.customer_id ...                                          -- dot notation is sugar for reverse func apply
+}}}
+
+Note that the''' `Has` mechanism''' uses a Proxy as the type 'peg' for a field (this is the wildcard argument to `get` and `set`):
+ * There must be a Proxy_type declared for each distinct field name.
+ * The Proxy must be declared once, and the Proxy is then under regular name control.
+ * The field selector function also must be declared once, defined using the Proxy.
+
+    It is an error to declare a record field without there being a Proxy in scope. The desugar for the data decl would create the instance to use the Proxy, but then the instance would fail.
+
+To generate the correct declarations, there is to be a new `fieldLabel` sugar:
+{{{
+    fieldLabel customer_id :: r -> Int                                  -- new declaration, desugars to Proxy and func:
+    data Proxy_customer_id                                              -- phantom
+    customer_id :: r{ customer_id :: Int } => r -> Int                  -- r{ ... } is sugar for Has constraint
+    customer_id r = get r (undefined :: Proxy_customer_id)
+
+    set (undefined :: Proxy_customer_id) 27 myCust                      -- record update desugarred from above example
+}}}
+
+ * (Admittedly, this could get onerous to declare a `fieldLabel` for every field, even the ones that appear in a single record type. See "Option Three: Mixed In-situ and DeclaredORF: " further down this page for a suggestion of using the DORF mechanism to generate one-off H98-style fields.)
+
+'''Virtual''' or '''pseudo-''' fields are easy to create and use, because field selection is merely function application. Virtual fields look like ordinary fields (but can't be updated, because there is no `Has` instance):
+{{{
+    fullName r = r.firstName ++ " " ++ map toUpper r.lastName           -- example adapted from SPJ
+                                                                        -- dot notation binds tighter than func apply
+    fullName :: r{ firstName :: String, lastName :: String} => r -> String
+                                                                        -- type inferred for fullName
+                                                                        -- the Has constraints use elided syntax
+}}}
+
+'''Technical capabilities''' and limitations for the `Has` class:
+ * Monomorphic fields can be `get` and `set`.
+ * Parametric polymorphic fields can be applied in polymorphic contexts, and can be `set` including changing the type of the record.
+ * Higher-ranked polymorphic fields can be applied in polymorphic contexts, but cannot be set -- for the same reasons as under SORF.[[BR]]The instances use equality constraints to 'improve' types up to polymorphic.
+ * `Has` uses type family functions to manage type-changing update, which adds complexity -- see Implementer's view.
+ * Multiple fields can be updated in a single expression (using familiar H98 syntax), but this desugars to nested updates, which is inefficient.
+ * Pattern matching and record creation using the data constructor prefixed to { ... } work as per H98 (using `DisambiguateRecordFields` and friends).
+
+.
