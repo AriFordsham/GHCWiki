@@ -73,7 +73,7 @@ Here is the `Has` class with instances for the above Customer record, and exampl
 
     type instance GetResult Customer FirstName     = String             -- specific to this record/field
     -- type instance SetResult Customer FirstName  = Customer           -- not needed/already declared above
-                                                                        -- (but OK because overlaps and same result)
+                                                                        -- (but OK because overlaps and confluent)
 
     myCust :: Customer                                                  -- usual record decl
     ... myCust{ customer_id = 27, firstName = "Fred" } ...              -- **polymorphic** record update, no data constr
