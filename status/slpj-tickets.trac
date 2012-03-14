@@ -114,6 +114,7 @@
  * #4222: design of reification for TH
 
 == Features == 
+ * #5927: Constraints with universal quantification
  * #5630: External core needs love
  * #5429: docase and joinads
  * #5391: better deriving Typeable
