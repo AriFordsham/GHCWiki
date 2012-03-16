@@ -2,9 +2,11 @@
 
 == New typechecker things to fix (with Dimitrios) ==
  * #5716, #5612, #5682, #5717, #5768, #5769, #5770, #5771: !PolyKinds
- * #5321: slow constraint solving
+ * #5913, #5751: type-class dictionary loops
+ * #5321, #5837, #5853 (loop): slow constraint solving
  * #4347, #4295: impredicativity
  * #5320: overlap delicacy
+ * #5939, #5936: Pedro's generics
 
 === Arity ===
  * #5809: arity analysis could be better
