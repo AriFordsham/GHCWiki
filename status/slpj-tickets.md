@@ -6,6 +6,7 @@
 - [\#5321](https://gitlab.haskell.org//ghc/ghc/issues/5321): slow constraint solving
 - [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): impredicativity
 - [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320): overlap delicacy
+- [\#5939](https://gitlab.haskell.org//ghc/ghc/issues/5939): Pedro's generics
 
 ### Arity
 
