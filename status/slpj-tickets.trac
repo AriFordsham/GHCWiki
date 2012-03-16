@@ -5,7 +5,7 @@
  * #5321: slow constraint solving
  * #4347, #4295: impredicativity
  * #5320: overlap delicacy
- * #5939: Pedro's generics
+ * #5939, #5936: Pedro's generics
 
 === Arity ===
  * #5809: arity analysis could be better
