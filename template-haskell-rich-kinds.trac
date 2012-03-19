@@ -1,0 +1,19 @@
+
+== Changes to Template Haskell Library ==
+
+A proposed change will add the following constructors to TH's {{{Type}}} datatype...
+
+{{{
+| PromotedListT [Type]    -- for types of the form '[Int, Bool]
+| PromotedTupleT [Type]   -- for types of the form '(Int, 'False)
+}}}
+
+... and the following constructors to TH's {{{Kind}}} datatype:
+
+{{{
+| ConK Name               -- for kinds of the form Bool
+| VarK Name               -- k
+| ForallK [Name] Kind     -- forall k. ...
+}}}
+
+The final {{{Kind}}} constructor does not need any special binder construct because all kinds are of sort {{{BOX}}}.
