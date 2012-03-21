@@ -6,7 +6,8 @@ This page collects information on how to work with type-level natural numbers, a
 ## User's Guide
 
 - [Type-Level Naturals Basics](type-nats/basics)
-- [Type-Level Operations](type-nats/operations)
+- [Type-Level Computation](type-nats/operations)
+- [Typed examinations of TNat (inductive definitions)](type-nats/inductive-definitions)
 
 ## Notes on Design
 
@@ -28,7 +29,6 @@ This page collects information on how to work with type-level natural numbers, a
 
 ## XXX: Cleanup
 
-- [Inductive definitions](type-nats/inductive-definitions)
 - [Natural Numbers: From Values to Types](type-nats/naturals)
 - More advanced example: [ https://github.com/yav/memory-arrays/tree/master](https://github.com/yav/memory-arrays/tree/master)
 - [Examples](type-nats/examples)
