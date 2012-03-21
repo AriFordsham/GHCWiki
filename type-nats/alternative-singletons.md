@@ -5,41 +5,41 @@ We use a family of singleton types to relate type-level naturals to runtime valu
 In our design, we chose to provide as primitive an overloaded "smart" constructor and a polymorphic elimination construct:
 
 ```wiki
-newtype Nat (n :: Nat) = Nat Integer
+newtypeT Nat (n :: Nat) = Nat Integer
 
 class NatI n where
-  nat :: Nat n
+  tNat :: TNat n
 
-instance NatI 0 where nat = Nat 0
-instance NatI 1 where nat = Nat 1
+instance NatI 0 where tNat = TNat 0
+instance NatI 1 where tNat = TNat 1
 ...
 
-natToInteger :: Nat n -> Integer
-natToInteger (Nat n) = n
+tNatInteger :: TNat n -> Integer
+tNatInteger (TNat n) = n
 ```
 
 
 It is also possible to make the dual choice, where we provide a polymorphic constructor and an overloaded elimination construct:
 
 ```wiki
-data Nat (n :: Nat) = Nat
+data TNat (n :: Nat) = TNat
 
 class NatE n where
-  natToInteger :: Nat n -> Integer
+  tNatInteger :: TNat n -> Integer
 
-instance NatE 0 where natToInteger Nat = 0
-instance NatE 1 where natToInteger Nat = 1
+instance NatE 0 where tNatInteger TNat = 0
+instance NatE 1 where tNatInteger TNat = 1
 ...
 ```
 
 
-We made this choice, at least in part, because it made the implementation simpler: the evidence for class `NatI` is just an integer.  Note that our choice does not loose any generality because we can define the alternative design in terms of it:
+We made this choice, at least in part, because it made the implementation simpler: with our choice the evidence for class `NatI` is just an integer.  Note that our choice does not loose any generality because we can define the alternative design in terms of it:
 
 ```wiki
-data Nat1 (n :: Nat) = Nat
+data TNat1 (n :: Nat) = TNat1
 
-nat1ToInteger :: NatI n => Nat1 n -> Integer
-nat1ToInteger x = natToInteger (cast nat x)
-  where cast :: Nat n -> Nat1 n -> Nat n
-        cast x Nat = x
+tNat1Integer :: NatI n => TNat1 n -> Integer
+tNat1Integer = tNatInteger . cast
+  where cast :: NatI n => TNat1 n -> TNat n
+        cast TNat1 = tNat
 ```
