@@ -27,12 +27,16 @@ data TNat (n :: Nat)
 
 tNat         :: NatI n => TNat n
 tNatInteger  :: TNat n -> Integer
+
+-- Convenient derived functions
+tNatThat     :: NatI n => (Integer -> Bool) -> Maybe (TNat n)
+withTNat     :: NatI n => (TNat n -> a) -> a
 ```
 
 
-The only "interesting" value of type *TNat n* is the number *n*.  Technically, there is also an undefined element.
-The value of a singleton type may be named using *tNat*, which is a bit like a "smart" constructor for *TNat n*.
-Note that because *tNat* is polymorphic, we may have to use a type signature to specify which singleton we mean.  For example:
+The only "interesting" value of type `TNat n` is the number `n`.  Technically, there is also an undefined element.
+The value of a singleton type may be named using `tNat`, which is a bit like a "smart" constructor for `TNat n`.
+Note that because `tNat` is polymorphic, we may have to use a type signature to specify which singleton we mean.  For example:
 
 ```wiki
 > :set -XDataKinds
@@ -41,15 +45,15 @@ Note that because *tNat* is polymorphic, we may have to use a type signature to 
 ```
 
 
-One may think of the smart constructor *tNat* as being a method of a special built-in class, *NatI*:
+One may think of the smart constructor `tNat` as being a method of a special built-in class, `NatI`:
 
 ```wiki
 class NatI n where
   tNat :: TNat n
 
-instance NatI 0 where tNat = "singleton 0 value"
-instance NatI 1 where tNat = "singleton 1 value"
-instance NatI 2 where tNat = "singleton 2 value"
+instance NatI 0 where tNat = ...singleton 0 value...
+instance NatI 1 where tNat = ...singleton 1 value...
+instance NatI 2 where tNat = ...singleton 2 value...
 etc.
 ```
 
@@ -70,78 +74,55 @@ instance Show (TNat n) where
 ```
 
 
-A more interesting example is to define a function which maps integers into singleton types:
-
-```wiki
-integerToMaybeNat :: NatI n => Integer -> Maybe (TNat n)
-integerToMaybeNat x = tNatThat (== x)
-```
-
-
-It checks that the value argument `x`, passed at runtime, matches the statically-expected value, returning `Nothing` if not, and a typed singleton if so.
-
-
-The implementation of `integerToMaybeNat` is a little subtle: by using
-the helper function `check`, we ensure that the two occurrences of
-`nat` (aka `y`) both have the same type, namely `Nat n`.  There are other
-ways to achieve the same, for example, by using scoped type variables,
-thus:
-
-```wiki
-integerToMaybeNat :: forall n. NatI n => Integer -> Maybe (Nat n)
-integerToMaybeNat x 
-  | x == natToInteger (nat :: Nat n) = Just nat 
-  | otherwise                        = Nothing
-```
-
-
-Now, we can use `integerToNat` to provide a `Read` instance for singleton types:
+Here is how to define a `Read` instance:
 
 ```wiki
 instance NatI n => Read (Nat n) where
   readsPrec p x       = do (x,xs) <- readsPrec p x
-                           case integerToMaybeNat x of
+                           case tNatThat (== x) of
                              Just n  -> [(n,xs)]
                              Nothing -> []
 ```
+
+
+The derived function `tNatThat` is similar to `tNat` except that it succeeds only if the integer representation
+of the singleton type matches the given predicate.  So, in the `Read` instance we parse an integer and then we check
+if it is the expected integer for the singleton that we are trying to parse.
 
 ## Implicit vs. Explicit Parameters
 
 
 There are two different styles of writing functions which need the integer corresponding to a type level natural.
-
-
-One approach is to use an explicit parameter of type `Nat n`.  For example:
+To illustrate the two style consider a type for working with C-style arrays:
 
 ```wiki
-memset :: Storable a => ArrPtr n a -> a -> Nat n -> IO ()
-memset = ...
+newtype ArrPtr (n :: Nat) a = ArrPtr (Ptr a)
+```
+
+
+One approach is to use an explicit parameter of type `TNat n`.  For example:
+
+```wiki
+memset_c :: Storable a => ArrPtr n a -> a -> TNat n -> IO ()
+memset_c (ArrPtr p) a n = mapM_ (\i -> pokeElemOff p i a) [ 0 .. fromIntegral (tNatInteger n - 1) ]
 ```
 
 
 This style is, basically, a more typed version of what is found in many standard C libraries.
-Callers of this function have to pass the size of the array explicitly, and the type system checks that the size matches that of the array.
-When defining `memset` we can just use `natToInteger` on the `Nat n` parameter to get the actual value of the array size.
+Callers of this function have to pass the size of the array explicitly, and the type system checks that the
+size matches that of the array.  Note that in the implementation of `memset_c` we used `tNatInteger`
+to get the concrete integer associated with the singleton type.
 
 
-Another approach is to let the system infer the parameter by using the class `NatI`.  For example:
+While the explicit `TNat` parameter is convenient when we define the function, it is a bit
+tedious to have to provide it all the time---it is easier to let the system infer the value,
+based on the type of the array:
 
 ```wiki
-memsetAuto :: (Storable a, NatI n) => ArrPtr n a -> a -> IO ()
+memset :: (Storable a, NatI n) => ArrPtr n a -> a -> IO ()
+memset ptr a = withTNat (memset_c ptr a)
 ```
 
 
-In this style, the caller of the function does not need to provide the size of the array explicitly.
-Instead, it is computed automatically from the type of the array.
-When defining `memsetAuto` we can use `nat`, the method of `NatI`, to get access to the value corresponding to the type level natural.
-
-
-When using the implicit style, it is important that the type of `nat` is specified precisely.  Failing to do so typically results in ambiguity errors
-(i.e., GHC does not know which integer it should use).  Another common mistake is to forget that 'nat' is a polymorphic value and so every time it is used it may refer to a different value.
-
-
-An easy way to avoid such problems is to implement the implicit style functions in terms of the explicit ones.  For example, we can implement `memsetAuto` like this:
-
-```wiki
-memsetAuto arr val = memset arr val nat
-```
+The function `withTNat` is useful when converting from the "explicit" to the "implicit" style
+because it avoids ambiguity errors, scoped type-variables and other complications.
