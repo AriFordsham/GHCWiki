@@ -14,7 +14,7 @@ The inhabitants of `Nat` are an infinite family of (empty) types, corresponding 
 These types are linked to the value world by a small library with the following API:
 
 ```wiki
-module GHC.TypeNats where
+module GHC.TypeLits where
 ```
 
 ## Singleton Types
@@ -23,40 +23,41 @@ module GHC.TypeNats where
 We relate type-level natural numbers to run-time values via a family of singleton types:
 
 ```wiki
-data Nat (n :: Nat)
+data TNat (n :: Nat)
 
-nat          :: NatI n => Nat n
-natToInteger :: Nat n -> Integer
+tNat         :: NatI n => TNat n
+tNatInteger  :: TNat n -> Integer
 ```
 
 
-The only "interesting" value of type *Nat n* is the number *n*.  Technically, there is also an undefined element.
-The value of a singleton type may be named using *nat*, which is a bit like a "smart" constructor for *Nat n*.
-Note that because *nat* is polymorphic, we may have to use a type signature to specify which singleton we mean.  For example:
+The only "interesting" value of type *TNat n* is the number *n*.  Technically, there is also an undefined element.
+The value of a singleton type may be named using *tNat*, which is a bit like a "smart" constructor for *TNat n*.
+Note that because *tNat* is polymorphic, we may have to use a type signature to specify which singleton we mean.  For example:
 
 ```wiki
-> natToInteger (nat :: Nat 3)
+> :set -XDataKinds
+> tNatInteger (tNat :: TNat 3)
 3
 ```
 
 
-One may think of the smart constructor *nat* as being a method of a special built-in class, *NatI*:
+One may think of the smart constructor *tNat* as being a method of a special built-in class, *NatI*:
 
 ```wiki
 class NatI n where
-  nat :: Nat n
+  tNat :: TNat n
 
-instance NatI 0 where nat = "singleton 0 value"
-instance NatI 1 where nat = "singleton 1 value"
-instance NatI 2 where nat = "singleton 2 value"
+instance NatI 0 where tNat = "singleton 0 value"
+instance NatI 1 where tNat = "singleton 1 value"
+instance NatI 2 where tNat = "singleton 2 value"
 etc.
 ```
 
 
 The name *NatI* is a mnemonic for the different uses of the class:
 
-- It is the *introduction* construct for 'Nat' values,
-- It is an *implicit* parameter of kind 'Nat' (this is discussed in more detail bellow)
+- It is the *introduction* construct for 'TNat' values,
+- It is an *implicit* parameter of kind 'TNat' (this is discussed in more detail bellow)
 
 ## Examples
 
@@ -64,17 +65,16 @@ The name *NatI* is a mnemonic for the different uses of the class:
 Here is how we can use the basic primitives to define a `Show` instance for singleton types:
 
 ```wiki
-instance Show (Nat n) where
-  showsPrec p n = showsPrec p (natToInteger n)
+instance Show (TNat n) where
+  showsPrec p n = showsPrec p (tNatInteger n)
 ```
 
 
 A more interesting example is to define a function which maps integers into singleton types:
 
 ```wiki
-integerToMaybeNat :: NatI n => Integer -> Maybe (Nat n)
-integerToMaybeNat x = check nat
-  where check y = if x == natToInteger y then Just y else Nothing
+integerToMaybeNat :: NatI n => Integer -> Maybe (TNat n)
+integerToMaybeNat x = tNatThat (== x)
 ```
 
 
