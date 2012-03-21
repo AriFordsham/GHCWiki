@@ -19,13 +19,12 @@ This page collects information on how to work with type-level natural numbers, a
 - [Implementation of GHC.TypeLits](type-nats/implementation)
 - [ Axioms for type-level type operators](http://github.com/yav/tc-solver/blob/master/docs/axioms.md)
 
-## External links
+## Source Code
 
-- The implementation resides on branch 'type-nats' of the GHC repo.  The following GHC-related related repos also have a type-nats branch:
-
-  - libraries/base
-  - libraries/template-haskell
-  - utils/haddock
+- [ type-nats branch of GHC](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=ghc.git;a=shortlog;h=refs/heads/type-nats)
+- [ type-nats branch of the base library](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=packages/base.git;a=shortlog;h=refs/heads/type-nats)
+- [ type nats branch of template-haskell](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=packages/template-haskell.git;a=shortlog;h=refs/heads/type-nats)
+- Also, there is a type-nats branch for 'haddock'.
 
 ## XXX: Cleanup
 

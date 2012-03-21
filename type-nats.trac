@@ -22,12 +22,12 @@ This page collects information on how to work with type-level natural numbers, a
 
 
 
-== External links ==
+== Source Code ==
 
-  * The implementation resides on branch 'type-nats' of the GHC repo.  The following GHC-related related repos also have a type-nats branch:
-    * libraries/base
-    * libraries/template-haskell
-    * utils/haddock
+  * [http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=ghc.git;a=shortlog;h=refs/heads/type-nats type-nats branch of GHC]
+  * [http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=packages/base.git;a=shortlog;h=refs/heads/type-nats type-nats branch of the base library]
+  * [http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=packages/template-haskell.git;a=shortlog;h=refs/heads/type-nats type nats branch of template-haskell]
+  * Also, there is a type-nats branch for 'haddock'.
   
 == XXX: Cleanup ==
   * [wiki:TypeNats/Naturals         Natural Numbers: From Values to Types]
