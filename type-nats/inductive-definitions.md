@@ -1,53 +1,43 @@
+
+The module `GHC.TypeLits` provides two views on values of type `TNat`,
+which make it possible to define inductive functions using `TNat` values.
+
+## Checking for Zero (Unary Strucutre of Nat)
+
+
+The first view provides the same functionality as the usual
+Peano arithmetic definition of the natural numbers.  It
+is useful when using `TNat` to count something.
+
 ```wiki
-{-# LANGUAGE TypeNaturals, GADTs #-}
+isZero :: TNat n -> IsZero n
 
-import GHC.TypeNats
-import Unsafe.Coerce
-
---------------------------------------------------------------------------------
--- Extending GHC.TypeNats with these two declarations allows us to
--- write inductive definitions.
-
-data UNat :: Nat -> * where
-  Zero :: UNat 0
-  Succ :: UNat n -> UNat (n + 1)
-
-toUNat :: Nat n -> UNat n
-toUNat n = unsafe (natToInteger n)
-  where unsafe :: Integer -> UNat n
-        unsafe 0 = unsafeCoerce Zero
-        unsafe n = unsafeCoerce (Succ (unsafe $! (n-1)))
-
---------------------------------------------------------------------------------
-
-data Vec :: Nat -> * -> * where
-  Nil  :: Vec 0 a
-  Cons :: a -> Vec n a -> Vec (n + 1) a
-
-instance Show a => Show (Vec n a) where
-  show Nil = "[]"
-  show (Cons x xs) = show x ++ " : " ++ show xs
-
-instance Functor (Vec n) where
-  fmap f Nil          = Nil
-  fmap f (Cons x xs)  = Cons (f x) (fmap f xs)
-
-cat :: Vec m a -> Vec n a -> Vec (m + n) a
-cat Nil ys          = ys
-cat (Cons x xs) ys  = Cons x (cat xs ys)
-
-vecLen :: NatI n => Vec n a -> Nat n
-vecLen _ = nat
+data IsZero :: Nat -> * where
+  IsZero ::              IsZero 0
+  IsSucc :: !(TNat n) -> IsZero (n + 1)
+```
 
 
-splitU :: UNat m -> Vec (m + n) a -> (Vec m a, Vec n a)
-splitU Zero xs               = (Nil, xs)
-splitU (Succ n) (Cons x xs)  = let (as,bs) = splitU n xs
-                               in (Cons x as, bs)
+By using `isZero` we can check if a number is 0 or the successor
+of another number.  The interesting aspect of `isZero` is that
+the result is typed:  if `isZero x` returns `IsSucc y`,
+then the type checker knows that the type of `y` is one smaller
+then `x`.
 
-vecSplitAt :: Nat m -> Vec (m + n) a -> (Vec m a, Vec n a)
-vecSplitAt n = splitU (toUNat n)
+## Checking for Evenness (Binary Structure of Nat)
 
-vecSplit :: NatI m => Vec (m + n) a -> (Vec m a, Vec n a)
-vecSplit = vecSplitAt nat
+
+The other view provides a more "bit-oriented" view of
+the natural numbers, by allowing is to check if the least
+significant bit of a number is 0 or 1.  It is useful
+when we use `TNat` values for splitting things
+in half:
+
+```wiki
+isEven :: TNat n -> IsEven n
+
+data IsEven a :: Nat -> * where
+  IsEvenZero ::                    IsEven 0
+  IsEven     :: !(TNat (n + 1)) -> IsEven (2 * (n + 1))
+  IsOdd      :: !(TNat n)       -> IsEven ((2 * n) + 1)
 ```
