@@ -16,7 +16,7 @@ This page collects information on how to work with type-level natural numbers, a
 
 ## Notes on the Implementation
 
-- [Implementation of GHC.TypeNats](type-nats/implementation)
+- [Implementation of GHC.TypeLits](type-nats/implementation)
 - [ Axioms for type-level type operators](http://github.com/yav/tc-solver/blob/master/docs/axioms.md)
 
 ## External links
