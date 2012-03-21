@@ -36,39 +36,4 @@ In this type we are basically dividing the size of the input array by 8.  Note, 
 
 
 There is a set of built-in instances, defining the behavior of each the type-level operations.  These instances are consistent with the theory of arithmetic on natural numbers but they are not complete (i.e., GHC is not perfect at math).  This means that GHC might reject some programs
-because it cannot solve all the necessary constraints, even though the constraint can be solved in the general theory of natural numbers.  The most common cause of this is when a programmer writes down a type signature, but GHC infers a slightly different type for the implementation.  Now, GHC needs to check that the specified type is compatible with the implementation.  If it fails do this, then the program will be rejected.  The usual work-around in such situations is to modify the type signature so that it lists explicitly the constraints that GHC could not solve.  If you encounter the same problem often, please consider sending an e-mail to the GHC mailing list to let us know.  We might be able to teach GHC some more math!
-
-
-Basic rules:
-
-```wiki
-instance m <= n                          -- for concrete numbers m, n with m <= n
-instance a <= a
-instance 0 <= a
-instance (a <= b, b <= c) => (a <= c)
-instance (a <= a + b)
-instance (b <= a + b)
-instance (1 <= b) => (a <= a * b)
-
-
-type instance m + n = mn                 -- for concrete numbers m, n, mn, with m + n = mn
-type instance 0 + a = a
-type instance a + a = 2 * a
-type instance a + m = m + a              -- for a concrete number m
-
-
-type instance m * n = mn                 -- for concrete numbers m, n, mn, with m * n = mn
-type instance 0 * a = 0                   
-type instance 1 * a = a
-type instance a * a = a ^ 2
-type instance m * a = a * m              -- for concrete numbers m
-
-type instance m ^ n = mn                 -- for concrete numbers m, n, mn, with m ^ n = mn
-type instance 1 ^ a = 1
-type instance a ^ 0 = 1
-type instance a ^ 1 = a
--- type instance a ^ m = a  simplifies to a <= 1
-
-... (there are more) ...
-
-```
+because it cannot solve all the necessary constraints, even though the constraint can be solved in the general theory of natural numbers.  The most common cause of this is when a programmer writes down a type signature, but GHC infers a slightly different type for the implementation.  Now, GHC needs to check that the specified type is compatible with the implementation.  If it fails to do this, then the program will be rejected.  The usual work-around in such situations is to modify the type signature so that it lists explicitly the constraints that GHC could not solve.  If you encounter the same problem often, please consider sending an e-mail to the GHC mailing list to let us know.  We might be able to teach GHC some more math!
