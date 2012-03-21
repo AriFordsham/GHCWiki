@@ -35,9 +35,9 @@ One may think of the smart constructor ''tNat'' as being a method of a special b
 class NatI n where
   tNat :: TNat n
 
-instance NatI 0 where tNat = "singleton 0 value"
-instance NatI 1 where tNat = "singleton 1 value"
-instance NatI 2 where tNat = "singleton 2 value"
+instance NatI 0 where tNat = ...singleton 0 value...
+instance NatI 1 where tNat = ...singleton 1 value...
+instance NatI 2 where tNat = ...singleton 2 value...
 etc.
 }}}
 
@@ -84,31 +84,38 @@ instance NatI n => Read (Nat n) where
 == Implicit vs. Explicit Parameters ==
 
 There are two different styles of writing functions which need the integer corresponding to a type level natural.
-
-One approach is to use an explicit parameter of type `Nat n`.  For example:
+To illustrate the two style consider a type for working with C-style arrays:
 {{{
-memset :: Storable a => ArrPtr n a -> a -> Nat n -> IO ()
+newtype ArrPtr (n :: Nat) a = ArrPtr (Ptr a)
+}}}
+
+One approach is to use an explicit parameter of type {{{TNat n}}}.  For example:
+{{{
+memset :: Storable a => ArrPtr n a -> a -> TNat n -> IO ()
 memset = ...
 }}}
 
 This style is, basically, a more typed version of what is found in many standard C libraries.
-Callers of this function have to pass the size of the array explicitly, and the type system checks that the size matches that of the array.
-When defining `memset` we can just use `natToInteger` on the `Nat n` parameter to get the actual value of the array size.
+Callers of this function have to pass the size of the array explicitly, and the type system checks that the
+size matches that of the array. When defining {{{memset}}} we can just use {{{tNatInteger}}}` on the {{{TNat n}}}
+parameter to get the actual value of the array size.
 
 Another approach is to let the system infer the parameter by using the class `NatI`.  For example:
 {{{
 memsetAuto :: (Storable a, NatI n) => ArrPtr n a -> a -> IO ()
+memsetAuto = ...
 }}}
 
 In this style, the caller of the function does not need to provide the size of the array explicitly.
 Instead, it is computed automatically from the type of the array.
-When defining `memsetAuto` we can use `nat`, the method of `NatI`, to get access to the value corresponding to the type level natural.
+When defining {{{memsetAuto}}} we can use {{{{tNat}}}, the method of {{{NatI}}}, to get access to the value
+corresponding to the type level natural.
 
-When using the implicit style, it is important that the type of `nat` is specified precisely.  Failing to do so typically results in ambiguity errors
-(i.e., GHC does not know which integer it should use).  Another common mistake is to forget that 'nat' is a polymorphic value and so every time it is used it may refer to a different value.
+When using the implicit style, it is important that the type of {{{tNat}}} is specified precisely.  Failing to do so typically results in ambiguity errors
+(i.e., GHC does not know which integer it should use).  Another common mistake is to forget that 'tNat' is a polymorphic value and so every time it is used it may refer to a different value.
 
-An easy way to avoid such problems is to implement the implicit style functions in terms of the explicit ones.  For example, we can implement `memsetAuto` like this:
+An easy way to avoid such problems is to implement the implicit style functions in terms of the explicit ones.  The
+ba
 {{{
 memsetAuto arr val = memset arr val nat
 }}}
-
