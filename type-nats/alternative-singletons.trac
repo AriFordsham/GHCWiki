@@ -27,7 +27,7 @@ instance NatE 1 where tNatInteger TNat = 1
 ...
 }}}
 
-We made this choice, at least in part, because it made the implementation simpler: the evidence for class {{{NatI}}} is just an integer.  Note that our choice does not loose any generality because we can define the alternative design in terms of it:
+We made this choice, at least in part, because it made the implementation simpler: with our choice the evidence for class {{{NatI}}} is just an integer.  Note that our choice does not loose any generality because we can define the alternative design in terms of it:
 
 {{{
 data TNat1 (n :: Nat) = TNat1
