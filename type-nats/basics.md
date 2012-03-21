@@ -23,7 +23,7 @@ module GHC.TypeLits where
 We relate type-level natural numbers to run-time values via a family of singleton types:
 
 ```wiki
-data TNat (n :: Nat)
+data TNat :: Nat -> *
 
 tNat         :: NatI n => TNat n
 tNatInteger  :: TNat n -> Integer
