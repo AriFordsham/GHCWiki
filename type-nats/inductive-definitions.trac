@@ -31,7 +31,7 @@ in half:
 {{{
 isEven :: TNat n -> IsEven n
 
-data IsEven $a where
+data IsEven a :: Nat -> * where
   IsEvenZero ::                    IsEven 0
   IsEven     :: !(TNat (n + 1)) -> IsEven (2 * (n + 1))
   IsOdd      :: !(TNat n)       -> IsEven ((2 * n) + 1)
