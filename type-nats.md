@@ -6,29 +6,18 @@ This page collects information on how to work with type-level natural numbers, a
 ## User's Guide
 
 - [Type-Level Naturals Basics](type-nats/basics)
-- [Natural Numbers: From Values to Types](type-nats/naturals)
-- [Type-Level Operations](type-nats/operations)
-- [Examples](type-nats/examples)
+- [Type-Level Computation](type-nats/operations)
+- [Typed examinations of TNat (inductive definitions)](type-nats/inductive-definitions)
 
 ## Notes on Design
 
 - [Alternative Design For Singletons](type-nats/alternative-singletons)
 - [Avoiding Partial Type Functions](type-nats/avoiding-partial-type-functions)
-- Naturals or Integers?
-- [Inductive definitions](type-nats/inductive-definitions)
 
 ## Notes on the Implementation
 
 - [Implementation of GHC.TypeNats](type-nats/implementation)
-- [Axioms for Natural Number Operators](type-nats/axioms)
-- GHC Interaction Rules ([Notational Conventions](type-nats/rule-notation))
-
-  - [Top-Level Interactions](type-nats/interact1)
-  - [Simple Inert Interactions](type-nats/interact2)
-  - [Solving (\<=) Predicates](type-nats/leq)
-  - XXX: Write the new rules
-- Translation to FC
-- Precedences for infix predicates such as \~ and \<=
+- [ Axioms for type-level type operators](http://github.com/yav/tc-solver/blob/master/docs/axioms.md)
 
 ## External links
 
@@ -38,4 +27,8 @@ This page collects information on how to work with type-level natural numbers, a
   - libraries/template-haskell
   - utils/haddock
 
+## XXX: Cleanup
+
+- [Natural Numbers: From Values to Types](type-nats/naturals)
 - More advanced example: [ https://github.com/yav/memory-arrays/tree/master](https://github.com/yav/memory-arrays/tree/master)
+- [Examples](type-nats/examples)
