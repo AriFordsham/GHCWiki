@@ -3,7 +3,7 @@ which make it possible to define inductive functions using {{{TNat}}} values.
 
 == Checking for Zero (Unary Strucutre of Nat) ==
 
-The first view provides the same functionality as usual
+The first view provides the same functionality as the usual
 Peano arithmetic definition of the natural numbers.  It
 is useful when using {{{TNat}}} to count something.
 {{{
