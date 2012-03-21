@@ -120,8 +120,7 @@ One approach is to use an explicit parameter of type `TNat n`.  For example:
 
 ```wiki
 memset :: Storable a => ArrPtr n a -> a -> TNat n -> IO ()
-memset (ArrPtr p) a n = mapM_ (\i -> pokeElemOff p i a)
-                                   [ 0 .. fromIntegral (tNatInteger n - 1) ]
+memset (ArrPtr p) a n = mapM_ (\i -> pokeElemOff p i a) [ 0 .. fromIntegral (tNatInteger n - 1) ]
 ```
 
 

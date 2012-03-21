@@ -92,8 +92,7 @@ newtype ArrPtr (n :: Nat) a = ArrPtr (Ptr a)
 One approach is to use an explicit parameter of type {{{TNat n}}}.  For example:
 {{{
 memset :: Storable a => ArrPtr n a -> a -> TNat n -> IO ()
-memset (ArrPtr p) a n = mapM_ (\i -> pokeElemOff p i a)
-                                   [ 0 .. fromIntegral (tNatInteger n - 1) ]
+memset (ArrPtr p) a n = mapM_ (\i -> pokeElemOff p i a) [ 0 .. fromIntegral (tNatInteger n - 1) ]
 }}}
 
 This style is, basically, a more typed version of what is found in many standard C libraries.
