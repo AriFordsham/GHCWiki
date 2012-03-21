@@ -28,7 +28,7 @@ then `x`.
 
 
 The other view provides a more "bit-oriented" view of
-the natural numbers, by allowing is to check if the least
+the natural numbers, by allowing us to check if the least
 significant bit of a number is 0 or 1.  It is useful
 when we use `TNat` values for splitting things
 in half:
