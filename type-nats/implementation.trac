@@ -1,16 +1,16 @@
 The only "magic" thing about `GHC.TypeNats` are the instances of `NatI`.  The rest is implemented like this:
 {{{
-newtype Nat (n :: Nat) = Nat Integer
+newtype TNat (n :: Nat) = TNat Integer
 
-natToInteger :: Nat n -> Integer
-natToInteger (Nat n) = n
+tNatInteger :: TNat n -> Integer
+tNatInteger (TNat n) = n
 }}}
 
 So, now we just need instances like these:
 {{{
-instance NatI 0 where nat = Nat 0
-instance NatI 1 where nat = Nat 1
-instance NatI 2 where nat = Nat 2
+instance NatI 0 where nat = TNat 0
+instance NatI 1 where nat = TNat 1
+instance NatI 2 where nat = TNat 2
 ...
 }}}
 
@@ -20,7 +20,7 @@ some code in GHC which can solve `NatI` predicates on the fly.
 The "proof" (aka "dictionary") for `NatI n` is just the number `n`.  This is OK because:
 
   1. GHC uses a `newtype` to represent the dictionaries for classes that have just a single method and no super-classes.  `NatI` is just such a class.
-  2. `Nat` is already a `newtype` for `Integer`.
+  2. `TNat` is already a `newtype` for `Integer`.
 
 Therefore, the dictionaries for class `NatI` are just integers.
 
