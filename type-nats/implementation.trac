@@ -1,4 +1,4 @@
-The only "magic" thing about `GHC.TypeNats` are the instances of `NatI`.  The rest is implemented like this:
+The only "magic" thing about `GHC.TypeLits` are the instances of `NatI`.  The rest is implemented like this:
 {{{
 newtype TNat (n :: Nat) = TNat Integer
 
