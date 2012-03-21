@@ -6,16 +6,12 @@ This page collects information on how to work with type-level natural numbers, a
 ## User's Guide
 
 - [Type-Level Naturals Basics](type-nats/basics)
-- [Natural Numbers: From Values to Types](type-nats/naturals)
 - [Type-Level Operations](type-nats/operations)
-- [Examples](type-nats/examples)
 
 ## Notes on Design
 
 - [Alternative Design For Singletons](type-nats/alternative-singletons)
 - [Avoiding Partial Type Functions](type-nats/avoiding-partial-type-functions)
-- Naturals or Integers?
-- [Inductive definitions](type-nats/inductive-definitions)
 
 ## Notes on the Implementation
 
@@ -30,4 +26,9 @@ This page collects information on how to work with type-level natural numbers, a
   - libraries/template-haskell
   - utils/haddock
 
+## XXX: Cleanup
+
+- [Inductive definitions](type-nats/inductive-definitions)
+- [Natural Numbers: From Values to Types](type-nats/naturals)
 - More advanced example: [ https://github.com/yav/memory-arrays/tree/master](https://github.com/yav/memory-arrays/tree/master)
+- [Examples](type-nats/examples)
