@@ -21,8 +21,9 @@ This page collects information on how to work with type-level natural numbers, a
 
 ## External links
 
-- The implementation resides on branch 'type-nats' of the GHC repo.  The following GHC-related related repos also have a type-nats branch:
+- Where to find relevant source code:
 
+  - [ type-nats branch of GHC](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=ghc.git;a=shortlog;h=refs/heads/type-nats)
   - libraries/base
   - libraries/template-haskell
   - utils/haddock
