@@ -18,7 +18,7 @@ By using {{{isZero}}} we can check if a number is 0 or the successor
 of another number.  The interesting aspect of {{{isZero}}} is that
 the result is typed:  if {{{isZero x}}} returns {{{IsSucc y}}},
 then the type checker knows that the type of {{{y}}} is one smaller
-then {{{x}}}.
+than {{{x}}}.
 
 
 == Checking for Evenness (Binary Structure of Nat) ==
