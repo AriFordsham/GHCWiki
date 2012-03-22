@@ -11,6 +11,8 @@ This page is about how to change the package system to allow multiple instances 
 
 - ghc-pkg: do not overwrite previous instances in the package DB
 
+  - but we need to think about the case where it's the "same" package being re-registered, e.g. it's actually installed in the same file system location as the old instance, and the old files are no longer. This worry applies to the current `ghc-pkg update` command.
+
 - GHC: discard conflicting instances during its shadowing phase
 
   - SDM: GHC will currently do \*something\* here, but it might end up with a result that the user didn't want/expect.  One way to improve things is to prioritise packages that were installed more recently.
@@ -27,11 +29,11 @@ This page is about how to change the package system to allow multiple instances 
 
 - Cabal: will the dependency solver work correctly in the presence of multiple package instances?
 
-  - Andres claims it will (maybe only the new solver?)
+  - Andres claims it will using the new solver. (There is now no point in updating the old solver, though it'd be technically possible.)
 
 - ghc-pkg cleanup: remove old/unused instances of packages
 
-  - how can we tell when something is unnecessary?
+  - how can we tell when something is unnecessary? This is actually rather hard because unlike Nix we do not track every random executable that the user compiles.
 
 ## Next step: dealing with ways
 
