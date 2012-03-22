@@ -11,14 +11,23 @@ This page is about how to change the package system to allow multiple instances 
  * ghc-pkg: do not overwrite previous instances in the package DB
 
  * GHC: discard conflicting instances during its shadowing phase
+   * SDM: GHC will currently do *something* here, but it might end up with a result that the user didn't want/expect.  One way to improve things is to prioritise packages that were installed more recently.
+   * Andres suggests that GHC should be much cleverer, and look at the actual dependencies of the modules being compiled before deciding which packages to enable.  This would almost certainly result in more things working and possibly less surprising behaviour sometimes, but Simon thinks that (a) it is too hard, (b) if users need this, they should use Cabal and its dependency resolver, which will do a good job, (c) you can often resolve problems by adding `-package X`, and (d) eventually we will want a system where users manage separate sessions, so they can set up an environment in which the packages they want are available.  This has a lot in common with `cabal-dev` and sandboxes, so the mechanisms (and concepts) should be shared.
 
  * GHC: allow specifying a package instance in the -package flags
+   * SDM: already done
 
  * instances of packages must install in a different location
    * install directory includes hash?
+   * SDM: not done yet.  One problem is that we don't know the hash until the package is built, but we need to know the install locations earlier because we bake them into `Paths_foo.hs`.
+
+ * Cabal: will the dependency solver work correctly in the presence of multiple package instances?
+   * Andres claims it will (maybe only the new solver?)
 
  * ghc-pkg cleanup: remove old/unused instances of packages
    * how can we tell when something is unnecessary?
+
+== Next step: dealing with ways ==
 
  * Add the "way" to InstalledPackageInfo, include the way in the hash
 
