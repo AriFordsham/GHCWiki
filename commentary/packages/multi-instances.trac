@@ -21,6 +21,9 @@ This page is about how to change the package system to allow multiple instances 
    * install directory includes hash?
    * SDM: not done yet.  One problem is that we don't know the hash until the package is built, but we need to know the install locations earlier because we bake them into `Paths_foo.hs`.
 
+ * Cabal: will the dependency solver work correctly in the presence of multiple package instances?
+   * Andres claims it will (maybe only the new solver?)
+
  * ghc-pkg cleanup: remove old/unused instances of packages
    * how can we tell when something is unnecessary?
 
