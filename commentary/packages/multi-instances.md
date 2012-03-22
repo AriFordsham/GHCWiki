@@ -3,7 +3,8 @@
 
 This page is about how to change the package system to allow multiple instances of a package to be installed at the same time.  There are two reasons we want to be able to do this:
 
-- To be able to track the different "ways" in which a package is available: e.g. profiling, dynamic.  At the moment, the package database doesn't track this information, with the result that the user has to reinstall packages with `--enable-profiling` on a trial-and-error basis in order to get profiling support for packages they have already installed. The same holds, in principle, for different flag settings of a package. It would be nice if ghc-pkg could track these as well.
+- To be able to track the different "ways" in which a package is available: e.g. profiling, dynamic.  At the moment, the package database doesn't track this information, with the result that the user has to reinstall packages with `--enable-profiling` on a trial-and-error basis in order to get profiling support for packages they have already installed.
+  The same holds, in principle, for different flag settings or other configuration variations of a package.
 
 - To make installing new packages more robust.  When installing a new package, we sometimes need to upgrade packages that are already installed to new versions, which may require recompiling other packages against the new version.  For example, if we have P1 installed, Q1 depends on P (any version), and we need to install R that depends on both P2 and Q1.  We need to build P2, rebuild Q1 against P2, and finally build R against P2 and the new Q1.  We would like to do this without removing P1 or the old Q1 from the package database, because other packages may be depending on the old Q1, and we don't want to break those packages (which is what currently happens with GHC 7.0).
 
@@ -11,7 +12,7 @@ This page is about how to change the package system to allow multiple instances 
 
 - ghc-pkg: do not overwrite previous instances in the package DB
 
-  - but we need to think about the case where it's the "same" package being re-registered, e.g. it's actually installed in the same file system location as the old instance, and the old files are no longer. This worry applies to the current `ghc-pkg update` command. (kosmikus: I'm not sure I understand this. Are you referring to the situation where you re-register an unchanged package, or where you really overwrite an existing package on the file system. The latter should be a user error, I'm not sure if ghc-pkg should be able to handle it. New ghc versions should depend on a Cabal version that handles this correctly. Most people don't install packages by hand, I guess.) 
+  - but we need to think about the case where we overwrite an existing package on the file system and re-register. This will happen with local (or in-place) package registration that occurs when building a bunch of related components. In this case the tool should know it's doing that and unregister the old instance first (though reliably tracking that state may be tricky, since users can make clean etc). We should check make it a checked error to re-register in the same filesystem location with new package id, without unregistering the old one first. Perhaps we can identify some key file.
 
 - GHC: discard conflicting instances during its shadowing phase
 
@@ -26,7 +27,8 @@ This page is about how to change the package system to allow multiple instances 
 
   - install directory includes hash?
   - SDM: not done yet.  One problem is that we don't know the hash until the package is built, but we need to know the install locations earlier because we bake them into `Paths_foo.hs`.
-  - Simon and Andres discussed that one option is to let Cabal compute its own hash. However, then we'd have two hashes to deal with. Only using the Cabal-computed hash isn't an option either according to Simon, because apparently GHC's ABI hash computation is non-deterministic, so we might end up with situations where Cabal's hash is stable, but GHC computes an ABI-incompatible version. This is somewhat worrying ...
+  - Simon and Andres discussed that one option is to let Cabal compute its own hash. However, then we'd have two hashes to deal with. Only using the Cabal-computed hash isn't an option either according to Simon, because apparently GHC's ABI hash computation is non-deterministic, so we might end up with situations where Cabal's hash is stable, but GHC computes an ABI-incompatible version. This is somewhat worrying ... 
+  - Duncan thinks that we should store both a package identity and a package ABI hash. Currently we form the package id from the name, version and ABI hash. We should store the ABI hash separately anyway because eventually we will want to know it, to know which packages are ABI compatible. So Cabal can compute a package Id in advance, however is sensible, and the ABI hash is calculated as now, after the build. The installation directory follows the package Id.
 
 - Cabal: will the dependency solver work correctly in the presence of multiple package instances?
 
@@ -45,3 +47,5 @@ This page is about how to change the package system to allow multiple instances 
 - Cabal: fix up the dep resolver (kosmikus: anything still needed there?)
 
 - Cabal: ways? (this would be really easy, if we could get more information about installed packages back from ghc-pkg)
+
+- To handle flags and other config, add two new fields to InstalledPackageInfo: `install-agent: {agent-id}` which identifies cabal/rpm/etc and then `configuration: {free text}`. The interpretation of the configuration string depends on the installation agent, and need be known only to that agent. This way, agents can see if it was them that installed a package, and so they should know how to interpret the config string. For cabal this would include config flags etc. It should make it possible to reproduce a package, e.g. if we have to rebuild for some reason, or to get the profiling equiv of a normal instance.
