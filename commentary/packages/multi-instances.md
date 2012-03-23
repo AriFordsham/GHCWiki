@@ -21,7 +21,12 @@ This page is about how to change the package system to allow multiple instances 
 
 - GHC: allow specifying a package instance in the -package flags
 
-  - SDM: already done
+  - SDM: already done (-package-id flag)
+  - DC: already used by Cabal
+
+- Cabal: allow specifying a package instance when doing Setup.hs configure
+
+  - DC: currently only == version constraints can be used, not installed package id. Shouldn't be too hard to add however.
 
 - instances of packages must install in a different location
 
