@@ -17,7 +17,11 @@ This page is about how to change the package system to allow multiple instances 
    * Andres suggests that GHC should be much cleverer, and look at the actual dependencies of the modules being compiled before deciding which packages to enable.  This would almost certainly result in more things working and possibly less surprising behaviour sometimes, but Simon thinks that (a) it is too hard, (b) if users need this, they should use Cabal and its dependency resolver, which will do a good job, (c) you can often resolve problems by adding `-package X`, and (d) eventually we will want a system where users manage separate sessions, so they can set up an environment in which the packages they want are available.  This has a lot in common with `cabal-dev` and sandboxes, so the mechanisms (and concepts) should be shared. (kosmikus: perhaps an alternative is to force the user to make an active decision in case of conflicts, i.e., to create a sandbox that exposes a consistent package set).
 
  * GHC: allow specifying a package instance in the -package flags
-   * SDM: already done
+   * SDM: already done (-package-id flag)
+   * DC: already used by Cabal
+
+ * Cabal: allow specifying a package instance when doing Setup.hs configure
+   * DC: currently only == version constraints can be used, not installed package id. Shouldn't be too hard to add however.
 
  * instances of packages must install in a different location
    * install directory includes hash?
