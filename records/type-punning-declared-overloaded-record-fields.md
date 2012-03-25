@@ -104,7 +104,7 @@ Note that the**`Has` mechanism** uses **the field's type itself** to locate the 
   (Probably you're doing this already for critical fields to share.)
 - The type functions are not associated types, because:
 
-  - `GetResult` for shared fields depends only on the Field's type (per Customer_id above);
+  - `GetResult` for shared fields depends only on the Field's type (per `Customer_id` above);
   - `SetResult` for non-parametric record types continues the same record type.
 - The field selector function also must be declared once, defined punning on the field's type.
   (See below for syntactic sugar to declare these.)
@@ -149,7 +149,7 @@ Polymorphic record updates, alternative syntax (note, no data constructor for th
 
 - Monomorphic fields can be `get` and `set`.
 - Parametric polymorphic fields can be applied in polymorphic contexts, and can be `set` including changing the type of the record.
-  (This uses the SetResult type function.)
+  (This uses the `SetResult` type function.)
   To do: provide example with desugarring.
 - Multiple fields can be updated in a single expression (using familiar H98 syntax), but this desugars to nested updates, which is inefficient.
 - Pattern matching and record creation using the data constructor prefixed to { ... } work as per H98 (using `DisambiguateRecordFields` and friends).
@@ -164,29 +164,19 @@ Polymorphic record updates, alternative syntax (note, no data constructor for th
     type instance SetResult HR t  = HR                                  -- HR is not parametric
 
     newtype Rev = Rev (forall a. [a] -> [a])
-    rev :: HR -> Rev -> (forall a. [a] -> [a])                          -- generated selector is monomorphic
-    rev r = get r (undefined :: Rev)
+    rev :: HR -> Rev -> (forall a. [a] -> [a])                          -- generated selector is polymorphic
+    rev r = let (Rev fn) = get r (undefined :: Rev) in fn               -- unwrap from the newtype
 
     instance Has HR Rev                         where                   -- Has instance generated
-        get HR{ rev = (Rev x) } = x                                     -- looks OK, but see GetResult
-        set x HR{ .. }    = HR{ rev = x, .. }                           -- note x is already wrapped
+        get HR{ rev = (Rev x) } = Rev x                                 -- can't unwrap here, 'cos can't spec Poly
+        set (Rev x) HR{ .. }    = HR{ rev = Rev x, .. }                 -- note x is already wrapped
 
-    type instance GetResult HR Rev     = (forall a. [a] -> [a])         -- no can do! not allowed forall's on RHS
-                                                                        -- (and can't do equality constraints on type instances)
-    {- ??can we do better -- perhaps an eq constraint on the Has instance:
-                 (GetResult HR Rev ~ ([a] -> [a])) => Has ...
-       plus a non-commital result for getResult
-    -}
+    type instance GetResult r Rev     = Rev
 
-{- instead, do explicit newtype wrapping for higher-rank types:   -}
 
-    newtype Rev = Rev (forall a. [a] -> [a])        deriving (Has)
-    newtype OrdRev = OrdRev (Ord a => [a] -> [a])   deriving (Has)      -- class constrained
-
-    data HRW = HRW{ rev :: Rev, ordRev :: OrdRev } sharing (Rev, OrdRev)
 ```
 
-- Now we can now apply the wrapped function polymorphically (after unwrapping within the user code.
+- Now we can now apply the wrapped function polymorphically (after unwrapping within the user code).
 
 
 .
