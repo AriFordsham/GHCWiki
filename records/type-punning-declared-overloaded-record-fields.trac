@@ -134,7 +134,9 @@ Polymorphic record updates, alternative syntax (note, no data constructor for th
     type instance SetResult HR t  = HR                                  -- HR is not parametric
 
     newtype Rev = Rev (forall a. [a] -> [a])
-    rev :: HR -> Rev -> (forall a. [a] -> [a])                          -- generated selector is polymorphic
+    rev :: HR -> (forall a. [a] -> [a])                                 -- generated selector is monomorphic in HR,
+                                                                        --         'cos not sharing
+                                                                        -- (but Higher-Ranked result)
     rev r = let (Rev fn) = get r (undefined :: Rev) in fn               -- unwrap from the newtype
 
     instance Has HR Rev                         where                   -- Has instance generated
