@@ -149,8 +149,7 @@ Polymorphic record updates, alternative syntax (note, no data constructor for th
 
 - Monomorphic fields can be `get` and `set`.
 - Parametric polymorphic fields can be applied in polymorphic contexts, and can be `set` including changing the type of the record.
-  (This uses the `SetResult` type function.)
-  To do: provide example with desugarring.
+  (This uses the `SetResult` type function. See example below.)
 - Multiple fields can be updated in a single expression (using familiar H98 syntax), but this desugars to nested updates, which is inefficient.
 - Pattern matching and record creation using the data constructor prefixed to { ... } work as per H98 (using `DisambiguateRecordFields` and friends).
 - But the types are subtlely different vs. polymorphic update: you must explicitly wrap the types.
@@ -158,12 +157,14 @@ Polymorphic record updates, alternative syntax (note, no data constructor for th
   In `Constr{ fld = e }`, if `e` not type `Fld`, enwrap it with a `Fld` constructor.)
 - Higher-ranked polymorphic fields (including class-constrained) can be applied in polymorphic contexts, and can be set -- providing they are wrapped in a newtype. Here is SPJ's example:
 
-```wiki
-    data HR = HR { rev :: (forall a. [a] -> [a]) }                      -- would generate:
+**Higher-Ranked polymorphic fields** (including class-constrained polymorphism)
 
-    type instance SetResult HR t  = HR                                  -- HR is not parametric
+```wiki
+ -- data HR = HR { rev :: (forall a. [a] -> [a]) }                      -- _not_ sharing, so would generate:
 
     newtype Rev = Rev (forall a. [a] -> [a])
+    data HR = HR { rev :: Rev }
+
     rev :: HR -> (forall a. [a] -> [a])                                 -- generated selector is monomorphic in HR,
                                                                         --         'cos not sharing
                                                                         -- (but Higher-Ranked result)
@@ -174,11 +175,31 @@ Polymorphic record updates, alternative syntax (note, no data constructor for th
         set (Rev x) HR{ .. }    = HR{ rev = Rev x, .. }                 -- note x is already wrapped
 
     type instance GetResult r Rev     = Rev
-
+    type instance SetResult HR t      = HR                              -- HR is not parametric
 
 ```
 
 - Now we can now apply the wrapped function polymorphically (after unwrapping within the user code).
+
+**Parametric polymoprhic fields** (including changing the parametric record type)
+
+```wiki
+ -- data ParamR a = ParamR { paramA :: a }                              -- _not_ sharing, so would generate:
+
+    newtype ParamA a = ParamA a
+    data ParamR a = ParamR { paramA :: ParamA a }
+
+    paramA :: ParamR a -> a                                             -- generated selector is monomorphic in ParamR,
+    paramA r = get r (undefined :: ParamA a)
+
+    instance Has (ParamR a) (ParamA _a)        where                    -- Note: different type args
+        get ParamR{ paramA = ParamA x } = x                             -- unwrap the value from the newtype
+        set (ParamA x) ParamR{ .. }     = ParamR{ paramA = ParamA x, .. }
+
+    type instance GetResult (ParamR a) (ParamA _a)  = a                  -- take param type as is (_a is dummy)
+    type instance SetResult (ParamR _a) (ParamA a)  = ParamR a           -- take param type to be (_a is dummy)
+
+```
 
 
 .
