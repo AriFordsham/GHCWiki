@@ -18,7 +18,6 @@ A proposed change will add the following constructors to TH's `Type` datatype...
 ```wiki
 | ConK Name               -- for kinds of the form Bool
 | VarK Name               -- k
-| ForallK [Name] Kind     -- forall k. ...
 | AppK Kind Kind          -- k1 k2
 | ListK                   -- []
 | TupleK Int              -- (), (,), ...
@@ -26,7 +25,7 @@ A proposed change will add the following constructors to TH's `Type` datatype...
 ```
 
 
-The final `Kind` constructor does not need any special binder construct because all kinds are of sort `BOX`.
+Note that there is no `ForallK` constructor because the internal GHC representation for kinds with variables does not use this. Kinds are automatically generalized over an entire type expression.
 
 
 TH will also need to support promoted constructors other than lists and tuples, but this is in fact already supported through the use of `ConT`. The namespace of defined types and of promoted types is also already kept distinct. For example, if we have the definition `data Foo = Foo`, the results of ` [t| Foo |] ` and ` [t| 'Foo |] ` are distinct (as in, `==` returns `False`). However, applying `show` to these two results produces the same string. Using the naming quote syntax, we can access promoted data constructors using the single-quote form. For example, `ConT 'False` denotes the promoted data constructor `'False`. (Note that the parsed interpretations of the `'` in these two snippets are entirely unrelated.)
