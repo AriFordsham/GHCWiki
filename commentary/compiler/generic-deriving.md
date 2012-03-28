@@ -4,7 +4,7 @@
 GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in paper [ A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf). This page sketches the specifics of the implementation; we assume you have read the paper. The [ HaskellWiki page](http://www.haskell.org/haskellwiki/Generics) gives a more general overview.
 
 
-This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). What we describe until the "Kind polymorphic overhaul" section is implemented and released in GHC 7.0.1.
+This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). What we describe until the "Kind polymorphic overhaul" section is implemented and released in GHC 7.2.1.
 
 ## Main components
 
