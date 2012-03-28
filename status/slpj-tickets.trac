@@ -1,6 +1,7 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
 == New typechecker things to fix (with Dimitrios) ==
+ * #5934: Bad substitution for flatten skolem
  * #5716, #5612, #5682, #5717, #5768, #5769, #5770, #5771: !PolyKinds
  * #5913, #5751: type-class dictionary loops
  * #5321, #5837, #5853 (loop): slow constraint solving
