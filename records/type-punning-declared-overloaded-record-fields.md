@@ -23,7 +23,7 @@ The export/import of both the field name and its punned Type is under usual H98 
 In case of 'unintended' clash (another module using the same name 'by accident'), usual H98 controls apply to protect encapsulation and representation hiding.
 
 
-This proposal introduces several new elements of syntax (including some shorthands), all of which desugar to use well-established extensions of ghc. The approach is yet to be prototyped, but I expect that to be possible in ghc v 7.2.1. In particular:
+This proposal introduces several new elements of syntax (including some shorthands), all of which desugar to use well-established extensions of ghc. The key type-inference elelemnts of this approach have been tested in ghc v7.2.1. A full prototype is yet to be developed. In particular:
 
 - The field name overloading is implemented through usual class and instance mechanisms.
 - Field selectors are ordinary functions named for the field (but overloaded rather than H98's monomorphic), so field selection is regular function application. (There is no need for syntactically-based disambiguation at point of use.)
@@ -181,7 +181,7 @@ Polymorphic record updates, alternative syntax (note, no data constructor for th
 
 - Now we can now apply the wrapped function polymorphically (after unwrapping within the user code).
 
-**Parametric polymoprhic fields** (including changing the parametric record type)
+**Parametric polymorphic fields** (including changing the parametric record type)
 
 ```wiki
  -- data ParamR a = ParamR { paramA :: a }                              -- _not_ sharing, so would generate:
@@ -193,13 +193,33 @@ Polymorphic record updates, alternative syntax (note, no data constructor for th
     paramA r = get r (undefined :: ParamA a)
 
     instance Has (ParamR a) (ParamA _a)        where                    -- Note: different type args
-        get ParamR{ paramA = ParamA x } = x                             -- unwrap the value from the newtype
+        get ParamR{ paramA = ParamA x } _ = x                           -- unwrap the value from the newtype
         set (ParamA x) ParamR{ .. }     = ParamR{ paramA = ParamA x, .. }
 
     type instance GetResult (ParamR a) (ParamA _a)  = a                  -- take param type as is (_a is dummy)
     type instance SetResult (ParamR _a) (ParamA a)  = ParamR a           -- take param type to be (_a is dummy)
 
 ```
+
+**Wilder thought: towards type-indexed rows?**
+
+
+Since we're using the field's type pun to instance the field, perhaps we could avoid the dummy argument to `get`, like this, with a few adjustments for the parametric type:
+
+```wiki
+    class Has r t                                           where
+        get :: (GetResult r t ~ t) => r -> t                            -- GetResult 'improves' get's result
+        set :: t -> r -> SetResult r t                                  -- 
+
+    paramA :: ParamR a -> a                                             -- generated selector unwraps the param type,
+    paramA r = let (ParamA x) = get r in x                              -- get returns the wrapped newtype
+
+    instance Has (ParamR a) (ParamA _a)        where                    -- Note: different type args
+        get ParamR{ paramA } = paramA                                   -- don't unwrap the value from the newtype
+        set (ParamA x) ParamR{ .. }     = ParamR{ paramA = ParamA x, .. }
+```
+
+`get`'s result type is effectively 'pulling' the field out of the record. This is getting close to the style of polymorphic/anonymous type-indexed rows, as described in some of the record calculi proposals (such as HList).
 
 
 .
