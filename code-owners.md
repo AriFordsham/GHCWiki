@@ -125,11 +125,11 @@ and a short description of what they're doing or have done.
 ## Past contributors
 
 
-These people have contributed to GHC in the past, in various
+These people have contributed to GHC and its core libraries in the past, in various
 wonderful ways:
 
 - Krasimir Angelov
-- Lennart Augustsson
+- Lennart Augustsson (including work on many core libraries, originally for hbc)
 - Jean-Philippe Bernardy (Maintenance of Data.\*Map/\*Set libraries)
 - [ Jost Berthold](http://www.mathematik.uni-marburg.de/~berthold) (Parallel Haskell: Eden)
 - Bjorn Bringert
