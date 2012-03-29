@@ -3,9 +3,9 @@
 ## New typechecker things to fix (with Dimitrios)
 
 - [\#5934](https://gitlab.haskell.org//ghc/ghc/issues/5934): Bad substitution for flatten skolem
-- [\#5716](https://gitlab.haskell.org//ghc/ghc/issues/5716), [\#5612](https://gitlab.haskell.org//ghc/ghc/issues/5612), [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682), [\#5717](https://gitlab.haskell.org//ghc/ghc/issues/5717), [\#5768](https://gitlab.haskell.org//ghc/ghc/issues/5768), [\#5769](https://gitlab.haskell.org//ghc/ghc/issues/5769), [\#5770](https://gitlab.haskell.org//ghc/ghc/issues/5770), [\#5771](https://gitlab.haskell.org//ghc/ghc/issues/5771): PolyKinds
 - [\#5913](https://gitlab.haskell.org//ghc/ghc/issues/5913), [\#5751](https://gitlab.haskell.org//ghc/ghc/issues/5751): type-class dictionary loops
-- [\#5321](https://gitlab.haskell.org//ghc/ghc/issues/5321), [\#5837](https://gitlab.haskell.org//ghc/ghc/issues/5837), [\#5853](https://gitlab.haskell.org//ghc/ghc/issues/5853) (loop): slow constraint solving
+- [\#5321](https://gitlab.haskell.org//ghc/ghc/issues/5321), [\#5837](https://gitlab.haskell.org//ghc/ghc/issues/5837), [\#5853](https://gitlab.haskell.org//ghc/ghc/issues/5853) (loop), [\#5970](https://gitlab.haskell.org//ghc/ghc/issues/5970), [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064), [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): slow constraint solving
+- [\#5612](https://gitlab.haskell.org//ghc/ghc/issues/5612), [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): PolyKinds
 - [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): impredicativity
 - [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320): overlap delicacy
 - [\#5939](https://gitlab.haskell.org//ghc/ghc/issues/5939), [\#5936](https://gitlab.haskell.org//ghc/ghc/issues/5936): Pedro's generics
@@ -47,6 +47,7 @@
 
 ### Optimiser
 
+- [\#5059](https://gitlab.haskell.org//ghc/ghc/issues/5059): specialise on value arguments
 - [\#5964](https://gitlab.haskell.org//ghc/ghc/issues/5964): casts and RULES interaction
 - [\#5262](https://gitlab.haskell.org//ghc/ghc/issues/5262): seq magic
 - [\#605](https://gitlab.haskell.org//ghc/ghc/issues/605): strict/unboxed enumerations
@@ -98,6 +99,7 @@
 
 ## Types and type inference
 
+- [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5609](https://gitlab.haskell.org//ghc/ghc/issues/5609), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777): bugs in arrows; awaiting refactoring by Dan
 - [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965): make existentials have a really cheap implementation
 - [\#5224](https://gitlab.haskell.org//ghc/ghc/issues/5224): make it cheaper to check for inconsistent type family instances
 - [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466), [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296): explicit type application
