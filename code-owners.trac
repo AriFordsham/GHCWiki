@@ -108,11 +108,11 @@ and a short description of what they're doing or have done.
 
 == Past contributors ==
 
-These people have contributed to GHC in the past, in various
+These people have contributed to GHC and its core libraries in the past, in various
 wonderful ways:
 
  * [mailto:ka2_mail@yahoo.com Krasimir Angelov]
- * [mailto:lennart@augustsson.net Lennart Augustsson]
+ * [mailto:lennart@augustsson.net Lennart Augustsson] (including work on many core libraries, originally for hbc)
  * [mailto:jeanphilippe.bernardy@gmail.com Jean-Philippe Bernardy] (Maintenance of Data.*Map/*Set libraries)
  * [http://www.mathematik.uni-marburg.de/~berthold Jost Berthold] (Parallel Haskell: Eden)
  * [mailto:d00bring@dtek.chalmers.se Bjorn Bringert]
