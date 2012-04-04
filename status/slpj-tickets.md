@@ -47,6 +47,7 @@
 
 ### Optimiser
 
+- [\#5059](https://gitlab.haskell.org//ghc/ghc/issues/5059): specialise on value arguments
 - [\#5964](https://gitlab.haskell.org//ghc/ghc/issues/5964): casts and RULES interaction
 - [\#5262](https://gitlab.haskell.org//ghc/ghc/issues/5262): seq magic
 - [\#605](https://gitlab.haskell.org//ghc/ghc/issues/605): strict/unboxed enumerations
