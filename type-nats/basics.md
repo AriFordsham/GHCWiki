@@ -11,7 +11,7 @@ symbol literals are types that belong to the kind `Symbol`:
 ```
 
 
-Both of numeric and symbol literal types are empty---they have no inhabitants.  However, they may be
+Both numeric and symbol literal types are empty---they have no inhabitants.  However, they may be
 used as parameters to other type constructors, which makes them useful.
 
 ## Singleton Types
