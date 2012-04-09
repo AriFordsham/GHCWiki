@@ -27,7 +27,7 @@ of singleton types, parameterized by type-level literals:
 {{{
 newtype Sing :: a -> *
 }}}
-For example, {{{Sing 0}}}, {{{Sing 127}}}, {{{Sing "hello"}}}, {{{Sing "this also}}}}, are all
+For example, `Sing 0`, `Sing 127`, `Sing "hello"`, and `Sing "this also` are all
 singleton types.  The intuition is that the only inhabitant of `Sing n` is the value `n`.  Notice
 that `Sing` has a ''polymorphic kind'' because sometimes we apply it to numbers (which are of
 kind `Nat`) and sometimes we apply it to symbols (which are of kind `Symbol`).
