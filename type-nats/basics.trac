@@ -15,7 +15,7 @@ used as parameters to other type constructors, which makes them useful.
 
 == Singleton Types ==
 
-We use this idea to link the type-level literals to specific run-time values via //singleton types//.
+We use this idea to link the type-level literals to specific run-time values ''singleton types''.
 The singleton types and some useful functions for working with them are defined in module {{{GHC.TypeLits}}}:
 
 {{{
