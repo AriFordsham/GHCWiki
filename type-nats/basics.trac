@@ -48,50 +48,88 @@ So, if we apply it to a value of type `Sing 3` we get the ''number'' `3`, but,
 if we apply it to a value of type `Sing "hello"` we would get the ''string'' `"hello"`.
 
 So, how do we make values of type `Sing n` in the first place?  This is done with
-a the special overloaded constant `sing`:
+the special overloaded constant `sing`:
 {{{
 class SingI a where
   sing :: Sing a
 
--- Built-in instances for all type0literals.
-instance SingI 0        where sing = // ... the singleton value representing 0 ...
-instance SingI 1        where sing = // ... the singleton value representing 1 ...
-instance SingI "hello"  where sing = // ... the singleton value representing "hello" ...
+-- Built-in instances for all type-literals.
+instance SingI 0        where sing = ... the singleton value representing 0 ...
+instance SingI 1        where sing = ... the singleton value representing 1 ...
+instance SingI "hello"  where sing = ... the singleton value representing "hello" ...
 // ... etc.
 }}}
 
-
-
-
-We relate type-level natural numbers to run-time values via a family of singleton types:
+Here are some examples on the GHCi prompt to get a feel of how `sing` works:
 {{{
-data TNat :: Nat -> *
-
-tNat         :: NatI n => TNat n
-tNatInteger  :: TNat n -> Integer
-
--- Convenient derived functions
-tNatThat     :: NatI n => (Integer -> Bool) -> Maybe (TNat n)
-withTNat     :: NatI n => (TNat n -> a) -> a
-}}}
-The only "interesting" value of type {{{TNat n}}} is the number {{{n}}}.  Technically, there is also an undefined element.
-The value of a singleton type may be named using {{{tNat}}}, which is a bit like a "smart" constructor for {{{TNat n}}}.
-Note that because {{{tNat}}} is polymorphic, we may have to use a type signature to specify which singleton we mean.  For example:
-
-One may think of the smart constructor {{{tNat}}} as being a method of a special built-in class, {{{NatI}}}:
-{{{
-class NatI n where
-  tNat :: TNat n
-
-instance NatI 0 where tNat = ...singleton 0 value...
-instance NatI 1 where tNat = ...singleton 1 value...
-instance NatI 2 where tNat = ...singleton 2 value...
-etc.
+> :set -XDataKinds
+> sing :: Sing 1
+> 1
+> sing :: Sing "hello"
+> "hello"
 }}}
 
-The name ''NatI'' is a mnemonic for the different uses of the class:
-  * It is the ''introduction'' construct for 'TNat' values,
-  * It is an ''implicit'' parameter of kind 'TNat' (this is discussed in more detail bellow)
+The name ''SingI'' is a mnemonic for the different uses of the class:
+  * It is the ''introduction'' construct for 'Sing' values,
+  * It is an ''implicit'' singleton parameter (this is discussed in more detail bellow)
+
+Notice that GHCi could display values of type `Sing`, so they have a `Show` instance.  As another example, here
+is the definition of the `Show` instance:
+{{{
+instance Show (SingRep a) => Show (Sing a) where
+  showsPrec p = showsPrec p . fromSing
+}}}
+Easy! We just convert the singleton into an ordinary value (integer or string), and use ''its'' `Show` instance to display it.
+
+Next, we show two functions which make it easier to work with singleton types:
+
+{{{
+withSing :: SingI a => (Sing a -> b) -> b
+withSing f = f sing
+
+singThat :: SingI a => (SingRep a -> Bool) -> Maybe (Sing a)
+singThat p = withSing $ \x -> if p (fromSing x) then Just x else Nothing
+}}}
+
+The first function, `withSing`, is useful when we want to work with the same singleton value multiple times.
+The constant `sing` is polymorphic, so every time we use it in a program, it may refer to a potentially
+different singleton, so to ensure that two singleton values are the same we have to resort to
+explicit type signatures, which just adds noise to a definition.  By using, `withSing` we avoid this problem
+because we get an explicit (monomorphic) name for a given singleton, and so we can use the name many times
+without any type signatures.  This technique is shown in the definition of the second function, `singThat`.
+
+The function `singThat` is similar to the constant `sing` in that it defines new singleton values. However,
+it allows us to specify a predicate on (the representation of) the value and it only succeeds if this predicate
+holds.  Here are some examples of how that works:
+
+{{{
+> singThat (== 1) :: Maybe (Sing 1)
+> Just 1
+> singThat (== 1) :: Maybe (Sing 2)
+> Nothing
+> singThat ("he" `isPrefixOf`) :: Maybe (Sing "hello")
+> Just "hello"
+}}}
+
+Now, using `singThat` we can show the definition of the `Read` instance for singletons:
+
+{{{
+instance (SingI a, Read (SingRep a), Eq (SingRep a)) => Read (Sing a) where
+  readsPrec p cs = do (x,ys) <- readsPrec p cs
+                      case singThat (== x) of
+                        Just y  -> [(y,ys)]
+                        Nothing -> []
+}}}
+
+We use the `Read` instance of the representation for the singletons to parse a value,
+and then, we use `singThat` to make sure that this was the value corresponding to
+the singleton.
+
+
+
+
+
+
 
 == Examples ==
 
