@@ -126,59 +126,33 @@ and then, we use `singThat` to make sure that this was the value corresponding t
 the singleton.
 
 
-
-
-
-
-
-== Examples ==
-
-Here is how we can use the basic primitives to define a {{{Show}}} instance for singleton types:
-{{{
-instance Show (TNat n) where
-  showsPrec p n = showsPrec p (tNatInteger n)
-}}}
-
-Here is how to define a {{{Read}}} instance:
-{{{
-instance NatI n => Read (Nat n) where
-  readsPrec p x       = do (x,xs) <- readsPrec p x
-                           case tNatThat (== x) of
-                             Just n  -> [(n,xs)]
-                             Nothing -> []
-}}}
-
-The derived function {{{tNatThat}}} is similar to {{{tNat}}} except that it succeeds only if the integer representation
-of the singleton type matches the given predicate.  So, in the {{{Read}}} instance we parse an integer and then we check
-if it is the expected integer for the singleton that we are trying to parse.
-
-
 == Implicit vs. Explicit Parameters ==
 
-There are two different styles of writing functions which need the integer corresponding to a type level natural.
+There are two different styles of writing functions that use singleton types.
 To illustrate the two style consider a type for working with C-style arrays:
 {{{
 newtype ArrPtr (n :: Nat) a = ArrPtr (Ptr a)
 }}}
 
-One approach is to use an explicit parameter of type {{{TNat n}}}.  For example:
+Now consider the definition of the function `memset`, which sets all elemnts
+of the array to a given fixed value.
+
+One approach is to use an explicit singleton parameter.  For example:
 {{{
-memset_c :: Storable a => ArrPtr n a -> a -> TNat n -> IO ()
-memset_c (ArrPtr p) a n = mapM_ (\i -> pokeElemOff p i a) [ 0 .. fromIntegral (tNatInteger n - 1) ]
+memset_c :: Storable a => ArrPtr n a -> a -> Sing n -> IO ()
+memset_c (ArrPtr p) a size = mapM_ (\i -> pokeElemOff p i a) [ 0 .. fromIntegral (fromSing size - 1) ]
 }}}
 
 This style is, basically, a more typed version of what is found in many standard C libraries.
 Callers of this function have to pass the size of the array explicitly, and the type system checks that the
-size matches that of the array.  Note that in the implementation of {{{memset_c}}} we used {{{tNatInteger}}}
-to get the concrete integer associated with the singleton type.
+size matches that of the array.  Note that in the implementation of `memset_c` we used `fromSing`
+to get the concrete integer associated with the singleton type, so that we know how many elements
+to set with the given value/
 
-While the explicit {{{TNat}}} parameter is convenient when we define the function, it is a bit
-tedious to have to provide it all the time---it is easier to let the system infer the value,
+While the explicit `Sing` parameter is convenient when we define the function, it is a bit
+tedious to have to provide it all the time---it is easier to let the compiler infer the value,
 based on the type of the array:
 {{{
-memset :: (Storable a, NatI n) => ArrPtr n a -> a -> IO ()
-memset ptr a = withTNat (memset_c ptr a)
+memset :: (Storable a, SingI n) => ArrPtr n a -> a -> IO ()
+memset ptr a = withSing (memset_c ptr a)
 }}}
-
-The function {{{withTNat}}} is useful when converting from the "explicit" to the "implicit" style
-because it avoids ambiguity errors, scoped type-variables and other complications.
