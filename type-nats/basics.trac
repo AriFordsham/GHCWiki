@@ -1,18 +1,52 @@
-== Type-Level Naturals ==
+== Type-Level Literals ==
 
-There is a new kind, `Nat`.  It is completely separate from GHC's hierarchy of sub-kinds, so `Nat` is only a sub-kind of itself.
+Currently, we support two forms of type-level literals: natural numbers, and symbol constants.
+Natural number literals are a family of types, all of which belong to the kind `Nat`.  Similarly,
+symbol literals are types that belong to the kind `Symbol`:
 
-The inhabitants of `Nat` are an infinite family of (empty) types, corresponding to the natural numbers:
 {{{
 0, 1, 2, ... :: Nat
+"hello", "world", "some string literal" :: Symbol
 }}}
 
-These types are linked to the value world by a small library with the following API:
+Both of numeric and symbol literal types are empty---they have no inhabitants.  However, they may be
+used as parameters to other type constructors, which makes them useful.
+
+
+== Singleton Types ==
+
+We use this idea to link the type-level literals to specific run-time values via //singleton types//.
+The singleton types and some useful functions for working with them are defined in module {{{GHC.TypeLits}}}:
+
 {{{
 module GHC.TypeLits where
 }}}
 
-== Singleton Types ==
+A //singleton type// is simply a type that has only one interesting inhabitant.  We define a whole family
+of singleton types, parameterized by type-level literals:
+{{{
+newtype Sing :: a -> *
+}}}
+So, for example, {{{Sing 0}}}, {{{Sing 127}}}, {{{Sing "hello"}}}, {{{Sing "this also}}}}, are all
+singleton types.  The idea is that the only inhabitant of {{{Sing n}}} is the value {{{n}}}.  Notice
+that {{{Sing}}} has a //polymorphic kind// because sometimes we apply it to numbers (which are of
+kind {{{Nat}}}) and sometimes we apply it to symbols (which are of kind {{{Symbol}}}).
+
+But, if we have a value of type {{{Sing a}}}, how do we get the actual integer or string?
+We can do this with the function {{{fromSing}}}:
+{{{
+fromSing :: Sing a -> SingRep a
+
+type family SingRep a
+type instance SingRep (n :: Nat)    = Integer
+type instance SingRep (n :: Symbol) = String
+}}}
+
+While the type of {{{fromSing}}} looks a bit complex at first it is actually quite simple:
+given a singleton type, it will return either an integer or a string, depending on the //kind// of
+its index.  So, if we apply it to a value of type {{{Sing 3}}} we would get the number {{{3}}}, but,
+if we apply to a value of type {{{Sing "hello"}}} we would get the string "hello".
+
 
 We relate type-level natural numbers to run-time values via a family of singleton types:
 {{{
