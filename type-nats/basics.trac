@@ -45,7 +45,7 @@ type instance SingRep (n :: Symbol) = String
 The function `fromSing` has an interesting type: it maps singletons to ordinary values,
 but the type of the result depends on the ''kind'' of the singleton parameter.
 So, if we apply it to a value of type `Sing 3` we get the ''number'' `3`, but,
-if we apply it to a value of type `Sing "hello"` we would get the ''string'' `"hello"`.
+if we apply it to a value of type `Sing "hello"` we get the ''string'' `"hello"`.
 
 So, how do we make values of type `Sing n` in the first place?  This is done with
 the special overloaded constant `sing`:
