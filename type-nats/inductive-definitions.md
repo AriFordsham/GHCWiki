@@ -10,11 +10,11 @@ Peano arithmetic definition of the natural numbers.  It
 is useful when using `TNat` to count something.
 
 ```wiki
-isZero :: TNat n -> IsZero n
+isZero :: Sing n -> IsZero n
 
 data IsZero :: Nat -> * where
   IsZero ::              IsZero 0
-  IsSucc :: !(TNat n) -> IsZero (n + 1)
+  IsSucc :: !(Sing n) -> IsZero (n + 1)
 ```
 
 
@@ -34,10 +34,10 @@ when we use `TNat` values for splitting things
 in half:
 
 ```wiki
-isEven :: TNat n -> IsEven n
+isEven :: Sing n -> IsEven n
 
 data IsEven a :: Nat -> * where
   IsEvenZero ::                  IsEven 0
-  IsEven     :: !(TNat (n+1)) -> IsEven (2 * n + 2)
-  IsOdd      :: !(TNat n)     -> IsEven (2 * n + 1)
+  IsEven     :: !(Sing (n+1)) -> IsEven (2 * n + 2)
+  IsOdd      :: !(Sing n)     -> IsEven (2 * n + 1)
 ```
