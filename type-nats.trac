@@ -1,10 +1,10 @@
-= Type Level Naturals =
+= Type Level Literals =
 
-This page collects information on how to work with type-level natural numbers, as implemented in the Haskell compiler GHC (ticket #4385).
+This page collects information on how to work with type-level literals, as implemented in the Haskell compiler GHC (ticket #4385).
 
 == User's Guide ==
 
-  * [wiki:TypeNats/Basics           Type-Level Naturals Basics]
+  * [wiki:TypeNats/Basics           Type-Level Literal Basics]
   * [wiki:TypeNats/Operations       Type-Level Computation]
   * [wiki:TypeNats/InductiveDefinitions Typed examinations of TNat (inductive definitions)]
 
