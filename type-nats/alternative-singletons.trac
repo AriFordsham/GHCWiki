@@ -2,38 +2,38 @@ We use a family of singleton types to relate type-level naturals to runtime valu
 
 In our design, we chose to provide as primitive an overloaded "smart" constructor and a polymorphic elimination construct:
 {{{
-newtypeT Nat (n :: Nat) = Nat Integer
+newtype Sing n = Sing (SingRep n)
 
-class NatI n where
-  tNat :: TNat n
+class SingI n where
+  sing :: Sing n
 
-instance NatI 0 where tNat = TNat 0
-instance NatI 1 where tNat = TNat 1
+instance SingI 0 where sing = Sing 0
+instance SingI 1 where sing = Sing 1
 ...
 
-tNatInteger :: TNat n -> Integer
-tNatInteger (TNat n) = n
+fromSing :: Sing n -> SingRep n
+fromSing (Sing n) = n
 }}}
 
 It is also possible to make the dual choice, where we provide a polymorphic constructor and an overloaded elimination construct:
 {{{
-data TNat (n :: Nat) = TNat
+data Sing n = Sing
 
-class NatE n where
-  tNatInteger :: TNat n -> Integer
+class SingE n where
+  fromSing :: Sing n -> SingRep n
 
-instance NatE 0 where tNatInteger TNat = 0
-instance NatE 1 where tNatInteger TNat = 1
+instance NatE 0 where fromSing Sing = 0
+instance NatE 1 where fromSing Sing = 1
 ...
 }}}
 
-We made this choice, at least in part, because it made the implementation simpler: with our choice the evidence for class {{{NatI}}} is just an integer.  Note that our choice does not loose any generality because we can define the alternative design in terms of it:
+We made this choice, at least in part, because it made the implementation simpler: with our choice the evidence for class {{{SingI}}} is just an integer or a string.  Note that our choice does not loose any generality because we can define the alternative design in terms of it:
 
 {{{
-data TNat1 (n :: Nat) = TNat1
+data Sing1 = Sing1
 
-tNat1Integer :: NatI n => TNat1 n -> Integer
-tNat1Integer = tNatInteger . cast
-  where cast :: NatI n => TNat1 n -> TNat n
-        cast TNat1 = tNat
+fromSing1 :: SingI n => Sing1 n -> SingRep n
+fromSing1 = fromSing . cast
+  where cast :: SingI n => Sing1 n -> Sing n
+        cast Sing1 = sing
 }}}
