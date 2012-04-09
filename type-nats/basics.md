@@ -33,7 +33,7 @@ newtype Sing :: a -> *
 ```
 
 
-So, for example, `Sing 0`, `Sing 127`, `Sing "hello"`, `Sing "this also`}, are all
+For example, `Sing 0`, `Sing 127`, `Sing "hello"`, `Sing "this also`}, are all
 singleton types.  The intuition is that the only inhabitant of `Sing n` is the value `n`.  Notice
 that `Sing` has a *polymorphic kind* because sometimes we apply it to numbers (which are of
 kind `Nat`) and sometimes we apply it to symbols (which are of kind `Symbol`).
@@ -55,6 +55,21 @@ The function `fromSing` has an interesting type: it maps singletons to ordinary 
 but the type of the result depends on the *kind* of the singleton parameter.
 So, if we apply it to a value of type `Sing 3` we get the *number*`3`, but,
 if we apply it to a value of type `Sing "hello"` we would get the *string*`"hello"`.
+
+
+So, how do we make values of type `Sing n` in the first place?  This is done with
+a the special overloaded constant `sing`:
+
+```wiki
+class SingI a where
+  sing :: Sing a
+
+-- Built-in instances for all type0literals.
+instance SingI 0        where sing = // ... the singleton value representing 0 ...
+instance SingI 1        where sing = // ... the singleton value representing 1 ...
+instance SingI "hello"  where sing = // ... the singleton value representing "hello" ...
+// ... etc.
+```
 
 
 We relate type-level natural numbers to run-time values via a family of singleton types:
