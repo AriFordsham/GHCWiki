@@ -9,7 +9,7 @@ symbol literals are types that belong to the kind `Symbol`:
 "hello", "world", "some string literal" :: Symbol
 }}}
 
-Both of numeric and symbol literal types are empty---they have no inhabitants.  However, they may be
+Both numeric and symbol literal types are empty---they have no inhabitants.  However, they may be
 used as parameters to other type constructors, which makes them useful.
 
 
@@ -27,7 +27,7 @@ of singleton types, parameterized by type-level literals:
 {{{
 newtype Sing :: a -> *
 }}}
-For example, {{{Sing 0}}}, {{{Sing 127}}}, {{{Sing "hello"}}}, {{{Sing "this also}}}}, are all
+For example, `Sing 0`, `Sing 127`, `Sing "hello"`, and `Sing "this also"` are all
 singleton types.  The intuition is that the only inhabitant of `Sing n` is the value `n`.  Notice
 that `Sing` has a ''polymorphic kind'' because sometimes we apply it to numbers (which are of
 kind `Nat`) and sometimes we apply it to symbols (which are of kind `Symbol`).
@@ -45,7 +45,7 @@ type instance SingRep (n :: Symbol) = String
 The function `fromSing` has an interesting type: it maps singletons to ordinary values,
 but the type of the result depends on the ''kind'' of the singleton parameter.
 So, if we apply it to a value of type `Sing 3` we get the ''number'' `3`, but,
-if we apply it to a value of type `Sing "hello"` we would get the ''string'' `"hello"`.
+if we apply it to a value of type `Sing "hello"` we get the ''string'' `"hello"`.
 
 So, how do we make values of type `Sing n` in the first place?  This is done with
 the special overloaded constant `sing`:
