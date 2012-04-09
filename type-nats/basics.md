@@ -1,98 +1,158 @@
-## Type-Level Naturals
+## Type-Level Literals
 
 
-There is a new kind, `Nat`.  It is completely separate from GHC's hierarchy of sub-kinds, so `Nat` is only a sub-kind of itself.
-
-
-The inhabitants of `Nat` are an infinite family of (empty) types, corresponding to the natural numbers:
+Currently, we support two forms of type-level literals: natural numbers, and symbol constants.
+Natural number literals are a family of types, all of which belong to the kind `Nat`.  Similarly,
+symbol literals are types that belong to the kind `Symbol`:
 
 ```wiki
-0, 1, 2, ... :: Nat
+0, 1, 2, ...                            :: Nat
+"hello", "world", "some string literal" :: Symbol
 ```
 
 
-These types are linked to the value world by a small library with the following API:
+Both of numeric and symbol literal types are empty---they have no inhabitants.  However, they may be
+used as parameters to other type constructors, which makes them useful.
+
+## Singleton Types
+
+
+We use this idea to link the type-level literals to specific run-time values via *singleton types*.
+The singleton types and some useful functions for working with them are defined in module `GHC.TypeLits`:
 
 ```wiki
 module GHC.TypeLits where
 ```
 
-## Singleton Types
 
-
-We relate type-level natural numbers to run-time values via a family of singleton types:
+A singleton type is simply a type that has only one interesting inhabitant.  We define a whole family
+of singleton types, parameterized by type-level literals:
 
 ```wiki
-data TNat :: Nat -> *
-
-tNat         :: NatI n => TNat n
-tNatInteger  :: TNat n -> Integer
-
--- Convenient derived functions
-tNatThat     :: NatI n => (Integer -> Bool) -> Maybe (TNat n)
-withTNat     :: NatI n => (TNat n -> a) -> a
+newtype Sing :: a -> *
 ```
 
 
-The only "interesting" value of type `TNat n` is the number `n`.  Technically, there is also an undefined element.
-The value of a singleton type may be named using `tNat`, which is a bit like a "smart" constructor for `TNat n`.
-Note that because `tNat` is polymorphic, we may have to use a type signature to specify which singleton we mean.  For example:
+For example, `Sing 0`, `Sing 127`, `Sing "hello"`, `Sing "this also`}, are all
+singleton types.  The intuition is that the only inhabitant of `Sing n` is the value `n`.  Notice
+that `Sing` has a *polymorphic kind* because sometimes we apply it to numbers (which are of
+kind `Nat`) and sometimes we apply it to symbols (which are of kind `Symbol`).
+
+
+But, if we have a value of type `Sing a`, how do we get the actual integer or string?
+We can do this with the function `fromSing`:
+
+```wiki
+fromSing :: Sing a -> SingRep a
+
+type family SingRep a
+type instance SingRep (n :: Nat)    = Integer
+type instance SingRep (n :: Symbol) = String
+```
+
+
+The function `fromSing` has an interesting type: it maps singletons to ordinary values,
+but the type of the result depends on the *kind* of the singleton parameter.
+So, if we apply it to a value of type `Sing 3` we get the *number*`3`, but,
+if we apply it to a value of type `Sing "hello"` we would get the *string*`"hello"`.
+
+
+So, how do we make values of type `Sing n` in the first place?  This is done with
+the special overloaded constant `sing`:
+
+```wiki
+class SingI a where
+  sing :: Sing a
+
+-- Built-in instances for all type-literals.
+instance SingI 0        where sing = ... the singleton value representing 0 ...
+instance SingI 1        where sing = ... the singleton value representing 1 ...
+instance SingI "hello"  where sing = ... the singleton value representing "hello" ...
+// ... etc.
+```
+
+
+Here are some examples on the GHCi prompt to get a feel of how `sing` works:
 
 ```wiki
 > :set -XDataKinds
-> tNatInteger (tNat :: TNat 3)
-3
+> sing :: Sing 1
+> 1
+> sing :: Sing "hello"
+> "hello"
 ```
 
 
-One may think of the smart constructor `tNat` as being a method of a special built-in class, `NatI`:
+The name *SingI* is a mnemonic for the different uses of the class:
+
+- It is the *introduction* construct for 'Sing' values,
+- It is an *implicit* singleton parameter (this is discussed in more detail bellow)
+
+
+Notice that GHCi could display values of type `Sing`, so they have a `Show` instance.  As another example, here
+is the definition of the `Show` instance:
 
 ```wiki
-class NatI n where
-  tNat :: TNat n
-
-instance NatI 0 where tNat = ...singleton 0 value...
-instance NatI 1 where tNat = ...singleton 1 value...
-instance NatI 2 where tNat = ...singleton 2 value...
-etc.
+instance Show (SingRep a) => Show (Sing a) where
+  showsPrec p = showsPrec p . fromSing
 ```
 
 
-The name *NatI* is a mnemonic for the different uses of the class:
-
-- It is the *introduction* construct for 'TNat' values,
-- It is an *implicit* parameter of kind 'TNat' (this is discussed in more detail bellow)
-
-## Examples
+Easy! We just convert the singleton into an ordinary value (integer or string), and use *its*`Show` instance to display it.
 
 
-Here is how we can use the basic primitives to define a `Show` instance for singleton types:
+Next, we show two functions which make it easier to work with singleton types:
 
 ```wiki
-instance Show (TNat n) where
-  showsPrec p n = showsPrec p (tNatInteger n)
+withSing :: SingI a => (Sing a -> b) -> b
+withSing f = f sing
+
+singThat :: SingI a => (SingRep a -> Bool) -> Maybe (Sing a)
+singThat p = withSing $ \x -> if p (fromSing x) then Just x else Nothing
 ```
 
 
-Here is how to define a `Read` instance:
+The first function, `withSing`, is useful when we want to work with the same singleton value multiple times.
+The constant `sing` is polymorphic, so every time we use it in a program, it may refer to a potentially
+different singleton, so to ensure that two singleton values are the same we have to resort to
+explicit type signatures, which just adds noise to a definition.  By using, `withSing` we avoid this problem
+because we get an explicit (monomorphic) name for a given singleton, and so we can use the name many times
+without any type signatures.  This technique is shown in the definition of the second function, `singThat`.
+
+
+The function `singThat` is similar to the constant `sing` in that it defines new singleton values. However,
+it allows us to specify a predicate on (the representation of) the value and it only succeeds if this predicate
+holds.  Here are some examples of how that works:
 
 ```wiki
-instance NatI n => Read (Nat n) where
-  readsPrec p x       = do (x,xs) <- readsPrec p x
-                           case tNatThat (== x) of
-                             Just n  -> [(n,xs)]
-                             Nothing -> []
+> singThat (== 1) :: Maybe (Sing 1)
+> Just 1
+> singThat (== 1) :: Maybe (Sing 2)
+> Nothing
+> singThat ("he" `isPrefixOf`) :: Maybe (Sing "hello")
+> Just "hello"
 ```
 
 
-The derived function `tNatThat` is similar to `tNat` except that it succeeds only if the integer representation
-of the singleton type matches the given predicate.  So, in the `Read` instance we parse an integer and then we check
-if it is the expected integer for the singleton that we are trying to parse.
+Now, using `singThat` we can show the definition of the `Read` instance for singletons:
+
+```wiki
+instance (SingI a, Read (SingRep a), Eq (SingRep a)) => Read (Sing a) where
+  readsPrec p cs = do (x,ys) <- readsPrec p cs
+                      case singThat (== x) of
+                        Just y  -> [(y,ys)]
+                        Nothing -> []
+```
+
+
+We use the `Read` instance of the representation for the singletons to parse a value,
+and then, we use `singThat` to make sure that this was the value corresponding to
+the singleton.
 
 ## Implicit vs. Explicit Parameters
 
 
-There are two different styles of writing functions which need the integer corresponding to a type level natural.
+There are two different styles of writing functions that use singleton types.
 To illustrate the two style consider a type for working with C-style arrays:
 
 ```wiki
@@ -100,29 +160,30 @@ newtype ArrPtr (n :: Nat) a = ArrPtr (Ptr a)
 ```
 
 
-One approach is to use an explicit parameter of type `TNat n`.  For example:
+Now consider the definition of the function `memset`, which sets all elemnts
+of the array to a given fixed value.
+
+
+One approach is to use an explicit singleton parameter.  For example:
 
 ```wiki
-memset_c :: Storable a => ArrPtr n a -> a -> TNat n -> IO ()
-memset_c (ArrPtr p) a n = mapM_ (\i -> pokeElemOff p i a) [ 0 .. fromIntegral (tNatInteger n - 1) ]
+memset_c :: Storable a => ArrPtr n a -> a -> Sing n -> IO ()
+memset_c (ArrPtr p) a size = mapM_ (\i -> pokeElemOff p i a) [ 0 .. fromIntegral (fromSing size - 1) ]
 ```
 
 
 This style is, basically, a more typed version of what is found in many standard C libraries.
 Callers of this function have to pass the size of the array explicitly, and the type system checks that the
-size matches that of the array.  Note that in the implementation of `memset_c` we used `tNatInteger`
-to get the concrete integer associated with the singleton type.
+size matches that of the array.  Note that in the implementation of `memset_c` we used `fromSing`
+to get the concrete integer associated with the singleton type, so that we know how many elements
+to set with the given value/
 
 
-While the explicit `TNat` parameter is convenient when we define the function, it is a bit
-tedious to have to provide it all the time---it is easier to let the system infer the value,
+While the explicit `Sing` parameter is convenient when we define the function, it is a bit
+tedious to have to provide it all the time---it is easier to let the compiler infer the value,
 based on the type of the array:
 
 ```wiki
-memset :: (Storable a, NatI n) => ArrPtr n a -> a -> IO ()
-memset ptr a = withTNat (memset_c ptr a)
+memset :: (Storable a, SingI n) => ArrPtr n a -> a -> IO ()
+memset ptr a = withSing (memset_c ptr a)
 ```
-
-
-The function `withTNat` is useful when converting from the "explicit" to the "implicit" style
-because it avoids ambiguity errors, scoped type-variables and other complications.
