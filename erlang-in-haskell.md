@@ -12,6 +12,7 @@ Here are some resources relevant to this project:
 - [ A paper on the process layer](http://www.cl.cam.ac.uk/~jee36/remote.pdf)
 - [ Haddock documentation](http://www.cl.cam.ac.uk/~jee36/remote/)
 - [ The source repository](http://github.com/jepst/CloudHaskell)
+- [ Haskell Wiki page](http://www.haskell.org/haskellwiki/GHC/CloudAndHPCHaskell)
 
 
 This is currently being worked on by [ me](http://www.cl.cam.ac.uk/~jee36/jee36.html). Feel free to drop me a line.
