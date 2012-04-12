@@ -70,6 +70,7 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 1. **[Syntax Directed Name Resolution](records/syntax-directed-name-resolution)**. Alternative that relies on syntactic rewriting and lenses.
 1. **[Type Indexed Records](records/type-indexed-records)**. (Plan B)
 1. **[Type-Punning Declared Overloaded Record Fields](records/type-punning-declared-overloaded-record-fields) (TPDORF)**. In the DORF stable. (Plan B)
+1. **[Explicit Classy Records](records/explicit-classy-records)**
 1. **Are there any other approaches?**
 
 ### Similarities
