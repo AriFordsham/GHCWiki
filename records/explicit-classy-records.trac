@@ -1,4 +1,4 @@
-Simple record system with selectors overloaded in explicitly-user-declared type classes.
+Simple record system with selectors overloaded in explicitly-user-declared type classes. Thus one can control the scope as of any other type class.
 
 To declare a record type, first declare classes of its selectors. Selectors can be grouped in classes by user's wish. For example:
 {{{
