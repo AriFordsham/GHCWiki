@@ -160,7 +160,7 @@ newtype ArrPtr (n :: Nat) a = ArrPtr (Ptr a)
 ```
 
 
-Now consider the definition of the function `memset`, which sets all elemnts
+Now consider the definition of the function `memset`, which sets all elements
 of the array to a given fixed value.
 
 

@@ -8,7 +8,7 @@ The renamer, typechecker, interface-file typechecker, and desugarer all share a 
   * [[GhcFile(compiler/typecheck/TcRnMonad)]]: defines lots of access functions for the renamer, typechecker, and interface typechecker.
   * [[GhcFile(compiler/typecheck/DsMonad)]]: specialises the {{{TcRnIf}}} monad for the desugarer.
 
-The typechecker and renamer use ''exactly'' the same monad, {{{TcRn}}}; the desugarer and interface-file checker use differnt instantiations of {{{TcRnIf}}}.  To give you the idea, here is how the {{{TcRn}}} monad looks:
+The typechecker and renamer use ''exactly'' the same monad, {{{TcRn}}}; the desugarer and interface-file checker use different instantiations of {{{TcRnIf}}}.  To give you the idea, here is how the {{{TcRn}}} monad looks:
 {{{
 type TcRn a       = TcRnIf TcGblEnv TcLclEnv a
 type TcRnIf a b c = IOEnv (Env a b) c

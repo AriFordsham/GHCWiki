@@ -12,7 +12,7 @@ The renamer, typechecker, interface-file typechecker, and desugarer all share a 
 - [compiler/typecheck/DsMonad](/trac/ghc/browser/ghc/compiler/typecheck/DsMonad): specialises the `TcRnIf` monad for the desugarer.
 
 
-The typechecker and renamer use *exactly* the same monad, `TcRn`; the desugarer and interface-file checker use differnt instantiations of `TcRnIf`.  To give you the idea, here is how the `TcRn` monad looks:
+The typechecker and renamer use *exactly* the same monad, `TcRn`; the desugarer and interface-file checker use different instantiations of `TcRnIf`.  To give you the idea, here is how the `TcRn` monad looks:
 
 ```wiki
 type TcRn a       = TcRnIf TcGblEnv TcLclEnv a
