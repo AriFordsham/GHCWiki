@@ -14,7 +14,7 @@ Documentation:
 
 Work in Progress:
 
-- [SIMD instructions and LLVM](simd-llvm) see also [VectorComputing](vector-computing)
+- [SIMD instructions and LLVM](simd)
 - [Improving Alias Analysis](commentary/compiler/backends/llvm/alias)
 
 
