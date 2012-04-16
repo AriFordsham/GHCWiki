@@ -1,15 +1,6 @@
 [[PageOutline]]
 
-= Using SIMD instructions in GHC =
-
-'''Goal''': improve program running times by taking advantage of CPU's SIMD vector instructions.
-
-'''How''': by extending GHC to generate code using SIMD vector instructions and by modifying libraries as necessary.
-
-This page describes the issues involved and a design for implementing SIMD vector support in GHC.
-
-Related pages:
- * Notes on the [wiki:SIMDPlan current implementation plan]
+This is the design document for SIMD support in GHC that resulted from the October 11, 2011 meeting at GHC HQ. Please see the [wiki:SIMD top-level GHC SIMD] page for further details.
 
 == Introduction ==
 
@@ -598,5 +589,5 @@ If later on we add vector data-movement instructions to the NCG, then the arch-c
 == See also ==
 
  * [http://perilsofparallel.blogspot.com/2008/09/larrabee-vs-nvidia-mimd-vs-simd.html Blog article about Larrabee and Nvidia, MIMD vs. SIMD]
- * [wiki:SimdLlvm SIMD LLVM] A previous (LLVM-specific) iteration of this SIMD proposal.
- * [wiki:VectorComputing VectorComputing]  A previous proposal to make use of x86 SSE in GHC.
+ * [wiki:SIMD/Implementation/Llvm SIMD LLVM:] A previous (LLVM-specific) iteration of this SIMD proposal.
+ * [wiki:SIMD/Implementation/Old Vector Computing:]  A previous proposal to make use of x86 SSE in GHC.
