@@ -9,7 +9,7 @@ Documentation:
  * [wiki:Commentary/Compiler/Backends/LLVM/GHC_LLVMPorting Porting GHC/LLVM to another platform]
 
 Work in Progress:
- * [wiki:SimdLlvm SIMD instructions and LLVM] see also [wiki:VectorComputing]
+ * [wiki:SIMD SIMD instructions and LLVM]
  * [wiki:Commentary/Compiler/Backends/LLVM/Alias Improving Alias Analysis]
 
 Future Ideas:
