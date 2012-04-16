@@ -1,14 +1,12 @@
 [[PageOutline]]
 
+'''This page is obsolete'''. Please see the [wiki:SIMD top-level SIMD project page] for further details.
+
 = Using SIMD Instructions via the LLVM Backend =
 
 The LLVM compiler tools targeted by GHC's [wiki:Commentary/Compiler/Backends/LLVM LLVM backend] support a generic [http://llvm.org/docs/LangRef.html#t_vector vector type] of arbitrary, but fixed length whose elements may be any LLVM scalar type. In addition to three [http://llvm.org/docs/LangRef.html#vectorops vector operations], LLVM's operations on scalars are overloaded to work on vector types as well. LLVM compiles operations on vector types to target-specific SIMD instructions, such as those of the SSE, AVX, and NEON instruction set extensions. As the capabilities of the various versions of SSE, AVX, and NEON vary widely, LLVM's code generator maps operations on LLVM's generic vector type to the more limited capabilities of the various hardware targets.
 
 The SIMD vector extension to GHC proposed here maps to LLVM's vector type in a straight forward manner, which in turn enables us to target a wide range of hardware capabilities. However, GHC's native code generator will simply map SIMD vector operations to ordinary scalar code (in order to avoid having to deal with the complexities of SSE, AVX, NEON, etc).
-
-Related pages
- * [wiki:SIMDPlan Implementation plan]
- * There is also also the outdated [wiki:VectorComputing].
 
 == Variations in the most widely used SIMD extensions ==
 
@@ -115,6 +113,3 @@ In DPH, we will use the new SIMD instructions by suitably modifying the definiti
 We could define them more verbosely using a plain `VECTORISE` pragma, but might instead like to extend `VECTORISE SCALAR` or introduce a variant.
 
 '''NB:''' The use of SIMD instructions interferes with vectorisation avoidance for scalar subcomputations. Code that avoids vectorisation also avoids the use of SIMD instructions. We would like to use SIMD instructions, but still avoid full-scale vectorisation. This should be possible, but it is not immediately clear how to realise it (elegantly).
-
-== Implementation Details and Plan ==
-For implementation details and a plan, refer to the [wiki:SIMDPlan SIMD Implementation Details and Plan] Page
