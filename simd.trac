@@ -1,4 +1,4 @@
-The goal of the SIMD project is to allow GHC and Haskell libraries to take advantage of SIMD vector instructions. Please see the proposed [wiki:SIMD/Design design] and he current [wiki:SIMD/Implementation/Status implementation status] for further details.
+The goal of the SIMD project is to allow GHC and Haskell libraries to take advantage of SIMD vector instructions. Please see the proposed [wiki:SIMD/Design design] and the current [wiki:SIMD/Implementation/Status implementation status] for further details.
 
 Obsolete sub-topics:
  * An [wiki:SIMD/Implementation/Plan implementation plan].
