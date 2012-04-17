@@ -54,25 +54,55 @@ incorrect size for an array.
 
 == Hiding the Arrays Size with an Existential ==
 
+We may also define a type for array whose sizes
+are not known statically.  Such arrays have
+two components: a pointer to data, and a number
+storing how many elements there are in the array.
 
-
+There are two different ways to define such arrays,
+and the difference between these two choices is
+the central point of this example:
+{{{
 data ArrayS :: * -> * where
   ArrS :: Sing n -> ArrPtr n a -> ArrayS a
 
 data ArrayD :: * -> * where
   ArrD :: SingI n => ArrPtr n a -> ArrayD a
+}}}
+The difference between the two is how we
+store the size of the array: in `ArrayS` we
+are using an explicit singleton values,
+while in `ArrayD` the size is stored
+in an implicit ''dictionary'' field.
 
-
+Both representations have the size of the
+array, so we can use them with the functions
+that we already defined for arrays of statically
+known sizes:
+{{{
 memsetS :: Storable a => ArrayS a -> a -> IO ()
 memsetS (ArrS s p) a = memset_c p a s
 
 memsetD :: Storable a => ArrayD a -> a -> IO ()
 memsetD (ArrD p) a = memset p a
+}}}
 
+The interesting difference between the two
+is the `ArrayD` is (in some sense) ''more static''.
+In particular, we can always convert 
+an `ArrayD` into an `ArrayS`, but we cannot
+define the inverse function:
+{{{
 fromArrD :: ArrayD a -> ArrayS a
 fromArrD (ArrD p) = ArrS sing p
+}}}
 
 
+
+
+== Creating Dynamically Sized Arrays ==
+
+{{{
 -- Unsafe, in general.
 uncheckedSing :: Integral a => a -> Sing (n :: Nat)
 uncheckedSing a = Sing (toInteger a)
@@ -84,3 +114,4 @@ mallocS n = do p <- mallocArray n
 example = do arr <- mallocS 10
              memsetS arr (0 :: Int)
              return arr
+}}}

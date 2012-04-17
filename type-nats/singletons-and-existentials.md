@@ -63,47 +63,69 @@ incorrect size for an array.
 ## Hiding the Arrays Size with an Existential
 
 
-data ArrayS :: \* -\> \* where
-
-<table><tr><th>ArrS</th>
-<td>Sing n -\> ArrPtr n a -\> ArrayS a
-</td></tr></table>
-
-
-data ArrayD :: \* -\> \* where
-
-<table><tr><th>ArrD</th>
-<td>SingI n =\> ArrPtr n a -\> ArrayD a
-</td></tr></table>
+We may also define a type for array whose sizes
+are not known statically.  Such arrays have
+two components: a pointer to data, and a number
+storing how many elements there are in the array.
 
 
-memsetS :: Storable a =\> ArrayS a -\> a -\> IO ()
+There are two different ways to define such arrays,
+and the difference between these two choices is
+the central point of this example:
+
+```wiki
+data ArrayS :: * -> * where
+  ArrS :: Sing n -> ArrPtr n a -> ArrayS a
+
+data ArrayD :: * -> * where
+  ArrD :: SingI n => ArrPtr n a -> ArrayD a
+```
+
+
+The difference between the two is how we
+store the size of the array: in `ArrayS` we
+are using an explicit singleton values,
+while in `ArrayD` the size is stored
+in an implicit *dictionary* field.
+
+
+Both representations have the size of the
+array, so we can use them with the functions
+that we already defined for arrays of statically
+known sizes:
+
+```wiki
+memsetS :: Storable a => ArrayS a -> a -> IO ()
 memsetS (ArrS s p) a = memset_c p a s
 
-
-memsetD :: Storable a =\> ArrayD a -\> a -\> IO ()
+memsetD :: Storable a => ArrayD a -> a -> IO ()
 memsetD (ArrD p) a = memset p a
+```
 
 
-fromArrD :: ArrayD a -\> ArrayS a
+The interesting difference between the two
+is the `ArrayD` is (in some sense) *more static*.
+In particular, we can always convert 
+an `ArrayD` into an `ArrayS`, but we cannot
+define the inverse function:
+
+```wiki
+fromArrD :: ArrayD a -> ArrayS a
 fromArrD (ArrD p) = ArrS sing p
+```
 
+## Creating Dynamically Sized Arrays
 
+```wiki
 -- Unsafe, in general.
-uncheckedSing :: Integral a =\> a -\> Sing (n :: Nat)
+uncheckedSing :: Integral a => a -> Sing (n :: Nat)
 uncheckedSing a = Sing (toInteger a)
 
+mallocS :: Storable a => Int -> IO (ArrayS a)
+mallocS n = do p <- mallocArray n
+               return (ArrS (uncheckedSing n) (ArrPtr p))
 
-mallocS :: Storable a =\> Int -\> IO (ArrayS a)
-mallocS n = do p \<- mallocArray n
-
->
-> return (ArrS (uncheckedSing n) (ArrPtr p))
-
-
-example = do arr \<- mallocS 10
-
-<table><tr><th>memsetS arr (0</th>
-<td>Int)
-return arr
-</td></tr></table>
+example = do arr <- mallocS 10
+             memsetS arr (0 :: Int)
+             return arr
+```
