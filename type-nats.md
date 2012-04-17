@@ -13,6 +13,7 @@ This page collects information on how to work with type-level literals, as imple
 
 - [Alternative Design For Singletons](type-nats/alternative-singletons)
 - [Avoiding Partial Type Functions](type-nats/avoiding-partial-type-functions)
+- [Singletons and Existentials](type-nats/singletons-and-existentials)
 
 ## Notes on the Implementation
 
