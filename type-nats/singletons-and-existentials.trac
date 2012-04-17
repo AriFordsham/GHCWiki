@@ -1,6 +1,13 @@
 Consider a type for arrays with a statically known size.
 {{{
-newtype ArrPtr (n :: Nat) a = SA (Ptr a)
+newtype ArrPtr (n :: Nat) a = ArrPtr (Ptr a)
+
+memset_c :: ArrPtr n a -> a -> Sing n -> IO ()
+memset_c (ArrPtr p) a n = forM_ [ 1 .. fromSing n - 1 ] $ \i ->
+   pokeElemOff p (fromIntegral i) a
+
+memset :: SingI n => ArrPtr n a -> a -> IO ()
+memset p a = withSing (memset_c p a)
 }}}
 
 
