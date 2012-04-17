@@ -52,7 +52,7 @@ incorrect size for an array.
 
 
 
-== Hiding the Arrays Size with an Existential ==
+== Hiding the Array Size with an Existential ==
 
 We may also define a type for array whose sizes
 are not known statically.  Such arrays have
