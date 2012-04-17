@@ -14,6 +14,8 @@ import GHC.TypeLits
 import Foreign(Ptr, pokeElemOff, Storable, mallocArray)
 ```
 
+## Arrays with Statically Known Sizes
+
 
 We start by defining a type for pointers to a *sequence*
 of adjecent elements in memory.  The number of elements
@@ -44,6 +46,21 @@ size automatically, based on the type:
 memset :: (Storable a, SingI n) => ArrPtr n a -> a -> IO ()
 memset p a = withSing (memset_c p a)
 ```
+
+
+Here is an example of how we might use these types:
+
+```wiki
+clearPage :: ArrPtr 4096 Word8 -> IO ()
+clearPage p = memset p 0
+```
+
+
+Note that because of the way we wrote the code,
+there is no danger of accidentally passing the
+incorrect size for an array.
+
+## Hiding the Arrays Size with an Existential
 
 
 data ArrayS :: \* -\> \* where

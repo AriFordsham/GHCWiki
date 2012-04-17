@@ -13,6 +13,8 @@ import GHC.TypeLits
 import Foreign(Ptr, pokeElemOff, Storable, mallocArray)
 }}}
 
+== Arrays with Statically Known Sizes ==
+
 We start by defining a type for pointers to a ''sequence''
 of adjecent elements in memory.  The number of elements
 is statically known at compile time, which is why
@@ -30,6 +32,7 @@ memset_c (ArrPtr p) a n =
   forM_ [ 1 .. fromSing n - 1 ] $ \i ->
     pokeElemOff p (fromIntegral i) a
 }}}
+
 Because the size of the array is statically known, we may
 define an overloaded function, that will use the correct
 size automatically, based on the type:
@@ -38,7 +41,18 @@ memset :: (Storable a, SingI n) => ArrPtr n a -> a -> IO ()
 memset p a = withSing (memset_c p a)
 }}}
 
+Here is an example of how we might use these types:
+{{{
+clearPage :: ArrPtr 4096 Word8 -> IO ()
+clearPage p = memset p 0
+}}}
+Note that because of the way we wrote the code,
+there is no danger of accidentally passing the
+incorrect size for an array.
 
+
+
+== Hiding the Arrays Size with an Existential ==
 
 
 
