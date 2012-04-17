@@ -88,7 +88,7 @@ memsetD (ArrD p) a = memset p a
 }}}
 
 The interesting difference between the two
-is the `ArrayD` is (in some sense) ''more static''.
+is that `ArrayD` is (in some sense) ''more static''.
 In particular, we can always convert 
 an `ArrayD` into an `ArrayS`, but we cannot
 define the inverse function:
