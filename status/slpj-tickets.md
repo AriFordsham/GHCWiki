@@ -136,6 +136,7 @@
 
 ## Features
 
+- [\#6024](https://gitlab.haskell.org//ghc/ghc/issues/6024): allow defining a *kind* without also getting the corresponding *type*
 - [\#5927](https://gitlab.haskell.org//ghc/ghc/issues/5927): Constraints with universal quantification
 - [\#5630](https://gitlab.haskell.org//ghc/ghc/issues/5630): External core needs love
 - [\#5429](https://gitlab.haskell.org//ghc/ghc/issues/5429): docase and joinads
