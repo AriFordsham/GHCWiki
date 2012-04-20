@@ -24,7 +24,7 @@ The **base design** has the following distinct components:
 
   ```wiki
   data T a = T1 { x :: a, y :: Bool }
-           | T2 ( x :: a }
+           | T2 { x :: a }
   ```
 
   would generate

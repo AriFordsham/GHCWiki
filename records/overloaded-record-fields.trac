@@ -19,7 +19,7 @@ class Has (r :: *) (f :: String) (t :: *) where
  * A record declaration generates an instance declaration for each field. For example
 {{{
 data T a = T1 { x :: a, y :: Bool }
-         | T2 ( x :: a }
+         | T2 { x :: a }
 }}}
  would generate
 {{{
