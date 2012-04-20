@@ -148,7 +148,7 @@ SML\# supports [ abstraction over fields](http://www.pllab.riec.tohoku.ac.jp/sml
 [ Roy](http://roy.brianmckenna.org/), a functional language that targets only javascript, also has structural typing which prevents clashes and allows abstraction over fields.
 
 
-\[Ur/Web has a http://www.impredicative.com/ur/tutorial/tlc.html very advanced records system\]. If someone could look at [ the UR implementation paper](http://adam.chlipala.net/papers/UrPLDI10/UrPLDI10.pdf) and attempt to distill a records explanation to a Haskell point of view that would be very helpful!
+\[Ur/Web has a http://www.impredicative.com/ur/tutorial/tlc.html very advanced records system\]. It is exaplained in  [ the UR implementation paper](http://adam.chlipala.net/papers/UrPLDI10/UrPLDI10.pdf). Edward Zhang attempts to explain it to Haskellers: [ http://blog.ezyang.com/2012/04/how-urweb-records-work-and-what-it-might-mean-for-haskell/comment-page-1/\#comment-3669](http://blog.ezyang.com/2012/04/how-urweb-records-work-and-what-it-might-mean-for-haskell/comment-page-1/#comment-3669)
 
 
 Other FP languages where I looked for a record implementation but it appeared they have no solution for records with the same fields (my information could be wrong/out-dated) ocaml, oz. However, the O in OCaml is for objects, and objects have structural typing that supports abstraction over fields.
@@ -182,7 +182,7 @@ I tried putting all 112 types in separate modules, and around the 20 type mark a
 
 I also have 21 Enum types which often conflict. I end up having to include the name of the type in the constructor, or rewording it awkwardly.
 
-### counterpoint to the above
+#### counterpoint to the above
 
 
 I (elaforge) have a project with 314 .hs files, containing 224 `^data .*=` lines, of which 104 define named record fields. They do tend to collect in large central modules: the largest one has 800 lines and 13 records defined in it. I have often wished for shorter record names, but I have never wished for two records in the same module with the same field name. Probably this is a result of the specific application, the example above looks like a database-style app that has lots of IDs instead of directly containing e.g. a Submission or a Conference.
