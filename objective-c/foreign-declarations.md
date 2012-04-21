@@ -38,7 +38,7 @@ With the current FFI we supply definitions to marshal foreign functions and basi
 - Export a set of Haskell functions (pertaining to a certain datatype) as a class:
 
   ```wiki
-  foreign export class objc tycon <list of initializer> <list of method>
+  foreign export class objc tycon "<superclass>" <list of initializer> <list of method>
   ```
 
   The Haskell-defined `tycon` would be type-constrained to have certain properties (yet to be specified). `initializer`s are used to provide constructors of the form
@@ -50,10 +50,10 @@ With the current FFI we supply definitions to marshal foreign functions and basi
   and `method`s look like
 
   ```wiki
-  tycon -> ... -> IO (tycon, b)
+   ObjCPtr super -> tycon -> ... -> IO (tycon, b)
   ```
 
-  To begin with, exported classes could just be subclasses of `NSObject`, with no way to call `super` methods.
+  This approach would pull in `superclass` as a side-effect, and client code could work with it, for now pretending it's some unrelated class. This should give method implementations an Objective-C feel.
 - Export of a method implementation:
 
   ```wiki
