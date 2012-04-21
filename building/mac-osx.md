@@ -1,14 +1,14 @@
 # Building on MacOS X
 
 
-These instructions were last updated for GHC 7.2.
+These instructions were last updated for GHC 7.4.
 
 ## Get the latest development tools
 
-### For Lion with Xcode 7.3 or higher
+### For Lion, Xcode 7.3 or higher
 
 
-First you need to install the command line tools from Apple. You can do that in two ways:
+Firstly, you need to install the command line tools from Apple. You can do that in two ways (the second is faster as it is a much smaller download):
 
 1. Install all of Xcode:
 
@@ -23,6 +23,10 @@ First you need to install the command line tools from Apple. You can do that in 
 
 In both cases, you need to [ register](https://developer.apple.com/programs/register/) as an Apple developer first. (This is a free registration.)
  
+Secondly, if you want to build the development version of GHC from the Git repositories, you also need to install the GNU auto tools (which are no longer distributed by Apple). You can get them as follows:
+
+- Install [ Homebrew](http://mxcl.github.com/homebrew/) (as per instructions on that webpage)
+- Install the auto tools with `brew install autoconf automake`
 
 ### Previous versions
 
