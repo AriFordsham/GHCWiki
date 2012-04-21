@@ -52,8 +52,11 @@ Like in the C FFI, return values can be pure (no `IO`), but it is the programmer
 
 The ObjC runtime has two extra functions, `objc_msgSendSuper` and `objc_msgSendSuper_stret`, to message the super object.
 
-- \[**FIXME***How do we want to handle them?*\]
-- \[**FIXME***There is no objc_msgSendSuper_fpret?*\]
+
+An obvious approach to providing calls to `super` might be:
+
+- `foreign import` the class' `super`
+- Superclass instances would be accommodated as part of the type of a method that is `foreign export`ed.
 
 
 These functions need to get an `objc_super` struct as the first parameter, which the compiler is supposed to compute from the enclosing class definition.
