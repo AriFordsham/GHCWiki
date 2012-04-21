@@ -22,7 +22,8 @@ Firstly, you need to install the command line tools from Apple. You can do that 
 
 
 In both cases, you need to [ register](https://developer.apple.com/programs/register/) as an Apple developer first. (This is a free registration.)
- 
+
+
 Secondly, if you want to build the development version of GHC from the Git repositories, you also need to install the GNU auto tools (which are no longer distributed by Apple). You can get them as follows:
 
 - Install [ Homebrew](http://mxcl.github.com/homebrew/) (as per instructions on that webpage)
