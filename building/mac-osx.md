@@ -27,7 +27,7 @@ In both cases, you need to [ register](https://developer.apple.com/programs/regi
 Secondly, if you want to build the development version of GHC from the Git repositories, you also need to install the GNU auto tools (which are no longer distributed by Apple). You can get them as follows:
 
 - Install [ Homebrew](http://mxcl.github.com/homebrew/) (as per instructions on that webpage)
-- Install the auto tools with `brew install autoconf automake`
+- To install the auto tools execute the following: `brew install autoconf automake`
 
 ### Previous versions
 
