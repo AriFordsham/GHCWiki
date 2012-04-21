@@ -24,7 +24,7 @@ foreign import objc "<optional synthesize> <selector>" varid :: <type>
 {{{
 foreign import classConstructor objc "<constructor method name>" initializer
 }}}
-Note that for Objective-C we can get away without a separate constructor by calling methods on classes. However, it's a nice-to-have as part of bridging to OO languages. Perhaps we can also build in memory management for objects returned from these tagged constructors...
+ Note that for Objective-C we can get away without a separate constructor by calling methods on classes. However, it's a nice-to-have as part of bridging to OO languages. Perhaps we can also build in memory management for objects returned from these tagged constructors...
 
 === Export ===
  * Export a set of Haskell functions (pertaining to a certain datatype) as a class:
@@ -39,6 +39,7 @@ foreign export class objc tycon <list of initializer> <list of method>
 {{{
 tycon -> ... -> IO (tycon, b)
 }}}
+ At this stage, exported classes will just be subclasses of `NSObject`, with no way to call `super` methods.
  * Export of a method implementation:
 {{{
 foreign export objc "<optional header> +/-[<class> <selector>]" varid :: <type>

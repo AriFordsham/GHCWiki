@@ -31,8 +31,7 @@ With the current FFI we supply definitions to marshal foreign functions and basi
   foreign import classConstructor objc "<constructor method name>" initializer
   ```
 
-
-Note that for Objective-C we can get away without a separate constructor by calling methods on classes. However, it's a nice-to-have as part of bridging to OO languages. Perhaps we can also build in memory management for objects returned from these tagged constructors...
+  Note that for Objective-C we can get away without a separate constructor by calling methods on classes. However, it's a nice-to-have as part of bridging to OO languages. Perhaps we can also build in memory management for objects returned from these tagged constructors...
 
 ### Export
 
@@ -53,6 +52,8 @@ Note that for Objective-C we can get away without a separate constructor by call
   ```wiki
   tycon -> ... -> IO (tycon, b)
   ```
+
+  At this stage, exported classes will just be subclasses of `NSObject`, with no way to call `super` methods.
 - Export of a method implementation:
 
   ```wiki
