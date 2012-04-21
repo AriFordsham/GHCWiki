@@ -5,6 +5,27 @@ These instructions were last updated for GHC 7.2.
 
 ## Get the latest development tools
 
+### For Lion with Xcode 7.3 or higher
+
+
+First you need to install the command line tools from Apple. You can do that in two ways:
+
+1. Install all of Xcode:
+
+  - Install Xcode from the Mac App Store.
+  - Launch Xcode.
+  - In the Preference dialog of Xcode, select the "Downloads" pane and install "Command line tools".
+1. Install the command line tools only:
+
+  - At the [ downloads page of Apple Developer](http://developer.apple.com/downloads), download the latest "Command line tools".
+  - Install them.
+
+
+In both cases, you need to [ register](https://developer.apple.com/programs/register/) as an Apple developer first. (This is a free registration.)
+ 
+
+### Previous versions
+
 
 Get the most recent version of Apple's Xcode tools that you can. Your OS X CD has a version on it. You may be able to download a newer version from the [ Apple Developer Connection](http://developer.apple.com/tools/xcode) website. You may need to sign up for a free membership in the Apple Developer Connection, and downloading may still cost a little money.  In later versions of OS X (10.6 / 10.7), Apple added the "App Store".  Xcode is available within the App Store for "Free".
 
