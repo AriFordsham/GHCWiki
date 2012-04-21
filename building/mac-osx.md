@@ -32,6 +32,8 @@ Secondly, if you want to build the development version of GHC from the Git repos
 
 Thirdly, if you like to use GHC's LLVM backend, also execute: `brew install llvm`
 
+**NB:** You need to use a binary distribution of GHC 7.4.1 (or later) as a bootstrap compiler. (Earlier versions fail with an error message complaining about the lack of `/Developer/usr/bin/gcc`.)
+
 ### Previous versions of OS X and Xcode
 
 
