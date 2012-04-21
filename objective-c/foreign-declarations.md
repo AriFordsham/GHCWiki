@@ -53,7 +53,7 @@ With the current FFI we supply definitions to marshal foreign functions and basi
   tycon -> ... -> IO (tycon, b)
   ```
 
-  At this stage, exported classes will just be subclasses of `NSObject`, with no way to call `super` methods.
+  To begin with, exported classes could just be subclasses of `NSObject`, with no way to call `super` methods.
 - Export of a method implementation:
 
   ```wiki

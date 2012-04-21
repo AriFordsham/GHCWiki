@@ -39,7 +39,7 @@ foreign export class objc tycon <list of initializer> <list of method>
 {{{
 tycon -> ... -> IO (tycon, b)
 }}}
- At this stage, exported classes will just be subclasses of `NSObject`, with no way to call `super` methods.
+ To begin with, exported classes could just be subclasses of `NSObject`, with no way to call `super` methods.
  * Export of a method implementation:
 {{{
 foreign export objc "<optional header> +/-[<class> <selector>]" varid :: <type>
