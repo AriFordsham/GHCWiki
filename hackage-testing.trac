@@ -1,47 +1,13 @@
 = Hackage Testing =
 
-We now have an automated program for performing regression tests against all of hackage.
+A great way to test changes to GHC (and Cabal) is to compile all packages on Hackage and compare the results to other runs that use different options or versions of GHC.
 
-To check it out, run
-{{{
-darcs get http://darcs.haskell.org/hackage-test/
-}}}
+We have an automated program for performing this, allowing all of Hackage to act as a regression test. At the moment we just compare which packages build to which ones don't under two different runs. In the future we could also run a packages testsuite and/or benchmark suite to get more information and also track performance regressions.
 
-'''Caution:''' This program can cause arbitrary code to run on your machine. For example, if any modules use TH, then the TH will be executed. `configure` scripts will be run. Custom `Setup.hs` programs will be run.
-
-== Example of usage ==
-
-Here's a run with the HEAD, no special options:
-{{{
-$ ht normal ../cabal-install/dist/build/cabal/cabal  \
-            /home/ian/ghc/darcs/ghc/inst/bin/ghc     \
-            /home/ian/ghc/darcs/ghc/inst/bin/ghc-pkg \
-            "" ""
-}}}
-[7.75 hours pass]
-
-Then another run, this time using `-XAlternativeLayoutRule` to compile
-each package (but not the build dependencies of the package):
+This tool is now hosted on [https://github.com/dterei/Hackager GitHub] and on [http://hackage.haskell.org/package/hackager Hackage].
 
 {{{
-$ ht alternative ../cabal-install/dist/build/cabal/cabal  \
-                 /home/ian/ghc/darcs/ghc/inst/bin/ghc     \
-                 /home/ian/ghc/darcs/ghc/inst/bin/ghc-pkg \
-                 ""                                       \
-                 "--ghc-option=-XAlternativeLayoutRule"
+$ cabal install hackager
+$ ...
+$ hackager --help
 }}}
-[7 hours pass]
-
-And finally a comparison of the results:
-
-{{{
-$ htc normal alternative
-                            normal
-                         Buildable Build failed Deps failed Not tried
-alternative Buildable          628            0           0         0
-            Build failed        73          215           0         0
-            Deps failed          0            0         170         0
-            Not tried            0            0           0         0
-}}}
-i.e. 73 packages became unbuildable when the alternative layout rule was
-used.
