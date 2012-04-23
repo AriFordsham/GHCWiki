@@ -29,20 +29,18 @@ foreign import constructor objc "<constructor method name>" initializerName
 === Export ===
  * Export a set of Haskell functions (pertaining to a certain datatype) as a class:
 {{{
-foreign export constructor objc tycon "<superclass>" <list of initializer> <list of method>
+foreign export constructor objc tycon "<superclass> <class>" constructor :: ... -> IO tycon
 }}}
- The Haskell-defined `tycon` would be type-constrained to have certain properties (yet to be specified). `initializer`s are used to provide constructors of the form
-{{{
-... -> IO tycon
-}}}
+ The Haskell-defined `tycon` would be type-constrained to have certain properties (yet to be specified).
+
  * Export of a method implementation:
 {{{
-foreign export method objc "<optional header> +/-[<class> <selector>]" varid :: <type>
+foreign export method objc "<optional header> +/-[<class> <selector>]" methodid :: <type>
 }}}
   where
 {{{
-varid :: ObjCPtr super -> tycon -> ... -> IO (tycon, b)
+methodid :: ObjCPtr super -> tycon -> ... -> IO (tycon, b)
 }}}
- This approach would pull in `superclass` as a side-effect, and client code could work with it, for now pretending it's some unrelated class. This should give method implementations an Objective-C feel.
+ This approach would provide opaque access to the object's Objective-C representation as an opaque supertype, giving Haskell method implementations an Objective-C feel.
 
 In both of these cases, the underlying structure of the class' datatype - if possible - should be derived from the provided type constructor.
