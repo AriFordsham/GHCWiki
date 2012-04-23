@@ -28,34 +28,34 @@ With the current FFI we supply definitions to marshal foreign functions and basi
 - Import an ObjC constructor:
 
   ```wiki
-  foreign import classConstructor objc "<constructor method name>" initializer
+  foreign import constructor objc "<constructor method name>" initializerName
   ```
 
-  Note that for Objective-C we can get away without a separate constructor by calling methods on classes. However, it's a nice-to-have as part of bridging to OO languages. Perhaps we can also build in memory management for objects returned from these tagged constructors...
+  Note that for Objective-C we can get away without a separate constructor by calling methods on classes. However, it's a nice-to-have as part of bridging to OO languages. Ambitiously, perhaps we could also build in memory management for objects returned from these tagged constructors...
 
 ### Export
 
 - Export a set of Haskell functions (pertaining to a certain datatype) as a class:
 
   ```wiki
-  foreign export class objc tycon "<superclass>" <list of initializer> <list of method>
+  foreign export constructor objc tycon "<superclass> <class>" constructor :: ... -> IO tycon
   ```
 
-  The Haskell-defined `tycon` would be type-constrained to have certain properties (yet to be specified). `initializer`s are used to provide constructors of the form
+  The Haskell-defined `tycon` would be type-constrained to have certain properties (yet to be specified).
 
-  ```wiki
-  ... -> IO tycon
-  ```
-
-  and `method`s look like
-
-  ```wiki
-   ObjCPtr super -> tycon -> ... -> IO (tycon, b)
-  ```
-
-  This approach would pull in `superclass` as a side-effect, and client code could work with it, for now pretending it's some unrelated class. This should give method implementations an Objective-C feel.
 - Export of a method implementation:
 
   ```wiki
-  foreign export objc "<optional header> +/-[<class> <selector>]" varid :: <type>
+  foreign export method objc "<optional header> +/-[<class> <selector>]" methodid :: <type>
   ```
+
+  where
+
+  ```wiki
+  methodid :: ObjCPtr super -> tycon -> ... -> IO (tycon, b)
+  ```
+
+  This approach would provide opaque access to the object's Objective-C representation as an opaque supertype, giving Haskell method implementations an Objective-C feel.
+
+
+In both of these cases, the underlying structure of the class' datatype - if possible - should be derived from the provided type constructor.
