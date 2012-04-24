@@ -83,6 +83,12 @@ I64[x] = ...
 
 And when it is, 'it is' (unconfirmed) always deriving a "heap" pointer, "stack" pointers are always of the in-line variety. This assumption if true allows us to look at just a store or load in isolation to properly Type it.
 
+
+There are two ways to type this 'properly'.
+
+1. Do data flow analysis. This is the only proper way to do it but also annoying.
+1. Do block local analysis. Instead of doing full blow data flow analysis, just track the type of pointers stored to CmmLocal regs at the block level. This is safe but just may miss some opportunities when a CmmLocal's value is assigned in another block... My hunch is this is quite rare so this method should be fairly effective (and easier to implement and quicker to run that 1.)
+
 ## LLVM type system
 
 
