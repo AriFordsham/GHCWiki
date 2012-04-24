@@ -88,7 +88,7 @@
  * #4175: better GHCi info for type-function instances
 
 == Types and type inference ==
- * #5267, #5609, #5777: bugs in arrows; awaiting refactoring by Dan
+ * #5267, #5609, #5777, #344: bugs in arrows; awaiting refactoring by Dan
  * #1965: make existentials have a really cheap implementation
  * #5224: make it cheaper to check for inconsistent type family instances
  * #4466, #5296: explicit type application
