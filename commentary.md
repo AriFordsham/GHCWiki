@@ -61,25 +61,25 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on implemented GHC features:
 
-- [Kind polymorphism and data type promotion](ghc-kinds)
-- [A kind for class constraints. Implemented as ConstraintKinds](kind-fact)
-- [LLVM back end](commentary/compiler/backends/llvm)
-- [Support for generic programming](commentary/compiler/generic-deriving)
-- Notes about Template Haskell?
-- [Rewrite Rules](rewrite-rules): Notes about the implementation of RULEs in GHC
-- [Monad Comprehensions](monad-comprehensions): Translation rules and some implementation details 
-- [Haddock](haddock-comments): Some notes about how the Haddock comment support is implemented.  
-- [Intermediate Types](intermediate-types): Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)  
-- [Type families/type functions](type-functions): Notes concerning the implementation of type families, associated types, and equality constraints as well as the extension of the type checker with a contraint solver for equality constraints.
-- [Magic to do with \`seq\` and friends](commentary/compiler/seq-magic)
-- [Compiler plug-ins](new-plugins)
-- [memcpy/memmove/memset optimizations](memcpy-optimizations)
-- [Backend Ideas](back-end-notes): Some ideas and notes about the back end.
-- [Notes about the new code generator](commentary/compiler/new-code-gen)
-- [A record of improvements made to the performance of the Hoopl library for dataflow optimisation](commentary/compiler/hoopl-performance)
-- [DPH](data-parallel): Notes about the implementation of Data Parallel Haskell
-- [Safe Haskell](safe-haskell): The design of the GHC Safe Haskell extension
-- [SQL-Like Comprehensions](sql-like-comprehensions): Notes on SPJs "Comprehensive Comprehensions" (TransformComprehensions)
+  - [Kind polymorphism and data type promotion](ghc-kinds)
+  - [A kind for class constraints. Implemented as ConstraintKinds](kind-fact)
+  - [LLVM back end](commentary/compiler/backends/llvm)
+  - [Support for generic programming](commentary/compiler/generic-deriving)
+  - Notes about Template Haskell?
+  - [Rewrite Rules](rewrite-rules): Notes about the implementation of RULEs in GHC
+  - [Monad Comprehensions](monad-comprehensions): Translation rules and some implementation details 
+  - [Haddock](haddock-comments): Some notes about how the Haddock comment support is implemented.  
+  - [Intermediate Types](intermediate-types): Notes about the type system of GHC's new intermediate language (in the HEAD since ICFP'06)  
+  - [Type families/type functions](type-functions): Notes concerning the implementation of type families, associated types, and equality constraints as well as the extension of the type checker with a contraint solver for equality constraints.
+  - [Magic to do with \`seq\` and friends](commentary/compiler/seq-magic)
+  - [Compiler plug-ins](new-plugins)
+  - [memcpy/memmove/memset optimizations](memcpy-optimizations)
+  - [Backend Ideas](back-end-notes): Some ideas and notes about the back end.
+  - [Notes about the new code generator](commentary/compiler/new-code-gen)
+  - [A record of improvements made to the performance of the Hoopl library for dataflow optimisation](commentary/compiler/hoopl-performance)
+  - [DPH](data-parallel): Notes about the implementation of Data Parallel Haskell
+  - [Safe Haskell](safe-haskell): The design of the GHC Safe Haskell extension
+  - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on SPJs "Comprehensive Comprehensions" (TransformComprehensions)
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
