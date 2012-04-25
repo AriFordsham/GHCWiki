@@ -61,6 +61,8 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on implemented GHC features:
 
+  - [Kind polymorphism and data type promotion](ghc-kinds)
+  - [A kind for class constraints. Implemented as ConstraintKinds](kind-fact)
   - [LLVM back end](commentary/compiler/backends/llvm)
   - [Support for generic programming](commentary/compiler/generic-deriving)
   - Notes about Template Haskell?
@@ -78,8 +80,6 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [DPH](data-parallel): Notes about the implementation of Data Parallel Haskell
   - [Safe Haskell](safe-haskell): The design of the GHC Safe Haskell extension
   - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on SPJs "Comprehensive Comprehensions" (TransformComprehensions)
-  - [A kind for facts (e.g. class constraints). Implemented as ConstraintKinds](kind-fact)
-  - [Kind level](ghc-kinds): Notes on `-XPolyKinds`
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
