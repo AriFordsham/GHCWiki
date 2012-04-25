@@ -4,6 +4,10 @@
 
 This page gives additional implementation details for the `-XPolyKinds` flag. The grand design is described in the paper [http://dreixel.net/research/pdf/ghp.pdf Giving Haskell a Promotion]. Most of the work has been done and merged into GHC 7.4.1. The relevant user documentation is in [the user's guide (add link when it's up)] and on the [http://haskell.org/haskellwiki/GHC/Kinds Haskell wiki page]. What still doesn't work, or doesn't work correctly, is described here.
 
+Sub-pages
+ * [wiki:GhcKinds/KindPolymorphism]
+ * [wiki:GhcKinds/PolyTypeable] A kind-polymorphic version of the `Typeable` class.
+
 
 = Explicit kind variables =
 
