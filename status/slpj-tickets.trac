@@ -42,6 +42,7 @@
  * #3940: propagate fix
 
 === Optimiser ===
+ * #6040, #5945: lambda-lift functions with a few args, just before code gen
  * #5059: specialise on value arguments
  * #5964: casts and RULES interaction
  * #5262: seq magic

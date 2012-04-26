@@ -47,6 +47,7 @@
 
 ### Optimiser
 
+- [\#6040](https://gitlab.haskell.org//ghc/ghc/issues/6040), [\#5945](https://gitlab.haskell.org//ghc/ghc/issues/5945): lambda-lift functions with a few args, just before code gen
 - [\#5059](https://gitlab.haskell.org//ghc/ghc/issues/5059): specialise on value arguments
 - [\#5964](https://gitlab.haskell.org//ghc/ghc/issues/5964): casts and RULES interaction
 - [\#5262](https://gitlab.haskell.org//ghc/ghc/issues/5262): seq magic
