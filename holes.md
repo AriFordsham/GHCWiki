@@ -175,14 +175,6 @@ The type of a hole should be the resolved type with minimum constraints. That is
 
 **Stuff below here might be out of date; please edit**
 
-# How we can almost do this in GHC now
-
-
-GHC does not support holes in the way Agda does. It is possible to insert `undefined` in an expression to make it typecheck (which Agda doesn't have), but this is not very helpful when writing software. Inserting `undefined` only gives as information that the rest of the program typechecks, but will not help you find what you needed to use in its place. We propose to add an extension to GHC (and notably GHCi) to allow using holes, this page is meant to discuss the exact features and workflow of such an extension.
-
-
-First, two existing features that can be used as holes.
-
 # How this could be implemented in GHC
 
 
