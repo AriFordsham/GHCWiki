@@ -85,6 +85,27 @@ With '''deliberate errors and deferred type errors''', we do get a program that 
   * Deferring type errors is indiscriminate: you defer both the deliberate and unintended type errors.
   * It does not provide useful information other than type errors.
 
+== Implicit parameters ==
+
+The [http://www.haskell.org/ghc/docs/latest/html/users_guide/other-type-extensions.html#implicit-parameters implicit parameters] extension allows a programmer to delay the binding of a variable while still preserving its type.
+
+Here is an example:
+{{{
+$ ghci -XImplicitParams
+Prelude> :t ?x : (?y ++ [])
+?x : (?y ++ []) :: (?x::a, ?y::[a]) => [a]
+}}}
+The implicit parameters {{{?a}}} and {{{?b}}} appear as constraints in the type of the term containing them.
+
+Implicit parameters must be bound, either in a term, e.g. {{{let ?x = ... in ...}}}, or in a type signature, e.g. {{{let f :: (?x::a, Num a) => a; f = 1 + ?x}}}. If an implicit parameter is not bound, it results in a type error. Of course, we can defer the type errors, but then we have the same problem with indiscriminate deferral.
+
+Implicit parameters do not serve very well for debugging. Due to the binding requirement, they are not suitable for typing things with unknown types. Either you must change type signatures or you must deal with the unbound implicit parameter type errors (or warnings in case the errors are deferred). Lastly, since implicit parameters are meant for usage in programs, it does not seem like they should be used for extracting additional information about the parameter's location. (This is not a technical argument, of course.)
+
+{{{
+#!comment
+Another thing to keep in mind with implicit parameters is that implicit parameters with the same name in different functions are not assumed to be the same (i.e., required to be unifiable), ''except'' if some function has both implicit parameters in its constraints.
+}}}
+
 = A proposed concrete design for Haskell =
 
 Here is a specification of the proposed user-level view of the design.
@@ -114,53 +135,6 @@ GHC does not support holes in the way Agda does. It is possible to insert {{{und
 
 First, two existing features that can be used as holes.
 
-=== Implicit Parameters ===
-The GHC extension [http://www.haskell.org/ghc/docs/latest/html/users_guide/other-type-extensions.html#implicit-parameters Implicit Parameters] comes closer to how holes are expected to work. This extension makes it possible to specify a term with a question mark, denoting a implicit variable, but this could also be seen as a hole.
-
-Same example:
-{{{
-test = ?a : (?b ++ [])
-}}}
-
-Inspecting the type of {{{test}}} when defined in GHCi now shows the types of the (unbound) implicit parameters:
-
-{{{
-> :t let test = ?a : (?b ++ []) in test :: [Bool]
-let test = ?a : (?b ++ []) in test :: [Bool]
-  :: (?a::Bool, ?b::[Bool]) => [Bool]
-}}}
-
-However, defining {{{test}}} like this in a module gives the following error:
-
-{{{
-test.hs:4:8:
-    Unbound implicit parameter (?a::Bool)
-      arising from a use of implicit parameter `?a'
-    In the first argument of `(:)', namely `?a'
-    In the expression: ?a : (?b ++ [])
-    In an equation for `test': test = ?a : (?b ++ [])
-
-test.hs:4:14:
-    Unbound implicit parameter (?b::[Bool])
-      arising from a use of implicit parameter `?b'
-    In the first argument of `(++)', namely `?b'
-    In the second argument of `(:)', namely `(?b ++ [])'
-    In the expression: ?a : (?b ++ [])
-Failed, modules loaded: none.
-}}}
-
-This will show you the type, however, it is an error and aborts compilation, so there may be other problems you don't get to see because of it. It also will refuse to load and compile the module, so it's impossible to run the parts of it that are finished.
-
-The reason is that the hole becomes a part of the type signature, as a constraint. So to correctly use it here, the function would have to be written as:
-
-{{{
-test :: (?a::Bool, ?b::[Bool]) => [Bool]
-test = ?a : (?b ++ [])
-}}}
-
-This makes it very impractical to use them as holes, as all type signatures have to be updated to let the typechecker continue. Not only in the functions that use the implicit parameter itself, but they propagate upwards, just like class constraints: if another function were to call {{{test}}}, it would have the same implicit parameters (and therefore, all of these type signatures would have to be updated when a new hole is added).
-
-Another thing to keep in mind with implicit parameters is that implicit parameters with the same name in different functions are not assumed to be the same (i.e., required to be unifiable), ''except'' if some function has both implicit parameters in its constraints. Lastly, it's impossible to run code with unbound implicit parameters, even if the parameters are never actually used.
 
 = How this could be implemented in GHC =
 
