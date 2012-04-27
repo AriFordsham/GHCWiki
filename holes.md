@@ -36,6 +36,43 @@ As can be seen here, goals are numbered, and the typechecker returns the inferre
 
 These goals can make it a lot easier to write code. They allow typechecking to continue although certain parts of code are missing and they work as a TODO list.
 
+# A proposed concrete design for Haskell
+
+
+Here is a specification of the proposed user-level view of the design.
+
+
+A hole in a term is written `_?thing`.  Example:
+
+```wiki
+test : List Bool
+test = Cons _?x (Cons _?x Nil)
+```
+
+
+If `-XHoles` is set, we want the following:
+
+1. The program should be type-checked as if every hole `_?h` is replaced by `undefined`, except:
+
+  - If type-checking would fail due to unsolved constraints that could be solved by giving a type to a hole.
+1. If the program is well-typed, then:
+
+  - The types of all holes should be reported.
+  - Reporting the hole types should not cause type-checking (or compiling in general) to stop (in error).
+1. (optional) If the program is ill-typed, then:
+
+  - The types of all holes should be reported.
+
+
+The above should hold true with and without the monomorphism restriction. In particular, if an `undefined` somewhere in a program type-checked with the monomorphism restriction would cause type-checking to fail, then a hole in that same position should also cause type-checking to fail.
+
+
+The type of a hole should be the resolved type with minimum constraints. That is, the type of a hole should only have constraints that have not be solved but are either inferred from the context (e.g. `show _?h`) or given in a type annotation/signature (e.g. `_?h :: Show a => a`.
+
+---
+
+**Stuff below here might be out of date; please edit**
+
 # How we can almost do this in GHC now
 
 
