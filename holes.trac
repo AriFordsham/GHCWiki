@@ -41,7 +41,7 @@ test = Cons _?x (Cons _?x Nil)
 If {{{-XHoles}}} is set, we want the following:
   1. The program should be type-checked as if every hole {{{_?h}}} is replaced by {{{undefined}}}, except:
     * If type-checking would fail due to unsolved constraints that could be solved by giving a type to a hole.
-  1. If the program is well-typed, then:
+  1. If the program is well-typed (as above), then:
     * The types of all holes should be reported.
     * Reporting the hole types should not cause type-checking (or compiling in general) to stop (in error).
   1. (optional) If the program is ill-typed, then:
