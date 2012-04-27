@@ -29,7 +29,7 @@ As can be seen here, goals are numbered, and the typechecker returns the inferre
 
 These goals can make it a lot easier to write code. They allow typechecking to continue although certain parts of code are missing and they work as a TODO list.
 
-= A proposed design =
+= A proposed concrete design for Haskell =
 
 Here is a specification of the proposed user-level view of the design.
 
