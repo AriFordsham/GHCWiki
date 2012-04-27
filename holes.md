@@ -68,6 +68,53 @@ The proposal [DeferErrorsToRuntime](defer-errors-to-runtime) implements a flag t
 
 Deferring type errors alone is not a solution that fits the problem description; however, it can be used in conjunction with other things to solve the problem.
 
+## Inserting deliberate type errors
+
+
+One technique for finding the type of a subterm that has been often seen on the mailing lists is deliberately inserting ill-typed terms, so that the type error reports the expected type of the term.
+
+
+Here is an example:
+
+```wiki
+1 + ()
+```
+
+
+We get an error that there is no instance for `Num ()`.
+
+
+We can do this is a more refined manner by using `undefined` with a type annotation:
+
+```wiki
+test :: [Bool]
+test = undefined : ((undefined :: ()) ++ [])
+```
+
+
+This gives the error:
+
+```wiki
+test.hs:2:22:
+    Couldn't match expected type `[Bool]' with actual type `()'
+    In the first argument of `(++)', namely `(undefined :: ())'
+    In the second argument of `(:)', namely `((undefined :: ()) ++ [])'
+    In the expression: undefined : ((undefined :: ()) ++ [])
+Failed, modules loaded: none.
+```
+
+
+The advantage of using `undefined` is that we can remove the type annotation, and the program will probably compile.
+
+
+The clear problem with deliberate type errors is that the program does not type-check. We cannot use this technique on multiple locations at one time. We also only get type errors and not other information.
+
+
+With **deliberate errors and deferred type errors**, we do get a program that type-checks. This is actually a reasonable solution; however, it still has two problems:
+
+- Deferring type errors is indiscriminate: you defer both the deliberate and unintended type errors.
+- It does not provide useful information other than type errors.
+
 # A proposed concrete design for Haskell
 
 
@@ -112,45 +159,6 @@ GHC does not support holes in the way Agda does. It is possible to insert `undef
 
 
 First, two existing features that can be used as holes.
-
-### `undefined`
-
-
-As stated before, `undefined` typechecks just like a hole: it has type `forall a.a`, so it can be used anywhere. However, it is not very easy to use in this way: it is impossible to find out what type the compiler found for the hole, and it's impossible to get a list of all the holes used in your source file(s).
-
-
-A similar example:
-
-```wiki
-test :: [Bool]
-test = undefined : (undefined ++ [])
-```
-
-
-Will not help finding the types of the `undefined`s at all. One advantage is that the code can successfully run, except if one of the `undefined`s is actually evaluated.
-
-
-To find the type of the `undefined`, one can give it a type that is certainly wrong, and then check what the compiler says the right type is:
-
-```wiki
-test :: [Bool]
-test = undefined : ((undefined :: ()) ++ [])
-```
-
-
-Gives:
-
-```wiki
-test.hs:2:22:
-    Couldn't match expected type `[Bool]' with actual type `()'
-    In the first argument of `(++)', namely `(undefined :: ())'
-    In the second argument of `(:)', namely `((undefined :: ()) ++ [])'
-    In the expression: undefined : ((undefined :: ()) ++ [])
-Failed, modules loaded: none.
-```
-
-
-However, using multiple of these holes can cause the compiler to assume the error is in a different place than the hole. It also fails the compilation, causing other errors that might occur to not show up, and doesn't allow the rest of the code to still run. 
 
 ### Implicit Parameters
 
