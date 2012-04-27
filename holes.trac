@@ -1,8 +1,22 @@
-This page describes the design and potential implementation of "holes" in GHC. The intention of holes is to support debugging types in Haskell programs. We have observed that programmers often want to find the type of an expression somewhere in the depths of a program. There are ways of doing this now, but none of them are satisfactory.
+''This page discusses the design and potential implementation of "holes" in GHC.''
 
-= Goals in Agda =
+= Introduction =
 
-One of the features of the Emacs mode for [http://wiki.portal.chalmers.se/agda/pmwiki.php Agda] is the ability to add goals, as a placeholder for code that is yet to be written. By inserting a {{{?}}} in an expression, the compiler will introduce a goal. After loading the file (which typechecks it), Agda gives an overview of the goals in the file and their types.
+Informally, a "hole" is something to be filled. A hole in the ground can cause an injury if you stepped into it, but you can also build a house around it without a problem. You can easily measure a hole to determine how much material (e.g. dirt or concrete) is needed to fill it.
+
+The analogy of a hole in the ground can be transferred to a hole in a program. If you run the program and encounter a hole, the runtime will halt (e.g. as if you encountered {{{undefined}}}). But you can still compile a program with holes. The compiler reports information about the hole, so that the programmer knows what code should replace the hole.
+
+These are the primary aspects of the problem that holes solve:
+  1. Extract information about subterms in a program.
+  1. Do not interrupt compilation.
+
+We first describe related work, including concepts that are similar in other languages as well as other approaches to solving the problem proposed. Then, we discuss the proposal in detail.
+
+= Related Work =
+
+== Goals in Agda ==
+
+One of the features of the Emacs mode for [http://wiki.portal.chalmers.se/agda/pmwiki.php Agda] is the ability to insert a goal, a placeholder for code that is yet to be written. By inserting a {{{?}}} in an expression, the compiler will introduce a goal. After loading the file (which typechecks it), Agda gives an overview of the goals in the file and their types.
 
 For example:
 
@@ -11,14 +25,14 @@ test : List Bool
 test = Cons ? (Cons ? Nil)
 }}}
 
-Gets turned into:
+gets turned into
 
 {{{
 test : List Bool
 test = Cons { }0 (Cons { }1 Nil)
 }}}
 
-With extra output:
+with the output
 
 {{{
 ?0 : Bool
@@ -27,7 +41,7 @@ With extra output:
 
 As can be seen here, goals are numbered, and the typechecker returns the inferred type for each of these goals.
 
-These goals can make it a lot easier to write code. They allow typechecking to continue although certain parts of code are missing and they work as a TODO list.
+Goals can make it a lot easier to write code. They allow typechecking to continue although certain parts of code are missing. They also work as a to-do list for incomplete programs.
 
 = A proposed concrete design for Haskell =
 
