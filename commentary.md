@@ -83,6 +83,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
+  - [Agda-style holes in terms](holes) which supports writing partial programs.
   - [Records](records)
   - [New coercion axioms design](new-axioms)
   - [ Cloud Haskell](http://haskell.org/haskellwiki/GHC/CouldAndHPCHaskell)
