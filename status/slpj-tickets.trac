@@ -3,7 +3,7 @@
 == New typechecker things to fix (with Dimitrios) ==
  * #5934: Bad substitution for flatten skolem
  * #5913, #5751: type-class dictionary loops
- * #5321, #5837, #5853 (loop), #5970, #3064, #3108: slow constraint solving
+ * #5642, #5321, #5837, #5853 (loop), #5970, #3064, #3108: slow constraint solving
  * #5612, #5682: !PolyKinds
  * #4347, #4295: impredicativity
  * #5320: overlap delicacy
