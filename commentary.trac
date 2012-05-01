@@ -72,6 +72,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
+   * [wiki:Types/Contracts Contracts in Haskell]
    * [wiki:Holes Agda-style holes in terms] which supports writing partial programs.
    * [wiki:Records Records]
    * [wiki:NewAxioms New coercion axioms design]
