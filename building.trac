@@ -23,6 +23,7 @@ Getting started for developers
  * [wiki:Building/Hacking Getting started with the build system]
  * [wiki:Building/Rebuilding How do I re-build after updating or changing GHC?]
  * [wiki:Building/Troubleshooting FAQ: Solving common problems with building GHC]
+ * [wiki:Building/Hoogle Making GHC's source code searchable with Hoogle]
 
 More detailed information about using the build system
 
