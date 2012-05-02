@@ -18,6 +18,7 @@
 - [\#6064](https://gitlab.haskell.org//ghc/ghc/issues/6064): binders in `InstanceD`
 - [\#5612](https://gitlab.haskell.org//ghc/ghc/issues/5612): support for kinds (patch available)
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): allow splicing of import declarations
+- [\#5854](https://gitlab.haskell.org//ghc/ghc/issues/5854): INLINABLE pragmas (patch offered)
 
 ## Optimisation
 
