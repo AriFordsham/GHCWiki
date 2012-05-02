@@ -3,10 +3,8 @@
 == New typechecker things to fix (with Dimitrios) ==
  * #5934: Bad substitution for flatten skolem
  * #5913, #5751: type-class dictionary loops
- * #5642, #5321, #5837, #5853 (loop), #5970, #3064, #3108: slow constraint solving
- * #5612, #5682: !PolyKinds
- * #4347, #4295: impredicativity
- * #5320: overlap delicacy
+ * #5642, #5970: slow constraint solving
+ * #5612, #5682, #6015: !PolyKinds
  * #5939, #5936: Pedro's generics
 
 === Arity ===
@@ -89,6 +87,8 @@
  * #4175: better GHCi info for type-function instances
 
 == Types and type inference ==
+ * #5320: overlap delicacy
+ * #4347, #4295: impredicativity
  * #5267, #5609, #5777, #344: bugs in arrows; awaiting refactoring by Dan
  * #1965: make existentials have a really cheap implementation
  * #5224: make it cheaper to check for inconsistent type family instances
