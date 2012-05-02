@@ -1,14 +1,38 @@
 # This page collects tickets that Simon PJ is interested in, so that he remembers them
 
-## New typechecker things to fix (with Dimitrios)
+## Type inference
 
-- [\#5934](https://gitlab.haskell.org//ghc/ghc/issues/5934): Bad substitution for flatten skolem
+- [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682), [\#6015](https://gitlab.haskell.org//ghc/ghc/issues/6015): PolyKinds
+- [\#6068](https://gitlab.haskell.org//ghc/ghc/issues/6068): fundeps and polykinds
+- [\#6049](https://gitlab.haskell.org//ghc/ghc/issues/6049): GADTs and polykinds
+- [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
+- [\#6065](https://gitlab.haskell.org//ghc/ghc/issues/6065): suggested type sig is then rejected
 - [\#5913](https://gitlab.haskell.org//ghc/ghc/issues/5913), [\#5751](https://gitlab.haskell.org//ghc/ghc/issues/5751): type-class dictionary loops
-- [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642), [\#5321](https://gitlab.haskell.org//ghc/ghc/issues/5321), [\#5837](https://gitlab.haskell.org//ghc/ghc/issues/5837), [\#5853](https://gitlab.haskell.org//ghc/ghc/issues/5853) (loop), [\#5970](https://gitlab.haskell.org//ghc/ghc/issues/5970), [\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064), [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): slow constraint solving
-- [\#5612](https://gitlab.haskell.org//ghc/ghc/issues/5612), [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): PolyKinds
-- [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): impredicativity
-- [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320): overlap delicacy
+- [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642), [\#5970](https://gitlab.haskell.org//ghc/ghc/issues/5970): slow constraint solving
+
+- [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): Injective type families (patch offered)
 - [\#5939](https://gitlab.haskell.org//ghc/ghc/issues/5939), [\#5936](https://gitlab.haskell.org//ghc/ghc/issues/5936): Pedro's generics
+
+## Template Haskell
+
+- [\#6064](https://gitlab.haskell.org//ghc/ghc/issues/6064): binders in `InstanceD`
+- [\#5612](https://gitlab.haskell.org//ghc/ghc/issues/5612): support for kinds (patch available)
+- [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): allow splicing of import declarations
+- [\#5854](https://gitlab.haskell.org//ghc/ghc/issues/5854): INLINABLE pragmas (patch offered)
+
+## Optimisation
+
+- [\#5623](https://gitlab.haskell.org//ghc/ghc/issues/5623), [\#5954](https://gitlab.haskell.org//ghc/ghc/issues/5954): performance regression. Duplication of primops?
+- [\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070), [\#5949](https://gitlab.haskell.org//ghc/ghc/issues/5949), [\#5775](https://gitlab.haskell.org//ghc/ghc/issues/5775): Demand analysis
+- [\#5996](https://gitlab.haskell.org//ghc/ghc/issues/5996): CSE (patch offered)
+- [\#6047](https://gitlab.haskell.org//ghc/ghc/issues/6047): GHC retains unnecessary binding
+- [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
+
+## Features
+
+- [\#5972](https://gitlab.haskell.org//ghc/ghc/issues/5972): option to suppress record selectors
+
+---
 
 ### Arity
 
@@ -100,6 +124,8 @@
 
 ## Types and type inference
 
+- [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320): overlap delicacy
+- [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): impredicativity
 - [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5609](https://gitlab.haskell.org//ghc/ghc/issues/5609), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows; awaiting refactoring by Dan
 - [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965): make existentials have a really cheap implementation
 - [\#5224](https://gitlab.haskell.org//ghc/ghc/issues/5224): make it cheaper to check for inconsistent type family instances
