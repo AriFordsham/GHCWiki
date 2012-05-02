@@ -1,12 +1,32 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
-== New typechecker things to fix (with Dimitrios) ==
+== Type inference ==
+ * #5682, #6015: !PolyKinds
+ * #6068: fundeps and polykinds
+ * #6049: GADTs and polykinds
+ * #6022: over-general types are inferred
+ * #6065: suggested type sig is then rejected
  * #5934: Bad substitution for flatten skolem
  * #5913, #5751: type-class dictionary loops
  * #5642, #5970: slow constraint solving
- * #5612, #5682, #6015: !PolyKinds
+
+ * #6018: Injective type families (patch offered)
  * #5939, #5936: Pedro's generics
 
+== Template Haskell ==
+ * #6064: binders in `InstanceD`
+ * #5612: support for kinds (patch available)
+ * #1475: allow splicing of import declarations
+
+== Optimisation ==
+ * #5623, #5954: performance regression. Duplication of primops?
+ * #5996: CSE (patch offered)
+ * #6047: GHC retains unnecessary binding
+
+== Features ==
+ * #5972: option to suppress record selectors
+
+----------------------
 === Arity ===
  * #5809: arity analysis could be better
  * #3924: weak arity leads to weak strictness
