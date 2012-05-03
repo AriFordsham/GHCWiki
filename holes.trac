@@ -200,13 +200,30 @@ When using holes (i.e. {{{-XHoles}}} is set), we expect the following:
 
 === Ambiguous types ===
 
-If type-checking would fail due to unsolved constraints that could be solved by giving a type to a hole, then the program should still be considered well-typed. This mainly occurs when types are ambiguous, with class constraints and no concrete types. If you replace the hole in the expression {{{show _?h}}} with {{{undefined}}}, then {{{show undefined}}} has an unsolved {{{Show}}} constraint and is ill-typed. But with the hole, we would prefer {{{show _?h}}} to be well-typed with a reported hole type {{{_?h :: Show a => a}}}.
+If type-checking would fail due to unsolved constraints that could be solved by giving a concrete type to a hole, and if by ignoring these ambiguous constraints the program would be well-typed, then the program itself should be considered well-typed. This mainly occurs with class constraints and no concrete types on the hole that do not show up in the type signature of the function itself. If you replace the hole in the expression {{{show _?h}}} with {{{undefined}}}, then {{{show undefined}}} has an unsolved {{{Show}}} constraint and is ill-typed. But with the hole, we would prefer {{{show _?h}}} to be well-typed with a reported hole type {{{_?h :: Show a => a}}}.
 
 === Monomorphism restriction ===
 
-The above expectations should hold with and without the monomorphism restriction. In particular, if an {{{undefined}}} somewhere in a program type-checked with the monomorphism restriction would cause type-checking to fail, then a hole in that same position should also cause type-checking to fail.
+There is a special case of ambiguous types caused by the monomorphism restriction. For example, without `-XNoMonomorphismRestriction`, the following function, specified without a type signature will fail:
+{{{
+f = _?h >>= _?i
+}}}
 
-'''NOTE''': Give example.
+with the following error:
+
+{{{
+Warning:
+    No instance for (Monad m0) arising from a use of `>>='
+    The type variable `m0' is ambiguous
+    Possible cause: the monomorphism restriction applied to the following:
+      f :: m0 b0
+    Probable fix: give these definition(s) an explicit type signature
+                  or use -XNoMonomorphismRestriction
+    In the expression: _?h >>= _?i
+    In an equation for `f': f = _?h >>= _?i
+}}}
+
+In this case, the class constraint is ambiguous, however, if that would be ignored, it would still be impossible to specify a type for `f` as that would violate the monomorphism restriction.
 
 === Type of a hole ===
 
