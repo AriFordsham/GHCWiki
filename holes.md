@@ -251,7 +251,7 @@ For this specification, we use the named term variables variant (though it may a
 
 When using holes (i.e. `-XHoles` is set), we expect the following:
 
-1. The program should type-check as if every hole `_?h` is replaced with `undefined`. This is one exception: see [Ambiguous types](holes#ambiguous-types) below.
+1. The program should type-check as if every hole `_?h` is replaced with `undefined`. There is an exception to this rule: see [Ambiguous types](holes#ambiguous-types) below.
 1. If the program is well-typed (as above), then:
 
   - The types of all holes should be reported.
