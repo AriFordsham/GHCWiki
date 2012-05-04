@@ -149,7 +149,7 @@ Comments:
   * Requires a fresh name to distinguish one hole from others
   * Requires evaluation semantics for hole
 
-'''SLPJ'''.  I'm really not sure what you mean by "must have the same type.  For example
+'''SLPJ question'''.  I'm really not sure what you mean by "must have the same type.  For example
 {{{
 f xs = _?p : xs
 g ys = _?q : ys
@@ -161,7 +161,7 @@ g :: forlal b. [b] -> [b]
 }}}
 If we generalise `f` then NOTHING can have the same type as the hole.  But it would be very strange not to generalise `f` (and `g`).  
 
-It seems much simpler to me either to have anonymous holes, or to let the user give them names, but to pay no attention to the name except to display them in error messages, so that user can say "oh, that hole" rather than having to look at the exact source location. '''End of SLPJ'''
+It seems much simpler to me either to have anonymous holes, or to let the user give them names, but to pay no attention to the name except to display them in error messages, so that user can say "oh, that hole" rather than having to look at the exact source location. '''End of SLPJ question'''
 
 === Term brackets (ranges) ===
 
