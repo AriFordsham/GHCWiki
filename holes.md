@@ -263,34 +263,32 @@ When using holes (i.e. `-XHoles` is set), we expect the following:
 ### Ambiguous types
 
 
-If type-checking would fail due to unsolved constraints that could be solved by giving a concrete type to a hole, and if by ignoring these ambiguous constraints the program would be well-typed, then the program itself should be considered well-typed. This mainly occurs with class constraints and no concrete types on the hole that do not show up in the type signature of the function itself. If you replace the hole in the expression `show _?h` with `undefined`, then `show undefined` has an unsolved `Show` constraint and is ill-typed. But with the hole, we would prefer `show _?h` to be well-typed with a reported hole type `_?h :: Show a => a`.
-
-### Monomorphism restriction
+Suppose that we replace every hole with `undefined` and type-check the program without `-XHoles`. Some programs would not type-check due to unsolved class constraints that result in ambiguous types. For example, `show _?h` becomes `show undefined`, and the `Show` constraint is not instantiated, so the program does not type-check.
 
 
-There is a special case of ambiguous types caused by the monomorphism restriction. For example, without `-XNoMonomorphismRestriction`, the following function, specified without a type signature will fail:
+We think holes can be extremely useful with ambiguous types. We prefer that a program, in which there is a hole with unsolved constraints on the type of the hole, still be considered well-typed, assuming the rest of the program is well-typed. In the above example, we would expect `show _?h` to have the type `String` with the reported hole type `_?h :: Show a => a`.
+
+#### Monomorphism restriction
+
+
+Some ambiguous types fall under the monomorphism restriction. That is, the following program will not type under Haskell2010 due to the restriction that `f` have a monomorphic type:
+
+```wiki
+f = undefined >>= undefined
+```
+
+
+We also expect holes to be very useful in these cases, for example by replacing each `undefined` with a hole:
 
 ```wiki
 f = _?h >>= _?i
 ```
 
 
-with the following error:
-
-```wiki
-Warning:
-    No instance for (Monad m0) arising from a use of `>>='
-    The type variable `m0' is ambiguous
-    Possible cause: the monomorphism restriction applied to the following:
-      f :: m0 b0
-    Probable fix: give these definition(s) an explicit type signature
-                  or use -XNoMonomorphismRestriction
-    In the expression: _?h >>= _?i
-    In an equation for `f': f = _?h >>= _?i
-```
+Thus, we prefer that this program be considered well-typed with the holes reported to have the types `_?h :: Monad m => m a` and `_?i :: Monad m => a -> m b`.
 
 
-In this case, the class constraint is ambiguous, however, if that would be ignored, it would still be impossible to specify a type for `f` as that would violate the monomorphism restriction.
+If the extension `-XNoMonomorphismRestriction` is used, we expect that the typing of the holes will not change.
 
 ### Type of a hole
 
