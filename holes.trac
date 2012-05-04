@@ -215,10 +215,10 @@ We also expect holes to be very useful in these cases, for example by replacing 
 {{{
 f = _?h >>= _?i
 }}}
-Thus, we prefer that this program be considered well-typed with {{{f :: Monad m => m b}}} and the holes reported to have the types {{{_?h :: Monad m => m a}}} and {{{_?i :: Monad m => a -> m b}}}.
+Thus, we prefer that this program be considered well-typed with {{{f :: Monad m => m b}}} and the holes {{{_?h :: Monad m => m a}}} and {{{_?i :: Monad m => a -> m b}}}.
 
-If the extension `-XNoMonomorphismRestriction` is used, we expect that the typing of the holes will not change.
+If `-XNoMonomorphismRestriction` is used, we expect that the typing of the holes will not change.
 
 === Type of a hole ===
 
-The type of a hole should be the resolved type with minimum constraints. That is, the type of a hole should only have constraints that have not been solved but are either inferred from the context (e.g. {{{show _?h}}}) or given in a type annotation/signature (e.g. {{{_?h :: Show a => a}}}.
+The type of a hole should be the resolved type with minimum constraints. That is, the type of a hole should only have constraints that have not been solved but are either inferred from the context (e.g. {{{show _?h}}}) or given in a type annotation/signature (e.g. {{{_?h :: Show a => a}}}).
