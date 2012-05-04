@@ -285,7 +285,7 @@ f = _?h >>= _?i
 ```
 
 
-Thus, we prefer that this program be considered well-typed with the holes reported to have the types `_?h :: Monad m => m a` and `_?i :: Monad m => a -> m b`.
+Thus, we prefer that this program be considered well-typed with `f :: Monad m => m b` and the holes reported to have the types `_?h :: Monad m => m a` and `_?i :: Monad m => a -> m b`.
 
 
 If the extension `-XNoMonomorphismRestriction` is used, we expect that the typing of the holes will not change.
