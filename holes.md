@@ -138,6 +138,8 @@ Implicit parameters must be bound, either in a term, e.g. `let ?x = ... in ...`,
 
 Implicit parameters do not serve very well for debugging. Due to the binding requirement, they are not suitable for typing things with unknown types. Either you must change type signatures or you must deal with the unbound implicit parameter type errors (or warnings in case the errors are deferred). Lastly, since implicit parameters are meant for usage in programs, it does not seem like they should be used for extracting additional information about the parameter's location. (This is not a technical argument, of course.)
 
+---
+
 # Proposal
 
 

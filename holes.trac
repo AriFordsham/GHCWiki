@@ -106,6 +106,7 @@ Implicit parameters do not serve very well for debugging. Due to the binding req
 Another thing to keep in mind with implicit parameters is that implicit parameters with the same name in different functions are not assumed to be the same (i.e., required to be unifiable), ''except'' if some function has both implicit parameters in its constraints.
 }}}
 
+-----------------------
 = Proposal =
 
 In this section, we discuss the proposed extension to GHC.
