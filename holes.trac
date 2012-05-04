@@ -131,7 +131,7 @@ test = _ : (_ ++ [])
 
 Comments:
   * Reports the source location of each hole
-  * Does not allow two holes to have the same type  '''SLPJ: This sounds wierd.   Do you mean that `_ && _` would be illegal somehow?  Here the two holes both have type Bool'''
+  * Does not allow the programmer to specify that two holes have the same type  '''SLPJ: This sounds wierd.   Do you mean that `_ && _` would be illegal somehow?  Here the two holes both have type Bool''' -- '''SPL: No, it's just careless phrasing. Corrected.'''
   * Requires evaluation semantics for hole.   '''SLPJ: What does this mean?  Example?'''
 
 === Named term variables ===
