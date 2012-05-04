@@ -138,6 +138,8 @@ Implicit parameters must be bound, either in a term, e.g. `let ?x = ... in ...`,
 
 Implicit parameters do not serve very well for debugging. Due to the binding requirement, they are not suitable for typing things with unknown types. Either you must change type signatures or you must deal with the unbound implicit parameter type errors (or warnings in case the errors are deferred). Lastly, since implicit parameters are meant for usage in programs, it does not seem like they should be used for extracting additional information about the parameter's location. (This is not a technical argument, of course.)
 
+---
+
 # Proposal
 
 
@@ -170,8 +172,8 @@ test = _ : (_ ++ [])
 Comments:
 
 - Reports the source location of each hole
-- Does not allow two holes to have the same type
-- Requires evaluation semantics for hole
+- Does not allow two holes to have the same type  **SLPJ: This sounds wierd.   Do you mean that `_ && _` would be illegal somehow?  Here the two holes both have type Bool**
+- Requires evaluation semantics for hole.   **SLPJ: What does this mean?  Example?**
 
 ### Named term variables
 
@@ -192,6 +194,27 @@ Comments:
 - Reports the name and source location of each hole
 - Requires a fresh name to distinguish one hole from others
 - Requires evaluation semantics for hole
+
+**SLPJ question**.  I'm really not sure what you mean by "must have the same type.  For example
+
+```wiki
+f xs = _?p : xs
+g ys = _?q : ys
+```
+
+
+If we typechecked each binding independently we'd get
+
+```wiki
+f :: forall a. [a] -> [a]
+g :: forlal b. [b] -> [b]
+```
+
+
+If we generalise `f` then NOTHING can have the same type as the hole.  But it would be very strange not to generalise `f` (and `g`).  
+
+
+It seems much simpler to me either to have anonymous holes, or to let the user give them names, but to pay no attention to the name except to display them in error messages, so that user can say "oh, that hole" rather than having to look at the exact source location. **End of SLPJ question**
 
 ### Term brackets (ranges)
 
@@ -255,7 +278,7 @@ When using holes (i.e. `-XHoles` is set), we expect the following:
 1. If the program is well-typed (as above), then:
 
   - The types of all holes should be reported.
-  - Reporting the hole types should not cause type-checking (or compiling in general) to stop (in error).
+  - Reporting the hole types should not cause type-checking (or compiling in general) to stop (in error). **SLPJ what does this mean? ** A type error \*never\* causes type checking to stop.  Do you mean that a program with holes (but no other errors) should compile and run, falling over at runtime only if you evaluate a hole?  Please give an example.  **End of SLPJ**
 1. (optional) If the program is ill-typed, then:
 
   - The types of all holes should be reported.
@@ -267,6 +290,8 @@ Suppose that we replace every hole with `undefined` and type-check the program w
 
 
 We think holes can be extremely useful with ambiguous types. We prefer that a program, in which there is a hole with unsolved constraints on the type of the hole, still be considered well-typed, assuming the rest of the program is well-typed. In the above example, we would expect `show _?h` to have the type `String` with the reported hole type `_?h :: Show a => a`.
+
+**SLPJ do you want programs with these ambiguity errors to run too?  Or what?  Can you give a complete little example module, with the error messages you expect, whether you expect it to run, and if so what should happen?**
 
 #### Monomorphism restriction
 
