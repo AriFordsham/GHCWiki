@@ -1,4 +1,4 @@
-''This page discusses the design and potential implementation of "holes" in GHC. The progress is tracked in #5910. The development repository is [https://github.com/xnyhps/ghc here].'' 
+''This page discusses the design and potential implementation of "holes" in GHC. Discussion on this feature in GHC is in #5910. The development repository is [https://github.com/xnyhps/ghc here], and implementation issues are [https://github.com/xnyhps/ghc/issues here].''
 
 = Introduction =
 
