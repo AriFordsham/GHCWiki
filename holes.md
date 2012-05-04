@@ -1,4 +1,4 @@
-*This page discusses the design and potential implementation of "holes" in GHC. The progress is being tracked in [\#5910](https://gitlab.haskell.org//ghc/ghc/issues/5910).*
+*This page discusses the design and potential implementation of "holes" in GHC. The progress is tracked in [\#5910](https://gitlab.haskell.org//ghc/ghc/issues/5910). The development repository is [ here](https://github.com/xnyhps/ghc).*
 
 # Introduction
 
