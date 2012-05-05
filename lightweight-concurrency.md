@@ -22,7 +22,7 @@ Although implementing concurrency primitives as a library is hardly a novel idea
 ## Background - GHC's Concurrency RTS
 
 
-This section focuses on the concurrency part of the runtime system, and is intended to set a stage for subsequent discussions. This section also provides would-be GHC RTS hackers a summary of different parts of the system.
+For the high-level design principle for the current scheduler, see [ Scheduler](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts/Scheduler).
 
 ## Related Work
 
