@@ -9,7 +9,7 @@ We have a new member of the team! Please welcome Paolo Capriotti who is assuming
  * Support for all declarations at the GHCi prompt 
  * Data type promotion and kind polymorphism [3]
  * Improvements to Safe Haskell (safety is now inferred)
- * Constaint Kinds[4]
+ * Constraint Kinds[4]
  * Profiling improvements: a major internal overhaul, and support for stack traces with `+RTS -xc`.
  * Preliminary support for registerised ARM compilation
 
