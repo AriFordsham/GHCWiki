@@ -70,7 +70,7 @@ Things are a bit more complicated when the master repo is in Darcs.  For example
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/base.git/</td><td>libraries/base</td></tr>
 <tr><td></td><td></td><td style="color: green;">git://github.com/kolmodin/binary.git</td><td>http://darcs.haskell.org/git-mirrors/binary/binary.git/</td><td>http://darcs.haskell.org/packages/.git/</td><td>libraries/binary</td></tr>
 <tr><td style="color: green;">http://darcs.haskell.org/bytestring/</td><td></td><td></td><td>http://darcs.haskell.org/git-mirrors/bytestring/.git/</td><td>http://darcs.haskell.org/packages/bytestring.git/</td><td>libraries/bytestring</td></tr>
-<tr><td style="color: green;">http://darcs.haskell.org/Cabal/</td><td></td><td></td><td>http://darcs.haskell.org/git-mirrors/Cabal/.git/</td><td>http://darcs.haskell.org/packages/Cabal.git/</td><td>libraries/Cabal</td></tr>
+<tr><td></td><td></td><td style="color: green;">git://github.com/haskell/cabal.git</td><td>http://darcs.haskell.org/git-mirrors/Cabal/.git/</td><td>http://darcs.haskell.org/packages/Cabal.git/</td><td>libraries/Cabal</td></tr>
 <tr><td></td><td></td><td style="color: green;">git://github.com/haskell/containers.git</td><td>http://darcs.haskell.org/git-mirrors/containers/.git/</td><td>http://darcs.haskell.org/packages/containers.git/</td><td>libraries/containers</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/directory.git/</td><td>libraries/directory</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/extensible-exceptions.git/</td><td>libraries/extensible-exceptions</td></tr>
@@ -83,7 +83,7 @@ Things are a bit more complicated when the master repo is in Darcs.  For example
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/hpc.git/</td><td>libraries/hpc</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/integer-gmp.git/</td><td>libraries/integer-gmp</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/integer-simple.git/</td><td>libraries/integer-simple</td></tr>
-<tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/mtl.git/</td><td>libraries/mtl</td></tr>
+<tr><td></td><td></td><td style="color: green;">git://github.com/ekmett/mtl.git</td><td>http://darcs.haskell.org/git-mirrors/mtl/.git</td><td>http://darcs.haskell.org/packages/mtl.git/</td><td>libraries/mtl</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/old-locale.git/</td><td>libraries/old-locale</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/old-time.git/</td><td>libraries/old-time</td></tr>
 <tr><td></td><td></td><td style="color: green;">git://github.com/haskell/pretty.git</td><td>http://darcs.haskell.org/git-mirrors/pretty/</td><td>http://darcs.haskell.org/packages/pretty.git/</td><td>libraries/pretty</td></tr>
@@ -91,6 +91,7 @@ Things are a bit more complicated when the master repo is in Darcs.  For example
 <tr><td></td><td></td><td style="color: green;">git://github.com/haskell/random.git</td><td>http://darcs.haskell.org/git-mirrors/random/</td><td>http://darcs.haskell.org/packages/random.git/</td><td>libraries/random</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/template-haskell.git/</td><td>libraries/template-haskell</td></tr>
 <tr><td style="color: green;">http://code.haskell.org/terminfo/</td><td>http://darcs.haskell.org/darcs-mirrors/terminfo/</td><td></td><td>http://darcs.haskell.org/git-mirrors/terminfo/.git/</td><td>http://darcs.haskell.org/packages/terminfo.git/</td><td>libraries/terminfo</td></tr>
+<tr><td style="color: green;">http://code.haskell.org/~ross/transformers</td><td>http://darcs.haskell.org/darcs-mirrors/transformers/</td><td></td><td>http://darcs.haskell.org/git-mirrors/transformers/.git/</td><td>http://darcs.haskell.org/packages/transformers.git/</td><td>libraries/transformers</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/unix.git/</td><td>libraries/unix</td></tr>
 <tr><td></td><td></td><td style="color: green;">https://github.com/glguy/utf8-string.git</td><td>http://darcs.haskell.org/git-mirrors/utf8-string/</td><td>http://darcs.haskell.org/packages/utf8-string.git/</td><td>libraries/utf8-string</td></tr>
 <tr><td></td><td></td><td style="color: green;">git://github.com/haskell/win32.git</td><td>http://darcs.haskell.org/git-mirrors/Win32/</td><td>http://darcs.haskell.org/packages/Win32.git/</td><td>libraries/Win32</td></tr>

@@ -140,9 +140,9 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/packages/bytestring.git/</th>
 <th>libraries/bytestring</th>
 <th></th></tr>
-<tr><th>http://darcs.haskell.org/Cabal/</th>
+<tr><th></th>
 <th></th>
-<th></th>
+<th>git://github.com/haskell/cabal.git</th>
 <th>http://darcs.haskell.org/git-mirrors/Cabal/.git/</th>
 <th>http://darcs.haskell.org/packages/Cabal.git/</th>
 <th>libraries/Cabal</th>
@@ -233,8 +233,8 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th></th></tr>
 <tr><th></th>
 <th></th>
-<th></th>
-<th></th>
+<th>git://github.com/ekmett/mtl.git</th>
+<th>http://darcs.haskell.org/git-mirrors/mtl/.git</th>
 <th>http://darcs.haskell.org/packages/mtl.git/</th>
 <th>libraries/mtl</th>
 <th></th></tr>
@@ -286,6 +286,13 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th>http://darcs.haskell.org/git-mirrors/terminfo/.git/</th>
 <th>http://darcs.haskell.org/packages/terminfo.git/</th>
 <th>libraries/terminfo</th>
+<th></th></tr>
+<tr><th>http://code.haskell.org/\~ross/transformers</th>
+<th>http://darcs.haskell.org/darcs-mirrors/transformers/</th>
+<th></th>
+<th>http://darcs.haskell.org/git-mirrors/transformers/.git/</th>
+<th>http://darcs.haskell.org/packages/transformers.git/</th>
+<th>libraries/transformers</th>
 <th></th></tr>
 <tr><th></th>
 <th></th>
