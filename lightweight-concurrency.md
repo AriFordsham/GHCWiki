@@ -24,12 +24,14 @@ Although implementing concurrency primitives as a library is hardly a novel idea
 
 For the high-level design principle for the current scheduler, see [ Scheduler](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts/Scheduler).
 
-## Concurrency Substrate
+## Design
+
+### Concurrency Substrate
 
 
-The idea of the concurrency substrate is to provide a minimal set of primitives over which a variety of user-level concurrency libraries can be implemented. As such, the concurrency substrate must provide a way to create threads, a way to schedule them, and a synchronization mechanism in a multiprocessor context. 
+The idea of the concurrency substrate is to provide a minimal set of primitives over which a variety of user-level concurrency libraries can be implemented. As such, the concurrency substrate must provide a way to create threads, a way to schedule them, and a synchronization mechanism in a multiprocessor context. Creation and maintenance of schedulers and concurrent data structures is the task of the concurrency library.
 
-## Controlling Parallelism
+### Controlling Parallelism
 
 
 Whatever be the concurrency model, we would like to retain the non-programmatic control over parallelism (using +RTS -N), just like in the current system. Cores are system resources and hence, the control over their allocation to different processes should be a property of the context under which the programs are run. For example, in a multi-programmed environment, it might be wiser to run the programs on a fewer cores than available to avoid thrashing. At the very least, this will avoid the cases where a poorly written concurrency library would not bring down the performance of the entire system. 
