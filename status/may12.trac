@@ -29,6 +29,7 @@ Here are the projects we're currently working on:
 
  * '''Profiling and stack traces'''  (Simon M). 7.4.1 has an overhauled profiling system, and in many cases gives better results than earlier versions.  However, some details remain to be resolved around the precise semantics of cost-centre stacks.  Also, I hope that it might be possible to provide stack traces of a kind without having to compile for profiling, perhaps in GHCi only.
 
+ * '''Support for SSE primitives when using the LLVM back end''' (Geoffrey M). The `simd` git branch of GHC adds support for primitive 128-bit SIMD vector types and associated primops when using the LLVM back end, meaning this branch can now generate SSE instructions on x86 platforms. We hope this support will make it into 7.6.1. Experimental versions of the vector library [8] and DPH [9] provide higher-level interfaces to the new primitives. Initial benchmarks indicate that numerical code can benefit substantially.
 
 [1] [http://hackage.haskell.org/trac/ghc/query?status=closed&order=priority&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=component&milestone=7.4.2&resolution=fixed] [[BR]]
 [2] [http://hackage.haskell.org/trac/ghc/wiki/Status/Oct11][[BR]]
@@ -37,3 +38,5 @@ Here are the projects we're currently working on:
 [5] [https://plus.google.com/107890464054636586545/posts/GsfcJfdkEYL] [[BR]]
 [6] [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen] [[BR]]
 [7] [http://www.cs.tufts.edu/~nr/pubs/dfopt-abstract.html] [[BR]]
+[9] [http://ghc-simd.blogspot.co.uk/2012/03/simd-support-for-vector-library.html] [[BR]]
+[10] [http://ghc-simd.blogspot.co.uk/2012/04/adding-simd-support-to-data-parallel.html] [[BR]]
