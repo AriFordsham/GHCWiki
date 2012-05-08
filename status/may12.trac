@@ -31,6 +31,13 @@ Here are the projects we're currently working on:
 
  * '''Support for SSE primitives when using the LLVM back end''' (Geoffrey M). The `simd` git branch of GHC adds support for primitive 128-bit SIMD vector types and associated primops when using the LLVM back end, meaning this branch can now generate SSE instructions on x86 platforms. We hope this support will make it into 7.6.1. Experimental versions of the vector library [8] and DPH [9] provide higher-level interfaces to the new primitives. Initial benchmarks indicate that numerical code can benefit substantially.
 
+ * '''Data Parallel Haskell'''. The vectorisation transformation underlying our implementation of nested data parallelism in GHC had a fundamental and long standing asymptotic complexity problem that we were finally able to resolve. Details are in a recent draft paper entitled ''Work Efficient Higher-Order Vectorisation'' [11]. The implementation described in the paper is available in the DPH packages from Hackage (which need to be used with GHC 7.4.1). The new implementation of the DPH libraries still needs to be optimised; hence, our next step will be to optimise constant factors.
+
+ In addition, we released Repa 3 [12], which uses type-indices to control array representations. This leads to more predictable performance. You can install Repa 3, which requires GHC 7.4.1, from Hackage. We are currently writing a paper describing the new design in detail.
+
+ Finally, we are about to release (it may be out by the time you read this) a stable, end-user ready version of the Repa-like array library Accelerate for GPU computing on Hackage. It integrates with Repa, so you can mix GPU and CPU multicore computing, and via the new `meta-par` package you can share workload between CPUs and GPUs [13]. This new version 0.12 is already available on !GitHub [14]. You need a CUDA-capable NVIDIA GPU to use it.
+
+
 [1] [http://hackage.haskell.org/trac/ghc/query?status=closed&order=priority&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=component&milestone=7.4.2&resolution=fixed] [[BR]]
 [2] [http://hackage.haskell.org/trac/ghc/wiki/Status/Oct11][[BR]]
 [3] [http://www.haskell.org/ghc/docs/7.4.1/html/users_guide/kind-polymorphism-and-promotion.html#kind-polymorphism] [[BR]]
@@ -40,3 +47,7 @@ Here are the projects we're currently working on:
 [7] [http://www.cs.tufts.edu/~nr/pubs/dfopt-abstract.html] [[BR]]
 [9] [http://ghc-simd.blogspot.co.uk/2012/03/simd-support-for-vector-library.html] [[BR]]
 [10] [http://ghc-simd.blogspot.co.uk/2012/04/adding-simd-support-to-data-parallel.html] [[BR]]
+[11] [http://www.cse.unsw.edu.au/~chak/papers/LCKLP12.html] [[BR]]
+[12] [http://repa.ouroborus.net/] [[BR]]
+[13] [http://parfunk.blogspot.com.au/2012/05/how-to-write-hybrid-cpugpu-programs.html] [[BR]]
+[14] [https://github.com/AccelerateHS/accelerate] [[BR]]
