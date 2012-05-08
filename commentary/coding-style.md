@@ -78,7 +78,7 @@ Please do not put comments like these in commit messages instead, *even if the p
 
 
 When writing a comment to explain a subtle point, consider including an example code
-snippet that illustrates the point.  For example, the above `Note [Float coercions]` contines thus:
+snippet that illustrates the point.  For example, the above `Note [Float coercions]` continues thus:
 
 ```wiki
 There's a chance that e will be a constructor application or function, or something

@@ -63,7 +63,7 @@ Please do not put comments like these in commit messages instead, ''even if the 
 === Comments and examples ===
 
 When writing a comment to explain a subtle point, consider including an example code
-snippet that illustrates the point.  For example, the above `Note [Float coercions]` contines thus:
+snippet that illustrates the point.  For example, the above `Note [Float coercions]` continues thus:
 {{{
 There's a chance that e will be a constructor application or function, or something
 like that, so moving the coerion to the usage site may well cancel the coersions
@@ -186,6 +186,7 @@ Don't bother putting `-cpp` or `-fglasgow-exts` in the `OPTIONS` pragma; these a
 === Literate Haskell ===
 
 In GHC we use a mixture of literate ({{{.lhs}}}) and non-literate ({{{.hs}}}) source. I (Simon M.) prefer to use non-literate style, because I think the {{{\begin{code}..\end{code}}}} clutter up the source too much, and I like to use Haddock-style comments (we haven't tried processing the whole of GHC with Haddock yet, though). 
+
 === The C Preprocessor (CPP) ===
 
 Currently we pass all the compiler sources through CPP. The -cpp flag is always added by the build system. 
