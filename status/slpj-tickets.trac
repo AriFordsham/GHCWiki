@@ -17,6 +17,7 @@
  * #5612: support for kinds (patch available)
  * #1475: allow splicing of import declarations
  * #5854: INLINABLE pragmas (patch offered)
+ * #4364: cycle in type declarations
 
 == Optimisation ==
  * #5623, #5954: performance regression. Duplication of primops?
