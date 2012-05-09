@@ -8,7 +8,7 @@
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
 - [\#6065](https://gitlab.haskell.org//ghc/ghc/issues/6065): suggested type sig is then rejected
 - [\#5913](https://gitlab.haskell.org//ghc/ghc/issues/5913), [\#5751](https://gitlab.haskell.org//ghc/ghc/issues/5751): type-class dictionary loops
-- [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642), [\#5970](https://gitlab.haskell.org//ghc/ghc/issues/5970): slow constraint solving
+- [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642), [\#5970](https://gitlab.haskell.org//ghc/ghc/issues/5970), [\#5030](https://gitlab.haskell.org//ghc/ghc/issues/5030): slow constraint solving
 
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): Injective type families (patch offered)
 - [\#5939](https://gitlab.haskell.org//ghc/ghc/issues/5939), [\#5936](https://gitlab.haskell.org//ghc/ghc/issues/5936): Pedro's generics
@@ -24,7 +24,7 @@
 ## Optimisation
 
 - [\#5623](https://gitlab.haskell.org//ghc/ghc/issues/5623), [\#5954](https://gitlab.haskell.org//ghc/ghc/issues/5954): performance regression. Duplication of primops?
-- [\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070), [\#5949](https://gitlab.haskell.org//ghc/ghc/issues/5949), [\#5775](https://gitlab.haskell.org//ghc/ghc/issues/5775): Demand analysis
+- [\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070), [\#5949](https://gitlab.haskell.org//ghc/ghc/issues/5949), [\#5775](https://gitlab.haskell.org//ghc/ghc/issues/5775), [\#4267](https://gitlab.haskell.org//ghc/ghc/issues/4267), [\#5302](https://gitlab.haskell.org//ghc/ghc/issues/5302): Demand analysis
 - [\#5996](https://gitlab.haskell.org//ghc/ghc/issues/5996): CSE (patch offered)
 - [\#6047](https://gitlab.haskell.org//ghc/ghc/issues/6047): GHC retains unnecessary binding
 - [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
