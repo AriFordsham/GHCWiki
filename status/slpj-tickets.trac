@@ -21,7 +21,7 @@
 
 == Optimisation ==
  * #5623, #5954: performance regression. Duplication of primops?
- * #6070, #5949, #5775, #4267, #5302: Demand analysis
+ * #6070, #5949, #5775, #4267, #5302, #6087: Demand analysis
  * #5996: CSE (patch offered)
  * #6047: GHC retains unnecessary binding
  * #5916: `runST` isn't free
