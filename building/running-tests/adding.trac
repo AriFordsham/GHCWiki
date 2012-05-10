@@ -171,10 +171,8 @@ Where <args...> is a list of arguments.
 
 === The <setup> field ===
 
-''<setup>''  is a function (i.e. any callable object in Python)
-which allows the options for this test to be changed.
-There are many pre-defined functions which can be
-used in this field:
+''<setup>''  is a function (i.e. any callable object in Python) which allows the options for this test to be changed.
+There are many pre-defined functions which can be used in this field:
 
  * '''normal'''                don't change any options from the defaults
  * '''skip'''                  skip this test
@@ -247,6 +245,28 @@ For example, to expect an exit code of 3 and omit way 'opt', we could use
 [ omit_ways(['opt']), exit_code(3) ]
 }}}
 as the `<setup>` argument.
+
+=== Performance tests ===
+
+Performance tests can specify ranges for certain statistics in the `<setup>` field.  Here's an example test:
+
+{{{
+test('perf001',
+     [ if_wordsize(32,
+          compiler_stats_range_field('bytes allocated', 40000000, 10)),
+       if_wordsize(64,
+          compiler_stats_range_field('bytes allocated', 79110184, 10))
+     ],
+     compile,[''])
+}}}
+
+This is testing the performance of GHC itself, and requiring that the statistic 'bytes allocated' for the compiler when compiling the module `perf001.hs` is +/- 10% of 40000000 bytes (on a 32-bit machine; there is a different baseline for 64-bit machines).
+
+The kinds of constraint that can be used are:
+
+ * '''compiler_stats_range_field(stat, baseline, deviation)'''  tests the performance of GHC, and should be used with '''compile''' or '''compile_fail''' tests.  '''stat''' is one of the following: `'bytes allocated'`, `'peak_megabytes_allocated'`, or `'max_bytes_used'`; '''baseline''' is the baseline value obtained by running the benchmark, and '''deviation''' is the percentage deviation from the baseline that the framework will allow for the test to pass.
+
+ * '''stats_range_field(stat, baseline, deviation)'''  is the same, but tests the performance of the ''program'', not the compiler.  It should be used in conjunction with a '''compile_and_run''' test.
 
 === The <test-fn> field ===
 
