@@ -15,7 +15,7 @@ We have a new member of the team! Please welcome Paolo Capriotti who is assuming
 
 Here are the projects we're currently working on:
 
- * '''Kind polymorphism'''.  Simon PJ has been workig hard on completing the implementation of kind polymorphism and data type promotion [3].  This will appear for the first (supported) time in GHC 7.6; please do stress-test the HEAD.
+ * '''Kind polymorphism'''.  Simon PJ has been working hard on completing the implementation of kind polymorphism and data type promotion [3].  This will appear for the first (supported) time in GHC 7.6; please do stress-test the HEAD.
 
  * '''Deferred type errors'''.  Etienne Laurin suggested [16] that GHC could compile and run a program even though it contains type errors.  After all, the bit you want to run might not contain the error, and it's sometimes annoying to have to fix ''every'' type error before you can run ''any'' code.  It turned out that there was a beautifully simple way to fit this idea into GHC's new constraint-based type inference engine, and we have now done so.  It's all explained in "Equality proofs and deferred type errors" [17], and will be in GHC 7.6.  
 
@@ -23,7 +23,7 @@ Here are the projects we're currently working on:
 
  * '''Type level literals'''.  Iavor Diatchki has added type-level natural numbers (kind `Nat`) and strings (kind `Symbol`) to GHC.  You can find lots of details on his wiki page [20].  At the moment there is no useful ''computation'' over the type-level naturals, but there will be soon.
 
- * '''Typechecker performance improvements'''.  Most of the smarts of type inference are now located in the type constraint solver, described in our paper "Modular type inference with local assumptions: OutsideIn(X)" [19].  It works just fine for redgular old ML-style programs, but was a bit slow for programs that make heavy use of type-level computation.  Dimitrios has been working hard to improve its performance; we have carried out at least three major refactorings, deleted tons of code, and made it faster and more beautiful.
+ * '''Typechecker performance improvements'''.  Most of the smarts of type inference are now located in the type constraint solver, described in our paper "Modular type inference with local assumptions: !OutsideIn(X)" [19].  It works just fine for redgular old ML-style programs, but was a bit slow for programs that make heavy use of type-level computation.  Dimitrios has been working hard to improve its performance; we have carried out at least three major refactorings, deleted tons of code, and made it faster and more beautiful.
 
  * '''Windows x64 Support''' (Ian L).  The Industrial Haskell Group has funded work to implement 64bit Windows support in GHC. The port is now self-hosting and mostly complete, with just a number of bugs in the periphery to fix, and some logistics to work out. We expect a 64bit Windows installer to be included in the GHC 7.6 releases.
 

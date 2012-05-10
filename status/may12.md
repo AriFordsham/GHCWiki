@@ -19,7 +19,7 @@ We have a new member of the team! Please welcome Paolo Capriotti who is assuming
 
 Here are the projects we're currently working on:
 
-- **Kind polymorphism**.  Simon PJ has been workig hard on completing the implementation of kind polymorphism and data type promotion \[3\].  This will appear for the first (supported) time in GHC 7.6; please do stress-test the HEAD.
+- **Kind polymorphism**.  Simon PJ has been working hard on completing the implementation of kind polymorphism and data type promotion \[3\].  This will appear for the first (supported) time in GHC 7.6; please do stress-test the HEAD.
 
 - **Deferred type errors**.  Etienne Laurin suggested \[16\] that GHC could compile and run a program even though it contains type errors.  After all, the bit you want to run might not contain the error, and it's sometimes annoying to have to fix *every* type error before you can run *any* code.  It turned out that there was a beautifully simple way to fit this idea into GHC's new constraint-based type inference engine, and we have now done so.  It's all explained in "Equality proofs and deferred type errors" \[17\], and will be in GHC 7.6.  
 
