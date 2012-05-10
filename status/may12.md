@@ -19,11 +19,15 @@ We have a new member of the team! Please welcome Paolo Capriotti who is assuming
 
 Here are the projects we're currently working on:
 
-- **Completing the support for kind polymorphism** (Simon PJ)
+- **Kind polymorphism**.  Simon PJ has been workig hard on completing the implementation of kind polymorphism and data type promotion \[3\].  This will appear for the first (supported) time in GHC 7.6; please do stress-test the HEAD.
 
-- **Typechecker performance improvements** (Dimitrios?)
+- **Deferred type errors**.  Etienne Laurin suggested \[16\] that GHC could compile and run a program even though it contains type errors.  After all, the bit you want to run might not contain the error, and it's sometimes annoying to have to fix *every* type error before you can run *any* code.  It turned out that there was a beautifully simple way to fit this idea into GHC's new constraint-based type inference engine, and we have now done so.  It's all explained in "Equality proofs and deferred type errors" \[17\], and will be in GHC 7.6.  
 
-- **Type-level natural numbers** (Iavor D)
+- **Holes in terms**.  Thijs Alkemade and Sean Leather have been working on another variant of deferred error messages, that would allow you to write a program that contains as-yet-unwritten sub-terms, or "holes" and have GHC report a fairly precise type for the hole.  The idea is inspired by Agda's interactive programming environment, which has a facility of this kind.  The more complicated the types get, the more useful this is!  Details on their wiki page \[18\].
+
+- **Type level literals**.  Iavor Diatchki has added type-level natural numbers (kind `Nat`) and strings (kind `Symbol`) to GHC.  You can find lots of details on his wiki page \[20\].  At the moment there is no useful *computation* over the type-level naturals, but there will be soon.
+
+- **Typechecker performance improvements**.  Most of the smarts of type inference are now located in the type constraint solver, described in our paper "Modular type inference with local assumptions: OutsideIn(X)" \[19\].  It works just fine for redgular old ML-style programs, but was a bit slow for programs that make heavy use of type-level computation.  Dimitrios has been working hard to improve its performance; we have carried out at least three major refactorings, deleted tons of code, and made it faster and more beautiful.
 
 - **Windows x64 Support** (Ian L).  The Industrial Haskell Group has funded work to implement 64bit Windows support in GHC. The port is now self-hosting and mostly complete, with just a number of bugs in the periphery to fix, and some logistics to work out. We expect a 64bit Windows installer to be included in the GHC 7.6 releases.
 
@@ -65,3 +69,8 @@ Here are the projects we're currently working on:
 \[13\][ http://parfunk.blogspot.com.au/2012/05/how-to-write-hybrid-cpugpu-programs.html](http://parfunk.blogspot.com.au/2012/05/how-to-write-hybrid-cpugpu-programs.html)
 \[14\][ https://github.com/AccelerateHS/accelerate](https://github.com/AccelerateHS/accelerate)
 \[15\][ http://community.haskell.org/\~simonmar/papers/conc-substrate.pdf](http://community.haskell.org/~simonmar/papers/conc-substrate.pdf)
+\[16\] Deferring type errors to runtime [ http://hackage.haskell.org/trac/ghc/wiki/DeferErrorsToRuntime](http://hackage.haskell.org/trac/ghc/wiki/DeferErrorsToRuntime)
+\[17\] Equality proofs and deferred type errors [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+\[18\] Holes in GHC: [ http://hackage.haskell.org/trac/ghc/wiki/Holes](http://hackage.haskell.org/trac/ghc/wiki/Holes)
+\[19\] Modular type inference with local assumptions: OutsideIn(X) [ http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn](http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn)
+\[20\] Type level literals.  [ http://hackage.haskell.org/trac/ghc/wiki/TypeNats/Basics](http://hackage.haskell.org/trac/ghc/wiki/TypeNats/Basics)
