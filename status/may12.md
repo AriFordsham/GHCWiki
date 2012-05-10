@@ -14,7 +14,7 @@ We have a new member of the team! Please welcome Paolo Capriotti who is assuming
 - Improvements to Safe Haskell (safety is now inferred)
 - Constraint Kinds\[4\]
 - Profiling improvements: a major internal overhaul, and support for stack traces with `+RTS -xc`.
-- Preliminary support for registerised ARM compilation
+- Preliminary support for registerised ARM compilation (with full GHCi support being introduced in 7.4.2)
 
 
 Here are the projects we're currently working on:
