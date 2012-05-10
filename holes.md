@@ -110,7 +110,7 @@ The advantage of using `undefined` is that we can remove the type annotation, an
 The clear problem with deliberate type errors is that the program does not type-check. We cannot use this technique on multiple locations at one time. We also only get type errors and not other information.
 
 
-With **deliberate errors and deferred type errors**, we do get a program that type-checks. This is actually a reasonable solution; however, it still has two problems:
+With *deliberate errors and deferred type errors*, we do get a program that type-checks. This is actually a reasonable solution; however, it still has two problems:
 
 - Deferring type errors is indiscriminate: you defer both the deliberate and unintended type errors.
 - It does not provide useful information other than type errors.
@@ -150,121 +150,143 @@ In this section, we discuss the proposed extension to GHC.
 
 Since we are changing the syntax and semantics of Haskell, we feel that this should become a language extension (rather than another kind of compiler flag). For now, we proposed the name `Holes` (as in `-XHoles`), though this could change after discussion.
 
-## Variations
+## Syntactic placement of holes
 
 
-We view a hole as a piece of syntax that is inserted in code as a placeholder until the programmer fills that location with something else. Numerous views on the syntax and semantics of holes have been discussed. Here are a few:
-
-### Term wildcards
+We view a hole as a piece of syntax that is inserted in code as a placeholder until the programmer fills that location with something else. That placeholder can not only allow the program to be compiled but also allow the compiler to report information that is significant to the location of the placeholder.
 
 
-This approach mirrors Agda goals. The actual syntax is debatable, but we think `_` is quite nice, since it appears to be illegal as an expression.
+Numerous views on the syntax and semantics of holes have been suggested. We first classify the various options by the syntactic categories of types or expressions. Then, we classify them within each category and describe the various trade-offs.
+
+### Types
 
 
+Here is an example:
 Example:
 
 ```wiki
-test :: [Bool]
-test = _ : (_ ++ [])
+f :: Bool -> _ ()
+f x = if x then return () else (undefined :: _) >>= guard
 ```
 
 
-Comments:
-
-- Reports the source location of each hole
-- Does not allow the programmer to specify that two holes have the same type  **SLPJ: This sounds wierd.   Do you mean that `_ && _` would be illegal somehow?  Here the two holes both have type Bool** -- **SPL: No, it's just careless phrasing. Corrected.**
-- Requires evaluation semantics for hole.   **SLPJ: What does this mean?  Example?**
-
-### Named term variables
-
-
-This approach mirrors implicit parameters. Each hole is given a name. Within a module (or even a program/library?), each every hole with the same name has the same type. Again, the actual syntax is debatable, but for now, we use `_?x` for a hole with the (possibly shared) name `x`.
-
-
-Example:
+We show a hole (with the wildcard syntax `_`) in several locations: a type signature and a type annotation. In the signature, a hole fills in for a type constructor, and in the annotation, the hole fills in for the type of `undefined`. Upon typing, we expect to learn the types that are inferred for these holes. For example, we might get the following report:
 
 ```wiki
-test :: [Bool]
-test = _?x : (_?y ++ [])
+Found a hole in the signature: test :: Bool -> _ ()
+Source location: ...
+Inferred type: MonadPlus m => m :: * -> *
+
+Found a hole in the annotation: undefined :: _
+Source location: ...
+Inferred type: MonadPlus m => m Bool :: *
 ```
 
 
-Comments:
+Note that all type variables should be the same for all reports, so all types above refer to the same `m`. 
 
-- Reports the name and source location of each hole
-- Requires a fresh name to distinguish one hole from others
-- Requires evaluation semantics for hole
+### Expressions
 
-**SLPJ question**.  I'm really not sure what you mean by "must have the same type.  For example
+
+Here is an example:
 
 ```wiki
-f xs = _?p : xs
-g ys = _?q : ys
+f x = do
+  y <- _ x
+  y `mplus` _
 ```
 
 
-If we typechecked each binding independently we'd get
+We show a monadic expression with holes (`_`) in the function position of an application and as an argument to `mplus`. Upon typing, we expect to learn the types that would be inferred for the missing expressions in these holes. For example, we might get the following report:
 
 ```wiki
-f :: forall a. [a] -> [a]
-g :: forlal b. [b] -> [b]
+Found a hole in the expression: _ x
+Source location: ...
+Inferred type: MonadPlus m => a -> m b
+
+Found a hole in the expression: y `mplus` _
+Source location: ...
+Inferred type: MonadPlus m => m b
 ```
 
 
-If we generalise `f` then NOTHING can have the same type as the hole.  But it would be very strange not to generalise `f` (and `g`).  
+Again, note that the type variables are universally quantified over all reports, not each report separately.
+
+### Comparison
 
 
-It seems much simpler to me either to have anonymous holes, or to let the user give them names, but to pay no attention to the name except to display them in error messages, so that user can say "oh, that hole" rather than having to look at the exact source location. **End of SLPJ question**
+If we had to choose, should holes be in types or expressions? Let's look at the advantages and disadvantages.
 
-### Term brackets (ranges)
+*Kinds.* With types, we can put a hole in a type constructor position (see example above), so we have more flexibility in the restrictions we can place on a particular type: e.g. `_ ()` or `Monad m => m _`. With expressions, we are limited to the kinds of types that expressions can have (e.g. `*` and not `* -> *`).
+
+*Information reporting.* We would like to extract additional information from a hole other than just the type. The primary consideration is the set of available bindings and their types. With type (annotation) holes, it is not clear if that is possible. With expression holes, it seems intuitive.
+
+*Evaluation.* With expressions, we must consider how holes are evaluated. We would expect `_` would be treated the same as `undefined`, so this may cause unexpected program death when evaluating a hole. With types, we are not concerned with this. Type holes are never evaluated, so they cannot break a well-typed program.
+
+*Expression size.* Type annotation holes can be used to find the type of arbitrarily large expressions, relying only on the normal expression bracketing. Expression holes (as presented so far) only replace a whole expression with a placeholder. Another approach would be needed to support expression hole bracketing.
+
+*Verbosity.* Type annotation holes, e.g. `undefined :: _`, are possibly too verbose for simple uses, while expression holes are straightforward.
+
+## Extensions to basic holes
 
 
-Instead of an actual term, we can use a special form of bracketing to indicate a hole. As above, syntax is debatable, but for now, we use `{_` and `_`} for the brackets of the hole.
+In the previous section, we described holes as simple "wildcard" syntax that can be put in either a type or an expression. There are a few basic extensions or variations to this idea.
+
+### Names
 
 
-Example:
+We might consider the wildcard syntax `_` to be an "anonymous" or "unnamed" hole. We could also support a named hole, e.g. `_?x`. Named holes have two advantages over wildcards.
+
+*Better reporting.* The reports can now explicitly mention the hole (in addition to the source location). For example:
 
 ```wiki
-test :: [Bool]
-test = {_ undefined _} : ({_ undefined ++ [] _})
+Found the hole _?x in the expression: _?x + 4
+...
 ```
 
-
-Comments:
-
-- Reports the source location of each hole
-- Requires opening and closing brackets
-- Allows wildcard term to be treated as syntactic sugar, e.g. `_` desugars into `{_ undefined _`} 
-- Does not require evaluation semantics for the brackets
-
-
-Note that we can extend this with names for each pair of brackets.
-
-### Type wildcards
-
-
-Instead of term holes, we can use a special type to indicate an unknown type. The type hole would be reported. We use `_` for the syntax here.
-
-
-Example:
+*Multiple uses.* When a named hole is used in multiple source locations, intuitively, that named hole should have the type resulting from the unification of the hole types at each location. For example:
 
 ```wiki
-test :: [_]
-test = (undefined::_) : (undefined ++ [] ::_)
+f y = print (y + _?x)
+g z = mappend z _?x
 ```
 
 
-Comments:
+This might produce the following report:
 
-- Reports the source location of each hole
-- Does not allow two holes to be equal
-- Does not require evaluation semantics for the holes
-- Can be used in type annotations for both variables and large expressions (as in the term brackets)
-- Allows partial types to be specified
-- (?)May not support reporting local bindings
+```wiki
+Found the hole _?x in the expressions:
+  print (y + _?x) at source location ...
+  mappend z _?x at source location ...
+Inferred type: Show a, Num a, Monoid a => a
+```
 
 
-Note that we can extend this with names for each type hole.
+It seems intuitive how named holes work in expressions. How would they work in types?
+
+### Brackets (ranges)
+
+
+As we mentioned in \#Comparison, the expression wildcard does not allow finding out the type of an existing expression. A special pair of brackets could be used to do this.
+
+
+Assuming `{_` and `_`} are the brackets for a hole, we have this example:
+
+```wiki
+f y = print {_ y + mempty _}
+```
+
+
+And the report might be:
+
+```wiki
+Found hole brackets around the expression: y + mempty
+Source location: ...
+Inferred type: Num a, Monoid a => a
+```
+
+
+We could combine the naming and bracketing extensions into one.
 
 ## User's view
 
