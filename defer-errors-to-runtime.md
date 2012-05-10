@@ -1,8 +1,9 @@
 # Deferring compilation type errors to runtime
 
 
-This page describes the `-fwarn-type-errors` flag, currently implemented in the ghc branch `ghc-defer`.
-Ticket [\#5624](https://gitlab.haskell.org//ghc/ghc/issues/5624) tracks this feature request.
+This page describes the `-fdefer-type-errors` flag, currently implemented in GHC HEAD
+and due to be available in version 7.6. Ticket [\#5624](https://gitlab.haskell.org//ghc/ghc/issues/5624) tracks this feature request.
+For more information, see the associated [ paper](http://dreixel.net/research/pdf/epdtecp.pdf).
 
 ## Overview
 
@@ -53,7 +54,7 @@ Here's an example of all sorts of errors that can be deferred:
 ```wiki
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE GADTs #-}
-{-# OPTIONS_GHC -fwarn-type-errors #-}
+{-# OPTIONS_GHC -fdefer-type-errors #-}
 
 module Main where
 
@@ -104,7 +105,7 @@ main = print "No errors!"
 ```
 
 
-This module compiles and runs in the `ghc-defer` branch.
+This module compiles and runs!
 
 ## Implementation details
 
@@ -129,11 +130,11 @@ report all the errors. But when we are deferring we really want to have
 
 
 For simplicity, we defer errors from `TcUnify` to the constraint solver even
-if `-fwarn-type-errors` is not on; in that case, we will simply fail in the
+if `-fdefer-type-errors` is not on; in that case, we will simply fail in the
 constraint solver, rather than directly in the unifier.
 
 
-This means that some type error messages change, even without `-fwarn-type-errors`.
+This means that some type error messages change, even without `-fdefer-type-errors`.
 In particular, many tests from the testsuite need to have their output adapted.
 
 ## Kind errors
