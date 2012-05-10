@@ -65,5 +65,5 @@ Here are the projects we're currently working on:
 [16] Deferring type errors to runtime http://hackage.haskell.org/trac/ghc/wiki/DeferErrorsToRuntime [[BR]]
 [17] Equality proofs and deferred type errors http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/ [[BR]]
 [18] Holes in GHC: http://hackage.haskell.org/trac/ghc/wiki/Holes [[BR]]
-[19] Modular type inference with local assumptions: OutsideIn(X) http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn [[BR]]
+[19] Modular type inference with local assumptions: !OutsideIn(X) http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn [[BR]]
 [20] Type level literals.  http://hackage.haskell.org/trac/ghc/wiki/TypeNats/Basics
