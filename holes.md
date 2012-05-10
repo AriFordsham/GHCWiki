@@ -162,7 +162,6 @@ Numerous views on the syntax and semantics of holes have been suggested. We firs
 
 
 Here is an example:
-Example:
 
 ```wiki
 f :: Bool -> _ ()

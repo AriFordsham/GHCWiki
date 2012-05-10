@@ -124,7 +124,6 @@ Numerous views on the syntax and semantics of holes have been suggested. We firs
 === Types ===
 
 Here is an example:
-Example:
 {{{
 f :: Bool -> _ ()
 f x = if x then return () else (undefined :: _) >>= guard
