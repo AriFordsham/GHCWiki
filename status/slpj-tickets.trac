@@ -30,6 +30,7 @@
  * #6047: GHC retains unnecessary binding
  * #5916: `runST` isn't free
  * #5522: liberate-case runs out of memory
+ * #5366, #3990: UNPACK for data families, and with phantom types, needs data con wrapper refactoring
 
 == GHCi ==
  * #5527: `mkTopLevEnv: interpreeted`.  (Paolo)
