@@ -154,6 +154,7 @@
  * #4222: design of reification for TH
 
 == Features == 
+ * #5462: deriving for arbitrary classes
  * #6032: discussion about when foralls can be to the right of an arrow.
  * #6024: allow defining a ''kind'' without also getting the corresponding ''type''
  * #5927: Constraints with universal quantification
