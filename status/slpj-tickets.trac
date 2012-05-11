@@ -28,6 +28,7 @@
  * #5996: CSE (patch offered)
  * #6047: GHC retains unnecessary binding
  * #5916: `runST` isn't free
+ * #5522: liberate-case runs out of memory
 
 == Features ==
  * #5972: option to suppress record selectors

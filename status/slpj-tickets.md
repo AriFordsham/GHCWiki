@@ -31,6 +31,7 @@
 - [\#5996](https://gitlab.haskell.org//ghc/ghc/issues/5996): CSE (patch offered)
 - [\#6047](https://gitlab.haskell.org//ghc/ghc/issues/6047): GHC retains unnecessary binding
 - [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
+- [\#5522](https://gitlab.haskell.org//ghc/ghc/issues/5522): liberate-case runs out of memory
 
 ## Features
 
