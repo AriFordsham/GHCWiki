@@ -28,7 +28,7 @@
 
 - [\#5623](https://gitlab.haskell.org//ghc/ghc/issues/5623), [\#5954](https://gitlab.haskell.org//ghc/ghc/issues/5954): performance regression. Duplication of primops?
 - [\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070), [\#5949](https://gitlab.haskell.org//ghc/ghc/issues/5949), [\#5775](https://gitlab.haskell.org//ghc/ghc/issues/5775), [\#4267](https://gitlab.haskell.org//ghc/ghc/issues/4267), [\#5302](https://gitlab.haskell.org//ghc/ghc/issues/5302), [\#6087](https://gitlab.haskell.org//ghc/ghc/issues/6087): Demand analysis
-- [\#5996](https://gitlab.haskell.org//ghc/ghc/issues/5996): CSE (patch offered)
+- [\#5996](https://gitlab.haskell.org//ghc/ghc/issues/5996), [\#149](https://gitlab.haskell.org//ghc/ghc/issues/149), [\#2940](https://gitlab.haskell.org//ghc/ghc/issues/2940): CSE (patch offered)
 - [\#6047](https://gitlab.haskell.org//ghc/ghc/issues/6047): GHC retains unnecessary binding
 - [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
 - [\#5522](https://gitlab.haskell.org//ghc/ghc/issues/5522): liberate-case runs out of memory
@@ -90,9 +90,7 @@
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries
 - [\#3138](https://gitlab.haskell.org//ghc/ghc/issues/3138): returning a known constructor (Lennart's cmonad package)
 - [\#2988](https://gitlab.haskell.org//ghc/ghc/issues/2988): better float-in
-- [\#2940](https://gitlab.haskell.org//ghc/ghc/issues/2940): do CSE after `CorePrep`
 - [\#2132](https://gitlab.haskell.org//ghc/ghc/issues/2132): Optimise nested comparisons: if you know x\>0 then you know x\>=1 etc.  Maybe a special pass that knows about arithmetic?        
-- [\#149](https://gitlab.haskell.org//ghc/ghc/issues/149): float-out/CSE        
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387), [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600): nested CPR analysis        
 - [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#3767](https://gitlab.haskell.org//ghc/ghc/issues/3767), [\#2642](https://gitlab.haskell.org//ghc/ghc/issues/2642), [\#3831](https://gitlab.haskell.org//ghc/ghc/issues/3831), [\#4941](https://gitlab.haskell.org//ghc/ghc/issues/4941): Improve **`SpecConstr`** for free variables, and for join points.
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
