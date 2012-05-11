@@ -18,7 +18,7 @@ import Foreign(Ptr, pokeElemOff, Storable, mallocArray)
 
 
 We start by defining a type for pointers to a *sequence*
-of adjecent elements in memory.  The number of elements
+of adjacent elements in memory.  The number of elements
 is statically known at compile time, which is why
 we add it to the type of the pointer:
 
