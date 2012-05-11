@@ -59,6 +59,7 @@
  * #2078: INLINing improvement; ask Christian.Maeder@dfki.de to see if it improves CASL
  * #2840: top level unlifted string literals
  * #3123: feature request: recursive inlining and peeling
+ * #4960: better inlining tests
 
 == New code generator ==
  * Summary ticket: #4258, and [wiki:Commentary/Compiler/NewCodeGen wiki page]
@@ -86,7 +87,6 @@
  * #2289, #2387, #1600: nested CPR analysis	
  * #2255, #3767, #2642, #3831, #4941: Improve '''`SpecConstr`''' for free variables, and for join points.
  * #2374: SAT and `MutableByteArray`	Max?
- * #4960: better inlining tests
 
 === Compiler performance ===
  * #2346: desugaring let-bindings
