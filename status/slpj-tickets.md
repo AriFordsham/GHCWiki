@@ -33,6 +33,10 @@
 - [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
 - [\#5522](https://gitlab.haskell.org//ghc/ghc/issues/5522): liberate-case runs out of memory
 
+## GHCi
+
+- [\#5527](https://gitlab.haskell.org//ghc/ghc/issues/5527): `mkTopLevEnv: interpreeted`.  (Paolo)
+
 ## Features
 
 - [\#5972](https://gitlab.haskell.org//ghc/ghc/issues/5972): option to suppress record selectors
