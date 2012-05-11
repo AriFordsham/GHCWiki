@@ -22,6 +22,7 @@
 - [\#5854](https://gitlab.haskell.org//ghc/ghc/issues/5854): INLINABLE pragmas (patch offered)
 - [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364): cycle in type declarations
 - [\#5469](https://gitlab.haskell.org//ghc/ghc/issues/5469), [\#4429](https://gitlab.haskell.org//ghc/ghc/issues/4429): `reinerp` work on `newName` and export reorganisation
+- [\#5375](https://gitlab.haskell.org//ghc/ghc/issues/5375): semantics of `newName`
 
 ## Optimisation
 
