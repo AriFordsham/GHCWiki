@@ -19,6 +19,7 @@
  * #1475: allow splicing of import declarations
  * #5854: INLINABLE pragmas (patch offered)
  * #4364: cycle in type declarations
+ * #5469, #4429: `reinerp` work on `newName` and export reorganisation
 
 == Optimisation ==
  * #5623, #5954: performance regression. Duplication of primops?
