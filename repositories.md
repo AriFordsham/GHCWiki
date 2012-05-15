@@ -205,8 +205,8 @@ This table shows, for each repository in a GHC tree, where the central repositor
 <th></th></tr>
 <tr><th></th>
 <th></th>
-<th>(pull) git://code.eecs.tufts.edu/hoopl/hoopl.git, (push) linux.cs.tufts.edu:/r/c--/papers/dfopt.git</th>
-<th>http://darcs.haskell.org/git-mirrors/hoopl/</th>
+<th></th>
+<th></th>
 <th>http://darcs.haskell.org/packages/hoopl.git/</th>
 <th>libraries/hoopl</th>
 <th></th></tr>
