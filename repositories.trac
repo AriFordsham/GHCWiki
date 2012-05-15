@@ -79,7 +79,7 @@ Things are a bit more complicated when the master repo is in Darcs.  For example
 <tr><td style="color: green;">http://code.haskell.org/haskeline/</td><td>http://darcs.haskell.org/darcs-mirrors/haskeline/</td><td></td><td>http://darcs.haskell.org/git-mirrors/haskeline/.git/</td><td>http://darcs.haskell.org/packages/haskeline.git/</td><td>libraries/haskeline</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/haskell98.git/</td><td>libraries/haskell98</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/haskell2010.git/</td><td>libraries/haskell2010</td></tr>
-<tr><td></td><td></td><td style="color: green;">(pull) git://code.eecs.tufts.edu/hoopl/hoopl.git, (push) linux.cs.tufts.edu:/r/c--/papers/dfopt.git</td><td>http://darcs.haskell.org/git-mirrors/hoopl/</td><td>http://darcs.haskell.org/packages/hoopl.git/</td><td>libraries/hoopl</td></tr>
+<tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/hoopl.git/</td><td>libraries/hoopl</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/hpc.git/</td><td>libraries/hpc</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/integer-gmp.git/</td><td>libraries/integer-gmp</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/packages/integer-simple.git/</td><td>libraries/integer-simple</td></tr>
