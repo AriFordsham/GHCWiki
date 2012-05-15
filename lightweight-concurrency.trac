@@ -2,6 +2,8 @@
 
 This page documents the effort to move GHC's concurrency support from its current location in the C part of the runtime system (RTS) to Haskell. This works builds on Peng Li's earlier work (http://community.haskell.org/~simonmar/papers/conc-substrate.pdf). This page contains information about the design, implementation, problems and potential solutions for building user-level concurrency primitives in GHC. Currently, the focus is on user-level implementation of non-deterministic parallelism in GHC ([http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent.html Control.Concurrent]).
 
+Lightweight concurrency implementation resides in the `ghc-lwc` branch in the git repo.
+
 == Introduction == 
 
 GHC has a rich support for concurrency (forkIO, MVars, STM, Asynchronous exceptions, bound threads, safe FFI, transparent scaling on multicores, etc.) and a fast and robust runtime system. However, the concurrency support is implemented in C and baked into the RTS. The concurrency primitives non-trivially interact among each other, and along with the lightweight thread scheduler, through a cascade of locks and condition variables. Often times, the invariants on which RTS fields can be accessed when are expressed as comments, and enforced through assertions (See [source:rts/Task.h@085c7fe5d4ea6e7b59f944d46ecfeba3755a315b#L37 here] for one such fascinating example). This policy of enforcing through assertions keeps the overheads low, but makes the task of modifying and extending the runtime cumbersome.
@@ -22,7 +24,19 @@ For the high-level design principle for the current scheduler, see [http://hacka
 
 === Concurrency Substrate ===
 
-The idea of the concurrency substrate is to provide a minimal set of primitives over which a variety of user-level concurrency libraries can be implemented. As such, the concurrency substrate must provide a way to create threads, a way to schedule them, and a synchronization mechanism in a multiprocessor context. Whereas, the Creation and maintenance of schedulers and concurrent data structures is the task of the concurrency library.
+The idea of the concurrency substrate is to provide a minimal set of primitives over which a variety of user-level concurrency libraries can be implemented. As such, the concurrency substrate must provide a way to create threads, a way to schedule them, and a synchronization mechanism in a multiprocessor context. Whereas, the Creation and maintenance of schedulers and concurrent data structures is the task of the concurrency library. Concurrency substrate resides at [source:libraries/base/LwConc/Substrate.hs@646ec91db34c4309555fd7dd3bfe3930a4c5c55f libraries/base/LwConc/Substrate.hs].
+
+==== PTM ====
+
+The only synchronization mechanism exposed by the concurrency substrate is a primitive transactional memory (PTM). Locks and condition variables can be notoriously difficult to use, especially in an environment with user-level threads, where they tend to interfere with the scheduler. Moreover, they do not compose elegantly with lazy evaluation. PTM interface is shown below:
+
+{{{
+data PTM a
+data PVar a
+instance Monad PTM
+
+
+}}}
 
 === Controlling Parallelism ===
 
