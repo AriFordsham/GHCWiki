@@ -2,7 +2,8 @@
 
 ## Type inference
 
-- [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682), [\#6015](https://gitlab.haskell.org//ghc/ghc/issues/6015): PolyKinds
+- [\#6093](https://gitlab.haskell.org//ghc/ghc/issues/6093): polymorphic recursion at the kind level
+- [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
 - [\#6068](https://gitlab.haskell.org//ghc/ghc/issues/6068): fundeps and polykinds
 - [\#6049](https://gitlab.haskell.org//ghc/ghc/issues/6049): GADTs and polykinds
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
