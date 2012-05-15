@@ -1,4 +1,85 @@
-# Syntax for explicit type and kind application
+# Syntax for explicit kinds, new story
+
+
+When working with kind polymorphism and promotion we often want to 
+specify kinds independently of types. In fact, we might not even be
+interested in the types, only in kinds. This is fine in FC-pro, but
+we need syntax to express it in source Haskell. We propose to allow
+choosing at the definition site to either:
+
+1. give explicit kind parameters, or
+1. infer kind parameters
+
+
+If you choose (a) you must always give explicit kind arguments.
+If you choose (b) you cannot ever give explicit kind arguments. 
+
+## Examples
+
+
+(b) above is the current behaviour; you can only specify kinds by
+annotating types:
+
+```wiki
+type family App (f :: k1 -> k2) (a :: k1) :: k2
+```
+
+
+We typically want to use (a) when we are not interested in types, only kinds.
+For instance, in the `Sing` family of the
+[ type-level literals module](https://github.com/ghc/packages-base/blob/master/GHC/TypeLits.hs):
+
+```wiki
+data family Sing (k :: ☐)
+
+newtype instance Sing Nat    = SNat Integer
+newtype instance Sing Symbol = SSym String
+```
+
+
+Note that `Nat` and `Symbol` above are **kinds**.
+
+
+Explicit kind arguments can also be used in type classes, and function type
+signatures:
+
+```wiki
+class SingE (k :: ☐) where
+  type SingRep (k :: ☐) :: *
+  fromSing :: Sing (k :: ☐) -> SingRep (k :: ☐)
+
+instance SingE Nat where
+  type SingRep Nat = Integer
+  fromSing (SNat n) = n
+
+instance SingE Symbol where
+  type SingRep Symbol = String
+  fromSing (SSym s) = s
+```
+
+**Question: ** do we want/need explicit kind arguments at the value level?
+
+## How to distinguish kind variables
+
+
+In the examples above we have used the `k :: ☐` notation to indicate that `k`
+is a kind variable. We do not want to require unicode usage for this, so we
+propose either:
+
+1. `k :: BOX`, or
+1. `@k`
+
+
+(1) makes `BOX` a reserved name. (2) does not require reserving any names, but
+will not work on value-level patterns, since it can be confused with an 
+at-pattern. (However, see below for a possible solution to this problem.) 
+
+# Syntax for explicit type and kind application, old story
+
+
+We now describe a more general proposal that allows explicit type and kind application, but is better
+suited for specifying arguments at the call site. This makes it easier to work with impredicative
+polymorphism, but not with kind families, for instance.
 
 
 We propose a replacement and generalisation of [lexically-scoped type variables](http://www.haskell.org/ghc/docs/latest/html/users_guide/other-type-extensions.html#scoped-type-variables) (and pattern signatures) that is
