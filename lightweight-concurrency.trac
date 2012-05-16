@@ -45,6 +45,21 @@ A PTM transaction may allocate, read and write transactional variables of type `
 
 ==== One-shot continuations ====
 
+The concurrency substrate enables creation and scheduling of I/O-performing computations through ''one-shot continuations''. An SCont (stack continuation) is a suspended I/O computation, which is in fact just a reference to a TSO object. Hence, capturing the current continuation is just getting a reference to the current TSO. SCont interface is shown below:
+
+{{{
+data SCont
+newSCont         :: IO () -> IO SCont
+switch           :: (SCont -> PTM SCont) -> IO ()
+getCurrentSCont  :: PTM SCont
+switchTo         :: SCont -> PTM
+}}}
+
+Given an I/O-performing computation `newSCont` returns a reference to an SCont which when scheduled, will perform the I/O action. The switch primitive is a bit unique. Switch takes a function which is applied to the current continuation. The result of the function is PTM transaction of type PTM SCont. This transaction can encapsulate the actions necessary for appending the current SCont to the scheduler and fetching the next SCont to switch to. The switch primitive performs this transaction atomically, and switches control to the resultant SCont. 
+
+Performing the body of switch atomically in a transaction avoids the nasty race conditions usually seen in multicore runtimes where one-shot continuations are used for modelling schedulers. In such systems, there are often cases where before the switch primitive has had a chance to return, another processor picks up the current continuation (appended to the scheduler) and tries to switch to it. It becomes necessary to go for complicated solutions such as releasing the scheduler locks after the target thread resumes execution to prevent races. In our case, PTM eliminates the need for such a mechanism - the other processor would not be able to access the current SCont, unless the transaction has committed and control has switched to the target SCont.
+
+Of course, care must be taken to ensure that the control does not switch to an SCont that is either running or completed.
 
 === Capabilities and Tasks ===
 
