@@ -46,9 +46,11 @@ A PTM transaction may allocate, read and write transactional variables of type `
 ==== One-shot continuations ====
 
 
-=== Controlling Parallelism ===
+=== Capabilities and Tasks ===
 
-Whatever be the concurrency model, we would like to retain the non-programmatic control over parallelism (using +RTS -N), just like in the current system. Cores are system resources and hence, the control over their allocation to different processes should be a property of the context under which the programs are run. For example, in a multi-programmed environment, it might be wiser to run the programs on a fewer cores than available to avoid thrashing. At the very least, this will avoid the cases where a poorly written concurrency library would not bring down the performance of the entire system. 
+Whatever be the concurrency model, we would like to retain the non-programmatic control over parallelism (using +RTS -N). Just like in the current system, this runtime parameter controls the number of capabilities. Cores are system resources and hence, the control over their allocation to different processes should be a property of the context under which the programs are run. For example, in a multi-programmed environment, it might be wiser to run the programs on a fewer cores than available to avoid thrashing. At the very least, this will avoid the cases where a poorly written concurrency library would not bring down the performance of the entire system.
+
+We retain the task model of the current runtime system. There is a one-to-one mapping between tasks and system threads. A bound SCont has its own bound task, which is the only task capable of running the bound SCont. However, an unbounded SCont might be run on any unbounded task (referred to as worker tasks). New worker tasks are created whenever the number of available tasks is less than the number of capabilities.
 
 
 == Related Work ==
