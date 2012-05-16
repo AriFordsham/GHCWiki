@@ -295,7 +295,7 @@ For this specification, we use the named term variables variant (though it may a
 
 When using holes (i.e. `-XHoles` is set), we expect the following:
 
-1. The program should type-check as if every hole `_?h` is replaced with `undefined`. See [Ambiguous types](holes#ambiguous-types) for an exception to this rule.
+1. The program should type-check as if every hole `_?h` is replaced with `undefined`. See [Ambiguous types](holes#ambiguous-types) for more discussion.
 1. If the program is well-typed (as above), then:
 
   - The types of all holes should be reported.
@@ -308,35 +308,63 @@ When using holes (i.e. `-XHoles` is set), we expect the following:
 ### Ambiguous types
 
 
-Suppose that we replace every hole with `undefined` and type-check the program without `-XHoles`. Some programs would not type-check due to unsolved class constraints that result in ambiguous types. For example, `show _?h` becomes `show undefined`, and the `Show` constraint is not instantiated, so the program does not type-check.
+Suppose that we replace every hole with `undefined` and type-check the program without `-XHoles`. Some programs would not type-check due to unsolved class constraints that result in ambiguous types. Consider this example:
+
+```wiki
+f :: String
+f = show _?h
+```
 
 
-We think holes can be extremely useful with ambiguous types. We prefer that a program, in which there is a hole with unsolved constraints on the type of the hole, still be considered well-typed, assuming the rest of the program is well-typed. In the above example, we would expect `show _?h` to have the type `String` with the reported hole type `_?h :: Show a => a`.
+If we view `_?h` as `undefined`, then this results in an error:
+
+```wiki
+Main.hs:2:5:
+    No instance for (Show a0) arising from a use of `show'
+    The type variable `a0' is ambiguous
+    ...
+    In the expression: show _?h
+    In an equation for `f': f = show _?h
+Failed, modules loaded: none.
+```
 
 
-A hole with an ambiguous type should be treated as a hole runtime error (and not a deferred type error with `-fdefer-type-errors`). See [Runtime error](holes#runtime-error) for an example.
+If we instead allow the program to type-check, we can find out what type the hole should have (`_?h :: Show a => a` in this case) and more information.
+
+
+A hole with an ambiguous type should probably be treated as a hole runtime error and not a deferred type error (see [Runtime error](holes#runtime-error) for an example); however, not all holes are the immediate cause of ambiguity type errors. For example, consider:
+
+```wiki
+data Foo a = Foo a {- no Show instance -}
+main = putStrLn (show (Foo _?h))
+```
+
+
+Here, the ambiguity comes from having no `Show` instance for `Foo a` and not directly from the hole itself. In this case, we could defer the error (since it is related to a hole) or simply ignore the hole and allow for an error.
 
 #### Monomorphism restriction
 
 
-Some ambiguous types fall under the monomorphism restriction. That is, the following program will not type under Haskell2010 due to the restriction that `f` have a monomorphic type:
+Some ambiguous types fall under the monomorphism restriction. That is, the following program will not type under Haskell2010 due to the restriction that `f` has a monomorphic type:
 
 ```wiki
 f = undefined >>= undefined
 ```
 
 
-We also expect holes to be very useful in these cases, for example by replacing each `undefined` with a hole:
+Replacing each `undefined` with a hole, we get:
 
 ```wiki
 f = _?h >>= _?i
 ```
 
 
-Thus, we prefer that this program be considered well-typed with `f :: Monad m => m b` and the holes `_?h :: Monad m => m a` and `_?i :: Monad m => a -> m b`.
+This program could be considered well-typed with `f :: Monad m => m b` and the holes `_?h :: Monad m => m a` and `_?i :: Monad m => a -> m b`. As a result, if `-XNoMonomorphismRestriction` is used, the typing of the holes will not change.
+
+#### Useful?
 
 
-If `-XNoMonomorphismRestriction` is used, we expect that the typing of the holes will not change.
+We think holes with ambiguous types can be useful, but it is unclear how they should be treated.
 
 ### Type of a hole
 
