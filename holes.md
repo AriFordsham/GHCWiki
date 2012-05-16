@@ -295,11 +295,12 @@ For this specification, we use the named term variables variant (though it may a
 
 When using holes (i.e. `-XHoles` is set), we expect the following:
 
-1. The program should type-check as if every hole `_?h` is replaced with `undefined`. There is an exception to this rule: see [Ambiguous types](holes#ambiguous-types) below.
+1. The program should type-check as if every hole `_?h` is replaced with `undefined`. See [Ambiguous types](holes#ambiguous-types) for an exception to this rule.
 1. If the program is well-typed (as above), then:
 
   - The types of all holes should be reported.
-  - Reporting the hole types should not cause type-checking (or compiling in general) to stop (in error). **SLPJ what does this mean? ** A type error \*never\* causes type checking to stop.  Do you mean that a program with holes (but no other errors) should compile and run, falling over at runtime only if you evaluate a hole?  Please give an example.  **End of SLPJ**
+  - Assuming no other errors, the program should compile and run.
+  - If running a program causes a hole to be evaluated, the evaluation should fail with an runtime error. See [Runtime error](holes#runtime-error) for an example.
 1. (optional) If the program is ill-typed, then:
 
   - The types of all holes should be reported.
@@ -340,3 +341,22 @@ If `-XNoMonomorphismRestriction` is used, we expect that the typing of the holes
 
 
 The type of a hole should be the resolved type with minimum constraints. That is, the type of a hole should only have constraints that have not been solved but are either inferred from the context (e.g. `show _?h`) or given in a type annotation/signature (e.g. `_?h :: Show a => a`).
+
+### Runtime error
+
+
+Given the following module:
+
+```wiki
+main = _?x
+```
+
+
+we expect (something like) the runtime error:
+
+```wiki
+blah: blah.hs:2:1:
+    Found the hole `_?x' with type `IO t'
+    In the expression: _?x
+    In the definition of `main': main = _?x
+```
