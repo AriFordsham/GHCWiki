@@ -45,7 +45,7 @@ A PTM transaction may allocate, read and write transactional variables of type `
 
 ==== One-shot continuations ====
 
-The concurrency substrate enables creation and scheduling of I/O-performing computations through ''one-shot continuations''. An SCont (stack continuation) is a suspended I/O computation, which is in fact just a reference to a TSO object. Hence, capturing the current continuation is just getting a reference to the current TSO. SCont interface is shown below:
+The concurrency substrate enables creation and scheduling of I/O-performing computations through ''one-shot continuations''. An SCont (stack continuation) is a suspended I/O computation, which is in fact just a reference to a TSO object. Capturing the current continuation is just getting a reference to the current TSO, and hence is very fast. SCont interface is shown below:
 
 {{{
 data SCont
