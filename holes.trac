@@ -239,7 +239,7 @@ Suppose that we replace every hole with {{{undefined}}} and type-check the progr
 
 We think holes can be extremely useful with ambiguous types. We prefer that a program, in which there is a hole with unsolved constraints on the type of the hole, still be considered well-typed, assuming the rest of the program is well-typed. In the above example, we would expect {{{show _?h}}} to have the type {{{String}}} with the reported hole type {{{_?h :: Show a => a}}}.
 
-'''SLPJ do you want programs with these ambiguity errors to run too?  Or what?  Can you give a complete little example module, with the error messages you expect, whether you expect it to run, and if so what should happen?'''
+A hole with an ambiguous type should be treated as a hole runtime error (and not a deferred type error with {{{-fdefer-type-errors}}}). See [#Runtimeerror Runtime error] for an example.
 
 ==== Monomorphism restriction ====
 
@@ -264,12 +264,12 @@ The type of a hole should be the resolved type with minimum constraints. That is
 
 Given the following module:
 {{{
-main = _?x
+main = _?x >>= return
 }}}
 we expect (something like) the runtime error:
 {{{
-blah: blah.hs:2:1:
+blah: blah.hs:2:8:
     Found the hole `_?x' with type `IO t'
-    In the expression: _?x
-    In the definition of `main': main = _?x
+    In the expression: _?x >>= return
+    In the definition of `main': main = _?x >>= return
 }}}
