@@ -43,6 +43,9 @@ atomically :: PTM a -> IO a
 
 A PTM transaction may allocate, read and write transactional variables of type `PVar a`. It is important to notice that PTM does not provide a blocking `retry` mechanism. Such a blocking action needs to interact with the scheduler, to block the current thread and resume another thread. We will see [#AbstractSchedulerInterface later] how to allow such interactions while not imposing any restriction on the structure of the schedulers.
 
+=== One-shot continuations ===
+
+
 === Controlling Parallelism ===
 
 Whatever be the concurrency model, we would like to retain the non-programmatic control over parallelism (using +RTS -N), just like in the current system. Cores are system resources and hence, the control over their allocation to different processes should be a property of the context under which the programs are run. For example, in a multi-programmed environment, it might be wiser to run the programs on a fewer cores than available to avoid thrashing. At the very least, this will avoid the cases where a poorly written concurrency library would not bring down the performance of the entire system. 
