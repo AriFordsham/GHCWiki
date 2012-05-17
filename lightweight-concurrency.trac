@@ -92,7 +92,7 @@ getSContStatus       :: SCont -> PTM SContStatus
 
 Any attempt to switch to an SCont with status other than `SContSwitched Yielded` throws an exception. Primitive `setSContSwitchReason` updates the status of current SCont. This prevents the programmer from modifying the status of other SConts. Since setSContSwitchReason is a PTM action, the effect of updating the status takes place when the transaction commits and the control has switched to another SCont. This avoids any race conditions that might be involved in reading the status of an SCont before it has switched. 
 
-Before a switch operation, we expect the programmer to indicate the reason for switching through setScontSwitchReason. Exception is raised by the switch primitives if switch reason has not been provided. When a switched SCont resumes execution, its status is automatically updated to `SContRunning`. 
+Before a switch operation, we expect the programmer to indicate the reason for switching through setScontSwitchReason. Exception is raised by the switch primitives if a switch reason has not been provided. When a switched SCont resumes execution, its status is automatically updated to `SContRunning`. 
 
 == Capabilities and Tasks ==
 
