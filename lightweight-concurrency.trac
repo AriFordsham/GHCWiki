@@ -71,7 +71,7 @@ s :: String <- atomically $ do {
 print s
 }}}
 
-The type of the transaction that contains switchTo is PTM string, but the value returned when the current SCont resumes execution (after switchTo) is a (). Our solution is to make switchTo return a `error "Attempting to use return value of a switched transaction"`, and any attempt to use the return value throws a runtime error.
+The type of the transaction that contains switchTo is PTM string, and atomically performing the transaction is expected to return a String value. But the value returned when the current SCont resumes execution (after switchTo) is a (). Our solution is to make switchTo return a `error "Attempting to use return value of a switched transaction"`, and any attempt to use the return value throws a runtime error.
 
 Of course, care must be taken to ensure that the control does not switch to an SCont that is either running or completed.
 
