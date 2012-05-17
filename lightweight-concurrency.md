@@ -80,7 +80,7 @@ s :: String <- atomically $ do {
   sc <- getCurrentSCont;
   -- save the current SCont somewhere
   switchTo someSCont;
-  return "This is not executed!"
+  return "This is never evaluated!"
 }
 print s
 ```
