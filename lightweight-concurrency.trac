@@ -75,7 +75,24 @@ print s
 
 The type of the transaction that contains switchTo is PTM string, and atomically performing the transaction is expected to return a String value. But the value returned when the current SCont resumes execution (after switchTo) is a (). Our solution is to make switchTo return a `error "Attempting to use return value of a switched transaction"`, and any attempt to use the return value throws a runtime error.
 
-Of course, care must be taken to ensure that the control does not switch to an SCont that is either running or completed.
+==== SCont Status ====
+
+Of course, care must be taken to ensure that the control does not switch to an SCont that is either running, blocked on an MVar, or completed. But how do we know whether the given SCont is ready to run? We expect the scheduler writer or library implementer to indicate the status of SCont before switching. SCont status API is show below.
+
+{{{
+data SContStatus = SContRunning |           -- SCont is currently running
+                   SContKilled  |           -- SCont was killed by an (asynchronous) exception
+	           SContSwitched SContSwitchReason
+data SContSwitchReason = Yielded |          -- SCont has yielded, but runnable
+                         BlockedInHaskell | -- SCont is blocked on a user-level concurrent data structure 
+                         BlockedInRTS |     -- SCont is blocked on a foreign call, blackhole, etc,.
+                         Completed          -- SCont has run to completion
+
+setSContSwitchReason :: SContSwitchReason -> PTM ()
+getSContStatus       :: SCont -> PTM SContStatus
+}}}
+
+Primitive `setSContSwitchReason` updates the status of current SCont. Notice that this prevents the programmer from modifying the status of other SConts and is a PTM action. Thus, the effect of updating the status takes place when the transaction commits and the control has switches to another SCont. This avoids any race conditions that might be involved in reading the status of an SCont before it has completed switch operation. 
 
 === Capabilities and Tasks ===
 
