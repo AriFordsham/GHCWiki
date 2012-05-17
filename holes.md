@@ -254,7 +254,7 @@ for two reasons:
   boo :: MonadPlus m => m b
   boo = undefined
   ```
-1. Perhaps it's not technically correct to call `MonadPlus m => m b` the "inferred type," but it is the type with the minimum set of constraints that type needs to fulfill to be accepted. Or maybe I'm missing something.
+1. Perhaps it's not technically correct to call `MonadPlus m => m b` the "inferred type" (what about "expected type"?), but it is the type with the minimum set of constraints that type needs to fulfill to be accepted. Or maybe I'm missing something.
 1. How would you report the type of the holes? The above wording is merely a suggestion, but I think all that information should be there.
 
 **End of SPL**
