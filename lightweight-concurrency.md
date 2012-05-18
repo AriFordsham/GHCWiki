@@ -6,6 +6,29 @@ This page documents the effort to move GHC's concurrency support from its curren
 
 Lightweight concurrency implementation resides in the `ghc-lwc` branch in the git repo.
 
+## Table of Contents
+
+- [Table of Contents](lightweight-concurrency#table-of-contents)
+- [Introduction](lightweight-concurrency#introduction)
+- [Background - GHC's Concurrency RTS](lightweight-concurrency#)
+- [Concurrency Substrate](lightweight-concurrency#concurrency-substrate)
+
+  - [PTM](lightweight-concurrency#ptm)
+  - [One-shot Continuations](lightweight-concurrency#)
+
+    - [Return value of a switching transaction](lightweight-concurrency#return-value-of-a-switching-transaction)
+  - [SCont Status](lightweight-concurrency#scont-status)
+- [Abstracting the Scheduler](lightweight-concurrency#abstracting-the-scheduler)
+- [User-level Concurrency](lightweight-concurrency#)
+
+  - [Schedulers](lightweight-concurrency#schedulers)
+  - [MVars](lightweight-concurrency#mvars)
+- [Capabilities and Tasks](lightweight-concurrency#capabilities-and-tasks)
+
+  - [SCont Affinity](lightweight-concurrency#scont-affinity)
+  - [Bound SCont](lightweight-concurrency#bound-scont)
+- [Related Work](lightweight-concurrency#related-work)
+
 ## Introduction
 
 
@@ -51,7 +74,7 @@ atomically :: PTM a -> IO a
 
 A PTM transaction may allocate, read and write transactional variables of type `PVar a`. It is important to notice that PTM does not provide a blocking `retry` mechanism. Such a blocking action needs to interact with the scheduler, to block the current thread and resume another thread. We will see [later](lightweight-concurrency#) how to allow such interactions while not imposing any restriction on the structure of the schedulers.
 
-### One-shot continuations
+### One-shot Continuations
 
 
 The concurrency substrate enables creation and scheduling of I/O-performing computations through *one-shot continuations*. An SCont (stack continuation) is a suspended I/O computation, which is in fact just a reference to a TSO object. Capturing the current continuation is just getting a reference to the current TSO, and hence is very fast. SCont interface is shown below:
@@ -98,16 +121,17 @@ data SContStatus = SContRunning |           -- SCont is currently running
                    SContKilled  |           -- SCont was killed by an (asynchronous) exception
 	           SContSwitched SContSwitchReason
 data SContSwitchReason = Yielded |          -- SCont has yielded, but runnable
-                         BlockedInHaskell | -- SCont is blocked on a user-level concurrent data structure (MVars and such)
+                         BlockedInHaskell | -- SCont is blocked on a user-level concurrent 
+                                            -- data structure (MVars and such)
                          BlockedInRTS |     -- SCont is blocked on a foreign call, blackhole, etc,.
                          Completed          -- SCont has run to completion
 
-setSContSwitchReason :: SContSwitchReason -> PTM ()
+setSContSwitchReason :: SCont -> SContSwitchReason -> PTM ()
 getSContStatus       :: SCont -> PTM SContStatus
 ```
 
 
-Any attempt to switch to an SCont with status other than `SContSwitched Yielded` throws an exception. Primitive `setSContSwitchReason` updates the status of current SCont. This prevents the programmer from modifying the status of other SConts. Since setSContSwitchReason is a PTM action, the effect of updating the status takes place when the transaction commits and the control has switched to another SCont. This avoids any race conditions that might be involved in reading the status of an SCont before it has switched. 
+Any attempt to switch to an SCont with status other than `SContSwitched Yielded` throws an exception. Primitive `setSContSwitchReason` updates the status of SCont. Since setSContSwitchReason is a PTM action, the effect of updating the status takes place when the transaction commits and the control has switched to another SCont. This avoids any race conditions that might be involved in reading the status of an SCont before it has switched. 
 
 
 Before a switch operation, we expect the programmer to indicate the reason for switching through setScontSwitchReason. Exception is raised by the switch primitives if a switch reason has not been provided. When a switched SCont resumes execution, its status is automatically updated to `SContRunning`. 
@@ -137,7 +161,9 @@ scheduleSContAction :: SCont -> PTM ()
 scheduleSContAction sc = do
   sched :: PVar [SCont] <- -- get sched 
   contents :: [SCont] <- readPVar sched 
+  setSContSwitchReason sc Yielded -- sc is ready to be run
   writePVar $ contents ++ [sc]
+
 
 yieldControlAction :: PTM () 
 yieldControlAction = do
@@ -151,13 +177,154 @@ yieldControlAction = do
     otherwise -> ...
 ```
 
+
+The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. Having the scheduler actions as PTM actions ensures that the operations on the scheduler are always properly synchronized. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. Typically, when a new SCont is created, it is immediately associated with a scheduler.
+
+## User-level Concurrency
+
+
+Now that we have defined an abstract scheduler interface, lets look at how to construct user-level concurrency primitives using the scheduler actions. 
+
+### Schedulers
+
+
+Since our first goal is to implement GHC's concurrency support in Haskell, let us start with`forkIO` and `yield`. These two primitives are sufficient for a simple cooperatively scheduled lightweight thread system. In order to make the presentation cleaner, assume that we have the following helper functions.
+
+```wiki
+getSSA = getScheduleSContAction
+setSSA = setScheduleSContAction
+getYCA = getYieldControlAction
+setYCA = setYieldControlAction
+```
+
+
+Primitive `yield` appends the current SCont to the scheduler, picks the next SCont from the scheduler and switches to it. We utilize the scheduler actions to achieve this. The implementation of yield is shown below. It is important to notice that yield does not assume anything about the implementation of the scheduler except for the scheduler actions. Hence, there is no need to re-implement yield primitive for every scheduler, thus minimizing the overhead of implementing new schedulers.
+
+```wiki
+yield :: IO ()
+yield = atomically $ do
+  s <- getCurrentSCont
+  -- Append current SCont to scheduler
+  ssa <- getSSA s
+  enque :: PTM () <- ssa a
+  enque
+  -- Switch to next SCont from scheduler
+  switchToNext :: PTM () <- getYCA s
+  switchToNext
+```
+
+
+Primitive `forkIO` also follows the strategy of utilizing scheduler actions. The implementation of forkIO is shown below. 
+
+```wiki
+forkIO :: IO () -> IO SCont
+forkIO f = do
+  -- Switch to next thread after completion
+  let epilogue = atomically $ do {
+    sc <- getCurrentSCont;
+    setSContSwitchReason Completed;
+    switchToNext <- getYCA sc;
+    switchToNext
+  }
+  ns <- newSCont (f >> epilogue)  
+  atomically $ do {
+    s <- getCurrentSCont;
+    -- Initialize scheduler actions
+    ssa <- getSSA s;
+    setSSA ns ssa;
+    yca <- getYCA s;
+    setYCA ns yca;
+    -- Append the new SCont to current SCont's scheduler
+    appendAct <- ssa ns;
+    appendAct
+  }
+  return ns
+```
+
+
+Here, the thread that invokes forkIO initializes the new SCont (`ns`) with its own scheduler actions, and appends it to the scheduler. After the newly created SCont finishes execution, the control must switch to another thread in the scheduler. This is captured by the `epilogue`.
+
+### MVars
+
+[MVars](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent-MVar.html) are one of the basic synchronization mechanisms exposed by GHC's concurrency library. A simple user-level implementation of MVar might look like:
+
+```wiki
+newtype MVar a = MVar (PVar (State a))
+data State a = Full a [(a, PTM ())] | Empty [(PVar a, PTM ())]
+```
+
+
+MVar is either empty with a list of pending takers, or full with a value and a list of pending putters. The PTM () action in the full and empty list represents the logic necessary for waking up the pending putters and takers. The following snippet shows the implementation of `takeMVar`.
+
+```wiki
+takeMVar :: MVar a -> IO a 
+takeMVar (MVar ref) = do
+  hole <- atomically $ newPVar undefined 
+  atomically $ do
+    st <- readPVar ref 
+    case st of
+      Empty ts -> do 
+        s <- getCurrentSCont 
+        ssa <- getSSA s 
+        wakeup <- ssa s 
+        writePVar ref $ v
+          where v = Empty $ ts++[(hole, wakeup)] 
+        switchToNext <- getYCA s 
+        switchToNext
+      Full x ((x', wakeup):ts) -> do 
+        writePVar hole x 
+        writePVar ref $ Full x' ts 
+        wakeup
+      otherwise -> ... 
+  atomically $ readPVar hole
+```
+
+
+Primitive `takeMVar` first creates a hole, which will contain the result. If the MVar happens to be empty, we fetch the scheduleSContAction for the current thread, and append append it along with the hole to the end of the queue. This enqueued PTM action, when executed, will append the current thread to its scheduler. Finally, the control switches to the next runnable thread using the yieldControlAction. All of these actions occur atomically within the same transaction.
+
+
+If the MVar is full with a pending writer, we first fill the hole with the value. Then, MVar's status is updated with the enqueued value and the rest of the writers. Finally, we execute the dequeued PTM action to place the writer into its corresponding scheduler.
+
+
+Notice that just like yield and forkIO, takeMVar is scheduler agnostic; the MVar implementation is cleanly separated from the scheduler implementation. Moreover, the same MVar might be shared between threads from different schedulers since they utilize the uniform scheduler interface. Since the scheduler actions are PTM actions, actions from different schedulers can be composed together elegantly and simplifies reasoning about synchronization. 
+
+
+As an aside, the race condition in [swapMVar](http://www.haskell.org/ghc/docs/6.12.2/html/libraries/base-4.2.0.1/Control-Concurrent-MVar.html#v%3AswapMVar) can be eliminated with the help of PTM abstraction. TODO show example. Thus, PTM abstraction makes it easy to construct correct concurrent data-structures. 
+
 ## Capabilities and Tasks
 
 
-Whatever be the concurrency model, we would like to retain the non-programmatic control over parallelism (using +RTS -N). Just like in the current system, this runtime parameter controls the number of capabilities. Cores are system resources and hence, the control over their allocation to different processes should be a property of the context under which the programs are run. For example, in a multi-programmed environment, it might be wiser to run the programs on a fewer cores than available to avoid thrashing. At the very least, this will avoid the cases where a poorly written concurrency library would not bring down the performance of the entire system.
+Whatever be the concurrency model, we would like to retain the non-programmatic control over parallelism (using +RTS -N). Just like in the current system, this runtime parameter controls the number of capabilities. Cores are system resources and hence, the control over their allocation to different processes should be a property of the context under which the programs are run. For example, in a multi-programmed environment, it might be wiser to run the programs on a fewer cores than available to avoid thrashing. At the very least, this will avoid the cases where a poorly written concurrency library would not bring down the performance of the entire system. 
 
 
-We retain the task model of the current runtime system. There is a one-to-one mapping between tasks and system threads. A bound SCont has its own bound task, which is the only task capable of running the bound SCont. However, an unbounded SCont might be run on any unbounded task (referred to as worker tasks). New worker tasks are created whenever the number of available tasks is less than the number of capabilities.
+We retain the task model of the current runtime system. There is a one-to-one mapping between tasks and system threads. Tasks are not exposed to the programmer and is transparently managed by the RTS.
+
+### SCont Affinity
+
+
+Every SCont is bound to a particular capability and only that capability is capable of running the SCont. Switching to an SCont that is not bound to the current capability raises a runtime error. SCont affinity interface is shown below.
+
+```wiki
+setSContCapability :: SCont -> Int -> IO ()
+getSContCapability :: SCont -> PTM Int
+```
+
+
+A newly created SCont is bound to the current capability. Primitive `setSContCapability` is used to change the affinity of an SCont that belongs to the current capability. Trying to change the affinity of an SCont that belongs to a different capability throws a runtime error. 
+
+### Bound SCont
+
+
+Similar to [bound threads](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent.html#g:9) concurrency substrate supports bound SConts. The interface is shown below.
+
+```wiki
+newBoundSCont          :: IO () -> IO SCont
+isCurrentSContBound    :: IO Bool
+rtsSupportsBoundSConts :: Bool
+```
+
+
+Creating a bound SCont creates a new task, which is the only task capable of running the bound SCont. When switching to a bound SCont, the RTS transparently switches to the corresponding bound task. Similarly, when switching away from a bound SCont, the RTS suspends the current bound task, and switches to another appropriate task. However, an unbounded SCont (created through `newSCont` primitive) might be run on any unbounded task (referred to as worker tasks). New worker tasks might be created by the RTS on demand.
 
 ## Related Work
 
