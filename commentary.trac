@@ -23,6 +23,7 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
    * [wiki:Commentary/Pipeline The compilation pipeline]
 
  * [wiki:Commentary/Libraries The Libraries on which GHC depends]
+   * [wiki:Commentary/Libraries/Integer The Integer libraries (`integer-gmp` and `integer-simple`)]
 
  * [wiki:Commentary/Rts The Runtime System (RTS)]
     * [wiki:Commentary/Rts/Conventions RTS Coding Conventions]
