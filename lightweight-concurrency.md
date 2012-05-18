@@ -156,6 +156,40 @@ yieldControlAction = do
 
 The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. Typically, when a new SCont is created, it is immediately associated with a scheduler.
 
+## Building Concurrency Primitives
+
+
+Now that we have defined an abstract interface, lets look at how to construct concurrency primitives using the scheduler actions. The implementation of primitives `yield` and `forkIO` using the scheduler actions is shown below.
+
+```wiki
+yield :: IO ()
+yield = atomically $ do
+  s <- getCurrentSCont
+  -- Append current SCont to scheduler
+  ssa <- getScheduleSContAction s
+  enque :: PTM () <- ssa a
+  enque
+  -- Switch to next SCont from scheduler
+  switchToNext :: PTM () <- getYieldControlAction s
+  switchToNext
+
+forkIO :: IO () -> IO SCont
+forkIO f = do
+  ns <- newSCont f
+  atomically $ do {
+    s <- getCurrentSCont;
+    -- Initialize scheduler actions
+    ssa <- getScheduleSContAction s;
+    setScheduleSContAction ns ssa;
+    yca <- getYieldControlAction s;
+    setYieldControlAction ns yca;
+    -- Append the new SCont to current SCont's scheduler
+    appendAct <- ssa ns;
+    appendAct
+  }
+  return ns
+```
+
 ## Capabilities and Tasks
 
 
