@@ -133,7 +133,7 @@ yieldControlAction = do
     otherwise -> ...
 }}}
 
-The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. Typically, when a new SCont is created, it is immediately associated with a scheduler.
+The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. Having the scheduler actions as PTM actions ensures that the operations on the scheduler are always properly synchronized. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. Typically, when a new SCont is created, it is immediately associated with a scheduler.
 
 == User-level concurrency ==
 
@@ -150,6 +150,8 @@ getYCA = getYieldControlAction
 setYCA = setYieldControlAction
 }}}
 
+Primitive `yield` appends the current SCont to the scheduler, picks the next SCont from the scheduler and switches to it. We utilize the scheduler actions to achieve this. The implementation of yield is shown below. It is important to notice that yield does not assume anything about the implementation of the scheduler except for the scheduler actions. Hence, there is no need to re-implement yield primitive for every scheduler, thus minimizing the overhead of implementing new schedulers.
+
 {{{
 yield :: IO ()
 yield = atomically $ do
@@ -162,6 +164,8 @@ yield = atomically $ do
   switchToNext :: PTM () <- getYCA s
   switchToNext
 }}}
+
+Primitive `forkIO` also follows the strategy of utilizing scheduler actions. The implementation of forkIO is shown below. 
 
 {{{
 forkIO :: IO () -> IO SCont
@@ -188,7 +192,7 @@ forkIO f = do
   return ns
 }}}
 
-Notice that the type signatures are similar to their counterparts in Control.Concurrent.
+Here, the thread that invokes forkIO initializes the new SCont with its own scheduler actions, and appends it to the scheduler. After the newly created SCont finishes execution, the control must switch to another thread in the scheduler. This is captured by the `epilogue`.
 
 === MVars ===
 
