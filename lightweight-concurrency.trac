@@ -137,10 +137,10 @@ The implementation is pretty straight-forward; scheduleSContAction appends the g
 
 == Building Concurrency Primitives ==
 
-Now that we have defined an abstract interface, lets look at how to construct concurrency primitives using the scheduler actions. The implementation of primitives `yield` and `forkIO` using the scheduler actions is shown below.
+Now that we have defined an abstract interface, lets look at how to construct concurrency primitives using the scheduler actions. The implementation of primitives `yield` and `forkIO` using the scheduler actions is shown below. Notice that the type signatures are similar to their counterparts in Control.Concurrent.
 
 {{{
-
+------ Helper Definitions ------
 getSSA = getScheduleSContAction
 setSSA = setScheduleSContAction
 getYCA = getYieldControlAction
