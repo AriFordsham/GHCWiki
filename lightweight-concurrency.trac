@@ -86,11 +86,11 @@ data SContSwitchReason = Yielded |          -- SCont has yielded, but runnable
                          BlockedInRTS |     -- SCont is blocked on a foreign call, blackhole, etc,.
                          Completed          -- SCont has run to completion
 
-setSContSwitchReason :: SContSwitchReason -> PTM ()
+setSContSwitchReason :: SCont -> SContSwitchReason -> PTM ()
 getSContStatus       :: SCont -> PTM SContStatus
 }}}
 
-Any attempt to switch to an SCont with status other than `SContSwitched Yielded` throws an exception. Primitive `setSContSwitchReason` updates the status of current SCont. This prevents the programmer from modifying the status of other SConts. Since setSContSwitchReason is a PTM action, the effect of updating the status takes place when the transaction commits and the control has switched to another SCont. This avoids any race conditions that might be involved in reading the status of an SCont before it has switched. 
+Any attempt to switch to an SCont with status other than `SContSwitched Yielded` throws an exception. Primitive `setSContSwitchReason` updates the status of SCont. Since setSContSwitchReason is a PTM action, the effect of updating the status takes place when the transaction commits and the control has switched to another SCont. This avoids any race conditions that might be involved in reading the status of an SCont before it has switched. 
 
 Before a switch operation, we expect the programmer to indicate the reason for switching through setScontSwitchReason. Exception is raised by the switch primitives if a switch reason has not been provided. When a switched SCont resumes execution, its status is automatically updated to `SContRunning`. 
 
@@ -117,7 +117,9 @@ scheduleSContAction :: SCont -> PTM ()
 scheduleSContAction sc = do
   sched :: PVar [SCont] <- -- get sched 
   contents :: [SCont] <- readPVar sched 
+  setSContSwitchReason sc Yielded -- sc is ready to be run
   writePVar $ contents ++ [sc]
+
 
 yieldControlAction :: PTM () 
 yieldControlAction = do
@@ -131,7 +133,7 @@ yieldControlAction = do
     otherwise -> ...
 }}}
 
-
+The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. Typically, when a new SCont is created, it is immediately associated with a scheduler.
 
 == Capabilities and Tasks ==
 
