@@ -223,6 +223,42 @@ Here, the thread that invokes forkIO initializes the new SCont (`ns`) with its o
 
 ### MVars
 
+[MVars](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent-MVar.html) are one of the basic synchronization mechanisms exposed by GHC's concurrency library. A simple user-level implementation of MVar might look like:
+
+```wiki
+newtype MVar a = MVar (PVar (State a))
+data State a = Full a [(a, PTM ())] | Empty [(PVar a, PTM ())]
+```
+
+
+MVar is either empty with a list of pending takers, or full with a value and a list of pending putters. The PTM () action in the full and empty list represents the logic necessary for waking up the pending putters and takers. The following snippet shows the implementation of `takeMVar`.
+
+```wiki
+takeMVar :: MVar a -> IO a 
+takeMVar (MVar ref) = do
+  hole <- atomically $ newPVar undefined 
+  atomically $ do
+    st <- readPVar ref 
+    case st of
+      Empty ts -> do 
+        s <- getCurrentSCont 
+        ssa <- getSSA s 
+        wakeup <- ssa s 
+        writePVar ref $ v
+          where v = Empty $ ts++[(hole, wakeup)] 
+        switchToNext <- getYCA s 
+        switchToNext
+      Full x ((x', wakeup):ts) -> do 
+        writePVar hole x 
+        writePVar ref $ Full x' ts 
+        wakeup
+      otherwise -> ... 
+  atomically $ readPVar hole
+```
+
+
+Primitive `takeMVar` first creates a hole, which will contain the result. If the MVar happens to be empty, we fetch the scheduleSContAction for the current thread, and append append it along with the hole to the queue. Then, the control switches to the next runnable thread from the scheduler using the yield control action. All of these actions occur atomically within the same transaction.
+
 ## Capabilities and Tasks
 
 
