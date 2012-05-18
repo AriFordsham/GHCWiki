@@ -115,7 +115,41 @@ Before a switch operation, we expect the programmer to indicate the reason for s
 ## Abstracting the Scheduler
 
 
-Concurrency substrate does not impose any structure on the user-level schedulers. The programmer might choose to implement a single scheduler for the entire system or a scheduler per capability. The schedulers might also be hierarchical, with pluggable load-balancing policies. However, we need a uniform interface such that STM, asynchronous exceptions, safe-foreign calls, blackholes and other such mechanisms can interact with the user-level scheduler.
+Concurrency substrate does not impose any structure on the user-level schedulers. The programmer might choose to implement a single scheduler for the entire system or a scheduler per capability. The schedulers might also be hierarchical, with pluggable load-balancing policies. However, we need a uniform interface such that the concurrency libraries, STM, asynchronous exceptions, safe-foreign calls, blackholes and other such mechanisms can interact with the user-level scheduler. For this purpose, we introduce the notion of `scheduler actions`, which is expected for every SCont. The substrate interface for scheduler actions is shown below:
+
+```wiki
+------ Schedule SCont Action :: SCont -> PTM () ------
+
+getScheduleSContAction :: SCont -> PTM (SCont -> PTM ())
+setScheduleSContAction :: SCont -> (SCont -> PTM ()) -> PTM ()
+
+----------- Yield Control Action :: PTM () -----------
+
+getYieldControlAction :: SCont -> PTM (PTM ())
+setYieldControlAction :: SCont -> PTM () -> PTM ()
+```
+
+
+Abstractly, given an SCont, the scheduleSContAction appends the SCont to a scheduler. The yieldControlAction picks an SCont from a scheduler and switches to it. In order to make the ideas more concrete, let us assume that we have a very simple round-robin scheduler, implemented as a `PVar[SCont]`. One possible implementation of scheduler actions for this scheduler is given below.
+
+```wiki
+scheduleSContAction :: SCont -> PTM () 
+scheduleSContAction sc = do
+  sched :: PVar [SCont] <- -- get sched 
+  contents :: [SCont] <- readPVar sched 
+  writePVar $ contents ++ [sc]
+
+yieldControlAction :: PTM () 
+yieldControlAction = do
+  sched :: PVar [SCont] <- -- get sched 
+  contents :: [SCont] <- readPVar sched 
+  case contents of
+    x:tail -> do { 
+      writePVar $ contents tail; 
+      switchTo x -- DOES NOT RETURN
+    } 
+    otherwise -> ...
+```
 
 ## Capabilities and Tasks
 
