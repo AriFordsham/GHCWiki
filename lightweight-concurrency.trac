@@ -82,7 +82,8 @@ data SContStatus = SContRunning |           -- SCont is currently running
                    SContKilled  |           -- SCont was killed by an (asynchronous) exception
 	           SContSwitched SContSwitchReason
 data SContSwitchReason = Yielded |          -- SCont has yielded, but runnable
-                         BlockedInHaskell | -- SCont is blocked on a user-level concurrent data structure (MVars and such)
+                         BlockedInHaskell | -- SCont is blocked on a user-level concurrent 
+                                            -- data structure (MVars and such)
                          BlockedInRTS |     -- SCont is blocked on a foreign call, blackhole, etc,.
                          Completed          -- SCont has run to completion
 
