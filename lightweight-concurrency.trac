@@ -96,7 +96,15 @@ Before a switch operation, we expect the programmer to indicate the reason for s
 
 == Abstracting the Scheduler ==
 
-Concurrency substrate does not impose any structure on the user-level schedulers. The programmer might choose to implement a single scheduler for the entire system or a scheduler per capability. The schedulers might also be hierarchical, with pluggable load-balancing policies. However, we need a uniform interface such that STM, asynchronous exceptions, safe-foreign calls, blackholes and other such mechanisms can interact with the user-level scheduler.
+Concurrency substrate does not impose any structure on the user-level schedulers. The programmer might choose to implement a single scheduler for the entire system or a scheduler per capability. The schedulers might also be hierarchical, with pluggable load-balancing policies. However, we need a uniform interface such that the concurrency libraries, STM, asynchronous exceptions, safe-foreign calls, blackholes and other such mechanisms can interact with the user-level scheduler. For this purpose, we introduce the notion of `scheduler actions`, which is expected for every SCont. The substrate interface for scheduler actions is shown below:
+
+{{{
+------ Schedule SCont Action ------
+
+------ Yield Control Action  ------
+}}}
+
+We expect every SCont to belong to a particular scheduler. However, SConts are free to be migrated between schedulers. 
 
 == Capabilities and Tasks ==
 
