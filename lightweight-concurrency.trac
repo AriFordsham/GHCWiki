@@ -135,17 +135,22 @@ yieldControlAction = do
 
 The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. Typically, when a new SCont is created, it is immediately associated with a scheduler.
 
-== Building Concurrency Primitives ==
+== User-level concurrency ==
 
-Now that we have defined an abstract interface, lets look at how to construct concurrency primitives using the scheduler actions. The implementation of primitives `yield` and `forkIO` using the scheduler actions is shown below. Notice that the type signatures are similar to their counterparts in Control.Concurrent.
+Now that we have defined an abstract interface, lets look at how to construct user-level concurrency primitives using the scheduler actions. 
+
+=== Schedulers ===
+
+Since our first goal is to implement GHC's concurrency support in Haskell, let us start with`forkIO` and `yield`. These two primitives are sufficient for a simple cooperatively scheduled lightweight thread system. In order to make the presentation cleaner, assume that we have the following helper functions.
 
 {{{
------- Helper Definitions ------
 getSSA = getScheduleSContAction
 setSSA = setScheduleSContAction
 getYCA = getYieldControlAction
 setYCA = setYieldControlAction
+}}}
 
+{{{
 yield :: IO ()
 yield = atomically $ do
   s <- getCurrentSCont
@@ -156,10 +161,19 @@ yield = atomically $ do
   -- Switch to next SCont from scheduler
   switchToNext :: PTM () <- getYCA s
   switchToNext
+}}}
 
+{{{
 forkIO :: IO () -> IO SCont
 forkIO f = do
-  ns <- newSCont f
+  -- Switch to next thread after completion
+  let epilogue = atomically $ do {
+    sc <- getCurrentSCont;
+    setSContSwitchReason Completed;
+    switchToNext <- getYCA sc;
+    switchToNext
+  }
+  ns <- newSCont (f >> epilogue)  
   atomically $ do {
     s <- getCurrentSCont;
     -- Initialize scheduler actions
@@ -173,6 +187,10 @@ forkIO f = do
   }
   return ns
 }}}
+
+Notice that the type signatures are similar to their counterparts in Control.Concurrent.
+
+=== MVars ===
 
 == Capabilities and Tasks ==
 
