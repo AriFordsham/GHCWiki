@@ -1,2 +1,0 @@
-
-I want to solve cabal dependency hell.
