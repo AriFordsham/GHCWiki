@@ -57,7 +57,8 @@ Things are a bit more complicated when the master repo is in Darcs.  For example
 {{{
 #!html
 
-<p>This table shows, for each repository in a GHC tree, where the <span style="color: green;">central repository</span> is, and what mirrors there are.</p>
+<p>This table shows, for each repository in a GHC tree, where the <span style="color: green;">central repository</span> (identified in green) is, and what mirrors there are.</p>
+<p>For the common case where the central repository held on <tt>darcs.haskell.org</tt> and appears in the "ghc (validated) repo" column, we give the read-only URL.  To get a read/write URL, replace HTTP prefix <tt>http://darcs.haskell.org</tt> with the SSH prefix <tt>darcs.haskell.org:/srv/darcs</tt>.
 
 <table border="2">
 <tr><td colspan="2">darcs</td><td colspan="4">git</td><td></td></tr>
