@@ -138,7 +138,7 @@ The implementation is pretty straight-forward; scheduleSContAction appends the g
 
 == User-level concurrency ==
 
-Now that we have defined an abstract interface, lets look at how to construct user-level concurrency primitives using the scheduler actions. 
+Now that we have defined an abstract scheduler interface, lets look at how to construct user-level concurrency primitives using the scheduler actions. 
 
 === Schedulers ===
 
