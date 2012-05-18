@@ -110,7 +110,28 @@ getYieldControlAction :: SCont -> PTM (PTM ())
 setYieldControlAction :: SCont -> PTM () -> PTM ()
 }}}
 
-We expect every SCont to belong to a scheduler. 
+Abstractly, given an SCont, the scheduleSContAction appends the SCont to a scheduler. The yieldControlAction picks an SCont from a scheduler and switches to it. In order to make the ideas more concrete, let us assume that we have a very simple round-robin scheduler, implemented as a `PVar [SCont]`. One possible implementation of scheduler actions for this scheduler is given below.
+
+{{{
+scheduleSContAction :: SCont -> PTM () 
+scheduleSContAction sc = do
+  sched :: PVar [SCont] <- -- get sched 
+  contents :: [SCont] <- readPVar sched 
+  writePVar $ contents ++ [sc]
+
+yieldControlAction :: PTM () 
+yieldControlAction = do
+  sched :: PVar [SCont] <- -- get sched 
+  contents :: [SCont] <- readPVar sched 
+  case contents of
+    x:tail -> do { 
+      writePVar $ contents tail; 
+      switchTo x -- DOES NOT RETURN
+    } 
+    otherwise -> ...
+}}}
+
+
 
 == Capabilities and Tasks ==
 
