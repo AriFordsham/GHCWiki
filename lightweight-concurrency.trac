@@ -193,7 +193,7 @@ forkIO f = do
   return ns
 }}}
 
-Here, the thread that invokes forkIO initializes the new SCont with its own scheduler actions, and appends it to the scheduler. After the newly created SCont finishes execution, the control must switch to another thread in the scheduler. This is captured by the `epilogue`.
+Here, the thread that invokes forkIO initializes the new SCont (`ns`) with its own scheduler actions, and appends it to the scheduler. After the newly created SCont finishes execution, the control must switch to another thread in the scheduler. This is captured by the `epilogue`.
 
 === MVars ===
 
