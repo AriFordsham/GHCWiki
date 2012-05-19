@@ -268,25 +268,44 @@ Notice that just like yield and forkIO, takeMVar is scheduler agnostic; the MVar
 
 As an aside, the race condition in [swapMVar](http://www.haskell.org/ghc/docs/6.12.2/html/libraries/base-4.2.0.1/Control-Concurrent-MVar.html#v%3AswapMVar) can be eliminated with the help of PTM abstraction. TODO show example. Thus, PTM abstraction makes it easy to construct correct concurrent data-structures. 
 
-## SCont Affinity
+## Capabilities and Tasks
+
+
+Whatever be the concurrency model, we would like to retain the non-programmatic control over parallelism (using +RTS -N). Just like in the current system, this runtime parameter controls the number of capabilities. Cores are system resources and hence, the control over their allocation to different processes should be a property of the context under which the programs are run. For example, in a multi-programmed environment, it might be wiser to run the programs on a fewer cores than available to avoid thrashing. At the very least, this will avoid the cases where a poorly written concurrency library would not bring down the performance of the entire system. 
+
+
+We retain the task model of the current runtime system. There is a one-to-one mapping between tasks and system threads. Tasks are not exposed to the programmer and is transparently managed by the RTS.
+
+### SCont Affinity
 
 
 Every SCont is bound to a particular capability and only that capability is capable of running the SCont. Switching to an SCont that is not bound to the current capability raises a runtime error. SCont affinity interface is shown below.
 
-
-A newly created SCont is bound to the current capability. 
-
-## Capabilities and Tasks
-
-
-Whatever be the concurrency model, we would like to retain the non-programmatic control over parallelism (using +RTS -N). Just like in the current system, this runtime parameter controls the number of capabilities. Cores are system resources and hence, the control over their allocation to different processes should be a property of the context under which the programs are run. For example, in a multi-programmed environment, it might be wiser to run the programs on a fewer cores than available to avoid thrashing. At the very least, this will avoid the cases where a poorly written concurrency library would not bring down the performance of the entire system.
+```wiki
+setSContCapability :: SCont -> Int -> IO ()
+getSContCapability :: SCont -> PTM Int
+```
 
 
-We retain the task model of the current runtime system. There is a one-to-one mapping between tasks and system threads. A bound SCont has its own bound task, which is the only task capable of running the bound SCont. However, an unbounded SCont might be run on any unbounded task (referred to as worker tasks). New worker tasks are created whenever the number of available tasks is less than the number of capabilities.
+A newly created SCont is bound to the current capability. Primitive `setSContCapability` is used to change the affinity of an SCont that belongs to the current capability. Trying to change the affinity of an SCont that belongs to a different capability throws a runtime error. 
 
-## Related Work
+### Bound SCont
 
-- [Concurrent Programming in GHC](lightweight-concurrency#)
-- [ Lightweight Concurrent Primitives for GHC](http://community.haskell.org/~simonmar/papers/conc-substrate.pdf)
-- [ Tackling the awkward squad](http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/)
-- [ Runtime Support for Multicore Haskell](http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf)
+
+Similar to [bound threads](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent.html#g:9) concurrency substrate supports bound SConts. The interface is shown below.
+
+```wiki
+newBoundSCont          :: IO () -> IO SCont
+isCurrentSContBound    :: IO Bool
+rtsSupportsBoundSConts :: Bool
+}}
+
+Creating a bound SCont creates a new task, which is the only task capable of running the bound SCont. When switching to a bound SCont, the RTS transparently switches to the corresponding bound task. Similarly, when switching away from a bound SCont, the RTS suspends the current bound task, and switches to another appropriate task. However, an unbounded SCont (created through `newSCont` primitive) might be run on any unbounded task (referred to as worker tasks). New worker tasks might be created by the RTS on demand.
+
+== Related Work ==
+
+  * [#GhcConcurrency Concurrent Programming in GHC]
+  * [http://community.haskell.org/~simonmar/papers/conc-substrate.pdf Lightweight Concurrent Primitives for GHC]
+  * [http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/ Tackling the awkward squad]
+  * [http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf Runtime Support for Multicore Haskell]
+```
