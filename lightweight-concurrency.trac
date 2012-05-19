@@ -15,7 +15,7 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
     * [#Returnvalueofaswitchingtransaction Return value of a switching transaction]
    * [#SContStatus SCont Status]
  * [#AbstractingtheScheduler Abstracting the Scheduler]
- * [#User-level Concurrency]
+ * [#User-levelConcurrency User-level Concurrency]
   * [#Schedulers Schedulers]
   * [#MVars MVars]
  * [#CapabilitiesandTasks Capabilities and Tasks]
