@@ -155,7 +155,7 @@ yieldControlAction = do
 
 The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. Having the scheduler actions as PTM actions ensures that the operations on the scheduler are always properly synchronized. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. Typically, when a new SCont is created, it is immediately associated with a scheduler.
 
-== User-level concurrency ==
+== User-level Concurrency ==
 
 Now that we have defined an abstract scheduler interface, lets look at how to construct user-level concurrency primitives using the scheduler actions. 
 
