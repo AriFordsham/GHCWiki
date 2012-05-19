@@ -4,6 +4,15 @@ This page documents the effort to move GHC's concurrency support from its curren
 
 Lightweight concurrency implementation resides in the `ghc-lwc` branch in the git repo.
 
+== Table of Contents ==
+
+ * [#TableofContents Table of Contents]
+ * [#Introduction Introduction]
+ * [#Background-GHCsConcurrencyRTS Background - GHC's Concurrency RTS]
+   * [#ConcurrencySubstrate Concurrency Substrate]
+     * [#PTM PTM]
+     * [#One-shotContinuations One-shot Continuations]
+
 == Introduction == 
 
 GHC has a rich support for concurrency (forkIO, MVars, STM, Asynchronous exceptions, bound threads, safe FFI, transparent scaling on multicores, etc.) and a fast and robust runtime system. However, the concurrency support is implemented in C and baked into the RTS. The concurrency primitives non-trivially interact among each other, and along with the lightweight thread scheduler, through a cascade of locks and condition variables. Often times, the invariants on which RTS fields can be accessed when are expressed as comments, and enforced through assertions (See [source:rts/Task.h@085c7fe5d4ea6e7b59f944d46ecfeba3755a315b#L37 here] for one such fascinating example). This policy of enforcing through assertions keeps the overheads low, but makes the task of modifying and extending the runtime cumbersome.
@@ -41,7 +50,7 @@ atomically :: PTM a -> IO a
 
 A PTM transaction may allocate, read and write transactional variables of type `PVar a`. It is important to notice that PTM does not provide a blocking `retry` mechanism. Such a blocking action needs to interact with the scheduler, to block the current thread and resume another thread. We will see [#AbstractSchedulerInterface later] how to allow such interactions while not imposing any restriction on the structure of the schedulers.
 
-=== One-shot continuations ===
+=== One-shot Continuations ===
 
 The concurrency substrate enables creation and scheduling of I/O-performing computations through ''one-shot continuations''. An SCont (stack continuation) is a suspended I/O computation, which is in fact just a reference to a TSO object. Capturing the current continuation is just getting a reference to the current TSO, and hence is very fast. SCont interface is shown below:
 

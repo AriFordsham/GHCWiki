@@ -6,6 +6,17 @@ This page documents the effort to move GHC's concurrency support from its curren
 
 Lightweight concurrency implementation resides in the `ghc-lwc` branch in the git repo.
 
+## Table of Contents
+
+- [Table of Contents](lightweight-concurrency#table-of-contents)
+- [Introduction](lightweight-concurrency#introduction)
+- [Background - GHC's Concurrency RTS](lightweight-concurrency#)
+
+  - [Concurrency Substrate](lightweight-concurrency#concurrency-substrate)
+
+    - [PTM](lightweight-concurrency#ptm)
+    - [One-shot Continuations](lightweight-concurrency#)
+
 ## Introduction
 
 
@@ -51,7 +62,7 @@ atomically :: PTM a -> IO a
 
 A PTM transaction may allocate, read and write transactional variables of type `PVar a`. It is important to notice that PTM does not provide a blocking `retry` mechanism. Such a blocking action needs to interact with the scheduler, to block the current thread and resume another thread. We will see [later](lightweight-concurrency#) how to allow such interactions while not imposing any restriction on the structure of the schedulers.
 
-### One-shot continuations
+### One-shot Continuations
 
 
 The concurrency substrate enables creation and scheduling of I/O-performing computations through *one-shot continuations*. An SCont (stack continuation) is a suspended I/O computation, which is in fact just a reference to a TSO object. Capturing the current continuation is just getting a reference to the current TSO, and hence is very fast. SCont interface is shown below:
