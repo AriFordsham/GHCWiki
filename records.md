@@ -59,8 +59,8 @@ And inhibits doing relatively low-level generic/polymorphic stuff like standard 
 
 So we have decided to avoid the extensible record debate, but how can we have multiple record field selectors in scope and correctly resolve the type of the record?  There are two main mechanisms on offer:
 
-- **Plan A**: Name spacing.  This uses qualified names to disambiguate record field names.
-- **Plan B**: Types.  This uses types to disambiguage record field names.
+- **Plan A**: Namespacing.  This uses qualified names to disambiguate record field names.
+- **Plan B**: Types.  This uses types to disambiguate record field names.
 
 1. **[Simple Overloaded Record Fields](records/overloaded-record-fields) (SORF)**.  Pure (Plan B).
 1. **[ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR)**.  Pure (Plan B), but without abstraction over fields of the same name.
@@ -108,7 +108,7 @@ The advantage of Namespacing is that the implementation is clear, straightforwar
 
 - only very inefficient code could be generated, if you have to access or update a field of some unknown record. In the end, every record type was basically a map.
 - it turned out that errors stemming from mistyping a field name often could not be diagnosed at the point where they were committed, but led to inferred types with crazy signatures and an incomprehensible type error at the use side of the function that contained the error.
-- the extra constraints complicated the type checker and did not play well with higher kinded type variables (at least in the code I had then, I do not claim that this is nessecarily so).
+- the extra constraints complicated the type checker and did not play well with higher-kinded type variables (at least in the code I had then, I do not claim that this is necessarily so).
 
 
 SORF without abstraction over fields may be able to avoid some of these potential downsides, and a judicious (no virtual fields, etc) implementation of either could look very similar to the programmer.
@@ -127,7 +127,7 @@ The discussion has many similarities with the original Type directed name resolu
 
 Haskell already has a (tried and tested) mechanism to disambiguate where "the *type* of the argument immediately specifies which one you mean" -- namely class/method/instance resolution. The DORF proposal uses this mechanism (and this mechanism alone: no funny-hand-shake syntax) -- AntC 21-Feb-2012
 
-### Other (FP) languages
+### Other (functional, and especially typeful) languages
 
 
 If you know of other relevant language implementations, please add them!
@@ -145,13 +145,13 @@ The Agda language [ generates a module (name space) for each record and also all
 
 SML\# supports [ abstraction over fields](http://www.pllab.riec.tohoku.ac.jp/smlsharp/?FeatureRecordPolymorphism) as per the overloaded records implementation.
 
-[ Roy](http://roy.brianmckenna.org/), a functional language that targets only javascript, also has structural typing which prevents clashes and allows abstraction over fields.
+[ Roy](http://roy.brianmckenna.org/), a functional language that targets only Javascript, also has structural typing which prevents clashes and allows abstraction over fields.
 
 
-\[Ur/Web has a http://www.impredicative.com/ur/tutorial/tlc.html very advanced records system\]. It is exaplained in  [ the UR implementation paper](http://adam.chlipala.net/papers/UrPLDI10/UrPLDI10.pdf). Edward Zhang attempts to explain it to Haskellers: [ http://blog.ezyang.com/2012/04/how-urweb-records-work-and-what-it-might-mean-for-haskell/comment-page-1/\#comment-3669](http://blog.ezyang.com/2012/04/how-urweb-records-work-and-what-it-might-mean-for-haskell/comment-page-1/#comment-3669)
+Ur/Web has a [ very advanced records system](http://www.impredicative.com/ur/tutorial/tlc.html). It is explained in [ the Ur implementation paper](http://adam.chlipala.net/papers/UrPLDI10/UrPLDI10.pdf) and in Edward Z. Yang's [ explanation for Haskellers](http://blog.ezyang.com/2012/04/how-urweb-records-work-and-what-it-might-mean-for-haskell/).
 
 
-Other FP languages where I looked for a record implementation but it appeared they have no solution for records with the same fields (my information could be wrong/out-dated) ocaml, oz. However, the O in OCaml is for objects, and objects have structural typing that supports abstraction over fields.
+Other FP languages where I looked for a record implementation but it appeared they have no solution for records with the same fields (my information could be wrong/out-dated) OCaml, Oz. However, the O in OCaml is for objects, and objects have structural typing that supports abstraction over fields.
 
 
 I couldn't find great specific information on record implementation ML variants other than SML\#. Best I can tell, SML does not allow records in the same module with the same field. Records from other modules require name-spacing or must be opened up similar to Agda. 
