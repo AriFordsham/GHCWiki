@@ -298,14 +298,14 @@ Similar to [bound threads](http://www.haskell.org/ghc/docs/latest/html/libraries
 newBoundSCont          :: IO () -> IO SCont
 isCurrentSContBound    :: IO Bool
 rtsSupportsBoundSConts :: Bool
-}}
+```
+
 
 Creating a bound SCont creates a new task, which is the only task capable of running the bound SCont. When switching to a bound SCont, the RTS transparently switches to the corresponding bound task. Similarly, when switching away from a bound SCont, the RTS suspends the current bound task, and switches to another appropriate task. However, an unbounded SCont (created through `newSCont` primitive) might be run on any unbounded task (referred to as worker tasks). New worker tasks might be created by the RTS on demand.
 
-== Related Work ==
+## Related Work
 
-  * [#GhcConcurrency Concurrent Programming in GHC]
-  * [http://community.haskell.org/~simonmar/papers/conc-substrate.pdf Lightweight Concurrent Primitives for GHC]
-  * [http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/ Tackling the awkward squad]
-  * [http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf Runtime Support for Multicore Haskell]
-```
+- [Concurrent Programming in GHC](lightweight-concurrency#)
+- [ Lightweight Concurrent Primitives for GHC](http://community.haskell.org/~simonmar/papers/conc-substrate.pdf)
+- [ Tackling the awkward squad](http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/)
+- [ Runtime Support for Multicore Haskell](http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf)
