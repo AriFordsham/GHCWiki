@@ -9,9 +9,10 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
  * [#TableofContents Table of Contents]
  * [#Introduction Introduction]
  * [#Background-GHCsConcurrencyRTS Background - GHC's Concurrency RTS]
-   * [#ConcurrencySubstrate Concurrency Substrate]
-     * [#PTM PTM]
-     * [#One-shotContinuations One-shot Continuations]
+ * [#ConcurrencySubstrate Concurrency Substrate]
+   * [#PTM PTM]
+   * [#One-shotContinuations One-shot Continuations]
+    * [#Returnvalueofaswitchingtransaction Return value of a switching transaction]
 
 == Introduction == 
 

@@ -11,11 +11,12 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
 - [Table of Contents](lightweight-concurrency#table-of-contents)
 - [Introduction](lightweight-concurrency#introduction)
 - [Background - GHC's Concurrency RTS](lightweight-concurrency#)
+- [Concurrency Substrate](lightweight-concurrency#concurrency-substrate)
 
-  - [Concurrency Substrate](lightweight-concurrency#concurrency-substrate)
+  - [PTM](lightweight-concurrency#ptm)
+  - [One-shot Continuations](lightweight-concurrency#)
 
-    - [PTM](lightweight-concurrency#ptm)
-    - [One-shot Continuations](lightweight-concurrency#)
+    - [Return value of a switching transaction](lightweight-concurrency#return-value-of-a-switching-transaction)
 
 ## Introduction
 
