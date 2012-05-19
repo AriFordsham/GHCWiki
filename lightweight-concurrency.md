@@ -17,6 +17,17 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
   - [One-shot Continuations](lightweight-concurrency#)
 
     - [Return value of a switching transaction](lightweight-concurrency#return-value-of-a-switching-transaction)
+  - [SCont Status](lightweight-concurrency#scont-status)
+- [Abstracting the Scheduler](lightweight-concurrency#abstracting-the-scheduler)
+- [Concurrency](lightweight-concurrency#)
+
+  - [Schedulers](lightweight-concurrency#schedulers)
+  - [MVars](lightweight-concurrency#mvars)
+- [Capabilities and Tasks](lightweight-concurrency#capabilities-and-tasks)
+
+  - [SCont Affinity](lightweight-concurrency#scont-affinity)
+  - [Bound SCont](lightweight-concurrency#bound-scont)
+- [Related Work](lightweight-concurrency#related-work)
 
 ## Introduction
 
