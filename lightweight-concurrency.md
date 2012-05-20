@@ -23,7 +23,7 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
 
   - [Schedulers](lightweight-concurrency#schedulers)
   - [MVars](lightweight-concurrency#mvars)
-- [Parallelism and System Threads](lightweight-concurrency#parallelism-and-system-threads)
+- [System Threads and Parallelism](lightweight-concurrency#system-threads-and-parallelism)
 
   - [Task Model](lightweight-concurrency#task-model)
   - [SCont Affinity](lightweight-concurrency#scont-affinity)
