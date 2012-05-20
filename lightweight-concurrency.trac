@@ -18,7 +18,8 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
  * [#User-levelConcurrency User-level Concurrency]
   * [#Schedulers Schedulers]
   * [#MVars MVars]
- * [#CapabilitiesandTasks Capabilities and Tasks]
+ * [#SystemThreadsandParallelism System Threads and Parallelism]
+  * [#SleepCapability Sleep Capability]
   * [#SContAffinity SCont Affinity]
   * [#BoundSCont Bound SCont]
  * [#RelatedWork Related Work]
@@ -153,7 +154,9 @@ yieldControlAction = do
     otherwise -> ...
 }}}
 
-The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. Having the scheduler actions as PTM actions ensures that the operations on the scheduler are always properly synchronized. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. Typically, when a new SCont is created, it is immediately associated with a scheduler.
+The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. The `otherwise` case of yieldControlAction is chosen if the there are no available SConts to switch to. This will be discussed later under [#SleepCapability Sleep Capability].
+
+Having the scheduler actions as PTM actions ensures that the operations on the scheduler are always properly synchronized. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. Typically, when a new SCont is created, it is immediately associated with a scheduler.
 
 == User-level Concurrency ==
 
@@ -193,7 +196,7 @@ forkIO f = do
   -- Switch to next thread after completion
   let epilogue = atomically $ do {
     sc <- getCurrentSCont;
-    setSContSwitchReason Completed;
+    setSContSwitchReason sc Completed;
     switchToNext <- getYCA sc;
     switchToNext
   }
@@ -256,19 +259,61 @@ Notice that just like yield and forkIO, takeMVar is scheduler agnostic; the MVar
 
 As an aside, the race condition in [http://www.haskell.org/ghc/docs/6.12.2/html/libraries/base-4.2.0.1/Control-Concurrent-MVar.html#v%3AswapMVar swapMVar] can be eliminated with the help of PTM abstraction. TODO: show example. Thus, PTM abstraction makes it easy to construct correct concurrent data-structures. 
 
-== Capabilities and Tasks ==
+== System Threads and Parallelism ==
 
-Whatever be the concurrency model, we would like to retain the non-programmatic control over parallelism (using +RTS -N). Just like in the current system, this runtime parameter controls the number of capabilities. Cores are system resources and hence, the control over their allocation to different processes should be a property of the context under which the programs are run. For example, in a multi-programmed environment, it might be wiser to run the programs on a fewer cores than available to avoid thrashing. At the very least, this will avoid the cases where a poorly written concurrency library would not bring down the performance of the entire system. 
+We retain the task model of the current runtime system. There is a one-to-one mapping between tasks and system threads. Tasks are not exposed to the programmer and is transparently managed by the RTS. Any task that is not performing a safe-foreign call needs to acquire a `capability` to run. The number of capabilities represents the number of SConts that can run in parallel. Just like in the current system, the rts parameter `-N` controls the maximum number of capabilities. Cores are system resources and hence, the control over their allocation to different processes should be a property of the context under which the programs are run. Hence, we believe it is important to have non-programmatic control over parallelism.
 
-We retain the task model of the current runtime system. There is a one-to-one mapping between tasks and system threads. Tasks are not exposed to the programmer and is transparently managed by the RTS.
+A program always boots up on 1 core running the `main` function. Additional capabilities can be created on demand using the following primitives.
+
+{{{
+getNumCapabilities   :: IO Int
+getCurrentCapability :: PTM Int
+newCapability :: SCont -> IO ()
+}}}
+
+Primitive `newCapability` runs the given SCont on a free capability. If there are no free capabilities, a runtime error is raised. A typical, initial task spawned on another core would pull work from the scheduler and switch to it. For example,
+
+{{{
+initialTask :: IO ()
+initialTask = atomically $ do
+  s <- getCurrentSCont
+  yca <- getYCA s
+  setSContSwitchReason s Completed
+  yca
+}}}
+
+When a program boots up with `N` capabilities, the programmer can choose to create `N-1` additional capabilities using the primitive `newCapability` which run `initialTask`.
+
+=== Sleep Capability ===
+
+In a multicore setting, runnable SConts might not always be available on a capability. In this case, the capability must wait for SConts to be added to the scheduler. In our system, this must be handled under `yieldControlAction`, where it is expected that the control switches to another SCont. The concurrency substrate provides 
+
+{{{
+sleepCapability :: PTM ()
+}}}
+
+primitive that aborts the current transaction and blocks the current capability. The capability is implicitly woken up when one of the PVars that it has read from has been updated. Then, the original transaction is re-executed. Under yieldControlAction, one of the PVars read before sleeping will be the scheduler data structure. Hence, the capability is woken up when the scheduler data structure is updated. The complete implementation of yieldControlAction example introduced [#AbstractingtheScheduler earlier] is given below.
+
+{{{
+yieldControlAction :: PTM () 
+yieldControlAction = do
+  sched :: PVar [SCont] <- -- get sched 
+  contents :: [SCont] <- readPVar sched 
+  case contents of
+    x:tail -> do { 
+      writePVar $ contents tail; 
+      switchTo x -- DOES NOT RETURN
+    } 
+    otherwise -> sleepCapability
+}}}
 
 === SCont Affinity ===
 
 Every SCont is bound to a particular capability and only that capability is capable of running the SCont. Switching to an SCont that is not bound to the current capability raises a runtime error. SCont affinity interface is shown below.
 
 {{{
-setSContCapability :: SCont -> Int -> IO ()
-getSContCapability :: SCont -> PTM Int
+setSContCapability   :: SCont -> Int -> IO ()
+getSContCapability   :: SCont -> PTM Int
 }}}
 
 A newly created SCont is bound to the current capability. Primitive `setSContCapability` is used to change the affinity of an SCont that belongs to the current capability. Trying to change the affinity of an SCont that belongs to a different capability throws a runtime error. 
@@ -285,6 +330,11 @@ rtsSupportsBoundSConts :: Bool
 
 Creating a bound SCont creates a new task, which is the only task capable of running the bound SCont. When switching to a bound SCont, the RTS transparently switches to the corresponding bound task. Similarly, when switching away from a bound SCont, the RTS suspends the current bound task, and switches to another appropriate task. However, an unbounded SCont (created through `newSCont` primitive) might be run on any unbounded task (referred to as worker tasks). New worker tasks might be created by the RTS on demand.
 
+== Scheduler Interaction with RTS ==
+
+We retain certain components of GHC's concurrency support that interact with the scheduler in the C part of the runtime system (RTS). Some of these interactions such as non-termination detection and finalizers become clear only in the RTS. Other interactions like safe-foreign calls and asynchronous exceptions, which can potentially be implemented in Haskell, are retained in the RTS for performance and simplicity. Furthermore, there are issues like [#Black-holeHandling black-holes], which are complicated enough that they are best handled transparently from the programmer's point of view.
+
+We observe that for all of these issues
 
 == Related Work ==
 
