@@ -326,6 +326,8 @@ rtsSupportsBoundSConts :: Bool
 
 Creating a bound SCont creates a new task, which is the only task capable of running the bound SCont. When switching to a bound SCont, the RTS transparently switches to the corresponding bound task. Similarly, when switching away from a bound SCont, the RTS suspends the current bound task, and switches to another appropriate task. However, an unbounded SCont (created through `newSCont` primitive) might be run on any unbounded task (referred to as worker tasks). New worker tasks might be created by the RTS on demand.
 
+## Scaling on Multicores
+
 ## Scheduler Interaction with RTS
 
 
