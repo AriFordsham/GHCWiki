@@ -23,8 +23,9 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
 
   - [Schedulers](lightweight-concurrency#schedulers)
   - [MVars](lightweight-concurrency#mvars)
-- [Capabilities and Tasks](lightweight-concurrency#capabilities-and-tasks)
+- [Parallelism and System Threads](lightweight-concurrency#parallelism-and-system-threads)
 
+  - [Task Model](lightweight-concurrency#task-model)
   - [SCont Affinity](lightweight-concurrency#scont-affinity)
   - [Bound SCont](lightweight-concurrency#bound-scont)
 - [Related Work](lightweight-concurrency#related-work)
@@ -291,10 +292,12 @@ Notice that just like yield and forkIO, takeMVar is scheduler agnostic; the MVar
 
 As an aside, the race condition in [swapMVar](http://www.haskell.org/ghc/docs/6.12.2/html/libraries/base-4.2.0.1/Control-Concurrent-MVar.html#v%3AswapMVar) can be eliminated with the help of PTM abstraction. TODO show example. Thus, PTM abstraction makes it easy to construct correct concurrent data-structures. 
 
-## Capabilities and Tasks
+## Parallelism and System Threads
 
 
 Whatever be the concurrency model, we would like to retain the non-programmatic control over parallelism (using +RTS -N). Just like in the current system, this runtime parameter controls the number of capabilities. Cores are system resources and hence, the control over their allocation to different processes should be a property of the context under which the programs are run. For example, in a multi-programmed environment, it might be wiser to run the programs on a fewer cores than available to avoid thrashing. At the very least, this will avoid the cases where a poorly written concurrency library would not bring down the performance of the entire system. 
+
+### Task Model
 
 
 We retain the task model of the current runtime system. There is a one-to-one mapping between tasks and system threads. Tasks are not exposed to the programmer and is transparently managed by the RTS.
@@ -325,8 +328,6 @@ rtsSupportsBoundSConts :: Bool
 
 
 Creating a bound SCont creates a new task, which is the only task capable of running the bound SCont. When switching to a bound SCont, the RTS transparently switches to the corresponding bound task. Similarly, when switching away from a bound SCont, the RTS suspends the current bound task, and switches to another appropriate task. However, an unbounded SCont (created through `newSCont` primitive) might be run on any unbounded task (referred to as worker tasks). New worker tasks might be created by the RTS on demand.
-
-## Scaling on Multicores
 
 ## Scheduler Interaction with RTS
 
