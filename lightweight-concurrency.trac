@@ -22,6 +22,7 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
   * [#SleepCapability Sleep Capability]
   * [#SContAffinity SCont Affinity]
   * [#BoundSCont Bound SCont]
+ * [#SchedulerInteractionwithRTS Scheduler Interaction with RTS]
  * [#RelatedWork Related Work]
 
 == Introduction == 
