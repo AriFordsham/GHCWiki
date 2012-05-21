@@ -19,6 +19,7 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
   * [#Schedulers Schedulers]
   * [#MVars MVars]
  * [#SystemThreadsandParallelism System Threads and Parallelism]
+  * [#SleepCapability Sleep Capability]
   * [#SContAffinity SCont Affinity]
   * [#BoundSCont Bound SCont]
  * [#RelatedWork Related Work]
@@ -279,7 +280,9 @@ initialTask = atomically $ do
   yca
 }}}
 
-When a program boots up with `N` capabilities, it can choose to create `N-1` additional capabilities using the primitive `newCapability` which run `initialTask`. 
+When a program boots up with `N` capabilities, the programmer can choose to create `N-1` additional capabilities using the primitive `newCapability` which run `initialTask`.
+
+=== Sleep Capability ===
 
 
 === SCont Affinity ===
