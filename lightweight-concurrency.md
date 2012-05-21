@@ -28,6 +28,7 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
   - [Sleep Capability](lightweight-concurrency#sleep-capability)
   - [SCont Affinity](lightweight-concurrency#scont-affinity)
   - [Bound SCont](lightweight-concurrency#bound-scont)
+- [Scheduler Interaction with RTS](lightweight-concurrency#scheduler-interaction-with-rts)
 - [Related Work](lightweight-concurrency#related-work)
 
 ## Introduction
@@ -179,10 +180,7 @@ yieldControlAction = do
 ```
 
 
-The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. The `otherwise` case of yieldControlAction is chosen if the there are no available SConts to switch to. This will be discussed later under [Sleep Capability](lightweight-concurrency#sleep-capability).
-
-
-Having the scheduler actions as PTM actions ensures that the operations on the scheduler are always properly synchronized. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. Typically, when a new SCont is created, it is immediately associated with a scheduler.
+The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. The `otherwise` case of yieldControlAction is chosen if the there are no available SConts to switch to. This will be discussed later under [Sleep Capability](lightweight-concurrency#sleep-capability). Having the scheduler actions as PTM actions ensures that the operations on the scheduler are always properly synchronized. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. The scheduler actions are saved as fields in the SCont's TSO structure so that the RTS can access them. Typically, when a new SCont is created, it is immediately associated with a scheduler. 
 
 ## User-level Concurrency
 
@@ -382,7 +380,7 @@ Creating a bound SCont creates a new task, which is the only task capable of run
 We retain certain components of GHC's concurrency support that interact with the scheduler in the C part of the runtime system (RTS). Some of these interactions such as non-termination detection and finalizers become clear only in the RTS. Other interactions like safe-foreign calls and asynchronous exceptions, which can potentially be implemented in Haskell, are retained in the RTS for performance and simplicity. Furthermore, there are issues like [black-holes](lightweight-concurrency#), which are complicated enough that they are best handled transparently from the programmer's point of view.
 
 
-We observe that for all of these issues
+We observe that our [scheduler actions](lightweight-concurrency#abstracting-the-scheduler) are sufficient to capture the interaction of user-level scheduler and RTS. As mentioned earlier, the scheduler actions are saved as fields in the TSO structure. In order to invoke the scheduler actions from the RTS (*upcalls*), we need a container thread. We associate with every capability an *upcall thread* and an *upcall queue*. Whenever a scheduler action needs to be invoked from the RTS, the scheduler action is added to the upcall queue. During every iteration of the RTS `schedule()` loop, we check for pending upcalls. If there are pending upcalls, we save the current thread, switch to the upcall thread, execute every upcall to completion, and finally switch to the original thread.
 
 ## Related Work
 
