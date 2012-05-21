@@ -334,7 +334,7 @@ Creating a bound SCont creates a new task, which is the only task capable of run
 
 We retain certain components of GHC's concurrency support that interact with the scheduler in the C part of the runtime system (RTS). Some of these interactions such as non-termination detection and finalizers become clear only in the RTS. Other interactions like safe-foreign calls and asynchronous exceptions, which can potentially be implemented in Haskell, are retained in the RTS for performance and simplicity. Furthermore, there are issues like [#Black-holeHandling black-holes], which are complicated enough that they are best handled transparently from the programmer's point of view.
 
-We observe that for all of these issues
+We observe that our [#AbstractingtheScheduler scheduler actions] are sufficient to capture the interaction of user-level scheduler and RTS. However from the perspective of the 
 
 == Related Work ==
 
