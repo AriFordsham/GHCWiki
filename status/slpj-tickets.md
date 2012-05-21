@@ -8,7 +8,7 @@
 - [\#6049](https://gitlab.haskell.org//ghc/ghc/issues/6049): GADTs and polykinds
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
 - [\#6065](https://gitlab.haskell.org//ghc/ghc/issues/6065): suggested type sig is then rejected
-- [\#5913](https://gitlab.haskell.org//ghc/ghc/issues/5913), [\#5751](https://gitlab.haskell.org//ghc/ghc/issues/5751): type-class dictionary loops
+- [\#5913](https://gitlab.haskell.org//ghc/ghc/issues/5913), [\#5751](https://gitlab.haskell.org//ghc/ghc/issues/5751), [\#6117](https://gitlab.haskell.org//ghc/ghc/issues/6117): type-class dictionary loops
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642), [\#5970](https://gitlab.haskell.org//ghc/ghc/issues/5970), [\#5030](https://gitlab.haskell.org//ghc/ghc/issues/5030): slow constraint solving
 
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): Injective type families (patch offered)
