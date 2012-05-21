@@ -7,7 +7,7 @@
  * #6049: GADTs and polykinds
  * #6022: over-general types are inferred
  * #6065: suggested type sig is then rejected
- * #5913, #5751: type-class dictionary loops
+ * #5913, #5751, #6117: type-class dictionary loops
  * #5642, #5970, #5030: slow constraint solving
 
  * #6018: Injective type families (patch offered)
