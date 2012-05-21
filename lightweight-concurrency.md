@@ -334,7 +334,20 @@ sleepCapability :: PTM ()
 ```
 
 
-primitive that blocks the current capability until one of the PVars that it has read from has been updated. Thus, the complete implementation of yieldControlAction example introduced [earlier](lightweight-concurrency#abstracting-the-scheduler) is given below.
+primitive that aborts the current transaction and blocks the current capability. The capability is implicitly woken up when one of the PVars that it has read from has been updated. Then, the original transaction is re-executed. One of the PVars read under yieldControlAction will be the scheduler data structure. Hence, the capability is woken up when the scheduler data structure is updated. The complete implementation of yieldControlAction example introduced [earlier](lightweight-concurrency#abstracting-the-scheduler) is given below.
+
+```wiki
+yieldControlAction :: PTM () 
+yieldControlAction = do
+  sched :: PVar [SCont] <- -- get sched 
+  contents :: [SCont] <- readPVar sched 
+  case contents of
+    x:tail -> do { 
+      writePVar $ contents tail; 
+      switchTo x -- DOES NOT RETURN
+    } 
+    otherwise -> sleepCapability
+```
 
 ### SCont Affinity
 
