@@ -12,6 +12,8 @@ The hash is computed during installation in installLib as well as during registr
 
 
 The ABI hash becomes a field of InstalledPackageInfo. (What is it needed for?)
+
+
 For inplace package registration any packages with the same location must be unregistered.
 
 ## Open Questions
