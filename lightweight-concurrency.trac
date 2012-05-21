@@ -154,7 +154,9 @@ yieldControlAction = do
     otherwise -> ...
 }}}
 
-The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. Having the scheduler actions as PTM actions ensures that the operations on the scheduler are always properly synchronized. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. Typically, when a new SCont is created, it is immediately associated with a scheduler.
+The implementation is pretty straight-forward; scheduleSContAction appends the given scont to the back of the list, and yieldControlAction picks an SCont from the front of the list and switches to it. The `otherwise` case of yieldControlAction is chosen if the there are no available SConts to switch to. This will be discussed later under [#SleepCapability Sleep Capability].
+
+Having the scheduler actions as PTM actions ensures that the operations on the scheduler are always properly synchronized. Notice that scheduleSContAction returns while yieldControlAction does not. We expect every user-level thread (SCont) to be associated with a scheduler. Typically, when a new SCont is created, it is immediately associated with a scheduler.
 
 == User-level Concurrency ==
 
@@ -283,6 +285,15 @@ initialTask = atomically $ do
 When a program boots up with `N` capabilities, the programmer can choose to create `N-1` additional capabilities using the primitive `newCapability` which run `initialTask`.
 
 === Sleep Capability ===
+
+In a multicore setting, runnable SConts might not always be available on a capability. In this case, the capability must wait for SConts to be added to the scheduler. In our system, this must be handled under `yieldControlAction`, where it is expected that the control switches to another SCont. The concurrency substrate provides 
+
+{{{
+sleepCapability :: PTM ()
+}}}
+
+primitive that blocks the current capability until one of the PVars that it has read from has been updated. Thus, the complete implementation of yieldControlAction example introduced [#AbstractingtheScheduler earlier] is given below.
+
 
 
 === SCont Affinity ===
