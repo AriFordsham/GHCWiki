@@ -1,4 +1,7 @@
-## General Plan
+## Overview
+
+
+Cabal should work more like the Nix store.
 
 ## Released and Unreleased packages
 
