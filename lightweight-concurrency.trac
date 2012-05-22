@@ -64,7 +64,7 @@ A PTM transaction may allocate, read and write transactional variables of type `
 
 === One-shot Continuations ===
 
-The concurrency substrate enables creation and scheduling of I/O-performing computations through ''one-shot continuations''. An SCont (stack continuation) is a suspended I/O computation, which is in fact just a reference to a TSO object. Capturing the current continuation is just getting a reference to the current TSO, and hence is very fast. SCont interface is shown below:
+The concurrency substrate enables creation and scheduling of I/O-performing computations through ''one-shot continuations''. An SCont (stack continuation) is a suspended I/O computation, which is in fact just a reference to a TSO object. Capturing the current continuation is just getting a reference to the current TSO, and hence is very fast. In the following discussion, we use SConts when referring to the Haskell object and threads when referring to its corresponding RTS version. SCont interface is shown below:
 
 {{{
 data SCont
@@ -341,6 +341,11 @@ Next, we shall look at various RTS interaction with the user-level scheduler and
 
 === Blocked Indefinitely ===
 
+==== Unreachable Concurrent Datastructure ====
+
+The [http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Exception-Base.html#t:BlockedIndefinitelyOnMVar BlockedIndefinitelyOnMVar] is raised on a thread that is blocked on an MVar, but the MVar has become unreachable. This is performed at the end of a garbage collection, just before resuming execution of the Haskell threads. In the vanilla RTS, after raising BlockedIndefinitelyOnMVar exception on a blocked thread, the thread is added back to the run queue. However, in the lightweight concurrency implementation, this is not so straightforward. In particular, ''How do we know whether the SCont
+
+==== Unreachable Scheduler ====
 
 
 == Related Work ==
