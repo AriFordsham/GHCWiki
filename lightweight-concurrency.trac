@@ -26,7 +26,7 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
   * [#BlockedIndefinitely Blocked Indefinitely]
    * [#UnreachableConcurrentDatastructure Unreachable Concurrent Datastructure]
    * [#UnreachableScheduler Unreachable Scheduler]
- * [#SafeForeignCalls SafeForeign Calls]
+  * [#SafeForeignCalls SafeForeign Calls]
  * [#RelatedWork Related Work]
 
 == Introduction == 
