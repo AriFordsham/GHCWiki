@@ -35,7 +35,7 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
     - [Unreachable Concurrent Datastructure](lightweight-concurrency#unreachable-concurrent-datastructure)
     - [Unreachable Scheduler](lightweight-concurrency#unreachable-scheduler)
   - [Preemptive Scheduling](lightweight-concurrency#preemptive-scheduling)
-  - [SafeForeign Calls](lightweight-concurrency#safe-foreign-calls)
+  - [Safe Foreign Calls](lightweight-concurrency#safe-foreign-calls)
   - [PTM retry](lightweight-concurrency#ptm-retry)
   - [Black-hole Handling](lightweight-concurrency#)
   - [Asynchronous Exceptions](lightweight-concurrency#asynchronous-exceptions)
@@ -421,9 +421,12 @@ setFinalizer :: SCont -> IO () -> IO()
 ```
 
 
-If an SCont is blocked with status `SContSwitched Yielded` has become unreachable, we run the SCont's finalizer, if installed.
+For the given thread, `setFinalizer` installs the given IO () as the finalizer. If an SCont is blocked with status `SContSwitched Yielded` has become unreachable, we run the SCont's finalizer, if installed.
 
 ### Preemptive Scheduling
+
+
+GHC's concurrency library supports preemptive scheduling of threads. In the LWC implementation, we utilize the scheduler actions to preempt the thread; on a timer interrupt, we execute the current thread's schedulerSContAction followed by yieldControlAction. This is similar to the implementation of the `yield` primitive described [earlier](lightweight-concurrency#schedulers).
 
 ### Safe Foreign Calls
 
@@ -441,6 +444,9 @@ In the vanilla RTS, `T2` will pick the next available thread from the current ca
 The fast path in the LWC implementation is the same as vanilla implementation. However, in the slow path, we need a way for `T2` to resume the scheduler, and a way for `T1` to join the scheduler when the foreign call execution eventually completes. Assume that the Haskell thread that is running on the task `T1` is `t1`. We utilize the yieldContrlAction of `t1` to enable `T2` to resume execution of other threads on the scheduler. When `T1` eventually resumes execution after the foreign call, it finds that it has lost the race to acquire the capability to T2. At this point, `T1` executes `t1`'s scheduleSContAction to join the scheduler.
 
 ### PTM retry
+
+
+GHC's STM module provides a 
 
 ### Black-hole Handling
 
