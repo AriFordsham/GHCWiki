@@ -34,7 +34,11 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
 
     - [Unreachable Concurrent Datastructure](lightweight-concurrency#unreachable-concurrent-datastructure)
     - [Unreachable Scheduler](lightweight-concurrency#unreachable-scheduler)
+  - [Preemptive Scheduling](lightweight-concurrency#preemptive-scheduling)
   - [SafeForeign Calls](lightweight-concurrency#safe-foreign-calls)
+  - [PTM retry](lightweight-concurrency#ptm-retry)
+  - [Black-hole Handling](lightweight-concurrency#)
+  - [Asynchronous Exceptions](lightweight-concurrency#asynchronous-exceptions)
 - [Related Work](lightweight-concurrency#related-work)
 
 ## Introduction
@@ -419,26 +423,28 @@ setFinalizer :: SCont -> IO () -> IO()
 
 If an SCont is blocked with status `SContSwitched Yielded` has become unreachable, we run the SCont's finalizer, if installed.
 
-## Safe Foreign Calls
+### Preemptive Scheduling
+
+### Safe Foreign Calls
 
 
 A [ safe foreign call](http://community.haskell.org/~simonmar/papers/conc-ffi.pdf) does not impede the execution of other Haskell threads on the same scheduler, if the foreign call blocks. Before performing the foreign call, the task, say `T1`, releases the capability that it currently owns. This might wake up other tasks which are waiting to acquire a free capability. After the foreign call has completed, `T1` tries to reacquire the last owned capability. In the fast path, the foreign call quickly completes and `T1` reacquires the capability. In the slow path, some other task, say `T2`, acquires the capability.
 
-### Slow-path in Vanilla RTS
+#### Slow-path in Vanilla RTS
 
 
 In the vanilla RTS, `T2` will pick the next available thread from the current capability's run queue and resume execution. When `T1` eventually completes the foreign call, it tries to reacquire the capability. Thus, performing a safe-foreign call does not block all the threads on that capability. 
 
-### Slow-path in LWC RTS
+#### Slow-path in LWC RTS
 
 
 The fast path in the LWC implementation is the same as vanilla implementation. However, in the slow path, we need a way for `T2` to resume the scheduler, and a way for `T1` to join the scheduler when the foreign call execution eventually completes. Assume that the Haskell thread that is running on the task `T1` is `t1`. We utilize the yieldContrlAction of `t1` to enable `T2` to resume execution of other threads on the scheduler. When `T1` eventually resumes execution after the foreign call, it finds that it has lost the race to acquire the capability to T2. At this point, `T1` executes `t1`'s scheduleSContAction to join the scheduler.
 
-## Asynchronous Exceptions
+### PTM retry
 
-## PTM retry
+### Black-hole Handling
 
-## Black-hole Handling
+### Asynchronous Exceptions
 
 ## Related Work
 
