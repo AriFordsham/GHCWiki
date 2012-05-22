@@ -29,6 +29,8 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
   * [#PreemptiveScheduling Preemptive Scheduling]
   * [#SafeForeignCalls SafeForeign Calls]
   * [#AsynchronousExceptions Asynchronous Exceptions]
+  * [#PTMretry PTM retry]
+  * [#Black-holeHandling Black-hole Handling]
  * [#RelatedWork Related Work]
 
 == Introduction == 

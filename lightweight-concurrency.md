@@ -37,6 +37,8 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
   - [Preemptive Scheduling](lightweight-concurrency#preemptive-scheduling)
   - [SafeForeign Calls](lightweight-concurrency#safe-foreign-calls)
   - [Asynchronous Exceptions](lightweight-concurrency#asynchronous-exceptions)
+  - [PTM retry](lightweight-concurrency#ptm-retry)
+  - [Black-hole Handling](lightweight-concurrency#)
 - [Related Work](lightweight-concurrency#related-work)
 
 ## Introduction
