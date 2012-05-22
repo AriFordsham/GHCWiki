@@ -6,35 +6,35 @@ It is a problem that cabal does not support multiple instances of the same packa
 ## Released and Unreleased packages
 
 
-If we cabal install a package that is released on hackage we call this a clean install. Those should not be used to satisfy dependencies but rather to bring a package into scope in ghci to play with it. If we cabal install an unreleased package we call this a dirty install.
+If we cabal install a package that is released on hackage we call this a clean install. Those should not be used to satisfy dependencies but rather to bring a package into scope in ghci to play with it. If we cabal install an unreleased package we call this a dirty install. I assume in that the source code for a released package is uniquely identified by its version number. For unreleased packages this is not the case.
 
 ## The cabal hash
 
 
-The idea is to identify installed packages by a hash of the information needed to build them.
-This hash is the new InstalledPackageId.
-The new installation directory for each instance is $libdir/$pkgid/$installedpackageid.
-The hash is computed during installation in installLib as well as during registration in generateRegistrationInfo.
+The idea is to identify installed packages by a hash of the information needed to build them. This hash is the new InstalledPackageId. The new installation directory for each instance is $libdir/$pkgid/$installedpackageid. The hash is computed during installation in GHC.installLib as well as during registration in GHC.generateRegistrationInfo.
 
 
 The hash contains the following information:
 
 
-The hashes of all the packages that are actually used for compilation. Those are available in the installedPkgs field of LocalBuildInfo.
+The hashes of all the package instances that are actually used for compilation. Those are available in the installedPkgs field of LocalBuildInfo.
 
 
-The compiler, its version and its arguments and the tools and their version and their arguments. Available from LocalBuildInfo also.
+The compiler, its version and its arguments and the tools and their version and their arguments. Available from LocalBuildInfo also. More specifically: compiler, withPrograms, withVanillaLib, withProfLib, withSharedLib, withDynExe, withProfExe, withOptimization, withGHCiLib, splitObjs, stripExes. Probably more.
 
 
-The source code. This is necessary because if the source code changes the result of compilation changes. For released packages i would assume that the version number uniquely identifies the source code but what about unreleased packages?
-
-## Details
+The source code. This is necessary because if the source code changes the result of compilation changes. For released packages i would assume that the version number uniquely identifies the source code and only hash that but what about unreleased packages? From the PackageDescription's library field the exposedModules can be extracted. Also from PackageDescription extraSrcFiles can be extracted. What about the Other Modules? There must be another way.
 
 
-The ABI hash becomes a field of InstalledPackageInfo. (What is it needed for?)
+What is ComponentLocalBuildInfo for?
+
+## Other
 
 
-For inplace package registration any packages with the same location must be unregistered.
+The ABI hash becomes a field of InstalledPackageInfo.
+
+
+For inplace package registration any packages with the same location must be unregistered. For that you must ask for all installed packages, find the one that is installed to that location and unregister it.
 
 ## Open Questions
 
