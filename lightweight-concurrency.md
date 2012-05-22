@@ -29,6 +29,11 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
   - [SCont Affinity](lightweight-concurrency#scont-affinity)
   - [Bound SCont](lightweight-concurrency#bound-scont)
 - [Scheduler Interaction with RTS](lightweight-concurrency#scheduler-interaction-with-rts)
+
+  - [Blocked Indefinitely](lightweight-concurrency#blocked-indefinitely)
+
+    - [Unreachable Concurrent Datastructure](lightweight-concurrency#unreachable-concurrent-datastructure)
+    - [Unreachable Scheduler](lightweight-concurrency#unreachable-scheduler)
 - [Related Work](lightweight-concurrency#related-work)
 
 ## Introduction
