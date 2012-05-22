@@ -380,7 +380,15 @@ Creating a bound SCont creates a new task, which is the only task capable of run
 We retain certain components of GHC's concurrency support that interact with the scheduler in the C part of the runtime system (RTS). Some of these interactions such as non-termination detection and finalizers become clear only in the RTS. Other interactions like safe-foreign calls and asynchronous exceptions, which can potentially be implemented in Haskell, are retained in the RTS for performance and simplicity. Furthermore, there are issues like [black-holes](lightweight-concurrency#), which are complicated enough that they are best handled transparently from the programmer's point of view.
 
 
-We observe that our [scheduler actions](lightweight-concurrency#abstracting-the-scheduler) are sufficient to capture the interaction of user-level scheduler and RTS. As mentioned earlier, the scheduler actions are saved as fields in the TSO structure. In order to invoke the scheduler actions from the RTS (*upcalls*), we need a container thread. We associate with every capability an *upcall thread* and an *upcall queue*. Whenever a scheduler action needs to be invoked from the RTS, the scheduler action is added to the upcall queue. During every iteration of the RTS `schedule()` loop, we check for pending upcalls. If there are pending upcalls, we save the current thread, switch to the upcall thread, execute every upcall to completion, and finally switch to the original thread.
+We observe that our [scheduler actions](lightweight-concurrency#abstracting-the-scheduler) are sufficient to capture the interaction of user-level scheduler and RTS. As mentioned earlier, the scheduler actions are saved as fields in the TSO structure. In order to invoke the scheduler actions from the RTS (*upcalls*), we need a container thread. We associate with every capability an *upcall thread* and an *upcall queue*. 
+
+
+Whenever a scheduler action needs to be invoked from the RTS, the scheduler action is added to the upcall queue. During every iteration of the RTS `schedule()` loop, we check for pending upcalls. If there are pending upcalls, we save the current thread, switch to the upcall thread, execute every upcall to completion, and finally switch to the original thread.
+
+
+Next, we shall look at various RTS interaction with the user-level scheduler and how scheduler actions enable them.
+
+### Blocked Indefinitely
 
 ## Related Work
 
