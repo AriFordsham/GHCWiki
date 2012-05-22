@@ -1,7 +1,7 @@
 ## Overview
 
 
-Cabal should work more like the Nix store.
+It is a problem that cabal does not support multiple instances of the same package version installed at the same time. Instead of installing them next to each other it overwrites the previous instance. This causes packages that depended upon the overwritten instance to break. The solution is to never overwrite an installed package. In the case of inplace registrations the overwriting has already taken place which is a problem.
 
 ## Released and Unreleased packages
 
