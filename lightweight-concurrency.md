@@ -36,9 +36,9 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
     - [Unreachable Scheduler](lightweight-concurrency#unreachable-scheduler)
   - [Preemptive Scheduling](lightweight-concurrency#preemptive-scheduling)
   - [SafeForeign Calls](lightweight-concurrency#safe-foreign-calls)
-  - [Asynchronous Exceptions](lightweight-concurrency#asynchronous-exceptions)
   - [PTM retry](lightweight-concurrency#ptm-retry)
   - [Black-hole Handling](lightweight-concurrency#)
+  - [Asynchronous Exceptions](lightweight-concurrency#asynchronous-exceptions)
 - [Related Work](lightweight-concurrency#related-work)
 
 ## Introduction
@@ -440,11 +440,11 @@ In the vanilla RTS, `T2` will pick the next available thread from the current ca
 
 The fast path in the LWC implementation is the same as vanilla implementation. However, in the slow path, we need a way for `T2` to resume the scheduler, and a way for `T1` to join the scheduler when the foreign call execution eventually completes. Assume that the Haskell thread that is running on the task `T1` is `t1`. We utilize the yieldContrlAction of `t1` to enable `T2` to resume execution of other threads on the scheduler. When `T1` eventually resumes execution after the foreign call, it finds that it has lost the race to acquire the capability to T2. At this point, `T1` executes `t1`'s scheduleSContAction to join the scheduler.
 
-### Asynchronous Exceptions
-
 ### PTM retry
 
 ### Black-hole Handling
+
+### Asynchronous Exceptions
 
 ## Related Work
 
