@@ -420,6 +420,8 @@ If an SCont is blocked with status `SContSwitched Yielded` has become unreachabl
 
 ## Safe-foreign Calls
 
+## Asynchronous Exceptions
+
 ## PTM retry
 
 ## Black-hole Handling
