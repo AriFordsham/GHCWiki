@@ -34,7 +34,7 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
 
     - [Unreachable Concurrent Datastructure](lightweight-concurrency#unreachable-concurrent-datastructure)
     - [Unreachable Scheduler](lightweight-concurrency#unreachable-scheduler)
-- [Safe-foreign Calls](lightweight-concurrency#)
+- [SafeForeign Calls](lightweight-concurrency#safe-foreign-calls)
 - [Related Work](lightweight-concurrency#related-work)
 
 ## Introduction
@@ -419,7 +419,7 @@ setFinalizer :: SCont -> IO () -> IO()
 
 If an SCont is blocked with status `SContSwitched Yielded` has become unreachable, we run the SCont's finalizer, if installed.
 
-## Safe-foreign Calls
+## Safe Foreign Calls
 
 
 A safe foreign call does not impede the execution of other Haskell threads on the same scheduler, if the foreign call blocks. Before performing the foreign call, the task, say `T1`, releases the capability that it currently owns. This might wake up other tasks which are waiting to acquire a free capability. After the foreign call has completed, `T1` tries to reacquire the last owned capability. In the fast path, the foreign call quickly completes and `T1` reacquires the capability. In the slow path, some other task, say `T2`, acquires the capability.
