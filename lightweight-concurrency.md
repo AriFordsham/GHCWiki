@@ -421,7 +421,7 @@ setFinalizer :: SCont -> IO () -> IO()
 ```
 
 
-If an SCont is blocked with status `SContSwitched Yielded` has become unreachable, we run the SCont's finalizer, if installed.
+For the given thread, `setFinalizer` installs the given IO () as the finalizer. If an SCont is blocked with status `SContSwitched Yielded` has become unreachable, we run the SCont's finalizer, if installed.
 
 ### Preemptive Scheduling
 
