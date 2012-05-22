@@ -425,6 +425,9 @@ If an SCont is blocked with status `SContSwitched Yielded` has become unreachabl
 
 ### Preemptive Scheduling
 
+
+GHC's concurrency library supports preemptive scheduling of threads. In the LWC implementation, we utilize the scheduler actions to preempt the thread; on a timer interrupt, we execute the current thread's schedulerSContAction followed by yieldControlAction. This is similar to the implementation of the `yield` primitive described [earlier](lightweight-concurrency#schedulers).
+
 ### Safe Foreign Calls
 
 
