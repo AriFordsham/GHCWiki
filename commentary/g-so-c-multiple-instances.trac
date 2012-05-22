@@ -22,7 +22,14 @@ For inplace package registration any packages with the same location must be unr
 
 == Open Questions ==
 
+Who has assumptions about the directory layout of installed packages?
+
 Executables?
+
 Haddock?
-Garbage Collection?
+
+Garbage Collection of unused packages?
+
 Installation Planner?
+
+Custom Builds and BuildHooks?
