@@ -35,7 +35,7 @@ Lightweight concurrency implementation resides in the `ghc-lwc` branch in the gi
     - [Unreachable Concurrent Datastructure](lightweight-concurrency#unreachable-concurrent-datastructure)
     - [Unreachable Scheduler](lightweight-concurrency#unreachable-scheduler)
   - [Preemptive Scheduling](lightweight-concurrency#preemptive-scheduling)
-  - [SafeForeign Calls](lightweight-concurrency#safe-foreign-calls)
+  - [Safe Foreign Calls](lightweight-concurrency#safe-foreign-calls)
   - [PTM retry](lightweight-concurrency#ptm-retry)
   - [Black-hole Handling](lightweight-concurrency#)
   - [Asynchronous Exceptions](lightweight-concurrency#asynchronous-exceptions)
