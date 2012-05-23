@@ -47,7 +47,7 @@ Although implementing concurrency primitives as a library is hardly a novel idea
 
 == Background - GHC's Concurrency RTS ==
 
-For the high-level design principle for the current scheduler, see [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts/Scheduler Scheduler].
+For a high-level design of the current scheduler, see [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts/Scheduler Scheduler].
 
 == Concurrency Substrate ==
 
@@ -392,6 +392,22 @@ GHC's STM module provides a `retry` primitive, which blocks the thread invoking 
 For `retry` under PTM, while waiting on a PVar is still an RTS mechanism, interaction with the scheduler is implemented using the scheduler actions. After blocking the thread on the PTM, RTS executes the blocking thread's yieldControlAction to resume the scheduler. When the thread is eventually unblocked, its scheduleSContAction is executed to put the thread back into its user-level scheduler data structure.
 
 === Black-hole Handling ===
+
+Any thunk evaluation may encounter a blackhole - a thunk under evaluation. When a thread encounters a thunk, the vanilla GHC suspends the thread until the thunk finishes evaluation. Similar to the solutions developed above, we can utilize the scheduler actions to yield control to another thread from the user-level scheduler. However, since the scheduler actions themselves are implemented in Haskell code, which can encounter blackholes, we might encounter situations where the user-level scheduler becomes blocked on a thread that it is scheduling, resulting in a deadlock. Moreover, the thread evaluating the blackholed thunk (blackhole owner) might be running on the same or a different capability as the thread entering the blackhole. This complicates the problem of potentially resuming a blackholed thunk's evaluation. In addition to all of these concerns, we would like the common case - a thunk finishing evaluation without being blackholed - to be fast.
+
+When a thread enters a blackhole, there are essentially 3 parameters that we need to consider:
+
+ 1. '''PTM : Is the thread manipulating a scheduler?''' since schedulers are implemented in Haskell code, there isn't a clear distinction between the scheduler and the rest of the program. As an approximation, we assume that whenever a thread is in the middle of a PTM transaction, it is potentially manipulating the scheduler.
+ 2. '''UPT : Is this an upcall thread?''' In the common case, when a thread enters a blackhole, we utilize its scheduler actions to block it on the blackhole's blocking queue. But an upcall thread, evaluating scheduler actions from the RTS is not associated with any scheduler and hence does not have scheduler actions. This case must be handled separately.
+ 3. '''CCAP : Is the blackhole owner on current capability?''' If the blackhole owner is on the current capability, then the blackhole owner is currently suspended. Otherwise, thunk evaluation is potentially progressing on another capability.
+
+Since each of these conditions can either be true or false, we have 8 cases to consider. 
+
+ * '''(1, 2) PTM(F)   UPT(F)   CCAP(T/F)''' - This is the typical case when a thread blocks on a black hole. Here, we enque the thread on the blackhole and perform the yieldControlAction to switch to another thread. When the thunk finishes evaluation, we examine the blocked threads. If a blocked thread is not an upcall thread, we know it has a scheduleSContAction, which is executed to resume the blocked thread.
+ * '''(3, 4) PTM(F)   UPT(T)   CCAP(T/F)''' - This case cannot happen. Upcall threads only execute PTM actions.
+ * '''(5, 6) PTM(T)   UPT(T/F) CCAP(T)'''   - We are under PTM and potentially manipulating the scheduler. The blackhole is owned by a thread on current capability and is suspended. Hence, the only option is to force evaluation of the thunk. This is achieved by creating a closure (AP_STACK) that contains all of the frames from the blackhole owner thread until the update frame that corresponds to the blackholed thunk. Blackhole owner's stack is modified such that when it resumes, it evaluates the newly created closure instead of resuming the original thunk evaluation. Current thread evaluates the newly created thunk to force evaluation of the thunk. Here, the current thread is said to have `inherited` the thunk.
+ * '''(7)    PTM(T)   UPT(F)   CCAP(F)'''   - A user-level thread under PTM has blocked on a blackhole owned by a thread on a different capability. We cannot inherit the computation. The solution is similar to (1). 
+ * '''(8)    PTM(T)   UPT(T)   CCAP(F)'''   - This is a tricky case. Upcall thread blocks on a blackhole, which is owned by a thread on a different capability. We need to put the capability to sleep and wake-up when the black-holed thunk finishes evaluation. Here, we enque the upcall thread on the blackhole. Now, the current capability does not have any runnable threads. Hence, it goes to sleep. When the thunk finishes evaluation, we examine the blocked thread. Since the thread is an upcall thread, we push it on its owning capability. This implicitly wakes up the capability, which resumes execution.  
 
 === Asynchronous Exceptions ===
 
