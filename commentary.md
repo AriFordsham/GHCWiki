@@ -85,7 +85,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
-  - Contracts in Haskell?
+  - [Contracts in Haskell](commentary/contracts)
   - [Agda-style holes in terms](holes) which supports writing partial programs.
   - [Records](records)
   - [New coercion axioms design](new-axioms)
@@ -111,6 +111,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - The Runtime System
 
+  - [A new lightweight concurrency substrate for GHC](lightweight-concurrency)
   - [Garbage Collector](garbage-collector-notes): Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
   - [GMP Memory Managment](gmp-memory-management): Describes how the garbage collector cooperates with GMP for Integer.
   - [SemiTagging](semi-tagging): Describes how the semi-tagging optimisation will be implemented.

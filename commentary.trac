@@ -69,11 +69,11 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:Commentary/Compiler/HooplPerformance A record of improvements made to the performance of the Hoopl library for dataflow optimisation]
    * [wiki:DataParallel DPH]: Notes about the implementation of Data Parallel Haskell
    * [wiki:SafeHaskell Safe Haskell]: The design of the GHC Safe Haskell extension
-   * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on SPJs "Comprehensive Comprehensions" (TransformComprehensions)
+   * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on SPJs "Comprehensive Comprehensions" (!TransformComprehensions)
 
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
-   * [wiki:Types/Contracts Contracts in Haskell]
+   * [wiki:Commentary/Contracts Contracts in Haskell]
    * [wiki:Holes Agda-style holes in terms] which supports writing partial programs.
    * [wiki:Records Records]
    * [wiki:NewAxioms New coercion axioms design]
@@ -97,6 +97,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:NewGhciDebugger New GHCi Debugger]: The new GHCi debugger.
 
  * The Runtime System
+   * [wiki:LightweightConcurrency A new lightweight concurrency substrate for GHC]
    * [wiki:GarbageCollectorNotes Garbage Collector]: Notes about GHC's existing single threaded garbage collector and development of a parallel GC.
    * [wiki:GMPMemoryManagement GMP Memory Managment]: Describes how the garbage collector cooperates with GMP for Integer.
    * [wiki:SemiTagging]: Describes how the semi-tagging optimisation will be implemented.
