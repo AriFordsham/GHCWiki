@@ -69,7 +69,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:Commentary/Compiler/HooplPerformance A record of improvements made to the performance of the Hoopl library for dataflow optimisation]
    * [wiki:DataParallel DPH]: Notes about the implementation of Data Parallel Haskell
    * [wiki:SafeHaskell Safe Haskell]: The design of the GHC Safe Haskell extension
-   * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on SPJs "Comprehensive Comprehensions" (TransformComprehensions)
+   * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on SPJs "Comprehensive Comprehensions" (!TransformComprehensions)
 
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
