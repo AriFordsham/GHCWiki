@@ -4,7 +4,7 @@
 It is a problem that cabal does not support multiple instances of the same package version installed at the same time. Instead of installing them next to each other it overwrites the previous instance. This causes packages that depended upon the overwritten instance to break. The solution is to never overwrite an installed package. In the case of inplace registrations the overwriting has already taken place which is a problem.
 
 
-Relating this to how Nix works. Cabal stores potentially every instance of every package possible. Lets call this the cabal store. There might at least be a global and a local one but they dont overlap and if they do shadowing doesnt matter. The dependency resolver selects based on the dependencies specified in the cabal file a subset of those possible package instances. This corresponds to a profile in Nix as well as a sandbox. We call this an environment.
+Relating this to how Nix works. Cabal stores potentially every instance of every package possible. Lets call this the cabal store. There might at least be a global and a local one but they dont overlap and if they do shadowing doesnt matter. The dependency resolver comes up with an install plan. In this install plan all packages have completely fixed dependencies based on the dependencies specified in the cabal file. They are a subset of those possible package instances. This corresponds to a profile in Nix as well as a sandbox. We call this an environment.
 
 ## Dependency resolution
 
@@ -32,6 +32,9 @@ The compiler, its version and its arguments and the tools and their version and 
 
 
 The source code. This is necessary because if the source code changes the result of compilation changes. For released packages i would assume that the version number uniquely identifies the source code and only hash that but what about unreleased packages? From the PackageDescription's library field the exposedModules can be extracted. Also from PackageDescription extraSrcFiles can be extracted. What about the Other Modules? We should also make sure that GHC used/uses only the files we ware hashing for compilation.
+
+
+Or we first ask a source tarball to be built as if the package was released and then this one is hashed.
 
 
 OS dependencies are not taken into account.
@@ -69,3 +72,6 @@ Installation Planner?
 
 
 Custom Builds and BuildHooks?
+
+
+Other Compilers, backwards compatibility?
