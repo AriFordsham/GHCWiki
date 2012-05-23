@@ -3,27 +3,38 @@
 
 It is a problem that cabal does not support multiple instances of the same package version installed at the same time. Instead of installing them next to each other it overwrites the previous instance. This causes packages that depended upon the overwritten instance to break. The solution is to never overwrite an installed package. In the case of inplace registrations the overwriting has already taken place which is a problem.
 
+
+Relating this to how Nix works. Cabal stores potentially every instance of every package possible. Lets call this the cabal store. There might at least be a global and a local one but they dont overlap and if they do shadowing doesnt matter. The dependency resolver selects based on the dependencies specified in the cabal file a subset of those possible package instances. This corresponds to a profile in Nix as well as a sandbox. We call this an environment.
+
+## Dependency resolution
+
+
+The dependency resolver takes into account which packages are already installed and tries to reuse them. Another option would be for the resolver to ignore which packages are already installed. It then computes the hashes for the packages it needs for compilation. Then those that aren't already present in the cabal store are built.
+
 ## Released and Unreleased packages
 
 
-If we cabal install a package that is released on hackage we call this a clean install. Those should not be used to satisfy dependencies but rather to bring a package into scope in ghci to play with it. If we cabal install an unreleased package we call this a dirty install. I assume in that the source code for a released package is uniquely identified by its version number. For unreleased packages this is not the case.
+If we cabal install a package that is released on hackage we call this a clean install. Those should not be used to satisfy dependencies but rather to bring a package into scope in ghci to play with it. If we cabal install an unreleased package we call this a dirty install. I assume that the source code for a released package is uniquely identified by its version number. For unreleased packages this is not the case.
 
 ## The cabal hash
 
 
-The idea is to identify installed packages by a hash of the information needed to build them. This hash is the new InstalledPackageId. The new installation directory for each instance is $libdir/$pkgid/$installedpackageid. The hash is computed during installation in GHC.installLib as well as during registration in GHC.generateRegistrationInfo.
+The idea is to identify installed packages by a hash of the information needed to build them. This hash is the new InstalledPackageId. The new installation directory for each instance is $libdir/$pkgid/$installedpackageid. The hash is computed during installation in GHC.installLib as well as during registration in Register.generateRegistrationInfo.
 
 
 The hash contains the following information:
 
 
-The hashes of all the package instances that are actually used for compilation. Those are available in the installedPkgs field of LocalBuildInfo.
+The hashes of all the package instances that are actually used for compilation. This is called the environment. Those are available in the installedPkgs field of LocalBuildInfo.
 
 
-The compiler, its version and its arguments and the tools and their version and their arguments. Available from LocalBuildInfo also. More specifically: compiler, withPrograms, withVanillaLib, withProfLib, withSharedLib, withDynExe, withProfExe, withOptimization, withGHCiLib, splitObjs, stripExes. Probably more.
+The compiler, its version and its arguments and the tools and their version and their arguments. Available from LocalBuildInfo also. More specifically: compiler, withPrograms, withVanillaLib, withProfLib, withSharedLib, withDynExe, withProfExe, withOptimization, withGHCiLib, splitObjs, stripExes. And a lot more.
 
 
-The source code. This is necessary because if the source code changes the result of compilation changes. For released packages i would assume that the version number uniquely identifies the source code and only hash that but what about unreleased packages? From the PackageDescription's library field the exposedModules can be extracted. Also from PackageDescription extraSrcFiles can be extracted. What about the Other Modules? There must be another way.
+The source code. This is necessary because if the source code changes the result of compilation changes. For released packages i would assume that the version number uniquely identifies the source code and only hash that but what about unreleased packages? From the PackageDescription's library field the exposedModules can be extracted. Also from PackageDescription extraSrcFiles can be extracted. What about the Other Modules? We should also make sure that GHC used/uses only the files we ware hashing for compilation.
+
+
+OS dependencies are not taken into account.
 
 
 What is ComponentLocalBuildInfo for?
@@ -35,6 +46,9 @@ The ABI hash becomes a field of InstalledPackageInfo.
 
 
 For inplace package registration any packages with the same location must be unregistered. For that you must ask for all installed packages, find the one that is installed to that location and unregister it.
+
+
+What about builtin packages like ghc-prim, base, rts and so on?
 
 ## Open Questions
 
