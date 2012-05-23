@@ -82,7 +82,7 @@ Is this perhaps better?
 
  * Include in `Data.Typeable` old methods for backward compatibility, but deprecate them:
 {{{
-ttypeOf :: forall a. Typeable a => a -> TypeRep
+typeOf :: forall a. Typeable a => a -> TypeRep
 typeOf = typeRep (Proxy :: Proxy a)
 
 typeOf1 :: forall t (a :: *). Typeable t => t a -> TypeRep
