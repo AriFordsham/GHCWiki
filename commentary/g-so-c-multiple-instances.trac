@@ -21,15 +21,15 @@ The idea is to identify installed packages by a hash of the information needed t
 
 The hash contains the following information:
 
-The hashes of all the package instances that are actually used for compilation. This is called the environment. Those are available in the installedPkgs field of LocalBuildInfo.
+The hashes of all the package instances that are actually used for compilation. This is called the environment. Those are available in the installedPkgs field of LocalBuildInfo. [When? Where?]
 
-The compiler, its version and its arguments and the tools and their version and their arguments. Available from LocalBuildInfo also. More specifically: compiler, withPrograms, withVanillaLib, withProfLib, withSharedLib, withDynExe, withProfExe, withOptimization, withGHCiLib, splitObjs, stripExes. And a lot more.
+The compiler, its version and its arguments and the tools and their version and their arguments. Available from LocalBuildInfo also. More specifically: compiler, withPrograms, withVanillaLib, withProfLib, withSharedLib, withDynExe, withProfExe, withOptimization, withGHCiLib, splitObjs, stripExes. And a lot more. [Like what?]
 
-The source code. This is necessary because if the source code changes the result of compilation changes. For released packages i would assume that the version number uniquely identifies the source code and only hash that but what about unreleased packages? From the PackageDescription's library field the exposedModules can be extracted. Also from PackageDescription extraSrcFiles can be extracted. What about the Other Modules? We should also make sure that GHC used/uses only the files we ware hashing for compilation.
+The source code. This is necessary because if the source code changes the result of compilation changes. For released packages i would assume that the version number uniquely identifies the source code and only hash that but what about unreleased packages? [Again, why is it important? Because we don't want to download the tarballs for hash computation? But then, do we just use the version? Can a dirty install ever have the same hash as a clean install?] From the PackageDescription's library field the exposedModules can be extracted. Also from PackageDescription extraSrcFiles can be extracted. What about the Other Modules? We should also make sure that GHC used/uses only the files we ware hashing for compilation.
 
-Or we first ask a source tarball to be built as if the package was released and then this one is hashed.
+Or we first ask a source tarball to be built as if the package was released and then this one is hashed. [Or? What's the difference? The compression?]
 
-OS dependencies are not taken into account.
+OS dependencies are not taken into account. [Why not?]
 
 What is ComponentLocalBuildInfo for?
 
