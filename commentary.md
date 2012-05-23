@@ -85,6 +85,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
+  - [A new lightweight concurrency substrate for GHC](lightweight-concurrency)
   - Contracts in Haskell?
   - [Agda-style holes in terms](holes) which supports writing partial programs.
   - [Records](records)
