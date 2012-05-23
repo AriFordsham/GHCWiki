@@ -60,7 +60,7 @@ Although implementing concurrency primitives as a library is hardly a novel idea
 ## Background - GHC's Concurrency RTS
 
 
-For a high-level design principle of the current scheduler, see [ Scheduler](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts/Scheduler).
+For a high-level design of the current scheduler, see [ Scheduler](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts/Scheduler).
 
 ## Concurrency Substrate
 
