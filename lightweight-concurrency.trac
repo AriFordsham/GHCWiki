@@ -393,6 +393,8 @@ For `retry` under PTM, while waiting on a PVar is still an RTS mechanism, intera
 
 === Black-hole Handling ===
 
+Any thunk evaluation may encounter a blackhole - a thunk under evaluation. When a thread encounters a thunk, the vanilla GHC suspends the thread until the thunk finishes evaluation. Similar to the solutions developed above, we can utilize the scheduler actions to yield control to another thread from the user-level scheduler. However, since the scheduler actions themselves are implemented in Haskell code, which can encounter blackholes, we might encounter situations where the user-level scheduler becomes blocked on a thread that it is scheduling, resulting in a deadlock. Moreover, the thread evaluating the blackholed thunk (blackhole owner) might be running on the same or a different capability as the thread entering the blackhole. This complicates the problem of potentially resuming a blackholed thunk's evaluation. In addition to all of these concerns, we would like the common case - a thunk finishing evaluation without being blackholed - to be fast.
+
 === Asynchronous Exceptions ===
 
 == Related Work ==
