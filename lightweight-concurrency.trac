@@ -69,7 +69,7 @@ atomically :: PTM a -> IO a
 retry      :: PTM a
 }}}
 
-A PTM transaction may allocate, read and write transactional variables of type `PVar a`. It is important to notice that PTM does provide a blocking `retry` mechanism which needs to interact with the scheduler, to block the current thread and resume another thread. We will see [#PTMretry later] how we allow such interactions while not imposing any restriction on the structure of the schedulers.
+A PTM transaction may allocate, read and write transactional variables of type `PVar a`. Transaction is atomically executed using the `atomically` primitive. It is important to notice that PTM provides a blocking `retry` mechanism which needs to interact with the scheduler, to block the current thread and resume another thread. We will see [#PTMretry later] how we allow such interactions while not imposing any restriction on the structure of the schedulers.
 
 === One-shot Continuations ===
 
