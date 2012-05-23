@@ -397,11 +397,13 @@ Any thunk evaluation may encounter a blackhole - a thunk under evaluation. When 
 
 When a thread enters a blackhole, there are essentially 3 parameters that we need to consider:
 
- 1. '''Is the thread manipulating a scheduler?''' since schedulers are implemented in Haskell code, there isn't a clear distinction between the scheduler and the rest of the program. As an approximation, we assume that whenever a thread is in the middle of a PTM transaction, it is potentially manipulating the scheduler.
- 2. '''Is this an upcall thread?''' In the common case, when a thread enters a blackhole, we utilize its scheduler actions to block it on the blackhole's blocking queue. But an upcall thread, evaluating scheduler actions from the RTS is not associated with any scheduler and hence does not have scheduler actions. This case must be handled separately.
- 3. '''Is the blackhole owner on current capability?''' If the blackhole owner is on the current capability, then the blackhole owner is currently suspended. Otherwise, thunk evaluation is potentially progressing on another capability.
+ 1. '''PTM : Is the thread manipulating a scheduler?''' since schedulers are implemented in Haskell code, there isn't a clear distinction between the scheduler and the rest of the program. As an approximation, we assume that whenever a thread is in the middle of a PTM transaction, it is potentially manipulating the scheduler.
+ 2. '''UPT : Is this an upcall thread?''' In the common case, when a thread enters a blackhole, we utilize its scheduler actions to block it on the blackhole's blocking queue. But an upcall thread, evaluating scheduler actions from the RTS is not associated with any scheduler and hence does not have scheduler actions. This case must be handled separately.
+ 3. '''CCAP : Is the blackhole owner on current capability?''' If the blackhole owner is on the current capability, then the blackhole owner is currently suspended. Otherwise, thunk evaluation is potentially progressing on another capability.
 
+Since each of these conditions can either be true or false, we have 8 cases to consider. 
 
+ 
 
 === Asynchronous Exceptions ===
 
