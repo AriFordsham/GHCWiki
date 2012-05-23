@@ -81,10 +81,11 @@ newPVar    :: a -> PTM (PVar a)
 readPVar   :: PVar a -> PTM a
 writePVar  :: PVar a -> a -> PTM ()
 atomically :: PTM a -> IO a
+retry      :: PTM a
 ```
 
 
-A PTM transaction may allocate, read and write transactional variables of type `PVar a`. It is important to notice that PTM does not provide a blocking `retry` mechanism. Such a blocking action needs to interact with the scheduler, to block the current thread and resume another thread. We will see [later](lightweight-concurrency#) how to allow such interactions while not imposing any restriction on the structure of the schedulers.
+A PTM transaction may allocate, read and write transactional variables of type `PVar a`. Transaction is atomically executed using the `atomically` primitive. It is important to notice that PTM provides a blocking `retry` mechanism which needs to interact with the scheduler, to block the current thread and resume another thread. We will see [later](lightweight-concurrency#ptm-retry) how we allow such interactions while not imposing any restriction on the structure of the schedulers.
 
 ### One-shot Continuations
 
@@ -446,7 +447,10 @@ The fast path in the LWC implementation is the same as vanilla implementation. H
 ### PTM retry
 
 
-GHC's STM module provides a 
+GHC's STM module provides a `retry` primitive, which blocks the thread invoking retry to block until one of the TVars it has read has been written to. After a thread blocks on the STM, the next available thread from the capability's run queue is resumed. Eventually, the blocked thread is added back to the run queue when one of the TVars in its read set has been written to. 
+
+
+In the LWC implementation, while waiting on a PVar is still an RTS mechanism, interaction with the scheduler is implemented using the scheduler actions. After blocking the thread on the PTM, RTS executes the thread's yieldControlAction to resume the scheduler. When the thread is eventually unblocked, its scheduleSContAction is executed to put the thread back into its user-level scheduler data structure.
 
 ### Black-hole Handling
 
