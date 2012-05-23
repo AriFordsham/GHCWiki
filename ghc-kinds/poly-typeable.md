@@ -114,11 +114,11 @@ Is this perhaps better?
 - Include in `Data.Typeable` old methods for backward compatibility, but deprecate them:
 
   ```wiki
-  ttypeOf :: forall a. Typeable a => a -> TypeRep
-  typeOf = typeRep (Proxy :: Proxy a)
+  typeOf :: forall a. Typeable a => a -> TypeRep
+  typeOf _ = typeRep (Proxy :: Proxy a)
 
   typeOf1 :: forall t (a :: *). Typeable t => t a -> TypeRep
-  typeOf1 x = typeRep (Proxy :: Proxy t)
+  typeOf1 _ = typeRep (Proxy :: Proxy t)
   ```
 
 - Make `deriving( Typeable )` work with whatever `Typeable` class is in scope.  So what it does will be determined by whether you say `import Data.Typeable` or `import Data.OldTypeable`.
