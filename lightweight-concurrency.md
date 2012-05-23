@@ -442,7 +442,7 @@ Since each of these conditions can either be true or false, we have 8 cases to c
 
 ## Related Work
 
-- [Concurrent Programming in GHC](lightweight-concurrency#)
+- [Concurrent Programming in GHC](ghc-concurrency)
 - [ Lightweight Concurrent Primitives for GHC](http://community.haskell.org/~simonmar/papers/conc-substrate.pdf)
 - [ Tackling the awkward squad](http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/)
 - [ Runtime Support for Multicore Haskell](http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf)

@@ -386,7 +386,7 @@ Since each of these conditions can either be true or false, we have 8 cases to c
 
 == Related Work ==
 
-  * [#GhcConcurrency Concurrent Programming in GHC]
+  * [wiki:GhcConcurrency Concurrent Programming in GHC]
   * [http://community.haskell.org/~simonmar/papers/conc-substrate.pdf Lightweight Concurrent Primitives for GHC]
   * [http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/ Tackling the awkward squad]
   * [http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf Runtime Support for Multicore Haskell]
