@@ -1,37 +1,10 @@
+[[PageOutline]]
+
 = Lightweight Concurrency in GHC =
 
 This page documents the effort to move GHC's concurrency support from its current location in the C part of the runtime system (RTS) to Haskell. This works builds on Peng Li's earlier work (http://community.haskell.org/~simonmar/papers/conc-substrate.pdf). This page contains information about the design, implementation, problems and potential solutions for building user-level concurrency primitives in GHC. Currently, the focus is on user-level implementation of non-deterministic parallelism in GHC ([http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent.html Control.Concurrent]).
 
 Lightweight concurrency implementation resides in the `ghc-lwc` branch in the git repo.
-
-== Table of Contents ==
-
- * [#TableofContents Table of Contents]
- * [#Introduction Introduction]
- * [#Background-GHCsConcurrencyRTS Background - GHC's Concurrency RTS]
- * [#ConcurrencySubstrate Concurrency Substrate]
-   * [#PTM PTM]
-   * [#One-shotContinuations One-shot Continuations]
-    * [#Returnvalueofaswitchingtransaction Return value of a switching transaction]
-   * [#SContStatus SCont Status]
- * [#AbstractingtheScheduler Abstracting the Scheduler]
- * [#User-levelConcurrency User-level Concurrency]
-  * [#Schedulers Schedulers]
-  * [#MVars MVars]
- * [#SystemThreadsandParallelism System Threads and Parallelism]
-  * [#SleepCapability Sleep Capability]
-  * [#SContAffinity SCont Affinity]
-  * [#BoundSCont Bound SCont]
- * [#SchedulerInteractionwithRTS Scheduler Interaction with RTS]
-  * [#BlockedIndefinitely Blocked Indefinitely]
-   * [#UnreachableConcurrentDatastructure Unreachable Concurrent Datastructure]
-   * [#UnreachableScheduler Unreachable Scheduler]
-  * [#PreemptiveScheduling Preemptive Scheduling]
-  * [#SafeForeignCalls Safe Foreign Calls]
-  * [#PTMretry PTM retry]
-  * [#Black-holeHandling Black-hole Handling]
-  * [#AsynchronousExceptions Asynchronous Exceptions]
- * [#RelatedWork Related Work]
 
 == Introduction == 
 
@@ -413,7 +386,7 @@ Since each of these conditions can either be true or false, we have 8 cases to c
 
 == Related Work ==
 
-  * [#GhcConcurrency Concurrent Programming in GHC]
+  * [wiki:GhcConcurrency Concurrent Programming in GHC]
   * [http://community.haskell.org/~simonmar/papers/conc-substrate.pdf Lightweight Concurrent Primitives for GHC]
   * [http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/ Tackling the awkward squad]
   * [http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf Runtime Support for Multicore Haskell]

@@ -6,41 +6,6 @@ This page documents the effort to move GHC's concurrency support from its curren
 
 Lightweight concurrency implementation resides in the `ghc-lwc` branch in the git repo.
 
-## Table of Contents
-
-- [Table of Contents](lightweight-concurrency#table-of-contents)
-- [Introduction](lightweight-concurrency#introduction)
-- [Background - GHC's Concurrency RTS](lightweight-concurrency#)
-- [Concurrency Substrate](lightweight-concurrency#concurrency-substrate)
-
-  - [PTM](lightweight-concurrency#ptm)
-  - [One-shot Continuations](lightweight-concurrency#)
-
-    - [Return value of a switching transaction](lightweight-concurrency#return-value-of-a-switching-transaction)
-  - [SCont Status](lightweight-concurrency#scont-status)
-- [Abstracting the Scheduler](lightweight-concurrency#abstracting-the-scheduler)
-- [User-level Concurrency](lightweight-concurrency#)
-
-  - [Schedulers](lightweight-concurrency#schedulers)
-  - [MVars](lightweight-concurrency#mvars)
-- [System Threads and Parallelism](lightweight-concurrency#system-threads-and-parallelism)
-
-  - [Sleep Capability](lightweight-concurrency#sleep-capability)
-  - [SCont Affinity](lightweight-concurrency#scont-affinity)
-  - [Bound SCont](lightweight-concurrency#bound-scont)
-- [Scheduler Interaction with RTS](lightweight-concurrency#scheduler-interaction-with-rts)
-
-  - [Blocked Indefinitely](lightweight-concurrency#blocked-indefinitely)
-
-    - [Unreachable Concurrent Datastructure](lightweight-concurrency#unreachable-concurrent-datastructure)
-    - [Unreachable Scheduler](lightweight-concurrency#unreachable-scheduler)
-  - [Preemptive Scheduling](lightweight-concurrency#preemptive-scheduling)
-  - [Safe Foreign Calls](lightweight-concurrency#safe-foreign-calls)
-  - [PTM retry](lightweight-concurrency#ptm-retry)
-  - [Black-hole Handling](lightweight-concurrency#)
-  - [Asynchronous Exceptions](lightweight-concurrency#asynchronous-exceptions)
-- [Related Work](lightweight-concurrency#related-work)
-
 ## Introduction
 
 
@@ -477,7 +442,7 @@ Since each of these conditions can either be true or false, we have 8 cases to c
 
 ## Related Work
 
-- [Concurrent Programming in GHC](lightweight-concurrency#)
+- [Concurrent Programming in GHC](ghc-concurrency)
 - [ Lightweight Concurrent Primitives for GHC](http://community.haskell.org/~simonmar/papers/conc-substrate.pdf)
 - [ Tackling the awkward squad](http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/)
 - [ Runtime Support for Multicore Haskell](http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf)
