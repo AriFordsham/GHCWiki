@@ -17,7 +17,7 @@ If we cabal install a package that is released on hackage we call this a clean i
 
 == The cabal hash ==
 
-The idea is to identify installed packages by a hash of the information needed to build them. This hash is the new InstalledPackageId. The new installation directory for each instance is $libdir/$pkgid/$installedpackageid. The hash is computed during installation in GHC.installLib as well as during registration in Register.generateRegistrationInfo.
+The idea is to identify installed packages by a hash of the information needed to build them. This hash is the new InstalledPackageId. [Probably not the hash alone, but also the package name (and also still the ABI hash?).] The new installation directory for each instance is $libdir/$pkgid/$installedpackageid. [Do we need to know the path at configure time, or build time, or only after build time?] The hash is computed during installation in GHC.installLib as well as during registration in Register.generateRegistrationInfo. [So it's computed by Cabal. At what stage? Where's the hash stored (if at all)?]
 
 The hash contains the following information:
 
