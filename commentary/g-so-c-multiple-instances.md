@@ -12,7 +12,7 @@ Currently the two concepts of storing package instances (cabal store) and select
 ## Dependency resolution
 
 
-The dependency resolver currently comes up with an install plan. An install plan is similar to an environment. Like an environment it is a set of installed packages. But it may also contain configurations for packages that are not installed yet. Like and environment it needs to be consistent.
+The dependency resolver currently comes up with an install plan. An install plan is similar to an environment. Like an environment it is a set of installed packages. But it may also contain configurations for packages that are not installed yet. Like an environment it needs to be consistent.
 
 
 "An installation plan is a set of packages that are going to be used together. It will consist of a mixture of installed packages and source packages along with their exact version dependencies." -- InstallPlan documentation
@@ -24,23 +24,23 @@ The dependencies of a package version are what is currently listed under depende
 There should be at least two modes for dependency resolution.
 
 
-The dependency resolver uses the dependencies of all possible source packages to find a set of package configurations. This is already an install plan. It then in this set replaces configurations for already installed packages by the installed package to make it more efficient.
+The dependency resolver uses the dependencies of all possible source packages to find a set of package configurations. This is already an install plan. It then in this set replaces configurations for already installed packages by the installed package to avoid rebuilding those packages.
 
 
 The other mode is what is currently done. The set of installed packages is taken into account. This might avoid more rebuilding but people might not always get the latest packages.
 
 
-Also there might be installed packages for which the source is not available. If the source is not available and installed packages are ignored those packages can not appear in the install plan.
+One drawback of ignoring installed packages is that there might be installed packages for which the source is not available. If the source is not available and installed packages are ignored those packages can not appear in the install plan.
 
 ## Using Cabal without cabal-install
 
 
-Currently if Cabal is asked to configure a package from a Setup.hs script without using cabal-install some adhoc dependency resolution that only takes into account the installed packages takes place. It is a dependency resolution because it takes the set of installed packages and creates an environment. If cabal-install figures out the environment we will want to supply this step with it.
+Currently if Cabal is asked to configure a package from a Setup.hs script without using cabal-install some adhoc dependency resolution that only takes into account the installed packages takes place. It is a dependency resolution because it takes the set of installed packages and creates an environment. After cabal-install figures out the install plan we will want to supply this step with a specific environment to build against.
 
 ## Using GHC without Cabal and cabal-install
 
 
-Currently if GHC is invoked by the user it does some adhoc form of dependency resolution. The most common case of this is using ghci. If there are multiple instances of the same package in the PackageDBStack this needs to be adjusted.
+Currently if GHC is invoked by the user it does some adhoc form of dependency resolution. The most common case of this is using ghci. If there are multiple instances of the same package in the PackageDBStack the policy used for this needs to be adjusted.
 
 ## Inplace Registration
 
@@ -55,7 +55,7 @@ If we cabal install a package that is released on hackage we call this a clean i
 ## The cabal hash
 
 
-Cabal needs to have a function to hash a build configuration. cabal-install uses the hash to check if a package needs to be built or if it is already installed. Cabal needs the hash during installation because the directory of an installed package contains the hash. It is $libdir/$pkgid/$installedpackageid. It also needs the hash during registration because a package is identified by it in the PackageDB. The hash is the new InstalledPackageId (Probably not the hash alone, but also the package name (and also still the ABI hash?)).
+Cabal needs to have a function to hash a build configuration. cabal-install uses this hash to check if a package needs to be built or if it is already installed. Cabal needs the hash during installation because the directory of an installed package contains the hash. It is $libdir/$pkgid/$installedpackageid. It also needs the hash during registration because a package is identified by it in the PackageDB. The hash is the new InstalledPackageId (Probably not the hash alone, but also the package name (and also still the ABI hash?)).
 
 
 A build configuration consists of the following:
