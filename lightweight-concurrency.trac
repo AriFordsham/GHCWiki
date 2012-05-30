@@ -24,7 +24,7 @@ For a high-level design of the current scheduler, see [http://hackage.haskell.or
 
 == Concurrency Substrate ==
 
-The idea of the concurrency substrate is to provide a minimal set of primitives over which a variety of user-level concurrency libraries can be implemented. As such, the concurrency substrate must provide a way to create threads, a way to schedule them, and a synchronization mechanism in a multiprocessor context. Whereas, the Creation and maintenance of schedulers and concurrent data structures is the task of the concurrency library. Concurrency substrate resides at [source:libraries/base/LwConc/Substrate.hs@646ec91db34c4309555fd7dd3bfe3930a4c5c55f libraries/base/LwConc/Substrate.hs].
+The idea of the concurrency substrate is to provide a minimal set of primitives over which a variety of user-level concurrency libraries can be implemented. As such, the concurrency substrate must provide a way to create threads, a way to schedule them, and a synchronization mechanism in a multiprocessor context. Whereas, the Creation and maintenance of schedulers and concurrent data structures is the task of the concurrency library. Concurrency substrate resides at [source:libraries/base/LwConc/Substrate.hs@76dc667761e38fec47e7b1aba27bb4c499fd7636 libraries/base/LwConc/Substrate.hs].
 
 === PTM ===
 
@@ -81,14 +81,22 @@ The type of the transaction that contains switchTo is PTM string, and atomically
 Of course, care must be taken to ensure that the control does not switch to an SCont that is either running, blocked on an MVar, or completed. But how do we know whether the given SCont is ready to run? We expect the scheduler writer or library implementer to indicate the status of SCont before switching. SCont status API is show below.
 
 {{{
-data SContStatus = SContRunning |           -- SCont is currently running
-                   SContKilled  |           -- SCont was killed by an (asynchronous) exception
+data ResumeToken
+
+data SContStatus = SContRunning | 
+                     -- SCont is currently running
+                   SContKilled  |           
+                     -- SCont was killed by an (asynchronous) exception
 	           SContSwitched SContSwitchReason
-data SContSwitchReason = Yielded |          -- SCont has yielded, but runnable
-                         BlockedInHaskell | -- SCont is blocked on a user-level concurrent 
-                                            -- data structure (MVars and such)
-                         BlockedInRTS |     -- SCont is blocked on a foreign call, blackhole, etc,.
-                         Completed          -- SCont has run to completion
+data SContSwitchReason = Yielded |          
+                           -- SCont has yielded, but runnable
+                         BlockedInHaskell ResumeToken | 
+                           -- SCont is blocked on a user-level concurrent 
+                           -- data structure (MVars and such)
+                         BlockedInRTS |     
+                           -- SCont is blocked on a foreign call, blackhole, etc,.
+                         Completed
+                           -- SCont has run to completion
 
 setSContSwitchReason :: SCont -> SContSwitchReason -> PTM ()
 getSContStatus       :: SCont -> PTM SContStatus
@@ -96,7 +104,20 @@ getSContStatus       :: SCont -> PTM SContStatus
 
 Any attempt to switch to an SCont with status other than `SContSwitched Yielded` throws an exception. Primitive `setSContSwitchReason` updates the status of SCont. Since setSContSwitchReason is a PTM action, the effect of updating the status takes place when the transaction commits and the control has switched to another SCont. This avoids any race conditions that might be involved in reading the status of an SCont before it has switched. 
 
-Before a switch operation, we expect the programmer to indicate the reason for switching through setScontSwitchReason. Exception is raised by the switch primitives if a switch reason has not been provided. When a switched SCont resumes execution, its status is automatically updated to `SContRunning`. 
+Before a switch operation, we expect the programmer to indicate the reason for switching through setScontSwitchReason. Exception is raised by the switch primitives if a switch reason has not been provided. When a switched SCont resumes execution, its status is automatically updated to `SContRunning`.
+
+Resume tokens are utilized for supporting asynchronous exceptions. Resume tokens are discussed along with the [#AsynchronousExceptions discussion on asynchronous exceptions].
+
+=== SCont-Local Storage ===
+
+SCont-local storage (SLS) provides a solution for associating arbitrary state with an SCont. Each SCont has a single slot with type [http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-Dynamic.html Dynamic]. SLS interface is give below:
+
+{{{
+setSLS :: SCont -> Dynamic -> IO ()
+getSLS :: SCont -> PTM Dynamic
+}}}
+
+`Data.Dynamic` provides a way for safely casting between any arbitrary data type and `Dynamic` type. This allows SLS to be generic as well as type-safe. Moreover, SLS is GC'ed along with the SCont. 
 
 == Abstracting the Scheduler ==
 
@@ -105,16 +126,16 @@ Concurrency substrate does not impose any structure on the user-level schedulers
 {{{
 ------ Schedule SCont Action :: SCont -> PTM () ------
 
-getScheduleSContAction :: SCont -> PTM (SCont -> PTM ())
+getScheduleSContAction :: PTM (SCont -> PTM ())
 setScheduleSContAction :: SCont -> (SCont -> PTM ()) -> PTM ()
 
 ----------- Yield Control Action :: PTM () -----------
 
-getYieldControlAction :: SCont -> PTM (PTM ())
+getYieldControlAction :: PTM (PTM ())
 setYieldControlAction :: SCont -> PTM () -> PTM ()
 }}}
 
-Abstractly, given an SCont, the scheduleSContAction appends the SCont to a scheduler. The yieldControlAction picks an SCont from a scheduler and switches to it. In order to make the ideas more concrete, let us assume that we have a very simple round-robin scheduler, implemented as a `PVar[SCont]`. One possible implementation of scheduler actions for this scheduler is given below.
+Abstractly, given an SCont, the scheduleSContAction appends the SCont to a scheduler. The yieldControlAction picks an SCont from a scheduler and switches to it. The `get*` functions will fetch the scheduler actions of the current SCont. In order to make the ideas more concrete, let us assume that we have a very simple round-robin scheduler, implemented as a `PVar[SCont]`. One possible implementation of scheduler actions for this scheduler is given below.
 
 {{{
 scheduleSContAction :: SCont -> PTM () 
@@ -159,13 +180,11 @@ Primitive `yield` appends the current SCont to the scheduler, picks the next SCo
 {{{
 yield :: IO ()
 yield = atomically $ do
-  s <- getCurrentSCont
   -- Append current SCont to scheduler
-  ssa <- getSSA s
-  enque :: PTM () <- ssa a
-  enque
+  ssa <- getSSA
+  ssa a
   -- Switch to next SCont from scheduler
-  switchToNext :: PTM () <- getYCA s
+  switchToNext :: PTM () <- getYCA
   switchToNext
 }}}
 
@@ -178,25 +197,25 @@ forkIO f = do
   let epilogue = atomically $ do {
     sc <- getCurrentSCont;
     setSContSwitchReason sc Completed;
-    switchToNext <- getYCA sc;
+    switchToNext <- getYCA;
     switchToNext
   }
   ns <- newSCont (f >> epilogue)  
   atomically $ do {
-    s <- getCurrentSCont;
     -- Initialize scheduler actions
-    ssa <- getSSA s;
+    ssa <- getSSA;
     setSSA ns ssa;
-    yca <- getYCA s;
+    yca <- getYCA;
     setYCA ns yca;
     -- Append the new SCont to current SCont's scheduler
-    appendAct <- ssa ns;
-    appendAct
+    ssa ns
   }
   return ns
 }}}
 
 Here, the thread that invokes forkIO initializes the new SCont (`ns`) with its own scheduler actions, and appends it to the scheduler. After the newly created SCont finishes execution, the control must switch to another thread in the scheduler. This is captured by the `epilogue`.
+
+A full implementation of a round-robin scheduler can be found [source:libraries/lwconc/LwConc/Concurrent.hs?rev=76dc667761e38fec47e7b1aba27bb4c499fd7636 here]. This scheduler has one queue per capability. Work is shared among the capabilities by spawning threads in a round-robin fashion on the capabilities.
 
 === MVars ===
 
@@ -218,11 +237,12 @@ takeMVar (MVar ref) = do
     case st of
       Empty ts -> do 
         s <- getCurrentSCont 
-        ssa <- getSSA s 
-        wakeup <- ssa s 
+        ssa <- getSSA
+        let wakeup = ssa s 
         writePVar ref $ v
           where v = Empty $ ts++[(hole, wakeup)] 
-        switchToNext <- getYCA s 
+        switchToNext <- getYCA
+        setSContSwitchReason s $ BlockedInHaskell ...
         switchToNext
       Full x ((x', wakeup):ts) -> do 
         writePVar hole x 
@@ -232,11 +252,11 @@ takeMVar (MVar ref) = do
   atomically $ readPVar hole
 }}}
 
-Primitive `takeMVar` first creates a hole, which will contain the result. If the MVar happens to be empty, we fetch the scheduleSContAction for the current thread, and append append it along with the hole to the end of the queue. This enqueued PTM action, when executed, will append the current thread to its scheduler. Finally, the control switches to the next runnable thread using the yieldControlAction. All of these actions occur atomically within the same transaction.
+Primitive `takeMVar` first creates a hole, which will contain the result. If the MVar happens to be empty, we fetch the scheduleSContAction for the current thread, and append append it along with the hole to the end of the queue. This enqueued PTM action, when executed, will append the current thread to its scheduler. We indicate the reason for switching to be `BlockedInHaskell`. Finally, the control switches to the next runnable thread using the yieldControlAction. All of these actions occur atomically within the same transaction.
 
 If the MVar is full with a pending writer, we first fill the hole with the value. Then, MVar's status is updated with the enqueued value and the rest of the writers. Finally, we execute the dequeued PTM action to place the writer into its corresponding scheduler.
 
-Notice that just like yield and forkIO, takeMVar is scheduler agnostic; the MVar implementation is cleanly separated from the scheduler implementation. Moreover, the same MVar might be shared between threads from different schedulers since they utilize the uniform scheduler interface. Since the scheduler actions are PTM actions, actions from different schedulers can be composed together elegantly and simplifies reasoning about synchronization. 
+Notice that just like yield and forkIO, takeMVar is scheduler agnostic; the MVar implementation is cleanly separated from the scheduler implementation. Moreover, the same MVar might be shared between threads from different schedulers since they utilize the uniform scheduler interface. Since the scheduler actions are PTM actions, actions from different schedulers can be composed together elegantly and simplifies reasoning about synchronization. An implementation of a MVar can be found [source:libraries/lwconc/LwConc/MVar.hs?rev=76dc667761e38fec47e7b1aba27bb4c499fd7636 here].
 
 As an aside, the race condition in [http://www.haskell.org/ghc/docs/6.12.2/html/libraries/base-4.2.0.1/Control-Concurrent-MVar.html#v%3AswapMVar swapMVar] can be eliminated with the help of PTM abstraction. TODO: show example. Thus, PTM abstraction makes it easy to construct correct concurrent data-structures. 
 
@@ -258,7 +278,7 @@ Primitive `newCapability` runs the given SCont on a free capability. If there ar
 initialTask :: IO ()
 initialTask = atomically $ do
   s <- getCurrentSCont
-  yca <- getYCA s
+  yca <- getYCA
   setSContSwitchReason s Completed
   yca
 }}}
@@ -330,7 +350,7 @@ The [http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Ex
   * How do we know whether the SCont is blocked on a concurrent data structure in Haskell? 
   * How do we safely add the thread to the Haskell scheduler?
 
-We know that any SCont blocked with status `SContSwitched BlockedInHaskell` is blocked on a concurrent data structure. For an SCont that is blocked on a concurrent data structure which has become unreachable, we raise `BlockedIndefinitelyOnConcDS` exception. Subsequently, we utilize the SCont's scheduleSContAction to put the SCont back into its corresponding scheduler. Importantly, since the scheduler actions are PTM actions, the necessary synchronization is taken care of by the PTM layer. 
+We know that any SCont blocked with status `SContSwitched BlockedInHaskell t` is blocked on a concurrent data structure. For an SCont that is blocked on a concurrent data structure which has become unreachable, we raise `BlockedIndefinitelyOnConcDS` exception. Subsequently, we utilize the SCont's scheduleSContAction to put the SCont back into its corresponding scheduler. Importantly, since the scheduler actions are PTM actions, the necessary synchronization is taken care of by the PTM layer. 
 
 ==== Unreachable Scheduler ====
 
@@ -370,7 +390,7 @@ Long lived thunks may be ''blackholed'' to avoid duplication of work. A blackhol
 
 For the LWC implementation, can we utilize the scheduler actions to yield control to another thread from the user-level scheduler, similar to the solutions above? The simple answer is no. Since the scheduler actions themselves are implemented in Haskell code, they can also encounter blackholes. Hence, we might encounter situations where the user-level scheduler becomes blocked on a thread that it is scheduling, resulting in a deadlock. 
 
-Since thunks (usually) represent pure computation, can we not duplicate thunk evaluation when we detect a deadlocked scheduler? Unfortunately, this is not so straightforward. The closure that represents a thunk is lost when the thunk is black-holed. Moreover, the thread evaluating the blackholed thunk (blackhole owner) might be running on the same or a different capability than the thread entering the blackhole. Correspondingly, the blackhole owner thread might either not be schedulable or running. This complicates the problem of potentially forcing a blackholed thunk's evaluation on a thread other than the blackhole owner. It is for these reasons we handle blackholes transparently from the programmer's perspective in the LWC implementation. 
+Since thunks (usually) represent pure computation, can we not duplicate thunk evaluation when we detect a deadlocked scheduler? Unfortunately, this is not so straightforward. The closure that represents a thunk is lost when the thunk is blackholed. Moreover, the thread evaluating the blackholed thunk (blackhole owner) might be running on the same or a different capability than the thread entering the blackhole. Correspondingly, the blackhole owner thread might either not be schedulable or running. This complicates the problem of potentially forcing a blackholed thunk's evaluation on a thread other than the blackhole owner. It is for these reasons we handle blackholes transparently from the programmer's perspective in the LWC implementation. 
 
 When a thread enters a blackhole, there are essentially 3 parameters that we need to consider:
 
@@ -380,17 +400,79 @@ When a thread enters a blackhole, there are essentially 3 parameters that we nee
 
 Since each of these conditions can either be true or false, we have 8 cases to consider. 
 
- * '''(1, 2) PTM(F)   UPT(F)   CCAP(T/F)''' - This is the typical case when a thread blocks on a black hole. Here, we enque the thread on the blackhole's blocked thread queue and perform the yieldControlAction to switch to another thread. When the thunk finishes evaluation, we examine the blocked thread queue. If a blocked thread is not an upcall thread, we know it has a scheduleSContAction, which is executed to resume the blocked thread.
+ * '''(1, 2) PTM(F)   UPT(F)   CCAP(T/F)''' - This is the typical case when a thread blocks on a blackhole. Here, we enque the thread on the blackhole's blocked thread queue and perform the yieldControlAction to switch to another thread. When the thunk finishes evaluation, we examine the blocked thread queue. If a blocked thread is not an upcall thread, we know it has a scheduleSContAction, which is executed to resume the blocked thread.
  * '''(3, 4) PTM(F)   UPT(T)   CCAP(T/F)''' - This case cannot happen. Upcall threads only execute PTM actions.
  * '''(5, 6) PTM(T)   UPT(T/F) CCAP(T)'''   - We are under PTM and potentially manipulating the scheduler. The blackhole is owned by a thread on current capability and is suspended. Hence, the only option is to force evaluation of the thunk. This is achieved by creating a closure (AP_STACK) that contains all of the frames from the blackhole owner thread until the update frame that corresponds to the blackholed thunk. Blackhole owner's stack is modified such that when it resumes, it evaluates the newly created closure instead of resuming the original thunk evaluation. Current thread evaluates the newly created thunk to force evaluation of the thunk. Here, the current thread is said to have `inherited` the thunk.
  * '''(7)    PTM(T)   UPT(F)   CCAP(F)'''   - A user-level thread under PTM has blocked on a blackhole owned by a thread on a different capability. We cannot inherit the computation. The solution is similar to (1). 
- * '''(8)    PTM(T)   UPT(T)   CCAP(F)'''   - This is a tricky case. Upcall thread blocks on a blackhole, which is owned by a thread on a different capability. We need to put the capability to sleep and wake-up when the black-holed thunk finishes evaluation. Here, we enque the upcall thread on the blackhole's blocked thread queue. Now, the current capability does not have any runnable threads. Hence, it goes to sleep. When the thunk finishes evaluation, we examine the blocked thread queue. If a blocked thread is an upcall thread, we push it on its owning capability. This implicitly wakes up the capability, which resumes execution.  
+ * '''(8)    PTM(T)   UPT(T)   CCAP(F)'''   - This is a tricky case. Upcall thread blocks on a blackhole, which is owned by a thread on a different capability. We need to put the capability to sleep and wake-up when the blackholed thunk finishes evaluation. Here, we enque the upcall thread on the blackhole's blocked thread queue. Now, the current capability does not have any runnable threads. Hence, it goes to sleep. When the thunk finishes evaluation, we examine the blocked thread queue. If a blocked thread is an upcall thread, we push it on its owning capability. This implicitly wakes up the capability, which resumes execution.  
 
 ==== RTS Messaging Layer ====
 
 Since thunk evaluation and blackholing is a critical for good performance, we would like the common case - thunk finishes evaluation without being blackholed - to be fast. Hence, we retain the RTS messaging layer between the capabilities for blocking on a blackhole. When a thread enters a blackhole whose owner thread resides on another capability, a block request message is sent to the corresponding capability. Notice that the [#SContAffinity association] between SConts (threads) and capabilities is essential for identifying which capability to send the block request message to. During every iteration of the RTS Schedule loop, a capability checks its inbox for pending messages, and if any, processes the messages. Hence, no synchronization is necessary for replacing a thunk with a value. 
 
+=== Exceptions Escaping SConts ===
+
+Every SCont has a top-level exception handler, which catches all exceptions and executes the SCont's yieldControlAction in the exception handler. If an exception escapes the computation spawned as an SCont, we mark the SCont's status as `SContKilled`, and switch to the next available SCont from the scheduler. This ensures that schedulers are not lost if an SCont is killed.
+
 === Asynchronous Exceptions ===
+
+The substrate exposes 
+
+{{{
+throwTo :: Exception e => SCont -> e -> IO ()
+}}}
+
+primitive which raises an arbitrary exception on the given SCont. The masking semantics is exactly the same as [http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent.html throwTo under Control.Concurrent]. Under the hood, RTS messaging layer is used to raised exceptions on SConts belonging to other capabilities. This is necessary since raising asynchronous exceptions involves modifying the stack, and hence, is safe only if performed on the capability to which the target SCont belongs to. If the calling SCont blocks on throwTo, we utilize the scheduler actions to resume other SConts that might be available on the scheduler. 
+
+If an exception is raised on an SCont that is blocked on an blackhole, STM, or user-level concurrent data structure, we remove the SCont from any blocking queues, raise the exception, and utilize the SCont's scheduleSContAction to enqueue it back to the scheduler. If an exception is raised on a SCont suspended on a scheduler, we simply raise the exception.
+
+For blocking actions in the RTS, such as STM, and blackholes, RTS knows how to remove the SCont from the corresponding queue. However, if an SCont happens to be blocked on a user-level data structure such as an MVar, how do we asynchronously remove the thread from the MVar data structure? Once could envision a model where a SCont blocking on a concurrent data structure would provide a `unblockSCont :: PTM()` which can be used to remove the blocked SCont from the user-level blocking queue. In the RTS, blocking queues are implemented as doubly-linked lists such that removing an element from the middle of the list is fast. However, implementing an efficient unblockSCont action for every user-level data structure can be cumbersome and complicated, and defeats the purpose of lifting the concurrency library to Haskell.
+
+Alternatively, instead of eagerly removing the SCont from the user-level blocking queue, we can defer it until the SCont is about to be unblocked from the blocking queue. In this case, on receiving the asynchronous exception, we will raise the exception on the SCont, eagerly append it to the scheduler, and mark the blocked action as invalid. The invalidation is achieved through resume tokens.
+
+{{{
+data ResumeToken
+
+newResumeToken     :: PTM ResumeToken
+isResumeTokenValid :: ResumeToken -> PTM Bool
+
+data SContSwitchReason = BlockedInHaskell ResumeToken | ...
+}}}
+
+Primitive `newResumeToken` allocates a new, valid resume token. The validity of a resume token can be queried using the primitive `isResumeTokenValid`. Whenever an SCont blocks on a user-level data structure (i.e. updating switch reason to `BlockedInHaskell`), it is expected that it is provided a new, valid resume token. If an asynchronous exception is raised on this blocked SCont, the resume token is transparently invalidated. Eventually, when the SCont is about to be unblocked from the concurrent data-structure, the resume token can be queried for validity. If the resume token is invalid, then the blocked SCont has been resumed already and hence it should not be resumed again. The following snippet shows the implementation of `takeMVar` primitive that can tolerate asynchronous exceptions. The only change is to the `wakeup` function.
+
+{{{
+takeMVar :: MVar a -> IO a 
+takeMVar (MVar ref) = do
+  hole <- atomically $ newPVar undefined 
+  atomically $ do
+    st <- readPVar ref 
+    case st of
+      Empty ts -> do 
+        s <- getCurrentSCont 
+        ssa <- getSSA
+        token <- newResumeToken
+        let wakeup = do {
+          v <- isResumeTokenValid token;
+          if v then
+            ssa s
+          else
+            return ()
+        }
+        writePVar ref $ v
+          where v = Empty $ ts++[(hole, wakeup)] 
+        switchToNext <- getYCA
+        setSContSwitchReason s $ BlockedInHaskell ...
+        switchToNext
+      Full x ((x', wakeup):ts) -> do 
+        writePVar hole x 
+        writePVar ref $ Full x' ts 
+        wakeup
+      otherwise -> ... 
+  atomically $ readPVar hole
+}}}
+
+Thus, except for resume tokens, asynchronous exceptions are transparently handled by the runtime system.
 
 == Related Work ==
 
