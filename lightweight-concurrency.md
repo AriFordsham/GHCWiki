@@ -181,9 +181,8 @@ Primitive `yield` appends the current SCont to the scheduler, picks the next SCo
 ```wiki
 yield :: IO ()
 yield = atomically $ do
-  s <- getCurrentSCont
   -- Append current SCont to scheduler
-  ssa <- getSSA s
+  ssa <- getSSA
   enque :: PTM () <- ssa a
   enque
   -- Switch to next SCont from scheduler
@@ -242,7 +241,7 @@ takeMVar (MVar ref) = do
     case st of
       Empty ts -> do 
         s <- getCurrentSCont 
-        ssa <- getSSA s 
+        ssa <- getSSA
         wakeup <- ssa s 
         writePVar ref $ v
           where v = Empty $ ts++[(hole, wakeup)] 
