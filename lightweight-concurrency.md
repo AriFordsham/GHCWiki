@@ -183,8 +183,7 @@ yield :: IO ()
 yield = atomically $ do
   -- Append current SCont to scheduler
   ssa <- getSSA
-  enque :: PTM () <- ssa a
-  enque
+  ssa a
   -- Switch to next SCont from scheduler
   switchToNext :: PTM () <- getYCA
   switchToNext
@@ -211,8 +210,7 @@ forkIO f = do
     yca <- getYCA;
     setYCA ns yca;
     -- Append the new SCont to current SCont's scheduler
-    appendAct <- ssa ns;
-    appendAct
+    ssa ns
   }
   return ns
 ```
@@ -242,7 +240,7 @@ takeMVar (MVar ref) = do
       Empty ts -> do 
         s <- getCurrentSCont 
         ssa <- getSSA
-        wakeup <- ssa s 
+        let wakeup = ssa s 
         writePVar ref $ v
           where v = Empty $ ts++[(hole, wakeup)] 
         switchToNext <- getYCA
