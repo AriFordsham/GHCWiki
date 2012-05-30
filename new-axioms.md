@@ -49,3 +49,7 @@ This wiki page is a stub:
 
 
 Status (Jan 12): the groundwork is done, in HEAD; mainly making `CoAxiom` a more fundamental data type.  Not yet started on the details.
+
+**[Discussion Page](new-axioms/discussion-page)** added May 2012, for comment/suggestions/requests for clarification/alternative solutions, to explore the design space.
+
+- We'll need some concrete syntax for the discussion, so we'll follow the cached pdf, but note that the syntax there is not final.
