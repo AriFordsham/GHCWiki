@@ -426,9 +426,9 @@ primitive which raises an arbitrary exception on the given SCont. The masking se
 
 If an exception is raised on an SCont that is blocked on an blackhole, STM, or user-level concurrent data structure, we remove the SCont from any blocking queues, raise the exception, and utilize the SCont's scheduleSContAction to enqueue it back to the scheduler. If an exception is raised on a SCont suspended on a scheduler, we simply raise the exception.
 
-For blocking actions in the RTS, such as STM, and blackholes, RTS knows how to remove the SCont from the corresponding queue. However, if an SCont happens to be blocked on a user-level data structure such as an MVar, how do we asynchronously remove the thread from the MVar data structure? Once could envision a model where a SCont blocking on a concurrent data structure would provide a `unblockSCont :: PTM()` which will remove the blocked SCont from the user-level blocking queue. The RTS blocking queues are implemented as doubly-linked lists such that removing an element from the middle of the list is fast. However, implementing an efficient unblockSCont action for every user-level data structure can be cumbersome and complicated, and defeats the purpose of lifting the concurrency library to Haskell.
+For blocking actions in the RTS, such as STM, and blackholes, RTS knows how to remove the SCont from the corresponding queue. However, if an SCont happens to be blocked on a user-level data structure such as an MVar, how do we asynchronously remove the thread from the MVar data structure? Once could envision a model where a SCont blocking on a concurrent data structure would provide a `unblockSCont :: PTM()` which can be used to remove the blocked SCont from the user-level blocking queue. In the RTS, blocking queues are implemented as doubly-linked lists such that removing an element from the middle of the list is fast. However, implementing an efficient unblockSCont action for every user-level data structure can be cumbersome and complicated, and defeats the purpose of lifting the concurrency library to Haskell.
 
-Alternatively, instead of eagerly removing the SCont from the user-level blocking queue, we can defer it until the SCont is about to be unblocked from the blocking queue. We will raise the asynchronous exception on the SCont, eagerly append it to the scheduler, and mark the blocked action as invalid. This is achieved through resume tokens.
+Alternatively, instead of eagerly removing the SCont from the user-level blocking queue, we can defer it until the SCont is about to be unblocked from the blocking queue. In this case, on receiving the asynchronous exception, we will raise the exception on the SCont, eagerly append it to the scheduler, and mark the blocked action as invalid. The invalidation is achieved through resume tokens.
 
 {{{
 data ResumeToken
@@ -439,7 +439,7 @@ isResumeTokenValid :: ResumeToken -> PTM Bool
 data SContSwitchReason = BlockedInHaskell ResumeToken | ...
 }}}
 
-Primitive `newResumeToken` allocates a new, valid resume token. The validity of a resume token can be queried using the primitive `isResumeTokenValid`. Whenever an SCont blocks on a user-level data structure, it is expected that it is given a new valid resume token. If an asynchronous exception is raised on this blocked SCont, the resume token is invalidated. Eventually, when the SCont is about to be unblocked from the concurrent data-structure, the resume token can be queried for validity. If the resume token is invalid, then the blocked SCont has been resumed already and hence it should not be resumed again. The following snippet shows the implementation of `takeMVar` primitive that can tolerate asynchronous exceptions. The only change is to the `wakeup` function.
+Primitive `newResumeToken` allocates a new, valid resume token. The validity of a resume token can be queried using the primitive `isResumeTokenValid`. Whenever an SCont blocks on a user-level data structure (i.e. updating switch reason to `BlockedInHaskell`), it is expected that it is provided a new, valid resume token. If an asynchronous exception is raised on this blocked SCont, the resume token is transparently invalidated. Eventually, when the SCont is about to be unblocked from the concurrent data-structure, the resume token can be queried for validity. If the resume token is invalid, then the blocked SCont has been resumed already and hence it should not be resumed again. The following snippet shows the implementation of `takeMVar` primitive that can tolerate asynchronous exceptions. The only change is to the `wakeup` function.
 
 {{{
 takeMVar :: MVar a -> IO a 
@@ -472,7 +472,7 @@ takeMVar (MVar ref) = do
   atomically $ readPVar hole
 }}}
 
-
+Thus, except for resume tokens, asynchronous exceptions are transparently handled by the runtime system.
 
 == Related Work ==
 
