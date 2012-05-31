@@ -394,7 +394,7 @@ The [ BlockedIndefinitelyOnMVar](http://hackage.haskell.org/packages/archive/bas
 - How do we safely add the thread to the Haskell scheduler?
 
 
-We know that any SCont blocked with status `SContSwitched BlockedInHaskell` is blocked on a concurrent data structure. For an SCont that is blocked on a concurrent data structure which has become unreachable, we raise `BlockedIndefinitelyOnConcDS` exception. Subsequently, we utilize the SCont's scheduleSContAction to put the SCont back into its corresponding scheduler. Importantly, since the scheduler actions are PTM actions, the necessary synchronization is taken care of by the PTM layer. 
+We know that any SCont blocked with status `SContSwitched BlockedInHaskell t` is blocked on a concurrent data structure. For an SCont that is blocked on a concurrent data structure which has become unreachable, we raise `BlockedIndefinitelyOnConcDS` exception. Subsequently, we utilize the SCont's scheduleSContAction to put the SCont back into its corresponding scheduler. Importantly, since the scheduler actions are PTM actions, the necessary synchronization is taken care of by the PTM layer. 
 
 #### Unreachable Scheduler
 
