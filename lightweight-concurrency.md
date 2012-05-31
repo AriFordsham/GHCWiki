@@ -500,6 +500,7 @@ Alternatively, instead of eagerly removing the SCont from the user-level blockin
 
 ```wiki
 data ResumeToken
+
 newResumeToken     :: PTM ResumeToken
 isResumeTokenValid :: ResumeToken -> PTM Bool
 
