@@ -117,7 +117,7 @@ setSLS :: SCont -> Dynamic -> IO ()
 getSLS :: SCont -> PTM Dynamic
 }}}
 
-`Data.Dynamic` provides a way for safely casting between any arbitrary data type and `Dynamic` type. This allows SLS to be generic as well as type-safe.
+`Data.Dynamic` provides a way for safely casting between any arbitrary data type and `Dynamic` type. This allows SLS to be generic as well as type-safe. Moreover, SLS is GC'ed along with the SCont. 
 
 == Abstracting the Scheduler ==
 
