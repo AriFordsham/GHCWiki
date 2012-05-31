@@ -241,6 +241,9 @@ forkIO f = do
 
 Here, the thread that invokes forkIO initializes the new SCont (`ns`) with its own scheduler actions, and appends it to the scheduler. After the newly created SCont finishes execution, the control must switch to another thread in the scheduler. This is captured by the `epilogue`.
 
+
+A full implementation of a round-robin scheduler can be found here. This scheduler has one queue per capability. Work is shared among the capabilities by spawning threads in a round-robin fashion on the capabilities.
+
 ### MVars
 
 [MVars](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent-MVar.html) are one of the basic synchronization mechanisms exposed by GHC's concurrency library. A simple user-level implementation of MVar might look like:
@@ -284,7 +287,7 @@ Primitive `takeMVar` first creates a hole, which will contain the result. If the
 If the MVar is full with a pending writer, we first fill the hole with the value. Then, MVar's status is updated with the enqueued value and the rest of the writers. Finally, we execute the dequeued PTM action to place the writer into its corresponding scheduler.
 
 
-Notice that just like yield and forkIO, takeMVar is scheduler agnostic; the MVar implementation is cleanly separated from the scheduler implementation. Moreover, the same MVar might be shared between threads from different schedulers since they utilize the uniform scheduler interface. Since the scheduler actions are PTM actions, actions from different schedulers can be composed together elegantly and simplifies reasoning about synchronization. 
+Notice that just like yield and forkIO, takeMVar is scheduler agnostic; the MVar implementation is cleanly separated from the scheduler implementation. Moreover, the same MVar might be shared between threads from different schedulers since they utilize the uniform scheduler interface. Since the scheduler actions are PTM actions, actions from different schedulers can be composed together elegantly and simplifies reasoning about synchronization. An implementation of a MVar can be found here.
 
 
 As an aside, the race condition in [swapMVar](http://www.haskell.org/ghc/docs/6.12.2/html/libraries/base-4.2.0.1/Control-Concurrent-MVar.html#v%3AswapMVar) can be eliminated with the help of PTM abstraction. TODO show example. Thus, PTM abstraction makes it easy to construct correct concurrent data-structures. 
