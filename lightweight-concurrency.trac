@@ -410,7 +410,7 @@ Since each of these conditions can either be true or false, we have 8 cases to c
 
 Since thunk evaluation and blackholing is a critical for good performance, we would like the common case - thunk finishes evaluation without being blackholed - to be fast. Hence, we retain the RTS messaging layer between the capabilities for blocking on a blackhole. When a thread enters a blackhole whose owner thread resides on another capability, a block request message is sent to the corresponding capability. Notice that the [#SContAffinity association] between SConts (threads) and capabilities is essential for identifying which capability to send the block request message to. During every iteration of the RTS Schedule loop, a capability checks its inbox for pending messages, and if any, processes the messages. Hence, no synchronization is necessary for replacing a thunk with a value. 
 
-=== Exceptions escaping SConts ===
+=== Exceptions Escaping SConts ===
 
 Every SCont has a top-level exception handler, which catches all exceptions and executes the SCont's yieldControlAction in the exception handler. If an exception escapes the computation spawned as an SCont, we mark the SCont's status as `SContKilled`, and switch to the next available SCont from the scheduler. This ensures that schedulers are not lost if an SCont is killed.
 
