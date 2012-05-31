@@ -95,14 +95,22 @@ The type of the transaction that contains switchTo is PTM string, and atomically
 Of course, care must be taken to ensure that the control does not switch to an SCont that is either running, blocked on an MVar, or completed. But how do we know whether the given SCont is ready to run? We expect the scheduler writer or library implementer to indicate the status of SCont before switching. SCont status API is show below.
 
 ```wiki
-data SContStatus = SContRunning |           -- SCont is currently running
-                   SContKilled  |           -- SCont was killed by an (asynchronous) exception
+data ResumeToken
+
+data SContStatus = SContRunning | 
+                     -- SCont is currently running
+                   SContKilled  |           
+                     -- SCont was killed by an (asynchronous) exception
 	           SContSwitched SContSwitchReason
-data SContSwitchReason = Yielded |          -- SCont has yielded, but runnable
-                         BlockedInHaskell | -- SCont is blocked on a user-level concurrent 
-                                            -- data structure (MVars and such)
-                         BlockedInRTS |     -- SCont is blocked on a foreign call, blackhole, etc,.
-                         Completed          -- SCont has run to completion
+data SContSwitchReason = Yielded |          
+                           -- SCont has yielded, but runnable
+                         BlockedInHaskell ResumeToken | 
+                           -- SCont is blocked on a user-level concurrent 
+                           -- data structure (MVars and such)
+                         BlockedInRTS |     
+                           -- SCont is blocked on a foreign call, blackhole, etc,.
+                         Completed
+                           -- SCont has run to completion
 
 setSContSwitchReason :: SCont -> SContSwitchReason -> PTM ()
 getSContStatus       :: SCont -> PTM SContStatus
@@ -113,6 +121,9 @@ Any attempt to switch to an SCont with status other than `SContSwitched Yielded`
 
 
 Before a switch operation, we expect the programmer to indicate the reason for switching through setScontSwitchReason. Exception is raised by the switch primitives if a switch reason has not been provided. When a switched SCont resumes execution, its status is automatically updated to `SContRunning`.
+
+
+Resume tokens are utilized for supporting asynchronous exceptions. Resume tokens are discussed along with the [discussion on asynchronous exceptions](lightweight-concurrency#asynchronous-exceptions).
 
 ### SCont-Local Storage
 
