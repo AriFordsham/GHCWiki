@@ -25,7 +25,7 @@ The root of the source tree is the GHC repository itself, the other repositories
 The "`tag`" in the master table in packages has the following significance:
 
 - **"`-`"**: [boot libraries](commentary/libraries), necessary to build GHC
-- **"`testsuite`"**: GHC's [regression tests](building/running-tests), necessary for a build, but is necessary if you're working on GHC
+- **"`testsuite`"**: GHC's [regression tests](building/running-tests), not necessary for a build, but is necessary if you're working on GHC
 - **"`nofib`"**: GHC's [nofib benchmark suite](building/running-no-fib)
 - **"`dph`"**: packages for [Data Parallel Haskell](data-parallel), which is not shipped with GHC but we test all changes to GHC against these repositories so they are usually included in a checked-out source tree.
 - **"`extra`"**: extra packages you might want to include in a build (the `parallel` package, for example), but aren't necessary to get a working GHC.
