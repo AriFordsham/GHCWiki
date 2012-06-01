@@ -20,11 +20,30 @@ module M2 where
         ... -- sequence of unrelated patterns on b
 }}}
 
-  (Section 3.3 Transltion of the draft design/Law 3.5 (Consistent instances) seems to be saying multiple groupings are OK. An example would make it clearer.)
+  (Section 3.3 Transltion of the draft design/Law 3.6 (Consistent instance groups) seems to be saying multiple groupings are OK. An example would make it clearer.)
 
  * Are there any rules/validation around the sequence of patterns within a grouping?
 
   If a later pattern is more specific than an earlier (so could never get selected) is that pattern flagged, or just (in effect) silently ignored?
+
+ * Must there be a most general pattern? (By most general, I mean exactly matching the instance head. Presumably it would appear last in the group.)
+
+  If not, presumably at a use site type inference could fail to find a match. For example:
+
+{{{
+type instance G a b where
+    G (c, d) Int = c
+    G Bool b     = b
+-- stop there
+
+g :: G Int Int               -- what happens now?
+}}}
+
+ * Can inference get 'stuck'? (I'm guessing so. See the groundedness issues in the '''HList''' paper, at beginning of Section 9.)
+
+  For example, at a use site for `F a b`, we can infer `a ~ Int` and `b ~ (Num b0) => b0`, but we can't refine `b` any further. So we don't have sufficient evidence to match pattern `F a a = True`; but neither can we move on to pattern `F a b = False`.
+
+
 
 == Suggestions ==
 
@@ -95,6 +114,8 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 
    * One downside is that you have to provide a translation instance for each user-defined type, and make sure the representation doesn't clash with any other type. Template Haskell helps, compiler support would be better.
 
+  (By the way, arguably the whole TTypeable project might have been unnecessary. Oleg built the approach because of persistent trouble around overlaps. But you can't do overlaps without fundeps (in any yet availabe version of GHC -- and Hugs is far worse.) Perhaps the trouble was really because of fundeps interfering with overlap? http://www.haskell.org/pipermail/haskell-prime/2012-May/003688.html As and when matching coercions are available, we'll be able to experiment.)
+
 == Comments ==
 
  * '''Instance validation''' for type families is 'eager' -- that is, each instance is validated for overlap at point of declaration.
@@ -106,8 +127,9 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 
  * '''Sudden and Silent Overlap:''' a newly-imported module or package might declare an instance (for a type class, especially a library class) that is more specific than any you've been working with. The program's behaviour may suddenly change for no (apparent) reason.
 
-  (??The original Monad Transformers approach suffered from this. The design deliberately had a most general instance declared with the class. Application modules overrode it.)
+  (??The original Monad Transformers approach suffered from this. The design deliberately had a most general instance declared with the class. Application modules overrode it. See '''Type Classes: Exploring the design space''' Jones/Jones/Meijer 1997, section 3.6.2)
 
+ * '''Undecidability:''' presumably the UndecidableInstances option is still applicable, with all the issues around termination and coverage conditions. Are there any additional considerations raised by overlaps/matching coercions?
 
 == Example Applications/Uses for Instance Overlap ==
 
