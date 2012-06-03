@@ -290,7 +290,7 @@ If the MVar is full with a pending writer, we first fill the hole with the value
 Notice that just like yield and forkIO, takeMVar is scheduler agnostic; the MVar implementation is cleanly separated from the scheduler implementation. Moreover, the same MVar might be shared between threads from different schedulers since they utilize the uniform scheduler interface. Since the scheduler actions are PTM actions, actions from different schedulers can be composed together elegantly and simplifies reasoning about synchronization. An implementation of a MVar can be found here.
 
 
-As an aside, the race condition in [swapMVar](http://www.haskell.org/ghc/docs/6.12.2/html/libraries/base-4.2.0.1/Control-Concurrent-MVar.html#v%3AswapMVar) can be eliminated with the help of PTM abstraction. TODO show example. Thus, PTM abstraction makes it easy to construct correct concurrent data-structures. 
+As an aside, the race condition in [swapMVar](http://www.haskell.org/ghc/docs/6.12.2/html/libraries/base-4.2.0.1/Control-Concurrent-MVar.html#v%3AswapMVar) can be eliminated with the help of PTM abstraction. Thus, PTM abstraction makes it easy to construct correct concurrent data-structures. 
 
 ## System Threads and Parallelism
 
