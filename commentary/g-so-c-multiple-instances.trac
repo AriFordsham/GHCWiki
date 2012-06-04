@@ -1,11 +1,48 @@
 
-== Overview ==
+== Changing the Install Location ==
 
-It is a problem that cabal and ghc do not support multiple instances of the same package version installed at the same time. This is called the multi-instace restriction. Instead of installing them next to each other cabal overwrites the previous instance. This causes packages that depended upon the overwritten instance to break. The solution is to never overwrite an installed package.
+Cabal does not support multiple instances of the same package version installed at the same time. Instead of installing them next to each other Cabal overwrites the previous instance with the same version. This causes packages that depended upon the overwritten instance to break. A solution is to never overwrite an installed package.
 
-Building a package is a function that maps a build configuration to a built package. Installing a package should mean memoizing this function to avoid rebuilding this package if possible. There should be a separation between the set of all installed packages called the cabal store and a subset of these called an environment. While the cabal store can contain multiple instances of the same package version an environment needs to be consistent. An environment is consistent if for every package it contains all dependencies which target that package have the same version.
+Currently the library part of packages is installed to $prefix/lib/$pkgid/$compiler. For example the GLUT package of version 2.3.0.0 when compiled with GHC 7.4.1 when installed globally lands in /usr/local/lib/GLUT-2.3.0.0/ghc-7.4.1/. This is the default path. It is completely customizable by the user. In order to allow multiple instances of this package to coexist we need to change the install location to a path that is unique for each instance of it. Several ways to accomplish this have been discussed:
+
+1. The InstalledPackageId is part of the path:
+It currently contains the ABI hash but we are discussing to change it. Because it will always uniquely identify an installed package it is a good choice to be part of the path. Currently there is a data directory per default under $prefix/share/$pkgid/. This path needs to be known before the package is built because it is baked into Paths_foo.hs. If we introduce a new variable $installedpkgid and it contains the ABI hash its value is only known after compilation so it can not be used in the path for the data.
+
+2. A Cabal hash is part of the path:
+We want to have Cabal compute a hash of all the information needed to build a package. We also want to avoid rebuilding a package if a package with the same hash is already present. Because of this there should only ever be one installed package with a certain Cabal hash on a machine so the Cabal hash would be a good choice to be part of the path. This assumption does not hold in a multi user environment with multiple local package databases. This is a problem when building. It does not violate the uniqueness of the installation path.
+
+3. A unique number is part of the path:
+A unique number could be the number of packages installed for example /usr/local/lib/GLUT-2.3.0.0-87 or the number of instances of this version installed for example /usr/local/lib/GLUT-2.3.0.0-2 or a random number for example /usr/local/lib/GLUT-2.3.0.0-83948393212. The advantages I see are that not much information is needed to come up with the file path and this seems to be robust against other design decisions we make now or in the future.
+
+== Identifying packages ==
+
+The InstalledPackageId uniquely identifies an installed package. It currently consists of package-version-abihash for example GLUT-2.3.0.0-70c7b988404c00401d762b8eca475e5c. The ABI hash is used to discriminate instances of the same package version, to avoid recompilation if a dependency has changed but its ABI has not and as a sanity check to refuse compilation rather than to produce garbage.
+We want multiple instances of the same package version that of course expose the same API but are built against different other packages to be installed at the same time. Although it is currently very likely that those have different ABI hashes this is not guaranteed. So the InstalledPackageId as currently defined is unsuitable to uniquely identify all installed package instances.
+
+== Separating storage and selection of packages ==
 
 Currently the two concepts of storing package instances (cabal store) and selecting package instances for building (environment) are conflated into a PackageDB. Sandboxes are used as a workaround to create multiple different environments. But they also create multiple places to store installed packages. The disadvantages of this are disk usage, compilation time and one might lose the overview. Also if the multi-instance restriction is not lifted sandboxes will eventually suffer from the same unintended breakage of packages as non-sandboxed PackageDBs.
+There should be a separation between the set of all installed packages called the cabal store and a subset of these called an environment. While the cabal store can contain multiple instances of the same package version an environment needs to be consistent. An environment is consistent if for every package version it contains only one instance of that package version.
+
+== Avoiding rebuilding a package ==
+
+Building a package is a function that maps a build configuration to a built package. Installing a package should mean memoizing this function to avoid rebuilding this package if possible. Currently only a small part of the configuration of an installed package is stored and only this small part can be used to determine if it is valid to depend upon a certain installed package. For example it is not tracked if a package was built with profiling support. We could enrich the InstalledPackageInfo with a lot of information about the package configuration. Or we could hash the package configuration and only add this hash to the InstalledPackageInfo.
+
+== The cabal hash ==
+
+We hash the build configuration of a package that is to be built. cabal-install uses this hash to check if a package is already installed.
+
+A build configuration consists of the following:
+
+The hashes of all the package instances that are actually used for compilation. This is the environment. It is available in the installedPkgs field of LocalBuildInfo which is available in every step after configuration. It can also be extracted from an InstallPlan after dependency resolution.
+
+The compiler, its version and its arguments and the tools and their version and their arguments. Available from LocalBuildInfo also. More specifically: compiler, withPrograms, withVanillaLib, withProfLib, withSharedLib, withDynExe, withProfExe, withOptimization, withGHCiLib, splitObjs, stripExes. And a lot more. [Like what?]
+
+The source code. This is necessary because if the source code changes the result of compilation changes. For released packages i would assume that the version number uniquely identifies the source code. A hash of the source code should be available from hackage to avoid downloading the source code. For an unreleased package we need to find all the source files that are needed for building it. Including non-haskell source files. One way is to ask a source tarball to be built as if the package was released and then hash all the sources included in that.
+
+Can a dirty install ever have the same hash as a clean install? No, because if it had it would have to use the same source code. But this source code is released so by definition it would be a clean install. Even if the source code was downloaded manually and cabal install was invoked in that directory.
+
+OS dependencies are not taken into account because i think it would be very hard.
 
 == Dependency resolution ==
 
@@ -39,21 +76,7 @@ We try to never overwrite the files of an installed package. In the case of inpl
 
 If we cabal install a package that is released on hackage we call this a clean install. If we cabal install an unreleased package we call this a dirty install. Clean installs are mainly used to bring a package into scope for ghci and to install applications. While they can be used to satisfy dependencies this is discouraged. For released packages the set of source files needed for compilation is known. For unreleased packages this is currently not the case.
 
-== The cabal hash ==
 
-Cabal needs to have a function to hash a build configuration. cabal-install uses this hash to check if a package needs to be built or if it is already installed. Cabal needs the hash during installation because the directory of an installed package contains the hash. It is $libdir/$pkgid/$installedpackageid. It also needs the hash during registration because a package is identified by it in the PackageDB. The hash is the new InstalledPackageId (Probably not the hash alone, but also the package name (and also still the ABI hash?)).
-
-A build configuration consists of the following:
-
-The hashes of all the package instances that are actually used for compilation. This is the environment. It is available in the installedPkgs field of LocalBuildInfo which is available in every step after configuration. It can also be extracted from an InstallPlan after dependency resolution.
-
-The compiler, its version and its arguments and the tools and their version and their arguments. Available from LocalBuildInfo also. More specifically: compiler, withPrograms, withVanillaLib, withProfLib, withSharedLib, withDynExe, withProfExe, withOptimization, withGHCiLib, splitObjs, stripExes. And a lot more. [Like what?]
-
-The source code. This is necessary because if the source code changes the result of compilation changes. For released packages i would assume that the version number uniquely identifies the source code. A hash of the source code should be available from hackage to avoid downloading the source code. For an unreleased package we need to find all the source files that are needed for building it. Including non-haskell source files. One way is to ask a source tarball to be built as if the package was released and then hash all the sources included in that.
-
-Can a dirty install ever have the same hash as a clean install? No, because if it had it would have to use the same source code. But this source code is released so by definition it would be a clean install. Even if the source code was downloaded manually and cabal install was invoked in that directory.
-
-OS dependencies are not taken into account because i think it would be very hard.
 
 == Other ==
 
