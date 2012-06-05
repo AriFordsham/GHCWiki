@@ -81,15 +81,16 @@ type instance F Int = Char
 x = undefined :: FMap F (HJust Int)
 }}}
 
-Type synonyms can manipulate constraint kinds but can not use
-them. The standard encoding of the above class from FD to
-superclass equalities does not work.
+The standard encoding of the above class from FD to
+superclass equalities does not work because type instances
+can't have type variables on the RHS which weren't introduced
+in the LHS:
 
 {{{
 class (f :<$>: a) ~ b =>  FMap (f :: * -> * -> Constraint) a b
   where type f :<$>: a
-instance f a b => FMap f (HJust a) b
-  where type f :<$>: (HJust a) = HJust b
+instance f a b => FMap f (HJust a) (HJust b)
+  where type f :<$>: (HJust a) = HJust b -- error, b not available
 }}}
 
 === No overlapping type instances ===
