@@ -69,8 +69,7 @@ instance (f a b) => FMap f (HJust a) (HJust b)
 x = undefined :: FMap F (HJust Int) a => a
 }}}
 
-But type families cannot be partially applied (`Type synonym F' should
-have 1 argument, but has been given none`):
+But type families cannot be partially applied ({{{Type synonym F' should have 1 argument, but has been given none}}}):
 
 {{{
 type family FMap (f :: * -> *) a
@@ -83,13 +82,14 @@ x = undefined :: FMap F (HJust Int)
 }}}
 
 Type synonyms can manipulate constraint kinds but can not use
-them. The following code doesn't make sense.
+them. The standard encoding of the above class from FD to
+superclass equalities does not work.
 
 {{{
 class (f :<$>: a) ~ b =>  FMap (f :: * -> * -> Constraint) a b
   where type f :<$>: a
-instance FMap f (HJust a) b
-  where type f :<$>: (HJust a) = f a b => b
+instance f a b => FMap f (HJust a) b
+  where type f :<$>: (HJust a) = HJust b
 }}}
 
 === No overlapping type instances ===
@@ -254,8 +254,7 @@ type instance a `Minus` b = a + Negate b
 
 ==== The result of a class constraint is not obvious. ====
 
-`C a b` could have
- the FD `a -> b`, `b -> a`, neither, both or even someting like
+`C a b` could have the FD `a -> b`, `b -> a`, neither, both or even someting like
 `-> a b`. Looking at the `:info` doesn't always help to figure out the
 resulting FD of a class. The kind of a class does not include the
 FD. There is also no FD inference.
