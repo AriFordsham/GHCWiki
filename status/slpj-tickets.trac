@@ -118,6 +118,7 @@
  * #4175: better GHCi info for type-function instances
 
 == Types and type inference ==
+ * #6065: GHC suggests a type signature that it then rejects
  * #5320: overlap delicacy
  * #4347, #4295: impredicativity
  * #5267, #5609, #5777, #344: bugs in arrows; awaiting refactoring by Dan
