@@ -48,6 +48,9 @@ g :: G Int Int               -- what happens now?
 > >
 > > For example, at a use site for `F a b`, we can infer `a ~ Int` and `b ~ (Num b0) => b0`, but we can't refine `b` any further. So we don't have sufficient evidence to match pattern `F a a = True`; but neither can we move on to pattern `F a b = False`.
 
+
+SCW: For these last two, it would be consistent with current treatment (and with multiple groups) to allow 'stuck' type families. Perhaps GHC could flag a few more bugs if the user could specify when a type family was expected to be fully covered, but I don't think that failing to do this check will jeopardize type soundness.  
+
 ## Suggestions
 
 - **Instance match fail:** There are use cases where we want to make the existence of a more specific match a type-level failure. Currently this needs fudging with fake instances and constraints, leading to mystifying messages. The example is HList Lacks constraint.
