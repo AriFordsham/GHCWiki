@@ -2,7 +2,6 @@
 
 ## Type inference
 
-- [\#6093](https://gitlab.haskell.org//ghc/ghc/issues/6093): polymorphic recursion at the kind level
 - [\#5591](https://gitlab.haskell.org//ghc/ghc/issues/5591): add left/right back to coercions
 - [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
 - [\#6068](https://gitlab.haskell.org//ghc/ghc/issues/6068): fundeps and polykinds
