@@ -10,16 +10,10 @@ type family Equal a b :: Bool
 ```
 
 
-so that `(Equal t1 t2)` was `True` if `t1`=`t2` and `False` otherwise.  But it isn't.  You can do  it for a fixed collection of types thus:
-
-```wiki
-type instance Equal a a = True
-type instance Equal Int Bool = False
-type instance Equal Bool Int = False
-```
+so that `(Equal t1 t2)` was `True` if `t1`=`t2` and `False` otherwise.  But it isn't.  
 
 
-but this obviously gets stupid as you add more types.  Nor can you write
+You can't write
 
 ```wiki
 type instance Equal a a = True
@@ -28,6 +22,39 @@ type instance Equal a b = False
 
 
 because System FC (rightly) prohibits overlapping family instances.  
+
+
+Expanding this out, you can do it for a fixed collection of types thus:
+
+```wiki
+type instance Equal Int Int = True
+type instance Equal Bool Bool = True
+type instance Equal Int Bool = False
+type instance Equal Bool Int = False
+```
+
+
+but this obviously gets stupid as you add more types.  
+
+
+Furthermore, this is not what you want. Even if we restrict the equality function to booleans
+
+```wiki
+type family Equal (a :: Bool) (b :: Bool) :: Bool
+```
+
+
+we can't define instances of Equal so that a constraint like this one
+
+```wiki
+Equal a a ~ True
+```
+
+
+is satisfiable---the type instances only reduce if a is known to True or False. GHC doesn't reason by cases.  (Nor should it, \|Any\| also inhabits \|Bool\|. No kinds really are closed.)
+
+
+The only way to work with this sort of reasoning is to use Overlapping Instances, as suggested in the [ HList paper.](http://homepages.cwi.nl/~ralf/HList/)
 
 ## What to do about it
 
