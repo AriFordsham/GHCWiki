@@ -84,13 +84,6 @@ type family Add (m :: Nat2) (n :: Nat2) :: Nat2
 
 **Future work:** promote type synonyms to kind synonyms.
 
-# Better support for kinds in Template Haskell
-
-
-Currently there is no support for promoted datatypes, or the kind `Constraint`, in Template Haskell.
-
-**Future work:** address [ \#5612](http://hackage.haskell.org/trac/ghc/ticket/5612), designing and implementing a way for Template Haskell to reify the new kinds.
-
 # Generalized Algebraic Data Kinds (GADKs)
 
 **Future work:** this section deals with a proposal to collapse kinds and sorts into a single system
