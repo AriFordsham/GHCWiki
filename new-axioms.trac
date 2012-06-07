@@ -47,12 +47,42 @@ The only way to work with this sort of reasoning is to use Overlapping Instances
 
 == What to do about it ==
 
-So the deficiency is in System FC, and it seems fundamental.  We've been working on an extension to System FC, with a corresponding source-language extension, that does allow overlapping type families, with care. You would write something like this:
+So the deficiency is in System FC, and it seems fundamental.  We've been working on an extension to System FC, with a corresponding source-language extension, that does allow overlapping type families, with care.  Here's the idea:
+
+ *  A `type instance` declaration can define multiple equations, not just one:
 {{{
-type instance where
+type instance Eq where
   Equal a a = True
   Equal a b = False
 }}}
+
+ * Patterns within a single `type instance` declaration (henceforth "group") may overlap, and are matched top to bottom.
+
+ * A single type family may, as now, have multiple `type instance` declarations:
+{{{
+type family F a :: *
+
+type instance F where
+  F [Int] = Int
+  F [a]   = Bool
+
+type instance F where
+  F (Int,b) = Char
+  F (a,b)   = [Char]
+}}}
+
+ * The groups for `F` may not overlap.  That is, there must be no type `t` such that `(F t)` matches both groups.
+
+ * The groups do not need to be exhaustive.   If there is no equation that matches, the call is stuck. (This is exactly as at present.)
+
+ * It would perhaps be possible to emit warnings for equations that are shadowed:
+{{{
+type instance F where
+  F (a,b)   = [Char]
+  F (Int,b) = Char
+}}}
+  Here the second equation can never match.
+  
 
 
 
