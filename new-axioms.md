@@ -1,5 +1,17 @@
 # Pattern-matching axioms
 
+
+Thhis page describes an extension to type families that supports overlap.
+
+- See [ this Github repo](https://github.com/dreixel/New-axioms) for a Latex draft of the design
+- Here is a [ cached pdf](https://docs.google.com/open?id=0B1pOVvPp4fVdOTdjZjU0YWYtYTA5Yy00NmFkLTkxMWUtZmI0NmNhZTQwYzVl) of the current state
+- We'll use GHC branch `ghc-axioms` for development work.
+- See also the **[Discussion Page](new-axioms/discussion-page)** added May 2012, for comment/suggestions/requests for clarification/alternative solutions, to explore the design space.
+- We'll need some concrete syntax for the discussion, so we'll follow the cached pdf, but note that the syntax there is not final.
+
+
+Status (Jan 12): the groundwork is done, in HEAD; mainly making `CoAxiom` a more fundamental data type.  Not yet started on the details.
+
 ## Background
 
 
@@ -59,24 +71,42 @@ The only way to work with this sort of reasoning is to use Overlapping Instances
 ## What to do about it
 
 
-So the deficiency is in System FC, and it seems fundamental.  We've been working on an extension to System FC, with a corresponding source-language extension, that does allow overlapping type families, with care. You would write something like this:
+So the deficiency is in System FC, and it seems fundamental.  We've been working on an extension to System FC, with a corresponding source-language extension, that does allow overlapping type families, with care.  Here's the idea:
 
-```wiki
-type instance where
-  Equal a a = True
-  Equal a b = False
-```
+-  A `type instance` declaration can define multiple equations, not just one:
 
+  ```wiki
+  type instance Eq where
+    Equal a a = True
+    Equal a b = False
+  ```
 
-This wiki page is a stub:
+- Patterns within a single `type instance` declaration (henceforth "group") may overlap, and are matched top to bottom.
 
-- See [ this Github repo](https://github.com/dreixel/New-axioms) for a Latex draft of the design
-- Here is a [ cached pdf](https://docs.google.com/open?id=0B1pOVvPp4fVdOTdjZjU0YWYtYTA5Yy00NmFkLTkxMWUtZmI0NmNhZTQwYzVl) of the current state
-- We'll use GHC branch `ghc-axioms` for development work.
+- A single type family may, as now, have multiple `type instance` declarations:
 
+  ```wiki
+  type family F a :: *
 
-Status (Jan 12): the groundwork is done, in HEAD; mainly making `CoAxiom` a more fundamental data type.  Not yet started on the details.
+  type instance F where
+    F [Int] = Int
+    F [a]   = Bool
 
-**[Discussion Page](new-axioms/discussion-page)** added May 2012, for comment/suggestions/requests for clarification/alternative solutions, to explore the design space.
+  type instance F where
+    F (Int,b) = Char
+    F (a,b)   = [Char]
+  ```
 
-- We'll need some concrete syntax for the discussion, so we'll follow the cached pdf, but note that the syntax there is not final.
+- The groups for `F` may not overlap.  That is, there must be no type `t` such that `(F t)` matches both groups.
+
+- The groups do not need to be exhaustive.   If there is no equation that matches, the call is stuck. (This is exactly as at present.)
+
+- It would perhaps be possible to emit warnings for equations that are shadowed:
+
+  ```wiki
+  type instance F where
+    F (a,b)   = [Char]
+    F (Int,b) = Char
+  ```
+
+  Here the second equation can never match.
