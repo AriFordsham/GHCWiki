@@ -29,6 +29,7 @@
  * #2289, #2387, #1600: nested CPR analysis	
  * #5996, #149, #2940: CSE (patch offered)
  * #6047: GHC retains unnecessary binding
+ * #6135: unboxed booleans
  * #5916: `runST` isn't free
  * #5522, #6092: liberate-case runs out of memory
  * #5366, #3990: UNPACK for data families, and with phantom types, needs data con wrapper refactoring
