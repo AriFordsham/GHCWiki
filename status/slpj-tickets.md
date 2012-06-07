@@ -4,7 +4,7 @@
 
 - [\#5591](https://gitlab.haskell.org//ghc/ghc/issues/5591): add left/right back to coercions
 - [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
-- [\#6049](https://gitlab.haskell.org//ghc/ghc/issues/6049), [\#6093](https://gitlab.haskell.org//ghc/ghc/issues/6093): GADTs and polykinds
+- [\#6049](https://gitlab.haskell.org//ghc/ghc/issues/6049), [\#6093](https://gitlab.haskell.org//ghc/ghc/issues/6093), [\#6137](https://gitlab.haskell.org//ghc/ghc/issues/6137): GADTs and polykinds
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
 - [\#6065](https://gitlab.haskell.org//ghc/ghc/issues/6065): suggested type sig is then rejected
 - [\#5913](https://gitlab.haskell.org//ghc/ghc/issues/5913), [\#5751](https://gitlab.haskell.org//ghc/ghc/issues/5751), [\#6117](https://gitlab.haskell.org//ghc/ghc/issues/6117): type-class dictionary loops
@@ -32,6 +32,7 @@
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387), [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600): nested CPR analysis        
 - [\#5996](https://gitlab.haskell.org//ghc/ghc/issues/5996), [\#149](https://gitlab.haskell.org//ghc/ghc/issues/149), [\#2940](https://gitlab.haskell.org//ghc/ghc/issues/2940): CSE (patch offered)
 - [\#6047](https://gitlab.haskell.org//ghc/ghc/issues/6047): GHC retains unnecessary binding
+- [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135): unboxed booleans
 - [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
 - [\#5522](https://gitlab.haskell.org//ghc/ghc/issues/5522), [\#6092](https://gitlab.haskell.org//ghc/ghc/issues/6092): liberate-case runs out of memory
 - [\#5366](https://gitlab.haskell.org//ghc/ghc/issues/5366), [\#3990](https://gitlab.haskell.org//ghc/ghc/issues/3990): UNPACK for data families, and with phantom types, needs data con wrapper refactoring
