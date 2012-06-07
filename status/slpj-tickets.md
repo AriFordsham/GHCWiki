@@ -4,10 +4,8 @@
 
 - [\#5591](https://gitlab.haskell.org//ghc/ghc/issues/5591): add left/right back to coercions
 - [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
-- [\#6049](https://gitlab.haskell.org//ghc/ghc/issues/6049), [\#6093](https://gitlab.haskell.org//ghc/ghc/issues/6093), [\#6137](https://gitlab.haskell.org//ghc/ghc/issues/6137): GADTs and polykinds
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
-- [\#6065](https://gitlab.haskell.org//ghc/ghc/issues/6065): suggested type sig is then rejected
-- [\#5913](https://gitlab.haskell.org//ghc/ghc/issues/5913), [\#5751](https://gitlab.haskell.org//ghc/ghc/issues/5751), [\#6117](https://gitlab.haskell.org//ghc/ghc/issues/6117): type-class dictionary loops
+- [\#5913](https://gitlab.haskell.org//ghc/ghc/issues/5913), [\#5751](https://gitlab.haskell.org//ghc/ghc/issues/5751), [\#6117](https://gitlab.haskell.org//ghc/ghc/issues/6117): type-class dictionary loops (branch `silent-sc-args`)
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642), [\#5970](https://gitlab.haskell.org//ghc/ghc/issues/5970), [\#5030](https://gitlab.haskell.org//ghc/ghc/issues/5030): slow constraint solving
 
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): Injective type families (patch offered)
@@ -17,13 +15,9 @@
 
 ## Template Haskell
 
-- [\#6064](https://gitlab.haskell.org//ghc/ghc/issues/6064): binders in `InstanceD`
-- [\#5612](https://gitlab.haskell.org//ghc/ghc/issues/5612): support for kinds (patch available)
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): allow splicing of import declarations
-- [\#5854](https://gitlab.haskell.org//ghc/ghc/issues/5854): INLINABLE pragmas (patch offered)
 - [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364): cycle in type declarations
 - [\#5469](https://gitlab.haskell.org//ghc/ghc/issues/5469), [\#4429](https://gitlab.haskell.org//ghc/ghc/issues/4429): `reinerp` work on `newName` and export reorganisation
-- [\#5375](https://gitlab.haskell.org//ghc/ghc/issues/5375): semantics of `newName`
 
 ## Optimisation
 
@@ -37,10 +31,6 @@
 - [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
 - [\#5522](https://gitlab.haskell.org//ghc/ghc/issues/5522), [\#6092](https://gitlab.haskell.org//ghc/ghc/issues/6092): liberate-case runs out of memory
 - [\#5366](https://gitlab.haskell.org//ghc/ghc/issues/5366), [\#3990](https://gitlab.haskell.org//ghc/ghc/issues/3990): UNPACK for data families, and with phantom types, needs data con wrapper refactoring
-
-## GHCi
-
-- [\#5527](https://gitlab.haskell.org//ghc/ghc/issues/5527): `mkTopLevEnv: interpreeted`.  (Paolo)
 
 ## Features
 
