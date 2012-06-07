@@ -14,6 +14,31 @@ Sub-pages
 
 # Future work
 
+## Promoting data families
+
+
+Consider this:
+
+```wiki
+  data family T a
+  data instance T Int = MkT
+  data Proxy (a :: k)
+  data S = MkS (Proxy 'MkT)
+```
+
+
+Is it ok to use the promoted data family instance constructor `MkT` in
+the data declaration for `S`?  No, we don't allow this. It *might* make
+sense, but at least it would mean that we'd have to interleave
+typechecking instances and data types, whereas at present we do data
+types *then* instances.
+
+
+A couple of people have asked about this
+
+- [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/GenericDeriving\#Digression](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/GenericDeriving#Digression)
+- [ http://www.reddit.com/r/haskell/comments/u7oxb/is_it_possible_to_datakindlift_a_data_family/](http://www.reddit.com/r/haskell/comments/u7oxb/is_it_possible_to_datakindlift_a_data_family/)
+
 ## [ \#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) (proper handling of infix promoted constructors)
 
 
