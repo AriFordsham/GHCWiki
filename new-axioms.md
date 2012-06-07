@@ -3,9 +3,14 @@
 
 Thhis page describes an extension to type families that supports overlap.
 
+- See [ this Github repo](https://github.com/dreixel/New-axioms) for a Latex draft of the design
+- Here is a [ cached pdf](https://docs.google.com/open?id=0B1pOVvPp4fVdOTdjZjU0YWYtYTA5Yy00NmFkLTkxMWUtZmI0NmNhZTQwYzVl) of the current state
+- We'll use GHC branch `ghc-axioms` for development work.
 - See also the **[Discussion Page](new-axioms/discussion-page)** added May 2012, for comment/suggestions/requests for clarification/alternative solutions, to explore the design space.
-
 - We'll need some concrete syntax for the discussion, so we'll follow the cached pdf, but note that the syntax there is not final.
+
+
+Status (Jan 12): the groundwork is done, in HEAD; mainly making `CoAxiom` a more fundamental data type.  Not yet started on the details.
 
 ## Background
 
@@ -73,13 +78,3 @@ type instance where
   Equal a a = True
   Equal a b = False
 ```
-
-
-This wiki page is a stub:
-
-- See [ this Github repo](https://github.com/dreixel/New-axioms) for a Latex draft of the design
-- Here is a [ cached pdf](https://docs.google.com/open?id=0B1pOVvPp4fVdOTdjZjU0YWYtYTA5Yy00NmFkLTkxMWUtZmI0NmNhZTQwYzVl) of the current state
-- We'll use GHC branch `ghc-axioms` for development work.
-
-
-Status (Jan 12): the groundwork is done, in HEAD; mainly making `CoAxiom` a more fundamental data type.  Not yet started on the details.
