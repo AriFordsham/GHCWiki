@@ -1,5 +1,11 @@
 = Pattern-matching axioms =
 
+Thhis page describes an extension to type families that supports overlap.
+
+ * See also the ''' [wiki:NewAxioms/DiscussionPage Discussion Page] ''' added May 2012, for comment/suggestions/requests for clarification/alternative solutions, to explore the design space.
+
+ * We'll need some concrete syntax for the discussion, so we'll follow the cached pdf, but note that the syntax there is not final.
+
 == Background == 
 One might imagine that it would be a simple matter to have a type-level function
 {{{
@@ -52,7 +58,4 @@ This wiki page is a stub:
 Status (Jan 12): the groundwork is done, in HEAD; mainly making `CoAxiom` a more fundamental data type.  Not yet started on the details.
 
 
-''' [wiki:NewAxioms/DiscussionPage Discussion Page] ''' added May 2012, for comment/suggestions/requests for clarification/alternative solutions, to explore the design space.
-
- * We'll need some concrete syntax for the discussion, so we'll follow the cached pdf, but note that the syntax there is not final.
 
