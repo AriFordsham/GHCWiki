@@ -1,6 +1,6 @@
 = Pattern-matching axioms =
 
-Thhis page describes an extension to type families that supports overlap.
+This page describes an extension to type families that supports overlap.
 
  * See [https://github.com/dreixel/New-axioms this Github repo] for a Latex draft of the design
  * Here is a [https://docs.google.com/open?id=0B1pOVvPp4fVdOTdjZjU0YWYtYTA5Yy00NmFkLTkxMWUtZmI0NmNhZTQwYzVl cached pdf] of the current state
@@ -51,7 +51,7 @@ So the deficiency is in System FC, and it seems fundamental.  We've been working
 
  *  A `type instance` declaration can define multiple equations, not just one:
 {{{
-type instance Eq where
+type instance Equal where
   Equal a a = True
   Equal a b = False
 }}}
@@ -82,8 +82,4 @@ type instance F where
   F (Int,b) = Char
 }}}
   Here the second equation can never match.
-  
-
-
-
-
+ 

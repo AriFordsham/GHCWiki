@@ -1,7 +1,7 @@
 # Pattern-matching axioms
 
 
-Thhis page describes an extension to type families that supports overlap.
+This page describes an extension to type families that supports overlap.
 
 - See [ this Github repo](https://github.com/dreixel/New-axioms) for a Latex draft of the design
 - Here is a [ cached pdf](https://docs.google.com/open?id=0B1pOVvPp4fVdOTdjZjU0YWYtYTA5Yy00NmFkLTkxMWUtZmI0NmNhZTQwYzVl) of the current state
@@ -76,7 +76,7 @@ So the deficiency is in System FC, and it seems fundamental.  We've been working
 -  A `type instance` declaration can define multiple equations, not just one:
 
   ```wiki
-  type instance Eq where
+  type instance Equal where
     Equal a a = True
     Equal a b = False
   ```
