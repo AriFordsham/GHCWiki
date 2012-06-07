@@ -13,6 +13,7 @@
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): Injective type families (patch offered)
 - [\#5939](https://gitlab.haskell.org//ghc/ghc/issues/5939), [\#5936](https://gitlab.haskell.org//ghc/ghc/issues/5936): Pedro's generics
 - [\#5863](https://gitlab.haskell.org//ghc/ghc/issues/5863): deriving `Typeable` for data families
+- [NewAxioms](new-axioms) Pattern matching axioms
 
 ## Template Haskell
 
