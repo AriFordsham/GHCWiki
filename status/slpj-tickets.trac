@@ -13,10 +13,7 @@
  * [wiki:NewAxioms] Pattern matching axioms
 
 == Template Haskell ==
- * #6064: binders in `InstanceD`
- * #5612: support for kinds (patch available)
  * #1475: allow splicing of import declarations
- * #5854: INLINABLE pragmas (patch offered)
  * #4364: cycle in type declarations
  * #5469, #4429: `reinerp` work on `newName` and export reorganisation
  * #5375: semantics of `newName`
@@ -32,9 +29,6 @@
  * #5916: `runST` isn't free
  * #5522, #6092: liberate-case runs out of memory
  * #5366, #3990: UNPACK for data families, and with phantom types, needs data con wrapper refactoring
-
-== GHCi ==
- * #5527: `mkTopLevEnv: interpreeted`.  (Paolo)
 
 == Features ==
  * #5972: option to suppress record selectors
