@@ -8,61 +8,38 @@ Sub-pages
 
 - [GhcKinds/KindPolymorphism](ghc-kinds/kind-polymorphism)
 - [GhcKinds/PolyTypeable](ghc-kinds/poly-typeable) A kind-polymorphic version of the `Typeable` class.
+- [ExplicitTypeApplication](explicit-type-application) proposes a syntax for explicit kind application
 
-# Explicit kind variables
+---
+
+# Future work
+
+## Promoting data families
 
 
-Currently we do not handle kind variables in the source language. So the following is invalid, for instance:
+Consider this:
 
 ```wiki
-type family Apply (f :: k1 -> k2) (a :: k1)
+  data family T a
+  data instance T Int = MkT
+  data Proxy (a :: k)
+  data S = MkS (Proxy 'MkT)
 ```
 
 
-Naturally we want to allow this. The syntax we propose is the one above, as described in the paper.
-(At least until [ExplicitTypeApplication](explicit-type-application) gets implemented.)
-
-**Future work:** allow kind variable annotation.
-Since the core language has all the support for kind variables, this shouldn't be too hard.
-
-# Kind defaulting in type families
+Is it ok to use the promoted data family instance constructor `MkT` in
+the data declaration for `S`?  No, we don't allow this. It *might* make
+sense, but at least it would mean that we'd have to interleave
+typechecking instances and data types, whereas at present we do data
+types *then* instances.
 
 
-At the moment, when you define a type family without `-XPolyKinds` like this:
+A couple of people have asked about this
 
-```wiki
-type family F a
-```
+- [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/GenericDeriving\#Digression](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/GenericDeriving#Digression)
+- [ http://www.reddit.com/r/haskell/comments/u7oxb/is_it_possible_to_datakindlift_a_data_family/](http://www.reddit.com/r/haskell/comments/u7oxb/is_it_possible_to_datakindlift_a_data_family/)
 
-
-it gets kind `* -> *`. There are no constraints on the kind of `a`, so we
-default it to `*`. We also default the return kind of `F` to `*`.
-The same happens for data families, and also for plain datatypes with phantom
-types.
-
-
-When you turn `-XPolyKinds` on, however, we currently give `F` the kind
-`forall (k :: BOX). k -> *`. This is unsatisfactory for two reasons:
-
-1. The behaviour of kind generalisation changes when we turn `-XPolyKinds` on,
-  even though it doesn't really have to. We could still default to `*` unless
-  you give a kind signature. So if you want `F` to be kind polymorphic, you
-  should write `type family F (a :: k)`. This, of course, requires supporting
-  [explicit kind variables](ghc-kinds#explicit-kind-variables).
-
-1. Unlike the parameters, however, the return kind of `F` is defaulted to `*`.
-  This seems rather arbitrary. We should either generalise both arguments and
-  return kind, or default both. In case we choose to default, the more
-  general kind can be obtained by giving a signature:
-
-  ```wiki
-  type family F (a :: k1) :: k2
-  ```
-
-**Future work:** do more consistent kind defaulting.
- 
-
-# [ \#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) (proper handling of infix promoted constructors)
+## [ \#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) (proper handling of infix promoted constructors)
 
 
 Bug report [ \#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) shows a
@@ -70,7 +47,7 @@ problem in parsing promoted infix datatypes.
 
 **Future work:** handle kind operators properly in the parser.
 
-# Kind synonyms (from type synonym promotion)
+## Kind synonyms (from type synonym promotion)
 
 
 At the moment we are not promoting type synonyms, i.e. the following is invalid:
@@ -84,7 +61,7 @@ type family Add (m :: Nat2) (n :: Nat2) :: Nat2
 
 **Future work:** promote type synonyms to kind synonyms.
 
-# Generalized Algebraic Data Kinds (GADKs)
+## Generalized Algebraic Data Kinds (GADKs)
 
 **Future work:** this section deals with a proposal to collapse kinds and sorts into a single system
 so as to allow Generalised Algebraic DataKinds (GADKs). The sort `BOX` should
