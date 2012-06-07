@@ -18,7 +18,6 @@
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): allow splicing of import declarations
 - [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364): cycle in type declarations
 - [\#5469](https://gitlab.haskell.org//ghc/ghc/issues/5469), [\#4429](https://gitlab.haskell.org//ghc/ghc/issues/4429): `reinerp` work on `newName` and export reorganisation
-- [\#5375](https://gitlab.haskell.org//ghc/ghc/issues/5375): semantics of `newName`
 
 ## Optimisation
 
