@@ -70,5 +70,3 @@ There is a small amount of sub-typing in kinds.  Suppose you see `(t1 -> t2)`.  
 
 
 (You can edit this picture [ here](https://docs.google.com/drawings/d/1M5yBP8iAWTgqdI3oG1UNnYihVlipnvvk2vLInAFxtNM/edit?hl=en_GB).)
-
-- "`OpenKind`" is the kind of things that can appear as argument or result of functions.
