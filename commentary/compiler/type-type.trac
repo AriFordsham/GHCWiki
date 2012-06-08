@@ -7,7 +7,7 @@ GHC compiles a typed programming language, and GHC's intermediate language is ex
 
 The single data type {{{Type}}} is used to represent
  * Types (possibly of higher kind); e.g. `[Int]`, `Maybe`
- * Kinds (which classify types and coercions); e.g. `(* -> *)`, `T :=: [Int]`.  See [wiki:Commentary/Kinds]
+ * Kinds (which classify types and coercions); e.g. `(* -> *)`, `T :=: [Int]`.  See [wiki:Commentary/Compiler/Kinds]
  * Sorts (which classify types); e.g. `TY`, `CO`
 
 GHC's use of [wiki:Commentary/Compiler/FC coercions and equality constraints] is important enough to deserve its own page.

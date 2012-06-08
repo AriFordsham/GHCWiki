@@ -7,7 +7,7 @@ GHC compiles a typed programming language, and GHC's intermediate language is ex
 The single data type `Type` is used to represent
 
 - Types (possibly of higher kind); e.g. `[Int]`, `Maybe`
-- Kinds (which classify types and coercions); e.g. `(* -> *)`, `T :=: [Int]`.  See Commentary/Kinds?
+- Kinds (which classify types and coercions); e.g. `(* -> *)`, `T :=: [Int]`.  See [Commentary/Compiler/Kinds](commentary/compiler/kinds)
 - Sorts (which classify types); e.g. `TY`, `CO`
 
 
