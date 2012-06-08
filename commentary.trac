@@ -20,7 +20,6 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
    * [wiki:Commentary/PlatformNaming Platforms and their Naming Convention]
 
  * [wiki:Commentary/Compiler The Compiler]
-   * [wiki:Commentary/Pipeline The compilation pipeline]
 
  * [wiki:Commentary/Libraries The Libraries on which GHC depends]
    * [wiki:Commentary/Libraries/Integer The Integer libraries (`integer-gmp` and `integer-simple`)]
