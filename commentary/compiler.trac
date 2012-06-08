@@ -23,7 +23,10 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
    * [wiki:Commentary/Compiler/ModuleTypes ModIface, ModDetails, ModGuts]
    * [wiki:Commentary/Compiler/NameType Names]
    * [wiki:Commentary/Compiler/EntityTypes Entities]: variables, type constructors, data constructors, and classes.
-   * Types: [wiki:Commentary/Compiler/TypeType Type and Kind], [wiki:Commentary/Compiler/FC equality types and coercions]
+   * Types: 
+     * [wiki:Commentary/Compiler/TypeType Types]
+     * [wiki:Commentary/Compiler/Kinds Kinds]
+     * [wiki:Commentary/Compiler/FC Equality types and coercions]
    * [wiki:Commentary/Compiler/CoreSynType The core language]
    * [wiki:Commentary/Compiler/StgSynType The STG language]
    * [wiki:Commentary/Compiler/CmmType The Cmm language]
