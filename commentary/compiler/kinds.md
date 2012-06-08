@@ -61,7 +61,7 @@ sorts: `TY` (for kinds that classify normal types) or `CO` (for kinds that
 classify coercion evidence).  The coercion kind, `T1 :=: T2`, is
 represented by `PredTy (EqPred T1 T2)`.
 
-### Kind subtyping
+## Kind subtyping
 
 
 There is a small amount of sub-typing in kinds.  Suppose you see `(t1 -> t2)`.  What kind must `t1` and `t2` have?  It could be `*` or `#`.  So we have a single kind `OpenKind`, which is a super-kind of both, with this simple lattice:
