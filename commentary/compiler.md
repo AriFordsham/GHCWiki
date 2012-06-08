@@ -6,6 +6,8 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
 - [Compiler Module Dependencies](module-dependencies) (deals with the arcane mutual recursions among GHC's many data types)
 - [Coding guidelines](commentary/coding-style)
 
+- [The compilation pipeline](commentary/pipeline)
+
 - **Compiling one module: HscMain**
 
   - [Overview](commentary/compiler/hsc-main) gives the big picture. 
