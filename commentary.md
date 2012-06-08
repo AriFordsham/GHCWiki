@@ -26,8 +26,6 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
 
 - [The Compiler](commentary/compiler)
 
-  - [The compilation pipeline](commentary/pipeline)
-
 - [The Libraries on which GHC depends](commentary/libraries)
 
   - [The Integer libraries (\`integer-gmp\` and \`integer-simple\`)](commentary/libraries/integer)
