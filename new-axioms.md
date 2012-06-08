@@ -128,17 +128,17 @@ What should the "header" look like?
 (A)      type instance where      -- Use "where"
             F (a,b)   = [Char]
             F (Int,b) = Char
-            f Bool    = Char
+            F Bool    = Char
 
 (B)      type instance of         -- Use "of" (yuk)
             F (a,b)   = [Char]
             F (Int,b) = Char
-            f Bool    = Char
+            F Bool    = Char
 
 (C)      type instance F where     -- Redundantly mention F in the header
             F (a,b)   = [Char]
             F (Int,b) = Char
-            f Bool    = Char
+            F Bool    = Char
 ```
 
 
