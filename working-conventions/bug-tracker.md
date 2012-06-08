@@ -52,7 +52,7 @@ Each ticket has a bunch of other fields too:
 
 - **cc**: we pay more attention to tickets with a long cc list, so add yourself to the cc list if you care about the ticket.  Better still, add a comment to explain why you care.
 
-- **Owned by** says who is committed to taking the ticket forward.  We typically leave this field blank until we actively start working on it, lest others feel unable to to work on a ticket because it is apparently owned, even though nothing is happening.
+- **Owned by** says who is committed to taking the ticket forward.  We typically leave this field blank until we actively start working on it, lest others feel unable to work on a ticket because it is apparently owned, even though nothing is happening.
 
 ## Remilestoning tickets after a release
 
