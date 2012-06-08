@@ -1,14 +1,37 @@
 # Kinds
 
 
-Kinds are represented as types:
+Kinds classify types.  So for example:
+
+```wiki
+   Int :: *
+   Int -> Int :: *
+   Maybe :: * -> *
+   Int# :: #
+   (# Int, Int #) :: #
+```
+
+
+The base kinds are these:
+
+- "`*`" is the kind of boxed values. Things like `Int` and `Maybe Float` have kind `*`.
+- "`#`" is the kind of unboxed values. Things like `Int#` have kind `#`.
+- With the advent of [data type promotion and kind polymorphism](ghc-kinds) we can have a lot more kinds.
+
+
+(Unboxed tuples used to have a distinct kind, but in 2012 we combined unboxed tuples with other unboxed values in a single kind "`#`".)
+
+## Representing kinds
+
+
+Kinds are represented by the data type `Type` (see [Commentary/Compiler/TypeType](commentary/compiler/type-type)):
 
 ```wiki
 type Kind = Type
 ```
 
 
-Basic kinds are now
+Basic kinds are 
 represented using type constructors, e.g. the kind `*` is represented as
 
 ```wiki
@@ -40,17 +63,10 @@ represented by `PredTy (EqPred T1 T2)`.
 
 ### Kind subtyping
 
+
+There is a small amount of sub-typing in kinds.  Suppose you see `(t1 -> t2)`.  What kind must `t1` and `t2` have?  It could be `*` or `#`.  So we have a single kind `OpenKind`, which is a super-kind of both, with this simple lattice:
+
 [](https://docs.google.com/drawings/pub?id=1M5yBP8iAWTgqdI3oG1UNnYihVlipnvvk2vLInAFxtNM&w=359&h=229)
 
 
 (You can edit this picture [ here](https://docs.google.com/drawings/d/1M5yBP8iAWTgqdI3oG1UNnYihVlipnvvk2vLInAFxtNM/edit?hl=en_GB).)
-
-- "`*`" is the kind of boxed values. Things like `Int` and `Maybe Float` have kind `*`.
-
-- "`#`" is the kind of unboxed values. Things like `Int#` have kind `#`.
-
-- "`(#)`" is the kind of unboxed tuples. Things like `(# Int, Int #)` have kind `(#)`.
-
-- "`ArgKind`" is the kind of things that can appear as arguments to functions.
-
-- "`OpenKind`" is the kind of things that can appear as results of functions.
