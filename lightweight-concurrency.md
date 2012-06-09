@@ -62,7 +62,7 @@ data SCont
 newSCont         :: IO () -> IO SCont
 switch           :: (SCont -> PTM SCont) -> IO ()
 getCurrentSCont  :: PTM SCont
-switchTo         :: SCont -> PTM
+switchTo         :: SCont -> PTM ()
 ```
 
 
