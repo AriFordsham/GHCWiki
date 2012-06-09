@@ -53,7 +53,7 @@ data SCont
 newSCont         :: IO () -> IO SCont
 switch           :: (SCont -> PTM SCont) -> IO ()
 getCurrentSCont  :: PTM SCont
-switchTo         :: SCont -> PTM
+switchTo         :: SCont -> PTM ()
 }}}
 
 Given an I/O-performing computation `newSCont` returns a reference to an SCont which when scheduled, will perform the I/O action. The switch primitive is a bit unique. Switch takes a function which is applied to the current continuation. The result of the function is PTM transaction of type PTM SCont. This transaction can encapsulate the actions necessary for appending the current SCont to the scheduler and fetching the next SCont to switch to. The switch primitive performs this transaction atomically, and switches control to the resultant SCont. 
