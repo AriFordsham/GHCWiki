@@ -358,3 +358,4 @@ Examples:
 - [ http://www.haskell.org/pipermail/haskell-cafe/2010-July/080043.html](http://www.haskell.org/pipermail/haskell-cafe/2010-July/080043.html)
 - [ http://www.haskell.org/pipermail/haskell-prime/2011-June/003423.html](http://www.haskell.org/pipermail/haskell-prime/2011-June/003423.html)
 - [ http://code.atnnn.com/projects/type-prelude/wiki](http://code.atnnn.com/projects/type-prelude/wiki)
+- [ http://www.haskell.org/haskellwiki/Functional_dependencies_vs._type_families](http://www.haskell.org/haskellwiki/Functional_dependencies_vs._type_families)
