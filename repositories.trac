@@ -116,13 +116,7 @@ Currently, all our repositories are being mirrored to !GitHub by !GitHub themsel
 
 The following branches are active:
 
- '''7.2 Branch'''::
- To switch to this branch run:
- {{{ 
- $ ./sync-all checkout ghc-7.2
- }}}
-
-'''7.4 Branch'''::
+ '''7.4 Branch'''::
  To switch to this branch run:
  {{{ 
  $ ./sync-all checkout ghc-7.4
