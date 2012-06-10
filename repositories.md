@@ -83,21 +83,12 @@ Currently, all our repositories are being mirrored to GitHub by GitHub themselve
 
 The following branches are active:
 
-<table><tr><th>**7.2 Branch**</th>
+<table><tr><th>**7.4 Branch**</th>
 <td>
 To switch to this branch run:
 
 ```wiki
-$ ./sync-all checkout ghc-7.2
+$ ./sync-all checkout ghc-7.4
 ```
 
 </td></tr></table>
-
-**7.4 Branch**::
-
->
-> To switch to this branch run:
->
-> ```wiki
-> $ ./sync-all checkout ghc-7.4
-> ```
