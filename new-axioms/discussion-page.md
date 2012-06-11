@@ -9,7 +9,7 @@ At Pedro's invitation, comment/suggestions/requests for clarification/alternativ
 
 ## Suggestions
 
-- **Instance match fail:** There are use cases where we want to make the existence of a more specific match a type-level failure. Currently this needs fudging with fake instances and constraints, leading to mystifying messages. The example is HList Lacks constraint.
+- **Instance match fail:** There are use cases where we want to make the existence of a more specific match a type-level failure. (Compare this [ http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions/TotalFamilies\#Definingtotalfamilies](http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions/TotalFamilies#Definingtotalfamilies) from Chak 2008, using VOID for the same purpose.) Currently a 'dead end' needs fudging with fake instances and constraints, leading to mystifying messages. The example is HList Lacks constraint.
 
 ```wiki
 hCons :: (Lacks e l) => e -> l -> HCons e l          -- smart constructor, validate that l doesn't already contain e
@@ -34,7 +34,7 @@ type instance Lacks e HNil = True
 type instance Lacks e (HCons e' l')  | e /~ e'   = Lacks e l'   -- no instance for the equality
 ```
 
-- **Idiom of total instance** (this would apply to all the HList examples). We only need one instance group for the whole; then it's the type family decl that seems superfluous. Perhaps we could allow:
+- **Idiom of a total function** (this would apply to all the HList examples). We only need one instance group for the whole family; then putting both decls seems superfluous. Perhaps we could conflate them:
 
   ```wiki
       type family Equal a b :: Bool where
@@ -128,9 +128,9 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 
 ```wiki
     type instance F Int Bool = ...         -- (1) is totally overlapped by (2), (3) and (4)
-    type instance F Int b = ...            -- (2) partially overlaps (3)
-    type instance F a Bool = ...           -- (3)
-    type instance F a b = ...              -- (4) totally overlaps (1), (2) and (3)
+    type instance F Int b    = ...         -- (2) partially overlaps (3)
+    type instance F a Bool   = ...         -- (3)
+    type instance F a b      = ...         -- (4) totally overlaps (1), (2) and (3)
 ```
 
 > >
@@ -140,6 +140,31 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 
 > >
 > > Presumably common-or-garden type instances can be generalised to instance groups, and different instance groups can be unified providing their patterns don't overlap. Like this:
+
+```wiki
+    type instance G (c, d) Int = c               -- generalise to        type instance G where ...
+    type instance G Bool b     = b               -- generalise likewise
+
+    -- now unify:
+    type instance G where
+        G (c, d) b   = c
+        G Bool   b   = b                         -- no overlap
+
+    -- take an instance with disequality guards:
+    type instance G a b | a /~ (_, _), a /~ Bool = a
+    -- generalise:
+    type instance G where
+       G (_, _) b    = VOID
+       G Bool   b    = VOID
+       G a      b    = a
+
+    -- unify with the group above (observing overlaps):
+    type instance G where
+       G (c, d) b    = c
+       G Bool   b    = b
+       G a      b    = a
+    
+```
 
 ## Example Applications/Uses for Instance Overlap
 
