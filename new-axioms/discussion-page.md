@@ -9,7 +9,7 @@ At Pedro's invitation, comment/suggestions/requests for clarification/alternativ
 
 ## Suggestions
 
-- **Instance match fail:** There are use cases where we want to make the existence of a more specific match a type-level failure. Currently this needs fudging with fake instances and constraints, leading to mystifying messages. The example is HList Lacks constraint.
+- **Instance match fail:** There are use cases where we want to make the existence of a more specific match a type-level failure. (Compare this [ http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions/TotalFamilies\#Definingtotalfamilies](http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions/TotalFamilies#Definingtotalfamilies) from Chak 2008, using VOID for the same purpose.) Currently a 'dead end' needs fudging with fake instances and constraints, leading to mystifying messages. The example is HList Lacks constraint.
 
 ```wiki
 hCons :: (Lacks e l) => e -> l -> HCons e l          -- smart constructor, validate that l doesn't already contain e
@@ -24,7 +24,8 @@ instance (Lacks e l') => Lacks e (HCons e' l')       -- this element doesn't mat
 
 hCons :: (Lacks e l ~ True) => e -> l -> HCons e l   -- what error reporting does this give when e found in l?
 
-type instance Lacks e l where
+type family Lacks e l :: Bool
+type instance Lacks where
     Lacks e HNil = True
     Lacks e (HCons e l') = False
     Lacks e (HCons e' l') = Lacks e l'
@@ -34,7 +35,7 @@ type instance Lacks e HNil = True
 type instance Lacks e (HCons e' l')  | e /~ e'   = Lacks e l'   -- no instance for the equality
 ```
 
-- **Idiom of total instance** (this would apply to all the HList examples). We only need one instance group for the whole; then it's the type family decl that seems superfluous. Perhaps we could allow:
+- **Idiom of a total function** (this would apply to all the HList examples). We only need one instance group for the whole family; then putting both decls seems superfluous. Perhaps we could conflate them:
 
   ```wiki
       type family Equal a b :: Bool where
@@ -42,7 +43,7 @@ type instance Lacks e (HCons e' l')  | e /~ e'   = Lacks e l'   -- no instance f
           Equal a b = False
 
       type family HasMember a (b :: '[]) :: Bool where
-          HasMember a '[] = False                      -- (not overlapping)
+          HasMember a '[] = False                                  -- (not overlapping)
           HasMember a ( a ': bs ) = True
           HasMember a ( b ': bs ) = HasMember a bs
   ```
@@ -100,16 +101,16 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 
 ## Comparisons to other approaches with overlaps
 
-- [ http://hackage.haskell.org/trac/ghc/wiki/TFvsFD](http://hackage.haskell.org/trac/ghc/wiki/TFvsFD) \[Thank you Etienne, and there's a very helpful **See also**.\] Several examples where Type Functions don't seem to be as helpful as Type Classes/Constraints/FunDeps. Some of these examples need overlaps, but not all. Equality constraints seem to make type refinement more 'eager' than under TF's. 
+- [ http://hackage.haskell.org/trac/ghc/wiki/TFvsFD](http://hackage.haskell.org/trac/ghc/wiki/TFvsFD) \[Thank you Etienne, and there's a very helpful **See also**.\] Several examples where Type Functions don't seem to be as powerful as Type Classes/Constraints/FunDeps. Some of these examples need overlaps, but not all. Equality constraints seem to make type refinement more 'eager' than under TF's. 
 
-- [ http://okmij.org/ftp/Haskell/PeanoArithm.lhs](http://okmij.org/ftp/Haskell/PeanoArithm.lhs) \[referenced from the TF vs FD discussion\]
+- [ http://okmij.org/ftp/Haskell/PeanoArithm.lhs](http://okmij.org/ftp/Haskell/PeanoArithm.lhs) \[referenced from the TF vs FD discussion\] Exploits a bi-directional FunDep technique, to get subtraction of type-level Nats using only a definition of add.
 
 ## Comments
 
 - **Instance validation** for type families is 'eager' -- that is, each instance is validated for overlap at point of declaration.
 
-  - Contrast that instance validation (in GHC) for classes is 'negligent' (or 'generous' depending on your point of view: can't use the word 'lazy'): you can declare overlaps that compile OK, but then GHC complains at the use site that it has irresolvable overlaps. (The use site might be GHCi.)
-  - GHC behaves like that because your code might not have an irresolvable use, so it's trying to be generous.
+  - Contrast that instance validation (in GHC) for classes is 'negligent' (or 'relaxed', or 'generous' depending on your point of view: can't use the word 'lazy'): you can declare overlaps that compile OK, but then GHC complains at the use site that it has irresolvable overlaps. (The use site might be GHCi.)
+  - GHC behaves like that because your code's usages might all be resolvable, so it's trying to be generous.
   - Or GHC might select different instances for what seem like the same uses.
   - Compiler flag IncoherentInstances is a good way to make this effect worse.
   - BTW Hugs' validation for overlaps is eager.
@@ -128,18 +129,47 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 
 ```wiki
     type instance F Int Bool = ...         -- (1) is totally overlapped by (2), (3) and (4)
-    type instance F Int b = ...            -- (2) partially overlaps (3)
-    type instance F a Bool = ...           -- (3)
-    type instance F a b = ...              -- (4) totally overlaps (1), (2) and (3)
+    type instance F Int b    = ...         -- (2) partially overlaps (3)
+    type instance F a Bool   = ...         -- (3)
+    type instance F a b      = ...         -- (4) totally overlaps (1), (2) and (3)
 ```
 
 > >
-> > (For reasons I don't understand) when GHC introduced Associated Types (Families), they seemed particularly concerned about partial overlaps (and confluence thereof). Compare that Hugs handles pertial overlaps badly, so it's usually better to 'factor' into total overlaps. (That is: if you have instances like (2) and (3), add an instance like (1).)
+> > (For reasons I don't understand) when GHC introduced Associated Types (Families), they seemed particularly concerned about partial overlaps (and confluence thereof [ http://www.haskell.org/haskellwiki/GHC/Indexed_types](http://www.haskell.org/haskellwiki/GHC/Indexed_types) section 6.2.2 Overlap). Compare that Hugs handles partial overlaps badly, so it's usually better to 'factor' into total overlaps. (That is: if you have instances like (2) and (3), add an instance like (1).)
+
+> >
+> > If you allow only total overlaps, validation of the instances seems easier to understand, and the rules for selecting the instance at the use site would be more coherent (perhaps?). Is it the possibility of partial overlap that led to GHC's validation being more 'generous'/less eager?
 
 - **Generalisation and Unification of instance groups** and disequality guards
 
 > >
 > > Presumably common-or-garden type instances can be generalised to instance groups, and different instance groups can be unified providing their patterns don't overlap. Like this:
+
+```wiki
+    type instance G (c, d) b   = c               -- generalise to
+    type instance G where ...
+    type instance G Bool   b   = b               -- generalise likewise
+
+    -- now unify:
+    type instance G where
+        G (c, d) b   = c
+        G Bool   b   = b                         -- no overlap
+
+    -- take an instance with (putative) disequality guards:
+    type instance G a b | a /~ (_, _), a /~ Bool = a
+    -- generalise:
+    type instance G where
+       G (_, _) b    = VOID
+       G Bool   b    = VOID
+       G a      b    = a
+
+    -- unify with the group above (observing overlaps):
+    type instance G where
+       G (c, d) b    = c
+       G Bool   b    = b
+       G a      b    = a
+    
+```
 
 ## Example Applications/Uses for Instance Overlap
 
@@ -160,7 +190,11 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 
 ## References and Links
 
+>
+> See references scattered through the above discussions.
+
 - [ http://hackage.haskell.org/trac/ghc/wiki/TFvsFD\#SeeAlso2](http://hackage.haskell.org/trac/ghc/wiki/TFvsFD#SeeAlso2)
+- [ http://www.haskell.org/haskellwiki/Functional_dependencies_vs._type_families](http://www.haskell.org/haskellwiki/Functional_dependencies_vs._type_families)
 
 
 \[More to do ...\]
@@ -168,11 +202,17 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 
 Surprisingly few wiki pages discuss overlaps.
 
+- [ http://www.haskell.org/haskellwiki/GHC/AdvancedOverlap](http://www.haskell.org/haskellwiki/GHC/AdvancedOverlap)
+- [ http://www.haskell.org/haskellwiki/Research_papers/Type_systems](http://www.haskell.org/haskellwiki/Research_papers/Type_systems)
+
 
 Link to GHC flags on OverlappingInstances, IncoherentInstances, (and possibly UndecidableInstances).
 
 
 See Haskell-cafe and Haskell-prime mailing lists anon.
+
+- [ http://www.haskell.org/pipermail/haskell-prime/2011-July/003491.html](http://www.haskell.org/pipermail/haskell-prime/2011-July/003491.html) -- and discussions this points to
+- [ http://www.haskell.org/pipermail/haskell-prime/2012-May/003687.html](http://www.haskell.org/pipermail/haskell-prime/2012-May/003687.html)
 
 ## Requests for Clarification
 
@@ -221,7 +261,7 @@ g :: G Int Int               -- what happens now?
 
 SCW: For these last two, it would be consistent with current treatment (and with multiple groups) to allow 'stuck' type families. Perhaps GHC could flag a few more bugs if the user could specify when a type family was expected to be fully covered, but I don't think that failing to do this check will jeopardize type soundness.  
 
-- Arethe examples for the multi- type instance declarations quite as intended? The heads have no head, as it were. Is this allowed?
+- Are the examples for the multi-type instance declarations quite as intended? The heads have no head, as it were. \[That is as SPJ intended\] Is this allowed?
 
   ```wiki
       type instance F [a] where ...
