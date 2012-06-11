@@ -123,7 +123,9 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
     type instance F a b      = ...         -- (4) totally overlaps (1), (2) and (3)
 }}}
 
-  (For reasons I don't understand) when GHC introduced Associated Types (Families), they seemed particularly concerned about partial overlaps (and confluence thereof). Compare that Hugs handles pertial overlaps badly, so it's usually better to 'factor' into total overlaps. (That is: if you have instances like (2) and (3), add an instance like (1).)
+  (For reasons I don't understand) when GHC introduced Associated Types (Families), they seemed particularly concerned about partial overlaps (and confluence thereof http://www.haskell.org/haskellwiki/GHC/Indexed_types section 6.2.2 Overlap). Compare that Hugs handles partial overlaps badly, so it's usually better to 'factor' into total overlaps. (That is: if you have instances like (2) and (3), add an instance like (1).)
+
+  If you allow only total overlaps, validation of the instances seems more tractable, and the rules for selecting the instance at the use site would be more coherent (perhaps?). Is it the possibility of partial overlap that led to GHC's validation being more 'generous'/less eager?
 
  * '''Generalisation and Unification of instance groups''' and disequality guards
 
@@ -138,7 +140,7 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
         G (c, d) b   = c
         G Bool   b   = b                         -- no overlap
 
-    -- take an instance with disequality guards:
+    -- take an instance with (putative) disequality guards:
     type instance G a b | a /~ (_, _), a /~ Bool = a
     -- generalise:
     type instance G where
