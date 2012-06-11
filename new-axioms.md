@@ -119,6 +119,19 @@ So the deficiency is in System FC, and it seems fundamental.  We've been working
     F (a,b) = Ing
   ```
 
+- Optional extra: It would make sense to allow the `type family` and `type instance` declaration to be combined into one, in cases where all the equations can be given at the definition site.  For example:
+
+  ```wiki
+  type family Equal a b :: Bool where
+    Equal a a = True
+    Equal a b = False
+
+  type family Member (a :: k) (b :: '[k]) :: Bool where
+    Member a '[] = False                      -- (not overlapping)
+    Member a ( a ': bs ) = True
+    Member a ( b ': bs ) = Member a bs
+  ```
+
 ## Questions of syntax
 
 
