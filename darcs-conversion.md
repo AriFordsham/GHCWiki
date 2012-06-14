@@ -148,6 +148,9 @@ Gotchas:
 - have to push to submodules before pushing GHC, otherwise other users will not be able to do `git submodule update`.
 - every submodule commit needs to be accompanied by a GHC commit (not clear if this is really a disadvantage, but it's more work and there will be many more commits).
 
+
+Here's an article that explains the problems with submodules in more detail: [ http://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/](http://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/)
+
 ### Google repo
 
 
