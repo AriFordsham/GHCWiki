@@ -3,7 +3,7 @@
 
 This page describes the `-fdefer-type-errors` flag, currently implemented in GHC HEAD
 and due to be available in version 7.6. Ticket #5624 tracks this feature request.
-For more information, see the associated [http://dreixel.net/research/pdf/epdtecp.pdf paper].
+For more information, see the associated [http://dreixel.net/research/pdf/epdtecp_draft.pdf paper].
 
 == Overview ==
 While developing, sometimes it is desirable to allow compilation to succeed even
