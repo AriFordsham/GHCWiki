@@ -116,7 +116,7 @@ So the deficiency is in System FC, and it seems fundamental.  We've been working
   ```wiki
   type instance F where
     F Int = Char
-    F (a,b) = Ing
+    F (a,b) = Int
   ```
 
 - Optional extra: It would make sense to allow the `type family` and `type instance` declaration to be combined into one, in cases where all the equations can be given at the definition site.  For example:
