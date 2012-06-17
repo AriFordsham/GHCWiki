@@ -24,9 +24,9 @@ We want to have Cabal compute a hash of all the information needed to build a pa
 3. A unique number is part of the path:
 A unique number could be the number of packages installed for example /usr/local/lib/GLUT-2.3.0.0-87 or the number of instances of this version installed for example /usr/local/lib/GLUT-2.3.0.0-2 or a random number for example /usr/local/lib/GLUT-2.3.0.0-83948393212. The advantages I see are that not much information is needed to come up with the file path and this seems to be robust against other design decisions we make now or in the future.
 
-== Simple dependency resolution in Cabal and GHC ==
+== Dependency resolution in Cabal and GHC ==
 
-Currently if GHC is invoked by the user it does some adhoc form of dependency resolution. The most common case of this is using ghci. If there are multiple instances of the same package in the PackageDBStack the policy used to select a single one needs to be adjusted. The user should be warned that this happened. Ideas:
+Currently if GHC is invoked by the user it does some adhoc form of dependency resolution. The most common case of this is using ghci. If there are multiple instances of the same package in the PackageDBStack the policy used to select a single one prefers DBs higher in the stack. It then prefers packages with a higher version. We need a third criterium if there are multiple packages with the same version in the same PackageDB. Ideas:
 
  * build a complex solver into GHC
  * random
@@ -34,22 +34,36 @@ Currently if GHC is invoked by the user it does some adhoc form of dependency re
  * order in the PackageDB
  * latest
 
-Picking the most recently installed instance seems like the best idea right now. There are at least two ways to track which of the installed instances was most recently installed. In either you add a timestamp or the count of instances to InstalledPackageInfo. Tracking the count means that you would lose the possibility to migrate packages between machines.
+Picking the most recently installed instance seems like the best idea right now. There are at least two ways to track which of the installed instances was most recently installed. In either you add a timestamp or the count of instances to InstalledPackageInfo. Tracking the count means that you would lose the possibility to migrate packages between machines. So we want to track timestamps.
+The user should be informed about ambiguities and how they are resolved.
 
 Currently if Cabal is asked to configure a package from a Setup.hs script without using cabal-install some adhoc dependency resolution takes place too.
 
 == Garbage Collection ==
 
-It should be possible to have a garbage collection remove unneeded packages. It has to be interactive because there might be dependencies not known to Cabal and ghc-pkg. Sandboxes come in handy because they can be removed without affecting anything else.
+It should be possible to have a garbage collection remove unneeded packages. It has to be interactive because there might be dependencies not known to Cabal and ghc-pkg. Sandboxes are useful for the user to keep track of what should be removable without causing too much damage.
 
 == Identifying packages ==
 
 The InstalledPackageId currently uniquely identifies an installed package and should to so in the future. It currently consists of the package name, the version and the abihash, for example GLUT-2.3.0.0-70c7b988404c00401d762b8eca475e5c. The ABI hash is used to discriminate between instances of the same package version, to avoid recompilation if a dependency has changed but its ABI has not and as a sanity check for GHC to refuse compilation rather than to produce garbage.
 The InstalledPackageId as currently defined is unsuitable to uniquely identify installed package instances.
 
-== Avoiding rebuilding a package ==
+== Dependency resolution in cabal-install ==
 
-Currently only a small part of the configuration of an installed package is stored and only this small part can be used to determine if it is valid to depend upon a certain installed package. For example it is not tracked if a package was built with profiling support. We could enrich the InstalledPackageInfo with a lot of information about the package configuration. Or we could hash the package configuration and only add this hash to the InstalledPackageInfo.
+"so I see two general options for communicating knowledge about build flavors to the solver:
+
+(1) "the direct way": 
+i.e., all info is available to ghc-pkg and can be communicated back to Cabal and therefore the solver
+the solver can therefore figure out if a particular package is suitable to use or not, in advance
+
+(2) "the agnostic way"
+this is based on the idea that the solver at first doesn't consider installed packages at all. it'll just do resolution on the source packages available.
+taking all build parameters into account, Cabal hashes will be computed.
+these can then be compared to hashes of installed packages.
+reusing installed packages instead of rebuilding them is then an optimization of the install plan.
+this doesn't require that ghc-pkg is actually directly aware of all the build parameters, as long as the hash computation is robust." -- kosmikus
+
+The options are to support either both by putting all info into InstalledPackageInfo or to support only (2) by just putting a hash into InstalledPackageInfo. The disadvantage of supporting both is that InstalledPackageInfo would have to change more often. This could be fixed by making InstalledPackageInfo extensible. The advantages are that the additional info might be useful for other tools and that more complex rules for compatibility are possible for example non-profiling libs can depend on profiling libs. It would also be better for showing the user how two instances differ. The disadvantage of going for only (2) is that it is a big change and might cause problems with other Haskell implementations. Also if a package only exists installed and not in source form it is completely ignored. 
 
 == The Cabal hash ==
 
@@ -64,22 +78,6 @@ The compiler, its version and its arguments and the tools and their version and 
 The source code. This is necessary because if the source code changes the result of compilation changes. For released packages i would assume that the version number uniquely identifies the source code. A hash of the source code should be available from hackage to avoid downloading the source code. For an unreleased package we need to find all the source files that are needed for building it. Including non-haskell source files. One way is to ask a source tarball to be built as if the package was released and then hash all the sources included in that.
 
 OS dependencies are not taken into account because i think it would be very hard.
-
-== Dependency resolution ==
-
-The dependency resolver currently comes up with an install plan. An install plan is similar to an environment. Like an environment it is a set of installed packages. But it may also contain configurations for packages that are not installed yet. Like an environment it needs to be consistent.
-
-"An installation plan is a set of packages that are going to be used together. It will consist of a mixture of installed packages and source packages along with their exact version dependencies." -- InstallPlan documentation
-
-The dependencies of a package version are what is currently listed under dependencies in a cabal file. A list of packages with version contraints that may be used to build this package version.
-
-There should be at least two modes for dependency resolution.
-
-The dependency resolver uses the dependencies of all possible source packages to find a set of package configurations. This is already an install plan. It then in this set replaces configurations for already installed packages by the installed package to avoid rebuilding those packages.
-
-The other mode is what is currently done. The set of installed packages is taken into account. This might avoid more rebuilding but people might not always get the latest packages.
-
-One drawback of ignoring installed packages is that there might be installed packages for which the source is not available. If the source is not available and installed packages are ignored those packages can not appear in the install plan.
 
 == Released and Unreleased packages ==
 
