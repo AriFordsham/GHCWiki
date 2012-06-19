@@ -3,6 +3,8 @@ Pedro will write this. Notes:
 
 - `data kind K ...`
 
+- Allow `*` on `data kind`s? Or maybe `Type`, or `Star`.
+
 - Perhaps also `data type D ...`
 
 - Promote type synonyms by default
