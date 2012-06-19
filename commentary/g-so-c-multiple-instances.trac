@@ -1,13 +1,13 @@
 
 == Introduction ==
 
-Cabal and GHC do not support multiple instances of the same package version installed at the same time. If a second instance of a package version is installed it is overwritten on the file system as well as in the PackageDB. This causes packages that depended upon the overwritten instance to break. The idea is to never overwrite an installed package. As already discussed in [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Packages/MultiInstances](this wiki entry) the following changes need to be made:
+Cabal and GHC do not support multiple instances of the same package version installed at the same time. If a second instance of a package version is installed it is overwritten on the file system as well as in the PackageDB. This causes packages that depended upon the overwritten instance to break. The idea is to never overwrite an installed package. As already discussed in [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Packages/MultiInstances] the following changes need to be made:
 
- * Cabal should install packages to a different location
- * ghc-pkg should add instances to the PackageDB instead of overwriting them
- * ghc --make and ghci should shadow the additional instances according to some rule of thumb
+ * Cabal should install packages to a location that does not just depend on name and version,
+ * ghc-pkg should always add instances to the PackageDB and never overwrite them,
+ * ghc --make, ghci, and the configure phase of Cabal should select suitable instances according to some rule of thumb (similar to the current resolution technique),
  * cabal-install should still find an InstallPlan
- * some form of garbage collection should be invented
+ * some form of garbage collection should be offered to have a chance to reduce the amount of installed packages
 
 == Changing the Install Location ==
 
