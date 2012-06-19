@@ -1,56 +1,97 @@
 
 == Introduction ==
 
-Cabal and GHC do not support multiple instances of the same package version installed at the same time. If a second instance of a package version is installed it is overwritten on the file system as well as in the PackageDB. This causes packages that depended upon the overwritten instance to break. The idea is to never overwrite an installed package. As already discussed in [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Packages/MultiInstances](this wiki entry) the following changes need to be made:
+Cabal and GHC do not support multiple instances of the same package version installed at the same time. If a second instance of a package version is installed it is overwritten on the file system as well as in the PackageDB. This causes packages that depended upon the overwritten instance to break. The idea is to never overwrite an installed package. As already discussed in [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Packages/MultiInstances] the following changes need to be made:
 
- * Cabal should install packages to a different location
- * ghc-pkg should add instances to the PackageDB instead of overwriting them
- * ghc --make and ghci should shadow the additional instances according to some rule of thumb
- * cabal-install should still find an InstallPlan
- * some form of garbage collection should be invented
+ * Cabal should install packages to a location that does not just depend on name and version,
+ * ghc-pkg should always add instances to the PackageDB and never overwrite them,
+ * ghc --make, ghci, and the configure phase of Cabal should select suitable instances according to some rule of thumb (similar to the current resolution technique),
+ * we want to be able to make more fine-grained distinctions between package instances than currently possible, for example by distinguishing different build flavours or "ways" (profiling, etc.)
+ * cabal-install should still find an InstallPlan, and still avoid unnecessarily rebuilding packages whenever it makes sense
+ * some form of garbage collection should be offered to have a chance to reduce the amount of installed packages
 
-== Changing the Install Location ==
-
-Cabal does not support multiple instances of the same package version installed at the same time. Instead of installing them next to each other Cabal overwrites the previous instance with the same version.
+== Install location of installed Cabal packages ==
 
 Currently the library part of packages is installed to $prefix/lib/$pkgid/$compiler. For example the GLUT package of version 2.3.0.0 when compiled with GHC 7.4.1 when installed globally lands in /usr/local/lib/GLUT-2.3.0.0/ghc-7.4.1/. This is the default path. It is completely customizable by the user. In order to allow multiple instances of this package to coexist we need to change the install location to a path that is unique for each instance. Several ways to accomplish this have been discussed:
 
-1. The InstalledPackageId is part of the path:
-It currently contains the ABI hash but we are discussing to change it. Because it will always uniquely identify an installed package it is a good choice to be part of the path. Currently there is a data directory per default under $prefix/share/$pkgid/. This path needs to be known before the package is built because it is baked into Paths_foo.hs. If we introduce a new variable $installedpkgid and it contains the ABI hash its value is only known after compilation so it can not be used in the path for the data.
+1. Use a hash to uniquely identify package instances and make the hash part of both the InstalledPackageId and the installation path.
 
-2. A Cabal hash is part of the path:
-We want to have Cabal compute a hash of all the information needed to build a package. We also want to avoid rebuilding a package if a package with the same hash is already present. Because of this there should only ever be one installed package with a certain Cabal hash on a machine so the Cabal hash would be a good choice to be part of the path.
+The ABI hash currently being used by GHC is not suitable for unique identification of a package, because it is nondeterministic and not necessarily unique. In contrast, the proposed Cabal hash should be based on all the information needed to build a package.
 
-3. A unique number is part of the path:
-A unique number could be the number of packages installed for example /usr/local/lib/GLUT-2.3.0.0-87 or the number of instances of this version installed for example /usr/local/lib/GLUT-2.3.0.0-2 or a random number for example /usr/local/lib/GLUT-2.3.0.0-83948393212. The advantages I see are that not much information is needed to come up with the file path and this seems to be robust against other design decisions we make now or in the future.
+This approach requires that we know the hash prior to building the package, because 
+there is a data directory (per default under $prefix/share/$pkgid/) that is baked into Paths_foo.hs in preparation of the build process.
 
-== Dependency resolution in Cabal and GHC ==
+2. Use a unique number as part of the installation path.
 
-Currently if GHC is invoked by the user it does some adhoc form of dependency resolution. The most common case of this is using ghci. If there are multiple instances of the same package in the PackageDBStack the policy used to select a single one prefers DBs higher in the stack. It then prefers packages with a higher version. We need a third criterium if there are multiple packages with the same version in the same PackageDB. Ideas:
+A unique number could be the number of packages installed, or the number of instances of this package version already installed, or a random number. It is important that the numbers are guaranteed to be unique system-wide, so the counter-based approaches are somewhat tricky.
 
+The advantage over using a hash is that this approach should be very simple to implement. On the other hand, identifying installed packages (see below) could possibly become more difficult, and migrating packages to other systems is only possible if the chance of collisions is reasonably low (for example, if random numbers are being used).
+
+2a. The unique number is also part of the installed package id.
+
+2b. We can use another unique identifier (for example, a Cabal hash) to identify installed packages. In this case, that identifier would be allowed to depend on the output of a package build.
+
+== ghc-pkg ==
+
+ghc-pkg currently identifies each package by means of an InstalledPackageId. At the moment, this id has to be unique per package DB and is thereby limiting the amount of package instances that can be installed in a single package DB at one point in time.
+
+In the future, we want the InstalledPackageId to still uniquely identify installed packages, but in addition to be unique among all package instances that could possibly be installed on a system. There's still the option that one InstalledPackageId occurs in several package DBs at the same time, but in this case, the associated packages should really be completely interchangeable.
+
+Even though, as discussed above, the ABI hash is not suitable for use as the InstalledPackageId given these changed requirements, we will need to keep the ABI hash as an essential piece of information for ghc itself.
+
+ghc-pkg is responsible for storing all information we have about installed packages. Depending on design decisions about the solver and the Cabal hash, further information may be required in ghc-pkg's description format (see below).
+
+== Simplistic dependency resolution ==
+
+The best tool for determining suitable package instances to use as build inputs is cabal-install. However, in practice there will be many situations where users will probably not have the full cabal-install functionality available:
+
+  1. invoking GHCi from the command line,
+  2. invoking GHC directly from the command line,
+  3. invoking the configure phase of Cabal (without using cabal-install).
+
+In these cases, we have to come up with a suitable selection of package instances, and the only info we have available are the package DBs plus potential command line flags. Cabal will additionally take into account the local constraints of the package it is being invoked for, whereas GHC will only consider command-line flags, but not modules it has been invoked with.
+
+Currently if GHC is invoked by the user it does some adhoc form of dependency resolution. The most common case of this is using ghci. If there are multiple instances of the same package in the PackageDBStack the policy used to select a single one prefers DBs higher in the stack. It then prefers packages with a higher version. Once we allow package instances with the same version within a single package DB, we need to refine the algorithm. Options are:
+
+ * pick a random / unspecified instances
+ * use the time of installation
+ * user-specified priorities
+ * use the order in the PackageDB
+ * look at the transitive closure of dependencies and their versions
  * build a complex solver into GHC
- * random
- * dependencies with the highest versions
- * order in the PackageDB
- * latest
 
-Picking the most recently installed instance seems like the best idea right now. There are at least two ways to track which of the installed instances was most recently installed. In either you add a timestamp or the count of instances to InstalledPackageInfo. Tracking the count means that you would lose the possibility to migrate packages between machines. So we want to track timestamps.
-The user should be informed about ambiguities and how they are resolved.
+Picking a random version is a last resort. A combination of installation time and priorities seems rather feasible. It makes conflicts unlikely, and allows to persistently change the priorities of installed packages. Using the order in the package DB is difficult if directories are being used as DBs. Looking at the transitive closure of dependencies makes it hard to define a total ordering of package instances. Adding a complex solver is unattractive unless we find a way to reuse cabal-install's functionality within GHC, but probably we do not want to tie the two projects together in this way.
 
-Currently if Cabal is asked to configure a package from a Setup.hs script without using cabal-install some adhoc dependency resolution takes place too.
+== Build flavours ==
 
-== Garbage Collection ==
+Once we distinguish several package instances with the same version, we have a design decision how precise we want that distinction to be.
 
-It should be possible to have a garbage collection remove unneeded packages. It has to be interactive because there might be dependencies not known to Cabal and ghc-pkg. Sandboxes are useful for the user to keep track of what should be removable without causing too much damage.
+The minimal approach would be to just take the transitive dependencies into account. However, we might also want to include additional information about builds such as Cabal flag settings, compiler options, profiling, documentation, build tool versions, external (OS) dependencies, and more.
 
-== Identifying packages ==
+=== The Cabal hash ===
 
-The InstalledPackageId currently uniquely identifies an installed package and should to so in the future. It currently consists of the package name, the version and the abihash, for example GLUT-2.3.0.0-70c7b988404c00401d762b8eca475e5c. The ABI hash is used to discriminate between instances of the same package version, to avoid recompilation if a dependency has changed but its ABI has not and as a sanity check for GHC to refuse compilation rather than to produce garbage.
-The InstalledPackageId as currently defined is unsuitable to uniquely identify installed package instances.
+We hash the build configuration of a package that is to be built. cabal-install uses this hash to check if a package is already installed.
+
+A build configuration consists of the following:
+
+The Cabal hashes of all the package instances that are actually used for compilation. This is the environment. It is available in the installedPkgs field of LocalBuildInfo which is available in every step after configuration. It can also be extracted from an InstallPlan after dependency resolution.
+
+The compiler, its version and its arguments and the tools and their version and their arguments. Available from LocalBuildInfo also. More specifically: compiler, withPrograms, withVanillaLib, withProfLib, withSharedLib, withDynExe, withProfExe, withOptimization, withGHCiLib, splitObjs, stripExes. And a lot more. [Like what?]
+
+The source code. This is necessary because if the source code changes the result of compilation changes. For released packages i would assume that the version number uniquely identifies the source code. A hash of the source code should be available from hackage to avoid downloading the source code. For an unreleased package we need to find all the source files that are needed for building it. Including non-haskell source files. One way is to ask a source tarball to be built as if the package was released and then hash all the sources included in that.
+
+OS dependencies are not taken into account because i think it would be very hard.
+
+=== Released and Unreleased packages ===
+
+If we cabal install a package that is released on hackage we call this a clean install. If we cabal install an unreleased package we call this a dirty install. Clean installs are mainly used to bring a package into scope for ghci and to install applications. While they can be used to satisfy dependencies this is discouraged. For released packages the set of source files needed for compilation is known. For unreleased packages this is currently not the case.
+
+
 
 == Dependency resolution in cabal-install ==
 
-"so I see two general options for communicating knowledge about build flavors to the solver:
+
+There are two general options for communicating knowledge about build flavors to the solver:
 
 (1) "the direct way": 
 i.e., all info is available to ghc-pkg and can be communicated back to Cabal and therefore the solver
@@ -65,23 +106,10 @@ this doesn't require that ghc-pkg is actually directly aware of all the build pa
 
 The options are to support either both by putting all info into InstalledPackageInfo or to support only (2) by just putting a hash into InstalledPackageInfo. The disadvantage of supporting both is that InstalledPackageInfo would have to change more often. This could be fixed by making InstalledPackageInfo extensible. The advantages are that the additional info might be useful for other tools and that more complex rules for compatibility are possible for example non-profiling libs can depend on profiling libs. It would also be better for showing the user how two instances differ. The disadvantage of going for only (2) is that it is a big change and might cause problems with other Haskell implementations. Also if a package only exists installed and not in source form it is completely ignored. 
 
-== The Cabal hash ==
+== Garbage Collection ==
 
-We hash the build configuration of a package that is to be built. cabal-install uses this hash to check if a package is already installed.
+It should be possible to have a garbage collection remove unneeded packages. It has to be interactive because there might be dependencies not known to Cabal and ghc-pkg. Sandboxes are useful for the user to keep track of what should be removable without causing too much damage.
 
-A build configuration consists of the following:
-
-The Cabal hashes of all the package instances that are actually used for compilation. This is the environment. It is available in the installedPkgs field of LocalBuildInfo which is available in every step after configuration. It can also be extracted from an InstallPlan after dependency resolution.
-
-The compiler, its version and its arguments and the tools and their version and their arguments. Available from LocalBuildInfo also. More specifically: compiler, withPrograms, withVanillaLib, withProfLib, withSharedLib, withDynExe, withProfExe, withOptimization, withGHCiLib, splitObjs, stripExes. And a lot more. [Like what?]
-
-The source code. This is necessary because if the source code changes the result of compilation changes. For released packages i would assume that the version number uniquely identifies the source code. A hash of the source code should be available from hackage to avoid downloading the source code. For an unreleased package we need to find all the source files that are needed for building it. Including non-haskell source files. One way is to ask a source tarball to be built as if the package was released and then hash all the sources included in that.
-
-OS dependencies are not taken into account because i think it would be very hard.
-
-== Released and Unreleased packages ==
-
-If we cabal install a package that is released on hackage we call this a clean install. If we cabal install an unreleased package we call this a dirty install. Clean installs are mainly used to bring a package into scope for ghci and to install applications. While they can be used to satisfy dependencies this is discouraged. For released packages the set of source files needed for compilation is known. For unreleased packages this is currently not the case.
 
 == Separating storage and selection of packages ==
 
