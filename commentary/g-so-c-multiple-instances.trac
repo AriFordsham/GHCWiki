@@ -68,9 +68,11 @@ Once we distinguish several package instances with the same version, we have a d
 
 The minimal approach would be to just take the transitive dependencies into account. However, we might also want to include additional information about builds such as Cabal flag settings, compiler options, profiling, documentation, build tool versions, external (OS) dependencies, and more.
 
+These differences have to be tracked. The two options we discuss are to store information in the ghc-pkg format, or to incorporate them in a Cabal hash (which is then stored). Both options can be combined.
+
 === The Cabal hash ===
 
-We hash the build configuration of a package that is to be built. cabal-install uses this hash to check if a package is already installed.
+[A few notes about where to find suitable information in the source code:]
 
 A build configuration consists of the following:
 
@@ -84,51 +86,54 @@ OS dependencies are not taken into account because i think it would be very hard
 
 === Released and Unreleased packages ===
 
-If we cabal install a package that is released on hackage we call this a clean install. If we cabal install an unreleased package we call this a dirty install. Clean installs are mainly used to bring a package into scope for ghci and to install applications. While they can be used to satisfy dependencies this is discouraged. For released packages the set of source files needed for compilation is known. For unreleased packages this is currently not the case.
-
+If we cabal install a package that is released on hackage we call this a '''clean install'''. If we cabal install an unreleased package we call this a '''dirty install'''. Clean installs are mainly used to bring a package into scope for ghci and to install applications. While they can be used to satisfy dependencies this is discouraged. For released packages the set of source files needed for compilation is known. For unreleased packages this is currently not the case.
 
 
 == Dependency resolution in cabal-install ==
 
-
 There are two general options for communicating knowledge about build flavors to the solver:
 
-(1) "the direct way": 
-i.e., all info is available to ghc-pkg and can be communicated back to Cabal and therefore the solver
-the solver can therefore figure out if a particular package is suitable to use or not, in advance
+  1. '''the direct way''': i.e., all info is available to ghc-pkg and can be communicated back to Cabal and therefore the solver can figure out if a particular package is suitable to use or not, in advance;
 
-(2) "the agnostic way"
-this is based on the idea that the solver at first doesn't consider installed packages at all. it'll just do resolution on the source packages available.
-taking all build parameters into account, Cabal hashes will be computed.
-these can then be compared to hashes of installed packages.
-reusing installed packages instead of rebuilding them is then an optimization of the install plan.
-this doesn't require that ghc-pkg is actually directly aware of all the build parameters, as long as the hash computation is robust." -- kosmikus
+  2. '''the agnostic way''': this is based on the idea that the solver at first doesn't consider installed packages at all. It'll just do resolution on the source packages available. Then, taking all build parameters into account, Cabal hashes will be computed, which can then be compared to hashes of installed packages.
+Reusing installed packages instead of rebuilding them is then an optimization of the install plan.
 
-The options are to support either both by putting all info into InstalledPackageInfo or to support only (2) by just putting a hash into InstalledPackageInfo. The disadvantage of supporting both is that InstalledPackageInfo would have to change more often. This could be fixed by making InstalledPackageInfo extensible. The advantages are that the additional info might be useful for other tools and that more complex rules for compatibility are possible for example non-profiling libs can depend on profiling libs. It would also be better for showing the user how two instances differ. The disadvantage of going for only (2) is that it is a big change and might cause problems with other Haskell implementations. Also if a package only exists installed and not in source form it is completely ignored. 
+The agnostic way does not require ghc-pkg to be directly aware of all the build parameters, as long as the hash computation is robust
+
+The options are to support either both by putting all info into InstalledPackageInfo or to support only the second option by just putting a hash into InstalledPackageInfo. The disadvantage of supporting both is that InstalledPackageInfo would have to change more often. This could be fixed by explicitly making the InstalledPackageInfo format extensible in a backwards-compatible way.
+
+The advantages of having all info available, independently of the solver algorihm, are that the info might be useful for other tools and user feedback. 
+
+Possible disadvantages of the agnostic approach could be that is is a rather significant change and can probably not be supported in a similar way for other Haskell implementation. Also, in the direct approach, we could in principle allow more complex compatibility rules, such as allowing non-profiling libraries to depend on profiling libraries.
+
+Also, even if we go for the agnostic approach, we still have to be able to handle packages such as base or ghc-prim which are in general not even available in source form.
+
+On the other hand, the agnostic approach might lead to more predictable and reproducible solver results across many different systems.
 
 == Garbage Collection ==
 
-It should be possible to have a garbage collection remove unneeded packages. It has to be interactive because there might be dependencies not known to Cabal and ghc-pkg. Sandboxes are useful for the user to keep track of what should be removable without causing too much damage.
+The proposed changes will likely lead to a dramatic increase of the number of installed package instances on most systems. This is particularly relevant for package developers who will conduct lots of dirty builds that lead to new instances being installed all the time.
 
+It should therefore be possible to have a garbage collection to remove unneeded packages. However, it is not possible for Cabal to see all potential reverse dependencies of a package, so automatic garbage collection would be extremely unsafe.
 
-== Separating storage and selection of packages ==
+Options are to either offer an interactive process where packages that look unused are suggested for removal, or to integrate with a sandbox mechanism. If, for example, dirty builds are usually installed into a separate package DB, that package DB could just be removed completely by a user from time to time.
+
+== Related topics ==
+
+In the following, we discuss some other issues which are related to the multi-instance problem, but not necessarily directly relevant in order to produce an implementation.
+
+=== Separating storage and selection of packages ===
 
 Currently the two concepts of storing package instances (cabal store) and selecting package instances for building (environment) are conflated into a PackageDB. Sandboxes are used as a workaround to create multiple different environments. But they also create multiple places to store installed packages. The disadvantages of this are disk usage, compilation time and one might lose the overview. Also if the multi-instance restriction is not lifted sandboxes will eventually suffer from the same unintended breakage of packages as non-sandboxed PackageDBs.
 There should be a separation between the set of all installed packages called the cabal store and a subset of these called an environment. While the cabal store can contain multiple instances of the same package version an environment needs to be consistent. An environment is consistent if for every package version it contains only one instance of that package version.
 
-== First class environments ==
+=== First class environments ===
 
 It would be nice if we had some explicit notion of an environment.
 
-== Other ==
-
-The ABI hash becomes a field of InstalledPackageInfo. Some code in GHC needs to be adjusted to use this new field instead. [You mean this is a change in behaviour? What about packages that don't have one?]
+== Questions to remember ==
 
 What about builtin packages like ghc-prim, base, rts and so on?
-
-This assumption does not hold in a multi user environment with multiple local package databases. This is a problem when building.
-
-== Open Questions ==
 
 Inplace Registration?
 
