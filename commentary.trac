@@ -69,6 +69,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:DataParallel DPH]: Notes about the implementation of Data Parallel Haskell
    * [wiki:SafeHaskell Safe Haskell]: The design of the GHC Safe Haskell extension
    * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on SPJs "Comprehensive Comprehensions" (!TransformComprehensions)
+   * [wiki:DeferErrorsToRuntime Deferring compilation type errors to runtime (`-fwarn-type-errors`)]
 
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
@@ -89,7 +90,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:ObjectiveC Objective-C FFI]: Haskell FFI support for Objective-C
    * [wiki:BlockObjects C Blocks]: Haskell FFI support for block objects (closures) in C
    * [wiki:ExplicitTypeApplication Syntax for explicit type application and scoped type variables]
-   * [wiki:DeferErrorsToRuntime Deferring compilation type errors to runtime (`-fwarn-type-errors`)]
+   * [wiki:GhcKinds/KindsWithoutData Syntax for defining kinds that do not arise from datatype promotion]
 
  * GHCi Debuger
    * [wiki:GhciDebugger GHCi Debugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
