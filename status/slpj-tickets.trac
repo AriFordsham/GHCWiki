@@ -13,7 +13,7 @@
  * [wiki:NewAxioms] Pattern matching axioms
 
 == Template Haskell ==
- * #1475: allow splicing of import declarations
+ * #1475: allow splicing of import declarations (5 in cc list)
  * #4364: cycle in type declarations
  * #5469, #4429: `reinerp` work on `newName` and export reorganisation
 
