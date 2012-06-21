@@ -10,6 +10,44 @@ Cabal and GHC do not support multiple instances of the same package version inst
 - `cabal-install` should still find an `InstallPlan`, and still avoid unnecessarily rebuilding packages whenever it makes sense
 - some form of garbage collection should be offered to have a chance to reduce the amount of installed packages
 
+## Hashes and identifiers
+
+
+There are three identifiers:
+
+- `XXXX`: the identifier appended to the installation directory so that installed packages do not clash with each other
+- `YYYY`: the `InstalledPackageId`, which is an identifier used to uniquely identify a package in the package database.
+- `ZZZZ`: the ABI hash derived by GHC after compiling the package
+
+
+The current situation:
+
+- `XXXX`: is empty, which is bad (two instances of a package install in the same place)
+- `YYYY`: is currently equal to `ZZZZ`, which is bad because we need to make more distinctions:
+
+  - we need to distinguish between two packages that have identical ABIs but different behaviour (e.g. a bug was fixed)
+  - we need to distinguish between two instances of a package that are compiled against different dependencies, or with different options, or compiled in a different way (profiling, dynamic)  
+
+
+Some notes:
+
+- `XXXX` must be decided *before* we begin compiling, because we have to generate the `Paths_P.hs` file that is compiled along with the package, whereas `ZZZZ` is only available *after* we have compiled the package.
+- `ZZZZ` is not uniquely determined by the compilation inputs (see [\#4012](https://gitlab.haskell.org//ghc/ghc/issues/4012)), although in the future we hope it will be
+- It is desirable that when two packages have identical `YYYY` values, then they are compatible, even if they were built on separate systems.  Note that this is not guaranteed even if `YYYY` is a deterministic function of the compilation inputs, because `ZZZZ` is non-deterministic (previous point).  Hence `YYYY` must be dependent on `ZZZZ`. 
+- It is desirable that `YYYY` be as deterministic as possible, i.e. we would rather not use a GUID, but `YYYY` should be determined by the compilation inputs and `ZZZZ`.  We know that `ZZZZ` is currently not deterministic, but in the future it will be, and at that point `YYYY` will become deterministic too, in the meantime `YYYY` should be no less deterministic than `ZZZZ`.
+
+
+Our proposal:
+
+- We define a new *Cabal Hash* that hashes the compilation inputs (the `LocalBuildInfo` and the contents of the source files)
+- `XXXX` is a GUID.
+
+  - Why not use the *Cabal Hash*?  We could, but then there could conceivably be a clash. (Andres - please expand this point, I have forgotten the full rationale).
+- `YYYY` is the combination of the *Cabal Hash* and `ZZZZ` (concatenated)
+- `ZZZZ` is recorded in the package database as a new field `abi-hash`.
+
+  - When two packages have identical `ZZZZ`s then they are interface-compatible, and the user might in the future want to change a particular dependency to use a different package but the the same `ZZZZ`.  We do not want to make this change automatically, because even when two packages have identical `ZZZZ`s, they may have different behaviour (e.g. bugfixes).
+
 ## Install location of installed Cabal packages
 
 
