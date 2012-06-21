@@ -10,6 +10,26 @@ Cabal and GHC do not support multiple instances of the same package version inst
  * `cabal-install` should still find an `InstallPlan`, and still avoid unnecessarily rebuilding packages whenever it makes sense
  * some form of garbage collection should be offered to have a chance to reduce the amount of installed packages
 
+== Hashes and identifiers ==
+
+There are three identifiers:
+
+ * `XXXX`: the identifier appended to the installation directory so that installed packages do not clash with each other
+ * `YYYY`: the `InstalledPackageId`, which is an identifier used to uniquely identify a package in the package database.
+ * `ZZZZ`: the ABI hash derived by GHC after compiling the package
+
+The current situation:
+
+ * `XXXX`: is empty, which is bad (two instances of a package install in the same place)
+ * `YYYY`: is currently equal to `ZZZZ`, which is bad because we need to make more distinctions:
+   * we need to distinguish between two packages that have identical ABIs but different behaviour (e.g. a bug was fixed)
+   * we need to distinguish between two instances of a package that are compiled against different dependencies, or with different options, or compiled in a different way (profiling, dynamic)  
+
+Some requirements and notes:
+
+ * `XXXX` must be decided ''before'' we begin compiling, whereas `ZZZZ` 
+
+
 == Install location of installed Cabal packages ==
 
 Currently the library part of packages is installed to `$prefix/lib/$pkgid/$compiler`. For example the `GLUT` package of version 2.3.0.0 when compiled with GHC 7.4.1 when installed globally lands in `/usr/local/lib/GLUT-2.3.0.0/ghc-7.4.1/`. This is the default path. It is completely customizable by the user. In order to allow multiple instances of this package to coexist we need to change the install location to a path that is unique for each instance. Several ways to accomplish this have been discussed:
