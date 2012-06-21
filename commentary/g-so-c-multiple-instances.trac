@@ -35,10 +35,10 @@ Our proposal:
 
  * We define a new ''Cabal Hash'' that hashes the compilation inputs (the `LocalBuildInfo` and the contents of the source files)
  * `XXXX` is a GUID.
-   * Why not use the ''Cabal Hash''?  We could, but then there could conceivably be a clash.
+   * Why not use the ''Cabal Hash''?  We could, but then there could conceivably be a clash. (Andres - please expand this point, I have forgotten the full rationale).
  * `YYYY` is the combination of the ''Cabal Hash'' and `ZZZZ` (concatenated)
- * `ZZZZ` is recorded in the package database.  When two packages have identical `ZZZZ`s then they are interface-compatible, and the user might in the future want to change a particular dependency to use a different package but the the same `ZZZZ`.  We do not want to make this change automatically, because even when two packages have identical `ZZZZ`s, they may have different behaviour (e.g. bugfixes).
-
+ * `ZZZZ` is recorded in the package database as a new field `abi-hash`.
+   * When two packages have identical `ZZZZ`s then they are interface-compatible, and the user might in the future want to change a particular dependency to use a different package but the the same `ZZZZ`.  We do not want to make this change automatically, because even when two packages have identical `ZZZZ`s, they may have different behaviour (e.g. bugfixes).
 
 == Install location of installed Cabal packages ==
 
