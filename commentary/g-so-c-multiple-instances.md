@@ -92,6 +92,21 @@ Even though, as discussed above, the ABI hash is not suitable for use as the `In
 
 `ghc-pkg` is responsible for storing all information we have about installed packages. Depending on design decisions about the solver and the Cabal hash, further information may be required in `ghc-pkg`'s description format (see below).
 
+
+The following fields will be added to the description format:
+
+
+A field *Way* of type `[String]`. It tracks the way in which the package was compiled. It is a subset of `{v,d,p}`. "v" means vanilla, "d" means dynamic linking and "p" means profiling. Other ways may be added later.
+
+
+A `timestamp` of the time when the package was installed (or built?). It is used by GHC and Cabal to put a preference on the latest package of a certain version.
+
+
+A currently empty but extensible set of fields starting with "x-cabal-...". `ghc-pkg` ignores them when parsing. During the resolution phase `cabal-install` might use them to decide compatibility between packages.
+
+
+A field abi-hash that contains the ABI hash because it is no longer stored implicitly as part of the `InstalledPackageId`.
+
 ## Simplistic dependency resolution
 
 
@@ -194,6 +209,9 @@ It should therefore be possible to have a garbage collection to remove unneeded 
 
 Options are to either offer an interactive process where packages that look unused are suggested for removal, or to integrate with a sandbox mechanism. If, for example, dirty builds are usually installed into a separate package DB, that package DB could just be removed completely by a user from time to time.
 
+
+The garbage collection functionality is part of cabal-install not of ghc-pkg. As a first approximation gc does not remove files only unregisters packages from the `PackageDB`.
+
 ## Currently open design decisions
 
 ### `InstalledPackageId` and install path
@@ -286,6 +304,12 @@ There should be a separation between the set of all installed packages called th
 It would be nice if we had some explicit notion of an environment.
 
 ## Questions to remember
+
+
+Should the cabal version be part of the hash?
+
+
+Does the hash contain characters conflicting under windows?
 
 
 What about builtin packages like ghc-prim, base, rts and so on?
