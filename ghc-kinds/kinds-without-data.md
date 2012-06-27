@@ -44,18 +44,31 @@ data kind Universe = Sum  Universe Universe
 
 
 By using `data kind`, we tell GHC that we are only interested in the `Universe` kind, and not the datatype.
-Consequently, `Sum`, `Prod`, and `K` will be types only, and not constructors.
+Consequently, `Sum`, `Prod`, and `K` will be types only, and not constructors. Note however that this would
+imply being able to parse kinds (`*`, at the very least) on the right-hand side of data kind declarations.
+To avoid this, we propose instead using a kind `Type` (or `Star`), defined in `GHC.Exts`, that acts as a
+synonym of `*`.
 
-# Notes
 
-- `data kind K ...`
+This ticket to track this request is [\#6024](https://gitlab.haskell.org//ghc/ghc/issues/6024).
 
-- Allow `*` on `data kind`s? Or maybe `Type`, or `Star`.
+# Defining datatypes without an associated kind
 
-- Perhaps also `data type D ...`
 
-- Promote type synonyms by default
+By extension, we might want to define a datatype that will never be promoted, even with `-XDataKinds`.
+For that we propose the syntax `data type D ...`.
 
-- What about `type kind K1 = K2`?
+# Kind synonyms (from type synonym promotion)
 
-- Even worse: `type type T1 = T2`...
+
+Currently GHC does not promote type synonyms. We propose to change this, and make GHC promote
+type synonyms to kind synonyms by default with `-XDataKinds`. For instance, `type String = [Char]`
+should give rise to a kind `String`.
+
+**Question:** are there dangerous interactions with `-XLiberalTypeSynonyms`? E.g. what's the kind
+of *type K a = forall b. b -\> a\`?
+*
+
+
+By extension, we might want to have kind synonyms that do not arise from promotion: `type kind K ...`.
+And perhaps even type synonyms that never give rise to a promoted kind: `type type T ...`.
