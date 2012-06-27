@@ -32,3 +32,6 @@ We keep the `LitInteger` representation as late as possible; in particular, it's
 
 
 However, there is a special case for `Integer`s that are within the range of `Int` when the `integer-gmp` implementation is being used; in that case, we use the `S#` constructor (via `integerGmpSDataCon` in [compiler/prelude/TysWiredIn.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.lhs)) to break the abstraction and directly create the datastructure.
+
+
+Most of the functions in the Integer implementation are marked `NOINLINE`. This is because inlining them is generally not beneficial (any constant folding is already handled by the built-in rules), and in fact can be harmful: In the GMP representation, each argument can be one of two constructors (`S#` and `J#`), which leads to 2 branches. When you have a number of `Integer` arithmetic operations, you can get an exponential code explosion if they all get inlined.
