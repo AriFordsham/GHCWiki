@@ -49,16 +49,23 @@ imply being able to parse kinds (`*`, at the very least) on the right-hand side 
 To avoid this, we propose instead using a kind `Type` (or `Star`), defined in `GHC.Exts`, that acts as a
 synonym of `*`.
 
-# Notes
+# Defining datatypes without an associated kind
 
-- `data kind K ...`
 
-- Allow `*` on `data kind`s? Or maybe `Type`, or `Star`.
+By extension, we might want to define a datatype that will never be promoted, even with `-XDataKinds`.
+For that we propose the syntax `data type D ...`.
 
-- Perhaps also `data type D ...`
+# Kind synonyms (from type synonym promotion)
 
-- Promote type synonyms by default
 
-- What about `type kind K1 = K2`?
+Currently GHC does not promote type synonyms. We propose to change this, and make GHC promote
+type synonyms to kind synonyms by default with `-XDataKinds`. For instance, `type String = [Char]`
+should give rise to a kind `String`.
 
-- Even worse: `type type T1 = T2`...
+**Question:** are there dangerous interactions with `-XLiberalTypeSynonyms`? E.g. what's the kind
+of *type K a = forall b. b -\> a\`?
+*
+
+
+By extension, we might want to have kind synonyms that do not arise from promotion: `type kind K ...`.
+And perhaps even type synonyms that never give rise to a promoted kind: `type type T ...`.
