@@ -40,7 +40,11 @@ data kind Universe = Sum  Universe Universe
 }}}
 
 By using `data kind`, we tell GHC that we are only interested in the `Universe` kind, and not the datatype.
-Consequently, `Sum`, `Prod`, and `K` will be types only, and not constructors.
+Consequently, `Sum`, `Prod`, and `K` will be types only, and not constructors. Note however that this would
+imply being able to parse kinds (`*`, at the very least) on the right-hand side of data kind declarations.
+To avoid this, we propose instead using a kind `Type` (or `Star`), defined in `GHC.Exts`, that acts as a
+synonym of `*`.
+
 
 = Notes =
 
