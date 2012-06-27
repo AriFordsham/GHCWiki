@@ -8,6 +8,7 @@ Sub-pages
 
 - [GhcKinds/KindPolymorphism](ghc-kinds/kind-polymorphism)
 - [GhcKinds/PolyTypeable](ghc-kinds/poly-typeable) A kind-polymorphic version of the `Typeable` class.
+- [GhcKinds/KindsWithoutData](ghc-kinds/kinds-without-data)
 - [ExplicitTypeApplication](explicit-type-application) proposes a syntax for explicit kind application
 
 ---
