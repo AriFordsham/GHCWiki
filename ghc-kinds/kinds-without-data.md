@@ -49,6 +49,9 @@ imply being able to parse kinds (`*`, at the very least) on the right-hand side 
 To avoid this, we propose instead using a kind `Type` (or `Star`), defined in `GHC.Exts`, that acts as a
 synonym of `*`.
 
+
+This request is also in [\#6024](https://gitlab.haskell.org//ghc/ghc/issues/6024).
+
 # Defining datatypes without an associated kind
 
 
