@@ -102,6 +102,7 @@
 - [\#3744](https://gitlab.haskell.org//ghc/ghc/issues/3744): comparisons against `minBound` and `maxBound` are not optimised away
 - [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065): quot is sub-optimal
 - [\#2269](https://gitlab.haskell.org//ghc/ghc/issues/2269): Word type to Double or Float conversions 
+- [\#3070](https://gitlab.haskell.org//ghc/ghc/issues/3070): NaNs and divide-by-zero
 
 ## GHCi
 

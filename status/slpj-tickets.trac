@@ -91,6 +91,7 @@
  * #3744: comparisons against `minBound` and `maxBound` are not optimised away
  * #3065: quot is sub-optimal
  * #2269: Word type to Double or Float conversions 
+ * #3070: !NaNs and divide-by-zero
 
 == GHCi ==
  * #4017: unhelpful GHCi message
