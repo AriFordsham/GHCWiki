@@ -259,6 +259,68 @@ for two reasons:
 
 **End of SPL**
 
+**holzensp** I think the confusion comes from the notation used in the reports. The above examples do definitely typecheck (also when boo is defined with a signature as in SPL's example); the types are even inferred:
+
+```wiki
+import Control.Monad
+
+f x foo bar = do
+   y <- foo x
+   y `mplus` bar
+```
+
+
+leads to the following GHCi-session
+
+```wiki
+[1 of 1] Compiling Main             ( Holes.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t f
+f :: MonadPlus m => t -> (t -> m (m b)) -> m b -> m b
+*Main>
+```
+
+
+The confusion, I think, comes from the notation of the constraints as `MonadPlus m => m b` which usually signifies "this" `m` is bound here and thus not any other `m` from any other scope. 
+
+
+If I may be so bold to suggest a different style of reporting; specifically one where holes are not reported on as they are encountered, but rather collected/grouped by commonality of their variables, e.g.
+
+```wiki
+f = do
+   x <- fmap fst $ runStateT _?prc _?st
+   y <- _?cnt x
+   z <- return (return 0 >>= _?indep)
+   return (y,z)
+```
+
+
+Has holes with the following types (where variables are "quantified over the entire report," rather than locally):
+
+```wiki
+_?prc :: Monad m => StateT s m a
+_?st :: s
+_?cnt :: Monad m => a -> m b
+_?indep :: (Monad m', Num n) => n -> m' c
+```
+
+
+This means that `_?prc`, `_?st` and `_?cnt` share type variables, whereas `_?indep` is independent of the others. I would suggest this style of reporting:
+
+```wiki
+Found holes with related type variables: s m a
+with constraints: Monad m
+typed as follows:
+prc :: StateT s m a
+st :: s
+cnt :: a -> m b
+
+Found hole
+indep :: (Monad m1, Num n) => n -> m1 t
+```
+
+**End of holzensp**
+
 ### Comparison
 
 
