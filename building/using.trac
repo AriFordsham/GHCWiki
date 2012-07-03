@@ -578,6 +578,24 @@ Another useful trick is
  `make stage=0`::
    Does not build any GHC stages at all.  `stage=0` can be used in combination with other targets and settings.
 
+== Verbose build ==
+
+By default, the build log is printed in a compact form, where each invocation
+of the compiler looks something like:
+
+{{{
+HC [stage 0] compiler/stage1/build/Constants.o
+}}}
+
+This makes it easier to see the build progress, but sometimes it can be useful
+to inspect the full command lines that are being used.
+
+To enable full output, run `make` with the `V=1` option:
+
+{{{
+make V=1
+}}}
+
 == Installing extra packages ==
 
 The [wiki:Commentary/Libraries boot libraries] are built as part of building GHC; they are built with the stage1 compiler, and imported when the stage2 compiler is compiled with stage1.
