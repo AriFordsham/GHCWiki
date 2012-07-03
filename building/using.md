@@ -703,6 +703,27 @@ Another useful trick is
 Does not build any GHC stages at all.  `stage=0` can be used in combination with other targets and settings.
 </td></tr></table>
 
+## Verbose build
+
+
+By default, the build log is printed in a compact form, where each invocation
+of the compiler looks something like:
+
+```wiki
+HC [stage 0] compiler/stage1/build/Constants.o
+```
+
+
+This makes it easier to see the build progress, but sometimes it can be useful
+to inspect the full command lines that are being used.
+
+
+To enable full output, run `make` with the `V=1` option:
+
+```wiki
+make V=1
+```
+
 ## Installing extra packages
 
 
