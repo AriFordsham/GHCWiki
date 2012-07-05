@@ -102,6 +102,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [C Blocks](block-objects): Haskell FFI support for block objects (closures) in C
   - [Syntax for explicit type application and scoped type variables](explicit-type-application)
   - [Syntax for defining kinds that do not arise from datatype promotion](ghc-kinds/kinds-without-data)
+  - [Lambda-Case](lambdas-vs-pattern-matching): Syntax for full (with branching) pattern matching on arguments of lambda abstractions
 
 - GHCi Debuger
 
