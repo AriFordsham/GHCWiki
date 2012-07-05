@@ -91,6 +91,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:BlockObjects C Blocks]: Haskell FFI support for block objects (closures) in C
    * [wiki:ExplicitTypeApplication Syntax for explicit type application and scoped type variables]
    * [wiki:GhcKinds/KindsWithoutData Syntax for defining kinds that do not arise from datatype promotion]
+   * [wiki:LambdasVsPatternMatching Lambda-Case]: Syntax for full (with branching) pattern matching on arguments of lambda abstractions
 
  * GHCi Debuger
    * [wiki:GhciDebugger GHCi Debugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
