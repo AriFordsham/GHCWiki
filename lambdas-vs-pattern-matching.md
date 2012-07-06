@@ -141,6 +141,14 @@ Extend the current syntax with alternative clauses:
       ; Pat2_1 Pat2_2 ... -> Expr2 }
     ```
 
+    Another is to start each clause with a ```\```:
+
+    ```wiki
+    \ Pat1_1 Pat1_2 ... -> Expr1
+    \ Pat2_1 Pat2_2 ... -> Expr2
+    \ ...
+    ```
+
 ### MultiClauseLambdas with a keyword
 
 
