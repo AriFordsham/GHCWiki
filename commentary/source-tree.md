@@ -14,7 +14,7 @@ Everything starts with the main GHC repository (see [Building/GettingTheSources]
 
 <table><tr><th>**`packages`**</th>
 <td>
-Lists the packages that `sync-all` should get or pull.  `packages` is looked at only by `sync-all`.
+Lists the packages that `sync-all` should get or pull.  `packages` is looked at by `boot`, `sync-all` and `rules/extra-packages.mk`.
 </td></tr></table>
 
 <table><tr><th>**`tarballs`**</th>
