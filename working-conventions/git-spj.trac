@@ -26,6 +26,15 @@ the remote copy into your local copy.
 git config --global branch.autosetupmerge true
 }}}
 
+=== Global .gitignore file ===
+
+Here's how to set up a global (across all your projets) `.gitignore` file.
+ * Put the file somewhere, eg `$(HOME)/.gitignore`.  The patterns are one per line; e.g. `*.~[0-9]*~` to ignore emacs backup files
+ * Execute this command
+{{{
+git config --global core.excludesfile $(HOME)/.gitignore
+}}}
+
 -------------
 
 == Looking at the current state of affairs ==
