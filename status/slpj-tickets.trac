@@ -16,6 +16,7 @@
  * #1475: allow splicing of import declarations (5 in cc list)
  * #4364: cycle in type declarations
  * #5469, #4429: `reinerp` work on `newName` and export reorganisation
+ * #7021: make TH catch up with constraint kinds
 
 == Optimisation ==
  * #5623, #5954: performance regression. Duplication of primops?
