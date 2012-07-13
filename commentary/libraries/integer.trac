@@ -15,6 +15,39 @@ The other implementation currently available is `integer-simple`, which uses a s
 == The Integer interface  ==
 
 All Integer implementations should export the same set of types and functions from `GHC.Integer` (within whatever `integer` package you are using). These exports are used by the `base` package However, all of these types and functions must actually be defined in `GHC.Integer.Type`, so that GHC knows where to find them.
+Specifically, the interface is this:
+{{{
+  data Integer 
+
+  mkInteger :: Bool -- True <=> non-negative
+          -> [Int]  -- Absolute value in 31 bit chunks, least significant first
+                    -- ideally these would be Words rather than Ints, but
+                    -- we don't have Word available at the moment.
+          -> Integer
+    
+  smallInteger  :: Int# -> Integer
+  integerTooInt :: Integer -> Int#
+ 
+  wordToInteger :: Word# -> Integer
+  integerToWord :: Integer -> Word#
+
+  -- And similarly for Int64#, Word64# on 64-bit
+
+  floatFromInteger  :: Integer -> Float#
+  decodeFloatInteger :: Float# -> (# Integer, Int# #)
+  encodeFloatInteger :: Integer -> Int# -> Float#
+
+  -- And similarly Double
+
+  plusInteger :: Integer -> Integer -> Integer
+  -- And similarly: minusInteger, timesInteger, negateInteger,
+  -- eqInteger, neqInteger, absInteger, signumInteger,
+  --  leInteger, gtInteger, ltInteger, geInteger, compareInteger,
+  --  divModInteger, quotRemInteger, quotInteger, remInteger,
+  --  andInteger, orInteger, xorInteger, complementInteger,
+  --  shiftLInteger, shiftRInteger,
+  --  hashInteger,
+}}}
 
 == How Integer is handled inside GHC  ==
 
