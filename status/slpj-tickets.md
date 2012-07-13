@@ -12,6 +12,7 @@
 - [\#7035](https://gitlab.haskell.org//ghc/ghc/issues/7035): Pedro's generics
 - [\#5863](https://gitlab.haskell.org//ghc/ghc/issues/5863): deriving `Typeable` for data families
 - [NewAxioms](new-axioms) Pattern matching axioms
+- [\#7071](https://gitlab.haskell.org//ghc/ghc/issues/7071), [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5609](https://gitlab.haskell.org//ghc/ghc/issues/5609), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows; awaiting refactoring by Dan
 
 ## Template Haskell
 
@@ -130,7 +131,6 @@
 - [\#6065](https://gitlab.haskell.org//ghc/ghc/issues/6065): GHC suggests a type signature that it then rejects
 - [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320): overlap delicacy
 - [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295): impredicativity
-- [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5609](https://gitlab.haskell.org//ghc/ghc/issues/5609), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows; awaiting refactoring by Dan
 - [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965): make existentials have a really cheap implementation
 - [\#5224](https://gitlab.haskell.org//ghc/ghc/issues/5224): make it cheaper to check for inconsistent type family instances
 - [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466), [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296): explicit type application
