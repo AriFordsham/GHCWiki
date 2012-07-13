@@ -33,7 +33,24 @@ All Integer implementations should export the same set of types and functions fr
 
 - **Constant folding**.  There are many constant-folding optimisations for `Integer` expressed as built-in rules in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs); look at `builtinIntegerRules`.  All of the types and functions in the `Integer` interface have built-in names, e.g. `plusIntegerName`, defined in [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs) and included in `basicKnownKeyNames`. This allows us to match on all of the functions in `builtinIntegerRules` in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs), so we can constant-fold Integer expressions.
 
-- **Representing integers**.  We stick to the `LitInteger` representation (which hides the concrete representation) as late as possible in the compiler.   In particular, it's important that this representation is used in unfoldings in interface files, so that constant folding can happen on expressions that get inlined.  We finally convert `LitInteger` to a proper core representation of Integer in [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs), which looks up the Id for `mkInteger` and uses it to build an expression like `mkInteger True [123, 456]` (where the `Bool` represents the sign, and the list of `Int`s are 31 bit chunks of the absolute value from lowest to highest).
+- **Converting between Int and Integer**.  It's quite commonly the case that, after some inlining, we get something like `integerToInt (intToInteger i)`, which converts an `Int` to an `Integer` and back.  This *must* optimise away.  We do this by requiring that the `integer` package exposes
+
+  ```wiki
+    smallInteger :: Int# -> Int
+  ```
+
+  Now we can define `intToInteger` (or, more precisely, the `toInteger` method of the `Integral Int` instance in `GHC.Real` ) thus
+
+  ```wiki
+    toInteger (I# i) = smallInteger i
+  ```
+
+  And we have a RULE for `integerToInt (smallInteger i)`.
+
+- **Representing integers**.  We stick to the `LitInteger` representation (which hides the concrete representation) as late as possible in the compiler.   In particular, it's important that the `LitInteger` representation is used in unfoldings in interface files, so that constant folding can happen on expressions that get inlined.  
+
+>
+> We finally convert `LitInteger` to a proper core representation of Integer in [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs), which looks up the Id for `mkInteger` and uses it to build an expression like `mkInteger True [123, 456]` (where the `Bool` represents the sign, and the list of `Int`s are 31 bit chunks of the absolute value from lowest to highest).
 
 >
 > However, there is a special case for `Integer`s that are within the range of `Int` when the `integer-gmp` implementation is being used; in that case, we use the `S#` constructor (via `integerGmpSDataCon` in [compiler/prelude/TysWiredIn.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.lhs)) to break the abstraction and directly create the datastructure.
