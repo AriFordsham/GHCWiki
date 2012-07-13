@@ -20,7 +20,7 @@ All Integer implementations should export the same set of types and functions fr
 
  * '''Front end'''.  Integers are represented using the `HsInteger` constructor of `HsLit` for the early phases of compilation (e.g. type checking)
 
- * '''Core'''.  In `Core` representation, an integer literal is represented by the LitInteger` constructor of the `Literal` type. 
+ * '''Core'''.  In `Core` representation, an integer literal is represented by the `LitInteger` constructor of the `Literal` type. 
 {{{
 data Literal = ... | LitInteger Integer Type
 }}}
