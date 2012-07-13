@@ -22,6 +22,7 @@
 
 ## Optimisation
 
+- [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872), [\#5400](https://gitlab.haskell.org//ghc/ghc/issues/5400), [\#5448](https://gitlab.haskell.org//ghc/ghc/issues/5448), [\#5722](https://gitlab.haskell.org//ghc/ghc/issues/5722), [\#7057](https://gitlab.haskell.org//ghc/ghc/issues/7057): contravariant data type loop in simplifier inliner
 - [\#5623](https://gitlab.haskell.org//ghc/ghc/issues/5623), [\#5954](https://gitlab.haskell.org//ghc/ghc/issues/5954): performance regression. Duplication of primops?
 - [\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070), [\#5949](https://gitlab.haskell.org//ghc/ghc/issues/5949), [\#5775](https://gitlab.haskell.org//ghc/ghc/issues/5775), [\#4267](https://gitlab.haskell.org//ghc/ghc/issues/4267), [\#5302](https://gitlab.haskell.org//ghc/ghc/issues/5302), [\#6087](https://gitlab.haskell.org//ghc/ghc/issues/6087): Demand analysis
 - [\#5075](https://gitlab.haskell.org//ghc/ghc/issues/5075), [\#3138](https://gitlab.haskell.org//ghc/ghc/issues/3138): CPR for sum types (mostly done, needs finishing)
@@ -53,7 +54,6 @@
 
 ### Inlining
 
-- [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872), [\#5400](https://gitlab.haskell.org//ghc/ghc/issues/5400), [\#5448](https://gitlab.haskell.org//ghc/ghc/issues/5448), [\#5722](https://gitlab.haskell.org//ghc/ghc/issues/5722): contravariant data type loop in simplifier inliner
 - [\#4833](https://gitlab.haskell.org//ghc/ghc/issues/4833): finding the right loop breaker
 - [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781), [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): inlining for local functions: discount for scrutinising free vars
 - [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
