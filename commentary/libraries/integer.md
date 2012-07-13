@@ -33,7 +33,7 @@ All Integer implementations should export the same set of types and functions fr
 
 - **Constant folding**.  There are many constant-folding optimisations for `Integer` expressed as built-in rules in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs); look at `builtinIntegerRules`.  All of the types and functions in the `Integer` interface have built-in names, e.g. `plusIntegerName`, defined in [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs) and included in `basicKnownKeyNames`. This allows us to match on all of the functions in `builtinIntegerRules` in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs), so we can constant-fold Integer expressions.
 
-- **Converting between Int and Integer**.  It's quite commonly the case that, after some inlining, we get something like `integerToInt (intToInteger i)`, which converts an `Int` to an `Integer` and back.  This *must* optimise away.  We do this by requiring that the `integer` package exposes
+- **Converting between Int and Integer**.  It's quite commonly the case that, after some inlining, we get something like `integerToInt (intToInteger i)`, which converts an `Int` to an `Integer` and back.  This *must* optimise away (see [\#5767](https://gitlab.haskell.org//ghc/ghc/issues/5767)).  We do this by requiring that the `integer` package exposes
 
   ```wiki
     smallInteger :: Int# -> Int
