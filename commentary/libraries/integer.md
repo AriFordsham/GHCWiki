@@ -18,12 +18,46 @@ The other implementation currently available is `integer-simple`, which uses a s
 
 
 All Integer implementations should export the same set of types and functions from `GHC.Integer` (within whatever `integer` package you are using). These exports are used by the `base` package However, all of these types and functions must actually be defined in `GHC.Integer.Type`, so that GHC knows where to find them.
+Specifically, the interface is this:
+
+```wiki
+  data Integer 
+
+  mkInteger :: Bool -- True <=> non-negative
+          -> [Int]  -- Absolute value in 31 bit chunks, least significant first
+                    -- ideally these would be Words rather than Ints, but
+                    -- we don't have Word available at the moment.
+          -> Integer
+    
+  smallInteger  :: Int# -> Integer
+  integerTooInt :: Integer -> Int#
+ 
+  wordToInteger :: Word# -> Integer
+  integerToWord :: Integer -> Word#
+
+  -- And similarly for Int64#, Word64# on 64-bit
+
+  floatFromInteger  :: Integer -> Float#
+  decodeFloatInteger :: Float# -> (# Integer, Int# #)
+  encodeFloatInteger :: Integer -> Int# -> Float#
+
+  -- And similarly Double
+
+  plusInteger :: Integer -> Integer -> Integer
+  -- And similarly: minusInteger, timesInteger, negateInteger,
+  -- eqInteger, neqInteger, absInteger, signumInteger,
+  --  leInteger, gtInteger, ltInteger, geInteger, compareInteger,
+  --  divModInteger, quotRemInteger, quotInteger, remInteger,
+  --  andInteger, orInteger, xorInteger, complementInteger,
+  --  shiftLInteger, shiftRInteger,
+  --  hashInteger,
+```
 
 ## How Integer is handled inside GHC
 
 - **Front end**.  Integers are represented using the `HsInteger` constructor of `HsLit` for the early phases of compilation (e.g. type checking)
 
-- **Core**.  In `Core` representation, an integer literal is represented by the LitInteger` constructor of the `Literal\` type. 
+- **Core**.  In `Core` representation, an integer literal is represented by the `LitInteger` constructor of the `Literal` type. 
 
   ```wiki
   data Literal = ... | LitInteger Integer Type
@@ -33,7 +67,24 @@ All Integer implementations should export the same set of types and functions fr
 
 - **Constant folding**.  There are many constant-folding optimisations for `Integer` expressed as built-in rules in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs); look at `builtinIntegerRules`.  All of the types and functions in the `Integer` interface have built-in names, e.g. `plusIntegerName`, defined in [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs) and included in `basicKnownKeyNames`. This allows us to match on all of the functions in `builtinIntegerRules` in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs), so we can constant-fold Integer expressions.
 
-- **Representing integers**.  We stick to the `LitInteger` representation (which hides the concrete representation) as late as possible in the compiler.   In particular, it's important that this representation is used in unfoldings in interface files, so that constant folding can happen on expressions that get inlined.  We finally convert `LitInteger` to a proper core representation of Integer in [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs), which looks up the Id for `mkInteger` and uses it to build an expression like `mkInteger True [123, 456]` (where the `Bool` represents the sign, and the list of `Int`s are 31 bit chunks of the absolute value from lowest to highest).
+- **Converting between Int and Integer**.  It's quite commonly the case that, after some inlining, we get something like `integerToInt (intToInteger i)`, which converts an `Int` to an `Integer` and back.  This *must* optimise away (see [\#5767](https://gitlab.haskell.org//ghc/ghc/issues/5767)).  We do this by requiring that the `integer` package exposes
+
+  ```wiki
+    smallInteger :: Int# -> Int
+  ```
+
+  Now we can define `intToInteger` (or, more precisely, the `toInteger` method of the `Integral Int` instance in `GHC.Real` ) thus
+
+  ```wiki
+    toInteger (I# i) = smallInteger i
+  ```
+
+  And we have a RULE for `integerToInt (smallInteger i)`.
+
+- **Representing integers**.  We stick to the `LitInteger` representation (which hides the concrete representation) as late as possible in the compiler.   In particular, it's important that the `LitInteger` representation is used in unfoldings in interface files, so that constant folding can happen on expressions that get inlined.  
+
+>
+> We finally convert `LitInteger` to a proper core representation of Integer in [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs), which looks up the Id for `mkInteger` and uses it to build an expression like `mkInteger True [123, 456]` (where the `Bool` represents the sign, and the list of `Int`s are 31 bit chunks of the absolute value from lowest to highest).
 
 >
 > However, there is a special case for `Integer`s that are within the range of `Int` when the `integer-gmp` implementation is being used; in that case, we use the `S#` constructor (via `integerGmpSDataCon` in [compiler/prelude/TysWiredIn.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.lhs)) to break the abstraction and directly create the datastructure.
