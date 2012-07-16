@@ -81,6 +81,7 @@
  * #2132: Optimise nested comparisons: if you know x>0 then you know x>=1 etc.  Maybe a special pass that knows about arithmetic?  (Patch offered)
  * #2255, #3767, #2642, #3831, #4941: Improve '''`SpecConstr`''' for free variables, and for join points.
  * #2374: SAT and `MutableByteArray`	Max?
+ * #7080: inconsistent treatment of RULES and SPECIALISE
 
 === Compiler performance ===
  * #2346: desugaring let-bindings
