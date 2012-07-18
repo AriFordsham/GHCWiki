@@ -724,6 +724,9 @@ To enable full output, run `make` with the `V=1` option:
 make V=1
 ```
 
+
+You can also put the "`V=1`" in your `build.mk` or `validate.mk` file.
+
 ## Installing extra packages
 
 
