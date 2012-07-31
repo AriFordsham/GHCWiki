@@ -24,7 +24,7 @@ $ ghc -fplugin=Some.Plugin.Module -fplugin-opt=Some.Plugin.Module:no-fizzbuzz a.
 ### Basic overview of the plugins API for Core
 
 
-Modules can be loaded by GHC as compiler plugins by exposing a declaration called 'plugin' of type [Plugin](http://www.haskell.org/ghc/docs/latest/html/libraries/ghc-7.2.2/CoreMonad.html#t:Plugin), which is an ADT containing a function that installs a pass into the Core pipeline.
+Modules can be loaded by GHC as compiler plugins by exposing a declaration called 'plugin' of type [Plugin](http://www.haskell.org/ghc/docs/7.4.2/html/libraries/ghc-7.4.2/CoreMonad.html#t:Plugin), which is an ADT containing a function that installs a pass into the Core pipeline.
 
 ```wiki
 module Some.Plugin.Module (plugin) where
