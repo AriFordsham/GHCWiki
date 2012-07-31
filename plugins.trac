@@ -12,6 +12,8 @@ Annotation related: see [wiki:Plugins/Annotations].
 
 '''Here be dragons! ''' This is just the result of my very preliminary thinking about how we might implement this in GHC. I am by no means an expert and so this section is certainly neither authoritative or correct! - Max Bolingbroke, March 08
 
+Plugins as implemented are discussed on NewPlugins.
+
 === General Design Goals ===
 
 It would be desirable to ensure that Haskell programs that contain information for a particular plugin still compile when that plugin is not available, in the sprit of other pragma-carried information.

@@ -14,6 +14,9 @@ Annotation related: see [Plugins/Annotations](plugins/annotations).
 
 **Here be dragons! ** This is just the result of my very preliminary thinking about how we might implement this in GHC. I am by no means an expert and so this section is certainly neither authoritative or correct! - Max Bolingbroke, March 08
 
+
+Plugins as implemented are discussed on [NewPlugins](new-plugins).
+
 ### General Design Goals
 
 
