@@ -101,7 +101,7 @@ The [sync-all](building/sync-all) script makes it easy to pull new patches. For 
 ## Tracking the full repository state
 
 
-The full state of a GHC repository includes the current state of the repositories for all of the GHC boot libraries that are used to to build GHC ([list of boot libraries](repositories)). The repositories for these libraries are fetched and updated by the `sync-all` script. To recored the full repository state (including boot libraries), git submodules could be used, but they are not currently in favor (see [GHC Team perspective on submodules](darcs-conversion#the-perspective-on-submodules) for some reasons why).
+The full state of a GHC repository includes the current state of the repositories for all of the GHC boot libraries that are used to to build GHC ([list of boot libraries](repositories)). The repositories for these libraries are fetched and updated by the `sync-all` script. To record the full repository state (including boot libraries), git submodules could be used, but they are not currently in favor (see [GHC Team perspective on submodules](darcs-conversion#the-perspective-on-submodules) for some reasons why).
 
 
 As an alternative to git submodules, the `fingerprint.py` script in `utils/fingerprint/` can create a "fingerprint" to uniquely identify a GHC repository state by recording the current commits of the GHC and boot library repositories. This fingerprint can be used later to restore the state of all repositories to the state captured by the fingerprint. 
