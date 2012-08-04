@@ -72,6 +72,13 @@ To get GHC repository from [http://www.github.com GitHub] we recommend to just g
   $ ./sync-all -r http://darcs.haskell.org/ get
 }}}
 
+If you want a full clone of every package from !GitHub instead, sync-all can handle that as well.
+{{{
+  $ git clone <your preferred github.com GHC fork URL> ghc
+  $ cd ghc
+  $ ./sync-all -r git://github.com/ghc get
+}}}
+
 The official mirror for GHC on github is located at [https://github.com/ghc/ghc].
 
 == Pulling new patches ==
