@@ -14,7 +14,7 @@ This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias a
 - Separately, we have developed yet another, and still better, Cmm representation, the subject of an upcoming ICFP 2010 submission.  It uses phantom types and GADTs to add very useful open/closed invariants.  This isn't in GHC at all yet.  I'll call it `CmmGADT` for easy reference.
 
 
-Generally we want to keep old and new pipelines working simultaneously, so that we can swith only when we are sure the new stuff works.  Next steps in this grand plan are:
+Generally we want to keep old and new pipelines working simultaneously, so that we can switch only when we are sure the new stuff works.  Next steps in this grand plan are:
 
 - Check the impact on compilation time of the new route.
 
