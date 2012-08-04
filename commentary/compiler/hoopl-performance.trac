@@ -15,7 +15,7 @@ This page is a stub.
 
 == Speculation and Commentary ==
 
- * Simon PJ had questions about "optimization fuel" from the beginning.  Norman maintains that optimization fuel is an invaluable debugging aid, but that in a production compiler, one would like it to be turned off.   At some point we had abstracted over the {{{FuelMonad}}} so that we could make a "zero" fuel monad that did nothing and cost nothing.  As of January 2012, Norman doesn't know what the state of that plan is or whether GHC's optmiser can actually eliminate the overheads.
+ * Simon PJ had questions about "optimization fuel" from the beginning.  Norman maintains that optimization fuel is an invaluable debugging aid, but that in a production compiler, one would like it to be turned off.   At some point we had abstracted over the {{{FuelMonad}}} so that we could make a "zero" fuel monad that did nothing and cost nothing.  As of January 2012, Norman doesn't know what the state of that plan is or whether GHC's optimiser can actually eliminate the overheads.
 
  * Unlike Fuel, a supply of {{{Uniq}}}s was believed to be an absolute necessity: an optimiser must be able to rewrite blocks, and in the general case, it must be able to introduce new blocks.  It was believed that the only way to do this consistent with GHC was to plumb in a Uniq supply.   ''Query'': was this integrated with Fuel somehow?
 
