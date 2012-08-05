@@ -519,3 +519,43 @@ blah: blah.hs:2:8:
     In the expression: _?x >>= return
     In the definition of `main': main = _?x >>= return
 ```
+
+# API access to Holes
+
+
+Another open question is how to
+programmatically get information back from GHC. It seems that so far we are
+just thinking about printing a warning message from the compiler. But in order
+to write something like Agda-mode, I guess we ultimately want to expose this in
+the GHC API, so programs like \[ghc-mod
+[ http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs\#ghc-mod](http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs#ghc-mod) ghc-mod\] can display
+the holes information and let the user move between them.
+
+
+This seems tricky since it doesn't fit completely with the way the GHC API is
+currently set up. I think there are two options:
+
+1. Treat them like warning messages are currently handled, and extend the
+
+
+"listener" callback which gets called during compilation to have messages about
+holes as well as warnings in general.
+
+
+However, this is not very uniform: the list of holes in a module is
+more similar to the list of top-level bindings in the modules, so the API for
+querying them should be similar.
+
+1. Treat them like top-level bindings, and have a set of methods for querying
+
+
+them that way.
+
+
+Currently, GHC is set up so that each time you compile a module a .hi is
+generated, and all the API methods for querying for module information looks at
+the .hi file. So this alternative entails modifying the .hi file format to also
+have a section about holes.
+
+
+What is the best way to do this?
