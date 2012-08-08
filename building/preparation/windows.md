@@ -19,8 +19,8 @@ Other documentation for Windows includes:
 - [ Python](http://python.org/) (Version 2.7 is a good choice, we don't support version 3.x at this time)
 - [ LLVM](http://www.llvm.org/releases/download.html) (Optional, for using GHC's LLVM backend, grab the file called 'LLVM Binaries for Mingw32/x86')
 
->
-> We recommend using the **default install locations** for all these tools.  If you choose your own paths, then we recommend not using a path containing spaces if the default did not have spaces.
+
+We recommend using the **default install locations** for all these tools.  If you choose your own paths, then we recommend not using a path containing spaces if the default did not have spaces.
 
 1. **Install the MinGW and MSYS tools:**
 
