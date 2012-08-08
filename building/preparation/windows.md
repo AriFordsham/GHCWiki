@@ -1,7 +1,7 @@
 # Setting up a Windows system for building GHC
 
 
-Installing the following will get you a working build environment with MSYS. The instructions are current for GHC 7.2.
+Installing the following will get you a working build environment with MSYS. The instructions are current for GHC 7.6.
 
 
 Other documentation for Windows includes:
@@ -12,25 +12,27 @@ Other documentation for Windows includes:
 
 ## Setting up Windows
 
-1. We don't recommend installing anything into a directory path that contains spaces.
-
-1. You will need to install the following tools:
+1. **Install the following tools:**
 
 - [ Haskell Platform](http://hackage.haskell.org/platform/)
 - [ Git](http://git-scm.com/)
 - [ Python](http://python.org/) (Version 2.7 is a good choice, we don't support version 3.x at this time)
 - [ LLVM](http://www.llvm.org/releases/download.html) (Optional, for using GHC's LLVM backend, grab the file called 'LLVM Binaries for Mingw32/x86')
 
-1. You will need to install the MinGW and MSYS tools:
+>
+> We recommend using the **default install locations** for all these tools.  If you choose your own paths, then we recommend not using a path containing spaces if the default did not have spaces.
 
-- [ MinGW with MSYS](http://www.mingw.org/)
+1. **Install the MinGW and MSYS tools:**
 
 
-MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is a little confusing, go to the [ getting started](http://www.mingw.org/wiki/Getting_Started) page and follow the download instructions for the 'mingw-get-inst' installer. This is an easy to use single executable for installing both MinGW and MSYS, make sure when you run it that you select to install g++, MSYS and the MSYS Dev Kit.
+MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here:
 
-1. Launch the shell by starting the 'MinGW Shell' which should be in your start menu.
+- [ Mingw/MSYS Getting Started](http://www.mingw.org/wiki/Getting_Started)
 
-1. Set your `PATH`.  We recommend doing this by creating a file `.profile` in your home directory (by default `c:/MinGW/msys/1.0/home/<username>`). The contents of your `.profile` should be something like this:
+
+and follow the download instructions for the **mingw-get-inst** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you **select to install g++, MSYS and the MSYS Dev Kit**.
+
+1. **Set your `PATH`**. We recommend doing this by creating a file `.profile` in your home directory (by default `c:/MinGW/msys/1.0/home/<username>`). The contents of your `.profile` should be something like this:
 
 ```wiki
 # Add Git and Python to path
@@ -43,7 +45,10 @@ export PATH=${PATH}:/c/dev/llvm/bin
 
 Modify the above according to where you installed Git and Python. The Haskell platform installer should have already done the work needed to make GHC available on the path.
 
-1. You should now have a working environment for getting the source for GHC and building it!
+1. **Launch the shell** by starting the 'MinGW Shell' which should be in your start menu.
+
+
+You should now have a working environment for getting the source for GHC and building it!
 
 ## Disable realtime virus-scanning for your build
 
