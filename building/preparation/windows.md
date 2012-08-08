@@ -36,7 +36,7 @@ and follow the download instructions for the **mingw-get-inst** installer. This 
 
 ```wiki
 # Add Git and Python to path
-export PATH=${PATH}:/c/Git/bin:/c/Python27
+export PATH=${PATH}:"/c/Program Files (x86)/Git/bin":/c/Python27
 
 # If you also grabbed LLVM
 export PATH=${PATH}:/c/dev/llvm/bin
