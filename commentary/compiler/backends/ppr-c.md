@@ -22,7 +22,7 @@ This has several advantages:
   a header file is not required when compiling the call.
 
 - bootstrapping via C will be more reliable, because this difference
-  in behavour between the two backends has been removed.
+  in behavior between the two backends has been removed.
 
 
   
@@ -46,7 +46,7 @@ type in any given source file, even if the scopes of the
 declarations don't overlap.  So we either have to scan the whole code to figure out what the type of each label should be, or we opt for declaring all labels at the same type and then casting later.  Currently we do the latter.
 
 - all labels referenced as a result of an FFI declaration
-  are declared as `extern StgWord[]`, including funciton labels.
+  are declared as `extern StgWord[]`, including function labels.
   If the label is called, it is first cast to the correct
   function type.  This is because the same label might be
   referred to both as a function and an untyped data label in
@@ -76,7 +76,7 @@ declarations don't overlap.  So we either have to scan the whole code to figure 
 
 - certain math functions (`sin()`, `cos()` etc.) are already declared because
   we \#include math.h, so we don't emit declarations for these.  We need
-  to \#include math.h because some of these fuctions have inline
+  to \#include math.h because some of these functions have inline
   definitions, and we get terrible code otherwise.
 
 
