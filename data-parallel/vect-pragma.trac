@@ -93,16 +93,14 @@ For a type constructor `T`, the pragma
 {{{
 {-# VECTORISE SCALAR type T #-}
 }}}
-indicates that the type is scalar; i.e., it has no embedded arrays and its constructors can '''only''' be used in scalar code.  Note that the type cannot be parameterised (as we would not be able to rule out that a type parameter is instantiated with an array type at a usage site.)
+indicates that the type is scalar; i.e., it has no embedded arrays and its constructors can '''only''' be used in scalar code.  This is the default for all data types imported from non-vectorised modules.
 
-Due to this pragma declaration, `T` that may be used in vectorised code, where `T` represents itself.  However, the representation of `T` is opaque in vectorised code. An example is the treatment of `Int`.  `Int`s can be used in vectorised code and remain unchanged by vectorisation.  However, the representation of `Int` by the `I#` data constructor wrapping an `Int#` is not exposed in vectorised code.  Instead, computations involving the representation need to be confined to scalar code.
+`T` that may be used in vectorised code, where `T` represents itself.  However, the representation of `T` is opaque in vectorised code. An example is the treatment of `Int`.  `Int`s can be used in vectorised code and remain unchanged by vectorisation.  However, the representation of `Int` by the `I#` data constructor wrapping an `Int#` is not exposed in vectorised code.  Instead, computations involving the representation need to be confined to scalar code.
 
-The type constructor `T` must be in scope, but it may be imported.  The `PData` and `PRepr` instances for `T` need to be manually defined.  (For types that the vectoriser automatically determines that they don't need a vectorised version, instances for `PData` and `PRepr` are still generated automatically.)
+The type constructor `T` must be in scope, but it may be imported.  `PData` and `PRepr` instances for `T` need to be manually defined if needed at all.  (For types that the vectoriser automatically determines that they don't need a vectorised version, instances for `PData` and `PRepr` are still generated automatically.)
 
 NB: The crucial difference between `{-# VECTORISE SCALAR type T1 #-}` and `{-# VECTORISE type T2 #-}`, where `T2` embeds no parallel arrays, is that the *representation* (i.e., the constructors) of the former can only be used in scalar code. However, neither the representation of `T1` nor `T2` does get vectorised — so, both types are suitable for code that does not get vectorised due to vectorisation avoidance.
 
-'''TODO:'''
- * For type constructors identified with this pragma, can we generate an `instance` of the `Scalar` type class automatically (instead of relying on it being in the library)?
 
 === With right-hand side ===
 
