@@ -181,6 +181,10 @@ then it is ignored by the vectoriser — i.e., no type `T_v`  and no class insta
 
 This pragma can only be used for definitions in the current module.
 
+**TODO**
+
+- Not implemented yet.
+
 ## The VECTORISE pragma for type classes
 
 
