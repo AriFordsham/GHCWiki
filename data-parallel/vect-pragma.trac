@@ -117,6 +117,16 @@ An example is the handling of `[::]`, which the vectoriser maps to `PArray`, but
 '''TODO:'''
  * Maybe `VECTORISE ABSTRACT` would be a better name as it doesn't guarantee that the type constructor can be used in scalar code that doesn't need to be vectorised. It just means that the data constructors can '''only''' be used in scalar code — i.e., the vectoriser treats it as an abstract type.
 
+== The NOVECTORISE pragma for types ==
+
+If a type constructor `T` is accompanied by a pragma
+{{{
+{-# NOVECTORISE type T #-}
+}}}
+then it is ignored by the vectoriser — i.e., no type `T_v`  and no class instances are generated.
+
+This pragma can only be used for definitions in the current module.
+
 == The VECTORISE pragma for type classes ==
 
 For a type class `C`, the pragma
