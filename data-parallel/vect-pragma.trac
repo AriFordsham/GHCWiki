@@ -72,7 +72,7 @@ For a type constructor `T`, the pragma
 {{{
 {-# VECTORISE SCALAR type T #-}
 }}}
-indicates that the type `T` is scalar; i.e., it cannot have any embedded arrays. Hence, the `T` represents itself in vectorised code. (No special vectorised version needs to be generated.)
+indicates that the type `T` is scalar; i.e., it cannot have any embedded arrays. Hence, the type `T` represents itself in vectorised code. (No special vectorised version needs to be generated.)
 
 The type constructor `T` must be in scope, but it may be imported.  `PData` and `PRepr` instances for `T` need to be manually defined if needed at all.  (This is the fundamental difference to types for which the vectoriser determines automatically that they don't need a vectorised version: for the latter, the vectoriser automatically generates instances for `PData` and `PRepr`.)
 
