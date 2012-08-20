@@ -184,6 +184,10 @@ An example is `{-# VECTORISE SCALAR instance Num Int #-}`.
 
 **RESTRICTION:** Instance dictionaries vectorised with this pragma can not be mutually recursive. (They may be recursive.)
 
+**TODO**
+
+- This pragma should now be **redundant**, as uses of unvectorised class instances should just be encapsulated. (Do we still need the `VECTRORISE class` pragma? Probably only if we want to allow custom instances in vectorised modules.)
+
 ## Vectorising imported definitions
 
 
