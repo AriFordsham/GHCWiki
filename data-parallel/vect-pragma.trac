@@ -84,7 +84,7 @@ For a type constructor `T`, the pragma
 {{{
 {-# VECTORISE SCALAR type T = T' #-}
 }}}
-directs the vectoriser to replace `T` by `T'` in vectorised code, but the type is abstract — i.e., its constructors cannot be used in vectorised code. Although, the representation of the types changes during vectorisation, it is still regarded as scalar, and hence, can be used in encapsulated scalar code.
+directs the vectoriser to replace `T` by `T'` in vectorised code, but the type is abstract — i.e., its constructors cannot be used in vectorised code. Although, the representation of the type changes during vectorisation, it is still regarded as scalar, and hence, can be used in encapsulated scalar code.
 
 The type constructor `T` must be in scope, but it may be imported.  The `PData` and `PRepr` instances for `T` need to be manually defined. 
 
