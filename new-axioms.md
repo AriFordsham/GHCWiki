@@ -3,14 +3,15 @@
 
 This page describes an extension to type families that supports overlap.
 
-- See [ this Github repo](https://github.com/dreixel/New-axioms) for a Latex draft of the design
-- Here is a [ cached pdf](https://docs.google.com/open?id=0B1pOVvPp4fVdOTdjZjU0YWYtYTA5Yy00NmFkLTkxMWUtZmI0NmNhZTQwYzVl) of the current state
-- We'll use GHC branch `ghc-axioms` for development work.
+- We'll use GHC branch `overlapping-tyfams` for development work.
 - See also the **[Discussion Page](new-axioms/discussion-page)** added May 2012, for comment/suggestions/requests for clarification/alternative solutions, to explore the design space.
-- We'll need some concrete syntax for the discussion, so we'll follow the cached pdf, but note that the syntax there is not final.
+- See also the **[Coincident Overlap](new-axioms/coincident-overlap)** page (added August 2012) for a discussion around the usefulness of allowing certain overlaps when the right-hand sides coincide. 
 
 
 Status (Jan 12): the groundwork is done, in HEAD; mainly making `CoAxiom` a more fundamental data type.  Not yet started on the details.
+
+
+Status (Aug 12): A working prototype implementation is in `overlapping-tyfams`.
 
 ## Background
 
@@ -71,12 +72,15 @@ The only way to work with this sort of reasoning is to use Overlapping Instances
 ## What to do about it
 
 
-So the deficiency is in System FC, and it seems fundamental.  We've been working on an extension to System FC, with a corresponding source-language extension, that does allow overlapping type families, with care.  Here's the idea, but do look at the Latex document pointed to from the top of this page for details.
+So the deficiency is in System FC, and it seems fundamental.  We've been working on an extension to System FC, with a corresponding source-language extension, that does allow overlapping type families, with care.  Here's the idea of the surface-level extension, but see the attached PDF for the details on the FC extension. (The attached PDF uses the FC formalism fully presented [ here](http://www.cis.upenn.edu/~eir/papers/2013/jmnokinds/jmnokinds.pdf).)
+
+
+All of the following is currently implemented in the `overlapping-tyfams` branch.
 
 -  A `type instance` declaration can define multiple equations, not just one:
 
   ```wiki
-  type instance Equal where
+  type instance where
     Equal a a = True
     Equal a b = False
   ```
@@ -88,38 +92,64 @@ So the deficiency is in System FC, and it seems fundamental.  We've been working
   ```wiki
   type family F a :: *
 
-  type instance F where
+  type instance where
     F [Int] = Int
     F [a]   = Bool
 
-  type instance F where
+  type instance where
     F (Int,b) = Char
     F (a,b)   = [Char]
   ```
 
-- The groups for `F` may not overlap.  That is, there must be no type `t` such that `(F t)` matches both groups.
+- The groups for `F` may not overlap.  That is, there must be no type `t` such that `(F t)` matches both groups. This rule explicitly excludes overlaps among group members, even if the right-hand sides coincide (but see the [Coincident Overlap](new-axioms/coincident-overlap) page for discussion).
 
 - The groups do not need to be exhaustive.   If there is no equation that matches, the call is stuck. (This is exactly as at present.)
 
-- It would perhaps be possible to emit warnings for equations that are shadowed:
+- An error is issued when a later equation is matched by a former, making the later one inaccessible.
 
   ```wiki
-  type instance F where
+  type instance where
     F (a,b)   = [Char]
     F (Int,b) = Char
   ```
 
   Here the second equation can never match.
 
+
+For closed kinds (and maybe for open ones, but I can't unravel it), it seems possible to write a set of equations that will catch all possible cases but doesn't match the general case. This situation is currently (Aug 2012) undetected, because I (Richard, `eir` at `cis.upenn.edu`) am unconvinced I have a strong enough handle on the details. For example, what about `Any`?
+
 - The equations do not need to share a common pattern:
 
   ```wiki
-  type instance F where
+  type instance where
     F Int = Char
     F (a,b) = Int
   ```
 
-- Optional extra: It would make sense to allow the `type family` and `type instance` declaration to be combined into one, in cases where all the equations can be given at the definition site.  For example:
+- When matching a use of a type family against a group, special care must be taken not to accidentally introduce incoherence. Consider the following example:
+
+  ```wiki
+  type instance where
+    F Int = Bool
+    F a   = Char
+  ```
+
+  and we try to simplify the type `F b`. The naive implementation would just simplify `F b` to `Char`, but this would be wrong. The problem is that `b` may later be unified with `Int`, meaning `F b` should simplify to `Bool`, not `Char`. So, the correct behavior is not to simplify `F b` at all; it is stuck for now. Note that the second equation above is not useless: we will still simplify, say, `F Double` to `Char`.
+
+
+More formally, we only match a type against an equation in an instance group when no previous equation can *unify* against the type.
+
+- Taking the above point into account, we will still simplify a type family use when those previous unifying equations produce coincident right-hand sides. For example,
+
+  ```wiki
+  type instance where
+    And True x = x
+    And y True = y
+  ```
+
+  and we want to simplify `And z True`. The first equation does not match. The second one does, with the substitution `y -> z`! But then, the first one unifies with the substitution `x -> True, z -> True`. Applying both substitutions to the second right-hand side (`y`) and just the second substitution to the first (`x`}), we see that both right-hand sides reduce to `True` in the problematic case (which is when `z` will unify with `True` at some later point). So, we can indeed reduce `And z True` to `z` as desired. This is indeed a little fiddly, but it seems useful enough to include.
+
+- Optional extra (not yet (August 2012) implemented): It would make sense to allow the `type family` and `type instance` declaration to be combined into one, in cases where all the equations can be given at the definition site.  For example:
 
   ```wiki
   type family Equal a b :: Bool where
@@ -156,3 +186,14 @@ What should the "header" look like?
 
 
 We need one of the existing "layout herald" keywords (`of`, `let`, `where`) to smoothly support the nested block of equations.  It's not clear whether or not it is useful to mention the name of the function in the header.
+
+## Limitations
+
+
+The implementation described above does not address all desired use cases. In particular, it does not work with associated types at all. (Using something like `type where` in a class definition will be a parse error.) There's no set reason the approach couldn't be expanded to work with associated types, but it is not done yet. In particular, the FC extension will handle intra-module overlapping associated types without a change.
+
+
+It seems that inter-module overlapping non-coincident associated types are a Bad Idea, but please add comments if you think otherwise and/or need such a feature. Why is it a Bad Idea? Because it would violate type safety: different modules with different visible instances could simplify type family applications to different ground types, perhaps concluding `True ~ False`, and the world would immediately cease to exist.
+
+
+This last point doesn't apply to overlapping type class instances because type class instance selection compiles to a term-level thing (a dictionary). Using two different dictionaries for the same constraint in different places may be silly, but it won't end the world.
