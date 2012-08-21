@@ -10,7 +10,12 @@ This page explains basics of the so-called demand analysis in GHC, comprising st
 
 \[TODO\]
 
-## Affected compiler parts
+## Worker-Wrapper split
+
+
+\[TODO\]
+
+## Relevant compiler parts
 
 
 \[TODO\]
