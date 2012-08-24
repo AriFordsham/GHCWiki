@@ -21,7 +21,7 @@ These pages guide you step-by-step through making a contribution:
 
 - **Using Git**: Our conventions and some useful tips for using git are here: [Using Git](working-conventions/git).
 
-- **Releases and branches**: Our conventions for making releases and how the branches are managed: [WorkingConventions/Releases](working-conventions/releases)
+- **Releases and branches**: Our conventions for making releases and how the branches are managed: [Releases](working-conventions/releases)
 
 - **Using the Bug Tracker**: see [Using the Bug Tracker](working-conventions/bug-tracker)
 
