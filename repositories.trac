@@ -114,6 +114,8 @@ Currently, all our repositories are being mirrored to !GitHub by !GitHub themsel
 
 == Branches ==
 
+For how we manage release branches, see [wiki:WorkingConventions/Releases].
+
 The following branches are active:
 
  '''7.4 Branch'''::
