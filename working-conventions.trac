@@ -17,7 +17,7 @@ These pages guide you step-by-step through making a contribution:
 
  * '''Using Git''': Our conventions and some useful tips for using git are here: [wiki:WorkingConventions/Git Using Git].
 
- * OLD: '''Using Darcs''': Our conventions and some useful tips for using darcs are here: [wiki:WorkingConventions/Darcs Using Darcs].
+ * '''Releases and branches''': Our conventions for making releases and how the branches are managed: [wiki:WorkingConventions/Releases Releases]
 
  * '''Using the Bug Tracker''': see [wiki:WorkingConventions/BugTracker Using the Bug Tracker]
 
@@ -28,3 +28,9 @@ These pages guide you step-by-step through making a contribution:
  * '''Testing''': all patches that go into GHC must first pass ''validation'', which ensures that a basic build works and the ''regression test suite'' passes.
    * The policy on validating patches, and how to perform validation, is at: [wiki:TestingPatches Testing Patches].
    * Details about the regression test suite, and how to use it are at: [wiki:Building/RunningTests Running Tests].
+
+
+== Old stuff ==
+
+ * '''Using Darcs''': Our conventions and some useful tips for using darcs are here: [wiki:WorkingConventions/Darcs Using Darcs].
+
