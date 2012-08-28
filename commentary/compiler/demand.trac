@@ -20,6 +20,12 @@ Multiple parts of GHC are sensitive to changes in the nature of demand signature
 
   * `compiler/basicTypes/Demand.lhs` -- contains all information about demands and operations on them, as well as about serialization/deserialization of demand signatures. This module is supposed to be changes whenever the demand nature should be enhanced;
 
+  * `compiler/stranal/DmdAnal.lhs` -- the demand analysis itself. Check multiple comments for to figure out main principles of the algorithm.
+
+  * `compiler/stranal/WorkWrap.lhs` -- a worker-wrapper transform, main client of the demand analysis. The function split is performed in `worthSplittingFun` basing on demand annotations of a function's parameters. 
+
+  *  `compiler/stranal/WwLib.lhs` -- a helper module for the worker-wrapper machinery. The "deep" splitting of a product type argument makes use of the strictness info and is implemented by the function `mkWWstr_one`. The function `mkWWcpr` makes use of the CPR info.
+
   * `compiler/basicTypes/Id.lhs` -- implementation of identifiers contains a number of utility functions to check/set demand annotations of binders. All of them are just delegating to appropriate functions/fields of the `IdInfo` record;
 
   * `compiler/basicTypes/IdInfo.lhs` -- `IdInfo` record contains all information about demand and strictness annotations of an identifier. `strictnessInfo` contains a representation of an abstract two-point demand transformer of a binder, considered as a reference to a value. `demandInfo` indicates, which demand is put to the identifier, which is a function parameter, if the function is called in a strict/used context. `seq*`-functions are invoked to avoid memory leaks caused by transforming new ASTs by each of the compiler passes (i.e., no thunks pointing to the parts of the processed trees are left). 
@@ -50,4 +56,14 @@ Multiple parts of GHC are sensitive to changes in the nature of demand signature
 
   * `compiler/iface/MkIface.lhs`  -- a client of `IfaceSyn`, see usages of `HsStrictness`.
 
-  * `compiler/iface/TcIface.lhs` -- TODO
+  * `compiler/iface/TcIface.lhs` -- the function `tcUnfolding` checks if an identifier binds a bottoming function in order to decide if it should be unfolded or not
+
+  * `compiler/main/TidyPgm.lhs` -- Multiple checks of an identifier to bind a bottoming expression, running a cheap-an-cheerful bottom analyser. See `addExternal` and occurrences of `exprBotStrictness_maybe`.
+
+  * `compiler/simplCore/SetLevels.lhs` -- It is important to zap demand information, when an identifier is moved to a top-level (due to let-floating), hence look for occurrences of `zapDemandIdInfo`.
+
+  * `compiler/simplCore/SimplCore.lhs` -- this module is responsible for running the demand analyser and the subsequent worker-wrapper split passes. 
+
+  * `compiler/simplCore/SimplUtils.lhs`  -- is a new arity is less than the arity of the demand type, a warning is emitted; check `tryEtaExpand`.
+
+  * `compiler/specialise/SpecConstr.lhs` -- strictness info is used when creating a specialized copy of a function, see `spec_one` and `calcSpecStrictness`.
