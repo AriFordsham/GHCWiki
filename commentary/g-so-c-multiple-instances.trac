@@ -1,5 +1,42 @@
 
-== Introduction ==
+== Current Status ==
+
+It is possible to install multiple instances of the same package version with my forks of cabal and ghc. Quite a few problems remain.
+
+=== Unique Install Location ===
+
+When specifying the install location there is a new variable $unique available. It is resolved to a random number by cabal-install during configuring. The default libsubdir for cabal-install should be "$packageid-$unique" for example "mtl-2.1.2-1222131559". Cabal the library does not understand $unique so multiple instances of the same package version installed via "runhaskell Setup.hs install" are still problematic.
+
+=== ghc-pkg ===
+
+ghc-pkg never removes registered packages when registering a new one. Even if a new package with the same `InstalledPackageId` as an existing package is registered. Or if a new package that points to the same install directory is registered. `ghc-pkg` should probably check this and issue a warning.
+
+=== Adhoc dependency resolution ===
+
+A new field `timestamp` was added to `InstalledPackageInfo`. It is set by Cabal the library when registering a package. It is used by Cabal the library, GHC and cabal-install to choose between different instances of the same package version.
+
+=== Detect whether an overwrite happens and warn about it ===
+
+Currently cabal-install still warns about dangerous reinstalls and requires `--force-reinstalls` when it is sure a reinstall would happen. The correct behaviour here would be to detect if a reinstall causes overwriting (because of a version of ghc-pkg that does this) and warn only in this case. In this implementation reinstalls are not dangerous anymore.
+
+=== Communicate the `InstalledPackageId` back to cabal-install ===
+
+An `InstallPlan` contains installed packages as well as packages to be installed and dependencies between those. We want to specify all of these dependencies with an `InstalledPackageId`. Unfortunately the `InstalledPackageId` is determined after installation and therefore not available for not yet installed packages. After installation it would have to be somehow communicated back to cabal-install. The current workaround is to only specify those packages that were previously installed with an `InstalledPackageId` and trust on Cabal picking the instance that was most recently (during execution of this install plan) installed for the other ones.
+
+=== Garbage Collection ===
+
+A garbage collection should offer the removal of a certain package specified by `InstalledPackageId`, the removal of broken packages and the removal of probably unnecessary packages. A package is unnecessary if all packages that depend on it are unnecessary (this includes the case that no package depends on it) and it is not the most recently installed instance for its version. All of this should be accompanied by a lot of "are you sure" questioning.
+
+=== About Shadowing ===
+
+GHC has the concept of shadowing. It was introduced as far as i understand (correct me please) because when combining the global and the user package databases you could end up with two instances of the same package version. The instance in the user database was supposed to shadow the one in the global database. Now that there are multiple instances of the same package version even in one package database this concepts needs to be rethought. This is non-trivial because flags asking for a package version as well as flags requiring a certain instance need to be taken into account.
+
+=== About Unique Identifier ===
+
+Currently a big random number is created by cabal-install during configuration and passed to Cabal to be appended to the `InstalledPackageId` before registering. The reason is that the `InstalledPackageId` still contains the ABI hash which is only known after compilation. I personally would like the `InstalledPackageId` to be the name of the package, the version and a big random number. This could be determined before compilation, used as the `libsubdir` and baked into `package_Paths.hs`. Since it would be determined by cabal-install it would also make communicating the InstalledPackageId back to cabal-install after an installation unnecessary. The problem is that the `InstalledPackageId` would not be deterministic anymore.
+
+
+== Original Plan ==
 
 Cabal and GHC do not support multiple instances of the same package version installed at the same time. If a second instance of a package version is installed it is overwritten on the file system as well as in the `PackageDB`. This causes packages that depended upon the overwritten instance to break. The idea is to never overwrite an installed package. As already discussed in [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Packages/MultiInstances] the following changes need to be made:
 
