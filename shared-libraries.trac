@@ -44,7 +44,7 @@ ELF "visibility" reading list:
 
 PE format introduction:
   * [http://msdn.microsoft.com/en-us/magazine/cc301805.aspx Part 1]
-  * [http://msdn.microsoft.com/en-us/magazine/cc301805.aspx Part 2]
+  * [http://msdn.microsoft.com/en-us/magazine/cc301808.aspx Part 2]
 In particular these describe how dll import and export works.
 
 == Why we care about shared libraries ==
