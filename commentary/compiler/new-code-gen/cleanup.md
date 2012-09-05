@@ -15,6 +15,8 @@ The new codegen was enabled by default in [832077ca5393d298324cb6b0a2cb501e27209
 
 - remove `-fnew-codegen`, related `HscMain` bits and the `CodeGen` module.
 
+- remove `CmmOpt.cmmMiniInline`, it is not used any more
+
 ## Towards removing codeGen/Cg\*
 
 - \[Simon M is working on this\] `CmmParse` should produce new `Cmm`. 
@@ -26,7 +28,11 @@ The new codegen was enabled by default in [832077ca5393d298324cb6b0a2cb501e27209
 
 ## Towards removing `OldCmm`
 
-- Change the NCG over to consume new `Cmm`.  We possible also want the generated native code to use the Hoopl Block representation, although that will mean changing branch instructions to have both true and false targets, rather than true and fallthrough as we have now.
+- Change the NCG over to consume new `Cmm`.  We possibly also want the generated native code to use the Hoopl Block representation, although that will mean changing branch instructions to have both true and false targets, rather than true and fallthrough as we have now.
+
+- Remove `cmm/CmmCvt` (this will save some compile-time too)
+
+- Remove `cmm/OldCmm*`, `cmm/PprOldCmm` etc.
 
 ## Later
 
