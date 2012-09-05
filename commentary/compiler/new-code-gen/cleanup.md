@@ -1,0 +1,33 @@
+# Cleanup after the new codegen is enabled
+
+
+The new codegen was enabled by default in [832077ca5393d298324cb6b0a2cb501e27209768](/trac/ghc/changeset/832077ca5393d298324cb6b0a2cb501e27209768/ghc).  Now that the switch has been made, we can remove all the cruft associated with the old code generator.  There are dependencies between some of the components, so we have to do things in the right order.  Here is a list of the cleanup tasks, and notes about dependencies:
+
+## Independent tasks
+
+- Use `BlockId` or `Label` consistently, currently we use a mixture of the two.  Maybe get rid of the `BlockId` module.
+
+- Remove live-var and CAF lists from `StgSyn`, and then clean up `CoreToStg`
+
+- Remove the SRT pass in `simplStg/SRT.lhs`
+
+- remove RET_DYN from the RTS
+
+- remove `-fnew-codegen`, related `HscMain` bits and the `CodeGen` module.
+
+## Towards removing codeGen/Cg\*
+
+- \[Simon M is working on this\] `CmmParse` should produce new `Cmm`. 
+
+  - We will probably want two kinds of `.cmm` file, one that is to be fed through `CmmLayoutStack` and one that isn't.
+  - primops will be fed through `CmmLayoutStack`, and will use the native calling convention, with the code generator inserting the copyin/copyout for us.
+
+- Remove all the `Cg*` modules (requires the `CmmParse` cleanup first).
+
+## Towards removing `OldCmm`
+
+- Change the NCG over to consume new `Cmm`.  We possible also want the generated native code to use the Hoopl Block representation, although that will mean changing branch instructions to have both true and false targets, rather than true and fallthrough as we have now.
+
+## Later
+
+- Do the new SRT story (ToDo: write a wiki page about this)
