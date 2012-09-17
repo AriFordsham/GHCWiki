@@ -33,7 +33,7 @@ Str=DmdType <L,U> {skY-><S,U>}
 
 indicates that the function has one parameter, which is used lazily (hence `<L,U>`), however, when its result is used strictly, the free variable `skY` in its body is also used strictly.
 
-=== Demand description ===
+=== Demand descriptions ===
 
 Strictness demands
 
@@ -68,7 +68,58 @@ Additional information (demand signature suffix)
 
 == Worker-Wrapper split ==
 
-[TODO]
+Demand analysis in GHC drives the ''worker-wrapper transformation'',  which exposes specialised calling conventions  to the rest of the compiler.  In particular, the  worker-wrapper transformation implements the unboxing optimisation.
+
+The worker-wrapper transformation splits each 
+function `f` into a ''wrapper'', with the
+ordinary calling convention, and a ''worker'', with a specialised
+calling convention.  The wrapper serves as an impedance-matcher to the
+worker; it simply calls the worker using the specialised calling convention.
+The transformation can be expressed directly in GHC's intermediate language.
+Suppose that `f` is defined thus:
+{{{
+  f :: (Int,Int) -> Int
+  f p = <rhs>
+}}}
+and that we know that `f` is strict in its argument (the pair, that is),
+and uses its components.
+What worker-wrapper split shall we make? Here is one
+possibility:
+{{{
+ f :: (Int,Int) -> Int
+  f p = case p of
+          (a,b) -> $wf a b
+
+  $wf :: Int -> Int -> Int
+  $wf a b = let p = (a,b) in <rhs>
+}}}
+Now the wrapper, `f`, can be inlined at every call site, so that
+the caller evaluates `p`, passing only the components to the worker 
+`$wf`, thereby implementing the unboxing transformation.
+
+
+But what if `f` did not use `a`, or `b`?  Then it would be silly to
+pass them to the worker `$wf`.  Hence the need for absence
+analysis.  Suppose, then, that we know that `b` is not needed. Then
+we can transform to:
+{{{
+  f :: (Int,Int) -> Int
+  f p = case p of (a,b) -> $wf a
+
+  $wf :: Int -> Int
+  $wf a = let p = (a,error "abs") in <rhs>
+}}}
+Since `b` is not needed, we can avoid passing it from the wrapper to
+the worker; while in the worker, we can use `error "abs"` instead of
+`b`.
+
+
+In short, the worker-wrapper transformation allows the knowledge
+gained from strictness and absence analysis to be exposed to the rest
+of the compiler simply by performing a local transformation on the
+function definition.  Then ordinary inlining and case elimination will
+do the rest, transformations the compiler does anyway.
+
 
 == Relevant compiler parts ==
 
