@@ -10,6 +10,7 @@ This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias a
    * #2253
    * #2289
    * #7219 (reinstate constant-prop)
+   * #7213 (massive array)
 
  * (Sept 12) New code generator is live.  Here's the [wiki:Commentary/Compiler/NewCodeGen/Cleanup page listing clean-up tasks] that we can now do.
  * Simon M added a [blog:newcg-update Blog Post] about the new code generator status
