@@ -26,14 +26,14 @@ type family App (f :: k1 -> k2) (a :: k1) :: k2
 
 
 We typically want to use (a) when we are not interested in types, only kinds.
-For instance, in the `Sing` family of the
+For instance, consider the following type family, which is a variant of the
 [ type-level literals module](https://github.com/ghc/packages-base/blob/master/GHC/TypeLits.hs):
 
 ```wiki
-data family Sing (k :: ☐)
+type family SingRep (k :: ☐)
 
-newtype instance Sing Nat    = SNat Integer
-newtype instance Sing Symbol = SSym String
+type instance SingRep Nat    = Integer
+type instance SingRep Symbol = String
 ```
 
 
@@ -48,15 +48,12 @@ signatures:
 
 ```wiki
 class SingE (k :: ☐) where
-  type SingRep (k :: ☐) :: *
   fromSing :: Sing (k :: ☐) -> SingRep (k :: ☐)
 
 instance SingE Nat where
-  type SingRep Nat = Integer
   fromSing (SNat n) = n
 
 instance SingE Symbol where
-  type SingRep Symbol = String
   fromSing (SSym s) = s
 ```
 

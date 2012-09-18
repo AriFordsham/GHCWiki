@@ -21,13 +21,13 @@ type family App (f :: k1 -> k2) (a :: k1) :: k2
 }}}
 
 We typically want to use (a) when we are not interested in types, only kinds.
-For instance, in the `Sing` family of the
+For instance, consider the following type family, which is a variant of the
 [https://github.com/ghc/packages-base/blob/master/GHC/TypeLits.hs type-level literals module]:
 {{{
-data family Sing (k :: ☐)
+type family SingRep (k :: ☐)
 
-newtype instance Sing Nat    = SNat Integer
-newtype instance Sing Symbol = SSym String
+type instance SingRep Nat    = Integer
+type instance SingRep Symbol = String
 }}}
 
 Note that `Nat` and `Symbol` above are '''kinds'''.
@@ -39,15 +39,12 @@ Explicit kind arguments can also be used in type classes, and function type
 signatures:
 {{{
 class SingE (k :: ☐) where
-  type SingRep (k :: ☐) :: *
   fromSing :: Sing (k :: ☐) -> SingRep (k :: ☐)
 
 instance SingE Nat where
-  type SingRep Nat = Integer
   fromSing (SNat n) = n
 
 instance SingE Symbol where
-  type SingRep Symbol = String
   fromSing (SSym s) = s
 }}}
 
