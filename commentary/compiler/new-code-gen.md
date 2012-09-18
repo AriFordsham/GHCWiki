@@ -3,6 +3,18 @@
 
 This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.  Here is the state of play; see also [work on the LLVM back end](commentary/compiler/backends/llvm).
 
+- Bug list (code-gen related bugs that we may be able to fix):
+
+  - [\#1498](https://gitlab.haskell.org//ghc/ghc/issues/1498) (avoid redundant heap check on the fast path)
+  - [\#3552](https://gitlab.haskell.org//ghc/ghc/issues/3552) (unreachable code)
+  - [\#3462](https://gitlab.haskell.org//ghc/ghc/issues/3462) (a feature)
+  - [\#2249](https://gitlab.haskell.org//ghc/ghc/issues/2249)
+  - [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253)
+  - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289)
+  - [\#7219](https://gitlab.haskell.org//ghc/ghc/issues/7219) (reinstate constant-prop)
+  - [\#7213](https://gitlab.haskell.org//ghc/ghc/issues/7213) (massive array)
+
+- (Sept 12) New code generator is live.  Here's the [page listing clean-up tasks](commentary/compiler/new-code-gen/cleanup) that we can now do.
 - Simon M added a [Blog Post](/trac/ghc/blog/newcg-update) about the new code generator status
 
 - Norman added a [Hoopl performance page](commentary/compiler/hoopl-performance)
@@ -76,15 +88,3 @@ We currently have a code generator that is correct, but slow and stupid. The pri
 1. We teach the register spiller about another location: a value may be in a register, on the stack in a register slot, OR (and this is the new bit) inside a call area. If it’s in a call area, reload from that instead of of its slot location. This might require borrowing some code from the code motion improvements in my private branch ([ http://github.com/ezyang/ghc](http://github.com/ezyang/ghc)).
 
 1. We change the stack layout code to perform interference on a per-word, rather than per-area level. Because this may cause a very huge interference graph, we bound the number of conflicts we remember; instead of recording every slot a slot may conflict with, we remember some number, and if there are more, we just say it conflicts with everything. (There is some potential for statistics and tuning parameters here.)
-
-## Bugs
-
-
-Bug list (code-gen related bugs that we may be able to fix):
-
-- [\#1498](https://gitlab.haskell.org//ghc/ghc/issues/1498) (avoid redundant heap check on the fast path)
-- [\#3552](https://gitlab.haskell.org//ghc/ghc/issues/3552) (unreachable code)
-- [\#3462](https://gitlab.haskell.org//ghc/ghc/issues/3462) (a feature)
-- [\#2249](https://gitlab.haskell.org//ghc/ghc/issues/2249)
-- [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253)
-- [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289)
