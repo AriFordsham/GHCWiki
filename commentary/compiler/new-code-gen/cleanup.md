@@ -17,6 +17,8 @@ The new codegen was enabled by default in [832077ca5393d298324cb6b0a2cb501e27209
 
 - remove `CmmOpt.cmmMiniInline`, it is not used any more
 
+- Fix the layering: `cmm` modules should not depend on `codeGen/StgCmm*`
+
 ## Towards removing codeGen/Cg\*
 
 - \[Simon M is working on this\] `CmmParse` should produce new `Cmm`. 
