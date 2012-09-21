@@ -88,6 +88,14 @@ Some tests may require packages that are not in the ghc tree. You can add these 
 cabal install parsec --with-compiler=inplace/bin/ghc-stage2 --package-db=inplace/lib/package.conf.d
 ```
 
+
+To run the parallel benchmarks with some number of cores, you need to compile the parallel benchmarks with the -threaded option and also pass the -N RTS argument; for example, the following runs the parallel benchmarks with 4 cores (run this from the parallel directory):
+
+```wiki
+make clean
+make EXTRA_HC_OPTS="-threaded" EXTRA_RUNTEST_OPTS='+RTS -N4 -RTS'
+```
+
 ## Tweaking things
 
 
