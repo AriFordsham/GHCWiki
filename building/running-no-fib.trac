@@ -69,6 +69,17 @@ EXTRA_HC_OPTS="-fenable-cool-optimisation -ddump-simpl" make
 
 You can add whatever dumping flags you need to see the output and understand what is going wrong.
 
+Some tests may require packages that are not in the ghc tree. You can add these to the inplace package database (inplace/lib/package.conf.d) using cabal. For example you can install parsec using the inplace compiler and inplace package database by running the following command from the top-level of the GHC source tree:
+{{{
+cabal install parsec --with-compiler=inplace/bin/ghc-stage2 --package-db=inplace/lib/package.conf.d
+}}}
+
+To run the parallel benchmarks with some number of cores, you need to compile the parallel benchmarks with the -threaded option and also pass the -N RTS argument; for example, the following runs the parallel benchmarks with 4 cores (run this from the parallel directory):
+{{{
+make clean
+make EXTRA_HC_OPTS="-threaded" EXTRA_RUNTEST_OPTS='+RTS -N4 -RTS'
+}}}
+
 == Tweaking things ==
 
 To tweak things, add settings to your `mk/build.mk` (see [wiki:Commentary/SourceTree]).
@@ -90,4 +101,3 @@ make -k mode=norm
 make -k mode=fast
 }}}
 See `mk/opts.mk`. The default is `mode=norm`.
-
