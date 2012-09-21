@@ -81,6 +81,13 @@ EXTRA_HC_OPTS="-fenable-cool-optimisation -ddump-simpl" make
 
 You can add whatever dumping flags you need to see the output and understand what is going wrong.
 
+
+Some tests may require packages that are not in the ghc tree. You can add these to the inplace package database (inplace/lib/package.conf.d) using cabal. For example you can install parsec using the inplace compiler and inplace package database by running the following command from the top-level of the GHC source tree:
+
+```wiki
+cabal install parsec --with-compiler=inplace/bin/ghc-stage2 --package-db=inplace/lib/package.conf.d
+```
+
 ## Tweaking things
 
 
