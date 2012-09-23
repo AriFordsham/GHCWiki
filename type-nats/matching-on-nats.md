@@ -60,7 +60,7 @@ type instance Get (Succ n) (x `: xs) = Get n xs
 ```
 
 
-Such a function might be useful if we were defining some sort safe interface
+Such a function might be useful if we were defining some sort of safe interface
 to a foreign struct:
 
 ```wiki
