@@ -38,7 +38,7 @@ type that we are using (i.e., we could define the method without using a class).
 The same sort of thing happens if we try to use numbers of kind `Nat` as the parametr
 to a type function---we often can't define the instances that we need.
 
-# The Solution
+# A Solution
 
 
 We can solve this problem by providing an additional representation of type-level natural numbers,
