@@ -108,6 +108,18 @@ type checker to make it aware of this fact.  These changes are captured
 by the following two rules:
 
 ```wiki
-forall a b. (FromNat1 a ~ FromNat1 b) => (a ~ b)
-forall a. exists b. (1 <= FromNat1 a) => (a ~ Succ b)
+forall a b.         (FromNat1 a ~ FromNat1 b) => (a ~ b)
+forall a. exists b. (1 <= FromNat1 a)         => (a ~ Succ b)
+```
+
+
+Now the function `getField` type-checks as expected:
+
+```wiki
+s :: Selector 2
+
+p :: Ptr (Struct [Int,Char,Float])
+
+f :: Ptr Float
+f = getField s p
 ```
