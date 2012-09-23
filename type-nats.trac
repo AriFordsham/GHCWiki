@@ -6,7 +6,8 @@ This page collects information on how to work with type-level literals, as imple
 
   * [wiki:TypeNats/Basics           Type-Level Literal Basics]
   * [wiki:TypeNats/Operations       Type-Level Computation]
-  * [wiki:TypeNats/InductiveDefinitions Typed examinations of TNat (inductive definitions)]
+  * [wiki:TypeNats/InductiveDefinitions Typed examinations of Sing values]
+  * [wiki:TypeNats/MatchingOnNats   Matching on Type-Level Naturals (i.e., working with classes and type-families)]
 
 
 == Notes on Design ==

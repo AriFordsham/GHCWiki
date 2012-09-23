@@ -7,7 +7,8 @@ This page collects information on how to work with type-level literals, as imple
 
 - [Type-Level Literal Basics](type-nats/basics)
 - [Type-Level Computation](type-nats/operations)
-- [Typed examinations of TNat (inductive definitions)](type-nats/inductive-definitions)
+- [Typed examinations of Sing values](type-nats/inductive-definitions)
+- [Matching on Type-Level Naturals (i.e., working with classes and type-families)](type-nats/matching-on-nats)
 
 ## Notes on Design
 
