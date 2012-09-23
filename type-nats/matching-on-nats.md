@@ -43,7 +43,7 @@ to a type function---we often can't define the instances that we need.
 
 We can solve this problem by providing an additional representation of type-level natural numbers,
 one that has explicit structure.  We define another kind, `Nat1`, which represents natural numbers
-is the traditional unary representation (here we are using GHC's `DataKinds` extension):
+in the traditional unary representation (here we are using GHC's `DataKinds` extension):
 
 ```wiki
 data Nat1 = Zero | Succ Nat1
