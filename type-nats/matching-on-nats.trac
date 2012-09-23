@@ -1,0 +1,66 @@
+= The Problem =
+
+The type level numbers of kind `Nat` have no structure,
+which limits their use in programs that need to overload
+values based on a natural number, or use programmer-defined
+type functions.  Consider, for example, a class with a
+parameter of kind `Nat`:
+
+{{{
+class C (n :: Nat) where
+  someMethod :: ...
+}}}
+
+To define instances of this class, we need to either select
+a set of concrete numbers like this:
+{{{
+instance C 0 where ...
+instance C 1 where ...
+}}}
+Or, alternatively, we could provide a completely polymorphic instance:
+{{{
+instance C a where ...
+}}}
+
+Usually, neither of these is good enough:  the first one is too restrictive as we
+have to enumerate all the instances that will ever be used explicitly, while the
+second one is too general and does not give us any static information about the
+type that we are using (i.e., we could define the method without using a class).
+
+The same sort of thing happens if we try to use numbers of kind `Nat` as the parametr
+to a type function---we often can't define the instances that we need.
+
+
+= The Solution =
+
+We can solve this problem by providing an additional representation of type-level natural numbers,
+one that has explicit structure.  We define another kind, `Nat1`, which represents natural numbers
+is the traditional unary representation (here we are using GHC's `DataKinds` extension):
+{{{
+data Nat1 = Zero | Succ Nat1
+}}}
+
+This kinds makes it easy to define class instances or type-functions using natural numbers.
+For examples, here is a function that selects a type from a list of types:
+{{{
+type family Get (n :: Nat1) (xs :: [*]) :: *
+type instance Get Zero     (x `: xs) = x
+type instance Get (Succ n) (x `: xs) = Get n xs
+}}}
+
+
+
+
+
+
+{{{
+type family FromNat1 (n :: Nat1) :: Nat
+type instance FromNat1 Zero     = 0
+type instance FromNat1 (Succ n) = 1 + FromNat1 n
+}}}
+
+
+{{{
+forall a b. (FromNat1 a ~ FromNat1 b) => (a ~ b)
+forall a b. exists c. (1 <= FromNat1 a) => (a ~ Succ b)
+}}}
