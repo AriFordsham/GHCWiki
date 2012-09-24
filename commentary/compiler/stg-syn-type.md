@@ -28,4 +28,4 @@ In addition, the STG program is decorated with the results of some analyses:
 
 - A `StgCase` expression is decorated with its **live variables**; that is, variables reachable from the continuation of the case.  More precisely, two sets of live variables, plus the SRT for the continuation.  Todo: say more.
 
-- The STG program has a new construct called **let-no-escape**, that encodes so-called **join points**. Todo: say more.
+- The STG program has a new construct called **let-no-escape**, that encodes so-called **join points**. Variables bound by a let-no-escape are guaranteed to be tail-calls, not embedded inside a data structure, in which case we don’t have to construct a closure because the required stack will always be present. Todo: say more.
