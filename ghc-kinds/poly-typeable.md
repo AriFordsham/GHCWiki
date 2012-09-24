@@ -123,7 +123,7 @@ Is this perhaps better?
 
 - Make `deriving( Typeable )` work with whatever `Typeable` class is in scope.  So what it does will be determined by whether you say `import Data.Typeable` or `import Data.OldTypeable`.
 
-**I think that means that old programs will continue to work in GHC 7.6**, provided
+**I think that means that old programs will continue to work in GHC 7.8**, provided
 
 - You did not mention `Typeable1` etc explicitly
 - You used `deriving( Typeable )` to write instances.
