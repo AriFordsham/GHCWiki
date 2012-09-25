@@ -61,7 +61,6 @@
  * Summary ticket: #4258, and [wiki:Commentary/Compiler/NewCodeGen wiki page]
  * #4065: forward propagation
  * #3132: fix cgCase of !PrimAlts
- * #3458, #1216: undesirable allocation of something that is nearly a let-no-escape
  * #3462: allocate large objects with `allocateLocal()`
  * #2253: NCG could do better. Look at this when John D’s ncg is working
  * #2289: cheap check at start of case alternatives
@@ -69,7 +68,7 @@
  * #3940: propagate fix
 
 === Optimiser ===
- * #6040, #5945: lambda-lift functions with a few args, just before code gen
+ * #6040, #5945, #3458, #1216: lambda-lift functions with a few args, just before code gen
  * #5059: specialise on value arguments
  * #5974: casts and RULES interaction
  * #5262: seq magic
