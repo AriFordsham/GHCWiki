@@ -9,13 +9,13 @@ The new codegen was enabled by default in [832077ca5393d298324cb6b0a2cb501e27209
 
 - Remove live-var and CAF lists from `StgSyn`, and then clean up `CoreToStg`
 
-- Remove the SRT pass in `simplStg/SRT.lhs`
+- DONE Remove the SRT pass in `simplStg/SRT.lhs`
 
 - remove RET_DYN from the RTS
 
-- remove `-fnew-codegen`, related `HscMain` bits and the `CodeGen` module.
+- DONE remove `-fnew-codegen`, related `HscMain` bits and the `CodeGen` module.
 
-- remove `CmmOpt.cmmMiniInline`, it is not used any more
+- DONE remove `CmmOpt.cmmMiniInline`, it is not used any more
 
 - Fix the layering: `cmm` modules should not depend on `codeGen/StgCmm*`
 
