@@ -23,6 +23,7 @@
 
 ## Optimisation
 
+- [\#6040](https://gitlab.haskell.org//ghc/ghc/issues/6040), [\#5945](https://gitlab.haskell.org//ghc/ghc/issues/5945), [\#3458](https://gitlab.haskell.org//ghc/ghc/issues/3458), [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): lambda-lift functions with a few args, just before code gen
 - [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872), [\#5400](https://gitlab.haskell.org//ghc/ghc/issues/5400), [\#5448](https://gitlab.haskell.org//ghc/ghc/issues/5448), [\#5722](https://gitlab.haskell.org//ghc/ghc/issues/5722), [\#7057](https://gitlab.haskell.org//ghc/ghc/issues/7057): contravariant data type loop in simplifier inliner
 - [\#5623](https://gitlab.haskell.org//ghc/ghc/issues/5623), [\#5954](https://gitlab.haskell.org//ghc/ghc/issues/5954): performance regression. Duplication of primops?
 - [\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070), [\#5949](https://gitlab.haskell.org//ghc/ghc/issues/5949), [\#5775](https://gitlab.haskell.org//ghc/ghc/issues/5775), [\#4267](https://gitlab.haskell.org//ghc/ghc/issues/4267), [\#5302](https://gitlab.haskell.org//ghc/ghc/issues/5302), [\#6087](https://gitlab.haskell.org//ghc/ghc/issues/6087): Demand analysis
@@ -77,9 +78,8 @@
 
 ### Optimiser
 
-- [\#6040](https://gitlab.haskell.org//ghc/ghc/issues/6040), [\#5945](https://gitlab.haskell.org//ghc/ghc/issues/5945), [\#3458](https://gitlab.haskell.org//ghc/ghc/issues/3458), [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): lambda-lift functions with a few args, just before code gen
 - [\#5059](https://gitlab.haskell.org//ghc/ghc/issues/5059): specialise on value arguments
-- [\#5974](https://gitlab.haskell.org//ghc/ghc/issues/5974): casts and RULES interaction
+- [\#5974](https://gitlab.haskell.org//ghc/ghc/issues/5974): casts, RULES, and parametricity
 - [\#5262](https://gitlab.haskell.org//ghc/ghc/issues/5262): seq magic
 - [\#605](https://gitlab.haskell.org//ghc/ghc/issues/605): strict/unboxed enumerations
 - [\#2607](https://gitlab.haskell.org//ghc/ghc/issues/2607): space leak: inlining defeats selector thunk optimisation
