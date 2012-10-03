@@ -37,24 +37,24 @@ indicates that the function has one parameter, which is used lazily (hence `<L,U
 
 Strictness demands
 
-  * `B` -- a ''hyperstrict'' demand. The expression `e` puts this demand on its argument `x` if every evaluation of `e` is guaranteed to diverge, regardless of the value of the argument. We call this demand ''hyperstrict'' because it is safe to evaluate `x` to arbitrary depth before evaluating `e`.
+  * `B` -- a ''hyperstrict'' demand. The expression `e` puts this demand on its argument `x` if every evaluation of `e` is guaranteed to diverge, regardless of the value of the argument. We call this demand ''hyperstrict'' because it is safe to evaluate `x` to arbitrary depth before evaluating `e`. This demand is polymorphic with respect to function calls and can be seen as `B = C(B) = C(C(B)) = ...` for an arbitrary depth.
   
   * `L`  -- a ''lazy'' demand. If an expression `e` places demand `L` on a variable  `x`, we can deduce nothing about how `e` uses `x`. `L` is the completely uninformative demand, the top element of the lattice.
 
-  * `S` -- a ''head-strict'' demand.  If `e` places demand `S` on `x` then `e` evaluates `x` to at least head-normal form; that is, to the outermost constructor of `x`.  The demand `S(L ... L)` places a lazy demand on all the components, and so is equivalent to `S`; hence the identity `S = S(L ... L)`.
+  * `S` -- a ''head-strict'' demand.  If `e` places demand `S` on `x` then `e` evaluates `x` to at least head-normal form; that is, to the outermost constructor of `x`.  This demand is typically placed by the `seq` function on its first argument. The demand `S(L ... L)` places a lazy demand on all the components, and so is equivalent to `S`; hence the identity `S = S(L ... L)`. Another identity is for functions, which states that `S = C(L)`. Indeed, if a function is certainly called, it is evaluated at lest up to the head normal form, i.e., ''strictly''. However, its result may be used lazily.
 
   * `S(s1 ... sn)` -- a structured strictness demand on a product.  It is at least head-strict, and perhaps more.
 
   * `C(s)`  -- a ''call-demand'', when placed on a binder `x`, indicates that the value is a function, which is always called and its result is used according to the demand `s`. 
 
 
-Absence demands
+Absence/usage demands
 
   * `A` -- when placed on a binder `x` it means that `x` is definitely unused.
 
   * `U` -- the value is used on some execution path.  This demand is a top of usage domain.
 
-  * `H` -- a ''head-used'' demand. Indicates that a product value is used itself, however its components are certainly ignored.
+  * `H` -- a ''head-used'' demand. Indicates that a product value is used itself, however its components are certainly ignored. This demand is typically placed by the `seq` function on its first argument. This demand is polymorphic with respect to products and functions. For a product, the head-used demand is expanded as `U(A, ..., A)` and for functions it can be read as `C(A)`, as the function is called (i.e., evaluated to at least a head-normal form), but its result is ignored.
 
   * `U(u1 ... un)` -- a structured usage demand on a product. It is at least head-used, and perhaps more.
 
