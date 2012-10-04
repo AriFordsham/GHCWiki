@@ -8,6 +8,7 @@
  * #5642, #5970, #5030: slow constraint solving
 
  * #6018: Injective type families (patch offered)
+ * #7259: Eta-expansion of products in System FC
  * #7035: Pedro's generics
  * #5863: deriving `Typeable` for data families
  * [wiki:NewAxioms] Pattern matching axioms
