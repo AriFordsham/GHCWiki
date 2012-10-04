@@ -8,10 +8,12 @@
  * #5642, #5970, #5030: slow constraint solving
 
  * #6018: Injective type families (patch offered)
+ * #7259: Eta-expansion of products in System FC
  * #7035: Pedro's generics
  * #5863: deriving `Typeable` for data families
  * [wiki:NewAxioms] Pattern matching axioms
  * #7071, #5267, #5609, #5777, #344: bugs in arrows; awaiting refactoring by Dan
+ * #7024: a class to controll FFI marshalling; and newtype deriving for classes with ATs
 
 == Template Haskell ==
  * #1475: allow splicing of import declarations (5 in cc list)
@@ -114,8 +116,8 @@
 
 == Types and type inference ==
  * #6065: GHC suggests a type signature that it then rejects
- * #5320: overlap delicacy
- * #4347, #4295: impredicativity
+ * #5320, #7296: overlap delicacy
+ * #4347, #4295, #7264: impredicativity
  * #1965: make existentials have a really cheap implementation
  * #5224: make it cheaper to check for inconsistent type family instances
  * #4466, #5296: explicit type application
