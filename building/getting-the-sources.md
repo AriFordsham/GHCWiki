@@ -143,3 +143,20 @@ $ ./sync-all checkout master
 
 
 To make the best use of fingerprinting, you need to collect fingerprints for the states you may wish to restore. To ease the automatic collection of fingerprints, the `fingerprint.py` script allows a `-d DIR` option that will output a fingerprint to the directory `DIR` with the current time stamp as a file name. The `-g DIR` option tells the script to run in the ghc repository pointed to by `DIR`. These options can be useful for collecting fingerprints as a cron job or on a post-commit hook.
+
+
+To restore the repository state as of a particular date, you can grab a fingerprint emitted by one of the nightly builds.  The nightly build emails are sent to [ the cvs-ghc mailing list](http://www.haskell.org/pipermail/cvs-ghc/), and have subjects like "\[nightly\] 06-Oct-2012 build of HEAD on x86_64-unknown-linux (cam-04-unx)".  Copy and paste the fingerprint section, which looks something like this:
+
+```wiki
+Respository hashes:
+.|4a138b708463a99a1087ce2d8a70239de3aa04e4
+ghc-tarballs|18e0c37f8023abf469af991e2fc2d3b024319c27
+libraries/Cabal|31c3f404dceb221d7281467a66bf68cc166fc2d9
+libraries/Win32|21335a30161c099da79ae9619c9782e5e32e4644
+libraries/array|e4b800af700cd7a5d42286086f17713ec98698a0
+libraries/base|219ea0e539aca217fe1819baf02d4cdd1d670f51
+... and so on
+```
+
+
+Put it in a file, and run `./utils/fingerprint.py restore -f <file>` to restore your repository tree to that state.
