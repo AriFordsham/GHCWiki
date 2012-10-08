@@ -10,7 +10,7 @@ The new codegen was enabled by default in 832077ca5393d298324cb6b0a2cb501e272097
 
  * DONE: Remove the SRT pass in `simplStg/SRT.lhs`
 
- * remove RET_DYN from the RTS
+ * DONE: remove RET_DYN from the RTS
 
  * DONE: remove `-fnew-codegen`, related `HscMain` bits and the `CodeGen` module.
 
@@ -20,11 +20,11 @@ The new codegen was enabled by default in 832077ca5393d298324cb6b0a2cb501e272097
 
 == Towards removing codeGen/Cg* ==
 
- * [Simon M is working on this] `CmmParse` should produce new `Cmm`. 
+ * DONE: `CmmParse` should produce new `Cmm`. 
    * We will probably want two kinds of `.cmm` file, one that is to be fed through `CmmLayoutStack` and one that isn't.
    * primops will be fed through `CmmLayoutStack`, and will use the native calling convention, with the code generator inserting the copyin/copyout for us.
 
- * Remove all the `Cg*` modules (requires the `CmmParse` cleanup first).
+ * Remove all the `Cg*` modules
 
 == Towards removing `OldCmm` ==
 
