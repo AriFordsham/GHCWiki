@@ -1,0 +1,6 @@
+= Template Hasekll =
+
+Stuff about Template Haskell
+ * Simon's [http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal blog post describing proposed changes to Template Haskell]
+ * [wiki:TemplateHaskell/RichKinds Polymorphic kinds in Template Haskell]
+ * [wiki:TemplateHaskell/UsingHaskellSrcExts Unifying TH syntax with `haskell-src-exts`]
