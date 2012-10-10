@@ -16,6 +16,7 @@
  * #7024: a class to controll FFI marshalling; and newtype deriving for classes with ATs
 
 == Template Haskell ==
+See also [wiki:TemplateHaskell]
  * #1475: allow splicing of import declarations (5 in cc list)
  * #4364: cycle in type declarations
  * #5469, #4429: `reinerp` work on `newName` and export reorganisation
