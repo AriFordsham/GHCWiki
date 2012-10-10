@@ -1,4 +1,4 @@
-# Template Hasekll
+# Template Haskell
 
 
 Stuff about Template Haskell
