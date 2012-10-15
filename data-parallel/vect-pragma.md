@@ -9,7 +9,10 @@ The vectoriser needs to know about all types and functions whose vectorised vari
 Given a function `f`, the vectoriser generates a vectorised version `f_v`, which comprises the original, scalar version of the function and a second version lifted into array space.  The lifted version operates on arrays of inputs and produces arrays of results in one parallel computation.  The original function name is, then, rebound to use the scalar version referred to by `f_v`.  This differs from the original in that it uses vectorised versions for any embedded parallel array computations.
 
 
-However, if a variable `f` is accompanied by a pragma of the form
+We have got two exceptions to this rule. Firstly, if the body of a function `f` is scalar —i.e., it does not involve any parallel array computations— then we leave it as is and omit the generation of `f_v`. Whether a function is scalar is determined by the rules described in the **Vectorisation Avoidance** paper.
+
+
+Secondly, if a variable `f` is accompanied by a pragma of the form
 
 ```wiki
 {-# VECTORISE f = e #-}
@@ -38,7 +41,7 @@ then it is ignored by the vectoriser — i.e., no function `f_v` is generated an
 
 This pragma can only be used for bindings in the current module (exactly like an `INLINE` pragma).
 
-**Caveat:** If `f`'s definition contains bindings that are being floated to the toplevel, those bindings will still be vectorised.
+**Caveat:** If `f`'s definition contains bindings that are being floated to the toplevel, those bindings may still be vectorised. (**TODO** We might want to ensure that we never float anything out of (at least, those) bindings before the vectoriser is invoked.)
 
 ## The VECTORISE SCALAR pragma for functions
 
