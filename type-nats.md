@@ -12,6 +12,7 @@ This page collects information on how to work with type-level literals, as imple
 
 ## Notes on Design
 
+- [Details about the implementation of singleton families.](type-nats/singletons-and-kinds)
 - [Alternative Design For Singletons](type-nats/alternative-singletons)
 - [Avoiding Partial Type Functions](type-nats/avoiding-partial-type-functions)
 - [Singletons and Existentials](type-nats/singletons-and-existentials)

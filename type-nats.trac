@@ -12,6 +12,7 @@ This page collects information on how to work with type-level literals, as imple
 
 == Notes on Design ==
 
+  * [wiki:TypeNats/SingletonsAndKinds Details about the implementation of singleton families.]
   * [wiki:TypeNats/AlternativeSingletons Alternative Design For Singletons]
   * [wiki:TypeNats/AvoidingPartialTypeFunctions Avoiding Partial Type Functions]
   * [wiki:TypeNats/SingletonsAndExistentials Singletons and Existentials]
