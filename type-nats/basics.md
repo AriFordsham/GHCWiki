@@ -29,7 +29,7 @@ A singleton type is simply a type that has only one interesting inhabitant.  We 
 of singleton types, parameterized by type-level literals:
 
 ```wiki
-newtype Sing :: a -> *
+data Sing :: a -> *
 ```
 
 
@@ -43,8 +43,9 @@ But, if we have a value of type `Sing a`, how do we get the actual integer or st
 We can do this with the function `fromSing`:
 
 ```wiki
-fromSing :: Sing a -> SingRep a
+fromSing :: SingE a => Sing a -> Demote a
 
+-- XXX: NOT YET UPDATED
 type family SingRep a
 type instance SingRep (n :: Nat)    = Integer
 type instance SingRep (n :: Symbol) = String
