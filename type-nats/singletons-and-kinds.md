@@ -76,43 +76,36 @@ instance SingE (KindParam :: OfKind Symbol) where
   fromSing (SSym s) = s
 ```
 
+
+It is convenient to define another type synonym, which lets us name
+the representation type for a given singleton:
+
 ```wiki
-{- | A convenient name for the type used to representing the values
-for a particular singleton family.  For example, @Demote 2 ~ Integer@,
-and also @Demote 3 ~ Integer@, but @Demote "Hello" ~ String@. -}
 type Demote a = DemoteRep (KindOf a)
-
-{- | A convenience class, useful when we need to both introduce and eliminate
-a given singleton value. Users should never need to define instances of
-this classes. -}
-class    (SingI a, SingE (KindOf a)) => SingRep (a :: k)
-instance (SingI a, SingE (KindOf a)) => SingRep (a :: k)
+```
 
 
-{- | A convenience function useful when we need to name a singleton value
-multiple times.  Without this function, each use of 'sing' could potentially
-refer to a different singleton, and one has to use type signatures to
-ensure that they are the same. -}
+Here are some examples of using this synonym:
 
-withSing :: SingI a => (Sing a -> b) -> b
-withSing f = f sing
-
-
-{- | A convenience function that names a singleton satisfying a certain
-property.  If the singleton does not satisfy the property, then the function
-returns 'Nothing'. The property is expressed in terms of the underlying
-representation of the singleton. -}
-
-singThat :: SingRep a => (Demote a -> Bool) -> Maybe (Sing a)
-singThat p = withSing $ \x -> if p (fromSing x) then Just x else Nothing
+```wiki
+Demote 1    ~ Integer
+Demote 2    ~ Integer
+Demote "hi" ~ String
+```
 
 
+Using this synonym we can write the type of `fromSing` like this:
+
+```wiki
+fromSing :: SingE (KindOf a) => Sing a -> Demote a
+```
+
+
+Here is an example of using all this to provide a `Show` instance
+for singleton families:
+
+```wiki
 instance (SingE (KindOf a), Show (Demote a)) => Show (Sing a) where
   showsPrec p = showsPrec p . fromSing
 
-instance (SingRep a, Read (Demote a), Eq (Demote a)) => Read (Sing a) where
-  readsPrec p cs = do (x,ys) <- readsPrec p cs
-                      case singThat (== x) of
-                        Just y  -> [(y,ys)]
-                        Nothing -> []
 ```
