@@ -25,29 +25,14 @@ module GHC.TypeLits where
 A singleton type is simply a type that has only one interesting inhabitant.  We define a whole family
 of singleton types, parameterized by type-level literals:
 {{{
-newtype Sing :: a -> *
+data Sing :: a -> *
 }}}
 For example, `Sing 0`, `Sing 127`, `Sing "hello"`, and `Sing "this also"` are all
 singleton types.  The intuition is that the only inhabitant of `Sing n` is the value `n`.  Notice
 that `Sing` has a ''polymorphic kind'' because sometimes we apply it to numbers (which are of
 kind `Nat`) and sometimes we apply it to symbols (which are of kind `Symbol`).
 
-But, if we have a value of type `Sing a`, how do we get the actual integer or string?
-We can do this with the function `fromSing`:
-{{{
-fromSing :: Sing a -> SingRep a
-
-type family SingRep a
-type instance SingRep (n :: Nat)    = Integer
-type instance SingRep (n :: Symbol) = String
-}}}
-
-The function `fromSing` has an interesting type: it maps singletons to ordinary values,
-but the type of the result depends on the ''kind'' of the singleton parameter.
-So, if we apply it to a value of type `Sing 3` we get the ''number'' `3`, but,
-if we apply it to a value of type `Sing "hello"` we get the ''string'' `"hello"`.
-
-So, how do we make values of type `Sing n` in the first place?  This is done with
+So, how do we make values of type `Sing n`?  This is done with
 the special overloaded constant `sing`:
 {{{
 class SingI a where
@@ -73,10 +58,30 @@ The name ''SingI'' is a mnemonic for the different uses of the class:
   * It is the ''introduction'' construct for 'Sing' values,
   * It is an ''implicit'' singleton parameter (this is discussed in more detail bellow)
 
+
+It is also useful to get the actual integer or string associated with a singleton.
+We can do this with the overloaded function `fromSing`.  Its type is quite general because
+it can support various singleton families, but to start, consider the following two instances
+of its type:
+{{{
+fromSing :: Sing (a :: Nat) -> Integer
+fromSing :: Sing (a :: Symbol) -> String
+}}}
+
+Notice that the return type of the function is determined by the ''kind'' of the
+singleton family, not the concrete type.  For example, for any type `n` of
+kind `Nat` we get an `Integer`, while for any type `s` of kind `Symbol` we get a
+string.  Based on this idea, here is a more general type for `fromSing`:
+{{{
+fromSing :: SingE (KindOf a) => Sing a -> Demote a
+}}}
+
+TODO: Explain this more fully.
+
 Notice that GHCi could display values of type `Sing`, so they have a `Show` instance.  As another example, here
 is the definition of the `Show` instance:
 {{{
-instance Show (SingRep a) => Show (Sing a) where
+instance (SingE (KindOf a, Show (Demote a)) => Show (Sing a) where
   showsPrec p = showsPrec p . fromSing
 }}}
 Easy! We just convert the singleton into an ordinary value (integer or string), and use ''its'' `Show` instance to display it.
@@ -87,7 +92,7 @@ Next, we show two functions which make it easier to work with singleton types:
 withSing :: SingI a => (Sing a -> b) -> b
 withSing f = f sing
 
-singThat :: SingI a => (SingRep a -> Bool) -> Maybe (Sing a)
+singThat :: SingRep a => (Demote a -> Bool) -> Maybe (Sing a)
 singThat p = withSing $ \x -> if p (fromSing x) then Just x else Nothing
 }}}
 
@@ -114,7 +119,7 @@ holds.  Here are some examples of how that works:
 Now, using `singThat` we can show the definition of the `Read` instance for singletons:
 
 {{{
-instance (SingI a, Read (SingRep a), Eq (SingRep a)) => Read (Sing a) where
+instance (SingRep a, Read (Demote a), Eq (Demote a)) => Read (Sing a) where
   readsPrec p cs = do (x,ys) <- readsPrec p cs
                       case singThat (== x) of
                         Just y  -> [(y,ys)]
