@@ -39,24 +39,7 @@ that `Sing` has a *polymorphic kind* because sometimes we apply it to numbers (w
 kind `Nat`) and sometimes we apply it to symbols (which are of kind `Symbol`).
 
 
-But, if we have a value of type `Sing a`, how do we get the actual integer or string?
-We can do this with the overloaded function `fromSing`.  Its type is quite general because
-it can support various singleton families, but for the purposes of this explanation
-it is sufficient t
-
-```wiki
-fromSing :: Sing (a :: Nat) -> Integer
-fromSing :: Sing (a :: Symbol) -> String
-```
-
-
-The function `fromSing` has an interesting type: it maps singletons to ordinary values,
-but the type of the result depends on the *kind* of the singleton parameter.
-So, if we apply it to a value of type `Sing 3` we get the *number*`3`, but,
-if we apply it to a value of type `Sing "hello"` we get the *string*`"hello"`.
-
-
-So, how do we make values of type `Sing n` in the first place?  This is done with
+So, how do we make values of type `Sing n`?  This is done with
 the special overloaded constant `sing`:
 
 ```wiki
@@ -86,6 +69,27 @@ The name *SingI* is a mnemonic for the different uses of the class:
 
 - It is the *introduction* construct for 'Sing' values,
 - It is an *implicit* singleton parameter (this is discussed in more detail bellow)
+
+
+It is also useful to get the actual integer or string associated with a singleton.
+We can do this with the overloaded function `fromSing`.  Its type is quite general because
+it can support various singleton families, but to start, consider the following two instances
+of its type:
+
+```wiki
+fromSing :: Sing (a :: Nat) -> Integer
+fromSing :: Sing (a :: Symbol) -> String
+```
+
+
+Notice that the return type of the function is determined by the *kind* of the
+singleton family, not the concrete type.  For example, for any type `n` of
+kind `Nat` we get an `Integer`, while for any type `s` of kind `Symbol` we get a
+string.  Based on this idea, here is a more general type for `fromSing`:
+
+```wiki
+fromSing :: SingE (KindOf a) => Sing a -> Demote a
+```
 
 
 Notice that GHCi could display values of type `Sing`, so they have a `Show` instance.  As another example, here
