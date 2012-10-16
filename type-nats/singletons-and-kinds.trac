@@ -2,7 +2,7 @@
 
 We start by defining a ''kind'', which is useful for passing kinds as parameters.
 {{{
-data OfKind (a :: *) = KindParam
+data {-kind-} OfKind (a :: *) = KindParam
 }}}
 Note that we are only interested in the promoted version of this datatype,
 so basically we just defined a singe type constant with a polymorphic kind:

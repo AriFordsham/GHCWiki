@@ -4,7 +4,7 @@
 We start by defining a *kind*, which is useful for passing kinds as parameters.
 
 ```wiki
-data OfKind (a :: *) = KindParam
+data {-kind-} OfKind (a :: *) = KindParam
 ```
 
 
