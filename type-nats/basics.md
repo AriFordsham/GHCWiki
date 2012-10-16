@@ -98,7 +98,7 @@ Notice that GHCi could display values of type `Sing`, so they have a `Show` inst
 is the definition of the `Show` instance:
 
 ```wiki
-instance Show (SingRep a) => Show (Sing a) where
+instance (SingE (KindOf a, Show (Demote a)) => Show (Sing a) where
   showsPrec p = showsPrec p . fromSing
 ```
 
@@ -112,7 +112,7 @@ Next, we show two functions which make it easier to work with singleton types:
 withSing :: SingI a => (Sing a -> b) -> b
 withSing f = f sing
 
-singThat :: SingI a => (SingRep a -> Bool) -> Maybe (Sing a)
+singThat :: SingRep a => (Demote a -> Bool) -> Maybe (Sing a)
 singThat p = withSing $ \x -> if p (fromSing x) then Just x else Nothing
 ```
 
@@ -142,7 +142,7 @@ holds.  Here are some examples of how that works:
 Now, using `singThat` we can show the definition of the `Read` instance for singletons:
 
 ```wiki
-instance (SingI a, Read (SingRep a), Eq (SingRep a)) => Read (Sing a) where
+instance (SingRep a, Read (Demote a), Eq (Demote a)) => Read (Sing a) where
   readsPrec p cs = do (x,ys) <- readsPrec p cs
                       case singThat (== x) of
                         Just y  -> [(y,ys)]
