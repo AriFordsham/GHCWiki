@@ -1,15 +1,31 @@
+== Kind Parameters and Overloading On Kinds ==
+
+We start by defining a ''kind'', which is useful for passing kinds as parameters.
+{{{
+data OfKind (a :: *) = KindParam
+}}}
+Note that we are only interested in the promoted version of this datatype,
+so basically we just defined a singe type constant with a polymorphic kind:
+{{{
+KindParam :: OfKind k
+}}}
+
+In addition, it is also convenient to define the following type synonym:
+{{{
+type KindOf (a :: k) = (KindParam :: OfKind k)
+}}}
+
+This makes it easy to write kind parameters in terms of existing types.
+Here are some examples:
+{{{
+KindOf Int  ~ (KindParam :: OfKind *)
+KindOf 1    ~ (KindParam :: OfKind Nat)
+KindOf "Hi" ~ (KindParam :: OfKind Symbol)
+}}}
+
 
 
 {{{
--- | (Kind) A kind useful for passing kinds as parameters.
-data OfKind (a :: *) = KindParam
-
-{- | A shortcut for naming the kind parameter corresponding to the
-kind of a some type.  For example, @KindOf Int ~ (KindParam :: OfKind *)@,
-but @KindOf 2 ~ (KindParam :: OfKind Nat)@. -}
-type KindOf (a :: k) = (KindParam :: OfKind k)
-
-
 -- | (Kind) This is the kind of type-level natural numbers.
 data Nat
 
