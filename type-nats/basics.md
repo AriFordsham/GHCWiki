@@ -40,15 +40,13 @@ kind `Nat`) and sometimes we apply it to symbols (which are of kind `Symbol`).
 
 
 But, if we have a value of type `Sing a`, how do we get the actual integer or string?
-We can do this with the function `fromSing`:
+We can do this with the overloaded function `fromSing`.  Its type is quite general because
+it can support various singleton families, but for the purposes of this explanation
+it is sufficient t
 
 ```wiki
-fromSing :: SingE a => Sing a -> Demote a
-
--- XXX: NOT YET UPDATED
-type family SingRep a
-type instance SingRep (n :: Nat)    = Integer
-type instance SingRep (n :: Symbol) = String
+fromSing :: Sing (a :: Nat) -> Integer
+fromSing :: Sing (a :: Symbol) -> String
 ```
 
 
