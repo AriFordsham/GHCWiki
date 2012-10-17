@@ -94,7 +94,7 @@ To get GHC repository from [ GitHub](http://www.github.com) we recommend to just
 If you want a full clone of every package from GitHub instead, sync-all can handle that as well.
 
 ```wiki
-  $ git clone <your preferred github.com GHC fork URL> ghc
+  $ git clone git://github.com/ghc/ghc
   $ cd ghc
   $ ./sync-all -r git://github.com/ghc get
 ```
