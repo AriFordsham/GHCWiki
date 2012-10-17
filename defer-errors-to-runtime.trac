@@ -1,8 +1,7 @@
 [[PageOutline]]
 = Deferring compilation type errors to runtime =
 
-This page describes the `-fdefer-type-errors` flag, currently implemented in GHC HEAD
-and due to be available in version 7.6. Ticket #5624 tracks this feature request.
+This page describes the `-fdefer-type-errors` flag that was added in GHC 7.6.1. Ticket #5624 tracks this feature request.
 For more information, see the associated [http://dreixel.net/research/pdf/epdtecp_draft.pdf paper].
 
 == Overview ==
