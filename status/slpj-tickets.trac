@@ -13,7 +13,7 @@
  * #5863: deriving `Typeable` for data families
  * [wiki:NewAxioms] Pattern matching axioms
  * #7071, #5267, #5609, #5777, #344: bugs in arrows; awaiting refactoring by Dan
- * #7024: a class to controll FFI marshalling; and newtype deriving for classes with ATs
+ * #7204: a class to controll FFI marshalling; and newtype deriving for classes with ATs
 
 == Template Haskell ==
 See also [wiki:TemplateHaskell]
@@ -86,6 +86,7 @@ See also [wiki:TemplateHaskell]
  * #2255, #3767, #2642, #3831, #4941: Improve '''`SpecConstr`''' for free variables, and for join points.
  * #2374: SAT and `MutableByteArray`	Max?
  * #7080: inconsistent treatment of RULES and SPECIALISE
+ * #876: make `length` into a good consumer. Perhaps using `foldl`?
 
 === Compiler performance ===
  * #2346: desugaring let-bindings

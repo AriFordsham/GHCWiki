@@ -14,7 +14,7 @@
 - [\#5863](https://gitlab.haskell.org//ghc/ghc/issues/5863): deriving `Typeable` for data families
 - [NewAxioms](new-axioms) Pattern matching axioms
 - [\#7071](https://gitlab.haskell.org//ghc/ghc/issues/7071), [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5609](https://gitlab.haskell.org//ghc/ghc/issues/5609), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows; awaiting refactoring by Dan
-- [\#7024](https://gitlab.haskell.org//ghc/ghc/issues/7024): a class to controll FFI marshalling; and newtype deriving for classes with ATs
+- [\#7204](https://gitlab.haskell.org//ghc/ghc/issues/7204): a class to controll FFI marshalling; and newtype deriving for classes with ATs
 
 ## Template Haskell
 
@@ -97,6 +97,7 @@ See also [TemplateHaskell](template-haskell)
 - [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#3767](https://gitlab.haskell.org//ghc/ghc/issues/3767), [\#2642](https://gitlab.haskell.org//ghc/ghc/issues/2642), [\#3831](https://gitlab.haskell.org//ghc/ghc/issues/3831), [\#4941](https://gitlab.haskell.org//ghc/ghc/issues/4941): Improve **`SpecConstr`** for free variables, and for join points.
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
 - [\#7080](https://gitlab.haskell.org//ghc/ghc/issues/7080): inconsistent treatment of RULES and SPECIALISE
+- [\#876](https://gitlab.haskell.org//ghc/ghc/issues/876): make `length` into a good consumer. Perhaps using `foldl`?
 
 ### Compiler performance
 
