@@ -239,8 +239,8 @@ And used as follows:
 
 View patterns permit programming in an iterator style, where you name the result of a recursive call but not the term the call was made on.  E.g.:
 {{{
-   length [] = []
-   length (_ : length -> xs) = 1 + xs
+   length [] = 0
+   length (_ : length -> n) = 1 + n
    
    map f [] = []
    map f (x : map f -> xs) = f x : xs
