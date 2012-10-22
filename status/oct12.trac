@@ -12,6 +12,10 @@
 
  * polymorphis kinds, datakinds
 
+ * deferred type errors
+
+ * Multi-way if, and `\case`
+
 == The next 6 months ==
 
  * 7.6.2 plans: early 2013?
@@ -22,8 +26,6 @@
 
  * dynlibs-by-default
 
- * type holes, deferred type errors
-
- * Multi-way if, and `\case`
-
+ * type holes
+ 
  * new codegen by default
