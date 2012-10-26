@@ -66,7 +66,7 @@ An example is the vectorisation of parallel arrays, where `[::]` is replaced by 
 
 == The VECTORISE SCALAR pragma for type constructors ==
 
-All types imported from modules that have not been vectorised are regarded to be scalar types, and they can be used in encapsulated scalar code. If custom instances for the `PData` and `PRepr` classes are provided, these types can also be used in vectorisation code. The types represent themselves (as they are scalar) and are abstract; i.e., their constructors cannot be used in vectorised code. An example is the treatment of `Int`.  `Int`s can be used in vectorised code and remain unchanged by vectorisation.  However, the representation of `Int` by the `I#` data constructor wrapping an `Int#` is not exposed in vectorised code.  Instead, computations involving the representation need to be confined to scalar code.
+All types imported from modules that have not been vectorised are regarded to be scalar types, and they can be used in encapsulated scalar code. If custom instances for the `PData` and `PRepr` classes are provided, these types can also be used in vectorised code. The latter types have no specialised vectorised representation (as they are scalar) and are abstract; i.e., their constructors cannot be used in vectorised code. An example is the treatment of `Int`.  `Int`s can be used in vectorised code and remain unchanged by vectorisation.  However, the representation of `Int` by the `I#` data constructor wrapping an `Int#` is not exposed in vectorised code.  Instead, computations involving the representation need to be confined to scalar code.
 
 === Without right-hand side ===
 
