@@ -2,12 +2,7 @@
 
 Normally GHC will try to do a so-called registerised build, where it uses various architecture and OS specific knowledge to get more efficient code. However, on an architecture where this information has not been created, or has not been kept up-to-date, it is necessary to do an unregisterised build, which uses just plain old portable C.
 
-To do an unregisterised build, remove the comment from the following line in your `mk/build.mk` file:
-
-{{{
-# An unregisterised, optimised build of ghc, for porting:
-#BuildFlavour = unreg
-}}}
+To do an unregisterised build, use the `--enable-unregisterised` flag when configuring.
 
 GHC will automatically do an unregisterised build on platforms that it knows don't currently have registerised support.
 
