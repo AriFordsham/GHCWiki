@@ -22,10 +22,19 @@
 
 - 7.8 plans: early 2013?
 
-- DPH 1.0?
+- **Data parallelism.** We are currently completely rewriting our implementation of *vectorisation avoidance*\[1\] in GHC's vectoriser. This leads to an overall much simpler and more robust vectoriser. In particular, it will be more liberal in allowing scalar subcomputations imported from modules compiled without vectorisation (such as the standard Prelude). This should finally enable us to get rid of the specialised, mini-Prelude in the DPH libraries.
+
+>
+> After having solved the problem of obtaining asymptotically work-efficient vectorisation \[2\], we are now turning to improving the constants in the DPH libraries, and in particular, to achieve more reliable fusion in the presence of segmented operations, folds, and parallelism. Ben Lippmeier has a few exciting ideas on major improvements in that direction that we will discuss in more detail once we have conducted more experiments. We plan to finish the new vectorisation-avoidance infrastructure in time for GHC 7.8, but the new fusion system will likely not be ready in time for that release.
+
+>
+> Moreover, Trevor McDonell has made good progress in devising a novel fusion system for the embedded Accelerate GPU language. We hope to be able to release it around the same time as GHC 7.8.
 
 - dynlibs-by-default
 
 - type holes
 
 - new codegen by default
+
+\[1\][ http://www.cse.unsw.edu.au/\~chak/papers/KCLLP12.html](http://www.cse.unsw.edu.au/~chak/papers/KCLLP12.html)
+\[2\][ http://www.cse.unsw.edu.au/\~chak/papers/LCKLP12.html](http://www.cse.unsw.edu.au/~chak/papers/LCKLP12.html)
