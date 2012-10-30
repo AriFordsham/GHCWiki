@@ -34,5 +34,9 @@
  
  * new codegen by default
 
+ * '''Improved floating point register allocation.''' On x86-64 there are now six machine registers available for any mixture of floating-point types. Previously a maximum of four values of type Float and two values of type Double could simultaneously be kept in machine registers.
+
+ * '''SIMD primitives.''' The simd branch now supports passing SSE vector values in machine registers. We expect the simd branch to be merged in time for 7.8.
+
 [1] http://www.cse.unsw.edu.au/~chak/papers/KCLLP12.html [[BR]]
 [2] http://www.cse.unsw.edu.au/~chak/papers/LCKLP12.html [[BR]]
