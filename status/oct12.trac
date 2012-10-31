@@ -15,8 +15,9 @@ Here is what we have been up to in the last six months:
  been used in interesting ways ("The right kind of generic
  programming" [8], "Dependently Typed Programming with Singletons" [9]).  Leading up to the GHC 7.6 release
  Simon PJ has been working hard on making kind polymorphism work
- properly, which was a lot more work than he anticipated. Plenty
- more to do: see below.
+ properly, which was a lot more work than he anticipated. 
+
+ There is plenty more to do here, such as exploiting kind polymorphism to make a better `Typeable` class.
 
  * '''Type holes'''. Thijs Alkemade and Sean Leather have been working on another variant of deferred error messages, that would allow you to write a program that contains as-yet-unwritten sub-terms, or "holes" and have GHC report a fairly precise type for the hole. The HEAD now has an initial implementation (`-XTypeHoles`), and there are ongoing discussions about how to make it better still.  Details on their wiki page [10].
 
