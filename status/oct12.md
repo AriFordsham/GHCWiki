@@ -8,6 +8,7 @@ We made a bug-fix release of GHC 7.4.2 in June, and a completely new release of 
 - Deferred type errors \[6\]
 - The ability to change *at runtime* the number of processors running Haskell threads.
 - The first supported GHC for 64-bit Windows.
+- Type-level literal symbols.
 
 
 Here is what we have been up to in the last six months:
@@ -43,6 +44,8 @@ Here is what we have been up to in the last six months:
 
 - **SIMD primitives.** The `simd` branch now supports passing SSE vector values in machine registers. We expect the `simd` branch to be merged in time for 7.8.
 
+- **Type-nat solver.** Iavor S. Diatchki has been working on the type-checker to add support for discharging constraints involving arithmetic operations at the type-level.  This work is on the `type-nats` branch of GHC.   The basic support for common operations is fairly stable, and now it is in the testing phase.  The most externally visible changes to the solver are: experimental support for matching on type-level naturals, using an auxiliary type family \[12\], and the module GHC.TypeLits was refactored to make it compatible with Richard Eisenberg's `singletons` library \[13\].  Next, we plan to work on integration with the `master` branch, and experimental support for the inverse operations of what's currently in the solver (i.e., (-), (/), Log, Root).
+
 
 As always there is far more to do than we can handle, and there is loads of space for people to contribute.  Do join us!
 
@@ -54,3 +57,5 @@ As always there is far more to do than we can handle, and there is loads of spac
 \[9\] Dependently typed programming with singletons, Richard Eisenberg et al, HS'12 [ http://www.cis.upenn.edu/\~eir/pubs.html](http://www.cis.upenn.edu/~eir/pubs.html)
 \[10\] Holes in GHC:  [ http://hackage.haskell.org/trac/ghc/wiki/Holes](http://hackage.haskell.org/trac/ghc/wiki/Holes)
 \[11\] Overlapping type family instances: [ http://hackage.haskell.org/trac/ghc/wiki/NewAxioms](http://hackage.haskell.org/trac/ghc/wiki/NewAxioms)
+\[12\] Matching on type nats: [ http://hackage.haskell.org/trac/ghc/wiki/TypeNats/MatchingOnNats](http://hackage.haskell.org/trac/ghc/wiki/TypeNats/MatchingOnNats)
+\[13\] Singletons and kinds: [ http://hackage.haskell.org/trac/ghc/wiki/TypeNats/SingletonsAndKinds](http://hackage.haskell.org/trac/ghc/wiki/TypeNats/SingletonsAndKinds)
