@@ -15,8 +15,8 @@ Here is what we have been up to in the last six months:
 - **Kind polymorphism and data kinds** is a major new feature
   of GHC 7.6. It's
   described in "Giving Haskell a promotion" \[7\], and has already
-  been used in interesting ways ("The right kind of generic
-  programming" \[8\], "Dependently Typed Programming with Singletons" \[9\]).  Leading up to the GHC 7.6 release
+  been used in interesting ways ("The Right Kind of Generic
+  Programming" \[8\], "Dependently Typed Programming with Singletons" \[9\]).  Leading up to the GHC 7.6 release
   Simon PJ has been working hard on making kind polymorphism work
   properly, which was a lot more work than he anticipated. 
 
@@ -48,6 +48,6 @@ As always there is far more to do than we can handle, and there is loads of spac
 \[2\] Work-efficient higher-order vectorisation, Ben Lippmeier et al, ICFP'12 [ http://www.cse.unsw.edu.au/\~chak/papers/LCKLP12.html](http://www.cse.unsw.edu.au/~chak/papers/LCKLP12.html)
 \[6\] Equality proofs and deferred type errors, Dimitrios Vytiniotis et al, ICFP'12, [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 \[7\] Givng Haskell a promotion, Brent Yorgey et al, TLDI'12 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
-\[8\] The right kind of generic programming, Pedro Magalhaes, WGP'13 [ http://dreixel.net/index.php?content=research](http://dreixel.net/index.php?content=research)
+\[8\] The Right Kind of Generic Programming, José Pedro Magalhães, WGP'12 [ http://dreixel.net/research/pdf/trkgp.pdf](http://dreixel.net/research/pdf/trkgp.pdf)
 \[9\] Dependently typed programming with singletons, Richard Eisenberge et al, HS'12 [ http://www.cis.upenn.edu/\~eir/pubs.html](http://www.cis.upenn.edu/~eir/pubs.html)
 \[10\] Holes in GHC:  [ http://hackage.haskell.org/trac/ghc/wiki/Holes](http://hackage.haskell.org/trac/ghc/wiki/Holes)
