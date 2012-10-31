@@ -1,26 +1,25 @@
 = GHC Status October 2012 =
 
-== The last 6 months ==
+We made a bug-fix release of GHC 7.4.2 in June, and a completely new release of GHC 7.6 in August.  As well as the usual raft of general improvements, GHC 7.6 included some new features:
+ * Multi-way if, and `\case`.
+ * Kind polymorphism and data kinds [7].
+ * Deferred type errors [6]
+ * The ability to change ''at runtime'' the number of processors running Haskell threads.
+ * The first supported GHC for 64-bit Windows.
 
- * 7.4.2 released
+Here is what we have been up to in the last six months:
 
- * 7.6.1 released
+ * '''Kind polymorphism and data kinds''' is a major new feature
+ of GHC 7.6. It's
+ described in "Giving Haskell a promotion" [7], and has already
+ been used in interesting ways ("The right kind of generic
+ programming" [8], "Dependently Typed Programming with Singletons" [9]).  Leading up to the GHC 7.6 release
+ Simon PJ has been working hard on making kind polymorphism work
+ properly, which was a lot more work than he anticipated. 
 
- * The RTS now supports changing the number of capabilities at runtime with Control.Concurrent.setNumCapabilities
+ There is plenty more to do here, such as exploiting kind polymorphism to make a better `Typeable` class.
 
- * Win64
-
- * polymorphis kinds, datakinds
-
- * deferred type errors
-
- * Multi-way if, and `\case`
-
-== The next 6 months ==
-
- * 7.6.2 plans: early 2013?
-
- * 7.8 plans: early 2013?
+ * '''Type holes'''. Thijs Alkemade and Sean Leather have been working on another variant of deferred error messages, that would allow you to write a program that contains as-yet-unwritten sub-terms, or "holes" and have GHC report a fairly precise type for the hole. The HEAD now has an initial implementation (`-XTypeHoles`), and there are ongoing discussions about how to make it better still.  Details on their wiki page [10].
 
  * '''Data parallelism.''' We are currently completely rewriting our implementation of ''vectorisation avoidance'' [1] in GHC's vectoriser. This leads to an overall much simpler and more robust vectoriser. In particular, it will be more liberal in allowing scalar subcomputations imported from modules compiled without vectorisation (such as the standard Prelude). This should finally enable us to get rid of the specialised, mini-Prelude in the DPH libraries.
 
@@ -30,13 +29,19 @@
 
  * dynlibs-by-default
 
- * type holes
- 
  * new codegen by default
 
  * '''Improved floating point register allocation.''' On x86-64 there are now six machine registers available for any mixture of floating-point types. Previously a maximum of four values of type Float and two values of type Double could simultaneously be kept in machine registers.
 
- * '''SIMD primitives.''' The simd branch now supports passing SSE vector values in machine registers. We expect the simd branch to be merged in time for 7.8.
+ * '''SIMD primitives.''' The `simd` branch now supports passing SSE vector values in machine registers. We expect the `simd` branch to be merged in time for 7.8.
 
-[1] http://www.cse.unsw.edu.au/~chak/papers/KCLLP12.html [[BR]]
-[2] http://www.cse.unsw.edu.au/~chak/papers/LCKLP12.html [[BR]]
+As always there is far more to do than we can handle, and there is loads of space for people to contribute.  Do join us!
+
+
+[1] Vectorisation avoidance, Gabriele Keller et al, HS'12 [http://www.cse.unsw.edu.au/~chak/papers/KCLLP12.html] [[BR]]
+[2] Work-efficient higher-order vectorisation, Ben Lippmeier et al, ICFP'12 [http://www.cse.unsw.edu.au/~chak/papers/LCKLP12.html] [[BR]]
+[6] Equality proofs and deferred type errors, Dimitrios Vytiniotis et al, ICFP'12, [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/] [[BR]]
+[7] Givng Haskell a promotion, Brent Yorgey et al, TLDI'12 [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/] [[BR]]
+[8] The right kind of generic programming, Pedro Magalhaes, WGP'13 [http://dreixel.net/index.php?content=research] [[BR]]
+[9] Dependently typed programming with singletons, Richard Eisenberge et al, HS'12 [http://www.cis.upenn.edu/~eir/pubs.html]  [[BR]]
+[10] Holes in GHC:  [http://hackage.haskell.org/trac/ghc/wiki/Holes]
