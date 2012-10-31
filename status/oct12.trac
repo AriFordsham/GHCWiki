@@ -27,6 +27,8 @@ Here is what we have been up to in the last six months:
 
  Moreover, Trevor !McDonell has made good progress in devising a novel fusion system for the embedded Accelerate GPU language. We hope to be able to release it around the same time as GHC 7.8.
 
+ * '''Overlapping type family instances.''' Richard Eisenberg is close to finishing an implementation of overlapping type family instances. The overlap mechanism is distinct from overlapping type class instances, as the programmer has to give an explicit ordering to the overlapping instances. More information can be found on the wiki page [11].
+
  * dynlibs-by-default
 
  * new codegen by default
@@ -43,5 +45,6 @@ As always there is far more to do than we can handle, and there is loads of spac
 [6] Equality proofs and deferred type errors, Dimitrios Vytiniotis et al, ICFP'12, [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/] [[BR]]
 [7] Givng Haskell a promotion, Brent Yorgey et al, TLDI'12 [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/] [[BR]]
 [8] The Right Kind of Generic Programming, José Pedro Magalhães, WGP'12 [http://dreixel.net/research/pdf/trkgp.pdf] [[BR]]
-[9] Dependently typed programming with singletons, Richard Eisenberge et al, HS'12 [http://www.cis.upenn.edu/~eir/pubs.html]  [[BR]]
-[10] Holes in GHC:  [http://hackage.haskell.org/trac/ghc/wiki/Holes]
+[9] Dependently typed programming with singletons, Richard Eisenberg et al, HS'12 [http://www.cis.upenn.edu/~eir/pubs.html]  [[BR]]
+[10] Holes in GHC:  [http://hackage.haskell.org/trac/ghc/wiki/Holes] [[BR]]
+[11] Overlapping type family instances: [http://hackage.haskell.org/trac/ghc/wiki/NewAxioms]
