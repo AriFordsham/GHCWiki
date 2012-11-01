@@ -4,10 +4,12 @@ We made a bug-fix release of GHC 7.4.2 in June, and a completely new release of 
  * Multi-way if, and `\case`.
  * Kind polymorphism and data kinds [7].
  * Deferred type errors [6].
- * Improved support for generic programming \cref{sec:genericDeriving}.
+ * Improved support for generic programming [8].
  * The ability to change ''at runtime'' the number of processors running Haskell threads.
  * The first supported GHC for 64-bit Windows.
  * Type-level literal symbols.
+
+We expect to do a 7.6.2 release quite soon, and a 7.8.1 release in a few months' time.
 
 Here is what we have been up to in the last six months:
 
