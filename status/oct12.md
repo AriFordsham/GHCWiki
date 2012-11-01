@@ -40,7 +40,7 @@ Here is what we have been up to in the last six months:
 
 - **Overlapping type family instances.** Richard Eisenberg is close to finishing an implementation of overlapping type family instances. The overlap mechanism is distinct from overlapping type class instances, as the programmer has to give an explicit ordering to the overlapping instances. More information can be found on the wiki page \[11\].
 
-- dynlibs-by-default
+- **Dynamic libraries by default.** In GHC 7.8, it will be possible to build GHC in such a way that by default it will dynamically link against Haskell libraries, rather than statically linking as it does now. As well as smaller binary sizes, this has the big advantage that GHCi will be able to use the system linker to load libraries, rather than our own linker implementation. This will mean fewer GHCi bugs, and make it a lot easier to add GHCi support to other platforms. We plan to make this the default way of building GHC on as many platforms as possible.
 
 - **The new code generator.** Several years since this project was started, the new code generator is finally working  \[14\], and is now switched on by default in `master`.  It will be in GHC 7.8.1.  From a user's perspective there should be very little difference, though some programs will be faster.
 
