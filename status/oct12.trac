@@ -4,10 +4,12 @@ We made a bug-fix release of GHC 7.4.2 in June, and a completely new release of 
  * Multi-way if, and `\case`.
  * Kind polymorphism and data kinds [7].
  * Deferred type errors [6].
- * Improved support for generic programming \cref{sec:genericDeriving}.
+ * Improved support for generic programming [8].
  * The ability to change ''at runtime'' the number of processors running Haskell threads.
  * The first supported GHC for 64-bit Windows.
  * Type-level literal symbols.
+
+We expect to do a 7.6.2 release quite soon, and a 7.8.1 release in a few months' time.
 
 Here is what we have been up to in the last six months:
 
@@ -33,7 +35,13 @@ Here is what we have been up to in the last six months:
 
  * dynlibs-by-default
 
- * new codegen by default
+ * '''The new code generator.''' Several years since this project was started, the new code generator is finally working  [14], and is now switched on by default in `master`.  It will be in GHC 7.8.1.  From a user's perspective there should be very little difference, though some programs will be faster.
+
+ There are three important improvements in the generated code.  One is that `let-no-escape` functions are now compiled much more efficiently: a recursive `let-no-escape` now turns into a real loop in C--.  The second improvement is that global registers (R1, R2, etc.) are now available for the register allocator to use within a function, provided they aren't in use for argument passing.  This means that there are more registers available for complex code sequences.  The third improvement is that we have a new sinking pass that replaces the old "mini-inliner" from the native code generator, and is capable of optimisations that the old pass couldn't do.
+
+ Hand-written C-- code can now be written in a higher-level style with real function calls, and most of the hand-written C-- code in the RTS has been converted into the new style.  High-level C-- does not mention global registers such as R1 explicitly, nor does it manipulate the stack; all this is handled by the C-- code generator in GHC.  This is more robust and simpler, and means that we no longer need a special calling-convention for primops - they now use the same calling convention as ordinary Haskell functions.
+
+ We're interested in hearing about both performance improvements and regressions due to the new code generator.
 
  * '''Improved floating point register allocation.''' On x86-64 there are now six machine registers available for any mixture of floating-point types. Previously a maximum of four values of type Float and two values of type Double could simultaneously be kept in machine registers.
 
@@ -54,3 +62,4 @@ As always there is far more to do than we can handle, and there is loads of spac
 [11] Overlapping type family instances: [http://hackage.haskell.org/trac/ghc/wiki/NewAxioms] [[BR]]
 [12] Matching on type nats: [http://hackage.haskell.org/trac/ghc/wiki/TypeNats/MatchingOnNats] [[BR]]
 [13] Singletons and kinds: [http://hackage.haskell.org/trac/ghc/wiki/TypeNats/SingletonsAndKinds] [[BR]]
+[14] The new codegen is nearly ready to go live [http://hackage.haskell.org/trac/ghc/blog/newcg-update] [[BR]]
