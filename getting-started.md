@@ -22,4 +22,3 @@ This page tells you how to get started with hacking on GHC.
 
 
 For a description of the process of making a change to GHC and contributing it back, see [working conventions](working-conventions).
-[ Best Online Slots](https://www.whiteknightcasino.com/games/slots.asp)
