@@ -34,7 +34,10 @@ In the case of
 - libraries/process
 - libraries/template-haskell
 - libraries/unix
-- libraries/Win32
+- libraries/dph
+- libraries/deepseq
+- libraries/parallel
+- libraries/stm
 
 
 we use the main repository directly. Therefore changes can be pushed
@@ -71,6 +74,9 @@ In the case of
 - libraries/terminfo
 - libraries/transformers
 - libraries/xhtml
+- libraries/Win32
+- libraries/primitive
+- libraries/vector
 
 
 there is a separate upstream repository.
@@ -106,10 +112,16 @@ release commit on a different branch.
 
 If you are not modifying these packages then you don't need to do
 anything special: A regular `./sync-all pull` will update the submodules
-as normal. However, you may find it useful to \<TODO add instructions
-for making --ignore-submodules=dirty the default for "git status"\>,
-or each time you run `git status`, git will check for changes not only
-in the GHC repository, but also in all the submodules.
+as normal. However, you may find it useful to run
+
+```wiki
+git config --global diff.ignoreSubmodules dirty
+```
+
+
+or each time you run `git status` or `git diff`, git will check for
+changes not only in the GHC repository, but also in all the submodules.
+(you must have `git >= 1.7.3` for this to work).
 
 
 If you need to modify one of these libraries, then ordinarily you should
@@ -120,7 +132,11 @@ forgotten about after being applied to GHC's repo). You can then update
 GHC's submodule by running
 
 ```wiki
-... TODO: git commands to be filled in ...
+cd libraries/foo
+git reset --hard some_commit_id
+cd ../..
+git commit -a
+./sync-all push
 ```
 
 
@@ -142,7 +158,11 @@ without the upstream repository already having the change that you need:
 In order to make the change in this case, you
 
 ```wiki
-... TODO: git commands to be filled in ...
+cd libraries/foo
+git commit -a
+cd ../..
+git commit -a
+./sync-all push
 ```
 
 ### From the upstream maintainer's point of view
@@ -151,13 +171,6 @@ In order to make the change in this case, you
 Upstream maintainers don't need to do anything special. You can continue
 to use any version control system and whatever branching policy works best
 for you. However, there are two issues to be aware of:
-
-- Sometimes we may need to make changes to old versions of libraries,
-  as we try to avoid making interface changes within GHC stable
-  branches and upstream development may have moved on since a GHC
-  stable branch was created. When this happens it is up to you whether
-  the changes are sent upstream as normal (and maintained in an upstream
-  branch), or whether they are left only in the GHC repository.
 
 - For libraries that are shipped with GHC, we need to have releases of
   libraries that can build with that GHC. There may be no suitable
@@ -168,3 +181,12 @@ for you. However, there are two issues to be aware of:
   to do so, we can make one on your behalf (in which case it will
   normally have only the minimal changes necessary since the previous
   release).
+
+- Sometimes we may need to make changes to old versions of libraries,
+  as we try to avoid making interface changes within GHC stable
+  branches and upstream development may have moved on since a GHC
+  stable branch was created. When this happens it is up to you whether
+  the changes are sent upstream as normal (and maintained in an upstream
+  branch), or whether they are left only in the GHC repository. Note that
+  if they are made only the GHC repository then we will probably need to
+  make a release from the GHC repository, as per the previous point.
