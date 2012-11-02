@@ -34,6 +34,10 @@ In the case of
 - libraries/process
 - libraries/template-haskell
 - libraries/unix
+- libraries/dph
+- libraries/deepseq
+- libraries/parallel
+- libraries/stm
 
 
 we use the main repository directly. Therefore changes can be pushed
@@ -71,6 +75,8 @@ In the case of
 - libraries/transformers
 - libraries/xhtml
 - libraries/Win32
+- libraries/primitive
+- libraries/vector
 
 
 there is a separate upstream repository.
