@@ -94,10 +94,12 @@ release commit on a different branch.
 
 If you are not modifying these packages then you don't need to do
 anything special: A regular `./sync-all pull` will update the submodules
-as normal. However, you may find it useful to <TODO: add instructions
-for making --ignore-submodules=dirty the default for "git status">,
-or each time you run `git status`, git will check for changes not only
-in the GHC repository, but also in all the submodules.
+as normal. However, you may find it useful to run
+{{{
+git config --global diff.ignoreSubmodules dirty
+}}}
+or each time you run `git status` or `git diff`, git will check for
+changes not only in the GHC repository, but also in all the submodules.
 
 If you need to modify one of these libraries, then ordinarily you should
 first send the modifications upstream. Ideally upstream will apply the
