@@ -130,10 +130,8 @@ cd libraries/foo
 git reset --hard some_commit_id
 cd ../..
 git commit -a
+./sync-all push
 ```
-
-
-and then push as normal.
 
 
 There are some scenarios where you may need to modify GHC's repository
@@ -154,7 +152,11 @@ without the upstream repository already having the change that you need:
 In order to make the change in this case, you
 
 ```wiki
-... TODO: git commands to be filled in ...
+cd libraries/foo
+git commit -a
+cd ../..
+git commit -a
+./sync-all push
 ```
 
 ### From the upstream maintainer's point of view
