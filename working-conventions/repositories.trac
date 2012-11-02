@@ -100,6 +100,7 @@ git config --global diff.ignoreSubmodules dirty
 }}}
 or each time you run `git status` or `git diff`, git will check for
 changes not only in the GHC repository, but also in all the submodules.
+(you must have `git >= 1.7.3` for this to work).
 
 If you need to modify one of these libraries, then ordinarily you should
 first send the modifications upstream. Ideally upstream will apply the
