@@ -126,8 +126,14 @@ forgotten about after being applied to GHC's repo). You can then update
 GHC's submodule by running
 
 ```wiki
-... TODO: git commands to be filled in ...
+cd libraries/foo
+git reset --hard some_commit_id
+cd ../..
+git commit -a
 ```
+
+
+and then push as normal.
 
 
 There are some scenarios where you may need to modify GHC's repository
