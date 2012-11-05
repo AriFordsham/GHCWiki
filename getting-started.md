@@ -14,7 +14,7 @@ This page tells you how to get started with hacking on GHC.
 
 ## Deciding what to work on
 
-- You may have a pet project of your own.  If you are wondering which bits of the [ Best Online Slots](https://www.whiteknightcasino.com/games/slots.asp) compiler would be important for you, start by consulting the [Commentary](commentary). 
+- You may have a pet project of your own.  If you are wondering which bits of the compiler would be important for you, start by consulting the [Commentary](commentary). 
 - Pick an easy bug report (Ticket query: status: new, status: assigned, status: reopened, type: bug, order: priority, group: difficulty) or task (Ticket query: status: new, status: assigned, status: reopened, type: task, order: priority, group: difficulty) to work on
 - Help us with our [BugSweep](bug-sweep)
 
