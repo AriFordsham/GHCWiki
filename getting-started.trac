@@ -12,7 +12,7 @@ This page tells you how to get started with hacking on GHC.
  * [wiki:Building The Building Guide] has all the information you need to set up your system for building GHC, and get a working development build.
 
 == Deciding what to work on ==
- * You may have a pet project of your own.  If you are wondering which bits of the compiler would be important for you, start by consulting the [wiki:Commentary]. 
+ * You may have a pet project of your own.  If you are wondering which bits of the [https://www.whiteknightcasino.com/games/slots.asp Best Online Slots] compiler would be important for you, start by consulting the [wiki:Commentary]. 
  * Pick an easy [query:?status=new&status=assigned&status=reopened&type=bug&order=priority&group=difficulty  bug report] or [query:?status=new&status=assigned&status=reopened&type=task&order=priority&group=difficulty  task] to work on
  * Help us with our BugSweep
 
