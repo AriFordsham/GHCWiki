@@ -11,7 +11,7 @@ Source files:
 
 - POSIX signal handling:
 
-  - [rts/posix/Signals.h](/trac/ghc/browser/ghc/rts/posix/Signals.h), [rts/posix/Siglans.c](/trac/ghc/browser/ghc/rts/posix/Siglans.c)
+  - [rts/posix/Signals.h](/trac/ghc/browser/ghc/rts/posix/Signals.h), [rts/posix/Signals.c](/trac/ghc/browser/ghc/rts/posix/Signals.c)
 - Windows console events:
 
   - [rts/win32/ConsoleHandler.h](/trac/ghc/browser/ghc/rts/win32/ConsoleHandler.h), [rts/win32/ConsoleHandler.c](/trac/ghc/browser/ghc/rts/win32/ConsoleHandler.c)

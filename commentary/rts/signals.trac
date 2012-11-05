@@ -9,7 +9,7 @@ Signal handling differs between the ''threaded'' version of the runtime and the 
 Source files:
 
  * POSIX signal handling:
-   * [[GhcFile(rts/posix/Signals.h)]], [[GhcFile(rts/posix/Siglans.c)]]
+   * [[GhcFile(rts/posix/Signals.h)]], [[GhcFile(rts/posix/Signals.c)]]
  * Windows console events:
    * [[GhcFile(rts/win32/ConsoleHandler.h)]], [[GhcFile(rts/win32/ConsoleHandler.c)]]
 
