@@ -156,7 +156,7 @@ g (toList -> [x,y,z]) = ...
 ```
 
 
-Here, just like for expression, we propose to overload list patterns that use
+Here, just like for expressions, we propose to overload list patterns that use
 square brackets. The `:` infix operator will remain list specific both in
 expressions and patterns. In other words, `:` is not overloaded.
 
