@@ -120,12 +120,92 @@ instance FromList (Vector a) where
   fromListN = Vector.fromListN
 ```
 
-## TODO
-
-## Overloading Pattern Matching on Lists
+## TODO Overloading Pattern Matching on Lists
 
 
-...
+One way to overload list patterns is to replace the `FromList` class from
+the previous section with the `OverloadedLists` class defined as follows:
+
+```wiki
+class OverloadedLists l where
+  type Item l
+  fromList  :: [Item l] -> l
+  toList    :: l -> [Item l]
+
+  fromListN :: Int -> [Item l] -> l
+  fromListN _ = fromList
+```
+
+
+This class allows us to view the structure `l` as a list. Now, the
+`toList` can be used to overload the list notation in patters.
+For example, When the `OverloadedLists` extension is turned on, the
+definitions
+
+```wiki
+f [] = ...
+g [x,y,z] = ...
+```
+
+
+will be treated as
+
+```wiki
+f (toList -> []) = ...
+g (toList -> [x,y,z]) = ...
+```
+
+
+Here, just like for expressions, we propose to overload list patterns that use
+square brackets. The `:` infix operator will remain list specific both in
+expressions and patterns. In other words, `:` is not overloaded.
+
+
+The instances of the `OverloadedLists` class should satisfy the following
+property:
+
+```wiki
+fromList . toList = id
+```
+
+
+The example `FromList` instances from the previous section can be extended
+into the `OverloadedLists` instances as follows:
+
+```wiki
+instance OverloadedLists [a] where
+  type Item [a] = a
+  fromList = id
+  toList = id
+
+instance (Ord a) => OverloadedLists (Set a) where
+  type Item (Set a) = a
+  fromList = Set.fromList
+  toList = Set.toList
+
+instance (Ord k) => OverloadedLists (Map k v) where
+  type Item (Map k v) = (k,v)
+  fromList = Map.fromList
+  toList = Map.toList
+
+instance OverloadedLists (IntMap v) where
+  type Item (IntMap v) = (Int,v)
+  fromList = IntMap.fromList
+  toList = IntMap.toList
+
+instance OverloadedLists Text where
+  type Item Text = Char
+  fromList = Text.pack
+  toList = Text.unpack
+
+instance OverloadedLists (Vector a) where
+  type Item (Vector a) = a
+  fromList  = Vector.fromList
+  fromListN = Vector.fromListN
+  toList = Vector.toList
+```
+
+## Further Improvements
 
 ## Defaulting
 
