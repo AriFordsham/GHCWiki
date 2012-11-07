@@ -207,7 +207,7 @@ instance OverloadedLists (Vector a) where
   toList = Vector.toList
 ```
 
-## Further Improvements
+## Further GHC improvements/extensions that may benefit `OverloadedLists`
 
 ## Defaulting
 
@@ -227,3 +227,12 @@ to take advantage of the compact representation. Equipped with this capability
 the `OverloadedLists` extension will be in a good position to subsume the
 `OverloadedStrings` extension (currently, as a special case, string
 literals benefit from statically allocated compact representation).
+
+
+Somewhat related discussions:
+
+```wiki
+http://hackage.haskell.org/trac/ghc/ticket/5218
+http://www.serpentine.com/blog/2012/09/12/the-case-of-the-mysterious-explosion-in-space/
+http://www.mail-archive.com/haskell-cafe@haskell.org/msg101412.html
+```
