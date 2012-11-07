@@ -115,10 +115,10 @@ instance FromList (Vector a) where
 == TODO: Overloading Pattern Matching on Lists ==
 
 One way to overload list patterns is to replace the {{{FromList}}} class from
-the previous section with the {{{OverloadedLists}}} class defined as follows:
+the previous section with the {{{ListRep}}} class defined as follows:
 
 {{{
-class OverloadedLists l where
+class ListRep l where
   type Item l
   fromList  :: [Item l] -> l
   toList    :: l -> [Item l]
@@ -148,7 +148,7 @@ Here, just like for expressions, we propose to overload list patterns that use
 square brackets. The {{{:}}} infix operator will remain list specific both in
 expressions and patterns. In other words, {{{:}}} is not overloaded.
 
-The instances of the {{{OverloadedLists}}} class should satisfy the following
+The instances of the {{{ListRep}}} class should satisfy the following
 property:
 
 {{{
@@ -156,42 +156,42 @@ fromList . toList = id
 }}}
 
 The example {{{FromList}}} instances from the previous section can be extended
-into the {{{OverloadedLists}}} instances as follows:
+into the {{{ListRep}}} instances as follows:
 
 {{{
-instance OverloadedLists [a] where
+instance ListRep [a] where
   type Item [a] = a
   fromList = id
   toList = id
 
-instance (Ord a) => OverloadedLists (Set a) where
+instance (Ord a) => ListRep (Set a) where
   type Item (Set a) = a
   fromList = Set.fromList
   toList = Set.toList
 
-instance (Ord k) => OverloadedLists (Map k v) where
+instance (Ord k) => ListRep (Map k v) where
   type Item (Map k v) = (k,v)
   fromList = Map.fromList
   toList = Map.toList
 
-instance OverloadedLists (IntMap v) where
+instance ListRep (IntMap v) where
   type Item (IntMap v) = (Int,v)
   fromList = IntMap.fromList
   toList = IntMap.toList
 
-instance OverloadedLists Text where
+instance ListRep Text where
   type Item Text = Char
   fromList = Text.pack
   toList = Text.unpack
 
-instance OverloadedLists (Vector a) where
+instance ListRep (Vector a) where
   type Item (Vector a) = a
   fromList  = Vector.fromList
   fromListN = Vector.fromListN
   toList = Vector.toList
 }}}
 
-== Further Improvements ==
+== Further GHC improvements/extensions that may benefit {{{OverloadedLists}}} ==
 
 == Defaulting ==
 
@@ -209,3 +209,11 @@ to take advantage of the compact representation. Equipped with this capability
 the {{{OverloadedLists}}} extension will be in a good position to subsume the
 {{{OverloadedStrings}}} extension (currently, as a special case, string
 literals benefit from statically allocated compact representation).
+
+Somewhat related discussions:
+
+{{{
+http://hackage.haskell.org/trac/ghc/ticket/5218
+http://www.serpentine.com/blog/2012/09/12/the-case-of-the-mysterious-explosion-in-space/
+http://www.mail-archive.com/haskell-cafe@haskell.org/msg101412.html
+}}}
