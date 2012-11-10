@@ -126,10 +126,10 @@ instance FromList (Vector a) where
 
 
 One way to overload list patterns is to replace the `FromList` class from
-the previous section with the `ListRep` class defined as follows:
+the previous section with the `IsList` class defined as follows:
 
 ```wiki
-class ListRep l where
+class IsList l where
   type Item l
   fromList  :: [Item l] -> l
   toList    :: l -> [Item l]
@@ -163,7 +163,7 @@ square brackets. The `:` infix operator will remain list specific both in
 expressions and patterns. In other words, `:` is not overloaded.
 
 
-The instances of the `ListRep` class should satisfy the following
+The instances of the `IsList` class should satisfy the following
 property:
 
 ```wiki
@@ -172,40 +172,45 @@ fromList . toList = id
 
 
 The example `FromList` instances from the previous section can be extended
-into the `ListRep` instances as follows:
+into the `IsList` instances as follows:
 
 ```wiki
-instance ListRep [a] where
+instance IsList [a] where
   type Item [a] = a
   fromList = id
   toList = id
 
-instance (Ord a) => ListRep (Set a) where
+instance (Ord a) => IsList (Set a) where
   type Item (Set a) = a
   fromList = Set.fromList
   toList = Set.toList
 
-instance (Ord k) => ListRep (Map k v) where
+instance (Ord k) => IsList (Map k v) where
   type Item (Map k v) = (k,v)
   fromList = Map.fromList
   toList = Map.toList
 
-instance ListRep (IntMap v) where
+instance IsList (IntMap v) where
   type Item (IntMap v) = (Int,v)
   fromList = IntMap.fromList
   toList = IntMap.toList
 
-instance ListRep Text where
+instance IsList Text where
   type Item Text = Char
   fromList = Text.pack
   toList = Text.unpack
 
-instance ListRep (Vector a) where
+instance IsList (Vector a) where
   type Item (Vector a) = a
   fromList  = Vector.fromList
   fromListN = Vector.fromListN
   toList = Vector.toList
 ```
+
+
+An alternative name for the `IsList` class could be `ListRep` (meaning
+representable as list). This is to emphasise that its instances should be
+representable as lists, it is not required for them to be lists.
 
 ## Further GHC improvements/extensions that may benefit `OverloadedLists`
 
