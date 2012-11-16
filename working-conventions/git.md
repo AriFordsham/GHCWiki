@@ -11,7 +11,7 @@ Existing darcs users see: [Git For Darcs Users](git-for-darcs-users). If you hav
 - Try to make small patches (i.e. work in consistent increments).
 
 - Separate changes that affect functionality from those that just affect
-  code layout, indendation, whitespace, filenames etc.  This means that
+  code layout, indentation, whitespace, filenames etc.  This means that
   when looking at patches later, we don't have to wade through loads of
   non-functional changes to get to the important parts of the patch.   
 
@@ -77,9 +77,9 @@ Do this before you commit them!
 
 All changes to GHC and the libraries need to be [validated](testing-patches) before they can be pushed to the main repositories.  Validation can take a while - 30 minutes on a 4-core machine is typical - so ideally you want to be validating changes while you are working in a separate tree.  In fact, there are other compelling reasons to have two trees in your development workflow, one for working in and one for validation:
 
-- validation uses build settings that are different to the ones you would normally use while developing: it adds more libraries (DPH), builds extra ways (dynamic libraries), and builds all the documentation, so you don't want to use the same build for validation and ordinary development.  In the development tree we use build settings optimised for development: `-O0 -DDEBUG` for the compiler, minimal libraries and ways so that rebuilding is fast.
+- Validation uses build settings that are different to the ones you would normally use while developing: it adds more libraries (DPH), builds extra ways (dynamic libraries), and builds all the documentation, so you don't want to use the same build for validation and ordinary development.  In the development tree we use build settings optimised for development: `-O0 -DDEBUG` for the compiler, minimal libraries and ways so that rebuilding is fast.
 
-- Having two trees elimiantes a common source of breakage in the main repository: with one tree it is easy to add new files but forget to commit them.  Your tests will work, but the build will be broken for others.  If you have to pull your changes into a separate tree for testing, you'll notice the missing files before you push.
+- Having two trees eliminates a common source of breakage in the main repository: with one tree it is easy to add new files but forget to commit them.  Your tests will work, but the build will be broken for others.  If you have to pull your changes into a separate tree for testing, you'll notice the missing files before you push.
 
 
 The typical workflow is to work in the development tree, pull into the validate tree, validate, and then push from the validate tree.  But what if validate fails?  There are two options:
