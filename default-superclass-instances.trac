@@ -301,3 +301,8 @@ them.
 = Applications =
 
 ''If you want superclass instances, add yourself below with a quick sketch of what your application is''
+
+For years, I have been pretending that Monads are not Functors. When applicative functors showed up, I could accept them as functors, but my internal contradictions prevented me to accept them as monads. This is a cry for help! 
+
+ -- Haskell 98
+
