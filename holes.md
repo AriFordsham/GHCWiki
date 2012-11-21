@@ -559,3 +559,66 @@ have a section about holes.
 
 
 What is the best way to do this?
+
+# Unbound Identifiers and Named Holes
+
+
+There has been some discussion on 2 features: naming holes (using something like _a to differentiate holes more easily), and being able to turn any unbound identifier into a hole.
+
+
+The first feature has the open problem of how different usages of a named holes should share their type. Some people might expect it to be unified across al usages in a module, however, that would be confusing with regards to polymorphism (a hole which is used as `Char` and `Bool` would become `forall a . a`, which is not very helpful).
+
+## Implementation notes
+
+[ https://github.com/xnyhps/ghc/commit/8573dfec24a0b354b7be32bf567a3a5bf700728e](https://github.com/xnyhps/ghc/commit/8573dfec24a0b354b7be32bf567a3a5bf700728e) adds basic support for named holes, namely by turning unbound identifiers starting with `_` into a hole.
+
+
+It works as follows:
+
+- `HsExpr` as an extra field: `HsUnboundVar`, which stores the `RdrName` of the unbound identifier (which we can use to print it).
+- `rnExpr` of `HsVar` now uses `lookupOccRn_maybe` if `-XTypeHoles` is on, and the name starts with `_`. If it gets a `Nothing`, instead of running the error handler, it returns a `HsUnboundVar` with that name.
+- `tcExpr` has a new helper function `tcHole` which does almost the same for a `HsHole` and a `HsUnboundVar`, only difference is in specifying name and the origin.
+- Reporting has been changed slightly to make it clear what originated the hole.
+
+
+Example:
+
+
+The module:
+
+```wiki
+f = _a _b _
+```
+
+
+Gives the following error messages (or warnings in this case, with `-fdefer-type-errors` on):
+
+```wiki
+holes2.hs:1:5: Warning:
+    Found hole with type: `t0 -> t1 -> t'
+    Arising from: an undeclared identifier `_a' at holes2.hs:1:5-6
+    Where: `t0' is an ambiguous type variable
+           `t1' is an ambiguous type variable
+           `t' is a rigid type variable bound by
+               the inferred type of f :: t at holes2.hs:1:1
+    Relevant bindings include f :: t (bound at holes2.hs:1:1)
+    In the expression: _a
+    In the expression: _a _b _
+    In an equation for `f': f = _a _b _
+
+holes2.hs:1:8: Warning:
+    Found hole with type: `t0'
+    Arising from: an undeclared identifier `_b' at holes2.hs:1:8-9
+    Where: `t0' is an ambiguous type variable
+    In the first argument of `_a', namely `_b'
+    In the expression: _a _b _
+    In an equation for `f': f = _a _b _
+
+holes2.hs:1:11: Warning:
+    Found hole with type: `t1'
+    Arising from: a use of `_' at holes2.hs:1:11
+    Where: `t1' is an ambiguous type variable
+    In the second argument of `_a', namely `_'
+    In the expression: _a _b _
+    In an equation for `f': f = _a _b _
+```
