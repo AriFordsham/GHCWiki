@@ -24,14 +24,14 @@ Points to note:
 - This will install the package in your home directory (e.g. somewhere under `~/.cabal/lib` on a Unix system), and it will register the package in your private package database, so you'll probably want to remove and unregister it by hand when you've finished.
 
 
-Plan A can fail, because sometimes GHC changes require corresponding Cabal changes (this happened in GHC 6.12), so you might get a message like
+Plan A can fail, because sometimes GHC changes require corresponding Cabal changes (this happened in GHC 6.12, and after the GHC 7.6.1 release). If the format changed you might get a message like
 
 ```wiki
 cabal: failed to parse output of 'ghc-pkg dump'
 ```
 
 
-In that case you need to use the Cabal code that comes with the new version of GHC (ie the one in your build tree).  So use Plan B.
+But incompatibility can result in other problems installing packages. In that case you need to use the Cabal code that comes with the new version of GHC (ie the one in your build tree).  So use Plan B.
 
 ## Plan B: use the Cabal library bundled with GHC
 
