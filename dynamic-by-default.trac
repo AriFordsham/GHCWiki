@@ -125,67 +125,71 @@ For unknown reasons, x86 Linux suffers even worse than x86 OS X, with around a 3
 Currently, some people use the x86 version of GHC on OS X for performance reasons. It's not clear for how much longer this will be viable, as other OS X libraries start dropping x86 support.
 
 Full nofib results comparing the two are
-[http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-base.html here for static by default], and
-[http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html here for dynamic by default], but the highlights are in the table below.
+[http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-base.html here for static by default],
+[http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html here for dynamic by default], and
+[http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html here for comparing static x86 to dynamic x86_64].
+The highlights are in the table below.
 
 The left-hand column shows the status quo: x86_64 only beats x86 in mutator time, and that is a shallow victory as the higher GC time means that total runtime is worse for x86_64.
 
-The right-hand column shows what the situation would be if we switch to dynamic instead. Allocations, memory use etc remain higher due to all word-sized things being twice as big. However, the combination of x86_64's performance improving, and x86's performance getting worse, means that x86_64 is now faster overall.
+The middle column shows what the situation would be if we switch to dynamic instead. Allocations, memory use etc remain higher due to all word-sized things being twice as big. However, the combination of x86_64's performance improving, and x86's performance getting worse, means that x86_64 is now faster overall.
+
+The right-hand column shows the difference between static x86 and dynamic x86_64.
 
 {{{
 #!html
 <table border="1">
-<tr><td></td><th style="font-weight: bold;">x86 -> x86_64<br />when static by default</th><th style="font-weight: bold;">x86 -> x86_64<br />when dynamic by default</th></tr>
+<tr><td></td><th style="font-weight: bold;">x86 -> x86_64<br />when static by default</th><th style="font-weight: bold;">x86 -> x86_64<br />when dynamic by default</th><th style="font-weight: bold;">x86 static -> x86_64 dynamic</th></tr>
 
-<tr><td colspan="3" style="font-weight: bold;">Binary Sizes</td></tr>
-<tr><td>-1 s.d.</td><td>+38.0%</td><td>+7.4%</td></tr>
-<tr><td>+1 s.d.</td><td>+38.6%</td><td>+30.6%</td></tr>
-<tr><td>Average</td><td style="color: red">+38.3%</td><td style="color: red">+18.5%</td></tr>
+<tr><td colspan="4" style="font-weight: bold;">Binary Sizes</td></tr>
+<tr><td>-1 s.d.</td><td>+38.0%</td><td>+7.4%</td><td>-95.9%</td></tr>
+<tr><td>+1 s.d.</td><td>+38.6%</td><td>+30.6%</td><td>-92.0%</td></tr>
+<tr><td>Average</td><td style="color: red">+38.3%</td><td style="color: red">+18.5%</td><td style="color: green">-94.3%</td></tr>
 
-<tr><td colspan="3" style="font-weight: bold;">Allocations</td></tr>
-<tr><td>-1 s.d.</td><td>+63.2%</td><td>+63.2%</td></tr>
-<tr><td>+1 s.d.</td><td>+114.4%</td><td>+114.4%</td></tr>
-<tr><td>Average</td><td style="color: red">+87.0%</td><td style="color: red">+87.0%</td></tr>
+<tr><td colspan="4" style="font-weight: bold;">Allocations</td></tr>
+<tr><td>-1 s.d.</td><td>+63.2%</td><td>+63.2%</td><td>+63.2%</td></tr>
+<tr><td>+1 s.d.</td><td>+114.4%</td><td>+114.4%</td><td>+114.4%</td></tr>
+<tr><td>Average</td><td style="color: red">+87.0%</td><td style="color: red">+87.0%</td><td style="color: red">+87.0%</td></tr>
 
-<tr><td colspan="3" style="font-weight: bold;">Run Time</td></tr>
-<tr><td>-1 s.d.</td><td>-23.5%</td><td>-31.6%</td></tr>
-<tr><td>+1 s.d.</td><td>+36.1%</td><td>+14.7%</td></tr>
-<tr><td>Average</td><td style="color: red">+2.1%</td><td style="color: green">-11.4%</td></tr>
+<tr><td colspan="4" style="font-weight: bold;">Run Time</td></tr>
+<tr><td>-1 s.d.</td><td>-23.5%</td><td>-31.6%</td><td>-23.6%</td></tr>
+<tr><td>+1 s.d.</td><td>+36.1%</td><td>+14.7%</td><td>+37.0%</td></tr>
+<tr><td>Average</td><td style="color: red">+2.1%</td><td style="color: green">-11.4%</td><td style="color: red">+2.3%</td></tr>
 
-<tr><td colspan="3" style="font-weight: bold;">Elapsed Time</td></tr>
-<tr><td>-1 s.d.</td><td>-18.2%</td><td>-30.0%</td></tr>
-<tr><td>+1 s.d.</td><td>+40.1%</td><td>+17.0%</td></tr>
-<tr><td>Average</td><td style="color: red">+7.0%</td><td style="color: green">-9.5%</td></tr>
+<tr><td colspan="4" style="font-weight: bold;">Elapsed Time</td></tr>
+<tr><td>-1 s.d.</td><td>-18.2%</td><td>-30.0%</td><td>-22.9%</td></tr>
+<tr><td>+1 s.d.</td><td>+40.1%</td><td>+17.0%</td><td>+38.3%</td></tr>
+<tr><td>Average</td><td style="color: red">+7.0%</td><td style="color: green">-9.5%</td><td style="color: red">+3.3%</td></tr>
 
-<tr><td colspan="3" style="font-weight: bold;">Mutator Time</td></tr>
-<tr><td>-1 s.d.</td><td>-32.4%</td><td>-38.8%</td></tr>
-<tr><td>+1 s.d.</td><td>+20.1%</td><td>+3.0%</td></tr>
-<tr><td>Average</td><td style="color: green">-9.9%</td><td style="color: green">-20.6%</td></tr>
+<tr><td colspan="4" style="font-weight: bold;">Mutator Time</td></tr>
+<tr><td>-1 s.d.</td><td>-32.4%</td><td>-38.8%</td><td>-32.4%</td></tr>
+<tr><td>+1 s.d.</td><td>+20.1%</td><td>+3.0%</td><td>+20.7%</td></tr>
+<tr><td>Average</td><td style="color: green">-9.9%</td><td style="color: green">-20.6%</td><td style="color: green">-9.7%</td></tr>
 
-<tr><td colspan="3" style="font-weight: bold;">Mutator Elapsed Time</td></tr>
-<tr><td>-1 s.d.</td><td>-28.7%</td><td>-37.9%</td></tr>
-<tr><td>+1 s.d.</td><td>+22.5%</td><td>+4.4%</td></tr>
-<tr><td>Average</td><td style="color: green">-6.6%</td><td style="color: green">-19.5%</td></tr>
+<tr><td colspan="4" style="font-weight: bold;">Mutator Elapsed Time</td></tr>
+<tr><td>-1 s.d.</td><td>-28.7%</td><td>-37.9%</td><td>-32.0%</td></tr>
+<tr><td>+1 s.d.</td><td>+22.5%</td><td>+4.4%</td><td>+21.3%</td></tr>
+<tr><td>Average</td><td style="color: green">-6.6%</td><td style="color: green">-19.5%</td><td style="color: green">-9.2%</td></tr>
 
-<tr><td colspan="3" style="font-weight: bold;">GC Time</td></tr>
-<tr><td>-1 s.d.</td><td>+4.5%</td><td>-11.9%</td></tr>
-<tr><td>+1 s.d.</td><td>+74.8%</td><td>+54.1%</td></tr>
-<tr><td>Average</td><td style="color: red">+35.2%</td><td style="color: red">+16.5%</td></tr>
+<tr><td colspan="4" style="font-weight: bold;">GC Time</td></tr>
+<tr><td>-1 s.d.</td><td>+4.5%</td><td>-11.9%</td><td>+4.1%</td></tr>
+<tr><td>+1 s.d.</td><td>+74.8%</td><td>+54.1%</td><td>+76.3%</td></tr>
+<tr><td>Average</td><td style="color: red">+35.2%</td><td style="color: red">+16.5%</td><td style="color: red">+35.5%</td></tr>
 
-<tr><td colspan="3" style="font-weight: bold;">GC Elapsed Time</td></tr>
-<tr><td>-1 s.d.</td><td>+7.9%</td><td>-8.0%</td></tr>
-<tr><td>+1 s.d.</td><td>+75.1%</td><td>+56.7%</td></tr>
-<tr><td>Average</td><td style="color: red">+37.4%</td><td style="color: red">+20.0%</td></tr>
+<tr><td colspan="4" style="font-weight: bold;">GC Elapsed Time</td></tr>
+<tr><td>-1 s.d.</td><td>+7.9%</td><td>-8.0%</td><td>+7.1%</td></tr>
+<tr><td>+1 s.d.</td><td>+75.1%</td><td>+56.7%</td><td>+76.0%</td></tr>
+<tr><td>Average</td><td style="color: red">+37.4%</td><td style="color: red">+20.0%</td><td style="color: red">+37.3%</td></tr>
 
-<tr><td colspan="3" style="font-weight: bold;">Total Memory in use</td></tr>
-<tr><td>-1 s.d.</td><td>-1.7%</td><td>-1.9%</td></tr>
-<tr><td>+1 s.d.</td><td>+88.9%</td><td>+88.9%</td></tr>
-<tr><td>Average</td><td style="color: red">+36.3%</td><td style="color: red">+36.1%</td></tr>
+<tr><td colspan="4" style="font-weight: bold;">Total Memory in use</td></tr>
+<tr><td>-1 s.d.</td><td>-1.7%</td><td>-1.9%</td><td>-1.8%</td></tr>
+<tr><td>+1 s.d.</td><td>+88.9%</td><td>+88.9%</td><td>+88.9%</td></tr>
+<tr><td>Average</td><td style="color: red">+36.3%</td><td style="color: red">+36.1%</td><td style="color: red">+36.2%</td></tr>
 
-<tr><td colspan="3" style="font-weight: bold;">Compile Times</td></tr>
-<tr><td>-1 s.d.</td><td>+11.9%</td><td>-8.9%</td></tr>
-<tr><td>+1 s.d.</td><td>+21.1%</td><td>+2.9%</td></tr>
-<tr><td>Average</td><td style="color: red">+16.4%</td><td style="color: green">-3.1%</td></tr>
+<tr><td colspan="4" style="font-weight: bold;">Compile Times</td></tr>
+<tr><td>-1 s.d.</td><td>+11.9%</td><td>-8.9%</td><td>+2.5%</td></tr>
+<tr><td>+1 s.d.</td><td>+21.1%</td><td>+2.9%</td><td>+17.2%</td></tr>
+<tr><td>Average</td><td style="color: red">+16.4%</td><td style="color: green">-3.1%</td><td style="color: red">+9.6%</td></tr>
 </table>
 }}}
 
