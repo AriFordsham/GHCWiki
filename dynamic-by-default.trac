@@ -1,6 +1,17 @@
 
 = Dynamic by default =
 
+Currently, GHCi doesn't use the system linker to load libraries, but instead uses our own "GHCi linker". Unfortunately, this is a large blob of unpleasant code that we need to maintain, it already contains a number of known bugs, and new problem have a tendency to arise as new versions of OSes are released. We are therefore keen to get rid of it!
+
+Even removing it only on particular OSes, arches, or OS/arch pairs would be useful, as much of the code is used only for a particular platform. However, the best outcome would be to remove it on all platforms, as that would allow us to simplify a lot more code.
+
+Our solution is to switch GHCi from using the "static way", to using the "dynamic way". GHCi will then use the system linker to load the `.dll` for the library, rather than using the GHCi linker to load the `.a`.
+
+For this to work, there is technically no need to change anything else: ghc could continue to compile for the static way by default. However, there are 2 problems that arise:
+ 1. cabal-install would need to install libraries not only for the static way (for use by ghc), but also for the dynamic way (for use by ghci). This would double library installation times and disk usage.
+ 2. GHCi would no longer be able to load modules compiled with `ghc -c`.
+
+
 == Bugs ==
 
 As well as the [ticket:3658 ticket for implementing dynamic-by-default (#3658)], the table below lists the related tickets and the platforms that they affect. Most, if not all, of these would be immediately fixed by switching to dynamic-by-default.
