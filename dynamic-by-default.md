@@ -13,7 +13,10 @@ Our solution is to switch GHCi from using the "static way", to using the "dynami
 For this to work, there is technically no need to change anything else: ghc could continue to compile for the static way by default. However, there are 2 problems that arise:
 
 1. cabal-install would need to install libraries not only for the static way (for use by ghc), but also for the dynamic way (for use by ghci). This would double library installation times and disk usage.
-1. GHCi would no longer be able to load modules compiled with `ghc -c`.
+1. GHCi would no longer be able to load modules compiled with `ghc -c`. This would violate the principle of least surprise, and would make it harder to work around GHCi's limitations (such as performance, and lack of support for unboxed tuples).
+
+
+Given these 2 issues, we think that if making GHCi use dynamic libraries, we should also make ghc compile the "dynamic way" by default.
 
 ## Bugs
 
@@ -197,7 +200,20 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no
 </th></tr></table>
 
+## Windows
+
+
+Currently, we don't know how to do dynamic-by-default on Windows in a satisfactory way. We can build dynamic libraries, but we don't have a way of telling them where to find their DLLs. This means that `ghc --make foo; ./foo` won't work unless we copy all the library DLLs into the current directory, which isn't very satisfactory.
+
+
+We are currently working on this.
+
 ## Performance
+
+
+There are some performance questions to consider before making a decision.
+
+### Performance of the dynamic way
 
 
 Full nofib results showing the effect of switching to dynamic-by-default are available for 
@@ -205,6 +221,9 @@ Full nofib results showing the effect of switching to dynamic-by-default are ava
 [ OS X x86](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86.html),
 [ Linux x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86_64.html) and
 [ Linux x86](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86.html). There is also a table of the highlights below. In summary:
+
+
+(We don't have Windows performance numbers as we don't have dynamic-by-default working on Windows yet).
 
 
 Binary sizes are way down across the board, as we are now dynamically linking to the libraries.
@@ -391,7 +410,7 @@ on Linux x86</th></tr>
 <th>+2.9%</th>
 <th>+32.3%</th></tr></table>
 
-## OS X x86 vs x86_64
+### OS X x86 vs x86_64
 
 
 Currently, some people use the x86 version of GHC on OS X for performance reasons. It's not clear for how much longer this will be viable, as other OS X libraries start dropping x86 support.
@@ -532,3 +551,28 @@ when dynamic by default</th></tr>
 <tr><th>Average</th>
 <th>+16.4%</th>
 <th>-3.1%</th></tr></table>
+
+### Implications of the performance difference
+
+
+If GHCi uses dynamic libraries by default, then `ghci` will need to be dynamically linked. It would make sense to therefore also have `ghc` be dynamically linked. This means that any performance difference will also affect the performance of the compiler (this is already accounted for in the "Compile Times" in the nofib results).
+
+
+It would still be possible to compile programs using the "static way" by giving ghc the `-static` flag, and users would be able to configure `cabal-install` to do so by default if they wish. Then programs would be exactly the same as they are today. However, this would have the drawback that `cabal-install` would need to be configured to install libraries for the static way as well as the dynamic way, so library installation would take twice as long.
+
+## Questions
+
+
+In summary, we need to answer the following questions:
+
+1. Should we enable dynamic by default on OS X x86_64?
+1. Should we enable dynamic by default on OS X x86?
+1. Should we enable dynamic by default on Linux x86_64?
+1. Should we enable dynamic by default on Linux x86?
+1. Should we enable dynamic by default on Windows x86_64?
+1. Should we enable dynamic by default on Windows x86?
+1. Should we enable dynamic by default on other platforms?
+1. For platforms using dynamic by default, should Cabal also install static libraries by default?
+
+
+For 1 and 3, the performance impact appears negligible and some bugs will be fixed, so we would suggest that the answer should be yes.
