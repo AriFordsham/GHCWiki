@@ -57,31 +57,30 @@
 <th>Unknown
 </th></tr>
 <tr><th>[\#3654 Mach-O GHCi linker lacks support for a range of relocation entries](https://gitlab.haskell.org//ghc/ghc/issues/3654)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<th>**YES**</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
 </th></tr>
 <tr><th>[\#4244 Use system linker in GHCi to support alpha, ia64, ppc64](https://gitlab.haskell.org//ghc/ghc/issues/4244)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
-</th></tr>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**YES**</th></tr>
 <tr><th>[\#5062 Patch: Debug output for OS X linker and coding standard upgrades](https://gitlab.haskell.org//ghc/ghc/issues/5062)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<th>**YES**</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
 </th></tr>
 <tr><th>[\#5197 Support static linker semantics for archives and weak symbols](https://gitlab.haskell.org//ghc/ghc/issues/5197)</th>
 <th>**YES**</th>

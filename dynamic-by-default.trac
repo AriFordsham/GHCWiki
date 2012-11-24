@@ -9,9 +9,9 @@
 ||[ticket:2283 #2283 WIndows: loading objects that refer to DLL symbols]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
 ||[ticket:3242 #3242 ghci: can't load .so/.DLL for: m (addDLL: could not load DLL)]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
 ||[ticket:3372 #3372 Allow for multiple linker instances]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
-||[ticket:3654 #3654 Mach-O GHCi linker lacks support for a range of relocation entries]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
-||[ticket:4244 #4244 Use system linker in GHCi to support alpha, ia64, ppc64]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
-||[ticket:5062 #5062 Patch: Debug output for OS X linker and coding standard upgrades]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
+||[ticket:3654 #3654 Mach-O GHCi linker lacks support for a range of relocation entries]||'''YES'''||'''YES'''||no||no||no||no||no||
+||[ticket:4244 #4244 Use system linker in GHCi to support alpha, ia64, ppc64]||no||no||no||no||no||no||'''YES'''||
+||[ticket:5062 #5062 Patch: Debug output for OS X linker and coding standard upgrades]||'''YES'''||'''YES'''||no||no||no||no||no||
 ||[ticket:5197 #5197 Support static linker semantics for archives and weak symbols]||'''YES'''||'''YES'''||'''YES'''||'''YES'''||'''YES'''||'''YES'''||'''YES'''||
 ||[ticket:5435 #5435 GHCi linker should run constructors for linked libraries]||'''YES'''||'''YES'''||'''YES'''||'''YES'''||'''YES'''||'''YES'''||'''YES'''||
 ||[ticket:6107 #6107 GHCi runtime linker cannot link with duplicate common symbols]||'''YES'''||'''YES'''||'''YES'''||'''YES'''||'''YES'''||'''YES'''||'''YES'''||
