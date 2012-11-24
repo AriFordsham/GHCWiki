@@ -1,9 +1,16 @@
 
 == OS X 32bit vs 64bit ==
 
-Currently, some people use the 32bit version of GHC on OS X for performance reasons. Full nofib results comparing the two are
+Currently, some people use the 32bit version of GHC on OS X for performance reasons. It's not clear for how much longer this will be viable, as other OS X libraries start dropping 32bit support.
+
+Full nofib results comparing the two are
 [http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-base.html here for static by default], and
-[http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html here for dynamic by default], but the highlights are:
+[http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html here for dynamic by default], but the highlights are in the table below.
+
+The left-hand column shows the status quo: 64bit only beats 32bit in mutator time, and that is a shallow victory as the higher GC time means that total runtime is worse for 64bit.
+
+The right-hand column shows what the situation would be if we switch to dynamic instead. Allocations, memory use etc remain higher due to all word-sized things being twice as big. However, the speed difference moves in 64bit's favour, and 64bit is now faster overall.
+
 {{{
 #!html
 <table border="1">
