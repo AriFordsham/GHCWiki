@@ -199,6 +199,10 @@ If GHCi uses dynamic libraries by default, then `ghci` will need to be dynamical
 
 It would still be possible to compile programs using the "static way" by giving ghc the `-static` flag, and users would be able to configure `cabal-install` to do so by default if they wish. Then programs would be exactly the same as they are today. However, this would have the drawback that `cabal-install` would need to be configured to install libraries for the static way as well as the dynamic way, so library installation would take twice as long.
 
+== Other issues ==
+
+Currently released versions of Cabal/cabal-install don't handle dynamic-by-default GHCs well, as they don't pass the `-static` flag when building for static ways (as they assume that it is enabled by default). We should get fixed versions out as soon as possible (#7439).
+
 == Questions ==
 
 In summary, we need to answer the following questions:
@@ -212,4 +216,12 @@ In summary, we need to answer the following questions:
  7. Should we enable dynamic by default on other platforms?
  8. For platforms using dynamic by default, should Cabal also install static libraries by default?
 
-For 1 and 3, the performance impact appears negligible and some bugs will be fixed, so we would suggest that the answer should be yes.
+For 1 and 3, the performance impact appears negligible (or perhaps even negative) and some bugs will be fixed, so we would suggest that the answer should be yes.
+
+For 2 and 4, there would be a considerable performance impact, but there is again a negligible impact if you instead switch to using x86_64. We believe that this would be feasible for the vast majority of users for whom performance is a concern, and it would greatly simplify the code base, so again we would suggest that the answer should be yes.
+
+For 5 and 6, we will first have to get it working. Windows already uses different code paths quite a lot, so even if we end up deciding not to go dynamic-by-default on Windows, a lot of the ugly, buggy code will be removed. However, there are some known bugs in it on Windows, so we are hopeful that we will be able to do dynamic-by-default here too.
+
+For 7, this makes the difference between being able to use ghci and not being able to use ghci, and performance is already compromised for unregisterised platforms. Therefore this looks like a definite yes.
+
+For 8, this is a trade-off between the convenience of always having static libraries available (which may be important for people for whom performance is critical), and doubling the time needed to install extra libraries. On balance, we'd suggest that the answer should be no. If we go for yes, then we'd probably want a little extra intelligence in cabal, which checks that e.g. there is a static version of base installed before trying to install the static way, as development compilers in particular may only be built with the dynamic libraries available.
