@@ -119,13 +119,13 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>**YES**</th>
 <th>**YES**</th></tr>
 <tr><th>[\#7043 32-bit GHC ceiling of negative float SEGFAULT: 11](https://gitlab.haskell.org//ghc/ghc/issues/7043)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<th>no</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
 </th></tr>
 <tr><th>[\#7056 GHCi loadArchive "libiconv.a":failed Unknown PEi386 section name \`.drectve'](https://gitlab.haskell.org//ghc/ghc/issues/7056)</th>
 <th>no</th>
