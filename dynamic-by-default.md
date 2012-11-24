@@ -84,32 +84,29 @@
 <th>Unknown
 </th></tr>
 <tr><th>[\#5197 Support static linker semantics for archives and weak symbols](https://gitlab.haskell.org//ghc/ghc/issues/5197)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
-</th></tr>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th></tr>
 <tr><th>[\#5435 GHCi linker should run constructors for linked libraries](https://gitlab.haskell.org//ghc/ghc/issues/5435)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
-</th></tr>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th></tr>
 <tr><th>[\#6107 GHCi runtime linker cannot link with duplicate common symbols](https://gitlab.haskell.org//ghc/ghc/issues/6107)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
-</th></tr>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th></tr>
 <tr><th>[\#7043 32-bit GHC ceiling of negative float SEGFAULT: 11](https://gitlab.haskell.org//ghc/ghc/issues/7043)</th>
 <th>Unknown</th>
 <th>Unknown</th>
@@ -119,14 +116,14 @@
 <th>Unknown</th>
 <th>Unknown
 </th></tr>
-<tr><th>[\#7056 http://hackage.haskell.org/trac/ghc/ticket/7056](https://gitlab.haskell.org//ghc/ghc/issues/7056)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<tr><th>[\#7056 GHCi loadArchive "libiconv.a":failed Unknown PEi386 section name \`.drectve'](https://gitlab.haskell.org//ghc/ghc/issues/7056)</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**probably**</th>
+<th>**YES**</th>
+<th>no
 </th></tr>
 <tr><th>[\#7072 GHC interpreter does not find stat64 symbol on Linux](https://gitlab.haskell.org//ghc/ghc/issues/7072)</th>
 <th>Unknown</th>
@@ -138,22 +135,22 @@
 <th>Unknown
 </th></tr>
 <tr><th>[\#7097 linker fails to load package with binding to foreign library](https://gitlab.haskell.org//ghc/ghc/issues/7097)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**probably**</th>
+<th>**YES**</th>
+<th>no
 </th></tr>
 <tr><th>[\#7103 Compiler panic, when loading wxc in GHCi](https://gitlab.haskell.org//ghc/ghc/issues/7103)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**probably**</th>
+<th>**YES**</th>
+<th>no
 </th></tr>
 <tr><th>[\#7134 ghc-7.6.0.20120810-x86_64-windows.exe -\> internal error R_X86_64_PC32](https://gitlab.haskell.org//ghc/ghc/issues/7134)</th>
 <th>no</th>
