@@ -3,6 +3,8 @@
 
 == Bugs ==
 
+As well as the [ticket:3658 ticket for implementing dynamic-by-default (#3658)], the table below lists the related tickets and the platforms that they affect. Most, if not all, of these would be immediately fixed by switching to dynamic-by-default.
+
 ||Ticket||Affects OS X x86_64?||Affects OS X x86?||Affects Linux x86_64?||Affects Linux x86?||Affects Windows x86_64?||Affects Windows x86?||Affects other platforms?||
 ||[ticket:781 #781 GHCi on x86_64, cannot link to static data in shared libs]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
 ||[ticket:1883 #1883 GHC can't find library using "short" name]||no||no||no||no||'''YES'''||'''YES'''||no||
