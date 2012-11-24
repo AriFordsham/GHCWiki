@@ -2,110 +2,131 @@
 
 
 Currently, some people use the 32bit version of GHC on OS X for performance reasons. Full nofib results comparing the two are
-[ here](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-base.html), but the highlights for x86 -\> x86_64 are
+[ here for static by default](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-base.html), and
+[ here for dynamic by default](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html), but the highlights are:
 
-```wiki
-Binary Sizes
--1 s.d.	-----	+38.0%
-+1 s.d.	-----	+38.6%
-Average	-----	+38.3%
-
-Allocations
--1 s.d.	-----	+63.2%
-+1 s.d.	-----	+114.4%
-Average	-----	+87.0%
-
-Run Time
--1 s.d.	-----	-23.5%
-+1 s.d.	-----	+36.1%
-Average	-----	+2.1%
-
-Elapsed Time
--1 s.d.	-----	-18.2%
-+1 s.d.	-----	+40.1%
-Average	-----	+7.0%
-
-Mutator Time
--1 s.d.	-----	-32.4%
-+1 s.d.	-----	+20.1%
-Average	-----	-9.9%
-
-Mutator Elapsed Time
--1 s.d.	-----	-28.7%
-+1 s.d.	-----	+22.5%
-Average	-----	-6.6%
-
-GC Time
--1 s.d.	-----	+4.5%
-+1 s.d.	-----	+74.8%
-Average	-----	+35.2%
-
-GC Elapsed Time
--1 s.d.	-----	+7.9%
-+1 s.d.	-----	+75.1%
-Average	-----	+37.4%
-
-Total Memory in use
--1 s.d.	-----	-1.7%
-+1 s.d.	-----	+88.9%
-Average	-----	+36.3%
-
-Compile Times
--1 s.d.	-----	+11.9%
-+1 s.d.	-----	+21.1%
-Average	-----	+16.4%
-```
-
-[ http://lambda.haskell.org/\~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html)
-
-```wiki
-Binary Sizes
--1 s.d.	-----	+7.4%
-+1 s.d.	-----	+30.6%
-Average	-----	+18.5%
-
-Allocations
--1 s.d.	-----	+63.2%
-+1 s.d.	-----	+114.4%
-Average	-----	+87.0%
-
-Run Time
--1 s.d.	-----	-31.6%
-+1 s.d.	-----	+14.7%
-Average	-----	-11.4%
-
-Elapsed Time
--1 s.d.	-----	-30.0%
-+1 s.d.	-----	+17.0%
-Average	-----	-9.5%
-
-Mutator Time
--1 s.d.	-----	-38.8%
-+1 s.d.	-----	+3.0%
-Average	-----	-20.6%
-
-Mutator Elapsed Time
--1 s.d.	-----	-37.9%
-+1 s.d.	-----	+4.4%
-Average	-----	-19.5%
-
-GC Time
--1 s.d.	-----	-11.9%
-+1 s.d.	-----	+54.1%
-Average	-----	+16.5%
-
-GC Elapsed Time
--1 s.d.	-----	-8.0%
-+1 s.d.	-----	+56.7%
-Average	-----	+20.0%
-
-Total Memory in use
--1 s.d.	-----	-1.9%
-+1 s.d.	-----	+88.9%
-Average	-----	+36.1%
-
-Compile Times
--1 s.d.	-----	-8.9%
-+1 s.d.	-----	+2.9%
-Average	-----	-3.1%
-```
+<table><tr><th></th>
+<th>x86 -\> x86_64
+when static by default</th>
+<th>x86 -\> x86_64
+when dynamic by default</th></tr>
+<tr><th>Binary Sizes</th>
+<th></th>
+<th></th></tr>
+<tr><th>-1 s.d.</th>
+<th>+38.0%</th>
+<th>+7.4%</th></tr>
+<tr><th>+1 s.d.</th>
+<th>+38.6%</th>
+<th>+30.6%</th></tr>
+<tr><th>Average</th>
+<th>+38.3%</th>
+<th>+18.5%</th></tr>
+<tr><th>Allocations</th>
+<th></th>
+<th></th></tr>
+<tr><th>-1 s.d.</th>
+<th>+63.2%</th>
+<th>+63.2%</th></tr>
+<tr><th>+1 s.d.</th>
+<th>+114.4%</th>
+<th>+114.4%</th></tr>
+<tr><th>Average</th>
+<th>+87.0%</th>
+<th>+87.0%</th></tr>
+<tr><th>Run Time</th>
+<th></th>
+<th></th></tr>
+<tr><th>-1 s.d.</th>
+<th>-23.5%</th>
+<th>-31.6%</th></tr>
+<tr><th>+1 s.d.</th>
+<th>+36.1%</th>
+<th>+14.7%</th></tr>
+<tr><th>Average</th>
+<th>+2.1%</th>
+<th>-11.4%</th></tr>
+<tr><th>Elapsed Time</th>
+<th></th>
+<th></th></tr>
+<tr><th>-1 s.d.</th>
+<th>-18.2%</th>
+<th>-30.0%</th></tr>
+<tr><th>+1 s.d.</th>
+<th>+40.1%</th>
+<th>+17.0%</th></tr>
+<tr><th>Average</th>
+<th>+7.0%</th>
+<th>-9.5%</th></tr>
+<tr><th>Mutator Time</th>
+<th></th>
+<th></th></tr>
+<tr><th>-1 s.d.</th>
+<th>-32.4%</th>
+<th>-38.8%</th></tr>
+<tr><th>+1 s.d.</th>
+<th>+20.1%</th>
+<th>+3.0%</th></tr>
+<tr><th>Average</th>
+<th>-9.9%</th>
+<th>-20.6%</th></tr>
+<tr><th>Mutator Elapsed Time</th>
+<th></th>
+<th></th></tr>
+<tr><th>-1 s.d.</th>
+<th>-28.7%</th>
+<th>-37.9%</th></tr>
+<tr><th>+1 s.d.</th>
+<th>+22.5%</th>
+<th>+4.4%</th></tr>
+<tr><th>Average</th>
+<th>-6.6%</th>
+<th>-19.5%</th></tr>
+<tr><th>GC Time</th>
+<th></th>
+<th></th></tr>
+<tr><th>-1 s.d.</th>
+<th>+4.5%</th>
+<th>-11.9%</th></tr>
+<tr><th>+1 s.d.</th>
+<th>+74.8%</th>
+<th>+54.1%</th></tr>
+<tr><th>Average</th>
+<th>+35.2%</th>
+<th>+16.5%</th></tr>
+<tr><th>GC Elapsed Time</th>
+<th></th>
+<th></th></tr>
+<tr><th>-1 s.d.</th>
+<th>+7.9%</th>
+<th>-8.0%</th></tr>
+<tr><th>+1 s.d.</th>
+<th>+75.1%</th>
+<th>+56.7%</th></tr>
+<tr><th>Average</th>
+<th>+37.4%</th>
+<th>+20.0%</th></tr>
+<tr><th>Total Memory in use</th>
+<th></th>
+<th></th></tr>
+<tr><th>-1 s.d.</th>
+<th>-1.7%</th>
+<th>-1.9%</th></tr>
+<tr><th>+1 s.d.</th>
+<th>+88.9%</th>
+<th>+88.9%</th></tr>
+<tr><th>Average</th>
+<th>+36.3%</th>
+<th>+36.1%</th></tr>
+<tr><th>Compile Times</th>
+<th></th>
+<th></th></tr>
+<tr><th>-1 s.d.</th>
+<th>+11.9%</th>
+<th>-8.9%</th></tr>
+<tr><th>+1 s.d.</th>
+<th>+21.1%</th>
+<th>+2.9%</th></tr>
+<tr><th>Average</th>
+<th>+16.4%</th>
+<th>-3.1%</th></tr></table>
