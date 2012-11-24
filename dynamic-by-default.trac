@@ -40,7 +40,7 @@ http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86.html
 <tr><td>Average</td><td style="color: red">+0.2%</td><td style="color: red">+15.8%</td><td style="color: red">+3.3%</td><td style="color: red">+27.9%</td></tr>
 
 <tr><td colspan="5" style="font-weight: bold;">Elapsed Time</td></tr>
-<tr><td>-1 s.d.</td><td>-6.9%</td><+10.3%/td><td>-2.5%</td><td>+16.6%</td></tr>
+<tr><td>-1 s.d.</td><td>-6.9%</td><td>+10.3%/td><td>-2.5%</td><td>+16.6%</td></tr>
 <tr><td>+1 s.d.</td><td>-0.3%</td><td>+20.4%</td><td>+9.6%</td><td>+40.3%</td></tr>
 <tr><td>Average</td><td style="color: green">-3.7%</td><td style="color: red">+15.2%</td><td style="color: red">+3.3%</td><td style="color: red">+27.9%</td></tr>
 
