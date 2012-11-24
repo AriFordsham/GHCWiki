@@ -137,13 +137,13 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no
 </th></tr>
 <tr><th>[\#7072 GHC interpreter does not find stat64 symbol on Linux](https://gitlab.haskell.org//ghc/ghc/issues/7072)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<th>no</th>
+<th>no</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
 </th></tr>
 <tr><th>[\#7097 linker fails to load package with binding to foreign library](https://gitlab.haskell.org//ghc/ghc/issues/7097)</th>
 <th>no</th>
