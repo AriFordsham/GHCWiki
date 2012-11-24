@@ -1,22 +1,28 @@
+# Dynamic by default
 
-OS X 64bit
-
-[ http://lambda.haskell.org/\~igloo/dynamic-by-default/nofib-osx-x86_64.html](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86_64.html)
-
-
-OS X 32bit
-
-[ http://lambda.haskell.org/\~igloo/dynamic-by-default/nofib-osx-x86.html](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86.html)
+## Performance
 
 
-Linux 64bit
+Full nofib results showing the effect of switching to dynamic-by-default are available for 
+[ OS X 64bit](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86_64.html),
+[ OS X 32bit](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86.html),
+[ Linux 64bit](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86_64.html) and
+[ Linux 32bit](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86.html). There is also a table of the highlights below. In summary:
 
-[ http://lambda.haskell.org/\~igloo/dynamic-by-default/nofib-linux-x86_64.html](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86_64.html)
+
+Binary sizes are way down across the board, as we are now dynamically linking to the libraries.
 
 
-Linux 32bit
+Things are rosiest on OS X 64bit. On this platform, `-fPIC` is always on, so using dynamic libraries doesn't mean giving up a register for PIC. Overall, performance is a few percent *better* with dynamic by default.
 
-[ http://lambda.haskell.org/\~igloo/dynamic-by-default/nofib-linux-x86.html](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86.html)
+
+On OS X 32bit, the situation is not so nice. On x86 we are very short on registers, and giving up another for PIC means we end up around 15% down on performance.
+
+
+On Linux 64bit we have more registers, so the effect of giving one up for PIC isn't so pronounced, but we still lose a few percent performance overall.
+
+
+For unknown reasons, 32bit Linux suffers even worse than 32bit OS X, with around a 30% performance penalty.
 
 <table><tr><th></th>
 <th>static -\> dynamic
