@@ -4,35 +4,35 @@
 
 
 Full nofib results showing the effect of switching to dynamic-by-default are available for 
-[ OS X 64bit](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86_64.html),
-[ OS X 32bit](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86.html),
-[ Linux 64bit](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86_64.html) and
-[ Linux 32bit](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86.html). There is also a table of the highlights below. In summary:
+[ OS X x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86_64.html),
+[ OS X x86](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86.html),
+[ Linux x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86_64.html) and
+[ Linux x86](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86.html). There is also a table of the highlights below. In summary:
 
 
 Binary sizes are way down across the board, as we are now dynamically linking to the libraries.
 
 
-Things are rosiest on OS X 64bit. On this platform, `-fPIC` is always on, so using dynamic libraries doesn't mean giving up a register for PIC. Overall, performance is a few percent *better* with dynamic by default.
+Things are rosiest on OS X x86_64. On this platform, `-fPIC` is always on, so using dynamic libraries doesn't mean giving up a register for PIC. Overall, performance is a few percent *better* with dynamic by default.
 
 
-On OS X 32bit, the situation is not so nice. On x86 we are very short on registers, and giving up another for PIC means we end up around 15% down on performance.
+On OS X x86, the situation is not so nice. On x86 we are very short on registers, and giving up another for PIC means we end up around 15% down on performance.
 
 
-On Linux 64bit we have more registers, so the effect of giving one up for PIC isn't so pronounced, but we still lose a few percent performance overall.
+On Linux x86_64 we have more registers, so the effect of giving one up for PIC isn't so pronounced, but we still lose a few percent performance overall.
 
 
-For unknown reasons, 32bit Linux suffers even worse than 32bit OS X, with around a 30% performance penalty.
+For unknown reasons, x86 Linux suffers even worse than x86 OS X, with around a 30% performance penalty.
 
 <table><tr><th></th>
 <th>static -\> dynamic
-on OS X 64bit</th>
+on OS X x86_64</th>
 <th>static -\> dynamic
-on OS X 32bit</th>
+on OS X x86</th>
 <th>static -\> dynamic
-on Linux 64bit</th>
+on Linux x86_64</th>
 <th>static -\> dynamic
-on Linux 32bit</th></tr>
+on Linux x86</th></tr>
 <tr><th>Binary Sizes</th>
 <th></th>
 <th></th>
@@ -194,10 +194,10 @@ on Linux 32bit</th></tr>
 <th>+2.9%</th>
 <th>+32.3%</th></tr></table>
 
-## OS X 32bit vs 64bit
+## OS X x86 vs x86_64
 
 
-Currently, some people use the 32bit version of GHC on OS X for performance reasons. It's not clear for how much longer this will be viable, as other OS X libraries start dropping 32bit support.
+Currently, some people use the x86 version of GHC on OS X for performance reasons. It's not clear for how much longer this will be viable, as other OS X libraries start dropping x86 support.
 
 
 Full nofib results comparing the two are
@@ -205,10 +205,10 @@ Full nofib results comparing the two are
 [ here for dynamic by default](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html), but the highlights are in the table below.
 
 
-The left-hand column shows the status quo: 64bit only beats 32bit in mutator time, and that is a shallow victory as the higher GC time means that total runtime is worse for 64bit.
+The left-hand column shows the status quo: x86_64 only beats x86 in mutator time, and that is a shallow victory as the higher GC time means that total runtime is worse for x86_64.
 
 
-The right-hand column shows what the situation would be if we switch to dynamic instead. Allocations, memory use etc remain higher due to all word-sized things being twice as big. However, the speed difference moves in 64bit's favour, and 64bit is now faster overall.
+The right-hand column shows what the situation would be if we switch to dynamic instead. Allocations, memory use etc remain higher due to all word-sized things being twice as big. However, the combination of x86_64's performance improving, and x86's performance getting worse, means that x86_64 is now faster overall.
 
 <table><tr><th></th>
 <th>x86 -\> x86_64
