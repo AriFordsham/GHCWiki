@@ -1,289 +1,191 @@
-## OS X 64bit
+
+OS X 64bit
 
 [ http://lambda.haskell.org/\~igloo/dynamic-by-default/nofib-osx-x86_64.html](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86_64.html)
 
-<table><tr><th></th>
-<th>static -\> dynamic
-on OS X 64bit</th></tr>
-<tr><th>Binary Sizes</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-95.8%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>-93.1%</th></tr>
-<tr><th>Average</th>
-<th>-94.6%</th></tr>
-<tr><th>Run Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-1.2%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+1.6%</th></tr>
-<tr><th>Average</th>
-<th>+0.2%</th></tr>
-<tr><th>Elapsed Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-6.9%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>-0.3%</th></tr>
-<tr><th>Average</th>
-<th>-3.7%</th></tr>
-<tr><th>Mutator Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-1.3%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+1.9%</th></tr>
-<tr><th>Average</th>
-<th>+0.3%</th></tr>
-<tr><th>Mutator Elapsed Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-4.5%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+0.3%</th></tr>
-<tr><th>Average</th>
-<th>-2.1%</th></tr>
-<tr><th>GC Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-1.4%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+1.8%</th></tr>
-<tr><th>Average</th>
-<th>+0.2%</th></tr>
-<tr><th>GC Elapsed Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-1.5%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+1.3%</th></tr>
-<tr><th>Average</th>
-<th>-0.1%</th></tr>
-<tr><th>Compile Times</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-11.7%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>-0.5%</th></tr>
-<tr><th>Average</th>
-<th>-6.3%</th></tr></table>
 
-## OS X 32bit
+OS X 32bit
 
 [ http://lambda.haskell.org/\~igloo/dynamic-by-default/nofib-osx-x86.html](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86.html)
 
-<table><tr><th></th>
-<th>static -\> dynamic
-on OS X 32bit</th></tr>
-<tr><th>Binary Sizes</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-95.8%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>-92.8%</th></tr>
-<tr><th>Average</th>
-<th>-94.5%</th></tr>
-<tr><th>Run Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>+11.7%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+20.0%</th></tr>
-<tr><th>Average</th>
-<th>+15.8%</th></tr>
-<tr><th>Elapsed Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>\<+10.3%/td\></th></tr>
-<tr><th>+1 s.d.</th>
-<th>+20.4%</th></tr>
-<tr><th>Average</th>
-<th>+15.2%</th></tr>
-<tr><th>Mutator Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>+8.9%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+18.3%</th></tr>
-<tr><th>Average</th>
-<th>+13.5%</th></tr>
-<tr><th>Mutator Elapsed Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>+7.7%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+18.8%</th></tr>
-<tr><th>Average</th>
-<th>+13.1%</th></tr>
-<tr><th>GC Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>+16.3%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+27.1%</th></tr>
-<tr><th>Average</th>
-<th>+21.6%</th></tr>
-<tr><th>GC Elapsed Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>+15.8%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+25.6%</th></tr>
-<tr><th>Average</th>
-<th>+20.6%</th></tr>
-<tr><th>Compile Times</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>+6.2%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+18.2%</th></tr>
-<tr><th>Average</th>
-<th>+12.1%</th></tr></table>
 
-## Linux 64bit
+Linux 64bit
 
 [ http://lambda.haskell.org/\~igloo/dynamic-by-default/nofib-linux-x86_64.html](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86_64.html)
 
-<table><tr><th></th>
-<th>static -\> dynamic
-on Linux 64bit</th></tr>
-<tr><th>Binary Sizes</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-95.8%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>-92.6%</th></tr>
-<tr><th>Average</th>
-<th>-94.5%</th></tr>
-<tr><th>Run Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-2.5%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+9.6%</th></tr>
-<tr><th>Average</th>
-<th>+3.3%</th></tr>
-<tr><th>Elapsed Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-2.5%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+9.6%</th></tr>
-<tr><th>Average</th>
-<th>+3.3%</th></tr>
-<tr><th>Mutator Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-5.0%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+7.5%</th></tr>
-<tr><th>Average</th>
-<th>+1.1%</th></tr>
-<tr><th>Mutator Elapsed Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-5.0%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+7.5%</th></tr>
-<tr><th>Average</th>
-<th>+1.1%</th></tr>
-<tr><th>GC Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>+5.6%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+11.2%</th></tr>
-<tr><th>Average</th>
-<th>+8.4%</th></tr>
-<tr><th>GC Elapsed Time</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>+5.6%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+11.2%</th></tr>
-<tr><th>Average</th>
-<th>+8.4%</th></tr>
-<tr><th>Compile Times</th>
-<th></th></tr>
-<tr><th>-1 s.d.</th>
-<th>-1.8%</th></tr>
-<tr><th>+1 s.d.</th>
-<th>+7.8%</th></tr>
-<tr><th>Average</th>
-<th>+2.9%</th></tr></table>
 
-## Linux 32bit
+Linux 32bit
 
 [ http://lambda.haskell.org/\~igloo/dynamic-by-default/nofib-linux-x86.html](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86.html)
 
 <table><tr><th></th>
 <th>static -\> dynamic
+on OS X 64bit</th>
+<th>static -\> dynamic
+on OS X 32bit</th>
+<th>static -\> dynamic
+on Linux 64bit</th>
+<th>static -\> dynamic
 on Linux 32bit</th></tr>
 <tr><th>Binary Sizes</th>
+<th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>-1 s.d.</th>
+<th>-95.8%</th>
+<th>-95.8%</th>
+<th>-95.8%</th>
 <th>-95.9%</th></tr>
 <tr><th>+1 s.d.</th>
+<th>-93.1%</th>
+<th>-92.8%</th>
+<th>-92.6%</th>
 <th>-92.4%</th></tr>
 <tr><th>Average</th>
+<th>-94.6%</th>
+<th>-94.5%</th>
+<th>-94.5%</th>
 <th>-94.4%</th></tr>
 <tr><th>Run Time</th>
+<th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>-1 s.d.</th>
+<th>-1.2%</th>
+<th>+11.7%</th>
+<th>-2.5%</th>
 <th>+16.6%</th></tr>
 <tr><th>+1 s.d.</th>
+<th>+1.6%</th>
+<th>+20.0%</th>
+<th>+9.6%</th>
 <th>+40.3%</th></tr>
 <tr><th>Average</th>
+<th>+0.2%</th>
+<th>+15.8%</th>
+<th>+3.3%</th>
 <th>+27.9%</th></tr>
 <tr><th>Elapsed Time</th>
+<th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>-1 s.d.</th>
+<th>-6.9%</th>
+<td>\<+10.3%/td\></td>
+<th>-2.5%</th>
 <th>+16.6%</th></tr>
 <tr><th>+1 s.d.</th>
+<th>-0.3%</th>
+<th>+20.4%</th>
+<th>+9.6%</th>
 <th>+40.3%</th></tr>
 <tr><th>Average</th>
+<th>-3.7%</th>
+<th>+15.2%</th>
+<th>+3.3%</th>
 <th>+27.9%</th></tr>
 <tr><th>Mutator Time</th>
+<th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>-1 s.d.</th>
+<th>-1.3%</th>
+<th>+8.9%</th>
+<th>-5.0%</th>
 <th>+18.3%</th></tr>
 <tr><th>+1 s.d.</th>
+<th>+1.9%</th>
+<th>+18.3%</th>
+<th>+7.5%</th>
 <th>+46.8%</th></tr>
 <tr><th>Average</th>
+<th>+0.3%</th>
+<th>+13.5%</th>
+<th>+1.1%</th>
 <th>+31.8%</th></tr>
 <tr><th>Mutator Elapsed Time</th>
+<th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>-1 s.d.</th>
+<th>-4.5%</th>
+<th>+7.7%</th>
+<th>-5.0%</th>
 <th>+18.3%</th></tr>
 <tr><th>+1 s.d.</th>
+<th>+0.3%</th>
+<th>+18.8%</th>
+<th>+7.5%</th>
 <th>+46.8%</th></tr>
 <tr><th>Average</th>
+<th>-2.1%</th>
+<th>+13.1%</th>
+<th>+1.1%</th>
 <th>+31.8%</th></tr>
 <tr><th>GC Time</th>
+<th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>-1 s.d.</th>
+<th>-1.4%</th>
+<th>+16.3%</th>
+<th>+5.6%</th>
 <th>+13.4%</th></tr>
 <tr><th>+1 s.d.</th>
+<th>+1.8%</th>
+<th>+27.1%</th>
+<th>+11.2%</th>
 <th>+24.0%</th></tr>
 <tr><th>Average</th>
+<th>+0.2%</th>
+<th>+21.6%</th>
+<th>+8.4%</th>
 <th>+18.6%</th></tr>
 <tr><th>GC Elapsed Time</th>
+<th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>-1 s.d.</th>
+<th>-1.5%</th>
+<th>+15.8%</th>
+<th>+5.6%</th>
 <th>+13.4%</th></tr>
 <tr><th>+1 s.d.</th>
+<th>+1.3%</th>
+<th>+25.6%</th>
+<th>+11.2%</th>
 <th>+24.0%</th></tr>
 <tr><th>Average</th>
+<th>-0.1%</th>
+<th>+20.6%</th>
+<th>+8.4%</th>
 <th>+18.6%</th></tr>
 <tr><th>Compile Times</th>
+<th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>-1 s.d.</th>
+<th>-11.7%</th>
+<th>+6.2%</th>
+<th>-1.8%</th>
 <th>+27.0%</th></tr>
 <tr><th>+1 s.d.</th>
+<th>-0.5%</th>
+<th>+18.2%</th>
+<th>+7.8%</th>
 <th>+37.8%</th></tr>
 <tr><th>Average</th>
+<th>-6.3%</th>
+<th>+12.1%</th>
+<th>+2.9%</th>
 <th>+32.3%</th></tr></table>
 
 ## OS X 32bit vs 64bit
