@@ -174,22 +174,22 @@
 <th>no
 </th></tr>
 <tr><th>[\#7299 threadDelay broken in ghci, Mac OS X](https://gitlab.haskell.org//ghc/ghc/issues/7299)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<th>**YES**</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
 </th></tr>
 <tr><th>[\#7357 GHC.exe gives an internal error while linking vector's Monadic.hs](https://gitlab.haskell.org//ghc/ghc/issues/7357)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no
 </th></tr></table>
 
 ## Performance

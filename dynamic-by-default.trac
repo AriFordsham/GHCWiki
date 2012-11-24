@@ -22,8 +22,8 @@
 ||[ticket:7103 #7103 Compiler panic, when loading wxc in GHCi]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
 ||[ticket:7134 #7134 ghc-7.6.0.20120810-x86_64-windows.exe -> internal error R_X86_64_PC32]||no||no||no||no||'''YES'''||no||no||
 ||[ticket:7207 #7207 linker fails to load package with binding to foreign library (win64)]||no||no||no||no||'''YES'''||no||no||
-||[ticket:7299 #7299 threadDelay broken in ghci, Mac OS X]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
-||[ticket:7357 #7357 GHC.exe gives an internal error while linking vector's Monadic.hs]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
+||[ticket:7299 #7299 threadDelay broken in ghci, Mac OS X]||'''YES'''||'''YES'''||no||no||no||no||no||
+||[ticket:7357 #7357 GHC.exe gives an internal error while linking vector's Monadic.hs]||no||no||no||no||'''YES'''||no||no||
 
 == Performance ==
 
