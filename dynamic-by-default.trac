@@ -1,0 +1,58 @@
+
+== OS X 32bit vs 64bit ==
+
+Currently, some people use the 32bit version of GHC on OS X for performance reasons. Full nofib results comparing the two are
+[http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-base.html here], but the highlights for x86 -> x86_64 are
+{{{
+Binary Sizes
+-1 s.d.	-----	+38.0%
++1 s.d.	-----	+38.6%
+Average	-----	+38.3%
+
+Allocations
+-1 s.d.	-----	+63.2%
++1 s.d.	-----	+114.4%
+Average	-----	+87.0%
+
+Run Time
+-1 s.d.	-----	-23.5%
++1 s.d.	-----	+36.1%
+Average	-----	+2.1%
+
+Elapsed Time
+-1 s.d.	-----	-18.2%
++1 s.d.	-----	+40.1%
+Average	-----	+7.0%
+
+Mutator Time
+-1 s.d.	-----	-32.4%
++1 s.d.	-----	+20.1%
+Average	-----	-9.9%
+
+Mutator Elapsed Time
+-1 s.d.	-----	-28.7%
++1 s.d.	-----	+22.5%
+Average	-----	-6.6%
+
+GC Time
+-1 s.d.	-----	+4.5%
++1 s.d.	-----	+74.8%
+Average	-----	+35.2%
+
+GC Elapsed Time
+-1 s.d.	-----	+7.9%
++1 s.d.	-----	+75.1%
+Average	-----	+37.4%
+
+Total Memory in use
+-1 s.d.	-----	-1.7%
++1 s.d.	-----	+88.9%
+Average	-----	+36.3%
+
+Compile Times
+-1 s.d.	-----	+11.9%
++1 s.d.	-----	+21.1%
+Average	-----	+16.4%
+}}}
+
+http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html
