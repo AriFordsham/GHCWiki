@@ -5,10 +5,9 @@
 
 ||Ticket||Affects OS X x86_64?||Affects OS X x86?||Affects Linux x86_64?||Affects Linux x86?||Affects Windows x86_64?||Affects Windows x86?||Affects other platforms?||
 ||[ticket:781 #781 GHCi on x86_64, cannot link to static data in shared libs]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
-||[ticket:1883 #1883 GHC can't find library using "short" name]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
-||[ticket:2283 #2283 WIndows: loading objects that refer to DLL symbols]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
-||[ticket:3242 #3242 ghci: can't load .so/.DLL for: m (addDLL: could not load DLL)]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
-||[ticket:3372 #3372 Allow for multiple linker instances]||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||Unknown||
+||[ticket:1883 #1883 GHC can't find library using "short" name]||no||no||no||no||'''YES'''||'''YES'''||no||
+||[ticket:2283 #2283 WIndows: loading objects that refer to DLL symbols]||no||no||no||no||'''YES'''||'''YES'''||no||
+||[ticket:3242 #3242 ghci: can't load .so/.DLL for: m (addDLL: could not load DLL)]||no||no||no||no||'''YES'''||'''YES'''||no||
 ||[ticket:3654 #3654 Mach-O GHCi linker lacks support for a range of relocation entries]||'''YES'''||'''YES'''||no||no||no||no||no||
 ||[ticket:4244 #4244 Use system linker in GHCi to support alpha, ia64, ppc64]||no||no||no||no||no||no||'''YES'''||
 ||[ticket:5062 #5062 Patch: Debug output for OS X linker and coding standard upgrades]||'''YES'''||'''YES'''||no||no||no||no||no||

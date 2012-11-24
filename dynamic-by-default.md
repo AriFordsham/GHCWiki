@@ -21,40 +21,31 @@
 <th>Unknown
 </th></tr>
 <tr><th>[\#1883 GHC can't find library using "short" name](https://gitlab.haskell.org//ghc/ghc/issues/1883)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>no
 </th></tr>
 <tr><th>[\#2283 WIndows: loading objects that refer to DLL symbols](https://gitlab.haskell.org//ghc/ghc/issues/2283)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>no
 </th></tr>
 <tr><th>[\#3242 ghci: can't load .so/.DLL for: m (addDLL: could not load DLL)](https://gitlab.haskell.org//ghc/ghc/issues/3242)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
-</th></tr>
-<tr><th>[\#3372 Allow for multiple linker instances](https://gitlab.haskell.org//ghc/ghc/issues/3372)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>no
 </th></tr>
 <tr><th>[\#3654 Mach-O GHCi linker lacks support for a range of relocation entries](https://gitlab.haskell.org//ghc/ghc/issues/3654)</th>
 <th>**YES**</th>
