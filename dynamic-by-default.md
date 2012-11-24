@@ -33,20 +33,20 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>Affects other platforms?
 </th></tr>
 <tr><th>[\#781 GHCi on x86_64, cannot link to static data in shared libs](https://gitlab.haskell.org//ghc/ghc/issues/781)</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown</th>
-<th>Unknown
+<th>no</th>
+<th>no</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
 </th></tr>
 <tr><th>[\#1883 GHC can't find library using "short" name](https://gitlab.haskell.org//ghc/ghc/issues/1883)</th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
-<th>**YES**</th>
+<th>**probably**</th>
 <th>**YES**</th>
 <th>no
 </th></tr>
@@ -55,7 +55,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no</th>
 <th>no</th>
 <th>no</th>
-<th>**YES**</th>
+<th>**probably**</th>
 <th>**YES**</th>
 <th>no
 </th></tr>
@@ -64,7 +64,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no</th>
 <th>no</th>
 <th>no</th>
-<th>**YES**</th>
+<th>**probably**</th>
 <th>**YES**</th>
 <th>no
 </th></tr>
