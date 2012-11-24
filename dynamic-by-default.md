@@ -74,9 +74,9 @@ on Linux 32bit</th></tr>
 <th></th></tr>
 <tr><th>-1 s.d.</th>
 <th>-6.9%</th>
-<th>+10.3%/td\>-2.5%+16.6%</th>
-<th></th>
-<th></th></tr>
+<th>+10.3%</th>
+<th>-2.5%</th>
+<th>+16.6%</th></tr>
 <tr><th>+1 s.d.</th>
 <th>-0.3%</th>
 <th>+20.4%</th>
