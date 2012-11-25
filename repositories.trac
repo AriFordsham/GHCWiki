@@ -63,7 +63,7 @@ Things are a bit more complicated when the master repo is in Darcs.  For example
 <table border="2">
 <tr><td colspan="2">darcs</td><td colspan="4">git</td><td></td></tr>
 <tr><td>darcs upstream</td><td>darcs mirror</td><td>git upstream</td><td>git mirror</td><td>ghc (validated) repo</td><td>in-tree</td><td></td></tr>
-<tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/ghc.git/</td><td>.</td><td rowspan="33">ghc</td></tr>
+<tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/ghc.git/</td><td>.</td><td rowspan="34">ghc</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/ghc-tarballs.git/</td><td>ghc-tarballs</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/utils/hsc2hs.git/</td><td>utils/hsc2hs</td></tr>
 <tr><td></td><td></td><td></td><td></td><td style="color: green;">http://darcs.haskell.org/haddock.git</td><td>utils/haddock</td></tr>
