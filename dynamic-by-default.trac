@@ -236,3 +236,5 @@ For 5 and 6, we will first have to get it working. Windows already uses differen
 For 7, this makes the difference between being able to use ghci and not being able to use ghci, and performance is already compromised for unregisterised platforms. Therefore this looks like a definite yes.
 
 For 8, this is a trade-off between the convenience of always having static libraries available (which may be important for people for whom performance is critical), and doubling the time needed to install extra libraries. On balance, we'd suggest that the answer should be no. If we go for yes, then we'd probably want a little extra intelligence in cabal, which checks that e.g. there is a static version of base installed before trying to install the static way, as development compilers in particular may only be built with the dynamic libraries available.
+
+For 9, we'd suggest that `-prof` should use dynamic libraries, but it should also still be possible to use static libraries if also using the `-static` flag.
