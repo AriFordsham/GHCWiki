@@ -201,7 +201,17 @@ It would still be possible to compile programs using the "static way" by giving 
 
 == Other issues ==
 
+=== Cabal support ===
+
 Currently released versions of Cabal/cabal-install don't handle dynamic-by-default GHCs well, as they don't pass the `-static` flag when building for static ways (as they assume that it is enabled by default). We should get fixed versions out as soon as possible (#7439).
+
+=== Profiling ===
+
+Should we support both static and dynamic profiling ways? If not, which?
+
+If we support both, it would be a little odd if `ghc -prof` used the static profiling libraries. Presumably `ghc -prof -dynamic` would use dynamic profiling libraries, but what about `ghc -dynamic -prof`? So if we support both then you would presumably need to say `ghc -static -prof` to use the static ones.
+
+Currently Cabal has separate `--enable-library-profiling` and `--enable-shared` flags, but we don't have a way to distinguish static-profiling from dynamic-profiling. If we want to support both then we'll need to add a Cabal flag for it.
 
 == Questions ==
 
@@ -215,6 +225,7 @@ In summary, we need to answer the following questions:
  6. Should we enable dynamic by default on Windows x86?
  7. Should we enable dynamic by default on other platforms?
  8. For platforms using dynamic by default, should Cabal also install static libraries by default?
+ 9. Should `ghc -prof` use dynamic or static libraries when dynamic by default?
 
 For 1 and 3, the performance impact appears negligible (or perhaps even negative) and some bugs will be fixed, so we would suggest that the answer should be yes.
 
