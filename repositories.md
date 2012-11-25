@@ -43,28 +43,10 @@ This means that when making changes needed in GHC to one of these libraries, we 
 
 The mirrors are updated automatically each night, but you can force an immediate update by running `/srv/darcs/do_mirrors` on `darcs.haskell.org`.
 
-## When the master repo is in Git
+## Making changes to repositories
 
 
-If the master (upstream) repo is in Git (eg `containers`), you can use the following workflow:
-
-1. Push the change to the upstream repo `//github.com/haskell/containers.git`
-1. Push the change to the validated GHC repo for `containers`, namely `darcs.haskell.org:/srv/darcs/packages/containers.git`.
-
-
-In other words, you don't need to interact with the git mirror on `darcs.haskell.org`. It is *only* there so that in step (2), the push script can check that the patch you are pushing is in the mirror, thereby ensuring that we always lag the master repo.  (For some reason this is hard to do directly on the master.)
-
-
-Note step 2 will fail until the mirror has been updated.
-
-## When the master repo is in Darcs
-
-
-Things are a bit more complicated when the master repo is in Darcs.  For example, to make a change to bytestring:
-
-1. First push the change as a darcs patch to the upstream bytestring repository, [ http://darcs.haskell.org/bytestring/](http://darcs.haskell.org/bytestring/)
-1. The patch will be mirrored and converted to git by the mirror script, in the repo [ http://darcs.haskell.org/git-mirrors/bytestring/.git/](http://darcs.haskell.org/git-mirrors/bytestring/.git/)
-1. You then need to pull from [ http://darcs.haskell.org/git-mirrors/bytestring/.git/](http://darcs.haskell.org/git-mirrors/bytestring/.git/) into `libraries/bytestring` in a regular GHC tree, validate, and push to the GHC bytestring repo, `darcs.haskell.org:/srv/darcs/packages/bytestring.git`.
+See [WorkingConventions/Repositories](working-conventions/repositories).
 
 ## Repository locations
 
