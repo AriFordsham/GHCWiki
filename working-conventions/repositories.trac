@@ -40,7 +40,7 @@ When making a change to a library, you must also update the version
 number if appropriate. Version number in the repositories should be
 maintained such that, if the library were to be release as-is, then
 they would have the correct version number. For example, if the last
-release of a library was 1.2.0.3 and you remove a functino from it
+release of a library was 1.2.0.3 and you remove a function from it
 then, as per the
 [http://www.haskell.org/haskellwiki/Package_versioning_policy Package versioning policy],
 the version number should be bumped to 1.3.0.0. If it is already
