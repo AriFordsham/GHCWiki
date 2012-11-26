@@ -30,6 +30,11 @@ The "`tag`" in the master table in packages has the following significance:
 - **"`dph`"**: packages for [Data Parallel Haskell](data-parallel), which is not shipped with GHC but we test all changes to GHC against these repositories so they are usually included in a checked-out source tree.
 - **"`extra`"**: extra packages you might want to include in a build (the `parallel` package, for example), but aren't necessary to get a working GHC.
 
+## Making changes to repositories
+
+
+See [WorkingConventions/Repositories](working-conventions/repositories).
+
 ## Repository and mirrors
 
 
@@ -42,11 +47,6 @@ This means that when making changes needed in GHC to one of these libraries, we 
 
 
 The mirrors are updated automatically each night, but you can force an immediate update by running `/srv/darcs/do_mirrors` on `darcs.haskell.org`.
-
-## Making changes to repositories
-
-
-See [WorkingConventions/Repositories](working-conventions/repositories).
 
 ## Repository locations
 
