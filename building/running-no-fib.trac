@@ -52,8 +52,8 @@ you'll need to get hold of Cachegrind, which is part of
 
 {{{
 cd nofib
-make clean && make boot && make -k >& log1
-make clean && make boot && make -k EXTRA_HC_OPTS=-fenable-cool-optimisation >& log2
+make clean && make boot && make -k 2>&1 | tee log1
+make clean && make boot && make -k EXTRA_HC_OPTS=-fenable-cool-optimisation 2>&1 | tee log2
 nofib-analyse/nofib-analyse log1 log2
 }}}
 
