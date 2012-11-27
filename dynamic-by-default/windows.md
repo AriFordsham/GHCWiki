@@ -29,3 +29,11 @@ An improvement on the C stub options is to use windres to embed the DLL into the
 
 
 Windows doesn't support that, but there is code to do so [ here](http://www.joachim-bauch.de/tutorials/loading-a-dll-from-memory/). Downsides are that it is MPLed (to check: is that a problem?), it involves replicating some of the system linker (but not as bad as the current GHCi linker). It is also untested, so we are not 100% sure that it will work.
+
+## Delay loading
+
+
+Another possibility is delay loading. This only links a DLL when a function from it is actually called, which means that the main function is called before the DLLs are loaded. The main function therefore has an opportunity to call `AddDllDirectory` first.
+
+
+However, we have problems when we try to do things like (I think) getting the info table of a function that hasn't been called yet. If it hasn't been called then its address hasn't been updated, so we get garbage. There is a function, `__HrLoadAllImportsForDll`, which is supposed to update all addresses, but [ it seems not to work](http://sourceforge.net/mailarchive/forum.php?thread_name=20121123141320.GA10578%40matrix.chaos.earth.li&forum_name=mingw-w64-public). Fixing that would therefore be necessary, but I am unsure whether it would be sufficient.
