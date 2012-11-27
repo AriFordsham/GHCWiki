@@ -12,7 +12,7 @@ There are some possibilities, some of which have been ruled out, but some of whi
 ## Assemblies
 
 
-Windows does actually have a similar concept to RPATHs: assemblies. These do allow us to give the location of DLLs that we use, but only as relative paths, and using at most 2 `../`s. It's therefore not possible to use assemblies to say that we use `c:/ghc/base/base.dll`. This therefore doesn't generally allow us to solve the problem.
+Windows does actually have a similar concept to RPATHs: side-by-side assemblies. These do allow us to give the location of DLLs that we use, but only as relative paths, and using at most 2 `../`s. It's therefore not possible to use assemblies to say that we use `c:/ghc/base/base.dll`. This therefore doesn't generally allow us to solve the problem.
 
 ## C stub
 
