@@ -57,18 +57,3 @@ This ticket to track this request is [\#6024](https://gitlab.haskell.org//ghc/gh
 
 By extension, we might want to define a datatype that will never be promoted, even with `-XDataKinds`.
 For that we propose the syntax `data type D ...`.
-
-# Kind synonyms (from type synonym promotion)
-
-
-Currently GHC does not promote type synonyms. We propose to change this, and make GHC promote
-type synonyms to kind synonyms by default with `-XDataKinds`. For instance, `type String = [Char]`
-should give rise to a kind `String`.
-
-**Question:** are there dangerous interactions with `-XLiberalTypeSynonyms`? E.g. what's the kind
-of *type K a = forall b. b -\> a\`?
-*
-
-
-By extension, we might want to have kind synonyms that do not arise from promotion: `type kind K ...`.
-And perhaps even type synonyms that never give rise to a promoted kind: `type type T ...`.
