@@ -52,8 +52,15 @@ type Nat2 = Nat
 type family Add (m :: Nat2) (n :: Nat2) :: Nat2
 }}}
 
-'''Future work:''' promote type synonyms to kind synonyms.
+We propose to change this, and make GHC promote
+type synonyms to kind synonyms by default with `-XDataKinds`. For instance, `type String = [Char]`
+should give rise to a kind `String`.
 
+'''Question:''' are there dangerous interactions with `-XLiberalTypeSynonyms`? E.g. what's the kind
+of ''type K a = forall b. b -> a`?
+
+By extension, we might want to have kind synonyms that do not arise from promotion: `type kind K ...`.
+And perhaps even type synonyms that never give rise to a promoted kind: `type type T ...`.
 
 
 
