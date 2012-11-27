@@ -203,10 +203,10 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 ## Windows
 
 
-Currently, we don't know how to do dynamic-by-default on Windows in a satisfactory way. We can build dynamic libraries, but we don't have a way of telling them where to find their DLLs. This means that `ghc --make foo; ./foo` won't work unless we copy all the library DLLs into the current directory, which isn't very satisfactory.
+Currently, we don't know how to do dynamic-by-default on Windows in a satisfactory way. We can build dynamic libraries, but we don't have a way of telling them where to find their DLLs.
 
 
-We are currently working on this.
+We are not currently working on this, but if anyone is interested in rolling up their sleeves then we have some [more details](dynamic-by-default/windows) on the problem, and how it might be solvable.
 
 ## Performance
 
