@@ -18,6 +18,26 @@ For this to work, there is technically no need to change anything else: ghc coul
 
 Given these 2 issues, we think that if making GHCi use dynamic libraries, we should also make ghc compile the "dynamic way" by default.
 
+## Current status
+
+### Unix-like platforms
+
+
+We have everything working, although currently disabled, for all platforms UNIX-like platforms in GHC HEAD. We have tested it on Linux/x86_64, Linux/x86, OSX/x86_64, OSX/x86 and Linux/s390(unregisterised). To enable it, set `DYNAMIC_BY_DEFAULT = YES` in `mk/build.mk` or `mk/validate.mk` as appropriate.
+
+### Windows
+
+
+Currently, we don't know how to do dynamic-by-default on Windows in a satisfactory way. We can build dynamic libraries, but we don't have a way of telling them where to find their DLLs.
+
+
+We are not currently working on this, but if anyone is interested in rolling up their sleeves then we would be very grateful! We have some [more details](dynamic-by-default/windows) on the problem, and how it might be solvable.
+
+### Other platforms
+
+
+We do not know the situation with other platforms, such as iOS and Android. We do not know whether they have a system loader that they can use, or whether it would be useful to keep the GHCi linker around for them.
+
 ## Bugs
 
 
@@ -199,14 +219,6 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no</th>
 <th>no
 </th></tr></table>
-
-## Windows
-
-
-Currently, we don't know how to do dynamic-by-default on Windows in a satisfactory way. We can build dynamic libraries, but we don't have a way of telling them where to find their DLLs. This means that `ghc --make foo; ./foo` won't work unless we copy all the library DLLs into the current directory, which isn't very satisfactory.
-
-
-We are currently working on this.
 
 ## Performance
 
