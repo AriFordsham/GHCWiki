@@ -6,6 +6,9 @@ We don't currently support dynamic-by-default on Windows. We are also not curren
 
 The issue is that, when building a dynamically linked library on Windows, there is no equivalent of elf's RPATH to tell the executable where its libraries are. This means that, unless the libraries have been installed to a global directory such as `c:/windows/system`, `ghc --make foo` would have to copy all the DLLs used to the current directory. Clearly not satisfactory!
 
+
+There are some possibilities, some of which have been ruled out, but some of which remain potential solutions:
+
 ## Assemblies
 
 
