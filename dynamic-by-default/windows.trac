@@ -18,4 +18,6 @@ However, this is a little klunky, as there is now an extra file needed for every
 
 == Loading DLL resource from memory ==
 
-An improvement 
+An improvement on the C stub options is to use windres to embed the DLL into the executable, and then to load the DLL from there. It would be possible to write the DLL out to a temporary file and load that, but that would be rather unpleasant. Better would be to load the DLL directly from memory.
+
+Windows doesn't support that, but there is code to do so [http://www.joachim-bauch.de/tutorials/loading-a-dll-from-memory/ here]. Downsides are that it is MPLed (to check: is that a problem?), it involves replicating some of the system linker (but not as bad as the current GHCi linker). It is also untested, so we are not 100% sure that it will work.
