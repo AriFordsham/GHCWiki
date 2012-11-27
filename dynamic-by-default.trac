@@ -15,13 +15,19 @@ Given these 2 issues, we think that if making GHCi use dynamic libraries, we sho
 
 == Current status ==
 
-We have everything working, although currently disabled, for all platforms other than Windows in GHC HEAD. We have tested it on Linux/x86_64, Linux/x86, OSX/x86_64, OSX/x86 and Linux/s390(unregisterised). To enable it, set `DYNAMIC_BY_DEFAULT = YES` in `mk/build.mk` or `mk/validate.mk` as appropriate.
+=== Unix-like platforms ===
 
-== Windows ==
+We have everything working, although currently disabled, for all platforms UNIX-like platforms in GHC HEAD. We have tested it on Linux/x86_64, Linux/x86, OSX/x86_64, OSX/x86 and Linux/s390(unregisterised). To enable it, set `DYNAMIC_BY_DEFAULT = YES` in `mk/build.mk` or `mk/validate.mk` as appropriate.
+
+=== Windows ===
 
 Currently, we don't know how to do dynamic-by-default on Windows in a satisfactory way. We can build dynamic libraries, but we don't have a way of telling them where to find their DLLs.
 
 We are not currently working on this, but if anyone is interested in rolling up their sleeves then we would be very grateful! We have some [wiki:DynamicByDefault/Windows more details] on the problem, and how it might be solvable.
+
+=== Other platforms ===
+
+We do not know the situation with other platforms, such as iOS and Android. We do not know whether they have a system loader that they can use, or whether it would be useful to keep the GHCi linker around for them.
 
 == Bugs ==
 
