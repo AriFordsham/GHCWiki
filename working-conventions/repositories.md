@@ -30,7 +30,6 @@ In the case of
 - libraries/template-haskell
 - libraries/unix
 - libraries/dph
-- libraries/deepseq
 - libraries/parallel
 - libraries/stm
 
