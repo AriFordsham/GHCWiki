@@ -30,6 +30,9 @@ The "`tag`" in the master table in packages has the following significance:
 - **"`dph`"**: packages for [Data Parallel Haskell](data-parallel), which is not shipped with GHC but we test all changes to GHC against these repositories so they are usually included in a checked-out source tree.
 - **"`extra`"**: extra packages you might want to include in a build (the `parallel` package, for example), but aren't necessary to get a working GHC.
 
+
+See the [Commentary/Libraries](commentary/libraries) page for more information about GHC's libraries.
+
 ## Making changes to repositories
 
 
