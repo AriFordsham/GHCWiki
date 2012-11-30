@@ -5,6 +5,8 @@ As well as the GHC repository itself, there are a number libraries
 and other packages that make up a GHC tree. This page describes the
 process by which those libraries can be altered.
 
+See the [wiki:Repositories] page for the context.
+
 == Packages for which we use the upstream repository directly ==
 
 In the case of
