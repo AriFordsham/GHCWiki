@@ -151,18 +151,13 @@ communicates these snippets of information in two ways:
 to get a list of the available arguments.  Here are some of
 the ones you might need:
 
- `--build=<platform>`::
-  Specifies the "build platform" (see [wiki:Building/Architecture/Idiom/PlatformNames platform names]).
-  This is usually only necessary on Windows, where you should set it
-  to `--build=i386-unknown-mingw32`.
-
  `--host=<platform>`::
   Set the "host platform" (see [wiki:Building/Architecture/Idiom/PlatformNames platform names]).
-  Usually not necessary.
+  Usually only necessary if cross-compiling.
 
  `--target=<platform>`::
   Set the "target platform" (see [wiki:Building/Architecture/Idiom/PlatformNames platform names]).
-  Usually not necessary.
+  Usually only necessary if cross-compiling.
 
  `--with-ghc=<path>`::
   Specifies the path to an installed GHC which you would like to use.
