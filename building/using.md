@@ -167,23 +167,16 @@ communicates these snippets of information in two ways:
 to get a list of the available arguments.  Here are some of
 the ones you might need:
 
-<table><tr><th>`--build=<platform>`</th>
-<td>
-Specifies the "build platform" (see [platform names](building/architecture/idiom/platform-names)).
-This is usually only necessary on Windows, where you should set it
-to `--build=i386-unknown-mingw32`.
-</td></tr></table>
-
 <table><tr><th>`--host=<platform>`</th>
 <td>
 Set the "host platform" (see [platform names](building/architecture/idiom/platform-names)).
-Usually not necessary.
+Usually only necessary if cross-compiling.
 </td></tr></table>
 
 <table><tr><th>`--target=<platform>`</th>
 <td>
 Set the "target platform" (see [platform names](building/architecture/idiom/platform-names)).
-Usually not necessary.
+Usually only necessary if cross-compiling.
 </td></tr></table>
 
 <table><tr><th>`--with-ghc=<path>`</th>
