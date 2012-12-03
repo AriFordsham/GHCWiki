@@ -5,7 +5,8 @@ This page describes an extension to type families that supports overlap.
 
 - We'll use GHC branch `overlapping-tyfams` for development work.
 - See also the **[Discussion Page](new-axioms/discussion-page)** added May 2012, for comment/suggestions/requests for clarification/alternative solutions, to explore the design space.
-- See also the **[Coincident Overlap](new-axioms/coincident-overlap)** page (added August 2012) for a discussion around the usefulness of allowing certain overlaps when the right-hand sides coincide. 
+- See also the **[Coincident Overlap](new-axioms/coincident-overlap)** page (added August 2012) for a discussion around the usefulness of allowing certain overlaps when the right-hand sides coincide.
+- See also the **[Template Haskell](new-axioms/template-haskell)** page (added December 2012) for a proposal for the Template Haskell changes necessary to support this change.
 
 
 Status (Jan 12): the groundwork is done, in HEAD; mainly making `CoAxiom` a more fundamental data type.  Not yet started on the details.
