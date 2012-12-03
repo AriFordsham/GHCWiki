@@ -1,0 +1,98 @@
+== Connection with GHC's Constraint Solver ==
+
+The solver for the type nats is implemented as an
+extra stage in GHC's constrraint solver (see `TcInteract.thePipeline`).
+
+
+== Generating Evidence ==
+
+The solver produces evidence (i.e., proofs) when computing new "given"
+constraints, or when solving existing "wanted" constraints.
+The evidence is constructed by applications of a set of pre-defined
+rules.  The rules are values of type `TypeRep.CoAxiomRule`.
+Conceptually, rules have the form:
+{{{
+    name :: forall tyvars. assumptions => conclusion
+}}}
+The rules have the usual logical meaning: the variables are universally
+quantified, and the assumptions imply the concluson.  As a concrete example,
+consider the rule for left-cancellation of addtion:
+{{{
+    AddCanceL :: forall a b c d. (a + b ~ d, a + c ~ d) => b ~ c
+}}}
+
+The type `CoAxiomRule` also supports infinte literal-indexed families
+of simple axioms using constructor `CoAxiomTyLit`.  These have the form:
+{{{
+    name(l_1 .. l_n) :: conclusion
+}}}
+In this case `conclusion` is an equation that contains no type variables
+but may depend on the literals in the name of the family.  For example,
+the basic definitional axiom for addition, `TcTypeNatsRules.axAddDef`,
+uses this mechanism:
+{{{
+    AddDef(2,3) :: 2 + 3 ~ 5
+}}}
+At present, the assumptions and conclusion of all rules are equations between
+types but this restriction is not important and could be lifted in the future.
+
+The rules used by the solver are in module `TcTypeNatsRules`.
+
+== The Solver ==
+
+
+The entry point to the solver is `TcTypeNats.typeNatStage`.
+
+We start by examining the constraint to see if it is obviously unsolvable
+(using function `impossible`), and if so we stash it in the
+constraint-solver's state and stop.  Note that there is no assumption that
+`impossible` is complete, but it is important that it is sound, so
+if `impossible` returns `True`, then the constraint is definitely unsolvable,
+but if `impossible` returns `False`, then we don't know if the constraint
+is solvable or not.
+
+The rest of the stage proceeds depending on the type of constraint,
+as follows.
+
+
+=== Given Constraints ===
+
+Given constraints correspond to adding new assumptions that may be used
+by the solver.  We start by checking if the new constraint is trivial
+(using function `solve`).  A constraint is considered to be trivial
+if it matches an already existing constraint or a rule that is known
+to the solver.  Such given constraints are ignored because they do not
+contribute new information.  If the new given is non-trivial, then it
+will be recorded to the inert set as a new fact, and we proceed
+to "interact" it with existing givens, in the hope of computing additional
+useful facts (function `computeNewGivenWork`).
+
+IMPORTANT: We assume that "given" constraints are processed before "wanted"
+ones.  A new given constraint may be used to solve any existing
+wanted, so every time we added a new given to the inert set we should
+move all potentially solvable "wanted" constraint from the
+inert set back to the work queue.   We DON'T do this, because it is
+quite inefficient: there is no obvious way to compute which "wanted"s
+might be affected, so we have to restart all of them!.
+
+The heart of the interaction is the function `interactCt`, which
+performs one step of "forward" reasoning.  The idea is to compute
+new constraints whose proofs are made by an application of a rule
+to the new given, and some existing givens.  These new constraints are
+added as new work, to be processed further on the next iteration of
+GHC's constraint solver.
+
+Aside: when we compute the new facts, we check to see if any are
+obvious contradictions.  This is not strictly necessary because they
+would be detected on the next iteration of the solver.  However, by doing
+the check early we get slightly better error messages because
+we can report the original constraint as being unsolvable (it leads
+to a contradiction), which tends to be easier to relate to the original
+program.  Of course, this is not completely fool-proof---it is still
+possible that a contradiction is detected at a later iteration.
+An alternative idea---not yet implemented---would be to examine the
+proof of a contradiction and extract the original constraints that lead
+to it in the first place.
+
+
+
