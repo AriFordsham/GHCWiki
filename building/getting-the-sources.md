@@ -50,6 +50,16 @@ If you have commit access then you will need to also set the push URL:
   $ ./sync-all -r darcs.haskell.org:/srv/darcs/ remote set-url --push origin
 ```
 
+
+You will probably also want to run
+
+```wiki
+  $ git config --global diff.ignoreSubmodules dirty
+```
+
+
+to stop git in the ghc repo from checking for unrecorded changes in the submodules.
+
 ## Making a local clone
 
 
