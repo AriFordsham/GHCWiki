@@ -1,7 +1,7 @@
 # GHC Commentary: The Word
 
 
-The most important type in the runtime is `StgWord`, defined in [includes/StgTypes.h](/trac/ghc/browser/ghc/includes/StgTypes.h).  A word is defined to be the same size as a pointer on the current platform.  All these types are interconvertible without losing information, and have the same size (as reported by `sizeof`):
+The most important type in the runtime is `StgWord`, defined in [includes/stg/Types.h](/trac/ghc/browser/ghc/includes/stg/Types.h).  A word is defined to be the same size as a pointer on the current platform.  All these types are interconvertible without losing information, and have the same size (as reported by `sizeof`):
 
 <table><tr><th>`StgWord`</th>
 <td>
