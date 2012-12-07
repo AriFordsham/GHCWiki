@@ -37,6 +37,8 @@ then the vectoriser defines `f_v = e` and refrains from rebinding `f`.  This imp
 
 This pragma can also be used for imported functions `f`.  In this case, `f_v` and a suitable vectorisation mapping of `f` to `f_v` is exported implicitly — just like `RULES` applied to imported identifiers.  By vectorising imported functions, we can vectorise functions of modules that have not been compiled with `-fvectorise`.  This is crucial to using the standard `Prelude` in vectorised code.
 
+*Parallelism:* A vectorised value is marked as parallel if its code includes a parallel value or if it includes any parallel types. The detailed rules are in the **Vectorisation Avoidance** paper.
+
 **IMPLEMENTATION RESTRICTION:** Currently the right-hand side of the equation —i.e., `e`— may only be a simple identifier **and** it must be at the correct type instance.  More precisely, the Core type of the right-hand side must be identical to the vectorised version of `t`.
 
 ## The NOVECTORISE pragma for values
@@ -53,6 +55,8 @@ then it is ignored by the vectoriser — i.e., no function `f_v` is generated an
 
 
 This pragma can only be used for bindings in the current module (exactly like an `INLINE` pragma). The pragma must be used on all bindings forming a recursive group if it is used on any of the bindings in a group.
+
+*Parallelism:*`f` will not be marked as parallel.
 
 **Caveat:** If `f`'s definition contains bindings that are being floated to the toplevel, those bindings may still be vectorised. (**TODO** We might want to ensure that we never float anything out of (at least, those) bindings before the vectoriser is invoked.)
 
@@ -81,6 +85,8 @@ The type constructor `T` must be in scope, but it may be imported.  `PData` and 
 
 Examples are the vectorisation of types, such as `Maybe` and `[]`, defined in the `Prelude`.
 
+*Parallelism:*`T` is being marked as parallel by the vectoriser if `T`'s definition includes any type constructor that is parallel.
+
 ### With right-hand side
 
 
@@ -98,6 +104,9 @@ The type constructor `T` must be in scope, but it may be imported.  `PData` and 
 
 
 An example is the vectorisation of parallel arrays, where `[::]` is replaced by `PArray` during vectorisation, but the vectoriser never looks at the representation of `[::]`.
+
+
+'Parallelism:***???***
 
 ## The VECTORISE SCALAR pragma for type constructors
 
@@ -122,6 +131,8 @@ The type constructor `T` must be in scope, but it may be imported.  `PData` and 
 
 An example is the handling of `Bool`, which is scalar and represents itself in vectorised code, but we want to use the custom instances of 'PData' and 'PRepr' defined in the DPH libraries.
 
+*Parallelism:* The type `T` is not marked as parallel.
+
 ### With right-hand side
 
 
@@ -140,6 +151,8 @@ The type constructor `T` must be in scope, but it may be imported.  The `PData` 
 
 An example is the handling of `(->)`, which the vectoriser maps to `(:->)`, but it never looks at the implementation of `(->)` and allows its use in encapsulated scalar code.
 
+*Parallelism:* The type `T` is not marked as parallel.
+
 ## The NOVECTORISE pragma for types
 
 
@@ -154,6 +167,8 @@ then it is ignored by the vectoriser — i.e., no type `T_v`  and no class insta
 
 
 This pragma can only be used for definitions in the current module.
+
+*Parallelism:* The type `T` is not marked as parallel.
 
 **TODO**
 
