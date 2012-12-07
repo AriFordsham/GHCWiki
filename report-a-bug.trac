@@ -9,7 +9,6 @@ To report a bug, either:
      * Create a [/newticket?type=bug new bug], and enter your bug report. You can also search the bug database here to make sure your bug hasn't already been reported (if it has, it might still help to add information from your experience to the existing report).
  * Less preferred:
      * To submit an anonymous bug: use login "guest", password "guest"
-     * Bug reports can also be emailed to <[mailto:glasgow-haskell-bugs@haskell.org]>. 
 
 == How do I tell if I should report my bug? ==
 

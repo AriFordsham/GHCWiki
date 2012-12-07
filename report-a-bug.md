@@ -13,7 +13,6 @@ To report a bug, either:
 - Less preferred:
 
   - To submit an anonymous bug: use login "guest", password "guest"
-  - Bug reports can also be emailed to \<glasgow-haskell-bugs@…\>. 
 
 ## How do I tell if I should report my bug?
 
