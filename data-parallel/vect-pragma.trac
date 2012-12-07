@@ -78,7 +78,7 @@ The type constructor `T` must be in scope, but it may be imported.  `PData` and 
 
 An example is the vectorisation of parallel arrays, where `[::]` is replaced by `PArray` during vectorisation, but the vectoriser never looks at the representation of `[::]`.
 
-'Parallelism:'' '''???'''
+''Parallelism:'' The type constructor `T` is marked as parallel.
 
 == The VECTORISE SCALAR pragma for type constructors ==
 
