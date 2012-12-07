@@ -23,34 +23,45 @@ data Interpretation :: Universe * -> * where
 
 In this case, having to declare a datatype for `Universe` has two disadvantages:
 
- * We lose constructor name space, because the datatype constructor names will be taken, even though
-   we will never use them. So `Prod` and `K` cannot be used as constructors of `Interpretation` as above,
-   because those are also constructors of `Universe`.
+  1. We cannot use kinds (such as `*`) while defining a datatype, so we are forced to make `Universe` a parametrised datatype, and later always instantiate this parameter to `*` (like in the kind of `Interpretation`).
 
- * We cannot use kinds (such as `*`) while defining a datatype, so we are forced to make `Universe` a
-   parametrised datatype, and later always instantiate this parameter to `*` (like in the kind of
-   `Interpretation`).
+  2. We lose constructor name space, because the datatype constructor names will be taken, even though we will never use them. So `Prod` and `K` cannot be used as constructors of `Interpretation` as above, because those are also constructors of `Universe`.
 
-'''Proposal:''' allow defining kinds directly, as in the following example:
+'''Solution 1''': add
+{{{
+data Star
+}}}
+in `GHC.Exts` such that the promotion of datatype `Star` is the kind `*`. As a
+datatype, `Star` is just an empty datatype.
 
+''Advantages'': very easy, backwards compatible
+
+''Disadvantages'': somewhat verbose, doesn't fix (2)
+
+
+'''Solution 2''': let users define things like
 {{{
 data kind Universe = Sum  Universe Universe
                    | Prod Universe Universe
                    | K *
 }}}
-
 By using `data kind`, we tell GHC that we are only interested in the `Universe` kind, and not the datatype.
-Consequently, `Sum`, `Prod`, and `K` will be types only, and not constructors. Note however that this would
-imply being able to parse kinds (`*`, at the very least) on the right-hand side of data kind declarations.
-To avoid this, we propose instead using a kind `Type` (or `Star`), defined in `GHC.Exts`, that acts as a
-synonym of `*`.
+Consequently, `Sum`, `Prod`, and `K` will be types only, and not constructors.
 
-This ticket to track this request is #6024.
+Also,
+{{{
+data only (i :: D) where C :: I ('C Int)
+}}}
+defines a datatype `D` which is not promoted to a kind, and its constructors
+are not promoted to types. We would then also have ‘type only T = Int -> Int`.
 
-One potential problem is that is we ever get `* :: *` then this will no longer be possible...
+''Advantages'': solves (1) and (2)
 
+''Disadvantages'':
 
-= Defining datatypes without an associated kind =
+1. If, in the future, we make `* :: *`, we will no longer have separation of
+types and kinds, so things like `D`/`I` above will become impossible.
 
-By extension, we might want to define a datatype that will never be promoted, even with `-XDataKinds`.
-For that we propose the syntax `data type D ...`.
+2. Requires changing the parser
+
+Currently we are planning to implement the second solution. If we do get `* :: *` other things will break due to name clashes, so that shouldn't prevent us from going ahead now. This ticket to track this request is #6024.
