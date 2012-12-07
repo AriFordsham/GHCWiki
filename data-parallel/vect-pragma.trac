@@ -15,7 +15,7 @@ It clearly, does not directly include any data parallelism, but `mapP f $ arr` i
 
 Given a function `f`, the vectoriser generates a vectorised version `f_v`, which comprises the original, scalar version of the function and a second version lifted into array space.  The lifted version operates on arrays of inputs and produces arrays of results in one parallel computation.  The original function name is, then, rebound to use the scalar version referred to by `f_v`.  This differs from the original in that it uses vectorised versions for any embedded parallel array computations.
 
-We have got two exceptions to this rule. Firstly, if the body of a function `f` is scalar —i.e., it does not involve any parallel array computations— then we leave it as is and omit the generation of `f_v`. Whether a function is scalar is determined by the rules described in the '''Vectorisation Avoidance''' paper.
+We have got two exceptions to this rule. Firstly, if the body of a function `f` is scalar —i.e., it does not involve any parallel array computations and has scalar argument and result types— then we leave it as is and omit the generation of `f_v`. Whether a function is scalar is determined by the rules described in the '''Vectorisation Avoidance''' paper.
 
 Secondly, if a variable `f` is accompanied by a pragma of the form
 {{{
