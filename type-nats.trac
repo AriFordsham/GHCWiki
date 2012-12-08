@@ -21,8 +21,7 @@ This page collects information on how to work with type-level literals, as imple
 == Notes on the Implementation ==
 
   * [wiki:TypeNats/Implementation   Implementation of GHC.TypeLits]
-  * [http://github.com/yav/tc-solver/blob/master/docs/axioms.md Axioms for type-level type operators]
-
+  * [wiki:Commentary/Compiler/TypeNatSolver The solver for type-level naturals]
 
 
 == Source Code ==
@@ -36,3 +35,4 @@ This page collects information on how to work with type-level literals, as imple
   * [wiki:TypeNats/Naturals         Natural Numbers: From Values to Types]
   * More advanced example: https://github.com/yav/memory-arrays/tree/master
   * [wiki:TypeNats/Examples         Examples]
+  * [http://github.com/yav/tc-solver/blob/master/docs/axioms.md Axioms for type-level type operators]
