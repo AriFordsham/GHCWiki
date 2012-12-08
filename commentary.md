@@ -82,7 +82,6 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on SPJs "Comprehensive Comprehensions" (TransformComprehensions)
   - [Deferring compilation type errors to runtime (\`-fwarn-type-errors\`)](defer-errors-to-runtime)
   - [Demand analyser](commentary/compiler/demand) Notes on the meanings, worker-wrapper splitting of demand signatures and relevant components of the compiler
-  - [The solve for type-level naturals](commentary/compiler/type-nat-solver)
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
@@ -95,6 +94,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [A modular package language for Haskell](package-language) Scott Kilpatrick and Derek Dreyer are designing a new “package language” for Haskell in the style of the ML module system.
   - [Pattern synonyms](pattern-synonyms)
   - [Type level naturals](type-nats)
+  - [The solve for type-level naturals](commentary/compiler/type-nat-solver)
   - [Polymorphic Dynamic](polymorphic-dynamic): Notes on adding ad-hoc polymorphic dynamic types
   - [Proposal to allow classes to give default implementations for their superclasses](default-superclass-instances)
   - [Cmm: Implementing Exception Handling](commentary/cmm-exceptions): Implementing exception handling for primitive operations in Cmm
