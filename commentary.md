@@ -82,6 +82,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on SPJs "Comprehensive Comprehensions" (TransformComprehensions)
   - [Deferring compilation type errors to runtime (\`-fwarn-type-errors\`)](defer-errors-to-runtime)
   - [Demand analyser](commentary/compiler/demand) Notes on the meanings, worker-wrapper splitting of demand signatures and relevant components of the compiler
+  - [The solve for type-level naturals](commentary/compiler/type-nat-solver)
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
