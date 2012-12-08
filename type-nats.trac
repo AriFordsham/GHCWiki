@@ -21,7 +21,7 @@ This page collects information on how to work with type-level literals, as imple
 == Notes on the Implementation ==
 
   * [wiki:TypeNats/Implementation   Implementation of GHC.TypeLits]
-  * [wiki:Commentary/Compiler/TypeNatSolver The solve for type-level naturals]
+  * [wiki:Commentary/Compiler/TypeNatSolver The solver for type-level naturals]
 
 
 == Source Code ==
