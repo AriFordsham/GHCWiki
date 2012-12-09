@@ -97,10 +97,10 @@ to it in the first place.
 
 === Derived Constraints ===
 
-"Derived" constraints are facts that are implied by the constraints
+``Derived`` constraints are facts that are implied by the constraints
 in the inert set.  They do not have complete proofs because their
-proof may depend on proofs of as yet unsolved "wanted" constraints.
-GHC does not associate any proof terms with "derived" constraints.
+they may depend on proofs of as yet unsolved wanted constraints.
+GHC does not associate any proof terms with derived constraints (to keep things simple?).
 In the constraint solver, they are mostly used as "hints".  For example,
 consider the wanted constraint {{{5 + 3 ~ x}}}, where {{{x}}} is a
 free unification variable.  These are the steps we'll take to solve
