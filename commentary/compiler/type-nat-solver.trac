@@ -3,6 +3,11 @@
 The solver for the type nats is implemented as an
 extra stage in GHC's constrraint solver (see `TcInteract.thePipeline`).
 
+The following modules contain most of the code relevant for the solver:
+  * `TcTypeNats`:      The main solver machinery      
+  * `TcTypeNatsRules`: The rules used by the solver
+  * `TcTYpeNatsEval`:  Functions for direct evaluation on constants
+
 
 == Generating Evidence ==
 
