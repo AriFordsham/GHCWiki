@@ -146,6 +146,169 @@ we proceed as follows:
       2. Check to see if any of the existing wanteds in the inert set can be solved in terms of the new goal (`reExamineWanteds`)
       3. Generate new derived facts.
 
+==== Using IFF Rules ====
+
+These rules are used to replace a wanted constraint with a collection
+of logically equivalent wanted constraints.  If a wanted constraint
+matches the head of one of these rules, than it is solved using the rules,
+and the we generate new wanted constraints for the rule's assumptions.
+
+The following are important properties of IFF rules:
+  * They need to be sound (of course!)
+  * The assumptions need to be logically equivalent to the conclusion (i.e., they should not result in a harder problem to solve than the original goal).
+  * The assumptions need to be ''simpler'' from the point of view of the constraint solver (i.e., we shouldn't end up with the original goal after some steps---this would lead to non-termination).
+
+At present, IFF rules are used to define certain operators in terms of
+others.  For example, this is the only rule for solving constraints about
+subtraction:
+{{{
+    forall a b c. (a + b ~ c) => (c - a ~ b)
+}}}
+
+==== Using Axioms ====
+
+Basic operators are defined with an infinite family of axiom schemes.
+As we can't have these written as a long list (searching might never stop!),
+we have some custom code that checks to see if a constraint might be
+solvable using one of the definitional axioms (see `solveWithAxiom`, `byAxiom`).
+
+
+==== Using the Order Model ====
+
+Constraints about the ordering of type-level numbers are kept in a datastructure
+(`LeqFacts`) which forms a ``model'' of the information represented by the
+constraints (in a similar fashion to how substitutions form a model for a
+set of equations).
+
+The purpose of the model is to eliminate redundant constraints, and to make
+it easy to find proofs for queries of the form `x <= y`.  In practise,
+of particular interest are questions such as `1 <= x` because these appear
+as assumptions on a number of rules (e.g., cancellation of multiplication).
+In the future, this model could also be used to implement an interval
+analysis, which would compute intervals approximating the values of
+variables.
+
+TODO: At present, this model is reconstructed every time it needs to be used,
+which is a bit inefficient.  Perhaps it'd be better to use this directly
+as the representation of `<=` constraints in the inert set.
+
+The model is a directed acyclic graph, as follows:
+  * vertices: constants or variables (of kind `Nat`)
+  * edges: the edge from `A` to `B` is a proof that `A <= B`.
+
+So, to find a proof of `A <= B`, we insert `A` and `B` in the model,
+and then look for a path from `A` to `B`.  The proofs on the path
+can be composed using the rule for transitivity of `<=` to form the final proof.
+
+When manipulating the model, we maintain the following "minimality"
+invariant:  there should be no direct edge between two vertices `A`
+and `B`, if there is a path that can already get us from `A` to `B.
+Here are some examples (with edges pointing upwards)
+{{{
+    B                                            B
+    |\                                          / \
+    | C                                        C   D
+    |/                                          \ /
+    A                                            A
+
+ Invariant does not hold                 Invariant holds
+}}}
+
+The purpose of the invariant is to eliminate redundant information.
+Note, however, that it does not guarantee that there is a unique way
+to prove a goal.
+
+
+==== Using Extended Assumptions ===
+
+Another way to prove a goal is to look it up in the assumptions.
+If the goal matched an assumption exactly, then GHC would have
+already solved it in one of its previous stages of the constraint
+solver.  However,  due to the commutativity and associativity of some of the
+operators, it is possible to have goal that could be solved by assumption,
+only if the assumption was "massaged" a bit.
+
+This "massaging" is implemented by the function `widenAsmps`, which
+extends the set of assumption by performing a bit of forward reasoning
+using a limited set of rules.   Typically, these are commutativity
+an associativity rules, and the `widenAsmps` function tries to complete
+the set of assumptions with respect to these operations.  For example:
+{{{
+    assumptions: C: x + y ~ z
+    cur. goal:   D: y + x ~ z
+
+    extended assumptions: C: x + y ~ z, Add_Comm(C) : y + x ~ z
+    solved:               D = Add_Comm(C)
+}}}
+
+Note that the extended assumptions are very similar to derived constraints,
+except that we keep their proofs.
+
+
+==== Re-examining Wanteds ====
+
+If none of the strategies for solving a wanted constraint worked,
+then the constraint is added to the inert set.  Since we'd like to
+keep the inert set minimal, we have to see if any of the existing
+wanted constraints might be solvable in terms of the new wanted
+(`reExamineWanteds`).
+
+It is good to keep the inert set minimal for the following reasons:
+  * Inferred types are nicer,
+  * It helps GHC to solve constraints by "inlining" (e.g., if we
+    have only a single constraint `x + y ~ z`, then we can eliminate it
+    by replacing all occurrences of `z` with `x + y`, however we can't
+    do that if we ended up with two constraints `(x + y ~ z, y + x ~ z)).
+
+We consider each (numeric) wanted constraint in the inert set and
+check if we can solve it in terms of the new wanted and all other wanteds.
+If so, then it is removed from the inert set, otherwise it stays there.
+
+Note that we can't implement this by kicking out the existing wanted
+constraints and putting them back on the work queue, because this would
+lead to non-termination.  Here is an example of how this might happen:
+{{{
+    inert: [W] A : x <= 5
+    new:   [W] B : y <= 5
+
+    Can't solve B, add to inert, kick out A
+    inert: [W] B : y <= 5
+    new:   [W] A : x <= 5
+
+    Can't solve A, add to inert, kick out B...
+
+    ... and we are back to the beginning.
+}}}
+
+Perhaps there is a way around this but, for the moment, we just re-examine
+the numeric wanteds locally, without going through the constraint
+solver pipe-line.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
