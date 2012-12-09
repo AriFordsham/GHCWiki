@@ -109,14 +109,16 @@ the constraint:
 {{{
     Rules:
     Add_def(5,3) : 5 + 3 ~ 8
-    Add_fun : forall a b c1 c2. (a + b ~ c1, a + b ~ c2) => c1 ~ c2
+    Add_fun      : forall a b c1 c2. (a + b ~ c1, a + b ~ c2) => c1 ~ c2
 
-    1. Add [W] C: 5 + 3 ~ x to inert set
+    1. Add to inert set:
+       [W] C: 5 + 3 ~ x
     2. Generate new derived:
-     [D] Add_fun(C,Add_def) : x ~ 8   (proof discarded)
-    3. GHC uses this hint to improve the wanted to [W] C: 5 + 3 ~ 8
+       [D] Add_fun(C,Add_def) : x ~ 8   (proof discarded)
+    3. GHC uses this hint to improve and reconsider the wanted:
+       [W] C: 5 + 3 ~ 8
     4. Solved:
-     [W] C = Add_def(5,3)
+       [W] C = Add_def(5,3)
 }}}
 
 
