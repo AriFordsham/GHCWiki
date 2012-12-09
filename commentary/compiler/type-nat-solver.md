@@ -145,3 +145,24 @@ and, if not, then it tries to generate some additional derived constraints.
 The main difference is that derived constraints can be interacted
 with all existing constraints to produce new facts, while given
 constraints only interact with other givens.
+
+### Wanted Constraints
+
+
+The main purpose of the solver is to discharge ``wanted`` constraints
+(the purpose of processing given and derived constraints is to help
+solve existing wanted goals).   When we encounter a new wanted goals
+we proceed as follows:
+
+1. Try to solve the goal, using a few different strategies:
+
+  1. Try to see if it matches the conclusion of an iff rule (`solveIff`). Aassumptions of rule become new wanted work.
+  1. Try to see if it matches an axiom exactly (`solve`)
+  1. Try the ordering solver for `<=` goals (`solveLeq`)
+  1. Try to use a (possibly synthesized) assumption
+
+1. If that didn't work:
+
+  1. Wanted is added to the inert set
+  1. Check to see if any of the existing wanteds in the inert set can be solved in terms of the new goal (`reExamineWanteds`)
+  1. Generate new derived facts.
