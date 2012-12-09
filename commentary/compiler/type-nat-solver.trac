@@ -122,7 +122,7 @@ the constraint:
 }}}
 
 The type-nat solver processes derived constraints in a similar fashion
-to given constraints:   it checks to see if they are trivially known
+to given constraints (`computeNewDerivedWork`): it checks to see if they are trivially known
 and, if not, then it tries to generate some additional derived constraints.
 The main difference is that derived constraints can be interacted
 with all existing constraints to produce new facts, while given
