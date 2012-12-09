@@ -253,7 +253,7 @@ The purpose of the invariant is to eliminate redundant information.
 Note, however, that it does not guarantee that there is a unique way
 to prove a goal.
 
-#### Using Extended Assumptions ===
+#### Using Extended Assumptions
 
 
 Another way to prove a goal is to look it up in the assumptions.

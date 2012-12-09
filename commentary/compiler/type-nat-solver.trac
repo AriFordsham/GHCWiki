@@ -219,7 +219,7 @@ Note, however, that it does not guarantee that there is a unique way
 to prove a goal.
 
 
-==== Using Extended Assumptions ===
+==== Using Extended Assumptions ====
 
 Another way to prove a goal is to look it up in the assumptions.
 If the goal matched an assumption exactly, then GHC would have
