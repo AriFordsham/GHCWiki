@@ -5,7 +5,7 @@ GHC's runtime system is a slightly scary beast: 50,000 lines of C and C-- code, 
 
 - It includes all the bits required to execute Haskell code that aren't compiled into the code itself.
   For example, the RTS contains the code that knows how to raise an exception when you call `error`,
-  and code to implement the multi-precision `Integer` operations (via the GMP library).
+  code to allocate `Array#` objects, and code to implement `takeMVar#`.
 
 - It includes a sophisticated storage manager, including a multi-generational garbage collector with copying
   and compacting strategies.
@@ -17,7 +17,7 @@ GHC's runtime system is a slightly scary beast: 50,000 lines of C and C-- code, 
 
 - Heap-profiling (of various kinds), time-profiling and code coverage of Haskell code are included.
 
-- Support for Software Transactional Memory is now included...
+- Support for Software Transactional Memory.
 
 
 Next, we try to make sense of how it all fits together.
