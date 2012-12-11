@@ -70,8 +70,6 @@ functions from `.hc` files are given types at the call site.
   "registers" in the virtual machine.
  [http://darcs.haskell.org/ghc/includes/stg/SMP.h stg/SMP.h]::
   Atomic memory operations for SMP support
- [http://darcs.haskell.org/ghc/includes/stg/TailCalls.h stg/TailCalls.h]::
-  Tail calls in `.hc` code.
  [http://darcs.haskell.org/ghc/includes/stg/Ticky.h stg/Ticky.h]::
   Declarations for ticky-ticky counters
  [http://darcs.haskell.org/ghc/includes/stg/Types.h stg/Types.h]::

@@ -96,10 +96,6 @@ Declarations for closures & info tables built-in to the RTS
 <td>
 Atomic memory operations for SMP support
 </td></tr>
-<tr><th>[ stg/TailCalls.h](http://darcs.haskell.org/ghc/includes/stg/TailCalls.h)</th>
-<td>
-Tail calls in `.hc` code.
-</td></tr>
 <tr><th>[ stg/Ticky.h](http://darcs.haskell.org/ghc/includes/stg/Ticky.h)</th>
 <td>
 Declarations for ticky-ticky counters
