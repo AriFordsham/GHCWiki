@@ -464,4 +464,5 @@ There are three macros to do inline portably.  Don't use `inline` directly, use 
 
   If you must re-indent or re-organise, don't include any functional
   changes that commit and give advance warning that you're about to do
-  it in case anyone else is changing that file.
+  it in case anyone else is changing that file.  For more details on
+  source control conventions, see [WorkingConventions/Git](working-conventions/git).
