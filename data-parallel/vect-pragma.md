@@ -37,7 +37,7 @@ then the vectoriser defines `f_v = e` and refrains from rebinding `f`.  This imp
 
 This pragma can also be used for imported functions `f`.  In this case, `f_v` and a suitable vectorisation mapping of `f` to `f_v` is exported implicitly — just like `RULES` applied to imported identifiers.  By vectorising imported functions, we can vectorise functions of modules that have not been compiled with `-fvectorise`.  This is crucial to using the standard `Prelude` in vectorised code.
 
-*Parallelism:* A vectorised value is marked as parallel if its code includes a parallel value or if it includes any parallel types. The detailed rules are in the **Vectorisation Avoidance** paper.
+*Parallelism:*`f` is marked as parallel if it is **not** imported.
 
 **IMPLEMENTATION RESTRICTION:** Currently the right-hand side of the equation —i.e., `e`— may only be a simple identifier **and** it must be at the correct type instance.  More precisely, the Core type of the right-hand side must be identical to the vectorised version of `t`.
 
