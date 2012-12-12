@@ -242,6 +242,13 @@ Particular guidelines for writing robust code:
 
 ## Syntactic details
 
+- Please keep to 80 columns: the line has to be drawn somewhere, and
+  by keeping it to 80 columns we can ensure that code looks OK on
+  everyone's screen.  Long lines are hard to read, and a sign that
+  the code needs to be restructured anyway.
+
+- An indentation width of 4 is preferred (don't use actual tab characters, use spaces).
+
 - **Important:** Put "redundant" braces or parens in your code.
 
 > >
@@ -271,44 +278,6 @@ Particular guidelines for writing robust code:
 - Don't declare and initialize variables at the same time.
   Separating the declaration and initialization takes more lines, but
   make the code clearer.
-
-- Use inline functions instead of macros if possible - they're a lot
-  less tricky to get right and don't suffer from the usual problems
-  of side effects, evaluation order, multiple evaluation, etc.
-
-- Inline functions get the naming issue right.  E.g. they
-  can have local variables which (in an expression context)
-  macros can't.
-
-- Inline functions have call-by-value semantics whereas macros are
-  call-by-name.  You can be bitten by duplicated computation if you
-  aren't careful.
-
-- You can use inline functions from inside gdb if you compile with
-  -O0 or -fkeep-inline-functions.  If you use macros, you'd better know
-  what they expand to.
-
-> >
-> > However, note that macros can serve as both l-values and r-values and
-> > can be "polymorphic" as these examples show:
-> >
-> > ```wiki
-> >   // you can use this as an l-value or an r-value
-> >   #define PROF_INFO(cl) (((StgClosure*)(cl))->header.profInfo)
-> >
-> >   // polymorphic case
-> >   // but note that min(min(1,2),3) does 3 comparisons instead of 2!
-> >   #define min(x,y) (((x)<=(y)) ? (x) : (y))
-> > ```
-
-- Inline functions should be "static inline" because:
-
-- gcc will delete static inlines if not used or theyre always inlined.
-
-- if they're externed, we could get conflicts between 2 copies of the
-  same function if, for some reason, gcc is unable to delete them.
-  If they're static, we still get multiple copies but at least they
-  don't conflict.
 
 - Don't define macros that expand to a list of statements.  You could
   just use braces as in:
@@ -412,11 +381,6 @@ Particular guidelines for writing robust code:
 > >     # define TIMEchar  'T'
 > > ```
 
-- Please keep to 80 columns: the line has to be drawn somewhere, and
-  by keeping it to 80 columns we can ensure that code looks OK on
-  everyone's screen.  Long lines are hard to read, and a sign that
-  the code needs to be restructured anyway.
-
 - When commenting out large chunks of code, use `#ifdef 0 ... #endif` 
   rather than `/* ... */` because C doesn't have
   nested comments.
@@ -436,12 +400,60 @@ Particular guidelines for writing robust code:
 - Do not use `!` instead of explicit comparison against `NULL`
   or `'\0'`; the latter is much clearer.
 
-- We don't care too much about your indentation style but, if you're
-  modifying a function, please try to use the same style as the rest
-  of the function (or file).  If you're writing new code, an indentation width
-  of 4 is preferred (don't use actual tab characters, use spaces).
-
 - Please write comments in English.  Especially avoid Klingon.
+
+## Inline functions
+
+
+Use inline functions instead of macros if possible - they're a lot
+less tricky to get right and don't suffer from the usual problems
+of side effects, evaluation order, multiple evaluation, etc.
+
+- Inline functions get the naming issue right.  E.g. they
+  can have local variables which (in an expression context)
+  macros can't.
+
+- Inline functions have call-by-value semantics whereas macros are
+  call-by-name.  You can be bitten by duplicated computation if you
+  aren't careful.
+
+- You can use inline functions from inside gdb if you compile with
+  -O0 or -fkeep-inline-functions.  If you use macros, you'd better know
+  what they expand to.
+
+> >
+> > However, note that macros can serve as both l-values and r-values and
+> > can be "polymorphic" as these examples show:
+> >
+> > ```wiki
+> >   // you can use this as an l-value or an r-value
+> >   #define PROF_INFO(cl) (((StgClosure*)(cl))->header.profInfo)
+> >
+> >   // polymorphic case
+> >   // but note that min(min(1,2),3) does 3 comparisons instead of 2!
+> >   #define min(x,y) (((x)<=(y)) ? (x) : (y))
+> > ```
+
+
+There are three macros to do inline portably.  Don't use `inline` directly, use these instead:
+
+`INLINE_HEADER`
+
+>
+> An inline function in a header file.  This is just like a macro.  We never emit
+> a standalone copy of the function, so it *must* be inlined everywhere.
+
+`STATIC_INLINE`
+
+>
+> An inline function in a C source file.  Again, it is always inlined, and we never
+> emit a standalone copy. 
+
+`EXTERN_INLINE`
+
+>
+> A function which is optionally inlined.  The C compiler is told to inline if possible,
+> but we also generated a standalone copy of the function just in case (see [source:rts/Inlines.c](/trac/ghc/browser/rts/Inlines.c)[](/trac/ghc/export/HEAD/ghc/rts/Inlines.c)).
 
 ## Source-control issues
 
@@ -450,7 +462,7 @@ Particular guidelines for writing robust code:
   else was changed, and causes extra conflicts when moving patches to
   another branch.
 
-> >
-> > If you must re-indent or re-organise, don't include any functional
-> > changes that commit and give advance warning that you're about to do
-> > it in case anyone else is changing that file.
+  If you must re-indent or re-organise, don't include any functional
+  changes that commit and give advance warning that you're about to do
+  it in case anyone else is changing that file.  For more details on
+  source control conventions, see [WorkingConventions/Git](working-conventions/git).
