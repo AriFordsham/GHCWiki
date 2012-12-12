@@ -38,14 +38,6 @@ GHC option: `-eventlog`
 
 RTS suffix: `l`</td></tr></table>
 
-<table><tr><th>`NO_REGS`, `USE_MINIINTERPRETER`</th>
-<td>
-Enables "unregisterised" compilation, i.e. via C with no mangler.
-
-GHC option: `-unreg`
-
-RTS suffix: `u`</td></tr></table>
-
 
 So for example, `libHSrts_thr_debug.a` is the version of the runtime compiled with `THREADED_RTS` and `DEBUG`, and will be linked in if you use the `-threaded` and `-debug` options to GHC.
 
@@ -55,29 +47,26 @@ The ways that the RTS is built in are controlled by the `GhcRTSWays` Makefile va
 ## Combinations
 
 
-The following combinations are allowed:
+All combinations are allowed.  Only some are built by default though; see [mk/config.mk.in](/trac/ghc/browser/mk/config.mk.in)[](/trac/ghc/export/HEAD/ghc/mk/config.mk.in) to see how the `GhcRTSWays` variable is set.
 
-- `DEBUG` with anything
-- `PROFILING` only with `NO_REGS`, `USE_MINIINTERPRETER`
+## Other configuration options
 
-## OLD ways
-
-
-The following ways are bitrotted and currently don't work (GHC 6.6):
-
-<table><tr><th>`PAR`, `GRANSIM`</th>
+<table><tr><th>`NO_REGS`</th>
 <td>
-Parallel Haskell
+Disabled the use of hardware registers for the stack pointer (`Sp`), heap pointer (`Hp`), etc.  This is
+enabled when building "unregisterised" code, which is controlled by the `GhcUnregisterised` build option.
+Typically this is necessary when building GHC on a platform for which there is no native code generator
+and LLVM does not have a GHC calling convention.
+</td></tr></table>
 
-GHC option: `-par`
-
-RTS suffix: `mp, mg`</td></tr></table>
-
-<table><tr><th>`TICKY`</th>
+<table><tr><th>`USE_MINIINTERPRETER`</th>
 <td>
-Ticky-ticky profiling used to be a separate "way"; you had to rebuild all the libraries and the RTS for ticky-ticky profiling, 
-just like ordinary time/space profiling.  This isn't the case any more: you can link modules compiled with `-ticky`
-against modules or packages compiled without it.  Since 6.12.1, the `-debug` RTS version also include ticky-ticky
-support, and there is no separate RTS version for ticky.  If you use the `-ticky` flag when linking a program, it implies
-`-debug`.
+Enables the use of the RTS "mini-interpreter", which simulates tail-calls.  Again, this is enabled by
+`GhcUnregisterised` in the build system.
+</td></tr></table>
+
+<table><tr><th>`TABLES_NEXT_TO_CODE`</th>
+<td>
+Controls whether the info table is placed directly before the entry code for a closure or return continuation.
+This is normally turned on if the platform supports it, but is turned off by `GhcUnregisterised`.
 </td></tr></table>
