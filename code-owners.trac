@@ -28,15 +28,20 @@ have someone who claims responsibility for it.
    * Everything, RTS, Cmm !CodeGen, x86_64 port, SMP support
    * '''Phasing out as changing jobs'''
 
+ * '''[mailto:bos@serpentine.com Bryan O'Sullivan]'''
+   * Performance Tsar
+
  * '''[mailto:simonpj@microsoft.com Simon Peyton Jones]'''
    * '''GHC Tsar'''
    * Everything, Type system, Simplifier, Cmm !CodeGen
    * '''Note:''' Principle job is research, so more an advisor in the sense that can't spend time on pure engineering efforts.
 
  * '''[mailto:dave.terei@gmail.com David Terei]'''
+   * Performance Tsar
    * LLVM, Safe Haskell
 
  * '''[mailto:johan.tibell@gmail.com Johan Tibell]'''
+   * Performance Tsar
    * IO Manager
 
 == Directory to Maintainer Mapping ==
