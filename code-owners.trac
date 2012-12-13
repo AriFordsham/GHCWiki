@@ -28,7 +28,7 @@ have someone who claims responsibility for it.
    * Everything, RTS, Cmm !CodeGen, x86_64 port, SMP support
    * '''Phasing out as changing jobs'''
 
-* '''[mailto:bos@serpentine.com Bryan O'Sullivan]'''
+ * '''[mailto:bos@serpentine.com Bryan O'Sullivan]'''
    * Performance Tsar
 
  * '''[mailto:simonpj@microsoft.com Simon Peyton Jones]'''
