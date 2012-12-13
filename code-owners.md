@@ -12,9 +12,16 @@ have someone who claims responsibility for it.
 
 ## Current Owners / Maintainers
 
+- **Manuel Chakravarty**
+
+  - DPH vectoriser
+  - Type families
+  - OS X support
+
 - **Ben Lippmeier**
 
   - native code generator, register allocation
+  - DPH libraries
 
 - **Ian Lynagh**
 
@@ -68,7 +75,7 @@ have someone who claims responsibility for it.
 - typecheck/  -- Simon Peyton Jones
 - types/      -- Simon Peyton Jones
 - utils/      -- All
-- vectorise/  -- Ben Lippmeier
+- vectorise/  -- Manuel Chakravarty
 
 **Documentation**
 
