@@ -10,8 +10,14 @@ have someone who claims responsibility for it.
 
 == Current Owners / Maintainers ==
 
+ * '''[mailto:chak@cse.unsw.edu.au Manuel Chakravarty]'''
+   * DPH vectoriser
+   * Type families
+   * OS X support
+
  * '''[mailto:benl@ouroboris.net Ben Lippmeier]'''
    * native code generator, register allocation
+   * DPH libraries
 
  * '''[mailto:igloo@earth.li Ian Lynagh]'''
    * GHC support engineer
@@ -19,12 +25,12 @@ have someone who claims responsibility for it.
 
  * '''[mailto:marlowsd@gmail.com Simon Marlow]'''
    * '''GHC Tsar'''
-   * Everything, RTS, Cmm CodeGen, x86_64 port, SMP support
+   * Everything, RTS, Cmm !CodeGen, x86_64 port, SMP support
    * '''Phasing out as changing jobs'''
 
  * '''[mailto:simonpj@microsoft.com Simon Peyton Jones]'''
    * '''GHC Tsar'''
-   * Everything, Type system, Simplifier, Cmm CodeGen
+   * Everything, Type system, Simplifier, Cmm !CodeGen
    * '''Note:''' Principle job is research, so more an advisor in the sense that can't spend time on pure engineering efforts.
 
  * '''[mailto:dave.terei@gmail.com David Terei]'''
@@ -59,7 +65,7 @@ have someone who claims responsibility for it.
  * typecheck/  -- Simon Peyton Jones
  * types/      -- Simon Peyton Jones
  * utils/      -- All
- * vectorise/  -- Ben Lippmeier
+ * vectorise/  -- Manuel Chakravarty
 
 '''Documentation'''
  * doc/ -- All
