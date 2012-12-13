@@ -15,7 +15,7 @@ have someone who claims responsibility for it.
    * Type families
    * OS X support
 
- * '''[mailto:benl@ouroboris.net Ben Lippmeier]'''
+ * '''[mailto:benl@ouroborus.net Ben Lippmeier]'''
    * native code generator, register allocation
    * DPH libraries
 
@@ -121,7 +121,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Fedora packages: [mailto:haskell-devel@lists.fedoraproject.org Fedora Haskell SIG] (until F12)
 
  * '''Sparc'''
-   * Solaris: [mailto:benl@ouroborus.net Ben Lippmeier]
+   * Solaris: Position open
    * Linux:   Position open
    * Gentoo Linux packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/sparc packages: [mailto:kaol@debian.org Kari Pahula]
