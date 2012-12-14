@@ -85,6 +85,10 @@ tree that are most directly implicated.
  * Safe Haskell
    * '''[mailto:dave.terei@gmail.com David Terei]'''
 
+ * Cloud Haskell
+   * '''[mailto:watson.timothy@gmail.com Tim Watson]
+   * Code at: `http://haskell-distributed.github.com/distributed-process-platform`
+
  * Performance Tsars
    * '''[mailto:johan.tibell@gmail.com Johan Tibell]''', '''[mailto:dave.terei@gmail.com David Terei]''', '''[mailto:bos@serpentine.com Bryan O'Sullivan]'''
    * Directories: `nofib/`
