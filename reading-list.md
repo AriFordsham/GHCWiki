@@ -56,5 +56,10 @@ Please add: Hoopl, C--.
 
 ## Data Parallel Haskell
 
+- [ Data Parallel Haskell: a status report](http://www.cse.unsw.edu.au/~chak/papers/data-parallel-haskell.pdf), Manuel M. T. Chakravarty, Roman Leshchinskiy, Simon Peyton Jones, Gabriele Keller, and Simon Marlow. , DAMP 2007: Workshop on Declarative Aspects of Multicore Programming, 2007
 
-Please fill in...
+- [ Harnessing the Multicores: Nested Data Parallelism in Haskell](http://www.cse.unsw.edu.au/~chak/papers/fsttcs2008.pdf), Simon Peyton Jones, Roman Leshchinskiy, Gabriele Keller, and Manuel M. T. Chakravarty , IARCS Annual Conference on Foundations of Software Technology and Theoretical Computer Science (FSTTCS 2008), IBFI, Schloss Dagstuhl, 2008. 
+
+- [ Vectorisation Avoidance](http://www.cse.unsw.edu.au/~chak/papers/vect-avoid.pdf), Gabriele Keller, Manuel M. T. Chakravarty, Roman Leshchinskiy, Ben Lippmeier, and Simon Peyton Jones, Proceedings of ACM SIGPLAN Haskell Symposium 2012, ACM Press, 2012. 
+
+- [ Work Efficient Higher-Order Vectorisation](http://www.cse.unsw.edu.au/~chak/papers/replicate.pdf), Ben Lippmeier, Manuel M. T. Chakravarty, Gabriele Keller, Roman Leshchinskiy, and Simon Peyton Jones, The 17th ACM SIGPLAN International Conference on Functional Programming, ACM Press, 2012 
