@@ -17,7 +17,7 @@ What does it mean to be the "ownwer" of a chunk of GHC, say X?
  * The owner feels a sense of ownership. That means taking responsibility for keeping it clean and beautiful, and refactoring when necessary.
  * The owner can't be expected to fix every buglet, but feels a sense of responsbility to make sure that serious bugs are fixed.
 
-Ownership has the flavour of "first among equals" rather than "exclusive control":
+Ownership means being the "first among equals" rather than "having exclusive control":
  * It does not mean that everyone else can relax and say "oh Fred is dealing with X".  Fred needs help!
  * It does not mean that no changes can happen to X without the owner's say-so, most especially if the owner becomes hard to contact.
  
