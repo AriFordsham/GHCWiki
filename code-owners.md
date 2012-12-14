@@ -113,9 +113,8 @@ tree that are most directly implicated.
 
 - Cloud Haskell
 
-  - Tim Watson
+  - Tim Watson, Jeff Epstein
   - Code at: `http://haskell-distributed.github.com/distributed-process-platform`
-  - Jeff Epstein
 
 - Performance Tsars
 
