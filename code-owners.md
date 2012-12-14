@@ -6,7 +6,10 @@ capacity of any individual, or even research group, to maintain and
 develop.  Its continued success is built on the active contributions
 of a large group of highly talented people, who take responsiblity 
 for significant parts of the system.  This page summarises who does
-what.
+what. 
+
+
+See also the [working on GHC](working-conventions) page.
 
 ## What it means to "own" part of GHC
 
