@@ -14,6 +14,9 @@ Subscribe to the [ cvs-ghc mailing list](http://www.haskell.org/mailman/listinfo
 Talk to other [GHC contributors](contributors).
 
 
+Read the [GHC reading list](reading-list).
+
+
 These pages guide you step-by-step through making a contribution:
 
 - [Fix a bug in GHC](working-conventions/fixing-bugs). You can see all open bugs by clicking on "All bugs" in the left margin of this page.  At the top of the list is a filter you can use to refine your search.  Also check out the (currently stalled) [GHC bug sweep](bug-sweep).  Perhaps you can un-stall it.
