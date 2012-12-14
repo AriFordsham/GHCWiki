@@ -103,6 +103,12 @@ tree that are most directly implicated.
 
   - **David Terei**
 
+- Cloud Haskell
+
+  - **Tim Watson
+    **
+  - Code at: `http://haskell-distributed.github.com/distributed-process-platform`
+
 - Performance Tsars
 
   - **Johan Tibell**, **David Terei**, **Bryan O'Sullivan**
