@@ -14,10 +14,15 @@ Subscribe to the [ cvs-ghc mailing list](http://www.haskell.org/mailman/listinfo
 Talk to other [GHC contributors](contributors).
 
 
+Check out the (currently stalled) [GHC bug sweep](bug-sweep).  Perhaps you can un-stall it.
+
+
 These pages guide you step-by-step through making a contribution:
 
-- [Fix a bug in GHC](working-conventions/fixing-bugs).
-- [Add a new feature to GHC](working-conventions/adding-features)
+- [Fix a bug in GHC](working-conventions/fixing-bugs). You can see all open bugs by clicking on "All bugs" in the left margin of this page.  At the top of the list is a filter you can use to refine your search.
+
+- [Add a new feature to GHC](working-conventions/adding-features). You can see all open feature requests by clicking on "All bugs" in the left margin of this page.  At the top of the list is a filter you can use to refine your search.
+
 - [ Propose a change to the libraries](http://haskell.org/haskellwiki/Library_submissions)
 
 ## Working conventions
