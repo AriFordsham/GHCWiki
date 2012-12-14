@@ -10,6 +10,8 @@ You can ask questions on `ghc-devs@haskell.org`. People are friendly.
 
 - The [GHC Commentary](commentary) is a Wiki that describes GHC's implementation.  It is a Wiki.  That means that you can, and should, fix errors and write new chapters.
 
+- [ The Glasgow Haskell Compiler](http://www.aosabook.org/en/ghc.html), in [ The Architecture of Open Source Applications](http://www.aosabook.org/en/index.html), Volume II, ed Brown & Wilson. This paper gives an up to date (2012) technical overview of GHC.
+
 - Simon PJ's [ home page](http://research.microsoft.com/~simonpj) and [ publications page](http://research.microsoft.com/en-us/um/people/simonpj/papers/papers.html) have lots of relevant papers.  Some key ones appear below but not all.
 
 - Simon PJ's books:
@@ -21,6 +23,12 @@ You can ask questions on `ghc-devs@haskell.org`. People are friendly.
 ## Types and type inference
 
 - [ Modular type inference with local assumptions](http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn), Simon Peyton Jones, Dimitrios Vytiniotis, Tom Schrijvers, Martin Suzmann, Journal of Functional Programming, 2011.  This epic 83-page JFP paper brings together, in a single uniform framework, a series of our earlier papers on type inference for type systems involving local constraints, including GADTs and indexed type families.  
+
+- [ Papers about type equalities in GHC's intermediate language](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+
+  - *Equality proofs and deferred type errors*, Simon Peyton Jones, Dimitrios Vytiniotis and Pedro Magalhaes (ICFP 2012).  An exploration of what happens when you take equality proofs seriously in a compiler.
+  - *Giving Haskell a promotion*, Brent Yorgey, Stepanie Weirich, Julien Cretin, Simon Peyton Jones, and Dimitrios Vytiniotis (TLDI 2012).  How to (a) add kind polymorphism and (b) promote data types to become data kinds.
+  - *System F with Type Equality Coercions*, Martin Sulzmann, Manuel Chakravarty, and Simon Peyton Jones (TLDI 2007).  The first paper about System FC.
 
 - [ Unboxed values as first class citizens](http://research.microsoft.com/en-us/um/people/simonpj/papers/unboxed-values.ps.Z), SL Peyton Jones and J Launchbury, Functional Programming Languages and Computer Architecture (FPCA'91), Boston, LNCS 523, Springer Verlag, Sept 1991, pp636-666. How unboxed data types work in GHC.
 
