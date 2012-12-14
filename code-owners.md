@@ -27,6 +27,11 @@ Ownership means being the "first among equals" rather than "having exclusive con
 
 - It does not mean that everyone else can relax and say "oh Fred is dealing with X".  Fred needs help!
 - It does not mean that no changes can happen to X without the owner's say-so, most especially if the owner becomes hard to contact.
+- It does not mean that the owner can make decisions that the community disagrees with. Being willing to roll up your sleeves lends weight to your voice, but owners should seek consensus for contentious issues.
+
+
+ 
+When contacting an owner, always cc `ghc-devs@haskell.org`, so that others can contribute.  It's a community thing.
 
 ## Current Owners
 
@@ -40,51 +45,51 @@ tree that are most directly implicated.
 
 - Overall guidance and advice (the GHC Tsars)
 
-  - **Simon Peyton Jones**, **Simon Marlow**
+  - Simon Peyton Jones, Simon Marlow
 
 - Build system, release process.
 
-  - **Ian Lynagh**
+  - Ian Lynagh
   - Directories: `mk/`, `distrib/, `ghc-tarballs/, `rules/`, `utils/`, `compiler/main`
 
 - Foreign function interface (FFI)
 
-  - **Ian Lynagh**
+  - Ian Lynagh
   - Directories: `libffi/`
 
 - The main `HsSyn` data type
 
-  - **Simon Peyton Jones**
+  - Simon Peyton Jones
   - Directories: `compiler/hsSyn`
 
 - Renamer
 
-  - **Simon Peyton Jones**
+  - Simon Peyton Jones
   - Directories: `compiler/rename`
 
 - Type inference and interface files
 
-  - **Simon Peyton Jones**
+  - Simon Peyton Jones
   - Directories: `compiler/types`, `compiler/typecheck`, `compiler/iface`
 
 - Core, System FC, Simplifier and other optimisations on Core
 
-  - **Simon Peyton Jones**
+  - Simon Peyton Jones
   - Directories: `compiler/coreSyn`, `compiler/deSugar`, `compiler/simplCore`, `compiler/specialise`, `compiler/stranal`
 
 - Native code generator, register allocation
 
-  - **Ben Lippmeier**, **Simon Marlow**
+  - Ben Lippmeier, Simon Marlow
   - Directories: `compiler/nativeGen`
 
 - LLVM code generation
 
-  - **David Terei**
+  - David Terei
   - Directories: `compiler/llvmGen`
 
 - Runtime system, SMP support
 
-  - **Simon Marlow**
+  - Simon Marlow
   - Directories: `rts/`, `includes/`
 
 - GHCi, and debugger
@@ -94,27 +99,26 @@ tree that are most directly implicated.
 
 - Template Haskell
 
-  - **Simon Peyton Jones**
+  - Simon Peyton Jones
   - Directories: `libraries/template-haskell`, plus bits scattered over `compiler/`
 
 - Data Parallel Haskell
 
-  - **Manuel Chakravarty**, **Ben Lippmeier**
+  - Manuel Chakravarty, Ben Lippmeier
   - Directories: `compiler/vectorise`
 
 - Safe Haskell
 
-  - **David Terei**
+  - David Terei
 
 - Cloud Haskell
 
-  - **Tim Watson
-    **
+  - Tim Watson
   - Code at: `http://haskell-distributed.github.com/distributed-process-platform`
 
 - Performance Tsars
 
-  - **Johan Tibell**, **David Terei**, **Bryan O'Sullivan**
+  - Johan Tibell, David Terei, Bryan O'Sullivan
   - Directories: `nofib/`
 
 
@@ -127,7 +131,7 @@ Some [libraries](commentary/libraries) are very closely coupled to GHC, come wit
 
 - IO Manager
 
-  - **Johan Tibell**
+  - Johan Tibell
 
 ### Platforms
 
