@@ -113,11 +113,12 @@ Cross-cutting compiler directories: `parser/`, `prelude/`, `profiling/`, `utils/
 
 ### Libraries
 
+
+Some [libraries](commentary/libraries) are very closely coupled to GHC, come with any GHC installation, and are properly considered part of GHC.  (This list is very incomplete.)
+
 - IO Manager
 
   - **Johan Tibell**
-
-- OS X support
 
 ### Platforms
 
