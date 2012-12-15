@@ -6,11 +6,9 @@ machine, and how to tweak the settings to get the kind of build you
 want.  It also describes the inner workings of the build system, so you
 can extend it, modify it, and use it to build your code.
 
-See also our working conventions [wiki:WorkingConventions], covering Git workflows, bug tracker, coding conventions etc.
-
 == Contents ==
 
-Building GHC
+Building GHC:
 
  * [wiki:Building/Preparation Setting up your system for building GHC]
  * [wiki:Building/GettingTheSources Getting the sources]
@@ -18,14 +16,14 @@ Building GHC
  * [wiki:Platforms Platforms that GHC currently supports]
  * [wiki:Builder The GHC Builder, which coordinates distributed nightly builds]
 
-Getting started for developers
+Getting started for developers:
 
  * [wiki:Building/Hacking Getting started with the build system]
  * [wiki:Building/Rebuilding How do I re-build after updating or changing GHC?]
  * [wiki:Building/Troubleshooting FAQ: Solving common problems with building GHC]
  * [wiki:Building/Hoogle Making GHC's source code searchable with Hoogle]
 
-More detailed information about using the build system
+More detailed information about using the build system:
 
  * [wiki:Building/Using Using the build system]
  * [wiki:Building/StandardTargets Standard targets]
@@ -44,7 +42,7 @@ How to test and benchmark changes to GHC:
  * [wiki:Debugging Debugging and performance-tuning for GHC]
  * [wiki:Debugging/InstallingPackagesInplace Installing extra packages for your in-place GHC]
 
-More detailed information about how the build system works
+More detailed information about how the build system works:
  * [wiki:Commentary/SourceTree Overview of files and directories]
  * [wiki:Building/Architecture Architecture of the build system]
  * [wiki:Building/Modifying Modifying the build system]
@@ -55,6 +53,9 @@ Platform-specific building instructions:
  * [wiki:Building/Preparation/Windows Building under Windows]
  * [wiki:Building/MacOSX Building under MacOS X]
  * [wiki:Building/Solaris Building under Solaris]
+
+Working conventions, covering Git workflows, bug tracker, coding conventions etc:
+ * [wiki:WorkingConventions Working Conventions]
 
 == Contributed documentation ==
 
