@@ -6,8 +6,6 @@ machine, and how to tweak the settings to get the kind of build you
 want.  It also describes the inner workings of the build system, so you
 can extend it, modify it, and use it to build your code.
 
-See also our working conventions [wiki:WorkingConventions], covering Git workflows, bug tracker, coding conventions etc.
-
 == Contents ==
 
 Building GHC
@@ -55,6 +53,9 @@ Platform-specific building instructions:
  * [wiki:Building/Preparation/Windows Building under Windows]
  * [wiki:Building/MacOSX Building under MacOS X]
  * [wiki:Building/Solaris Building under Solaris]
+
+Working conventions, covering Git workflows, bug tracker, coding conventions etc:
+ * [wiki:WorkingConventions]
 
 == Contributed documentation ==
 

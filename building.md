@@ -7,9 +7,6 @@ machine, and how to tweak the settings to get the kind of build you
 want.  It also describes the inner workings of the build system, so you
 can extend it, modify it, and use it to build your code.
 
-
-See also our working conventions [WorkingConventions](working-conventions), covering Git workflows, bug tracker, coding conventions etc.
-
 ## Contents
 
 
@@ -65,6 +62,11 @@ Platform-specific building instructions:
 - [Building under Windows](building/preparation/windows)
 - [Building under MacOS X](building/mac-osx)
 - [Building under Solaris](building/solaris)
+
+
+Working conventions, covering Git workflows, bug tracker, coding conventions etc:
+
+- [WorkingConventions](working-conventions)
 
 ## Contributed documentation
 
