@@ -10,7 +10,7 @@ can extend it, modify it, and use it to build your code.
 ## Contents
 
 
-Building GHC
+Building GHC:
 
 - [Setting up your system for building GHC](building/preparation)
 - [Getting the sources](building/getting-the-sources)
@@ -19,7 +19,7 @@ Building GHC
 - [The GHC Builder, which coordinates distributed nightly builds](builder)
 
 
-Getting started for developers
+Getting started for developers:
 
 - [Getting started with the build system](building/hacking)
 - [How do I re-build after updating or changing GHC?](building/rebuilding)
@@ -27,7 +27,7 @@ Getting started for developers
 - [Making GHC's source code searchable with Hoogle](building/hoogle)
 
 
-More detailed information about using the build system
+More detailed information about using the build system:
 
 - [Using the build system](building/using)
 - [Standard targets](building/standard-targets)
@@ -49,7 +49,7 @@ How to test and benchmark changes to GHC:
 - [Installing extra packages for your in-place GHC](debugging/installing-packages-inplace)
 
 
-More detailed information about how the build system works
+More detailed information about how the build system works:
 
 - [Overview of files and directories](commentary/source-tree)
 - [Architecture of the build system](building/architecture)
