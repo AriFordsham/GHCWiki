@@ -66,7 +66,7 @@ Platform-specific building instructions:
 
 Working conventions, covering Git workflows, bug tracker, coding conventions etc:
 
-- [WorkingConventions](working-conventions)
+- [Working Conventions](working-conventions)
 
 ## Contributed documentation
 
