@@ -28,7 +28,7 @@ and follow the download instructions for the '''mingw-get-inst''' installer. Thi
 
 3. '''Set your `PATH`'''. You need to include at least
  * `c:/MinGW/bin` (contains `autoconf` etc)
- * `c:/MinGW/msys/1.0/bin` (contains `bash` etc)
+ * `c:/MinGW/msys/1.0/bin` (contains `bash`, `make` etc)
  * `c:/git/bin` (or wherever you installed git)
  * `c:/Python27` (or wherever you installed Python)
  * `c:/dev/llvm/bin` (or wherever you installed LLVM, if you got it)
