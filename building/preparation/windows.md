@@ -32,20 +32,34 @@ MinGW provides a windows version of GCC while MSYS provides a minimal UNIX envir
 
 and follow the download instructions for the **mingw-get-inst** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you **select to install g++, MSYS and the MSYS Dev Kit**.
 
-1. **Set your `PATH`**. We recommend doing this by creating a file `.profile` in your home directory (by default `c:/MinGW/msys/1.0/home/<username>`). The contents of your `.profile` should be something like this:
+1. **Set your `PATH`**. You need to include at least
+
+  - `c:/MinGW/bin` (contains `autoconf` etc)
+  - `c:/MinGW/msys/1.0/bin` (contains `bash`, `make` etc)
+  - `c:/git/bin` (or wherever you installed git)
+  - `c:/Python27` (or wherever you installed Python)
+  - `c:/dev/llvm/bin` (or wherever you installed LLVM, if you got it)
+
+
+We recommend doing this by creating a file `.profile` in your home directory (by default `c:/MinGW/msys/1.0/home/<username>`). The contents of your `.profile` should be something like this:
 
 ```wiki
-# Add Git and Python to path
-export PATH=${PATH}:"/c/Program Files (x86)/Git/bin":/c/Python27
+# Add Python to path
+export PATH=${PATH}:/c/Python27
 
-# If you also grabbed LLVM
-export PATH=${PATH}:/c/dev/llvm/bin
+...etc..etc...
 ```
 
 
-Modify the above according to where you installed Git and Python. The Haskell platform installer should have already done the work needed to make GHC available on the path.
+The Haskell platform installer should have already done the work needed to make GHC available on the path.
+
+
+If you use a shell within Emacs, make sure your `SHELL` environment variable points to the `bash` in `c:/MinGW/msys/1.0/bin`. 
 
 1. **Launch the shell** by starting the 'MinGW Shell' which should be in your start menu.
+
+
+Use `autoconf --version` to check that you have at least version 2.68 of `autoconf`. Version 2.56 (which was around for a long time) does not work for GHC's build system.
 
 
 You should now have a working environment for getting the source for GHC and building it!
