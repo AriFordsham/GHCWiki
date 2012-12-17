@@ -48,6 +48,8 @@ If you use a shell within Emacs, make sure your `SHELL` environment variable poi
 
 4. '''Launch the shell''' by starting the 'MinGW Shell' which should be in your start menu.
 
+Use `autoconf --version` to check that you have at least version 2.68 of `autoconf`. Version 2.56 (which was around for a long time) does not work for GHC's build system.
+
 
 You should now have a working environment for getting the source for GHC and building it!
 
