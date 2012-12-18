@@ -45,11 +45,20 @@ source tree.  There are "standard" Unix utilities that make such
 copies, so standard that they go by different names: {{{lndir}}} and
 {{{mkshadowdir}}} are two (If you don't have either, the GHC source
 tree contains sources for the X11 {{{lndir}}} check out
-{{{utils/lndir}}}).
+{{{utils/lndir}}}).  To create a separate build tree, the typical sequence is something like this:
 
-You need to be a bit careful, though, that any new files you create
+{{{
+  $ mkdir ghc-build
+  $ cd ghc-build
+  $ lndir <source>
+  $ ln -s <source>/.git .
+}}}
+
+Where `<source>` is the directory containing your source tree.  Note the last step: GHC's `configure` script likes to see the `.git` directory, and by default `lndir` will not link `.git` directories.  Things will still work if you omit this step, but the GHC version number for your build won't contain the date (i.e. it will be "7.7" instead of something like "7.7.20121218").
+
+You need to be a bit careful when using a build tree, that any new files you create
 (if you do any development work) are in the source tree, not the build
-tree!
+tree!  This is especially easy to mess up when creating new tests, so watch out.
 
 == Booting, configuring, cleaning ==
 
