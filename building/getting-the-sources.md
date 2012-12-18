@@ -35,7 +35,7 @@ git config --global core.autocrlf false
 ```
 
 
-A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain [separate git repositories](repositories). To get a complete repository tree using git:
+A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate git repositories (for a list see [Repositories](repositories)). To get a complete repository tree using git:
 
 ```wiki
   $ git clone http://darcs.haskell.org/ghc.git/
