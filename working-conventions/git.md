@@ -52,7 +52,7 @@ We have a simple convention for commit log messages:
     withMVar family have a bug (fixes #767)
   ```
 
-  **Trac will then create a link from the commit to the ticket**, making navigation easier.
+  **Git will then add a link to the commit from the ticket**, so that people watching the ticket can see that a fix has been committed, and in the future we can easily find the patch that fixed the ticket.  When navigating the git history on Trac, you will also be able to jump directly to the ticket from the commit.
 
 ## Line endings
 
