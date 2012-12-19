@@ -1,5 +1,5 @@
 
-This page has been replace by 
+This page has been replaced by 
 
 - [Repositories](working-conventions/repositories)
-- \[wkik:Repositories/Upstream\]
+- [Repositories/Upstream](repositories/upstream)
