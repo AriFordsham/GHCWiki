@@ -23,6 +23,7 @@ See also [wiki:TemplateHaskell]
  * #7021: make TH catch up with constraint kinds
 
 == Optimisation ==
+ * #7511: inlining can make programs allocate MORE!!
  * #7307, #7308: low hanging fruit for shrinking code size for string constants and top-level indirections
  * #7206, #7309: avoid excessive sharing of enumerations
  * #6040, #5945, #3458, #1216: lambda-lift functions with a few args, just before code gen
