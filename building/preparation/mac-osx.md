@@ -45,21 +45,17 @@ You can install a binary distribution of GHC in three ways:
 
 **NB:** You need to use a binary distribution of GHC 7.4.1 (or later) as your bootstrap compiler.
 
-## GNU tools
+## Other tools
 
 
 Thirdly, if you want to build the development version of GHC from the Git repositories, you also need to install the GNU auto tools. You can get them as follows:
 
 - (Homebrew): `brew install autoconf automake`
 
-## LLVM
-
 
 Fourthly, if you like to use GHC's LLVM backend:
 
 - (Homebrew): `brew install llvm`
-
-## Installing DocBook
 
 
 Finally, if you want to build the documentation you need to install DocBook. You can install it like so:
