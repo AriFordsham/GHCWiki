@@ -26,7 +26,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 {{{
 #!html
 <table border="1">
-<tr><td>Location in tree</td>   <td> Upstream repo?</td> <td>Reqd to build?</td>   <td>Installed?</td> <td>GHC repo http://darcs.haskell.org/...</td></tr>
+<tr><td><strong>Location in tree</strong></td>   <td> <strong>Upstream repo?</strong></td> <td><strong>Reqd to build?</strong></td>   <td><strong>Installed?</strong></td> <td><strong>GHC repo http://darcs.haskell.org/...</strong></td></tr>
 <tr><td>. (ghc itself)</td>                    <td>     </td> <td>     </td> <td>     </td> <td>ghc.git/</td></tr>
 <tr><td>ghc-tarballs</td>                      <td>     </td> <td>     </td> <td> no  </td> <td>ghc-tarballs.git/</td></tr>
 <tr><td>utils/hsc2hs</td>                      <td>     </td> <td>     </td> <td>     </td> <td>utils/hsc2hs.git/</td></tr>
