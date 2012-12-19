@@ -70,6 +70,16 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th></th>
 <th>haddock.git</th></tr>
+<tr><th>testsuite</th>
+<th></th>
+<th></th>
+<th></th>
+<th>testsuite.git</th></tr>
+<tr><th>nofib</th>
+<th></th>
+<th></th>
+<th></th>
+<th>nofib.git</th></tr>
 <tr><th>libraries/array</th>
 <th></th>
 <th></th>
@@ -225,16 +235,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th></th>
 <th>packages/xhtml.git/</th></tr>
-<tr><th>testsuite</th>
-<th></th>
-<th></th>
-<th></th>
-<th>testsuite.git</th></tr>
-<tr><th>nofib</th>
-<th></th>
-<th></th>
-<th></th>
-<th>nofib.git</th></tr>
 <tr><th>libraries/primitive</th>
 <th> yes </th>
 <th></th>

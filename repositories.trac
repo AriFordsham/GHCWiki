@@ -45,6 +45,8 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <tr><td>ghc-tarballs</td>                      <td>     </td> <td>     </td> <td> no  </td> <td>ghc-tarballs.git/</td></tr>
 <tr><td>utils/hsc2hs</td>                      <td>     </td> <td>     </td> <td>     </td> <td>utils/hsc2hs.git/</td></tr>
 <tr><td>utils/haddock</td>                     <td>     </td> <td>     </td> <td>     </td> <td>haddock.git</td></tr>
+<tr><td>testsuite</td>              	       <td>     </td> <td>     </td> <td>     </td> <td>testsuite.git</td></tr>
+<tr><td>nofib</td>                  	       <td>     </td> <td>     </td> <td>     </td> <td>nofib.git</td></tr>
 <tr><td>libraries/array</td>                   <td>     </td> <td>     </td> <td>     </td> <td>packages/array.git/</td></tr>
 <tr><td>libraries/base</td>                    <td>     </td> <td>     </td> <td>     </td> <td>packages/base.git/</td></tr>
 <tr><td>libraries/binary</td>                  <td> yes </td> <td>     </td> <td>     </td> <td>packages/.git/</td></tr>
@@ -76,8 +78,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <tr><td>libraries/utf8-string</td>  	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/utf8-string.git/</td></tr>
 <tr><td>libraries/Win32</td>	    	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/Win32.git/</td></tr>
 <tr><td>libraries/xhtml</td>	    	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/xhtml.git/</td></tr>
-<tr><td>testsuite</td>              	       <td>     </td> <td>     </td> <td>     </td> <td>testsuite.git</td></tr>
-<tr><td>nofib</td>                  	       <td>     </td> <td>     </td> <td>     </td> <td>nofib.git</td></tr>
 <tr><td>libraries/primitive</td>       	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/primitive.git/</td></tr>
 <tr><td>libraries/vector</td>       	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/vector.git/</td></tr>
 <tr><td>libraries/dph</td>          	       <td>     </td> <td>     </td> <td>     </td> <td>packages/dph.git/</td></tr>
