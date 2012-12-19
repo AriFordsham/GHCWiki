@@ -39,34 +39,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 
 {{{
 #!html
-<style type="text/css">
-table.sample {
-	border-width: 1px;
-	border-spacing: 0px;
-	border-style: outset;
-	border-color: gray;
-	border-collapse: collapse;
-	background-color: white;
-}
-table.sample th {
-	border-width: 1px;
-	padding: 1px;
-	border-style: inset;
-	border-color: gray;
-	background-color: white;
-	-moz-border-radius: ;
-}
-table.sample td {
-	border-width: 1px;
-	padding: 1px;
-	padding-left: 4px;
-	padding-right: 6px;
-	border-style: inset;
-	border-color: gray;
-	background-color: white;
-	-moz-border-radius: ;
-}
-</style>
 <table border="1">
 <tr><td>Location in tree</td>   <td> Upstream repo?</td> <td>Reqd to build?</td>   <td>Installed?</td> <td>GHC repo http://darcs.haskell.org/...</td></tr>
 <tr><td>. (ghc itself)</td>                    <td>     </td> <td>     </td> <td>     </td> <td>ghc.git/</td></tr>
