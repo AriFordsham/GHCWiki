@@ -19,11 +19,6 @@ GHC's repos use git; see [Git Working Conventions](working-conventions/git). For
 A GHC source tree is made of a collection of repositories. The script [sync-all](building/sync-all) knows how to apply git commands to the whole collection of repositories at once, for example to pull changes from the upstream repositories.
 
 
-The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories. 
-
-## The repositories
-
-
 Here is a list of the repositories that GHC uses.  The columns have the following meaning
 
 - **Location in tree**: where in the source tree this repository sits.
