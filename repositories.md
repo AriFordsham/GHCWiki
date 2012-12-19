@@ -269,7 +269,7 @@ See the [Commentary/Libraries](commentary/libraries) page for more information a
 ## Modifying local packages
 
 
-For libraries for which there no upstream repo, you can modify the GHC repo above directly.
+For libraries for which there is no upstream repo, you can modify the GHC repo above directly.
 
 
 When making a change to a library, you must also update the version

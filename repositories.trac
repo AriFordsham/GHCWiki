@@ -89,7 +89,7 @@ See the [wiki:Commentary/Libraries] page for more information about GHC's librar
 
 == Modifying local packages ==
 
-For libraries for which there no upstream repo, you can modify the GHC repo above directly.
+For libraries for which there is no upstream repo, you can modify the GHC repo above directly.
 
 When making a change to a library, you must also update the version
 number if appropriate. Version number in the repositories should be
