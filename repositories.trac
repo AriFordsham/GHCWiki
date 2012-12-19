@@ -22,7 +22,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
  * '''Upstream repo?''': if "yes", this library is maintained by someone else, 
    and its master repo is somewhere else.  See [wiki:Repositories/Upstream].
 
- * '''Reqd to build?''': is "no" is this library is not required to build GHC. We have a few of these because we use them for tests and suchlike.
+ * '''Reqd to build?''': is "no" if this library is not required to build GHC. We have a few of these because we use them for tests and suchlike.
 
  * '''Installed?''': is "no" if the library is not installed in a GHC installation. All others are installed with GHC. See the [wiki:Commentary/Libraries libraries page] for more info.
 
