@@ -23,10 +23,10 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 
 - **Location in tree**: where in the source tree this repository sits.
 - **Upstream repo?**: if "yes", this library is maintained by someone else, 
-  and its master repo is somewhere else.  See the [page about upstream repositories](repositories/upstream).
+  and its master repo is somewhere else.  See [Repositories/Upstream](repositories/upstream).
 - **Reqd to build?**: is "no" is this library is not required to build GHC. We have a few of these because we use them for tests and suchlike.
 - **Installed?**: is "no" if the library is not installed in a GHC installation. All others are installed with GHC. See the [libraries page](commentary/libraries) for more info.
-- **GHC repo**: in every case there is a repo on `http://darcs.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [upstream repositories](repositories/upstream))
+- **GHC repo**: in every case there is a repo on `http://darcs.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [Repositories/Upstream](repositories/upstream))
 
 <table><tr><th>**Location in tree**</th>
 <th>**Upstream repo?**</th>
