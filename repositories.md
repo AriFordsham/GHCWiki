@@ -22,11 +22,15 @@ A GHC source tree is made of a collection of repositories. The script [sync-all]
 Here is a list of the repositories that GHC uses.  The columns have the following meaning
 
 - **Location in tree**: where in the source tree this repository sits.
+
 - **Upstream repo?**: if "yes", this library is maintained by someone else, 
   and its master repo is somewhere else.  See [Repositories/Upstream](repositories/upstream).
+
 - **Reqd to build?**: is "no" is this library is not required to build GHC. We have a few of these because we use them for tests and suchlike.
+
 - **Installed?**: is "no" if the library is not installed in a GHC installation. All others are installed with GHC. See the [libraries page](commentary/libraries) for more info.
-- **GHC repo**: in every case there is a repo on `http://darcs.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [Repositories/Upstream](repositories/upstream))
+
+- **GHC repo**: in every case there is a repo on `http://darcs.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [Repositories/Upstream](repositories/upstream)).  The read-only HTTP URL for the repo is `http://darcs.haskell.org/<table-entry>`.  To get a read/write URL, replace HTTP prefix `http://darcs.haskell.org` with the SSH prefix `darcs.haskell.org:/srv/darcs`. 
 
 <table><tr><th>**Location in tree**</th>
 <th>**Upstream repo?**</th>
