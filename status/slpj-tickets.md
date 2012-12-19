@@ -28,6 +28,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511): inlining can make programs allocate MORE!!
 - [\#7307](https://gitlab.haskell.org//ghc/ghc/issues/7307), [\#7308](https://gitlab.haskell.org//ghc/ghc/issues/7308): low hanging fruit for shrinking code size for string constants and top-level indirections
 - [\#7206](https://gitlab.haskell.org//ghc/ghc/issues/7206), [\#7309](https://gitlab.haskell.org//ghc/ghc/issues/7309): avoid excessive sharing of enumerations
 - [\#6040](https://gitlab.haskell.org//ghc/ghc/issues/6040), [\#5945](https://gitlab.haskell.org//ghc/ghc/issues/5945), [\#3458](https://gitlab.haskell.org//ghc/ghc/issues/3458), [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): lambda-lift functions with a few args, just before code gen
