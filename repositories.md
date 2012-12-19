@@ -33,30 +33,260 @@ The "`tag`" in the master table in packages has the following significance:
 
 See the [Commentary/Libraries](commentary/libraries) page for more information about GHC's libraries.
 
-## Making changes to repositories
+## The repositories
 
 
-See [WorkingConventions/Repositories](working-conventions/repositories).
+Here is a list of the repositories that GHC uses.  The columns have the following meaning
 
-## Repository and mirrors
+- **Location in tree**: where in the source tree this repository sits.
+- **Upstream repo?**: if "yes", this library is maintained by someone else, 
+  and its master repo is somewhere else.  See the [page about upstream repositories](repositories/upstream).
+- **Reqd to build?**: is "no" is this library is not required to build GHC. We have a few of these because we use them for tests and suchlike.
+- **Installed?**: is "no" if the library is not installed in a GHC installation. All others are installed with GHC. See the [libraries page](commentary/libraries) for more info.
+- **GHC repo**: in every case there is a repo on `http://darcs.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [upstream repositories](repositories/upstream))
+
+<table><tr><th>Location in tree</th>
+<th> Upstream repo?</th>
+<th>Reqd to build?</th>
+<th>Installed?</th>
+<th>GHC repo http://darcs.haskell.org/...</th></tr>
+<tr><th>. (ghc itself)</th>
+<th></th>
+<th></th>
+<th></th>
+<th>ghc.git/</th></tr>
+<tr><th>ghc-tarballs</th>
+<th></th>
+<th></th>
+<th> no  </th>
+<th>ghc-tarballs.git/</th></tr>
+<tr><th>utils/hsc2hs</th>
+<th></th>
+<th></th>
+<th></th>
+<th>utils/hsc2hs.git/</th></tr>
+<tr><th>utils/haddock</th>
+<th></th>
+<th></th>
+<th></th>
+<th>haddock.git</th></tr>
+<tr><th>libraries/array</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/array.git/</th></tr>
+<tr><th>libraries/base</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/base.git/</th></tr>
+<tr><th>libraries/binary</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/.git/</th></tr>
+<tr><th>libraries/bytestring</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/bytestring.git/</th></tr>
+<tr><th>libraries/Cabal</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/Cabal.git/</th></tr>
+<tr><th>libraries/containers</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/containers.git/</th></tr>
+<tr><th>libraries/directory</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/directory.git/</th></tr>
+<tr><th>libraries/extensible-exceptions</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/extensible-exceptions.git/</th></tr>
+<tr><th>libraries/filepath</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/filepath.git/</th></tr>
+<tr><th>libraries/ghc-prim</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/ghc-prim.git/</th></tr>
+<tr><th>libraries/haskeline</th>
+<th> yes </th>
+<th></th>
+<th> no  </th>
+<th>packages/haskeline.git/</th></tr>
+<tr><th>libraries/haskell98</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/haskell98.git/</th></tr>
+<tr><th>libraries/haskell2010</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/haskell2010.git/</th></tr>
+<tr><th>libraries/hoopl</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/hoopl.git/</th></tr>
+<tr><th>libraries/hpc</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/hpc.git/</th></tr>
+<tr><th>libraries/integer-gmp</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/integer-gmp.git/</th></tr>
+<tr><th>libraries/integer-simple</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/integer-simple.git/</th></tr>
+<tr><th>libraries/mtl</th>
+<th> yes </th>
+<th> no  </th>
+<th> no  </th>
+<th>packages/mtl.git/</th></tr>
+<tr><th>libraries/old-locale</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/old-locale.git/</th></tr>
+<tr><th>libraries/old-time</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/old-time.git/</th></tr>
+<tr><th>libraries/pretty</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/pretty.git/</th></tr>
+<tr><th>libraries/process</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/process.git/</th></tr>
+<tr><th>libraries/random</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/random.git/</th></tr>
+<tr><th>libraries/template-haskell</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/template-haskell.git/</th></tr>
+<tr><th>libraries/terminfo</th>
+<th> yes </th>
+<th></th>
+<th> no  </th>
+<th>packages/terminfo.git/</th></tr>
+<tr><th>libraries/time</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/time.git/</th></tr>
+<tr><th>libraries/transformers</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/transformers.git/</th></tr>
+<tr><th>libraries/unix</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/unix.git/</th></tr>
+<tr><th>libraries/utf8-string</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/utf8-string.git/</th></tr>
+<tr><th>libraries/Win32</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/Win32.git/</th></tr>
+<tr><th>libraries/xhtml</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/xhtml.git/</th></tr>
+<tr><th>testsuite</th>
+<th></th>
+<th></th>
+<th></th>
+<th>testsuite.git</th></tr>
+<tr><th>nofib</th>
+<th></th>
+<th></th>
+<th></th>
+<th>nofib.git</th></tr>
+<tr><th>libraries/primitive</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/primitive.git/</th></tr>
+<tr><th>libraries/vector</th>
+<th> yes </th>
+<th></th>
+<th></th>
+<th>packages/vector.git/</th></tr>
+<tr><th>libraries/dph</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/dph.git/</th></tr>
+<tr><th>libraries/deepseq</th>
+<th></th>
+<th> no  </th>
+<th> no </th>
+<th>packages/deepseq.git/</th></tr>
+<tr><th>libraries/parallel</th>
+<th></th>
+<th> no  </th>
+<th> no  </th>
+<th>packages/parallel.git/</th></tr>
+<tr><th>libraries/stm</th>
+<th></th>
+<th> no  </th>
+<th> no  </th>
+<th>packages/stm.git/</th></tr></table>
+
+## Modifying local packages
 
 
-Many of the libraries and tools in a GHC tree are actually maintained by someone else. They therefore have a separate upstream repository, from which we need to pull. That repository may be either a darcs or a git repository; in the darcs case, we also need to convert to a git repository for use in a GHC tree. However, if the darcs repository is on another server, then we first need to mirror it for the conversion program to use. This diagram shows how changes migrate from one repo to another:
-
-not handled: Image
+For libraries for which there no upstream repo, you can modify the GHC repo above directly.
 
 
-This means that when making changes needed in GHC to one of these libraries, we first need to put the changes in the upstream repository. Note that a git hook prevents you from pushing patches to the ghc repos until they are already in the git mirror repos, so that we cannot forget to send changes upstream.
+When making a change to a library, you must also update the version
+number if appropriate. Version number in the repositories should be
+maintained such that, if the library were to be release as-is, then
+they would have the correct version number. For example, if the last
+release of a library was 1.2.0.3 and you remove a function from it
+then, as per the
+[ Package versioning policy](http://www.haskell.org/haskellwiki/Package_versioning_policy),
+the version number should be bumped to 1.3.0.0. If it is already
+1.3.0.0 or higher then no further change is necessary. In order to
+make this easier, the version line in the `.cabal` file should be
+followed by a comment such as
 
-
-The mirrors are updated automatically each night, but you can force an immediate update by running `/srv/darcs/do_mirrors` on `darcs.haskell.org`.
-
-## Repository locations
-
-This table shows, for each repository in a GHC tree, where the central repository (identified in green) is, and what mirrors there are.
-
-For the common case where the central repository held on `darcs.haskell.org` and appears in the "ghc (validated) repo" column, we give the read-only URL.  To get a read/write URL, replace HTTP prefix `http://darcs.haskell.org` with the SSH prefix `darcs.haskell.org:/srv/darcs`.
-darcsgitdarcs upstreamdarcs mirrorgit upstreamgit mirrorghc (validated) repoin-treehttp://darcs.haskell.org/ghc.git/.ghchttp://darcs.haskell.org/ghc-tarballs.git/ghc-tarballshttp://darcs.haskell.org/utils/hsc2hs.git/utils/hsc2hshttp://darcs.haskell.org/haddock.gitutils/haddockhttp://darcs.haskell.org/packages/array.git/libraries/arrayhttp://darcs.haskell.org/packages/base.git/libraries/basegit://github.com/kolmodin/binary.githttp://darcs.haskell.org/git-mirrors/binary/binary.git/http://darcs.haskell.org/packages/.git/libraries/binaryhttp://darcs.haskell.org/bytestring/http://darcs.haskell.org/git-mirrors/bytestring/.git/http://darcs.haskell.org/packages/bytestring.git/libraries/bytestringgit://github.com/haskell/cabal.githttp://darcs.haskell.org/git-mirrors/Cabal/.git/http://darcs.haskell.org/packages/Cabal.git/libraries/Cabalgit://github.com/haskell/containers.githttp://darcs.haskell.org/git-mirrors/containers/.git/http://darcs.haskell.org/packages/containers.git/libraries/containershttp://darcs.haskell.org/packages/directory.git/libraries/directoryhttp://darcs.haskell.org/packages/extensible-exceptions.git/libraries/extensible-exceptionshttp://darcs.haskell.org/packages/filepath.git/libraries/filepathhttp://darcs.haskell.org/packages/ghc-prim.git/libraries/ghc-primhttp://code.haskell.org/haskeline/http://darcs.haskell.org/darcs-mirrors/haskeline/http://darcs.haskell.org/git-mirrors/haskeline/.git/http://darcs.haskell.org/packages/haskeline.git/libraries/haskelinehttp://darcs.haskell.org/packages/haskell98.git/libraries/haskell98http://darcs.haskell.org/packages/haskell2010.git/libraries/haskell2010http://darcs.haskell.org/packages/hoopl.git/libraries/hooplhttp://darcs.haskell.org/packages/hpc.git/libraries/hpchttp://darcs.haskell.org/packages/integer-gmp.git/libraries/integer-gmphttp://darcs.haskell.org/packages/integer-simple.git/libraries/integer-simplegit://github.com/ekmett/mtl.githttp://darcs.haskell.org/git-mirrors/mtl/.githttp://darcs.haskell.org/packages/mtl.git/libraries/mtlhttp://darcs.haskell.org/packages/old-locale.git/libraries/old-localehttp://darcs.haskell.org/packages/old-time.git/libraries/old-timegit://github.com/haskell/pretty.githttp://darcs.haskell.org/git-mirrors/pretty/http://darcs.haskell.org/packages/pretty.git/libraries/prettyhttp://darcs.haskell.org/packages/process.git/libraries/processgit://github.com/haskell/random.githttp://darcs.haskell.org/git-mirrors/random/http://darcs.haskell.org/packages/random.git/libraries/randomhttp://darcs.haskell.org/packages/template-haskell.git/libraries/template-haskellhttp://code.haskell.org/terminfo/http://darcs.haskell.org/darcs-mirrors/terminfo/http://darcs.haskell.org/git-mirrors/terminfo/.git/http://darcs.haskell.org/packages/terminfo.git/libraries/terminfohttp://code.haskell.org/time/http://darcs.haskell.org/darcs-mirrors/time/http://darcs.haskell.org/git-mirrors/time/.git/http://darcs.haskell.org/packages/time.git/libraries/timehttp://code.haskell.org/\~ross/transformershttp://darcs.haskell.org/darcs-mirrors/transformers/http://darcs.haskell.org/git-mirrors/transformers/.git/http://darcs.haskell.org/packages/transformers.git/libraries/transformershttp://darcs.haskell.org/packages/unix.git/libraries/unixhttps://github.com/glguy/utf8-string.githttp://darcs.haskell.org/git-mirrors/utf8-string/http://darcs.haskell.org/packages/utf8-string.git/libraries/utf8-stringgit://github.com/haskell/win32.githttp://darcs.haskell.org/git-mirrors/Win32/http://darcs.haskell.org/packages/Win32.git/libraries/Win32git://github.com/haskell/xhtml.githttp://darcs.haskell.org/git-mirrors/xhtml/http://darcs.haskell.org/packages/xhtml.git/libraries/xhtmlhttp://darcs.haskell.org/testsuite.git/testsuitetestsuitehttp://darcs.haskell.org/nofib.gitnofibnofibhttp://code.haskell.org/primitive/http://darcs.haskell.org/darcs-mirrors/primitive/http://darcs.haskell.org/git-mirrors/primitive/.git/http://darcs.haskell.org/packages/primitive.git/libraries/primitivedphhttp://code.haskell.org/vector/http://darcs.haskell.org/darcs-mirrors/vector/http://darcs.haskell.org/git-mirrors/vector/.git/http://darcs.haskell.org/packages/vector.git/libraries/vectorhttp://darcs.haskell.org/packages/dph.git/libraries/dphhttp://darcs.haskell.org/packages/deepseq.git/libraries/deepseqextrahttp://darcs.haskell.org/packages/parallel.git/libraries/parallelhttp://darcs.haskell.org/packages/stm.git/libraries/stm
+```wiki
+-- GHC 7.6.1 released with 1.2.0.3
+```
 
 ## Mirroring new packages to GitHub
 
