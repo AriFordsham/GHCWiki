@@ -45,6 +45,10 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Playing by the rules: rewriting as a practical optimisation technique in GHC](http://research.microsoft.com/en-us/um/people/simonpj/papers/rules.htm), Simon Peyton Jones, Andrew Tolmach and Tony Hoare, Haskell Workshop 2001.  Describes how RULES work, which are heavily used in GHC.
 
+- [ Call-pattern Specialisation for Haskell Programs](https://research.microsoft.com/en-us/um/people/simonpj/papers/spec-constr/spec-constr.pdf), Simon Peyton Jones, ICFP 2007. Describe the specialisation optimiser.
+
+- [ Let-floating: moving bindings to give faster programs](http://research.microsoft.com/pubs/67060/float.ps.gz), Simon Peyton Jones, Will Partain, and Andre Santos, ICFP 1996. Describe the let floating and full laziness optimisation passes.
+
 ## Data Parallel Haskell
 
 - [ Data Parallel Haskell: a status report](http://www.cse.unsw.edu.au/~chak/papers/data-parallel-haskell.pdf), Manuel M. T. Chakravarty, Roman Leshchinskiy, Simon Peyton Jones, Gabriele Keller, and Simon Marlow. , DAMP 2007: Workshop on Declarative Aspects of Multicore Programming, 2007
@@ -53,7 +57,13 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Vectorisation Avoidance](http://www.cse.unsw.edu.au/~chak/papers/vect-avoid.pdf), Gabriele Keller, Manuel M. T. Chakravarty, Roman Leshchinskiy, Ben Lippmeier, and Simon Peyton Jones, Proceedings of ACM SIGPLAN Haskell Symposium 2012, ACM Press, 2012. 
 
-- [ Work Efficient Higher-Order Vectorisation](http://www.cse.unsw.edu.au/~chak/papers/replicate.pdf), Ben Lippmeier, Manuel M. T. Chakravarty, Gabriele Keller, Roman Leshchinskiy, and Simon Peyton Jones, The 17th ACM SIGPLAN International Conference on Functional Programming, ACM Press, 2012 
+- [ Work Efficient Higher-Order Vectorisation](http://www.cse.unsw.edu.au/~chak/papers/replicate.pdf), Ben Lippmeier, Manuel M. T. Chakravarty, Gabriele Keller, Roman Leshchinskiy, and Simon Peyton Jones, The 17th ACM SIGPLAN International Conference on Functional Programming, ACM Press, 2012
+
+## Intermediate Representation of GHC (Core & Related)
+
+- [An External Representation for the GHC Core Language](http://www.haskell.org/ghc/docs/6.10.4/html/ext-core/core.pdf) Gives an overview of the semantics and syntax of Core, GHC's internal intermediate representation for Haskell that most of the optimisation work is done on. A good language to understand when starting with GHC.
+
+- [Unboxed Values as First-Class Citizens](http://www.haskell.org/ghc/docs/papers/unboxed-values.ps.gz), Simon L Peyton Jones and John Launchbury, Conference on Functional Programming Languages and Computer Architecture, September 1991. Describe the design of GHC language and internals for handling machine values and boxing / unboxing them as lazy values.
 
 ## Code generation and virtual machine
 
@@ -65,6 +75,14 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 
 Please add: Hoopl, C--.
+
+## IO and Related
+
+- [ Tackling the awkward squad: monadic input/output, concurrency, exceptions, and foreign-language calls in Haskell](https://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/mark.pdf), Simon Peyton Jones. Deals with the incarnation of IO in Haskell and GHC. The history getting to monads, handling exceptions and handling concurrency.
+
+- [Imperative Functional Programming](http://www.haskell.org/ghc/docs/papers/imperative.ps.gz), Simon Peyton Jones, Philip Wadler. POPL,  Jan 1993, pp71-84. Presents Monads as a way of implementing IO in Haskell.
+
+- [Concurrent Haskell](http://www.haskell.org/ghc/docs/papers/concurrent-haskell.ps.gz), Simon Peyton Jones, Andrew Gordon, Sigbjorn Finne. Deals with the various concurrency constructs in GHC and the Haskell language. E.g., MVars.
 
 ## The run-time system and garbage collector
 
