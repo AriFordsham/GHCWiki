@@ -15,20 +15,6 @@ GHC's repos use git; see [wiki:WorkingConventions/Git Git Working Conventions]. 
 
 A GHC source tree is made of a collection of repositories. The script [wiki:Building/SyncAll sync-all] knows how to apply git commands to the whole collection of repositories at once, for example to pull changes from the upstream repositories.
 
-The root of the source tree is the GHC repository itself, the other repositories live in various subdirectories. The master list of repositories is in the file [[GhcFile(packages)]], and this is where the `sync-all` script finds out about which repositories make up the complete tree.
-
-The "`tag`" in the master table in packages has the following significance:
-
- * '''"`-`"''': [wiki:Commentary/Libraries boot libraries], necessary to build GHC
- * '''"`testsuite`"''': GHC's [wiki:Building/RunningTests regression tests], not necessary for a build, but is necessary if you're working on GHC
- * '''"`nofib`"''': GHC's [wiki:Building/RunningNoFib nofib benchmark suite]
- * '''"`dph`"''': packages for [wiki:DataParallel Data Parallel Haskell], which is not shipped with GHC but we test all changes to GHC against these repositories so they are usually included in a checked-out source tree.
- * '''"`extra`"''': extra packages you might want to include in a build (the `parallel` package, for example), but aren't necessary to get a working GHC.
-
-See the [wiki:Commentary/Libraries] page for more information about GHC's libraries.
-
-== The repositories ==
-
 Here is a list of the repositories that GHC uses.  The columns have the following meaning
  * '''Location in tree''': where in the source tree this repository sits.
  * '''Upstream repo?''': if "yes", this library is maintained by someone else, 
@@ -39,40 +25,14 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 
 {{{
 #!html
-<style type="text/css">
-table.sample {
-	border-width: 1px;
-	border-spacing: 0px;
-	border-style: outset;
-	border-color: gray;
-	border-collapse: collapse;
-	background-color: white;
-}
-table.sample th {
-	border-width: 1px;
-	padding: 1px;
-	border-style: inset;
-	border-color: gray;
-	background-color: white;
-	-moz-border-radius: ;
-}
-table.sample td {
-	border-width: 1px;
-	padding: 1px;
-	padding-left: 4px;
-	padding-right: 6px;
-	border-style: inset;
-	border-color: gray;
-	background-color: white;
-	-moz-border-radius: ;
-}
-</style>
 <table border="1">
 <tr><td>Location in tree</td>   <td> Upstream repo?</td> <td>Reqd to build?</td>   <td>Installed?</td> <td>GHC repo http://darcs.haskell.org/...</td></tr>
 <tr><td>. (ghc itself)</td>                    <td>     </td> <td>     </td> <td>     </td> <td>ghc.git/</td></tr>
 <tr><td>ghc-tarballs</td>                      <td>     </td> <td>     </td> <td> no  </td> <td>ghc-tarballs.git/</td></tr>
 <tr><td>utils/hsc2hs</td>                      <td>     </td> <td>     </td> <td>     </td> <td>utils/hsc2hs.git/</td></tr>
 <tr><td>utils/haddock</td>                     <td>     </td> <td>     </td> <td>     </td> <td>haddock.git</td></tr>
+<tr><td>testsuite</td>              	       <td>     </td> <td>     </td> <td>     </td> <td>testsuite.git</td></tr>
+<tr><td>nofib</td>                  	       <td>     </td> <td>     </td> <td>     </td> <td>nofib.git</td></tr>
 <tr><td>libraries/array</td>                   <td>     </td> <td>     </td> <td>     </td> <td>packages/array.git/</td></tr>
 <tr><td>libraries/base</td>                    <td>     </td> <td>     </td> <td>     </td> <td>packages/base.git/</td></tr>
 <tr><td>libraries/binary</td>                  <td> yes </td> <td>     </td> <td>     </td> <td>packages/.git/</td></tr>
@@ -104,8 +64,6 @@ table.sample td {
 <tr><td>libraries/utf8-string</td>  	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/utf8-string.git/</td></tr>
 <tr><td>libraries/Win32</td>	    	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/Win32.git/</td></tr>
 <tr><td>libraries/xhtml</td>	    	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/xhtml.git/</td></tr>
-<tr><td>testsuite</td>              	       <td>     </td> <td>     </td> <td>     </td> <td>testsuite.git</td></tr>
-<tr><td>nofib</td>                  	       <td>     </td> <td>     </td> <td>     </td> <td>nofib.git</td></tr>
 <tr><td>libraries/primitive</td>       	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/primitive.git/</td></tr>
 <tr><td>libraries/vector</td>       	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/vector.git/</td></tr>
 <tr><td>libraries/dph</td>          	       <td>     </td> <td>     </td> <td>     </td> <td>packages/dph.git/</td></tr>
@@ -114,6 +72,20 @@ table.sample td {
 <tr><td>libraries/stm</td>          	       <td>     </td> <td> no  </td> <td> no  </td> <td>packages/stm.git/</td></tr>
 </table>
 }}}
+
+== The 'packages' file ==
+
+The master list of repositories is in the file [[GhcFile(packages)]], and this is where the `sync-all` script finds out about which repositories make up the complete tree.  It duplicates the information in the above table; indeed, it is really the authoritative version (so complain if the table and file differ!).
+
+The "`tag`" in the master table in [[GhcFile(packages)]] has the following significance:
+
+ * '''"`-`"''': [wiki:Commentary/Libraries boot libraries], necessary to build GHC
+ * '''"`testsuite`"''': GHC's [wiki:Building/RunningTests regression tests], not necessary for a build, but is necessary if you're working on GHC
+ * '''"`nofib`"''': GHC's [wiki:Building/RunningNoFib nofib benchmark suite]
+ * '''"`dph`"''': packages for [wiki:DataParallel Data Parallel Haskell], which is not shipped with GHC but we test all changes to GHC against these repositories so they are usually included in a checked-out source tree.
+ * '''"`extra`"''': extra packages you might want to include in a build (the `parallel` package, for example), but aren't necessary to get a working GHC.
+
+See the [wiki:Commentary/Libraries] page for more information about GHC's libraries.
 
 == Modifying local packages ==
 
