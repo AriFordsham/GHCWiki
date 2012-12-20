@@ -2,7 +2,7 @@
 
 == Finding tickets by number ==
 
-Under "Quick Searches" in your bookmarks, add a new bookmark, with
+Add a new bookmark, with
 {{{
 Name: [#] GHC ticket
 Location: http://hackage.haskell.org/trac/ghc/ticket/%s
@@ -14,7 +14,7 @@ space).
 
 == Searching for tickets ==
 
-Under "Quick Searches" add a new bookmark:
+Add a new bookmark:
 {{{
 Name: [t] GHC ticket search
 Location: http://www.google.com/search?q=site:hackage.haskell.org/trac/ghc/ticket%20%s
