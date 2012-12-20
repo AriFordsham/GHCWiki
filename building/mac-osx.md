@@ -8,11 +8,6 @@ These instructions were last updated for GHC 7.4.
 
 See [OS X Preparations](building/preparation/mac-osx).
 
-## Building the distribution
-
-
-See the general [build instructions](building/quick-start).
-
 ## Building OS X Installer Packages
 
 
