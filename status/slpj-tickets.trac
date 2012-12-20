@@ -1,34 +1,33 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
 == Type inference ==
- * #5591: add left/right back to coercions
  * #5682: Parsing of pomoted kinds
  * #6022: over-general types are inferred
- * #5913, #5751, #6117, #6161: type-class dictionary loops (branch `silent-sc-args`)
- * #5642, #5970, #5030: slow constraint solving
+ * #5642: slow constraint solving
 
+ * #7503: Kind polymorphism and mutual recursion
  * #6018: Injective type families (patch offered)
  * #7259: Eta-expansion of products in System FC
  * #7346: Pedro's generics and deriving
  * #5863: deriving `Typeable` for data families
  * [wiki:NewAxioms] Pattern matching axioms
- * #7071, #5267, #5609, #5777, #344: bugs in arrows; awaiting refactoring by Dan
+ * #5267, #5609, #5777, #344: bugs in arrows
  * #7204: a class to controll FFI marshalling; and newtype deriving for classes with ATs
 
 == Template Haskell ==
 See also [wiki:TemplateHaskell]
  * #1475: allow splicing of import declarations (5 in cc list)
  * #4364: cycle in type declarations
- * #5469, #4429: `reinerp` work on `newName` and export reorganisation
+ * #4429: `reinerp` work on `newName` and export reorganisation
  * #7021: make TH catch up with constraint kinds
 
 == Optimisation ==
  * #7511: inlining can make programs allocate MORE!!
- * #7307, #7308: low hanging fruit for shrinking code size for string constants and top-level indirections
+ * #7307: low hanging fruit for shrinking code size for string constants and top-level indirections
  * #7206, #7309: avoid excessive sharing of enumerations
  * #6040, #5945, #3458, #1216: lambda-lift functions with a few args, just before code gen
  * #3872, #5400, #5448, #5722, #7057, #7369: contravariant data type loop in simplifier inliner
- * #5623, #5954: performance regression. Duplication of primops?
+ * #5954: performance regression. Duplication of primops?
  * #6070, #5949, #5775, #4267, #5302, #6087: Demand analysis
  * #5075, #3138: CPR for sum types (mostly done, needs finishing)
  * #2289, #2387, #1600: nested CPR analysis	
@@ -53,26 +52,22 @@ See also [wiki:TemplateHaskell]
  * #2823: another arity expansion bug (related to dictionaries)
  * #2440: bad code with type families; I believe this is also arity-related
  * #1547: profiling and arity
+ * #5587, #7364: eta-expansion can imcrease termination.  These tickets are closed because we don't know how to fix them properly, not becuase they are really fixed.
 
 === Inlining ===
  * #4833: finding the right loop breaker
  * #3781, #3755: inlining for local functions: discount for scrutinising free vars
  * #3765: CONLIKE things and case expressions (need two unfoldings)
  * #3073 and [wiki:Commentary/Compiler/DesugaringInstances]: better desugaring for instances
- * #2078: INLINing improvement; ask Christian.Maeder@dfki.de to see if it improves CASL
  * #2840: top level unlifted string literals
  * #3123: feature request: recursive inlining and peeling
  * #4960: better inlining tests
 
 == New code generator ==
  * Summary ticket: #4258, and [wiki:Commentary/Compiler/NewCodeGen wiki page]
- * #4065: forward propagation
- * #3132: fix cgCase of !PrimAlts
  * #3462: allocate large objects with `allocateLocal()`
- * #2253: NCG could do better. Look at this when John D’s ncg is working
  * #2289: cheap check at start of case alternatives
  * #2731: avoiding unnecessary evaluation when unpacking constructors
- * #3940: propagate fix
 
 === Optimiser ===
  * #5059: specialise on value arguments
@@ -83,7 +78,6 @@ See also [wiki:TemplateHaskell]
  * #4470: merge identical counters
  * #2439: Strict dictionaries
  * #2988: better float-in
- * #2132: Optimise nested comparisons: if you know x>0 then you know x>=1 etc.  Maybe a special pass that knows about arithmetic?  (Patch offered)
  * #2255, #3767, #2642, #3831, #4941: Improve '''`SpecConstr`''' for free variables, and for join points.
  * #2374: SAT and `MutableByteArray`	Max?
  * #7080: inconsistent treatment of RULES and SPECIALISE
@@ -137,9 +131,7 @@ See also [wiki:TemplateHaskell]
  * #4921: ambiguous type variables
  * #1330: another bad error message (Church2)
  * #2648: Report out of date interface files robustly	
- * #2588: Better error message about ‘forall’	
  * #1928: Confusing type error message (Claus makes suggestions)	
- * #2534: Another confusing type error message	
  * #2900: Improve decomposition of function types
 
 ------------------------
@@ -157,7 +149,6 @@ See also [wiki:TemplateHaskell]
 
 == Features == 
  * #5462: deriving for arbitrary classes
- * #6032: discussion about when foralls can be to the right of an arrow.
  * #6024: allow defining a ''kind'' without also getting the corresponding ''type''
  * #5927: Constraints with universal quantification
  * #5630: External core needs love
@@ -166,13 +157,11 @@ See also [wiki:TemplateHaskell]
  * #5248: Infer context in type signatures
  * #5144: pattern synonyms
  * #5073: `blockST` and friends
- * #788, #2895: Class aliases 
+ * #2895: Class aliases 
  * #2595: record updates
  * #4823: strength reduction for array indexing
  * #4479: type directed name resolution (TDNR)
  * #4426: simpler rule for implicit quantification
- * #4359: lambda case
- * #4148: improvements to mdo syntax
  * #595, #5728, #3927, #5724, #5762, #4139, #6124: '''pattern-match overlap checking''', including with GADTs
  * #3701: Implicitly declared existentials: a class as a type
  * #3217: better flag handling for GHCi
