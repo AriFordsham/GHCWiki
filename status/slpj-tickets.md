@@ -60,6 +60,7 @@ See also [TemplateHaskell](template-haskell)
 - [\#2823](https://gitlab.haskell.org//ghc/ghc/issues/2823): another arity expansion bug (related to dictionaries)
 - [\#2440](https://gitlab.haskell.org//ghc/ghc/issues/2440): bad code with type families; I believe this is also arity-related
 - [\#1547](https://gitlab.haskell.org//ghc/ghc/issues/1547): profiling and arity
+- [\#5587](https://gitlab.haskell.org//ghc/ghc/issues/5587), [\#7364](https://gitlab.haskell.org//ghc/ghc/issues/7364): eta-expansion can imcrease termination.  These tickets are closed because we don't know how to fix them properly, not becuase they are really fixed.
 
 ### Inlining
 
@@ -148,9 +149,7 @@ See also [TemplateHaskell](template-haskell)
 - [\#4921](https://gitlab.haskell.org//ghc/ghc/issues/4921): ambiguous type variables
 - [\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330): another bad error message (Church2)
 - [\#2648](https://gitlab.haskell.org//ghc/ghc/issues/2648): Report out of date interface files robustly        
-- [\#2588](https://gitlab.haskell.org//ghc/ghc/issues/2588): Better error message about ‘forall’        
 - [\#1928](https://gitlab.haskell.org//ghc/ghc/issues/1928): Confusing type error message (Claus makes suggestions)        
-- [\#2534](https://gitlab.haskell.org//ghc/ghc/issues/2534): Another confusing type error message        
 - [\#2900](https://gitlab.haskell.org//ghc/ghc/issues/2900): Improve decomposition of function types
 
 ---
