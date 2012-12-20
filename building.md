@@ -19,13 +19,6 @@ Building GHC:
 - [The GHC Builder, which coordinates distributed nightly builds](builder)
 
 
-Platform-specific building instructions:
-
-- [Building under Windows](building/preparation/windows)
-- [Building under MacOS X](building/mac-osx)
-- [Building under Solaris](building/solaris)
-
-
 Getting started for developers:
 
 - [Getting started with the build system](building/hacking)
@@ -67,6 +60,12 @@ More detailed information about how the build system works:
 - [Architecture of the build system](building/architecture)
 - [Modifying the build system](building/modifying)
 - [The libraries on which GHC depends](commentary/libraries)
+
+
+Platform-specific building instructions (OLD, please move material here under [Building/Preparation](building/preparation))
+
+- [Building under MacOS X](building/mac-osx)
+- [Building under Solaris](building/solaris)
 
 ## Contributed documentation
 
