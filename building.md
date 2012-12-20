@@ -23,25 +23,17 @@ Getting started for developers:
 
 - [Getting started with the build system](building/hacking)
 - [How do I re-build after updating or changing GHC?](building/rebuilding)
-- [FAQ: Solving common problems with building GHC](building/troubleshooting)
-- [Making GHC's source code searchable with Hoogle](building/hoogle)
-
-
-Working conventions, covering Git workflows, bug tracker, coding conventions etc:
-
-- [Working Conventions](working-conventions)
+- [Working Conventions (Git workflows, bug tracker, coding style etc.) ](working-conventions)
 
 
 More detailed information about using the build system:
 
 - [Using the build system](building/using)
 - [Standard targets](building/standard-targets)
-
+- [Making GHC's source code searchable with Hoogle](building/hoogle)
 - [Building the documentation](building/docs)
 - [Installing GHC from a build](building/installing)
 - [Unregisterised builds](building/unregisterised)
-- [Porting GHC to a new platform](building/porting)
-- [Cross-compilation](cross-compilation)
 
 
 How to test and benchmark changes to GHC:
@@ -60,6 +52,17 @@ More detailed information about how the build system works:
 - [Architecture of the build system](building/architecture)
 - [Modifying the build system](building/modifying)
 - [The libraries on which GHC depends](commentary/libraries)
+
+
+Porting GHC
+
+- [Cross-compilation (the NEW way to port GHC)](cross-compilation)
+- [Porting GHC to a new platform (the OLD way to port GHC)](building/porting)
+
+
+Troubleshooting:
+
+- [FAQ: Solving common problems with building GHC](building/troubleshooting)
 
 
 Platform-specific building instructions (OLD, please move material here under [Building/Preparation](building/preparation))
