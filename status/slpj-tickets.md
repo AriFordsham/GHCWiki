@@ -2,18 +2,17 @@
 
 ## Type inference
 
-- [\#5591](https://gitlab.haskell.org//ghc/ghc/issues/5591): add left/right back to coercions
 - [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
-- [\#5913](https://gitlab.haskell.org//ghc/ghc/issues/5913), [\#5751](https://gitlab.haskell.org//ghc/ghc/issues/5751), [\#6117](https://gitlab.haskell.org//ghc/ghc/issues/6117), [\#6161](https://gitlab.haskell.org//ghc/ghc/issues/6161): type-class dictionary loops (branch `silent-sc-args`)
-- [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642), [\#5970](https://gitlab.haskell.org//ghc/ghc/issues/5970), [\#5030](https://gitlab.haskell.org//ghc/ghc/issues/5030): slow constraint solving
+- [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
 
+- [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503): Kind polymorphism and mutual recursion
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): Injective type families (patch offered)
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
 - [\#7346](https://gitlab.haskell.org//ghc/ghc/issues/7346): Pedro's generics and deriving
 - [\#5863](https://gitlab.haskell.org//ghc/ghc/issues/5863): deriving `Typeable` for data families
 - [NewAxioms](new-axioms) Pattern matching axioms
-- [\#7071](https://gitlab.haskell.org//ghc/ghc/issues/7071), [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5609](https://gitlab.haskell.org//ghc/ghc/issues/5609), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows; awaiting refactoring by Dan
+- [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5609](https://gitlab.haskell.org//ghc/ghc/issues/5609), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows
 - [\#7204](https://gitlab.haskell.org//ghc/ghc/issues/7204): a class to controll FFI marshalling; and newtype deriving for classes with ATs
 
 ## Template Haskell
@@ -23,13 +22,13 @@ See also [TemplateHaskell](template-haskell)
 
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): allow splicing of import declarations (5 in cc list)
 - [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364): cycle in type declarations
-- [\#5469](https://gitlab.haskell.org//ghc/ghc/issues/5469), [\#4429](https://gitlab.haskell.org//ghc/ghc/issues/4429): `reinerp` work on `newName` and export reorganisation
+- [\#4429](https://gitlab.haskell.org//ghc/ghc/issues/4429): `reinerp` work on `newName` and export reorganisation
 - [\#7021](https://gitlab.haskell.org//ghc/ghc/issues/7021): make TH catch up with constraint kinds
 
 ## Optimisation
 
 - [\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511): inlining can make programs allocate MORE!!
-- [\#7307](https://gitlab.haskell.org//ghc/ghc/issues/7307), [\#7308](https://gitlab.haskell.org//ghc/ghc/issues/7308): low hanging fruit for shrinking code size for string constants and top-level indirections
+- [\#7307](https://gitlab.haskell.org//ghc/ghc/issues/7307): low hanging fruit for shrinking code size for string constants and top-level indirections
 - [\#7206](https://gitlab.haskell.org//ghc/ghc/issues/7206), [\#7309](https://gitlab.haskell.org//ghc/ghc/issues/7309): avoid excessive sharing of enumerations
 - [\#6040](https://gitlab.haskell.org//ghc/ghc/issues/6040), [\#5945](https://gitlab.haskell.org//ghc/ghc/issues/5945), [\#3458](https://gitlab.haskell.org//ghc/ghc/issues/3458), [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): lambda-lift functions with a few args, just before code gen
 - [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872), [\#5400](https://gitlab.haskell.org//ghc/ghc/issues/5400), [\#5448](https://gitlab.haskell.org//ghc/ghc/issues/5448), [\#5722](https://gitlab.haskell.org//ghc/ghc/issues/5722), [\#7057](https://gitlab.haskell.org//ghc/ghc/issues/7057), [\#7369](https://gitlab.haskell.org//ghc/ghc/issues/7369): contravariant data type loop in simplifier inliner
@@ -68,7 +67,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781), [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): inlining for local functions: discount for scrutinising free vars
 - [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
 - [\#3073](https://gitlab.haskell.org//ghc/ghc/issues/3073) and [Commentary/Compiler/DesugaringInstances](commentary/compiler/desugaring-instances): better desugaring for instances
-- [\#2078](https://gitlab.haskell.org//ghc/ghc/issues/2078): INLINing improvement; ask Christian.Maeder@… to see if it improves CASL
 - [\#2840](https://gitlab.haskell.org//ghc/ghc/issues/2840): top level unlifted string literals
 - [\#3123](https://gitlab.haskell.org//ghc/ghc/issues/3123): feature request: recursive inlining and peeling
 - [\#4960](https://gitlab.haskell.org//ghc/ghc/issues/4960): better inlining tests
@@ -76,13 +74,9 @@ See also [TemplateHaskell](template-haskell)
 ## New code generator
 
 - Summary ticket: [\#4258](https://gitlab.haskell.org//ghc/ghc/issues/4258), and [wiki page](commentary/compiler/new-code-gen)
-- [\#4065](https://gitlab.haskell.org//ghc/ghc/issues/4065): forward propagation
-- [\#3132](https://gitlab.haskell.org//ghc/ghc/issues/3132): fix cgCase of PrimAlts
 - [\#3462](https://gitlab.haskell.org//ghc/ghc/issues/3462): allocate large objects with `allocateLocal()`
-- [\#2253](https://gitlab.haskell.org//ghc/ghc/issues/2253): NCG could do better. Look at this when John D’s ncg is working
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): cheap check at start of case alternatives
 - [\#2731](https://gitlab.haskell.org//ghc/ghc/issues/2731): avoiding unnecessary evaluation when unpacking constructors
-- [\#3940](https://gitlab.haskell.org//ghc/ghc/issues/3940): propagate fix
 
 ### Optimiser
 
@@ -94,7 +88,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#4470](https://gitlab.haskell.org//ghc/ghc/issues/4470): merge identical counters
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries
 - [\#2988](https://gitlab.haskell.org//ghc/ghc/issues/2988): better float-in
-- [\#2132](https://gitlab.haskell.org//ghc/ghc/issues/2132): Optimise nested comparisons: if you know x\>0 then you know x\>=1 etc.  Maybe a special pass that knows about arithmetic?  (Patch offered)
 - [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#3767](https://gitlab.haskell.org//ghc/ghc/issues/3767), [\#2642](https://gitlab.haskell.org//ghc/ghc/issues/2642), [\#3831](https://gitlab.haskell.org//ghc/ghc/issues/3831), [\#4941](https://gitlab.haskell.org//ghc/ghc/issues/4941): Improve **`SpecConstr`** for free variables, and for join points.
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
 - [\#7080](https://gitlab.haskell.org//ghc/ghc/issues/7080): inconsistent treatment of RULES and SPECIALISE
