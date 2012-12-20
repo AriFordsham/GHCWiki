@@ -36,6 +36,12 @@ More detailed information about using the build system:
 - [Unregisterised builds](building/unregisterised)
 
 
+Platform-specific building notes (see also [Setting up your system for building GHC](building/preparation))
+
+- [Building under MacOS X](building/mac-osx)
+- [Building under Solaris](building/solaris)
+
+
 How to test and benchmark changes to GHC:
 
 - [Validating changes](testing-patches)
@@ -63,12 +69,6 @@ Porting GHC
 Troubleshooting:
 
 - [FAQ: Solving common problems with building GHC](building/troubleshooting)
-
-
-Platform-specific building instructions (OLD, please move material here under [Building/Preparation](building/preparation))
-
-- [Building under MacOS X](building/mac-osx)
-- [Building under Solaris](building/solaris)
 
 ## Contributed documentation
 
