@@ -8,7 +8,7 @@ can extend it, modify it, and use it to build your code.
 
 == Contents ==
 
-Building GHC:
+'''Building GHC'''
 
  * [wiki:Building/Preparation Setting up your system for building GHC]
  * [wiki:Building/GettingTheSources Getting the sources]
@@ -16,13 +16,13 @@ Building GHC:
  * [wiki:Platforms Platforms that GHC currently supports]
  * [wiki:Builder The GHC Builder, which coordinates distributed nightly builds]
 
-Getting started for developers:
+'''Getting started for developers'''
 
  * [wiki:Building/Hacking Getting started with the build system]
  * [wiki:Building/Rebuilding How do I re-build after updating or changing GHC?]
  * [wiki:WorkingConventions Working Conventions (Git workflows, bug tracker, coding style etc.) ]
 
-More detailed information about using the build system:
+'''More detailed information about using the build system'''
 
  * [wiki:Building/Using Using the build system]
  * [wiki:Building/StandardTargets Standard targets]
@@ -31,12 +31,13 @@ More detailed information about using the build system:
  * [wiki:Building/Installing Installing GHC from a build]
  * [wiki:Building/Unregisterised Unregisterised builds]
 
-Platform-specific building notes (see also [wiki:Building/Preparation Setting up your system for building GHC])
+'''Platform-specific building notes (see also''' [wiki:Building/Preparation Setting up your system for building GHC]''')'''
 
  * [wiki:Building/MacOSX Building under MacOS X]
  * [wiki:Building/Solaris Building under Solaris]
 
-How to test and benchmark changes to GHC:
+'''How to test and benchmark changes to GHC'''
+
  * [wiki:TestingPatches Validating changes]
  * [wiki:Building/RunningTests Running the GHC test framework]
  * [wiki:Building/RunningNoFib The NoFib benchmark suite]
@@ -44,18 +45,19 @@ How to test and benchmark changes to GHC:
  * [wiki:Debugging Debugging and performance-tuning for GHC]
  * [wiki:Debugging/InstallingPackagesInplace Installing extra packages for your in-place GHC]
 
-More detailed information about how the build system works:
+'''More detailed information about how the build system works'''
+
  * [wiki:Commentary/SourceTree Overview of files and directories]
  * [wiki:Building/Architecture Architecture of the build system]
  * [wiki:Building/Modifying Modifying the build system]
  * [wiki:Commentary/Libraries The libraries on which GHC depends]
 
-Porting GHC
+'''Porting GHC'''
 
  * [wiki:CrossCompilation Cross-compilation (the NEW way to port GHC)]
  * [wiki:Building/Porting Porting GHC to a new platform (the OLD way to port GHC)]
 
-Troubleshooting:
+'''Troubleshooting'''
 
  * [wiki:Building/Troubleshooting FAQ: Solving common problems with building GHC]
 
