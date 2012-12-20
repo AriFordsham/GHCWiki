@@ -3,7 +3,7 @@
 ## Finding tickets by number
 
 
-Under "Quick Searches" in your bookmarks, add a new bookmark, with
+Add a new bookmark, with
 
 ```wiki
 Name: [#] GHC ticket
@@ -18,7 +18,7 @@ space).
 ## Searching for tickets
 
 
-Under "Quick Searches" add a new bookmark:
+Add a new bookmark:
 
 ```wiki
 Name: [t] GHC ticket search
