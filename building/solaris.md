@@ -11,11 +11,6 @@ GHC versions 6.10.1 and earlier don't have a working SPARC native code generator
 
 See [Solaris Preparations](building/preparation/solaris).
 
-## Building the distribution
-
-
-See the general [build instructions](building/quick-start).
-
 ## What can go wrong
 
 
