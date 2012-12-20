@@ -6,10 +6,6 @@ These instructions were last updated for GHC 7.4.
 
 See [wiki:Building/Preparation/MacOSX OS X Preparations].
 
-== Building the distribution ==
-
-See the general [wiki:Building/QuickStart build instructions].
-
 == Building OS X Installer Packages ==
 
 After making the binary-dist, you can create a Mac installer package (.pkg) by running
