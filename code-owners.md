@@ -21,6 +21,7 @@ What does it mean to be the "owner" of a chunk of GHC, say X?
 - If you want to work on X, it makes sense to talk to the owner first, to see what he or she is planning, and to debate the design.
 - The owner feels a sense of ownership. That means taking responsibility for keeping it clean and beautiful, and refactoring when necessary.
 - The owner can't be expected to fix every buglet, but feels a sense of responsbility to make sure that serious bugs are fixed.
+- Owners are expected to step down if they are no longer able to make the time commitment required.
 
 
 Ownership means being the "first among equals" rather than "having exclusive control":
@@ -94,7 +95,7 @@ tree that are most directly implicated.
 
 - GHCi, and debugger
 
-  - Needs love
+  - **Needs love**
   - Directories: `compiler/ghci`, `ghc/`, `driver/`.
 
 - Template Haskell
@@ -110,6 +111,7 @@ tree that are most directly implicated.
 - Safe Haskell
 
   - David Terei
+  - Directories: `compiler/basicTypes`, `compiler/deSugar`, `compiler/ghci`, `compiler/hsSyn`, `compiler/iface`, `compiler/main`, `compiler/parser`, `compiler/rename`, `compiler/typecheck`, `compiler/types`
 
 - Cloud Haskell
 
