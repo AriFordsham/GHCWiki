@@ -110,6 +110,7 @@ tree that are most directly implicated.
 - Safe Haskell
 
   - David Terei
+  - Directories: `compiler/basicTypes`, `compiler/deSugar`, `compiler/ghci`, `compiler/hsSyn`, `compiler/iface`, `compiler/main`, `compiler/parser`, `compiler/rename`, `compiler/typecheck`, `compiler/types`
 
 - Cloud Haskell
 

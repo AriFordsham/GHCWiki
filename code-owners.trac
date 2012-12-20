@@ -88,6 +88,7 @@ tree that are most directly implicated.
 
  * Safe Haskell
    * [mailto:dave.terei@gmail.com David Terei]
+   * Directories: `compiler/basicTypes`, `compiler/deSugar`, `compiler/ghci`, `compiler/hsSyn`, `compiler/iface`, `compiler/main`, `compiler/parser`, `compiler/rename`, `compiler/typecheck`, `compiler/types`
 
  * Cloud Haskell
    * [mailto:watson.timothy@gmail.com Tim Watson], [mailto:jepst79@gmail.com Jeff Epstein]
