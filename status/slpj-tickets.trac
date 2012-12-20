@@ -27,7 +27,7 @@ See also [wiki:TemplateHaskell]
  * #7206, #7309: avoid excessive sharing of enumerations
  * #6040, #5945, #3458, #1216: lambda-lift functions with a few args, just before code gen
  * #3872, #5400, #5448, #5722, #7057, #7369: contravariant data type loop in simplifier inliner
- * #5623, #5954: performance regression. Duplication of primops?
+ * #5954: performance regression. Duplication of primops?
  * #6070, #5949, #5775, #4267, #5302, #6087: Demand analysis
  * #5075, #3138: CPR for sum types (mostly done, needs finishing)
  * #2289, #2387, #1600: nested CPR analysis	
@@ -150,7 +150,6 @@ See also [wiki:TemplateHaskell]
 
 == Features == 
  * #5462: deriving for arbitrary classes
- * #6032: discussion about when foralls can be to the right of an arrow.
  * #6024: allow defining a ''kind'' without also getting the corresponding ''type''
  * #5927: Constraints with universal quantification
  * #5630: External core needs love
@@ -159,13 +158,11 @@ See also [wiki:TemplateHaskell]
  * #5248: Infer context in type signatures
  * #5144: pattern synonyms
  * #5073: `blockST` and friends
- * #788, #2895: Class aliases 
+ * #2895: Class aliases 
  * #2595: record updates
  * #4823: strength reduction for array indexing
  * #4479: type directed name resolution (TDNR)
  * #4426: simpler rule for implicit quantification
- * #4359: lambda case
- * #4148: improvements to mdo syntax
  * #595, #5728, #3927, #5724, #5762, #4139, #6124: '''pattern-match overlap checking''', including with GADTs
  * #3701: Implicitly declared existentials: a class as a type
  * #3217: better flag handling for GHCi
