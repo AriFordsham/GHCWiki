@@ -6,6 +6,7 @@
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
 
+- [\#7436](https://gitlab.haskell.org//ghc/ghc/issues/7436): avoid leak when deriving `Traversable` etc.
 - [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503): Kind polymorphism and mutual recursion
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): Injective type families (patch offered)
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
@@ -27,6 +28,9 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#7520](https://gitlab.haskell.org//ghc/ghc/issues/7520): Cardinality analysis
+- [\#7360](https://gitlab.haskell.org//ghc/ghc/issues/7360): case of identical alts fails abjectly (see also [\#7378](https://gitlab.haskell.org//ghc/ghc/issues/7378)); connected to occ-anal cleverness and hence [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258)
+- [\#7507](https://gitlab.haskell.org//ghc/ghc/issues/7507): `sum` and `product` should be `INLINABLE`.
 - [\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511): inlining can make programs allocate MORE!!
 - [\#7307](https://gitlab.haskell.org//ghc/ghc/issues/7307): low hanging fruit for shrinking code size for string constants and top-level indirections
 - [\#7206](https://gitlab.haskell.org//ghc/ghc/issues/7206), [\#7309](https://gitlab.haskell.org//ghc/ghc/issues/7309): avoid excessive sharing of enumerations
@@ -42,6 +46,11 @@ See also [TemplateHaskell](template-haskell)
 - [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
 - [\#5522](https://gitlab.haskell.org//ghc/ghc/issues/5522), [\#6092](https://gitlab.haskell.org//ghc/ghc/issues/6092): liberate-case runs out of memory
 - [\#5366](https://gitlab.haskell.org//ghc/ghc/issues/5366), [\#3990](https://gitlab.haskell.org//ghc/ghc/issues/3990): UNPACK for data families, and with phantom types, needs data con wrapper refactoring
+
+## Compile time
+
+- [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: `addFingerprint`??
+- [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code
 
 ## Features
 

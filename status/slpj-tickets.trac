@@ -5,6 +5,7 @@
  * #6022: over-general types are inferred
  * #5642: slow constraint solving
 
+ * #7436: avoid leak when deriving `Traversable` etc.
  * #7503: Kind polymorphism and mutual recursion
  * #6018: Injective type families (patch offered)
  * #7259: Eta-expansion of products in System FC
@@ -22,6 +23,9 @@ See also [wiki:TemplateHaskell]
  * #7021: make TH catch up with constraint kinds
 
 == Optimisation ==
+ * #7520: Cardinality analysis
+ * #7360: case of identical alts fails abjectly (see also #7378); connected to occ-anal cleverness and hence #7258
+ * #7507: `sum` and `product` should be `INLINABLE`.
  * #7511: inlining can make programs allocate MORE!!
  * #7307: low hanging fruit for shrinking code size for string constants and top-level indirections
  * #7206, #7309: avoid excessive sharing of enumerations
@@ -37,6 +41,12 @@ See also [wiki:TemplateHaskell]
  * #5916: `runST` isn't free
  * #5522, #6092: liberate-case runs out of memory
  * #5366, #3990: UNPACK for data families, and with phantom types, needs data con wrapper refactoring
+
+== Compile time ==
+ * #7428: Non-linear compile time: `addFingerprint`??
+ * #7450, #7258: deriving `Read` generates gigantic code
+
+
 
 == Features ==
  * #5972: option to suppress record selectors
