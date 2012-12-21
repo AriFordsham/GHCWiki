@@ -5,6 +5,7 @@
  * #6022: over-general types are inferred
  * #5642: slow constraint solving
 
+ * #7436: avoid leak when deriving `Traversable` etc.
  * #7503: Kind polymorphism and mutual recursion
  * #6018: Injective type families (patch offered)
  * #7259: Eta-expansion of products in System FC
