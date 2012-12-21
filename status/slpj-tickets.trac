@@ -23,6 +23,7 @@ See also [wiki:TemplateHaskell]
  * #7021: make TH catch up with constraint kinds
 
 == Optimisation ==
+ * #7507: `sum` and `product` should be `INLINABLE`.
  * #7511: inlining can make programs allocate MORE!!
  * #7307: low hanging fruit for shrinking code size for string constants and top-level indirections
  * #7206, #7309: avoid excessive sharing of enumerations
@@ -38,6 +39,12 @@ See also [wiki:TemplateHaskell]
  * #5916: `runST` isn't free
  * #5522, #6092: liberate-case runs out of memory
  * #5366, #3990: UNPACK for data families, and with phantom types, needs data con wrapper refactoring
+
+== Compile time ==
+ * #7428: Non-linear compile time: `addFingerprint`??
+ * #7450, #7258: deriving `Read` generates gigantic code
+
+
 
 == Features ==
  * #5972: option to suppress record selectors
