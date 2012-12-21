@@ -28,7 +28,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
-- [\#7360](https://gitlab.haskell.org//ghc/ghc/issues/7360): case of identical alts fails abject; connected to occ-anal cleverness and hence [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258)
+- [\#7360](https://gitlab.haskell.org//ghc/ghc/issues/7360): case of identical alts fails abjectly; connected to occ-anal cleverness and hence [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258)
 - [\#7507](https://gitlab.haskell.org//ghc/ghc/issues/7507): `sum` and `product` should be `INLINABLE`.
 - [\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511): inlining can make programs allocate MORE!!
 - [\#7307](https://gitlab.haskell.org//ghc/ghc/issues/7307): low hanging fruit for shrinking code size for string constants and top-level indirections
