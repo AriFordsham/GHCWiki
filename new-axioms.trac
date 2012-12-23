@@ -2,7 +2,6 @@
 
 This page describes an extension to type families that supports overlap.
 
- * We'll use GHC branch `overlapping-tyfams` for development work.
  * See also the ''' [wiki:NewAxioms/DiscussionPage Discussion Page] ''' added May 2012, for comment/suggestions/requests for clarification/alternative solutions, to explore the design space.
  * See also the ''' [wiki:NewAxioms/CoincidentOverlap Coincident Overlap] ''' page (added August 2012) for a discussion around the usefulness of allowing certain overlaps when the right-hand sides coincide.
  * See also the ''' [wiki:NewAxioms/TemplateHaskell Template Haskell] ''' page (added December 2012) for a proposal for the Template Haskell changes necessary to support this change.
@@ -10,6 +9,8 @@ This page describes an extension to type families that supports overlap.
 Status (Jan 12): the groundwork is done, in HEAD; mainly making `CoAxiom` a more fundamental data type.  Not yet started on the details.
 
 Status (Aug 12): A working prototype implementation is in `overlapping-tyfams`.
+
+Status (Dec 12): A working implementation has been pushed to HEAD.
 
 == Background == 
 One might imagine that it would be a simple matter to have a type-level function
@@ -48,9 +49,9 @@ The only way to work with this sort of reasoning is to use Overlapping Instances
 
 == What to do about it ==
 
-So the deficiency is in System FC, and it seems fundamental.  We've been working on an extension to System FC, with a corresponding source-language extension, that does allow overlapping type families, with care.  Here's the idea of the surface-level extension, but see the attached PDF for the details on the FC extension. (The attached PDF uses the FC formalism fully presented [http://www.cis.upenn.edu/~eir/papers/2013/jmnokinds/jmnokinds.pdf here].)
+A new version of axioms is now implemented. The formal treatment can be found in docs/core-spec/core-spec.pdf.
 
-All of the following is currently implemented in the `overlapping-tyfams` branch.
+Here are the changes to source Haskell.
 
  *  A `type instance` declaration can define multiple equations, not just one:
 {{{
@@ -59,7 +60,7 @@ type instance where
   Equal a b = False
 }}}
 
- * Patterns within a single `type instance` declaration (henceforth "group") may overlap, and are matched top to bottom.
+ * Patterns within a single `type instance` declaration (henceforth "branches") may overlap, and are matched top to bottom.
 
  * A single type family may, as now, have multiple `type instance` declarations:
 {{{
@@ -74,7 +75,7 @@ type instance where
   F (a,b)   = [Char]
 }}}
 
- * The groups for `F` may not overlap.  That is, there must be no type `t` such that `(F t)` matches both groups. This rule explicitly excludes overlaps among group members, even if the right-hand sides coincide (but see the [wiki:NewAxioms/CoincidentOverlap Coincident Overlap] page for discussion).
+ * The instances for `F` may not overlap.  That is, there must be no type `t` such that `(F t)` matches more than one instance. This rule explicitly excludes overlaps among group members, even if the right-hand sides coincide (but see the [wiki:NewAxioms/CoincidentOverlap Coincident Overlap] page for discussion).
 
  * The groups do not need to be exhaustive.   If there is no equation that matches, the call is stuck. (This is exactly as at present.)
 
@@ -86,7 +87,7 @@ type instance where
 }}}
   Here the second equation can never match.
 
-For closed kinds (and maybe for open ones, but I can't unravel it), it seems possible to write a set of equations that will catch all possible cases but doesn't match the general case. This situation is currently (Aug 2012) undetected, because I (Richard, `eir` at `cis.upenn.edu`) am unconvinced I have a strong enough handle on the details. For example, what about {{{Any}}}?
+For closed kinds (and maybe for open ones, but I can't unravel it), it seems possible to write a set of equations that will catch all possible cases but doesn't match the general case. This situation is currently (Dec 2012) undetected, because I (Richard, `eir` at `cis.upenn.edu`) am unconvinced I have a strong enough handle on the details. For example, what about {{{Any}}}?
 
  * The equations do not need to share a common pattern:
 {{{
@@ -95,7 +96,7 @@ type instance where
   F (a,b) = Int
 }}}
 
- * When matching a use of a type family against a group, special care must be taken not to accidentally introduce incoherence. Consider the following example:
+ * When matching a use of a type family against a branched instance, special care must be taken (by GHC) not to accidentally introduce incoherence. Consider the following example:
 {{{
 type instance where
   F Int = Bool
@@ -104,50 +105,9 @@ type instance where
   and we try to simplify the type {{{F b}}}. The naive implementation would just simplify {{{F b}}} to {{{Char}}}, but this would be wrong. The problem is that {{{b}}} may later be unified with {{{Int}}}, meaning {{{F b}}} should simplify to {{{Bool}}}, not {{{Char}}}. So, the correct behavior is not to simplify {{{F b}}} at all; it is stuck for now. Note that the second equation above is not useless: we will still simplify, say, {{{F Double}}} to {{{Char}}}.
 More formally, we only match a type against an equation in an instance group when no previous equation can ''unify'' against the type.
 
- * Taking the above point into account, we will still simplify a type family use when those previous unifying equations produce coincident right-hand sides. For example,
-{{{
-type instance where
-  And True x = x
-  And y True = y
-}}}
-  and we want to simplify {{{And z True}}}. The first equation does not match. The second one does, with the substitution {{{y -> z}}}! But then, the first one unifies with the substitution {{{x -> True, z -> True}}}. Applying both substitutions to the second right-hand side ({{{y}}}) and just the second substitution to the first ({{{x}}}}), we see that both right-hand sides reduce to {{{True}}} in the problematic case (which is when {{{z}}} will unify with {{{True}}} at some later point). So, we can indeed reduce {{{And z True}}} to {{{z}}} as desired. This is indeed a little fiddly, but it seems useful enough to include.
-
- * Optional extra (not yet (August 2012) implemented): It would make sense to allow the `type family` and `type instance` declaration to be combined into one, in cases where all the equations can be given at the definition site.  For example:
-{{{
-type family Equal a b :: Bool where
-  Equal a a = True
-  Equal a b = False
-
-type family Member (a :: k) (b :: '[k]) :: Bool where
-  Member a '[] = False                      -- (not overlapping)
-  Member a ( a ': bs ) = True
-  Member a ( b ': bs ) = Member a bs
-}}}
-
-== Questions of syntax ==
-
-What should the "header" look like?  
-{{{
-(A)      type instance where      -- Use "where"
-            F (a,b)   = [Char]
-            F (Int,b) = Char
-            F Bool    = Char
-
-(B)      type instance of         -- Use "of" (yuk)
-            F (a,b)   = [Char]
-            F (Int,b) = Char
-            F Bool    = Char
-
-(C)      type instance F where     -- Redundantly mention F in the header
-            F (a,b)   = [Char]
-            F (Int,b) = Char
-            F Bool    = Char
-}}}
-We need one of the existing "layout herald" keywords (`of`, `let`, `where`) to smoothly support the nested block of equations.  It's not clear whether or not it is useful to mention the name of the function in the header.
-
 == Limitations ==
 
-The implementation described above does not address all desired use cases. In particular, it does not work with associated types at all. (Using something like {{{type where}}} in a class definition will be a parse error.) There's no set reason the approach couldn't be expanded to work with associated types, but it is not done yet. In particular, the FC extension will handle intra-module overlapping associated types without a change.
+The implementation described above does not address all desired use cases. In particular, it does not work with associated types at all. (Using something like {{{type where}}} in a class definition is a parse error.) There's no set reason the approach couldn't be expanded to work with associated types, but it is not done yet. In particular, the FC extension will handle intra-module overlapping associated types without a change.
 
 It seems that inter-module overlapping non-coincident associated types are a Bad Idea, but please add comments if you think otherwise and/or need such a feature. Why is it a Bad Idea? Because it would violate type safety: different modules with different visible instances could simplify type family applications to different ground types, perhaps concluding {{{True ~ False}}}, and the world would immediately cease to exist.
 
