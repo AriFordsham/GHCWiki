@@ -16,27 +16,28 @@ To report a bug, either:
 
 ## How do I tell if I should report my bug?
 
+- Take a look at the [ FAQ](http://haskell.org/haskellwiki/GHC/FAQ) and [Chapter 9, What to do when something goes wrong](http://www.haskell.org/ghc/docs/latest/html/users_guide/wrong.html), which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
 
-Take a look at the [ FAQ](http://haskell.org/haskellwiki/GHC/FAQ) and [Chapter 9, What to do when something goes wrong](http://www.haskell.org/ghc/docs/latest/html/users_guide/wrong.html), which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
+- Please search for existing tickets on the [ bug tracker](http://hackage.haskell.org/trac/ghc) or [ Google](http://www.google.com/?q=site:hackage.haskell.org/trac/ghc/ticket%20).  It saves time to have all the manifestations of the same bug gathered together.  If you get an error message from GHC, a good search key is usually the non-program-specific part of the error message.  
 
-**If you encounter a crash from the runtime system**, which usually manifest as one of the following error messages:
+- If you do find an existing ticket that seems to describe the same problem, then
 
-```wiki
-internal error: evacuate: strange closure type ...
-internal error: scavenge: unimplemented/strange closure type ...
-internal error: update_fwd: unknown/strange object ...
-internal error: stg_ap_v_ret
-```
+  - Add a comment that explains how it manifests for you, and add your description of how to reproduce it (see below)
+  - Add yourself to the CC list for the bug. We will try to prioritise bugs that affect a lot of people, and the length of the CC list is how we are currently determining this.  Use a comma or space (but not semicolon) to separate your email address from the next one.
 
+- However, if you encounter a crash from the runtime system, then don't bother searching for existing tickets - **just create a new ticket**.  These indicate a general RTS failure of some kind, and can arise due to a wide range of causes, so it is easier for us to track each failure in a separate ticket.  
 
-then don't bother searching for existing tickets - **just create a new ticket**.  These indicate a general RTS failure of some kind, and can arise due to a wide range of causes, so it is easier for us to track each failure in a separate ticket.
+>
+> Runtime system errors usually manifest as one of the following error messages:
+>
+> ```wiki
+> internal error: evacuate: strange closure type ...
+> internal error: scavenge: unimplemented/strange closure type ...
+> internal error: update_fwd: unknown/strange object ...
+> internal error: stg_ap_v_ret
+> ```
 
-
-Otherwise, try searching for existing tickets on the [ bug tracker](http://hackage.haskell.org/trac/ghc) or [ Google](http://www.google.com/?q=site:hackage.haskell.org/trac/ghc/ticket%20).
-
-**If you find an existing ticket** that seems to describe the same problem, then **add yourself to the CC list** for the bug. We will try to prioritise bugs that affect a lot of people, and the length of the CC list is how we are currently determining this.  Use a comma or space (but not semicolon) to separate your email address from the next one.
-
-**If in doubt, just report your bug**.
+- **If in doubt, just report your bug**.
 
 ## What to put in a bug report
 
