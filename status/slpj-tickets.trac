@@ -43,9 +43,8 @@ See also [wiki:TemplateHaskell]
  * #5366, #3990: UNPACK for data families, and with phantom types, needs data con wrapper refactoring
 
 == Compile time ==
+ * #7450, #7258: deriving `Read` generates gigantic code. Better now, but still not linear.
  * #7428: Non-linear compile time: `addFingerprint`??
- * #7450, #7258: deriving `Read` generates gigantic code
-
 
 
 == Features ==
