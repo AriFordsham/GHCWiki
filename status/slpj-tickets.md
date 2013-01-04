@@ -29,7 +29,7 @@ See also [TemplateHaskell](template-haskell)
 ## Optimisation
 
 - [\#7520](https://gitlab.haskell.org//ghc/ghc/issues/7520): Cardinality analysis
-- [\#7360](https://gitlab.haskell.org//ghc/ghc/issues/7360): case of identical alts fails abjectly (see also [\#7378](https://gitlab.haskell.org//ghc/ghc/issues/7378)); connected to occ-anal cleverness and hence [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258)
+- [\#7378](https://gitlab.haskell.org//ghc/ghc/issues/7378): (a) identical-alts when the RHSs are bigger; (b) nested comparisions (cf [\#2132](https://gitlab.haskell.org//ghc/ghc/issues/2132))
 - [\#7507](https://gitlab.haskell.org//ghc/ghc/issues/7507): `sum` and `product` should be `INLINABLE`.
 - [\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511): inlining can make programs allocate MORE!!
 - [\#7307](https://gitlab.haskell.org//ghc/ghc/issues/7307): low hanging fruit for shrinking code size for string constants and top-level indirections
