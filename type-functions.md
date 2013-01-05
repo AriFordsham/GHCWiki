@@ -16,6 +16,7 @@ Implemented features:
 
 - All basic functionality of open data type families, open type synonym families, and equality constraints has been implemented.
 - Type checking is fully integrated with GADTs.
+- Type family instances can have ordered groups of equations. See [NewAxioms](new-axioms).
 
 
 Missing features:
