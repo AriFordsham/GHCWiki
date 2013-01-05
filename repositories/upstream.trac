@@ -15,8 +15,8 @@ The mirrors are updated automatically each night, but you can force an immediate
 Here is where the upstream repositories are, and their mirrors.  The <span style="color: green;">master repository</span> is identified in green.
 
 <table border="2">
-<tr><td colspan="2">darcs</td><td colspan="4">git</td><td></td></tr>
-<tr><td>darcs upstream</td><td>darcs mirror</td><td>git upstream</td><td>git mirror</td><td>ghc (validated) repo</td><td>in-tree</td><td></td></tr>
+<tr><td colspan="2">darcs</td><td colspan="4">git</td></tr>
+<tr><td>darcs upstream</td><td>darcs mirror</td><td>git upstream</td><td>git mirror</td><td>ghc (validated) repo</td><td>in-tree</td></tr>
 <tr><td></td><td></td><td style="color: green;">git://github.com/kolmodin/binary.git</td><td>http://darcs.haskell.org/git-mirrors/binary/binary.git/</td><td>http://darcs.haskell.org/packages/.git/</td><td>libraries/binary</td></tr>
 <tr><td style="color: green;">http://darcs.haskell.org/bytestring/</td><td></td><td></td><td>http://darcs.haskell.org/git-mirrors/bytestring/.git/</td><td>http://darcs.haskell.org/packages/bytestring.git/</td><td>libraries/bytestring</td></tr>
 <tr><td></td><td></td><td style="color: green;">git://github.com/haskell/cabal.git</td><td>http://darcs.haskell.org/git-mirrors/Cabal/.git/</td><td>http://darcs.haskell.org/packages/Cabal.git/</td><td>libraries/Cabal</td></tr>
@@ -31,7 +31,7 @@ Here is where the upstream repositories are, and their mirrors.  The <span style
 <tr><td></td><td></td><td style="color: green;">https://github.com/glguy/utf8-string.git</td><td>http://darcs.haskell.org/git-mirrors/utf8-string/</td><td>http://darcs.haskell.org/packages/utf8-string.git/</td><td>libraries/utf8-string</td></tr>
 <tr><td></td><td></td><td style="color: green;">git://github.com/haskell/win32.git</td><td>http://darcs.haskell.org/git-mirrors/Win32/</td><td>http://darcs.haskell.org/packages/Win32.git/</td><td>libraries/Win32</td></tr>
 <tr><td></td><td></td><td style="color: green;">git://github.com/haskell/xhtml.git</td><td>http://darcs.haskell.org/git-mirrors/xhtml/</td><td>http://darcs.haskell.org/packages/xhtml.git/</td><td>libraries/xhtml</td></tr>
-<tr><td style="color: green;">http://code.haskell.org/primitive/</td><td>http://darcs.haskell.org/darcs-mirrors/primitive/</td><td></td><td>http://darcs.haskell.org/git-mirrors/primitive/.git/</td><td>http://darcs.haskell.org/packages/primitive.git/</td><td>libraries/primitive</td><td rowspan="3">dph</td></tr>
+<tr><td style="color: green;">http://code.haskell.org/primitive/</td><td>http://darcs.haskell.org/darcs-mirrors/primitive/</td><td></td><td>http://darcs.haskell.org/git-mirrors/primitive/.git/</td><td>http://darcs.haskell.org/packages/primitive.git/</td><td>libraries/primitive</td></tr>
 <tr><td style="color: green;">http://code.haskell.org/vector/</td><td>http://darcs.haskell.org/darcs-mirrors/vector/</td><td></td><td>http://darcs.haskell.org/git-mirrors/vector/.git/</td><td>http://darcs.haskell.org/packages/vector.git/</td><td>libraries/vector</td></tr>
 </table>
 }}}
