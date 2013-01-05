@@ -28,7 +28,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 
 - **Reqd to build?**: is "no" if this library is not required to build GHC. We have a few of these because we use them for tests and suchlike.
 
-- **Installed?**: is "no" if the library is not installed in a GHC installation. All others are installed with GHC. See the [libraries page](commentary/libraries) for more info.
+- **Installed?**: is "no" if the library is not installed in a GHC installation, and "extra" if it is only installed if `InstallExtraPackages` is `YES`. All others are installed with GHC. See the [libraries page](commentary/libraries) for more info.
 
 - **GHC repo**: in every case there is a repo on `http://darcs.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [Repositories/Upstream](repositories/upstream)).  The read-only HTTP URL for the repo is `http://darcs.haskell.org/<table-entry>`.  To get a read/write URL, replace HTTP prefix `http://darcs.haskell.org` with the SSH prefix `darcs.haskell.org:/srv/darcs`. 
 
@@ -177,11 +177,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th></th>
 <th>packages/process.git/</th></tr>
-<tr><th>libraries/random</th>
-<th> yes </th>
-<th></th>
-<th></th>
-<th>packages/random.git/</th></tr>
 <tr><th>libraries/template-haskell</th>
 <th></th>
 <th></th>
@@ -222,30 +217,35 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th> no  </th>
 <th>packages/xhtml.git/</th></tr>
+<tr><th>libraries/random</th>
+<th> yes </th>
+<th></th>
+<th>extra</th>
+<th>packages/random.git/</th></tr>
 <tr><th>libraries/primitive</th>
 <th> yes </th>
 <th></th>
-<th></th>
+<th>extra</th>
 <th>packages/primitive.git/</th></tr>
 <tr><th>libraries/vector</th>
 <th> yes </th>
 <th></th>
-<th></th>
+<th>extra</th>
 <th>packages/vector.git/</th></tr>
 <tr><th>libraries/dph</th>
 <th></th>
 <th></th>
-<th></th>
+<th>extra</th>
 <th>packages/dph.git/</th></tr>
 <tr><th>libraries/parallel</th>
 <th></th>
 <th> no  </th>
-<th> no  </th>
+<th>extra</th>
 <th>packages/parallel.git/</th></tr>
 <tr><th>libraries/stm</th>
 <th></th>
 <th> no  </th>
-<th> no  </th>
+<th>extra</th>
 <th>packages/stm.git/</th></tr></table>
 
 ## The 'packages' file

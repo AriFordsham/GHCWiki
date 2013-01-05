@@ -24,7 +24,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 
  * '''Reqd to build?''': is "no" if this library is not required to build GHC. We have a few of these because we use them for tests and suchlike.
 
- * '''Installed?''': is "no" if the library is not installed in a GHC installation. All others are installed with GHC. See the [wiki:Commentary/Libraries libraries page] for more info.
+ * '''Installed?''': is "no" if the library is not installed in a GHC installation, and "extra" if it is only installed if `InstallExtraPackages` is `YES`. All others are installed with GHC. See the [wiki:Commentary/Libraries libraries page] for more info.
 
  * '''GHC repo''': in every case there is a repo on `http://darcs.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [wiki:Repositories/Upstream]).  The read-only HTTP URL for the repo is `http://darcs.haskell.org/<table-entry>`.  To get a read/write URL, replace HTTP prefix `http://darcs.haskell.org` with the SSH prefix `darcs.haskell.org:/srv/darcs`. 
 
@@ -60,7 +60,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <tr><td>libraries/old-time</td>                <td>     </td> <td>     </td> <td>     </td> <td>packages/old-time.git/</td></tr>
 <tr><td>libraries/pretty</td>                  <td> yes </td> <td>     </td> <td>     </td> <td>packages/pretty.git/</td></tr>
 <tr><td>libraries/process</td>                 <td>     </td> <td>     </td> <td>     </td> <td>packages/process.git/</td></tr>
-<tr><td>libraries/random</td>                  <td> yes </td> <td>     </td> <td>     </td> <td>packages/random.git/</td></tr>
 <tr><td>libraries/template-haskell</td>        <td>     </td> <td>     </td> <td>     </td> <td>packages/template-haskell.git/</td></tr>
 <tr><td>libraries/terminfo</td>     	       <td> yes </td> <td>     </td> <td> no  </td> <td>packages/terminfo.git/</td></tr>
 <tr><td>libraries/time</td>         	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/time.git/</td></tr>
@@ -69,11 +68,12 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <tr><td>libraries/utf8-string</td>  	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/utf8-string.git/</td></tr>
 <tr><td>libraries/Win32</td>	    	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/Win32.git/</td></tr>
 <tr><td>libraries/xhtml</td>	    	       <td> yes </td> <td>     </td> <td> no  </td> <td>packages/xhtml.git/</td></tr>
-<tr><td>libraries/primitive</td>       	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/primitive.git/</td></tr>
-<tr><td>libraries/vector</td>       	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/vector.git/</td></tr>
-<tr><td>libraries/dph</td>          	       <td>     </td> <td>     </td> <td>     </td> <td>packages/dph.git/</td></tr>
-<tr><td>libraries/parallel</td>     	       <td>     </td> <td> no  </td> <td> no  </td> <td>packages/parallel.git/</td></tr>
-<tr><td>libraries/stm</td>          	       <td>     </td> <td> no  </td> <td> no  </td> <td>packages/stm.git/</td></tr>
+<tr><td>libraries/random</td>                  <td> yes </td> <td>     </td> <td>extra</td> <td>packages/random.git/</td></tr>
+<tr><td>libraries/primitive</td>       	       <td> yes </td> <td>     </td> <td>extra</td> <td>packages/primitive.git/</td></tr>
+<tr><td>libraries/vector</td>       	       <td> yes </td> <td>     </td> <td>extra</td> <td>packages/vector.git/</td></tr>
+<tr><td>libraries/dph</td>          	       <td>     </td> <td>     </td> <td>extra</td> <td>packages/dph.git/</td></tr>
+<tr><td>libraries/parallel</td>     	       <td>     </td> <td> no  </td> <td>extra</td> <td>packages/parallel.git/</td></tr>
+<tr><td>libraries/stm</td>          	       <td>     </td> <td> no  </td> <td>extra</td> <td>packages/stm.git/</td></tr>
 </table>
 }}}
 
