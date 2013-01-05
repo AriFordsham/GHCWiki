@@ -45,7 +45,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <tr><th>ghc-tarballs</th>
 <th></th>
 <th></th>
-<th> no  </th>
+<th> N/A </th>
 <th>ghc-tarballs.git/</th></tr>
 <tr><th>utils/hsc2hs</th>
 <th></th>
@@ -60,12 +60,12 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <tr><th>testsuite</th>
 <th></th>
 <th></th>
-<th></th>
+<th> N/A </th>
 <th>testsuite.git</th></tr>
 <tr><th>nofib</th>
 <th></th>
 <th></th>
-<th></th>
+<th> N/A </th>
 <th>nofib.git</th></tr>
 <tr><th>libraries/array</th>
 <th></th>
