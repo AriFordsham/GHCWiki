@@ -73,6 +73,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:Commentary/Compiler/Demand Demand analyser] Notes on the meanings, worker-wrapper splitting of demand signatures and relevant components of the compiler
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
+   * [wiki:FunDeps Checking consistency of functional dependencies]
    * [wiki:Commentary/GSoCMultipleInstances Allowing multiple instances of the same package to be installed], each instance having different dependencies
    * [wiki:Commentary/Contracts Contracts in Haskell]
    * [wiki:Holes Agda-style holes in terms] which supports writing partial programs.
