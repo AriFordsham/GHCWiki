@@ -56,7 +56,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <tr><td>libraries/hpc</td>                     <td>     </td> <td>     </td> <td>     </td> <td>packages/hpc.git/</td></tr>
 <tr><td>libraries/integer-gmp</td>             <td>     </td> <td>     </td> <td>     </td> <td>packages/integer-gmp.git/</td></tr>
 <tr><td>libraries/integer-simple</td>          <td>     </td> <td>     </td> <td>     </td> <td>packages/integer-simple.git/</td></tr>
-<tr><td>libraries/mtl</td>                     <td> yes </td> <td> no  </td> <td> no  </td> <td>packages/mtl.git/</td></tr>
 <tr><td>libraries/old-locale</td>              <td>     </td> <td>     </td> <td>     </td> <td>packages/old-locale.git/</td></tr>
 <tr><td>libraries/old-time</td>                <td>     </td> <td>     </td> <td>     </td> <td>packages/old-time.git/</td></tr>
 <tr><td>libraries/pretty</td>                  <td> yes </td> <td>     </td> <td>     </td> <td>packages/pretty.git/</td></tr>
@@ -69,7 +68,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <tr><td>libraries/unix</td>         	       <td>     </td> <td>     </td> <td>     </td> <td>packages/unix.git/</td></tr>
 <tr><td>libraries/utf8-string</td>  	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/utf8-string.git/</td></tr>
 <tr><td>libraries/Win32</td>	    	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/Win32.git/</td></tr>
-<tr><td>libraries/xhtml</td>	    	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/xhtml.git/</td></tr>
+<tr><td>libraries/xhtml</td>	    	       <td> yes </td> <td>     </td> <td> no  </td> <td>packages/xhtml.git/</td></tr>
 <tr><td>libraries/primitive</td>       	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/primitive.git/</td></tr>
 <tr><td>libraries/vector</td>       	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/vector.git/</td></tr>
 <tr><td>libraries/dph</td>          	       <td>     </td> <td>     </td> <td>     </td> <td>packages/dph.git/</td></tr>
