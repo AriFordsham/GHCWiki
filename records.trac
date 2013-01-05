@@ -55,7 +55,8 @@ So we have decided to avoid the extensible record debate, but how can we have mu
  7. '''[wiki:Records/TypeIndexedRecords Type Indexed Records]'''. (Plan B)
  8. '''[wiki:Records/TypePunningDeclaredOverloadedRecordFields Type-Punning Declared Overloaded Record Fields] (TPDORF)'''. In the DORF stable. (Plan B)
  9. '''[wiki:Records/ExplicitClassyRecords Explicit Classy Records]'''
- 10. '''Are there any other approaches?'''
+ 10. '''[http://elm-lang.org/blog/announce/version-0.7.elm polymorphic extensible records with scoped labels (implemented in Elm)]'''
+ 11. '''Are there any other approaches?'''
 
 === Similarities ===
 
