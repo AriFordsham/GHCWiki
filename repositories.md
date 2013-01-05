@@ -97,6 +97,11 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th></th>
 <th>packages/containers.git/</th></tr>
+<tr><th>libraries/deepseq</th>
+<th></th>
+<th></th>
+<th></th>
+<th>packages/deepseq.git/</th></tr>
 <tr><th>libraries/directory</th>
 <th></th>
 <th></th>
@@ -237,11 +242,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th></th>
 <th>packages/dph.git/</th></tr>
-<tr><th>libraries/deepseq</th>
-<th></th>
-<th> no  </th>
-<th> no </th>
-<th>packages/deepseq.git/</th></tr>
 <tr><th>libraries/parallel</th>
 <th></th>
 <th> no  </th>

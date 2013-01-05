@@ -44,6 +44,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <tr><td>libraries/bytestring</td>              <td> yes </td> <td>     </td> <td>     </td> <td>packages/bytestring.git/</td></tr>
 <tr><td>libraries/Cabal</td>                   <td> yes </td> <td>     </td> <td>     </td> <td>packages/Cabal.git/</td></tr>
 <tr><td>libraries/containers</td>              <td> yes </td> <td>     </td> <td>     </td> <td>packages/containers.git/</td></tr>
+<tr><td>libraries/deepseq</td>      	       <td>     </td> <td>     </td> <td>     </td> <td>packages/deepseq.git/</td></tr>
 <tr><td>libraries/directory</td>               <td>     </td> <td>     </td> <td>     </td> <td>packages/directory.git/</td></tr>
 <tr><td>libraries/extensible-exceptions</td>   <td>     </td> <td>     </td> <td>     </td> <td>packages/extensible-exceptions.git/</td></tr>
 <tr><td>libraries/filepath</td>                <td>     </td> <td>     </td> <td>     </td> <td>packages/filepath.git/</td></tr>
@@ -72,7 +73,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <tr><td>libraries/primitive</td>       	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/primitive.git/</td></tr>
 <tr><td>libraries/vector</td>       	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/vector.git/</td></tr>
 <tr><td>libraries/dph</td>          	       <td>     </td> <td>     </td> <td>     </td> <td>packages/dph.git/</td></tr>
-<tr><td>libraries/deepseq</td>      	       <td>     </td> <td> no  </td> <td> no </td> <td>packages/deepseq.git/</td></tr>
 <tr><td>libraries/parallel</td>     	       <td>     </td> <td> no  </td> <td> no  </td> <td>packages/parallel.git/</td></tr>
 <tr><td>libraries/stm</td>          	       <td>     </td> <td> no  </td> <td> no  </td> <td>packages/stm.git/</td></tr>
 </table>
