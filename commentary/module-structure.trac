@@ -56,6 +56,17 @@ This section of the commentary documents the subtlest part of the module depende
  * That is the end of the infrastructure. Now we get the main layer of modules that perform useful work.
    * !CoreTidy (!HscTypes.!PersistentCompilerState) 
 
+== Typechecker stuff ==
+
+ * !TcType
+ * !TcEvidence( !TcType )
+ * TcMType( !TcEvidence )
+ * !TcUnify( TcMType )
+ * TcSMonad( TcMType )
+ * !TcSimplify( TcSMonad )
+ * !TcValidity( !TcSimplify.simplifyTop, !TcUnify.tcSubType )
+ * !TcHsType( !TcValidity.checkValidType, !TcValidity.checkValidInstance )
+
 == !HsSyn stuff ==
  * !HsPat.hs-boot
  * !HsExpr.hs-boot (loop !HsPat.LPat)

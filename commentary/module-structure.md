@@ -59,6 +59,17 @@ This section of the commentary documents the subtlest part of the module depende
 
   - CoreTidy (HscTypes.PersistentCompilerState) 
 
+## Typechecker stuff
+
+- TcType
+- TcEvidence( TcType )
+- TcMType( TcEvidence )
+- TcUnify( TcMType )
+- TcSMonad( TcMType )
+- TcSimplify( TcSMonad )
+- TcValidity( TcSimplify.simplifyTop, TcUnify.tcSubType )
+- TcHsType( TcValidity.checkValidType, TcValidity.checkValidInstance )
+
 ## HsSyn stuff
 
 - HsPat.hs-boot
