@@ -1,6 +1,7 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
 == Type inference ==
+ * #7558: Terrible error message in inaccessible code
  * #5682: Parsing of pomoted kinds
  * #6022: over-general types are inferred
  * #5642: slow constraint solving

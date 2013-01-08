@@ -2,6 +2,7 @@
 
 ## Type inference
 
+- [\#7558](https://gitlab.haskell.org//ghc/ghc/issues/7558): Terrible error message in inaccessible code
 - [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
