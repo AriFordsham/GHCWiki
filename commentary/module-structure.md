@@ -63,10 +63,10 @@ This section of the commentary documents the subtlest part of the module depende
 
 - TcType
 - TcEvidence( TcTupe )
-- !TcMType( TcEvidence )
-- TcUnify( !TcMType )
-- !TcSMonad( !TcMType )
-- TcSimplify( !TcSMonad )
+- TcMType( TcEvidence )
+- TcUnify( TcMType )
+- TcSMonad( TcMType )
+- TcSimplify( TcSMonad )
 - TcValidity( TcSimplify.simplifyTop, TcUnify.tcSubType )
 - TcHsType( TcValidity.checkValidType, TcValidity.checkValidInstance )
 
