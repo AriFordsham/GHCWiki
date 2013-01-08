@@ -26,7 +26,6 @@ See also [TemplateHaskell](template-haskell)
 
 - [\#7520](https://gitlab.haskell.org//ghc/ghc/issues/7520): Cardinality analysis
 - [\#7378](https://gitlab.haskell.org//ghc/ghc/issues/7378): (a) identical-alts when the RHSs are bigger; (b) nested comparisions (cf [\#2132](https://gitlab.haskell.org//ghc/ghc/issues/2132))
-- [\#7507](https://gitlab.haskell.org//ghc/ghc/issues/7507): `sum` and `product` should be `INLINABLE`.
 - [\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511): inlining can make programs allocate MORE!!
 - [\#7307](https://gitlab.haskell.org//ghc/ghc/issues/7307): low hanging fruit for shrinking code size for string constants and top-level indirections
 - [\#7206](https://gitlab.haskell.org//ghc/ghc/issues/7206), [\#7309](https://gitlab.haskell.org//ghc/ghc/issues/7309): avoid excessive sharing of enumerations
@@ -41,7 +40,7 @@ See also [TemplateHaskell](template-haskell)
 - [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135): unboxed booleans
 - [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
 - [\#5522](https://gitlab.haskell.org//ghc/ghc/issues/5522), [\#6092](https://gitlab.haskell.org//ghc/ghc/issues/6092): liberate-case runs out of memory
-- [\#5366](https://gitlab.haskell.org//ghc/ghc/issues/5366), [\#3990](https://gitlab.haskell.org//ghc/ghc/issues/3990): UNPACK for data families, and with phantom types, needs data con wrapper refactoring
+- [\#3990](https://gitlab.haskell.org//ghc/ghc/issues/3990): UNPACK for data families, and with phantom types, needs data con wrapper refactoring
 - [\#5928](https://gitlab.haskell.org//ghc/ghc/issues/5928): running Specialise more than once
 
 ## Compile time
