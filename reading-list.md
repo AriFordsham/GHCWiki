@@ -73,8 +73,13 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Implementing lazy functional languages on stock hardware: the Spineless Tagless G-machine](http://research.microsoft.com/~simonpj/papers/spineless-tagless-gmachine.ps.gz), SL Peyton Jones, Journal of Functional Programming 2(2), Apr 1992, pp127-202.  The original STG paper but still highly relevant.
 
+- [ STG Survival Sheet](http://www.macs.hw.ac.uk/~dsg/gph/docs/StgSurvival.ps.gz), A poor wee soul, 2001 - This is a very old description of STG. This information is now on the wiki in sections about [ RTS](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts) and [ STG](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/GeneratedCode).
 
-Please add: Hoopl, C--.
+- [ Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/hoopl-haskell10.pdf), Norman Ramsey, John Dias, and Simon Peyton Jones. Haskell Symposium 2010
+
+- [ C--: a portable assembly language that supports garbage collection](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/ppdp.ps.gz), Simon Peyton Jones, Norman Ramsey, and Fermin Reig. Invited talk at PPDP'99. 
+
+- [ A Single Intermediate Language That Supports Multiple Implementations of Exceptions](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/c--exn-pldi.ps.gz), Norman Ramsey and Simon Peyton Jones, PLDI 2000.
 
 ## IO and Related
 
