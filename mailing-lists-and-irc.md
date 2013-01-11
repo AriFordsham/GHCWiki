@@ -1,7 +1,7 @@
 # Mailing lists and IRC
 
 
-GHC developers hang out on the [ cvs-ghc mailing list](http://www.haskell.org/mailman/listinfo/cvs-ghc).  This list also receives the following:
+GHC developers hang out on the [ ghc-devs mailing list](http://www.haskell.org/mailman/listinfo/ghc-devs).  This list also receives the following:
 
 - checkins on the main ghc repository
 - patches sent by `darcs send`
@@ -11,7 +11,7 @@ GHC developers hang out on the [ cvs-ghc mailing list](http://www.haskell.org/ma
 The traffic level varies quite a bit depending on how much activity there is.
 
 
-Checkins for packages are reported on the [ cvs-libraries mailing list](http://www.haskell.org/mailman/listinfo/cvs-libraries).  To get mail from all the `cvs-*` lists, subscribe to the [ cvs-all mailing list](http://www.haskell.org/mailman/listinfo/cvs-all) (but don't post there, please).
+Checkins for packages are reported on the [ Libraries mailing list](http://www.haskell.org/mailman/listinfo/libraries).  To get mail from all the `cvs-*` lists, subscribe to the [ cvs-all mailing list](http://www.haskell.org/mailman/listinfo/cvs-all) (but don't post there, please).
 
 ## IRC
 
