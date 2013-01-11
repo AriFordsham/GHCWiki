@@ -132,8 +132,9 @@ See also [TemplateHaskell](template-haskell)
 
 - [TypeFunctionsStatus](type-functions-status)
 - [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503): Kind polymorphism and mutual recursion
-- [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): Injective type families (patch offered)
-- [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC \* [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
+- [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018), [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): Injective type families and type family overlap
+- [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
+- [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
 
 ## Types and type inference
