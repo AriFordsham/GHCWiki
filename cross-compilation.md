@@ -210,6 +210,11 @@ I am about to test whether the theory matches practice and report back here.
 
 I've submitted patches that make cross compiling work. I will also write some build instructions in the Building Guide.
 
+### Jan 2013: Stephen Paul Weber
+
+
+Cross-compiling is almost working in HEAD for 7.7.  Check the mailing list for patches that make it work (at least for some platforms).
+
 ---
 
 ## Questions
