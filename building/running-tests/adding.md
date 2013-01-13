@@ -283,6 +283,10 @@ There are many pre-defined functions which can be used in this field:
 
 - **c_src**                 look for a `.c` file
 
+- **objc_src**              look for a `.m` file
+
+- **objcpp_src**            look for a `.mm` file
+
 - **cmd_prefix(string)**    prefix this string to the command when run
 
 - **normalise_slashes**     convert backslashes to forward slashes before comparing the output
