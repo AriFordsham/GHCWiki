@@ -128,7 +128,7 @@ More precisely
 
 
 This proposal rests on very similar foundations to the "newtype deriving" feature,
-and suffers from *precisely* the same issue with type soundness.  For example,
+and suffers from *precisely* the same issue with type soundness; see [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496), [\#5498](https://gitlab.haskell.org//ghc/ghc/issues/5498), [\#4846](https://gitlab.haskell.org//ghc/ghc/issues/4846), [\#7148](https://gitlab.haskell.org//ghc/ghc/issues/7148).  For example,
 consider
 
 ```wiki
