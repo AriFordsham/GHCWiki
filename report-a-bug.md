@@ -14,6 +14,20 @@ To report a bug, either:
 
   - To submit an anonymous bug: use login "guest", password "guest"
 
+## Frequently reported bugs
+
+
+GHC 7.4 gives an internal error (panic) on:
+
+- Lowercase identifier used in a deriving clause, such as `data A = B deriving show`. Use uppercase: `deriving Show`. Bug [\#5961](https://gitlab.haskell.org//ghc/ghc/issues/5961).
+- Invalid instances: `instance A => B => C where ...`, `instance A -> B`, `instance (A, B)` etc. Bug [\#5951](https://gitlab.haskell.org//ghc/ghc/issues/5951).
+
+
+Both errors are fixed in GHC 7.6, if possible, you should upgrade.
+
+
+GHC 7.6 gives a panic on an invalid strictness annotation `data X = X (!Maybe Int)`. The correct way is `data X = X (!(Maybe Int))`. This is fixed in the development version. See bug [\#7210](https://gitlab.haskell.org//ghc/ghc/issues/7210).
+
 ## How do I tell if I should report my bug?
 
 - Take a look at the [ FAQ](http://haskell.org/haskellwiki/GHC/FAQ) and [Chapter 9, What to do when something goes wrong](http://www.haskell.org/ghc/docs/latest/html/users_guide/wrong.html), which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
