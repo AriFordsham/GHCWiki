@@ -5,6 +5,9 @@ This page proposes **newtype wrappers**, a new feature for Haskell
 indended to make newtypes more flexible and useful.  It tackles head-on 
 the problem underlying [\#7542](https://gitlab.haskell.org//ghc/ghc/issues/7542) and [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110).
 
+
+Email thread [ here](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-January/023455.html).
+
 ## The problem
 
 
@@ -123,6 +126,68 @@ More precisely
     newtype Age = MkAge Int
     newtype wrap foo :: (Int -> Int) -> Fun Age
   ```
+
+## Abstraction
+
+
+Suppose we have
+
+```wiki
+	module Map( ... ) where
+	  data Map a b = ...blah blah...
+
+	module Age( ... ) where
+	  newtype Age = MkAge Int
+```
+
+
+Now suppose we want a newtype wrapper like this
+
+```wiki
+	import Map
+	import Age
+
+	newtype wrap foo :: Map Int Bool -> Map Age Bool
+```
+
+
+Could we write `foo` by hand? (This is a good criterion, I think.) Only if we could see the data constructors of *both*`Map`*and*`Age`. 
+
+- If we can't see the data constructor of `Age` we might miss an invariant that Ages are supposed to have.   For example, they might be guaranteed positive.
+
+- If we can't see the data constructors of `Map`, we might miss an invariant of Maps. For example, maybe `Map` is represented as a list of pairs, ordered by the keys.  Then, if `Age` orders in the reverse way to `Int`, it would obviously be bad to substitute.
+
+
+Invariants like these are difficult to encode in the type system, so we use "exporting the constructors" as a proxy for "I trust the importer to maintain invariants".  The "Internals" module name convention is a signal that you must be particularly careful when importing this module; runtime errors may result if you screw up.
+
+
+One possible conclusion: if we have them at all, newtype wrappers should only work if you can see the constructors of *both* the newtype, *and* the type you are lifting over.  
+
+
+But that's not very satisfactory either.  
+
+- There are some times (like `IO`) where it \*does\* make perfect sense
+  to lift newtypes, but where we really don't want to expose
+  the representation. 
+
+- Actually `Map` is also a good example: while `Map Age Bool` should
+  not be converted to `Map Int Bool`, it'd be perfectly fine to convert
+  `Map Int Age` to `Map Int Int`.
+
+- The criterion must be recursive.  For example if we had
+
+  ```wiki
+  	 data Map a b = MkMap (InternalMap a b)
+  ```
+
+  it's no good being able to see the data constructor `MkMap`; you need to
+  see the constructors of `InternalMap` too.
+
+
+The right thing is probably to use kinds, and all this is tantalisingly close to the system suggested in [ Generative type abstraction and type-level computation](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/).  Maybe we should be able to *declare* Map to be indexed (rather than parametric) in its first parameter.
+
+
+More thought required.
 
 ## Type soundness
 
