@@ -93,7 +93,7 @@ The function \<opt-fn\> is allowed to be any Python callable object,
 which takes a single argument of type TestOptions.  TestOptions is a
 class containing options which affect the way that the current test is
 run: whether to skip it, whether to expect failure, extra options to
-pass to the compiler, etc. (see testlib.py for the definition of the
+pass to the compiler, etc. (see testglobals.py for the definition of the
 TestOptions class).  The idea is that the \<opt-fn\> function modifies
 the TestOptions object that it is passed.  For example, to expect
 failure for a test, we might do this in the .T file:
