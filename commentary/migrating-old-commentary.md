@@ -26,7 +26,7 @@ that section of the old commentary, and that there is no longer any reason for p
 <table><tr><th>Coding style used in the compiler</th>
 <th>**done**</th></tr>
 <tr><th>The Glorious Driver</th>
-<th>*unknown*</th></tr>
+<th>Sections 1 & 2 **done**, *Other sections mostly outdated*</th></tr>
 <tr><th>Primitives and the Prelude</th>
 <th>*unknown*</th></tr>
 <tr><th>Just Syntax</th>
