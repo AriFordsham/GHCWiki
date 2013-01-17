@@ -3,6 +3,8 @@
 
 This page explains basics of the so-called demand analysis in GHC, comprising strictness and absence analyses. Meanings of demand signatures are explained and examples are provided. Also, components of the compiler possibly affected by the results of the demand analysis are listed with explanations provided. 
 
+- The [ demand-analyser draft paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/demand-anal/demand.ps) is as yet unpublished, but gives the most accurate overview of the way GHC's demand analyser works.
+
 ---
 
 ## Demand signatures
