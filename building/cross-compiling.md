@@ -18,6 +18,9 @@ This page describes how to do cross-compilation with GHC.  That is:
 ## Terminology and background
 
 
+(For more background and design docs see [CrossCompilation](cross-compilation).)
+
+
 Traditional cross-compilation terminology defines three platforms:
 
 - *build* - the platform we're building on
@@ -93,7 +96,7 @@ First you want to install a C compiler and related tools that generate code for 
 - C libraries
 
 
-(basically gcc + binutils).  These need to be installed somewhere different from your native gcc & binutils so they don't conflict.  We assume that your `gcc` knows where its libraries live, otherwise you will probably need to add more flags to your `build.mk` settings to tell it.
+(basically gcc + binutils + libc).  These need to be installed somewhere different from your native gcc & binutils so they don't conflict.  We assume that your `gcc` knows where its libraries live, otherwise you will probably need to add more flags to your `build.mk` settings to tell it.
 
 
 (ToDo: what if we're using LLVM?)
