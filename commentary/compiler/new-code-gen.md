@@ -15,7 +15,9 @@ This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias a
   - [\#7213](https://gitlab.haskell.org//ghc/ghc/issues/7213) (massive array)
 
 - (Sept 12) New code generator is live.  Here's the [page listing clean-up tasks](commentary/compiler/new-code-gen/cleanup) that we can now do.
+
 - Simon M added a [Blog Post](/trac/ghc/blog/newcg-update) about the new code generator status
+
 - Link to [ Krzysztof Wos's project](http://research.microsoft.com/en-us/um/people/simonpj/papers/other-authors/krzysztof-wos-project), in which he reports great performance improvements by turning tail recursion into loops in C--.
 
 - Norman added a [Hoopl performance page](commentary/compiler/hoopl-performance)
