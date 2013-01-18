@@ -27,7 +27,7 @@ We'll see why that is if we consider which platforms the various parts of the bu
 ||'''runs on'''  ||''build''     || ''build''       || ''host''      || ''target''         || ''target''    ||
 ||'''targets'''  ||''build''     || ---             || ''target''    || ---                || ''target''    ||
 
-(this is not the only way we could have done it, for more rationale see [wiki:CrossCompiling])
+(this is not the only way we could have done it, for more rationale see [wiki:CrossCompilation])
 
 So in order to use the stage 1 compiler to build libs-install, we must be able to run it, and hence ''host'' must be the same as ''build''.  You never need to specify ''host'', just specify ''target'' when making a cross-compiler.
 

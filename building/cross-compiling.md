@@ -52,7 +52,7 @@ We'll see why that is if we consider which platforms the various parts of the bu
 <th>*target*</th></tr></table>
 
 
-(this is not the only way we could have done it, for more rationale see [CrossCompiling](building/cross-compiling))
+(this is not the only way we could have done it, for more rationale see [CrossCompilation](cross-compilation))
 
 
 So in order to use the stage 1 compiler to build libs-install, we must be able to run it, and hence *host* must be the same as *build*.  You never need to specify *host*, just specify *target* when making a cross-compiler.
