@@ -18,6 +18,9 @@ This page describes how to do cross-compilation with GHC.  That is:
 ## Terminology and background
 
 
+(For more background and design docs see [CrossCompilation](cross-compilation).)
+
+
 Traditional cross-compilation terminology defines three platforms:
 
 - *build* - the platform we're building on
