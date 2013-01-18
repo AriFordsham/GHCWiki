@@ -107,14 +107,24 @@ Also install the other tools needed to build GHC on your platform: see [Building
 ## Configuring the build
 
 
-To configure the build:
+The C cross-compiler and tools are usually installed with the platform name as a prefix, e.g. if the target platform is `arm-linux-gnueabihf` then the gcc cross-compiler is named `arm-linux-gnueabihf-gcc`.  If your cross-compiling toolset is set up like this, then add the directory containing the tools to your `PATH`, and just say:
+
+```wiki
+./configure --target=<target>
+```
+
+
+and `configure` will find all the tools, using `<target>` as the prefix.
+
+
+If you need to specify the tools explicitly, then you can say
 
 ```wiki
 ./configure --target=<target> --with-gcc=<gcc> --with-ld=<ld> --with-nm=<nm> --with-objdump=<objdump>
 ```
 
 
-Note: if you are cross-compiling for a platform that doesn't have a native code generator or registerised LLVM support, then you should add
+Note: if you are cross-compiling for a platform that doesn't have a native code generator or registerised LLVM support, then you should also add
 
 ```wiki
   --enable-unregisterised
@@ -148,4 +158,15 @@ Extra packages can be installed using `cabal` with your cross-compiler.  The rec
 You can do this even without installing your cross-compiler, just use `$TOP/inplace/bin/ghc-stage1` as `<cross-ghc>`.
 
 
-(the `--with-ld` option shouldn't really be required, hopefully this will get fixed at some point).
+NB. you should ensure that the cross-compiled packages won't conflict with your native packages.  If the version of your `cross-ghc` is dated, such as 7.7.20130116, then that may be enough to avoid a conflict.
+
+
+Another way to do this is to modify your `$HOME/.cabal/config` to include the platform in the installation directory for packages:
+
+```wiki
+install-dirs user
+  libsubdir: $arch-$os/$pkgid/$compiler
+```
+
+
+Unfortunately this **does not work** at the moment, because `cabal` uses the wrong values for `$arch` and `$os`, see [ https://github.com/haskell/cabal/issues/1184](https://github.com/haskell/cabal/issues/1184).
