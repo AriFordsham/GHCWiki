@@ -113,10 +113,13 @@ Extra packages can be installed using `cabal` with your cross-compiler.  The rec
 
 You can do this even without installing your cross-compiler, just use `$TOP/inplace/bin/ghc-stage1` as `<cross-ghc>`.
 
-NB. you should ensure that the cross-compiled packages won't conflict with your native packages; one way to do this is to modify your `$HOME/.cabal/config` to include the platform in the installation directory for packages:
+NB. you should ensure that the cross-compiled packages won't conflict with your native packages.  If the version of your `cross-ghc` is dated, such as 7.7.20130116, then that may be enough to avoid a conflict.
+
+Another way to do this is to modify your `$HOME/.cabal/config` to include the platform in the installation directory for packages:
 
 {{{
 install-dirs user
   libsubdir: $arch-$os/$pkgid/$compiler
 }}}
 
+Unfortunately this '''does not work''' at the moment, because `cabal` uses the wrong values for `$arch` and `$os`, see [https://github.com/haskell/cabal/issues/1184].
