@@ -3,8 +3,15 @@
 
 This page describes how to do cross-compilation with GHC.  That is:
 
-  * '''Building GHC as a cross-compiler''' building a GHC binary that runs on one platform but produces code for a different platform.
-  * '''Cross-compiling GHC itself''' building GHC on one platform that ''runs'' on another platform and generates code for it.
+ * '''Building GHC as a cross-compiler''': Create a compiler that runs on one platform, but targets another. Examples are building a GHC that:
+   * runs on Mac OS X, but targets iOS
+   * runs on x86_64 linux, but targets i386
+   * runs on some existing GHC supported platform, but targets a smaller embedded platform
+ * '''Cross-compiling GHC itself''': Build on one platform a compiler that runs on, and targets another.  Examples:
+   * [http://takeoffgw.sourceforge.net/ TakeoffGW] is a distribution of Unix tools for Windows, built by cross-compiling on a Linux machine.  They would like to be able to build and distribute GHC this way.  It might be useful for us to be able to cross-compile a Windows GHC from Linux too.
+   * build a 64-bit GHC on OS X, by cross-compiling using the 32-bit version.
+   * We could port to Win64 (#1884) by cross-compiling using a 32-bit Windows GHC.
+   * Other porting tasks might be easier, given a suitable cross-compilation toolchain.
 
 == Terminology and background ==
 
