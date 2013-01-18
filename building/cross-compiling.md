@@ -75,9 +75,10 @@ First you want to install a C compiler and related tools that generate code for 
 - `ld`
 - `nm`
 - `objdump`
+- C libraries
 
 
-(basically gcc + binutils).  These need to be installed somewhere different from your native gcc & binutils so they don't conflict.
+(basically gcc + binutils).  These need to be installed somewhere different from your native gcc & binutils so they don't conflict.  We assume that your `gcc` knows where its libraries live, otherwise you will probably need to add more flags to your `build.mk` settings to tell it.
 
 
 (ToDo: what if we're using LLVM?)
