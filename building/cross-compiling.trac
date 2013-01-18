@@ -1,0 +1,92 @@
+[[PageOutline]]
+= Cross-compiling GHC =
+
+This page describes how to do cross-compilation with GHC.  That is:
+
+  * '''Building GHC as a cross-compiler''' building a GHC binary that runs on one platform but produces code for a different platform.
+  * '''Cross-compiling GHC itself''' building GHC on one platform that ''runs'' on another platform and generates code for it.
+
+== Terminology and background ==
+
+Traditional cross-compilation terminology defines three platforms:
+
+ * ''build'' - the platform we're building on
+ * ''host'' - the platform the compiler will run on
+ * ''target'' - the platform the compiler we're building will generate code for
+
+These are the platforms given to the `configure` script when configuring the build.
+
+GHC does not support all three platforms being different.  The rule is:
+
+ * ''build'' must equal ''host''
+
+We'll see why that is if we consider which platforms the various parts of the build use:
+
+||               ||'''Stage 0''' || '''libs boot''' || '''Stage 1''' || '''libs install''' || '''Stage 2''' ||
+||'''built on''' || ---          || ''build''       || ''build''     || ''build''          || ''build''     ||
+||'''runs on'''  ||''build''     || ''build''       || ''host''      || ''target''         || ''target''    ||
+||'''targets'''  ||''build''     || ---             || ''target''    || ---                || ''target''    ||
+
+(this is not the only way we could have done it, for more rationale see [wiki:CrossCompiling])
+
+So in order to use the stage 1 compiler to build libs-install, we must be able to run it, and hence ''host'' must be the same as ''build''.  You never need to specify ''host'', just specify ''target'' when making a cross-compiler.
+
+So considering the two cases we identified at the top of the page:
+
+  * '''Building GHC as a cross-compiler''' - this is the stage 1 compiler
+  * '''Cross-compiling GHC itself''' - this is the stage 2 compiler
+
+both of these cases are handled in the same way.
+
+== Tools to install ==
+
+First you want to install a C compiler and related tools that generate code for your target platform.  You'll need:
+
+ * `gcc`
+ * `ld`
+ * `nm`
+ * `objdump`
+
+(basically gcc + binutils).  These need to be installed somewhere different from your native gcc & binutils so they don't conflict.
+
+(ToDo: what if we're using LLVM?)
+
+Also install the other tools needed to build GHC on your platform: see [wiki:Building/Preparation].
+
+== Configuring the build ==
+
+To configure the build:
+
+{{{
+./configure --target=<target> --with-gcc=<gcc> --with-ld=<ld> --with-nm=<nm> --with-objdump=<objdump>
+}}}
+
+Note: if you are cross-compiling for a platform that doesn't have a native code generator or registerised LLVM support, then you should add
+
+{{{
+  --enable-unregisterised
+}}}
+
+(the build system will probably do this automatically for you anyway, but it doesn't hurt to be explicit)
+
+== `build.mk` settings ==
+
+If you are only interested in building a cross-compiler, then you can add
+
+{{{
+Stage1Only = YES
+}}}
+
+to your `mk/build.mk`, and the build system will stop before building stage 2.  The resulting cross-compiler and tools can be installed as usual with 'make install'.
+
+== Using `cabal` ==
+
+Extra packages can be installed using `cabal` with your cross-compiler.  The recipe is:
+
+{{{
+  $ cabal --with-ghc=<cross-ghc> --with-ld=<ld> ...
+}}}
+
+You can do this even without installing your cross-compiler, just use `$TOP/inplace/bin/ghc-stage1` as `<cross-ghc>`.
+
+(the `--with-ld` option shouldn't really be required, hopefully this will get fixed at some point).
