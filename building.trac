@@ -54,7 +54,7 @@ can extend it, modify it, and use it to build your code.
 
 '''Porting GHC'''
 
- * [wiki:CrossCompilation Cross-compilation (the NEW way to port GHC)]
+ * [wiki:Building/CrossCompiling Cross-compilation (the NEW way to port GHC)]
  * [wiki:Building/Porting Porting GHC to a new platform (the OLD way to port GHC)]
 
 '''Troubleshooting'''
