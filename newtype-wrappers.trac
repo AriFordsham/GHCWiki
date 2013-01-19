@@ -116,7 +116,7 @@ and two built-in instances for each newtype:
   instance NTC Int b => NTC Age b
   instance NTC a Int => NTC a Age
 }}}
-So to solve a `NTC` constraint you unwwap all those newtypes (being careful about abstraction; see next section).  
+So to solve a `NTC` constraint you unwrap all those newtypes (being careful about abstraction; see next section).  
 
 This plan requires a bit more paddling under the water on GHC's part, especially during type inference, but it looks a lot more straightforward than I first thought.  Thanks to Roman Cheplyka for advocating this solution.
 
