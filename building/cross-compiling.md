@@ -145,6 +145,16 @@ Stage1Only = YES
 
 to your `mk/build.mk`, and the build system will stop before building stage 2.  The resulting cross-compiler and tools can be installed as usual with 'make install'.
 
+
+If your cross-toolset does not include the GMP library, then you should also add:
+
+```wiki
+INTEGER_LIBRARY = integer-simple
+```
+
+
+since even though we have a copy of GMP in the GHC source tree, it cannot be cross-compiled (ToDo: why not?).
+
 ## Using `cabal`
 
 
