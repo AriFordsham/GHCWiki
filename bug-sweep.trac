@@ -59,37 +59,6 @@ database and start again.
 
 [http://hackage.haskell.org/trac/ghc/wiki/BugSweep?action=edit Edit this page] to remove a ticket from the following list.  You don't have to take the one at the top, but the top is as good a place to start as any:
 
- * #701
- * #731
- * #733
- * #781
- * #806
- * #835
- * #849
- * #855
- * #860
- * #876
- * #881
- * #886
- * #888
- * #910
- * #916
- * #917
- * #926
- * #932
- * #947
- * #956
- * #960
- * #964
- * #984
- * #989
- * #999
- * #1009
- * #1012
- * #1016
- * #1050
- * #1057
- * #1087
  * #1102
  * #1105
  * #1133
