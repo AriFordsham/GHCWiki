@@ -69,6 +69,14 @@ First you want to install a C compiler and related tools that generate code for 
 
 Also install the other tools needed to build GHC on your platform: see [wiki:Building/Preparation].
 
+== Getting your source tree ==
+
+Follow the instructions in [wiki:Building/GettingTheSources], except that when getting the subrepositories you should use
+{{{
+./sync-all --no-dph get
+}}}
+since the DPH libraries are built with stage 2, and we can't run the stage 2 compiler on the host platform when cross-compiling.
+
 == Configuring the build ==
 
 The C cross-compiler and tools are usually installed with the platform name as a prefix, e.g. if the target platform is `arm-linux-gnueabihf` then the gcc cross-compiler is named `arm-linux-gnueabihf-gcc`.  If your cross-compiling toolset is set up like this, then add the directory containing the tools to your `PATH`, and just say:
@@ -109,7 +117,7 @@ If your cross-toolset does not include the GMP library, then you should also add
 INTEGER_LIBRARY = integer-simple
 }}}
 
-since even though we have a copy of GMP in the GHC source tree, it cannot be cross-compiled (!ToDo: why not?).
+since even though we have a copy of GMP in the GHC source tree, it cannot be cross-compiled (!ToDo: why not?).  You must put this in `mk/build.mk` before building anything, because `INTEGER_LIBRARY` cannot be changed without doing a full `make distclean`.
 
 == Using `cabal` ==
 

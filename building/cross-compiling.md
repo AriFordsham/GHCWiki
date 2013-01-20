@@ -104,6 +104,18 @@ First you want to install a C compiler and related tools that generate code for 
 
 Also install the other tools needed to build GHC on your platform: see [Building/Preparation](building/preparation).
 
+## Getting your source tree
+
+
+Follow the instructions in [Building/GettingTheSources](building/getting-the-sources), except that when getting the subrepositories you should use
+
+```wiki
+./sync-all --no-dph get
+```
+
+
+since the DPH libraries are built with stage 2, and we can't run the stage 2 compiler on the host platform when cross-compiling.
+
 ## Configuring the build
 
 
@@ -153,7 +165,7 @@ INTEGER_LIBRARY = integer-simple
 ```
 
 
-since even though we have a copy of GMP in the GHC source tree, it cannot be cross-compiled (ToDo: why not?).
+since even though we have a copy of GMP in the GHC source tree, it cannot be cross-compiled (ToDo: why not?).  You must put this in `mk/build.mk` before building anything, because `INTEGER_LIBRARY` cannot be changed without doing a full `make distclean`.
 
 ## Using `cabal`
 
