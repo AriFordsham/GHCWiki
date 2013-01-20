@@ -104,6 +104,18 @@ First you want to install a C compiler and related tools that generate code for 
 
 Also install the other tools needed to build GHC on your platform: see [Building/Preparation](building/preparation).
 
+## Getting your source tree
+
+
+Follow the instructions in [Building/GettingTheSources](building/getting-the-sources), except that when getting the subrepositories you should use
+
+```wiki
+./sync-all --no-dph get
+```
+
+
+since the DPH libraries are built with stage 2, and we can't run the stage 2 compiler on the host platform when cross-compiling.
+
 ## Configuring the build
 
 
