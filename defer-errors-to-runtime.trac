@@ -2,7 +2,7 @@
 = Deferring compilation type errors to runtime =
 
 This page describes the `-fdefer-type-errors` flag that was added in GHC 7.6.1. Ticket #5624 tracks this feature request.
-For more information, see the associated [http://dreixel.net/research/pdf/epdtecp_draft.pdf paper].
+For more information, see the associated [http://dreixel.net/research/pdf/epdtecp.pdf paper].
 
 == Overview ==
 While developing, sometimes it is desirable to allow compilation to succeed even
