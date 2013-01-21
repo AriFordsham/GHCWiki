@@ -2,7 +2,7 @@
 
 
 This page describes the `-fdefer-type-errors` flag that was added in GHC 7.6.1. Ticket [\#5624](https://gitlab.haskell.org//ghc/ghc/issues/5624) tracks this feature request.
-For more information, see the associated [ paper](http://dreixel.net/research/pdf/epdtecp_draft.pdf).
+For more information, see the associated [ paper](http://dreixel.net/research/pdf/epdtecp.pdf).
 
 ## Overview
 
