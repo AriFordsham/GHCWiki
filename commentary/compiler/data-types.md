@@ -1,7 +1,7 @@
 # The GHC Commentary: Data types and data constructors
 
 
-This chapter was thoroughly changed Feb 2003.
+This chapter was thoroughly changed Feb 2003. If you are interested in how a particular data type is implemented take a look at [this case study](commentary/compiler/case-studies/bool).
 
 ## Data types
 
