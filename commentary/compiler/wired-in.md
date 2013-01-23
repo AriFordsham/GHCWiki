@@ -22,20 +22,7 @@ The non-primitive wired-in type constructors are defined in [compiler/prelude/Ty
 All the non-primitive wired-in things are *also* defined in GHC's libraries, because even though GHC knows about them we still need to generate code for them. For example, `Bool` is a wired-in type constructor, but it is still defined in `GHC.Base` because we need the info table etc for the data constructors.  Arbitrarily bad things will happen if the wired-in definition in [compiler/prelude/TysWiredIn.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.lhs) differs from that in the library module.
 
 
-All wired-in things have a `WiredIn``Name` (see [Names](commentary/compiler/name-type)), which in turn contains the thing.  For example ([compiler/prelude/TysWiredIn.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.lhs)):
-
-```wiki
-boolTyCon :: TyCon
-boolTyCon = mkAlgTyCon boolTyConName ...more details...
-
-boolTyConName :: Name
-boolTyConName = mkWiredInName gHC_BASE (mkOccNameFS tcName FSLIT("Bool"))
-                              boolTyConKey Nothing
- 	 	              (ATyCon boolTyCon) UserSyntax
-```
-
-
-Notice that the `TyCon` has a `Name` that contains the `TyCon`.  They each point to the other.
+All wired-in things have a `WiredIn``Name` (see [Names](commentary/compiler/name-type)), which in turn contains the thing.  See [a case study of Bool implementation](commentary/compiler/case-studies/bool) for more details.
 
 ## Known-key things
 
