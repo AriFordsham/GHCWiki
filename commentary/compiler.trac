@@ -48,7 +48,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
 
 Case studies:
 
- * [wiki:Commentary/Compiler/CaseStudy/Bool Implementation of wired-in Bool data type]
+ * [wiki:Commentary/Compiler/CaseStudies/Bool Implementation of wired-in Bool data type]
 
 == Overall Structure ==
 
