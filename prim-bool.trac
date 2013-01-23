@@ -1,0 +1,107 @@
+= Implementing primitive Bool# =
+
+This page gathers the notes about implementing `Bool` as a primitive data type and thus resolving ticket #6135. The motivation is to have primitive logical operators AND, OR and NOT that are strict in all arguments and compute their result by means of primitive bitwise operations. This would eliminate need for branching present in current implementation of logical operators:
+
+{{{
+(||) x y
+ = case x of
+        True  -> True
+        False -> y
+}}}
+
+This would prevent code duplication caused by case-of-case transformation when multiple logical operations are chained together (see discussion on ticket #6135 for examples).
+
+== Possible solutions and their consequences ==
+
+Below are possible approaches to implement primitive `Bool#` in Haskell source language:
+
+=== First approach ===
+
+Treat `Bool` as a boxed version of primitive `Bool#`. `True` would be equivalent of `B# True#`, `False` of `B# False#`:
+  {{{
+data Bool = B# True# | B# False# 
+
+-- B# :: Bool# -> Bool
+}}}
+
+Not sure if this can be considered equivalent to what the Haskell Report says about Bool. We need to ensure that `Bool#` is populated only by `True#` and `False#` and that these two are translated to `1#` and `0#` in the Core. It should be **impossible** to write such a function at Haskell level:
+
+{{{
+g :: Bool -> Int -> Int
+g (B# b) (I# i) = I# (b + i)
+}}}
+
+This approach might require one additional case expression to inspect the value of `Bool` at the Core level. For example:
+
+{{{
+f :: Int -> Int -> Int
+f x y = if x > y
+        then x
+        else y
+}}}
+
+would compile to:
+
+{{{
+case x of _ { I# xP ->
+ case y of _ { I# yP ->
+   case ># xP yP of _ {
+     B# bP -> case bP of _ { 1# -> e1; 0# -> e2 }
+   }
+ }
+}
+}}}
+
+This would complicate Core a bit but it should be possible to compile such Core to exactly the same result as with normal `Bool`. This code assumes that `>#` has type `Int# -> Int# -> Bool`, but to truly avoid branching in the Core we need `.># :: Int# -> Int# -> Bool#` so that we get a primitive value that doesn't need to be inspected using case expression but can be directly used by primitive logical operators.
+ 
+=== Second approach ===
+
+Second approach assumes creating type `Bool#` that is independent of type `Bool`. Boxing and unboxing would have to be done explicitly via additional functions:
+
+{{{
+data Bool = True | False -- no changes here
+
+bBox :: Bool# -> Bool
+bBox 1# = True
+bBox 0# = False
+
+bUnbox :: Bool -> Bool#
+bUnbox True  = 1#
+bUnbox False = 0#
+}}}
+
+`Bool#` could not be implemented as an ADT because it is unlifted and unboxed, while ADT value constructors need to be boxed and lifted (see comments in [[GhcFile(compiler/types/TyCon.lhs)]]). There would need to be some magical way of ensuring that `Bool#` is populated only by `#0` and `1#` and that these values cannot be mixed with unboxed integers. Perhaps this could be done by preventing programmer from explicitly creating values of that type (can this be done?) and allow her only to use values returned from functions.
+
+== Places of interest in the source code ==
+
+The file [[GhcFile(prelude/primops.txt.pp)]] defines !PrimOps and their type signatures. An example definition looks like this:
+
+{{{
+primop   IntGtOp  ">#"   Compare   Int# -> Int# -> Bool
+   with fixity = infix 4
+}}}
+
+Existing definitions should remain unchanged or the code using them would break and that is a Very Bad Thing. This would require creating new !PrimOps:
+
+{{{
+primop   IntGtOpB  ".>#"   Compare   Int# -> Int# -> Bool#
+   with fixity = infix 4
+}}}
+
+The tricky part here is `Compare`. This a value constructor of `PrimOpInfo` data type defined in [[GhcFile(prelude/PrimOp.lhs)]]:
+
+{{{
+data PrimOpInfo
+  = Dyadic      OccName         -- string :: T -> T -> T
+                Type
+  | Monadic     OccName         -- string :: T -> T
+                Type
+  | Compare     OccName         -- string :: T -> T -> Bool
+                Type
+  | GenPrimOp   OccName         -- string :: \/a1..an . T1 -> .. -> Tk -> T
+                [TyVar]
+                [Type]
+                Type
+}}}
+
+We would need new `PrimOpInfo` value to denote !PrimOps of type `T -> T -> Bool#`. Appropriate functions like `primOpSig` and `getPrimOpResultInfo` would have to be adjusted accordingly.
