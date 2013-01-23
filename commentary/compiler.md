@@ -49,6 +49,11 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
   - [LLVM backend](commentary/compiler/backends/llvm)
   - [GHCi backend](commentary/compiler/backends/gh-ci)
 
+
+Case studies:
+
+- [Implementation of wired-in Bool data type](commentary/compiler/case-study/bool)
+
 ## Overall Structure
 
 
