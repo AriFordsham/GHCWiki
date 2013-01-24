@@ -72,6 +72,8 @@ bUnbox False = 0#
 
 `Bool#` could not be implemented as an ADT because it is unlifted and unboxed, while ADT value constructors need to be boxed and lifted (see comments in [[GhcFile(compiler/types/TyCon.lhs)]]). There would need to be some magical way of ensuring that `Bool#` is populated only by `#0` and `1#` and that these values cannot be mixed with unboxed integers. Perhaps this could be done by preventing programmer from explicitly creating values of that type (can this be done?) and allow her only to use values returned from functions.
 
+Another problem with this approach is that it would introduce primitive logical operations ||# and &&# with type `Int# -> Int# -> Int#` - it is questionable whether anyone would want such operations available to the programmer. I think it is desirable to have primitive logical operators of type `Bool# -> Bool# -> Bool#`.
+
 == Places of interest in the source code ==
 
 The file [[GhcFile(prelude/primops.txt.pp)]] defines !PrimOps and their type signatures. An example definition looks like this:
