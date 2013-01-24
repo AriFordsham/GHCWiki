@@ -83,6 +83,10 @@ bUnbox False = 0#
 
 `Bool#` could not be implemented as an ADT because it is unlifted and unboxed, while ADT value constructors need to be boxed and lifted (see comments in [compiler/types/TyCon.lhs](/trac/ghc/browser/ghc/compiler/types/TyCon.lhs)). There would need to be some magical way of ensuring that `Bool#` is populated only by `#0` and `1#` and that these values cannot be mixed with unboxed integers. Perhaps this could be done by preventing programmer from explicitly creating values of that type (can this be done?) and allow her only to use values returned from functions.
 
+<table><tr><td>Another problem with this approach is that it would introduce primitive logical operations </td>
+<th>\# and &&\# with type `Int# -> Int# -> Int#` - it is questionable whether anyone would want such operations available to the programmer. I think it is desirable to have primitive logical operators of type `Bool# -> Bool# -> Bool#`.
+</th></tr></table>
+
 ## Places of interest in the source code
 
 
