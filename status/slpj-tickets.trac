@@ -106,6 +106,7 @@ See also [wiki:TemplateHaskell]
  * #3070: !NaNs and divide-by-zero
 
 == GHCi ==
+ * #7586: `:kind` on a name should perhaps behave like `:info`
  * #4017: unhelpful GHCi message
  
 ------------------------
