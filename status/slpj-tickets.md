@@ -35,6 +35,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#7561](https://gitlab.haskell.org//ghc/ghc/issues/7561): profiled program runs faster than un-profiled one
 - [\#7378](https://gitlab.haskell.org//ghc/ghc/issues/7378): (a) identical-alts when the RHSs are bigger; (b) nested comparisions (cf [\#2132](https://gitlab.haskell.org//ghc/ghc/issues/2132))
 - [\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511): inlining can make programs allocate MORE!!
 - [\#7307](https://gitlab.haskell.org//ghc/ghc/issues/7307): low hanging fruit for shrinking code size for string constants and top-level indirections
@@ -121,6 +122,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## GHCi
 
+- [\#7586](https://gitlab.haskell.org//ghc/ghc/issues/7586): `:kind` on a name should perhaps behave like `:info`
 - [\#4017](https://gitlab.haskell.org//ghc/ghc/issues/4017): unhelpful GHCi message
 
 ---
