@@ -35,53 +35,24 @@ in GHC.Classes (ghc-prim library) which is equivalent of:
 
 During the compilation process (assuming the optimizations are turned on) the definition of `(||)` gets inlined and then case-of-case transform is performed succesively. This results in following Core (cleaned up for clarity):
 
-
-case \<\# x 0 of _ {
-
->
-> False -\>
-
->
-> case \>=\# x width of _ {
-
->
-> False -\>
-
->
-> case \<\# y 0 of _ {
-
->
-> False -\>
-
->
-> case \>=\# y height of _ {
-
->
-> False -\> E2
-
->
-> True  -\> E1
-
->
-> };
-
->
-> True -\> E1
-
->
-> };
-
->
-> True -\> E1
-
->
-> };
-
->
-> True -\> E1
-
-
+```wiki
+case <# x 0 of _ {
+  False ->
+    case >=# x width of _ {
+      False ->
+        case <# y 0 of _ {
+          False ->
+            case >=# y height of _ {
+              False -> E2
+              True  -> E1
+            };
+          True -> E1
+        };
+      True -> E1
+    };
+  True -> E1
 };
+```
 
 
 and in following assembler code:
