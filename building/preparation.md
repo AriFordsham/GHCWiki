@@ -7,6 +7,7 @@ This section describes how to set up your system with all the tools you need to 
 - [Windows](building/preparation/windows)
 - [MacOS X](building/preparation/mac-osx)
 - [Solaris](building/preparation/solaris)
+- Pi? (cross-compiling from Linux)
 
 
 Alternatively:
