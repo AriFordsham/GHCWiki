@@ -25,13 +25,21 @@ To configure, use
 ```
 
 
-(ToDo: registerised, I haven't tested this yet).
+You can also build registerised: leave out the `--enable-unregisterised` option, but then you **must** use LLVM (see below).
 
 
 You'll need to use `integer-simple`, because the cross-compilation environment doesn't include GMP (see [Building/CrossCompiling](building/cross-compiling)).
 
 
-The build with use the C backend by default. To use LLVM, add these to your `mk/build.mk`:
+The build should go successfully all the way to stage 2.  You can then use the stage 1 compiler on the host as a cross-compiler.
+
+## Using LLVM
+
+- When unregisterised, the C backend will be used by default, but you can optionally use LLVM.  Code generated using LLVM is compatible with code generated using the C backend.
+- When registerised, you *must* use LLVM.  The `-fllvm` option is unnecessary in this case.
+
+
+To use LLVM, add these to your `mk/build.mk`:
 
 ```wiki
 GhcLibHcOpts       = -O -fllvm -optlc -mtriple=arm-linux-gnueabihf -optlc -mattr=+vfp2 -optlc -float-abi=hard
@@ -39,4 +47,7 @@ GhcRtsHcOpts      += -fllvm -optlc -mtriple=arm-linux-gnueabihf -optlc -mattr=+v
 ```
 
 
-The build should go successfully all the way to stage 2.  You can then use the stage 1 compiler on the host as a cross-compiler.
+Note that LLVM 2.9 does not work for registerised code generation on ARM (it crashes), and LLVM 3.1 has been reported to generate incorrect code.  Success has been reported with LLVM 3.0 and 3.2.
+
+
+Unfortunately at the moment these options do not persist in GHC, so you have to give them when compiling application code too.
