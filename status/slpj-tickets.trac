@@ -53,6 +53,7 @@ See also [wiki:TemplateHaskell]
 
 ----------------------
 === Arity ===
+ * #7542: optimisation of eta expansion/reduction
  * #5809: arity analysis could be better
  * #3924: weak arity leads to weak strictness
  * #3698: arity analysis again
