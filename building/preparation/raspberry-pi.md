@@ -1,0 +1,42 @@
+# Raspberry Pi
+
+
+To build a cross-compiler from Linux to Raspberry Pi (running Raspbian), first grab the cross-compilation toolset:
+
+```wiki
+git clone https://github.com/raspberrypi/tools.git
+```
+
+
+Let's say this created a directory `$tools`.  Now add the tools to your path:
+
+```wiki
+PATH=$PATH:$tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin
+```
+
+
+Follow the instructions in [Building/CrossCompiling](building/cross-compiling).  A few more RPi specific tips:
+
+
+To configure, use
+
+```wiki
+./configure --target=arm-linux-gnueabihf --enable-unregisterised
+```
+
+
+(ToDo: registerised, I haven't tested this yet).
+
+
+You'll need to use `integer-simple`, because the cross-compilation environment doesn't include GMP (see [Building/CrossCompiling](building/cross-compiling)).
+
+
+The build with use the C backend by default. To use LLVM, add these to your `mk/build.mk`:
+
+```wiki
+GhcLibHcOpts       = -O -fllvm -optlc -mtriple=arm-linux-gnueabihf -optlc -mattr=+vfp2 -optlc -float-abi=hard
+GhcRtsHcOpts      += -fllvm -optlc -mtriple=arm-linux-gnueabihf -optlc -mattr=+vfp2 -optlc -float-abi=hard
+```
+
+
+The build should go successfully all the way to stage 2.  You can then use the stage 1 compiler on the host as a cross-compiler.
