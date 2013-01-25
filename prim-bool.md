@@ -33,7 +33,7 @@ in GHC.Classes (ghc-prim library) which is equivalent of:
 ```
 
 
-During the compilation process (assuming the optimizations are turned on) the definition of `(||)` gets inlined and then case-of-case transform is performed succesively. This results in following Core (cleaned up for clarity):
+During the compilation process (assuming the optimizations are turned on) the definition of `(||)` gets inlined and then case-of-case transform is performed successively. This results in following Core (cleaned up for clarity):
 
 ```wiki
 case <# x 0 of _ {
@@ -84,7 +84,7 @@ and in following assembler code:
 ```
 
 
-There are five possible branches to take, although four of them have the same result. This is caused by code duplication introduced by case-of-case transform. Mis-predicted branches are bad in object code because they stall the pipeline.
+There are five possible branches to take, although four of them have the same result. This is caused by code duplication introduced by case-of-case transform. According to Ben Lippmeier, who submitted the original bug report, mis-predicted branches are bad in object code because they stall the pipeline.
 
 ## Possible solutions and their consequences
 
