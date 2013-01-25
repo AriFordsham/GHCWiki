@@ -1,19 +1,89 @@
 = Implementing primitive Bool# =
 
-This page gathers the notes about implementing `Bool` as a primitive data type and thus resolving ticket #6135. The motivation is to have primitive logical operators AND, OR and NOT that are strict in all arguments and compute their result by means of primitive bitwise operations. This would eliminate need for branching present in current implementation of logical operators:
+This page gathers the notes about implementing primitive logical operations and thus resolving ticket #6135.
+
+== The problem ==
+
+Consider following fragment of code:
 
 {{{
-(||) x y
- = case x of
-        True  -> True
-        False -> y
+ case (x <# 0#) || (x >=# width) || (y <# 0#) || (y >=# height) of
+  True  -> E1
+  False -> E2
 }}}
 
-This would prevent code duplication caused by case-of-case transformation when multiple logical operations are chained together (see discussion on ticket #6135 for examples).
+This kind of code is common in image processing (and array programming in general) where one needs to check whether the `(x,y)` coordinates are within the image. Primitive comparison operators `<#` and `>=#` have type `Int# -> Int# -> Bool`. Logical OR operator `(||)` is defined as:
+
+{{{
+(||)       :: Bool -> Bool -> Bool
+True  || _ =  True
+False || x =  x
+}}}
+
+in GHC.Classes (ghc-prim library) which is equivalent of:
+
+{{{
+(||) x y = case x of
+            True  -> True
+            False -> y
+}}}
+
+During the compilation process (assuming the optimizations are turned on) the definition of `(||)` gets inlined and then case-of-case transform is performed successively. This results in following Core (cleaned up for clarity):
+
+{{{
+case <# x 0 of _ {
+  False ->
+    case >=# x width of _ {
+      False ->
+        case <# y 0 of _ {
+          False ->
+            case >=# y height of _ {
+              False -> E2
+              True  -> E1
+            };
+          True -> E1
+        };
+      True -> E1
+    };
+  True -> E1
+};
+}}}
+
+and in following assembler code:
+
+{{{
+.Lc1rf:
+        testq %r14,%r14
+        jl .Lc1rk
+        cmpq %rdi,%r14
+        jge .Lc1rp
+        testq %rsi,%rsi
+        jl .Lc1ru
+        cmpq %r8,%rsi
+        jge .Lc1rz
+        movl $Main_g2_closure+1,%ebx
+        jmp *0(%rbp)
+.Lc1rk:
+        movl $Main_g1_closure+1,%ebx
+        jmp *0(%rbp)
+.Lc1rp:
+        movl $Main_g1_closure+1,%ebx
+        jmp *0(%rbp)
+.Lc1ru:
+        movl $Main_g1_closure+1,%ebx
+        jmp *0(%rbp)
+.Lc1rz:
+        movl $Main_g1_closure+1,%ebx
+        jmp *0(%rbp)
+}}}
+
+There are five possible branches to take, although four of them have the same result. This is caused by code duplication introduced by case-of-case transform. According to Ben Lippmeier, who submitted the original bug report, mis-predicted branches are bad in object code because they stall the pipeline.
 
 == Possible solutions and their consequences ==
 
-Below are possible approaches to implement primitive `Bool#` in Haskell source language:
+Unnecessary branches could be eliminated by introducing primitive logical operators AND, OR and NOT (they will be denoted as `||#`, `&&#` and `not#` respectively). These operators would be strict and treat their logical parameters as unboxed integers (`1#` for `True` and `0#` for `False`). Result would be produced by using low-level bitwise operations. This means that if logical operators were chained together like in a given example only the final result would have to be inspected and thus only one branch would be necessary.
+
+Note (Jan Stolarek): My first thought was that introducing primitve logical operators will require changing `Bool` data type to a primitive unboxed version. This might not be the case. Please treat two solution apporaches as possibly wrong.
 
 === First approach ===
 
