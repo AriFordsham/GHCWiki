@@ -37,20 +37,20 @@ During the compilation process (assuming the optimizations are turned on) the de
 
 ```wiki
 case <# x 0 of _ {
-  False ->
-    case >=# x width of _ {
-      False ->
-        case <# y 0 of _ {
-          False ->
-            case >=# y height of _ {
-              False -> E2
-              True  -> E1
-            };
-          True -> E1
-        };
-      True -> E1
-    };
-  True -> E1
+  False ->
+    case >=# x width of _ {
+      False ->
+        case <# y 0 of _ {
+          False ->
+            case >=# y height of _ {
+              False -> E2
+              True  -> E1
+            };
+          True -> E1
+        };
+      True -> E1
+    };
+  True -> E1
 };
 ```
 
@@ -59,28 +59,28 @@ and in following assembler code:
 
 ```wiki
 .Lc1rf:
-        testq %r14,%r14
-        jl .Lc1rk
-        cmpq %rdi,%r14
-        jge .Lc1rp
-        testq %rsi,%rsi
-        jl .Lc1ru
-        cmpq %r8,%rsi
-        jge .Lc1rz
-        movl $Main_g2_closure+1,%ebx
-        jmp *0(%rbp)
+        testq %r14,%r14
+        jl .Lc1rk
+        cmpq %rdi,%r14
+        jge .Lc1rp
+        testq %rsi,%rsi
+        jl .Lc1ru
+        cmpq %r8,%rsi
+        jge .Lc1rz
+        movl $Main_g2_closure+1,%ebx
+        jmp *0(%rbp)
 .Lc1rk:
-        movl $Main_g1_closure+1,%ebx
-        jmp *0(%rbp)
+        movl $Main_g1_closure+1,%ebx
+        jmp *0(%rbp)
 .Lc1rp:
-        movl $Main_g1_closure+1,%ebx
-        jmp *0(%rbp)
+        movl $Main_g1_closure+1,%ebx
+        jmp *0(%rbp)
 .Lc1ru:
-        movl $Main_g1_closure+1,%ebx
-        jmp *0(%rbp)
+        movl $Main_g1_closure+1,%ebx
+        jmp *0(%rbp)
 .Lc1rz:
-        movl $Main_g1_closure+1,%ebx
-        jmp *0(%rbp)
+        movl $Main_g1_closure+1,%ebx
+        jmp *0(%rbp)
 ```
 
 
@@ -90,6 +90,9 @@ There are five possible branches to take, although four of them have the same re
 
 
 Unnecessary branches could be eliminated by introducing primitive logical operators AND, OR and NOT (they will be denoted as `||#`, `&&#` and `not#` respectively). These operators would be strict and treat their logical parameters as unboxed integers (`1#` for `True` and `0#` for `False`). Result would be produced by using low-level bitwise operations. This means that if logical operators were chained together like in a given example only the final result would have to be inspected and thus only one branch would be necessary.
+
+
+Note (Jan Stolarek): My first thought was that introducing primitve logical operators will require changing `Bool` data type to a primitive unboxed version. This might not be the case. Please treat two solution apporaches as possibly wrong.
 
 ### First approach
 
