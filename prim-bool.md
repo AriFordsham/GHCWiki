@@ -84,7 +84,7 @@ and in following assembler code:
 ```
 
 
-There are five possible branches to take, although four of them have the same result. This is caused by code duplication introduced by case-of-case transform. According to Ben Lippmeier, who submitted the original bug report, mis-predicted branches are bad in object code because they stall the pipeline.
+There are five possible branches to take, although four of them have the same result. This is caused by code duplication introduced by case-of-case transform (see [ this blog post](http://ics.p.lodz.pl/~stolarek/blog/2013/01/taking-magic-out-of-ghc-or-tracing-compilation-by-transformation/) for a step by step derivation). According to Ben Lippmeier, who submitted the original bug report, mis-predicted branches are bad in object code because they stall the pipeline.
 
 ## Possible solutions and their consequences
 
