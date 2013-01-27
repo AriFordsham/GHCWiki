@@ -214,6 +214,6 @@ See also [TemplateHaskell](template-haskell)
 
 ## Not sure what to do about these
 
-- [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284): the state-hack "optimisation" causes much re-computation
+- [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284), [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168), [\#7561](https://gitlab.haskell.org//ghc/ghc/issues/7561): the state-hack "optimisation" causes much re-computation
 - [\#4005](https://gitlab.haskell.org//ghc/ghc/issues/4005): generational GC pathalogical case
 - [\#1349](https://gitlab.haskell.org//ghc/ghc/issues/1349): strict function argument types

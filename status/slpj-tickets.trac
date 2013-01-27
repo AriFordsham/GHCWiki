@@ -190,6 +190,6 @@ See also [wiki:TemplateHaskell]
 
 --------------------------
 == Not sure what to do about these ==
- * #2284: the state-hack "optimisation" causes much re-computation
+ * #2284, #1168, #7561: the state-hack "optimisation" causes much re-computation
  * #4005: generational GC pathalogical case
  * #1349: strict function argument types
