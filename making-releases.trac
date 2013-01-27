@@ -32,7 +32,7 @@ EOF
 
 If on Linux:
 {{{
-echo "BeConservative=YES" >> mk/build.mk
+$ echo "BeConservative=YES" >> mk/build.mk
 }}}
 
 Then:
