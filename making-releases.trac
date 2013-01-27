@@ -13,6 +13,8 @@ $ make
 $ make sdist
 }}}
 
+It is advisable to use a machine with as recent an `autoreconf` as possible; in particular, 2.61 is known to make a configure script that doesn't work on Windows.
+
 You should now have source tarballs `sdistprep/ghc-<VERSION>-src.tar.bz2` and `sdistprep/ghc-<VERSION>-testsuite.tar.bz2`.
 
 == Making the binary builds ==
