@@ -53,3 +53,17 @@ $ ./configure      2>&1 | tee ../conf.log
 $ make             2>&1 | tee ../make.log
 $ make binary-dist 2>&1 | tee ../bd.log
 ```
+
+## Sanity checking the binary builds
+
+
+The `compare` tool compares the tarballs of different releases, and warns about possible problems:
+
+```wiki
+$ cd <</path/to/ghc/tree>>/distrib/compare
+$ make
+```
+
+```wiki
+$ <</path/to/ghc/tree>>/distrib/compare <<previous_release_files>> <<this_release_files>>
+```
