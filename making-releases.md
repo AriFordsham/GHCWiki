@@ -67,3 +67,5 @@ $ make
 ```wiki
 $ <</path/to/ghc/tree>>/distrib/compare <<previous_release_files>> <<this_release_files>>
 ```
+
+## Check that the build can build the release
