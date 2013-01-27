@@ -120,7 +120,6 @@ database and start again.
 - [\#2403](https://gitlab.haskell.org//ghc/ghc/issues/2403)
 - [\#2425](https://gitlab.haskell.org//ghc/ghc/issues/2425)
 - [\#2427](https://gitlab.haskell.org//ghc/ghc/issues/2427)
-- [\#2431](https://gitlab.haskell.org//ghc/ghc/issues/2431)
 - [\#2435](https://gitlab.haskell.org//ghc/ghc/issues/2435)
 - [\#2437](https://gitlab.haskell.org//ghc/ghc/issues/2437)
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439)
