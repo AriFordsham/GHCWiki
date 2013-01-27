@@ -37,7 +37,10 @@ Many bugs require a bit more work.  Here's how to go about helping with a non-tr
 1. **Test your patch** using the [validation script](testing-patches), before you submit it.  (If you have write permission to the repository, then you **must** validate before pushing the patch.)
 1. **Submit your patch**.  If you don't have commit permission for the repository, 
 
-  - Use 'git format-patch' to create a patch bundle
+  - Use 'git format-patch' to create a patch bundle:
+
+    1. Make a commit or commits as per usual
+    1. Run `git format-patch -`*`n`*, where *`n`* is the number of commits
   - Attach the patch bundle to the Trac bug report
   - Add a comment to the Trac bug report to say what you've done
   - In the 'Action' part of the Trac ticket, select "Please review".  This shifts responsibility to the GHC team to review and commit your patch.
