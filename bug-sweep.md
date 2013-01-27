@@ -70,15 +70,6 @@ database and start again.
 
 [ Edit this page](http://hackage.haskell.org/trac/ghc/wiki/BugSweep?action=edit) to remove a ticket from the following list.  You don't have to take the one at the top, but the top is as good a place to start as any:
 
-- [\#2101](https://gitlab.haskell.org//ghc/ghc/issues/2101)
-- [\#2104](https://gitlab.haskell.org//ghc/ghc/issues/2104)
-- [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110)
-- [\#2119](https://gitlab.haskell.org//ghc/ghc/issues/2119)
-- [\#2123](https://gitlab.haskell.org//ghc/ghc/issues/2123)
-- [\#2135](https://gitlab.haskell.org//ghc/ghc/issues/2135)
-- [\#2140](https://gitlab.haskell.org//ghc/ghc/issues/2140)
-- [\#2147](https://gitlab.haskell.org//ghc/ghc/issues/2147)
-- [\#2149](https://gitlab.haskell.org//ghc/ghc/issues/2149)
 - [\#2159](https://gitlab.haskell.org//ghc/ghc/issues/2159)
 - [\#2161](https://gitlab.haskell.org//ghc/ghc/issues/2161)
 - [\#2168](https://gitlab.haskell.org//ghc/ghc/issues/2168)
