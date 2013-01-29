@@ -108,3 +108,28 @@ In the `http://www.haskell.org/ghc` darcs repository, create a `download_ghc_<<M
 
 
 Sanity check `http://www.haskell.org/ghc/download_ghc_<<MANGLED_VERSION>>`. In particular, check that the release notes and documentation links work.
+
+## Upload the binaries
+
+```wiki
+scp -r 7.6.2 haskell.org:/srv/web/haskell.org/ghc/dist/
+```
+
+
+Sanity check that the download links work.
+
+## Announcing
+
+
+Update "Current Stable Release" in `download.shtml`, and move the previous release down to "Older Releases".
+
+
+Update "Latest News" in `index.shtml`.
+
+```wiki
+haskell.org$ ~/mk-latest-links
+haskell.org$ ~/mk-latest-links | sh
+```
+
+
+Mail `ANNOUNCE` to `glasgow-haskell-users@haskell.org, haskell@haskell.org`.
